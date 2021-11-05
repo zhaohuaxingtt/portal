@@ -141,11 +141,11 @@ module.exports = {
           ['^' + process.env.VUE_APP_PROJECT]: ''
         }
       },
-      '/riseekl': {
-        target: 'http://10.122.17.38:8043',
+      [process.env.VUE_APP_EKL]: {
+        target: `http://${BASE_DOMAN}:8043`,
           changeOrigin: true,
           pathRewrite: {
-          '^/riseekl': ''
+            ['^' + process.env.VUE_APP_EKL]: ''
         }
       },
       '/tpInfoApi': {

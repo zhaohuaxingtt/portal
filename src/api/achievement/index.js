@@ -6,11 +6,15 @@
 import axios from '@/utils/axios'
 import $qsAjax from '@/utils/ajax'
 
-const  requst = axios(process.env.VUE_APP_EKL)
-const  qsAjax = $qsAjax(process.env.VUE_APP_EKL)
+let requst,qsAjax;
 
-// const requst = axios()
-// const qsAjax = $qsAjax()
+if(process.env.NODE_ENV=='production') {
+    requst = axios(process.env.VUE_APP_EKL)
+    qsAjax = $qsAjax(process.env.VUE_APP_EKL)
+} else {
+   requst = axios()
+   qsAjax = $qsAjax()
+}
 
 
 // 采购员列表查询接口
