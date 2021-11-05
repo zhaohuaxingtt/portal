@@ -6,11 +6,11 @@
 import axios from '@/utils/axios'
 import $qsAjax from '@/utils/ajax'
 
-// const  requst = axios(process.env.VUE_APP_ACHIEVEMENT)
-// const  qsAjax = $qsAjax(process.env.VUE_APP_ACHIEVEMENT)
+const  requst = axios(process.env.VUE_APP_EKL)
+const  qsAjax = $qsAjax(process.env.VUE_APP_EKL)
 
-const requst = axios()
-const qsAjax = $qsAjax()
+// const requst = axios()
+// const qsAjax = $qsAjax()
 
 
 // 采购员列表查询接口

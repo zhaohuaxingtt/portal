@@ -139,6 +139,22 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_PROJECT]: ''
+          '^/projectApi': ''
+        }
+      },
+      '/riseekl': {
+        target: 'http://10.122.18.166:8088',
+          changeOrigin: true,
+          pathRewrite: {
+          '^/riseekl': ''
+        }
+      },
+      '/tpInfoApi': {
+        //高攀弘服务地址
+        target: `http://${BASE_DOMAN}:8023`,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/tpInfoApi': ''
         }
       },
       [process.env.VUE_APP_COMMON]: {

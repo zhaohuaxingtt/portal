@@ -187,6 +187,7 @@
         },
 
         mounted() {
+            console.log(this.role)
             if (this.role == 'CS' || this.role == 'BZ') { // 部门 部长助理||部长
                 this.currentView = 'zfbmsj'
             } else if (this.role == 'KZ&&linie' || this.role == 'KZ') { // 科长
@@ -226,6 +227,7 @@
         },
         methods: {
             getData(data) {
+                console.log(data, 'data')
                 this.getReportData(data)
             },
             getReportData(data) {
