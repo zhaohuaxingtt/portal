@@ -139,11 +139,10 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_PROJECT]: ''
-          '^/projectApi': ''
         }
       },
       '/riseekl': {
-        target: 'http://10.122.18.166:8088',
+        target: 'http://10.122.17.38:8043',
           changeOrigin: true,
           pathRewrite: {
           '^/riseekl': ''
