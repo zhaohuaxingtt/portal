@@ -30,6 +30,8 @@ import RouterExternal from './RouterExternal'
 import RouterBiz from './RouterBiz'
 import RouterAchievement from './RouterAchievement'
 
+import RouterMeeting from './meeting'
+
 export default {
   routes: [
     {
@@ -80,7 +82,8 @@ export default {
         ...RouterInforMgmt,
         ...partLifeCycle,
         ...RouterBiz,
-        ...RouterAchievement
+        ...RouterAchievement,
+        ...RouterMeeting
       ]
     },
 

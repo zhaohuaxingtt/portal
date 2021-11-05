@@ -1,0 +1,289 @@
+<template>
+  <iPage>
+    <div class="header">会议类型管理</div>
+    <searchForm @search="search" />
+    <iCard>
+      <actionButtons
+        :selected-row="selectedTableData"
+        @add="newTemplate"
+        @edit="editMeeting"
+        @delete="deleteMeeting"
+        @export="exportMeeting"
+      />
+      <iTableML
+        tooltip-effect="light"
+        :data="tableData"
+        @selectionChange="handleSelectionChange"
+      >
+        <el-table-column
+          type="selection"
+          min-width="50"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          type="index"
+          width="68"
+          align="center"
+          label="序号"
+        ></el-table-column>
+        <el-table-column show-overflow-tooltip align="left" label="类型名称"
+          ><template scope="scope">
+            <span
+              :class="'open-link-text cursor'"
+              @click="handleGoDetail(scope.row)"
+              >{{ scope.row.name }}</span
+            >
+          </template></el-table-column
+        >
+        <el-table-column show-overflow-tooltip align="left" label="会议管理员">
+          <template scope="scope">
+            <span>{{ scope.row.userNames }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="left"
+          label="会议信息描述"
+        >
+          <template scope="scope">
+            <span>{{ scope.row.meetingInfoDesc }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="left"
+          label="生成会议名称后缀"
+        >
+          <template scope="scope">
+            <span>{{ scope.row.meetingNameSuffix }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column show-overflow-tooltip align="left" label="所属分类">
+          <template scope="scope">
+            <span>{{ categoryObj[scope.row.category] }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column show-overflow-tooltip width="163" label="默认议题时长"
+          ><template scope="scope">
+            <span>{{ scope.row.duration }}</span>
+          </template></el-table-column
+        >
+        <el-table-column
+          show-overflow-tooltip
+          width="163"
+          label="是否触发审批流"
+          ><template scope="scope">
+            <span>{{ scope.row.isTriggerApproval ? "是" : "否" }}</span>
+          </template></el-table-column
+        >
+      </iTableML>
+      <iPagination
+        v-update
+        @size-change="handleSizeChange($event, query)"
+        @current-change="handleCurrentChange($event, query)"
+        background
+        :current-page="page.currPage"
+        :page-size="page.pageSize"
+        layout="prev, pager, next, jumper"
+        prev-text="上一页"
+        next-text="下一页"
+        :total="page.totalCount"
+      />
+    </iCard>
+    <meetingTypeDetailDialog
+      v-if="openDetailDialog"
+      :openDialog="openDetailDialog"
+      :id="id"
+      @closeDialog="closeDetailDialog"
+      :approvalProcess="approvalProcess"
+    />
+    <meetingTypeDialog
+      :openDialog="openDialog"
+      @closeDialog="closeDialog"
+      :selectedTableData="selectedTableData"
+      :editOrAdd="editOrAdd"
+      v-if="openDialog"
+      @flushTable="flushTable"
+      :approvalProcess="approvalProcess"
+    />
+  </iPage>
+</template>
+<script>
+import { iPage, iCard, iPagination, iMessage } from "rise";
+import iTableML from "@/components/iTableML";
+import { downloadAll } from "@/utils/downloadAll";
+// import axios from '@/utils/axios.download'
+import {
+  getMettingType,
+  batchDeleteMeeting,
+  getApprovalProcess,
+} from "@/api/meeting/type";
+import { pageMixins } from "@/utils/pageMixins";
+import {
+  actionButtons,
+  searchForm,
+  meetingTypeDialog,
+  meetingTypeDetailDialog,
+} from "./component";
+// import { excelExportCustom } from "@/utils/filedowLoad";
+import { tableColumns } from "./component/data";
+// import iTableCustom from "@/components/iTableCustom";
+export default {
+  mixins: [pageMixins],
+  components: {
+    iPage,
+    iCard,
+    iPagination,
+    searchForm,
+    actionButtons,
+    iTableML,
+    meetingTypeDialog,
+    meetingTypeDetailDialog,
+  },
+  data() {
+    return {
+      tooltip: true,
+      tableLoading: false,
+      tableColumns: tableColumns,
+      selectedTableData: [],
+      form: {},
+      tableData: [],
+      openDialog: false,
+      openDetailDialog: false,
+      id: -1,
+      editOrAdd: "add",
+      approvalProcess: [],
+      categoryObj: {
+        "01": "通用会议",
+        "02": "生产采购CSC",
+        "03": "一般采购CSG",
+      },
+    };
+  },
+  created() {
+    this.query();
+  },
+
+  methods: {
+    flushTable() {
+      this.query();
+    },
+    newTemplate() {
+      this.editOrAdd = "add";
+      this.openDialog = true;
+    },
+    editMeeting() {
+      this.editOrAdd = "edit";
+      this.openDialog = true;
+    },
+    closeDialog(bol) {
+      this.openDialog = bol;
+    },
+    closeDetailDialog(bol) {
+      this.openDetailDialog = bol;
+    },
+    search(val) {
+      this.form = { ...val };
+      this.page.currPage = 1;
+      this.query();
+    },
+    query() {
+      const data = {
+        ...this.form,
+        pageNum: this.page.currPage,
+        pageSize: this.page.pageSize,
+      };
+      this.tableLoading = true;
+      getMettingType(data)
+        .then((res) => {
+          this.tableLoading = false;
+          const { data, pageNum, pageSize, total, pages } = res;
+          this.page.currPage = pageNum;
+          // this.page.pageSize = pageSize;
+          this.page.totalCount = total;
+          this.page.pages = pages;
+          this.tableData = data;
+        })
+        .catch((err) => {
+          this.tableLoading = false;
+        });
+    },
+    // 表格选中值集
+    handleSelectionChange(val) {
+      this.selectedTableData = val;
+    },
+    // 删除
+    deleteMeeting() {
+      // console.log("删除");
+      const ids = [];
+      this.selectedTableData.forEach((e) => ids.push(e.id));
+      if (ids.length == 0) {
+        this.$message.error("请选择需要删除的会议类型!");
+      } else {
+        this.$confirm("是否删除该会议类型？", "提示", {
+          confirmButtonText: "是",
+          cancelButtonText: "否",
+          type: "warning",
+        }).then(() => {
+          batchDeleteMeeting({ ids: ids })
+            .then(() => {
+              this.$message.success("删除成功!");
+              this.query();
+            })
+            .catch((err) => {
+              // this.$message.error("删除失败!");
+            });
+        });
+      }
+    },
+    // 导出
+    exportMeeting() {
+      /* if (this.selectedTableData.length == 0)
+        return iMessage.warn(this.$t("LK_QINGXUANZHEXUYAODAOCHUSHUJU")); */
+      // excelExportCustom(this.tableData, this.tableColumns);
+      const data = {
+        ...this.form,
+        pageNum: 1,
+        pageSize: 999,
+      };
+      downloadAll({
+        url: "/rise-meeting/meetingTypeService/exportMeetingType",
+        filename: "会议类型列表",
+        // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
+        // type: "application/x-xls",
+        type: "application/vnd.ms-excel",
+        data,
+        callback: (e) => {
+          if (e) {
+            iMessage.success("导出成功");
+          } else {
+            iMessage.error("导出失败");
+          }
+        },
+      });
+    },
+
+    // 查询
+    sure() {
+      this.page.pageNum = 1;
+      this.query();
+    },
+
+    handleGoDetail(e) {
+      this.id = e.id;
+      this.openDetailDialog = true;
+    },
+  },
+  mounted() {
+    getApprovalProcess().then((res) => {
+      this.approvalProcess = res;
+    });
+  },
+};
+</script>
+<style lang="scss" scoped>
+.header {
+  font-size: 18px;
+  font-weight: bold;
+}
+</style>

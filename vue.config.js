@@ -141,11 +141,11 @@ module.exports = {
           ['^' + process.env.VUE_APP_PROJECT]: ''
         }
       },
-      [process.env.VUE_APP_EKL]: {
-        target: `http://${BASE_DOMAN}:8043`,
+      '/riseekl': {
+        target: 'http://10.122.17.38:8043',
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_EKL]: ''
+          '^/riseekl': ''
         }
       },
       '/tpInfoApi': {
@@ -266,11 +266,11 @@ module.exports = {
           ['^' + process.env.VUE_APP_RFQ]: ''
         }
       },
-      [process.env.VUE_APP_CLEADER_MEETING]: {
+      [process.env.VUE_APP_MEETING]: {
         target: `http://${BASE_DOMAN}:8051/rise-meeting`,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_CLEADER_MEETING]: ''
+          ['^' + process.env.VUE_APP_MEETING]: ''
         }
       },
       [process.env.VUE_APP_NEWS]: {
