@@ -141,6 +141,13 @@ module.exports = {
           '^/projectApi': ''
         }
       },
+      '/riseekl': {
+        target: 'http://10.122.18.166:8088',
+          changeOrigin: true,
+          pathRewrite: {
+          '^/riseekl': ''
+        }
+      },
       '/tpInfoApi': {
         //高攀弘服务地址
         target: `http://${BASE_DOMAN}:8023`,

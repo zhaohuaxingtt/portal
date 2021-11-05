@@ -28,6 +28,7 @@ import RouterInforMgmt from './RouterInforMgmt'
 import partLifeCycle from './partLifeCycle'
 import RouterExternal from './RouterExternal'
 import RouterBiz from './RouterBiz'
+import RouterAchievement from './RouterAchievement'
 
 export default {
   routes: [
@@ -78,7 +79,8 @@ export default {
         ...RouterMTZ,
         ...RouterInforMgmt,
         ...partLifeCycle,
-        ...RouterBiz
+        ...RouterBiz,
+        ...RouterAchievement
       ]
     },
 
