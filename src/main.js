@@ -17,13 +17,13 @@ import './permission'
 import './utils/language'
 import './globalComponnets'
 import custom from '@/utils/filters.js'
-Object.keys(custom.filters).forEach((key) => {
+Object.keys(custom.filters).forEach(key => {
   Vue.filter(key, custom.filters[key])
 })
 require('./auto').init()
 Vue.config.productionTip = false
 Vue.prototype.$t = (key, value) => i18n.t(key, value)
-import('./i18n').then((res) => {
+import('./i18n').then(res => {
   const zh = {}
   for (const key in res.default) {
     if (Object.hasOwnProperty.call(res.default, key)) {
@@ -38,5 +38,5 @@ new Vue({
   router,
   store,
   i18n,
-  render: (h) => h(App)
+  render: h => h(App)
 }).$mount('#app')
