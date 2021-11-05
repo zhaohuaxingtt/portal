@@ -12,17 +12,17 @@ const requst = axios(process.env.VUE_APP_PROJECT)
 
 // 获取默认配置
 export function getDefaultConfig() {
-    return requst({
-        url: `/project-group-config/sys`,
-        method: 'GET'
-    })
+  return requst({
+    url: `/web/project-group-config/sys`,
+    method: 'GET'
+  })
 }
 
 // 保存默认配置
 export function saveUpdateConfig(params) {
   return requst({
-      url: `/project-group-config/sys`,
-      method: 'POST',
-      data: params
+    url: `/web/project-group-config/sys`,
+    method: 'POST',
+    data: params
   })
 }

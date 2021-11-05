@@ -134,19 +134,11 @@ module.exports = {
     https: false,
     // hotOnly: true,
     proxy: {
-      projectApi: {
-        target: `http://${BASE_DOMAN}:8005`,
+      [process.env.VUE_APP_PROJECT]: {
+        target: `http://${BASE_DOMAN}:8005/projectmgt`,
         changeOrigin: true,
         pathRewrite: {
-          '^/projectApi': ''
-        }
-      },
-      '/tpInfoApi': {
-        //高攀弘服务地址
-        target: `http://${BASE_DOMAN}:8023`,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/tpInfoApi': ''
+          ['^' + process.env.VUE_APP_PROJECT]: ''
         }
       },
       [process.env.VUE_APP_COMMON]: {

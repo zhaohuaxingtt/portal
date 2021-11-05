@@ -7,7 +7,6 @@
  * @FilePath: /front-web/src/api/project/process.js
  */
 
-
 import axios from '@/utils/axios'
 
 const requst = axios(process.env.VUE_APP_PROJECT)
@@ -15,7 +14,7 @@ const requst = axios(process.env.VUE_APP_PROJECT)
 // 项目进度监控-获取
 export function getDelayGradeConfig(params) {
   return requst({
-    url: '/delay-grade-config',
+    url: '/web/delay-grade-config',
     method: 'GET',
     params
   })
@@ -24,7 +23,7 @@ export function getDelayGradeConfig(params) {
 // 项目进度监控-获取
 export function saveDelayGradeConfig(data) {
   return requst({
-    url: '/delay-grade-config/delayGrade',
+    url: '/web/delay-grade-config/delayGrade',
     method: 'POST',
     data
   })
