@@ -29,6 +29,9 @@ import partLifeCycle from './partLifeCycle'
 import RouterExternal from './RouterExternal'
 import RouterBiz from './RouterBiz'
 
+import RouterManage from './RouterManage'
+import RouterMeeting from './RouterMeeting'
+
 export default {
   routes: [
     {
@@ -78,7 +81,9 @@ export default {
         ...RouterMTZ,
         ...RouterInforMgmt,
         ...partLifeCycle,
-        ...RouterBiz
+        ...RouterBiz,
+        ...RouterManage,
+        ...RouterMeeting
       ]
     },
 

@@ -10,3 +10,6 @@ export const EventBusName = {
 }
 
 export const AEKO_CATEGORY_LIST = ['aeko_mp', 'aeko_aea', 'aeko_content']
+
+// export const MOCK_FILE_URL = '/rise-mock/mockService/files/download/'
+export const MOCK_FILE_URL = '/udDown'
