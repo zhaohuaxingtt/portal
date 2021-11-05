@@ -177,7 +177,7 @@ const menuApplication = [
   },
   {
     title: '采购业绩',
-    url: '/achievement/baseData/mymerit'
+    url: ''
   },
   {
     title: '原材料价格补差',
