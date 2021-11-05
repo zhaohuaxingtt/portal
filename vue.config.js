@@ -142,10 +142,10 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_EKL]: {
-        target: `http://${BASE_DOMAN}:8043`,
-          changeOrigin: true,
-          pathRewrite: {
-            ['^' + process.env.VUE_APP_EKL]: ''
+        target: `http://${BASE_DOMAN}:8044`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_EKL]: ''
         }
       },
       '/tpInfoApi': {

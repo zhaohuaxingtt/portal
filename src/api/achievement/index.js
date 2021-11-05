@@ -8,12 +8,12 @@ import $qsAjax from '@/utils/ajax'
 
 let requst,qsAjax;
 
-if(process.env.NODE_ENV=='production') {
-    requst = axios(process.env.VUE_APP_EKL)
-    qsAjax = $qsAjax(process.env.VUE_APP_EKL)
+if(process.env.NODE_ENV=='dev') {
+  requst = axios(process.env.VUE_APP_EKL)
+  qsAjax = $qsAjax(process.env.VUE_APP_EKL)
 } else {
-   requst = axios()
-   qsAjax = $qsAjax()
+  requst = axios()
+  qsAjax = $qsAjax()
 }
 
 
