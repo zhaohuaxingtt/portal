@@ -1,0 +1,164 @@
+//todo key 中英文显示。
+import { ElPopover } from 'element-ui'
+import { processVertical as ProcessVertical } from '../../task/components'
+
+//流程模块管理列表入参
+export const searchForm = {
+  itemName: '', //审批名称
+  applyUserName: '', //申请人
+  applyUserOrg: '', // 申请部门
+  procProgress: '0', //审批进度
+  categoryList: [],
+  businessId: '',
+  endTime: '',
+  startTime: '',
+  itemType: ''
+}
+
+export const approvalTypes = [
+  {
+    value: 1,
+    label: '我发起的'
+  }
+]
+
+export const approvalTypeMap = {
+  1: '我发起的'
+}
+export const approvalToDoStatus = [
+  {
+    value: 0,
+    label: '全部'
+  },
+  {
+    value: 4,
+    label: '审批中'
+  },
+  {
+    value: 3,
+    label: '补充材料'
+  }
+]
+
+export const approvalFinishedStatus = [
+  {
+    value: 0,
+    label: '全部'
+  },
+  {
+    value: 1,
+    label: '同意'
+  },
+  {
+    value: 2,
+    label: '拒绝'
+  }
+]
+
+export const tableTitle = [
+  {
+    type: 'selection',
+    width: 50
+  },
+  {
+    prop: 'businessId',
+    label: '申请号',
+    i18n: '单据编号',
+    width: 130,
+    tooltip: true
+  },
+  {
+    prop: 'itemType',
+    label: '单据类型',
+    i18n: '单据类型',
+    tooltip: true,
+    width: 140
+  },
+  {
+    prop: 'applyDate',
+    label: '申请时间',
+    i18n: '申请时间',
+    tooltip: true,
+    width: 160,
+    customRender: (h, scope) => {
+      if (scope.row.applyDate) {
+        // eslint-disable-next-line no-undef
+        return moment(scope.row.applyDate).format('YYYY-MM-DD')
+      }
+      return <span>{scope.row.applyDate}</span>
+    }
+  },
+
+  {
+    prop: 'processDefinitionName',
+    label: '审批名称',
+    i18n: '任务名称',
+    tooltip: true,
+    minWidth: 200,
+    customRender: (h, scope) => {
+      return (
+        <ElPopover placement="right" trigger="hover">
+          <ProcessVertical instanceId={scope.row.instanceId} />
+          <span class="open-link-text" slot="reference">
+            {scope.row.processDefinitionName}
+          </span>
+        </ElPopover>
+      )
+    },
+    emit: 'go-detail'
+  },
+  {
+    prop: 'itemEvent',
+    label: '审批事项',
+    i18n: 'APPROVAL.APPROVAL_ITEMS',
+    minWidth: 200,
+    tooltip: true
+  },
+  {
+    prop: 'currentNode',
+    label: '审批进度',
+    i18n: 'APPROVAL.APPROVAL_PROGRESS',
+    minWidth: 300,
+    tooltip: true,
+    customRender: (h, scope) => {
+      if (['同意', '拒绝'].indexOf(scope.row.procStatusMsg) > -1) {
+        return scope.row.procStatusMsg
+      }
+      const { currentNode } = scope.row
+      if (!currentNode) {
+        return ''
+      }
+      const res = []
+      for (let i = 0; i < currentNode.length; i++) {
+        const currentNodeItem = currentNode[i]
+        const resItem = []
+
+        const { approvalUserDTOList } = currentNodeItem
+        if (approvalUserDTOList && approvalUserDTOList.length > 0) {
+          if (approvalUserDTOList[0].userOrg) {
+            resItem.push(approvalUserDTOList[0].userOrg)
+          }
+          if (approvalUserDTOList[0].nameZh) {
+            resItem.push(approvalUserDTOList[0].nameZh)
+          }
+        }
+
+        if (currentNodeItem.suspensionStateMsg) {
+          resItem.push(currentNodeItem.suspensionStateMsg)
+        }
+
+        if (resItem.length > 0) {
+          res.push(resItem.join(' - '))
+        }
+      }
+
+      return (
+        <div>
+          {res.map(e => (
+            <div>{e}</div>
+          ))}
+        </div>
+      )
+    }
+  }
+]

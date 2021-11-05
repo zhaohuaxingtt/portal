@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="362.066" height="204.286" viewBox="0 0 362.066 204.286">
+  <defs>
+    <filter id="Line" x="0" y="40.091" width="362.066" height="130.735" filterUnits="userSpaceOnUse">
+      <feOffset dy="10" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="组_10449" data-name="组 10449" transform="translate(-234.66 -14586)">
+    <path id="Shape" d="M.011,204.286V0H.779V204.286Z" transform="translate(580.274 14586)" fill="#e6e9f4"/>
+    <path id="Shape-2" data-name="Shape" d="M.011,204.286V0H.779V204.286Z" transform="translate(543.689 14586)" fill="#e6e9f4"/>
+    <path id="Shape-3" data-name="Shape" d="M.011,204.286V0H.779V204.286Z" transform="translate(507.104 14586)" fill="#e6e9f4"/>
+    <path id="Shape-4" data-name="Shape" d="M.011,204.286V0H.779V204.286Z" transform="translate(471.15 14586)" fill="#0058ff"/>
+    <path id="Shape-5" data-name="Shape" d="M.011,204.286V0H.779V204.286Z" transform="translate(434.565 14586)" fill="#e6e9f4"/>
+    <path id="Shape-6" data-name="Shape" d="M.011,204.286V0H.779V204.286Z" transform="translate(397.98 14586)" fill="#e6e9f4"/>
+    <path id="Shape-7" data-name="Shape" d="M.011,204.286V0H.779V204.286Z" transform="translate(362.025 14586)" fill="#e6e9f4"/>
+    <path id="Shape-8" data-name="Shape" d="M.011,204.286V0H.779V204.286Z" transform="translate(325.44 14586)" fill="#e6e9f4"/>
+    <path id="Shape-9" data-name="Shape" d="M.011,204.286V0H.779V204.286Z" transform="translate(288.855 14586)" fill="#e6e9f4"/>
+    <path id="Shape-10" data-name="Shape" d="M.011,204.286V0H.779V204.286Z" transform="translate(252.901 14586)" fill="#e6e9f4"/>
+    <g transform="matrix(1, 0, 0, 1, 234.66, 14586)" filter="url(#Line)">
+      <path id="Line-2" data-name="Line" d="M-2.179,24.3c2.743,1.94,23.018-3.149,38.009,11.3s27.484,33.58,36.821,32c13.733-1.469,23.67-100,36.768-98.637,12.151,1.813,21.792,42.838,35.853,62.794,8.915,12.679,16.294,17.745,22.3,10.59C177.938,28.923,172.507,7.1,182.22,1.766S209.5,15.787,217.792,22.148c11.953,8.706,24.323-10.341,36.662-3.553S280.967,64.019,290.8,64.708c11.124-.246,24.82-52.137,36.53-54.338" transform="translate(18.57 77.15)" fill="none" stroke="#4985fc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+    <path id="Line-3" data-name="Line" d="M0,93.459c1.611,2.818,20.325,29.853,36.194,26.366s20.966-77.431,37.323-79.8,18.5,34,36.17,32.758S129.911,24.7,145.7,17.375s25.217,80.669,36.415,89S211.2,91.385,218.985,78.7s21.851-31.526,35.785-31.245,25.607,25.712,36.948,25.839,24.68-24.628,35.937-25.839" transform="translate(252.766 14634.438)" fill="none" stroke="#a2c0fc" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+</svg>

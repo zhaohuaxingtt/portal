@@ -1,0 +1,92 @@
+<!--
+ * @Author: moxuan
+ * @Date: 2021-04-13 17:30:36
+ * @LastEditTime: 2021-04-13 17:30:36
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \rise\src\views\generalPage\mainSubSuppliersAndProductNames\index.vue
+-->
+<template>
+  <i-card>
+    <div class="margin-bottom20 clearFloat">
+      <span class="font18 font-weight">{{$t('SUPPLIER_ZHONGDASHIXIANGSIFAXINXI')}}</span>
+      <div class="floatright">
+        <i-button @click="exportsTable" v-permission="SUPPLIER_SIGNIFICANTEVENTS_JUDICIALINFORMATION_EXPORT">{{ $t('LK_DAOCHU') }}</i-button>
+      </div>
+    </div>
+    <table-list
+        :tableData="tableListData"
+        :tableTitle="tableTitle"
+        :tableLoading="tableLoading"
+        :index="true"
+        openPageProps="view"
+        :customOpenPageWord="$t('LK_CHAKAN')"
+        @handleSelectionChange="handleSelectionChange"
+        @openPage="handleOpenPage"
+        :openPageGetRowData="true"
+        v-permission="SUPPLIER_SIGNIFICANTEVENTS_JUDICIALINFORMATION"
+    />
+    <!--内容框-->
+    <content-dialog
+        v-model="contentDialog"
+        :detail="content"
+    />
+  </i-card>
+</template>
+
+<script>
+import {iCard, iButton} from "rise";
+import {generalPageMixins} from '@/views/generalPage/commonFunMixins'
+import tableList from '@/components/commonTable'
+import {judicialInformationTableTitle} from './data'
+import {getJudiciaryInfoListView} from '../../../../api/supplier360/majorIssues'
+import contentDialog from './contentDialog'
+
+
+export default {
+  mixins: [generalPageMixins],
+  components: {
+    iCard,
+    iButton,
+    tableList,
+    contentDialog
+  },
+  data() {
+    return {
+      tableListData: [],
+      tableTitle: judicialInformationTableTitle,
+      tableLoading: false,
+      selectTableData: [],
+      contentDialog: false,
+      content: ''
+    }
+  },
+  created() {
+    this.getTableList()
+  },
+  methods: {
+    async getTableList() {
+      this.tableLoading = true
+      const req = {
+        pageNo: 1,
+        pageSize: 9999
+      }
+      try {
+        const res = await getJudiciaryInfoListView(req)
+        this.tableListData = res.data
+        this.tableLoading = false
+      } catch {
+        this.tableLoading = false
+      }
+    },
+    handleOpenPage(row) {
+      this.contentDialog = true
+      this.content = row.content
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
