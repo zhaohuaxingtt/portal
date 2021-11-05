@@ -20,6 +20,11 @@ import custom from '@/utils/filters.js'
 Object.keys(custom.filters).forEach((key) => {
   Vue.filter(key, custom.filters[key])
 })
+
+import {showFullScreenLoading, hideFullScreenLoading} from '@/utils/loading'
+Vue.prototype.showLoading = showFullScreenLoading
+Vue.prototype.hideLoading = hideFullScreenLoading
+
 require('./auto').init()
 Vue.config.productionTip = false
 Vue.prototype.$t = (key, value) => i18n.t(key, value)

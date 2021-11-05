@@ -113,6 +113,10 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
           break
         default: {
           //防止多次提示,多个请求同时失败！上一个提示还存在时候，先不做提示。
+          let msg = error?.response?.data
+          if(msg&&(msg.desEn||msg.desZh)) {
+            iMessage.error(msg.desEn||msg.desZh)
+          }
           let errorMessage = error.message || ''
           if (
             error &&
