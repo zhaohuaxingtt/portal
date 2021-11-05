@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="76px" height="64px" viewBox="0 0 76 64" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <g id="编组">
+    <path d="M0 14.7439L4.4171 14.7439L4.4171 0L0 0L0 14.7439Z" transform="translate(35.431034 47.088814)" id="Fill-1" fill="#FFFFFF" fill-rule="evenodd" stroke="none" />
+    <path d="M0 49.2982L70.7527 49.2982L70.7527 0L0 0L0 49.2982ZM4.4171 44.8811L66.3356 44.8811L66.3356 4.4171L4.4171 4.4171L4.4171 44.8811ZM27.9211 63.9377L42.665 63.9377L42.665 59.5223L27.9211 59.5223L27.9211 63.9377Z" transform="translate(2.3507388 0.062260084)" id="Fill-2" fill="#FFFFFF" fill-rule="evenodd" stroke="none" />
+    <path d="M0.0555293 4.41542L75.3347 4.41542L75.3347 0L0.0555293 0L0.0555293 4.41542ZM33.8611 26.9906L26.3057 19.442L16.541 29.2067L19.6641 32.3315L26.3057 25.6899L33.8695 33.2536L45.2681 21.7776L55.7817 32.2978L58.9048 29.1764L45.2513 15.523L33.8611 26.9906ZM0 49.2965L75.2792 49.2965L75.2792 44.8794L0 44.8794L0 49.2965Z" id="Fill-3" fill="#FFFFFF" fill-rule="evenodd" stroke="none" />
+  </g>
+</svg>

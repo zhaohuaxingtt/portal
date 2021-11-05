@@ -5,13 +5,13 @@ const requestUSER = axios(process.env.VUE_APP_USER_CENTER)
 const requestApproval = axios(process.env.VUE_APP_APPROVAL)
 const requestSup = axios(process.env.VUE_APP_SUPPLIER + '/web')
 const requestBASE = axios(process.env.VUE_APP_BASE_INFO)
-const requesClearMeeting = axios(process.env.VUE_APP_CLEADER_MEETING)
+const requesClearMeeting = axios(process.env.VUE_APP_MEETING)
 const requestEKL = axios(process.env.VUE_APP_EKL)
 const requestRate = axios(process.env.VUE_APP_CHANGEPRICE)
 const requestNews = axios(process.env.VUE_APP_NEWS)
 export function getApprovalList(params) {
   return requestApproval({
-    url: 'web/workflow/statisticsDashboardWf',
+    url: '/web/workflow/statisticsDashboardWf',
     method: 'POST',
     params,
     hideMessage: false
