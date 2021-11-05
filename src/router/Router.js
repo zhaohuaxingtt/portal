@@ -29,6 +29,8 @@ import partLifeCycle from './partLifeCycle'
 import RouterExternal from './RouterExternal'
 import RouterBiz from './RouterBiz'
 
+import RouterEkl from './ekl'
+
 export default {
   routes: [
     {
@@ -78,7 +80,8 @@ export default {
         ...RouterMTZ,
         ...RouterInforMgmt,
         ...partLifeCycle,
-        ...RouterBiz
+        ...RouterBiz,
+        ...RouterEkl
       ]
     },
 

@@ -1879,7 +1879,7 @@
       HOME_MODULE_APPROVE: 'iAgree',
       HOME_MODULE_VOLUME: 'Volume Pricing',
       HOME_MODULE_NEWS: 'News',
-      HOME_MODULE_PROVIDER_RATE:'配货件供货率'
+      HOME_MODULE_PROVIDER_RATE: '配货件供货率'
     },
     //谈判助手
     TPZS: {
@@ -1892,7 +1892,65 @@
       ZUIXINDINGDIANDANJIA: '最新定点单价', //最新定点单价
       MUBIAODANJIA: '目标单价', //目标单价
       CHANLIANG: '产量'
-    }
+    },
+    // EKL
+    EKL_YJGL_WDYJ: '我的业绩',
+    EKL_YJGL_YJJC: '业绩基础',
+    EKL_YJGL_MS: '描述',
+    EKL_YJGL_ZT: '状态',
+    EKL_YJGL_FQR: '发起人',
+    EKL_YJGL_DJLX: '单据类型',
+    EKL_YJGL_YWLX: '业务类型',
+    EKL_YJGL_CJRQ: '创建日期',
+    EKL_YJGL_GXRQ: '更新日期',
+    EKL_YJGL_GXRQQ: '更新日期起',
+    EKL_YJGL_GXRQZ: '更新日期止',
+    EKL_YJGL_GXRQQZ: '更新日期起止',
+    EKL_YJGL_CLGL: '产量管理',
+    EKL_YJGL_NDMBGL: '年度目标管理',
+    EKL_YJGL_CJNDMBGL: '创建年度目标',
+    EKL_YJGL_XZYJJC: '新增业绩基础',
+    EKL_YJGL_XZYJJCTIP: '请先编辑基础信息，再选取⽂件上传',
+    EKL_YJGL_XZYJFJTIP: '暂无附件，请上传',
+    EKL_YJGL_XZWJ: '选择文件',
+    EKL_YJGL_PLJYSCLGL: '批量件预算产量管理',
+    EKL_YJGL_SCCL: '上传产量',
+    EKL_YJGL_XZMB: '下载模板',
+    EKL_YJGL_FHSJ: '返回上级',
+    EKL_YJGL_TZKS: '通知科室',
+    EKL_YJGL_NDYJJC: '年度业绩基础',
+    EKL_YJGL_ZCSJJCB: '总成散件基础表',
+    EKL_YJGL_QT: '其他',
+    EKL_YJGL_FQQR: '发起确认',
+    EKL_YJGL_RWJZRQ: '任务截止日期',
+    EKL_YJGL_GYS: '供应商',
+    EKL_YJGL_CGGC: '采购工厂',
+    EKL_YJGL_QRZT: '确认状态',
+    EKL_YJGL_FDJDCB: '发动机-电池包',
+    EKL_YJGL_BSX: '变速箱',
+    EKL_YJGL_PEIZ: '配置',
+    EKL_YJGL_CXDM: '车型代码',
+    EKL_YJGL_CPJZ: '产品家族',
+    EKL_YJGL_LJHAO: '零件号',
+    EKL_YJGL_PLBJ: '批量编辑',
+    EKL_YJGL_QRSL: '确认数量',
+    EKL_YJGL_QRJG: '确认价格',
+    EKL_YJGL_JGLY: '价格来源',
+    EKL_YJGL_QRJGLY: '确认价格来源',
+    EKL_YJGL_ZP: '转派',
+    EKL_YJGL_ZGZJ: '转给自己',
+    EKL_YJGL_QNCL: '全年产量',
+    EKL_YJGL_SYH: '索引号',
+    EKL_YJGL_SHUL: '数量',
+    EKL_YJGL_JAGE: '价格',
+    EKL_YJGL_KSLJ: 'KSL价',
+    EKL_YJGL_KSLJLY: 'KSL价来源',
+    EKL_YJGL_CKJG: '参考价格',
+    EKL_YJGL_CKJGLY: '参考价格来源',
+    EKL_YJGL_CGY: '采购员',
+    EKL_YJGL_CGCKJ: '采购参考价',
+    EKL_YJGL_JIJIA: '基价',
+    EKL_YJGL_GZJD: '跟踪进度'
   }
   var xmlHttp = ''
   if (window.XMLHttpRequest) {
