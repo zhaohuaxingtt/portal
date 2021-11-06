@@ -36,8 +36,10 @@
                 <iInput
                   v-model="ruleForm.name"
                   :disabled="
-                    selectedTableData[0].name === 'Pre CSC' ||
-                      selectedTableData[0].name === 'CSC'
+                    selectedTableData[0]
+                      ? selectedTableData[0].name === 'Pre CSC' ||
+                        selectedTableData[0].name === 'CSC'
+                      : false
                   "
                 ></iInput>
               </iFormItem>
@@ -50,8 +52,10 @@
                 <iInput
                   v-model="ruleForm.meetingNameSuffix"
                   :disabled="
-                    selectedTableData[0].name === 'Pre CSC' ||
-                      selectedTableData[0].name === 'CSC'
+                    selectedTableData[0]
+                      ? selectedTableData[0].name === 'Pre CSC' ||
+                        selectedTableData[0].name === 'CSC'
+                      : false
                   "
                 ></iInput>
               </iFormItem>
@@ -68,8 +72,10 @@
                   placeholder="请选择"
                   value-key="id"
                   :disabled="
-                    selectedTableData[0].name === 'Pre CSC' ||
-                      selectedTableData[0].name === 'CSC'
+                    selectedTableData[0]
+                      ? selectedTableData[0].name === 'Pre CSC' ||
+                        selectedTableData[0].name === 'CSC'
+                      : false
                   "
                 >
                   <el-option
@@ -212,9 +218,9 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="clearDiolog" class="cancel">{{
-              $t("LK_QUXIAO")
+              $t('LK_QUXIAO')
             }}</iButton>
-            <iButton @click="handleSubmit">{{ $t("LK_BAOCUN") }}</iButton>
+            <iButton @click="handleSubmit">{{ $t('LK_BAOCUN') }}</iButton>
           </el-form-item>
         </div>
       </el-form>
@@ -230,23 +236,23 @@ import {
   iLabel,
   iButton,
   iSelect,
-  iMessage,
-} from "rise";
+  iMessage
+} from 'rise'
 // import { baseRules } from "./data";
-import uploadIcon from "@/assets/images/upload-icon.svg";
-import iEditForm from "@/components/iEditForm";
+import uploadIcon from '@/assets/images/upload-icon.svg'
+import iEditForm from '@/components/iEditForm'
 import {
   saveMettingType,
   updateMettingType,
-  uploadFile,
-} from "@/api/meeting/type";
-import { MOCK_FILE_URL } from "@/constants";
+  uploadFile
+} from '@/api/meeting/type'
+// import { MOCK_FILE_URL } from '@/constants'
 import {
   // getPageListByParam,
   getUsers,
-  getListByParam,
-} from "@/api/usercenter/receiver.js";
-import { getFileByIds } from "@/api/file/filedownload.js";
+  getListByParam
+} from '@/api/usercenter/receiver.js'
+// import { getFileByIds } from '@/api/file/filedownload.js'
 
 export default {
   components: {
@@ -256,7 +262,7 @@ export default {
     iInput,
     iLabel,
     iButton,
-    iEditForm,
+    iEditForm
   },
   props: {
     // value: {type: Boolean},
@@ -264,33 +270,33 @@ export default {
     selectOptionsList: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     selectTableData: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     openDialog: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     selectedTableData: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     editOrAdd: {
       type: String,
       default: () => {
-        return "add";
-      },
-    },
+        return 'add'
+      }
+    }
     // approvalProcess: {
     //   type: Array,
     //   default: () => {
@@ -300,36 +306,36 @@ export default {
   },
   data() {
     const validateApprovalProcessId = (rule, value, callback) => {
-      let approvalProcessId = value;
+      let approvalProcessId = value
       if (this.ruleForm.isTriggerApproval) {
         approvalProcessId = this.ruleForm.approvalProcessId
           ? this.ruleForm.approvalProcessId
-          : this.approvalProcess.find((item) => {
-              return item.name === this.ruleForm.approvalProcessName;
+          : this.approvalProcess.find(item => {
+              return item.name === this.ruleForm.approvalProcessName
             })
           ? this.ruleForm.approvalProcessId
             ? this.ruleForm.approvalProcessId
-            : this.approvalProcess.find((item) => {
-                return item.name === this.ruleForm.approvalProcessName;
+            : this.approvalProcess.find(item => {
+                return item.name === this.ruleForm.approvalProcessName
               }).id
-          : "";
+          : ''
       }
 
-      if (approvalProcessId === "" && this.ruleForm.isTriggerApproval) {
+      if (approvalProcessId === '' && this.ruleForm.isTriggerApproval) {
         // console.log(11111);
-        callback(new Error("必选"));
+        callback(new Error('必选'))
       }
-      callback();
+      callback()
       // if (!this.ruleForm.isTriggerApproval) {
       //   callback(new Error(" "));
       // }
-    };
+    }
     const validateApprovalCoverImage = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("必填"));
+      if (value === '') {
+        callback(new Error('必填'))
       }
-      callback();
-    };
+      callback()
+    }
     // const validateIsTriggerApproval = (rule, value, callback) => {
     //   console.log(value);
     //   if (value === "") {
@@ -344,48 +350,48 @@ export default {
       uploadIcon,
       rules: {
         name: [
-          { required: true, message: "必填", trigger: "blur" },
-          { min: 1, max: 64, message: "最大长度 64 字符", trigger: "blur" },
+          { required: true, message: '必填', trigger: 'blur' },
+          { min: 1, max: 64, message: '最大长度 64 字符', trigger: 'blur' }
         ],
         meetingNameSuffix: [
-          { required: true, message: "必填", trigger: "blur" },
-          { min: 1, max: 64, message: "最大长度 64 字符", trigger: "blur" },
+          { required: true, message: '必填', trigger: 'blur' },
+          { min: 1, max: 64, message: '最大长度 64 字符', trigger: 'blur' }
         ],
         meetingInfoDesc: [
-          { max: 255, message: "最大长度 255 字符", trigger: "blur" },
+          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
         ],
         duration: [
-          { required: true, message: "必填", trigger: "blur" },
+          { required: true, message: '必填', trigger: 'blur' },
           {
-            type: "number",
-            message: "最大长度3位，单位（分钟），必须正整数",
-            trigger: "blur",
+            type: 'number',
+            message: '最大长度3位，单位（分钟），必须正整数',
+            trigger: 'blur'
           },
           {
-            type: "number",
-            message: "最大长度3位，单位（分钟），必须正整数",
-            trigger: "blur",
+            type: 'number',
+            message: '最大长度3位，单位（分钟），必须正整数',
+            trigger: 'blur',
             transform(value) {
-              if (value !== null && value !== "") {
+              if (value !== null && value !== '') {
                 if (
-                  String(value).trim() === "" ||
+                  String(value).trim() === '' ||
                   Number(value) <= 0 ||
                   Number(value) >= 1000
                 ) {
-                  return false;
+                  return false
                 } else if (
-                  String(value).indexOf(".") !== -1 ||
-                  String(value).indexOf("-") !== -1
+                  String(value).indexOf('.') !== -1 ||
+                  String(value).indexOf('-') !== -1
                 ) {
-                  return false;
+                  return false
                 } else {
-                  return Number(value);
+                  return Number(value)
                 }
               } else {
-                return null;
+                return null
               }
-            },
-          },
+            }
+          }
         ],
         coverImage: [
           // {
@@ -393,85 +399,85 @@ export default {
           //   message: "必填",
           //   trigger: "change",
           // },
-          { validator: validateApprovalCoverImage, trigger: "change" },
+          { validator: validateApprovalCoverImage, trigger: 'change' }
         ],
         approvalProcessId: [
-          { validator: validateApprovalProcessId, trigger: "change" },
+          { validator: validateApprovalProcessId, trigger: 'change' }
         ],
         isTriggerApproval: [
-          { required: true, message: "必选", trigger: "change" },
+          { required: true, message: '必选', trigger: 'change' }
         ],
-        userIds: [{ required: true, message: "必选", trigger: "blur" }],
-        category: [{ required: true, message: "必选", trigger: "change" }],
+        userIds: [{ required: true, message: '必选', trigger: 'blur' }],
+        category: [{ required: true, message: '必选', trigger: 'change' }]
       },
 
       ruleForm: {
-        name: "",
-        meetingNameSuffix: "",
-        meetingInfoDesc: "",
-        duration: "",
-        isTriggerApproval: "",
-        approvalProcessId: "",
-        coverImage: "",
-        approvalProcessName: "",
-        category: "",
-        userIds: "",
+        name: '',
+        meetingNameSuffix: '',
+        meetingInfoDesc: '',
+        duration: '',
+        isTriggerApproval: '',
+        approvalProcessId: '',
+        coverImage: '',
+        approvalProcessName: '',
+        category: '',
+        userIds: ''
       },
       isApprovalOption: [
         {
-          label: "是",
-          value: true,
+          label: '是',
+          value: true
         },
         {
-          label: "否",
-          value: false,
-        },
+          label: '否',
+          value: false
+        }
       ],
       categoryList: [
         {
-          id: "01",
-          name: "通用会议",
+          id: '01',
+          name: '通用会议'
         },
         {
-          id: "02",
-          name: "生产采购CSC",
+          id: '02',
+          name: '生产采购CSC'
         },
         {
-          id: "03",
-          name: "一般采购CSG",
-        },
+          id: '03',
+          name: '一般采购CSG'
+        }
       ],
       approvalProcess: [
         {
-          name: "CW 通用会议审批",
-          id: 1,
+          name: 'CW 通用会议审批',
+          id: 1
         },
         {
-          name: "CV 一般会议审批",
-          id: 2,
-        },
+          name: 'CV 一般会议审批',
+          id: 2
+        }
       ],
-      value: "",
-      isTriggerApproval: "",
+      value: '',
+      isTriggerApproval: ''
       // showWord: true,
-    };
+    }
   },
   mounted() {
-    if (this.editOrAdd === "edit") {
+    if (this.editOrAdd === 'edit') {
       const userIdsArr = this.selectedTableData[0].userIds
-        ? this.selectedTableData[0].userIds.split(",")
-        : [];
+        ? this.selectedTableData[0].userIds.split(',')
+        : []
       // this.handleFocus().then(() => {
       //   console.log(this.selectUserArr);
       // });
-      this.queryEdit(userIdsArr).then((currentSearchUserData) => {
-        this.initSelectArr = [...currentSearchUserData];
+      this.queryEdit(userIdsArr).then(currentSearchUserData => {
+        this.initSelectArr = [...currentSearchUserData]
         this.ruleForm = {
           ...this.selectedTableData[0],
-          userIds: currentSearchUserData,
-        };
-        this.handleLoad();
-      });
+          userIds: currentSearchUserData
+        }
+        this.handleLoad()
+      })
     }
   },
   // computed: {
@@ -483,73 +489,71 @@ export default {
   //   },
   // },
   watch: {
-    "ruleForm.isTriggerApproval": {
+    'ruleForm.isTriggerApproval': {
       handler(v) {
         // console.log(v);
         if (!v) {
           this.ruleForm = {
             ...this.ruleForm,
-            approvalProcessName: "",
-            approvalProcessId: "",
-          };
+            approvalProcessName: '',
+            approvalProcessId: ''
+          }
         }
         this.$nextTick(() => {
           this.$refs.selectProcess.querySelector(
-            ".el-form-item__error"
-          ).style.display = "none";
-        });
+            '.el-form-item__error'
+          ).style.display = 'none'
+        })
       },
-      immediate: true,
+      immediate: true
     },
     //approvalProcessName approvalProcessId
-    "ruleForm.approvalProcessName": {
+    'ruleForm.approvalProcessName': {
       handler(v) {
         if (!v) {
           v = this.approvalProcess.find(
-            (item) =>
-              Number(item.id) === Number(this.ruleForm.approvalProcessId)
-          ).name;
+            item => Number(item.id) === Number(this.ruleForm.approvalProcessId)
+          ).name
         }
-        let name = "";
-        let id = "";
+        let name = ''
+        let id = ''
         if (v) {
           if (this.ruleForm.isTriggerApproval) {
-            name = this.approvalProcess.find((item) => item.name === v).name;
-            id = this.approvalProcess.find((item) => item.name === v).id;
+            name = this.approvalProcess.find(item => item.name === v).name
+            id = this.approvalProcess.find(item => item.name === v).id
           }
           this.ruleForm = {
             ...this.ruleForm,
             approvalProcessId: id,
-            approvalProcessName: name,
-          };
+            approvalProcessName: name
+          }
         }
-      },
+      }
     },
-    immediate: true,
+    immediate: true
   },
-  "ruleForm.approvalProcessId": {
+  'ruleForm.approvalProcessId': {
     handler(v) {
-      let name = "";
-      let id = "";
+      let name = ''
+      let id = ''
       if (v) {
         if (this.isTriggerApproval) {
           name = this.approvalProcess.find(
-            (item) => Number(item.id) === Number(v)
-          ).name;
-          id = this.approvalProcess.find(
-            (item) => Number(item.id) === Number(v)
-          ).id;
+            item => Number(item.id) === Number(v)
+          ).name
+          id = this.approvalProcess.find(item => Number(item.id) === Number(v))
+            .id
         }
-        console.log(name, id);
+        console.log(name, id)
 
         this.ruleForm = {
           ...this.ruleForm,
           approvalProcessId: id,
-          approvalProcessName: name,
-        };
+          approvalProcessName: name
+        }
       }
     },
-    immediate: true,
+    immediate: true
   },
   // "ruleForm.coverImage": {
   //   handler(v) {
@@ -561,84 +565,84 @@ export default {
   // },
   computed: {
     showSelectArr() {
-      return [...this.initSelectArr];
-    },
+      return [...this.initSelectArr]
+    }
   },
   methods: {
     async queryEdit(userIdsArr) {
-      const res = await getUsers({ userIdList: [...userIdsArr] });
-      return res.data;
+      const res = await getUsers({ userIdList: [...userIdsArr] })
+      return res.data
     },
     async query(val) {
-      let param;
+      let param
       if (val) {
         param = {
-          roleCode: "MEETINGADMIN",
-          nameZh: val,
-        };
+          roleCode: 'MEETINGADMIN',
+          nameZh: val
+        }
       } else {
         param = {
-          roleCode: "MEETINGADMIN",
-          nameZh: "",
-        };
+          roleCode: 'MEETINGADMIN',
+          nameZh: ''
+        }
       }
-      const res = await getListByParam(param);
-      const { data } = res;
-      this.initSelectArr = [...data];
-      return [...data];
+      const res = await getListByParam(param)
+      const { data } = res
+      this.initSelectArr = [...data]
+      return [...data]
     },
     async handleFocus() {
-      const data = await this.remoteMethod();
-      return data;
+      const data = await this.remoteMethod()
+      return data
     },
     async remoteMethod(queryString) {
-      let currentSearchUserData = [];
-      currentSearchUserData = await this.query(queryString);
-      this.selectUserArr = currentSearchUserData;
-      return currentSearchUserData;
+      let currentSearchUserData = []
+      currentSearchUserData = await this.query(queryString)
+      this.selectUserArr = currentSearchUserData
+      return currentSearchUserData
     },
     async httpUpload(content) {
-      this.uploadLoading = true;
-      let formData = new FormData();
+      this.uploadLoading = true
+      let formData = new FormData()
       // formData.append("file", content.file);
-      formData.append("multifile", content.file);
-      formData.append("applicationName", 111);
-      formData.append("businessId", 8025);
-      formData.append("currentUserId", -1);
-      formData.append("type", 1);
-      const res = await uploadFile(formData);
+      formData.append('multifile', content.file)
+      formData.append('applicationName', 111)
+      formData.append('businessId', 8025)
+      formData.append('currentUserId', -1)
+      formData.append('type', 1)
+      const res = await uploadFile(formData)
       // const infoById = await getFileByIds([res[0].id]);
-      console.log("res[0].path", res[0].path);
-      this.ruleForm.coverImage = res[0].path;
+      console.log('res[0].path', res[0].path)
+      this.ruleForm.coverImage = res[0].path
       // console.log(info);
-      this.$refs["ruleFormCoverImage"].$el.querySelector(
-        ".el-form-item__error"
-      ).style.display = "none";
-      iMessage.success(this.$t("上传成功"));
-      this.uploadLoading = false;
+      this.$refs['ruleFormCoverImage'].$el.querySelector(
+        '.el-form-item__error'
+      ).style.display = 'none'
+      iMessage.success(this.$t('上传成功'))
+      this.uploadLoading = false
     },
     handleLoad() {
-      this.$refs["img"].classList.remove("error");
+      this.$refs['img'].classList.remove('error')
     },
     handleError() {
-      this.$refs["img"].classList.add("error");
+      this.$refs['img'].classList.add('error')
     },
     close() {
-      this.$emit("input", false);
-      this.$emit("closeDialog", false);
+      this.$emit('input', false)
+      this.$emit('closeDialog', false)
     },
     clearDiolog(sub) {
-      if (sub === "submit") {
-        this.$emit("input", false);
-        this.$emit("closeDialog", false);
+      if (sub === 'submit') {
+        this.$emit('input', false)
+        this.$emit('closeDialog', false)
       } else {
         // this.$confirm("是否取消编辑?", "提示", {
         //   confirmButtonText: "是",
         //   cancelButtonText: "否",
         //   type: "warning",
         // }).then(() => {
-        this.$emit("input", false);
-        this.$emit("closeDialog", false);
+        this.$emit('input', false)
+        this.$emit('closeDialog', false)
         // });
       }
     },
@@ -648,68 +652,68 @@ export default {
       //   cancelButtonText: "否",
       //   type: "warning",
       // }).then(() => {
-      this.submitForm("ruleForm");
+      this.submitForm('ruleForm')
       //});
     },
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           let userIdsStr = this.ruleForm.userIds
-            .map((item) => {
-              return item.id;
+            .map(item => {
+              return item.id
             })
-            .join(",");
+            .join(',')
           let formData = {
             ...this.ruleForm,
-            userIds: userIdsStr,
-          };
+            userIds: userIdsStr
+          }
           if (this.ruleForm.isTriggerApproval) {
             let approvalProcessId = this.ruleForm.approvalProcessId
-              ? this.approvalProcess.find((item) => {
-                  return item.id === this.ruleForm.approvalProcessId;
+              ? this.approvalProcess.find(item => {
+                  return item.id === this.ruleForm.approvalProcessId
                 }).id
-              : this.approvalProcess.find((item) => {
-                  return item.name === this.ruleForm.approvalProcessName;
-                }).id;
+              : this.approvalProcess.find(item => {
+                  return item.name === this.ruleForm.approvalProcessName
+                }).id
             formData = {
               ...this.ruleForm,
               approvalProcessId,
-              userIds: userIdsStr,
-            };
+              userIds: userIdsStr
+            }
           }
-          if (this.editOrAdd === "edit") {
+          if (this.editOrAdd === 'edit') {
             updateMettingType(formData)
-              .then((data) => {
+              .then(data => {
                 // console.log("data", data);
                 if (data) {
-                  this.clearDiolog("submit");
-                  iMessage.success("更新成功");
-                  this.$emit("flushTable");
+                  this.clearDiolog('submit')
+                  iMessage.success('更新成功')
+                  this.$emit('flushTable')
                 } else {
-                  this.clearDiolog("submit");
+                  this.clearDiolog('submit')
                   // iMessage.error("会议类型名称重复");
-                  this.$emit("flushTable");
+                  this.$emit('flushTable')
                 }
               })
-              .catch((err) => {
-                console.log("err", err);
-              });
+              .catch(err => {
+                console.log('err', err)
+              })
           } else {
             saveMettingType(formData)
-              .then((data) => {
+              .then(data => {
                 if (data) {
-                  this.clearDiolog("submit");
-                  iMessage.success("保存成功");
-                  this.$emit("flushTable");
+                  this.clearDiolog('submit')
+                  iMessage.success('保存成功')
+                  this.$emit('flushTable')
                 } else {
-                  this.clearDiolog("submit");
+                  this.clearDiolog('submit')
                   // iMessage.error("会议类型名称重复");
-                  this.$emit("flushTable");
+                  this.$emit('flushTable')
                 }
               })
-              .catch((err) => {
-                console.log("err", err);
-              });
+              .catch(err => {
+                console.log('err', err)
+              })
           }
         } else {
           // if (object.coverImage) {
@@ -717,24 +721,24 @@ export default {
           // } else {
           //   this.showWord = true;
           // }
-          return false;
+          return false
         }
-      });
+      })
     },
     handleAvatarSuccess() {},
     beforeAvatarUpload(file, fileList) {
-      if (!file.type.includes("image/")) {
-        this.$message.error("请上传图片文件");
-        return false;
+      if (!file.type.includes('image/')) {
+        this.$message.error('请上传图片文件')
+        return false
       }
-      const isLt15M = file.size / 1024 / 1024 < 15;
+      const isLt15M = file.size / 1024 / 1024 < 15
       if (!isLt15M) {
-        this.$message.error("上传头像图片大小不能超过 15MB!");
+        this.$message.error('上传头像图片大小不能超过 15MB!')
       }
-      return isLt15M;
-    },
-  },
-};
+      return isLt15M
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -775,7 +779,7 @@ export default {
   width: 162px;
   .image-box {
     width: 288px;
-    background-image: url("../../../../../assets/images/imgBg.svg");
+    background-image: url('../../../../../assets/images/imgBg.svg');
     background-repeat: no-repeat;
     background-color: #eee;
     background-position: center;
