@@ -1,21 +1,19 @@
 <template>
-  <horizontalPanel :nodeData="nodeData" />
+  <div class="process-node-vertical" v-loading="loading">
+    <horizontalPanel v-if="nodeData && nodeData.length" :nodeData="nodeData" />
+  </div>
 </template>
 
 <script>
 import { horizontalPanel } from '@/components/approvalNode'
+import { queryWorkflowDetail } from '@/api/approval/myApplication'
 export default {
-  name: 'processNodeHorizontal',
+  name: 'processNodeVertical',
   components: { horizontalPanel },
   props: {
-    panorama: {
-      type: Array,
-      default: function () {
-        return []
-      }
-    },
-    stateCode: {
-      type: Number
+    instanceId: {
+      type: String,
+      required: true
     }
   },
   computed: {
@@ -24,8 +22,9 @@ export default {
     }
   },
   watch: {
-    panorama() {
-      this.getData()
+    instanceId() {
+      this.nodeData = []
+      this.getDetail()
     }
   },
   data() {
@@ -38,13 +37,38 @@ export default {
         待审批: 'iconshenpiliu-daishenpi',
         未审批: 'iconshenpiliu-daishenpi',
         已审批: 'iconshenpiliu-yishenpi'
-      }
+      },
+      stateCode: '',
+      panorama: [],
+      loading: false
     }
   },
   created() {
-    this.getData()
+    this.getDetail()
   },
+
   methods: {
+    getDetail() {
+      this.loading = true
+
+      if (this.instanceId) {
+        const params = {
+          processInstanceId: this.instanceId,
+          currentUserId: this.$store.state.permission.userInfo.id
+        }
+        queryWorkflowDetail(params)
+          .then((res) => {
+            const { data } = res
+            this.panorama = data.panorama || []
+            this.stateCode = data.stateCode
+            this.loading = false
+            this.getData()
+          })
+          .catch(() => {
+            this.loading = false
+          })
+      }
+    },
     getData() {
       if (!this.panorama) {
         return []
@@ -178,4 +202,13 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.process-node-vertical {
+  max-width: 800px;
+  max-height: 400px;
+  overflow: auto;
+
+  min-width: 200px;
+  min-height: 100px;
+}
+</style>

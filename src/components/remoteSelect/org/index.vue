@@ -13,6 +13,7 @@
       :loading="loading"
       :disabled="disabled"
       :multiple="multiple"
+      clearable
       @change="handleChange"
     >
       <el-option
@@ -39,7 +40,7 @@ export default {
     },
     defaultOptions: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -107,11 +108,15 @@ export default {
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
-    z-index: 9;
+    z-index: 1;
     font-size: 18px;
     .icon {
       font-size: 16px;
     }
+    user-select: none;
+  }
+  ::v-deep .el-input__suffix {
+    z-index: 2;
   }
 }
 </style>

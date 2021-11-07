@@ -15,3 +15,4 @@ export { default as lastNode } from './lastNode'
 export { default as baseForm } from './baseForm'
 
 export { default as processNodeHorizontal } from './processNodeHorizontal'
+export { default as processNodeVertical } from './processNodeVertical'

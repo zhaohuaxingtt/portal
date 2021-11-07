@@ -1,6 +1,6 @@
 //todo key 中英文显示。
 import { ElPopover } from 'element-ui'
-import { processVertical as ProcessVertical } from '../../task/components'
+import { processNodeVertical } from '../../task/components'
 
 //流程模块管理列表入参
 export const searchForm = {
@@ -95,15 +95,24 @@ export const tableTitle = [
     i18n: '任务名称',
     tooltip: true,
     minWidth: 200,
-    customRender: (h, scope) => {
+    customRender: (h, scope, column, extraData) => {
       return (
-        <ElPopover placement="right" trigger="hover">
-          <ProcessVertical instanceId={scope.row.instanceId} />
+        <span
+          class="open-link-text process-node-popover-reference"
+          onMouseenter={(event) => extraData.mouseenter(event, scope.row)}
+          onMouseleave={extraData.mouseleave}
+        >
+          {scope.row.processDefinitionName}
+        </span>
+      )
+      /* return (
+        <ElPopover trigger="hover">
+          <processNodeVertical instanceId={scope.row.instanceId} />
           <span class="open-link-text" slot="reference">
             {scope.row.processDefinitionName}
           </span>
         </ElPopover>
-      )
+      ) */
     },
     emit: 'go-detail'
   },
@@ -154,7 +163,7 @@ export const tableTitle = [
 
       return (
         <div>
-          {res.map(e => (
+          {res.map((e) => (
             <div>{e}</div>
           ))}
         </div>

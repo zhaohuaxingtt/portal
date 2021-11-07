@@ -39,7 +39,7 @@ export default {
     },
     defaultOptions: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -92,7 +92,7 @@ export default {
           () => (this.loading = false)
         )
         if (this.filterUserId) {
-          this.userOptions = data.filter(e => e.id !== this.filterUserId)
+          this.userOptions = data.filter((e) => e.id !== this.filterUserId)
         } else {
           this.userOptions = data
         }
@@ -122,6 +122,10 @@ export default {
     .icon {
       font-size: 16px;
     }
+    user-select: none;
+  }
+  ::v-deep .el-input__suffix {
+    z-index: 2;
   }
 }
 </style>

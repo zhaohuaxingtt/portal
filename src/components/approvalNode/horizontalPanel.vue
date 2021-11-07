@@ -1,10 +1,11 @@
 <template>
   <div class="horizontal-panel">
-    <horizontal :data="nodeData" />
+    <horizontal :data="nodeData" id="hrizontalNode" />
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       class="children-link-line"
+      :style="{ width: svgWidth + 'px' }"
     >
       <polyline
         v-for="(item, index) in lines"
@@ -36,122 +37,25 @@ export default {
   },
   data() {
     return {
-      lines: [] /* 
-      nodeData: [
-        {
-          title: '已提交',
-          icon: 'iconshenpiliu-yishenpi',
-          approvers: [
-            {
-              dept: 'dept1',
-              name: '超级管理员'
-            }
-          ]
-        },
-        {
-          title: '待审批',
-          icon: 'iconshenpiliu-shenpizhong',
-          approvers: [
-            {
-              dept: 'dept1',
-              name: '王亮亮三个字CSP-2',
-              status: 'yishenpi'
-            }
-          ]
-        },
-        {
-          title: '待审批',
-          icon: 'iconshenpiliu-daishenpi',
-          approvers: [
-            {
-              dept: 'CSP',
-              name: '六琴三个字'
-            },
-            {
-              dept: 'CSP',
-              name: '六琴三个字'
-            },
-            {
-              dept: 'CSP',
-              name: '六琴三个字'
-            }
-          ],
-          children: [
-            [
-              {
-                title: '已提交',
-                icon: 'iconshenpiliu-yishenpi',
-                approvers: [
-                  {
-                    dept: 'dept1',
-                    name: '超级管理员'
-                  }
-                ]
-              },
-              {
-                title: '待审批',
-                icon: 'iconshenpiliu-shenpizhong',
-                approvers: [
-                  {
-                    dept: 'dept1',
-                    name: '王亮亮三个字CSP-2',
-                    status: 'yishenpi'
-                  },
-                  {
-                    dept: 'dept1',
-                    name: '王亮亮三个字CSP-2',
-                    status: 'yishenpi'
-                  },
-                  {
-                    dept: 'dept1',
-                    name: '王亮亮三个字CSP-2',
-                    status: 'yishenpi'
-                  },
-                  {
-                    dept: 'dept1',
-                    name: '王亮亮三个字CSP-2',
-                    status: 'yishenpi'
-                  }
-                ]
-              }
-            ],
-            [
-              {
-                title: '已提交',
-                icon: 'iconshenpiliu-yishenpi',
-                approvers: [
-                  {
-                    dept: 'dept1',
-                    name: '超级管理员'
-                  }
-                ]
-              },
-              {
-                title: '待审批',
-                icon: 'iconshenpiliu-shenpizhong',
-                approvers: [
-                  {
-                    dept: 'dept1',
-                    name: '王亮亮三个字CSP-2',
-                    status: 'yishenpi'
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      ] */
+      lines: [],
+      svgWidth: 0
     }
   },
   watch: {
     nodeData() {
       this.$nextTick(() => {
+        this.svgWidth = document.querySelector(
+          '#hrizontalNode > .approval-process-content'
+        ).clientWidth
         this.drawLine()
       })
     }
   },
   mounted() {
     this.$nextTick(() => {
+      this.svgWidth = document.querySelector(
+        '#hrizontalNode > .approval-process-content'
+      ).clientWidth
       this.drawLine()
     })
   },
@@ -207,11 +111,9 @@ export default {
           // const childLevel =  group[group.length - 1]
           const level = group[1]
           const childLevel = (parseInt(level) + 1).toString()
-          console.log('childLevel', childLevel)
           const childNodes = data.filter(
             (e) => e.index === '0' && e.level === childLevel
           )
-          console.log('childNodesLength', childNodes)
           if (childNodes.length === 2) {
             const groupPositions = []
             // 左 -- 中
@@ -279,8 +181,6 @@ export default {
         }
       }
       this.lines = lines
-      console.log('data', data)
-      console.log('lines', lines)
     }
   }
 }
@@ -290,12 +190,14 @@ export default {
 .horizontal-panel {
   position: relative;
   background: #fff;
+
   .children-link-line {
     top: 0;
     left: 0;
     position: absolute;
     width: 100%;
     height: 100%;
+    z-index: 9;
   }
 }
 </style>
