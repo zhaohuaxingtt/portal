@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-17 13:17:43
- * @LastEditTime: 2021-11-08 11:16:32
+ * @LastEditTime: 2021-11-05 14:37:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\theSearch.vue
@@ -54,7 +54,7 @@
                          clearable
                          @change="handleChangmater"
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
+                         display-member="codeMessage"
                          value-member="code"
                          value-key="code">
           </custom-select>
@@ -102,9 +102,9 @@
                          multiple
                          clearable
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="existShareNum"
-                         value-member="existShareId"
-                         value-key="existShareId">
+                         display-member="departNameEn"
+                         value-member="departId"
+                         value-key="departId">
           </custom-select>
 
         </el-form-item>
@@ -140,6 +140,7 @@ import { iSearch, iMessage, iDatePicker } from 'rise'
 import { getMtzDocNos, getSapPayBalanceNos, getApplicants, getApprovalStatus } from '@/api/mtz/annualGeneralBudget/supplementaryList'
 import { getDeptData } from '@/api/kpiChart/index'
 import { getMtzGroups, getRawMaterialNos, getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 export default {
   name: "theSearch",
   components: {
@@ -263,7 +264,7 @@ export default {
     },
     // 获取部门数据
     getDeptData () {
-      getDeptData({}).then(res => {
+      fetchRemoteDept({}).then(res => {
         if (res && res.code == 200) {
           this.deptList = res.data
         } else iMessage.error(res.desZh)

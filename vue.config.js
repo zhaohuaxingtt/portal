@@ -224,7 +224,7 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_AON]: {
-        target: `http://${BASE_DOMAN}:8036`,
+        target: `http://${BASE_DOMAN}:8036/aon`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_AON]: ''
