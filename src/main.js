@@ -21,7 +21,7 @@ Object.keys(custom.filters).forEach(key => {
   Vue.filter(key, custom.filters[key])
 })
 
-import {showFullScreenLoading, hideFullScreenLoading} from '@/utils/loading'
+import { showFullScreenLoading, hideFullScreenLoading } from '@/utils/loading'
 Vue.prototype.showLoading = showFullScreenLoading
 Vue.prototype.hideLoading = hideFullScreenLoading
 
@@ -35,7 +35,6 @@ import('./i18n').then(res => {
       zh[key] = key
     }
   }
-
   i18n.mergeLocaleMessage('zh', zh)
   i18n.mergeLocaleMessage('en', res.default)
 })

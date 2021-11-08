@@ -142,18 +142,10 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_EKL]: {
-        target: `http://${BASE_DOMAN}:8043`,
+        target: `http://${BASE_DOMAN}:8043/riseekl`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_EKL]: ''
-        }
-      },
-      '/tpInfoApi': {
-        //高攀弘服务地址
-        target: `http://${BASE_DOMAN}:8023`,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/tpInfoApi': ''
         }
       },
       [process.env.VUE_APP_COMMON]: {
@@ -232,7 +224,7 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_AON]: {
-        target: `http://${BASE_DOMAN}:8036/aon`,
+        target: `http://${BASE_DOMAN}:8036`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_AON]: ''
@@ -266,11 +258,11 @@ module.exports = {
           ['^' + process.env.VUE_APP_RFQ]: ''
         }
       },
-      [process.env.VUE_APP_CLEADER_MEETING]: {
+      [process.env.VUE_APP_MEETING]: {
         target: `http://${BASE_DOMAN}:8051/rise-meeting`,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_CLEADER_MEETING]: ''
+          ['^' + process.env.VUE_APP_MEETING]: ''
         }
       },
       [process.env.VUE_APP_NEWS]: {
@@ -278,13 +270,6 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_NEWS]: ''
-        }
-      },
-      [process.env.VUE_APP_EKL]: {
-        target: `http://${BASE_DOMAN}:8043/riseekl`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_EKL]: ''
         }
       },
       [process.env.VUE_APP_CHANGEPRICE]: {
