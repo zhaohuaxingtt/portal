@@ -13,7 +13,7 @@
       </div>
       <div class="header-other" v-else>
         <div class="meeting-state">
-          {{ themen.state === '01' ? 'Next' : 'Finish' }}
+          {{ themen.state === "01" ? "Next" : "Finish" }}
         </div>
       </div>
       <div class="header-info">
@@ -30,7 +30,7 @@
             themen.state !== '02' ? 'themen-num  themen-num-no' : 'themen-num'
           "
         >
-          <span class="current-num">{{ index ? index : themen.itemNo }}</span
+          <span class="current-num">{{ index?index:themen.itemNo }}</span
           >/{{ total }}
         </div>
       </div>
@@ -49,10 +49,10 @@
             {{ themen.presenter
             }}{{
               themen.presenter && themen.presenterNosys
-                ? ',' + themen.presenterNosys
+                ? "," + themen.presenterNosys
                 : themen.presenterNosys
                 ? themen.presenterNosys
-                : ''
+                : ""
             }}
           </div>
         </div>
@@ -62,10 +62,10 @@
             {{ themen.presenterDept
             }}{{
               themen.presenterDept && themen.presenterDeptNosys
-                ? ',' + themen.presenterDeptNosys
+                ? "," + themen.presenterDeptNosys
                 : themen.presenterDeptNosys
                 ? themen.presenterDeptNosys
-                : ''
+                : ""
             }}
           </div>
         </div>
@@ -76,13 +76,13 @@
           </div>
           <div class="time-right" v-else>
             {{ themen.startTime }}/
-            {{ themen.state === '01' ? 'Next' : 'Finished' }}!
+            {{ themen.state === "01" ? "Next" : "Finished" }}!
           </div>
         </div>
       </div>
       <div class="rest" v-else>
         <div class="img-box">
-          <img src="~@/assets/images/rest.svg" />
+          <img src="@/assets/images/rest.svg" />
         </div>
       </div>
     </div>
@@ -90,86 +90,86 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 export default {
   props: {
     index: {
       type: Number,
-      default: 0
+      default: 0,
     },
     meetingName: {
       type: String,
       default: () => {
-        return ''
-      }
+        return "";
+      },
     },
     themen: {
       type: Object,
       default: () => {
-        return {}
-      }
+        return {};
+      },
     },
     total: {
       type: Number,
       default: () => {
-        return 0
-      }
+        return 0;
+      },
     },
     current: {
       type: Number,
       default: () => {
-        return 0
-      }
+        return 0;
+      },
     },
     startDate: {
       type: String,
       default: () => {
-        return ''
-      }
+        return "";
+      },
     },
     endDate: {
       type: String,
       default: () => {
-        return ''
-      }
-    }
+        return "";
+      },
+    },
   },
   data() {
     return {
-      timer: '',
-      nowTime: dayjs(new Date()).format('HH:mm:ss')
-    }
+      timer: "",
+      nowTime: dayjs(new Date()).format("HH:mm:ss"),
+    };
   },
   created() {
-    if (this.themen.state === '02') {
+    if (this.themen.state === "02") {
       this.timer = setInterval(() => {
-        this.nowTime = this.getNowTime()
-      }, 5000)
+        this.nowTime = this.getNowTime();
+      }, 5000);
     }
   },
   methods: {
     getNowTime() {
-      return dayjs(new Date()).format('HH:mm:ss')
-    }
+      return dayjs(new Date()).format("HH:mm:ss");
+    },
   },
   beforeDestroy() {
-    clearInterval(this.timer)
+    clearInterval(this.timer);
   },
   watch: {
     themen: {
       handler(data) {
         // console.log(data);
-      }
-    }
+      },
+    },
   },
   computed: {
     dom: function() {
-      console.log(this.$refs.boxTopic.$el)
-      console.log(this.$refs.spanTopic.$el)
-      return 0
-    }
-  }
-}
+      console.log(this.$refs.boxTopic.$el);
+      console.log(this.$refs.spanTopic.$el);
+      return 0;
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 /* @keyframes liveBounce{

@@ -102,6 +102,7 @@ export default {
   },
   methods: {
     getTableDate(category) {
+      console.log(this.totalData);
       return this.totalData.filter((item) => {
         return item.category === category;
       });
