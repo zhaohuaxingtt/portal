@@ -115,6 +115,7 @@ export default {
           }
         },
         {
+       
              showSymbol: false,
           name: '平均参考',
           data: [14, 23, 11, 6],
@@ -123,8 +124,9 @@ export default {
             normal: {
               color: '#B4C9F2', //改变折线点的颜色
               lineStyle: {
-                color: '#B4C9F2' //改变折线颜色
-              }
+                color: '#B4C9F2', //改变折线颜色
+                        type:'dotted'  //'dotted'虚线 'solid'实线
+              },
             }
           }
         }
