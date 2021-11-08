@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-03 19:01:29
+ * @LastEditTime: 2021-11-05 17:18:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -20,7 +20,8 @@
       <div v-if="editFlag">
         <iButton @click="del">{{language('SHANCHU', '删除') }}</iButton>
         <iButton @click="cancel">{{language('QUXIAO', '取消') }}</iButton>
-        <iButton @click="save">{{language('BAOCUN', '保存') }}</iButton>
+        <iButton @click="save"
+                 :loading="loading">{{language('BAOCUN', '保存') }}</iButton>
       </div>
     </template>
     <el-table :data="tableData"
@@ -39,39 +40,37 @@
                        width="240">
         <template slot-scope="scope">
           <iSelect v-if="scope.row.editRow"
-                   v-model="scope.row.approvalDepartment"
+                   v-model="scope.row.approvalDepartmentName"
                    filterable
                    remote
                    placeholder="输入关键词搜索"
-                   :remote-method="queryOptions"
-                   @change="handleChange">
-            <el-option v-for="item in options"
+                   @change="function(changedVal) {handleChangeDepartment(changedVal, scope.row)}">
+            <el-option v-for="item in selectDeptList"
                        :key="item.id"
                        :label="item.nameZh"
-                       :value="item.id">
+                       :value="item.nameZh">
             </el-option>
           </iSelect>
-          <span v-else>{{scope.row.approvalDepartment}}</span>
+          <span v-else>{{scope.row.approvalDepartmentName}}</span>
         </template>
       </el-table-column>
       <el-table-column label="审批科室"
                        width="240">
         <template slot-scope="scope">
           <div v-if="scope.row.editRow">
-            <iSelect v-model="scope.row.approvalSection"
+            <iSelect v-model="scope.row.approvalSectionName"
                      filterable
                      remote
                      placeholder="输入关键词搜索"
-                     :remote-method="queryOptions"
-                     @change="handleChange">
-              <el-option v-for="item in options"
+                     @change="function(changedVal) {handleChangeApprovalSection(changedVal, scope.row)}">
+              <el-option v-for="item in selectSectionList"
                          :key="item.id"
                          :label="item.nameZh"
-                         :value="item.id">
+                         :value="item.nameZh">
               </el-option>
             </iSelect>
           </div>
-          <span v-else> {{ scope.row.approvalSection }}</span>
+          <span v-else> {{ scope.row.approvalSectionName }}</span>
         </template>
       </el-table-column>
       <el-table-column label="审批人">
@@ -120,6 +119,16 @@
                  :page-size="page.pageSize"
                  :layout="page.layout"
                  :total="page.totalCount" />
+    <el-dialog title="审批流"
+               v-if="dialogVisible"
+               :visible.sync="dialogVisible"
+               width="30%"
+               :before-close="handleClose">
+      <process-vertical :instanceId="riseId" />
+      <span slot="footer"
+            class="dialog-footer">
+      </span>
+    </el-dialog>
   </iCard>
 </template>
 
@@ -127,7 +136,9 @@
 import { iCard, iButton, iPagination, iMessage, iSelect, iDatePicker } from 'rise'
 import { getDeptDropDownList } from '@/api/authorityMgmt'
 import { pageMixins } from '@/utils/pageMixins'
-import { pageApprove, listApproveStream, deleteApprove, modifyApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
+import processVertical from './processVertical'
+import { pageApprove, deleteApprove, modifyApprove, getAppFormInfo, selectDept, selectSection } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
+import { ROW_PROPERTITIE_PRODUCE } from '@/views/role/components/data'
 export default {
   data () {
     return {
@@ -135,7 +146,12 @@ export default {
       tableData: [],
       tableLoading: false,
       editFlag: false,
-      muilteList: []
+      muilteList: [],
+      loading: false,
+      dialogVisible: false,
+      riseId: "",
+      selectDeptList: [],
+      selectSectionList: []
     }
   },
   components: {
@@ -143,7 +159,8 @@ export default {
     iButton,
     iPagination,
     iSelect,
-    iDatePicker
+    iDatePicker,
+    processVertical
   },
   created () {
     this.init()
@@ -153,7 +170,8 @@ export default {
     init () {
       this.mtzAppId = this.$route.query.id
       this.getTableList()
-      this.queryOptions()
+      this.selectDept()
+      this.selectSection()
     },
     getTableList () {
       this.tableLoading = true
@@ -182,26 +200,36 @@ export default {
     handleSelectionChange (val) {
       this.muilteList = val
     },
-    queryOptions (key) {
-      getDeptDropDownList({
-        searchInfo: key || ""
-      }).then((res) => {
-        if (res?.code === '200')
-          this.options = res.data
+    selectDept () {
+      selectDept({}).then((res) => {
+        if (res?.code === '200') {
+          this.selectDeptList = res.data
+        }
+      })
+    },
+    selectSection () {
+      selectSection({}).then((res) => {
+        this.selectSectionList = res.data
       })
     },
     approveStream () {
-      listApproveStream({ mtzAppId: this.mtzAppId || '5107001' }).then(res => {
+      this.dialogVisible = true
+      getAppFormInfo({
+        isDeptLead: true,
+        mtzAppId: this.mtzAppId || '5107001'
+      }).then(res => {
         if (res?.code === '200') {
-          iMessage.success(res.desZh)
-        } else {
-          iMessage.error(res.desZh)
+          this.riseId = res.data.riseId
         }
       })
     },
     edit () {
+      if (this.muilteList.length === 0) {
+        iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+        return
+      }
       this.editFlag = true
-      this.tableData.forEach(item => {
+      this.muilteList.forEach(item => {
         item.editRow = true
       })
     },
@@ -213,14 +241,29 @@ export default {
       this.getTableList()
     },
     save () {
+      this.loading = true
       modifyApprove({
-        mtzAppId: this.mtzAppId,
+        mtzAppId: this.mtzAppId || '5107001',
         dataList: this.muilteList
       }).then(res => {
-
+        if (res?.code === '200') {
+          this.editFlag = false
+          this.loading = false
+          this.tableData.forEach(item => {
+            item.editRow = false
+          })
+          iMessage.success(res.desZh)
+          this.getTableList()
+        } else {
+          iMessage.error(res.desZh)
+        }
       })
     },
     del () {
+      if (this.muilteList.length === 0) {
+        iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+        return
+      }
       let idList = this.muilteList.map(item => item.id)
       deleteApprove({ idList }).then((res) => {
         if (res?.code === '200') {
@@ -230,6 +273,17 @@ export default {
           iMessage.error(res.desZh)
         }
       })
+    },
+    handleClose (done) {
+      done();
+    },
+    handleChangeDepartment (val, row) {
+      let obj = this.selectDeptList.find(item => item.nameZh === val)
+      row.approvalDepartment = obj.id
+    },
+    handleChangeApprovalSection (val, row) {
+      let obj = this.selectSectionList.find(item => item.nameZh === val)
+      row.approvalDepartment = obj.id
     }
   }
 }
