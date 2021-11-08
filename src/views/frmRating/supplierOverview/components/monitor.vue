@@ -35,15 +35,41 @@ export default {
   mounted() {
     const myChart = echarts().init(this.$refs.chart)
     var option = {
+      title: {
+        top: 0,
+        itemGap: 4,
+        text: '近一个月去重后舆情新闻数量统计（2021年11月第n周）',
+        subtext: '数目（条）',
+        textStyle: {
+          color: '#909091',
+          fontSize: 10
+        },
+        subtextStyle: {
+          color: '#909091',
+          fontSize: 10
+        }
+      },
+      legend: {
+          icon:'circle',
+
+          right:0,
+          top:14,
+          textStyle:{
+                fontSize: 10,
+                     color: '#909091',
+          },
+          itemWidth:8, 
+                itemHeight:8, 
+      },
+
       tooltip: {
         trigger: 'axis'
       },
       grid: {
-        top: '6%',
+        top: '18%',
         bottom: '10%%',
         right: '0%',
         left: '10%'
-        // containLabel: true
       },
       xAxis: {
         type: 'category',
@@ -76,6 +102,7 @@ export default {
       },
       series: [
         {
+          name: 'Tue',
           data: [64, 47, 54, 57],
           type: 'bar',
           barGap: '-100%',
@@ -87,16 +114,14 @@ export default {
           },
           itemStyle: {
             normal: {
-              fontSize: 14,
+              fontSize: 12,
               barBorderRadius: [5, 5, 0, 0],
-              color: '#A2C0FC', //改变折线点的颜色
-              textStyle: {
-                fontSize: '14px'
-              }
+              color: '#A2C0FC' //改变折线点的颜色
             }
           }
         },
         {
+          name: 'Mon',
           data: [14, 23, 11, 6],
           type: 'bar',
           barWidth: 30,
@@ -107,9 +132,7 @@ export default {
           },
           itemStyle: {
             normal: {
-              textStyle: {
-                fontSize: '14px'
-              },
+              fontSize: 12,
               barBorderRadius: [5, 5, 0, 0],
               color: '#5B91FA' //改变折线点的颜色
             }
@@ -131,5 +154,8 @@ export default {
 .chartStyle {
   width: 100%;
   height: 320px;
+}
+.card .cardHeader {
+  padding: 0;
 }
 </style>
