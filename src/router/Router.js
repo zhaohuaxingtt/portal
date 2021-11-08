@@ -1,8 +1,8 @@
 /*
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
- * @LastEditors: zbin
- * @LastEditTime: 2021-10-21 15:49:12
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-11-08 11:25:10
  * @Description:
  * @FilePath: \front-portal\src\router\Router.js
  */
@@ -44,6 +44,17 @@ export default {
     },
     ...RouterSupplierApprove,
     ...RouterExternal,
+    {
+      path: '/applicationForm',
+      name: 'applicationForm',
+      meta: {
+        title: 'MTZ补差申请单'
+      },
+      component: () =>
+        import(
+          '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/applicationForm/index.vue'
+        )
+    },
     {
       path: '/',
       name: 'home',
