@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-03 19:50:41
+ * @LastEditTime: 2021-11-05 10:57:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -139,7 +139,7 @@
               <!-- <el-input v-model="trueCompMoney"
                       style="margin-right:20px;width:200px"
                       :disabled="true"></el-input> -->
-              <el-input-number v-model="trueCompMoney"
+              <el-input-number v-model="waitCompDocMoney"
                                :precision="2"
                                :disabled="true"
                                :controls="false"></el-input-number>
@@ -153,12 +153,11 @@
                 <i class="el-icon-warning-outline margin-left10"
                    style="color:blue"></i>
               </el-tooltip>
-              <el-input v-model="waitCompDocMoney"
-                               class="wait_input"
-                               @change="waitChange"
-                               @input="waitInput"
-                               type="number"
-                               ></el-input>
+              <el-input v-model="trueCompMoney"
+                        class="wait_input"
+                        @change="waitChange"
+                        @input="waitInput"
+                        type="number"></el-input>
               <!-- <el-input v-model="waitCompDocMoney"
                         style="margin-left:20px;width:200px"></el-input> -->
             </div>
@@ -245,22 +244,8 @@ export default {
     selectData: {
       handler (val) {
         if (val && val.length !== 0) {
-          const data = val[0]
-          this.mtzId = data.id
-          this.searchForm.mtzDocId = data.bizNo
-          getDataList(data.id).then(res => {
-            this.searchForm.firstSupplierName = res.data.supplierSapNo + "-" + res.data.supplierName;//一次件供应商
-            this.searchForm.secondSupplierList = res.data.sSupplier;//二次件供应商
-            this.searchForm.materialKindList = res.data.mgroup;//材料中类编号-名称
-            this.searchForm.sapOrderNo = res.data.purchaseNo;//sap订单号
-            this.searchForm.materialCode = res.data.material;//原材料编号
-            this.searchForm.ekGroupList = res.data.purchaseGroup;//采购组
-            this.searchForm.fpartNo = res.data.fPart;//一次件零件号
-            this.searchForm.spartNo = res.data.sPart;//二次件零件号
-            this.searchForm.isEffAvg = res.data.isEffAvg;//是否取市场均值
-            this.searchForm.value1 = [res.data.offsetFrom.substring(0, 4) + "-" + res.data.offsetFrom.substring(4, 6), res.data.offsetTo.substring(0, 4) + "-" + res.data.offsetTo.substring(4, 6)]//市场价偏移区间
-            this.value = [res.data.monthFrom.substring(0, 4) + "-" + res.data.monthFrom.substring(4, 6) + "-00", res.data.monthTo.substring(0, 4) + "-" + res.data.monthTo.substring(4, 6) + "-00"]//补差时间段
-          })
+          this.dataAll = val;
+          this.getDataFunc(val);
         }
       },
       deep: true,
@@ -269,6 +254,7 @@ export default {
   },
   data () {
     return {
+      dataAll:[],
       searchForm: {
         mtzDocId: "",
         compTimeStart: "",
@@ -324,6 +310,26 @@ export default {
 
       });
     },
+    getDataFunc(val){
+      const data = val[0]
+      this.mtzId = data.id
+      this.searchForm.mtzDocId = data.bizNo
+      getDataList(data.id).then(res => {
+        this.searchForm.firstSupplierName = res.data.supplierSapNo + "-" + res.data.supplierName;//一次件供应商
+        this.searchForm.secondSupplierList = res.data.sSupplier;//二次件供应商
+        this.searchForm.materialKindList = res.data.mgroup;//材料中类编号-名称
+        this.searchForm.sapOrderNo = res.data.purchaseNo;//sap订单号
+        this.searchForm.materialCode = res.data.material;//原材料编号
+        this.searchForm.ekGroupList = res.data.purchaseGroup;//采购组
+        this.searchForm.fpartNo = res.data.fPart;//一次件零件号
+        this.searchForm.spartNo = res.data.sPart;//二次件零件号
+        this.searchForm.isEffAvg = res.data.isEffAvg;//是否取市场均值
+        this.searchForm.value1 = [res.data.offsetFrom.substring(0, 4) + "-" + res.data.offsetFrom.substring(4, 6), res.data.offsetTo.substring(0, 4) + "-" + res.data.offsetTo.substring(4, 6)]//市场价偏移区间
+        this.value = [res.data.monthFrom.substring(0, 4) + "-" + res.data.monthFrom.substring(4, 6) + "-00", res.data.monthTo.substring(0, 4) + "-" + res.data.monthTo.substring(4, 6) + "-00"]//
+        this.waitCompDocMoney = res.data.invoiceAmt;
+        this.trueCompMoney = res.data.approvedAmt;
+      })
+    },
     handleClose () {
       this.$emit('close', false);
     },
@@ -347,8 +353,8 @@ export default {
           this.tableData.forEach(item => {
             this.actAmtList.push(item.actAmt)
           })
-          this.trueCompMoney = _.sum(this.actAmtList.map(parseFloat))
-          this.waitCompDocMoney = this.trueCompMoney
+          // this.trueCompMoney = _.sum(this.actAmtList.map(parseFloat))
+          // this.waitCompDocMoney = this.trueCompMoney
           this.tableLoading = false
         }
       })
@@ -373,8 +379,8 @@ export default {
       this.tableData.forEach(item => {
         this.actAmtList.push(item.actAmt)
       })
-      this.trueCompMoney = _.sum(this.actAmtList.map(parseFloat))
-      this.waitCompDocMoney = this.trueCompMoney
+      // this.trueCompMoney = _.sum(this.actAmtList.map(parseFloat))
+      // this.waitCompDocMoney = this.trueCompMoney
       this.$refs.multipleTable.clearSelection();
       iMessage.success("撤回成功！")
     },
@@ -400,6 +406,7 @@ export default {
       let withdrawIds = this.dataListPush.filter(item => {
         return !this.selectDataList.map(item => item.id).includes(item)
       })
+
       fetchSaveComp({
         mtzDocId: this.mtzId,
         itemIds: withdrawIds,
@@ -409,9 +416,11 @@ export default {
       }).then(res => {
         if (res && res.code == 200) {
           iMessage.success(res.desZh)
-          this.query()
           this.subLoading = false
         } else iMessage.error(res.desZh)
+      }).then(red => {
+        this.getDataFunc(this.dataAll);
+        this.query()
       })
     },
     search () {
@@ -429,16 +438,17 @@ export default {
       }
       balanceCalcuLate().then(res => { })
     },
-    waitChange(val){
-      if(Number(val)>Number(this.trueCompMoney)){
-        iMessage.error("实际补差金额需小于待发起凭证金额")
-        this.waitCompDocMoney = this.trueCompMoney
-      }else{
-        this.waitCompDocMoney = val;
+    waitChange (val) {
+      if (Math.abs(Number(val)) > Math.abs(Number(this.waitCompDocMoney))) {
+        // iMessage.error(language("","实际补差金额需小于待发起凭证金额"))
+        iMessage.error("实际补差金额绝对值需小于待发起凭证金额绝对值")
+        this.trueCompMoney = this.waitCompDocMoney
+      } else {
+        this.trueCompMoney = val;
       }
     },
-    waitInput(val){
-      
+    waitInput (val) {
+
     }
   }
 }
@@ -481,9 +491,9 @@ export default {
 ::v-deep .el-select {
   width: 100%;
 }
-.wait_input{
-  width:160px;
-  ::v-deep .el-input__inner{
+.wait_input {
+  width: 160px;
+  ::v-deep .el-input__inner {
     text-align: center;
   }
 }
