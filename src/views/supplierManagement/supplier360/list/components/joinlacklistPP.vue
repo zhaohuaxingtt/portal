@@ -238,7 +238,7 @@ export default {
         reason: '',
         daterange: [],
         purchaserId: '',
-        liniePurchaserId: ''
+        liniePurchaserId: '',
       },
       selectDate: '',
       prePurchaseDeptArr: [],

@@ -103,7 +103,7 @@ export default {
   },
   data() {
     return {
-      visible: true,
+      visible: false,
       form: {},
       tabVal: '1',
       tableTitleMonitor: tableTitleMonitor,

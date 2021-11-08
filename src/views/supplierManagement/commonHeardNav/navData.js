@@ -45,6 +45,13 @@ export const tabRouterList = [
     activePath: '/supplier/NTier',
     key: 'N级供应链',
   },
+  {
+    value: 6,
+    name: '供应商标签库',
+    url: '/supplier/supplierTag',
+    activePath: '/supplier/supplierTag',
+    key: '供应商标签库',
+  },
 ];
 
 
