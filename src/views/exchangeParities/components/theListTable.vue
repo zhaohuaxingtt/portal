@@ -63,7 +63,7 @@ export default {
             },
             selectedItems:[],
             searchContent:{},
-            
+            iniListTableLength:'',
         }
     },
     created(){
@@ -129,15 +129,57 @@ export default {
                     return item
                 }
             })
-            savePageList(data).then((result) => {
-                if(result.code == 200){
-                    this.$message.success('保存成功')
-                    this.editSta = true
-                    this.getPage()
-                }else{
-                    this.$message.error(result.desZh || '保存失败')
+            let originCurrencyCode = false
+            let currencyCode = false
+            let exchangeRate = false
+            let isEffect = false
+            let effectiveStartTime = false
+            let effectiveEndTime = false
+            this.tabelListData.forEach((item) =>{
+                if(item.originCurrencyCode.length == 0){
+                   originCurrencyCode = true
+                }else if(item.currencyCode.length == 0){
+                     currencyCode = true
+                }else if(item.exchangeRate.length == 0){
+                     exchangeRate =true
+                }else if(item.isEffect.length == 0){
+                     isEffect = true
                 }
             })
+            if(this.tabelListData.length > this.iniListTableLength){
+                const newItem = this.tabelListData.slice(0,this.tabelListData.length - this.iniListTableLength)
+                newItem.forEach((ele) =>{
+                    if(ele.effectiveStartTime === null || ele.effectiveStartTime.length == 0){
+                        effectiveStartTime = true
+                    }else if(  ele.effectiveEndTime === null || ele.effectiveEndTime.length == 0){
+                            effectiveEndTime = true
+                    }
+                })
+            }
+            if(originCurrencyCode){
+                this.$message.error('请选择源货币编码')
+            }else if(currencyCode){
+                this.$message.error('请选择目标货币编码')
+            }else if(exchangeRate){
+                this.$message.error('请填写汇率')
+            }else if(effectiveStartTime){
+                this.$message.error('请选择生效开始时间')
+            }else if(effectiveEndTime){
+                this.$message.error('请选择生效结束时间')
+            }else  if(isEffect){
+                this.$message.error('请选择是否有效')
+            }else{
+                savePageList(data).then((result) => {
+                    if(result.code == 200){
+                        this.$message.success('保存成功')
+                        this.editSta = true
+                        this.getPage()
+                    }else{
+                        this.$message.error(result.desZh || '保存失败')
+                    }
+                })
+            }
+            
         },
         search(data){
             this.page.currPage = 1
@@ -167,6 +209,7 @@ export default {
                             item.disabledChecked = true
                         }
                     })
+                    this.iniListTableLength = data.length || 0
                     this.page.totalCount = val.total
                 }else{
                     this.$message.error(val.desZh || '获取数据失败')
