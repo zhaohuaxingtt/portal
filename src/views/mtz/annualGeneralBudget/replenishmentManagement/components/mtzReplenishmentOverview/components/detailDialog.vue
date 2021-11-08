@@ -103,7 +103,7 @@
           </el-form-item>
           <el-form-item style="marginRight:68px"
                         :label="language('BUCHASHIJIANDUAN', '补差时间段')">
-            <iDatePicker style="width:190px"
+            <iDatePicker style="width:200px"
                          v-model="searchForm['compDate']"
                          type="daterange"
                          value-format="yyyy-MM-dd"
