@@ -4,17 +4,19 @@
         <div class="inforDiv" v-for="(item,index) in tabsInforList" :key="index">
             <span>{{item.name}}</span>
             <div class="inforText" v-if="item.prop == 'time'">{{inforData['monthFrom']}}~{{inforData['monthTo']}}</div>
+            <div class="inforText" v-else-if="item.prop == 'supplierName'">{{inforData['supplierSapNo']}}-{{inforData['supplierName']}}</div>
             <div class="inforText" v-else>{{inforData[item.prop]}}</div>
         </div>
     </div>
     <div class="BtnTitle">
         <span>明细列表</span>
         <div>
-            <iButton @click="upload" v-if="dataObject.status == 'EMS审批通过' || dataObject.status == '已支付' || dataObject.status == '关闭'">{{language('PINGZHENGDAOCHU', '凭证导出')}}>{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
+            <iButton @click="upload" v-if="dataObject.status == 'EPMS审批通过' || dataObject.status == '已支付' || dataObject.status == '关闭'">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
         </div>
     </div>
     <tableList
         class="margin-top20"
+        :selection="false"
         :tableData="tableListData"
         :tableTitle="tableTitle"
         :tableLoading="loading"
@@ -45,7 +47,7 @@ import {
     compdocMetalDetailPage
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import { getNowFormatDate } from "./util.js";
-
+import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
 
 export default {
     name:"tabs3",
@@ -107,7 +109,12 @@ export default {
         },
         
         upload(){
-            iMessageBox(`是否导出？`).then(() => {
+            NewMessageBox({
+                title:this.language('LK_WENXINTISHI','温馨提示'),
+                Tips:this.language('SHIFOUDAOCHU','是否导出？'),
+                cancelButtonText:this.language('QUXIAO', '取消'),
+                confirmButtonText:this.language('QUEREN', '确认'),
+            }).then(() => {
                 compdocMetalDetailExport({}).then(res=>{
                     let blob = new Blob([res], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"});
                     let objectUrl = URL.createObjectURL(blob);

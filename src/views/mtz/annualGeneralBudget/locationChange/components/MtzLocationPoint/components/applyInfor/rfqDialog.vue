@@ -28,13 +28,14 @@
             <el-col :span="11">
                 <div style="display:flex;align-items: center;width:100%;justify-content: space-between;">
                     <span class="font18">RFQ-{{handleValue}}</span>
-                    <IButton>{{language("YINYONG","引用")}}</IButton>
+                    <IButton @click="save">{{language("YINYONG","引用")}}</IButton>
                 </div>
                 <tableList
                     class="margin-top20"
                     :tableData="tableRightData"
                     :tableTitle="tableRightTitle"
                     :tableLoading="loadingRight"
+                    @handleSelectionChange="handleSelectionChange"
                     :index="true">
                 </tableList>
                 <iPagination @size-change="handleSizeChange2"
@@ -92,6 +93,7 @@ export default {
                 currPage: 1, //当前页
                 layout: 'total,sizes, prev, pager, next, jumper'
             },
+            selectData:[],
         }
     },
     created(){
@@ -122,6 +124,7 @@ export default {
             this.getRfqListsByRfqId();
         },
         handleCurrentChangeTable(val){
+            this.selectData = [];
             this.handleData = val;
             this.handleValue = val.id;
             this.loadingRight = true;
@@ -158,6 +161,12 @@ export default {
             this.page2.currPage = val;
             this.getRight();
         },
+        handleSelectionChange(val){
+            this.changeData = val;
+        },
+        save(){
+            this.$emit("addRfq",this.changeData)
+        }
     }
 }
 </script>

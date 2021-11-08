@@ -189,108 +189,118 @@ export const tableRightTitle = [
 export const tableTitleHistory = [
   {
     width: 150,
-    props: 'ap8pA1mt',
+    props: 'assemblyPartName',
     name: '一次件零件号',
     key: 'YICIJIANLINGJIANHAO'
   },
   {
     width: 150,
-    props: 'ap8pA2mt',
+    props: 'assemblySupplierSap',
     name: '一次件供应商SAP号',
     key: 'YCJGYSSAPH'
   },
   {
     width: 150,
-    props: 'ap8p3Amt',
+    props: 'assemblySupplierName',
     name: '一次件供应商',
     key: 'YICIJIANGONGYINGSHANG'
   },
   {
     width: 150,
-    props: 'ap8p4Amt',
+    props: 'assemblyPartName',
     name: '一次件零件名',
     key: 'YICIJIANLINGJIANMING'
   },
-  { width: 150, props: 'ap8p5Amt', name: '采购员', key: 'CAIGOUYUAN' },
-  { width: 150, props: 'ap8p6Amt', name: '科室', key: 'KESHI' },
+  { width: 150, props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
+  { width: 150, props: 'buyerDeptName', name: '科室', key: 'KESHI' },
   {
     width: 150,
-    props: 'ap8p7Amt',
+    props: 'piecePartnum',
     name: '二次件零件号',
     key: 'ERCIJIANLINGJIANHAO'
   },
   {
     width: 150,
-    props: 'ap8p8Amt',
+    props: 'piecePartName',
     name: '二次件零件名',
     key: 'ERCIJIANLINGJIANMING'
   },
   {
     width: 150,
-    props: 'ap8p9Amt',
+    props: 'pieceSupplierSap',
     name: '二次件供应商SAP号',
     key: 'ECJGYSSAPH'
   },
   {
     width: 150,
-    props: 'ap8pqAmt',
+    props: 'pieceSupplierName',
     name: '二次件供应商',
     key: 'ERCIJIANGONGYINGSHANG'
   },
   {
     width: 150,
-    props: 'ap8pwAmt',
+    props: 'proportion',
     name: '二次件与一次件比例',
     key: 'ECJYYCJBL'
   },
-  { width: 150, props: 'ap8rpAmt', name: '规则编号', key: 'GUIZEBIANHAO' },
+  { width: 150, props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO' },
   {
     width: 150,
-    props: 'apz8epAmt',
+    props: 'materialCode',
     name: '原材料牌号',
     key: 'YUANCAILIAOPAIHAO'
   },
   {
     width: 150,
-    props: 'ap8phAmt',
+    props: 'material',
     name: '原材料名称',
     key: 'YUANCAILIAOMINGCHENG'
   },
-  { width: 150, props: 'ap8cxzpAmt', name: '基价', key: 'JIJIA' },
+  { width: 150, props: 'price', name: '基价', key: 'JIJIA' },
   {
     width: 150,
-    props: 'ap8pcxzcxzAmt',
+    props: 'priceCountUnit',
     name: '基价计量单位',
     key: 'JIJIAJILIANGDANWEI'
   },
-  { width: 150, props: 'ap8pcxzczcxzAmt', name: '每', key: 'MEI' },
-  { width: 150, props: 'ap8pA88mt', name: '零件数量', key: 'LINGJIANSHULIANG' },
-  { width: 150, props: '1ap8pAmt', name: '用量', key: 'YONGLIANG' },
+  { width: 150, props: 'priceUnit', name: '每', key: 'MEI' },
+  { width: 150, props: 'countUnit', name: '零件数量', key: 'LINGJIANSHULIANG' }, ////////////////
+  { width: 150, props: 'dosage', name: '用量', key: 'YONGLIANG' },
   {
     width: 150,
-    props: '88ap8pAmt',
+    props: 'dosageMeasureUnit',
     name: '用量计量单位',
     key: 'YONGLIANGJILIANGDANEWI'
   },
   {
     width: 150,
-    props: '2ap8pAmt',
+    props: 'marketSource',
     name: '市场价来源',
     key: 'SHICHANGJIALAIYUAN'
   },
   {
     width: 150,
-    props: '3ap8pAmt',
+    props: 'thresholdCompensationLogic',
     name: '阈值补差逻辑',
     key: 'YUZHIBUCHALUOJI'
   },
-  { width: 150, props: '4ap8pAmt', name: '货币', key: 'HUOBI' },
-  { width: 150, props: '5ap8pAmt', name: '补差系数', key: 'BUCHAXISHU' },
-  { width: 150, props: '6ap8pAmt', name: '阈值', key: 'YUZHI' },
-  { width: 150, props: '7ap8pAmt', name: '补差周期', key: 'BUCHAZHOUQI' },
-  { width: 150, props: '8ap8pAmt', name: '有效期起', key: 'YOUXIAOQIQI' },
-  { width: 150, props: '9ap8pAmt', name: '有效期止', key: 'YOUXIAOQIZHI' },
-  { width: 150, props: '11ap8pAmt', name: '是否生效', key: 'SHIFOUSHENGXIAO' },
-  { width: 150, props: '221ap8pAmt', name: '更新时间', key: 'GENGXINSHIJIAN' },
-  { width: 150, props: 'a22121p8pAmt', name: '来源', key: 'LAIYUAN' }
+  { width: 150, props: 'tcCurrence', name: '货币', key: 'HUOBI' },
+  {
+    width: 150,
+    props: 'compensationRatio',
+    name: '补差系数',
+    key: 'BUCHAXISHU'
+  },
+  { width: 150, props: 'threshold', name: '阈值', key: 'YUZHI' },
+  {
+    width: 150,
+    props: 'compensationPeriod',
+    name: '补差周期',
+    key: 'BUCHAZHOUQI'
+  },
+  { width: 150, props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI' },
+  { width: 150, props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI' },
+  { width: 150, props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO' },
+  { width: 150, props: 'updateDate', name: '更新时间', key: 'GENGXINSHIJIAN' },
+  { width: 150, props: 'source', name: '来源', key: 'LAIYUAN' }
 ]

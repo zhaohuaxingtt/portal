@@ -8,8 +8,7 @@
 -->
 <template>
   <div>
-    <iDialog :modal-append-to-body='false'
-             append-to-body
+    <iDialog
              :title="dialogTitle"
              v-if="value"
              :visible.sync="value"
@@ -65,14 +64,14 @@
           </el-form-item>
 
           <el-form-item style="marginRight:68px"
-                        :label="language('ECJGYSBHMC', '二次件供应商编号-名称')"
+                        :label="language('ECJGYS', '二次件供应商')"
                         class="formItem">
             <custom-select v-model="searchForm.pieceSupplierSaps"
                            :user-options="getSecondSupplierList"
                            clearable
                            multiple
                            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                           display-member="message"
+                           display-member="codeMessage"
                            value-member="code"
                            value-key="code">
             </custom-select>
@@ -165,6 +164,8 @@ import {
   getGroups,
   getSaNo
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
+import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+
 import { deepClone } from "./util.js";
 
 import tabs1 from './tabs1'
@@ -258,7 +259,7 @@ export default {
       getSecondPartNo({ mtzDocId: this.mtzDocId }).then(res => {
         this.getSecondPartList = res.data;
       })
-      getSecondSupplier({ mtzDocId: this.mtzDocId }).then(res => {
+      getMtzSupplierList({ mtzDocId: this.mtzDocId }).then(res => {
         this.getSecondSupplierList = res.data;
       })
       getSaNo({ mtzDocId: this.mtzDocId }).then(res => {

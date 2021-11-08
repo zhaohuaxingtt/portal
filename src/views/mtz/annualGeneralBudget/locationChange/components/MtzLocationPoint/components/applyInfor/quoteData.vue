@@ -156,6 +156,7 @@
         :tableData="tableData"
         :tableTitle="tableTitle"
         :tableLoading="loading"
+        @handleSelectionChange="handleSelectionChange"
         :index="true">
     </tableList>
     <iPagination @size-change="handleSizeChange($event, getBottomData)"
@@ -261,6 +262,7 @@ export default {
           message:"否"
         },
       ],
+      changeData:[],
     }
   },
   created() {
@@ -337,7 +339,10 @@ export default {
 
     },
     save(){
-      // this.$emit("close",1065963123)
+      this.$emit("quoteDialog",this.changeData)
+    },
+    handleSelectionChange(val){
+      this.changeData = val;
     },
   }
 }
