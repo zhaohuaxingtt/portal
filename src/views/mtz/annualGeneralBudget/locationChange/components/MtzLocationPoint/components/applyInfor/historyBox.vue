@@ -4,49 +4,49 @@
         <div class="searchBox">
             <el-form :inline="true" ref="searchForm" :model="searchForm" label-position="top" class="demo-form-inline leftBox">
                 <el-form-item style="marginRight:68px;width:180px" :label="language('LINGJIANHAO', '零件号')" class="formItem">
-                    <inputCustom v-model="searchForm.partNum"
+                    <inputCustom v-model="searchForm.partnum"
                             :editPlaceholder="language('QINGSHURU','请输入')"
                             :placeholder="language('QINGSHURU','请输入')">
                     </inputCustom>
                 </el-form-item>
 
                 <el-form-item style="marginRight:68px;width:180px" :label="language('LINGJIANMING','零件名')" class="formItem">
-                    <inputCustom v-model="searchForm.nominateId"
+                    <inputCustom v-model="searchForm.partName"
                                 :editPlaceholder="language('QINGSHURU','请输入')"
                                 :placeholder="language('QINGSHURU','请输入')">
                     </inputCustom>
                 </el-form-item>
 
                 <el-form-item style="marginRight:68px;width:180px" :label="language('GONGYINGSHANGSAPHAO','供应商SAP号')" class="formItem">
-                    <inputCustom v-model="searchForm.rfqId"
+                    <inputCustom v-model="searchForm.supplierSap"
                                 :editPlaceholder="language('QINGSHURU','请输入')"
                                 :placeholder="language('QINGSHURU','请输入')">
                     </inputCustom>
                 </el-form-item>
 
                 <el-form-item style="marginRight:68px;width:180px" :label="language('GONGYINGSHANGMINGCHENG','供应商名称')">
-                    <inputCustom v-model="searchForm.rfqI11d"
+                    <inputCustom v-model="searchForm.supplierName"
                                 :editPlaceholder="language('QINGSHURU','请输入')"
                                 :placeholder="language('QINGSHURU','请输入')">
                     </inputCustom>
                 </el-form-item>
 
                 <el-form-item style="marginRight:68px;width:180px" :label="language('YAUNCAILIAOPAIHAO','原材料牌号')">
-                    <inputCustom v-model="searchForm.rfqI11111d"
+                    <inputCustom v-model="searchForm.materialCode"
                                 :editPlaceholder="language('QINGSHURU','请输入')"
                                 :placeholder="language('QINGSHURU','请输入')">
                     </inputCustom>
                 </el-form-item>
 
                 <el-form-item style="marginRight:68px;width:180px" :label="language('GUIZEBIANHAO','规则编号')" class="formItem">
-                    <inputCustom v-model="searchForm.fsnrGsnrNum"
+                    <inputCustom v-model="searchForm.ruleNo"
                                 :editPlaceholder="language('QINGSHURU','请输入')"
                                 :placeholder="language('QINGSHURU','请输入')">
                     </inputCustom>
                 </el-form-item>
 
                 <el-form-item style="marginRight:68px;width:180px" :label="language('KESHI','科室')" class="formItem">
-                    <custom-select v-model="searchForm.carTypeP111roj"
+                    <custom-select v-model="searchForm.buyerDeptId"
                                     :user-options="getLocationA11pplyStatus11"
                                     clearable
                                     :placeholder="language('QINGXUANZE', '请选择')"
@@ -64,7 +64,7 @@
                 </el-form-item>
                 
                 <el-form-item style="marginRight:68px;width:180px" :label="language('SHICHANGJIALAIYUAN','市场价来源')" class="formItem">
-                    <custom-select v-model="searchForm.carType111P111roj"
+                    <custom-select v-model="searchForm.marketSource"
                                     :user-options="getLocationA11p222plyStatus11"
                                     clearable
                                     :placeholder="language('QINGXUANZE', '请选择')"
@@ -75,21 +75,21 @@
                 </el-form-item>
 
                 <el-form-item style="marginRight:68px;width:180px" :label="language('YOUXIAOQIQI','有效期起')" class="formItem">
-                    <iDatePicker v-model="searchForm.star22tDate"
+                    <iDatePicker v-model="searchForm.startDate"
                             type="datetime"
                             >
                     </iDatePicker>
                 </el-form-item>
 
                 <el-form-item style="marginRight:68px;width:180px" :label="language('YOUXIAOQIZHI', '有效期止')" class="formItem">
-                    <iDatePicker v-model="searchForm.startDa11te"
+                    <iDatePicker v-model="searchForm.endDate"
                             type="datetime"
                             >
                     </iDatePicker>
                 </el-form-item>
 
                 <el-form-item style="marginRight:68px;width:180px" :label="language('BUCHAZHOUQI', '补差周期')" class="formItem">
-                    <custom-select v-model="searchForm.singleSourcing"
+                    <custom-select v-model="searchForm.compensationPeriod"
                                 :user-options="getSecondSupplierList"
                                 clearable
                                 :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
@@ -139,8 +139,9 @@ import { pageMixins } from "@/utils/pageMixins"
 import { tableTitleHistory } from "./data";
 import inputCustom from '@/components/inputCustom'
 import tableList from '@/components/commonTable/index.vue';
-
-
+import {
+  pageHistoryPartMasterData,
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 
 export default {
     name:"",
@@ -162,29 +163,60 @@ export default {
             tableTitle:tableTitleHistory,
             loading:false,
             switchValue:false,
+            getSecondSupplierList:[
+                {
+                    code:"A",
+                    message:"年度"
+                },{
+                    code:"H",
+                    message:"半年度"
+                },{
+                    code:"M",
+                    message:"月度"
+                },{
+                    code:"Q",
+                    message:"季度"
+                },
+            ],
+            changeData:[]
         }
     },
     created(){
-
+        this.init();
     },
     methods:{
-        handleSubmitSearch(){
+        init(){
 
+            this.getTableList();
+        },
+        handleSubmitSearch(){
+            this.getTableList();
         },
         handleSearchReset(){
-
+            this.page.pageSize = 10;
+            this.page.currPage = 1;
+            this.getTableList();
         },
 
         getTableList(){
-
+            pageHistoryPartMasterData({
+                ...this.searchForm,
+                pageSize:this.page.pageSize,
+                pageNo:this.page.currPage,
+                onlySeeMySelf:this.switchValue,
+            }).then(res=>{
+                console.log(res);
+            })
         },
         changeSwitch(val){
             console.log(val);
         },
-
-        save(){
-
+        handleSelectionChange(val){
+            this.changeData = val;
         },
+        save(){
+            this.$emit("historyDialog",this.changeData)
+        }
     }
 }
 </script>

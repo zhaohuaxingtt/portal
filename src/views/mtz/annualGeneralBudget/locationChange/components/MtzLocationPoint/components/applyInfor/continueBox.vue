@@ -93,6 +93,7 @@
         :tableData="tableData"
         :tableTitle="tableTitle"
         :tableLoading="loading"
+        @handleSelectionChange="handleSelectionChange"
         :index="true">
         <template slot="effectFlag" slot-scope="scope">
           <span>{{scope.row.effectFlag==0?"无效":scope.row.effectFlag==1?"有效":""}}</span>
@@ -183,6 +184,7 @@ export default {
         this.getTableList();
     },
     getTableList(){
+      this.loading = true;
       pageAppRuleHistory({
           ...this.searchForm,
           pageNo:this.page.currPage,
@@ -192,12 +194,17 @@ export default {
           this.tableData = res.data;
           this.page.currPage = res.pageNum
           this.page.pageSize = res.pageSize
-          this.page.totalCount = res.total
+          this.page.totalCount = res.total;
+          this.loading = false;
+        }else{
+          iMessage.error(res.desZh)
         }
       })
     },
     // 重置
     handleSearchReset(form) {
+      this.page.currPage = 1;
+      this.page.pageSize = 10;
       this.searchForm = {};
       this.getTableList();
     },
@@ -205,13 +212,11 @@ export default {
     handleSubmitSearch () {
       this.getTableList();
     },
-    closeDiolog(){
-
+    handleSelectionChange(val){
+      this.changeData = val;
     },
     save(){
-
-      
-      this.$emit("close",1065963123)
+      this.$emit("addDialogData",this.changeData)
     },
   }
 }
