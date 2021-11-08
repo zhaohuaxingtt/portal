@@ -7,7 +7,7 @@
 -->
 <template>
   <div>
-    <iSearch class="margin-bottom20 "
+    <iSearch class="margin-bottom20"
              style="margin-top: 20px"
              @sure="getLsitBtn"
              @reset="handleSearchReset"
@@ -21,7 +21,8 @@
             <el-option v-for="(item, index) in fromGroup.supplierTypeList"
                        :key="index"
                        :value="item.code"
-                       :label="item.name">
+                       :label="item.name"
+                       :disabled="userType != ''&&userType != 'PRE'">
             </el-option>
           </iSelect>
         </el-form-item>
@@ -100,10 +101,13 @@
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
-          <i-button @click="lacklistBtn('join',language('JIARU', '加入'))">{{
+          <i-button @click="setTagBtn">{{
+            language('BIAOQIANSHEZHI', '标签设置')
+          }}</i-button>
+          <i-button @click="lacklistBtn('join', language('JIARU', '加入'))">{{
             $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN')
           }}</i-button>
-          <i-button @click="lacklistBtn('remove',language('YICHU', '移除'))">{{
+          <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))">{{
             $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN')
           }}</i-button>
           <i-button @click="handleRating">{{
@@ -125,29 +129,23 @@
                   :openPageGetRowData="true"
                   :index="true">
         <template #supplierStatus="scope">
-          <div v-if="form.supplierType=='GP'">
+          <div v-if="form.supplierType == 'GP'">
             <i-button v-if="scope.row.isGpBlackList != 1"
                       type="text"
-                      @click="handleBlackList(scope.row)">{{
-            language('ZHENGCHANG', '正常')
-          }}</i-button>
+                      @click="handleBlackList(scope.row)">{{ language('ZHENGCHANG', '正常') }}</i-button>
             <i-button type="text"
                       v-if="scope.row.isGpBlackList == 1"
                       @click="handleBlackList(scope.row)">{{ language('SHOUKONG', '受控') }}</i-button>
           </div>
-          <div v-if="form.supplierType=='PP'">
+          <div v-if="form.supplierType == 'PP'">
             <i-button v-if="scope.row.isPpBlackList != 1"
                       type="text"
-                      @click="handleBlackList(scope.row)">{{
-            language('ZHENGCHANG', '正常')
-          }}</i-button>
+                      @click="handleBlackList(scope.row)">{{ language('ZHENGCHANG', '正常') }}</i-button>
             <i-button type="text"
                       v-if="scope.row.isPpBlackList == 1"
                       @click="handleBlackList(scope.row)">{{ language('SHOUKONG', '受控') }}</i-button>
           </div>
-
         </template>
-
       </table-list>
       <iPagination v-update
                    @size-change="handleSizeChange($event, getTableList)"
@@ -158,47 +156,60 @@
                    :layout="page.layout"
                    :current-page="page.currPage"
                    :total="page.totalCount" />
+
       <listDialog @getTableList="getTableList"
                   v-model="listDialog"></listDialog>
+      <!-- 标签设置 -->
+
+      <setTagdilog @closeDiolog="closeDiolog"
+                   v-model="isSetTag"
+                   :selectTableData="selectTableData"
+                   v-if="isSetTag">
+      </setTagdilog>
+      <setTagList @closeDiolog="closeDiolog"
+                  v-model="issetTagList"
+                  :selectTableData="selectTableData"
+                  v-if="issetTagList">
+      </setTagList>
       <!-- 一般供应商加入黑名单 -->
-      <joinlacklistGp v-if="clickTableList.id!=''"
-                      :key="gpJoinParams.key+1"
+      <joinlacklistGp v-if="clickTableList.id != ''"
+                      :key="gpJoinParams.key + 1"
                       @closeDiolog="closeDiolog"
                       v-model="gpJoinParams.visible"
                       :clickTableList="clickTableList">
       </joinlacklistGp>
       <!-- 一般供应商移除黑名单 -->
-      <removelacklistGp v-if="clickTableList.id!=''"
-                        :key="gpRemoveParams.key+2"
+      <removelacklistGp v-if="clickTableList.id != ''"
+                        :key="gpRemoveParams.key + 2"
                         v-model="gpRemoveParams.visible"
                         @closeDiolog="closeDiolog"
                         :clickTableList="clickTableList">
       </removelacklistGp>
       <!-- 一般供应商黑命单记录 -->
 
-      <blackListGp v-if="rowList.id!=''"
-                   :key="gpBlackParams.key+3"
+      <blackListGp v-if="rowList.id != ''"
+                   :key="gpBlackParams.key + 3"
                    v-model="gpBlackParams.visible"
                    @closeDiolog="closeDiolog"
                    :clickTableList="rowList">
       </blackListGp>
       <!-- 生产供应商加入黑名单 -->
-      <joinlacklistPP v-if="clickTableList.id!=''"
-                      :key="ppJoinParams.key+4"
+      <joinlacklistPP v-if="clickTableList.id != ''"
+                      :key="ppJoinParams.key + 4"
                       v-model="ppJoinParams.visible"
                       @closeDiolog="closeDiolog"
                       :clickTableList="clickTableList">
       </joinlacklistPP>
       <!-- 生产供应商移除黑名单 -->
-      <removelacklistPP v-if="clickTableList.id!=''"
-                        :key="ppremoveParams.key+5"
+      <removelacklistPP v-if="clickTableList.id != ''"
+                        :key="ppremoveParams.key + 5"
                         v-model="ppremoveParams.visible"
                         @closeDiolog="closeDiolog"
                         :clickTableList="clickTableList">
       </removelacklistPP>
       <!-- 生产供应商黑命单记录 -->
-      <blackListPp v-if="rowList.id!=''"
-                   :key="ppBlackParams.key+6"
+      <blackListPp v-if="rowList.id != ''"
+                   :key="ppBlackParams.key + 6"
                    v-model="ppBlackParams.visible"
                    @closeDiolog="closeDiolog"
                    :clickTableList="rowList">
@@ -215,9 +226,13 @@ import {
   iMessage,
   iInput,
   iSelect,
-  iPagination
+  iPagination,
+  iDialog
 } from 'rise'
 import { getBuyerType } from '@/api/supplier360/blackList'
+import setTagList from './components/setTagList'
+
+import setTagdilog from './components/setTag'
 import blackListPp from './components/blackListPp'
 import blackListGp from './components/blackListGp'
 import removelacklistGp from './components/removelacklistGp'
@@ -247,7 +262,10 @@ export default {
     joinlacklistPP,
     removelacklistPP,
     blackListGp,
-    blackListPp
+    blackListPp,
+    iDialog,
+    setTagdilog,
+    setTagList
   },
   data() {
     return {
@@ -276,6 +294,9 @@ export default {
         key: 0,
         visible: false
       },
+      isSetTag: false, //增加标签
+      issetTagList: false, //标签列表
+
       isShowPpBlackList: false,
       listDialog: false,
       fromGroup: {
@@ -299,7 +320,7 @@ export default {
       selectTableData: [],
       selectTableList: {},
 
-      userType: 'PRE',
+      userType: 'LINIE',
       form: {
         supplierName: '',
         socialcreditNo: '',
@@ -310,7 +331,7 @@ export default {
         svwCode: '',
         vwCode: '',
         isActive: '',
-        supplierType: 'GP',
+        supplierType: '',
         dept: '',
         relatedToMe: '',
         materialOrCraftCode: ''
@@ -331,23 +352,32 @@ export default {
   },
   created() {
     this.handleInfo()
-    this.getTableList()
+    this.$nextTick(() => {
+      this.getUserType()
+    })
   },
   methods: {
     getUserType() {
-      //   getBuyerType().then((res) => {
-      //   if (res && res.code == 200) {
-      //     this.userType = res.data
-      //     if (res.data == 'LINIE') {
-      //      this.form.supplierType=""
-      //       this.getprePurchaseDept()
-      //     } else if (res.data == 'PRE') {
-      //       //   this.getliniePurchase()
-      //       this.getliniePurchaseDept()
-      //     }
-      //     this.getLinieList()
-      //   } else iMessage.error
-      //   })
+      getBuyerType({}).then((res) => {
+        if (res && res.code == 200) {
+          this.userType = res.data
+          // this.userType = 'LINIE'
+          if (res.data == null) {
+            this.form.supplierType = 'PP'
+            this.userType = ''
+          }
+          if (this.userType == 'LINIE' || this.userType == 'PRE')
+            this.form.supplierType = 'PP'
+          if (this.userType == 'GP') this.form.supplierType = 'GP'
+
+          console.log(this.userType)
+
+          this.getTableList(this.form.supplierType)
+        } else {
+          this.userType = ''
+          iMessage.error(res.desZh)
+        }
+      })
     },
     //加入黑名单
     lacklistBtn(type, text) {
@@ -376,37 +406,37 @@ export default {
         })
       } else if (type == 'join') {
         if (this.form.supplierType == 'GP') {
-        //   if (this.clickTableList.isGpBlackList == 1) {
-        //     this.$message({
-        //       type: 'warning',
-        //       message: this.language(
-        //         'GAIGONGYINGSHANGSUOYOUYEWULEIXINGJUNYISHOUKONG,WUXUCHONGFUTIANJIA',
-        //         '该供应商所有业务类型均已受控，无需重复添加！'
-        //       )
-        //     })
-        //   } else {
-            this.gpJoinParams = {
-              ...this.gpJoinParams,
-              key: Math.random(),
-              visible: true
-            }
-        //   }
+          //   if (this.clickTableList.isGpBlackList == 1) {
+          //     this.$message({
+          //       type: 'warning',
+          //       message: this.language(
+          //         'GAIGONGYINGSHANGSUOYOUYEWULEIXINGJUNYISHOUKONG,WUXUCHONGFUTIANJIA',
+          //         '该供应商所有业务类型均已受控，无需重复添加！'
+          //       )
+          //     })
+          //   } else {
+          this.gpJoinParams = {
+            ...this.gpJoinParams,
+            key: Math.random(),
+            visible: true
+          }
+          //   }
         } else if (this.form.supplierType == 'PP') {
-        //   if (this.clickTableList.isPpBlackList == 1) {
-        //     this.$message({
-        //       type: 'warning',
-        //       message: this.language(
-        //         'GAIGONGYINGSHANGSUOYOUCAILIAOZUGONGYIZUYIZAIHEIMINGDANZHONG',
-        //         '该供应商所有材料组，工艺组已在黑名单中，无需重复添加'
-        //       )
-        //     })
-        //   } else {
-            this.ppJoinParams = {
-              ...this.ppJoinParams,
-              key: Math.random(),
-              visible: true
-            }
-        //   }
+          //   if (this.clickTableList.isPpBlackList == 1) {
+          //     this.$message({
+          //       type: 'warning',
+          //       message: this.language(
+          //         'GAIGONGYINGSHANGSUOYOUCAILIAOZUGONGYIZUYIZAIHEIMINGDANZHONG',
+          //         '该供应商所有材料组，工艺组已在黑名单中，无需重复添加'
+          //       )
+          //     })
+          //   } else {
+          this.ppJoinParams = {
+            ...this.ppJoinParams,
+            key: Math.random(),
+            visible: true
+          }
+          //   }
         }
       } else if (type == 'remove') {
         if (this.form.supplierType == 'GP') {
@@ -453,6 +483,18 @@ export default {
       this.fromGroup.supplierStatusList = res3
       this.fromGroup.supplierTypeList = res4
     },
+    //标签设置弹窗
+    setTagBtn() {
+      console.log(this.selectTableData)
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+      } else this.isSetTag = true
+    },
+    //标签列表弹窗
+    tagList( row) {
+     this.rowList=row
+     this.issetTagList = true
+    },
     async handleRating() {
       if (this.selectTableData.length === 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
@@ -475,10 +517,13 @@ export default {
       this.listDialog = true
     },
     openPage(params) {
-        console.log(params)
+      console.log(params)
       let routeData = this.$router.resolve({
         path: '/supplier/supplierList/details',
-        query: { supplierType: this.form.supplierType || '',subSupplierId: params.subSupplierId || ''  }
+        query: {
+          supplierType: this.form.supplierType || '',
+          subSupplierId: params.subSupplierId || ''
+        }
       })
       window.open(routeData.href)
       // this.$router.push({ name: 'ViewSuppliers', query: { supplierToken: params.supplierToken || '', supplierType: "4" } })
@@ -494,15 +539,15 @@ export default {
         svwCode: '',
         vwCode: '',
         isActive: '',
-        supplierType: 'GP',
+        supplierType: this.userType,
         dept: ''
       }
       this.page.currPage = 1
       this.page.pageSize = 10
-      this.getTableList()
+      this.getUserType()
     },
 
-    async getTableList() {
+    async getTableList(val) {
       this.tableLoading = true
       const pms = {
         ...this.form,
@@ -556,13 +601,14 @@ export default {
       if (v == 1) {
         this.getLsitBtn()
       }
-
+      this.isSetTag = false
       this.ppJoinParams.visible = false
       this.ppBlackParams.visible = false
       this.gpBlackParams.visible = false
       this.gpJoinParams.visible = false
       this.gpRemoveParams.visible = false
       this.ppremoveParams.visible = false
+      this.issetTagList = false
     }
   }
 }
