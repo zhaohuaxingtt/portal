@@ -9,7 +9,7 @@
   <iCard>
     <div class="flex-hor">
       <img :src="region" alt="" width="50px">
-      <div class="flex-ver" style="width: calc(100% / 6 * 5);">
+      <div class="flex-ver" style="width: 87%;">
         <div class="title">{{language('DIQU','地区')}}</div>
         <div class="text">
           <span v-for="(item,index) in area" :key="index">
