@@ -326,6 +326,7 @@ export default {
           data: {
             firstSupplierId: val.firstSupplierId,
             name: val.firstSupplierName,
+            time:this.$parent.$refs.searchBox.value1
           }
         }
       })
