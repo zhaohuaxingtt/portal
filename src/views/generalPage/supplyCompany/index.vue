@@ -1,11 +1,4 @@
-<!--
- * @Author: moxuan
- * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
--->
+
 <template>
   <i-card>
     <div class="margin-bottom20 clearFloat">

@@ -22,7 +22,7 @@
                      :label="language('GONGYINGSHANGHEIMINGDANJILU', '供应商⿊名单记录')">
         </el-tab-pane>
       </el-tabs>
-      <div class="dilogHeader" :key="Math.random()" v-if="isShow">
+      <div class="dilogHeader" >
         <el-form label-width="80"
                  inline
                  label-position="top">
@@ -377,7 +377,6 @@ export default {
         deptIds: []
       }
       this.categoryList = []
-      this.deptList = []
       this.purchaseList = []
       this.stuffList = []
       this.page.pageSize = 10

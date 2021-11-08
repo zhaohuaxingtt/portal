@@ -47,3 +47,14 @@ export const dialogTableTitle = [
   { props: 'operation', name: '安全中心LDAP属性', key: '' },
   { props: 'operation', name: '接受业务', key: '' },
 ]
+export const CloumDel = [
+    { props: 'appNameCn', name: '应用中文名', key: '' },
+    { props: 'appNameEn', name: '应用英文名', key: '' },
+    { props: 'systemType', name: '应用类型', key: '' },
+  ]
+
+  export const CloumAdd = [
+    { props: 'appNameCn', name: '应用中文名', key: '' },
+    { props: 'appNameEn', name: '应用英文名', key: '' },
+    { props: 'systemType', name: '应用类型', key: '' },
+  ]
