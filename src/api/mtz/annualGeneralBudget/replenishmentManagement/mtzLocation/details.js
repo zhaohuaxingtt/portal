@@ -1,6 +1,6 @@
 import axios from '@/utils/axios'
 
-const requst = axios(process.env.VUE_APP_MTZ)
+const requst = axios(process.env.VUE_APP_MTZ + '/web/mtz')
 
 export function pageMtzNomi(parmars) {//mtz定点列表查询
     return requst({
