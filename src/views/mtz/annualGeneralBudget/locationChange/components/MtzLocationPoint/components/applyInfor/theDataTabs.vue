@@ -1,0 +1,726 @@
+
+<!-- 维护MTZ零件主数据表格 -->
+<template>
+    <iCard class="margin-top20">
+      <template v-slot:header>
+        <span>
+          {{language('WHMTZLLZSJ','维护MTZ零件主数据')}}
+        </span>
+        <div>
+          <iButton @click="cancel" v-if="editType">{{ language('QUXIAO', '取消') }}</iButton>
+          <iButton @click="rfqClick" v-if="!editType">{{ language('YYRFQZLJ', '引用RFQ中零件') }}</iButton>
+          <iButton @click="locationClick" v-if="!editType">{{ language('YYDDSQDLJ', '引用定点申请单零件') }}</iButton>
+          <iButton @click="historyClick" v-if="!editType">{{ language('ZJLSMTZLJZSJ', '增加历史MTZ零件主数据') }}</iButton>
+          <iButton @click="add" v-if="!editType">{{ language('XINZENG', '新增') }}</iButton>
+          <iButton @click="edit" v-if="!editType">{{ language('BIANJI', '编辑') }}</iButton>
+          <iButton @click="delecte" v-if="!editType">{{ language('SHANCHU', '删除') }}</iButton>
+          <iButton @click="save" v-if="editType">{{ language('BAOCUN', '保存') }}</iButton>
+        </div>
+      </template>
+      <el-table :data="tableData"
+                ref="moviesTable"
+                v-loading="loading"
+                @selection-change="handleSelectionChange">
+        <el-table-column type="selection"
+                        :selectable="selectionType"
+                         width="60">
+        </el-table-column>
+        <el-table-column label="#"
+                         type="index"
+                         width="60">
+        </el-table-column>
+        <el-table-column prop="assemblyPartnum"
+                         align="center"
+                         show-overflow-tooltip
+                         width="150"
+                        :label="language('LINGJIANHAO','零件号')">
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.assemblyPartnum" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.assemblyPartnum}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="sapCode"
+                         align="center"
+                         :label="language('GONGYINGSHANGBIANHAOMINGCHENG','供应商编号/名称')"
+                         show-overflow-tooltip
+                         width="150">
+                         <!-- supplierName供应商名称 -->
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.sapCode" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.sapCode}}/{{scope.row.supplierName}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="ruleNo"
+                         align="center"
+                         :label="language('GUIZEBIANHAO','规则编号')"
+                         show-overflow-tooltip
+                         width="150">
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.ruleNo}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="priceUnit"
+                         align="center"
+                         :label="language('MEI','每')"
+                         show-overflow-tooltip
+                         width="150">
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.priceUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.priceUnit}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="partUnit"
+                         align="center"
+                         width="150"
+                         :label="language('LINGJIANSHULIANGDANWEI','零件数量单位')"
+                         show-overflow-tooltip>
+             <template slot-scope="scope">
+                <iInput v-model="scope.row.partUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.partUnit}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="dosage"
+                         align="center"
+                         width="150"
+                         :label="language('YONGLIANG','用量')"
+                         show-overflow-tooltip>
+             <template slot-scope="scope">
+                <iInput v-model="scope.row.dosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.dosage}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="dosageMeasureUnit"
+                         align="center"
+                         width="150"
+                         :label="language('YONGLIANGJILIANGDANEWI','用量计量单位')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.dosageMeasureUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.dosageMeasureUnit}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="startDate"
+                         align="center"
+                         width="150"
+                         :label="language('YOUXIAOQIQI','有效期起')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <iDatePicker v-model="scope.row.startDate"
+                            type="datetime"
+                            v-if="editId.indexOf(scope.row.id)!==-1"
+                            >
+                </iDatePicker>
+                <span v-else>{{scope.row.startDate}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="endDate"
+                         align="center"
+                         width="150"
+                         :label="language('YOUXIAOQIZHI','有效期止')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <iDatePicker v-model="scope.row.endDate"
+                            type="datetime"
+                            v-if="editId.indexOf(scope.row.id)!==-1"
+                            >
+                </iDatePicker>
+                <span v-else>{{scope.row.endDate}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="mark"
+                         align="center"
+                         width="200"
+                         :label="language('BEIZHU','备注')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.mark" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.mark}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="materialCode"
+                         align="center"
+                         width="150"
+                         :label="language('YUANCAILIAOPAIHAO','原材料牌号')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <el-select v-model="scope.row.materialCode"
+                         clearable
+                         :placeholder="language('QINGSHURU', '请输入')"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
+                        >
+                    <el-option
+                        v-for="item in materialCode"
+                        :key="item.code"
+                        :label="item.message"
+                        :value="item.code">
+                    </el-option>
+                </el-select>
+                <span v-else>{{scope.row.materialCode}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="materialName"
+                         align="center"
+                         width="150"
+                         :label="language('YUANCAILIAO','原材料')"
+                         show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column prop="price"
+                         align="center"
+                         width="150"
+                         :label="language('JIJIA','基价')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.price" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.price}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="priceMeasureUnit"
+                         align="center"
+                         width="150"
+                         :label="language('JIJIAJILIANGDANWEI','基价计量单位')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.priceMeasureUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.priceMeasureUnit}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="platinumPrice"
+                         align="center"
+                         width="150"
+                         show-overflow-tooltip>
+            <template slot="header">
+                <div>
+                    <span>{{language('BOJIJIA','铂基价')}}</span>
+                    <el-tooltip effect="light"
+                                placement="top">
+                        <div slot="content">
+                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                        </div>
+                        <i class="el-icon-warning-outline margin-left10"
+                        style="color:blue"></i>
+                    </el-tooltip>
+                </div>
+            </template>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.platinumPrice" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.platinumPrice}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="platinumDosage"
+                         align="center"
+                         width="150"
+                         show-overflow-tooltip>
+            <template slot="header">
+                <div>
+                    <span>{{language('BOYONGLIANG','铂用量')}}</span>
+                    <el-tooltip effect="light"
+                                placement="top">
+                        <div slot="content">
+                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                        </div>
+                        <i class="el-icon-warning-outline margin-left10"
+                        style="color:blue"></i>
+                    </el-tooltip>
+                </div>
+            </template>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.platinumDosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.platinumDosage}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="palladiumPrice"
+                         align="center"
+                         width="150"
+                         show-overflow-tooltip>
+            <template slot="header">
+                <div>
+                    <span>{{language('BAJIJIA','钯基价')}}</span>
+                    <el-tooltip effect="light"
+                                placement="top">
+                        <div slot="content">
+                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                        </div>
+                        <i class="el-icon-warning-outline margin-left10"
+                        style="color:blue"></i>
+                    </el-tooltip>
+                </div>
+            </template>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.palladiumPrice" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.palladiumPrice}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="palladiumDosage"
+                         align="center"
+                         width="150"
+                         show-overflow-tooltip>
+            <template slot="header">
+                <div>
+                    <span>{{language('BAYONGLIANG','钯用量')}}</span>
+                    <el-tooltip effect="light"
+                                placement="top">
+                        <div slot="content">
+                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                        </div>
+                        <i class="el-icon-warning-outline margin-left10"
+                        style="color:blue"></i>
+                    </el-tooltip>
+                </div>
+            </template>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.palladiumDosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.palladiumDosage}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="rhodiumPrice"
+                         align="center"
+                         width="150"
+                         show-overflow-tooltip>
+            <template slot="header">
+                <div>
+                    <span>{{language('LAOJIJIA','铑基价')}}</span>
+                    <el-tooltip effect="light"
+                                placement="top">
+                        <div slot="content">
+                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                        </div>
+                        <i class="el-icon-warning-outline margin-left10"
+                        style="color:blue"></i>
+                    </el-tooltip>
+                </div>
+            </template>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.rhodiumPrice" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.rhodiumPrice}}</span>
+            </template>
+        </el-table-column>
+
+        <el-table-column prop="rhodiumDosage"
+                         align="center"
+                         width="150"
+                         show-overflow-tooltip>
+            <template slot="header">
+                <div>
+                    <span>{{language('LAOYONGLIANG','铑用量')}}</span>
+                    <el-tooltip effect="light"
+                                placement="top">
+                        <div slot="content">
+                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                        </div>
+                        <i class="el-icon-warning-outline margin-left10"
+                        style="color:blue"></i>
+                    </el-tooltip>
+                </div>
+            </template>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.rhodiumDosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.rhodiumDosage}}</span>
+            </template>
+        </el-table-column>
+
+        <el-table-column prop="tcCurrence"
+                         align="center"
+                         width="150"
+                         :label="language('HUOBI','货币')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.tcCurrence" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.tcCurrence}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="tcExchangeRate"
+                         align="center"
+                         width="150"
+                         :label="language('HUILV','汇率')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.tcExchangeRate" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.tcExchangeRate}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="priceSource"
+                         align="center"
+                         width="150"
+                         :label="language('SHICHANGJIALAIYUAN','市场价来源')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.priceSource" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.priceSource}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="compensationRatio"
+                         align="center"
+                         width="150"
+                         :label="language('BUCHAXISHU','补差系数')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.compensationRatio" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.compensationRatio}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="compensationPeriod"
+                         align="center"
+                         width="150"
+                         :label="language('BUCHAZHOUQI','补差周期')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.compensationPeriod" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.compensationPeriod}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="threshold"
+                         align="center"
+                         width="150"
+                         :label="language('YUZHI','阈值')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.threshold" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.threshold}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="thresholdCompensationLogic"
+                         align="center"
+                         width="150"
+                         :label="language('YUZHIBUCHALUOJI','阈值补差逻辑')"
+                         show-overflow-tooltip>
+            <template slot-scope="scope">
+                <el-select v-model="scope.row.thresholdCompensationLogic"
+                         clearable
+                         :placeholder="language('QINGSHURU', '请输入')"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
+                        >
+                    <el-option
+                        v-for="item in thresholdCompensationLogic"
+                        :key="item.code"
+                        :label="item.message"
+                        :value="item.code">
+                    </el-option>
+                </el-select>
+                <span v-else>{{scope.row.thresholdCompensationLogic=='A'?"全额补差":"超额补差"}}</span>
+            </template>
+        </el-table-column>
+      </el-table>
+      <iPagination @size-change="handleSizeChange($event, getTableList)"
+                   @current-change="handleCurrentChange($event, getTableList)"
+                   :page-sizes="page.pageSizes"
+                   :page-size="page.pageSize"
+                   :current-page="page.currPage"
+                   :total="page.totalCount"
+                   :layout="page.layout">
+      </iPagination>
+
+        <iDialog
+            :title="language('YINYONGRFQZHONGSHIJIAN', '引用RFQ中事件')"
+            :visible.sync="rfqShowType"
+            v-if="rfqShowType"
+            width="90%"
+            @close='closeDiolog'
+            >
+            <rfqDialog @close="saveClose" @addRfq="addRfqData"></rfqDialog>
+        </iDialog>
+
+        <iDialog
+            :title="language('XINZENGMTZLINGJIANZHUSHUJU', '新增MTZ零件主数据')"
+            :visible.sync="addDialog"
+            v-if="addDialog"
+            width="70%"
+            @close="saveGzDialog"
+            >
+            <addData @close="saveGzClose"></addData>
+        </iDialog>
+
+        <iDialog
+            :title="language('YINGYONGDINGDIANSHENQINGDANLINGJIAN', '引用定点申请单零件')"
+            :visible.sync="quoteDialog"
+            v-if="quoteDialog"
+            width="90%"
+            @close="quoteType"
+            >
+            <quoteData @close="quoteClose" @quoteDialog="quoteDialogList"></quoteData>
+        </iDialog>
+
+        <iDialog
+            :title="language('LSMTZLJZSJ', '历史MTZ零件主数据')"
+            :visible.sync="historyType"
+            v-if="historyType"
+            width="90%"
+            @close="historyCls"
+            >
+            <historyBox @close="historyClose" @historyDialog="historyDialogList"></historyBox>
+        </iDialog>
+
+    </iCard>
+</template>
+
+<script>
+import { iCard, iButton, iPagination, iMessage,iInput,iDatePicker,iDialog,iMessageBox } from 'rise'
+import { pageMixins } from "@/utils/pageMixins"
+import rfqDialog from "./rfqDialog";
+import quoteData from "./quoteData";
+import addData from "./addData";
+import historyBox from "./historyBox";
+import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
+import {
+  pagePartMasterData,//维护MTZ零件主数据-分页查询
+  addBatchPartMasterData,//维护MTZ零件主数据-新增多条
+  modifyPartMasterData,//维护MTZ零件主数据-编辑多条
+  deletePartMasterData,//维护MTZ零件主数据-删除
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+
+import { deepClone } from "./util"
+
+export default {
+  name: "Search",
+  componentName: "theTable",
+  components: {
+    iCard,
+    iButton,
+    iPagination,
+    iInput,
+    iDatePicker,
+    rfqDialog,
+    iDialog,
+    addData,
+    quoteData,
+    historyBox
+  },
+  watch: {
+  },
+  mixins: [pageMixins],
+  data () {
+    return {
+        tableData: [],
+        newDataList:[],
+        editId:"",
+        selectList:[],
+        loading: false,
+        materialCode:[],
+        thresholdCompensationLogic:[
+            {
+                code:"A",
+                message:"全额补差"
+            },{
+                code:"B",
+                message:"超额补差"
+            }
+        ],
+        rfqShowType:false,
+        editType:false,
+        addDialog:false,
+        quoteDialog:false,
+        historyType:false,
+        dialogEditType:false,
+    }
+  },
+  mounted () {
+    this.init()
+  },
+  methods: {
+    init () {
+        this.getTableList()
+
+        getRawMaterialNos({}).then(res=>{
+            this.materialCode = res.data;
+        })
+    },
+    selectionType(row){
+        if(this.editType == true){
+            return false;
+        }else{
+            return true;
+        }
+    },
+    add(){//新增
+        this.addDialog = true;
+    },
+    edit(){//编辑
+        if(this.selectList.length==1){
+            this.editId = this.selectList[0].id.toString();
+            // console.log(this.editId)
+            this.editType = true;
+            this.dialogEditType = false;
+        }else{
+            iMessage.error("请选择且只能选择一条数据！")
+        }
+    },
+    save(){//保存
+        iMessageBox(this.language('SHIFOUBAOCUN','是否保存？'),this.language('LK_WENXINTISHI','温馨提示'),{
+            confirmButtonText: this.language('QUEREN', '确认'),
+            cancelButtonText: this.language('QUXIAO', '取消')
+        }).then(res=>{
+            if(this.dialogEditType){//新增
+                addBatchPartMasterData({
+                    mtzAppId:this.$route.query.id,
+                    mtzAppNomiAppRuleList:this.newDataList
+                }).then(res=>{
+                    this.editId = "";
+                    this.editType = false;
+                    this.page.currPage = 1;
+                    this.page.pageSize = 10;
+                    this.getTableList();
+                })
+            }else{//编辑
+                modifyPartMasterData({
+                    mtzAppId:this.$route.query.id,
+                    mtzAppNomiAppRuleList:this.selectList
+                }).then(res=>{
+                    if(res.code == 200){
+                        this.editId = "";
+                        this.editType = false;
+                    }else{
+                        iMessage.error(res.message)
+                    }
+                })
+            }
+        }).catch(res=>{
+            
+        })
+    },
+    cancel(){//取消
+        iMessageBox(this.language('SHIFOUQUXIAOBIANJI','是否取消编辑？'),this.language('LK_WENXINTISHI','温馨提示'),{
+            confirmButtonText: this.language('QUEREN', '确认'),
+            cancelButtonText: this.language('QUXIAO', '取消')
+        }).then(res=>{
+            this.editType = false;
+            if(this.dialogEditType){
+                this.editId.forEach(e=>{
+                    this.tableData.splice(0,1);
+                })
+                this.dialogEditType = false;
+            }else{
+                this.getTableList();
+            }
+        }).then(res=>{
+            this.editId = ""; 
+        }).catch(res=>{
+            
+        })
+    },
+    rfqClick(){//引用RFQ中零件
+        this.rfqShowType = true;
+    },
+    delecte(){//删除
+        iMessageBox(this.language('SHIFOUSHANCHU','是否删除？'),this.language('LK_WENXINTISHI','温馨提示'),{
+            confirmButtonText: this.language('QUEREN', '确认'),
+            cancelButtonText: this.language('QUXIAO', '取消')
+        }).then(res=>{
+            var numList = [];
+            this.selectList.forEach(e=>{
+                numList.push(e.id)
+            })
+            deletePartMasterData({
+                idList:numList
+            }).then(res=>{
+                if(res.code == 200 && res.result){
+                    iMessage.success(res.desZh)
+                    this.getTableList();
+                }else{
+                    iMessage.error(res.desZh)
+                }
+            })
+        }).catch(res=>{
+            
+        })
+    },
+    locationClick(){
+        this.quoteDialog = true;
+    },
+    historyClick(){
+        this.historyType = true;
+    },
+    saveClose(){
+        this.closeDiolog();
+    },
+    closeDiolog(){
+        this.rfqShowType = false;
+    },
+    historyClose(){
+        this.historyCls();
+    },
+    historyCls(){
+        this.historyType = false;
+    },
+    //获取列表
+    getTableList () {
+        this.loading = true
+        pagePartMasterData({
+            pageNo: this.page.currPage,
+            pageSize: this.page.pageSize,
+            mtzAppId:this.$route.query.id,
+            sortType:"DESC",
+            sortColumn:"id"
+        }).then(res=>{
+            this.tableData = res.data;
+            this.page.currPage = res.pageNum
+            this.page.pageSize = res.pageSize
+            this.page.totalCount = res.total
+            this.loading = false;
+        })
+    },
+    handleSelectionChange(val){
+        this.selectList = val;
+    },
+    saveGzDialog(){
+        this.addDialog=false;
+    },
+    saveGzClose(val){//隐藏维护MTZ零件主数据新增弹窗
+        this.saveGzDialog();
+        if(val == "fresh"){
+            this.getTableList();
+        }
+    },
+    quoteType(){
+        this.quoteDialog = false;
+    },
+    quoteClose(){
+        this.quoteType();
+    },
+    addRfqData(val){
+        this.newDataList = deepClone(val);
+        this.closeDiolog();
+        this.tableData.unshift(...val);
+        this.editType = true;
+        var changeArrayList = [];
+        this.$refs.moviesTable.clearSelection();
+        val.forEach(item => {
+            changeArrayList.push(item.ruleNo);
+            this.$refs.moviesTable.toggleRowSelection(item, true);
+        })
+        this.editId = changeArrayList;
+        this.dialogEditType = true;
+    },
+    quoteDialogList(val){
+        this.newDataList = deepClone(val);
+        this.quoteType();
+        this.tableData.unshift(...val);
+        this.editType = true;
+        var changeArrayList = [];
+        this.$refs.moviesTable.clearSelection();
+        val.forEach(item => {
+            changeArrayList.push(item.ruleNo);
+            this.$refs.moviesTable.toggleRowSelection(item, true);
+        })
+        this.editId = changeArrayList;
+        this.dialogEditType = true;
+    },
+    historyDialogList(val){
+        this.newDataList = deepClone(val);
+        this.historyCls();
+        this.tableData.unshift(...val);
+        this.editType = true;
+        var changeArrayList = [];
+        this.$refs.moviesTable.clearSelection();
+        val.forEach(item => {
+            changeArrayList.push(item.ruleNo);
+            this.$refs.moviesTable.toggleRowSelection(item, true);
+        })
+        this.editId = changeArrayList;
+        this.dialogEditType = true;
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+</style>

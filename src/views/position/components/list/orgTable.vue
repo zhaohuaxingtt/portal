@@ -1,0 +1,160 @@
+<template>
+  <div class="table-box">
+    <iTableCustom
+      :loading="tableLoading"
+      :data="queryFlag ? queryList : tableListData"
+      :columns="tableSetting"
+      :height="tableHeight"
+      highlight-current-row
+      @handle-current-change="handleCurrentChange"
+      :tree-expand="
+        queryFlag ? {} : { expandKey: 'nameZh', childrenKey: 'supDeptList' }
+      "
+      @go-detail="handleGoDetail"
+      ref="orgTable"
+    >
+    </iTableCustom>
+  </div>
+</template>
+
+<script>
+import iTableCustom from '@/components/iTableCustom'
+export default {
+  components: {
+    iTableCustom
+  },
+  data() {
+    const _self = this
+    return {
+      flag: false,
+      // currentRow: null,
+      // tableLoading: false,
+      tableSetting: [
+        // {
+        //   align: 'left',
+        //   width: 80,
+        //   customRender: (h, scope) => {
+        //     if (scope.row.id === _self.currentRow?.id) {
+        //       return (
+        //         <div class="org-select selected">
+        //           <i class="el-icon-check"></i>
+        //         </div>
+        //       )
+        //     } else {
+        //       return <div class="org-select"></div>
+        //     }
+        //   }
+        // },
+        {
+          prop: 'nameZh',
+          label: '组织机构名称',
+          // width: 200,
+          key: '',
+          tooltip: false,
+          align: 'left',
+          emit: 'go-detail',
+          type: 'expanded',
+          customRender: (h, scope) => {
+            return <span>{scope.row.nameZh}</span>
+          }
+        },
+        {
+          prop: 'fullCode',
+          label: '组织机构编号',
+          key: '',
+          width: 150,
+          tooltip: false,
+          align: 'left'
+        },
+        {
+          prop: 'posCount',
+          label: '岗位数量',
+          width: 80,
+          align: 'center',
+          key: '',
+          tooltip: false,
+          customRender: (h, scope) => {
+            return <span>{scope.row.positionList.length}</span>
+          }
+        },
+        {
+          prop: 'memberCount',
+          label: '用户数量',
+          align: 'center',
+          width: 80,
+          key: '',
+          tooltip: false,
+          customRender: (h, scope) => {
+            let sum = 0
+            for (let i = 0; i < scope.row.positionList.length; i++) {
+              if (
+                scope.row.positionList[i].userDTOList &&
+                scope.row.positionList[i].userDTOList.length
+              ) {
+                for (
+                  let j = 0;
+                  j < scope.row.positionList[i].userDTOList.length;
+                  j++
+                ) {
+                  sum++
+                }
+              } else {
+                break
+              }
+            }
+            return <span>{sum}</span>
+          }
+        }
+      ]
+    }
+  },
+  async mounted() {
+    this.deptId = this.$route.query.deptId || ''
+    // this.$refs.orgTable.$refs.theCustomTable.setCurrentRow(
+    //   this.tableListData[this.index]
+    // )
+    this.$store.dispatch('GetOrgList', '')
+  },
+  computed: {
+    tableLoading() {
+      return this.$store.state.position.org.loading
+    },
+    queryList() {
+      return this.$store.state.position.org.arrayList
+    },
+    tableListData() {
+      return this.$store.state.position.org.list
+    },
+    queryFlag() {
+      return this.$store.state.position.org.queryFlag
+    },
+    currentRow: {
+      get() {
+        return this.$store.state.position.org.currentRow
+      },
+      set(val) {
+        this.$store.commit('SET_ORG_CURRENT_ROW', val)
+      }
+    },
+    tableHeight() {
+      const bodyHeight = document.body.clientHeight
+      if (bodyHeight) {
+        return bodyHeight - 220 + 'px'
+      }
+      return '500px'
+    }
+  },
+  methods: {
+    handleGoDetail() {},
+    handleCurrentChange(data) {
+      const params = {
+        type: 'pos',
+        params: this.$store.state.position.pos.query
+      }
+      this.currentRow = data
+      this.$store.commit('SET_CURRENT_ORG', data)
+      this.$store.dispatch('GetPositionList', params)
+    }
+  }
+}
+</script>

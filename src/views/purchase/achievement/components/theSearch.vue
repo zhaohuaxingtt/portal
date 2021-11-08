@@ -1,0 +1,201 @@
+<template>
+    <iSearch @reset="handleSearchReset" @sure="getTableList" :icon="false">
+        <el-form>
+            <!--第一行-->
+            <el-row class="margin-bottom20">
+                <!--描述-->
+                <el-form-item :label="$t('EKL_YJGL_MS')">
+                    <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.title"></iInput>
+                </el-form-item>
+                <!--状态-->
+                <el-form-item :label="$t('EKL_YJGL_ZT')">
+                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.status">
+                        <!--<el-option value="" :label="$t('all')"></el-option>-->
+                        <el-option
+                                :value="item.key"
+                                :label="$t($i18n.locale === 'zh' ? item.valueCN : item.valueEN) "
+                                v-for="item,index in statusList"
+                                :key="item.key"></el-option>
+                    </iSelect>
+                </el-form-item>
+                <!--发起人-->
+                <el-form-item :label="$t('EKL_YJGL_FQR')">
+                    <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.createByName"></iInput>
+                </el-form-item>
+                <!--单据类型-->
+                <el-form-item :label="$t('EKL_YJGL_DJLX')">
+                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.billType">
+                        <!--            <el-option value="" :label="$t('all')"></el-option>-->
+                        <el-option
+                                :value="item.key"
+                                :label="$t($i18n.locale === 'zh' ? item.value : item.valueEN) "
+                                v-for="item in billType"
+                                :key="item.key"></el-option>
+                    </iSelect>
+                </el-form-item>
+                <!--业务类型-->
+                <el-form-item :label="$t('EKL_YJGL_YWLX')">
+                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.type">
+                        <!--<el-option value="" :label="$t('all')"></el-option>-->
+                        <el-option
+                                :value="item.key"
+                                :label="$t($i18n.locale === 'zh' ? item.value : item.valueEN) "
+                                v-for="item in type"
+                                :key="item.key"></el-option>
+                    </iSelect>
+                </el-form-item>
+            </el-row>
+
+            <!--第二行-->
+            <el-row>
+                <!--版本号-->
+                <el-form-item :label="$t('LK_BANBENHAO')">
+                    <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.version">
+                        <!--<el-option value="" :label="$t('all')"></el-option>-->
+                        <el-option
+                                :value="item"
+                                :label="item"
+                                v-for="item,index in version"
+                                :key="index"></el-option>
+                    </iSelect>
+                </el-form-item>
+
+                <!--来源-->
+                <el-form-item :label="$t('SUPPLIER_LAIYUAN')">
+                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.source">
+                        <!--<el-option value="" :label="$t('all')"></el-option>-->
+                        <el-option
+                                :value="item.key"
+                                :label="$t($i18n.locale === 'zh' ? item.value : item.valueEN) "
+                                v-for="item in source"
+                                :key="item.key"></el-option>
+                    </iSelect>
+                </el-form-item>
+
+                <!--更新时间起-->
+                <el-form-item prop="updateDateStart" class="r_el-form-item" :label="$t('EKL_YJGL_GXRQQ')">
+                    <iDatePicker clearable="false" v-model="form.updateDateStart" type="date"
+                                 :picker-options="pickerOptionsStart" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
+                                 :placeholder="$t('LK_QINGXUANZE')"/>
+                </el-form-item>
+                <el-form-item prop="updateDateEnd" class="r_el-form-item el-form-itemnext"
+                              :label="$t('EKL_YJGL_GXRQZ')">
+                    <iDatePicker clearable="false" v-model="form.updateDateEnd" type="date"
+                                 :picker-options="pickerOptionsEnd" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
+                                 :placeholder="$t('LK_QINGXUANZE')"/>
+                </el-form-item>
+            </el-row>
+        </el-form>
+    </iSearch>
+</template>
+
+<script>
+    import {iSearch, iInput, iSelect, iDatePicker} from 'rise';
+    import {selectDictByKeys} from '@/api/dictionary';
+    import {
+        getStatus,     //状态
+        versionList,   // 版本
+    } from '@/api/achievement';
+
+    export default {
+        components: {
+            iSearch,
+            iInput,
+            iSelect,
+            iDatePicker,
+        },
+        data() {
+            return {
+                form: {
+                    title: '', // 描述
+                    status: '',        // 状态
+                    createByName: '', // 发起人
+                    billType: '', // 单据类型
+                    type: '', // 业务类型
+                    version: '', // 版本号
+                    source: '', // 来源
+                    updateDateStart: '', //更新日期起
+                    updateDateEnd: '',//更新日期止
+                },
+                // 开始时间限制
+                pickerOptionsStart: {
+                    disabledDate: (time) => {
+                        if (this.form.updateDateEnd) {
+                            // eslint-disable-next-line max-len
+                            return time.getTime() > new Date(this.form.updateDateEnd).getTime()
+                        }
+                    },
+                },
+                // 结束时间限制
+                pickerOptionsEnd: {
+                    disabledDate: (time) => {
+                        if (this.form.updateDateStart) {
+                            return time.getTime() < new Date(this.form.updateDateStart).getTime()-3600*1000*24
+                        }
+                    },
+                },
+                statusList: [],  // 状态
+                billType: [
+                    {key: 1, value: '基础', valueEN: 'base'},
+                    {key: 2, value: '跟踪', valueEN: 'track'},
+                ],  // 单据类型
+                type: [
+                    {
+                        key: 1, value: '批量件', valueEN: 'batch'
+                    },
+                    {
+                        key: 2, value: '配附件', valueEN: 'accessories'
+                    }
+                ],// type
+                source: [
+                    {
+                        key: 1, value: '系统 ', valueEN: 'KSLInterface'
+                    },
+                    {
+                        key: 2, value: '手动', valueEN: 'Manual Upload'
+                    }
+                ],
+                version: [],
+
+            };
+        },
+        created() {
+            this.getVersionList();
+            this.getStatusList()
+        },
+        methods: {
+            handleSearchReset() {
+                this.form = {};
+                this.getTableList();
+            },
+            // get 状态
+            getStatusList() {
+                getStatus().then(res => {
+                    if (res.result) {
+                        this.statusList = res.data
+                    }
+                })
+            },
+            getTableList() {
+                const form = this.form;
+                this.$emit('getTableList', form);
+            },
+            async getVersionList() {
+                const res = await versionList();
+                this.version = res.data;
+            },
+
+        },
+    };
+</script>
+
+<style scoped>
+    ::v-deep .cardBody {
+        padding: 20px 40px !important;
+    }
+
+    ::v-deep .el-icon-date {
+        position: absolute;
+        right: -210px;
+    }
+</style>

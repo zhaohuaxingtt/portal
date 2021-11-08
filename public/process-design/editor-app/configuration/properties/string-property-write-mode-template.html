@@ -1,0 +1,16 @@
+<div ng-controller="KisBpmStringPropertyCtrl">
+    <input type="text" ng-model="property.value" class="csvw-input-control" auto-focus ng-blur="inputBlurred()"
+        ng-keypress="enterPressed($event)" />
+
+    <!--
+    ng-blur="inputBlurred()"
+           ng-keypress="enterPressed($event)"
+    <wui-date
+        id="{{'date-' + property.key}}"
+        format="yyyy-mm-dd"
+        placeholder="请选择或输入日期"
+        btns="{'ok':'确定','now':'今天'}"
+        auto-focus
+        ng-model="property.value"
+    />-->
+</div>

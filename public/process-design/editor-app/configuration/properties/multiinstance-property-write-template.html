@@ -1,0 +1,12 @@
+<div ng-controller="KisBpmMultiInstanceCtrl">
+	<!-- <select ng-model="property.value" ng-change="multiInstanceChanged()">
+		<option>None</option>
+		<option>Parallel</option>
+		<option>Sequential</option> -->
+	<ui-select ng-model="property.value" theme="select2" ng-change="multiInstanceChanged()" search-enabled="false">
+		<ui-select-match placeholder="请选择">{{$select.selected}}</ui-select-match>
+		<ui-select-choices repeat="item in selectOptions" refresh-delay="0">
+			<div ng-bind-html="item | highlight: $select.search"></div>
+		</ui-select-choices>
+	</ui-select>
+</div>

@@ -1,0 +1,69 @@
+<template>
+  <iSearch
+    class="margin-bottom20"
+    style="margin-top: 20px"
+    @sure="sure"
+    @reset="reset"
+    :resetKey="PARTSPROCURE_RESET"
+    :searchKey="PARTSPROCURE_CONFIRM"
+    :icon="true"
+  >
+    <el-form>
+      <iFormItem :label="$t('类型名称')">
+        <iInput
+          :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+          v-model="form.name"
+        ></iInput>
+      </iFormItem>
+      <iFormItem :label="$t('会议信息描述')">
+        <iInput
+          :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+          v-model="form.meetingInfoDesc"
+        ></iInput>
+      </iFormItem>
+      <iFormItem :label="$t('是否触发审批流')">
+        <iSelect
+          :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+          v-model="form.isTriggerApproval"
+        >
+          <el-option
+            v-for="(item, index) in triggerApproval"
+            :key="index"
+            :value="item.value"
+            :label="item.label"
+          >
+          </el-option>
+        </iSelect>
+      </iFormItem>
+    </el-form>
+  </iSearch>
+</template>
+<script>
+import { iSearch, iInput, iSelect, iFormItem } from "rise";
+import { triggerApproval, searchForm } from "./data";
+export default {
+  components: {
+    iSearch,
+    iInput,
+    iSelect,
+    iFormItem,
+  },
+  data() {
+    return {
+      triggerApproval,
+      form: { ...searchForm },
+    };
+  },
+  methods: {
+      sure() {
+          this.$emit('search', this.form)
+      },
+      reset() {
+          this.form = {...searchForm}
+          this.$emit('search', this.form)
+      }
+  },
+};
+</script>
+<style lang="scss" scoped>
+</style>

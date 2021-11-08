@@ -1,0 +1,11 @@
+
+<div ng-controller="KisBpmBooleanPropertyCtrl">
+    <!--<input type="checkbox" ng-model="property.value" ng-change="changeValue()" />
+    {{ property.value }}-->
+    <div ng-if="property.value || property.value === 'true'" ng-click="changeValue(false)">
+        <img src="editor-app/images/checked.png" alt="选中" width="16" height="16"  />
+    </div>
+    <div ng-if="!property.value || property.value === 'false'"  ng-click="changeValue(true)">
+        <img src="editor-app/images/unchecked.png" alt="未选中" width="16" height="16" />
+    </div>
+</div>

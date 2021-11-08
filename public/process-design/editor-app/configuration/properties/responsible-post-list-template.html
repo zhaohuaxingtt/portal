@@ -1,0 +1,6 @@
+<!-- Just need to instantiate the controller, and it will take care of showing the modal dialog -->
+<div ng-controller="createroperationCtr2" >
+    <select ng-model="property.value" ng-change="multiInstanceSelectChanged()"
+            ng-options="item.id as item.job for item  in property.options">
+    </select>
+</div>

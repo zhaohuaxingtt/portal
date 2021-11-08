@@ -1,0 +1,73 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-09-13 16:56:57
+ * @LastEditTime: 2021-09-23 10:23:35
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \重庆软维科技\front-portal\src\views\mtz\dataBase\commonHeardNav\headerNav.vue
+-->
+
+<template>
+  <div class="navBox">
+    <iNavMvp lang :list="tabRouterList1" class="margin-bottom20" :lev="1" />
+    <div class="rightNav">
+      <iNavMvp
+          :list="tabRouterList2"
+          :lev='2'
+          right
+          lang
+          routerPage
+          class="margin-right20"
+      />
+      <slot name="extralButton"></slot>
+    </div>
+    <router-view />
+  </div>
+</template>
+
+<script>
+// 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
+// 例如：import 《组件名称》 from '《组件路径》';
+import { iNavMvp } from "rise";
+import { tabRouterList1, tabRouterList2 } from "../commonHeardNav/navData.js";
+
+export default {
+  // import引入的组件需要注入到对象中才能使用
+  components: { iNavMvp },
+  data() {
+    // 这里存放数据
+    return {
+      tabRouterList1: window._.cloneDeep(tabRouterList1),
+      tabRouterList2: window._.cloneDeep(tabRouterList2),
+    }
+  },
+  // 监听属性 类似于data概念
+  computed: {},
+  // 监控data中的数据变化
+  watch: {},
+  // 方法集合
+  methods: {
+
+  },
+  // 生命周期 - 创建完成（可以访问当前this实例）
+  created() {
+
+  },
+  // 生命周期 - 挂载完成（可以访问DOM元素）
+  mounted() {
+
+  },
+}
+</script>
+<style lang='scss' scoped>
+// @import url(); 引入公共css类
+.navBox {
+  position: relative;
+  .rightNav {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+</style>

@@ -1,0 +1,78 @@
+<div ng-controller="KisBpmUseridPropertyCtrl">
+  <div class="property-userid-row">
+    <div class="property-useri-col">
+      <div class="label">部门</div>
+      <div class="value">
+        <ui-select ng-model="conditions.dept" theme="select2" search-enabled="false"
+          on-select="deptSelectCallback($item, $model)">
+          <ui-select-match placeholder="请选择">{{$select.selected.label}}</ui-select-match>
+          <ui-select-choices repeat="item in deptOptions" refresh-delay="0">
+            <div ng-bind-html="item.label | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+        <div class="csvw-input-control select-org" ng-if="conditions.dept.value==='CUSTOM_SELECT'"
+          ng-click="openChooseOrgDialog()">
+          {{conditions.deptCode}}
+          <div class="icon">+</div>
+        </div>
+      </div>
+    </div>
+    <div class="property-useri-col">
+      <div class="label">中外方</div>
+      <div class="value">
+        <ui-select ng-model="conditions.zhongwai" theme="select2" search-enabled="false"
+          on-select="zhongWaiSelectCallback($item, $model)">
+          <ui-select-match placeholder="请选择">{{$select.selected.label}}</ui-select-match>
+          <ui-select-choices repeat="item in zhongwaiOptions" refresh-delay="0">
+            <div ng-bind-html="item.label | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="property-useri-col">
+      <div class="label">该部门直属领导审批</div>
+      <div class="value">
+        <ui-select ng-model="conditions.zhishu" theme="select2" search-enabled="false"
+          on-select="zhishuSelectCallback($item, $model)">
+
+          <ui-select-match placeholder=" 请选择">{{$select.selected.label}}</ui-select-match>
+          <ui-select-choices repeat="item in zhishuOptions" refresh-delay="0">
+            <div ng-bind-html="item.label | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="property-useri-col">
+      <div class="label">K属性</div>
+      <div class="value">
+        <ui-select ng-model="conditions.k" theme="select2" search-enabled="false"
+          on-select="kSelectCallback($item, $model)">
+          <ui-select-match placeholder=" 请选择">{{$select.selected.label}}</ui-select-match>
+          <ui-select-choices repeat="item in kOptions" refresh-delay="0">
+            <div ng-bind-html="item.label | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="property-useri-col">
+      <div class="label">R属性</div>
+      <div class="value">
+        <ui-select ng-model="conditions.r" theme="select2" search-enabled="false"
+          on-select="rSelectCallback($item, $model)">
+          <ui-select-match placeholder=" 请选择">{{$select.selected.label}}</ui-select-match>
+          <ui-select-choices repeat="item in rOptions" refresh-delay="0">
+            <div ng-bind-html="item.label | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="property-useri-col">
+      <div class="label">ID</div>
+      <div class="value">
+        <input type="text" ng-model="property.value" class="csvw-input-control" auto-focus ng-blur="inputBlurred()"
+          ng-keypress="enterPressed($event)" />
+      </div>
+    </div>
+  </div>
+
+</div>
