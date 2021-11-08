@@ -12,9 +12,9 @@
     <div class="BtnTitle">
         <span>汇总列表</span>
         <div>
-            <iButton @click="bingo" v-permission="PORTAL_MTZ_FAQIBUCHA" v-if="dataObject.status == '供应商确认中'">{{language('TIJIAO', '提交')}}</iButton>
-            <iButton @click="refuse" v-if="dataObject.status == '供应商确认中'">{{language('JUJUE', '拒绝')}}</iButton>
-            <iButton @click="upload" v-if="dataObject.status == 'EMS审批通过' || dataObject.status == '已支付' || dataObject.status == '关闭'">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
+            <!-- <iButton @click="bingo" v-permission="PORTAL_MTZ_FAQIBUCHA" v-if="dataObject.status == '供应商确认中'">{{language('TIJIAO', '提交')}}</iButton> -->
+            <!-- <iButton @click="refuse" v-if="dataObject.status == '供应商确认中'">{{language('JUJUE', '拒绝')}}</iButton> -->
+            <iButton @click="upload" v-if="dataObject.status == 'EPMS审批通过' || dataObject.status == '已支付' || dataObject.status == '关闭'">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
             <!-- <iButton @click="upload">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton> -->
             <iButton @click="save">{{language('BAOCUNBEIZHU', '保存备注')}}</iButton>
             <iButton @click="bingo" v-if="dataObject.status == '供应商确认中'">{{language('GONGYINGSHANGQUEREN', '代供应商确认')}}</iButton>
@@ -41,12 +41,12 @@
         >
     </iPagination>
     <iDialog
+        append-to-body
         title="拒绝原因"
         :visible.sync="closeValue"
         v-if="closeValue"
         width="85%"
         @close='closeDiologBtn'
-        append-to-body
         >
         <negative :mtzDocId="mtzDocId" v-on:closeTc="closeTcBox"></negative>
     </iDialog>
@@ -66,6 +66,8 @@ import {
     supplierConfirmation
 } from "@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details"
 import { deepClone,getNowFormatDate } from "./util.js";
+
+import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
 
 export default {
     name:"tabs1",
@@ -126,13 +128,18 @@ export default {
         },
         bingo(){
             var that = this;
-            iMessageBox(`是否提交确认？`).then(() => {
+            NewMessageBox({
+                title:this.language('LK_WENXINTISHI','温馨提示'),
+                Tips:this.language('SHIROUQUERENTIJIAO','是否确认提交？'),
+                cancelButtonText:this.language('QUXIAO', '取消'),
+                confirmButtonText:this.language('QUEREN', '确认'),
+            }).then(() => {
                 supplierConfirmation({id:that.mtzDocId}).then(res => {
                     iMessage.success('提交确认成功！')
                     that.$emit("closeDiolog1","")
                 })
             }).catch((err) => {
-                console.log(err)
+                // console.log(err)
             })
         },
         refer(){//提交
@@ -183,9 +190,15 @@ export default {
         },
         closeTcBox(){
             this.closeValue = false;
+            this.$emit("closeDiolog1","")
         },
         upload(){
-            iMessageBox(`是否导出？`).then(() => {
+            NewMessageBox({
+                title:this.language('LK_WENXINTISHI','温馨提示'),
+                Tips:this.language('SHIFOUDAOCHU','是否导出？'),
+                cancelButtonText:this.language('QUXIAO', '取消'),
+                confirmButtonText:this.language('QUEREN', '确认'),
+            }).then(() => {
                 mtzCompDetailOverviewExport({}).then(res=>{
                     let blob = new Blob([res], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"});
                     let objectUrl = URL.createObjectURL(blob);
@@ -269,5 +282,8 @@ button {
     z-index: 100;
     margin-bottom: 20px;
     margin-left: 10px;
+}
+.mzindex{
+    z-index: 100000!important;
 }
 </style>

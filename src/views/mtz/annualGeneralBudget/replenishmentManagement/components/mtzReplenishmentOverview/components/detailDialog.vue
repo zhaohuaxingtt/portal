@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-14 14:44:54
- * @LastEditTime: 2021-11-04 16:05:37
+ * @LastEditTime: 2021-11-06 17:25:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \重庆软维科技\front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\detailDialog.vue
@@ -125,9 +125,9 @@
                            clearable
                            multiple
                            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                           display-member="existShareNum"
-                           value-member="existShareId"
-                           value-key="existShareId">
+                           display-member="departNameEn"
+                           value-member="departId"
+                           value-key="departId">
             </custom-select>
             <!-- <iSelect v-model="searchForm['department']"
                      multiple
@@ -207,6 +207,7 @@ import tableList from '@/components/commonTable/index.vue'
 import { tableTitle } from './data'
 import { excelExport } from './util'
 import { fetchTableData, fetchOnePartNo, fetchSecondPartNo, fetchSecondSupplier, fetchRawMaterialCode, fetchCurrentUser,pageMtzDetailExport } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzReplenishmentOverview/detail'
+import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { getDeptData } from '@/api/kpiChart/index'
 import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import { getNowFormatDate } from "./util";
@@ -244,7 +245,7 @@ export default {
     params: {
       type: Object,
       default: () => { }
-    }
+    },
   },
   created () {
     this.$nextTick(_ => {
@@ -259,18 +260,22 @@ export default {
     })
   },
   methods: {
-    getTime () {
-      var date = new Date();
-      var year = date.getFullYear();
-      // return [year + "-01-01 00:00:00", getNowFormatDate() + " 00:00:00"];
-      return [year + "-01-01", getNowFormatDate()];
-    },
+    // getTime () {
+    //   var date = new Date();
+    //   var year = date.getFullYear();
+    //   // return [year + "-01-01 00:00:00", getNowFormatDate() + " 00:00:00"];
+    //   return [year + "-01-01", getNowFormatDate()];
+    // },
     // 初始化检索条件
-    initSeachData () {
+    initSeachData (val) {
       for (let key in this.searchForm) {
         this.searchForm[key] = []
       }
-      this.$set(this.searchForm, 'compDate', this.getTime())
+      if(val == "clear"){
+        this.$set(this.searchForm, 'compDate', [])
+      }else{
+        this.$set(this.searchForm, 'compDate', this.params.time)
+      }
       this.$set(this.searchForm, 'isSeeMe', true)
       this.$set(this.searchForm, 'compStartDate', '')
       this.$set(this.searchForm, 'compEndDate', '')
@@ -279,12 +284,12 @@ export default {
     getTableData () {
       this.loading = true
       fetchTableData({
+        ...this.searchForm,
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         fsupplier: this.params.firstSupplierId || null,
         compStartDate: this.searchForm.compDate ? this.searchForm.compDate[0] : null,
         compEndDate: this.searchForm.compDate ? this.searchForm.compDate[1] : null,
-        ...this.searchForm
       }).then(res => {
         console.log('res', res);
         if (res && res.code == 200) {
@@ -328,7 +333,7 @@ export default {
     },
     // 获取部门数据
     getDeptList () {
-      getDeptData().then(res => {
+      fetchRemoteDept({}).then(res => {
         if (res && res.code == 200) {
           this.departmentDropDownData = res.data
         } else iMessage.error(res.desZh)
@@ -361,7 +366,7 @@ export default {
     handleSearchReset () {
       this.page.currPage = 1
       this.page.pageSize = 10
-      this.initSeachData()
+      this.initSeachData("clear")
       this.getTableData()
     },
     // 选中项改变

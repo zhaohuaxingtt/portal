@@ -10,7 +10,7 @@
             >
             <iFormItem prop="assemblyPartnum">
                 <iLabel :label="language('LINGJIANHAO','零件号')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.assemblyPartnum"
                 type="text"
                 placeholder="请输入规则编号"
@@ -19,7 +19,7 @@
             </iFormItem>
             <iFormItem prop="sapCode">
                 <iLabel :label="language('GONGYINGSHANGBIANHAOMINGCHENG','供应商编号/名称')" :required="true" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.sapCode"
                 type="text"
                 placeholder="请输入规则编号"
@@ -28,7 +28,7 @@
             </iFormItem>
             <iFormItem prop="ruleNo">
                 <iLabel :label="language('GUIZEBIANHAO','规则编号')" :required="true" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.ruleNo"
                 type="text"
                 placeholder="请输入规则编号"
@@ -37,7 +37,7 @@
             </iFormItem>
             <iFormItem prop="priceUnit">
                 <iLabel :label="language('MEI','每')" :required="true" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.priceUnit"
                 type="number"
                 placeholder="请输入车型"
@@ -46,7 +46,7 @@
             </iFormItem>
             <iFormItem prop="partUnit">
                 <iLabel :label="language('LINGJIANSHULIANGDANWEI','零件数量单位')" :required="true" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.partUnit"
                 type="text"
                 placeholder="请输入供应商编号"
@@ -55,7 +55,7 @@
             </iFormItem>
             <iFormItem prop="dosage">
                 <iLabel :label="language('YONGLIANG','用量')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.dosage"
                 type="text"
                 placeholder="请输入供应商名称"
@@ -64,7 +64,7 @@
             </iFormItem>
             <iFormItem prop="dosageMeasureUnit">
                 <iLabel :label="language('YONGLIANGJILIANGDANEWI','用量计量单位')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.dosageMeasureUnit"
                 type="text"
                 placeholder="请输入供应商名称"
@@ -87,7 +87,7 @@
             </iFormItem>
             <iFormItem prop="mark">
                 <iLabel :label="language('BEIZHU','备注')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.mark"
                 type="text"
                 placeholder="请输入基价计量单位"
@@ -108,7 +108,7 @@
             </iFormItem>
             <iFormItem prop="materialName">
                 <iLabel :label="language('YUANCAILIAO','原材料')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.materialName"
                 :disabled="true"
                 type="text"
@@ -118,7 +118,7 @@
 
             <iFormItem prop="price">
                 <iLabel :label="language('JIJIA','基价')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.price"
                 type="text"
                 placeholder="请输入基价计量单位"
@@ -128,7 +128,7 @@
 
             <iFormItem prop="priceMeasureUnit">
                 <iLabel :label="language('JIJIAJILIANGDANWEI','基价计量单位')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.priceMeasureUnit"
                 type="text"
                 placeholder="请输入基价计量单位"
@@ -138,7 +138,7 @@
 
             <iFormItem prop="platinumPrice">
                 <iLabel :label="language('BOJIJIA','铂基价')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.platinumPrice"
                 type="text"
                 placeholder="请输入铂基价"
@@ -147,7 +147,7 @@
             </iFormItem>
             <iFormItem prop="platinumDosage">
                 <iLabel :label="language('BOYONGLIANG','铂用量')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.platinumDosage"
                 type="text"
                 placeholder="请输入铂用量"
@@ -156,7 +156,7 @@
             </iFormItem>
             <iFormItem prop="palladiumPrice">
                 <iLabel :label="language('BAJIJIA','钯基价')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.palladiumPrice"
                 type="text"
                 placeholder="请输入钯基价"
@@ -165,7 +165,7 @@
             </iFormItem>
             <iFormItem prop="palladiumDosage">
                 <iLabel :label="language('BAYONGLIANG','钯用量')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.palladiumDosage"
                 type="text"
                 placeholder="请输入钯用量"
@@ -174,7 +174,7 @@
             </iFormItem>
             <iFormItem prop="rhodiumPrice">
                 <iLabel :label="language('LAOJIJIA','铑基价')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.rhodiumPrice"
                 type="text"
                 placeholder="请输入铑基价"
@@ -183,7 +183,7 @@
             </iFormItem>
             <iFormItem prop="tcCurrence">
                 <iLabel :label="language('HUOBI','货币')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.tcCurrence"
                 type="text"
                 placeholder="请输入货币"
@@ -192,7 +192,7 @@
             </iFormItem>
             <iFormItem prop="tcExchangeRate">
                 <iLabel :label="language('HUILV','汇率')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.tcExchangeRate"
                 type="text"
                 placeholder="请输入汇率"
@@ -201,7 +201,7 @@
             </iFormItem>
             <iFormItem prop="priceSource">
                 <iLabel :label="language('SHICHANGJIALAIYUAN','市场价来源')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.priceSource"
                 type="text"
                 placeholder="请输入市场价来源"
@@ -210,7 +210,7 @@
             </iFormItem>
             <iFormItem prop="compensationRatio">
                 <iLabel :label="language('BUCHAXISHU','补差系数')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.compensationRatio"
                 type="text"
                 placeholder="请输入补差系数"
@@ -219,7 +219,7 @@
             </iFormItem>
             <iFormItem prop="compensationPeriod">
                 <iLabel :label="language('BUCHAZHOUQI','补差周期')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.compensationPeriod"
                 type="text"
                 placeholder="请输入补差周期"
@@ -228,7 +228,7 @@
             </iFormItem>
             <iFormItem prop="threshold">
                 <iLabel :label="language('YUZHI','阈值')" slot="label"></iLabel>
-                <input-custom
+                <iInput
                 v-model="contractForm.threshold"
                 type="text"
                 placeholder="请输入阈值"
@@ -258,6 +258,9 @@
 
 <script>
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
+import {
+  addPartMasterData,//维护MTZ零件主数据-新增
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   iButton,
   iMessage,
@@ -324,13 +327,21 @@ export default {components: {
         console.log(val)
     },
     handleSave() {
-      this.$refs['contractForm'].validate(async valid => {
-        if (valid) {
-          console.log("验证成功")
-        } else {
-          return false
-        }
-      })
+        addPartMasterData({
+            ...this.contractForm,
+            ttMtzAppId:this.$route.query.id
+        }).then(res=>{
+            console.log(res);
+            this.$emit("close","fresh")
+        })
+    //   this.$refs['contractForm'].validate(async valid => {
+    //     if (valid) {
+        //   console.log("验证成功")
+        // } else {
+        //   return false
+        // }
+    //   })
+
     },
     handleReset() {
       this.contractForm = {}
