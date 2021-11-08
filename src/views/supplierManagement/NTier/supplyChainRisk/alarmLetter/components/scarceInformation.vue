@@ -571,6 +571,9 @@ export default {
       
        queryChainSupplier(val).then((res) => {
         this.chainSupplierList = res.data
+    //       getBySupplierId(res.data[0].id||0).then((res) => {
+    //     this.factorySupplierList = res.data
+    //   })
       })
       selectChainPart({ supplierId: val }).then((res) => {
         this.chainPartList = res.data
