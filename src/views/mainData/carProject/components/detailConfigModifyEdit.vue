@@ -9,7 +9,7 @@
     <el-table :data="ruleData.data" :loading="loading">
       <!-- <el-table-column type="selection" header-align="center" align="center" /> -->
       <el-table-column type="index" header-align="center" align="center" />
-      <el-table-column
+      <!-- <el-table-column
         :label="$t('配置ID')"
         prop="id"
         header-align="center"
@@ -18,7 +18,7 @@
         <template slot-scope="scope">
           <iInput size="mini" :value="scope.row.id" disabled />
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         label="发动机类型"
         prop="engineType"

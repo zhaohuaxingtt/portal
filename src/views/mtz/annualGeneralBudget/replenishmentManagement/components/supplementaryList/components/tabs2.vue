@@ -11,7 +11,7 @@
     <div class="BtnTitle">
         <span>明细列表</span>
         <div>
-            <iButton @click="upload" v-if="dataObject.status == 'EPMS审批通过' || dataObject.status == '已支付' || dataObject.status == '关闭'">{{language('PINGZHENGDAOCHU', '凭证导出')}}>{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
+            <iButton @click="upload" v-if="dataObject.status == 'EPMS审批通过' || dataObject.status == '已支付' || dataObject.status == '关闭'">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
         </div>
     </div>
     <tableList
