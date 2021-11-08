@@ -64,16 +64,6 @@ export default {
             selectedItems:[],
             searchContent:{},
             iniListTableLength:'',
-            addItem:{
-                originCurrencyCode:'',
-                currencyCode:'',
-                exchangeRate:'',
-                isEdit:true,
-                type:1,
-                effectiveStartTime:'',
-                effectiveEndTime:'',
-                isEffect:''
-            }
         }
     },
     created(){
@@ -159,10 +149,6 @@ export default {
             if(this.tabelListData.length > this.iniListTableLength){
                 const newItem = this.tabelListData.slice(0,this.tabelListData.length - this.iniListTableLength)
                 newItem.forEach((ele) =>{
-                    console.log(ele,'p');
-                    console.log(ele.effectiveStartTime,'p');
-                    console.log(ele.effectiveEndTime,'p');
-
                     if(ele.effectiveStartTime === null || ele.effectiveStartTime.length == 0){
                         effectiveStartTime = true
                     }else if(  ele.effectiveEndTime === null || ele.effectiveEndTime.length == 0){
