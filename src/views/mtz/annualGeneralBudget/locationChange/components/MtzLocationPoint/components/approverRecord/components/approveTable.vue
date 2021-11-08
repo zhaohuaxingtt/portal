@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-05 17:18:46
+ * @LastEditTime: 2021-11-08 13:58:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -138,7 +138,6 @@ import { getDeptDropDownList } from '@/api/authorityMgmt'
 import { pageMixins } from '@/utils/pageMixins'
 import processVertical from './processVertical'
 import { pageApprove, deleteApprove, modifyApprove, getAppFormInfo, selectDept, selectSection } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
-import { ROW_PROPERTITIE_PRODUCE } from '@/views/role/components/data'
 export default {
   data () {
     return {
