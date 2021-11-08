@@ -9,7 +9,7 @@
   <iCard>
     <div class="flex-hor">
       <img :src="carType" alt="" width="50px">
-      <div class="flex-ver" style="width: calc(100% / 6 * 5);">
+      <div class="flex-ver" style="width: 87%;">
         <div class="title">{{language('CHEXING','车型')}}</div>
         <div class="text">
           <span v-for="(item,index) in carModelList" :key="index">{{carModelList.length-1>index?item.carTypeName+' |&nbsp;':item.carTypeName}}</span>
