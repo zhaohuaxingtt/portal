@@ -4,15 +4,11 @@
  */
 import axios from '@/utils/axios'
 
-const VUE_APP_PARTSFOLDER = axios(
-  process.env.VUE_APP_RISEDASHBOARD + '/web/partsFolder'
-)
-const VUE_APP_PARTSCOLLECT = axios(
-  process.env.VUE_APP_RISEDASHBOARD + '/web/partsCollect'
-)
-const VUE_APP_RELATIONPARTS = axios(
-  process.env.VUE_APP_RISEDASHBOARD + '/web/relationParts'
-)
+const VUE_APP_PARTSFOLDER = axios(process.env.VUE_APP_PARTSFOLDER)
+const VUE_APP_PARTSCOLLECT = axios(process.env.VUE_APP_PARTSCOLLECT)
+const VUE_APP_RELATIONPARTS = axios(process.env.VUE_APP_RELATIONPARTS)
+const VUE_APP_PARTSCARD = axios(process.env.VUE_APP_PARTSCARD)
+
 
 // 收藏夹及收藏零件查询
 export function getFolderPartsList(params) {
@@ -139,3 +135,113 @@ export function multipleAndCollect(data) {
     data
   })
 }
+
+// Aeko号下拉列表
+export function getAekoPullDown(params) {
+  return VUE_APP_PARTSCARD({
+    url: '/getAekoPullDown',
+    method: 'GET',
+    params
+  })
+}
+
+// 科室下拉列表
+export function getDepartmentPullDown(params) {
+  return VUE_APP_PARTSCARD({
+    url: '/getDepartmentPullDown',
+    method: 'GET',
+    params
+  })
+}
+
+// 采购工厂下拉列表
+export function getFactoryPullDown(params) {
+  return VUE_APP_PARTSCARD({
+    url: '/getFactoryPullDown',
+    method: 'GET',
+    params
+  })
+}
+
+// Eop状态下拉
+export function getEopPullDown(params) {
+  return VUE_APP_PARTSCARD({
+    url: '/getEopPullDown',
+    method: 'GET',
+    params
+  })
+}
+
+// 定点状态下拉
+export function getFixedPointPullDown(params) {
+  return VUE_APP_PARTSCARD({
+    url: '/getFixedPointPullDown',
+    method: 'GET',
+    params
+  })
+}
+
+// 品牌下拉
+export function getBrandPullDown(params) {
+  return VUE_APP_PARTSCARD({
+    url: '/getBrandPullDown',
+    method: 'GET',
+    params
+  })
+}
+
+// 车型下拉
+export function getCarTypeDown(data) {
+  return VUE_APP_PARTSCARD({
+    url: '/getCarTypeDown',
+    method: 'POST',
+    data
+  })
+}
+
+// 车型项目下拉
+export function getCarTypePullDown(params) {
+  return VUE_APP_PARTSCARD({
+    url: '/getCarTypePullDown',
+    method: 'GET',
+    params
+  })
+}
+
+// 当年在供下拉
+export function getIsSupplyPullDown(params) {
+  return VUE_APP_PARTSCARD({
+    url: '/getIsSupplyPullDown',
+    method: 'GET',
+    params
+  })
+}
+
+// 采购员下拉
+export function getPurchaserPullDown(params) {
+  return VUE_APP_PARTSCARD({
+    url: '/getPurchaserPullDown',
+    method: 'GET',
+    params
+  })
+}
+
+
+// 材料组列表
+export function getCategoryPullDown(data) {
+  return VUE_APP_PARTSCARD({
+    url: '/getCategoryPullDown',
+    method: 'POST',
+    data
+  })
+}
+
+// 默认卡片零件筛选查询
+export function getPartsCollect(data) {
+  return VUE_APP_PARTSCARD({
+    url: '/getPartsCollect',
+    method: 'POST',
+    data
+  })
+}
+
