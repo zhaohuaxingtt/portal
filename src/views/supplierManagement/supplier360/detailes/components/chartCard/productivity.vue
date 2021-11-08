@@ -1,7 +1,7 @@
 <template>
   <iCard style="height:14rem">
     <div class="title">
-      <p>{{language('CAIWUYUJING', '财务预警')}}</p>
+      <p>{{language('CHANNENGYUJING', '产能预警')}}</p>
       <el-dropdown>
           
         <span class="el-dropdown-link">
@@ -17,19 +17,13 @@
             symbol
             name="iconcaiwuyujing-icon"></icon>
       <div class="float">
-        <div>
           <icon class="alert"
                 symbol
                 name="iconcaiwuyujing-hongdeng"></icon>
           <!-- <icon class="alert"
                       symbol
                       name="iconlvdeng"></icon> -->
-          <p class="fontsize">C-Rating</p>
-        </div>
-        <div class="bjText">
-          <p> {{language('CRATINGLAIYUAN', 'C-Rating来源')}} :</p>
-          <p> {{language('GENXINSHIJIAN', '更新时间')}}:</p>
-        </div>
+          <p class="fontsize">You have capacity alert,You have capacity alert</p>
       </div>
 
     </div>
@@ -154,17 +148,10 @@ export default {
   display: flex;
   align-items: center;
   .float {
-    margin-left: 60px;
-    display: flex;
-    align-items: center;
-  }
-  .bjText {
-    margin-left: 40px;
+    margin-left: 30px;
     text-align: left;
-    p {
-      margin: 8px 0;
-    }
   }
+  
   .fontsize {
     color: #798489;
     margin-top: 10px;

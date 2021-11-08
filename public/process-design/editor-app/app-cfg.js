@@ -16,12 +16,12 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-'use strict';
+'use strict'
 
-var ACTIVITI = ACTIVITI || {};
+var ACTIVITI = ACTIVITI || {}
 //'contextRoot': '/approval/web/activiti/service',
 ACTIVITI.CONFIG = {
-	// 'contextRoot': '/taskNodeApi/approval/web/activiti/service',
-	// 'contextRoot': '/approval/web/activiti/service',
-	'contextRoot': ajaxBaseUrl + 'approval/web/activiti/service',
-};
+  // 'contextRoot': '/taskNodeApi/approval/web/activiti/service',
+  // 'contextRoot': '/approval/web/activiti/service',
+  contextRoot: ajaxBaseUrl + '/web/activiti/service'
+}

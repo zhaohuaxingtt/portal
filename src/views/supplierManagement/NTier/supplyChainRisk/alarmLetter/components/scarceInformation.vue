@@ -408,7 +408,7 @@
                      filterable
                      @change="getFactoryChangeGys($event,scope.$index)"
                      v-model="scope.row.sparePartFactoryName">
-              <el-option v-for="item in factoryList"
+              <el-option v-for="item in factorySupplierList"
                          :key="item.factoryName"
                          :label="item.factoryName"
                          :value="item.factoryName">
@@ -502,7 +502,8 @@ export default {
       orange,
       factoryList: [],
       chainPartList: {},
-      chainSupplierList: []
+      chainSupplierList: [],
+      factorySupplierList:[],
     }
   },
   props: {
@@ -566,6 +567,8 @@ export default {
         getBySupplierId(val).then((res) => {
         this.factoryList = res.data
       })
+   
+      
        queryChainSupplier(val).then((res) => {
         this.chainSupplierList = res.data
       })
@@ -608,18 +611,29 @@ export default {
       ).partName
     },
     getFactoryChangeGys(v, i) {
-      this.tableList[i].sparePartFactoryCode = this.factoryList.find(
+      this.tableList[i].sparePartFactoryCode = this.factorySupplierList.find(
         (res) => res.factoryName == v
       ).factoryId
-      this.tableList[i].sparePartSupplierDetailAddress = this.factoryList.find(
+      this.tableList[i].sparePartSupplierDetailAddress = this.factorySupplierList.find(
         (res) => res.factoryName == v
       ).address
     },
     getFactoryChangeGysmc(v, i) {
+
       this.tableList[i].sparePartSupplierCode = this.chainSupplierList.find(
         (res) => res.supplierNameCn == v
       ).creditCode
-      console.log(this.tableList)
+        let id = this.chainSupplierList.find(
+        (res) => res.supplierNameCn == v
+      ).id
+      this.factorySupplierList=[]
+      this.tableList[i].sparePartFactoryCode=''
+       this.tableList[i].sparePartFactoryName=''
+      this.tableList[i].sparePartSupplierDetailAddress=''
+          getBySupplierId(id).then((res) => {
+             
+        this.factorySupplierList = res.data
+      })
 
     },
     handleSelectionChange(val) {
@@ -638,6 +652,7 @@ export default {
         involveFactoryName: '',
         involveCarType: [],
         assemblyPartNum: '',
+        sparePartFactoryName:'',
         involveFactoryNum: '',
         sparePartSupplierName: '',
         sparePartSupplierCode: '',

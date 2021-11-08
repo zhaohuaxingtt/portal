@@ -1,9 +1,9 @@
 <template>
   <iCard style="height:14rem">
     <div class="title">
-      <p>{{language('CAIWUYUJING', '财务预警')}}</p>
+      <p>{{language('XUNYUAN', '寻源')}}</p>
       <el-dropdown>
-          
+
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
@@ -17,19 +17,33 @@
             symbol
             name="iconcaiwuyujing-icon"></icon>
       <div class="float">
-        <div>
-          <icon class="alert"
-                symbol
-                name="iconcaiwuyujing-hongdeng"></icon>
-          <!-- <icon class="alert"
-                      symbol
-                      name="iconlvdeng"></icon> -->
-          <p class="fontsize">C-Rating</p>
-        </div>
-        <div class="bjText">
-          <p> {{language('CRATINGLAIYUAN', 'C-Rating来源')}} :</p>
-          <p> {{language('GENXINSHIJIAN', '更新时间')}}:</p>
-        </div>
+
+        <table cellpadding='10'>
+          <tr class=" cardtableTitle">
+            <th>Group</th>
+            <th>RFQ数</th>
+            <th>定点数</th>
+            <th>Ongoing询价数</th>
+          </tr>
+          <tr class="bgtr">
+            <td>100</td>
+            <td>$100</td>
+            <td>100</td>
+            <td>100</td>
+          </tr>
+          <tr class="bgtr">
+            <td>100</td>
+            <td>$100</td>
+            <td>100</td>
+            <td>100</td>
+          </tr>
+          <tr class="bgtr">
+            <td>100</td>
+            <td>$100</td>
+            <td>100</td>
+            <td>100</td>
+          </tr>
+        </table>
       </div>
 
     </div>
@@ -154,17 +168,41 @@ export default {
   display: flex;
   align-items: center;
   .float {
-    margin-left: 60px;
-    display: flex;
-    align-items: center;
-  }
-  .bjText {
-    margin-left: 40px;
+    margin-left: 30px;
+    width: 80%;
     text-align: left;
-    p {
-      margin: 8px 0;
+    table {
+        border-collapse:collapse;
+         border-spacing:10px 10px;
+      > tr {
+        text-align: center;
+      }
+      .bgtr {
+          margin: 10px 0;
+
+        td {
+        //   background: rgba(206, 212, 214, .1);
+          padding: 8px 30px;
+        }
+        //   padding: 10px 40px;
+      }
+      .tableTitle {
+        th {
+          font-size: 12px;
+          font-family: Arial;
+          font-weight: 400;
+          color: #000000;
+        }
+      }
+      td {
+        font-size: 12px;
+        font-family: Arial;
+        font-weight: 400;
+        color: #41434a;
+      }
     }
   }
+
   .fontsize {
     color: #798489;
     margin-top: 10px;
