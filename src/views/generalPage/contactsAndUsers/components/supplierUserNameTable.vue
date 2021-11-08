@@ -8,31 +8,82 @@
 <template>
   <i-card>
     <div class="margin-bottom20 clearFloat">
-      <span class="font18 font-weight">{{$t('SUPPLIER_GONGYINGSHANGXINGMING')}}</span>
+      <span class="font18 font-weight">{{
+        $t('SUPPLIER_GONGYINGSHANGXINGMING')
+      }}</span>
       <div class="floatright">
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SAVE" v-if="this.supplierType === 4" @click="saveInfos('submit')">{{$t('LK_BAOCUN')}}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_FREEZE" v-if="this.supplierType === 4" @click="handleActivity(false)">{{$t('SUPPLIER_DONGJIE')}}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_UNFREEZE" v-if="this.supplierType === 4" @click="handleActivity(true)">{{$t('SUPPLIER_JIEDONG')}}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SETASADMIN" @click="setMasterUser">{{$t('SUPPLIER_SHEWEIZHUYONGHU')}}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_ADD" @click="handleAdd">{{$t('LK_XINZENG')}}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_DELETE" @click="deleteItem('ids',deleteUser)">{{$t('LK_SHANCHU')}}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_EXPORT" @click="exportsTable" v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
+        <i-button
+          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SAVE"
+          v-if="this.supplierType === 4"
+          @click="saveInfos('submit')"
+          >{{ $t('LK_BAOCUN') }}</i-button
+        >
+        <i-button
+          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_FREEZE"
+          v-if="this.supplierType === 4"
+          @click="handleActivity(false)"
+          >{{ $t('SUPPLIER_DONGJIE') }}</i-button
+        >
+        <i-button
+          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_UNFREEZE"
+          v-if="this.supplierType === 4"
+          @click="handleActivity(true)"
+          >{{ $t('SUPPLIER_JIEDONG') }}</i-button
+        >
+        <i-button
+          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SETASADMIN"
+          @click="setMasterUser"
+          >{{ $t('SUPPLIER_SHEWEIZHUYONGHU') }}</i-button
+        >
+        <i-button
+          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_ADD"
+          @click="handleAdd"
+          >{{ $t('LK_XINZENG') }}</i-button
+        >
+        <i-button
+          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_DELETE"
+          @click="deleteItem('ids', deleteUser)"
+          >{{ $t('LK_SHANCHU') }}</i-button
+        >
+        <i-button
+          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_EXPORT"
+          @click="exportsTable"
+          v-if="showExportsButton"
+          >{{ $t('LK_DAOCHU') }}</i-button
+        >
       </div>
     </div>
-    <table-list v-permission="SUPPLIER_SUPPLIERCONTACT_USER" ref="commonTable" :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" @handleSelectionChange="handleSelectionChange" :index="true">
+    <table-list
+      v-permission="SUPPLIER_SUPPLIERCONTACT_USER"
+      ref="commonTable"
+      :tableData="tableListData"
+      :tableTitle="tableTitle"
+      :tableLoading="tableLoading"
+      @handleSelectionChange="handleSelectionChange"
+      :index="true"
+    >
       <template #isDefault="scope">
-        <icon v-if="scope.row.isDefault===true" name='iconsheweizhuyonghu1' symbol></icon>
+        <icon
+          v-if="scope.row.isDefault === true"
+          name="iconsheweizhuyonghu1"
+          symbol
+        ></icon>
       </template>
       <template #isActivity="scope">
-        <span v-if="scope.row.isActivity">{{$t('SUPPLIER_SHI')}}</span>
-        <span v-else>{{$t('SUPPLIER_FOU')}}</span>
+        <span v-if="scope.row.isActivity">{{ $t('SUPPLIER_SHI') }}</span>
+        <span v-else>{{ $t('SUPPLIER_FOU') }}</span>
       </template>
       <template #isExpire="scope">
-        <span v-if="scope.row.isExpire">{{$t('SUPPLIER_SHI')}}</span>
-        <span v-else>{{$t('SUPPLIER_FOU')}}</span>
+        <span v-if="scope.row.isExpire">{{ $t('SUPPLIER_SHI') }}</span>
+        <span v-else>{{ $t('SUPPLIER_FOU') }}</span>
       </template>
       <template #operation="scope">
-        <i-button v-if="scope.row.id&&scope.row.id!=='null'" @click="handleDialog">操作</i-button>
+        <div v-if="isSupplierUser">
+          <!-- scope.row.id && scope.row.id !== 'null' &&  -->
+          <i-button v-if="(isSupplierUser&&!scope.row.isDefault)||!isUser" @click="handleDialog(scope.row)"
+            >操作</i-button
+          >
+        </div>
       </template>
       <template #nameZh="scope">
         <iInput @focus="handleTip" v-model="scope.row.nameZh"></iInput>
@@ -44,7 +95,10 @@
         <iInput @focus="handleTip" v-model="scope.row.dept"></iInput>
       </template>
       <template #telephoneAreaCode="scope">
-        <iInput @focus="handleTip" v-model="scope.row.telephoneAreaCode"></iInput>
+        <iInput
+          @focus="handleTip"
+          v-model="scope.row.telephoneAreaCode"
+        ></iInput>
       </template>
       <template #telephone="scope">
         <iInput @focus="handleTip" v-model="scope.row.telephone"></iInput>
@@ -53,7 +107,13 @@
         <iInput @focus="handleTip" v-model="scope.row.email"></iInput>
       </template>
     </table-list>
-    <supplierUserNameDialog @handleSelection='handleSelection' v-model="userNameDialog" />
+    <supplierUserNameDialog
+      :rowList="rowList"
+       :tabledata="tableListData"
+      v-if="userNameDialog"
+      @handleSelection="handleSelection"
+      v-model="userNameDialog"
+    />
     <tipDialog v-model="tipDialog" />
     <addDialog v-model="addDialog" />
     <personalPrivacyPolicyDialog v-model="personalPrivacyPolicyDialog" />
@@ -61,18 +121,32 @@
 </template>
 
 <script>
-import { iCard, iButton, iMessage, icon, iMessageBox, iInput } from "rise";
+import { iCard, iButton, iMessage, icon, iMessageBox, iInput } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import { supplierUserNameTableTitle } from './data'
-import { saveUser, selectUser, deleteUser } from "../../../../api/register/contactsAndUsers";
-import supplierUserNameDialog from "./supplierUserNameDialog";
-import tipDialog from "./tipDialog";
-import addDialog from "./addDialog";
-import personalPrivacyPolicyDialog from "./personalPrivacyPolicyDialog";
+import {
+  saveUser,
+  selectUser,
+  deleteUser
+} from '../../../../api/register/contactsAndUsers'
+import supplierUserNameDialog from './supplierUserNameDialog'
+import tipDialog from './tipDialog'
+import addDialog from './addDialog'
+import personalPrivacyPolicyDialog from './personalPrivacyPolicyDialog'
 export default {
   mixins: [generalPageMixins],
-  components: { iCard, iButton, tableList, icon, supplierUserNameDialog, iInput, tipDialog, addDialog, personalPrivacyPolicyDialog },
+  components: {
+    iCard,
+    iButton,
+    tableList,
+    icon,
+    supplierUserNameDialog,
+    iInput,
+    tipDialog,
+    addDialog,
+    personalPrivacyPolicyDialog
+  },
   data() {
     return {
       tableListData: [],
@@ -85,15 +159,34 @@ export default {
       addDialog: false,
       addDialogFlag: 1,
       personalPrivacyPolicyDialog: false,
+      rowList: {},
+      isMainContact: true,
+      userType: 1,
+      isSupplierUser: true,
+      isUser:true,
     }
   },
   created() {
+    this.userType = this.$store.state.permission.userInfo.userType
+    this.isMainContact = this.$store.state.permission.userInfo.isMainContact
+    if (this.isMainContact == null) this.isMainContact = false
+    if (this.userType == 2 && this.isMainContact) {
+      this.isSupplierUser = true
+    } else if (this.userType == 2 && !this.isMainContact) {
+      this.isSupplierUser = false
+    }else if (this.userType == 1 ) {
+      this.isUser = false
+    }
+      console.log(  this.isUser )
+    console.log( this.isSupplierUser)
+    console.log(this.userType)
+    console.log(this.isMainContact)
     this.tableTitles()
     this.getTableList()
   },
   methods: {
     handleAdd() {
-       if (this.addDialogFlag === 1) {
+      if (this.addDialogFlag === 1) {
         this.addDialog = true
       } else if (this.addDialogFlag === 0) {
         this.addTableItem()
@@ -108,7 +201,9 @@ export default {
       }
       this.tipDialogFlag = 0
     },
-    handleDialog() {
+    handleDialog(row) {
+      this.rowList = row
+      
       this.userNameDialog = true
     },
     tableTitles() {
@@ -125,7 +220,7 @@ export default {
       this.selectTableData.forEach((item, index) => {
         this.tableListData.map((i, x) => {
           if (item.time === i.time) {
-            return i.isActivity = isActivity
+            return (i.isActivity = isActivity)
           }
         })
       })
@@ -134,7 +229,7 @@ export default {
     async getTableList() {
       this.tableLoading = true
       const pms = {
-        "step": "register",
+        step: 'register',
         pageNo: 1,
         pageSize: 999
       }
@@ -143,7 +238,7 @@ export default {
       }
       const res = await selectUser(pms, this.supplierType)
       res.data.map((item, index) => {
-        return item.time = new Date().getTime() + index
+        return (item.time = new Date().getTime() + index)
       })
       this.tableListData = res.data
       this.tableLoading = false
@@ -167,19 +262,23 @@ export default {
     },
     deleteItem(idName, fun) {
       if (this.selectTableData.length === 0) {
-        return iMessage.warn(this.$t("LK_NINDANGQIANHAIWEIXUANZE"));
+        return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
       if (this.selectTableData.length === 0) {
-        return iMessage.warn(this.$t("LK_NINDANGQIANHAIWEIXUANZE"));
+        return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
       iMessageBox(
         this.$t('LK_SHIFOUQUERENSHANCHU'),
         this.$t('LK_WENXINTISHI'),
-        { confirmButtonText: this.$t('LK_QUEDING'), cancelButtonText: this.$t('LK_QUXIAO') }
+        {
+          confirmButtonText: this.$t('LK_QUEDING'),
+          cancelButtonText: this.$t('LK_QUXIAO')
+        }
       ).then(async () => {
         this.tableLoading = true
-        let ids = [], times = []
-        this.selectTableData.map(item => {
+        let ids = [],
+          times = []
+        this.selectTableData.map((item) => {
           if (item.id || item.tiem) {
             ids.push(item.id)
           }
@@ -188,7 +287,7 @@ export default {
           }
         })
         if (times.length !== 0) {
-          this.tableListData = this.tableListData.filter(item => {
+          this.tableListData = this.tableListData.filter((item) => {
             return !times.includes(item.time)
           })
           const save = await this.saveInfos('tempSore')
@@ -200,7 +299,7 @@ export default {
           const res = await fun(req, this.supplierType)
           res.moduleName = this.$t('SUPPLIER_GONGYINGSHANGXINGMING')
           this.resultMessage(res, () => {
-            this.tableListData = this.tableListData.filter(item => {
+            this.tableListData = this.tableListData.filter((item) => {
               return !ids.includes(item.id)
             })
           })
@@ -220,8 +319,8 @@ export default {
               this.tableListData[0].isDefault = true
             }
             const pms = {
-              "list": this.tableListData,
-              "step": "register"
+              list: this.tableListData,
+              step: 'register'
             }
             if (this.supplierType > 3) {
               pms.step = 'submit'
@@ -231,15 +330,19 @@ export default {
             }
             const res = await saveUser(pms, this.supplierType)
             res.moduleName = this.$t('SUPPLIER_GONGYINGSHANGXINGMING')
-            this.resultMessage(res, () => {
-              this.getTableList()
-              this.nextStep = true
-              resolve(true)
-            }, () => {
-              this.tableLoading = false
-              this.nextStep = false
-              reject(false)
-            })
+            this.resultMessage(
+              res,
+              () => {
+                this.getTableList()
+                this.nextStep = true
+                resolve(true)
+              },
+              () => {
+                this.tableLoading = false
+                this.nextStep = false
+                reject(false)
+              }
+            )
           }
         })
       })

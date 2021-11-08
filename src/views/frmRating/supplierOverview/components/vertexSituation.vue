@@ -34,11 +34,30 @@ export default {
   mounted() {
     const myChart = echarts().init(this.$refs.chart)
     var option = {
+          title: {
+        text: '供应商数量（家）',
+        textStyle: {
+          color: '#909091',
+          fontSize: 10
+        },
+      },
+            legend: {
+          icon:'circle',
+
+          right:0,
+          top:0,
+          textStyle:{
+                fontSize: 10,
+                     color: '#909091',
+          },
+          itemWidth:8, 
+                itemHeight:8, 
+      },
       tooltip: {
         trigger: 'axis'
       },
       grid: {
-        top: '6%',
+        top: '18%',
         bottom: '10%%',
         right: '0%',
         left: '10%'
@@ -64,6 +83,7 @@ export default {
         }
       },
       yAxis: {
+        
         type: 'value',
         axisLabel: {
           show: true,
@@ -75,6 +95,7 @@ export default {
       },
       series: [
         {
+              name:'C-Rating中正在报价供应商',
           data: [64, 47,],
           type: 'bar',
           barGap: '-100%',
@@ -86,16 +107,17 @@ export default {
           },
           itemStyle: {
             normal: {
-              fontSize: 14,
+              fontSize: 12,
               barBorderRadius: [5, 5, 0, 0],
               color: '#A2C0FC', //改变折线点的颜色
               textStyle: {
-                fontSize: '14px'
+                fontSize: '12px'
               }
             }
           }
         },
         {
+              name:'C-Rating未在报价中供应商',
           data: [14, 23, ],
           type: 'bar',
           barWidth: 50,
@@ -106,9 +128,7 @@ export default {
           },
           itemStyle: {
             normal: {
-              textStyle: {
-                fontSize: '14px'
-              },
+                   fontSize: 12,
               barBorderRadius: [5, 5, 0, 0],
               color: '#5B91FA' //改变折线点的颜色
             }
