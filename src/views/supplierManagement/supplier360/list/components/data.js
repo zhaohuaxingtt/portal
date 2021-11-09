@@ -87,12 +87,6 @@ export const tableTitleGp = [
     key: 'XITONGPANDUANBIAOZHUN',
     tooltip: true
 },
-{
-    props: 'isShow',
-    name: '显示/隐藏',
-    key: 'XIANSHIYINCANG',
-    tooltip: true,
-    width: 150,
-},
+
 
 ]

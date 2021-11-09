@@ -2,7 +2,7 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('CAIWUYUJING', '财务预警')}}</p>
-      <el-dropdown>
+      <!-- <el-dropdown>
 
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
@@ -10,7 +10,7 @@
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="handleDialog">查看</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
+      </el-dropdown> -->
     </div>
     <div class="center">
       <icon class="early"
@@ -38,7 +38,6 @@
 </template>
 <script>
 import { iCard, icon } from 'rise'
-import { tableTitleMonitor, tableTitleMonitorRecord } from './data'
 import { supplierRatingCard } from '@/api/supplierManagement/supplierCard/index'
 export default {
   props: {},
@@ -49,11 +48,8 @@ export default {
   data() {
     return {
       visible: false,
-      form: {},
-      tabVal: '1',
-      tableTitleMonitor: tableTitleMonitor,
-      tableTitleMonitorRecord: tableTitleMonitorRecord,
-      info: {}
+   info:{}
+
     }
   },
   computed: {
@@ -62,8 +58,13 @@ export default {
     }
   },
   watch: {},
-  mounted() {
+
+  created(){
+      this.$nextTick(()=>{
     this.getData()
+
+      })
+
   },
   methods: {
     getData() {
@@ -92,19 +93,8 @@ export default {
     color: #4d4d4d;
   }
 }
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 
-  border-bottom: 1px solid #e3e3e3;
-}
-.sectionTitle {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
 .center {
   height: 160px;
   display: flex;

@@ -552,7 +552,7 @@ export default {
         }).then(res=>{
             if(this.dialogEditType){
                 addBatchAppRule({
-                    mtzAppId:this.$route.query.id,
+                    mtzAppId:this.$route.query.mtzAppId,
                     mtzAppNomiAppRuleList:this.newDataList
                 }).then(res=>{
                     this.editId = "";
@@ -563,7 +563,7 @@ export default {
                 })
             }else{
                 updateAppRule({
-                    mtzAppId:this.$route.query.id,
+                    mtzAppId:this.$route.query.mtzAppId,
                     ...this.selectList[0]
                 }).then(res=>{
                     if(res.code == 200){
@@ -671,7 +671,7 @@ export default {
         pageAppRule({
             pageNo: this.page.currPage,
             pageSize: this.page.pageSize,
-            mtzAppId:this.$route.query.id,
+            mtzAppId:this.$route.query.mtzAppId,
             sortType:"DESC",
             sortColumn:"id"
         }).then(res=>{

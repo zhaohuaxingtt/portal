@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2021-11-08 14:20:25
+ * @LastEditTime: 2021-11-04 11:10:59
  * @LastEditors: Please set LastEditors
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
@@ -109,7 +109,6 @@ import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1,ruleTableTitle2, partTableTitle1,partTableTitle2} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
-import { queryWorkflowDetail } from '@/api/approval/myApplication'
 import { pageMixins } from '@/utils/pageMixins'
 import html2canvas from 'html2canvas';
 import JsPDF from 'jspdf';
@@ -264,12 +263,10 @@ export default {
     // 获取申请单信息
     getAppFormInfo() {
       getAppFormInfo({
-        mtzAppId: this.$route.query.id
-        // mtzAppId: '1456173042339610626'
+        mtzAppId: this.$route.query.mtzAppId
       }).then(res => {
         if(res && res.code == 200) {
           this.formData = res.data
-          this.getWorkflowDetail(res.data.riseId)
         } else iMessage.error(res.desZh)
       })
     },
@@ -278,13 +275,13 @@ export default {
       var list = {};
       if(this.RsObject){
         list = {
-          mtzAppId: this.$route.query.id,
+          mtzAppId: this.$route.query.mtzAppId,
           pageNo: this.rulePageParams.currPage,
           pageSize: this.rulePageParams.pageSize,
         }
       }else{
         list = {
-          mtzAppId: this.$route.query.id,
+          mtzAppId: this.$route.query.mtzAppId,
           pageNo: 1,
           pageSize: 99999,
         }
@@ -301,13 +298,13 @@ export default {
       var list = {};
       if(this.RsObject){
         list = {
-          mtzAppId: this.$route.query.id,
+          mtzAppId: this.$route.query.mtzAppId,
           pageNo: this.partPageParams.currPage,
           pageSize: this.partPageParams.pageSize,
         }
       }else{
         list = {
-          mtzAppId: this.$route.query.id,
+          mtzAppId: this.$route.query.mtzAppId,
           pageNo: 1,
           pageSize: 99999,
         }
@@ -319,26 +316,17 @@ export default {
         } else iMessage.error(res.desZh)
       })
     },
-    // 获取审批流部门数据 
-    getWorkflowDetail(riseId) {
-      queryWorkflowDetail({
-        processInstanceId: riseId,
-        currentUserId: this.$store.state.permission.userInfo.id
-      }).then(res => {
-        console.log('res', res);
-      })
-    },
     // 点击保存
     handleClickSave() {
       let params = {}
       if(this.isMeeting) {
         params = {
-          mtzAppId: this.$route.query.id,
+          mtzAppId: this.$route.query.mtzAppId,
           linieMeetingMemo: this.formData.linieMeetingMemo
         }
       } else if(this.isFinite) {
         params = {
-          mtzAppId: this.$route.query.id,
+          mtzAppId: this.$route.query.mtzAppId,
           cs1MeetingMemo: this.formData.cs1MeetingMemo
         }
       }
@@ -354,7 +342,7 @@ export default {
       const {href} = this.$router.resolve({
         path: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/signPreview',
         query: {
-          id: this.$route.query.id,
+          id: this.$route.query.mtzAppId,
         }
       })
       window.open(href, '_blank')

@@ -52,21 +52,38 @@
           language('BAOCUN', '保存')
         }}</iButton>
         </div>
-        <tableList style="margin-top:30px"
-                   :tableData="tabledata"
-                   @handleSelectionChange="handleSelectionChange"
-                   :tableTitle="setTagCloum"
-                   :tableLoading="tableLoadingDel"
-                   :index="true">
-          <template #isShow="scope">
-            <div class="isShowBtnStyle"
-                 @click="handleIs(scope.row)">
-              <icon class="icon"
-                    symbol
-                    :name="scope.row.isShow == 1 ? 'iconxianshi' : 'iconyincang'"></icon>
-            </div>
-          </template>
-        </tableList>
+        <el-table :data="tabledata"
+                  v-loading="tableLoading"
+                  @selection-change="handleSelectionChange"
+                  style="margin-top:30px"
+                  :tableTitle="setTagCloum"
+                  :tableLoading="tableLoadingDel"
+                  :index="true">
+          <el-table-column type="selection"
+                           width="50"
+                           align="center"
+                           :selectable="selectable"></el-table-column>
+          <el-table-column v-for="i in setTagCloum"
+                           :key="i.key"
+                           :width="i.width"
+                           align="center"
+                           :prop="i.props"
+                           :label="i.name"></el-table-column>
+          <el-table-column width="150"
+                           prop="isShow"
+                           :label="
+          language('XIANSHIYINCNAG', '显示隐藏')
+        ">
+            <template slot-scope="scope">
+              <div class="isShowBtnStyle"
+                   @click="handleIs(scope.row)">
+                <icon class="icon"
+                      symbol
+                      :name="scope.row.isShow == 1 ? 'iconxianshi' : 'iconyincang'"></icon>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
         <iPagination style="margin-top:20px"
                      v-update
                      @size-change="handleSizeChange($event, getList)"
@@ -83,8 +100,15 @@
 </template>
 
 <script>
-import { iDialog, iButton, iSelect, iMessage, iInput, iPagination } from 'rise'
-import tableList from '@/components/commonTable'
+import {
+  iDialog,
+  iButton,
+  iSelect,
+  iMessage,
+  iInput,
+  iPagination,
+  icon
+} from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { setTagCloum } from './data'
 import {
@@ -96,11 +120,11 @@ export default {
   mixins: [pageMixins],
   components: {
     iDialog,
-    tableList,
     iButton,
     iSelect,
     iInput,
-    iPagination
+    iPagination,
+    icon
   },
   props: {
     value: { type: Boolean },
@@ -125,6 +149,7 @@ export default {
   },
   methods: {
     getList() {
+      this.tableLoading = true
       const req = {
         supplierId: this.rowList.subSupplierId,
         ...this.form,
@@ -133,6 +158,7 @@ export default {
       }
       supplierTagPage(req).then((res) => {
         if (res && res.code == 200) {
+          this.tableLoading = false
           this.tabledata = res.data
           this.page.totalCount = res.total
         } else iMessage.error(res.desZh)
@@ -154,7 +180,7 @@ export default {
       }
       supplierTagListSave(req).then((res) => {
         if (res && res.code == 200) {
-          this.getList()
+          this.$emit('closeDiolog', 1)
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
@@ -167,7 +193,7 @@ export default {
       showOrHide(req).then((res) => {
         if (res && res.code == 200) {
           iMessage.success(res.desZh)
-          this.getTableData()
+          this.getList()
         } else iMessage.error(res.desZh)
       })
     },
@@ -189,6 +215,9 @@ export default {
       this.page.pageSize = 10
       this.form = {}
       this.getList()
+    },
+    selectable(val) {
+      return val.isBinding != 1
     }
   }
 }
