@@ -81,7 +81,7 @@ export default {
       fetchAppNomiDecisionDataPage({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        mtzAppId: this.$route.query.id
+        mtzAppId: this.$route.query.mtzAppId
       }).then(res => {
          if(res && res.code == 200) {
           this.tableListData = res.data
@@ -121,7 +121,7 @@ export default {
         if(res && res.code == 200) {
           const data = res.data[0]
           fetchAppNomiDecisionDataSave({
-            mtzAppId: this.$route.query.id,
+            mtzAppId: this.$route.query.mtzAppId,
             fileId: data.id,
             fileName: data.name,
             fileSize: data.size,
