@@ -1,6 +1,6 @@
 <template>
   <div class="news-container" @scroll="scrollHandler($event)">
-    <div class="news-img-card" @click="goNewsDetail(firstNews.id)">
+    <div class="news-img-card" @click="goNewsDetail(firstNews)">
       <div class="news-banner">
         <img :src="firstNews.picUrl" alt="加载失败" />
       </div>
@@ -13,8 +13,7 @@
               symbol
               class="icon"
               name="iconyuangong"
-              v-if="firstNews.name"
-            />{{ firstNews.name }}
+            />{{ firstNews.publisher }}
           </div>
           <div class="news-time">
             {{ firstNews.publishDate }}
@@ -24,7 +23,7 @@
     </div>
     <div
       class="news-card"
-      v-for="item in newsList"
+      v-for="item in middleListL"
       :key="item.id"
       @click="goNewsDetail(item)"
     >
@@ -34,9 +33,9 @@
       <div class="news-user-time">
         <div class="news-user">
           <icon symbol class="icon" name="iconyuangong" />
-          {{ firstNews.name }}
+          {{ item.publisher }}
         </div>
-        <div class="news-time">{{ firstNews.publishDate }}</div>
+        <div class="news-time">{{ item.publishDate }}</div>
       </div>
     </div>
   </div>
@@ -54,10 +53,11 @@ export default {
     return {
       firstNews: {},
       newsList: [],
+      middleListL:[],
       falg: true,
       page: undefined,
       query: {
-        pageSize: 4,
+        pageSize: 8,
         pageNum: 1
       }
     }
@@ -71,14 +71,11 @@ export default {
     this.getNewsList()
   },
   methods: {
-    goNewsDetail: function (item) {
+    goNewsDetail (item) {
       if (item.linkUrl) {
         window.open(item.linkUrl, '_blank')
       } else {
-        window.open(
-          `http://svw-rise.millionslab.com/portal/news/#/news/details?id=${item.id}`,
-          '_blank'
-        )
+        window.location.href=`/portal/news/#/news/details?id=${item.id}`
       }
     },
     async getNewsList() {
@@ -94,7 +91,7 @@ export default {
       if (res.data.length > 0 && res) {
         this.page = res.pages
         this.newsList = [...this.newsList, ...res.data]
-        this.newsList.splice(0, 1)
+        this.middleListL = this.newsList.slice(1)
         this.falg = false
       }
     },
@@ -133,7 +130,7 @@ export default {
     position: relative;
     .icon_title {
       position: absolute;
-      left: -6%;
+      left: -5%;
       top: 6%;
       width: 10px;
       height: 10px;

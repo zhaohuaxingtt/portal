@@ -9,6 +9,7 @@
         @edit="editMeeting"
         @delete="deleteMeeting"
         @export="exportMeeting"
+        :canDelete="canDelete"
       />
       <iTableML
         tooltip-effect="light"
@@ -142,6 +143,7 @@ export default {
   },
   data() {
     return {
+      canDelete: true,
       tooltip: true,
       tableLoading: false,
       tableColumns: tableColumns,
@@ -211,6 +213,9 @@ export default {
     // 表格选中值集
     handleSelectionChange(val) {
       this.selectedTableData = val;
+      this.canDelete = !this.selectedTableData.some((item) => {
+        return item.name === "CSC" || item.name === "Pre CSC";
+      });
     },
     // 删除
     deleteMeeting() {

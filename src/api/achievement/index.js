@@ -15,8 +15,6 @@ if(process.env.NODE_ENV=='dev') {
   requst = axios()
   qsAjax = $qsAjax()
 }
-
-
 // 采购员列表查询接口
 export function getLinie(data) {
     return requst({
