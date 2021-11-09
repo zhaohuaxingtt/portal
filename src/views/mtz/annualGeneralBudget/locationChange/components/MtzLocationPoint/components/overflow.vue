@@ -15,7 +15,7 @@
       <span class="title_name">{{ commonTitle }} - {{locationId}}</span>
       <div class="opration">
         <iButton @click="submit">{{ language('TIJIAO', '提交') }}</iButton>
-        <iButton >{{ language('DAOCHURS', '导出RS') }}</iButton>
+        <iButton @click="downRS">{{ language('DAOCHURS', '导出RS') }}</iButton>
       </div>
     </div>
     <div class="stepBoxMap">
@@ -39,6 +39,15 @@
     >
       <subSelect @close="closeBingo"></subSelect>
     </iDialog>
+    <iDialog
+      :title="language('DAOCHURS', '导出RS')"
+      :visible.sync="rsType"
+      v-if="rsType"
+      width="99%"
+      @close='closeRS'
+    >
+      <RsPdf @close="closeType" :RsType="downType"></RsPdf> 
+    </iDialog>
     <div class="margin-top20">
       <router-view/>
     </div>
@@ -49,11 +58,13 @@
 import { iButton,iDialog } from "rise"
 import { topImgList } from './data'
 import subSelect from './subSelect'
+import RsPdf from './decisionMaterial/index'
 export default {
   components:{
     iButton,
     iDialog,
-    subSelect
+    subSelect,
+    RsPdf
   },
   props: {
     mtzApplayNum: {
@@ -83,6 +94,8 @@ export default {
       topImgList,
       locationNow: this.$route.query.currentStep || 1,
       mtzAddShow:false,
+      rsType:false,
+      downType:true
     }
   },
   computed: {
@@ -95,6 +108,16 @@ export default {
 
   },
   methods: {
+    closeType(){
+      this.closeRS();
+    },
+    closeRS(){
+      this.rsType = false;
+    },
+    downRS(){
+      this.rsType = true;
+      this.downType = true;
+    },
     // 提交
     submit(){
       this.mtzAddShow = true;

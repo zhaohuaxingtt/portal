@@ -19,10 +19,11 @@ export function supplierRatingCard(params) {
   
     })
   }
-  //财务预警供应商清单
-export function currentList(parmars) {
+
+    //供应商绩效卡片
+export function performCard360(parmars) {
     return requst({
-      url: `/supplierRatingRecord/currentList`,
+      url: `/spi/spiTotalScore/performCard360`,
       method: 'POST',
       data: parmars
     })

@@ -44,7 +44,8 @@ import tableList from '@/components/commonTable/index.vue'
 import {
     compdocMetalDetailExport,
     getDifferenceInfor,
-    compdocMetalDetailPage
+    compdocMetalDetailPage,
+    mtzBalanceDetailsExport,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import { getNowFormatDate } from "./util.js";
 import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
@@ -115,7 +116,8 @@ export default {
                 cancelButtonText:this.language('QUXIAO', '取消'),
                 confirmButtonText:this.language('QUEREN', '确认'),
             }).then(() => {
-                compdocMetalDetailExport({}).then(res=>{
+                // compdocMetalDetailExport({}).then(res=>{
+                mtzBalanceDetailsExport({mtzDocId:this.mtzDocId}).then(res=>{
                     let blob = new Blob([res], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"});
                     let objectUrl = URL.createObjectURL(blob);
                     let link = document.createElement("a");

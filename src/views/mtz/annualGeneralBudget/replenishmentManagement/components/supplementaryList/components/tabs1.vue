@@ -63,6 +63,7 @@ import {
     compdocMetalDetailSumItem,
     saveRemark,
     mtzCompDetailOverviewExport,
+    mtzBalanceDetailsExport,
     supplierConfirmation
 } from "@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details"
 import { deepClone,getNowFormatDate } from "./util.js";
@@ -199,7 +200,9 @@ export default {
                 cancelButtonText:this.language('QUXIAO', '取消'),
                 confirmButtonText:this.language('QUEREN', '确认'),
             }).then(() => {
-                mtzCompDetailOverviewExport({}).then(res=>{
+                // mtzBalanceDetailsExport
+                mtzBalanceDetailsExport({mtzDocId:this.mtzDocId}).then(res=>{
+                // mtzCompDetailOverviewExport({mtzDocId:this.mtzDocId}).then(res=>{
                     let blob = new Blob([res], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"});
                     let objectUrl = URL.createObjectURL(blob);
                     let link = document.createElement("a");

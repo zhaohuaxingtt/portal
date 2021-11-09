@@ -11,9 +11,15 @@ const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 export function supplierRatingCard(params) {
   return requst({
     url: `/supplierRatingRecord/supplierRatingCard`,
-    method: 'POST',
-    data: {
-      ...params
-    }
+    method: 'GET',
+  
   })
 }
+  //frm供应商清单
+  export function currentList(parmars) {
+    return requst({
+      url: `/supplierRatingRecord/currentList`,
+      method: 'POST',
+      data: parmars
+    })
+  }

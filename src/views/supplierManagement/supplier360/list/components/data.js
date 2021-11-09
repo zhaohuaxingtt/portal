@@ -75,20 +75,20 @@ export const tableTitleGp = [
     tooltip: true
 },
 {
-    props: 'tagType',
+    props: 'tagTypeVale',
     name: '标签类型',
     key: 'BIAOQIANLEIXING',
     width: 150,
     tooltip: true
 },
 {
-    props: 'tagTypeVale',
+    props: 'tagDesc',
     name: '系统判断标准',
     key: 'XITONGPANDUANBIAOZHUN',
     tooltip: true
 },
 {
-    props: 'isshow',
+    props: 'isShow',
     name: '显示/隐藏',
     key: 'XIANSHIYINCANG',
     tooltip: true,

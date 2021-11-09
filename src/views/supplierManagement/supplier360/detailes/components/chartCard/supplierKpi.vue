@@ -28,6 +28,7 @@
 <script>
 import echarts from '@/utils/echarts'
 import { iCard, icon } from 'rise'
+import { performCard360 } from '@/api/supplierManagement/supplierCard/index'
 export default {
   props: {},
   components: {
@@ -36,7 +37,9 @@ export default {
   },
   data() {
     return {
-      chart: 'oneChart'
+      chart: 'oneChart',
+      option: {},
+      
     }
   },
   computed: {
@@ -45,69 +48,79 @@ export default {
     }
   },
   watch: {},
-  methods: {},
-  mounted() {
-    const myChart = echarts().init(this.$refs.chart)
-    var option = {
-      tooltip: {
-        trigger: 'axis'
-      },
-      grid: {
-        top: '6%',
-        bottom: '20%%',
-        right: '-6%',
-        left: '24%'
-        // containLabel: true
-      },
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu'],
-        axisLabel: {
-          show: true,
-          textStyle: {
-            color: '#7E84A3',
-            fontSize: '10px'
+  methods: {
+    getData() {
+      performCard360().then((res) => {
+          this.getChart()
+      })
+    },
+    getChart() {
+      this.option = {
+        tooltip: {
+          trigger: 'axis'
+        },
+        grid: {
+          top: '6%',
+          bottom: '20%%',
+          right: '-6%',
+          left: '24%'
+          // containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu'],
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#7E84A3',
+              fontSize: '10px'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#7E84A3'
+            }
+          },
+          axisTick: {
+            show: false
           }
         },
-        axisLine: {
-          lineStyle: {
-            color: '#7E84A3'
-          }
+        yAxis: {
+          type: 'value',
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#7E84A3',
+              fontSize: '10px'
+            }
+          },
+          max: 200,
+          min: 0,
+          splitNumber: 5
         },
-        axisTick: {
-          show: false
-        }
-      },
-      yAxis: {
-        type: 'value',
-        axisLabel: {
-          show: true,
-          textStyle: {
-            color: '#7E84A3',
-            fontSize: '10px'
-          }
-        },
-        max: 200,
-        min: 0,
-        splitNumber: 5
-      },
-      series: [
-        {
-          showSymbol: false,
-          data: [25, 64, 35, 48],
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#77CBFF', //改变折线点的颜色
-              lineStyle: {
-                color: '#77CBFF' //改变折线颜色
+        series: [
+          {
+            showSymbol: false,
+            data: [25, 64, 35, 48],
+            type: 'line',
+            itemStyle: {
+              normal: {
+                color: '#77CBFF', //改变折线点的颜色
+                lineStyle: {
+                  color: '#77CBFF' //改变折线颜色
+                }
               }
             }
           }
-        }
-      ]
+        ]
+      }
     }
-    myChart.setOption(option)
+  },
+  mounted() {
+    this.getData()
+    const myChart = echarts().init(this.$refs.chart)
+
+    myChart.setOption(this.option)
   }
 }
 </script>
