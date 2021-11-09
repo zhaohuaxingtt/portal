@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-09 09:41:04
+ * @LastEditTime: 2021-11-09 10:41:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -691,7 +691,6 @@ export default {
     changeNum (val) {
       let trueMoney = Math.abs(val);
       let waitMoney = Math.abs(this.waitCompDocMoney);
-      console.log(trueMoney, waitMoney)
       if (trueMoney > waitMoney) {
         iMessage.error('实际补差金额要小于待发起凭证金额')
         this.$nextTick(() => {

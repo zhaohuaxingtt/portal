@@ -35,7 +35,9 @@
             </div>
             <div
               class="middle middle-m"
-              v-if="parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget"
+              v-if="
+                parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget
+              "
             >
               {{
                 parseFloat(tabsData.totalTarget)
@@ -91,10 +93,8 @@
           <div class="ekl-pie" ref="pie" style="height: 240px"></div>
           <div class="tips">
             <div class="title" style="color: #333333">当前完成率</div>
-            <div v-show="tabsData.sumAll && parseFloat(tabsData.sumAll) == 0">
-              {{ !isNaN((tabsData.valEklType / parseFloat(tabsData.sumAll)).toFixed(2))?
-              (tabsData.valEklType / parseFloat(tabsData.sumAll)).toFixed(2)+`%`:`0.00%` }}
-              <!-- <span>%</span> -->
+            <div v-show="!(tabsData.valEklType*1 == 0)">
+              {{((tabsData.sumAll*1/tabsData.valEklType*1)*100).toFixed(2)+"%"}}
             </div>
           </div>
         </div>
@@ -165,13 +165,25 @@ export default {
         }
       })
     },
+    async getEkl(data) {
+      const res = await getEkl(data)
+      if (res && res.code == '200') {
+        this.tabsData = res.data
+        let totalTarget = (parseFloat(this.tabsData.totalTarget?this.tabsData.totalTarget:'0.00') / 100)*1
+         this.tabsData.sumAll =
+          (((this.tabsData.sumAll * 1)*totalTarget) / 1000000).toFixed(2)+''
+        this.tabsData.valEklType =
+          ((this.tabsData.valEklType * 1*totalTarget) / 1000000).toFixed(2)
+        this.$nextTick(() => {
+          this.initPie()
+        })
+      }
+    },
     initPie() {
       const index = _.findIndex(this.tabList, (item) => {
         return item.name === this.activeName
       })
       const chart = echarts().init(this.$refs.pie[index])
-      let dataValue = this.tabsData.sumAll * 1
-      let totalTarget = parseInt(this.tabsData.totalTarget) / 100
       const option = {
         title: {
           text: '当前完成(持续)',
@@ -203,15 +215,15 @@ export default {
               textStyle: {
                 fontSize: 16,
                 color: '#1763f7'
-              },
+              }
             },
             emphasis: {
               label: {
                 show: true,
-                fontSize: '32',
+                fontSize: '28',
                 fontWeight: 'bold',
-                color:'#45639B',
-                align:'center',
+                color: '#45639B',
+                align: 'center',
                 formatter: (value) => {
                   return `${value.data.value}`
                 }
@@ -222,7 +234,7 @@ export default {
             },
             data: [
               {
-                value: (dataValue * totalTarget).toFixed(2),
+                value: (this.tabsData.sumAll),
                 itemStyle: {
                   color: '#1AB5C7'
                 },
@@ -240,24 +252,10 @@ export default {
         ]
       }
       option && chart.setOption(option)
-
     },
     handleCheckYear(year) {
       this.query.year = year
       this.getEkl(this.query)
-    },
-    async getEkl(data) {
-      const res = await getEkl(data)
-      if (res && res.code == '200') {
-        this.tabsData = res.data
-        this.tabsData.sumAll =
-          ((res.data.sumAll * 1) / 1000000).toFixed(2) + ''
-        this.tabsData.valEklType =
-          ((res.data.valEklType * 1) / 1000000).toFixed(2) + ''
-          this.$nextTick(() => {
-          this.initPie()
-        })
-      }
     }
   }
 }
@@ -287,8 +285,7 @@ export default {
   .tips {
     position: absolute;
     bottom: 20%;
-    // right: 20px;
-    right: 6%;
+    right: 3%;
     > 
     // .title {
     //   font-size: 18px;
@@ -308,14 +305,14 @@ export default {
     font-size: 12px;
     position: absolute;
     right: 32px;
-    top:22px;
+    top: 20px;
   }
   .target,
   .base {
     font-weight: bold;
     margin-bottom: 30px;
     > .left {
-      margin-right: 16px;
+      margin-right: 10px;
       min-width: 96px;
     }
     > .right {

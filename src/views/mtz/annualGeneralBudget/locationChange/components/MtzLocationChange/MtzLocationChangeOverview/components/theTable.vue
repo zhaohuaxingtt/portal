@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-01 10:37:21
+ * @LastEditTime: 2021-11-09 11:07:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -16,7 +16,7 @@
         </span>
         <div>
           <iButton @click="addMTZ">{{language('XINJIANMTZBIANGENGSHENQING','新建MTZ变更申请')}}</iButton>
-          <iButton @click="del">{{language('CHEHUI','撤回')}}</iButton>
+          <iButton @click="recall">{{language('CHEHUI','撤回')}}</iButton>
           <iButton @click="del">{{language('SHANCHU','删除')}}</iButton>
         </div>
 
@@ -91,8 +91,7 @@
 
 <script>
 import { iCard, iButton, iPagination, icon, iMessage } from 'rise'
-import { mtzDel } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details.js'
-import { pageList } from '@/api/mtz/annualGeneralBudget/mtzChange'
+import { pageList, mtzDel, mtzRecall } from '@/api/mtz/annualGeneralBudget/mtzChange'
 import { pageMixins } from "@/utils/pageMixins"
 export default {
   name: "Search",
@@ -169,6 +168,17 @@ export default {
     del () {
       let ids = this.muilteList.map(item => item.mtzAppId)
       mtzDel({ ids }).then((res) => {
+        if (res && res.code === '200') {
+          iMessage.success(res.desZh)
+          this.getTableList()
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
+    recall () {
+      let ids = this.muilteList.map(item => item.mtzAppId)
+      mtzRecall({ ids }).then((res) => {
         if (res && res.code === '200') {
           iMessage.success(res.desZh)
           this.getTableList()
