@@ -94,7 +94,7 @@ export default {
         choice(){
             if (this.selectData.length > 0) {
                 mtzAppNomiSubmit({
-                    mtzAppId:this.$route.query.id,
+                    mtzAppId:this.$route.query.mtzAppId,
                     meetingId:this.selectData.id
                 }).then(res=>{
                     console.log(res);

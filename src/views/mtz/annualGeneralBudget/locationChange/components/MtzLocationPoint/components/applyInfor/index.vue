@@ -147,7 +147,7 @@ export default {
   },
   methods: {
     init () {
-      getAppFormInfo({ mtzAppId: this.$route.query.id }).then(res => {
+      getAppFormInfo({ mtzAppId: this.$route.query.mtzAppId }).then(res => {
         this.inforData.mtzAppId = res.data.mtzAppId;
         this.inforData.linieName = res.data.linieName
         this.inforData.appStatus = res.data.appStatus
@@ -211,7 +211,7 @@ export default {
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res => {
         disassociate({
-          mtzAppId: this.$route.query.id
+          mtzAppId: this.$route.query.mtzAppId
         }).then(res => {
           if (res.code == 200) {
             iMessage.success(res.desZh)

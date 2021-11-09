@@ -13,15 +13,31 @@ export const tabs3InforList = [
   },
   {
     name: '供应商',
-    prop: 'supplierName'
+    prop: 'supplier'
   },
   {
     name: '补差时间段',
-    prop: 'time'
+    prop: 'monthFromTo'
   },
   {
-    name: '材料中类',
-    prop: 'mgroup'
+    name: '科室',
+    prop: 'department'
+  },
+  {
+    name: '申请人',
+    prop: 'applicantByName'
+  },
+  {
+    name: '申请日期',
+    prop: 'createDate'
+  },
+  {
+    name: '总金额 (RMB)',
+    prop: 'totalAmt'
+  },
+  {
+    name: '实补 (RMB)',
+    prop: 'actuallyTotalAmt'
   }
 ]
 export const tabs2InforList = [
@@ -31,15 +47,31 @@ export const tabs2InforList = [
   },
   {
     name: '供应商',
-    prop: 'supplierName'
+    prop: 'supplier'
   },
   {
     name: '补差时间段',
-    prop: 'time'
+    prop: 'monthFromTo'
   },
   {
-    name: '材料中类',
-    prop: 'mgroup'
+    name: '科室',
+    prop: 'department'
+  },
+  {
+    name: '申请人',
+    prop: 'applicantByName'
+  },
+  {
+    name: '申请日期',
+    prop: 'createDate'
+  },
+  {
+    name: '总金额 (RMB)',
+    prop: 'totalAmt'
+  },
+  {
+    name: '实补 (RMB)',
+    prop: 'actuallyTotalAmt'
   }
 ]
 export const tabsInforList = [

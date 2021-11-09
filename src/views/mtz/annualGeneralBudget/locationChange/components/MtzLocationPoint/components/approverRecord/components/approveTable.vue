@@ -167,7 +167,7 @@ export default {
   mixins: [pageMixins],
   methods: {
     init () {
-      this.mtzAppId = this.$route.query.id
+      this.mtzAppId = this.$route.query.mtzAppId
       this.getTableList()
       this.selectDept()
       this.selectSection()

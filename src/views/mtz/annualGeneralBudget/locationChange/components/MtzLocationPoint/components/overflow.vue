@@ -90,7 +90,7 @@ export default {
   },
   data () {
     return {
-      locationId:this.$route.query.id,
+      locationId:this.$route.query.mtzAppId,
       topImgList,
       locationNow: this.$route.query.currentStep || 1,
       mtzAddShow:false,
@@ -130,7 +130,7 @@ export default {
         path: data.url,
         query: {
           currentStep: data.id,
-          id:this.$route.query.id,
+          id:this.$route.query.mtzAppId,
         }
       })
     },

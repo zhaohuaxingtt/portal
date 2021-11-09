@@ -551,7 +551,7 @@ export default {
         }).then(res=>{
             if(this.dialogEditType){//新增
                 addBatchPartMasterData({
-                    mtzAppId:this.$route.query.id,
+                    mtzAppId:this.$route.query.mtzAppId,
                     mtzAppNomiAppRuleList:this.newDataList
                 }).then(res=>{
                     this.editId = "";
@@ -562,7 +562,7 @@ export default {
                 })
             }else{//编辑
                 modifyPartMasterData({
-                    mtzAppId:this.$route.query.id,
+                    mtzAppId:this.$route.query.mtzAppId,
                     mtzAppNomiAppRuleList:this.selectList
                 }).then(res=>{
                     if(res.code == 200){
@@ -647,7 +647,7 @@ export default {
         pagePartMasterData({
             pageNo: this.page.currPage,
             pageSize: this.page.pageSize,
-            mtzAppId:this.$route.query.id,
+            mtzAppId:this.$route.query.mtzAppId,
             sortType:"DESC",
             sortColumn:"id"
         }).then(res=>{
