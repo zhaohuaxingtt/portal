@@ -44,7 +44,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: function () {
+      default: function() {
         return []
       }
     },
@@ -80,7 +80,7 @@ export default {
       for (let i = 0; i < elements.length; i++) {
         const element = elements[i]
         console.log(element.getAttribute('data-id'))
-        const item = this.dataSource.find((e) => {
+        const item = this.dataSource.find(e => {
           const itemName = e.i18n ? this.language(e.i18n) : e.label
           return itemName === element.getAttribute('data-id')
         })
@@ -94,19 +94,19 @@ export default {
       this.isShow = false
     },
     handleReset() {
-      this.dataSource = _.cloneDeep(this.originalData)
+      this.dataSource = this.deepClone(this.originalData)
       // this.$emit('reset')
     },
     handleOpened() {
-      const dataSource = _.cloneDeep(this.data)
-      dataSource.forEach((e) => {
+      const dataSource = this.deepClone(this.data)
+      dataSource.forEach(e => {
         if (!e.hasOwnProperty('isHidden')) {
           e.isHidden = false
         }
       })
-      this.dataSource = _.cloneDeep(dataSource)
-      this.originalData = _.cloneDeep(dataSource)
-      this.newData = _.cloneDeep(dataSource)
+      this.dataSource = this.deepClone(dataSource)
+      this.originalData = this.deepClone(dataSource)
+      this.newData = this.deepClone(dataSource)
       this.$nextTick(() => {
         const el = document.getElementsByClassName('header-wrapper')[0]
         new Sortable(el, {
@@ -114,6 +114,48 @@ export default {
           draggable: '.draggable'
         })
       })
+    },
+    deepClone(data) {
+      var t = this.getType(data),
+        o,
+        i,
+        ni
+
+      if (t === 'array') {
+        o = []
+      } else if (t === 'object') {
+        o = {}
+      } else {
+        return data
+      }
+
+      if (t === 'array') {
+        for (i = 0, ni = data.length; i < ni; i++) {
+          o.push(this.deepClone(data[i]))
+        }
+        return o
+      } else if (t === 'object') {
+        for (i in data) {
+          o[i] = this.deepClone(data[i])
+        }
+        return o
+      }
+    },
+    getType(obj) {
+      var toString = Object.prototype.toString
+      var map = {
+        '[object Boolean]': 'boolean',
+        '[object Number]': 'number',
+        '[object String]': 'string',
+        '[object Function]': 'function',
+        '[object Array]': 'array',
+        '[object Date]': 'date',
+        '[object RegExp]': 'regExp',
+        '[object Undefined]': 'undefined',
+        '[object Null]': 'null',
+        '[object Object]': 'object'
+      }
+      return map[toString.call(obj)]
     }
   }
 }
