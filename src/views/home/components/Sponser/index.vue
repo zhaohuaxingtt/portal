@@ -19,10 +19,9 @@
       </el-select>
     </div>
     <div class="pie-container" ref="pie" style="height: 180px"></div>
-    <div class="bar-container" ref="bar" style="height: 240px"></div>
+    <div class="bar-container" ref="bar" style="height: 240px"></div>=
   </div>
 </template>
-
 <script>
 import echarts from '@/utils/echarts'
 import { getSponserData, getKpiCates } from '@/api/home'
@@ -85,7 +84,6 @@ export default {
     }
   },
   mounted() {
-    console.log(echarts)
     this.getKpiCates()
     this.getSponserList()
   },
@@ -214,19 +212,19 @@ export default {
         if (item.name.length == 3) {
           item.name =
             item.name +
-            '      ' +
+            '    ' +
             `${(item.num / totalSum).toFixed(2) * 100}.00%` +
             '   '
         } else if (item.name.length == 2) {
           item.name =
             item.name +
-            '        ' +
+            '      ' +
             `${(item.num / totalSum).toFixed(2) * 100}.00%` +
             '   '
         } else {
           item.name =
             item.name +
-            '          ' +
+            '        ' +
             `${(item.num / totalSum).toFixed(2) * 100}.00%` +
             '    '
         }
@@ -286,6 +284,7 @@ export default {
       const totalCount = _.cloneDeep(this.totalCount)
       const chart = echarts().init(this.$refs.bar)
       // let total = this.data.reduce((prev, val) => prev + val, 0)
+      // let str = `C-Rating数量:${total}\nC-Rating比例:60%`
       const option = {
         tooltip: {
           trigger: 'axis',
@@ -328,22 +327,27 @@ export default {
         },
         graphic: [
           {
-            type: 'group',
+            type: 'text',
             right: 38,
             bottom: 188,
-            children: [
-              {
-                type: 'text',
-                left: 'center',
-                top: 'center',
-                z: 100,
-                style: {
+            // children: [
+            //   {
+            //     type: 'text',
+            //     left: 'center',
+            //     top: 'center',
+            //     z: 100,
+            //     style: {
+            //       fill: '#7E84A3',
+            //       text: 'C-Rating数量:' + 36 + '\nC-Rating比例:60%',
+            //       font: '7px sans-serif'
+            //     }
+            //   }
+            // ]
+            style: {
                   fill: '#7E84A3',
                   text: 'C-Rating数量:' + 36 + '\nC-Rating比例:60%',
                   font: '7px sans-serif'
                 }
-              }
-            ]
           }
         ],
         series: [
