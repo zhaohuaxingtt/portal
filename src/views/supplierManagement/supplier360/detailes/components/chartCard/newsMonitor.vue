@@ -3,12 +3,12 @@
     <div class="title">
       <p>{{language('CAIWUYUJING', '财务预警')}}</p>
       <el-dropdown>
-          
+
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>查看</el-dropdown-item>
+          <el-dropdown-item @click.native="handleDialog">查看</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -18,85 +18,39 @@
             name="iconcaiwuyujing-icon"></icon>
       <div class="float">
         <div>
-          <icon class="alert"
+          <icon v-if="info.isAlert"
+                class="alert"
                 symbol
                 name="iconcaiwuyujing-hongdeng"></icon>
-          <!-- <icon class="alert"
-                      symbol
-                      name="iconlvdeng"></icon> -->
-          <p class="fontsize">C-Rating</p>
+          <icon v-if="!info.isAlert"
+                class="alert"
+                symbol
+                name="iconlvdeng"></icon>
+          <p v-if="info.isAlert"
+             class="fontsize">C-Rating</p>
+          <p v-if="!info.isAlert"
+             class="fontsize">{{language('ZHUANGKUANGLIANGHAO', '状况良好')}}</p>
         </div>
         <div class="bjText">
-          <p> {{language('CRATINGLAIYUAN', 'C-Rating来源')}} :</p>
-          <p> {{language('GENXINSHIJIAN', '更新时间')}}:</p>
+          <p> <span v-if="info.isAlert"> {{language('CRATINGLAIYUAN', 'C-Rating来源')}}:</span> {{ratingSource}}</p>
+
+          <p> {{language('GENXINSHIJIAN', '更新时间')}}:{{updateDate}}</p>
+
         </div>
       </div>
 
     </div>
-    <iDialog @close="closeDiolog()"
-             :visible.sync="visible"
-             width="85%">
-      <el-tabs class="tabsHeader"
-               type="card"
-               style="margin-left:20px;"
-               v-model="tabVal"
-               @tab-click="changeTab">
-        <el-tab-pane name="1"
-                     :label="
-            language('SHISHICRATINGGONGYINGSHANGQINGDAN', '实时C-Rating供应商清单')
-          ">
-        </el-tab-pane>
-        <el-tab-pane name="2"
-                     :label="language('CRATINGGONGYINGSHANGXUNJIADINGDIANQINGKUANG', 'C-Rating供应商询价定点情况')">
-        </el-tab-pane>
-      </el-tabs>
-      <iSearch @reset="clickReset"
-               tabCard
-               @sure="sure"
-               :icon="true">
-        <el-form inline
-                 label-position="top">
-          <el-form-item :label="language('SAPHAO', 'SAP号')">
-            <iSelect collapse-tags
-                     filterable
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.purchaserIds">
-              <el-option v-for="item in purchaseList"
-                         :key="item.purchaserId"
-                         :label="item.purchaserName"
-                         :value="item.purchaserId">
-              </el-option>
-            </iSelect>
 
-          </el-form-item>
-        </el-form>
-      </iSearch>
-      <p class="tableTitle">
-        详情列表
-      </p>
-      <table-list v-if="tabVal == 1"
-                  style="margin-top:20px"
-                  :tableData="tableListData"
-                  :tableTitle="tableTitleMonitor"
-                  :tableLoading="tableLoading"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-      <table-list v-if="tabVal == 2"
-                  style="margin-top:20px"
-                  :tableData="tableListData"
-                  :tableTitle="tableTitleMonitorRecord"
-                  :tableLoading="tableLoading"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-    </iDialog>
   </iCard>
 </template>
 <script>
-import { iCard, icon, iDialog, iSearch, iSelect } from 'rise'
+import { iCard, icon, iDialog, iSearch, iSelect, iButton } from 'rise'
 import { tableTitleMonitor, tableTitleMonitorRecord } from './data'
 import tableList from '@/components/commonTable'
+import {
+  supplierRatingCard,
+  currentList
+} from '@/api/supplierManagement/supplierCard/index'
 export default {
   props: {},
   components: {
@@ -105,7 +59,8 @@ export default {
     iDialog,
     iSearch,
     iSelect,
-    tableList
+    tableList,
+    iButton
   },
   data() {
     return {
@@ -113,7 +68,8 @@ export default {
       form: {},
       tabVal: '1',
       tableTitleMonitor: tableTitleMonitor,
-      tableTitleMonitorRecord: tableTitleMonitorRecord
+      tableTitleMonitorRecord: tableTitleMonitorRecord,
+      info: {}
     }
   },
   computed: {
@@ -122,12 +78,26 @@ export default {
     }
   },
   watch: {},
+  mounted() {
+    this.getData()
+  },
   methods: {
+    getData() {
+      supplierRatingCard(this.$route.query.subSupplierId).then((res) => {
+        this.info = res.data
+      })
+    },
+    handleDialog() {
+      this.visible = true
+      currentList().then((res) => {})
+    },
     sure() {},
     clickReset() {},
-    changeTab() {}
-  },
-  mounted() {}
+    changeTab() {},
+    closeDiolog() {
+      this.visible = false
+    }
+  }
 }
 </script>
 
@@ -148,7 +118,19 @@ export default {
     color: #4d4d4d;
   }
 }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
+  border-bottom: 1px solid #e3e3e3;
+}
+.sectionTitle {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .center {
   height: 160px;
   display: flex;
@@ -178,13 +160,7 @@ export default {
 .early {
   font-size: 60px;
 }
-.tableTitle {
-  font-size: 18px;
-  font-family: Arial;
-  font-weight: bold;
-  color: #000000;
-  padding: 20px 0 30px;
-}
+
 .tabsHeader {
   margin-left: 0 !important;
   ::v-deep .el-tabs__item.is-active {

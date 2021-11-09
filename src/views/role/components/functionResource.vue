@@ -98,6 +98,7 @@ export default {
       )
     },
     async query() {
+      console.log('query function')
       this.tableLoading = true
       const { data } = await fetchResource({ type: 2 }).finally(
         () => (this.tableLoading = false)

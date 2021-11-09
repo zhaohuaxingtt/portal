@@ -85,7 +85,7 @@
               v-model="scope.row.checked"
               :indeterminate="scope.row.isIndeterminate"
               :disabled="scope.row.disabledChecked"
-              @change="val => handleCheckedRow(val, scope.row)"
+              @change="(val) => handleCheckedRow(val, scope.row)"
             >
             </el-checkbox>
           </template>
@@ -228,13 +228,13 @@ export default {
     },
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     columns: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -244,7 +244,7 @@ export default {
     minHeight: { type: Number || String },
     extraData: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     },
@@ -326,7 +326,7 @@ export default {
   computed: {
     realTableData() {
       if (this.tableData) {
-        return this.tableData.filter(e => e.visible)
+        return this.tableData.filter((e) => e.visible)
       }
       return []
     },
@@ -349,9 +349,9 @@ export default {
       if (this.defaultSelectedRows.length < this.data.length) {
         return false
       }
-      const dataKeys = this.data.map(e => e[this.rowKey])
+      const dataKeys = this.data.map((e) => e[this.rowKey])
       const defaultCheckedKeys = this.defaultSelectedRows.map(
-        e => e[this.rowKey]
+        (e) => e[this.rowKey]
       )
 
       const mergeKeys = [...new Set([...dataKeys, ...defaultCheckedKeys])]
@@ -364,9 +364,8 @@ export default {
       }
       const columnPermissions = sessionStorage.getItem('columnConfig')
       if (columnPermissions) {
-        const currentColumnPermission = JSON.parse(columnPermissions)[
-          this.permissionKey
-        ]
+        const currentColumnPermission =
+          JSON.parse(columnPermissions)[this.permissionKey]
         if (currentColumnPermission) {
           return currentColumnPermission.unCols
         }
@@ -377,17 +376,17 @@ export default {
       // 表格的列
       if (this.tableColumns.length) {
         return this.tableColumns.filter(
-          e => !e.isHidden && !this.unCols.includes(e.prop)
+          (e) => !e.isHidden && !this.unCols.includes(e.prop)
         )
       }
-      return this.columns.filter(e => !this.unCols.includes(e.prop))
+      return this.columns.filter((e) => !this.unCols.includes(e.prop))
     },
     tableSettingColumns() {
       // 表格自由列表设置列
       if (this.tableColumns.length) {
-        return this.tableColumns.filter(e => !this.unCols.includes(e.prop))
+        return this.tableColumns.filter((e) => !this.unCols.includes(e.prop))
       }
-      return this.columns.filter(e => !this.unCols.includes(e.prop))
+      return this.columns.filter((e) => !this.unCols.includes(e.prop))
     }
   },
   data() {
@@ -541,7 +540,7 @@ export default {
       if (this.treeExpand) {
         if (this.treeExpand.expandKey === column.property) {
           row.expanded = !row.expanded
-          this.tableData.forEach(element => {
+          this.tableData.forEach((element) => {
             const isChildren =
               element.uniqueId.indexOf(row.uniqueId + '-') === 0
 
@@ -563,7 +562,7 @@ export default {
     expandAll() {
       // 全部展开
       if (this.treeExpand) {
-        this.tableData.forEach(element => {
+        this.tableData.forEach((element) => {
           element.expanded = true
           element.visible = true
         })
@@ -572,7 +571,7 @@ export default {
     collapseAll() {
       // 全部收起
       if (this.treeExpand) {
-        this.tableData.forEach(element => {
+        this.tableData.forEach((element) => {
           element.expanded = false
           if (element.uniqueId.indexOf('-') > -1) {
             element.visible = false
@@ -584,7 +583,7 @@ export default {
       let toggleRow = row
       if (this.rowKey) {
         const filterRow = this.realTableData.filter(
-          e => e[this.rowKey] === row[this.rowKey]
+          (e) => e[this.rowKey] === row[this.rowKey]
         )
         if (filterRow.length > 0) {
           toggleRow = filterRow[0]
@@ -592,7 +591,7 @@ export default {
         if (selected) {
           if (
             this.selectedRows.filter(
-              e => e[this.rowKey] === toggleRow[this.rowKey]
+              (e) => e[this.rowKey] === toggleRow[this.rowKey]
             ).length === 0
           ) {
             this.$refs.theCustomTable.toggleRowSelection(toggleRow, selected)
@@ -608,7 +607,7 @@ export default {
       let toggleRow = row
       if (this.rowKey) {
         const filterRow = this.realTableData.filter(
-          e => e[this.rowKey] === row[this.rowKey]
+          (e) => e[this.rowKey] === row[this.rowKey]
         )
         if (filterRow.length > 0) {
           toggleRow = filterRow[0]
@@ -617,10 +616,10 @@ export default {
       this.$refs.theCustomTable.toggleRowSelection(toggleRow, selected)
       const rowUniqueId = toggleRow.uniqueId
       const rowChildren = this.tableData.filter(
-        e => e.uniqueId.indexOf(rowUniqueId + '-') === 0
+        (e) => e.uniqueId.indexOf(rowUniqueId + '-') === 0
       )
       if (rowChildren.length > 0) {
-        rowChildren.forEach(e => {
+        rowChildren.forEach((e) => {
           this.$refs.theCustomTable.toggleRowSelection(e, selected)
         })
       }
@@ -671,7 +670,7 @@ export default {
       }
 
       if (this.treeExpand && row.visible) {
-        const index = this.tableData.filter(e => e.visible).indexOf(row)
+        const index = this.tableData.filter((e) => e.visible).indexOf(row)
         rowClass += index % 2 === 0 ? ' odd' : ' even'
       }
 
@@ -713,19 +712,19 @@ export default {
     },
     getFullIndex(row) {
       const uniqueIdArr = row.uniqueId.split('-')
-      const newIndex = uniqueIdArr.map(e => parseInt(e) + 1)
+      const newIndex = uniqueIdArr.map((e) => parseInt(e) + 1)
       return newIndex.join('.')
     },
     getChildRows(row) {
       return this.tableData.filter(
-        e => e.uniqueId.indexOf(row.uniqueId + '-') === 0
+        (e) => e.uniqueId.indexOf(row.uniqueId + '-') === 0
       )
     },
     /*-----------------------------------------------------------------------------------------
     ---------------------------------------下面是自定义级联复选框的------------------------------
     ------------------------------------------------------------------------------------------*/
     handleCheckedAll(val) {
-      this.tableData.forEach(e => {
+      this.tableData.forEach((e) => {
         e.checked = val
         e.isIndeterminate = false
       })
@@ -741,7 +740,7 @@ export default {
     handleCheckedRow(val, row) {
       const childs = this.getChildRows(row)
       if (childs.length > 0) {
-        childs.forEach(e => {
+        childs.forEach((e) => {
           e.checked = val
           e.isIndeterminate = false
         })
@@ -753,7 +752,7 @@ export default {
       this.setParentChecked(row.parentUniqueId)
 
       // 头部全选反选
-      const checkedData = this.tableData.filter(e => e.checked)
+      const checkedData = this.tableData.filter((e) => e.checked)
       this.indeterminateAll =
         checkedData.length > 0 && checkedData.length !== this.tableData.length
       this.checkedAll = checkedData.length === this.tableData.length
@@ -765,13 +764,13 @@ export default {
       if (this.emitHalfSelection) {
         this.$emit(
           'handle-selection-change',
-          this.tableData.filter(e => e.checked),
+          this.tableData.filter((e) => e.checked),
           returnProptities
         )
       } else {
         this.$emit(
           'handle-selection-change',
-          this.tableData.filter(e => e.checked && !e.isIndeterminate),
+          this.tableData.filter((e) => e.checked && !e.isIndeterminate),
           returnProptities
         )
       }
@@ -779,7 +778,7 @@ export default {
     // 手动设置选中状态
     handleToggleSelectedRow(val, row) {
       const filterRow = this.tableData.filter(
-        e => e[this.rowKey] === row[this.rowKey]
+        (e) => e[this.rowKey] === row[this.rowKey]
       )
       if (filterRow.length > 0) {
         filterRow[0].checked = val
@@ -788,7 +787,7 @@ export default {
     },
     handleToggleSelectedAll(val) {
       // this.handleCheckedAll(val)
-      this.tableData.forEach(e => {
+      this.tableData.forEach((e) => {
         e.checked = val
         e.isIndeterminate = false
       })
@@ -799,21 +798,21 @@ export default {
     setParentChecked(parentUniqueId) {
       if (parentUniqueId) {
         const parentFilters = this.tableData.filter(
-          e => e.uniqueId === parentUniqueId
+          (e) => e.uniqueId === parentUniqueId
         )
         if (parentFilters.length > 0) {
           const parent = parentFilters[0]
           //  所有子集
           const parentAllChild = this.tableData.filter(
-            e => e.parentUniqueId === parentUniqueId
+            (e) => e.parentUniqueId === parentUniqueId
           )
           // 包括半选和全选
           const parentAllChildChecked = this.tableData.filter(
-            e => e.parentUniqueId === parentUniqueId && e.checked
+            (e) => e.parentUniqueId === parentUniqueId && e.checked
           )
           // 只是半选
           const parentAllChildIndeterminate = parentAllChildChecked.filter(
-            e => e.isIndeterminate
+            (e) => e.isIndeterminate
           )
           const childLength = parentAllChild.length
           const CheckedLength = parentAllChildChecked.length
@@ -879,11 +878,11 @@ export default {
         const userData = JSON.parse(userInfo)
         const accountId = userData?.accountId
         const http = new XMLHttpRequest()
-        const url = `/usercenterApi/web/configUserListMemory`
+        const url = `/usercenterApi/usercenter/web/configUserListMemory`
         http.open('POST', url, true)
         http.setRequestHeader('content-type', 'application/json')
         http.setRequestHeader('token', this.getCookie('token'))
-        http.onreadystatechange = res => {
+        http.onreadystatechange = (res) => {
           if (http.readyState === 4 && http.status == 200) {
             const response = JSON.parse(http.responseText)
             if (response.code === '200') {
@@ -909,8 +908,12 @@ export default {
       this.handleSaveSetting([])
     },
     querySetting() {
+      /*  const userInfo = window.sessionStorage.getItem('userInfo') || ''
+      if (userInfo) {
+        const userData = JSON.parse(userInfo)
+        const accountId = userData?.accountId */
       const http = new XMLHttpRequest()
-      const url = `/usercenterApi/web/getUserListMemory`
+      const url = `/usercenterApi/usercenter/web/getUserListMemory`
       http.open('POST', url, true)
       http.setRequestHeader('content-type', 'application/json')
       http.setRequestHeader('token', this.getCookie('token'))

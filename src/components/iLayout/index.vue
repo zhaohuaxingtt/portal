@@ -157,7 +157,8 @@ export default {
           res[menu.url] = []
         }
         parent = parent || []
-        res[menu.url].push(...parent)
+        // console.log('parent', parent)
+        res[menu.url].push(...[...new Set(parent)])
         res[menu.url].push(menu.url)
 
         if (menu.subMenus) {
