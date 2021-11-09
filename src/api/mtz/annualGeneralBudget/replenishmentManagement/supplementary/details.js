@@ -74,6 +74,16 @@ export function mtzCompDetailOverviewExport(parmars) {
   })
 }
 
+export function mtzBalanceDetailsExport(parmars) {
+  //MTZ补差单号详情-补差单汇总-凭证导出
+  return requst({
+    url: '/mtzBalanceDetails/export',
+    method: 'POST',
+    responseType: 'blob',
+    data: parmars
+  })
+}
+
 export function compdocDetailExport(parmars) {
   //补差单明细凭证导出
   return requst({

@@ -3,11 +3,13 @@
     <div style="padding-bottom:30px;">
         <div class="sub_title">
             <span>选择会议类别:</span>
-            <div class="sub_img" @click="imgChiose">
-                <img class="img_front" v-show="!type" :src="require('@/assets/images/icon/click-gray.png')">
-                <img class="img_front" v-show="type" :src="require('@/assets/images/icon/click-green.png')">
+            <div class="sub_div" @click="imgChiose(item)" v-for="(item,index) in changeList" :key="item.id">
+                <div class="sub_img">
+                    <img class="img_front" v-if="indexValue===index?false:true" :src="require('@/assets/images/icon/click-gray.png')">
+                    <img class="img_front" v-else :src="require('@/assets/images/icon/click-green.png')">
+                </div>
+                <span class="sub_text">{{item.name}}</span>
             </div>
-            <span class="sub_text">Pre</span>
         </div>
         <el-divider class="margin-top20"></el-divider>
         <div class="BtnTitle">
@@ -18,9 +20,11 @@
         </div>
         <tableList
             class="margin-top20"
+            @handleSelectionChange="handleSelectionChange"
             :tableData="tableListData"
             :tableTitle="tableTitle"
             :tableLoading="loading"
+            ref="moviesTable"
             :index="true">
         </tableList>
         <iPagination @size-change="handleSizeChange($event, getTableList)"
@@ -35,10 +39,14 @@
 </template>
 
 <script>
-import { iButton,iPagination } from "rise";
+import { iButton,iPagination,iMessage } from "rise";
 import tableList from '@/components/commonTable/index.vue';
 import { tableTitleCp } from "./data";
 import { pageMixins } from "@/utils/pageMixins"
+import { getMettingList } from "@/api/meeting/home"
+import {
+  mtzAppNomiSubmit,//提交
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 
 export default {
     name:"subSelect",
@@ -51,27 +59,83 @@ export default {
     data(){
         return{
             radio:"",
-            type:false,
             tableListData:[],
             tableTitle:tableTitleCp,
             loading:false,
+            changeList:[
+                {
+                    value:"CSC",
+                    name:"Csc",
+                    id:0
+                },{
+                    value:"PRECSC",
+                    name:"Precsc",
+                    id:1
+                },{
+                    value:"NONE",
+                    name:"None",
+                    id:2
+                }
+            ],
+            indexValue:0,
+            changeValue:"CSC",
+            selectData:[],
         }
+    },
+    created(){
+        this.getTableList();
     },
     methods:{
         imgChiose(val){
-            this.type = !this.type;
+            this.indexValue = val.id;
+            this.changeValue = val.value
+            this.getTableList();
         },
         choice(){
-
+            if (this.selectData.length > 0) {
+                mtzAppNomiSubmit({
+                    mtzAppId:this.$route.query.id,
+                    meetingId:this.selectData.id
+                }).then(res=>{
+                    console.log(res);
+                })
+            }else{
+                iMessage.warn("请选择会议")
+            }
+        },
+        handleSelectionChange(val){
+            if (val.length > 1) {
+                var duoxuans = val.pop();
+                this.selectData = val.pop();
+                this.$refs.moviesTable.$children[0].$children[0].clearSelection()
+                this.$refs.moviesTable.$children[0].$children[0].toggleRowSelection(duoxuans)
+            } else {
+                this.selectData = val
+            }
         },
         getTableList(){
-
+            this.loading = true;
+            getMettingList({
+                meetingTypeEnum:this.changeValue,
+                pageNum: this.page.currPage,
+                pageSize: this.page.pageSize
+            }).then(res=>{
+                // console.log(res);
+                this.tableListData = res.data;
+                this.loading = false;
+            })
         },
     }
 }
 </script>
 
 <style lang="scss" scoped>
+.sub_div{
+    display: flex;
+    align-items: center;
+    margin-right:10px;
+    cursor: pointer;
+}
 .sub_title{
     display: flex;
     align-items: center;
@@ -82,7 +146,6 @@ export default {
 }
 .sub_img{
     margin:3px 15px 0 20px;
-    cursor: pointer;
 }
 .sub_text{
     font-size: 20px;
