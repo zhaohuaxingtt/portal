@@ -46,7 +46,10 @@
                 :key="index"
                 :value="item.name"
                 :label="item.value"
-                :disabled="bpmSinglCategoryList.includes(item.name)"
+                :disabled="
+                  multipleCategoryList &&
+                    bpmSinglCategoryList.includes(item.name)
+                "
               >
               </el-option>
             </iSelect>
