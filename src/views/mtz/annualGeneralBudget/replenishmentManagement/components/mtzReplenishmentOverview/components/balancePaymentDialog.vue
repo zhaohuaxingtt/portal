@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-04 20:12:50
+ * @LastEditTime: 2021-11-09 09:41:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -181,7 +181,7 @@
             <div class="margin-right20">
               <label for=""
                      class="label margin-right10">{{language('DAIFAQIPINZHENG','待发起凭证')}}</label>
-              <el-input-number v-model="trueCompMoney"
+              <el-input-number v-model="waitCompDocMoney"
                                :precision="2"
                                :disabled="true"
                                :controls="false"></el-input-number>
@@ -195,7 +195,7 @@
                 <i class="el-icon-warning-outline margin-left10"
                    style="color:blue"></i>
               </el-tooltip>
-              <el-input-number v-model="waitCompDocMoney"
+              <el-input-number v-model="trueCompMoney"
                                :precision="2"
                                @change="changeNum"
                                :controls="false"></el-input-number>
@@ -287,11 +287,30 @@ export default {
     }
   },
   watch: {
+    minDate (val) {
+      console.log(this.differenceTime, val, val.getTime())
+      this.pickerOptions = {
+        onPick: ({ minDate }) => {
+          this.minDate = minDate
+        },
+        disabledDate: time => {
+          var newTime = new Date(val.getTime() + this.differenceTime);
+          if (val.getMonth() == time.getMonth() && val.getFullYear() == time.getFullYear()) {
+            return false;
+          }
+          if (time.getMonth() == newTime.getMonth() && time.getFullYear() == newTime.getFullYear()) {
+            return false;
+          }
+          return true;
+        }
+      }
+    },
     selectData: {
       handler (val) {
         console.log(val, "val")
         if (val && val.length !== 0) {
           this.firstSupplierName = val[0].firstSupplierName
+          this.firstSupplier = val[0].firstSupplierId
           this.searchForm.firstSupplier = val[0].firstSupplierId
           this.searchForm.firstSupplierName = val[0].firstSupplierName
           if (!this.flag) {
@@ -353,6 +372,7 @@ export default {
       searchFlag: false,
       minDate: "",
       firstSupplierName: "",
+      firstSupplier: "",
       rules: {
         value: [
           { required: true, message: this.language('QINGXUANZEBUCHASHIJIANDUAN', '请选择不差时间段'), trigger: 'blur' },
@@ -363,23 +383,7 @@ export default {
       },
       pickerOptions: {
         onPick: ({ maxDate, minDate }) => {
-          console.log(minDate)
-          let that = this
-          that.minDate = minDate
-          // maxDate < new Date(minDate.getTime() + this.differenceTime)
-        },
-        disabledDate: time => {
-          let that = this
-          console.log(this.minDate)
-          // return (
-          //   time < new Date(time.getTime() + this.differenceTime) || time
-          // )
-          // console.log(new Date(time.getTime() + this.differenceTime))
-          return time < new Date(that.minDate.getTime() + this.differenceTime)
-          // return (
-          //   time < new Date(this.form.cooperationBegin + " 00:00:00") ||
-          //   time > new Date(this.form.cooperationEnd + " 00:00:00")
-          // );
+          this.minDate = minDate
         }
       }
     }
@@ -389,8 +393,12 @@ export default {
       return !this.flag ? true : false
     },
     differenceTime () {
-      let stratTime = new Date(this.searchForm.compTimeStart.replace(/-/g, '/'))
-      let endTime = new Date(this.searchForm.compTimeEnd.replace(/-/g, '/'))
+      let startTME = this.searchForm.compTimeStart
+      let endTME = this.searchForm.compTimeEnd
+      startTME = window.moment(startTME).format('yyyy-MM-DD')
+      endTME = window.moment(endTME).format('yyyy-MM-DD')
+      let stratTime = new Date(startTME.replace(/-/g, '/'))
+      let endTime = new Date(endTME.replace(/-/g, '/'))
       let diffTime = endTime.getTime() - stratTime.getTime()
       return diffTime
     }
@@ -493,8 +501,8 @@ export default {
             this.tableData.forEach(item => {
               this.actAmtList.push(item.actAmt)
             })
-            this.trueCompMoney = _.sum(this.actAmtList.map(parseFloat))
-            this.waitCompDocMoney = this.trueCompMoney
+            this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
+            this.trueCompMoney = this.waitCompDocMoney
             this.tableLoading = false
             this.searchFlag = false
           }
@@ -513,8 +521,8 @@ export default {
             this.tableData.forEach(item => {
               this.actAmtList.push(item.actAmt)
             })
-            this.trueCompMoney = _.sum(this.actAmtList.map(parseFloat))
-            this.waitCompDocMoney = this.trueCompMoney
+            this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
+            this.trueCompMoney = this.waitCompDocMoney
             this.tableLoading = false
           }
         })
@@ -540,8 +548,12 @@ export default {
       this.tableData.forEach(item => {
         this.actAmtList.push(item.actAmt)
       })
-      this.trueCompMoney = _.sum(this.actAmtList.map(parseFloat))
-      this.waitCompDocMoney = this.trueCompMoney
+
+      this.$nextTick(() => {
+        this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
+        this.trueCompMoney = this.waitCompDocMoney
+      });
+
       this.$refs.iTable.clearSelection()
     },
     offset () {
@@ -627,7 +639,7 @@ export default {
         effPriceFrom: "",
         effPriceTo: "",
         fpartNo: [],
-        firstSupplier: "",
+        firstSupplier: this.firstSupplier,
         isEffAvg: false,
         materialCode: [],
         materialKindList: [],
@@ -674,30 +686,17 @@ export default {
           console.log('error submit!!');
           return false;
         }
-      });
-
-      // let params = {
-      //   "balanceEndDate": "2021-12-01",
-      //   "balanceStartDate": "2021-09-01",
-      //   "fpartNoList": [
-      //     "1K0253141K"
-      //   ],
-      //   "fsupplierId": "50002775",
-      //   "isEffAvg": "false",
-      //   "isManual": true,
-      //   "materialKindList": [
-      //     "1005"
-      //   ]
-      // }
-
+      })
     },
-    changeNum (val, oldVal) {
-      if (this.trueCompMoney - val < 0) {
+    changeNum (val) {
+      let trueMoney = Math.abs(val);
+      let waitMoney = Math.abs(this.waitCompDocMoney);
+      console.log(trueMoney, waitMoney)
+      if (trueMoney > waitMoney) {
         iMessage.error('实际补差金额要小于待发起凭证金额')
         this.$nextTick(() => {
-          this.waitCompDocMoney = oldVal
+          this.trueCompMoney = this.waitCompDocMoney
         });
-
       }
     }
   }
