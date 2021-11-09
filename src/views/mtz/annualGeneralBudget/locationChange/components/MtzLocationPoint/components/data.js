@@ -14,13 +14,12 @@ export const tableTitle = [
 ]
 
 export const tableTitleCp = [
-  { props: 'rsFreezeDate1', name: '会议名称', key: 'HUIYIMINGCHENG' },
-  { props: 'rsFreezeD2ate', name: '会议类型', key: 'HUIYILEIXING' },
-  { props: 'rsFreez3eDate', name: '开始日期', key: 'KAISHIRIQI' },
-  { props: 'rsFree4zeDate', name: '开始时间', key: 'KAISHISHIJIAN' },
-  { props: 'rsFre5ezeDate', name: '会议地点', key: 'HUIYIDIDIAN' },
+  { props: 'name', name: '会议名称', key: 'HUIYIMINGCHENG' },
+  { props: 'meetingTypeName', name: '会议类型', key: 'HUIYILEIXING' },
+  { props: 'startDate', name: '开始日期', key: 'KAISHIRIQI' },
+  { props: 'startTime', name: '开始时间', key: 'KAISHISHIJIAN' },
+  { props: 'meetingPlace', name: '会议地点', key: 'HUIYIDIDIAN' },
 ]
-
 
 export const topImgList = [
   {
