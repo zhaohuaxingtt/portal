@@ -646,7 +646,7 @@ export default {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.defaultPartsList.forEach(obj => {
-            if (obj.partsCollectId === item.partsCollectId)
+            if (obj.partsNum === item.partsNum)
               obj.isDefaultFolder = operationType
           })
           // item.isDefaultFolder = operationType
