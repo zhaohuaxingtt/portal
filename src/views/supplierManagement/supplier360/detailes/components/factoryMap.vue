@@ -127,8 +127,8 @@ export default {
     },
     supplier360ViewVO(data) {
       this.info = data
-       this.nameZh=data.nameZh
-       this.nameEn=data.nameEn
+    //    this.nameZh=data.nameZh
+    //    this.nameEn=data.nameEn
       this.getTags()
     }
   },
@@ -167,12 +167,12 @@ export default {
         },
         resizeEnable: true, //是否监控地图容器尺寸变化
         zoom: 0, //初始地图级别
-        center: [121, 31], //初始地图中心点
+        center: [112, 39], //初始地图中心点
         showIndoorMap: false, //关闭室内地图
         roam: true,
         zoomEnable: true,
         dragEnable: true,
-        mapStyle: 'amap://styles/macaron'
+        // mapStyle: 'amap://styles/macaron'
       })
       // 放大缩小按钮
       AMap.plugin(['AMap.ToolBar'], function () {

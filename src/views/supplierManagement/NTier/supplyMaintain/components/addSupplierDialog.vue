@@ -242,6 +242,10 @@ export default {
     },
     // 新增
     handleAdd() {
+        if(this.partForm.partType==''){
+             iMessage.warn(this.language('QINGXUANZELINGJIANLEIXING', '请选择零件类型'))
+             return false
+        }
       this.tableListData.push({ partName: '', partNum: "", isEdit: true, time: new Date().getTime() })
     },
     // 删除

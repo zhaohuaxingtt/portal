@@ -18,7 +18,7 @@
           </el-option>
         </iSelect>
       </el-form-item>
-      <el-form-item :label="language('BIAOQIANLEIXING', '标签名称')">
+      <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
         <iSelect multiple
                  collapse-tags
                  filterable
@@ -40,7 +40,7 @@
 
 <script>
 import {} from '@/api/supplier360/blackList'
-import { iButton, iMessage, iMessageBox, iDialog, iSelect } from 'rise'
+import { iButton, iMessage, iDialog, iSelect } from 'rise'
 import {
   getTagList,
   saveSupplierTag
@@ -61,7 +61,10 @@ export default {
 
   data() {
     return {
-      form: {},
+      form: {
+        operationType: '',
+        tagIds: []
+      },
       tagList: [],
       processingList: [],
       tableListData: [],
@@ -86,9 +89,8 @@ export default {
     },
     //保存
     handleBtn() {
-      console.log(this.selectTableData)
-      if (this.tagName == '') {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+      if (this.form.operationType == '' || this.form.tagIds.length == 0) {
+        iMessage.warn(this.language('QINGSHURUWANCHENG', '请输入完成'))
         return false
       }
       const req = {
@@ -99,7 +101,7 @@ export default {
       }
       saveSupplierTag(req).then((res) => {
         if (res && res.code == 200) {
-          this.closeDiolog()
+          this.$emit('closeDiolog', 1)
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
@@ -107,7 +109,7 @@ export default {
 
     // 关闭弹窗
     closeDiolog() {
-        this.$emit('closeDiolog')
+      this.$emit('closeDiolog')
     }
   }
 }

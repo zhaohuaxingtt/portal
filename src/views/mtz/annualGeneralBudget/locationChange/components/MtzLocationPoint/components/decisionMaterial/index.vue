@@ -7,9 +7,9 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\index.vue
 -->
 <template>
-  <div>
-    <iNavMvp lang :list="tabRouterList" class="margin-bottom20" :lev="3" @change="handleClickNav"/>
-    <mtz v-if="currentNav == 1"/>
+  <div class="downPdfBox">
+    <iNavMvp v-if="RsObject" lang :list="tabRouterList" class="margin-bottom20" :lev="3" @change="handleClickNav"/>
+    <mtz v-if="currentNav == 1" :RsType="RsType" />
     <accessoryUpload v-if="currentNav == 2"/>
   </div>
 </template>
@@ -25,20 +25,30 @@ export default {
     mtz,
     accessoryUpload
   },
+  props:{
+    RsType:{ type: Boolean },
+  },
   data () {
     return {
       tabRouterList,
       currentNav: 1,
-      formData: {}
+      formData: {},
+      RsObject:true
     }
   },
   created() {
+    if(this.RsType){
+      this.RsObject = false;
+    }
   },
   methods: {
     // 点击导航
     handleClickNav(data) {
       this.currentNav = data.value
     }
+  },
+  destroyed(){
+    
   }
 }
 </script>

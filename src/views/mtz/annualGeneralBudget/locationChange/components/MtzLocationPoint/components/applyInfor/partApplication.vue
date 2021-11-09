@@ -289,7 +289,7 @@ export default {
     },
     save(){
       relation({
-        mtzAppId:this.$route.query.id,
+        mtzAppId:this.$route.query.mtzAppId,
         ttNominateAppId:this.handleSelectArr[0].id
       }).then(res=>{
         console.log(res)

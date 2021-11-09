@@ -1,15 +1,19 @@
 <template>
   <iCard style="height:14rem">
     <div class="title">
-      <p v-if="isTitle" >{{language('EKLPEIFUJIAN', 'EKL-配附件')}}</p>
-      <p v-if="!isTitle" >{{language('EKLPILIANGJIAN', 'EKL-批量件')}}</p>
-      <span class="el-dropdown-link">
+      <p v-if="!isTitle">{{language('EKLPEIFUJIAN', 'EKL-配附件')}}</p>
+      <p v-if="isTitle">{{language('EKLPILIANGJIAN', 'EKL-批量件')}}</p>
+      <!-- <span class="el-dropdown-link">
         <i class="el-icon-more"></i>
-      </span>
+      </span> -->
     </div>
     <div class="box">
-      <span v-if="isTitle" class="text" @click="isTitle=false">{{language('EKLPILIANGJIAN', 'EKL-批量件')}}</span>
-      <span v-if="!isTitle" class="text" @click="isTitle=true">{{language('EKLPEIFUJIAN', 'EKL-配附件')}}</span>
+      <span v-if="!isTitle"
+            class="text"
+            @click="changeTab">{{language('EKLPILIANGJIAN', 'EKL-批量件')}}</span>
+      <span v-if="isTitle"
+            class="text"
+            @click="changeTab">{{language('EKLPEIFUJIAN', 'EKL-配附件')}}</span>
       <icon class="early"
             symbol
             name="iconcaiwuyujing-icon"></icon>
@@ -31,7 +35,7 @@ export default {
   data() {
     return {
       chart: 'oneChart',
-      isTitle:false
+      isTitle: true
     }
   },
   computed: {
@@ -49,21 +53,37 @@ export default {
         supplierSapCode: this.$route.query.subSupplierId
       }
       getSupplierCard(req).then((res) => {
-        if (res && res.code == 200) {
-          iMessage.success(res.desZh)
-          this.getChart()
-        } else iMessage.error(res.desZh)
+        this.info = res.data
+        this.getChart()
       })
     },
+    changeTab(){
+        this.isTitle=!this.isTitle
+        this.getChart()
+    },
     getChart() {
-      const data1 = [40, 50, 45]
-      const data2 = [-20, -25, -30]
-      const data3 = [40, 50, 45]
+      var data1 = []
+      var data2 = []
+      var data3 = []
+      var data4 = []
+      let arr = []
+      if (this.isTitle) {
+        arr = this.info.batchParts
+      } else {
+        arr = this.info.parts
+      }
+      arr.forEach((e) => {
+        data1.push(e.increaseAmount)
+        data2.push(e.increaseRtio)
+        data3.push(e.reductionRtio)
+        data4.push(e.year)
+      })
+    // data3=this.sumItem(data3,data1)
+    // console.log(data1)
       const myChart = echarts().init(this.$refs.chart)
       var option = {
         legend: {
-          icon: 'circle',
-
+          icon: 'circle',  
           right: 50,
           top: 0,
           textStyle: {
@@ -85,7 +105,7 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed'],
+          data: data4,
           axisLabel: {
             show: true,
             textStyle: {
@@ -116,7 +136,7 @@ export default {
         series: [
           {
             name: '降价',
-            data:data1,
+            data: data1,
             type: 'bar',
             barGap: '-100%',
             barWidth: 30,
@@ -168,7 +188,18 @@ export default {
         ]
       }
       myChart.setOption(option)
-    }
+    },
+    sumItem: function(arr1, arr2) {
+            if (arr2.length == 0) {
+                return arr1;
+            } else {
+                arr1.map(function(value, index) {
+                    arr2[index] += value+1;
+                })
+            }
+            return arr2;
+        }
+
   }
 }
 </script>

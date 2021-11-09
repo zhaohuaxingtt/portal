@@ -74,7 +74,7 @@ export default {
       if (this.isSpecial) {
         return this.language('有异议')
       } else {
-        return this.language('拒绝')
+        return this.language('补充材料')
       }
     }
   }

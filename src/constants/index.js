@@ -4,6 +4,8 @@ export const MAP_APPROVAL_TYPE = {
   APPEND_DATA: 3
 }
 
+export const MOCK_FILE_URL = '/udDown'
+
 //EventBus 名字
 export const EventBusName = {
   SelectedOrganizationTag: 'SelectedOrganizationTag'
@@ -11,4 +13,4 @@ export const EventBusName = {
 
 export const AEKO_CATEGORY_LIST = ['aeko_mp', 'aeko_aea', 'aeko_content']
 
-export const BPM_SINGL_CATEGORY_LIST = ['meeting_rs_recheck']
+export const BPM_SINGL_CATEGORY_LIST = ['meeting_rs_recheck', 'nodApproval']
