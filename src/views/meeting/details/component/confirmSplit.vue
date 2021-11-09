@@ -1,20 +1,18 @@
 <template>
   <iDialog
-      :visible.sync="dialogStatusManageObj.openSplitDialog"
-      width="23.75rem"
-      :close-on-click-modal="false"
-      @close="close"
+    :visible.sync="dialogStatusManageObj.openSplitDialog"
+    width="23.75rem"
+    :close-on-click-modal="false"
+    @close="close"
   >
     <iEditForm class="content">
       <div class="delete-info">确认拆分该议题吗?</div>
       <div class="button-list">
-        <iButton @click="clearDiolog" class="cancel">{{
-            $t("LK_QUXIAO")
-          }}
+        <iButton @click="clearDiolog" class="cancel"
+          >{{ $t('LK_QUXIAO') }}
         </iButton>
-        <iButton @click="handleSubmit" class="confirm">{{
-            $t("LK_QUEREN")
-          }}
+        <iButton @click="handleSubmit" class="confirm" :loading="loading"
+          >{{ $t('LK_QUEREN') }}
         </iButton>
       </div>
     </iEditForm>
@@ -22,62 +20,70 @@
 </template>
 
 <script>
-import {iButton, iDialog, iMessage} from "rise";
-import iEditForm from "@/components/iEditForm";
-import {spiltThemen} from "@/api/meeting/details";
+import { iButton, iDialog, iMessage } from 'rise'
+import iEditForm from '@/components/iEditForm'
+import { spiltThemen } from '@/api/meeting/details'
 
 export default {
   components: {
     iDialog,
     iButton,
 
-    iEditForm,
+    iEditForm
   },
   props: {
     dialogStatusManageObj: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     selectedTableData: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     meetingInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
+  },
+  data() {
+    return {
+      loading: false,
+    }
   },
   methods: {
     clearDiolog() {
-      this.close();
+      this.close()
     },
     handleSubmit() {
+      this.loading = true;
       const data = {
         meetingId: this.meetingInfo.id,
-        themenId: this.selectedTableData[0].id,
-      };
+        themenId: this.selectedTableData[0].id
+      }
       spiltThemen(data)
-          .then((res) => {
-            iMessage.success("拆分成功");
-            this.$emit("flushTable");
-            this.close();
-          })
-          .catch((err) => {
-            iMessage.error("拆分失败 " + err);
-          });
+        .then(() => {
+          this.loading = false;
+          iMessage.success('拆分成功')
+          this.$emit('flushTable')
+          this.close()
+        })
+        .catch((err) => {
+          this.loading = false;
+          iMessage.error('拆分失败 ' + err)
+        })
     },
     close() {
-      this.$emit("input", false);
-      this.$emit("closeDialog", false);
-    },
-  },
-};
+      this.$emit('input', false)
+      this.$emit('closeDialog', false)
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 ::v-deep .el-dialog__header {
@@ -87,7 +93,7 @@ export default {
 
 .content {
   /* background-color: red; */
-  background-image: url("../../../../assets/images/clip.png");
+  background-image: url('../../../../assets/images/clip.png');
   background-repeat: no-repeat;
   background-position: center top;
   padding-top: 74px;

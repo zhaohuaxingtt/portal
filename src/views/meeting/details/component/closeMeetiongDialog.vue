@@ -1,36 +1,36 @@
 <template>
   <!--转派-->
   <iDialog
-      title="关闭会议"
-      :visible.sync="openCloseMeeting"
-      width="23.75rem"
-      :close-on-click-modal="false"
-      destroy-on-close
-      @close="handleClose"
+    title="关闭会议"
+    :visible.sync="openCloseMeeting"
+    width="23.75rem"
+    :close-on-click-modal="false"
+    destroy-on-close
+    @close="handleClose"
   >
     <iEditForm>
       <el-form
-          :model="rowState"
-          :rules="closeMeetingRules"
-          ref="ruleFormCloseMeeting"
-          :hideRequiredAsterisk="true"
-          class="form-box"
+        :model="rowState"
+        :rules="closeMeetingRules"
+        ref="ruleFormCloseMeeting"
+        :hideRequiredAsterisk="true"
+        class="form-box"
       >
         <el-row class="form-row">
           <div class="form-item">
             <iFormItem label="是否触发审批" prop="approvalProcessBoolean">
               <iLabel :label="$t('是否触发审批')" slot="label"></iLabel>
               <iSelect
-                  v-model="isOrNot"
-                  placeholder="请选择"
-                  @change="changeTriggerApproval"
-                  :disabled="row.isTriggerApproval === 'false'"
+                v-model="isOrNot"
+                placeholder="请选择"
+                @change="changeTriggerApproval"
+                :disabled="row.isTriggerApproval === 'false'"
               >
                 <el-option
-                    v-for="(item, index) in approvalBoolean"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
+                  v-for="(item, index) in approvalBoolean"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value"
                 >
                 </el-option>
               </iSelect>
@@ -42,15 +42,15 @@
             <iFormItem label="审批流程" prop="approvalProcessId">
               <iLabel :label="$t('审批流程')" slot="label"></iLabel>
               <iSelect
-                  v-model="rowState.approvalProcessId"
-                  placeholder="请选择"
-                  :disabled="isOrNot === 'false'"
+                v-model="rowState.approvalProcessId"
+                placeholder="请选择"
+                :disabled="isOrNot === 'false'"
               >
                 <el-option
-                    v-for="item in approvalProcessList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
+                  v-for="item in approvalProcessList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
                 >
                 </el-option>
               </iSelect>
@@ -61,34 +61,33 @@
           <iFormItem label="上传附件" prop="uploadFile">
             <iLabel :label="$t('上传附件')" slot="label"></iLabel>
             <el-upload
-                action="1"
-                :limit="1"
-                :before-upload="beforeAvatarUpload"
-                :show-file-list="true"
-                :http-request="httpUpload"
-                :on-remove="remove"
+              action="1"
+              :limit="1"
+              :before-upload="beforeAvatarUpload"
+              :show-file-list="true"
+              :http-request="httpUpload"
+              :on-remove="remove"
             >
               <iButton
-                  type="button"
-                  class="upload-button"
-                  :uploadLoading="uploadLoading"
+                type="button"
+                class="upload-button"
+                :uploadLoading="uploadLoading"
               >
                 请选择文件
-                <span class="upload-text"><img :src="uploadIcon"/></span>
+                <span class="upload-text"><img :src="uploadIcon" /></span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">
-                文件大小最大限制10MB
-              </div>
+              <div slot="tip" class="el-upload__tip">文件大小最大限制10MB</div>
             </el-upload>
           </iFormItem>
         </el-row>
         <div class="button-list">
           <el-form-item>
-            <iButton @click="handleClose" plain class="cancel">{{
-                "退出"
-              }}
+            <iButton @click="handleClose" plain class="cancel"
+              >{{ '退出' }}
             </iButton>
-            <iButton @click="handleSubmit" plain>{{ "确认" }}</iButton>
+            <iButton @click="handleSubmit" plain :loading="loading">{{
+              '确认'
+            }}</iButton>
           </el-form-item>
         </div>
       </el-form>
@@ -97,12 +96,12 @@
 </template>
 
 <script>
-import {iButton, iDialog, iFormItem, iLabel, iMessage, iSelect} from "rise";
-import iEditForm from "@/components/iEditForm";
-import {closeMeeting, getApprovalProcessList} from "@/api/meeting/home";
-import {uploadFile} from "@/api/meeting/type";
-import {approvalBoolean} from "./data.js";
-import uploadIcon from "@/assets/images/upload-icon.svg";
+import { iButton, iDialog, iFormItem, iLabel, iMessage, iSelect } from 'rise'
+import iEditForm from '@/components/iEditForm'
+import { closeMeeting, getApprovalProcessList } from '@/api/meeting/home'
+import { uploadFile } from '@/api/meeting/type'
+import { approvalBoolean } from './data.js'
+import uploadIcon from '@/assets/images/upload-icon.svg'
 
 export default {
   components: {
@@ -111,130 +110,134 @@ export default {
     iLabel,
     iButton,
     iSelect,
-    iEditForm,
+    iEditForm
   },
   props: {
     openCloseMeeting: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     id: {
       type: String || Number,
       default: () => {
-        return "";
-      },
+        return ''
+      }
     },
     row: {
       type: Object,
       default: () => {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   data() {
     return {
+      loading: false,
       approvalBoolean,
       uploadIcon,
       uploadLoading: false,
       attachment: {},
-      isOrNot: "否",
+      isOrNot: '否',
       datePickerOptions: {
         // 日期选择
         disabledDate: (date) => {
-          return date < new Date() - 24 * 60 * 60 * 1000;
-        },
+          return date < new Date() - 24 * 60 * 60 * 1000
+        }
       },
       rowState: JSON.parse(JSON.stringify(this.row)),
       closeMeetingRules: {
         uploadFile: [
           // { required: this.row.isTriggerApproval == 'true' ? true : false, message: "请选择上传附件", trigger: "blur" },
-          {required: false, message: "请选择上传附件", trigger: "blur"},
-        ],
+          { required: false, message: '请选择上传附件', trigger: 'blur' }
+        ]
       },
-      approvalProcessList: [],
-    };
+      approvalProcessList: []
+    }
   },
   mounted() {
     getApprovalProcessList().then((res) => {
       if (res && res.length > 0) {
-        let resUnuse = JSON.parse(JSON.stringify(res));
+        let resUnuse = JSON.parse(JSON.stringify(res))
         resUnuse.forEach((item, index) => {
-          resUnuse[index].id = item.id.toString();
-        });
-        this.approvalProcessList = resUnuse;
+          resUnuse[index].id = item.id.toString()
+        })
+        this.approvalProcessList = resUnuse
       }
-    });
+    })
   },
   watch: {
-    "rowState.isTriggerApproval": {
+    'rowState.isTriggerApproval': {
       handler(v) {
         if (v) {
-          this.isOrNot = "是";
+          this.isOrNot = '是'
         } else {
-          this.isOrNot = "否";
+          this.isOrNot = '否'
         }
       },
-      immediate: true,
+      immediate: true
     },
     isOrNot: {
       handler(v) {
-        if (v === "false") {
-          this.rowState.approvalProcessId = "";
+        if (v === 'false') {
+          this.rowState.approvalProcessId = ''
         }
-      },
-    },
+      }
+    }
   },
   methods: {
     handleClose() {
-      this.$emit("handleClose");
+      this.$emit('handleClose')
     },
     handleSubmit() {
-      this.$refs["ruleFormCloseMeeting"].validate((valid) => {
+      this.$refs['ruleFormCloseMeeting'].validate((valid) => {
         if (valid) {
-          let hashArr = window.location.hash.split("/");
-          hashArr.pop();
+          this.loading = true
+          let hashArr = window.location.hash.split('/')
+          hashArr.pop()
           let param = {
             id: this.id,
             approvalProcessId: this.rowState.approvalProcessId,
             isTriggerApproval:
-                this.rowState.isTriggerApproval == "true" ? true : false,
+              this.rowState.isTriggerApproval == 'true' ? true : false,
             fromUrl:
-                window.location.origin +
-                window.location.pathname +
-                hashArr.join("/") +
-                "/details?id=" +
-                this.id,
-          };
+              window.location.origin +
+              window.location.pathname +
+              hashArr.join('/') +
+              '/details?id=' +
+              this.id
+          }
           if (this.attachment.id) {
             param.attachment = {
               attachmentId: this.attachment.id,
               attachmentName: this.attachment.name,
               attachmentUrl: this.attachment.attachmentUrl,
-              source: "05",
-            };
+              source: '05'
+            }
           }
           closeMeeting(param)
-              .then((res) => {
-                if (res) {
-                  iMessage.success("关闭成功");
-                  this.$emit("handleOK");
-                  this.handleClose();
-                } else {
-                  iMessage.success("关闭失败");
-                  this.handleClose();
-                }
-              })
-              .catch((err) => {
-                console.log("err", err);
-              });
+            .then((res) => {
+              this.loading = false
+              if (res) {
+                iMessage.success('关闭成功')
+                this.$emit('handleOK')
+                this.handleClose()
+              } else {
+                iMessage.success('关闭失败')
+                this.handleClose()
+              }
+            })
+            .catch((err) => {
+              this.loading = false
+              console.log('err', err)
+            })
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
-    changeTriggerApproval(e) {
+    changeTriggerApproval() {
       // this.closeMeetingRules = {
       //   uploadFile: [
       //     { required: e === 'true' ? true : false, message: "请选择上传附件", trigger: "blur" },
@@ -242,41 +245,41 @@ export default {
       // };
     },
     async httpUpload(content) {
-      this.uploadLoading = true;
-      let formData = new FormData();
+      this.uploadLoading = true
+      let formData = new FormData()
       // formData.append("file", content.file);
-      formData.append("multifile", content.file);
-      formData.append("applicationName", 111);
-      formData.append("businessId", 8025);
-      formData.append("currentUserId", -1);
-      formData.append("type", 1);
+      formData.append('multifile', content.file)
+      formData.append('applicationName', 111)
+      formData.append('businessId', 8025)
+      formData.append('currentUserId', -1)
+      formData.append('type', 1)
       await uploadFile(formData)
-          .then((res) => {
-            this.attachment = res[0];
-            iMessage.success(this.$t("上传成功"));
-            this.$refs.ruleFormCloseMeeting.clearValidate("uploadFile");
-          })
-          .catch((err) => {
-            iMessage.error("上传失败");
-          });
-      this.uploadLoading = false;
+        .then((res) => {
+          this.attachment = res[0]
+          iMessage.success(this.$t('上传成功'))
+          this.$refs.ruleFormCloseMeeting.clearValidate('uploadFile')
+        })
+        .catch(() => {
+          iMessage.error('上传失败')
+        })
+      this.uploadLoading = false
     },
     beforeAvatarUpload(file) {
-      const isLt10M = file.size / 1024 / 1024 < 10;
+      const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error("上传头像图片大小不能超过10MB!");
+        this.$message.error('上传头像图片大小不能超过10MB!')
       }
-      return isLt10M;
+      return isLt10M
     },
-    remove(a, b) {
+    remove() {
       // this.$refs.ruleFormCloseMeeting.validateField('name', valid => {
       //   if(valid) {
       //       // 表单验证通过
       //   }
       // })
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

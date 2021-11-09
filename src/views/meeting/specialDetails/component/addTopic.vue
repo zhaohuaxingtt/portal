@@ -430,6 +430,7 @@
         >{{ $t("LK_QUXIAO") }}</iButton
       >
       <iButton
+      :loading="loading"
         @click="handleSubmit"
         class="save"
         v-show="editOrAdd !== 'look'"
@@ -559,6 +560,7 @@ export default {
       }
     };
     return {
+      loading:false,
       uploadLoading: false,
       showWord: true,
       uploadIcon,
@@ -920,6 +922,7 @@ export default {
       this.saveAllNewThemen(this.shouldUploadAttachments);
     },
     saveAllNewThemen(shouldUploadAttachments) {
+      this.loading = true;
       let promiseArr = [];
       shouldUploadAttachments.forEach((item) => {
         let data;

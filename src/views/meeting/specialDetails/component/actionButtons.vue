@@ -77,7 +77,7 @@ export default {
 
   watch: {
     currentButtonList: {
-      handler(v) {
+      handler() {
         // console.log(v);
       },
       deep: true,

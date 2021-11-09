@@ -19,175 +19,179 @@
     ></theTable>
     <div class="button-list">
       <iButton @click="clearDiolog" class="cancel">{{
-        $t("LK_QUXIAO")
+        $t('LK_QUXIAO')
       }}</iButton>
       <iButton
         @click="handleSubmit"
         class="save"
         v-if="row.length !== 1"
         disabled
-        >{{ $t("LK_QUEREN") }}</iButton
+        :loading="loading"
+        >{{ $t('LK_QUEREN') }}</iButton
       >
-      <iButton @click="handleSubmit" class="save" v-else>{{
-        $t("LK_QUEREN")
+      <iButton @click="handleSubmit" class="save" v-else :loading="loading">{{
+        $t('LK_QUEREN')
       }}</iButton>
     </div>
   </iDialog>
 </template>
 
 <script>
-import { iDialog, iButton, iMessage } from "rise";
-import theTable from "./theTable.vue";
-import { pageMixins } from "@/utils/pageMixins";
-import { getMettingList } from "@/api/meeting/home";
-import { tableListColumns } from "./data";
-import { rescheduleThemen } from "@/api/meeting/details";
+import { iDialog, iButton, iMessage } from 'rise'
+import theTable from './theTable.vue'
+import { pageMixins } from '@/utils/pageMixins'
+import { getMettingList } from '@/api/meeting/home'
+import { tableListColumns } from './data'
+import { rescheduleThemen } from '@/api/meeting/details'
 
 export default {
   mixins: [pageMixins],
   components: {
     iDialog,
     iButton,
-    theTable,
+    theTable
   },
   props: {
     selectedTableData: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     meetingInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     dialogStatusManageObj: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     typeObject: {
       type: Object,
       default: () => {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   data() {
     return {
+      loading: false,
       tableListData: [],
       tableListColumns,
-      row: [],
-    };
+      row: []
+    }
   },
   mounted() {
-    this.getUpdateDateTableList();
+    this.getUpdateDateTableList()
   },
   methods: {
     handleSelected(row) {
-      this.row = row;
+      this.row = row
     },
     handleSubmit() {
+      this.loading = true
       // this.$confirm("确定要进行改期吗?", "提示", {
       //   confirmButtonText: "确认",
       //   cancelButtonText: "取消",
       //   type: "warning",
       // }).then(() => {
-      let data = {};
-      if (this.selectedTableData[0].type === "MANUAL") {
+      let data = {}
+      if (this.selectedTableData[0].type === 'MANUAL') {
         data = {
           sourceMeetingId: this.meetingInfo.id,
           targetMeetingId: this.row[0].id,
           themenId: this.selectedTableData[0].id,
-          meetingTypeNames: ["Pre CSC", "CSC"],
-        };
+          meetingTypeNames: ['Pre CSC', 'CSC']
+        }
       } else {
         data = {
           sourceMeetingId: this.meetingInfo.id,
           targetMeetingId: this.row[0].id,
           themenId: this.selectedTableData[0].id,
-          meetingTypeNames: [this.meetingInfo.meetingTypeName],
-        };
+          meetingTypeNames: [this.meetingInfo.meetingTypeName]
+        }
       }
       rescheduleThemen(data)
-        .then((res) => {
-          iMessage.success("改期成功");
-          this.$emit("flushTable");
-          this.close();
+        .then(() => {
+          this.loading = false
+          iMessage.success('改期成功')
+          this.$emit('flushTable')
+          this.close()
         })
-        .catch((err) => {
-          iMessage.error("改期失败 " + err);
-          this.$emit("flushTable");
-          this.close();
-        });
+        .catch(err => {
+          iMessage.error('改期失败 ' + err)
+          this.$emit('flushTable')
+          this.close()
+        })
     },
     handleChangePage(e) {
-      this.page.currPage = e;
+      this.page.currPage = e
       let param = {
         pageNum: this.page.currPage,
         pageSize: 10,
-        states: ["02", "03"],
-      };
-      this.getUpdateDateTableList(param);
+        states: ['02', '03']
+      }
+      this.getUpdateDateTableList(param)
     },
     //获取日期改期的更新的表格数据
     getUpdateDateTableList(e) {
-      this.page.currPage = e ? e.pageNum : 1;
-      let param = {};
-      if (this.selectedTableData[0].type === "MANUAL") {
+      this.page.currPage = e ? e.pageNum : 1
+      let param = {}
+      if (this.selectedTableData[0].type === 'MANUAL') {
         param = {
           pageNum: this.page.currPage,
           pageSize: 10,
-          states: ["02", "03"],
+          states: ['02', '03'],
           meetingId: this.meetingInfo.id,
           themenId: this.selectedTableData[0].id,
-          meetingTypeNames: ["Pre CSC", "CSC"],
-        };
+          meetingTypeNames: ['Pre CSC', 'CSC']
+        }
       } else {
         param = {
           pageNum: this.page.currPage,
           pageSize: 10,
-          states: ["02", "03"],
+          states: ['02', '03'],
           meetingId: this.meetingInfo.id,
           themenId: this.selectedTableData[0].id,
-          meetingTypeNames: [this.meetingInfo.meetingTypeName],
-        };
+          meetingTypeNames: [this.meetingInfo.meetingTypeName]
+        }
       }
-      this.queryMettingList(param);
+      this.queryMettingList(param)
     },
     //会议改期调取会议大厅列表
     queryMettingList(e) {
-      getMettingList(e).then((res) => {
+      getMettingList(e).then(res => {
         // let dataArr = res.data ? res.data : [];
         // this.tableListData = dataArr.filter((item) => {
         //   return !(Number(item.id) === Number(this.meetingInfo.id));
         // });
-        this.tableListData = res.data;
-        this.page.total = res.total;
-      });
+        this.tableListData = res.data
+        this.page.total = res.total
+      })
     },
     close() {
-      this.$emit("input", false);
-      this.$emit("closeDialog", false);
+      this.$emit('input', false)
+      this.$emit('closeDialog', false)
     },
     clearDiolog(sub) {
-      if (sub === "submit") {
-        this.close();
+      if (sub === 'submit') {
+        this.close()
       } else {
         // this.$confirm("是否取消编辑?", "提示", {
         //   confirmButtonText: "是",
         //   cancelButtonText: "否",
         //   type: "warning",
         // }).then(() => {
-        this.close();
+        this.close()
         // });
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

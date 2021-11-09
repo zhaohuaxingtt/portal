@@ -23,8 +23,8 @@
                 v-for="(item, index) in [
                   {
                     value: resultData.attendeeGroupName,
-                    label: resultData.attendeeGroupName,
-                  },
+                    label: resultData.attendeeGroupName
+                  }
                 ]"
                 :key="index"
                 :label="item.label"
@@ -57,7 +57,7 @@
               :key="item.id"
               :class="[
                 choosedIndex == index + 1 ? 'active-agenda-item' : '',
-                'agenda-item',
+                'agenda-item'
               ]"
             >
               <div class="agenda-item-title" @click="chooseItem(index + 1)">
@@ -75,10 +75,7 @@
                   <div>部门：<span>暂无</span></div>
                   <div>Xiao Hua / Xiao Li</div>
                 </div>
-                <iFormItem
-                  prop="conclusion"
-                  class="meet-desc"
-                >
+                <iFormItem prop="conclusion" class="meet-desc">
                   <iInput
                     v-model="item.conclusion"
                     type="textarea"
@@ -88,9 +85,7 @@
                   />
                 </iFormItem>
                 <p class="task">Result：定点</p>
-                <iFormItem
-                  class="meet-desc"
-                >
+                <iFormItem class="meet-desc">
                   <el-table :data="tableData" border style="width: 100%">
                     <el-table-column
                       prop="date"
@@ -136,9 +131,11 @@
         <div class="button-list" v-show="edit">
           <el-form-item>
             <iButton @click="handleCancel" plain class="cancel">{{
-              $t("LK_QUXIAO")
+              $t('LK_QUXIAO')
             }}</iButton>
-            <iButton @click="handleOK" plain>{{ "创建" }}</iButton>
+            <iButton @click="handleOK" plain :loading="loadingCreate">{{
+              '创建'
+            }}</iButton>
           </el-form-item>
         </div>
       </el-form>
@@ -154,12 +151,12 @@ import {
   iLabel,
   iButton,
   iSelect,
-  iMessage,
-} from "rise";
-import { numToLetter } from "../../details/component/data";
-import iEditForm from "@/components/iEditForm";
-import { getMeetingSummary, saveMeetingMinutes } from "@/api/meeting/home";
-import upArrow from "@/assets/images/up-arrow.svg";
+  iMessage
+} from 'rise'
+import { numToLetter } from '../../details/component/data'
+import iEditForm from '@/components/iEditForm'
+import { getMeetingSummary, saveMeetingMinutes } from '@/api/meeting/home'
+import upArrow from '@/assets/images/up-arrow.svg'
 
 export default {
   components: {
@@ -169,72 +166,73 @@ export default {
     iInput,
     iLabel,
     iButton,
-    iEditForm,
+    iEditForm
   },
   props: {
     loading: { type: Boolean, default: false },
     open: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     id: {
       type: Number || String,
       default: () => {
-        return "";
-      },
+        return ''
+      }
     },
     edit: {
       type: Boolean,
       default: () => {
-        return false;
-      },
-    },
+        return false
+      }
+    }
   },
   data() {
     return {
+      loadingCreate:false,
       numToLetter,
       upArrow,
       choosedIndex: -1,
       form: {},
       tableData: [],
       resultData: {
-        name: "",
-        attendeeGroupName: "",
-        attendees: "",
-        themens: [],
+        name: '',
+        attendeeGroupName: '',
+        attendees: '',
+        themens: []
       },
       rules: {
         attendees: [
-          { required: true, message: "请输入议题结论！", trigger: "blur" },
-           { min: 0, max: 2048, message: "最大长度2048字符", trigger: "blur" },
+          { required: true, message: '请输入议题结论！', trigger: 'blur' },
+          { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
         ],
-        conclusion:[
-           { min: 0, max: 2048, message: "最大长度2048字符", trigger: "blur" },
-        ],
-      },
-    };
+        conclusion: [
+          { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
+        ]
+      }
+    }
   },
   mounted() {
-    this.getMeetingSummary();
+    this.getMeetingSummary()
   },
   methods: {
     //表头汉子两行展示
-    renderHeader(h, { column, $index }) {
-      return h("span", {}, [
-        h("span", {}, column.label.split("/")[0]),
-        h("br"),
-        h("span", {}, column.label.split("/")[1]),
-      ]);
+    renderHeader(h, { column }) {
+      return h('span', {}, [
+        h('span', {}, column.label.split('/')[0]),
+        h('br'),
+        h('span', {}, column.label.split('/')[1])
+      ])
     },
     getMeetingSummary() {
       let param = {
-        id: this.id,
-      };
+        id: this.id
+      }
       getMeetingSummary(param).then((res) => {
-        console.log(242,res)
-        this.resultData = res;
+        console.log(242, res)
+        this.resultData = res
         // this.$set(this.resultData.name, res.name)
         // this.resultData.name = res.name;
         // this.resultData.attendeeGroupName = res.attendeeGroupName;
@@ -243,30 +241,32 @@ export default {
         // res.themens.forEach((item,index) => {
         //   Vue.set(this.resultData.themens, this.resultData.themens.length, item.conclusion)
         // })
-      });
+      })
     },
     handleOK() {
-      this.$refs.ruleForm.validate((valid, obj) => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          saveMeetingMinutes(this.resultData).then((res) => {
-            iMessage.success("保存成功");
-            this.$emit("handleOK");
-          });
+          this.loadingCreate = true
+          saveMeetingMinutes(this.resultData).then(() => {
+            this.loadingCreate = false
+            iMessage.success('保存成功')
+            this.$emit('handleOK')
+          })
         }
-      });
+      })
     },
     handleCancel() {
-      this.$emit("handleCancel");
+      this.$emit('handleCancel')
     },
     chooseItem(e) {
       if (this.choosedIndex == e) {
-        this.choosedIndex = -1;
+        this.choosedIndex = -1
       } else {
-        this.choosedIndex = e;
+        this.choosedIndex = e
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -285,12 +285,12 @@ export default {
   padding: 0 1px;
   padding-bottom: 30px;
   &:before {
-    content: ""; /*空 内容*/
+    content: ''; /*空 内容*/
     display: block; /*块元素*/
     clear: both; /*两边不能有浮动元素*/
   }
   &:after {
-    content: ""; /*空 内容*/
+    content: ''; /*空 内容*/
     display: block; /*块元素*/
     clear: both; /*两边不能有浮动元素*/
   }
@@ -421,7 +421,6 @@ export default {
             font-weight: normal;
           }
         }
-
       }
     }
 
@@ -464,5 +463,4 @@ export default {
     display: none;
   }
 }
-
 </style>

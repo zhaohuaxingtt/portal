@@ -47,10 +47,10 @@
         </iFormItem>
         <div class="button-list" v-if="editOrAdd !== 'look'">
           <iButton @click="clearDiolog" class="cancel">{{
-            $t("LK_QUXIAO")
+            $t('LK_QUXIAO')
           }}</iButton>
-          <iButton @click="handleSubmit" class="save">{{
-            $t("LK_BAOCUN")
+          <iButton @click="handleSubmit" class="save" :loading="loading">{{
+            $t('LK_BAOCUN')
           }}</iButton>
         </div>
         <div class="button-list-look" v-else></div>
@@ -60,10 +60,10 @@
 </template>
 
 <script>
-import { iDialog, iInput, iFormItem, iLabel, iButton, iMessage } from "rise";
-import iEditForm from "@/components/iEditForm";
-import { baseRules } from "./data";
-import { addRestThemen, updateRestThemen } from "@/api/meeting/details";
+import { iDialog, iInput, iFormItem, iLabel, iButton, iMessage } from 'rise'
+import iEditForm from '@/components/iEditForm'
+import { baseRules } from './data'
+import { addRestThemen, updateRestThemen } from '@/api/meeting/details'
 
 export default {
   components: {
@@ -72,81 +72,82 @@ export default {
     iInput,
     iLabel,
     iEditForm,
-    iButton,
+    iButton
   },
   props: {
     lookThemenObj: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     editOrAdd: {
       type: String,
       default: () => {
-        return "add";
-      },
+        return 'add'
+      }
     },
     selectedTableData: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     typeObject: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     dialogStatusManageObj: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     meetingInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   data() {
     return {
+      loading: false,
       ruleForm: {
-        topic: "休息",
-        duration: 10,
+        topic: '休息',
+        duration: 10
       },
-      rules: baseRules,
-    };
+      rules: baseRules
+    }
   },
   created() {
-    if (this.editOrAdd === "edit") {
-      this.ruleForm = { ...this.selectedTableData[0] };
-      return;
+    if (this.editOrAdd === 'edit') {
+      this.ruleForm = { ...this.selectedTableData[0] }
+      return
     }
-    if (this.editOrAdd === "look") {
-      this.ruleForm = this.lookThemenObj;
-      return;
+    if (this.editOrAdd === 'look') {
+      this.ruleForm = this.lookThemenObj
+      return
     }
-    this.ruleForm = { ...this.ruleForm, duration: 10 };
+    this.ruleForm = { ...this.ruleForm, duration: 10 }
   },
   methods: {
     close() {
-      this.$emit("input", false);
-      this.$emit("closeDialog", false);
+      this.$emit('input', false)
+      this.$emit('closeDialog', false)
     },
     clearDiolog(sub) {
-      if (sub === "submit") {
-        this.close();
+      if (sub === 'submit') {
+        this.close()
       } else {
         // this.$confirm("是否取消编辑?", "提示", {
         //   confirmButtonText: "是",
         //   cancelButtonText: "否",
         //   type: "warning",
         // }).then(() => {
-          this.close();
+        this.close()
         // });
       }
     },
@@ -156,13 +157,14 @@ export default {
       //   cancelButtonText: "否",
       //   type: "warning",
       // }).then(() => {
-        this.submitForm("ruleForm");
+      this.submitForm('ruleForm')
       // });
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (this.editOrAdd === "edit") {
+          this.loading = true
+          if (this.editOrAdd === 'edit') {
             const formData = {
               // ...this.meetingInfo,
               ...this.ruleForm,
@@ -171,62 +173,66 @@ export default {
               isBreak: true,
               themenId: this.selectedTableData[0]
                 ? this.selectedTableData[0].id
-                : null,
+                : null
               // state: "04",
-            };
+            }
             //开始保存
             updateRestThemen(formData)
               .then((data) => {
+                this.loading = false
                 if (data) {
-                  this.clearDiolog("submit");
-                  iMessage.success("保存成功");
-                  this.$emit("flushTable");
+                  this.clearDiolog('submit')
+                  iMessage.success('保存成功')
+                  this.$emit('flushTable')
                 } else {
-                  this.clearDiolog("submit");
-                  iMessage.error("error");
-                  this.$emit("flushTable");
+                  this.clearDiolog('submit')
+                  iMessage.error('error')
+                  this.$emit('flushTable')
                 }
               })
               .catch((err) => {
-                console.log("err", err);
-              });
+                this.loading = false
+                console.log('err', err)
+              })
           } else {
             const formData = {
               // ...this.meetingInfo,
               ...this.ruleForm,
-              id: "",
+              id: '',
               // itemNo: this.meetingInfo.themens.length + 1,
               meetingId: this.meetingInfo.id,
               isBreak: true,
               themenId: this.selectedTableData[0]
                 ? this.selectedTableData[0].id
-                : null,
+                : null
               // state: "04",
-            };
+            }
             //开始保存
             addRestThemen(formData)
               .then((data) => {
+                this.loading = false
                 if (data) {
-                  this.clearDiolog("submit");
-                  iMessage.success("保存成功");
-                  this.$emit("flushTable");
+                  this.clearDiolog('submit')
+                  iMessage.success('保存成功')
+                  this.$emit('flushTable')
                 } else {
-                  this.clearDiolog("submit");
-                  iMessage.error("error");
-                  this.$emit("flushTable");
+                  this.clearDiolog('submit')
+                  iMessage.error('error')
+                  this.$emit('flushTable')
                 }
               })
               .catch((err) => {
-                console.log("err", err);
-              });
+                this.loading = false
+                console.log('err', err)
+              })
           }
         } else {
-          return false;
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
