@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-26 10:13:30
- * @LastEditTime: 2021-10-29 16:48:56
+ * @LastEditTime: 2021-11-09 11:04:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\MTZchange.js
@@ -240,6 +240,23 @@ export function uploadBasePriceChange(params) {
 export function genericAppChangeDetail(params) {
   return request({
     url: '/mtzBasePriceChange/genericAppChangeDetail',
+    method: 'POST',
+    data: params
+  })
+}
+
+//mtz申请单 - 删除(草稿才可以删除)
+export function mtzDel(params) {
+  return request({
+    url: '/mtzBasePriceChange/mtzDel',
+    method: 'POST',
+    data: params
+  })
+}
+//mtz申请单 - 撤回(已审批才可以撤回
+export function mtzRecall(params) {
+  return request({
+    url: '/mtzBasePriceChange/mtzRecall',
     method: 'POST',
     data: params
   })

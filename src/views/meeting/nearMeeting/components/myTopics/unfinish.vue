@@ -32,7 +32,7 @@
     </iSearch> -->
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <iButton @click="handleMore">{{ 'MORE' }}</iButton>
+        <iButton @click="handleMore">{{ "MORE" }}</iButton>
       </div>
     </div>
     <iTableML tooltip-effect="light" :data="tableData">
@@ -52,11 +52,11 @@
             <div>
               <img
                 v-if="scope.row.follow"
-                src="~@/assets/images/empty-star.svg"
+                src="@/assets/images/empty-star.svg"
               />
               <img
                 v-if="!scope.row.follow"
-                src="~@/assets/images/add-follow-red.svg"
+                src="@/assets/images/add-follow-red.svg"
               />
             </div>
           </div>
@@ -213,9 +213,9 @@
                 lock: scope.row.meetingStatus == '03',
                 begin: scope.row.meetingStatus == '04',
                 end: scope.row.meetingStatus == '05',
-                close: scope.row.meetingStatus == '06'
+                close: scope.row.meetingStatus == '06',
               },
-              'circle'
+              'circle',
             ]"
             >{{ statusObj[scope.row.meetingStatus] }}</span
           >
@@ -262,14 +262,14 @@
 </template>
 
 <script>
-import { iPagination } from 'rise'
-import { iInput, iSelect, iButton } from 'rise'
-import iSearch from '@/components/iSearch/index.vue'
-import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
-import iTableML from '@/components/iTableML'
-import { findMyThemens } from '@/api/meeting/myMeeting'
-import detailDialog from './detailDialog.vue'
-import addTopic from '@/views/meeting/live/components/addTopic.vue'
+import { iPagination } from "rise";
+import { iInput, iSelect, iButton } from "rise";
+import iSearch from "@/components/iSearch/index.vue";
+import iDateRangePicker from "@/components/iDateRangePicker/index.vue";
+import iTableML from "@/components/iTableML";
+import { findMyThemens } from "@/api/meeting/myMeeting";
+import detailDialog from "./detailDialog.vue";
+import addTopic from "@/views/meeting/live/components/addTopic.vue";
 export default {
   components: {
     // iInput,
@@ -280,18 +280,18 @@ export default {
     iPagination,
     iTableML,
     detailDialog,
-    addTopic
+    addTopic,
   },
   data() {
     return {
-      editOrAdd: '',
+      editOrAdd: "",
       openAddTopic: false,
-      meetingTypeId: '',
+      meetingTypeId: "",
       tableLoading: false,
       openDetail: false,
-      id: '',
+      id: "",
       form: {
-        presentItem: '03'
+        presentItem: "03",
       },
       lookThemenObj: {},
       meetingInfo: {},
@@ -299,41 +299,41 @@ export default {
       dataAll: [],
       page: {
         pageSize: 10,
-        pageNum: 1
+        pageNum: 1,
       },
       total: 1,
       presentList: [
         {
-          value: '02',
-          label: '全部'
+          value: "02",
+          label: "全部",
         },
         {
-          value: '01',
-          label: '我的'
-        }
+          value: "01",
+          label: "我的",
+        },
       ],
       statusObj: {
-        '01': '草稿',
-        '02': '开放',
-        '03': '锁定',
-        '04': '开始',
-        '05': '结束',
-        '06': '关闭'
-      }
-    }
+        "01": "草稿",
+        "02": "开放",
+        "03": "锁定",
+        "04": "开始",
+        "05": "结束",
+        "06": "关闭",
+      },
+    };
   },
   mounted() {
-    this.meetingTypeId = this.$route.query.id
-    this.query()
+    this.meetingTypeId = this.$route.query.id;
+    this.query();
   },
   methods: {
     closeDialog() {
-      this.openAddTopic = false
+      this.openAddTopic = false;
     },
     lookOrEdit(row) {
-      this.lookThemenObj = { ...row }
-      this.editOrAdd = 'look'
-      this.openAddTopic = true
+      this.lookThemenObj = { ...row };
+      this.editOrAdd = "look";
+      this.openAddTopic = true;
     },
     // searchTableList(e) {
     //   this.query();
@@ -358,11 +358,11 @@ export default {
     // 查看更多
     handleMore() {
       this.$router.push({
-        path: '/meeting/near-meeting/more-themens',
+        path: "/meeting/near-meeting/more-themens",
         query: {
-          meetingTypeId: this.meetingTypeId
-        }
-      })
+          meetingTypeId: this.meetingTypeId,
+        },
+      });
     },
 
     // 查看详情
@@ -370,51 +370,51 @@ export default {
       // this.id = e;
       // this.openDetail = true;
       this.$router.push({
-        path: '/meeting/near-meeting/detail',
+        path: "/meeting/near-meeting/detail",
         query: {
-          id: e
-        }
-      })
+          id: e,
+        },
+      });
     },
 
     // 关闭详情弹窗
     closeDetail() {
-      this.openDetail = false
+      this.openDetail = false;
     },
     // 获取数据
     query() {
       let param = {
         // ...this.form,
         // presentItem: "03",
-        presentItem: '04',
+        presentItem: "04",
         pageNum: 1,
         pageSize: 9999,
-        meetingTypeId: this.meetingTypeId
-      }
-      findMyThemens(param).then(res => {
+        meetingTypeId: this.meetingTypeId,
+      };
+      findMyThemens(param).then((res) => {
         let data =
           res.data &&
-          res.data.filter(item => {
-            return item.state == '01' || item.state == '02'
-          })
-        this.dataAll = data
-        this.tableData = data.slice(0, 1 * this.page.pageSize)
-        this.total = data.length
-      })
+          res.data.filter((item) => {
+            return item.state == "01" || item.state == "02";
+          });
+        this.dataAll = data;
+        this.tableData = data.slice(0, 1 * this.page.pageSize);
+        this.total = data.length;
+      });
     },
     //选择页数
     handleCurrentChange(curPage) {
-      this.page.pageNum = curPage
-      this.currentChangePage(this.dataAll, this.page.pageNum)
+      this.page.pageNum = curPage;
+      this.currentChangePage(this.dataAll, this.page.pageNum);
     },
     // 分页方法
     currentChangePage(data, pageNum) {
-      let from = (pageNum - 1) * this.page.pageSize
-      let to = pageNum * this.page.pageSize
-      this.tableData = data.slice(from, to)
-    }
-  }
-}
+      let from = (pageNum - 1) * this.page.pageSize;
+      let to = pageNum * this.page.pageSize;
+      this.tableData = data.slice(from, to);
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
