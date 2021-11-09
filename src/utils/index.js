@@ -12,17 +12,22 @@ import localStoreage from './localstorage'
 import jsencrypt from 'jsencrypt'
 export function setCookie(cookieName, cookieData) {
   // eslint-disable-next-line no-undef
-  return Cookies.set(cookieName, cookieData, {
+  return Cookies.set(
+    cookieName,
+    cookieData /* , {
     domain: process.env.VUE_APP_ROOT_DOMAIN
-  })
+  } */
+  )
 }
 export function removeCookie(cookieName) {
   // eslint-disable-next-line no-undef
-  Cookies.remove(cookieName, { domain: process.env.VUE_APP_ROOT_DOMAIN })
+  Cookies.remove(cookieName /* , { domain: process.env.VUE_APP_ROOT_DOMAIN } */)
 }
 export function getCookie(cookieName) {
   // eslint-disable-next-line no-undef
-  return Cookies.get(cookieName, { domain: process.env.VUE_APP_ROOT_DOMAIN })
+  return Cookies.get(
+    cookieName /* , { domain: process.env.VUE_APP_ROOT_DOMAIN } */
+  )
 }
 //获取token
 export function getToken() {
@@ -286,34 +291,43 @@ export function toTree(list, parId) {
 
 // 数字转千分位
 export function toThousands(s, n = 2) {
-  s = parseFloat((s + '').replace(/[^\d\.-]/g, '')).toFixed(n) + '';
-  var l = s.split('.')[0].split('').reverse(),
-    r = s.split('.')[1];
-  var t = '';
+  s = parseFloat((s + '').replace(/[^\d\.-]/g, '')).toFixed(n) + ''
+  var l = s
+      .split('.')[0]
+      .split('')
+      .reverse(),
+    r = s.split('.')[1]
+  var t = ''
   for (var i = 0; i < l.length; i++) {
-    t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? ',' : '');
+    t += l[i] + ((i + 1) % 3 == 0 && i + 1 != l.length ? ',' : '')
   }
   var t1 = ''
   for (var i = 0; i < r.length; i++) {
-    t1 += r[i] + ((i + 1) % 3 == 0 && (i + 1) != r.length ? ',' : '');
+    t1 += r[i] + ((i + 1) % 3 == 0 && i + 1 != r.length ? ',' : '')
   }
-  return t.split('').reverse().join('') + '.' + t1;
+  return (
+    t
+      .split('')
+      .reverse()
+      .join('') +
+    '.' +
+    t1
+  )
 }
 
 // 千分位转数字
 export function delcommafy(num) {
   if (num && num.indexOf(',') > -1) {
-    num = num.replace(/,/gi, '');
+    num = num.replace(/,/gi, '')
   }
-  return num;
-
+  return num
 }
 
 export function unique(arr, id) {
   for (var i = 0; i < arr.length; i++) {
     for (var j = arr.length - 1; j > 0; j--) {
       if (arr[i][id] == arr[j][id] && i != j) {
-        arr.splice(j, 1);
+        arr.splice(j, 1)
       }
     }
   }
