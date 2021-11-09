@@ -8,8 +8,8 @@
  */
 import axios from '@/utils/axios'
 
-const requst = axios(process.env.VUE_APP_RFQ + '/web/mtz')
-const requstDict = axios(process.env.VUE_APP_BASE_INFO + '/web/mtz')
+const requst = axios(process.env.VUE_APP_RFQ +'/web')
+const requstDict = axios(process.env.VUE_APP_BASE_INFO)
 
 export function page(parmars) {
   //定点申请单分页查询
