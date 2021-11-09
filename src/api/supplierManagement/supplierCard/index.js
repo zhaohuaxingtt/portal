@@ -11,3 +11,11 @@ export function getSupplierCard(parmars) {
         data: parmars
     })
 }
+//卡片
+export function supplierRatingCard(params) {
+    return requst({
+      url: `/supplierRatingRecord/supplierRatingCard/`+params,
+      method: 'GET',
+  
+    })
+  }
