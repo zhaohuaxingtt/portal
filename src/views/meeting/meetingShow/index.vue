@@ -16,7 +16,7 @@
             <span class="date-time-start">
               <img :src="timeClock" alt="" srcset="" />
               <span>{{
-                result.startDate + ' ' + result.startTime + '~' + result.endTime
+                result.startDate + " " + result.startTime + "~" + result.endTime
               }}</span>
             </span>
             <span class="date-time-end">
@@ -220,13 +220,13 @@
   </div>
 </template>
 <script>
-import { iPage, iCard, iPagination } from 'rise'
-import iTableML from '@/components/iTableML'
-import { getMeetingDetail } from '@/api/meeting/home'
-import { getMettingType } from '@/api/meeting/type'
-import timeClock from '@/assets/images/time-clock.svg'
-import positionMark from '@/assets/images/position-mark.svg'
-import topicLookDialog from './components/topicLookDialog.vue'
+import { iPage, iCard, iPagination } from "rise";
+import iTableML from "@/components/iTableML";
+import { getMeetingDetail } from "@/api/meeting/home";
+import { getMettingType } from "@/api/meeting/type";
+import timeClock from "@/assets/images/time-clock.svg";
+import positionMark from "@/assets/images/position-mark.svg";
+import topicLookDialog from "./components/topicLookDialog.vue";
 
 export default {
   components: {
@@ -234,7 +234,7 @@ export default {
     iCard,
     iTableML,
     iPagination,
-    topicLookDialog
+    topicLookDialog,
   },
   data() {
     return {
@@ -247,78 +247,78 @@ export default {
       result: {},
       typeObj: {},
       statusObj: {
-        '01': '未进行',
-        '02': '进行中',
-        '03': '已结束'
+        "01": "未进行",
+        "02": "进行中",
+        "03": "已结束",
       },
-      timer: '',
+      timer: "",
       openAddTopic: false,
-      topicInfo: {}
-    }
+      topicInfo: {},
+    };
   },
 
   methods: {
     lookOrEdit(row) {
-      this.topicInfo = row
-      this.openAddTopic = true
+      this.topicInfo = row;
+      this.openAddTopic = true;
     },
     closeDialog() {
-      this.openAddTopic = false
+      this.openAddTopic = false;
     },
     getTypeList() {
       let param = {
         pageSize: 1000,
-        pageNum: 1
-      }
-      let obj = {}
-      getMettingType(param).then(res => {
-        res.data.forEach(item => {
-          obj[item.id] = item.name
-        })
-        this.typeObj = obj
-      })
+        pageNum: 1,
+      };
+      let obj = {};
+      getMettingType(param).then((res) => {
+        res.data.forEach((item) => {
+          obj[item.id] = item.name;
+        });
+        this.typeObj = obj;
+      });
     },
     query() {
-      getMeetingDetail(this.$route.query).then(res => {
-        this.result = res
-        this.data = res.themens
-        this.dataTable = res.themens.slice(0, 1 * this.pageSize)
-        this.handleCurrentChange(1)
-      })
+      getMeetingDetail(this.$route.query).then((res) => {
+        this.result = res;
+        this.data = res.themens;
+        this.dataTable = res.themens.slice(0, 1 * this.pageSize);
+        this.handleCurrentChange(1);
+      });
     },
     handleCurrentChange(pageNum) {
       // 页码切换
-      this.pageNum = pageNum
-      this.currentChangePage(this.data, this.pageNum)
+      this.pageNum = pageNum;
+      this.currentChangePage(this.data, this.pageNum);
     },
     // 分页方法
     currentChangePage(data, pageNum) {
-      let from = (pageNum - 1) * this.pageSize
-      let to = pageNum * this.pageSize
-      this.dataTable = data.slice(from, to)
+      let from = (pageNum - 1) * this.pageSize;
+      let to = pageNum * this.pageSize;
+      this.dataTable = data.slice(from, to);
     },
 
     // 行高亮
     tableRowClassName(row) {
-      if (row.row.state === '03') {
-        return 'unuse-row'
-      } else if (row.row.state === '02') {
-        return 'active-row'
+      if (row.row.state === "03") {
+        return "unuse-row";
+      } else if (row.row.state === "02") {
+        return "active-row";
       }
-      return 'narmal-row'
-    }
+      return "narmal-row";
+    },
   },
   mounted() {
-    this.getTypeList()
-    this.query()
+    this.getTypeList();
+    this.query();
     this.timer = setInterval(() => {
-      this.query()
-    }, 10000)
+      this.query();
+    }, 10000);
   },
   beforeDestroy() {
-    clearInterval(this.timer)
-  }
-}
+    clearInterval(this.timer);
+  },
+};
 </script>
 <style lang="scss" scoped>
 ::v-deep .el-table_1_column_2 {

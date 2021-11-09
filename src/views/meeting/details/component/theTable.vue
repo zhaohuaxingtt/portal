@@ -11,7 +11,7 @@
               :class="'radio' + scope.row.id"
               @click="
                 () => {
-                  handleRadio(scope.row, 'radio' + scope.row.id)
+                  handleRadio(scope.row, 'radio' + scope.row.id);
                 }
               "
             >
@@ -52,8 +52,8 @@
         <template scope="scope">
           <span>{{
             `${scope.row.startDate}
-              ${scope.row.startTime ? scope.row.startTime.substring(0, 5) : ''}~
-              ${scope.row.endTime ? scope.row.endTime.substring(0, 5) : ''}`
+              ${scope.row.startTime ? scope.row.startTime.substring(0, 5) : ""}~
+              ${scope.row.endTime ? scope.row.endTime.substring(0, 5) : ""}`
           }}</span>
         </template>
       </el-table-column>
@@ -75,54 +75,54 @@
 </template>
 
 <script>
-import { iPagination } from 'rise'
-import iTableML from '@/components/iTableML'
-import { statusObj } from './data'
-import resultMessageMixin from '@/mixins/resultMessageMixin'
-import enclosure from '@/assets/images/enclosure.svg'
-import beginVedio from '@/assets/images/meeting-home/beginVedio.svg'
-import closeVedio from '@/assets/images/meeting-home/close-vedio.svg'
-import change from '@/assets/images/meeting-home/change.svg'
-import doubleScreen from '@/assets/images/meeting-home/doubleScreen.svg'
-import endVedio from '@/assets/images/meeting-home/endVedio.svg'
-import importFile from '@/assets/images/meeting-home/import.svg'
-import newAgenda from '@/assets/images/meeting-home/newAgenda.svg'
-import newFile from '@/assets/images/meeting-home/newFile.svg'
-import openLock from '@/assets/images/meeting-home/openLock.svg'
-import lock from '@/assets/images/meeting-home/lock.svg'
-import screen from '@/assets/images/meeting-home/screen.svg'
-import uploadFile from '@/assets/images/meeting-home/uploadFile.svg'
-import upload from '@/assets/images/meeting-home/upload.svg'
+import { iPagination } from "rise";
+import iTableML from "@/components/iTableML";
+import { statusObj } from "./data";
+import resultMessageMixin from "@/mixins/resultMessageMixin";
+import enclosure from "@/assets/images/enclosure.svg";
+import beginVedio from "@/assets/images/meeting-home/beginVedio.svg";
+import closeVedio from "@/assets/images/meeting-home/close-vedio.svg";
+import change from "@/assets/images/meeting-home/change.svg";
+import doubleScreen from "@/assets/images/meeting-home/doubleScreen.svg";
+import endVedio from "@/assets/images/meeting-home/endVedio.svg";
+import importFile from "@/assets/images/meeting-home/import.svg";
+import newAgenda from "@/assets/images/meeting-home/newAgenda.svg";
+import newFile from "@/assets/images/meeting-home/newFile.svg";
+import openLock from "@/assets/images/meeting-home/openLock.svg";
+import lock from "@/assets/images/meeting-home/lock.svg";
+import screen from "@/assets/images/meeting-home/screen.svg";
+import uploadFile from "@/assets/images/meeting-home/uploadFile.svg";
+import upload from "@/assets/images/meeting-home/upload.svg";
 
 export default {
   components: {
     iTableML,
-    iPagination
+    iPagination,
   },
   mixins: [resultMessageMixin],
   props: {
     tableListData: {
       type: Array,
       default: () => {
-        return []
-      }
+        return [];
+      },
     },
     typeObject: {
       type: Object,
       default: () => {
-        return {}
-      }
+        return {};
+      },
     },
     page: {
       type: Object,
       default: () => {
-        return {}
-      }
-    }
+        return {};
+      },
+    },
   },
   data() {
     return {
-      radio: '',
+      radio: "",
       beginVedio,
       closeVedio,
       change,
@@ -151,30 +151,30 @@ export default {
       assignQualitativeScoreLoading: false,
       transferQualitativeScoreLoading: false,
       selectedRow: [],
-      openAddSingle: false
-    }
+      openAddSingle: false,
+    };
   },
   methods: {
     handleRadio(row, str) {
-      this.selectedRow = row
+      this.selectedRow = row;
       for (let key in this.$refs) {
         if (!this.$refs[key]) {
-          continue
+          continue;
         }
-        this.$refs[key].classList.remove('radioed')
+        this.$refs[key].classList.remove("radioed");
       }
-      this.$refs[str].classList.toggle('radioed')
-      this.$emit('handleSelected', [row])
+      this.$refs[str].classList.toggle("radioed");
+      this.$emit("handleSelected", [row]);
     },
     // handleChoose(e) {
     //   this.selectedRow = e;
     //   this.$emit("handleSelected", e);
     // },
     handleCurrentChange(e) {
-      this.$emit('handleChangePage', e)
-    }
-  }
-}
+      this.$emit("handleChangePage", e);
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -185,7 +185,7 @@ export default {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  div[name='radio'] {
+  div[name="radio"] {
     /* flex-grow: 1;
     flex-shrink: 0; */
     width: 14px;

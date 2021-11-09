@@ -8,11 +8,11 @@
       <div class="title">
         <div :class="themen.state === '02' ? 'status up-blue' : 'status'">
           {{
-            themen.state === '03'
-              ? 'FINISH'
-              : themen.state === '02'
-              ? 'LIVE!'
-              : 'NEXT'
+            themen.state === "03"
+              ? "FINISH"
+              : themen.state === "02"
+              ? "LIVE!"
+              : "NEXT"
           }}
         </div>
         <div class="rate-progress">
@@ -58,7 +58,7 @@
       </ul>
       <div v-else class="my-box">
         <div class="img-box">
-          <img src="~@/assets/images/rest.svg" />
+          <img src="@/assets/images/rest.svg" />
         </div>
       </div>
       <el-divider></el-divider>
@@ -67,70 +67,70 @@
 </template>
 
 <script>
-import { iCard } from 'rise'
-import dayjs from 'dayjs'
+import { iCard } from "rise";
+import dayjs from "dayjs";
 export default {
   components: { iCard },
   props: {
     meetingName: {
       type: String,
       default: () => {
-        return ''
-      }
+        return "";
+      },
     },
     themen: {
       type: Object,
       default: () => {
-        return {}
-      }
+        return {};
+      },
     },
     total: {
       type: Number,
       default: () => {
-        return 0
-      }
+        return 0;
+      },
     },
     num: {
       type: Number,
       default: () => {
-        return 0
-      }
+        return 0;
+      },
     },
     startDate: {
       type: String,
       default: () => {
-        return ''
-      }
+        return "";
+      },
     },
     endDate: {
       type: String,
       default: () => {
-        return ''
-      }
-    }
+        return "";
+      },
+    },
   },
   data() {
     return {
-      timer: '',
-      nowTime: dayjs(new Date()).format('HH:mm:ss')
-    }
+      timer: "",
+      nowTime: dayjs(new Date()).format("HH:mm:ss"),
+    };
   },
   created() {
-    if (this.themen.state === '02') {
+    if (this.themen.state === "02") {
       this.timer = setInterval(() => {
-        this.nowTime = this.getNowTime()
-      }, 5000)
+        this.nowTime = this.getNowTime();
+      }, 5000);
     }
   },
   methods: {
     getNowTime() {
-      return dayjs(new Date()).format('HH:mm:ss')
-    }
+      return dayjs(new Date()).format("HH:mm:ss");
+    },
   },
   beforeDestroy() {
-    clearInterval(this.timer)
-  }
-}
+    clearInterval(this.timer);
+  },
+};
 </script>
 <style lang="scss" scoped>
 .my-box {

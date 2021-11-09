@@ -33,7 +33,15 @@
                 :hideRequiredAsterisk="true"
               >
                 <iLabel :label="$t('类型名称')" slot="label" required></iLabel>
-                <iInput v-model="ruleForm.name"></iInput>
+                <iInput
+                  v-model="ruleForm.name"
+                  :disabled="
+                    selectedTableData[0]
+                      ? selectedTableData[0].name === 'Pre CSC' ||
+                        selectedTableData[0].name === 'CSC'
+                      : false
+                  "
+                ></iInput>
               </iFormItem>
               <iFormItem label="生成会议名称后缀" prop="meetingNameSuffix">
                 <iLabel
@@ -41,7 +49,15 @@
                   slot="label"
                   required
                 ></iLabel>
-                <iInput v-model="ruleForm.meetingNameSuffix"></iInput>
+                <iInput
+                  v-model="ruleForm.meetingNameSuffix"
+                  :disabled="
+                    selectedTableData[0]
+                      ? selectedTableData[0].name === 'Pre CSC' ||
+                        selectedTableData[0].name === 'CSC'
+                      : false
+                  "
+                ></iInput>
               </iFormItem>
             </div>
             <div class="form-row">
@@ -55,6 +71,12 @@
                   v-model="ruleForm.category"
                   placeholder="请选择"
                   value-key="id"
+                  :disabled="
+                    selectedTableData[0]
+                      ? selectedTableData[0].name === 'Pre CSC' ||
+                        selectedTableData[0].name === 'CSC'
+                      : false
+                  "
                 >
                   <el-option
                     v-for="item in categoryList"
@@ -224,13 +246,13 @@ import {
   updateMettingType,
   uploadFile
 } from '@/api/meeting/type'
-import { MOCK_FILE_URL } from '@/constants'
+// import { MOCK_FILE_URL } from '@/constants'
 import {
   // getPageListByParam,
   getUsers,
   getListByParam
 } from '@/api/usercenter/receiver.js'
-import { getFileByIds } from '@/api/file/filedownload.js'
+// import { getFileByIds } from '@/api/file/filedownload.js'
 
 export default {
   components: {
@@ -757,7 +779,7 @@ export default {
   width: 162px;
   .image-box {
     width: 288px;
-    background-image: url('~@/assets/images/imgBg.svg');
+    background-image: url('../../../../assets/images/imgBg.svg');
     background-repeat: no-repeat;
     background-color: #eee;
     background-position: center;

@@ -44,7 +44,7 @@
         @click="handleRevokeTopic"
         >撤回议题</iButton
       >
-      <iButton @click="handleMore">{{ 'MORE' }}</iButton>
+      <iButton @click="handleMore">{{ "MORE" }}</iButton>
     </el-row>
     <iTableML
       tooltip-effect="light"
@@ -76,11 +76,11 @@
             <div>
               <img
                 v-if="scope.row.follow"
-                src="~@/assets/images/empty-star.svg"
+                src="@/assets/images/empty-star.svg"
               />
               <img
                 v-if="!scope.row.follow"
-                src="~@/assets/images/add-follow-red.svg"
+                src="@/assets/images/add-follow-red.svg"
               />
             </div>
           </div>
@@ -146,9 +146,9 @@
                 lock: scope.row.meetingStatus == '03',
                 begin: scope.row.meetingStatus == '04',
                 end: scope.row.meetingStatus == '05',
-                close: scope.row.meetingStatus == '06'
+                close: scope.row.meetingStatus == '06',
               },
-              'circle'
+              'circle',
             ]"
             >{{ statusObj[scope.row.meetingStatus] }}</span
           >
@@ -325,14 +325,14 @@
 </template>
 
 <script>
-import { iPagination } from 'rise'
-import { iInput, iSelect, iButton, iMessage } from 'rise'
-import iSearch from '@/components/iSearch/index.vue'
-import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
-import iTableML from '@/components/iTableML'
+import { iPagination } from "rise";
+import { iInput, iSelect, iButton, iMessage } from "rise";
+import iSearch from "@/components/iSearch/index.vue";
+import iDateRangePicker from "@/components/iDateRangePicker/index.vue";
+import iTableML from "@/components/iTableML";
 // import { getMyMettingList, findMyThemens } from "@/api/meeting/myMeeting";
-import addTopic from './addTopic.vue'
-import { recallThemen } from '@/api/meeting/details'
+import addTopic from "./addTopic.vue";
+import { recallThemen } from "@/api/meeting/details";
 
 export default {
   components: {
@@ -343,48 +343,48 @@ export default {
     iPagination,
     iTableML,
     iButton,
-    addTopic
+    addTopic,
     // detailDialog,
   },
   data() {
     return {
-      meetingTypeId: '',
-      editOrAdd: 'add',
+      meetingTypeId: "",
+      editOrAdd: "add",
       openAddTopic: false,
       disabledButton: true,
       tableLoading: false,
       openDetail: false,
       selectedData: [],
-      id: '',
+      id: "",
       form: {
-        presentItem: '01'
+        presentItem: "01",
       },
       tableData: [],
       dataAll: [],
       page: {
         pageSize: 10,
-        pageNum: 1
+        pageNum: 1,
       },
       total: 1,
       presentList: [
         {
-          value: '01',
-          label: '全部'
+          value: "01",
+          label: "全部",
         },
         {
-          value: '02',
-          label: '我的'
-        }
+          value: "02",
+          label: "我的",
+        },
       ],
       statusObj: {
-        '01': '草稿',
-        '02': '开放',
-        '03': '锁定',
-        '04': '开始',
-        '05': '结束',
-        '06': '关闭'
-      }
-    }
+        "01": "草稿",
+        "02": "开放",
+        "03": "锁定",
+        "04": "开始",
+        "05": "结束",
+        "06": "关闭",
+      },
+    };
   },
   props: {
     // condition: {
@@ -396,15 +396,15 @@ export default {
     meetingInfo: {
       type: Object,
       default: () => {
-        return {}
-      }
+        return {};
+      },
     },
     unFinishedData: {
       type: Array,
       default: () => {
-        return []
-      }
-    }
+        return [];
+      },
+    },
   },
   watch: {
     unFinishedData: {
@@ -412,35 +412,35 @@ export default {
         // this.unFinishedData = newV.filter((item) => {
         //   return !item.isBreak;
         // });
-        this.dataAll = [...newV].filter(item => {
-          return !item.isBreak
-        })
-        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
-        this.total = this.dataAll.length
-        this.page.pageNum = 1
+        this.dataAll = [...newV].filter((item) => {
+          return !item.isBreak;
+        });
+        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize);
+        this.total = this.dataAll.length;
+        this.page.pageNum = 1;
       },
       immediate: true,
-      deep: true
+      deep: true,
     },
     meetingInfo: {
       handler() {
-        this.dataAll = [...this.unFinishedData]
-        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
-        this.total = this.dataAll.length
+        this.dataAll = [...this.unFinishedData];
+        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize);
+        this.total = this.dataAll.length;
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   mounted() {
-    this.meetingTypeId = this.$route.query.id
+    this.meetingTypeId = this.$route.query.id;
   },
   methods: {
     // 02 开放  03 锁定
     //检索一个 数组是否包含03
     findLockStatus(list) {
-      return list.some(item => {
-        return item.meetingStatus === '03'
-      })
+      return list.some((item) => {
+        return item.meetingStatus === "03";
+      });
     },
     // objectSpanMethod({ row, column, rowIndex, columnIndex }) {
     //   if (columnIndex === 0) {
@@ -458,69 +458,69 @@ export default {
     //   }
     // },
     lookOrEdit(row) {
-      this.lookThemenObj = row
-      if (row.follow || row.meetingStatus !== '02') {
-        this.editOrAdd = 'look'
+      this.lookThemenObj = row;
+      if (row.follow || row.meetingStatus !== "02") {
+        this.editOrAdd = "look";
         // this.editOrAdd = "edit";
-        this.openAddTopic = true
-        return
+        this.openAddTopic = true;
+        return;
       }
-      this.editOrAdd = 'edit'
-      this.openAddTopic = true
+      this.editOrAdd = "edit";
+      this.openAddTopic = true;
     },
     flushTable(info) {
-      if (info === 'onlyClose') {
-        this.closeDialog()
+      if (info === "onlyClose") {
+        this.closeDialog();
       }
       let timer = setTimeout(() => {
-        this.$emit('findMyThemensByCondition', this.form)
-        clearTimeout(timer)
-      }, 0)
+        this.$emit("findMyThemensByCondition", this.form);
+        clearTimeout(timer);
+      }, 0);
     },
     handleAddTopic() {
-      this.editOrAdd = 'add'
-      this.openAddTopic = true
+      this.editOrAdd = "add";
+      this.openAddTopic = true;
     },
     handleRevokeTopic() {
-      const bol = this.findLockStatus(this.selectedData)
+      const bol = this.findLockStatus(this.selectedData);
       const warn = bol
-        ? '请确认是否发送议题撤回申请至会议管理员?'
-        : '是否确认撤回该议题?'
+        ? "请确认是否发送议题撤回申请至会议管理员?"
+        : "是否确认撤回该议题?";
       if (
-        this.selectedData[0].meetingStatus === '02' ||
-        this.selectedData[0].meetingStatus === '03'
+        this.selectedData[0].meetingStatus === "02" ||
+        this.selectedData[0].meetingStatus === "03"
       ) {
-        this.$confirm(warn, '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
-          type: 'warning'
+        this.$confirm(warn, "提示", {
+          confirmButtonText: "是",
+          cancelButtonText: "否",
+          type: "warning",
         }).then(() => {
-          let promiseArr = []
-          this.selectedData.forEach(item => {
+          let promiseArr = [];
+          this.selectedData.forEach((item) => {
             const params = {
               meetingId: item.meetingId,
-              themenId: item.id
-            }
+              themenId: item.id,
+            };
             const p = new Promise((resolve, reject) => {
               recallThemen(params)
-                .then(res => {
-                  resolve(res)
+                .then((res) => {
+                  resolve(res);
                 })
-                .catch(err => {
-                  reject(err)
-                })
-            })
-            promiseArr.push(p)
-          })
+                .catch((err) => {
+                  reject(err);
+                });
+            });
+            promiseArr.push(p);
+          });
           Promise.all(promiseArr)
-            .then(res => {
-              const message = res[0].code === 200 ? res[0].message : ''
+            .then((res) => {
+              const message = res[0].code === 200 ? res[0].message : "";
               if (bol) {
-                iMessage.success('已发送会议撤回申请给管理员。')
+                iMessage.success("已发送会议撤回申请给管理员。");
               } else {
-                iMessage.success(message)
+                iMessage.success(message);
               }
-              this.flushTable()
+              this.flushTable();
               // res.forEach((it) => {
               //   if (it.code === 200) {
               //     iMessage.success(it.message);
@@ -528,12 +528,12 @@ export default {
               //   this.flushTable();
               // });
             })
-            .catch(err => {
-              iMessage.error(err && err[0] && err[0].message)
+            .catch((err) => {
+              iMessage.error(err && err[0] && err[0].message);
               // err.forEach((it) => {
               //   iMessage.error(it.message);
               // });
-            })
+            });
           // const params = {
           //   meetingId: this.meetingInfo.id,
           //   themenId: this.selectedData[0].id,
@@ -549,9 +549,9 @@ export default {
           //   .catch((err) => {
           //     console.log(err);
           //   });
-        })
+        });
       } else {
-        iMessage.warn('只有开放和锁定状态才可以撤回!')
+        iMessage.warn("只有开放和锁定状态才可以撤回!");
       }
       // this.$confirm("请确认是否要撤回该议题?", "提示", {
       //   confirmButtonText: "是",
@@ -583,46 +583,46 @@ export default {
       // });
     },
     closeDialog() {
-      this.openAddTopic = false
+      this.openAddTopic = false;
     },
     //follow为true表示关注的，false为 自己提交的
     selectionChange(val) {
-      this.selectedData = val
+      this.selectedData = val;
       let bol =
         val.length === 0
           ? false
-          : val.every(item => {
+          : val.every((item) => {
               // console.log(typeof item.follow)
               return (
-                (item.meetingStatus === '03' || item.meetingStatus === '02') &&
+                (item.meetingStatus === "03" || item.meetingStatus === "02") &&
                 !item.follow &&
-                item.state !== '04'
-              )
-            })
+                item.state !== "04"
+              );
+            });
       if ((val && val.length === 1 && bol) || bol) {
-        this.disabledButton = false
+        this.disabledButton = false;
       } else {
-        this.disabledButton = true
+        this.disabledButton = true;
       }
     },
     searchTableList(e) {
-      this.$emit('findMyThemensByCondition', this.form)
+      this.$emit("findMyThemensByCondition", this.form);
     },
     changeStart(e) {
-      this.form.startDateBegin = e
+      this.form.startDateBegin = e;
     },
     changeEnd(e) {
-      this.form.startDateEnd = e
+      this.form.startDateEnd = e;
     },
     handleSearchReset() {
       this.form = {
-        presentItem: '01'
-      }
-      this.page.pageNum = 1
+        presentItem: "01",
+      };
+      this.page.pageNum = 1;
       setTimeout(() => {
-        this.$refs.iDateRangePicker.initDate()
-      }, 4)
-      this.query()
+        this.$refs.iDateRangePicker.initDate();
+      }, 4);
+      this.query();
     },
     query() {
       // let param = {
@@ -640,36 +640,36 @@ export default {
       //   this.tableData = data.slice(0, 1 * this.page.pageSize);
       //   this.total = data.length;
       // });
-      this.$emit('findMyThemens')
+      this.$emit("findMyThemens");
     },
     //选择页数
     handleCurrentChange(curPage) {
-      this.page.pageNum = curPage
-      this.currentChangePage(this.dataAll, this.page.pageNum)
+      this.page.pageNum = curPage;
+      this.currentChangePage(this.dataAll, this.page.pageNum);
     },
     // 分页方法
     currentChangePage(data, pageNum) {
-      let from = (pageNum - 1) * this.page.pageSize
-      let to = pageNum * this.page.pageSize
-      this.tableData = data.slice(from, to)
+      let from = (pageNum - 1) * this.page.pageSize;
+      let to = pageNum * this.page.pageSize;
+      this.tableData = data.slice(from, to);
     },
 
     // 查看详情
     checkDetail(e) {
-      this.id = e
-      this.openDetail = true
+      this.id = e;
+      this.openDetail = true;
     },
     // 查看更多
     handleMore() {
       this.$router.push({
-        path: '/meeting/live/more-themens',
+        path: "/meeting/live/more-themens",
         query: {
-          meetingTypeId: this.meetingTypeId
-        }
-      })
-    }
-  }
-}
+          meetingTypeId: this.meetingTypeId,
+        },
+      });
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -681,7 +681,7 @@ export default {
     text-align: center;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -62%);
+    transform: translate(-50%,-62%);
   }
 }
 ::v-deep .el-table_1_column_2 {

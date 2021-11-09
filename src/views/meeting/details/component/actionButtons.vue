@@ -96,7 +96,7 @@ export default {
     display: flex;
     margin-bottom: 20px;
     button {
-      width: 132px;
+      min-width: 132px;
       height: 35px;
       margin-left: 20px;
       font-size: 16px;
