@@ -22,7 +22,9 @@ export default {
 
 <style lang="scss" scoped>
 .right-content{
-  border: 1px solid #D0D4D9;
+  border-left: 1px solid #D0D4D9;
+  box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
+  height: 400px;
   width: 400px;
   .title{
     margin-bottom: 20px;
