@@ -4,6 +4,8 @@ export const MAP_APPROVAL_TYPE = {
   APPEND_DATA: 3
 }
 
+export const MOCK_FILE_URL = '/udDown'
+
 //EventBus 名字
 export const EventBusName = {
   SelectedOrganizationTag: 'SelectedOrganizationTag'
