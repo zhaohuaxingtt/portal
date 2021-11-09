@@ -57,7 +57,7 @@ export default {
       falg: true,
       page: undefined,
       query: {
-        pageSize: 8,
+        pageSize: 6,
         pageNum: 1
       }
     }

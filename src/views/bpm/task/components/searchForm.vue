@@ -217,7 +217,7 @@ export default {
     },
     reset() {
       this.form = {}
-      this.$emit('search', this.form)
+      this.$emit('search', this.form, this.templates)
     },
     async queryModelTemplate() {
       const data = {

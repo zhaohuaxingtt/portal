@@ -15,14 +15,12 @@
           >
             <el-option
               v-for="item of taskNodes"
-              :label="item.activityName"
+              :label="
+                item.activityName + `${item.approver && '-'}` + item.approver
+              "
               :value="item.taskId"
               :key="item.taskId"
-            >
-              <span>{{ item.activityName }}</span>
-              <span v-if="item.approver"> - </span>
-              <span>{{ item.approver }}</span>
-            </el-option>
+            />
           </iSelect>
         </iFormItem>
         <iFormItem>
