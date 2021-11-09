@@ -65,7 +65,7 @@
         <el-table-column align="center" show-overflow-tooltip prop="isWarningLetter" :label="language('BAOJINGXING','报警信')">
           <template slot-scope="scope">
             <el-tooltip class="item" :content="language('GONGYINGSHANGYITIJIAOBAOJINGXING','供应商已提交报警信')" placement="top-start" effect="light">
-              <img class="cursor" @click="handleAlarmSignal(scope.row.warningLetterId)" v-if="scope.row.isWarningLetter" width="20px" :src="alarm" alt="">
+              <img class="cursor" @click="handleAlarmSignal(scope.row)" v-if="scope.row.isWarningLetter" width="20px" :src="alarm" alt="">
             </el-tooltip>
           </template>
         </el-table-column>
@@ -132,8 +132,9 @@ export default {
   // 方法集合
   methods: {
     // 进入报警信页面
-    handleAlarmSignal(warningLetterId) {
-      this.$router.push({ path: '/supplier/NTier/alarmLetter/alarmLetterView', query: { flag: 'view', id: warningLetterId } })
+    handleAlarmSignal(row) {
+       window.open(row.pdfUrl, "_blank");
+    //   this.$router.push({ path: '/supplier/NTier/alarmLetter/alarmLetterView', query: { flag: 'view', id: warningLetterId } })
     },
     // 打开编辑窗口
     handleEdit() {

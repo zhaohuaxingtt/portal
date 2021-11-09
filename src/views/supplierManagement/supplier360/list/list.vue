@@ -128,6 +128,10 @@
                   @openPage="openPage"
                   :openPageGetRowData="true"
                   :index="true">
+        <template #supplierTagNameList="scope">
+          <i-button type="text"
+                    @click="handleTagsList(scope.row)">{{ scope.row.supplierTagNameList }}</i-button>
+        </template>
         <template #supplierStatus="scope">
           <div v-if="form.supplierType == 'GP'">
             <i-button v-if="scope.row.isGpBlackList != 1"
@@ -168,7 +172,7 @@
       </setTagdilog>
       <setTagList @closeDiolog="closeDiolog"
                   v-model="issetTagList"
-                  :selectTableData="selectTableData"
+                  :rowList="rowList"
                   v-if="issetTagList">
       </setTagList>
       <!-- 一般供应商加入黑名单 -->
@@ -491,9 +495,9 @@ export default {
       } else this.isSetTag = true
     },
     //标签列表弹窗
-    tagList( row) {
-     this.rowList=row
-     this.issetTagList = true
+    handleTagsList(row) {
+      this.rowList = row
+      this.issetTagList = true
     },
     async handleRating() {
       if (this.selectTableData.length === 0) {

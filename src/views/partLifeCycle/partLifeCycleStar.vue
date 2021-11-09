@@ -382,7 +382,7 @@ export default {
       carTypeProjectName: [],
       eop: '',
       fixedPoint: '',
-      brandName: '',
+      brandName: [],
       isSupply: '',
       partsNum: '',
       partsName: '',
@@ -440,7 +440,7 @@ export default {
       this.businessDateEnd = ''
       this.contractSapCode = ''
       this.contractCode = ''
-      this.brandName = ''
+      this.brandName = []
       this.modelNameZh = []
       this.carTypeProjectName = []
       this.fsNum = ''
@@ -448,7 +448,7 @@ export default {
       this.defaultParts()
     },
     getPartsCollect(){
-      this.loadingiSearch = true
+      this.leftLoading = true
       getPartsCollect({
         partsNum: this.partsNum,
         partsName: this.partsName,
@@ -487,10 +487,10 @@ export default {
         } else {
           iMessage.error(result)
         }
-        this.loadingiSearch = false
+        this.leftLoading = false
 
       }).catch(() => {
-        this.loadingiSearch = false
+        this.leftLoading = false
       })
     },
     getCategoryPullDown(val){
@@ -530,6 +530,7 @@ export default {
       })
     },
     getSeletes() {
+      this.loadingiSearch = false
       Promise.all([
         getAekoPullDown(),
         getCategoryPullDown([]),
@@ -609,6 +610,9 @@ export default {
         } else {
           iMessage.error(result10)
         }
+        this.loadingiSearch = false
+      }).catch(() => {
+        this.loadingiSearch = false
       })
     },
     toClaim() {
@@ -642,7 +646,7 @@ export default {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.defaultPartsList.forEach(obj => {
-            if (obj.partsCollectId === item.partsCollectId)
+            if (obj.partsNum === item.partsNum)
               obj.isDefaultFolder = operationType
           })
           // item.isDefaultFolder = operationType
