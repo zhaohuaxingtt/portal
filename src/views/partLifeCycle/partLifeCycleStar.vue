@@ -266,7 +266,7 @@
           <div v-for="(item, index) in defaultPartsList" :key="index" :class="{ isExpand: expandRelevantPart }"
                @click="currentDefaultPart = item.partsNum;getRelationParts()">
             <div class="title">
-              <span class="link">{{ item.partsNum }}</span>
+              <span class="link" @click.stop="toPartLifeCycle(item.partsNum)">{{ item.partsNum }}</span>
               <span>{{ item.deptName }}</span>
               <icon v-show="!isEdit" symbol @click.native.stop.prevent="cancelOrCollect(item)"
                     :name="Number(item.isDefaultFolder) === 1 ? 'iconyishoucanglingjian' : 'iconweishoucanglingjian'"></icon>
