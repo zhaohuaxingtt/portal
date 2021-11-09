@@ -344,11 +344,3 @@ export function mtzAppNomiSubmit(params) {//提交
         data: params,
     })
 }
-
-export function mtzAppNomiSubmit(params) {//提交
-    return requst({
-        url: '/mtzAppNomi/submit',
-        method: 'POST',
-        data: params,
-    })
-}
