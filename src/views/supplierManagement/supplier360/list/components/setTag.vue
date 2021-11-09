@@ -18,7 +18,7 @@
           </el-option>
         </iSelect>
       </el-form-item>
-      <el-form-item :label="language('BIAOQIANLEIXING', '标签名称')">
+      <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
         <iSelect multiple
                  collapse-tags
                  filterable

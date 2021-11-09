@@ -127,8 +127,8 @@ export default {
     },
     supplier360ViewVO(data) {
       this.info = data
-       this.nameZh=data.nameZh
-       this.nameEn=data.nameEn
+    //    this.nameZh=data.nameZh
+    //    this.nameEn=data.nameEn
       this.getTags()
     }
   },

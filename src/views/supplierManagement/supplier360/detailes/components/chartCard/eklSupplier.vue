@@ -45,15 +45,15 @@ export default {
   },
   methods: {
     getData() {
-      let req = {
-        supplierSapCode: this.$route.query.subSupplierId
-      }
-      getSupplierCard(req).then((res) => {
-        if (res && res.code == 200) {
-          iMessage.success(res.desZh)
-          this.getChart()
-        } else iMessage.error(res.desZh)
-      })
+    //   let req = {
+    //     supplierSapCode: this.$route.query.subSupplierId
+    //   }
+    //   getSupplierCard(req).then((res) => {
+    //     if (res && res.code == 200) {
+    //       iMessage.success(res.desZh)
+    //       this.getChart()
+    //     } else iMessage.error(res.desZh)
+    //   })
     },
     getChart() {
       const data1 = [40, 50, 45]

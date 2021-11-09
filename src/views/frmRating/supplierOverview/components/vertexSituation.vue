@@ -15,6 +15,81 @@
 	</div> -->
     <div ref="chart"
          class="chartStyle"> </div>
+             <iDialog @close="closeDiolog()"
+             :visible.sync="visible"
+             v-if="visible"
+             width="85%">
+      <el-tabs class="tabsHeader"
+               type="card"
+               style="margin-left:20px;"
+               v-model="tabVal"
+               @tab-click="changeTab">
+        <el-tab-pane name="1"
+                     :label="
+            language('SHISHICRATINGGONGYINGSHANGQINGDAN', '实时C-Rating供应商清单')
+          ">
+        </el-tab-pane>
+        <el-tab-pane name="2"
+                     :label="language('CRATINGGONGYINGSHANGXUNJIADINGDIANQINGKUANG', 'C-Rating供应商询价定点情况')">
+        </el-tab-pane>
+      </el-tabs>
+      <div class="header">
+        <el-form inline
+                 label-position="top">
+          <el-form-item :label="language('SAPHAO', 'SAP号')">
+            <iSelect collapse-tags
+                     filterable
+                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                     v-model.trim="form.purchaserIds">
+              <el-option v-for="item in purchaseList"
+                         :key="item.purchaserId"
+                         :label="item.purchaserName"
+                         :value="item.purchaserId">
+              </el-option>
+            </iSelect>
+
+          </el-form-item>
+        </el-form>
+        <div>
+          <iButton @click="sure">{{
+          language('CHAXUN', '查询')
+        }}</iButton>
+          <iButton @click="clickReset">{{
+          language('CHONGZHI', '重置')
+        }}</iButton>
+        </div>
+      </div>
+
+      <div class="sectionTitle">
+        <span class="ptext">
+          {{
+              language(
+                'XIANGQINGLIEBIAO',
+                '详情列表'
+              )
+            }}
+        </span>
+        <iButton @click="clickBtn">{{
+          language('BAOCUN', '保存')
+        }}</iButton>
+      </div>
+      <table-list v-if="tabVal == 1"
+                  style="margin-top:20px"
+                  :tableData="tableListData"
+                  :tableTitle="tableTitleMonitor"
+                  :tableLoading="tableLoading"
+                  :index="true"
+                  :selection="false">
+      </table-list>
+      <table-list v-if="tabVal == 2"
+                  style="margin-top:20px"
+                  :tableData="tableListData"
+                  :tableTitle="tableTitleMonitorRecord"
+                  :tableLoading="tableLoading"
+                  :index="true"
+                  :selection="false">
+      </table-list>
+    </iDialog>
   </iCard>
 </template>
 
