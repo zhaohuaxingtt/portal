@@ -75,7 +75,7 @@
                v-if="isAdd"
                width="30%">
         <el-form label-position="top">
-          <el-form-item :label="language('BIAOQIANLEIXING', '标签名称')">
+          <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
             <iSelect :placeholder="language('QINGSHURUXUANZE', '请输入/选择')"
                      v-model="tagName">
               <el-option v-for="item in tagList"
