@@ -11,16 +11,19 @@
             type="flex"
             justify="space-between">
       <el-col :span="8">
+        <!-- 供应商得分 -->
         <supplierKpi></supplierKpi>
 
       </el-col>
       <el-col :span="8">
-        <newsMonitor></newsMonitor>
+        <!-- 配附件供货率 -->
+        <supplyRate></supplyRate>
 
       </el-col>
       <el-col :span="8">
-        <publicOpinion>
-        </publicOpinion>
+        <!-- ekl批量件 -->
+        <eklSupplier></eklSupplier>
+
       </el-col>
     </el-row>
     <el-row class="margin-top20"
@@ -28,12 +31,15 @@
             type="flex"
             justify="space-between">
       <el-col :span="8">
-        <eklSupplier></eklSupplier>
+        <!-- 送样 -->
+        <sampleDelivery></sampleDelivery>
       </el-col>
       <el-col :span="8">
-        <productivity></productivity>
+        <!-- 定点 -->
+        <fixed></fixed>
       </el-col>
       <el-col :span="8">
+        <!-- 寻源 -->
         <sourcing></sourcing>
       </el-col>
     </el-row>
@@ -42,13 +48,17 @@
             type="flex"
             justify="space-between">
       <el-col :span="8">
-        <supplyRate></supplyRate>
+        <productivity></productivity>
+
       </el-col>
       <el-col :span="8">
-        <fixed></fixed>
+        <newsMonitor></newsMonitor>
+
+
       </el-col>
       <el-col :span="8">
-        <sampleDelivery></sampleDelivery>
+        <publicOpinion>
+        </publicOpinion>
       </el-col>
     </el-row>
   </div>

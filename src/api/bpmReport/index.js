@@ -5,7 +5,7 @@ const request = axios(process.env.VUE_APP_APPROVAL)
 export function getUrl(data){
     return request({
         url:'/web/report/info',
-        methods:'POST',
+        method:'POST',
         data
     })
 }

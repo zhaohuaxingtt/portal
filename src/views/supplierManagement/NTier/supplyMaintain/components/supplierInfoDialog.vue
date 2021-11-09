@@ -358,7 +358,7 @@ export default {
         partList: this.tableListData,
         chainId: this.node.id,
         partType: this.partType.partType && this.partType.partType[1] || '',
-        isJump:true 
+        isJump:false 
       }
       pms.supplier.registeredCapital = pms.supplier.registeredCapital && pms.supplier.registeredCapital.replace(/,/g, '')
       pms.plant.areaCovered = pms.plant.areaCovered && pms.plant.areaCovered.replace(/,/g, '')

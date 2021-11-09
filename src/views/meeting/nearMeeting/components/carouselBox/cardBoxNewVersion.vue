@@ -38,11 +38,15 @@
       <h4 class="block">
         <div class="img-box">
           <img
-            src="~@/assets/images/place-white.svg"
+            src="@/assets/images/place-white.svg"
             class="img"
             v-if="themen.state === '04'"
           />
-          <img src="~@/assets/images/place-grey.svg" class="img" v-else />
+          <img
+            src="@/assets/images/place-grey.svg"
+            class="img"
+            v-else
+          />
         </div>
         <span class="text">{{ themen.meetingPlace }}</span>
       </h4>
@@ -77,13 +81,16 @@
           class="text"
           @click="
             () => {
-              handleDownLoad(themen)
+              handleDownLoad(themen);
             }
           "
           v-if="isPdfFile(themen)"
         >
           <div class="img-box">
-            <img src="~@/assets/images/download.svg" class="img" />
+            <img
+              src="@/assets/images/download.svg"
+              class="img"
+            />
           </div>
           Agenda
         </div>
@@ -92,13 +99,16 @@
           class="text"
           @click="
             () => {
-              handleDownLoadMinutes(themen)
+              handleDownLoadMinutes(themen);
             }
           "
           v-if="isSource02(themen)"
         >
           <div class="img-box">
-            <img src="~@/assets/images/download.svg" class="img" />
+            <img
+              src="@/assets/images/download.svg"
+              class="img"
+            />
           </div>
           Minutes
         </div>
@@ -110,177 +120,177 @@
 </template>
 
 <script>
-import { iButton, iMessage } from 'rise'
-import { MOCK_FILE_URL } from '@/constants'
-import { download } from '@/utils/downloadUtil'
+import { iButton, iMessage } from "rise";
+import { MOCK_FILE_URL } from "@/constants";
+import { download } from "@/utils/downloadUtil";
 export default {
   components: {
-    iButton
+    iButton,
   },
   props: {
     themen: {
       type: Object,
       default: () => {
-        return {}
-      }
+        return {};
+      },
     },
     total: {
       type: Number,
       default: () => {
-        return 0
-      }
+        return 0;
+      },
     },
     num: {
       type: Number,
       default: () => {
-        return 0
-      }
+        return 0;
+      },
     },
     startDate: {
       type: String,
       default: () => {
-        return ''
-      }
+        return "";
+      },
     },
     endDate: {
       type: String,
       default: () => {
-        return ''
-      }
-    }
+        return "";
+      },
+    },
   },
   data() {
     return {
-      timer: '',
-      presenterDept: '',
-      day: '00',
-      hour: '00',
-      minutes: '00',
-      seconds: '00',
-      start: ''
-    }
+      timer: "",
+      presenterDept: "",
+      day: "00",
+      hour: "00",
+      minutes: "00",
+      seconds: "00",
+      start: "",
+    };
   },
   mounted() {
     // this.presenterDept = webStorage.get('userInfo').presenterDept;
     if (
-      this.themen.state === '01' ||
-      this.themen.state === '02' ||
-      this.themen.state === '03'
+      this.themen.state === "01" ||
+      this.themen.state === "02" ||
+      this.themen.state === "03"
     ) {
-      requestAnimationFrame(this.handleTime)
+      requestAnimationFrame(this.handleTime);
     }
   },
   methods: {
     handleDownLoadMinutes(themen) {
       if (!themen.attachments) {
-        iMessage.error('没有要下载的附件!')
-        return
+        iMessage.error("没有要下载的附件!");
+        return;
       }
-      const file = themen.attachments.find(item => {
-        return item.source === '02'
-      })
-      console.log(file, file.attachmentId)
+      const file = themen.attachments.find((item) => {
+        return item.source === "02";
+      });
+      console.log(file, file.attachmentId);
       file &&
         download({
           fileIds: file.attachmentId,
           filename: file.attachmentName,
-          callback: e => {
+          callback: (e) => {
             if (!e) {
-              iMessage.error('下载失败')
+              iMessage.error("下载失败");
             }
-          }
-        })
+          },
+        });
     },
     isSource02(themen) {
       if (
         themen.attachments.length > 0 &&
-        themen.attachments.some(item => {
-          return item.source === '02'
+        themen.attachments.some((item) => {
+          return item.source === "02";
         })
       ) {
-        return true
+        return true;
       }
-      return false
+      return false;
     },
     isPdfFile(themen) {
       if (
         themen.attachments.length > 0 &&
-        themen.attachments.some(item => {
-          const arr = item.attachmentName.split('.')
-          const suffix = arr[arr.length - 1]
-          return (suffix === 'pdf' || suffix === 'PDF') && item.source === '01'
+        themen.attachments.some((item) => {
+          const arr = item.attachmentName.split(".");
+          const suffix = arr[arr.length - 1];
+          return (suffix === "pdf" || suffix === "PDF") && item.source === "01";
         })
       ) {
-        return true
+        return true;
       }
-      return false
+      return false;
     },
     //计算剩余时间
     handleTime() {
-      let startDate = this.themen.startDate
-      let startTime = this.themen.startTime
-      let time = new Date(`${startDate} ${startTime}`).getTime()
-      let restTime = time - new Date().getTime()
-      this.handleTransTime(restTime)
-      requestAnimationFrame(this.handleTime)
+      let startDate = this.themen.startDate;
+      let startTime = this.themen.startTime;
+      let time = new Date(`${startDate} ${startTime}`).getTime();
+      let restTime = time - new Date().getTime();
+      this.handleTransTime(restTime);
+      requestAnimationFrame(this.handleTime);
     },
     //毫秒转 天 时分秒
     //天: 24 * 60 *60*1000
     handleTransTime(longTime) {
-      let day = Math.floor(longTime / (24 * 60 * 60 * 1000))
+      let day = Math.floor(longTime / (24 * 60 * 60 * 1000));
       let hour = Math.floor(
         (longTime - 24 * 60 * 60 * 1000 * day) / (60 * 60 * 1000)
-      )
+      );
       let minutes = Math.floor(
         (longTime - 24 * 60 * 60 * 1000 * day - 60 * 60 * 1000 * hour) /
           (60 * 1000)
-      )
+      );
       let seconds = Math.floor(
         (longTime -
           24 * 60 * 60 * 1000 * day -
           60 * 60 * 1000 * hour -
           60 * 1000 * minutes) /
           1000
-      )
-      this.day = day < 10 && day >= 0 ? '0' + day : day
-      this.hour = hour < 10 && hour >= 0 ? '0' + hour : hour
-      this.minutes = minutes < 10 && minutes >= 0 ? '0' + minutes : minutes
-      this.seconds = seconds < 10 && seconds >= 0 ? '0' + seconds : seconds
+      );
+      this.day = day < 10 && day >= 0 ? "0" + day : day;
+      this.hour = hour < 10 && hour >= 0 ? "0" + hour : hour;
+      this.minutes = minutes < 10 && minutes >= 0 ? "0" + minutes : minutes;
+      this.seconds = seconds < 10 && seconds >= 0 ? "0" + seconds : seconds;
     },
     handleDownLoad(themen) {
       if (!themen.attachments) {
-        iMessage.error('没有要下载的附件!')
-        return
+        iMessage.error("没有要下载的附件!");
+        return;
       }
-      const file = themen.attachments.find(item => {
-        const arr = item.attachmentName.split('.')
-        const suffix = arr[arr.length - 1]
-        return (suffix === 'pdf' || suffix === 'PDF') && item.source === '01'
-      })
+      const file = themen.attachments.find((item) => {
+        const arr = item.attachmentName.split(".");
+        const suffix = arr[arr.length - 1];
+        return (suffix === "pdf" || suffix === "PDF") && item.source === "01";
+      });
       file &&
         download({
           fileIds: file.attachmentId,
           filename: file.attachmentName,
-          callback: e => {
+          callback: (e) => {
             if (!e) {
-              iMessage.error('下载失败')
+              iMessage.error("下载失败");
             }
-          }
-        })
+          },
+        });
     },
     goToDetail(e) {
       this.$router.push({
-        path: '/meeting/near-meeting/detail',
+        path: "/meeting/near-meeting/detail",
         query: {
-          id: e
-        }
-      })
-    }
+          id: e,
+        },
+      });
+    },
   },
   beforeDestroy() {
-    clearInterval(this.timer)
-  }
-}
+    clearInterval(this.timer);
+  },
+};
 </script>
 <style lang="scss" scoped>
 ::-webkit-scrollbar {

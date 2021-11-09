@@ -4,15 +4,15 @@
   </div>
 </template>
 <script>
-import home from '@/views/meeting/home'
+import home from "@/views/meeting/home";
 export default {
   components: {
-    home
+    home,
   },
   data() {
     return {
-      menuType: 'cf'
-    }
-  }
-}
+      menuType: "cf",
+    };
+  },
+};
 </script>
