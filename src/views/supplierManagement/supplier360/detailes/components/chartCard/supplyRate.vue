@@ -1,0 +1,179 @@
+<template>
+  <iCard style="height:14rem">
+    <div class="title">
+      <p>{{language('PEIFUJIANGONGHUOLV', '配附件供货率')}}</p>
+      <span class="el-dropdown-link">
+        <i class="el-icon-more"></i>
+      </span>
+    </div>
+    <div class="box">
+      <icon class="early"
+            symbol
+            name="iconcaiwuyujing-icon"></icon>
+
+      <div ref="chart"
+           class="chartStyle"> </div>
+    </div>
+  </iCard>
+</template>
+<script>
+import echarts from '@/utils/echarts'
+import { iCard, icon } from 'rise'
+export default {
+  props: {},
+  components: {
+    iCard,
+    icon
+  },
+  data() {
+    return {
+      chart: 'oneChart'
+    }
+  },
+  computed: {
+    style() {
+      return {}
+    }
+  },
+  watch: {},
+  methods: {},
+  mounted() {
+    const myChart = echarts().init(this.$refs.chart)
+    var option = {
+      title: {
+        top: 0,
+        text: '供货率（%）',
+        textStyle: {
+          color: '#909091',
+          fontSize: 10
+        }
+      },
+      legend: {
+        icon: 'circle',
+
+        textStyle: {
+          fontSize: 10,
+          color: '#909091'
+        },
+        itemWidth: 8,
+        itemHeight: 8
+      },
+
+      tooltip: {
+        trigger: 'axis'
+      },
+      grid: {
+        top: '18%',
+        bottom: '10%%',
+        right: '0%',
+        left: '10%'
+      },
+      xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu'],
+        axisLabel: {
+          show: true,
+          textStyle: {
+            color: '#7E84A3',
+            fontSize: '10px'
+          }
+        },
+        axisLine: {
+          lineStyle: {
+            color: '#7E84A3'
+          }
+        },
+        axisTick: {
+          show: false
+        }
+      },
+      yAxis: {
+        type: 'value',
+        axisLabel: {
+          show: true,
+          textStyle: {
+            color: '#7E84A3',
+            fontSize: '10px'
+          }
+        },
+         max: 100,
+        min: 0,
+        splitNumber: 2
+      },
+      series: [
+        { showSymbol: false,
+          name: '供应商',
+          data: [64, 47, 54, 57],
+          type: 'line',
+          itemStyle: {
+            normal: {
+              color: '#6192F0', //改变折线点的颜色
+              lineStyle: {
+                color: '#6192F0' //改变折线颜色
+              }
+            }
+          }
+        },
+        {
+       
+             showSymbol: false,
+          name: '平均参考',
+          data: [14, 23, 11, 6],
+          type: 'line',
+          itemStyle: {
+            normal: {
+              color: '#B4C9F2', //改变折线点的颜色
+              lineStyle: {
+                color: '#B4C9F2', //改变折线颜色
+                        type:'dotted'  //'dotted'虚线 'solid'实线
+              },
+            }
+          }
+        }
+      ]
+    }
+    myChart.setOption(option)
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.title {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 15px;
+  p {
+    font-size: 20px;
+    font-family: Arial;
+    font-weight: bold;
+    color: #131523;
+  }
+  i {
+    font-size: 20px;
+    cursor: pointer;
+    color: #4d4d4d;
+  }
+}
+.early {
+  font-size: 70px;
+  padding-right: 10px;
+}
+
+::v-deep .card ::v-deep.cardHeader {
+  padding: 0;
+}
+.box {
+  height: 100%;
+  display: flex;
+  height: 160px;
+  align-items: center;
+  justify-content: space-between;
+  .chartStyle {
+    width: 80%;
+    height: 100%;
+  }
+}
+.box:nth-child(1) div {
+  margin: 6px;
+}
+</style>
