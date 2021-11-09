@@ -64,7 +64,7 @@ export const formList = [
 ]
 
 // MTZ-规则清单
-export const ruleTableTitle = [
+export const ruleTableTitle1 = [
   {props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO', width: 150},
   {props: 'materialGroup', name: 'MTZ-材料组', key: 'MTZGANGCAILIAOZU', width: 150},
   {props: 'carline', name: '车型', key: 'CHEXING', width: 150},
@@ -84,8 +84,28 @@ export const ruleTableTitle = [
   {props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI', width: 150},
   {props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI', width: 150},
 ]
+export const ruleTableTitle2 = [
+  {props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO'},
+  {props: 'materialGroup', name: 'MTZ-材料组', key: 'MTZGANGCAILIAOZU'},
+  {props: 'carline', name: '车型', key: 'CHEXING'},
+  {props: 'supplierId', name: '供应商编号', key: 'GONGYINGSHANGBIANHAO'},
+  {props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG'},
+  {props: 'materialCode', name: '原材料编号', key: 'YUANCAILIAOBIANHAO'},
+  {props: 'mediumClass', name: '中类名称', key: 'ZHONGLEIMINGCHENG'},
+  {props: 'price', name: '基价', key: 'JIJIA',width:50},
+  {props: 'priceMeasureUnit', name: '基价计量单位', key: 'JIJIAJILIANGDANWEI',width:50},
+  {props: 'tcCurrence', name: '货币', key: 'HUOBI',width:50},
+  {props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV',width:50},
+  {props: 'source', name: '市场价来源', key: 'SHICHANGJIALAIYUAN'},
+  {props: 'compensationRatio', name: '补差系数', key: 'BUCHAXISHU',width:50},
+  {props: 'compensationPeriod', name: '补差周期', key: 'BUCHAZHOUQI',width:50},
+  {props: 'threshold', name: '阈值', key: 'YUZHI'},
+  {props: 'thresholdCompensationLogic', name: '阈值补差逻辑', key: 'YUZHIBUCHALUOJI'},
+  {props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI'},
+  {props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI'},
+]
 // MTZ-零件清单
-export const partTableTitle = [
+export const partTableTitle1 = [
   {props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO', width: 150},
   {props: 'partName', name: '零件名称', key: 'LINGJIANMINGCHENG', width: 150},
   {props: 'sapCode', name: '供应商编号/名称', key: 'GYSBHMC', width: 150},
@@ -108,6 +128,30 @@ export const partTableTitle = [
   {props: 'compensationRatio', name: '补差系数', key: 'BUCHAXISHU', width: 150},
   {props: 'threshold', name: '阈值', key: 'YUZHI', width: 150},
   {props: 'thresholdCompensationLogic', name: '阈值补差逻辑', key: 'YUZHIBUCHALUOJI', width: 150},
+]
+export const partTableTitle2 = [
+  {props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO'},
+  {props: 'partName', name: '零件名称', key: 'LINGJIANMINGCHENG'},
+  {props: 'sapCode', name: '供应商编号/名称', key: 'GYSBHMC',width:50},
+  {props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',width:50},
+  {props: 'priceUnit', name: '每', key: 'MEI',width:50},
+  {props: 'partUnit', name: '零件数量单位', key: 'LINGJIANSHULIANGDANWEI',width:50},
+  {props: 'dosage', name: '用量', key: 'YONGLIANG',width:50},
+  {props: 'dosageMeasureUnit', name: '用量计量单位', key: 'YONGLIANGJILIANGDANWEI',width:50},
+  {props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI'},
+  {props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI'},
+  {props: 'mark', name: '备注', key: 'BEIZHU'},
+  {props: 'materialCode', name: '原材料编号', key: 'YUANCAILIAOBIANHAO',width:50},
+  {props: 'materialName', name: '原材料', key: 'YUANCAILIAO'},
+  {props: 'price', name: '基价', key: 'JIJIA'},
+  {props: 'priceMeasureUnit', name: '基价计量单位', key: 'JIJIAJILIANGDANWEI',width:50},
+  {props: 'priceSource', name: '市场价来源', key: 'SHICHANGJIALAIYUAN',width:50},
+  {props: 'tcCurrence', name: '货币', key: 'HUOBI',width:50},
+  {props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV',width:50},
+  {props: 'compensationPeriod', name: '补差周期', key: 'BUCHAZHOUQI',width:50},
+  {props: 'compensationRatio', name: '补差系数', key: 'BUCHAXISHU',width:50},
+  {props: 'threshold', name: '阈值', key: 'YUZHI'},
+  {props: 'thresholdCompensationLogic', name: '阈值补差逻辑', key: 'YUZHIBUCHALUOJI'},
 ]
 // 附件上传
 export const uploadTableTitle = [

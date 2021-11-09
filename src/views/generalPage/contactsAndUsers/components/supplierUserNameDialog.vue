@@ -29,7 +29,6 @@
               <el-option v-for="item in systemLsit"
                          :key="item.value"
                          :label="item.label"
-                         :disabled="item.value == 2"
                          :value="item.value">
               </el-option>
             </iSelect>

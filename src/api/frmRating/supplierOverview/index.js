@@ -4,16 +4,30 @@
  * @Description: FRM管理
  */
 import axios from '@/utils/axios'
-
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 
 //卡片
-export function supplierRatingCard(params) {
+export function supplierRatingCard() {
   return requst({
     url: `/supplierRatingRecord/supplierRatingCard`,
-    method: 'POST',
-    data: {
-      ...params
-    }
+    method: 'GET',
+  
   })
 }
+  //frm供应商清单
+  export function currentList(parmars) {
+    return requst({
+      url: `/supplierRatingRecord/currentList`,
+      method: 'POST',
+      data: parmars
+    })
+  }
+    //sap号
+    export function sapDropDown(parmars) {
+        return requst({
+          url: `/supplierRatingRecord/dropDown`,
+          method: 'POST',
+          data: parmars
+        })
+      }
+ 

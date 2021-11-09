@@ -10,7 +10,7 @@ const postcss = px2rem({
   remUnit: 16
 })
 const BASE_DOMAN = '10.122.18.166'
-const BASE_IP = '10.122.17.38'
+// const BASE_DOMAN = '10.122.17.38'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
@@ -111,9 +111,9 @@ module.exports = {
   //引入全局css变量
   css: {
     //是否开起css分离
-    extract: false,
+    extract: process.env.NODE_ENV !== 'dev',
     sourceMap: process.env.NODE_ENV === 'production',
-    requireModuleExtension: true,
+    requireModuleExtension: false, // true,
     loaderOptions: {
       sass: {
         implementation: require('sass'),
@@ -156,8 +156,7 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_USER_CENTER]: {
-        target: `http://10.122.17.38:8015/usercenter/`,
-        // target: `http://${BASE_DOMAN}:8015/usercenter/`,
+        target: `http://${BASE_DOMAN}:8015/usercenter/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_CENTER]: ''
@@ -280,7 +279,50 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_CHANGEPRICE]: ''
         }
-      }
+      },
+      // #零件生命周期
+      [process.env.VUE_APP_PARTSCARD]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSCARD]: ''
+        }
+      },
+      [process.env.VUE_APP_PARTSRECORD]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSRECORD]: ''
+        }
+      },
+      [process.env.VUE_APP_PARTSPROCESS]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSPROCESS]: ''
+        }
+      },
+      [process.env.VUE_APP_PARTSFOLDER]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSFOLDER]: ''
+        }
+      },
+      [process.env.VUE_APP_PARTSCOLLECT]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSCOLLECT]: ''
+        }
+      },
+      [process.env.VUE_APP_RELATIONPARTS]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_RELATIONPARTS]: ''
+        }
+      },
     }
   }
 }

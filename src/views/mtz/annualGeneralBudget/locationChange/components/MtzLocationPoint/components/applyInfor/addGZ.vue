@@ -320,7 +320,7 @@ export default {components: {
         // if (valid) {
             addAppRule({
                 ...this.contractForm,
-                ttMtzAppId:this.$route.query.id
+                ttMtzAppId:this.$route.query.mtzAppId
             }).then(res=>{
                 if(res.code == 200 && res.result){
                     iMessage.success(res.desZh)
