@@ -15,8 +15,8 @@
 
       </el-col>
       <el-col :span="8">
-           <newsMonitor></newsMonitor>
-  
+        <newsMonitor></newsMonitor>
+
       </el-col>
       <el-col :span="8">
         <publicOpinion>
@@ -28,48 +28,42 @@
             type="flex"
             justify="space-between">
       <el-col :span="8">
-        <iCard style="min-height:11rem"
-               :title="$t('SUPPLIER_CNYJ')">
-          <div class="center1">
-            Coming Soon
-          </div>
-        </iCard>
+        <eklSupplier></eklSupplier>
       </el-col>
       <el-col :span="8">
-        <iCard style="min-height:11rem"
-               :title="$t('SUPPLIER_CWYJ')">
-          <div class="center">
-            <icon class="early"
-                  symbol
-                  name="iconcaiwuyujing-icon"></icon>
-            <div class="float">
-              <div class="floatLeft">
-                <icon class="alert"
-                      symbol
-                      name="iconhongdeng"></icon>
-                <div class="fontsize">Alert</div>
-              </div>
-              <div class="fontsize">{{ financialEarlyWarningVO.tips }}</div>
-            </div>
-          </div>
-        </iCard>
+        <productivity></productivity>
       </el-col>
       <el-col :span="8">
-        <iCard style="min-height:11rem"
-               :title="$t('SUPPLIER_YUQINGJIANCE')">
-          <div class="center1">
-            Coming Soon
-          </div>
-        </iCard>
+        <sourcing></sourcing>
+      </el-col>
+    </el-row>
+    <el-row class="margin-top20"
+            :gutter="20"
+            type="flex"
+            justify="space-between">
+      <el-col :span="8">
+        <supplyRate></supplyRate>
+      </el-col>
+      <el-col :span="8">
+        <fixed></fixed>
+      </el-col>
+      <el-col :span="8">
+        <sampleDelivery></sampleDelivery>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import supplyRate from './chartCard/supplyRate'
+import sampleDelivery from './chartCard/sampleDelivery'
+import fixed from './chartCard/fixed'
+import sourcing from './chartCard/sourcing'
 import newsMonitor from './chartCard/newsMonitor'
 import supplierKpi from './chartCard/supplierKpi'
+import productivity from './chartCard/productivity'
 import publicOpinion from './chartCard/publicOpinion'
+import eklSupplier from './chartCard/eklSupplier'
 import { iCard, icon } from 'rise'
 import soon from './soon.png'
 
@@ -79,7 +73,13 @@ export default {
     supplierKpi,
     publicOpinion,
     iCard,
-    newsMonitor
+    newsMonitor,
+    eklSupplier,
+    productivity,
+    sourcing,
+    supplyRate,
+    fixed,
+    sampleDelivery
   },
   data() {
     return {
@@ -101,7 +101,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .center1 {
   text-align: center;
   font-size: 36px;

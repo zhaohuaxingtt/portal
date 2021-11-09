@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-08 13:58:38
+ * @LastEditTime: 2021-11-08 17:01:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -124,7 +124,7 @@
                :visible.sync="dialogVisible"
                width="30%"
                :before-close="handleClose">
-      <process-vertical :instanceId="riseId" />
+      <process-vertical instanceId="1212584" />
       <span slot="footer"
             class="dialog-footer">
       </span>

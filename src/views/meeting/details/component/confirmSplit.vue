@@ -1,28 +1,31 @@
 <template>
   <iDialog
-    :visible.sync="dialogStatusManageObj.openSplitDialog"
-    width="23.75rem"
-    :close-on-click-modal="false"
-    @close="close"
+      :visible.sync="dialogStatusManageObj.openSplitDialog"
+      width="23.75rem"
+      :close-on-click-modal="false"
+      @close="close"
   >
     <iEditForm class="content">
       <div class="delete-info">确认拆分该议题吗?</div>
       <div class="button-list">
         <iButton @click="clearDiolog" class="cancel">{{
-          $t("LK_QUXIAO")
-        }}</iButton>
+            $t("LK_QUXIAO")
+          }}
+        </iButton>
         <iButton @click="handleSubmit" class="confirm">{{
-          $t("LK_QUEREN")
-        }}</iButton>
+            $t("LK_QUEREN")
+          }}
+        </iButton>
       </div>
     </iEditForm>
   </iDialog>
 </template>
 
 <script>
-import { iDialog, iButton, iMessage } from "rise";
+import {iButton, iDialog, iMessage} from "rise";
 import iEditForm from "@/components/iEditForm";
-import { spiltThemen } from "@/api/meeting/details";
+import {spiltThemen} from "@/api/meeting/details";
+
 export default {
   components: {
     iDialog,
@@ -60,14 +63,14 @@ export default {
         themenId: this.selectedTableData[0].id,
       };
       spiltThemen(data)
-        .then((res) => {
-          iMessage.success("拆分成功");
-          this.$emit("flushTable");
-          this.close();
-        })
-        .catch((err) => {
-          iMessage.error("拆分失败 " + err);
-        });
+          .then((res) => {
+            iMessage.success("拆分成功");
+            this.$emit("flushTable");
+            this.close();
+          })
+          .catch((err) => {
+            iMessage.error("拆分失败 " + err);
+          });
     },
     close() {
       this.$emit("input", false);
@@ -81,17 +84,20 @@ export default {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
 .content {
   /* background-color: red; */
-  background-image: url("../../../../../assets/images/clip.png");
+  background-image: url("../../../../assets/images/clip.png");
   background-repeat: no-repeat;
   background-position: center top;
   padding-top: 74px;
   background-size: 64px 64px;
+
   .button-list {
     display: flex;
     justify-content: center;
     padding: 0 40px 40px;
+
     .cancel {
       flex-grow: 1;
       flex-shrink: 0;
@@ -101,6 +107,7 @@ export default {
       line-height: 35px;
       padding: 0;
     }
+
     .confirm {
       width: 100px;
       height: 35px;
@@ -111,6 +118,7 @@ export default {
       padding: 0;
     }
   }
+
   .delete-info {
     margin: 0 auto 30px;
     width: 134px;
