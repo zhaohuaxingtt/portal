@@ -5,11 +5,10 @@
             <span>{{language('MTZSHENQINGDANMING', 'MTZ申请单名')}}</span>
             <span style="color:red">*</span>
         </div>
-        <input-custom v-model="form.name"
+        <iInput v-model="form.name"
                     style="width:220px"
-                    :editPlaceholder="language('QINGSHURU','请输入')"
                     :placeholder="language('QINGSHURU','请输入')">
-        </input-custom>
+        </iInput>
     </div>
     <div class="tanc_book">
         <span>{{language('CHUANGJIANSHIJIAN', '创建时间')}}</span>
@@ -17,7 +16,7 @@
     </div>
     <div slot="footer" class="dialog-footer">
         <iButton @click="handleSubmit">{{language('QUEREN', '确认')}}</iButton>
-        <iButton @click="closeDiolog">{{language('QUXIAO', "取消")}}</iButton>
+        <!-- <iButton @click="closeDiolog">{{language('QUXIAO', "取消")}}</iButton> -->
     </div>
 </div>
 </template>
@@ -25,6 +24,8 @@
 <script>
 import inputCustom from '@/components/inputCustom'
 import { getNowFormatDate } from "@/views/mtz/debounce";
+import { deepClone } from "./applyInfor/util"
+import store from "@/store";
 
 import { iButton,iInput,iMessage } from "rise";
 export default {
@@ -52,11 +53,13 @@ export default {
             if(!this.form.name || this.form.name==""){
                 iMessage.error("请填写MTZ申请单名！")
                 return false;
+            }else{
+                var data = deepClone(this.$route.query);
+                data.mtzAppId = 5008888;
+                data.appid = 1452
+                store.commit("routerMtzData",data);
+                this.$emit("close","")
             }
-            let routeData = this.$router.resolve({
-                path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor`
-            })
-            window.open(routeData.href, '_blank')
         }
     }
 }

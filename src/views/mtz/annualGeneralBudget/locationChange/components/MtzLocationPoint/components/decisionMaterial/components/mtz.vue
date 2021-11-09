@@ -152,6 +152,11 @@ export default {
       downType:true,
     }
   },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      
+    }
+  },
   created() {
     if(this.RsType){
       this.RsObject = false;
@@ -162,6 +167,9 @@ export default {
     this.getPagePartMasterData()
   },
   computed: {
+    mtzObject(){
+      return this.$store.state.location.mtzObject;
+    },
     title() {
       let res = ''
       switch (this.formData.flowType) {
@@ -263,7 +271,7 @@ export default {
     // 获取申请单信息
     getAppFormInfo() {
       getAppFormInfo({
-        mtzAppId: this.$route.query.mtzAppId
+        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
       }).then(res => {
         if(res && res.code == 200) {
           this.formData = res.data
@@ -275,13 +283,13 @@ export default {
       var list = {};
       if(this.RsObject){
         list = {
-          mtzAppId: this.$route.query.mtzAppId,
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
           pageNo: this.rulePageParams.currPage,
           pageSize: this.rulePageParams.pageSize,
         }
       }else{
         list = {
-          mtzAppId: this.$route.query.mtzAppId,
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
           pageNo: 1,
           pageSize: 99999,
         }
@@ -298,13 +306,13 @@ export default {
       var list = {};
       if(this.RsObject){
         list = {
-          mtzAppId: this.$route.query.mtzAppId,
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
           pageNo: this.partPageParams.currPage,
           pageSize: this.partPageParams.pageSize,
         }
       }else{
         list = {
-          mtzAppId: this.$route.query.mtzAppId,
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
           pageNo: 1,
           pageSize: 99999,
         }
@@ -321,12 +329,12 @@ export default {
       let params = {}
       if(this.isMeeting) {
         params = {
-          mtzAppId: this.$route.query.mtzAppId,
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
           linieMeetingMemo: this.formData.linieMeetingMemo
         }
       } else if(this.isFinite) {
         params = {
-          mtzAppId: this.$route.query.mtzAppId,
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
           cs1MeetingMemo: this.formData.cs1MeetingMemo
         }
       }
@@ -342,7 +350,7 @@ export default {
       const {href} = this.$router.resolve({
         path: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/signPreview',
         query: {
-          id: this.$route.query.mtzAppId,
+          id: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         }
       })
       window.open(href, '_blank')
