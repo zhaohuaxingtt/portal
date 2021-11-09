@@ -221,6 +221,7 @@ export default {
       selection: []
     }
   },
+
   created () {
     this.init()
   },
@@ -379,12 +380,11 @@ export default {
       })
     },
     addMtz () {
-      this.mtzAddShow = true;
-
-      // let routeData = this.$router.resolve({
-      //   path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/applyInfor`
-      // })
-      // window.open(routeData.href, '_blank')
+      // this.mtzAddShow = true;
+      let routeData = this.$router.resolve({
+          path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor`
+      })
+      window.open(routeData.href, '_blank')
     },
     closeDiolog () {
       this.mtzAddShow = false;

@@ -57,9 +57,9 @@ export default {
         this.getChart()
       })
     },
-    changeTab(){
-        this.isTitle=!this.isTitle
-        this.getChart()
+    changeTab() {
+      this.isTitle = !this.isTitle
+      this.getChart()
     },
     getChart() {
       var data1 = []
@@ -74,16 +74,16 @@ export default {
       }
       arr.forEach((e) => {
         data1.push(e.increaseAmount)
-        data2.push(e.increaseRtio)
-        data3.push(e.reductionRtio)
+        data2.push(e.increaseRtio * 100)
+        data3.push(e.reductionRtio * 100)
         data4.push(e.year)
       })
-    // data3=this.sumItem(data3,data1)
-    // console.log(data1)
+      // data3=this.sumItem(data3,data1)
+      // console.log(data1)
       const myChart = echarts().init(this.$refs.chart)
       var option = {
         legend: {
-          icon: 'circle',  
+          icon: 'circle',
           right: 50,
           top: 0,
           textStyle: {
@@ -98,7 +98,7 @@ export default {
           trigger: 'axis'
         },
         grid: {
-          top: '8%',
+          top: '16%',
           bottom: '12%%',
           right: '0%',
           left: '10%'
@@ -122,17 +122,30 @@ export default {
             show: false
           }
         },
-        yAxis: {
-          show: false,
-          type: 'value',
-          axisLabel: {
-            show: true,
-            textStyle: {
-              color: '#7E84A3',
-              fontSize: '10px'
+        yAxis: [
+          {
+            // show: false,
+            type: 'value',
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#7E84A3',
+                fontSize: '10px'
+              }
+            }
+          },
+          {
+            // show: false,
+            type: 'value',
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#7E84A3',
+                fontSize: '10px'
+              }
             }
           }
-        },
+        ],
         series: [
           {
             name: '降价',
@@ -189,17 +202,16 @@ export default {
       }
       myChart.setOption(option)
     },
-    sumItem: function(arr1, arr2) {
-            if (arr2.length == 0) {
-                return arr1;
-            } else {
-                arr1.map(function(value, index) {
-                    arr2[index] += value+1;
-                })
-            }
-            return arr2;
-        }
-
+    sumItem: function (arr1, arr2) {
+      if (arr2.length == 0) {
+        return arr1
+      } else {
+        arr1.map(function (value, index) {
+          arr2[index] += value + 1
+        })
+      }
+      return arr2
+    }
   }
 }
 </script>
