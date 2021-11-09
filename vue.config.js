@@ -9,8 +9,8 @@ const px2rem = require('postcss-px2rem')
 const postcss = px2rem({
   remUnit: 16
 })
-// const BASE_DOMAN = '10.122.18.166'
-const BASE_DOMAN = '10.122.17.38'
+const BASE_DOMAN = '10.122.18.166'
+// const BASE_DOMAN = '10.122.17.38'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
@@ -113,7 +113,7 @@ module.exports = {
     //是否开起css分离
     extract: process.env.NODE_ENV !== 'dev',
     sourceMap: process.env.NODE_ENV === 'production',
-    requireModuleExtension: true,
+    requireModuleExtension: false, // true,
     loaderOptions: {
       sass: {
         implementation: require('sass'),
