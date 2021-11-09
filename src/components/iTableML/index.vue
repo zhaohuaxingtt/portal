@@ -16,10 +16,7 @@
     @selection-change="handleSelectionChange"
     highlight-current-row
     ref="tableML"
-<<<<<<< HEAD
     :border="border"
-=======
->>>>>>> 02245dc9149cc4d18820df0e72ba69fdaa9b2bdb
   >
     <slot></slot>
   </el-table>
@@ -37,10 +34,7 @@ export default {
         return "";
       },
     },
-<<<<<<< HEAD
     border: { type: Boolean, default: false },
-=======
->>>>>>> 02245dc9149cc4d18820df0e72ba69fdaa9b2bdb
   },
   data() {
     return {};
