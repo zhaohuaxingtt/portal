@@ -53,11 +53,19 @@
         }}</iButton>
         </div>
         <tableList style="margin-top:30px"
-                   :tableData="tabledataDel"
+                   :tableData="tabledata"
                    @handleSelectionChange="handleSelectionChange"
-                   :tableTitle="Cloum"
+                   :tableTitle="setTagCloum"
                    :tableLoading="tableLoadingDel"
                    :index="true">
+          <template #isShow="scope">
+            <div class="isShowBtnStyle"
+                 @click="handleIs(scope.row)">
+              <icon class="icon"
+                    symbol
+                    :name="scope.row.isShow == 1 ? 'iconxianshi' : 'iconyincang'"></icon>
+            </div>
+          </template>
         </tableList>
         <iPagination style="margin-top:20px"
                      v-update
@@ -75,13 +83,14 @@
 </template>
 
 <script>
-import { iDialog, iButton, iSelect, iMessage, iInput } from 'rise'
+import { iDialog, iButton, iSelect, iMessage, iInput, iPagination } from 'rise'
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import { setTagCloum } from './data'
 import {
   supplierTagPage,
-  supplierTagListSave
+  supplierTagListSave,
+  showOrHide
 } from '@/api/supplierManagement/supplierTag/index'
 export default {
   mixins: [pageMixins],
@@ -90,7 +99,8 @@ export default {
     tableList,
     iButton,
     iSelect,
-    iInput
+    iInput,
+    iPagination
   },
   props: {
     value: { type: Boolean },
@@ -99,7 +109,7 @@ export default {
   data() {
     return {
       tabledata: [],
-      Cloum: setTagCloum,
+      setTagCloum: setTagCloum,
       tableLoading: false,
       selectArr: [],
       form: {},
@@ -134,6 +144,7 @@ export default {
         return false
       }
       const req = {
+        supplierId: this.rowList.subSupplierId,
         tagIdAll: this.tabledata.map((x) => {
           return x.tagId
         }),
@@ -148,7 +159,18 @@ export default {
         } else iMessage.error(res.desZh)
       })
     },
-
+    handleIs(row) {
+      const req = {
+        id: row.tagId,
+        isShow: row.isShow == 1 ? 0 : 1
+      }
+      showOrHide(req).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+          this.getTableData()
+        } else iMessage.error(res.desZh)
+      })
+    },
     handleSelectionChange(val) {
       this.selectArr = val
     },

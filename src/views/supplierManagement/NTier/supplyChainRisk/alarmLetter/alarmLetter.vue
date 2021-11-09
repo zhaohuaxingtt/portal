@@ -74,7 +74,7 @@
         </template>
         <div>
           <!-- 紧缺信息 -->
-          <scarceInformation ref="scarceInformation" :editMode="editMode" :shortageReason="shortageReason" :downLoadFlag="downLoadFlag" :supplierId="supplierId" :shortageLevel="shortageLevel" :warningLetterPartRelList="warningLetterPartRelList"></scarceInformation>
+          <scarceInformation ref="scarceInformation"  :shortageReason="shortageReason" :downLoadFlag="downLoadFlag" :supplierId="supplierId" :shortageLevel="shortageLevel" :warningLetterPartRelList="warningLetterPartRelList"></scarceInformation>
         </div>
       </iCard>
       <iCard style="margin-top:20px" class="cardItem">

@@ -14,8 +14,9 @@
 		<img style="width: 60%;" src="./soon.png" >
 	</div> -->
     <div ref="chart"
+         @click="handleDialog"
          class="chartStyle"> </div>
-             <iDialog @close="closeDiolog()"
+    <iDialog @close="closeDiolog()"
              :visible.sync="visible"
              v-if="visible"
              width="85%">
@@ -97,6 +98,7 @@
 import echarts from '@/utils/echarts'
 import { iCard } from 'rise'
 import { supplierRatingCard } from '@/api/frmRating/supplierOverview/index'
+import { currentList } from '@/api/supplierManagement/supplierCard/index'
 // import soon from "./soon.png";
 
 export default {
@@ -104,24 +106,28 @@ export default {
   data() {
     return {
       chart: 'vertexSituationChati',
-      option: ''
-      //   soon: soon
+      option: {},
+      info: {}
     }
   },
   mounted() {
-    this.getChart()
-    const myChart = echarts().init(this.$refs.chart)
-    myChart.setOption(this.option)
     this.getData()
   },
   methods: {
     getData() {
       supplierRatingCard().then((res) => {
-          
+        this.info = res.data
         this.getChart()
       })
     },
     getChart() {
+      const myChart = echarts().init(this.$refs.chart)
+      const data1 = [this.info.ppSupplierTotal, this.info.gpSupplierTotal]
+      const data2 = [
+        this.info.ppSupplierQuoteTotal,
+        this.info.gpSupplierQuoteTotal
+      ]
+
       this.option = {
         title: {
           text: '供应商数量（家）',
@@ -154,7 +160,10 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue'],
+          data: [
+            this.language('SHENGCAHNGONGYINGSHANG', '生产供应商'),
+            this.language('YIBANGONGYINGSHANG', '一般供应商')
+          ],
           axisLabel: {
             show: true,
             textStyle: {
@@ -183,8 +192,11 @@ export default {
         },
         series: [
           {
-            name: 'C-Rating中正在报价供应商',
-            data: [64, 47],
+            name: this.language(
+              'CRatingZHENGZAIBAOJIAGONGYINGSHANG',
+              'C-Rating中正在报价供应商'
+            ),
+            data: data1,
             type: 'bar',
             barGap: '-100%',
             barWidth: 50,
@@ -205,8 +217,11 @@ export default {
             }
           },
           {
-            name: 'C-Rating未在报价中供应商',
-            data: [14, 23],
+            name: this.language(
+              'CRatingWEIZAIBAOJIAGONGYINGSHANG',
+              'C-Rating未在报价中供应商'
+            ),
+            data: data2,
             type: 'bar',
             barWidth: 50,
             label: {
@@ -224,6 +239,17 @@ export default {
           }
         ]
       }
+      myChart.setOption(this.option)
+    },
+    handleDialog() {
+      this.visible = true
+      currentList().then((res) => {})
+    },
+    sure() {},
+    clickReset() {},
+    changeTab() {},
+    closeDiolog() {
+      this.visible = false
     }
   }
 }
@@ -238,5 +264,48 @@ export default {
 .chartStyle {
   width: 100%;
   height: 320px;
+}
+.tabsHeader {
+  margin-left: 0 !important;
+  ::v-deep .el-tabs__item.is-active {
+    font-weight: bold;
+    background: #ffffff;
+    opacity: 1;
+  }
+  ::v-deep .el-tabs__item {
+    border: none;
+    font-weight: 500;
+    background: #f5f6f7;
+    border-radius: 0px 10px 10px 0px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.08);
+    font-size: 16px;
+    width: 250px;
+    height: 35px;
+    line-height: 35px;
+  }
+  ::v-deep .el-tabs__nav {
+    border: none !important;
+  }
+  ::v-deep .el-tabs__nav {
+    background: transparent;
+    border: none;
+    padding: 10px 0;
+  }
+  ::v-deep .el-tabs__item:focus.is-active.is-focus:not(:active) {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+  ::v-deep .el-tabs__header {
+    border: none;
+  }
+  ::v-deep .el-tabs__item:first-child {
+    border-radius: 10px 0px 0px 10px;
+  }
+}
+v::v-deep .el-tabs__nav-wrap::after {
+  height: 0 !important;
+}
+v::v-deep .el-tabs__nav-wrap:hover {
+  font-weight: bold;
 }
 </style>
