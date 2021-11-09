@@ -2,9 +2,15 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('CAIWUYUJING', '财务预警')}}</p>
-      <span class="el-dropdown-link">
-        <i class="el-icon-more"></i>
-      </span>
+      <el-dropdown>
+          
+        <span class="el-dropdown-link">
+          <i class="el-icon-more"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>查看</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <div class="center">
       <icon class="early"
@@ -14,7 +20,7 @@
         <div>
           <icon class="alert"
                 symbol
-                name="iconhongdeng"></icon>
+                name="iconcaiwuyujing-hongdeng"></icon>
           <!-- <icon class="alert"
                       symbol
                       name="iconlvdeng"></icon> -->
@@ -103,12 +109,11 @@ export default {
   },
   data() {
     return {
-      visible: true,
+      visible: false,
       form: {},
       tabVal: '1',
       tableTitleMonitor: tableTitleMonitor,
-      tableTitleMonitorRecord: tableTitleMonitorRecord,
-      
+      tableTitleMonitorRecord: tableTitleMonitorRecord
     }
   },
   computed: {

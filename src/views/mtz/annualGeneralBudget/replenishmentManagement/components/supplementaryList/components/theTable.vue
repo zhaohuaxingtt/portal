@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2021-11-04 20:15:03
+ * @LastEditTime: 2021-11-08 11:06:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\components\theTable1.vue
@@ -42,7 +42,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="sapPayBalanceNo"
+      <el-table-column prop="id"
                        show-overflow-tooltip
                        :label="language('PINGZHENGID','凭证Id') "
                        min-width="180">

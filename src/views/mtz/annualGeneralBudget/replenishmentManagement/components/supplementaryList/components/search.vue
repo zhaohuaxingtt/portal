@@ -1,125 +1,127 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2021-10-09 18:29:05
+ * @LastEditTime: 2021-11-08 20:02:43
  * @LastEditors: Please set LastEditors
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\annualBudget\components\budget.vue
 -->
 <template>
   <div>
-    <iDialog :modal-append-to-body='false'
-             append-to-body
-             :title="dialogTitle"
+    <iDialog :title="dialogTitle"
              v-if="value"
              :visible.sync="value"
              width="85%"
              @close='closeDiolog'>
-      <div class="searchBox">
-        <el-form :inline="true"
-                 ref="searchForm"
-                 :model="searchForm"
-                 label-position="top"
-                 class="demo-form-inline leftBox">
+      <iSearch @sure="handleSubmitSearch"
+               @reset="handleSearchReset('searchForm')">
+        <div class="searchBox">
+          <el-form :inline="true"
+                   ref="searchForm"
+                   :model="searchForm"
+                   label-position="top"
+                   class="demo-form-inline leftBox">
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('CAIGOUKUANGJIA', '采购框架')"
-                        class="formItem">
-            <custom-select v-model="searchForm.saNos"
-                           :user-options="getRawMaterialList"
-                           clearable
-                           multiple
-                           :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                           display-member="message"
-                           value-member="code"
-                           value-key="code">
-            </custom-select>
-          </el-form-item>
+            <el-form-item style="marginRight:68px"
+                          :label="language('CAIGOUKUANGJIA', '采购框架')"
+                          class="formItem">
+              <custom-select v-model="searchForm.saNos"
+                             :user-options="getRawMaterialList"
+                             clearable
+                             multiple
+                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                             display-member="message"
+                             value-member="code"
+                             value-key="code">
+              </custom-select>
+            </el-form-item>
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('YICIJIANLINGJIANHAO', '一次件零件号')"
-                        class="formItem">
-            <custom-select v-model="searchForm.fpartNos"
-                           :user-options="getOnePartList"
-                           clearable
-                           multiple
-                           :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                           display-member="message"
-                           value-member="code"
-                           value-key="code">
-            </custom-select>
-          </el-form-item>
+            <el-form-item style="marginRight:68px"
+                          :label="language('YICIJIANLINGJIANHAO', '一次件零件号')"
+                          class="formItem">
+              <custom-select v-model="searchForm.fpartNos"
+                             :user-options="getOnePartList"
+                             clearable
+                             multiple
+                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                             display-member="message"
+                             value-member="code"
+                             value-key="code">
+              </custom-select>
+            </el-form-item>
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('ERCIJIANLINGJIANHAO', '二次件零件号')"
-                        class="formItem">
-            <custom-select v-model="searchForm.spartNos"
-                           :user-options="getSecondPartList"
-                           clearable
-                           multiple
-                           :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                           display-member="message"
-                           value-member="code"
-                           value-key="code">
-            </custom-select>
-          </el-form-item>
+            <el-form-item style="marginRight:68px"
+                          :label="language('ERCIJIANLINGJIANHAO', '二次件零件号')"
+                          class="formItem">
+              <custom-select v-model="searchForm.spartNos"
+                             :user-options="getSecondPartList"
+                             clearable
+                             multiple
+                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                             display-member="message"
+                             value-member="code"
+                             value-key="code">
+              </custom-select>
+            </el-form-item>
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('ECJGYSBHMC', '二次件供应商编号-名称')"
-                        class="formItem">
-            <custom-select v-model="searchForm.pieceSupplierSaps"
-                           :user-options="getSecondSupplierList"
-                           clearable
-                           multiple
-                           :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                           display-member="message"
-                           value-member="code"
-                           value-key="code">
-            </custom-select>
-          </el-form-item>
+            <el-form-item style="marginRight:68px"
+                          :label="language('ECJGYS', '二次件供应商')"
+                          class="formItem">
+              <custom-select v-model="searchForm.pieceSupplierSaps"
+                             :user-options="getSecondSupplierList"
+                             clearable
+                             multiple
+                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                             display-member="codeMessage"
+                             value-member="code"
+                             value-key="code">
+              </custom-select>
+            </el-form-item>
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('BUCHASHIJIANDUAN', '补差时间段')"
-                        class="formItem">
-            <iDatePicker style="width: 180px;"
-                         v-model="searchForm.dateTime"
-                         type="monthrange">
-            </iDatePicker>
-          </el-form-item>
+            <el-form-item style="marginRight:68px"
+                          :label="language('BUCHASHIJIANDUAN', '补差时间段')"
+                          class="formItem">
+              <iDatePicker style="width: 180px;"
+                           v-model="searchForm.dateTime"
+                           type="monthrange">
+              </iDatePicker>
+            </el-form-item>
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('CAILIAOZHONGLEI', '材料中类')"
-                        class="formItem">
-            <custom-select v-model="searchForm.categories"
-                           :user-options="zhongleiList"
-                           clearable
-                           multiple
-                           :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                           display-member="message"
-                           value-member="code"
-                           value-key="code">
-            </custom-select>
-          </el-form-item>
+            <el-form-item style="marginRight:68px"
+                          :label="language('CAILIAOZHONGLEI', '材料中类')"
+                          class="formItem">
+              <custom-select v-model="searchForm.categories"
+                             :user-options="zhongleiList"
+                             clearable
+                             multiple
+                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                             display-member="message"
+                             value-member="code"
+                             value-key="code">
+              </custom-select>
+            </el-form-item>
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('SHIFOUGUIJINSHUYUANCAILIAO', '是否贵金属原材料')"
-                        class="formItem">
-            <custom-select v-model="searchForm.pgmFlag"
-              :user-options="typesJS"
-              clearable
-              :placeholder="language('QINGSHURU', '请输入')"
-              display-member="message"
-              value-member="code"
-              value-key="code">
-            </custom-select>
-          </el-form-item>
+            <el-form-item style="marginRight:68px"
+                          :label="language('SHIFOUGUIJINSHUYUANCAILIAO', '是否贵金属原材料')"
+                          class="formItem">
+              <custom-select v-model="searchForm.pgmFlag"
+                             :user-options="typesJS"
+                             clearable
+                             :placeholder="language('QINGSHURU', '请输入')"
+                             display-member="message"
+                             value-member="code"
+                             value-key="code">
+              </custom-select>
+            </el-form-item>
 
-        </el-form>
-        <div class="searchButton">
-          <iButton @click="handleSubmitSearch">{{language('CX', '查询')}}</iButton>
-          <iButton @click="handleSearchReset('searchForm')">{{language('CZ', '重置')}}</iButton>
+          </el-form>
+          <!-- <div class="searchButton">
+            <iButton @click="handleSubmitSearch">{{language('CX', '查询')}}</iButton>
+            <iButton @click="handleSearchReset('searchForm')">{{language('CZ', '重置')}}</iButton>
+          </div> -->
         </div>
-      </div>
+      </iSearch>
+
       <el-divider class="margin-top20"></el-divider>
       <div class="contentBox">
         <iTabsList v-model="tabsValue"
@@ -155,7 +157,7 @@
 </template>
 
 <script>
-import { iCard, iSelect, iDatePicker, iMessage, iDialog, iButton, iTabs, iTabsList } from 'rise'
+import { iCard, iSelect, iDatePicker, iMessage, iDialog, iButton, iTabs, iTabsList, iSearch } from 'rise'
 // import { getDeptData } from "@api/mtz/database/partsQuery";
 
 import {
@@ -165,6 +167,8 @@ import {
   getGroups,
   getSaNo
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
+import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+
 import { deepClone } from "./util.js";
 
 import tabs1 from './tabs1'
@@ -182,6 +186,7 @@ export default {
     iDialog,
     iButton,
     iTabs,
+    iSearch,
     iTabsList
   },
   props: ["detailObj"],
@@ -258,7 +263,7 @@ export default {
       getSecondPartNo({ mtzDocId: this.mtzDocId }).then(res => {
         this.getSecondPartList = res.data;
       })
-      getSecondSupplier({ mtzDocId: this.mtzDocId }).then(res => {
+      getMtzSupplierList({ mtzDocId: this.mtzDocId }).then(res => {
         this.getSecondSupplierList = res.data;
       })
       getSaNo({ mtzDocId: this.mtzDocId }).then(res => {
@@ -272,13 +277,13 @@ export default {
     handleSearchReset (form) {
       this.searchForm = {};
       this.searchForm = {
-        saNos:[],
-        fpartNos:[],
-        spartNos:[],
-        pieceSupplierSaps:[],
-        dateTime:[],
-        categories:[],
-        pgmFlag:"",
+        saNos: [],
+        fpartNos: [],
+        spartNos: [],
+        pieceSupplierSaps: [],
+        dateTime: [],
+        categories: [],
+        pgmFlag: "",
       }
       this.seachWather = {};
     },
@@ -310,7 +315,7 @@ export default {
         }
       }
     },
-    closeDiolog(){
+    closeDiolog () {
       this.$emit('dialogShowFun', '');
       this.$parent.$children.forEach(item => {
         if (item.$options._componentTag === 'theTable') {
@@ -345,7 +350,7 @@ $tabsInforHeight: 35px;
   }
 }
 
-.leftBox {
-  margin-right: 200px;
-}
+// .leftBox {
+//   margin-right: 200px;
+// }
 </style>

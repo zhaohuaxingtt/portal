@@ -102,13 +102,40 @@ export default {
           tooltip: true,
           minWidth: 130
         },
-        /* {
-          prop: 'taskType',
-          label: '任务类型',
-          i18n: '任务类型',
+        {
+          prop: 'processDefinitionName',
+          label: '任务名称',
+          i18n: '任务名称',
           tooltip: true,
-          width: 140
-        }, */
+          minWidth: 180
+        },
+        {
+          prop: 'itemEvent',
+          label: '审批事项',
+          i18n: '审批事项',
+          tooltip: true,
+          minWidth: 200,
+          align: 'left',
+          headerAlign: 'center',
+          customRender: (h, scope) => {
+            return <span>{scope.row.itemEvent || ''}</span>
+          }
+        },
+
+        {
+          prop: 'createDate',
+          label: '任务开始时间?',
+          i18n: '任务开始时间',
+          tooltip: true,
+          width: 100,
+          customRender: (h, scope) => {
+            if (scope.row.createDate) {
+              // eslint-disable-next-line no-undef
+              return moment(scope.row.createDate).format('YYYY-MM-DD')
+            }
+            return <span>{scope.row.createDate}</span>
+          }
+        },
         {
           prop: 'applyUserName',
           label: '申请人?',
@@ -139,40 +166,6 @@ export default {
           i18n: '申请时间',
           tooltip: true,
           width: 100
-        },
-        {
-          prop: 'processDefinitionName',
-          label: '任务名称',
-          i18n: '任务名称',
-          tooltip: true,
-          minWidth: 180
-        },
-
-        {
-          prop: 'createDate',
-          label: '任务开始时间?',
-          i18n: '任务开始时间',
-          tooltip: true,
-          width: 100,
-          customRender: (h, scope) => {
-            if (scope.row.createDate) {
-              // eslint-disable-next-line no-undef
-              return moment(scope.row.createDate).format('YYYY-MM-DD')
-            }
-            return <span>{scope.row.createDate}</span>
-          }
-        },
-        {
-          prop: 'itemEvent',
-          label: '审批事项',
-          i18n: '审批事项',
-          tooltip: true,
-          minWidth: 200,
-          align: 'left',
-          headerAlign: 'center',
-          customRender: (h, scope) => {
-            return <span>{scope.row.itemEvent || ''}</span>
-          }
         }
       ],
       selectTableData: [],

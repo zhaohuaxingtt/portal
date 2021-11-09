@@ -86,7 +86,6 @@ export default {
         })
         newData.push(item)
       }
-      console.log('nwe', newData)
       this.isShow = false
       this.$emit('callback', newData)
     },
@@ -96,6 +95,7 @@ export default {
     },
     handleReset() {
       this.dataSource = _.cloneDeep(this.originalData)
+      // this.$emit('reset')
     },
     handleOpened() {
       const dataSource = _.cloneDeep(this.data)

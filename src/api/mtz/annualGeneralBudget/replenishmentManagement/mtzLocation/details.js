@@ -74,6 +74,15 @@ export function cancelMtzNomi(parmars) {
   })
 }
 
+export function mtzMeetingOutFlow(parmars) {
+  //mtz取消定点
+  return requst({
+    url: '/mtzNomiList/mtzMeetingOutFlow',
+    method: 'POST',
+    data: parmars
+  })
+}
+
 export function mtzRecall(parmars) {
   //mtz列表撤回
   return requst({
@@ -167,19 +176,20 @@ export function fetchAppNomiDecisionDataDel(parmars) {
     data: parmars
   })
 }
-export function modifyPartMasterData(parmars) {
-  //维护MTZ零件主数据-编辑
-  return requst({
-    url: '/mtzAppNomi/modifyPartMasterData',
-    method: 'POST',
-    data: parmars
-  })
-}
 
 export function modifyAppRule(parmars) {
   //维护MTZ原材料规则-编辑
   return requst({
     url: '/mtzAppNomi/modifyAppRule',
+    method: 'POST',
+    data: parmars
+  })
+}
+
+export function updateAppRule(parmars) {
+  //维护MTZ原材料规则-单条修改
+  return requst({
+    url: '/mtzAppNomi/updateAppRule',
     method: 'POST',
     data: parmars
   })
@@ -252,5 +262,77 @@ export function getMtzMarketSourceList(params) {
     url: '/commonDropDown/getMtzMarketSourceList',
     method: 'GET',
     params: params
+  })
+}
+
+export function pageHistoryPartMasterData(params) {
+  //维护MTZ零件主数据-历史数据
+  return requst({
+    url: '/mtzAppNomi/pageHistoryPartMasterData',
+    method: 'POST',
+    data: params
+  })
+}
+
+export function addAppRule(params) {
+  //维护MTZ原材料规则-新增
+  return requst({
+    url: '/mtzAppNomi/addAppRule',
+    method: 'POST',
+    data: params
+  })
+}
+
+export function deleteAppRule(params) {
+  //维护MTZ原材料规则-删除
+  return requst({
+    url: '/mtzAppNomi/deleteAppRule',
+    method: 'POST',
+    data: params
+  })
+}
+
+export function addBatchAppRule(params) {
+  //维护MTZ原材料规则-批量新增
+  return requst({
+    url: '/mtzAppNomi/addBatchAppRule',
+    method: 'POST',
+    data: params
+  })
+}
+
+export function addBatchPartMasterData(params) {
+  //维护MTZ零件主数据-新增多条
+  return requst({
+    url: '/mtzAppNomi/addBatchPartMasterData',
+    method: 'POST',
+    data: params
+  })
+}
+
+export function modifyPartMasterData(params) {
+  //维护MTZ零件主数据-编辑多条
+  return requst({
+    url: '/mtzAppNomi/modifyPartMasterData',
+    method: 'POST',
+    data: params
+  })
+}
+
+export function addPartMasterData(params) {
+  //维护MTZ零件主数据-新增
+  return requst({
+    url: '/mtzAppNomi/addPartMasterData',
+    method: 'POST',
+    data: params
+  })
+}
+
+export function deletePartMasterData(params) {
+  //维护MTZ零件主数据-删除
+  return requst({
+    url: '/mtzAppNomi/deletePartMasterData',
+    method: 'POST',
+    data: params
   })
 }

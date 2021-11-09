@@ -10,7 +10,7 @@ const postcss = px2rem({
   remUnit: 16
 })
 const BASE_DOMAN = '10.122.18.166'
-// const BASE_IP = '10.122.17.38'
+const BASE_IP = '10.122.17.38'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
@@ -141,6 +141,13 @@ module.exports = {
           ['^' + process.env.VUE_APP_PROJECT]: ''
         }
       },
+      [process.env.VUE_APP_EKL]: {
+        target: `http://${BASE_DOMAN}:8043/riseekl`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_EKL]: ''
+        }
+      },
       [process.env.VUE_APP_COMMON]: {
         target: `http://${BASE_DOMAN}:8014/common`,
         changeOrigin: true,
@@ -231,7 +238,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_MTZ]: {
-        target: `http://${BASE_DOMAN}:8046/mtz`,
+        // target: `http://${BASE_DOMAN}:8046/mtz`,
+        target: `http://${BASE_IP}:8046/mtz`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MTZ]: ''
@@ -251,11 +259,11 @@ module.exports = {
           ['^' + process.env.VUE_APP_RFQ]: ''
         }
       },
-      [process.env.VUE_APP_CLEADER_MEETING]: {
+      [process.env.VUE_APP_MEETING]: {
         target: `http://${BASE_DOMAN}:8051/rise-meeting`,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_CLEADER_MEETING]: ''
+          ['^' + process.env.VUE_APP_MEETING]: ''
         }
       },
       [process.env.VUE_APP_NEWS]: {
@@ -263,13 +271,6 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_NEWS]: ''
-        }
-      },
-      [process.env.VUE_APP_EKL]: {
-        target: `http://${BASE_DOMAN}:8043/riseekl`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_EKL]: ''
         }
       },
       [process.env.VUE_APP_CHANGEPRICE]: {

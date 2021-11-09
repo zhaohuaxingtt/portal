@@ -134,7 +134,6 @@ export default {
         panoromaItem.isUsed = true
       }
       this.nodeData = nodeData
-      console.log('init node data', nodeData)
     },
     getDatItem(panoromaItem) {
       const approvers = []

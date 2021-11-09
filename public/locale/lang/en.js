@@ -134,10 +134,10 @@
     },
 
     /*
-        <!------------------------------------------------------------------------>
-        <!--                                                                   --->
-        <!------------------------------------------------------------------------>
-        */
+            <!------------------------------------------------------------------------>
+            <!--                                                                   --->
+            <!------------------------------------------------------------------------>
+            */
 
     LK_CAIGOUFENEFENPEIDABUDAO:
       'Procurement share allocation cannot reach 100%', // 采购份额分配达不到100%
@@ -825,7 +825,10 @@
       TRANSFER_PERSON: 'Transfer Person',
       APPROVAL_SUCCESS: 'Approval successful',
       APPROVAL_FAILED: 'Approval failed',
-      NODE_REQUIRED: 'Required for supplementary material nodes'
+      NODE_REQUIRED: 'Required for supplementary material nodes',
+      EXIT_EDIT: 'exit edit',
+      EKL_YJGL_ZP: 'task transfer',
+      EKL_YJGL_ZGZJ: 'give it to yourself'
     },
     ROLE: {
       ROLE_NAME: 'Role Name',
@@ -1444,13 +1447,13 @@
     SPR_FRM_DEP_YWSXY: '业务&上下游', //业务&上下游
     SPR_FRM_DEP_FINANCE: '财务', //财务
     SPR_FRM_DEP_OTHER: '其他', //其他
-    SPR_FRM_DEP_CKCWFXJG: 'View Financial Statement Analysis', //查看财报分析结果
+    SPR_FRM_DEP_CKCWFXJG: '查看财报分析结果', //查看财报分析结果
     SPR_FRM_DEP_SCHYJY: '生成会议纪要', //生成会议纪要
     SPR_FRM_DEP_XJHY: '新建行业', //新建行业
-    SPR_FRM_DEP_TJSH: 'Submit for Approval', //提交审核
-    SPR_FRM_DEP_ZS: 'Overview', //综述
-    SPR_FRM_DEP_QYGK: 'Company Profile', //企业概况
-    SPR_FRM_DEP_CWFX: 'Financial Analysis', //财务分析
+    SPR_FRM_DEP_TJSH: '提交审核', //提交审核
+    SPR_FRM_DEP_ZS: '综述', //综述
+    SPR_FRM_DEP_QYGK: '企业概况', //企业概况
+    SPR_FRM_DEP_CWFX: '财务分析', //财务分析
     SPR_FRM_DEP_IMPORT: '导入', //财务分析
     SPR_FRM_DEP_YJWCSJ: '预计完成时间', //预计完成时间
     SPR_FRM_DEP_QXZYJWCSJ: '请选择预计完成时间', //请选择预计完成时间
@@ -1616,12 +1619,12 @@
     SPR_FRM_XGYSPJ_JSZ: 'Computed Result', //计算值
     SPR_FRM_XGYSPJ_SM: 'Description', //说明
     SPR_FRM_XGYSPJ_QXZSJLY: '请选择数据来源', //请选择数据来源
-    SPR_FRM_XGYSPJ_DCCB: 'Export Financial Statements', //导出财报
+    SPR_FRM_XGYSPJ_DCCB: 'Export Financial Statements', //导出财报s
     SPR_FRM_XGYSPJ_GDXX: 'Shareholder Profiles', //股东信息
     SPR_FRM_XGYSPJ_GDMC: 'Shareholder Name', //股东名称
     SPR_FRM_XGYSPJ_GJDQ: 'Country/Region', //国家/地区
     SPR_FRM_XGYSPJ_CZE: 'Contribution Amount', //出资额
-    SPR_FRM_XGYSPJ_QXZYTSJTJ: '请选择一条数据', //请选择一条数据
+    SPR_FRM_XGYSPJ_QXZYTSJTJ: 'please select a piece of data', //请选择一条数据
     SPR_FRM_XGYSPJ_BZ: 'Currency', //币种
     SPR_FRM_XGYSPJ_ZYYW: 'Core Business', //主要业务
     SPR_FRM_XGYSPJ_ZYYWHYGS: '主要业务行业归属', //主要业务行业归属
@@ -1795,6 +1798,324 @@
       '若无搜索结果，请关闭弹窗并邀请供应商注册。', //若无搜索结果，请关闭弹窗并邀请供应商注册。
     SPR_FRM_FXXH_NSFQRTJSP: 'Do you confirm submitting for approval?', //您是否确认提交审批
     // ------------sprint10  FRM 评级 结束 --------------------------------------
+    SUPPLIER_PIZHUN: 'Approve', //批准
+    SUPPLIER_GUANLIANGONGSIMINGCHENG: 'Associated company name', //关联公司名称
+    SUPPLIER_GUANXIMIAOSHU: 'Relationship description', //关系描述
+    SUPPLIER_QIYEXINGZHI: 'Enterprise Nature', //企业性质
+    SUPPLIER_SUOZAIGUOJIADIQU: 'Country/Region', //所在国家/地区
+    SUPPLIER_ZHUCEZIBENWAN: 'Registered capital (ten thousand)', //注册资本（万）
+    SUPPLIER_KONGGUBILI: 'Shareholding ratio (%)', //控股比例（%）
+    SUPPLIER_SHOUXINRQIQI: 'From the date of credit', //授信日期起
+    SUPPLIER_WAIBUPINGJIA: 'External evaluation', //外部评价
+    SUPPLIER_LISHIYANGEXIANGQING: 'History details', //历史沿革详情
+    SUPPLIER_QIYEYANGEMIAOSHU: 'Enterprise history description', //企业沿革描述
+    SUPPLIER_GONGYINGSHANGJIANCHENZHTIPS:
+      'Chinese abbreviation rules: region + name + business Example: (Shanghai Youhao Plastics Co., Ltd.-Shanghai Youhao Plastics)', //中文简称规则：地区+名称+业务 例：（上海友好塑料股份有限公司—上海友好塑料）
+    SUPPLIER_GONGYINGSHANGJIANCHENGENTIPS:
+      'English abbreviation rules: regional initials + name + business Example: (Shanghai Friendly Plastic Co., Ltd.—SH Friendly Plastic)', //英文简称规则：地区的首字母缩写+名称+业务 例：（Shanghai Friendly Plastic Co., Ltd.—SH Friendly Plastic）
+    SUPPLIER_DUNSTIPS:
+      'For the application of Dun & Bradstreet number, please contact Shanghai Huaxia Dun & Bradstreet Business Information Consulting Co., Ltd. or other regional Dun & Bradstreet company organizations. \n' +
+      'Specific information can be consulted at http://www.dnbchina.com/conta ct/index.html', //邓白氏号申请事宜请联系上海华夏 邓白氏商业信息咨询有限公司或其 他地区邓白氏公司机构。 具体信息可登录 http://www.dnbchina.com/conta ct/index.html进行咨询
+    SUPPLIER_JIBENXINXI: 'Basic Information', //基本信息
+    SUPPLIER_LISHIYANGE: 'History', //历史沿革
+    SUPPLIER_FRMPINGJI: 'FRM rating', //FRM评级
+    SUPPLIER_GONGCHANGXINXI: 'Factory information', //工厂信息
+    SUPPLIER_SHOUXINYINHANGXINXIN: 'Credit Bank Information', //授信银行信息
+    SUPPLIER_GUDONGJITUANYUGUANLIANGONGSI:
+      'Shareholders, groups and related companies', //股东、集团与关联公司
+    SUPPLIER_RENYUANJIGONGSIZHILIQINGKUANG:
+      'Personnel and corporate governance', //人员及公司治理情况
+    SUPPLIER_ZHUYAOYEWUJICHANPIN: 'Main business and products', //主要业务及产品
+    SUPPLIER_ZHUYAOKEHU: 'Major client', //主要客户
+    SUPPLIER_ZHUYAOFANGGONGFANGMINGCHENGJICHANPIN:
+      'Name and product of main sub-supplier', //主要分供方名称及产品
+    SUPPLIER_LISHIHEZUOJILU: 'Cooperation records over the years', //历年合作记录
+    SUPPLIER_ZHUYAOFENGONGFANGMING: 'Name Of Main Sub-Supplier', //主要分供方名称
+    SUPPLIER_FUKUANQINGKUANG: 'Payment Status', //付款状况
+    SUPPLIER_XUANZENIANFEN: 'Select Year', //选择年份
+    SUPPLIER_SHIFOUDINGDIAN: 'Negative Point', //是否定点
+    SUPPLIER_SHIFOUSHENGXIAO: 'Does It Take Effect', //是否生效
+    SUPPLIER_WUXIAO: 'Invalid', //无效
+    SUPPLIER_YOUXIAO: 'Availability', //有效
+    SUPPLIER_PURCHASEREMAIL: 'Purchaser Email', //采购员邮箱
+    SUPPLIER_PURCHASERNAME: 'Purchaser Name', //采购员姓名
+    SUPPLIER_SUPPLIERTYPE: 'Supplier Type', //供应商类型
+    SUPPLIER_ZHUANZHENGSUOXUFUJIAN: 'Attachments Needed For Correction', //转正所需附件
+    SUPPLIER_SHIFOUTONGYIJIANG: 'Do you agree to ', //是否同意将
+    SUPPLIER_GONGSIZHUANEWIZHENGSHIGONGYINGSHANG:
+      ' company turns into an official supplier', //公司转为正式供应商
+    SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI: 'View the supplier information', //查看该供应商信息
+    SUPPLIER_FUJIANSHANCHU: 'Attachment deletion', //附件删除
+    SUPPLIER_CWYJ: 'Financial Early-warning', //财务预警
+    SUPPLIER_GLGS: 'Affiliated Company', //关联公司
+    SUPPLIER_JTGX: 'Group Relations', //集团关系
+    SUPPLIER_ZYPTKH: 'Major Supporting Customers', //主要配套客户
+    SUPPLIER_ZYPTZJC: 'Main Supporting OEMs', //主要配套主机厂
+    SUPPLIER_SJKZRXM: 'Name Actual Controller', //实际控制人姓名
+    SPR_FRM_XGYSPJ_GDXINGXI: 'More Information', //更多信息
+    SUPPLIER_QINGTONGYI: 'please approve ', //请同意
+    SUPPLIER_GONGSITIJIAODEJIBENXINXIXIUGAISHENQING:
+      ' the basic information modification application submitted by the company', //公司提交的基本信息修改申请
+    SUPPLIER_GONGYINGSHANGLEIXINGTIPS:
+      '您可以向大众集团采购部门提供的产品是否属于汽车 零部件？</br>若是：则选择生产采购；若否：则选择一般 采购。</br>生产采购：直接用于汽车生产的外购零部件和生产材 料、生产辅料的采购。</br>一般采购：除直接构成汽车的零部件及材料以外的物资以及服务的采购。</br>诸如：生产设备、测试设备和仪器、土建工程、公用动力和通用设备及其</br>安装工程、计算机软硬件、生产用辅料和刀具、办公用品、开发服务、物流</br>服务、市场营销服务、公共服务等的采购以上定义仅供参考，请和采购员确</br>认之后进行选择。', //供应商类型tips
+    SUPPLIER_GAILAN: 'Overview', //概览
+    SUPPLIER_FRMZONGHEGUANLI: 'FRM Integrated Management', //FRM综合管理
+    SUPPLIER_XINGONGYINGSHANGPINGJI: 'New Supplier Rating', //新供应商评级
+    SUPPLIER_CHUBUPINGJI: 'Initial Rating', //初步评级
+    SUPPLIER_SHENRUPINGJI: 'In-depth Analysis', //深入评级
+    SUPPLIER_FENGXIANXINHAO: 'Risk Signal', //风险信号
+    SUPPLIER_YUQINGJIANCE: 'Public Opinion Monitoring', //舆情监测
+    SUPPLIER_GONGYINGSHANGRONGZISHENQING: 'Supplier Financing Application', //供应商融资申请
+    SPR_FRM_FRMGL_GYSZYMCSC: 'Supplier Chinese Name (CSC)', //供应商中文名（CSC）
+    SPR_FRM_FRMGL_XGKS: 'Related Departments', //相关科室
+    SPR_FRM_FRMGL_CPSJ: 'Initial Evaluation Time', //初评时间
+    SPR_FRM_FRMGL_CPSJQZ: 'Start And End Of The Initial Evaluation', //初评时间起止
+    SPR_FRM_FRMGL_WPSJ: 'External Review Time', //外评时间
+    SPR_FRM_FRMGL_WPSJQZ: 'Start And End Of External Review', //外评时间起止
+    SPR_FRM_FRMGL_WP: 'External Review', //外评
+    SPR_FRM_FRMGL_SPZT: 'Deep Evaluation Status', //深评状态
+    SPR_FRM_FRMGL_DXDFSJ: 'Qualitative Scoring Time', //定性打分时间
+    SPR_FRM_FRMGL_DXDFSJQZ: 'Qualitative Scoring Time Starts And Ends', //定性打分时间起止
+    SPR_FRM_FRMGL_DXDFZT: 'Qualitative Scoring Status', //定性打分状态
+    SUPPLIER_CAILIAOZU_GONGYIZUBIANHAO: 'Material Group/Process Group Number', //材料组/工艺组编号
+    SUPPLIER_CAILIAOZU_DUNSHAO: 'DUNS Number', //DUNS号
+    SUPPLIER_CAILIAOZU_ISXIANGGUNA: 'Is It Relevant To Me', //是否与我相关
+    SUPPLIER_CAILIAOZU_XIANGGUANKESHI: 'The Relevant Departments', //相关科室
+    SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN: 'Join Blacklist ', //加入黑名单
+    SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN:
+      'Sponsor Preliminary Assessment Inventory ', //发起初评清单
+    SUPPLIER_CAILIAOZU_YAOQINGZHUCE: 'Invitation Register', //邀请注册
+    SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN: 'Remove Blacklist', //移除黑名单
+    SPR_FRM_FRMGL_TZHPJ: 'Adjusted Rating', //调整后评级
+    SPR_FRM_FRMGL_SPSJ: 'Deep Comment Time', //深评时间
+    SPR_FRM_FRMGL_SPSJQZ: 'In-depth Evaluation Time Start And End', //深评时间起止
+    SPR_FRM_FRMGL_DLDF: 'Quantitative Score', //定量得分
+    SPR_FRM_FRMGL_DXDF: 'Qualitative Score', //定性得分
+    SPR_FRM_FRMGL_DCCB: 'Export Financial Report', //导出财报
+    SPR_FRM_FRMGL_DCTJBB: 'Export Statistical Report', //导出统计报表
+    SPR_FRM_FRMGL_VWAGPJ: 'VWAG Rating', //VWAG评级
+    SPR_FRM_FRMGL_FQCPQD: 'Initiate A Preliminary Review List', //发起初评清单
+    SPR_FRM_FRMGL_DQRCPQD: 'To Be Confirmed Preliminary Review List', //待确认初评清单
+    SPR_FRM_FRMGL_CQCPMX: 'View The Preliminary Model', //查看初评模型
+    SPR_FRM_XGYSPJ_ZCZBY: 'Please input registered capital (yuan)', //请输入注册资本（元）
+    SPR_FRM_XGYSPJ_CGKS: 'Purchasing Department', //采购科室
+    SPR_FRM_XGYSPJ_GYSRZGL: 'Supplier Financing Platform Management', //供应商融资管理
+    SPR_FRM_XGYSPJ_J: '家', //家
+    SUPPLIER_CNYJ: 'Capacity Alert', //产能预警
+    SPR_FRM_XGYSPJ_JSHWC: 'Completed', //家审核完成
+    SPR_FRM_XGYSPJ_SHWC: 'Completed', //审核完成
+    SPR_FRM_XGYSPJ_JSQZ: 'In Progress', //家申请中
+    SPR_FRM_XGYSPJ_SQZ: 'In Progress', //申请中
+    SPR_FRM_XGYSPJ_FXXH: 'Risk Signal', //风险信号
+    SPR_FRM_XGYSPJ_GYSXJDDQK: 'Supplier Quotation Information', //供应商询价定点情况
+    SPR_FRM_XGYSPJ_YQQK: 'Media Monitoring', //舆情监测
+    SPR_FRM_XGYSPJ_PJJG: 'Rating Result', //评级结果
+    SPR_FRM_XGYSPJ_GYSYWMC: 'Supplier Name (English)', //供应商英文名称
+    SPR_FRM_XGYSPJ_SQSJ: 'Application Date', //申请时间
+    SPR_FRM_XGYSPJ_CGY: 'Buyer', //采购员
+    SPR_FRM_XGYSPJ_PJSJ: 'Rating Date', //评级时间
+    SPR_FRM_XGYSPJ_PJFZR: 'Person in Charge of Rating', //评级负责人
+    SPR_FRM_XGYSPJ_BTGYY: 'Failure Reason', //不通过原因
+    SPR_FRM_XGYSPJ_SJLY: 'Data Source', //数据来源
+    SPR_FRM_XGYSPJ_CKGYSXX: '查看供应商信息', //查看供应商信息
+    SPR_FRM_XGYSPJ_GYSJYJRDCLZ: '供应商将要加入的材料组', //供应商将要加入的材料组
+    SPR_FRM_XGYSPJ_SFTY: '是否同意', //是否同意
+    SPR_FRM_XGYSPJ_GSDZRSQ: '公司的准入申请', //公司的准入申请
+    SPR_FRM_XGYSPJ_RWRQ: '任务日期', //任务日期
+    SPR_FRM_XGYSPJ_GYSCWPJJG: '供应商财务评级结果', //供应商财务评级结果
+    SPR_FRM_XGYSPJ_WFPJ: 'Rating Failed', //无法评级
+    SPR_FRM_XGYSPJ_TJJS: 'Submit for Rating', //提交计算
+    SPR_FRM_XGYSPJ_TJSP: 'Submit for Approval', //提交审批
+    SPR_FRM_XGYSPJ_TJQQCG: 'Return to Forward Sourcing', //退回前期采购
+    SPR_FRM_XGYSPJ_DQWBPJ: 'Fetch external ratings', //调取外部评级
+    SPR_FRM_XGYSPJ_GYSZRPGMO_JBXX:
+      'Supplier Admission Assessment Model - Basic information', //供应商准入评估模型-基本信息
+    SPR_FRM_XGYSPJ_SSLB: 'Data Category', //数据类别
+    SPR_FRM_XGYSPJ_SJZ: 'Data Value', //数据值
+    SPR_FRM_XGYSPJ_GYSZRPGMXBZ: 'Supplier Admission Assessment Model - Remarks', //供应商准入评估模型 - 备注
+    SPR_FRM_XGYSPJ_QZGYSZRPGMXBZZTXWFPJYY:
+      'Please fill in the reasons for not being able to grade in the Supplier Admission Assessment Model - Remarks', //请在供应商准入评估模型-备注中填写无法评级原因
+    SPR_FRM_XGYSPJ_JSZ: 'Calculated Value', //计算值
+    SPR_FRM_XGYSPJ_SM: 'Explain', //说明
+    SPR_FRM_XGYSPJ_GDXX: 'Shareholder Information', //股东信息
+    SPR_FRM_XGYSPJ_GDMC: 'Shareholder Name', //股东名称
+    SPR_FRM_XGYSPJ_GJDQ: 'Country/Region', //国家/地区
+    SPR_FRM_XGYSPJ_CZE: 'Amount Contribution', //出资额
+    SPR_FRM_XGYSPJ_BZ: 'Currency', //币种
+    SPR_FRM_XGYSPJ_ZYYW: 'Primary Business', //主要业务
+    SPR_FRM_XGYSPJ_ZYYWHYGS: 'Main business industry attribution', //主要业务行业归属
+    SPR_FRM_XGYSPJ_GDDGSDZCQK: 'Shareholder support for the company', //股东对公司的支持情况
+    SPR_FRM_XGYSPJ_GDZZZJHM: 'Shareholder license/certificate number', //股东证照/证件号码
+    SPR_FRM_XGYSPJ_DGLX: 'Shareholders Type', //股东类型
+    SPR_FRM_XGYSPJ_CGBL: 'Shareholding Ratio (%)', //持股比例（%）
+    SPR_FRM_XGYSPJ_GYSZRPGMO_CWXX:
+      'Supplier Admission Assessment Model - Financial Position', //供应商准入评估模型-财务状况
+    SPR_FRM_XGYSPJ_TBQ: 'Before filling (yuan)', //填补前（元）
+    SPR_FRM_XGYSPJ_GYSZRPGMX_DFZB: 'Supplier admittance evaluation model-PKPI', //供应商准入评估模型-得分指标
+    SPR_FRM_XGYSPJ_ZB: 'PKPI', //指标
+    SPR_FRM_XGYSPJ_DF: 'Score', //得分
+    SPR_FRM_XGYSPJ_QZ: 'Weight', //权重
+    SPR_FRM_XGYSPJ_DFQZ: 'Grades*Weight', //得分*权重
+    SPR_FRM_XGYSPJ_FXGZTS: 'Risk Reminder', //风险关注点提示
+    SPR_FRM_XGYSPJ_GYSZRPGMX_FXYJ:
+      'Supplier Entry Evaluation Model - Risk Alerts', //供应商准入评估模型-风险预警
+    SPR_FRM_XGYSPJ_GYSZRPGMX_BZ: '供应商准入评估模型-备注', //供应商准入评估模型-备注
+    SPR_FRM_XGYSPJ_YJZB: 'Alert Criteria', //预警指标
+    SPR_FRM_XGYSPJ_ZBGS: 'Alert Formula', //指标公式
+    SPR_FRM_XGYSPJ_JG: 'Results', //结果
+    SPR_FRM_XGYSPJ_YJFW: 'Alarming scope', //预警范围
+    SPR_FRM_XGYSPJ_SFYJ: 'Alarming or Not', //是否预警
+    SPR_FRM_XGYSPJ_YJTS: 'Alarming Reminder', //预警提示
+    SPR_FRM_XGYSPJ_YJWZSM: 'Alarming Reminder: Text Description', //预警：文字说明
+    SPR_FRM_XGYSPJ_TZQFS: 'Grade before Adjustment', //调整前分数
+    SPR_FRM_XGYSPJ_TZQJB: 'Rating before Adjustment', //调整前级别
+    SPR_FRM_XGYSPJ_TSJJF: 'Other Grades Added or Deducted', //特殊加减分
+    SPR_FRM_XGYSPJ_TZHJB: 'Rating after Adjustment', //调整后级别
+    SPR_FRM_XGYSPJ_CWSJBZ: '财务数据备注：', //财务数据备注：
+    SPR_FRM_XGYSPJ_QSRDWRMBDZCZBJES:
+      'Please enter the Registered Capital Amount in RMB', //请输入单位为人民币的注册资本金数额
+    SPR_FRM_XGYSPJ_TZHFS: '调整后分数', //调整后分数
+    SPR_FRM_XGYSPJ_SFTGPG: 'Evaluation Passed or Failed', //是否通过评估
+    SPR_FRM_XGYSPJ_SHHZQCYXGS: '上海汇众汽车有限公司', //上海汇众汽车有限公司
+    SPR_FRM_XGYSPJ_GCDT: 'Factory Map', //工厂地图
+    SPR_FRM_XGYSPJ_SMSHBJXJFCL: 'The Case of No Subtraction Treatment:', //什么时候不进行减分处理：
+    SPR_FRM_XGYSPJ_FXXHJFYZ: 'Risk Signals Duduction Rules:', //风险信号减分原则：
+    SPR_FRM_XGYSPJ_BGZRZHSG:
+      'Strikes/natural disasters/accidents: 10 for the year in which they occur, no points will be deducted for the following year;<br/>  Quality problem: general -5; <br/> Serious - 10;  Recall: possible/small -5;<br/>  Large-scale (global or regional) -10;<br/>Multiple sets of reports, feedback from others about financial problems/shortage of funds: -5;<br/>  Administrative penalty (including environmental penalty) : general -5, major -10; <br/> Delay or suspension of supply due to problems of capital or going concern: -10;<br/>  Delay or suspension of supply for reasons unknown: -5;<br/>  Internal poor management (delayed sample delivery, poor sample delivery quality, unpaid wages, etc.) : -5;  ', //罢工/自然灾害/事故：发生当年-10，次年不扣分； 质量问题：一般-5；严重-10； 召回：可能发生/小规模-5；大规模（全球或多地区）-10； 多套报表、其他人反馈有财务问题/资金紧张：-5； 行政处罚（包括环保处罚）：一般-5，重大-10； 因资金、不能持续经营等问题供货延迟或停供：-10； 原因尚未确定的供货延迟或停供：-5； 内部管理不善（送样延迟、送样质量不好、拖欠工资等）：-5；
+    SPR_FRM_XGYSPJ_YFXXHYJJ:
+      'The original risk signal has been resolved without subsequent impact;  Does not affect the operation, financial, such as chattel mortgage;  After verification, the risk signal situation is inconsistent with the facts or exaggerated, such as the existence of special reasons for multiple sets of statements;  Financial problems will be directly reflected in the statements (balance sheet, income statement), and no additional points will be deducted for signals similar to the indicators in the initial evaluation model (such as consecutive years of losses)', //原风险信号已解决，无后续影响； 不影响经营、财务，如动产抵押； 核实后，风险信号情况与事实不符或夸大，如多套报表存在特殊原因； 财务问题会直接反映在报表（资产负债表、利润表）中，与初评模型中 指标类似的信号（如连年亏损），不额外扣分；
+    SPR_FRM_FRMGL_FQCBPJ: 'Initiate A Preliminary Rating', //发起初步评级
+    SPR_FRM_FRMGL_XGG: 'Related Stocks', //相关股
+    SPR_FRM_FRMGL_SNTO: 'Last Year TO', //上年TO
+    SPR_FRM_FRMGL_SYMX: 'Applicable Model', //适用模型
+    SPR_FRM_FRMGL_SDTJ: 'Add Manully', //手动添加
+    SPR_FRM_FRMGL_ZDTJ: 'Automatically Added', //自动添加
+    SPR_FRM_FRMGL_DRGYS: 'Import Suppliers', //导入供应商
+    SPR_FRM_FRMGL_TJZCP: 'Add To Preliminary Review', //添加至初评
+    SPR_FRM_FRMGL_SDTJCBPJ: 'Manually Add Preliminary Ratings', //手动添加初步评级
+    SPR_FRM_FRMGL_CPJG: 'Preliminary Evaluation Results', //初评结果
+    SPR_FRM_FRMGL_SPJG: 'Deep Evaluation Results', //深评结果
+    SPR_FRM_FRMGL_ZDTJ_TIP1:
+      'Please set the time to view the "Preliminary Review List to be Confirmed"', //请设置查看“待确认初评清单”时间
+    SPR_FRM_FRMGL_ZDTJ_TIP2:
+      'Reminder: Please go to the "Pending Confirmation List" to view after the selected date', //提示：请于选定日期后前往“待确认初评清单”查看
+    SPR_FRM_FRMGL_CKMX: 'View Model', //查看模型
+    SPR_FRM_FRMGL_MXlX: 'Model Type', //模型类型
+    SPR_FRM_FRMGL_MXMC: 'Model Name', //模型名称
+    SPR_FRM_FRMGL_XZSPYY: 'Reasons For Choosing Deep Comment', //选择深评原因
+    SPR_FRM_FRMGL_QSRXXYY: 'Please Enter A Detailed Reason…', //请输入详细原因…
+    SPR_FRM_FRMGL_QXZPJJG: 'Please select the rating result…', //请选择评级结果…
+    SPR_FRM_FRMGL_DXDAF: 'Qualitative Scoring', //定性打分
+    SPR_FRM_FRMGL_VWAGSJ: 'VWAG Time', //VWAG时间
+    SPR_FRM_FRMGL_FCSJQ: 'Start And End Of Issue', //发出时间起
+    SPR_FRM_FRMGL_SFXSLSDF: 'Whether To Display Historical Scores', //是否显示历史打分
+    SPR_FRM_FRMGL_DCGYSMB: 'Export supplier template', //导出供应商模板
+    SPR_FRM_CBPJ_BB: 'Versions', //版本
+    SPR_FRM_CBPJ_PFFCSJ: 'Score Issued Time', //评分发出时间
+    SPR_FRM_CBPJ_PFFHSJ: 'Rating Return Time', //评分返回时间
+    SPR_FRM_CBPJ_ZXCZ: 'Latest Operation', //最新操作
+    SPR_FRM_CBPJ_CZJL: 'Operation Record', //操作记录
+    SPR_FRM_CBPJ_THLY: 'Reason For Return', //退回理由
+    SPR_FRM_CBPJ_FP: 'Assign', //分派
+    SPR_FRM_CBPJ_CXDF: 'Re-scoring', //重新打分
+    SPR_FRM_CBPJ_QXZKG: 'Please select section/share', //请选择科/股
+    SPR_FRM_CBPJ_QXZTHYY: 'Please select the reason for return', //请选择退回原因
+    SPR_FRM_CBPJ_QXZZPDX: 'Please select the transferee', //请选择转派对象
+    SPR_FRM_CBPJ_QDQXM: 'Are you sure to cancel', //确定取消吗
+    SPR_FRM_CBPJ_YY: 'Follow', //沿用
+    SPR_FRM_CBPJ_ZCDHYDYX: 'The impact of policies on the industry', //政策对行业的影响
+    SPR_FRM_CBPJ_HYGQZK: 'Industry Supply And Demand Status', //行业供求状况
+    SPR_FRM_CBPJ_GLGFCD: 'Degree of management standard', //管理规范程度
+    SPR_FRM_CBPJ_XMGLNL: 'Project management ability', //项目管理能力
+    SPR_FRM_CBPJ_HYDB: 'Industry Reputation', //行业口碑
+    SPR_FRM_CBPJ_ZYKHSL: 'Main Customer Strength', //主要客户实力
+    SPR_FRM_CBPJ_YZYKHHZWDX: 'Stability of cooperation with major customers', //与主要客户合作稳定性
+    SPR_FRM_CBPJ_ZYGYSSL: 'Main supplier strength', //主要供应商实力
+    SPR_FRM_CBPJ_YZYGYSHZWDX: 'Stability of cooperation with major suppliers', //与主要供应商合作稳定性
+    SPR_FRM_CBPJ_HTLXQK: 'Contract performance', //合同履行情况
+    SPR_FRM_CBPJ_ZJGXSJ: 'Last update time', //最近更新时间
+    SPR_FRM_CBPJ_ZJGXR: 'Recently updated', //最近更新人
+    SPR_FRM_CBPJ_SFXSLSPJ: 'Whether To Display Historical Ratings', //是否显示历史评级
+    SPR_FRM_CBPJ_JJF: 'With Or Without Points', //有无加减分
+    SPR_FRM_CBPJ_SFLJLJ: 'Whether to downgrade two consecutive levels', //是否连降两级
+    SPR_FRM_CBPJ_CBBJ: 'Financial Report Comparison', //财报比较
+    SPR_FRM_CBPJ_DCCPMB: 'Export Preliminary Review Template', //导出初评模板
+    SPR_FRM_CBPJ_CPZT: 'Initial Evaluation Status', //初评状态
+    SPR_FRM_CBPJ_TZQDF: 'Score before adjustment', //调整前得分
+    SPR_FRM_CBPJ_TZF: 'Adjustment points', //调整分
+    SPR_FRM_CBPJ_TZHDF: 'Adjusted score', //调整后得分
+    SPR_FRM_CBPJ_SFYX: 'is it effective', //是否有效
+    SPR_FRM_CBPJ_YWJJF: 'With or without points', //有无加减分
+    SPR_FRM_CBPJ_JXCPLC: 'Continue the initial evaluation process？', //继续初评流程？
+    SPR_FRM_CBPJ_QSRWFPJYY: 'Please enter the reason for not being rated', //请输入无法评级原因
+    SPR_FRM_CBPJ_SJZB: 'Three-level indicators', //三级指标
+    SPR_FRM_CBPJ_RJZB: 'Secondary indicators', //二级指标
+    SPR_FRM_CBPJ_YJZB: 'First-level index', //一级指标
+    SPR_FRM_CBPJ_PJBJ: 'Rating comparison', //评级比较
+    SPR_FRM_CBPJ_GYSCPQK: 'Preliminary Evaluation Of Suppliers', //供应商初评情况
+    SPR_FRM_CBPJ_LSCP: 'Initial Comment on History', //历史初评
+    SPR_FRM_ZNXZYTSJ: 'Only one piece of data can be selected', //只能选择一条数据
+    SPR_FRM_CBPJ_QSL: 'Missing Rate%', //缺失率%
+    SPR_FRM_CBPJ_TZQPJ: 'Rating Before Adjustment', //调整前评级
+    SPR_FRM_CBPJ_TZHPJ: 'Adjusted Rating', //调整后评级
+    SPR_FRM_CBPJ_DFQX: 'Detailed Score', //得分详细
+    SPR_FRM_CBPJ_ZBMC: 'Indicator Name', //指标名称
+    SPR_FRM_CBPJ_ZBSZ: 'Index Value', //指标数值
+    SPR_FRM_CBPJ_ZBFZ: 'Index Score', //指标分值
+    SPR_FRM_CBPJ_DFLY: 'Source Of Score', //得分来源
+    SPR_FRM_CBPJ_TBSZ: 'Fill Value', //填补数值
+    SPR_FRM_CBPJ_SFJSF: 'Whether To Be Careful', //是否谨慎分
+    SPR_FRM_CBPJ_PJMX: 'Rating Details', //评级明细
+    SPR_FRM_CBPJ_PJRY: 'Raters', //评级人员
+    SPR_FRM_CBPJ_CPMBDCTIPS:
+      'The preliminary evaluation template only supports a single data export, please confirm and export again.', //初评模板仅支持单条数据导出，请确认后重新导出。
+    SPR_FRM_CBPJ_WPJYYYTIPS: 'Sorry, the reason cannot be empty!', //抱歉，无法评级原因不能为空！
+    SPR_FRM_CBPJ_CBBJTIPS:
+      'You can select at most 3 data, please select again!', //最多可选择5条数据，请重新选择！
+    SPR_FRM_CBPJ_Y: 'Hava', //有
+    SPR_FRM_CBPJ_W: 'Not Have', //无
+    SPR_FRM_CBPJ_CZKS: 'Operation Department', //操作科室
+    SPR_FRM_FRMGL_QXZQZSJ: 'Please select the start and end time', //请选择起止时间
+    SPR_FRM_FRMGL_BJQZYGSJ: 'Must choose a time', //必须选择一个时间
+    SPR_FRM_FRMGL_QXZSYMX: 'Please select the applicable model', //请选择适用模型
+    SPR_FRM_CBPJ_QWCDF: 'Please finish scoring', //请完成打分
+    SPR_FRM_CBPJ_ZYZTWCGCNJXDXDF:
+      'Qualitative scoring can only be done if the status is draft.', //只能状态为草稿才能进行定性打分
+    SPR_FRM_CBPJ_SXZTYWQCXQZ:
+      'The selected status is wrong, please select again.', //所选状态有误，请重新选择。
+    SPR_FRM_CBPJ_GZPANDUAN:
+      'Returned to the state, the chief can not do other operations, please select again!', //退回状态，股长不能做其他操作，请重新选择！
+    SPR_FRM_CBPJ_FRMPANDUAN:
+      'In the returned state, the FRM administrator cannot perform qualitative scoring, return, transfer operations, please select again!', //退回状态，FRM管理员不能做定性打分，退回，转派操作，请重新选择！！
+    // 风险信号
+    SPR_FRM_FXXH_FXGYS: 'Risk supplier', //风险供应商
+    SPR_FRM_FXXH_XHLY: 'The signal source', //信号来源
+    SPR_FRM_FXXH_FKBM: 'Feedback Department', //反馈部门
+    SPR_FRM_FXXH_TJSJ: 'Submit Time', //提交时间
+    SPR_FRM_FXXH_GHGX: 'Supplier Relationship', //供货关系
+    SPR_FRM_FXXH_CZFS: 'Disposition Way', //处置方式
+    SPR_FRM_FXXH_SFWY: 'Whether the default', //是否违约
+    SPR_FRM_FXXH_FXXHDL: 'Risk Signal-Broad Heading', //风险信号-大类
+    SPR_FRM_FXXH_YXQSJ: 'Effective Machine Cycle Time', //有效期时间
+    SPR_FRM_FXXH_FXXHXL: 'Risk Signal-Subclass', //风险信号-小类
+    SPR_FRM_FXXH_CZSJ: 'Handling Time', //处置时间
+    SPR_FRM_FXXH_JZ: 'Evolve', //进展
+    SPR_FRM_FXXH_TJR: 'Submitter', //提交人
+    SPR_FRM_FXXH_TJRKS: 'Submitter Department', //提交人科室
+    SPR_FRM_FXXH_FZ: 'Copy', //复制
+    SPR_FRM_FXXH_XJ: 'New', //新建
+    SPR_FRM_FXXH_SDFQFXXH: 'Manually initiate risk signals', //手动发起风险信号
+    SPR_FRM_FXXH_FXGYSSSKS: 'Department of risk supplier', //风险供应商所属科室
+    SPR_FRM_FXXH_TZF: 'Adjusted score', //调整分
+    SPR_FRM_FXXH_YXQ: 'Period of validity ', //有效期
+    SPR_FRM_FXXH_XHSM: 'Signal That', //信号说明
+    SPR_FRM_FXXH_XTFQXH: 'The system initiates a risk signal', //系统发起风险信号
+    SPR_FRM_FXXH_QSRZS: 'Please enter (integer)', //请输入（整数）
+    SPR_FRM_FXXH_QSS: 'Please search', //请搜索
+    SPR_FRM_FXXH_QRTJ: 'Confirm Add', //确认添加
+    SPR_FRM_FXXH_RWSSJGQGBTCBYQGYSZC:
+      'If there are no search results, please close the pop-up window and invite vendors to register.', //若无搜索结果，请关闭弹窗并邀请供应商注册。
+    SPR_FRM_FXXH_NSFQRTJSP: 'Do you confirm submission for approval?', //您是否确认提交审批
     SPR_FRM_FXXH_WZDGYSXX_QSRZQDTYSHXYDMHCS:
       '未找到供应商信息，请输入正确的"统一社会信用代码"后再尝试。', //未找到供应商信息，请输入正确的"统一社会信用代码"后再尝试。
     LK_ZHANGQITIAN: '账期（天）', //账期（天）
@@ -1805,6 +2126,111 @@
     SPR_FRM_FXXH_YTJDFXXHSJBKSC: 'Submitted risk signal data cannot be deleted', //已提交的风险信号数据不可删除
     SPR_FRM_FXXH_SFQRTJ: 'Confirm submission', //是否确认提交
     // -----------------------ws3 供应商 end -------------------------------------------
+
+    EKL_YJGL_WDYJ: 'my performance',
+    EKL_YJGL_YJJC: 'performance basis',
+    EKL_YJGL_MS: 'describe',
+    EKL_YJGL_ZT: 'status',
+    EKL_YJGL_FQR: 'initiator',
+    EKL_YJGL_DJLX: 'document type',
+    EKL_YJGL_YWLX: 'business type',
+    EKL_YJGL_CJRQ: 'create time',
+    EKL_YJGL_GXRQ: 'update time',
+    EKL_YJGL_GXRQQ: 'start update time',
+    EKL_YJGL_GXRQZ: 'end update time',
+    EKL_YJGL_GXRQQZ: 'start and end of update date',
+    EKL_YJGL_CLGL: 'output management',
+    EKL_YJGL_NDMBGL: 'annual target management',
+    EKL_YJGL_CJNDMBGL: 'Create annual goals',
+    EKL_YJGL_XZYJJC: 'new performance basis',
+    EKL_YJGL_XZYJJCTIP:
+      'please edit the basic information first, and then select the file to upload',
+    EKL_YJGL_XZYJFJTIP: 'No attachment, please upload',
+    EKL_YJGL_XZWJ: 'select file',
+    EKL_YJGL_PLJYSCLGL: 'batch budget output management',
+    EKL_YJGL_SCCL: 'upload output',
+    EKL_YJGL_XZMB: 'download template',
+    EKL_YJGL_FHSJ: 'go back',
+    EKL_YJGL_TZKS: 'notify department',
+    EKL_YJGL_NDYJJC: 'nnual performance base',
+    EKL_YJGL_ZCSJJCB: 'parts foundation table',
+    EKL_YJGL_QT: 'other',
+    EKL_YJGL_FQQR: 'Initiate confirmation',
+    EKL_YJGL_RWJZRQ: 'task deadline',
+    EKL_YJGL_GYS: 'supplier',
+    EKL_YJGL_CGGC: 'purchasing plant',
+    EKL_YJGL_QRZT: 'confirm status',
+    EKL_YJGL_FDJDCB: 'engine - battery pack',
+    EKL_YJGL_BSX: 'transmission case',
+    EKL_YJGL_PEIZ: 'configure',
+    EKL_YJGL_CXDM: 'model code',
+    EKL_YJGL_CPJZ: 'product family',
+    EKL_YJGL_LJHAO: 'part number',
+    EKL_YJGL_PLBJ: 'bulk edit',
+    EKL_YJGL_QRSL: 'confirmed quantity',
+    EKL_YJGL_QRJG: 'confirmed price',
+    EKL_YJGL_JGLY: 'price source',
+    EKL_YJGL_QRJGLY: 'confirmed price source',
+    EKL_YJGL_QNCL: 'annual output',
+    EKL_YJGL_SYH: 'index number',
+    EKL_YJGL_SHUL: 'quantity',
+    EKL_YJGL_JAGE: 'price',
+    EKL_YJGL_KSLJ: 'ksl price',
+    EKL_YJGL_KSLJLY: 'ksl price source',
+    EKL_YJGL_CKJG: 'reference price',
+    EKL_YJGL_CKJGLY: 'reference price source',
+    EKL_YJGL_CGY: 'buyer',
+    EKL_YJGL_CGCKJ: 'purchase reference price',
+    EKL_YJGL_JIJIA: 'base price',
+    EKL_YJGL_GZJD: 'track progress',
+
+    JANUARY: 'january',
+    FEBRUARY: 'february',
+    MARCH: 'march',
+    APRIL: 'april',
+    MAY: 'may',
+    JUNE: 'june',
+    JULY: 'july',
+    AUGUST: 'august',
+    SEPTEMBER: 'september',
+    OCTOBER: 'october',
+    NOVEMBER: 'november',
+    DECEMBER: 'december',
+
+    KESHI: 'department',
+    PINJUN: 'average',
+    CHIXU: 'continued',
+    EKL_VW: 'VW',
+    EKL_AUDI: 'AUDI',
+    EKL_SK: 'SK',
+
+    EKL_DQZT: 'current state',
+    EKL_YWC: 'completed',
+    EKL_WWC: 'incomplete',
+    EKL_FQSJ: 'initiation time',
+    EKL_WCSJ: 'completion time',
+    EKL_DQESL: 'confirmed quantity',
+    EKL_JIAGEBIANHUA: 'Price change',
+    //SP14
+    EKL_YEJIJINETIAOZHENG: 'amount adjustment',
+    EKL_SJJSJZSJ: 'data calculation deadline',
+    EKL_GZLJZS: 'track total number of parts',
+    EKL_XZLJZS: 'total number of new parts',
+    EKL_QXLJZS: 'total number of cancelled parts',
+    EKL_LJGZLX: 'part tracking type',
+
+    //SP15
+    EKL_JCBMBXZ: 'table template down',
+    EKL_PFJ_LJMC: 'partName',
+    EKL_PFJ_CLZ: 'Stuff Gategory',
+    EKL_PFJ_PP: 'brand',
+    EKL_PFJ_SX: 'attribute',
+    EKL_PFJ_BZ: 'remark',
+    EKL_PFJ_FE: 'share',
+    EKL_PFJ_CGJG: 'purchase price',
+    EKL_PFJ_XSLYC: 'sales volume',
+    EKL_PFJ_DNCGJE: 'Purchase amount',
+    //
     MAIL: {
       NOTIFICATION: 'notification',
       MESSAGE: 'message',
@@ -1834,14 +2260,7 @@
       HOME_MODULE_SCHEDULE: 'Schedule',
       HOME_MODULE_APPROVE: 'iAgree',
       HOME_MODULE_VOLUME: 'Volume Pricing',
-      HOME_MODULE_NEWS: 'News',
-    },
-    //谈判助手
-    TPZS: {
-      ZUIXINDINGDIANDANJIA: 'The latest fixed-point unit price', //最新定点单价
-      MUBIAODANJIA: 'Target unit price', //目标单价,
-      ZUIXINDINGDIANDANJIA: 'The latest fixed-point unit price', //最新定点单价
-      MUBIAODANJIA: 'Target unit price' //目标单价,
+      HOME_MODULE_NEWS: 'News'
     }
   }
   var xmlHttp = ''
@@ -1854,7 +2273,6 @@
   xmlHttp.onreadystatechange = function() {
     if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
       const data = JSON.parse(xmlHttp.responseText)
-
       i18n.setLocaleMessage('en', Object.assign(oldLanguage, data.data.cn))
     }
   }

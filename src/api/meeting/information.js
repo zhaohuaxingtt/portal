@@ -1,130 +1,130 @@
-import axios from '@/utils/axios';
-const requst = axios();
+import axios from '@/utils/axios'
+const requst = axios(process.env.VUE_APP_MEETING)
 
 // 查询所有会议联系人
 export function getMeetingContact(data) {
   return requst({
-    url: `/rise-meeting/meetingContactService/findAllMeetingContact`,
+    url: `/meetingContactService/findAllMeetingContact`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 
 // 更新会议联系人
 export function updateMeetingContact(data) {
   return requst({
-    url: `/rise-meeting/meetingContactService/updateMeetingContact`,
+    url: `/meetingContactService/updateMeetingContact`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 
 // 创建会议联系人
 export function saveMeetingContact(data) {
   return requst({
-    url: `/rise-meeting/meetingContactService/saveMeetingContact`,
+    url: `/meetingContactService/saveMeetingContact`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 
 // 删除会议联系人
 export function deleteMeetingContact(data) {
   return requst({
-    url: `/rise-meeting/meetingContactService/deleteMeetingContact`,
+    url: `/meetingContactService/deleteMeetingContact`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 
 // 会议资料管理分页查询
 export function getDocumentServiceByPage(data) {
   return requst({
-    url: `/rise-meeting/documentService/findByPage`,
+    url: `/documentService/findByPage`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 // 会议资料管理id查询
 export function getDocumentServiceById(data) {
   return requst({
-    url: `/rise-meeting/documentService/findById`,
+    url: `/documentService/findById`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 // 会议资料管理创建
 export function saveDocument(data) {
   return requst({
-    url: `/rise-meeting/documentService/saveDocument`,
+    url: `/documentService/saveDocument`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 // 会议资料管理更新
 export function updateDocument(data) {
   return requst({
-    url: `/rise-meeting/documentService/updateDocument`,
+    url: `/documentService/updateDocument`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 // 会议资料管理删除
 export function deleteDocument(data) {
   return requst({
-    url: `/rise-meeting/documentService/deleteDocument`,
+    url: `/documentService/deleteDocument`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 
 // 会议类型管理分页查询
 export function getDocumentTypeServiceByPage(data) {
   return requst({
-    url: `/rise-meeting/documentTypeService/findByPage`,
+    url: `/documentTypeService/findByPage`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 
 // 会议类型管理id查询
 export function getDocumentTypeServiceById(data) {
   return requst({
-    url: `/rise-meeting/documentTypeService/findById`,
+    url: `/documentTypeService/findById`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 // 会议类型管理创建
 export function saveDocumentType(data) {
   return requst({
-    url: `/rise-meeting/documentTypeService/saveDocumentType`,
+    url: `/documentTypeService/saveDocumentType`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 // 会议类型管理更新
 export function updateDocumentType(data) {
   return requst({
-    url: `/rise-meeting/documentTypeService/updateDocumentType`,
+    url: `/documentTypeService/updateDocumentType`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 // 会议类型管理删除
 export function deleteDocumentType(data) {
   return requst({
-    url: `/rise-meeting/documentTypeService/deleteDocumentType`,
+    url: `/documentTypeService/deleteDocumentType`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }
 
 // 查询会议资料
 export function findMeetingDocuments(data) {
   return requst({
-    url: `/rise-meeting/documentTypeService/findMeetingDocuments`,
+    url: `/documentTypeService/findMeetingDocuments`,
     method: 'POST',
-    data,
-  });
+    data
+  })
 }

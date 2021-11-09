@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2021-11-04 11:10:59
+ * @LastEditTime: 2021-11-08 14:20:25
  * @LastEditors: Please set LastEditors
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
@@ -106,6 +106,7 @@ import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle, partTableTitle} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
+import { queryWorkflowDetail } from '@/api/approval/myApplication'
 import { pageMixins } from '@/utils/pageMixins'
 export default {
   mixins: [pageMixins],
@@ -193,9 +194,11 @@ export default {
     getAppFormInfo() {
       getAppFormInfo({
         mtzAppId: this.$route.query.id
+        // mtzAppId: '1456173042339610626'
       }).then(res => {
         if(res && res.code == 200) {
           this.formData = res.data
+          this.getWorkflowDetail(res.data.riseId)
         } else iMessage.error(res.desZh)
       })
     },
@@ -223,6 +226,15 @@ export default {
           this.partTableListData = res.data
           this.partPageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
+      })
+    },
+    // 获取审批流部门数据 
+    getWorkflowDetail(riseId) {
+      queryWorkflowDetail({
+        processInstanceId: riseId,
+        currentUserId: this.$store.state.permission.userInfo.id
+      }).then(res => {
+        console.log('res', res);
       })
     },
     // 点击保存

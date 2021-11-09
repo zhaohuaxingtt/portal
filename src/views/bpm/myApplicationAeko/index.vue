@@ -105,7 +105,7 @@ export default {
         isFinished: this.finished,
         ...filterEmptyValue(this.form),
         categoryList: [...AEKO_CATEGORY_LIST],
-        isAeko: false
+        isAeko: true
       }
 
       if (this.form.procProgress) {
@@ -115,7 +115,7 @@ export default {
       }
       this.tableLoading = true
       queryApplications(params, data)
-        .then((res) => {
+        .then(res => {
           this.tableLoading = false
           const { current, size, total, records } = res.data
           this.page.currPage = current

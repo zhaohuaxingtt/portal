@@ -94,19 +94,9 @@ export default {
       } else if (card.component === 'Task') {
         window.open(process.env.VUE_APP_HOST + '/portal/#/task/center')
       } else if(card.component === 'Sourcing'){
-        if(process.env.NODE_ENV=='dev'){
-          window.open(`http://10.122.18.132${this.$refs.parent.url.uri}`,'_blank')
-        }
-        if(process.env.NODE_ENV=='vmsit'){
-          window.open(`http://10.122.17.38${this.$refs.parent.url.uri}`,'_blank')
-        }
+        window.location.href=this.$refs.parent.url.uri
       }else if(card.component === 'News'){
-        if(process.env.NODE_ENV=='dev'){
-          window.open(`http://10.122.18.132/portal/news/#/news/news?id=${this.id}`,'_blank')
-        }
-        if(process.env.NODE_ENV=='vmsit'){
-          window.open(`http://10.122.17.38/portal/news/#/news/news?id=${this.id}`,'_blank')
-        }
+         window.location.href=`/portal/news/#/news/news?id=${this.id}`
       }
     },
     handleMore() {
@@ -114,7 +104,6 @@ export default {
       this.showDialog = true
     },
     handleDel() {
-      console.log('id', this.card)
       this.$confirm(`确认删除该卡片吗`, {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

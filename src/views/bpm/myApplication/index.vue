@@ -25,6 +25,7 @@
         :loading="tableLoading"
         :data="tableListData"
         :columns="tableTitle"
+        :extraData="extraData"
         @go-detail="openPage"
         @handle-selection-change="handleSelectionChange"
       />
@@ -47,6 +48,12 @@
       @success="recallSuccess"
       @close="closeRecall"
     />
+    <el-popover ref="popover" placement="right" trigger="hover">
+      <processNodeVertical
+        v-if="currentInstanceId"
+        :instanceId="currentInstanceId"
+      />
+    </el-popover>
   </iPage>
 </template>
 
@@ -61,6 +68,7 @@ import pageHeader from '@/components/pageHeader'
 import { searchForm, headerActions } from './component'
 import { queryApplications } from '@/api/approval/myApplication'
 import { filterEmptyValue } from '@/utils'
+import { processNodeVertical } from '../task/components'
 export default {
   mixins: [pageMixins, filters],
   components: {
@@ -72,7 +80,8 @@ export default {
     iTableCustom,
     searchForm,
     pageHeader,
-    headerActions
+    headerActions,
+    processNodeVertical
   },
   data() {
     return {
@@ -83,13 +92,17 @@ export default {
       form: {},
       recallDialogVisible: false,
       finished: false,
-      todoTotal: 0
+      todoTotal: 0,
+      currentInstanceId: '',
+      extraData: {
+        mouseenter: this.customMouseenter,
+        mouseleave: this.customMouseleave
+      }
     }
   },
   created() {
     if (this.$route.query.modelTemplate) {
       this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
-      console.log('categoryList', this.form.categoryList)
     }
     this.getTableList()
   },
@@ -157,6 +170,20 @@ export default {
     },
     closeRecall() {
       this.recallDialogVisible = false
+    },
+    customMouseenter($event, row) {
+      this.currentInstanceId = row.instanceId
+      const ele = $event.toElement
+      const popover = this.$refs.popover
+      popover.referenceElm = ele
+      popover.reference = ele
+      popover.doShow()
+    },
+    customMouseleave() {
+      const popover = this.$refs.popover
+      if (popover) {
+        popover.doClose()
+      }
     }
   }
 }

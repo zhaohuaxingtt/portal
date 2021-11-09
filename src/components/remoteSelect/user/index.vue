@@ -122,6 +122,11 @@ export default {
     .icon {
       font-size: 16px;
     }
+    user-select: none;
+  }
+  ::v-deep .el-input__suffix {
+    z-index: 2;
+    right: 25px;
   }
 }
 </style>
