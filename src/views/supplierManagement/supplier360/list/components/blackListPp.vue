@@ -129,7 +129,7 @@
         </el-form>
         <div class="btnBox">
           <iButton @click="sure">{{ language('CHAXUN', '查询') }}</iButton>
-          <iButton @click="clickReset">{{
+          <iButton @click="clickReset(tabVal)">{{
             language('CHONGZHI', '重置')
           }}</iButton>
         </div>

@@ -41,15 +41,67 @@
             <iSelect collapse-tags
                      filterable
                      :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.purchaserIds">
-              <el-option v-for="item in purchaseList"
-                         :key="item.purchaserId"
-                         :label="item.purchaserName"
-                         :value="item.purchaserId">
+                     v-model.trim="form.partNum">
+              <el-option v-for="item in sapList"
+                         :key="item.kvalue"
+                         :label="item.vvalue"
+                         :value="item.kvalue">
               </el-option>
             </iSelect>
 
           </el-form-item>
+          <el-form-item :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')">
+            <iSelect collapse-tags
+                     filterable
+                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                     v-model.trim="form.supplierId">
+              <el-option v-for="item in supplierList"
+                         :key="item.kvalue"
+                         :label="item.vvalue"
+                         :value="item.kvalue">
+              </el-option>
+            </iSelect>
+
+          </el-form-item>
+          <el-form-item :label="language('XIANGGUANKESHI', '相关科室')">
+            <iSelect collapse-tags
+                     filterable
+                     @change="deptChange"
+                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                     v-model.trim="form.deptId">
+              <el-option v-for="item in deptList"
+                         :key="item.id"
+                         :label="item.deptNum"
+                         :value="item.id">
+              </el-option>
+            </iSelect>
+          </el-form-item>
+          <el-form-item :label="language('FUZECAIGOUYUAN', '负责采购员')">
+            <iSelect collapse-tags
+                     filterable
+                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                     v-model.trim="form.userId">
+              <el-option v-for="item in userList"
+                         :key="item.id"
+                         :label="item.nameZh"
+                         :value="item.id">
+              </el-option>
+            </iSelect>
+          </el-form-item>
+          <el-form-item :label="language('JIARUCRATINGYUANYIN', '加入C-Rating原因')">
+            <iSelect collapse-tags
+                     filterable
+                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                     v-model.trim="form.ratingSource">
+              <el-option v-for="item in cratingLsit"
+                         :key="item.code"
+                         :label="item.name"
+                         :value="item.code">
+              </el-option>
+            </iSelect>
+
+          </el-form-item>
+
         </el-form>
         <div>
           <iButton @click="sure">{{
@@ -71,7 +123,7 @@
             }}
         </span>
         <iButton @click="clickBtn">{{
-          language('BAOCUN', '保存')
+          language('YICHUCRATING', '移除C-Rating')
         }}</iButton>
       </div>
       <table-list v-if="tabVal == 1"
@@ -96,29 +148,83 @@
 
 <script>
 import echarts from '@/utils/echarts'
-import { iCard } from 'rise'
-import { supplierRatingCard } from '@/api/frmRating/supplierOverview/index'
-import { currentList } from '@/api/supplierManagement/supplierCard/index'
+import { iCard, iSelect, iButton, iDialog } from 'rise'
+import { tableTitleMonitor, tableTitleMonitorRecord, dictByCode } from './data'
+import tableList from '@/components/commonTable'
+import {
+  supplierRatingCard,
+  currentList,
+  sapDropDown
+} from '@/api/frmRating/supplierOverview/index'
+import { getDeptDropDownList } from '@/api/authorityMgmt/index'
 // import soon from "./soon.png";
 
 export default {
-  components: { iCard },
+  components: { iCard, iSelect, iButton, iDialog, tableList },
   data() {
     return {
       chart: 'vertexSituationChati',
       option: {},
-      info: {}
+      tabVal: '1',
+      info: {},
+      visible: false,
+      tableListData: [],
+      tableTitleMonitor: tableTitleMonitor,
+      tableTitleMonitorRecord: tableTitleMonitorRecord,
+      form: {},
+      cratingLsit: [],
+      sapList: [],
+      deptList: [],
+      userList: [],
+      supplierList: []
     }
   },
-  mounted() {
+  created() {
     this.getData()
   },
   methods: {
-    getData() {
+    async getData() {
       supplierRatingCard().then((res) => {
         this.info = res.data
         this.getChart()
       })
+    },
+
+    handleDialog() {
+      this.visible = true
+      this.getInit()
+    },
+    getDeptList() {
+      const req = {
+        level: 'K2'
+      }
+      getDeptDropDownList(req).then((res) => {
+        this.deptList = res.data
+      })
+    },
+    deptChange(v) {
+      this.userList = this.deptList.find((res) => {
+        return v == res.id
+      }).userDTOList
+    },
+    getTaleList() {
+        const req={
+            ...this.form
+        }
+      currentList(req).then((res) => {
+        this.tableListData = res.data
+      })
+    },
+    async getInit() {
+      this.getDeptList()
+      this.getTaleList()
+      const res = await dictByCode('C_RATING')
+      const res2 = await sapDropDown({ type: 'sap' })
+       const res3 = await sapDropDown({type:'supplier'})
+      this.cratingLsit = res
+      this.sapList = res2.data
+      this.userList = []
+      this.supplierList = res3.data
     },
     getChart() {
       const myChart = echarts().init(this.$refs.chart)
@@ -241,11 +347,10 @@ export default {
       }
       myChart.setOption(this.option)
     },
-    handleDialog() {
-      this.visible = true
-      currentList().then((res) => {})
+    sure() {
+      this.getTaleList()
     },
-    sure() {},
+
     clickReset() {},
     changeTab() {},
     closeDiolog() {
@@ -264,6 +369,19 @@ export default {
 .chartStyle {
   width: 100%;
   height: 320px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-bottom: 1px solid #e3e3e3;
+}
+.sectionTitle {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .tabsHeader {
   margin-left: 0 !important;
