@@ -1,7 +1,15 @@
+/*
+ * @Author: your name
+ * @Date: 2021-11-08 10:29:55
+ * @LastEditTime: 2021-11-08 15:25:30
+ * @LastEditors: your name
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\replenishmentManagement\mtzLocation\firstDetails.js
+ */
 import axios from '@/utils/axios'
 
-const requst = axios(process.env.VUE_APP_RFQ + '/web')
-const requstDict = axios(process.env.VUE_APP_BASE_INFO + '/web')
+const requst = axios(process.env.VUE_APP_RFQ + '/web/mtz')
+const requstDict = axios(process.env.VUE_APP_BASE_INFO + '/web/mtz')
 
 export function page(parmars) {
   //定点申请单分页查询

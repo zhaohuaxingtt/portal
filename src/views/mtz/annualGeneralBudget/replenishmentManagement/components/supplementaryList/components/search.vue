@@ -1,15 +1,14 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2021-10-09 18:29:05
+ * @LastEditTime: 2021-11-08 20:02:43
  * @LastEditors: Please set LastEditors
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\annualBudget\components\budget.vue
 -->
 <template>
   <div>
-    <iDialog
-             :title="dialogTitle"
+    <iDialog :title="dialogTitle"
              v-if="value"
              :visible.sync="value"
              width="85%"
@@ -280,13 +279,13 @@ export default {
     handleSearchReset (form) {
       this.searchForm = {};
       this.searchForm = {
-        saNos:[],
-        fpartNos:[],
-        spartNos:[],
-        pieceSupplierSaps:[],
-        dateTime:[],
-        categories:[],
-        pgmFlag:"",
+        saNos: [],
+        fpartNos: [],
+        spartNos: [],
+        pieceSupplierSaps: [],
+        dateTime: [],
+        categories: [],
+        pgmFlag: "",
       }
       this.seachWather = {};
     },

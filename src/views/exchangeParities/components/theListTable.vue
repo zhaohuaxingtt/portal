@@ -64,6 +64,7 @@ export default {
             selectedItems:[],
             searchContent:{},
             iniListTableLength:'',
+            checkFill:false
         }
     },
     created(){
@@ -124,6 +125,7 @@ export default {
             // }
         },
         save(){
+            this.checkFill = false
             const data = this.tabelListData.filter((item)=>{
                 if(item.type == 1){
                     return item
@@ -132,30 +134,25 @@ export default {
             let originCurrencyCode = false
             let currencyCode = false
             let exchangeRate = false
-            let isEffect = false
             let effectiveStartTime = false
             let effectiveEndTime = false
-            this.tabelListData.forEach((item) =>{
-                if(item.originCurrencyCode.length == 0){
-                   originCurrencyCode = true
-                }else if(item.currencyCode.length == 0){
-                     currencyCode = true
-                }else if(item.exchangeRate.length == 0){
-                     exchangeRate =true
+            let isEffect = false
+            data.forEach((item) => {
+                if(!item.originCurrencyCode){
+                    originCurrencyCode  = true
+                }else if(!item.currencyCode){
+                    currencyCode = true
+                }else if(!item.exchangeRate){
+                    exchangeRate = true
+                }else if(!item.effectiveStartTime){
+                    effectiveStartTime = true
+                }else if(!item.effectiveEndTime){
+                    effectiveEndTime = true
                 }else if(item.isEffect.length == 0){
-                     isEffect = true
+                    isEffect = true
                 }
             })
-            if(this.tabelListData.length > this.iniListTableLength){
-                const newItem = this.tabelListData.slice(0,this.tabelListData.length - this.iniListTableLength)
-                newItem.forEach((ele) =>{
-                    if(ele.effectiveStartTime === null || ele.effectiveStartTime.length == 0){
-                        effectiveStartTime = true
-                    }else if(  ele.effectiveEndTime === null || ele.effectiveEndTime.length == 0){
-                            effectiveEndTime = true
-                    }
-                })
-            }
+
             if(originCurrencyCode){
                 this.$message.error('请选择源货币编码')
             }else if(currencyCode){
@@ -168,7 +165,10 @@ export default {
                 this.$message.error('请选择生效结束时间')
             }else  if(isEffect){
                 this.$message.error('请选择是否有效')
-            }else{
+            }else {
+                this.checkFill = true
+            }
+            if(this.checkFill){
                 savePageList(data).then((result) => {
                     if(result.code == 200){
                         this.$message.success('保存成功')
@@ -179,6 +179,7 @@ export default {
                     }
                 })
             }
+            
             
         },
         search(data){

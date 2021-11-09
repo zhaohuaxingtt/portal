@@ -10,6 +10,9 @@
         <iButton @click="handleDelete" :disabled="selectedRow.length === 0">{{
           "删除"
         }}</iButton>
+        <iButton @click="handleRecall" :disabled="!isCanRecall">{{
+          "撤回"
+        }}</iButton>
       </div>
     </div>
     <iTableML
@@ -43,12 +46,8 @@
         <template scope="scope">
           <span
             :class="scope.row.state === '01' ? '' : 'open-link-text'"
-            @click="goDetail(scope.row.id, scope.row.state)"
-            >{{
-              scope.row.name.length > 20
-                ? scope.row.name.slice(0, 20) + "..."
-                : scope.row.name
-            }}</span
+            @click="goDetail(scope.row, scope.row.state)"
+            >{{ scope.row.name }}</span
           >
         </template>
       </el-table-column>
@@ -163,24 +162,33 @@
         label="操作"
       >
         <template scope="scope">
-          <div class="meeting-home-action-box">
+          <div
+            class="meeting-home-action-box"
+            v-show="
+              scope.row.meetingTypeName !== 'CSC' &&
+                scope.row.meetingTypeName !== 'Pre CSC'
+            "
+          >
             <p
               v-if="scope.row.state == '03'"
               @click="actionObj('begin')(scope.row.id)"
             >
-              <span class="bt_fs">开始<span class="bt_fs viter-line">|</span></span>
+              <img class="begin-vedio" :src="beginVedio" alt="" srcset="" />
+              <span>开始 |</span>
             </p>
             <p
               v-if="scope.row.state == '02'"
               @click="actionObj('lock')(scope.row.id)"
             >
-              <span class="bt_fs">锁定<span class="bt_fs viter-line">|</span></span>
+              <img class="lock" :src="openLock" alt="" srcset="" />
+              <span>锁定 |</span>
             </p>
             <p
               v-if="scope.row.state == '03'"
               @click="actionObj('openLock')(scope.row.id)"
             >
-              <span class="bt_fs">解锁<span class="bt_fs viter-line">|</span></span>
+              <img class="open-lock" :src="openLock" alt="" srcset="" />
+              <span>解锁 |</span>
             </p>
             <p
               v-if="
@@ -190,8 +198,9 @@
               "
               @click="actionObj('change')(scope.row.id)"
             >
-              <span class="bt_fs">修改</span>
-              <span v-if="scope.row.state == '02' || scope.row.state == '01'" class="bt_fs viter-line">
+              <img class="change" :src="change" alt="" srcset="" />
+              <span>修改</span>
+              <span v-if="scope.row.state == '02' || scope.row.state == '01'">
                 |</span
               >
             </p>
@@ -199,63 +208,256 @@
               v-if="scope.row.state == '01'"
               @click="actionObj('open')(scope.row.id)"
             >
-              <span class="bt_fs">开放</span>
+              <img class="open-lock" :src="openLock" alt="" srcset="" />
+              <span>开放</span>
             </p>
             <p
               v-if="scope.row.state == '02' || scope.row.state == '03'"
               @click="actionObj('uploadA')(scope.row.id)"
             >
-              <span class="bt_fs">上传Agenda</span>
-              <span v-if="scope.row.state == '03'" class="bt_fs viter-line">|</span>
+              <img class="upload" :src="upload" alt="" srcset="" />
+              <span>上传Agenda</span>
+              <span v-if="scope.row.state == '03'"> |</span>
             </p>
             <p
               v-if="scope.row.state == '02' || scope.row.state == '03'"
               @click="actionObj('newA')(scope.row.id)"
             >
-              <span class="bt_fs">生成Agenda</span>
-              <span v-if="scope.row.state == '02'" class="bt_fs viter-line">|</span>
+              <img class="new-agenda" :src="newAgenda" alt="" srcset="" />
+              <span>生成Agenda</span>
+              <!-- <span v-if="scope.row.state == '02'">|</span> -->
             </p>
             <p
               v-if="scope.row.state == '02'"
               @click="actionObj('importFile')(scope.row.id)"
             >
-              <span class="bt_fs">导入议题</span>
+              <img class="import-file" :src="importFile" alt="" srcset="" />
+              <span>导入议题</span>
             </p>
             <p
               v-if="scope.row.state == '04'"
               @click="actionObj('endVedio')(scope.row)"
             >
-              <span class="bt_fs">结束<span class="bt_fs viter-line">|</span></span>
+              <img class="end-vedio" :src="endVedio" alt="" srcset="" />
+              <span>结束 |</span>
             </p>
             <p
               v-if="scope.row.state == '04'"
-              @click="actionObj('doubleScreen')(scope.row.id)"
+              @click="actionObj('doubleScreen')(scope.row)"
             >
-              <span class="bt_fs">同屏<span class="bt_fs viter-line">|</span></span>
+              <img class="double-screen" :src="doubleScreen" alt="" srcset="" />
+              <span>同屏 |</span>
             </p>
             <p
               v-if="scope.row.state == '04'"
-              @click="actionObj('screen')(scope.row.id)"
+              @click="actionObj('screen')(scope.row)"
             >
-              <span class="bt_fs">展示</span>
+              <img class="screen" :src="screen" alt="" srcset="" />
+              <span>展示</span>
             </p>
             <p
               v-if="scope.row.state == '05'"
               @click="actionObj('closeVedio')(scope.row)"
             >
-              <span class="bt_fs">关闭<span class="bt_fs">|</span></span>
+              <img class="close-vedio" :src="closeVedio" alt="" srcset="" />
+              <span>关闭 |</span>
             </p>
             <p
               v-if="scope.row.state == '05'"
-              @click="actionObj('newFile')(scope.row.id)"
+              @click="actionObj('newFile')(scope.row)"
             >
-              <span class="bt_fs">生成会议纪要<span class="bt_fs viter-line">|</span></span>
+              <img class="new-file" :src="newFile" alt="" srcset="" />
+              <span>生成会议纪要 |</span>
             </p>
             <p
               v-if="scope.row.state == '05' || scope.row.state == '06'"
               @click="actionObj('uploadFile')(scope.row.id)"
             >
-              <span class="bt_fs">上传会议纪要</span>
+              <img class="upload-file" :src="uploadFile" alt="" srcset="" />
+              <span>上传会议纪要</span>
+            </p>
+          </div>
+          <div
+            class="meeting-home-action-box"
+            v-show="scope.row.meetingTypeName === 'Pre CSC'"
+          >
+            <p
+              v-if="scope.row.state == '03'"
+              @click="actionObj('begin')(scope.row.id)"
+            >
+              <img class="begin-vedio" :src="beginVedio" alt="" srcset="" />
+              <span>开始 |</span>
+            </p>
+            <p
+              v-if="scope.row.state == '02'"
+              @click="actionObj('lock')(scope.row.id)"
+            >
+              <img class="lock" :src="openLock" alt="" srcset="" />
+              <span>锁定 |</span>
+            </p>
+            <p
+              v-if="scope.row.state == '03'"
+              @click="actionObj('openLock')(scope.row.id)"
+            >
+              <img class="open-lock" :src="openLock" alt="" srcset="" />
+              <span>解锁 |</span>
+            </p>
+            <p
+              v-if="
+                scope.row.state == '01' ||
+                  scope.row.state == '02' ||
+                  scope.row.state == '03'
+              "
+              @click="actionObj('change')(scope.row.id)"
+            >
+              <img class="change" :src="change" alt="" srcset="" />
+              <span>修改</span>
+              <span v-if="scope.row.state == '02' || scope.row.state == '01'">
+                |</span
+              >
+            </p>
+            <p
+              v-if="scope.row.state == '01'"
+              @click="actionObj('open')(scope.row.id)"
+            >
+              <img class="open-lock" :src="openLock" alt="" srcset="" />
+              <span>开放</span>
+            </p>
+            <p
+              v-if="scope.row.state == '02' || scope.row.state == '03'"
+              @click="actionObj('newA')(scope.row.id)"
+            >
+              <img class="new-agenda" :src="newAgenda" alt="" srcset="" />
+              <span>生成Agenda</span>
+              <!-- <span v-if="scope.row.state == '02'">|</span> -->
+            </p>
+            <p
+              v-if="scope.row.state == '04'"
+              @click="actionObj('endVedio')(scope.row)"
+            >
+              <img class="end-vedio" :src="endVedio" alt="" srcset="" />
+              <span>结束 |</span>
+            </p>
+            <p
+              v-if="scope.row.state == '04'"
+              @click="actionObj('doubleScreen')(scope.row)"
+            >
+              <img class="double-screen" :src="doubleScreen" alt="" srcset="" />
+              <span>同屏 |</span>
+            </p>
+            <p
+              v-if="scope.row.state == '04'"
+              @click="actionObj('screen')(scope.row)"
+            >
+              <img class="screen" :src="screen" alt="" srcset="" />
+              <span>展示</span>
+            </p>
+            <p
+              v-if="scope.row.state == '05'"
+              @click="actionObj('closeVedio')(scope.row)"
+            >
+              <img class="close-vedio" :src="closeVedio" alt="" srcset="" />
+              <span>关闭 |</span>
+            </p>
+            <p
+              v-if="scope.row.state == '05' || scope.row.state == '06'"
+              @click="actionObj('newFile')(scope.row)"
+            >
+              <img class="new-file" :src="newFile" alt="" srcset="" />
+              <span>生成会议纪要 |</span>
+            </p>
+            <p
+              v-if="scope.row.state == '05' || scope.row.state == '06'"
+              @click="actionObj('uploadFile')(scope.row.id)"
+            >
+              <img class="upload-file" :src="uploadFile" alt="" srcset="" />
+              <span>上传会议纪要</span>
+            </p>
+          </div>
+          <div
+            class="meeting-home-action-box"
+            v-show="scope.row.meetingTypeName === 'CSC'"
+          >
+            <p
+              v-if="scope.row.state == '02'"
+              @click="actionObj('begin')(scope.row.id)"
+            >
+              <img class="begin-vedio" :src="beginVedio" alt="" srcset="" />
+              <span>开始 |</span>
+            </p>
+            <p
+              v-if="scope.row.state == '03'"
+              @click="actionObj('openLock')(scope.row.id)"
+            >
+              <img class="open-lock" :src="openLock" alt="" srcset="" />
+              <span>解锁 |</span>
+            </p>
+            <p
+              v-if="scope.row.state == '01' || scope.row.state == '02'"
+              @click="actionObj('change')(scope.row.id)"
+            >
+              <img class="change" :src="change" alt="" srcset="" />
+              <span>修改</span>
+              <span v-if="scope.row.state == '02' || scope.row.state == '01'">
+                |</span
+              >
+            </p>
+            <p
+              v-if="scope.row.state == '01'"
+              @click="actionObj('open')(scope.row.id)"
+            >
+              <img class="open-lock" :src="openLock" alt="" srcset="" />
+              <span>开放</span>
+            </p>
+            <p
+              v-if="scope.row.state == '02'"
+              @click="actionObj('newA')(scope.row.id)"
+            >
+              <img class="new-agenda" :src="newAgenda" alt="" srcset="" />
+              <span>生成Agenda</span>
+              <!-- <span v-if="scope.row.state == '02'">|</span> -->
+            </p>
+            <p
+              v-if="scope.row.state == '04'"
+              @click="actionObj('endVedio')(scope.row)"
+            >
+              <img class="end-vedio" :src="endVedio" alt="" srcset="" />
+              <span>结束 |</span>
+            </p>
+            <p
+              v-if="scope.row.state == '04'"
+              @click="actionObj('doubleScreen')(scope.row)"
+            >
+              <img class="double-screen" :src="doubleScreen" alt="" srcset="" />
+              <span>同屏 |</span>
+            </p>
+            <p
+              v-if="scope.row.state == '04'"
+              @click="actionObj('screen')(scope.row)"
+            >
+              <img class="screen" :src="screen" alt="" srcset="" />
+              <span>展示</span>
+            </p>
+            <p
+              v-if="scope.row.state == '05'"
+              @click="actionObj('closeVedio')(scope.row)"
+            >
+              <img class="close-vedio" :src="closeVedio" alt="" srcset="" />
+              <span>关闭 |</span>
+            </p>
+            <p
+              v-if="scope.row.state == '05' || scope.row.state == '06'"
+              @click="actionObj('newFile')(scope.row)"
+            >
+              <img class="new-file" :src="newFile" alt="" srcset="" />
+              <span>生成会议纪要 |</span>
+            </p>
+            <p
+              v-if="scope.row.state == '05' || scope.row.state == '06'"
+              @click="actionObj('uploadFile')(scope.row.id)"
+            >
+              <img class="upload-file" :src="uploadFile" alt="" srcset="" />
+              <span>上传会议纪要</span>
             </p>
           </div>
         </template>
@@ -375,6 +577,15 @@
       @handleCancel="handleNewSummaryCancel"
       @refreshTable="refreshTable"
     />
+    <newSummaryDialogNew
+      v-if="openNewSummaryNew"
+      :open="openNewSummaryNew"
+      :id="id"
+      :receiverId="receiverId"
+      @handleCancel="handleNewSummaryNewCancel"
+      @handleOK="handleNewSummaryNewOK"
+      @refreshTable="flushTable"
+    ></newSummaryDialogNew>
   </iCard>
 </template>
 
@@ -385,6 +596,7 @@ import updateFile from "@/components/updateFile";
 // import importThemens from "./importThemens.vue";
 import { statusObj } from "./data";
 import {
+  batchRecallMeeting,
   deleteMeeting,
   changeStateMeeting,
   generateAgenda,
@@ -415,7 +627,7 @@ import updateMeetingDialog from "./updateMeetingDialog.vue";
 import newSummaryDialog from "./newSummaryDialog.vue";
 import { MOCK_FILE_URL } from "@/constants";
 import { debounce } from "@/utils/utils.js";
-
+import newSummaryDialogNew from "./newSummaryDialogNew.vue";
 export default {
   components: {
     iCard,
@@ -429,6 +641,7 @@ export default {
     closeMeetiongDialog,
     updateMeetingDialog,
     newSummaryDialog,
+    newSummaryDialogNew,
   },
   mixins: [resultMessageMixin],
   props: {
@@ -471,6 +684,7 @@ export default {
   },
   data() {
     return {
+      isCanRecall: false,
       nameList: [],
       beginVedio,
       closeVedio,
@@ -510,8 +724,28 @@ export default {
       openTopics: false,
       openSummary: false,
       openNewSummary: false,
+      openNewSummaryNew: false,
       timeout: null,
+      receiverId: "",
     };
+  },
+  mounted() {},
+  watch: {
+    selectedRow: {
+      handler(rows) {
+        this.isCanRecall = false;
+        if (rows.length > 0) {
+          this.isCanRecall = rows.every((item) => {
+            return (
+              (item.state === "02" && item.meetingTypeName === "Pre CSC") ||
+              (item.state === "02" && item.meetingTypeName === "CSC")
+            );
+          });
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
   },
   methods: {
     getUplodFiles(nameList) {
@@ -616,6 +850,11 @@ export default {
       this.openNewSummary = false;
       this.refreshTable();
     },
+    // 生成会议纪要确认---新
+    handleNewSummaryNewOK() {
+      this.openNewSummaryNew = false;
+      this.refreshTable();
+    },
     handleCancelAgenda() {
       this.openAgenda = false;
     },
@@ -630,6 +869,10 @@ export default {
     // 生成会议纪要取消
     handleNewSummaryCancel() {
       this.openNewSummary = false;
+    },
+    // 生成会议纪要取消----新
+    handleNewSummaryNewCancel() {
+      this.openNewSummaryNew = false;
     },
     refreshTable() {
       this.$emit("getTableList");
@@ -661,6 +904,24 @@ export default {
           .catch((err) => {
             this.$message.error("删除失败!");
           });
+      });
+    },
+    // 批量撤回
+    handleRecall() {
+      let idArr = this.selectedRow.map((item) => {
+        return item.id;
+      });
+      this.$confirm("是否撤回该会议 ？", "提示", {
+        confirmButtonText: "是",
+        cancelButtonText: "否",
+        type: "warning",
+      }).then(() => {
+        batchRecallMeeting({ ids: idArr }).then((res) => {
+          if (res.code == 200) {
+            this.$message.success(" 撤回成功!");
+            this.$emit("getTableList");
+          }
+        });
       });
     },
     handleChoose(e) {
@@ -857,19 +1118,23 @@ export default {
         },
         doubleScreen: (e) => {
           // 同屏
-          // this.$router.push({
-          //   path: "/meeting/same-screen",
-          //   query: {
-          //     id: e,
-          //   },
-          // });
-          let routeUrl = this.$router.resolve({
-            path: "/meeting/same-screen",
-            query: {
-              id: e,
-            },
-          });
-          window.open(routeUrl.href, "_blank");
+          if (e.meetingTypeName === "Pre CSC" || e.meetingTypeName === "CSC") {
+            let routeUrl = this.$router.resolve({
+              path: "/meeting/meeting-same-screen",
+              query: {
+                id: e.id,
+              },
+            });
+            window.open(routeUrl.href, "_blank");
+          } else {
+            let routeUrl = this.$router.resolve({
+              path: "/meeting/same-screen",
+              query: {
+                id: e.id,
+              },
+            });
+            window.open(routeUrl.href, "_blank");
+          }
         },
         screen: (e) => {
           // 展示
@@ -879,10 +1144,14 @@ export default {
           //     id: e,
           //   },
           // });
+          console.log("object", e);
           let routeUrl = this.$router.resolve({
-            path: "/meeting/meeting-show",
+            path:
+              e.meetingTypeName == "Pre CSC" || e.meetingTypeName == "CSC"
+                ? "/meeting/meetingShow" //新页面
+                : "/meeting/meeting-show", //旧页面
             query: {
-              id: e,
+              id: e.id,
             },
           });
           window.open(routeUrl.href, "_blank");
@@ -942,8 +1211,13 @@ export default {
         },
         newFile: (e) => {
           // 生成会议纪要
-          this.id = e;
-          this.openNewSummary = true;
+          this.id = e.id;
+          if (e.meetingTypeName === "Pre CSC" || e.meetingTypeName === "CSC") {
+            this.receiverId = e?.receiverId;
+            this.openNewSummaryNew = true;
+          } else {
+            this.openNewSummary = true;
+          }
         },
         uploadFile: (e) => {
           // 上传会议纪要
@@ -958,12 +1232,22 @@ export default {
       if (b == "01") {
         return;
       }
-      this.$router.push({
-        path: "/meeting/details",
-        query: {
-          id: e,
-        },
-      });
+      if (e.meetingTypeName === "CSC" || e.meetingTypeName === "Pre CSC") {
+        this.$router.push({
+          path: "/meeting/specialDetails",
+          query: {
+            id: e.id,
+            type: e.meetingTypeName,
+          },
+        });
+      } else {
+        this.$router.push({
+          path: "/meeting/details",
+          query: {
+            id: e.id,
+          },
+        });
+      }
     },
   },
 };
@@ -988,12 +1272,7 @@ export default {
   margin-top: 0;
   margin-bottom: 0;
 }
-.bt_fs{
-  color: #1763F7;
-}
-.viter-line{
-  margin: 0 4px;
-}
+
 /* ::v-deep .circle:before {
   content: "";
   display: inline-block;

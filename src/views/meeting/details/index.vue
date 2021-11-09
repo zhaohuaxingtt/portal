@@ -9,24 +9,26 @@
               {{ meetingInfo.name }}
             </div>
             <iButton
-              class="button"
-              @click="currentButtonList.methodName"
-              disabled
-              >{{ $t(currentButtonList.title) }}</iButton
+                class="button"
+                @click="currentButtonList.methodName"
+                disabled
+            >{{ $t(currentButtonList.title) }}
+            </iButton
             >
           </div>
           <div class="button-list">
             <iButton
-              class="button"
-              v-for="(item, index) of currentButtonList.rightButtonList"
-              :key="index"
-              @click="
+                class="button"
+                v-for="(item, index) of currentButtonList.rightButtonList"
+                :key="index"
+                @click="
                 () => {
-                  handleClick(item.methodName)
+                  handleClick(item.methodName);
                 }
               "
             >
-              {{ $t(item.title) }}</iButton
+              {{ $t(item.title) }}
+            </iButton
             >
           </div>
         </div>
@@ -41,8 +43,8 @@
             <div class="show">
               <div class="title">会议地点</div>
               <div
-                class="content content-address"
-                :title="meetingInfo.meetingPlace"
+                  class="content content-address"
+                  :title="meetingInfo.meetingPlace"
               >
                 {{ meetingInfo.meetingPlace }}
               </div>
@@ -50,7 +52,7 @@
             <div class="show">
               <div class="title">会议时间</div>
               <div class="content">
-                {{ `${begin}${end.includes(':') ? end : ''}` }}
+                {{ `${begin}${end.includes(":") ? end : ""}` }}
               </div>
             </div>
           </div>
@@ -58,23 +60,23 @@
       </div>
       <iCard>
         <actionButtons
-          :currentButtonList="tableButtonList"
-          :showUpdateTopicButtonList="showUpdateTopicButtonList"
-          @addRest="addRest"
-          @addTopic="addTopic"
-          @updateTopic="updateTopic"
-          @importTopic="importTopic"
-          @editTopic="editTopic"
-          @protectInfo="protectInfo"
-          @deleteTop="deleteTop"
-          @updateDate="updateDate"
-          @overUpdateTopic="overUpdateTopic"
-          @cancelUpdateTopic="cancelUpdateTopic"
-          @start="start"
-          @split="split"
-          @overTopic="overTopic"
-          @startTopic="startTopic"
-          @close="close"
+            :currentButtonList="tableButtonList"
+            :showUpdateTopicButtonList="showUpdateTopicButtonList"
+            @addRest="addRest"
+            @addTopic="addTopic"
+            @updateTopic="updateTopic"
+            @importTopic="importTopic"
+            @editTopic="editTopic"
+            @protectInfo="protectInfo"
+            @deleteTop="deleteTop"
+            @updateDate="updateDate"
+            @overUpdateTopic="overUpdateTopic"
+            @cancelUpdateTopic="cancelUpdateTopic"
+            @start="start"
+            @split="split"
+            @overTopic="overTopic"
+            @startTopic="startTopic"
+            @close="close"
         />
 
         <!-- <i-table-custom
@@ -86,31 +88,31 @@
           v-if="!showUpdateTopicButtonList"
         /> -->
         <iTableML
-          tooltip-effect="light"
-          @selectionChange="handleSelectionChange"
-          :loading="tableLoading"
-          :data="tableData"
-          @go-detail="handleGoDetail"
-          v-if="!showUpdateTopicButtonList"
-          :rowClassName="tableRowClassName"
-          :currentRow="currentRow"
+            tooltip-effect="light"
+            @selectionChange="handleSelectionChange"
+            :loading="tableLoading"
+            :data="tableData"
+            @go-detail="handleGoDetail"
+            v-if="!showUpdateTopicButtonList"
+            :rowClassName="tableRowClassName"
+            :currentRow="currentRow"
         >
           <el-table-column type="selection" align="center"></el-table-column>
           <el-table-column
-            show-overflow-tooltip
-            align="center"
-            label="No."
-            width="50"
+              show-overflow-tooltip
+              align="center"
+              label="No."
+              width="50"
           >
             <template scope="scope">
               <span class="open-link-text">{{ scope.row.itemNo }}</span>
             </template>
           </el-table-column>
           <el-table-column
-            show-overflow-tooltip
-            align="center"
-            label="Count"
-            width="70"
+              show-overflow-tooltip
+              align="center"
+              label="Count"
+              width="70"
           >
             <template scope="scope">
               <span class="open-link-text">{{ scope.row.count }}</span>
@@ -118,24 +120,24 @@
             </template>
           </el-table-column>
           <el-table-column
-            show-overflow-tooltip
-            align="center"
-            label="Topic"
-            width="220"
+              show-overflow-tooltip
+              align="center"
+              label="Topic"
+              width="220"
           >
             <template scope="scope">
               <span
-                class="open-link-text look-themen-click"
-                @click="lookThemen(scope.row)"
-                >{{ scope.row.topic }}</span
+                  class="open-link-text look-themen-click"
+                  @click="lookThemen(scope.row)"
+              >{{ scope.row.topic }}</span
               >
             </template>
           </el-table-column>
           <el-table-column
-            show-overflow-tooltip
-            align="center"
-            label="Duration"
-            width="90"
+              show-overflow-tooltip
+              align="center"
+              label="Duration"
+              width="90"
           >
             <template scope="scope">
               <!-- <div
@@ -150,9 +152,9 @@
                 <div class="open-text-text-choice"></div>
               </div> -->
               <div
-                class="open-link-text open-clink-back-text"
-                @click="recallTheThemen(scope.row)"
-                v-if="meetingInfo.state === '03' && scope.row.state === '04'"
+                  class="open-link-text open-clink-back-text"
+                  @click="recallTheThemen(scope.row)"
+                  v-if="meetingInfo.state === '03' && scope.row.state === '04'"
               >
                 <div class="open-text-text-choice"></div>
               </div>
@@ -164,8 +166,8 @@
                 <div class="open-text-text-choice"></div>
               </div> -->
               <span class="open-link-text" v-else>{{
-                scope.row.duration
-              }}</span>
+                  scope.row.duration
+                }}</span>
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip align="center" label="Time">
@@ -174,75 +176,77 @@
             </template>
           </el-table-column>
           <el-table-column
-            show-overflow-tooltip
-            align="center"
-            label="Presenter"
+              show-overflow-tooltip
+              align="center"
+              label="Presenter"
           >
             <template scope="scope">
               <span
-                class="open-link-text"
-                v-if="scope.row.presenter && scope.row.presenterNosys"
-                >{{ scope.row.presenter }}/{{ scope.row.presenterNosys }}</span
+                  class="open-link-text"
+                  v-if="scope.row.presenter && scope.row.presenterNosys"
+              >{{ scope.row.presenter }}/{{ scope.row.presenterNosys }}</span
               >
               <span class="open-link-text" v-else
-                >{{ scope.row.presenter }}{{ scope.row.presenterNosys }}</span
+              >{{ scope.row.presenter }}{{ scope.row.presenterNosys }}</span
               >
               <span v-if="scope.row.isBreak">/</span>
             </template>
           </el-table-column>
 
           <el-table-column
-            show-overflow-tooltip
-            align="center"
-            label="Presenter Dept."
+              show-overflow-tooltip
+              align="center"
+              label="Presenter Dept."
           >
             <template scope="scope">
               <span
-                class="open-link-text"
-                v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
-                >{{ scope.row.presenterDept }}/{{
+                  class="open-link-text"
+                  v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
+              >{{ scope.row.presenterDept }}/{{
                   scope.row.presenterDeptNosys
                 }}</span
               >
               <span class="open-link-text" v-else
-                >{{ scope.row.presenterDept
+              >{{
+                  scope.row.presenterDept
                 }}{{ scope.row.presenterDeptNosys }}</span
               >
               <span v-if="scope.row.isBreak">/</span>
             </template>
           </el-table-column>
           <el-table-column
-            show-overflow-tooltip
-            align="center"
-            label="Supporter"
+              show-overflow-tooltip
+              align="center"
+              label="Supporter"
           >
             <template scope="scope">
               <span
-                class="open-link-text"
-                v-if="scope.row.supporter && scope.row.supporterNosys"
-                >{{ scope.row.supporter }}/{{ scope.row.supporterNosys }}</span
+                  class="open-link-text"
+                  v-if="scope.row.supporter && scope.row.supporterNosys"
+              >{{ scope.row.supporter }}/{{ scope.row.supporterNosys }}</span
               >
               <span class="open-link-text" v-else
-                >{{ scope.row.supporter }}{{ scope.row.supporterNosys }}</span
+              >{{ scope.row.supporter }}{{ scope.row.supporterNosys }}</span
               >
               <span v-if="scope.row.isBreak">/</span>
             </template>
           </el-table-column>
           <el-table-column
-            show-overflow-tooltip
-            align="center"
-            label="Supporter Dept."
+              show-overflow-tooltip
+              align="center"
+              label="Supporter Dept."
           >
             <template scope="scope">
               <span
-                class="open-link-text"
-                v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
-                >{{ scope.row.supporterDept }}/{{
+                  class="open-link-text"
+                  v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
+              >{{ scope.row.supporterDept }}/{{
                   scope.row.supporterDeptNosys
                 }}</span
               >
               <span class="open-link-text" v-else
-                >{{ scope.row.supporterDept
+              >{{
+                  scope.row.supporterDept
                 }}{{ scope.row.supporterDeptNosys }}</span
               >
               <span v-if="scope.row.isBreak">/</span>
@@ -265,13 +269,13 @@
             v-if="showUpdateTopicButtonList"
           /> -->
           <iTableML
-            tooltip-effect="light"
-            @selectionChange="handleSelectionChange"
-            :loading="tableLoading"
-            :data="tableData"
-            @go-detail="handleGoDetail"
-            v-if="showUpdateTopicButtonList"
-            :rowClassName="tableRowClassName"
+              tooltip-effect="light"
+              @selectionChange="handleSelectionChange"
+              :loading="tableLoading"
+              :data="tableData"
+              @go-detail="handleGoDetail"
+              v-if="showUpdateTopicButtonList"
+              :rowClassName="tableRowClassName"
           >
             <el-table-column type="selection" align="center"></el-table-column>
             <el-table-column show-overflow-tooltip align="center" label="No.">
@@ -287,17 +291,17 @@
             <el-table-column show-overflow-tooltip align="center" label="Topic">
               <template scope="scope">
                 <span
-                  class="open-link-text look-themen-click"
-                  @click="lookThemen(scope.row)"
-                  >{{ scope.row.topic }}</span
+                    class="open-link-text look-themen-click"
+                    @click="lookThemen(scope.row)"
+                >{{ scope.row.topic }}</span
                 >
               </template>
             </el-table-column>
             <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Duration(min)"
-              width="100"
+                show-overflow-tooltip
+                align="center"
+                label="Duration(min)"
+                width="100"
             >
               <template scope="scope">
                 <!-- <div
@@ -325,9 +329,9 @@
               </template>
             </el-table-column>
             <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Presenter"
+                show-overflow-tooltip
+                align="center"
+                label="Presenter"
             >
               <template scope="scope">
                 <span class="open-link-text">{{ scope.row.presenter }}</span>
@@ -335,40 +339,40 @@
             </el-table-column>
 
             <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Presenter Dept."
+                show-overflow-tooltip
+                align="center"
+                label="Presenter Dept."
             >
               <template scope="scope">
                 <span class="open-link-text">{{
-                  scope.row.presenterDept
-                }}</span>
+                    scope.row.presenterDept
+                  }}</span>
               </template>
             </el-table-column>
             <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Supporter"
+                show-overflow-tooltip
+                align="center"
+                label="Supporter"
             >
               <template scope="scope">
                 <span class="open-link-text">{{ scope.row.supporter }}</span>
               </template>
             </el-table-column>
             <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Supporter Dept."
+                show-overflow-tooltip
+                align="center"
+                label="Supporter Dept."
             >
               <template scope="scope">
                 <span class="open-link-text">{{
-                  scope.row.supporterDept
-                }}</span>
+                    scope.row.supporterDept
+                  }}</span>
               </template>
             </el-table-column>
             <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="Remark"
+                show-overflow-tooltip
+                align="center"
+                label="Remark"
             >
               <template scope="scope">
                 <span class="open-link-text">{{ scope.row.remark }}</span>
@@ -377,49 +381,49 @@
           </iTableML>
         </div>
         <iPagination
-          v-update
-          @size-change="handleSizeChange($event, query)"
-          @current-change="handleCurrentChange($event, query)"
-          background
-          :current-page="page.currPage"
-          :page-sizes="page.pages"
-          :page-size="page.pageSize"
-          layout="prev, pager, next"
-          prev-text="上一页"
-          next-text="下一页"
-          :total="page.totalCount"
+            v-update
+            @size-change="handleSizeChange($event, query)"
+            @current-change="handleCurrentChange($event, query)"
+            background
+            :current-page="page.currPage"
+            :page-sizes="page.pages"
+            :page-size="page.pageSize"
+            layout="prev, pager, next"
+            prev-text="上一页"
+            next-text="下一页"
+            :total="page.totalCount"
         />
       </iCard>
     </div>
 
     <addRest
-      @closeDialog="closeDialog"
-      :dialogStatusManageObj="dialogStatusManageObj"
-      v-if="dialogStatusManageObj.openAddRestDialog"
-      :meetingInfo="meetingInfo"
-      @flushTable="flushTable"
-      :typeObject="typeObject"
-      :selectedTableData="selectedTableData"
-      :editOrAdd="editOrAdd"
-      :lookThemenObj="lookThemenObj"
+        @closeDialog="closeDialog"
+        :dialogStatusManageObj="dialogStatusManageObj"
+        v-if="dialogStatusManageObj.openAddRestDialog"
+        :meetingInfo="meetingInfo"
+        @flushTable="flushTable"
+        :typeObject="typeObject"
+        :selectedTableData="selectedTableData"
+        :editOrAdd="editOrAdd"
+        :lookThemenObj="lookThemenObj"
     />
     <addTopic
-      @closeDialog="closeDialog"
-      :dialogStatusManageObj="dialogStatusManageObj"
-      v-if="dialogStatusManageObj.openAddTopicDialog"
-      @flushTable="flushTable"
-      :meetingInfo="meetingInfo"
-      :editOrAdd="editOrAdd"
-      :selectedTableData="selectedTableData"
-      :lookThemenObj="lookThemenObj"
+        @closeDialog="closeDialog"
+        :dialogStatusManageObj="dialogStatusManageObj"
+        v-if="dialogStatusManageObj.openAddTopicDialog"
+        @flushTable="flushTable"
+        :meetingInfo="meetingInfo"
+        :editOrAdd="editOrAdd"
+        :selectedTableData="selectedTableData"
+        :lookThemenObj="lookThemenObj"
     />
     <newProtectInfo
-      @closeDialog="closeDialog"
-      :dialogStatusManageObj="dialogStatusManageObj"
-      v-if="dialogStatusManageObj.openProtectInfoDialog"
-      @flushTable="flushTable"
-      :selectedTableData="selectedTableData"
-      :meetingInfo="meetingInfo"
+        @closeDialog="closeDialog"
+        :dialogStatusManageObj="dialogStatusManageObj"
+        v-if="dialogStatusManageObj.openProtectInfoDialog"
+        @flushTable="flushTable"
+        :selectedTableData="selectedTableData"
+        :meetingInfo="meetingInfo"
     />
     <!-- <confirmDelete
       @closeDialog="closeDialog"
@@ -428,20 +432,20 @@
       :selectedTableData="selectedTableData"
     ></confirmDelete> -->
     <confirmSplit
-      @closeDialog="closeDialog"
-      :dialogStatusManageObj="dialogStatusManageObj"
-      @flushTable="flushTable"
-      :meetingInfo="meetingInfo"
-      :selectedTableData="selectedTableData"
+        @closeDialog="closeDialog"
+        :dialogStatusManageObj="dialogStatusManageObj"
+        @flushTable="flushTable"
+        :meetingInfo="meetingInfo"
+        :selectedTableData="selectedTableData"
     ></confirmSplit>
     <updateDate
-      @closeDialog="closeDialog"
-      :dialogStatusManageObj="dialogStatusManageObj"
-      @flushTable="flushTable"
-      :typeObject="typeObject"
-      :meetingInfo="meetingInfo"
-      :selectedTableData="selectedTableData"
-      v-if="dialogStatusManageObj.openUpdateDateDialog"
+        @closeDialog="closeDialog"
+        :dialogStatusManageObj="dialogStatusManageObj"
+        @flushTable="flushTable"
+        :typeObject="typeObject"
+        :meetingInfo="meetingInfo"
+        :selectedTableData="selectedTableData"
+        v-if="dialogStatusManageObj.openUpdateDateDialog"
     ></updateDate>
     <!-- <importThemen
       @closeDialog="closeDialog"
@@ -466,89 +470,88 @@
       </div>
     </importThemens> -->
     <updateFile
-      title="导入议题"
-      :maxSize="10"
-      :fileNum="1"
-      :open="dialogStatusManageObj.openImportTopicDialog"
-      :id="$route.query.id"
-      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-      @handleCancel="handleCancelTopics"
-      @handleOK="handleOKImportTopic"
-      v-if="dialogStatusManageObj.openImportTopicDialog"
-      :disabledImportThemenButton="disabledImportThemenButton"
-      @getUplodFiles="getUplodFiles"
+        title="导入议题"
+        :maxSize="10"
+        :fileNum="1"
+        :open="dialogStatusManageObj.openImportTopicDialog"
+        :id="$route.query.id"
+        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+        @handleCancel="handleCancelTopics"
+        @handleOK="handleOKImportTopic"
+        v-if="dialogStatusManageObj.openImportTopicDialog"
+        :disabledImportThemenButton="disabledImportThemenButton"
+        @getUplodFiles="getUplodFiles"
     >
       <div class="title-down-demo" @click="downDemo">
-        <img :src="enclosure" alt="" srcset="" />
+        <img :src="enclosure" alt="" srcset=""/>
         <span>下载模版</span>
       </div>
     </updateFile>
     <updateMeetingDialog
-      v-if="dialogStatusManageObj.openUpdate"
-      :openUpdate="dialogStatusManageObj.openUpdate"
-      :id="$route.query.id"
-      :typeObject="typeObject"
-      @handleSubmit="handleUpdateSubmit"
-      @closeDialog="closeDialog"
-      @refreshTable="flushTable"
+        v-if="dialogStatusManageObj.openUpdate"
+        :openUpdate="dialogStatusManageObj.openUpdate"
+        :id="$route.query.id"
+        :typeObject="typeObject"
+        @handleSubmit="handleUpdateSubmit"
+        @closeDialog="closeDialog"
+        @refreshTable="flushTable"
     />
     <newSummaryDialog
-      v-if="dialogStatusManageObj.openNewSummaryDialog"
-      :open="dialogStatusManageObj.openNewSummaryDialog"
-      :id="$route.query.id"
-      @handleCancel="handleCancelTopics"
-      @handleOK="handleOKTopics"
-      @refreshTable="flushTable"
-      :edit="editNewSummary"
+        v-if="dialogStatusManageObj.openNewSummaryDialog"
+        :open="dialogStatusManageObj.openNewSummaryDialog"
+        :id="$route.query.id"
+        @handleCancel="handleCancelTopics"
+        @handleOK="handleOKTopics"
+        @refreshTable="flushTable"
+        :edit="editNewSummary"
     ></newSummaryDialog>
+
     <!-- 关闭触发审批流 -->
     <closeMeetiongDialog
-      v-if="dialogStatusManageObj.openCloseMeetiongDialog"
-      :openCloseMeeting="dialogStatusManageObj.openCloseMeetiongDialog"
-      :row="meetingInfo"
-      :id="$route.query.id"
-      @handleOK="handleOKTopics"
-      @handleClose="handleCloseCancelTopics"
+        v-if="dialogStatusManageObj.openCloseMeetiongDialog"
+        :openCloseMeeting="dialogStatusManageObj.openCloseMeetiongDialog"
+        :row="meetingInfo"
+        :id="$route.query.id"
+        @handleOK="handleOKTopics"
+        @handleClose="handleCloseCancelTopics"
     />
   </iPage>
 </template>
 <script>
-import { iPage, iCard, iPagination, iButton, iMessage } from 'rise'
-import { pageMixins } from '@/utils/pageMixins'
-import { buttonList } from './component/data'
+import {iButton, iCard, iMessage, iPage, iPagination} from "rise";
+import {pageMixins} from "@/utils/pageMixins";
+import {buttonList} from "./component/data";
 // import iTableCustom from "@/components/iTableCustom";
-import actionButtons from './component/actionButtons.vue'
-import addRest from './component/addRest.vue'
-import addTopic from './component/addTopic.vue'
-import newProtectInfo from './component/newProtectInfo.vue'
+import actionButtons from "./component/actionButtons.vue";
+import addRest from "./component/addRest.vue";
+import addTopic from "./component/addTopic.vue";
+import newProtectInfo from "./component/newProtectInfo.vue";
 // import confirmDelete from "./component/confirmDelete.vue";
-import updateDate from './component/updateDate.vue'
+import updateDate from "./component/updateDate.vue";
 // import importThemen from "./component/importThemen.vue";
 // import confirmSplit from "./component/confirmSplit.vue";
 // import importThemens from "../home/components/importThemens.vue";
-import updateFile from '@/components/updateFile'
-import iTableML from '@/components/iTableML'
-
+import updateFile from "@/components/updateFile";
+import iTableML from "@/components/iTableML";
 import {
-  findThemenById,
+  deleteThemen,
   endThemen,
-  startThemen,
-  // recallThemen,
+  findThemenById,
   passThemenRecall,
   rejectThemenRecall,
-  deleteThemen,
   resortThemen,
-  spiltThemen
-} from '@/api/meeting/details'
-import Sortable from 'sortablejs'
-import dayjs from '@/utils/dayjs.js'
-import { getMettingType } from '@/api/meeting/type' //resortThemen
-import updateMeetingDialog from '../home/components/updateMeetingDialog.vue'
-import newSummaryDialog from './component/newSummaryDialog.vue'
-import { changeStateMeeting, importThemen } from '@/api/meeting/home'
-import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
-import { download } from '@/utils/downloadUtil'
-import enclosure from '@/assets/images/enclosure.svg'
+  spiltThemen,
+  startThemen,
+} from "@/api/meeting/details";
+import Sortable from "sortablejs";
+import dayjs from "@/utils/dayjs.js";
+import {getMettingType} from "@/api/meeting/type"; //resortThemen
+import updateMeetingDialog from "../home/components/updateMeetingDialog.vue";
+import newSummaryDialog from "./component/newSummaryDialog.vue";
+import {changeStateMeeting, importThemen} from "@/api/meeting/home";
+import closeMeetiongDialog from "./component/closeMeetiongDialog.vue";
+import {download} from "@/utils/downloadUtil";
+import enclosure from "@/assets/images/enclosure.svg";
 
 export default {
   mixins: [pageMixins],
@@ -571,7 +574,7 @@ export default {
     newSummaryDialog,
     closeMeetiongDialog,
     updateFile,
-    iTableML
+    iTableML,
   },
   data() {
     return {
@@ -595,7 +598,7 @@ export default {
         //修改对话框
         openUpdate: false,
         openNewSummaryDialog: false,
-        openCloseMeetiongDialog: false
+        openCloseMeetiongDialog: false,
       },
       //外部引入的弹窗
 
@@ -606,62 +609,63 @@ export default {
       meetingInfo: {},
       tableData: [],
       resThemeData: [],
-      editOrAdd: 'add',
+      editOrAdd: "add",
       cancelOrAdjust: false,
       typeObject: {},
       shouldhanldeUpdateData: [],
       openTopics: false,
       handleDisabledButtonName: [
-        'editTopic',
-        'protectInfo',
-        'deleteTop',
-        'updateDate',
-        'split'
+        "editTopic",
+        "protectInfo",
+        "deleteTop",
+        "updateDate",
+        "split",
         // "startTopic",
         // "overTopic",
       ],
       lookThemenObj: {},
-      display: 'none',
-      changedArr: ''
-    }
+      display: "none",
+      changedArr: "",
+    };
   },
   watch: {
     isAdmin: {
-      handler(v) {},
-      immediate: true
+      handler(v) {
+      },
+      immediate: true,
     },
     resThemeData: {
       handler(data) {
-        const row = data.find(item => item.state === '02')
-        this.currentRow = { ...row }
-      }
-    }
+        const row = data.find((item) => item.state === "02");
+        this.currentRow = {...row};
+      },
+    },
   },
   mounted() {
     // this.isAdmin = localStorage.getItem("isMA") === "false" ? false : true;
-    this.getMeetingTypeObject()
-    this.getTableData()
+    this.getMeetingTypeObject();
+    this.getTableData();
   },
   methods: {
     getUplodFiles(nameList) {
-      this.nameList = nameList
+      this.nameList = nameList;
     },
     // 下载模版
     downDemo() {
       download({
-        url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
-        filename: '议题模版',
+        url: "/rise-meeting/meetingService/downloadThemenImportTemplate",
+        filename: "议题模版",
         type:
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
-        callback: e => {
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel",
+        callback: (e) => {
           if (e) {
-            iMessage.success('下载模版成功')
+            iMessage.success("下载模版成功");
           } else {
-            iMessage.error('下载模版成功')
+            iMessage.error("下载模版成功");
           }
         },
-        noFileUd: true
-      })
+        noFileUd: true,
+      });
       // downloadThemenImportTemplate().then((res)=>{
       //   console.log('res',res)
       // })
@@ -669,179 +673,179 @@ export default {
     recallTheThemen(themen) {
       const params = {
         meetingId: this.meetingInfo.id,
-        themenId: themen.id
-      }
-      this.$confirm('是否同意撤回该议题？', '提示', {
-        confirmButtonText: '同意',
-        cancelButtonText: '拒绝',
+        themenId: themen.id,
+      };
+      this.$confirm("是否同意撤回该议题？", "提示", {
+        confirmButtonText: "同意",
+        cancelButtonText: "拒绝",
         distinguishCancelAndClose: true,
-        type: 'warning'
+        type: "warning",
       })
-        .then(() => {
-          passThemenRecall(params)
-            .then(res => {
-              if (res.code === 200) {
-                this.flushTable()
-                // iMessage.success(res.message);
-                iMessage.success('审批通过')
-                return
-              }
-              iMessage.error(res.message)
-              this.flushTable()
-              return
-            })
-            .catch(err => {
-              this.flushTable()
-              iMessage.error('同意失败,原因: ' + err)
-            })
-        })
-        .catch(err => {
-          if (err === 'cancel') {
-            rejectThemenRecall(params)
-              .then(res => {
-                if (res.code === 200) {
-                  this.flushTable()
-                  iMessage.success('拒绝成功!')
-                  // iMessage.success(res.message);
-                  return
-                }
-                iMessage.error(res.message)
-                this.flushTable()
-                return
-              })
-              .catch(err => {
-                this.flushTable()
-                iMessage.error('拒绝失败,原因: ' + err)
-              })
-          } else {
-            return
-          }
-        })
+          .then(() => {
+            passThemenRecall(params)
+                .then((res) => {
+                  if (res.code === 200) {
+                    this.flushTable();
+                    // iMessage.success(res.message);
+                    iMessage.success("审批通过");
+                    return;
+                  }
+                  iMessage.error(res.message);
+                  this.flushTable();
+                  return;
+                })
+                .catch((err) => {
+                  this.flushTable();
+                  iMessage.error("同意失败,原因: " + err);
+                });
+          })
+          .catch((err) => {
+            if (err === "cancel") {
+              rejectThemenRecall(params)
+                  .then((res) => {
+                    if (res.code === 200) {
+                      this.flushTable();
+                      iMessage.success("拒绝成功!");
+                      // iMessage.success(res.message);
+                      return;
+                    }
+                    iMessage.error(res.message);
+                    this.flushTable();
+                    return;
+                  })
+                  .catch((err) => {
+                    this.flushTable();
+                    iMessage.error("拒绝失败,原因: " + err);
+                  });
+            } else {
+              return;
+            }
+          });
     },
     generateMeetingMinutes() {
-      this.editNewSummary = true
-      this.openDialog('openNewSummaryDialog')
+      this.editNewSummary = true;
+      this.openDialog("openNewSummaryDialog");
     },
     lookMeetingMinutes() {
-      this.editNewSummary = false
-      this.openDialog('openNewSummaryDialog')
+      this.editNewSummary = false;
+      this.openDialog("openNewSummaryDialog");
     },
     lookThemen(themen) {
       if (!themen.isBreak) {
-        this.editOrAdd = 'look'
-        this.lookThemenObj = themen
-        this.openDialog('openAddTopicDialog')
+        this.editOrAdd = "look";
+        this.lookThemenObj = themen;
+        this.openDialog("openAddTopicDialog");
       } else {
-        this.editOrAdd = 'look'
-        this.lookThemenObj = themen
-        this.openDialog('openAddRestDialog')
+        this.editOrAdd = "look";
+        this.lookThemenObj = themen;
+        this.openDialog("openAddRestDialog");
       }
     },
     // 导入议题保存
     handleOKTopics(e) {
-      this.closeDialog()
-      this.flushTable()
+      this.closeDialog();
+      this.flushTable();
     },
     // 导入议题保存
     handleOKImportTopic(a, b) {
       if (this.nameList.length <= 0) {
-        iMessage.warn('请导入议题后再保存')
-        return
+        iMessage.warn("请导入议题后再保存");
+        return;
       }
-      this.disabledImportThemenButton = true
+      this.disabledImportThemenButton = true;
       let param = {
         id: this.meetingInfo.id,
         attachment: {
           attachmentId: b[0].id,
           attachmentName: b[0].name,
           attachmentUrl: b[0].url,
-          source: '05'
-        }
-      }
+          source: "05",
+        },
+      };
       importThemen(param)
-        .then(res => {
-          if (res.id) {
-            iMessage.success('导入议题成功')
-            this.openTopics = false
-            this.disabledImportThemenButton = false
-            // this.refreshTable();
-            this.flushTable()
-            this.closeDialog()
-            this.nameList = []
-          }
-        })
-        .catch(() => {
-          this.disabledImportThemenButton = false
-          this.nameList = []
-        })
-      this.flushTable()
+          .then((res) => {
+            if (res.id) {
+              iMessage.success("导入议题成功");
+              this.openTopics = false;
+              this.disabledImportThemenButton = false;
+              // this.refreshTable();
+              this.flushTable();
+              this.closeDialog();
+              this.nameList = [];
+            }
+          })
+          .catch(() => {
+            this.disabledImportThemenButton = false;
+            this.nameList = [];
+          });
+      this.flushTable();
     },
     // 导入议题取消
     handleCancelTopics() {
-      this.closeDialog()
+      this.closeDialog();
     },
     handleCloseCancelTopics() {
-      this.closeDialog()
-      this.getMeetingTypeObject()
-      this.getTableData()
+      this.closeDialog();
+      this.getMeetingTypeObject();
+      this.getTableData();
     },
     handleUpdateSubmit() {
-      this.flushTable()
+      this.flushTable();
     },
     generateTime() {
-      const startDate = this.meetingInfo.startDate
-      const startTime = this.meetingInfo.startTime
-      const endDate = this.meetingInfo.endDate
-      const endTime = this.meetingInfo.endTime
+      const startDate = this.meetingInfo.startDate;
+      const startTime = this.meetingInfo.startTime;
+      const endDate = this.meetingInfo.endDate;
+      const endTime = this.meetingInfo.endTime;
       this.begin = dayjs(new Date(`${startDate} ${startTime}`)).format(
-        'YYYY/MM/DD HH:mm'
-      )
-      this.end = `~${dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm')}`
+          "YYYY/MM/DD HH:mm"
+      );
+      this.end = `~${dayjs(new Date(`${endDate} ${endTime}`)).format("HH:mm")}`;
     },
     setTypeObj(e) {
-      let typeObj = {}
-      e.forEach(item => {
-        typeObj[item.id] = item.name
-      })
-      this.typeObject = typeObj
+      let typeObj = {};
+      e.forEach((item) => {
+        typeObj[item.id] = item.name;
+      });
+      this.typeObject = typeObj;
     },
     getMeetingTypeObject() {
       let param = {
         pageSize: 1000,
-        pageNum: 1
-      }
-      getMettingType(param).then(res => {
-        this.meetingTypeList = res.data
-        this.setTypeObj(res.data)
+        pageNum: 1,
+      };
+      getMettingType(param).then((res) => {
+        this.meetingTypeList = res.data;
+        this.setTypeObj(res.data);
         // this.$emit("setTypeObj", res.data);
-      })
+      });
     },
 
     //行拖拽
     rowDrop() {
-      const tbody = document.querySelector('.el-table__body-wrapper tbody')
-      const _this = this
+      const tbody = document.querySelector(".el-table__body-wrapper tbody");
+      const _this = this;
       this.tableObject = new Sortable(tbody, {
-        filter: '.dragable-row',
+        filter: ".dragable-row",
         onFilter() {
-          iMessage.warn('已结束或进行中的议题不可以被调整!')
+          iMessage.warn("已结束或进行中的议题不可以被调整!");
         },
         onMove(evt) {
-          const classStr = evt.related.getAttribute('class')
-          if (classStr.includes('dragable-row')) {
+          const classStr = evt.related.getAttribute("class");
+          if (classStr.includes("dragable-row")) {
             if (!_this.timer) {
-              _this.timer = true
-              iMessage.warn('不可以把议题拖拽到已结束或者进行中的议题之前!')
+              _this.timer = true;
+              iMessage.warn("不可以把议题拖拽到已结束或者进行中的议题之前!");
               let timers = setTimeout(() => {
-                _this.timer = null
-                clearTimeout(timers)
-              }, 3000)
+                _this.timer = null;
+                clearTimeout(timers);
+              }, 3000);
             }
 
-            return false
+            return false;
           }
         },
-        onEnd({ newIndex, oldIndex }) {
+        onEnd({newIndex, oldIndex}) {
           _this.$nextTick(() => {
             //从下往上
             //拖拽对象的最终位置是 newIndex
@@ -851,9 +855,9 @@ export default {
             //在起始位和最终位之间的所有对象索引-1
             // const startIndex = newIndex < oldIndex ? newIndex : oldIndex;
             // const endIndex = newIndex > oldIndex ? newIndex : oldIndex;
-            let targetIndex = newIndex
-            let sourceIndex = oldIndex
-            _this.handleDragDataTransform(targetIndex, sourceIndex)
+            let targetIndex = newIndex;
+            let sourceIndex = oldIndex;
+            _this.handleDragDataTransform(targetIndex, sourceIndex);
             //时间间隔储藏
             // const durationList = _this.tableData.map((item, index) => {
             //   if (index === startIndex) {
@@ -886,34 +890,34 @@ export default {
             //   }
             //   return item;
             // });
-          })
-        }
-      })
+          });
+        },
+      });
     },
     moveInArray(arr, from, to) {
       // 确保是有效数组
-      if (Object.prototype.toString.call(arr) !== '[object Array]') {
-        throw new Error('Please provide a valid array')
+      if (Object.prototype.toString.call(arr) !== "[object Array]") {
+        throw new Error("Please provide a valid array");
       }
 
       // 删除当前的位置
-      var item = arr.splice(from, 1)
+      var item = arr.splice(from, 1);
 
       // 确保还剩有元素移动
       if (!item.length) {
-        throw new Error('There is no item in the array at index ' + from)
+        throw new Error("There is no item in the array at index " + from);
       }
 
       // 移动元素到指定位置
-      arr.splice(to, 0, item[0])
-      return arr
+      arr.splice(to, 0, item[0]);
+      return arr;
     },
     //处理数组数据互换
     handleDragDataTransform(targetIndex, sourceIndex) {
       this.changedArr = this.changedArr
-        ? this.changedArr
-        : [...this.resThemeData]
-      this.moveInArray(this.changedArr, sourceIndex, targetIndex)
+          ? this.changedArr
+          : [...this.resThemeData];
+      this.moveInArray(this.changedArr, sourceIndex, targetIndex);
       //从下往上targetItemNo<sourceItemNo
       //拖拽对象的最终位置是 newIndex
       //在起始位和最终位之间的所有对象索引+1
@@ -968,94 +972,94 @@ export default {
       // );
     },
     getTableData() {
-      const meetingId = this.$route.query.id
-      this.queryMeetingInfoById(meetingId)
+      const meetingId = this.$route.query.id;
+      this.queryMeetingInfoById(meetingId);
     },
     handlePage(data = []) {
       // let startTime = new Date(
       //   `${this.meetingInfo.startDate} ${this.meetingInfo.startTime}`
       // ).getTime();
       // let endTime;
-      this.page.totalCount = data.length
-      this.page.pageSize = 10
+      this.page.totalCount = data.length;
+      this.page.pageSize = 10;
       this.tableData = data.filter((item, index) => {
-        return index < 10
-      })
-      this.tableData = this.tableData.map(item => {
+        return index < 10;
+      });
+      this.tableData = this.tableData.map((item) => {
         // startTime = endTime ? endTime + 60 * 1000 : startTime;
         // endTime = startTime + item.duration * 60 * 1000;
-        const startTime = dayjs(`2020-6-30 ${item.startTime}`).format('HH:mm')
-        const endTime = dayjs(`2020-6-30 ${item.endTime}`).format('HH:mm')
+        const startTime = dayjs(`2020-6-30 ${item.startTime}`).format("HH:mm");
+        const endTime = dayjs(`2020-6-30 ${item.endTime}`).format("HH:mm");
         return {
           ...item,
-          time: `${startTime}~${endTime}`
-        }
-      })
+          time: `${startTime}~${endTime}`,
+        };
+      });
     },
     goState(state) {
       switch (state) {
-        //草稿
-        case '01':
+          //草稿
+        case "01":
           // this.currentButtonList = buttonList[5];
           // this.currentButtonList = buttonList[1];
-          break
-        //开放
-        case '02':
-          this.currentButtonList = buttonList[0]
-          this.tableButtonList = this.currentButtonList.tableButtonList
-          break
-        //锁定
-        case '03':
-          this.currentButtonList = buttonList[1]
-          this.tableButtonList = this.currentButtonList.tableButtonList
-          break
-        //开始
-        case '04':
-          this.currentButtonList = buttonList[2]
-          this.tableButtonList = this.currentButtonList.tableButtonList
-          break
-        // 结束
-        case '05':
-          this.currentButtonList = buttonList[3]
-          this.tableButtonList = this.currentButtonList.tableButtonList
-          break
-        // 关闭
-        case '06':
-          this.currentButtonList = buttonList[4]
-          this.tableButtonList = this.currentButtonList.tableButtonList
-          break
+          break;
+          //开放
+        case "02":
+          this.currentButtonList = buttonList[0];
+          this.tableButtonList = this.currentButtonList.tableButtonList;
+          break;
+          //锁定
+        case "03":
+          this.currentButtonList = buttonList[1];
+          this.tableButtonList = this.currentButtonList.tableButtonList;
+          break;
+          //开始
+        case "04":
+          this.currentButtonList = buttonList[2];
+          this.tableButtonList = this.currentButtonList.tableButtonList;
+          break;
+          // 结束
+        case "05":
+          this.currentButtonList = buttonList[3];
+          this.tableButtonList = this.currentButtonList.tableButtonList;
+          break;
+          // 关闭
+        case "06":
+          this.currentButtonList = buttonList[4];
+          this.tableButtonList = this.currentButtonList.tableButtonList;
+          break;
         default:
           // this.currentButtonList = buttonList[0];
-          break
+          break;
       }
     },
     queryMeetingInfoById(id) {
       const data = {
-        id
-      }
-      const _this = this
+        id,
+      };
+      const _this = this;
       findThemenById(data)
-        .then(res => {
-          _this.meetingInfo = res
-          // console.log(res);
-          _this.goState(res.state)
-          _this.resThemeData = [...res.themens]
-          _this.handlePage(res.themens)
-          _this.generateTime()
-        })
-        .catch(err => {
-          // console.log("this.meetingInfo", this.meetingInfo);
-          console.log(err)
-        })
+          .then((res) => {
+            _this.meetingInfo = res;
+            // console.log(res);
+            _this.goState(res.state);
+            _this.resThemeData = [...res.themens];
+            _this.handlePage(res.themens);
+            _this.generateTime();
+          })
+          .catch((err) => {
+            // console.log("this.meetingInfo", this.meetingInfo);
+            console.log(err);
+          });
     },
     query() {
-      const _this = this
+      const _this = this;
       return {
         that: _this,
         tableData: _this.tableData,
         resThemeData: _this.resThemeData,
-        page: _this.page
-      }
+        page: _this.page,
+      };
     },
     handleSizeChange: (a, b) => {
       // console.log(a, b);
@@ -1064,21 +1068,21 @@ export default {
     handleCurrentChange: (curPage, query) => {
       //总时长duartion
       // let totalDuration = 0;
-      const _this = query()
+      const _this = query();
       //分页并累加总时长
-      _this.page.currPage = curPage
+      _this.page.currPage = curPage;
       _this.tableData = _this.resThemeData.filter((item, index) => {
         // if (index < (_this.page.currPage - 1) * _this.page.pageSize) {
         //   totalDuration = totalDuration + item.duration + 1;
         // }
         if (
-          index >= (_this.page.currPage - 1) * _this.page.pageSize &&
-          index < _this.page.currPage * _this.page.pageSize
+            index >= (_this.page.currPage - 1) * _this.page.pageSize &&
+            index < _this.page.currPage * _this.page.pageSize
         ) {
-          return true
+          return true;
         }
-        return false
-      })
+        return false;
+      });
       //每一页的开始时间
       // const everyPageStartTime =
       //   new Date(
@@ -1100,39 +1104,39 @@ export default {
       // });
       //发送
 
-      _this.that.$data.tableData = _this.tableData.map(item => {
-        const startTime = dayjs(`2020-6-30 ${item.startTime}`).format('HH:mm')
-        const endTime = dayjs(`2020-6-30 ${item.endTime}`).format('HH:mm')
+      _this.that.$data.tableData = _this.tableData.map((item) => {
+        const startTime = dayjs(`2020-6-30 ${item.startTime}`).format("HH:mm");
+        const endTime = dayjs(`2020-6-30 ${item.endTime}`).format("HH:mm");
         return {
           ...item,
-          time: `${startTime}~${endTime}`
-        }
-      })
+          time: `${startTime}~${endTime}`,
+        };
+      });
     },
 
     //对话弹窗 初始化
     initDialog() {
-      const dialogObj = this.dialogStatusManageObj
+      const dialogObj = this.dialogStatusManageObj;
       for (let o in dialogObj) {
-        dialogObj[o] = false
+        dialogObj[o] = false;
       }
-      this.dialogStatusManageObj = dialogObj
+      this.dialogStatusManageObj = dialogObj;
     },
     closeDialog() {
-      this.initDialog()
+      this.initDialog();
     },
     openDialog(val) {
-      this.dialogStatusManageObj[val] = true
+      this.dialogStatusManageObj[val] = true;
     },
     handleClick(name) {
-      this[name]()
+      this[name]();
     },
     //开启调整
     updateTopic() {
-      this.showUpdateTopicButtonList = true
+      this.showUpdateTopicButtonList = true;
       this.$nextTick(() => {
-        this.rowDrop()
-      })
+        this.rowDrop();
+      });
     },
     //调整完成
     overUpdateTopic() {
@@ -1144,10 +1148,10 @@ export default {
       //   type: "warning",
       // }).then(() => {
       if (this.changedArr) {
-        this.handleUpdateThemen()
+        this.handleUpdateThemen();
       }
-      this.tableObject.destroy()
-      this.showUpdateTopicButtonList = false
+      this.tableObject.destroy();
+      this.showUpdateTopicButtonList = false;
       // });
     },
     //取消调整
@@ -1158,50 +1162,50 @@ export default {
       //   cancelButtonText: "否",
       //   type: "warning",
       // }).then(() => {
-      this.changedArr = ''
-      this.tableObject.destroy()
-      this.showUpdateTopicButtonList = false
+      this.changedArr = "";
+      this.tableObject.destroy();
+      this.showUpdateTopicButtonList = false;
       // });
     },
     //调整完成更新会议议题
     handleUpdateThemen() {
       this.shouldhanldeUpdateData = this.changedArr
-        .map((item, index) => {
-          return {
-            // ...item,
-            itemNo: index + 1,
-            themenId: item.id,
-            state: item.state
-          }
-        })
-        .filter(item => {
-          return item.state === '01' || item.state === '04'
-        })
-        .map(item => {
-          return {
-            itemNo: item.itemNo,
-            themenId: item.themenId
-          }
-        })
+          .map((item, index) => {
+            return {
+              // ...item,
+              itemNo: index + 1,
+              themenId: item.id,
+              state: item.state,
+            };
+          })
+          .filter((item) => {
+            return item.state === "01" || item.state === "04";
+          })
+          .map((item) => {
+            return {
+              itemNo: item.itemNo,
+              themenId: item.themenId,
+            };
+          });
       const formData = {
         meetingId: this.meetingInfo.id,
-        resortThemens: this.shouldhanldeUpdateData
-      }
+        resortThemens: this.shouldhanldeUpdateData,
+      };
       // console.log(this.shouldhanldeUpdateData);
       resortThemen(formData)
-        .then(data => {
-          if (data) {
-            iMessage.success('保存成功')
-          } else {
-            iMessage.error('保存失败')
-          }
-          this.changedArr = ''
-          this.flushTable()
-        })
-        .catch(err => {
-          this.changedArr = ''
-          console.log('err', err)
-        })
+          .then((data) => {
+            if (data) {
+              iMessage.success("保存成功");
+            } else {
+              iMessage.error("保存失败");
+            }
+            this.changedArr = "";
+            this.flushTable();
+          })
+          .catch((err) => {
+            this.changedArr = "";
+            console.log("err", err);
+          });
     },
     close() {
       // if (this.meetingInfo.attachments.length <= 0) {
@@ -1229,23 +1233,23 @@ export default {
       // }
 
       if (this.meetingInfo.attachments.length <= 0) {
-        this.$confirm('尚未生成会议纪要，确定关闭会议？', '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
-          type: 'warning'
+        this.$confirm("尚未生成会议纪要，确定关闭会议？", "提示", {
+          confirmButtonText: "是",
+          cancelButtonText: "否",
+          type: "warning",
         }).then(() => {
           //在这里判断是不是已经生成会议纪要了
-          this.openDialog('openCloseMeetiongDialog')
-        })
+          this.openDialog("openCloseMeetiongDialog");
+        });
       } else {
-        this.$confirm('请确认是否需要关闭会议?', '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
-          type: 'warning'
+        this.$confirm("请确认是否需要关闭会议?", "提示", {
+          confirmButtonText: "是",
+          cancelButtonText: "否",
+          type: "warning",
         }).then(() => {
           //在这里判断是不是已经生成会议纪要了
-          this.openDialog('openCloseMeetiongDialog')
-        })
+          this.openDialog("openCloseMeetiongDialog");
+        });
       }
       // alert("close");
       // this.$confirm("是否生成会议纪要", "提示", {
@@ -1273,15 +1277,15 @@ export default {
     },
     //查看议题里面是否有进行中的议题
     haveThemenIsStarting() {
-      return this.resThemeData.find(item => {
-        return item.state === '02'
-      })
+      return this.resThemeData.find((item) => {
+        return item.state === "02";
+      });
     },
     //查询议题里的未进行的议题
     haveThemenNotStart() {
-      return this.resThemeData.find(item => {
-        return item.state === '01'
-      })
+      return this.resThemeData.find((item) => {
+        return item.state === "01";
+      });
     },
     // 判断议题是否已经全部完成
     isThemenOverAll() {
@@ -1291,28 +1295,28 @@ export default {
       //   }
       // }
 
-      return this.resThemeData.every(item => {
-        return item.state === '03'
-      })
+      return this.resThemeData.every((item) => {
+        return item.state === "03";
+      });
     },
     startTopic() {
       // alert("startTopic");
       // console.log(this.haveThemenIsStarting());
       if (this.haveThemenIsStarting()) {
-        iMessage.warn('已有进行中的议题！')
-        return
+        iMessage.warn("已有进行中的议题！");
+        return;
       }
       if (
-        this.selectedTableData &&
-        this.selectedTableData.length >= 1 &&
-        this.haveThemenNotStart().itemNo !== this.selectedTableData[0].itemNo
+          this.selectedTableData &&
+          this.selectedTableData.length >= 1 &&
+          this.haveThemenNotStart().itemNo !== this.selectedTableData[0].itemNo
       ) {
-        iMessage.warn('请按议题顺序开始议题！')
-        return
+        iMessage.warn("请按议题顺序开始议题！");
+        return;
       }
       if (this.isThemenOverAll()) {
-        iMessage.warn('该议题列表已全部结束！')
-        return
+        iMessage.warn("该议题列表已全部结束！");
+        return;
       }
       // this.$confirm("请确认是否需要开始该议题？", "提示", {
       //   confirmButtonText: "是",
@@ -1321,41 +1325,41 @@ export default {
       // }).then(() => {
       const param = {
         meetingId: this.meetingInfo.id,
-        themenId: this.haveThemenNotStart().id
-      }
+        themenId: this.haveThemenNotStart().id,
+      };
       startThemen(param)
-        .then(() => {
-          iMessage.success('开始议题成功！')
-          // this.refreshTable();
-          this.flushTable()
-        })
-        .catch(err => {
-          iMessage.error('开始议题失败！')
-        })
+          .then(() => {
+            iMessage.success("开始议题成功！");
+            // this.refreshTable();
+            this.flushTable();
+          })
+          .catch((err) => {
+            iMessage.error("开始议题失败！");
+          });
       // });
     },
     //判断进行中是否超时
     isOverTime(choiceThemen) {
       //true 没有超时，false 超时
       return (
-        new Date(`2021-7-1 ${choiceThemen.startTime}`).getTime() +
+          new Date(`2021-7-1 ${choiceThemen.startTime}`).getTime() +
           choiceThemen.duration * 60 * 1000 >
-        new Date(`2021-7-1 ${dayjs(new Date()).format('HH:mm:ss')}`).getTime()
-      )
+          new Date(`2021-7-1 ${dayjs(new Date()).format("HH:mm:ss")}`).getTime()
+      );
     },
     overTopic() {
       // alert("overTopic");
-      let choiceThemen = this.selectedTableData && this.selectedTableData[0]
-      choiceThemen = choiceThemen ? choiceThemen : this.haveThemenIsStarting()
+      let choiceThemen = this.selectedTableData && this.selectedTableData[0];
+      choiceThemen = choiceThemen ? choiceThemen : this.haveThemenIsStarting();
       const param = {
         meetingId: this.meetingInfo.id,
-        themenId: choiceThemen && choiceThemen.id
+        themenId: choiceThemen && choiceThemen.id,
+      };
+      if (choiceThemen && choiceThemen.state !== "02") {
+        iMessage.warn("该议题未进行中，不能结束操作！");
+        return;
       }
-      if (choiceThemen && choiceThemen.state !== '02') {
-        iMessage.warn('该议题未进行中，不能结束操作！')
-        return
-      }
-      const bol = this.isOverTime(choiceThemen)
+      const bol = this.isOverTime(choiceThemen);
       if (bol) {
         // this.$confirm("确认？会议进行时间过短，请确认是否需要结束？", "提示", {
         //   cancelButtonText: "暂不结束",
@@ -1363,48 +1367,48 @@ export default {
         //   type: "warning",
         // }).then(() => {
         endThemen(param)
+            .then(() => {
+              iMessage.success("结束议题成功！");
+              // this.refreshTable();
+              this.flushTable();
+            })
+            .catch(() => {
+              // iMessage.error("结束会议失败！");
+            });
+        // });
+        return;
+      }
+      endThemen(param)
           .then(() => {
-            iMessage.success('结束议题成功！')
+            iMessage.success("结束议题成功！");
             // this.refreshTable();
-            this.flushTable()
+            this.flushTable();
           })
           .catch(() => {
             // iMessage.error("结束会议失败！");
-          })
-        // });
-        return
-      }
-      endThemen(param)
-        .then(() => {
-          iMessage.success('结束议题成功！')
-          // this.refreshTable();
-          this.flushTable()
-        })
-        .catch(() => {
-          // iMessage.error("结束会议失败！");
-        })
+          });
     },
     split() {
       // alert("split");
       // this.openDialog("openSplitDialog");
       const data = {
         meetingId: this.meetingInfo.id,
-        themenId: this.selectedTableData[0].id
-      }
+        themenId: this.selectedTableData[0].id,
+      };
       // this.$confirm("确认拆分该议题吗?", "提示", {
       //   confirmButtonText: "确认",
       //   cancelButtonText: "取消",
       //   type: "warning",
       // }).then(() => {
       spiltThemen(data)
-        .then(() => {
-          iMessage.success('拆分成功')
-          this.flushTable()
-        })
-        .catch(err => {
-          iMessage.error('拆分失败')
-          this.flushTable()
-        })
+          .then(() => {
+            iMessage.success("拆分成功");
+            this.flushTable();
+          })
+          .catch((err) => {
+            iMessage.error("拆分失败");
+            this.flushTable();
+          });
       // });
     },
     start() {
@@ -1417,116 +1421,116 @@ export default {
       // }).then(() => {
       let param = {
         id: this.meetingInfo.id,
-        state: '04'
-      }
+        state: "04",
+      };
       changeStateMeeting(param)
-        .then(res => {
-          if (res) {
-            iMessage.success('开始议题成功！')
-            this.flushTable()
-          }
-        })
-        .catch(() => {
-          // iMessage.error(err);
-        })
+          .then((res) => {
+            if (res) {
+              iMessage.success("开始议题成功！");
+              this.flushTable();
+            }
+          })
+          .catch(() => {
+            // iMessage.error(err);
+          });
       // });
     },
     updateDate() {
       // alert("updateDate");
       if (this.selectedTableData[0] && this.selectedTableData[0].isBreak) {
-        iMessage.warn('休息议题不能进行改期')
-        return
+        iMessage.warn("休息议题不能进行改期");
+        return;
       }
-      this.openDialog('openUpdateDateDialog')
+      this.openDialog("openUpdateDateDialog");
     },
     deleteTop() {
       if (
-        this.selectedTableData[0] &&
-        this.selectedTableData[0].state !== '01' &&
-        this.selectedTableData[0].state !== '04'
+          this.selectedTableData[0] &&
+          this.selectedTableData[0].state !== "01" &&
+          this.selectedTableData[0].state !== "04"
       ) {
-        iMessage.warn('只能删除未进行的议题')
-        return
+        iMessage.warn("只能删除未进行的议题");
+        return;
       }
       if (
-        this.selectedTableData[0] &&
-        this.selectedTableData[0].state === '04'
+          this.selectedTableData[0] &&
+          this.selectedTableData[0].state === "04"
       ) {
-        iMessage.warn('不能删除撤回中的议题')
-        return
+        iMessage.warn("不能删除撤回中的议题");
+        return;
       }
       const data = {
         meetingId: this.meetingInfo.id,
-        id: this.selectedTableData[0].id
-      }
-      this.$confirm('确认删除该议题吗?', '提示', {
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
-        type: 'warning'
+        id: this.selectedTableData[0].id,
+      };
+      this.$confirm("确认删除该议题吗?", "提示", {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
       }).then(() => {
         deleteThemen(data)
-          .then(() => {
-            iMessage.success('删除成功')
-            this.flushTable()
-          })
-          .catch(err => {
-            iMessage.error('删除失败')
-            this.flushTable()
-          })
-      })
+            .then(() => {
+              iMessage.success("删除成功");
+              this.flushTable();
+            })
+            .catch((err) => {
+              iMessage.error("删除失败");
+              this.flushTable();
+            });
+      });
     },
     protectInfo() {
       if (
-        this.selectedTableData[0]
-          ? this.selectedTableData[0].state === '02'
-          : ''
+          this.selectedTableData[0]
+              ? this.selectedTableData[0].state === "02"
+              : ""
       ) {
-        iMessage.warn('进行中的议题不能进行会议资料维护')
-        return
+        iMessage.warn("进行中的议题不能进行会议资料维护");
+        return;
       }
       if (
-        this.selectedTableData[0]
-          ? this.selectedTableData[0].state === '03'
-          : ''
+          this.selectedTableData[0]
+              ? this.selectedTableData[0].state === "03"
+              : ""
       ) {
-        iMessage.warn('已完成的议题不能进行会议资料维护')
-        return
+        iMessage.warn("已完成的议题不能进行会议资料维护");
+        return;
       }
-      if (this.selectedTableData[0] ? this.selectedTableData[0].isBreak : '') {
-        iMessage.warn('休息议题不可维护资料')
-        return
+      if (this.selectedTableData[0] ? this.selectedTableData[0].isBreak : "") {
+        iMessage.warn("休息议题不可维护资料");
+        return;
       }
-      this.openDialog('openProtectInfoDialog')
+      this.openDialog("openProtectInfoDialog");
     },
     editTopic() {
-      if (this.selectedTableData[0].state === '03') {
-        iMessage.warn('已结束的议题不能进行修改议题')
-        return
+      if (this.selectedTableData[0].state === "03") {
+        iMessage.warn("已结束的议题不能进行修改议题");
+        return;
       }
-      this.editOrAdd = 'edit'
+      this.editOrAdd = "edit";
       if (this.selectedTableData[0].isBreak) {
-        this.openDialog('openAddRestDialog')
-        return
+        this.openDialog("openAddRestDialog");
+        return;
       }
-      this.openDialog('openAddTopicDialog')
+      this.openDialog("openAddTopicDialog");
     },
     importTopic() {
-      this.openDialog('openImportTopicDialog')
+      this.openDialog("openImportTopicDialog");
     },
     //新增议题
     addTopic() {
-      this.editOrAdd = 'add'
-      this.openDialog('openAddTopicDialog')
+      this.editOrAdd = "add";
+      this.openDialog("openAddTopicDialog");
     },
 
     addRest() {
-      this.editOrAdd = 'add'
-      this.openDialog('openAddRestDialog')
+      this.editOrAdd = "add";
+      this.openDialog("openAddRestDialog");
     },
     back() {
       //返回到会议列表页
       // this.$router.push("/meeting/home");
-      this.$router.go(-1)
+      this.$router.go(-1);
     },
     open() {
       // alert("open");
@@ -1539,27 +1543,27 @@ export default {
       // }).then(() => {
       let param = {
         id: this.meetingInfo.id,
-        state: '02'
-      }
+        state: "02",
+      };
       changeStateMeeting(param)
-        .then(() => {
-          iMessage.success('开放会议成功！')
-          // this.refreshTable();
-          this.flushTable()
-          this.getMeetingTypeObject()
-        })
-        .catch(() => {
-          iMessage.error('开放会议失败！')
-        })
+          .then(() => {
+            iMessage.success("开放会议成功！");
+            // this.refreshTable();
+            this.flushTable();
+            this.getMeetingTypeObject();
+          })
+          .catch(() => {
+            iMessage.error("开放会议失败！");
+          });
       // });
     },
     endMeeting() {
       // alert("结束");
       // 结束
-      let dateCurrent = new Date().valueOf()
+      let dateCurrent = new Date().valueOf();
       let dateEnd = new Date(
-        this.meetingInfo.endDate + ' ' + this.meetingInfo.endTime
-      ).valueOf()
+          this.meetingInfo.endDate + " " + this.meetingInfo.endTime
+      ).valueOf();
       // this.$confirm(
       //   dateEnd < dateCurrent
       //     ? "会议进行时间过短，请确认是否需要结束？"
@@ -1573,35 +1577,29 @@ export default {
       // ).then(() => {
       let param = {
         id: this.meetingInfo.id,
-        state: '05'
-      }
+        state: "05",
+      };
       changeStateMeeting(param)
-        .then(() => {
-          iMessage.success('结束会议成功！')
-          this.flushTable()
-          this.getMeetingTypeObject()
-        })
-        .catch(() => {
-          // iMessage.error("结束会议失败！");
-        })
+          .then(() => {
+            iMessage.success("结束会议成功！");
+            this.flushTable();
+            this.getMeetingTypeObject();
+          })
+          .catch(() => {
+            // iMessage.error("结束会议失败！");
+          });
       // });
     },
     sameScreen(e) {
       // alert("同屏");
       // 同屏
-      // this.$router.push({
-      //   path: "/meeting/same-screen",
-      //   query: {
-      //     id: this.meetingInfo.id,
-      //   },
-      // });
       let routeUrl = this.$router.resolve({
-        path: '/meeting/same-screen',
+        path: "/meeting/same-screen",
         query: {
-          id: this.meetingInfo.id
-        }
-      })
-      window.open(routeUrl.href, '_blank')
+          id: this.meetingInfo.id,
+        },
+      });
+      window.open(routeUrl.href, "_blank");
     },
     displayShow() {
       // alert("展示");
@@ -1613,38 +1611,40 @@ export default {
       //   },
       // });
       let routeUrl = this.$router.resolve({
-        path: '/meeting/meeting-show',
+        path: this.meetingInfo.meetingTypeName == 'Pre CSC' || this.meetingInfo.meetingTypeName == 'CSC'
+            ? "/meeting/meetingShow"     //新页面
+            : "/meeting/meeting-show",   //旧页面
         query: {
-          id: this.meetingInfo.id
-        }
-      })
-      window.open(routeUrl.href, '_blank')
+          id: this.meetingInfo.id,
+        },
+      });
+      window.open(routeUrl.href, "_blank");
     },
     lock() {
       // alert("lock");
       // console.log(this.meetingInfo);
       // this.currentButtonList = buttonList[1];
       // 锁定
-      this.$confirm('请确认是否需要锁定会议？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
-        type: 'warning'
+      this.$confirm("请确认是否需要锁定会议？", "提示", {
+        confirmButtonText: "是",
+        cancelButtonText: "否",
+        type: "warning",
       }).then(() => {
         let param = {
           id: this.meetingInfo.id,
-          state: '03'
-        }
+          state: "03",
+        };
         changeStateMeeting(param)
-          .then(() => {
-            iMessage.success('锁定会议成功！')
-            // this.refreshTable();
-            this.getMeetingTypeObject()
-            this.flushTable()
-          })
-          .catch(() => {
-            iMessage.error('锁定会议失败！')
-          })
-      })
+            .then(() => {
+              iMessage.success("锁定会议成功！");
+              // this.refreshTable();
+              this.getMeetingTypeObject();
+              this.flushTable();
+            })
+            .catch(() => {
+              iMessage.error("锁定会议失败！");
+            });
+      });
     },
     deblock() {
       // alert("deblock");
@@ -1657,135 +1657,140 @@ export default {
       // }).then(() => {
       let param = {
         id: this.meetingInfo.id,
-        state: '02'
-      }
+        state: "02",
+      };
       changeStateMeeting(param)
-        .then(() => {
-          iMessage.success('解锁会议成功！')
-          this.getMeetingTypeObject()
-          this.flushTable()
-        })
-        .catch(() => {
-          iMessage.error('解锁会议失败！')
-        })
+          .then(() => {
+            iMessage.success("解锁会议成功！");
+            this.getMeetingTypeObject();
+            this.flushTable();
+          })
+          .catch(() => {
+            iMessage.error("解锁会议失败！");
+          });
       // });
     },
     edit() {
       // alert("edit");
       // this.currentButtonList = buttonList[2];
-      this.openDialog('openUpdate')
+      this.openDialog("openUpdate");
     },
     //刷新表格
     flushTable() {
-      this.page.currPage = 1
-      this.getTableData()
+      this.page.currPage = 1;
+      this.getTableData();
     },
     closeDetailDialog(bol) {
-      this.openDetailDialog = bol
+      this.openDetailDialog = bol;
     },
     search(val) {
-      this.form = { ...val }
-      this.query()
+      this.form = {...val};
+      this.query();
     },
     //按钮失效功能
     handleButtonDisabled(buttonNameList, bol) {
       this.currentButtonList = {
         ...this.currentButtonList,
-        tableButtonList: this.currentButtonList.tableButtonList.map(item => {
-          return item.map(item => {
+        tableButtonList: this.currentButtonList.tableButtonList.map((item) => {
+          return item.map((item) => {
             if (buttonNameList.includes(item.methodName)) {
               return {
                 ...item,
-                disabled: bol
-              }
+                disabled: bol,
+              };
             }
-            return item
-          })
-        })
-      }
+            return item;
+          });
+        }),
+      };
     },
     //开始议题按钮失效功能
     handleStartTopicButtonDisabled(buttonNameList, bol) {
       this.currentButtonList = {
         ...this.currentButtonList,
-        tableButtonList: this.currentButtonList.tableButtonList.map(item => {
-          return item.map(item => {
+        tableButtonList: this.currentButtonList.tableButtonList.map((item) => {
+          return item.map((item) => {
             if (buttonNameList.includes(item.methodName)) {
               return {
                 ...item,
-                triggerDisabled: bol
-              }
+                triggerDisabled: bol,
+              };
             }
-            return item
-          })
-        })
-      }
+            return item;
+          });
+        }),
+      };
     },
 
     // 表格选中值集
     handleSelectionChange(val) {
-      this.selectedTableData = val
-      const handleDisabledButtonName = this.handleDisabledButtonName
+      this.selectedTableData = val;
+      const handleDisabledButtonName = this.handleDisabledButtonName;
       if (val.length === 1) {
-        if (val[0].state === '03') {
-          this.handleButtonDisabled(handleDisabledButtonName, true)
-          this.handleStartTopicButtonDisabled(['startTopic'], true)
-          this.handleButtonDisabled(['overTopic'], true)
-        } else if (val[0].state === '02') {
-          this.handleButtonDisabled(handleDisabledButtonName, true)
-          this.handleStartTopicButtonDisabled(['startTopic'], true)
-          this.handleButtonDisabled(['overTopic'], false)
-          this.handleButtonDisabled(['editTopic'], false)
+        if (val[0].state === "03") {
+          this.handleButtonDisabled(handleDisabledButtonName, true);
+          this.handleStartTopicButtonDisabled(["startTopic"], true);
+          this.handleButtonDisabled(["overTopic"], true);
+        } else if (val[0].state === "02") {
+          this.handleButtonDisabled(handleDisabledButtonName, true);
+          this.handleStartTopicButtonDisabled(["startTopic"], true);
+          this.handleButtonDisabled(["overTopic"], false);
+          this.handleButtonDisabled(["editTopic"], false);
         } else {
-          this.handleButtonDisabled(handleDisabledButtonName, false)
-          this.handleStartTopicButtonDisabled(['startTopic'], false)
-          this.handleButtonDisabled(['overTopic'], true)
+          this.handleButtonDisabled(handleDisabledButtonName, false);
+          this.handleStartTopicButtonDisabled(["startTopic"], false);
+          this.handleButtonDisabled(["overTopic"], true);
         }
       } else {
-        this.handleButtonDisabled(handleDisabledButtonName, true)
-        this.handleStartTopicButtonDisabled(['startTopic'], true)
-        this.handleButtonDisabled(['overTopic'], true)
+        this.handleButtonDisabled(handleDisabledButtonName, true);
+        this.handleStartTopicButtonDisabled(["startTopic"], true);
+        this.handleButtonDisabled(["overTopic"], true);
       }
-      this.tableButtonList = this.currentButtonList.tableButtonList
+      this.tableButtonList = this.currentButtonList.tableButtonList;
     },
 
     handleGoDetail(e) {
-      this.id = e.id
-      this.openDetailDialog = true
+      this.id = e.id;
+      this.openDetailDialog = true;
     },
     // 行高亮
     tableRowClassName(row) {
-      if (row.row.state === '03') {
-        return 'unuse-row dragable-row'
-      } else if (row.row.state === '02') {
-        return 'active-row dragable-row'
+      if (row.row.state === "03") {
+        return "unuse-row dragable-row";
+      } else if (row.row.state === "02") {
+        return "active-row dragable-row";
       }
-      return 'narmal-row'
-    }
-  }
-}
+      return "narmal-row";
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 ::v-deep .open-clink-back-text {
   cursor: pointer;
+
   .open-clink-back {
     display: block;
   }
+
   .open-text-text {
     display: none;
   }
+
   &:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+
     .open-clink-back {
       display: none;
     }
+
     .open-text-text {
       display: block;
       width: 20px;
       height: 17.9px;
-      background-image: url('~@/assets/images/reback.png');
+      background-image: url("../../../assets/images/reback.png");
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
@@ -1793,41 +1798,50 @@ export default {
     }
   }
 }
+
 ::v-deep .open-clink-back-text {
   display: flex;
   justify-content: center;
   align-items: center;
+
   .open-text-text-choice {
     display: block;
     width: 20px;
     height: 17.9px;
-    background-image: url('~@/assets/images/reback.png');
+    background-image: url("../../../assets/images/reback.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
     text-align: center;
   }
 }
+
 ::v-deep .open-link-text-black {
   color: #000 !important;
 }
+
 ::v-deep .open-link-text-grey {
   color: #ccc !important;
 }
+
 ::v-deep .open-link-text-blue {
   color: #1763f7 !important;
 }
+
 ::v-deep .open-link-text {
   /* cursor: pointer; */
   color: #000;
 }
+
 ::v-deep .look-themen-click {
   cursor: pointer;
   color: #1763f7;
 }
+
 .header {
   width: 100%;
   margin-bottom: 31px;
+
   .row {
     position: relative;
     width: 100%;
@@ -1835,18 +1849,22 @@ export default {
     /* justify-content: space-between; */
     justify-content: flex-start;
     align-items: center;
+
     .meeting-type {
       display: flex;
       font-size: 20px;
+
       .name {
         color: #727272;
 
         margin-right: 20px;
       }
+
       .name-content {
         color: #000;
         margin-right: 10px;
       }
+
       .button {
         text-align: center;
         line-height: 35px;
@@ -1861,30 +1879,37 @@ export default {
         padding: 0;
       }
     }
+
     .button-list {
       position: absolute;
       right: 0;
+
       .button {
         margin-left: 20px;
       }
     }
+
     .list {
       display: flex;
+
       .show {
         display: flex;
         align-items: center;
         height: 28px;
         font-size: 16px;
+
         .title {
           color: #727272;
           white-space: nowrap;
         }
+
         .content {
           margin-left: 20px;
           color: #000;
           margin-right: 40px;
           white-space: nowrap;
         }
+
         .content-address {
           max-width: 220px;
           white-space: nowrap;
@@ -1895,20 +1920,24 @@ export default {
       }
     }
   }
+
   .row:last-child {
     margin-top: 7px;
   }
 }
+
 .title-down-demo {
   display: flex;
   font-size: 16px;
   color: #1763f7;
   letter-spacing: 0;
   cursor: pointer;
+
   img {
     margin-right: 7px;
   }
 }
+
 ::v-deep .unuse-row {
   .cell {
     .open-link-text {
@@ -1916,8 +1945,10 @@ export default {
     }
   }
 }
+
 ::v-deep .active-row {
   background-color: #1660f1 !important;
+
   .cell {
     .open-link-text {
       color: #fff !important;
@@ -1929,6 +1960,7 @@ export default {
   background: #1660f1;
   color: #fff;
 }
+
 ::v-deep .el-table__body tr.active-row > td {
   background: #1660f1;
   color: #fff;

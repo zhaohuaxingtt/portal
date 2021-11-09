@@ -25,16 +25,27 @@
       </div>
       <div class="middle">
         <div v-for="(item, index) in mainSpindleNodes" :key="index" class="item"
-             :class="{ checked: checkedIndex3 === index, isHalf: Number(item.type) === 7 }">
+             :class="{ checked: (checkedIndex3 === index) || currentItem.linkIds.includes(item.id), isHalf: Number(item.type) === 11 }">
           <div class="time">{{ item.date }}</div>
-          <div class="round2" v-if="Number(item.type) === 7">
+          <div class="round2" v-if="Number(item.type) === 11">
             <icon class="icon" symbol name="iconlingjianlvlifenzhijiedian"></icon>
           </div>
           <div class="round" :class="{ future: !item.pass }" @click="getRecordDetail(item, index)" v-else>
             <div></div>
           </div>
-          <div class="name" v-if="Number(item.type) !== 7">{{ item.typeName }}</div>
-          <div class="version type7" v-if="Number(item.type) === 7">{{ item.title }}</div>
+          <div class="name" v-if="Number(item.type) !== 11">{{ item.typeName }}</div>
+          <div class="version type7" v-if="Number(item.type) === 11">
+            <Popover
+              placement="bottom"
+              trigger="hover">
+              <div style="max-height: 300px; overflow-y: auto;">
+                <div style="cursor: pointer; margin-bottom: 5px;" @click="jumpUrl(a)" v-for="(a, key) in item.parts" :key="key">{{ a }}</div>
+              </div>
+              <div slot="reference">
+                {{ item.parts ? item.parts.join(',') : '' }}
+              </div>
+            </Popover>
+          </div>
           <div class="version" v-if="Number(item.type) === 5"> — {{ item.title }}</div>
           <icon class="icon label1" v-if="Number(item.type) === 2" symbol name="iconlingjianlvlibiaoqian"></icon>
           <icon class="icon label2" v-if="Number(item.type) === 5" symbol
@@ -47,290 +58,323 @@
         </div>
         <div class="partResume_right_content">
           <!--          //Sourcing-->
-          <div v-show="currentType === 2">
+          <div class="divItem" v-show="currentType === 2">
             <span>首次询价时间：</span>
             <span>{{ infoData.businessDate }}</span>
           </div>
-          <div v-show="currentType === 2">
+          <div class="divItem" v-show="currentType === 2">
             <span>RFQ号：</span>
             <span>{{ infoData.businessTitle }}</span>
           </div>
-          <div v-show="currentType === 2">
+          <div class="divItem" v-show="currentType === 2">
             <span>RFQ类型：</span>
             <span>{{ infoData.rfqType }}</span>
           </div>
-          <div v-show="currentType === 2">
+          <div class="divItem" v-show="currentType === 2">
             <span>询价类型：</span>
             <span>{{ infoData.inquiryType }}</span>
           </div>
-          <div v-show="currentType === 2">
+          <div class="divItem" v-show="currentType === 2">
             <span>零件采购项目类型：</span>
             <span>{{ infoData.purchaseType }}</span>
           </div>
-          <div v-show="currentType === 2">
+          <div class="divItem" v-show="currentType === 2">
             <span>工厂：</span>
             <span>{{ infoData.purchaseFactorys }}</span>
           </div>
-          <div v-show="currentType === 2">
+          <div class="divItem" v-show="currentType === 2">
             <span>车型项目：</span>
             <span>{{ infoData.carTypeProCode }} - {{ infoData.carTypeProName }}</span>
           </div>
 
           <!--          //LOI（意向书）-->
-          <div v-show="currentType === 3">
+          <div class="divItem" v-show="currentType === 3">
             <span>时间：</span>
             <span>{{ infoData.businessDate }}</span>
           </div>
-          <div v-show="currentType === 3">
+          <div class="divItem" v-show="currentType === 3">
             <span>供应商：</span>
             <span>{{ infoData.loiSupplierCode }} - {{ infoData.loiSupplierName }}</span>
           </div>
-          <div v-show="currentType === 3">
+          <div class="divItem" v-show="currentType === 3">
             <span>意向书编号：</span>
             <span>{{ infoData.loiIntentLetterCode }}</span>
           </div>
 
           <!--          //定点-->
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>定点时间：</span>
             <span>{{ infoData.businessDate }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>FS号：</span>
             <span>{{ infoData.fsNum }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>RS单号：</span>
             <span>{{ infoData.rsNum }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>A价：</span>
             <span>{{ infoData.pricePermission ? infoData.priceA : '-' }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>B价：</span>
             <span>{{ infoData.pricePermission ? infoData.priceB : '-' }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>BNK价格：</span>
             <span>{{ infoData.pricePermission ? infoData.priceBnk : '-' }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>前段包装费：</span>
             <span>{{ infoData.headerPartPackageFee }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>后段包装费：</span>
             <span>{{ infoData.footerPartPackageFee }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>操作费：</span>
             <span>{{ infoData.operationFee }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>运输费：</span>
             <span>{{ infoData.carriageFee }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>投资费：</span>
             <span>{{ infoData.rsInvestmentFee }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>开发费：</span>
             <span>{{ infoData.rsDevelopmentFee }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>供应商：</span>
             <span>{{ infoData.rsSupplierCode }} - {{ infoData.rsSupplierName }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>物流服务商：</span>
             <span>{{ infoData.rsLogisticsSupplierCode }} - {{ infoData.rsLogisticsSupplierName }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>车型项目：</span>
             <span>{{ infoData.rsCarTypeProCode }} - {{ infoData.rsCarTypeProName }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>询价产量：</span>
             <span>{{ infoData.rsInquiryQty }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>定点时产能：</span>
             <span>{{ infoData.rsProCapacity }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>是否做过成本分析：</span>
             <span>{{ infoData.isIngredientAnalyze ? language('LK_SHI', '是') : language('LK_FOU', '否') }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>MTZ RS单号：</span>
             <span>{{ infoData.mtzRsNum }}</span>
           </div>
-          <div v-show="currentType === 4">
+          <div class="divItem" v-show="currentType === 4">
             <span>定点信编号：</span>
             <span>{{ infoData.rsNlNum }}</span>
           </div>
 
           <!--          //Kick off-->
-          <div v-show="currentType === 1">
+          <div class="divItem" v-show="currentType === 1">
             <span>Kick off 会议编号：</span>
             <span>{{ infoData.businessTitle }}</span>
           </div>
-          <div v-show="currentType === 1">
+          <div class="divItem" v-show="currentType === 1">
             <span>Kick off 时间：</span>
             <span>{{ infoData.kickOffSopDate }}</span>
           </div>
-          <div v-show="currentType === 1">
+          <div class="divItem" v-show="currentType === 1">
             <span>FS号：</span>
             <span>{{ infoData.fsNum }}</span>
           </div>
-          <div v-show="currentType === 1">
+          <div class="divItem" v-show="currentType === 1">
             <span>SOP时间：</span>
             <span>{{ infoData.kickOffSopDate }}</span>
           </div>
-          <div v-show="currentType === 1">
+          <div class="divItem" v-show="currentType === 1">
             <span>供应商：</span>
             <span>{{ infoData.kickOffSupplierCode }} - {{ infoData.kickOffSupplierName }}</span>
           </div>
-          <div v-show="currentType === 1">
+          <div class="divItem" v-show="currentType === 1">
             <span>1st tryout时间：</span>
             <span>{{ infoData.fstTryoutDate }}</span>
           </div>
-          <div v-show="currentType === 1">
+          <div class="divItem" v-show="currentType === 1">
             <span>OTS送样时间：</span>
             <span>{{ infoData.otsSendSamplesDate }}</span>
           </div>
-          <div v-show="currentType === 1">
+          <div class="divItem" v-show="currentType === 1">
             <span>EM送样时间：</span>
             <span>{{ infoData.emSendSamplesDate }}</span>
           </div>
 
           <!--          //配件定点-->
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>定点时间：</span>
             <span>{{ infoData.businessDate }}</span>
           </div>
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>FS号：</span>
             <span>{{ infoData.fsNum }}</span>
           </div>
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>RS单号：</span>
             <span>{{ infoData.accessoriesRsNum }}</span>
           </div>
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>配件A价：</span>
             <span>{{ infoData.pricePermission ? infoData.accessoriesPriceA : '-' }}</span>
           </div>
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>配件B价：</span>
             <span>{{ infoData.pricePermission ? infoData.accessoriesPriceB : '-' }}</span>
           </div>
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>BNK价格：</span>
             <span>{{ infoData.pricePermission ? infoData.accessoriesPriceBnk : '-' }}</span>
           </div>
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>前段包装费：</span>
             <span>{{ infoData.headerPartPackageFee }}</span>
           </div>
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>后段包装费：</span>
             <span>{{ infoData.footerPartPackageFee }}</span>
           </div>
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>操作费：</span>
             <span>{{ infoData.operationFee }}</span>
           </div>
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>运输费：</span>
             <span>{{ infoData.carriageFee }}</span>
           </div>
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>供应商：</span>
             <span>{{ infoData.accessoriesSupplierCode }} - {{ infoData.accessoriesSupplierName }}</span>
           </div>
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>车型项目：</span>
             <span>{{ infoData.accessoriesCarTypeProCode }} - {{ infoData.accessoriesCarTypeProName }}</span>
           </div>
-          <div v-show="currentType === 6">
+          <div class="divItem" v-show="currentType === 6">
             <span>定点信签署时间（NL）：</span>
             <span>{{ infoData.nlDate }}</span>
           </div>
 
           <!--          //SOP-->
-          <div v-show="currentType === 8">
+          <div class="divItem" v-show="currentType === 8">
             <span>首次SOP：</span>
             <span>{{ infoData.sopDate }}</span>
           </div>
-          <div v-show="currentType === 8">
+          <div class="divItem" v-show="currentType === 8">
             <span>车型名称：</span>
             <span>{{ infoData.sopCarTypeProName }}</span>
           </div>
 
           <!--          //Aeko-->
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>AEKO号：</span>
             <span>{{ infoData.aekoCode }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>原零件号：</span>
             <span>{{ infoData.originalPartNum }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>采购工厂：</span>
             <span>{{ infoData.aekoPurchaseFactorys }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>导入日期：</span>
             <span>{{ infoData.aekoImportDate }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>价格实施日期：</span>
             <span>{{ infoData.aekoExecuteDate }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>ES投产日期：</span>
             <span>{{ infoData.aekoEsProductDate }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>ES取消日期：</span>
             <span>{{ infoData.aekoEsCancelDate }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>供应商：</span>
             <span>{{ infoData.aekoSupplierCode }} - {{ infoData.aekoSupplierName }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>AEKO状态：</span>
             <span>{{ infoData.aekoSupplierStatus }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>实施价格：</span>
             <span>{{ infoData.pricePermission ? infoData.aekoCarryPrice : '-' }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>A价：</span>
             <span>{{ infoData.pricePermission ? infoData.aekoPriceA : '-' }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>ΔA价：</span>
             <span>{{ infoData.aekoDeltaPriceA }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>Δ模具投资费用：</span>
             <span>{{ infoData.aekoDeltaMouldInvestmentFee }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>Δ开发费：</span>
             <span>{{ infoData.aekoDeltaDelevopmentFee }}</span>
           </div>
-          <div v-show="currentType === 5">
+          <div class="divItem" v-show="currentType === 5">
             <span>样件价格：</span>
             <span>{{ infoData.pricePermission ? infoData.aekoSimplePrice : '-' }}</span>
           </div>
+
+          <!--   MTZ-->
+          <div v-for="(item, key) in infoData.mtzVos" :key="key" v-show="currentType === 7">
+            <div class="divItem">
+              <span>MTZ规则编号{{ key + 1 }}：</span>
+              <span>{{ item.mtzRuleCode }}</span>
+            </div>
+            <div class="divItem">
+              <span>MTZ材料组：</span>
+              <span>{{ item.mtzCategoryZh + '-' + item.mtzCategoryDe }}</span>
+            </div>
+            <div class="divItem">
+              <span>原材料：</span>
+              <span>{{ item.mtzMaterialCode + '-' + item.mtzMaterialName }}</span>
+            </div>
+            <div class="divItem">
+              <span>用量：</span>
+              <span>{{ item.dosage }}{{ item.dosageMeasureUnit }}</span>
+            </div>
+            <div class="divItem">
+              <span>基价：</span>
+              <span>{{ item.price }}{{ item.tcCurrence }}</span>
+            </div>
+            <div class="divItem">
+              <span>补差周期：</span>
+              <span>{{ item.supplementCycle }}</span>
+            </div>
+            <div class="divItem">
+              <span>市场价来源：</span>
+              <span>{{ item.priceSource }}</span>
+            </div>
+          </div>
+
 
         </div>
       </div>
@@ -340,6 +384,7 @@
 
 <script>
 import { iCard, iButton, icon, iMessage } from 'rise'
+import { Popover } from 'element-ui'
 import { getPartsRecordNodes, getRecordDetail, exportFile } from '@/api/partLifeCycle'
 
 export default {
@@ -347,7 +392,8 @@ export default {
   components: {
     iCard,
     iButton,
-    icon
+    icon,
+    Popover
   },
   data() {
     return {
@@ -361,14 +407,20 @@ export default {
       mainLoading: false,
       middleLoading: false,
       rightLoading: false,
-      exportLoading: false,
+      exportLoading: false
     }
   },
   created() {
     this.getPartsRecordNodes()
   },
   methods: {
-    exportFile(){
+    jumpUrl(item){
+      let routeData = this.$router.resolve({
+        query: { partsNum: item }
+      })
+      window.open(routeData.href, item)
+    },
+    exportFile() {
       this.exportLoading = true
       exportFile({ partsNum: this.$route.query.partsNum }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
@@ -389,7 +441,7 @@ export default {
       this.checkedIndex3 = index
       this.currentItem = item
       this.currentType = item.type
-      if(Number(item.type) === 10 || Number(item.type) === 9){
+      if (Number(item.type) === 10 || Number(item.type) === 9) {
         return
       }
       this.rightLoading = true
@@ -488,6 +540,7 @@ export default {
   border-radius: 5px;
   background: transparent;
 }
+
 .partResume {
   ::v-deep .cardHeader {
     padding: 20px 30px;
@@ -515,6 +568,7 @@ export default {
       color: #000000;
       width: 110px;
       margin-right: 80px;
+
       > div {
         padding-bottom: 30px;
         text-align: right;
@@ -523,7 +577,8 @@ export default {
         .itemChild {
           overflow: hidden;
           transition: all 0.3s ease;
-          &.itemChildisChecked{
+
+          &.itemChildisChecked {
             margin-top: 20px;
           }
         }
@@ -615,6 +670,7 @@ export default {
       width: 35%;
       max-height: 800px;
       overflow-y: auto;
+
       .item {
         display: flex;
         line-height: 28px;
@@ -642,6 +698,13 @@ export default {
           &.type7 {
             color: #41434A;
             margin-left: 0;
+            ::v-deep .el-popover__reference{
+              width: 180px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              cursor: pointer;
+            }
           }
         }
 
@@ -693,8 +756,9 @@ export default {
             top: 28px;
           }
 
-          &.future{
+          &.future {
             background: #E2E8F4;
+
             &::after {
               background: #CCD2E6;
             }
@@ -745,13 +809,14 @@ export default {
           }
         }
 
-        &:last-of-type .round::after,  &:last-of-type .round2::after {
+        &:last-of-type .round::after, &:last-of-type .round2::after {
           background-color: #ffffff;
         }
 
         &.isHalf {
           margin-top: -47px;
-          & + .item{
+
+          & + .item {
             margin-top: -47px;
           }
         }
@@ -766,6 +831,7 @@ export default {
       margin-left: 6px;
       border-left: 1px solid #DBE1EF;
       width: 48%;
+
       .title {
         font-size: 20px;
         font-weight: bold;
@@ -789,7 +855,7 @@ export default {
 
       .partResume_right_content {
 
-        > div {
+        .divItem {
           margin-left: 16px;
           margin-bottom: 30px;
 
