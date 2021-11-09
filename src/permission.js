@@ -32,7 +32,8 @@ router.beforeEach((to, from, next) => {
                   next('/login')
                 } else {
                   store.dispatch('getModules')
-                  next()
+                  console.log('top', to)
+                  next(to.fullPath)
                 }
               })
               .catch(() => {
