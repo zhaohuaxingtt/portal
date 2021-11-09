@@ -17,7 +17,7 @@
             :data-end="index === data.length - 1 ? 1 : 0"
             :data-status="item.status"
           >
-            <icon symbol size="30" :name="item.icon" />
+            <icon symbol size="30" :name="item.icon" class="process-icon" />
           </div>
           <div
             class="approval-user"
@@ -216,5 +216,8 @@ export default {
       }
     }
   }
+}
+.process-icon {
+  background: #fff;
 }
 </style>
