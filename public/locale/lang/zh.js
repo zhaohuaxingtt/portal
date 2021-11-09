@@ -133,10 +133,10 @@
     },
 
     /*
-        <!------------------------------------------------------------------------>
-        <!--                                                                   --->
-        <!------------------------------------------------------------------------>
-        */
+	<!------------------------------------------------------------------------>
+	<!--                                                                   --->
+	<!------------------------------------------------------------------------>
+	*/
 
     LK_CAIGOUFENEFENPEIDABUDAO: '采购份额分配达不到100%', // 采购份额分配达不到100%
     LK_CAIGOUGONGCHNEGMINGCHENG: '采购工厂名称', // 采购工厂名称
@@ -695,6 +695,7 @@
 
     rfq: {
       RFQINQUIRE: '确认',
+      // RFQINQUIRE: '查询',
       RFQRESET: '重置'
     },
     APPROVAL: {
@@ -801,11 +802,9 @@
       TRANSFER_PERSON: '转派对象',
       APPROVAL_SUCCESS: '审批成功',
       APPROVAL_FAILED: '审批失败',
-      APPROVAL_AGENT: '审批代理',
       APPROVAL_AGENT_MEETING: '会议审批代理',
       NEW: '新建',
-      NODE_REQUIRED: '补充材料节点必选',
-      EXIT_EDIT: '退出编辑'
+      NODE_REQUIRED: '补充材料节点必选'
     },
     ROLE: {
       ROLE_NAME: '角色名称',
@@ -1455,6 +1454,7 @@
     SPR_FRM_DEP_PREASRESULT: '初评结果', //初评结果
     SPR_FRM_DEP_OUTRATING: '外评', //外评
     SPR_FRM_DEP_TRACKFRE: '跟踪频率', //跟踪频率
+    // 注意更改
     SPR_FRM_DEP_NEXTRATIME: '下次评级时间', //下次评级时间
     SPR_FRM_DEP_REKADEP: '相关科室', //相关科室
     SPR_FRM_DEP_REMARKS: '备注', //备注
@@ -1553,6 +1553,7 @@
     SPR_FRM_DEP_BM: '部门', //部门
     SPR_FRM_DEP_ZT: '主题', //主题
     SPR_FRM_DEP_HYRQ: '会议日期', //会议日期
+    // 这里的冲突
     SPR_FRM_DEP_SCBXZ: '生成并下载', //生成并下载
     SPR_FRM_DEP_CXRYPLACE: '例：xxx,xxx,xxx…', //例：xxx,xxx,xxx…
     SPR_FRM_DEP_ZRS: '总人数', //总人数
@@ -1852,6 +1853,50 @@
     SPR_FRM_FXXH_YSFXGYS: '原始风险供应商', //原始风险供应商
     SPR_FRM_CBPJ_WFPJYY: '无法评级原因',
     // ---------------WS3 供应商 end-----------------------
+    MAIL: {
+      NOTIFICATION: '通知',
+      MESSAGE: '消息',
+      UNREAD: '未读{unRead}条',
+      WILL: '还有{tipBegin}分钟开始',
+      ONGOING: '进行中',
+      OVERDUE: '已过期',
+      UNREAD_STATUS: '未读',
+      READ_STATUS: '已读',
+      READALL: '全部已读',
+      CLEARALL: '全部清除',
+      LOADING: '加载中...',
+      NOMORE: '没有更多了',
+      CLEARALL_TIPS: '全部清除会将未读已读所有消息全部清除',
+      CONFIRM: '确定',
+      CANCEL: '取消',
+      ALL: '全部'
+    },
+    HOME_CARD: {
+      HOME_MODULE_TASK: 'Top 5 Tasks',
+      HOME_MODULE_SOURCING: '寻源概览',
+      MY_APPLICATION: '我的申请',
+      MY_APPROVAL: '我的审批',
+      OVERDUE: '逾期代办',
+      IN_PROGRESS: '今日待办',
+      HOME_MODULE_SPONSER: '供应商财务风险评级',
+      HOME_MODULE_SCHEDULE: 'Schedule',
+      HOME_MODULE_APPROVE: 'iAgree',
+      HOME_MODULE_VOLUME: 'Volume Pricing',
+      HOME_MODULE_NEWS: 'News',
+      HOME_MODULE_PROVIDER_RATE:'配货件供货率'
+    },
+    //谈判助手
+    TPZS: {
+      ZUIXINDINGDIANDANJIA: '最新定点单价', //最新定点单价
+      MUBIAODANJIA: '目标单价', //目标单价
+      CHANLIANGLIANG: '产量(件)', //产量（件）
+      DANJIA: '单价', //单价
+      YUANJIAN: '(元/件)', //（元/件）
+      BANJIAJIAN: '(半价/件)', //（半价/件）
+      ZUIXINDINGDIANDANJIA: '最新定点单价', //最新定点单价
+      MUBIAODANJIA: '目标单价', //目标单价
+      CHANLIANG: '产量'
+    },
     // 以下ekl中文
     EKL_YJGL_WDYJ: '我的业绩',
     EKL_YJGL_YJJC: '业绩基础',
@@ -1910,7 +1955,6 @@
     EKL_YJGL_CGCKJ: '采购参考价',
     EKL_YJGL_JIJIA: '基价',
     EKL_YJGL_GZJD: '跟踪进度',
-
     JANUARY: '1月',
     FEBRUARY: '2月',
     MARCH: '3月',
@@ -1923,71 +1967,36 @@
     OCTOBER: '10月',
     NOVEMBER: '11月',
     DECEMBER: '12月',
-    KESHI: '科室',
-    PINJUN: '平均',
-    CHIXU: '持续',
-    EKL_VW: '大众',
-    EKL_AUDI: '奥迪',
-    EKL_SK: '斯柯达',
-    EKL_DQZT: '当前状态',
-    EKL_YWC: '已完成',
-    EKL_WWC: '未完成',
-    EKL_FQSJ: '发起时间',
-    EKL_WCSJ: '完成时间',
-    EKL_DQESL: '待确认数量',
-    EKL_JIAGEBIANHUA: '价格变化',
-    // sp14
-    EKL_YEJIJINETIAOZHENG: '业绩金额调整',
-    EKL_SJJSJZSJ: '数据计算截止时间',
-    EKL_GZLJZS: '跟踪零件总数（项）',
-    EKL_XZLJZS: '新增零件总数（项）',
-    EKL_QXLJZS: '取消零件总数（项）',
-    EKL_LJGZLX: '零件跟踪类型',
-    //sp15
-    EKL_JCBMBXZ: '基础表模板下载',
-    EKL_PFJ_LJMC: '零件名称',
-    EKL_PFJ_CLZ: '配附件材料组',
-    EKL_PFJ_PP: '品牌',
-    EKL_PFJ_SX: '属性',
-    EKL_PFJ_BZ: '备注',
-    EKL_PFJ_FE: '份额',
-    EKL_PFJ_CGJG: '上年采购价格',
-    EKL_PFJ_XSLYC: '当年销售量预测',
-    EKL_PFJ_DNCGJE: '当年采购金额',
-
+    KESHI:'科室',
+    PINJUN:'平均',
+    CHIXU:'持续',
+    EKL_VW:'大众',
+    EKL_AUDI:'奥迪',
+    EKL_SK:'斯柯达',
+    EKL_DQZT:'当前状态',
+    EKL_YWC:'已完成',
+    EKL_WWC:'未完成',
+    EKL_FQSJ:'发起时间',
+    EKL_WCSJ:'完成时间',
+    EKL_DQESL:'待确认数量',
+    EKL_JIAGEBIANHUA:'价格变化',
+    EKL_YEJIJINETIAOZHENG:'业绩金额调整',
+    EKL_SJJSJZSJ:'数据计算截止时间',
+    EKL_GZLJZS:'跟踪零件总数（项）',
+    EKL_XZLJZS:'新增零件总数（项）',
+    EKL_QXLJZS:'取消零件总数（项）',
+    EKL_LJGZLX:'零件跟踪类型',
+    EKL_JCBMBXZ:'基础表模板下载',
+    EKL_PFJ_LJMC:'零件名称',
+    EKL_PFJ_CLZ:'配附件材料组',
+    EKL_PFJ_PP:'品牌',
+    EKL_PFJ_SX:'属性',
+    EKL_PFJ_BZ:'备注',
+    EKL_PFJ_FE:'份额',
+    EKL_PFJ_CGJG:'上年采购价格',
+    EKL_PFJ_XSLYC:'当年销售量预测',
+    EKL_PFJ_DNCGJE:'当年采购金额',
     // 以上ekl中文
-    MAIL: {
-      NOTIFICATION: '通知',
-      MESSAGE: '消息',
-      UNREAD: '未读{unRead}条',
-      WILL: '还有{tipBegin}分钟开始',
-      ONGOING: '进行中',
-      OVERDUE: '已过期',
-      UNREAD_STATUS: '未读',
-      READ_STATUS: '已读',
-      READALL: '全部已读',
-      CLEARALL: '全部清除',
-      LOADING: '加载中...',
-      NOMORE: '没有更多了',
-      CLEARALL_TIPS: '全部清除会将未读已读所有消息全部清除',
-      CONFIRM: '确定',
-      CANCEL: '取消',
-      ALL: '全部'
-    },
-    HOME_CARD: {
-      HOME_MODULE_TASK: 'Top 5 Tasks',
-      HOME_MODULE_SOURCING: '寻源概览',
-      MY_APPLICATION: '我的申请',
-      MY_APPROVAL: '我的审批',
-      OVERDUE: '逾期代办',
-      IN_PROGRESS: '今日待办',
-      HOME_MODULE_SPONSER: '供应商财务风险评级',
-      HOME_MODULE_SCHEDULE: 'Schedule',
-      HOME_MODULE_APPROVE: 'iAgree',
-      HOME_MODULE_VOLUME: 'Volume Pricing',
-      HOME_MODULE_NEWS: 'News',
-      HOME_MODULE_PROVIDER_RATE: '配货件供货率'
-    }
   }
   var xmlHttp = ''
   if (window.XMLHttpRequest) {

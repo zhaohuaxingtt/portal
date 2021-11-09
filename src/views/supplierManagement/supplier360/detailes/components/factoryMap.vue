@@ -109,8 +109,8 @@ export default {
   },
   data() {
     return {
-      nameZh: this.$route.query.nameZh,
-      nameEn: this.$route.query.nameEn,
+      nameZh:'',
+      nameEn: '',
       tableListData: [],
       info: {},
       tableTitle: tableTitle,
@@ -127,10 +127,14 @@ export default {
     },
     supplier360ViewVO(data) {
       this.info = data
+       this.nameZh=data.nameZh
+       this.nameEn=data.nameEn
       this.getTags()
     }
   },
-  created() {},
+  created() {
+     
+  },
   mounted() {
     this.handleMap()
   },

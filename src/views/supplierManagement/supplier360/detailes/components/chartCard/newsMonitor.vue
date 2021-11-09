@@ -3,7 +3,7 @@
     <div class="title">
       <p>{{language('CAIWUYUJING', '财务预警')}}</p>
       <el-dropdown>
-          
+
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
@@ -97,6 +97,7 @@
 import { iCard, icon, iDialog, iSearch, iSelect } from 'rise'
 import { tableTitleMonitor, tableTitleMonitorRecord } from './data'
 import tableList from '@/components/commonTable'
+import { supplierRatingCard } from '@/api/supplierManagement/supplierCard/index'
 export default {
   props: {},
   components: {
@@ -122,12 +123,19 @@ export default {
     }
   },
   watch: {},
+  mounted() {
+    this.getData()
+  },
   methods: {
+    getData() {
+      supplierRatingCard(this.$route.query.subSupplierId).then((res) => {
+        console.log(res.data)
+      })
+    },
     sure() {},
     clickReset() {},
     changeTab() {}
-  },
-  mounted() {}
+  }
 }
 </script>
 

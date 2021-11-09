@@ -10,3 +10,5 @@ export const EventBusName = {
 }
 
 export const AEKO_CATEGORY_LIST = ['aeko_mp', 'aeko_aea', 'aeko_content']
+
+export const BPM_SINGL_CATEGORY_LIST = ['meeting_rs_recheck']

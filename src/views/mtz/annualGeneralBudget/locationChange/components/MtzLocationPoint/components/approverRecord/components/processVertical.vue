@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 14:32:30
- * @LastEditTime: 2021-11-05 18:11:16
+ * @LastEditTime: 2021-11-08 17:14:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\components\processVertical.vue
@@ -14,10 +14,7 @@
       <div v-for="(item, index) of panorama"
            :key="index"
            class="node"
-           :class="{
-        mulitiple: isMultiApprovalUser(item),
-        active: isDividerActive(item)
-      }">
+           :class="{mulitiple: isMultiApprovalUser(item),active: isDividerActive(item)}">
         <div class="node-icon">
           <icon symbol
                 size="30"
@@ -29,11 +26,7 @@
           <div>
             <span v-for="(approvalUser, i) of approvalUsers(item)"
                   :key="i">
-              {{
-              approvalUser.approvedUser
-                ? getUserName(approvalUser.approvedUser)
-                : getUserName(approvalUser)
-            }}
+              {{approvalUser.approvedUser? getUserName(approvalUser.approvedUser): getUserName(approvalUser)}}
             </span>
           </div>
         </div>
@@ -52,9 +45,8 @@
         </div>
         <div v-if="isMultiApprovalUser(item)"
              class="content "
-             :class="{
-          active: isActiveItem(item)
-        }">
+             :class="{active: isActiveItem(item)}">
+
           <div class="type">
             {{ item.nodeTye === 'Non_MultiInst' ? '并行' : '会签' }}
           </div>

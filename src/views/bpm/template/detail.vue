@@ -23,10 +23,8 @@
           :src="designUrl"
           name="flowDesign"
           id="flowDesign"
-          frameborder="no"
+          frameborder="0"
           border="0"
-          marginwidth="0"
-          marginheight="0"
           scrolling="no"
           allowtransparency="yes"
         />
@@ -104,7 +102,7 @@ export default {
         this.query()
       }
       this.designLoading = true
-      window.addEventListener('message', (e) => {
+      window.addEventListener('message', e => {
         if (e && e.data) {
           try {
             const data = JSON.parse(e.data)
@@ -129,7 +127,7 @@ export default {
     query() {
       this.loading = true
       queryTemplate({ id: this.$route.params.id })
-        .then((res) => {
+        .then(res => {
           const { data } = res
           this.form = data
         })
@@ -157,7 +155,7 @@ export default {
       }
       this.saveLoading = true
       createTemplate(data)
-        .then((res) => {
+        .then(res => {
           if (!res.result) {
             this.$message.error(this.$t('APPROVAL.SAVE_FAILED'))
           } else {
@@ -183,7 +181,7 @@ export default {
       if (jsonXml && svgXml) {
         let formData = new FormData()
         if (jsonXml && jsonXml.childShapes) {
-          jsonXml.childShapes.forEach((e) => {
+          jsonXml.childShapes.forEach(e => {
             if (e.properties && e.properties.useroverrideid) {
               e.properties.overrideid = e.properties.useroverrideid
               delete e.properties.useroverrideid
@@ -202,8 +200,9 @@ export default {
               if (documentation) {
                 documentationJson = JSON.parse(documentation)
               }
-              documentationJson['idDescription'] =
-                this.overrideidConditions[e.properties.overrideid]
+              documentationJson['idDescription'] = this.overrideidConditions[
+                e.properties.overrideid
+              ]
               e.properties.documentation = JSON.stringify(documentationJson)
             }
           })
@@ -223,7 +222,7 @@ export default {
         // formData.append('url', this.form.url)
         this.saveLoading = true
         updateTemplate(formData)
-          .then((res) => {
+          .then(res => {
             if (!res.result) {
               this.$message.error(this.$t('APPROVAL.SAVE_FAILED'))
             } else {

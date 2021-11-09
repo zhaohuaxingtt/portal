@@ -4,7 +4,7 @@
       :attributes="attrs"
       :mask="{
         title: 'YYYY MMM',
-        weekdays: 'WWW'
+        weekdays: 'WWW',
       }"
       :disabledDates="holiday"
       :firstDayOfWeek="2"
@@ -33,11 +33,11 @@
                   font-weight: 500;
                   font-family: `PingFang SC`;
                 "
-                :class="item.state === '0' ? `fs-color` : ''"
+                :class="item.state === '05'||item.state === '06' ? `fs-color` : ''"
               >
                 {{ item.startTime }}
               </div>
-              <div class="meeting_img" v-if="item.state === '02'">
+              <div class="meeting_img" v-if="item.state === '04'">
                 <p class="circle"></p>
                 <p class="twim_item"></p>
               </div>
@@ -46,9 +46,9 @@
             <div
               class="meeting_info"
               :class="
-                item.state === '01'
+                item.state === '05'|| item.state === '06'
                   ? 'pass'
-                  : item.state === '02'
+                  : item.state === '03'||item.state === '04'
                   ? 'ongoing'
                   : 'future'
               "
@@ -58,9 +58,9 @@
                 <icon
                   symbol
                   :name="
-                    item.state === '01'
+                    item.state === '05'|| item.state === '06'
                       ? 'iconhuiyi-2'
-                      : item.state === '02'
+                      : item.state === '03'||item.state === '04'
                       ? 'iconhuiyi-3'
                       : 'iconhuiyi-shouye'
                   "
@@ -168,7 +168,6 @@ export default {
           })
         })
         this.holiday = newArr
-        console.log(`this.holiday`,this.holiday);
         data_3.forEach((item) => {
           item.dot = 'yellow'
         })
@@ -279,10 +278,7 @@ export default {
     },
     // 去详情
     handleGoMeetingDetail(id) {
-      window.open(
-        `http://10.122.17.38/portal/meeting/#/meeting/near-meeting/detail?id=${id}`,
-        '_blank'
-      )
+      window.location.href=`/portal/meeting/#/meeting/near-meeting/detail?id=${id}`
     }
   }
 }
@@ -295,8 +291,8 @@ export default {
   .trangle {
     position: absolute;
     z-index: 100;
-    left: 240px;
-    top: 28px;
+    left: 65%;;
+    top: 7.5%;
     width: 0;
     height: 0;
     border-left: 10px solid transparent;
@@ -316,12 +312,13 @@ export default {
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
-    bottom: -140px;
+    bottom: -38%;
     cursor: pointer;
     left: 0;
     height: 180px;
     text-align: center;
     padding-right: 14px;
+    width: 95%;
     box-sizing: border-box;
     .empty-meeting {
       height: 100%;
@@ -338,7 +335,7 @@ export default {
       .meeting_img {
         position: absolute;
         right: 0;
-        top: 34px;
+        top: 50%;
         display: flex;
         align-items: center;
         .circle {
@@ -360,24 +357,24 @@ export default {
         align-items: center;
         &.pass {
           border-left: 3px solid #afb0b3;
-          color: #afb0b3;
-          background: #afb0b3;
+          color: #AFB0B3;
+          background: #fff;
           border-right: 14px solid #fff;
-          width: 236px !important;
+          width: 220px !important;
         }
         &.ongoing {
           border-left: 3px solid #05bb8b;
           color: #05bb8b;
           background: #e0f7f1;
           border-right: 14px solid #fff;
-          width: 236px !important;
+          width: 220px !important;
         }
         &.future {
           border-left: 3px solid #1763f7;
           color: #1763f7;
           background: #f2f8ff;
           border-right: 14px solid #fff;
-          width: 236px !important;
+          width: 220px !important;
         }
         .avatar {
           padding: 0 10px;
@@ -393,6 +390,7 @@ export default {
             'VWAGTHESANS-BOLD', 'VWHEADOFFICE-BOLD', 'VWHEADOFFICE-BOLDITALIC',
             'VWHEADOFFICE-REGULARITALIC', 'VWTEXTOFFICE-BOLD',
             'VWTEXTOFFICE-BOLDITALIC', 'VWTEXTOFFICE-REGULARITALIC';
+          font-size: 14px;
         }
         .time {
           text-align: left;

@@ -66,12 +66,28 @@ export default [
     component: () => import(`@/views/meeting/details/index.vue`)
   },
   {
+    path: "/meeting/specialDetails",
+    name: "meetingSpecialDetails",
+    meta: {
+      title: "会议详情管理",
+    },
+    component: () => import(`@/views/meeting/specialDetails/index.vue`),
+  },
+  {
     path: '/meeting/same-screen',
     name: 'sameScreen',
     meta: {
       title: '会议同屏'
     },
     component: () => import(`@/views/meeting/sameScreen/index.vue`)
+  },
+  {
+    path: "/meeting/meeting-same-screen",
+    name: "meetingSameScreen",
+    meta: {
+      title: "新会议同屏",
+    },
+    component: () => import(`@/views/meeting/meetingSameScreen/index.vue`),
   },
   {
     path: '/meeting/meeting-show',
