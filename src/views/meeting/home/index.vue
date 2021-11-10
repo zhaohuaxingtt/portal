@@ -27,6 +27,7 @@
       :meetingTypeList="meetingTypeList"
       @handleChangePage="handleChangePage"
       @getTableList="getTableList"
+      :meetingTypeName="form.meetingType ? form.meetingType.name : ''"
     />
   </div>
 </template>
@@ -62,7 +63,8 @@ export default {
       form: {
         states: [],
         name: "",
-        meetingTypeId: "",
+        // meetingTypeId: "",
+        meetingType: {},
         startDate: "",
         startTime: "",
         meetingPlace: "",
@@ -80,21 +82,24 @@ export default {
     this.getSelectListAll();
   },
   // watch: {
-  //   menuType: {
+  //   form: {
   //     handler(v) {
-  //       console.log("menuType", v);
+  //       console.log("form", v);
   //     },
   //     immediate: true,
+  //     deep: true,
   //   },
   // },
   methods: {
     getTableList() {
       let param = {
         ...this.form,
+        meetingTypeId: this.form.meetingType ? this.form.meetingType.id : "",
         pageNum: this.page.currPage,
         pageSize: 10,
         states: this.form.states ? [this.form.states] : [],
       };
+      Reflect.deleteProperty(param, "meetingType");
       this.query(param);
     },
     searchTableList() {
@@ -118,6 +123,7 @@ export default {
         pageNum: this.page.currPage,
         pageSize: 10,
         ...this.form,
+        meetingTypeId: this.form.meetingType ? this.form.meetingType.id : "",
         states: this.form.states ? [this.form.states] : [],
       };
       this.query(param);

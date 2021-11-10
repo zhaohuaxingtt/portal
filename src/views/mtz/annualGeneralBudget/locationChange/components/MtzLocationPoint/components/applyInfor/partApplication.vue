@@ -225,6 +225,16 @@ export default {
         handleSelectArr:[],
     }
   },
+  computed:{
+      mtzObject(){
+        return this.$store.state.location.mtzObject;
+      }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      // console.log(newVlue)
+    }
+  },
   created() {
     this.init()
   },
@@ -289,7 +299,7 @@ export default {
     },
     save(){
       relation({
-        mtzAppId:this.$route.query.id,
+        mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         ttNominateAppId:this.handleSelectArr[0].id
       }).then(res=>{
         console.log(res)

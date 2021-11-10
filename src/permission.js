@@ -23,11 +23,7 @@ router.beforeEach((to, from, next) => {
       if (!userId) {
         store
           .dispatch('userInfoByToken')
-          .then(userInfo => {
-            console.log('permission userinfo', userInfo)
-            /* if (userInfo.userType === 2) {
-              window.location.href = 'http://10.122.17.38/site/'
-            } */
+          .then(() => {
             store
               .dispatch('getPermissinInfo')
               .then(res => {
@@ -36,7 +32,7 @@ router.beforeEach((to, from, next) => {
                   next('/login')
                 } else {
                   store.dispatch('getModules')
-                  next({ ...to, replace: true })
+                  next()
                 }
               })
               .catch(() => {

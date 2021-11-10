@@ -1,5 +1,5 @@
 import axios from '@/utils/axios'
-const requst = axios(process.env.VUE_APP_SUPPLIER_SPI + '/web')
+const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 
 //一般供应商黑名单列表
 export function gpSupplierBlackList(params) {

@@ -499,6 +499,7 @@ li.x-menu-list-item.x-menu-item-active a {
 }
 #paletteHelpWrapper {
 	width: 260px;
+	padding-top: 60px;
 }
 #paletterContent {
 	width: calc(100% - 260px);

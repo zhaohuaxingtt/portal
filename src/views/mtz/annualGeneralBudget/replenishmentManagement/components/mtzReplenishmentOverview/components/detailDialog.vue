@@ -103,7 +103,7 @@
           </el-form-item>
           <el-form-item style="marginRight:68px"
                         :label="language('BUCHASHIJIANDUAN', '补差时间段')">
-            <iDatePicker style="width:190px"
+            <iDatePicker style="width:200px"
                          v-model="searchForm['compDate']"
                          type="daterange"
                          value-format="yyyy-MM-dd"
@@ -274,6 +274,8 @@ export default {
       if(val == "clear"){
         this.$set(this.searchForm, 'compDate', [])
       }else{
+        this.params.time[0] = this.params.time[0].split(" ")[0]
+        this.params.time[1] = this.params.time[1].split(" ")[0]
         this.$set(this.searchForm, 'compDate', this.params.time)
       }
       this.$set(this.searchForm, 'isSeeMe', true)

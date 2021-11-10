@@ -1,36 +1,36 @@
 <template>
   <!--转派-->
   <iDialog
-    title="关闭会议"
-    :visible.sync="openCloseMeeting"
-    width="23.75rem"
-    :close-on-click-modal="false"
-    destroy-on-close
-    @close="handleClose"
+      title="关闭会议"
+      :visible.sync="openCloseMeeting"
+      width="23.75rem"
+      :close-on-click-modal="false"
+      destroy-on-close
+      @close="handleClose"
   >
     <iEditForm>
       <el-form
-        :model="rowState"
-        :rules="closeMeetingRules"
-        ref="ruleFormCloseMeeting"
-        :hideRequiredAsterisk="true"
-        class="form-box"
+          :model="rowState"
+          :rules="closeMeetingRules"
+          ref="ruleFormCloseMeeting"
+          :hideRequiredAsterisk="true"
+          class="form-box"
       >
         <el-row class="form-row">
           <div class="form-item">
             <iFormItem label="是否触发审批" prop="approvalProcessBoolean">
               <iLabel :label="$t('是否触发审批')" slot="label"></iLabel>
               <iSelect
-                v-model="isOrNot"
-                placeholder="请选择"
-                @change="changeTriggerApproval"
-                :disabled="row.isTriggerApproval === 'false'"
+                  v-model="isOrNot"
+                  placeholder="请选择"
+                  @change="changeTriggerApproval"
+                  :disabled="row.isTriggerApproval === 'false'"
               >
                 <el-option
-                  v-for="(item, index) in approvalBoolean"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value"
+                    v-for="(item, index) in approvalBoolean"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value"
                 >
                 </el-option>
               </iSelect>
@@ -42,15 +42,15 @@
             <iFormItem label="审批流程" prop="approvalProcessId">
               <iLabel :label="$t('审批流程')" slot="label"></iLabel>
               <iSelect
-                v-model="rowState.approvalProcessId"
-                placeholder="请选择"
-                :disabled="isOrNot === 'false'"
+                  v-model="rowState.approvalProcessId"
+                  placeholder="请选择"
+                  :disabled="isOrNot === 'false'"
               >
                 <el-option
-                  v-for="item in approvalProcessList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
+                    v-for="item in approvalProcessList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
                 >
                 </el-option>
               </iSelect>
@@ -61,17 +61,17 @@
           <iFormItem label="上传附件" prop="uploadFile">
             <iLabel :label="$t('上传附件')" slot="label"></iLabel>
             <el-upload
-              action="1"
-              :limit="1"
-              :before-upload="beforeAvatarUpload"
-              :show-file-list="true"
-              :http-request="httpUpload"
-              :on-remove="remove"
+                action="1"
+                :limit="1"
+                :before-upload="beforeAvatarUpload"
+                :show-file-list="true"
+                :http-request="httpUpload"
+                :on-remove="remove"
             >
               <iButton
-                type="button"
-                class="upload-button"
-                :uploadLoading="uploadLoading"
+                  type="button"
+                  class="upload-button"
+                  :uploadLoading="uploadLoading"
               >
                 请选择文件
                 <span class="upload-text"><img :src="uploadIcon"/></span>
@@ -85,8 +85,9 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="handleClose" plain class="cancel">{{
-              "退出"
-            }}</iButton>
+                "退出"
+              }}
+            </iButton>
             <iButton @click="handleSubmit" plain>{{ "确认" }}</iButton>
           </el-form-item>
         </div>
@@ -96,11 +97,11 @@
 </template>
 
 <script>
-import { iDialog, iFormItem, iLabel, iButton, iSelect, iMessage } from "rise";
+import {iButton, iDialog, iFormItem, iLabel, iMessage, iSelect} from "rise";
 import iEditForm from "@/components/iEditForm";
-import { getApprovalProcessList, closeMeeting } from "@/api/meeting/home";
-import { uploadFile } from "@/api/meeting/type";
-import { approvalBoolean } from "./data.js";
+import {closeMeeting, getApprovalProcessList} from "@/api/meeting/home";
+import {uploadFile} from "@/api/meeting/type";
+import {approvalBoolean} from "./data.js";
 import uploadIcon from "@/assets/images/upload-icon.svg";
 
 export default {
@@ -149,7 +150,7 @@ export default {
       closeMeetingRules: {
         uploadFile: [
           // { required: this.row.isTriggerApproval == 'true' ? true : false, message: "请选择上传附件", trigger: "blur" },
-          { required: false, message: "请选择上传附件", trigger: "blur" },
+          {required: false, message: "请选择上传附件", trigger: "blur"},
         ],
       },
       approvalProcessList: [],
@@ -198,13 +199,13 @@ export default {
             id: this.id,
             approvalProcessId: this.rowState.approvalProcessId,
             isTriggerApproval:
-              this.rowState.isTriggerApproval == "true" ? true : false,
+                this.rowState.isTriggerApproval == "true" ? true : false,
             fromUrl:
-              window.location.origin +
-              window.location.pathname +
-              hashArr.join("/") +
-              "/details?id=" +
-              this.id,
+                window.location.origin +
+                window.location.pathname +
+                hashArr.join("/") +
+                "/details?id=" +
+                this.id,
           };
           if (this.attachment.id) {
             param.attachment = {
@@ -215,19 +216,19 @@ export default {
             };
           }
           closeMeeting(param)
-            .then((res) => {
-              if (res) {
-                iMessage.success("关闭成功");
-                this.$emit("handleOK");
-                this.handleClose();
-              } else {
-                iMessage.success("关闭失败");
-                this.handleClose();
-              }
-            })
-            .catch((err) => {
-              console.log("err", err);
-            });
+              .then((res) => {
+                if (res) {
+                  iMessage.success("关闭成功");
+                  this.$emit("handleOK");
+                  this.handleClose();
+                } else {
+                  iMessage.success("关闭失败");
+                  this.handleClose();
+                }
+              })
+              .catch((err) => {
+                console.log("err", err);
+              });
         } else {
           return false;
         }
@@ -250,14 +251,14 @@ export default {
       formData.append("currentUserId", -1);
       formData.append("type", 1);
       await uploadFile(formData)
-        .then((res) => {
-          this.attachment = res[0];
-          iMessage.success(this.$t("上传成功"));
-          this.$refs.ruleFormCloseMeeting.clearValidate("uploadFile");
-        })
-        .catch((err) => {
-          iMessage.error("上传失败");
-        });
+          .then((res) => {
+            this.attachment = res[0];
+            iMessage.success(this.$t("上传成功"));
+            this.$refs.ruleFormCloseMeeting.clearValidate("uploadFile");
+          })
+          .catch((err) => {
+            iMessage.error("上传失败");
+          });
       this.uploadLoading = false;
     },
     beforeAvatarUpload(file) {
@@ -292,6 +293,7 @@ export default {
       width: 300px;
     }
   }
+
   .form-upload {
     width: 300px;
     margin-bottom: 50px;
@@ -299,6 +301,7 @@ export default {
     flex-shrink: 0;
     flex-grow: 1;
     display: block;
+
     .upload-button {
       position: relative;
       width: 300px;
@@ -307,16 +310,19 @@ export default {
       padding: 0;
       color: #fff;
       background-color: #1660f1;
+
       .upload-text {
         position: absolute;
         right: 15px;
         top: 3px;
+
         img {
           width: 23.85px;
           height: 17.69px;
         }
       }
     }
+
     .el-upload__tip {
       text-align: center;
       color: #000000;
@@ -328,8 +334,10 @@ export default {
     justify-content: center;
     align-items: center;
     text-align: center;
+
     .el-form-item {
       margin-bottom: 0;
+
       .el-button {
         height: 35px;
         width: 100px;
@@ -337,12 +345,14 @@ export default {
         padding: 0rem;
         line-height: 35px;
       }
+
       .cancel {
         margin-right: 20px;
       }
     }
   }
 }
+
 /* ::v-deep .el-button--primary.is-plain {
   background: #e8effe;
   color: #1763f7;

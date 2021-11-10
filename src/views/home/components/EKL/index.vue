@@ -18,7 +18,7 @@
                   font-weight: bold;
                   color: #333;
                   font-size: 16px;
-                  margin-bottom: 16px;
+                  margin-bottom: 12px;
                 "
               >
                 业绩目标
@@ -35,12 +35,14 @@
             </div>
             <div
               class="middle middle-m"
-              v-if="parseInt(tabsData.totalTarget) != 0 && tabsData.totalTarget"
+              v-if="
+                parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget
+              "
             >
               {{
-                parseInt(tabsData.totalTarget)
-                  ? parseInt(tabsData.totalTarget)
-                  : '0'
+                parseFloat(tabsData.totalTarget)
+                  ? parseFloat(tabsData.totalTarget)
+                  : '0.00'
               }}<span style="color: #1763f7; font-size: 24px">%</span>
             </div>
             <div class="right">
@@ -91,10 +93,8 @@
           <div class="ekl-pie" ref="pie" style="height: 240px"></div>
           <div class="tips">
             <div class="title" style="color: #333333">当前完成率</div>
-            <div v-show="tabsData.sumAll && parseInt(tabsData.sumAll) == 0">
-              {{ !isNaN((tabsData.valEklType / parseInt(tabsData.sumAll)).toFixed(2))?
-              (tabsData.valEklType / parseInt(tabsData.sumAll)).toFixed(2):`0.00` }}
-              <span>%</span>
+            <div v-show="!(tabsData.valEklType*1 == 0)">
+              {{((tabsData.sumAll*1/tabsData.valEklType*1)*100).toFixed(2)+"%"}}
             </div>
           </div>
         </div>
@@ -143,67 +143,6 @@ export default {
     })
   },
   mounted() {
-    console.log(`code`, this.code)
-    console.log(`eklTabList`, this.eklTabList)
-    console.log(`leadTabList`, this.leadTabList)
-    // if (
-    //   this.code === 'BZZL' ||
-    //   this.code === 'ADMIN' ||
-    //   this.code === 'CGBZ_WF' ||
-    //   this.code === 'CGBZ'
-    // ) {
-    //   this.tabList = [
-    //     {
-    //       name: 'EKL-CS',
-    //       id: 1
-    //     }
-    //   ]
-    //   this.activeName = this.tabList[0].name
-    //   this.query.type = 1
-    // } else if (this.code === 'CWEKLGLY') {
-    //   this.query.type = 1
-    //   this.tabList = [
-    //     {
-    //       name: 'EKL-CFPM',
-    //       id: 1
-    //     },
-    //     {
-    //       name: 'EKL-CFPM-1',
-    //       id: 2
-    //     }
-    //   ]
-    //   this.activeName = this.tabList[0].name
-    // } else if (this.code === 'ZYCGKSXTY' || this.code === 'WS2ZYCGKZ') {
-    //   this.eklTabList.forEach((item, index) => {
-    //     this.tabList.push({
-    //       name: `EKL-${item.fullNameZh}`,
-    //       id: index
-    //     })
-    //   })
-    //   this.activeName = this.tabList[0].name
-    //   this.query.type = 2
-    // } else if (this.leadTabList.length > 0) {
-    //   this.tabList = this.leadTabList
-    //   this.activeName = this.tabList[0].name
-    // } else if (this.code === 'LINIE') {
-    //   this.query.type = 4
-    //   this.tabList = [
-    //     {
-    //       name: 'EKL-Linie',
-    //       id: 1
-    //     }
-    //   ]
-    //   this.activeName = this.tabList[0].name
-    // } else if (this.code === 'WS2ZYCGGZ') {
-    //   this.eklTabList.forEach((item, index) => {
-    //     this.query.type = 3
-    //     this.tabList.push({
-    //       name: `EKL-${item.fullNameZh}`,
-    //       id: index
-    //     })
-    //   })
-    //   this.activeName = this.tabList[0].name
-    // }
     this.options = [this.query.year, this.query.year + 1]
     if (this.leadTabList.length > 0) {
       this.tabList = this.leadTabList
@@ -213,6 +152,7 @@ export default {
       this.activeName = this.eklTabList[0].name
     }
     this.getEkl(this.query)
+    // log.js
   },
   methods: {
     handleClick({ name }) {
@@ -225,13 +165,25 @@ export default {
         }
       })
     },
+    async getEkl(data) {
+      const res = await getEkl(data)
+      if (res && res.code == '200') {
+        this.tabsData = res.data
+        let totalTarget = (parseFloat(this.tabsData.totalTarget?this.tabsData.totalTarget:'0.00') / 100)*1
+         this.tabsData.sumAll =
+          (((this.tabsData.sumAll * 1)*totalTarget) / 1000000).toFixed(2)+''
+        this.tabsData.valEklType =
+          ((this.tabsData.valEklType * 1*totalTarget) / 1000000).toFixed(2)
+        this.$nextTick(() => {
+          this.initPie()
+        })
+      }
+    },
     initPie() {
       const index = _.findIndex(this.tabList, (item) => {
         return item.name === this.activeName
       })
       const chart = echarts().init(this.$refs.pie[index])
-      let dataValue = this.tabsData.sumAll * 1
-      let totalTarget = parseInt(this.tabsData.totalTarget) / 100
       const option = {
         title: {
           text: '当前完成(持续)',
@@ -241,7 +193,7 @@ export default {
         tooltip: {
           trigger: 'item',
           formatter: function (data) {
-            return `${data.data.name}金额${data.data.value}`
+            return `${data.data.name}金额<br/>${data.data.value}`
           }
         },
         legend: {
@@ -263,28 +215,15 @@ export default {
               textStyle: {
                 fontSize: 16,
                 color: '#1763f7'
-              },
-              normal: {
-                show: true,
-                position: 'center',
-                color: '#4c4a4a',
-                formatter: (data) => {
-                  this.value = data.data.value
-                  return `${this.value}`
-                },
-                textStyle: {
-                  color: '#1660F1',
-                  fontSize: 28,
-                  fontWeight: 'bold',
-                  align: 'center'
-                }
               }
             },
             emphasis: {
               label: {
                 show: true,
-                fontSize: '32',
+                fontSize: '28',
                 fontWeight: 'bold',
+                color: '#45639B',
+                align: 'center',
                 formatter: (value) => {
                   return `${value.data.value}`
                 }
@@ -295,27 +234,17 @@ export default {
             },
             data: [
               {
-                value: Math.round(dataValue * totalTarget).toFixed(2),
+                value: (this.tabsData.sumAll),
                 itemStyle: {
                   color: '#1AB5C7'
                 },
-                // label:{
-                //   formatter:(data)=>{
-                //     return `${data.data.value}`
-                //   }
-                // },
                 name: '完成'
               },
               {
-                value: this.tabsData.valEklType,
+                value: (this.tabsData.valEklType),
                 itemStyle: {
                   color: '#B9EBF2'
                 },
-                // label:{
-                //   formatter:(data)=>{
-                //    return `${data.data.value}`
-                //   }
-                // },
                 name: '待完成'
               }
             ]
@@ -323,24 +252,10 @@ export default {
         ]
       }
       option && chart.setOption(option)
-
     },
     handleCheckYear(year) {
       this.query.year = year
       this.getEkl(this.query)
-    },
-    async getEkl(data) {
-      const res = await getEkl(data)
-      if (res && res.code == '200') {
-        this.tabsData = res.data
-        this.tabsData.sumAll =
-          Math.round((res.data.sumAll * 1) / 1000000).toFixed(2) + ''
-        this.tabsData.valEklType =
-          Math.round((res.data.valEklType * 1) / 1000000).toFixed(2) + ''
-          this.$nextTick(() => {
-          this.initPie()
-        })
-      }
     }
   }
 }
@@ -370,7 +285,7 @@ export default {
   .tips {
     position: absolute;
     bottom: 20%;
-    right: 20px;
+    right: 3%;
     > 
     // .title {
     //   font-size: 18px;
@@ -390,14 +305,14 @@ export default {
     font-size: 12px;
     position: absolute;
     right: 32px;
-    top:22px;
+    top: 20px;
   }
   .target,
   .base {
     font-weight: bold;
     margin-bottom: 30px;
     > .left {
-      margin-right: 16px;
+      margin-right: 10px;
       min-width: 96px;
     }
     > .right {

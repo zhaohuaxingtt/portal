@@ -1,7 +1,9 @@
 <template>
   <iDialog :visible.sync="dialogVisible" width="80%" @close="onClose">
     <div slot="title" class="dialog-title">
-      <span class="el-dialog__title">{{ $t('APPROVAL.APPEND_DATA') }}</span>
+      <span class="el-dialog__title"
+        >{{ $t('APPROVAL.APPEND_DATA') }}12121</span
+      >
       <div class="text-right btns">
         <el-upload
           action="1"
@@ -54,14 +56,12 @@ image/png,application/pdf,application/vnd.ms-powerpoint,application/vnd.ms-excel
         >
           <el-option
             v-for="item of taskNodes"
-            :label="item.activityName"
+            :label="
+              item.activityName + `${item.approver && '-'}` + item.approver
+            "
             :value="item.taskId"
             :key="item.taskId"
-          >
-            <span>{{ item.activityName }}</span>
-            <span v-if="item.approver"> - </span>
-            <span>{{ item.approver }}</span>
-          </el-option>
+          />
         </iSelect>
       </div>
       <div class="item comment">
