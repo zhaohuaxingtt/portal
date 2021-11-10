@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-26 10:13:30
- * @LastEditTime: 2021-11-09 17:44:09
+ * @LastEditTime: 2021-11-10 14:56:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\MTZchange.js
@@ -158,22 +158,6 @@ export function uploadAttach(params) {
     url: `/mtzBasePriceChange/uploadAttach`,
     method: 'POST',
     data: formData
-  }).then(res => {
-    if (Array.isArray(res) || res.length > 0) {
-      return {
-        code: 200,
-        data: res,
-        desEn: 'success',
-        desZh: '操作成功'
-      }
-    } else {
-      return {
-        code: 400,
-        data: null,
-        desEn: 'error',
-        desZh: '操作失败'
-      }
-    }
   })
 }
 //   删除附件(软删除)
