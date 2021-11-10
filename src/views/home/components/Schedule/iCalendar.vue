@@ -195,5 +195,8 @@ export default {
   .vc-header{
     margin-bottom: 6px;
   }
+  .vc-dot {
+    background-color: #FFB500 !important;
+  }
 }
 </style>

@@ -358,7 +358,8 @@ export default {
         &.pass {
           border-left: 3px solid #afb0b3;
           color: #AFB0B3;
-          background: #fff;
+          // background: #fff;
+          background: linear-gradient(135deg,#FFFFFF  15%,#E0E4EC 0,#E0E4EC 25%,#FFFFFF  0,#FFFFFF  40%,#E0E4EC 0,#E0E4EC 50%, #FFFFFF 0, #FFFFFF 65%, #E0E4EC 0, #E0E4EC 75%, #FFFFFF 0, #FFFFFF 90%, #E0E4EC 0, #E0E4EC 100%, #FFFFFF 0);
           border-right: 14px solid #fff;
           width: 220px !important;
         }
