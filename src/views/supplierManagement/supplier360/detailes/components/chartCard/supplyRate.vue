@@ -21,7 +21,14 @@ import echarts from '@/utils/echarts'
 import { iCard, icon } from 'rise'
 import { getSapSupplierRate } from '@/api/supplierManagement/supplierCard/index'
 export default {
-  props: {},
+  props: {
+    infodata: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
   components: {
     iCard,
     icon
@@ -38,13 +45,18 @@ export default {
       return {}
     }
   },
-  watch: {},
+  watch: {
+    // infodata(data) {
+    //     console.log(data)
+    //   this.infodata = data
+    // }
+  },
   mounted() {
     this.getData()
   },
   methods: {
     getData() {
-      getSapSupplierRate(10491).then((res) => {
+      getSapSupplierRate(this.infodata.sapCode).then((res) => {
         this.info = res.data
         this.getChart()
       })
@@ -85,7 +97,7 @@ export default {
         },
         grid: {
           top: '18%',
-          bottom: '10%%',
+          bottom: '16%%',
           right: '0%',
           left: '10%'
         },
@@ -127,7 +139,7 @@ export default {
             name: '供应商',
             data: data2,
             type: 'line',
-              smooth: true,
+            smooth: true,
             itemStyle: {
               normal: {
                 color: '#6192F0', //改变折线点的颜色
@@ -142,7 +154,7 @@ export default {
             name: '平均参考',
             data: data1,
             type: 'line',
-              smooth: true,
+            smooth: true,
             itemStyle: {
               normal: {
                 color: '#B4C9F2', //改变折线点的颜色

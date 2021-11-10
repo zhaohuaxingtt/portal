@@ -4,7 +4,7 @@
  * @Date: 2021-05-27 14:47:25
  * @LastEditors: zbin
  * @LastEditTime: 2021-05-27 20:37:54
- * @Descripttion: CAIBAOFENGXI
+ * @Descripttion: 风险信号
 -->
 <template>
   <iCard :title="$t('SUPPLIER_FENGXIANXINHAO')">
@@ -19,12 +19,12 @@
       <div>
         <icon class="early"
               symbol
-              name="icondaiquerenBAshenqingzhuijiajineweixuanzhong"></icon> <span>生产供应商数量（个）：20</span>
+              name="icondaiquerenBAshenqingzhuijiajineweixuanzhong"></icon> <span>生产供应商数量（个）：{{info.PP}}</span>
       </div>
       <div>
         <icon class="early"
               symbol
-              name="icondaiquerenBAshenqingzhuijiajineweixuanzhong"></icon> <span>供应商数量（个）：19</span>
+              name="icondaiquerenBAshenqingzhuijiajineweixuanzhong"></icon> <span>供应商数量（个）：{{info.GP}}</span>
       </div>
     </div>
   </iCard>
@@ -32,13 +32,25 @@
 
 <script>
 import { iCard, icon } from 'rise'
-
+import {
+  riskSignalCard
+} from '@/api/frmRating/supplierOverview/index'
 export default {
   components: { iCard, icon },
+    data(){
+      return{
+          info:{}
+      }
+  },
   methods: {
     handleAnalysis() {
       this.$emit('show', true)
     }
+  },
+    created(){
+      riskSignalCard().then(res=>{
+          this.info=res.data.riskMap
+      })
   }
 }
 </script>

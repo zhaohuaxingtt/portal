@@ -9,7 +9,7 @@
   <div>
     <factoryMap :factoryAddressVOList='factoryAddressVOList' :supplier360ViewVO='supplier360ViewVO' class="margin-bottom25" />
     <earlyWarning :financialEarlyWarningVO='financialEarlyWarningVO' class="margin-bottom25" />
-    <affiliatedCompany :groupRelationsVO='groupRelationsVO' :relatedCompanyVO='relatedCompanyVO' />
+    <affiliatedCompany :groupRelationsVO='groupRelationsVO' :supplier360ViewVO='supplier360ViewVO' :relatedCompanyVO='relatedCompanyVO' />
   </div>
 </template>
 

@@ -144,6 +144,14 @@ export default {
 
       const myChart = echarts().init(this.$refs.chart1)
       this.option1 = {
+          title:{
+                text:'单位：百万  ',
+                right:50,
+                 textStyle: {
+            color: '#909091',
+            fontSize: 10
+          }
+          },
         grid: {
           top: 0,
           right: '10%'
@@ -154,6 +162,10 @@ export default {
         legend: {
           bottom: 0,
           icon: 'circle',
+             textStyle: {
+            fontSize: 10,
+            color: '#909091'
+          },
           formatter: function (params) {
             let obj = data1.find((res) => {
               return res.name == params
@@ -173,7 +185,7 @@ export default {
         },
         series: [
           {
-            center: ['50%', '40%'],
+            center: ['50%', '34%'],
             label: {
               show: false,
               position: 'center'
@@ -192,6 +204,9 @@ export default {
       myChart.setOption(this.option1)
       myChart.on('mouseover', function (params) {
         /*添加鼠标事件*/ obj.chooseEquipment.value = params.value
+        obj.chooseEquipment.value = parseInt(
+          obj.chooseEquipment.value / 1000000
+        )
         if (params.percent === 0) obj.chooseEquipment.data = '0.00'
         else obj.chooseEquipment.data = params.percent
       })
@@ -326,7 +341,7 @@ export default {
   width: 300px;
   text-align: center;
   position: absolute;
-  top: 30%;
+  top: 24%;
   left: 25%;
   p:nth-child(1) {
     font-size: 22px;

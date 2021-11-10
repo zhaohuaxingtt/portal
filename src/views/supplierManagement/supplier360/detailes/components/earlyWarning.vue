@@ -17,7 +17,7 @@
       </el-col>
       <el-col :span="8">
         <!-- 配附件供货率 -->
-        <supplyRate></supplyRate>
+        <supplyRate @infodata="infodata"></supplyRate>
 
       </el-col>
       <el-col :span="8">
@@ -102,7 +102,8 @@ export default {
   },
   data() {
     return {
-      soon: soon
+      soon: soon,
+      infodata:{}
     }
   },
   props: {
@@ -111,9 +112,22 @@ export default {
       default: () => {
         return {}
       }
+    },
+      supplier360ViewVO: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
+  watch: {
+  
+    supplier360ViewVO(data) {
+      this.infodata = data
+        console.log(this.infodata)
 
+    }
+  },
   mounted() {},
   methods: {}
 }

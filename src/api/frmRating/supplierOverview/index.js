@@ -39,9 +39,34 @@ export function historyList(parmars) {
     })
 }
 //移除
+
 export function cancel(parmars) {
     return requst({
         url: `/supplierRatingRecord/cancel`,
+        method: 'POST',
+        data: parmars
+    })
+}
+//
+export function deepCard(parmars) {
+    return requst({
+        url: `/depSupplier/deepCard`,
+        method: 'POST',
+        data: parmars
+    })
+}
+//
+export function riskSignalCard(parmars) {
+    return requst({
+        url: `/riskSignal/riskSignalCard`,
+        method: 'POST',
+        data: parmars
+    })
+}
+//
+export function initRatingCard(parmars) {
+    return requst({
+        url: `/initComment/initRatingCard`,
         method: 'POST',
         data: parmars
     })

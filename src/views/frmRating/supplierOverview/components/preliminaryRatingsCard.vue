@@ -23,103 +23,121 @@
 import echarts from '@/utils/echarts'
 import { iCard } from 'rise'
 // import soon from "./soon.png";
-
+import { initRatingCard } from '@/api/frmRating/supplierOverview/index'
 export default {
   components: { iCard },
   data() {
     return {
-      chart: 'monitorChart'
+      chart: 'monitorChart',
+      info: {}
       //   soon: soon
     }
   },
-  mounted() {
-    const myChart = echarts().init(this.$refs.chart)
-    var option = {
-      title: {
-        top: 0,
-        itemGap: 4,
-        text: 'CCC及以下供应商数量/比例：30/23%）',
-        subtext: '数量（家）',
-        textStyle: {
-          color: '#E30B0D',
-          fontSize: 10,
-        },
-        subtextStyle: {
-          color: '#909091',
-          fontSize: 10
-        }
-      },
- 
 
-      tooltip: {
-        trigger: 'axis'
-      },
-      grid: {
-        top: '18%',
-        bottom: '10%%',
-        right: '0%',
-        left: '10%'
-      },
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu'],
-        axisLabel: {
-          show: true,
+  mounted() {
+    initRatingCard().then((res) => {
+      this.info = res.data
+      this.getChart()
+    })
+  },
+  methods: {
+    getChart() {
+      let data1 = []
+      let data2 = []
+      for (var i in this.info.rateNumber) {
+        data1.push(i)
+        data2.push(this.info.rateNumber[i])
+      }
+      const myChart = echarts().init(this.$refs.chart)
+      var option = {
+        title: {
+          top: 0,
+          itemGap: 4,
+          text:
+            'CCC及以下供应商数量/比例：' +
+            this.info.cccNumber +
+            '/' +
+            this.info.percent +
+            '%）',
+          subtext: '数量（家）',
           textStyle: {
-            color: '#7E84A3',
-            fontSize: '10px'
+            color: '#E30B0D',
+            fontSize: 10
+          },
+          subtextStyle: {
+            color: '#909091',
+            fontSize: 10
           }
         },
-        axisLine: {
-          lineStyle: {
-            color: '#7E84A3'
+
+        tooltip: {
+          trigger: 'axis'
+        },
+        grid: {
+          top: '18%',
+          bottom: '10%%',
+          right: '0%',
+          left: '10%'
+        },
+        xAxis: {
+          type: 'category',
+          data: data1,
+          axisLabel: {
+            interval: 0,
+            show: true,
+            textStyle: {
+              color: '#7E84A3',
+              fontSize: '10px'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#7E84A3'
+            }
+          },
+          axisTick: {
+            show: false
           }
         },
-        axisTick: {
-          show: false
-        }
-      },
-      yAxis: {
-        type: 'value',
-        axisLabel: {
-          show: true,
-          textStyle: {
-            color: '#7E84A3',
-            fontSize: '10px'
-          }
-        }
-      },
-      series: [
-        {
-          name: 'Tue',
-          data: [64, 47, 54, 57],
-          type: 'bar',
-          barWidth: 15,
-      
-          itemStyle: {
-            normal: {
-              fontSize: 12,
-              barBorderRadius: [2, 2, 0, 0],
-              color: '#A2C0FC' //改变折线点的颜色
+        yAxis: {
+          type: 'value',
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#7E84A3',
+              fontSize: '10px'
             }
           }
         },
-        {
-          name: 'Mon',
-          data: [14, 23, 11, 6],
-          type: 'bar',
-          barWidth: 15,
-          itemStyle: {
-            normal: {
-              fontSize: 12,
-              barBorderRadius: [2, 2, 0, 0],
-              color: '#5B91FA' //改变折线点的颜色
+        series: [
+          {
+            name: 'Tue',
+            data: data2,
+            type: 'bar',
+            barWidth: 15,
+            itemStyle: {
+              normal: {
+                color: function (params) {
+                  let colorList = [
+                    '#A2C0FC',
+                    '#A2C0FC',
+                    '#A2C0FC',
+                    '#5B91FA',
+                    '#5B91FA',
+                    '#5B91FA',
+                    '#3764BA',
+                    '#3764BA',
+                    '#3764BA'
+                  ]
+                  return colorList[params.dataIndex]
+                }
+              }
             }
           }
-        }
-      ]
+        ]
+      }
+      myChart.setOption(option)
     }
-    myChart.setOption(option)
   }
 }
 </script>

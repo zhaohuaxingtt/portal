@@ -13,27 +13,39 @@
       <div>
         <icon class="early"
               symbol
-              name="iconbaojiapingfengenzong-jiedian-hong"></icon> <span>供应商数量（个）：19</span>
+              name="iconbaojiapingfengenzong-jiedian-hong"></icon> <span>供应商数量（个）：{{info.red}}</span>
       </div>
-      <div>        <icon class="early"
+      <div>
+        <icon class="early"
               symbol
-              name="iconbaojiapingfengenzong-jiedian-huang"></icon> <span>供应商数量（个）：19</span></div>
-      <div>        <icon class="early"
+              name="iconbaojiapingfengenzong-jiedian-huang"></icon> <span>供应商数量（个）：{{info.yellow}}</span>
+      </div>
+      <div>
+        <icon class="early"
               symbol
-              name="iconbaojiapingfengenzong-jiedian-lv"></icon> <span>供应商数量（个）：19</span></div>
+              name="iconbaojiapingfengenzong-jiedian-lv"></icon> <span>供应商数量（个）：{{info.green}}</span>
+      </div>
     </div>
   </iCard>
 </template>
 
 <script>
 import { iCard, icon } from 'rise'
-
+import { deepCard } from '@/api/frmRating/supplierOverview/index'
 export default {
   components: { iCard, icon },
-  methods: {
-    handleAnalysis() {
-      this.$emit('show', true)
+  data() {
+    return {
+      info: {}
     }
+  },
+  methods: {
+   
+  },
+  created() {
+    deepCard().then((res) => {
+      this.info = res.data.deepMap
+    })
   }
 }
 </script>
@@ -53,7 +65,7 @@ export default {
     background: #f8d4d4;
     border-radius: 20px;
     span {
-      margin-left: 45px;
+      margin-left: 35px;
     }
   }
   div:nth-child(1) {
