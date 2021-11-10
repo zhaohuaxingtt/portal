@@ -62,6 +62,7 @@ export default {
       this.getChart()
     },
     getChart() {
+      arr = []
       var data1 = []
       var data2 = []
       var data3 = []
@@ -73,8 +74,12 @@ export default {
         arr = this.info.parts
       }
       arr.forEach((e) => {
-        data1.push(e.increaseAmount)
-        data2.push(e.increaseRtio * 100)
+        data1.push(e.reductionAmount)
+        if (e.incereseAmount != 0) {
+          data2.push('-' + e.incereseAmount)
+        } else {
+          data2.push(e.incereseAmount)
+        }
         data3.push(e.reductionRtio * 100)
         data4.push(e.year)
       })
@@ -124,7 +129,7 @@ export default {
         },
         yAxis: [
           {
-            // show: false,
+            show: false,
             type: 'value',
             axisLabel: {
               show: true,
@@ -135,7 +140,7 @@ export default {
             }
           },
           {
-            // show: false,
+            show: false,
             type: 'value',
             axisLabel: {
               show: true,
@@ -177,17 +182,28 @@ export default {
                 barBorderRadius: [0, 0, 5, 5],
                 color: '#73A1FA' //改变折线点的颜色
               }
+            },
+            label: {
+              formatter: function (params) {
+                console.log(params)
+                return params.data + '%'
+              }
             }
           },
           {
             name: '节降比',
             showSymbol: false,
             data: data3,
+            yAxisIndex: 1,
             type: 'line',
             label: {
               show: true,
-              position: 'bottom',
-              color: '#727272'
+              position: 'top',
+              color: '#333',
+              formatter: function (params) {
+                console.log(params)
+                return params.data + '%'
+              }
             },
             itemStyle: {
               normal: {

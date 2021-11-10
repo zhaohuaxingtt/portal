@@ -53,18 +53,26 @@
       </el-col>
       <el-col :span="8">
         <newsMonitor></newsMonitor>
-
-
       </el-col>
       <el-col :span="8">
         <publicOpinion>
         </publicOpinion>
       </el-col>
     </el-row>
+    <el-row class="margin-top20"
+            :gutter="20"
+            type="flex"
+            justify="space-between">
+      <el-col :span="24">
+        <contract>
+        </contract>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
+import contract from './chartCard/contract'
 import supplyRate from './chartCard/supplyRate'
 import sampleDelivery from './chartCard/sampleDelivery'
 import fixed from './chartCard/fixed'
@@ -89,7 +97,8 @@ export default {
     sourcing,
     supplyRate,
     fixed,
-    sampleDelivery
+    sampleDelivery,
+    contract
   },
   data() {
     return {

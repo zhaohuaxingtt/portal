@@ -16,27 +16,30 @@ export const tableTitle=[
 ]
 
 export const tableTitleMonitor = [
-    { props: 'partNum', name: 'SAP号', key: 'SAPHAO' , tooltip: true },
+    { props: 'sapCode', name: 'SAP号', key: 'SAPHAO' , tooltip: true },
     { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG', tooltip: true },
-    { props: 'deptNum', name: '相关科室/股', key: 'XIANGGUANKESHI', tooltip: true },
-    { props: 'userId', name: '负责采购员', key: 'XIANGGUANCAIGOUYUAN', tooltip: true },
+    { props: 'deptNum', name: '相关科室', key: 'XIANGGUANKESHI', tooltip: true },
+    { props: 'userName', name: '负责采购员', key: 'XIANGGUANCAIGOUYUAN', tooltip: true },
     { props: 'email', name: '采购员邮箱', key: 'CAIGOUYUANYOUXIANG', tooltip: true },
     { props: 'ratingSource', name: 'C-Rating来源', key: 'CRATINGLAIYUAN', tooltip: true },
   ]
   
 export const tableTitleMonitorRecord = [
-    { props: 'factoryName', name: 'SAP号', key: 'SAPHAO' , tooltip: true },
-    { props: 'province', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG', tooltip: true },
-    { props: 'city', name: '相关科室/股', key: 'XIANGGUANKESHI', tooltip: true },
-    { props: 'carType', name: '负责采购员', key: 'XIANGGUANCAIGOUYUAN', tooltip: true },
-    { props: 'materialGroupName', name: '采购员邮箱', key: 'CAIGOUYUANYOUXIANG', tooltip: true },
-    { props: 'materialGroupName', name: 'C-Rating来源', key: 'CRATINGLAIYUAN', tooltip: true },
-    { props: 'materialGroupName', name: '零件信息', key: 'LINGJIANXINXI', tooltip: true },
-    { props: 'materialGroupName', name: 'RFQ号', key: 'RFQHAO', tooltip: true },
-    { props: 'materialGroupName', name: '零件采购项目号', key: 'LINGJIANCAIGOUXIANGMUHAO', tooltip: true },
-    { props: 'materialGroupName', name: '零件状态', key: 'LINGJIANZHUANGTAI', tooltip: true },
-    { props: 'materialGroupName', name: '项目编号', key: 'XIANGMUBIANHAO', tooltip: true },
-    { props: 'materialGroupName', name: '报价车型', key: 'BAOJIACHEXING', tooltip: true },
+    { props: 'sapCode', name: 'SAP号', key: 'SAPHAO' , tooltip: true ,width:150},
+    { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG', tooltip: true,width:150 },
+    { props: 'deptNum', name: '相关科室', key: 'XIANGGUANKESHI', tooltip: true ,width:150},
+    { props: 'userName', name: '负责采购员', key: 'XIANGGUANCAIGOUYUAN', tooltip: true ,width:150},
+    { props: 'email', name: '采购员邮箱', key: 'CAIGOUYUANYOUXIANG', tooltip: true ,width:150},
+    { props: 'iscRatingNow', name: ' 目前是否C-Rating', key: 'MUQIANSHIFOUCRATING', tooltip: true,width:150 },
+    { props: 'ratingSource', name: '加入C-Rating原因', key: 'JIARUCRATINGYUANYIN', tooltip: true,width:150 },
+    { props: 'ratingDate', name: '加入C-Rating时间', key: 'JIARUCRATINGSHIJIAN', tooltip: true ,width:150},
+    { props: 'cancelReason', name: '移除C-Rating原因', key: 'YICHUCRATINGYUANYIN', tooltip: true ,width:150},
+    { props: 'cancelDate', name: '移除C-Rating时间', key: 'YICHUCRATINGSHIJIAN', tooltip: true ,width:150},
+    { props: 'rfqStatus', name: '供应商状态', key: 'GONGYINGSHANGZHUANGTAI', tooltip: true ,width:150},
+    { props: 'partNum', name: '零件信息', key: 'LINGJIANXINXI', tooltip: true ,width:150},
+    { props: 'rfq', name: 'RFQ号', key: 'RFQHAO', tooltip: true ,width:150},
+    { props: 'motorProject', name: '车型项目', key: 'CHEXIANGXIANGMU', tooltip: true ,width:150},
+    { props: 'motorType', name: '报价车型', key: 'BAOJIACHEXING', tooltip: true ,width:150},
   ]
    // 数据字典查询
 export const dictByCode = async function(key) {

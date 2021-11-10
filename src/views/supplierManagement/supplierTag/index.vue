@@ -183,6 +183,10 @@ export default {
       })
     },
     handleDelect() {
+         if (this.selectTableData.length == 0) {
+     iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
       iMessageBox(
         this.language(
           'QUERENSHANCHUGAIBIAOQIANDESUOYOUGONGYINGSHANGPEIZHI?',
