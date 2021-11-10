@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-11-04 10:02:28
- * @LastEditTime: 2021-11-10 11:23:29
+ * @LastEditTime: 2021-11-10 14:12:02
  * @LastEditors: Please set LastEditors
  * @Description: 会外流转单pdf预览
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signPreview.vue
@@ -74,8 +74,11 @@
       <p>{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
       <iInput v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
     </iCard>
-    <div class="margin-top20">
-      
+    <div class="margin-top30 deptBox">
+      <div class="deptItem" v-for="(item, index) in deptData" :key="index">
+        <p>{{item.approvalDepartment}}：</p>
+        <div></div>
+      </div>
     </div>
   </div>
 </template>
@@ -211,7 +214,6 @@ export default {
       }).then(res => {
         if(res && res.code == 200) {
           this.deptData = res.data
-          console.log('deptData', this.deptData);
         } else iMessage.error(res.error)
       })
     },
@@ -316,6 +318,21 @@ export default {
       .applayDateDeptTitle {
         font-weight: bold;
       }
+    }
+  }
+}
+.deptBox {
+  display: flex;
+  .deptItem {
+    flex: auto;
+    display: flex;
+    p {
+      font-weight: bold;
+    }
+    div {
+      border-bottom: 1px solid black;
+      margin-left: 10px;
+      width: 60%;
     }
   }
 }

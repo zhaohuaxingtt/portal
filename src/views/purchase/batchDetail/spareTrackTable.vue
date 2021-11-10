@@ -55,9 +55,10 @@
             };
         },
         mounted() {
-            const {title,version,id} = this.$route.query
+            const {title,version,id,year} = this.$route.query
             let ver = version?version:'V1'
-            this.title = `${title}`
+          console.log(year)
+            this.title = `${year}年业绩进度跟踪`
         },
         methods: {
             getTableList() {

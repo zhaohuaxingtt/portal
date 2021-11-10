@@ -304,3 +304,28 @@ export function deletePartMasterData(params) {//维护MTZ零件主数据-删除
         data: params,
     })
 }
+
+export function mtzAppNomiSubmit(params) {//提交
+    return request({
+        url: '/mtzAppNomi/submit',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function mtzConfirm(params) {//mtz列表确认
+    return request({
+        url: '/mtzNomiList/mtzConfirm',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function saveMeeting(params) {//保存会议
+    return request({
+        url: '/mtzAppNomi/saveMeeting',
+        method: 'POST',
+        data: params,
+    })
+}
+

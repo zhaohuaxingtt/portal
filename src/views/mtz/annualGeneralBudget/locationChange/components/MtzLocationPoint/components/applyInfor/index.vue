@@ -21,7 +21,7 @@
         </div>
         <div class="opration">
           <iButton @click="edit"
-                   v-show="disabled">{{ language('BIANJI', '编辑') }}</iButton>
+                   v-show="disabled && appIdType">{{ language('BIANJI', '编辑') }}</iButton>
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
           <iButton @click="save"
@@ -70,7 +70,6 @@
              @close='closeDiolog'>
       <partApplication @close="saveClose"></partApplication>
     </iDialog>
-    
   </div>
 </template>
 
@@ -142,7 +141,7 @@ export default {
 
       applyNumber: '',
       showType: false,
-
+      appIdType:true,
     }
   },
   // beforeRouteEnter:(to,from,next)=>{
@@ -160,12 +159,13 @@ export default {
   watch: {
     mtzObject(newVlue,oldValue){
       this.init()
-      // this.applyNumber = newVlue.appid;
     }
   },
   created () {
     this.init()
-      // this.applyNumber = newVlue.appid;
+    if(this.$route.query.appId){
+      this.appIdType = false;
+    }
   },
   methods: {
     init () {
@@ -233,7 +233,7 @@ export default {
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res => {
         disassociate({
-          mtzAppId: this.$route.query.mtzAppId
+          mtzAppId: this.$route.query.mtzAppId || this.mtzObject.mtzAppId
         }).then(res => {
           if (res.code == 200) {
             iMessage.success(res.desZh)

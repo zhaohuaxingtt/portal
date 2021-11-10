@@ -49,7 +49,7 @@
     import {pageMixins} from '@/utils/pageMixins';
     import resultMessageMixin from '@/mixins/resultMessageMixin';
     import {tableTitle, getRequest} from './data';
-    import taskTransferDialog from '../baseTableComponents/taskTransferDialog';
+    import taskTransferDialog from './taskTransferDialog';
     import {toThousands,delcommafy,unique} from '@/utils'
     import {
         querySpbaseDetail,          // 明细list
