@@ -176,7 +176,7 @@
                         }),
                         h('span', null, [  //这个是渲染出来的icon
                             h('i', {
-                                class: 'iconfont icon-liebiaoshouqilishishuju',  //组件库的icon，可根据需要修改
+                                class: 'iconfont iconliebiaoshouqilishishuju',  //组件库的icon，可根据需要修改
                                 style: style,
                                 on: {
                                     click: function () {
@@ -206,7 +206,7 @@
                         }),
                         h('span', null, [  //这个是渲染出来的icon
                             h('i', {
-                                class: 'iconfont icon-liebiaozhankailishishuju',  //组件库的icon，可根据需要修改
+                                class: 'iconfont iconliebiaozhankailishishuju',  //组件库的icon，可根据需要修改
                                 style: 'color:#1663f6;font-size:24px;cursor: pointer;position: relative;top:2px',
                                 on: {
                                     click: function () {

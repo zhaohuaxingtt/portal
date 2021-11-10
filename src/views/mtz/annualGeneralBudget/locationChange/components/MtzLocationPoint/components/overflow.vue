@@ -63,11 +63,16 @@
 </template>
 
 <script>
-import { iButton,iDialog } from "rise"
+import { iButton,iDialog,iMessage } from "rise"
 import { topImgList } from './data'
 import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
 import MtzAdd from "./MtzAdd";
+
+import { mtzAppNomiSubmit,getAppFormInfo } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+
+import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
+
 export default {
   components:{
     iButton,
@@ -107,6 +112,7 @@ export default {
       rsType:false,
       downType:true,
       beforReturn:true,
+      flowType:""
     }
   },
   computed: {
@@ -124,6 +130,8 @@ export default {
       }else{
         this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId
       }
+      this.getType();
+
     }
   },
   created() {
@@ -133,8 +141,14 @@ export default {
       this.beforReturn = false;
       this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId
     }
+    this.getType();
   },
   methods: {
+    getType(){
+      getAppFormInfo({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res=>{
+        this.flowType = res.data.flowType;
+      })
+    },
     closeType(){
       this.closeRS();
     },
@@ -145,10 +159,35 @@ export default {
       this.rsType = true;
       this.downType = true;
     },
+
+
     // 提交
     submit(){
-      this.mtzAddShow = true;
-      // this.$router.go(-1);
+      if(this.mtzObject.flowType == undefined && this.$route.query.flowType == undefined && this.flowType == ""){
+        
+      }else{
+        this.flowType = this.mtzObject.flowType || this.$route.query.flowType || this.flowType
+        if(this.flowType == "MEETING"){//上会
+          this.mtzAddShow = true;
+        }else{//备案
+          NewMessageBox({
+              title:this.language('LK_WENXINTISHI','温馨提示'),
+              Tips:this.language('SHIROUQUERENTIJIAO','是否确认提交？'),
+              cancelButtonText:this.language('QUXIAO', '取消'),
+              confirmButtonText:this.language('QUEREN', '确认'),
+          }).then(() => {
+              mtzAppNomiSubmit({
+                mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+              }).then(res=>{
+                if(res.result && res.code == 200){
+                  iMessage.success(this.language(res.desEn,res.desZh))
+                }
+              })
+          }).catch((err) => {
+              // console.log(err)
+          })
+        }
+      }
     },
     // 点击步骤
     handleClickStep(data) {
@@ -158,7 +197,8 @@ export default {
         query: {
           currentStep: data.id,
           mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-          appid:this.$route.query.appid || this.mtzObject.appid,
+          appId:this.$route.query.appId || this.mtzObject.appId,
+          flowType:this.$route.query.flowType
         }
       })
     },

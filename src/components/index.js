@@ -7,72 +7,74 @@
  * @FilePath: \rise\src\components\index.js
  */
 import { MessageBox, Message } from 'element-ui'
-import iInput from '../components/iInput'
-import iSelect from '../components/iSelect'
-import iTabs from '../components/iTabs'
-import iTabsList from "../components/iTabsList"
-import iButton from '../components/iButton'
-import iCard from '../components/iCard'
-import icon from '../components/icon'
-import iPage from '../components/iPage'
-import iPagination from '../components/iPagination'
-import iSearch from '../components/iSearch'
-import iNavMvp from "../components/iNavMvp"
-import iDialog from '../components/iDialog'
-import iFormGroup from '../components/iPageItemsGroup/iFormGroup'
-import iFormItem from '../components/iPageItemsGroup/iFormItem'
-import iText from '../components/iPageItemsGroup/iText'
-import iDrawer from "../components/iDrawer"
-import iRadio from "../components/iRadio"
-import iDatePicker from "../components/iDatePicker"
-// const msg = this.$t('LK_WENXINTISHI');
+import {
+  iInput,
+  iSelect,
+  iTabs,
+  iTabsList,
+  iButton,
+  iCard,
+  icon,
+  iPage,
+  iPagination,
+  iSearch,
+  iNavMvp,
+  iDialog,
+  iText,
+  iDrawer,
+  iRadio,
+  iDatePicker
+} from 'rise'
+
 const iMessageBox = (content = '', title, options = {}) => {
-    return MessageBox.confirm(content, title, Object.assign({ zIndex: 20000 }, options))
+  return MessageBox.confirm(
+    content,
+    title,
+    Object.assign({ zIndex: 20000 }, options)
+  )
 }
 
 function message() {
-    this.type = 'success';
-    this.message = ''
-    return this
+  this.type = 'success'
+  this.message = ''
+  return this
 }
-message.prototype.success = (message) => {
-    Message({
-        message: message || this.message,
-        type: 'success',
-    })
+message.prototype.success = message => {
+  Message({
+    message: message || this.message,
+    type: 'success'
+  })
 }
-message.prototype.warn = (message) => {
-    Message({
-        message: message || this.message,
-        type: 'warning'
-    })
+message.prototype.warn = message => {
+  Message({
+    message: message || this.message,
+    type: 'warning'
+  })
 }
-message.prototype.error = (message) => {
-    Message({
-        message: message || this.message,
-        type: 'error'
-    })
+message.prototype.error = message => {
+  Message({
+    message: message || this.message,
+    type: 'error'
+  })
 }
 const iMessage = new message()
-export {
-    iFormGroup,
-    iFormItem,
-    iInput,
-    iSelect,
-    iButton,
-    iCard,
-    iTabs,
-    iTabsList,
-    icon,
-    iPage,
-    iMessage,
-    iMessageBox,
-    iPagination,
-    iNavMvp,
-    iSearch,
-    iDialog,
-    iText,
-    iDrawer,
-    iRadio,
-    iDatePicker
+export default {
+  iInput,
+  iSelect,
+  iButton,
+  iCard,
+  iTabs,
+  iTabsList,
+  icon,
+  iPage,
+  iMessage,
+  iMessageBox,
+  iPagination,
+  iNavMvp,
+  iSearch,
+  iDialog,
+  iText,
+  iDrawer,
+  iRadio,
+  iDatePicker
 }

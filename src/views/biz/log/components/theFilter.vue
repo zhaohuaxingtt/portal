@@ -83,7 +83,7 @@ export default {
     }
   },
   created() {
-    // this.queryCategories()
+    this.queryCategories()
   },
   methods: {
     reset() {
