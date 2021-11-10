@@ -158,6 +158,14 @@ export default {
     downRS(){
       this.rsType = true;
       this.downType = true;
+
+      // const {href} = this.$router.resolve({
+      //   path: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/signPreview',
+      //     query: {
+      //       mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+      //     }
+      //   })
+      // window.open(href, '_blank')
     },
 
 
