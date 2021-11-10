@@ -154,6 +154,7 @@ import {
   getFlowTypeList,
   getLocationApplyStatus,
   relation,
+  saveMeeting
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   page,
@@ -298,11 +299,10 @@ export default {
       }
     },
     save(){
-      relation({
+      saveMeeting({
         mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        ttNominateAppId:this.handleSelectArr[0].id
+        meetingId:this.handleSelectArr[0].id
       }).then(res=>{
-        console.log(res)
         if(res.code == 200){
           iMessage.success(res.desZh)
           this.$emit("close",this.handleSelectArr[0].id)

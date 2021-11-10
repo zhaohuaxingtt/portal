@@ -59,7 +59,6 @@ export default {
                 mtzConfirm({
                     appName:this.form.name
                 }).then(res=>{
-                    iMessage.success(this.language(res.desEn,res.desZh))
                     var data = deepClone(this.$route.query);
                     data.mtzAppId = res.data;
 
