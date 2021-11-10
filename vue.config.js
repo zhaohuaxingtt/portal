@@ -1,5 +1,5 @@
 const path = require('path')
-const resolve = dir => path.join(__dirname, dir)
+const resolve = (dir) => path.join(__dirname, dir)
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const ChangeNginxConfig = require(resolve(
@@ -19,7 +19,7 @@ module.exports = {
   lintOnSave: false,
   productionSourceMap: false,
   parallel: require('os').cpus().length > 1,
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     //定义全局别名
     config.resolve.alias
       .set('@', resolve('src'))
@@ -60,8 +60,8 @@ module.exports = {
         config.optimization.runtimeChunk('single')
     }
   },
-  configureWebpack: config => {
-    config.plugins.forEach(val => {
+  configureWebpack: (config) => {
+    config.plugins.forEach((val) => {
       if (val['__pluginConstructorName'] === 'HtmlWebpackPlugin') {
         val.options.CDN_HOST = process.env.CDN_HOST
       }
@@ -111,9 +111,9 @@ module.exports = {
   //引入全局css变量
   css: {
     //是否开起css分离
-    extract: process.env.NODE_ENV !== 'dev',
+    extract: false,
     sourceMap: process.env.NODE_ENV === 'production',
-    requireModuleExtension: false, // true,
+    requireModuleExtension: true,
     loaderOptions: {
       sass: {
         implementation: require('sass'),

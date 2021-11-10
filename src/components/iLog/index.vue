@@ -82,16 +82,21 @@ export default {
   props: {
     bizId: {
       type: Number,
-      Default: function () {
+      Default: function() {
         return 0
       }
     },
     show: [Boolean],
     extendParams: {
       type: Object,
-      default: function () {
+      default: function() {
         return {}
       }
+    },
+    env: {
+      // 运行环境，如dev,sit,vmsit,uat等，一般传process.env.NODE_ENV
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -125,6 +130,31 @@ export default {
       set(val) {
         this.$emit('update:show', val)
       }
+    },
+    appEnv() {
+      return window.sessionStorage.getItem('env') || this.env
+    },
+    baseApiPrefix() {
+      const baseMap = {
+        '': '/api',
+        dev: '/baseApi',
+        sit: '/baseApi',
+        vmsit: '/baseApi',
+        uat: '/baseApi',
+        production: '/api'
+      }
+      return baseMap[this.appEnv.toLowerCase()] || '/api'
+    },
+    bizLogApiPrefix() {
+      const baseMap = {
+        '': '/api',
+        dev: '/bizlogApi',
+        sit: '/bizlogApi',
+        vmsit: '/bizlogApi',
+        uat: '/bizlogApi',
+        production: '/api'
+      }
+      return baseMap[this.appEnv.toLowerCase()] || '/api'
     }
   },
   methods: {
@@ -154,7 +184,7 @@ export default {
     },
     getOptions() {
       const http = new XMLHttpRequest()
-      const url = `/baseInfo/web/selectDictByKeys?keys=LOG_TYPE`
+      const url = `${this.baseApiPrefix}/web/selectDictByKeys?keys=LOG_TYPE`
       http.open('GET', url, true)
       http.setRequestHeader('content-type', 'application/json')
       http.onreadystatechange = () => {
@@ -167,7 +197,7 @@ export default {
     getList() {
       console.log('bizId', this.bizId)
       const http = new XMLHttpRequest()
-      const url = `/bizlog/operationLog/listOperationLogs`
+      const url = `${this.bizLogApiPrefix}/operationLog/listOperationLogs`
       http.open('POST', url, true)
       http.setRequestHeader('content-type', 'application/json')
       http.onreadystatechange = () => {

@@ -353,13 +353,13 @@
 --------------------------*/
 /* Break-point
 --------------------------*/
-/* @font-face {
+@font-face {
   font-family: 'element-icons';
-  src: url("/public/theme/fonts/element-icons.woff") format("woff"), url("/public/theme/fonts/element-icons.ttf") format("truetype");
-  
+  src: url("fonts/element-icons.woff") format("woff"), url("fonts/element-icons.ttf") format("truetype");
+  /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
   font-weight: normal;
   font-display: "auto";
-  font-style: normal; } */
+  font-style: normal; }
 
 [class^="el-icon-"], [class*=" el-icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
@@ -1225,7 +1225,6 @@
 
 .el-icon--left {
   margin-right: 5px; }
-
 
 @-webkit-keyframes rotating {
   0% {

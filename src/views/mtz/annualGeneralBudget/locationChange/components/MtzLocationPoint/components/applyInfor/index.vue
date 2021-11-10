@@ -61,8 +61,8 @@
                 placeholder="请输入备注"
                 v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
-    <theTabs></theTabs>
-    <theDataTabs></theDataTabs>
+    <theTabs v-if="!beforReturn"></theTabs>
+    <theDataTabs v-if="!beforReturn"></theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
              v-if="mtzAddShow"
@@ -70,6 +70,7 @@
              @close='closeDiolog'>
       <partApplication @close="saveClose"></partApplication>
     </iDialog>
+    
   </div>
 </template>
 
@@ -79,6 +80,7 @@ import { tabsInforList } from "./data";
 import theTabs from "./theTabs";
 import theDataTabs from "./theDataTabs";
 import partApplication from "./partApplication";
+
 import {
   getAppFormInfo,
   modifyAppFormInfo,
@@ -97,7 +99,7 @@ export default {
     theTabs,
     partApplication,
     theDataTabs,
-    iSelect
+    iSelect,
   },
   data () {
     return {
@@ -140,14 +142,34 @@ export default {
 
       applyNumber: '',
       showType: false,
+
+    }
+  },
+  // beforeRouteEnter:(to,from,next)=>{
+  //   if(to.query.mtzAppId == undefined){
+      
+  //   }else{
+  //     next()
+  //   }
+  // },
+  computed:{
+      mtzObject(){
+        return this.$store.state.location.mtzObject;
+      }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      this.init()
+      // this.applyNumber = newVlue.appid;
     }
   },
   created () {
     this.init()
+      // this.applyNumber = newVlue.appid;
   },
   methods: {
     init () {
-      getAppFormInfo({ mtzAppId: this.$route.query.mtzAppId }).then(res => {
+      getAppFormInfo({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res => {
         this.inforData.mtzAppId = res.data.mtzAppId;
         this.inforData.linieName = res.data.linieName
         this.inforData.appStatus = res.data.appStatus
@@ -251,7 +273,8 @@ export default {
     },
     chioce (e, name) {
       this.inforData[name] = e;
-    }
+    },
+    
   },
   destroyed () {
 

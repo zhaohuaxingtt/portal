@@ -134,7 +134,7 @@
         </iFormItem>
       </iFormGroup>
 
-      <iFormGroup row="3" :model="positionObj" ref="baseForm3">
+      <!-- <iFormGroup row="3" :model="positionObj" ref="baseForm3">
         <iFormItem prop="zhenshi">
           <iLabel :label="language('正式价采购组')" slot="label"></iLabel>
           <iSelect v-model="positionObj.zhenshi"> </iSelect>
@@ -147,7 +147,7 @@
           <iLabel :label="language('SET组')" slot="label"></iLabel>
           <iSelect v-model="positionObj.set"> </iSelect>
         </iFormItem>
-      </iFormGroup>
+      </iFormGroup> -->
 
       <dTable :type="type" />
     </iCard>
