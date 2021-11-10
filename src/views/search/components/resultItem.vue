@@ -22,7 +22,7 @@
         {{ item.label }}: <span v-html="item.value"></span>
       </span>
     </p>
-    <p class="url">{{ appHost }}{{ item.url }}</p>
+    <p class="url">{{ item.url }}</p>
   </div>
 </template>
 
