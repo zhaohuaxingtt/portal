@@ -237,6 +237,9 @@
                             if (item.year >= year - 1 && item.billType==2) {
                                 this.$set(item, 'refresh', '刷新')
                             }
+                            if(item.billType==2&&item.type==2) {
+                              this.$set(item,'title', item.year+'年业绩进度跟踪')
+                            }
                             this.$set(item, '_status', '')
                             this.$set(item, '_billType', '')
                             this.$set(item, '_type', '')
