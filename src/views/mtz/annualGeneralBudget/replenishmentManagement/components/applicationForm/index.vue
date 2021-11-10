@@ -8,7 +8,7 @@
 -->
 <template>
   <div>
-    <div class="flex title"
+    <!-- <div class="flex title"
          style="width:100%">
       <span>请处理XXXX公司的补差申请</span>
       <div>
@@ -16,7 +16,7 @@
         <iButton>{{language('JUJUE','拒绝')}}</iButton>
         <iButton>{{language('BUCHONGCAILIAO','补充材料')}}</iButton>
       </div>
-    </div>
+    </div> -->
     <div class="contentBox">
       <iTabsList v-model="tabsValue"
                  @tab-click="tableChange"

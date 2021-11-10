@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:56
- * @LastEditTime: 2021-10-29 18:35:02
+ * @LastEditTime: 2021-11-10 15:00:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\enclosureList.vue
@@ -54,7 +54,8 @@ export default {
   data () {
     return {
       mtzAppId: "",
-      loading: false
+      loading: false,
+      tableData: []
     }
   },
   components: {
@@ -68,6 +69,7 @@ export default {
     init () {
       console.log(this.$store.state.permission.userInfo)
       this.mtzAppId = this.$route.query.mtzAppId
+      this.getAttachList()
     },
     handleUploadForm (val) {
       console.log(val)
@@ -76,7 +78,12 @@ export default {
         multifile: val.file
       }
       uploadAttach(params).then((res) => {
-
+        if (res?.code === '200') {
+          iMessage.success(res.desZh)
+          this.getAttachList()
+        } else {
+          iMessage.error(res.desZh)
+        }
       })
     },
     getAttachList () {
@@ -89,6 +96,9 @@ export default {
           iMessage.error(res.desZh)
         }
       })
+    },
+    downFile (val) {
+      window.open(val.fileUrl)
     }
   }
 }
