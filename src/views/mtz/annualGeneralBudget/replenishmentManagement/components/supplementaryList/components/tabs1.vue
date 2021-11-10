@@ -14,8 +14,8 @@
         <div>
             <!-- <iButton @click="bingo" v-permission="PORTAL_MTZ_FAQIBUCHA" v-if="dataObject.status == '供应商确认中'">{{language('TIJIAO', '提交')}}</iButton> -->
             <!-- <iButton @click="refuse" v-if="dataObject.status == '供应商确认中'">{{language('JUJUE', '拒绝')}}</iButton> -->
-            <iButton @click="upload" v-if="dataObject.status == 'EPMS审批通过' || dataObject.status == '已支付' || dataObject.status == '关闭'">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
-            <!-- <iButton @click="upload">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton> -->
+            <iButton @click="uploadPZ">{{language('DAOCHU', '导出')}}</iButton>
+            <iButton @click="upload">{{language('PINGZHENGDAOCHU', '凭证导出')}}</iButton>
             <iButton @click="save">{{language('BAOCUNBEIZHU', '保存备注')}}</iButton>
             <iButton @click="bingo" v-if="dataObject.status == '供应商确认中'">{{language('GONGYINGSHANGQUEREN', '代供应商确认')}}</iButton>
         </div>
@@ -63,6 +63,7 @@ import {
     compdocMetalDetailSumItem,
     saveRemark,
     mtzCompDetailOverviewExport,
+    mtzBalanceDetailsExport,
     supplierConfirmation
 } from "@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details"
 import { deepClone,getNowFormatDate } from "./util.js";
@@ -146,7 +147,9 @@ export default {
 
         },
         getData(){
-            compdocMetalDetailSum({mtzDocId:this.mtzDocId}).then(res=>{
+            compdocMetalDetailSum({
+                mtzDocId:this.mtzDocId
+            }).then(res=>{
                 this.inforData = deepClone(res.data);
                 this.textarea = res.data.remark;
             }).then(red=>{
@@ -160,6 +163,9 @@ export default {
                 mtzDocId:this.mtzDocId,
                 ...this.serchList
             }).then(res => {
+                if(res.data.length<1){
+                    this.$emit("componentHidden","")
+                }
                 this.tableListData = res.data;
                 this.page.totalCount = res.total;
             }).then(red=>{
@@ -192,6 +198,32 @@ export default {
             this.closeValue = false;
             this.$emit("closeDiolog1","")
         },
+        uploadPZ(){
+            NewMessageBox({
+                title:this.language('LK_WENXINTISHI','温馨提示'),
+                Tips:this.language('SHIFOUDAOCHU','是否导出？'),
+                cancelButtonText:this.language('QUXIAO', '取消'),
+                confirmButtonText:this.language('QUEREN', '确认'),
+            }).then(() => {
+                mtzCompDetailOverviewExport({
+                    ...this.serchList,
+                    mtzDocId:this.mtzDocId
+                }).then(res=>{
+                    let blob = new Blob([res], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"});
+                    let objectUrl = URL.createObjectURL(blob);
+                    let link = document.createElement("a");
+                    link.href = objectUrl;
+                    let fname = "MTZ补差单汇总" + getNowFormatDate() + ".xlsx";
+                    link.setAttribute("download", fname);
+                    document.body.appendChild(link);
+                    link.click();
+                    link.parentNode.removeChild(link);
+                    iMessage.success("链接成功！")
+                })
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
         upload(){
             NewMessageBox({
                 title:this.language('LK_WENXINTISHI','温馨提示'),
@@ -199,12 +231,14 @@ export default {
                 cancelButtonText:this.language('QUXIAO', '取消'),
                 confirmButtonText:this.language('QUEREN', '确认'),
             }).then(() => {
-                mtzCompDetailOverviewExport({}).then(res=>{
+                mtzBalanceDetailsExport({
+                    mtzDocId:this.mtzDocId
+                }).then(res=>{
                     let blob = new Blob([res], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"});
                     let objectUrl = URL.createObjectURL(blob);
                     let link = document.createElement("a");
                     link.href = objectUrl;
-                    let fname = "MTZ补差单汇总" + getNowFormatDate() + ".xlsx";
+                    let fname = "MTZ补差单汇总凭证" + getNowFormatDate() + ".pdf";
                     link.setAttribute("download", fname);
                     document.body.appendChild(link);
                     link.click();
@@ -249,9 +283,18 @@ $tabsInforHeight:35px;
     margin-bottom:10px;
     display: flex;
     flex-flow: wrap;
-    justify-content: space-between;
+    .inforDiv:nth-child(3n+2){
+        span{
+            margin-left:15%
+        }
+    }
+    .inforDiv:nth-child(3n+3){
+        span{
+            margin-left:15%
+        }
+    }
     .inforDiv{
-    width:30%;
+    width:33.3%;
     height:$tabsInforHeight;
     display: flex;
     align-items: center;
@@ -262,7 +305,7 @@ $tabsInforHeight:35px;
 
     }
     .inforText{
-        width:75%;
+        width:60%;
         background:#F8F8FA;
         text-align: center;
         height:$tabsInforHeight;

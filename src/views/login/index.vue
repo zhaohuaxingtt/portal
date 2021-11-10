@@ -70,10 +70,11 @@ export default {
         .then(async res => {
           this.loading = false
           await setToken(res.data.token)
-          console.log(`setToken`,setToken);
-          this.$router.replace({
-            path: '/index'
-          })
+          this.$router
+            .replace({
+              path: '/index'
+            })
+            .catch(err => console.log(err))
         })
         .finally(() => {
           this.loading = false

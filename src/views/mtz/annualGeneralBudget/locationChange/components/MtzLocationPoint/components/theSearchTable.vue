@@ -296,7 +296,7 @@ export default {
         path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow`,
         query: {
           currentStep: 1,
-          id: val.id,
+          mtzAppId: val.id,
         }
       })
       window.open(routeData.href, '_blank')

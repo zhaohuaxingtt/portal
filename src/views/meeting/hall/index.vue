@@ -1,12 +1,12 @@
 <template>
-  <div style="flex: 1">
+  <div style="flex: 1;">
     <iPage>
       <div class="tab-list-box">
         <iNavMvp
           :list="tabRouterList"
           class="margin-bottom20"
-          :routerPage="false"
-          :lev="2"
+          routerPage
+          :lev="1"
           @change="
             (e) => {
               handleChange(e);
@@ -14,10 +14,7 @@
           "
         />
         <div v-if="value !== 4"><newTheTable :value="value" /></div>
-        <!-- <div v-if="value === 4 && menuType === 'admin'">
-          <adminHall :value="value" />
-        </div> -->
-        <div v-if="value === 4 && state.nameEn === 'admin'">
+        <div v-if="value === 4 && menuType === 'admin'">
           <adminHall :value="value" />
         </div>
       </div>
@@ -26,13 +23,11 @@
 </template>
 
 <script>
-import { iPage } from "rise";
+import { iNavMvp, iPage } from "rise";
 import newTheTable from "./components/newTheTable.vue";
 import adminHall from "./components/adminHall.vue";
-import iNavMvp from "./components/iNavMvp.vue";
 import { tabRouterList } from "./components/data";
-// import { Loading } from 'element-ui';
-import { mapState } from "vuex";
+
 export default {
   components: {
     iNavMvp,
@@ -40,18 +35,9 @@ export default {
     newTheTable,
     adminHall,
   },
-  computed: {
-    ...mapState({
-      state: (state) => state.permission.userInfo,
-    }),
-  },
   created() {
-    // this.menuType = this.$route.query.menuType;
-    if (this.state.nameEn == "admin") {
-      return;
-    } else {
-      this.tabRouterList.splice(this.tabRouterList.length - 1, 1);
-    }
+    // console.log(this.$route);
+    this.menuType = this.$route.query.menuType;
   },
   data() {
     return {

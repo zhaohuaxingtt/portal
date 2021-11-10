@@ -329,7 +329,7 @@ export default {components: {
     handleSave() {
         addPartMasterData({
             ...this.contractForm,
-            ttMtzAppId:this.$route.query.id
+            ttMtzAppId:this.$route.query.mtzAppId
         }).then(res=>{
             console.log(res);
             this.$emit("close","fresh")
