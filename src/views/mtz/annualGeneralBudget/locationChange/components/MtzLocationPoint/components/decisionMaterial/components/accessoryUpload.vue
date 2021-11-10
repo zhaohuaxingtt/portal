@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:46:11
- * @LastEditTime: 2021-11-02 14:17:31
+ * @LastEditTime: 2021-11-10 11:25:19
  * @LastEditors: Please set LastEditors
  * @Description: 附件上传
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\accessory.vue
@@ -72,6 +72,16 @@ export default {
       selection: []
     }
   },
+  computed:{
+      mtzObject(){
+        return this.$store.state.location.mtzObject;
+      }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      
+    }
+  },
   created() {
     this.getTableData()
   },
@@ -81,7 +91,7 @@ export default {
       fetchAppNomiDecisionDataPage({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        mtzAppId: this.$route.query.mtzAppId
+        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
       }).then(res => {
          if(res && res.code == 200) {
           this.tableListData = res.data
@@ -121,7 +131,7 @@ export default {
         if(res && res.code == 200) {
           const data = res.data[0]
           fetchAppNomiDecisionDataSave({
-            mtzAppId: this.$route.query.mtzAppId,
+            mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
             fileId: data.id,
             fileName: data.name,
             fileSize: data.size,

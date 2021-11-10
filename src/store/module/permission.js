@@ -10,7 +10,6 @@ import { getSystemMeun, getUserInfoByToken } from '@/api/usercenter'
 import { getMenuResource } from '@/utils/auth'
 import { getModuleList } from '@/api/home'
 
-
 //初始化菜单，新增active字段和默认选中第一个点亮
 function initMeun(data) {
   data.forEach((items, index) => {
@@ -86,55 +85,54 @@ const mutations = {
     state.roleList = data
   },
   SET_ROLE_CODE(state, data) {
-    state.code = data.map(item=>item.code)
+    state.code = data.map((item) => item.code)
   },
   SET_ROLE_EklTabList(state, data) {
     let cs = 0
-    data.forEach((item,index)=>{
-      if( item.code === 'BZZL' ||
-      item.code === 'ADMIN' ||
-      item.code === 'CGBZ_WF' ||
-      item.code === 'CGBZ' &&cs<1){
-        cs+=1
-        state.eklTabList.push(
-          {
-            name: 'EKL-CS',
-            id: index,
-            type:1
-          }
-        )
-      }else if(item.code === 'CWEKLGLY'){
+    data.forEach((item, index) => {
+      if (
+        item.code === 'BZZL' ||
+        item.code === 'ADMIN' ||
+        item.code === 'CGBZ_WF' ||
+        (item.code === 'CGBZ' && cs < 1)
+      ) {
+        cs += 1
+        state.eklTabList.push({
+          name: 'EKL-CS',
+          id: index,
+          type: 1
+        })
+      } else if (item.code === 'CWEKLGLY') {
         state.eklTabList.push({
           name: 'EKL-CFPM',
           id: index,
-          type:1
+          type: 1
         })
         state.eklTabList.push({
           name: 'EKL-CFPM-1',
           id: data.length,
-          type:1
+          type: 1
         })
-      }else if(item.code === 'ZYCGKSXTY' || item.code === 'WS2ZYCGKZ'){
+      } else if (item.code === 'ZYCGKSXTY' || item.code === 'WS2ZYCGKZ') {
         state.eklTabList.push({
           name: `EKL-${item.fullNameZh}`,
           id: index,
-          type:2
+          type: 2
         })
-      }else if(item.code === 'LINIE'){
+      } else if (item.code === 'LINIE') {
         state.eklTabList.push({
           name: 'EKL-Linie',
           id: index,
-          type:4
+          type: 4
         })
-      }else if(item.code === 'WS2ZYCGGZ'){
+      } else if (item.code === 'WS2ZYCGGZ') {
         state.eklTabList.push({
           name: `EKL-${item.fullNameZh}`,
           id: index,
-          type :3
+          type: 3
         })
       }
     })
-    
   },
   SET_ROLE_EklTabList_LEAD(state, data) {
     state.leadTabList = data
@@ -167,7 +165,7 @@ const actions = {
   getPermissinInfo({ commit }) {
     return new Promise((r, j) => {
       getSystemMeun()
-        .then(res => {
+        .then((res) => {
           if (res.code === '200' && res.data) {
             const menuList = res.data?.menuList || []
             commit('SET_MENU_LIST', initMeun(menuList))
@@ -188,7 +186,7 @@ const actions = {
             j()
           }
         })
-        .catch(err => {
+        .catch((err) => {
           commit('SET_MENU_LIST', [])
           commit('SET_WIHTEBTN_LIST', [])
           j()
@@ -200,7 +198,7 @@ const actions = {
   getModules({ commit }) {
     return new Promise((r, j) => {
       getModuleList({})
-        .then(res => {
+        .then((res) => {
           if (res.code === '200' && res.data) {
             const cards = res.data || []
             commit('SET_CARD_LIST', cards)
@@ -226,13 +224,13 @@ const actions = {
     // eslint-disable-next-line no-debugger
     return new Promise((resole, reject) => {
       getUserInfoByToken()
-        .then(res => {
+        .then((res) => {
           // eslint-disable-next-line no-debugger
           if (res.code === '200' && res.data) {
             commit('SET_USER_INFO', res.data)
             commit('SET_ROLE_INFO', res.data.userName)
-            commit('SET_ROLE_CODE', res.data.roleList)
-            commit('SET_ROLE_EklTabList', res.data.roleList)
+            commit('SET_ROLE_CODE', res.data.roleList || [])
+            commit('SET_ROLE_EklTabList', res.data.roleList || [])
             if (
               res.data.deptDTO &&
               res.data.deptDTO.isCommodity &&
@@ -264,7 +262,8 @@ const actions = {
             reject({})
           }
         })
-        .catch(err => {
+        .catch((err) => {
+          console.log('permission.err', err)
           commit('SET_USER_INFO', {})
           commit('SET_ROLE_INFO', {})
           reject(err)
