@@ -530,7 +530,7 @@ export default {
   },
   methods: {
     init () {
-        if(this.$route.query.partNumStr == undefined){
+        if(this.$route.query.supplierId == undefined){
             this.getTableList()
         }else{
             this.getTableDown();
@@ -676,8 +676,8 @@ export default {
     },
     getTableDown(){
         listPartNumSupplierIdData({
-            partNumStr:this.$route.query.partNumStr,
-            supplierIdStr:this.$route.query.supplierIdStr,
+            partNumStr:this.$route.query.item,
+            supplierIdStr:this.$route.query.supplierId,
         }).then(res=>{
             this.tableData = res.data;
             this.editType = true;
