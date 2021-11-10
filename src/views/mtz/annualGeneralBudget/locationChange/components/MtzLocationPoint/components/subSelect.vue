@@ -102,9 +102,14 @@ export default {
             if (this.selectData.length > 0) {
                 saveMeeting({
                     mtzAppId:this.$route.query.mtzAppId || this.mtzObject.mtzAppId,
-                    meetingId:this.selectData[0].id
+                    meetingId:this.selectData[0].id,
+                    duration:this.selectData[0].duration,
+                    topic:this.selectData[0].name,
                 }).then(res=>{
-                    // iMessage.success(this.language(res.))
+                    if(res.code == 200 && res.result){
+                        iMessage.success(this.language(res.desEn,res.desZh))
+                        this.$emit("close","refresh")
+                    }
                 })
             }else{
                 iMessage.warn("请选择会议")

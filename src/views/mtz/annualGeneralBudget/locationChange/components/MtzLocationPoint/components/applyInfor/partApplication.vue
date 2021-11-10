@@ -154,7 +154,6 @@ import {
   getFlowTypeList,
   getLocationApplyStatus,
   relation,
-  saveMeeting
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   page,
@@ -299,7 +298,7 @@ export default {
       }
     },
     save(){
-      saveMeeting({
+      relation({
         mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         meetingId:this.handleSelectArr[0].id
       }).then(res=>{

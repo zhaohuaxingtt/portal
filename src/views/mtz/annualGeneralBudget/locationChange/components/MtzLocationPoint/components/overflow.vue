@@ -68,11 +68,11 @@ import { topImgList } from './data'
 import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
 import MtzAdd from "./MtzAdd";
-
+import store from "@/store";
 import { mtzAppNomiSubmit,getAppFormInfo } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 
 import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
-
+import { deepClone } from "./applyInfor/util"
 export default {
   components:{
     iButton,
@@ -214,7 +214,12 @@ export default {
       this.mtzAddShow = false;
     },
     closeBingo(val){
-      console.log(val);
+      if(val = "refresh"){
+        var data = deepClone(this.mtzObject);
+        data.refresh = true;
+        console.log(data);
+        store.commit("routerMtzData",data);
+      }
       this.closeDiolog()
     },
     closeTyoe(){
