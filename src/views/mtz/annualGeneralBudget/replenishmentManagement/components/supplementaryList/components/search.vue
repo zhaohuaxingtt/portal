@@ -1,38 +1,38 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2021-11-08 20:02:43
+ * @LastEditTime: 2021-10-09 18:29:05
  * @LastEditors: Please set LastEditors
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\annualBudget\components\budget.vue
 -->
 <template>
   <div>
-    <iDialog :title="dialogTitle"
+    <iDialog
+             :title="dialogTitle"
              v-if="value"
              :visible.sync="value"
              width="85%"
              @close='closeDiolog'>
-      <iSearch @sure="handleSubmitSearch"
-               @reset="handleSearchReset('searchForm')">
-        <div class="searchBox">
+      <div class="searchBox">
+        <iSearch @sure="handleSubmitSearch"
+             @reset="handleSearchReset">
           <el-form :inline="true"
-                   ref="searchForm"
-                   :model="searchForm"
-                   label-position="top"
-                   class="demo-form-inline leftBox">
-
+                 ref="searchForm"
+                 :model="searchForm"
+                 label-position="top"
+                 class="demo-form-inline">
             <el-form-item style="marginRight:68px"
                           :label="language('CAIGOUKUANGJIA', '采购框架')"
                           class="formItem">
               <custom-select v-model="searchForm.saNos"
-                             :user-options="getRawMaterialList"
-                             clearable
-                             multiple
-                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                             display-member="message"
-                             value-member="code"
-                             value-key="code">
+                            :user-options="getRawMaterialList"
+                            clearable
+                            multiple
+                            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                            display-member="message"
+                            value-member="code"
+                            value-key="code">
               </custom-select>
             </el-form-item>
 
@@ -40,13 +40,13 @@
                           :label="language('YICIJIANLINGJIANHAO', '一次件零件号')"
                           class="formItem">
               <custom-select v-model="searchForm.fpartNos"
-                             :user-options="getOnePartList"
-                             clearable
-                             multiple
-                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                             display-member="message"
-                             value-member="code"
-                             value-key="code">
+                            :user-options="getOnePartList"
+                            clearable
+                            multiple
+                            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                            display-member="message"
+                            value-member="code"
+                            value-key="code">
               </custom-select>
             </el-form-item>
 
@@ -54,13 +54,13 @@
                           :label="language('ERCIJIANLINGJIANHAO', '二次件零件号')"
                           class="formItem">
               <custom-select v-model="searchForm.spartNos"
-                             :user-options="getSecondPartList"
-                             clearable
-                             multiple
-                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                             display-member="message"
-                             value-member="code"
-                             value-key="code">
+                            :user-options="getSecondPartList"
+                            clearable
+                            multiple
+                            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                            display-member="message"
+                            value-member="code"
+                            value-key="code">
               </custom-select>
             </el-form-item>
 
@@ -68,13 +68,13 @@
                           :label="language('ECJGYS', '二次件供应商')"
                           class="formItem">
               <custom-select v-model="searchForm.pieceSupplierSaps"
-                             :user-options="getSecondSupplierList"
-                             clearable
-                             multiple
-                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                             display-member="codeMessage"
-                             value-member="code"
-                             value-key="code">
+                            :user-options="getSecondSupplierList"
+                            clearable
+                            multiple
+                            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                            display-member="codeMessage"
+                            value-member="code"
+                            value-key="code">
               </custom-select>
             </el-form-item>
 
@@ -82,8 +82,8 @@
                           :label="language('BUCHASHIJIANDUAN', '补差时间段')"
                           class="formItem">
               <iDatePicker style="width: 180px;"
-                           v-model="searchForm.dateTime"
-                           type="monthrange">
+                          v-model="searchForm.dateTime"
+                          type="monthrange">
               </iDatePicker>
             </el-form-item>
 
@@ -91,13 +91,13 @@
                           :label="language('CAILIAOZHONGLEI', '材料中类')"
                           class="formItem">
               <custom-select v-model="searchForm.categories"
-                             :user-options="zhongleiList"
-                             clearable
-                             multiple
-                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                             display-member="message"
-                             value-member="code"
-                             value-key="code">
+                            :user-options="zhongleiList"
+                            clearable
+                            multiple
+                            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                            display-member="message"
+                            value-member="code"
+                            value-key="code">
               </custom-select>
             </el-form-item>
 
@@ -105,23 +105,17 @@
                           :label="language('SHIFOUGUIJINSHUYUANCAILIAO', '是否贵金属原材料')"
                           class="formItem">
               <custom-select v-model="searchForm.pgmFlag"
-                             :user-options="typesJS"
-                             clearable
-                             :placeholder="language('QINGSHURU', '请输入')"
-                             display-member="message"
-                             value-member="code"
-                             value-key="code">
+                :user-options="typesJS"
+                clearable
+                :placeholder="language('QINGSHURU', '请输入')"
+                display-member="message"
+                value-member="code"
+                value-key="code">
               </custom-select>
             </el-form-item>
-
           </el-form>
-          <!-- <div class="searchButton">
-            <iButton @click="handleSubmitSearch">{{language('CX', '查询')}}</iButton>
-            <iButton @click="handleSearchReset('searchForm')">{{language('CZ', '重置')}}</iButton>
-          </div> -->
-        </div>
-      </iSearch>
-
+        </iSearch>
+      </div>
       <el-divider class="margin-top20"></el-divider>
       <div class="contentBox">
         <iTabsList v-model="tabsValue"
@@ -130,26 +124,32 @@
                    slot="components"
                    calss="margin-top20 iTabsList">
           <el-tab-pane :name="1"
+                        v-if="btnShow1"
                        :label="language('BUCHADIANHUIZONG','补差单汇总')"></el-tab-pane>
           <el-tab-pane :name="2"
+                        v-if="btnShow2"
                        :label="language('BUCHADANMINGXI','补差单明细')"></el-tab-pane>
           <el-tab-pane :name="3"
+                        v-if="btnShow3"
                        :label="language('BUCHADANMINGXIGUIJINSHU','补差单明细（贵金属）')"></el-tab-pane>
         </iTabsList>
         <tabs1 :mtzDocId="mtzDocId"
                :searchFormList="seachWather"
                :dataObject="detailObj"
-               v-if="tabsValue == 1"
+               v-if="tabsValue == 1 && btnShow1"
+               @componentHidden="btnHidden1"
                v-on:closeDiolog1="closeDiolog"></tabs1>
         <tabs2 :mtzDocId="mtzDocId"
                :searchFormList="seachWather"
                :dataObject="detailObj"
-               v-show="tabsValue == 2"
+               v-show="tabsValue == 2 && btnShow2"
+               @componentHidden="btnHidden2"
                v-on:closeDiolog2="closeDiolog"></tabs2>
         <tabs3 :mtzDocId="mtzDocId"
                :searchFormList="seachWather"
                :dataObject="detailObj"
-               v-show="tabsValue == 3"
+               v-show="tabsValue == 3 && btnShow3"
+               @componentHidden="btnHidden3"
                v-on:closeDiolog3="closeDiolog"></tabs3>
       </div>
     </iDialog>
@@ -157,7 +157,7 @@
 </template>
 
 <script>
-import { iCard, iSelect, iDatePicker, iMessage, iDialog, iButton, iTabs, iTabsList, iSearch } from 'rise'
+import { iCard,iSearch, iSelect, iDatePicker, iMessage, iDialog, iButton, iTabs, iTabsList } from 'rise'
 // import { getDeptData } from "@api/mtz/database/partsQuery";
 
 import {
@@ -186,21 +186,24 @@ export default {
     iDialog,
     iButton,
     iTabs,
-    iSearch,
-    iTabsList
+    iTabsList,
+    iSearch
   },
   props: ["detailObj"],
   data () {
     return {
       typesJS: [
         {
-          code: "Y",
+          code: "1",
           message: "是"
         }, {
-          code: "N",
+          code: "0",
           message: "否"
         }
       ],
+      btnShow1:true,
+      btnShow2:true,
+      btnShow3:true,
       seachWather: {},
       searchForm: {},
       demandList: [],
@@ -277,13 +280,13 @@ export default {
     handleSearchReset (form) {
       this.searchForm = {};
       this.searchForm = {
-        saNos: [],
-        fpartNos: [],
-        spartNos: [],
-        pieceSupplierSaps: [],
-        dateTime: [],
-        categories: [],
-        pgmFlag: "",
+        saNos:[],
+        fpartNos:[],
+        spartNos:[],
+        pieceSupplierSaps:[],
+        dateTime:[],
+        categories:[],
+        pgmFlag:"",
       }
       this.seachWather = {};
     },
@@ -315,7 +318,16 @@ export default {
         }
       }
     },
-    closeDiolog () {
+    btnHidden1(){
+      this.btnShow1 = false;
+    },
+    btnHidden2(){
+      this.btnShow2 = false;
+    },
+    btnHidden3(){
+      this.btnShow3 = false;
+    },
+    closeDiolog(){
       this.$emit('dialogShowFun', '');
       this.$parent.$children.forEach(item => {
         if (item.$options._componentTag === 'theTable') {
@@ -349,8 +361,11 @@ $tabsInforHeight: 35px;
     background-color: #ffffff;
   }
 }
-
-// .leftBox {
-//   margin-right: 200px;
-// }
+::v-deep .cardBody{
+  margin:0!important;
+  padding:0!important;
+}
+::v-deep .card{
+  box-shadow: 0 0 0px rgb(27 29 33 / 0%)
+}
 </style>

@@ -322,6 +322,16 @@ export default {components: {
         this.materialCode = res.data;
     })
   },
+  computed:{
+      mtzObject(){
+        return this.$store.state.location.mtzObject;
+      }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      // console.log(newVlue)
+    }
+  },
   methods: {
     materialBrand(val){
         console.log(val)
@@ -329,7 +339,7 @@ export default {components: {
     handleSave() {
         addPartMasterData({
             ...this.contractForm,
-            ttMtzAppId:this.$route.query.id
+            ttMtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId
         }).then(res=>{
             console.log(res);
             this.$emit("close","fresh")

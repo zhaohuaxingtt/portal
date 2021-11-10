@@ -68,31 +68,25 @@ export const tableTitleGp = [
     { props: 'mbdl', name: '是否属于MBDL',width:160,  key: 'SHIFOUSHUYUMBDL', tooltip: true },
   ]
   export const setTagCloum=[{
-    props: 'nameZh',
+    props: 'tagName',
     name: '标签名称',
     key: 'BIAOQIANMINGCHENG',
     width: 150,
     tooltip: true
 },
 {
-    props: 'sapCode',
+    props: 'tagTypeVale',
     name: '标签类型',
     key: 'BIAOQIANLEIXING',
     width: 150,
     tooltip: true
 },
 {
-    props: 'halfYear',
+    props: 'tagDesc',
     name: '系统判断标准',
     key: 'XITONGPANDUANBIAOZHUN',
     tooltip: true
 },
-{
-    props: 'isshow',
-    name: '显示/隐藏',
-    key: 'XIANSHIYINCANG',
-    tooltip: true,
-    width: 150,
-},
+
 
 ]

@@ -11,6 +11,7 @@
       <actionButtons
         :selected-row="selectTableData"
         :task-type="taskType"
+        :category-list="form.categoryList"
         @complete="batchComplete"
         @export="exportTemplate"
       />
@@ -42,7 +43,7 @@
 import { iCard, iMessage, iPage, iPagination } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import filters from '@/utils/filters'
-import { MAP_APPROVAL_TYPE } from '@/constants'
+import { MAP_APPROVAL_TYPE, BPM_SINGL_CATEGORY_LIST } from '@/constants'
 import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
 import taskMixin from './taskMixin'
@@ -177,14 +178,25 @@ export default {
       agreeType: 1,
       dialogApprovalVisible: false,
       todoTotal: 0,
-      approvalTypeMap: MAP_APPROVAL_TYPE
+      approvalTypeMap: MAP_APPROVAL_TYPE,
+      templates: []
     }
   },
   created() {
     if (this.$route.query.modelTemplate) {
-      this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
+      /* this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
+      console.log('categoryList', this.form.categoryList) */
+      const moduleTemplate = JSON.parse(this.$route.query.modelTemplate)
+      if (
+        moduleTemplate.length === 1 &&
+        BPM_SINGL_CATEGORY_LIST.includes(moduleTemplate[0])
+      ) {
+        this.form.categoryList = moduleTemplate[0]
+      } else {
+        this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
+      }
     }
-    this.getTableList()
+    // this.getTableList()
   },
   methods: {
     //表格选中值集
@@ -196,8 +208,9 @@ export default {
       this.goDetail(item, this.taskType)
     },
     // 查询
-    search(val) {
+    search(val, templates) {
       this.form = { ...val }
+      this.templates = templates
       this.page.currPage = 1
       this.getTableList()
     },
@@ -209,13 +222,28 @@ export default {
       }
       const searchData = filterEmptyValue(this.form)
       console.log('searchData', searchData)
-      if (searchData.categoryList && searchData.categoryList.length === 0) {
-        delete searchData.categoryList
-      }
+
       if (searchData.itemTypeList && searchData.itemTypeList.length === 0) {
         delete searchData.itemTypeList
       }
-
+      if (searchData.categoryList && searchData.categoryList.length === 0) {
+        delete searchData.categoryList
+      }
+      if (
+        searchData.categoryList &&
+        typeof searchData.categoryList === 'string'
+      ) {
+        searchData.categoryList = [searchData.categoryList]
+      }
+      if (
+        !searchData.categoryList ||
+        (searchData.categoryList.length === 1 &&
+          searchData.categoryList[0] === '')
+      ) {
+        searchData.categoryList = this.templates
+          .filter(e => !BPM_SINGL_CATEGORY_LIST.includes(e.name))
+          .map(e => e.name)
+      }
       const data = {
         taskType: this.taskType,
         userID: this.$store.state.permission.userInfo.id,
@@ -226,7 +254,7 @@ export default {
       const result = queryUndoApprovals(params, data)
 
       result
-        .then((res) => {
+        .then(res => {
           this.loading = false
           const { current, size, total, records } = res.data
           this.page.currPage = current

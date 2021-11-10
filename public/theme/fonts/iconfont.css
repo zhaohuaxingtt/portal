@@ -1,142 +1,8 @@
-/*
-@font-face {
-  font-family: "iconfont"; /* Project id 2205609 */
-  /* src: url('iconfont.woff2?t=1631354361497') format('woff2'),
-       url('iconfont.woff?t=1631354361497') format('woff'),
-       url('iconfont.ttf?t=1631354361497') format('truetype');
-} */
-/* .iconfont {
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.icon-yejijichubiaowanchengshijian:before {
-  content: "\e6f4";
-}
-
-.icon-yejijichubiaodaiquerenshuliang1:before {
-  content: "\e6fd";
-}
-
-.icon-yejigenzongbiaoxinzenglingjian:before {
-  content: "\e731";
-}
-
-.icon-yejigenzongbiaoquxiaolingjian:before {
-  content: "\e732";
-}
-.icon-a-Icon-ArrowDropDown:before {
-  content: "\e6c1";
-}
-
-.icon-a-Icon-Arrowshouqi:before {
-  content: "\e6c2";
-}
-.icon-lingjian1:before {
-  content: "\e68d";
-}
-
-.icon-lingjian5:before {
-  content: "\e690";
-}
-
-.icon-add:before {
-  content: "\e649";
-}
-
-.icon-rizhi:before {
-  content: "\e61d";
-}
-
-.icon-beizhuxinxi:before {
-  content: "\e622";
-}
-
-.icon-rizhiyingwen:before {
-  content: "\e623";
-}
-
-.icon-xinxitishi:before {
-  content: "\e633";
-}
-
-.icon-liuchengjiedianyiwancheng:before {
-  content: "\e63b";
-}
-
-.icon-liuchengjiedianyiwanchenggaoliang:before {
-  content: "\e63d";
-}
-
-.icon-liebiaozhankailishishuju:before {
-  content: "\e642";
-}
-
-.icon-liebiaoshouqilishishuju:before {
-  content: "\e643";
-}
-
-.icon-tishi-cheng:before {
-  content: "\e660";
-}
-
-.icon-rs-quxiao:before {
-  content: "\e666";
-}
-
-.icon-zhuangtaitishi-yiwancheng:before {
-  content: "\e6b6";
-}
-
-.icon-lingjianshanchu:before {
-  content: "\e6c8";
-}
-
-.icon-zengjiacailiaochengben_hui:before {
-  content: "\e6d4";
-}
-
-.icon-zengjiacailiaochengben_lan:before {
-  content: "\e6b8";
-}
-
-.icon-shoucang:before {
-  content: "\e73d";
-}
-
-.icon-class:before {
-  content: "\e7f9";
-}
-
-.icon-cart:before {
-  content: "\e603";
-}
-
-.icon-my:before {
-  content: "\e600";
-}
-
-.icon-home:before {
-  content: "\e632";
-}
-
-.iconyuangong:before {
-  content: "\e728";
-} */
-
-
-
-
-
-
-
 @font-face {
   font-family: "iconfont"; /* Project id 2285260 */
-  src: url('iconfont.woff2?t=1634806900313') format('woff2'),
-       url('iconfont.woff?t=1634806900313') format('woff'),
-       url('iconfont.ttf?t=1634806900313') format('truetype');
+  src: url('iconfont.woff2?t=1636514652029') format('woff2'),
+       url('iconfont.woff?t=1636514652029') format('woff'),
+       url('iconfont.ttf?t=1636514652029') format('truetype');
 }
 
 .iconfont {
@@ -145,6 +11,114 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icona-GPtubiaohei:before {
+  content: "\e767";
+}
+
+.icona-GPtubiaolan:before {
+  content: "\e766";
+}
+
+.iconxinjieshi:before {
+  content: "\e765";
+}
+
+.iconicon-shalou:before {
+  content: "\e75b";
+}
+
+.iconicon-cengji:before {
+  content: "\e75c";
+}
+
+.iconicon-baofeichuzhi:before {
+  content: "\e75d";
+}
+
+.iconicon-shangjia:before {
+  content: "\e75e";
+}
+
+.iconicon-daibaojia:before {
+  content: "\e75f";
+}
+
+.iconicon-fenduandingdian:before {
+  content: "\e760";
+}
+
+.iconicon-xiajia:before {
+  content: "\e761";
+}
+
+.iconicon-LIVE:before {
+  content: "\e762";
+}
+
+.iconicon-CParts:before {
+  content: "\e763";
+}
+
+.iconicon-tianxiezhuangtai:before {
+  content: "\e764";
+}
+
+.iconshengchangongyingshang:before {
+  content: "\e75a";
+}
+
+.icontop:before {
+  content: "\e759";
+}
+
+.iconMTZ:before {
+  content: "\e758";
+}
+
+.iconjinqihuiyi-dizhi-hui:before {
+  content: "\e754";
+}
+
+.iconjinqihuiyi-shijian-hui:before {
+  content: "\e755";
+}
+
+.iconjinqihuiyi-shijian-bai:before {
+  content: "\e756";
+}
+
+.iconjinqihuiyi-dizhi-bai:before {
+  content: "\e757";
+}
+
+.iconkaiguan-kai:before {
+  content: "\e752";
+}
+
+.iconkaiguan-guan:before {
+  content: "\e753";
+}
+
+.icontongping-shijianduan:before {
+  content: "\e74d";
+}
+
+.iconxuanzewenjian:before {
+  content: "\e74e";
+}
+
+.icontongping-didian:before {
+  content: "\e74f";
+}
+
+.iconwodeyiti2:before {
+  content: "\e750";
+}
+
+.iconwodeyiti1:before {
+  content: "\e751";
 }
 
 .iconshoucangjia:before {
@@ -443,10 +417,6 @@
   content: "\e71a";
 }
 
-.icon24px:before {
-  content: "\e712";
-}
-
 .iconN-tierlandian:before {
   content: "\e705";
 }
@@ -518,6 +488,7 @@
 .iconhuiyi-2:before {
   content: "\e704";
 }
+
 .iconhuiyi-shouye:before {
   content: "\e6fe";
 }

@@ -5,28 +5,27 @@
       :disabled="selectedRow.length === 0"
       @click="$emit('complete', approvalTypeMap.AGREE)"
     >
-      {{ $t('APPROVAL.APPROVEL') }}
+      {{ approvalText }}
     </iButton>
     <iButton
-      v-show="taskType === 0"
+      v-show="taskType === 0 && !isSpecial"
       :disabled="selectedRow.length !== 1"
       @click="$emit('complete', approvalTypeMap.REFUSE)"
     >
-      {{ $t('APPROVAL.REFUSE') }}
+      {{ refuseText }}
     </iButton>
     <iButton
       v-show="taskType === 0"
       :disabled="selectedRow.length !== 1"
       @click="$emit('complete', approvalTypeMap.APPREND_DATA)"
     >
-      {{ $t('APPROVAL.APPEND_DATA') }}
+      {{ appendText }}
     </iButton>
-    <!-- <iButton @click="$emit('export')">{{ $t('APPROVAL.EXPORT') }}</iButton> -->
   </div>
 </template>
 
 <script>
-import { MAP_APPROVAL_TYPE } from '@/constants'
+import { MAP_APPROVAL_TYPE, BPM_SINGL_CATEGORY_LIST } from '@/constants'
 import { iButton } from 'rise'
 
 export default {
@@ -42,11 +41,41 @@ export default {
     taskType: {
       type: Number,
       default: 0
+    },
+    categoryList: {
+      type: String || Array,
+      default: ''
     }
   },
   data() {
     return {
       approvalTypeMap: MAP_APPROVAL_TYPE
+    }
+  },
+  computed: {
+    isSpecial() {
+      return BPM_SINGL_CATEGORY_LIST.includes(this.categoryList)
+    },
+    approvalText() {
+      if (this.isSpecial) {
+        return this.language('无异议')
+      } else {
+        return this.language('批准')
+      }
+    },
+    refuseText() {
+      if (this.isSpecial) {
+        return this.language('有异议')
+      } else {
+        return this.language('拒绝')
+      }
+    },
+    appendText() {
+      if (this.isSpecial) {
+        return this.language('有异议')
+      } else {
+        return this.language('补充材料')
+      }
     }
   }
 }

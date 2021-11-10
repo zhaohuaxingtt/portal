@@ -3,7 +3,7 @@ import axios from '@/utils/axios'
 
 const requst = axios(process.env.VUE_APP_SUPPLIER+ '/web')
  const requstEkl = axios(process.env.VUE_APP_EKL)
-// 查询标签管理页面
+// ekl卡片
 export function getSupplierCard(parmars) {
     return requstEkl({
         url: '/spEklreportEntity/getSupplierCard',
@@ -11,3 +11,20 @@ export function getSupplierCard(parmars) {
         data: parmars
     })
 }
+//财务预警卡片
+export function supplierRatingCard(params) {
+    return requst({
+      url: `/supplierRatingRecord/supplierRatingCard/`+params,
+      method: 'GET',
+  
+    })
+  }
+
+    //供应商绩效卡片
+export function performCard360(parmars) {
+    return requst({
+      url: `/spi/spiTotalScore/performCard360`,
+      method: 'POST',
+      data: parmars
+    })
+  }

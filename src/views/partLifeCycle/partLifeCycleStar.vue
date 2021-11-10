@@ -1,5 +1,5 @@
 <template>
-  <iPage class="partLifeCycleStar">
+  <iPage class="partLifeCycleStar" ref="partLifeCycleStar">
     <div class="navmvp">
       <iNavMvp
         :lev='1'
@@ -266,7 +266,7 @@
           <div v-for="(item, index) in defaultPartsList" :key="index" :class="{ isExpand: expandRelevantPart }"
                @click="currentDefaultPart = item.partsNum;getRelationParts()">
             <div class="title">
-              <span class="link">{{ item.partsNum }}</span>
+              <span class="link" @click.stop="toPartLifeCycle(item.partsNum)">{{ item.partsNum }}</span>
               <span>{{ item.deptName }}</span>
               <icon v-show="!isEdit" symbol @click.native.stop.prevent="cancelOrCollect(item)"
                     :name="Number(item.isDefaultFolder) === 1 ? 'iconyishoucanglingjian' : 'iconweishoucanglingjian'"></icon>
@@ -382,7 +382,7 @@ export default {
       carTypeProjectName: [],
       eop: '',
       fixedPoint: '',
-      brandName: '',
+      brandName: [],
       isSupply: '',
       partsNum: '',
       partsName: '',
@@ -403,6 +403,8 @@ export default {
       loadingiSearch: false,
       leftLoading: false,
       rightLoading: false,
+      isScroll: false,
+      loading: true,
       AekoPullDown: [],
       CategoryPullDown: [],
       DepartmentPullDown: [],
@@ -414,14 +416,76 @@ export default {
       CarTypePullDown: [],
       IsSupplyPullDown: [],
       PurchaserPullDown: [],
+      current: 1,
+      size: 9
     }
   },
   mounted() {
     this.getSeletes()
     this.defaultParts()
+    this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.scrollGetData); //this.setHeadPosition方法名
+  },
+  destroyed() {
+    this.$refs.partLifeCycleStar.$el.removeEventListener("scroll", this.scrollGetData, true);
   },
   methods: {
+    scrollGetData(e){
+      const { scrollTop, clientHeight, scrollHeight } = e.target
+      if((scrollTop + clientHeight) === scrollHeight){
+        if(this.leftLoading || !this.isScroll){
+          return
+        }
+        this.leftLoading = true
+        this.current++
+        getPartsCollect({
+          partsNum: this.partsNum,
+          partsName: this.partsName,
+          aekoNum: this.aekoNum,
+          supplierName: this.supplierName,
+          categoryCode: this.categoryCode,
+          categoryShowName: this.categoryShowName,
+          deptId: this.deptId,
+          purchaserId: this.purchaserId,
+          purchaserShowName: this.purchaserShowName,
+          // procurementGroupId: this.procurementGroupId,
+          factoryCode: this.factoryCode,
+          factoryShowName: this.factoryShowName,
+          eop: this.eop,
+          fixedPoint: this.fixedPoint,
+          businessDateStart: this.businessDateStart,
+          businessDateEnd: this.businessDateEnd,
+          contractSapCode: this.contractSapCode,
+          contractCode: this.contractCode,
+          brandName: this.brandName,
+          modelNameZh: this.modelNameZh,
+          carTypeProjectName: this.carTypeProjectName,
+          fsNum: this.fsNum,
+          isSupply: this.isSupply,
+          current : this.current ,
+          size: this.size,
+        }).then(res => {
+          const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+          if (Number(res.code) === 200) {
+            if(res.data.length < 9){
+              this.isScroll = false
+            }
+            let data = res.data.map(item => {
+              item.isClaim = false
+              return item
+            })
+            this.defaultPartsList = this.defaultPartsList.concat(data)
+          } else {
+            iMessage.error(result)
+          }
+          this.leftLoading = false
+        }).catch(() => {
+          this.leftLoading = false
+        })
+      }
+    },
     reset(){
+      this.current = 1
+      this.isScroll = false
       this.partsNum = ''
       this.partsName = ''
       this.aekoNum = []
@@ -440,7 +504,7 @@ export default {
       this.businessDateEnd = ''
       this.contractSapCode = ''
       this.contractCode = ''
-      this.brandName = ''
+      this.brandName = []
       this.modelNameZh = []
       this.carTypeProjectName = []
       this.fsNum = ''
@@ -448,7 +512,9 @@ export default {
       this.defaultParts()
     },
     getPartsCollect(){
-      this.loadingiSearch = true
+      this.current = 1
+      this.isScroll = true
+      this.leftLoading = true
       getPartsCollect({
         partsNum: this.partsNum,
         partsName: this.partsName,
@@ -473,6 +539,8 @@ export default {
         carTypeProjectName: this.carTypeProjectName,
         fsNum: this.fsNum,
         isSupply: this.isSupply,
+        current : this.current ,
+        size: this.size,
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
@@ -487,10 +555,10 @@ export default {
         } else {
           iMessage.error(result)
         }
-        this.loadingiSearch = false
+        this.leftLoading = false
 
       }).catch(() => {
-        this.loadingiSearch = false
+        this.leftLoading = false
       })
     },
     getCategoryPullDown(val){
@@ -530,6 +598,7 @@ export default {
       })
     },
     getSeletes() {
+      this.loadingiSearch = false
       Promise.all([
         getAekoPullDown(),
         getCategoryPullDown([]),
@@ -609,6 +678,9 @@ export default {
         } else {
           iMessage.error(result10)
         }
+        this.loadingiSearch = false
+      }).catch(() => {
+        this.loadingiSearch = false
       })
     },
     toClaim() {
@@ -642,7 +714,7 @@ export default {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.defaultPartsList.forEach(obj => {
-            if (obj.partsCollectId === item.partsCollectId)
+            if (obj.partsNum === item.partsNum)
               obj.isDefaultFolder = operationType
           })
           // item.isDefaultFolder = operationType
@@ -799,7 +871,6 @@ export default {
         align-content: flex-start;
         transition: all 0.5s;
         width: 100%;
-
         > div {
           width: calc(25% - 30px);
           height: 263px;

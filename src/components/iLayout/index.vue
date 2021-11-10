@@ -64,6 +64,7 @@ export default {
       menu2IconMap: {
         RISE_HOME: ['iconhomeweixuanzhong', 'iconhomexuanzhong'],
         RISE_WORKBENCH: ['iconworkbenchweixuanzhong', 'iconworkbenchxuanzhong'],
+        RISE_GP: ['icona-GPtubiaohei', 'icona-GPtubiaolan'],
         RISE_COMMON_FUNCTION: [
           'iconcommonfunctionweixuanzhong',
           'iconcommonfunctionxuanzhong'
@@ -157,7 +158,8 @@ export default {
           res[menu.url] = []
         }
         parent = parent || []
-        res[menu.url].push(...parent)
+        // console.log('parent', parent)
+        res[menu.url].push(...[...new Set(parent)])
         res[menu.url].push(menu.url)
 
         if (menu.subMenus) {
