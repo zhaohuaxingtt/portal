@@ -4,7 +4,7 @@
       :attributes="attrs"
       :mask="{
         title: 'YYYY MMM',
-        weekdays: 'WWW',
+        weekdays: 'WWW'
       }"
       :disabledDates="holiday"
       :firstDayOfWeek="2"
@@ -33,7 +33,9 @@
                   font-weight: 500;
                   font-family: `PingFang SC`;
                 "
-                :class="item.state === '05'||item.state === '06' ? `fs-color` : ''"
+                :class="
+                  item.state === '05' || item.state === '06' ? `fs-color` : ''
+                "
               >
                 {{ item.startTime }}
               </div>
@@ -46,9 +48,9 @@
             <div
               class="meeting_info"
               :class="
-                item.state === '05'|| item.state === '06'
+                item.state === '05' || item.state === '06'
                   ? 'pass'
-                  : item.state === '03'||item.state === '04'
+                  : item.state === '03' || item.state === '04'
                   ? 'ongoing'
                   : 'future'
               "
@@ -58,9 +60,9 @@
                 <icon
                   symbol
                   :name="
-                    item.state === '05'|| item.state === '06'
+                    item.state === '05' || item.state === '06'
                       ? 'iconhuiyi-2'
-                      : item.state === '03'||item.state === '04'
+                      : item.state === '03' || item.state === '04'
                       ? 'iconhuiyi-3'
                       : 'iconhuiyi-shouye'
                   "
@@ -93,7 +95,7 @@ import { getSchedule, queryCalendar } from '@/api/home'
 import { mapState } from 'vuex'
 export default {
   filters: {
-    timePoint: function (value) {
+    timePoint: function(value) {
       return moment(value).format('LT')
     }
   },
@@ -122,7 +124,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userId: (userId) => userId.permission.userInfo
+      userId: userId => userId.permission.userInfo
     })
   },
   async mounted() {
@@ -160,7 +162,7 @@ export default {
         let reg = /\s+/
         let newArr = []
         let disabledDates = [...data_1, ...data_2]
-        disabledDates.forEach((item) => {
+        disabledDates.forEach(item => {
           let b = item.dateContent.split(reg)
           newArr.push({
             start: b[0],
@@ -168,13 +170,13 @@ export default {
           })
         })
         this.holiday = newArr
-        data_3.forEach((item) => {
+        data_3.forEach(item => {
           item.dot = 'yellow'
         })
         let all = [...data_3]
         this.attrs = all
         this.meetingList =
-          this.attrs?.find((a) => {
+          this.attrs?.find(a => {
             return a.dates === moment().format('YYYY-MM-DD')
           })?.customData || []
       }
@@ -210,23 +212,23 @@ export default {
         let result = await this.getMeetingList(body, this.userId.id)
         // 深度克隆 this.attrs  过滤掉数据会议
         let attrs = _.cloneDeep(this.attrs)
-        attrs = attrs.filter((item) => {
+        attrs = attrs.filter(item => {
           return !item.dot
         })
-        result.forEach((item) => {
+        result.forEach(item => {
           item.dot = 'yellow'
         })
         result && result.length > 0 ? (this.attrs = attrs.concat(result)) : ''
         this.meetingList = []
         let duringMonth = true
-        result.forEach((item) => {
+        result.forEach(item => {
           if (item.dates === moment().format('YYYY-MM-DD')) {
             duringMonth = false
             this.meetingList.push(...item.customData)
           }
         })
         if (duringMonth) {
-          result.forEach((item) => {
+          result.forEach(item => {
             this.meetingList.push(...item.customData)
           })
         }
@@ -245,7 +247,7 @@ export default {
           let reg = /\s+/
           let newArr = []
           let disabledDates = [...data_1, ...data_2]
-          disabledDates.forEach((item) => {
+          disabledDates.forEach(item => {
             let b = item.dateContent.split(reg)
             newArr.push({
               start: b[0],
@@ -253,7 +255,7 @@ export default {
             })
           })
           this.holiday = newArr
-          result.forEach((item) => {
+          result.forEach(item => {
             item.dot = 'yellow'
           })
           let all = [...result]
@@ -270,7 +272,7 @@ export default {
         },
         this.userId.id
       )
-      result_4 = result_4.filter((item) => item.dates == day)
+      result_4 = result_4.filter(item => item.dates == day)
       this.meetingList = result_4[0]?.customData || []
     },
     handleDayFocusOut() {
@@ -278,7 +280,7 @@ export default {
     },
     // 去详情
     handleGoMeetingDetail(id) {
-      window.location.href=`/portal/meeting/#/meeting/near-meeting/detail?id=${id}`
+      window.location.href = `/portal/meeting/#/meeting/near-meeting/detail?id=${id}`
     }
   }
 }
@@ -291,7 +293,7 @@ export default {
   .trangle {
     position: absolute;
     z-index: 100;
-    left: 65%;;
+    left: 65%;
     top: 7.5%;
     width: 0;
     height: 0;
@@ -308,7 +310,7 @@ export default {
       box-shadow: 0px 4px 6px rgba(15, 56, 111, 0.16);
     }
   }
-  .info_container{
+  .info_container {
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
@@ -357,7 +359,7 @@ export default {
         align-items: center;
         &.pass {
           border-left: 3px solid #afb0b3;
-          color: #AFB0B3;
+          color: #afb0b3;
           background: #fff;
           border-right: 14px solid #fff;
           width: 220px !important;
