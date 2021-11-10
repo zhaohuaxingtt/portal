@@ -37,6 +37,9 @@
         @click="hideSideMenu"
       ></div>
     </div>
+    <div class="btn-button">
+      <img src="~@/assets/images/leftContent.png" alt="" />
+    </div>
     <div class="povper-content">
       <div
         v-for="(list, index) in popoverList"
@@ -202,11 +205,12 @@ export default {
   }
   .povper-content {
     position: fixed;
-    bottom: 100px;
-    right: 40px;
+    bottom: 40px;
+    right: 120px;
     background-color: #fff;
-    border-radius: 20%;
-    width: 180px;
+    border-radius: 10%;
+    box-shadow: 10px 10px 5px #E0E4EC;
+    width: 140px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -214,8 +218,18 @@ export default {
     .item-content {
       padding-top: 10px;
       padding-bottom: 10px;
-      width: 100px;
+      width: 80px;
       cursor: pointer;
+    }
+  }
+  .btn-button {
+    position: fixed;
+    bottom: 40px;
+    right: 50px;
+
+    img {
+      height: 50px;
+      width: 50px;
     }
   }
   .app-menu-model {
