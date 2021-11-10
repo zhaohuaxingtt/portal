@@ -44,7 +44,6 @@
             <iInput
                     v-model="form.totalCommitment"
                     class="text"
-                    :disabled="linie||!show"
                     :placeholder="$t('LK_QINGSHURU')"
                     oninput="value = value.replace(/[^\d.]/g,'').replace(/\.{2,}/g,'.')"
                     @change="InputValue($event,2)"
@@ -152,9 +151,6 @@
                 querySpYearTargetDetail({yearbaseId: id}).then(res => {
                     if (res.result) {
                         let data = res.data
-                        data = data.filter((item) => {
-                            return item.orgId
-                        })
                         if (data.length) {
                             this.tableListData = [{A: 'Target-Lasting',}, {A: 'Commitment-Lasting',}]
                             data.map(item => {
