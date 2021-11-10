@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-28 14:51:25
- * @LastEditTime: 2021-10-28 16:44:27
+ * @LastEditTime: 2021-11-10 11:29:20
  * @LastEditors: Please set LastEditors
  * @Description: 公共步骤条封装
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\commonFlow.vue
@@ -48,6 +48,14 @@
     >
       <RsPdf @close="closeType" :RsType="downType"></RsPdf> 
     </iDialog>
+    <iDialog :title="language('MTZXINZENG', 'MTZ新增')"
+             :visible.sync="beforReturn"
+             class="tttttt"
+             v-if="beforReturn"
+             width="25%"
+             @close='beforReturn=true'>
+      <MtzAdd @close="closeTyoe"></MtzAdd>
+    </iDialog>
     <div class="margin-top20">
       <router-view/>
     </div>
@@ -59,12 +67,14 @@ import { iButton,iDialog } from "rise"
 import { topImgList } from './data'
 import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
+import MtzAdd from "./MtzAdd";
 export default {
   components:{
     iButton,
     iDialog,
     subSelect,
-    RsPdf
+    RsPdf,
+    MtzAdd
   },
   props: {
     mtzApplayNum: {
@@ -90,22 +100,39 @@ export default {
   },
   data () {
     return {
-      locationId:this.$route.query.mtzAppId,
+      locationId:"",
       topImgList,
       locationNow: this.$route.query.currentStep || 1,
       mtzAddShow:false,
       rsType:false,
-      downType:true
+      downType:true,
+      beforReturn:true,
     }
   },
   computed: {
+    mtzObject(){
+        return this.$store.state.location.mtzObject;
+    },
     commonTitle() {
       // MTZ申请单-100386 申请单名-采购员-科室
       return this.language('MTZSHENGQINGDAN', 'MTZ申请单') + (this.mtzApplayNum ? '-' + this.mtzApplayNum : '') + (' ' + this.mtzApplayName || '') + (this.user ? '-' + this.user : '') + (this.dept ? '-' + this.dept : '')
     }
   },
+  watch: {
+    mtzObject(newValue,oldValue){
+      if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined){
+      }else{
+        this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId
+      }
+    }
+  },
   created() {
-
+    if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined){
+      this.beforReturn = true;
+    }else{
+      this.beforReturn = false;
+      this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId
+    }
   },
   methods: {
     closeType(){
@@ -130,7 +157,8 @@ export default {
         path: data.url,
         query: {
           currentStep: data.id,
-          id:this.$route.query.mtzAppId,
+          mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          appid:this.$route.query.appid || this.mtzObject.appid,
         }
       })
     },
@@ -140,7 +168,10 @@ export default {
     closeBingo(val){
       console.log(val);
       this.closeDiolog()
-    }
+    },
+    closeTyoe(){
+      this.beforReturn = false;
+    },
   }
 }
 </script>
@@ -194,6 +225,12 @@ export default {
     .car_span_color{
       color:#CDD3E2!important;
     }
+  }
+}
+
+.tttttt{
+  ::v-deep .el-dialog__headerbtn{
+    display: none;
   }
 }
  
