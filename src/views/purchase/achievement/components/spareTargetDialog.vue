@@ -32,7 +32,6 @@
             <iInput
                     v-model="form.totalTarget"
                     class="text"
-                    :disabled="linie||!show"
                     :placeholder="$t('LK_QINGSHURU')"
                     oninput="value = value.replace(/[^\d.]/g,'').replace(/\.{2,}/g,'.')"
                     @change="InputValue($event,1)"
