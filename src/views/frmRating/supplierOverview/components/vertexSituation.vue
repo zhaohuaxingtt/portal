@@ -373,7 +373,7 @@ export default {
         if (arr.length != 0) {
           this.userList.push(...arr)
         }
-    
+   
       } else {
         this.userList = this.deptList.find((res) => {
           return v == res.id
@@ -467,7 +467,7 @@ export default {
         },
         legend: {
           icon: 'circle',
-      orient:'vertical',
+                  orient:'vertical',
           right: 0,
           top: 0,
           textStyle: {

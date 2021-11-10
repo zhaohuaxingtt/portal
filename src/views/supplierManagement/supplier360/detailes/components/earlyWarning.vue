@@ -98,13 +98,19 @@ export default {
     sampleDelivery,
     contract
   },
+  data() {
+    return {
+      soon: soon,
+      infodata: {}
+    }
+  },
   props: {
-    // financialEarlyWarningVO: {
-    //   type: Object,
-    //   default: () => {
-    //     return {}
-    //   }
-    // },
+    financialEarlyWarningVO: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     supplier360ViewVO: {
       type: Object,
       default: () => {
@@ -112,21 +118,12 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      soon: soon,
-      infodata: {}
-    }
-  },
   watch: {
     supplier360ViewVO(data) {
-      console.log(data)
       this.infodata = data
     }
   },
-  mounted() {
-    console.log(this.infodata)
-  },
+  mounted() {},
   methods: {}
 }
 </script>
