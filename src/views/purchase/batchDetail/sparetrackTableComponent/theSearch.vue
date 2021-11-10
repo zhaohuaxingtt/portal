@@ -53,7 +53,7 @@
             <el-row>
                 <!--科室-->
                 <el-form-item :label="$t('SUPPLIER_KESHI')">
-                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.deptCode">
+                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.dptKeCode">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
                                 :value="item.fullCode"
@@ -76,7 +76,7 @@
                 </el-form-item>
                 <!--供应商-->
                 <el-form-item :label="$t('EKL_YJGL_GYS')">
-                    <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.supplierName"></iInput>
+                    <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.supplierCode"></iInput>
                 </el-form-item>
                 <!--备注-->
                 <el-form-item :label="$t('EKL_PFJ_BZ')">
@@ -109,9 +109,9 @@
                     spMaterialGroup: [],    // 材料组
                     partBrand:[],   // 品牌
                     partProperty:[],// 属性
-                    deptCode: [],   // 科室
+                    dptKeCode: [],   // 科室 dptKeCode
                     linieId: [],    // 采购员
-                    supplierName: '',// 供应商
+                    supplierCode: '',// 供应商
                     memo:'',         // 备注
                 },
                 allSelectObject: {
@@ -140,10 +140,9 @@
         methods: {
             // 批量件搜索条件
             getSelectData(id) {
-                querySpareAllDropdown({spBasedetailId: 1000047||id}).then(res => {
+                querySpareAllDropdown({spBasedetailId:id,spTrack:false}).then(res => {
                     if (res.result) {
                         let data = res.data
-                        console.log(data,'下拉数据')
                         data = this.removeEmptyField(data)
                         this.allSelectObject = data
                         let {categoryLinieVoList,allStatus,brand} = data
@@ -162,7 +161,6 @@
                         this.allSelectObject.categoryLinieVoList = $categoryLinieVoList
                         this.allSelectObject.allStatus = $allStatus
                         this.allSelectObject.partBrand = brand
-                        console.log(11111,this.allSelectObject)
                         localStorage.setItem('allSelectObject', JSON.stringify(this.allSelectObject))
                     }
                 })
@@ -227,9 +225,9 @@
                     spMaterialGroup: [],    // 材料组
                     partBrand:[],   // 品牌
                     partProperty:[],// 属性
-                    deptCode: [],   // 科室
+                    dptKeCode: [],   // 科室
                     linieId: [],    // 采购员
-                    supplierName: '',// 供应商
+                    supplierCode: '',// 供应商
                     memo:'',         // 备注
                 }
                 this.getTableList();

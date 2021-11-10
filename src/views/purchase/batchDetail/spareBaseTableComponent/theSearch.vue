@@ -51,7 +51,7 @@
             <el-row>
                 <!--科室-->
                 <el-form-item :label="$t('SUPPLIER_KESHI')">
-                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.deptCode">
+                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.dptKeCode">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
                                 :value="item.fullCode"
@@ -107,7 +107,7 @@
                     spMaterialGroup: [],    // 材料组
                     partBrand:[],   // 品牌
                     partProperty:[],// 属性
-                    deptCode: [],   // 科室
+                    dptKeCode: [],   // 科室 dptKeCode  supplierCode
                     linieId: [],    // 采购员
                     supplierName: '',// 供应商
                     memo:'',         // 备注
@@ -136,7 +136,7 @@
         methods: {
             // 批量件搜索条件
             getSelectData(id) {
-                querySpareAllDropdown({spBasedetailId:id}).then(res => {
+                querySpareAllDropdown({spBasedetailId:id,spTrack:true}).then(res => {
                     if (res.result) {
                         let data = res.data
                         data = this.removeEmptyField(data)
@@ -221,7 +221,7 @@
                     spMaterialGroup: [],    // 材料组
                     partBrand:[],   // 品牌
                     partProperty:[],// 属性
-                    deptCode: [],   // 科室
+                    dptKeCode: [],   // 科室
                     linieId: [],    // 采购员
                     supplierName: '',// 供应商
                     memo:'',         // 备注
