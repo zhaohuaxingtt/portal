@@ -57,9 +57,9 @@ export default {
         this.getChart()
       })
     },
-    changeTab(){
-        this.isTitle=!this.isTitle
-        this.getChart()
+    changeTab() {
+      this.isTitle = !this.isTitle
+      this.getChart()
     },
     getChart() {
       var data1 = []
@@ -79,60 +79,20 @@ export default {
         data4.push(e.year)
       })
     // data3=this.sumItem(data3,data1)
-    // console.log(data1)
-      const myChart = echarts().init(this.$refs.chart)
-      var option = {
-        legend: {
-          icon: 'circle',  
-          right: 50,
-          top: 0,
-          textStyle: {
-            fontSize: 10,
-            color: '#909091'
-          },
-          itemWidth: 8,
-          itemHeight: 8
-        },
-
-        tooltip: {
-          trigger: 'axis'
-        },
-        grid: {
-          top: '8%',
-          bottom: '12%%',
-          right: '0%',
-          left: '10%'
-        },
-        xAxis: {
-          type: 'category',
-          data: data4,
-          axisLabel: {
-            show: true,
-            textStyle: {
-              color: '#7E84A3',
-              fontSize: '10px'
+              }
             }
           },
-          axisLine: {
-            lineStyle: {
-              color: '#7E84A3'
-            }
-          },
-          axisTick: {
-            show: false
-          }
-        },
-        yAxis: {
-          show: false,
-          type: 'value',
-          axisLabel: {
-            show: true,
-            textStyle: {
-              color: '#7E84A3',
-              fontSize: '10px'
+          {
+            // show: false,
+            type: 'value',
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#7E84A3',
+              }
             }
           }
-        },
+        ],
         series: [
           {
             name: '降价',
@@ -189,17 +149,16 @@ export default {
       }
       myChart.setOption(option)
     },
-    sumItem: function(arr1, arr2) {
-            if (arr2.length == 0) {
-                return arr1;
-            } else {
-                arr1.map(function(value, index) {
-                    arr2[index] += value+1;
-                })
-            }
-            return arr2;
-        }
-
+    sumItem: function (arr1, arr2) {
+      if (arr2.length == 0) {
+        return arr1
+      } else {
+        arr1.map(function (value, index) {
+          arr2[index] += value + 1
+        })
+      }
+      return arr2
+    }
   }
 }
 </script>
