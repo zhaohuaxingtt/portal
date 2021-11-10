@@ -42,7 +42,7 @@
               <span class="conclusion">下次会议</span>
               <span class="required-icon">*</span>
             </div>
-            <iTableML
+            <!-- <iTableML
               tooltip-effect="light"
               :data="tableListData"
               :border="true"
@@ -63,7 +63,29 @@
                 prop="name"
               >
               </el-table-column>
-            </iTableML>
+            </iTableML> -->
+            <el-table
+              tooltip-effect="light"
+              :data="tableListData"
+              :border="true"
+              ref="tableRef"
+              @current-change="handleSelectionChange"
+            >
+              <el-table-column
+                align="center"
+                label=""
+                width="57"
+                type="selection"
+              >
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="left"
+                label="会议名称"
+                prop="name"
+              >
+              </el-table-column>
+            </el-table>
           </div>
         </iFormItem>
         <iFormItem
@@ -98,14 +120,16 @@
       </el-form>
     </iEditForm>
     <div class="button-list">
-      <iButton class="sure" @click="handleSure" :loading="loading">确定</iButton>
+      <iButton class="sure" @click="handleSure" :loading="loading"
+        >确定</iButton
+      >
       <iButton class="cancel" @click="handleCancel">取消</iButton>
     </div>
   </iDialog>
 </template>
 <script>
 import iEditForm from '@/components/iEditForm'
-import iTableML from '@/components/iTableML'
+// import iTableML from '@/components/iTableML'
 import {
   iDialog,
   iFormItem,
@@ -128,8 +152,8 @@ export default {
     iSelect,
     iLabel,
     iInput,
-    iButton,
-    iTableML
+    iButton
+    // iTableML
   },
   props: {
     selectedTableData: {
@@ -271,6 +295,9 @@ export default {
     if (this.selectedTableData[0].conclusionCsc === '06') {
       this.getUpdateDateTableList('CSC', 'init')
     }
+    this.$nextTick(() => {
+      this.$refs.tableRef.setCurrentRow(this.currentRow)
+    })
   },
   watch: {
     'ruleForm.isFrozenRs': {
@@ -303,7 +330,9 @@ export default {
   },
   methods: {
     handleSelectionChange(val) {
-      this.curChooseArr = [...val]
+      // this.curChooseArr = [...val]
+      this.curChooseArr = [val]
+      this.$refs.tableRef.setCurrentRow(this.currentRow);
     },
     handleSure() {
       this.loading = true
@@ -346,7 +375,7 @@ export default {
           iMessage.success('维护成功!')
           this.close()
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error('维护失败: ' + err)
         })
     },
@@ -393,7 +422,7 @@ export default {
       const res = await getMettingList(e)
       this.tableListData = res.data
       if (str2 === 'init') {
-        this.currentRow = this.tableListData.find(item => {
+        this.currentRow = this.tableListData.find((item) => {
           return item.id === this.selectedTableData[0].toDoMeeting
         })
       }
