@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2021-11-10 11:24:26
+ * @LastEditTime: 2021-11-10 13:43:16
  * @LastEditors: Please set LastEditors
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
@@ -350,7 +350,7 @@ export default {
       const {href} = this.$router.resolve({
         path: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/signPreview',
         query: {
-          id: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         }
       })
       window.open(href, '_blank')
