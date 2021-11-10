@@ -140,7 +140,7 @@
         methods: {
             // 批量件搜索条件
             getSelectData(id) {
-                querySpareAllDropdown({spBasedetailId:id,spTrack:false}).then(res => {
+                querySpareAllDropdown({spBasedetailId:id,spTrack:true}).then(res => {
                     if (res.result) {
                         let data = res.data
                         data = this.removeEmptyField(data)
