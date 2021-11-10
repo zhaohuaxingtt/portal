@@ -10,6 +10,12 @@
             v-model="form.name"
           ></iInput>
         </el-form-item>
+        <el-form-item :label="'会议地点'" class="meeting-name-item">
+          <iInput
+            :placeholder="$t('LK_QINGSHURU')"
+            v-model="form.meetingPlace"
+          ></iInput>
+        </el-form-item>
         <!--会议类型-->
         <el-form-item :label="'会议类型'">
           <iSelect
@@ -71,27 +77,27 @@
 </template>
 
 <script>
-import { iInput, iSelect } from "rise";
-import { getMettingType } from "@/api/meeting/type";
-import { statusList, weekListInit } from "./data";
-import iDateRangePicker from "@/components/iDateRangePicker/index.vue";
-import iSearch from "@/components/iSearch/index.vue";
-import dayjs from "@/utils/dayjs.js";
+import { iInput, iSelect } from 'rise'
+import { getMettingType } from '@/api/meeting/type'
+import { statusList, weekListInit } from './data'
+import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
+import iSearch from '@/components/iSearch/index.vue'
+import dayjs from '@/utils/dayjs.js'
 
 export default {
   components: {
     iSearch,
     iInput,
     iSelect,
-    iDateRangePicker,
+    iDateRangePicker
   },
   props: {
     form: {
       type: Object,
       default: () => {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   data() {
     return {
@@ -100,55 +106,55 @@ export default {
       startWeek: 0,
       endWeek: dayjs(dayjs().year()).isoWeeksInYear(),
       weekListInit,
-      weekList: weekListInit,
-    };
+      weekList: weekListInit
+    }
   },
   mounted() {
-    this.getAllSelectList();
+    this.getAllSelectList()
   },
   methods: {
     handleSearchReset() {
-      this.form = {};
-      this.weekList = weekListInit;
+      this.form = {}
+      this.weekList = weekListInit
       setTimeout(() => {
-        this.$refs.iDateRangePicker.initDate();
-      }, 4);
-      this.$emit("handleSearchReset");
+        this.$refs.iDateRangePicker.initDate()
+      }, 4)
+      this.$emit('handleSearchReset')
     },
     searchTableList() {
-      this.$emit("searchTableList");
+      this.$emit('searchTableList')
     },
     getAllSelectList() {
       let param = {
         pageSize: 1000,
         pageNum: 1,
-        isCurrentUser: true,
-      };
+        isCurrentUser: true
+      }
       getMettingType(param).then((res) => {
-        this.meetingTypeList = res.data;
-        this.$emit("setTypeObj", res.data);
-      });
+        this.meetingTypeList = res.data
+        this.$emit('setTypeObj', res.data)
+      })
     },
     changeStart(e) {
-      this.form.startDateBegin = e;
-      this.startWeek = dayjs(e).week() - 1;
-      let weekListInit = JSON.parse(JSON.stringify(this.weekListInit));
-      this.weekList = weekListInit.slice(this.startWeek, this.endWeek);
-      this.$emit("deleteWeek");
+      this.form.startDateBegin = e
+      this.startWeek = dayjs(e).week() - 1
+      let weekListInit = JSON.parse(JSON.stringify(this.weekListInit))
+      this.weekList = weekListInit.slice(this.startWeek, this.endWeek)
+      this.$emit('deleteWeek')
     },
     changeEnd(e) {
-      this.form.startDateEnd = e;
+      this.form.startDateEnd = e
       if (e) {
-        this.endWeek = dayjs(e).week();
+        this.endWeek = dayjs(e).week()
       } else {
-        this.endWeek = dayjs(dayjs().year()).isoWeeksInYear();
+        this.endWeek = dayjs(dayjs().year()).isoWeeksInYear()
       }
-      let weekListInit = JSON.parse(JSON.stringify(this.weekListInit));
-      this.weekList = weekListInit.slice(this.startWeek, this.endWeek);
-      this.$emit("deleteWeek");
-    },
-  },
-};
+      let weekListInit = JSON.parse(JSON.stringify(this.weekListInit))
+      this.weekList = weekListInit.slice(this.startWeek, this.endWeek)
+      this.$emit('deleteWeek')
+    }
+  }
+}
 </script>
 
 <style scoped>

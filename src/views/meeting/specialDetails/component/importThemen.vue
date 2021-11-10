@@ -23,17 +23,15 @@
                 ><img :src="uploadIcon"
               /></span>
             </iButton>
-            <div slot="tip" class="el-upload__tip">
-              文件大小最大限制10M
-            </div>
+            <div slot="tip" class="el-upload__tip">文件大小最大限制10M</div>
           </el-upload>
         </iFormItem>
         <div class="button-list">
           <iButton @click="clearDiolog" class="cancel">{{
-            $t("LK_QUXIAO")
+            $t('LK_QUXIAO')
           }}</iButton>
-          <iButton @click="handleSubmit" class="save">{{
-            $t("LK_BAOCUN")
+          <iButton @click="handleSubmit" class="save" :loading="loading">{{
+            $t('LK_BAOCUN')
           }}</iButton>
         </div>
       </el-form>
@@ -42,84 +40,85 @@
 </template>
 
 <script>
-import { iDialog, iFormItem, iButton, iMessage } from "rise";
-import iEditForm from "@/components/iEditForm";
-import uploadIcon from "@/assets/images/upload-icon.svg";
-import { importThemen } from "@/api/meeting/details";
+import { iDialog, iFormItem, iButton, iMessage } from 'rise'
+import iEditForm from '@/components/iEditForm'
+import uploadIcon from '@/assets/images/upload-icon.svg'
+import { importThemen } from '@/api/meeting/details'
 export default {
   components: {
     iDialog,
     iFormItem,
     iEditForm,
-    iButton,
+    iButton
   },
   props: {
     dialogStatusManageObj: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     meetingInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   data() {
     return {
+      loading: false,
       uploadIcon,
       importFiles: [],
       ruleForm: {},
-      accept: ".xlsx",
-    };
+      accept: '.xlsx'
+    }
   },
   methods: {
     handleRemove(file) {
       this.importFiles = this.importFiles.filter((item) => {
-        return item.file.get("file").uid === file.uid;
-      });
+        return item.file.get('file').uid === file.uid
+      })
     },
     beforeAvatarUpload(file) {
       if (file.type !== this.accept) {
-        this.$message.error(`上传文件类型错误`);
-        return false;
+        this.$message.error(`上传文件类型错误`)
+        return false
       }
-      const isLt10M = file.size / 1024 / 1024 < 10;
+      const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error("文件大小最大限制10M!");
+        this.$message.error('文件大小最大限制10M!')
       }
-      return isLt10M;
+      return isLt10M
     },
     // 上传过程
     async httpUpload(content) {
-      this.uploadLoading = true;
-      let formData = new FormData();
-      formData.append("file", content.file);
+      this.uploadLoading = true
+      let formData = new FormData()
+      formData.append('file', content.file)
       this.importFiles.push({
         meetingId: this.meetingInfo.id,
-        file: formData,
-      });
-      this.uploadLoading = false;
+        file: formData
+      })
+      this.uploadLoading = false
     },
     handlePreview(file) {
-      console.log(file);
+      console.log(file)
     },
     close() {
-      this.$emit("input", false);
-      this.$emit("closeDialog", false);
+      this.$emit('input', false)
+      this.$emit('closeDialog', false)
     },
     clearDiolog(sub) {
-      if (sub === "submit") {
-        this.close();
+      if (sub === 'submit') {
+        this.close()
       } else {
         // this.$confirm("是否取消编辑?", "提示", {
         //   confirmButtonText: "是",
         //   cancelButtonText: "否",
         //   type: "warning",
         // }).then(() => {
-          this.close();
+        this.close()
         // });
       }
     },
@@ -129,52 +128,55 @@ export default {
       //   cancelButtonText: "否",
       //   type: "warning",
       // }).then(() => {
-        this.submitForm("ruleForm");
+      this.submitForm('ruleForm')
       // });
     },
     handleSaveAllFiles() {
-      let promiseArr = [];
+      let promiseArr = []
       this.importFiles.forEach((data) => {
         let p = new Promise((resolve, reject) => {
           //开始保存
           importThemen(data)
             .then((data) => {
-              resolve(data);
+              resolve(data)
             })
             .catch((err) => {
-              reject(err);
-            });
-          promiseArr.push(p);
-        });
-      });
-      Promise.all(promiseArr)
-        .then((res) => {
-          this.clearDiolog("submit");
-          iMessage.success("导入成功");
-          this.$emit("flushTable");
+              reject(err)
+            })
+          promiseArr.push(p)
         })
-        .catch((err) => {
-          this.clearDiolog("submit");
-          iMessage.error("导入失败");
-          this.$emit("flushTable");
-        });
+      })
+      Promise.all(promiseArr)
+        .then(() => {
+          this.loading = false
+          this.clearDiolog('submit')
+          iMessage.success('导入成功')
+          this.$emit('flushTable')
+        })
+        .catch(() => {
+          this.loading = false
+          this.clearDiolog('submit')
+          iMessage.error('导入失败')
+          this.$emit('flushTable')
+        })
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.handleSaveAllFiles();
+          this.loading = true
+          this.handleSaveAllFiles()
         } else {
-          return false;
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
 ::v-deep .form {
-  background-image: url("../../../../assets/images/upload-bg.png");
+  background-image: url('../../../../assets/images/upload-bg.png');
   background-repeat: no-repeat;
   background-size: 80px 67.32px;
   background-position: 0 0;

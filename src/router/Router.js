@@ -31,7 +31,10 @@ import RouterBiz from './RouterBiz'
 import RouterAchievement from './RouterAchievement'
 import RouterPopupWindowMa from './RouterPopupWindowMa'
 
-import RouterMeeting from './meeting'
+// import RouterMeeting from './meeting'
+
+import RouterManage from './RouterManage'
+import RouterMeeting from './RouterMeeting'
 
 export default {
   routes: [
@@ -96,7 +99,8 @@ export default {
         ...RouterBiz,
         ...RouterAchievement,
         ...RouterMeeting,
-        ...RouterPopupWindowMa
+        ...RouterPopupWindowMa,
+        ...RouterManage
       ]
     },
 

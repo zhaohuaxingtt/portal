@@ -1,5 +1,5 @@
 import axios from "@/utils/axios";
-import { callbackify } from "util";
+// import { callbackify } from "util";
 import { MOCK_FILE_URL } from "@/constants/index";
 
 const request = axios();
@@ -44,7 +44,7 @@ const download = ({
           window.URL.revokeObjectURL(blobUrl);
           callback && callback(true);
         })
-        .catch((err) => {
+        .catch(() => {
           callback && callback(false);
         });
     } else {
@@ -67,7 +67,7 @@ const download = ({
           window.URL.revokeObjectURL(blobUrl);
           callback && callback(true);
         })
-        .catch((err) => {
+        .catch(() => {
           callback && callback(false);
         });
     }
@@ -86,7 +86,7 @@ const download = ({
           window.URL.revokeObjectURL(blobUrl);
           callback && callback(true);
         })
-        .catch((err) => {
+        .catch(() => {
           callback && callback(false);
         });
     } else {
@@ -109,7 +109,7 @@ const download = ({
           window.URL.revokeObjectURL(blobUrl);
           callback && callback(true);
         })
-        .catch((err) => {
+        .catch(() => {
           callback && callback(false);
         });
     }

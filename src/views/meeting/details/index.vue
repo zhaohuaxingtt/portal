@@ -630,7 +630,7 @@ export default {
   },
   watch: {
     isAdmin: {
-      handler(v) {
+      handler() {
       },
       immediate: true,
     },
@@ -742,7 +742,7 @@ export default {
       }
     },
     // 导入议题保存
-    handleOKTopics(e) {
+    handleOKTopics() {
       this.closeDialog();
       this.flushTable();
     },
@@ -1062,7 +1062,7 @@ export default {
       };
     },
     handleSizeChange: (a, b) => {
-      // console.log(a, b);
+      console.log(a, b);
     },
     //选择页数
     handleCurrentChange: (curPage, query) => {
@@ -1333,7 +1333,7 @@ export default {
             // this.refreshTable();
             this.flushTable();
           })
-          .catch((err) => {
+          .catch(() => {
             iMessage.error("开始议题失败！");
           });
       // });
@@ -1405,7 +1405,7 @@ export default {
             iMessage.success("拆分成功");
             this.flushTable();
           })
-          .catch((err) => {
+          .catch(() => {
             iMessage.error("拆分失败");
             this.flushTable();
           });
@@ -1473,7 +1473,7 @@ export default {
               iMessage.success("删除成功");
               this.flushTable();
             })
-            .catch((err) => {
+            .catch(() => {
               iMessage.error("删除失败");
               this.flushTable();
             });
@@ -1560,10 +1560,10 @@ export default {
     endMeeting() {
       // alert("结束");
       // 结束
-      let dateCurrent = new Date().valueOf();
-      let dateEnd = new Date(
-          this.meetingInfo.endDate + " " + this.meetingInfo.endTime
-      ).valueOf();
+      // let dateCurrent = new Date().valueOf();
+      // let dateEnd = new Date(
+      //     this.meetingInfo.endDate + " " + this.meetingInfo.endTime
+      // ).valueOf();
       // this.$confirm(
       //   dateEnd < dateCurrent
       //     ? "会议进行时间过短，请确认是否需要结束？"
@@ -1590,7 +1590,7 @@ export default {
           });
       // });
     },
-    sameScreen(e) {
+    sameScreen() {
       // alert("同屏");
       // 同屏
       let routeUrl = this.$router.resolve({

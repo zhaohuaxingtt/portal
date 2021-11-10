@@ -22,11 +22,7 @@
         class="form"
       >
         <div class="row-box">
-          <iFormItem
-            label="议题类型"
-            :hideRequiredAsterisk="true"
-            class="item"
-          >
+          <iFormItem label="议题类型" :hideRequiredAsterisk="true" class="item">
             <iLabel :label="$t('议题类型')" slot="label"></iLabel>
             <iInput class="disabledAll" value="非标准议题" disabled></iInput>
           </iFormItem>
@@ -37,7 +33,10 @@
             class="item"
           >
             <iLabel :label="$t('Items Name')" slot="label" required></iLabel>
-            <iInput v-model="ruleForm.topic" :disabled="editOrAdd==='look'"></iInput>
+            <iInput
+              v-model="ruleForm.topic"
+              :disabled="editOrAdd === 'look'"
+            ></iInput>
           </iFormItem>
           <iFormItem
             v-if="editOrAdd !== 'edit'"
@@ -47,7 +46,10 @@
             class="item"
           >
             <iLabel :label="$t('Duration')" slot="label" required></iLabel>
-            <iInput v-model="ruleForm.duration" :disabled="editOrAdd==='look'"></iInput>
+            <iInput
+              v-model="ruleForm.duration"
+              :disabled="editOrAdd === 'look'"
+            ></iInput>
           </iFormItem>
           <iFormItem
             label="Sourcing No."
@@ -56,7 +58,10 @@
             class="item"
           >
             <iLabel :label="$t('Sourcing No.')" slot="label"></iLabel>
-            <iInput v-model="ruleForm.sourcingNo" :disabled="editOrAdd==='look'"></iInput>
+            <iInput
+              v-model="ruleForm.sourcingNo"
+              :disabled="editOrAdd === 'look'"
+            ></iInput>
           </iFormItem>
           <iFormItem
             label="TNR"
@@ -65,7 +70,10 @@
             class="item"
           >
             <iLabel :label="$t('TNR')" slot="label"></iLabel>
-            <iInput v-model="ruleForm.tnr" :disabled="editOrAdd==='look'"></iInput>
+            <iInput
+              v-model="ruleForm.tnr"
+              :disabled="editOrAdd === 'look'"
+            ></iInput>
           </iFormItem>
           <iFormItem
             label="BEN(CN)"
@@ -74,7 +82,10 @@
             class="item"
           >
             <iLabel :label="$t('BEN(CN)')" slot="label" required></iLabel>
-            <iInput v-model="ruleForm.benCn" :disabled="editOrAdd==='look'"></iInput>
+            <iInput
+              v-model="ruleForm.benCn"
+              :disabled="editOrAdd === 'look'"
+            ></iInput>
           </iFormItem>
 
           <iFormItem
@@ -84,7 +95,10 @@
             class="item"
           >
             <iLabel :label="$t('BEN(DE)')" slot="label"></iLabel>
-            <iInput v-model="ruleForm.benDe" :disabled="editOrAdd==='look'"></iInput>
+            <iInput
+              v-model="ruleForm.benDe"
+              :disabled="editOrAdd === 'look'"
+            ></iInput>
           </iFormItem>
 
           <iFormItem
@@ -94,7 +108,10 @@
             class="item"
           >
             <iLabel :label="$t('Carline')" slot="label"></iLabel>
-            <iInput v-model="ruleForm.carline" :disabled="editOrAdd==='look'"></iInput>
+            <iInput
+              v-model="ruleForm.carline"
+              :disabled="editOrAdd === 'look'"
+            ></iInput>
           </iFormItem>
 
           <iFormItem
@@ -116,7 +133,7 @@
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
-              :disabled="ruleForm.state === '02' || editOrAdd==='look'"
+              :disabled="ruleForm.state === '02' || editOrAdd === 'look'"
             >
               <el-option
                 v-for="item in selectUserArr.length > 0
@@ -144,7 +161,7 @@
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
-              :disabled="ruleForm.state === '02'  || editOrAdd==='look'"
+              :disabled="ruleForm.state === '02' || editOrAdd === 'look'"
             >
               <el-option
                 v-for="item in selectUserArr.length > 0
@@ -166,43 +183,38 @@
             <iLabel :label="$t('EP')" slot="label"></iLabel>
             <iInput v-model="ruleForm.ep"></iInput>
           </iFormItem>
-          <iFormItem
-            label="议题资料"
-            :hideRequiredAsterisk="true"
-            class="item"
-          >
+          <iFormItem label="议题资料" :hideRequiredAsterisk="true" class="item">
             <iLabel :label="$t('议题资料')" slot="label"></iLabel>
-              <el-upload
-                class="upload-file"
-                action="1"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
-                :show-file-list="false"
-                :http-request="httpUpload"
-                :file-list="fileList"
-                :disabled="editOrAdd==='look'"
+            <el-upload
+              class="upload-file"
+              action="1"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+              :show-file-list="false"
+              :http-request="httpUpload"
+              :file-list="fileList"
+              :disabled="editOrAdd === 'look'"
+            >
+              <iButton
+                type="button"
+                class="upload-button"
+                :uploadLoading="uploadLoading"
+                :disabled="editOrAdd === 'look'"
               >
-                <iButton
-                  type="button"
-                  class="upload-button"
-                  :uploadLoading="uploadLoading"
-                  :disabled="editOrAdd==='look'"
-                >
-                  <span class="upload-text"
-                    ><img :src="uploadIcon"
-                  /></span> <span class="upload-text-content">选择文件</span>
-                </iButton>
-                <div slot="tip" class="el-upload__tip">
-                  文件大小最大限制30M
-                </div>
-              </el-upload>
-              <ul class="file-list">
+                <span class="upload-text"><img :src="uploadIcon"/></span>
+                <span class="upload-text-content">选择文件</span>
+              </iButton>
+              <div slot="tip" class="el-upload__tip">
+                文件大小最大限制30M
+              </div>
+            </el-upload>
+            <ul class="file-list">
               <li v-for="(item, index) of ruleForm.attachments" :key="index">
                 <div
                   class="download"
                   @click="
                     () => {
-                      handleDownload(item);
+                      handleDownload(item)
                     }
                   "
                 >
@@ -227,33 +239,44 @@
         class="cancel"
         v-show="editOrAdd !== 'look'"
         :disabled="subButtonFlag"
-        >{{ $t("LK_QUXIAO") }}</iButton
+        >{{ $t('LK_QUXIAO') }}</iButton
       >
       <iButton
         @click="handleSubmit"
         class="save"
         v-show="editOrAdd !== 'look'"
         :disabled="subButtonFlag"
-        >{{ $t("LK_BAOCUN") }}</iButton
+        :loading="loading"
+        >{{ $t('LK_BAOCUN') }}</iButton
       >
     </div>
   </iDialog>
 </template>
 
 <script>
-import { iDialog, iInput, iFormItem, iLabel, iButton, iMessage ,iSelect} from "rise";
-import iEditForm from "@/components/iEditForm";
-import uploadIcon from "@/assets/images/upload-icon.svg";
+import {
+  iDialog,
+  iInput,
+  iFormItem,
+  iLabel,
+  iButton,
+  iMessage,
+  iSelect
+} from 'rise'
+import iEditForm from '@/components/iEditForm'
+import uploadIcon from '@/assets/images/upload-icon.svg'
 import {
   saveThemen,
   updateThemen,
   addThemenAttachment,
-  findTheThemenById,
-} from "@/api/meeting/details";
-import { uploadFile, getUsers, getReceiverById } from "@/api/meeting/type";
-import { download, createAnchorLink } from "@/utils/downloadUtil";
-import { MOCK_FILE_URL } from "@/constants";
-import { getFileByIds } from "@/api/file/filedownload.js";
+  findTheThemenById
+} from '@/api/meeting/details'
+// import { uploadFile, getUsers, getReceiverById } from "@/api/meeting/type";
+// import { download, createAnchorLink } from "@/utils/downloadUtil";
+import { uploadFile, getReceiverById } from '@/api/meeting/type'
+import { download } from '@/utils/downloadUtil'
+// import { MOCK_FILE_URL } from "@/constants";
+// import { getFileByIds } from "@/api/file/filedownload.js";
 export default {
   components: {
     iDialog,
@@ -262,52 +285,53 @@ export default {
     iLabel,
     iEditForm,
     iButton,
-    iSelect,
+    iSelect
   },
   props: {
     lookThemenObj: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
-   dialogStatusManageObj: {
+    dialogStatusManageObj: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     meetingInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     selectedTableData: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     editOrAdd: {
       type: String,
       default: () => {
-        return "add";
-      },
-    },
+        return 'add'
+      }
+    }
   },
   data() {
     const validateTopic = (rule, value, callback) => {
       if (!value.trim()) {
-        callback(new Error("必填"));
+        callback(new Error('必填'))
       } else {
         if (value && value.length > 255) {
-          callback(new Error("最大不能超过255字符"));
+          callback(new Error('最大不能超过255字符'))
         }
-        callback();
+        callback()
       }
-    };
+    }
     return {
+      loading: false,
       uploadLoading: false,
       showWord: true,
       uploadIcon,
@@ -315,101 +339,89 @@ export default {
       presenterIdArr: [],
       selectUserArr: [],
       ruleForm: {
-        type:'MANUAL',
-        topic: "",
-        duration: "",
-        sourcingNo:'',
-        tnr:'',
-        benCn:'',
-        benDe:'',
-        carline:'',
-        supporter:'',
-        presenter:'',
-        ep:'',
-        attachments:[],
-        presenterDept: "",
-        supporterDept: "",
+        type: 'MANUAL',
+        topic: '',
+        duration: '',
+        sourcingNo: '',
+        tnr: '',
+        benCn: '',
+        benDe: '',
+        carline: '',
+        supporter: '',
+        presenter: '',
+        ep: '',
+        attachments: [],
+        presenterDept: '',
+        supporterDept: ''
       },
-      presenterStr: "",
-      supporterStr: "",
+      presenterStr: '',
+      supporterStr: '',
       rules: {
         topic: [
           {
-            trigger: "blur",
-            validator: validateTopic,
-          },
+            trigger: 'blur',
+            validator: validateTopic
+          }
         ],
-        supporter: [{required: true, message: "必选", trigger: "blur" },
-        ],
-        presenter: [
-          {required: true, message: "必选", trigger: "blur" },
-       ],
+        supporter: [{ required: true, message: '必选', trigger: 'blur' }],
+        presenter: [{ required: true, message: '必选', trigger: 'blur' }],
         duration: [
-          { required: true, message: "必填", trigger: "blur" },
+          { required: true, message: '必填', trigger: 'blur' },
           {
-            type: "number",
-            message: "最大长度3位，单位（分钟），必须正整数",
-            trigger: "blur",
+            type: 'number',
+            message: '最大长度3位，单位（分钟），必须正整数',
+            trigger: 'blur',
             transform(value) {
-              if (value !== null && value !== "") {
+              if (value !== null && value !== '') {
                 if (
-                  String(value).trim() === "" ||
+                  String(value).trim() === '' ||
                   Number(value) <= 0 ||
                   Number(value) >= 1000
                 ) {
-                  return false;
+                  return false
                 } else if (
-                  String(value).indexOf(".") !== -1 ||
-                  String(value).indexOf("-") !== -1
+                  String(value).indexOf('.') !== -1 ||
+                  String(value).indexOf('-') !== -1
                 ) {
-                  return false;
+                  return false
                 } else {
-                  return Number(value);
+                  return Number(value)
                 }
               } else {
-                return null;
+                return null
               }
-            },
-          },
+            }
+          }
         ],
-        benCn:[
-          {required: true, message: "必填", trigger: "blur" },
-          { max: 255, message: "最大长度 255 字符", trigger: "blur"}
+        benCn: [
+          { required: true, message: '必填', trigger: 'blur' },
+          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
         ],
-        sourcingNo:[
-          { max: 255, message: "最大长度 255 字符", trigger: "blur"}
+        sourcingNo: [
+          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
         ],
-        tnr:[
-          { max: 255, message: "最大长度 255 字符", trigger: "blur"}
-        ],
-        benDe:[
-          { max: 255, message: "最大长度 255 字符", trigger: "blur"}
-        ],
-        carline:[
-          { max: 255, message: "最大长度 255 字符", trigger: "blur"}
-        ],
-        ep:[
-          { max: 255, message: "最大长度 255 字符", trigger: "blur"}
-        ],
+        tnr: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
+        benDe: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
+        carline: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
+        ep: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }]
       },
-      subButtonFlag:false,
-    };
+      subButtonFlag: false
+    }
   },
   mounted() {
-    if (this.editOrAdd === "edit") {
-      this.ruleForm = { ...this.selectedTableData[0] };
-      this.queryThemen();
-      this.getUsersByResponse();
+    if (this.editOrAdd === 'edit') {
+      this.ruleForm = { ...this.selectedTableData[0] }
+      this.queryThemen()
+      this.getUsersByResponse()
     }
-    if (this.editOrAdd === "add") {
-      this.ruleForm.duration = this.meetingInfo.duration;
-      this.getUsersByResponse();
+    if (this.editOrAdd === 'add') {
+      this.ruleForm.duration = this.meetingInfo.duration
+      this.getUsersByResponse()
     }
-    if (this.editOrAdd === "look") {
-      this.ruleForm = this.lookThemenObj;
-      return;
+    if (this.editOrAdd === 'look') {
+      this.ruleForm = this.lookThemenObj
+      return
     }
-   
   },
   computed: {
     // supporterIdArrAndCurrentSearchUserData() {
@@ -512,229 +524,245 @@ export default {
   methods: {
     handleDeleteFile(file) {
       // console.log(file);
-      this.ruleForm.attachments = this.ruleForm.attachments.filter((item) => {
-        return item.attachmentId !== file.attachmentId;
-      });
+      this.ruleForm.attachments = this.ruleForm.attachments.filter(item => {
+        return item.attachmentId !== file.attachmentId
+      })
     },
     queryThemen() {
       const data = {
         themenId: this.ruleForm.id,
-        meetingId: this.meetingInfo.id,
-      };
-      findTheThemenById(data).then((res) => {
-        this.ruleForm.supporter=res.supporter;
-        this.ruleForm.presenter=res.presenter;
-      });
+        meetingId: this.meetingInfo.id
+      }
+      findTheThemenById(data).then(res => {
+        this.ruleForm.supporter = res.supporter
+        this.ruleForm.presenter = res.presenter
+      })
     },
     handleDownload(row) {
       download({
         fileIds: row.attachmentId,
         filename: row.attachmentName,
-        callback: (e) => {
+        callback: e => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error('下载失败')
           }
-        },
-      });
+        }
+      })
     },
     handleFocus() {
-      this.remoteMethod();
+      this.remoteMethod()
     },
     remoteMethod(queryString) {
-      let currentSearchUserData = [];
+      let currentSearchUserData = []
       currentSearchUserData = queryString
         ? this.userData.filter(this.createStateFilter(queryString))
-        : this.userData;
-      this.selectUserArr = currentSearchUserData;
+        : this.userData
+      this.selectUserArr = currentSearchUserData
     },
 
     //编辑和添加时的文件上传
     handleUploadFile() {
       const sourceAttachments = this.selectedTableData[0]
         ? [...this.selectedTableData[0].attachments]
-        : [];
+        : []
       //需要上传的文件
       this.shouldUploadAttachments = this.ruleForm.attachments
-        .filter((item) => {
-          return !sourceAttachments.find((it) => {
-            return it.attachmentId === item.attachmentId;
-          });
+        .filter(item => {
+          return !sourceAttachments.find(it => {
+            return it.attachmentId === item.attachmentId
+          })
         })
-        .map((item) => {
+        .map(item => {
           return {
             ...item,
-            source: "04",
-          };
-        });
-      this.saveAllNewThemen(this.shouldUploadAttachments);
+            source: '04'
+          }
+        })
+      this.saveAllNewThemen(this.shouldUploadAttachments)
     },
     saveAllNewThemen(shouldUploadAttachments) {
-      let promiseArr = [];
-      shouldUploadAttachments.forEach((item) => {
-        let data;
-        if (this.editOrAdd === "edit") {
+      let promiseArr = []
+      shouldUploadAttachments.forEach(item => {
+        let data
+        if (this.editOrAdd === 'edit') {
           data = {
             themenId: this.selectedTableData[0]
               ? this.selectedTableData[0].id
               : null,
             attachment: item,
-            meetingId: this.meetingInfo.id,
-          };
+            meetingId: this.meetingInfo.id
+          }
         } else {
           data = {
             attachment: item,
-            meetingId: this.meetingInfo.id,
-          };
+            meetingId: this.meetingInfo.id
+          }
         }
         const p = new Promise((resolve, reject) => {
           addThemenAttachment(data)
-            .then((res) => {
-              resolve(res);
+            .then(res => {
+              resolve(res)
             })
-            .catch((err) => {
-              reject(err);
-            });
-        });
-        promiseArr.push(p);
-      });
-      Promise.all(promiseArr).catch((err) => {
-        console.log(err);
-      });
+            .catch(err => {
+              reject(err)
+            })
+        })
+        promiseArr.push(p)
+      })
+      Promise.all(promiseArr).catch(err => {
+        console.log(err)
+      })
     },
-    
+
     getUsersByResponse() {
       const data = {
-        id: this.meetingInfo.receiverId,
-      };
+        id: this.meetingInfo.receiverId
+      }
       //查询收件人
-      getReceiverById(data).then((res) => {
-        this.userData = res.employeeDTOS.filter(e=>e.id !== null);
-        this.currentSearchUserData = [...res.employeeDTOS];
-        this.remoteMethod();
-      });
+      getReceiverById(data).then(res => {
+        this.userData = res.employeeDTOS.filter(e => e.id !== null)
+        this.currentSearchUserData = [...res.employeeDTOS]
+        this.remoteMethod()
+      })
     },
     createStateFilter(queryString) {
-      return (state) => {
-        return state?.name?.toLowerCase()
+      return state => {
+        return state?.name
+          ?.toLowerCase()
           .toString()
-          .includes(queryString.toLowerCase().toString());
-      };
-    },
-    
-    beforeAvatarUpload(file) {
-      const isLt30M = file.size / 1024 / 1024 < 30;
-      if (!isLt30M) {
-        this.$message.error("文件大小最大限制30M!");
+          .includes(queryString.toLowerCase().toString())
       }
-      return isLt30M;
+    },
+
+    beforeAvatarUpload(file) {
+      const isLt30M = file.size / 1024 / 1024 < 30
+      if (!isLt30M) {
+        this.$message.error('文件大小最大限制30M!')
+      }
+      return isLt30M
     },
     httpUpload(content) {
-      this.uploadLoading = true;
-      let formData = new FormData();
-      formData.append("multifile", content.file);
-      formData.append("applicationName", 111);
-      formData.append("businessId", 8025);
-      formData.append("currentUserId", -1);
-      formData.append("type", 1);
-      uploadFile(formData).then(res=>{
-        let attachment = {
-          attachmentId:res[0].id,
-          attachmentUrl : res[0].path,
-          attachmentName : res[0].name,
-        }
-        this.ruleForm.attachment.push(attachment);
-        iMessage.success(this.$t("上传成功"));
-        this.uploadLoading = false;
-      }).catch(err=>{
-        console.log(err);
-        this.uploadLoading = false;
-      });
+      this.uploadLoading = true
+      let formData = new FormData()
+      formData.append('multifile', content.file)
+      formData.append('applicationName', 111)
+      formData.append('businessId', 8025)
+      formData.append('currentUserId', -1)
+      formData.append('type', 1)
+      uploadFile(formData)
+        .then(res => {
+          let attachment = {
+            attachmentId: res[0].id,
+            attachmentUrl: res[0].path,
+            attachmentName: res[0].name
+          }
+          this.ruleForm.attachment.push(attachment)
+          iMessage.success(this.$t('上传成功'))
+          this.uploadLoading = false
+        })
+        .catch(err => {
+          console.log(err)
+          this.uploadLoading = false
+        })
     },
     close() {
-      this.$emit("input", false);
-      this.$emit("closeDialog", false);
-      this.$emit("flushTable");
+      this.$emit('input', false)
+      this.$emit('closeDialog', false)
+      this.$emit('flushTable')
     },
-    clearDiolog(sub) {
-        this.$confirm("是否取消编辑?", "提示", {
-          confirmButtonText: "是",
-          cancelButtonText: "否",
-          type: "warning",
-        }).then(() => {
-          this.close();
-        });
+    clearDiolog() {
+      this.$confirm('是否取消编辑?', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
+      }).then(() => {
+        this.close()
+      })
     },
     handleSubmit() {
-      this.$confirm("是否保存议题？", "提示", {
-        confirmButtonText: "是",
-        cancelButtonText: "否",
-        type: "warning",
+      this.$confirm('是否保存议题？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
       }).then(() => {
-        this.submitForm("ruleForm");
-      });
+        this.loading = true
+        this.submitForm('ruleForm')
+      })
     },
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-           this.subButtonFlag=true;
+          this.subButtonFlag = true
           //开始保存
-          if (this.editOrAdd === "edit") {
-            this.handleUploadFile();
+          if (this.editOrAdd === 'edit') {
+            this.handleUploadFile()
             const formData = {
               ...this.ruleForm,
               meetingId: this.meetingInfo.id,
               id: this.selectedTableData[0].id,
-                presenterDept:this.userData.filter(e=>e.id===this.ruleForm.presenter)[0].department || '',
-                supporterDept:this.userData.filter(e=>e.id===this.ruleForm.supporter)[0].department || '',
-            };
-            console.log(671,this.userData,formData)
+              presenterDept:
+                this.userData.filter(e => e.id === this.ruleForm.presenter)[0]
+                  .department || '',
+              supporterDept:
+                this.userData.filter(e => e.id === this.ruleForm.supporter)[0]
+                  .department || ''
+            }
+            console.log(671, this.userData, formData)
             updateThemen(formData)
-              .then((data) => {
+              .then(data => {
                 if (data) {
-                  iMessage.success("修改成功");
+                  iMessage.success('修改成功')
                 } else {
-                  iMessage.error("error");
+                  iMessage.error('error')
                 }
-                this.subButtonFlag=false;
-                this.close();
+                this.subButtonFlag = false
+                this.loading = false
+                this.close()
               })
-              .catch((err) => {
-                console.log("err", err);
-                this.subButtonFlag=false;
-              });
+              .catch(err => {
+                console.log('err', err)
+                this.loading = false
+                this.subButtonFlag = false
+              })
           } else {
             const formData = {
               themen: {
                 ...this.ruleForm,
-                id: "",
+                id: '',
                 meetingId: this.meetingInfo.id,
                 isBreak: false,
-                presenterDept:this.userData.filter(e=>e.id===this.ruleForm.presenter)[0].department,
-                supporterDept:this.userData.filter(e=>e.id===this.ruleForm.supporter)[0].department,
-              },
-            };
+                presenterDept: this.userData.filter(
+                  e => e.id === this.ruleForm.presenter
+                )[0].department,
+                supporterDept: this.userData.filter(
+                  e => e.id === this.ruleForm.supporter
+                )[0].department
+              }
+            }
             saveThemen(formData)
-              .then((data) => {
+              .then(data => {
                 if (data) {
-                  iMessage.success("保存成功");
+                  iMessage.success('保存成功')
                 } else {
-                  iMessage.error("error");
+                  iMessage.error('error')
                 }
-                this.subButtonFlag=false;
-                this.close();
+                this.loading = false
+                this.subButtonFlag = false
+                this.close()
               })
-              .catch((err) => {
-                console.log("err", err);
-                this.subButtonFlag=false;
-              });
+              .catch(err => {
+                this.loading = false
+                console.log('err', err)
+                this.subButtonFlag = false
+              })
           }
         } else {
-          return false;
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -864,43 +892,43 @@ export default {
         height: 17.69px;
       }
     }
-    .upload-text-content{
-        margin-left: 20px;
-      }
+    .upload-text-content {
+      margin-left: 20px;
+    }
   }
-  .el-upload__tip{
+  .el-upload__tip {
     margin-left: 20px;
   }
 }
 .file-list {
   margin-top: 15px;
-      flex-shrink: 0;
-      flex-grow: 1;
-      width: 100%;
-      max-width: 400px;
-      transform: translateY(-10px);
-      li {
-        font-size: 12px;
-        margin-top: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .download {
-          cursor: pointer;
-          color: #1660f1;
-          white-space: nowrap;
-          border-bottom: #1660f1 solid 1px;
-        }
-        .delete {
-          height: 100%;
-          width: 35px;
-          margin-left: 10px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          transform: translateY(2px);
-          border-radius: 50%;
-        }
-      }
+  flex-shrink: 0;
+  flex-grow: 1;
+  width: 100%;
+  max-width: 400px;
+  transform: translateY(-10px);
+  li {
+    font-size: 12px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .download {
+      cursor: pointer;
+      color: #1660f1;
+      white-space: nowrap;
+      border-bottom: #1660f1 solid 1px;
     }
+    .delete {
+      height: 100%;
+      width: 35px;
+      margin-left: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: translateY(2px);
+      border-radius: 50%;
+    }
+  }
+}
 </style>

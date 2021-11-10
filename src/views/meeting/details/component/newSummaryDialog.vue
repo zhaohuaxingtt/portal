@@ -181,6 +181,7 @@
             <iButton
               @click="handleOK"
               plain
+              :loading="loadingSummary"
             >{{ "创建" }}</iButton>
           </el-form-item>
         </div>
@@ -237,6 +238,7 @@ export default {
   },
   data() {
     return {
+      loadingSummary:false,
       numToLetter,
       upArrow,
       choosedIndex: -1,
@@ -287,9 +289,11 @@ export default {
       });
     },
     handleOK() {
-      this.$refs.ruleForm.validate((valid, obj) => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          saveMeetingMinutes(this.resultData).then((res) => {
+          this.loadingSummary= true;
+          saveMeetingMinutes(this.resultData).then(() => {
+            this.loadingSummary = false;
             iMessage.success("保存成功");
             this.$emit("handleOK");
           });

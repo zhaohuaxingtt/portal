@@ -42,7 +42,7 @@
               <span class="conclusion">下次会议</span>
               <span class="required-icon">*</span>
             </div>
-            <iTableML
+            <!-- <iTableML
               tooltip-effect="light"
               :data="tableListData"
               :border="true"
@@ -63,7 +63,29 @@
                 prop="name"
               >
               </el-table-column>
-            </iTableML>
+            </iTableML> -->
+            <el-table
+              tooltip-effect="light"
+              :data="tableListData"
+              :border="true"
+              ref="tableRef"
+              @current-change="handleSelectionChange"
+            >
+              <el-table-column
+                align="center"
+                label=""
+                width="57"
+                type="selection"
+              >
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="left"
+                label="会议名称"
+                prop="name"
+              >
+              </el-table-column>
+            </el-table>
           </div>
         </iFormItem>
         <iFormItem
@@ -98,14 +120,16 @@
       </el-form>
     </iEditForm>
     <div class="button-list">
-      <iButton class="sure" @click="handleSure">确定</iButton>
+      <iButton class="sure" @click="handleSure" :loading="loading"
+        >确定</iButton
+      >
       <iButton class="cancel" @click="handleCancel">取消</iButton>
     </div>
   </iDialog>
 </template>
 <script>
-import iEditForm from "@/components/iEditForm";
-import iTableML from "@/components/iTableML";
+import iEditForm from '@/components/iEditForm'
+// import iTableML from '@/components/iTableML'
 import {
   iDialog,
   iFormItem,
@@ -113,12 +137,12 @@ import {
   iLabel,
   iInput,
   iButton,
-  iMessage,
-} from "rise";
-import { themenConclusionArrObj, themenConclusion } from "./data";
-import { getMettingList } from "@/api/meeting/home";
-import { updateThemen } from "@/api/meeting/details";
-import dayjs from "dayjs";
+  iMessage
+} from 'rise'
+import { themenConclusionArrObj, themenConclusion } from './data'
+import { getMettingList } from '@/api/meeting/home'
+import { updateThemen } from '@/api/meeting/details'
+import dayjs from 'dayjs'
 
 export default {
   components: {
@@ -128,52 +152,53 @@ export default {
     iSelect,
     iLabel,
     iInput,
-    iButton,
-    iTableML,
+    iButton
+    // iTableML
   },
   props: {
     selectedTableData: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     open: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     meetingInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     isOther: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     beforeResult: {
       type: String,
       default: () => {
-        return "";
-      },
-    },
+        return ''
+      }
+    }
   },
   data() {
     return {
+      loading: false,
       themenConclusion,
       curChooseArr: [],
       isShowSwitch:
-        this.selectedTableData[0].conclusionCsc === "02"
+        this.selectedTableData[0].conclusionCsc === '02'
           ? this.selectedTableData[0].isFrozenRs
           : false,
       isShowTable:
-        this.selectedTableData[0].conclusionCsc === "05" ||
-        this.selectedTableData[0].conclusionCsc === "06"
+        this.selectedTableData[0].conclusionCsc === '05' ||
+        this.selectedTableData[0].conclusionCsc === '06'
           ? true
           : false,
       themenConclusionArrObj,
@@ -182,191 +207,198 @@ export default {
         conclusion: {
           conclusionCsc: this.selectedTableData[0].conclusionCsc,
           conclusionName:
-            themenConclusion[this.selectedTableData[0].conclusionCsc],
+            themenConclusion[this.selectedTableData[0].conclusionCsc]
         },
         taskCsc: this.selectedTableData[0].conclusion,
         isFrozenRs:
-          this.beforeResult === "02"
+          this.beforeResult === '02'
             ? this.selectedTableData[0].isFrozenRs
-            : true,
+            : true
       },
-      currentRow: {},
-    };
+      currentRow: {}
+    }
   },
   mounted() {
-    if (this.meetingInfo.meetingTypeName === "CSC") {
+    if (this.meetingInfo.meetingTypeName === 'CSC') {
       this.themenConclusionArrObj = [
         {
-          conclusionCsc: "01",
-          conclusionName: "待定",
+          conclusionCsc: '01',
+          conclusionName: '待定'
         },
         {
-          conclusionCsc: "02",
-          conclusionName: "定点",
+          conclusionCsc: '02',
+          conclusionName: '定点'
         },
         {
-          conclusionCsc: "03",
-          conclusionName: "发LOI",
+          conclusionCsc: '03',
+          conclusionName: '发LOI'
         },
         {
-          conclusionCsc: "04",
-          conclusionName: "转TER/TOP-TER",
+          conclusionCsc: '04',
+          conclusionName: '转TER/TOP-TER'
         },
         {
-          conclusionCsc: "05",
-          conclusionName: "下次Pre CSC",
+          conclusionCsc: '05',
+          conclusionName: '下次Pre CSC'
         },
         {
-          conclusionCsc: "07",
-          conclusionName: "关闭",
-        },
-      ];
+          conclusionCsc: '07',
+          conclusionName: '关闭'
+        }
+      ]
     }
     if (
-      this.meetingInfo.meetingTypeName === "Pre CSC" &&
-      this.selectedTableData[0].type === "MANUAL"
+      this.meetingInfo.meetingTypeName === 'Pre CSC' &&
+      this.selectedTableData[0].type === 'MANUAL'
     ) {
       this.themenConclusionArrObj = [
         {
-          conclusionCsc: "01",
-          conclusionName: "待定",
+          conclusionCsc: '01',
+          conclusionName: '待定'
         },
         {
-          conclusionCsc: "05",
-          conclusionName: "下次Pre CSC",
+          conclusionCsc: '05',
+          conclusionName: '下次Pre CSC'
         },
         {
-          conclusionCsc: "07",
-          conclusionName: "关闭",
-        },
-      ];
+          conclusionCsc: '07',
+          conclusionName: '关闭'
+        }
+      ]
     }
     if (
-      this.meetingInfo.meetingTypeName === "CSC" &&
-      this.selectedTableData[0].type === "MANUAL"
+      this.meetingInfo.meetingTypeName === 'CSC' &&
+      this.selectedTableData[0].type === 'MANUAL'
     ) {
       this.themenConclusionArrObj = [
         {
-          conclusionCsc: "01",
-          conclusionName: "待定",
+          conclusionCsc: '01',
+          conclusionName: '待定'
         },
         {
-          conclusionCsc: "05",
-          conclusionName: "下次Pre CSC",
+          conclusionCsc: '05',
+          conclusionName: '下次Pre CSC'
         },
         {
-          conclusionCsc: "06",
-          conclusionName: "转CSC",
+          conclusionCsc: '06',
+          conclusionName: '转CSC'
         },
         {
-          conclusionCsc: "07",
-          conclusionName: "关闭",
-        },
-      ];
+          conclusionCsc: '07',
+          conclusionName: '关闭'
+        }
+      ]
     }
-    if (this.selectedTableData[0].conclusionCsc === "05") {
-      this.getUpdateDateTableList("Pre CSC", "init");
+    if (this.selectedTableData[0].conclusionCsc === '05') {
+      this.getUpdateDateTableList('Pre CSC', 'init')
     }
-    if (this.selectedTableData[0].conclusionCsc === "06") {
-      this.getUpdateDateTableList("CSC", "init");
+    if (this.selectedTableData[0].conclusionCsc === '06') {
+      this.getUpdateDateTableList('CSC', 'init')
     }
+    this.$nextTick(() => {
+      this.$refs.tableRef.setCurrentRow(this.currentRow)
+    })
   },
   watch: {
-    "ruleForm.isFrozenRs": {
+    'ruleForm.isFrozenRs': {
       handler(bol) {
         if (!bol) {
           this.$nextTick(() => {
-            this.$refs["slider"].style.transform = "translate(-1.25rem,-50%)";
-            this.$refs["slider"].parentNode.style.backgroundColor = "#ccc";
-            this.$refs["slider"].style.transition = "0.2s";
+            this.$refs['slider'].style.transform = 'translate(-1.25rem,-50%)'
+            this.$refs['slider'].parentNode.style.backgroundColor = '#ccc'
+            this.$refs['slider'].style.transition = '0.2s'
             this.$nextTick(() => {
-              this.$refs["sliderText"].style.transition = "0.2s";
-              this.$refs["sliderText"].style.transform = "translate(1.25rem,0)";
-            });
-          });
+              this.$refs['sliderText'].style.transition = '0.2s'
+              this.$refs['sliderText'].style.transform = 'translate(1.25rem,0)'
+            })
+          })
         } else {
           this.$nextTick(() => {
-            this.$refs["slider"].style.transform = "translateY(-50%)";
-            this.$refs["slider"].parentNode.style.backgroundColor = "#1663f6";
-            this.$refs["slider"].style.transition = "0.2s";
+            this.$refs['slider'].style.transform = 'translateY(-50%)'
+            this.$refs['slider'].parentNode.style.backgroundColor = '#1663f6'
+            this.$refs['slider'].style.transition = '0.2s'
             this.$nextTick(() => {
-              this.$refs["sliderText"].style.transition = "0.2s";
-              this.$refs["sliderText"].style.transform = "translate(0.5rem,0)";
-            });
-          });
+              this.$refs['sliderText'].style.transition = '0.2s'
+              this.$refs['sliderText'].style.transform = 'translate(0.5rem,0)'
+            })
+          })
         }
       },
       immediate: true,
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     handleSelectionChange(val) {
-      this.curChooseArr = [...val];
+      // this.curChooseArr = [...val]
+      this.curChooseArr = [val]
+      this.$refs.tableRef.setCurrentRow(this.currentRow);
     },
     handleSure() {
+      this.loading = true
       let param = {
-        ...this.selectedTableData[0],
-      };
+        ...this.selectedTableData[0]
+      }
       if (
-        this.ruleForm.conclusion.conclusionCsc === "05" ||
-        this.ruleForm.conclusion.conclusionCsc === "06"
+        this.ruleForm.conclusion.conclusionCsc === '05' ||
+        this.ruleForm.conclusion.conclusionCsc === '06'
       ) {
         if (this.curChooseArr.length === 0) {
-          iMessage.error("请选择一个下次会议");
-          return;
+          iMessage.error('请选择一个下次会议')
+          return
         }
         if (this.curChooseArr.length > 1) {
-          iMessage.error("下次会议只能选择一个!");
-          return;
+          iMessage.error('下次会议只能选择一个!')
+          return
         }
-        param.toDoMeeting = this.curChooseArr[0].id;
-        param.conclusion = this.ruleForm.taskCsc;
-        param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc;
-        param.isFrozenRs = false;
-        param.toDoMeetingName = this.curChooseArr[0].name;
-      } else if (this.ruleForm.conclusion.conclusionCsc === "02") {
-        param.toDoMeetingName = "";
-        param.toDoMeeting = "";
-        param.conclusion = this.ruleForm.taskCsc;
-        param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc;
-        param.isFrozenRs = this.ruleForm.isFrozenRs;
+        param.toDoMeeting = this.curChooseArr[0].id
+        param.conclusion = this.ruleForm.taskCsc
+        param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc
+        param.isFrozenRs = false
+        param.toDoMeetingName = this.curChooseArr[0].name
+      } else if (this.ruleForm.conclusion.conclusionCsc === '02') {
+        param.toDoMeetingName = ''
+        param.toDoMeeting = ''
+        param.conclusion = this.ruleForm.taskCsc
+        param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc
+        param.isFrozenRs = this.ruleForm.isFrozenRs
       } else {
-        param.toDoMeetingName = "";
-        param.toDoMeeting = "";
-        param.conclusion = this.ruleForm.taskCsc;
-        param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc;
-        param.isFrozenRs = false;
+        param.toDoMeetingName = ''
+        param.toDoMeeting = ''
+        param.conclusion = this.ruleForm.taskCsc
+        param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc
+        param.isFrozenRs = false
       }
       updateThemen(param)
         .then(() => {
-          iMessage.success("维护成功!");
-          this.close();
+          this.loading = false
+          iMessage.success('维护成功!')
+          this.close()
         })
         .catch((err) => {
-          iMessage.error("维护失败: " + err);
-        });
+          iMessage.error('维护失败: ' + err)
+        })
     },
     handleCancel() {
-      this.close();
+      this.close()
     },
     changeConclusion(e) {
-      this.isShowTable = false;
-      this.isShowSwitch = false;
-      if (e.conclusionCsc === "02") {
-        this.isShowSwitch = true;
-        this.ruleForm.isFrozenRs = true;
+      this.isShowTable = false
+      this.isShowSwitch = false
+      if (e.conclusionCsc === '02') {
+        this.isShowSwitch = true
+        this.ruleForm.isFrozenRs = true
       }
-      if (e.conclusionCsc === "05" || e.conclusionCsc === "06") {
-        this.isShowTable = true;
-        if (e.conclusionCsc === "05") {
-          this.getUpdateDateTableList("Pre CSC").then(() => {
-            this.currentRow = {};
-          });
+      if (e.conclusionCsc === '05' || e.conclusionCsc === '06') {
+        this.isShowTable = true
+        if (e.conclusionCsc === '05') {
+          this.getUpdateDateTableList('Pre CSC').then(() => {
+            this.currentRow = {}
+          })
         } else {
-          this.getUpdateDateTableList("CSC").then(() => {
-            this.currentRow = {};
-          });
+          this.getUpdateDateTableList('CSC').then(() => {
+            this.currentRow = {}
+          })
         }
       }
     },
@@ -375,35 +407,35 @@ export default {
       let param = {
         pageNum: 1,
         pageSize: 10,
-        states: ["02", "03"],
+        states: ['02', '03'],
         meetingId: this.meetingInfo.id,
         themenId: this.selectedTableData[0].id,
-        startDateBegin: dayjs(new Date()).format("YYYY-MM-DD"),
-        meetingTypeNames: [str],
-      };
+        startDateBegin: dayjs(new Date()).format('YYYY-MM-DD'),
+        meetingTypeNames: [str]
+      }
       await this.queryMettingList(param, str2).then(() => {
-        this.currentRow = {};
-      });
+        this.currentRow = {}
+      })
     },
     //会议改期调取会议大厅列表
     async queryMettingList(e, str2) {
-      const res = await getMettingList(e);
-      this.tableListData = res.data;
-      if (str2 === "init") {
+      const res = await getMettingList(e)
+      this.tableListData = res.data
+      if (str2 === 'init') {
         this.currentRow = this.tableListData.find((item) => {
-          return item.id === this.selectedTableData[0].toDoMeeting;
-        });
+          return item.id === this.selectedTableData[0].toDoMeeting
+        })
       }
     },
     close() {
-      this.$emit("closeDialog", false);
-      this.$emit("flushTable");
+      this.$emit('closeDialog', false)
+      this.$emit('flushTable')
     },
     handleSwitch() {
-      this.ruleForm.isFrozenRs = !this.ruleForm.isFrozenRs;
-    },
-  },
-};
+      this.ruleForm.isFrozenRs = !this.ruleForm.isFrozenRs
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 ::v-deep .cell {
