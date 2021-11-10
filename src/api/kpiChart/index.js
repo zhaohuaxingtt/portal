@@ -1,7 +1,11 @@
 /*
  * @Author: your name
  * @Date: 2021-08-07 10:24:35
+<<<<<<< HEAD
  * @LastEditTime: 2021-11-09 18:04:11
+=======
+ * @LastEditTime: 2021-11-09 10:01:26
+>>>>>>> d262ef562d102c766403a573336cecc61051c0a2
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-web\src\api\kpiChart\index.js
@@ -118,7 +122,7 @@ export function getCategoryData(data) {
 // 折叠列表——获取部门
 export function getDeptData(data) {
   return requst({
-    url: '/web/kpi/totalScore/template/dept',
+    url: '/kpi/totalScore/template/dept',
     method: 'GET',
     params: data
   })

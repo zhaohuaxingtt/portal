@@ -1,5 +1,5 @@
 const path = require('path')
-const resolve = dir => path.join(__dirname, dir)
+const resolve = (dir) => path.join(__dirname, dir)
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const ChangeNginxConfig = require(resolve(
@@ -10,7 +10,7 @@ const postcss = px2rem({
   remUnit: 16
 })
 const BASE_DOMAN = '10.122.18.166'
-const BASE_IP = '10.122.17.38'
+// const BASE_DOMAN = '10.122.17.38'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
@@ -19,7 +19,7 @@ module.exports = {
   lintOnSave: false,
   productionSourceMap: false,
   parallel: require('os').cpus().length > 1,
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     //定义全局别名
     config.resolve.alias
       .set('@', resolve('src'))
@@ -60,8 +60,8 @@ module.exports = {
         config.optimization.runtimeChunk('single')
     }
   },
-  configureWebpack: config => {
-    config.plugins.forEach(val => {
+  configureWebpack: (config) => {
+    config.plugins.forEach((val) => {
       if (val['__pluginConstructorName'] === 'HtmlWebpackPlugin') {
         val.options.CDN_HOST = process.env.CDN_HOST
       }
@@ -238,8 +238,13 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_MTZ]: {
+<<<<<<< HEAD
         target: `http://${BASE_IP}:8046/mtz`,
         // target: `http://${BASE_IP}:8046/mtz`,
+=======
+        // target: `http://${BASE_DOMAN}:8046/mtz`,
+        target: `http://${BASE_DOMAN}:8046/mtz`,
+>>>>>>> d262ef562d102c766403a573336cecc61051c0a2
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MTZ]: ''
@@ -278,6 +283,49 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_CHANGEPRICE]: ''
+        }
+      },
+      // #零件生命周期
+      [process.env.VUE_APP_PARTSCARD]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSCARD]: ''
+        }
+      },
+      [process.env.VUE_APP_PARTSRECORD]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSRECORD]: ''
+        }
+      },
+      [process.env.VUE_APP_PARTSPROCESS]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSPROCESS]: ''
+        }
+      },
+      [process.env.VUE_APP_PARTSFOLDER]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSFOLDER]: ''
+        }
+      },
+      [process.env.VUE_APP_PARTSCOLLECT]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSCOLLECT]: ''
+        }
+      },
+      [process.env.VUE_APP_RELATIONPARTS]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_RELATIONPARTS]: ''
         }
       }
     }
