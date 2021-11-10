@@ -238,13 +238,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_MTZ]: {
-<<<<<<< HEAD
-        target: `http://${BASE_IP}:8046/mtz`,
-        // target: `http://${BASE_IP}:8046/mtz`,
-=======
-        // target: `http://${BASE_DOMAN}:8046/mtz`,
         target: `http://${BASE_DOMAN}:8046/mtz`,
->>>>>>> d262ef562d102c766403a573336cecc61051c0a2
+        // target: `http://${BASE_IP}:8046/mtz`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MTZ]: ''
