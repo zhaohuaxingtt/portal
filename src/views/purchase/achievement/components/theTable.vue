@@ -23,7 +23,7 @@
                     {{ $t('EKL_YJGL_NDMBGL') }}
                 </iButton>
                 <!--年度目标管理 配附件-->
-                <iButton @click="openSpareTargetManDialog" v-permission="ACHIEVEMENTMGT_SPARE_ANNUAL_TATGET">{{ $t('EKL_YJGL_NDMBGL') }}</iButton>
+                <iButton @click="openSpareTargetManDialog" v-if="state">{{ $t('EKL_YJGL_NDMBGL') }}</iButton>
                 <!--基础表模板下载 配附件-->
                 <iButton @click="spareTempDown" v-permission="ACHIEVEMENTMGT_TABLE_TEMPLATE_DOWN">{{ $t('EKL_JCBMBXZ') }}</iButton>
             </div>
@@ -141,6 +141,11 @@
                 id: "",
             };
         },
+      computed: {
+        state() {
+          return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'PFJYJGLY')
+        }
+      },
         created() {
             this.getTableList();
             this.getYearData()
@@ -231,6 +236,9 @@
                         this.tableListData.map((item) => {
                             if (item.year >= year - 1 && item.billType==2) {
                                 this.$set(item, 'refresh', '刷新')
+                            }
+                            if(item.billType==2&&item.type==2) {
+                              this.$set(item,'title', item.year+'年业绩进度跟踪')
                             }
                             this.$set(item, '_status', '')
                             this.$set(item, '_billType', '')
