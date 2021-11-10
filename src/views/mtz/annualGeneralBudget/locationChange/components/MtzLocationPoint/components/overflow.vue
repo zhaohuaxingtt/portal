@@ -14,7 +14,7 @@
       <!-- <span class="title_name">MTZ申请单-100386 申请单名-采购员-科室</span> -->
       <span class="title_name">{{ commonTitle }} - {{locationId}}</span>
       <div class="opration">
-        <iButton @click="submit" v-if="hiddenBtnType">{{ language('TIJIAO', '提交') }}</iButton>
+        <iButton @click="submit">{{ language('TIJIAO', '提交') }}</iButton>
         <iButton @click="downRS">{{ language('DAOCHURS', '导出RS') }}</iButton>
       </div>
     </div>
@@ -105,7 +105,6 @@ export default {
   },
   data () {
     return {
-      hiddenBtnType:true,
       locationId:"",
       topImgList,
       locationNow: this.$route.query.currentStep || 1,
@@ -131,13 +130,7 @@ export default {
       }else{
         this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId
       }
-      if(this.$route.query.appId == undefined && this.mtzObject.appId == undefined){
-        
-      }else{
-        this.hiddenBtnType = false;
-      }
       this.getType();
-
     }
   },
   created() {
@@ -146,9 +139,6 @@ export default {
     }else{
       this.beforReturn = false;
       this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId
-    }
-    if(this.$route.query.appId){
-      this.hiddenBtnType = false;
     }
     this.getType();
   },
