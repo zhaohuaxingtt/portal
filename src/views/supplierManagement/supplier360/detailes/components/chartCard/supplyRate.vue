@@ -46,13 +46,12 @@ export default {
     }
   },
   watch: {
-    // infodata(data) {
-    //     console.log(data)
-    //   this.infodata = data
-    // }
+    infodata(data) {
+         this.getData(data.sapCode)
+    }
   },
   mounted() {
-    this.getData()
+   
   },
   methods: {
     getData() {
