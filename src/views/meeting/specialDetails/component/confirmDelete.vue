@@ -55,7 +55,7 @@ export default {
           this.$emit("flushTable");
           this.close();
         })
-        .catch((err) => {
+        .catch(() => {
           iMessage.error("删除失败");
           this.$emit("flushTable");
           this.close();

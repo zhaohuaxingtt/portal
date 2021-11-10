@@ -61,7 +61,7 @@ import {
   deleteThemenAttachment,
 } from "@/api/meeting/details";
 import { download } from "@/utils/downloadUtil";
-import { MOCK_FILE_URL } from '@/constants';
+// import { MOCK_FILE_URL } from '@/constants';
 
 export default {
   components: {

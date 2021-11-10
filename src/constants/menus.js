@@ -81,7 +81,8 @@ const menuPortal = [
 const cfMenus = [
   {
     title: '会议中心',
-    url: 'http://10.122.17.38/portal/meeting/#/meeting/hall',
+    // url: 'http://10.122.17.38/portal/meeting/#/meeting/hall',
+    url: '/meeting/hall',
     target: '_blank'
   },
   {

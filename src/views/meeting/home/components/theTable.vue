@@ -3,15 +3,15 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!--批量创建-->
-        <iButton @click="handleAddMultiple">{{ "批量创建" }}</iButton>
+        <iButton @click="handleAddMultiple">{{ '批量11' }}</iButton>
         <!--创建-->
-        <iButton @click="handleAddSingle">{{ "创建" }}</iButton>
+        <iButton @click="handleAddSingle">{{ '创建' }}</iButton>
         <!--删除-->
         <iButton @click="handleDelete" :disabled="selectedRow.length === 0">{{
-          "删除"
+          '删除'
         }}</iButton>
         <iButton @click="handleRecall" :disabled="!isCanRecall">{{
-          "撤回"
+          '撤回'
         }}</iButton>
       </div>
     </div>
@@ -80,9 +80,9 @@
                 lock: scope.row.state == '03',
                 begin: scope.row.state == '04',
                 end: scope.row.state == '05',
-                close: scope.row.state == '06',
+                close: scope.row.state == '06'
               },
-              'circle',
+              'circle'
             ]"
             >{{ statusObj[scope.row.state] }}</span
           >
@@ -108,10 +108,10 @@
         <template scope="scope">
           <span>
             {{
-              scope.row.startDate + " " + scope.row.startTime.substring(0, 5)
+              scope.row.startDate + ' ' + scope.row.startTime.substring(0, 5)
             }}
             <span v-if="scope.row.endTime">{{
-              "~" + scope.row.endTime.substring(0, 5)
+              '~' + scope.row.endTime.substring(0, 5)
             }}</span>
           </span>
         </template>
@@ -485,7 +485,7 @@
       :page-size="page.pageSize"
       prev-text="上一页"
       next-text="下一页"
-      layout="prev, pager, next, jumper"
+      :layout="page.layout"
       :current-page="page.currPage"
       :total="page.total"
     />
@@ -590,44 +590,44 @@
 </template>
 
 <script>
-import { iCard, iButton, iPagination, iMessage } from "rise";
-import iTableML from "@/components/iTableML";
-import updateFile from "@/components/updateFile";
+import { iCard, iButton, iPagination, iMessage } from 'rise'
+import iTableML from '@/components/iTableML'
+import updateFile from '@/components/updateFile'
 // import importThemens from "./importThemens.vue";
-import { statusObj } from "./data";
+import { statusObj } from './data'
 import {
   batchRecallMeeting,
   deleteMeeting,
   changeStateMeeting,
   generateAgenda,
   uploadAttachment,
-  importThemen,
-} from "@/api/meeting/home";
-import resultMessageMixin from "@/mixins/resultMessageMixin";
-import { download } from "@/utils/downloadUtil";
-import enclosure from "@/assets/images/enclosure.svg";
-import beginVedio from "@/assets/images/meeting-home/beginVedio.svg";
-import closeVedio from "@/assets/images/meeting-home/close-vedio.svg";
-import change from "@/assets/images/meeting-home/change.svg";
-import doubleScreen from "@/assets/images/meeting-home/doubleScreen.svg";
-import endVedio from "@/assets/images/meeting-home/endVedio.svg";
-import importFile from "@/assets/images/meeting-home/import.svg";
-import newAgenda from "@/assets/images/meeting-home/newAgenda.svg";
-import newFile from "@/assets/images/meeting-home/newFile.svg";
-import openLock from "@/assets/images/meeting-home/openLock.svg";
-import lock from "@/assets/images/meeting-home/lock.svg";
-import screen from "@/assets/images/meeting-home/screen.svg";
-import uploadFile from "@/assets/images/meeting-home/uploadFile.svg";
-import upload from "@/assets/images/meeting-home/upload.svg";
-import addMeetingSingleDialog from "./addMeetingSingleDialog.vue";
-import addMeetingMultipleDialo from "./addMeetingMultipleDialo.vue";
-import closeMeetiongDialog from "./closeMeetiongDialog.vue";
-import updateMeetingDialog from "./updateMeetingDialog.vue";
+  importThemen
+} from '@/api/meeting/home'
+import resultMessageMixin from '@/mixins/resultMessageMixin'
+import { download } from '@/utils/downloadUtil'
+import enclosure from '@/assets/images/enclosure.svg'
+import beginVedio from '@/assets/images/meeting-home/beginVedio.svg'
+import closeVedio from '@/assets/images/meeting-home/close-vedio.svg'
+import change from '@/assets/images/meeting-home/change.svg'
+import doubleScreen from '@/assets/images/meeting-home/doubleScreen.svg'
+import endVedio from '@/assets/images/meeting-home/endVedio.svg'
+import importFile from '@/assets/images/meeting-home/import.svg'
+import newAgenda from '@/assets/images/meeting-home/newAgenda.svg'
+import newFile from '@/assets/images/meeting-home/newFile.svg'
+import openLock from '@/assets/images/meeting-home/openLock.svg'
+import lock from '@/assets/images/meeting-home/lock.svg'
+import screen from '@/assets/images/meeting-home/screen.svg'
+import uploadFile from '@/assets/images/meeting-home/uploadFile.svg'
+import upload from '@/assets/images/meeting-home/upload.svg'
+import addMeetingSingleDialog from './addMeetingSingleDialog.vue'
+import addMeetingMultipleDialo from './addMeetingMultipleDialo.vue'
+import closeMeetiongDialog from './closeMeetiongDialog.vue'
+import updateMeetingDialog from './updateMeetingDialog.vue'
 // import newSummaryDialog from "./newSummaryDialog.vue";
-import newSummaryDialog from "./newSummaryDialog.vue";
-import { MOCK_FILE_URL } from "@/constants";
-import { debounce } from "@/utils/utils.js";
-import newSummaryDialogNew from "./newSummaryDialogNew.vue";
+import newSummaryDialog from './newSummaryDialog.vue'
+// import { MOCK_FILE_URL } from '@/constants'
+// import { debounce } from '@/utils/utils.js'
+import newSummaryDialogNew from './newSummaryDialogNew.vue'
 export default {
   components: {
     iCard,
@@ -641,46 +641,46 @@ export default {
     closeMeetiongDialog,
     updateMeetingDialog,
     newSummaryDialog,
-    newSummaryDialogNew,
+    newSummaryDialogNew
   },
   mixins: [resultMessageMixin],
   props: {
     tableListData: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     meetingTypeList: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     attendeeList: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     receiverList: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     typeObject: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     page: {
       type: Object,
       default: () => {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   data() {
     return {
@@ -714,7 +714,7 @@ export default {
       assignQualitativeScoreLoading: false,
       transferQualitativeScoreLoading: false,
       selectedRow: [],
-      id: "",
+      id: '',
       editRow: {},
       openAddSingle: false,
       openAddMultiple: false,
@@ -726,57 +726,57 @@ export default {
       openNewSummary: false,
       openNewSummaryNew: false,
       timeout: null,
-      receiverId: "",
-    };
+      receiverId: ''
+    }
   },
   mounted() {},
   watch: {
     selectedRow: {
       handler(rows) {
-        this.isCanRecall = false;
+        this.isCanRecall = false
         if (rows.length > 0) {
-          this.isCanRecall = rows.every((item) => {
+          this.isCanRecall = rows.every(item => {
             return (
-              (item.state === "02" && item.meetingTypeName === "Pre CSC") ||
-              (item.state === "02" && item.meetingTypeName === "CSC")
-            );
-          });
+              (item.state === '02' && item.meetingTypeName === 'Pre CSC') ||
+              (item.state === '02' && item.meetingTypeName === 'CSC')
+            )
+          })
         }
       },
       deep: true,
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     getUplodFiles(nameList) {
-      this.nameList = nameList;
+      this.nameList = nameList
     },
     handleAddSingle() {
-      this.openAddSingle = true;
+      this.openAddSingle = true
     },
     handleCloseAddSingle() {
-      this.openAddSingle = false;
+      this.openAddSingle = false
     },
     handleAddMultiple() {
-      this.openAddMultiple = true;
+      this.openAddMultiple = true
     },
     handleUpdateSubmit() {
-      this.openUpdate = true;
+      this.openUpdate = true
     },
     // 确认提交审批流
     handleCloseOK() {
-      this.openCloseMeeting = false;
-      this.refreshTable();
+      this.openCloseMeeting = false
+      this.refreshTable()
     },
     handleCloseAddMultiple() {
-      this.openAddMultiple = false;
+      this.openAddMultiple = false
     },
     handleCloseOpenUpdate() {
-      this.openUpdate = false;
+      this.openUpdate = false
     },
     // 取消确认审批流
     handleCloseCloseMeeting() {
-      this.openCloseMeeting = false;
+      this.openCloseMeeting = false
     },
     // 上传Agenda保存
     handleOKAgenda(a, e) {
@@ -786,22 +786,22 @@ export default {
           attachmentId: e[0].id,
           attachmentName: e[0].name,
           attachmentUrl: e[0].url,
-          source: "01",
-        },
-      };
-      uploadAttachment(param).then((res) => {
-        if (res.id) {
-          iMessage.success("保存成功");
-          this.openAgenda = false;
-          this.refreshTable();
+          source: '01'
         }
-      });
+      }
+      uploadAttachment(param).then(res => {
+        if (res.id) {
+          iMessage.success('保存成功')
+          this.openAgenda = false
+          this.refreshTable()
+        }
+      })
     },
     // 导入议题保存
     handleOKTopics(a, b) {
       if (this.nameList.length <= 0) {
-        iMessage.warn("请导入议题后再保存");
-        return;
+        iMessage.warn('请导入议题后再保存')
+        return
       }
       let param = {
         id: this.id,
@@ -809,22 +809,22 @@ export default {
           attachmentId: b[0].id,
           attachmentName: b[0].name,
           attachmentUrl: b[0].url,
-          source: "05",
-        },
-      };
+          source: '05'
+        }
+      }
       importThemen(param)
-        .then((res) => {
+        .then(res => {
           if (res.id) {
-            iMessage.success("导入议题成功");
-            this.openTopics = false;
-            this.refreshTable();
-            this.nameList = [];
+            iMessage.success('导入议题成功')
+            this.openTopics = false
+            this.refreshTable()
+            this.nameList = []
           }
         })
         .catch(() => {
-          this.nameList = [];
-        });
-      this.refreshTable();
+          this.nameList = []
+        })
+      this.refreshTable()
     },
     // 上传会议纪要确认
     handleOKSummary(a, e) {
@@ -834,112 +834,112 @@ export default {
           attachmentId: e[0].id,
           attachmentName: e[0].name,
           attachmentUrl: e[0].url,
-          source: "02",
-        },
-      };
-      uploadAttachment(param).then((res) => {
-        if (res.id) {
-          iMessage.success("保存成功");
-          this.openSummary = false;
-          this.refreshTable();
+          source: '02'
         }
-      });
+      }
+      uploadAttachment(param).then(res => {
+        if (res.id) {
+          iMessage.success('保存成功')
+          this.openSummary = false
+          this.refreshTable()
+        }
+      })
     },
     // 生成会议纪要确认
     handleNewSummaryOK() {
-      this.openNewSummary = false;
-      this.refreshTable();
+      this.openNewSummary = false
+      this.refreshTable()
     },
     // 生成会议纪要确认---新
     handleNewSummaryNewOK() {
-      this.openNewSummaryNew = false;
-      this.refreshTable();
+      this.openNewSummaryNew = false
+      this.refreshTable()
     },
     handleCancelAgenda() {
-      this.openAgenda = false;
+      this.openAgenda = false
     },
     // 导入议题取消
     handleCancelTopics() {
-      this.openTopics = false;
+      this.openTopics = false
     },
     // 上传会议纪要取消
     handleCancelSummary() {
-      this.openSummary = false;
+      this.openSummary = false
     },
     // 生成会议纪要取消
     handleNewSummaryCancel() {
-      this.openNewSummary = false;
+      this.openNewSummary = false
     },
     // 生成会议纪要取消----新
     handleNewSummaryNewCancel() {
-      this.openNewSummaryNew = false;
+      this.openNewSummaryNew = false
     },
     refreshTable() {
-      this.$emit("getTableList");
+      this.$emit('getTableList')
     },
     handleDelete() {
-      let listUnuse = [];
-      let draft = false;
-      this.selectedRow.forEach((item) => {
-        listUnuse.push(item.id);
-        if (item.state !== "01") {
-          draft = true;
+      let listUnuse = []
+      let draft = false
+      this.selectedRow.forEach(item => {
+        listUnuse.push(item.id)
+        if (item.state !== '01') {
+          draft = true
         }
-      });
+      })
       if (draft) {
-        return this.$message.error("只能删除草稿状态的会议!");
+        return this.$message.error('只能删除草稿状态的会议!')
       }
-      this.$confirm("是否删除该会议 ？", "提示", {
-        confirmButtonText: "是",
-        cancelButtonText: "否",
-        type: "warning",
+      this.$confirm('是否删除该会议 ？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
       }).then(() => {
         deleteMeeting({ ids: listUnuse })
-          .then((res) => {
+          .then(res => {
             if (res.code == 200) {
-              this.$message.success(" 删除成功!");
-              this.$emit("getTableList");
+              this.$message.success(' 删除成功!')
+              this.$emit('getTableList')
             }
           })
-          .catch((err) => {
-            this.$message.error("删除失败!");
-          });
-      });
+          .catch(() => {
+            this.$message.error('删除失败!')
+          })
+      })
     },
     // 批量撤回
     handleRecall() {
-      let idArr = this.selectedRow.map((item) => {
-        return item.id;
-      });
-      this.$confirm("是否撤回该会议 ？", "提示", {
-        confirmButtonText: "是",
-        cancelButtonText: "否",
-        type: "warning",
+      let idArr = this.selectedRow.map(item => {
+        return item.id
+      })
+      this.$confirm('是否撤回该会议 ？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
       }).then(() => {
-        batchRecallMeeting({ ids: idArr }).then((res) => {
+        batchRecallMeeting({ ids: idArr }).then(res => {
           if (res.code == 200) {
-            this.$message.success(" 撤回成功!");
-            this.$emit("getTableList");
+            this.$message.success(' 撤回成功!')
+            this.$emit('getTableList')
           }
-        });
-      });
+        })
+      })
     },
     handleChoose(e) {
-      this.selectedRow = e;
+      this.selectedRow = e
     },
     handleCurrentChange(e) {
-      this.$emit("handleChangePage", e);
+      this.$emit('handleChangePage', e)
     },
     setTimeRange(a, b, c) {
       return (
         <span>
           {c +
-            " " +
+            ' ' +
             a?.substring(0, a?.length - 3) +
-            "~" +
+            '~' +
             b?.substring(0, b?.length - 3)}
         </span>
-      );
+      )
     },
     // 下载附件
     downloadEnclosure(e) {
@@ -947,36 +947,36 @@ export default {
         fileIds: e.attachmentId,
         // url: MOCK_FILE_URL + e.attachmentId,
         filename: e.attachmentName,
-        callback: (e) => {
+        callback: e => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error('下载失败')
           }
-        },
-      });
+        }
+      })
     },
     // 下载模版
     downDemo() {
       download({
         noFileUd: true,
-        url: "/rise-meeting/meetingService/downloadThemenImportTemplate",
-        filename: "议题模版",
+        url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
+        filename: '议题模版',
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
-        type: "application/vnd.ms-excel",
-        callback: (e) => {
+        type: 'application/vnd.ms-excel',
+        callback: e => {
           if (e) {
-            iMessage.success("下载模版成功");
+            iMessage.success('下载模版成功')
           } else {
-            iMessage.error("下载模版失败");
+            iMessage.error('下载模版失败')
           }
-        },
-      });
+        }
+      })
       // downloadThemenImportTemplate().then((res)=>{
       //   console.log('res',res)
       // })
     },
     actionObj(e) {
       const funcMap = {
-        begin: (e) => {
+        begin: e => {
           // 开始
           // this.$confirm("请确认是否需要开始会议？", "提示", {
           //   confirmButtonText: "是",
@@ -985,15 +985,15 @@ export default {
           // }).then(() => {
           let param = {
             id: e,
-            state: "04",
-          };
-          changeStateMeeting(param).then((res) => {
-            iMessage.success("开始会议成功！");
-            this.refreshTable();
-          });
+            state: '04'
+          }
+          changeStateMeeting(param).then(() => {
+            iMessage.success('开始会议成功！')
+            this.refreshTable()
+          })
           // });
         },
-        lock: (e) => {
+        lock: e => {
           // 锁定
           // this.$confirm("请确认是否需要锁定会议？", "提示", {
           //   confirmButtonText: "是",
@@ -1002,19 +1002,19 @@ export default {
           // }).then(() => {
           let param = {
             id: e,
-            state: "03",
-          };
+            state: '03'
+          }
           changeStateMeeting(param)
             .then(() => {
-              iMessage.success("锁定会议成功！");
-              this.refreshTable();
+              iMessage.success('锁定会议成功！')
+              this.refreshTable()
             })
             .catch(() => {
-              iMessage.error("锁定会议失败！");
-            });
+              iMessage.error('锁定会议失败！')
+            })
           // });
         },
-        openLock: (e) => {
+        openLock: e => {
           // 解锁
           // this.$confirm("请确认是否需要解锁会议？", "提示", {
           //   confirmButtonText: "是",
@@ -1023,24 +1023,24 @@ export default {
           // }).then(() => {
           let param = {
             id: e,
-            state: "02",
-          };
+            state: '02'
+          }
           changeStateMeeting(param)
             .then(() => {
-              iMessage.success("解锁会议成功！");
-              this.refreshTable();
+              iMessage.success('解锁会议成功！')
+              this.refreshTable()
             })
             .catch(() => {
-              iMessage.error("解锁会议失败！");
-            });
+              iMessage.error('解锁会议失败！')
+            })
           // });
         },
-        change: (e) => {
+        change: e => {
           // 修改
-          this.id = e.toString();
-          this.openUpdate = true;
+          this.id = e.toString()
+          this.openUpdate = true
         },
-        open: (e) => {
+        open: e => {
           // 开放
           // this.$confirm("请确认是否需要开放会议？", "提示", {
           //   confirmButtonText: "是",
@@ -1049,48 +1049,48 @@ export default {
           // }).then(() => {
           let param = {
             id: e,
-            state: "02",
-          };
+            state: '02'
+          }
           changeStateMeeting(param)
             .then(() => {
-              iMessage.success("开放会议成功！");
-              this.refreshTable();
+              iMessage.success('开放会议成功！')
+              this.refreshTable()
             })
             .catch(() => {
-              iMessage.error("开放会议失败！");
-            });
+              iMessage.error('开放会议失败！')
+            })
           // });
         },
-        uploadA: (e) => {
+        uploadA: e => {
           // 上传Agenda
-          this.openAgenda = true;
-          this.id = e;
+          this.openAgenda = true
+          this.id = e
         },
-        newA: (e) => {
+        newA: e => {
           // 生成Agenda
           // generateAgenda({ id: e }).then((res) => {
           //   iMessage.success("生成Agenda成功");
           //   this.refreshTable();
           // });
           if (this.timeout) {
-            clearTimeout(this.timeout);
+            clearTimeout(this.timeout)
           }
           this.timeout = setTimeout(() => {
-            generateAgenda({ id: e }).then((res) => {
-              iMessage.success("生成Agenda成功");
-              this.refreshTable();
-            });
-          }, 500);
+            generateAgenda({ id: e }).then(() => {
+              iMessage.success('生成Agenda成功')
+              this.refreshTable()
+            })
+          }, 500)
         },
-        importFile: (e) => {
+        importFile: e => {
           // 导入议题
-          this.openTopics = true;
-          this.id = e;
+          this.openTopics = true
+          this.id = e
         },
-        endVedio: (e) => {
+        endVedio: e => {
           // 结束
-          let dateCurrent = new Date().valueOf();
-          let dateEnd = new Date(e.endDate + " " + e.endTime).valueOf();
+          // let dateCurrent = new Date().valueOf()
+          // let dateEnd = new Date(e.endDate + ' ' + e.endTime).valueOf()
           // this.$confirm(
           //   dateEnd < dateCurrent
           //     ? "会议进行时间过短，请确认是否需要结束？"
@@ -1104,39 +1104,39 @@ export default {
           // ).then(() => {
           let param = {
             id: e.id,
-            state: "05",
-          };
+            state: '05'
+          }
           changeStateMeeting(param)
             .then(() => {
-              iMessage.success("结束会议成功！");
-              this.refreshTable();
+              iMessage.success('结束会议成功！')
+              this.refreshTable()
             })
             .catch(() => {
               // iMessage.error("结束会议失败！");
-            });
+            })
           // });
         },
-        doubleScreen: (e) => {
+        doubleScreen: e => {
           // 同屏
-          if (e.meetingTypeName === "Pre CSC" || e.meetingTypeName === "CSC") {
+          if (e.meetingTypeName === 'Pre CSC' || e.meetingTypeName === 'CSC') {
             let routeUrl = this.$router.resolve({
-              path: "/meeting/meeting-same-screen",
+              path: '/meeting/meeting-same-screen',
               query: {
-                id: e.id,
-              },
-            });
-            window.open(routeUrl.href, "_blank");
+                id: e.id
+              }
+            })
+            window.open(routeUrl.href, '_blank')
           } else {
             let routeUrl = this.$router.resolve({
-              path: "/meeting/same-screen",
+              path: '/meeting/same-screen',
               query: {
-                id: e.id,
-              },
-            });
-            window.open(routeUrl.href, "_blank");
+                id: e.id
+              }
+            })
+            window.open(routeUrl.href, '_blank')
           }
         },
-        screen: (e) => {
+        screen: e => {
           // 展示
           // this.$router.push({
           //   path: "/meeting/meeting-show",
@@ -1144,23 +1144,23 @@ export default {
           //     id: e,
           //   },
           // });
-          console.log("object", e);
+          console.log('object', e)
           let routeUrl = this.$router.resolve({
             path:
-              e.meetingTypeName == "Pre CSC" || e.meetingTypeName == "CSC"
-                ? "/meeting/meetingShow" //新页面
-                : "/meeting/meeting-show", //旧页面
+              e.meetingTypeName == 'Pre CSC' || e.meetingTypeName == 'CSC'
+                ? '/meeting/meetingShow' //新页面
+                : '/meeting/meeting-show', //旧页面
             query: {
-              id: e.id,
-            },
-          });
-          window.open(routeUrl.href, "_blank");
+              id: e.id
+            }
+          })
+          window.open(routeUrl.href, '_blank')
         },
-        closeVedio: (e) => {
+        closeVedio: e => {
           // 关闭
-          let attachments = e.attachments.filter((item) => {
-            return item.source == "02";
-          });
+          let attachments = e.attachments.filter(item => {
+            return item.source == '02'
+          })
           // if (attachments && attachments.length > 0) {
           //   this.$confirm("请确认是否需要关闭会议？", "提示", {
           //     confirmButtonText: "是",
@@ -1186,71 +1186,72 @@ export default {
           //   iMessage.error("尚未生成会议纪要，现在不能关闭会议。");
           // }
           if (attachments && attachments.length <= 0) {
-            this.$confirm("尚未生成会议纪要，确定关闭会议？", "提示", {
-              confirmButtonText: "是",
-              cancelButtonText: "否",
-              type: "warning",
+            this.$confirm('尚未生成会议纪要，确定关闭会议？', '提示', {
+              confirmButtonText: '是',
+              cancelButtonText: '否',
+              type: 'warning'
             }).then(() => {
-              this.openCloseMeeting = true;
-              this.id = e.id;
-              this.editRow.approvalProcessId = e.approvalProcessId;
-              this.editRow.isTriggerApproval = e.isTriggerApproval.toString();
-            });
+              this.openCloseMeeting = true
+              this.id = e.id
+              this.editRow.approvalProcessId = e.approvalProcessId
+              this.editRow.isTriggerApproval = e.isTriggerApproval.toString()
+            })
           } else {
-            this.$confirm("请确认是否需要关闭会议？", "提示", {
-              confirmButtonText: "是",
-              cancelButtonText: "否",
-              type: "warning",
+            this.$confirm('请确认是否需要关闭会议？', '提示', {
+              confirmButtonText: '是',
+              cancelButtonText: '否',
+              type: 'warning'
             }).then(() => {
-              this.openCloseMeeting = true;
-              this.id = e.id;
-              this.editRow.approvalProcessId = e.approvalProcessId;
-              this.editRow.isTriggerApproval = e.isTriggerApproval.toString();
-            });
+              this.openCloseMeeting = true
+              this.id = e.id
+              this.editRow.approvalProcessId = e.approvalProcessId
+              this.editRow.isTriggerApproval = e.isTriggerApproval.toString()
+            })
           }
         },
-        newFile: (e) => {
+        newFile: e => {
           // 生成会议纪要
-          this.id = e.id;
-          if (e.meetingTypeName === "Pre CSC" || e.meetingTypeName === "CSC") {
-            this.receiverId = e?.receiverId;
-            this.openNewSummaryNew = true;
+          this.id = e.id
+          if (e.meetingTypeName === 'Pre CSC' || e.meetingTypeName === 'CSC') {
+            this.receiverId = e?.receiverId
+            this.openNewSummaryNew = true
           } else {
-            this.openNewSummary = true;
+            this.openNewSummary = true
           }
         },
-        uploadFile: (e) => {
+        uploadFile: e => {
           // 上传会议纪要
-          this.openSummary = true;
-          this.id = e;
-        },
-      };
-      return funcMap[e];
+          this.openSummary = true
+          this.id = e
+        }
+      }
+      return funcMap[e]
     },
     // 跳转详情页
     goDetail(e, b) {
-      if (b == "01") {
-        return;
+      if (b == '01') {
+        return
       }
-      if (e.meetingTypeName === "CSC" || e.meetingTypeName === "Pre CSC") {
+      console.log('e', e)
+      if (e.meetingTypeName === 'CSC' || e.meetingTypeName === 'Pre CSC') {
         this.$router.push({
-          path: "/meeting/specialDetails",
+          path: '/meeting/specialDetails',
           query: {
             id: e.id,
-            type: e.meetingTypeName,
-          },
-        });
+            type: e.meetingTypeName
+          }
+        })
       } else {
         this.$router.push({
-          path: "/meeting/details",
+          path: '/meeting/details',
           query: {
-            id: e.id,
-          },
-        });
+            id: e.id
+          }
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

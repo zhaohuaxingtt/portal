@@ -22,7 +22,7 @@
               :key="index"
               @click="
                 () => {
-                  handleClick(item.methodName);
+                  handleClick(item.methodName)
                 }
               "
             >
@@ -50,7 +50,7 @@
             <div class="show">
               <div class="title">会议时间</div>
               <div class="content">
-                {{ `${begin}${end.includes(":") ? end : ""}` }}
+                {{ `${begin}${end.includes(':') ? end : ''}` }}
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@
             >
               <template scope="scope">
                 <span class="open-link-text">{{
-                  scope.row.time.split("~").join("-")
+                  scope.row.time.split('~').join('-')
                 }}</span>
               </template>
             </el-table-column>
@@ -150,7 +150,7 @@
             >
               <template scope="scope">
                 {{
-                  scope.row.type === "MANUAL" ? "非标准议题" : scope.row.type
+                  scope.row.type === 'MANUAL' ? '非标准议题' : scope.row.type
                 }}
               </template>
             </el-table-column>
@@ -346,7 +346,7 @@
               >
                 <template scope="scope">
                   <span class="open-link-text">{{
-                    scope.row.time.split("~").join("-")
+                    scope.row.time.split('~').join('-')
                   }}</span>
                 </template>
               </el-table-column>
@@ -375,7 +375,7 @@
               >
                 <template scope="scope">
                   {{
-                    scope.row.type === "MANUAL" ? "非标准议题" : scope.row.type
+                    scope.row.type === 'MANUAL' ? '非标准议题' : scope.row.type
                   }}
                 </template>
               </el-table-column>
@@ -658,19 +658,19 @@
   </iPage>
 </template>
 <script>
-import { iPage, iCard, iPagination, iButton, iMessage } from "rise";
-import { pageMixins } from "@/utils/pageMixins";
-import { buttonList, stateObj, themenConclusion } from "./component/data";
-import actionButtons from "./component/actionButtons.vue";
-import addRest from "./component/addRest.vue";
-import addTopic from "./component/addTopic.vue";
-import topicLookDialog from "./component/topicLookDialog.vue";
-import newProtectInfo from "./component/newProtectInfo.vue";
-import updateDate from "./component/updateDate.vue";
-import iTableML from "@/components/iTableML";
-import protectConclusion from "./component/protectConclusion.vue";
-import addTopicNew from "./component/addTopicNew.vue";
-import lookConclusion from "./component/lookConclusion.vue";
+import { iPage, iCard, iButton, iMessage } from 'rise'
+import { pageMixins } from '@/utils/pageMixins'
+import { buttonList, stateObj, themenConclusion } from './component/data'
+import actionButtons from './component/actionButtons.vue'
+import addRest from './component/addRest.vue'
+import addTopic from './component/addTopic.vue'
+import topicLookDialog from './component/topicLookDialog.vue'
+import newProtectInfo from './component/newProtectInfo.vue'
+import updateDate from './component/updateDate.vue'
+import iTableML from '@/components/iTableML'
+import protectConclusion from './component/protectConclusion.vue'
+import addTopicNew from './component/addTopicNew.vue'
+import lookConclusion from './component/lookConclusion.vue'
 
 import {
   findThemenById,
@@ -681,18 +681,18 @@ import {
   rejectThemenRecall,
   deleteThemen,
   resortThemen,
-  spiltThemen,
-} from "@/api/meeting/details";
-import Sortable from "sortablejs";
-import dayjs from "@/utils/dayjs.js";
-import { getMettingType } from "@/api/meeting/type"; //resortThemen
-import updateMeetingDialog from "../home/components/updateMeetingDialog.vue";
-import newSummaryDialog from "./component/newSummaryDialog.vue";
-import { changeStateMeeting, importThemen } from "@/api/meeting/home";
-import closeMeetiongDialog from "./component/closeMeetiongDialog.vue";
-import { download } from "@/utils/downloadUtil";
-import enclosure from "@/assets/images/enclosure.svg";
-import newSummaryDialogNew from "@/views/meeting/home/components/newSummaryDialogNew.vue";
+  spiltThemen
+} from '@/api/meeting/details'
+import Sortable from 'sortablejs'
+import dayjs from '@/utils/dayjs.js'
+import { getMettingType } from '@/api/meeting/type' //resortThemen
+import updateMeetingDialog from '../home/components/updateMeetingDialog.vue'
+import newSummaryDialog from './component/newSummaryDialog.vue'
+import { changeStateMeeting, importThemen } from '@/api/meeting/home'
+import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
+import { download } from '@/utils/downloadUtil'
+import enclosure from '@/assets/images/enclosure.svg'
+import newSummaryDialogNew from '@/views/meeting/home/components/newSummaryDialogNew.vue'
 
 export default {
   mixins: [pageMixins],
@@ -715,19 +715,19 @@ export default {
     lookConclusion,
     iTableML,
     newSummaryDialogNew,
-    addTopicNew,
+    addTopicNew
   },
   data() {
     return {
       processUrl: process.env.VUE_APP_POINT,
       buttonList,
-      receiverId: "",
+      receiverId: '',
       selectedTableData: [],
       isOther: false,
       themenConclusion,
       stateObj,
-      meetingType: "",
-      type: "",
+      meetingType: '',
+      type: '',
       currentRow: {},
       nameList: [],
       disabledImportThemenButton: false,
@@ -754,7 +754,7 @@ export default {
         openNewSummaryDialogNew: false,
         openAddTopicNewDialog: false,
         // topicLookDialog:false,
-        openTopicLookDialog: false,
+        openTopicLookDialog: false
       },
       //外部引入的弹窗
       currentButtonList: [],
@@ -763,45 +763,45 @@ export default {
       meetingInfo: {},
       tableData: [],
       resThemeData: [],
-      editOrAdd: "add",
+      editOrAdd: 'add',
       cancelOrAdjust: false,
       typeObject: {},
       shouldhanldeUpdateData: [],
       openTopics: false,
       handleDisabledButtonName: [
-        "editTopic",
-        "protectInfo",
-        "deleteTopAll",
-        "updateDate",
-        "split",
+        'editTopic',
+        'protectInfo',
+        'deleteTopAll',
+        'updateDate',
+        'split'
         // "startTopic",
         // "overTopic",
       ],
       lookThemenObj: {},
-      display: "none",
-      changedArr: "",
+      display: 'none',
+      changedArr: '',
       topicInfo: {},
       openAddTopic: false,
-      beforeResult: "",
-    };
+      beforeResult: ''
+    }
   },
   watch: {
     isAdmin: {
-      handler(v) {},
-      immediate: true,
+      handler() {},
+      immediate: true
     },
     resThemeData: {
       handler(data) {
-        const row = data.find((item) => item.state === "02");
-        this.currentRow = { ...row };
-      },
-    },
+        const row = data.find((item) => item.state === '02')
+        this.currentRow = { ...row }
+      }
+    }
   },
   mounted() {
-    this.type = this.$route.query.type;
+    this.type = this.$route.query.type
     // this.isAdmin = localStorage.getItem("isMA") === "false" ? false : true;
-    this.getMeetingTypeObject();
-    this.getTableData();
+    this.getMeetingTypeObject()
+    this.getTableData()
   },
   // created() {
   //   console.log(
@@ -826,164 +826,163 @@ export default {
   methods: {
     //待定
     bePending() {
-      this.isOther = true;
+      this.isOther = true
       this.selectedTableData = this.selectedTableData.map((item, index) => {
         if (index === 0) {
           return {
             ...item,
-            conclusionCsc: "01",
-            toDoMeetingName: "",
-            toDoMeeting: "",
-            isFrozenRs: false,
-          };
+            conclusionCsc: '01',
+            toDoMeetingName: '',
+            toDoMeeting: '',
+            isFrozenRs: false
+          }
         }
-        return item;
-      });
-      this.openDialog("openProtectConclusion");
+        return item
+      })
+      this.openDialog('openProtectConclusion')
     },
     //定点
     fixedPoint() {
-      this.isOther = true;
-      this.beforeResult = this.selectedTableData[0].conclusionCsc;
+      this.isOther = true
+      this.beforeResult = this.selectedTableData[0].conclusionCsc
       this.selectedTableData = this.selectedTableData.map((item, index) => {
         if (index === 0) {
           return {
             ...item,
-            conclusionCsc: "02",
-            toDoMeetingName: "",
-            toDoMeeting: "",
-          };
+            conclusionCsc: '02',
+            toDoMeetingName: '',
+            toDoMeeting: ''
+          }
         }
-        return item;
-      });
-      this.openDialog("openProtectConclusion");
+        return item
+      })
+      this.openDialog('openProtectConclusion')
     },
     //转CSC
     translateCSC() {
-      this.isOther = true;
+      this.isOther = true
       this.selectedTableData = this.selectedTableData.map((item, index) => {
         if (index === 0) {
           return {
             ...item,
-            conclusionCsc: "06",
-            isFrozenRs: false,
-          };
+            conclusionCsc: '06',
+            isFrozenRs: false
+          }
         }
-        return item;
-      });
-      this.openDialog("openProtectConclusion");
+        return item
+      })
+      this.openDialog('openProtectConclusion')
     },
     //下次Pre CSC
     nextPreCSC() {
-      this.isOther = true;
+      this.isOther = true
       this.selectedTableData = this.selectedTableData.map((item, index) => {
         if (index === 0) {
           return {
             ...item,
-            conclusionCsc: "05",
-            isFrozenRs: false,
-          };
+            conclusionCsc: '05',
+            isFrozenRs: false
+          }
         }
-        return item;
-      });
-      this.openDialog("openProtectConclusion");
+        return item
+      })
+      this.openDialog('openProtectConclusion')
     },
     //发Lol
     senLol() {
-      this.isOther = true;
+      this.isOther = true
       this.selectedTableData = this.selectedTableData.map((item, index) => {
         if (index === 0) {
           return {
             ...item,
-            conclusionCsc: "03",
-            toDoMeetingName: "",
-            toDoMeeting: "",
-            isFrozenRs: false,
-          };
+            conclusionCsc: '03',
+            toDoMeetingName: '',
+            toDoMeeting: '',
+            isFrozenRs: false
+          }
         }
-        return item;
-      });
-      this.openDialog("openProtectConclusion");
+        return item
+      })
+      this.openDialog('openProtectConclusion')
     },
     //转TER/TOP-TER
     translateTer() {
-      this.isOther = true;
+      this.isOther = true
       this.selectedTableData = this.selectedTableData.map((item, index) => {
         if (index === 0) {
           return {
             ...item,
-            conclusionCsc: "04",
-            toDoMeetingName: "",
-            toDoMeeting: "",
-            isFrozenRs: false,
-          };
+            conclusionCsc: '04',
+            toDoMeetingName: '',
+            toDoMeeting: '',
+            isFrozenRs: false
+          }
         }
-        return item;
-      });
-      this.openDialog("openProtectConclusion");
+        return item
+      })
+      this.openDialog('openProtectConclusion')
     },
     //冻结RS单
     freezeRsBill() {
-      this.isOther = true;
+      this.isOther = true
       this.selectedTableData = this.selectedTableData.map((item, index) => {
         if (index === 0) {
           return {
             ...item,
             isFrozenRs: true,
-            toDoMeetingName: "",
-            toDoMeeting: "",
-          };
+            toDoMeetingName: '',
+            toDoMeeting: ''
+          }
         }
-        return item;
-      });
-      this.openDialog("openProtectConclusion");
+        return item
+      })
+      this.openDialog('openProtectConclusion')
     },
     //关闭
     closeResult() {
-      this.isOther = true;
+      this.isOther = true
       this.selectedTableData = this.selectedTableData.map((item, index) => {
         if (index === 0) {
           return {
             ...item,
-            conclusionCsc: "07",
+            conclusionCsc: '07',
             isFrozenRs: false,
-            toDoMeetingName: "",
-            toDoMeeting: "",
-          };
+            toDoMeetingName: '',
+            toDoMeeting: ''
+          }
         }
-        return item;
-      });
-      this.openDialog("openProtectConclusion");
+        return item
+      })
+      this.openDialog('openProtectConclusion')
     },
 
     //查看结论
     lookResult() {
-      this.openDialog("openLookConclusion");
+      this.openDialog('openLookConclusion')
     },
     // 维护结论
     protectResult() {
-      this.isOther = false;
-      this.openDialog("openProtectConclusion");
+      this.isOther = false
+      this.openDialog('openProtectConclusion')
     },
     getUplodFiles(nameList) {
-      this.nameList = nameList;
+      this.nameList = nameList
     },
     // 下载模版
     downDemo() {
       download({
-        url: "/rise-meeting/meetingService/downloadThemenImportTemplate",
-        filename: "议题模版",
-        type:
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel",
+        url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
+        filename: '议题模版',
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
         callback: (e) => {
           if (e) {
-            iMessage.success("下载模版成功");
+            iMessage.success('下载模版成功')
           } else {
-            iMessage.error("下载模版成功");
+            iMessage.error('下载模版成功')
           }
         },
-        noFileUd: true,
-      });
+        noFileUd: true
+      })
       // downloadThemenImportTemplate().then((res)=>{
       //   console.log('res',res)
       // })
@@ -991,230 +990,230 @@ export default {
     recallTheThemen(themen) {
       const params = {
         meetingId: this.meetingInfo.id,
-        themenId: themen.id,
-      };
-      this.$confirm("是否同意撤回该议题？", "提示", {
-        confirmButtonText: "同意",
-        cancelButtonText: "拒绝",
+        themenId: themen.id
+      }
+      this.$confirm('是否同意撤回该议题？', '提示', {
+        confirmButtonText: '同意',
+        cancelButtonText: '拒绝',
         distinguishCancelAndClose: true,
-        type: "warning",
+        type: 'warning'
       })
         .then(() => {
           passThemenRecall(params)
             .then((res) => {
               if (res.code === 200) {
-                this.flushTable();
+                this.flushTable()
                 // iMessage.success(res.message);
-                iMessage.success("审批通过");
-                return;
+                iMessage.success('审批通过')
+                return
               }
-              iMessage.error(res.message);
-              this.flushTable();
-              return;
+              iMessage.error(res.message)
+              this.flushTable()
+              return
             })
             .catch((err) => {
-              this.flushTable();
-              iMessage.error("同意失败,原因: " + err);
-            });
+              this.flushTable()
+              iMessage.error('同意失败,原因: ' + err)
+            })
         })
         .catch((err) => {
-          if (err === "cancel") {
+          if (err === 'cancel') {
             rejectThemenRecall(params)
               .then((res) => {
                 if (res.code === 200) {
-                  this.flushTable();
-                  iMessage.success("拒绝成功!");
+                  this.flushTable()
+                  iMessage.success('拒绝成功!')
                   // iMessage.success(res.message);
-                  return;
+                  return
                 }
-                iMessage.error(res.message);
-                this.flushTable();
-                return;
+                iMessage.error(res.message)
+                this.flushTable()
+                return
               })
               .catch((err) => {
-                this.flushTable();
-                iMessage.error("拒绝失败,原因: " + err);
-              });
+                this.flushTable()
+                iMessage.error('拒绝失败,原因: ' + err)
+              })
           } else {
-            return;
+            return
           }
-        });
+        })
     },
     generateMeetingMinutes() {
-      this.editNewSummary = true;
-      this.receiverId = this.meetingInfo?.receiverId;
-      this.openDialog("openNewSummaryDialogNew");
+      this.editNewSummary = true
+      this.receiverId = this.meetingInfo?.receiverId
+      this.openDialog('openNewSummaryDialogNew')
     },
     lookMeetingMinutes() {
-      this.editNewSummary = false;
-      this.openDialog("openNewSummaryDialog");
+      this.editNewSummary = false
+      this.openDialog('openNewSummaryDialog')
     },
     lookThemen(themen) {
-      if (themen.type == "MANUAL") {
-        this.topicInfo = themen;
-        this.openAddTopic = true;
-        this.openDialog("openTopicLookDialog");
+      if (themen.type == 'MANUAL') {
+        this.topicInfo = themen
+        this.openAddTopic = true
+        this.openDialog('openTopicLookDialog')
       } else if (!themen.isBreak) {
-        this.editOrAdd = "look";
-        this.lookThemenObj = themen;
-        if (themen.source === "04") {
+        this.editOrAdd = 'look'
+        this.lookThemenObj = themen
+        if (themen.source === '04') {
           window.open(
             `${this.processUrl}/designate/decisiondata/mtz?desinateId=${themen.fixedPointApplyId}&isPreview=1`,
-            "_blank"
-          );
+            '_blank'
+          )
         } else {
-          this.openDialog("openAddTopicNewDialog");
+          this.openDialog('openAddTopicNewDialog')
         }
       } else {
-        this.editOrAdd = "look";
-        this.lookThemenObj = themen;
-        this.openDialog("openAddRestDialog");
+        this.editOrAdd = 'look'
+        this.lookThemenObj = themen
+        this.openDialog('openAddRestDialog')
       }
     },
     closeDialogTopic() {
-      this.openAddTopic = false;
+      this.openAddTopic = false
     },
     // 导入议题保存
-    handleOKTopics(e) {
-      this.closeDialog();
-      this.flushTable();
+    handleOKTopics() {
+      this.closeDialog()
+      this.flushTable()
     },
     // 导入议题保存
     handleOKImportTopic(a, b) {
       if (this.nameList.length <= 0) {
-        iMessage.warn("请导入议题后再保存");
-        return;
+        iMessage.warn('请导入议题后再保存')
+        return
       }
-      this.disabledImportThemenButton = true;
+      this.disabledImportThemenButton = true
       let param = {
         id: this.meetingInfo.id,
         attachment: {
           attachmentId: b[0].id,
           attachmentName: b[0].name,
           attachmentUrl: b[0].url,
-          source: "05",
-        },
-      };
+          source: '05'
+        }
+      }
       importThemen(param)
         .then((res) => {
           if (res.id) {
-            iMessage.success("导入议题成功");
-            this.openTopics = false;
-            this.disabledImportThemenButton = false;
+            iMessage.success('导入议题成功')
+            this.openTopics = false
+            this.disabledImportThemenButton = false
             // this.refreshTable();
-            this.flushTable();
-            this.closeDialog();
-            this.nameList = [];
+            this.flushTable()
+            this.closeDialog()
+            this.nameList = []
           }
         })
         .catch(() => {
-          this.disabledImportThemenButton = false;
-          this.nameList = [];
-        });
-      this.flushTable();
+          this.disabledImportThemenButton = false
+          this.nameList = []
+        })
+      this.flushTable()
     },
     // 导入议题取消
     handleCancelTopics() {
-      this.closeDialog();
+      this.closeDialog()
     },
     handleCloseCancelTopics() {
-      this.closeDialog();
-      this.getMeetingTypeObject();
-      this.getTableData();
+      this.closeDialog()
+      this.getMeetingTypeObject()
+      this.getTableData()
     },
     handleUpdateSubmit() {
-      this.flushTable();
+      this.flushTable()
     },
     generateTime() {
-      const startDate = this.meetingInfo.startDate;
-      const startTime = this.meetingInfo.startTime;
-      const endDate = this.meetingInfo.endDate;
-      const endTime = this.meetingInfo.endTime;
+      const startDate = this.meetingInfo.startDate
+      const startTime = this.meetingInfo.startTime
+      const endDate = this.meetingInfo.endDate
+      const endTime = this.meetingInfo.endTime
       this.begin = dayjs(new Date(`${startDate} ${startTime}`)).format(
-        "YYYY/MM/DD HH:mm"
-      );
-      this.end = `~${dayjs(new Date(`${endDate} ${endTime}`)).format("HH:mm")}`;
+        'YYYY/MM/DD HH:mm'
+      )
+      this.end = `~${dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm')}`
     },
     setTypeObj(e) {
-      let typeObj = {};
+      let typeObj = {}
       e.forEach((item) => {
-        typeObj[item.id] = item.name;
-      });
-      this.typeObject = typeObj;
+        typeObj[item.id] = item.name
+      })
+      this.typeObject = typeObj
     },
     getMeetingTypeObject() {
       let param = {
         pageSize: 1000,
-        pageNum: 1,
-      };
+        pageNum: 1
+      }
       getMettingType(param).then((res) => {
-        this.meetingTypeList = res.data;
-        this.setTypeObj(res.data);
+        this.meetingTypeList = res.data
+        this.setTypeObj(res.data)
         // this.$emit("setTypeObj", res.data);
-      });
+      })
     },
 
     //行拖拽
     rowDrop() {
-      const tbody = document.querySelector(".el-table__body-wrapper tbody");
-      const _this = this;
+      const tbody = document.querySelector('.el-table__body-wrapper tbody')
+      const _this = this
       this.tableObject = new Sortable(tbody, {
-        filter: ".dragable-row",
+        filter: '.dragable-row',
         onFilter() {
-          iMessage.warn("已结束或进行中的议题不可以被调整!");
+          iMessage.warn('已结束或进行中的议题不可以被调整!')
         },
         onMove(evt) {
-          const classStr = evt.related.getAttribute("class");
-          if (classStr.includes("dragable-row")) {
+          const classStr = evt.related.getAttribute('class')
+          if (classStr.includes('dragable-row')) {
             if (!_this.timer) {
-              _this.timer = true;
-              iMessage.warn("不可以把议题拖拽到已结束或者进行中的议题之前!");
+              _this.timer = true
+              iMessage.warn('不可以把议题拖拽到已结束或者进行中的议题之前!')
               let timers = setTimeout(() => {
-                _this.timer = null;
-                clearTimeout(timers);
-              }, 3000);
+                _this.timer = null
+                clearTimeout(timers)
+              }, 3000)
             }
 
-            return false;
+            return false
           }
         },
         onEnd({ newIndex, oldIndex }) {
           _this.$nextTick(() => {
-            let targetIndex = newIndex;
-            let sourceIndex = oldIndex;
-            _this.handleDragDataTransform(targetIndex, sourceIndex);
-          });
-        },
-      });
+            let targetIndex = newIndex
+            let sourceIndex = oldIndex
+            _this.handleDragDataTransform(targetIndex, sourceIndex)
+          })
+        }
+      })
     },
     moveInArray(arr, from, to) {
       // 确保是有效数组
-      if (Object.prototype.toString.call(arr) !== "[object Array]") {
-        throw new Error("Please provide a valid array");
+      if (Object.prototype.toString.call(arr) !== '[object Array]') {
+        throw new Error('Please provide a valid array')
       }
 
       // 删除当前的位置
-      var item = arr.splice(from, 1);
+      var item = arr.splice(from, 1)
 
       // 确保还剩有元素移动
       if (!item.length) {
-        throw new Error("There is no item in the array at index " + from);
+        throw new Error('There is no item in the array at index ' + from)
       }
 
       // 移动元素到指定位置
-      arr.splice(to, 0, item[0]);
-      return arr;
+      arr.splice(to, 0, item[0])
+      return arr
     },
     //处理数组数据互换
     handleDragDataTransform(targetIndex, sourceIndex) {
       this.changedArr = this.changedArr
         ? this.changedArr
-        : [...this.resThemeData];
-      this.moveInArray(this.changedArr, sourceIndex, targetIndex);
+        : [...this.resThemeData]
+      this.moveInArray(this.changedArr, sourceIndex, targetIndex)
     },
     getTableData() {
-      const meetingId = this.$route.query.id;
-      this.queryMeetingInfoById(meetingId);
+      const meetingId = this.$route.query.id
+      this.queryMeetingInfoById(meetingId)
     },
     handlePage(data = []) {
       // this.page.totalCount = data.length;
@@ -1222,181 +1221,181 @@ export default {
       // this.tableData = data.filter((item, index) => {
       //   return index < 10;
       // });
-      this.tableData = data;
+      this.tableData = data
       this.tableData = this.tableData.map((item) => {
-        const startTime = dayjs(`2020-6-30 ${item.startTime}`).format("HH:mm");
-        const endTime = dayjs(`2020-6-30 ${item.endTime}`).format("HH:mm");
+        const startTime = dayjs(`2020-6-30 ${item.startTime}`).format('HH:mm')
+        const endTime = dayjs(`2020-6-30 ${item.endTime}`).format('HH:mm')
         return {
           ...item,
-          time: `${startTime}~${endTime}`,
-        };
-      });
+          time: `${startTime}~${endTime}`
+        }
+      })
     },
     fillterStr(arr, str) {
       return arr.filter((item) => {
-        return item.title !== str;
-      });
+        return item.title !== str
+      })
     },
     goState(state) {
       switch (state) {
         //草稿
-        case "01":
-          break;
+        case '01':
+          break
         //开放
-        case "02":
-          this.currentButtonList = this.buttonList[0];
-          this.type = this.$route.query.type;
+        case '02':
+          this.currentButtonList = this.buttonList[0]
+          this.type = this.$route.query.type
           console.log(
-            "this.type",
+            'this.type',
             this.type,
-            this.type === "CSC",
-            this.type === "Pre CSC"
-          );
-          if (this.type === "CSC") {
+            this.type === 'CSC',
+            this.type === 'Pre CSC'
+          )
+          if (this.type === 'CSC') {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
-                { title: "锁定", methodName: "lock" },
-                { title: "开始", methodName: "start" },
-                { title: "修改", methodName: "edit" },
-                { title: "返回", methodName: "back" },
+                { title: '锁定', methodName: 'lock' },
+                { title: '开始', methodName: 'start' },
+                { title: '修改', methodName: 'edit' },
+                { title: '返回', methodName: 'back' }
               ],
-              "锁定"
-            );
+              '锁定'
+            )
           }
-          if (this.type === "Pre CSC") {
+          if (this.type === 'Pre CSC') {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
-                { title: "锁定", methodName: "lock" },
-                { title: "开始", methodName: "start" },
-                { title: "修改", methodName: "edit" },
-                { title: "返回", methodName: "back" },
+                { title: '锁定', methodName: 'lock' },
+                { title: '开始', methodName: 'start' },
+                { title: '修改', methodName: 'edit' },
+                { title: '返回', methodName: 'back' }
               ],
-              "开始"
-            );
+              '开始'
+            )
           }
-          this.tableButtonList = this.currentButtonList.tableButtonList;
-          break;
+          this.tableButtonList = this.currentButtonList.tableButtonList
+          break
         //锁定
-        case "03":
-          this.currentButtonList = this.buttonList[1];
-          this.tableButtonList = this.currentButtonList.tableButtonList;
-          break;
+        case '03':
+          this.currentButtonList = this.buttonList[1]
+          this.tableButtonList = this.currentButtonList.tableButtonList
+          break
         //开始
-        case "04":
-          this.currentButtonList = this.buttonList[2];
-          this.tableButtonList = this.currentButtonList.tableButtonList;
-          break;
+        case '04':
+          this.currentButtonList = this.buttonList[2]
+          this.tableButtonList = this.currentButtonList.tableButtonList
+          break
         // 结束
-        case "05":
-          this.currentButtonList = this.buttonList[3];
-          this.tableButtonList = this.currentButtonList.tableButtonList;
-          break;
+        case '05':
+          this.currentButtonList = this.buttonList[3]
+          this.tableButtonList = this.currentButtonList.tableButtonList
+          break
         // 关闭
-        case "06":
-          this.currentButtonList = this.buttonList[4];
-          this.tableButtonList = this.currentButtonList.tableButtonList;
-          break;
+        case '06':
+          this.currentButtonList = this.buttonList[4]
+          this.tableButtonList = this.currentButtonList.tableButtonList
+          break
         default:
-          break;
+          break
       }
     },
     queryMeetingInfoById(id) {
       const data = {
-        id,
-      };
-      const _this = this;
+        id
+      }
+      const _this = this
       findThemenById(data)
         .then((res) => {
-          this.meetingType = res.state;
-          _this.meetingInfo = res;
+          this.meetingType = res.state
+          _this.meetingInfo = res
           // console.log(res);
-          _this.goState(res.state);
-          _this.resThemeData = [...res.themens];
-          _this.handlePage(res.themens);
-          _this.generateTime();
+          _this.goState(res.state)
+          _this.resThemeData = [...res.themens]
+          _this.handlePage(res.themens)
+          _this.generateTime()
         })
         .catch((err) => {
           // console.log("this.meetingInfo", this.meetingInfo);
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     query() {
-      const _this = this;
+      const _this = this
       return {
         that: _this,
         tableData: _this.tableData,
         resThemeData: _this.resThemeData,
-        page: _this.page,
-      };
+        page: _this.page
+      }
     },
     handleSizeChange: (a, b) => {
-      // console.log(a, b);
+      console.log(a, b);
     },
     //选择页数
     handleCurrentChange: (curPage, query) => {
       //总时长duartion
       // let totalDuration = 0;
-      const _this = query();
+      const _this = query()
       //分页并累加总时长
-      _this.page.currPage = curPage;
+      _this.page.currPage = curPage
       _this.tableData = _this.resThemeData.filter((item, index) => {
         if (
           index >= (_this.page.currPage - 1) * _this.page.pageSize &&
           index < _this.page.currPage * _this.page.pageSize
         ) {
-          return true;
+          return true
         }
-        return false;
-      });
+        return false
+      })
 
       _this.that.$data.tableData = _this.tableData.map((item) => {
-        const startTime = dayjs(`2020-6-30 ${item.startTime}`).format("HH:mm");
-        const endTime = dayjs(`2020-6-30 ${item.endTime}`).format("HH:mm");
+        const startTime = dayjs(`2020-6-30 ${item.startTime}`).format('HH:mm')
+        const endTime = dayjs(`2020-6-30 ${item.endTime}`).format('HH:mm')
         return {
           ...item,
-          time: `${startTime}~${endTime}`,
-        };
-      });
+          time: `${startTime}~${endTime}`
+        }
+      })
     },
 
     //对话弹窗 初始化
     initDialog() {
-      const dialogObj = this.dialogStatusManageObj;
+      const dialogObj = this.dialogStatusManageObj
       for (let o in dialogObj) {
-        dialogObj[o] = false;
+        dialogObj[o] = false
       }
-      this.dialogStatusManageObj = dialogObj;
+      this.dialogStatusManageObj = dialogObj
     },
     closeDialog() {
-      this.initDialog();
+      this.initDialog()
     },
     openDialog(val) {
-      this.dialogStatusManageObj[val] = true;
+      this.dialogStatusManageObj[val] = true
     },
     handleClick(name) {
-      this[name]();
+      this[name]()
     },
     //开启调整
     updateTopic() {
-      this.showUpdateTopicButtonList = true;
+      this.showUpdateTopicButtonList = true
       this.$nextTick(() => {
-        this.rowDrop();
-      });
+        this.rowDrop()
+      })
     },
     //调整完成
     overUpdateTopic() {
       if (this.changedArr) {
-        this.handleUpdateThemen();
+        this.handleUpdateThemen()
       }
-      this.tableObject.destroy();
-      this.showUpdateTopicButtonList = false;
+      this.tableObject.destroy()
+      this.showUpdateTopicButtonList = false
       // });
     },
     //取消调整
     cancelUpdateTopic() {
-      this.changedArr = "";
-      this.tableObject.destroy();
-      this.showUpdateTopicButtonList = false;
+      this.changedArr = ''
+      this.tableObject.destroy()
+      this.showUpdateTopicButtonList = false
     },
     //调整完成更新会议议题
     handleUpdateThemen() {
@@ -1406,106 +1405,106 @@ export default {
             // ...item,
             itemNo: index + 1,
             themenId: item.id,
-            state: item.state,
-          };
+            state: item.state
+          }
         })
         .filter((item) => {
-          return item.state === "01" || item.state === "04";
+          return item.state === '01' || item.state === '04'
         })
         .map((item) => {
           return {
             itemNo: item.itemNo,
-            themenId: item.themenId,
-          };
-        });
+            themenId: item.themenId
+          }
+        })
       const formData = {
         meetingId: this.meetingInfo.id,
-        resortThemens: this.shouldhanldeUpdateData,
-      };
+        resortThemens: this.shouldhanldeUpdateData
+      }
       resortThemen(formData)
         .then((data) => {
           if (data) {
-            iMessage.success("保存成功");
+            iMessage.success('保存成功')
           } else {
-            iMessage.error("保存失败");
+            iMessage.error('保存失败')
           }
-          this.changedArr = "";
-          this.flushTable();
+          this.changedArr = ''
+          this.flushTable()
         })
         .catch((err) => {
-          this.changedArr = "";
-          console.log("err", err);
-        });
+          this.changedArr = ''
+          console.log('err', err)
+        })
     },
     close() {
       if (this.meetingInfo.attachments.length <= 0) {
-        this.$confirm("尚未生成会议纪要，确定关闭会议？", "提示", {
-          confirmButtonText: "是",
-          cancelButtonText: "否",
-          type: "warning",
+        this.$confirm('尚未生成会议纪要，确定关闭会议？', '提示', {
+          confirmButtonText: '是',
+          cancelButtonText: '否',
+          type: 'warning'
         }).then(() => {
           //在这里判断是不是已经生成会议纪要了
-          this.openDialog("openCloseMeetiongDialog");
-        });
+          this.openDialog('openCloseMeetiongDialog')
+        })
       } else {
-        this.$confirm("请确认是否需要关闭会议?", "提示", {
-          confirmButtonText: "是",
-          cancelButtonText: "否",
-          type: "warning",
+        this.$confirm('请确认是否需要关闭会议?', '提示', {
+          confirmButtonText: '是',
+          cancelButtonText: '否',
+          type: 'warning'
         }).then(() => {
           //在这里判断是不是已经生成会议纪要了
-          this.openDialog("openCloseMeetiongDialog");
-        });
+          this.openDialog('openCloseMeetiongDialog')
+        })
       }
     },
     //查看议题里面是否有进行中的议题
     haveThemenIsStarting() {
       return this.resThemeData.find((item) => {
-        return item.state === "02";
-      });
+        return item.state === '02'
+      })
     },
     //查询议题里的未进行的议题
     haveThemenNotStart() {
       return this.resThemeData.find((item) => {
-        return item.state === "01";
-      });
+        return item.state === '01'
+      })
     },
     // 判断议题是否已经全部完成
     isThemenOverAll() {
       return this.resThemeData.every((item) => {
-        return item.state === "03";
-      });
+        return item.state === '03'
+      })
     },
     startTopic() {
       if (this.haveThemenIsStarting()) {
-        iMessage.warn("已有进行中的议题！");
-        return;
+        iMessage.warn('已有进行中的议题！')
+        return
       }
       if (
         this.selectedTableData &&
         this.selectedTableData.length >= 1 &&
         this.haveThemenNotStart().itemNo !== this.selectedTableData[0].itemNo
       ) {
-        iMessage.warn("请按议题顺序开始议题！");
-        return;
+        iMessage.warn('请按议题顺序开始议题！')
+        return
       }
       if (this.isThemenOverAll()) {
-        iMessage.warn("该议题列表已全部结束！");
-        return;
+        iMessage.warn('该议题列表已全部结束！')
+        return
       }
       const param = {
         meetingId: this.meetingInfo.id,
-        themenId: this.haveThemenNotStart().id,
-      };
+        themenId: this.haveThemenNotStart().id
+      }
       startThemen(param)
         .then(() => {
-          iMessage.success("开始议题成功！");
+          iMessage.success('开始议题成功！')
           // this.refreshTable();
-          this.flushTable();
+          this.flushTable()
         })
-        .catch((err) => {
-          iMessage.error("开始议题失败！");
-        });
+        .catch(() => {
+          iMessage.error('开始议题失败！')
+        })
       // });
     },
     //判断进行中是否超时
@@ -1514,90 +1513,90 @@ export default {
       return (
         new Date(`2021-7-1 ${choiceThemen.startTime}`).getTime() +
           choiceThemen.duration * 60 * 1000 >
-        new Date(`2021-7-1 ${dayjs(new Date()).format("HH:mm:ss")}`).getTime()
-      );
+        new Date(`2021-7-1 ${dayjs(new Date()).format('HH:mm:ss')}`).getTime()
+      )
     },
     overTopic() {
       // alert("overTopic");
-      let choiceThemen = this.selectedTableData && this.selectedTableData[0];
-      choiceThemen = choiceThemen ? choiceThemen : this.haveThemenIsStarting();
+      let choiceThemen = this.selectedTableData && this.selectedTableData[0]
+      choiceThemen = choiceThemen ? choiceThemen : this.haveThemenIsStarting()
       const param = {
         meetingId: this.meetingInfo.id,
-        themenId: choiceThemen && choiceThemen.id,
-      };
-      if (choiceThemen && choiceThemen.state !== "02") {
-        iMessage.warn("该议题未进行中，不能结束操作！");
-        return;
+        themenId: choiceThemen && choiceThemen.id
       }
-      const bol = this.isOverTime(choiceThemen);
+      if (choiceThemen && choiceThemen.state !== '02') {
+        iMessage.warn('该议题未进行中，不能结束操作！')
+        return
+      }
+      const bol = this.isOverTime(choiceThemen)
       if (bol) {
         endThemen(param)
           .then(() => {
-            iMessage.success("结束议题成功！");
+            iMessage.success('结束议题成功！')
             // this.refreshTable();
-            this.flushTable();
+            this.flushTable()
           })
           .catch(() => {
             // iMessage.error("结束会议失败！");
-          });
+          })
         // });
-        return;
+        return
       }
       endThemen(param)
         .then(() => {
-          iMessage.success("结束议题成功！");
+          iMessage.success('结束议题成功！')
           // this.refreshTable();
-          this.flushTable();
+          this.flushTable()
         })
         .catch(() => {
           // iMessage.error("结束会议失败！");
-        });
+        })
     },
     split() {
-      this.$confirm("确认拆分该议题么?", "提示", {
-        confirmButtonText: "确认",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('确认拆分该议题么?', '提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(() => {
         const data = {
           meetingId: this.meetingInfo.id,
-          themenId: this.selectedTableData[0].id,
-        };
+          themenId: this.selectedTableData[0].id
+        }
         spiltThemen(data)
           .then(() => {
-            iMessage.success("拆分成功!");
-            this.flushTable();
+            iMessage.success('拆分成功!')
+            this.flushTable()
           })
           .catch((err) => {
-            iMessage.error("拆分失败:" + err);
-            this.flushTable();
-          });
-      });
+            iMessage.error('拆分失败:' + err)
+            this.flushTable()
+          })
+      })
     },
     start() {
       let param = {
         id: this.meetingInfo.id,
-        state: "04",
-      };
+        state: '04'
+      }
       changeStateMeeting(param)
         .then((res) => {
           if (res) {
-            iMessage.success("开始议题成功！");
-            this.flushTable();
+            iMessage.success('开始议题成功！')
+            this.flushTable()
           }
         })
         .catch(() => {
           // iMessage.error(err);
-        });
+        })
       // });
     },
     updateDate() {
       // alert("updateDate");
       if (this.selectedTableData[0] && this.selectedTableData[0].isBreak) {
-        iMessage.warn("休息议题不能进行改期");
-        return;
+        iMessage.warn('休息议题不能进行改期')
+        return
       }
-      this.openDialog("openUpdateDateDialog");
+      this.openDialog('openUpdateDateDialog')
     },
     // deleteTop() {
     //   if (
@@ -1637,227 +1636,227 @@ export default {
     // },
     //批量删除
     deleteTopAll() {
-      this.$confirm("确认删除该议题么?", "提示", {
-        confirmButtonText: "确认",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('确认删除该议题么?', '提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(() => {
-        let pArr = [];
+        let pArr = []
         this.selectedTableData.forEach((item) => {
           let p = new Promise((resolve, reject) => {
             let data = {
               meetingId: this.meetingInfo.id,
-              id: item.id,
-            };
+              id: item.id
+            }
             deleteThemen(data)
               .then(() => {
-                resolve(data);
+                resolve(data)
               })
               .catch((err) => {
-                reject(err);
-              });
-          });
-          pArr.push(p);
-        });
+                reject(err)
+              })
+          })
+          pArr.push(p)
+        })
         Promise.all(pArr)
-          .then((res) => {
-            iMessage.success("删除成功!");
-            this.flushTable();
+          .then(() => {
+            iMessage.success('删除成功!')
+            this.flushTable()
           })
           .catch(() => {
-            iMessage.error("删除失败!");
-          });
-      });
+            iMessage.error('删除失败!')
+          })
+      })
     },
     protectInfo() {
       if (
         this.selectedTableData[0]
-          ? this.selectedTableData[0].state === "02"
-          : ""
+          ? this.selectedTableData[0].state === '02'
+          : ''
       ) {
-        iMessage.warn("进行中的议题不能进行会议资料维护");
-        return;
+        iMessage.warn('进行中的议题不能进行会议资料维护')
+        return
       }
       if (
         this.selectedTableData[0]
-          ? this.selectedTableData[0].state === "03"
-          : ""
+          ? this.selectedTableData[0].state === '03'
+          : ''
       ) {
-        iMessage.warn("已完成的议题不能进行会议资料维护");
-        return;
+        iMessage.warn('已完成的议题不能进行会议资料维护')
+        return
       }
-      if (this.selectedTableData[0] ? this.selectedTableData[0].isBreak : "") {
-        iMessage.warn("休息议题不可维护资料");
-        return;
+      if (this.selectedTableData[0] ? this.selectedTableData[0].isBreak : '') {
+        iMessage.warn('休息议题不可维护资料')
+        return
       }
-      this.openDialog("openProtectInfoDialog");
+      this.openDialog('openProtectInfoDialog')
     },
     editTopic() {
-      if (this.selectedTableData[0].state === "03") {
-        iMessage.warn("已结束的议题不能进行修改议题");
-        return;
+      if (this.selectedTableData[0].state === '03') {
+        iMessage.warn('已结束的议题不能进行修改议题')
+        return
       }
-      this.editOrAdd = "edit";
+      this.editOrAdd = 'edit'
       if (this.selectedTableData[0].isBreak) {
-        this.openDialog("openAddRestDialog");
-        return;
+        this.openDialog('openAddRestDialog')
+        return
       }
       if (
-        this.meetingInfo.meetingTypeName === "Pre CSC" ||
-        this.meetingInfo.meetingTypeName === "CSC"
+        this.meetingInfo.meetingTypeName === 'Pre CSC' ||
+        this.meetingInfo.meetingTypeName === 'CSC'
       ) {
-        this.openDialog("openAddTopicNewDialog");
+        this.openDialog('openAddTopicNewDialog')
       } else {
-        this.openDialog("openAddTopicDialog");
+        this.openDialog('openAddTopicDialog')
       }
     },
     //新增议题
     addTopic() {
-      this.editOrAdd = "add";
+      this.editOrAdd = 'add'
       if (
-        this.meetingInfo.meetingTypeName === "Pre CSC" ||
-        this.meetingInfo.meetingTypeName === "CSC"
+        this.meetingInfo.meetingTypeName === 'Pre CSC' ||
+        this.meetingInfo.meetingTypeName === 'CSC'
       ) {
-        this.openDialog("openAddTopicNewDialog");
+        this.openDialog('openAddTopicNewDialog')
       } else {
-        this.openDialog("openAddTopicDialog");
+        this.openDialog('openAddTopicDialog')
       }
     },
 
     addRest() {
-      this.editOrAdd = "add";
-      this.openDialog("openAddRestDialog");
+      this.editOrAdd = 'add'
+      this.openDialog('openAddRestDialog')
     },
     back() {
       //返回到会议列表页
       // this.$router.push("/meeting/home");
-      this.$router.go(-1);
+      this.$router.go(-1)
     },
     open() {
       let param = {
         id: this.meetingInfo.id,
-        state: "02",
-      };
+        state: '02'
+      }
       changeStateMeeting(param)
         .then(() => {
-          iMessage.success("开放会议成功！");
+          iMessage.success('开放会议成功！')
           // this.refreshTable();
-          this.flushTable();
-          this.getMeetingTypeObject();
+          this.flushTable()
+          this.getMeetingTypeObject()
         })
         .catch(() => {
-          iMessage.error("开放会议失败！");
-        });
+          iMessage.error('开放会议失败！')
+        })
       // });
     },
     endMeeting() {
       // 结束
-      let dateCurrent = new Date().valueOf();
-      let dateEnd = new Date(
-        this.meetingInfo.endDate + " " + this.meetingInfo.endTime
-      ).valueOf();
+      // let dateCurrent = new Date().valueOf()
+      // let dateEnd = new Date(
+      //   this.meetingInfo.endDate + ' ' + this.meetingInfo.endTime
+      // ).valueOf()
       let param = {
         id: this.meetingInfo.id,
-        state: "05",
-      };
+        state: '05'
+      }
       changeStateMeeting(param)
         .then(() => {
-          iMessage.success("结束会议成功！");
-          this.flushTable();
-          this.getMeetingTypeObject();
+          iMessage.success('结束会议成功！')
+          this.flushTable()
+          this.getMeetingTypeObject()
         })
-        .catch(() => {});
+        .catch(() => {})
       // });
     },
-    sameScreen(e) {
+    sameScreen() {
       // 同屏
       if (
-        this.meetingInfo.meetingTypeName === "Pre CSC" ||
-        this.meetingInfo.meetingTypeName === "CSC"
+        this.meetingInfo.meetingTypeName === 'Pre CSC' ||
+        this.meetingInfo.meetingTypeName === 'CSC'
       ) {
         let routeUrl = this.$router.resolve({
-          path: "/meeting/meeting-same-screen",
+          path: '/meeting/meeting-same-screen',
           query: {
-            id: this.meetingInfo.id,
-          },
-        });
-        window.open(routeUrl.href, "_blank");
+            id: this.meetingInfo.id
+          }
+        })
+        window.open(routeUrl.href, '_blank')
       } else {
         let routeUrl = this.$router.resolve({
-          path: "/meeting/same-screen",
+          path: '/meeting/same-screen',
           query: {
-            id: this.meetingInfo.id,
-          },
-        });
-        window.open(routeUrl.href, "_blank");
+            id: this.meetingInfo.id
+          }
+        })
+        window.open(routeUrl.href, '_blank')
       }
     },
     displayShow() {
       let routeUrl = this.$router.resolve({
         path:
-          this.meetingInfo.meetingTypeName == "Pre CSC" ||
-          this.meetingInfo.meetingTypeName == "CSC"
-            ? "/meeting/meetingShow" //新页面
-            : "/meeting/meeting-show", //旧页面
+          this.meetingInfo.meetingTypeName == 'Pre CSC' ||
+          this.meetingInfo.meetingTypeName == 'CSC'
+            ? '/meeting/meetingShow' //新页面
+            : '/meeting/meeting-show', //旧页面
         query: {
-          id: this.meetingInfo.id,
-        },
-      });
-      window.open(routeUrl.href, "_blank");
+          id: this.meetingInfo.id
+        }
+      })
+      window.open(routeUrl.href, '_blank')
     },
     lock() {
       // 锁定
-      this.$confirm("请确认是否需要锁定会议？", "提示", {
-        confirmButtonText: "是",
-        cancelButtonText: "否",
-        type: "warning",
+      this.$confirm('请确认是否需要锁定会议？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
       }).then(() => {
         let param = {
           id: this.meetingInfo.id,
-          state: "03",
-        };
+          state: '03'
+        }
         changeStateMeeting(param)
           .then(() => {
-            iMessage.success("锁定会议成功！");
+            iMessage.success('锁定会议成功！')
             // this.refreshTable();
-            this.getMeetingTypeObject();
-            this.flushTable();
+            this.getMeetingTypeObject()
+            this.flushTable()
           })
           .catch(() => {
-            iMessage.error("锁定会议失败！");
-          });
-      });
+            iMessage.error('锁定会议失败！')
+          })
+      })
     },
     deblock() {
       let param = {
         id: this.meetingInfo.id,
-        state: "02",
-      };
+        state: '02'
+      }
       changeStateMeeting(param)
         .then(() => {
-          iMessage.success("解锁会议成功！");
-          this.getMeetingTypeObject();
-          this.flushTable();
+          iMessage.success('解锁会议成功！')
+          this.getMeetingTypeObject()
+          this.flushTable()
         })
         .catch(() => {
-          iMessage.error("解锁会议失败！");
-        });
+          iMessage.error('解锁会议失败！')
+        })
       // });
     },
     edit() {
-      this.openDialog("openUpdate");
+      this.openDialog('openUpdate')
     },
     //刷新表格
     flushTable() {
-      this.page.currPage = 1;
-      this.getTableData();
+      this.page.currPage = 1
+      this.getTableData()
     },
     closeDetailDialog(bol) {
-      this.openDetailDialog = bol;
+      this.openDetailDialog = bol
     },
     search(val) {
-      this.form = { ...val };
-      this.query();
+      this.form = { ...val }
+      this.query()
     },
     //按钮失效功能
     handleButtonDisabled(buttonNameList, bol) {
@@ -1868,13 +1867,13 @@ export default {
             if (buttonNameList.includes(item.methodName)) {
               return {
                 ...item,
-                disabled: bol,
-              };
+                disabled: bol
+              }
             }
-            return item;
-          });
-        }),
-      };
+            return item
+          })
+        })
+      }
     },
     //开始议题按钮失效功能
     handleStartTopicButtonDisabled(buttonNameList, bol) {
@@ -1885,17 +1884,17 @@ export default {
             if (buttonNameList.includes(item.methodName)) {
               return {
                 ...item,
-                triggerDisabled: bol,
-              };
+                triggerDisabled: bol
+              }
             }
-            return item;
-          });
-        }),
-      };
+            return item
+          })
+        })
+      }
     },
     handleDeleteOrNot(curObj) {
-      let bol = true;
-      if (curObj.state === "03") {
+      let bol = true
+      if (curObj.state === '03') {
         // //全部置灰
         // if (curObj.type === "MANUAL" || curObj.type === "FS+MTZ") {
         //   this.handleButtonDisabled(["protectResult"], false);
@@ -1919,9 +1918,9 @@ export default {
         //     false
         //   );
         // }
-        bol = true;
-      } else if (curObj.state === "02") {
-        bol = true;
+        bol = true
+      } else if (curObj.state === '02') {
+        bol = true
         // this.handleButtonDisabled(this.handleDisabledButtonName, true);
         // this.handleStartTopicButtonDisabled(["startTopic"], true);
         // this.handleButtonDisabled(["overTopic"], false);
@@ -1937,12 +1936,12 @@ export default {
           //   this.handleButtonDisabled(["editTopic"], false);
           // }
           // this.handleStartTopicButtonDisabled(["startTopic"], false);
-          bol = false;
+          bol = false
         } else {
-          if (curObj.type === "MANUAL") {
-            bol = false;
+          if (curObj.type === 'MANUAL') {
+            bol = false
           }
-          if (curObj.type === "FS+MTZ") {
+          if (curObj.type === 'FS+MTZ') {
             // this.handleButtonDisabled(["updateDate", "split"], false);
           } else {
             // this.handleButtonDisabled(["updateDate"], false);
@@ -1950,11 +1949,11 @@ export default {
           // this.handleStartTopicButtonDisabled(["startTopic"], false);
           if (!curObj.type) {
             // this.handleButtonDisabled(["deleteTopAll"], false);
-            bol = false;
+            bol = false
           }
         }
       }
-      return bol;
+      return bol
     },
     // // 表格选中值集
     // handleSelectionChange(val) {
@@ -2039,168 +2038,171 @@ export default {
     // },
     // 表格选中值集
     handleSelectionChange(val) {
-      this.selectedTableData = val;
-      const handleDisabledButtonName = this.handleDisabledButtonName;
+      this.selectedTableData = val
+      const handleDisabledButtonName = this.handleDisabledButtonName
       if (val.length === 1) {
-        if (val[0].state === "03") {
+        if (val[0].state === '03') {
           if (!val[0].isBreak) {
-            this.handleButtonDisabled(["protectResult"], false);
+            // this.handleButtonDisabled(["protectResult"], false);
+            if (!val[0].conclusionCsc || val[0].conclusionCsc === '01') {
+              this.handleButtonDisabled(['protectResult'], false)
+            }
             if (val[0].conclusionCsc) {
-              this.handleButtonDisabled(["lookResult"], false);
+              this.handleButtonDisabled(['lookResult'], false)
             } else {
-              if (val[0].type !== "MANUAL") {
-                if (val[0].conclusionCsc === "02") {
-                  this.handleButtonDisabled(["freezeRsBill"], false);
+              if (val[0].type !== 'MANUAL') {
+                if (val[0].conclusionCsc === '02') {
+                  this.handleButtonDisabled(['freezeRsBill'], false)
                 }
               }
             }
             if (
-              this.meetingInfo.meetingTypeName === "CSC" &&
-              val[0].type !== "MANUAL"
+              this.meetingInfo.meetingTypeName === 'CSC' &&
+              val[0].type !== 'MANUAL'
             ) {
               this.handleButtonDisabled(
                 [
-                  "bePending",
-                  "fixedPoint",
-                  "nextPreCSC",
-                  "senLol",
-                  "translateTer",
-                  "closeResult",
-                  "translateCSC",
+                  'bePending',
+                  'fixedPoint',
+                  'nextPreCSC',
+                  'senLol',
+                  'translateTer',
+                  'closeResult',
+                  'translateCSC'
                   // "lookResult",
                 ],
                 false
-              );
+              )
               if (val[0].conclusionCsc) {
-                this.handleButtonDisabled(["lookResult"], false);
+                this.handleButtonDisabled(['lookResult'], false)
               }
-              if (val[0].conclusionCsc === "02") {
-                this.handleButtonDisabled(["freezeRsBill"], false);
+              if (val[0].conclusionCsc === '02') {
+                this.handleButtonDisabled(['freezeRsBill'], false)
               }
             }
             if (
-              this.meetingInfo.meetingTypeName === "CSC" &&
-              val[0].type === "MANUAL"
+              this.meetingInfo.meetingTypeName === 'CSC' &&
+              val[0].type === 'MANUAL'
             ) {
               this.handleButtonDisabled(
-                ["bePending", "nextPreCSC", "closeResult", "translateCSC"],
+                ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
                 false
-              );
+              )
             }
             if (
-              this.meetingInfo.meetingTypeName === "Pre CSC" &&
-              val[0].type === "MANUAL"
+              this.meetingInfo.meetingTypeName === 'Pre CSC' &&
+              val[0].type === 'MANUAL'
             ) {
               this.handleButtonDisabled(
-                ["bePending", "nextPreCSC", "closeResult", "translateCSC"],
+                ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
                 false
-              );
+              )
             }
             if (
-              this.meetingInfo.meetingTypeName === "Pre CSC" &&
-              val[0].type !== "MANUAL"
+              this.meetingInfo.meetingTypeName === 'Pre CSC' &&
+              val[0].type !== 'MANUAL'
             ) {
               this.handleButtonDisabled(
                 [
-                  "bePending",
-                  "fixedPoint",
-                  "nextPreCSC",
-                  "senLol",
-                  "translateTer",
-                  "closeResult",
-                  "translateCSC",
+                  'bePending',
+                  'fixedPoint',
+                  'nextPreCSC',
+                  'senLol',
+                  'translateTer',
+                  'closeResult',
+                  'translateCSC'
                   // "lookResult",
                 ],
                 false
-              );
+              )
               if (val[0].conclusionCsc) {
-                this.handleButtonDisabled(["lookResult"], false);
+                this.handleButtonDisabled(['lookResult'], false)
               }
-              if (val[0].conclusionCsc === "02") {
-                this.handleButtonDisabled(["freezeRsBill"], false);
+              if (val[0].conclusionCsc === '02') {
+                this.handleButtonDisabled(['freezeRsBill'], false)
               }
             }
           }
-        } else if (val[0].state === "02") {
-          this.handleButtonDisabled(handleDisabledButtonName, true);
-          this.handleStartTopicButtonDisabled(["startTopic"], true);
-          this.handleButtonDisabled(["protectResult"], true);
-          this.handleButtonDisabled(["overTopic"], false);
+        } else if (val[0].state === '02') {
+          this.handleButtonDisabled(handleDisabledButtonName, true)
+          this.handleStartTopicButtonDisabled(['startTopic'], true)
+          this.handleButtonDisabled(['protectResult'], true)
+          this.handleButtonDisabled(['overTopic'], false)
         } else {
           if (val[0].isBreak) {
-            this.handleButtonDisabled(["deleteTopAll"], false);
+            this.handleButtonDisabled(['deleteTopAll'], false)
             if (
-              this.meetingType === "02" ||
-              this.meetingType === "03" ||
-              this.meetingType === "04"
+              this.meetingType === '02' ||
+              this.meetingType === '03' ||
+              this.meetingType === '04'
             ) {
-              this.handleButtonDisabled(["editTopic"], false);
+              this.handleButtonDisabled(['editTopic'], false)
             }
-            this.handleStartTopicButtonDisabled(["startTopic"], false);
+            this.handleStartTopicButtonDisabled(['startTopic'], false)
           } else {
-            if (val[0].type === "MANUAL") {
-              this.handleButtonDisabled(handleDisabledButtonName, false);
-              this.handleStartTopicButtonDisabled(["startTopic"], false);
-              this.handleButtonDisabled(["split"], true);
+            if (val[0].type === 'MANUAL') {
+              this.handleButtonDisabled(handleDisabledButtonName, false)
+              this.handleStartTopicButtonDisabled(['startTopic'], false)
+              this.handleButtonDisabled(['split'], true)
             }
-            if (val[0].type === "FS+MTZ") {
-              this.handleButtonDisabled(["updateDate", "split"], false);
+            if (val[0].type === 'FS+MTZ') {
+              this.handleButtonDisabled(['updateDate', 'split'], false)
             }
-            if (val[0].source === "04" && val[0].type !== "FS+MTZ") {
-              this.handleButtonDisabled(["updateDate"], false);
+            if (val[0].source === '04' && val[0].type !== 'FS+MTZ') {
+              this.handleButtonDisabled(['updateDate'], false)
             }
-            this.handleStartTopicButtonDisabled(["startTopic"], false);
+            this.handleStartTopicButtonDisabled(['startTopic'], false)
             if (!val[0].type) {
-              this.handleButtonDisabled(["deleteTopAll"], false);
+              this.handleButtonDisabled(['deleteTopAll'], false)
             }
           }
         }
       } else {
         this.handleButtonDisabled(
           [
-            "bePending",
-            "fixedPoint",
-            "translateCSC",
-            "nextPreCSC",
-            "senLol",
-            "translateTer",
-            "freezeRsBill",
-            "closeResult",
-            "lookResult",
-            "protectResult",
+            'bePending',
+            'fixedPoint',
+            'translateCSC',
+            'nextPreCSC',
+            'senLol',
+            'translateTer',
+            'freezeRsBill',
+            'closeResult',
+            'lookResult',
+            'protectResult'
           ],
           true
-        );
-        this.handleButtonDisabled(handleDisabledButtonName, true);
-        this.handleStartTopicButtonDisabled(["startTopic"], true);
-        this.handleButtonDisabled(["overTopic"], true);
+        )
+        this.handleButtonDisabled(handleDisabledButtonName, true)
+        this.handleStartTopicButtonDisabled(['startTopic'], true)
+        this.handleButtonDisabled(['overTopic'], true)
         if (val.length > 1) {
           let bol = val.every((item) => {
             // return item.state === "01" && val[0].type !== "FS+MTZ";
-            return !this.handleDeleteOrNot(item);
-          });
+            return !this.handleDeleteOrNot(item)
+          })
           if (bol) {
-            this.handleButtonDisabled(["deleteTopAll"], false);
+            this.handleButtonDisabled(['deleteTopAll'], false)
           }
         }
       }
-      this.tableButtonList = this.currentButtonList.tableButtonList;
+      this.tableButtonList = this.currentButtonList.tableButtonList
     },
     handleGoDetail(e) {
-      this.id = e.id;
-      this.openDetailDialog = true;
+      this.id = e.id
+      this.openDetailDialog = true
     },
     // 行高亮
     tableRowClassName(row) {
-      if (row.row.state === "03") {
-        return "unuse-row dragable-row";
-      } else if (row.row.state === "02") {
-        return "active-row dragable-row";
+      if (row.row.state === '03') {
+        return 'unuse-row dragable-row'
+      } else if (row.row.state === '02') {
+        return 'active-row dragable-row'
       }
-      return "narmal-row";
-    },
-  },
-};
+      return 'narmal-row'
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 /* .table-container {
@@ -2250,7 +2252,7 @@ export default {
       display: block;
       width: 20px;
       height: 17.9px;
-      background-image: url("../../../assets/images/reback.png");
+      background-image: url('../../../assets/images/reback.png');
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
@@ -2266,7 +2268,7 @@ export default {
     display: block;
     width: 20px;
     height: 17.9px;
-    background-image: url("../../../assets/images/reback.png");
+    background-image: url('../../../assets/images/reback.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;

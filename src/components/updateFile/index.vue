@@ -160,7 +160,7 @@ export default {
           this.list.push(res[0]);
           this.$emit("getUplodFiles", this.nameList);
         })
-        .catch((err) => {
+        .catch(() => {
           iMessage.error("上传失败");
         });
       this.uploadLoading = false;
