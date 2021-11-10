@@ -306,7 +306,7 @@ export function deletePartMasterData(params) {//维护MTZ零件主数据-删除
 }
 
 export function mtzAppNomiSubmit(params) {//提交
-    return requst({
+    return request({
         url: '/mtzAppNomi/submit',
         method: 'POST',
         data: params,
@@ -314,7 +314,7 @@ export function mtzAppNomiSubmit(params) {//提交
 }
 
 export function mtzConfirm(params) {//mtz列表确认
-    return requst({
+    return request({
         url: '/mtzNomiList/mtzConfirm',
         method: 'POST',
         data: params,
@@ -322,7 +322,7 @@ export function mtzConfirm(params) {//mtz列表确认
 }
 
 export function saveMeeting(params) {//保存会议
-    return requst({
+    return request({
         url: '/mtzAppNomi/saveMeeting',
         method: 'POST',
         data: params,
