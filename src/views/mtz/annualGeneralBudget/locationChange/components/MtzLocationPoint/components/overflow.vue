@@ -48,6 +48,14 @@
     >
       <RsPdf @close="closeType" :RsType="downType"></RsPdf> 
     </iDialog>
+    <iDialog :title="language('MTZXINZENG', 'MTZ新增')"
+             :visible.sync="beforReturn"
+             class="tttttt"
+             v-if="beforReturn"
+             width="25%"
+             @close='beforReturn=true'>
+      <MtzAdd @close="closeTyoe"></MtzAdd>
+    </iDialog>
     <div class="margin-top20">
       <router-view/>
     </div>
@@ -59,12 +67,20 @@ import { iButton,iDialog } from "rise"
 import { topImgList } from './data'
 import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
+import MtzAdd from "./MtzAdd";
+
+import { mtzAppNomiSubmit,getAppFormInfo } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+import { iMessage } from '@/components'
+
+import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
+
 export default {
   components:{
     iButton,
     iDialog,
     subSelect,
-    RsPdf
+    RsPdf,
+    MtzAdd
   },
   props: {
     mtzApplayNum: {
@@ -90,24 +106,50 @@ export default {
   },
   data () {
     return {
-      locationId:this.$route.query.mtzAppId,
+      locationId:"",
       topImgList,
       locationNow: this.$route.query.currentStep || 1,
       mtzAddShow:false,
       rsType:false,
-      downType:true
+      downType:true,
+      beforReturn:true,
+      flowType:""
     }
   },
   computed: {
+    mtzObject(){
+        return this.$store.state.location.mtzObject;
+    },
     commonTitle() {
       // MTZ申请单-100386 申请单名-采购员-科室
       return this.language('MTZSHENGQINGDAN', 'MTZ申请单') + (this.mtzApplayNum ? '-' + this.mtzApplayNum : '') + (' ' + this.mtzApplayName || '') + (this.user ? '-' + this.user : '') + (this.dept ? '-' + this.dept : '')
     }
   },
-  created() {
+  watch: {
+    mtzObject(newValue,oldValue){
+      if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined){
+      }else{
+        this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId
+      }
+      this.getType();
 
+    }
+  },
+  created() {
+    if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined){
+      this.beforReturn = true;
+    }else{
+      this.beforReturn = false;
+      this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId
+    }
+    this.getType();
   },
   methods: {
+    getType(){
+      getAppFormInfo({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res=>{
+        this.flowType = res.data.flowType;
+      })
+    },
     closeType(){
       this.closeRS();
     },
@@ -118,10 +160,35 @@ export default {
       this.rsType = true;
       this.downType = true;
     },
+
+
     // 提交
     submit(){
-      this.mtzAddShow = true;
-      // this.$router.go(-1);
+      if(this.mtzObject.flowType == undefined && this.$route.query.flowType == undefined && this.flowType == ""){
+        
+      }else{
+        this.flowType = this.mtzObject.flowType || this.$route.query.flowType || this.flowType
+        if(this.flowType == "MEETING"){//上会
+          this.mtzAddShow = true;
+        }else{//备案
+          NewMessageBox({
+              title:this.language('LK_WENXINTISHI','温馨提示'),
+              Tips:this.language('SHIROUQUERENTIJIAO','是否确认提交？'),
+              cancelButtonText:this.language('QUXIAO', '取消'),
+              confirmButtonText:this.language('QUEREN', '确认'),
+          }).then(() => {
+              mtzAppNomiSubmit({
+                mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+              }).then(res=>{
+                if(res.result && res.code == 200){
+                  iMessage.success(this.language(res.desEn,res.desZh))
+                }
+              })
+          }).catch((err) => {
+              // console.log(err)
+          })
+        }
+      }
     },
     // 点击步骤
     handleClickStep(data) {
@@ -130,7 +197,9 @@ export default {
         path: data.url,
         query: {
           currentStep: data.id,
-          id:this.$route.query.mtzAppId,
+          mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          appid:this.$route.query.appid || this.mtzObject.appid,
+          flowType:this.$route.query.flowType
         }
       })
     },
@@ -140,7 +209,10 @@ export default {
     closeBingo(val){
       console.log(val);
       this.closeDiolog()
-    }
+    },
+    closeTyoe(){
+      this.beforReturn = false;
+    },
   }
 }
 </script>
@@ -194,6 +266,12 @@ export default {
     .car_span_color{
       color:#CDD3E2!important;
     }
+  }
+}
+
+.tttttt{
+  ::v-deep .el-dialog__headerbtn{
+    display: none;
   }
 }
  

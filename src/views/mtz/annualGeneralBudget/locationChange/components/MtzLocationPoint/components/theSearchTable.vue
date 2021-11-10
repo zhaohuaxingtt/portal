@@ -221,6 +221,7 @@ export default {
       selection: []
     }
   },
+
   created () {
     this.init()
   },
@@ -297,6 +298,7 @@ export default {
         query: {
           currentStep: 1,
           mtzAppId: val.id,
+          flowType:val.flowType
         }
       })
       window.open(routeData.href, '_blank')
@@ -379,12 +381,11 @@ export default {
       })
     },
     addMtz () {
-      this.mtzAddShow = true;
-
-      // let routeData = this.$router.resolve({
-      //   path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/applyInfor`
-      // })
-      // window.open(routeData.href, '_blank')
+      // this.mtzAddShow = true;
+      let routeData = this.$router.resolve({
+          path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor`
+      })
+      window.open(routeData.href, '_blank')
     },
     closeDiolog () {
       this.mtzAddShow = false;

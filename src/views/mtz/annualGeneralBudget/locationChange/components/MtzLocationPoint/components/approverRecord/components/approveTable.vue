@@ -164,10 +164,20 @@ export default {
   created () {
     this.init()
   },
+  computed:{
+      mtzObject(){
+        return this.$store.state.location.mtzObject;
+      }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      this.init()
+    }
+  },
   mixins: [pageMixins],
   methods: {
     init () {
-      this.mtzAppId = this.$route.query.mtzAppId
+      this.mtzAppId = this.mtzObject.mtzAppId || this.$route.query.mtzAppId
       this.getTableList()
       this.selectDept()
       this.selectSection()
