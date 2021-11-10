@@ -1,18 +1,15 @@
 <template>
-  <iCard style="height:14rem">
+  <iCard style="height: 14rem">
     <div class="title">
-      <p>{{language('PEIFUJIANGONGHUOLV', '配附件供货率')}}</p>
+      <p>{{ language('PEIFUJIANGONGHUOLV', '配附件供货率') }}</p>
       <span class="el-dropdown-link">
         <i class="el-icon-more"></i>
       </span>
     </div>
     <div class="box">
-      <icon class="early"
-            symbol
-            name="iconcaiwuyujing-icon"></icon>
+      <icon class="early" symbol name="iconcaiwuyujing-icon"></icon>
 
-      <div ref="chart"
-           class="chartStyle"> </div>
+      <div ref="chart" class="chartStyle"></div>
     </div>
   </iCard>
 </template>
@@ -37,7 +34,8 @@ export default {
     return {
       chart: 'oneChart',
       option: {},
-      info: {}
+      info: {},
+      dataSap: ''
     }
   },
   computed: {
@@ -46,17 +44,16 @@ export default {
     }
   },
   watch: {
-    // infodata(data) {
-    //     console.log(data)
-    //   this.infodata = data
-    // }
+    infodata(data) {
+      this.dataSap = data.sapCode
+      this.getData(data.sapCode)
+    }
   },
-  mounted() {
-    this.getData()
-  },
+  mounted() {},
   methods: {
-    getData() {
-      getSapSupplierRate(this.infodata.sapCode).then((res) => {
+    getData(val) {
+      console.log(val)
+      getSapSupplierRate(val).then((res) => {
         this.info = res.data
         this.getChart()
       })
