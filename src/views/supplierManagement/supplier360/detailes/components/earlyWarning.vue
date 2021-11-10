@@ -7,26 +7,29 @@
 -->
 <template>
   <div>
-    <el-row :gutter="20" type="flex" justify="space-between">
+    <el-row :gutter="20"
+            type="flex"
+            justify="space-between">
       <el-col :span="8">
         <!-- 供应商得分 -->
         <supplierKpi></supplierKpi>
+
       </el-col>
       <el-col :span="8">
         <!-- 配附件供货率 -->
-        <supplyRate :infodata="infodata"></supplyRate>
+        <supplyRate @infodata="infodata"></supplyRate>
+
       </el-col>
       <el-col :span="8">
         <!-- ekl批量件 -->
         <eklSupplier></eklSupplier>
+
       </el-col>
     </el-row>
-    <el-row
-      class="margin-top20"
-      :gutter="20"
-      type="flex"
-      justify="space-between"
-    >
+    <el-row class="margin-top20"
+            :gutter="20"
+            type="flex"
+            justify="space-between">
       <el-col :span="8">
         <!-- 送样 -->
         <sampleDelivery></sampleDelivery>
@@ -40,30 +43,29 @@
         <sourcing></sourcing>
       </el-col>
     </el-row>
-    <el-row
-      class="margin-top20"
-      :gutter="20"
-      type="flex"
-      justify="space-between"
-    >
+    <el-row class="margin-top20"
+            :gutter="20"
+            type="flex"
+            justify="space-between">
       <el-col :span="8">
         <productivity></productivity>
+
       </el-col>
       <el-col :span="8">
         <newsMonitor></newsMonitor>
       </el-col>
       <el-col :span="8">
-        <publicOpinion> </publicOpinion>
+        <publicOpinion>
+        </publicOpinion>
       </el-col>
     </el-row>
-    <el-row
-      class="margin-top20"
-      :gutter="20"
-      type="flex"
-      justify="space-between"
-    >
+    <el-row class="margin-top20"
+            :gutter="20"
+            type="flex"
+            justify="space-between">
       <el-col :span="24">
-        <contract> </contract>
+        <contract>
+        </contract>
       </el-col>
     </el-row>
   </div>
@@ -98,35 +100,35 @@ export default {
     sampleDelivery,
     contract
   },
+  data() {
+    return {
+      soon: soon,
+      infodata:{}
+    }
+  },
   props: {
-    // financialEarlyWarningVO: {
-    //   type: Object,
-    //   default: () => {
-    //     return {}
-    //   }
-    // },
-    supplier360ViewVO: {
+    financialEarlyWarningVO: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+      supplier360ViewVO: {
       type: Object,
       default: () => {
         return {}
       }
     }
   },
-  data() {
-    return {
-      soon: soon,
-      infodata: {}
-    }
-  },
   watch: {
+  
     supplier360ViewVO(data) {
-      console.log(data)
       this.infodata = data
+        console.log(this.infodata)
+
     }
   },
-  mounted() {
-    console.log(this.infodata)
-  },
+  mounted() {},
   methods: {}
 }
 </script>

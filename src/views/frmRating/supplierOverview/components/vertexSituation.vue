@@ -373,7 +373,16 @@ export default {
         if (arr.length != 0) {
           this.userList.push(...arr)
         }
-    
+        // if (arr.length != 0) {
+        //   v.forEach((i) => {
+        //     this.userList.push.apply(
+        //       this.userList,
+        //       this.deptList.find((res) => {
+        //         return i == res.id
+        //       }).userDTOList
+        //     )
+        //   })
+        // }
       } else {
         this.userList = this.deptList.find((res) => {
           return v == res.id
@@ -467,7 +476,7 @@ export default {
         },
         legend: {
           icon: 'circle',
-      orient:'vertical',
+
           right: 0,
           top: 0,
           textStyle: {
