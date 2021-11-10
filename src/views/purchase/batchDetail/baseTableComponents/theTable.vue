@@ -78,8 +78,8 @@
     import {pageMixins} from '@/utils/pageMixins';
     import resultMessageMixin from '@/mixins/resultMessageMixin';
     import {tableTitle, monthTitle, getRequest} from './data';
-    import bulkEditDialog from './/bulkEditDialog';
-    import taskTransferDialog from './/taskTransferDialog';
+    import bulkEditDialog from './bulkEditDialog';
+    import taskTransferDialog from './taskTransferDialog';
     import {toThousands,delcommafy,unique} from '@/utils'
     import {
         querySeriesbaseDetail, // 明细list

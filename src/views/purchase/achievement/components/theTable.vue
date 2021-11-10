@@ -162,8 +162,9 @@
                         confirmButtonText: '确定',
                         callback: action => {
                             const id = val.id
+                            const type = val.type
                             if (action == 'confirm') {
-                                saveTask({id}).then(res => {
+                                saveTask({id,type}).then(res => {
                                     if (res.result) {
                                         return iMessage.success(`${ this.$i18n.locale === 'zh' ? '刷新成功' : 'refresh success'}`)
                                     }
