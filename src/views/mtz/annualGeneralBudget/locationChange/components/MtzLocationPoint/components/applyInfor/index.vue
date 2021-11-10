@@ -160,12 +160,10 @@ export default {
   watch: {
     mtzObject(newVlue,oldValue){
       this.init()
-      // this.applyNumber = newVlue.appid;
     }
   },
   created () {
     this.init()
-      // this.applyNumber = newVlue.appid;
   },
   methods: {
     init () {

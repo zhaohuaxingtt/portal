@@ -313,3 +313,20 @@ export function mtzAppNomiSubmit(params) {//提交
         data: params,
     })
 }
+
+export function mtzConfirm(params) {//mtz列表确认
+    return requst({
+        url: '/mtzNomiList/mtzConfirm',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function saveMeeting(params) {//保存会议
+    return requst({
+        url: '/mtzAppNomi/saveMeeting',
+        method: 'POST',
+        data: params,
+    })
+}
+

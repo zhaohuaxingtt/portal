@@ -68,6 +68,10 @@ import { topImgList } from './data'
 import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
 import MtzAdd from "./MtzAdd";
+
+import { mtzAppNomiSubmit } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+import { iMessage } from '@/components'
+
 export default {
   components:{
     iButton,
@@ -147,7 +151,31 @@ export default {
     },
     // 提交
     submit(){
-      this.mtzAddShow = true;
+      if(this.mtzObject.flowType == undefined && this.$route.query.flowType == undefined){
+        
+      }else{
+        this.flowType = this.mtzObject.flowType || this.$route.query.flowType
+        if(this.flowType == "MEETING"){//上会
+          this.mtzAddShow = true;
+        }else if(this.flowType == "SIGN"){//流转
+          mtzAppNomiSubmit({
+            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+          }).then(res=>{
+            if(res.result && res.code == 200){
+              iMessage.success(this.language(res.desEn,res.desZh))
+            }
+          })
+        }else if(this.flowType == "FILING"){//备案
+          mtzAppNomiSubmit({
+            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+          }).then(res=>{
+            if(res.result && res.code == 200){
+              iMessage.success(this.language(res.desEn,res.desZh))
+            }
+          })
+        }
+      }
+      // this.mtzAddShow = true;
       // this.$router.go(-1);
     },
     // 点击步骤
@@ -159,6 +187,7 @@ export default {
           currentStep: data.id,
           mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
           appid:this.$route.query.appid || this.mtzObject.appid,
+          flowType:this.$route.query.flowType
         }
       })
     },
