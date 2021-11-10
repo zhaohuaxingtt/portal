@@ -63,14 +63,13 @@
 </template>
 
 <script>
-import { iButton,iDialog } from "rise"
+import { iButton,iDialog,iMessage } from "rise"
 import { topImgList } from './data'
 import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
 import MtzAdd from "./MtzAdd";
 
 import { mtzAppNomiSubmit,getAppFormInfo } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
-import { iMessage } from '@/components'
 
 import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
 
@@ -198,7 +197,7 @@ export default {
         query: {
           currentStep: data.id,
           mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-          appid:this.$route.query.appid || this.mtzObject.appid,
+          appId:this.$route.query.appId || this.mtzObject.appId,
           flowType:this.$route.query.flowType
         }
       })
