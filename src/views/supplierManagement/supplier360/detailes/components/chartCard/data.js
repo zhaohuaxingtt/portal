@@ -2,7 +2,7 @@
 export const tableTitleMonitor = [
     { props: 'factoryName', name: 'SAP号', key: 'SAPHAO' , tooltip: true },
     { props: 'province', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG', tooltip: true },
-    { props: 'city', name: '相关科室/股', key: 'XIANGGUANKESHI', tooltip: true },
+    { props: 'city', name: '相关科室', key: 'XIANGGUANKESHI', tooltip: true },
     { props: 'carType', name: '负责采购员', key: 'XIANGGUANCAIGOUYUAN', tooltip: true },
     { props: 'materialGroupName', name: '采购员邮箱', key: 'CAIGOUYUANYOUXIANG', tooltip: true },
     { props: 'materialGroupName', name: 'C-Rating来源', key: 'CRATINGLAIYUAN', tooltip: true },
@@ -11,7 +11,7 @@ export const tableTitleMonitor = [
 export const tableTitleMonitorRecord = [
     { props: 'factoryName', name: 'SAP号', key: 'SAPHAO' , tooltip: true },
     { props: 'province', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG', tooltip: true },
-    { props: 'city', name: '相关科室/股', key: 'XIANGGUANKESHI', tooltip: true },
+    { props: 'city', name: '相关科室', key: 'XIANGGUANKESHI', tooltip: true },
     { props: 'carType', name: '负责采购员', key: 'XIANGGUANCAIGOUYUAN', tooltip: true },
     { props: 'materialGroupName', name: '采购员邮箱', key: 'CAIGOUYUANYOUXIANG', tooltip: true },
     { props: 'materialGroupName', name: 'C-Rating来源', key: 'CRATINGLAIYUAN', tooltip: true },
