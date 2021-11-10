@@ -3,35 +3,82 @@
       <p class="title">{{language('弹窗图片')}}</p>
       <el-upload
         class="avatar-uploader"
-
+        accept=".jpg, .jpeg, .png"
+        :show-file-list='false'
+        :on-change="handelChangePic"
+        :http-request='upload'
+        :file-list="fileList"
       >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        <img v-if="imageUrl" :src="imageUrl" @error="handleImageError" @load="handleImageLoad" class="avatar">
+        <i v-else class="el-icon-circle-plus-outline avatar-uploader-icon"></i>
       </el-upload>
       <p class="right-content-bottom">{{language('建议使用16:9比例图片，不超过10M')}}</p>
   </div>
 </template>
 
 <script>
-import {} from 'rise'
+import ImgCutter from 'vue-img-cutter'
+import {uploadFileWithNoToken} from '@/api/file/upload';
 export default {
   name:'createNewRight',
-  components:{}
+  components:{ImgCutter},
+  data(){
+    return{
+      imageUrl: '',
+      fileList:[]
+    }
+  },
+  methods:{
+    handleImageError(){
+      let img = document.querySelector('avatar')
+      img.src = this.linkUrl
+    },
+    handleImageLoad(){
+
+    },
+    linkUrl(){
+      return this.imageUrl
+    },
+    beforeAvatarUpload(file){
+        const isLt10M = file.size / 10240 / 10240 < 10;
+        if (!isLt10M) {
+          this.$message.error('上传头像图片大小不能超过 10MB!');
+        }
+        return  isLt10M;
+    },
+    reset(){
+      this.imageUrl=''
+    },
+    async upload(content){
+      let form = new FormData()
+      form.append('file',content.file)
+      form.append('applicationName','popupImage')
+      const result = await uploadFileWithNoToken(form)
+      console.log('result',result);
+      this.imageUrl = result.data.filePath
+    },
+    handelChangePic(file,fileList){
+      if(fileList > 0){
+        this.fileList = [fileList[fileList.length - 1]]
+      }
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .right-content{
-  border-left: 4px solid #D0D4D9;
+  border-left: 2px solid #D0D4D9;
   border-radius: 4px;
   height: 300px;
-  padding-left: 200px;
-  width: 600px;
+  padding-left: 80px;
+  width: 440px;
   .title{
     margin-bottom: 20px;
   }
   .right-content-bottom{
     margin-top: 20px;
+    color: #999999;
   }
 }
 .avatar-uploader .el-upload {
@@ -47,17 +94,17 @@ export default {
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 340px;
-    height: 200px;
-    line-height: 200px;
+    width: 360px;
+    height: 220px;
+    line-height: 220px;
     text-align: center;
     background-color: #F8F8FA;
     border: 1px dashed #D0D4D9;
     border-radius: 2px;
   }
   .avatar {
-    width: 178px;
-    height: 178px;
+    width: 360px;
+    height: 220px;
     display: block;
   }
 </style>

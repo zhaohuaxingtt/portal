@@ -1,4 +1,5 @@
 import layoutDefault from '@/layout/default.vue'
+import RouterPopupWindowMa from './RouterPopupWindowMa'
 export default [
   {
     path: '/infoMgmt',
@@ -35,7 +36,29 @@ export default [
           title: '弹窗管理',
           top: 'admin'
         },
-        component: layoutDefault
+        component: () => import('@/layout/empty.vue'),
+        redirect:'/dialogMgmt/popup-window-management',
+        children:[
+          {
+            path:'popup-window-management',
+            name:'popup-window-management',
+            meta:{
+                title:'popup-window-management',
+                top: 'admin'
+            },
+            component:()=>import('@/views/popupWindowManagement')
+          },
+          {
+              path:'popup-window-management/create',
+              name:'create-new',
+              meta:{
+                  title:'create-new',
+                  activePath:'/dialogMgmt/popup-window-management',
+                  top: 'admin'
+              },
+              component:()=> import('@/views/popupWindowManagement/createNew')
+          }
+        ]
       },
       {
         path: '/infoTemplate',

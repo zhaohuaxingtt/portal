@@ -1,4 +1,4 @@
-export const   TABLE_COLUMNS = [
+export const TABLE_COLUMNS = [
     {
         type:'selection',
         width:50
@@ -8,16 +8,25 @@ export const   TABLE_COLUMNS = [
         type:'index'
     },
     {
-        label:'弹窗编码'
+        label:'弹窗编码',
+        prop:'id',
     },
     {
-        label:'弹窗标题'
+        label:'弹窗标题',
+        prop:'popupName',
     },
     {
-        label:'弹窗说明'
+        label:'弹窗说明',
+        prop:'content',
     },
     {
-        label:'发送时间'
+        label:'发送时间',
+        prop:'publishTime'
     }
-
 ]
+
+export const INI_SEARCH_FORM={
+    content:'',
+    sendDate:'',
+    popupName:''
+}
