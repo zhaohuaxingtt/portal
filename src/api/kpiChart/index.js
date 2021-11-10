@@ -1,11 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-07 10:24:35
-<<<<<<< HEAD
- * @LastEditTime: 2021-11-09 18:04:11
-=======
- * @LastEditTime: 2021-11-09 10:01:26
->>>>>>> d262ef562d102c766403a573336cecc61051c0a2
+ * @LastEditTime: 2021-11-10 11:36:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-web\src\api\kpiChart\index.js

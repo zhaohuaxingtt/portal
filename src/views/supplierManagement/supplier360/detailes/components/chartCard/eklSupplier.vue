@@ -74,11 +74,63 @@ export default {
       }
       arr.forEach((e) => {
         data1.push(e.increaseAmount)
-        data2.push(e.increaseRtio)
-        data3.push(e.reductionRtio)
+        data2.push(e.increaseRtio * 100)
+        data3.push(e.reductionRtio * 100)
         data4.push(e.year)
       })
-    // data3=this.sumItem(data3,data1)
+      // data3=this.sumItem(data3,data1)
+      // console.log(data1)
+      const myChart = echarts().init(this.$refs.chart)
+      var option = {
+        legend: {
+          icon: 'circle',
+          right: 50,
+          top: 0,
+          textStyle: {
+            fontSize: 10,
+            color: '#909091'
+          },
+          itemWidth: 8,
+          itemHeight: 8
+        },
+
+        tooltip: {
+          trigger: 'axis'
+        },
+        grid: {
+          top: '16%',
+          bottom: '12%%',
+          right: '0%',
+          left: '10%'
+        },
+        xAxis: {
+          type: 'category',
+          data: data4,
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#7E84A3',
+              fontSize: '10px'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#7E84A3'
+            }
+          },
+          axisTick: {
+            show: false
+          }
+        },
+        yAxis: [
+          {
+            // show: false,
+            type: 'value',
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#7E84A3',
+                fontSize: '10px'
               }
             }
           },
@@ -89,6 +141,7 @@ export default {
               show: true,
               textStyle: {
                 color: '#7E84A3',
+                fontSize: '10px'
               }
             }
           }
