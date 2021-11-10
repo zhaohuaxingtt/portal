@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import iLayout from '@/components/iLayout'
-// import iLayout from 'rise/web/layout/index.vue'
+// import iLayout from '@/components/iLayout'
+import iLayout from 'rise/web/layout/index.vue'
 // import menus from '@/constants/menus.js'
 export default {
   name: 'Layout',

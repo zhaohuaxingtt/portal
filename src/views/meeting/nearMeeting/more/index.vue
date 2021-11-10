@@ -37,10 +37,10 @@
       <div class="operation" v-if="!hiddenRight">
         <slot name="button">
           <iButton @click="query('search')" :v-permission="searchKey">{{
-            '搜索'
+            "搜索"
           }}</iButton>
           <iButton @click="goBack" :v-permission="resetKey">{{
-            '返回'
+            "返回"
           }}</iButton>
         </slot>
       </div>
@@ -72,7 +72,12 @@
           />
         </template>
       </el-table-column> -->
-      <el-table-column prop="follow" align="center" label="NO." width="50">
+      <el-table-column
+        prop="follow"
+        align="center"
+        label="NO."
+        width="50"
+      >
         <template scope="scope">
           <div class="img-word">
             <div>
@@ -81,13 +86,13 @@
             <div>
               <img
                 v-if="isTheyHaveMyOrCreatedByMyself(scope.row)"
-                src="~@/assets/images/add-follow-red.svg"
+                src="@/assets/images/add-follow-red.svg"
               />
               <img
                 v-if="
                   !isTheyHaveMyOrCreatedByMyself(scope.row) && scope.row.follow
                 "
-                src="~@/assets/images/empty-star.svg"
+                src="@/assets/images/empty-star.svg"
                 @click="handleUnfollow(scope.row, following)"
                 class="follow"
               />
@@ -95,7 +100,7 @@
                 v-if="
                   !isTheyHaveMyOrCreatedByMyself(scope.row) && !scope.row.follow
                 "
-                src="~@/assets/images/solid-star.svg"
+                src="@/assets/images/solid-star.svg"
                 @click="handleFollow(scope.row, following)"
                 class="follow"
               />
@@ -152,9 +157,9 @@
                 lock: scope.row.meetingStatus == '03',
                 begin: scope.row.meetingStatus == '04',
                 end: scope.row.meetingStatus == '05',
-                close: scope.row.meetingStatus == '06'
+                close: scope.row.meetingStatus == '06',
               },
-              'circle'
+              'circle',
             ]"
             >{{ statusObj[scope.row.meetingStatus] }}</span
           >
@@ -282,15 +287,15 @@
 </template>
 
 <script>
-import { iCard, iPagination, iMessage } from 'rise'
-import { iInput, iSelect, iButton } from 'rise'
-import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
-import iTableML from '@/components/iTableML'
-import { findMyThemens } from '@/api/meeting/myMeeting'
+import { iCard, iPagination, iMessage } from "rise";
+import { iInput, iSelect, iButton } from "rise";
+import iDateRangePicker from "@/components/iDateRangePicker/index.vue";
+import iTableML from "@/components/iTableML";
+import { findMyThemens } from "@/api/meeting/myMeeting";
 // import detailDialog from "./detailDialog.vue";
-import detailDialog from '../components/myTopics/detailDialog.vue'
-import addTopic from '../../live/components/addTopic.vue'
-import { follow, unfollow } from '@/api/meeting/myMeeting'
+import detailDialog from "../components/myTopics/detailDialog.vue";
+import addTopic from "../../live/components/addTopic.vue";
+import { follow, unfollow } from "@/api/meeting/myMeeting";
 export default {
   components: {
     iCard,
@@ -302,71 +307,71 @@ export default {
     iPagination,
     iTableML,
     detailDialog,
-    addTopic
+    addTopic,
   },
   data() {
     return {
       following: false,
       currentPage: 1,
       lookThemenObj: {},
-      editOrAdd: '',
+      editOrAdd: "",
       openAddTopic: false,
-      meetingTypeId: '',
+      meetingTypeId: "",
       tableLoading: false,
       openDetail: false,
-      id: '',
+      id: "",
       form: {
-        presentItem: '02'
+        presentItem: "02",
       },
       meetingInfo: {},
       tableData: [],
       dataAll: [],
       page: {
         pageSize: 10,
-        pageNum: 1
+        pageNum: 1,
       },
       total: 1,
       presentList: [
         {
-          value: '02',
-          label: '全部'
+          value: "02",
+          label: "全部",
         },
         {
-          value: '01',
-          label: '我的'
-        }
+          value: "01",
+          label: "我的",
+        },
       ],
       statusObj: {
-        '01': '草稿',
-        '02': '开放',
-        '03': '锁定',
-        '04': '开始',
-        '05': '结束',
-        '06': '关闭'
-      }
-    }
+        "01": "草稿",
+        "02": "开放",
+        "03": "锁定",
+        "04": "开始",
+        "05": "结束",
+        "06": "关闭",
+      },
+    };
   },
   mounted() {
-    this.currentUserId = Number(sessionStorage.getItem('userId'))
-    this.meetingTypeId = this.$route.query.meetingTypeId
-    this.query()
+    this.currentUserId = Number(sessionStorage.getItem("userId"));
+    this.meetingTypeId = this.$route.query.meetingTypeId;
+    this.query();
   },
   watch: {
     tableData: {
       handler(tableD) {
-        console.log('tableD', tableD)
-      }
-    }
+        console.log("tableD", tableD);
+      },
+    },
   },
   methods: {
     // 取消关注
     handleUnfollow(e, bol) {
       if (!this.following) {
-        this.following = true
+        this.following = true;
         let param = {
           meetingId: e.meetingId,
-          themenId: e.id
-        }
+          themenId: e.id,
+        };
         // this.$confirm("是否取消关注该议题?", "提示", {
         //   confirmButtonText: "是",
         //   cancelButtonText: "否",
@@ -374,26 +379,26 @@ export default {
         // }).then(() => {
         unfollow(param)
           .then(() => {
-            iMessage.success('取消关注成功!')
+            iMessage.success("取消关注成功!");
             this.query().then(() => {
-              this.following = false
-            })
+              this.following = false;
+            });
           })
           .catch(() => {
-            iMessage.success('取消关注失败!')
-            this.following = false
-          })
+            iMessage.success("取消关注失败!");
+            this.following = false;
+          });
       }
       // });
     },
     // 添加关注
     handleFollow(e, bol) {
-      this.following = true
+      this.following = true;
       if (!bol) {
         let param = {
           meetingId: e.meetingId,
-          themenId: e.id
-        }
+          themenId: e.id,
+        };
         // this.$confirm("是否确定关注该议题?", "提示", {
         //   confirmButtonText: "是",
         //   cancelButtonText: "否",
@@ -401,49 +406,49 @@ export default {
         // }).then(() => {
         follow(param)
           .then(() => {
-            iMessage.success('关注成功')
+            iMessage.success("关注成功");
             this.query().then(() => {
-              this.following = false
-            })
+              this.following = false;
+            });
           })
           .catch(() => {
-            iMessage.error('关注失败')
-            this.following = false
-          })
+            iMessage.error("关注失败");
+            this.following = false;
+          });
       }
       // });
     },
     isTheyHaveMyOrCreatedByMyself(item) {
       if (Number(item.createBy) === this.currentUserId) {
-        return true
+        return true;
       }
-      const presenterId = item.presenterId ? item.presenterId.split(',') : []
-      const supporterId = item.supporterId ? item.supporterId.split(',') : []
-      const currentUserIdStr = this.currentUserId.toString()
+      const presenterId = item.presenterId ? item.presenterId.split(",") : [];
+      const supporterId = item.supporterId ? item.supporterId.split(",") : [];
+      const currentUserIdStr = this.currentUserId.toString();
       if (
         presenterId.includes(currentUserIdStr) ||
         supporterId.includes(currentUserIdStr)
       ) {
-        return true
+        return true;
       }
-      return false
+      return false;
     },
     closeDialog() {
-      this.openAddTopic = false
+      this.openAddTopic = false;
     },
     lookOrEdit(row) {
-      this.lookThemenObj = { ...row }
-      this.editOrAdd = 'look'
-      this.openAddTopic = true
+      this.lookThemenObj = { ...row };
+      this.editOrAdd = "look";
+      this.openAddTopic = true;
     },
     // searchTableList(e) {
     //   this.query();
     // },
     changeStart(e) {
-      this.form.startDateBegin = e
+      this.form.startDateBegin = e;
     },
     changeEnd(e) {
-      this.form.startDateEnd = e
+      this.form.startDateEnd = e;
     },
 
     // handleSearchReset() {
@@ -457,7 +462,7 @@ export default {
     //   this.query();
     // },
     goBack() {
-      this.$router.go(-1)
+      this.$router.go(-1);
     },
 
     // 查看详情
@@ -468,40 +473,40 @@ export default {
 
     // 关闭详情弹窗
     closeDetail() {
-      this.openDetail = false
+      this.openDetail = false;
     },
     // 获取数据
     async query(e) {
-      if (e === 'search') {
-        this.currentPage = 1
+      if (e === "search") {
+        this.currentPage = 1;
       }
       let param = {
         ...this.form,
         pageNum: 1,
         pageSize: 9999,
-        meetingTypeId: this.meetingTypeId
-      }
-      const res = await findMyThemens(param)
-      let data = res.data
-      this.dataAll = data
-      this.tableData = data.slice(0, 1 * this.page.pageSize)
-      this.total = data.length
-      this.handleCurrentChange(this.currentPage)
+        meetingTypeId: this.meetingTypeId,
+      };
+      const res = await findMyThemens(param);
+      let data = res.data;
+      this.dataAll = data;
+      this.tableData = data.slice(0, 1 * this.page.pageSize);
+      this.total = data.length;
+      this.handleCurrentChange(this.currentPage);
     },
     //选择页数
     handleCurrentChange(curPage) {
-      this.currentPage = curPage
-      this.page.pageNum = curPage
-      this.currentChangePage(this.dataAll, this.page.pageNum)
+      this.currentPage = curPage;
+      this.page.pageNum = curPage;
+      this.currentChangePage(this.dataAll, this.page.pageNum);
     },
     // 分页方法
     currentChangePage(data, pageNum) {
-      let from = (pageNum - 1) * this.page.pageSize
-      let to = pageNum * this.page.pageSize
-      this.tableData = data.slice(from, to)
-    }
-  }
-}
+      let from = (pageNum - 1) * this.page.pageSize;
+      let to = pageNum * this.page.pageSize;
+      this.tableData = data.slice(from, to);
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

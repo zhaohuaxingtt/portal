@@ -1,13 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2021-10-18 11:25:00
- * @LastEditTime: 2021-11-04 11:41:17
+ * @LastEditTime: 2021-11-09 17:35:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\supplementaryList.js
  */
 import axios from '@/utils/axios'
+import axiosDownLoad from '@/utils/axios.download'
 const request = axios(process.env.VUE_APP_MTZ + '/web/mtz')
+const requestDownLoad = axiosDownLoad(process.env.VUE_APP_MTZ + '/web/mtz')
 
 // 补差单号下拉框
 export function getMtzDocNos(params) {
@@ -78,6 +80,14 @@ export function recall(params) {
 export function payBalanceSubmit(params) {
   return request({
     url: '/mtzBalance/payBalanceSubmit',
+    method: 'POST',
+    data: params
+  })
+}
+// 补差单列表提交
+export function exportFile(params) {
+  return requestDownLoad({
+    url: '/mtzBalance/export',
     method: 'POST',
     data: params
   })

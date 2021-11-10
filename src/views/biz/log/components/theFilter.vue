@@ -61,6 +61,7 @@
 <script>
 import { iSearch, iInput, iFormItem, iDatePicker, iSelect } from 'rise'
 import { FILTER_FORM, FILTER_TYPES } from './data'
+import { fetchBizLogCategories } from '@/api/biz/log'
 export default {
   name: 'FilterPanel',
   components: { iSearch, iInput, iDatePicker, iFormItem, iSelect },
@@ -81,6 +82,9 @@ export default {
       }
     }
   },
+  created() {
+    // this.queryCategories()
+  },
   methods: {
     reset() {
       this.form = { ...FILTER_FORM }
@@ -95,6 +99,13 @@ export default {
         searchData.createDate_le += ' 23:59:59'
       }
       this.$emit('search', searchData)
+    },
+    queryCategories() {
+      fetchBizLogCategories().then(res => {
+        if (res.result) {
+          this.typeOptions = res.data || []
+        }
+      })
     }
   }
 }

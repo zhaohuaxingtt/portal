@@ -1,5 +1,5 @@
 <template>
-  <iPage class="partLifeCycleStar">
+  <iPage class="partLifeCycleStar" ref="partLifeCycleStar">
     <div class="navmvp">
       <iNavMvp
         :lev='1'
@@ -11,7 +11,7 @@
 
     <iSearch
       class="partLifeCycleStar_search"
-      @sure="sure"
+      @sure="getPartsCollect"
       @reset="reset"
       :icon="false"
       :resetKey="PARTSPROCURE_RESET"
@@ -20,16 +20,49 @@
     >
       <el-form>
         <el-form-item :label="language('LK_LINGJIANHAO', '零件号')">
-          <iInput v-model="xxx" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          <iInput v-model="partsNum" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
         </el-form-item>
         <el-form-item :label="language('LK_LINGJIANMINGCHENG', '零件名称')">
-          <iInput v-model="xxx" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          <iInput v-model="partsName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
         </el-form-item>
         <el-form-item :label="language('LK_AEKOHAO', 'Aeko号')">
-          <iInput v-model="xxx" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          <iSelect
+            class="multipleSelect"
+            :placeholder="language('LK_QINGXUANZHE', '请选择')"
+            filterable
+            clearable
+            collapse-tags
+            multiple
+            v-model="aekoNum"
+          >
+            <el-option
+              :value="item"
+              :label="item"
+              v-for="(item, index) in AekoPullDown"
+              :key="index"
+            ></el-option>
+          </iSelect>
         </el-form-item>
         <el-form-item :label="language('LK_GONGYINGSHANG', '供应商')">
-          <iInput v-model="xxx" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          <iInput v-model="supplierName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+        </el-form-item>
+        <el-form-item :label="language('LK_CAILIAOZU', '材料组')">
+          <iSelect
+            class="multipleSelect"
+            :placeholder="language('LK_QINGXUANZHE', '请选择')"
+            filterable
+            clearable
+            collapse-tags
+            multiple
+            v-model="categoryCode"
+          >
+            <el-option
+              :value="item.categoryCode"
+              :label="item.categoryShowName"
+              v-for="(item, index) in CategoryPullDown"
+              :key="index"
+            ></el-option>
+          </iSelect>
         </el-form-item>
         <el-form-item :label="language('LK_KESHI', '科室')">
           <iSelect
@@ -39,22 +72,38 @@
             clearable
             collapse-tags
             multiple
-            v-model="xxx"
+            v-model="deptId"
+            @change="getCategoryPullDown"
           >
             <el-option
-              :value="item"
-              :label="item"
-              v-for="(item, index) in xxx"
+              :value="item.deptId"
+              :label="item.commodity"
+              v-for="(item, index) in DepartmentPullDown"
               :key="index"
             ></el-option>
           </iSelect>
         </el-form-item>
         <el-form-item :label="language('LK_CAIGOUYUAN', '采购员')">
-          <iInput v-model="xxx" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          <iSelect
+            class="multipleSelect"
+            :placeholder="language('LK_QINGXUANZHE', '请选择')"
+            filterable
+            clearable
+            collapse-tags
+            multiple
+            v-model="purchaserId"
+          >
+            <el-option
+              :value="item.linieNum"
+              :label="item.purchaserShowName"
+              v-for="(item, index) in PurchaserPullDown"
+              :key="index"
+            ></el-option>
+          </iSelect>
         </el-form-item>
-        <el-form-item :label="language('LK_CAIGOUZU', '采购组')">
-          <iInput v-model="xxx" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
-        </el-form-item>
+        <!--        <el-form-item :label="language('LK_CAIGOUZU', '采购组')">-->
+        <!--          <iInput v-model="procurementGroupId" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>-->
+        <!--        </el-form-item>-->
         <el-form-item :label="language('LK_CAIGOUGONGCHANG', '采购工厂')">
           <iSelect
             class="multipleSelect"
@@ -63,12 +112,12 @@
             clearable
             collapse-tags
             multiple
-            v-model="xxx"
+            v-model="factoryCode"
           >
             <el-option
-              :value="item"
-              :label="item"
-              v-for="(item, index) in xxx"
+              :value="item.factoryCode"
+              :label="item.factoryShowName"
+              v-for="(item, index) in FactoryPullDown"
               :key="index"
             ></el-option>
           </iSelect>
@@ -79,14 +128,12 @@
             :placeholder="language('LK_QINGXUANZHE', '请选择')"
             filterable
             clearable
-            collapse-tags
-            multiple
-            v-model="xxx"
+            v-model="eop"
           >
             <el-option
-              :value="item"
-              :label="item"
-              v-for="(item, index) in xxx"
+              :value="item.code"
+              :label="item.eop"
+              v-for="(item, index) in EopPullDown"
               :key="index"
             ></el-option>
           </iSelect>
@@ -97,37 +144,35 @@
             :placeholder="language('LK_QINGXUANZHE', '请选择')"
             filterable
             clearable
-            collapse-tags
-            multiple
-            v-model="xxx"
+            v-model="fixedPoint"
           >
             <el-option
-              :value="item"
-              :label="item"
-              v-for="(item, index) in xxx"
+              :value="item.code"
+              :label="item.fixedPoint"
+              v-for="(item, index) in FixedPointPullDown"
               :key="index"
             ></el-option>
           </iSelect>
         </el-form-item>
         <el-form-item :label="language('LK_DINGDIANRIQIQI', '定点日期起')">
           <el-date-picker
-            v-model="xxx"
+            v-model="businessDateStart"
             type="date"
             :placeholder="language('LK_QINGXUANZHE', '请选择')">
           </el-date-picker>
         </el-form-item>
         <el-form-item :label="language('LK_DINGDIANRIQIZHI', '定点日期止')">
           <el-date-picker
-            v-model="xxx"
+            v-model="businessDateEnd"
             type="date"
             :placeholder="language('LK_QINGXUANZHE', '请选择')">
           </el-date-picker>
         </el-form-item>
         <el-form-item :label="language('LK_SAPHETONGHAO', 'SAP合同号')">
-          <iInput v-model="xxx" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          <iInput v-model="contractSapCode" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
         </el-form-item>
         <el-form-item :label="language('LK_RISEHETONGHAO', 'RiSE合同号')">
-          <iInput v-model="xxx" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          <iInput v-model="contractCode" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
         </el-form-item>
         <el-form-item :label="language('LK_PINGPAI', '品牌')">
           <iSelect
@@ -137,12 +182,13 @@
             clearable
             collapse-tags
             multiple
-            v-model="xxx"
+            v-model="brandName"
+            @change="getCarTypeDown"
           >
             <el-option
-              :value="item"
-              :label="item"
-              v-for="(item, index) in xxx"
+              :value="item.brandCode"
+              :label="item.brandNameZh"
+              v-for="(item, index) in BrandPullDown"
               :key="index"
             ></el-option>
           </iSelect>
@@ -155,12 +201,12 @@
             clearable
             collapse-tags
             multiple
-            v-model="xxx"
+            v-model="modelNameZh"
           >
             <el-option
-              :value="item"
-              :label="item"
-              v-for="(item, index) in xxx"
+              :value="item.id"
+              :label="item.modelNameZh"
+              v-for="(item, index) in CarTypeDown"
               :key="index"
             ></el-option>
           </iSelect>
@@ -173,18 +219,18 @@
             clearable
             collapse-tags
             multiple
-            v-model="xxx"
+            v-model="carTypeProjectName"
           >
             <el-option
-              :value="item"
-              :label="item"
-              v-for="(item, index) in xxx"
+              :value="item.id"
+              :label="item.carTypeProjectName"
+              v-for="(item, index) in CarTypePullDown"
               :key="index"
             ></el-option>
           </iSelect>
         </el-form-item>
         <el-form-item :label="language('LK_FSHAO', 'FS号')">
-          <iInput v-model="xxx" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          <iInput v-model="fsNum" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
         </el-form-item>
         <el-form-item :label="language('LK_DANGNIANZAIGONG', '当年在供')">
           <iSelect
@@ -192,14 +238,12 @@
             :placeholder="language('LK_QINGXUANZHE', '请选择')"
             filterable
             clearable
-            collapse-tags
-            multiple
-            v-model="xxx"
+            v-model="isSupply"
           >
             <el-option
-              :value="item"
-              :label="item"
-              v-for="(item, index) in xxx"
+              :value="item.code"
+              :label="item.isSupply"
+              v-for="(item, index) in IsSupplyPullDown"
               :key="index"
             ></el-option>
           </iSelect>
@@ -222,7 +266,7 @@
           <div v-for="(item, index) in defaultPartsList" :key="index" :class="{ isExpand: expandRelevantPart }"
                @click="currentDefaultPart = item.partsNum;getRelationParts()">
             <div class="title">
-              <span class="link">{{ item.partsNum }}</span>
+              <span class="link" @click.stop="toPartLifeCycle(item.partsNum)">{{ item.partsNum }}</span>
               <span>{{ item.deptName }}</span>
               <icon v-show="!isEdit" symbol @click.native.stop.prevent="cancelOrCollect(item)"
                     :name="Number(item.isDefaultFolder) === 1 ? 'iconyishoucanglingjian' : 'iconweishoucanglingjian'"></icon>
@@ -268,7 +312,8 @@
         </transition>
       </div>
     </div>
-    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="claimPartsShow = false;defaultParts()" @clearDiolog="claimPartsShow = false"></claimParts>
+    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="claimPartsShow = false;defaultParts()"
+                @clearDiolog="claimPartsShow = false"></claimParts>
     <transition name="slide-fade">
       <favorites v-if="favoritesShow" @deleteItem="cancelOrCollect" @closeFavorites="favoritesShow = false"></favorites>
     </transition>
@@ -291,7 +336,24 @@ import {
 import { tabtitle } from './components/data'
 import claimParts from './components/claimParts'
 import favorites from './components/favorites'
-import { defaultParts, cancelOrCollect, removeCollect, getRelationParts } from '@/api/partLifeCycle/partLifeCycleStar'
+import {
+  getAekoPullDown,
+  getCategoryPullDown,
+  getDepartmentPullDown,
+  getFactoryPullDown,
+  getEopPullDown,
+  getFixedPointPullDown,
+  getBrandPullDown,
+  getCarTypeDown,
+  getCarTypePullDown,
+  getIsSupplyPullDown,
+  defaultParts,
+  cancelOrCollect,
+  removeCollect,
+  getRelationParts,
+  getPurchaserPullDown,
+  getPartsCollect,
+} from '@/api/partLifeCycle/partLifeCycleStar'
 
 
 export default {
@@ -311,7 +373,25 @@ export default {
   data() {
     return {
       tabtitle,
-      xxx: '',
+      aekoNum: [],
+      categoryCode: [],
+      deptId: [],
+      purchaserId: [],
+      factoryCode: [],
+      modelNameZh: [],
+      carTypeProjectName: [],
+      eop: '',
+      fixedPoint: '',
+      brandName: [],
+      isSupply: '',
+      partsNum: '',
+      partsName: '',
+      supplierName: '',
+      businessDateStart: '',
+      businessDateEnd: '',
+      contractSapCode: '',
+      contractCode: '',
+      fsNum: '',
       defaultPartsList: [],
       relationPartsList: [],
       currentDefaultPart: '',
@@ -320,14 +400,289 @@ export default {
       expandRelevantPart: true,
       claimPartsShow: false,
       favoritesShow: false,
+      loadingiSearch: false,
       leftLoading: false,
-      rightLoading: false
+      rightLoading: false,
+      isScroll: false,
+      loading: true,
+      AekoPullDown: [],
+      CategoryPullDown: [],
+      DepartmentPullDown: [],
+      FactoryPullDown: [],
+      EopPullDown: [],
+      FixedPointPullDown: [],
+      BrandPullDown: [],
+      CarTypeDown: [],
+      CarTypePullDown: [],
+      IsSupplyPullDown: [],
+      PurchaserPullDown: [],
+      current: 1,
+      size: 9
     }
   },
   mounted() {
+    this.getSeletes()
     this.defaultParts()
+    this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.scrollGetData); //this.setHeadPosition方法名
+  },
+  destroyed() {
+    this.$refs.partLifeCycleStar.$el.removeEventListener("scroll", this.scrollGetData, true);
   },
   methods: {
+    scrollGetData(e){
+      const { scrollTop, clientHeight, scrollHeight } = e.target
+      if((scrollTop + clientHeight) === scrollHeight){
+        if(this.leftLoading || !this.isScroll){
+          return
+        }
+        this.leftLoading = true
+        this.current++
+        getPartsCollect({
+          partsNum: this.partsNum,
+          partsName: this.partsName,
+          aekoNum: this.aekoNum,
+          supplierName: this.supplierName,
+          categoryCode: this.categoryCode,
+          categoryShowName: this.categoryShowName,
+          deptId: this.deptId,
+          purchaserId: this.purchaserId,
+          purchaserShowName: this.purchaserShowName,
+          // procurementGroupId: this.procurementGroupId,
+          factoryCode: this.factoryCode,
+          factoryShowName: this.factoryShowName,
+          eop: this.eop,
+          fixedPoint: this.fixedPoint,
+          businessDateStart: this.businessDateStart,
+          businessDateEnd: this.businessDateEnd,
+          contractSapCode: this.contractSapCode,
+          contractCode: this.contractCode,
+          brandName: this.brandName,
+          modelNameZh: this.modelNameZh,
+          carTypeProjectName: this.carTypeProjectName,
+          fsNum: this.fsNum,
+          isSupply: this.isSupply,
+          current : this.current ,
+          size: this.size,
+        }).then(res => {
+          const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+          if (Number(res.code) === 200) {
+            if(res.data.length < 9){
+              this.isScroll = false
+            }
+            let data = res.data.map(item => {
+              item.isClaim = false
+              return item
+            })
+            this.defaultPartsList = this.defaultPartsList.concat(data)
+          } else {
+            iMessage.error(result)
+          }
+          this.leftLoading = false
+        }).catch(() => {
+          this.leftLoading = false
+        })
+      }
+    },
+    reset(){
+      this.current = 1
+      this.isScroll = false
+      this.partsNum = ''
+      this.partsName = ''
+      this.aekoNum = []
+      this.supplierName = ''
+      this.categoryCode = []
+      this.categoryShowName = []
+      this.deptId = []
+      this.purchaserId = []
+      this.purchaserShowName = []
+      // this.procurementGroupId = ''
+      this.factoryCode = []
+      this.factoryShowName = []
+      this.eop = ''
+      this.fixedPoint = ''
+      this.businessDateStart = ''
+      this.businessDateEnd = ''
+      this.contractSapCode = ''
+      this.contractCode = ''
+      this.brandName = []
+      this.modelNameZh = []
+      this.carTypeProjectName = []
+      this.fsNum = ''
+      this.isSupply = ''
+      this.defaultParts()
+    },
+    getPartsCollect(){
+      this.current = 1
+      this.isScroll = true
+      this.leftLoading = true
+      getPartsCollect({
+        partsNum: this.partsNum,
+        partsName: this.partsName,
+        aekoNum: this.aekoNum,
+        supplierName: this.supplierName,
+        categoryCode: this.categoryCode,
+        categoryShowName: this.categoryShowName,
+        deptId: this.deptId,
+        purchaserId: this.purchaserId,
+        purchaserShowName: this.purchaserShowName,
+        // procurementGroupId: this.procurementGroupId,
+        factoryCode: this.factoryCode,
+        factoryShowName: this.factoryShowName,
+        eop: this.eop,
+        fixedPoint: this.fixedPoint,
+        businessDateStart: this.businessDateStart,
+        businessDateEnd: this.businessDateEnd,
+        contractSapCode: this.contractSapCode,
+        contractCode: this.contractCode,
+        brandName: this.brandName,
+        modelNameZh: this.modelNameZh,
+        carTypeProjectName: this.carTypeProjectName,
+        fsNum: this.fsNum,
+        isSupply: this.isSupply,
+        current : this.current ,
+        size: this.size,
+      }).then(res => {
+        const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+        if (Number(res.code) === 200) {
+          this.defaultPartsList = res.data.map(item => {
+            item.isClaim = false
+            return item
+          })
+          if (this.defaultPartsList.length > 0) {
+            this.currentDefaultPart = this.defaultPartsList[0].partsNum
+          }
+          this.getRelationParts()
+        } else {
+          iMessage.error(result)
+        }
+        this.leftLoading = false
+
+      }).catch(() => {
+        this.leftLoading = false
+      })
+    },
+    getCategoryPullDown(val){
+      getCategoryPullDown(val).then(res => {
+        const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+        if (Number(res.code) === 200) {
+          this.CategoryPullDown = res.data
+          let categoryCode = [...this.categoryCode]
+          let arr = []
+          categoryCode.map(item => {
+            if(this.CategoryPullDown.map(item => item.categoryCode).includes(item)){
+              arr.push(item)
+            }
+          })
+          this.categoryCode = arr
+        } else {
+          iMessage.error(result)
+        }
+      })
+    },
+    getCarTypeDown(val){
+      getCarTypeDown(val).then(res => {
+        const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+        if (Number(res.code) === 200) {
+          this.CarTypeDown = res.data
+          let modelNameZh = [...this.modelNameZh]
+          let arr = []
+          modelNameZh.map(item => {
+            if(this.CarTypeDown.map(item => item.id).includes(item)){
+              arr.push(item)
+            }
+          })
+          this.modelNameZh = arr
+        } else {
+          iMessage.error(result)
+        }
+      })
+    },
+    getSeletes() {
+      this.loadingiSearch = false
+      Promise.all([
+        getAekoPullDown(),
+        getCategoryPullDown([]),
+        getDepartmentPullDown(),
+        getFactoryPullDown(),
+        getEopPullDown(),
+        getFixedPointPullDown(),
+        getBrandPullDown(),
+        getCarTypeDown([]),
+        getCarTypePullDown(),
+        getIsSupplyPullDown(),
+        getPurchaserPullDown()
+      ]).then(res => {
+        const result0 = this.$i18n.locale === 'zh' ? res[0].desZh : res[0].desEn
+        const result1 = this.$i18n.locale === 'zh' ? res[1].desZh : res[1].desEn
+        const result2 = this.$i18n.locale === 'zh' ? res[2].desZh : res[2].desEn
+        const result3 = this.$i18n.locale === 'zh' ? res[3].desZh : res[3].desEn
+        const result4 = this.$i18n.locale === 'zh' ? res[4].desZh : res[4].desEn
+        const result5 = this.$i18n.locale === 'zh' ? res[5].desZh : res[5].desEn
+        const result6 = this.$i18n.locale === 'zh' ? res[6].desZh : res[6].desEn
+        const result7 = this.$i18n.locale === 'zh' ? res[7].desZh : res[7].desEn
+        const result8 = this.$i18n.locale === 'zh' ? res[8].desZh : res[8].desEn
+        const result9 = this.$i18n.locale === 'zh' ? res[9].desZh : res[9].desEn
+        const result10 = this.$i18n.locale === 'zh' ? res[10].desZh : res[10].desEn
+        if (Number(res[0].code) === 200) {
+          this.AekoPullDown = res[0].data
+        } else {
+          iMessage.error(result0)
+        }
+        if (Number(res[1].code) === 200) {
+          this.CategoryPullDown = res[1].data
+        } else {
+          iMessage.error(result1)
+        }
+        if (Number(res[2].code) === 200) {
+          this.DepartmentPullDown = res[2].data
+        } else {
+          iMessage.error(result2)
+        }
+        if (Number(res[3].code) === 200) {
+          this.FactoryPullDown = res[3].data
+        } else {
+          iMessage.error(result3)
+        }
+        if (Number(res[4].code) === 200) {
+          this.EopPullDown = res[4].data
+        } else {
+          iMessage.error(result4)
+        }
+        if (Number(res[5].code) === 200) {
+          this.FixedPointPullDown = res[5].data
+        } else {
+          iMessage.error(result5)
+        }
+        if (Number(res[6].code) === 200) {
+          this.BrandPullDown = res[6].data
+        } else {
+          iMessage.error(result6)
+        }
+        if (Number(res[7].code) === 200) {
+          this.CarTypeDown = res[7].data
+        } else {
+          iMessage.error(result7)
+        }
+        if (Number(res[8].code) === 200) {
+          this.CarTypePullDown = res[8].data
+        } else {
+          iMessage.error(result8)
+        }
+        if (Number(res[9].code) === 200) {
+          this.IsSupplyPullDown = res[9].data
+        } else {
+          iMessage.error(result9)
+        }
+        if (Number(res[10].code) === 200) {
+          this.PurchaserPullDown = res[10].data
+        } else {
+          iMessage.error(result10)
+        }
+        this.loadingiSearch = false
+      }).catch(() => {
+        this.loadingiSearch = false
+      })
+    },
     toClaim() {
       let claimNum = this.defaultPartsList.filter(item => item.isClaim).map(item => item.partsNum)
       if (claimNum.length > 0) {
@@ -359,7 +714,7 @@ export default {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.defaultPartsList.forEach(obj => {
-            if (obj.partsCollectId === item.partsCollectId)
+            if (obj.partsNum === item.partsNum)
               obj.isDefaultFolder = operationType
           })
           // item.isDefaultFolder = operationType
@@ -416,6 +771,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.multipleSelect {
+  ::v-deep .el-tag {
+    max-width: calc(100% - 75px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
 // VUE过渡 start
 /* 可以设置不同的进入和离开动画 */
 /* 设置持续时间和动画函数 */
@@ -508,7 +871,6 @@ export default {
         align-content: flex-start;
         transition: all 0.5s;
         width: 100%;
-
         > div {
           width: calc(25% - 30px);
           height: 263px;

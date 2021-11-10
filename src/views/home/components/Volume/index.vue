@@ -28,7 +28,6 @@
 import iTableCustom from '@/components/iTableCustom'
 import { getVpAnalysisDataList, getAnalysisProcessing } from '@/api/home'
 import curveChart from './curveChart.vue'
-import { login } from '@/api/usercenter'
 export default {
   components: { iTableCustom, curveChart },
   data() {
@@ -43,10 +42,14 @@ export default {
         {
           prop: 'partsNameZh',
           label: '零件名称',
-          customRender:(h, scope, column,e)=> {
-            return <span class="#303133">{scope.row.partsNameZh.length>5?
-            scope.row.partsNameZh.slice(0,4)+`...`:
-            scope.row.partsNameZh}</span>
+          customRender: (h, scope, column, e) => {
+            return (
+              <span class="#303133">
+                {scope.row.partsNameZh.length > 5
+                  ? scope.row.partsNameZh.slice(0, 4) + `...`
+                  : scope.row.partsNameZh}
+              </span>
+            )
           }
         },
         {
@@ -78,7 +81,6 @@ export default {
       const result = await getVpAnalysisDataList(params)
       if (result && result.code === '200' && result.data) {
         this.partList = result.data.sort((a,b)=>a.reductionPotential-b.reductionPotential)
-        console.log(`this.partList`,this.partList);
         this.itemSelected = this.partList[0]
         this.$refs.volumeTable.$refs.theCustomTable.setCurrentRow(
           this.partList[0]

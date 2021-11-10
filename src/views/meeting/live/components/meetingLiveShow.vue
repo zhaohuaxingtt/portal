@@ -23,7 +23,6 @@
               <div class="address">
                 <!-- <i class="el-icon-location"></i> -->
                 <div class="img-box">
-                  <!-- <img src="@/assets/images/place2.svg" class="img" /> -->
                   <img :src="positionMark" class="img" />
                 </div>
                 <span class="location">{{ meetingInfo.meetingPlace }}</span>

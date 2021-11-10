@@ -75,6 +75,7 @@ export const PARITIES_EDIT_COLUMNS=[
     {
         i18n:'源货币编码',
         prop:'originCurrencyCode',
+        required:true,
         customRender: (h, scope,column,extraData) => {
             if(!scope.row.isEdit){
                 return <span>{scope.row.originCurrencyCode}</span>
@@ -85,6 +86,7 @@ export const PARITIES_EDIT_COLUMNS=[
     {
         i18n:'目标货币编码',
         prop:'currencyCode',
+        required:true,
         customRender: (h, scope,column,extraData) => {
             if(!scope.row.isEdit){
                 return <span>{scope.row.currencyCode}</span>
@@ -95,6 +97,7 @@ export const PARITIES_EDIT_COLUMNS=[
     {
         i18n:'汇率',
         prop:'exchangeRate',
+        required:true,
         customRender:(h,scope)=>{
             if(!scope.row.isEdit){
                 return <span>{scope.row.exchangeRate}</span>
@@ -105,6 +108,7 @@ export const PARITIES_EDIT_COLUMNS=[
     {
         i18n:'汇率类型',
         prop:'type',
+        required:true,
         customRender:(h,scope)=>{
             if(!scope.row.isEdit){
                 return 'SAP汇率'
@@ -115,6 +119,7 @@ export const PARITIES_EDIT_COLUMNS=[
     {
         i18n:'生效开始时间',
         prop:'effectiveStartTime',
+        required:true,
         customRender:(h,scope)=>{
             if(!scope.row.isEdit){
                 if(scope.row.effectiveStartTime){
@@ -128,6 +133,7 @@ export const PARITIES_EDIT_COLUMNS=[
     {
         i18n:'生效结束时间',
         prop:'effectiveEndTime',
+        required:true,
         customRender:(h,scope)=>{
             if(!scope.row.isEdit){
                 if(scope.row.effectiveEndTime){
@@ -141,6 +147,7 @@ export const PARITIES_EDIT_COLUMNS=[
     {
         i18n:'是否有效',
         prop:'isEffect',
+        required:true,
         customRender:(h,scope)=>{
             if(!scope.row.isEdit){
                 if(scope.row.isEffect == 1){

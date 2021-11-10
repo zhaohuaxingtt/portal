@@ -14,11 +14,12 @@
         <el-form-item :label="'会议类型'">
           <iSelect
             :placeholder="$t('LK_QINGXUANZE')"
-            v-model="form.meetingTypeId"
+            v-model="form.meetingType"
+            value-key="id"
           >
             <el-option value="" :label="$t('all')"></el-option>
             <el-option
-              :value="item.id"
+              :value="item"
               :label="item.name"
               v-for="item of meetingTypeList"
               :key="item.id"

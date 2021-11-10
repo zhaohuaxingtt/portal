@@ -85,6 +85,7 @@
           </iSelect>
         </iFormItem>
       </iFormGroup>
+
       <iFormGroup row="2" :model="positionObj" ref="baseForm2">
         <iFormItem
           prop="description"
@@ -132,6 +133,22 @@
           </div>
         </iFormItem>
       </iFormGroup>
+
+      <iFormGroup row="3" :model="positionObj" ref="baseForm3">
+        <iFormItem prop="zhenshi">
+          <iLabel :label="language('正式价采购组')" slot="label"></iLabel>
+          <iSelect v-model="positionObj.zhenshi"> </iSelect>
+        </iFormItem>
+        <iFormItem prop="zanshi">
+          <iLabel :label="language('暂作价采购组')" slot="label"></iLabel>
+          <iSelect v-model="positionObj.zanshi"> </iSelect>
+        </iFormItem>
+        <iFormItem prop="set">
+          <iLabel :label="language('SET组')" slot="label"></iLabel>
+          <iSelect v-model="positionObj.set"> </iSelect>
+        </iFormItem>
+      </iFormGroup>
+
       <dTable :type="type" />
     </iCard>
   </div>

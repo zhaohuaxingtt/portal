@@ -528,11 +528,17 @@ a.dropdown-toggle {
     color: #36a7c4;
 }
 
+.StencilController {
+    position: relative;
+}
 /* Sub header */
 .subheader {
     background-color: #e8edf1;
     min-height: 60px;
     border-bottom: 1px solid #a4acb9;
+    position: absolute;
+    width: 100%;
+    z-index: 99;
 }
 
 .subheader > div > .btn-group {

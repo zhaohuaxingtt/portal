@@ -220,6 +220,12 @@ export default [{
     component: SuppliersDetails
   },
   {
+    path: 'supplierTag',
+    name: 'supplierTag',
+    component: () =>
+      import('@/views/supplierManagement/supplierTag/index.vue')
+  },
+  {
     path: 'NTier',
     name: 'NTier',
     redirect: 'NTier/NTierMap',

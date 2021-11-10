@@ -1,13 +1,6 @@
-<!doctype html>
-<!--[if lt IE 7]>
-<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>
-<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>
-<html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js">
-<!--<![endif]-->
+<!DOCTYPE html>
+<html lang="en">
+<html>
 
 <head>
 	<meta charset="utf-8">
@@ -21,9 +14,9 @@
 	<link rel="Stylesheet" media="screen" href="editor-app/libs/ng-grid-2.0.7.min.css" type="text/css" />
 	<link rel="stylesheet" href="editor-app/libs/bootstrap_3.1.1/css/bootstrap.min.css" />
 	<link rel="Stylesheet" media="screen" href="editor-app/editor/css/editor.css" type="text/css" />
-	<link rel="stylesheet" href="editor-app/css/style.css" type="text/css" />
+	<link rel="stylesheet" href="editor-app/css/style.css?v=20211108" type="text/css" />
 
-	<link rel="stylesheet" href="editor-app/css/style-common.css">
+	<link rel="stylesheet" href="editor-app/css/style-common.css?v=20211108">
 	<link rel="stylesheet" href="editor-app/css/style-editor.css">
 
 	<link rel="stylesheet" href="editor-app/libs/wui-date/css/wui.min.css" />
@@ -85,7 +78,7 @@
 		}
 		var queryString = window.location.search
 		var nodeEnv = queryString.substring(queryString.lastIndexOf('env=') + 4, queryString.length)
-		var ajaxBaseUrl = ajaxUrlMap[nodeEnv] || '/'
+		var ajaxBaseUrl = ajaxUrlMap[nodeEnv.toLowerCase()] || '/'
 	</script>
 	<script src="editor-app/libs/jquery_1.11.0/jquery.min.js"></script>
 	<script src="editor-app/libs/jquery-ui-1.10.3.custom.min.js"></script>

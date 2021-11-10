@@ -1,11 +1,4 @@
-<!--
- * @Author: your name
- * @Date: 2021-10-17 13:17:43
- * @LastEditTime: 2021-11-04 14:53:25
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: 
--->
+<!-- mtz定点 -->
 <template>
   <div>
     <iSearch @sure="sure"
@@ -119,13 +112,13 @@
            style="width:100%">
         <span>详情列表</span>
         <div class="opration">
-          <iButton @click="mtzFreeze">{{ language('DONGJIE', '冻结') }}</iButton>
-          <iButton @click="mtzUnfreeze">{{ language('JIEDONG', '解冻') }}</iButton>
-          <iButton @click="mtzNomi">{{ language('DINGDIAN', '定点') }}</iButton>
-          <iButton @click="cancelMtzNomi">{{ language('QUXIAODINGDIAN', '取消定点') }}</iButton>
-          <iButton>{{ language('HUIWAILIUZHUAN', '会外流转') }}</iButton>
+          <iButton @click="handleClickMtzFreeze">{{ language('DONGJIE', '冻结') }}</iButton>
+          <iButton @click="handleClickMtzUnfreeze">{{ language('JIEDONG', '解冻') }}</iButton>
+          <iButton @click="handleClickMtzNomi">{{ language('DINGDIAN', '定点') }}</iButton>
+          <iButton @click="handleClickCancelMtzNomi">{{ language('QUXIAODINGDIAN', '取消定点') }}</iButton>
+          <iButton @click="handleClickOutFlow">{{ language('HUIWAILIUZHUAN', '会外流转') }}</iButton>
           <iButton @click="addMtz">{{ language('XINJIANMTZDINGDIANSHENQING', '新建MTZ定点申请') }}</iButton>
-          <iButton @click="mtzRecall">{{ language('CHEHUI', '撤回') }}</iButton>
+          <iButton @click="handleClickMtzRecall">{{ language('CHEHUI', '撤回') }}</iButton>
           <iButton @click="mtzDel">{{ language('SHANCHU', '删除') }}</iButton>
         </div>
       </div>
@@ -133,7 +126,8 @@
                  :tableData="tableListData"
                  :tableTitle="tableTitle"
                  :tableLoading="loading"
-                 :index="true">
+                 :index="true"
+                 @handleSelectionChange="handleSelectionChange">
         <template slot="id"
                   slot-scope="scope">
           <p class="openPage"
@@ -188,6 +182,8 @@ import {
   mtzUnfreeze,
   mtzNomi,
   cancelMtzNomi,
+  mtzMeetingOutFlow,
+  mtzRecall,
   mtzDel,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 export default {
@@ -222,6 +218,7 @@ export default {
       tableListData: [],
       tableTitle: tableTitle,
       loading: false,
+      selection: []
     }
   },
   created () {
@@ -299,30 +296,87 @@ export default {
         path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow`,
         query: {
           currentStep: 1,
-          id: val.id,
+          mtzAppId: val.id,
         }
       })
       window.open(routeData.href, '_blank')
     },
-    mtzFreeze () {
-      // mtzFreeze().then(res=>{
-
-      // })
+    // 选中table数据
+    handleSelectionChange(val) {
+      this.selection = val
     },
-    mtzUnfreeze () {
-      // mtzUnfreeze().then(res=>{
-
-      // })
+    // 冻结
+    handleClickMtzFreeze () {
+      if(this.selection && this.selection.length == 0) {
+        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      }
+      mtzFreeze({
+        ids: this.selection.map(item => item.id)
+      }).then(res=>{
+        if(res && res.code == 200) {
+          iMessage.success(res.desZh)
+          this.getTableList()
+        } else iMessage.error(res.desZh)
+      })
     },
-    mtzNomi () {
-      // mtzNomi().then(res=>{
-
-      // })
+    // 解冻
+    handleClickMtzUnfreeze () {
+      if(this.selection && this.selection.length == 0) {
+        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      }
+      mtzUnfreeze({
+        ids: this.selection.map(item => item.id)
+      }).then(res=>{
+        if(res && res.code == 200) {
+          iMessage.success(res.desZh)
+          this.getTableList()
+        } else iMessage.error(res.desZh)
+      })
     },
-    cancelMtzNomi () {
-      // cancelMtzNomi().then(res=>{
-
-      // })
+    // 定点
+    handleClickMtzNomi () {
+      if(this.selection && this.selection.length == 0) {
+        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      }
+      mtzNomi({
+        ids: this.selection.map(item => item.id)
+      }).then(res=>{
+        if(res && res.code == 200) {
+          iMessage.success(res.desZh)
+          this.getTableList()
+        } else iMessage.error(res.desZh)
+      })
+    },
+    // 取消定点
+    handleClickCancelMtzNomi () {
+      if(this.selection && this.selection.length == 0) {
+        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      }
+      cancelMtzNomi({
+        ids: this.selection.map(item => item.id)
+      }).then(res=>{
+        if(res && res.code == 200) {
+          iMessage.success(res.desZh)
+          this.getTableList()
+        } else iMessage.error(res.desZh)
+      })
+    },
+    // 会外流转
+    handleClickOutFlow() {
+      if(this.selection && this.selection.length == 0) {
+        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      }
+      if(this.selection.find(item => item.flowType != 'SIGN')) {
+        return iMessage(this.language('ZYLZLXDSQDKYFQHWLZ', '只有流转类型的申请单可以发起会外流转'))
+      }
+      mtzMeetingOutFlow({
+        ids: this.selection.map(item => item.id)
+      }).then(res => {
+        if(res && res.code == 200) {
+          iMessage.success(res.desZh)
+          this.getTableList()
+        } else iMessage.error(res.desZh)
+      })
     },
     addMtz () {
       this.mtzAddShow = true;
@@ -338,13 +392,37 @@ export default {
     reasonClose () {
       this.mtzReasonShow = false;
     },
-    mtzRecall () {
+    // 点击撤回
+    handleClickMtzRecall () {
       this.mtzReasonShow = true;
     },
+    // 提交撤回
+    handleSubmitRecall(val) {
+      if(this.selection && this.selection.length == 0) {
+        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      }
+      mtzRecall({
+        ids: this.selection.map(item => item.id)
+      }).then(res => {
+        if(res && res.code == 200) {
+          iMessage.success(res.desZh)
+          this.getTableList()
+        } else iMessage.error(res.desZh)
+      })
+    },
+    // 删除
     mtzDel () {
-      // mtzDel().then(res=>{
-
-      // })
+      if(this.selection && this.selection.length == 0) {
+        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      }
+      mtzDel({
+        ids: this.selection.map(item => item.id)
+      }).then(res => {
+        if(res && res.code == 200) {
+          iMessage.success(res.desZh)
+          this.getTableList()
+        } else iMessage.error(res.desZh)
+      })
     },
   },
   destroyed () {
