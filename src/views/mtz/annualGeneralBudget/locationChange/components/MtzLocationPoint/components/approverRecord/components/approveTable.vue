@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-08 17:01:34
+ * @LastEditTime: 2021-11-10 11:35:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -164,10 +164,20 @@ export default {
   created () {
     this.init()
   },
+  computed:{
+      mtzObject(){
+        return this.$store.state.location.mtzObject;
+      }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      this.init()
+    }
+  },
   mixins: [pageMixins],
   methods: {
     init () {
-      this.mtzAppId = this.$route.query.mtzAppId
+      this.mtzAppId = this.mtzObject.mtzAppId || this.$route.query.mtzAppId
       this.getTableList()
       this.selectDept()
       this.selectSection()

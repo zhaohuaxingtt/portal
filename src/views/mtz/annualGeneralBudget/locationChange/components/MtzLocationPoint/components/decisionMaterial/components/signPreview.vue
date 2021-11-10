@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-11-04 10:02:28
- * @LastEditTime: 2021-11-04 14:06:11
+ * @LastEditTime: 2021-11-10 11:23:29
  * @LastEditors: Please set LastEditors
  * @Description: 会外流转单pdf预览
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signPreview.vue
@@ -157,13 +157,21 @@ export default {
     },
     isSign() {
       return this.formData.flowType == 'SIGN'
+    },
+    mtzObject(){
+      return this.$store.state.location.mtzObject;
+    }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+
     }
   },
   methods: {
     // 获取申请单信息
     getAppFormInfo() {
       getAppFormInfo({
-        mtzAppId: this.$route.query.mtzAppId
+        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
       }).then(res => {
         if(res && res.code == 200) {
           this.formData = res.data
@@ -173,7 +181,7 @@ export default {
     // 获取规则清单表格数据
     getPageAppRule() {
       pageAppRule({
-        mtzAppId: this.$route.query.mtzAppId,
+        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         pageNo: this.rulePageParams.currPage,
         pageSize: this.rulePageParams.pageSize,
       }).then(res => {
@@ -186,7 +194,7 @@ export default {
     // 获取零件清单表格数据
     getPagePartMasterData() {
       pagePartMasterData({
-        mtzAppId: this.$route.query.mtzAppId,
+        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         pageNo: this.partPageParams.currPage,
         pageSize: this.partPageParams.pageSize,
       }).then(res => {
@@ -199,7 +207,7 @@ export default {
     // 获取部门数据 
     getSignPreviewDept() {
       fetchSignPreviewDept({
-        mtzAppId: this.$route.query.mtzAppId
+        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
       }).then(res => {
         if(res && res.code == 200) {
           this.deptData = res.data
@@ -212,12 +220,12 @@ export default {
       let params = {}
       if(this.isMeeting) {
         params = {
-          mtzAppId: this.$route.query.mtzAppId,
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
           linieMeetingMemo: this.formData.linieMeetingMemo
         }
       } else if(this.isFinite) {
         params = {
-          mtzAppId: this.$route.query.mtzAppId,
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
           cs1MeetingMemo: this.formData.cs1MeetingMemo
         }
       }
