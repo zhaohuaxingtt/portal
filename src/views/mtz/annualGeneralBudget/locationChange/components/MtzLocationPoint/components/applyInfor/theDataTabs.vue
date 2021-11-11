@@ -551,13 +551,15 @@ export default {
         this.addDialog = true;
     },
     edit(){//编辑
-        if(this.selectList.length==1){
-            this.editId = this.selectList[0].id.toString();
-            // console.log(this.editId)
+        if(this.selectList.length>0){
             this.editType = true;
-            this.dialogEditType = false;
+            var changeArrayList = [];
+            this.selectList.forEach(item => {
+                changeArrayList.push(item.id);
+            })
+            this.editId = changeArrayList;
         }else{
-            iMessage.error("请选择且只能选择一条数据！")
+            iMessage.error("请选择需要修改数据！")
         }
     },
     save(){//保存
@@ -567,19 +569,25 @@ export default {
         }).then(res=>{
             if(this.dialogEditType){//新增
                 addBatchPartMasterData({
-                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-                    mtzAppNomiAppRuleList:this.newDataList
+                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                    mtzAppNomiPartMasterDataList:this.newDataList
                 }).then(res=>{
-                    this.editId = "";
-                    this.editType = false;
-                    this.page.currPage = 1;
-                    this.page.pageSize = 10;
-                    this.getTableList();
+                    if(res.code == 200){
+                        iMessage.success(this.language(res.desEn,res.desZh))
+                        this.editId = "";
+                        this.editType = false;
+                        this.page.currPage = 1;
+                        this.page.pageSize = 10;
+                        this.dialogEditType = false;
+                        this.getTableList();
+                    }else{
+                        iMessage.error(res.message)
+                    }
                 })
             }else{//编辑
                 modifyPartMasterData({
-                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-                    mtzAppNomiAppRuleList:this.selectList
+                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                    mtzAppNomiPartMasterDataList:this.selectList
                 }).then(res=>{
                     if(res.code == 200){
                         this.editId = "";
@@ -663,7 +671,7 @@ export default {
         pagePartMasterData({
             pageNo: this.page.currPage,
             pageSize: this.page.pageSize,
-            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
             sortType:"DESC",
             sortColumn:"id"
         }).then(res=>{
@@ -675,22 +683,42 @@ export default {
         })
     },
     getTableDown(){
-        listPartNumSupplierIdData({
-            partNumStr:this.$route.query.item,
-            supplierIdStr:this.$route.query.supplierId,
+        this.loading = true;
+        pagePartMasterData({
+            pageNo: this.page.currPage,
+            pageSize: this.page.pageSize,
+            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+            sortType:"DESC",
+            sortColumn:"id"
         }).then(res=>{
-            this.tableData = res.data;
-            this.editType = true;
+            if(res.data.length<1){
+                listPartNumSupplierIdData({
+                    partNumStr:this.$route.query.item,
+                    supplierIdStr:this.$route.query.supplierId,
+                }).then(res=>{
+                    this.loading = false;
+                    this.tableData = res.data;
+                    this.newDataList = res.data;
+                    this.editType = true;
 
-            var changeArrayList = [];
-            this.$refs.moviesTable.clearSelection();
-            res.data.forEach(item => {
-                changeArrayList.push(item.id);
-                this.$refs.moviesTable.toggleRowSelection(item, true);
-            })
-            this.editId = changeArrayList;
-            this.dialogEditType = true;
+                    var changeArrayList = [];
+                    this.$refs.moviesTable.clearSelection();
+                    res.data.forEach(item => {
+                        changeArrayList.push(item.id);
+                        this.$refs.moviesTable.toggleRowSelection(item, true);
+                    })
+                    this.editId = changeArrayList;
+                    this.dialogEditType = true;
+                })
+            }else{
+                this.tableData = res.data;
+                this.page.currPage = res.pageNum
+                this.page.pageSize = res.pageSize
+                this.page.totalCount = res.total
+                this.loading = false;
+            }
         })
+        
     },
     handleSelectionChange(val){
         this.selectList = val;
@@ -711,13 +739,22 @@ export default {
         this.quoteType();
     },
     addRfqData(val){
-        this.newDataList = deepClone(val);
+        // this.newDataList = deepClone(val);
         this.closeDiolog();
-        this.tableData.unshift(...val);
+        var list = [];
+        val.forEach((item,index) => {
+            if(list[index] == undefined){
+                list[index] = {};
+                list[index].assemblyPartnum = item.partNum;
+                list[index].id = "";
+            }
+        })
+        this.newDataList = list;
+        this.tableData.unshift(...list);
         this.editType = true;
         var changeArrayList = [];
         this.$refs.moviesTable.clearSelection();
-        val.forEach(item => {
+        list.forEach(item => {
             changeArrayList.push(item.id);
             this.$refs.moviesTable.toggleRowSelection(item, true);
         })
@@ -725,13 +762,24 @@ export default {
         this.dialogEditType = true;
     },
     quoteDialogList(val){
-        this.newDataList = deepClone(val);
+        // this.newDataList = deepClone(val);
         this.quoteType();
-        this.tableData.unshift(...val);
+        var list = [];
+        val.forEach((item,index) => {
+            if(list[index] == undefined){
+                list[index] = {};
+                list[index].assemblyPartnum = item.partNum;
+                list[index].id = "";
+                list[index].supplierName = item.supplierName;
+                list[index].sapCode = item.sapNum;
+            }
+        })
+        this.newDataList = list;
+        this.tableData.unshift(...list);
         this.editType = true;
         var changeArrayList = [];
         this.$refs.moviesTable.clearSelection();
-        val.forEach(item => {
+        list.forEach(item => {
             changeArrayList.push(item.id);
             this.$refs.moviesTable.toggleRowSelection(item, true);
         })
@@ -739,13 +787,29 @@ export default {
         this.dialogEditType = true;
     },
     historyDialogList(val){
-        this.newDataList = deepClone(val);
+        // this.newDataList = deepClone(val);
         this.historyCls();
-        this.tableData.unshift(...val);
+        var list = [];
+        val.forEach((item,index) => {
+            if(list[index] == undefined){
+                list[index] = {};
+                list[index].assemblyPartnum = item.assemblyPartName;
+                list[index].id = "";
+                list[index].supplierName = item.assemblySupplierName;
+                list[index].sapCode = item.assemblySupplierSap;
+                list[index].ruleNo = item.ruleNo;
+                list[index].materialCode = item.materialCode;
+                list[index].materialName = item.material;
+                list[index].priceUnit = item.priceUnit;
+            }
+        })
+        console.log(list);
+        this.newDataList = list;
+        this.tableData.unshift(...list);
         this.editType = true;
         var changeArrayList = [];
         this.$refs.moviesTable.clearSelection();
-        val.forEach(item => {
+        list.forEach(item => {
             changeArrayList.push(item.id);
             this.$refs.moviesTable.toggleRowSelection(item, true);
         })

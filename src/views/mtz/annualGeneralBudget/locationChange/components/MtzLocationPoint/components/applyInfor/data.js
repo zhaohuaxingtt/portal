@@ -100,8 +100,8 @@ export const tableTitleContinueBox = [
   { props: 'procureFactoryName', name: '采购工厂', key: 'CAIGOUGONGCHANG' },
   { props: 'partNameCn', name: '零件名（中）', key: 'LINGJIANMINGZHONG' },
   { props: 'partNameDe', name: '零件名（德）', key: 'LINGJIANMINGDE' },
-  { props: 'sapNum', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
-  { props: 'supplierName', name: '供应编号', key: 'GONGYINGBIANHAO' },
+  { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
+  { props: 'sapNum', name: '供应编号', key: 'GONGYINGBIANHAO' },
   { props: 'productionProportion', name: '比例（%）', key: 'BILI(%)' }
 ]
 

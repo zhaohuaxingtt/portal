@@ -9,7 +9,7 @@
             ref="contractForm"
             >
             <iFormItem prop="ruleNo">
-                <iLabel :label="language('GUIZEBIANHAO','规则编号')" :required="true" slot="label"></iLabel>
+                <iLabel :label="language('GUIZEBIANHAO','规则编号')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.ruleNo"
                 type="text"
@@ -18,7 +18,7 @@
                 />
             </iFormItem>
             <iFormItem prop="effectFlag">
-                <iLabel :label="language('SHIFOUSHENGXIAO','是否生效')" :required="true" slot="label"></iLabel>
+                <iLabel :label="language('SHIFOUSHENGXIAO','是否生效')" slot="label"></iLabel>
                 <custom-select v-model="contractForm.effectFlag"
                          :user-options="effectFlag"
                          clearable
@@ -29,7 +29,7 @@
                 </custom-select>
             </iFormItem>
             <iFormItem prop="materialGroup">
-                <iLabel :label="language('MTZCAILIAOZU','MTZ-材料组')" :required="true" slot="label"></iLabel>
+                <iLabel :label="language('MTZCAILIAOZU','MTZ-材料组')" slot="label"></iLabel>
                 <custom-select v-model="contractForm.materialGroup"
                          :user-options="materialGroup"
                          clearable
@@ -40,7 +40,7 @@
                 </custom-select>
             </iFormItem>
             <iFormItem prop="carline">
-                <iLabel :label="language('CHEXING','车型')" :required="true" slot="label"></iLabel>
+                <iLabel :label="language('CHEXING','车型')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.carline"
                 type="number"
@@ -49,7 +49,7 @@
                 />
             </iFormItem>
             <iFormItem prop="supplierId">
-                <iLabel :label="language('GONGYINGSHANGBIANHAO','供应商编号')" :required="true" slot="label"></iLabel>
+                <iLabel :label="language('GONGYINGSHANGBIANHAO','供应商编号')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.supplierId"
                 type="text"
@@ -287,11 +287,11 @@ export default {components: {
     return {
         contractForm: {},
         rules: {
-            code: [{ required: true, message: '请输入编码', trigger: 'blur' }],
-            name: [{ required: true, message: '请输入中文名', trigger: 'blur' }],
-            nameEn: [{ required: true, message: '请输入英文名', trigger: 'blur' }],
-            orderNum: [{ required: true, message: '请输入排序', trigger: 'blur' }],
-            describe: [{ required: true, message: '请输入描述', trigger: 'blur' }]
+            // code: [{ required: true, message: '请输入编码', trigger: 'blur' }],
+            // name: [{ required: true, message: '请输入中文名', trigger: 'blur' }],
+            // nameEn: [{ required: true, message: '请输入英文名', trigger: 'blur' }],
+            // orderNum: [{ required: true, message: '请输入排序', trigger: 'blur' }],
+            // describe: [{ required: true, message: '请输入描述', trigger: 'blur' }]
         },
         effectFlag:[
             {
@@ -330,7 +330,7 @@ export default {components: {
         // if (valid) {
             addAppRule({
                 ...this.contractForm,
-                ttMtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+                ttMtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
             }).then(res=>{
                 if(res.code == 200 && res.result){
                     iMessage.success(res.desZh)
