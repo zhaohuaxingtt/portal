@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-02 17:13:17
- * @LastEditTime: 2021-11-08 13:14:24
+ * @LastEditTime: 2021-11-11 15:45:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\replenishmentManagement\mtzLocation\approve.js
@@ -63,6 +63,14 @@ export function selectSection(parmars) {
   //获取审批流id
   return requst({
     url: '/mtzAppNomiApprove/selectSection',
+    method: 'POST',
+    data: parmars
+  })
+}
+export function syncAuther(parmars) {
+  //获取审批流id
+  return requst({
+    url: '/mtzAppNomi/syncAuther',
     method: 'POST',
     data: parmars
   })
