@@ -93,14 +93,16 @@
             <template slot="header">
               <span>{{ language('XIANSHIYINCNAG', '显示/隐藏')}}</span>
 
-              <el-tooltip placement="top"
-                          popper-class="atooltip">
-                <div v-html="text"
-                     slot="content"></div>
-                <icon class="icon"
-                      symbol
-                      name="iconxinxitishi"></icon>
-              </el-tooltip>
+              <el-popover width="280"
+                          :content="text">
+                <div slot="reference">
+                  <span>{{ language('XIANSHIYINCNAG', '显示/隐藏')}}</span>
+                  <icon class="icon"
+                        symbol
+                        name="iconxinxitishi"></icon>
+                </div>
+
+              </el-popover>
             </template>
             <template slot-scope="scope">
 

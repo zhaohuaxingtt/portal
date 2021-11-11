@@ -12,7 +12,10 @@
       <el-form inline
                label-position="top">
         <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
-          <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+          <iSelect multiple
+                   collapse-tags
+                   filterable
+                   :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
                    v-model="form.tagNameList">
             <el-option v-for="item in tagdropDownList"
                        :key="item.code"
@@ -85,13 +88,18 @@
           language('XIANSHIYINCNAG', '显示/隐藏')
         ">
           <template slot="header">
-            <span>{{ language('XIANSHIYINCNAG', '显示/隐藏')}}</span>
-            <el-tooltip placement="top" popper-class="atooltip">
-                <div v-html="text" slot="content"></div>
-              <icon class="icon"
-                    symbol
-                    name="iconxinxitishi"></icon>
-            </el-tooltip>
+
+            <el-popover width="280"
+                        :content="text">
+              <div slot="reference">
+                <span>{{ language('XIANSHIYINCNAG', '显示/隐藏')}}</span>
+                <icon class="icon"
+                      symbol
+                      name="iconxinxitishi"></icon>
+              </div>
+
+            </el-popover>
+
           </template>
           <template slot-scope="scope">
 
@@ -174,7 +182,7 @@ export default {
   },
   data() {
     return {
-        text:'显示：显示的供应商标签会在界面中展示;<br/> 隐藏：隐藏的供应商标签不会在界面中展示。',
+      text: '显示：显示的供应商标签会在界面中展示; 隐藏：隐藏的供应商标签不会在界面中展示。',
       tagName: '',
       isAdd: false,
       selectTableData: [],
