@@ -89,24 +89,16 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: data1,
+          data: ['A', 'B', 'C'],
           axisLabel: {
-            interval: 0,
-            show: true,
-            textStyle: {
-              color: '#7E84A3',
-              fontSize: '10px'
-            }
-          },
-          axisLine: {
-            lineStyle: {
-              color: '#7E84A3'
-            }
+            color: '#fff',
+            interval: 0
           },
           axisTick: {
             show: false
           }
         },
+
         yAxis: {
           type: 'value',
           axisLabel: {
@@ -119,28 +111,89 @@ export default {
         },
         series: [
           {
-            name: 'Tue',
-            data: data2,
             type: 'bar',
+            data: [
+              { value: data2[2], name: data1[2] },
+              { value: data2[5], name: data1[5] },
+              { value: data2[8], name: data1[8] }
+            ],
             barWidth: 15,
+
+            label: {
+              show: true,
+              position: 'bottom',
+              align: 'center',
+              distance: 10,
+              color: '#727272',
+              formatter: function (data) {
+                return data.data.name
+              },
+              fontSize: 9
+            },
             itemStyle: {
               normal: {
                 color: function (params) {
-                  let colorList = [
-                    '#A2C0FC',
-                    '#A2C0FC',
-                    '#A2C0FC',
-                    '#5B91FA',
-                    '#5B91FA',
-                    '#5B91FA',
-                    '#3764BA',
-                    '#3764BA',
-                    '#3764BA'
-                  ]
+                  let colorList = ['#A2C0FC', '#5B91FA', '#3764BA']
                   return colorList[params.dataIndex]
                 }
               }
             }
+          },
+          {
+            type: 'bar',
+            barWidth: 15,
+            label: {
+              show: true,
+              position: 'bottom',
+              align: 'center',
+              distance: 10,
+              color: '#727272',
+              formatter: function (data) {
+                return data.data.name
+              },
+              fontSize: 9
+            },
+            data: [
+              { value: data2[1], name: data1[1] },
+              { value: data2[4], name: data1[4] },
+              { value: data2[7], name: data1[7] }
+            ],
+            itemStyle: {
+              normal: {
+                color: function (params) {
+                  let colorList = ['#A2C0FC', '#5B91FA', '#3764BA']
+                  return colorList[params.dataIndex]
+                }
+              }
+            }
+          },
+          {
+            type: 'bar',
+            barWidth: 15,
+            label: {
+              show: true,
+              position: 'bottom',
+              align: 'center',
+              distance: 10,
+              color: '#727272',
+              formatter: function (data) {
+                return data.data.name
+              },
+              fontSize: 9
+            },
+            itemStyle: {
+              normal: {
+                color: function (params) {
+                  let colorList = ['#A2C0FC', '#5B91FA', '#3764BA']
+                  return colorList[params.dataIndex]
+                }
+              }
+            },
+            data: [
+              { value: data2[0], name: data1[0] },
+              { value: data2[3], name: data1[3] },
+              { value: data2[6], name: data1[6] }
+            ]
           }
         ]
       }

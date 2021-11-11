@@ -43,6 +43,14 @@ export function getTagList(parmars) {
         data: parmars
     })
 }
+//   查询下拉标签列表
+export function dropDownTagName(parmars) {
+    return requst({
+        url: 'tags/tags/dropDownTagName',
+        method: 'POST',
+        data: parmars
+    })
+}
 //   039-供应商标签设置
 export function saveSupplierTag(parmars) {
     return requst({

@@ -62,11 +62,12 @@ export default {
       const myChart = echarts().init(this.$refs.chart)
       let data1 = []
       let data2 = []
+    
       for (let item in this.info.mapMonth) {
         data1.push(item) // 将属性名放入list数组中
         data2.push(this.info.mapMonth[item])
       }
-      let max = Math.max(...data2)
+   
       this.option = {
         tooltip: {
           trigger: 'axis'
@@ -81,7 +82,6 @@ export default {
         xAxis: {
           type: 'category',
           data: data1,
-          interval :data1.lenth-4,
           axisLabel: {
             show: true,
             textStyle: {
@@ -107,9 +107,8 @@ export default {
               fontSize: '10px'
             }
           },
-          max: max,
-          min: 0,
-          splitNumber: 5
+        
+          splitNumber: 3
         },
         series: [
           {
