@@ -37,6 +37,20 @@
         @click="hideSideMenu"
       ></div>
     </div>
+    <div class="btn-button">
+      <img src="~@/assets/images/leftContent.png" alt="" />
+    </div>
+    <div class="povper-content">
+      <div
+        v-for="(list, index) in popoverList"
+        :key="index"
+      >
+        <div class="item-content" @click="handleClick(list)">{{ list.name }}</div>
+      </div>
+      <!-- <div class="item-content">零件寿命周期</div>
+      <div class="item-content">外部数据查询</div>
+      <div class="item-content" >用户助手</div> -->
+    </div>
   </div>
 </template>
 <script>
@@ -45,6 +59,7 @@ import LeftLayout from './components/leftLayout'
 import sideMenu from './components/sideMenu'
 import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
+import { popoverList } from './components/data.js'
 
 export default {
   components: { topLayout, LeftLayout, sideMenu, myModules },
@@ -71,7 +86,8 @@ export default {
         ],
         RISE_ADMIN: ['', '']
       },
-      menuModelVisible: false
+      menuModelVisible: false,
+      popoverList
     }
   },
   computed: {
@@ -170,6 +186,10 @@ export default {
     },
     setMenuModalVisible(val) {
       this.menuModelVisible = val
+    },
+    handleClick(list) {
+      console.log(list.name, '11111')
+      this.$router.push(list.path)
     }
   }
 }
@@ -184,6 +204,35 @@ export default {
     height: 100%;
     width: 100%;
     position: relative;
+  }
+  .povper-content {
+    position: fixed;
+    bottom: 40px;
+    right: 120px;
+    background-color: #fff;
+    border-radius: 10%;
+    box-shadow: 10px 10px 5px #E0E4EC;
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .item-content {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      width: 80px;
+      cursor: pointer;
+    }
+  }
+  .btn-button {
+    position: fixed;
+    bottom: 40px;
+    right: 50px;
+
+    img {
+      height: 50px;
+      width: 50px;
+    }
   }
   .app-menu-model {
     position: absolute;
