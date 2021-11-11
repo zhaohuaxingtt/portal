@@ -49,15 +49,19 @@ export default {
   },
   data() {
     return {
-      approvalTypeMap: MAP_APPROVAL_TYPE
+      approvalTypeMap: MAP_APPROVAL_TYPE,
+      hideAppendButtonList: ['meeting_recheck_m_sign'],
+      hideRefuseButtonList: ['meeting_rs_recheck']
     }
   },
   computed: {
     isHideAppendButton() {
-      return this.categoryList === 'meeting_recheck_m_sign'
+      // 生产采购 CSC RS单
+      return this.hideAppendButtonList.includes(this.categoryList)
     },
     isRefuseButton() {
-      return this.categoryList === 'meeting_rs_recheck'
+      // 生产采购 CSC RS单复核
+      return this.hideRefuseButtonList.includes(this.categoryList)
     },
     approvalText() {
       if (this.categoryList === 'meeting_rs_recheck') {
