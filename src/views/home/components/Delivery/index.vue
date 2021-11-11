@@ -54,7 +54,7 @@ export default {
         this.stocksData.push(lindData[i].supplyRateDeptG)
         this.departmentData_2.push(lindData[i].supplyRateDeptK)
         this.perData.push(lindData[i].supplyRatePerson)
-        this.month.push(lindData[i].month.split('.')[0]+'月')
+        this.month.push(lindData[i].month.split('.')[0] + '月')
       }
       this.rate.personal = lindData_2[0].person
       this.rate.CS = lindData_2[1].cs
@@ -68,8 +68,8 @@ export default {
       const option = {
         tooltip: {
           trigger: 'axis',
-          formatter:(data)=>{
-            data.sort((a,b)=>a.value-b.value)
+          formatter: data => {
+            data.sort((a, b) => a.value - b.value)
             return `<div class="tooltip_fs">${data[0].value}%</div>`
           }
         },
@@ -86,16 +86,16 @@ export default {
         xAxis: {
           type: 'category',
           data: this.month,
-          axisTick:{
-            show:false
+          axisTick: {
+            show: false
           }
         },
         yAxis: {
           type: 'value',
           name: '  供货率(%)',
-          axisLine:{
-            show:true
-          },
+          axisLine: {
+            show: true
+          }
         },
         series: [
           {
@@ -171,10 +171,9 @@ export default {
 }
 </style>
 <style lang="scss">
-.delivery-container{
-  .tooltip_fs{
-    color: #1763F7 !important;
+.delivery-container {
+  .tooltip_fs {
+    color: #1763f7 !important;
   }
 }
-
 </style>

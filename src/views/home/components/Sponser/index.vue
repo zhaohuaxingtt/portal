@@ -19,7 +19,8 @@
       </el-select>
     </div>
     <div class="pie-container" ref="pie" style="height: 180px"></div>
-    <div class="bar-container" ref="bar" style="height: 240px"></div>=
+    <div class="bar-container" ref="bar" style="height: 240px"></div>
+    =
   </div>
 </template>
 <script>
@@ -99,7 +100,7 @@ export default {
       const result = await getSponserData(this.query)
       if (result.code === '200' && result.data) {
         let data = result.data
-        const dataGrade = data.map((item) => {
+        const dataGrade = data.map(item => {
           return item.grade
         })
         const diffArr = []
@@ -129,7 +130,7 @@ export default {
           this.totalCount += data[i].num
         }
         this.data = data
-        this.data.forEach((item) => {
+        this.data.forEach(item => {
           if (item.type == 'A') {
             this.newArr.push(item)
           } else if (item.type == 'B') {
@@ -141,7 +142,7 @@ export default {
         this.newArr = this.handleArr(this.newArr, 'A')
         this.newBrr = this.handleArr(this.newBrr, 'B')
         this.newCrr = this.handleArr(this.newCrr, 'C')
-        this.newCrr.forEach((item) => (this.total += item.value))
+        this.newCrr.forEach(item => (this.total += item.value))
       }
       this.initPie()
       this.initBar()
@@ -207,8 +208,8 @@ export default {
     initPie() {
       const data = _.cloneDeep(this.data)
       let totalSum = 0
-      data.forEach((item) => (totalSum += item.num))
-      data.forEach((item) => {
+      data.forEach(item => (totalSum += item.num))
+      data.forEach(item => {
         if (item.name.length == 3) {
           item.name =
             item.name +
@@ -241,8 +242,8 @@ export default {
       const option = {
         tooltip: {
           trigger: 'item',
-          formatter: function (data) {
-            let name = data.data.name.split( /\s+/)[0]
+          formatter: function(data) {
+            let name = data.data.name.split(/\s+/)[0]
             return `${name}:<br/>
             ${total}家<br/>
             ${(data.data.num / total).toFixed(2) * 100}.00%
@@ -279,6 +280,7 @@ export default {
         ]
       }
       option && chart.setOption(option)
+      console.log('options', JSON.stringify(option))
     },
     initBar() {
       const totalCount = _.cloneDeep(this.totalCount)
@@ -292,29 +294,29 @@ export default {
             // 坐标轴指示器，坐标轴触发有效
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
-          formatter: function (data) {
+          formatter: function(data) {
             let total = 0
             for (let i in data) {
               total += data[i].data.value
             }
             const type = data[0].data.type
-            return `${type}-Rating数量：${total}<br/>${type}-Rating比例：${
-              (total / totalCount).toFixed(2) * 100
-            }%`
+            return `${type}-Rating数量：${total}<br/>${type}-Rating比例：${(
+              total / totalCount
+            ).toFixed(2) * 100}%`
           }
         },
         xAxis: {
           type: 'category',
           data: _.uniq(
-            this.data.map((d) => {
+            this.data.map(d => {
               return d.type
             })
           ),
           axisLabel: {
             color: '#fff',
-            interval: 0,
+            interval: 0
           },
-          axisTick:{
+          axisTick: {
             show: false
           }
         },
@@ -344,10 +346,10 @@ export default {
             //   }
             // ]
             style: {
-                  fill: '#7E84A3',
-                  text: 'C-Rating数量:' + 36 + '\nC-Rating比例:60%',
-                  font: '7px sans-serif'
-                }
+              fill: '#7E84A3',
+              text: 'C-Rating数量:' + 36 + '\nC-Rating比例:60%',
+              font: '7px sans-serif'
+            }
           }
         ],
         series: [
@@ -360,7 +362,7 @@ export default {
               align: 'center',
               distance: 10,
               color: '#000',
-              formatter: function (data) {
+              formatter: function(data) {
                 return data.data.name
               },
               fontSize: 9
@@ -376,7 +378,7 @@ export default {
               distance: 10,
               // offset: [-8, 0],
               color: '#000',
-              formatter: function (data) {
+              formatter: function(data) {
                 return data.data.name
               },
               fontSize: 9
@@ -396,7 +398,7 @@ export default {
               itemStyle: {
                 normal: { color: 'red' }
               },
-              formatter: function (data) {
+              formatter: function(data) {
                 return data.data.name
               },
               fontSize: 9
