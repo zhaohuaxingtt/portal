@@ -115,7 +115,9 @@ const position = {
         tagList: [],
         roleDTOList: [],
         permissionList: [],
-        userList: []
+        userList: [],
+        purchaseGroup: '',
+        tempPurchaseGroup: ''
       },
       originPosDetail: {},
 
@@ -580,45 +582,6 @@ const position = {
 
       if (res?.code === '200' && res?.data) {
         const data = res.data
-        /* data.push({
-          code: 'zhshijiacaigouzu',
-          description: '正式价采购组',
-          id: 325454,
-          name: 'zhshijiacaigouzu',
-          url: '',
-          valueList: [
-            {
-              value: 'P10',
-              valueId: 'P10'
-            }
-          ]
-        })
-        data.push({
-          code: 'zanzuojiacaigouzu',
-          description: '暂作价采购组',
-          id: 23233454,
-          name: 'zanzuojiacaigouzu',
-          url: '',
-          valueList: [
-            {
-              value: 'PZ1',
-              valueId: 'PZ1'
-            }
-          ]
-        })
-        data.push({
-          code: 'stGroup',
-          description: 'ST组',
-          id: 45342,
-          name: 'stGroup',
-          url: '',
-          valueList: [
-            {
-              value: 'PZZ',
-              valueId: 'PZZ'
-            }
-          ]
-        }) */
         commit('SET_DIMENSION_OPTIONS', data)
       }
     },
@@ -720,7 +683,10 @@ const position = {
         tagList: this.state.position.pos.positionDetail.tagList,
         roleDTOList: this.state.position.pos.positionDetail.roleDTOList,
         permissionList: temp,
-        deptId: data
+        deptId: data,
+        purchaseGroup: this.state.position.pos.positionDetail.purchaseGroup,
+        tempPurchaseGroup: this.state.position.pos.positionDetail
+          .tempPurchaseGroup
       }
       const res = await UpdatePosition(params)
       return res

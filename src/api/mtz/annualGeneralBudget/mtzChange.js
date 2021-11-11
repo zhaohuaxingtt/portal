@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-26 10:13:30
- * @LastEditTime: 2021-11-10 14:56:29
+ * @LastEditTime: 2021-11-11 11:31:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\MTZchange.js
@@ -23,7 +23,7 @@ export function pageList(params) {
 //申请状态下拉
 export function getLocationApplyStatus(params) {
   return request({
-    url: '/mtzNomiList/getLocationApplyStatus',
+    url: '/mtzBasePriceChange/getLocationApplyStatus',
     method: 'POST',
     data: params
   })

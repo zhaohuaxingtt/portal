@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-09 10:20:44
+ * @LastEditTime: 2021-11-11 11:37:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -10,8 +10,7 @@
   <div>
     <iSearch @reset="handleSearchReset"
              @sure="handleSubmitSearch">
-      <el-form :inline="true"
-               :model="searchForm">
+      <el-form :model="searchForm">
         <el-form-item label="申请单号"
                       class="searchFormItem">
           <input-custom v-model="searchForm.mtzAppId"
@@ -164,7 +163,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// ::v-deep .el-form-item__content {
+//   width: 100%;
+// }
 ::v-deep .el-form-item__content {
-  width: 100%;
+  line-height: 2.5rem !important;
 }
 </style>
