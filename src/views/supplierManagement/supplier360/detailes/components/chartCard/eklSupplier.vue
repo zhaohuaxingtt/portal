@@ -53,7 +53,55 @@ export default {
         supplierSapCode: this.$route.query.subSupplierId
       }
       getSupplierCard(req).then((res) => {
-        this.info = res.data
+        this.info = {
+          batchParts: [
+            {
+              increaseAmount: 10,
+              reductionAmount: 20,
+              increaseRtio: 4,
+              reductionRtio: 3,
+              year: 2019
+            },
+            {
+              increaseAmount: 20,
+              reductionAmount: 10,
+              increaseRtio: 5,
+              reductionRtio: 3,
+              year: 2020
+            },
+            {
+              increaseAmount: 15,
+              reductionAmount: 15,
+              increaseRtio: 4,
+              reductionRtio: 5,
+              year: 2021
+            }
+          ],
+          parts: [
+            {
+              increaseAmount: 30,
+              reductionAmount: 30,
+              increaseRtio: 10,
+              reductionRtio: 10,
+              year: 2019
+            },
+            {
+              increaseAmount: 40,
+              reductionAmount: 40,
+              increaseRtio: 0,
+              reductionRtio: 0,
+              year: 2020
+            },
+            {
+              increaseAmount: 0,
+              reductionAmount: 0,
+              increaseRtio: 0,
+              reductionRtio: 0,
+              year: 2021
+            }
+          ],
+          supplierSapCode: null
+        }
         this.getChart()
       })
     },
@@ -75,12 +123,16 @@ export default {
       }
       arr.forEach((e) => {
         data1.push(e.reductionAmount)
-        if (e.incereseAmount != 0) {
-          data2.push('-' + e.incereseAmount)
+        if (e.increaseAmount != 0) {
+          data2.push(e.increaseAmount*-1)
         } else {
-          data2.push(e.incereseAmount)
+          data2.push(e.increaseAmount)
         }
-        data3.push(e.reductionRtio * 100)
+        if (e.reductionRtio != 0) {
+          data3.push(e.reductionRtio * 100)
+        } else {
+          data3.push(e.reductionRtio)
+        }
         data4.push(e.year)
       })
       // data3=this.sumItem(data3,data1)
@@ -100,10 +152,25 @@ export default {
         },
 
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+        //   formatter:'{a}{b}{c}',s
+            // formatter: function (param) {
+                // console.log(param)
+                // if(param.seriesName=='涨价'){
+                //     param.value=Math.abs(param.value)
+                // }
+                // param.forEach(res=>{
+                //     return res.seriesName
+                // })
+            //     for(var x in param){
+            //         console.log(param[x])
+            //    return param[x].seriesName+'<br>' +":"+param[x].data;
+            //     }
+        //    }
+            
         },
         grid: {
-          top: '16%',
+          top: '20%',
           bottom: '16%%',
           right: '0%',
           left: '10%'
@@ -192,14 +259,14 @@ export default {
           },
           {
             name: '节降比',
-            showSymbol: false,
             data: data3,
             yAxisIndex: 1,
             type: 'line',
             label: {
               show: true,
               position: 'top',
-              color: '#333',
+              fontSize: 10,
+              color: '#727272',
               formatter: function (params) {
                 console.log(params)
                 return params.data + '%'

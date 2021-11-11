@@ -3,7 +3,7 @@ import axios from '@/utils/axios'
 
 const request = axios(process.env.VUE_APP_USER_CENTER)
 const requestOrg = axios(process.env.VUE_APP_USER_CENTER)
-// const requestOrigin = axios()
+const requstBaseInfo = axios(process.env.VUE_APP_BASE_INFO)
 
 //通过deptId，positionCode， fullNameZh查找岗位列表
 export function GetOrgList(data) {
@@ -155,5 +155,13 @@ export function UpdateSubPosition(data) {
     url: '/web/position/updateSubPosition',
     method: 'post',
     data: data
+  })
+}
+
+// 采购组配置信息查询
+export function queryPurchasegroup(params) {
+  return requstBaseInfo({
+    url: `/web/purchaseGroup`,
+    params
   })
 }
