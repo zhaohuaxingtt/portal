@@ -5,11 +5,11 @@
 import axios from '@/utils/axios'
 import axiosFile from '@/utils/axios.download'
 
-const VUE_APP_PARTSRECORD = axios(process.env.VUE_APP_PARTLIFECYCLEAPI + '/risedashboard/web/parts/record')
-const VUE_APP_PARTSPROCESS = axios(process.env.VUE_APP_PARTLIFECYCLEAPI + '/risedashboard/web/partsProcess')
+const VUE_APP_PARTSRECORD = axios(process.env.VUE_APP_PARTLIFECYCLEAPI + '/web/parts/record')
+const VUE_APP_PARTSPROCESS = axios(process.env.VUE_APP_PARTLIFECYCLEAPI + '/web/partsProcess')
 const requst = axios(process.env.VUE_APP_RISEDASHBOARD)
-const VUE_APP_PARTSRECORDFile = axiosFile(process.env.VUE_APP_PARTLIFECYCLEAPI + '/risedashboard/web/parts/record')
-const VUE_APP_PARTSPROCESSFile = axiosFile(process.env.VUE_APP_PARTLIFECYCLEAPI + '/risedashboard/web/partsProcess')
+const VUE_APP_PARTSRECORDFile = axiosFile(process.env.VUE_APP_PARTLIFECYCLEAPI + '/web/parts/record')
+const VUE_APP_PARTSPROCESSFile = axiosFile(process.env.VUE_APP_PARTLIFECYCLEAPI + '/web/partsProcess')
 const VUE_APP_BASE_WS2_CHANGEPRICE_API = axiosFile(process.env.VUE_APP_PARTLIFECYCLEAPI)
 
 // 更具合同号获取订单id

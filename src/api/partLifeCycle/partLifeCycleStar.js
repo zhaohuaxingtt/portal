@@ -4,10 +4,10 @@
  */
 import axios from '@/utils/axios'
 
-const VUE_APP_PARTSFOLDER = axios(process.env.VUE_APP_PARTLIFECYCLEAPI + '/risedashboard/web/partsFolder')
-const VUE_APP_PARTSCOLLECT = axios(process.env.VUE_APP_PARTLIFECYCLEAPI + '/risedashboard/web/partsCollect')
-const VUE_APP_RELATIONPARTS = axios(process.env.VUE_APP_PARTLIFECYCLEAPI + '/risedashboard/web/relationParts')
-const VUE_APP_PARTSCARD = axios(process.env.VUE_APP_PARTLIFECYCLEAPI + '/risedashboard/web/partsCard')
+const VUE_APP_PARTSFOLDER = axios(process.env.VUE_APP_PARTLIFECYCLEAPI + '/web/partsFolder')
+const VUE_APP_PARTSCOLLECT = axios(process.env.VUE_APP_PARTLIFECYCLEAPI + '/web/partsCollect')
+const VUE_APP_RELATIONPARTS = axios(process.env.VUE_APP_PARTLIFECYCLEAPI + '/web/relationParts')
+const VUE_APP_PARTSCARD = axios(process.env.VUE_APP_PARTLIFECYCLEAPI + '/web/partsCard')
 
 
 // 收藏夹及收藏零件查询
