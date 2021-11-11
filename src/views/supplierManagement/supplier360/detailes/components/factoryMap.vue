@@ -239,9 +239,10 @@ export default {
   margin: 1rem 0;
 }
 .Ltd {
-  height: 407px;
+  height: 400px;
 }
 .countryMap {
+      height: 400px;
   .el-col-12:nth-child(2) {
     padding-left: 20px;
     border-left: 1px solid #e6e9f4;

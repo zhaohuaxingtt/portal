@@ -7,7 +7,7 @@
 -->
 <template>
   <div>
-    <factoryMap :factoryAddressVOList='factoryAddressVOList' :supplier360ViewVO='supplier360ViewVO' class="margin-bottom25" />
+    <factoryMap :factoryAddressVOList='factoryAddressVOList' :supplier360ViewVO='supplier360ViewVO' class="margin-bottom20" />
     <earlyWarning :financialEarlyWarningVO='financialEarlyWarningVO' :supplier360ViewVO='supplier360ViewVO' class="margin-bottom25" />
     <affiliatedCompany :groupRelationsVO='groupRelationsVO'  :relatedCompanyVO='relatedCompanyVO' />
   </div>
