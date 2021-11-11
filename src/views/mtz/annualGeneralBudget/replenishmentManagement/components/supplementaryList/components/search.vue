@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2021-10-09 18:29:05
+ * @LastEditTime: 2021-11-11 15:39:16
  * @LastEditors: Please set LastEditors
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\annualBudget\components\budget.vue
@@ -251,6 +251,11 @@ export default {
     this.mtzDocId = this.detailObj.id;
     this.dialogTitle = "补差单号-" + this.detailObj.bizNo;
     this.getDemandData()
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.$el.querySelector('.el-icon-arrow-up').click()
+    });
   },
   methods: {
     tableChange (val) {

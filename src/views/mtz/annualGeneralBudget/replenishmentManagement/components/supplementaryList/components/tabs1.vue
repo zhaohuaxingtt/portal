@@ -1,7 +1,7 @@
 <template>
 <div v-loading="BoxLoading">
     <div class="tabsBoxInfor">
-        <div class="inforDiv" v-for="(item,index) in tabsInforList" :key="index">
+        <div :style="item.prop == 'actuallyTotalAmt' ? {fontWeight: 'bold'} : null" class="inforDiv" v-for="(item,index) in tabsInforList" :key="index">
             <span>{{item.name}}</span>
             <div class="inforText" v-if="item.prop == 'monthFromTo' && inforData['monthFromTo']">{{tranNumber(inforData['monthFromTo'],true)}}~{{tranNumber(inforData['monthFromTo'],false)}}</div>
             <!-- <div class="inforText" v-if="item.prop == 'monthFromTo'">{{inforData["monthFrom"]}}~{{inforData["monthTo"]}}</div> -->

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2021-11-09 17:37:44
+ * @LastEditTime: 2021-11-11 17:09:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\components\theTable1.vue
@@ -104,7 +104,8 @@
                        :label="language('DANJUZHUANGTAI','单据状态')"
                        width="140">
         <template slot-scope="scope">
-          <div v-if="scope.row.status=='审批中'||scope.row.status=='审批通过'||scope.row.status=='审批不通过'">
+          <!-- <div v-if="scope.row.status=='审批中'||scope.row.status=='审批通过'||scope.row.status=='审批不通过'"> -->
+          <div v-if="allowClickStatusList.indexOf(scope.row.status) > -1">
             <el-popover placement="right"
                         trigger="click">
               <process-vertical :instanceId="scope.row.riseId" />
@@ -210,7 +211,8 @@ export default {
       },
       loading: false,
       fileList: [],
-      dialogVisible: false
+      dialogVisible: false,
+      allowClickStatusList: ['审批中', '审批退回', '审批不通过', 'EPMS退回', 'EPMS审批通过', '关闭']
     }
   },
   created () {
