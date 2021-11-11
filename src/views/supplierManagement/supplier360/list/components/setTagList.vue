@@ -7,15 +7,21 @@
             width="90%"
             top="2%"
             @close="clearDiolog"
-            :title="''">
+            :title="rowList.nameZh">
 
     <div class="box">
       <div class="header">
         <el-form inline
                  label-position="top">
           <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
-            <iInput v-model="form.tagName"
-                    :placeholder="language('QINGSHURU', '请输入')"></iInput>
+            <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                     v-model="form.tagNameList">
+              <el-option v-for="item in tagdropDownList"
+                         :key="item.code"
+                         :label="item.message"
+                         :value="item.code">
+              </el-option>
+            </iSelect>
           </el-form-item>
           <el-form-item :label="language('BIAOQIANLEIXING', '标签类型')">
             <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
@@ -52,13 +58,61 @@
           language('BAOCUN', '保存')
         }}</iButton>
         </div>
-        <tableList style="margin-top:30px"
-                   :tableData="tabledataDel"
-                   @handleSelectionChange="handleSelectionChange"
-                   :tableTitle="Cloum"
-                   :tableLoading="tableLoadingDel"
-                   :index="true">
-        </tableList>
+        <el-table :data="tabledata"
+                  v-loading="tableLoading"
+                  @selection-change="handleSelectionChange"
+                  style="margin-top:30px"
+                  :tableTitle="setTagCloum"
+                  :tableLoading="tableLoadingDel"
+                  :index="true">
+          <el-table-column type="selection"
+                           width="50"
+                           align="center"
+                           :selectable="selectable"></el-table-column>
+          <el-table-column key="BIAOQIANMINGCHENG"
+                           width="150"
+                           align="center"
+                           prop="tagName"
+                           label="标签名称"> </el-table-column>
+          <el-table-column key="BIAOQIANLEIXING"
+                           width="150"
+                           align="center"
+                           prop="tagTypeVale"
+                           label="标签类型"> </el-table-column>
+          <el-table-column key="XITONGPANDUANBIAOZHUN"
+                           width=""
+                           align="center"
+                           prop="halfYear"
+                           label="系统判断标准"> <template slot-scope="scope">
+              <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
+            </template> </el-table-column>
+          <el-table-column width="150"
+                           align="center"
+                           prop="isShow"
+                           :label="
+          language('XIANSHIYINCNAG', '显示/隐藏')
+        ">
+            <template slot="header">
+              <span>{{ language('XIANSHIYINCNAG', '显示/隐藏')}}</span>
+              <el-tooltip content="显示：显示的供应商标签会在界面中展示; 隐藏：隐藏的供应商标签不会在界面中展示。">
+                <icon class="icon"
+                      symbol
+                      name="iconxinxitishi"></icon>
+              </el-tooltip>
+            </template>
+            <template slot-scope="scope">
+
+              <div class="isShowBtnStyle"
+                   @click="handleIs(scope.row)">
+
+                <icon class="icon"
+                      symbol
+                      :name="scope.row.isShow == 1 ? 'iconxianshi' : 'iconyincang'"></icon>
+
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
         <iPagination style="margin-top:20px"
                      v-update
                      @size-change="handleSizeChange($event, getList)"
@@ -75,22 +129,23 @@
 </template>
 
 <script>
-import { iDialog, iButton, iSelect, iMessage, iInput } from 'rise'
-import tableList from '@/components/commonTable'
+import { iDialog, iButton, iSelect, iMessage, iPagination, icon } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { setTagCloum } from './data'
 import {
   supplierTagPage,
-  supplierTagListSave
+  supplierTagListSave,
+  showOrHide,
+  dropDownTagName
 } from '@/api/supplierManagement/supplierTag/index'
 export default {
   mixins: [pageMixins],
   components: {
     iDialog,
-    tableList,
     iButton,
     iSelect,
-    iInput
+    iPagination,
+    icon
   },
   props: {
     value: { type: Boolean },
@@ -99,10 +154,11 @@ export default {
   data() {
     return {
       tabledata: [],
-      Cloum: setTagCloum,
+      setTagCloum: setTagCloum,
       tableLoading: false,
       selectArr: [],
       form: {},
+      tagdropDownList: [],
       tagTypeList: [
         { label: this.language('XITONGPANDING', '系统判定'), value: 1 },
         { label: this.language('SHOUGONG', '手工'), value: 2 }
@@ -111,10 +167,20 @@ export default {
   },
   watch: {},
   created() {
+    this.getTagListdropDown()
     this.getList()
   },
   methods: {
+    //获取标签列表
+    getTagListdropDown() {
+      dropDownTagName({}).then((res) => {
+        if (res && res.code == 200) {
+          this.tagdropDownList = res.data
+        }
+      })
+    },
     getList() {
+      this.tableLoading = true
       const req = {
         supplierId: this.rowList.subSupplierId,
         ...this.form,
@@ -123,6 +189,7 @@ export default {
       }
       supplierTagPage(req).then((res) => {
         if (res && res.code == 200) {
+          this.tableLoading = false
           this.tabledata = res.data
           this.page.totalCount = res.total
         } else iMessage.error(res.desZh)
@@ -134,6 +201,7 @@ export default {
         return false
       }
       const req = {
+        supplierId: this.rowList.subSupplierId,
         tagIdAll: this.tabledata.map((x) => {
           return x.tagId
         }),
@@ -143,12 +211,23 @@ export default {
       }
       supplierTagListSave(req).then((res) => {
         if (res && res.code == 200) {
-          this.getList()
+          this.$emit('closeDiolog', 1)
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
     },
-
+    handleIs(row) {
+      const req = {
+        id: row.tagId,
+        isShow: row.isShow == 1 ? 0 : 1
+      }
+      showOrHide(req).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+          this.getList()
+        } else iMessage.error(res.desZh)
+      })
+    },
     handleSelectionChange(val) {
       this.selectArr = val
     },
@@ -167,6 +246,11 @@ export default {
       this.page.pageSize = 10
       this.form = {}
       this.getList()
+    },
+    selectable(val) {
+      if (val.isBinding != 1) {
+        return true
+      }
     }
   }
 }

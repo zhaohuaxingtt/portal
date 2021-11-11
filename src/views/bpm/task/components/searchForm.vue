@@ -37,7 +37,7 @@
             <iSelect
               :placeholder="$t('请选择')"
               v-model="form.categoryList"
-              multiple
+              :multiple="multipleCategoryList"
               collapse-tags
               filterable
             >
@@ -46,6 +46,10 @@
                 :key="index"
                 :value="item.name"
                 :label="item.value"
+                :disabled="
+                  multipleCategoryList &&
+                    bpmSinglCategoryList.includes(item.name)
+                "
               >
               </el-option>
             </iSelect>
@@ -90,7 +94,7 @@ import {
   userSelect as userSearch,
   orgSelect as orgSearch
 } from '@/components/remoteSelect'
-import { AEKO_CATEGORY_LIST } from '@/constants'
+import { AEKO_CATEGORY_LIST, BPM_SINGL_CATEGORY_LIST } from '@/constants'
 export default {
   name: 'searchForm',
   components: {
@@ -179,12 +183,23 @@ export default {
           value: 16,
           label: '定价管理'
         }
-      ]
+      ],
+      multipleCategoryList: true,
+      bpmSinglCategoryList: BPM_SINGL_CATEGORY_LIST
     }
   },
   created() {
     if (this.$route.query.modelTemplate) {
-      this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
+      const moduleTemplate = JSON.parse(this.$route.query.modelTemplate)
+      if (
+        moduleTemplate.length === 1 &&
+        BPM_SINGL_CATEGORY_LIST.includes(moduleTemplate[0])
+      ) {
+        this.multipleCategoryList = false
+        this.form.categoryList = moduleTemplate[0]
+      } else {
+        this.form.categoryList = JSON.parse(this.$route.query.modelTemplate)
+      }
     }
     this.queryModelTemplate()
   },
@@ -198,11 +213,11 @@ export default {
         searchData.startTime = this.date[0]
         searchData.endTime = this.date[1]
       }
-      this.$emit('search', searchData)
+      this.$emit('search', searchData, this.templates)
     },
     reset() {
       this.form = {}
-      this.$emit('search', this.form)
+      this.$emit('search', this.form, this.templates)
     },
     async queryModelTemplate() {
       const data = {
@@ -213,7 +228,8 @@ export default {
       const res = await queryModelTemplate(data)
       const list = res?.data?.records || []
       list.unshift({ name: '', value: '全部' })
-      this.templates = list.filter((e) => !AEKO_CATEGORY_LIST.includes(e.name))
+      this.templates = list.filter(e => !AEKO_CATEGORY_LIST.includes(e.name))
+      this.search()
     }
   }
 }

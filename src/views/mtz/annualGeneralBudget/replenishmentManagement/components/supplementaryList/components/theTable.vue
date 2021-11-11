@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2021-11-08 11:06:26
+ * @LastEditTime: 2021-11-09 17:37:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\components\theTable1.vue
@@ -17,6 +17,7 @@
         <iButton @click="handleClickEdit">{{ language('BIANJI', '编辑') }}</iButton>
         <iButton @click="submit">{{ language('TIJIAO', '提交') }}</iButton>
         <iButton @click="recall">{{ language('CHEHUI ', '撤回') }}</iButton>
+        <iButton @click="exportFile">{{ language('DAOCHU ', '导出') }}</iButton>
       </div>
     </div>
     <el-table ref="moviesTable"
@@ -181,7 +182,7 @@
 </template>
 
 <script>
-import { makeUpPageList, sendSupplier, recall, payBalanceSubmit, approvalStatus } from '@/api/mtz/annualGeneralBudget/supplementaryList'
+import { makeUpPageList, sendSupplier, recall, payBalanceSubmit, approvalStatus, exportFile } from '@/api/mtz/annualGeneralBudget/supplementaryList'
 import { iCard, iButton, iPagination, iMessage } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import processVertical from './processVertical'
@@ -283,8 +284,6 @@ export default {
       } else {
         iMessage.error("'草稿、供应商已拒绝、审批不通过、审批退回、RISE审批通过、供应商确认状态可以编辑")
       }
-
-
     },
     submit () {
       if (this.muiltSelectList.length === 0) {
@@ -366,11 +365,25 @@ export default {
     handleClose (done) {
       done()
     },
+    exportFile () {
+      let search = []
+      search = this.$parent.$children.filter(item => {
+        return item.$options._componentTag === 'theSearch'
+      })
+      this.searchForm = search[0].searchForm
+      const req = {
+        ...this.searchForm,
+      };
+      exportFile(req).then(res => {
+        if (res?.code === '200') {
+          iMessage.success(res.desZh)
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
     fileDown (val) {
       window.open(val)
-    },
-    rejectReasonDetail (val) {
-
     }
   }
 }

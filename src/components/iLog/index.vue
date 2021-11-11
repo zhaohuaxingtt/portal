@@ -23,8 +23,8 @@
               <el-option
                 v-for="item in options"
                 :key="item.code"
-                :label="item.name"
-                :value="item.name"
+                :label="item.value"
+                :value="item.code"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -82,16 +82,21 @@ export default {
   props: {
     bizId: {
       type: Number,
-      Default: function () {
+      Default: function() {
         return 0
       }
     },
     show: [Boolean],
     extendParams: {
       type: Object,
-      default: function () {
+      default: function() {
         return {}
       }
+    },
+    env: {
+      // 运行环境，如dev,sit,vmsit,uat等，一般传process.env.NODE_ENV
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -101,20 +106,7 @@ export default {
         type: '',
         creator: ''
       },
-      options: [
-        {
-          label: '新增',
-          value: '10'
-        },
-        {
-          label: '修改',
-          value: '20'
-        },
-        {
-          label: '删除',
-          value: '30'
-        }
-      ]
+      options: []
     }
   },
   computed: {
@@ -125,6 +117,20 @@ export default {
       set(val) {
         this.$emit('update:show', val)
       }
+    },
+    appEnv() {
+      return window.sessionStorage.getItem('env') || this.env
+    },
+    bizLogApiPrefix() {
+      const baseMap = {
+        '': '/api',
+        dev: '/bizlogApi',
+        sit: '/bizlogApi',
+        vmsit: '/bizlogApi',
+        uat: '/bizlogApi',
+        production: '/api'
+      }
+      return baseMap[this.appEnv.toLowerCase()] || '/api'
     }
   },
   methods: {
@@ -154,12 +160,12 @@ export default {
     },
     getOptions() {
       const http = new XMLHttpRequest()
-      const url = `/baseInfo/web/selectDictByKeys?keys=LOG_TYPE`
-      http.open('GET', url, true)
+      const url = `${this.bizLogApiPrefix}/operationLog/listOperationType`
+      http.open('POST', url, true)
       http.setRequestHeader('content-type', 'application/json')
       http.onreadystatechange = () => {
         if (http.readyState === 4) {
-          this.options = JSON.parse(http.responseText).data?.LOG_TYPE || []
+          this.options = JSON.parse(http.responseText)?.data || []
         }
       }
       http.send()
@@ -167,7 +173,7 @@ export default {
     getList() {
       console.log('bizId', this.bizId)
       const http = new XMLHttpRequest()
-      const url = `/bizlog/operationLog/listOperationLogs`
+      const url = `${this.bizLogApiPrefix}/operationLog/listOperationLogs`
       http.open('POST', url, true)
       http.setRequestHeader('content-type', 'application/json')
       http.onreadystatechange = () => {

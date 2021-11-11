@@ -238,8 +238,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_MTZ]: {
-        target: `http://${BASE_DOMAN}:8046/mtz`,
-        // target: `http://${BASE_IP}:8046/mtz`,
+        // target: `http://${BASE_DOMAN}:8046/mtz`,
+        target: `http://${BASE_IP}:8046/mtz`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MTZ]: ''
@@ -278,6 +278,49 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_CHANGEPRICE]: ''
+        }
+      },
+      // #零件生命周期
+      [process.env.VUE_APP_PARTSCARD]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSCARD]: ''
+        }
+      },
+      [process.env.VUE_APP_PARTSRECORD]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSRECORD]: ''
+        }
+      },
+      [process.env.VUE_APP_PARTSPROCESS]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSPROCESS]: ''
+        }
+      },
+      [process.env.VUE_APP_PARTSFOLDER]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSFOLDER]: ''
+        }
+      },
+      [process.env.VUE_APP_PARTSCOLLECT]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_PARTSCOLLECT]: ''
+        }
+      },
+      [process.env.VUE_APP_RELATIONPARTS]: {
+        target: `http://192.168.50.160:8037`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^/' + process.env.VUE_APP_RELATIONPARTS]: ''
         }
       }
     }

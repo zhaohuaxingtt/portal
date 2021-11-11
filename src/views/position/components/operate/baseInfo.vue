@@ -85,6 +85,7 @@
           </iSelect>
         </iFormItem>
       </iFormGroup>
+
       <iFormGroup row="2" :model="positionObj" ref="baseForm2">
         <iFormItem
           prop="description"
@@ -132,6 +133,36 @@
           </div>
         </iFormItem>
       </iFormGroup>
+
+      <iFormGroup row="3" :model="positionObj" ref="baseForm3">
+        <iFormItem>
+          <iLabel :label="language('正式价采购组')" slot="label"></iLabel>
+          <iSelect v-model="positionObj.purchaseGroup" filterable>
+            <el-option
+              v-for="item in purchasegroupOptions"
+              :key="item.id"
+              :label="item.purchaseGroupName"
+              :value="item.purchaseGroupCode"
+            />
+          </iSelect>
+        </iFormItem>
+        <iFormItem>
+          <iLabel :label="language('暂作价采购组')" slot="label"></iLabel>
+          <iSelect v-model="positionObj.tempPurchaseGroup">
+            <el-option
+              v-for="item in tempPurchasegroupOptions"
+              :key="item.id"
+              :label="item.purchaseGroupName"
+              :value="item.purchaseGroupCode"
+            />
+          </iSelect>
+        </iFormItem>
+        <iFormItem prop="set">
+          <iLabel :label="language('SET组')" slot="label"></iLabel>
+          <iSelect v-model="positionObj.set"> </iSelect>
+        </iFormItem>
+      </iFormGroup>
+
       <dTable :type="type" />
     </iCard>
   </div>
@@ -148,6 +179,7 @@ import {
   iSelect
 } from 'rise'
 import dTable from './dTable.vue'
+import { queryPurchasegroup } from '@/api/position'
 export default {
   components: {
     iCard,
@@ -184,10 +216,15 @@ export default {
           validator: validateTags,
           trigger: 'blur'
         }
-      ]
+      ],
+      purchasegroupOptions: [],
+      tempPurchasegroupOptions: []
     }
   },
-  mounted() {},
+  created() {
+    this.queryPurchasegroupOptions()
+    this.queryTempPurchasegroupOptions()
+  },
   computed: {
     positionObj() {
       return this.$store.state.position.pos.positionDetail
@@ -200,6 +237,14 @@ export default {
       this.$router.push({
         path: '/position/tag'
       })
+    },
+    async queryPurchasegroupOptions() {
+      const res = await queryPurchasegroup()
+      this.purchasegroupOptions = res.data
+    },
+    async queryTempPurchasegroupOptions() {
+      const res = await queryPurchasegroup({ isProvisionalPrice: true })
+      this.tempPurchasegroupOptions = res.data
     }
   }
 }

@@ -21,7 +21,7 @@
         </div>
         <div class="opration">
           <iButton @click="edit"
-                   v-show="disabled">{{ language('BIANJI', '编辑') }}</iButton>
+                   v-show="disabled && appIdType">{{ language('BIANJI', '编辑') }}</iButton>
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
           <iButton @click="save"
@@ -61,8 +61,8 @@
                 placeholder="请输入备注"
                 v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
-    <theTabs></theTabs>
-    <theDataTabs></theDataTabs>
+    <theTabs v-if="!beforReturn"></theTabs>
+    <theDataTabs v-if="!beforReturn"></theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
              v-if="mtzAddShow"
@@ -79,6 +79,7 @@ import { tabsInforList } from "./data";
 import theTabs from "./theTabs";
 import theDataTabs from "./theDataTabs";
 import partApplication from "./partApplication";
+
 import {
   getAppFormInfo,
   modifyAppFormInfo,
@@ -97,7 +98,7 @@ export default {
     theTabs,
     partApplication,
     theDataTabs,
-    iSelect
+    iSelect,
   },
   data () {
     return {
@@ -140,14 +141,35 @@ export default {
 
       applyNumber: '',
       showType: false,
+      appIdType:true,
+    }
+  },
+  // beforeRouteEnter:(to,from,next)=>{
+  //   if(to.query.mtzAppId == undefined){
+      
+  //   }else{
+  //     next()
+  //   }
+  // },
+  computed:{
+      mtzObject(){
+        return this.$store.state.location.mtzObject;
+      }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      this.init()
     }
   },
   created () {
     this.init()
+    if(this.$route.query.appId){
+      this.appIdType = false;
+    }
   },
   methods: {
     init () {
-      getAppFormInfo({ mtzAppId: this.$route.query.id }).then(res => {
+      getAppFormInfo({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res => {
         this.inforData.mtzAppId = res.data.mtzAppId;
         this.inforData.linieName = res.data.linieName
         this.inforData.appStatus = res.data.appStatus
@@ -211,7 +233,7 @@ export default {
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res => {
         disassociate({
-          mtzAppId: this.$route.query.id
+          mtzAppId: this.$route.query.mtzAppId || this.mtzObject.mtzAppId
         }).then(res => {
           if (res.code == 200) {
             iMessage.success(res.desZh)
@@ -251,7 +273,8 @@ export default {
     },
     chioce (e, name) {
       this.inforData[name] = e;
-    }
+    },
+    
   },
   destroyed () {
 

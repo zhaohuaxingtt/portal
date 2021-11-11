@@ -19,11 +19,13 @@
                     {{ $t('EKL_YEJIJINETIAOZHENG') }}
                 </iButton>
                 <!--年度目标管理-->
-                <iButton class="ml10" @click="openTargetManDialog" v-permission="ACHIEVEMENTMGT_LIST_TARGETMANAGE">
-                    {{ $t('EKL_YJGL_NDMBGL') }}
+
+                <iButton class="ml10" @click="openTargetManDialog" v-if="!state" v-permission="ACHIEVEMENTMGT_LIST_TARGETMANAGE">
+                {{ $t('EKL_YJGL_NDMBGL') }}
                 </iButton>
+
                 <!--年度目标管理 配附件-->
-                <iButton @click="openSpareTargetManDialog" v-permission="ACHIEVEMENTMGT_SPARE_ANNUAL_TATGET">{{ $t('EKL_YJGL_NDMBGL') }}</iButton>
+                <iButton @click="openSpareTargetManDialog" v-if="state">{{ $t('EKL_YJGL_NDMBGL') }}</iButton>
                 <!--基础表模板下载 配附件-->
                 <iButton @click="spareTempDown" v-permission="ACHIEVEMENTMGT_TABLE_TEMPLATE_DOWN">{{ $t('EKL_JCBMBXZ') }}</iButton>
             </div>
@@ -141,6 +143,11 @@
                 id: "",
             };
         },
+      computed: {
+        state() {
+          return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'PFJYJGLY')
+        }
+      },
         created() {
             this.getTableList();
             this.getYearData()
@@ -162,8 +169,9 @@
                         confirmButtonText: '确定',
                         callback: action => {
                             const id = val.id
+                            const type = val.type
                             if (action == 'confirm') {
-                                saveTask({id}).then(res => {
+                                saveTask({id,type}).then(res => {
                                     if (res.result) {
                                         return iMessage.success(`${ this.$i18n.locale === 'zh' ? '刷新成功' : 'refresh success'}`)
                                     }
@@ -230,6 +238,9 @@
                         this.tableListData.map((item) => {
                             if (item.year >= year - 1 && item.billType==2) {
                                 this.$set(item, 'refresh', '刷新')
+                            }
+                            if(item.billType==2&&item.type==2) {
+                              this.$set(item,'title', item.year+'年业绩进度跟踪')
                             }
                             this.$set(item, '_status', '')
                             this.$set(item, '_billType', '')

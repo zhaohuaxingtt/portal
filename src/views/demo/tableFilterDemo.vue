@@ -20,6 +20,7 @@
         :columns="tableSetting"
         tooltipWidth="400px"
         permissionKey="ROLE_TABLE"
+        :env="$env"
         @handle-sort-change="handleSortChange"
       >
       </iTableCustom>
@@ -47,8 +48,8 @@
 </template>
 
 <script>
-import iTableCustom from '@/components/iTableCustom'
-// import { iTableCustom } from 'rise'
+// import iTableCustom from '@/components/iTableCustom'
+import { iTableCustom } from 'rise'
 import { iPage, iPagination, iCard } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { fetchRoles } from '@/api/role'
@@ -93,7 +94,7 @@ export default {
           align: 'center',
           tooltip: false,
           emit: 'go-detail',
-          sortMethod: function (a, b) {
+          sortMethod: function(a, b) {
             const a_swname = a['code']?.toLowerCase()
             const b_swname = b['code']?.toLowerCase()
             if (a_swname < b_swname) return -1

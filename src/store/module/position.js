@@ -115,7 +115,9 @@ const position = {
         tagList: [],
         roleDTOList: [],
         permissionList: [],
-        userList: []
+        userList: [],
+        purchaseGroup: '',
+        tempPurchaseGroup: ''
       },
       originPosDetail: {},
 
@@ -189,93 +191,9 @@ const position = {
       state.sub.positionList = positionList
     },
 
-    // SET_SUB_USEROPTIONS: (state, data) => {
-    //   state.sub.userOptions = data
-    // },
-
-    // SET_SUB_POSITIONLIST: (state, data) => {
-    // 	const dept_permissionList = _.cloneDeep(state.sub.deptDetail).permissionDTOList.filter(item => {
-    // 		return item.id
-    // 	})
-    // 	let user_ids = []
-    // 	data.forEach(item => {
-    // 		const item_permissionList = item.permissionList || []
-    // 		const item_permissionList_ids = item_permissionList.map(p => {
-    // 			return p.id
-    // 		})
-    // 		item_permissionList.forEach(ip => {
-    // 			ip.valueListIds = ip.valueList?.map(li => {
-    // 				return li.valueId
-    // 			})
-    // 		})
-    // 		item.userDTOListIds = []
-    // 		item.roleDTOListIds = []
-    // 		item.roleDTOList = item.roleDTOList || []
-    // 		item.leadOptions = item.userDTOList || []
-    // 		const other_permissionList = dept_permissionList.filter(li => {
-    // 			if (!item_permissionList_ids.includes(li.id)) {
-    // 				li.valueList = []
-    // 				li.valueListIds = []
-    // 				return li
-    // 			}
-    // 		})
-    // 		item.permissionList = other_permissionList.concat(item_permissionList)
-    // 		const userDTOListIds = item.userDTOList?.map(li => {
-    // 			return li.id
-    // 		})
-    // 		item.userDTOListIds = item.userDTOListIds.concat(userDTOListIds)
-    // 		item.roleDTOListIds = item.roleDTOListIds.concat(
-    // 			item.roleDTOList?.map(li => {
-    // 				return li.id
-    // 			})
-    // 		)
-    // 		user_ids = user_ids.concat(userDTOListIds)
-    // 	})
-    // 	let userOptions = JSON.parse(JSON.stringify(state.sub.userOptions))
-    // 	const arr_abled = userOptions.filter(item => {
-    // 		if (!user_ids.includes(item.id)) {
-    // 			item.disabled = false
-    // 			return item
-    // 		}
-    // 	})
-    // 	const arr_disabled = userOptions.filter(item => {
-    // 		if (user_ids.includes(item.id)) {
-    // 			item.disabled = true
-    // 			return item
-    // 		}
-    // 	})
-    // 	console.log(data)
-    // 	state.sub.userOptions = arr_disabled.concat(arr_abled)
-    // 	state.sub.positionList = data
-    // },
-
     SET_SUB_PAGE: (state, data) => {
       state.sub.page = data
     },
-
-    /* 下属岗位分配组织详情 */
-    // SET_DEPT_DETAIL: (state, data) => {
-    // 	data.permissionDTOList.push({
-    // 		name: '是否分配',
-    // 		description: '是否分配',
-    // 		id: 0,
-    // 		valueList: [
-    // 			{
-    // 				value: 'checkbox',
-    // 				isChecked: true
-    // 			},
-    // 			{
-    // 				value: 'checkbox',
-    // 				isChecked: false
-    // 			},
-    // 			{
-    // 				value: 'checkbox',
-    // 				isChecked: false
-    // 			}
-    // 		]
-    // 	})
-    // 	state.sub.deptDetail = data
-    // },
 
     /**---------------------------------------------------------------- */
 
@@ -389,7 +307,7 @@ const position = {
       state.pos.dimensionSelected = data
     },
     /** 删除维度 */
-    DEL_DIMENSION: (state, data) => {
+    DEL_DIMENSION: state => {
       const dimensionSelected = JSON.parse(
         JSON.stringify(state.pos.dimensionSelected)
       )
@@ -459,19 +377,6 @@ const position = {
     },
     /** 选中role */
     SET_ROLE_SELECTED: (state, data) => {
-      // const arr = []
-      // const ids = JSON.parse(JSON.stringify(state.pos.roleSelectedIds))
-      // const objs = JSON.parse(JSON.stringify(state.pos.roleList))
-      // _.map(ids, id => {
-      //   const item = _.find(objs, obj => {
-      //     return obj.id === id
-      //   })
-      //   arr.push(item)
-      // })
-      // state.pos.roleSelected = arr
-      // console.log('state.pos.roleSelectedIds', state.pos.roleSelectedIds)
-      // console.log('state.pos.roleList', state.pos.roleList)
-      // console.log('arr', arr)
       state.pos.roleSelected = data
     },
     SET_ROLEIDS_SELECTED: (state, data) => {
@@ -487,7 +392,7 @@ const position = {
     },
 
     /** 删除所选role */
-    DEL_ROLE: (state, data) => {
+    DEL_ROLE: state => {
       const roleSelected = state.pos.roleDeling
       const roleList = state.pos.positionDetail.roleDTOList
       for (let i = 0; i < roleSelected.length; i++) {
@@ -554,7 +459,7 @@ const position = {
       state.pos.tagSelected = tagSelected
     },
     /** 获取所有tags，包含自定义及系统checked */
-    GET_TAGS: (state, data) => {
+    GET_TAGS: state => {
       const posDetail = _.cloneDeep(state.pos.positionDetail)
       const tags_s = _.cloneDeep(state.pos.tagsSystem)
 
@@ -576,13 +481,13 @@ const position = {
 
       state.pos.tags = tags_s.concat(tags_2)
     },
-    GET_TAGS_SELECTED: (state, data) => {
+    GET_TAGS_SELECTED: state => {
       //编辑
       const positionDetail = _.cloneDeep(state.pos.positionDetail)
       state.pos.tagSelected = positionDetail?.tagList || []
     },
     /**将选中标签放入detail中 */
-    SET_POSITION_TAGS: (state, data) => {
+    SET_POSITION_TAGS: state => {
       state.pos.positionDetail.tagList = JSON.parse(
         JSON.stringify(state.pos.tagSelected)
       )
@@ -627,7 +532,7 @@ const position = {
       }
     },
     /**批量删除岗位 */
-    async DelPositionList({ commit }) {
+    async DelPositionList() {
       const idList = this.state.position.pos.listSelected
         .filter(item => {
           return !item.userDTOList || !item.userDTOList.length
@@ -636,7 +541,7 @@ const position = {
           return item.id
         })
       console.log(idList)
-      const res = await DeletePosition(idList)
+      await DeletePosition(idList)
       const data = {
         type: 'pos',
         params: this.state.position.pos.query
@@ -655,7 +560,7 @@ const position = {
       }
     },
     /*获取角色列表 */
-    async GetRoleList({ commit }, data) {
+    async GetRoleList({ commit }) {
       // const params = {}
       // for (let index in data) {
       //   params[data[index].key] = data[index].value
@@ -673,8 +578,11 @@ const position = {
       const res = await GetPositionPermissionList({
         deptId: data
       })
+      console.log('GetPositionPermissionList', res)
+
       if (res?.code === '200' && res?.data) {
-        commit('SET_DIMENSION_OPTIONS', res.data)
+        const data = res.data
+        commit('SET_DIMENSION_OPTIONS', data)
       }
     },
     /** 新建岗位 */
@@ -775,7 +683,10 @@ const position = {
         tagList: this.state.position.pos.positionDetail.tagList,
         roleDTOList: this.state.position.pos.positionDetail.roleDTOList,
         permissionList: temp,
-        deptId: data
+        deptId: data,
+        purchaseGroup: this.state.position.pos.positionDetail.purchaseGroup,
+        tempPurchaseGroup: this.state.position.pos.positionDetail
+          .tempPurchaseGroup
       }
       const res = await UpdatePosition(params)
       return res

@@ -2,7 +2,7 @@
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-08 11:25:10
+ * @LastEditTime: 2021-11-10 21:23:01
  * @Description:
  * @FilePath: \front-portal\src\router\Router.js
  */
@@ -29,9 +29,13 @@ import partLifeCycle from './partLifeCycle'
 import RouterExternal from './RouterExternal'
 import RouterBiz from './RouterBiz'
 import RouterAchievement from './RouterAchievement'
+<<<<<<< HEAD
 import RouterAssistant from './RouterAssistant'
+=======
+import RouterPopupWindowMa from './RouterPopupWindowMa'
+>>>>>>> dev
 
-import RouterMeeting from './meeting'
+import RouterManage from './RouterManage'
 
 export default {
   routes: [
@@ -95,8 +99,13 @@ export default {
         ...partLifeCycle,
         ...RouterBiz,
         ...RouterAchievement,
+<<<<<<< HEAD
         ...RouterMeeting,
         ...RouterAssistant
+=======
+        ...RouterPopupWindowMa,
+        ...RouterManage
+>>>>>>> dev
       ]
     },
 

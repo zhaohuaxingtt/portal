@@ -7,54 +7,70 @@
 -->
 <template>
   <div>
-    <el-row :gutter="20"
-            type="flex"
-            justify="space-between">
+    <el-row :gutter="20" type="flex" justify="space-between">
       <el-col :span="8">
+        <!-- 供应商得分 -->
         <supplierKpi></supplierKpi>
-
       </el-col>
       <el-col :span="8">
-        <newsMonitor></newsMonitor>
-
+        <!-- 配附件供货率 -->
+        <supplyRate :infodata="infodata"></supplyRate>
       </el-col>
       <el-col :span="8">
-        <publicOpinion>
-        </publicOpinion>
-      </el-col>
-    </el-row>
-    <el-row class="margin-top20"
-            :gutter="20"
-            type="flex"
-            justify="space-between">
-      <el-col :span="8">
+        <!-- ekl批量件 -->
         <eklSupplier></eklSupplier>
       </el-col>
+    </el-row>
+    <el-row
+      class="margin-top20"
+      :gutter="20"
+      type="flex"
+      justify="space-between"
+    >
+      <el-col :span="8">
+        <!-- 送样 -->
+        <sampleDelivery></sampleDelivery>
+      </el-col>
+      <el-col :span="8">
+        <!-- 定点 -->
+        <fixed></fixed>
+      </el-col>
+      <el-col :span="8">
+        <!-- 寻源 -->
+        <sourcing></sourcing>
+      </el-col>
+    </el-row>
+    <el-row
+      class="margin-top20"
+      :gutter="20"
+      type="flex"
+      justify="space-between"
+    >
       <el-col :span="8">
         <productivity></productivity>
       </el-col>
       <el-col :span="8">
-        <sourcing></sourcing>
+        <newsMonitor></newsMonitor>
+      </el-col>
+      <el-col :span="8">
+        <publicOpinion> </publicOpinion>
       </el-col>
     </el-row>
-    <el-row class="margin-top20"
-            :gutter="20"
-            type="flex"
-            justify="space-between">
-      <el-col :span="8">
-        <supplyRate></supplyRate>
-      </el-col>
-      <el-col :span="8">
-        <fixed></fixed>
-      </el-col>
-      <el-col :span="8">
-        <sampleDelivery></sampleDelivery>
+    <el-row
+      class="margin-top20"
+      :gutter="20"
+      type="flex"
+      justify="space-between"
+    >
+      <el-col :span="24">
+        <contract> </contract>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import contract from './chartCard/contract'
 import supplyRate from './chartCard/supplyRate'
 import sampleDelivery from './chartCard/sampleDelivery'
 import fixed from './chartCard/fixed'
@@ -64,26 +80,25 @@ import supplierKpi from './chartCard/supplierKpi'
 import productivity from './chartCard/productivity'
 import publicOpinion from './chartCard/publicOpinion'
 import eklSupplier from './chartCard/eklSupplier'
-import { iCard, icon } from 'rise'
 import soon from './soon.png'
 
 export default {
   components: {
-    icon,
     supplierKpi,
     publicOpinion,
-    iCard,
     newsMonitor,
     eklSupplier,
     productivity,
     sourcing,
     supplyRate,
     fixed,
-    sampleDelivery
+    sampleDelivery,
+    contract
   },
   data() {
     return {
-      soon: soon
+      soon: soon,
+      infodata: {}
     }
   },
   props: {
@@ -92,9 +107,19 @@ export default {
       default: () => {
         return {}
       }
+    },
+    supplier360ViewVO: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
-
+  watch: {
+    supplier360ViewVO(data) {
+      this.infodata = data
+    }
+  },
   mounted() {},
   methods: {}
 }

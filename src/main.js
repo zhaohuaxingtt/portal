@@ -28,6 +28,9 @@ Vue.prototype.hideLoading = hideFullScreenLoading
 require('./auto').init()
 Vue.config.productionTip = false
 Vue.prototype.$t = (key, value) => i18n.t(key, value)
+
+window.sessionStorage.setItem('env', process.env.NODE_ENV)
+
 import('./i18n').then(res => {
   const zh = {}
   for (const key in res.default) {
