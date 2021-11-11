@@ -32,7 +32,6 @@
             <iInput
                     v-model="form.totalTarget"
                     class="text"
-                    :disabled="linie||!show"
                     :placeholder="$t('LK_QINGSHURU')"
                     oninput="value = value.replace(/[^\d.]/g,'').replace(/\.{2,}/g,'.')"
                     @change="InputValue($event,1)"
@@ -44,7 +43,6 @@
             <iInput
                     v-model="form.totalCommitment"
                     class="text"
-                    :disabled="linie||!show"
                     :placeholder="$t('LK_QINGSHURU')"
                     oninput="value = value.replace(/[^\d.]/g,'').replace(/\.{2,}/g,'.')"
                     @change="InputValue($event,2)"
@@ -114,9 +112,6 @@
             show() {
                 return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'BZZL' || item.fullNameZh == '部长助理')
             },
-            linie() {
-                return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'LINIE')
-            }
         },
         methods: {
             clearDiolog() {
@@ -152,9 +147,6 @@
                 querySpYearTargetDetail({yearbaseId: id}).then(res => {
                     if (res.result) {
                         let data = res.data
-                        data = data.filter((item) => {
-                            return item.orgId
-                        })
                         if (data.length) {
                             this.tableListData = [{A: 'Target-Lasting',}, {A: 'Commitment-Lasting',}]
                             data.map(item => {

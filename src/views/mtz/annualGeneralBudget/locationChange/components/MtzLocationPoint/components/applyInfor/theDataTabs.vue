@@ -466,6 +466,7 @@ import {
   addBatchPartMasterData,//维护MTZ零件主数据-新增多条
   modifyPartMasterData,//维护MTZ零件主数据-编辑多条
   deletePartMasterData,//维护MTZ零件主数据-删除
+  listPartNumSupplierIdData
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 
 import { deepClone } from "./util"
@@ -513,12 +514,27 @@ export default {
         dialogEditType:false,
     }
   },
+  computed:{
+      mtzObject(){
+        return this.$store.state.location.mtzObject;
+      }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      // console.log(newVlue)
+      this.init()
+    }
+  },
   mounted () {
     this.init()
   },
   methods: {
     init () {
-        this.getTableList()
+        if(this.$route.query.supplierId == undefined){
+            this.getTableList()
+        }else{
+            this.getTableDown();
+        }
 
         getRawMaterialNos({}).then(res=>{
             this.materialCode = res.data;
@@ -551,7 +567,7 @@ export default {
         }).then(res=>{
             if(this.dialogEditType){//新增
                 addBatchPartMasterData({
-                    mtzAppId:this.$route.query.mtzAppId,
+                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
                     mtzAppNomiAppRuleList:this.newDataList
                 }).then(res=>{
                     this.editId = "";
@@ -562,7 +578,7 @@ export default {
                 })
             }else{//编辑
                 modifyPartMasterData({
-                    mtzAppId:this.$route.query.mtzAppId,
+                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
                     mtzAppNomiAppRuleList:this.selectList
                 }).then(res=>{
                     if(res.code == 200){
@@ -647,7 +663,7 @@ export default {
         pagePartMasterData({
             pageNo: this.page.currPage,
             pageSize: this.page.pageSize,
-            mtzAppId:this.$route.query.mtzAppId,
+            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
             sortType:"DESC",
             sortColumn:"id"
         }).then(res=>{
@@ -656,6 +672,24 @@ export default {
             this.page.pageSize = res.pageSize
             this.page.totalCount = res.total
             this.loading = false;
+        })
+    },
+    getTableDown(){
+        listPartNumSupplierIdData({
+            partNumStr:this.$route.query.item,
+            supplierIdStr:this.$route.query.supplierId,
+        }).then(res=>{
+            this.tableData = res.data;
+            this.editType = true;
+
+            var changeArrayList = [];
+            this.$refs.moviesTable.clearSelection();
+            res.data.forEach(item => {
+                changeArrayList.push(item.id);
+                this.$refs.moviesTable.toggleRowSelection(item, true);
+            })
+            this.editId = changeArrayList;
+            this.dialogEditType = true;
         })
     },
     handleSelectionChange(val){
@@ -684,7 +718,7 @@ export default {
         var changeArrayList = [];
         this.$refs.moviesTable.clearSelection();
         val.forEach(item => {
-            changeArrayList.push(item.ruleNo);
+            changeArrayList.push(item.id);
             this.$refs.moviesTable.toggleRowSelection(item, true);
         })
         this.editId = changeArrayList;
@@ -698,7 +732,7 @@ export default {
         var changeArrayList = [];
         this.$refs.moviesTable.clearSelection();
         val.forEach(item => {
-            changeArrayList.push(item.ruleNo);
+            changeArrayList.push(item.id);
             this.$refs.moviesTable.toggleRowSelection(item, true);
         })
         this.editId = changeArrayList;
@@ -712,7 +746,7 @@ export default {
         var changeArrayList = [];
         this.$refs.moviesTable.clearSelection();
         val.forEach(item => {
-            changeArrayList.push(item.ruleNo);
+            changeArrayList.push(item.id);
             this.$refs.moviesTable.toggleRowSelection(item, true);
         })
         this.editId = changeArrayList;

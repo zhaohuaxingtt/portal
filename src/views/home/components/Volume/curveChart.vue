@@ -60,7 +60,10 @@ export default {
         padding: [4, 8],
         align: 'center',
         backgroundColor: data > 0 ? '#C00000' : '#70AD47',
-        borderRadius: 5
+        borderRadius: 5,
+        width: 100,
+        lineHeight: 30,
+        height: 30
       }
     },
     initEcharts() {

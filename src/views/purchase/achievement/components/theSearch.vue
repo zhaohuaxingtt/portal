@@ -9,7 +9,7 @@
                 </el-form-item>
                 <!--状态-->
                 <el-form-item :label="$t('EKL_YJGL_ZT')">
-                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.status">
+                    <iSelect multiple filterable collapse-tags :placeholder="$t('LK_QINGXUANZE')" v-model="form.status">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
                                 :value="item.key"
@@ -108,7 +108,7 @@
             return {
                 form: {
                     title: '', // 描述
-                    status: '',        // 状态
+                    status: [0, 2, 3, 4, 11],        // 状态
                     createByName: '', // 发起人
                     billType: '', // 单据类型
                     type: '', // 业务类型
@@ -165,7 +165,8 @@
         },
         methods: {
             handleSearchReset() {
-                this.form = {};
+                this.form = {}
+                this.$set(this.form,'status',[0, 2, 3, 4, 11])
                 this.getTableList();
             },
             // get 状态

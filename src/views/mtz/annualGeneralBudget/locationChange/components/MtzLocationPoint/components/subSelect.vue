@@ -45,7 +45,7 @@ import { tableTitleCp } from "./data";
 import { pageMixins } from "@/utils/pageMixins"
 import { getMettingList } from "@/api/meeting/home"
 import {
-  mtzAppNomiSubmit,//提交
+  saveMeeting,//提交
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 
 export default {
@@ -82,6 +82,12 @@ export default {
             selectData:[],
         }
     },
+    computed: {
+        mtzObject(){
+            return this.$store.state.location.mtzObject;
+        },
+    },
+    watch: {},
     created(){
         this.getTableList();
     },
@@ -92,12 +98,18 @@ export default {
             this.getTableList();
         },
         choice(){
+            // console.log(this.selectData)
             if (this.selectData.length > 0) {
-                mtzAppNomiSubmit({
-                    mtzAppId:this.$route.query.mtzAppId,
-                    meetingId:this.selectData.id
+                saveMeeting({
+                    mtzAppId:this.$route.query.mtzAppId || this.mtzObject.mtzAppId,
+                    meetingId:this.selectData[0].id,
+                    duration:this.selectData[0].duration,
+                    topic:this.selectData[0].name,
                 }).then(res=>{
-                    console.log(res);
+                    if(res.code == 200 && res.result){
+                        iMessage.success(this.language(res.desEn,res.desZh))
+                        this.$emit("close","refresh")
+                    }
                 })
             }else{
                 iMessage.warn("请选择会议")

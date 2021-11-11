@@ -314,13 +314,23 @@ export default {components: {
         this.materialGroup = res.data;
     })
   },
+  computed:{
+      mtzObject(){
+        return this.$store.state.location.mtzObject;
+      }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      // console.log(newVlue)
+    }
+  },
   methods: {
     handleSave() {
     //   this.$refs['contractForm'].validate(async valid => {
         // if (valid) {
             addAppRule({
                 ...this.contractForm,
-                ttMtzAppId:this.$route.query.mtzAppId
+                ttMtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId
             }).then(res=>{
                 if(res.code == 200 && res.result){
                     iMessage.success(res.desZh)

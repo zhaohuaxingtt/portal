@@ -19,6 +19,7 @@
     <iDialog @close="closeDiolog()"
              :visible.sync="visible"
              v-if="visible"
+             top="2%"
              width="85%">
       <el-tabs class="tabsHeader"
                type="card"
@@ -40,8 +41,9 @@
           <el-form-item :label="language('SAPHAO', 'SAP号')">
             <iSelect collapse-tags
                      filterable
+                     multiple
                      :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.partNum">
+                     v-model.trim="form.sapCode">
               <el-option v-for="item in sapList"
                          :key="item.kvalue"
                          :label="item.vvalue"
@@ -53,8 +55,9 @@
           <el-form-item :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')">
             <iSelect collapse-tags
                      filterable
+                     multiple
                      :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.supplierId">
+                     v-model.trim="form.supplierName">
               <el-option v-for="item in supplierList"
                          :key="item.kvalue"
                          :label="item.vvalue"
@@ -66,6 +69,7 @@
           <el-form-item :label="language('XIANGGUANKESHI', '相关科室')">
             <iSelect collapse-tags
                      filterable
+                     multiple
                      @change="deptChange"
                      :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                      v-model.trim="form.deptId">
@@ -79,6 +83,7 @@
           <el-form-item :label="language('FUZECAIGOUYUAN', '负责采购员')">
             <iSelect collapse-tags
                      filterable
+                     multiple
                      :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                      v-model.trim="form.userId">
               <el-option v-for="item in userList"
@@ -88,9 +93,24 @@
               </el-option>
             </iSelect>
           </el-form-item>
+          <el-form-item v-if="tabVal==2"
+                        :label="language('SHIFOUCRATING', '是否C-Rating')">
+            <iSelect collapse-tags
+                     filterable
+                     multiple
+                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                     v-model.trim="form.iscRating">
+              <el-option v-for="item in isCrating"
+                         :key="item.code"
+                         :label="item.name"
+                         :value="item.code">
+              </el-option>
+            </iSelect>
+          </el-form-item>
           <el-form-item :label="language('JIARUCRATINGYUANYIN', '加入C-Rating原因')">
             <iSelect collapse-tags
                      filterable
+                     multiple
                      :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                      v-model.trim="form.ratingSource">
               <el-option v-for="item in cratingLsit"
@@ -101,9 +121,99 @@
             </iSelect>
 
           </el-form-item>
+          <el-form-item v-if="tabVal==2"
+                        :label="language('YICHUCRATINGYUANYIN', '移除C-Rating原因')">
+            <iSelect collapse-tags
+                     filterable
+                     multiple
+                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                     v-model.trim="form.cancelReason">
+              <el-option v-for="item in cratingLsit"
+                         :key="item.code"
+                         :label="item.name"
+                         :value="item.code">
+              </el-option>
+            </iSelect>
+
+          </el-form-item>
+          <el-form-item v-if="tabVal==2"
+                        :label="language('GONGYINGSHANGZHUANGTAI', '供应商状态')">
+            <iSelect collapse-tags
+                     filterable
+                     multiple
+                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                     v-model.trim="form.rfqStatus">
+              <el-option v-for="item in supplierStatus"
+                         :key="item.id"
+                         :label="item.name"
+                         :value="item.id">
+              </el-option>
+            </iSelect>
+
+          </el-form-item>
+          <el-form-item v-if="tabVal==2"
+                        :label="language('LINGJIANXINXI', '零件信息')">
+            <iSelect collapse-tags
+                     filterable
+                     multiple
+                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                     v-model.trim="form.partNum">
+              <el-option v-for="item in partList"
+                         :key="item.kvalue"
+                         :label="item.vvalue"
+                         :value="item.kvalue">
+              </el-option>
+            </iSelect>
+
+          </el-form-item>
+          <el-form-item v-if="tabVal==2"
+                        :label="language('RFQHAO', 'RFQ号')">
+            <iSelect collapse-tags
+                     filterable
+                     multiple
+                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                     v-model.trim="form.rfq">
+              <el-option v-for="item in resRfqList"
+                         :key="item.kvalue"
+                         :label="item.vvalue"
+                         :value="item.kvalue">
+              </el-option>
+            </iSelect>
+
+          </el-form-item>
+          <el-form-item v-if="tabVal==2"
+                        :label="language('XIANGMUBIANHAO', '项目编号')">
+            <iSelect collapse-tags
+                     filterable
+                     multiple
+                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                     v-model.trim="form.motorProject">
+              <el-option v-for="item in projectList"
+                         :key="item.kvalue"
+                         :label="item.vvalue"
+                         :value="item.kvalue">
+              </el-option>
+            </iSelect>
+
+          </el-form-item>
+          <el-form-item v-if="tabVal==2"
+                        :label="language('BAOJIACHEXING', '报价车型')">
+            <iSelect collapse-tags
+                     multiple
+                     filterable
+                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                     v-model.trim="form.motorType">
+              <el-option v-for="item in motorList"
+                         :key="item.kvalue"
+                         :label="item.vvalue"
+                         :value="item.kvalue">
+              </el-option>
+            </iSelect>
+
+          </el-form-item>
 
         </el-form>
-        <div>
+        <div class="btnStyle">
           <iButton @click="sure">{{
           language('CHAXUN', '查询')
         }}</iButton>
@@ -122,17 +232,25 @@
               )
             }}
         </span>
-        <iButton @click="clickBtn">{{
+        <iButton v-if="tabVal==1"
+                 @click="handleSaveBtn">{{
           language('YICHUCRATING', '移除C-Rating')
         }}</iButton>
       </div>
       <table-list v-if="tabVal == 1"
                   style="margin-top:20px"
                   :tableData="tableListData"
+                  @handleSelectionChange="handleSelectionChange"
                   :tableTitle="tableTitleMonitor"
                   :tableLoading="tableLoading"
-                  :index="true"
-                  :selection="false">
+                  :index="true">
+        <template #ratingSource='scope'>
+          <span v-if="scope.row.ratingSource!='100'">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
+          <span v-if="scope.row.ratingSource=='100'">深入评级- <icon class="early"
+                  symbol
+                  name="iconcaiwuyujing-hongdeng"></icon></span>
+        </template>
+
       </table-list>
       <table-list v-if="tabVal == 2"
                   style="margin-top:20px"
@@ -141,45 +259,95 @@
                   :tableLoading="tableLoading"
                   :index="true"
                   :selection="false">
+        <template #ratingSource='scope'>
+          <span v-if="scope.row.ratingSource!='100'">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
+          <span v-if="scope.row.ratingSource=='100'">深入评级- <icon class="early"
+                  symbol
+                  name="iconcaiwuyujing-hongdeng"></icon></span>
+        </template>
       </table-list>
+      <div style="height:30px">
+
+      </div>
+    </iDialog>
+    <iDialog destroy-on-close
+             @close="closeDiologDetail()"
+             :visible.sync="visibleDetal"
+             top="2%"
+             width="85%">
+      <div class="section-box">
+        <div>
+          <span>{{ language('YICHUYUANYIN', '移除原因') }}
+            <span style="color:red">*</span></span>
+        </div>
+        <iButton @click="handleSave">{{
+            language('QUEREN', '确认')
+          }}</iButton>
+      </div>
+      <iInput style="margin-top:20px"
+              :placeholder="language('QINGSHURU', '请输入…')"
+              type="textarea"
+              v-model="takeStepsContent"
+              maxlength="200"
+              show-word-limit></iInput>
+      <div style="height:30px">
+
+      </div>
     </iDialog>
   </iCard>
 </template>
 
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, iSelect, iButton, iDialog } from 'rise'
+import { iCard, iSelect, iButton, iDialog, iInput, iMessage, icon } from 'rise'
 import { tableTitleMonitor, tableTitleMonitorRecord, dictByCode } from './data'
 import tableList from '@/components/commonTable'
 import {
   supplierRatingCard,
   currentList,
-  sapDropDown
+  sapDropDown,
+  historyList,
+  cancel
 } from '@/api/frmRating/supplierOverview/index'
 import { getDeptDropDownList } from '@/api/authorityMgmt/index'
 // import soon from "./soon.png";
 
 export default {
-  components: { iCard, iSelect, iButton, iDialog, tableList },
+  components: { iCard, iSelect, iButton, iDialog, tableList, iInput, icon },
   data() {
     return {
       chart: 'vertexSituationChati',
       option: {},
       tabVal: '1',
+      visibleDetal: false,
       info: {},
       visible: false,
       tableListData: [],
       tableTitleMonitor: tableTitleMonitor,
       tableTitleMonitorRecord: tableTitleMonitorRecord,
-      form: {},
+      form: {
+        sapCode: [],
+        supplierName: [],
+        supplierId: []
+      },
       cratingLsit: [],
+      tableLoading: true,
       sapList: [],
+      takeStepsContent: '',
       deptList: [],
       userList: [],
-      supplierList: []
+      supplierList: [],
+      supplierStatus: [],
+      selectData: [],
+      isCrating: [
+        { code: 1, name: this.language('SHI', '是') },
+        { code: 0, name: this.language('FOU', '否') },
+        { code: '', name: this.language('QUANBU', '全部') }
+      ]
     }
   },
   created() {
+    this.tabVal = '1'
     this.getData()
   },
   methods: {
@@ -188,6 +356,8 @@ export default {
         this.info = res.data
         this.getChart()
       })
+      const res = await dictByCode('C_RATING')
+      this.cratingLsit = res
     },
 
     handleDialog() {
@@ -203,28 +373,88 @@ export default {
       })
     },
     deptChange(v) {
-      this.userList = this.deptList.find((res) => {
-        return v == res.id
-      }).userDTOList
+      console.log(v)
+      var arr = []
+      if (v.length > 1) {
+        arr = this.deptList.find((res) => {
+          return v[v.length - 1] == res.id
+        }).userDTOList
+        if (arr.length != 0) {
+          this.userList.push(...arr)
+        }
+      } else {
+        this.userList = this.deptList.find((res) => {
+          return v == res.id
+        }).userDTOList
+      }
     },
     getTaleList() {
-        const req={
-            ...this.form
-        }
-      currentList(req).then((res) => {
-        this.tableListData = res.data
-      })
+      this.tableLoading = true
+      this.form.supplierId = this.form.sapCode.concat(this.form.supplierName)
+
+      const req = {
+        ...this.form
+      }
+
+      req.sapCode = undefined
+      req.supplierName = undefined
+      if (this.tabVal == '1') {
+        currentList(req).then((res) => {
+          this.tableLoading = false
+          this.tableListData = res.data
+        })
+      } else {
+        historyList(req).then((res) => {
+          this.tableLoading = false
+          this.tableListData = res.data
+        })
+      }
     },
     async getInit() {
       this.getDeptList()
       this.getTaleList()
-      const res = await dictByCode('C_RATING')
+
       const res2 = await sapDropDown({ type: 'sap' })
-       const res3 = await sapDropDown({type:'supplier'})
-      this.cratingLsit = res
+      const res3 = await sapDropDown({ type: 'supplier' })
+      const res4 = await dictByCode('RFQ_STATE')
+      const resPart = await sapDropDown({ type: 'part' })
+      const resRfq = await sapDropDown({ type: 'rfq' })
+      const resProject = await sapDropDown({ type: 'project' })
+      const resMotor = await sapDropDown({ type: 'motor' })
+      this.partList = resPart.data
+      this.resRfqList = resRfq.data
+      this.projectList = resProject.data
+      this.motorList = resMotor.data
       this.sapList = res2.data
-      this.userList = []
       this.supplierList = res3.data
+      this.supplierStatus = res4
+      console.log(res4)
+    },
+    handleSelectionChange(val) {
+      this.selectData = val
+    },
+    handleSaveBtn() {
+      if (this.selectData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      this.visibleDetal = true
+    },
+    //移除
+    handleSave() {
+      let req = {
+        ids: this.selectData.map((res) => {
+          return res.recordId
+        }),
+        reason: this.takeStepsContent
+      }
+      cancel(req).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+          this.visibleDetal = false
+          this.getTaleList()
+        } else iMessage.error(res.desZh)
+      })
     },
     getChart() {
       const myChart = echarts().init(this.$refs.chart)
@@ -244,7 +474,7 @@ export default {
         },
         legend: {
           icon: 'circle',
-
+          orient: 'vertical',
           right: 0,
           top: 0,
           textStyle: {
@@ -351,16 +581,44 @@ export default {
       this.getTaleList()
     },
 
-    clickReset() {},
-    changeTab() {},
+    clickReset() {
+      this.userList = []
+      this.form = {
+        supplierId: [],
+        deptId: [],
+        userId: [],
+        isCrating: [],
+        ratingSource: [],
+        cancelReason: [],
+        rfqStatus: [],
+        partNum: [],
+        rfq: [],
+        motorProject: [],
+        motorType: [],
+        sapCode: [],
+        supplierName: []
+      }
+      this.getTaleList()
+    },
+    changeTab() {
+      this.clickReset()
+    },
     closeDiolog() {
       this.visible = false
+    },
+    closeDiologDetail() {
+      this.takeStepsContent = ''
+      this.visibleDetal = false
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.early {
+  display: inline-block;
+  font-size: 20px;
+}
 .center1 {
   display: flex;
   justify-content: center;
@@ -370,12 +628,33 @@ export default {
   width: 100%;
   height: 320px;
 }
+::v-deep .el-textarea {
+  height: 580px;
+}
+::v-deep .el-textarea .el-textarea__inner {
+  height: 100%;
+}
+.section-box {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 0;
+  span {
+    font-size: 20px;
+    font-family: Arial;
+    font-weight: bold;
+  }
+}
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   border-bottom: 1px solid #e3e3e3;
+  .btnStyle {
+    display: flex;
+    justify-content: flex-end;
+    width: 30%;
+  }
 }
 .sectionTitle {
   margin-top: 20px;

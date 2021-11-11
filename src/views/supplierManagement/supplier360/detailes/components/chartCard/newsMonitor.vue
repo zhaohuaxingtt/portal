@@ -2,15 +2,7 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('CAIWUYUJING', '财务预警')}}</p>
-      <!-- <el-dropdown>
-
-        <span class="el-dropdown-link">
-          <i class="el-icon-more"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="handleDialog">查看</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown> -->
+   
     </div>
     <div class="center">
       <icon class="early"
@@ -29,7 +21,7 @@
           <p class="fontsize">{{info.tips}}</p>
         </div>
         <div class="bjText">
-          <p> <span v-if="info.isAlert"> {{language('CRATINGLAIYUAN', 'C-Rating来源')}}:</span> {{info.ratingSource}}</p>
+          <p> <span v-if="info.isAlert"> {{language('CRATINGLAIYUAN', 'C-Rating来源')}}:</span> <span>{{info.ratingSource}}</span></p>
           <p> {{language('GENXINSHIJIAN', '更新时间')}}:{{info.updateDate}}</p>
         </div>
       </div>
@@ -105,10 +97,14 @@ export default {
     align-items: center;
   }
   .bjText {
+      width: 300px;
     margin-left: 40px;
     text-align: left;
+    span{
+    }
     p {
       margin: 8px 0;
+      display: flex;
     }
   }
   .fontsize {
