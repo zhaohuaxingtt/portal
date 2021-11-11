@@ -3,19 +3,21 @@
  * @Author: zbin
  * @Date: 2021-05-27 14:47:25
  * @LastEditors: zbin
- * @Descripttion: 舆情监测
+ * @Descripttion: 初步评级
 -->
 <template>
   <iCard :title="$t('SUPPLIER_CHUBUPINGJI')">
-
-    <!-- <div class="center1 height">
+    <div @click="handleTo"
+         class="height">
+      <!-- <div class="center1 height">
       <img :src="soon" width="70%" height="70%" alt="">
     </div> -->
-    <!-- <div class="flex-align-center" style="justify-content: center;height: 100%;">
+      <!-- <div class="flex-align-center" style="justify-content: center;height: 100%;">
 		<img style="width: 60%;" src="./soon.png" >
 	</div> -->
-    <div ref="chart"
-         class="chartStyle"> </div>
+      <div ref="chart"
+           class="chartStyle"> </div>
+    </div>
   </iCard>
 </template>
 
@@ -41,6 +43,12 @@ export default {
     })
   },
   methods: {
+    handleTo() {
+      this.$router.push({
+        path: '/supplier/frmrating/preliminaryrating/preliminaryrating'
+      })
+    },
+
     getChart() {
       let data1 = []
       let data2 = []

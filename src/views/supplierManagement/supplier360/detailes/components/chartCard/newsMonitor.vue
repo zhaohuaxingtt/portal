@@ -2,15 +2,7 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('CAIWUYUJING', '财务预警')}}</p>
-      <!-- <el-dropdown>
-
-        <span class="el-dropdown-link">
-          <i class="el-icon-more"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="handleDialog">查看</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown> -->
+   
     </div>
     <div class="center">
       <icon class="early"

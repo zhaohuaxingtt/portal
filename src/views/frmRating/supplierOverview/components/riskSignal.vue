@@ -32,25 +32,23 @@
 
 <script>
 import { iCard, icon } from 'rise'
-import {
-  riskSignalCard
-} from '@/api/frmRating/supplierOverview/index'
+import { riskSignalCard } from '@/api/frmRating/supplierOverview/index'
 export default {
   components: { iCard, icon },
-    data(){
-      return{
-          info:{}
-      }
+  data() {
+    return {
+      info: {}
+    }
   },
   methods: {
     handleAnalysis() {
       this.$emit('show', true)
     }
   },
-    created(){
-      riskSignalCard().then(res=>{
-          this.info=res.data.riskMap
-      })
+  created() {
+    riskSignalCard().then((res) => {
+      this.info = res.data.riskMap
+    })
   }
 }
 </script>
@@ -71,14 +69,14 @@ export default {
     border-radius: 10px;
 
     span {
-        margin-left: 36px;
+      margin-left: 36px;
       font-size: 14px;
       font-family: Arial;
       font-weight: 400;
       color: #000000;
     }
     p {
-           margin-left: 36px;
+      margin-left: 36px;
       font-size: 14px;
       font-family: Arial;
       font-weight: bold;

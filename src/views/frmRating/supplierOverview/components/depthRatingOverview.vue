@@ -4,7 +4,7 @@
  * @Date: 2021-05-27 14:47:25
  * @LastEditors: zbin
  * @LastEditTime: 2021-05-27 20:37:54
- * @Descripttion: 财务分析
+ * @Descripttion: 深入评级
 -->
 <template>
   <iCard :title="$t('SUPPLIER_SHENRUPINGJI')">
@@ -40,11 +40,15 @@ export default {
     }
   },
   methods: {
+          handleAnalysis() {
+      this.$emit('show',true)
+    }
    
   },
-  created() {
+  mounted() {
     deepCard().then((res) => {
-      this.info = res.data.deepMap
+      this.info = res.data.deepMap  
+      console.log(this.info)
     })
   }
 }

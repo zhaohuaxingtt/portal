@@ -80,15 +80,12 @@ import supplierKpi from './chartCard/supplierKpi'
 import productivity from './chartCard/productivity'
 import publicOpinion from './chartCard/publicOpinion'
 import eklSupplier from './chartCard/eklSupplier'
-import { iCard, icon } from 'rise'
 import soon from './soon.png'
 
 export default {
   components: {
-    icon,
     supplierKpi,
     publicOpinion,
-    iCard,
     newsMonitor,
     eklSupplier,
     productivity,
