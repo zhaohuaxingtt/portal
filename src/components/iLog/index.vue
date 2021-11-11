@@ -33,7 +33,12 @@
           </el-form-item>
         </el-form>
       </i-search>
-      <el-table :data="tableData" style="width: 100%" class="log-table">
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        class="log-table"
+        v-loading="loading"
+      >
         <el-table-column type="expand">
           <template slot-scope="props">
             {{ props.row.content }}
@@ -77,7 +82,7 @@ export default {
     },
     show: [Boolean],
     isPage: {
-      type: Boolean,
+      type: Boolean, // 是否分页
       default: false
     },
     extendParams: {
@@ -106,7 +111,8 @@ export default {
         pageSizes: [10, 20, 50, 100], //每页条数切换
         currPage: 1, //当前页
         layout: 'sizes, prev, pager, next, jumper'
-      }
+      },
+      loading: false
     }
   },
   computed: {
@@ -177,6 +183,7 @@ export default {
       http.send()
     },
     getList() {
+      this.loading = true
       const http = new XMLHttpRequest()
       const url = `${this.bizLogApiPrefix}/operationLog/${
         this.isPage ? 'findOperaLogs' : 'listOperaLogs'
@@ -194,6 +201,7 @@ export default {
             this.tableData = JSON.parse(http.responseText)?.data || []
           }
         }
+        this.loading = false
       }
       this.query.bizId = this.bizId
       const extendParams = this.extendParams || {}

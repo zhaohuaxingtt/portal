@@ -1,12 +1,7 @@
 <template>
   <iPage>
     <el-button @click="open">open</el-button>
-    <iLog
-      :show.sync="showDialog"
-      :bizId="bizId"
-      :extendParams="{ x: 'y' }"
-      isPage
-    />
+    <iLog :show.sync="showDialog" :bizId="bizId" />
   </iPage>
 </template>
 
