@@ -65,6 +65,7 @@ export default {
                     if(this.$route.query.appId){
                         data.appId = this.$route.query.appId;
                         store.commit("routerMtzData",data);
+                        sessionStorage.setItem("MtzLIst",JSON.stringify(data))
                         relation({
                             mtzAppId:res.data,
                             ttNominateAppId:this.$route.query.appId
@@ -79,6 +80,7 @@ export default {
                         })
                     }else{
                         store.commit("routerMtzData",data);
+                        sessionStorage.setItem("MtzLIst",JSON.stringify(data))
                     }
                     
                     this.$emit("close","")

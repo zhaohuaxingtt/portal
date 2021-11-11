@@ -101,7 +101,7 @@ export default {
             // console.log(this.selectData)
             if (this.selectData.length > 0) {
                 saveMeeting({
-                    mtzAppId:this.$route.query.mtzAppId || this.mtzObject.mtzAppId,
+                    mtzAppId:this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     meetingId:this.selectData[0].id,
                     duration:this.selectData[0].duration,
                     topic:this.selectData[0].name,
