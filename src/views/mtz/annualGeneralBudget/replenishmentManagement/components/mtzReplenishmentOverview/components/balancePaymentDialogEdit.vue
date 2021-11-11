@@ -317,7 +317,7 @@ export default {
       getDataList(data.id).then(res => {
         this.searchForm.firstSupplierName = res.data.supplierSapNo + "-" + res.data.supplierName;//一次件供应商
         this.searchForm.secondSupplierList = res.data.sSupplier;//二次件供应商
-        this.searchForm.materialKindList = res.data.mgroup;//材料中类编号-名称
+        this.searchForm.materialKindList = res.data.mgroup;//材料中类
         this.searchForm.sapOrderNo = res.data.purchaseNo;//sap订单号
         this.searchForm.materialCode = res.data.material;//原材料编号
         this.searchForm.ekGroupList = res.data.purchaseGroup;//采购组
