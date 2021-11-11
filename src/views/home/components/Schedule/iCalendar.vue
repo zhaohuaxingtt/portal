@@ -1,6 +1,7 @@
 <template>
   <div class="i-calendar">
     <v-date-picker
+      :locale="lang"
       :masks="mask"
       :attributes="attributes"
       is-expanded
@@ -81,12 +82,17 @@ export default {
       type:Number
     }
   },
+  computed:{
+    lang() {
+      return this.$i18n.locale
+    }
+  },
   data() {
     return {
       days: 365,
       month: new Date().getMonth() + 1,
       value: new Date(),
-      weekDays: this.disabledDates
+      weekDays: this.disabledDates,
     }
   },
   methods: {
@@ -197,6 +203,9 @@ export default {
   }
   .vc-dot {
     background-color: #FFB500 !important;
+  }
+  .vc-day.is-not-in-month{
+    opacity: 0.5;
   }
 }
 </style>
