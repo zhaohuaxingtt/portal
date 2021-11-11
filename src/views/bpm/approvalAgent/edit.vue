@@ -199,7 +199,6 @@ export default {
   },
   methods: {
     startTimeChange(val) {
-      console.log('startTimeChange', val)
       this.endTimeOptions = {
         disabledDate(time) {
           return (

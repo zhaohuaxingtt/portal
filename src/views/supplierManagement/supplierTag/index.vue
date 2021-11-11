@@ -51,25 +51,61 @@
           }}</iButton>
         </div>
       </div>
-      <tableList style="margin-top: 30px"
-                 :tableData="tabledata"
-                 :tableTitle="Cloum"
-                 @handleSelectionChange="handleSelectionChange"
-                 :tableLoading="tableLoading"
-                 :index="true">
-        <template #isShow="scope">
-          <div class="isShowBtnStyle"
-               @click="handleIs(scope.row)">
-            <icon class="icon"
-                  symbol
-                  :name="scope.row.isShow == 1 ? 'iconxianshi' : 'iconyincang'"></icon>
-          </div>
 
-        </template>
-        <template #halfYear="scope">
-          <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
-        </template>
-      </tableList>
+      <el-table :data="tabledata"
+                v-loading="tableLoading"
+                @selection-change="handleSelectionChange"
+                style="margin-top:30px"
+                :tableTitle="setTagCloum">
+        <el-table-column type="selection"
+                         width="50"
+                         align="center"
+                         :selectable="selectable"></el-table-column>
+        <el-table-column key="BIAOQIANMINGCHENG"
+                         width="150"
+                         align="center"
+                         prop="tagName"
+                         label="标签名称"> </el-table-column>
+        <el-table-column key="BIAOQIANLEIXING"
+                         width="150"
+                         align="center"
+                         prop="tagTypeVale"
+                         label="标签类型"> </el-table-column>
+        <el-table-column key="XITONGPANDUANBIAOZHUN"
+                         width=""
+                         align="center"
+                         prop="halfYear"
+                         label="系统判断标准"> <template slot-scope="scope">
+            <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
+          </template> </el-table-column>
+        <el-table-column width="150"
+                         align="center"
+                         prop="isShow"
+                         :label="
+          language('XIANSHIYINCNAG', '显示/隐藏')
+        ">
+          <template slot="header">
+            <span>{{ language('XIANSHIYINCNAG', '显示/隐藏')}}</span>
+            <el-tooltip placement="top" popper-class="atooltip">
+                <div v-html="text" slot="content"></div>
+              <icon class="icon"
+                    symbol
+                    name="iconxinxitishi"></icon>
+            </el-tooltip>
+          </template>
+          <template slot-scope="scope">
+
+            <div class="isShowBtnStyle"
+                 @click="handleIs(scope.row)">
+
+              <icon class="icon"
+                    symbol
+                    :name="scope.row.isShow == 1 ? 'iconxianshi' : 'iconyincang'"></icon>
+
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
       <iPagination style="margin-top: 20px"
                    v-update
                    @size-change="handleSizeChange($event, sure)"
@@ -102,7 +138,6 @@
 </template>
 
 <script>
-import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import {
   iSearch,
@@ -128,7 +163,6 @@ import {
 export default {
   mixins: [pageMixins],
   components: {
-    tableList,
     iButton,
     iSearch,
     iCard,
@@ -140,6 +174,7 @@ export default {
   },
   data() {
     return {
+        text:'显示：显示的供应商标签会在界面中展示;<br/> 隐藏：隐藏的供应商标签不会在界面中展示。',
       tagName: '',
       isAdd: false,
       selectTableData: [],
@@ -227,7 +262,7 @@ export default {
       })
     },
     handleAdd() {
-        this.tagName=''
+      this.tagName = ''
       this.isAdd = true
       this.getTagListObj()
     },
@@ -274,6 +309,11 @@ export default {
     },
     closeDiolog() {
       this.isAdd = false
+    },
+    selectable(val) {
+      if (val.tagTypeVale == '手工维护') {
+        return true
+      }
     }
   }
 }
@@ -382,6 +422,10 @@ export default {
     right: 0;
   }
 }
+::v-deep.atooltip {
+  background: #fff !important;
+}
+
 .clearfix:after {
   content: '020';
   display: block;
