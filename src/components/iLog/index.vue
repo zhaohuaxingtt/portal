@@ -15,7 +15,7 @@
       >
         <el-form row="1" :model="query" ref="queryForm">
           <el-form-item :label="'操作类型'">
-            <el-select
+            <iSelect
               v-model="query.type"
               filterable
               placeholder="请选择（支持搜索）"
@@ -26,59 +26,53 @@
                 :label="item.value"
                 :value="item.code"
               ></el-option>
-            </el-select>
+            </iSelect>
           </el-form-item>
           <el-form-item :label="'操作人'">
             <i-input :placeholder="'请输入'" v-model="query.creator" />
           </el-form-item>
         </el-form>
       </i-search>
-      <el-table :data="tableData" style="width: 100%" class="log-table">
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        class="log-table"
+        v-loading="loading"
+      >
         <el-table-column type="expand">
           <template slot-scope="props">
             {{ props.row.content }}
           </template>
         </el-table-column>
-        <el-table-column
-          label="模块"
-          prop="module"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          label="操作类型"
-          prop="typeName"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          label="操作人"
-          prop="creator"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          label="请求时间"
-          prop="rqTime"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          label="响应时间"
-          prop="respTime"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          label="结果"
-          prop="result"
-          align="center"
-        ></el-table-column>
+        <el-table-column label="模块" prop="module" align="center" />
+        <el-table-column label="操作类型" prop="typeName" align="center" />
+        <el-table-column label="操作人" prop="creator" align="center" />
+        <el-table-column label="请求时间" prop="rqTime" align="center" />
+        <el-table-column label="响应时间" prop="respTime" align="center" />
+        <el-table-column label="结果" prop="result" align="center" />
       </el-table>
+      <div slot="footer">
+        <iPagination
+          v-update
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          background
+          :current-page="page.currPage"
+          :page-sizes="page.pageSizes"
+          :page-size="page.pageSize"
+          :layout="page.layout"
+          :total="page.totalCount"
+        />
+      </div>
     </iDialog>
   </div>
 </template>
 
 <script>
-import { iDialog, iSearch, iInput } from 'rise'
+import { iDialog, iSearch, iInput, iSelect, iPagination } from 'rise'
 
 export default {
-  components: { iDialog, iSearch, iInput },
+  components: { iDialog, iSearch, iInput, iSelect, iPagination },
   props: {
     bizId: {
       type: Number,
@@ -87,6 +81,10 @@ export default {
       }
     },
     show: [Boolean],
+    isPage: {
+      type: Boolean, // 是否分页
+      default: false
+    },
     extendParams: {
       type: Object,
       default: function() {
@@ -106,7 +104,15 @@ export default {
         type: '',
         creator: ''
       },
-      options: []
+      options: [],
+      page: {
+        totalCount: 0, //总条数
+        pageSize: 10, //每页多少条
+        pageSizes: [10, 20, 50, 100], //每页条数切换
+        currPage: 1, //当前页
+        layout: 'sizes, prev, pager, next, jumper'
+      },
+      loading: false
     }
   },
   computed: {
@@ -136,6 +142,9 @@ export default {
   methods: {
     sure() {
       if (this.query.type || this.query.creator) {
+        if (this.isPage) {
+          this.page.currPage = 1
+        }
         this.getList()
       }
     },
@@ -144,6 +153,9 @@ export default {
         this.query = {
           type: '',
           creator: ''
+        }
+        if (this.isPage) {
+          this.page.currPage = 1
         }
         this.getList()
       }
@@ -171,22 +183,44 @@ export default {
       http.send()
     },
     getList() {
-      console.log('bizId', this.bizId)
+      this.loading = true
       const http = new XMLHttpRequest()
-      const url = `${this.bizLogApiPrefix}/operationLog/listOperationLogs`
+      const url = `${this.bizLogApiPrefix}/operationLog/${
+        this.isPage ? 'findOperaLogs' : 'listOperaLogs'
+      }`
+
       http.open('POST', url, true)
       http.setRequestHeader('content-type', 'application/json')
       http.onreadystatechange = () => {
         if (http.readyState === 4) {
-          this.tableData = JSON.parse(http.responseText)
+          if (this.isPage) {
+            const { data } = JSON.parse(http.responseText)
+            this.tableData = data.content || []
+            this.page.totalCount = data.total
+          } else {
+            this.tableData = JSON.parse(http.responseText)?.data || []
+          }
         }
+        this.loading = false
       }
       this.query.bizId = this.bizId
       const extendParams = this.extendParams || {}
       const sendData = {
         extendFields: { ...this.query, ...extendParams }
       }
+      if (this.isPage) {
+        sendData.current = this.page.currPage - 1
+        sendData.size = this.page.pageSize
+      }
       http.send(JSON.stringify(sendData))
+    },
+    handleSizeChange(val) {
+      this.page.pageSize = val
+      this.getList()
+    },
+    handleCurrentChange(val) {
+      this.page.currPage = val
+      this.getList()
     }
   }
 }

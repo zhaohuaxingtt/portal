@@ -1,13 +1,13 @@
 <template>
   <iPage>
     <el-button @click="open">open</el-button>
-    <iLog :show.sync="showDialog" :bizId="bizId" :extendParams="{ x: 'y' }" />
+    <iLog :show.sync="showDialog" :bizId="bizId" />
   </iPage>
 </template>
 
 <script>
-import { iPage, iLog } from 'rise'
-// import iLog from '@/components/iLog'
+import { iPage } from 'rise'
+import iLog from '@/components/iLog'
 export default {
   data() {
     return {
