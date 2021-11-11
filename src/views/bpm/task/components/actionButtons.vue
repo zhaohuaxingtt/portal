@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { MAP_APPROVAL_TYPE, BPM_SINGL_CATEGORY_LIST } from '@/constants'
+import { MAP_APPROVAL_TYPE } from '@/constants'
 import { iButton } from 'rise'
 
 export default {
@@ -54,10 +54,10 @@ export default {
   },
   computed: {
     isHideAppendButton() {
-      return this.categoryList === 'meeting_rs_recheck'
+      return this.categoryList === 'meeting_recheck_m_sign'
     },
     isRefuseButton() {
-      return this.categoryList === 'meeting_recheck_m_sign'
+      return this.categoryList === 'meeting_rs_recheck'
     },
     approvalText() {
       if (this.categoryList === 'meeting_rs_recheck') {
