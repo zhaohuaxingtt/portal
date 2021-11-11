@@ -67,7 +67,7 @@
         data() {
             return {
                 tabRouterList,
-                btnsgroup1: ['CSM', 'Linie'],
+                btnsgroup1: [],
                 indexBtn: 0,
                 currentView: '',
                 username: '8',

@@ -126,25 +126,28 @@ export default {
   },
   watch: {
     mtzObject(newValue,oldValue){
-      if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined){
+      if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined){
       }else{
-        this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId
+        this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       }
       this.getType();
     }
   },
   created() {
-    if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined){
+    if(JSON.parse(sessionStorage.getItem('MtzLIst')) == null){
+      sessionStorage.setItem('MtzLIst',JSON.stringify({mtzAppId:undefined}))
+    }
+    if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined){
       this.beforReturn = true;
     }else{
       this.beforReturn = false;
-      this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId
+      this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+      this.getType();
     }
-    this.getType();
   },
   methods: {
     getType(){
-      getAppFormInfo({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res=>{
+      getAppFormInfo({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId}).then(res=>{
         this.flowType = res.data.flowType;
       })
     },
@@ -184,7 +187,7 @@ export default {
               confirmButtonText:this.language('QUEREN', '确认'),
           }).then(() => {
               mtzAppNomiSubmit({
-                mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+                mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
               }).then(res=>{
                 if(res.result && res.code == 200){
                   iMessage.success(this.language(res.desEn,res.desZh))
@@ -203,7 +206,7 @@ export default {
         path: data.url,
         query: {
           currentStep: data.id,
-          mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
           appId:this.$route.query.appId || this.mtzObject.appId,
           flowType:this.$route.query.flowType
         }
@@ -218,6 +221,7 @@ export default {
         data.refresh = true;
         console.log(data);
         store.commit("routerMtzData",data);
+        sessionStorage.setItem("MtzLIst",JSON.stringify(data))
       }
       this.closeDiolog()
     },

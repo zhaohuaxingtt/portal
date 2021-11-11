@@ -108,7 +108,7 @@
             return {
                 form: {
                     title: '', // 描述
-                    status: [2, 3, 4, 11, 99],        // 状态
+                    status: [0, 2, 3, 4, 11],        // 状态
                     createByName: '', // 发起人
                     billType: '', // 单据类型
                     type: '', // 业务类型
@@ -166,7 +166,7 @@
         methods: {
             handleSearchReset() {
                 this.form = {}
-                this.form.status = [2,3,4,11,99]
+                this.$set(this.form,'status',[0, 2, 3, 4, 11])
                 this.getTableList();
             },
             // get 状态

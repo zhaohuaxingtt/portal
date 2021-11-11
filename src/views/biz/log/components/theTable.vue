@@ -68,8 +68,9 @@ export default {
       const res = await fetchBizLog(requestData).finally(
         () => (this.tableLoading = false)
       )
-      this.tableData = res.content || []
-      this.page.totalCount = res.total
+      const { data } = res
+      this.tableData = data.content || []
+      this.page.totalCount = data.total
     }
   }
 }

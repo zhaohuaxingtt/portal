@@ -8,14 +8,14 @@
       {{ approvalText }}
     </iButton>
     <iButton
-      v-show="taskType === 0 && !isSpecial"
+      v-show="taskType === 0 && !isRefuseButton"
       :disabled="selectedRow.length !== 1"
       @click="$emit('complete', approvalTypeMap.REFUSE)"
     >
       {{ refuseText }}
     </iButton>
     <iButton
-      v-show="taskType === 0"
+      v-show="taskType === 0 && !isHideAppendButton"
       :disabled="selectedRow.length !== 1"
       @click="$emit('complete', approvalTypeMap.APPREND_DATA)"
     >
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { MAP_APPROVAL_TYPE, BPM_SINGL_CATEGORY_LIST } from '@/constants'
+import { MAP_APPROVAL_TYPE } from '@/constants'
 import { iButton } from 'rise'
 
 export default {
@@ -49,33 +49,37 @@ export default {
   },
   data() {
     return {
-      approvalTypeMap: MAP_APPROVAL_TYPE
+      approvalTypeMap: MAP_APPROVAL_TYPE,
+      hideAppendButtonList: ['meeting_recheck_m_sign'],
+      hideRefuseButtonList: ['meeting_rs_recheck']
     }
   },
   computed: {
-    isSpecial() {
-      return BPM_SINGL_CATEGORY_LIST.includes(this.categoryList)
+    isHideAppendButton() {
+      // 生产采购 CSC RS单
+      return this.hideAppendButtonList.includes(this.categoryList)
+    },
+    isRefuseButton() {
+      // 生产采购 CSC RS单复核
+      return this.hideRefuseButtonList.includes(this.categoryList)
     },
     approvalText() {
-      if (this.isSpecial) {
+      if (this.categoryList === 'meeting_rs_recheck') {
         return this.language('无异议')
-      } else {
-        return this.language('批准')
       }
+      return this.language('批准')
     },
     refuseText() {
-      if (this.isSpecial) {
+      if (this.categoryList === 'meeting_rs_recheck') {
         return this.language('有异议')
-      } else {
-        return this.language('拒绝')
       }
+      return this.language('拒绝')
     },
     appendText() {
-      if (this.isSpecial) {
+      if (this.categoryList === 'meeting_rs_recheck') {
         return this.language('有异议')
-      } else {
-        return this.language('补充材料')
       }
+      return this.language('补充材料')
     }
   }
 }

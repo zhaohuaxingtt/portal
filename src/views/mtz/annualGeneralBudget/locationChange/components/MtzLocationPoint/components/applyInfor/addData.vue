@@ -18,7 +18,8 @@
                 />
             </iFormItem>
             <iFormItem prop="sapCode">
-                <iLabel :label="language('GONGYINGSHANGBIANHAOMINGCHENG','供应商编号/名称')" :required="true" slot="label"></iLabel>
+                 <!-- :required="true" -->
+                <iLabel :label="language('GONGYINGSHANGBIANHAOMINGCHENG','供应商编号/名称')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.sapCode"
                 type="text"
@@ -27,7 +28,7 @@
                 />
             </iFormItem>
             <iFormItem prop="ruleNo">
-                <iLabel :label="language('GUIZEBIANHAO','规则编号')" :required="true" slot="label"></iLabel>
+                <iLabel :label="language('GUIZEBIANHAO','规则编号')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.ruleNo"
                 type="text"
@@ -36,7 +37,7 @@
                 />
             </iFormItem>
             <iFormItem prop="priceUnit">
-                <iLabel :label="language('MEI','每')" :required="true" slot="label"></iLabel>
+                <iLabel :label="language('MEI','每')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.priceUnit"
                 type="number"
@@ -45,7 +46,7 @@
                 />
             </iFormItem>
             <iFormItem prop="partUnit">
-                <iLabel :label="language('LINGJIANSHULIANGDANWEI','零件数量单位')" :required="true" slot="label"></iLabel>
+                <iLabel :label="language('LINGJIANSHULIANGDANWEI','零件数量单位')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.partUnit"
                 type="text"
@@ -339,7 +340,7 @@ export default {components: {
     handleSave() {
         addPartMasterData({
             ...this.contractForm,
-            ttMtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+            ttMtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
         }).then(res=>{
             console.log(res);
             this.$emit("close","fresh")
