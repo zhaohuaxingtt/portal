@@ -281,46 +281,11 @@ module.exports = {
         }
       },
       // #零件生命周期
-      [process.env.VUE_APP_PARTSCARD]: {
-        target: `http://192.168.50.160:8037`,
+      [process.env.VUE_APP_PARTLIFECYCLEAPI]: {
+        target: `http://${BASE_DOMAN}:8037/risedashboard/web`,
         changeOrigin: true,
         pathRewrite: {
-          ['^/' + process.env.VUE_APP_PARTSCARD]: ''
-        }
-      },
-      [process.env.VUE_APP_PARTSRECORD]: {
-        target: `http://192.168.50.160:8037`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^/' + process.env.VUE_APP_PARTSRECORD]: ''
-        }
-      },
-      [process.env.VUE_APP_PARTSPROCESS]: {
-        target: `http://192.168.50.160:8037`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^/' + process.env.VUE_APP_PARTSPROCESS]: ''
-        }
-      },
-      [process.env.VUE_APP_PARTSFOLDER]: {
-        target: `http://192.168.50.160:8037`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^/' + process.env.VUE_APP_PARTSFOLDER]: ''
-        }
-      },
-      [process.env.VUE_APP_PARTSCOLLECT]: {
-        target: `http://192.168.50.160:8037`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^/' + process.env.VUE_APP_PARTSCOLLECT]: ''
-        }
-      },
-      [process.env.VUE_APP_RELATIONPARTS]: {
-        target: `http://192.168.50.160:8037`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^/' + process.env.VUE_APP_RELATIONPARTS]: ''
+          ['^' + process.env.VUE_APP_PARTLIFECYCLEAPI]: ''
         }
       }
     }
