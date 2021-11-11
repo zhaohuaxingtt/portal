@@ -95,12 +95,9 @@
           </el-form-item>
           <el-form-item v-if="tabVal==2"
                         :label="language('SHIFOUCRATING', '是否C-Rating')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+            <iSelect :placeholder="language('QINGXUANZE', '请选择')"
                      v-model.trim="form.iscRating">
-              <el-option v-for="item in isCrating"
+              <el-option v-for="item in isCratingList"
                          :key="item.code"
                          :label="item.name"
                          :value="item.code">
@@ -122,7 +119,7 @@
 
           </el-form-item>
           <el-form-item v-if="tabVal==2"
-                        :label="language('YICHUCRATINGYUANYIN', '移除C-Rating原因')">
+                        :label="language('YICHUCRATINGYUANYIN', '移出C-Rating原因')">
             <iSelect collapse-tags
                      filterable
                      multiple
@@ -138,15 +135,12 @@
           </el-form-item>
           <el-form-item v-if="tabVal==2"
                         :label="language('GONGYINGSHANGZHUANGTAI', '供应商状态')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+            <iSelect :placeholder="language('QINGXUANZE', '请选择')"
                      v-model.trim="form.rfqStatus">
               <el-option v-for="item in supplierStatus"
-                         :key="item.id"
+                         :key="item.code"
                          :label="item.name"
-                         :value="item.id">
+                         :value="item.code">
               </el-option>
             </iSelect>
 
@@ -234,7 +228,7 @@
         </span>
         <iButton v-if="tabVal==1"
                  @click="handleSaveBtn">{{
-          language('YICHUCRATING', '移除C-Rating')
+          language('YICHUCRATING', '移出C-Rating')
         }}</iButton>
       </div>
       <table-list v-if="tabVal == 1"
@@ -245,10 +239,11 @@
                   :tableLoading="tableLoading"
                   :index="true">
         <template #ratingSource='scope'>
-          <span v-if="scope.row.ratingSource!='100'">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
+          <span v-if="scope.row.ratingSource!='100'&&scope.row.ratingSource!=null">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
           <span v-if="scope.row.ratingSource=='100'">深入评级- <icon class="early"
                   symbol
                   name="iconcaiwuyujing-hongdeng"></icon></span>
+
         </template>
 
       </table-list>
@@ -260,7 +255,7 @@
                   :index="true"
                   :selection="false">
         <template #ratingSource='scope'>
-          <span v-if="scope.row.ratingSource!='100'">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
+          <span v-if="scope.row.ratingSource!='100'&&scope.row.ratingSource!=null">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
           <span v-if="scope.row.ratingSource=='100'">深入评级- <icon class="early"
                   symbol
                   name="iconcaiwuyujing-hongdeng"></icon></span>
@@ -277,7 +272,7 @@
              width="85%">
       <div class="section-box">
         <div>
-          <span>{{ language('YICHUYUANYIN', '移除原因') }}
+          <span>{{ language('YICHUYUANYIN', '移出原因') }}
             <span style="color:red">*</span></span>
         </div>
         <iButton @click="handleSave">{{
@@ -328,21 +323,27 @@ export default {
       form: {
         sapCode: [],
         supplierName: [],
-        supplierId: []
+        isCrating: '',
+        supplierId: [],
+        rfqStatus: ''
       },
-      cratingLsit: [],
+      cratingLsit: [{ name: '' }],
       tableLoading: true,
       sapList: [],
       takeStepsContent: '',
       deptList: [],
       userList: [],
       supplierList: [],
-      supplierStatus: [],
       selectData: [],
-      isCrating: [
+      isCratingList: [
+        { code: '', name: this.language('QUANBU', '全部') },
         { code: 1, name: this.language('SHI', '是') },
-        { code: 0, name: this.language('FOU', '否') },
-        { code: '', name: this.language('QUANBU', '全部') }
+        { code: 0, name: this.language('FOU', '否') }
+      ],
+      supplierStatus: [
+        { code: '', name: this.language('QUANBU', '全部') },
+        { code: 0, name: this.language('WEIBAOJIA', '未报价') },
+        { code: 1, name: this.language('XUNJIAZHONG', '询价中') }
       ]
     }
   },
@@ -358,12 +359,14 @@ export default {
       })
       const res = await dictByCode('C_RATING')
       this.cratingLsit = res
+      console.log(this.cratingLsit)
     },
 
     handleDialog() {
       this.visible = true
       this.getInit()
     },
+    //获取科室
     getDeptList() {
       const req = {
         level: 'K2'
@@ -372,6 +375,7 @@ export default {
         this.deptList = res.data
       })
     },
+    //选择相关科室
     deptChange(v) {
       console.log(v)
       var arr = []
@@ -411,12 +415,11 @@ export default {
       }
     },
     async getInit() {
-      this.getDeptList()
       this.getTaleList()
-
+      this.getDeptList()
       const res2 = await sapDropDown({ type: 'sap' })
       const res3 = await sapDropDown({ type: 'supplier' })
-      const res4 = await dictByCode('RFQ_STATE')
+      //   const res4 = await dictByCode('RFQ_STATE')
       const resPart = await sapDropDown({ type: 'part' })
       const resRfq = await sapDropDown({ type: 'rfq' })
       const resProject = await sapDropDown({ type: 'project' })
@@ -427,8 +430,7 @@ export default {
       this.motorList = resMotor.data
       this.sapList = res2.data
       this.supplierList = res3.data
-      this.supplierStatus = res4
-      console.log(res4)
+      //   this.supplierStatus = res4
     },
     handleSelectionChange(val) {
       this.selectData = val
@@ -587,10 +589,10 @@ export default {
         supplierId: [],
         deptId: [],
         userId: [],
-        isCrating: [],
+        isCrating: '',
         ratingSource: [],
         cancelReason: [],
-        rfqStatus: [],
+        rfqStatus: '',
         partNum: [],
         rfq: [],
         motorProject: [],

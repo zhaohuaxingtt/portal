@@ -62,9 +62,7 @@
                   v-loading="tableLoading"
                   @selection-change="handleSelectionChange"
                   style="margin-top:30px"
-                  :tableTitle="setTagCloum"
-                  :tableLoading="tableLoadingDel"
-                  :index="true">
+                  :tableTitle="setTagCloum">
           <el-table-column type="selection"
                            width="50"
                            align="center"
@@ -82,7 +80,7 @@
           <el-table-column key="XITONGPANDUANBIAOZHUN"
                            width=""
                            align="center"
-                           prop="halfYear"
+                           prop="tagDesc"
                            label="系统判断标准"> <template slot-scope="scope">
               <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
             </template> </el-table-column>
@@ -94,7 +92,11 @@
         ">
             <template slot="header">
               <span>{{ language('XIANSHIYINCNAG', '显示/隐藏')}}</span>
-              <el-tooltip content="显示：显示的供应商标签会在界面中展示; 隐藏：隐藏的供应商标签不会在界面中展示。">
+
+              <el-tooltip placement="top"
+                          popper-class="atooltip">
+                <div v-html="text"
+                     slot="content"></div>
                 <icon class="icon"
                       symbol
                       name="iconxinxitishi"></icon>
@@ -153,6 +155,7 @@ export default {
   },
   data() {
     return {
+      text: '显示：显示的供应商标签会在界面中展示;<br/> 隐藏：隐藏的供应商标签不会在界面中展示。',
       tabledata: [],
       setTagCloum: setTagCloum,
       tableLoading: false,
@@ -248,7 +251,7 @@ export default {
       this.getList()
     },
     selectable(val) {
-      if (val.isBinding != 1) {
+      if (val.isBinding != 1 && val.tagTypeVale == '手工维护') {
         return true
       }
     }

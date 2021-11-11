@@ -1,7 +1,7 @@
 <template>
 <div v-loading="BoxLoading">
     <div class="tabsBoxInfor">
-        <div class="inforDiv" v-for="(item,index) in tabs2InforList" :key="index">
+        <div :style="item.prop == 'actuallyTotalAmt' ? {fontWeight: 'bold'} : null" class="inforDiv" v-for="(item,index) in tabs2InforList" :key="index">
             <span>{{item.name}}</span>
             <div class="inforText" v-if="item.prop == 'monthFromTo' && inforData['monthFromTo']">{{tranNumber(inforData['monthFromTo'],true)}}~{{tranNumber(inforData['monthFromTo'],false)}}</div>
             <!-- <div class="inforText" v-if="item.prop == 'monthFromTo'">{{inforData["monthFrom"]}}~{{inforData["monthTo"]}}</div> -->
@@ -24,6 +24,9 @@
         :index="true">
         <template slot="pianyiqujian" slot-scope="scope">
             <span v-if="!scope.row.offsetFlag == '否'">{{scope.row.effPriceFrom}}~{{scope.row.effPriceTo}}</span>
+        </template>
+        <template #pieceSupplierSap="scope">
+          {{scope.row.pieceSupplierSap}} - {{scope.row.pieceSupplierName}}
         </template>
     </tableList>
     <iPagination

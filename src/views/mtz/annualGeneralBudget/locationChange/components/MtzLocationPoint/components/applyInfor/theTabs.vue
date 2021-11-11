@@ -34,6 +34,10 @@
                          show-overflow-tooltip
                          width="150"
                          :label="language('GUIZEBIANHAO','规则编号')">
+            <template slot-scope="scope">
+                <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <span v-else>{{scope.row.ruleNo}}</span>
+            </template>
         </el-table-column>
 
         <el-table-column prop="effectFlag"
@@ -45,7 +49,7 @@
                 <el-select v-model="scope.row.effectFlag"
                          clearable
                          :placeholder="language('QINGSHURU', '请输入')"
-                         v-if="editId.indexOf(scope.row.ruleNo)!==-1"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
                         >
                     <el-option
                         v-for="item in effectFlag"
@@ -67,7 +71,7 @@
                 <el-select v-model="scope.row.materialGroup"
                          clearable
                          :placeholder="language('QINGSHURU', '请输入')"
-                         v-if="editId.indexOf(scope.row.ruleNo)!==-1"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
                         >
                     <el-option
                         v-for="item in materialGroup"
@@ -85,7 +89,7 @@
                          show-overflow-tooltip
                          width="150">
             <template slot-scope="scope">
-                <iInput v-model="scope.row.carline" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput v-model="scope.row.carline" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.carline}}</span>
             </template>
         </el-table-column>
@@ -95,7 +99,7 @@
                          :label="language('GONGYINGSHANGBIANHAO','供应商编号')"
                          show-overflow-tooltip>
              <template slot-scope="scope">
-                <iInput v-model="scope.row.supplierId" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput v-model="scope.row.supplierId" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.supplierId}}</span>
             </template>
         </el-table-column>
@@ -105,7 +109,7 @@
                          :label="language('GONGYINGSHANGMINGCHENG','供应商名称')"
                          show-overflow-tooltip>
              <template slot-scope="scope">
-                <iInput v-model="scope.row.trueCompMoney" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput v-model="scope.row.trueCompMoney" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.trueCompMoney}}</span>
             </template>
         </el-table-column>
@@ -118,7 +122,7 @@
                 <el-select v-model="scope.row.materialCode"
                          clearable
                          :placeholder="language('QINGSHURU', '请输入')"
-                         v-if="editId.indexOf(scope.row.ruleNo)!==-1"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
                         >
                     <el-option
                         v-for="item in materialCode"
@@ -145,7 +149,7 @@
                          :label="language('JIJIA','基价')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.price" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput type="number" v-model="scope.row.price" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.price}}</span>
             </template>
         </el-table-column>
@@ -155,7 +159,7 @@
                          :label="language('JIJIAJILIANGDANWEI','基价计量单位')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.priceMeasureUnit" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput v-model="scope.row.priceMeasureUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.priceMeasureUnit}}</span>
             </template>
         </el-table-column>
@@ -177,7 +181,7 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.platinumPrice" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput type="number" v-model="scope.row.platinumPrice" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.platinumPrice}}</span>
             </template>
         </el-table-column>
@@ -199,7 +203,7 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.platinumDosage" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput type="number" v-model="scope.row.platinumDosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.platinumDosage}}</span>
             </template>
         </el-table-column>
@@ -221,7 +225,7 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.palladiumPrice" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput type="number" v-model="scope.row.palladiumPrice" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.palladiumPrice}}</span>
             </template>
         </el-table-column>
@@ -243,7 +247,7 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.palladiumDosage" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput type="number" v-model="scope.row.palladiumDosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.palladiumDosage}}</span>
             </template>
         </el-table-column>
@@ -265,7 +269,7 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.rhodiumPrice" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput type="number" v-model="scope.row.rhodiumPrice" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.rhodiumPrice}}</span>
             </template>
         </el-table-column>
@@ -288,7 +292,7 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.rhodiumDosage" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput type="number" v-model="scope.row.rhodiumDosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.rhodiumDosage}}</span>
             </template>
         </el-table-column>
@@ -299,7 +303,7 @@
                          :label="language('HUOBI','货币')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.tcCurrence" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput v-model="scope.row.tcCurrence" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.tcCurrence}}</span>
             </template>
         </el-table-column>
@@ -309,7 +313,7 @@
                          :label="language('HUILV','汇率')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.tcExchangeRate" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput type="number" v-model="scope.row.tcExchangeRate" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.tcExchangeRate}}</span>
             </template>
         </el-table-column>
@@ -319,7 +323,7 @@
                          :label="language('SHICHANGJIALAIYUAN','市场价来源')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.source" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput v-model="scope.row.source" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.source}}</span>
             </template>
         </el-table-column>
@@ -329,7 +333,7 @@
                          :label="language('BUCHAXISHU','补差系数')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.compensationRatio" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput v-model="scope.row.compensationRatio" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.compensationRatio}}</span>
             </template>
         </el-table-column>
@@ -342,7 +346,7 @@
                 <el-select v-model="scope.row.compensationPeriod"
                          clearable
                          :placeholder="language('QINGSHURU', '请输入')"
-                         v-if="editId.indexOf(scope.row.ruleNo)!==-1"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
                         >
                     <el-option
                         v-for="item in compensationPeriod"
@@ -360,7 +364,7 @@
                          :label="language('YUZHI','阈值')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.threshold" v-if="editId.indexOf(scope.row.ruleNo)!==-1"></iInput>
+                <iInput v-model="scope.row.threshold" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.threshold}}</span>
             </template>
         </el-table-column>
@@ -373,7 +377,7 @@
                 <el-select v-model="scope.row.thresholdCompensationLogic"
                          clearable
                          :placeholder="language('QINGSHURU', '请输入')"
-                         v-if="editId.indexOf(scope.row.ruleNo)!==-1"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
                         >
                     <el-option
                         v-for="item in thresholdCompensationLogic"
@@ -393,7 +397,7 @@
             <template slot-scope="scope">
                 <iDatePicker v-model="scope.row.startDate"
                             type="datetime"
-                            v-if="editId.indexOf(scope.row.ruleNo)!==-1"
+                            v-if="editId.indexOf(scope.row.id)!==-1"
                             >
                 </iDatePicker>
                 <span v-else>{{scope.row.startDate}}</span>
@@ -407,7 +411,7 @@
             <template slot-scope="scope">
                 <iDatePicker v-model="scope.row.endDate"
                             type="datetime"
-                            v-if="editId.indexOf(scope.row.ruleNo)!==-1"
+                            v-if="editId.indexOf(scope.row.id)!==-1"
                             >
                 </iDatePicker>
                 <span v-else>{{scope.row.endDate}}</span>
@@ -457,7 +461,8 @@ import {
   pageAppRule,//维护MTZ原材料规则-分页查询
   updateAppRule,
   addBatchAppRule,//维护MTZ原材料规则-批量新增
-  deleteAppRule,//列表删除
+  deleteAppRule,//列表删除,
+  modifyAppRule
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
@@ -547,13 +552,15 @@ export default {
         this.addDialog = true;
     },
     edit(){//编辑
-        if(this.selectList.length==1){
-            // this.selectData = deepClone(this.selectList[0]);
-            this.editId = this.selectList[0].ruleNo;
+        if(this.selectList.length>0){
             this.editType = true;
-            this.dialogEditType = false;
+            var changeArrayList = [];
+            this.selectList.forEach(item => {
+                changeArrayList.push(item.id);
+            })
+            this.editId = changeArrayList;
         }else{
-            iMessage.error("请选择且只能选择一条数据！")
+            iMessage.error("请选择需要修改数据！")
         }
     },
     save(){//保存
@@ -561,21 +568,26 @@ export default {
             confirmButtonText: this.language('QUEREN', '确认'),
             cancelButtonText: this.language('QUXIAO', '取消')
         }).then(res=>{
-            if(this.dialogEditType){
+            if(this.dialogEditType){//新增
                 addBatchAppRule({
-                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     mtzAppNomiAppRuleList:this.newDataList
                 }).then(res=>{
-                    this.editId = "";
-                    this.editType = false;
-                    this.page.currPage = 1;
-                    this.page.pageSize = 10;
-                    this.getTableList();
+                    if(res == 200){
+                        iMessage.success(res.message)
+                        this.editId = "";
+                        this.editType = false;
+                        this.page.currPage = 1;
+                        this.page.pageSize = 10;
+                        this.getTableList();
+                    }else{
+                        iMessage.error(res.message)
+                    }
                 })
-            }else{
-                updateAppRule({
-                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-                    ...this.selectList[0]
+            }else{//编辑
+                modifyAppRule({
+                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                    mtzAppNomiAppRuleList:this.selectList
                 }).then(res=>{
                     if(res.code == 200){
                         this.editId = "";
@@ -621,7 +633,7 @@ export default {
         var changeArrayList = [];
         this.$refs.moviesTable.clearSelection();
         val.forEach(item => {
-            changeArrayList.push(item.ruleNo);
+            changeArrayList.push(item.id);
             this.$refs.moviesTable.toggleRowSelection(item, true);
         })
         this.editId = changeArrayList;
@@ -669,7 +681,6 @@ export default {
         this.saveGzDialog();
     },
     selectionType(row){
-        // if(row.id == this.editId && this.editType == true){
         if(this.editType == true){
             return false;
         }else{
@@ -682,7 +693,7 @@ export default {
         pageAppRule({
             pageNo: this.page.currPage,
             pageSize: this.page.pageSize,
-            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
             sortType:"DESC",
             sortColumn:"id"
         }).then(res=>{
@@ -705,7 +716,6 @@ export default {
     },
     handleSelectionChange(val){
         this.selectList = val;
-        console.log(val);
     }
   }
 }
