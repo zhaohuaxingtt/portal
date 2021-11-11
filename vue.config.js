@@ -282,7 +282,7 @@ module.exports = {
       },
       // #零件生命周期
       [process.env.VUE_APP_PARTLIFECYCLEAPI]: {
-        target: `http://${BASE_DOMAN}:8037/risedashboard/web`,
+        target: `http://192.168.50.162:8037`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_PARTLIFECYCLEAPI]: ''
