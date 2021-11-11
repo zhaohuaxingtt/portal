@@ -79,6 +79,7 @@ import { tabsInforList } from "./data";
 import theTabs from "./theTabs";
 import theDataTabs from "./theDataTabs";
 import partApplication from "./partApplication";
+import store from "@/store";
 
 import {
   getAppFormInfo,
@@ -163,6 +164,7 @@ export default {
   },
   created () {
     this.init()
+    this.getListData()
     if(this.$route.query.appId){
       this.appIdType = false;
     }
@@ -182,7 +184,7 @@ export default {
         } else {
           this.applyNumber = res.data.ttNominateAppId;
         }
-
+        store.commit("submitBtnType",res.data.flowType);
         // NOTPASS
         if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
           this.showType = true;
@@ -191,6 +193,9 @@ export default {
         this.inforData.appName = res.data.appName
         this.inforData.flowType = res.data.flowType
       })
+      
+    },
+    getListData(){
       getFlowTypeList({}).then(res => {
         this.getFlowTypeList = res.data;
       })
@@ -216,6 +221,7 @@ export default {
           console.log(res);
           iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功！'))
           this.disabled = true;
+          this.init();
         })
       }).catch(res => {
 
