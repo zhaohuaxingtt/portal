@@ -130,7 +130,8 @@ export default {
             getMettingList({
                 meetingTypeEnum:this.changeValue,
                 pageNum: this.page.currPage,
-                pageSize: this.page.pageSize
+                pageSize: this.page.pageSize,
+                states:["02"]
             }).then(res=>{
                 // console.log(res);
                 this.tableListData = res.data;

@@ -189,7 +189,7 @@ export const tableRightTitle = [
 export const tableTitleHistory = [
   {
     width: 150,
-    props: 'assemblyPartName',
+    props: 'assemblyPartnum',
     name: '一次件零件号',
     key: 'YICIJIANLINGJIANHAO'
   },

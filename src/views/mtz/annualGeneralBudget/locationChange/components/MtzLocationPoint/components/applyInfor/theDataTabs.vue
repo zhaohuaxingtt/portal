@@ -793,7 +793,7 @@ export default {
         val.forEach((item,index) => {
             if(list[index] == undefined){
                 list[index] = {};
-                list[index].assemblyPartnum = item.assemblyPartName;
+                list[index].assemblyPartnum = item.assemblyPartnum;
                 list[index].id = "";
                 list[index].supplierName = item.assemblySupplierName;
                 list[index].sapCode = item.assemblySupplierSap;
