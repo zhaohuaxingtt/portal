@@ -80,15 +80,12 @@ import supplierKpi from './chartCard/supplierKpi'
 import productivity from './chartCard/productivity'
 import publicOpinion from './chartCard/publicOpinion'
 import eklSupplier from './chartCard/eklSupplier'
-import { iCard, icon } from 'rise'
 import soon from './soon.png'
 
 export default {
   components: {
-    icon,
     supplierKpi,
     publicOpinion,
-    iCard,
     newsMonitor,
     eklSupplier,
     productivity,
@@ -98,13 +95,19 @@ export default {
     sampleDelivery,
     contract
   },
+  data() {
+    return {
+      soon: soon,
+      infodata: {}
+    }
+  },
   props: {
-    // financialEarlyWarningVO: {
-    //   type: Object,
-    //   default: () => {
-    //     return {}
-    //   }
-    // },
+    financialEarlyWarningVO: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     supplier360ViewVO: {
       type: Object,
       default: () => {
@@ -112,21 +115,12 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      soon: soon,
-      infodata: {}
-    }
-  },
   watch: {
     supplier360ViewVO(data) {
-      console.log(data)
       this.infodata = data
     }
   },
-  mounted() {
-    console.log(this.infodata)
-  },
+  mounted() {},
   methods: {}
 }
 </script>

@@ -171,6 +171,6 @@
         font-weight: bold;
     }
     ::v-deep  .el-table .el-table__header tr:nth-child(even) th{     //偶数行
-    font-weight: 500!important;
+        font-weight: 500!important;
     }
 </style>

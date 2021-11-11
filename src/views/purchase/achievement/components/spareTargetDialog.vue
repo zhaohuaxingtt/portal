@@ -112,9 +112,6 @@
             show() {
                 return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'BZZL' || item.fullNameZh == '部长助理')
             },
-            linie() {
-                return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'LINIE')
-            }
         },
         methods: {
             clearDiolog() {

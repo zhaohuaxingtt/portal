@@ -329,3 +329,10 @@ export function saveMeeting(params) {//保存会议
     })
 }
 
+export function listPartNumSupplierIdData(params) {//查询跳转后零件主数据展示
+    return request({
+        url: '/mtzAppNomi/listPartNumSupplierIdData',
+        method: 'POST',
+        data: params,
+    })
+}
