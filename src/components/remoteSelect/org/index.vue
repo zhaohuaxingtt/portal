@@ -40,7 +40,7 @@ export default {
     },
     defaultOptions: {
       type: Array,
-      default: function () {
+      default: function() {
         return []
       }
     },
@@ -117,6 +117,7 @@ export default {
   }
   ::v-deep .el-input__suffix {
     z-index: 2;
+    right: 25px;
   }
 }
 </style>

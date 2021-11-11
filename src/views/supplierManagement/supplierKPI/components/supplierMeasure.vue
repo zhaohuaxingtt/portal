@@ -52,7 +52,7 @@
           <iInput
             v-if="isSubmitted"
             style="margin-top:20px"
-            :placeholder="language('QINGSHURU', '请输入处理详情…')"
+            :placeholder="language('QINGSHURUCHULIXIANGQING', '请输入处理详情…')"
             type="textarea"
             v-model="takeStepsContent"
             maxlength="200"

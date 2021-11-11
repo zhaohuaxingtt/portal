@@ -35,9 +35,9 @@
                          width="150"
                         :label="language('LINGJIANHAO','零件号')">
             <template slot-scope="scope">
-                <iInput v-model="scope.row.assemblyPartnum" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.assemblyPartnum" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.assemblyPartnum}}</span>
-            </template>        
+            </template>
         </el-table-column>
         <el-table-column prop="sapCode"
                          align="center"
@@ -46,7 +46,7 @@
                          width="150">
                          <!-- supplierName供应商名称 -->
             <template slot-scope="scope">
-                <iInput v-model="scope.row.sapCode" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.sapCode" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.sapCode}}/{{scope.row.supplierName}}</span>
             </template>
         </el-table-column>
@@ -56,7 +56,7 @@
                          show-overflow-tooltip
                          width="150">
             <template slot-scope="scope">
-                <iInput v-model="scope.row.ruleNo" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.ruleNo}}</span>
             </template>
         </el-table-column>
@@ -66,7 +66,7 @@
                          show-overflow-tooltip
                          width="150">
             <template slot-scope="scope">
-                <iInput v-model="scope.row.priceUnit" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.priceUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.priceUnit}}</span>
             </template>
         </el-table-column>
@@ -76,7 +76,7 @@
                          :label="language('LINGJIANSHULIANGDANWEI','零件数量单位')"
                          show-overflow-tooltip>
              <template slot-scope="scope">
-                <iInput v-model="scope.row.partUnit" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.partUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.partUnit}}</span>
             </template>
         </el-table-column>
@@ -86,7 +86,7 @@
                          :label="language('YONGLIANG','用量')"
                          show-overflow-tooltip>
              <template slot-scope="scope">
-                <iInput v-model="scope.row.dosage" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.dosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.dosage}}</span>
             </template>
         </el-table-column>
@@ -96,7 +96,7 @@
                          :label="language('YONGLIANGJILIANGDANEWI','用量计量单位')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.dosageMeasureUnit" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.dosageMeasureUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.dosageMeasureUnit}}</span>
             </template>
         </el-table-column>
@@ -108,7 +108,7 @@
             <template slot-scope="scope">
                 <iDatePicker v-model="scope.row.startDate"
                             type="datetime"
-                            v-if="scope.row.id==editId"
+                            v-if="editId.indexOf(scope.row.id)!==-1"
                             >
                 </iDatePicker>
                 <span v-else>{{scope.row.startDate}}</span>
@@ -122,7 +122,7 @@
             <template slot-scope="scope">
                 <iDatePicker v-model="scope.row.endDate"
                             type="datetime"
-                            v-if="scope.row.id==editId"
+                            v-if="editId.indexOf(scope.row.id)!==-1"
                             >
                 </iDatePicker>
                 <span v-else>{{scope.row.endDate}}</span>
@@ -134,7 +134,7 @@
                          :label="language('BEIZHU','备注')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.mark" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.mark" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.mark}}</span>
             </template>
         </el-table-column>
@@ -147,7 +147,7 @@
                 <el-select v-model="scope.row.materialCode"
                          clearable
                          :placeholder="language('QINGSHURU', '请输入')"
-                         v-if="scope.row.id==editId"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
                         >
                     <el-option
                         v-for="item in materialCode"
@@ -171,7 +171,7 @@
                          :label="language('JIJIA','基价')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.price" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.price" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.price}}</span>
             </template>
         </el-table-column>
@@ -181,7 +181,7 @@
                          :label="language('JIJIAJILIANGDANWEI','基价计量单位')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.priceMeasureUnit" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.priceMeasureUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.priceMeasureUnit}}</span>
             </template>
         </el-table-column>
@@ -203,7 +203,7 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.platinumPrice" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.platinumPrice" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.platinumPrice}}</span>
             </template>
         </el-table-column>
@@ -225,7 +225,7 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.platinumDosage" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.platinumDosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.platinumDosage}}</span>
             </template>
         </el-table-column>
@@ -247,7 +247,7 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.palladiumPrice" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.palladiumPrice" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.palladiumPrice}}</span>
             </template>
         </el-table-column>
@@ -269,7 +269,7 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.palladiumDosage" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.palladiumDosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.palladiumDosage}}</span>
             </template>
         </el-table-column>
@@ -291,7 +291,7 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.rhodiumPrice" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.rhodiumPrice" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.rhodiumPrice}}</span>
             </template>
         </el-table-column>
@@ -314,7 +314,7 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.rhodiumDosage" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.rhodiumDosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.rhodiumDosage}}</span>
             </template>
         </el-table-column>
@@ -325,7 +325,7 @@
                          :label="language('HUOBI','货币')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.tcCurrence" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.tcCurrence" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.tcCurrence}}</span>
             </template>
         </el-table-column>
@@ -335,7 +335,7 @@
                          :label="language('HUILV','汇率')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.tcExchangeRate" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.tcExchangeRate" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.tcExchangeRate}}</span>
             </template>
         </el-table-column>
@@ -345,7 +345,7 @@
                          :label="language('SHICHANGJIALAIYUAN','市场价来源')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.priceSource" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.priceSource" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.priceSource}}</span>
             </template>
         </el-table-column>
@@ -355,7 +355,7 @@
                          :label="language('BUCHAXISHU','补差系数')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.compensationRatio" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.compensationRatio" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.compensationRatio}}</span>
             </template>
         </el-table-column>
@@ -365,7 +365,7 @@
                          :label="language('BUCHAZHOUQI','补差周期')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.compensationPeriod" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.compensationPeriod" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.compensationPeriod}}</span>
             </template>
         </el-table-column>
@@ -375,7 +375,7 @@
                          :label="language('YUZHI','阈值')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.threshold" v-if="scope.row.id==editId"></iInput>
+                <iInput v-model="scope.row.threshold" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.threshold}}</span>
             </template>
         </el-table-column>
@@ -388,7 +388,7 @@
                 <el-select v-model="scope.row.thresholdCompensationLogic"
                          clearable
                          :placeholder="language('QINGSHURU', '请输入')"
-                         v-if="scope.row.id==editId"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
                         >
                     <el-option
                         v-for="item in thresholdCompensationLogic"
@@ -411,13 +411,13 @@
       </iPagination>
 
         <iDialog
-        :title="language('YINYONGRFQZHONGSHIJIAN', '引用RFQ中事件')"
-        :visible.sync="rfqShowType"
-        v-if="rfqShowType"
-        width="90%"
-        @close='closeDiolog'
+            :title="language('YINYONGRFQZHONGSHIJIAN', '引用RFQ中事件')"
+            :visible.sync="rfqShowType"
+            v-if="rfqShowType"
+            width="90%"
+            @close='closeDiolog'
             >
-            <rfqDialog @close="saveClose"></rfqDialog>
+            <rfqDialog @close="saveClose" @addRfq="addRfqData"></rfqDialog>
         </iDialog>
 
         <iDialog
@@ -437,7 +437,7 @@
             width="90%"
             @close="quoteType"
             >
-            <quoteData @close="quoteClose"></quoteData>
+            <quoteData @close="quoteClose" @quoteDialog="quoteDialogList"></quoteData>
         </iDialog>
 
         <iDialog
@@ -447,7 +447,7 @@
             width="90%"
             @close="historyCls"
             >
-            <historyBox @close="historyClose"></historyBox>
+            <historyBox @close="historyClose" @historyDialog="historyDialogList"></historyBox>
         </iDialog>
 
     </iCard>
@@ -463,8 +463,13 @@ import historyBox from "./historyBox";
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
   pagePartMasterData,//维护MTZ零件主数据-分页查询
-  modifyPartMasterData
+  addBatchPartMasterData,//维护MTZ零件主数据-新增多条
+  modifyPartMasterData,//维护MTZ零件主数据-编辑多条
+  deletePartMasterData,//维护MTZ零件主数据-删除
+  listPartNumSupplierIdData
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+
+import { deepClone } from "./util"
 
 export default {
   name: "Search",
@@ -487,6 +492,7 @@ export default {
   data () {
     return {
         tableData: [],
+        newDataList:[],
         editId:"",
         selectList:[],
         loading: false,
@@ -505,6 +511,18 @@ export default {
         addDialog:false,
         quoteDialog:false,
         historyType:false,
+        dialogEditType:false,
+    }
+  },
+  computed:{
+      mtzObject(){
+        return this.$store.state.location.mtzObject;
+      }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      // console.log(newVlue)
+      this.init()
     }
   },
   mounted () {
@@ -512,7 +530,11 @@ export default {
   },
   methods: {
     init () {
-        this.getTableList()
+        if(this.$route.query.supplierId == undefined){
+            this.getTableList()
+        }else{
+            this.getTableDown();
+        }
 
         getRawMaterialNos({}).then(res=>{
             this.materialCode = res.data;
@@ -530,26 +552,45 @@ export default {
     },
     edit(){//编辑
         if(this.selectList.length==1){
-            this.editId = this.selectList[0].id;
+            this.editId = this.selectList[0].id.toString();
+            // console.log(this.editId)
             this.editType = true;
+            this.dialogEditType = false;
         }else{
             iMessage.error("请选择且只能选择一条数据！")
         }
     },
     save(){//保存
-        modifyPartMasterData({
-            mtzAppId:this.$route.query.id,
-            mtzAppNomiPartMasterDataList:[{
-                ...this.selectList[0]
-            }]
+        iMessageBox(this.language('SHIFOUBAOCUN','是否保存？'),this.language('LK_WENXINTISHI','温馨提示'),{
+            confirmButtonText: this.language('QUEREN', '确认'),
+            cancelButtonText: this.language('QUXIAO', '取消')
         }).then(res=>{
-            if(res.code == 200){
-                iMessage.success(res.desZh)
-                this.editId = "";
-                this.editType = false;
-            }else{
-                iMessage.error(res.message)
+            if(this.dialogEditType){//新增
+                addBatchPartMasterData({
+                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+                    mtzAppNomiAppRuleList:this.newDataList
+                }).then(res=>{
+                    this.editId = "";
+                    this.editType = false;
+                    this.page.currPage = 1;
+                    this.page.pageSize = 10;
+                    this.getTableList();
+                })
+            }else{//编辑
+                modifyPartMasterData({
+                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+                    mtzAppNomiAppRuleList:this.selectList
+                }).then(res=>{
+                    if(res.code == 200){
+                        this.editId = "";
+                        this.editType = false;
+                    }else{
+                        iMessage.error(res.message)
+                    }
+                })
             }
+        }).catch(res=>{
+            
         })
     },
     cancel(){//取消
@@ -557,8 +598,17 @@ export default {
             confirmButtonText: this.language('QUEREN', '确认'),
             cancelButtonText: this.language('QUXIAO', '取消')
         }).then(res=>{
-            this.editId = "";
             this.editType = false;
+            if(this.dialogEditType){
+                this.editId.forEach(e=>{
+                    this.tableData.splice(0,1);
+                })
+                this.dialogEditType = false;
+            }else{
+                this.getTableList();
+            }
+        }).then(res=>{
+            this.editId = ""; 
         }).catch(res=>{
             
         })
@@ -567,7 +617,27 @@ export default {
         this.rfqShowType = true;
     },
     delecte(){//删除
-
+        iMessageBox(this.language('SHIFOUSHANCHU','是否删除？'),this.language('LK_WENXINTISHI','温馨提示'),{
+            confirmButtonText: this.language('QUEREN', '确认'),
+            cancelButtonText: this.language('QUXIAO', '取消')
+        }).then(res=>{
+            var numList = [];
+            this.selectList.forEach(e=>{
+                numList.push(e.id)
+            })
+            deletePartMasterData({
+                idList:numList
+            }).then(res=>{
+                if(res.code == 200 && res.result){
+                    iMessage.success(res.desZh)
+                    this.getTableList();
+                }else{
+                    iMessage.error(res.desZh)
+                }
+            })
+        }).catch(res=>{
+            
+        })
     },
     locationClick(){
         this.quoteDialog = true;
@@ -589,17 +659,37 @@ export default {
     },
     //获取列表
     getTableList () {
-    //   this.loading = true
+        this.loading = true
         pagePartMasterData({
             pageNo: this.page.currPage,
             pageSize: this.page.pageSize,
-            mtzAppId:this.$route.query.id
+            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+            sortType:"DESC",
+            sortColumn:"id"
         }).then(res=>{
-            console.log(res);
             this.tableData = res.data;
             this.page.currPage = res.pageNum
             this.page.pageSize = res.pageSize
             this.page.totalCount = res.total
+            this.loading = false;
+        })
+    },
+    getTableDown(){
+        listPartNumSupplierIdData({
+            partNumStr:this.$route.query.item,
+            supplierIdStr:this.$route.query.supplierId,
+        }).then(res=>{
+            this.tableData = res.data;
+            this.editType = true;
+
+            var changeArrayList = [];
+            this.$refs.moviesTable.clearSelection();
+            res.data.forEach(item => {
+                changeArrayList.push(item.id);
+                this.$refs.moviesTable.toggleRowSelection(item, true);
+            })
+            this.editId = changeArrayList;
+            this.dialogEditType = true;
         })
     },
     handleSelectionChange(val){
@@ -608,8 +698,11 @@ export default {
     saveGzDialog(){
         this.addDialog=false;
     },
-    saveGzClose(){
+    saveGzClose(val){//隐藏维护MTZ零件主数据新增弹窗
         this.saveGzDialog();
+        if(val == "fresh"){
+            this.getTableList();
+        }
     },
     quoteType(){
         this.quoteDialog = false;
@@ -617,6 +710,48 @@ export default {
     quoteClose(){
         this.quoteType();
     },
+    addRfqData(val){
+        this.newDataList = deepClone(val);
+        this.closeDiolog();
+        this.tableData.unshift(...val);
+        this.editType = true;
+        var changeArrayList = [];
+        this.$refs.moviesTable.clearSelection();
+        val.forEach(item => {
+            changeArrayList.push(item.id);
+            this.$refs.moviesTable.toggleRowSelection(item, true);
+        })
+        this.editId = changeArrayList;
+        this.dialogEditType = true;
+    },
+    quoteDialogList(val){
+        this.newDataList = deepClone(val);
+        this.quoteType();
+        this.tableData.unshift(...val);
+        this.editType = true;
+        var changeArrayList = [];
+        this.$refs.moviesTable.clearSelection();
+        val.forEach(item => {
+            changeArrayList.push(item.id);
+            this.$refs.moviesTable.toggleRowSelection(item, true);
+        })
+        this.editId = changeArrayList;
+        this.dialogEditType = true;
+    },
+    historyDialogList(val){
+        this.newDataList = deepClone(val);
+        this.historyCls();
+        this.tableData.unshift(...val);
+        this.editType = true;
+        var changeArrayList = [];
+        this.$refs.moviesTable.clearSelection();
+        val.forEach(item => {
+            changeArrayList.push(item.id);
+            this.$refs.moviesTable.toggleRowSelection(item, true);
+        })
+        this.editId = changeArrayList;
+        this.dialogEditType = true;
+    }
   }
 }
 </script>

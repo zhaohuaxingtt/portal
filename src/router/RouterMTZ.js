@@ -99,7 +99,10 @@ export default [
                           title: '决策资料',
                           showFooter: false //隐藏
                         },
-                        component: () => import('@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/decisionMaterial'),
+                        component: () =>
+                          import(
+                            '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/decisionMaterial'
+                          )
                       }
                     ]
                   },
@@ -110,7 +113,21 @@ export default [
                       title: '流转预览',
                       showFooter: false //隐藏
                     },
-                    component: () => import('@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/decisionMaterial/components/signPreview'),
+                    component: () =>
+                      import(
+                        '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/decisionMaterial/components/signPreview'
+                      )
+                  },{
+                    path: 'signPreviewBefore',
+                    name: 'signPreviewBefore',
+                    meta: {
+                      title: '流转预览跳转',
+                      showFooter: false //隐藏
+                    },
+                    component: () =>
+                      import(
+                        '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/decisionMaterial/components/signPreviewBefore'
+                      )
                   }
                 ]
               },
@@ -199,17 +216,6 @@ export default [
                   )
               }
             ]
-          },
-          {
-            path: 'applicationForm',
-            name: 'applicationForm',
-            meta: {
-              title: 'MTZ补差申请单'
-            },
-            component: () =>
-              import(
-                '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/applicationForm/index.vue'
-              )
           }
         ]
       },

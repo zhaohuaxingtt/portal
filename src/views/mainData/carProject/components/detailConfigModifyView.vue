@@ -2,12 +2,12 @@
   <el-table :data="data" :loading="loading">
     <!-- <el-table-column type="selection" header-align="center" align="center" /> -->
     <el-table-column type="index" header-align="center" align="center" />
-    <el-table-column
+    <!-- <el-table-column
       label="配置ID"
       prop="id"
       header-align="center"
       align="center"
-    />
+    /> -->
     <el-table-column
       label="发动机类型"
       prop="engineId"

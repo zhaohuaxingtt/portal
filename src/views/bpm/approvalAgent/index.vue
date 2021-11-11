@@ -1,6 +1,6 @@
 <template>
-  <iPage class="template">
-    <pageHeader class="margin-bottom20" style="margin-left:-20px;">
+  <iPage class="approval-agent">
+    <pageHeader class="margin-bottom20" style="margin-left: -20px;">
       <actionHeader />
     </pageHeader>
     <searchForm :data="searchData" @search="search" @reset="reset" />
@@ -152,4 +152,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.approval-agent {
+  position: relative;
+}
+</style>

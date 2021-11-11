@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-10-29 18:23:04
+ * @LastEditTime: 2021-11-09 18:42:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -66,16 +66,17 @@
               {{language('SHENPIXIANGQING','审批详情')}}
             </span>
             <div class="opration">
-              <iButton> {{language('JIESHI','解释')}}</iButton>
+              <iButton @click="explain"> {{language('JIESHI','解释')}}</iButton>
             </div>
           </template>
           <div class="table-wrapper">
             <iTableCustom :ref="'SPTable'"
                           :loading="tableLoading"
-                          :data="tableList"
+                          :data="approvalRecordList"
                           :columns="TABLE_COLUMNS1"
+                          singleChoice
                           highlight-current-row
-                          @handle-selection-change="handleSelectionChange">
+                          @handle-selection-change="handleSelectionChange1">
             </iTableCustom>
             <iPagination v-update
                          @size-change="handleSizeChange($event, getDictList)"
@@ -90,13 +91,30 @@
         </iCard>
       </el-tab-pane>
     </iTabsList>
+    <iDialog :title="language('CHEHUIYUANYIN','撤回原因')"
+             :visible.sync="isShow"
+             width="30%"
+             class="table-header-modal"
+             :before-close="handleBeforeClose">
+      <div class="content">
+        <iInput type='textarea'
+                :placeholder="language('QINGSHURUNEIRONG','请输入内容') "
+                v-model="textarea"
+                :rows="4"></iInput>
+      </div>
+      <span slot="footer"
+            class="dialog-footer">
+        <i-button @click="handleSave">保存</i-button>
+        <i-button @click="handleCancel">退出</i-button>
+      </span>
+    </iDialog>
   </div>
 </template>
 
 <script>
-import { iButton, iTabsList, iCard, iPagination, iMessage } from "rise";
+import { iButton, iTabsList, iCard, iPagination, iMessage, iDialog, iInput } from "rise";
 import uploadButton from '@/components/uploadButton';
-import { basePriceChangePageList, uploadBasePriceChange, priceChangeExport, basePriceChangeDelete, updateBasePriceChange } from '@/api/mtz/annualGeneralBudget/mtzChange'
+import { basePriceChangePageList, uploadBasePriceChange, priceChangeExport, basePriceChangeDelete, updateBasePriceChange, approvalRecordList, approvalExplain } from '@/api/mtz/annualGeneralBudget/mtzChange'
 import iTableCustom from '@/components/iTableCustom'
 import { TABLE_COLUMNS, TABLE_COLUMNS1 } from './data'
 import { pageMixins } from '@/utils/pageMixins'
@@ -108,7 +126,9 @@ export default {
     iTabsList,
     iTableCustom,
     iPagination,
-    uploadButton
+    uploadButton,
+    iDialog,
+    iInput
   },
   mixins: [pageMixins],
   data () {
@@ -118,9 +138,13 @@ export default {
       TABLE_COLUMNS1,
       tableList: [],
       muliteList: [],
+      muliteList1: [],
       mtzAppId: "",
       editFlag: false,
-      tableLoading: false
+      tableLoading: false,
+      approvalRecordList: [],
+      isShow: false,
+      textarea: ""
     }
   },
   created () {
@@ -134,6 +158,7 @@ export default {
     init () {
       this.mtzAppId = this.$route.query.mtzAppId
       this.getBasePriceChangePageList()
+      this.getApprovalRecordList()
     },
     getBasePriceChangePageList () {
       this.tableLoading = true
@@ -149,6 +174,28 @@ export default {
           this.page.pageSize = res.pageSize
           this.page.totalCount = res.total
           this.tableList.forEach(item => {
+            this.$set(item, 'editRow', false);
+          })
+          this.tableLoading = false
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
+    getApprovalRecordList () {
+      this.tableLoading = true
+      let params = {
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        mtzAppId: this.mtzAppId
+      }
+      approvalRecordList(params).then((res) => {
+        if (res && res.code === '200') {
+          this.approvalRecordList = res.data
+          this.page.currPage = res.pageNum
+          this.page.pageSize = res.pageSize
+          this.page.totalCount = res.total
+          this.approvalRecordList.forEach(item => {
             this.$set(item, 'editRow', false);
           })
           this.tableLoading = false
@@ -179,6 +226,9 @@ export default {
     },
     handleSelectionChange (val) {
       this.muliteList = val
+    },
+    handleSelectionChange1 (val) {
+      this.muliteList1 = val
     },
     save () {
       this.muliteList.forEach(item => {
@@ -220,6 +270,28 @@ export default {
 
       })
     },
+    explain () {
+      this.isShow = true
+
+    },
+    handleSave () {
+      let params = {
+        comment: this.textarea,
+        isDeptLead: true,
+        riseId: this.muliteList1[0].riseId,
+        taskId: this.muliteList1[0].taskId
+      }
+      approvalExplain(params).then(res => {
+        if (res?.code === '200') {
+          iMessage.success(res.desZh)
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
+    handleCancel () {
+
+    },
     del () {
       let ids = this.muliteList.map(item => {
         return item.id
@@ -234,11 +306,17 @@ export default {
           iMessage.error(res.desZh)
         }
       })
+    },
+    handleBeforeClose (done) {
+      done()
     }
   },
 
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
+.content {
+  padding: 20px 10px;
+}
 </style>

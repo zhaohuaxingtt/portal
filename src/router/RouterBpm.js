@@ -34,5 +34,29 @@ export default [
       top: 'admin'
     },
     component: () => import('@/views/bpm/report')
+  },
+  {
+    path: '/approval/agent',
+    name: 'approvalAgent',
+    meta: {
+      title: '审批代理'
+    },
+    component: () => import('@/views/bpm/approvalAgent')
+  },
+  {
+    path: '/approval/agent/add',
+    name: 'ApprovalAgentAdd',
+    meta: {
+      title: '新建审批代理'
+    },
+    component: () => import('@/views/bpm/approvalAgent/add')
+  },
+  {
+    path: '/approval/agent/edit/:id',
+    name: 'ApprovalAgentEdit',
+    meta: {
+      title: '编辑审批代理'
+    },
+    component: () => import('@/views/bpm/approvalAgent/edit')
   }
 ]

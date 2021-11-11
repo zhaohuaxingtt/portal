@@ -6,7 +6,9 @@
  * @Descripttion: your project
 -->
 <template>
-  <el-row :gutter="20" type="flex" justify="space-between">
+  <el-row :gutter="20"
+          type="flex"
+          justify="space-between">
     <el-col :span="8">
       <iCard class="Ltd">
         <el-row>
@@ -15,10 +17,14 @@
             <span class="titleEn">{{info.nameEn}}</span>
           </el-col>
           <el-col :span="6">
-            <el-popover placement="top-end" width="200" trigger="hover">
-              <div><span v-for="(item,index) in tagList" :key="index">{{item.tagName+' '}}</span></div>
+            <el-popover placement="top-end"
+                        width="200"
+                        trigger="hover">
+              <div><span v-for="(item,index) in tagList"
+                      :key="index">{{item.tagName+' '}}</span></div>
               <div slot="reference">
-                <span v-for="(item,index) in tagList" :key="index">{{$i18n.locale==='en'?item.tagValue:item.tagName+' '}}</span>
+                <span v-for="(item,index) in tagList"
+                      :key="index">{{$i18n.locale==='en'?item.tagValue:item.tagName+' '}}</span>
               </div>
             </el-popover>
           </el-col>
@@ -33,23 +39,41 @@
           <el-divider />
           <div>{{$t('SUPPLIER_ZHUCEZIBENWAN')}}:{{info.registeredCapital&&info.registeredCapital+'元'}}</div>
           <el-divider />
-          <el-popover width="200" trigger="hover" :content="info.address" placement="top-end">
-            <div slot="reference" class="address">{{$t('companyAddress')}}:{{info.address}}</div>
+          <el-popover width="200"
+                      trigger="hover"
+                      :content="info.address"
+                      placement="top-end">
+            <div slot="reference"
+                 class="address">{{$t('companyAddress')}}:{{info.address}}</div>
           </el-popover>
         </div>
-        <div class="floatright margin-top20" @click="handleShareholder">
+        <div class="floatright margin-top20"
+             @click="handleShareholder">
           <iButton>{{$t('SPR_FRM_XGYSPJ_GDXINGXI')}}</iButton>
         </div>
       </iCard>
     </el-col>
     <el-col :span="16">
-      <iCard class="countryMap" :title="$t('SPR_FRM_XGYSPJ_GCDT')">
-        <el-row type="flex" justify="between">
+      <iCard class="countryMap"
+             :title="$t('SPR_FRM_XGYSPJ_GCDT')">
+        <el-row type="flex"
+                justify="between">
           <el-col :span="12">
-            <div ref="chart" id="container" class="mapbox" />
+            <div ref="chart"
+                 id="container"
+                 class="mapbox" />
           </el-col>
           <el-col :span="12">
-            <tableList :height="215" :tableData="tableListData" :tableTitle="tableTitle" :selection="false" :index="false" :tableLoading="tableLoading" @handleSelectionChange="handleSelectionChange" :openPageProps="'nameZh'" @openPage="openPage" :openPageGetRowData=true />
+            <tableList :height="215"
+                       :tableData="tableListData"
+                       :tableTitle="tableTitle"
+                       :selection="false"
+                       :index="false"
+                       :tableLoading="tableLoading"
+                       @handleSelectionChange="handleSelectionChange"
+                       :openPageProps="'nameZh'"
+                       @openPage="openPage"
+                       :openPageGetRowData=true />
           </el-col>
         </el-row>
       </iCard>
@@ -59,51 +83,58 @@
 
 <script>
 import tableList from '@/components/commonTable'
-import { iCard, iButton, icon } from 'rise';
-import { tableTitle } from "./data";
-import { getTags } from "@/api/basic/basic";
+import { iCard, iButton, icon } from 'rise'
+import { tableTitle } from './data'
+import { getTags } from '@/api/basic/basic'
 export default {
   components: {
-    iCard, iButton, icon, tableList
+    iCard,
+    iButton,
+    icon,
+    tableList
   },
   props: {
     factoryAddressVOList: {
-      type: Array, default: () => {
+      type: Array,
+      default: () => {
         return []
       }
     },
     supplier360ViewVO: {
-      type: Object, default: () => {
+      type: Object,
+      default: () => {
         return {}
       }
     }
   },
   data() {
     return {
-      nameZh: this.$route.query.nameZh,
-      nameEn: this.$route.query.nameEn,
+      nameZh:'',
+      nameEn: '',
       tableListData: [],
       info: {},
       tableTitle: tableTitle,
-      tagList: [],
+      tagList: []
     }
   },
   watch: {
     factoryAddressVOList(data) {
-      data.map(item =>
-        item.name = item.city
-      )
+      data.map((item) => (item.name = item.city))
       this.tableListData = data
       if (this.$refs.chart && this.tableListData.length > 0) {
-        this.handleMap();
+        this.handleMap()
       }
     },
     supplier360ViewVO(data) {
       this.info = data
+      console.log(this.info)
+    //    this.nameZh=data.nameZh
+    //    this.nameEn=data.nameEn
       this.getTags()
     }
   },
   created() {
+     
   },
   mounted() {
     this.handleMap()
@@ -121,10 +152,15 @@ export default {
       }
     },
     handleShareholder() {
-      this.$router.push({ path: '/supplier/view-suppliers', query: { supplierToken: this.info.token || '', supplierType: "4" } })
+      console.log(this.info)
+      this.$router.push({
+        path: '/supplier/view-suppliers',
+        query: { supplierToken: this.info.token || '', supplierType: '4' ,    subSupplierType: this.$route.query.supplierType},
+    
+      })
     },
     handleMap() {
-      console.log('creat map');
+      console.log('creat map')
       // 初始化地图
       var map = new AMap.Map('container', {
         WebGLParams: {
@@ -132,27 +168,27 @@ export default {
         },
         resizeEnable: true, //是否监控地图容器尺寸变化
         zoom: 0, //初始地图级别
-        center: [121, 31], //初始地图中心点
+        center: [112, 39], //初始地图中心点
         showIndoorMap: false, //关闭室内地图
         roam: true,
         zoomEnable: true,
         dragEnable: true,
-        mapStyle: 'amap://styles/macaron'
-      });
+        // mapStyle: 'amap://styles/macaron'
+      })
       // 放大缩小按钮
-      AMap.plugin([
-        'AMap.ToolBar',
-      ], function() {
+      AMap.plugin(['AMap.ToolBar'], function () {
         // 在图面添加工具条控件, 工具条控件只有缩放功能
-        map.addControl(new AMap.ToolBar({
-          position: 'LB'
-        }));
-      });
+        map.addControl(
+          new AMap.ToolBar({
+            position: 'LB'
+          })
+        )
+      })
       // 圆点
-      this.tableListData.forEach(item => {
+      this.tableListData.forEach((item) => {
         var circleMarker = new AMap.CircleMarker({
           center: [item.lon, item.lat],
-          radius: 5,//3D视图下，CircleMarker半径不要超过64px
+          radius: 5, //3D视图下，CircleMarker半径不要超过64px
           strokeColor: '#407ef7',
           strokeWeight: 2,
           strokeOpacity: 0.5,
@@ -161,7 +197,7 @@ export default {
           zIndex: 10,
           bubble: true,
           cursor: 'pointer',
-          clickable: true,
+          clickable: true
         })
         circleMarker.setMap(map)
         // 鼠标移入
@@ -175,11 +211,11 @@ export default {
         })
         // tooltip 提示
         var handleTooltip = new AMap.InfoWindow({
-          content: item.province+item.city,
+          content: item.province + item.city,
           offset: new AMap.Pixel(0, -15)
-        });
+        })
       })
-    },
+    }
   }
 }
 </script>

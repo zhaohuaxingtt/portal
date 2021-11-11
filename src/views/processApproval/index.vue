@@ -30,6 +30,22 @@ export default {
           url: '/bpm/monitoring',
           activePath: '/bpm/monitoring',
           key: '流程监控'
+        },
+        {
+          value: 3,
+          name: '流程报表',
+          message: 0,
+          url: '/bpm/report',
+          activePath: '/bpm/report',
+          key: '流程报表'
+        },
+        {
+          value: 4,
+          name: '审批代理',
+          message: 0,
+          url: '/approval/agent',
+          activePath: '/approval/agent',
+          key: '审批代理'
         }
       ]
     }

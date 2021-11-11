@@ -14,7 +14,7 @@
         </div>
         <img :src="materials" alt="" width="50px">
       </div>
-      <div class="flex-ver" style="width: calc(100% / 6 * 5);">
+      <div class="flex-ver" style="width: 87%;">
         <tableList :height="124" style="width: 100%;" :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" :selection='false' :index="false">
         </tableList>
       </div>

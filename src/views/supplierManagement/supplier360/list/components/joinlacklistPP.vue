@@ -238,7 +238,7 @@ export default {
         reason: '',
         daterange: [],
         purchaserId: '',
-        liniePurchaserId: ''
+        liniePurchaserId: '',
       },
       selectDate: '',
       prePurchaseDeptArr: [],
@@ -408,7 +408,7 @@ export default {
     getprePurchase() {
       prePurchaseList({
         supplierId: this.clickTableList.subSupplierId,
-        purchaserDeptId: this.form.deptId
+        purchaserDeptId: this.form.preDeptId
       }).then((res) => {
         if (res && res.code == 200) {
           this.prePurchaseArr = res.data

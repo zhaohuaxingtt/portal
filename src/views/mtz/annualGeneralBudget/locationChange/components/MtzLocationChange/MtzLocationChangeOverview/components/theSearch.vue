@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-10-26 22:47:28
+ * @LastEditTime: 2021-11-09 10:20:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -52,7 +52,6 @@
                          value-key="existShareId">
           </custom-select>
         </el-form-item>
-
         <el-form-item label="审批完成时间"
                       class="searchFormItem">
           <iDatePicker v-model="searchForm.resolutionPassTime"
@@ -76,9 +75,6 @@
                          value-member="code"
                          value-key="code">
           </custom-select>
-          <!-- <input-custom v-model="searchForm.materialCode"
-                        :editPlaceholder="language('QINGSHURU','请输入')"
-                        :placeholder="language('QINGSHURU','请输入')"> </input-custom> -->
         </el-form-item>
         <el-form-item label="零件号"
                       class="searchFormItem">

@@ -1,8 +1,8 @@
 /*
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
- * @LastEditors: zbin
- * @LastEditTime: 2021-10-21 15:49:12
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-11-10 21:23:01
  * @Description:
  * @FilePath: \front-portal\src\router\Router.js
  */
@@ -29,8 +29,9 @@ import partLifeCycle from './partLifeCycle'
 import RouterExternal from './RouterExternal'
 import RouterBiz from './RouterBiz'
 import RouterAchievement from './RouterAchievement'
+import RouterPopupWindowMa from './RouterPopupWindowMa'
 
-import RouterMeeting from './meeting'
+import RouterManage from './RouterManage'
 
 export default {
   routes: [
@@ -44,6 +45,17 @@ export default {
     },
     ...RouterSupplierApprove,
     ...RouterExternal,
+    {
+      path: '/applicationForm',
+      name: 'applicationForm',
+      meta: {
+        title: 'MTZ补差申请单'
+      },
+      component: () =>
+        import(
+          '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/applicationForm/index.vue'
+        )
+    },
     {
       path: '/',
       name: 'home',
@@ -83,7 +95,8 @@ export default {
         ...partLifeCycle,
         ...RouterBiz,
         ...RouterAchievement,
-        ...RouterMeeting
+        ...RouterPopupWindowMa,
+        ...RouterManage
       ]
     },
 

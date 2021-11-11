@@ -8,117 +8,113 @@
 -->
 <template>
   <div>
-    <iDialog :modal-append-to-body='false'
-             append-to-body
+    <iDialog
              :title="dialogTitle"
              v-if="value"
              :visible.sync="value"
              width="85%"
              @close='closeDiolog'>
       <div class="searchBox">
-        <el-form :inline="true"
+        <iSearch @sure="handleSubmitSearch"
+             @reset="handleSearchReset">
+          <el-form :inline="true"
                  ref="searchForm"
                  :model="searchForm"
                  label-position="top"
-                 class="demo-form-inline leftBox">
+                 class="demo-form-inline">
+            <el-form-item style="marginRight:68px"
+                          :label="language('CAIGOUKUANGJIA', '采购框架')"
+                          class="formItem">
+              <custom-select v-model="searchForm.saNos"
+                            :user-options="getRawMaterialList"
+                            clearable
+                            multiple
+                            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                            display-member="message"
+                            value-member="code"
+                            value-key="code">
+              </custom-select>
+            </el-form-item>
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('CAIGOUKUANGJIA', '采购框架')"
-                        class="formItem">
-            <custom-select v-model="searchForm.saNos"
-                           :user-options="getRawMaterialList"
-                           clearable
-                           multiple
-                           :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                           display-member="message"
-                           value-member="code"
-                           value-key="code">
-            </custom-select>
-          </el-form-item>
+            <el-form-item style="marginRight:68px"
+                          :label="language('YICIJIANLINGJIANHAO', '一次件零件号')"
+                          class="formItem">
+              <custom-select v-model="searchForm.fpartNos"
+                            :user-options="getOnePartList"
+                            clearable
+                            multiple
+                            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                            display-member="message"
+                            value-member="code"
+                            value-key="code">
+              </custom-select>
+            </el-form-item>
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('YICIJIANLINGJIANHAO', '一次件零件号')"
-                        class="formItem">
-            <custom-select v-model="searchForm.fpartNos"
-                           :user-options="getOnePartList"
-                           clearable
-                           multiple
-                           :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                           display-member="message"
-                           value-member="code"
-                           value-key="code">
-            </custom-select>
-          </el-form-item>
+            <el-form-item style="marginRight:68px"
+                          :label="language('ERCIJIANLINGJIANHAO', '二次件零件号')"
+                          class="formItem">
+              <custom-select v-model="searchForm.spartNos"
+                            :user-options="getSecondPartList"
+                            clearable
+                            multiple
+                            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                            display-member="message"
+                            value-member="code"
+                            value-key="code">
+              </custom-select>
+            </el-form-item>
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('ERCIJIANLINGJIANHAO', '二次件零件号')"
-                        class="formItem">
-            <custom-select v-model="searchForm.spartNos"
-                           :user-options="getSecondPartList"
-                           clearable
-                           multiple
-                           :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                           display-member="message"
-                           value-member="code"
-                           value-key="code">
-            </custom-select>
-          </el-form-item>
+            <el-form-item style="marginRight:68px"
+                          :label="language('ECJGYS', '二次件供应商')"
+                          class="formItem">
+              <custom-select v-model="searchForm.pieceSupplierSaps"
+                            :user-options="getSecondSupplierList"
+                            clearable
+                            multiple
+                            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                            display-member="codeMessage"
+                            value-member="code"
+                            value-key="code">
+              </custom-select>
+            </el-form-item>
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('ECJGYSBHMC', '二次件供应商编号-名称')"
-                        class="formItem">
-            <custom-select v-model="searchForm.pieceSupplierSaps"
-                           :user-options="getSecondSupplierList"
-                           clearable
-                           multiple
-                           :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                           display-member="message"
-                           value-member="code"
-                           value-key="code">
-            </custom-select>
-          </el-form-item>
+            <el-form-item style="marginRight:68px"
+                          :label="language('BUCHASHIJIANDUAN', '补差时间段')"
+                          class="formItem">
+              <iDatePicker style="width: 180px;"
+                          v-model="searchForm.dateTime"
+                          type="monthrange">
+              </iDatePicker>
+            </el-form-item>
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('BUCHASHIJIANDUAN', '补差时间段')"
-                        class="formItem">
-            <iDatePicker style="width: 180px;"
-                         v-model="searchForm.dateTime"
-                         type="monthrange">
-            </iDatePicker>
-          </el-form-item>
+            <el-form-item style="marginRight:68px"
+                          :label="language('CAILIAOZHONGLEI', '材料中类')"
+                          class="formItem">
+              <custom-select v-model="searchForm.categories"
+                            :user-options="zhongleiList"
+                            clearable
+                            multiple
+                            :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                            display-member="message"
+                            value-member="code"
+                            value-key="code">
+              </custom-select>
+            </el-form-item>
 
-          <el-form-item style="marginRight:68px"
-                        :label="language('CAILIAOZHONGLEI', '材料中类')"
-                        class="formItem">
-            <custom-select v-model="searchForm.categories"
-                           :user-options="zhongleiList"
-                           clearable
-                           multiple
-                           :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                           display-member="message"
-                           value-member="code"
-                           value-key="code">
-            </custom-select>
-          </el-form-item>
-
-          <el-form-item style="marginRight:68px"
-                        :label="language('SHIFOUGUIJINSHUYUANCAILIAO', '是否贵金属原材料')"
-                        class="formItem">
-            <custom-select v-model="searchForm.pgmFlag"
-              :user-options="typesJS"
-              clearable
-              :placeholder="language('QINGSHURU', '请输入')"
-              display-member="message"
-              value-member="code"
-              value-key="code">
-            </custom-select>
-          </el-form-item>
-
-        </el-form>
-        <div class="searchButton">
-          <iButton @click="handleSubmitSearch">{{language('CX', '查询')}}</iButton>
-          <iButton @click="handleSearchReset('searchForm')">{{language('CZ', '重置')}}</iButton>
-        </div>
+            <el-form-item style="marginRight:68px"
+                          :label="language('SHIFOUGUIJINSHUYUANCAILIAO', '是否贵金属原材料')"
+                          class="formItem">
+              <custom-select v-model="searchForm.pgmFlag"
+                :user-options="typesJS"
+                clearable
+                :placeholder="language('QINGSHURU', '请输入')"
+                display-member="message"
+                value-member="code"
+                value-key="code">
+              </custom-select>
+            </el-form-item>
+          </el-form>
+        </iSearch>
       </div>
       <el-divider class="margin-top20"></el-divider>
       <div class="contentBox">
@@ -128,26 +124,32 @@
                    slot="components"
                    calss="margin-top20 iTabsList">
           <el-tab-pane :name="1"
+                        v-if="btnShow1"
                        :label="language('BUCHADIANHUIZONG','补差单汇总')"></el-tab-pane>
           <el-tab-pane :name="2"
+                        v-if="btnShow2"
                        :label="language('BUCHADANMINGXI','补差单明细')"></el-tab-pane>
           <el-tab-pane :name="3"
+                        v-if="btnShow3"
                        :label="language('BUCHADANMINGXIGUIJINSHU','补差单明细（贵金属）')"></el-tab-pane>
         </iTabsList>
         <tabs1 :mtzDocId="mtzDocId"
                :searchFormList="seachWather"
                :dataObject="detailObj"
-               v-if="tabsValue == 1"
+               v-if="tabsValue == 1 && btnShow1"
+               @componentHidden="btnHidden1"
                v-on:closeDiolog1="closeDiolog"></tabs1>
         <tabs2 :mtzDocId="mtzDocId"
                :searchFormList="seachWather"
                :dataObject="detailObj"
-               v-show="tabsValue == 2"
+               v-show="tabsValue == 2 && btnShow2"
+               @componentHidden="btnHidden2"
                v-on:closeDiolog2="closeDiolog"></tabs2>
         <tabs3 :mtzDocId="mtzDocId"
                :searchFormList="seachWather"
                :dataObject="detailObj"
-               v-show="tabsValue == 3"
+               v-show="tabsValue == 3 && btnShow3"
+               @componentHidden="btnHidden3"
                v-on:closeDiolog3="closeDiolog"></tabs3>
       </div>
     </iDialog>
@@ -155,7 +157,7 @@
 </template>
 
 <script>
-import { iCard, iSelect, iDatePicker, iMessage, iDialog, iButton, iTabs, iTabsList } from 'rise'
+import { iCard,iSearch, iSelect, iDatePicker, iMessage, iDialog, iButton, iTabs, iTabsList } from 'rise'
 // import { getDeptData } from "@api/mtz/database/partsQuery";
 
 import {
@@ -165,6 +167,8 @@ import {
   getGroups,
   getSaNo
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
+import { getMtzSupplierList } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+
 import { deepClone } from "./util.js";
 
 import tabs1 from './tabs1'
@@ -182,20 +186,24 @@ export default {
     iDialog,
     iButton,
     iTabs,
-    iTabsList
+    iTabsList,
+    iSearch
   },
   props: ["detailObj"],
   data () {
     return {
       typesJS: [
         {
-          code: "Y",
+          code: "1",
           message: "是"
         }, {
-          code: "N",
+          code: "0",
           message: "否"
         }
       ],
+      btnShow1:true,
+      btnShow2:true,
+      btnShow3:true,
       seachWather: {},
       searchForm: {},
       demandList: [],
@@ -258,7 +266,7 @@ export default {
       getSecondPartNo({ mtzDocId: this.mtzDocId }).then(res => {
         this.getSecondPartList = res.data;
       })
-      getSecondSupplier({ mtzDocId: this.mtzDocId }).then(res => {
+      getMtzSupplierList({ mtzDocId: this.mtzDocId }).then(res => {
         this.getSecondSupplierList = res.data;
       })
       getSaNo({ mtzDocId: this.mtzDocId }).then(res => {
@@ -310,6 +318,15 @@ export default {
         }
       }
     },
+    btnHidden1(){
+      this.btnShow1 = false;
+    },
+    btnHidden2(){
+      this.btnShow2 = false;
+    },
+    btnHidden3(){
+      this.btnShow3 = false;
+    },
     closeDiolog(){
       this.$emit('dialogShowFun', '');
       this.$parent.$children.forEach(item => {
@@ -344,8 +361,11 @@ $tabsInforHeight: 35px;
     background-color: #ffffff;
   }
 }
-
-.leftBox {
-  margin-right: 200px;
+::v-deep .cardBody{
+  margin:0!important;
+  padding:0!important;
+}
+::v-deep .card{
+  box-shadow: 0 0 0px rgb(27 29 33 / 0%)
 }
 </style>

@@ -19,3 +19,10 @@ export function exportBizLog(data) {
     data
   })
 }
+
+export function fetchBizLogCategories() {
+  return request({
+    url: '/operationLog/listOperationType',
+    method: 'post'
+  })
+}
