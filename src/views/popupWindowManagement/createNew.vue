@@ -2,7 +2,7 @@
   <iPage>
         <div class="page-header">
             <div class="header">
-                <pageHeader class="title">{{language('弹窗管理')}}</pageHeader>
+                <!-- <pageHeader class="title">{{language('弹窗管理')}}</pageHeader> -->
                 <div>
                     <iButton @click="save">{{language('保存')}}</iButton>
                     <iButton @click="reset">{{language('重置')}}</iButton>
@@ -12,10 +12,11 @@
         </div>
         <iCard style="margin-top:20px">
             <div class="content">
-                <new-left />
-                <new-right />
+                <new-left ref="newLeft" :formData='formData'/>
+                <new-right ref="newRight" />
             </div>
         </iCard>
+        <detailDialog :show='show' :detail='detail' />
   </iPage>
 </template>
 
@@ -23,20 +24,128 @@
 import {iPage,iButton,iCard} from 'rise'
 import{newLeft,newRight} from './components/index'
 import pageHeader from '@/components/pageHeader'
+import {savePopup} from '@/api/popupWindowMgmt'
+import detailDialog from './components/detailDialog.vue'
 export default {
     name:'createNew',
-    components:{iPage,pageHeader,iButton,iCard,newLeft,newRight}
+    components:{iPage,pageHeader,iButton,iCard,newLeft,newRight,detailDialog},
+    data(){
+        return{
+            formData:{},
+            show:false,
+            detail:{
+                title:'',
+                content:'',
+                picUrl:'',
+                linkUrl:''
+            },
+            instance:''
+        }
+    },
+    methods:{
+        reset(){
+            this.$refs.newLeft.reset()
+            this.$refs.newRight.reset()
+        },
+        async save(){
+            let formData = this.$refs.newLeft.formData()
+            const picUrl = this.$refs.newRight.linkUrl()
+            //校验是否通过校验
+            let newLeftSave = this.$refs.newLeft.save()
+            let accountIds = []
+            let supplierIds = []
+            if(formData.publishRange == 15){
+                if( (formData.userList || formData.supplierList) ){
+                    if(formData.userList){
+                        accountIds = formData.userList.map((ele) =>{
+                        return ele.accountId
+                        })
+                    }
+                    if(formData.supplierList){
+                        supplierIds = formData.supplierList.map((ele)=>{
+                            return ele.id
+                        })
+                        }
+                }else{
+                    newLeftSave = false
+                    this.$message.error('请选择用户/供应商')
+                }
+            }
+
+            const data = {
+                ...formData,
+                picUrl,
+                accountIds,
+                supplierIds
+            }
+            if(newLeftSave){
+                savePopup(data).then((res)=>{
+                if(res.code == 200){
+                    this.$message.success('保存成功')
+                }else{
+                    this.$message.error(res.desZh || '保存失败')
+                }
+            })
+            }
+        },
+        preview(){
+            const formData = this.$refs.newLeft.formData()
+            this.formData = formData
+            const picUrl = this.$refs.newRight.linkUrl()
+            let _this = this
+            this.instance = this.$notify({
+                // title:formData.popupName,
+                // ${formData.linkUrl && '<a href="'+formData.linkUrl+'"></a>'}
+                duration: 0,
+                dangerouslyUseHTMLString: true,
+                message:`<div style='display: flex;justify-content: space-between;${formData.linkUrl && 'cursor:pointer;'}'>
+                            <div class="popupLeft" style='width:50px;height:50px; '>
+                              <img src="${picUrl}" style='width:100%;height:100%; border-radius: 50%;'>
+                            </div>
+                            <div class="popupRight" style='position:relative;margin-left:20px'>
+                              <p class='${formData.linkUrl && 'linkTitle'}' 
+                                style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+                                width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;
+                                ${formData.linkUrl && 'text-decoration:underline'}'>
+                                ${formData.popupName}
+                              </p>
+                              <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
+                              >${formData.content}</p>
+                            </div>
+                          </div>`,
+                position:'bottom-right',
+                onClick(){
+                    _this.openDialog()
+                }
+            })
+        },
+        openDialog(){
+            this.instance.close()
+            this.show = true
+            this.detail = {
+                title:this.formData.popupName,
+                content:this.formData.content,
+                picUrl:this.formData.picUrl,
+                linkUrl:this.formData.linkUrl
+            }
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .header{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 .content{
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
+}
+.linkTitle{
+    color: #0D2451;
+    
+    border-bottom: 1px solid black;
 }
 </style>

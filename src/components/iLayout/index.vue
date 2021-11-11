@@ -51,6 +51,7 @@
       <div class="item-content">外部数据查询</div>
       <div class="item-content" >用户助手</div> -->
     </div>
+      <!-- <popupLayOut></popupLayOut> -->
   </div>
 </template>
 <script>
@@ -60,9 +61,10 @@ import sideMenu from './components/sideMenu'
 import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
 import { popoverList } from './components/data.js'
+import popupLayOut from './components/popupLayOut'
 
 export default {
-  components: { topLayout, LeftLayout, sideMenu, myModules },
+  components: { topLayout, LeftLayout, sideMenu, myModules, popupLayOut },
   props: {
     menus: {
       type: Array,
