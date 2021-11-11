@@ -86,9 +86,8 @@
             },
             getHeadDetail() {
                 this.$refs.theTable.handleSearch();
-                const {title,version,id} = this.$route.query
-                let ver = version?version:'V1'
-                this.title = `${title}（产量版本：${ver}）`
+                const {title,id} = this.$route.query
+                this.title = title
                 getHeadspBaseDetail({seriesbaseId:id}).then(res => {
                     if(res.result) {
                         this.headBase = res.data
