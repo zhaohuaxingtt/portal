@@ -117,6 +117,7 @@
         </div>
         <tableList
             class="margin-top20"
+            @handleSelectionChange="handleSelectionChange"
             :tableData="tableData"
             :tableTitle="tableTitle"
             :tableLoading="loading"
@@ -199,17 +200,23 @@ export default {
         },
 
         getTableList(){
+            this.loading = true;
             pageHistoryPartMasterData({
                 ...this.searchForm,
                 pageSize:this.page.pageSize,
                 pageNo:this.page.currPage,
                 onlySeeMySelf:this.switchValue,
             }).then(res=>{
-                console.log(res);
+                this.tableData = res.data;
+                this.page.currPage = res.pageNum
+                this.page.pageSize = res.pageSize
+                this.page.totalCount = res.total
+                this.loading = false;
             })
         },
         changeSwitch(val){
-            console.log(val);
+            this.switchValue = val;
+            this.getTableList();
         },
         handleSelectionChange(val){
             this.changeData = val;

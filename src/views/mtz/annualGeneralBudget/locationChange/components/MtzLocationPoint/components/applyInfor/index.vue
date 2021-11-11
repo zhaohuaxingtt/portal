@@ -79,6 +79,7 @@ import { tabsInforList } from "./data";
 import theTabs from "./theTabs";
 import theDataTabs from "./theDataTabs";
 import partApplication from "./partApplication";
+import store from "@/store";
 
 import {
   getAppFormInfo,
@@ -163,13 +164,16 @@ export default {
   },
   created () {
     this.init()
+    this.getListData()
     if(this.$route.query.appId){
       this.appIdType = false;
     }
   },
   methods: {
     init () {
-      getAppFormInfo({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res => {
+      getAppFormInfo({
+        mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId 
+      }).then(res => {
         this.inforData.mtzAppId = res.data.mtzAppId;
         this.inforData.linieName = res.data.linieName
         this.inforData.appStatus = res.data.appStatus
@@ -180,14 +184,18 @@ export default {
         } else {
           this.applyNumber = res.data.ttNominateAppId;
         }
-
-        if (res.data.appStatus == "NEW" || res.data.appStatus == "SUBMIT" || res.data.appStatus == "NOTPASS") {
+        store.commit("submitBtnType",res.data.flowType);
+        // NOTPASS
+        if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
           this.showType = true;
         }
 
         this.inforData.appName = res.data.appName
         this.inforData.flowType = res.data.flowType
       })
+      
+    },
+    getListData(){
       getFlowTypeList({}).then(res => {
         this.getFlowTypeList = res.data;
       })
@@ -213,6 +221,7 @@ export default {
           console.log(res);
           iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功！'))
           this.disabled = true;
+          this.init();
         })
       }).catch(res => {
 
@@ -233,7 +242,7 @@ export default {
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res => {
         disassociate({
-          mtzAppId: this.$route.query.mtzAppId || this.mtzObject.mtzAppId
+          mtzAppId: this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
         }).then(res => {
           if (res.code == 200) {
             iMessage.success(res.desZh)
@@ -270,6 +279,7 @@ export default {
     saveClose (val) {
       this.applyNumber = val;
       this.closeDiolog();
+      this.init();
     },
     chioce (e, name) {
       this.inforData[name] = e;

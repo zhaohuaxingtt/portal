@@ -130,8 +130,9 @@
                   :index="true">
         <template #supplierTagNameList="scope">
           <i-button type="text"
-                    @click="handleTagsList(scope.row)">{{ scope.row.supplierTagNameList }}</i-button>
+                    @click="handleTagsList(scope.row)">{{scope.row.supplierTagNameList}}</i-button>
         </template>
+
         <template #supplierStatus="scope">
           <div v-if="form.supplierType == 'GP'">
             <i-button v-if="scope.row.isGpBlackList != 1"
@@ -564,6 +565,12 @@ export default {
       }
       const res = await getBasicList(pms)
       this.tableListData = res.data
+      this.tableListData.forEach(res=>{
+          if( res.supplierTagNameList!=null){
+          res.supplierTagNameList= res.supplierTagNameList.join(',')
+
+          }
+      })
       this.page.currPage = res.pageNum
       this.page.pageSize = res.pageSize
       this.page.totalCount = res.total

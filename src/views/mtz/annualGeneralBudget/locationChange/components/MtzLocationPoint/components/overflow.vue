@@ -14,7 +14,7 @@
       <!-- <span class="title_name">MTZ申请单-100386 申请单名-采购员-科室</span> -->
       <span class="title_name">{{ commonTitle }} - {{locationId}}</span>
       <div class="opration">
-        <iButton @click="submit">{{ language('TIJIAO', '提交') }}</iButton>
+        <iButton @click="submit" :disabled="appStatus !== '草稿'">{{ language('TIJIAO', '提交') }}</iButton>
         <iButton @click="downRS">{{ language('DAOCHURS', '导出RS') }}</iButton>
       </div>
     </div>
@@ -112,40 +112,55 @@ export default {
       rsType:false,
       downType:true,
       beforReturn:true,
-      flowType:""
+      flowType:"",
+      appStatus:"",
     }
   },
   computed: {
+    submitType(){
+      return this.$store.state.location.submitType;
+    },
     mtzObject(){
         return this.$store.state.location.mtzObject;
     },
     commonTitle() {
       // MTZ申请单-100386 申请单名-采购员-科室
       return this.language('MTZSHENGQINGDAN', 'MTZ申请单') + (this.mtzApplayNum ? '-' + this.mtzApplayNum : '') + (' ' + this.mtzApplayName || '') + (this.user ? '-' + this.user : '') + (this.dept ? '-' + this.dept : '')
-    }
+    },
+    submitDataList(){
+      return this.$store.state.location.submitDataList;
+    },
   },
+  
   watch: {
+    submitType(newValue,oldValue){
+      this.flowType = newValue;
+    },
     mtzObject(newValue,oldValue){
-      if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined){
+      if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined){
       }else{
-        this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId
+        this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       }
       this.getType();
     }
   },
   created() {
-    if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined){
+    if(JSON.parse(sessionStorage.getItem('MtzLIst')) == null){
+      sessionStorage.setItem('MtzLIst',JSON.stringify({mtzAppId:undefined}))
+    }
+    if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined){
       this.beforReturn = true;
     }else{
       this.beforReturn = false;
-      this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId
+      this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+      this.getType();
     }
-    this.getType();
   },
   methods: {
     getType(){
-      getAppFormInfo({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res=>{
+      getAppFormInfo({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId}).then(res=>{
         this.flowType = res.data.flowType;
+        this.appStatus = res.data.appStatus;
       })
     },
     closeType(){
@@ -170,11 +185,16 @@ export default {
 
     // 提交
     submit(){
-      if(this.mtzObject.flowType == undefined && this.$route.query.flowType == undefined && this.flowType == ""){
+      console.log(this.submitDataList)
+      if(this.submitDataList == 0){
+        iMessage.warn(this.language("WHMTZYCLGZBNWK","维护MTZ原材料规则不能为空"))
+        return false;
+      }
+      if(this.mtzObject.flowType == undefined && this.$route.query.flowType == undefined && this.flowType == "" && this.submitType == ""){
         
       }else{
-        this.flowType = this.mtzObject.flowType || this.$route.query.flowType || this.flowType
-        if(this.flowType == "MEETING"){//上会
+        this.flowType = this.mtzObject.flowType || this.$route.query.flowType || this.flowType || this.submitType
+        if(this.flowType === "MEETING"){//上会
           this.mtzAddShow = true;
         }else{//备案
           NewMessageBox({
@@ -184,10 +204,12 @@ export default {
               confirmButtonText:this.language('QUEREN', '确认'),
           }).then(() => {
               mtzAppNomiSubmit({
-                mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+                mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
               }).then(res=>{
                 if(res.result && res.code == 200){
                   iMessage.success(this.language(res.desEn,res.desZh))
+
+                  this.getType();
                 }
               })
           }).catch((err) => {
@@ -203,7 +225,7 @@ export default {
         path: data.url,
         query: {
           currentStep: data.id,
-          mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
           appId:this.$route.query.appId || this.mtzObject.appId,
           flowType:this.$route.query.flowType
         }
@@ -218,6 +240,8 @@ export default {
         data.refresh = true;
         console.log(data);
         store.commit("routerMtzData",data);
+        sessionStorage.setItem("MtzLIst",JSON.stringify(data))
+        this.getType();
       }
       this.closeDiolog()
     },

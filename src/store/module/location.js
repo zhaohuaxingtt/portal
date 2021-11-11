@@ -1,7 +1,9 @@
 const location = {
     state: {
         locationNumber: 1,
-        mtzObject:{}
+        mtzObject:{},
+        submitType:"",
+        submitDataList:0
     },
     actions: {},
     mutations: {
@@ -10,7 +12,13 @@ const location = {
         },
         routerMtzData:(state,data) => {
             state.mtzObject = data;
-        }
+        },
+        submitBtnType:(state,data) => {
+            state.submitType = data;
+        },
+        submitDataNumber:(state,data) => {
+            state.submitDataList = data;
+        },
     }
 }
 export default location

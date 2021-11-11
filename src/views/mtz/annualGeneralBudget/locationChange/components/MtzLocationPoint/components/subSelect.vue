@@ -101,7 +101,7 @@ export default {
             // console.log(this.selectData)
             if (this.selectData.length > 0) {
                 saveMeeting({
-                    mtzAppId:this.$route.query.mtzAppId || this.mtzObject.mtzAppId,
+                    mtzAppId:this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     meetingId:this.selectData[0].id,
                     duration:this.selectData[0].duration,
                     topic:this.selectData[0].name,
@@ -130,7 +130,8 @@ export default {
             getMettingList({
                 meetingTypeEnum:this.changeValue,
                 pageNum: this.page.currPage,
-                pageSize: this.page.pageSize
+                pageSize: this.page.pageSize,
+                states:["02"]
             }).then(res=>{
                 // console.log(res);
                 this.tableListData = res.data;

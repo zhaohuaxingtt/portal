@@ -211,7 +211,7 @@ import {
   categoryList,
   liniePurchaseList,
   getBuyerType,
-  prePurchaseDeptList,
+//   prePurchaseDeptList,
   liniePurchaseDeptList
 } from '@/api/supplier360/blackList'
 export default {
@@ -238,7 +238,7 @@ export default {
         reason: '',
         daterange: [],
         purchaserId: '',
-        liniePurchaserId: '',
+        liniePurchaserId: ''
       },
       selectDate: '',
       prePurchaseDeptArr: [],
@@ -341,8 +341,8 @@ export default {
         if (res && res.code == 200) {
           this.userType = res.data
           if (res.data == 'LINIE') {
-            //   this.getprePurchase()
-            this.getprePurchaseDept()
+            this.getprePurchase()
+            // this.getprePurchaseDept()
           } else if (res.data == 'PRE') {
             //   this.getliniePurchase()
             this.getliniePurchaseDept()
@@ -357,6 +357,7 @@ export default {
       switch (v) {
         case 'keshi':
           this.form.purchaserId = ''
+          //科室名称
           this.form.deptName = this.prePurchaseDeptArr.find(
             (res) => res.deptId == type
           ).deptName
@@ -364,17 +365,20 @@ export default {
           break
         case 'liniekeshi':
           this.form.liniePurchaserId = ''
+          //linie科室名称
           this.form.linieDeptName = this.liniePurchaseDeptArr.find(
             (res) => res.linieDeptId == type
           ).linieDeptName
           this.getliniePurchase()
           break
         case 'cgy':
+          //采购员名称
           this.form.purchaserName = this.prePurchaseArr.find(
             (res) => res.purchaserId == type
           ).purchaserName
           break
         case 'liniecgy':
+          //linie采购员名称
           this.form.liniePurchaserName = this.liniePurchaseArr.find(
             (res) => res.liniePurchaserId == type
           ).liniePurchaserName
@@ -384,16 +388,16 @@ export default {
       }
       console.log(this.form)
     },
-    //前期采购员科室
-    getprePurchaseDept() {
-      prePurchaseDeptList({
-        supplierId: this.clickTableList.subSupplierId
-      }).then((res) => {
-        if (res && res.code == 200) {
-          this.prePurchaseDeptArr = res.data
-        }
-      })
-    },
+    // //前期采购员科室
+    // getprePurchaseDept() {
+    //   prePurchaseDeptList({
+    //     supplierId: this.clickTableList.subSupplierId
+    //   }).then((res) => {
+    //     if (res && res.code == 200) {
+    //       this.prePurchaseDeptArr = res.data
+    //     }
+    //   })
+    // },
     //line采购员科室
     getliniePurchaseDept() {
       liniePurchaseDeptList({
@@ -407,11 +411,23 @@ export default {
     //前期采购员
     getprePurchase() {
       prePurchaseList({
-        supplierId: this.clickTableList.subSupplierId,
-        purchaserDeptId: this.form.preDeptId
+        supplierId: this.clickTableList.subSupplierId
+        // purchaserDeptId: this.form.preDeptId
       }).then((res) => {
         if (res && res.code == 200) {
           this.prePurchaseArr = res.data
+          if (this.prePurchaseArr.length != 0) {
+            this.form.purchaserId = this.prePurchaseArr[0].purchaserId
+            this.form.purchaserName = this.prePurchaseArr[0].purchaserName
+            this.form.preDeptId = this.prePurchaseArr[0].deptId
+            this.form.deptName = this.prePurchaseArr[0].deptName
+          }
+          this.prePurchaseArr.forEach((res) => {
+            this.prePurchaseDeptArr.push({
+              deptId: res.deptId,
+              deptName: res.deptName
+            })
+          })
         }
       })
     },

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2021-10-21 15:22:34
+ * @LastEditTime: 2021-11-11 15:41:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\data.js
@@ -317,9 +317,10 @@ export const tableTitle2 = [
   },
   {
     props: 'pieceSupplierSap',
-    name: '二次件供应商编号',
-    key: 'ERCIJIANGONGYINGSHANGBIANHAO',
-    width: 170
+    name: '二次件供应商',
+    key: 'ERCIJIANGONGYINGSHANG',
+    width: 250,
+    tooltip: true
   },
   { props: 'factor', name: '一二次件比例', key: 'YIERCIJIANBILI', width: 150 },
   {
@@ -345,9 +346,10 @@ export const tableTitle3 = [
   { props: 'pgmNo', name: '贵金属编号', key: 'GUIJINSHUBIANHAO', width: 150 },
   {
     props: 'pieceSupplierSap',
-    name: '二次件供应商编号',
-    key: 'ERCIJIANGONGYINGSHANGBIANHAO',
-    width: 170
+    name: '二次件供应商',
+    key: 'ERCIJIANGONGYINGSHANG',
+    width: 250,
+    tooltip: true
   },
   { props: 'factor', name: '一二次件比例', key: 'YIERCIJIANBILI', width: 150 },
   {

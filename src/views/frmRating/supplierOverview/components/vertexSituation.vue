@@ -13,286 +13,362 @@
     <!-- <div class="flex-align-center" style="justify-content: center;height: 100%;">
 		<img style="width: 60%;" src="./soon.png" >
 	</div> -->
-    <div ref="chart"
-         @click="handleDialog"
-         class="chartStyle"> </div>
-    <iDialog @close="closeDiolog()"
-             :visible.sync="visible"
-             v-if="visible"
-             top="2%"
-             width="85%">
-      <el-tabs class="tabsHeader"
-               type="card"
-               style="margin-left:20px;"
-               v-model="tabVal"
-               @tab-click="changeTab">
-        <el-tab-pane name="1"
-                     :label="
-            language('SHISHICRATINGGONGYINGSHANGQINGDAN', '实时C-Rating供应商清单')
-          ">
+    <div ref="chart" @click="handleDialog" class="chartStyle"></div>
+    <iDialog
+      @close="closeDiolog()"
+      :visible.sync="visible"
+      v-if="visible"
+      top="2%"
+      width="85%"
+    >
+      <el-tabs
+        class="tabsHeader"
+        type="card"
+        style="margin-left: 20px"
+        v-model="tabVal"
+        @tab-click="changeTab"
+      >
+        <el-tab-pane
+          name="1"
+          :label="
+            language(
+              'SHISHICRATINGGONGYINGSHANGQINGDAN',
+              '实时C-Rating供应商清单'
+            )
+          "
+        >
         </el-tab-pane>
-        <el-tab-pane name="2"
-                     :label="language('CRATINGGONGYINGSHANGXUNJIADINGDIANQINGKUANG', 'C-Rating供应商询价定点情况')">
+        <el-tab-pane
+          name="2"
+          :label="
+            language(
+              'CRATINGGONGYINGSHANGXUNJIADINGDIANQINGKUANG',
+              'C-Rating供应商询价定点情况'
+            )
+          "
+        >
         </el-tab-pane>
       </el-tabs>
       <div class="header">
-        <el-form inline
-                 label-position="top">
+        <el-form inline label-position="top" :key="Math.random()">
           <el-form-item :label="language('SAPHAO', 'SAP号')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.sapCode">
-              <el-option v-for="item in sapList"
-                         :key="item.kvalue"
-                         :label="item.vvalue"
-                         :value="item.kvalue">
+            <iSelect
+              collapse-tags
+              filterable
+              multiple
+              :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+              v-model.trim="form.sapCode"
+            >
+              <el-option
+                v-for="item in sapList"
+                :key="item.kvalue"
+                :label="item.vvalue"
+                :value="item.kvalue"
+              >
               </el-option>
             </iSelect>
-
           </el-form-item>
-          <el-form-item :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.supplierName">
-              <el-option v-for="item in supplierList"
-                         :key="item.kvalue"
-                         :label="item.vvalue"
-                         :value="item.kvalue">
+          <el-form-item
+            :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
+          >
+            <iSelect
+              collapse-tags
+              filterable
+              multiple
+              :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+              v-model.trim="form.supplierName"
+            >
+              <el-option
+                v-for="item in supplierList"
+                :key="item.kvalue"
+                :label="item.vvalue"
+                :value="item.kvalue"
+              >
               </el-option>
             </iSelect>
-
           </el-form-item>
           <el-form-item :label="language('XIANGGUANKESHI', '相关科室')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     @change="deptChange"
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.deptId">
-              <el-option v-for="item in deptList"
-                         :key="item.id"
-                         :label="item.deptNum"
-                         :value="item.id">
+            <iSelect
+              collapse-tags
+              filterable
+              multiple
+              @change="deptChange"
+              :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+              v-model.trim="form.deptId"
+            >
+              <el-option
+                v-for="item in deptList"
+                :key="item.id"
+                :label="item.deptNum"
+                :value="item.id"
+              >
               </el-option>
             </iSelect>
           </el-form-item>
           <el-form-item :label="language('FUZECAIGOUYUAN', '负责采购员')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.userId">
-              <el-option v-for="item in userList"
-                         :key="item.id"
-                         :label="item.nameZh"
-                         :value="item.id">
+            <iSelect
+              collapse-tags
+              filterable
+              multiple
+              :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+              v-model.trim="form.userId"
+            >
+              <el-option
+                v-for="item in userList"
+                :key="item.id"
+                :label="item.nameZh"
+                :value="item.id"
+              >
               </el-option>
             </iSelect>
           </el-form-item>
-          <el-form-item v-if="tabVal==2"
-                        :label="language('SHIFOUCRATING', '是否C-Rating')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.iscRating">
-              <el-option v-for="item in isCrating"
-                         :key="item.code"
-                         :label="item.name"
-                         :value="item.code">
+          <el-form-item
+            v-if="tabVal == 2"
+            :label="language('SHIFOUCRATING', '是否C-Rating')"
+          >
+            <iSelect
+              :placeholder="language('QINGXUANZE', '请选择')"
+              v-model.trim="form.iscRating"
+            >
+              <el-option
+                v-for="item in iscRatingList"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code"
+              >
               </el-option>
             </iSelect>
           </el-form-item>
-          <el-form-item :label="language('JIARUCRATINGYUANYIN', '加入C-Rating原因')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.ratingSource">
-              <el-option v-for="item in cratingLsit"
-                         :key="item.code"
-                         :label="item.name"
-                         :value="item.code">
+          <el-form-item
+            :label="language('JIARUCRATINGYUANYIN', '加入C-Rating原因')"
+          >
+            <iSelect
+              collapse-tags
+              filterable
+              multiple
+              :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+              v-model.trim="form.ratingSource"
+            >
+              <el-option
+                v-for="item in cratingLsit"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code"
+              >
               </el-option>
             </iSelect>
-
           </el-form-item>
-          <el-form-item v-if="tabVal==2"
-                        :label="language('YICHUCRATINGYUANYIN', '移除C-Rating原因')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.cancelReason">
-              <el-option v-for="item in cratingLsit"
-                         :key="item.code"
-                         :label="item.name"
-                         :value="item.code">
+          <el-form-item
+            v-if="tabVal == 2"
+            :label="language('YICHUCRATINGYUANYIN', '移出C-Rating原因')"
+          >
+            <iSelect
+              collapse-tags
+              filterable
+              multiple
+              :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+              v-model.trim="form.cancelReason"
+            >
+              <el-option
+                v-for="item in cratingLsit"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code"
+              >
               </el-option>
             </iSelect>
-
           </el-form-item>
-          <el-form-item v-if="tabVal==2"
-                        :label="language('GONGYINGSHANGZHUANGTAI', '供应商状态')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.rfqStatus">
-              <el-option v-for="item in supplierStatus"
-                         :key="item.id"
-                         :label="item.name"
-                         :value="item.id">
+          <el-form-item
+            v-if="tabVal == 2"
+            :label="language('GONGYINGSHANGZHUANGTAI', '供应商状态')"
+          >
+            <iSelect
+              :placeholder="language('QINGXUANZE', '请选择')"
+              v-model.trim="form.rfqStatus"
+              multiple
+            >
+              <el-option
+                v-for="item in supplierStatus"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code"
+              >
               </el-option>
             </iSelect>
-
           </el-form-item>
-          <el-form-item v-if="tabVal==2"
-                        :label="language('LINGJIANXINXI', '零件信息')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.partNum">
-              <el-option v-for="item in partList"
-                         :key="item.kvalue"
-                         :label="item.vvalue"
-                         :value="item.kvalue">
+          <el-form-item
+            v-if="tabVal == 2"
+            :label="language('LINGJIANXINXI', '零件信息')"
+          >
+            <iSelect
+              collapse-tags
+              filterable
+              multiple
+              :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+              v-model.trim="form.partNum"
+            >
+              <el-option
+                v-for="item in partList"
+                :key="item.kvalue"
+                :label="item.vvalue"
+                :value="item.kvalue"
+              >
               </el-option>
             </iSelect>
-
           </el-form-item>
-          <el-form-item v-if="tabVal==2"
-                        :label="language('RFQHAO', 'RFQ号')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.rfq">
-              <el-option v-for="item in resRfqList"
-                         :key="item.kvalue"
-                         :label="item.vvalue"
-                         :value="item.kvalue">
+          <el-form-item v-if="tabVal == 2" :label="language('RFQHAO', 'RFQ号')">
+            <iSelect
+              collapse-tags
+              filterable
+              multiple
+              :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+              v-model.trim="form.rfq"
+            >
+              <el-option
+                v-for="item in resRfqList"
+                :key="item.kvalue"
+                :label="item.vvalue"
+                :value="item.kvalue"
+              >
               </el-option>
             </iSelect>
-
           </el-form-item>
-          <el-form-item v-if="tabVal==2"
-                        :label="language('XIANGMUBIANHAO', '项目编号')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.motorProject">
-              <el-option v-for="item in projectList"
-                         :key="item.kvalue"
-                         :label="item.vvalue"
-                         :value="item.kvalue">
+          <el-form-item
+            v-if="tabVal == 2"
+            :label="language('XIANGMUBIANHAO', '项目编号')"
+          >
+            <iSelect
+              collapse-tags
+              filterable
+              multiple
+              :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+              v-model.trim="form.motorProject"
+            >
+              <el-option
+                v-for="item in projectList"
+                :key="item.kvalue"
+                :label="item.vvalue"
+                :value="item.kvalue"
+              >
               </el-option>
             </iSelect>
-
           </el-form-item>
-          <el-form-item v-if="tabVal==2"
-                        :label="language('BAOJIACHEXING', '报价车型')">
-            <iSelect collapse-tags
-                     multiple
-                     filterable
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                     v-model.trim="form.motorType">
-              <el-option v-for="item in motorList"
-                         :key="item.kvalue"
-                         :label="item.vvalue"
-                         :value="item.kvalue">
+          <el-form-item
+            v-if="tabVal == 2"
+            :label="language('BAOJIACHEXING', '报价车型')"
+          >
+            <iSelect
+              collapse-tags
+              multiple
+              filterable
+              :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+              v-model.trim="form.motorType"
+            >
+              <el-option
+                v-for="item in motorList"
+                :key="item.kvalue"
+                :label="item.vvalue"
+                :value="item.kvalue"
+              >
               </el-option>
             </iSelect>
-
           </el-form-item>
-
         </el-form>
         <div class="btnStyle">
-          <iButton @click="sure">{{
-          language('CHAXUN', '查询')
-        }}</iButton>
+          <iButton @click="sure">{{ language('CHAXUN', '查询') }}</iButton>
           <iButton @click="clickReset">{{
-          language('CHONGZHI', '重置')
-        }}</iButton>
+            language('CHONGZHI', '重置')
+          }}</iButton>
         </div>
       </div>
 
       <div class="sectionTitle">
         <span class="ptext">
-          {{
-              language(
-                'XIANGQINGLIEBIAO',
-                '详情列表'
-              )
-            }}
+          {{ language('XIANGQINGLIEBIAO', '详情列表') }}
         </span>
-        <iButton v-if="tabVal==1"
-                 @click="handleSaveBtn">{{
-          language('YICHUCRATING', '移除C-Rating')
+        <iButton v-if="tabVal == 1" @click="handleSaveBtn">{{
+          language('YICHUCRATING', '移出C-Rating')
         }}</iButton>
       </div>
-      <table-list v-if="tabVal == 1"
-                  style="margin-top:20px"
-                  :tableData="tableListData"
-                  @handleSelectionChange="handleSelectionChange"
-                  :tableTitle="tableTitleMonitor"
-                  :tableLoading="tableLoading"
-                  :index="true">
-        <template #ratingSource='scope'>
-          <span v-if="scope.row.ratingSource!='100'">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
-          <span v-if="scope.row.ratingSource=='100'">深入评级- <icon class="early"
-                  symbol
-                  name="iconcaiwuyujing-hongdeng"></icon></span>
-        </template>
-
-      </table-list>
-      <table-list v-if="tabVal == 2"
-                  style="margin-top:20px"
-                  :tableData="tableListData"
-                  :tableTitle="tableTitleMonitorRecord"
-                  :tableLoading="tableLoading"
-                  :index="true"
-                  :selection="false">
-        <template #ratingSource='scope'>
-          <span v-if="scope.row.ratingSource!='100'">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
-          <span v-if="scope.row.ratingSource=='100'">深入评级- <icon class="early"
-                  symbol
-                  name="iconcaiwuyujing-hongdeng"></icon></span>
+      <table-list
+        v-if="tabVal == 1"
+        style="margin-top: 20px"
+        :tableData="tableListData"
+        @handleSelectionChange="handleSelectionChange"
+        :tableTitle="tableTitleMonitor"
+        :tableLoading="tableLoading"
+        :index="true"
+      >
+        <template #ratingSource="scope">
+          <span
+            v-if="
+              scope.row.ratingSource != '100' && scope.row.ratingSource != null
+            "
+            >{{
+              cratingLsit.find((res) => {
+                return res.code == scope.row.ratingSource
+              }).name
+            }}</span
+          >
+          <span v-if="scope.row.ratingSource == '100'"
+            >深入评级-
+            <icon class="early" symbol name="iconcaiwuyujing-hongdeng"></icon
+          ></span>
         </template>
       </table-list>
-      <div style="height:30px">
-
-      </div>
+      <table-list
+        v-if="tabVal == 2"
+        style="margin-top: 20px"
+        :tableData="tableListData"
+        :tableTitle="tableTitleMonitorRecord"
+        :tableLoading="tableLoading"
+        :index="true"
+        :selection="false"
+      >
+        <template #ratingSource="scope">
+          <span
+            v-if="
+              scope.row.ratingSource != '100' && scope.row.ratingSource != null
+            "
+            >{{
+              cratingLsit.find((res) => {
+                return res.code == scope.row.ratingSource
+              }).name
+            }}</span
+          >
+          <span v-if="scope.row.ratingSource == '100'"
+            >深入评级-
+            <icon class="early" symbol name="iconcaiwuyujing-hongdeng"></icon
+          ></span>
+        </template>
+      </table-list>
+      <div style="height: 30px"></div>
     </iDialog>
-    <iDialog destroy-on-close
-             @close="closeDiologDetail()"
-             :visible.sync="visibleDetal"
-             top="2%"
-             width="85%">
+    <iDialog
+      destroy-on-close
+      @close="closeDiologDetail()"
+      :visible.sync="visibleDetal"
+      top="2%"
+      width="85%"
+    >
       <div class="section-box">
         <div>
-          <span>{{ language('YICHUYUANYIN', '移除原因') }}
-            <span style="color:red">*</span></span>
+          <span
+            >{{ language('YICHUYUANYIN', '移出原因') }}
+            <span style="color: red">*</span></span
+          >
         </div>
-        <iButton @click="handleSave">{{
-            language('QUEREN', '确认')
-          }}</iButton>
+        <iButton @click="handleSave">{{ language('QUEREN', '确认') }}</iButton>
       </div>
-      <iInput style="margin-top:20px"
-              :placeholder="language('QINGSHURU', '请输入…')"
-              type="textarea"
-              v-model="takeStepsContent"
-              maxlength="200"
-              show-word-limit></iInput>
-      <div style="height:30px">
-
-      </div>
+      <iInput
+        style="margin-top: 20px"
+        :placeholder="language('QINGSHURU', '请输入…')"
+        type="textarea"
+        v-model="takeStepsContent"
+        maxlength="200"
+        show-word-limit
+      ></iInput>
+      <div style="height: 30px"></div>
     </iDialog>
   </iCard>
 </template>
@@ -328,21 +404,27 @@ export default {
       form: {
         sapCode: [],
         supplierName: [],
-        supplierId: []
+        iscRating: '',
+        supplierId: [],
+        rfqStatus: ''
       },
-      cratingLsit: [],
+      cratingLsit: [{ name: '' }],
       tableLoading: true,
       sapList: [],
       takeStepsContent: '',
       deptList: [],
       userList: [],
       supplierList: [],
-      supplierStatus: [],
       selectData: [],
-      isCrating: [
+      iscRatingList: [
+        { code: '', name: this.language('QUANBU', '全部') },
         { code: 1, name: this.language('SHI', '是') },
-        { code: 0, name: this.language('FOU', '否') },
-        { code: '', name: this.language('QUANBU', '全部') }
+        { code: 0, name: this.language('FOU', '否') }
+      ],
+      supplierStatus: [
+        { code: '', name: this.language('QUANBU', '全部') },
+        { code: 0, name: this.language('WEIBAOJIA', '未报价') },
+        { code: 1, name: this.language('XUNJIAZHONG', '询价中') }
       ]
     }
   },
@@ -358,12 +440,14 @@ export default {
       })
       const res = await dictByCode('C_RATING')
       this.cratingLsit = res
+      console.log(this.cratingLsit)
     },
 
     handleDialog() {
       this.visible = true
       this.getInit()
     },
+    //获取科室
     getDeptList() {
       const req = {
         level: 'K2'
@@ -372,6 +456,7 @@ export default {
         this.deptList = res.data
       })
     },
+    //选择相关科室
     deptChange(v) {
       console.log(v)
       var arr = []
@@ -391,7 +476,7 @@ export default {
     getTaleList() {
       this.tableLoading = true
       this.form.supplierId = this.form.sapCode.concat(this.form.supplierName)
-
+      // this.form.rfqStatus = [this.form.rfqStatus]
       const req = {
         ...this.form
       }
@@ -411,12 +496,11 @@ export default {
       }
     },
     async getInit() {
-      this.getDeptList()
       this.getTaleList()
-
+      this.getDeptList()
       const res2 = await sapDropDown({ type: 'sap' })
       const res3 = await sapDropDown({ type: 'supplier' })
-      const res4 = await dictByCode('RFQ_STATE')
+      //   const res4 = await dictByCode('RFQ_STATE')
       const resPart = await sapDropDown({ type: 'part' })
       const resRfq = await sapDropDown({ type: 'rfq' })
       const resProject = await sapDropDown({ type: 'project' })
@@ -427,8 +511,7 @@ export default {
       this.motorList = resMotor.data
       this.sapList = res2.data
       this.supplierList = res3.data
-      this.supplierStatus = res4
-      console.log(res4)
+      //   this.supplierStatus = res4
     },
     handleSelectionChange(val) {
       this.selectData = val
@@ -587,7 +670,7 @@ export default {
         supplierId: [],
         deptId: [],
         userId: [],
-        isCrating: [],
+        iscRating: '',
         ratingSource: [],
         cancelReason: [],
         rfqStatus: [],
