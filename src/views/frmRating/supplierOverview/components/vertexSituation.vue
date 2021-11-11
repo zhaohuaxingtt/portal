@@ -245,8 +245,12 @@
                   :tableLoading="tableLoading"
                   :index="true">
         <template #ratingSource='scope'>
-          <span>{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
+          <span v-if="scope.row.ratingSource!='100'">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
+          <span v-if="scope.row.ratingSource=='100'">深入评级- <icon class="early"
+                  symbol
+                  name="iconcaiwuyujing-hongdeng"></icon></span>
         </template>
+
       </table-list>
       <table-list v-if="tabVal == 2"
                   style="margin-top:20px"
@@ -256,7 +260,10 @@
                   :index="true"
                   :selection="false">
         <template #ratingSource='scope'>
-          <span>{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
+          <span v-if="scope.row.ratingSource!='100'">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
+          <span v-if="scope.row.ratingSource=='100'">深入评级- <icon class="early"
+                  symbol
+                  name="iconcaiwuyujing-hongdeng"></icon></span>
         </template>
       </table-list>
       <div style="height:30px">
@@ -292,7 +299,7 @@
 
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, iSelect, iButton, iDialog, iInput, iMessage } from 'rise'
+import { iCard, iSelect, iButton, iDialog, iInput, iMessage, icon } from 'rise'
 import { tableTitleMonitor, tableTitleMonitorRecord, dictByCode } from './data'
 import tableList from '@/components/commonTable'
 import {
@@ -306,7 +313,7 @@ import { getDeptDropDownList } from '@/api/authorityMgmt/index'
 // import soon from "./soon.png";
 
 export default {
-  components: { iCard, iSelect, iButton, iDialog, tableList, iInput },
+  components: { iCard, iSelect, iButton, iDialog, tableList, iInput, icon },
   data() {
     return {
       chart: 'vertexSituationChati',
@@ -324,7 +331,7 @@ export default {
         supplierId: []
       },
       cratingLsit: [],
-      tableLoading: false,
+      tableLoading: true,
       sapList: [],
       takeStepsContent: '',
       deptList: [],
@@ -349,6 +356,8 @@ export default {
         this.info = res.data
         this.getChart()
       })
+      const res = await dictByCode('C_RATING')
+      this.cratingLsit = res
     },
 
     handleDialog() {
@@ -373,7 +382,6 @@ export default {
         if (arr.length != 0) {
           this.userList.push(...arr)
         }
-   
       } else {
         this.userList = this.deptList.find((res) => {
           return v == res.id
@@ -381,6 +389,7 @@ export default {
       }
     },
     getTaleList() {
+      this.tableLoading = true
       this.form.supplierId = this.form.sapCode.concat(this.form.supplierName)
 
       const req = {
@@ -389,7 +398,6 @@ export default {
 
       req.sapCode = undefined
       req.supplierName = undefined
-      this.tableLoading = true
       if (this.tabVal == '1') {
         currentList(req).then((res) => {
           this.tableLoading = false
@@ -405,7 +413,7 @@ export default {
     async getInit() {
       this.getDeptList()
       this.getTaleList()
-      const res = await dictByCode('C_RATING')
+
       const res2 = await sapDropDown({ type: 'sap' })
       const res3 = await sapDropDown({ type: 'supplier' })
       const res4 = await dictByCode('RFQ_STATE')
@@ -417,7 +425,6 @@ export default {
       this.resRfqList = resRfq.data
       this.projectList = resProject.data
       this.motorList = resMotor.data
-      this.cratingLsit = res
       this.sapList = res2.data
       this.supplierList = res3.data
       this.supplierStatus = res4
@@ -467,7 +474,7 @@ export default {
         },
         legend: {
           icon: 'circle',
-                  orient:'vertical',
+          orient: 'vertical',
           right: 0,
           top: 0,
           textStyle: {
@@ -608,6 +615,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.early {
+  display: inline-block;
+  font-size: 20px;
+}
 .center1 {
   display: flex;
   justify-content: center;
