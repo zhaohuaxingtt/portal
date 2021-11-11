@@ -5,7 +5,7 @@ const requestDownload = axiosDownload(process.env.VUE_APP_BIZLOG)
 //查询日志
 export function fetchBizLog(data) {
   return request({
-    url: '/operationLog/findOperationLogs',
+    url: '/operationLog/findOperaLogs',
     method: 'POST',
     data
   })
@@ -17,5 +17,12 @@ export function exportBizLog(data) {
     url: '/operationLog/exportData',
     method: 'POST',
     data
+  })
+}
+
+export function fetchBizLogCategories() {
+  return request({
+    url: '/operationLog/listOperationType',
+    method: 'post'
   })
 }

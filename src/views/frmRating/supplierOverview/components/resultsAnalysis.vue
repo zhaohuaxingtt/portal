@@ -8,27 +8,29 @@
 -->
 <template>
   <iCard :title="$t('SPR_FRM_DEP_FINANA')">
-    <div class="height cursor" @click="handleAnalysis">
-      <img :src="img" style="margin-top:50px;height:140px;"/>
+    <div class="height cursor"
+         @click="handleAnalysis">
+      <img :src="img"
+           style="margin-top:50px;height:140px;" />
     </div>
   </iCard>
 </template>
 
 <script>
-import { iCard} from 'rise';
+import { iCard, icon } from 'rise'
 import img from '@/assets/images/financial.svg'
 export default {
-  components: { iCard},
+  components: { iCard, icon },
+  data() {
+    return { img: img }
+  },
   methods: {
     handleAnalysis() {
-      this.$router.push({ path: '/supplier/frmrating/depthRating/financialAnalysis' })
+      this.$router.push({
+        path: '/supplier/frmrating/depthRating/financialAnalysis'
+      })
     }
-  },
-  data:()=>{
-    return {
-      img:img
-    }
-  },
+  }
 }
 </script>
 

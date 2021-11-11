@@ -5,6 +5,7 @@
   "scripts": {
     "start:win:dev": "vue-cli-service serve --mode dev",
     "start:win:sit": "vue-cli-service serve --mode sit",
+    "start:win:vmsit": "vue-cli-service serve --mode vmsit",
     "build:win:dev": "npm install && npm install rise@latest && vue-cli-service build --mode dev",
     "build:win:sit": "npm install && npm install rise@latest && vue-cli-service build --mode sit",
     "build:win:vmsit": "npm install && npm install rise@latest && vue-cli-service build --mode vmsit",
@@ -25,6 +26,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "dayjs": "^1.10.7",
     "sortablejs": "^1.14.0",
     "v-calendar": "^2.3.2",
     "vue-debounce": "^3.0.0",
@@ -52,7 +54,7 @@
     "postcss-px2rem": "0.3.0",
     "powerbi-client": "^2.18.5",
     "px2rem-loader": "0.1.9",
-    "rise": "latest",
+    "rise": "^2.3.7",
     "sass": "^1.26.10",
     "sass-loader": "9.0.2",
     "uglifyjs-webpack-plugin": "^1.1.2",

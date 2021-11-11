@@ -1,8 +1,9 @@
 //供应商卡片  caopeng
 import axios from '@/utils/axios'
 
-const requst = axios(process.env.VUE_APP_SUPPLIER+ '/web')
- const requstEkl = axios(process.env.VUE_APP_EKL)
+const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
+const requstEkl = axios(process.env.VUE_APP_EKL)
+const requstEklPf = axios(process.env.VUE_APP_CHANGEPRICE)
 // ekl卡片
 export function getSupplierCard(parmars) {
     return requstEkl({
@@ -14,16 +15,31 @@ export function getSupplierCard(parmars) {
 //财务预警卡片
 export function supplierRatingCard(params) {
     return requst({
-      url: `/supplierRatingRecord/supplierRatingCard/`+params,
-      method: 'GET',
-  
+        url: `/supplierRatingRecord/supplierRatingCard/` + params,
+        method: 'GET',
+
     })
-  }
-  //财务预警供应商清单
-export function currentList(parmars) {
+}
+
+//供应商绩效卡片
+export function performCard360(parmars) {
     return requst({
-      url: `/supplierRatingRecord/currentList`,
-      method: 'POST',
-      data: parmars
+        url: `/spi/spiTotalScore/performCard360`,
+        method: 'POST',
+        data: parmars
     })
-  }
+}
+//配附件供货率
+export function getSapSupplierRate(parmars) {
+    return requstEklPf({
+        url: `/web/edi-web/getSapSupplierRate?sapCode=`+parmars,
+        method: 'POST',
+    })
+}
+//合同订单
+export function getCatogeryCollect(parmars) {
+    return requstEklPf({
+        url: `/api/purchaseOrder/getCatogeryCollect?tmSupplierId=`+parmars,
+        method: 'POST',
+    })
+}

@@ -12,8 +12,15 @@
       <el-form inline
                label-position="top">
         <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
-          <iInput v-model="form.tagName"
-                  :placeholder="language('QINGSHURU', '请输入')"></iInput>
+          <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                   v-model="form.tagNameList">
+            <el-option v-for="item in tagdropDownList"
+                       :key="item.code"
+                       :label="item.message"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+
         </el-form-item>
         <el-form-item :label="language('BIAOQIANLEIXING', '标签类型')">
           <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
@@ -57,6 +64,10 @@
                   symbol
                   :name="scope.row.isShow == 1 ? 'iconxianshi' : 'iconyincang'"></icon>
           </div>
+
+        </template>
+        <template #halfYear="scope">
+          <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
         </template>
       </tableList>
       <iPagination style="margin-top: 20px"
@@ -76,14 +87,8 @@
                width="30%">
         <el-form label-position="top">
           <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
-            <iSelect :placeholder="language('QINGSHURUXUANZE', '请输入/选择')"
-                     v-model="tagName">
-              <el-option v-for="item in tagList"
-                         :key="item.tagId"
-                         :label="item.tagName"
-                         :value="item.tagId">
-              </el-option>
-            </iSelect>
+            <iInput v-model="tagName"
+                    :placeholder="language('QINGSHURU', '请输入')"></iInput>
           </el-form-item>
         </el-form>
         <div class="bottom">
@@ -117,7 +122,8 @@ import {
   delBatchDel,
   showOrHide,
   tagAdd,
-  getTagList
+  getTagList,
+  dropDownTagName
 } from '@/api/supplierManagement/supplierTag/index'
 export default {
   mixins: [pageMixins],
@@ -143,6 +149,7 @@ export default {
       tabledata: [],
       tableLoading: true,
       tagList: [],
+      tagdropDownList: [],
       tagTypeList: [
         { label: this.language('XITONGPANDING', '系统判定'), value: 1 },
         { label: this.language('SHOUGONG', '手工'), value: 2 }
@@ -150,11 +157,18 @@ export default {
     }
   },
   created() {
-    // this.getUser()
+    this.getTagListdropDown()
     this.getTableData()
   },
   methods: {
     //获取标签列表
+    getTagListdropDown() {
+      dropDownTagName({}).then((res) => {
+        if (res && res.code == 200) {
+          this.tagdropDownList = res.data
+        }
+      })
+    },
     getTagListObj() {
       let params = {}
       getTagList(params).then((res) => {
@@ -183,6 +197,10 @@ export default {
       })
     },
     handleDelect() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
       iMessageBox(
         this.language(
           'QUERENSHANCHUGAIBIAOQIANDESUOYOUGONGYINGSHANGPEIZHI?',
@@ -209,13 +227,16 @@ export default {
       })
     },
     handleAdd() {
+        this.tagName=''
       this.isAdd = true
       this.getTagListObj()
     },
     //保存
     handleBtn() {
       if (this.tagName == '') {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        iMessage.warn(
+          this.language('QINGSHURUBIAOQIANMINGCHENG', '请输入标签名称')
+        )
         return false
       }
       const req = {

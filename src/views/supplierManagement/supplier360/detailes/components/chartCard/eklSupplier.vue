@@ -1,15 +1,19 @@
 <template>
   <iCard style="height:14rem">
     <div class="title">
-      <p v-if="isTitle" >{{language('EKLPEIFUJIAN', 'EKL-配附件')}}</p>
-      <p v-if="!isTitle" >{{language('EKLPILIANGJIAN', 'EKL-批量件')}}</p>
-      <span class="el-dropdown-link">
+      <p v-if="!isTitle">{{language('EKLPEIFUJIAN', 'EKL-配附件')}}</p>
+      <p v-if="isTitle">{{language('EKLPILIANGJIAN', 'EKL-批量件')}}</p>
+      <!-- <span class="el-dropdown-link">
         <i class="el-icon-more"></i>
-      </span>
+      </span> -->
     </div>
     <div class="box">
-      <span v-if="isTitle" class="text" @click="isTitle=false">{{language('EKLPILIANGJIAN', 'EKL-批量件')}}</span>
-      <span v-if="!isTitle" class="text" @click="isTitle=true">{{language('EKLPEIFUJIAN', 'EKL-配附件')}}</span>
+      <span v-if="!isTitle"
+            class="text"
+            @click="changeTab">{{language('EKLPILIANGJIAN', 'EKL-批量件')}}</span>
+      <span v-if="isTitle"
+            class="text"
+            @click="changeTab">{{language('EKLPEIFUJIAN', 'EKL-配附件')}}</span>
       <icon class="early"
             symbol
             name="iconcaiwuyujing-icon"></icon>
@@ -31,7 +35,7 @@ export default {
   data() {
     return {
       chart: 'oneChart',
-      isTitle:false
+      isTitle: true
     }
   },
   computed: {
@@ -45,25 +49,98 @@ export default {
   },
   methods: {
     getData() {
-    //   let req = {
-    //     supplierSapCode: this.$route.query.subSupplierId
-    //   }
-    //   getSupplierCard(req).then((res) => {
-    //     if (res && res.code == 200) {
-    //       iMessage.success(res.desZh)
-    //       this.getChart()
-    //     } else iMessage.error(res.desZh)
-    //   })
+      let req = {
+        supplierSapCode: this.$route.query.subSupplierId
+      }
+      getSupplierCard(req).then((res) => {
+        this.info = {
+          batchParts: [
+            {
+              increaseAmount: 10,
+              reductionAmount: 20,
+              increaseRtio: 4,
+              reductionRtio: 3,
+              year: 2019
+            },
+            {
+              increaseAmount: 20,
+              reductionAmount: 10,
+              increaseRtio: 5,
+              reductionRtio: 3,
+              year: 2020
+            },
+            {
+              increaseAmount: 15,
+              reductionAmount: 15,
+              increaseRtio: 4,
+              reductionRtio: 5,
+              year: 2021
+            }
+          ],
+          parts: [
+            {
+              increaseAmount: 30,
+              reductionAmount: 30,
+              increaseRtio: 10,
+              reductionRtio: 10,
+              year: 2019
+            },
+            {
+              increaseAmount: 40,
+              reductionAmount: 40,
+              increaseRtio: 0,
+              reductionRtio: 0,
+              year: 2020
+            },
+            {
+              increaseAmount: 0,
+              reductionAmount: 0,
+              increaseRtio: 0,
+              reductionRtio: 0,
+              year: 2021
+            }
+          ],
+          supplierSapCode: null
+        }
+        this.getChart()
+      })
+    },
+    changeTab() {
+      this.isTitle = !this.isTitle
+      this.getChart()
     },
     getChart() {
-      const data1 = [40, 50, 45]
-      const data2 = [-20, -25, -30]
-      const data3 = [40, 50, 45]
+      arr = []
+      var data1 = []
+      var data2 = []
+      var data3 = []
+      var data4 = []
+      let arr = []
+      if (this.isTitle) {
+        arr = this.info.batchParts
+      } else {
+        arr = this.info.parts
+      }
+      arr.forEach((e) => {
+        data1.push(e.reductionAmount)
+        if (e.increaseAmount != 0) {
+          data2.push(e.increaseAmount*-1)
+        } else {
+          data2.push(e.increaseAmount)
+        }
+        if (e.reductionRtio != 0) {
+          data3.push(e.reductionRtio * 100)
+        } else {
+          data3.push(e.reductionRtio)
+        }
+        data4.push(e.year)
+      })
+      // data3=this.sumItem(data3,data1)
+      // console.log(data1)
       const myChart = echarts().init(this.$refs.chart)
       var option = {
         legend: {
           icon: 'circle',
-
           right: 50,
           top: 0,
           textStyle: {
@@ -75,17 +152,32 @@ export default {
         },
 
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+        //   formatter:'{a}{b}{c}',s
+            // formatter: function (param) {
+                // console.log(param)
+                // if(param.seriesName=='涨价'){
+                //     param.value=Math.abs(param.value)
+                // }
+                // param.forEach(res=>{
+                //     return res.seriesName
+                // })
+            //     for(var x in param){
+            //         console.log(param[x])
+            //    return param[x].seriesName+'<br>' +":"+param[x].data;
+            //     }
+        //    }
+            
         },
         grid: {
-          top: '8%',
-          bottom: '12%%',
+          top: '20%',
+          bottom: '16%%',
           right: '0%',
           left: '10%'
         },
         xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed'],
+          data: data4,
           axisLabel: {
             show: true,
             textStyle: {
@@ -102,21 +194,34 @@ export default {
             show: false
           }
         },
-        yAxis: {
-          show: false,
-          type: 'value',
-          axisLabel: {
-            show: true,
-            textStyle: {
-              color: '#7E84A3',
-              fontSize: '10px'
+        yAxis: [
+          {
+            show: false,
+            type: 'value',
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#7E84A3',
+                fontSize: '10px'
+              }
+            }
+          },
+          {
+            show: false,
+            type: 'value',
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#7E84A3',
+                fontSize: '10px'
+              }
             }
           }
-        },
+        ],
         series: [
           {
             name: '降价',
-            data:data1,
+            data: data1,
             type: 'bar',
             barGap: '-100%',
             barWidth: 30,
@@ -144,17 +249,28 @@ export default {
                 barBorderRadius: [0, 0, 5, 5],
                 color: '#73A1FA' //改变折线点的颜色
               }
+            },
+            label: {
+              formatter: function (params) {
+                console.log(params)
+                return params.data + '%'
+              }
             }
           },
           {
             name: '节降比',
-            showSymbol: false,
             data: data3,
+            yAxisIndex: 1,
             type: 'line',
             label: {
               show: true,
-              position: 'bottom',
-              color: '#727272'
+              position: 'top',
+              fontSize: 10,
+              color: '#727272',
+              formatter: function (params) {
+                console.log(params)
+                return params.data + '%'
+              }
             },
             itemStyle: {
               normal: {
@@ -168,6 +284,16 @@ export default {
         ]
       }
       myChart.setOption(option)
+    },
+    sumItem: function (arr1, arr2) {
+      if (arr2.length == 0) {
+        return arr1
+      } else {
+        arr1.map(function (value, index) {
+          arr2[index] += value + 1
+        })
+      }
+      return arr2
     }
   }
 }

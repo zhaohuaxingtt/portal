@@ -19,15 +19,25 @@
 <script>
 import echarts from '@/utils/echarts'
 import { iCard, icon } from 'rise'
+import { getSapSupplierRate } from '@/api/supplierManagement/supplierCard/index'
 export default {
-  props: {},
+  props: {
+    infodata: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
   components: {
     iCard,
     icon
   },
   data() {
     return {
-      chart: 'oneChart'
+      chart: 'oneChart',
+      option: {},
+      info: {}
     }
   },
   computed: {
@@ -35,104 +45,129 @@ export default {
       return {}
     }
   },
-  watch: {},
-  methods: {},
+  watch: {
+    infodata(data) {
+         this.getData(data.sapCode)
+    }
+  },
   mounted() {
-    const myChart = echarts().init(this.$refs.chart)
-    var option = {
-      title: {
-        top: 0,
-        text: '供货率（%）',
-        textStyle: {
-          color: '#909091',
-          fontSize: 10
-        }
-      },
-      legend: {
-        icon: 'circle',
-
-        textStyle: {
-          fontSize: 10,
-          color: '#909091'
-        },
-        itemWidth: 8,
-        itemHeight: 8
-      },
-
-      tooltip: {
-        trigger: 'axis'
-      },
-      grid: {
-        top: '18%',
-        bottom: '10%%',
-        right: '0%',
-        left: '10%'
-      },
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu'],
-        axisLabel: {
-          show: true,
+   
+  },
+  methods: {
+    getData() {
+      getSapSupplierRate(this.infodata.sapCode).then((res) => {
+        this.info = res.data
+        this.getChart()
+      })
+    },
+    getChart() {
+      let data1 = []
+      let data2 = []
+      let data3 = []
+      this.info.forEach((e) => {
+        data1.push(e.average)
+        data2.push(e.supplyRate)
+        data3.push(e.month)
+      })
+      let max = Math.max(...data1)
+      const myChart = echarts().init(this.$refs.chart)
+      this.option = {
+        title: {
+          top: 0,
+          text: '供货率（%）',
           textStyle: {
-            color: '#7E84A3',
-            fontSize: '10px'
+            color: '#909091',
+            fontSize: 10
           }
         },
-        axisLine: {
-          lineStyle: {
-            color: '#7E84A3'
-          }
-        },
-        axisTick: {
-          show: false
-        }
-      },
-      yAxis: {
-        type: 'value',
-        axisLabel: {
-          show: true,
+        legend: {
+          icon: 'circle',
+
           textStyle: {
-            color: '#7E84A3',
-            fontSize: '10px'
+            fontSize: 10,
+            color: '#909091'
+          },
+          itemWidth: 8,
+          itemHeight: 8
+        },
+
+        tooltip: {
+          trigger: 'axis'
+        },
+        grid: {
+          top: '18%',
+          bottom: '16%%',
+          right: '0%',
+          left: '10%'
+        },
+        xAxis: {
+          type: 'category',
+          data: data3,
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#7E84A3',
+              fontSize: '10px'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#7E84A3'
+            }
+          },
+          axisTick: {
+            show: false
           }
         },
-         max: 100,
-        min: 0,
-        splitNumber: 2
-      },
-      series: [
-        { showSymbol: false,
-          name: '供应商',
-          data: [64, 47, 54, 57],
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#6192F0', //改变折线点的颜色
-              lineStyle: {
-                color: '#6192F0' //改变折线颜色
+        yAxis: {
+          type: 'value',
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#7E84A3',
+              fontSize: '10px'
+            }
+          },
+          max: max,
+          min: 0,
+          splitNumber: 2
+        },
+        series: [
+          {
+            showSymbol: false,
+            name: '供应商',
+            data: data2,
+            type: 'line',
+            smooth: true,
+            itemStyle: {
+              normal: {
+                color: '#6192F0', //改变折线点的颜色
+                lineStyle: {
+                  color: '#6192F0' //改变折线颜色
+                }
+              }
+            }
+          },
+          {
+            showSymbol: false,
+            name: '平均参考',
+            data: data1,
+            type: 'line',
+            smooth: true,
+            itemStyle: {
+              normal: {
+                color: '#B4C9F2', //改变折线点的颜色
+                lineStyle: {
+                  color: '#B4C9F2', //改变折线颜色
+                  type: 'dotted' //'dotted'虚线 'solid'实线
+                }
               }
             }
           }
-        },
-        {
-       
-             showSymbol: false,
-          name: '平均参考',
-          data: [14, 23, 11, 6],
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#B4C9F2', //改变折线点的颜色
-              lineStyle: {
-                color: '#B4C9F2', //改变折线颜色
-                        type:'dotted'  //'dotted'虚线 'solid'实线
-              },
-            }
-          }
-        }
-      ]
+        ]
+      }
+      myChart.setOption(this.option)
     }
-    myChart.setOption(option)
   }
 }
 </script>

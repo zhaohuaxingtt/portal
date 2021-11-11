@@ -1,6 +1,6 @@
 <template>
-  <iPage class="template">
-    <pageHeader class="margin-bottom20" style="margin-left:-20px;">
+  <iPage class="approval-agent">
+    <pageHeader class="margin-bottom20" style="margin-left: -15px;">
       <actionHeader />
     </pageHeader>
     <searchForm :data="searchData" @search="search" @reset="reset" />
@@ -9,18 +9,18 @@
         <iButton
           @click="
             $router.push({
-              path: `/approval/agent/add?type=${$route.query.type}`
+              path: `/approval/agent/add?type=${agentType}`
             })
           "
         >
-          {{ $t('APPROVAL.ADD') }}
+          {{ language('新增') }}
         </iButton>
         <iButton :disabled="editButtonDisable" @click="editRow">
-          {{ $t('APPROVAL.EDIT') }}
+          {{ language('编辑') }}
         </iButton>
 
         <iButton :disabled="cancelButtonDisable" @click="batchInvalidAgent">
-          {{ $t('APPROVAL.INVALIDATION') }}
+          {{ language('失效') }}
         </iButton>
       </div>
       <i-table-custom
@@ -68,6 +68,12 @@ export default {
     actionHeader
   },
   computed: {
+    agentType() {
+      if (this.$route.query.type) {
+        return this.$route.query.type
+      }
+      return 'normal'
+    },
     editButtonDisable() {
       return (
         this.selectedRows.length !== 1 ||
@@ -112,12 +118,12 @@ export default {
       this.$router.push({
         name: 'ApprovalAgentEdit',
         params: { id: row.id },
-        query: { type: this.$route.query.type }
+        query: { type: this.agentType }
       })
     },
     async query() {
       const data = { ...this.searchData }
-      data.type = this.$route.query.type === 'normal' ? 2 : 1
+      data.type = this.agentType === 'normal' ? 2 : 1
       const params = {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize
@@ -152,4 +158,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.approval-agent {
+  position: relative;
+}
+</style>

@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import { iPage, iLog } from 'rise'
-// import iLog from '@/components/iLog'
+import { iPage } from 'rise'
+import iLog from '@/components/iLog'
 export default {
   data() {
     return {

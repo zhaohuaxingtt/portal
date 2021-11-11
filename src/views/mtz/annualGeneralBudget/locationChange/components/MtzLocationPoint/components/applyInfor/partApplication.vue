@@ -225,6 +225,16 @@ export default {
         handleSelectArr:[],
     }
   },
+  computed:{
+      mtzObject(){
+        return this.$store.state.location.mtzObject;
+      }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      // console.log(newVlue)
+    }
+  },
   created() {
     this.init()
   },
@@ -289,10 +299,9 @@ export default {
     },
     save(){
       relation({
-        mtzAppId:this.$route.query.id,
-        ttNominateAppId:this.handleSelectArr[0].id
+        mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+        meetingId:this.handleSelectArr[0].id
       }).then(res=>{
-        console.log(res)
         if(res.code == 200){
           iMessage.success(res.desZh)
           this.$emit("close",this.handleSelectArr[0].id)

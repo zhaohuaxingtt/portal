@@ -20,6 +20,7 @@
         :columns="tableSetting"
         tooltipWidth="400px"
         permissionKey="ROLE_TABLE"
+        :env="$env"
         @handle-sort-change="handleSortChange"
       >
       </iTableCustom>

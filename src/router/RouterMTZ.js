@@ -117,6 +117,17 @@ export default [
                       import(
                         '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/decisionMaterial/components/signPreview'
                       )
+                  },{
+                    path: 'signPreviewBefore',
+                    name: 'signPreviewBefore',
+                    meta: {
+                      title: '流转预览跳转',
+                      showFooter: false //隐藏
+                    },
+                    component: () =>
+                      import(
+                        '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/decisionMaterial/components/signPreviewBefore'
+                      )
                   }
                 ]
               },

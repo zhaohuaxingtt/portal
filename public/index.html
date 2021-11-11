@@ -8,15 +8,17 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RISE</title>
-    <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.CDN_HOST %>/favicon.ico" />
-    <!-- <link rel="stylesheet" href="<%= BASE_URL %>theme/index.css"/> -->
+    <link
+      rel="shortcut icon"
+      href="<%= htmlWebpackPlugin.options.CDN_HOST %>/favicon.ico"
+    />
+    <link rel="stylesheet" href="<%= BASE_URL %>theme/index.css" />
     <link rel="stylesheet" href="<%= BASE_URL %>theme/fonts/iconfont.css" />
     <link rel="stylesheet" href="<%= BASE_URL %>theme/fontfamily.css" />
     <link rel="stylesheet" href="<%= BASE_URL %>ws3select/VueSelect.css" />
@@ -45,14 +47,13 @@
     <script src="<%= BASE_URL %>coreJs/jsplumb@2.15.6/index.js"></script>
     <script src="<%= BASE_URL %>ws3select/WS3Util.js"></script>
     <script src="<%= BASE_URL %>ws3select/customSelect.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
     <script>
-        console.log('build on ' + new Date())
+      console.log('build on ' + new Date())
     </script>
-</body>
-
+  </body>
 </html>
