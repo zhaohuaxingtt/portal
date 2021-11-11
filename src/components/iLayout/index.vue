@@ -37,6 +37,7 @@
         @click="hideSideMenu"
       ></div>
     </div>
+      <!-- <popupLayOut></popupLayOut> -->
   </div>
 </template>
 <script>
@@ -45,9 +46,10 @@ import LeftLayout from './components/leftLayout'
 import sideMenu from './components/sideMenu'
 import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
+import popupLayOut from './components/popupLayOut'
 
 export default {
-  components: { topLayout, LeftLayout, sideMenu, myModules },
+  components: { topLayout, LeftLayout, sideMenu, myModules, popupLayOut },
   props: {
     menus: {
       type: Array,

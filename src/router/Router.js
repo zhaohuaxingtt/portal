@@ -29,7 +29,6 @@ import partLifeCycle from './partLifeCycle'
 import RouterExternal from './RouterExternal'
 import RouterBiz from './RouterBiz'
 import RouterAchievement from './RouterAchievement'
-// import RouterPopupWindowMa from './RouterPopupWindowMa'
 
 import RouterMeeting from './meeting'
 
@@ -96,7 +95,6 @@ export default {
         ...RouterBiz,
         ...RouterAchievement,
         ...RouterMeeting,
-        // ...RouterPopupWindowMa
       ]
     },
 

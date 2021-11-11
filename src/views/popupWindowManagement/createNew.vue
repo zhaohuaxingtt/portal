@@ -2,7 +2,7 @@
   <iPage>
         <div class="page-header">
             <div class="header">
-                <pageHeader class="title">{{language('弹窗管理')}}</pageHeader>
+                <!-- <pageHeader class="title">{{language('弹窗管理')}}</pageHeader> -->
                 <div>
                     <iButton @click="save">{{language('保存')}}</iButton>
                     <iButton @click="reset">{{language('重置')}}</iButton>
@@ -16,6 +16,7 @@
                 <new-right ref="newRight" />
             </div>
         </iCard>
+        <detailDialog :show='show' :detail='detail' />
   </iPage>
 </template>
 
@@ -24,12 +25,21 @@ import {iPage,iButton,iCard} from 'rise'
 import{newLeft,newRight} from './components/index'
 import pageHeader from '@/components/pageHeader'
 import {savePopup} from '@/api/popupWindowMgmt'
+import detailDialog from './components/detailDialog.vue'
 export default {
     name:'createNew',
-    components:{iPage,pageHeader,iButton,iCard,newLeft,newRight},
+    components:{iPage,pageHeader,iButton,iCard,newLeft,newRight,detailDialog},
     data(){
         return{
-            linkUrl:''
+            formData:{},
+            show:false,
+            detail:{
+                title:'',
+                content:'',
+                picUrl:'',
+                linkUrl:''
+            },
+            instance:''
         }
     },
     methods:{
@@ -41,10 +51,32 @@ export default {
             let formData = this.$refs.newLeft.formData()
             const picUrl = this.$refs.newRight.linkUrl()
             //校验是否通过校验
-            const newLeftSave = this.$refs.newLeft.save()
+            let newLeftSave = this.$refs.newLeft.save()
+            let accountIds = []
+            let supplierIds = []
+            if(formData.publishRange == 15){
+                if( (formData.userList || formData.supplierList) ){
+                    if(formData.userList){
+                        accountIds = formData.userList.map((ele) =>{
+                        return ele.accountId
+                        })
+                    }
+                    if(formData.supplierList){
+                        supplierIds = formData.supplierList.map((ele)=>{
+                            return ele.id
+                        })
+                        }
+                }else{
+                    newLeftSave = false
+                    this.$message.error('请选择用户/供应商')
+                }
+            }
+
             const data = {
                 ...formData,
-                picUrl
+                picUrl,
+                accountIds,
+                supplierIds
             }
             if(newLeftSave){
                 savePopup(data).then((res)=>{
@@ -58,10 +90,10 @@ export default {
         },
         preview(){
             const formData = this.$refs.newLeft.formData()
-            this.linkUrl = formData.linkUrl
+            this.formData = formData
             const picUrl = this.$refs.newRight.linkUrl()
             let _this = this
-            this.$notify({
+            this.instance = this.$notify({
                 // title:formData.popupName,
                 // ${formData.linkUrl && '<a href="'+formData.linkUrl+'"></a>'}
                 duration: 0,
@@ -77,19 +109,24 @@ export default {
                                 ${formData.linkUrl && 'text-decoration:underline'}'>
                                 ${formData.popupName}
                               </p>
-                              <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:34px;color: #4B5C7D;'
+                              <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
                               >${formData.content}</p>
                             </div>
                           </div>`,
                 position:'bottom-right',
                 onClick(){
-                    _this.toNewPage()
+                    _this.openDialog()
                 }
             })
         },
-        toNewPage(){
-            if(this.linkUrl){
-                window.open(this.linkUrl)
+        openDialog(){
+            this.instance.close()
+            this.show = true
+            this.detail = {
+                title:this.formData.popupName,
+                content:this.formData.content,
+                picUrl:this.formData.picUrl,
+                linkUrl:this.formData.linkUrl
             }
         }
     }
@@ -99,7 +136,7 @@ export default {
 <style lang="scss" scoped>
 .header{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 .content{
     margin-top: 20px;

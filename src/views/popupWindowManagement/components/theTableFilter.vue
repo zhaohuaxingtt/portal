@@ -46,6 +46,7 @@ export default {
         },
         cancel(){
             this.searchContent=_.cloneDeep(INI_SEARCH_FORM)
+            this.sure()
         }
     }
 }

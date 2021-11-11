@@ -27,8 +27,9 @@
         :total="page.totalCount"
       />
     </div>
-    
+     <detailDialog :show.sync='show' :detail='detail'></detailDialog>
   </iCard>
+
 </template>
 <script>
 import {iCard,iButton,iPagination} from 'rise'
@@ -36,9 +37,10 @@ import iTabelCustom from '@/components/iTableCustom'
 import {pageMixins} from '@/utils/pageMixins'
 import {TABLE_COLUMNS} from './data'
 import {getPage,delPageItems,exportEx,searchDetail} from '@/api/popupWindowMgmt'
+import detailDialog from './detailDialog.vue'
 export default {
   name:'theTableList',
-  components:{iCard,iButton,iPagination,iTabelCustom},
+  components:{iCard,iButton,iPagination,iTabelCustom,detailDialog},
   mixins:[pageMixins],
   data(){
     return{
@@ -48,7 +50,15 @@ export default {
       tabelListData:[],
       timer:null,
       iniSearchForm:{},
-      linkUrl:''
+      formData:{},
+      show:false,
+      detail:{
+        title:'',
+        content:'',
+        picUrl:'',
+        linkUrl:''
+      },
+      instance:''
     }
   },
   created(){
@@ -91,28 +101,28 @@ export default {
         if(res.code == 200){
           const formData = res.data
           let _this = this
-          this.linkUrl = formData.linkUrl
-          this.$notify({
+          this.formData = formData
+          this.instance = this.$notify({
           duration: 0,
           dangerouslyUseHTMLString: true,
-          message:`<div style='display: flex;justify-content: space-between;${formData.linkUrl && 'cursor:pointer;'}'>
+          message:`<div style='display: flex;justify-content: space-between;cursor:pointer;'>
                       <div class="popupLeft" style='width:50px;height:50px; '>
                         <img src="${formData.picUrl}" style='width:100%;height:100%; border-radius: 50%;'>
                       </div>
                       <div class="popupRight" style='position:relative;margin-left:20px'>
                         <p class='${formData.linkUrl && 'linkTitle'}' 
                           style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-                          width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;
-                          ${formData.linkUrl && 'text-decoration:underline'}'>
+                          width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;'
+                          >
                           ${formData.popupName}
                         </p>
-                        <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:34px;color: #4B5C7D;'
+                        <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
                         >${formData.content}</p>
                       </div>
                     </div>`,
           position:'bottom-right',
           onClick(){
-              _this.toNewPage()
+              _this.openDialog()
             }
           })
         }else{
@@ -121,9 +131,15 @@ export default {
       })
       
     },
-    toNewPage(){
-      if(this.linkUrl){
-        window.open(this.linkUrl)
+    openDialog(){
+      this.instance.close()
+      this.show = true
+      
+      this.detail = {
+        title:this.formData.popupName,
+        content:this.formData.content,
+        picUrl:this.formData.picUrl,
+        linkUrl:this.formData.linkUrl
       }
       
     },

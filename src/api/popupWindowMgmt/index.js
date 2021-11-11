@@ -48,3 +48,12 @@ export function searchDetail(data){
         params:data
     })
 }
+
+//获取最新的popup
+export function getPopupList(data){
+    return request({
+        url:`/popup/lastest5/${data}`,
+        method:'GET',
+        data
+    })
+}

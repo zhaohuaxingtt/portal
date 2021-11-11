@@ -16,22 +16,47 @@
         <el-row :gutter="24">
           <el-col span="12">
             <iFormItem :label="language('发布范围')" prop='publishRange'>
-              <iInput :placeholder='language("请输入")' v-model="formContent.publishRange"></iInput>
+              <iSelect :placeholder='language("请选择")' v-model="formContent.publishRange">
+                <el-option
+                  v-for="item in publishRangeOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </iSelect>
             </iFormItem>
           </el-col>
           <el-col span="12">
             <iFormItem :label="language('历史查看有效期')" prop='deletePreTime'>
-              <iDatePicker class="effect-time" :placeholder='language("请选择")' v-model="formContent.deletePreTime"></iDatePicker>
+              <iDatePicker class="effect-time" :placeholder='language("请选择")' v-model="formContent.deletePreTime" :picker-options="pickerOptions"></iDatePicker>
+            </iFormItem>
+          </el-col>
+        </el-row>
+        <el-row :gutter="24" v-if="formContent.publishRange == 15">
+          <el-col span="12">
+            <iFormItem
+              :label="language('选择用户')"
+            >
+              <userSelector v-model="formContent.userList" @change="userListChange" />
+            </iFormItem>
+          </el-col>
+          <el-col span="12">
+            <iFormItem
+              :label="language('选择供应商')"
+            > 
+              <sullpierSelect v-model="formContent.supplierList" @change="supplierListChange" />
             </iFormItem>
           </el-col>
         </el-row>
         <el-row :gutter="24">
           <el-col span="24">
             <iFormItem :label="language('发布时间')">
-              <iDatePicker class="release-time" :placeholder='language("请选择")' v-model="formContent.publishPreTime"></iDatePicker>
+              <iDatePicker class="release-time" :placeholder='language("请选择发布时间，若未选择发布时间则立即发送")' 
+                v-model="formContent.publishPreTime" type='datetime'>
+              </iDatePicker>
             </iFormItem>
           </el-col>
-          
         </el-row>
         <el-row :gutter="24">
           <el-col>
@@ -46,30 +71,51 @@
 </template>
 
 <script>
-import {iFormItem,iDatePicker,iInput} from 'rise'
+import {iFormItem,iDatePicker,iInput,iSelect} from 'rise'
+import {PUBLISH_SCOPE_OPTIONS} from './data.js'
+import userSelector from '@/components/userSelector'
+import sullpierSelect from './supplierSelect.vue'
 export default {
     name:'newLeft',
-    components:{iFormItem,iDatePicker,iInput},
+    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,sullpierSelect},
     props:{},
     data(){
       return{
+        publishRangeOptions:PUBLISH_SCOPE_OPTIONS,
         formContent:{
           popupName:'',
           linkUrl:'',
           publishRange:'',
           deletePreTime:'',
           publishPreTime:'',
-          content:''
+          content:'',
+          userList:'',
+          supplierList:''
+          
+        },
+        pickerOptions:{
+          disabledDate(time){
+            return time.getTime() <  Date.now() - 8.64e7
+          }
         },
         rule:{
           popupName:{required:'true',message:'请输入弹窗标题',trigger:'blur'},
           publishRange:{required:'true',message:'请输入发布范围',trigger:'blur'},
-          deletePreTime:{required:'true',message:'请选择历史查看有效期',trigger:'blur'},
+          // deletePreTime:{required:'true',message:'请选择历史查看有效期',trigger:'blur'},
           content:{required:'true',message:'请输入弹窗说明',trigger:'blur'},
         },
       }
     },
+    created(){
+      this.formContent.publishRange = 0
+    },
     methods:{
+      userListChange(val){
+        this.formContent.userList = val
+      },
+      supplierListChange(val){
+        this.formContent.supplierList = val
+      },  
       reset(){
         this.formContent = {}
       },
