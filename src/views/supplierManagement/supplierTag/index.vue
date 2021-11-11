@@ -76,14 +76,8 @@
                width="30%">
         <el-form label-position="top">
           <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
-            <iSelect :placeholder="language('QINGSHURUXUANZE', '请输入/选择')"
-                     v-model="tagName">
-              <el-option v-for="item in tagList"
-                         :key="item.tagId"
-                         :label="item.tagName"
-                         :value="item.tagId">
-              </el-option>
-            </iSelect>
+            <iInput v-model="tagName"
+                    :placeholder="language('QINGSHURU', '请输入')"></iInput>
           </el-form-item>
         </el-form>
         <div class="bottom">
@@ -183,8 +177,8 @@ export default {
       })
     },
     handleDelect() {
-         if (this.selectTableData.length == 0) {
-     iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
       }
       iMessageBox(
