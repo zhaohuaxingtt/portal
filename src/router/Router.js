@@ -29,11 +29,8 @@ import partLifeCycle from './partLifeCycle'
 import RouterExternal from './RouterExternal'
 import RouterBiz from './RouterBiz'
 import RouterAchievement from './RouterAchievement'
-<<<<<<< HEAD
 import RouterAssistant from './RouterAssistant'
-=======
 import RouterPopupWindowMa from './RouterPopupWindowMa'
->>>>>>> dev
 
 import RouterManage from './RouterManage'
 
@@ -99,13 +96,10 @@ export default {
         ...partLifeCycle,
         ...RouterBiz,
         ...RouterAchievement,
-<<<<<<< HEAD
-        ...RouterMeeting,
-        ...RouterAssistant
-=======
+        // ...RouterMeeting,
+        ...RouterAssistant,
         ...RouterPopupWindowMa,
         ...RouterManage
->>>>>>> dev
       ]
     },
 
