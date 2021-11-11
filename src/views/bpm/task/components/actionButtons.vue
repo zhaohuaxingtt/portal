@@ -8,14 +8,14 @@
       {{ approvalText }}
     </iButton>
     <iButton
-      v-show="taskType === 0 && !isSpecial"
+      v-show="taskType === 0 && !isRefuseButton"
       :disabled="selectedRow.length !== 1"
       @click="$emit('complete', approvalTypeMap.REFUSE)"
     >
       {{ refuseText }}
     </iButton>
     <iButton
-      v-show="taskType === 0"
+      v-show="taskType === 0 && !isHideAppendButton"
       :disabled="selectedRow.length !== 1"
       @click="$emit('complete', approvalTypeMap.APPREND_DATA)"
     >
@@ -53,29 +53,29 @@ export default {
     }
   },
   computed: {
-    isSpecial() {
-      return BPM_SINGL_CATEGORY_LIST.includes(this.categoryList)
+    isHideAppendButton() {
+      return this.categoryList === 'meeting_rs_recheck'
+    },
+    isRefuseButton() {
+      return this.categoryList === 'meeting_recheck_m_sign'
     },
     approvalText() {
-      if (this.isSpecial) {
+      if (this.categoryList === 'meeting_rs_recheck') {
         return this.language('无异议')
-      } else {
-        return this.language('批准')
       }
+      return this.language('批准')
     },
     refuseText() {
-      if (this.isSpecial) {
+      if (this.categoryList === 'meeting_rs_recheck') {
         return this.language('有异议')
-      } else {
-        return this.language('拒绝')
       }
+      return this.language('拒绝')
     },
     appendText() {
-      if (this.isSpecial) {
+      if (this.categoryList === 'meeting_rs_recheck') {
         return this.language('有异议')
-      } else {
-        return this.language('补充材料')
       }
+      return this.language('补充材料')
     }
   }
 }
