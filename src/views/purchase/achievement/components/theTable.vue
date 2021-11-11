@@ -19,9 +19,11 @@
                     {{ $t('EKL_YEJIJINETIAOZHENG') }}
                 </iButton>
                 <!--年度目标管理-->
-                <iButton class="ml10" @click="openTargetManDialog" v-permission="ACHIEVEMENTMGT_LIST_TARGETMANAGE">
-                    {{ $t('EKL_YJGL_NDMBGL') }}
+
+                <iButton class="ml10" @click="openTargetManDialog" v-if="!state" v-permission="ACHIEVEMENTMGT_LIST_TARGETMANAGE">
+                {{ $t('EKL_YJGL_NDMBGL') }}
                 </iButton>
+
                 <!--年度目标管理 配附件-->
                 <iButton @click="openSpareTargetManDialog" v-if="state">{{ $t('EKL_YJGL_NDMBGL') }}</iButton>
                 <!--基础表模板下载 配附件-->
