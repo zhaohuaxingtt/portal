@@ -95,9 +95,7 @@
           </el-form-item>
           <el-form-item v-if="tabVal==2"
                         :label="language('SHIFOUCRATING', '是否C-Rating')">
-            <iSelect collapse-tags
-                     filterable
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+            <iSelect :placeholder="language('QINGXUANZE', '请选择')"
                      v-model.trim="form.iscRating">
               <el-option v-for="item in isCratingList"
                          :key="item.code"
@@ -137,10 +135,7 @@
           </el-form-item>
           <el-form-item v-if="tabVal==2"
                         :label="language('GONGYINGSHANGZHUANGTAI', '供应商状态')">
-            <iSelect collapse-tags
-                     filterable
-                     multiple
-                     :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+            <iSelect :placeholder="language('QINGXUANZE', '请选择')"
                      v-model.trim="form.rfqStatus">
               <el-option v-for="item in supplierStatus"
                          :key="item.code"
@@ -244,10 +239,10 @@
                   :tableLoading="tableLoading"
                   :index="true">
         <template #ratingSource='scope'>
-            <span v-if="scope.row.ratingSource!='100'&&scope.row.ratingSource!=null">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
-            <span v-if="scope.row.ratingSource=='100'">深入评级- <icon class="early"
-                    symbol
-                    name="iconcaiwuyujing-hongdeng"></icon></span>
+          <span v-if="scope.row.ratingSource!='100'&&scope.row.ratingSource!=null">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
+          <span v-if="scope.row.ratingSource=='100'">深入评级- <icon class="early"
+                  symbol
+                  name="iconcaiwuyujing-hongdeng"></icon></span>
 
         </template>
 
@@ -260,10 +255,10 @@
                   :index="true"
                   :selection="false">
         <template #ratingSource='scope'>
-            <span v-if="scope.row.ratingSource!='100'&&scope.row.ratingSource!=null">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
-            <span v-if="scope.row.ratingSource=='100'">深入评级- <icon class="early"
-                    symbol
-                    name="iconcaiwuyujing-hongdeng"></icon></span>
+          <span v-if="scope.row.ratingSource!='100'&&scope.row.ratingSource!=null">{{cratingLsit.find(res=>{ return res.code==scope.row.ratingSource}).name}}</span>
+          <span v-if="scope.row.ratingSource=='100'">深入评级- <icon class="early"
+                  symbol
+                  name="iconcaiwuyujing-hongdeng"></icon></span>
         </template>
       </table-list>
       <div style="height:30px">
@@ -328,8 +323,9 @@ export default {
       form: {
         sapCode: [],
         supplierName: [],
+        isCrating: '',
         supplierId: [],
-        isCrating: ''
+        rfqStatus: ''
       },
       cratingLsit: [{ name: '' }],
       tableLoading: true,
@@ -357,14 +353,13 @@ export default {
   },
   methods: {
     async getData() {
-   
       supplierRatingCard().then((res) => {
         this.info = res.data
         this.getChart()
       })
-         const res = await dictByCode('C_RATING')
+      const res = await dictByCode('C_RATING')
       this.cratingLsit = res
-      console.log( this.cratingLsit)
+      console.log(this.cratingLsit)
     },
 
     handleDialog() {
@@ -594,10 +589,10 @@ export default {
         supplierId: [],
         deptId: [],
         userId: [],
-        isCrating: [],
+        isCrating: '',
         ratingSource: [],
         cancelReason: [],
-        rfqStatus: [],
+        rfqStatus: '',
         partNum: [],
         rfq: [],
         motorProject: [],
