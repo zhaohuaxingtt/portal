@@ -575,7 +575,7 @@ export default {
                     mtzAppNomiAppRuleList:this.newDataList
                 }).then(res=>{
                     if(res.code == 200){
-                        iMessage.success(res.message)
+                        iMessage.success(this.language(res.desEn,res.desZh))
                         this.editId = "";
                         this.editType = false;
                         this.page.currPage = 1;
