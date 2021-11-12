@@ -115,7 +115,7 @@ export default {
         partsNum: this. claimNum,
         deptId: this. deptId,
         linieId: this. linieId,
-        positionId: this. roleCode,
+        positionCode: this. roleCode,
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {

@@ -254,7 +254,8 @@
     </iSearch>
     <div class="partLifeCycleStar_main">
       <div class="partLifeCycleStar_main_header">
-        <div class="left">{{ language('LK_WODESHOUCANG', '我的收藏') }}</div>
+        <div class="left" v-show="!isSearch">{{ language('LK_WODESHOUCANG', '我的收藏') }}</div>
+        <div class="left" v-show="isSearch">{{ language('LK_SOUSUOJIEGUO', '搜索结果') }}<span>相关结果{{ defaultPartsList.length }}个</span></div>
         <div class="right">
           <iButton v-show="isEdit" @click="isEdit = false">{{ language('LK_TUICHU', '退出') }}</iButton>
           <iButton v-show="isEdit" @click="toClaim">{{ language('LK_QUERENRENLING', '确认认领') }}</iButton>
@@ -319,6 +320,7 @@
     <transition name="slide-fade">
       <favorites v-if="favoritesShow" @deleteItem="cancelOrCollect" @closeFavorites="favoritesShow = false"></favorites>
     </transition>
+    <div style="display: none">{{ language('LK_LINGJIANQUANSHENGMINGZHOUQI', '零件全生命周期') }}</div>
   </iPage>
 
 </template>
@@ -406,6 +408,7 @@ export default {
       leftLoading: false,
       rightLoading: false,
       isScroll: false,
+      isSearch: false,
       AekoLoading: false,
       loading: true,
       AekoPullDown: [],
@@ -497,6 +500,7 @@ export default {
     reset(){
       this.current = 1
       this.isScroll = false
+      this.isSearch = false
       this.partsNum = ''
       this.partsName = ''
       this.aekoNum = []
@@ -525,6 +529,7 @@ export default {
     getPartsCollect(){
       this.current = 1
       this.isScroll = true
+      this.isSearch = true
       this.leftLoading = true
       getPartsCollect({
         partsNum: this.partsNum,
@@ -573,6 +578,7 @@ export default {
       })
     },
     getCategoryPullDown(val){
+      this.getPurchaserPullDown(val)
       getCategoryPullDown(val).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
@@ -591,7 +597,29 @@ export default {
       })
     },
     getCarTypeDown(val){
+      this.loadingiSearch = true
       getCarTypeDown(val).then(res => {
+        const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+        if (Number(res.code) === 200) {
+          this.PurchaserPullDown = res.data
+          let purchaserId = [...this.purchaserId]
+          let arr = []
+          purchaserId.map(item => {
+            if(this.PurchaserPullDown.map(item => item.id).includes(item)){
+              arr.push(item)
+            }
+          })
+          this.purchaserId = arr
+          this.loadingiSearch = false
+        } else {
+          this.loadingiSearch = false
+          iMessage.error(result)
+        }
+      })
+    },
+    getPurchaserPullDown(val){
+      this.loadingiSearch = true
+      getPurchaserPullDown(val).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.CarTypeDown = res.data
@@ -603,13 +631,15 @@ export default {
             }
           })
           this.modelNameZh = arr
+          this.loadingiSearch = false
         } else {
+          this.loadingiSearch = false
           iMessage.error(result)
         }
       })
     },
     getSeletes() {
-      this.loadingiSearch = false
+      this.loadingiSearch = true
       Promise.all([
         getAekoPullDown(),
         getCategoryPullDown([]),
@@ -859,6 +889,13 @@ export default {
         font-size: 20px;
         font-weight: bold;
         color: #000000;
+        span{
+          font-size: 14px;
+          font-weight: 400;
+          color: #6D7B96;
+          opacity: 1;
+          margin-left: 20px;
+        }
       }
 
       .right {
