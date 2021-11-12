@@ -113,9 +113,9 @@ export default {
           {
             type: 'bar',
             data: [
-              { value: data2[2], name: data1[2] },
-              { value: data2[5], name: data1[5] },
-              { value: data2[8], name: data1[8] }
+              { value: data2[0], name: data1[0] },
+              { value: data2[3], name: data1[3] },
+              { value: data2[6], name: data1[6] }
             ],
             barWidth: 15,
 
@@ -190,11 +190,12 @@ export default {
               }
             },
             data: [
-              { value: data2[0], name: data1[0] },
-              { value: data2[3], name: data1[3] },
-              { value: data2[6], name: data1[6] }
+              { value: data2[2], name: data1[2] },
+              { value: data2[5], name: data1[5] },
+              { value: data2[8], name: data1[8] }
             ]
           }
+         
         ]
       }
       myChart.setOption(option)

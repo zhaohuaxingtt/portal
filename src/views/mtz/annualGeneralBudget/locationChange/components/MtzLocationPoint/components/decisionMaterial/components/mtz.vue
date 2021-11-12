@@ -13,7 +13,7 @@
         <p class="headTitle">{{title}}</p>
         <span class="buttonBox" v-if="!editMode">
           <iButton v-if="!RsObject && downType" @click="downPdf">{{language('DAOCHUPDF','导出PDF')}}</iButton>
-          <iButton v-if="RsObject" @click="handleToSignPreview">{{language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')}}</iButton>
+          <iButton v-if="RsObject && formData.flowTypeName == '流转'" @click="handleToSignPreview">{{language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')}}</iButton>
         </span>
       </div>
       <el-form ref="form" :model="formData" label-width="140px" label-position="left">

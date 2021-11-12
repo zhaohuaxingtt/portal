@@ -298,7 +298,6 @@ export default {
         query: {
           currentStep: 1,
           mtzAppId: val.id,
-          flowType:val.flowType
         }
       })
       window.open(routeData.href, '_blank')

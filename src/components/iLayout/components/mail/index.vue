@@ -25,7 +25,7 @@
         </el-tab-pane>
       </el-tabs>
     </i-drawer>
-    <popupDialog  :show='show' :detail='detail' @close='close'/>
+    <popupDialog :show="show" :detail="detail" @close="close" />
   </div>
 </template>
 
@@ -33,9 +33,9 @@
 import { iDrawer } from 'rise'
 import { list } from './components'
 import popupDialog from '@/components/popupDialog'
-import { getHomeSocketMessage,getgetPopupSocketMessage } from '@/api/mail'
+import { getHomeSocketMessage, getgetPopupSocketMessage } from '@/api/mail'
 export default {
-  components: { iDrawer ,popupDialog},
+  components: { iDrawer, popupDialog },
   props: {
     visible: {
       type: Boolean,
@@ -55,17 +55,19 @@ export default {
   },
   mounted() {
     console.log('inMail getHomeSocketMessage')
-    getgetPopupSocketMessage(res =>{
+    getgetPopupSocketMessage((res) => {
       let _this = this
       const data = res.msgTxt
       this.popupData = data
-      if(data.type == 5 && data.subType ==5){
+      if (data.type == 5 && data.subType == 5) {
         this.$notify({
           duration: 0,
           dangerouslyUseHTMLString: true,
-          message:`<div style='display: flex;justify-content: space-between;cursor:pointer;'>
+          message: `<div style='display: flex;justify-content: space-between;cursor:pointer;'>
                       <div class="popupLeft" style='width:50px;height:50px; '>
-                        <img src="${data.picUrl}" style='width:100%;height:100%; border-radius: 50%;'>
+                        <img src="${
+                          data.picUrl
+                        }" style='width:100%;height:100%; border-radius: 50%;'>
                       </div>
                       <div class="popupRight" style='position:relative;margin-left:20px'>
                         <p class='${data.linkUrl && 'linkTitle'}' 
@@ -78,17 +80,17 @@ export default {
                         >${data.content}</p>
                       </div>
                     </div>`,
-          position:'bottom-right',
-          onClick(){
-              _this.openDialog()
-            }
-          })
+          position: 'bottom-right',
+          onClick() {
+            _this.openDialog()
+          }
+        })
       }
-      })
+    })
     this.closeSocket = getHomeSocketMessage((messages) => {
       const tab = messages.msgTxt.type
       const type = messages.msgTxt.subType
-      console.log(messages.msgTxt)
+      console.log('接收到message', messages)
       this.$emit('triggerCallback')
       if (tab === '4') {
         this.$refs.list[1].getUnreadCount()
@@ -100,7 +102,7 @@ export default {
           this.$refs.list[1].query.type === '' ||
           this.$refs.list[1].query.type === type
         ) {
-          this.getNewList()
+          this.$refs.list[1].getNewList()
         }
       } else if (tab === '5') {
         this.$refs.list[0].getUnreadCount()
@@ -108,7 +110,7 @@ export default {
           this.$refs.list[0].query.type === '' ||
           this.$refs.list[0].query.type === type
         ) {
-          this.getNewList()
+          this.$refs.list[0].getNewList()
         }
         /* this.$refs.list[0].query.type === '' ||
         this.$refs.list[0].query.type === type
@@ -122,13 +124,13 @@ export default {
   },
   data() {
     return {
-      show:false,
-      popupData:{},
-      detail:{
-        title:'',
-        content:'',
-        picUrl:'',
-        linkUrl:''
+      show: false,
+      popupData: {},
+      detail: {
+        title: '',
+        content: '',
+        picUrl: '',
+        linkUrl: ''
       },
       activeTab: '0',
       closeSocket: null,
@@ -155,17 +157,17 @@ export default {
     }
   },
   methods: {
-    close(val){
+    close(val) {
       this.show = val
     },
-    openDialog(){
+    openDialog() {
       this.show = true
       const param = JSON.parse(this.popupData.param)
       this.detail = {
-        title:this.popupData.title,
-        content:this.popupData.content,
-        picUrl:param.picUrl,
-        linkUrl:this.popupData.url
+        title: this.popupData.title,
+        content: this.popupData.content,
+        picUrl: param.picUrl,
+        linkUrl: this.popupData.url
       }
     },
     handleTriggerCallback() {

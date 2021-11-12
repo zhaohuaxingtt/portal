@@ -601,27 +601,6 @@ export default {
       getCarTypeDown(val).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
-          this.PurchaserPullDown = res.data
-          let purchaserId = [...this.purchaserId]
-          let arr = []
-          purchaserId.map(item => {
-            if(this.PurchaserPullDown.map(item => item.id).includes(item)){
-              arr.push(item)
-            }
-          })
-          this.purchaserId = arr
-          this.loadingiSearch = false
-        } else {
-          this.loadingiSearch = false
-          iMessage.error(result)
-        }
-      })
-    },
-    getPurchaserPullDown(val){
-      this.loadingiSearch = true
-      getPurchaserPullDown(val).then(res => {
-        const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
-        if (Number(res.code) === 200) {
           this.CarTypeDown = res.data
           let modelNameZh = [...this.modelNameZh]
           let arr = []
@@ -631,6 +610,25 @@ export default {
             }
           })
           this.modelNameZh = arr
+        } else {
+          iMessage.error(result)
+        }
+      })
+    },
+    getPurchaserPullDown(val){
+      this.loadingiSearch = true
+      getPurchaserPullDown(val).then(res => {
+        const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+        if (Number(res.code) === 200) {
+          this.PurchaserPullDown = res.data
+          let purchaserId = [...this.purchaserId]
+          let arr = []
+          purchaserId.map(item => {
+            if(this.PurchaserPullDown.map(item => item.id).includes(item)){
+              arr.push(item)
+            }
+          })
+          this.purchaserId = arr
           this.loadingiSearch = false
         } else {
           this.loadingiSearch = false
@@ -651,7 +649,7 @@ export default {
         getCarTypeDown([]),
         getCarTypePullDown(),
         getIsSupplyPullDown(),
-        getPurchaserPullDown()
+        getPurchaserPullDown([])
       ]).then(res => {
         const result0 = this.$i18n.locale === 'zh' ? res[0].desZh : res[0].desEn
         const result1 = this.$i18n.locale === 'zh' ? res[1].desZh : res[1].desEn
