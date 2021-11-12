@@ -28,7 +28,10 @@
     </leftLayout>
     <div class="app-content" :class="{ keepAlive: $route.meta.keepAlive }">
       <keep-alive>
-        <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath" />
+        <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath" >
+      
+
+        </router-view>
       </keep-alive>
       <router-view v-if="!$route.meta.keepAlive" :key="$route.fullPath" />
       <div
@@ -36,6 +39,7 @@
         class="app-menu-model"
         @click="hideSideMenu"
       ></div>
+      
     </div>
     <div class="btn-button">
       <img src="~@/assets/images/leftContent.png" alt="" />
@@ -51,7 +55,7 @@
       <div class="item-content">外部数据查询</div>
       <div class="item-content" >用户助手</div> -->
     </div>
-      <!-- <popupLayOut></popupLayOut> -->
+    <popupLayOut ref="popupNotify"></popupLayOut>
   </div>
 </template>
 <script>
@@ -61,7 +65,7 @@ import sideMenu from './components/sideMenu'
 import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
 import { popoverList } from './components/data.js'
-import popupLayOut from './components/popupLayOut'
+import popupLayOut from './components/popupDialog/popupLayOut.vue'
 
 export default {
   components: { topLayout, LeftLayout, sideMenu, myModules, popupLayOut },
@@ -75,7 +79,7 @@ export default {
   },
   data() {
     return {
-      activeIndex: '',
+      activeIndex: '', 
       menuMap: {},
       menus_admin: [],
       menu2IconMap: {
@@ -111,7 +115,12 @@ export default {
     }
   },
   created() {
+    /* this.$nextTick(()=>{
+      this.$refs.popupNotify.getPopupItemList()
+    }) */
+    
     this.menus && this.menus.length ? this.getMenus() : this.getMenuList()
+    
   },
   methods: {
     getMenus() {
