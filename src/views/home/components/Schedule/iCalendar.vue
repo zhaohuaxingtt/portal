@@ -78,11 +78,11 @@ export default {
         }
       }
     },
-    firstDayOfWeek:{
-      type:Number
+    firstDayOfWeek: {
+      type: Number
     }
   },
-  computed:{
+  computed: {
     lang() {
       return this.$i18n.locale
     }
@@ -92,7 +92,7 @@ export default {
       days: 365,
       month: new Date().getMonth() + 1,
       value: new Date(),
-      weekDays: this.disabledDates,
+      weekDays: this.disabledDates
     }
   },
   methods: {
@@ -198,13 +198,13 @@ export default {
     font-family: 'PingFang SC';
     font-weight: 500;
   }
-  .vc-header{
+  .vc-header {
     margin-bottom: 6px;
   }
   .vc-dot {
-    background-color: #FFB500 !important;
+    background-color: #ffb500 !important;
   }
-  .vc-day.is-not-in-month{
+  .vc-day.is-not-in-month {
     opacity: 0.5;
   }
 }
