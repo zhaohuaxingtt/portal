@@ -32,7 +32,7 @@ export default {
   props: {
     item: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
@@ -66,39 +66,41 @@ export default {
   data() {
     return {
       fieldsName: {
-        nameZh: '中文名称',
-        nameDe: '德文名称',
-        fsnrGsnrNum: '零件采购项目号',
-        buyerName: '询价采购员名称',
-        linieName: 'LINE',
-        partStatusNamne: '零件状态',
+        address: '地址',
+        aekoNo: 'Aeko号',
+        buyerName: '询价采购员',
+        carType: '车型',
         cartypeCategory: '车型大类',
         cartypeProjectZh: '车型项目',
-        partProjectTypeName: '零件项目类型',
-        procureFactoryName: '采购工厂',
-        supplierType: '供应商类型',
-        nameEn: '英文名称',
-        supplierNameZhShort: '供应商中文简称',
-        supplierNameEnShort: '供应商英文简称',
         corp: '集团',
-        socialCreditCode: '统一社会信用代码',
-        duns: 'DUNS号',
-        svw: 'SVW号',
-        vw: 'VW号',
-        sap: 'SAP号',
-        temporary: '临时号',
-        address: '地址',
-        purchaseAgent: '	采购员',
+        createDate: '创建日期',
         depart: '科室',
-        partBookType: '台账类型',
-        partsNo: '零件号',
+        duns: 'DUNS号',
+        fsnrGsnrNum: '零件采购项目号',
+        linieName: 'LINIE',
         materials: '材料组',
-        aekoNo: 'Aeko号',
-        partName: '零件名称',
-        rfqNo: 'RFQ编号',
-        carType: '车型',
+        partBookType: '台账类型',
+        partNameDe: '零件名(德)',
+        partNameZh: '零件名(中)',
+        partProjectTypeName: '零件项目类型',
+        partsNo: '零件号',
+        partStatusNamne: '零件状态',
+        procureFactoryName: '采购工厂',
+        purchaseAgent: '采购员',
+        quotationState: '报价状态',
         rfqName: 'RFQ名称',
-        quotationState: '报价状态'
+        rfqNo: 'RFQ编号',
+        rfqStatus: 'RFQ状态',
+        socialCreditCode: '统一社会信用代码',
+        supplierNameEn: '供应商名称(英)',
+        supplierNameEnShort: '供应商英文简称',
+        supplierNameZh: '供应商名称(中)',
+        supplierNameZhShort: '供应商中文简称',
+        supplierSapNo: '供应商SAP号',
+        supplierType: '供应商类型',
+        svw: 'SVW号',
+        temporary: '临时号',
+        vw: 'VW号'
       },
       appHost: process.env.VUE_APP_HOST,
       sorts: [
