@@ -68,7 +68,7 @@ export default {
           this.$refs.list[1].query.type === '' ||
           this.$refs.list[1].query.type === type
         ) {
-          // this.getNewList()
+          this.getNewList()
         }
       } else if (tab === '5') {
         this.$refs.list[0].getUnreadCount()
@@ -76,7 +76,7 @@ export default {
           this.$refs.list[0].query.type === '' ||
           this.$refs.list[0].query.type === type
         ) {
-          // this.getNewList()
+          this.getNewList()
         }
         /* this.$refs.list[0].query.type === '' ||
         this.$refs.list[0].query.type === type
