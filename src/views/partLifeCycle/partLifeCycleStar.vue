@@ -33,6 +33,8 @@
             clearable
             collapse-tags
             multiple
+            :filter-method="remoteMethod"
+            :loading="AekoLoading"
             v-model="aekoNum"
           >
             <el-option
@@ -115,7 +117,7 @@
             v-model="factoryCode"
           >
             <el-option
-              :value="item.factoryCode"
+              :value="item.factoryShowName"
               :label="item.factoryShowName"
               v-for="(item, index) in FactoryPullDown"
               :key="index"
@@ -404,8 +406,10 @@ export default {
       leftLoading: false,
       rightLoading: false,
       isScroll: false,
+      AekoLoading: false,
       loading: true,
       AekoPullDown: [],
+      AekoPullDownClone: [],
       CategoryPullDown: [],
       DepartmentPullDown: [],
       FactoryPullDown: [],
@@ -429,6 +433,13 @@ export default {
     this.$refs.partLifeCycleStar.$el.removeEventListener("scroll", this.scrollGetData, true);
   },
   methods: {
+    remoteMethod(val){
+      this.AekoPullDown = this.AekoPullDownClone.filter(item => {
+        if(item.includes(val)){
+          return item
+        }
+      }).slice(0, 40)
+    },
     scrollGetData(e){
       const { scrollTop, clientHeight, scrollHeight } = e.target
       if((scrollTop + clientHeight) === scrollHeight){
@@ -624,7 +635,8 @@ export default {
         const result9 = this.$i18n.locale === 'zh' ? res[9].desZh : res[9].desEn
         const result10 = this.$i18n.locale === 'zh' ? res[10].desZh : res[10].desEn
         if (Number(res[0].code) === 200) {
-          this.AekoPullDown = res[0].data
+          this.AekoPullDownClone = res[0].data
+          this.AekoPullDown = this.AekoPullDownClone.slice(0, 40)
         } else {
           iMessage.error(result0)
         }
