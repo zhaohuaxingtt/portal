@@ -43,9 +43,6 @@
                 currentView:'Home'
             };
         },
-        mounted() {
-            console.log(this.tabRouterList,'tabRouterList')
-        },
         methods: {
             exchangeSelectState(item,index) {
                 if(index==0) {

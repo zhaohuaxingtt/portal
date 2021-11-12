@@ -29,6 +29,7 @@
       </div>
       <hr width="100%" style="border:1px dashed #CDD3E2;height:1px" />
       <hr :width="(locationNow-1)*50 + '%'" style="border:1px dashed #1660F1;height:1px" />
+      <hr :width="(locationNow-2)*50 + '%'" style="border:1px solid #1660F1;height:1px" />
     </div>
     <iDialog
       :title="language('XUANZEHUIYI', '选择会议')"
@@ -199,6 +200,10 @@ export default {
                 if(res.result && res.code == 200){
                   iMessage.success(this.language(res.desEn,res.desZh))
 
+                  var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
+                  data.refresh = true;
+                  store.commit("routerMtzData",data);
+                  sessionStorage.setItem("MtzLIst",JSON.stringify(data))
                   this.getType();
                 }
               })
