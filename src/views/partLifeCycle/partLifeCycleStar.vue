@@ -320,7 +320,7 @@
     <transition name="slide-fade">
       <favorites v-if="favoritesShow" @deleteItem="cancelOrCollect" @closeFavorites="favoritesShow = false"></favorites>
     </transition>
-    <div style="display: none">{{ language('LK_LINGJIANQUANSHENGMINGZHOUQI', '零件全生命周期') }}</div>
+<!--    <div style="display: none">{{ language('LK_LINGJIANQUANSHENGMINGZHOUQI', '零件全生命周期') }}</div>-->
   </iPage>
 
 </template>
