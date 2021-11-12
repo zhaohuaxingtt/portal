@@ -37,10 +37,10 @@
         @click="hideSideMenu"
       ></div>
     </div>
-    <div class="btn-button">
+    <div class="btn-button" @click="handleShow">
       <img src="~@/assets/images/leftContent.png" alt="" />
     </div>
-    <div class="povper-content">
+    <div class="povper-content" v-show="contentShowFlag">
       <div
         v-for="(list, index) in popoverList"
         :key="index"
@@ -89,7 +89,8 @@ export default {
         RISE_ADMIN: ['', '']
       },
       menuModelVisible: false,
-      popoverList
+      popoverList,
+      contentShowFlag: false
     }
   },
   computed: {
@@ -114,6 +115,9 @@ export default {
     this.menus && this.menus.length ? this.getMenus() : this.getMenuList()
   },
   methods: {
+    handleShow() {
+      this.contentShowFlag = !this.contentShowFlag
+    },
     getMenus() {
       const menuMap = this.getMenusMap(this.menus)
       this.menuMap = menuMap
