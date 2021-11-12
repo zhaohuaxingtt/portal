@@ -7,14 +7,14 @@
           {{language('WHMTZLLZSJ','维护MTZ零件主数据')}}
         </span>
         <div>
-          <iButton @click="cancel" v-if="editType">{{ language('QUXIAO', '取消') }}</iButton>
-          <iButton @click="rfqClick" v-if="!editType">{{ language('YYRFQZLJ', '引用RFQ中零件') }}</iButton>
-          <iButton @click="locationClick" v-if="!editType">{{ language('YYDDSQDLJ', '引用定点申请单零件') }}</iButton>
-          <iButton @click="historyClick" v-if="!editType">{{ language('ZJLSMTZLJZSJ', '增加历史MTZ零件主数据') }}</iButton>
-          <iButton @click="add" v-if="!editType">{{ language('XINZENG', '新增') }}</iButton>
-          <iButton @click="edit" v-if="!editType">{{ language('BIANJI', '编辑') }}</iButton>
-          <iButton @click="delecte" v-if="!editType">{{ language('SHANCHU', '删除') }}</iButton>
-          <iButton @click="save" v-if="editType">{{ language('BAOCUN', '保存') }}</iButton>
+          <iButton @click="cancel" v-if="editType && appStatus !== '已提交'">{{ language('QUXIAO', '取消') }}</iButton>
+          <iButton @click="rfqClick" v-if="!editType && appStatus !== '已提交'">{{ language('YYRFQZLJ', '引用RFQ中零件') }}</iButton>
+          <iButton @click="locationClick" v-if="!editType && appStatus !== '已提交'">{{ language('YYDDSQDLJ', '引用定点申请单零件') }}</iButton>
+          <iButton @click="historyClick" v-if="!editType && appStatus !== '已提交'">{{ language('ZJLSMTZLJZSJ', '增加历史MTZ零件主数据') }}</iButton>
+          <iButton @click="add" v-if="!editType && appStatus !== '已提交'">{{ language('XINZENG', '新增') }}</iButton>
+          <iButton @click="edit" v-if="!editType && appStatus !== '已提交'">{{ language('BIANJI', '编辑') }}</iButton>
+          <iButton @click="delecte" v-if="!editType && appStatus !== '已提交'">{{ language('SHANCHU', '删除') }}</iButton>
+          <iButton @click="save" v-if="editType && appStatus !== '已提交'">{{ language('BAOCUN', '保存') }}</iButton>
         </div>
       </template>
       <el-table :data="tableData"
@@ -474,6 +474,7 @@ import { deepClone } from "./util"
 export default {
   name: "Search",
   componentName: "theTable",
+  props:["appStatus"],
   components: {
     iCard,
     iButton,

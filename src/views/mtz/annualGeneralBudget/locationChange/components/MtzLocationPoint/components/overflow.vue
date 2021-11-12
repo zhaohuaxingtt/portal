@@ -200,6 +200,10 @@ export default {
                 if(res.result && res.code == 200){
                   iMessage.success(this.language(res.desEn,res.desZh))
 
+                  var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
+                  data.refresh = true;
+                  store.commit("routerMtzData",data);
+                  sessionStorage.setItem("MtzLIst",JSON.stringify(data))
                   this.getType();
                 }
               })
