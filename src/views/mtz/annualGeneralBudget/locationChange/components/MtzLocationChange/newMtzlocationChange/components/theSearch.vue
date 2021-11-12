@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-11 11:40:45
+ * @LastEditTime: 2021-11-12 10:58:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -303,15 +303,16 @@ export default {
       })
     },
     handleSearchReset () {
-      this.searchForm.partNameList = []
-      this.searchForm.supplierSapList = []
-      this.searchForm.supplierNameList = []
-      this.searchForm.materialCodeList = []
-      this.searchForm.ruleNoList = []
-      this.searchForm.buyerDeptId = []
-      this.searchForm.marketSource = []
-      this.searchForm.buyerNameList = []
-      this.searchForm.compensationPeriod = []
+      this.searchForm.partNameList = ""
+      this.searchForm.partnumList = ""
+      this.searchForm.supplierSapList = ""
+      this.searchForm.supplierNameList = ""
+      this.searchForm.materialCodeList = ""
+      this.searchForm.ruleNoList = ""
+      this.searchForm.buyerDeptId = ""
+      this.searchForm.marketSource = ""
+      this.searchForm.buyerNameList = ""
+      this.searchForm.compensationPeriod = ""
       this.searchForm.endDate = ""
       this.searchForm.startDate = ""
       this.$parent.$refs.theTable.getTableList()
