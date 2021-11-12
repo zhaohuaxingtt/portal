@@ -1180,7 +1180,7 @@
     SUPPLIER_BUMEN: '部门', //部门
     SUPPLIER_QUHAO: '区号', //区号
     SUPPLIER_WEIXINHAO: '微信号', //微信号
-    SUPPLIER_SWLXRLXRXMLXRDHBT: '商务联系人,联系人姓名，联系电话必填！', //商务联系人,联系人姓名，联系电话必填！
+    SUPPLIER_SWLXRLXRXMLXRDHBT: '商务联系人,联系人姓名，联系电话,电子邮件必填！', //商务联系人,联系人姓名，联系电话必填！
 
     SUPPLIER_GONGYINGSHANGXINGMING: '供应商用户账号', //供应商用户账号
     SUPPLIER_YONGHUDENGLUMING: '用户登录名', //用户登录名

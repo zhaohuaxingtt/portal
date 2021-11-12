@@ -96,6 +96,16 @@
             </el-option>
           </iSelect>
         </el-form-item>
+         <el-form-item :label="language('GONGYINGSHANGBIAOQIAN', '供应生标签')">
+          <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                   v-model="form.relatedToMe">
+             <el-option v-for="item in tagdropDownList"
+                       :key="item.code"
+                       :label="item.message"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+        </el-form-item>
       </el-form>
     </iSearch>
     <i-card class="margin-top20">
@@ -236,7 +246,9 @@ import {
 } from 'rise'
 import { getBuyerType } from '@/api/supplier360/blackList'
 import setTagList from './components/setTagList'
-
+import {
+  dropDownTagName
+} from '@/api/supplierManagement/supplierTag/index'
 import setTagdilog from './components/setTag'
 import blackListPp from './components/blackListPp'
 import blackListGp from './components/blackListGp'
@@ -274,6 +286,7 @@ export default {
   },
   data() {
     return {
+              tagdropDownList: [],
       supplierId: '',
       gpRemoveParams: {
         key: 0,
@@ -484,6 +497,12 @@ export default {
       const res2 = await dictByCode('RELEVANT_DEPT')
       const res3 = await dictByCode('supplier_active')
       const res4 = await dictByCode('supplier_main_type')
+          //获取标签列表
+      dropDownTagName({}).then((res) => {
+        if (res && res.code == 200) {
+          this.tagdropDownList = res.data
+        }
+      })
       this.fromGroup.deptList = res2
       this.fromGroup.supplierStatusList = res3
       this.fromGroup.supplierTypeList = res4
