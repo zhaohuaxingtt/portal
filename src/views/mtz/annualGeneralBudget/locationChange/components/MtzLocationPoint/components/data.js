@@ -9,8 +9,8 @@ export const tableTitle = [
     { props: 'nominateDate', name: '定点时间', key: 'DINGDIANSHIJIAN' },
     { props: 'buyer', name: '采购员', key: 'CAIGOUYUAN' },
     { props: 'linieDeptName', name: '科室', key: 'KESHI' },
-    { props: 'isRsFreezed', name: 'RS单状态', key: 'RSDANZHUANGTAI' },
-    { props: 'rsFreezeDate', name: 'RS冻结时间', key: 'RSDONGJIESHIJIAN' },
+    // { props: 'isRsFreezed', name: 'RS单状态', key: 'RSDANZHUANGTAI' },
+    // { props: 'rsFreezeDate', name: 'RS冻结时间', key: 'RSDONGJIESHIJIAN' },
 ]
 
 export const tableTitleCp = [
