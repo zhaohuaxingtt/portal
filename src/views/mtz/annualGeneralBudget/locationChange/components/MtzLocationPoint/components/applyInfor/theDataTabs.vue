@@ -569,7 +569,7 @@ export default {
         }).then(res=>{
             if(this.dialogEditType){//新增
                 addBatchPartMasterData({
-                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                    mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     mtzAppNomiPartMasterDataList:this.newDataList
                 }).then(res=>{
                     if(res.code == 200){
@@ -586,7 +586,7 @@ export default {
                 })
             }else{//编辑
                 modifyPartMasterData({
-                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                    mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     mtzAppNomiPartMasterDataList:this.selectList
                 }).then(res=>{
                     if(res.code == 200){
@@ -671,9 +671,7 @@ export default {
         pagePartMasterData({
             pageNo: this.page.currPage,
             pageSize: this.page.pageSize,
-            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-            sortType:"DESC",
-            sortColumn:"id"
+            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
         }).then(res=>{
             this.tableData = res.data;
             this.page.currPage = res.pageNum
@@ -687,9 +685,7 @@ export default {
         pagePartMasterData({
             pageNo: this.page.currPage,
             pageSize: this.page.pageSize,
-            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-            sortType:"DESC",
-            sortColumn:"id"
+            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
         }).then(res=>{
             if(res.data.length<1){
                 listPartNumSupplierIdData({

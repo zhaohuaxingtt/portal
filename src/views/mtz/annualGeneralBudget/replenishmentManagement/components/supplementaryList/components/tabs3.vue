@@ -141,7 +141,8 @@ export default {
                     let objectUrl = URL.createObjectURL(blob);
                     let link = document.createElement("a");
                     link.href = objectUrl;
-                    let fname = "MTZ补差单明细（贵金属）" + getNowFormatDate() + ".xlsx";
+                    let fname = "补差单明细（贵金属）" + this.detailObj.bizNo + ".xlsx";
+                    // let fname = "MTZ补差单明细（贵金属）" + getNowFormatDate() + ".xlsx";
                     link.setAttribute("download", fname);
                     document.body.appendChild(link);
                     link.click();

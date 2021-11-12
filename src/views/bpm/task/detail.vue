@@ -115,9 +115,12 @@ import {
 } from './components'
 import { excelExport } from '@/utils/filedowLoad'
 import iTableCustom from '@/components/iTableCustom'
-import { MAP_APPROVAL_TYPE } from '@/constants'
+import { MAP_APPROVAL_TYPE, BPM_CATEGORY_RENAME_YIYI_LIST } from '@/constants'
 import { queryWorkflowDetail } from '@/api/approval/myApplication'
-import { completeApproval } from '@/api/approval/myApproval'
+import {
+  completeApproval,
+  stageCompleteApproval
+} from '@/api/approval/myApproval'
 
 export default {
   name: 'UndoTaskDetail',
@@ -289,7 +292,6 @@ export default {
       }
     },
     onComplete(type, title) {
-      console.log('type', type)
       this.agreeType = type
       this.taskDetail = {
         applyUserId: this.form.ownerId,
@@ -297,7 +299,8 @@ export default {
         itemContent: this.form.itemContent,
         itemName: this.form.itemName,
         module: this.form.module,
-        taskId: this.$route.params.taskId
+        taskId: this.$route.params.taskId,
+        procDefKey: this.form.procDefKey
       }
       if (type === MAP_APPROVAL_TYPE.AGREE) {
         const data = {
@@ -305,11 +308,19 @@ export default {
           taskAssignee: this.$store.state.permission.userInfo.id,
           taskId: this.$route.params.taskId,
           variables: {},
-          comment: '【同意】'
+          comment: BPM_CATEGORY_RENAME_YIYI_LIST.includes(this.form.procDefKey)
+            ? '【无异议】'
+            : '【同意】'
         }
         delete data['module']
         this.loading = true
-        completeApproval(data)
+        const approvalResult = BPM_CATEGORY_RENAME_YIYI_LIST.includes(
+          this.form.procDefKey
+        )
+          ? stageCompleteApproval(data)
+          : completeApproval(data)
+
+        approvalResult
           .then((res) => {
             this.loading = false
             if (res.result) {
