@@ -218,11 +218,11 @@ export function getIsSupplyPullDown(params) {
 }
 
 // 采购员下拉
-export function getPurchaserPullDown(params) {
+export function getPurchaserPullDown(data) {
   return VUE_APP_PARTSCARD({
     url: '/getPurchaserPullDown',
-    method: 'GET',
-    params
+    method: 'POST',
+    data
   })
 }
 
