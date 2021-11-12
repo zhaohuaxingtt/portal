@@ -8,7 +8,7 @@
             :rules="rules"
             ref="contractForm"
             >
-            <iFormItem prop="ruleNo">
+            <!-- <iFormItem prop="ruleNo">
                 <iLabel :label="language('GUIZEBIANHAO','规则编号')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.ruleNo"
@@ -16,7 +16,7 @@
                 placeholder="请输入规则编号"
                 :disabled="disabled"
                 />
-            </iFormItem>
+            </iFormItem> -->
             <iFormItem prop="effectFlag">
                 <iLabel :label="language('SHIFOUSHENGXIAO','是否生效')" slot="label"></iLabel>
                 <custom-select v-model="contractForm.effectFlag"
