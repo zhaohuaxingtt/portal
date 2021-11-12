@@ -41,17 +41,15 @@
       <img src="~@/assets/images/leftContent.png" alt="" />
     </div>
     <div class="povper-content" v-show="contentShowFlag">
-      <div
-        v-for="(list, index) in popoverList"
-        :key="index"
-      >
-        <div class="item-content" @click="handleClick(list)">{{ list.name }}</div>
+      <div v-for="(list, index) in popoverList" :key="index">
+        <div class="item-content" @click="handleClick(list)">
+          {{ list.name }}
+        </div>
       </div>
       <!-- <div class="item-content">零件寿命周期</div>
       <div class="item-content">外部数据查询</div>
       <div class="item-content" >用户助手</div> -->
     </div>
-      <!-- <popupLayOut></popupLayOut> -->
   </div>
 </template>
 <script>
@@ -61,14 +59,13 @@ import sideMenu from './components/sideMenu'
 import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
 import { popoverList } from './components/data.js'
-import popupLayOut from './components/popupLayOut'
 
 export default {
-  components: { topLayout, LeftLayout, sideMenu, myModules, popupLayOut },
+  components: { topLayout, LeftLayout, sideMenu, myModules },
   props: {
     menus: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -96,12 +93,12 @@ export default {
   computed: {
     // eslint-disable-next-line no-undef
     ...Vuex.mapState({
-      menuList: state => state.permission.menuList
+      menuList: (state) => state.permission.menuList
     }),
     sideMenus() {
       if (this.menus.length > 0) {
         // const activeMenu = this.menus[this.activeIndex]
-        const activeMenu = this.menus.find(item => {
+        const activeMenu = this.menus.find((item) => {
           return item.permissionKey === this.activeIndex
         })
         if (activeMenu && activeMenu.subMenus) {
@@ -125,7 +122,7 @@ export default {
     getMenuList() {
       const menuList = _.cloneDeep(this.menuList)
       const list = treeToArray(menuList, 'menuList')
-      list.forEach(item => {
+      list.forEach((item) => {
         item.title = item.name
         item.key = item.id
         item.permissionKey === 'RISE_HOME'
@@ -155,10 +152,10 @@ export default {
         }
       })
       const menus_tree_all = arrayToTree(list, 'id', 'parentId', 'subMenus')
-      const menus_tree_normal = menus_tree_all.filter(item => {
+      const menus_tree_normal = menus_tree_all.filter((item) => {
         return item.name !== 'ADMIN'
       })
-      const menus_tree_admin = menus_tree_all.find(item => {
+      const menus_tree_admin = menus_tree_all.find((item) => {
         return item.name === 'ADMIN'
       })
       this.menus = menus_tree_normal
@@ -217,7 +214,7 @@ export default {
     right: 120px;
     background-color: #fff;
     border-radius: 10%;
-    box-shadow: 10px 10px 5px #E0E4EC;
+    box-shadow: 10px 10px 5px #e0e4ec;
     width: 140px;
     display: flex;
     flex-direction: column;
