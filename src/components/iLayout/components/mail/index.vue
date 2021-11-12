@@ -110,7 +110,7 @@ export default {
           this.$refs.list[0].query.type === '' ||
           this.$refs.list[0].query.type === type
         ) {
-          this.$refs.list[1].getNewList()
+          this.$refs.list[0].getNewList()
         }
         /* this.$refs.list[0].query.type === '' ||
         this.$refs.list[0].query.type === type
