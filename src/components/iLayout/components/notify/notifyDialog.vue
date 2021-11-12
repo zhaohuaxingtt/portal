@@ -1,9 +1,9 @@
 <template>
-  <div class="abc">
     <iDialog
-      :visible.sync="visible"
+      :visible.sync="show"
       :title="papgeTitle"
       @close="closeDialog"
+      style="display:block"
       width="600px"
       min-height="400px"
     >
@@ -24,7 +24,6 @@
         </div>
       </div>
     </iDialog>
-  </div>
 </template>
 
 <script>
@@ -36,7 +35,12 @@ export default {
     detail: {
       type: Object,
       default: function () {
-        return {}
+        return {
+          title: '',
+          content: '',
+          picUrl: '',
+          linkUrl: ''
+        }
       }
     },
     show: {
@@ -49,9 +53,7 @@ export default {
       visible: false
     }
   },
-  created() {
-    console.log('------------------------------------')
-  },
+  created() {},
   methods: {
     toNewPage() {
       if (this.detail.linkUrl) {
