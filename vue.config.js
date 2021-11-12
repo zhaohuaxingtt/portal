@@ -1,5 +1,5 @@
 const path = require('path')
-const resolve = dir => path.join(__dirname, dir)
+const resolve = (dir) => path.join(__dirname, dir)
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const ChangeNginxConfig = require(resolve(
@@ -19,7 +19,7 @@ module.exports = {
   lintOnSave: false,
   productionSourceMap: false,
   parallel: require('os').cpus().length > 1,
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     //定义全局别名
     config.resolve.alias
       .set('@', resolve('src'))
@@ -60,8 +60,8 @@ module.exports = {
         config.optimization.runtimeChunk('single')
     }
   },
-  configureWebpack: config => {
-    config.plugins.forEach(val => {
+  configureWebpack: (config) => {
+    config.plugins.forEach((val) => {
       if (val['__pluginConstructorName'] === 'HtmlWebpackPlugin') {
         val.options.CDN_HOST = process.env.CDN_HOST
       }
@@ -163,8 +163,7 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_APPROVAL]: {
-        target: `http://10.122.17.38:8012/approval`,
-        // target: `http://${BASE_DOMAN}:8012/approval`,
+        target: `http://${BASE_DOMAN}:8012/approval`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_APPROVAL]: ''
@@ -197,7 +196,8 @@ module.exports = {
       },
       // 站内信
       [process.env.VUE_APP_MAIL]: {
-        target: `http://${BASE_DOMAN}:8044/risemessage`,
+        target: `http://10.122.17.38:8044/risemessage`,
+        // target: `http://${BASE_DOMAN}:8044/risemessage`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MAIL]: ''
