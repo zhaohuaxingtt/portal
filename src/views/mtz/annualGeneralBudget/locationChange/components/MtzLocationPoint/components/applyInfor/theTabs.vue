@@ -34,10 +34,10 @@
                          show-overflow-tooltip
                          width="150"
                          :label="language('GUIZEBIANHAO','规则编号')">
-            <template slot-scope="scope">
+            <!-- <template slot-scope="scope">
                 <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.ruleNo}}</span>
-            </template>
+            </template> -->
         </el-table-column>
 
         <el-table-column prop="effectFlag"
@@ -108,10 +108,10 @@
                          width="150"
                          :label="language('GONGYINGSHANGMINGCHENG','供应商名称')"
                          show-overflow-tooltip>
-             <template slot-scope="scope">
+             <!-- <template slot-scope="scope">
                 <iInput v-model="scope.row.trueCompMoney" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.trueCompMoney}}</span>
-            </template>
+            </template> -->
         </el-table-column>
         <el-table-column prop="materialCode"
                          align="center"
@@ -571,11 +571,11 @@ export default {
         }).then(res=>{
             if(this.dialogEditType){//新增
                 addBatchAppRule({
-                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                    mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     mtzAppNomiAppRuleList:this.newDataList
                 }).then(res=>{
                     if(res.code == 200){
-                        iMessage.success(res.message)
+                        iMessage.success(this.language(res.desEn,res.desZh))
                         this.editId = "";
                         this.editType = false;
                         this.page.currPage = 1;
@@ -587,7 +587,7 @@ export default {
                 })
             }else{//编辑
                 modifyAppRule({
-                    mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                    mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     mtzAppNomiAppRuleList:this.selectList
                 }).then(res=>{
                     if(res.code == 200){
@@ -694,7 +694,7 @@ export default {
         pageAppRule({
             pageNo: this.page.currPage,
             pageSize: this.page.pageSize,
-            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+            mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
             sortType:"DESC",
             sortColumn:"id"
         }).then(res=>{

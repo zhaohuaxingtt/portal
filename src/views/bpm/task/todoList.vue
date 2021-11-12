@@ -43,13 +43,20 @@
 import { iCard, iMessage, iPage, iPagination } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import filters from '@/utils/filters'
-import { MAP_APPROVAL_TYPE, BPM_SINGL_CATEGORY_LIST } from '@/constants'
+import {
+  MAP_APPROVAL_TYPE,
+  BPM_SINGL_CATEGORY_LIST,
+  BPM_CATEGORY_RENAME_YIYI_LIST
+} from '@/constants'
 import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
 import taskMixin from './taskMixin'
 import { actionButtons, actionHeader, searchForm } from './components'
 import { queryUndoApprovals } from '@/api/approval/myApproval'
-import { completeApproval } from '@/api/approval/myApproval'
+import {
+  completeApproval,
+  stageCompleteApproval
+} from '@/api/approval/myApproval'
 import { filterEmptyValue } from '@/utils'
 export default {
   mixins: [pageMixins, filters, taskMixin],
@@ -241,8 +248,8 @@ export default {
           searchData.categoryList[0] === '')
       ) {
         searchData.categoryList = this.templates
-          .filter(e => !BPM_SINGL_CATEGORY_LIST.includes(e.name))
-          .map(e => e.name)
+          .filter((e) => !BPM_SINGL_CATEGORY_LIST.includes(e.name))
+          .map((e) => e.name)
       }
       const data = {
         taskType: this.taskType,
@@ -254,7 +261,7 @@ export default {
       const result = queryUndoApprovals(params, data)
 
       result
-        .then(res => {
+        .then((res) => {
           this.loading = false
           const { current, size, total, records } = res.data
           this.page.currPage = current
@@ -278,12 +285,22 @@ export default {
             taskAssignee: this.$store.state.permission.userInfo.id,
             taskId: element.taskId,
             variables: {},
-            comment: '【同意】'
+            comment: BPM_CATEGORY_RENAME_YIYI_LIST.includes(
+              element.processDefinitionKey
+            )
+              ? '【无异议】'
+              : '【同意】'
           }
 
-          const res = await completeApproval(data).catch(() => {
-            this.loading = false
-          })
+          const res = BPM_CATEGORY_RENAME_YIYI_LIST.includes(
+            element.processDefinitionKey
+          )
+            ? await stageCompleteApproval(data).catch(() => {
+                this.loading = false
+              })
+            : await completeApproval(data).catch(() => {
+                this.loading = false
+              })
           if (!(res.result && res.data)) {
             const errorMsg = res.desZh || this.$t('APPROVAL.OPERATION_FAILED')
             errorMsgs.push(

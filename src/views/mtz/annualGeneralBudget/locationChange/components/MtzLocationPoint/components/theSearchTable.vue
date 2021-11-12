@@ -73,7 +73,7 @@
                         :placeholder="language('QINGSHURU','请输入')">
           </input-custom>
         </el-form-item>
-        <el-form-item label="RS单状态">
+        <!-- <el-form-item label="RS单状态">
           <custom-select v-model="searchForm.rsFreezed"
                          :user-options="getRsBillStatusList"
                          clearable
@@ -92,7 +92,7 @@
                        start-placeholder="开始日期"
                        end-placeholder="结束日期">
           </iDatePicker>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="定点时间">
           <iDatePicker style="width:180px"
                        v-model="value1"
@@ -298,7 +298,6 @@ export default {
         query: {
           currentStep: 1,
           mtzAppId: val.id,
-          flowType:val.flowType
         }
       })
       window.open(routeData.href, '_blank')

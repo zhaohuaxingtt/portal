@@ -81,7 +81,7 @@
             <el-form-item style="marginRight:68px"
                           :label="language('BUCHASHIJIANDUAN', '补差时间段')"
                           class="formItem">
-              <iDatePicker style="width: 180px;"
+              <iDatePicker style="width: 220px;"
                           v-model="searchForm.dateTime"
                           type="monthrange">
               </iDatePicker>

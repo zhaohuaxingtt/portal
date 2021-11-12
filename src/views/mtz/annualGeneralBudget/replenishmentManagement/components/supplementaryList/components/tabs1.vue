@@ -213,7 +213,8 @@ export default {
                     let objectUrl = URL.createObjectURL(blob);
                     let link = document.createElement("a");
                     link.href = objectUrl;
-                    let fname = "MTZ补差单汇总" + getNowFormatDate() + ".xlsx";
+                    // let fname = "补差单汇总" + getNowFormatDate() + ".xlsx";
+                    let fname = "补差单汇总-" + this.detailObj.bizNo + ".xlsx";
                     link.setAttribute("download", fname);
                     document.body.appendChild(link);
                     link.click();

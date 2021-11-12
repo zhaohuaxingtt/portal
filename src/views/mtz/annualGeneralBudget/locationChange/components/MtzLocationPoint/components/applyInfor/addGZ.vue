@@ -8,7 +8,7 @@
             :rules="rules"
             ref="contractForm"
             >
-            <iFormItem prop="ruleNo">
+            <!-- <iFormItem prop="ruleNo">
                 <iLabel :label="language('GUIZEBIANHAO','规则编号')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.ruleNo"
@@ -16,7 +16,7 @@
                 placeholder="请输入规则编号"
                 :disabled="disabled"
                 />
-            </iFormItem>
+            </iFormItem> -->
             <iFormItem prop="effectFlag">
                 <iLabel :label="language('SHIFOUSHENGXIAO','是否生效')" slot="label"></iLabel>
                 <custom-select v-model="contractForm.effectFlag"
@@ -57,10 +57,10 @@
                 :disabled="disabled"
                 />
             </iFormItem>
-            <iFormItem prop="trueCompMoney">
+            <iFormItem prop="supplierName">
                 <iLabel :label="language('GONGYINGSHANGMINGCHENG','供应商名称')" slot="label"></iLabel>
                 <iInput
-                v-model="contractForm.trueCompMoney"
+                v-model="contractForm.supplierName"
                 type="text"
                 placeholder="请输入供应商名称"
                 :disabled="disabled"
@@ -330,7 +330,7 @@ export default {components: {
         // if (valid) {
             addAppRule({
                 ...this.contractForm,
-                ttMtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+                ttMtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
             }).then(res=>{
                 if(res.code == 200 && res.result){
                     iMessage.success(res.desZh)
