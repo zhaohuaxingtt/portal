@@ -84,7 +84,7 @@ export default {
         partNameZh: '零件名(中)',
         partProjectTypeName: '零件项目类型',
         partsNo: '零件号',
-        partStatusNamne: '零件状态',
+        partStatusName: '零件状态',
         procureFactoryName: '采购工厂',
         purchaseAgent: '采购员',
         quotationState: '报价状态',
