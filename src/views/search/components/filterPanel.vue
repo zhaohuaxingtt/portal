@@ -69,7 +69,7 @@
             >
             </el-button>
           </iInput>
-          <div>
+          <div class="historyList">
               <ul>
                 <li 
                 v-for="item in suggestions"
@@ -123,6 +123,7 @@
                 {{item.value}}
                 </li>
               </ul>
+              <div style='height:20px'></div>
           </div>
           <!-- </el-autocomplete> -->
         </div>
@@ -258,9 +259,10 @@ $input-height: 48px;
   }
 }
 .suaggestionContent{
-  top: 180px;
+  top: 160px;
   position:absolute;
   background: #fff;
+  box-shadow:0 0  5px #dcdcdc;
   .suggestionItem{
   width: 600px;
   font-weight: bolder;
@@ -276,6 +278,6 @@ $input-height: 48px;
 }
 
 .filter-input{
-  margin-left: 110px;
+  margin-left: 120px;
 }
 </style>

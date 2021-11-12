@@ -456,6 +456,7 @@ import { pageMixins } from "@/utils/pageMixins"
 import continueBox from "./continueBox";
 import addGZ from "./addGZ";
 import { deepClone } from "./util";
+import store from "@/store";
 
 import {
   pageAppRule,//维护MTZ原材料规则-分页查询
@@ -573,8 +574,8 @@ export default {
                     mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     mtzAppNomiAppRuleList:this.newDataList
                 }).then(res=>{
-                    if(res == 200){
-                        iMessage.success(res.message)
+                    if(res.code == 200){
+                        iMessage.success(this.language(res.desEn,res.desZh))
                         this.editId = "";
                         this.editType = false;
                         this.page.currPage = 1;
@@ -701,7 +702,14 @@ export default {
             this.page.currPage = res.pageNum
             this.page.pageSize = res.pageSize
             this.page.totalCount = res.total
-            this.loading = false
+            this.loading = false;
+            if(res.total < 1){
+                store.commit("submitDataNumber",0);
+                console.log(0)
+            }else{
+                store.commit("submitDataNumber",1);
+                console.log(1)
+            }
         })
     },
     getMtzCailiao(){

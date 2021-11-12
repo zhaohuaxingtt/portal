@@ -1,21 +1,21 @@
 <template>
   <iCard>
       <div class="main">
-        <el-form>
+        <el-form class="form-content">
             <el-row :gutter="24"> 
-                <el-col span='8'>
+                <el-col span='6'>
                     <iFormItem :label="language('弹框标题')">
-                        <iInput></iInput>
+                        <iInput v-model="searchContent.popupName"></iInput>
                     </iFormItem>
                 </el-col>
-                <el-col span='8'>
+                <el-col span='6'>
                     <iFormItem :label="language('弹框说明')">
-                        <iInput></iInput>
+                        <iInput v-model="searchContent.content"></iInput>
                     </iFormItem>
                 </el-col>
-                <el-col span='8'>
+                <el-col span='6'>
                     <iFormItem :label="language('发送日期')">
-                        <iDatePicker></iDatePicker>
+                        <iDatePicker class="send-time" v-model="searchContent.sendDate"></iDatePicker>
                     </iFormItem>
                 </el-col>
             </el-row>
@@ -31,20 +31,22 @@
 
 <script>
 import {iCard,iFormItem,iInput,iDatePicker,iButton} from 'rise'
+import {INI_SEARCH_FORM} from './data.js'
 export default {
     name:'theTableFilter',
     components:{iCard,iFormItem,iInput,iDatePicker,iButton},
     data(){
         return{
-
+            searchContent:_.cloneDeep(INI_SEARCH_FORM)
         }
     },
     methods:{
         sure(){
-
+            this.$emit('search',this.searchContent)
         },
         cancel(){
-            
+            this.searchContent=_.cloneDeep(INI_SEARCH_FORM)
+            this.sure()
         }
     }
 }
@@ -54,8 +56,21 @@ export default {
 .main{
     display: flex;
     justify-content: space-between;
+    .form-content{
+        width: 1000px;
+        .el-row{
+            .send-time{
+                width: 100%;
+            }
+            .el-col{
+                margin-right: 50px;
+            }
+        }
+        
+
+    }
     .btnItems{
-        margin-top: 30px;
+        margin-top: 36px;
     }
 }
 </style>

@@ -1,6 +1,6 @@
 export default[
     {
-        path:'/popup-window-management',
+        path:'popup-window-management',
         name:'popup-window-management',
         meta:{
             title:'popup-window-management'
@@ -8,7 +8,7 @@ export default[
         component:()=>import('@/views/popupWindowManagement')
     },
     {
-        path:'/popup-window-management/create',
+        path:'popup-window-management/create',
         name:'create-new',
         meta:{
             title:'create-new'
