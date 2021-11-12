@@ -29,7 +29,8 @@ export const formList = [
   {
     key: 'SHENQINGDANHAO',
     label: '申请单号',
-    prop: 'ttNominateAppId',
+    // prop: 'ttNominateAppId',
+    prop: 'mtzAppId',
   },
   {
     key: 'SHENQINGDANMING',

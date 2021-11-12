@@ -115,7 +115,7 @@ export default {
         partsNum: this. claimNum,
         deptId: this. deptId,
         linieId: this. linieId,
-        positionId: this. roleCode,
+        positionId: this.roleCode,
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
@@ -194,7 +194,7 @@ export default {
           let data = res.data
           this.deptId = data.deptId
           this.linieId = data.linieId
-          this.roleCode = data.rolePullDown.length > 0 ? data.rolePullDown[0].code : ''
+          this.roleCode = data.rolePullDown.length > 0 ? data.rolePullDown[0].id : ''
           this.getDepartmentsCombo()
           this.liniePullDownByDept()
           this.getRoleName()
