@@ -1,18 +1,18 @@
 <!--
  * @Author: youyuan
- * @Date: 2021-11-04 10:02:28
- * @LastEditTime: 2021-11-10 14:12:02
+ * @Date: 2021-10-28 16:45:22
+ * @LastEditTime: 2021-11-10 13:43:16
  * @LastEditors: Please set LastEditors
- * @Description: 会外流转单pdf预览
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signPreview.vue
+ * @Description: mtz
+ * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
 -->
 <template>
-  <div id="content">
+  <div ref="qrCodeDiv" style="padding-bottom:30px;">
     <iCard>
       <div slot="header" class="headBox">
-        <p class="headTitle">CSC 定点推荐 - MTZ  CSC Nomination Recommendation - MTZ</p>
+        <p class="headTitle">{{title}}</p>
         <span class="buttonBox" v-if="!editMode">
-          <!-- <iButton @click="handleClickExport" :loading="exportButtonLoading">{{language('DAOCHU', '导出')}}</iButton> -->
+          <iButton v-if="!RsObject && downType" @click="downPdf">{{language('DAOCHUPDF','导出PDF')}}</iButton>
         </span>
       </div>
       <el-form ref="form" :model="formData" label-width="140px" label-position="left">
@@ -29,13 +29,14 @@
         <tableList
           class="margin-top20"
           :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle"
+          :tableTitle="RsObject?ruleTableTitle1:ruleTableTitle2"
           :tableLoading="loading"
           :index="true"
           :selection="false"
           @handleSelectionChange="handleSelectionChange">
         </tableList>
         <iPagination
+        v-if="RsObject"
         v-update
         @size-change="handleSizeChange($event, getPageAppRule)"
         @current-change="handleCurrentChange($event, getPageAppRule)"
@@ -50,13 +51,14 @@
         <tableList
           class="margin-top20"
           :tableData="partTableListData"
-          :tableTitle="partTableTitle"
+          :tableTitle="RsObject?partTableTitle1:partTableTitle2"
           :tableLoading="loading"
           :index="true"
           :selection="false"
           @handleSelectionChange="handleSelectionChange">
         </tableList>
         <iPagination
+        v-if="RsObject"
         v-update
         @size-change="handleSizeChange($event, getPagePartMasterData)"
         @current-change="handleCurrentChange($event, getPagePartMasterData)"
@@ -69,20 +71,34 @@
     </iCard>
     <iCard class="margin-top20">
       <div slot="header" class="headBox">
-        <p class="headTitle">{{language('SHANGHUIBEIZHU', '上会备注')}}</p>
-        <span class="buttonBox">
-          <iButton @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
-        </span>
+        <p v-if="isMeeting" class="headTitle">{{language('SHANGHUIBEIZHU', '上会备注')}}</p>
+        <p v-if="isSign" class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p>
+        <!-- <span class="buttonBox">
+          <iButton v-if="RsObject" @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
+        </span> -->
       </div>
-      <p>{{language('LINEIESHANGHUIBEIZHU', 'LINIE上会备注')}}</p>
-      <iInput v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
+      <p v-if="isMeeting">{{language('LINEIESHANGHUIBEIZHU', 'LINIE上会备注')}}</p>
+      <p v-if="isSign">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
+      <iInput v-if="isMeeting" v-model="formData.linieMeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
+      <iInput v-if="isSign" v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
     </iCard>
-    <div class="margin-top30 deptBox">
-      <div class="deptItem" v-for="(item, index) in deptData" :key="index">
-        <p>{{item.approvalDepartment}}：</p>
-        <div></div>
+    <!-- <iCard v-if="isMeeting" class="margin-top20">
+      <p>{{language('SHENQINGRIQI', '申请日期')}}: 2020-01-01</p>
+      <div :class="RsObject?'applayDateBox':'applayDateBox1'">
+        <div class="applayDateContent" v-for="(item, index) in applayDateData" :key="index">
+          <icon  v-if="item.flag" class="margin-left5 applayDateIcon" symbol name="iconrs-wancheng"></icon>
+          <icon  v-if="!item.flag" class="margin-left5 applayDateIcon" symbol name="iconrs-quxiao"></icon>
+          <div class="applayDateContentItem">
+            <span>部门：</span>  
+            <span class="applayDateDeptTitle">{{item.dept}}</span>
+          </div>
+          <div class="applayDateContentItem">
+            <span>日期：</span>  
+            <span>{{item.date}}</span>  
+          </div>
+        </div>
       </div>
-    </div>
+    </iCard> -->
   </div>
 </template>
 
@@ -90,13 +106,13 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle, partTableTitle} from './data'
-import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
+import { ruleTableTitle1,ruleTableTitle2, partTableTitle1,partTableTitle2} from './data'
+import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-import { downloadPdfMixins } from '@/utils/pdf';
-import { downloadFileByUrl } from '@/utils';
+import html2canvas from 'html2canvas';
+import JsPDF from 'jspdf';
 export default {
-  mixins: [pageMixins, downloadPdfMixins],
+  mixins: [pageMixins],
   components: {
     iCard,
     icon,
@@ -105,12 +121,17 @@ export default {
     iPagination,
     tableList
   },
+  props:{
+    RsType:{type:Boolean}
+  },
   data () {
     return {
       formData: {},
       formList,
-      ruleTableTitle,
-      partTableTitle,
+      ruleTableTitle1:ruleTableTitle1,
+      ruleTableTitle2:ruleTableTitle2,
+      partTableTitle1:partTableTitle1,
+      partTableTitle2:partTableTitle2,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
@@ -126,23 +147,34 @@ export default {
         layout: 'sizes, prev, pager, next, jumper',
       },
       applayDateData: [],
-      deptData: [],
-      exportButtonLoading: false
+      RsObject:true,
+      downType:true,
+    }
+  },
+  watch: {
+    mtzObject(newVlue,oldValue){
+      
     }
   },
   created() {
+    if(this.RsType){
+      this.RsObject = false;
+    }
+    this.initApplayDateData()
     this.getAppFormInfo()
     this.getPageAppRule()
     this.getPagePartMasterData()
-    this.getSignPreviewDept()
   },
   computed: {
+    mtzObject(){
+      return this.$store.state.location.mtzObject;
+    },
     title() {
       let res = ''
       switch (this.formData.flowType) {
         case 'MEETING':
           // 上会
-          res = 'flowType CSC 定点推荐 - MTZ  CSC Nomination Recommendation - MTZ'
+          res = 'CSC 定点推荐 - MTZ  CSC Nomination Recommendation - MTZ'
           break;
         case 'SIGN':
           // 流转
@@ -163,21 +195,75 @@ export default {
     },
     isSign() {
       return this.formData.flowType == 'SIGN'
-    },
-    mtzObject(){
-      return this.$store.state.location.mtzObject;
-    }
-  },
-  watch: {
-    mtzObject(newVlue,oldValue){
-
     }
   },
   methods: {
+    downPdf(){
+      this.downType = false;
+      console.log(this.title)
+      var name = "";
+      if(this.title == ""){
+        name = "RS导出"
+      }else{
+        name = this.title;
+      }
+      console.log(this.title)
+      html2canvas(this.$refs.qrCodeDiv,{
+        useCORS: true,
+        allowTaint: true
+      }).then(canvas=>{
+        const contentWidth = canvas.width
+        // 内容高度
+        const contentHeight = canvas.height
+        const pageHeight = contentWidth / 592.28 * 841.89
+        // 未生成pdf的html页面高度
+        let leftHeight = contentHeight
+        let position = 0
+        // a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+        const imgWidth = 595.28
+        const imgHeight = 592.28 / contentWidth * contentHeight
+        // canvas转图片数据
+        const pageData = canvas.toDataURL('image/jpeg', 1.0)
+        // 新建JsPDF对象
+        const PDF = new JsPDF('', 'pt', 'a4')
+        // 判断是否分页
+        if (leftHeight < pageHeight) {
+          PDF.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
+        } else {
+          while (leftHeight > 0) {
+            PDF.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+            leftHeight -= pageHeight
+            position -= 841.89
+            if (leftHeight > 0) {
+              PDF.addPage()
+            }
+          }
+        }
+        // 保存文件
+        PDF.save(name + '.pdf')
+      }).then(res=>{
+        setTimeout(() => {
+          this.downType = true;
+        }, 300);
+      })
+    },
+    initApplayDateData() {
+      this.applayDateData = [
+        {flag: true, dept: 'TL', date: '2020-01-01'},
+        {flag: true, dept: 'TL', date: '2020-01-01'},
+        {flag: true, dept: 'TL', date: '2020-01-01'},
+        {flag: true, dept: 'TL', date: '2020-01-01'},
+        {flag: true, dept: 'TL', date: '2020-01-01'},
+        {flag: true, dept: 'TL', date: '2020-01-01'},
+        {flag: true, dept: 'TL', date: '2020-01-01'},
+        {flag: true, dept: 'TL', date: '2020-01-01'},
+        {flag: true, dept: 'TL', date: '2020-01-01'},
+      ]
+    },
     // 获取申请单信息
     getAppFormInfo() {
       getAppFormInfo({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+        mtzAppId:this.$route.query.mtzAppId
       }).then(res => {
         if(res && res.code == 200) {
           this.formData = res.data
@@ -186,11 +272,21 @@ export default {
     },
     // 获取规则清单表格数据
     getPageAppRule() {
-      pageAppRule({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        pageNo: this.rulePageParams.currPage,
-        pageSize: this.rulePageParams.pageSize,
-      }).then(res => {
+      var list = {};
+      if(this.RsObject){
+        list = {
+          mtzAppId:this.$route.query.mtzAppId,
+          pageNo: this.rulePageParams.currPage,
+          pageSize: this.rulePageParams.pageSize,
+        }
+      }else{
+        list = {
+          mtzAppId:this.$route.query.mtzAppId,
+          pageNo: 1,
+          pageSize: 99999,
+        }
+      }
+      pageAppRule(list).then(res => {
         if(res && res.code == 200) {
           this.ruleTableListData = res.data
           this.rulePageParams.totalCount = res.total
@@ -199,25 +295,25 @@ export default {
     },
     // 获取零件清单表格数据
     getPagePartMasterData() {
-      pagePartMasterData({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        pageNo: this.partPageParams.currPage,
-        pageSize: this.partPageParams.pageSize,
-      }).then(res => {
+      var list = {};
+      if(this.RsObject){
+        list = {
+          mtzAppId:this.$route.query.mtzAppId,
+          pageNo: this.partPageParams.currPage,
+          pageSize: this.partPageParams.pageSize,
+        }
+      }else{
+        list = {
+          mtzAppId:this.$route.query.mtzAppId,
+          pageNo: 1,
+          pageSize: 99999,
+        }
+      }
+      pagePartMasterData(list).then(res => {
         if(res && res.code == 200) {
           this.partTableListData = res.data
           this.partPageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
-      })
-    },
-    // 获取部门数据 
-    getSignPreviewDept() {
-      fetchSignPreviewDept({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
-      }).then(res => {
-        if(res && res.code == 200) {
-          this.deptData = res.data
-        } else iMessage.error(res.error)
       })
     },
     // 点击保存
@@ -225,12 +321,12 @@ export default {
       let params = {}
       if(this.isMeeting) {
         params = {
-          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          mtzAppId:this.$route.query.mtzAppId,
           linieMeetingMemo: this.formData.linieMeetingMemo
         }
       } else if(this.isFinite) {
         params = {
-          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          mtzAppId:this.$route.query.mtzAppId,
           cs1MeetingMemo: this.formData.cs1MeetingMemo
         }
       }
@@ -241,45 +337,11 @@ export default {
         } else iMessage.error(res.desZh)
       })
     },
-    // 生成PDF
-    createPdf() {
-      return new Promise(resolve => {
-        this.downloadButtonLoading = true
-        const pdfParam = {
-          domId: 'content',
-          pdfName: '会外流转单',
-        }
-        this.getDownloadFileAndExportPdf(pdfParam).then(res => {
-          resolve(res)
-        })
-      })
-    },
-    // 导出：导出当前为pdf
-    handleClickExport() {
-      this.exportButtonLoading = true
-      this.createPdf().then(res => {
-        this.exportButtonLoading = false
-        if(res) {
-          downloadFileByUrl(res.downloadUrl)
-          iMessage.success(this.language('CAOZUOCHENGGONG', '操作成功'))
-        } else iMessage.error(this.language('CAOZUOSHIBAI', '操作失败'))
-      })
-    }
   }
 }
 </script>
 
 <style lang='scss' scoped>
-#content{
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 20000;
-  background: white;
-  overflow-y: auto;
-}
 .tableTitle {
   display: inline-block;
   font-weight: bold;
@@ -304,12 +366,34 @@ export default {
     right: 0;
   }
 }
+.applayDateBox1{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: wrap;
+}
 .applayDateBox {
   overflow-x: scroll;
   margin: 20px 0;
   padding-bottom: 20px;
   white-space: nowrap;
-  .applayDateContent {
+}
+.applayDateIcon {
+  margin-top: 10px;
+  font-size: 30px;
+}
+.applayDateContentItem {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding: 0 20px;
+  font-size: 16px;
+  .applayDateDeptTitle {
+    font-weight: bold;
+  }
+}
+.applayDateContent {
     display: inline-block;
     background-color: #CDD4E2;
     height: 178px;
@@ -317,36 +401,5 @@ export default {
     margin: 0 10px;
     border-radius: 15px;
     text-align: center;
-    .applayDateIcon {
-      margin-top: 10px;
-      font-size: 30px;
-    }
-    .applayDateContentItem {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-      padding: 0 20px;
-      font-size: 16px;
-      .applayDateDeptTitle {
-        font-weight: bold;
-      }
-    }
-  }
-}
-.deptBox {
-  display: flex;
-  .deptItem {
-    flex: auto;
-    display: flex;
-    p {
-      font-weight: bold;
-    }
-    div {
-      border-bottom: 1px solid black;
-      margin-left: 10px;
-      width: 60%;
-    }
-  }
 }
 </style>

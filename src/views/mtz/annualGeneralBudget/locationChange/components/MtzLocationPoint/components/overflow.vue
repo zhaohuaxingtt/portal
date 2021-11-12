@@ -215,6 +215,7 @@ export default {
     },
     // 点击步骤
     handleClickStep(data) {
+      if(this.$route.query.currentStep == data.id) return false;
       this.locationNow = data.id;
       var dataList = this.$route.query;
       this.$router.push({
