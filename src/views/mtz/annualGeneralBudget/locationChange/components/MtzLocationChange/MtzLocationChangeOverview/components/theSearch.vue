@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-11 11:37:53
+ * @LastEditTime: 2021-11-12 11:04:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -33,7 +33,7 @@
         </el-form-item>
         <el-form-item label="采购员"
                       class="searchFormItem">
-          <input-custom v-model="searchForm.buyerId"
+          <input-custom v-model="searchForm.buyerNameList"
                         style="width:100%"
                         :editPlaceholder="language('QINGSHURU','请输入')"
                         :placeholder="language('QINGSHURU','请输入')"> </input-custom>
@@ -152,7 +152,15 @@ export default {
       })
     },
     handleSearchReset () {
-
+      this.searchForm = {
+        mtzAppId: "",
+        appStatus: "",
+        buyerNameList: "",
+        buyerDeptId: "",
+        resolutionPassTime: "",
+        materialCode: "",
+        assemblyPartnum: ""
+      }
     },
     handleSubmitSearch () {
       this.$parent.$refs.theTable.getTableList()
