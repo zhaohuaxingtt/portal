@@ -109,7 +109,13 @@ export default {
       }
       supplierBlackListAudit(params).then((res) => {
         if (res && res.code == 200) {
-          this.data = res.data
+          this.data = res.data || {
+            nameZh: '',
+            measures: '',
+            startTime: '',
+
+            endTime: ''
+          }
         } else iMessage.error(res.desZh)
       })
     },

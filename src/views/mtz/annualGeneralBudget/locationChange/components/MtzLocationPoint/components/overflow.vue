@@ -137,9 +137,9 @@ export default {
       this.flowType = newValue;
     },
     mtzObject(newValue,oldValue){
-      if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined){
+      if(this.$route.query.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined){
       }else{
-        this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+        this.locationId = this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       }
       this.getType();
     }
@@ -148,17 +148,17 @@ export default {
     if(JSON.parse(sessionStorage.getItem('MtzLIst')) == null){
       sessionStorage.setItem('MtzLIst',JSON.stringify({mtzAppId:undefined}))
     }
-    if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined){
+    if(this.$route.query.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined){
       this.beforReturn = true;
     }else{
       this.beforReturn = false;
-      this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+      this.locationId = this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       this.getType();
     }
   },
   methods: {
     getType(){
-      getAppFormInfo({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId}).then(res=>{
+      getAppFormInfo({ mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId}).then(res=>{
         this.flowType = res.data.flowType;
         this.appStatus = res.data.appStatus;
       })
@@ -172,28 +172,18 @@ export default {
     downRS(){
       this.rsType = true;
       this.downType = true;
-
-      // const {href} = this.$router.resolve({
-      //   path: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/signPreview',
-      //     query: {
-      //       mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-      //     }
-      //   })
-      // window.open(href, '_blank')
     },
-
 
     // 提交
     submit(){
-      console.log(this.submitDataList)
       if(this.submitDataList == 0){
         iMessage.warn(this.language("MTZGZBNWK","MTZ规则不能为空"))
         return false;
       }
-      if(this.mtzObject.flowType == undefined && this.$route.query.flowType == undefined && this.flowType == "" && this.submitType == ""){
+      if(this.mtzObject.flowType == undefined && this.flowType == "" && this.submitType == ""){
         
       }else{
-        this.flowType = this.mtzObject.flowType || this.$route.query.flowType || this.flowType || this.submitType
+        this.flowType = this.mtzObject.flowType || this.flowType || this.submitType
         if(this.flowType === "MEETING"){//上会
           this.mtzAddShow = true;
         }else{//备案
@@ -204,7 +194,7 @@ export default {
               confirmButtonText:this.language('QUEREN', '确认'),
           }).then(() => {
               mtzAppNomiSubmit({
-                mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+                mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
               }).then(res=>{
                 if(res.result && res.code == 200){
                   iMessage.success(this.language(res.desEn,res.desZh))
@@ -220,14 +210,15 @@ export default {
     },
     // 点击步骤
     handleClickStep(data) {
-      this.locationNow = data.id
+      this.locationNow = data.id;
+      var dataList = this.$route.query;
       this.$router.push({
         path: data.url,
         query: {
+          ...dataList,
           currentStep: data.id,
-          mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+          mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
           appId:this.$route.query.appId || this.mtzObject.appId,
-          flowType:this.$route.query.flowType
         }
       })
     },

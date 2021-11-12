@@ -156,18 +156,7 @@ export default [{
     component: () =>
         import('@/views/supplierManagement/supplierKPI/supplierIndex/index.vue')
 },
-{
-    path: '/supplier/joinBlackApply',
-    name: 'joinBlackApply',
-    component: () =>
-        import('@/views/supplierManagement/supplier360/list/joinBlackApply/index.vue')
-},
-{
-    path: '/supplier/removeBlackApply',
-    name: 'removeBlackApply',
-    component: () =>
-        import('@/views/supplierManagement/supplier360/list/removeBlackApply/index.vue')
-},
+
 {
     path: '/supplier/supplierIndex',
     name: 'supplierIndex',

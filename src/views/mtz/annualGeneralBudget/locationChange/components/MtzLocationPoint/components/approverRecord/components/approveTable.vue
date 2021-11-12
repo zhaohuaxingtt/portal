@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-11 15:48:39
+ * @LastEditTime: 2021-11-12 15:53:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -83,7 +83,7 @@
                    placeholder="输入关键词搜索"
                    :remote-method="queryOptions"
                    @change="handleChange">
-            <el-option v-for="item in options"
+            <el-option v-for="item in userList"
                        :key="item.id"
                        :label="item.nameZh"
                        :value="item.id">
@@ -294,6 +294,7 @@ export default {
     handleChangeApprovalSection (val, row) {
       let obj = this.selectSectionList.find(item => item.nameZh === val)
       row.approvalDepartment = obj.id
+      this.userList = obj.userDTOList
     },
     handleSync () {
       syncAuther({ mtzAppId: this.mtzAppId || '5107001' }).then(res => {
