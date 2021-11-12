@@ -299,7 +299,7 @@ export default {
     },
     save(){
       relation({
-        mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
         ttNominateAppId:this.handleSelectArr[0].id
       }).then(res=>{
         if(res.code == 200){
