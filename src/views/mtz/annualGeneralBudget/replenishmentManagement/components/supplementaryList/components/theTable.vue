@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-18 18:52:11
- * @LastEditTime: 2021-11-11 17:09:09
+ * @LastEditTime: 2021-11-12 10:03:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\components\theTable1.vue
@@ -76,7 +76,7 @@
                        align="right"
                        header-align="center"
                        :label="language('SHIJIBUCHAJINEPINGZHENGJINE','实际补差金额（凭证金额）')"
-                       width="240">
+                       width="180">
         <template slot-scope="scope">
           <span>{{scope.row.approvedAmt|format}}</span>
         </template>
