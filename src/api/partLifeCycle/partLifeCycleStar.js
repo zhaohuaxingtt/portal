@@ -4,10 +4,10 @@
  */
 import axios from '@/utils/axios'
 
-const VUE_APP_PARTSFOLDER = axios(process.env.VUE_APP_PARTSFOLDER)
-const VUE_APP_PARTSCOLLECT = axios(process.env.VUE_APP_PARTSCOLLECT)
-const VUE_APP_RELATIONPARTS = axios(process.env.VUE_APP_RELATIONPARTS)
-const VUE_APP_PARTSCARD = axios(process.env.VUE_APP_PARTSCARD)
+const VUE_APP_PARTSFOLDER = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/partsFolder')
+const VUE_APP_PARTSCOLLECT = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/partsCollect')
+const VUE_APP_RELATIONPARTS = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/relationParts')
+const VUE_APP_PARTSCARD = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/partsCard')
 
 
 // 收藏夹及收藏零件查询
