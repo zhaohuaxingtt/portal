@@ -42,3 +42,11 @@ export function queryModelTemplate(data) {
     data
   })
 }
+
+export function stageCompleteApproval(data) {
+  return requst({
+    url: `/web/taskInfo/stageComplete`,
+    method: 'POST',
+    data
+  })
+}

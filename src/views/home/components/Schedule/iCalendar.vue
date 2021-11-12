@@ -205,7 +205,12 @@ export default {
     background-color: #ffb500 !important;
   }
   .vc-day.is-not-in-month {
-    opacity: 0.5;
+    .vc-day-content {
+      opacity: 1 !important;
+      color: #cbd5e0 !important;
+    }
+    opacity: 1 !important;
+    color: #cbd5e0 !important;
   }
 }
 </style>
