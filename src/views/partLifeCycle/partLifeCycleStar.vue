@@ -651,7 +651,7 @@ export default {
         getCarTypeDown([]),
         getCarTypePullDown(),
         getIsSupplyPullDown(),
-        getPurchaserPullDown()
+        getPurchaserPullDown([])
       ]).then(res => {
         const result0 = this.$i18n.locale === 'zh' ? res[0].desZh : res[0].desEn
         const result1 = this.$i18n.locale === 'zh' ? res[1].desZh : res[1].desEn
