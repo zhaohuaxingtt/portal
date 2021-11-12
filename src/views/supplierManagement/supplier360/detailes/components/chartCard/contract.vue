@@ -28,7 +28,10 @@
 <script>
 import echarts from '@/utils/echarts'
 import { iCard, icon } from 'rise'
-import { getCatogeryCollect } from '@/api/supplierManagement/supplierCard/index'
+import {
+  getCatogeryCollect,
+  getCatogeryCollectYear
+} from '@/api/supplierManagement/supplierCard/index'
 export default {
   props: {},
   components: {
@@ -43,7 +46,8 @@ export default {
       chooseEquipment: {
         data: '',
         value: ''
-      }
+      },
+      infoBar: []
     }
   },
   computed: {
@@ -58,82 +62,18 @@ export default {
   created() {},
   methods: {
     getData() {
-      //   getCatogeryCollect(50003037).then((res) => {
-      this.info = [
-        {
-          catogeryCode: '162',
-          receiveAmount: '0.00',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '097',
-          receiveAmount: '-998658.15',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '120',
-          receiveAmount: '-3500.00',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '221',
-          receiveAmount: '-3654869.60',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '222',
-          receiveAmount: '-135707586.40',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '059',
-          receiveAmount: '-25475.15',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '224',
-          receiveAmount: '-2170878709.50',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '225',
-          receiveAmount: '-457009832.10',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '039',
-          receiveAmount: '0.00',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '216',
-          receiveAmount: '-7066615.24',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '107',
-          receiveAmount: '-3840.00',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '113A',
-          receiveAmount: '0.00',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '208',
-          receiveAmount: '0.00',
-          receiveAmountW: '0.00'
-        },
-        {
-          catogeryCode: '224A',
-          receiveAmount: '-8110.50',
-          receiveAmountW: '0.00'
-        }
-      ]
-      this.getLeftChart()
-      this.getRightChart()
-      //   })
+      getCatogeryCollect(this.$route.query.subSupplierId).then((res) => {
+        this.info = res.data
+        this.getLeftChart()
+      })
+      let req = {
+        catogeryCode: '',
+        tmSupplierId: this.$route.query.subSupplierId
+      }
+      getCatogeryCollectYear(req).then((res) => {
+        this.infoBar = res.data
+        this.getRightChart()
+      })
     },
     getLeftChart() {
       let data1 = []
@@ -144,14 +84,14 @@ export default {
 
       const myChart = echarts().init(this.$refs.chart1)
       this.option1 = {
-          title:{
-                text:'单位：百万  ',
-                right:50,
-                 textStyle: {
+        title: {
+          text: '单位：百万  ',
+          right: 50,
+          textStyle: {
             color: '#909091',
             fontSize: 10
           }
-          },
+        },
         grid: {
           top: 0,
           right: '10%'
@@ -162,7 +102,7 @@ export default {
         legend: {
           bottom: 0,
           icon: 'circle',
-             textStyle: {
+          textStyle: {
             fontSize: 10,
             color: '#909091'
           },
@@ -202,22 +142,88 @@ export default {
         ]
       }
       myChart.setOption(this.option1)
+      myChart.on('click', (params) => {
+        this.getRightChart(params.name)
+      })
       myChart.on('mouseover', function (params) {
         /*添加鼠标事件*/ obj.chooseEquipment.value = params.value
         obj.chooseEquipment.value = parseInt(
           obj.chooseEquipment.value / 1000000
-        )
+        ).toLocaleString()
+
         if (params.percent === 0) obj.chooseEquipment.data = '0.00'
         else obj.chooseEquipment.data = params.percent
       })
     },
-    getRightChart() {
+    getRightChart(val) {
+      var data1 = []
+      var data2 = []
+      var data3 = []
+      let newDataBar = {}
+      let newDataSum = {}
+      let barData = []
+      let sumData = []
+      this.infoBar.forEach((e) => {
+        //新建属性名获取按材料id累计
+        if (Object.keys(newDataBar).indexOf('' + e.catogeryCode) === -1) {
+          newDataBar[e.catogeryCode] = []
+        }
+        //对应插入属性值
+        newDataBar[e.catogeryCode].push(e)
+        //新建属性名
+        if (Object.keys(newDataSum).indexOf('' + e.year) === -1) {
+          newDataSum[e.year] = []
+        }
+        //对应插入属性值获取按年累计
+        newDataSum[e.year].push(e)
+      })
+      let total = 0
+      //循环生成每一年分累计得总值
+      for (var i in newDataSum) {
+        total = 0
+        newDataSum[i].forEach((res, j) => {
+          if (i == res.year) {
+            total += Math.abs(parseInt(res.receiveAmount))
+          }
+        })
+        sumData.push({ year: i, receiveAmountAll: total })
+      }
+      //给当前材料idpush进当前年总值
+      if (val) {
+        barData = newDataBar[val]
+        sumData.forEach((v) => {
+          barData.forEach((j) => {
+            if (v.year == j.year) {
+              j.receiveAmountAll = v.receiveAmountAll
+            }
+          })
+        })
+      }
+      if (val) {
+        barData.forEach((v) => {
+          data1.push(parseInt(v.receiveAmountAll / 1000000))
+          data2.push(Math.abs(parseInt(v.receiveAmount / 1000000)))
+          data3.push(v.year)
+        })
+      } else {
+        sumData.forEach((v) => {
+          data1 = []
+          data2.push(Math.abs(parseInt(v.receiveAmountAll / 1000000)))
+          data3.push(v.year)
+        })
+      }
+      //   console.log(data1)
+      //   console.log(data2)
+      //   console.log(data3)
+      //   console.log(barData)
+      //   console.log(sumData)
+      let title = 'Turnover' || val
       const myChart = echarts().init(this.$refs.chart2)
       this.option2 = {
         title: {
           top: 0,
           itemGap: 4,
-          text: 'Turnover',
+          text: title,
           subtext: '（Million RMB）',
           textStyle: {
             color: '#909091',
@@ -228,21 +234,24 @@ export default {
             fontSize: 10
           }
         },
-        legend: {
-          icon: 'circle',
-          right: '10%',
+        // legend: {
+        //   icon: 'circle',
+        //   right: '10%',
 
-          top: 14,
-          textStyle: {
-            fontSize: 10,
-            color: '#909091'
-          },
-          itemWidth: 8,
-          itemHeight: 8
-        },
+        //   top: 14,
+        //   textStyle: {
+        //     fontSize: 10,
+        //     color: '#909091'
+        //   },
+        //   itemWidth: 8,
+        //   itemHeight: 8
+        // },
 
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          textStyle: {
+            align: 'left'
+          },
         },
         grid: {
           top: '18%',
@@ -252,7 +261,7 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu'],
+          data: data3,
           axisLabel: {
             show: true,
             textStyle: {
@@ -281,16 +290,15 @@ export default {
         },
         series: [
           {
-            name: 'Tue',
-            data: [64, 47, 54, 57],
+            // name: val?'综合':val,
+            data: data1,
             type: 'bar',
             barGap: '-100%',
-            barWidth: 30,
-            label: {
-              show: true,
-              position: 'top',
-              color: '#333'
-            },
+            // label: {
+            //   show: true,
+            //   position: 'top',
+            //   color: '#333'
+            // },
             itemStyle: {
               normal: {
                 fontSize: 12,
@@ -300,15 +308,14 @@ export default {
             }
           },
           {
-            name: 'Mon',
-            data: [14, 23, 11, 6],
+            // name: val?val:'综合',
+            data: data2,
             type: 'bar',
-            barWidth: 30,
-            label: {
-              show: true,
-              position: 'inside',
-              color: '#fff'
-            },
+            // label: {
+            //   show: true,
+            //   position: 'inside',
+            //   color: '#fff'
+            // },
             itemStyle: {
               normal: {
                 fontSize: 12,
@@ -320,6 +327,33 @@ export default {
         ]
       }
       myChart.setOption(this.option2)
+    },
+    //千分位格式化
+    format(n) {
+      let num = n.toString()
+      let decimals = ''
+      // 判断是否有小数
+      num.indexOf('.') > -1 ? (decimals = num.split('.')[1]) : decimals
+      let len = num.length
+      if (len <= 3) {
+        return num
+      } else {
+        let temp = ''
+        let remainder = len % 3
+        decimals ? (temp = '.' + decimals) : temp
+        if (remainder > 0) {
+          // 不是3的整数倍
+          return (
+            num.slice(0, remainder) +
+            ',' +
+            num.slice(remainder, len).match(/\d{3}/g).join(',') +
+            temp
+          )
+        } else {
+          // 是3的整数倍
+          return num.slice(0, len).match(/\d{3}/g).join(',') + temp
+        }
+      }
     }
   }
 }
