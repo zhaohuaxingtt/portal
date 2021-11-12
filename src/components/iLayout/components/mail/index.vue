@@ -90,7 +90,7 @@ export default {
     this.closeSocket = getHomeSocketMessage((messages) => {
       const tab = messages.msgTxt.type
       const type = messages.msgTxt.subType
-      console.log(messages.msgTxt)
+      console.log('接收到message', messages)
       this.$emit('triggerCallback')
       if (tab === '4') {
         this.$refs.list[1].getUnreadCount()
