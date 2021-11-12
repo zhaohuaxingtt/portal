@@ -1,6 +1,7 @@
 <template>
+<div class="abc">
   <iDialog
-    :visible.sync="show"
+    :visible.sync="visible"
     :title="papgeTitle"
     @close="closeDialog"
     width="600px"
@@ -19,6 +20,7 @@
           </div>
       </div>
   </iDialog>
+  </div>
 </template>
 
 <script>
@@ -38,7 +40,14 @@ export default {
             default:false
         }
     },
-    data(){},
+    data(){
+        return {
+            visible: false
+        }
+    },
+    created(){
+        console.log('------------------------------------');
+    },
     methods:{
         toNewPage(){
             if(this.detail.linkUrl){
@@ -46,7 +55,7 @@ export default {
             }
         },
         closeDialog(){
-            this.$emit('close',false)
+            this.$emit('update:show',false)
         }
     }
 }
