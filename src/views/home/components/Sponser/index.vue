@@ -81,7 +81,9 @@ export default {
         beginTime: '',
         endTime: '',
         departmentIds: []
-      }
+      },
+      legendData: [],
+      chart: null
     }
   },
   mounted() {
@@ -232,13 +234,16 @@ export default {
       })
       for (let i = 0; i < data.length; i++) {
         data[i].itemStyle = { normal: { color: this.colorList[i]?.color } }
+        data[i].textStyle = { fontSize: 10, fontWeight: 'normal' }
       }
       let total = 0
       for (let i in data) {
         total += data[i].value
       }
+      this.total = total
+      this.legendData = data
       const chart = echarts().init(this.$refs.pie)
-
+      this.chart = chart
       const option = {
         tooltip: {
           trigger: 'item',
@@ -257,9 +262,10 @@ export default {
             icon: 'circle',
             itemHeight: 8,
             type: 'scroll',
-            textStyle: {
-              fontSize: 10
-            }
+            // textStyle: {
+            //   fontSize: 10
+            // },
+            data: data
           }
         ],
         series: [
@@ -281,6 +287,74 @@ export default {
       }
       option && chart.setOption(option)
       console.log('options', JSON.stringify(option))
+
+      // 监听饼状图鼠标移入事件
+      chart.on('mouseover', (param) => {
+        const newLegends = this.legendData.map(e => {
+            if (e.name === param.name) {
+              e.textStyle.fontWeight = 'bold'
+            } else {
+              e.textStyle.fontWeight = 'normal'
+            }
+            return e
+        })
+        this.mergeOptions(newLegends)
+      })
+
+      // 监听饼状图鼠标移出事件
+      chart.on('mouseout', () => {
+        const newLegends = this.legendData.map(e => {
+          e.textStyle.fontWeight = 'normal'
+          return e
+        })
+        this.mergeOptions(newLegends)
+      })
+    },
+
+    mergeOptions (newLegends) {
+      let _that = this
+      const option = {
+        tooltip: {
+          trigger: 'item',
+          // formatter: function (data) {
+          //   let name = data.data.name.split( /\s+/)[0]
+          //   return `${name}:<br/>
+          //   ${_that.total}家<br/>
+          //   ${(data.data.num / _that.total).toFixed(2) * 100}.00%
+          //   `
+          // }
+        },
+        legend: [
+          {
+            left: '60%',
+            orient: 'vertical',
+            icon: 'circle',
+            itemHeight: 8,
+            type: 'scroll',
+            // textStyle: {
+            //   fontSize: 10
+            // },
+            data: newLegends
+          }
+        ],
+        series: [
+          {
+            type: 'pie',
+            radius: ['40%', '70%'],
+            right: '40%',
+            avoidLabelOverlap: false,
+            label: {
+              show: false,
+              position: 'center'
+            },
+            labelLine: {
+              show: false
+            },
+            data: _that.legendData
+          }
+        ]
+      }
+      option && this.chart.setOption(option)
     },
     initBar() {
       const totalCount = _.cloneDeep(this.totalCount)
