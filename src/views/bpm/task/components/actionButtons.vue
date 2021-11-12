@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { MAP_APPROVAL_TYPE } from '@/constants'
+import { MAP_APPROVAL_TYPE, BPM_CATEGORY_RENAME_YIYI_LIST } from '@/constants'
 import { iButton } from 'rise'
 
 export default {
@@ -34,7 +34,7 @@ export default {
   props: {
     selectedRow: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -64,19 +64,19 @@ export default {
       return this.hideRefuseButtonList.includes(this.categoryList)
     },
     approvalText() {
-      if (this.categoryList === 'meeting_rs_recheck') {
+      if (BPM_CATEGORY_RENAME_YIYI_LIST.includes(this.categoryList)) {
         return this.language('无异议')
       }
       return this.language('批准')
     },
     refuseText() {
-      if (this.categoryList === 'meeting_rs_recheck') {
+      if (BPM_CATEGORY_RENAME_YIYI_LIST.includes(this.categoryList)) {
         return this.language('有异议')
       }
       return this.language('拒绝')
     },
     appendText() {
-      if (this.categoryList === 'meeting_rs_recheck') {
+      if (BPM_CATEGORY_RENAME_YIYI_LIST.includes(this.categoryList)) {
         return this.language('有异议')
       }
       return this.language('补充材料')
