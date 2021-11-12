@@ -115,11 +115,14 @@ export default {
         purchaserEmail: this.supplierData.purchaserEmail
       }).then((res) => {
         if (res.data) {
-            
           this.supplierData.purchaserName = res.data.nameZh || ''
-          this.supplierData.userNum = res.data.userNum || ''
-          this.supplierData.purchaserSection = res.data.purchaserSection || ''
-          
+          //   this.supplierData.userNum = res.data.userNum || ''
+          this.$set(this.supplierData, 'userNum', res.data.userNum)
+          this.$set(
+            this.supplierData,
+            'purchaserSection',
+            res.data.purchaserSection
+          )
           if (!this.supplierData.supplierType)
             this.supplierData.supplierType = res.data.sapUserType || ''
         }
