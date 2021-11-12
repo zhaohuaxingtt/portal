@@ -277,7 +277,6 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 20000;
-  padding: 30px;
   background: white;
   overflow-y: auto;
 }

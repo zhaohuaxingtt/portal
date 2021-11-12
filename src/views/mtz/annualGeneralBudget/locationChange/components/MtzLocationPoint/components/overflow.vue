@@ -187,7 +187,7 @@ export default {
     submit(){
       console.log(this.submitDataList)
       if(this.submitDataList == 0){
-        iMessage.warn(this.language("WHMTZYCLGZBNWK","维护MTZ原材料规则不能为空"))
+        iMessage.warn(this.language("MTZGZBNWK","MTZ规则不能为空"))
         return false;
       }
       if(this.mtzObject.flowType == undefined && this.$route.query.flowType == undefined && this.flowType == "" && this.submitType == ""){
@@ -236,9 +236,8 @@ export default {
     },
     closeBingo(val){
       if(val = "refresh"){
-        var data = deepClone(this.mtzObject);
+        var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
         data.refresh = true;
-        console.log(data);
         store.commit("routerMtzData",data);
         sessionStorage.setItem("MtzLIst",JSON.stringify(data))
         this.getType();
@@ -248,6 +247,10 @@ export default {
     closeTyoe(){
       this.beforReturn = false;
     },
+  },
+  destroyed(){
+    sessionStorage.removeItem("MtzLIst");
+    store.commit("routerMtzData",{});
   }
 }
 </script>
