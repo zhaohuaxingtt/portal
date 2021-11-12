@@ -29,12 +29,15 @@
             </iFormItem>
             <iFormItem prop="ruleNo">
                 <iLabel :label="language('GUIZEBIANHAO','规则编号')" slot="label"></iLabel>
-                <iInput
-                v-model="contractForm.ruleNo"
-                type="text"
-                placeholder="请输入规则编号"
-                :disabled="disabled"
-                />
+                <iSelect v-model="contractForm.ruleNo"
+                   clearable
+                   value-key="code"
+                   :placeholder="language('QINGXUANZE','请选择')">
+                    <el-option v-for="item in ruleNo"
+                            :key="item.code"
+                            :value="item.code"
+                            :label="item.message"></el-option>
+                </iSelect>
             </iFormItem>
             <iFormItem prop="priceUnit">
                 <iLabel :label="language('MEI','每')" slot="label"></iLabel>
@@ -97,15 +100,15 @@
             </iFormItem>
             <iFormItem prop="materialCode">
                 <iLabel :label="language('YUANCAILIAOPAIHAO','原材料牌号')" slot="label"></iLabel>
-                <custom-select v-model="contractForm.materialCode"
-                         :user-options="materialCode"
-                         @change="materialBrand"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                <iSelect v-model="contractForm.materialCode"
+                   clearable
+                   value-key="code"
+                   :placeholder="language('QINGXUANZE','请选择')">
+                    <el-option v-for="item in materialCode"
+                            :key="item.code"
+                            :value="item.code"
+                            :label="item.message"></el-option>
+                </iSelect>
             </iFormItem>
             <iFormItem prop="materialName">
                 <iLabel :label="language('YUANCAILIAO','原材料')" slot="label"></iLabel>
@@ -238,14 +241,15 @@
             </iFormItem>
             <iFormItem prop="thresholdCompensationLogic">
                 <iLabel :label="language('YUZHIBUCHALUOJI','阈值补差逻辑')" slot="label"></iLabel>
-                <custom-select v-model="contractForm.thresholdCompensationLogic"
-                         :user-options="thresholdCompensationLogic"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                <iSelect v-model="contractForm.thresholdCompensationLogic"
+                   clearable
+                   value-key="code"
+                   :placeholder="language('QINGXUANZE','请选择')">
+                    <el-option v-for="item in thresholdCompensationLogic"
+                            :key="item.code"
+                            :value="item.code"
+                            :label="item.message"></el-option>
+                </iSelect>
             </iFormItem>
             </iFormGroup>
         </div>
@@ -271,7 +275,7 @@ import {
   iFormItem,
   iLabel,
   iSelect,
-  iDatePicker
+  iDatePicker,
 } from 'rise'
 import inputCustom from '@/components/inputCustom'
 export default {components: {
@@ -306,6 +310,9 @@ export default {components: {
             // orderNum: [{ required: true, message: '请输入排序', trigger: 'blur' }],
             // describe: [{ required: true, message: '请输入描述', trigger: 'blur' }]
         },
+        ruleNo:[
+            
+        ],
         thresholdCompensationLogic:[
             {
                 code:"A",
@@ -340,7 +347,7 @@ export default {components: {
     handleSave() {
         addPartMasterData({
             ...this.contractForm,
-            ttMtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+            ttMtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
         }).then(res=>{
             console.log(res);
             this.$emit("close","fresh")

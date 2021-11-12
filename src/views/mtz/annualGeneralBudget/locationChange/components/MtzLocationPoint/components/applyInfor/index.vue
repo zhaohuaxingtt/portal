@@ -22,6 +22,7 @@
         <div class="opration">
           <iButton @click="edit"
                    v-show="disabled && appIdType">{{ language('BIANJI', '编辑') }}</iButton>
+                   <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
           <iButton @click="save"
@@ -163,7 +164,11 @@ export default {
     }
   },
   created () {
-    this.init()
+    if(JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined && this.$route.query.mtzAppId == undefined){
+      
+    }else{
+      this.init()
+    }
     this.getListData()
     if(this.$route.query.appId){
       this.appIdType = false;
@@ -172,13 +177,14 @@ export default {
   methods: {
     init () {
       getAppFormInfo({
-        mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId 
+        mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId 
       }).then(res => {
         this.inforData.mtzAppId = res.data.mtzAppId;
         this.inforData.linieName = res.data.linieName
         this.inforData.appStatus = res.data.appStatus
         this.inforData.meetingName = res.data.meetingName
         this.inforData.linieMeetingMemo = res.data.linieMeetingMemo
+
         if (res.data.ttNominateAppId == null) {
           this.applyNumber = "";
         } else {
@@ -242,7 +248,7 @@ export default {
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res => {
         disassociate({
-          mtzAppId: this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+          mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
         }).then(res => {
           if (res.code == 200) {
             iMessage.success(res.desZh)

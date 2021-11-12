@@ -13,7 +13,7 @@ export const supplierDirectoryTableTitle = [
   { props: 'telephoneAreaCode', name: '区号', key: 'SUPPLIER_QUHAO' },
   { props: 'telephone', name: '联系电话', key: 'SUPPLIER_LIANXIDIANHUA', required: true },
   {
-    props: 'email', name: '电子邮件', key: 'SUPPLIER_DIANZIYOUJIAN', width: 150,
+    props: 'email', name: '电子邮件', key: 'SUPPLIER_DIANZIYOUJIAN',required: true , width: 150,
     rule: [{ pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, message: '请输入正确的电子邮件', trigger: 'blur' }]
   },
   { props: 'remark', name: '备注', key: 'SUPPLIER_BEIZHU' }

@@ -58,6 +58,24 @@ export default {
         )
     },
     {
+        path: '/supplier/joinBlackApply',
+        name: 'joinBlackApply',
+        meta: {
+            title: '生产供应生加入黑名单审批'
+          },
+        component: () =>
+            import('@/views/supplierManagement/supplier360/list/joinBlackApply/index.vue')
+    },
+    {
+        path: '/supplier/removeBlackApply',
+        name: 'removeBlackApply',
+        meta: {
+            title: '生产供应生移除黑名单审批'
+          },
+        component: () =>
+            import('@/views/supplierManagement/supplier360/list/removeBlackApply/index.vue')
+    },
+    {
       path: '/',
       name: 'home',
       redirect: '/index',
