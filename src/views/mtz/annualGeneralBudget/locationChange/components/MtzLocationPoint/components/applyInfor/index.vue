@@ -21,7 +21,7 @@
         </div>
         <div class="opration">
           <iButton @click="edit"
-                   v-show="disabled && appIdType">{{ language('BIANJI', '编辑') }}</iButton>
+                   v-show="disabled && appIdType && inforData.appStatus == '草稿'">{{ language('BIANJI', '编辑') }}</iButton>
                    <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
@@ -62,8 +62,8 @@
                 placeholder="请输入备注"
                 v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
-    <theTabs v-if="!beforReturn"></theTabs>
-    <theDataTabs v-if="!beforReturn"></theDataTabs>
+    <theTabs v-if="!beforReturn" :appStatus='inforData.appStatus'></theTabs>
+    <theDataTabs v-if="!beforReturn" :appStatus='inforData.appStatus'></theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
              v-if="mtzAddShow"
@@ -194,6 +194,8 @@ export default {
         // NOTPASS
         if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
           this.showType = true;
+        }else{
+          this.showType = false;
         }
 
         this.inforData.appName = res.data.appName
