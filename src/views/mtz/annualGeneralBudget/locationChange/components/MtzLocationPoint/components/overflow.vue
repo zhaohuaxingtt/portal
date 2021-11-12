@@ -180,10 +180,10 @@ export default {
         iMessage.warn(this.language("MTZGZBNWK","MTZ规则不能为空"))
         return false;
       }
-      if(this.mtzObject.flowType == undefined && this.$route.query.flowType == undefined && this.flowType == "" && this.submitType == ""){
+      if(this.mtzObject.flowType == undefined && this.flowType == "" && this.submitType == ""){
         
       }else{
-        this.flowType = this.mtzObject.flowType || this.$route.query.flowType || this.flowType || this.submitType
+        this.flowType = this.mtzObject.flowType || this.flowType || this.submitType
         if(this.flowType === "MEETING"){//上会
           this.mtzAddShow = true;
         }else{//备案
@@ -210,14 +210,15 @@ export default {
     },
     // 点击步骤
     handleClickStep(data) {
-      this.locationNow = data.id
+      this.locationNow = data.id;
+      var dataList = this.$route.query;
       this.$router.push({
         path: data.url,
         query: {
+          ...dataList,
           currentStep: data.id,
           mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
           appId:this.$route.query.appId || this.mtzObject.appId,
-          flowType:this.$route.query.flowType
         }
       })
     },
