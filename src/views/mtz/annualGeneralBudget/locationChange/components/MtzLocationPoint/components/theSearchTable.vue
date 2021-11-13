@@ -349,18 +349,31 @@ export default {
       if(this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if(this.selection[0].flowType == "FILING" && this.selection[0].appStatus == "FREERE"){
-        mtzNomi({
-          ids: this.selection.map(item => item.id)
-        }).then(res=>{
-          if(res && res.code == 200) {
-            iMessage.success(res.desZh)
-            this.getTableList()
-          } else iMessage.error(res.desZh)
-        })
-      }else{
-        return iMessage.warn(this.language('ZYBAZTQZTWDJCKYDD', '只有备案状态且状态为冻结才可以定点'))
+      if(this.selection[0].flowType == "FILING"){
+        if(this.selection[0].appStatus == "FREERE"){
+          this.getNomi()
+        }else{
+          return iMessage.warn(this.language('BALXQZTWDJCKYDD', '备案类型且状态为冻结才可以定点'))
+        }
+      }else if(this.selection[0].flowType == "SIGN"){
+        if(this.selection[0].appStatus == "FLOWED"){
+          this.getNomi()
+        }else{
+          return iMessage.warn(this.language('LZLXQZTWLZWCCKYDD', '流转类型且状态为流转完成才可以定点'))
+        }
+      }else if(this.selection[0].flowType == "MEETING"){
+        return iMessage.warn(this.language('SHLXBNJXDD', '上会类型不能进行定点'))
       }
+    },
+    getNomi(){
+      mtzNomi({
+        ids: this.selection.map(item => item.id)
+      }).then(res=>{
+        if(res && res.code == 200) {
+          iMessage.success(res.desZh)
+          this.getTableList()
+        } else iMessage.error(res.desZh)
+      })
     },
 
     // 取消定点

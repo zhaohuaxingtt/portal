@@ -629,12 +629,15 @@ export default {
     },
     addDialogDataList(val){
         this.newDataList = deepClone(val);
+        this.newDataList.forEach(item =>{
+            delete item.id;
+        })
         this.closeDiolog();
-        this.tableData.unshift(...val);
+        this.tableData.unshift(...this.newDataList);
         this.editType = true;
         var changeArrayList = [];
         this.$refs.moviesTable.clearSelection();
-        val.forEach(item => {
+        this.newDataList.forEach(item => {
             changeArrayList.push(item.id);
             this.$refs.moviesTable.toggleRowSelection(item, true);
         })
