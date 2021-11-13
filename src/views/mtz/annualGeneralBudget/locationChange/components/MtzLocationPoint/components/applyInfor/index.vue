@@ -243,7 +243,7 @@ export default {
       this.disabled = true;
     },
     relation () {//关联零件定点申请
-      iMessageBox(this.language('QUERENBAOCUN', '确认保存？'), this.language('GLSQDHQZTBLJDDSQLXHSPRXXRLJSQDYSHHCSTJTYGHY','关联申请单会强制同步零件定点申请类型和审批人信息！若零件申请单已上会，会尝试提交同一个会议！'), {
+      iMessageBox(this.language('GLSQDHQZTBLJDDSQLXHSPRXXRLJSQDYSHHCSTJTYGHY','关联申请单会强制同步零件定点申请类型和审批人信息！若零件申请单已上会，会尝试提交同一个会议！'),this.language('LK_WENXINTISHI', '温馨提示'), {
         confirmButtonText: this.language('QUEREN', '确认'),
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res => {
