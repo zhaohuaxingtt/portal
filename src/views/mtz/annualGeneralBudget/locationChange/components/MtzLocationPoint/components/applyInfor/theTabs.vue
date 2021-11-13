@@ -594,6 +594,7 @@ export default {
                     if(res.code == 200){
                         this.editId = "";
                         this.editType = false;
+                        this.getTableList();
                     }else{
                         iMessage.error(res.message)
                     }
