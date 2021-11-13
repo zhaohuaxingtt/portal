@@ -9,12 +9,12 @@
           {{language('WHMTZYCLGZ','维护MTZ原材料规则')}}
         </span>
         <div>
-          <iButton @click="cancel" v-if="editType && appStatus !== '已提交'">{{ language('QUXIAO', '取消') }}</iButton>
-          <iButton @click="add" v-if="!editType && appStatus !== '已提交'">{{ language('XINZENG', '新增') }}</iButton>
-          <iButton @click="edit" v-if="!editType && appStatus !== '已提交'">{{ language('BIANJI', '编辑') }}</iButton>
-          <iButton @click="continueBtn" v-if="!editType && appStatus !== '已提交'">{{ language('YANYONG', '沿用') }}</iButton>
-          <iButton @click="delecte" v-if="!editType && appStatus !== '已提交'">{{ language('SHANCHU', '删除') }}</iButton>
-          <iButton @click="save" v-if="editType && appStatus !== '已提交'">{{ language('BAOCUN', '保存') }}</iButton>
+          <iButton @click="cancel" v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('QUXIAO', '取消') }}</iButton>
+          <iButton @click="add" v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('XINZENG', '新增') }}</iButton>
+          <iButton @click="edit" v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BIANJI', '编辑') }}</iButton>
+          <iButton @click="continueBtn" v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('YANYONG', '沿用') }}</iButton>
+          <iButton @click="delecte" v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('SHANCHU', '删除') }}</iButton>
+          <iButton @click="save" v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BAOCUN', '保存') }}</iButton>
         </div>
       </template>
       <el-table :data="tableData"
