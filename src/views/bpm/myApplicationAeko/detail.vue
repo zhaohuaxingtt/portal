@@ -216,7 +216,6 @@ export default {
                   histories.push({ ...e, time, oprateTime })
                 })
               }
-              console.log('histories', histories)
               this.form.histories = histories.filter(
                 (e) => !['AutoCompleted'].includes(e.comment)
               )
