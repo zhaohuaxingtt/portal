@@ -24,7 +24,7 @@
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, icon, iMessage } from 'rise'
+import { iCard, icon } from 'rise'
 import { getSupplierCard } from '@/api/supplierManagement/supplierCard/index'
 export default {
   props: {},

@@ -50,7 +50,7 @@
         <productivity></productivity>
       </el-col>
       <el-col :span="8">
-        <newsMonitor></newsMonitor>
+        <newsMonitor :infodata="infodata"></newsMonitor>
       </el-col>
       <el-col :span="8">
         <publicOpinion> </publicOpinion>
