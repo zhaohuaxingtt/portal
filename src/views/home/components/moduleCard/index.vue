@@ -95,7 +95,7 @@ export default {
     newTitle() {
       if (this.$i18n.locale === 'zh') {
         return this.$t('HOME_CARD.' + this.card.permissionKey)
-      } else if (this.$i18n.locale === 'en' && this.card.orderNum === 8) {
+      } else if (this.$i18n.locale === 'en' && this.card.permissionKey === "HOME_MODULE_PROVIDER_RATE") {
         return this.card.permissionKey
       } else {
         return this.$t('HOME_CARD.' + this.card.permissionKey)
