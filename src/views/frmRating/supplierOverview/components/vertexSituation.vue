@@ -453,6 +453,10 @@ export default {
     },
     //移除
     handleSave() {
+             if (this.takeStepsContent == '') {
+        iMessage.warn(this.language('QINGSHURUYICHUYUANYINS', '请输入移出原因'),)
+        return false
+      }
       let req = {
         ids: this.selectData.map((res) => {
           return res.recordId

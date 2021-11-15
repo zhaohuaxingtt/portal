@@ -1,16 +1,15 @@
 <template>
-  <div v-if="url && formHeight !== '0px'" class="margin-bottom20">
-    <iframe
-      :src="url"
-      id="flowForm"
-      frameborder="no"
-      border="0"
-      marginwidth="0"
-      marginheight="0"
-      scrolling="no"
-      allowtransparency="yes"
-      :style="{ height: formHeight }"
-    />
+  <div v-if="url && formHeight !== '0px'"
+       class="margin-bottom20">
+    <iframe :src="url"
+            id="flowForm"
+            frameborder="no"
+            border="0"
+            marginwidth="0"
+            marginheight="0"
+            scrolling="no"
+            allowtransparency="yes"
+            :style="{ height: formHeight }" />
   </div>
 </template>
 
@@ -26,7 +25,7 @@ export default {
     }
   },
   computed: {
-    url() {
+    url () {
       if (!this.flowFormUrl) {
         return ''
       }

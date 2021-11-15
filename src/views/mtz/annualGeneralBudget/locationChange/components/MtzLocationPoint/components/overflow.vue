@@ -29,6 +29,7 @@
       </div>
       <hr width="100%" style="border:1px dashed #CDD3E2;height:1px" />
       <hr :width="(locationNow-1)*50 + '%'" style="border:1px dashed #1660F1;height:1px" />
+      <hr :width="(locationNow-2)*50 + '%'" style="border:1px solid #1660F1;height:1px" />
     </div>
     <iDialog
       :title="language('XUANZEHUIYI', '选择会议')"
@@ -63,7 +64,7 @@
 </template>
 
 <script>
-import { iButton,iDialog,iMessage } from "rise"
+import { iButton,iDialog,iMessage,iMessageBox } from "rise"
 import { topImgList } from './data'
 import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
@@ -199,6 +200,10 @@ export default {
                 if(res.result && res.code == 200){
                   iMessage.success(this.language(res.desEn,res.desZh))
 
+                  var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
+                  data.refresh = true;
+                  store.commit("routerMtzData",data);
+                  sessionStorage.setItem("MtzLIst",JSON.stringify(data))
                   this.getType();
                 }
               })
@@ -210,16 +215,22 @@ export default {
     },
     // 点击步骤
     handleClickStep(data) {
-      this.locationNow = data.id;
-      var dataList = this.$route.query;
-      this.$router.push({
-        path: data.url,
-        query: {
-          ...dataList,
-          currentStep: data.id,
-          mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-          appId:this.$route.query.appId || this.mtzObject.appId,
-        }
+      if(this.$route.query.currentStep == data.id) return false;
+      iMessageBox(this.language('NQDYJXXYBMQQDSJYJWQBC','您确定要进行下一步吗？请确定数据已经完全保存'),this.language('LK_WENXINTISHI','温馨提示'),{
+          confirmButtonText: this.language('QUEREN', '确认'),
+          cancelButtonText: this.language('QUXIAO', '取消')
+      }).then(res=>{
+        this.locationNow = data.id;
+        var dataList = this.$route.query;
+        this.$router.push({
+          path: data.url,
+          query: {
+            ...dataList,
+            currentStep: data.id,
+            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+            appId:this.$route.query.appId || this.mtzObject.appId,
+          }
+        })
       })
     },
     closeDiolog(){

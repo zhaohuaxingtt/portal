@@ -82,7 +82,6 @@ export const getHomeSocket = () =>
 /* 实时获取消息 */
 export const getHomeSocketMessage = onMessage => {
   return getSocket(getHomeSocket, message => {
-    console.log(message)
     onMessage(message)
   })
 }
@@ -94,7 +93,6 @@ JSON.parse(sessionStorage.getItem('userInfo')).accountId
 
 export const getgetPopupSocketMessage = onMessage =>{
   return getSocket(getPopupSocket, message => {
-    console.log(message)
     onMessage(message)
   })
 }

@@ -5,6 +5,7 @@
 
 import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_BASE_INFO)
+const requstSupplier = axios(process.env.VUE_APP_SUPPLIER)
 // 数据字典
 export function getDictByCode(code) {
   return requst({
@@ -35,3 +36,21 @@ export function getCityInfo(params) {
     params
   })
 }
+//是否国外
+export function isForeignCountry(params) {
+    return requstSupplier({
+      url: `/web/supplierInfo/isForeignCountry`,
+      method: 'POST',
+      data:params
+    })
+  }
+  //是否黑名单
+export function isBlack(params) {
+    return requstSupplier({
+      url: `/web/supplierInfo/isBlack`,
+      method: 'POST',
+      data:params
+    })
+  }
+  
+

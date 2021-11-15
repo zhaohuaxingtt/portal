@@ -12,6 +12,7 @@ export const tabRouterList = [
         name: '我的业绩',
         url: '/achievement/baseData/mymerit',
         activePath: '/achievement/baseData/mymerit',
+        permissionKey:'ACHIEVEMENT',
         key: 'EKL_YJGL_WDYJ',
     },
     {
@@ -20,6 +21,7 @@ export const tabRouterList = [
         url: '/achievement/baseData/list',
         activePath: '/achievement/baseData/list',
         key: 'EKL_YJGL_YJJC',
+        permissionKey:'ACHIEVEMENT',
     },
 ]
 export const btnsgroup1 = [

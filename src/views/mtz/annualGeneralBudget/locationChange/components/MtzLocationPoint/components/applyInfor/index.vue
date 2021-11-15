@@ -21,7 +21,7 @@
         </div>
         <div class="opration">
           <iButton @click="edit"
-                   v-show="disabled && appIdType">{{ language('BIANJI', '编辑') }}</iButton>
+                   v-show="disabled && appIdType && inforData.appStatus == '草稿'">{{ language('BIANJI', '编辑') }}</iButton>
                    <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
@@ -62,8 +62,8 @@
                 placeholder="请输入备注"
                 v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
-    <theTabs v-if="!beforReturn"></theTabs>
-    <theDataTabs v-if="!beforReturn"></theDataTabs>
+    <theTabs v-if="!beforReturn" :appStatus='inforData.appStatus'></theTabs>
+    <theDataTabs v-if="!beforReturn" :appStatus='inforData.appStatus'></theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
              v-if="mtzAddShow"
@@ -81,6 +81,7 @@ import theTabs from "./theTabs";
 import theDataTabs from "./theDataTabs";
 import partApplication from "./partApplication";
 import store from "@/store";
+// import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
 
 import {
   getAppFormInfo,
@@ -194,6 +195,8 @@ export default {
         // NOTPASS
         if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
           this.showType = true;
+        }else{
+          this.showType = false;
         }
 
         this.inforData.appName = res.data.appName
@@ -240,7 +243,12 @@ export default {
       this.disabled = true;
     },
     relation () {//关联零件定点申请
-      this.mtzAddShow = true;
+      iMessageBox(this.language('GLSQDHQZTBLJDDSQLXHSPRXXRLJSQDYSHHCSTJTYGHY','关联申请单会强制同步零件定点申请类型和审批人信息！若零件申请单已上会，会尝试提交同一个会议！'),this.language('LK_WENXINTISHI', '温馨提示'), {
+        confirmButtonText: this.language('QUEREN', '确认'),
+        cancelButtonText: this.language('QUXIAO', '取消')
+      }).then(res => {
+        this.mtzAddShow = true;
+      })
     },
     cancelRelation () {
       iMessageBox(this.language('QDYQXGL', '确定要取消关联？'), this.language('LK_WENXINTISHI', '温馨提示'), {
