@@ -156,7 +156,7 @@
 </template>
 
 <script>
-import { iInput, iSearch, iMessage, iDatePicker, iCard, iButton, iPagination, iDialog } from 'rise';
+import { iInput, iSearch, iMessage,iMessageBox, iDatePicker, iCard, iButton, iPagination, iDialog } from 'rise';
 import tableList from '@/components/commonTable/index.vue';
 import { tableTitle } from "./data";
 import MtzClose from "./MtzClose";
@@ -458,13 +458,18 @@ export default {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
       if(this.selection.find(e => e.appStatus == "NEW")){
-        mtzDel({
-          ids: this.selection.map(item => item.id)
-        }).then(res => {
-          if(res && res.code == 200) {
-            iMessage.success(res.desZh)
-            this.getTableList()
-          } else iMessage.error(res.desZh)
+        iMessageBox(this.language('SHIFOUSHANCHU','是否删除？'),this.language('LK_WENXINTISHI','温馨提示'),{
+            confirmButtonText: this.language('QUEREN', '确认'),
+            cancelButtonText: this.language('QUXIAO', '取消')
+        }).then(res=>{
+          mtzDel({
+            ids: this.selection.map(item => item.id)
+          }).then(res => {
+            if(res && res.code == 200) {
+              iMessage.success(res.desZh)
+              this.getTableList()
+            } else iMessage.error(res.desZh)
+          })
         })
       }else{
         return iMessage.warn(this.language('ZYCGZTCKYSC', '只有草稿状态才可以删除'))

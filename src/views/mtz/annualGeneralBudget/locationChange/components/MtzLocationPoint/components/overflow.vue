@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { iButton,iDialog,iMessage } from "rise"
+import { iButton,iDialog,iMessage,iMessageBox } from "rise"
 import { topImgList } from './data'
 import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
@@ -216,16 +216,21 @@ export default {
     // 点击步骤
     handleClickStep(data) {
       if(this.$route.query.currentStep == data.id) return false;
-      this.locationNow = data.id;
-      var dataList = this.$route.query;
-      this.$router.push({
-        path: data.url,
-        query: {
-          ...dataList,
-          currentStep: data.id,
-          mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-          appId:this.$route.query.appId || this.mtzObject.appId,
-        }
+      iMessageBox(this.language('NQDYJXXYBMQQDSJYJWQBC','您确定要进行下一步吗？请确定数据已经完全保存'),this.language('LK_WENXINTISHI','温馨提示'),{
+          confirmButtonText: this.language('QUEREN', '确认'),
+          cancelButtonText: this.language('QUXIAO', '取消')
+      }).then(res=>{
+        this.locationNow = data.id;
+        var dataList = this.$route.query;
+        this.$router.push({
+          path: data.url,
+          query: {
+            ...dataList,
+            currentStep: data.id,
+            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+            appId:this.$route.query.appId || this.mtzObject.appId,
+          }
+        })
       })
     },
     closeDiolog(){
