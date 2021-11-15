@@ -28,7 +28,8 @@
     </leftLayout>
     <div class="app-content" :class="{ keepAlive: $route.meta.keepAlive }">
       <keep-alive>
-        <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath" />
+        <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath">
+        </router-view>
       </keep-alive>
       <router-view v-if="!$route.meta.keepAlive" :key="$route.fullPath" />
       <div
@@ -40,7 +41,7 @@
     <div class="btn-button" @click="handleShow">
       <img src="~@/assets/images/leftContent.png" alt="" />
     </div>
-    <div class="povper-content" v-show="contentShowFlag">
+    <div class="povper-content">
       <div v-for="(list, index) in popoverList" :key="index">
         <div class="item-content" @click="handleClick(list)">
           {{ list.name }}
@@ -50,6 +51,7 @@
       <div class="item-content">外部数据查询</div>
       <div class="item-content" >用户助手</div> -->
     </div>
+    <layoutNotify ref="popupNotify" />
   </div>
 </template>
 <script>
@@ -59,9 +61,10 @@ import sideMenu from './components/sideMenu'
 import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
 import { popoverList } from './components/data.js'
+import layoutNotify from './components/notify'
 
 export default {
-  components: { topLayout, LeftLayout, sideMenu, myModules },
+  components: { topLayout, LeftLayout, sideMenu, myModules, layoutNotify },
   props: {
     menus: {
       type: Array,
@@ -109,6 +112,10 @@ export default {
     }
   },
   created() {
+    /* this.$nextTick(()=>{
+      this.$refs.popupNotify.getPopupItemList()
+    }) */
+
     this.menus && this.menus.length ? this.getMenus() : this.getMenuList()
   },
   methods: {

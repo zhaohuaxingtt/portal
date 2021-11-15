@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-11 17:24:23
+ * @LastEditTime: 2021-11-15 13:55:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -227,6 +227,7 @@
                           :data="tableData"
                           :columns="tableColumns"
                           min-height="328px"
+                          height="600px"
                           ref="iTable"
                           @handle-selection-change="handleSelectionChange" />
           <!-- <iPagination v-update

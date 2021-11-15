@@ -39,6 +39,9 @@ export default {
         }
     },
     data(){},
+    created(){
+        console.log('l;l;l;l;l;');
+    },
     methods:{
         toNewPage(){
             if(this.detail.linkUrl){
@@ -46,7 +49,7 @@ export default {
             }
         },
         closeDialog(){
-            this.$emit('close',false)
+            this.$emit('update:show',false)
         }
     }
 }
