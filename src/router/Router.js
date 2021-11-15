@@ -33,6 +33,7 @@ import RouterAssistant from './RouterAssistant'
 import RouterPopupWindowMa from './RouterPopupWindowMa'
 
 import RouterManage from './RouterManage'
+import RouterMeeting from './RouterMeeting'
 
 export default {
   routes: [
@@ -114,9 +115,9 @@ export default {
         ...partLifeCycle,
         ...RouterBiz,
         ...RouterAchievement,
-        // ...RouterMeeting,
         ...RouterAssistant,
         ...RouterPopupWindowMa,
+        ...RouterMeeting,
         ...RouterManage
       ]
     },

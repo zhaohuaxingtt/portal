@@ -14,7 +14,7 @@
     {
       path: "/meeting",
       name: "meeting",
-      component: () => import("@/views/manage/meeting/index.vue"),
+      component: () => import("@/views/meeting/index.vue"),
       redirect: "/meeting/home",
       children: [
         {
@@ -23,7 +23,7 @@
           meta: {
             title: "会议管理",
           },
-          component: () => import(`@/views/manage/meeting/home/index.vue`),
+          component: () => import(`@/views/meeting/home/index.vue`),
           beforeEnter: (to, from, next) => {
             // const roleList = store.state.permission.userInfo.roleList;
             // console.log(roleList);
@@ -109,7 +109,7 @@
             title: "参会人列表",
           },
           component: () =>
-            import(`@/views/manage/meeting/participants/index.vue`),
+            import(`@/views/meeting/participants/index.vue`),
         },
         {
           path: "/meeting/information",
@@ -117,7 +117,7 @@
           meta: {
             title: "会议信息",
           },
-          component: () => import(`@/views/manage/meeting/information/index.vue`),
+          component: () => import(`@/views/meeting/information/index.vue`),
         },
       ],
     },
@@ -127,7 +127,7 @@
       meta: {
         title: "会议大厅",
       },
-      component: () => import(`@/views/manage/meeting/hall/index.vue`),
+      component: () => import(`@/views/meeting/hall/index.vue`),
       beforeEnter: (to, from, next) => {
         // const roleList = store.state.permission.userInfo.roleList;
         // console.log(roleList);
@@ -210,7 +210,7 @@
     {
       path: "/meeting/my-meeting",
       name: "nearMeetingBox",
-      component: () => import(`@/views/manage/meeting/myMeeting.vue`),
+      component: () => import(`@/views/meeting/myMeeting.vue`),
       children: [
         {
           path: "/meeting/near-meeting",
@@ -218,7 +218,7 @@
           meta: {
             title: "近期会议",
           },
-          component: () => import(`@/views/manage/meeting/nearMeeting/index.vue`),
+          component: () => import(`@/views/meeting/nearMeeting/index.vue`),
         },
         {
           path: "/meeting/near-meeting/detail",
@@ -227,7 +227,7 @@
             title: "近期会议详情",
           },
           component: () =>
-            import(`@/views/manage/meeting/nearMeeting/detail/index.vue`),
+            import(`@/views/meeting/nearMeeting/detail/index.vue`),
         },
         {
           path: "/meeting/live",
@@ -235,7 +235,7 @@
           meta: {
             title: "直播会议",
           },
-          component: () => import(`@/views/manage/meeting/live/index.vue`),
+          component: () => import(`@/views/meeting/live/index.vue`),
         },
       ],
     },
@@ -246,7 +246,7 @@
         title: "更多议题",
       },
       component: () =>
-        import(`@/views/manage/meeting/nearMeeting/more/index.vue`),
+        import(`@/views/meeting/nearMeeting/more/index.vue`),
     },
     {
       path: "/meeting/live/more-themens",
@@ -255,7 +255,7 @@
         title: "更多议题",
       },
       component: () =>
-        import(`@/views/manage/meeting/nearMeeting/more/index.vue`),
+        import(`@/views/meeting/nearMeeting/more/index.vue`),
     },
     {
       path: "/meeting/meetingShow",
@@ -264,7 +264,6 @@
         title: "会议展示",
       },
       component: () =>
-        import(`@/views/manage/meeting/show/index.vue`),
+        import(`@/views/meeting/show/index.vue`),
     },
   ];
-  
