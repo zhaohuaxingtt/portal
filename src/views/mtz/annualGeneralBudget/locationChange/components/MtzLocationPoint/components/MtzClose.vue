@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import { mtzRecall } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { iButton,iInput,iMessage } from "rise";
 export default {
     components:{
@@ -35,10 +34,7 @@ export default {
                 iMessage.error("请务必填写撤回原因！")
                 return false;
             }
-            // mtzRecall().then(res=>{
-            //     console.log(res);
-            // })
-            this.$emit("close","")
+            this.$emit("handleSubmitRecall",this.reason)
         }
     }
 }

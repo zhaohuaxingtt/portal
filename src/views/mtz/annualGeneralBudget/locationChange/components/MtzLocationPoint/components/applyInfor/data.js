@@ -16,8 +16,8 @@ export const tableTitle = [
     key: 'SHENQINGDANMING'
   },
   { width: 150, props: 'carType', name: 'PROJECT', key: 'PROJECT' },
-  { width: 150, props: 'isNewNominate', name: '类型', key: 'LEIXING' },
-  { width: 150, props: 'applicationStatus', name: '状态', key: 'ZHUANGTAI' },
+  { width: 150, props: 'nominateProcessTypeDesc', name: '类型', key: 'LEIXING' },
+  { width: 150, props: 'applicationStatusDesc', name: '状态', key: 'ZHUANGTAI' },
   {
     width: 150,
     props: 'partProjType',
