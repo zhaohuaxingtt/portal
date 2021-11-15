@@ -16,8 +16,8 @@ export const tableTitle = [
     key: 'SHENQINGDANMING'
   },
   { width: 150, props: 'carType', name: 'PROJECT', key: 'PROJECT' },
-  { width: 150, props: 'isNewNominate', name: '类型', key: 'LEIXING' },
-  { width: 150, props: 'applicationStatus', name: '状态', key: 'ZHUANGTAI' },
+  { width: 150, props: 'nominateProcessTypeDesc', name: '类型', key: 'LEIXING' },
+  { width: 150, props: 'applicationStatusDesc', name: '状态', key: 'ZHUANGTAI' },
   {
     width: 150,
     props: 'partProjType',
@@ -27,7 +27,7 @@ export const tableTitle = [
   { width: 150, props: 'meetingPresentId', name: '会议', key: 'HUIYI' },
   {
     width: 150,
-    props: 'nominateUser',
+    props: 'nominateUserName',
     name: '询价采购员',
     key: 'XUNJIACAIGOUYUAN'
   },
@@ -100,8 +100,8 @@ export const tableTitleContinueBox = [
   { props: 'procureFactoryName', name: '采购工厂', key: 'CAIGOUGONGCHANG' },
   { props: 'partNameCn', name: '零件名（中）', key: 'LINGJIANMINGZHONG' },
   { props: 'partNameDe', name: '零件名（德）', key: 'LINGJIANMINGDE' },
-  { props: 'sapNum', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
-  { props: 'supplierName', name: '供应编号', key: 'GONGYINGBIANHAO' },
+  { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG' },
+  { props: 'sapNum', name: '供应编号', key: 'GONGYINGBIANHAO' },
   { props: 'productionProportion', name: '比例（%）', key: 'BILI(%)' }
 ]
 
@@ -189,7 +189,7 @@ export const tableRightTitle = [
 export const tableTitleHistory = [
   {
     width: 150,
-    props: 'assemblyPartName',
+    props: 'assemblyPartnum',
     name: '一次件零件号',
     key: 'YICIJIANLINGJIANHAO'
   },

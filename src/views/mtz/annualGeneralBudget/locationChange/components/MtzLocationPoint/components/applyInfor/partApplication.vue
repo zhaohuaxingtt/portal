@@ -299,8 +299,10 @@ export default {
     },
     save(){
       relation({
-        mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        meetingId:this.handleSelectArr[0].id
+        mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        ttNominateAppId:this.handleSelectArr[0].id,
+        flowType:this.handleSelectArr[0].nominateProcessType,
+        appStatus:this.handleSelectArr[0].applicationStatus,
       }).then(res=>{
         if(res.code == 200){
           iMessage.success(res.desZh)

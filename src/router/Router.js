@@ -29,9 +29,11 @@ import partLifeCycle from './partLifeCycle'
 import RouterExternal from './RouterExternal'
 import RouterBiz from './RouterBiz'
 import RouterAchievement from './RouterAchievement'
+import RouterAssistant from './RouterAssistant'
 import RouterPopupWindowMa from './RouterPopupWindowMa'
 
 import RouterManage from './RouterManage'
+import RouterMeeting from './RouterMeeting'
 
 export default {
   routes: [
@@ -55,6 +57,24 @@ export default {
         import(
           '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/applicationForm/index.vue'
         )
+    },
+    {
+        path: '/supplier/joinBlackApply',
+        name: 'joinBlackApply',
+        meta: {
+            title: '生产供应生加入黑名单审批'
+          },
+        component: () =>
+            import('@/views/supplierManagement/supplier360/list/joinBlackApply/index.vue')
+    },
+    {
+        path: '/supplier/removeBlackApply',
+        name: 'removeBlackApply',
+        meta: {
+            title: '生产供应生移除黑名单审批'
+          },
+        component: () =>
+            import('@/views/supplierManagement/supplier360/list/removeBlackApply/index.vue')
     },
     {
       path: '/',
@@ -95,7 +115,9 @@ export default {
         ...partLifeCycle,
         ...RouterBiz,
         ...RouterAchievement,
+        ...RouterAssistant,
         ...RouterPopupWindowMa,
+        ...RouterMeeting,
         ...RouterManage
       ]
     },

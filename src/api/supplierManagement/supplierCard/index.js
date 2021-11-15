@@ -43,3 +43,11 @@ export function getCatogeryCollect(parmars) {
         method: 'POST',
     })
 }
+//合同订单
+export function getCatogeryCollectYear(parmars) {
+    return requstEklPf({
+        url: `api/purchaseOrder/executionoperation/api/purchaseOrder/getCatogeryCollectYear`,
+        method: 'POST',
+        data:parmars
+    })
+}

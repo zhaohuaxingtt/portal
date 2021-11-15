@@ -52,10 +52,14 @@ export default {
     getChart() {
       let data1 = []
       let data2 = []
+      let totalCount=0
       for (var i in this.info.rateNumber) {
         data1.push(i)
         data2.push(this.info.rateNumber[i])
+        totalCount+= this.info.rateNumber[i]
+       
       }
+    //    totalCount=totalCount-data2[data2.length-1]
       const myChart = echarts().init(this.$refs.chart)
       var option = {
         title: {
@@ -79,7 +83,21 @@ export default {
         },
 
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+           axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          },
+          formatter: function (data) {
+            let total = 0
+            for (let i in data) {
+              total += data[i].data.value
+            }
+            const type = data[0].axisValue
+            return `${type}-Rating数量：${total}<br/>${type}-Rating比例：${
+              (total / totalCount).toFixed(2) * 100
+            }%`
+          }
         },
         grid: {
           top: '18%',
@@ -113,9 +131,9 @@ export default {
           {
             type: 'bar',
             data: [
-              { value: data2[2], name: data1[2] },
-              { value: data2[5], name: data1[5] },
-              { value: data2[8], name: data1[8] }
+              { value: data2[0], name: data1[0] },
+              { value: data2[3], name: data1[3] },
+              { value: data2[6], name: data1[6] }
             ],
             barWidth: 15,
 
@@ -190,11 +208,12 @@ export default {
               }
             },
             data: [
-              { value: data2[0], name: data1[0] },
-              { value: data2[3], name: data1[3] },
-              { value: data2[6], name: data1[6] }
+              { value: data2[2], name: data1[2] },
+              { value: data2[5], name: data1[5] },
+              { value: data2[8], name: data1[8] }
             ]
           }
+         
         ]
       }
       myChart.setOption(option)

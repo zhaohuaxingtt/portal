@@ -1180,7 +1180,7 @@
     SUPPLIER_BUMEN: '部门', //部门
     SUPPLIER_QUHAO: '区号', //区号
     SUPPLIER_WEIXINHAO: '微信号', //微信号
-    SUPPLIER_SWLXRLXRXMLXRDHBT: '商务联系人,联系人姓名，联系电话必填！', //商务联系人,联系人姓名，联系电话必填！
+    SUPPLIER_SWLXRLXRXMLXRDHBT: '商务联系人,联系人姓名，联系电话,电子邮件必填！', //商务联系人,联系人姓名，联系电话必填！
 
     SUPPLIER_GONGYINGSHANGXINGMING: '供应商用户账号', //供应商用户账号
     SUPPLIER_YONGHUDENGLUMING: '用户登录名', //用户登录名
@@ -1883,13 +1883,13 @@
       HOME_MODULE_APPROVE: 'iAgree',
       HOME_MODULE_VOLUME: 'Volume Pricing',
       HOME_MODULE_NEWS: 'News',
-      HOME_MODULE_PROVIDER_RATE:'配货件供货率'
+      HOME_MODULE_PROVIDER_RATE:'配附件供货率'
     },
     //谈判助手
     TPZS: {
       ZUIXINDINGDIANDANJIA: '最新定点单价', //最新定点单价
       MUBIAODANJIA: '目标单价', //目标单价
-      CHANLIANGLIANG: '产量(件)', //产量（件）
+      CHANLIANGLIANG: '产量(辆)', //产量（件）
       DANJIA: '单价', //单价
       YUANJIAN: '(元/件)', //（元/件）
       BANJIAJIAN: '(半价/件)', //（半价/件）

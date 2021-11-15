@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-11 11:37:53
+ * @LastEditTime: 2021-11-15 17:28:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -33,7 +33,7 @@
         </el-form-item>
         <el-form-item label="采购员"
                       class="searchFormItem">
-          <input-custom v-model="searchForm.buyerId"
+          <input-custom v-model="searchForm.buyerNameList"
                         style="width:100%"
                         :editPlaceholder="language('QINGSHURU','请输入')"
                         :placeholder="language('QINGSHURU','请输入')"> </input-custom>
@@ -92,6 +92,7 @@ import { iCard, iButton, iMessage, iSearch, iDatePicker, iInput } from 'rise'
 import { getDeptData } from '@/api/kpiChart/index'
 import { getLocationApplyStatus } from '@/api/mtz/annualGeneralBudget/mtzChange'
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
+import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import inputCustom from '@/components/inputCustom'
 export default {
   name: "Search",
@@ -133,10 +134,14 @@ export default {
     },
     // 获取部门数据
     getDeptData () {
-      getDeptData({}).then(res => {
-        if (res && res.code == 200) {
-          this.deptList = res.data
-        } else iMessage.error(res.desZh)
+      fetchRemoteDept({}).then(res => {
+        try {
+          if (res && res.code == 200) {
+            this.deptList = res.data
+          } else iMessage.error(res.desZh)
+        } catch (err) {
+          console.log(err)
+        }
       })
     },
     //原材料编号
@@ -152,7 +157,15 @@ export default {
       })
     },
     handleSearchReset () {
-
+      this.searchForm = {
+        mtzAppId: [],
+        appStatus: [],
+        buyerNameList: [],
+        buyerDeptId: [],
+        resolutionPassTime: "",
+        materialCode: [],
+        assemblyPartnum: []
+      }
     },
     handleSubmitSearch () {
       this.$parent.$refs.theTable.getTableList()

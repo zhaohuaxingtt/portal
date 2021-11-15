@@ -38,7 +38,7 @@
           type="datetime"
           format="yyyy-MM-dd HH:mm:ss"
           value-format="yyyy-MM-dd HH:mm:ss"
-          style="width:100%"
+          style="width: 100%"
           :disabled="!startTimeEditable"
         />
       </iFormItem>
@@ -48,7 +48,7 @@
           type="datetime"
           format="yyyy-MM-dd HH:mm:ss"
           value-format="yyyy-MM-dd HH:mm:ss"
-          style="width:100%"
+          style="width: 100%"
           :disabled="!endTimeEditable"
         />
       </iFormItem>
@@ -60,7 +60,7 @@
         <div class="flex flex-center">
           <iSelect
             v-model="sendTrigger"
-            style="width: 160px;margin-right: 10px"
+            style="width: 160px; margin-right: 10px"
             @change="sendTriggerChange"
           >
             <el-option value="1" label="立即发布" />
@@ -72,7 +72,7 @@
             type="datetime"
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
-            style="width:100%"
+            style="width: 100%"
           />
         </div>
       </iFormItem>
@@ -119,7 +119,7 @@ export default {
     },
     templateInfo: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
@@ -210,11 +210,11 @@ export default {
       }
     },
     send() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           let userIds = []
           if (this.form.scope === 999) {
-            userIds = this.form.userList.map(e => e.id + '')
+            userIds = this.form.userList.map((e) => e.id + '')
           }
           const data = {
             channel: this.templateInfo.channel,
@@ -243,18 +243,18 @@ export default {
     sendServer(data) {
       this.loading = true
       savePublishMsg(data)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success(res.desZh || '消息发布成功')
             this.$emit('update:visible', false)
-            setTimeout(() => {
+            /* setTimeout(() => {
               window.close()
-            }, 3000)
+            }, 3000) */
           } else {
             iMessage.error(res.desZh || '发布失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
           iMessage.error(err.desZh || '发布失败')
         })

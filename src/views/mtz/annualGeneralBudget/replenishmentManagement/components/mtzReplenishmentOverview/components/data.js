@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2021-11-04 20:11:41
+ * @LastEditTime: 2021-11-12 09:59:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\data.js
@@ -49,11 +49,11 @@ export const TABLE_COLUMS = [
   {
     prop: 'materialCategory',
     label: '材料中类',
-    minWidth: 160,
+    minWidth: 200,
     customRender: (h, scope) => {
       return (
         <span>
-          {scope.row.materialCategory}-{scope.row.materialName}
+          {scope.row.materialCategoryCode}-{scope.row.materialCategory}
         </span>
       )
     }
@@ -99,6 +99,11 @@ export const TABLE_COLUMS = [
     minWidth: 120
   },
   {
+    prop: 'basePriceUnit',
+    label: '市场价单位',
+    minWidth: 120
+  },
+  {
     prop: 'effExchangeRate',
     label: '市场价汇率',
     minWidth: 120
@@ -106,6 +111,11 @@ export const TABLE_COLUMS = [
   {
     prop: 'priceNo',
     label: '零件数量',
+    minWidth: 120
+  },
+  {
+    prop: 'calUnit',
+    label: '零件数量单位',
     minWidth: 120
   },
   {
@@ -125,8 +135,15 @@ export const TABLE_COLUMS = [
   },
   {
     prop: 'secondSupplierId',
-    label: '二次件供应商编号',
-    minWidth: 140
+    label: '二次件供应商',
+    minWidth: 140,
+    customRender: (h, scope) => {
+      return (
+        <span>
+          {scope.row.secondSupplierSap}-{scope.row.secondSupplierName}
+        </span>
+      )
+    }
   },
   {
     prop: 'factor',

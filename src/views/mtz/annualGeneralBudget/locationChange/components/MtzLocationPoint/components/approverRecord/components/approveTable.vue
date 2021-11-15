@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-11 15:48:39
+ * @LastEditTime: 2021-11-15 15:37:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -16,7 +16,8 @@
                  @click="handleSync"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
-        <iButton @click="edit">{{language('BIANJI', '编辑') }}</iButton>
+        <iButton v-show="!flag"
+                 @click="edit">{{language('BIANJI', '编辑') }}</iButton>
       </div>
       <div v-if="editFlag">
         <iButton @click="del">{{language('SHANCHU', '删除') }}</iButton>
@@ -83,7 +84,7 @@
                    placeholder="输入关键词搜索"
                    :remote-method="queryOptions"
                    @change="handleChange">
-            <el-option v-for="item in options"
+            <el-option v-for="item in userList"
                        :key="item.id"
                        :label="item.nameZh"
                        :value="item.id">
@@ -151,7 +152,8 @@ export default {
       dialogVisible: false,
       riseId: "",
       selectDeptList: [],
-      selectSectionList: []
+      selectSectionList: [],
+      flag: false
     }
   },
   components: {
@@ -179,6 +181,7 @@ export default {
   methods: {
     init () {
       this.mtzAppId = this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+      this.flag = JSON.parse(this.$route.query.isView)
       this.getTableList()
       this.selectDept()
       this.selectSection()
@@ -294,6 +297,7 @@ export default {
     handleChangeApprovalSection (val, row) {
       let obj = this.selectSectionList.find(item => item.nameZh === val)
       row.approvalDepartment = obj.id
+      this.userList = obj.userDTOList
     },
     handleSync () {
       syncAuther({ mtzAppId: this.mtzAppId || '5107001' }).then(res => {

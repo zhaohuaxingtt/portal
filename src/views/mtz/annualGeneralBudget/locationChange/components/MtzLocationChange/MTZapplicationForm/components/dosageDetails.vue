@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-09 18:42:22
+ * @LastEditTime: 2021-11-15 16:53:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -91,7 +91,7 @@
         </iCard>
       </el-tab-pane>
     </iTabsList>
-    <iDialog :title="language('CHEHUIYUANYIN','撤回原因')"
+    <iDialog :title="language('JIESHIYUANYIN','解释原因')"
              :visible.sync="isShow"
              width="30%"
              class="table-header-modal"
@@ -105,7 +105,7 @@
       <span slot="footer"
             class="dialog-footer">
         <i-button @click="handleSave">保存</i-button>
-        <i-button @click="handleCancel">退出</i-button>
+        <i-button @click="handleCancel">取消</i-button>
       </span>
     </iDialog>
   </div>
@@ -187,7 +187,8 @@ export default {
       let params = {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        mtzAppId: this.mtzAppId
+        mtzAppId: this.mtzAppId || "8"
+        // mtzAppId: "8"
       }
       approvalRecordList(params).then((res) => {
         if (res && res.code === '200') {
@@ -283,14 +284,17 @@ export default {
       }
       approvalExplain(params).then(res => {
         if (res?.code === '200') {
+          this.isShow = false
+          this.getApprovalRecordList()
           iMessage.success(res.desZh)
         } else {
+          this.isShow = false
           iMessage.error(res.desZh)
         }
       })
     },
     handleCancel () {
-
+      this.isShow = false
     },
     del () {
       let ids = this.muliteList.map(item => {

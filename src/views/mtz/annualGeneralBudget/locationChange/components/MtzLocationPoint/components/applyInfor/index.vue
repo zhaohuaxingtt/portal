@@ -21,7 +21,8 @@
         </div>
         <div class="opration">
           <iButton @click="edit"
-                   v-show="disabled && appIdType">{{ language('BIANJI', '编辑') }}</iButton>
+                   v-show="disabled && appIdType && inforData.appStatus == '草稿'">{{ language('BIANJI', '编辑') }}</iButton>
+                   <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
           <iButton @click="save"
@@ -61,8 +62,8 @@
                 placeholder="请输入备注"
                 v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
-    <theTabs v-if="!beforReturn"></theTabs>
-    <theDataTabs v-if="!beforReturn"></theDataTabs>
+    <theTabs v-if="!beforReturn" :appStatus='inforData.appStatus'></theTabs>
+    <theDataTabs v-if="!beforReturn" :appStatus='inforData.appStatus'></theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
              v-if="mtzAddShow"
@@ -79,6 +80,8 @@ import { tabsInforList } from "./data";
 import theTabs from "./theTabs";
 import theDataTabs from "./theDataTabs";
 import partApplication from "./partApplication";
+import store from "@/store";
+// import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
 
 import {
   getAppFormInfo,
@@ -162,32 +165,46 @@ export default {
     }
   },
   created () {
-    this.init()
+    if(JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined && this.$route.query.mtzAppId == undefined){
+      
+    }else{
+      this.init()
+    }
+    this.getListData()
     if(this.$route.query.appId){
       this.appIdType = false;
     }
   },
   methods: {
     init () {
-      getAppFormInfo({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res => {
+      getAppFormInfo({
+        mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId 
+      }).then(res => {
         this.inforData.mtzAppId = res.data.mtzAppId;
         this.inforData.linieName = res.data.linieName
         this.inforData.appStatus = res.data.appStatus
         this.inforData.meetingName = res.data.meetingName
         this.inforData.linieMeetingMemo = res.data.linieMeetingMemo
+
         if (res.data.ttNominateAppId == null) {
           this.applyNumber = "";
         } else {
           this.applyNumber = res.data.ttNominateAppId;
         }
-
-        if (res.data.appStatus == "NEW" || res.data.appStatus == "SUBMIT" || res.data.appStatus == "NOTPASS") {
+        store.commit("submitBtnType",res.data.flowType);
+        // NOTPASS
+        if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
           this.showType = true;
+        }else{
+          this.showType = false;
         }
 
         this.inforData.appName = res.data.appName
         this.inforData.flowType = res.data.flowType
       })
+      
+    },
+    getListData(){
       getFlowTypeList({}).then(res => {
         this.getFlowTypeList = res.data;
       })
@@ -213,6 +230,7 @@ export default {
           console.log(res);
           iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功！'))
           this.disabled = true;
+          this.init();
         })
       }).catch(res => {
 
@@ -225,7 +243,12 @@ export default {
       this.disabled = true;
     },
     relation () {//关联零件定点申请
-      this.mtzAddShow = true;
+      iMessageBox(this.language('GLSQDHQZTBLJDDSQLXHSPRXXRLJSQDYSHHCSTJTYGHY','关联申请单会强制同步零件定点申请类型和审批人信息！若零件申请单已上会，会尝试提交同一个会议！'),this.language('LK_WENXINTISHI', '温馨提示'), {
+        confirmButtonText: this.language('QUEREN', '确认'),
+        cancelButtonText: this.language('QUXIAO', '取消')
+      }).then(res => {
+        this.mtzAddShow = true;
+      })
     },
     cancelRelation () {
       iMessageBox(this.language('QDYQXGL', '确定要取消关联？'), this.language('LK_WENXINTISHI', '温馨提示'), {
@@ -233,7 +256,7 @@ export default {
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res => {
         disassociate({
-          mtzAppId: this.$route.query.mtzAppId || this.mtzObject.mtzAppId
+          mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
         }).then(res => {
           if (res.code == 200) {
             iMessage.success(res.desZh)
@@ -270,6 +293,7 @@ export default {
     saveClose (val) {
       this.applyNumber = val;
       this.closeDiolog();
+      this.init();
     },
     chioce (e, name) {
       this.inforData[name] = e;

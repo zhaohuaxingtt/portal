@@ -24,7 +24,7 @@
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, icon, iMessage } from 'rise'
+import { iCard, icon } from 'rise'
 import { getSupplierCard } from '@/api/supplierManagement/supplierCard/index'
 export default {
   props: {},
@@ -53,55 +53,56 @@ export default {
         supplierSapCode: this.$route.query.subSupplierId
       }
       getSupplierCard(req).then((res) => {
-        this.info = {
-          batchParts: [
-            {
-              increaseAmount: 10,
-              reductionAmount: 20,
-              increaseRtio: 4,
-              reductionRtio: 3,
-              year: 2019
-            },
-            {
-              increaseAmount: 20,
-              reductionAmount: 10,
-              increaseRtio: 5,
-              reductionRtio: 3,
-              year: 2020
-            },
-            {
-              increaseAmount: 15,
-              reductionAmount: 15,
-              increaseRtio: 4,
-              reductionRtio: 5,
-              year: 2021
-            }
-          ],
-          parts: [
-            {
-              increaseAmount: 30,
-              reductionAmount: 30,
-              increaseRtio: 10,
-              reductionRtio: 10,
-              year: 2019
-            },
-            {
-              increaseAmount: 40,
-              reductionAmount: 40,
-              increaseRtio: 0,
-              reductionRtio: 0,
-              year: 2020
-            },
-            {
-              increaseAmount: 0,
-              reductionAmount: 0,
-              increaseRtio: 0,
-              reductionRtio: 0,
-              year: 2021
-            }
-          ],
-          supplierSapCode: null
-        }
+          this.info =res.data
+        // this.info = {
+        //   batchParts: [
+        //     {
+        //       increaseAmount: 10,
+        //       reductionAmount: 20,
+        //       increaseRtio: 4,
+        //       reductionRtio: 0.03,
+        //       year: 2019
+        //     },
+        //     {
+        //       increaseAmount: 20,
+        //       reductionAmount: 10,
+        //       increaseRtio: 5,
+        //       reductionRtio: 0.01,
+        //       year: 2020
+        //     },
+        //     {
+        //       increaseAmount: 15,
+        //       reductionAmount: 15,
+        //       increaseRtio: 4,
+        //       reductionRtio: 0.05,
+        //       year: 2021
+        //     }
+        //   ],
+        //   parts: [
+        //     {
+        //       increaseAmount: 30,
+        //       reductionAmount: 30,
+        //       increaseRtio: 10,
+        //       reductionRtio: 10,
+        //       year: 2019
+        //     },
+        //     {
+        //       increaseAmount: 40,
+        //       reductionAmount: 40,
+        //       increaseRtio: 0,
+        //       reductionRtio: 0,
+        //       year: 2020
+        //     },
+        //     {
+        //       increaseAmount: 0,
+        //       reductionAmount: 0,
+        //       increaseRtio: 0,
+        //       reductionRtio: 0,
+        //       year: 2021
+        //     }
+        //   ],
+        //   supplierSapCode: null
+        // }
         this.getChart()
       })
     },
@@ -124,12 +125,12 @@ export default {
       arr.forEach((e) => {
         data1.push(e.reductionAmount)
         if (e.increaseAmount != 0) {
-          data2.push(e.increaseAmount*-1)
+          data2.push(e.increaseAmount * -1)
         } else {
           data2.push(e.increaseAmount)
         }
         if (e.reductionRtio != 0) {
-          data3.push(e.reductionRtio * 100)
+          data3.push(e.reductionRtio * 100 + e.reductionAmount)
         } else {
           data3.push(e.reductionRtio)
         }
@@ -153,21 +154,32 @@ export default {
 
         tooltip: {
           trigger: 'axis',
-        //   formatter:'{a}{b}{c}',s
-            // formatter: function (param) {
-                // console.log(param)
-                // if(param.seriesName=='涨价'){
-                //     param.value=Math.abs(param.value)
-                // }
-                // param.forEach(res=>{
-                //     return res.seriesName
-                // })
-            //     for(var x in param){
-            //         console.log(param[x])
-            //    return param[x].seriesName+'<br>' +":"+param[x].data;
-            //     }
-        //    }
-            
+          //   formatter:'{a}{b}{c}',
+          formatter: function (params) {
+            let str = ''
+            params.forEach((item, idx) => {
+              item.data = Math.abs(item.data)
+              if (idx == 2) {
+                item.data = item.data - params[0].data
+              }
+              str += `${item.marker}\n${item.seriesName}: ${item.data}`
+              switch (idx) {
+                case 0:
+                  str += ''
+                  break
+                case 1:
+                  str += ''
+                  break
+                case 2:
+                  str += '%'
+                  break
+                default:
+                  str += 'w(ﾟДﾟ)w'
+              }
+              str += idx === params.length - 1 ? '' : '<br/>'
+            })
+            return str
+          }
         },
         grid: {
           top: '20%',
@@ -205,18 +217,18 @@ export default {
                 fontSize: '10px'
               }
             }
-          },
-          {
-            show: false,
-            type: 'value',
-            axisLabel: {
-              show: true,
-              textStyle: {
-                color: '#7E84A3',
-                fontSize: '10px'
-              }
-            }
           }
+          //   {
+          //     show: false,
+          //     type: 'value',
+          //     axisLabel: {
+          //       show: true,
+          //       textStyle: {
+          //         color: '#7E84A3',
+          //         fontSize: '10px'
+          //       }
+          //     }
+          //   }
         ],
         series: [
           {
@@ -260,16 +272,21 @@ export default {
           {
             name: '节降比',
             data: data3,
-            yAxisIndex: 1,
             type: 'line',
             label: {
-              show: true,
+              show: false,
               position: 'top',
               fontSize: 10,
               color: '#727272',
               formatter: function (params) {
-                console.log(params)
-                return params.data + '%'
+                let num = params.data
+                // console.log(num-data1[0])
+                // data1.forEach((res) => {
+                //   console.log(res)
+                //   num = num - res
+                // })
+
+                return num + '%'
               }
             },
             itemStyle: {

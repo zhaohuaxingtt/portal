@@ -12,8 +12,11 @@
         class="title"
         @click="handleClickTitle(card)"
         v-if="card.component !== 'EKL'"
-        >{{ $t('HOME_CARD.' + card.permissionKey) }}</span
       >
+        {{ newTitle }}
+        <!-- {{ language(`${card.permissionKey}`) }} -->
+        <!-- {{ $t('HOME_CARD.' + card.permissionKey) }} -->
+      </span>
       <el-dropdown trigger="click">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
@@ -39,7 +42,6 @@
       :data="card"
     />
   </el-card>
-  
 </template>
 
 <script>
@@ -82,10 +84,22 @@ export default {
       }
     }
   },
-  computed:{
+  computed: {
     ...mapState({
       id: (id) => id.permission.userInfo.id
-    })
+    }),
+    lang() {
+      return this.$i18n.locale
+    },
+    newTitle() {
+      if (this.$i18n.locale === 'zh') {
+        return this.$t('HOME_CARD.' + this.card.permissionKey)
+      } else if (this.$i18n.locale === 'en' && this.card.permissionKey === "HOME_MODULE_PROVIDER_RATE") {
+        return this.card.permissionKey
+      } else {
+        return this.$t('HOME_CARD.' + this.card.permissionKey)
+      }
+    }
   },
   methods: {
     handleClickTitle(card) {
@@ -93,10 +107,10 @@ export default {
         window.open(process.env.VUE_APP_HOST + '/portal/#/bpm/approval/center')
       } else if (card.component === 'Task') {
         window.open(process.env.VUE_APP_HOST + '/portal/#/task/center')
-      } else if(card.component === 'Sourcing'){
-        window.location.href=this.$refs.parent.url.uri
-      }else if(card.component === 'News'){
-         window.location.href=`/portal/news/#/news/news?id=${this.id}`
+      } else if (card.component === 'Sourcing') {
+        window.location.href = this.$refs.parent.url.uri
+      } else if (card.component === 'News') {
+        window.location.href = `/portal/news/#/news/news?id=${this.id}`
       }
     },
     handleMore() {
@@ -146,7 +160,7 @@ export default {
 </style>
 <style lang="scss">
 .module-card {
-  margin-bottom: 20px;
+  margin-bottom: 20PX;
   .el-dropdown {
     z-index: 999;
   }

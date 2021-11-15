@@ -51,7 +51,7 @@
         <el-table-column label="响应时间" prop="respTime" align="center" />
         <el-table-column label="结果" prop="result" align="center" />
       </el-table>
-      <div slot="footer">
+      <div v-if="isPage" slot="footer">
         <iPagination
           v-update
           @size-change="handleSizeChange"
@@ -141,24 +141,20 @@ export default {
   },
   methods: {
     sure() {
-      if (this.query.type || this.query.creator) {
-        if (this.isPage) {
-          this.page.currPage = 1
-        }
-        this.getList()
+      if (this.isPage) {
+        this.page.currPage = 1
       }
+      this.getList()
     },
     reset() {
-      if (this.query.type || this.query.creator) {
-        this.query = {
-          type: '',
-          creator: ''
-        }
-        if (this.isPage) {
-          this.page.currPage = 1
-        }
-        this.getList()
+      this.query = {
+        type: '',
+        creator: ''
       }
+      if (this.isPage) {
+        this.page.currPage = 1
+      }
+      this.getList()
     },
     handleClose() {
       this.query = {

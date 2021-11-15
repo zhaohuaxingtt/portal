@@ -35,9 +35,16 @@
               <li
                 v-for="(approver, i) in item.approvers"
                 :key="i"
-                :class="{ active: approver.taskStatus === '同意' }"
+                :class="{
+                  active: ['同意', '拒绝', '有异议', '无异议'].includes(
+                    approver.taskStatus
+                  )
+                }"
               >
-                <span>{{ approver.deptFullCode }} {{ approver.nameZh }}</span>
+                <span>
+                  {{ approver.deptFullCode }} {{ approver.nameZh }}
+                  {{ approver.taskStatus }}
+                </span>
               </li>
             </ul>
           </div>
@@ -72,7 +79,7 @@ export default {
     },
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -80,7 +87,7 @@ export default {
   computed: {
     approverUserHeight() {
       let itemAllUsers = []
-      this.data.forEach(e => {
+      this.data.forEach((e) => {
         if (e.approvers && e.approvers.length > itemAllUsers.length) {
           itemAllUsers = e.approvers
         }

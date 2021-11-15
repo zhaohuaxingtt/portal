@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:35
- * @LastEditTime: 2021-11-11 11:25:56
+ * @LastEditTime: 2021-11-12 15:26:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\formInformation.vue
@@ -9,8 +9,10 @@
 <template>
   <div>
     <div class="header flex">
-      <span class="title">{{language('SHENQINGDAN','MTZ申请单')}}-</span>
-      <span></span>
+      <div>
+        <span class="title">{{language('SHENQINGDAN','MTZ申请单')}}-{{formInline.mtzAppId}}-</span>
+        <span class="title">{{formInline.appName}}-{{linieName}}-{{linieDeptNum}}</span>
+      </div>
       <div>
         <iButton @click="save(2)">{{language('TIJIAO','提交')}}</iButton>
       </div>
@@ -22,12 +24,15 @@
       </template>
       <div class="informationForm">
         <el-form :inline="true"
+                 ref="baseInfoForm"
                  :model="formInline"
+                 :rules="rules"
                  class="demo-form-inline"
                  label-position="left">
           <div class="baseInformation">
             <el-form-item label="申请单名"
-                          class="formItem">
+                          class="formItem"
+                          prop="appName">
               <el-input v-model="formInline.appName"></el-input>
             </el-form-item>
             <el-form-item label="申请单Id"
@@ -56,7 +61,7 @@
                         maxlength="300"
                         show-word-limit></el-input>
             </el-form-item>
-            <el-form-item label="备注申请"
+            <el-form-item label="审批备注"
                           class="formItem">
               <el-input type="textarea"
                         :placeholder="language('QINGSHURU','请输入')"
@@ -85,8 +90,16 @@ export default {
         appStatus: "",
         appType: "",
         remark: "",
-        approveRemarks: ""
+        approveRemarks: "",
+
       },
+      rules: {
+        appName: [
+          { required: true, message: '请输入申请单名', trigger: 'blur' },
+        ],
+      },
+      linieName: "",
+      linieDeptNum: ""
     }
   },
   components: {
@@ -111,26 +124,35 @@ export default {
           this.formInline.appType = res.data.appType
           this.formInline.remark = res.data.remark
           this.formInline.approveRemarks = res.data.approveRemarks
+          this.linieName = res.data.linieName
+          this.linieDeptNum = res.data.linieDeptNum
         }
       })
     },
     save (type) {
-      let params = {
-        appName: this.formInline.appName,
-        approveRemarks: this.formInline.approveRemarks,
-        isDeptLead: true,
-        mtzAppId: this.formInline.mtzAppId,
-        remark: this.formInline.remark,
-        submitType: type
-      }
-      saveGenericAppChange(params).then(res => {
-        if (res && res.code === '200') {
-          iMessage.success(res.desZh)
-          this.getGenericAppChangeDetail()
+      this.$refs['baseInfoForm'].validate((valid) => {
+        if (valid) {
+          let params = {
+            appName: this.formInline.appName,
+            approveRemarks: this.formInline.approveRemarks,
+            isDeptLead: true,
+            mtzAppId: this.formInline.mtzAppId,
+            remark: this.formInline.remark,
+            submitType: type
+          }
+          saveGenericAppChange(params).then(res => {
+            if (res && res.code === '200') {
+              iMessage.success(res.desZh)
+              this.getGenericAppChangeDetail()
+            } else {
+              iMessage.error(res.desZh)
+            }
+          })
         } else {
-          iMessage.error(res.desZh)
+          return false;
         }
-      })
+      });
+
     }
   }
 }

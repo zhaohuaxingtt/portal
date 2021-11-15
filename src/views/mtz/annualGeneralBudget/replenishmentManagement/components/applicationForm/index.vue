@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-03 14:28:17
- * @LastEditTime: 2021-11-03 15:08:27
+ * @LastEditTime: 2021-11-12 19:08:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\applicationForm\index.vue
@@ -115,9 +115,8 @@ export default {
     }
   },
   created () {
-    console.log(this.detailObj)
-    this.mtzDocId = this.detailObj.id;
-    this.dialogTitle = "补差单号-" + this.detailObj.bizNo;
+    this.mtzDocId = this.$route.query.id;
+    // this.dialogTitle = "补差单号-" + this.detailObj.bizNo;
     this.getDemandData()
   },
   methods: {
@@ -143,6 +142,7 @@ export default {
       getGroups({ mtzDocId: this.mtzDocId }).then(res => {
         this.zhongleiList = res.data;
       })
+
     },
     // 重置
     handleSearchReset (form) {

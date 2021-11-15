@@ -91,15 +91,30 @@
                    v-model="form.relatedToMe">
             <el-option v-for="(item, index) in fromGroup.relatedToMeList"
                        :key="index"
+                       :disabled="$store.state.permission.userInfo.userType==2&&!item.value"
                        :value="item.value"
                        :label="item.label">
+            </el-option>
+          </iSelect>
+        </el-form-item>
+        <el-form-item :label="language('GONGYINGSHANGBIAOQIAN', '供应商标签')">
+          <iSelect multiple
+                   collapse-tags
+                   filterable
+                   :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                   v-model="form.tagNameList">
+            <el-option v-for="item in tagdropDownList"
+                       :key="item.code"
+                       :label="item.message"
+                       :value="item.code">
             </el-option>
           </iSelect>
         </el-form-item>
       </el-form>
     </iSearch>
     <i-card class="margin-top20">
-      <div class="margin-bottom20 clearFloat">
+      <div class="margin-bottom20 clearFloat"
+           v-if="$store.state.permission.userInfo.userType!=1">
         <div class="floatright">
           <i-button @click="setTagBtn">{{
             language('BIAOQIANSHEZHI', '标签设置')
@@ -130,8 +145,9 @@
                   :index="true">
         <template #supplierTagNameList="scope">
           <i-button type="text"
-                    @click="handleTagsList(scope.row)">{{ scope.row.supplierTagNameList }}</i-button>
+                    @click="handleTagsList(scope.row)">{{scope.row.supplierTagNameList}}</i-button>
         </template>
+
         <template #supplierStatus="scope">
           <div v-if="form.supplierType == 'GP'">
             <i-button v-if="scope.row.isGpBlackList != 1"
@@ -230,12 +246,11 @@ import {
   iMessage,
   iInput,
   iSelect,
-  iPagination,
-  iDialog
+  iPagination
 } from 'rise'
 import { getBuyerType } from '@/api/supplier360/blackList'
 import setTagList from './components/setTagList'
-
+import { dropDownTagName } from '@/api/supplierManagement/supplierTag/index'
 import setTagdilog from './components/setTag'
 import blackListPp from './components/blackListPp'
 import blackListGp from './components/blackListGp'
@@ -267,12 +282,12 @@ export default {
     removelacklistPP,
     blackListGp,
     blackListPp,
-    iDialog,
     setTagdilog,
     setTagList
   },
   data() {
     return {
+      tagdropDownList: [],
       supplierId: '',
       gpRemoveParams: {
         key: 0,
@@ -335,6 +350,7 @@ export default {
         svwCode: '',
         vwCode: '',
         isActive: '',
+        tagdropDownList: [],
         supplierType: '',
         dept: '',
         relatedToMe: '',
@@ -483,6 +499,12 @@ export default {
       const res2 = await dictByCode('RELEVANT_DEPT')
       const res3 = await dictByCode('supplier_active')
       const res4 = await dictByCode('supplier_main_type')
+      //获取标签列表
+      dropDownTagName({}).then((res) => {
+        if (res && res.code == 200) {
+          this.tagdropDownList = res.data
+        }
+      })
       this.fromGroup.deptList = res2
       this.fromGroup.supplierStatusList = res3
       this.fromGroup.supplierTypeList = res4
@@ -533,26 +555,33 @@ export default {
       // this.$router.push({ name: 'ViewSuppliers', query: { supplierToken: params.supplierToken || '', supplierType: "4" } })
     },
     handleSearchReset() {
-      this.form = {
-        supplierName: '',
-        socialcreditNo: '',
-        address: '',
-        dunsCode: '',
-        svwTempCode: '',
-        sapCode: '',
-        svwCode: '',
-        vwCode: '',
-        isActive: '',
-        supplierType: this.userType,
-        dept: ''
-      }
+      if (this.$store.state.permission.userInfo.userType == 2) {
+        this.form.relatedToMe == true
+      } else
+        this.form = {
+          supplierName: '',
+          socialcreditNo: '',
+          address: '',
+          dunsCode: '',
+          svwTempCode: '',
+          sapCode: '',
+          svwCode: '',
+          vwCode: '',
+          tagdropDownList: [],
+          isActive: '',
+          supplierType: this.userType,
+          dept: ''
+        }
       this.page.currPage = 1
       this.page.pageSize = 10
       this.getUserType()
     },
 
-    async getTableList(val) {
+    async getTableList() {
       this.tableLoading = true
+      if (this.$store.state.permission.userInfo.userType == 2) {
+        this.form.relatedToMe = true
+      }
       const pms = {
         ...this.form,
         sortColumn: 'string',
@@ -564,6 +593,11 @@ export default {
       }
       const res = await getBasicList(pms)
       this.tableListData = res.data
+      this.tableListData.forEach((res) => {
+        if (res.supplierTagNameList != null) {
+          res.supplierTagNameList = res.supplierTagNameList.join(',')
+        }
+      })
       this.page.currPage = res.pageNum
       this.page.pageSize = res.pageSize
       this.page.totalCount = res.total
@@ -594,7 +628,7 @@ export default {
       this.selectTableList = val
     },
     changeSupplierType() {
-      this.closeDiolog()
+      this.closeDiolog(1)
     },
     getLsitBtn() {
       this.page.currPage = 1

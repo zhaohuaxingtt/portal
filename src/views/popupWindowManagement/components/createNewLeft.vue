@@ -1,42 +1,67 @@
 <template>
   <div>
-      <el-form label-position="left" label-width="160px">
+      <el-form label-position="left" label-width="160px" :rules="rule" :model="formContent" ref="createNewForm" class="validate-required-form">
         <el-row :gutter="24">
           <el-col span="12">
-            <iFormItem :label="language('弹窗标题')">
-              <iInput ></iInput>
+            <iFormItem :label="language('弹窗标题')" prop='popupName'>
+              <iInput :placeholder='language("请输入")' v-model="formContent.popupName"></iInput>
             </iFormItem>
           </el-col>
           <el-col span="12">
             <iFormItem :label="language('标题链接')">
-              <iInput ></iInput>
+              <iInput :placeholder='language("请输入")' v-model="formContent.linkUrl"></iInput>
             </iFormItem>
           </el-col>
         </el-row>
         <el-row :gutter="24">
           <el-col span="12">
-            <iFormItem :label="language('发布范围')">
-              <iInput ></iInput>
+            <iFormItem :label="language('发布范围')" prop='publishRange'>
+              <iSelect :placeholder='language("请选择")' v-model="formContent.publishRange">
+                <el-option
+                  v-for="item in publishRangeOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </iSelect>
             </iFormItem>
           </el-col>
           <el-col span="12">
-            <iFormItem :label="language('历史查看有效期')">
-              <iDatePicker class="effect-time"></iDatePicker>
+            <iFormItem :label="language('历史查看有效期')" prop='deletePreTime'>
+              <iDatePicker class="effect-time" :placeholder='language("请选择")' v-model="formContent.deletePreTime" :picker-options="pickerOptions"></iDatePicker>
+            </iFormItem>
+          </el-col>
+        </el-row>
+        <el-row :gutter="24" v-if="formContent.publishRange == 15">
+          <el-col span="12">
+            <iFormItem
+              :label="language('选择用户')"
+            >
+              <userSelector v-model="formContent.userList" @change="userListChange" />
+            </iFormItem>
+          </el-col>
+          <el-col span="12">
+            <iFormItem
+              :label="language('选择供应商')"
+            > 
+              <sullpierSelect v-model="formContent.supplierList" @change="supplierListChange" />
             </iFormItem>
           </el-col>
         </el-row>
         <el-row :gutter="24">
           <el-col span="24">
             <iFormItem :label="language('发布时间')">
-              <iDatePicker class="release-time"></iDatePicker>
+              <iDatePicker class="release-time" :placeholder='language("请选择发布时间，若未选择发布时间则立即发送")' 
+                v-model="formContent.publishPreTime" type='datetime'>
+              </iDatePicker>
             </iFormItem>
           </el-col>
-          
         </el-row>
         <el-row :gutter="24">
           <el-col>
-            <iFormItem :label="language('弹窗说明')">
-              <textarea class="popup-explain"></textarea>
+            <iFormItem :label="language('弹窗说明')" prop='content'>
+              <el-input type="textarea" class="popup-explain" :placeholder='language("请输入")' v-model="formContent.content"></el-input>
             </iFormItem>
           </el-col>
           
@@ -47,11 +72,66 @@
 
 <script>
 import {iFormItem,iDatePicker,iInput,iSelect} from 'rise'
+import {PUBLISH_SCOPE_OPTIONS} from './data.js'
+import userSelector from '@/components/userSelector'
+import sullpierSelect from './supplierSelect.vue'
 export default {
     name:'newLeft',
-    components:{iFormItem,iDatePicker,iInput,iSelect},
+    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,sullpierSelect},
+    props:{},
     data(){
       return{
+        publishRangeOptions:PUBLISH_SCOPE_OPTIONS,
+        formContent:{
+          popupName:'',
+          linkUrl:'',
+          publishRange:'',
+          deletePreTime:'',
+          publishPreTime:'',
+          content:'',
+          userList:'',
+          supplierList:''
+          
+        },
+        pickerOptions:{
+          disabledDate(time){
+            return time.getTime() <  Date.now() - 8.64e7
+          }
+        },
+        rule:{
+          popupName:{required:'true',message:'请输入弹窗标题',trigger:'blur'},
+          publishRange:{required:'true',message:'请输入发布范围',trigger:'blur'},
+          // deletePreTime:{required:'true',message:'请选择历史查看有效期',trigger:'blur'},
+          content:{required:'true',message:'请输入弹窗说明',trigger:'blur'},
+        },
+      }
+    },
+    created(){
+      this.formContent.publishRange = 0
+    },
+    methods:{
+      userListChange(val){
+        this.formContent.userList = val
+      },
+      supplierListChange(val){
+        this.formContent.supplierList = val
+      },  
+      reset(){
+        this.formContent = {}
+      },
+      save(){
+        let isValidate = true
+        this.$refs.createNewForm.validate((valid)=>{
+          if(valid){
+             isValidate 
+          }else{
+            isValidate = !isValidate
+          }
+        })
+        return isValidate
+      },
+      formData(){
+        return this.formContent
       }
     }
 }
@@ -59,9 +139,18 @@ export default {
 
 <style lang="scss" scoped>
 .popup-explain{
-  width: 800px;
+  width: 960px;
   height: 400px;
-  resize: none;
+
+  ::v-deep .el-textarea__inner{
+    height: 100%;
+    resize: none;
+    &:focus-visible{
+    outline-color: #D0D4D9;
+    border: 1px solid #D0D4D9;
+  }
+  }
+  
 }
 .effect-time,
 .release-time{

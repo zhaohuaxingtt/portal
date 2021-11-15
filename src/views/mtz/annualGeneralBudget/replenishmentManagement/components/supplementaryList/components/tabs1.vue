@@ -1,7 +1,7 @@
 <template>
 <div v-loading="BoxLoading">
     <div class="tabsBoxInfor">
-        <div class="inforDiv" v-for="(item,index) in tabsInforList" :key="index">
+        <div :style="item.prop == 'actuallyTotalAmt' ? {fontWeight: 'bold'} : null" class="inforDiv" v-for="(item,index) in tabsInforList" :key="index">
             <span>{{item.name}}</span>
             <div class="inforText" v-if="item.prop == 'monthFromTo' && inforData['monthFromTo']">{{tranNumber(inforData['monthFromTo'],true)}}~{{tranNumber(inforData['monthFromTo'],false)}}</div>
             <!-- <div class="inforText" v-if="item.prop == 'monthFromTo'">{{inforData["monthFrom"]}}~{{inforData["monthTo"]}}</div> -->
@@ -213,7 +213,8 @@ export default {
                     let objectUrl = URL.createObjectURL(blob);
                     let link = document.createElement("a");
                     link.href = objectUrl;
-                    let fname = "MTZ补差单汇总" + getNowFormatDate() + ".xlsx";
+                    // let fname = "补差单汇总" + getNowFormatDate() + ".xlsx";
+                    let fname = "补差单汇总-" + this.detailObj.bizNo + ".xlsx";
                     link.setAttribute("download", fname);
                     document.body.appendChild(link);
                     link.click();
