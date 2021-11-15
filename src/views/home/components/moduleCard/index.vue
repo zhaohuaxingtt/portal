@@ -12,8 +12,11 @@
         class="title"
         @click="handleClickTitle(card)"
         v-if="card.component !== 'EKL'"
-        >{{ $t('HOME_CARD.' + card.permissionKey) }}</span
       >
+        {{ newTitle }}
+        <!-- {{ language(`${card.permissionKey}`) }} -->
+        <!-- {{ $t('HOME_CARD.' + card.permissionKey) }} -->
+      </span>
       <el-dropdown trigger="click">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
@@ -85,7 +88,19 @@ export default {
   computed:{
     ...mapState({
       id: (id) => id.permission.userInfo.id
-    })
+    }),
+    lang() {
+      return this.$i18n.locale
+    },
+    newTitle() {
+      if (this.$i18n.locale === 'zh') {
+        return this.$t('HOME_CARD.' + this.card.permissionKey)
+      } else if (this.$i18n.locale === 'en' && this.card.orderNum === 8) {
+        return this.card.permissionKey
+      } else {
+        return this.$t('HOME_CARD.' + this.card.permissionKey)
+      }
+    }
   },
   methods: {
     handleClickTitle(card) {

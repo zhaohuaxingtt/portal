@@ -293,7 +293,7 @@ export default {
   .trangle {
     position: absolute;
     z-index: 100;
-    left: 65%;
+    left: 70%;
     top: 7.5%;
     width: 0;
     height: 0;
