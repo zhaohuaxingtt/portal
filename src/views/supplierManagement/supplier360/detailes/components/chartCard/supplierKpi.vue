@@ -11,14 +11,21 @@
             symbol
             name="iconcaiwuyujing-icon"></icon>
       <div class="boxText">
-        <div  > {{info.currentScore}} <div>
-            <icon v-if="info.percent!=0" symbol
+        <div> {{info.currentScore}} <div>
+            <icon v-if="info.percent>0"
+                  symbol
                   :class="parseInt(info.percent)>=0?'green':'orgin'"
                   name="iconpaixu-xiangshang"> </icon>
-            <span v-if="info.percent!=0" :class="parseInt(info.percent)>=0?'green':'orgin'">{{info.percent}} </span>
+            <icon v-if="info.percent<0"
+                  symbol
+                  :class="parseInt(info.percent)>=0?'green':'orgin'"
+                  name="iconpaixu-xiangxia"> </icon>
+            <span v-if="info.percent!=0"
+                  :class="parseInt(info.percent)>=0?'green':'orgin'">{{parseInt(info.percent).toString() }}% </span>
           </div>
         </div>
-        <p >{{language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署')}} <span v-if="info.developScore!=0" :class="parseInt(info.developScore)>=0?'green':'orgin'"> {{info.developScore}}</span></p>
+        <p>{{language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署')}} <span v-if="info.developScore!=0"
+                :class="parseInt(info.developScore)>=0?'green':'orgin'"> {{info.developScore.toString()}}%</span></p>
         <p>{{language('WURANWEIGUI', '污染违规')}} <span></span></p>
       </div>
       <div ref="chart"
@@ -62,12 +69,12 @@ export default {
       const myChart = echarts().init(this.$refs.chart)
       let data1 = []
       let data2 = []
-    
+
       for (let item in this.info.mapMonth) {
         data1.push(item) // 将属性名放入list数组中
         data2.push(this.info.mapMonth[item])
       }
-   
+
       this.option = {
         tooltip: {
           trigger: 'axis'
@@ -107,7 +114,7 @@ export default {
               fontSize: '10px'
             }
           },
-        
+
           splitNumber: 3
         },
         series: [
@@ -179,7 +186,7 @@ export default {
       align-items: center;
       position: absolute;
       top: 4px;
-      right: -70px;
+      right: -100px;
       span {
         margin-left: 6px;
         font-size: 18px;
@@ -202,7 +209,7 @@ export default {
     span {
       position: absolute;
       top: 6px;
-      right: -30px;
+      right: -50px;
       margin-left: 6px;
       font-size: 16px;
       font-family: Arial;

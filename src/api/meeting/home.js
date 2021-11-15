@@ -1,6 +1,7 @@
 import axios from '@/utils/axios'
 import { deleteString } from '@/utils/utils'
 const requst = axios(process.env.VUE_APP_MEETING)
+const requstDict = axios(process.env.VUE_APP_BASE_INFO);
 
 // 获取会议列表
 export function getMettingList(data) {
@@ -66,12 +67,19 @@ export function changeStateMeeting(data) {
 }
 
 // 获取审批流程
-export function getApprovalProcessList(data) {
-  return requst({
-    url: `/rise-mock/mockService/approval-processes`,
-    method: 'POST',
-    data: deleteString(data)
+export function getApprovalProcessList() {
+  // return requst({
+  //   url: `/rise-mock/mockService/approval-processes`,
+  //   method: 'POST',
+  //   data: deleteString(data)
+  return requstDict({
+    url: `/api/dict`,
+    method: 'get',
+    params: {
+      code: 'FAC'
+    }
   })
+  // })
 }
 
 // 获取会议详情

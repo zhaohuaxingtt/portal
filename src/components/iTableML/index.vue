@@ -26,62 +26,66 @@ export default {
   props: {
     data: { type: Array },
     tableLoading: { type: Boolean, default: false },
+    isSingle: { type: Boolean, default: false },
     height: { type: Number || String },
     rowClassName: { type: Function },
     currentRow: {
       type: Object,
       default: () => {
-        return "";
-      },
+        return ''
+      }
     },
-    border: { type: Boolean, default: false },
+    border: { type: Boolean, default: false }
   },
   data() {
-    return {};
+    return {}
   },
   mounted() {
-    this.handleCurrentRow(this.currentRow);
+    this.handleCurrentRow(this.currentRow)
   },
   computed: {
     handleCurrentTableData() {
       return {
         currentRow: this.currentRow,
-        data: this.data,
-      };
-    },
+        data: this.data
+      }
+    }
   },
   watch: {
     handleCurrentTableData: {
       handler(row) {
         this.$nextTick(() => {
-          this.handleCurrentRow(row.currentRow);
-        });
+          this.handleCurrentRow(row.currentRow)
+        })
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     handleSelectionChange(val) {
       let selectArr = val
         ? val.filter((item) => {
-            return item !== undefined;
+            return item !== undefined
           })
-        : [];
-      this.$emit("selectionChange", selectArr);
+        : []
+      this.$emit('selectionChange', selectArr)
     },
     handleCurrentRow(row) {
+      if (this.isSingle) {
+        this.$refs.tableML.clearSelection()
+      }
       if (row) {
         const index = this.$refs.tableML.data.findIndex((item) => {
-          return item.id === row.id;
-        });
+          return item.id === row.id
+        })
         this.$refs.tableML.toggleRowSelection(
           this.$refs.tableML.data[index],
           true
-        );
+        )
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 ::v-deep .open-link-text {

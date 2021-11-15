@@ -181,7 +181,7 @@ export default {
   methods: {
     init () {
       this.mtzAppId = this.mtzObject.mtzAppId || this.$route.query.mtzAppId
-      this.flag = this.$route.query.isView
+      this.flag = JSON.parse(this.$route.query.isView)
       this.getTableList()
       this.selectDept()
       this.selectSection()
