@@ -55,7 +55,7 @@ export default {
             message: `<div style='display: flex;justify-content: space-between;cursor:pointer;'>
                               <div class="popupLeft" style='width:50px;height:50px; '>
                                   <img src="${
-                                    data.picUrl
+                                   JSON.parse(this.popupDataList[index].param).picUrl
                                   }" style='width:100%;height:100%; border-radius: 50%;'>
                               </div>
                               <div class="popupRight" style='position:relative;margin-left:20px'>
