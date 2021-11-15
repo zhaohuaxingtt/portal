@@ -527,7 +527,7 @@ export default {
         mtzAddShow:false,
         addDialog:false,
 
-        dialogEditType:false,
+        dialogEditType:false,//判断是否是沿用过来的数据
     }
   },
   computed:{

@@ -197,8 +197,8 @@ module.exports = {
       },
       // 站内信
       [process.env.VUE_APP_MAIL]: {
-        target: `http://10.122.17.38:8044/risemessage`,
-        // target: `http://${BASE_DOMAN}:8044/risemessage`,
+        // target: `http://10.122.17.38:8044/risemessage`,
+        target: `http://${BASE_DOMAN}:8044/risemessage`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MAIL]: ''

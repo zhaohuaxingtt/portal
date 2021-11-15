@@ -150,13 +150,14 @@
              v-if="mtzReasonShow"
              width="40%"
              @close='reasonClose'>
-      <MtzClose @close="reasonClose" @handleSubmitRecall="handleSubmitRecall"></MtzClose>
+      <MtzClose @close="reasonClose"
+                @handleSubmitRecall="handleSubmitRecall"></MtzClose>
     </iDialog>
   </div>
 </template>
 
 <script>
-import { iInput, iSearch, iMessage, iDatePicker, iCard, iButton, iPagination, iDialog } from 'rise';
+import { iInput, iSearch, iMessage, iMessageBox, iDatePicker, iCard, iButton, iPagination, iDialog } from 'rise';
 import tableList from '@/components/commonTable/index.vue';
 import { tableTitle } from "./data";
 import MtzClose from "./MtzClose";
@@ -281,44 +282,44 @@ export default {
       this.getTableList();
     },
     handleClickFsupplierName (val) {
-
       let routeData = this.$router.resolve({
         path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow`,
         query: {
           currentStep: 1,
           mtzAppId: val.id,
+          isView: (val.appStatus === 'NEW' || val.appStatus === 'NOTPASS') ? false : true
         }
       })
       window.open(routeData.href, '_blank')
     },
     // 选中table数据
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selection = val;
     },
     // 冻结
     handleClickMtzFreeze () {
-      if(this.selection && this.selection.length == 0) {
+      if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if(this.selection[0].flowType == "MEETING"){
-        if(this.selection[0].appStatus == "CHECK_PASS"){
+      if (this.selection[0].flowType == "MEETING") {
+        if (this.selection[0].appStatus == "CHECK_PASS") {
           this.MtzFreezeRequest();
-        }else{
+        } else {
           return iMessage.warn(this.language('SHLXZYHHTGZTCKYDJ', '上会类型只有复核通过状态才可以冻结'))
         }
-      }else{
-        if(this.selection[0].appStatus == "SUBMIT"){
+      } else {
+        if (this.selection[0].appStatus == "SUBMIT") {
           this.MtzFreezeRequest();
-        }else{
+        } else {
           return iMessage.warn(this.language('LZBALXZYTJZTCKYDJ', '流转/备案类型只有提交状态才可以冻结'))
         }
       }
     },
-    MtzFreezeRequest(){
+    MtzFreezeRequest () {
       mtzFreeze({
         ids: this.selection.map(item => item.id)
-      }).then(res=>{
-        if(res && res.code == 200) {
+      }).then(res => {
+        if (res && res.code == 200) {
           iMessage.success(res.desZh)
           this.getTableList()
         } else iMessage.error(res.desZh)
@@ -327,49 +328,49 @@ export default {
 
     // 解冻
     handleClickMtzUnfreeze () {
-      if(this.selection && this.selection.length == 0) {
+      if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if(this.selection[0].appStatus == "FREERE"){
+      if (this.selection[0].appStatus == "FREERE") {
         mtzUnfreeze({
           ids: this.selection.map(item => item.id)
-        }).then(res=>{
-          if(res && res.code == 200) {
+        }).then(res => {
+          if (res && res.code == 200) {
             iMessage.success(res.desZh)
             this.getTableList()
           } else iMessage.error(res.desZh)
         })
-      }else{
+      } else {
         return iMessage.warn(this.language('ZYZTWDJDCKYJD', '只有状态为冻结的才可以解冻'))
       }
     },
 
     // 定点
     handleClickMtzNomi () {
-      if(this.selection && this.selection.length == 0) {
+      if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if(this.selection[0].flowType == "FILING"){
-        if(this.selection[0].appStatus == "FREERE"){
+      if (this.selection[0].flowType == "FILING") {
+        if (this.selection[0].appStatus == "FREERE") {
           this.getNomi()
-        }else{
+        } else {
           return iMessage.warn(this.language('BALXQZTWDJCKYDD', '备案类型且状态为冻结才可以定点'))
         }
-      }else if(this.selection[0].flowType == "SIGN"){
-        if(this.selection[0].appStatus == "FLOWED"){
+      } else if (this.selection[0].flowType == "SIGN") {
+        if (this.selection[0].appStatus == "FLOWED") {
           this.getNomi()
-        }else{
+        } else {
           return iMessage.warn(this.language('LZLXQZTWLZWCCKYDD', '流转类型且状态为流转完成才可以定点'))
         }
-      }else if(this.selection[0].flowType == "MEETING"){
+      } else if (this.selection[0].flowType == "MEETING") {
         return iMessage.warn(this.language('SHLXBNJXDD', '上会类型不能进行定点'))
       }
     },
-    getNomi(){
+    getNomi () {
       mtzNomi({
         ids: this.selection.map(item => item.id)
-      }).then(res=>{
-        if(res && res.code == 200) {
+      }).then(res => {
+        if (res && res.code == 200) {
           iMessage.success(res.desZh)
           this.getTableList()
         } else iMessage.error(res.desZh)
@@ -378,45 +379,45 @@ export default {
 
     // 取消定点
     handleClickCancelMtzNomi () {
-      if(this.selection && this.selection.length == 0) {
+      if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if(this.selection[0].appStatus == "NOMINATE"){
+      if (this.selection[0].appStatus == "NOMINATE") {
         cancelMtzNomi({
           ids: this.selection.map(item => item.id)
-        }).then(res=>{
-          if(res && res.code == 200) {
+        }).then(res => {
+          if (res && res.code == 200) {
             iMessage.success(res.desZh)
             this.getTableList()
           } else iMessage.error(res.desZh)
         })
-      }else{
+      } else {
         return iMessage.warn(this.language('ZYDDZTCKYQXDD', '只有定点状态才可以取消定点'))
       }
     },
 
     // 会外流转
-    handleClickOutFlow() {
-      if(this.selection && this.selection.length == 0) {
+    handleClickOutFlow () {
+      if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if(this.selection[0].flowType == "SIGN" && this.selection[0].appStatus == "FREERE") {
+      if (this.selection[0].flowType == "SIGN" && this.selection[0].appStatus == "FREERE") {
         mtzMeetingOutFlow({
           ids: this.selection.map(item => item.id)
         }).then(res => {
-          if(res && res.code == 200) {
+          if (res && res.code == 200) {
             iMessage.success(res.desZh)
             this.getTableList()
           } else iMessage.error(res.desZh)
         })
-      }else{
+      } else {
         return iMessage.warn(this.language('ZYLZLXQZTWDJCKYHWLZ', '只有流转类型且状态为冻结才可以会外流转'))
       }
     },
 
     addMtz () {
       let routeData = this.$router.resolve({
-          path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor`
+        path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor`
       })
       window.open(routeData.href, '_blank')
     },
@@ -426,25 +427,25 @@ export default {
 
     // 点击撤回
     handleClickMtzRecall () {
-      if(this.selection && this.selection.length == 0) {
+      if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if(this.selection[0].flowType == "MEETING"){
+      if (this.selection[0].flowType == "MEETING") {
         //////////////////////////////////////
-      }else{
-        if(this.selection[0].appStatus == "SUBMIT"){
+      } else {
+        if (this.selection[0].appStatus == "SUBMIT") {
           this.mtzReasonShow = true;
-        }else{
+        } else {
           return iMessage.warn(this.language('LZBALXZYTJZTCKYCH', '流转/备案类型只有提交状态才可以撤回'))
         }
       }
     },
     // 提交撤回
-    handleSubmitRecall(val) {
+    handleSubmitRecall (val) {
       mtzRecall({
         ids: this.selection.map(item => item.id),
       }).then(res => {
-        if(res && res.code == 200) {
+        if (res && res.code == 200) {
           iMessage.success(res.desZh)
           this.reasonClose();
           this.getTableList()
@@ -454,19 +455,24 @@ export default {
 
     // 删除
     mtzDel () {
-      if(this.selection && this.selection.length == 0) {
+      if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if(this.selection.find(e => e.appStatus == "NEW")){
-        mtzDel({
-          ids: this.selection.map(item => item.id)
+      if (this.selection.find(e => e.appStatus == "NEW")) {
+        iMessageBox(this.language('SHIFOUSHANCHU', '是否删除？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+          confirmButtonText: this.language('QUEREN', '确认'),
+          cancelButtonText: this.language('QUXIAO', '取消')
         }).then(res => {
-          if(res && res.code == 200) {
-            iMessage.success(res.desZh)
-            this.getTableList()
-          } else iMessage.error(res.desZh)
+          mtzDel({
+            ids: this.selection.map(item => item.id)
+          }).then(res => {
+            if (res && res.code == 200) {
+              iMessage.success(res.desZh)
+              this.getTableList()
+            } else iMessage.error(res.desZh)
+          })
         })
-      }else{
+      } else {
         return iMessage.warn(this.language('ZYCGZTCKYSC', '只有草稿状态才可以删除'))
       }
     },
