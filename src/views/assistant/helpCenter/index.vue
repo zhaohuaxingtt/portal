@@ -22,7 +22,7 @@
 				</iTabBadge>
 			</div>
 		</div>
-		<div class="flex flex-row mt20 content">
+		<div class="flex flex-row content mt20">
 			<CommonProblem />
 			<DataManage />
 		</div>
