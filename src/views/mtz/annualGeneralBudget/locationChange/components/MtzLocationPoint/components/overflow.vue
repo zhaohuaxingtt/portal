@@ -229,6 +229,7 @@ export default {
             currentStep: data.id,
             mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
             appId:this.$route.query.appId || this.mtzObject.appId,
+            isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
           }
         })
       })
