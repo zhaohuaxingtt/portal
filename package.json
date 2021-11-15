@@ -91,5 +91,14 @@
       "not dead",
       "not op_mini all"
     ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {},
+      "postcss-px2rem-exclude": {
+        "remUnit": 100,
+        "exclude": "/node_modules|floder_name/i"
+      }
+    }
   }
 }
