@@ -20,8 +20,9 @@ export const tableTitleMonitor = [
     { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG', tooltip: true },
     { props: 'deptNum', name: '相关科室', key: 'XIANGGUANKESHI', tooltip: true },
     { props: 'userName', name: '负责采购员', key: 'XIANGGUANCAIGOUYUAN', tooltip: true },
-    { props: 'email', name: '采购员邮箱', key: 'CAIGOUYUANYOUXIANG', tooltip: true },
+    // { props: 'email', name: '采购员邮箱', key: 'CAIGOUYUANYOUXIANG', tooltip: true },
     { props: 'ratingSource', name: 'C-Rating来源', key: 'CRATINGLAIYUAN', tooltip: true },
+    { props: 'ratingDate', name: '加入C-Rating时间', key: 'JIARUCRATINGSHIJIAN', tooltip: true ,width:150},
   ]
   
 export const tableTitleMonitorRecord = [

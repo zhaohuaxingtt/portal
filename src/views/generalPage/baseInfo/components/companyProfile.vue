@@ -287,19 +287,21 @@
         </iSelect>
       </iFormItem>
       <!-- 九 -->
-      <!-- <iFormItem v-if="isPP">
+      <iFormItem>
         <iLabel :label="language(
                 'SHIFOUGUOWAICHANGSHANG',
                 '是否国外厂商'
               )"
                 slot="label"></iLabel>
-        <iSelect v-model="supplierData.supplierDTO.isForeignManufacture">
+
+        <iSelect disabled
+                 v-model="supplierData.supplierDTO.isForeignManufacture">
           <el-option :value="item.code"
                      :label="item.name"
                      v-for="(item, index) in isForeignCountryList"
                      :key="index"></el-option>
         </iSelect>
-      </iFormItem> -->
+      </iFormItem>
       <!-- <iFormItem v-if="isPP"
                  v-permission="SUPPLIER_BASEINFO_COMPANY_FINANCIALTREND">
         <iLabel :label="language(
@@ -307,6 +309,7 @@
                 '签订采购条款'
               )"
                 slot="label"></iLabel>
+                 <iText>{{supplierData.supplierDTO.financialTrend?'是':'否'}}</iText>
         <iSelect v-model="supplierData.supplierDTO.financialTrend">
           <el-option :value="item.code"
                      :label="item.name"
@@ -314,19 +317,21 @@
                      :key="index"></el-option>
         </iSelect>
       </iFormItem> -->
-      <!-- <iFormItem v-permission="SUPPLIER_BASEINFO_COMPANY_PAYMENTRECORD">
+      <iFormItem>
         <iLabel :label="language(
                 'SHIFOUHEIMINGDAN',
                 '是否黑名单'
               )"
                 slot="label"></iLabel>
-        <iSelect disabled v-model="supplierData.ppSupplierDTO.isBlacklist">
+
+        <iSelect disabled
+                 v-model="supplierData.supplierDTO.isBlacklist">
           <el-option :value="item.code"
                      :label="item.name"
                      v-for="(item, index) in blackList"
                      :key="index"></el-option>
         </iSelect>
-      </iFormItem> -->
+      </iFormItem>
     </iFormGroup>
   </iCard>
 </template>
@@ -368,13 +373,18 @@ export default {
       default: () => []
     }
   },
+  watch: {
+    supplierData(val) {
+      console.log(val)
+    }
+  },
   data() {
     return {
       baseInfoRules,
       listingAddress, //上市地点
       stockCode, //股票代码
       province: [],
-      isForeignCountryList:  [
+      isForeignCountryList: [
         { name: this.language('SHI', '是'), code: true },
         { name: this.language('FOU', '否'), code: false }
       ],
@@ -420,10 +430,7 @@ export default {
       return this.$route.query.supplierType
     }
   },
-  created() {
-    this.getisForeignCountry()
-    this.getisBlack()
-  },
+  created() {},
   methods: {
     // 获取省份
     getProvince() {
@@ -432,7 +439,9 @@ export default {
       }
       getCityInfo(data).then((res) => {
         if (res.data) {
-          console.log(res.data)
+          this.getisForeignCountry(res.data)
+          this.getisBlack()
+
           let req = {
             parentCityId: res.data[0].cityIdStr
           }
@@ -458,25 +467,26 @@ export default {
         }
       })
     },
-    //是否国内外
-    getisForeignCountry() {
-      console.log(this.province)
-      //   isForeignCountry({
-      //     addressInfoId: this.province.find(
-      //       (item) =>
-      //         item.sapLocationCode == this.supplierData.supplierDTO.countryCode
-      //     ).id
-      //   }).then((res) => {
-      //     this.isForeignCountryList = res.data
-      //   })
-    },
+    //是否黑名单
     getisBlack() {
-    //   isBlack({ supplierToken: this.$route.query.supplierToken }).then(
-    //     (res) => {
-    //       this.supplierData.ppSupplierDTO.isBlacklist = res.data
-    //     }
-    //   )
+      isBlack({ supplierToken: this.$route.query.supplierToken }).then(
+        (res) => {
+          this.supplierData.supplierDTO.isBlacklist = res.data
+        }
+      )
     },
+    //是否国内外
+    getisForeignCountry(val) {
+      isForeignCountry({
+        addressInfoId: val.find(
+          (item) =>
+            item.sapLocationCode == this.supplierData.supplierDTO.countryCode
+        ).id
+      }).then((res) => {
+        this.supplierData.supplierDTO.isForeignManufacture = res.data
+      })
+    },
+
     // 国家切换 获取省信息
     changeCountry() {
       this.supplierData.supplierDTO.provinceCode = ''

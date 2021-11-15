@@ -46,7 +46,7 @@
       <div class="header">
         <el-form inline
                  label-position="top"
-                 :key="Math.random()">
+                 >
           <el-form-item :label="language('SAPHAO', 'SAP号')">
             <iSelect collapse-tags
                      filterable
@@ -453,8 +453,8 @@ export default {
     },
     //移除
     handleSave() {
-             if (this.takeStepsContent == '') {
-        iMessage.warn(this.language('QINGSHURUYICHUYUANYINS', '请输入移出原因'),)
+      if (this.takeStepsContent == '') {
+        iMessage.warn(this.language('QINGSHURUYICHUYUANYINS', '请输入移出原因'))
         return false
       }
       let req = {
@@ -500,7 +500,7 @@ export default {
           itemHeight: 8
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
         },
         grid: {
           top: '18%',
@@ -670,6 +670,23 @@ export default {
     justify-content: flex-end;
     width: 30%;
   }
+   ::v-deep.el-form-item{
+      margin: 0 20px;
+
+  }
+  ::v-deep.el-select{
+      width: 220px;
+  }
+  ::v-deep.el-select__tags-text {
+    display: inline-block;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+//   ::v-deep.el-select  ::v-deep.el-tag__close.el-icon-close {
+//     top: -7px;
+//   }
 }
 .sectionTitle {
   margin-top: 20px;

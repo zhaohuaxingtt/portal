@@ -7,7 +7,7 @@
     <iPage>
       <div class="headerTitle">
         <p>加入黑名单申请 - 生产采购</p>
-        <div>
+        <div v-if="ifSelf">
           <iButton @click="handleBtn(2)">{{
             language('PIZHUN', '批准')
           }}</iButton>
@@ -94,10 +94,17 @@ export default {
       tableLoading: true,
       tableTitle: tableTitle,
       data: {},
-      tableListData: []
+      tableListData: [],
+      ifSelf: true
     }
   },
   created() {
+    if (window.top === window.self) {
+      this.ifSelf = true
+    } else {
+      this.ifSelf = false
+    }
+    console.log(window.top === window.self)
     this.getListData()
     this.getListArr()
   },

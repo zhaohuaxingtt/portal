@@ -19,12 +19,18 @@
       <div>
         <icon class="early"
               symbol
-              name="icondaiquerenBAshenqingzhuijiajineweixuanzhong"></icon> <span>生产供应商数量（个）：{{info.PP}}</span>
+              name="icondaiquerenBAshenqingzhuijiajineweixuanzhong"></icon> <span>{{  language(
+              'SHENGCHANGONGYINGSHANGSHULIANGGE',
+              '生产供应商数量（个）'
+            )}}：{{info.PP}}</span>
       </div>
       <div>
         <icon class="early"
               symbol
-              name="icondaiquerenBAshenqingzhuijiajineweixuanzhong"></icon> <span>供应商数量（个）：{{info.GP}}</span>
+              name="icondaiquerenBAshenqingzhuijiajineweixuanzhong"></icon> <span>{{  language(
+              'YIABNGONGYINGSHANGSHULIANGGE',
+              '一般供应商数量（个）'
+            )}}：{{info.GP}}</span>
       </div>
     </div>
   </iCard>
