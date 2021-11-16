@@ -159,7 +159,7 @@
         </iFormItem>
         <iFormItem prop="set">
           <iLabel :label="language('SET组')" slot="label"></iLabel>
-          <iSelect v-model="positionObj.set"> </iSelect>
+          <iSelect v-model="positionObj.setCode"> </iSelect>
         </iFormItem>
       </iFormGroup>
 
@@ -197,7 +197,7 @@ export default {
     }
   },
   filters: {
-    leaderFilter: function(value) {
+    leaderFilter: function (value) {
       return value ? '是' : '否'
     }
   },
