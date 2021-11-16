@@ -392,6 +392,9 @@ export default {
       top: 0;
       z-index: 1;
       overflow: auto;
+      white-space: nowrap;
+      // text-overflow: ellipsis;
+      width: 100%;
       max-height: 130px;
     }
     .el-input .el-input__inner {
