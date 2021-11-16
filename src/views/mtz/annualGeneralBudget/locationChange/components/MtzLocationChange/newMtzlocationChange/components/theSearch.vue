@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-12 10:58:26
+ * @LastEditTime: 2021-11-16 19:47:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -95,9 +95,9 @@
                          clearable
                          @change="handleChangmater"
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="existShareName"
-                         value-member="existShareId"
-                         value-key="existShareId">
+                         display-member="departNameZh"
+                         value-member="departId"
+                         value-key="departId">
           </custom-select>
         </el-form-item>
         <el-form-item label="采购员"
