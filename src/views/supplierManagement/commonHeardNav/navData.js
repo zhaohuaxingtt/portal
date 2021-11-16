@@ -31,13 +31,13 @@ export const tabRouterList = [
     activePath: '/supplier/kpiRouter',
     key: 'KPI',
   },
-  {
-    value: 4,
-    name: '黑名单',
-    // url: '/supplier/kpi',
-    //activePath: '/supplier/kpi',
-    key: '黑名单',
-  },
+//   {
+//     value: 4,
+//     name: '黑名单',
+//     // url: '/supplier/kpi',
+//     //activePath: '/supplier/kpi',
+//     key: '黑名单',
+//   },
   {
     value: 5,
     name: 'N级供应链',
@@ -45,13 +45,13 @@ export const tabRouterList = [
     activePath: '/supplier/NTier',
     key: 'N级供应链',
   },
-  {
-    value: 6,
-    name: '供应商标签库',
-    url: '/supplier/supplierTag',
-    activePath: '/supplier/supplierTag',
-    key: '供应商标签库',
-  },
+//   {
+//     value: 6,
+//     name: '供应商标签库',
+//     url: '/supplier/supplierTag',
+//     activePath: '/supplier/supplierTag',
+//     key: '供应商标签库',
+//   },
 ];
 
 

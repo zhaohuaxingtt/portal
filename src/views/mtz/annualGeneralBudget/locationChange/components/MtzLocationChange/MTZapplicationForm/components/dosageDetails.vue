@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-12 15:34:08
+ * @LastEditTime: 2021-11-15 16:53:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -285,6 +285,7 @@ export default {
       approvalExplain(params).then(res => {
         if (res?.code === '200') {
           this.isShow = false
+          this.getApprovalRecordList()
           iMessage.success(res.desZh)
         } else {
           this.isShow = false

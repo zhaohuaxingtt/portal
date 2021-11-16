@@ -23,6 +23,7 @@
                 @selection-change="handleSelectionChange">
         <el-table-column type="selection"
                         :selectable="selectionType"
+                        fixed
                          width="60">
         </el-table-column>
         <el-table-column label="#"
@@ -58,7 +59,7 @@
                         :value="item.code">
                     </el-option>
                 </el-select>
-                <span v-else>{{scope.row.effectFlag==1?"有效":scope.row.effectFlag==0?"无效":""}}</span>
+                <span v-else>{{scope.row.effectFlag==1?"是":scope.row.effectFlag==0?"否":""}}</span>
             </template>
         </el-table-column>
         
@@ -99,19 +100,45 @@
                          :label="language('GONGYINGSHANGBIANHAO','供应商编号')"
                          show-overflow-tooltip>
              <template slot-scope="scope">
-                <iInput v-model="scope.row.supplierId" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                 <el-select v-model="scope.row.supplierId"
+                         clearable
+                         filterable
+                         :placeholder="language('QINGSHURU', '请输入')"
+                         @change="supplierBH(scope,$event)"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
+                        >
+                    <el-option
+                        v-for="item in supplierList"
+                        :key="item.code"
+                        :label="item.code"
+                        :value="item.code">
+                    </el-option>
+                </el-select>
                 <span v-else>{{scope.row.supplierId}}</span>
             </template>
         </el-table-column>
-        <el-table-column prop="trueCompMoney"
+        <el-table-column prop="supplierName"
                          align="center"
                          width="150"
                          :label="language('GONGYINGSHANGMINGCHENG','供应商名称')"
                          show-overflow-tooltip>
-             <!-- <template slot-scope="scope">
-                <iInput v-model="scope.row.trueCompMoney" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
-                <span v-else>{{scope.row.trueCompMoney}}</span>
-            </template> -->
+             <template slot-scope="scope">
+                <el-select v-model="scope.row.supplierName"
+                         clearable
+                         filterable
+                         :placeholder="language('QINGSHURU', '请输入')"
+                         @change="supplierNC(scope,$event)"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
+                        >
+                    <el-option
+                        v-for="item in supplierList"
+                        :key="item.message"
+                        :label="item.message"
+                        :value="item.message">
+                    </el-option>
+                </el-select>
+                <span v-else>{{scope.row.supplierName}}</span>
+            </template>
         </el-table-column>
         <el-table-column prop="materialCode"
                          align="center"
@@ -123,6 +150,7 @@
                          clearable
                          :placeholder="language('QINGSHURU', '请输入')"
                          v-if="editId.indexOf(scope.row.id)!==-1"
+                         @change="MaterialGrade(scope,$event)"
                         >
                     <el-option
                         v-for="item in materialCode"
@@ -333,7 +361,7 @@
                          :label="language('BUCHAXISHU','补差系数')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.compensationRatio" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <iInput type="number" @blur="ratioRules(scope)" v-model="scope.row.compensationRatio" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
                 <span v-else>{{scope.row.compensationRatio}}</span>
             </template>
         </el-table-column>
@@ -457,7 +485,9 @@ import continueBox from "./continueBox";
 import addGZ from "./addGZ";
 import { deepClone } from "./util";
 import store from "@/store";
-
+import {
+  getMtzSupplierList,//获取原材料牌号
+} from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 import {
   pageAppRule,//维护MTZ原材料规则-分页查询
   updateAppRule,
@@ -489,6 +519,7 @@ export default {
   mixins: [pageMixins],
   data () {
     return {
+        supplierList:[],
         newDataList:[],//传过来的列表数据
         editType:false,
         tableData: [],
@@ -501,10 +532,10 @@ export default {
         effectFlag:[
             {
                 code:0,
-                message:"无效"
+                message:"否"
             },{
                 code:1,
-                message:"有效"
+                message:"是"
             }
         ],
         compensationPeriod:[
@@ -543,12 +574,17 @@ export default {
   },
   created () {
     this.init()
+    getMtzSupplierList({}).then(res=>{
+        this.supplierList = res.data;
+    })
+    getRawMaterialNos({}).then(res=>{
+        this.materialCode = res.data;
+    })
   },
   methods: {
     init () {
         this.getTableList();
         this.getMtzCailiao();
-        this.getRawMaterialNos();
     },
     add(){//新增
         this.addDialog = true;
@@ -722,14 +758,65 @@ export default {
             this.materialGroup = res.data;
         })
     },
-    getRawMaterialNos(){
-        getRawMaterialNos({}).then(res=>{
-            this.materialCode = res.data;
-        })
-    },
     handleSelectionChange(val){
         this.selectList = val;
-    }
+    },
+    supplierBH(arr,value){
+        var str = arr.row;
+        if(value == ""){
+            str.supplierName = "";
+            str.supplierId = "";
+        }
+        try{
+            this.supplierList.forEach(e => {
+                if(e.code == value){
+                    str.supplierName = e.message;
+                    str.supplierId = value;
+                    throw new Error("EndIterative");
+                }
+            });
+        }catch(e){
+            if(e.message != "EndIterative") throw e;
+        }
+    },
+    supplierNC(arr,value){
+        var str = arr.row;
+        if(value == ""){
+            str.supplierName = "";
+            str.supplierId = "";
+        }
+        try{
+            this.supplierList.forEach(e => {
+                if(e.message == value){
+                    str.supplierName = value;
+                    str.supplierId = e.code;
+                    throw new Error("EndIterative");
+                }
+            });
+        }catch(e){
+            if(e.message != "EndIterative") throw e;
+        }
+    },
+    MaterialGrade(arr,value){
+        var str = arr.row;
+        try{
+            this.materialCode.forEach(e => {
+                if(e.code == value){
+                    str.materialName = e.message;
+                    throw new Error("EndIterative");
+                }
+            });
+        }catch(e){
+            if(e.message != "EndIterative") throw e;
+        }
+    },
+    ratioRules(arr){
+        var str = arr.row;
+        if(str.compensationRatio<0){
+            str.compensationRatio = "";
+            iMessage.error(this.language("BUCHAXISHUBUNENGWEIFUSHU","补差系数不能为负数"))
+        }
+    },
   }
 }
 </script>

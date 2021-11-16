@@ -27,7 +27,7 @@ export const tableTitle = [
   { width: 150, props: 'meetingPresentId', name: '会议', key: 'HUIYI' },
   {
     width: 150,
-    props: 'nominateUser',
+    props: 'nominateUserName',
     name: '询价采购员',
     key: 'XUNJIACAIGOUYUAN'
   },

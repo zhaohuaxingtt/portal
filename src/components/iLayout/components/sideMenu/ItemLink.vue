@@ -76,10 +76,19 @@ export default {
   },
   computed: {
     isActive() {
-      const list = this.$route.matched
+      return false
+      /* const list = this.$route.matched
       const url =
         this.item.url?.match(/((?<=#).*(?=\?))|((?<=#).*)/g) &&
         this.item.url?.match(/((?<=#).*(?=\?))|((?<=#).*)/g)[0]
+      console.log(
+        'this.item.url',
+        this.item.url,
+        this.item.url?.match(/((?<=#).*(?=\?))|((?<=#).*)/g)
+      )
+      if (url === '/index') {
+        return false
+      }
       for (let key in list) {
         if (
           (list[key].path && url === list[key].path) ||
@@ -91,7 +100,7 @@ export default {
       return (
         this.item.url.includes(this.$route.path) ||
         this.item.url.includes(this.$route.redirectedFrom)
-      )
+      ) */
     }
   },
   methods: {

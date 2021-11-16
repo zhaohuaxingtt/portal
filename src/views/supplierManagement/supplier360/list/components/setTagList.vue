@@ -14,7 +14,10 @@
         <el-form inline
                  label-position="top">
           <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
-            <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+            <iSelect multiple
+                     collapse-tags
+                     filterable
+                     :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
                      v-model="form.tagNameList">
               <el-option v-for="item in tagdropDownList"
                          :key="item.code"
@@ -60,6 +63,7 @@
         </div>
         <el-table :data="tabledata"
                   v-loading="tableLoading"
+                  ref="mulitipleTable"
                   @selection-change="handleSelectionChange"
                   style="margin-top:30px"
                   :tableTitle="setTagCloum">
@@ -84,15 +88,13 @@
                            label="系统判断标准"> <template slot-scope="scope">
               <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
             </template> </el-table-column>
-          <el-table-column width="150"
+          <!-- <el-table-column width="150"
                            align="center"
                            prop="isShow"
                            :label="
           language('XIANSHIYINCNAG', '显示/隐藏')
         ">
             <template slot="header">
-              <span>{{ language('XIANSHIYINCNAG', '显示/隐藏')}}</span>
-
               <el-popover width="280"
                           :content="text">
                 <div slot="reference">
@@ -115,9 +117,9 @@
 
               </div>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
-        <iPagination style="margin-top:20px"
+        <!-- <iPagination style="margin-top:20px"
                      v-update
                      @size-change="handleSizeChange($event, getList)"
                      @current-change="handleCurrentChange($event, getList)"
@@ -126,7 +128,7 @@
                      :page-size="page.pageSize"
                      :layout="page.layout"
                      :current-page="page.currPage"
-                     :total="page.totalCount" />
+                     :total="page.totalCount" /> -->
       </div>
     </div>
   </i-dialog>
@@ -157,7 +159,7 @@ export default {
   },
   data() {
     return {
-      text: '显示：显示的供应商标签会在界面中展示;<br/> 隐藏：隐藏的供应商标签不会在界面中展示。',
+      text: '显示：显示的供应商标签会在界面中展示;隐藏：隐藏的供应商标签不会在界面中展示。',
       tabledata: [],
       setTagCloum: setTagCloum,
       tableLoading: false,
@@ -189,22 +191,27 @@ export default {
       const req = {
         supplierId: this.rowList.subSupplierId,
         ...this.form,
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize
+        pageNo: 1,
+        pageSize: 9999
       }
       supplierTagPage(req).then((res) => {
         if (res && res.code == 200) {
           this.tableLoading = false
           this.tabledata = res.data
           this.page.totalCount = res.total
+          this.$nextTick(function()  {
+            this.tabledata.forEach((e) => {
+              if (e.isBinding == 1) {
+                this.$refs.mulitipleTable.toggleRowSelection(e, true)
+              }
+            })
+          })
+
         } else iMessage.error(res.desZh)
       })
     },
     clickBtn() {
-      if (this.selectArr.length == 0) {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
-        return false
-      }
+   
       const req = {
         supplierId: this.rowList.subSupplierId,
         tagIdAll: this.tabledata.map((x) => {
@@ -242,18 +249,18 @@ export default {
     },
 
     sure() {
-      this.page.currPage = 1
-      this.page.pageSize = 10
+    //   this.page.currPage = 1
+    //   this.page.pageSize = 10
       this.getList()
     },
     clickReset() {
-      this.page.currPage = 1
-      this.page.pageSize = 10
+    //   this.page.currPage = 1
+    //   this.page.pageSize = 10
       this.form = {}
       this.getList()
     },
     selectable(val) {
-      if (val.isBinding != 1 && val.tagTypeVale == '手工维护') {
+      if (val.tagTypeVale == '手工维护') {
         return true
       }
     }
@@ -262,6 +269,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.tableBox {
+
+}
 .changeContent {
   padding: 0px 10px 20px 10px;
 }
@@ -275,6 +285,8 @@ export default {
     border-bottom: 1px solid #e3e3e3;
   }
   .section {
+        max-height: 700px;
+  overflow-y: auto;
     .sectionTitle {
       display: flex;
       justify-content: space-between;

@@ -41,7 +41,7 @@
     <div class="btn-button" @click="handleShow">
       <img src="~@/assets/images/leftContent.png" alt="" />
     </div>
-    <div class="povper-content">
+    <div class="povper-content" v-show="contentShowFlag">
       <div v-for="(list, index) in popoverList" :key="index">
         <div class="item-content" @click="handleClick(list)">
           {{ list.name }}
@@ -134,7 +134,7 @@ export default {
         item.key = item.id
         item.permissionKey === 'RISE_HOME'
           ? // item.url.slice(9)//
-            (item.url = item.url = process.env.VUE_APP_HOST + item.url)
+            (item.url = process.env.VUE_APP_HOST + item.url)
           : ''
         if (
           item.parentId &&
@@ -142,7 +142,7 @@ export default {
           item.url.indexOf('http') === -1 &&
           item.url.indexOf('https') === -1
         ) {
-          item.url = process.env.VUE_APP_HOST + item.url //item.url.slice(9)//
+          item.url = process.env.VUE_APP_HOST + item.url
         } else {
           item.url = item.url || ''
         }

@@ -88,6 +88,13 @@ export default {
       default: false
     }
   },
+  watch:{
+    supplierData(val){
+    if(val.purchaserJobNumber){
+        this.supplierData.userNum=val.purchaserJobNumber
+    }
+}
+  },
   data() {
     return {
       purchaseRules: purchaseRules,
@@ -98,7 +105,7 @@ export default {
     this.getDictByCode()
   },
   mounted() {
-    console.log(this.supplierData)
+ 
     if (this.$route.query.user && !this.supplierData.purchaserEmail) {
       this.supplierData.purchaserEmail = this.$route.query.user
       this.getUserInfo()
@@ -123,6 +130,7 @@ export default {
             'purchaserSection',
             res.data.purchaserSection
           )
+       
           if (!this.supplierData.supplierType)
             this.supplierData.supplierType = res.data.sapUserType || ''
         }
