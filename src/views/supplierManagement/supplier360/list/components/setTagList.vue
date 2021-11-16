@@ -14,7 +14,9 @@
         <el-form inline
                  label-position="top">
           <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
-            <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+            <iSelect  multiple
+                   collapse-tags
+                   filterable :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
                      v-model="form.tagNameList">
               <el-option v-for="item in tagdropDownList"
                          :key="item.code"
@@ -249,7 +251,9 @@ export default {
     clickReset() {
       this.page.currPage = 1
       this.page.pageSize = 10
-      this.form = {}
+      this.form = {
+          
+      }
       this.getList()
     },
     selectable(val) {
