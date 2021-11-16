@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-16 18:01:58
+ * @LastEditTime: 2021-11-16 21:04:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -252,6 +252,8 @@ export default {
       uploadBasePriceChange(params).then((res) => {
         if (res.code === '200') {
           iMessage.success(res.desZh)
+        } else {
+          iMessage.error(res.desZh)
         }
       })
     },

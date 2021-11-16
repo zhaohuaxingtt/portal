@@ -148,9 +148,9 @@ export default {
           }
         },
         disabledDate(time) {
-          if (that.selectDate !== '') {
+          // if (that.selectDate !== '') {
             return time.getTime() < Date.now() - 8.64e7
-          }
+          // }
         }
       },
       rules: {
