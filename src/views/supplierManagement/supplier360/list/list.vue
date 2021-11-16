@@ -113,22 +113,31 @@
       </el-form>
     </iSearch>
     <i-card class="margin-top20">
-      <div class="margin-bottom20 clearFloat"
-           v-if="$store.state.permission.userInfo.userType!=1">
+      <div class="margin-bottom20 clearFloat">
+
         <div class="floatright">
-          <i-button @click="setTagBtn">{{
+          <i-button @click="tagTab"
+                    v-if="$store.state.permission.userInfo.userType!=1">{{
+            language('GONGYINGSHANGBIAOQIAN', '供应商标签')
+          }}</i-button>
+          <i-button @click="setTagBtn"
+                    v-if="$store.state.permission.userInfo.userType!=1">{{
             language('BIAOQIANSHEZHI', '标签设置')
           }}</i-button>
-          <i-button @click="lacklistBtn('join', language('JIARU', '加入'))">{{
+          <i-button @click="lacklistBtn('join', language('JIARU', '加入'))"
+                    v-if="isCgy||$store.state.permission.userInfo.userType==2">{{
             $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN')
           }}</i-button>
-          <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))">{{
+          <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))"
+                    v-if="isCgy||$store.state.permission.userInfo.userType==2">{{
             $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN')
           }}</i-button>
-          <i-button @click="handleRating">{{
+          <i-button @click="handleRating"
+                    v-if="$store.state.permission.userInfo.userType!=1">{{
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
-          <i-button @click="handleRegister">{{
+          <i-button @click="handleRegister"
+                    v-if="$store.state.permission.userInfo.userType!=1">{{
             $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
           }}</i-button>
         </div>
@@ -338,7 +347,7 @@ export default {
       tableLoading: false,
       selectTableData: [],
       selectTableList: {},
-
+      isCgy: false,
       userType: 'LINIE',
       form: {
         supplierName: '',
@@ -372,9 +381,9 @@ export default {
   },
   created() {
     this.handleInfo()
-    this.$nextTick(() => {
-      this.getUserType()
-    })
+    // this.$nextTick(() => {
+    this.getUserType()
+    // })
   },
   methods: {
     getUserType() {
@@ -386,11 +395,12 @@ export default {
             this.form.supplierType = 'PP'
             this.userType = ''
           }
-          if (this.userType == 'LINIE' || this.userType == 'PRE')
+          if (this.userType == 'LINIE' || this.userType == 'PRE') {
             this.form.supplierType = 'PP'
+            this.isCgy = true
+          }
           if (this.userType == 'GP') this.form.supplierType = 'GP'
-
-          console.log(this.userType)
+          console.log(this.isCgy)
 
           this.getTableList(this.form.supplierType)
         } else {
@@ -520,6 +530,12 @@ export default {
     handleTagsList(row) {
       this.rowList = row
       this.issetTagList = true
+    },
+    tagTab() {
+        let routeData = this.$router.resolve({
+        path: '/supplier/supplierTag'
+       })
+            window.open(routeData.href)
     },
     async handleRating() {
       if (this.selectTableData.length === 0) {

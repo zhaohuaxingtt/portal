@@ -411,7 +411,10 @@ export default {
     },
     getTaleList() {
       this.tableLoading = true
+      if( this.form.sapCode.length>0|| this.form.supplierName.length>0){
       this.form.supplierId = this.form.sapCode.concat(this.form.supplierName)
+
+      }
       // this.form.rfqStatus = [this.form.rfqStatus]
       const req = {
         ...this.form
@@ -506,6 +509,19 @@ export default {
       this.getTaleList()
     },
     changeTab() {
+         this.userList = []
+      this.form = {
+        deptId: [],
+        userId: [],
+        iscRating: '',
+        ratingSource: [],
+        cancelReason: [],
+        rfqStatus: [],
+        partNum: [],
+        rfq: [],
+        motorProject: [],
+        motorType: [],
+      }
       this.getTaleList()
     },
     closeDiolog() {
