@@ -12,16 +12,18 @@
             name="iconcaiwuyujing-icon"></icon>
       <div class="boxText">
         <div> {{info.currentScore}} <div>
-            <icon v-if="info.percent>0"
+            <icon v-if="info.upDown>0"
                   symbol
-                  :class="parseInt(info.percent)>=0?'green':'orgin'"
+                  class="green"
                   name="iconpaixu-xiangshang"> </icon>
-            <icon v-if="info.percent<0"
+            <icon v-if="info.upDown<0"
                   symbol
-                  :class="parseInt(info.percent)>=0?'green':'orgin'"
+                  class="orgin"
                   name="iconpaixu-xiangxia"> </icon>
-            <span v-if="info.percent!=0"
-                  :class="parseInt(info.percent)>=0?'green':'orgin'">{{info.percent?parseInt(info.percent).toString():'' }}% </span>
+            <span v-if="info.upDown>0"
+                  class='green'>{{info.percent?parseInt(info.percent).toString():'' }}% </span>
+                              <span v-if="info.upDown<0"
+                  class="orgin">{{info.percent?'-'+parseInt(info.percent).toString():'' }}% </span>
           </div>
         </div>
         <p>{{language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署')}} <span v-if="info.developScore!=0"

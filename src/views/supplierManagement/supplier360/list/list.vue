@@ -117,7 +117,7 @@
 
         <div class="floatright">
           <i-button @click="tagTab"
-                     v-if="relatedToMe">{{
+                     >{{
             language('GONGYINGSHANGBIAOQIAN', '供应商标签')
           }}</i-button>
           <i-button @click="setTagBtn"
@@ -137,7 +137,7 @@
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
           <i-button @click="handleRegister"
-                     v-if="relatedToMe">{{
+                     >{{
             $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
           }}</i-button>
         </div>
@@ -574,9 +574,9 @@ export default {
     },
     handleSearchReset() {
       if (this.$store.state.permission.userInfo.userType == 2) {
-        this.form.relatedToMe == true
+        this.form.relatedToMe = true
           this.relatedToMe=true
-      } else
+      } 
         this.form = {
           supplierName: '',
           socialcreditNo: '',
@@ -599,9 +599,9 @@ export default {
     async getTableList() {
       this.tableLoading = true
       if (this.$store.state.permission.userInfo.userType == 2) {
-        this.form.relatedToMe = true
         this.relatedToMe=true
       }
+       this.form.relatedToMe = true
       const pms = {
         ...this.form,
         sortColumn: 'string',
