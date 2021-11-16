@@ -5,7 +5,7 @@
         <img :src="meetingHall" />
       </div>
     </div>
-    <div v-loading="loading">
+    <div v-loading="loading" style="min-height: 200px">
       <ul class="content-list" v-if="tableData.length > 0">
         <li
           class="content"

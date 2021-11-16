@@ -114,54 +114,29 @@
     </iSearch>
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
-        <!-- <div class="floatright">
-          <i-button @click="tagTab"
-                    v-permission="PORTAL.SUPPLIER.GONGYINGSHANGBIAOQIAN"
-                    v-if="relatedToMe">{{
-            language('GONGYINGSHANGBIAOQIAN', '供应商标签')
-          }}</i-button>
-          <i-button @click="setTagBtn"
-                    v-permission="PORTAL.SUPPLIER.BIAOQIANSHEZHI"
-                    v-if="relatedToMe">{{
-            language('BIAOQIANSHEZHI', '标签设置')
-          }}</i-button>
-          <i-button @click="lacklistBtn('join', language('JIARU', '加入'))"
-                    v-permission="PORTAL.SUPPLIER.JIARUHEIMINGDAN"
-                    v-if="relatedToMe">{{
-            $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN')
-          }}</i-button>
-          <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))"
-                    v-permission="PORTAL.SUPPLIER.YICHUHEIMINGDAN"
-                    v-if="relatedToMe">{{
-            $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN')
-          }}</i-button>
-          <i-button @click="handleRating"
-                    v-permission="PORTAL.SUPPLIER.FAQICHUPINGQINGDAN"
-                    v-if="relatedToMe">{{
-            $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
-          }}</i-button>
-          <i-button @click="handleRegister">{{
-            $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
-          }}</i-button>
-        </div> -->
         <div class="floatright">
           <i-button @click="tagTab"
+                    v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN"
                     v-if="relatedToMe">{{
             language('GONGYINGSHANGBIAOQIAN', '供应商标签')
           }}</i-button>
           <i-button @click="setTagBtn"
+                    v-permission="PORTAL_SUPPLIER_BIAOQIANSHEZHI"
                     v-if="relatedToMe">{{
             language('BIAOQIANSHEZHI', '标签设置')
           }}</i-button>
           <i-button @click="lacklistBtn('join', language('JIARU', '加入'))"
+                    v-permission="PORTAL_SUPPLIER_JIARUHEIMINGDAN"
                     v-if="relatedToMe">{{
             $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN')
           }}</i-button>
           <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))"
+                    v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN"
                     v-if="relatedToMe">{{
             $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN')
           }}</i-button>
           <i-button @click="handleRating"
+                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN"
                     v-if="relatedToMe">{{
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
