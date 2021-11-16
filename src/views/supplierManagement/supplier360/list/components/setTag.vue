@@ -4,7 +4,7 @@
 -->
 <template>
   <iDialog @close="closeDiolog()"
-           :title="language('GONGYINGSHANGBIAOQIANKU', '供应商标签库')"
+           :title="language('GONGYINGSHANGBIAOQIAN', '供应商标签')"
            :visible.sync="value"
            width="30%">
     <el-form label-position="top">
@@ -90,7 +90,7 @@ export default {
     //保存
     handleBtn() {
       if (this.form.operationType == '' || this.form.tagIds.length == 0) {
-        iMessage.warn(this.language('QINGSHURUWANCHENG', '请输入完成'))
+        iMessage.warn(this.language('QINGWANCHENGXUANZE', '请完成选择'))
         return false
       }
       const req = {

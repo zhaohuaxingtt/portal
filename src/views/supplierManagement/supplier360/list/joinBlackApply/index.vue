@@ -5,9 +5,9 @@
 <template>
   <div>
     <iPage>
-      <div class="headerTitle">
+      <div v-if="ifSelf" class="headerTitle">
         <p>加入黑名单申请 - 生产采购</p>
-        <div v-if="ifSelf">
+        <div >
           <iButton @click="handleBtn(2)">{{
             language('PIZHUN', '批准')
           }}</iButton>
