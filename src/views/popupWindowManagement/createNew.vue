@@ -86,7 +86,7 @@ export default {
                     if(window.opener){
                         window.opener.location.reload()
                         window.setTimeout(()=>{
-                            // window.close()
+                            window.close()
                         },1000)
                     }
                 }else{

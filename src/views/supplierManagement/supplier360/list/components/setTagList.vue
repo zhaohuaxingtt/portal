@@ -88,7 +88,7 @@
                            label="系统判断标准"> <template slot-scope="scope">
               <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
             </template> </el-table-column>
-          <el-table-column width="150"
+          <!-- <el-table-column width="150"
                            align="center"
                            prop="isShow"
                            :label="
@@ -117,9 +117,9 @@
 
               </div>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
-        <iPagination style="margin-top:20px"
+        <!-- <iPagination style="margin-top:20px"
                      v-update
                      @size-change="handleSizeChange($event, getList)"
                      @current-change="handleCurrentChange($event, getList)"
@@ -128,7 +128,7 @@
                      :page-size="page.pageSize"
                      :layout="page.layout"
                      :current-page="page.currPage"
-                     :total="page.totalCount" />
+                     :total="page.totalCount" /> -->
       </div>
     </div>
   </i-dialog>
@@ -191,8 +191,8 @@ export default {
       const req = {
         supplierId: this.rowList.subSupplierId,
         ...this.form,
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize
+        pageNo: 1,
+        pageSize: 9999
       }
       supplierTagPage(req).then((res) => {
         if (res && res.code == 200) {
@@ -211,10 +211,7 @@ export default {
       })
     },
     clickBtn() {
-      if (this.selectArr.length == 0) {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
-        return false
-      }
+   
       const req = {
         supplierId: this.rowList.subSupplierId,
         tagIdAll: this.tabledata.map((x) => {
@@ -252,13 +249,13 @@ export default {
     },
 
     sure() {
-      this.page.currPage = 1
-      this.page.pageSize = 10
+    //   this.page.currPage = 1
+    //   this.page.pageSize = 10
       this.getList()
     },
     clickReset() {
-      this.page.currPage = 1
-      this.page.pageSize = 10
+    //   this.page.currPage = 1
+    //   this.page.pageSize = 10
       this.form = {}
       this.getList()
     },
@@ -272,6 +269,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.tableBox {
+
+}
 .changeContent {
   padding: 0px 10px 20px 10px;
 }
@@ -285,6 +285,8 @@ export default {
     border-bottom: 1px solid #e3e3e3;
   }
   .section {
+        max-height: 700px;
+  overflow-y: auto;
     .sectionTitle {
       display: flex;
       justify-content: space-between;

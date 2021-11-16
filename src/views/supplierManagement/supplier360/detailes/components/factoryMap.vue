@@ -15,7 +15,7 @@
           <div class="titleZh margin-right10">{{info.nameZh}}</div>
           <span class="titleEn">{{info.nameEn}}</span>
         </div>
-        <div class="tagStyle">
+        <div class="tagStyle" v-if="tagList.length>0">
 
           <el-popover placement="top-end"
                       width="200"
