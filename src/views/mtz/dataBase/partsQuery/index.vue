@@ -32,9 +32,9 @@
                          filterable
                          collapse-tags
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="existShareNum"
-                         value-member="existShareId"
-                         value-key="existShareId" />
+                         display-member="departNameEn"
+                         value-member="departId"
+                         value-key="departId" />
         </el-form-item>
         <el-form-item label="市场价来源"
                       class="SearchOption">
@@ -226,7 +226,8 @@ import {
   getMtzMarketSourceList,
   mtzBasePriceEdit,
   historyPage,
-  uploadPartExcel
+  uploadPartExcel,
+  queryDeptSection
 } from '@/api/mtz/database/partsQuery'
 // import {selectDictByKeys} from '@/api/dictionary'
 import { downloadFileByUrl } from '@/utils';
@@ -272,7 +273,7 @@ export default {
   },
   mounted () {
     this.initSearchData()
-    getDeptData().then(res => { this.departmentDrop = res.data })//初始化科室
+    queryDeptSection({}).then(res => { this.departmentDrop = res.data })//初始化科室
     // selectDictByKeys('keys=MTZ_MAKE_CYCLE').then(res=>{this.sendersCycle=res.data.MTZ_MAKE_CYCLE})//补差周期
     this.sendersCycle = [
       { value: 'A', name: '年度' },
