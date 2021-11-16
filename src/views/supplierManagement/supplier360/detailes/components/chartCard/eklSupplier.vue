@@ -24,10 +24,17 @@
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, icon, iMessage } from 'rise'
+import { iCard, icon } from 'rise'
 import { getSupplierCard } from '@/api/supplierManagement/supplierCard/index'
 export default {
-  props: {},
+  props: {
+         infodata: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
   components: {
     iCard,
     icon
@@ -43,14 +50,17 @@ export default {
       return {}
     }
   },
-  watch: {},
+  watch: {
+       infodata(data) {
+         this.getData(data.sapCode)
+    }
+  },
   mounted() {
-    this.getData()
   },
   methods: {
     getData() {
       let req = {
-        supplierSapCode: this.$route.query.subSupplierId
+        supplierSapCode: this.infodata.sapCode
       }
       getSupplierCard(req).then((res) => {
           this.info =res.data

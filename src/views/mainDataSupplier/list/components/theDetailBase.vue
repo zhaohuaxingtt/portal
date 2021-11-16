@@ -212,7 +212,10 @@
           </iFormItem>
         </el-col> -->
         <el-col :span="6">
-          <iFormItem :label="$t('签订采购条款?')">
+          <iFormItem :label="language(
+                'QIANDINGCAIGOUTIAOKUAN',
+                '签订采购条款'
+              )">
             <iSelect :disabled="!editable">
               <el-option
                 v-for="item in supplierStatus"

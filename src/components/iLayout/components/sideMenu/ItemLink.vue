@@ -80,6 +80,11 @@ export default {
       const url =
         this.item.url?.match(/((?<=#).*(?=\?))|((?<=#).*)/g) &&
         this.item.url?.match(/((?<=#).*(?=\?))|((?<=#).*)/g)[0]
+      console.log(
+        'this.item.url',
+        this.item.url,
+        this.item.url?.match(/((?<=#).*(?=\?))|((?<=#).*)/g)
+      )
       for (let key in list) {
         if (
           (list[key].path && url === list[key].path) ||

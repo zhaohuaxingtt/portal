@@ -216,8 +216,9 @@ export default {
                   histories.push({ ...e, time, oprateTime })
                 })
               }
-              console.log('histories', histories)
-              this.form.histories = histories
+              this.form.histories = histories.filter(
+                (e) => !['AutoCompleted'].includes(e.comment)
+              )
               this.flowFormUrl = data.formUrl
             } else {
               iMessage.error(res.desZh || '获取数据失败')

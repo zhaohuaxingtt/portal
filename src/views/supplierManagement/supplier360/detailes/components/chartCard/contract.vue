@@ -100,6 +100,7 @@ export default {
           trigger: 'item'
         },
         legend: {
+          type: 'scroll',
           bottom: 0,
           icon: 'circle',
           textStyle: {
@@ -215,7 +216,7 @@ export default {
       //   console.log(data1)
       //   console.log(data2)
       //   console.log(data3)
-      //   console.log(barData)
+      console.log(barData)
       //   console.log(sumData)
       let title = 'Turnover' || val
       const myChart = echarts().init(this.$refs.chart2)
@@ -252,6 +253,20 @@ export default {
           textStyle: {
             align: 'left'
           },
+        //   formatter: function (params) {
+        //    let str = ''
+        //     params.forEach((item, idx) => {
+        //         // console.log(item)
+        //       item.data = Math.abs(item.data)
+        //       if (idx == 2) {
+        //         item.data = item.data - params[0].data
+        //       }
+        //       str += `${item.marker}\n${item.name}<br/> ${item.marker}\n${item.data}`
+           
+        //       str += idx === params.length - 1 ? '' : '<br/>'
+        //     })
+        //     return str
+        //   }
         },
         grid: {
           top: '18%',

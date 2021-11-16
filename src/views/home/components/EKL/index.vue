@@ -41,7 +41,7 @@
             >
               {{
                 parseFloat(tabsData.totalTarget)
-                  ? parseFloat(tabsData.totalTarget)
+                  ? parseFloat(tabsData.totalTarget).toFixed(2)
                   : '0.00'
               }}<span style="color: #1763f7; font-size: 24px">%</span>
             </div>
@@ -328,7 +328,7 @@ export default {
     }
     > .middle {
       color: #1763f7;
-      font-size: 48px;
+      font-size: 40px;
       min-width: 120px;
     }
     > .middle-m {
