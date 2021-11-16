@@ -62,7 +62,7 @@
                          multiple
                          clearable
                          :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="existShareName"
+                         display-member="existShareNum"
                          value-member="existShareId"
                          value-key="existShareId">
           </custom-select>
@@ -196,8 +196,16 @@ export default {
   data () {
     return {
       mtzReasonShow: false,
-      searchForm: {},
-
+      searchForm: {
+        mtzAppId:[],
+        appStatus: [],
+        flowType: [],
+        linieDeptId: [],
+        materialCode: [],
+        assemblyPartnum:[],
+        buyer:[],
+        ttNominateAppId:[],
+      },
       getFlowTypeList: [],
       getLocationApplyStatus: [],
       linieDeptId: [],//科室
@@ -274,7 +282,16 @@ export default {
       this.getTableList();
     },
     reset () {
-      this.searchForm = {}
+      this.searchForm = {
+        mtzAppId:[],
+        appStatus: [],
+        flowType: [],
+        linieDeptId: [],
+        materialCode: [],
+        assemblyPartnum:[],
+        buyer:[],
+        ttNominateAppId:[],
+      },
       this.value = [];
       this.value1 = [];
       this.page.currPage = 1

@@ -42,9 +42,9 @@
                          multiple
                          filterable
                          :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="materialGroupNameZh"
-                         value-member="materialGroupCode"
-                         value-key="materialGroupCode">
+                         display-member="modelNameZh"
+                         value-member="id"
+                         value-key="id">
                 </custom-select>
             </iFormItem>
             <iFormItem prop="supplierId">
@@ -272,6 +272,9 @@ import {
   getMtzSupplierList,//获取原材料牌号
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 import {
+  cartypePaged,//车型
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
+import {
   addAppRule,//维护MTZ原材料规则-新增
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { 
@@ -347,10 +350,16 @@ export default {components: {
             },
         ],
         tcCurrence:[//货币
-
+            {
+                code:"0",
+                message:"RMB"
+            }
         ],
         priceMeasureUnit:[//基价计量单位
-
+            {
+                code:"0",
+                message:"KG"
+            }
         ],
         supplierList:[],//供应商
         carline:[],//车型
@@ -360,7 +369,8 @@ export default {components: {
             compensationRatio:1,
             materialName:'',
             threshold:0,
-            endDate:"2999-12-31"
+            endDate:"2999-12-31 00:00:00",
+            source:"JD"
         },
         rules: {
             effectFlag: [{ required: true, message: '请选择', trigger: 'blur' }],
@@ -416,6 +426,12 @@ export default {components: {
     })
     fetchRemoteMtzMaterial({}).then(res=>{
         this.materialGroup = res.data;
+    })
+    cartypePaged({
+        current:1,
+        size:99999,
+    }).then(res=>{
+        this.carline = res.data;
     })
   },
   computed:{

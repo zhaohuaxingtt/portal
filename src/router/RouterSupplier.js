@@ -156,7 +156,12 @@ export default [{
     component: () =>
         import('@/views/supplierManagement/supplierKPI/supplierIndex/index.vue')
 },
-
+{
+    path: '/supplier/supplierTag',
+    name: 'supplierTag',
+    component: () =>
+      import('@/views/supplierManagement/supplierTag/index.vue')
+  },
 {
     path: '/supplier/supplierIndex',
     name: 'supplierIndex',
@@ -208,12 +213,7 @@ export default [{
     name: 'suppliersDetails',
     component: SuppliersDetails
   },
-  {
-    path: 'supplierTag',
-    name: 'supplierTag',
-    component: () =>
-      import('@/views/supplierManagement/supplierTag/index.vue')
-  },
+ 
   {
     path: 'NTier',
     name: 'NTier',
