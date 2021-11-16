@@ -148,7 +148,7 @@
         </iFormItem>
         <iFormItem>
           <iLabel :label="language('暂作价采购组')" slot="label"></iLabel>
-          <iSelect v-model="positionObj.tempPurchaseGroup">
+          <iSelect v-model="positionObj.tempPurchaseGroup" filterable>
             <el-option
               v-for="item in tempPurchasegroupOptions"
               :key="item.id"
@@ -159,7 +159,19 @@
         </iFormItem>
         <iFormItem prop="set">
           <iLabel :label="language('SET组')" slot="label"></iLabel>
-          <iSelect v-model="positionObj.setCode"> </iSelect>
+          <iSelect
+            v-model="positionObj.setCode"
+            multiple
+            filterable
+            collapse-tags
+          >
+            <el-option
+              v-for="item in setCodeOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.code"
+            />
+          </iSelect>
         </iFormItem>
       </iFormGroup>
 
@@ -180,6 +192,7 @@ import {
 } from 'rise'
 import dTable from './dTable.vue'
 import { queryPurchasegroup } from '@/api/position'
+import { getProGroupOptions } from '@/api/materiel/materielMainData'
 export default {
   components: {
     iCard,
@@ -218,12 +231,14 @@ export default {
         }
       ],
       purchasegroupOptions: [],
-      tempPurchasegroupOptions: []
+      tempPurchasegroupOptions: [],
+      setCodeOptions: []
     }
   },
   created() {
     this.queryPurchasegroupOptions()
     this.queryTempPurchasegroupOptions()
+    this.queryProGroupOptions()
   },
   computed: {
     positionObj() {
@@ -245,6 +260,10 @@ export default {
     async queryTempPurchasegroupOptions() {
       const res = await queryPurchasegroup({ isProvisionalPrice: true })
       this.tempPurchasegroupOptions = res.data
+    },
+    async queryProGroupOptions() {
+      const res = await getProGroupOptions()
+      this.setCodeOptions = res.data
     }
   }
 }

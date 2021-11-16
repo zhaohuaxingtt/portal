@@ -198,8 +198,13 @@ const position = {
     /**---------------------------------------------------------------- */
 
     SET_POSITION_DETAIL: (state, data) => {
-      state.pos.positionDetail = _.cloneDeep(data)
-      state.pos.originPosDetail = _.cloneDeep(data)
+      const dataVal = data
+      if (dataVal.setCode) {
+        dataVal.setCode = dataVal.setCode.split(',')
+      }
+      state.pos.positionDetail = _.cloneDeep(dataVal)
+      state.pos.originPosDetail = _.cloneDeep(dataVal)
+
       window.sessionStorage.setItem(
         window.btoa('position_detail'),
         JSON.stringify(state.pos.positionDetail)
@@ -600,6 +605,7 @@ const position = {
         obj = item.dimensionObj
         temp.push(obj)
       })
+      const { setCode } = this.state.position.pos.positionDetail
       const params = {
         code: this.state.position.pos.positionDetail.code,
         description: this.state.position.pos.positionDetail.description,
@@ -613,7 +619,7 @@ const position = {
         purchaseGroup: this.state.position.pos.positionDetail.purchaseGroup,
         tempPurchaseGroup:
           this.state.position.pos.positionDetail.tempPurchaseGroup,
-        setCode: this.state.position.pos.positionDetail.setCode
+        setCode: setCode ? setCode.join(',') : ''
       }
       const res = await SavePosition(params)
       return res
@@ -680,6 +686,7 @@ const position = {
         obj = item.dimensionObj
         temp.push(obj)
       })
+      const { setCode } = this.state.position.pos.positionDetail
       const params = {
         id: this.state.position.pos.positionDetail.id,
         code: this.state.position.pos.positionDetail.code,
@@ -694,7 +701,7 @@ const position = {
         purchaseGroup: this.state.position.pos.positionDetail.purchaseGroup,
         tempPurchaseGroup:
           this.state.position.pos.positionDetail.tempPurchaseGroup,
-        setCode: this.state.position.pos.positionDetail.setCode
+        setCode: setCode ? setCode.join(',') : ''
       }
       const res = await UpdatePosition(params)
       return res
