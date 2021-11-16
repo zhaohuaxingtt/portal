@@ -1,6 +1,6 @@
 export const tableTitle = [
     { props: 'id', name: '申请单号', key: 'SHENQINGDANHAO' },
-    { props: 'mtzAppId', name: '关联申请单号', key: 'GUANLIANSHENQINGDANHAO' },
+    { props: 'ttNominateAppId', name: '关联申请单号', key: 'GUANLIANSHENQINGDANHAO' },
     { props: 'appName', name: '申请单名称', key: 'SHENQINGDANMINGCHENG' },
     { props: 'flowTypeDesc', name: '流程类型', key: 'LIUCHENGLEIXING' },
     { props: 'appStatusDesc', name: '申请状态', key: 'SHENQINGZHUANGTAI' },
