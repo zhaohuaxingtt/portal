@@ -57,3 +57,14 @@ export function getPopupList(data){
         data
     })
 }
+
+//改成这条消息已读
+export function changeCheckedSta(data){
+    const userId = data.userId
+    const popupId = data.popupId
+    return request({
+        url:`/popup/detail/${userId}/${popupId}`,
+        method:'GET',
+        // params:data
+    })
+}
