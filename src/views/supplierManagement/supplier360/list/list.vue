@@ -117,11 +117,11 @@
 
         <div class="floatright">
           <i-button @click="tagTab"
-                    v-if="$store.state.permission.userInfo.userType!=1">{{
+                     v-if="relatedToMe">{{
             language('GONGYINGSHANGBIAOQIAN', '供应商标签')
           }}</i-button>
           <i-button @click="setTagBtn"
-                    v-if="$store.state.permission.userInfo.userType!=1">{{
+                     v-if="relatedToMe">{{
             language('BIAOQIANSHEZHI', '标签设置')
           }}</i-button>
           <i-button @click="lacklistBtn('join', language('JIARU', '加入'))"
@@ -133,11 +133,11 @@
             $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN')
           }}</i-button>
           <i-button @click="handleRating"
-                    v-if="$store.state.permission.userInfo.userType!=1">{{
+                     v-if="relatedToMe">{{
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
           <i-button @click="handleRegister"
-                    v-if="$store.state.permission.userInfo.userType!=1">{{
+                     v-if="relatedToMe">{{
             $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
           }}</i-button>
         </div>
@@ -575,6 +575,7 @@ export default {
     handleSearchReset() {
       if (this.$store.state.permission.userInfo.userType == 2) {
         this.form.relatedToMe == true
+          this.relatedToMe=true
       } else
         this.form = {
           supplierName: '',

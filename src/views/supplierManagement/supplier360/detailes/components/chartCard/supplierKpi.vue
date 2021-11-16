@@ -21,11 +21,11 @@
                   :class="parseInt(info.percent)>=0?'green':'orgin'"
                   name="iconpaixu-xiangxia"> </icon>
             <span v-if="info.percent!=0"
-                  :class="parseInt(info.percent)>=0?'green':'orgin'">{{parseInt(info.percent).toString() }}% </span>
+                  :class="parseInt(info.percent)>=0?'green':'orgin'">{{info.percent?parseInt(info.percent).toString():'' }}% </span>
           </div>
         </div>
         <p>{{language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署')}} <span v-if="info.developScore!=0"
-                :class="parseInt(info.developScore)>=0?'green':'orgin'"> {{info.developScore.toString()}}%</span></p>
+                :class="parseInt(info.developScore)>=0?'green':'orgin'"> {{info.developScore?info.developScore.toString():''}}%</span></p>
         <p>{{language('WURANWEIGUI', '污染违规')}} <span></span></p>
       </div>
       <div ref="chart"
