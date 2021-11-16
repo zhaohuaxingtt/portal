@@ -574,9 +574,9 @@ export default {
     },
     handleSearchReset() {
       if (this.$store.state.permission.userInfo.userType == 2) {
-        this.form.relatedToMe == true
+        this.form.relatedToMe = true
           this.relatedToMe=true
-      } else
+      } 
         this.form = {
           supplierName: '',
           socialcreditNo: '',
@@ -599,9 +599,9 @@ export default {
     async getTableList() {
       this.tableLoading = true
       if (this.$store.state.permission.userInfo.userType == 2) {
-        this.form.relatedToMe = true
         this.relatedToMe=true
       }
+       this.form.relatedToMe = true
       const pms = {
         ...this.form,
         sortColumn: 'string',

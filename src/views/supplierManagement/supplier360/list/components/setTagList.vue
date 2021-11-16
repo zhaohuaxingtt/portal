@@ -88,7 +88,7 @@
                            label="系统判断标准"> <template slot-scope="scope">
               <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
             </template> </el-table-column>
-          <el-table-column width="150"
+          <!-- <el-table-column width="150"
                            align="center"
                            prop="isShow"
                            :label="
@@ -117,7 +117,7 @@
 
               </div>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
         <iPagination style="margin-top:20px"
                      v-update
@@ -211,10 +211,7 @@ export default {
       })
     },
     clickBtn() {
-      if (this.selectArr.length == 0) {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
-        return false
-      }
+   
       const req = {
         supplierId: this.rowList.subSupplierId,
         tagIdAll: this.tabledata.map((x) => {
