@@ -378,7 +378,7 @@ export default {
       console.log(val)
     },
     country(val) {
-      if (val > 0) {
+      if (val.length > 0) {
         console.log(val)
         this.getisForeignCountry(val)
       }
