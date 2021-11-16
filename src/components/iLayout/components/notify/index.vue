@@ -27,7 +27,8 @@ export default {
       closePopupSocket: null,
       handelClick:[],
       iniTimes:0,
-      showItems:0
+      showItems:0,
+      detaliData:{}
     }
   },
   mounted() {
@@ -35,6 +36,7 @@ export default {
       let _this = this
       const data = res.msgTxt
       this.popupDataList.push(data) 
+      console.log(this.showItems,'this.showItems');
       if(this.showItems < 5){
         this.showItems++
       }else{
@@ -43,10 +45,13 @@ export default {
             this.iniTimes++
           }while(!this.handelClick.includes(this.iniTimes))
         }
+        console.log(this.iniTimes,'this.iniTimes');
           this.closeItemList[this.iniTimes].close()
+          console.log('-------');
+          this.showItems--
           this.iniTimes++
       }
-      if (data.type == 5 && data.subType == 4) {
+      if (data.type ==4  && data.subType == 5) {
         const index = _this.closeItemList.length 
           this.closeItemList.push ( this.$notify({
             duration: 0,
@@ -132,23 +137,29 @@ export default {
 
       this.showDialog = true
       this.handelClick.push(index)
-      this.detail = {
-        title: this.popupDataList[index].popupName ? this.popupDataList[index].popupName: this.popupDataList[index].title,
-        content: this.popupDataList[index].content,
-        picUrl: this.popupDataList[index].picUrl ? this.popupDataList[index].picUrl : JSON.parse(this.popupDataList[index].param).picUrl,
-        linkUrl: this.popupDataList[index].linkUrl ? this.popupDataList[index].linkUrl : this.popupDataList[index].url
-      }
-      this.closeItemList[index].close()
-      console.log(this.popupDataList[index],'this.popupDataList[index]');
       const data = {
         userId:JSON.parse(sessionStorage.getItem('userInfo')).accountId,
-        popupId:this.popupDataList[index].id
+        popupId:this.popupDataList[index].id || JSON.parse(this.popupDataList[index].param).popupId
       }
       changeCheckedSta(data).then((res)=>{
-        if(res.code != 200){
+        if(res.code == 200){
+          const data = res.data
+          this.detaliData = data
+          this.detail = {
+            title: this.detaliData.popupName,
+            content: this.detaliData.content,
+            picUrl: this.detaliData.picUrl,
+            linkUrl: this.detaliData.linkUrl
+          }
+          this.closeItemList[index].close()
+          this.showItems--
+          console.log(this.showItems--,'this.showItems--');
+        }else{
           this.$message.error(res.desZh)
         }
       })
+      
+      
     }
   }
 }
