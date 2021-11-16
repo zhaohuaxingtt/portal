@@ -125,11 +125,11 @@
             language('BIAOQIANSHEZHI', '标签设置')
           }}</i-button>
           <i-button @click="lacklistBtn('join', language('JIARU', '加入'))"
-                    v-if="isCgy||$store.state.permission.userInfo.userType==2">{{
+                    v-if="relatedToMe">{{
             $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN')
           }}</i-button>
           <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))"
-                    v-if="isCgy||$store.state.permission.userInfo.userType==2">{{
+                    v-if="relatedToMe">{{
             $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN')
           }}</i-button>
           <i-button @click="handleRating"
@@ -284,6 +284,7 @@ export default {
     iSelect,
     iPagination,
     listDialog,
+    
     iSearch,
     joinlacklistGp,
     removelacklistGp,
@@ -347,6 +348,7 @@ export default {
       tableLoading: false,
       selectTableData: [],
       selectTableList: {},
+      relatedToMe:false,
       isCgy: false,
       userType: 'LINIE',
       form: {
@@ -597,6 +599,7 @@ export default {
       this.tableLoading = true
       if (this.$store.state.permission.userInfo.userType == 2) {
         this.form.relatedToMe = true
+        this.relatedToMe=true
       }
       const pms = {
         ...this.form,
@@ -608,6 +611,7 @@ export default {
         supplierType: this.form.supplierType
       }
       const res = await getBasicList(pms)
+      this.relatedToMe=this.form.relatedToMe
       this.tableListData = res.data
       this.tableListData.forEach((res) => {
         if (res.supplierTagNameList != null) {
