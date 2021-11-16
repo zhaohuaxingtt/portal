@@ -16,6 +16,7 @@
       :form="form"
     />
     <theTable
+      v-loading="loading"
       ref="theTable"
       :page="page"
       :total="page.total"
@@ -34,27 +35,27 @@
 </template>
 
 <script>
-import theSearch from "./components/theSearch.vue";
-import theTable from "./components/theTable.vue";
-import { getMettingList } from "@/api/meeting/home";
-import { getAttendee, getReceiver } from "@/api/meeting/type";
-import { pageMixins } from "@/utils/pageMixins";
-import resultMessageMixin from "@/mixins/resultMessageMixin";
-import { tableListColumns } from "./components/data";
+import theSearch from './components/theSearch.vue'
+import theTable from './components/theTable.vue'
+import { getMettingList } from '@/api/meeting/home'
+import { getAttendee, getReceiver } from '@/api/meeting/type'
+import { pageMixins } from '@/utils/pageMixins'
+import resultMessageMixin from '@/mixins/resultMessageMixin'
+import { tableListColumns } from './components/data'
 // import {deleteString} from '@/utils/utils.js';
 
 export default {
   mixins: [pageMixins, resultMessageMixin],
   components: {
     theSearch,
-    theTable,
+    theTable
   },
   props: {
     //页面需要的menuType参数
     menuType: {
       type: String,
-      default: "admin", //原来的路由大厅是admin，tab页上的cf
-    },
+      default: 'admin' //原来的路由大厅是admin，tab页上的cf
+    }
   },
   data() {
     return {
@@ -63,24 +64,25 @@ export default {
       typeObject: {},
       form: {
         states: [],
-        name: "",
+        name: '',
         // meetingTypeId: "",
         meetingType: {},
-        startDate: "",
-        startTime: "",
-        meetingPlace: "",
-        receiverId: "",
-        attendeeId: "",
-        attendee: "",
+        startDate: '',
+        startTime: '',
+        meetingPlace: '',
+        receiverId: '',
+        attendeeId: '',
+        attendee: ''
       },
       meetingTypeList: [],
       attendeeList: [],
       receiverList: [],
-    };
+      loading: false
+    }
   },
   mounted() {
-    this.getTableList();
-    this.getSelectListAll();
+    this.getTableList()
+    this.getSelectListAll()
   },
   // watch: {
   //   form: {
@@ -95,76 +97,79 @@ export default {
     getTableList() {
       let param = {
         ...this.form,
-        meetingTypeId: this.form.meetingType ? this.form.meetingType.id : "",
+        meetingTypeId: this.form.meetingType ? this.form.meetingType.id : '',
         pageNum: this.page.currPage,
         pageSize: 10,
-        states: this.form.states ? [this.form.states] : [],
-      };
-      Reflect.deleteProperty(param, "meetingType");
-      this.query(param);
+        states: this.form.states ? [this.form.states] : []
+      }
+      Reflect.deleteProperty(param, 'meetingType')
+      this.query(param)
     },
     searchTableList() {
-      this.page.currPage = 1;
-      this.getTableList();
+      this.page.currPage = 1
+      this.getTableList()
     },
     query(e) {
-      getMettingList(e).then((res) => {
-        this.tableListData = res.data;
-        this.page.total = res.total;
-      });
+      this.loading = true
+      getMettingList(e)
+        .then((res) => {
+          this.tableListData = res.data
+          this.page.total = res.total
+        })
+        .finally(() => (this.loading = false))
     },
     handleSearchReset() {
-      this.form = {};
-      this.page.currPage = 1;
-      this.getTableList();
+      this.form = {}
+      this.page.currPage = 1
+      this.getTableList()
     },
     handleChangePage(e) {
-      this.page.currPage = e;
+      this.page.currPage = e
       let param = {
         pageNum: this.page.currPage,
         pageSize: this.page.pageSize,
         ...this.form,
-        meetingTypeId: this.form.meetingType ? this.form.meetingType.id : "",
-        states: this.form.states ? [this.form.states] : [],
-      };
-      this.query(param);
+        meetingTypeId: this.form.meetingType ? this.form.meetingType.id : '',
+        states: this.form.states ? [this.form.states] : []
+      }
+      this.query(param)
     },
     handleSizePage(e) {
-      this.page.pageSize = e;
+      this.page.pageSize = e
       let param = {
         pageNum: this.page.currPage,
         pageSize: e,
         ...this.form,
-        meetingTypeId: this.form.meetingType ? this.form.meetingType.id : "",
-        states: this.form.states ? [this.form.states] : [],
-      };
-      this.query(param);
+        meetingTypeId: this.form.meetingType ? this.form.meetingType.id : '',
+        states: this.form.states ? [this.form.states] : []
+      }
+      this.query(param)
     },
     setTypeObj(e) {
-      let typeObj = {};
-      this.meetingTypeList = e;
+      let typeObj = {}
+      this.meetingTypeList = e
       e.forEach((item) => {
-        typeObj[item.id] = item.name;
-      });
-      this.typeObject = typeObj;
+        typeObj[item.id] = item.name
+      })
+      this.typeObject = typeObj
     },
     getSelectListAll() {
       const param = {
         pageNum: 1,
-        pageSize: 999,
-      };
+        pageSize: 999
+      }
       getAttendee(param).then((res) => {
-        this.attendeeList = res.data;
-      });
+        this.attendeeList = res.data
+      })
       getReceiver(param).then((res) => {
-        this.receiverList = res.data;
-      });
+        this.receiverList = res.data
+      })
     },
     deleteWeek() {
-      this.form.weekOfYears = [];
-    },
-  },
-};
+      this.form.weekOfYears = []
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .meeting-home {

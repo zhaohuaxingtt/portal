@@ -10,6 +10,9 @@
       <iButton @click="$emit('save')">
         {{ $t('APPROVAL.SAVE') }}
       </iButton>
+      <iButton @click="$router.go(-1)">
+        {{ language('返回') }}
+      </iButton>
     </div>
 
     <el-table
@@ -68,7 +71,7 @@
               :picker-options="startTimePickerOptions"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
-              @change="val => startTimeChange(val, scope.row)"
+              @change="(val) => startTimeChange(val, scope.row)"
             />
             <span class="date-divider">至</span>
             <iDatePicker
@@ -97,13 +100,13 @@ export default {
   props: {
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     approvalTodos: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -113,7 +116,7 @@ export default {
       return this.$store.state.permission.userInfo.id === 1
     },
     selectedTodos() {
-      return this.data.map(e => {
+      return this.data.map((e) => {
         return e.taskId
       })
     },
@@ -156,7 +159,8 @@ export default {
     },
     templateOptions(item) {
       return this.approvalTodos.filter(
-        e => !this.selectedTodos.includes(e.taskId) || e.taskId === item.taskId
+        (e) =>
+          !this.selectedTodos.includes(e.taskId) || e.taskId === item.taskId
       )
     },
     handleSelectAgentUser(item, row) {
