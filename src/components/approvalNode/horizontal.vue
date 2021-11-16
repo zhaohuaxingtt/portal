@@ -49,9 +49,7 @@
                   v-if="approver.agentUsers && approver.agentUsers.length"
                   class="agent-users"
                   :class="{
-                    active: ['同意', '拒绝', '有异议', '无异议'].includes(
-                      approver.taskStatus
-                    )
+                    active: getAgentUserActive(i, item.approvers)
                   }"
                 >
                   <li
@@ -59,7 +57,7 @@
                     :key="agentIndex"
                   >
                     {{ agentUser.deptFullCode }} {{ agentUser.nameZh }}
-                    {{ agentUser.taskStatus }}
+                    {{ agentUser.taskStatus }}(代)
                   </li>
                 </ul>
               </li>
@@ -103,16 +101,40 @@ export default {
   },
   computed: {
     approverUserHeight() {
-      let itemAllUsers = []
+      let height = 0
+      //let itemAllUsers = []
       this.data.forEach((e) => {
-        if (e.approvers && e.approvers.length > itemAllUsers.length) {
+        /* if (e.approvers && e.approvers.length > itemAllUsers.length) {
           itemAllUsers = e.approvers
+        } */
+        let itemHeight = 0
+        e.approvers.forEach((approver) => {
+          itemHeight += 28
+          if (approver.agentUsers && approver.agentUsers.length) {
+            approver.agentUsers.forEach(() => {
+              itemHeight += 28
+            })
+            itemHeight += 20
+          }
+        })
+        if (itemHeight > height) {
+          height = itemHeight
         }
       })
-      return itemAllUsers.length * 28 + 20
+      return height // itemAllUsers.length * 28 + 20
     },
     approveContentHeight() {
       return this.approverUserHeight + 50
+    }
+  },
+  methods: {
+    getAgentUserActive(index, users) {
+      if (index >= users.length - 1) {
+        return false
+      }
+      return ['同意', '拒绝', '有异议', '无异议'].includes(
+        users[index + 1].taskStatus
+      )
     }
   }
 }
@@ -239,6 +261,7 @@ export default {
                   background-color: #ccc;
                   margin-right: 6px;
                 }
+                color: #888;
               }
               &::before {
                 content: '';
@@ -252,6 +275,13 @@ export default {
               }
               &.active::before {
                 border-left: solid 1px $color-blue;
+              }
+            }
+            &:last-child {
+              .agent-users {
+                &::before {
+                  display: none;
+                }
               }
             }
           }

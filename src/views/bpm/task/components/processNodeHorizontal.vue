@@ -1,5 +1,5 @@
 <template>
-  <horizontalPanel :nodeData="nodeData" />
+  <horizontalPanel v-if="nodeData && nodeData.length" :nodeData="nodeData" />
 </template>
 
 <script>
@@ -144,16 +144,7 @@ export default {
             taskId: '',
             endTime: '',
             ...user,
-            agentUsers: [
-              {
-                deptFullCode: 'TEST2',
-                nameZh: '好耶2'
-              },
-              {
-                deptFullCode: 'TEST3',
-                nameZh: '好耶4'
-              }
-            ]
+            agentUsers: []
           })
         })
       }
@@ -164,25 +155,7 @@ export default {
             taskId: task.taskId,
             endTime: task.endTime,
             ...task.approvedUser,
-            agentUsers: [
-              {
-                deptFullCode: 'TEST4',
-                nameZh: '好耶4'
-              },
-              {
-                deptFullCode: 'TEST5',
-                nameZh: '好耶5'
-              },
-              {
-                deptFullCode: 'TEST6',
-                nameZh: '好耶6'
-              },
-              {
-                deptFullCode: 'TEST7',
-                nameZh: '好耶7',
-                taskStatus: ''
-              }
-            ]
+            agentUsers: task.agentUsers || []
           })
         })
       }

@@ -68,7 +68,7 @@ export default {
     drawLine() {
       const elementIcons = document.querySelectorAll('.node-icon')
       const data = []
-      let itemWidth = 0
+      // let itemWidth = 0
       const topIndent = 8
       for (let i = 0; i < elementIcons.length; i++) {
         const element = elementIcons[i]
@@ -84,19 +84,23 @@ export default {
           index: dataIndex,
           group: dataGroup,
           status: dataStatus,
-          isEnd: dataIsEnd === '1'
+          isEnd: dataIsEnd === '1',
+          width: element.clientWidth
         })
-        itemWidth = element.clientWidth
+        // itemWidth = element.clientWidth
       }
-      const spacingLeft = itemWidth / 2 + 20
-      const spacingRight = itemWidth / 2 - 20
+      /* const spacingLeft = itemWidth / 2 + 20
+      const spacingRight = itemWidth / 2 - 20 */
 
       const len = data.length
       const lines = []
       for (let i = 0; i < len; i++) {
         const item = data[i]
+
         const nextItem = i < len - 1 ? data[i + 1] : null
         if (nextItem) {
+          const spacingLeft = item.width / 2 + 20
+          const spacingRight = nextItem.width / 2 - 20
           if (!item.group && !item.isEnd) {
             lines.push({
               style: this.getLineStyle(nextItem.status),
@@ -107,6 +111,8 @@ export default {
           }
         }
         if (item.group) {
+          const spacingLeft = item.width / 2 + 20
+          // const spacingRight = item.width / 2 - 20
           const group = item.group.split('-')
           // const childLevel =  group[group.length - 1]
           const level = group[1]
@@ -200,8 +206,8 @@ export default {
     z-index: 9;
   }
 }
-.hrizontalNode {
+/* .hrizontalNode {
   position: relative;
   z-index: 99;
-}
+} */
 </style>
