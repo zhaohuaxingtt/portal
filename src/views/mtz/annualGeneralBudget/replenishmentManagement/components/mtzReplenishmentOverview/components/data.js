@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-09 15:06:29
- * @LastEditTime: 2021-11-11 17:27:03
+ * @LastEditTime: 2021-11-12 09:59:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\data.js
@@ -49,11 +49,11 @@ export const TABLE_COLUMS = [
   {
     prop: 'materialCategory',
     label: '材料中类',
-    minWidth: 160,
+    minWidth: 200,
     customRender: (h, scope) => {
       return (
         <span>
-          {scope.row.materialCategory}-{scope.row.materialName}
+          {scope.row.materialCategoryCode}-{scope.row.materialCategory}
         </span>
       )
     }
@@ -114,7 +114,7 @@ export const TABLE_COLUMS = [
     minWidth: 120
   },
   {
-    prop: 'shippedUnit',
+    prop: 'calUnit',
     label: '零件数量单位',
     minWidth: 120
   },

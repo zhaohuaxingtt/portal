@@ -31,13 +31,35 @@
               {{ item.approvers[0].deptFullCode }}
               {{ item.approvers[0].nameZh }}
             </span>
-            <ul v-else>
+            <ul v-else class="approval-users">
               <li
                 v-for="(approver, i) in item.approvers"
                 :key="i"
-                :class="{ active: approver.taskStatus === '同意' }"
+                :class="{
+                  active: ['同意', '拒绝', '有异议', '无异议'].includes(
+                    approver.taskStatus
+                  )
+                }"
               >
-                <span>{{ approver.deptFullCode }} {{ approver.nameZh }}</span>
+                <span>
+                  {{ approver.deptFullCode }} {{ approver.nameZh }}
+                  {{ approver.taskStatus }}
+                </span>
+                <ul
+                  v-if="approver.agentUsers && approver.agentUsers.length"
+                  class="agent-users"
+                  :class="{
+                    active: getAgentUserActive(i, item.approvers)
+                  }"
+                >
+                  <li
+                    v-for="(agentUser, agentIndex) in approver.agentUsers"
+                    :key="agentIndex"
+                  >
+                    {{ agentUser.deptFullCode }} {{ agentUser.nameZh }}
+                    {{ agentUser.taskStatus }}(代)
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>
@@ -72,23 +94,47 @@ export default {
     },
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
   },
   computed: {
     approverUserHeight() {
-      let itemAllUsers = []
-      this.data.forEach(e => {
-        if (e.approvers && e.approvers.length > itemAllUsers.length) {
+      let height = 0
+      //let itemAllUsers = []
+      this.data.forEach((e) => {
+        /* if (e.approvers && e.approvers.length > itemAllUsers.length) {
           itemAllUsers = e.approvers
+        } */
+        let itemHeight = 0
+        e.approvers.forEach((approver) => {
+          itemHeight += 28
+          if (approver.agentUsers && approver.agentUsers.length) {
+            approver.agentUsers.forEach(() => {
+              itemHeight += 28
+            })
+            itemHeight += 20
+          }
+        })
+        if (itemHeight > height) {
+          height = itemHeight
         }
       })
-      return itemAllUsers.length * 28 + 20
+      return height // itemAllUsers.length * 28 + 20
     },
     approveContentHeight() {
       return this.approverUserHeight + 50
+    }
+  },
+  methods: {
+    getAgentUserActive(index, users) {
+      if (index >= users.length - 1) {
+        return false
+      }
+      return ['同意', '拒绝', '有异议', '无异议'].includes(
+        users[index + 1].taskStatus
+      )
     }
   }
 }
@@ -131,7 +177,7 @@ export default {
             transform: translateX(50%);
             margin-left: -10px;
           }
-          &.multiple ul {
+          &.multiple ul.approval-users {
             list-style: none;
             margin: 0;
             padding: 0;
@@ -139,7 +185,7 @@ export default {
             margin-top: 7px;
           }
 
-          &.multiple ul::before {
+          &.multiple ul.approval-users::before {
             content: '';
             height: 10px;
             border-left: solid 1px #ddd;
@@ -149,7 +195,7 @@ export default {
             top: -5px;
           }
 
-          &.multiple ul li {
+          &.multiple ul.approval-users > li {
             margin: 0;
             padding: 0;
             text-align: left;
@@ -159,9 +205,10 @@ export default {
             position: relative;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
           }
 
-          &.multiple ul li::before {
+          &.multiple ul.approval-users > li::before {
             content: '';
             display: block;
             width: 16px;
@@ -174,7 +221,7 @@ export default {
             background: #fff;
           }
 
-          &.multiple ul li::after {
+          &.multiple ul.approval-users > li::after {
             content: '';
             display: block;
             height: 20px;
@@ -184,13 +231,58 @@ export default {
             left: 5px;
             top: -10px;
           }
-          &.multiple ul li.active {
+          &.multiple ul.approval-users > li.active {
             &::before {
               background: $color-blue;
               border-color: $color-blue;
             }
             &::after {
               border-left: solid 1px $color-blue;
+            }
+          }
+          &.multiple ul.approval-users > li {
+            .agent-users {
+              width: 100%;
+              padding: 10px 0px 10px 25px;
+              box-sizing: border-box;
+              position: relative;
+              > li {
+                padding: 10px 0px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+
+                &::before {
+                  display: block;
+                  content: '';
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 10px;
+                  background-color: #ccc;
+                  margin-right: 6px;
+                }
+                color: #888;
+              }
+              &::before {
+                content: '';
+                display: block;
+                height: 100%;
+                border-left: dashed 1px #ddd;
+                display: block;
+                position: absolute;
+                left: 5px;
+                top: 0;
+              }
+              &.active::before {
+                border-left: solid 1px $color-blue;
+              }
+            }
+            &:last-child {
+              .agent-users {
+                &::before {
+                  display: none;
+                }
+              }
             }
           }
         }

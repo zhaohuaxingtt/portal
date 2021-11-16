@@ -29,6 +29,7 @@
       </div>
       <hr width="100%" style="border:1px dashed #CDD3E2;height:1px" />
       <hr :width="(locationNow-1)*50 + '%'" style="border:1px dashed #1660F1;height:1px" />
+      <hr :width="(locationNow-2)*50 + '%'" style="border:1px solid #1660F1;height:1px" />
     </div>
     <iDialog
       :title="language('XUANZEHUIYI', '选择会议')"
@@ -63,7 +64,7 @@
 </template>
 
 <script>
-import { iButton,iDialog,iMessage } from "rise"
+import { iButton,iDialog,iMessage,iMessageBox } from "rise"
 import { topImgList } from './data'
 import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
@@ -137,9 +138,9 @@ export default {
       this.flowType = newValue;
     },
     mtzObject(newValue,oldValue){
-      if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined){
+      if(this.$route.query.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined){
       }else{
-        this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+        this.locationId = this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       }
       this.getType();
     }
@@ -148,17 +149,17 @@ export default {
     if(JSON.parse(sessionStorage.getItem('MtzLIst')) == null){
       sessionStorage.setItem('MtzLIst',JSON.stringify({mtzAppId:undefined}))
     }
-    if(this.$route.query.mtzAppId == undefined && this.mtzObject.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined){
+    if(this.$route.query.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined){
       this.beforReturn = true;
     }else{
       this.beforReturn = false;
-      this.locationId = this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+      this.locationId = this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       this.getType();
     }
   },
   methods: {
     getType(){
-      getAppFormInfo({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId}).then(res=>{
+      getAppFormInfo({ mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId}).then(res=>{
         this.flowType = res.data.flowType;
         this.appStatus = res.data.appStatus;
       })
@@ -172,28 +173,18 @@ export default {
     downRS(){
       this.rsType = true;
       this.downType = true;
-
-      // const {href} = this.$router.resolve({
-      //   path: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/signPreview',
-      //     query: {
-      //       mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-      //     }
-      //   })
-      // window.open(href, '_blank')
     },
-
 
     // 提交
     submit(){
-      console.log(this.submitDataList)
       if(this.submitDataList == 0){
-        iMessage.warn(this.language("WHMTZYCLGZBNWK","维护MTZ原材料规则不能为空"))
+        iMessage.warn(this.language("MTZGZBNWK","MTZ规则不能为空"))
         return false;
       }
-      if(this.mtzObject.flowType == undefined && this.$route.query.flowType == undefined && this.flowType == "" && this.submitType == ""){
+      if(this.mtzObject.flowType == undefined && this.flowType == "" && this.submitType == ""){
         
       }else{
-        this.flowType = this.mtzObject.flowType || this.$route.query.flowType || this.flowType || this.submitType
+        this.flowType = this.mtzObject.flowType || this.flowType || this.submitType
         if(this.flowType === "MEETING"){//上会
           this.mtzAddShow = true;
         }else{//备案
@@ -204,11 +195,15 @@ export default {
               confirmButtonText:this.language('QUEREN', '确认'),
           }).then(() => {
               mtzAppNomiSubmit({
-                mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+                mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
               }).then(res=>{
                 if(res.result && res.code == 200){
                   iMessage.success(this.language(res.desEn,res.desZh))
 
+                  var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
+                  data.refresh = true;
+                  store.commit("routerMtzData",data);
+                  sessionStorage.setItem("MtzLIst",JSON.stringify(data))
                   this.getType();
                 }
               })
@@ -220,15 +215,23 @@ export default {
     },
     // 点击步骤
     handleClickStep(data) {
-      this.locationNow = data.id
-      this.$router.push({
-        path: data.url,
-        query: {
-          currentStep: data.id,
-          mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-          appId:this.$route.query.appId || this.mtzObject.appId,
-          flowType:this.$route.query.flowType
-        }
+      if(this.$route.query.currentStep == data.id) return false;
+      iMessageBox(this.language('NQDYJXXYBMQQDSJYJWQBC','您确定要进行下一步吗？请确定数据已经完全保存'),this.language('LK_WENXINTISHI','温馨提示'),{
+          confirmButtonText: this.language('QUEREN', '确认'),
+          cancelButtonText: this.language('QUXIAO', '取消')
+      }).then(res=>{
+        this.locationNow = data.id;
+        var dataList = this.$route.query;
+        this.$router.push({
+          path: data.url,
+          query: {
+            ...dataList,
+            currentStep: data.id,
+            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+            appId:this.$route.query.appId || this.mtzObject.appId,
+            isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
+          }
+        })
       })
     },
     closeDiolog(){
@@ -236,9 +239,8 @@ export default {
     },
     closeBingo(val){
       if(val = "refresh"){
-        var data = deepClone(this.mtzObject);
+        var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
         data.refresh = true;
-        console.log(data);
         store.commit("routerMtzData",data);
         sessionStorage.setItem("MtzLIst",JSON.stringify(data))
         this.getType();
@@ -248,6 +250,10 @@ export default {
     closeTyoe(){
       this.beforReturn = false;
     },
+  },
+  destroyed(){
+    sessionStorage.removeItem("MtzLIst");
+    store.commit("routerMtzData",{});
   }
 }
 </script>

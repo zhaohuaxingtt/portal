@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-09 11:07:40
+ * @LastEditTime: 2021-11-16 11:28:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -40,7 +40,7 @@
           <template slot-scope="scope">
             <div>
               <iButton type=text
-                       @click="detail(scope.row.mtzAppId)">{{scope.row.mtzAppId}}</iButton>
+                       @click="detail(scope.row)">{{scope.row.mtzAppId}}</iButton>
             </div>
           </template>
         </el-table-column>
@@ -56,7 +56,6 @@
                          label="申请状态"
                          show-overflow-tooltip
                          width="180">
-
         </el-table-column>
         <el-table-column prop="buyerName"
                          align="center"
@@ -157,7 +156,8 @@ export default {
       let routerPath = this.$router.resolve({
         path: '/mtz/annualGeneralBudget/MTZapplicationForm',
         query: {
-          mtzAppId: val || '',
+          mtzAppId: val.mtzAppId || '',
+          isView: (val.appStatus === '草稿' || val.appStatus === '未通过') ? false : true
         }
       })
       window.open(routerPath.href, '_blank')
@@ -166,15 +166,28 @@ export default {
       this.muilteList = val
     },
     del () {
-      let ids = this.muilteList.map(item => item.mtzAppId)
-      mtzDel({ ids }).then((res) => {
-        if (res && res.code === '200') {
-          iMessage.success(res.desZh)
-          this.getTableList()
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
+      if (this.muilteList.length === 0) {
+        iMessage.error('QINGXUANZESHUJU', '请选择数据')
+        return
+      }
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let ids = this.muilteList.map(item => item.mtzAppId)
+        mtzDel({ ids }).then((res) => {
+          if (res && res.code === '200') {
+            iMessage.success(res.desZh)
+            this.getTableList()
+          } else {
+            iMessage.error(res.desZh)
+          }
+        })
+      }).catch(() => {
+
+      });
+
     },
     recall () {
       let ids = this.muilteList.map(item => item.mtzAppId)

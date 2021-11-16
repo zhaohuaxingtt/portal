@@ -17,7 +17,7 @@ export default {
     },
     extraData: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     },
@@ -31,14 +31,8 @@ export default {
   },
   render(h, context) {
     const { props } = context
-    const {
-      scope,
-      customRender,
-      column,
-      extraData,
-      prop,
-      childNumVisible
-    } = props
+    const { scope, customRender, column, extraData, prop, childNumVisible } =
+      props
     if (column.type && column.type === 'expanded') {
       const { uniqueId, expanded, childNum, isLeaf } = scope.row
       const paddingLeft = (uniqueId.split('-').length - 1) * 20
@@ -116,7 +110,7 @@ export default {
   font-size: 12px;
   position: relative;
   margin-right: 5px;
-
+  letter-spacing: 0;
   > span {
     top: 0;
     left: 50%;
@@ -124,6 +118,7 @@ export default {
     position: absolute;
     width: 100%;
     text-align: center;
+    zoom: 0.8;
   }
 }
 .custom-render {
@@ -145,7 +140,7 @@ export default {
     .show {
       display: block;
     }
-    .icon{
+    .icon {
       font-size: 14px;
       height: 14px;
       width: 14px;

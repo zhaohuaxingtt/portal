@@ -27,7 +27,11 @@
 
 <script>
 import { iDialog, iInput, iButton, iMessage } from 'rise'
-import { completeApproval } from '@/api/approval/myApproval'
+import {
+  completeApproval,
+  stageCompleteApproval
+} from '@/api/approval/myApproval'
+import { BPM_CATEGORY_RENAME_YIYI_LIST } from '@/constants'
 export default {
   name: 'recallDialog',
   components: { iDialog, iInput, iButton },
@@ -78,7 +82,7 @@ export default {
   },
   methods: {
     onSave() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.complete()
         }
@@ -86,11 +90,20 @@ export default {
     },
     complete() {
       //agree  审批结果 1同意；2拒绝；3补充材料
-      const defaultComment = {
-        1: '同意',
-        2: '拒绝',
-        3: '补充材料'
-      }
+      const defaultComment = BPM_CATEGORY_RENAME_YIYI_LIST.includes(
+        this.item.procDefKey
+      )
+        ? {
+            1: '无异议',
+            2: '拒绝',
+            3: '有异议'
+          }
+        : {
+            1: '同意',
+            2: '拒绝',
+            3: '补充材料'
+          }
+
       const data = {
         agree: this.type,
         taskAssignee: this.$store.state.permission.userInfo.id,
@@ -101,17 +114,23 @@ export default {
       }
       console.log('data', data)
       this.loading = true
-      completeApproval(data)
-        .then(res => {
+      const approvalResult = BPM_CATEGORY_RENAME_YIYI_LIST.includes(
+        this.item.procDefKey
+      )
+        ? stageCompleteApproval(data)
+        : completeApproval(data)
+      approvalResult
+        .then((res) => {
           this.loading = false
           if (res.result) {
             iMessage.success(this.$t('APPROVAL.APPROVAL_SUCCESS'))
+            // this.$router.resolve({})
             this.$emit('success')
           } else {
             iMessage.error(this.$t('APPROVAL.APPROVAL_FAILED'))
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log('err', err)
           this.loading = false
           iMessage.error(this.$t('APPROVAL.APPROVAL_FAILED'))

@@ -26,16 +26,17 @@
       </el-form>
       <el-divider/>
       <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}</p>
+
         <tableList
           class="margin-top20"
           :tableData="ruleTableListData"
           :tableTitle="ruleTableTitle"
           :tableLoading="loading"
           :index="true"
-          :selection="false"
-          @handleSelectionChange="handleSelectionChange">
+          :selection="false">
         </tableList>
-        <iPagination
+
+        <!-- <iPagination
         v-update
         @size-change="handleSizeChange($event, getPageAppRule)"
         @current-change="handleCurrentChange($event, getPageAppRule)"
@@ -44,19 +45,20 @@
         :page-size="rulePageParams.pageSize"
         :layout="page.layout"
         :current-page='rulePageParams.currPage'
-        :total="rulePageParams.totalCount"/>
+        :total="rulePageParams.totalCount"/> -->
       <el-divider class="margin-top20"/>
       <p class="tableTitle">{{language('LJQD', '零件清单')}}</p>
+
         <tableList
           class="margin-top20"
           :tableData="partTableListData"
           :tableTitle="partTableTitle"
           :tableLoading="loading"
           :index="true"
-          :selection="false"
-          @handleSelectionChange="handleSelectionChange">
+          :selection="false">
         </tableList>
-        <iPagination
+
+        <!-- <iPagination
         v-update
         @size-change="handleSizeChange($event, getPagePartMasterData)"
         @current-change="handleCurrentChange($event, getPagePartMasterData)"
@@ -65,7 +67,7 @@
         :page-size="partPageParams.pageSize"
         :layout="page.layout"
         :current-page='partPageParams.currPage'
-        :total="partPageParams.totalCount"/>
+        :total="partPageParams.totalCount"/> -->
     </iCard>
     <iCard class="margin-top20">
       <div slot="header" class="headBox">
@@ -87,7 +89,7 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle, partTableTitle} from './data'
+import { ruleTableTitle2, partTableTitle2} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { downloadPdfMixins } from '@/utils/pdf';
@@ -106,8 +108,8 @@ export default {
     return {
       formData: {},
       formList,
-      ruleTableTitle,
-      partTableTitle,
+      ruleTableTitle:ruleTableTitle2,
+      partTableTitle:partTableTitle2,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
@@ -128,10 +130,12 @@ export default {
     }
   },
   created() {
-    this.getAppFormInfo()
-    this.getPageAppRule()
-    this.getPagePartMasterData()
-    this.getSignPreviewDept()
+    // this.$nextTick(e=>{
+      this.getAppFormInfo()
+      this.getPageAppRule()
+      this.getPagePartMasterData()
+      this.getSignPreviewDept()
+    // })
   },
   computed: {
     title() {
@@ -174,7 +178,7 @@ export default {
     // 获取申请单信息
     getAppFormInfo() {
       getAppFormInfo({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+        mtzAppId: this.$route.query.mtzAppId
       }).then(res => {
         if(res && res.code == 200) {
           this.formData = res.data
@@ -184,9 +188,11 @@ export default {
     // 获取规则清单表格数据
     getPageAppRule() {
       pageAppRule({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        pageNo: this.rulePageParams.currPage,
-        pageSize: this.rulePageParams.pageSize,
+        mtzAppId: this.$route.query.mtzAppId,
+        // pageNo: this.rulePageParams.currPage,
+        // pageSize: this.rulePageParams.pageSize,
+        pageNo: 1,
+        pageSize: 999999,
       }).then(res => {
         if(res && res.code == 200) {
           this.ruleTableListData = res.data
@@ -197,9 +203,11 @@ export default {
     // 获取零件清单表格数据
     getPagePartMasterData() {
       pagePartMasterData({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        pageNo: this.partPageParams.currPage,
-        pageSize: this.partPageParams.pageSize,
+        mtzAppId:this.$route.query.mtzAppId,
+        // pageNo: this.partPageParams.currPage,
+        // pageSize: this.partPageParams.pageSize,
+        pageNo: 1,
+        pageSize: 999999,
       }).then(res => {
         if(res && res.code == 200) {
           this.partTableListData = res.data
@@ -210,7 +218,7 @@ export default {
     // 获取部门数据 
     getSignPreviewDept() {
       fetchSignPreviewDept({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+        mtzAppId: this.$route.query.mtzAppId
       }).then(res => {
         if(res && res.code == 200) {
           this.deptData = res.data
@@ -222,12 +230,12 @@ export default {
       let params = {}
       if(this.isMeeting) {
         params = {
-          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          mtzAppId: this.$route.query.mtzAppId,
           linieMeetingMemo: this.formData.linieMeetingMemo
         }
       } else if(this.isFinite) {
         params = {
-          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          mtzAppId: this.$route.query.mtzAppId,
           cs1MeetingMemo: this.formData.cs1MeetingMemo
         }
       }

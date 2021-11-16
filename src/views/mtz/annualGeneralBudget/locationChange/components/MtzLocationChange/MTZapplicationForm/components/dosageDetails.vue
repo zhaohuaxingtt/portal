@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-09 18:42:22
+ * @LastEditTime: 2021-11-16 18:01:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -20,7 +20,8 @@
             <span>
               {{language('YONGLIANGXIANGQING','用量详情')}}
             </span>
-            <div class="opration">
+            <div class="opration"
+                 v-if="!isView">
               <div v-show="!editFlag">
                 <uploadButton ref="uploadButtonAttachment"
                               :buttonText="language('YONGLIANGXIANGQING','上传原材料用量变更')"
@@ -78,20 +79,11 @@
                           highlight-current-row
                           @handle-selection-change="handleSelectionChange1">
             </iTableCustom>
-            <iPagination v-update
-                         @size-change="handleSizeChange($event, getDictList)"
-                         @current-change="handleCurrentChange($event, getDictList)"
-                         background
-                         :current-page="page.currPage"
-                         :page-sizes="page.pageSizes"
-                         :page-size="page.pageSize"
-                         :layout="page.layout"
-                         :total="page.totalCount" />
           </div>
         </iCard>
       </el-tab-pane>
     </iTabsList>
-    <iDialog :title="language('CHEHUIYUANYIN','撤回原因')"
+    <iDialog :title="language('JIESHIYUANYIN','解释原因')"
              :visible.sync="isShow"
              width="30%"
              class="table-header-modal"
@@ -105,7 +97,7 @@
       <span slot="footer"
             class="dialog-footer">
         <i-button @click="handleSave">保存</i-button>
-        <i-button @click="handleCancel">退出</i-button>
+        <i-button @click="handleCancel">取消</i-button>
       </span>
     </iDialog>
   </div>
@@ -144,7 +136,8 @@ export default {
       tableLoading: false,
       approvalRecordList: [],
       isShow: false,
-      textarea: ""
+      textarea: "",
+      isView: false
     }
   },
   created () {
@@ -156,6 +149,7 @@ export default {
   },
   methods: {
     init () {
+      this.isView = JSON.parse(this.$route.query.isView)
       this.mtzAppId = this.$route.query.mtzAppId
       this.getBasePriceChangePageList()
       this.getApprovalRecordList()
@@ -187,14 +181,12 @@ export default {
       let params = {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        mtzAppId: this.mtzAppId
+        mtzAppId: this.mtzAppId || "8"
+        // mtzAppId: "8"
       }
       approvalRecordList(params).then((res) => {
         if (res && res.code === '200') {
           this.approvalRecordList = res.data
-          this.page.currPage = res.pageNum
-          this.page.pageSize = res.pageSize
-          this.page.totalCount = res.total
           this.approvalRecordList.forEach(item => {
             this.$set(item, 'editRow', false);
           })
@@ -272,25 +264,27 @@ export default {
     },
     explain () {
       this.isShow = true
-
     },
     handleSave () {
       let params = {
         comment: this.textarea,
         isDeptLead: true,
-        riseId: this.muliteList1[0].riseId,
-        taskId: this.muliteList1[0].taskId
+        riseId: this.muliteList1[0].riseId || "",
+        taskId: this.muliteList1[0].taskId || ""
       }
       approvalExplain(params).then(res => {
         if (res?.code === '200') {
+          this.isShow = false
+          this.getApprovalRecordList()
           iMessage.success(res.desZh)
         } else {
+          this.isShow = false
           iMessage.error(res.desZh)
         }
       })
     },
     handleCancel () {
-
+      this.isShow = false
     },
     del () {
       let ids = this.muliteList.map(item => {

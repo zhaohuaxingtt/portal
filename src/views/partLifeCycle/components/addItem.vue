@@ -74,6 +74,7 @@ export default {
   watch: {
     value(val) {
       if (val) {
+        this.folderName = ''
         // this.getMany()
       }
     }

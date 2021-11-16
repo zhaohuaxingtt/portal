@@ -20,8 +20,8 @@
           :hideButton="true"
           :accept="'.xlsx'"
           @uploadedCallback="handleUpload($event)"/>
-          <iButton @click="handleClickDel">{{language('SHANCHU', '删除')}}</iButton>
-          <iButton @click="handleClickUpload">{{language('SHANGCHUAN', '上传')}}</iButton>
+          <iButton @click="handleClickDel" v-if="appStatus == '草稿' || appStatus == '未通过'" >{{language('SHANCHU', '删除')}}</iButton>
+          <iButton @click="handleClickUpload" v-if="appStatus == '草稿' || appStatus == '未通过'" >{{language('SHANGCHUAN', '上传')}}</iButton>
         </span>
       </div>
       <tableList
@@ -64,6 +64,7 @@ export default {
     tableList,
     uploadButton
   },
+  props:["appStatus"],
   data () {
     return {
       tableListData: [],
@@ -83,11 +84,14 @@ export default {
     }
   },
   created() {
-    this.getTableData()
+    this.$nextTick(e=>{
+      this.getTableData()
+    })
   },
   methods: {
     // 获取数据
     getTableData() {
+      this.loading = true;
       fetchAppNomiDecisionDataPage({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
@@ -96,6 +100,7 @@ export default {
          if(res && res.code == 200) {
           this.tableListData = res.data
           this.page.totalCount = res.total
+          this.loading = false;
         } else iMessage.error(res.desZh)
       })
     },

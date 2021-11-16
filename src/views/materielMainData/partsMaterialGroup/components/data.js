@@ -122,7 +122,6 @@ export const SUPPLIER_TECHNOLOGY = [
     prop:"supplierName",
     label:'供应商',
     tooltip:true,
-
     i18n: ''
   },
   {
@@ -144,7 +143,6 @@ export const SUPPLIER_TECHNOLOGY = [
     prop:"bdlType",
     label:'BDL属性',
     tooltip:true,
-
     i18n: '',
     customRender: (h, scope, column, extraData) => {
       if(extraData.tabelSta){
@@ -167,15 +165,22 @@ export const SUPPLIER_TECHNOLOGY = [
     label:'CBD要求',
     i18n: '',
     tooltip:true,
-
     customRender: (h, scope, column, extraData) => {
+      let level = ''
       if(extraData.tabelSta){
         return (
           <CBDSelect row={scope.row} cdlOption={extraData.cdlOption}>
           </CBDSelect>
         )
       }else if(scope.row.createBy){
-        return scope.row.cbdLevel
+        if(scope.row.cbdLevel == 1){
+          level = 'L1'
+        }else if(scope.row.cbdLevel == 2){
+          level = 'L2'
+        }else if(scope.row.cbdLevel == 3){
+          level = 'L3'
+        }
+        return level
       }else{
         return (
           <CBDSelect row={scope.row} cdlOption={extraData.cdlOption}>

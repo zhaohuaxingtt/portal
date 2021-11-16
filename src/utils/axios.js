@@ -18,7 +18,7 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
     timeout: timeOut
   })
   instance.interceptors.request.use(
-    function(config) {
+    function (config) {
       /* if (Object.prototype.toString.call(config.data) === '[object FormData]') {
         config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
       }
@@ -66,13 +66,13 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
       config.headers['json-wrapper'] = '1'
       return config
     },
-    function(error) {
+    function (error) {
       return Promise.reject(error)
     }
   )
 
   instance.interceptors.response.use(
-    function(response) {
+    function (response) {
       if (response.data) {
         // 自动提示错误或成功
         /* const { request } = response
@@ -89,17 +89,17 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
         } */
         return Promise.resolve(response.data)
       } else {
-        iMessage.error(response.data.message)
+        // iMessage.error(response?.data?.desZh || '请求失败')
         return Promise.reject(response.data)
       }
     },
-    error => {
+    (error) => {
       switch (error.response.status) {
         //需要定位到登录界面的状态。（401 || 40x || ...）
         case 401:
           store
             .dispatch('refreshToken')
-            .then(res => {
+            .then((res) => {
               if (res.code === 200) {
                 setToken(res.data.access_token)
                 setRefreshToken(res.data.refresh_token)
@@ -114,8 +114,8 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
         default: {
           //防止多次提示,多个请求同时失败！上一个提示还存在时候，先不做提示。
           let msg = error?.response?.data
-          if(msg&&(msg.desEn||msg.desZh)) {
-            iMessage.error(msg.desEn||msg.desZh)
+          if (msg && (msg.desEn || msg.desZh)) {
+            iMessage.error(msg.desEn || msg.desZh)
           }
           let errorMessage = error.message || ''
           if (

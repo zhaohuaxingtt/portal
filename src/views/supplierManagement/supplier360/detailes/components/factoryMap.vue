@@ -11,24 +11,25 @@
           justify="space-between">
     <el-col :span="8">
       <iCard class="Ltd">
-        <el-row>
-          <el-col :span="18">
-            <div class="titleZh margin-right10">{{info.nameZh}}</div>
-            <span class="titleEn">{{info.nameEn}}</span>
-          </el-col>
-          <el-col :span="6">
-            <el-popover placement="top-end"
-                        width="200"
-                        trigger="hover">
-              <div><span v-for="(item,index) in tagList"
-                      :key="index">{{item.tagName+' '}}</span></div>
-              <div slot="reference">
-                <span v-for="(item,index) in tagList"
-                      :key="index">{{$i18n.locale==='en'?item.tagValue:item.tagName+' '}}</span>
-              </div>
-            </el-popover>
-          </el-col>
-        </el-row>
+        <div>
+          <div class="titleZh margin-right10">{{info.nameZh}}</div>
+          <span class="titleEn">{{info.nameEn}}</span>
+        </div>
+        <div class="tagStyle" v-if="tagList.length>0">
+
+          <el-popover placement="top-end"
+                      width="200"
+                      trigger="hover">
+            <div><span v-for="(item,index) in tagList"
+                    :key="index">{{item.tagName+' '}}</span></div>
+            <div slot="reference">
+              <span v-for="(item,index) in tagList"
+                    :key="index">{{$i18n.locale==='en'?item.tagValue:item.tagName+' '}}</span>
+            </div>
+
+          </el-popover>
+        </div>
+
         <!-- content -->
         <div class="text margin-top10">
           <div>{{$t('UnifySocialCreditCode')}}:{{info.socialcreditNo}}</div>
@@ -109,7 +110,7 @@ export default {
   },
   data() {
     return {
-      nameZh:'',
+      nameZh: '',
       nameEn: '',
       tableListData: [],
       info: {},
@@ -127,15 +128,12 @@ export default {
     },
     supplier360ViewVO(data) {
       this.info = data
-      console.log(this.info)
-    //    this.nameZh=data.nameZh
-    //    this.nameEn=data.nameEn
+      //    this.nameZh=data.nameZh
+      //    this.nameEn=data.nameEn
       this.getTags()
     }
   },
-  created() {
-     
-  },
+  created() {},
   mounted() {
     this.handleMap()
   },
@@ -155,8 +153,11 @@ export default {
       console.log(this.info)
       this.$router.push({
         path: '/supplier/view-suppliers',
-        query: { supplierToken: this.info.token || '', supplierType: '4' ,    subSupplierType: this.$route.query.supplierType},
-    
+        query: {
+          supplierToken: this.info.token || '',
+          supplierType: '4',
+          subSupplierType: this.$route.query.supplierType
+        }
       })
     },
     handleMap() {
@@ -172,7 +173,7 @@ export default {
         showIndoorMap: false, //关闭室内地图
         roam: true,
         zoomEnable: true,
-        dragEnable: true,
+        dragEnable: true
         // mapStyle: 'amap://styles/macaron'
       })
       // 放大缩小按钮
@@ -240,9 +241,19 @@ export default {
 }
 .Ltd {
   height: 400px;
+  position: relative;
+  .tagStyle {
+    position: absolute;
+    top: 50px;
+    width: 120px;
+    left: 360px;
+    overflow: hidden; /*超出隐藏*/
+    white-space: nowrap; /* 强制不换行 */
+    text-overflow: ellipsis; /*文字隐藏的格式 */
+  }
 }
 .countryMap {
-      height: 400px;
+  height: 400px;
   .el-col-12:nth-child(2) {
     padding-left: 20px;
     border-left: 1px solid #e6e9f4;

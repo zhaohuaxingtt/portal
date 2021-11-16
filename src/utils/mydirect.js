@@ -28,7 +28,8 @@ Vue.directive('permission', {
     if (isNeedJudgePermission()) {
       return true
     } else {
-      if (!store.state.permission.whiteBtnList[binding.expression]) {
+      let menuBtn = binding.value&&binding.value.indexOf('ACHIEVEMENT')>-1
+      if (!store.state.permission.whiteBtnList[binding.expression]&&!menuBtn) {
         // 处理控件中，不可见的组件 列入：Ibutton.
         // el.parentNode.removeChild(el)
       }

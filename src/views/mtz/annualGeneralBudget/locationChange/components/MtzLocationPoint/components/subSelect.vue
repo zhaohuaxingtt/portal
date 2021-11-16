@@ -46,6 +46,7 @@ import { pageMixins } from "@/utils/pageMixins"
 import { getMettingList } from "@/api/meeting/home"
 import {
   saveMeeting,//提交
+  mtzAppNomiSubmit
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 
 export default {
@@ -107,9 +108,16 @@ export default {
                     topic:this.selectData[0].name,
                 }).then(res=>{
                     if(res.code == 200 && res.result){
-                        iMessage.success(this.language(res.desEn,res.desZh))
-                        this.$emit("close","refresh")
+                        mtzAppNomiSubmit({
+                            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+                        }).then(res=>{
+                            if(res.result && res.code == 200){
+                            iMessage.success(this.language(res.desEn,res.desZh))
+                            this.$emit("close","refresh")
+                            }
+                        })
                     }
+                    
                 })
             }else{
                 iMessage.warn("请选择会议")
