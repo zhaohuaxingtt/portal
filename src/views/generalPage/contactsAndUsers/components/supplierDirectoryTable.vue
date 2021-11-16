@@ -130,11 +130,11 @@ export default {
       })
     },
     async saveInfos(step = '') {
-      
+
       let p = 0
       this.tableListData.map(item => {
         if (item.contactType === '商务联系人') {
-          if (!(item.nameZh && item.telephone)) {
+          if (!(item.nameZh && item.telephone && item.email)) {
             iMessage.warn(this.$t('SUPPLIER_SWLXRLXRXMLXRDHBT'))
             p = 1
             return
@@ -148,6 +148,12 @@ export default {
         this.$refs.commonTable.$refs.commonTableForm.validate(async (vaild) => {
           if (vaild) {
             this.tableLoading = true
+          
+            this.tableListData.some(res=>{
+              if(res.email==''){
+                return false
+              }
+            })
             const pms = {
               list: this.tableListData,
               "step": "register"
