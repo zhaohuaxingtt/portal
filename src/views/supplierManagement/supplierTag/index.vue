@@ -27,7 +27,6 @@
         </el-form-item>
         <el-form-item :label="language('BIAOQIANLEIXING', '标签类型')">
           <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                   multiple
                    v-model="form.tagType">
             <el-option v-for="item in tagTypeList"
                        :key="item.value"

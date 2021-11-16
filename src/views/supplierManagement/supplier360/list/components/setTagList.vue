@@ -253,7 +253,7 @@ export default {
       this.getList()
     },
     selectable(val) {
-      if (val.isBinding != 1 && val.tagTypeVale == '手工维护') {
+   if (val.tagTypeVale == '手工维护') {
         return true
       }
     }
