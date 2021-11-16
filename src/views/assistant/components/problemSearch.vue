@@ -1,12 +1,12 @@
 <template>
 	<div class="search-box">
-		<el-form :model="query" class="search">
+		<el-form :model="searchForm" ref="searchForm" class="search">
 			<el-row :gutter="20">
 				<el-col :span="4">
-          <el-form-item :label="formTitle.problemModule">
+          <el-form-item :label="formTitle.problemModule" prop="problemModule">
             <iSelect
               :placeholder="formTitle.selectPlaceholder"
-              v-model="query.problemModule"
+              v-model="searchForm.problemModule"
             >
               <el-option
                 v-for="item in moduleList"
@@ -19,10 +19,10 @@
           </el-form-item>
         </el-col>
 				<el-col :span="5" push="2">
-          <el-form-item :label="formTitle.problemLabel">
+          <el-form-item :label="formTitle.problemLabel" prop="labelModule">
             <iSelect
               :placeholder="formTitle.selectPlaceholder"
-              v-model="query.labelModule"
+              v-model="searchForm.labelModule"
             >
               <el-option
                 v-for="item in moduleList"
@@ -35,17 +35,17 @@
           </el-form-item>
         </el-col>
 				<el-col :span="4" push="3">
-          <el-form-item :label="formTitle.problemTitle">
+          <el-form-item :label="formTitle.problemTitle" prop="titleProblem">
             <iInput
               :placeholder="formTitle.inputPlaceholder"
-              v-model="query.titleProblem"
+              v-model="searchForm.titleProblem"
             />
           </el-form-item>
         </el-col>
 				<el-col :span="4" push="6" class="btn">
           <el-form-item>
-            <iButton>{{ language('查询') }}</iButton>
-						<iButton>{{ language('重置') }}</iButton>
+            <iButton @click="query">{{ language('查询') }}</iButton>
+						<iButton @click="reset">{{ language('重置') }}</iButton>
           </el-form-item>
         </el-col>
 			</el-row>
@@ -68,7 +68,7 @@ export default {
 	},
 	data() {
 		return {
-			query: {
+			searchForm: {
 				problemModule: '',
 				labelModule: '',
 				titleProblem: ''
@@ -86,6 +86,14 @@ export default {
 				{id: '1', name: '模块二', value: '1'},
 				{id: '2', name: '模块三', value: '2'}
 			]
+		}
+	},
+	methods: {
+		query() {
+			console.log(this.searchForm)
+		},
+		reset() {
+			this.$refs.searchForm.resetFields()
 		}
 	}
 }

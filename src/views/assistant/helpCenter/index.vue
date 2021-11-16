@@ -26,8 +26,14 @@
 			<CommonProblem />
 			<DataManage />
 		</div>
-		<div class="flex flex-row content mt20" v-show="helpMoudle === 'problem'">
-			<ProblemSearch/>
+		<div class="flex flex-column content mt20" v-show="helpMoudle === 'problem'">
+			<ProblemSearch />
+			<div class="flex flex-row mt20 middle-content">
+				<CommonProblem />
+				<div class="right-content">
+					<ProblemDetail />
+				</div>
+			</div>
 		</div>
 		<div class="flex flex-row content mt20" v-show="helpMoudle === 'ask'">
 			我的提问
@@ -43,6 +49,7 @@ import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
 import DataManage from '../components/dataManage'
 import ProblemSearch from '../components/problemSearch'
+import ProblemDetail from '../components/problemDetail'
 
 export default {
 	data() {
@@ -57,7 +64,8 @@ export default {
 		iTabBadgeItem,
 		CommonProblem,
 		DataManage,
-		ProblemSearch
+		ProblemSearch,
+		ProblemDetail
 	},
 	// mounted() {
 	// 	console.log(store.state, "store.state")
@@ -82,5 +90,18 @@ export default {
 	.content {
 		width: 100%;
 		height: 94%;
+	}
+	.middle-content {
+		height: calc(100% - 140px);
+		width: 100%;
+		.right-content {
+			width: 100%;
+			height: 100%;
+			margin-left: 20px;
+			background: #FFFFFF;
+			box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
+			opacity: 1;
+			border-radius: 5px;
+		}
 	}
 </style>
