@@ -117,7 +117,7 @@
 
         <div class="floatright">
           <i-button @click="tagTab"
-                     v-if="relatedToMe">{{
+                     >{{
             language('GONGYINGSHANGBIAOQIAN', '供应商标签')
           }}</i-button>
           <i-button @click="setTagBtn"
@@ -137,7 +137,7 @@
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
           <i-button @click="handleRegister"
-                     v-if="relatedToMe">{{
+                     >{{
             $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
           }}</i-button>
         </div>
