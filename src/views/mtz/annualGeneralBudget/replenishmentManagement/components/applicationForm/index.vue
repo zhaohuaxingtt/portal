@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-03 14:28:17
- * @LastEditTime: 2021-11-12 19:08:05
+ * @LastEditTime: 2021-11-16 20:04:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\applicationForm\index.vue
@@ -75,28 +75,28 @@ export default {
     iButton
   },
   props: {
-    detailObj: {
-      type: Object,
-      default: () => {
-        return {
-          applicantBy: "张琳",
-          approvedAmt: "-56433947.71",
-          bizNo: "MTZ20211005161",
-          department: "CSM",
-          fileList: null,
-          id: "1000000139",
-          mgroup: "01006:PGM (Pd)",
-          monthFromTo: "201001-201012",
-          paidAmt: "0.00",
-          rejectReason: "",
-          remark: "20110603 CFA02ZLH Approved",
-          riseId: "1457382",
-          sapPayBalanceNo: null,
-          status: "审批中",
-          supplier: "10986-上海佛吉亚红湖排气系统有限公司"
-        }
-      }
-    }
+    // detailObj: {
+    //   type: Object,
+    //   default: () => {
+    //     return {
+    //       applicantBy: "张琳",
+    //       approvedAmt: "-56433947.71",
+    //       bizNo: "MTZ20211005161",
+    //       department: "CSM",
+    //       fileList: null,
+    //       id: "1000000139",
+    //       mgroup: "01006:PGM (Pd)",
+    //       monthFromTo: "201001-201012",
+    //       paidAmt: "0.00",
+    //       rejectReason: "",
+    //       remark: "20110603 CFA02ZLH Approved",
+    //       riseId: "1457382",
+    //       sapPayBalanceNo: null,
+    //       status: "审批中",
+    //       supplier: "10986-上海佛吉亚红湖排气系统有限公司"
+    //     }
+    //   }
+    // }
   },
   data () {
     return {

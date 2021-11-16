@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2021-10-16 13:57:02
+ * @LastEditTime: 2021-11-16 20:29:09
  * @LastEditors: Please set LastEditors
  * @Description: 自定义指令文件。
  * @FilePath: \rise\src\utils\mydirect.js
@@ -14,6 +14,7 @@ import { numberProcessor } from '@/utils'
 // eslint-disable-next-line no-undef
 Vue.directive('permission', {
   bind: function(el, binding, vnode) {
+    console.log(el, binding, vnode, '---------------------------')
     // 处理可见不可编辑的输入框，select textarea ....
     if (isNeedJudgePermission()) {
       return true
@@ -25,11 +26,15 @@ Vue.directive('permission', {
     }
   },
   inserted: function(el, binding, Nodes) {
+    console.log(el, binding, Nodes, '---------------------------')
     if (isNeedJudgePermission()) {
       return true
     } else {
-      let menuBtn = binding.value&&binding.value.indexOf('ACHIEVEMENT')>-1
-      if (!store.state.permission.whiteBtnList[binding.expression]&&!menuBtn) {
+      let menuBtn = binding.value && binding.value.indexOf('ACHIEVEMENT') > -1
+      if (
+        !store.state.permission.whiteBtnList[binding.expression] &&
+        !menuBtn
+      ) {
         // 处理控件中，不可见的组件 列入：Ibutton.
         // el.parentNode.removeChild(el)
       }
