@@ -83,16 +83,17 @@
                 <iLabel :label="language('YUANCAILIAOPAIHAO','原材料牌号')" slot="label" :required="true"></iLabel>
                 <custom-select v-model="contractForm.materialCode"
                          :user-options="materialCode"
+                         @change="MaterialGrade"
                          clearable
                          :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
+                         display-member="codeMessage"
                          value-member="code"
                          value-key="code">
                 </custom-select>
             </iFormItem>
             <iFormItem prop="materialName">
                 <iLabel :label="language('YUANCAILIAO','原材料')" slot="label" :required="true"></iLabel>
-                <iInput
+                <el-input
                 v-model="contractForm.materialName"
                 type="text"
                 placeholder="请输入原材料"
@@ -103,7 +104,7 @@
                 <iLabel :label="language('JIJIA','基价')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.price"
-                type="text"
+                type="number"
                 placeholder="请输入基价"
                 :disabled="disabled"
                 />
@@ -123,7 +124,7 @@
                 <iLabel :label="language('BOJIJIA','铂基价')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.platinumPrice"
-                type="text"
+                type="number"
                 placeholder="请输入铂基价"
                 :disabled="disabled"
                 />
@@ -132,7 +133,7 @@
                 <iLabel :label="language('BOYONGLIANG','铂用量')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.platinumDosage"
-                type="text"
+                type="number"
                 placeholder="请输入铂用量"
                 :disabled="disabled"
                 />
@@ -141,7 +142,7 @@
                 <iLabel :label="language('BAJIJIA','钯基价')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.palladiumPrice"
-                type="text"
+                type="number"
                 placeholder="请输入钯基价"
                 :disabled="disabled"
                 />
@@ -150,7 +151,7 @@
                 <iLabel :label="language('BAYONGLIANG','钯用量')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.palladiumDosage"
-                type="text"
+                type="number"
                 placeholder="请输入钯用量"
                 :disabled="disabled"
                 />
@@ -159,7 +160,7 @@
                 <iLabel :label="language('LAOJIJIA','铑基价')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.rhodiumPrice"
-                type="text"
+                type="number"
                 placeholder="请输入铑基价"
                 :disabled="disabled"
                 />
@@ -168,7 +169,7 @@
                 <iLabel :label="language('LAOYONGLIANG','铑用量')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.rhodiumDosage"
-                type="text"
+                type="number"
                 placeholder="请输入铑用量"
                 :disabled="disabled"
                 />
@@ -188,7 +189,7 @@
                 <iLabel :label="language('HUILV','汇率')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.tcExchangeRate"
-                type="text"
+                type="number"
                 placeholder="请输入汇率"
                 :disabled="disabled"
                 />
@@ -206,7 +207,7 @@
                 <iLabel :label="language('BUCHAXISHU','补差系数')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.compensationRatio"
-                type="text"
+                type="number"
                 placeholder="请输入补差系数"
                 :disabled="disabled"
                 />
@@ -226,7 +227,7 @@
                 <iLabel :label="language('YUZHI','阈值')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.threshold"
-                type="text"
+                type="number"
                 placeholder="请输入阈值"
                 :disabled="disabled"
                 />
@@ -268,7 +269,7 @@
 
 <script>
 import {
-  getMtzSupplierList,//维护MTZ原材料规则-新增
+  getMtzSupplierList,//获取原材料牌号
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 import {
   addAppRule,//维护MTZ原材料规则-新增
@@ -313,12 +314,37 @@ export default {components: {
     }
   },
   data() {
+    var validatePass1 = (rule, value, callback) => {//非负数字
+        if (value < 0) {
+            callback(new Error('不能为负数'));
+        }else{
+            callback();
+        }
+    };
     return {
         thresholdCompensationLogic:[//阈值补差逻辑,全额补差/超额补差
-
+            {
+                code:"A",
+                message:"全额补差"
+            },{
+                code:"B",
+                message:"超额补差"
+            }
         ],
         compensationPeriod:[//补差周期 年/半年/季度/月
-
+            {
+                code:"A",
+                message:"年度"
+            },{
+                code:"H",
+                message:"半年度"
+            },{
+                code:"M",
+                message:"月度"
+            },{
+                code:"Q",
+                message:"季度"
+            },
         ],
         tcCurrence:[//货币
 
@@ -332,6 +358,7 @@ export default {components: {
             effectFlag:0,
             tcExchangeRate:1,
             compensationRatio:1,
+            materialName:'',
             threshold:0,
             endDate:"2999-12-31"
         },
@@ -354,7 +381,10 @@ export default {components: {
             tcCurrence: [{ required: true, message: '请选择', trigger: 'blur' }],
             tcExchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }],
             source: [{ required: true, message: '请输入', trigger: 'blur' }],
-            compensationRatio: [{ required: true, message: '请输入', trigger: 'blur' }],
+            compensationRatio: [
+                { required: true, message: '请输入', trigger: 'blur' },
+                { validator:validatePass1, trigger: 'blur' }
+            ],
             compensationPeriod: [{ required: true, message: '请选择', trigger: 'blur' }],
             threshold: [{ required: true, message: '请输入', trigger: 'blur' }],
             thresholdCompensationLogic: [{ required: true, message: '请选择', trigger: 'blur' }],
@@ -399,14 +429,33 @@ export default {components: {
     }
   },
   methods: {
+    MaterialGrade(value){
+        try{
+            this.materialCode.forEach(e => {
+                if(e.code == value){
+                    this.contractForm.materialName = e.message;
+                    throw new Error("EndIterative");
+                }
+            });
+        }catch(e){
+            if(e.message != "EndIterative") throw e;
+        }
+    },
     supplierBH(value){
         if(this.supplierType2 == true) return false;
         this.supplierType1 = true;
+        if(value == ""){
+            this.contractForm.supplierName = "";
+            this.contractForm.supplierId = "";
+            setTimeout(() => {
+                this.supplierType1 = false;
+            }, 100);
+        }
         try{
             this.supplierList.forEach(e => {
                 if(e.code == value){
-                    console.log(e.message,1111111)
-                    console.log(value,1111111)
+                    console.log(e.message,5555555555)
+                    console.log(value,5555555555)
                     this.contractForm.supplierName = e.message;
                     this.contractForm.supplierId = value;
                     setTimeout(() => {
@@ -422,6 +471,13 @@ export default {components: {
     supplierNC(value){
         if(this.supplierType1 == true) return false;
         this.supplierType2 = true;
+        if(value == ""){
+            this.contractForm.supplierName = "";
+            this.contractForm.supplierId = "";
+            setTimeout(() => {
+                this.supplierType2 = false;
+            }, 100);
+        }
         try{
             this.supplierList.forEach(e => {
                 if(e.message == value){

@@ -58,8 +58,8 @@
                   @click="reset"
                   :disabled="
                     authSelectedList.length == 0 &&
-                      formData.appNameCn.length == 0 &&
-                      formData.supplierType.length == 0
+                    formData.appNameCn.length == 0 &&
+                    formData.supplierType.length == 0
                   "
                 >
                   {{ iButtons.reset }}
@@ -135,10 +135,10 @@ export default {
   methods: {
     getSysUserList() {
       this.tableUserLoading = true
-      const users = this.selectedUsers.map(e => e.id)
+      const users = this.selectedUsers.map((e) => e.id)
       let param = { supplierUserIdList: users }
       sysUserList(param)
-        .then(val => {
+        .then((val) => {
           this.tableUserLoading = false
           if (val.code == 200) {
             this.authUser = val.data
@@ -155,7 +155,7 @@ export default {
       let param = { ...this.formData, current: 1, size: 10000 }
       this.tableLoading = true
       sysList(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             /* this.authListData = val.data
             this.page.totalCount = val.total */
@@ -174,19 +174,21 @@ export default {
         queryAuthList({
           supplierUserId: this.selectedUsers[0].id
         })
-          .then(res => {
+          .then((res) => {
             const { data } = res
             if (data) {
               // TMD,居然要根据选择排序
-              const authedIds = data.map(e => e.id)
+              const authedIds = data.map((e) => e.id)
               const sysData = sysResult.data
-              const inData = sysData.filter(e => authedIds.includes(e.id))
-              const notInData = sysData.filter(e => !authedIds.includes(e.id))
+              const inData = sysData.filter((e) => authedIds.includes(e.id))
+              const notInData = sysData.filter((e) => !authedIds.includes(e.id))
               this.authListData = inData.concat(notInData)
               this.page.totalCount = sysResult.total
               this.$nextTick(() => {
-                data.forEach(e => {
-                  const items = this.authListData.filter(sys => sys.id === e.id)
+                data.forEach((e) => {
+                  const items = this.authListData.filter(
+                    (sys) => sys.id === e.id
+                  )
                   if (items.length > 0) {
                     this.$refs.authorization.toggleRowSelection(items[0], true)
                   }
@@ -246,17 +248,17 @@ export default {
       this.getSysList()
     },
     authApplication() {
-      let userIds = this.authUser.map(item => {
+      let userIds = this.authUser.map((item) => {
         return item.id
       })
 
-      let applicationIds = this.authSelectedList.map(item => {
+      let applicationIds = this.authSelectedList.map((item) => {
         return item.id
       })
       let param = { userIds: userIds, applicationIds: applicationIds }
       this.sureLoading = true
       auth(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             iMessage.success(val.desZh || '授权成功')
             this.isVisible = false
@@ -271,17 +273,17 @@ export default {
         .finally(() => (this.sureLoading = false))
     },
     cancelAuthApplication() {
-      let userIds = this.authUser.map(item => {
+      let userIds = this.authUser.map((item) => {
         return item.id
       })
 
-      let applicationIds = this.authSelectedList.map(item => {
+      let applicationIds = this.authSelectedList.map((item) => {
         return item.id
       })
       let param = { userIds: userIds, applicationIds: applicationIds }
       this.sureLoading = true
       cancelAuth(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             this.iMessageBox = false
             this.isVisible = false
@@ -337,7 +339,7 @@ export default {
       },
       searchOptionTitles: {
         name: '中文名称',
-        sysTag: '系统类型'
+        sysTag: '系统标签'
       },
       formData: {
         appNameCn: '',
