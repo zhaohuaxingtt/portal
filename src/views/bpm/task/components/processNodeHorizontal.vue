@@ -143,7 +143,17 @@ export default {
             taskStatus: '',
             taskId: '',
             endTime: '',
-            ...user
+            ...user,
+            agentUsers: [
+              {
+                deptFullCode: 'TEST2',
+                nameZh: '好耶2'
+              },
+              {
+                deptFullCode: 'TEST3',
+                nameZh: '好耶4'
+              }
+            ]
           })
         })
       }
@@ -153,7 +163,26 @@ export default {
             taskStatus: task.taskStatus,
             taskId: task.taskId,
             endTime: task.endTime,
-            ...task.approvedUser
+            ...task.approvedUser,
+            agentUsers: [
+              {
+                deptFullCode: 'TEST4',
+                nameZh: '好耶4'
+              },
+              {
+                deptFullCode: 'TEST5',
+                nameZh: '好耶5'
+              },
+              {
+                deptFullCode: 'TEST6',
+                nameZh: '好耶6'
+              },
+              {
+                deptFullCode: 'TEST7',
+                nameZh: '好耶7',
+                taskStatus: ''
+              }
+            ]
           })
         })
       }

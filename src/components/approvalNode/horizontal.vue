@@ -31,7 +31,7 @@
               {{ item.approvers[0].deptFullCode }}
               {{ item.approvers[0].nameZh }}
             </span>
-            <ul v-else>
+            <ul v-else class="approval-users">
               <li
                 v-for="(approver, i) in item.approvers"
                 :key="i"
@@ -45,6 +45,23 @@
                   {{ approver.deptFullCode }} {{ approver.nameZh }}
                   {{ approver.taskStatus }}
                 </span>
+                <ul
+                  v-if="approver.agentUsers && approver.agentUsers.length"
+                  class="agent-users"
+                  :class="{
+                    active: ['同意', '拒绝', '有异议', '无异议'].includes(
+                      approver.taskStatus
+                    )
+                  }"
+                >
+                  <li
+                    v-for="(agentUser, agentIndex) in approver.agentUsers"
+                    :key="agentIndex"
+                  >
+                    {{ agentUser.deptFullCode }} {{ agentUser.nameZh }}
+                    {{ agentUser.taskStatus }}
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>
@@ -138,7 +155,7 @@ export default {
             transform: translateX(50%);
             margin-left: -10px;
           }
-          &.multiple ul {
+          &.multiple ul.approval-users {
             list-style: none;
             margin: 0;
             padding: 0;
@@ -146,7 +163,7 @@ export default {
             margin-top: 7px;
           }
 
-          &.multiple ul::before {
+          &.multiple ul.approval-users::before {
             content: '';
             height: 10px;
             border-left: solid 1px #ddd;
@@ -156,7 +173,7 @@ export default {
             top: -5px;
           }
 
-          &.multiple ul li {
+          &.multiple ul.approval-users > li {
             margin: 0;
             padding: 0;
             text-align: left;
@@ -166,9 +183,10 @@ export default {
             position: relative;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
           }
 
-          &.multiple ul li::before {
+          &.multiple ul.approval-users > li::before {
             content: '';
             display: block;
             width: 16px;
@@ -181,7 +199,7 @@ export default {
             background: #fff;
           }
 
-          &.multiple ul li::after {
+          &.multiple ul.approval-users > li::after {
             content: '';
             display: block;
             height: 20px;
@@ -191,13 +209,50 @@ export default {
             left: 5px;
             top: -10px;
           }
-          &.multiple ul li.active {
+          &.multiple ul.approval-users > li.active {
             &::before {
               background: $color-blue;
               border-color: $color-blue;
             }
             &::after {
               border-left: solid 1px $color-blue;
+            }
+          }
+          &.multiple ul.approval-users > li {
+            .agent-users {
+              width: 100%;
+              padding: 10px 0px 10px 25px;
+              box-sizing: border-box;
+              position: relative;
+              > li {
+                padding: 10px 0px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+
+                &::before {
+                  display: block;
+                  content: '';
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 10px;
+                  background-color: #ccc;
+                  margin-right: 6px;
+                }
+              }
+              &::before {
+                content: '';
+                display: block;
+                height: 100%;
+                border-left: dashed 1px #ddd;
+                display: block;
+                position: absolute;
+                left: 5px;
+                top: 0;
+              }
+              &.active::before {
+                border-left: solid 1px $color-blue;
+              }
             }
           }
         }

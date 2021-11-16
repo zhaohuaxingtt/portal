@@ -1,6 +1,6 @@
 <template>
   <div class="horizontal-panel">
-    <horizontal :data="nodeData" id="hrizontalNode" />
+    <horizontal :data="nodeData" id="hrizontalNode" class="hrizontalNode" />
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -199,5 +199,9 @@ export default {
     height: 100%;
     z-index: 9;
   }
+}
+.hrizontalNode {
+  position: relative;
+  z-index: 99;
 }
 </style>
