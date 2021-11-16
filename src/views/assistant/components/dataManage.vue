@@ -11,6 +11,10 @@
 			<img src="~@/assets/images/search.png" alt="" class="search-icon" />
 			<div class="ask-btn">我要提问</div>
 		</div>
+		<div class="mt15 line"></div>
+		<div class="title">{{ moudleName }}</div>
+		<div class="line"></div>
+		<div class="editor-box"></div>
 	</div>
 </template>
 
@@ -23,7 +27,8 @@ export default {
 	},
 	data() {
 		return {
-			searchKey: ""
+			searchKey: "",
+			moudleName: '主数据管理'
 		}
 	},
 	methods: {
@@ -64,10 +69,32 @@ export default {
 				line-height: 36px;
 				text-align: center;
 				background: #EEF2FB;
+				font-weight: bold;
 				color: #1660F1;
 				margin-left: 3%;
 			}
 			
+		}
+		.mt10 {
+			margin-top: 10px;
+		}
+		.line {
+			width: 100%;
+			height: 0px;
+			border: 1px dotted rgba(112, 112, 112, 0.14901960784313725);
+			opacity: 1;
+		}
+		.title {
+			margin: 18px 0px 22px 0px;
+			font-size: 20px;
+			font-weight: bold;
+			color: #000000;
+		}
+		.editor-box {
+			width: 100%;
+			height: calc(100% - 120px);
+			border: 1px solid red;
+			overflow-y: auto;
 		}
 	}
 </style>

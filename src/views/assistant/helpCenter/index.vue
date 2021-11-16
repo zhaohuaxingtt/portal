@@ -22,9 +22,15 @@
 				</iTabBadge>
 			</div>
 		</div>
-		<div class="flex flex-row content mt20">
+		<div class="flex flex-row content mt20" v-show="helpMoudle === 'manual'">
 			<CommonProblem />
 			<DataManage />
+		</div>
+		<div class="flex flex-row content mt20" v-show="helpMoudle === 'problem'">
+			<ProblemSearch/>
+		</div>
+		<div class="flex flex-row content mt20" v-show="helpMoudle === 'ask'">
+			我的提问
 		</div>
 	</iPage>
 </template>
@@ -36,6 +42,7 @@ import { iPage } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
 import DataManage from '../components/dataManage'
+import ProblemSearch from '../components/problemSearch'
 
 export default {
 	data() {
@@ -49,7 +56,8 @@ export default {
 		iTabBadge,
 		iTabBadgeItem,
 		CommonProblem,
-		DataManage
+		DataManage,
+		ProblemSearch
 	},
 	// mounted() {
 	// 	console.log(store.state, "store.state")
@@ -69,6 +77,7 @@ export default {
 		font-weight: bold;
 		color: #000000;
 		opacity: 1;
+		font-size: 18px;
 	}
 	.content {
 		width: 100%;
