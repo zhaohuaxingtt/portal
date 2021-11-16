@@ -18,7 +18,7 @@ if(process.env.NODE_ENV=='dev') {
 // 采购员列表查询接口
 export function getLinie(data) {
     return requst({
-        url: `/riseekl/baseController/getLinie`,
+        url: `/eklApi/baseController/getLinie`,
         method: 'POST',
         data
     })
@@ -27,7 +27,7 @@ export function getLinie(data) {
 // 科室列表查询接口
 export function getDeptListByParam(data) {
     return requst({
-        url: `/riseekl/baseController/getDeptListByParam`,
+        url: `/eklApi/baseController/getDeptListByParam`,
         method: 'POST',
         data
     })
@@ -39,7 +39,7 @@ export function getDeptListByParam(data) {
 // EKL车型产量主表-删除接口
 export function cartypeDelete(data) {
     return requst({
-        url: `/riseekl/eklCartypeOutputEntity/delete`,
+        url: `/eklApi/eklCartypeOutputEntity/delete`,
         method: 'POST',
         data
     })
@@ -48,7 +48,7 @@ export function cartypeDelete(data) {
 // downloadExampleExcel
 export function downloadExampleExcel(data) {
     return requst({
-        url: `/riseekl/eklCartypeOutputEntity/downloadExampleExcel`,
+        url: `/eklApi/eklCartypeOutputEntity/downloadExampleExcel`,
         method: 'GET',
         data,
         responseType: "blob"
@@ -62,10 +62,10 @@ export function downloadExampleExcel(data) {
         link.click()
     })
 }
-// /riseekl/eklCartypeOutputEntity/download?id=1
+// /eklApi/eklCartypeOutputEntity/download?id=1
 export function download(id,name) {
     return requst({
-        url: `/riseekl/eklCartypeOutputEntity/download?id=`+id,
+        url: `/eklApi/eklCartypeOutputEntity/download?id=`+id,
         method: 'GET',
         responseType: "blob"
     }).then(res => {
@@ -81,7 +81,7 @@ export function download(id,name) {
 // EKL车型产量主表-导入产量接口
 export function importEklCartypeOutput(data) {
     return requst({
-        url: `/riseekl/eklCartypeOutputEntity/importEklCartypeOutput`,
+        url: `/eklApi/eklCartypeOutputEntity/importEklCartypeOutput`,
         method: 'POST',
         data
     })
@@ -90,7 +90,7 @@ export function importEklCartypeOutput(data) {
 // EKL车型产量主表-列表查询接口
 export function cartypeOutputList(data) {
     return requst({
-        url: `/riseekl/eklCartypeOutputEntity/page`,
+        url: `/eklApi/eklCartypeOutputEntity/page`,
         method: 'POST',
         data
     })
@@ -103,7 +103,7 @@ export function cartypeOutputList(data) {
 // 获取状态列表
 export function getStatus(data) {
     return requst({
-        url: `/riseekl/seriesbaseEntity/getStatus`,
+        url: `/eklApi/seriesbaseEntity/getStatus`,
         method: 'POST',
         data
     })
@@ -112,7 +112,7 @@ export function getStatus(data) {
 // 业绩基础list
 export function getAchievementList(data) {
     return requst({
-        url: `/riseekl/seriesbaseEntity/page`,
+        url: `/eklApi/seriesbaseEntity/page`,
         method: 'POST',
         data
     })
@@ -121,7 +121,7 @@ export function getAchievementList(data) {
 // 创建业绩基础
 export function create(data) {
     return requst({
-        url: `/riseekl/seriesbaseEntity/create`,
+        url: `/eklApi/seriesbaseEntity/create`,
         method: 'POST',
         data
     })
@@ -130,7 +130,7 @@ export function create(data) {
 // 业绩基础主表-发起确认接口
 export function baseAchievementConfirm(data) {
     return requst({
-        url: `/riseekl/seriesbaseEntity/confirm`,
+        url: `/eklApi/seriesbaseEntity/confirm`,
         method: 'POST',
         data
     })
@@ -139,7 +139,7 @@ export function baseAchievementConfirm(data) {
 // 业绩基础主表-创建含文件业绩基础接口
 export function baseAchievementCreate2(data) {
     return requst({
-        url: `/riseekl/seriesbaseEntity/create2`,
+        url: `/eklApi/seriesbaseEntity/create2`,
         method: 'POST',
         data
     })
@@ -148,7 +148,7 @@ export function baseAchievementCreate2(data) {
 // 业绩基础主表-查询是否有明细数据接口
 export function hasConfirmDetail(data) {
     return requst({
-        url: `/riseekl/seriesbaseEntity/hasConfirmDetail`,
+        url: `/eklApi/seriesbaseEntity/hasConfirmDetail`,
         method: 'POST',
         data
     })
@@ -157,7 +157,7 @@ export function hasConfirmDetail(data) {
 // 批量件-导入接口
 export function batchImport(data) {
     return requst({
-        url: `/riseekl/seriesbaseEntity/import`,
+        url: `/eklApi/seriesbaseEntity/import`,
         method: 'POST',
         data
     })
@@ -166,7 +166,7 @@ export function batchImport(data) {
 // 业绩基础主表-失效接口
 export function invalid(data) {
     return requst({
-        url: `/riseekl/seriesbaseEntity/invalid`,
+        url: `/eklApi/seriesbaseEntity/invalid`,
         method: 'POST',
         data
     })
@@ -175,7 +175,7 @@ export function invalid(data) {
 // 业绩基础主表-我的业绩查询接口
 export function mySeries(data) {
     return requst({
-        url: `/riseekl/seriesbaseEntity/mySeries`,
+        url: `/eklApi/seriesbaseEntity/mySeries`,
         method: 'POST',
         data
     })
@@ -188,7 +188,7 @@ export function mySeries(data) {
 // 获取年份
 export function getYear(data) {
     return requst({
-        url: `/riseekl/yearTargetEntity/getMonth`,
+        url: `/eklApi/yearTargetEntity/getMonth`,
         method: 'POST',
         data
     })
@@ -197,7 +197,7 @@ export function getYear(data) {
 // 获取目标头数据
 export function queryYearTarget(data) {
     return qsAjax({
-        url: `/riseekl/yearTargetEntity/queryYearTarget`,
+        url: `/eklApi/yearTargetEntity/queryYearTarget`,
         method: 'POST',
         data
     })
@@ -206,7 +206,7 @@ export function queryYearTarget(data) {
 //  新增修改年度头数据
 export function saveOrUpYearTarget(data) {
     return requst({
-        url: `/riseekl/yearTargetEntity/saveOrUpYearTarget`,
+        url: `/eklApi/yearTargetEntity/saveOrUpYearTarget`,
         method: 'POST',
         data
     })
@@ -219,7 +219,7 @@ export function saveOrUpYearTarget(data) {
 // 获取品牌内容
 export function querybrandTarget(data) {
     return qsAjax({
-        url: `/riseekl/brandTargetEntity/querybrandTarget`,
+        url: `/eklApi/brandTargetEntity/querybrandTarget`,
         method: 'POST',
         data
     })
@@ -228,7 +228,7 @@ export function querybrandTarget(data) {
 //  修改品牌数据
 export function upBrandTarget(data) {
     return requst({
-        url: `/riseekl/brandTargetEntity/upBrandTarget`,
+        url: `/eklApi/brandTargetEntity/upBrandTarget`,
         method: 'POST',
         data
     })
@@ -241,7 +241,7 @@ export function upBrandTarget(data) {
 // 批量件业绩基础明细表确认按钮
 export function affirmSeriesbaseDetail(data) {
     return requst({
-        url: `/riseekl/seriesbaseDetailEntity/affirmSeriesbaseDetail`,
+        url: `/eklApi/seriesbaseDetailEntity/affirmSeriesbaseDetail`,
         method: 'POST',
         data
     })
@@ -250,7 +250,7 @@ export function affirmSeriesbaseDetail(data) {
 // 批量编辑修改批量件业绩基础明细表
 export function batchUpdateSeriesbaseDetail(data) {
     return qsAjax({
-        url: `/riseekl/seriesbaseDetailEntity/batchUpdateSeriesbaseDetail`,
+        url: `/eklApi/seriesbaseDetailEntity/batchUpdateSeriesbaseDetail`,
         method: 'POST',
         data
     })
@@ -259,7 +259,7 @@ export function batchUpdateSeriesbaseDetail(data) {
 // 批量件业绩基础明细表-发起确认接口
 export function confirm(data) {
     return requst({
-        url: `/riseekl/seriesbaseDetailEntity/confirm`,
+        url: `/eklApi/seriesbaseDetailEntity/confirm`,
         method: 'POST',
         data
     })
@@ -268,7 +268,7 @@ export function confirm(data) {
 // 批量件业绩基础明细表导出功能
 export function exportSeriesbaseDetail(data) {
     return requst({
-        url: `/riseekl/seriesbaseDetailEntity/exportSeriesbaseDetail`,
+        url: `/eklApi/seriesbaseDetailEntity/exportSeriesbaseDetail`,
         method: 'POST',
         data,
         responseType: "blob"
@@ -286,7 +286,7 @@ export function exportSeriesbaseDetail(data) {
 // 获取批量件业绩头部数据
 export function getHeadBaseDetail(data) {
     return qsAjax({
-        url: `/riseekl/seriesbaseDetailEntity/getHeadBaseDetail`,
+        url: `/eklApi/seriesbaseDetailEntity/getHeadBaseDetail`,
         method: 'POST',
         data
     })
@@ -295,7 +295,7 @@ export function getHeadBaseDetail(data) {
 //获取供应商数据
 export function getSupplier(data) {
     return qsAjax({
-        url: `/riseekl/seriesbaseDetailEntity/getSupplier`,
+        url: `/eklApi/seriesbaseDetailEntity/getSupplier`,
         method: 'POST',
         data
     })
@@ -304,7 +304,7 @@ export function getSupplier(data) {
 // 初始化下拉数据 批量件搜索条件
 export function queryAllDropdown(data) {
     return requst({
-        url: `/riseekl/seriesbaseDetailEntity/queryAllDropdown`,
+        url: `/eklApi/seriesbaseDetailEntity/queryAllDropdown`,
         method: 'POST',
         data
     })
@@ -313,7 +313,7 @@ export function queryAllDropdown(data) {
 // 查询批量件业绩基础明细表
 export function querySeriesbaseDetail(data) {
     return requst({
-        url: `/riseekl/seriesbaseDetailEntity/querySeriesbaseDetail`,
+        url: `/eklApi/seriesbaseDetailEntity/querySeriesbaseDetail`,
         method: 'POST',
         data
     })
@@ -322,7 +322,7 @@ export function querySeriesbaseDetail(data) {
 // 修改批量件业绩基础明细表
 export function updateSeriesbaseDetail(data) {
     return requst({
-        url: `/riseekl/seriesbaseDetailEntity/updateSeriesbaseDetail`,
+        url: `/eklApi/seriesbaseDetailEntity/updateSeriesbaseDetail`,
         method: 'POST',
         data
     })
@@ -331,7 +331,7 @@ export function updateSeriesbaseDetail(data) {
 // 版本号下拉数据
 export function versionList(data) {
     return requst({
-        url: `/riseekl/seriesbaseEntity/versionList`,
+        url: `/eklApi/seriesbaseEntity/versionList`,
         method: 'POST',
         data
     })
@@ -344,7 +344,7 @@ export function versionList(data) {
 // 初始化数据保存
 export function querySavaTarget(data) {
     return qsAjax({
-        url: `/riseekl/yearTargetDetailEntity/querySavaTarget`,
+        url: `/eklApi/yearTargetDetailEntity/querySavaTarget`,
         method: 'POST',
         data
     })
@@ -353,7 +353,7 @@ export function querySavaTarget(data) {
 // 获取科室数据
 export function queryYearTargetDetail(data) {
     return qsAjax({
-        url: `/riseekl/yearTargetDetailEntity/queryYearTargetDetail`,
+        url: `/eklApi/yearTargetDetailEntity/queryYearTargetDetail`,
         method: 'POST',
         data
     })
@@ -362,7 +362,7 @@ export function queryYearTargetDetail(data) {
 //  发送站内信
 export function sendLetter(data) {
     return qsAjax({
-        url: `/riseekl/yearTargetDetailEntity/sendLetter`,
+        url: `/eklApi/yearTargetDetailEntity/sendLetter`,
         method: 'POST',
         data
     })
@@ -371,7 +371,7 @@ export function sendLetter(data) {
 // 修改科室数据
 export function upYearTargetDetail(data) {
     return requst({
-        url: `/riseekl/yearTargetDetailEntity/upYearTargetDetail`,
+        url: `/eklApi/yearTargetDetailEntity/upYearTargetDetail`,
         method: 'POST',
         data
     })
@@ -381,7 +381,7 @@ export function upYearTargetDetail(data) {
 // 转派
 export function updateLinie(data) {
     return requst({
-        url: `/riseekl/seriesbaseDetailEntity/updateLinie`,
+        url: `/eklApi/seriesbaseDetailEntity/updateLinie`,
         method: 'POST',
         data
     })
@@ -390,7 +390,7 @@ export function updateLinie(data) {
 // 业绩基础明细-转派给自己
 export function updateLinieToMe(data) {
     return requst({
-        url: `/riseekl/seriesbaseDetailEntity/updateLinieToMe`,
+        url: `/eklApi/seriesbaseDetailEntity/updateLinieToMe`,
         method: 'POST',
         data
     })
@@ -399,7 +399,7 @@ export function updateLinieToMe(data) {
 // 根据部门查询采购员列表接口
 export function getLinieByDeptId(data) {
     return requst({
-        url: `/riseekl/baseController/getLinieByDeptId`,
+        url: `/eklApi/baseController/getLinieByDeptId`,
         method: 'POST',
         data
     })
@@ -408,7 +408,7 @@ export function getLinieByDeptId(data) {
 // 年度添头-科室查询接口
 export function getDepartment(data) {
     return requst({
-        url: `/riseekl/eklAdjustKeEntity/listEklAdjustKe`,
+        url: `/eklApi/eklAdjustKeEntity/listEklAdjustKe`,
         method: 'POST',
         data
     })
@@ -417,7 +417,7 @@ export function getDepartment(data) {
 // 年度添头-产品家族查询
 export function getProductFamily(data) {
     return requst({
-        url: `/riseekl/eklAdjustCartypeEntity/listEklAdjustKe`,
+        url: `/eklApi/eklAdjustCartypeEntity/listEklAdjustKe`,
         method: 'POST',
         data
     })
@@ -426,7 +426,7 @@ export function getProductFamily(data) {
 // 年度添头-保存接口
 export function aveEklAdjust(data) {
     return requst({
-        url: `/riseekl/eklAdjustKeEntity/saveEklAdjust`,
+        url: `/eklApi/eklAdjustKeEntity/saveEklAdjust`,
         method: 'POST',
         data
     })
@@ -437,7 +437,7 @@ export function aveEklAdjust(data) {
 // 月度批量件业绩基础明细导出功能
 export function exportMonthPartlistDetail(data) {
     return requst({
-        url: `/riseekl/monthPartlistDetailEntity/exportMonthPartlistDetail`,
+        url: `/eklApi/monthPartlistDetailEntity/exportMonthPartlistDetail`,
         method: 'POST',
         data,
         responseType: "blob"
@@ -455,7 +455,7 @@ export function exportMonthPartlistDetail(data) {
 // 获取零件跟踪类型
 export function getTrackingType(data) {
     return requst({
-        url: `/riseekl/monthPartlistDetailEntity/getTrackingType`,
+        url: `/eklApi/monthPartlistDetailEntity/getTrackingType`,
         method: 'POST',
         data
     })
@@ -464,7 +464,7 @@ export function getTrackingType(data) {
 // 查询月度批量件业绩基础明细
 export function queryMonthPartlistDetail(data) {
     return requst({
-        url: `/riseekl/monthPartlistDetailEntity/queryMonthPartlistDetail`,
+        url: `/eklApi/monthPartlistDetailEntity/queryMonthPartlistDetail`,
         method: 'POST',
         data
     })
@@ -473,7 +473,7 @@ export function queryMonthPartlistDetail(data) {
 // 修改月度批量件业绩基础明细表
 export function updateMonthPartlistDetail(data) {
     return requst({
-        url: `/riseekl/monthPartlistDetailEntity/updateMonthPartlistDetail`,
+        url: `/eklApi/monthPartlistDetailEntity/updateMonthPartlistDetail`,
         method: 'POST',
         data
     })
@@ -481,7 +481,7 @@ export function updateMonthPartlistDetail(data) {
 // 追踪记录
 export function getMonthPartlistById(data) {
     return requst({
-        url: `/riseekl/monthPartlistEntity/getMonthPartlistById`,
+        url: `/eklApi/monthPartlistEntity/getMonthPartlistById`,
         method: 'POST',
         data
     })
@@ -489,7 +489,7 @@ export function getMonthPartlistById(data) {
 // 刷新
 export function saveTask(data) {
     return requst({
-        url: `/riseekl/monthPartlistTaskEntity/saveTask`,
+        url: `/eklApi/monthPartlistTaskEntity/saveTask`,
         method: 'POST',
         data
     })
@@ -497,7 +497,7 @@ export function saveTask(data) {
 // 零件类型改变
 export function updatepartType(data) {
     return qsAjax({
-        url: `/riseekl/seriesbaseDetailEntity/updatepartType`,
+        url: `/eklApi/seriesbaseDetailEntity/updatepartType`,
         method: 'POST',
         data
     })
@@ -506,7 +506,7 @@ export function updatepartType(data) {
 // 报表接口
 export function getPowerBiVal(data) {
     return requst({
-        url: `/riseekl/piEklreportEntity/getPowerBiVal`,
+        url: `/eklApi/piEklreportEntity/getPowerBiVal`,
         method: 'POST',
         data
     })
@@ -518,7 +518,7 @@ export function getPowerBiVal(data) {
 // 批量件业绩基础明细表确认按钮 配附件
 export function affirmSpbaseDetail(data) {
     return requst({
-        url: `/riseekl/spBasedetailEntity/affirmSpbaseDetail`,
+        url: `/eklApi/spBasedetailEntity/affirmSpbaseDetail`,
         method: 'POST',
         data
     })
@@ -527,7 +527,7 @@ export function affirmSpbaseDetail(data) {
 // 批量件导出功能
 export function exportSpbaseDetail(data) {
     return requst({
-        url: `/riseekl/spBasedetailEntity/exportSpbaseDetail`,
+        url: `/eklApi/spBasedetailEntity/exportSpbaseDetail`,
         method: 'POST',
         data,
         responseType: "blob"
@@ -545,7 +545,7 @@ export function exportSpbaseDetail(data) {
 // 获取配附件业绩头部数据
 export function getHeadspBaseDetail(data) {
     return qsAjax({
-        url: `/riseekl/spBasedetailEntity/getHeadBaseDetail`,
+        url: `/eklApi/spBasedetailEntity/getHeadBaseDetail`,
         method: 'POST',
         data
     })
@@ -554,7 +554,7 @@ export function getHeadspBaseDetail(data) {
 // 初始化下拉数据
 export function querySpareAllDropdown(data) {
     return qsAjax({
-        url: `/riseekl/spBasedetailEntity/queryAllDropdown`,
+        url: `/eklApi/spBasedetailEntity/queryAllDropdown`,
         method: 'POST',
         data
     })
@@ -563,7 +563,7 @@ export function querySpareAllDropdown(data) {
 // 查询配附件业绩基础明细表
 export function querySpbaseDetail(data) {
     return requst({
-        url: `/riseekl/spBasedetailEntity/querySpbaseDetail`,
+        url: `/eklApi/spBasedetailEntity/querySpbaseDetail`,
         method: 'POST',
         data
     })
@@ -572,7 +572,7 @@ export function querySpbaseDetail(data) {
 // 获取配附件年度业绩
 export function querySpYearTarget(data) {
     return qsAjax({
-        url: `/riseekl/spYearTargetEntity/querySpYearTarget`,
+        url: `/eklApi/spYearTargetEntity/querySpYearTarget`,
         method: 'POST',
         data
     })
@@ -581,7 +581,7 @@ export function querySpYearTarget(data) {
 // 修改年度头数据
 export function saveSpYearTarget(data) {
     return requst({
-        url: `/riseekl/spYearTargetEntity/saveOrUpYearTarget`,
+        url: `/eklApi/spYearTargetEntity/saveOrUpYearTarget`,
         method: 'POST',
         data
     })
@@ -590,7 +590,7 @@ export function saveSpYearTarget(data) {
 // 获取配附件年度业绩明细数据接口
 export function querySpYearTargetDetail(data) {
     return qsAjax({
-        url: `/riseekl/spYearTargetDetailEntity/querySpYearTargetDetail`,
+        url: `/eklApi/spYearTargetDetailEntity/querySpYearTargetDetail`,
         method: 'POST',
         data
     })
@@ -599,7 +599,7 @@ export function querySpYearTargetDetail(data) {
 // 修改配附件年度业绩科室数据
 export function updateSpYearTargetDetail(data) {
     return requst({
-        url: `/riseekl/spYearTargetDetailEntity/updateSpYearTargetDetail`,
+        url: `/eklApi/spYearTargetDetailEntity/updateSpYearTargetDetail`,
         method: 'POST',
         data
     })
@@ -609,7 +609,7 @@ export function updateSpYearTargetDetail(data) {
 // 配附件业绩进度跟踪导出功能接口
 export function exportSpTrackDetail(data) {
     return requst({
-        url: `/riseekl/spTrackDetailEntity/exportSpbaseDetail`,
+        url: `/eklApi/spTrackDetailEntity/exportSpbaseDetail`,
         method: 'POST',
         data,
         responseType: "blob"
@@ -627,7 +627,7 @@ export function exportSpTrackDetail(data) {
 // 查询配附件业绩基础明细表
 export function querySpTrackDetail(data) {
     return requst({
-        url: `/riseekl/spTrackDetailEntity/querySpTrackDetail`,
+        url: `/eklApi/spTrackDetailEntity/querySpTrackDetail`,
         method: 'POST',
         data
     })
@@ -637,7 +637,7 @@ export function querySpTrackDetail(data) {
 // 配附件业绩进度跟踪头部数据
 export function querySum(data) {
     return requst({
-        url: `/riseekl/spTrackDetailEntity/querySum`,
+        url: `/eklApi/spTrackDetailEntity/querySum`,
         method: 'POST',
         data
     })
@@ -646,7 +646,7 @@ export function querySum(data) {
 // 下载上传模板
 export function downloadSptemplate(data) {
     return requst({
-        url: `/riseekl/seriesbaseEntity/downloadExampleExcel`,
+        url: `/eklApi/seriesbaseEntity/downloadExampleExcel`,
         method: 'GET',
         data,
         responseType: "blob"
@@ -663,7 +663,7 @@ export function downloadSptemplate(data) {
 // 业绩基础明细转派
 export function updateSpLinie(data) {
     return requst({
-        url: `/riseekl/spBasedetailEntity/updateLinie`,
+        url: `/eklApi/spBasedetailEntity/updateLinie`,
         method: 'POST',
         data
     })
@@ -672,7 +672,7 @@ export function updateSpLinie(data) {
 // 业绩基础明细-转派给自己
 export function updateSpLinieToMe(data) {
     return requst({
-        url: `/riseekl/spBasedetailEntity/pdateLinieToMe`,
+        url: `/eklApi/spBasedetailEntity/pdateLinieToMe`,
         method: 'POST',
         data
     })

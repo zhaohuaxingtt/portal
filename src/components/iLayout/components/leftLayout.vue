@@ -45,7 +45,7 @@
         @click.native="menuVisible = !menuVisible"
         v-if="
           menus
-            .map(item => {
+            .map((item) => {
               return item.permissionKey
             })
             .includes(activeIndex)
@@ -59,13 +59,7 @@
         }"
       >
         <div class="meunTopContent">
-          <span>{{
-            activeIndex === 'RISE_HOME'
-              ? 'Personalized Modules'
-              : activeIndex === 'RISE_WORKBENCH'
-              ? 'Workbench'
-              : 'Common Function'
-          }}</span>
+          <span>{{ menuTextMap[activeIndex] }}</span>
           <icon
             symbol
             name="iconcaidanshouqi"
@@ -86,7 +80,7 @@ export default {
   props: {
     menus: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -96,11 +90,11 @@ export default {
       iconChangeClass: '',
       menuVisible: false,
       activeIndex: '',
-      mapMenu: {
-        cf: 'RISE_COMMON_FUNCTION',
-        wb: 'RISE_WORKBENCH',
-        home: 'RISE_HOME',
-        admin: 'RISE_ADMIN'
+      menuTextMap: {
+        RISE_HOME: 'Personalized Modules',
+        RISE_WORKBENCH: 'Workbench',
+        RISE_GP: 'General Purchase',
+        RISE_COMMON_FUNCTION: 'Common Function'
       }
     }
   },
@@ -114,18 +108,18 @@ export default {
     this.$emit('toggle-active', rootIndex)
   },
   mounted() {
-    document.addEventListener('click', e => {
+    document.addEventListener('click', (e) => {
       this.clickListener(e)
     })
   },
   beforeDestroy() {
-    document.removeEventListener('click', e => {
+    document.removeEventListener('click', (e) => {
       this.clickListener(e)
     })
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         if (route.path === '/index') {
           this.showSideMenu()
         }

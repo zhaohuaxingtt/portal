@@ -14,7 +14,10 @@
         <el-form inline
                  label-position="top">
           <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
-            <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+            <iSelect multiple
+                     collapse-tags
+                     filterable
+                     :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
                      v-model="form.tagNameList">
               <el-option v-for="item in tagdropDownList"
                          :key="item.code"
@@ -60,6 +63,7 @@
         </div>
         <el-table :data="tabledata"
                   v-loading="tableLoading"
+                  ref="mulitipleTable"
                   @selection-change="handleSelectionChange"
                   style="margin-top:30px"
                   :tableTitle="setTagCloum">
@@ -91,8 +95,6 @@
           language('XIANSHIYINCNAG', '显示/隐藏')
         ">
             <template slot="header">
-              <span>{{ language('XIANSHIYINCNAG', '显示/隐藏')}}</span>
-
               <el-popover width="280"
                           :content="text">
                 <div slot="reference">
@@ -157,7 +159,7 @@ export default {
   },
   data() {
     return {
-      text: '显示：显示的供应商标签会在界面中展示;<br/> 隐藏：隐藏的供应商标签不会在界面中展示。',
+      text: '显示：显示的供应商标签会在界面中展示;隐藏：隐藏的供应商标签不会在界面中展示。',
       tabledata: [],
       setTagCloum: setTagCloum,
       tableLoading: false,
@@ -197,6 +199,14 @@ export default {
           this.tableLoading = false
           this.tabledata = res.data
           this.page.totalCount = res.total
+          this.$nextTick(function()  {
+            this.tabledata.forEach((e) => {
+              if (e.isBinding == 1) {
+                this.$refs.mulitipleTable.toggleRowSelection(e, true)
+              }
+            })
+          })
+
         } else iMessage.error(res.desZh)
       })
     },
@@ -253,7 +263,7 @@ export default {
       this.getList()
     },
     selectable(val) {
-      if (val.isBinding != 1 && val.tagTypeVale == '手工维护') {
+      if (val.tagTypeVale == '手工维护') {
         return true
       }
     }

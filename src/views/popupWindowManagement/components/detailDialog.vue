@@ -8,7 +8,8 @@
   >
       <div class="main">
           <div class="left">
-              <img :src="detail.picUrl" alt="" class="left-image">
+              <img v-if="detail.picUrl" :src="detail.picUrl" alt="" class="left-image">
+              <img v-else src="../../../assets/images/popupPic.png" alt="" class="left-image">
           </div>
           <div class="right">
               <h2 :class="{'link-text':detail.linkUrl}" @click="toNewPage">{{detail.title}}</h2>

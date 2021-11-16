@@ -24,7 +24,7 @@
           </div>
           <div class="numName flex-align-center">
             <icon symbol class="icon" name="icona-InProgress" />
-            <div class="numName-text">{{ $t('HOME_CARD.IN_PROGRESS') }}</div>
+            <div>{{ $t('HOME_CARD.IN_PROGRESS') }}</div>
           </div>
         </div>
       </div>
@@ -123,7 +123,7 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 150px;
+  width: 120px;
 }
 .task-card {
   border-radius: 10px;

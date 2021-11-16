@@ -108,31 +108,32 @@ export default {
       searchDetail(ids).then((res)=>{
         if(res.code == 200){
           const formData = res.data
-          let _this = this
+          // let _this = this
           this.formData = formData
-          this.instance = this.$notify({
-          duration: 0,
-          dangerouslyUseHTMLString: true,
-          message:`<div style='display: flex;justify-content: space-between;cursor:pointer;'>
-                      <div class="popupLeft" style='width:50px;height:50px; '>
-                        <img src="${formData.picUrl}" style='width:100%;height:100%; border-radius: 50%;'>
-                      </div>
-                      <div class="popupRight" style='position:relative;margin-left:20px'>
-                        <p class='${formData.linkUrl && 'linkTitle'}' 
-                          style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-                          width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;'
-                          >
-                          ${formData.popupName}
-                        </p>
-                        <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
-                        >${formData.content}</p>
-                      </div>
-                    </div>`,
-          position:'bottom-right',
-          onClick(){
-              _this.openDialog()
-            }
-          })
+          this.openDialog()
+          // this.instance = this.$notify({
+          // duration: 0,
+          // dangerouslyUseHTMLString: true,
+          // message:`<div style='display: flex;justify-content: space-between;cursor:pointer;'>
+          //             <div class="popupLeft" style='width:50px;height:50px; '>
+          //               <img src="${formData.picUrl}" style='width:100%;height:100%; border-radius: 50%;'>
+          //             </div>
+          //             <div class="popupRight" style='position:relative;margin-left:20px'>
+          //               <p class='${formData.linkUrl && 'linkTitle'}' 
+          //                 style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+          //                 width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;'
+          //                 >
+          //                 ${formData.popupName}
+          //               </p>
+          //               <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
+          //               >${formData.content}</p>
+          //             </div>
+          //           </div>`,
+          // position:'bottom-right',
+          // onClick(){
+          //     _this.openDialog()
+          //   }
+          // })
         }else{
           this.$message.error(res.desZh)
         }
@@ -140,7 +141,7 @@ export default {
       
     },
     openDialog(){
-      this.instance.close()
+      // this.instance.close()
       this.show = true
       
       this.detail = {
