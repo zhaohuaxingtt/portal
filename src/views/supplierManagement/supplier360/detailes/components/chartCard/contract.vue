@@ -47,7 +47,8 @@ export default {
         data: '',
         value: ''
       },
-      infoBar: []
+      infoBar: [],
+      ifBarchart:false
     }
   },
   computed: {
@@ -144,7 +145,13 @@ export default {
       }
       myChart.setOption(this.option1)
       myChart.on('click', (params) => {
+          this.ifBarchart=!this.ifBarchart
+          if(this.ifBarchart){
         this.getRightChart(params.name)
+          }else{
+              this.getRightChart()
+          }
+
       })
       myChart.on('mouseover', function (params) {
         /*添加鼠标事件*/ obj.chooseEquipment.value = params.value

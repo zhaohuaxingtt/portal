@@ -24,7 +24,7 @@
           </div>
           <div class="numName flex-align-center">
             <icon symbol class="icon" name="icona-InProgress" />
-            <div class="numName-text">{{ $t('HOME_CARD.IN_PROGRESS') }}</div>
+            <div>{{ $t('HOME_CARD.IN_PROGRESS') }}</div>
           </div>
         </div>
       </div>
