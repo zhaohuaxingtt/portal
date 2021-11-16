@@ -376,6 +376,12 @@ export default {
   watch: {
     supplierData(val) {
       console.log(val)
+    },
+    country(val) {
+      if (val > 0) {
+        console.log(val)
+        this.getisForeignCountry(val)
+      }
     }
   },
   data() {
@@ -430,18 +436,19 @@ export default {
       return this.$route.query.supplierType
     }
   },
-  created() {},
+  created() {
+    this.getisBlack()
+  },
   methods: {
     // 获取省份
     getProvince() {
       let data = {
         sapLocationCode: this.supplierData.supplierDTO.countryCode
       }
+      console.log(1111)
       getCityInfo(data).then((res) => {
         if (res.data) {
           this.getisForeignCountry(res.data)
-          this.getisBlack()
-
           let req = {
             parentCityId: res.data[0].cityIdStr
           }
@@ -476,6 +483,7 @@ export default {
             code = 1
           } else code = 0
           this.supplierData.supplierDTO.isBlacklist = code
+          this.$set( this.supplierData.supplierDTO,'isBlacklist',code)
         }
       )
     },
@@ -492,7 +500,7 @@ export default {
           code = 1
         } else code = 0
         this.supplierData.supplierDTO.isForeignManufacture = code
-        console.log(this.supplierData.supplierDTO.isForeignManufacture )
+        console.log(this.supplierData.supplierDTO.isForeignManufacture)
       })
     },
 

@@ -49,6 +49,13 @@
             </iFormItem>
           </el-col>
         </el-row>
+        <!-- <el-row :gutter="24">
+          <el-col span="24" prop='popupType'>
+            <iFormItem :label="language('弹窗布局')" v-model="formContent.popupType">
+              <popupStyle></popupStyle>
+            </iFormItem>
+          </el-col>
+        </el-row> -->
         <el-row :gutter="24">
           <el-col span="24">
             <iFormItem :label="language('发布时间')">
@@ -75,9 +82,10 @@ import {iFormItem,iDatePicker,iInput,iSelect} from 'rise'
 import {PUBLISH_SCOPE_OPTIONS} from './data.js'
 import userSelector from '@/components/userSelector'
 import sullpierSelect from './supplierSelect.vue'
+import popupStyle from './popupStyle.vue'
 export default {
     name:'newLeft',
-    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,sullpierSelect},
+    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,sullpierSelect,popupStyle},
     props:{},
     data(){
       return{
@@ -89,9 +97,9 @@ export default {
           deletePreTime:'',
           publishPreTime:'',
           content:'',
+          popupType:'',
           userList:'',
           supplierList:''
-          
         },
         pickerOptions:{
           disabledDate(time){
@@ -103,6 +111,7 @@ export default {
           publishRange:{required:'true',message:'请输入发布范围',trigger:'blur'},
           // deletePreTime:{required:'true',message:'请选择历史查看有效期',trigger:'blur'},
           content:{required:'true',message:'请输入弹窗说明',trigger:'blur'},
+          popupType:{required:'true',message:'请选择弹框',trigger:'blur'}
         },
       }
     },

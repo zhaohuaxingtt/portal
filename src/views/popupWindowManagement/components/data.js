@@ -22,7 +22,14 @@ export const TABLE_COLUMNS = [
     },
     {
         label:'发送时间',
-        prop:'publishTime'
+        // prop:'publishTime',//publishPreTime
+        customRender:(h,scope)=>{
+          if(scope.row.publishTime){
+            return scope.row.publishTime
+          }else{
+            return scope.row.publishPreTime
+          }
+        }
     }
 ]
 
