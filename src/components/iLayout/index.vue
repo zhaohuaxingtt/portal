@@ -41,7 +41,7 @@
     <div class="btn-button" @click="handleShow">
       <img src="~@/assets/images/leftContent.png" alt="" />
     </div>
-    <div class="povper-content">
+    <div class="povper-content" v-show="contentShowFlag">
       <div v-for="(list, index) in popoverList" :key="index">
         <div class="item-content" @click="handleClick(list)">
           {{ list.name }}
