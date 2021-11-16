@@ -123,7 +123,7 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 150px;
+  width: 120px;
 }
 .task-card {
   border-radius: 10px;

@@ -385,13 +385,13 @@ export default {
       stockCode, //股票代码
       province: [],
       isForeignCountryList: [
-        { name: this.language('SHI', '是'), code: true },
-        { name: this.language('FOU', '否'), code: false }
+        { name: this.language('SHI', '是'), code: 1 },
+        { name: this.language('FOU', '否'), code: 0 }
       ],
       city: [],
       blackList: [
-        { name: this.language('SHI', '是'), code: true },
-        { name: this.language('FOU', '否'), code: false }
+        { name: this.language('SHI', '是'), code: 1 },
+        { name: this.language('FOU', '否'), code: 0 }
       ],
       epNatureSubcategorySelect: [] //企业小类值
     }
@@ -471,7 +471,11 @@ export default {
     getisBlack() {
       isBlack({ supplierToken: this.$route.query.supplierToken }).then(
         (res) => {
-          this.supplierData.supplierDTO.isBlacklist = res.data
+          let code = 0
+          if (res.data) {
+            code = 1
+          } else code = 0
+          this.supplierData.supplierDTO.isBlacklist = code
         }
       )
     },
@@ -483,7 +487,12 @@ export default {
             item.sapLocationCode == this.supplierData.supplierDTO.countryCode
         ).id
       }).then((res) => {
-        this.supplierData.supplierDTO.isForeignManufacture = res.data
+        let code = 0
+        if (res.data) {
+          code = 1
+        } else code = 0
+        this.supplierData.supplierDTO.isForeignManufacture = code
+        console.log(this.supplierData.supplierDTO.isForeignManufacture )
       })
     },
 
