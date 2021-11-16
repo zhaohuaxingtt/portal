@@ -18,7 +18,7 @@
       </el-col>
       <el-col :span="8">
         <!-- ekl批量件 -->
-        <eklSupplier></eklSupplier>
+        <eklSupplier :infodata="infodata"></eklSupplier>
       </el-col>
     </el-row>
     <el-row

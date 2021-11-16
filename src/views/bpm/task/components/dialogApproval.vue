@@ -119,11 +119,12 @@ export default {
       )
         ? stageCompleteApproval(data)
         : completeApproval(data)
-      approvalResult(data)
+      approvalResult
         .then((res) => {
           this.loading = false
           if (res.result) {
             iMessage.success(this.$t('APPROVAL.APPROVAL_SUCCESS'))
+            // this.$router.resolve({})
             this.$emit('success')
           } else {
             iMessage.error(this.$t('APPROVAL.APPROVAL_FAILED'))
