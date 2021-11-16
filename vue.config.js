@@ -7,10 +7,9 @@ const ChangeNginxConfig = require(resolve(
 ))
 const px2rem = require('postcss-px2rem')
 const postcss = px2rem({
-  remUnit: 16,
-  exclude: 'tinymce'
+  remUnit: 16
 })
-const BASE_DOMAN = '10.122.18.166'
+// const BASE_IP = '10.122.18.166'
 const BASE_IP = '10.122.17.38'
 
 module.exports = {
