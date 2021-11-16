@@ -64,7 +64,7 @@
                      style="width:240px"
                      :placeholder="language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')"
                      v-model="form.ppStuffSaveDTOList">
-              <el-option v-for="item in stuffByArr"
+              <el-option  v-for="item in stuffByArr"
                          :key="item.stuffCode"
                          :label="item.stuffName+'-'+item.stuffCode"
                          :value="item">
