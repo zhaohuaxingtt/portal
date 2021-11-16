@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\replenishmentManagement\mtzLocation\firstDetails.js
  */
 import axios from '@/utils/axios'
-
+const requstPart = axios(process.env.VUE_APP_MATERIEL)//零件车型
 const requst = axios(process.env.VUE_APP_RFQ +'/web')
 const requstDict = axios(process.env.VUE_APP_BASE_INFO)
 
@@ -62,5 +62,14 @@ export function getApplicationPartPagedList(parmars) {
     url: '/mtz/getApplicationPartPagedList',
     method: 'POST',
     data: parmars
+  })
+}
+
+export function cartypePaged(data) {
+  //车型主数据分页查询
+  return requstPart({
+    url: '/web/cartypePaged',
+    method: 'GET',
+    params: data
   })
 }

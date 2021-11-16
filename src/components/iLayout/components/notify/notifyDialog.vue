@@ -4,7 +4,7 @@
       :title="papgeTitle"
       @close="closeDialog"
       style="display:block"
-      width="600px"
+      min-width="600px"
       min-height="400px"
     >
       <div class="main">
@@ -76,7 +76,7 @@ export default {
   display: flex;
   justify-content: space-between;
   .left {
-    width: 300px;
+    width: 400px;
     height: 100%;
     position: absolute;
     top: 0px;
@@ -90,11 +90,15 @@ export default {
   .right {
     width: 100%;
     height: 100%;
-    margin-left: 330px;
+    margin-left: 430px;
     .content,
     .btn {
       margin-top: 20px;
       margin-bottom: 20px;
+    }
+    .content{
+      max-height: 200px;
+      overflow: auto;
     }
     .link-text {
       text-decoration: underline;

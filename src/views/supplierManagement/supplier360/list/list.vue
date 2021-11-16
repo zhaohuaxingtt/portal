@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
@@ -114,14 +114,43 @@
     </iSearch>
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
-
-        <div class="floatright">
+        <!-- <div class="floatright">
           <i-button @click="tagTab"
-                     >{{
+                    v-permission="PORTAL.SUPPLIER.GONGYINGSHANGBIAOQIAN"
+                    v-if="relatedToMe">{{
             language('GONGYINGSHANGBIAOQIAN', '供应商标签')
           }}</i-button>
           <i-button @click="setTagBtn"
-                     v-if="relatedToMe">{{
+                    v-permission="PORTAL.SUPPLIER.BIAOQIANSHEZHI"
+                    v-if="relatedToMe">{{
+            language('BIAOQIANSHEZHI', '标签设置')
+          }}</i-button>
+          <i-button @click="lacklistBtn('join', language('JIARU', '加入'))"
+                    v-permission="PORTAL.SUPPLIER.JIARUHEIMINGDAN"
+                    v-if="relatedToMe">{{
+            $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN')
+          }}</i-button>
+          <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))"
+                    v-permission="PORTAL.SUPPLIER.YICHUHEIMINGDAN"
+                    v-if="relatedToMe">{{
+            $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN')
+          }}</i-button>
+          <i-button @click="handleRating"
+                    v-permission="PORTAL.SUPPLIER.FAQICHUPINGQINGDAN"
+                    v-if="relatedToMe">{{
+            $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
+          }}</i-button>
+          <i-button @click="handleRegister">{{
+            $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
+          }}</i-button>
+        </div> -->
+        <div class="floatright">
+          <i-button @click="tagTab"
+                    v-if="relatedToMe">{{
+            language('GONGYINGSHANGBIAOQIAN', '供应商标签')
+          }}</i-button>
+          <i-button @click="setTagBtn"
+                    v-if="relatedToMe">{{
             language('BIAOQIANSHEZHI', '标签设置')
           }}</i-button>
           <i-button @click="lacklistBtn('join', language('JIARU', '加入'))"
@@ -133,11 +162,10 @@
             $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN')
           }}</i-button>
           <i-button @click="handleRating"
-                     v-if="relatedToMe">{{
+                    v-if="relatedToMe">{{
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
-          <i-button @click="handleRegister"
-                     >{{
+          <i-button @click="handleRegister">{{
             $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
           }}</i-button>
         </div>
@@ -284,7 +312,7 @@ export default {
     iSelect,
     iPagination,
     listDialog,
-    
+
     iSearch,
     joinlacklistGp,
     removelacklistGp,
@@ -295,7 +323,7 @@ export default {
     setTagdilog,
     setTagList
   },
-  data() {
+  data () {
     return {
       tagdropDownList: [],
       supplierId: '',
@@ -348,7 +376,7 @@ export default {
       tableLoading: false,
       selectTableData: [],
       selectTableList: {},
-      relatedToMe:false,
+      relatedToMe: false,
       isCgy: false,
       userType: 'LINIE',
       form: {
@@ -381,14 +409,14 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.handleInfo()
     // this.$nextTick(() => {
     this.getUserType()
     // })
   },
   methods: {
-    getUserType() {
+    getUserType () {
       getBuyerType({}).then((res) => {
         if (res && res.code == 200) {
           this.userType = res.data
@@ -403,7 +431,7 @@ export default {
           }
           if (this.userType == 'GP') this.form.supplierType = 'GP'
           console.log(this.isCgy)
-
+          this.form.relatedToMe = true
           this.getTableList(this.form.supplierType)
         } else {
           this.userType = ''
@@ -412,7 +440,7 @@ export default {
       })
     },
     //加入黑名单
-    lacklistBtn(type, text) {
+    lacklistBtn (type, text) {
       if (this.selectTableData.length == 0) {
         this.supplierId = ''
       } else {
@@ -507,7 +535,7 @@ export default {
       }
     },
 
-    async handleInfo() {
+    async handleInfo () {
       const res2 = await dictByCode('RELEVANT_DEPT')
       const res3 = await dictByCode('supplier_active')
       const res4 = await dictByCode('supplier_main_type')
@@ -522,24 +550,24 @@ export default {
       this.fromGroup.supplierTypeList = res4
     },
     //标签设置弹窗
-    setTagBtn() {
+    setTagBtn () {
       console.log(this.selectTableData)
       if (this.selectTableData.length == 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
       } else this.isSetTag = true
     },
     //标签列表弹窗
-    handleTagsList(row) {
+    handleTagsList (row) {
       this.rowList = row
       this.issetTagList = true
     },
-    tagTab() {
-        let routeData = this.$router.resolve({
+    tagTab () {
+      let routeData = this.$router.resolve({
         path: '/supplier/supplierTag'
-       })
-            window.open(routeData.href)
+      })
+      window.open(routeData.href)
     },
-    async handleRating() {
+    async handleRating () {
       if (this.selectTableData.length === 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
@@ -557,10 +585,10 @@ export default {
         })
       })
     },
-    handleRegister() {
+    handleRegister () {
       this.listDialog = true
     },
-    openPage(params) {
+    openPage (params) {
       console.log(params)
       let routeData = this.$router.resolve({
         path: '/supplier/supplierList/details',
@@ -572,36 +600,31 @@ export default {
       window.open(routeData.href)
       // this.$router.push({ name: 'ViewSuppliers', query: { supplierToken: params.supplierToken || '', supplierType: "4" } })
     },
-    handleSearchReset() {
-      if (this.$store.state.permission.userInfo.userType == 2) {
-        this.form.relatedToMe = true
-          this.relatedToMe=true
-      } 
-        this.form = {
-          supplierName: '',
-          socialcreditNo: '',
-          address: '',
-          dunsCode: '',
-          svwTempCode: '',
-          sapCode: '',
-          svwCode: '',
-          vwCode: '',
-          tagdropDownList: [],
-          isActive: '',
-          supplierType: this.userType,
-          dept: ''
-        }
+    handleSearchReset () {
+      this.form.relatedToMe == true
+      this.relatedToMe = true
+      this.form = {
+        supplierName: '',
+        socialcreditNo: '',
+        address: '',
+        dunsCode: '',
+        svwTempCode: '',
+        sapCode: '',
+        svwCode: '',
+        vwCode: '',
+        tagdropDownList: [],
+        isActive: '',
+        supplierType: this.userType,
+        dept: ''
+      }
       this.page.currPage = 1
       this.page.pageSize = 10
       this.getUserType()
     },
 
-    async getTableList() {
+    async getTableList () {
+      console.log(this.$store.state.permission.userInfo, "....")
       this.tableLoading = true
-      if (this.$store.state.permission.userInfo.userType == 2) {
-        this.relatedToMe=true
-      }
-       this.form.relatedToMe = true
       const pms = {
         ...this.form,
         sortColumn: 'string',
@@ -612,7 +635,7 @@ export default {
         supplierType: this.form.supplierType
       }
       const res = await getBasicList(pms)
-      this.relatedToMe=this.form.relatedToMe
+      this.relatedToMe = this.form.relatedToMe
       this.tableListData = res.data
       this.tableListData.forEach((res) => {
         if (res.supplierTagNameList != null) {
@@ -624,10 +647,10 @@ export default {
       this.page.totalCount = res.total
       this.tableLoading = false
     },
-    handleSelectionChange(e) {
+    handleSelectionChange (e) {
       this.selectTableData = e
     },
-    handleBlackList(row) {
+    handleBlackList (row) {
       this.rowList = row
       if (this.form.supplierType == 'GP') {
         this.gpBlackParams = {
@@ -645,18 +668,18 @@ export default {
       }
     },
     // 选中数据
-    handleClickRow(val) {
+    handleClickRow (val) {
       this.selectTableList = val
     },
-    changeSupplierType() {
+    changeSupplierType () {
       this.closeDiolog(1)
     },
-    getLsitBtn() {
+    getLsitBtn () {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.getTableList()
     },
-    closeDiolog(v) {
+    closeDiolog (v) {
       if (v == 1) {
         this.getLsitBtn()
       }
