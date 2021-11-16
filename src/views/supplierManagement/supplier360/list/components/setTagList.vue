@@ -251,7 +251,9 @@ export default {
     clickReset() {
       this.page.currPage = 1
       this.page.pageSize = 10
-      this.form = {}
+      this.form = {
+          
+      }
       this.getList()
     },
     selectable(val) {

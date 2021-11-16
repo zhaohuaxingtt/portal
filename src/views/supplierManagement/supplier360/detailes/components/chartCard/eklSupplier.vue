@@ -52,6 +52,7 @@ export default {
   },
   watch: {
        infodata(data) {
+           console.log(data)
          this.getData(data.sapCode)
     }
   },
