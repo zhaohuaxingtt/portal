@@ -91,7 +91,7 @@
                    v-model="form.relatedToMe">
             <el-option v-for="(item, index) in fromGroup.relatedToMeList"
                        :key="index"
-                       :disabled="$store.state.permission.userInfo.userType==2&&!item.value"
+                       :disabled="$store.state.permission.userInfo.userType==2"
                        :value="item.value"
                        :label="item.label">
             </el-option>
@@ -114,21 +114,21 @@
     </iSearch>
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat"
-           v-if="$store.state.permission.userInfo.userType!=1">
+          >
         <div class="floatright">
-          <i-button @click="setTagBtn">{{
+          <i-button @click="setTagBtn"  v-if="$store.state.permission.userInfo.userType!=1">{{
             language('BIAOQIANSHEZHI', '标签设置')
           }}</i-button>
-          <i-button @click="lacklistBtn('join', language('JIARU', '加入'))">{{
+          <i-button @click="lacklistBtn('join', language('JIARU', '加入'))"  v-if="$store.state.permission.userInfo.userType!=1&&(userType == 'LINIE'||userType == 'PRE')">{{
             $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN')
           }}</i-button>
-          <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))">{{
+          <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))" v-if="$store.state.permission.userInfo.userType!=1&&(userType == 'LINIE'||userType == 'PRE')">{{
             $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN')
           }}</i-button>
-          <i-button @click="handleRating">{{
+          <i-button @click="handleRating"  v-if="$store.state.permission.userInfo.userType!=1">{{
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
-          <i-button @click="handleRegister">{{
+          <i-button @click="handleRegister"  v-if="$store.state.permission.userInfo.userType!=1">{{
             $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
           }}</i-button>
         </div>
