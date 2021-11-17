@@ -21,7 +21,7 @@
         width="340"
         min-width="340"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span @click="goToDetail(scope.row.id)" class="open-link-text">{{
             scope.row.name
           }}</span>
@@ -45,7 +45,7 @@
         min-width="70"
         width="70"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span
             :class="[
               {
@@ -80,7 +80,7 @@
         min-width="200"
         width="200"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span v-if="scope.row.startDate">{{
             scope.row.startDate + " " + scope.row.startTime.substring(0, 5)
           }}</span>
@@ -99,7 +99,7 @@
         min-width="90"
         width="90"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>CW{{ scope.row.weekOfYear }}/53</span>
         </template>
       </el-table-column>
@@ -112,7 +112,7 @@
         min-width="60"
         width="60"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span class="attachments-box">
             <el-popover placement="right" trigger="click">
               <div class="enclosure-popover">
@@ -143,7 +143,7 @@
       </el-table-column>
       <el-table-column width="27" align="center" label=""></el-table-column>
       <!-- <el-table-column prop="supporter" align="center" label="操作" min-width="200">
-        <template scope="scope">
+        <template slot-scope="scope">
           <p class="action-box" @click="newSummary(scope.row.id)">
             <img class="new-file" :src="newFile" alt="" srcset="" />
             <span>查看会议纪要</span>
