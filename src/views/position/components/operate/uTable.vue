@@ -34,7 +34,7 @@ export default {
           align: 'center',
           emit: 'go-detail',
           customRender: (h, scope) => {
-            return <span class="open-link-text">{scope.row.accountId}</span>
+            return <span class="open-link-text">{scope.row.userNum}</span>
           }
         },
         {
