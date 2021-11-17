@@ -11,7 +11,7 @@
         label="NO."
         width="50"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <div class="img-word">
             <div class="img-box">
               <span>
@@ -88,7 +88,7 @@
         label="Count"
         width="70"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{
             !scope.row.count && scope.row.isBreak ? "/" : scope.row.count
           }}</span>
@@ -101,7 +101,7 @@
         label="Topic"
         width="220"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{
             !scope.row.topic && scope.row.isBreak ? "/" : scope.row.topic
           }}</span>
@@ -114,7 +114,7 @@
         label="Duration"
         width="90"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{
             !scope.row.duration && scope.row.isBreak ? "/" : scope.row.duration
           }}</span>
@@ -126,7 +126,7 @@
         align="center"
         label="Time"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span v-if="scope.row.startTime">{{
             scope.row.startTime && scope.row.startTime.substring(0, 5)
           }}</span>
@@ -142,7 +142,7 @@
         align="center"
         label="Presenter"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.presenter }}</span>
           <span
             v-if="
@@ -160,7 +160,7 @@
         align="center"
         label="Presenter Dept."
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.presenterDept }}</span>
           <span
             v-if="
@@ -178,7 +178,7 @@
         align="center"
         label="Supporter"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.supporter }}</span>
           <span
             v-if="
@@ -196,7 +196,7 @@
         align="center"
         label="Supporter Dept."
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.supporterDept }}</span>
           <span
             v-if="
@@ -216,7 +216,7 @@
         align="center"
         label="Status"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           {{ statusObj[scope.row.state] }}
         </template>
       </el-table-column>
@@ -226,7 +226,7 @@
         align="center"
         label="Remark"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{
             !scope.row.remark && scope.row.isBreak ? "/" : scope.row.remark
           }}</span>

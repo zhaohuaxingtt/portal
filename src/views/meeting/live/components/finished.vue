@@ -38,7 +38,7 @@
     </el-row>
     <iTableML tooltip-effect="light" :data="tableData">
       <el-table-column prop="follow" align="center" label="NO." width="50">
-        <template scope="scope">
+        <template slot-scope="scope">
           <div class="img-word">
             <div>
               {{ scope.$index + 1 }}
@@ -57,7 +57,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="count" align="center" label="Count" width="70">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.count }}</span>
           <span v-if="scope.row.isBreak">/</span>
         </template>
@@ -69,7 +69,7 @@
         label="Topic"
         width="220"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span class="open-link-text" @click="lookOrEdit(scope.row)">{{
             scope.row.topic
           }}</span>
@@ -81,14 +81,14 @@
         align="center"
         label="Meeting"
       >
-        <!-- <template scope="scope">
+        <!-- <template slot-scope="scope">
           <span class="open-link-text" @click="checkDetail(scope.row.id)">{{
             scope.row.meetingName
           }}</span>
         </template> -->
       </el-table-column>
       <el-table-column show-overflow-tooltip align="center" label="Status">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span
             :class="[
               {
@@ -118,7 +118,7 @@
         align="center"
         label="Time"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span v-if="scope.row.startTime">{{
             scope.row.startTime && scope.row.startTime.substring(0, 5)
           }}</span>
@@ -134,7 +134,7 @@
         align="center"
         label="Presenter"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <!-- <span>{{ scope.row.presenter }}</span>
           <span>/</span>
           <span>{{ scope.row.presenterNosys }}</span> -->
@@ -153,7 +153,7 @@
         align="center"
         label="Presenter Dept."
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <!-- <span>{{ scope.row.presenterDept }}</span>
           <span>/</span>
           <span>{{ scope.row.presenterDeptNosys }}</span> -->
@@ -175,7 +175,7 @@
         align="center"
         label="Supporter"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <!-- <span>{{ scope.row.supporter }}</span>
           <span>/</span>
           <span>{{ scope.row.supporterNosys }}</span> -->
@@ -194,7 +194,7 @@
         align="center"
         label="Supporter Dept."
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <!-- <span>{{ scope.row.supporterDept }}</span>
           <span>/</span>
           <span>{{ scope.row.supporterDeptNosys }}</span> -->
@@ -216,7 +216,7 @@
         align="center"
         label="Remark"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.remark }}</span>
           <span v-if="scope.row.isBreak">/</span>
         </template>

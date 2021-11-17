@@ -14,7 +14,7 @@
           width="60"
           min-width="60"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <!-- <div
               v-show="scope.row.state === '03' || Boolean(scope.row.isBreak)"
             ></div> -->
@@ -92,7 +92,7 @@
           width="50"
           min-width="50"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{ scope.row.count }}</span>
             <span v-if="scope.row.isBreak">/</span>
           </template>
@@ -133,7 +133,7 @@
           width="190"
           min-width="190"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <!-- <span>{{ scope.row.presenter }}</span>
           <span>/</span>
           <span>{{ scope.row.presenterNosys }}</span> -->
@@ -155,7 +155,7 @@
           width="120"
           min-width="120"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <!-- <span>{{ scope.row.presenterDept }}</span>
           <span>/</span>
           <span>{{ scope.row.presenterDeptNosys }}</span> -->
@@ -180,7 +180,7 @@
           width="150"
           min-width="150"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <!-- <span>{{ scope.row.supporter }}</span>
           <span>/</span>
           <span>{{ scope.row.supporterNosys }}</span> -->
@@ -202,7 +202,7 @@
           width="130"
           min-width="130"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <!-- <span>{{ scope.row.supporterDept }}</span>
           <span>/</span>
           <span>{{ scope.row.supporterDeptNosys }}</span> -->
@@ -227,7 +227,7 @@
           width="70"
           min-width="70"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <!-- <div
             v-show="scope.row.state === '03' || Boolean(scope.row.isBreak)"
           ></div> -->
@@ -251,7 +251,7 @@
           width="130"
           min-width="130"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{ scope.row.remark }}</span>
             <span v-if="scope.row.isBreak">/</span>
           </template>
