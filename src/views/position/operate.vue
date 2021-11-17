@@ -116,8 +116,12 @@ export default {
         this.$store.commit('SET_DETAIL_ROLE')
         const res =
           this.type === 'add'
-            ? await this.$store.dispatch('SavePosition', this.deptId)
-            : await this.$store.dispatch('UpdatePosition', this.deptId)
+            ? await this.$store
+                .dispatch('SavePosition', this.deptId)
+                .finally(() => (this.saveLoading = false))
+            : await this.$store
+                .dispatch('UpdatePosition', this.deptId)
+                .finally(() => (this.saveLoading = false))
         if (res.code === '200' && res.data) {
           iMessage.success(
             this.type === 'add' ? '新增岗位成功' : '更新岗位成功'
@@ -133,7 +137,6 @@ export default {
             })
           }
         }
-        this.saveLoading = false
       }
     },
     handleReset() {
