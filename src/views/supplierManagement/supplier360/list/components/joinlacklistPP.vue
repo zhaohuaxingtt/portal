@@ -48,10 +48,10 @@
                            value-member="categoryCode"
                            value-key="categoryCode">
               <template v-slot:selected="scope">
-                <span>{{scope.data.categoryName}}+{{scope.data.categoryCode}}</span>
+                <span>{{scope.data.categoryName}}{{scope.data.categoryCode}}</span>
               </template>
               <template v-slot:unselected="scope">
-                <span>{{scope.data.categoryName}}+{{scope.data.categoryCode}}</span>
+                <span>{{scope.data.categoryName}}{{scope.data.categoryCode}}</span>
               </template>
             </custom-select> -->
 
@@ -61,6 +61,7 @@
             <iSelect multiple
                      collapse-tags
                      filterable
+                     value-key='stuffCode'
                      style="width:240px"
                      :placeholder="language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')"
                      v-model="form.ppStuffSaveDTOList">
@@ -79,6 +80,12 @@
                            display-member="stuffName"
                            value-member="stuffCode"
                            value-key="stuffCode">
+                           <template v-slot:selected="scope">
+                <span>{{scope.data.stuffName}}{{scope.data.stuffCode}}</span>
+              </template>
+              <template v-slot:unselected="scope">
+                <span>{{scope.data.stuffName}}{{scope.data.stuffCode}}</span>
+              </template>
             </custom-select> -->
           </el-form-item>
           <el-form-item prop="daterange"
@@ -193,7 +200,7 @@
 </template>
 
 <script>
-let that
+// let that
 import {
   iSelect,
   iMessage,
@@ -265,9 +272,7 @@ export default {
           }
         },
         disabledDate(time) {
-          if (that.selectDate !== '') {
             return time.getTime() < Date.now() - 8.64e7
-          }
         }
       },
       rules: {
@@ -331,7 +336,7 @@ export default {
     }
   },
   beforeCreate() {
-    that = this
+    // that = this
   },
 
   created() {
@@ -506,6 +511,9 @@ export default {
               .then(async () => {
                 params.daterange = undefined
                 params.categoryCodes = undefined
+                // this.form.ppStuffSaveDTOList.forEach(v=>{
+                //    v=this.stuffByArr.find(i=>{return v==i.stuffCode}) 
+                // })
                 ppSupplerBlackSave(params).then((res) => {
                   if (res && res.code == 200) {
                     // this.$emit('closeDiolog',1)

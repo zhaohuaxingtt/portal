@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-12 10:58:26
+ * @LastEditTime: 2021-11-17 11:02:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -95,9 +95,9 @@
                          clearable
                          @change="handleChangmater"
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="existShareName"
-                         value-member="existShareId"
-                         value-key="existShareId">
+                         display-member="departNameZh"
+                         value-member="departId"
+                         value-key="departId">
           </custom-select>
         </el-form-item>
         <el-form-item label="采购员"
@@ -142,6 +142,7 @@
           <iDatePicker v-model="searchForm.endDate"
                        :disabled="editDisabled"
                        @change="handleChangeDate"
+                       :picker-options="pickerOptions"
                        :placeholder="language('QINGXUANZE', '请选择')"
                        type="date"
                        style="width:100%"
@@ -195,10 +196,24 @@ export default {
       mtzUserList: [],
       mtzPeriodList: [],
       mtzSourceList: [],
+      // pickerOptions: {}
     }
   },
   created () {
     this.init()
+  },
+  computed: {
+    pickerOptions () {
+      let that = this
+      return {
+        disabledDate: time => {
+          if (that.searchForm.startDate) {
+            let startTime = that.searchForm.startDate.replace(/-/g, '/');
+            return time.getTime() < new Date(startTime)
+          }
+        }
+      }
+    }
   },
   methods: {
     init () {

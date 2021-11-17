@@ -3,7 +3,7 @@
     <iTableML tooltip-effect="light" :data="tableListData">
       <!-- <el-table-column type="selection" align="center"></el-table-column> -->
       <el-table-column align="center" :width="48">
-        <template scope="scope">
+        <template slot-scope="scope">
           <div class="radio-box">
             <div
               name="radio"
@@ -21,19 +21,19 @@
         </template>
       </el-table-column>
       <el-table-column show-overflow-tooltip align="center" label="会议名称">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span class="open-link-text">{{ scope.row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column show-overflow-tooltip align="center" label="会议类型">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span class="open-link-text">{{
             typeObject[scope.row.meetingTypeId]
           }}</span>
         </template>
       </el-table-column>
       <el-table-column show-overflow-tooltip align="center" label="会议状态">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span class="circle circle1" v-if="scope.row.state === '02'">{{
             statusObj[scope.row.state]
           }}</span>
@@ -49,7 +49,7 @@
         prop="meetingPlace"
       ></el-table-column>
       <el-table-column show-overflow-tooltip align="center" label="会议时间">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{
             `${scope.row.startDate}
               ${scope.row.startTime ? scope.row.startTime.substring(0, 5) : ""}~

@@ -1,10 +1,5 @@
 <!--
- * @Author: moxuan
- * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
+ * @Author: caopeng
 -->
 <template>
   <i-card>
@@ -15,17 +10,15 @@
     </div>
 
     <!-- v-permission="SUPPLIER_CHANGEHISTORY_TABLE" -->
-    <el-table
-      :data="tableListData"
-      v-loading="tableLoading"
-      @selection-change="handleSelectionChange"
-    >
-      <el-table-column
-        type="selection"
-        width="50"
-        align="center"
-        :selectable="selectable"
-      ></el-table-column>
+    <el-table :data="tableListData.procureFactoryList"
+              v-loading="tableLoading"
+              @selection-change="handleSelectionChange"
+              ref="mulitipleTable">
+
+      <el-table-column type="selection"
+                       width="50"
+                       align="center"
+                       :selectable="selectable"></el-table-column>
       <!-- <el-table-column prop="code"
                        align='center'
                        label="工厂编号">
@@ -60,14 +53,12 @@
 
       </el-table-column> -->
 
-      <el-table-column
-        v-for="i in tableTitle"
-        :key="i.key"
-        :width="i.width"
-        align="center"
-        :prop="i.props"
-        :label="i.name"
-      ></el-table-column>
+      <el-table-column v-for="i in tableTitle"
+                       :key="i.key"
+                       :width="i.width"
+                       align="center"
+                       :prop="i.props"
+                       :label="i.name"></el-table-column>
     </el-table>
   </i-card>
 </template>
@@ -85,7 +76,7 @@ export default {
   mixins: [generalPageMixins],
   components: {
     iCard,
-    iButton,
+    iButton
   },
   data() {
     return {
@@ -102,7 +93,7 @@ export default {
     handleSelectionChange(val) {
       this.selectTableData = val
     },
-    async getTableList( ) {
+    async getTableList() {
       this.tableLoading = true
       const req = {
         supplierToken: this.$route.query.supplierToken
@@ -110,19 +101,25 @@ export default {
       try {
         const res = await getSupplierProcureFactory(req)
         this.tableListData = res.data ? res.data : []
+
         this.tableLoading = false
+        if (this.tableListData.isSelect) {
+          this.$nextTick(() => {
+            this.tableListData.procureFactoryList.forEach((e) => {
+              this.$refs.mulitipleTable.toggleRowSelection(e, true)
+            })
+          })
+        }
       } catch {
         this.tableLoading = false
       }
     },
     subBtn() {
+      //   let text = ''
       if (this.selectTableData.length == 0) {
         this.$message({
           type: 'warning',
-          message: this.language(
-            'QINGXUANZEXUYAOTIJIAODEXINXI',
-            '请选择需要提交的信息'
-          )
+          message: this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU')
         })
       } else
         iMessageBox(
@@ -135,13 +132,14 @@ export default {
         ).then(async () => {
           const req = {
             procureFactoryList: this.selectTableData,
-            supplierToken:this.$route.query.supplierToken
+            supplierToken: this.$route.query.supplierToken
           }
-
+          //  this.language('TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUDANGGONGYINGSHANGZHUANZHENG?', '提交供货公司信息更改后，当供应商转正批准后将立即同步SAP，不得撤销。')
+          //   this.language('TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUSHUJULIJITONGBUSAO?', '提交供货公司信息更改后，数据将立即同步SAP，不得撤销。')
           saveSupplierProcureFactory(req).then((res) => {
             if (res && res.code == 200) {
               this.getTableList()
-              iMessage.success(res.desZh)
+              iMessage.success(res.data)
             } else iMessage.error(res.desZh)
           })
         })

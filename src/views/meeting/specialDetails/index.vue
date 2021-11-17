@@ -108,7 +108,7 @@
             ></el-table-column>
             <el-table-column align="center" width="10"></el-table-column>
             <el-table-column align="center" label="#" width="16">
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span style="span-index">{{ scope.$index + 1 }}</span>
               </template>
             </el-table-column>
@@ -119,7 +119,7 @@
               label="Time"
               min-width="84"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span class="open-link-text">{{
                   scope.row.time.split('~').join('-')
                 }}</span>
@@ -132,7 +132,7 @@
               label="Present Items"
               min-width="191"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span
                   class="open-link-text look-themen-click"
                   @click="lookThemen(scope.row)"
@@ -148,7 +148,7 @@
               min-width="75"
               prop="type"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 {{
                   scope.row.type === 'MANUAL' ? '非标准议题' : scope.row.type
                 }}
@@ -161,7 +161,7 @@
               label="State"
               min-width="60"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 {{ stateObj[scope.row.state] }}
               </template>
             </el-table-column>
@@ -172,7 +172,7 @@
               label="Result"
               min-width="44"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
               </template>
             </el-table-column>
@@ -220,7 +220,7 @@
               min-width="61"
               prop="duration"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 <div
                   class="open-link-text open-clink-back-text"
                   @click="recallTheThemen(scope.row)"
@@ -276,7 +276,7 @@
               label="Status"
               min-width="44"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span
                   >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
                     scope.row.preCount ? scope.row.preCount : 0
@@ -301,7 +301,7 @@
               min-width="66"
               prop="partType"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span class="open-link-text">{{ scope.row.remark }}</span>
                 <span v-if="scope.row.isBreak">/</span>
               </template>
@@ -333,7 +333,7 @@
                 label="#"
                 width="20"
               >
-                <template scope="scope">
+                <template slot-scope="scope">
                   <span style="span-index">{{ scope.$index + 1 }}</span>
                 </template>
               </el-table-column>
@@ -344,7 +344,7 @@
                 label="Time"
                 min-width="84"
               >
-                <template scope="scope">
+                <template slot-scope="scope">
                   <span class="open-link-text">{{
                     scope.row.time.split('~').join('-')
                   }}</span>
@@ -357,7 +357,7 @@
                 label="Present Items"
                 min-width="191"
               >
-                <template scope="scope">
+                <template slot-scope="scope">
                   <span
                     class="open-link-text look-themen-click"
                     @click="lookThemen(scope.row)"
@@ -373,7 +373,7 @@
                 min-width="33"
                 prop="type"
               >
-                <template scope="scope">
+                <template slot-scope="scope">
                   {{
                     scope.row.type === 'MANUAL' ? '非标准议题' : scope.row.type
                   }}
@@ -386,7 +386,7 @@
                 label="State"
                 min-width="42"
               >
-                <template scope="scope">
+                <template slot-scope="scope">
                   {{ stateObj[scope.row.state] }}
                 </template>
               </el-table-column>
@@ -397,7 +397,7 @@
                 label="Result"
                 min-width="44"
               >
-                <template scope="scope">
+                <template slot-scope="scope">
                   <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
                 </template>
               </el-table-column>
@@ -489,7 +489,7 @@
                 label="Status"
                 min-width="44"
               >
-                <template scope="scope">
+                <template slot-scope="scope">
                   <span
                     >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
                       scope.row.preCount ? scope.row.preCount : 0
@@ -514,7 +514,7 @@
                 min-width="66"
                 prop="partType"
               >
-                <template scope="scope">
+                <template slot-scope="scope">
                   <span class="open-link-text">{{ scope.row.remark }}</span>
                   <span v-if="scope.row.isBreak">/</span>
                 </template>

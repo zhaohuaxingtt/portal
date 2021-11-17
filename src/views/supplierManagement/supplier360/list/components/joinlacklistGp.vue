@@ -24,7 +24,7 @@
           <el-form-item
             :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
           >
-            <iText style="min-width:240px" class="text">{{
+            <iText style="min-width:240px " class="text">{{
               clickTableList.nameZh
             }}</iText>
           </el-form-item>
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-let that
+// let that
 import {
   gpSupplierBlackSave,
   measuresTypeList
@@ -148,9 +148,9 @@ export default {
           }
         },
         disabledDate(time) {
-          if (that.selectDate !== '') {
+          // if (that.selectDate !== '') {
             return time.getTime() < Date.now() - 8.64e7
-          }
+          // }
         }
       },
       rules: {
@@ -172,7 +172,7 @@ export default {
     }
   },
   beforeCreate() {
-    that = this
+    // that = this
   },
   created() {
     // this.$nextTick(() => {

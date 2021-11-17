@@ -104,7 +104,7 @@
             <p v-if="!editMode">{{scope.row.externalMaterialCode}}</p>
           </template>
           <!-- 取价规则 -->
-          <template #prPriceSourceTypeValue="scope">
+          <!-- <template #prPriceSourceTypeValue="scope">
             <div class="priceRuleDropDownData">
               <iSelect
               style="width: 450px;"
@@ -120,7 +120,7 @@
               </iSelect>
             </div>
             <p v-if="!editMode">{{scope.row.prPriceSourceTypeValue}}</p>
-          </template>
+          </template> -->
         </tableList>
         <!-- 分页标签 -->
         <iPagination
@@ -200,7 +200,7 @@ export default {
     // 初始化检索条件
     initSearchData() {
       for (const key in this.searchForm) {
-        this.searchForm[key] = null
+        this.searchForm[key] = []
       }
     },
     // 获取列表数据
@@ -220,7 +220,7 @@ export default {
     },
     // 获取筛选项数据
     getDropDownData() {
-      this.dropDownData.dropDownMarketPriceSourceTypeData = ['手工上传', '系统自动']
+      this.dropDownData.dropDownMarketPriceSourceTypeData = [{message:'手工上传',code:1},{message:'系统自动',code:2} ]
       fetchDropDownData().then(res => {
         if(res && res.code == 200) {
           for(let key in res.data) {
@@ -263,6 +263,8 @@ export default {
                 break;
             }
           }
+                console.log(res.data)
+
         } else iMessage.error(res.desZh)
       })
     },
@@ -281,7 +283,7 @@ export default {
     handleManualSync() {
       fetchManualSync().then(res => {
         if(res && res.code) {
-          iMessage.success(this.language(res.desZh))
+          iMessage.success(res.desZh)
           this.handleSubmitSearch()
         } else iMessage.error(res.desZh) 
       })
@@ -327,7 +329,7 @@ export default {
     },
     // 导出
     handleExport() {
-      fetchExport().then(res => {
+      fetchExport(this.searchForm).then(res => {
         if(res && res.code != 200) {
           iMessage.error(res.desZh) 
         }

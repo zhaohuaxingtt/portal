@@ -78,7 +78,7 @@
         label="NO."
         width="50"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <div class="img-word">
             <div>
               {{ scope.$index + 1 }}
@@ -124,7 +124,7 @@
         label="Topic"
         width="220"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span class="open-link-text" @click="lookOrEdit(scope.row)">{{
             scope.row.topic
           }}</span>
@@ -137,7 +137,7 @@
         align="center"
         label="Meeting"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <!-- <span class="open-link-text" @click="checkDetail(scope.row.meetingId)">{{scope.row.meetingName}}</span> -->
           <span>{{ scope.row.meetingName }}</span>
         </template>
@@ -148,7 +148,7 @@
         min-width="90"
         label="Status"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span
             :class="[
               {
@@ -180,7 +180,7 @@
         min-width="200"
         label="Time"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span v-if="scope.row.startTime"
             >{{ scope.row.startDate }}&nbsp;{{
               scope.row.startTime && scope.row.startTime.substring(0, 5)
@@ -199,7 +199,7 @@
         min-width="188"
         label="Presenter"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.presenter }}</span>
           <span v-if="scope.row.presenter && scope.row.presenterNosys">/</span>
           <span>{{ scope.row.presenterNosys }}</span>
@@ -212,7 +212,7 @@
         min-width="170"
         label="Presenter Dept."
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.presenterDept }}</span>
           <span v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
             >/</span
@@ -227,7 +227,7 @@
         min-width="200"
         label="Supporter"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.supporter }}</span>
           <span v-if="scope.row.supporter && scope.row.supporterNosys">/</span>
           <span>{{ scope.row.supporterNosys }}</span>
@@ -240,7 +240,7 @@
         min-width="161"
         label="Supporter Dept."
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.supporterDept }}</span>
           <span v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
             >/</span

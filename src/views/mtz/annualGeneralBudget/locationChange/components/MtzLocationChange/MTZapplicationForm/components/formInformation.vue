@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:35
- * @LastEditTime: 2021-11-12 15:26:20
+ * @LastEditTime: 2021-11-17 16:09:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\formInformation.vue
@@ -10,17 +10,21 @@
   <div>
     <div class="header flex">
       <div>
-        <span class="title">{{language('SHENQINGDAN','MTZ申请单')}}-{{formInline.mtzAppId}}-</span>
-        <span class="title">{{formInline.appName}}-{{linieName}}-{{linieDeptNum}}</span>
+        <span class="title">{{language('BIANGENGDAN','MTZ变更单')}}-{{formInline.mtzAppId}}-</span>
+        <span class="title">{{formInline.appName}}-{{linieName}}- <span class="dTitle">{{linieDeptNum}}</span></span>
       </div>
       <div>
-        <iButton @click="save(2)">{{language('TIJIAO','提交')}}</iButton>
+        <iButton v-if="!isView"
+                 @click="save(2)"
+                 :disabled="disabled">{{language('TIJIAO','提交')}}</iButton>
       </div>
     </div>
     <iCard>
       <template slot="header">
         <span style="font-weight:bold">{{language('SHENGQINGDANXINXI','申请单信息')}}</span>
-        <iButton @click="save(1)">{{language('BAOCUN','保存')}}</iButton>
+        <iButton v-if="!isView"
+                 @click="save(1)"
+                 :disabled="disabled">{{language('BAOCUN','保存')}}</iButton>
       </template>
       <div class="informationForm">
         <el-form :inline="true"
@@ -33,7 +37,8 @@
             <el-form-item label="申请单名"
                           class="formItem"
                           prop="appName">
-              <el-input v-model="formInline.appName"></el-input>
+              <el-input :disabled="isView?true:(disabled?true:false)"
+                        v-model="formInline.appName"></el-input>
             </el-form-item>
             <el-form-item label="申请单Id"
                           class="formItem">
@@ -57,6 +62,7 @@
               <el-input type="textarea"
                         :placeholder="language('QINGSHURU','请输入')"
                         v-model="formInline.remark"
+                        :disabled="isView"
                         rows="3"
                         maxlength="300"
                         show-word-limit></el-input>
@@ -64,6 +70,7 @@
             <el-form-item label="审批备注"
                           class="formItem">
               <el-input type="textarea"
+                        :disabled="isView"
                         :placeholder="language('QINGSHURU','请输入')"
                         v-model="formInline.approveRemarks"
                         rows="3"
@@ -91,7 +98,7 @@ export default {
         appType: "",
         remark: "",
         approveRemarks: "",
-
+        disabled: false
       },
       rules: {
         appName: [
@@ -99,18 +106,29 @@ export default {
         ],
       },
       linieName: "",
-      linieDeptNum: ""
+      linieDeptNum: "",
+      isView: false
     }
   },
   components: {
     iCard,
     iButton
   },
+  watch: {
+    '$store.state.location.disabled': {
+      handler (val) {
+        this.disabled = val
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   created () {
     this.init()
   },
   methods: {
     init () {
+      this.isView = JSON.parse(this.$route.query.isView)
       this.formInline.mtzAppId = this.$route.query.mtzAppId
       this.getGenericAppChangeDetail()
     },
@@ -142,8 +160,12 @@ export default {
           }
           saveGenericAppChange(params).then(res => {
             if (res && res.code === '200') {
+              if (type === 2) {
+                this.$store.dispatch('setMtzChangeBtn', true);
+              }
               iMessage.success(res.desZh)
               this.getGenericAppChangeDetail()
+              console.log(this.$store.state)
             } else {
               iMessage.error(res.desZh)
             }
@@ -179,5 +201,8 @@ export default {
 }
 ::v-deep .el-form-item__content {
   width: 100%;
+}
+.dTitle {
+  font-size: 16px;
 }
 </style>

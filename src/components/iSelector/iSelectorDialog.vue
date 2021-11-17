@@ -176,6 +176,10 @@ export default {
     },
     show: {
       type: Boolean
+    },
+    sizeType:{
+      type:String,
+      default:''
     }
   },
   data() {
@@ -357,8 +361,13 @@ export default {
     },
     async getList() {
       this.tableLoading = true
-      this.query.current = this.page.currPage
-      this.query.pageSize = this.page.pageSize
+      this.query.pageNo = this.page.currPage
+      if(this.sizeType == 'size'){
+        this.query.size = this.page.pageSize
+      }else{
+        this.query.pageSize = this.page.pageSize
+      }
+      
       const res =
         typeof this.searchMethod === 'function'
           ? await this.searchMethod(this.query)

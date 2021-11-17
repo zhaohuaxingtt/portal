@@ -42,8 +42,10 @@ export default {
   methods: {
     async getData() {
       supplierRatingCard().then((res) => {
-        this.info = res.data
-        this.getChart()
+        if (res && res.data) {
+          this.info = res.data
+          this.getChart()
+        }
       })
     },
 
@@ -55,10 +57,13 @@ export default {
     },
     getChart() {
       const myChart = echarts().init(this.$refs.chart)
-      const data1 = [this.info.ppSupplierTotal, this.info.gpSupplierTotal]
+      const data1 = [
+        this.info.ppSupplierTotal || '',
+        this.info.gpSupplierTotal || ''
+      ]
       const data2 = [
-        this.info.ppSupplierQuoteTotal,
-        this.info.gpSupplierQuoteTotal
+        this.info.ppSupplierQuoteTotal || '',
+        this.info.gpSupplierQuoteTotal || ''
       ]
 
       this.option = {

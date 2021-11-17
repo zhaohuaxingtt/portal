@@ -1,16 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-10-27 21:42:09
- * @LastEditTime: 2021-11-12 15:33:32
+ * @LastEditTime: 2021-11-17 15:38:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\data.js
  */
 export const TABLE_COLUMNS = [
-  {
-    type: 'selection',
-    width: '60px'
-  },
   {
     type: 'index',
     width: '60px',
@@ -33,7 +29,7 @@ export const TABLE_COLUMNS = [
   },
   {
     prop: 'material',
-    label: '原材料',
+    label: '原材料名称',
     minWidth: 120
   },
   {
@@ -148,7 +144,7 @@ export const TABLE_COLUMNS = [
     minWidth: 120
   },
   {
-    prop: 'material',
+    prop: 'threshold',
     label: '阈值',
     minWidth: 120
   },
@@ -160,10 +156,6 @@ export const TABLE_COLUMNS = [
 ]
 
 export const TABLE_COLUMNS1 = [
-  {
-    type: 'selection',
-    width: '60px'
-  },
   {
     type: 'index',
     width: '60px',
@@ -198,12 +190,12 @@ export const TABLE_COLUMNS1 = [
     prop: 'duration',
     label: '任务持续时间',
     minWidth: 120
-  },
-  {
-    prop: 'explain',
-    label: '解释',
-    minWidth: 120
   }
+  // {
+  //   prop: 'explain',
+  //   label: '解释',
+  //   minWidth: 120
+  // }
 ]
 
 export const tableList = [

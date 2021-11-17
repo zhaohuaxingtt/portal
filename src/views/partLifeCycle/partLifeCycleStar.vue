@@ -26,7 +26,7 @@
           <iInput v-model="partsName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
         </el-form-item>
         <el-form-item :label="language('LK_AEKOHAO', 'Aeko号')">
-          <iSelect
+          <!-- <iSelect
             class="multipleSelect"
             :placeholder="language('LK_QINGXUANZHE', '请选择')"
             filterable
@@ -43,7 +43,26 @@
               v-for="(item, index) in AekoPullDown"
               :key="index"
             ></el-option>
-          </iSelect>
+          </iSelect> -->
+          <el-select
+            v-model="aekoNum"
+            class="multipleSelect new_multipleSelect"
+            :filter-method="remoteMethod"
+            multiple
+            filterable
+            allow-create
+            clearable
+            default-first-option
+            :loading="AekoLoading"
+            :placeholder="language('LK_QINGXUANZHE', '请选择')"
+          >
+            <el-option
+              :value="item"
+              :label="item"
+              v-for="(item, index) in AekoPullDown"
+              :key="index"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item :label="language('LK_GONGYINGSHANG', '供应商')">
           <iInput v-model="supplierName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
@@ -207,7 +226,7 @@
           >
             <el-option
               :value="item.id"
-              :label="item.modelNameZh"
+              :label="item.modelNameShowZh"
               v-for="(item, index) in CarTypeDown"
               :key="index"
             ></el-option>
@@ -225,7 +244,7 @@
           >
             <el-option
               :value="item.id"
-              :label="item.carTypeProjectName"
+              :label="item.carTypeProjectShowName"
               v-for="(item, index) in CarTypePullDown"
               :key="index"
             ></el-option>
@@ -259,7 +278,7 @@
         <div class="right">
           <iButton v-show="isEdit" @click="isEdit = false">{{ language('LK_TUICHU', '退出') }}</iButton>
           <iButton v-show="isEdit" @click="toClaim">{{ language('LK_QUERENRENLING', '确认认领') }}</iButton>
-          <iButton v-show="!isEdit" @click="isEdit = true">{{ language('LK_RENLINGLINGJIAN', '认领零件') }}</iButton>
+          <iButton v-show="!isEdit && isButn" @click="isEdit = true">{{ language('LK_RENLINGLINGJIAN', '认领零件') }}</iButton>
           <icon @click.native="changeRelevantPart" symbol
                 :name="expandRelevantPart ? 'iconxiangguanlingjianyizhankai' : 'iconxiangguanlingjianyishouqi'"></icon>
         </div>
@@ -357,6 +376,7 @@ import {
   getRelationParts,
   getPurchaserPullDown,
   getPartsCollect,
+  getIsLinie
 } from '@/api/partLifeCycle/partLifeCycleStar'
 
 
@@ -424,7 +444,8 @@ export default {
       IsSupplyPullDown: [],
       PurchaserPullDown: [],
       current: 1,
-      size: 9
+      size: 9,
+      isButn: true,
     }
   },
   mounted() {
@@ -649,7 +670,8 @@ export default {
         getCarTypeDown([]),
         getCarTypePullDown(),
         getIsSupplyPullDown(),
-        getPurchaserPullDown([])
+        getPurchaserPullDown([]),
+        getIsLinie(),
       ]).then(res => {
         const result0 = this.$i18n.locale === 'zh' ? res[0].desZh : res[0].desEn
         const result1 = this.$i18n.locale === 'zh' ? res[1].desZh : res[1].desEn
@@ -662,6 +684,7 @@ export default {
         const result8 = this.$i18n.locale === 'zh' ? res[8].desZh : res[8].desEn
         const result9 = this.$i18n.locale === 'zh' ? res[9].desZh : res[9].desEn
         const result10 = this.$i18n.locale === 'zh' ? res[10].desZh : res[10].desEn
+        const result11 = this.$i18n.locale === 'zh' ? res[11].desZh : res[11].desEn
         if (Number(res[0].code) === 200) {
           this.AekoPullDownClone = res[0].data
           this.AekoPullDown = this.AekoPullDownClone.slice(0, 40)
@@ -717,6 +740,11 @@ export default {
           this.PurchaserPullDown = res[10].data
         } else {
           iMessage.error(result10)
+        }
+        if (Number(res[11].code) === 200) {
+          this.isButn = res[11].data
+        } else {
+          iMessage.error(result11)
         }
         this.loadingiSearch = false
       }).catch(() => {
@@ -811,6 +839,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.new_multipleSelect{
+  width: 100%;
+  height: 35px;
+
+  ::v-deep .el-input__inner{
+    box-shadow: 0 0 3px rgb(0 38 98 / 15%);
+    border-color: transparent;
+    height: 36.8px !important;
+  }
+}
 .multipleSelect {
   ::v-deep .el-tag {
     max-width: calc(100% - 75px);

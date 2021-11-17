@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-10-29 18:23:46
+ * @LastEditTime: 2021-11-17 16:01:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -25,7 +25,7 @@
       </template>
       <iTableCustom :data="tableList"
                     :columns="TABLE_COLUMNS"
-                    :tableLoading="tableLoading"
+                    :loading="tableLoading"
                     index
                     @go-detail="goDetail"
                     @handle-selection-change="handleSelectionChange">
@@ -131,8 +131,10 @@ export default {
               path: '/mtz/annualGeneralBudget/MTZapplicationForm',
               query: {
                 mtzAppId: this.mtzAppId || '',
+                isView: false
               }
             })
+            this.$store.dispatch('setMtzChangeBtn', false);
             window.open(routerPath.href, '_blank')
           } else {
             iMessage.error(res.desZh)
@@ -146,8 +148,10 @@ export default {
               path: '/mtz/annualGeneralBudget/MTZapplicationForm',
               query: {
                 mtzAppId: data.mtzAppId || '',
+                isView: false
               }
             })
+            this.$store.dispatch('setMtzChangeBtn', false);
             window.open(routerPath.href, '_blank')
           } else {
             iMessage.error(res.desZh)

@@ -2,14 +2,22 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-02 09:56:38
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
-  <div id="allContainer" class="content">
-    <theSearch ref="theSearch" @getMapList="getMapList" class="search" @handleSave="handleSave" />
-    <theCard :area="area" :object="object" class="card-right" />
-    <chartMap ref="chartMap" :object="object" />
+  <div id="allContainer"
+       class="content">
+    <theSearch ref="theSearch"
+               @getMapList="getMapList"
+               class="search"
+               :category-code="categoryCode"
+               @handleSave="handleSave" />
+    <theCard :area="area"
+             :object="object"
+             class="card-right" />
+    <chartMap ref="chartMap"
+              :object="object" />
   </div>
 </template>
 
@@ -28,12 +36,13 @@ export default {
   // import引入的组件需要注入到对象中才能使用
   components: { chartMap, theSearch, theCard, iButton },
   mixins: [downloadPdfMixins, resultMessageMixin],
-  data() {
+  data () {
     // 这里存放数据
     return {
       saveButtonLoading: false,
       object: {},
       area: '',
+      categoryCode: ""
     }
   },
   // 监听属性 类似于data概念
@@ -42,7 +51,7 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-    async getMapList(par) {
+    async getMapList (par) {
       const pms = {
         ...par
       }
@@ -50,7 +59,7 @@ export default {
       const res = await getNTierMap(pms)
       this.object = res.data
     },
-    async handleSave(params, id) {
+    async handleSave (params, id) {
       this.$refs.theSearch.saveButtonLoading = true;
       const resFile = await this.getDownloadFileAndExportPdf({
         domId: 'allContainer',
@@ -73,10 +82,12 @@ export default {
     },
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
+  created () {
+    this.categoryCode = this.$route.query.categoryCode
+    console.log(this.categoryCode)
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
+  mounted () {
   },
 }
 </script>
