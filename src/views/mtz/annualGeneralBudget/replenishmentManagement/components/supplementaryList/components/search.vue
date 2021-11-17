@@ -133,19 +133,19 @@
                         v-if="btnShow3"
                        :label="language('BUCHADANMINGXIGUIJINSHU','补差单明细（贵金属）')"></el-tab-pane>
         </iTabsList>
-        <tabs1 :mtzDocId="mtzDocId"
+        <tabs1
                :searchFormList="seachWather"
                :dataObject="detailObj"
                v-if="tabsValue == 1 && btnShow1"
                @componentHidden="btnHidden1"
                v-on:closeDiolog1="closeDiolog"></tabs1>
-        <tabs2 :mtzDocId="mtzDocId"
+        <tabs2
                :searchFormList="seachWather"
                :dataObject="detailObj"
                v-show="tabsValue == 2 && btnShow2"
                @componentHidden="btnHidden2"
                v-on:closeDiolog2="closeDiolog"></tabs2>
-        <tabs3 :mtzDocId="mtzDocId"
+        <tabs3
                :searchFormList="seachWather"
                :dataObject="detailObj"
                v-show="tabsValue == 3 && btnShow3"
@@ -247,7 +247,6 @@ export default {
     }
   },
   created () {
-    console.log(this.detailObj)
     this.mtzDocId = this.detailObj.id;
     this.dialogTitle = "补差单号-" + this.detailObj.bizNo;
     this.getDemandData()

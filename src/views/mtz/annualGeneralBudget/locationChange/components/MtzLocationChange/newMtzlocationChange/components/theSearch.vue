@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-16 19:47:37
+ * @LastEditTime: 2021-11-17 11:02:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -142,6 +142,7 @@
           <iDatePicker v-model="searchForm.endDate"
                        :disabled="editDisabled"
                        @change="handleChangeDate"
+                       :picker-options="pickerOptions"
                        :placeholder="language('QINGXUANZE', '请选择')"
                        type="date"
                        style="width:100%"
@@ -195,10 +196,24 @@ export default {
       mtzUserList: [],
       mtzPeriodList: [],
       mtzSourceList: [],
+      // pickerOptions: {}
     }
   },
   created () {
     this.init()
+  },
+  computed: {
+    pickerOptions () {
+      let that = this
+      return {
+        disabledDate: time => {
+          if (that.searchForm.startDate) {
+            let startTime = that.searchForm.startDate.replace(/-/g, '/');
+            return time.getTime() < new Date(startTime)
+          }
+        }
+      }
+    }
   },
   methods: {
     init () {

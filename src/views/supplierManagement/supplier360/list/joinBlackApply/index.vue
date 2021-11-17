@@ -4,7 +4,7 @@
 -->
 <template>
   <div>
-    <iPage>
+    <div  :class="ifSelf?'page':''">
       <div v-if="ifSelf" class="headerTitle">
         <p>加入黑名单申请 - 生产采购</p>
         <div >
@@ -65,7 +65,7 @@
                      :current-page="page.currPage"
                      :total="page.totalCount" />
       </iCard>
-    </iPage>
+    </div>
   </div>
 </template>
 
@@ -164,6 +164,9 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .el-form--inline .el-form-item {
   // margin-right: 50px;
+}
+.page{
+     padding: 30px 40px 30px 40px;
 }
 .remark {
   word-wrap: break-word;

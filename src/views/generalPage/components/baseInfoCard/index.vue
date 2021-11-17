@@ -51,9 +51,10 @@ export default {
       });
     },
     onJump360() {
-		this.$router.push({
-			path:"/supplier/supplierList"
-		})
+      this.$router.go(-1)
+		// this.$router.push({
+		// 	path:"/supplier/supplierList"
+		// })
     }
   }
 }
