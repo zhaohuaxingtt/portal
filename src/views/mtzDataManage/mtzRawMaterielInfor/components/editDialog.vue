@@ -399,11 +399,11 @@ export default {
             })
         },
         edit(){
-            this.mtzRawMaterialCode.first = this.formContent.mtzRawMaterialCode.substring(0,this.formContent.mtzRawMaterialCode.length-3)
-            this.mtzRawMaterialCode.seconde = this.formContent.mtzRawMaterialCode.substring(this.formContent.mtzRawMaterialCode.length-3)
-            this.rawMaterialCode.first = this.formContent.rawMaterialCode.substring(0,this.formContent.rawMaterialCode.length-3)
-            this.rawMaterialCode.seconde = this.formContent.rawMaterialCode.substring(this.formContent.rawMaterialCode.length-3)
-            this.formContent.rawMaterialDesc  = this.formContent.rawMaterialCode
+            this.mtzRawMaterialCode.first =this.formContent.mtzRawMaterialCode.length > 0 ? this.formContent.mtzRawMaterialCode.substring(0,this.formContent.mtzRawMaterialCode.length-3) : ''
+            this.mtzRawMaterialCode.seconde =this.formContent.mtzRawMaterialCode.length > 0? this.formContent.mtzRawMaterialCode.substring(this.formContent.mtzRawMaterialCode.length-3) : ''
+            this.rawMaterialCode.first =this.formContent.rawMaterialCode.length > 0 ? this.formContent.rawMaterialCode.substring(0,this.formContent.rawMaterialCode.length-3) : ''
+            this.rawMaterialCode.seconde =this.formContent.rawMaterialCode.length > 0 ?  this.formContent.rawMaterialCode.substring(this.formContent.rawMaterialCode.length-3) : ''
+            this.formContent.rawMaterialDesc  =this.formContent.rawMaterialCode.length > 0 ? this.formContent.rawMaterialCode : ''
             getRawCodeOptions({generalCategoryCode:this.formContent.generalCategoryCode}).then((val)=>{
                 if(val.code == 200){
                     this.restaurants = val.data
