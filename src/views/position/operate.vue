@@ -98,7 +98,6 @@ export default {
       })
     },
     async handleConfirm() {
-      this.saveLoading = true
       const valid1 = await this.$refs['baseInfo'].$refs['baseForm1'].validate()
       const valid2 = await this.$refs['baseInfo'].$refs['baseForm2'].validate()
       const obj = _.find(
@@ -111,7 +110,9 @@ export default {
         iMessage.warn('增加的维度及内容不能为空')
         return
       }
+
       if (valid1 && valid2) {
+        this.saveLoading = true
         this.$store.commit('SET_DETAIL_DIMENSION')
         this.$store.commit('SET_DETAIL_ROLE')
         const res =
