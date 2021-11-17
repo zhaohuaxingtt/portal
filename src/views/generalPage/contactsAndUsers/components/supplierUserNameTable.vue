@@ -80,7 +80,7 @@
       <template #operation="scope">
         <div v-if="isSupplierUser">
           <!-- scope.row.id && scope.row.id !== 'null' &&  -->
-          <i-button v-if="(isSupplierUser&&!scope.row.isDefault)||!isUser" @click="handleDialog(scope.row)"
+          <i-button type="text" v-if="(isSupplierUser&&!scope.row.isDefault)||!isUser" @click="handleDialog(scope.row)"
             >操作</i-button
           >
         </div>

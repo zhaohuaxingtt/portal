@@ -92,6 +92,9 @@ import { iDialog, iButton, iSelect, iMessage, iInput } from 'rise'
 import tableList from '@/components/commonTable'
 import { CloumAdd, CloumDel } from './data'
 import { sysList, authList, cancelAuth, auth } from '@/api/provider/index'
+	import {
+		supplierDetail
+	} from "@/api/register/baseInfo";
 export default {
   components: {
     iDialog,
@@ -117,6 +120,7 @@ export default {
       selectDelArr: [],
       selectAddArr: [],
       supplierType: '',
+      subsupplierType:'',
       form: {},
       systemLsit: [
         { label: this.language('XITONG', '系统'), value: 1 },
@@ -132,6 +136,12 @@ export default {
     this.isMainContact = this.$store.state.permission.userInfo.isMainContact
     if (this.isMainContact == null) this.isMainContact = false
     // this.getAddList()
+    // supplierDetail().then(res=>{
+    //     if(res&&res.code==200){
+    //         this.subsupplierType=res.data.supplierInfoVo.supplierType
+    //         console.log( this.subsupplierType)
+    //     }else iMessage.error(res.desZh)
+    // })
     if (this.$route.query.subSupplierType == 'GP') {
       this.supplierType = 2
     } else if (this.$route.query.subSupplierType == 'PP') {
@@ -139,7 +149,6 @@ export default {
     } else {
       this.supplierType = 3
     }
-    console.log(this.tabledata)
     this.getAddList()
   },
   methods: {
