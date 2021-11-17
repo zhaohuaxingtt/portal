@@ -2,34 +2,77 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-02 20:01:05
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
   <div class='title'>
-    <div v-if="$route.path!=='/supplier/NTier/NTierMap'" class="flex-between-center-center">
+    <div v-if="$route.path!=='/supplier/NTier/NTierMap'"
+         class="flex-between-center-center">
       <div class="text margin-bottom20">{{ language('GYLGL','N级供应链管理')}}</div>
       <div>
-        <iButton :loading="saveButtonLoading" @click="$emit('handleSave')">{{language('BAOCUN','保存')}}</iButton>
+        <iButton :loading="saveButtonLoading"
+                 @click="$emit('handleSave')">{{language('BAOCUN','保存')}}</iButton>
         <iButton @click="handleBack">{{language('FANHUI','返回')}}</iButton>
       </div>
     </div>
-    <el-row type="flex" justify="space-between">
+    <el-row type="flex"
+            justify="space-between">
       <el-col :span="3">
-        <iSelectCustom :search-method="handleCarTypeSearch" @change="handleCarType" ref="iSelectCustom" :placeholder="language('CHEXING','车型')" :data="formGoup.carModelList" label="carTypeName" value="carTypeCode" v-model="formSelect.carTypeCodeList" :multiple="true" :popoverClass="'dropDown '" />
+        <iSelectCustom :search-method="handleCarTypeSearch"
+                       @change="handleCarType"
+                       ref="iSelectCustom"
+                       :placeholder="language('CHEXING','车型')"
+                       :data="formGoup.carModelList"
+                       label="carTypeName"
+                       value="carTypeCode"
+                       v-model="formSelect.carTypeCodeList"
+                       :multiple="true"
+                       :popoverClass="'dropDown '" />
       </el-col>
       <!-- 材料组 -->
       <el-col :span="3">
-        <iSelectCustom :multiple-limit="30" :search-method="handleCategorySearch" :placeholder="language('CAILIAOZU','材料组')" @change="handleCategory" :data="formGoup.categoryList" label="categoryName" value="categoryCode" v-model="formSelect.categoryCodeList" :multiple="true" :popoverClass="'popover-class'" />
+        <iSelectCustom :multiple-limit="30"
+                       :search-method="handleCategorySearch"
+                       :placeholder="language('CAILIAOZU','材料组')"
+                       @change="handleCategory"
+                       :disabled="disabled"
+                       :data="formGoup.categoryList"
+                       label="categoryName"
+                       value="categoryCode"
+                       v-model="formSelect.categoryCodeList"
+                       :multiple="true"
+                       :popoverClass="'popover-class'" />
       </el-col>
       <el-col :span="3">
-        <iSelectCustom :search-method="handleSupplierSearch" :placeholder="language('GONGYINGSHANG','供应商')" @change="handleSupplier" :data="formGoup.supplierList" label="supplierNameCn" value="supplierId" v-model="formSelect.supplierIdList " :multiple="true" :popoverClass="'popover-class'" />
+        <iSelectCustom :search-method="handleSupplierSearch"
+                       :placeholder="language('GONGYINGSHANG','供应商')"
+                       @change="handleSupplier"
+                       :data="formGoup.supplierList"
+                       label="supplierNameCn"
+                       value="supplierId"
+                       v-model="formSelect.supplierIdList "
+                       :multiple="true"
+                       :popoverClass="'popover-class'" />
       </el-col>
       <el-col :span="3">
-        <iSelectCustom :search-method="handlePartSearch" :placeholder="language('LINGJIAN','零件')" @change="handlePart" :data="formGoup.partList" label="partNameCn" value="partNum" v-model="formSelect.partNumList " :multiple="true" :popoverClass="'popover-class'" />
+        <iSelectCustom :search-method="handlePartSearch"
+                       :placeholder="language('LINGJIAN','零件')"
+                       @change="handlePart"
+                       :data="formGoup.partList"
+                       label="partNameCn"
+                       value="partNum"
+                       v-model="formSelect.partNumList "
+                       :multiple="true"
+                       :popoverClass="'popover-class'" />
       </el-col>
       <el-col :span="4">
-        <el-cascader v-model="form.area" :placeholder="language('QUYU','区域')" :options="formGoup.areaList" :props="{multiple:true}" :clearable="true" collapse-tags></el-cascader>
+        <el-cascader v-model="form.area"
+                     :placeholder="language('QUYU','区域')"
+                     :options="formGoup.areaList"
+                     :props="{multiple:true}"
+                     :clearable="true"
+                     collapse-tags></el-cascader>
       </el-col>
       <el-col :span="5">
         <iButton @click="getMapList">{{language('QUEDING','确定')}}</iButton>
@@ -50,8 +93,12 @@ export default {
   // import引入的组件需要注入到对象中才能使用
   components: { iSelect, iInput, iButton, iSelectCustom },
   props: {
+    categoryCode: {
+      type: String,
+      default: ""
+    }
   },
-  data() {
+  data () {
     // 这里存放数据
     return {
       saveButtonLoading: false,
@@ -85,68 +132,85 @@ export default {
         partList: [],
         supplierList: [],
       },
+      disabled: false
     }
   },
   // 监听属性 类似于data概念
   computed: {},
   // 监控data中的数据变化
   watch: {
+    categoryCode: {
+      handler (val) {
+        if (val) {
+          this.disabled = true
+          let arr = val.split(",")
+          this.formGoup.categoryList.forEach(item => {
+            if (arr.indexOf(item.categoryCode) > -1) {
+              this.formSelect.categoryCodeList.push(item)
+            }
+          })
+        } else {
+          this.disabled = false
+        }
+      },
+      immediate: true
+    }
   },
   // 方法集合
   methods: {
     // 返回
-    handleBack() {
+    handleBack () {
       this.$router.go(-1)
     },
-    handleCarTypeSearch(val) {
+    handleCarTypeSearch (val) {
       this.formGoup.carModelList = this.formGoupCopy.carModelList.filter(item => {
         return item.carTypeName.toLowerCase().indexOf(val.toLowerCase()) > -1;
       });
     },
-    handleCategorySearch(val) {
+    handleCategorySearch (val) {
       this.formGoup.categoryList = this.formGoupCopy.categoryList.filter(item => {
         return item.categoryName.toLowerCase().indexOf(val.toLowerCase()) > -1;
       });
     },
-    handleSupplierSearch(val) {
+    handleSupplierSearch (val) {
       this.formGoup.supplierList = this.formGoupCopy.supplierList.filter(item => {
         return item.supplierNameCn.toLowerCase().indexOf(val.toLowerCase()) > -1;
       });
     },
-    handlePartSearch(val) {
+    handlePartSearch (val) {
       this.formGoup.partList = this.formGoupCopy.partList.filter(item => {
         return item.partNameCn.toLowerCase().indexOf(val.toLowerCase()) > -1;
       });
     },
-    async handleCarType() {
+    async handleCarType () {
       this.form.carTypeCodeList = []
       this.formSelect.carTypeCodeList.forEach(item => {
         this.form.carTypeCodeList.push(item.carTypeCode)
       })
       this.getSelectList('carTypeCodeList')
     },
-    handleCategory() {
+    handleCategory () {
       this.form.categoryCodeList = []
       this.formSelect.categoryCodeList.forEach(item => {
         this.form.categoryCodeList.push(item.categoryCode)
       })
       this.getSelectList('categoryCodeList')
     },
-    handleSupplier() {
+    handleSupplier () {
       this.form.supplierIdList = []
       this.formSelect.supplierIdList.forEach(item => {
         this.form.supplierIdList.push(item.supplierId)
       })
       this.getSelectList('supplierIdList')
     },
-    handlePart() {
+    handlePart () {
       this.form.partNumList = []
       this.formSelect.partNumList.forEach(item => {
         this.form.partNumList.push(item.partNum)
       })
       this.getSelectList('partNumList')
     },
-    getMapList() {
+    getMapList () {
       this.form.countryList = []
       this.form.provinceList = []
       this.form.cityList = []
@@ -173,12 +237,12 @@ export default {
       this.$emit('getMapList', this.form)
     },
     // 
-    async getCityInfo() {
+    async getCityInfo () {
       const res = await getCity()
       this.formGoup.areaList = res
     },
     // 重置
-    handleSearchReset() {
+    handleSearchReset () {
 
       this.formSelect = {
         carTypeCodeList: [],
@@ -199,7 +263,7 @@ export default {
       }
       this.getMapList()
     },
-    async getSelectList(flag) {
+    async getSelectList (flag) {
       try {
         let res1, res2, res3, res4
         switch (flag) {
@@ -268,13 +332,13 @@ export default {
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
+  created () {
     this.getSelectList()
     this.getMapList()
     this.getCityInfo()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
+  mounted () {
     document.getElementsByClassName('list-container')[0].style.height = '17rem'
     document.getElementsByClassName('list-container')[1].style.height = '17rem'
     document.getElementsByClassName('list-container')[2].style.height = '17rem'

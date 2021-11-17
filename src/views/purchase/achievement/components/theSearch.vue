@@ -192,7 +192,7 @@
 
 <style scoped>
     ::v-deep .cardBody {
-        padding: 20px 40px !important;
+        /*padding: 20px 40px !important;*/
     }
 
     ::v-deep .el-icon-date {

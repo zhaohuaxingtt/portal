@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:56
- * @LastEditTime: 2021-11-10 15:00:13
+ * @LastEditTime: 2021-11-16 11:39:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\enclosureList.vue
@@ -15,6 +15,7 @@
       <uploadButton ref="uploadButtonAttachment"
                     :buttonText="language('SHANGCHUAN', '上传')"
                     :uploadByBusiness="true"
+                    v-if="!isView"
                     @uploadedCallback="handleUploadForm($event)"
                     class="margin-left20" />
     </template>
@@ -55,7 +56,8 @@ export default {
     return {
       mtzAppId: "",
       loading: false,
-      tableData: []
+      tableData: [],
+      isView: false
     }
   },
   components: {
@@ -67,7 +69,7 @@ export default {
   },
   methods: {
     init () {
-      console.log(this.$store.state.permission.userInfo)
+      this.isView = JSON.parse(this.$route.query.isView)
       this.mtzAppId = this.$route.query.mtzAppId
       this.getAttachList()
     },

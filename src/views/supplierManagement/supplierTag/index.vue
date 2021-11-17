@@ -3,9 +3,9 @@
  * @Date: 2021-010-13 
 -->
 <template>
-  <div>
+  <iPage>
     <!-- <iDialog width="80%" title="测试" :visible.sync="dialogVisible"></iDialog> -->
-
+    <span class="boxTitle"> {{language('GONGYINGSHANGBIAOQIANGUANLI', '供应商标签管理')}}</span>
     <iSearch @reset="clickReset"
              @sure="sure"
              :icon="true">
@@ -142,7 +142,7 @@
         </div>
       </iDialog>
     </iCard>
-  </div>
+  </iPage>
 </template>
 
 <script>
@@ -157,7 +157,8 @@ import {
   iInput,
   iMessageBox,
   icon,
-  iDialog
+  iDialog,
+  iPage
 } from 'rise'
 import { Cloum } from './components/data'
 import {
@@ -178,7 +179,8 @@ export default {
     iPagination,
     iInput,
     icon,
-    iDialog
+    iDialog,
+    iPage
   },
   data() {
     return {
@@ -331,6 +333,15 @@ export default {
 // ::v-deep .el-tooltip__popper {
 // width: 100px!important;  //宽度可根据自己需要进行设置
 //   }
+
+.boxTitle{
+       font-size: 20px;
+    font-family: Arial;
+    font-weight: bold;
+    color: #000000;
+    padding: 20px;
+    display: inline-block;
+}
 .isShowBtnStyle {
   cursor: pointer;
 }

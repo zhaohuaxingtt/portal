@@ -9,6 +9,14 @@ const VUE_APP_PARTSCOLLECT = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/par
 const VUE_APP_RELATIONPARTS = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/relationParts')
 const VUE_APP_PARTSCARD = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/partsCard')
 
+//  判断按钮权限
+export function getIsLinie(params) {
+  return VUE_APP_RELATIONPARTS({
+    url: '/getIsLinie',
+    method: 'GET',
+    params
+  })
+}
 
 // 收藏夹及收藏零件查询
 export function getFolderPartsList(params) {

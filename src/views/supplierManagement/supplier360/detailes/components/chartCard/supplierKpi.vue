@@ -12,24 +12,33 @@
             name="iconcaiwuyujing-icon"></icon>
       <div class="boxText">
         <div> {{info.currentScore}} <div>
-            <icon v-if="info.percent>0"
+            <icon v-if="info.upDown>0"
                   symbol
-                  :class="parseInt(info.percent)>=0?'green':'orgin'"
+                  class="green"
                   name="iconpaixu-xiangshang"> </icon>
-            <icon v-if="info.percent<0"
+            <icon v-if="info.upDown<0"
                   symbol
-                  :class="parseInt(info.percent)>=0?'green':'orgin'"
+                  class="orgin"
                   name="iconpaixu-xiangxia"> </icon>
-            <span v-if="info.percent!=0"
-                  :class="parseInt(info.percent)>=0?'green':'orgin'">{{parseInt(info.percent).toString() }}% </span>
+            <span v-if="info.upDown>0"
+                  class='green'>{{info.percent?parseInt(info.percent).toString():'' }}% </span>
+            <span v-if="info.upDown<0"
+                  class="orgin">{{info.percent?'-'+parseInt(info.percent).toString():'' }}% </span>
           </div>
         </div>
         <p>{{language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署')}} <span v-if="info.developScore!=0"
-                :class="parseInt(info.developScore)>=0?'green':'orgin'"> {{info.developScore.toString()}}%</span></p>
+                :class="parseInt(info.developScore)>=0?'green':'orgin'"> {{info.developScore?info.developScore.toString():''}}%</span></p>
         <p>{{language('WURANWEIGUI', '污染违规')}} <span></span></p>
       </div>
-      <div ref="chart"
-           class="chartStyle"> </div>
+      <div class="chartbox">
+        <div ref="chart"
+             class="chartStyle"> </div>
+             <div class="line">
+        <p>{{fristYear}}</p>
+        <p>{{language('ZHIJIN', '至今')}}</p>
+      </div>
+      </div>
+      
     </div>
   </iCard>
 </template>
@@ -47,7 +56,8 @@ export default {
     return {
       chart: 'oneChart',
       option: {},
-      info: {}
+      info: {},
+      fristYear: ''
     }
   },
   computed: {
@@ -74,7 +84,7 @@ export default {
         data1.push(item) // 将属性名放入list数组中
         data2.push(this.info.mapMonth[item])
       }
-
+      this.fristYear = data1[0]
       this.option = {
         tooltip: {
           trigger: 'axis'
@@ -89,14 +99,17 @@ export default {
         xAxis: {
           type: 'category',
           data: data1,
+
           axisLabel: {
-            show: true,
+            interval: data1.length / 2,
+            show: false,
             textStyle: {
               color: '#7E84A3',
               fontSize: '10px'
             }
           },
           axisLine: {
+            show: false,
             lineStyle: {
               color: '#7E84A3'
             }
@@ -226,9 +239,27 @@ export default {
   height: 160px;
   align-items: center;
   justify-content: space-between;
-  .chartStyle {
+  .chartbox {
     width: 55%;
     height: 100%;
+    position: relative;
+    > .chartStyle {
+      width: 100%;
+      height: 100%;
+    }
+    .line {
+        padding-right: 20%;
+      position: absolute;
+      width: 100%;
+      bottom: 4%;
+      left: 20%;
+      font-size: 10px;
+      font-family: Arial;
+      font-weight: 400;
+      color: #7e84a3;
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }
 .box:nth-child(1) div {

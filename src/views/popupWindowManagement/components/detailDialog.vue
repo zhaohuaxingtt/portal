@@ -3,12 +3,13 @@
     :visible.sync="show"
     :title="papgeTitle"
     @close="closeDialog"
-    width="600px"
+    min-width="600px"
     min-height='400px'
   >
       <div class="main">
           <div class="left">
-              <img :src="detail.picUrl" alt="" class="left-image">
+              <img v-if="detail.picUrl" :src="detail.picUrl" alt="" class="left-image">
+              <img v-else src="../../../assets/images/popupPic.png" alt="" class="left-image">
           </div>
           <div class="right">
               <h2 :class="{'link-text':detail.linkUrl}" @click="toNewPage">{{detail.title}}</h2>
@@ -60,7 +61,7 @@ export default {
     display: flex;
     justify-content:space-between;
     .left{
-        width: 300px;
+        width: 400px;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -74,11 +75,15 @@ export default {
     .right{
         width: 100%;
         height: 100%;
-        margin-left: 330px;
+        margin-left: 430px;
         .content,
         .btn{
             margin-top: 20px;
             margin-bottom: 20px;
+        }
+        .content{
+            max-height: 200px;
+            overflow: auto;
         }
         .link-text{
             text-decoration: underline;

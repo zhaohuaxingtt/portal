@@ -7,44 +7,42 @@
  * @FilePath: \rise\src\views\home\index.vue
 -->
 <template>
-  <div>
-    <iPage>
-      <div class="tab-list-box">
-        <iNavMvp
-          :list="tabRouterList"
-          class="margin-bottom20"
-          routerPage
-          :lev="1"
-        />
-        <iNavMvp
-          :list="meetingButtonList"
-          class="margin-bottom20"
-          routerPage
-          :lev="2"
-        />
-      </div>
-      <router-view></router-view>
-    </iPage>
-  </div>
+  <iPage>
+    <div class="tab-list-box">
+      <iNavMvp
+        :list="tabRouterList"
+        class="margin-bottom20"
+        routerPage
+        :lev="1"
+      />
+      <iNavMvp
+        :list="meetingButtonList"
+        class="margin-bottom20"
+        routerPage
+        :lev="2"
+      />
+    </div>
+    <router-view></router-view>
+  </iPage>
 </template>
 
 <script>
-import { iNavMvp, iPage } from "rise";
-import { tabRouterList, meetingButtonList } from "./data";
+import { iNavMvp, iPage } from 'rise'
+import { tabRouterList, meetingButtonList } from './data'
 
 export default {
   components: {
     iNavMvp,
-    iPage,
+    iPage
   },
   data() {
     return {
       tabRouterList,
-      meetingButtonList,
-    };
+      meetingButtonList
+    }
   },
-  methods: {},
-};
+  methods: {}
+}
 </script>
 <style lang="scss" scoped>
 .tab-list-box {

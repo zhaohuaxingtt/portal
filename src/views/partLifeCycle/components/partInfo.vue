@@ -177,8 +177,8 @@ export default {
           this.getAmountAxle()
         } else {
           iMessage.error(result)
-          this.dialogLoging = false
         }
+        this.dialogLoging = false
       }).catch(() => {
         this.dialogLoging = false
       })

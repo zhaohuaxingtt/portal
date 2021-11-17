@@ -10,9 +10,15 @@
             @click="handleConfirm"
             v-if="type !== 'detail'"
             class="margin-right20"
+            :loading="saveLoading"
             >确认</iButton
           >
-          <iButton @click="handleReset" v-if="type !== 'detail'">重置</iButton>
+          <iButton
+            @click="handleReset"
+            :loading="saveLoading"
+            v-if="type !== 'detail'"
+            >重置</iButton
+          >
         </div>
       </pageHeader>
       <baseInfo ref="baseInfo" :type="type" />
@@ -32,7 +38,8 @@ export default {
     return {
       type: '',
       detailId: '',
-      deptId: ''
+      deptId: '',
+      saveLoading: false
     }
   },
   watch: {
@@ -59,7 +66,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     if (from.name !== 'positionTag' && to.params.type !== 'add') {
-      next(vm => {
+      next((vm) => {
         vm.$store.dispatch('GetPositionDetail', vm.detailId)
       })
     }
@@ -91,11 +98,15 @@ export default {
       })
     },
     async handleConfirm() {
+      this.saveLoading = true
       const valid1 = await this.$refs['baseInfo'].$refs['baseForm1'].validate()
       const valid2 = await this.$refs['baseInfo'].$refs['baseForm2'].validate()
-      const obj = _.find(this.$store.state.position.pos.dimensionList, item => {
-        return !item.dimension || !item.content.length
-      })
+      const obj = _.find(
+        this.$store.state.position.pos.dimensionList,
+        (item) => {
+          return !item.dimension || !item.content.length
+        }
+      )
       if (obj) {
         iMessage.warn('增加的维度及内容不能为空')
         return
@@ -111,15 +122,18 @@ export default {
           iMessage.success(
             this.type === 'add' ? '新增岗位成功' : '更新岗位成功'
           )
-          const query = { deptId: this.deptId }
-          if (this.$route.query.menuType) {
-            query.menuType = this.$route.query.menuType
+          if (this.type === 'add') {
+            const query = {
+              id: res.data.id,
+              deptId: this.deptId
+            }
+            this.$router.replace({
+              path: '/position/operate/detail',
+              query
+            })
           }
-          this.$router.replace({
-            path: '/position/list',
-            query
-          })
         }
+        this.saveLoading = false
       }
     },
     handleReset() {

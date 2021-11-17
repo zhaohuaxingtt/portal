@@ -6,7 +6,7 @@
 
 <script>
 import notifyDialog from './notifyDialog.vue'
-import { getPopupList } from '@/api/popupWindowMgmt'
+import { getPopupList ,changeCheckedSta} from '@/api/popupWindowMgmt'
 import { getgetPopupSocketMessage } from '@/api/mail'
 export default {
   name: 'layoutNotify',
@@ -27,7 +27,8 @@ export default {
       closePopupSocket: null,
       handelClick:[],
       iniTimes:0,
-      showItems:0
+      showItems:0,
+      detaliData:{}
     }
   },
   mounted() {
@@ -35,6 +36,7 @@ export default {
       let _this = this
       const data = res.msgTxt
       this.popupDataList.push(data) 
+      console.log(this.showItems,'this.showItems');
       if(this.showItems < 5){
         this.showItems++
       }else{
@@ -43,10 +45,13 @@ export default {
             this.iniTimes++
           }while(!this.handelClick.includes(this.iniTimes))
         }
+        console.log(this.iniTimes,'this.iniTimes');
           this.closeItemList[this.iniTimes].close()
+          console.log('-------');
+          this.showItems--
           this.iniTimes++
       }
-      if (data.type == 5 && data.subType == 4) {
+      if (data.type ==4  && data.subType == 5) {
         const index = _this.closeItemList.length 
           this.closeItemList.push ( this.$notify({
             duration: 0,
@@ -54,7 +59,7 @@ export default {
             message: `<div style='display: flex;justify-content: space-between;cursor:pointer;'>
                               <div class="popupLeft" style='width:50px;height:50px; '>
                                   <img src="${
-                                   JSON.parse(data.param).picUrl
+                                   JSON.parse(data.param).picUrl || '/portal/static/img/popupPic.f3ff87ac.png'
                                   }" style='width:100%;height:100%; border-radius: 50%;'>
                               </div>
                               <div class="popupRight" style='position:relative;margin-left:20px'>
@@ -96,10 +101,11 @@ export default {
               this.closeItemList[index] =  this.$notify({
               duration: 0,
               dangerouslyUseHTMLString: true,
-              message: `<div style='display: flex;justify-content: space-between;cursor:pointer;'>
+              customClass:'notifyHandel',
+              message: `<div style='display: flex;justify-content: space-between;cursor:pointer'>
                                         <div class="popupLeft" style='width:50px;height:50px; '>
                                             <img src="${
-                                              ele.picUrl
+                                              ele.picUrl ?  ele.picUrl : '/portal/static/img/popupPic.f3ff87ac.png'
                                             }" style='width:100%;height:100%; border-radius: 50%;'>
                                         </div>
                                         <div class="popupRight" style='position:relative;margin-left:20px'>
@@ -128,24 +134,45 @@ export default {
   },
   methods: {
     openDialog(index) {
+
       this.showDialog = true
       this.handelClick.push(index)
-      this.detail = {
-        title: this.popupDataList[index].popupName ? this.popupDataList[index].popupName: this.popupDataList[index].title,
-        content: this.popupDataList[index].content,
-        picUrl: this.popupDataList[index].picUrl ? this.popupDataList[index].picUrl : JSON.parse(this.popupDataList[index].param).picUrl,
-        linkUrl: this.popupDataList[index].linkUrl ? this.popupDataList[index].linkUrl : this.popupDataList[index].url
+      const data = {
+        userId:JSON.parse(sessionStorage.getItem('userInfo')).accountId,
+        popupId:this.popupDataList[index].id || JSON.parse(this.popupDataList[index].param).popupId
       }
-      this.closeItemList[index].close()
+      changeCheckedSta(data).then((res)=>{
+        if(res.code == 200){
+          const data = res.data
+          this.detaliData = data
+          this.detail = {
+            title: this.detaliData.popupName,
+            content: this.detaliData.content,
+            picUrl: this.detaliData.picUrl,
+            linkUrl: this.detaliData.linkUrl
+          }
+          this.closeItemList[index].close()
+          this.showItems--
+          console.log(this.showItems--,'this.showItems--');
+        }else{
+          this.$message.error(res.desZh)
+        }
+      })
+      
+      
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .popupContent {
   width: 600px;
   height: 100%;
   background-color: red;
 }
+.notifyHandel{
+  margin: 0px; 
+}
+
 </style>

@@ -323,14 +323,20 @@
                 '是否黑名单'
               )"
                 slot="label"></iLabel>
-
-        <iSelect disabled
+        <iText>{{supplierData.supplierDTO.isBlacklist?language(
+                'SHI',
+                '是'
+              ):language(
+                'FOU',
+                '否'
+              )}}</iText>
+        <!-- <iSelect disabled
                  v-model="supplierData.supplierDTO.isBlacklist">
           <el-option :value="item.code"
                      :label="item.name"
                      v-for="(item, index) in blackList"
                      :key="index"></el-option>
-        </iSelect>
+        </iSelect> -->
       </iFormItem>
     </iFormGroup>
   </iCard>
@@ -374,8 +380,13 @@ export default {
     }
   },
   watch: {
-    supplierData(val) {
-      console.log(val)
+    supplierData() {
+    },
+    country(val) {
+      if (val.length > 0) {
+        console.log(val)
+        this.getisForeignCountry(val)
+      }
     }
   },
   data() {
@@ -430,7 +441,9 @@ export default {
       return this.$route.query.supplierType
     }
   },
-  created() {},
+  created() {
+    this.getisBlack()
+  },
   methods: {
     // 获取省份
     getProvince() {
@@ -440,8 +453,6 @@ export default {
       getCityInfo(data).then((res) => {
         if (res.data) {
           this.getisForeignCountry(res.data)
-          this.getisBlack()
-
           let req = {
             parentCityId: res.data[0].cityIdStr
           }
@@ -475,25 +486,26 @@ export default {
           if (res.data) {
             code = 1
           } else code = 0
-          this.supplierData.supplierDTO.isBlacklist = code
+          this.$set(this.supplierData.supplierDTO, 'isBlacklist', code)
         }
       )
     },
     //是否国内外
     getisForeignCountry(val) {
-      isForeignCountry({
-        addressInfoId: val.find(
-          (item) =>
-            item.sapLocationCode == this.supplierData.supplierDTO.countryCode
-        ).id
-      }).then((res) => {
-        let code = 0
-        if (res.data) {
-          code = 1
-        } else code = 0
-        this.supplierData.supplierDTO.isForeignManufacture = code
-        console.log(this.supplierData.supplierDTO.isForeignManufacture )
-      })
+      if (val.length > 0) {
+        isForeignCountry({
+          addressInfoId: val.find(
+            (item) =>
+              item.sapLocationCode == this.supplierData.supplierDTO.countryCode
+          ).id
+        }).then((res) => {
+          let code = 0
+          if (res.data) {
+            code = 1
+          } else code = 0
+          this.$set(this.supplierData.supplierDTO, 'isForeignManufacture', code)
+        })
+      }
     },
 
     // 国家切换 获取省信息

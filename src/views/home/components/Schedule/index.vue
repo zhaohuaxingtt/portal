@@ -142,35 +142,43 @@ export default {
     async getCalendar() {
       // 2
       const { result_1, result_2 } = await this.getHoliday()
-      // 3
-      const result_3 = await this.getMeetingList(
-        {
-          // 用户id
-          year: this.currentYear,
-          month: this.currentMonth
-        },
-        this.userId.id
-      )
-      let data_3 = result_3 || []
+      
       if (
         result_1.code === '200' &&
-        result_2.code === '200' &&
-        data_3.length > 0
+        result_2.code === '200'
+        // data_3.length > 0
       ) {
         let data_1 = result_1.data || []
         let data_2 = result_2.data || []
-        let reg = /\s+/
+        // let reg = /\s+/
         let newArr = []
         let disabledDates = [...data_1, ...data_2]
-        disabledDates.forEach((item) => {
-          let b = item.dateContent.split(reg)
+        // disabledDates.forEach(item => {
+        //   let b = item.dateContent.split(reg)
+        //   newArr.push({
+        //     start: b[0],
+        //     end: b[0]
+        //   })
+        // })
+        // 月份从0开始
+        disabledDates.map(item => {
           newArr.push({
-            start: b[0],
-            end: b[0]
+            start: new Date(item.year, (item.month * 1) - 1, item.day),
+            end: new Date(item.year, (item.month * 1) - 1, item.day)
           })
         })
         this.holiday = newArr
-        data_3.forEach((item) => {
+        // 3
+        const result_3 = await this.getMeetingList(
+          {
+            // 用户id
+            year: this.currentYear,
+            month: this.currentMonth
+          },
+          this.userId.id
+        )
+        let data_3 = result_3 || []
+        data_3.forEach(item => {
           item.dot = 'yellow'
         })
         let all = [...data_3]
@@ -244,14 +252,22 @@ export default {
         if (result_1.code === '200' && result_2.code === '200') {
           let data_1 = result_1.data || []
           let data_2 = result_2.data || []
-          let reg = /\s+/
+          // let reg = /\s+/
           let newArr = []
           let disabledDates = [...data_1, ...data_2]
-          disabledDates.forEach((item) => {
-            let b = item.dateContent.split(reg)
+          // disabledDates.forEach((item) => {
+            // let b = item.dateContent.split(reg)
+          // disabledDates.forEach(item => {
+          //   let b = item.dateContent.split(reg)
+          //   newArr.push({
+          //     start: b[0],
+          //     end: b[0]
+          //   })
+          // })
+          disabledDates.map(item => {
             newArr.push({
-              start: b[0],
-              end: b[0]
+              start: new Date(item.year, (item.month * 1) - 1, item.day),
+              end: new Date(item.year, (item.month * 1) - 1, item.day)
             })
           })
           this.holiday = newArr
@@ -293,7 +309,7 @@ export default {
   .trangle {
     position: absolute;
     z-index: 100;
-    left: 70%;
+    right: 20%;
     top: 7.5%;
     width: 0;
     height: 0;
@@ -308,6 +324,9 @@ export default {
       background: linear-gradient(168deg, #4d88fc 0%, #06348e 100%);
       color: #fff;
       box-shadow: 0px 4px 6px rgba(15, 56, 111, 0.16);
+    }
+    .vc-nav-item.is-active {
+      color: #fff;
     }
   }
   .info_container {

@@ -10,6 +10,7 @@
         :file-list="fileList"
       >
         <img v-if="imageUrl" :src="imageUrl" @error="handleImageError" @load="handleImageLoad" class="avatar">
+        <!-- <img v-else src="../../../assets/images/popupPic.png"   class="avatar"> -->
         <i v-else class="el-icon-circle-plus-outline avatar-uploader-icon"></i>
       </el-upload>
       <p class="right-content-bottom">{{language('建议使用16:9比例图片，不超过10M')}}</p>

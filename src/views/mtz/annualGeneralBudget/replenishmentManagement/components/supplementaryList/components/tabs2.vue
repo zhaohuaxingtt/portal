@@ -68,7 +68,7 @@ export default {
     iButton,
     iPagination
   },
-  props: ["mtzDocId", "searchFormList", "dataObject"],
+  // props: ["mtzDocId", "searchFormList", "dataObject"],
   data () {
     return {
       page: {
@@ -99,6 +99,7 @@ export default {
     }
   },
   created () {
+    this.mtzDocId = this.$route.query.mtzDocId
     this.getData();
     compdocMetalDetailSum({
       mtzDocId: this.mtzDocId,

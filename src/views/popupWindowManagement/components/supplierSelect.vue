@@ -89,22 +89,22 @@ export default {
                         }
                     ]
                 },
-                {
-                    value:'',
-                    label:'供应商类别',
-                    type:'select',
-                    options:[
+                // {
+                //     value:'',
+                //     label:'供应商类别',
+                //     type:'select',
+                //     options:[
 
-                    ]
-                },
-                {
-                    value:'',
-                    label:'采购分类',
-                    type:'select',
-                    options:[
+                //     ]
+                // },
+                // {
+                //     value:'',
+                //     label:'采购分类',
+                //     type:'select',
+                //     options:[
                         
-                    ]
-                }
+                //     ]
+                // }
             ],
             suppliers: []
         }
