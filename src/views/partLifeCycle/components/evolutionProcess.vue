@@ -229,7 +229,7 @@ export default {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.priceSelect = res.data
-          this.factoryCode = this.priceSelect ? this.priceSelect[0].value : ''
+          this.factoryCode = this.priceSelect.length ? this.priceSelect[0].value : ''
           this.partsAxle()
         } else {
           this.evolutionProcessLoading = false
@@ -251,19 +251,33 @@ export default {
       }
     },
     oneToMany(caseType, index) {
-      let key = Number(caseType) === 1 ? 1 : -1
-      if(this.partsAxleData[index].nodePartsNum){
-        key = 0
+      const map = {
+        1: 1,
+        2: -1,
+        3: 0
       }
+      let key = map[caseType];
+      // let key = Number(caseType) === 1 ? 1 : -1
+      // if(this.partsAxleData[index].nodePartsNum){
+      //   key = 0
+      // }
       this.clickInfo = this.partsAxleData[index + key]
+      this.clickInfo['caseType'] = this.partsAxleData[index].caseType
       this.partInfoShow = true
     },
     manyToMany(caseType, index) {
-      let key = Number(caseType) === 1 ? 1 : -1
-      if(this.partsAxleData[index].nodePartsNum){
-        key = 0
+      const map = {
+        1: 1,
+        2: -1,
+        3: 0
       }
+      let key = map[caseType];
+      // let key = Number(caseType) === 1 ? 1 : -1
+      // if(this.partsAxleData[index].nodePartsNum){
+      //   key = 0
+      // }
       this.clickInfo = this.partsAxleData[index + key]
+      this.clickInfo['caseType'] = this.partsAxleData[index].caseType
       this.partInfoMoreToMoreShow = true
     }
   }
