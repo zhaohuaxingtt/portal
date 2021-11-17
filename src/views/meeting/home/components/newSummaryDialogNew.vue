@@ -129,7 +129,7 @@
                       label="份额/Share"
                       :render-header="renderHeader"
                     >
-                      <template scope="scope">
+                      <template slot-scope="scope">
                         {{ scope.row.ratio + '%' }}
                       </template>
                     </el-table-column>
