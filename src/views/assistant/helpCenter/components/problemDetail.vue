@@ -4,9 +4,9 @@
 			<iButton>{{ language('我要提问') }}</iButton>
 		</div>
 		<div class="detail-title flex flex-column items-start">
-			<div class="moudle-name">主数据管理</div>
+			<div class="moudle-name">{{ language('主数据管理') }}</div>
 			<div class="flex flex-wrap label-box">
-				<div v-for="(item, idx) in labelList" :key="idx" class="item-label" :class="labelIdx===idx ? 'activeIdx' : 'idx'" @click="handleLabel(item, idx)">
+				<div v-for="(item, idx) in labelList" :key="idx" class="item-label cursor" :class="labelIdx===idx ? 'activeIdx' : 'idx'" @click="handleLabel(item, idx)">
 					{{ item.label }}
 				</div>
 			</div>
@@ -20,7 +20,7 @@
 			<div class="flex flex-column problem-box">
 				<div v-for="(item, idx) in problemList" :key="idx" class="item-problem flex flex-row items-center" @click="handleProbelm(item, idx)">
 					<div class="blue-box"></div>
-					<div class="problem-text">{{ `【热门】${item.problem}` }}</div>
+					<div class="problem-text cursor">{{ `【热门】${item.problem}` }}</div>
 				</div>
 			</div>
 		</div>
@@ -35,14 +35,20 @@
 				<div class="des-detail">{{ desDetail }}</div>
 			</div>
 			<AttachmentDownload />
-			<div class="tip">{{ text }}</div>
+			<div class="bottom-zan">
+				<Solution
+					:showTipsFlag="showTipsFlag"
+					@badSolutiob="badSolutiob"
+				/>
+			</div>
 		</div>
 
 	</div>
 </template>
 
 <script>
-import AttachmentDownload from '../components/attachmentDownload'
+import AttachmentDownload from '../../components/attachmentDownload'
+import Solution from '../../components/solution'
 import {
 	iButton
 } from 'rise'
@@ -50,7 +56,8 @@ export default {
   name: 'ProblemDetail',
 	components: {
 		iButton,
-		AttachmentDownload
+		AttachmentDownload,
+		Solution
 	},
 	data() {
 		return {
@@ -71,7 +78,7 @@ export default {
 			currentFlag: 'listPage',
 			problemText: '',
 			desDetail: '供应商一共分成三类：一般，生产，共用 一般：',
-			text: '此回答是否解决了您的问题?'
+			showTipsFlag: true
 		}
 	},
 	methods: {
@@ -84,22 +91,34 @@ export default {
 			console.log(item, idx, "item")
 			this.currentFlag = 'detailPage'
 			this.problemText = item.problem
+		},
+		badSolutiob() {
+			console.log("点击跳转追问页面")
 		}
 	}
 }
 </script>
 
 <style lang="scss" scoped>
-@import "../comon.scss";
+@import "../../comon.scss";
 	.detail-content {
-		padding: 30px 40px 20px 40px;
+		min-height: 100%;
+		padding: 20px 40px 0px 40px;
+		position: relative;
+		width: 100%;
+		background: #FFFFFF;
+		box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
+		opacity: 1;
+		border-radius: 5px;
+		overflow-y: auto;
+		margin-left: 20px;
 		.ask-btn {
 			float: right;
 		}
 		.detail-title {
-			margin-top: 60px;
+			margin-top: 50px;
 			width: 100%;
-			padding-bottom: 30px;
+			padding-bottom: 20px;
 			border-top: 1px dotted rgba(112, 112, 112, 0.14901960784313725);;
 			border-bottom: 1px dotted rgba(112, 112, 112, 0.14901960784313725);;
 			.moudle-name {
@@ -110,13 +129,12 @@ export default {
 				color: #000000;
 			}
 			.label-box {
-				margin-top: 32px;
+				margin-top: 22px;
 				.item-label {
 					height: 20px;
 					line-height: 20px;
 					margin-right: 30px;
 					margin-bottom: 10px;
-					cursor: pointer;
 				}
 				.activeIdx {
 					color: #1763F7;
@@ -134,43 +152,44 @@ export default {
 			.label-title {
 				.label-text {
 					margin-left: 16px;
-					font-size: 18px;
+					font-size: 16px;
 					color: #1660F1;
 					text-decoration: underline;
 				}
 			}
 			.problem-box {
-					margin-top: 30px;
+					margin-top: 20px;
 					.item-problem {
-						margin-bottom: 30px;
+						margin-bottom: 20px;
 						.problem-text {
 							margin-left: 16px;
-							font-size: 18px;
+							font-size: 16px;
 							font-weight: bold;
 							color: #222222;
-							cursor: pointer;
 						}
 					}
 				}
 		}
 		.detail {
-			margin-top: 40px;
+			margin-top: 30px;
 			.detail-box {
 				.detail-text {
 					margin-left: 16px;
-					font-size: 18px;
+					font-size: 16px;
 					color: #000000;
 					font-weight: bold;
 				}
 			}
 			.des-box {
-				margin-top: 30px;
-				margin-bottom: 20px;
+				margin-top: 20px;
 				width: 100%;
 				padding: 20px;
 				border: 1px solid #F2F2F2;
 				opacity: 1;
 				border-radius: 2px;
+				min-height: 100px;
+				overflow-x: hidden;
+				overflow-y: auto;
 				.des-title {
 					font-size: 18px;
 					color: #000000;
@@ -182,14 +201,10 @@ export default {
 					padding-bottom: 30px;
 				}
 			}
-			.tip {
-				margin-top: 30px;
-				width: 100%;
-				height: 40px;
-				font-size: 20px;
-				line-height: 40px;
-				text-align: center;
-				color: #666666;
+			.bottom-zan {
+				position: absolute;
+				bottom: 20px;
+				left: 40%;
 			}
 		}
 	}

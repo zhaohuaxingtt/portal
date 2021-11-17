@@ -42,10 +42,10 @@
             />
           </el-form-item>
         </el-col>
-				<el-col :span="4" push="6" class="btn">
+		<el-col :span="6" push="4" class="btn">
           <el-form-item>
             <iButton @click="query">{{ language('查询') }}</iButton>
-						<iButton @click="reset">{{ language('重置') }}</iButton>
+			<iButton @click="reset">{{ language('重置') }}</iButton>
           </el-form-item>
         </el-col>
 			</el-row>
@@ -100,7 +100,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../comon.scss";
+@import "../../comon.scss";
 	.search-box {
 		width: 100%;
 		height: 120px;
@@ -113,6 +113,6 @@ export default {
 		}
 	}
 	.btn {
-		margin-top: 30px;
+		margin-top: 40px;
 	}
 </style>

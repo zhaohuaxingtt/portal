@@ -8,13 +8,13 @@
 				@keyup.enter.native="search"
 				v-model="searchKey"
 			/>
-			<img src="~@/assets/images/search.png" alt="" class="search-icon" />
+			<img src="~@/assets/images/search.png" alt="" class="search-icon" @click="search" />
 			<div class="ask-btn">我要提问</div>
 		</div>
 		<div class="mt15 line"></div>
 		<div class="title">{{ moudleName }}</div>
 		<div class="line"></div>
-		<div class="editor-box"></div>
+		<div class="editor-box" v-html="changeColor(dataContent)"></div>
 	</div>
 </template>
 
@@ -28,19 +28,38 @@ export default {
 	data() {
 		return {
 			searchKey: "",
-			moudleName: '主数据管理'
+			moudleName: '主数据管理',
+			dataContent: '啥叫肯定会尽快啥的接口了哈健康的好看极了啊是多久啊考虑看罗杰撒啊撒开了觉得卡拉沙克发货都是废话安徽的接口',
+			searchHead: 0
 		}
 	},
 	methods: {
 		search() {
 			console.log(this.searchKey)
+			let num = document.getElementsByTagName('a').length;
+			if (num !== 0) {
+				document.getElementsByTagName('a')[this.searchHead].scrollIntoView()
+				if (this.searchHead < (num - 1)) {
+					this.searchHead += 1
+				} else if (this.searchHead == (num - 1)) {
+					this.searchHead = 0
+				} else {}
+			}
+		},
+		changeColor(item) {
+			let searchKey = this.searchKey
+			if (searchKey !== '') {
+				return item.replace(new RegExp(searchKey, 'g'), '<a style="color:red" id="seach" >' + searchKey + '</a>');
+			} else {
+				return item;
+			}
 		}
 	}
 }
 </script>
 
 <style lang="scss" scoped>
-@import "../comon.scss";
+@import "../../comon.scss";
 	.rightContent {
 		width: 100%;
 		height: 100%;
@@ -92,9 +111,10 @@ export default {
 		}
 		.editor-box {
 			width: 100%;
-			height: calc(100% - 120px);
+			height: calc(100% - 160px);
 			border: 1px solid red;
 			overflow-y: auto;
+			white-space: pre-line;
 		}
 	}
 </style>

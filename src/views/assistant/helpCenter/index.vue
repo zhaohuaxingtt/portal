@@ -23,16 +23,24 @@
 			</div>
 		</div>
 		<div class="flex flex-row content mt20" v-show="helpMoudle === 'manual'">
-			<CommonProblem />
+			<CommonProblem 
+				:problemList="problemList"
+				:currentMoudleIdx="currentMoudleIdx"
+			/>
 			<DataManage />
 		</div>
 		<div class="flex flex-column content mt20" v-show="helpMoudle === 'problem'">
 			<ProblemSearch />
 			<div class="flex flex-row mt20 middle-content">
-				<CommonProblem />
-				<div class="right-content">
+				
+				<CommonProblem 
+					:problemList="problemList"
+					:currentMoudleIdx="currentMoudleIdx"
+				/>
+				<!-- <div class="right-content">
 					<ProblemDetail />
-				</div>
+				</div> -->
+				<ProblemDetail />
 			</div>
 		</div>
 		<div class="flex flex-row content mt20" v-show="helpMoudle === 'ask'">
@@ -47,15 +55,18 @@
 import { iPage } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
-import DataManage from '../components/dataManage'
-import ProblemSearch from '../components/problemSearch'
-import ProblemDetail from '../components/problemDetail'
+import DataManage from './components/dataManage'
+import ProblemSearch from './components/problemSearch'
+import ProblemDetail from './components/problemDetail'
+import { getSystemMeun } from '@/api/assistant'
 
 export default {
 	data() {
 		return {
 			text: '用户助手',
 			helpMoudle: "manual",  // manual 用户手册 problem 常见问题 ask 我的提问
+			problemList: [],
+			currentMoudleIdx: 1
 		}
 	},
 	components: {
@@ -67,10 +78,18 @@ export default {
 		ProblemSearch,
 		ProblemDetail
 	},
-	// mounted() {
-	// 	console.log(store.state, "store.state")
-	// },
+	mounted() {
+		this.getProbleList()
+	},
 	methods: {
+		async getProbleList() {
+			getSystemMeun().then((res) => {
+				if (res.code === '200') {
+					let { data: { menuList }} = res
+					this.problemList = [...menuList[1]?.menuList, ...menuList[2]?.menuList]
+				}
+			})
+		},
 		// 右上方分类点击事件
 		tabChange(val) {
 			this.helpMoudle = val
