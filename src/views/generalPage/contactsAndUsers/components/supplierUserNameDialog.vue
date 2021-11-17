@@ -19,7 +19,7 @@
             <iInput v-model="form.appNameCn"
                     :placeholder="language('QINGSHURU', '请输入')"></iInput>
           </el-form-item>
-          <el-form-item :label="language('YINGYONGZHONGWENMING', '应用中文名')">
+          <el-form-item :label="language('YINGYONGYINGWENMING', '应用英文名')">
             <iInput v-model="form.appNameEn"
                     :placeholder="language('QINGSHURU', '请输入')"></iInput>
           </el-form-item>
