@@ -119,10 +119,7 @@ export default {
       if (this.selectTableData.length == 0) {
         this.$message({
           type: 'warning',
-          message: this.language(
-            'QINGXUANZEXUYAOTIJIAODEXINXI',
-            '请选择需要提交的信息'
-          )
+          message: this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU')
         })
       } else
         iMessageBox(

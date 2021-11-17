@@ -52,31 +52,16 @@
             </iSelect>
           </el-form-item>
           <el-form-item
-            prop="startTime"
-       :label="language('SHOUKONGKAISHISHIJIAN', '受控开始时间')">
+            prop="daterange"
+       :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')">
           
             <iDatePicker
               :picker-options="pickerOptions"
               style="width:240px"
-              type="date"
+              type="daterange"
               :range-separator="$t('SUPPLIER_ZHI')"
               :placeholder="''"
-              v-model="form.startTime"
-              value-format="yyyy-MM-dd"
-              clearable
-            />
-          </el-form-item>
-           <el-form-item
-            prop="endTime"
-       :label="language('SHOUKONGJIESHUSHIJIAN', '受控结束时间')">
-          
-            <iDatePicker
-              :picker-options="pickerOptions"
-              style="width:240px"
-              type="date"
-              :range-separator="$t('SUPPLIER_ZHI')"
-              :placeholder="''"
-              v-model="form.endTime"
+              v-model="form.daterange"
               value-format="yyyy-MM-dd"
               clearable
             />
@@ -150,7 +135,7 @@ export default {
       form: {
         reason: '',
         types: [],
-        // daterange: []
+        daterange: []
       },
       selectDate: '',
       takeStepsContent: '',
@@ -169,24 +154,17 @@ export default {
         }
       },
       rules: {
-        startTime: [
+        daterange: [
           {
             required: true,
-            message: this.language('SHOUKONGKAISHISHIJIANBUNENGWEIKONG', '受控开始时间不能为空'),
+            message: '受控时间不能为空',
             trigger: 'blur'
           }
         ],
-         endTime: [
-          {
-            required: true,
-            message: this.language('SHOUKONGJIESHUSHIJIANBUNENGWEIKONG', '受控结束时间不能为空'),
-            trigger: 'blur'
-          }
-         ],
         types: [
           {
             required: true,
-            message: this.language('SHOUKONGYEWULEIXINGBUNENGWEIKONG', '受控业务类型不能为空'),
+            message: '受控业务类型不能为空',
             trigger: 'blur'
           }
         ]
@@ -220,8 +198,8 @@ export default {
     //提交
     handleSub() {
       let params = {
-        // startTime: this.form.daterange[0],
-        // endTime: this.form.daterange[1],
+        startTime: this.form.daterange[0],
+        endTime: this.form.daterange[1],
         supplierId: this.clickTableList.subSupplierId,
         measures: 1,
         reason: this.form.reason,

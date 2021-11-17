@@ -37,7 +37,7 @@
             label="NO."
             show-overflow-tooltip
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span class="table-index">{{ scope.$index + 1 }}</span>
             </template>
           </el-table-column>
@@ -59,7 +59,7 @@
             label="Topic"
             show-overflow-tooltip
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span v-if="scope.row.isBreak">{{ scope.row.topic }}</span>
               <span
                 class="open-link-text"
@@ -87,7 +87,7 @@
             label="Time"
             show-overflow-tooltip
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span>{{ scope.row.startTime.substring(0, 5) }}</span
               ><span>~</span>
               <span v-if="scope.row.endTime">{{
@@ -103,7 +103,7 @@
             label="Presenter"
             show-overflow-tooltip
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span v-if="scope.row.presenter && scope.row.presenterNosys"
                 >{{ scope.row.presenter }}/{{ scope.row.presenterNosys }}</span
               >
@@ -121,7 +121,7 @@
             label="Presenter Dept."
             show-overflow-tooltip
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span
                 v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
                 >{{ scope.row.presenterDept }}/{{
@@ -143,7 +143,7 @@
             label="Supporter"
             show-overflow-tooltip
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span v-if="scope.row.supporter && scope.row.supporterNosys"
                 >{{ scope.row.supporter }}/{{ scope.row.supporterNosys }}</span
               >
@@ -161,7 +161,7 @@
             label="Supporter Dept."
             show-overflow-tooltip
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span
                 v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
                 >{{ scope.row.supporterDept }}/{{
@@ -184,7 +184,7 @@
             label="Status"
             show-overflow-tooltip
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               {{ statusObj[scope.row.state] }}
             </template>
           </el-table-column>

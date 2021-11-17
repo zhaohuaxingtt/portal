@@ -1,10 +1,6 @@
 <!--
  * @version: 1.0
- * @Author: zbin
- * @Date: 2021-05-27 14:47:25
- * @LastEditors: zbin
- * @LastEditTime: 2021-05-27 20:37:54
- * @Descripttion: 风险信号
+ * @Author: caopeng
 -->
 <template>
   <div>
@@ -396,18 +392,27 @@ export default {
     deptChange(v) {
       console.log(v)
       var arr = []
-      if (v.length > 1) {
-        arr = this.deptList.find((res) => {
-          return v[v.length - 1] == res.id
-        }).userDTOList
-        if (arr.length != 0) {
-          this.userList.push(...arr)
-        }
-      } else {
-        this.userList = this.deptList.find((res) => {
-          return v == res.id
-        }).userDTOList
+      if(v.length>=1){
+          v.forEach(v => {
+              let users=[]
+              users=this.deptList.find(i=>{return i.id==v}).userDTOList
+              arr.push(...users)
+          });
       }
+      this.userList =arr
+      console.log(arr)
+    //   if (v.length > 1) {
+    //     arr = this.deptList.find((res) => {
+    //       return v[v.length - 1] == res.id
+    //     }).userDTOList
+    //     if (arr.length != 0) {
+    //       this.userList.push(...arr)
+    //     }
+    //   } else {
+    //     this.userList = this.deptList.find((res) => {
+    //       return v == res.id
+    //     }).userDTOList
+    //   }
     },
     getTaleList() {
       this.tableLoading = true

@@ -22,7 +22,7 @@
                      :label="language('GONGYINGSHANGHEIMINGDANJILU', '供应商⿊名单记录')">
         </el-tab-pane>
       </el-tabs>
-      <div class="dilogHeader" >
+      <div class="dilogHeader">
         <el-form label-width="80"
                  inline
                  label-position="top">
@@ -91,9 +91,8 @@
               </el-option>
             </iSelect>
           </el-form-item>
-         
-  
-           <el-form-item v-if="tabVal == 1"
+
+          <el-form-item v-if="tabVal == 1"
                         style="width:220px"
                         :label="language('SHOUKONGZHUANGTAI', '受控状态')">
             <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
@@ -105,7 +104,7 @@
               </el-option>
             </iSelect>
           </el-form-item>
-                  <el-form-item style="width:220px"
+          <el-form-item style="width:220px"
                         :label="language('SHOUKONGCUOSHI', '受控措施')">
             <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
                      v-model="form.measures">
@@ -116,13 +115,21 @@
               </el-option>
             </iSelect>
           </el-form-item>
-          <el-form-item :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')">
-
+          <el-form-item :label="language('SHOUKONGKAISHISHIJIAN', '受控开始时间')">
             <iDatePicker style="width:220px"
                          type="daterange"
                          :range-separator="$t('SUPPLIER_ZHI')"
                          :placeholder="''"
                          v-model="daterange"
+                         value-format="yyyy-MM-dd"
+                         clearable />
+          </el-form-item>
+          <el-form-item :label="language('SHOUKONGJIESHUJIAN', '受控结束时间')">
+            <iDatePicker style="width:220px"
+                         type="daterange"
+                         :range-separator="$t('SUPPLIER_ZHI')"
+                         :placeholder="''"
+                         v-model="daterange2"
                          value-format="yyyy-MM-dd"
                          clearable />
           </el-form-item>
@@ -207,14 +214,14 @@ export default {
   },
   data() {
     return {
-        isShow:false,
+      isShow: false,
       stuffList: [],
       categoryList: [],
       purchaseList: [],
       tableLoading: false,
       tableLoadingRecord: false,
       form: {
-          measuresStatus:''
+        measuresStatus: ''
       },
       processingList: [],
       tableTitlePpBlackList: tableTitlePpBlackList,
@@ -234,6 +241,7 @@ export default {
         }
       ],
       daterange: [],
+      daterange2: [],
       tabVal: '1',
       measuresList: [
         {
@@ -315,12 +323,14 @@ export default {
       //   this.remoteGetStuffList()
     },
     getList() {
-        this.isShow=true
+      this.isShow = true
       this.tableLoading = true
       const params = {
         supplierId: this.clickTableList.subSupplierId,
         endTime: this.daterange[1],
         startTime: this.daterange[0],
+        stopEndTime: this.daterange2[1],
+        stopStartTime: this.daterange2[0],
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         ...this.form
@@ -328,7 +338,6 @@ export default {
       console.log(this.form)
       ppSupplerBlackListStatusPage(params).then((res) => {
         if (res && res.code == 200) {
-            
           this.tableLoading = false
           this.tableListData = res.data
         } else iMessage.error(res.desZh)
@@ -342,6 +351,8 @@ export default {
         pageSize: this.page.pageSize,
         endTime: this.daterange[1],
         startTime: this.daterange[0],
+        stopEndTime: this.daterange2[1],
+        stopStartTime: this.daterange2[0],
         ...this.form
       }
       ppSupplerBlackListHistoryPage(params).then((res) => {
@@ -353,7 +364,7 @@ export default {
       })
     },
     changeTab() {
-          this.isShow=true
+      this.isShow = true
       this.clickReset(this.tabVal)
       console.log(this.form)
     },
@@ -382,6 +393,7 @@ export default {
       this.page.pageSize = 10
       this.page.currPage = 1
       this.daterange = []
+      this.daterange2 = []
       if (v == 1) {
         this.getList()
       } else {
