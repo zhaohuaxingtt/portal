@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-17 10:18:49
+ * @LastEditTime: 2021-11-17 16:01:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -134,6 +134,7 @@ export default {
                 isView: false
               }
             })
+            this.$store.dispatch('setMtzChangeBtn', false);
             window.open(routerPath.href, '_blank')
           } else {
             iMessage.error(res.desZh)
@@ -150,6 +151,7 @@ export default {
                 isView: false
               }
             })
+            this.$store.dispatch('setMtzChangeBtn', false);
             window.open(routerPath.href, '_blank')
           } else {
             iMessage.error(res.desZh)
