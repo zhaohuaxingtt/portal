@@ -60,7 +60,7 @@
                      :tableLoading="tableLoadingAdd"
                      :index="true">
             <template #systemType="scope">
-              {{ scope.row.systemType == 1 ? 'RISE' : 'SCENARIO' }}
+              {{ scope.row.systemType == 1 ? '系统' : 'SCENARIO' }}
             </template>
           </tableList>
         </div>
