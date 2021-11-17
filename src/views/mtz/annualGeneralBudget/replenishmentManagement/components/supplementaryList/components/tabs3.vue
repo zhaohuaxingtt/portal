@@ -64,7 +64,7 @@ export default {
     iButton,
     iPagination
   },
-  props: ["mtzDocId", "searchFormList", "dataObject"],
+  props: ["searchFormList", "dataObject"],
   data () {
     return {
       page: {
@@ -95,10 +95,8 @@ export default {
     }
   },
   created () {
-    this.mtzDocId = this.$route.query.mtzDocId
-    this.getData();
     compdocMetalDetailSum({
-      mtzDocId: this.mtzDocId,
+      mtzDocId: this.dataObject.id,
       pgmFlag: 1
     }).then(res => {
       this.inforData = res.data;
@@ -116,7 +114,7 @@ export default {
       compdocMetalDetailPage({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        mtzDocId: this.mtzDocId,
+        mtzDocId: this.dataObject.id,
         ...this.serchList
       }).then(res => {
         if (res.data.length < 1) {
@@ -138,7 +136,7 @@ export default {
       }).then(() => {
         compdocMetalDetailExport({
           ...this.serchList,
-          mtzDocId: this.mtzDocId
+          mtzDocId: this.dataObject.id
         }).then(res => {
           let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
           let objectUrl = URL.createObjectURL(blob);
@@ -163,7 +161,7 @@ export default {
         cancelButtonText: this.language('QUXIAO', '取消'),
         confirmButtonText: this.language('QUEREN', '确认'),
       }).then(() => {
-        mtzBalanceDetailsExport({ mtzDocId: this.mtzDocId }).then(res => {
+        mtzBalanceDetailsExport({ mtzDocId: this.dataObject.id }).then(res => {
           let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
           let objectUrl = URL.createObjectURL(blob);
           let link = document.createElement("a");

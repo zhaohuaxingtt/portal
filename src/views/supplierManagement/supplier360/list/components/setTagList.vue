@@ -199,19 +199,18 @@ export default {
           this.tableLoading = false
           this.tabledata = res.data
           this.page.totalCount = res.total
-          this.$nextTick(function()  {
+          this.$nextTick(function () {
             this.tabledata.forEach((e) => {
               if (e.isBinding == 1) {
                 this.$refs.mulitipleTable.toggleRowSelection(e, true)
+                // console.log(this.$refs.mulitipleTable.toggleRowSelection(e))
               }
             })
           })
-
         } else iMessage.error(res.desZh)
       })
     },
     clickBtn() {
-   
       const req = {
         supplierId: this.rowList.subSupplierId,
         tagIdAll: this.tabledata.map((x) => {
@@ -249,13 +248,13 @@ export default {
     },
 
     sure() {
-    //   this.page.currPage = 1
-    //   this.page.pageSize = 10
+      //   this.page.currPage = 1
+      //   this.page.pageSize = 10
       this.getList()
     },
     clickReset() {
-    //   this.page.currPage = 1
-    //   this.page.pageSize = 10
+      //   this.page.currPage = 1
+      //   this.page.pageSize = 10
       this.form = {}
       this.getList()
     },
@@ -270,7 +269,6 @@ export default {
 
 <style scoped lang="scss">
 .tableBox {
-
 }
 .changeContent {
   padding: 0px 10px 20px 10px;
@@ -285,8 +283,8 @@ export default {
     border-bottom: 1px solid #e3e3e3;
   }
   .section {
-        max-height: 700px;
-  overflow-y: auto;
+    max-height: 700px;
+    overflow-y: auto;
     .sectionTitle {
       display: flex;
       justify-content: space-between;

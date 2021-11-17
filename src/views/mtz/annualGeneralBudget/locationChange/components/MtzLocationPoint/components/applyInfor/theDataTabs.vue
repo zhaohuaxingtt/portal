@@ -23,6 +23,7 @@
                 @selection-change="handleSelectionChange">
         <el-table-column type="selection"
                         :selectable="selectionType"
+                        fixed
                          width="60">
         </el-table-column>
         <el-table-column label="#"
@@ -180,7 +181,7 @@
                     <el-option
                         v-for="item in materialCode"
                         :key="item.code"
-                        :label="item.message"
+                        :label="item.codeMessage"
                         :value="item.code">
                     </el-option>
                 </el-select>
@@ -193,8 +194,7 @@
                          :label="language('YUANCAILIAO','原材料')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput :disabled="true" v-model="scope.row.materialName" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
-                <span v-else>{{scope.row.materialName}}</span>
+                <span>{{scope.row.materialName}}</span>
             </template>
         </el-table-column>
         <el-table-column prop="price"
@@ -227,7 +227,7 @@
                     <el-tooltip effect="light"
                                 placement="top">
                         <div slot="content">
-                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                            <p>M01006002-Pt</p>
                         </div>
                         <i class="el-icon-warning-outline margin-left10"
                         style="color:blue"></i>
@@ -249,7 +249,7 @@
                     <el-tooltip effect="light"
                                 placement="top">
                         <div slot="content">
-                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                            <p>M01006002-Pt</p>
                         </div>
                         <i class="el-icon-warning-outline margin-left10"
                         style="color:blue"></i>
@@ -271,7 +271,7 @@
                     <el-tooltip effect="light"
                                 placement="top">
                         <div slot="content">
-                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                            <p>M01006001-Pd</p>
                         </div>
                         <i class="el-icon-warning-outline margin-left10"
                         style="color:blue"></i>
@@ -293,7 +293,7 @@
                     <el-tooltip effect="light"
                                 placement="top">
                         <div slot="content">
-                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                            <p>M01006001-Pd</p>
                         </div>
                         <i class="el-icon-warning-outline margin-left10"
                         style="color:blue"></i>
@@ -315,7 +315,7 @@
                     <el-tooltip effect="light"
                                 placement="top">
                         <div slot="content">
-                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                            <p>M01006003-Rh</p>
                         </div>
                         <i class="el-icon-warning-outline margin-left10"
                         style="color:blue"></i>
@@ -338,7 +338,7 @@
                     <el-tooltip effect="light"
                                 placement="top">
                         <div slot="content">
-                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                            <p>M01006003-Rh</p>
                         </div>
                         <i class="el-icon-warning-outline margin-left10"
                         style="color:blue"></i>
@@ -557,22 +557,17 @@ export default {
   computed:{
       mtzObject(){
         return this.$store.state.location.mtzObject;
-      }
+      },
+
   },
   watch: {
     mtzObject(newVlue,oldValue){
       // console.log(newVlue)
       this.init()
-    }
+    },
   },
   created(){
-    pageAppRule({
-        pageNo: 1,
-        pageSize: 99999,
-        mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-    }).then(res=>{
-        this.ruleNo = res.data;
-    })
+    this.pageAppRequest();
     getMtzSupplierList({}).then(res=>{
         this.supplierList = res.data;
     })
@@ -592,6 +587,15 @@ export default {
             this.materialCode = res.data;
         })
     },
+    pageAppRequest(){
+        pageAppRule({
+            pageNo: 1,
+            pageSize: 99999,
+            mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        }).then(res=>{
+            this.ruleNo = res.data;
+        })
+    },
     selectionType(row){
         if(this.editType == true){
             return false;
@@ -604,12 +608,14 @@ export default {
     },
     edit(){//编辑
         if(this.selectList.length>0){
+            this.pageAppRequest();
             this.editType = true;
             var changeArrayList = [];
             this.selectList.forEach(item => {
                 changeArrayList.push(item.id);
             })
             this.editId = changeArrayList;
+            this.dialogEditType = false;
         }else{
             iMessage.error("请选择需要修改数据！")
         }
@@ -620,10 +626,10 @@ export default {
             noList.forEach(e => {
                 if(e.id == val){
                     e.id = arr.row.id;
-                    arr.row = (Object.assign(arr.row,e));
+                    delete e.mark;
                     arr.row.sapCode = e.supplierId.toString() || e.sapCode.toString();
                     arr.row.priceSource = e.source || e.priceSource;
-                    arr.row.ruleNo = e.ruleNo;
+                    arr.row = (Object.assign(arr.row,e));
                     throw new Error("EndIterative");
                 }
             });
@@ -637,6 +643,9 @@ export default {
             cancelButtonText: this.language('QUXIAO', '取消')
         }).then(res=>{
             if(this.dialogEditType){//新增
+                this.newDataList.forEach(e => {
+                    e.carlineList = null;
+                })
                 addBatchPartMasterData({
                     mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     mtzAppNomiPartMasterDataList:this.newDataList
@@ -654,6 +663,9 @@ export default {
                     }
                 })
             }else{//编辑
+                this.selectList.forEach(e => {
+                    e.carlineList = null;
+                })
                 modifyPartMasterData({
                     mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     mtzAppNomiPartMasterDataList:this.selectList
@@ -826,6 +838,7 @@ export default {
         })
         this.editId = changeArrayList;
         this.dialogEditType = true;
+        this.pageAppRequest();
     },
     quoteDialogList(val){
         // this.newDataList = deepClone(val);
@@ -851,6 +864,7 @@ export default {
         })
         this.editId = changeArrayList;
         this.dialogEditType = true;
+        this.pageAppRequest();
     },
     historyDialogList(val){
         // this.newDataList = deepClone(val);
@@ -881,6 +895,7 @@ export default {
         })
         this.editId = changeArrayList;
         this.dialogEditType = true;
+        this.pageAppRequest();
     }
   }
 }

@@ -141,7 +141,7 @@
             <el-option
               v-for="item in purchasegroupOptions"
               :key="item.id"
-              :label="item.purchaseGroupName"
+              :label="item.purchaseGroupCode"
               :value="item.purchaseGroupCode"
             />
           </iSelect>
@@ -158,7 +158,7 @@
           </iSelect>
         </iFormItem>
         <iFormItem prop="set">
-          <iLabel :label="language('SET组')" slot="label"></iLabel>
+          <iLabel :label="language('专业组')" slot="label"></iLabel>
           <iSelect
             v-model="positionObj.setCode"
             multiple

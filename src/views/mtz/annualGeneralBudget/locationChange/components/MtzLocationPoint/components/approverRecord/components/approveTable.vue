@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-15 15:37:44
+ * @LastEditTime: 2021-11-17 11:45:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -185,6 +185,7 @@ export default {
       this.getTableList()
       this.selectDept()
       this.selectSection()
+      this.handleSync()
     },
     getTableList () {
       this.tableLoading = true

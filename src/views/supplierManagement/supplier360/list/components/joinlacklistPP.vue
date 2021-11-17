@@ -48,10 +48,10 @@
                            value-member="categoryCode"
                            value-key="categoryCode">
               <template v-slot:selected="scope">
-                <span>{{scope.data.categoryName}}+{{scope.data.categoryCode}}</span>
+                <span>{{scope.data.categoryName}}{{scope.data.categoryCode}}</span>
               </template>
               <template v-slot:unselected="scope">
-                <span>{{scope.data.categoryName}}+{{scope.data.categoryCode}}</span>
+                <span>{{scope.data.categoryName}}{{scope.data.categoryCode}}</span>
               </template>
             </custom-select> -->
 
@@ -80,6 +80,12 @@
                            display-member="stuffName"
                            value-member="stuffCode"
                            value-key="stuffCode">
+                           <template v-slot:selected="scope">
+                <span>{{scope.data.stuffName}}{{scope.data.stuffCode}}</span>
+              </template>
+              <template v-slot:unselected="scope">
+                <span>{{scope.data.stuffName}}{{scope.data.stuffCode}}</span>
+              </template>
             </custom-select> -->
           </el-form-item>
           <el-form-item prop="daterange"
@@ -505,6 +511,9 @@ export default {
               .then(async () => {
                 params.daterange = undefined
                 params.categoryCodes = undefined
+                // this.form.ppStuffSaveDTOList.forEach(v=>{
+                //    v=this.stuffByArr.find(i=>{return v==i.stuffCode}) 
+                // })
                 ppSupplerBlackSave(params).then((res) => {
                   if (res && res.code == 200) {
                     // this.$emit('closeDiolog',1)

@@ -42,3 +42,27 @@ export const deepClone = (data) => {
   }
   return obj
 }
+
+export const isNumber = (data) => {
+  var isNum = /^\d+(?=\.{0,1}\d+$|$)/;
+  if(isNum.test(data)){
+      return true
+  }else{
+      return false;
+  }
+}
+
+export const timeCoincide = (sData1,eData1,sData2,eData2) => {
+  var start1 = (new Date(sData1)).getTime()/1000;
+  var end1 = (new Date(eData1)).getTime()/1000;
+  var start2 = (new Date(sData2)).getTime()/1000;
+  var end2 = (new Date(eData2)).getTime()/1000;
+
+  if(end2 < start1){
+    return false;
+  }
+  if(end1 < start2){
+    return false;
+  }
+  return true;
+}

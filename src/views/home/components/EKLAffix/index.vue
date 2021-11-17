@@ -3,36 +3,28 @@
     <!-- tabs -->
     <div class="flex-between">
       <el-tabs v-model="activeName" class="ekl-tabs" @tab-click="handleClick" id="el-tabs-box">
-        <el-tab-pane
-          :label="item.name"
-          v-for="item in tabList"
-          :key="item.id"
-          :name="item.name"
-        >
-        </el-tab-pane>
+          <el-tab-pane
+            :label="item.name"
+            v-for="item in tabList"
+            :key="item.id"
+            :name="item.name"
+          >
+          </el-tab-pane>
       </el-tabs>
       <div class="unit">单位：百万元</div>
     </div>
         <div class="ekl-content">
           <div class="target flex-between-center-center margin-top20">
             <div class="left">
-              <div
-                style="
-                  font-family: Arial;
-                  font-weight: bold;
-                  color: #333;
-                  font-size: 16px;
-                  margin-bottom: 12px;
-                "
-              >
+              <div class="left-lab">
                 业绩目标
               </div>
-              <el-select v-model="query.year" @change="handleCheckYear">
+              <el-select class="left-select" v-model="query.type" @change="handleCheckYear">
                 <el-option
                   v-for="item in options"
                   :key="item"
-                  :label="item"
-                  :value="item"
+                  :label="item.name"
+                  :value="item.value"
                 >
                 </el-option>
               </el-select>
@@ -47,17 +39,16 @@
                 parseFloat(tabsData.totalTarget)
                   ? parseFloat(tabsData.totalTarget).toFixed(2)
                   : '0.00'
-              }}<span style="color: #1763f7; font-size: 24px">%</span>
+              }}<span class="mid-num">%</span>
             </div>
             <div class="right">
-              <div
-                style="font-family: Arial; font-weight: bold; color: #343434"
-              >
+              <div class="right-lab">
                 目标值/承诺值
               </div>
               <div
                 v-if="tabsData.totalTarget && tabsData.totalCommitment"
-                style="color: #000000; margin-top: 18px"
+                class="target-val"
+                style="font-size: 14px;"
               >
                 {{ tabsData.totalTarget }}/{{ tabsData.totalCommitment }}
               </div>
@@ -65,17 +56,7 @@
           </div>
           <div class="base flex-between-center-center">
             <div class="left">
-              <div
-                class="title"
-                style="
-                  font-family: Arial;
-                  font-weight: bold;
-                  color: #333;
-                  font-size: 16px;
-                "
-              >
-                业绩基础
-              </div>
+              <div class="title right-lab">业绩基础</div>
             </div>
             <div class="middle">
               {{
@@ -87,31 +68,26 @@
                 ""
               }}
             </div>
-            <div class="right">
-              <div
-                style="font-family: Arial; font-weight: bold; color: #343434"
-              >
-                中期改款
-              </div>
-              <!-- <div>{{tabsData.subtract}}</div> -->
-            </div>
+            <div class="right"></div>
           </div>
-          <div class="ekl-pie" ref="pie" style="height: 240px"></div>
-          <div class="tips">
-            <div class="title" style="color: #333333">当前完成率</div>
-            <div>
-              {{String(Number(tabsData.valEklType)/Number(tabsData.sumAll)) != 'NaN' ? ((tabsData.valEklType*1/tabsData.sumAll*1)*100).toFixed(2)+"%" : '0.00%'}}
+          <div class="echart">
+            <div class="ekl-pie" ref="pie" style="height: 240px"></div>
+            <div class="tips">
+              <div class="title" style="color: #333333">当前完成率</div>
+              <div>
+                {{String(Number(tabsData.valEklType)/Number(tabsData.sumAll)) != 'NaN' ? ((Number(tabsData.valEklType)/Number(tabsData.sumAll))*100).toFixed(2)+"%" : '0.00%'}}
+              </div>
             </div>
           </div>
         </div>
-      
+     
   </div>
 </template>
 
 <script>
 import echarts from '@/utils/echarts'
 import { Icon } from 'rise'
-import { getEkl } from '@/api/home'
+import { getEklAffix } from '@/api/home'
 import { mapState } from 'vuex'
 export default {
   components: { Icon },
@@ -127,17 +103,20 @@ export default {
     return {
       activeName: 'EKL-CS',
       num: 2400,
-      options: [],
+      options: [
+        {name:'配件',value:1},
+        {name:'附件',value:2}
+      ],
       tabsData: {},
       value: '',
       query: {
         year: new Date().getFullYear(),
-        month: new Date().getMonth() + 1,
-        type: undefined,
-        dptCode: ''
+        type: 1,
+        dptCode: '',
       },
       tabList: [],
-      listData: []
+      listData: [],
+      chart:null
     }
   },
   computed: {
@@ -148,15 +127,14 @@ export default {
     })
   },
   mounted() {
-    this.options = [this.query.year, this.query.year + 1]
     if (this.leadTabList.length > 0) {
       this.tabList = this.leadTabList
     } else {
-      this.tabList = this.eklTabList
-      this.query.type = this.eklTabList[0].type
+      this.tabList = JSON.parse(JSON.stringify(this.eklTabList))
+      this.query.dptCode = this.eklTabList[0].type
       this.activeName = this.eklTabList[0].name
     }
-    this.getEkl(this.query)
+    this.getEklAffix(this.query)
     // log.js
   },
   methods: {
@@ -164,20 +142,20 @@ export default {
       this.activeName = name
       this.eklTabList.forEach((item) => {
         if (item.name == name) {
-          this.query.type = item.type
+          this.query.dptCode = item.type
           this.activeName = item.name
-          this.getEkl(this.query)
+          this.getEklAffix(this.query)
         }
       })
     },
-    async getEkl(data) {
-      const res = await getEkl(data)
+    async getEklAffix(data) {
+      const res = await getEklAffix(data)
       if (res && res.code == '200') {
         this.tabsData = res.data
-        let totalTarget = (parseFloat(this.tabsData.totalTarget?this.tabsData.totalTarget:'0.00') / 100)*1
-         this.tabsData.sumAll = (((this.tabsData.sumAll * 1)*totalTarget) / 1000000).toFixed(2)+''
-        this.tabsData.valEklType = ((this.tabsData.valEklType * 1*totalTarget) / 1000000).toFixed(2)
-
+        let totalTarget = (parseFloat(this.tabsData.totalTarget ? this.tabsData.totalTarget:'0.00') / 100) * 1
+        this.tabsData.sumAll = (((this.tabsData.sumAll * 1)*totalTarget) / 1000000).toFixed(2) + ''
+        this.tabsData.valEklType = ((this.tabsData.valEklType * 1 * totalTarget) / 1000000).toFixed(2)
+        console.log(this.tabsData)
         this.$nextTick(() => {
           this.initPie()
         })
@@ -261,15 +239,16 @@ export default {
       }
       this.chart && this.chart.setOption(option)
     },
-    handleCheckYear(year) {
-      this.query.year = year
-      this.getEkl(this.query)
+    handleCheckYear() {
+      this.getEklAffix(this.query)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+
+
 .ekl-container {
   position: absolute;
   top: 20px;
@@ -277,6 +256,14 @@ export default {
   width: 100%;
   height: 100%;
   padding: 8px 16px 16px 16px;
+
+ 
+ .ekl-tabs {
+    width: 66%;
+    ::v-deep .el-tabs__nav-scroll{
+      width: 100%;
+    }
+  }
   .center-bar {
     position: absolute;
     bottom: 22%;
@@ -290,9 +277,12 @@ export default {
     font-family: Arial !important;
     font-weight: 700 !important;
   }
-  .tips {
+.echart{
+  position: relative;
+}
+.tips {
     position: absolute;
-    bottom: 20%;
+    bottom: 30%;
     right: 3%;
     > 
     // .title {
@@ -308,20 +298,14 @@ export default {
       }
     }
   }
-  .ekl-tabs {
-    width: 66%;
-    ::v-deep .el-tabs__nav-scroll{
-      width: 100%;
-    }
-  }
   .unit {
+    // position: absolute;
+    // top: 16px;
+    // right: 0;
     padding-top: 10px;
+    margin-left: 15px;
     color: #6d7b96;
     font-size: 12px;
-
-    // position: absolute;
-    // right: 32px;
-    // top: 20px;
   }
   .target,
   .base {
@@ -330,9 +314,27 @@ export default {
     > .left {
       margin-right: 10px;
       min-width: 96px;
+      .left-lab{
+        font-family: Arial;
+        font-weight: bold;
+        color: #333;
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+
     }
     > .right {
       min-width: 120px;
+    }
+    .right-lab{
+      font-family: Arial;
+      font-weight: bold; 
+      color: #343434
+    }
+    .target-val{
+      margin-top: 8px;
+      font-weight: bold;
+      color: #000000; 
     }
     > .left,
     > .right {
@@ -346,6 +348,11 @@ export default {
       color: #1763f7;
       font-size: 40px;
       min-width: 120px;
+      font-weight: bold;
+    }
+    .mid-num{
+      color: #1763f7; 
+      font-size: 24px;
     }
     > .middle-m {
       margin-top: -36px;
@@ -355,6 +362,10 @@ export default {
 </style>
 <style lang="scss">
 .ekl-container {
+  .flex-between{
+    display: flex;
+    justify-content: space-between;
+  }
   .el-tabs__nav-scroll {
     width: 250px;
   }
@@ -378,5 +389,8 @@ export default {
       }
     }
   }
+
+  
+ 
 }
 </style>

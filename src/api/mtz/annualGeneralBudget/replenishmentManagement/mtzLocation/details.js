@@ -336,3 +336,11 @@ export function listPartNumSupplierIdData(params) {//查询跳转后零件主数
         data: params,
     })
 }
+
+export function checkPreciousMetal(params) {//判断是否为贵金属
+    return request({
+        url: '/common/checkPreciousMetal',
+        method: 'POST',
+        data: params,
+    })
+}
