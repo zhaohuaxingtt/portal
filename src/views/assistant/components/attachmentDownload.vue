@@ -2,7 +2,7 @@
   <div class="attch-box flex felx-row items-center">
 		<div class="attach-text">附件:</div>
 		<img src="@/assets/images/fujian.png" alt="" class="fujian-png">
-		<div class="load-text" @click="load">点击下载</div>
+		<div class="load-text cursor" @click="load">点击下载</div>
 	</div>
 </template>
 
@@ -33,9 +33,8 @@ export default {
 		.load-text {
 			color: #2369F1;
 			text-decoration: underline;
-			font-size: 18px;
+			font-size: 16px;
 			margin-left: 10px;
-			cursor: pointer;
 		}
 	}
 </style>
