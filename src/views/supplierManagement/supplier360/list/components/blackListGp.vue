@@ -37,13 +37,21 @@
               </el-option>
             </iSelect>
           </el-form-item>
-          <el-form-item style="width:240px"
-                        :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')">
-
-            <iDatePicker type="daterange"
+          <el-form-item :label="language('SHOUKONGKAISHISHIJIAN', '受控开始时间')">
+            <iDatePicker style="width:220px"
+                         type="daterange"
                          :range-separator="$t('SUPPLIER_ZHI')"
                          :placeholder="''"
                          v-model="daterange"
+                         value-format="yyyy-MM-dd"
+                         clearable />
+          </el-form-item>
+          <el-form-item :label="language('SHOUKONGJIESHUJIAN', '受控结束时间')">
+            <iDatePicker style="width:220px"
+                         type="daterange"
+                         :range-separator="$t('SUPPLIER_ZHI')"
+                         :placeholder="''"
+                         v-model="daterange2"
                          value-format="yyyy-MM-dd"
                          clearable />
           </el-form-item>
@@ -93,7 +101,7 @@
 import {
   measuresTypeList,
   gpSupplerBlackListHistoryPage,
-  gpSupplerBlackListStatus,
+  gpSupplerBlackListStatus
 } from '@/api/supplier360/blackList'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitleGpBlackList, tableTitleGpBlackListRecord } from './data'
@@ -136,6 +144,7 @@ export default {
       selectTableData: [],
       typeList: [],
       daterange: [],
+      daterange2: [],
       tabVal: '1'
     }
   },
@@ -178,6 +187,8 @@ export default {
         pageSize: this.page.pageSize,
         endTime: this.daterange[1],
         startTime: this.daterange[0],
+        stopEndTime: this.daterange2[1],
+        stopStartTime: this.daterange2[0],
         ...this.form
       }
       gpSupplerBlackListHistoryPage(params).then((res) => {
@@ -197,14 +208,15 @@ export default {
     },
     sure() {
       this.page.currPage = 1
-       this.page.pageSize = 10
+      this.page.pageSize = 10
       this.getListRecord()
     },
     clickReset() {
       this.page.currPage = 1
-       this.page.pageSize = 10
+      this.page.pageSize = 10
       this.form.type = ''
       this.daterange = []
+      this.daterange2 = []
       this.getListRecord()
     },
     // 关闭弹窗

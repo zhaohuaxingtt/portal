@@ -28,7 +28,7 @@
           label="序号"
         ></el-table-column>
         <el-table-column show-overflow-tooltip align="left" label="类型名称"
-          ><template scope="scope">
+          ><template slot-scope="scope">
             <span
               :class="'open-link-text cursor'"
               @click="handleGoDetail(scope.row)"
@@ -37,7 +37,7 @@
           </template></el-table-column
         >
         <el-table-column show-overflow-tooltip align="left" label="会议管理员">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{ scope.row.userNames }}</span>
           </template>
         </el-table-column>
@@ -46,7 +46,7 @@
           align="left"
           label="会议信息描述"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{ scope.row.meetingInfoDesc }}</span>
           </template>
         </el-table-column>
@@ -55,17 +55,17 @@
           align="left"
           label="生成会议名称后缀"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{ scope.row.meetingNameSuffix }}</span>
           </template>
         </el-table-column>
         <el-table-column show-overflow-tooltip align="left" label="所属分类">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{ categoryObj[scope.row.category] }}</span>
           </template>
         </el-table-column>
         <el-table-column show-overflow-tooltip width="163" label="默认议题时长"
-          ><template scope="scope">
+          ><template slot-scope="scope">
             <span>{{ scope.row.duration }}</span>
           </template></el-table-column
         >
@@ -73,7 +73,7 @@
           show-overflow-tooltip
           width="163"
           label="是否触发审批流"
-          ><template scope="scope">
+          ><template slot-scope="scope">
             <span>{{ scope.row.isTriggerApproval ? '是' : '否' }}</span>
           </template></el-table-column
         >

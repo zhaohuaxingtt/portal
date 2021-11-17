@@ -37,7 +37,7 @@
             width="100"
             show-overflow-tooltip
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span class="table-index">{{ scope.$index + 1 }}</span>
           </template>
         </el-table-column>
@@ -49,7 +49,7 @@
             label="Present Items"
             show-overflow-tooltip
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.isBreak">{{ scope.row.topic }}</span>
             <span
                 class="open-link-text"
@@ -66,7 +66,7 @@
             label="Record"
             show-overflow-tooltip
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.isBreak">-</span>
             <span v-else>{{
                 (scope.row.cscCount || 0) + "/" + (scope.row.preCount || 0)
@@ -81,7 +81,7 @@
             label="Part No."
             show-overflow-tooltip
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.tnr">{{ scope.row.tnr }}</span>
             <span v-else>-</span>
           </template>
@@ -94,7 +94,7 @@
             label="BEN(CN)"
             show-overflow-tooltip
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.benCn">{{ scope.row.benCn }}</span>
             <span v-else>-</span>
           </template>
@@ -107,7 +107,7 @@
             label="Carline"
             show-overflow-tooltip
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.carline">{{ scope.row.carline }}</span>
             <span v-else>-</span>
           </template>
@@ -120,7 +120,7 @@
             label="Sourcing"
             show-overflow-tooltip
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.supporter">{{ scope.row.supporter }}</span>
             <span v-else>-</span>
           </template>
@@ -133,7 +133,7 @@
             label="Linie"
             show-overflow-tooltip
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.presenter">{{ scope.row.presenter }}</span>
             <span v-else>-</span>
           </template>
@@ -146,7 +146,7 @@
             label="Commodity"
             show-overflow-tooltip
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.presenterDept">{{
                 scope.row.presenterDept
               }}</span>
@@ -161,7 +161,7 @@
             label="EP"
             show-overflow-tooltip
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.ep">{{ scope.row.ep }}</span>
             <span v-else>-</span>
           </template>
@@ -174,7 +174,7 @@
             label="Status"
             show-overflow-tooltip
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.state">{{ statusObj[scope.row.state] }}</span>
             <span v-else>-</span>
           </template>
@@ -187,7 +187,7 @@
             label="Time"
             show-overflow-tooltip
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <div v-if="scope.row.startTime">
               <span>{{ scope.row.startTime.substring(0, 5) }}</span
               ><span>~</span>

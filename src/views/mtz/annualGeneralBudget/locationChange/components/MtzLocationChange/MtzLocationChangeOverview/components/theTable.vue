@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-16 11:28:02
+ * @LastEditTime: 2021-11-16 19:59:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -163,30 +163,43 @@ export default {
       window.open(routerPath.href, '_blank')
     },
     handleSelectionChange (val) {
-      this.muilteList = val
+      if (val.length > 1) {
+        var duoxuans = val.pop();
+        this.muilteList = val.pop();
+        //清除所有选中
+        this.$refs.moviesTable.clearSelection();
+        //给最后一个加上选中
+        this.$refs.moviesTable.toggleRowSelection(duoxuans);
+      } else {
+        this.muilteList = val
+      }
     },
     del () {
       if (this.muilteList.length === 0) {
         iMessage.error('QINGXUANZESHUJU', '请选择数据')
         return
       }
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let ids = this.muilteList.map(item => item.mtzAppId)
-        mtzDel({ ids }).then((res) => {
-          if (res && res.code === '200') {
-            iMessage.success(res.desZh)
-            this.getTableList()
-          } else {
-            iMessage.error(res.desZh)
-          }
-        })
-      }).catch(() => {
+      if (this.muilteList[0].appStatus === '草稿') {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let ids = this.muilteList.map(item => item.mtzAppId)
+          mtzDel({ ids }).then((res) => {
+            if (res && res.code === '200') {
+              iMessage.success(res.desZh)
+              this.getTableList()
+            } else {
+              iMessage.error(res.desZh)
+            }
+          })
+        }).catch(() => {
 
-      });
+        });
+      } else {
+        iMessage.error(this.language('CAOGAOZHUANGTAICAINENGSHANCHU', '草稿状态才能删除'))
+      }
 
     },
     recall () {

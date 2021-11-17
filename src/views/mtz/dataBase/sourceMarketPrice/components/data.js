@@ -29,13 +29,13 @@ export const tableSetting = [
   {
     props: 'materialCategoryDesc',
     name: '中类描述',
-    key: 'ZHONGLEIMINGCHENG',
+    key: 'ZHONGLEIMIAOSHU',
     width: 150
   },
   {
     props: 'materialCode',
     name: '原材料牌号',
-    key: 'YUANCAILIAOBIANHAO',
+    key: 'YUANCAILIAOPAIHAO',
     width: 150
   },
   {
@@ -100,13 +100,13 @@ export const queryFormData = [
   {
     props: 'materialCategoryDesc',
     name: '中类描述',
-    key: 'ZHONGLEIMINGCHENG',
+    key: 'ZHONGLEIMIAOSHU',
     dropDownTitle: 'dropDownMaterialCategoryDescData'
   },
   {
     props: 'materialCode',
     name: '原材料牌号',
-    key: 'YUANCAILIAOBIANHAO',
+    key: 'YUANCAILIAOPAIHAO',
     dropDownTitle: 'dropDownMaterialCodeData'
   },
   {

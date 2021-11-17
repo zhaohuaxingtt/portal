@@ -123,7 +123,7 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 120px;
+  width: 100px;
 }
 .task-card {
   border-radius: 10px;
@@ -166,12 +166,17 @@ export default {
         font-size: 16px;
         margin-right: 5px;
       }
-      .numName-text {
-        line-height: 12px;
-        opacity: 0.86;
-      }
+      // .numName-text {
+      //   line-height: 12px;
+      //   opacity: 0.86;
+      // }
     }
     .overdue {
+      .numName {
+        margin-right: 10px;
+      }
+    }
+    .progress {
       .numName {
         margin-right: 10px;
       }

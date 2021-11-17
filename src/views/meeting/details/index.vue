@@ -102,7 +102,7 @@
             label="No."
             width="50"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span class="open-link-text">{{ scope.row.itemNo }}</span>
             </template>
           </el-table-column>
@@ -112,7 +112,7 @@
             label="Count"
             width="70"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span class="open-link-text">{{ scope.row.count }}</span>
               <span v-if="scope.row.isBreak">/</span>
             </template>
@@ -123,7 +123,7 @@
             label="Topic"
             width="220"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span
                 class="open-link-text look-themen-click"
                 @click="lookThemen(scope.row)"
@@ -137,7 +137,7 @@
             label="Duration"
             width="90"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <!-- <div
                 class="open-link-text open-clink-back-text"
                 @click="recallTheThemen(scope.row)"
@@ -169,7 +169,7 @@
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip align="center" label="Time">
-            <template scope="scope">
+            <template slot-scope="scope">
               <span class="open-link-text">{{ scope.row.time }}</span>
             </template>
           </el-table-column>
@@ -178,7 +178,7 @@
             align="center"
             label="Presenter"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span
                 class="open-link-text"
                 v-if="scope.row.presenter && scope.row.presenterNosys"
@@ -196,7 +196,7 @@
             align="center"
             label="Presenter Dept."
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span
                 class="open-link-text"
                 v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
@@ -216,7 +216,7 @@
             align="center"
             label="Supporter"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span
                 class="open-link-text"
                 v-if="scope.row.supporter && scope.row.supporterNosys"
@@ -233,7 +233,7 @@
             align="center"
             label="Supporter Dept."
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <span
                 class="open-link-text"
                 v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
@@ -249,7 +249,7 @@
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip align="center" label="Remark">
-            <template scope="scope">
+            <template slot-scope="scope">
               <span class="open-link-text">{{ scope.row.remark }}</span>
               <span v-if="scope.row.isBreak">/</span>
             </template>
@@ -275,17 +275,17 @@
           >
             <el-table-column type="selection" align="center"></el-table-column>
             <el-table-column show-overflow-tooltip align="center" label="No.">
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span class="open-link-text">{{ scope.row.itemNo }}</span>
               </template>
             </el-table-column>
             <el-table-column show-overflow-tooltip align="center" label="Count">
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span class="open-link-text">{{ scope.row.count }}</span>
               </template>
             </el-table-column>
             <el-table-column show-overflow-tooltip align="center" label="Topic">
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span
                   class="open-link-text look-themen-click"
                   @click="lookThemen(scope.row)"
@@ -299,7 +299,7 @@
               label="Duration(min)"
               width="100"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 <!-- <div
                   class="open-link-text open-clink-back-text"
                   @click="recallTheThemen(scope.row)"
@@ -320,7 +320,7 @@
               </template>
             </el-table-column>
             <el-table-column show-overflow-tooltip align="center" label="Time">
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span class="open-link-text">{{ scope.row.time }}</span>
               </template>
             </el-table-column>
@@ -329,7 +329,7 @@
               align="center"
               label="Presenter"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span class="open-link-text">{{ scope.row.presenter }}</span>
               </template>
             </el-table-column>
@@ -339,7 +339,7 @@
               align="center"
               label="Presenter Dept."
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span class="open-link-text">{{
                   scope.row.presenterDept
                 }}</span>
@@ -350,7 +350,7 @@
               align="center"
               label="Supporter"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span class="open-link-text">{{ scope.row.supporter }}</span>
               </template>
             </el-table-column>
@@ -359,7 +359,7 @@
               align="center"
               label="Supporter Dept."
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span class="open-link-text">{{
                   scope.row.supporterDept
                 }}</span>
@@ -370,7 +370,7 @@
               align="center"
               label="Remark"
             >
-              <template scope="scope">
+              <template slot-scope="scope">
                 <span class="open-link-text">{{ scope.row.remark }}</span>
               </template>
             </el-table-column>

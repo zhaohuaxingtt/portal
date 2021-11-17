@@ -293,7 +293,7 @@ export default {
   .trangle {
     position: absolute;
     z-index: 100;
-    left: 70%;
+    right: 20%;
     top: 7.5%;
     width: 0;
     height: 0;
@@ -308,6 +308,9 @@ export default {
       background: linear-gradient(168deg, #4d88fc 0%, #06348e 100%);
       color: #fff;
       box-shadow: 0px 4px 6px rgba(15, 56, 111, 0.16);
+    }
+    .vc-nav-item.is-active {
+      color: #fff;
     }
   }
   .info_container {
