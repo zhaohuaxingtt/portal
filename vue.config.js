@@ -163,8 +163,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_APPROVAL]: {
-        target: `http://10.160.136.10:8012/approval`,
-        // target: `http://${BASE_IP}:8012/approval`,
+        // target: `http://10.160.136.10:8012/approval`,
+        target: `http://${BASE_IP}:8012/approval`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_APPROVAL]: ''
