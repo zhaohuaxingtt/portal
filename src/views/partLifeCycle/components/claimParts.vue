@@ -110,12 +110,16 @@ export default {
   },
   methods: {
     confirmParts(){
-      this.sureLoading = true
+      this.sureLoading = true;
+      const deptName = this.departmentsList.filter(item => item.deptId === this.deptId)[0].commodity;
+      const linieName = this.linieList.filter(item => item.linieId === this.linieId)[0].linieName;
       confirmParts({
-        partsNum: this. claimNum,
-        deptId: this. deptId,
-        linieId: this. linieId,
+        partsNum: this.claimNum,
+        deptId: this.deptId,
+        linieId: this.linieId,
         positionId: this.roleCode,
+        deptName,
+        linieName
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
