@@ -92,9 +92,7 @@ import { iDialog, iButton, iSelect, iMessage, iInput } from 'rise'
 import tableList from '@/components/commonTable'
 import { CloumAdd, CloumDel } from './data'
 import { sysList, authList, cancelAuth, auth } from '@/api/provider/index'
-	import {
-		supplierDetail
-	} from "@/api/register/baseInfo";
+import { supplierDetail } from '@/api/register/baseInfo'
 export default {
   components: {
     iDialog,
@@ -120,7 +118,7 @@ export default {
       selectDelArr: [],
       selectAddArr: [],
       supplierType: '',
-      subsupplierType:'',
+      subsupplierType: '',
       form: {},
       systemLsit: [
         { label: this.language('XITONG', '系统'), value: 1 },
@@ -152,9 +150,16 @@ export default {
     this.getAddList()
   },
   methods: {
+      //需求来的太快，来不及重构
     getAddList() {
       this.tableLoadingAdd = true
-
+     let userId= this.tabledata.find(v=>{
+          if(v.isDefault){
+              return v.id
+          }
+      }).id
+    console.log(userId)
+    //供应商用户进入时的数据
       if (this.userType == 2 && this.isMainContact) {
         const params1 = {
           current: 1,
@@ -183,34 +188,66 @@ export default {
             })
           } else iMessage.error(res.desZh)
         })
-      } else {
-        const req = {
-          supplierType: this.supplierType,
-          ...this.form,
-          current: 1,
-          size: 9999
+      } else {//内部用户进入时
+        if (this.rowList.isDefault) {//内部主用户
+          const req = {
+            supplierType: this.supplierType,
+            ...this.form,
+            current: 1,
+            size: 9999
+          }
+          sysList(req).then((res) => {
+            if (res && res.code == 200) {
+              this.tabledataAdd = res.data
+              this.tableLoadingAdd = false
+              this.tableLoadingDel = true
+              const params = {
+                current: 1,
+                size: 9999,
+                supplierUserId: this.rowList.id
+              }
+              authList(params).then((res) => {
+                if (res && res.code == 200) {
+                  this.tabledataDel = res.data
+                  this.tableLoadingDel = false
+                  this.tabledataAdd = this.tabledataAdd.filter(
+                    (item) =>
+                      !this.tabledataDel.some((ele) => ele.id === item.id)
+                  )
+                } else iMessage.error(res.desZh)
+              })
+            } else iMessage.error(res.desZh)
+          })
+        } else {//内部子用户
+          const req = {
+           supplierUserId: userId,
+            ...this.form,
+            current: 1,
+            size: 9999
+          }
+          authList(req).then((res) => {
+            if (res && res.code == 200) {
+              this.tabledataAdd = res.data
+              this.tableLoadingAdd = false
+              this.tableLoadingDel = true
+              const params = {
+                current: 1,
+                size: 9999,
+                supplierUserId: this.rowList.id
+              }
+              authList(params).then((res) => {
+                if (res && res.code == 200) {
+                  this.tabledataDel = res.data
+                  this.tableLoadingDel = false
+                  this.tabledataAdd = this.tabledataAdd.filter(
+                    (item) =>
+                      !this.tabledataDel.some((ele) => ele.id === item.id)
+                  )
+                } else iMessage.error(res.desZh)
+              })
+            } else iMessage.error(res.desZh)
+          })
         }
-        sysList(req).then((res) => {
-          if (res && res.code == 200) {
-            this.tabledataAdd = res.data
-            this.tableLoadingAdd = false
-            this.tableLoadingDel = true
-            const params = {
-              current: 1,
-              size: 9999,
-              supplierUserId: this.rowList.id
-            }
-            authList(params).then((res) => {
-              if (res && res.code == 200) {
-                this.tabledataDel = res.data
-                this.tableLoadingDel = false
-                this.tabledataAdd = this.tabledataAdd.filter(
-                  (item) => !this.tabledataDel.some((ele) => ele.id === item.id)
-                )
-              } else iMessage.error(res.desZh)
-            })
-          } else iMessage.error(res.desZh)
-        })
       }
     },
     clickadd() {
@@ -232,7 +269,7 @@ export default {
       let userIds = []
       if (this.rowList.isDefault) {
         userIds = this.tabledata.map((i) => {
-         return i.id
+          return i.id
         })
       } else {
         userIds = [this.rowList.id]

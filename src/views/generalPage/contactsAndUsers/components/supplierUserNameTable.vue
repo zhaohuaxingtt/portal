@@ -109,6 +109,7 @@
     </table-list>
     <supplierUserNameDialog
       :rowList="rowList"
+      
        :tabledata="tableListData"
       v-if="userNameDialog"
       @handleSelection="handleSelection"

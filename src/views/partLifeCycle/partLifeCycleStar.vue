@@ -277,8 +277,8 @@
         <div class="left" v-show="isSearch">{{ language('LK_SOUSUOJIEGUO', '搜索结果') }}<span>相关结果{{ defaultPartsList.length }}个</span></div>
         <div class="right">
           <iButton v-show="isEdit" @click="isEdit = false">{{ language('LK_TUICHU', '退出') }}</iButton>
-          <iButton v-show="isEdit && isButn" @click="toClaim">{{ language('LK_QUERENRENLING', '确认认领') }}</iButton>
-          <iButton v-show="!isEdit" @click="isEdit = true">{{ language('LK_RENLINGLINGJIAN', '认领零件') }}</iButton>
+          <iButton v-show="isEdit" @click="toClaim">{{ language('LK_QUERENRENLING', '确认认领') }}</iButton>
+          <iButton v-show="!isEdit && isButn" @click="isEdit = true">{{ language('LK_RENLINGLINGJIAN', '认领零件') }}</iButton>
           <icon @click.native="changeRelevantPart" symbol
                 :name="expandRelevantPart ? 'iconxiangguanlingjianyizhankai' : 'iconxiangguanlingjianyishouqi'"></icon>
         </div>
