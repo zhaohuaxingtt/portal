@@ -1248,6 +1248,7 @@
     SUPPLIER_JINLIRUN: 'Profit After Tax',
     SUPPLIER_FUZAILV: 'Liabilities/ Assets Ratio(%)',
     SUPPLIER_CAIWUSHUJU: 'Financial Data',
+    SUPPLIER_GONGHUOGONGSI: 'Supply Compny', //供货公司
     SUPPLIER_SHUJUQUDAO: 'Source',
     SUPPLIER_KUAIJIZHOUQIQ: 'Start Of Accounting Period',
     SUPPLIER_KUAIJIZHOUQIZ: 'End Of Accounting Period',

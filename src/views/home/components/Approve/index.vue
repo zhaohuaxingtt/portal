@@ -176,7 +176,7 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 170px;
+  width: 120px;
 }
 .task-card {
   height: 97px;

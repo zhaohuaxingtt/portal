@@ -71,7 +71,7 @@ export default {
         currPage: 1,
         pageSize: 10,
         pageSizes: [10, 20, 50, 100],
-        layout: "total, prev, pager, next, jumper",
+        layout: "sizes, prev, pager, next, jumper",
         totalCount: 0
       },
       loading: false,
@@ -95,6 +95,7 @@ export default {
     }
   },
   created () {
+    this.mtzDocId = this.$route.query.mtzDocId
     this.getData();
     compdocMetalDetailSum({
       mtzDocId: this.mtzDocId,

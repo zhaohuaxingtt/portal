@@ -17,7 +17,7 @@
               v-model="textarea"></el-input>
     <div class="BtnTitle">
       <span>汇总列表</span>
-      <div>
+      <!-- <div>
         <iButton @click="bingo"
                  v-permission="PORTAL_MTZ_FAQIBUCHA"
                  v-if="dataObject.status == '供应商确认中'">{{language('TIJIAO', '提交')}}</iButton>
@@ -27,7 +27,7 @@
         <iButton @click="save">{{language('BAOCUNBEIZHU', '保存备注')}}</iButton>
         <iButton @click="bingo"
                  v-if="dataObject.status == '供应商确认中'">{{language('GONGYINGSHANGQUEREN', '代供应商确认')}}</iButton>
-      </div>
+      </div> -->
     </div>
     <tableList class="margin-top20"
                :tableData="tableListData"
@@ -85,7 +85,7 @@ export default {
   data () {
     return {
       loading: false,
-      tabsInforList: tabsInforList,
+      tabsInforList,
       tableTitle,
       textarea: "",
       tableListData: [],

@@ -4,7 +4,7 @@
         <el-row :gutter="24">
           <el-col span="12">
             <iFormItem :label="language('弹窗标题')" prop='popupName'>
-              <iInput :placeholder='language("请输入")' v-model="formContent.popupName"></iInput>
+              <iInput :placeholder='language("请输入")' v-model="formContent.popupName" maxlength='30'></iInput>
             </iFormItem>
           </el-col>
           <el-col span="12">
@@ -49,11 +49,18 @@
             </iFormItem>
           </el-col>
         </el-row>
+        <!-- <el-row :gutter="24">
+          <el-col span="24" prop='popupType'>
+            <iFormItem :label="language('弹窗布局')" v-model="formContent.popupType">
+              <popupStyle></popupStyle>
+            </iFormItem>
+          </el-col>
+        </el-row> -->
         <el-row :gutter="24">
           <el-col span="24">
             <iFormItem :label="language('发布时间')">
               <iDatePicker class="release-time" :placeholder='language("请选择发布时间，若未选择发布时间则立即发送")' 
-                v-model="formContent.publishPreTime" type='datetime'>
+                v-model="formContent.publishPreTime" type='datetime' format='yyyy-MM-dd HH:mm'>
               </iDatePicker>
             </iFormItem>
           </el-col>
@@ -61,7 +68,7 @@
         <el-row :gutter="24">
           <el-col>
             <iFormItem :label="language('弹窗说明')" prop='content'>
-              <el-input type="textarea" class="popup-explain" :placeholder='language("请输入")' v-model="formContent.content"></el-input>
+              <el-input type="textarea" class="popup-explain" :placeholder='language("请输入")' v-model="formContent.content" maxlength="300"></el-input>
             </iFormItem>
           </el-col>
           
@@ -73,11 +80,12 @@
 <script>
 import {iFormItem,iDatePicker,iInput,iSelect} from 'rise'
 import {PUBLISH_SCOPE_OPTIONS} from './data.js'
-import userSelector from '@/components/userSelector'
+import userSelector from './userSelector.vue'
 import sullpierSelect from './supplierSelect.vue'
+import popupStyle from './popupStyle.vue'
 export default {
     name:'newLeft',
-    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,sullpierSelect},
+    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,sullpierSelect,popupStyle},
     props:{},
     data(){
       return{
@@ -89,9 +97,9 @@ export default {
           deletePreTime:'',
           publishPreTime:'',
           content:'',
+          popupType:'',
           userList:'',
           supplierList:''
-          
         },
         pickerOptions:{
           disabledDate(time){
@@ -103,6 +111,7 @@ export default {
           publishRange:{required:'true',message:'请输入发布范围',trigger:'blur'},
           // deletePreTime:{required:'true',message:'请选择历史查看有效期',trigger:'blur'},
           content:{required:'true',message:'请输入弹窗说明',trigger:'blur'},
+          popupType:{required:'true',message:'请选择弹框',trigger:'blur'}
         },
       }
     },

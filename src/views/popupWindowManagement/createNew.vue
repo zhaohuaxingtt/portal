@@ -4,7 +4,7 @@
             <div class="header">
                 <!-- <pageHeader class="title">{{language('弹窗管理')}}</pageHeader> -->
                 <div>
-                    <iButton @click="save">{{language('保存')}}</iButton>
+                    <iButton @click="save">{{language('发布')}}</iButton>
                     <iButton @click="reset">{{language('重置')}}</iButton>
                     <iButton @click="preview">{{language('预览')}}</iButton>
                 </div>
@@ -16,7 +16,7 @@
                 <new-right ref="newRight" />
             </div>
         </iCard>
-        <detailDialog :show='show' :detail='detail' />
+        <detailDialog :show.sync='show' :detail='detail' />
   </iPage>
 </template>
 
@@ -39,6 +39,7 @@ export default {
                 picUrl:'',
                 linkUrl:''
             },
+            picUrl:'',
             instance:''
         }
     },
@@ -71,19 +72,25 @@ export default {
                     this.$message.error('请选择用户/供应商')
                 }
             }
-
             const data = {
                 ...formData,
                 picUrl,
                 accountIds,
-                supplierIds
+                supplierIds,
+                popupStyle:1
             }
             if(newLeftSave){
                 savePopup(data).then((res)=>{
                 if(res.code == 200){
-                    this.$message.success('保存成功')
+                    this.$message.success('发布成功')
+                    if(window.opener){
+                        window.opener.location.reload()
+                        window.setTimeout(()=>{
+                            window.close()
+                        },1000)
+                    }
                 }else{
-                    this.$message.error(res.desZh || '保存失败')
+                    this.$message.error(res.desZh || '发布失败')
                 }
             })
             }
@@ -91,41 +98,43 @@ export default {
         preview(){
             const formData = this.$refs.newLeft.formData()
             this.formData = formData
-            const picUrl = this.$refs.newRight.linkUrl()
-            let _this = this
-            this.instance = this.$notify({
-                // title:formData.popupName,
-                // ${formData.linkUrl && '<a href="'+formData.linkUrl+'"></a>'}
-                duration: 0,
-                dangerouslyUseHTMLString: true,
-                message:`<div style='display: flex;justify-content: space-between;${formData.linkUrl && 'cursor:pointer;'}'>
-                            <div class="popupLeft" style='width:50px;height:50px; '>
-                              <img src="${picUrl}" style='width:100%;height:100%; border-radius: 50%;'>
-                            </div>
-                            <div class="popupRight" style='position:relative;margin-left:20px'>
-                              <p class='${formData.linkUrl && 'linkTitle'}' 
-                                style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-                                width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;
-                                ${formData.linkUrl && 'text-decoration:underline'}'>
-                                ${formData.popupName}
-                              </p>
-                              <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
-                              >${formData.content}</p>
-                            </div>
-                          </div>`,
-                position:'bottom-right',
-                onClick(){
-                    _this.openDialog()
-                }
-            })
+            console.log(this.formData,'----------');
+            this.picUrl = this.$refs.newRight.linkUrl()
+            this.openDialog()
+            // let _this = this
+            // this.instance = this.$notify({
+            //     // title:formData.popupName,
+            //     // ${formData.linkUrl && '<a href="'+formData.linkUrl+'"></a>'}
+            //     duration: 0,
+            //     dangerouslyUseHTMLString: true,
+            //     message:`<div style='display: flex;justify-content: space-between;${formData.linkUrl && 'cursor:pointer;'}'>
+            //                 <div class="popupLeft" style='width:50px;height:50px; '>
+            //                   <img src="${picUrl}" style='width:100%;height:100%; border-radius: 50%;'>
+            //                 </div>
+            //                 <div class="popupRight" style='position:relative;margin-left:20px'>
+            //                   <p class='${formData.linkUrl && 'linkTitle'}' 
+            //                     style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+            //                     width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;
+            //                     ${formData.linkUrl && 'text-decoration:underline'}'>
+            //                     ${formData.popupName}
+            //                   </p>
+            //                   <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
+            //                   >${formData.content}</p>
+            //                 </div>
+            //               </div>`,
+            //     position:'bottom-right',
+            //     onClick(){
+            //         _this.openDialog()
+            //     }
+            // })
         },
         openDialog(){
-            this.instance.close()
+            // this.instance.close()
             this.show = true
             this.detail = {
                 title:this.formData.popupName,
                 content:this.formData.content,
-                picUrl:this.formData.picUrl,
+                picUrl:this.picUrl,
                 linkUrl:this.formData.linkUrl
             }
         }

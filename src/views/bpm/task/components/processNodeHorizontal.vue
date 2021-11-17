@@ -1,5 +1,5 @@
 <template>
-  <horizontalPanel :nodeData="nodeData" />
+  <horizontalPanel v-if="nodeData && nodeData.length" :nodeData="nodeData" />
 </template>
 
 <script>
@@ -143,7 +143,8 @@ export default {
             taskStatus: '',
             taskId: '',
             endTime: '',
-            ...user
+            ...user,
+            agentUsers: []
           })
         })
       }
@@ -153,7 +154,8 @@ export default {
             taskStatus: task.taskStatus,
             taskId: task.taskId,
             endTime: task.endTime,
-            ...task.approvedUser
+            ...task.approvedUser,
+            agentUsers: task.agentUsers || []
           })
         })
       }

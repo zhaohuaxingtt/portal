@@ -61,10 +61,11 @@
             <iSelect multiple
                      collapse-tags
                      filterable
+                     value-key='stuffCode'
                      style="width:240px"
                      :placeholder="language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')"
                      v-model="form.ppStuffSaveDTOList">
-              <el-option v-for="item in stuffByArr"
+              <el-option  v-for="item in stuffByArr"
                          :key="item.stuffCode"
                          :label="item.stuffName+'-'+item.stuffCode"
                          :value="item">
@@ -193,7 +194,7 @@
 </template>
 
 <script>
-let that
+// let that
 import {
   iSelect,
   iMessage,
@@ -265,9 +266,7 @@ export default {
           }
         },
         disabledDate(time) {
-          if (that.selectDate !== '') {
             return time.getTime() < Date.now() - 8.64e7
-          }
         }
       },
       rules: {
@@ -331,7 +330,7 @@ export default {
     }
   },
   beforeCreate() {
-    that = this
+    // that = this
   },
 
   created() {

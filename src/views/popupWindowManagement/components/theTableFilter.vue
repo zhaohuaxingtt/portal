@@ -4,18 +4,18 @@
         <el-form class="form-content">
             <el-row :gutter="24"> 
                 <el-col span='6'>
-                    <iFormItem :label="language('弹框标题')">
-                        <iInput v-model="searchContent.popupName"></iInput>
+                    <iFormItem :label="language('弹窗标题')">
+                        <iInput v-model="searchContent.popupName" :placeholder='language("请输入")'></iInput>
                     </iFormItem>
                 </el-col>
                 <el-col span='6'>
-                    <iFormItem :label="language('弹框说明')">
-                        <iInput v-model="searchContent.content"></iInput>
+                    <iFormItem :label="language('弹窗说明')">
+                        <iInput v-model="searchContent.content" :placeholder='language("请输入")'></iInput>
                     </iFormItem>
                 </el-col>
                 <el-col span='6'>
                     <iFormItem :label="language('发送日期')">
-                        <iDatePicker class="send-time" v-model="searchContent.sendDate"></iDatePicker>
+                        <iDatePicker class="send-time" v-model="searchContent.sendDate" :placeholder='language("请选择")'></iDatePicker>
                     </iFormItem>
                 </el-col>
             </el-row>

@@ -1,20 +1,22 @@
 import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_APPROVAL)
 
-export function queryApprovalOverview(params) {
+export function queryApprovalOverview(data) {
   return requst({
-    url: `web/workflow/statisticsTodoWf`,
+    url: `/web/workflow/statisticsTodoWf`,
     method: 'POST',
-    params,
-    hideMessage: false
+    data,
+    hideMessage: false,
+    params: data
   })
 }
 
-export function queryApplyOverview(params) {
+export function queryApplyOverview(data) {
   return requst({
-    url: `web/workflow/statisticsLaunchWf`,
+    url: `/web/workflow/statisticsLaunchWf`,
     method: 'POST',
-    params,
-    hideMessage: false
+    data,
+    hideMessage: false,
+    params: data
   })
 }

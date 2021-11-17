@@ -1337,6 +1337,7 @@
     SUPPLIER_XITONGXIUGAILISHI: '系统修改历史', //系统修改历史
     SUPPLIER_CAIWUDASHU: '财务大数', //财务大数
     SUPPLIER_CAIWUSHUJU: '财务数据', //财务数据
+    SUPPLIER_GONGHUOGONGSI: '供货公司', //供货公司
     // 详情信息
     SUPPLIER_GONGYINGSHANGXINXI: '供应商信息', //供应商信息
     SUPPLIER_GONGYINGSHANGZHONGWENMING: '供应商中文名', //供应商中文名
@@ -1883,7 +1884,7 @@
       HOME_MODULE_APPROVE: 'iAgree',
       HOME_MODULE_VOLUME: 'Volume Pricing',
       HOME_MODULE_NEWS: 'News',
-      HOME_MODULE_PROVIDER_RATE:'配货件供货率'
+      HOME_MODULE_PROVIDER_RATE:'配附件供货率'
     },
     //谈判助手
     TPZS: {

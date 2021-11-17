@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-12 15:34:08
+ * @LastEditTime: 2021-11-16 21:04:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -20,7 +20,8 @@
             <span>
               {{language('YONGLIANGXIANGQING','用量详情')}}
             </span>
-            <div class="opration">
+            <div class="opration"
+                 v-if="!isView">
               <div v-show="!editFlag">
                 <uploadButton ref="uploadButtonAttachment"
                               :buttonText="language('YONGLIANGXIANGQING','上传原材料用量变更')"
@@ -78,15 +79,6 @@
                           highlight-current-row
                           @handle-selection-change="handleSelectionChange1">
             </iTableCustom>
-            <iPagination v-update
-                         @size-change="handleSizeChange($event, getDictList)"
-                         @current-change="handleCurrentChange($event, getDictList)"
-                         background
-                         :current-page="page.currPage"
-                         :page-sizes="page.pageSizes"
-                         :page-size="page.pageSize"
-                         :layout="page.layout"
-                         :total="page.totalCount" />
           </div>
         </iCard>
       </el-tab-pane>
@@ -144,7 +136,8 @@ export default {
       tableLoading: false,
       approvalRecordList: [],
       isShow: false,
-      textarea: ""
+      textarea: "",
+      isView: false
     }
   },
   created () {
@@ -156,6 +149,7 @@ export default {
   },
   methods: {
     init () {
+      this.isView = JSON.parse(this.$route.query.isView)
       this.mtzAppId = this.$route.query.mtzAppId
       this.getBasePriceChangePageList()
       this.getApprovalRecordList()
@@ -193,9 +187,6 @@ export default {
       approvalRecordList(params).then((res) => {
         if (res && res.code === '200') {
           this.approvalRecordList = res.data
-          this.page.currPage = res.pageNum
-          this.page.pageSize = res.pageSize
-          this.page.totalCount = res.total
           this.approvalRecordList.forEach(item => {
             this.$set(item, 'editRow', false);
           })
@@ -261,6 +252,8 @@ export default {
       uploadBasePriceChange(params).then((res) => {
         if (res.code === '200') {
           iMessage.success(res.desZh)
+        } else {
+          iMessage.error(res.desZh)
         }
       })
     },
@@ -273,18 +266,18 @@ export default {
     },
     explain () {
       this.isShow = true
-
     },
     handleSave () {
       let params = {
         comment: this.textarea,
         isDeptLead: true,
-        riseId: this.muliteList1[0].riseId,
-        taskId: this.muliteList1[0].taskId
+        riseId: this.muliteList1[0].riseId || "",
+        taskId: this.muliteList1[0].taskId || ""
       }
       approvalExplain(params).then(res => {
         if (res?.code === '200') {
           this.isShow = false
+          this.getApprovalRecordList()
           iMessage.success(res.desZh)
         } else {
           this.isShow = false

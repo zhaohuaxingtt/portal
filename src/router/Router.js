@@ -2,7 +2,7 @@
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-10 21:23:01
+ * @LastEditTime: 2021-11-16 14:46:22
  * @Description:
  * @FilePath: \front-portal\src\router\Router.js
  */
@@ -33,6 +33,7 @@ import RouterAssistant from './RouterAssistant'
 import RouterPopupWindowMa from './RouterPopupWindowMa'
 
 import RouterManage from './RouterManage'
+import RouterMeeting from './RouterMeeting'
 
 export default {
   routes: [
@@ -58,22 +59,35 @@ export default {
         )
     },
     {
-        path: '/supplier/joinBlackApply',
-        name: 'joinBlackApply',
-        meta: {
-            title: '生产供应生加入黑名单审批'
-          },
-        component: () =>
-            import('@/views/supplierManagement/supplier360/list/joinBlackApply/index.vue')
+      path: '/supplier/joinBlackApply',
+      name: 'joinBlackApply',
+      meta: {
+        title: '生产供应生加入黑名单审批'
+      },
+      component: () =>
+        import(
+          '@/views/supplierManagement/supplier360/list/joinBlackApply/index.vue'
+        )
     },
     {
-        path: '/supplier/removeBlackApply',
-        name: 'removeBlackApply',
-        meta: {
-            title: '生产供应生移除黑名单审批'
-          },
-        component: () =>
-            import('@/views/supplierManagement/supplier360/list/removeBlackApply/index.vue')
+      path: '/supplier/removeBlackApply',
+      name: 'removeBlackApply',
+      meta: {
+        title: '生产供应生移除黑名单审批'
+      },
+      component: () =>
+        import(
+          '@/views/supplierManagement/supplier360/list/removeBlackApply/index.vue'
+        )
+    },
+    {
+      path: '/NTierMap',
+      name: 'NTierMap',
+      meta: {
+        title: 'N-tier地图'
+      },
+      component: () =>
+        import('@/views/supplierManagement/NTier/supplyChainMap/index.vue')
     },
     {
       path: '/',
@@ -114,9 +128,9 @@ export default {
         ...partLifeCycle,
         ...RouterBiz,
         ...RouterAchievement,
-        // ...RouterMeeting,
         ...RouterAssistant,
         ...RouterPopupWindowMa,
+        ...RouterMeeting,
         ...RouterManage
       ]
     },
