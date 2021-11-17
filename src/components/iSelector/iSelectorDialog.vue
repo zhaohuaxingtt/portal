@@ -364,6 +364,7 @@ export default {
       this.query.pageNo = this.page.currPage
       if(this.sizeType == 'size'){
         this.query.size = this.page.pageSize
+        this.query.current = this.page.currPage
       }else{
         this.query.pageSize = this.page.pageSize
       }

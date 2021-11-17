@@ -6,6 +6,7 @@
   <iDialog @close="closeDiolog()"
            :visible.sync="value"
            :title="'供应商⿊名单记录 - 生产采购  -'+ clickTableList.nameZh"
+           top="5%"
            width="85%">
     <div class="box">
       <el-tabs class="tabsHeader"
@@ -144,6 +145,8 @@
       <p class="tableTitle">
         详情列表
       </p>
+      <div class="tableBox">
+
       <table-list v-if="tabVal == 1"
                   style="margin-top:20px"
                   :tableData="tableListData"
@@ -160,7 +163,7 @@
                   :index="true"
                   :selection="false">
       </table-list>
-      <iPagination style="margin-top:20px"
+      <!-- <iPagination style="margin-top:20px"
                    v-if="tabVal == 2"
                    v-update
                    @size-change="handleSizeChange($event, sure)"
@@ -170,7 +173,8 @@
                    :page-size="page.pageSize"
                    :layout="page.layout"
                    :current-page="page.currPage"
-                   :total="page.totalCount" />
+                   :total="page.totalCount" /> -->
+       </div>
     </div>
   </iDialog>
 </template>
@@ -331,8 +335,8 @@ export default {
         startTime: this.daterange[0],
         stopEndTime: this.daterange2[1],
         stopStartTime: this.daterange2[0],
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
+        pageNo: 1,
+        pageSize: 9999,
         ...this.form
       }
       console.log(this.form)
@@ -347,8 +351,8 @@ export default {
       this.tableLoadingRecord = true
       const params = {
         supplierId: this.clickTableList.subSupplierId,
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
+        pageNo: 1,
+        pageSize: 9999,
         endTime: this.daterange[1],
         startTime: this.daterange[0],
         stopEndTime: this.daterange2[1],
@@ -369,8 +373,8 @@ export default {
       console.log(this.form)
     },
     sure() {
-      this.page.currPage = 1
-      this.page.pageSize = 10
+      // this.page.currPage = 1
+      // this.page.pageSize = 10
       console.log(this.form)
       if (this.tabVal == 1) {
         this.getList()
@@ -390,8 +394,8 @@ export default {
       this.categoryList = []
       this.purchaseList = []
       this.stuffList = []
-      this.page.pageSize = 10
-      this.page.currPage = 1
+      // this.page.pageSize = 10
+      // this.page.currPage = 1
       this.daterange = []
       this.daterange2 = []
       if (v == 1) {
@@ -411,6 +415,10 @@ export default {
 <style lang="scss" scoped>
 .box {
   padding-bottom: 20px;
+}
+.tableBox{
+  max-height: 600px;
+  overflow-y: scroll;
 }
 .header {
   display: flex;

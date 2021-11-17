@@ -22,7 +22,7 @@ import { getUserSelectPageList } from '@/api/authorityMgmt/index'
 import iSelectorDialog from '@/components/iSelector/iSelectorDialog'
 import iSelectorInput from '@/components/iSelector/iSelectorInput'
 export default {
-  name: 'userSelector',
+  name: 'userSelect',
   components: { iSelectorDialog, iSelectorInput },
   props: {
     value: {
@@ -103,7 +103,6 @@ export default {
   },
   methods: {
     handleSearch(param) {
-      //区域控制员
       return getUserSelectPageList(param)
     }
   }
