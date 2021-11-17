@@ -77,7 +77,6 @@ export default {
                 picUrl,
                 accountIds,
                 supplierIds,
-                popupStyle:1
             }
             if(newLeftSave){
                 savePopup(data).then((res)=>{
@@ -86,7 +85,7 @@ export default {
                     if(window.opener){
                         window.opener.location.reload()
                         window.setTimeout(()=>{
-                            window.close()
+                            // window.close()
                         },1000)
                     }
                 }else{
@@ -98,7 +97,6 @@ export default {
         preview(){
             const formData = this.$refs.newLeft.formData()
             this.formData = formData
-            console.log(this.formData,'----------');
             this.picUrl = this.$refs.newRight.linkUrl()
             this.openDialog()
             // let _this = this
@@ -130,12 +128,32 @@ export default {
         },
         openDialog(){
             // this.instance.close()
+            let time = ''
+            if(!this.formData.publishPreTime){
+                const date = new Date()
+                const y = date.getFullYear()
+                const M = date.getMonth() + 1
+                const d = date.getDate()
+                const h = date.getHours()
+                const m = date.getMinutes()
+                time = `${y}年   ${M}月${d}日${h}时${m}分`
+            }else{
+                console.log(this.formData.publishPreTime);
+                const y = this.formData.publishPreTime.slice(0,4)
+                const M = this.formData.publishPreTime.slice(5,7)
+                const d = this.formData.publishPreTime.slice(8,10)
+                const h = this.formData.publishPreTime.slice(11,13)
+                const m = this.formData.publishPreTime.slice(14,16)
+                time = `${y}年   ${M}月${d}日${h}时${m}分`
+            }
             this.show = true
             this.detail = {
                 title:this.formData.popupName,
                 content:this.formData.content,
                 picUrl:this.picUrl,
-                linkUrl:this.formData.linkUrl
+                linkUrl:this.formData.linkUrl,
+                publishTime:time,
+                popupStyle:this.formData.popupStyle
             }
         }
     }

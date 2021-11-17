@@ -3,7 +3,7 @@
     <div class="input-wrapper">
       <i-input
         v-model="valueString"
-        :placeholder="$t('LK_QINGXUANZE')"
+        :placeholder=" value.length > 0 ? '' : $t('LK_QINGXUANZE')"
         :readonly="true"
         :disabled="disabled"
       ></i-input>

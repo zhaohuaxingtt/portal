@@ -44,7 +44,7 @@ export function getPageListByParams(data) {
 export function getUserSelectPageList(data){
   return requst({
     url:'/web/account/pageList',
-    method:'POST',
+    method:'post',
     data
   })
 }
