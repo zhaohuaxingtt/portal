@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-16 19:59:44
+ * @LastEditTime: 2021-11-17 16:00:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -160,6 +160,7 @@ export default {
           isView: (val.appStatus === '草稿' || val.appStatus === '未通过') ? false : true
         }
       })
+      this.$store.dispatch('setMtzChangeBtn', false);
       window.open(routerPath.href, '_blank')
     },
     handleSelectionChange (val) {
