@@ -44,7 +44,7 @@
         min-width="220"
         label="会议名称"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span
             :class="scope.row.state === '01' ? '' : 'open-link-text'"
             @click="goDetail(scope.row, scope.row.state)"
@@ -60,7 +60,7 @@
         min-width="80"
         label="会议类型"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ typeObject[scope.row.meetingTypeId] }}</span>
         </template>
       </el-table-column>
@@ -72,7 +72,7 @@
         min-width="70"
         label="会议状态"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span
             :class="[
               {
@@ -106,7 +106,7 @@
         min-width="200"
         label="会议时间"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>
             {{
               scope.row.startDate + ' ' + scope.row.startTime.substring(0, 5)
@@ -125,7 +125,7 @@
         min-width="60"
         label="附件"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span class="attachments-box">
             <el-popover placement="right" trigger="click">
               <div class="enclosure-popover">
@@ -162,7 +162,7 @@
         min-width="260"
         label="操作"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <!-- <div
             class="meeting-home-action-box"
             v-show="
@@ -478,7 +478,7 @@
         min-width="80"
         prop="weekOfYear"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>CW{{ scope.row.weekOfYear }}/53</span>
         </template>
       </el-table-column>

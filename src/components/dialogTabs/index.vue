@@ -1,10 +1,11 @@
 <template>
   <div class="tabBox">
-    <div class="item"
-         :class="{'item-active': current === index + 1}"
-         v-for="(item,index) of list"
-         :key="item"
-         @click="handleItemClick(index + 1)"
+    <div
+      class="item"
+      :class="{ 'item-active': current === index + 1 }"
+      v-for="(item, index) of list"
+      :key="item"
+      @click="handleItemClick(index + 1)"
     >
       {{ $t(item.title) }}
     </div>
@@ -12,33 +13,32 @@
 </template>
 
 <script>
-
 export default {
   props: {
     list: {
       type: Array,
       default: () => {
         return [
-          {title: '资产负载表'},
-          {title: '利润表'},
-          {title: '现金流量表'},
-          {title: '其他财务数据'},
-        ];
-      },
-    },
+          { title: '资产负载表' },
+          { title: '利润表' },
+          { title: '现金流量表' },
+          { title: '其他财务数据' }
+        ]
+      }
+    }
   },
   data() {
     return {
-      current: 1,
-    };
+      current: 1
+    }
   },
   methods: {
     handleItemClick(index) {
-      this.current = index;
-      this.$emit('handleClick', index);
-    },
-  },
-};
+      this.current = index
+      this.$emit('handleClick', index)
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -52,7 +52,7 @@ export default {
     align-items: center;
     justify-content: center;
     min-width: 136px;
-    background: #F5F6F7;
+    background: #f5f6f7;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
     font-size: 16px;
     line-height: 25px;
@@ -62,9 +62,9 @@ export default {
 
   .item-active {
     font-weight: bold;
-    background: #FFFFFF;
+    background: #ffffff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
-    color: #1660F1;
+    color: #1660f1;
   }
 
   .iconStyle {

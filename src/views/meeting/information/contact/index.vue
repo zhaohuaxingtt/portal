@@ -42,7 +42,7 @@
             label="会议类型"
             :render-header="renderHeader"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <iFormItem
                 :prop="'meetingInfo.' + scope.$index + '.meetingTypeId'"
                 :hideRequiredAsterisk="true"
@@ -73,7 +73,7 @@
             label="部门"
             :render-header="renderHeader"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <iFormItem
                 :prop="'meetingInfo.' + scope.$index + '.dept'"
                 :hideRequiredAsterisk="true"
@@ -88,7 +88,7 @@
             label="办公室"
             :render-header="renderHeader"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <iFormItem
                 :prop="'meetingInfo.' + scope.$index + '.office'"
                 :rules="baseRule"
@@ -103,7 +103,7 @@
             label="电话"
             :render-header="renderHeader"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <iFormItem
                 :prop="'meetingInfo.' + scope.$index + '.phone'"
                 :rules="rulePhone"
@@ -118,7 +118,7 @@
             label="邮件"
             :render-header="renderHeader"
           >
-            <template scope="scope">
+            <template slot-scope="scope">
               <iFormItem
                 :prop="'meetingInfo.' + scope.$index + '.email'"
                 :rules="ruleEmail"

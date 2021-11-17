@@ -27,7 +27,7 @@
       >
       </el-table-column>
       <el-table-column prop="name" align="center" label="下载名称" width="756">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span class="doc-name" @click="handleDownLoadSingle(scope.row)">{{
             scope.row.name
           }}</span>
