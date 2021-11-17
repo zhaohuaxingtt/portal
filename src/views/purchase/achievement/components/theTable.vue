@@ -19,14 +19,17 @@
                     {{ $t('EKL_YEJIJINETIAOZHENG') }}
                 </iButton>
                 <!--年度目标管理-->
-                <iButton class="ml10" @click="openTargetManDialog" v-permission="ACHIEVEMENTMGT_LIST_TARGETMANAGE">
+                <!--<iButton class="ml10" @click="openTargetManDialog" v-permission="ACHIEVEMENTMGT_LIST_TARGETMANAGE">-->
+                    <!--{{ $t('EKL_YJGL_NDMBGL') }}-->
+                <!--</iButton>-->
+                <iButton class="ml10" @click="openTargetManDialog" v-if="bzzlorlinie">
                     {{ $t('EKL_YJGL_NDMBGL') }}
                 </iButton>
                 <!--年度目标管理 配附件-->
                 <!--<iButton @click="openSpareTargetManDialog" v-permission="ACHIEVEMENTMGT_SPARE_ANNUAL_TATGET">{{ $t('EKL_YJGL_NDMBGL') }}</iButton>-->
-                <iButton @click="openSpareTargetManDialog" v-if="state">{{ $t('EKL_YJGL_NDMBGL') }}</iButton>
+                <iButton class="ml10" @click="openSpareTargetManDialog" v-if="state">{{ $t('EKL_YJGL_NDMBGL') }}</iButton>
                 <!--基础表模板下载 配附件-->
-                <iButton @click="spareTempDown" v-permission="ACHIEVEMENTMGT_TABLE_TEMPLATE_DOWN">{{ $t('EKL_JCBMBXZ') }}</iButton>
+                <iButton class="ml10" @click="spareTempDown" v-permission="ACHIEVEMENTMGT_TABLE_TEMPLATE_DOWN">{{ $t('EKL_JCBMBXZ') }}</iButton>
                 <!--<iButton @click="spareTempDown" v-if="state">{{ $t('EKL_JCBMBXZ') }}</iButton>-->
             </div>
         </div>
@@ -146,7 +149,10 @@
       computed: {
         state() {
           return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'PFJYJGLY')
-        }
+        },
+        bzzlorlinie() {
+          return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'LINIE' || item.code == 'BZZL')
+        },
       },
         created() {
             this.getTableList();
@@ -388,6 +394,9 @@
     ::v-deep .el-form-item {
         margin-top: 0;
         margin-bottom: 0;
+    }
+    ::v-deep .cardBody {
+        padding: 20px 26px !important;
     }
 
 </style>

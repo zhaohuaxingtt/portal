@@ -220,7 +220,7 @@ export default {
     },
     // 获取筛选项数据
     getDropDownData() {
-      this.dropDownData.dropDownMarketPriceSourceTypeData = ['手工上传', '系统自动']
+      this.dropDownData.dropDownMarketPriceSourceTypeData = [{message:'手工上传',code:1},{message:'系统自动',code:2} ]
       fetchDropDownData().then(res => {
         if(res && res.code == 200) {
           for(let key in res.data) {
@@ -263,6 +263,8 @@ export default {
                 break;
             }
           }
+                console.log(res.data)
+
         } else iMessage.error(res.desZh)
       })
     },
@@ -327,7 +329,7 @@ export default {
     },
     // 导出
     handleExport() {
-      fetchExport().then(res => {
+      fetchExport(this.searchForm).then(res => {
         if(res && res.code != 200) {
           iMessage.error(res.desZh) 
         }
