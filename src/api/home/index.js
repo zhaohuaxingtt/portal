@@ -124,6 +124,14 @@ export function getEkl(data) {
     data
   })
 }
+/* EKL附件卡片 */
+export function getEklAffix(data) {
+  return requestEKL({
+    url: '/spEklreportEntity/getCardSpAll',
+    method: 'post',
+    data
+  })
+}
 /* 新闻卡片 */
 export function getNewsList(data, id) {
   return requestNews({

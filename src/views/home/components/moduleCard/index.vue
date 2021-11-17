@@ -3,7 +3,7 @@
     <div
       slot="header"
       :class="
-        card.component !== 'EKL'
+        !['EKL','EKLAffix'].includes(card.component)
           ? 'flex-between-center-center'
           : 'flex-end-center'
       "
@@ -11,7 +11,7 @@
       <span
         class="title"
         @click="handleClickTitle(card)"
-        v-if="card.component !== 'EKL'"
+        v-if="!['EKL','EKLAffix'].includes(card.component)"
       >
         {{ newTitle }}
         <!-- {{ language(`${card.permissionKey}`) }} -->
@@ -56,6 +56,8 @@ import Sourcing from '../Sourcing/index.vue'
 import Sponser from '../Sponser/index.vue'
 import Delivery from '../Delivery/index.vue'
 import EKL from '../EKL/index.vue'
+import EKLAffix from '../EKLAffix/index.vue'
+
 // import { updateModules } from '@/api/home'
 import { mapState } from 'vuex'
 export default {
@@ -75,7 +77,8 @@ export default {
     Sourcing,
     Sponser,
     Delivery,
-    EKL
+    EKL,
+    EKLAffix
   },
   props: {
     card: {
