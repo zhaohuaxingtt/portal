@@ -5,29 +5,30 @@
       <div class="types" slot="actions">
         <iTabBadge>
           <iTabBadgeItem
-            :active="helpMoudle === 'manual'"
+            :active="helpMoudle === 'problemHandler'"
             :name="language('问答处理')"
-            @click="tabChange('manual')"
+            @click="tabChange('problemHandler')"
+						:badge="problemHandlerCount"
           />
           <iTabBadgeItem
-            :active="helpMoudle === 'problem'"
+            :active="helpMoudle === 'problemStatement'"
             :name="language('问题报表')"
-            @click="tabChange('problem')"
+            @click="tabChange('problemStatement')"
           />
           <iTabBadgeItem
-            :active="helpMoudle === 'ask'"
+            :active="helpMoudle === 'moduleManagement'"
             :name="language('模块管理')"
-            @click="tabChange('ask')"
+            @click="tabChange('moduleManagement')"
           />
           <iTabBadgeItem
-            :active="helpMoudle === 'ask'"
+            :active="helpMoudle === 'labelManagement'"
             :name="language('标签管理')"
-            @click="tabChange('ask')"
+            @click="tabChange('labelManagement')"
           />
         </iTabBadge>
       </div>
     </div>
-    <div class="flex flex-row content mt20" v-show="helpMoudle === 'manual'">
+    <div class="flex flex-row content mt20" v-show="helpMoudle === 'problemHandler'">
       <!-- <CommonProblem />
 			<DataManage /> -->
     </div>
@@ -57,10 +58,17 @@ export default {
   data() {
     return {
       text: '问答处理',
-      helpMoudle: 'manual',
+      helpMoudle: 'problemHandler',
+			problemHandlerCount:10,
     }
   },
-  components: {
+	tabChange(val) {
+		this.helpMoudle = val
+	},
+  mounted() {
+    console.log(store.state, 'store.state')
+  },
+	components: {
     iPage,
     iTabBadge,
     iTabBadgeItem
@@ -69,9 +77,6 @@ export default {
     // ProblemSearch,
     // ProblemDetail
   },
-  mounted() {
-    console.log(store.state, 'store.state')
-  }
 }
 </script>
 
