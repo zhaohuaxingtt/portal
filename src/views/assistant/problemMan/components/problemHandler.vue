@@ -37,8 +37,8 @@ export default {
     background-color:transparent!important;
   }
   ::v-deep .el-tabs__item {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 20px!important;
+    padding-right: 20px!important;
   }
   ::v-deep .el-tabs__item.is-active {
     background-color:#fff !important;
