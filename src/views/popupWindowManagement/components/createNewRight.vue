@@ -31,8 +31,9 @@ export default {
   },
   methods:{
     handleImageError(){
+      console.log(this.imageUrl,'this.linkUrl');
       let img = document.querySelector('avatar')
-      img.src = this.linkUrl
+      img.src = this.linkUrl()
     },
     handleImageLoad(){
 

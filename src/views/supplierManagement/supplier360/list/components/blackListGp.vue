@@ -5,6 +5,7 @@
 <template>
   <iDialog @close="closeDiolog()"
            :visible.sync="value"
+            top="5%"
            :title="'供应商⿊名单记录 - ⼀般采购  -'+ clickTableList.nameZh"
            width="85%">
     <div class="box">
@@ -66,6 +67,7 @@
       <p class="tableTitle">
         详情列表
       </p>
+       <div class="tableBox">
       <table-list v-if="tabVal == 1"
                   style="margin-top:20px"
                   :tableData="tableListData"
@@ -82,7 +84,8 @@
                   :index="true"
                   :selection="false">
       </table-list>
-      <iPagination style="margin-top:20px"
+       </div>
+      <!-- <iPagination style="margin-top:20px"
                    v-if="tabVal == 2"
                    v-update
                    @size-change="handleSizeChange($event, sure)"
@@ -92,7 +95,7 @@
                    :page-size="page.pageSize"
                    :layout="page.layout"
                    :current-page="page.currPage"
-                   :total="page.totalCount" />
+                   :total="page.totalCount" /> -->
     </div>
   </iDialog>
 </template>
@@ -183,8 +186,8 @@ export default {
       this.tableLoadingRecord = true
       const params = {
         supplierId: this.clickTableList.subSupplierId,
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
+        pageNo: 1,
+        pageSize: 9999,
         endTime: this.daterange[1],
         startTime: this.daterange[0],
         stopEndTime: this.daterange2[1],
@@ -207,13 +210,13 @@ export default {
       }
     },
     sure() {
-      this.page.currPage = 1
-      this.page.pageSize = 10
+      // this.page.currPage = 1
+      // this.page.pageSize = 10
       this.getListRecord()
     },
     clickReset() {
-      this.page.currPage = 1
-      this.page.pageSize = 10
+      // this.page.currPage = 1
+      // this.page.pageSize = 10
       this.form.type = ''
       this.daterange = []
       this.daterange2 = []
@@ -228,6 +231,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tableBox{
+  max-height: 600px;
+  overflow-y: scroll;
+}
 .box {
   padding-bottom: 20px;
 }
