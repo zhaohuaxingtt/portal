@@ -3,10 +3,10 @@
     <div class="nav">
       <el-tabs v-model="currentName">
         <el-tab-pane label="供应商用户" name="supplierUser">
-          <ProblemHandlerPanel type="1" v-if="currentName==='supplierUser'"/>
+          <ProblemHandlerPanel :type="1" v-if="currentName==='supplierUser'"/>
         </el-tab-pane>
         <el-tab-pane label="内部用户" name="internalUser">
-          <ProblemHandlerPanel type="2" v-if="currentName==='internalUser'"/>
+          <ProblemHandlerPanel :type="2" v-if="currentName==='internalUser'"/>
         </el-tab-pane>
       </el-tabs>
     </div>
