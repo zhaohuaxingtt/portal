@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-26 10:13:30
- * @LastEditTime: 2021-11-11 11:31:44
+ * @LastEditTime: 2021-11-16 21:29:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\MTZchange.js
@@ -152,7 +152,7 @@ export function uploadAttach(params) {
   const formData = new FormData()
   formData.append('mtzAppId', params.mtzAppId || 'rise') // 桶名，默认固定rise
   formData.append('userId', store.state.permission.userInfo.id) // 业务id，默认固定8025
-  formData.append('userName', store.state.permission.userInfo.userName) // 用户id
+  formData.append('userName', store.state.permission.userInfo.nameZh) // 用户id
   formData.append('file ', params.multifile || []) // 文件
   return request({
     url: `/mtzBasePriceChange/uploadAttach`,

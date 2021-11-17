@@ -4,7 +4,7 @@
         <el-row :gutter="24">
           <el-col span="12">
             <iFormItem :label="language('弹窗标题')" prop='popupName'>
-              <iInput :placeholder='language("请输入")' v-model="formContent.popupName"></iInput>
+              <iInput :placeholder='language("请输入")' v-model="formContent.popupName" maxlength='30'></iInput>
             </iFormItem>
           </el-col>
           <el-col span="12">
@@ -60,7 +60,7 @@
           <el-col span="24">
             <iFormItem :label="language('发布时间')">
               <iDatePicker class="release-time" :placeholder='language("请选择发布时间，若未选择发布时间则立即发送")' 
-                v-model="formContent.publishPreTime" type='datetime'>
+                v-model="formContent.publishPreTime" type='datetime' format='yyyy-MM-dd HH:mm'>
               </iDatePicker>
             </iFormItem>
           </el-col>
@@ -68,7 +68,7 @@
         <el-row :gutter="24">
           <el-col>
             <iFormItem :label="language('弹窗说明')" prop='content'>
-              <el-input type="textarea" class="popup-explain" :placeholder='language("请输入")' v-model="formContent.content"></el-input>
+              <el-input type="textarea" class="popup-explain" :placeholder='language("请输入")' v-model="formContent.content" maxlength="300"></el-input>
             </iFormItem>
           </el-col>
           
@@ -80,7 +80,7 @@
 <script>
 import {iFormItem,iDatePicker,iInput,iSelect} from 'rise'
 import {PUBLISH_SCOPE_OPTIONS} from './data.js'
-import userSelector from '@/components/userSelector'
+import userSelector from './userSelector.vue'
 import sullpierSelect from './supplierSelect.vue'
 import popupStyle from './popupStyle.vue'
 export default {

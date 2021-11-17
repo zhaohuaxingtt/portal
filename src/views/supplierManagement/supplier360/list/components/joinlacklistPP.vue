@@ -61,10 +61,11 @@
             <iSelect multiple
                      collapse-tags
                      filterable
+                     value-key='stuffCode'
                      style="width:240px"
                      :placeholder="language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')"
                      v-model="form.ppStuffSaveDTOList">
-              <el-option v-for="item in stuffByArr"
+              <el-option  v-for="item in stuffByArr"
                          :key="item.stuffCode"
                          :label="item.stuffName+'-'+item.stuffCode"
                          :value="item">
@@ -81,15 +82,27 @@
                            value-key="stuffCode">
             </custom-select> -->
           </el-form-item>
-          <el-form-item prop="daterange"
-                        :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')">
+          <el-form-item prop="startTime"
+                          :label="language('SHOUKONGKAISHISHIJIAN', '受控开始时间')">
 
             <iDatePicker :picker-options="pickerOptions"
                          style="width:240px"
-                         type="daterange"
+                         type="date"
                          :range-separator="$t('SUPPLIER_ZHI')"
                          :placeholder="''"
-                         v-model="form.daterange"
+                         v-model="form.startTime"
+                         value-format="yyyy-MM-dd"
+                         clearable />
+          </el-form-item>
+           <el-form-item prop="endTime"
+                            :label="language('SHOUKONGJIESHUSHIJIAN', '受控结束时间')">
+
+            <iDatePicker :picker-options="pickerOptions"
+                         style="width:240px"
+                         type="date"
+                         :range-separator="$t('SUPPLIER_ZHI')"
+                         :placeholder="''"
+                         v-model="form.endTime"
                          value-format="yyyy-MM-dd"
                          clearable />
           </el-form-item>
@@ -193,7 +206,7 @@
 </template>
 
 <script>
-let that
+// let that
 import {
   iSelect,
   iMessage,
@@ -236,7 +249,7 @@ export default {
       userType: '',
       form: {
         reason: '',
-        daterange: [],
+        // daterange: [],
         purchaserId: '',
         liniePurchaserId: ''
       },
@@ -265,9 +278,7 @@ export default {
           }
         },
         disabledDate(time) {
-          if (that.selectDate !== '') {
             return time.getTime() < Date.now() - 8.64e7
-          }
         }
       },
       rules: {
@@ -299,13 +310,20 @@ export default {
             trigger: 'blur'
           }
         ],
-        daterange: [
+         startTime: [
           {
             required: true,
-            message: '受控时间不能为空',
+            message: this.language('SHOUKONGKAISHISHIJIANBUNENGWEIKONG', '受控开始时间不能为空'),
             trigger: 'blur'
           }
         ],
+         endTime: [
+          {
+            required: true,
+            message: this.language('SHOUKONGJIESHUSHIJIANBUNENGWEIKONG', '受控结束时间不能为空'),
+            trigger: 'blur'
+          }
+         ],
         ppStuffSaveDTOList: [
           {
             required: true,
@@ -331,7 +349,7 @@ export default {
     }
   },
   beforeCreate() {
-    that = this
+    // that = this
   },
 
   created() {
@@ -478,8 +496,8 @@ export default {
     //提交
     handleSub() {
       let params = {
-        startTime: this.form.daterange[0],
-        endTime: this.form.daterange[1],
+        // startTime: this.form.daterange[0],
+        // endTime: this.form.daterange[1],
         supplierId: this.clickTableList.subSupplierId,
         ...this.form
       }
@@ -504,7 +522,7 @@ export default {
               }
             )
               .then(async () => {
-                params.daterange = undefined
+                // params.daterange = undefined
                 params.categoryCodes = undefined
                 ppSupplerBlackSave(params).then((res) => {
                   if (res && res.code == 200) {

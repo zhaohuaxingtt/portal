@@ -5,53 +5,60 @@
         <img :src="meetingHall" />
       </div>
     </div>
-    <ul class="content-list" v-if="tableData.length > 0">
-      <li
-        class="content"
-        v-for="item in tableData"
-        :key="item.id"
-        @click="goNearFuture(item)"
-      >
-        <div
-          class="mantle"
-          v-if="item.state == '02' || item.state == '03' || item.state == '04'"
-        ></div>
-        <div class="meeting-img-box">
-          <div class="title">
-            <p class="meeting-time" v-if="item.state == '03' || item.state == '02'">
-              {{ "Next Meeting On " + item.startDate }}
-            </p>
-            <div class="meeting-state" v-else>
-              <div v-if="item.state == '04'" class="live">
-                <div class="big"></div>
-                <div class="middle"></div>
-                <div class="small"></div>
+    <div v-loading="loading" style="min-height: 200px">
+      <ul class="content-list" v-if="tableData.length > 0">
+        <li
+          class="content"
+          v-for="item in tableData"
+          :key="item.id"
+          @click="goNearFuture(item)"
+        >
+          <div
+            class="mantle"
+            v-if="
+              item.state == '02' || item.state == '03' || item.state == '04'
+            "
+          ></div>
+          <div class="meeting-img-box">
+            <div class="title">
+              <p
+                class="meeting-time"
+                v-if="item.state == '03' || item.state == '02'"
+              >
+                {{ 'Next Meeting On ' + item.startDate }}
+              </p>
+              <div class="meeting-state" v-else>
+                <div v-if="item.state == '04'" class="live">
+                  <div class="big"></div>
+                  <div class="middle"></div>
+                  <div class="small"></div>
+                </div>
+                <div v-if="item.state == '04'">LIVE!</div>
               </div>
-              <div v-if="item.state == '04'">LIVE!</div>
+            </div>
+            <div class="meeting-img-mini-box">
+              <img :src="item.coverImage" />
             </div>
           </div>
-          <div class="meeting-img-mini-box">
-            <img :src="item.coverImage" />
-          </div>
-        </div>
-        <div class="footer">{{ item.name }}</div>
-      </li>
-    </ul>
-    <p v-else class="no-data">您尚无该类型会议的查看权限</p>
+          <div class="footer">{{ item.name }}</div>
+        </li>
+      </ul>
+      <p v-else class="no-data">您尚无该类型会议的查看权限</p>
+    </div>
   </div>
 </template>
 <script>
-import { getMyMettingList, findByMeetingAll } from "@/api/meeting/home";
-import { getMettingType } from "@/api/meeting/type";
-import meetingHall from "@/assets/images/meeting-hall.jpg";
+import { getMyMettingList, findByMeetingAll } from '@/api/meeting/home'
+import { getMettingType } from '@/api/meeting/type'
+import meetingHall from '@/assets/images/meeting-hall.jpg'
 export default {
   props: {
     value: {
       type: Number,
       default: () => {
-        return 1;
-      },
-    },
+        return 1
+      }
+    }
   },
   components: {},
   data() {
@@ -62,176 +69,182 @@ export default {
       pageNum: 1,
       pageSize: 6,
       loading: false,
-      meetingHall,
-    };
+      meetingHall
+    }
   },
   computed: {
     handleData() {
       return {
         value: this.value,
-        totalData: this.totalData,
-      };
-    },
+        totalData: this.totalData
+      }
+    }
   },
   watch: {
     tableData: {
       handler(table) {
-        console.log(table);
-      },
+        console.log(table)
+      }
     },
     handleData: {
       handler(data) {
         switch (data.value) {
           case 1:
-            this.tableData = this.getTableDate("01");
-            break;
+            this.tableData = this.getTableDate('01')
+            break
           case 2:
-            this.tableData = this.getTableDate("02");
-            break;
+            this.tableData = this.getTableDate('02')
+            break
           case 3:
-            this.tableData = this.getTableDate("03");
+            this.tableData = this.getTableDate('03')
         }
       },
       immediate: true,
-      deep: true,
-    },
+      deep: true
+    }
   },
   mounted() {
     // this.getAllSelectList();
-    this.query2();
+    this.query2()
   },
   methods: {
     getTableDate(category) {
-      console.log(this.totalData);
+      console.log(this.totalData)
       return this.totalData.filter((item) => {
-        return item.category === category;
-      });
+        return item.category === category
+      })
     },
     // 获取会议类型列表
     getAllSelectList() {
       let param = {
         pageSize: 1000,
-        pageNum: 1,
-      };
+        pageNum: 1
+      }
       getMettingType(param).then((res) => {
-        this.meetingTypeList = res.data;
-        let typeListObj = {};
+        this.meetingTypeList = res.data
+        let typeListObj = {}
         res.data &&
           res.data.forEach((item) => {
             typeListObj[item.id.toString()] = {
               name: item.name,
-              arr: [],
-            };
-          });
-        this.typeListObj = typeListObj;
-        this.query();
-      });
+              arr: []
+            }
+          })
+        this.typeListObj = typeListObj
+        this.query()
+      })
     },
 
     // 获取用户会议
     query() {
       let param = {
         pageNum: 1,
-        pageSize: 9999,
-      };
-      getMyMettingList(param).then((res) => {
-        let dataAll = res.data.filter((item) => {
-          if (
-            item.state == "03" ||
-            item.state == "04" ||
-            item.state == "05" ||
-            item.state == "06"
-          ) {
-            return item;
-          }
-        });
-        // let typeObj = JSON.parse(JSON.stringify(this.typeObj));
-        let tableData = [];
-        dataAll = dataAll.sort(this.sort());
-        dataAll.forEach((item) => {
-          let aaa = tableData.filter((item2) => {
-            return item2.id == item.meetingTypeId;
-          });
-          if (aaa.length == 0) {
-            tableData.push({
-              id: item.meetingTypeId,
-              arr: [item],
-            });
-          } else {
-            tableData.forEach((tableItem) => {
-              if (tableItem.id == item.meetingTypeId) {
-                tableItem.arr.push(item);
-              }
-            });
-          }
-        });
-        this.tableData = tableData;
-      });
+        pageSize: 9999
+      }
+      this.loading = true
+      getMyMettingList(param)
+        .then((res) => {
+          let dataAll = res.data.filter((item) => {
+            if (
+              item.state == '03' ||
+              item.state == '04' ||
+              item.state == '05' ||
+              item.state == '06'
+            ) {
+              return item
+            }
+          })
+          // let typeObj = JSON.parse(JSON.stringify(this.typeObj));
+          let tableData = []
+          dataAll = dataAll.sort(this.sort())
+          dataAll.forEach((item) => {
+            let aaa = tableData.filter((item2) => {
+              return item2.id == item.meetingTypeId
+            })
+            if (aaa.length == 0) {
+              tableData.push({
+                id: item.meetingTypeId,
+                arr: [item]
+              })
+            } else {
+              tableData.forEach((tableItem) => {
+                if (tableItem.id == item.meetingTypeId) {
+                  tableItem.arr.push(item)
+                }
+              })
+            }
+          })
+          this.tableData = tableData
+        })
+        .finally(() => (this.loading = false))
     },
     query2() {
       let param = {
         pageSize: 999,
-        pageNum: 1,
-      };
-      findByMeetingAll(param).then((res) => {
-        let dataUnuse = [];
-        res.forEach((item) => {
-          let hasItem = dataUnuse.filter((item2) => {
-            return item2.id == item.id;
-          });
-          if (hasItem.length == 0) {
-            dataUnuse.push(item);
-          } else {
-            // if (
-            //   (hasItem[0].state === "05" || hasItem[0].state === "06") &&
-            //   (item.state === "03" || item.state === "04")
-            // ) {
-            //   dataUnuse = dataUnuse.filter((it) => {
-            //     return it.id !== hasItem[0].id;
-            //   });
-            //   dataUnuse.push(item);
-            // }
-            // if (item.state === "04" && hasItem[0].state !== "04") {
-            //   dataUnuse = dataUnuse.filter((it) => {
-            //     return it.id !== hasItem[0].id;
-            //   });
-            //   dataUnuse.push(item);
-            // }
-             if (item.state === "04" && hasItem[0].state !== "04") {
-              dataUnuse = dataUnuse.filter((it) => {
-                return it.id !== hasItem[0].id;
-              });
-              dataUnuse.push(item);
+        pageNum: 1
+      }
+      this.loading = true
+      findByMeetingAll(param)
+        .then((res) => {
+          let dataUnuse = []
+          res.forEach((item) => {
+            let hasItem = dataUnuse.filter((item2) => {
+              return item2.id == item.id
+            })
+            if (hasItem.length == 0) {
+              dataUnuse.push(item)
+            } else {
+              // if (
+              //   (hasItem[0].state === "05" || hasItem[0].state === "06") &&
+              //   (item.state === "03" || item.state === "04")
+              // ) {
+              //   dataUnuse = dataUnuse.filter((it) => {
+              //     return it.id !== hasItem[0].id;
+              //   });
+              //   dataUnuse.push(item);
+              // }
+              // if (item.state === "04" && hasItem[0].state !== "04") {
+              //   dataUnuse = dataUnuse.filter((it) => {
+              //     return it.id !== hasItem[0].id;
+              //   });
+              //   dataUnuse.push(item);
+              // }
+              if (item.state === '04' && hasItem[0].state !== '04') {
+                dataUnuse = dataUnuse.filter((it) => {
+                  return it.id !== hasItem[0].id
+                })
+                dataUnuse.push(item)
+              }
             }
-          }
-        });
-        // this.tableData = dataUnuse;
-        this.totalData = dataUnuse;
-      });
+          })
+          // this.tableData = dataUnuse;
+          this.totalData = dataUnuse
+        })
+        .finally(() => (this.loading = false))
     },
 
     // 排序
     sort() {
       return (a, b) => {
-        let start1 = new Date(a.startDate + " " + a.startTime).valueOf();
-        let start2 = new Date(b.startDate + " " + b.startTime).valueOf();
-        return start1 - start2;
-      };
+        let start1 = new Date(a.startDate + ' ' + a.startTime).valueOf()
+        let start2 = new Date(b.startDate + ' ' + b.startTime).valueOf()
+        return start1 - start2
+      }
     },
 
     goNearFuture(e) {
-      let url = "/meeting/near-meeting";
-      if (e.state == "04") {
-        url = "/meeting/live";
+      let url = '/meeting/near-meeting'
+      if (e.state == '04') {
+        url = '/meeting/live'
       }
       this.$router.push({
         path: url,
         query: {
           id: e.id,
-          meetingInfoId: e.meetingId ? e.meetingId : -1,
-        },
-      });
-    },
+          meetingInfoId: e.meetingId ? e.meetingId : -1
+        }
+      })
+    }
 
     // loadMore() {
     //   this.pageNum = this.pageNum + 1;
@@ -246,8 +259,8 @@ export default {
     //     this.loading = false;
     //   })
     // }
-  },
-};
+  }
+}
 </script>
 <style scoped lang="scss">
 .container {
