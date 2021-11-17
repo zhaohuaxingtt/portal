@@ -51,9 +51,9 @@ export function getRecordDetail(params) {
 // 零件进程主轴
 export function partsAxle(data) {
   return VUE_APP_PARTSPROCESS({
-    url: '/partsAxle',
-    method: 'POST',
-    data
+    url: `/partsAxle`,
+    method: 'GET',
+    params: data
   })
 }
 
@@ -67,20 +67,28 @@ export function getAmountAxle(data) {
 }
 
 // 一对多详情页
-export function getOneToMany({ nodePartsNum, caseType, data }) {
+export function getOneToMany({ nodePartsNum, caseType, data, id }) {
   return VUE_APP_PARTSPROCESS({
-    url: `/getOneToMany/${nodePartsNum}/${caseType}`,
-    method: 'POST',
-    data
+    url: `/getOneToMany`,
+    method: 'GET',
+    params: {
+      nodePartsNum,
+      caseType,
+      processId: id
+    }
   })
 }
 
 // 多对多详情页
-export function getMany({ nodePartsNum, caseType, data }) {
+export function getMany({ nodePartsNum, caseType, data, id }) {
   return VUE_APP_PARTSPROCESS({
-    url: `/getMany/${nodePartsNum}/${caseType}`,
-    method: 'POST',
-    data
+    url: `/getMany`,
+    method: 'GET',
+    params: {
+      nodePartsNum,
+      caseType,
+      processId: id
+    }
   })
 }
 
