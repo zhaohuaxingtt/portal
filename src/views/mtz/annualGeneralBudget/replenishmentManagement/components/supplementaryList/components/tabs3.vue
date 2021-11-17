@@ -95,6 +95,7 @@ export default {
     }
   },
   created () {
+    this.mtzDocId = this.$route.query.mtzDocId
     this.getData();
     compdocMetalDetailSum({
       mtzDocId: this.mtzDocId,

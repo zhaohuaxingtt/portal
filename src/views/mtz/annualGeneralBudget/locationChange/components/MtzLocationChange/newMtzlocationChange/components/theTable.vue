@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-10-29 18:23:46
+ * @LastEditTime: 2021-11-16 20:25:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -131,6 +131,7 @@ export default {
               path: '/mtz/annualGeneralBudget/MTZapplicationForm',
               query: {
                 mtzAppId: this.mtzAppId || '',
+                isView: false
               }
             })
             window.open(routerPath.href, '_blank')
