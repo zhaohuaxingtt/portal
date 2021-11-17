@@ -3,7 +3,7 @@ const location = {
         locationNumber: 1,
         mtzObject:{},
         submitType:"",
-        submitDataList:0
+        submitDataList:0,
     },
     actions: {},
     mutations: {

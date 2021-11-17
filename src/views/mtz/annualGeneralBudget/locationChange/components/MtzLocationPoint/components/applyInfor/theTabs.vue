@@ -90,7 +90,21 @@
                          show-overflow-tooltip
                          width="150">
             <template slot-scope="scope">
-                <iInput v-model="scope.row.carline" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <el-select v-model="scope.row.carlineList"
+                         clearable
+                         filterable
+                         multiple
+                         collapse-tags
+                         :placeholder="language('QINGSHURU', '请输入')"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
+                        >
+                    <el-option
+                        v-for="item in carline"
+                        :key="item.modelNameZh"
+                        :label="item.modelNameZh"
+                        :value="item.modelNameZh">
+                    </el-option>
+                </el-select>
                 <span v-else>{{scope.row.carline}}</span>
             </template>
         </el-table-column>
@@ -155,7 +169,7 @@
                     <el-option
                         v-for="item in materialCode"
                         :key="item.code"
-                        :label="item.message"
+                        :label="item.codeMessage"
                         :value="item.code">
                     </el-option>
                 </el-select>
@@ -177,7 +191,11 @@
                          :label="language('JIJIA','基价')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.price" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <iInput type="number"
+                v-model="scope.row.price"
+                v-if="editId.indexOf(scope.row.id)!==-1"
+                :disabled='metalType && editId.indexOf(scope.row.id)!==-1'
+                ></iInput>
                 <span v-else>{{scope.row.price}}</span>
             </template>
         </el-table-column>
@@ -187,7 +205,18 @@
                          :label="language('JIJIAJILIANGDANWEI','基价计量单位')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
-                <iInput v-model="scope.row.priceMeasureUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <el-select v-model="scope.row.priceMeasureUnit"
+                         clearable
+                         :placeholder="language('QINGSHURU', '请输入')"
+                         v-if="editId.indexOf(scope.row.id)!==-1"
+                        >
+                    <el-option
+                        v-for="item in priceMeasureUnit"
+                        :key="item.code"
+                        :label="item.message"
+                        :value="item.code">
+                    </el-option>
+                </el-select>
                 <span v-else>{{scope.row.priceMeasureUnit}}</span>
             </template>
         </el-table-column>
@@ -201,7 +230,8 @@
                     <el-tooltip effect="light"
                                 placement="top">
                         <div slot="content">
-                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                            <p>M01006002-Pt</p>
+                            <!-- <p>{{language('xxxxxxxx','xxxxxxxx')}}</p> -->
                         </div>
                         <i class="el-icon-warning-outline margin-left10"
                         style="color:blue"></i>
@@ -209,7 +239,13 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.platinumPrice" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <iInput
+                type="number"
+                v-model="scope.row.platinumPrice"
+                v-if="editId.indexOf(scope.row.id)!==-1"
+                :disabled='!metalType && editId.indexOf(scope.row.id)!==-1'
+                @change="jijiaCompute(scope.row,$event)"
+                ></iInput>
                 <span v-else>{{scope.row.platinumPrice}}</span>
             </template>
         </el-table-column>
@@ -223,7 +259,7 @@
                     <el-tooltip effect="light"
                                 placement="top">
                         <div slot="content">
-                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                            <p>M01006002-Pt</p>
                         </div>
                         <i class="el-icon-warning-outline margin-left10"
                         style="color:blue"></i>
@@ -231,7 +267,13 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.platinumDosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <iInput
+                type="number"
+                v-model="scope.row.platinumDosage"
+                v-if="editId.indexOf(scope.row.id)!==-1"
+                :disabled='!metalType && editId.indexOf(scope.row.id)!==-1'
+                @change="jijiaCompute(scope.row,$event)"
+                ></iInput>
                 <span v-else>{{scope.row.platinumDosage}}</span>
             </template>
         </el-table-column>
@@ -245,7 +287,7 @@
                     <el-tooltip effect="light"
                                 placement="top">
                         <div slot="content">
-                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                            <p>M01006001-Pd</p>
                         </div>
                         <i class="el-icon-warning-outline margin-left10"
                         style="color:blue"></i>
@@ -253,7 +295,13 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.palladiumPrice" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <iInput 
+                type="number"
+                v-model="scope.row.palladiumPrice"
+                v-if="editId.indexOf(scope.row.id)!==-1"
+                :disabled='!metalType && editId.indexOf(scope.row.id)!==-1'
+                @change="jijiaCompute(scope.row,$event)"
+                ></iInput>
                 <span v-else>{{scope.row.palladiumPrice}}</span>
             </template>
         </el-table-column>
@@ -267,7 +315,7 @@
                     <el-tooltip effect="light"
                                 placement="top">
                         <div slot="content">
-                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                            <p>M01006001-Pd</p>
                         </div>
                         <i class="el-icon-warning-outline margin-left10"
                         style="color:blue"></i>
@@ -275,7 +323,12 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.palladiumDosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <iInput type="number"
+                v-model="scope.row.palladiumDosage"
+                v-if="editId.indexOf(scope.row.id)!==-1"
+                :disabled='!metalType && editId.indexOf(scope.row.id)!==-1'
+                @change="jijiaCompute(scope.row,$event)"
+                ></iInput>
                 <span v-else>{{scope.row.palladiumDosage}}</span>
             </template>
         </el-table-column>
@@ -289,7 +342,7 @@
                     <el-tooltip effect="light"
                                 placement="top">
                         <div slot="content">
-                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                            <p>M01006003-Rh</p>
                         </div>
                         <i class="el-icon-warning-outline margin-left10"
                         style="color:blue"></i>
@@ -297,7 +350,12 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.rhodiumPrice" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <iInput type="number"
+                v-model="scope.row.rhodiumPrice"
+                v-if="editId.indexOf(scope.row.id)!==-1"
+                :disabled='!metalType && editId.indexOf(scope.row.id)!==-1'
+                @change="jijiaCompute(scope.row,$event)"
+                ></iInput>
                 <span v-else>{{scope.row.rhodiumPrice}}</span>
             </template>
         </el-table-column>
@@ -312,7 +370,7 @@
                     <el-tooltip effect="light"
                                 placement="top">
                         <div slot="content">
-                            <p>{{language('xxxxxxxx','xxxxxxxx')}}</p>
+                            <p>M01006003-Rh</p>
                         </div>
                         <i class="el-icon-warning-outline margin-left10"
                         style="color:blue"></i>
@@ -320,7 +378,13 @@
                 </div>
             </template>
             <template slot-scope="scope">
-                <iInput type="number" v-model="scope.row.rhodiumDosage" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                <iInput
+                type="number"
+                v-model="scope.row.rhodiumDosage"
+                v-if="editId.indexOf(scope.row.id)!==-1"
+                :disabled='!metalType && editId.indexOf(scope.row.id)!==-1'
+                @change="jijiaCompute(scope.row,$event)"
+                ></iInput>
                 <span v-else>{{scope.row.rhodiumDosage}}</span>
             </template>
         </el-table-column>
@@ -472,7 +536,7 @@
         width="70%"
         @close="saveGzDialog"
         >
-        <addGZ @close="saveGzClose" @addDialogGZ="addDialogGZList"></addGZ>
+        <addGZ :dataObject="dataObject" @close="saveGzClose" @addDialogGZ="addDialogGZList"></addGZ>
     </iDialog>
 
     </iCard>
@@ -483,18 +547,21 @@ import { iCard, iButton, iPagination, icon, iMessage,iMessageBox,iInput,iDatePic
 import { pageMixins } from "@/utils/pageMixins"
 import continueBox from "./continueBox";
 import addGZ from "./addGZ";
-import { deepClone } from "./util";
+import { deepClone,isNumber } from "./util";
 import store from "@/store";
 import {
   getMtzSupplierList,//获取原材料牌号
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 import {
   pageAppRule,//维护MTZ原材料规则-分页查询
-  updateAppRule,
   addBatchAppRule,//维护MTZ原材料规则-批量新增
   deleteAppRule,//列表删除,
-  modifyAppRule
+  modifyAppRule,
+  checkPreciousMetal
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+import {
+  cartypePaged,//车型
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
   fetchRemoteMtzMaterial,//查询MTZ材料组
@@ -519,6 +586,7 @@ export default {
   mixins: [pageMixins],
   data () {
     return {
+        dataObject:[],
         supplierList:[],
         newDataList:[],//传过来的列表数据
         editType:false,
@@ -553,12 +621,20 @@ export default {
                 message:"超额补差"
             }
         ],
+        priceMeasureUnit:[//基价计量单位
+            {
+                code:"0",
+                message:"KG"
+            }
+        ],
         materialGroup:[],
         materialCode:[],
         mtzAddShow:false,
         addDialog:false,
 
         dialogEditType:false,//判断是否是沿用过来的数据
+        metalType:false,
+        carline:[],//车型
     }
   },
   computed:{
@@ -580,6 +656,12 @@ export default {
     getRawMaterialNos({}).then(res=>{
         this.materialCode = res.data;
     })
+    cartypePaged({
+        current:1,
+        size:99999,
+    }).then(res=>{
+        this.carline = res.data;
+    })
   },
   methods: {
     init () {
@@ -588,6 +670,17 @@ export default {
     },
     add(){//新增
         this.addDialog = true;
+        var list = [];
+        this.tableData.forEach(e=>{
+            list.push({
+                supplierId:e.supplierId || "",
+                materialCode:e.materialCode || "",
+                price:e.price || "",
+                startDate:e.startDate || "",
+                endDate:e.endDate || ""
+            })
+        })
+        this.dataObject = list;
     },
     edit(){//编辑
         if(this.selectList.length>0){
@@ -597,16 +690,22 @@ export default {
                 changeArrayList.push(item.id);
             })
             this.editId = changeArrayList;
+            this.dialogEditType = false;
         }else{
             iMessage.error("请选择需要修改数据！")
         }
     },
     save(){//保存
+        
         iMessageBox(this.language('SHIFOUBAOCUN','是否保存？'),this.language('LK_WENXINTISHI','温馨提示'),{
             confirmButtonText: this.language('QUEREN', '确认'),
             cancelButtonText: this.language('QUXIAO', '取消')
         }).then(res=>{
             if(this.dialogEditType){//新增
+                this.newDataList.forEach(item=>{
+                    item.carline = item.carlineList.toString();
+                    item.carlineList = null;
+                })
                 addBatchAppRule({
                     mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     mtzAppNomiAppRuleList:this.newDataList
@@ -623,6 +722,10 @@ export default {
                     }
                 })
             }else{//编辑
+                this.selectList.forEach(item=>{
+                    item.carline = item.carlineList.toString();
+                    item.carlineList = null;
+                })
                 modifyAppRule({
                     mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     mtzAppNomiAppRuleList:this.selectList
@@ -661,10 +764,18 @@ export default {
             
         })
     },
+    jijiaCompute(arr,val){
+        if(isNumber(arr.platinumPrice) && isNumber(arr.platinumDosage) && isNumber(arr.palladiumPrice) && isNumber(arr.palladiumDosage) && isNumber(arr.rhodiumPrice) && isNumber(arr.rhodiumDosage)){
+            console.log("计算出基价值");
+            arr.price = "99.9"
+        }else{
+            iMessage.error("请填写完")
+        }
+    },
     continueBtn(){//沿用
         this.mtzAddShow = true;
     },
-    addDialogDataList(val){
+    addDialogDataList(val){//沿用
         this.newDataList = deepClone(val);
         this.newDataList.forEach(item =>{
             delete item.id;
@@ -799,6 +910,9 @@ export default {
     },
     MaterialGrade(arr,value){
         var str = arr.row;
+        checkPreciousMetal({code:value}).then(res=>{
+            this.metalType = res.data;
+        })
         try{
             this.materialCode.forEach(e => {
                 if(e.code == value){

@@ -79,7 +79,7 @@ export default {
         iDialog,
         negative
     },
-    props:["mtzDocId","searchFormList","dataObject"],
+    props:["searchFormList","dataObject"],
 
     data(){
         return{
@@ -99,11 +99,11 @@ export default {
             },
             serchList:{},
             closeValue:false,
+            mtzDocId:''
         }
     },
     created(){
         this.getData();
-        // this.getList();
     },
     watch:{
         "searchFormList":{
@@ -148,7 +148,7 @@ export default {
         },
         getData(){
             compdocMetalDetailSum({
-                mtzDocId:this.mtzDocId
+                mtzDocId:this.dataObject.id
             }).then(res=>{
                 this.inforData = deepClone(res.data);
                 this.textarea = res.data.remark;
@@ -160,7 +160,7 @@ export default {
             compdocMetalDetailSumItem({
                 pageNo:this.page.currPage,
                 pageSize:this.page.pageSize,
-                mtzDocId:this.mtzDocId,
+                mtzDocId:this.dataObject.id,
                 ...this.serchList
             }).then(res => {
                 if(res.data.length<1){
@@ -176,7 +176,7 @@ export default {
         save(){
             saveRemark({
                 remark:this.textarea,
-                mtzDocId:this.mtzDocId
+                mtzDocId:this.dataObject.id
             }).then(res=>{
                 iMessage.success(res.data)
             }).catch(res=>{
@@ -207,7 +207,7 @@ export default {
             }).then(() => {
                 mtzCompDetailOverviewExport({
                     ...this.serchList,
-                    mtzDocId:this.mtzDocId
+                    mtzDocId:this.dataObject.id
                 }).then(res=>{
                     let blob = new Blob([res], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"});
                     let objectUrl = URL.createObjectURL(blob);
@@ -233,7 +233,7 @@ export default {
                 confirmButtonText:this.language('QUEREN', '确认'),
             }).then(() => {
                 mtzBalanceDetailsExport({
-                    mtzDocId:this.mtzDocId
+                    mtzDocId:this.dataObject.id
                 }).then(res=>{
                     let blob = new Blob([res], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"});
                     let objectUrl = URL.createObjectURL(blob);
