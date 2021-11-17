@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:35
- * @LastEditTime: 2021-11-17 16:09:53
+ * @LastEditTime: 2021-11-17 21:57:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\formInformation.vue
@@ -117,7 +117,7 @@ export default {
   watch: {
     '$store.state.location.disabled': {
       handler (val) {
-        this.disabled = val
+        this.disabled = JSON.parse(val)
       },
       deep: true,
       immediate: true
