@@ -10,7 +10,7 @@
     </div>
 
     <!-- v-permission="SUPPLIER_CHANGEHISTORY_TABLE" -->
-    <el-table :data="tableListData"
+    <el-table :data="tableListData.procureFactoryList"
               v-loading="tableLoading"
               @selection-change="handleSelectionChange"
               ref="mulitipleTable">
@@ -103,11 +103,13 @@ export default {
         this.tableListData = res.data ? res.data : []
 
         this.tableLoading = false
-        this.$nextTick(() => {
-          this.tableListData.forEach((e) => {
-            this.$refs.mulitipleTable.toggleRowSelection(e, true)
+        if (this.tableListData.isSelect) {
+          this.$nextTick(() => {
+            this.tableListData.procureFactoryList.forEach((e) => {
+              this.$refs.mulitipleTable.toggleRowSelection(e, true)
+            })
           })
-        })
+        }
       } catch {
         this.tableLoading = false
       }
@@ -137,7 +139,7 @@ export default {
           saveSupplierProcureFactory(req).then((res) => {
             if (res && res.code == 200) {
               this.getTableList()
-              iMessage.success(res.desZh)
+              iMessage.success(res.data)
             } else iMessage.error(res.desZh)
           })
         })

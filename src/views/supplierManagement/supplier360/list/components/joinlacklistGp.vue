@@ -24,7 +24,7 @@
           <el-form-item
             :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
           >
-            <iText style="min-width:240px" class="text">{{
+            <iText style="min-width:240px " class="text">{{
               clickTableList.nameZh
             }}</iText>
           </el-form-item>
