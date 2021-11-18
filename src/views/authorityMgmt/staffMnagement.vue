@@ -340,14 +340,7 @@
 </template>
 
 <script>
-import {
-  iInput,
-  iSelect,
-  iPage,
-  iCard,
-  iFormItem
-  // iPagination,
-} from 'rise'
+import { iInput, iSelect, iPage, iCard, iFormItem, iMessage } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { levelSetting, roleTableSetting, tempPurchaseGroupSet } from './data.js'
 import pageHeader from '@/components/pageHeader'
@@ -665,11 +658,18 @@ export default {
       }
     },
     handleSave() {
-      update(this.formData).then((res) => {
-        if (res.code == 200) {
-          this.$router.push('/authorityMgmt/index')
-        }
-      })
+      update(this.formData)
+        .then((res) => {
+          if (res.code == 200) {
+            // this.go(-1)
+            iMessage.success(res.desZh || '更新成功')
+          } else {
+            iMessage.error(res.desZh || '更新失败')
+          }
+        })
+        .catch((err) => {
+          iMessage.error(err.desZh || '更新失败')
+        })
     },
     handleChangeDept(id, options) {
       this.positionList = []
