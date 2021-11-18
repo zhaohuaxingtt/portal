@@ -45,13 +45,16 @@ export default {
       for (let i = 0; i < this.virtualData.length; i++) {
         const dataItem = this.virtualData[i]
         const { uniqueId } = dataItem
-        const rowClass = `row-${uniqueId}`
-        const element = document.querySelector(
-          `.i-table-custom .el-table__body .el-table__row.${rowClass}`
-        )
-        this.virtualPosMap[uniqueId] = element.clientHeight
+        if (Object.hasOwnProperty.call(this.virtualPosMap, uniqueId)) {
+          const rowClass = `row-${uniqueId}`
+          const element = document.querySelector(
+            `.i-table-custom .el-table__body .el-table__row.${rowClass}`
+          )
+          this.virtualPosMap[uniqueId] = element.clientHeight
+        }
       }
 
+      // 总的高度
       let vHeight = 0
       Object.keys(this.virtualPosMap).forEach((key) => {
         vHeight += this.virtualPosMap[key]
@@ -61,6 +64,7 @@ export default {
         bar.style.height = vHeight + 'px'
       }
 
+      // 表格内容主体
       const tableBody = document.querySelector(
         `.i-table-custom .el-table__body`
       )
@@ -80,38 +84,26 @@ export default {
         '.i-table-custom .el-table__body-wrapper'
       )
       if (scrollElement) {
-        scrollElement.addEventListener('scroll', () => {
-          const { scrollHeight, scrollTop, clientHeight } = scrollElement
-          // 上拉
-          if (scrollHeight - scrollTop - clientHeight < 10) {
-            this.getNextData()
-          } else {
-            this.getVirtualDataPage(scrollElement)
-          }
-          // 下拉
-          if (scrollTop < 10) {
-            this.getPrevData()
-          }
-        })
+        scrollElement.addEventListener('scroll', this.getVirtualDataPage())
       }
     },
-    getNextData: _.debounce(function () {
-      if (this.virtualListData.page < this.virtualListData.pages) {
-        this.virtualListData.page++
-        this.$nextTick(() => this.setVirtualPosMap())
-      }
-    }, 200),
-    getPrevData: _.debounce(function () {
-      if (this.virtualListData.page > 1) {
-        this.virtualListData.page--
-        this.$nextTick(() => this.setVirtualPosMap())
-      }
-    }, 200),
-    getVirtualDataPage(scrollElement) {
-      const { scrollTop, clientHeight } = scrollElement
-      // 计算当前应该正确的page
-
+    getVirtualDataPage() {
+      const scrollElement = document.querySelector(
+        '.i-table-custom .el-table__body-wrapper'
+      )
+      const { scrollTop } = scrollElement
       if (this.virtualData && this.virtualData.length) {
+        let upHideHeight = 0 // 未显示列表上半部分高度
+        for (let i = 0; i < this.realTableData; i++) {
+          const item = this.realTableData[i]
+          upHideHeight += this.virtualPosMap[item.uniqueId]
+          if (scrollTop > upHideHeight - 10 || scrollTop < upHideHeight + 10) {
+            break
+          }
+        }
+      }
+
+      /* if (this.virtualData && this.virtualData.length) {
         let upHeight = 0 // 上部分隐藏的高
         for (let i = 0; i < this.realTableData; i++) {
           const item = this.realTableData[i]
@@ -126,7 +118,12 @@ export default {
         if (scrollTop > clientHeight + upHeight) {
           this.getNextData()
         }
-      }
+      } */
     }
+  },
+  destroyed() {
+    document
+      .querySelector('.i-table-custom .el-table__body-wrapper')
+      .removeEventListener('scroll', this.getVirtualDataPage())
   }
 }
