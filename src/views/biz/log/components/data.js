@@ -49,7 +49,7 @@ export const TABLE_COLUMS = [
     i18n: '用户类型'
   },
   {
-    prop: 'typeName',
+    prop: 'adminTypeName',
     i18n: '操作类型'
   },
   {

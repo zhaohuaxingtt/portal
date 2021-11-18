@@ -10,8 +10,8 @@
   >
       <div class="" :class="{'center-style':detail.popupStyle == '1','main':detail.popupStyle == '0','right-style':detail.popupStyle == '2'}">
           <div class="left">
-              <img v-if="detail.picUrl" :src="detail.picUrl" alt="" class="left-image">
-              <img v-else src="../../../assets/images/popupPic.png" alt="" class="left-image">
+              <img v-if="detail.picUrl" :src="detail.picUrl" alt="" class="left-image" />
+              <img v-else src="../../../assets/images/popupPic.png" alt="" class="left-image" />
           </div>
           <div class="right">
               <h2 :class="{'link-text':detail.linkUrl}" @click="toNewPage">{{detail.title}}</h2>

@@ -76,7 +76,7 @@ export default {
   props: {
     bizId: {
       type: Number,
-      Default: function() {
+      Default: function () {
         return 0
       }
     },
@@ -87,7 +87,7 @@ export default {
     },
     extendParams: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     },
@@ -176,7 +176,7 @@ export default {
           this.options = JSON.parse(http.responseText)?.data || []
         }
       }
-      http.send()
+      http.send(JSON.stringify({ isAdmin: false }))
     },
     getList() {
       this.loading = true

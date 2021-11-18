@@ -196,10 +196,12 @@ const position = {
     },
 
     /**---------------------------------------------------------------- */
-
+    SET_POSITION_ORIGIN_DETAIL: (state, data) => {
+      state.pos.originPosDetail = _.cloneDeep(data)
+    },
     SET_POSITION_DETAIL: (state, data) => {
       const dataVal = data
-      if (dataVal.setCode) {
+      if (dataVal.setCode && typeof dataVal.setCode === 'string') {
         dataVal.setCode = dataVal.setCode.split(',')
       }
       state.pos.positionDetail = _.cloneDeep(dataVal)
