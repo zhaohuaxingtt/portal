@@ -108,8 +108,9 @@ export default {
       }
     }, 200),
     getVirtualDataPage(scrollElement) {
-      const { scrollHeight, scrollTop, clientHeight } = scrollElement
+      const { scrollTop, clientHeight } = scrollElement
       // 计算当前应该正确的page
+
       if (this.virtualData && this.virtualData.length) {
         let upHeight = 0 // 上部分隐藏的高
         for (let i = 0; i < this.realTableData; i++) {
@@ -117,7 +118,13 @@ export default {
           if (item.uniqueId === this.virtualData.uniqueId) {
             break
           }
-          // upHeight += this.virtualPosMap[item.uniqueId]
+          upHeight += this.virtualPosMap[item.uniqueId]
+        }
+        if (scrollTop < upHeight) {
+          this.getPrevData()
+        }
+        if (scrollTop > clientHeight + upHeight) {
+          this.getNextData()
         }
       }
     }
