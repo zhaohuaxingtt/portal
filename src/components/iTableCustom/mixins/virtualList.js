@@ -59,6 +59,10 @@ export default {
       if (bar) {
         bar.style.height = vHeight + 'px'
       }
+
+      const tableBody = document.querySelector(
+        `.i-table-custom .el-table__body`
+      )
     },
     listenerScroll() {
       const scrollElement = document.querySelector(
@@ -85,7 +89,7 @@ export default {
     }, 200),
     getPrevData: _.debounce(function () {
       console.log('到顶了')
-      if (this.virtualListData.page > 0) {
+      if (this.virtualListData.page > 1) {
         this.virtualListData.page--
         this.$nextTick(() => this.setVirtualPosMap())
       }

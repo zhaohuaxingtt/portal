@@ -184,6 +184,7 @@ import {
   exportOrganization
 } from '@/api/organization/index.js'
 import { filterEmptyValue, treeToArray } from '@/utils'
+import orgData from './org'
 // import searchSelector from './components/searchSelector'
 // import searchInput from './components/searchInput';
 export default {
@@ -293,8 +294,9 @@ export default {
         orName: this.formData.orName
       }
       //得到数据
-      this.tableLoading = true
-      getOrganizationList(null, data)
+      // this.tableLoading = true
+      this.tableListData = orgData.data
+      /* getOrganizationList(null, data)
         .then((value) => {
           this.tableLoading = false
           if (value.code == 200) {
@@ -310,7 +312,7 @@ export default {
           //错误处理
           this.tableLoading = false
           return console.log(error)
-        })
+        }) */
     },
     //删除组织列表
     deleteOr() {
