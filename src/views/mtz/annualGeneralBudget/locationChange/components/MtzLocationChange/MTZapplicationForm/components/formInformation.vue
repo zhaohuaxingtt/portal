@@ -11,7 +11,7 @@
     <div class="header flex">
       <div>
         <span class="title">{{language('BIANGENGDAN','MTZ变更单')}}-{{formInline.mtzAppId}}-</span>
-        <span class="title">{{formInline.appName}}-{{linieName}}- <span class="dTitle">{{linieDeptNum}}</span></span>
+        <span class="title">{{formInline.appName}}-{{linieName}}- <span class="dTitle">{{linieDeptNumK2}}</span></span>
       </div>
       <div>
         <iButton v-if="!isView"
@@ -107,6 +107,7 @@ export default {
       },
       linieName: "",
       linieDeptNum: "",
+      linieDeptNumK2: "",
       isView: false
     }
   },
@@ -144,6 +145,7 @@ export default {
           this.formInline.approveRemarks = res.data.approveRemarks
           this.linieName = res.data.linieName
           this.linieDeptNum = res.data.linieDeptNum
+          this.linieDeptNumK2 = res.data.linieDeptNumK2
         }
       })
     },
