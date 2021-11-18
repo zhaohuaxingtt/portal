@@ -98,7 +98,6 @@ export default {
       })
     },
     async handleConfirm() {
-      this.saveLoading = true
       const valid1 = await this.$refs['baseInfo'].$refs['baseForm1'].validate()
       const valid2 = await this.$refs['baseInfo'].$refs['baseForm2'].validate()
       const obj = _.find(
@@ -111,13 +110,19 @@ export default {
         iMessage.warn('增加的维度及内容不能为空')
         return
       }
+
       if (valid1 && valid2) {
+        this.saveLoading = true
         this.$store.commit('SET_DETAIL_DIMENSION')
         this.$store.commit('SET_DETAIL_ROLE')
         const res =
           this.type === 'add'
-            ? await this.$store.dispatch('SavePosition', this.deptId)
-            : await this.$store.dispatch('UpdatePosition', this.deptId)
+            ? await this.$store
+                .dispatch('SavePosition', this.deptId)
+                .finally(() => (this.saveLoading = false))
+            : await this.$store
+                .dispatch('UpdatePosition', this.deptId)
+                .finally(() => (this.saveLoading = false))
         if (res.code === '200' && res.data) {
           iMessage.success(
             this.type === 'add' ? '新增岗位成功' : '更新岗位成功'
@@ -133,7 +138,6 @@ export default {
             })
           }
         }
-        this.saveLoading = false
       }
     },
     handleReset() {
