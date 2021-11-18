@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-17 11:02:41
+ * @LastEditTime: 2021-11-18 11:56:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -333,6 +333,7 @@ export default {
       this.$parent.$refs.theTable.getTableList()
     },
     handleSubmitSearch () {
+      console.log(this.$parent)
       this.$parent.$refs.theTable.getTableList()
     }
   }

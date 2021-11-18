@@ -63,7 +63,21 @@
         <el-row :gutter="24">
           <el-col>
             <iFormItem :label="language('弹窗说明')" prop='content'>
-              <el-input type="textarea" class="popup-explain" :placeholder='language("请输入")' v-model="formContent.content" maxlength="300"></el-input>
+              <div>
+                <div class="btnList">
+                  <el-radio v-model="radio" label="1">{{language('文字居左')}}</el-radio>
+                  <el-radio v-model="radio" label="2">{{language('文字居中')}}</el-radio>
+                  <el-radio v-model="radio" label="3">{{language('文字居右')}}</el-radio>
+                </div>
+                <el-input 
+                    type="textarea" 
+                    :class="{'popup-explain-left':radio == 1,'popup-explain-center':radio == 2,'popup-explain-right':radio == 3}" 
+                    :placeholder='language("请输入")' 
+                    v-model="formContent.content" 
+                    maxlength="300"
+                  >
+                </el-input>
+              </div >
             </iFormItem>
           </el-col>
           
@@ -73,17 +87,18 @@
 </template>
 
 <script>
-import {iFormItem,iDatePicker,iInput,iSelect} from 'rise'
+import {iFormItem,iDatePicker,iInput,iSelect,iButton} from 'rise'
 import {PUBLISH_SCOPE_OPTIONS} from './data.js'
 import userSelector from './userSelector.vue'
 import sullpierSelect from './supplierSelect.vue'
 import popupStyle from './popupStyle.vue'
 export default {
     name:'newLeft',
-    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,sullpierSelect,popupStyle},
+    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,sullpierSelect,popupStyle,iButton},
     props:{},
     data(){
       return{
+        radio:'1',
         publishRangeOptions:PUBLISH_SCOPE_OPTIONS,
         formContent:{
           popupName:'',
@@ -94,7 +109,7 @@ export default {
           content:'',
           popupStyle:0,
           userList:[],
-          supplierList:[]
+          supplierList:[],
         },
         pickerOptions:{
           disabledDate(time){
@@ -142,10 +157,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.popup-explain{
+.popup-explain-left{
   width: 960px;
-  height: 400px;
-
+  height: 200px;
   ::v-deep .el-textarea__inner{
     height: 100%;
     resize: none;
@@ -154,7 +168,37 @@ export default {
     border: 1px solid #D0D4D9;
   }
   }
-  
+}
+.popup-explain-center{
+  width: 960px;
+  height: 200px;
+  ::v-deep .el-textarea__inner{
+    text-align: center;
+    height: 100%;
+    resize: none;
+    &:focus-visible{
+    outline-color: #D0D4D9;
+    border: 1px solid #D0D4D9;
+  }
+  }
+}
+.popup-explain-right{
+  width: 960px;
+  height: 200px;
+  ::v-deep .el-textarea__inner{
+    text-align: right;
+    height: 100%;
+    resize: none;
+    &:focus-visible{
+    outline-color: #D0D4D9;
+    border: 1px solid #D0D4D9;
+  }
+  }
+}
+.btnList{
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }
 .effect-time,
 .release-time{

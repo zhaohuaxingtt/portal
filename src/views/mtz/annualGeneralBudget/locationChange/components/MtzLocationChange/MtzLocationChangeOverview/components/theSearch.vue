@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-16 21:14:48
+ * @LastEditTime: 2021-11-18 11:19:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -13,10 +13,16 @@
       <el-form :model="searchForm">
         <el-form-item label="申请单号"
                       class="searchFormItem">
-          <input-custom v-model="searchForm.mtzAppId"
-                        style="width:100%"
-                        :editPlaceholder="language('QINGSHURU','请输入')"
-                        :placeholder="language('QINGSHURU','请输入')"> </input-custom>
+          <custom-select v-model="searchForm.mtzAppId"
+                         :user-options="locationApplyFilters"
+                         style="width:100%"
+                         multiple
+                         clearable
+                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                         display-member="message"
+                         value-member="code"
+                         value-key="code">
+          </custom-select>
         </el-form-item>
         <el-form-item label="申请状态"
                       class="searchFormItem">
@@ -33,10 +39,16 @@
         </el-form-item>
         <el-form-item label="采购员"
                       class="searchFormItem">
-          <input-custom v-model="searchForm.buyerNameList"
-                        style="width:100%"
-                        :editPlaceholder="language('QINGSHURU','请输入')"
-                        :placeholder="language('QINGSHURU','请输入')"> </input-custom>
+          <custom-select v-model="searchForm.buyerNameList"
+                         :user-options="locationApplyFilterLinie"
+                         style="width:100%"
+                         multiple
+                         clearable
+                         :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                         display-member="message"
+                         value-member="code"
+                         value-key="code">
+          </custom-select>
         </el-form-item>
         <el-form-item label="科室"
                       class="searchFormItem">
@@ -89,8 +101,7 @@
 
 <script>
 import { iCard, iButton, iMessage, iSearch, iDatePicker, iInput } from 'rise'
-import { getDeptData } from '@/api/kpiChart/index'
-import { getLocationApplyStatus } from '@/api/mtz/annualGeneralBudget/mtzChange'
+import { getLocationApplyStatus, getLocationApplyFilter, getLocationApplyFilterLinie } from '@/api/mtz/annualGeneralBudget/mtzChange'
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import inputCustom from '@/components/inputCustom'
@@ -111,6 +122,8 @@ export default {
       deptList: [],
       statusList: [],
       RawMaterialNos: [],
+      locationApplyFilters: [],
+      locationApplyFilterLinie: []
     }
   },
   created () {
@@ -121,6 +134,8 @@ export default {
       this.getRawMaterialNos()
       this.getDeptData()
       this.getLocationApplyStatus()
+      this.getLocationApplyFilter()
+      this.getLocationApplyFilterLinie()
     },
     //申请状态下拉
     getLocationApplyStatus () {
@@ -156,6 +171,31 @@ export default {
         }
       })
     },
+    //申请单
+    getLocationApplyFilter (key) {
+      getLocationApplyFilter({
+        keyWords: key || ""
+      }).then(res => {
+        if (res.code === '200') {
+          this.locationApplyFilters = res.data
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
+    //采购员
+    getLocationApplyFilterLinie (key) {
+      getLocationApplyFilterLinie({
+        keyWords: key || ""
+      }).then(res => {
+        if (res.code === '200') {
+          this.locationApplyFilterLinie = res.data
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+    },
+
     handleSearchReset () {
       this.searchForm = {
         mtzAppId: [],

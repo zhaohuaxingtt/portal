@@ -2,7 +2,6 @@
   <div class="right-content">
       <p class="title">{{language('弹窗图片')}}</p>
       <ImgCutter
-        v-on:cutDown="cutDown"
         class="avatar-uploader"
         fileType=".jpg, .jpeg, .png"
         @cutDown='upload'
@@ -12,10 +11,8 @@
         <img v-if="imageUrl" :src="imageUrl" @error="handleImageError" @load="handleImageLoad" class="avatar" />
         <!-- <img v-else src="../../../assets/images/popupPic.png"   class="avatar"> -->
         <i v-else class="el-icon-circle-plus-outline avatar-uploader-icon">
-
         </i>
       </div>
-        
       </ImgCutter>
       <p class="right-content-bottom">{{language('建议使用16:9比例图片，不超过10M')}}</p>
   </div>
@@ -59,9 +56,15 @@ export default {
       let form = new FormData()
       form.append('file',content.file)
       form.append('applicationName','popupImage')
-      const result = await uploadFileWithNoToken(form)
-      console.log('result',result);
-      this.imageUrl = result.data.filePath
+      // const result = await uploadFileWithNoToken(form)
+      uploadFileWithNoToken(form).then((result)=>{
+        if(result.code == '200'){
+          this.imageUrl = result.data.filePath
+        }else{
+          this.$message.error(result.desZh)
+        }
+      })
+      
     },
     handelChangePic(file,fileList){
       if(fileList > 0){

@@ -5,13 +5,13 @@
       <div class="title-info">
         <div class="info-line-1">
           <div class="meeting-type">{{ result.meetingTypeName }}</div>
-          <div class="meeting-name">{{ result.name}}</div>
+          <div class="meeting-name">{{ result.name }}</div>
         </div>
         <p class="info-line-2">
           <span class="date-time-start">
             <img :src="timeClock" alt="" srcset="" />
             <span>{{
-              result.startDate + " " + result.startTime + "~" + result.endTime
+              result.startDate + ' ' + result.startTime + '~' + result.endTime
             }}</span>
           </span>
           <span class="date-time-end">
@@ -33,33 +33,33 @@
               <span class="left">{{ item.topic }}</span
               ><span class="right">
                 <span class="right-left">{{ activeIndex + 1 }}</span
-                ><span class="itrial">/</span><span class="right-right">{{ result.themens.length }}</span>
+                ><span class="itrial">/</span
+                ><span class="right-right">{{ result.themens.length }}</span>
               </span>
             </div>
           </div>
           <div class="no-live-title" v-else>
             <div class="no-live">
-              <div v-if="item.state === '01'" class="live-word">
-                NEXT
-              </div>
-              <div v-if="item.state === '03'" class="live-word">
-                FINISH
-              </div>
+              <div v-if="item.state === '01'" class="live-word">NEXT</div>
+              <div v-if="item.state === '03'" class="live-word">FINISH</div>
             </div>
             <div class="model">
               <span class="left">{{ item.topic }}</span
               ><span class="right">
-                <span class="right-left"
-                  >{{ activeIndex + index + 1 - finishSecond
-                  }}</span
-                ><span class="itrial">/</span><span class="right-right">{{ result.themens.length }}</span>
+                <span class="right-left">{{
+                  activeIndex + index + 1 - finishSecond
+                }}</span
+                ><span class="itrial">/</span
+                ><span class="right-right">{{ result.themens.length }}</span>
               </span>
             </div>
           </div>
           <ul class="table-box" v-if="!item.isBreak">
             <li class="prop-list">
               <span>Duration</span>
-              <span class="prop-list-right" :title="item.duration">{{ item.duration }}</span>
+              <span class="prop-list-right" :title="item.duration">{{
+                item.duration
+              }}</span>
             </li>
             <li class="prop-list">
               <span>Sourcing</span>
@@ -82,7 +82,7 @@
             <li class="prop-list">
               <span>Carline</span>
               <span class="prop-list-right" :title="item.carline">
-                {{item.carline}}
+                {{ item.carline }}
               </span>
             </li>
             <li class="prop-list">
@@ -106,53 +106,53 @@
         </li>
       </ul>
       <addTopic
-      v-if="openAddTopicDialog"
-      :openDialog="openAddTopicDialog"
-      @closeDialog="handleCloseAddTopicDialog"
-      :editOrAdd="editOrAdd"
-      :selectedTableData="selectedTableData"
-      :meetingInfo="result"
-    />
-    <!-- 生成会议纪要 -->
-    <newSummaryDialog
-      v-if="openNewSummary"
-      :open="openNewSummary"
-      :id="id"
-      :receiverId='result.receiverId'
-      @handleOK="handleNewSummaryOK"
-      @handleCancel="handleCloseSummary"
-      @refreshTable="refreshTable"
-    />
+        v-if="openAddTopicDialog"
+        :openDialog="openAddTopicDialog"
+        @closeDialog="handleCloseAddTopicDialog"
+        :editOrAdd="editOrAdd"
+        :selectedTableData="selectedTableData"
+        :meetingInfo="result"
+      />
+      <!-- 生成会议纪要 -->
+      <newSummaryDialog
+        v-if="openNewSummary"
+        :open="openNewSummary"
+        :id="id"
+        :receiverId="result.receiverId"
+        @handleOK="handleNewSummaryOK"
+        @handleCancel="handleCloseSummary"
+        @refreshTable="refreshTable"
+      />
     </iCard>
   </iPage>
 </template>
 <script>
-import { iPage, iCard } from "rise";
-import { getMeetingDetail } from "@/api/meeting/home";
-import { getMettingType } from "@/api/meeting/type";
-import timeClock from "@/assets/images/time-clock.svg";
-import positionMark from "@/assets/images/position-mark.svg";
-import rest from "@/assets/images/rest.svg";
-import dayjs from "dayjs";
+import { iPage, iCard } from 'rise'
+import { getMeetingDetail } from '@/api/meeting/home'
+import { getMettingType } from '@/api/meeting/type'
+import timeClock from '@/assets/images/time-clock.svg'
+import positionMark from '@/assets/images/position-mark.svg'
+import rest from '@/assets/images/rest.svg'
+import dayjs from 'dayjs'
 
-import addTopic from "./component/addTopic.vue";
-import newSummaryDialog from "./component/newSummaryDialog.vue";
-import { findThemenById } from "@/api/meeting/details";
+import addTopic from './component/addTopic.vue'
+import newSummaryDialog from './component/newSummaryDialog.vue'
+// import { findThemenById } from '@/api/meeting/details'
 export default {
   components: {
     iPage,
     iCard,
     addTopic,
-    newSummaryDialog,
+    newSummaryDialog
   },
   data() {
     return {
-      id:this.$route.query.id,
-      openAddTopicDialog:false,
-      editOrAdd:'edit',
-      openNewSummary:false,
-      meetingInfo:{},
-      selectedTableData:[],
+      id: this.$route.query.id,
+      openAddTopicDialog: false,
+      editOrAdd: 'edit',
+      openNewSummary: false,
+      meetingInfo: {},
+      selectedTableData: [],
 
       timeClock,
       positionMark,
@@ -172,7 +172,6 @@ export default {
         //   CommodityDept:'hudhufh',
         //   CommodityDeptNosys:'ddddd',
         //   startTime:'08:00:00'
-
         // },
         // {
         //   state:'01',
@@ -206,123 +205,124 @@ export default {
         // }
       ],
       result: {
-        name:'',
-        meetingTypeName:'',
-        startDate:'',
-        startTime:'',  
-        endTime:'',
-        meetingPlace:'',
-        themens:[],
+        name: '',
+        meetingTypeName: '',
+        startDate: '',
+        startTime: '',
+        endTime: '',
+        meetingPlace: '',
+        themens: []
       },
       typeObj: {},
       activeIndex: 0,
-      timer: "",
+      timer: '',
       isActive: true, // 判断有无正在进行中的议题
-      finishSecond: 0,
-    };
+      finishSecond: 0
+    }
   },
   watch: {
     data: {
       handler(v) {
-        console.log("v", v);
-      },
+        console.log('v', v)
+      }
     },
     result: {
       handler(v) {
-        console.log("v", v);
-      },
-    },
+        console.log('v', v)
+      }
+    }
   },
   mounted() {
-    this.getTypeList();
-    this.query();
+    this.getTypeList()
+    this.query()
     this.timer = setInterval(() => {
-      this.query();
-    }, 10000);
+      this.query()
+    }, 10000)
   },
   beforeDestroy() {
-    clearInterval(this.timer);
+    clearInterval(this.timer)
   },
   methods: {
-     handleAddTopic(){
-      this.openAddTopicDialog = true;
+    handleAddTopic() {
+      this.openAddTopicDialog = true
     },
-    handleCloseAddTopicDialog(){
-      this.openAddTopicDialog = false;
+    handleCloseAddTopicDialog() {
+      this.openAddTopicDialog = false
     },
-    handleSummaryOpen(){
-      this.openNewSummary=true;
+    handleSummaryOpen() {
+      this.openNewSummary = true
     },
-    handleCloseSummary(){
-      this.openNewSummary=false;
+    handleCloseSummary() {
+      this.openNewSummary = false
     },
     start(info) {
-      if(info.startTime){
-        return dayjs(new Date(`2021-9-23 ${info.startTime}`)).format("HH:mm");
+      if (info.startTime) {
+        return dayjs(new Date(`2021-9-23 ${info.startTime}`)).format('HH:mm')
       }
-      return '';
+      return ''
     },
     getTypeList() {
       let param = {
         pageSize: 1000,
-        pageNum: 1,
-      };
-      let obj = {};
+        pageNum: 1
+      }
+      let obj = {}
       getMettingType(param).then((res) => {
         res.data.forEach((item) => {
-          obj[item.id] = item.name;
-        });
-        this.typeObj = obj;
-      });
+          obj[item.id] = item.name
+        })
+        this.typeObj = obj
+      })
     },
     query() {
       getMeetingDetail(this.$route.query).then((res) => {
-         this.selectedTableData=[res.themens[1]];
-        this.result = res;
-        let active = false;
+        this.selectedTableData = [res.themens[1]]
+        this.result = res
+        let active = false
         for (let index = 0; index < res.themens.length; index++) {
-          let item = res.themens[index];
-          if (item.state == "02") {
-            active = true;
-            this.data = res.themens.slice(index, index + 3);
-            this.activeIndex = index;
-            break;
+          let item = res.themens[index]
+          if (item.state == '02') {
+            active = true
+            this.data = res.themens.slice(index, index + 3)
+            this.activeIndex = index
+            break
           }
         }
         if (this.data.length === 1) {
           if (this.activeIndex - 2 >= 0) {
-            this.finishSecond = 2;
-            this.data.unshift(res.themens[this.activeIndex - 1]);
-            this.data.unshift(res.themens[this.activeIndex - 2]);
+            this.finishSecond = 2
+            this.data.unshift(res.themens[this.activeIndex - 1])
+            this.data.unshift(res.themens[this.activeIndex - 2])
           } else {
-            if (this.activeIndex - 1 >= 0) {this.finishSecond = 1;
-            this.data.unshift(res.themens[this.activeIndex - 1]);}
+            if (this.activeIndex - 1 >= 0) {
+              this.finishSecond = 1
+              this.data.unshift(res.themens[this.activeIndex - 1])
+            }
           }
         } else {
           if (this.data.length === 2 && this.activeIndex - 1 >= 0) {
-            this.finishSecond = 1;
-            this.data.unshift(res.themens[this.activeIndex - 1]);
+            this.finishSecond = 1
+            this.data.unshift(res.themens[this.activeIndex - 1])
           }
         }
-        console.log("this.data", this.data);
+        console.log('this.data', this.data)
         if (!active) {
-          this.isActive = false;
-          this.activeIndex = 0;
-          this.data = res.themens.slice(0, 3);
+          this.isActive = false
+          this.activeIndex = 0
+          this.data = res.themens.slice(0, 3)
         }
-        console.log(this.data);
-      });
-    },
-  },
-  
-};
+        console.log(this.data)
+      })
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .break-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 342px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 342px;
 }
 .table-box {
   padding: 25px 27px;
@@ -332,7 +332,8 @@ export default {
     justify-content: space-between;
     align-items: center;
     background-color: #fff;
-    font-size: 20px;
+    /* font-size: 20px; */
+    font-size: 16px;
     font-family: Arial;
     font-weight: 400;
     .live-span-time {
@@ -342,7 +343,8 @@ export default {
     .no-live-span-time {
       color: #000000;
     }
-    .prop-list-right{
+    .prop-list-right {
+      font-size: 14px;
       margin-left: 20px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -450,28 +452,32 @@ export default {
           height: 36px;
           margin-left: 15px;
           .big {
-            width: 4px;
-            height: 19px;
+            width: 2px;
+            height: 3px;
             background: #fff;
             border-radius: 1px;
             margin-right: 5px;
+            transform: translateY(-4px);
           }
           .middle {
-            width: 4px;
-            height: 11px;
+            width: 2px;
+            height: 6px;
             background: #fff;
             border-radius: 1px;
             margin-right: 2px;
+            transform: translateY(-4px);
           }
           .small {
-            width: 4px;
-            height: 5px;
+            width: 2px;
+            height: 12px;
             background: #fff;
             border-radius: 1px;
             margin-right: 2px;
+            transform: translateY(-4px);
           }
           .live-word {
-            font-size: 25px;
+            /* font-size: 25px; */
+            font-size: 16px;
             transform: translateY(8px);
             font-family: Arial;
             font-weight: bold;
@@ -481,7 +487,8 @@ export default {
         .model {
           color: #fff;
           height: 42px;
-          font-size: 30px;
+          /* font-size: 30px; */
+          font-size: 18px;
           font-family: Arial;
           font-weight: bold;
           line-height: 42px;
@@ -497,14 +504,16 @@ export default {
             overflow: hidden;
           }
           .itrial {
-            font-size: 26px;
+            /* font-size: 26px; */
             padding: 0 2px;
           }
           .right {
+            font-size: 18px;
             margin-right: 30px;
             .right-right {
               // color: #e8ebef;
-              font-size: 26px;
+              /* font-size: 26px; */
+              font-size: 16px;
             }
           }
         }
@@ -527,7 +536,8 @@ export default {
           height: 36px;
           margin-left: 15px;
           .live-word {
-            font-size: 25px;
+            /* font-size: 25px; */
+            font-size: 16px;
             transform: translateY(8px);
             font-family: Arial;
             font-weight: bold;
@@ -538,7 +548,8 @@ export default {
         .model {
           color: #5f6f8f;
           height: 42px;
-          font-size: 30px;
+          /* font-size: 30px; */
+          font-size: 18px;
           font-family: Arial;
           font-weight: bold;
           line-height: 42px;
@@ -555,14 +566,15 @@ export default {
           }
           .itrial {
             // color: #8f8f90;
-            font-size: 26px;
+            /* font-size: 26px; */
             padding: 0 2px;
           }
           .right {
             margin-right: 30px;
             .right-right {
               // color: #8f8f90;
-              font-size: 26px;
+              /* font-size: 26px; */
+                font-size: 16px;
             }
           }
         }

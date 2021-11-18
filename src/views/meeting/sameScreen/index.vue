@@ -11,7 +11,7 @@
           <span class="date-time-start">
             <img :src="timeClock" alt="" srcset="" />
             <span>{{
-              result.startDate + " " + result.startTime + "~" + result.endTime
+              result.startDate + ' ' + result.startTime + '~' + result.endTime
             }}</span>
           </span>
           <span class="date-time-end">
@@ -65,12 +65,8 @@
           </div>
           <div class="no-live-title" v-else>
             <div class="no-live">
-              <div v-if="item.state === '01'" class="live-word">
-                Next
-              </div>
-              <div v-else class="live-word">
-                Finish
-              </div>
+              <div v-if="item.state === '01'" class="live-word">Next</div>
+              <div v-else class="live-word">Finish</div>
             </div>
             <div class="model">
               <span class="left">{{ item.topic }}</span
@@ -130,9 +126,9 @@
                 }}{{
                   item.presenterNosys
                     ? item.presenter
-                      ? "," + item.presenterNosys
+                      ? ',' + item.presenterNosys
                       : item.presenterNosys
-                    : ""
+                    : ''
                 }}
               </span>
             </li>
@@ -143,9 +139,9 @@
                 }}{{
                   item.presenterDeptNosys
                     ? item.presenterDept
-                      ? "," + item.presenterDeptNosys
+                      ? ',' + item.presenterDeptNosys
                       : item.presenterDeptNosys
-                    : ""
+                    : ''
                 }}
               </span>
             </li>
@@ -156,9 +152,9 @@
                 }}{{
                   item.supporterNosys
                     ? item.supporter
-                      ? "," + item.supporterNosys
+                      ? ',' + item.supporterNosys
                       : item.supporterNosys
-                    : ""
+                    : ''
                 }}
               </span>
             </li>
@@ -169,9 +165,9 @@
                 }}{{
                   item.supporterDeptNosys
                     ? item.supporterDept
-                      ? "," + item.supporterDeptNosys
+                      ? ',' + item.supporterDeptNosys
                       : item.supporterDeptNosys
-                    : ""
+                    : ''
                 }}
               </span>
             </li>
@@ -199,18 +195,18 @@
   </iPage>
 </template>
 <script>
-import { iPage, iCard } from "rise";
-import { getMeetingDetail } from "@/api/meeting/home";
-import { getMettingType } from "@/api/meeting/type";
-import timeClock from "@/assets/images/time-clock.svg";
-import positionMark from "@/assets/images/position-mark.svg";
-import percentLine from "@/assets/images/percent-line.svg";
-import rest from "@/assets/images/rest.svg";
-import dayjs from "dayjs";
+import { iPage, iCard } from 'rise'
+import { getMeetingDetail } from '@/api/meeting/home'
+import { getMettingType } from '@/api/meeting/type'
+import timeClock from '@/assets/images/time-clock.svg'
+import positionMark from '@/assets/images/position-mark.svg'
+import percentLine from '@/assets/images/percent-line.svg'
+import rest from '@/assets/images/rest.svg'
+import dayjs from 'dayjs'
 export default {
   components: {
     iPage,
-    iCard,
+    iCard
   },
   data() {
     return {
@@ -221,96 +217,98 @@ export default {
       result: {},
       typeObj: {},
       activeIndex: 0,
-      timer: "",
+      timer: '',
       isActive: true, // 判断有无正在进行中的议题
       finishSecond: 0,
-      rest,
-    };
+      rest
+    }
   },
   watch: {
     data: {
       handler(v) {
-        console.log("v", v);
-      },
+        console.log('v', v)
+      }
     },
     result: {
       handler(v) {
-        console.log("v", v);
-      },
-    },
+        console.log('v', v)
+      }
+    }
   },
   methods: {
     start(info) {
-      return dayjs(new Date(`2021-9-23 ${info.startTime}`)).format("HH:mm");
+      return dayjs(new Date(`2021-9-23 ${info.startTime}`)).format('HH:mm')
     },
     getTypeList() {
       let param = {
         pageSize: 1000,
-        pageNum: 1,
-      };
-      let obj = {};
+        pageNum: 1
+      }
+      let obj = {}
       getMettingType(param).then((res) => {
         res.data.forEach((item) => {
-          obj[item.id] = item.name;
-        });
-        this.typeObj = obj;
-      });
+          obj[item.id] = item.name
+        })
+        this.typeObj = obj
+      })
     },
     query() {
       getMeetingDetail(this.$route.query).then((res) => {
-        this.result = res;
+        this.result = res
         // let themensUnuse = res.themens.filter((item)=>{
         //   return item.state != '03';
         // })
         // let themensUnuse = res.themens;
-        let active = false;
+        let active = false
         // console.log('themensUnuse', themensUnuse)
         for (let index = 0; index < res.themens.length; index++) {
-          let item = res.themens[index];
-          if (item.state == "02") {
-            active = true;
-            this.data = res.themens.slice(index, index + 3);
-            this.activeIndex = index;
-            break;
+          let item = res.themens[index]
+          if (item.state == '02') {
+            active = true
+            this.data = res.themens.slice(index, index + 3)
+            this.activeIndex = index
+            break
           }
         }
         if (this.data.length === 1) {
           if (this.activeIndex - 2 >= 0) {
-            this.finishSecond = 2;
-            this.data.unshift(res.themens[this.activeIndex - 1]);
-            this.data.unshift(res.themens[this.activeIndex - 2]);
+            this.finishSecond = 2
+            this.data.unshift(res.themens[this.activeIndex - 1])
+            this.data.unshift(res.themens[this.activeIndex - 2])
           } else {
-            if (this.activeIndex - 1 >= 0) {this.finishSecond = 1;
-            this.data.unshift(res.themens[this.activeIndex - 1]);}
+            if (this.activeIndex - 1 >= 0) {
+              this.finishSecond = 1
+              this.data.unshift(res.themens[this.activeIndex - 1])
+            }
           }
         } else {
           if (this.data.length === 2 && this.activeIndex - 1 >= 0) {
-            this.finishSecond = 1;
-            this.data.unshift(res.themens[this.activeIndex - 1]);
+            this.finishSecond = 1
+            this.data.unshift(res.themens[this.activeIndex - 1])
           }
         }
-        console.log("this.data", this.data);
+        console.log('this.data', this.data)
         if (!active) {
-          this.isActive = false;
-          this.activeIndex = 0;
+          this.isActive = false
+          this.activeIndex = 0
           // this.data = themensUnuse.slice(0,2);
-          this.data = res.themens.slice(0, 3);
+          this.data = res.themens.slice(0, 3)
         }
-        console.log(this.data);
-      });
-    },
+        console.log(this.data)
+      })
+    }
   },
   mounted() {
-    this.getTypeList();
-    this.query();
+    this.getTypeList()
+    this.query()
     this.timer = setInterval(() => {
-      this.query();
-    }, 10000);
+      this.query()
+    }, 10000)
   },
   beforeDestroy() {
-    clearInterval(this.timer);
-  },
-};
+    clearInterval(this.timer)
+  }
+}
 </script>
 <style lang="scss" scoped>
 .break-container {
@@ -327,7 +325,8 @@ export default {
     justify-content: space-between;
     align-items: center;
     background-color: #fff;
-    font-size: 20px;
+    /* font-size: 20px; */
+    font-size: 16px;
     font-family: Arial;
     font-weight: 400;
     .live-span-time {
@@ -361,7 +360,8 @@ export default {
 
       .meeting-type {
         display: inline-block;
-        font-size: 16px;
+        /* font-size: 16px; */
+        font-size: 14px;
         padding: 0 20px;
         min-width: 150px;
         line-height: 35px;
@@ -434,28 +434,32 @@ export default {
           height: 36px;
           margin-left: 15px;
           .big {
-            width: 4px;
-            height: 19px;
+            width: 2px;
+            height: 12px;
             background: #fff;
             border-radius: 1px;
             margin-right: 2px;
+            transform: translateY(-4px);
           }
           .middle {
             width: 2px;
-            height: 10px;
+            height: 6px;
             background: #fff;
             border-radius: 1px;
             margin-right: 2px;
+            transform: translateY(-4px);
           }
           .small {
-            width: 3px;
-            height: 4px;
+            width: 2px;
+            height: 3px;
             background: #fff;
             border-radius: 1px;
             margin-right: 5px;
+            transform: translateY(-4px);
           }
           .live-word {
-            font-size: 25px;
+            /* font-size: 25px; */
+            font-size: 16px;
             transform: translateY(8px);
             font-family: Arial;
             font-weight: bold;
@@ -465,7 +469,8 @@ export default {
         .model {
           color: #fff;
           height: 42px;
-          font-size: 30px;
+          /* font-size: 30px; */
+          font-size: 18px;
           font-family: Arial;
           font-weight: bold;
           line-height: 42px;
@@ -481,10 +486,12 @@ export default {
             overflow: hidden;
           }
           .right {
+            font-size: 20px;
             margin-right: 30px;
             .right-right {
               color: #e8ebef;
-              font-size: 24px;
+              font-size: 16px;
+              /* font-size: 24px; */
             }
           }
         }
@@ -507,7 +514,8 @@ export default {
           height: 36px;
           margin-left: 15px;
           .live-word {
-            font-size: 25px;
+            /* font-size: 25px; */
+            font-size: 16px;
             transform: translateY(8px);
             font-family: Arial;
             font-weight: bold;
@@ -518,7 +526,8 @@ export default {
         .model {
           color: #5f6f8f;
           height: 42px;
-          font-size: 30px;
+          /* font-size: 30px; */
+          font-size: 18px;
           font-family: Arial;
           font-weight: bold;
           line-height: 42px;
@@ -539,8 +548,8 @@ export default {
           .right {
             margin-right: 30px;
             .right-right {
-              color: #8f8f90;
-              font-size: 24px;
+              font-size: 16px;
+              /* font-size: 24px; */
             }
           }
         }
