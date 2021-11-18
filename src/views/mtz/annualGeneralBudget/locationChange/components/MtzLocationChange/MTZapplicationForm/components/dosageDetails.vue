@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-18 14:53:24
+ * @LastEditTime: 2021-11-18 15:21:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -109,7 +109,7 @@
     </iDialog>
     <new-mtzlocation-change :dialogVisible="dialogVisible"
                             v-if="dialogVisible"
-                            :addFlag="addFlag"
+                            :addFlag="true"
                             :mtzAppId="mtzAppId"
                             @close="close"></new-mtzlocation-change>
   </div>
@@ -230,6 +230,8 @@ export default {
     },
     close (val) {
       this.dialogVisible = val
+      this.getBasePriceChangePageList()
+      this.getApprovalRecordList()
     },
     edit () {
       if (this.muliteList.length === 0) {

@@ -299,7 +299,7 @@ export const tableSetting = [
     emit: 'go-source',
     tooltip: true,
     customRender: (h, scope) => {
-      return <span class="open-link-text">{scope.row.source}</span>
+      return <span class="open-link-text">{scope.row.sourceCode}</span>
     }
   },
   {

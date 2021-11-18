@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-27 21:42:09
- * @LastEditTime: 2021-11-18 10:20:48
+ * @LastEditTime: 2021-11-18 15:22:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\data.js
@@ -19,12 +19,14 @@ export const TABLE_COLUMNS = [
   {
     prop: 'assemblyPartnum',
     label: '零件号',
-    minWidth: 120
+    minWidth: 120,
+    tooltip: true
   },
   {
     prop: 'supplierCodeName',
     label: '供应商编号-名称',
-    minWidth: 160
+    minWidth: 160,
+    tooltip: true
   },
   {
     prop: 'materialCode',
@@ -34,7 +36,8 @@ export const TABLE_COLUMNS = [
   {
     prop: 'material',
     label: '原材料名称',
-    minWidth: 120
+    minWidth: 120,
+    tooltip: true
   },
   {
     prop: 'price',
