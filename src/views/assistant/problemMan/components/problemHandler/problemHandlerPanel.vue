@@ -47,7 +47,7 @@
     <div class="right-content ml20">
       <div class="flex flex-row justify-end">
         <template v-if="cardSelectItem.status === 'unreply'">
-          <i-button>{{ language('答复') }}</i-button>
+          <i-button @click="replyHandler">{{ language('答复') }}</i-button>
           <i-button @click="dispatchHandler">{{ language('指派') }}</i-button>
         </template>
         <template v-else-if="cardSelectItem.status === 'finished'">
@@ -72,7 +72,7 @@
         <a href="javscript:void(0);" @click.prevent="downFileHandle" style="color: #2369f1"><i class="el-icon-link"></i>点击下载</a>
       </div>
     </div>
-    <dispatchDialog v-if="showDialog" :show.sync="showDialog"/>
+    <dispatchDialog v-if="showDialog" :show.sync="showDialog" />
   </div>
 </template>
 
@@ -94,6 +94,7 @@ export default {
       },
       value1: '',
       showDialog: false,
+      isReplyStatus: false,
       currentCategoryItem: 'unreply',
       cardSelectItem: {},
       catgoryList: [
@@ -150,8 +151,11 @@ export default {
     downFileHandle () {
       console.log('点击下载')
     },
+    replyHandler () {
+      this.isReplyStatus = true;
+    },
     // 指派
-    dispatchHandler() {
+    dispatchHandler () {
       this.showDialog = true;
     }
   },
