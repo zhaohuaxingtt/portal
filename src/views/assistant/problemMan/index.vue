@@ -8,7 +8,7 @@
             :active="helpMoudle === 'problemHandler'"
             :name="language('问答处理')"
             @click="tabChange('problemHandler')"
-						:badge="problemHandlerCount"
+            :badge="problemHandlerCount"
           />
           <iTabBadgeItem
             :active="helpMoudle === 'problemStatement'"
@@ -28,24 +28,29 @@
         </iTabBadge>
       </div>
     </div>
-    <div class="flex flex-row content mt20" v-show="helpMoudle === 'problemHandler'">
-      <!-- <CommonProblem />
-			<DataManage /> -->
+    <div
+      class="flex flex-row content mt20"
+      v-show="helpMoudle === 'problemHandler'"
+    >
+      <ProblemHandler />
     </div>
     <div
       class="flex flex-column content mt20"
-      v-show="helpMoudle === 'problem'"
+      v-show="helpMoudle === 'problemStatement'"
     >
-      <!-- <ProblemSearch />
-			<div class="flex flex-row mt20 middle-content">
-				<CommonProblem />
-				<div class="right-content">
-					<ProblemDetail />
-				</div>
-			</div> -->
+      <ProblemStatement />
     </div>
-    <div class="flex flex-row content mt20" v-show="helpMoudle === 'ask'">
-      我的提问
+    <div
+      class="flex flex-row content mt20"
+      v-show="helpMoudle === 'moduleManagement'"
+    >
+      <ModuleManagement />
+    </div>
+		<div
+      class="flex flex-row content mt20"
+      v-show="helpMoudle === 'labelManagement'"
+    >
+      <LabelManagement />
     </div>
   </iPage>
 </template>
@@ -53,30 +58,36 @@
 <script>
 import { iPage } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
+import ProblemHandler from './components/problemHandler'
+import LabelManagement from './components/labelManagement'
+import ModuleManagement from './components/moduleManagement'
+import ProblemStatement from './components/problemStatement'
 import store from '@/store'
 export default {
   data() {
     return {
       text: '问答处理',
       helpMoudle: 'problemHandler',
-			problemHandlerCount:10,
+      problemHandlerCount: 10
     }
   },
-	tabChange(val) {
-		this.helpMoudle = val
+  methods: {
+		tabChange(val) {
+			this.helpMoudle = val
+		},
 	},
   mounted() {
     console.log(store.state, 'store.state')
   },
-	components: {
+  components: {
     iPage,
     iTabBadge,
-    iTabBadgeItem
-    // CommonProblem,
-    // DataManage,
-    // ProblemSearch,
-    // ProblemDetail
-  },
+    iTabBadgeItem,
+    ProblemHandler,
+    LabelManagement,
+    ModuleManagement,
+    ProblemStatement
+  }
 }
 </script>
 

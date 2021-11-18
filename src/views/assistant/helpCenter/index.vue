@@ -37,9 +37,6 @@
 					:problemList="problemList"
 					:currentMoudleIdx="currentMoudleIdx"
 				/>
-				<!-- <div class="right-content">
-					<ProblemDetail />
-				</div> -->
 				<ProblemDetail />
 			</div>
 		</div>
