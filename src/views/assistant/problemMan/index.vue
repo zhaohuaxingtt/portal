@@ -61,7 +61,7 @@ import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import ProblemHandler from './components/problemHandler/index';
 import LabelManagement from './components/labelManagement'
 import ModuleManagement from './components/moduleManagement'
-import ProblemStatement from './components/problemStatement'
+import ProblemStatement from './components/problemStatement/index'
 import store from '@/store'
 export default {
   data() {
