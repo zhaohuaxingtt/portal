@@ -72,7 +72,8 @@
                      :options="formGoup.areaList"
                      :props="{multiple:true}"
                      :clearable="true"
-                     collapse-tags></el-cascader>
+                     popper-class="area-select"
+                     collapse-tags filterable></el-cascader>
       </el-col>
       <el-col :span="5">
         <iButton @click="getMapList">{{language('QUEDING','确定')}}</iButton>
@@ -346,7 +347,17 @@ export default {
   },
 }
 </script>
-<style lang='scss' scoped>
+<style lang='scss'  >
+
+ 
+.area-select{
+  .el-cascader-menu__wrap {
+    height: 360px;
+  }
+    .el-cascader-panel {
+    height: 360px !important;
+}
+}
 // @import url(); 引入公共css类
 .title {
   .text {

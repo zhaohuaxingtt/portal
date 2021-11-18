@@ -13,6 +13,7 @@
 
             <el-form-item style="marginRight:68px;width:180px" :label="language('SHENQINGDANHAO','申请单号')" class="formItem">
               <iInput v-model="searchForm.nominateId"
+                          type="number"
                           :editPlaceholder="language('QINGSHURU','请输入')"
                           :placeholder="language('QINGSHURU','请输入')">
               </iInput>
