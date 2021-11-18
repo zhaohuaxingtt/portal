@@ -1,7 +1,7 @@
 <template>
   <div class='detail-content'>
 		<div class="ask-btn">
-			<iButton>{{ language('我要提问') }}</iButton>
+			<iButton @click="putQuestion">{{ language('我要提问') }}</iButton>
 		</div>
 		<div class="detail-title flex flex-column items-start">
 			<div class="moudle-name">{{ language('主数据管理') }}</div>
@@ -94,6 +94,10 @@ export default {
 		},
 		badSolutiob() {
 			console.log("点击跳转追问页面")
+			this.$emit('handleZwQues', this.problemText)
+		},
+		putQuestion() {
+			this.$emit('handleQuestion')
 		}
 	}
 }

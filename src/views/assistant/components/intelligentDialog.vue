@@ -7,43 +7,111 @@
 	>
 		<div class="chat-box">
 			<div v-for="(item, idx) in chatList" :key="idx">
-				<div class="flex flex-row" :class="(idx+1) % 2 === 0 ? 'rightContent' : 'leftContent'">
-					<div>
-						<img src="~@/assets/images/inte-admin.png" alt="" class="icon">
+				<div class="flex flex-row mt20" :class="(idx+1) % 2 === 0 ? 'rightContent' : 'leftContent'">
+					<div class="icon-box">
+						<img src="~@/assets/images/administrator.png" alt="" class="icon" />
+						<!-- <img :src="(idx+1) %2 === 0 ? '~@/assets/images/administrator.png' : '~@/assets/images/inte-admin.png'" alt="" class="icon"/> -->
 					</div>	
-					<div class="flex flex-column justify-end" :class="(idx+1) % 2 === 0 ? 'right-box' : 'left-box'">
-						<div :class="(idx+1) % 2 === 0 ? 'rightText' : 'leftText'">{{ (idx+1) % 2 === 0 ? '自己' : '管理员'}}</div>
-						<div></div>
+					<div class="flex flex-column content-box" :class="(idx+1) % 2 === 0 ? 'right-box' : 'left-box'">
+						<div class="auth-text" :class="(idx+1) % 2 === 0 ? 'rightText' : 'leftText'">{{ (idx+1) % 2 === 0 ? '自己' : '管理员'}}</div>
+						<div v-if="idx === 0" class="ask-box moren-box">
+							<div class="moren-text">亲爱的XXX，您是遇到了以下问题吗？点击问题查看答案…</div>
+							<div v-for="(issue, index) in chatList[0].hotIssues" :key="index">
+								<div class="flex flex-row issue-box items-center" @click="handleIssue(issue)">
+									<div class="blue-box"></div>
+									<div class="issue-text cursor">{{ issue.text }}</div>
+								</div>
+							</div>
+						</div>
+						<div v-else-if="(idx+1) % 2 === 0" class="ask-box put-ques">
+							{{ item.question }}
+						</div>
+						<div v-else class="ask-box put-ask">
+							<div class="ask-text">{{ item.anwser }}</div>
+							<div class="goon-put cursor" @click="handleTw">向管理员继续提问</div>
+						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div class="input-ask">
+			<iInput
+              v-model="keywords"
+              type="textarea"
+              resize="none"
+              rows="4"
+            />
+			<div class="flex felx-row mt20 justify-end ">
+				<iButton @click="clearDialog">{{ language('退出') }}</iButton>
+				<iButton @click="sendMessage">{{ language('发送') }}</iButton>
 			</div>
 		</div>
 	</iDialog>
 </template>
 
 <script>
-import { iDialog } from 'rise'
+import { iDialog, iInput, iButton } from 'rise'
 
 export default {
 	name:'intelligentDialog',
-	components:{ iDialog },
+	components:{ iDialog, iInput, iButton },
 	props: {
 		intelligentVisible: {
-      type: Boolean,
-      default: false
-    }
+			type: Boolean,
+			default: false
+		}
 	},
 	data() {
 		return {
 			intelligentTitle: '智能问答',
+			keywords: '',
 			chatList: [
-				'1', '2'
+				{ 
+					name: '111', 
+					hotIssues: [
+						{text: '多个联系人怎么办？', id: '1'},
+						{text: '注册名必须是企业全称吗？', id: '2'},
+						{text: '注册页面加载缓慢怎么办？', id: '3'},
+						{text: '没有中文名怎么办？', id: '4'},
+						{text: '密码需要多少字符？', id: '5'}
+					],
+					question: '',
+					anwser: ''
+				},
+				{
+					question: '零件材料组如何与工艺组的关联关系是什么？',
+					anwser: ''
+				},
+				{
+					question: '',
+					anwser: '一个材料组对应多个工艺组'
+				}
 			]
 		}
 	},
 	methods: {
 		clearDialog() {
 			this.$emit('closeDialog', false)
+		},
+		sendMessage() {
+			this.chatList.push({
+				question: this.keywords,
+				anwser: ''
+			})
+			this.keywords = ''
+			this.chatList.push({
+				question: '',
+				anwser: '不想回答此问题'
+			})
+		},
+		handleIssue(issue) {
+			this.chatList.push({
+				question: issue.text,
+				anwser: ''
+			})
+		},
+		handleTw() {
+			this.$emit('putAdminTw')
 		}
 	}
 }
@@ -52,8 +120,10 @@ export default {
 <style lang="scss" scoped>
 	@import "../comon.scss";
 	.chat-box {
-		padding: 40px;
+		padding: 10px 30px 30px 30px;
 		background: #F8F9FA;
+		height: 640px;
+		overflow-y: auto;
 	}
 	.icon {
 		width: 30px;
@@ -67,7 +137,8 @@ export default {
 		flex-direction: row-reverse;
 	}
 	.leftContent {
-		justify-content: flex-start
+		justify-content: flex-start;
+		width: 100%;
 	}
 	.rightText {
 		text-align: right;
@@ -77,5 +148,85 @@ export default {
 	}
 	.left-box {
 		margin-left: 10px;
+		display: flex;
+		align-items: flex-start
+	}
+	.auth-text {
+		font-size: 16px;
+		color: #000000;
+	}
+	.moren-box {
+		height: 280px;
+		background: #FFFFFF;
+		opacity: 1;
+		border-radius: 4px;
+		padding: 20px 14px;
+		.moren-text {
+			font-size: 16px;
+			color: #0D2451;
+			opacity: 0.42;
+		}
+	}
+	.content-box {
+		// width: 100%;
+	}
+	.ask-box {
+		margin-top: 10px;
+	}
+	.blue-box {
+		width: 8px;
+		height: 8px;
+		background: #1763F7;
+		opacity: 1;
+		border-radius: 50%;
+	}
+	.issue-text {
+		color: #2369F1;
+		text-decoration: underline;
+		font-size: 16px;
+		margin-left: 20px;
+	}
+	.issue-box {
+		width: 100%;
+		height: 40px;
+	}
+	.put-ques {
+		height: 44px;
+		background: #1660F1;
+		opacity: 1;
+		border-radius: 4px;
+		padding-left: 20px;
+		padding-right: 20px;
+		line-height: 44px;
+		text-align: center;
+		font-size: 16px;
+		color: #FFFFFF;
+	}
+	.put-ask {
+		height: 74px;
+		background: #FFFFFF;
+		opacity: 1;
+		border-radius: 4px;
+		padding: 10px;
+		// line-height: 74px;
+		text-align: center;
+		.ask-text {
+			color: #0D2451;
+			font-size: 16px;
+		}
+		.goon-put {
+			color: #2369F1;
+			text-decoration: underline;
+			font-size: 14px;
+			text-align: left;
+			margin-top: 10px;
+		}
+	}
+	.input-ask {
+		width: 100%;	
+		height: 200px;
+		background: #FFFFFF;
+		opacity: 1;
+		margin-top: 10px;
 	}
 </style>

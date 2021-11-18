@@ -34,12 +34,14 @@
 		<div class="flex flex-column content mt20" v-show="helpMoudle === 'problem'">
 			<ProblemSearch />
 			<div class="flex flex-row mt20 middle-content">
-				
 				<CommonProblem 
 					:problemList="problemList"
 					:currentMoudleIdx="currentMoudleIdx"
 				/>
-				<ProblemDetail />
+				<ProblemDetail 
+					@handleQuestion="handleQuestion"
+					@handleZwQues="handleZwQues"
+				/>
 			</div>
 		</div>
 		<div class="flex flex-row content mt20" v-show="helpMoudle === 'ask'">
@@ -48,7 +50,16 @@
 		<IntelligentDialog 
 			:intelligentVisible="intelligentVisible"
 			@closeDialog="closeDialog"
+			@putAdminTw="putAdminTw"
 		/>
+
+		<QuestioningDialog
+			:questioningVisible="questioningVisible"
+			:questioningTitle="questioningTitle"
+			:zwFlag="zwFlag"
+			@closeQuesDialog="closeQuesDialog"
+		/>
+
 	</iPage>
 </template>
 
@@ -62,6 +73,7 @@ import DataManage from './components/dataManage'
 import ProblemSearch from './components/problemSearch'
 import ProblemDetail from './components/problemDetail'
 import IntelligentDialog from '../components/intelligentDialog'
+import QuestioningDialog from '../components/questioningDialog'
 import { getSystemMeun } from '@/api/assistant'
 
 export default {
@@ -71,7 +83,10 @@ export default {
 			helpMoudle: "manual",  // manual 用户手册 problem 常见问题 ask 我的提问
 			problemList: [],
 			currentMoudleIdx: 1,
-			intelligentVisible: false
+			intelligentVisible: false,
+			questioningVisible: false,
+			zwFlag: false,
+			questioningTitle: ''
 		}
 	},
 	components: {
@@ -82,7 +97,8 @@ export default {
 		DataManage,
 		ProblemSearch,
 		ProblemDetail,
-		IntelligentDialog
+		IntelligentDialog,
+		QuestioningDialog
 	},
 	mounted() {
 		this.getProbleList()
@@ -100,12 +116,31 @@ export default {
 		tabChange(val) {
 			this.helpMoudle = val
 		},
+		// 打开智能弹窗
 		handleQuestion() {
 			console.log('handleQuestion')
 			this.intelligentVisible = true
 		},
+		// 追问 打开问题弹框
+		handleZwQues(title) {
+			this.questioningVisible = true
+			this.questioningTitle = title
+			this.zwFlag = true
+		},
+		// 关闭智能弹框
 		closeDialog(va) {
 			this.intelligentVisible = va
+		},
+		// 关闭问题弹框
+		closeQuesDialog(va) {
+			this.questioningVisible = va
+		},
+		// 提问 打开问题弹框
+		putAdminTw() {
+			this.intelligentVisible = false
+			this.questioningVisible = true
+			this.questioningTitle = '提问'
+			this.zwFlag = false
 		}
 	}
 }
