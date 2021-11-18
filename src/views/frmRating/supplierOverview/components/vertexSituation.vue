@@ -58,12 +58,12 @@ export default {
     getChart() {
       const myChart = echarts().init(this.$refs.chart)
       const data1 = [
-        this.info.ppSupplierTotal || '',
-        this.info.gpSupplierTotal || ''
+        this.info.ppSupplierTotal || 0,
+        this.info.gpSupplierTotal || 0
       ]
       const data2 = [
-        this.info.ppSupplierQuoteTotal || '',
-        this.info.gpSupplierQuoteTotal || ''
+        this.info.ppSupplierQuoteTotal || 0,
+        this.info.gpSupplierQuoteTotal || 0
       ]
 
       this.option = {
