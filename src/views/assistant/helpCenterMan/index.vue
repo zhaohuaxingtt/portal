@@ -16,7 +16,7 @@
 	</div>
 	<div class="flex user-type">
 		<div class="user-type-item" :class="{active: activeUser == 'supplier'}" @click="selectUser('supplier')">供应商用户</div>
-		<div class="user-type-item" :class="{active: activeUser == 'inside'}" @click="selectUser('inside')">内部用户</div>
+		<div class="user-type-item" :class="{active: activeUser == 'inner'}" @click="selectUser('inner')">内部用户</div>
 	</div>
 	<div class="flex flex-row content mt20" v-show="activeMoudle === 'manual'">
 		<CommonProblem 
@@ -25,7 +25,7 @@
 			:currentMoudleIdx="currentMoudleIdx"
 		/>
 		<div class="content-right">
-			<div @click="show = true">用户手册</div>
+			<UserManual></UserManual>
 		</div>
 	</div>
 	<div class="flex flex-row content mt20" v-show="activeMoudle === 'question'">
@@ -47,6 +47,8 @@ import { iPage } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
 import Question from "./components/question"
+import UserManual from "./components/userManual"
+import { getSystemMeun } from '@/api/assistant'
 
 export default {
 	components: {
@@ -54,7 +56,8 @@ export default {
 		iTabBadge,
 		iTabBadgeItem,
 		CommonProblem,
-		Question
+		Question,
+		UserManual
 	},
 	data() {
 		return {
@@ -65,14 +68,23 @@ export default {
 			activeMoudle: "manual",
 			activeUser: "supplier",
 			problemList: [],
-			currentMoudleIdx: '',
+			currentMoudleIdx: 0,
 			show: false
 		}
 	},
 	mounted() {
-		console.log(store.state, "store.state");
+		this.getProbleList()
 	},
 	methods:{
+		getProbleList() {
+			getSystemMeun().then((res) => {
+				if (res.code === '200') {
+					let { data: { menuList }} = res
+					this.problemList = menuList[3] ? menuList[3].menuList : []
+	
+				}
+			})
+		},
 		tabChange(val) {
 			this.activeMoudle = val;
 		},
