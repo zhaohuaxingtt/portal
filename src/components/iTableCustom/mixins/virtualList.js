@@ -7,7 +7,8 @@ export default {
         page: 1,
         pageSize: 20,
         total: 0,
-        pages: 1
+        pages: 1,
+        start: 0
       },
       virtualPosMap: {}
     }
@@ -63,6 +64,16 @@ export default {
       const tableBody = document.querySelector(
         `.i-table-custom .el-table__body`
       )
+      if (tableBody) {
+        let translateY = 0
+        if (this.virtualListData.page > 1) {
+          for (let i = 0; i < this.virtualListData.page - 1 * 20; i++) {
+            const item = this.realTableData[i]
+            translateY += this.virtualPosMap[item.uniqueId]
+          }
+        }
+        tableBody.style.transform = `translateY(${translateY}px)`
+      }
     },
     listenerScroll() {
       const scrollElement = document.querySelector(
@@ -71,9 +82,13 @@ export default {
       if (scrollElement) {
         scrollElement.addEventListener('scroll', () => {
           const { scrollHeight, scrollTop, clientHeight } = scrollElement
+          // 上拉
           if (scrollHeight - scrollTop - clientHeight < 10) {
             this.getNextData()
+          } else {
+            this.getVirtualDataPage(scrollElement)
           }
+          // 下拉
           if (scrollTop < 10) {
             this.getPrevData()
           }
@@ -81,18 +96,30 @@ export default {
       }
     },
     getNextData: _.debounce(function () {
-      console.log('触发到底了')
       if (this.virtualListData.page < this.virtualListData.pages) {
         this.virtualListData.page++
         this.$nextTick(() => this.setVirtualPosMap())
       }
     }, 200),
     getPrevData: _.debounce(function () {
-      console.log('到顶了')
       if (this.virtualListData.page > 1) {
         this.virtualListData.page--
         this.$nextTick(() => this.setVirtualPosMap())
       }
-    }, 200)
+    }, 200),
+    getVirtualDataPage(scrollElement) {
+      const { scrollHeight, scrollTop, clientHeight } = scrollElement
+      // 计算当前应该正确的page
+      if (this.virtualData && this.virtualData.length) {
+        let upHeight = 0 // 上部分隐藏的高
+        for (let i = 0; i < this.realTableData; i++) {
+          const item = this.realTableData[i]
+          if (item.uniqueId === this.virtualData.uniqueId) {
+            break
+          }
+          // upHeight += this.virtualPosMap[item.uniqueId]
+        }
+      }
+    }
   }
 }
