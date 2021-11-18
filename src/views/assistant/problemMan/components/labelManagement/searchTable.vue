@@ -23,6 +23,7 @@
       :layout="page.layout"
       :total="page.totalCount"
     />
+    <addLabelDialog  v-if="showDialog" :show.sync="showDialog" />
   </el-card>
 </template>
 
@@ -30,6 +31,7 @@
 import {iButton,iPagination,iTableCustom} from 'rise';
 import {tableColumn} from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins'
+import AddLabelDialog from './addLabelDialog';
 export default {
   mixins: [pageMixins],
   data () {
@@ -43,19 +45,23 @@ export default {
         }
       ],
       tableSetting:tableColumn(this),
+      showDialog: false,
     }
   },
   methods: {
     exportExcelHandler() {},
     handleSelectionChange() {},
     handleGoDetail() {},
-    addHandler() {},
+    addHandler() {
+      this.showDialog = true;
+    },
     delHandler() {},
   },
   components: {
     iButton,
     iPagination,
-    iTableCustom
+    iTableCustom,
+    AddLabelDialog,
   }
 }
 </script>
