@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <search @confirmSearch="confirmSearch" />
     <searchTable />
   </div>
@@ -16,12 +16,21 @@ export default {
       default: 1
     }
   }, 
+  data () {
+    return {
+      loading: true,
+    }
+  },
   methods: {
     confirmSearch(formData) {
       console.log(formData, '提交的搜索条件');
     },
   },
   mounted() {
+    console.log(this.type);
+    setTimeout(() => {
+      this.loading = false;
+    },1000)
   },
   components: {
     Search,

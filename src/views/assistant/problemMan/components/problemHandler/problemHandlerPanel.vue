@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row content">
+  <div class="flex flex-row content"  v-loading="loading">
     <div class="left-content">
       <el-row :gutter="20">
         <el-col span="14">
@@ -196,11 +196,15 @@ export default {
       editFormRules: {},
       isDisabled: true,
       finishedDialog: false,
+      loading: true,
     }
   },
   mounted () {
     console.log(this.type, '???')
-    this.cardSelectHandler(this.categoryCardList[0])
+    this.cardSelectHandler(this.categoryCardList[0]);
+    setTimeout(() => {
+      this.loading = false;
+    },1000);
   },
   methods: {
     changeCategoryItem (item) {
