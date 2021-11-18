@@ -40,6 +40,15 @@
                 <span v-else>{{scope.row.assemblyPartnum}}</span>
             </template>
         </el-table-column>
+        <el-table-column prop="partName"
+                         align="center"
+                         show-overflow-tooltip
+                         width="150"
+                        :label="language('LINGJIANMINGCHENG','零件名称')">
+            <template slot-scope="scope">
+                <span>{{scope.row.partName}}</span>
+            </template>
+        </el-table-column>
         <el-table-column prop="ruleNo"
                          align="center"
                          :label="language('GUIZEBIANHAO','规则编号')"
@@ -128,11 +137,12 @@
         </el-table-column>
         <el-table-column prop="startDate"
                          align="center"
-                         width="180"
+                         width="200"
                          :label="language('YOUXIAOQIQI','有效期起')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
                 <iDatePicker v-model="scope.row.startDate"
+                            style="width: 180px!important;"
                             :disabled="true"
                             type="datetime"
                             v-if="editId.indexOf(scope.row.id)!==-1"
@@ -143,11 +153,12 @@
         </el-table-column>
         <el-table-column prop="endDate"
                          align="center"
-                         width="180"
+                         width="200"
                          :label="language('YOUXIAOQIZHI','有效期止')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
                 <iDatePicker v-model="scope.row.endDate"
+                            style="width: 180px!important;"
                             :disabled="true"
                             type="datetime"
                             v-if="editId.indexOf(scope.row.id)!==-1"
@@ -825,6 +836,8 @@ export default {
                 list[index] = {};
                 list[index].assemblyPartnum = item.partNum;
                 list[index].id = "";
+                list[index].partName = item.partNameZh;
+                list[index].partUnit = item.partUnit;
             }
         })
         this.newDataList = list;
@@ -851,6 +864,8 @@ export default {
                 list[index].id = "";
                 list[index].supplierName = item.supplierName;
                 list[index].sapCode = item.sapNum;
+                list[index].partName = item.partNameCn;
+                list[index].partUnit = item.partUnit;
             }
         })
         this.newDataList = list;
@@ -881,6 +896,8 @@ export default {
                 list[index].materialCode = item.materialCode;
                 list[index].materialName = item.material;
                 list[index].priceUnit = item.priceUnit;
+                list[index].partName = item.assemblyPartName;
+                list[index].partUnit = item.countUnit;
             }
         })
         // console.log(list);

@@ -8,6 +8,9 @@
             top="5%"
            :title="'供应商⿊名单记录 - ⼀般采购  -'+ clickTableList.nameZh"
            width="85%">
+            <div slot="title" class="headerTitle">
+      <span>{{'供应商黑名单记录 - ⼀般采购  -'+ clickTableList.nameZh}}</span>
+    </div>
     <div class="box">
       <el-tabs class="tabsHeader"
                type="card"
@@ -16,11 +19,11 @@
                @tab-click="changeTab">
         <el-tab-pane name="1"
                      :label="
-            language('GONGYINGSHANGHEIMINGDANZHUANGTAI', '供应商⿊名单状态')
+            language('GONGYINGSHANGHEIMINGDANZHUANGTAI', '供应商黑名单状态')
           ">
         </el-tab-pane>
         <el-tab-pane name="2"
-                     :label="language('GONGYINGSHANGHEIMINGDANJILU', '供应商⿊名单记录')">
+                     :label="language('GONGYINGSHANGHEIMINGDANJILU', '供应商黑名单记录')">
         </el-tab-pane>
       </el-tabs>
       <div class="dilogHeader"
@@ -85,7 +88,7 @@
                   :selection="false">
       </table-list>
        </div>
-      <!-- <iPagination style="margin-top:20px"
+      <iPagination style="margin-top:20px"
                    v-if="tabVal == 2"
                    v-update
                    @size-change="handleSizeChange($event, sure)"
@@ -95,7 +98,7 @@
                    :page-size="page.pageSize"
                    :layout="page.layout"
                    :current-page="page.currPage"
-                   :total="page.totalCount" /> -->
+                   :total="page.totalCount" />
     </div>
   </iDialog>
 </template>
@@ -186,8 +189,8 @@ export default {
       this.tableLoadingRecord = true
       const params = {
         supplierId: this.clickTableList.subSupplierId,
-        pageNo: 1,
-        pageSize: 9999,
+     pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
         endTime: this.daterange[1],
         startTime: this.daterange[0],
         stopEndTime: this.daterange2[1],
@@ -210,13 +213,13 @@ export default {
       }
     },
     sure() {
-      // this.page.currPage = 1
-      // this.page.pageSize = 10
+      this.page.currPage = 1
+      this.page.pageSize = 10
       this.getListRecord()
     },
     clickReset() {
-      // this.page.currPage = 1
-      // this.page.pageSize = 10
+      this.page.currPage = 1
+      this.page.pageSize = 10
       this.form.type = ''
       this.daterange = []
       this.daterange2 = []
@@ -231,9 +234,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.headerTitle {
+font-size: 20px;
+font-family: Arial;
+font-weight: bold;
+color: #000000;
+}
 .tableBox{
-  max-height: 600px;
-  overflow-y: scroll;
+//   max-height: 600px;
+//   overflow-y: scroll;
 }
 .box {
   padding-bottom: 20px;
