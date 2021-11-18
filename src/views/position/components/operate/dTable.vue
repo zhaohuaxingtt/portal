@@ -59,8 +59,7 @@ export default {
             align: 'center',
             tooltip: false,
             customRender: (h, scope) => {
-              console.log(scope.row)
-              const valList = scope.row.valueList?.map(item => {
+              const valList = scope.row.valueList?.map((item) => {
                 return item.value
               })
               return valList?.join(',')
@@ -88,12 +87,12 @@ export default {
                   {
                     //i-select实现下拉框
                     on: {
-                      input: value => {
+                      input: (value) => {
                         //随着下拉框的不同，文字框里的内容在边
                         scope.row.dimension = value
                         this.dimensionOption = _.filter(
                           _self.dimensionOptions,
-                          item => {
+                          (item) => {
                             return item.id === scope.row.dimension
                           }
                         )[0]
@@ -110,12 +109,12 @@ export default {
                   },
                   [
                     //下拉框里面填充选项，通过filters遍历map，为每一个选项赋值。
-                    _self.dimensionOptions.map(item => {
+                    _self.dimensionOptions.map((item) => {
                       return h('el-option', {
                         props: {
                           value: item.id,
                           label: item.description,
-                          disabled: !!_.find(_self.dimensions, d => {
+                          disabled: !!_.find(_self.dimensions, (d) => {
                             return d.dimension === item.id
                           })
                         }
@@ -138,7 +137,7 @@ export default {
                   {
                     //i-select实现下拉框
                     on: {
-                      input: value => {
+                      input: (value) => {
                         //随着下拉框的不同，文字框里的内容在边
                         console.log('..,,', value)
                         scope.row.content = value
@@ -153,7 +152,7 @@ export default {
                   [
                     //下拉框里面填充选项，通过filters遍历map，为每一个选项赋值。
                     scope.row.contentOptions
-                      ? scope.row.contentOptions.map(item => {
+                      ? scope.row.contentOptions.map((item) => {
                           return h('el-option', {
                             props: {
                               value: item.valueId,
@@ -189,13 +188,13 @@ export default {
                   {
                     //i-select实现下拉框
                     on: {
-                      input: value => {
+                      input: (value) => {
                         //随着下拉框的不同，文字框里的内容在边
                         console.log(value)
                         scope.row.dimension = value
                         this.dimensionOption = _.filter(
                           _self.dimensionOptions,
-                          item => {
+                          (item) => {
                             return item.id === scope.row.dimension
                           }
                         )[0]
@@ -212,12 +211,12 @@ export default {
                   },
                   [
                     //下拉框里面填充选项，通过filters遍历map，为每一个选项赋值。
-                    _self.dimensionOptions.map(item => {
+                    _self.dimensionOptions.map((item) => {
                       return h('el-option', {
                         props: {
                           value: item.id,
                           label: item.description,
-                          disabled: !!_.find(_self.dimensions, d => {
+                          disabled: !!_.find(_self.dimensions, (d) => {
                             return d.dimension === item.id
                           })
                         }
@@ -240,7 +239,7 @@ export default {
                   {
                     //i-select实现下拉框
                     on: {
-                      input: value => {
+                      input: (value) => {
                         //随着下拉框的不同，文字框里的内容在边
                         scope.row.content = value
                       }
@@ -254,7 +253,7 @@ export default {
                   [
                     //下拉框里面填充选项，通过filters遍历map，为每一个选项赋值。
                     scope.row.contentOptions
-                      ? scope.row.contentOptions.map(item => {
+                      ? scope.row.contentOptions.map((item) => {
                           return h('el-option', {
                             props: {
                               value: item.valueId,

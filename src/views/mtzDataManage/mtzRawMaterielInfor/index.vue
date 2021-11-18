@@ -94,7 +94,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="language('是否重金属')">
+              <iFormItem :label="language('是否贵金属')">
                 <iSelect v-model="searchContent.isPreciousMetal">
                   <el-option label="是" :value="true" />
                   <el-option label="否" :value="false" />
