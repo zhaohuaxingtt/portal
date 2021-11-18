@@ -1,6 +1,6 @@
 <template>
   <div class="popupContent">
-    <notifyDialog v-if="showDialog" :show.sync="showDialog" :detail="detail" />
+    <notifyDialog v-show="showDialog" :show.sync="showDialog" :detail="detail" />
   </div>
 </template>
 
@@ -26,8 +26,8 @@ export default {
       closeItemList: [],
       closePopupSocket: null,
       handelClick:[],
-      iniTimes:0,
-      showItems:0,
+      iniTimes:0,//0
+      showItems:0,//5
       detaliData:{}
     }
   },
@@ -45,10 +45,14 @@ export default {
             this.iniTimes++
           }while(!this.handelClick.includes(this.iniTimes))
         }
-        console.log(this.iniTimes,'this.iniTimes');
+          console.log('水水水水水水');
+          this.closeItemList[this.iniTimes].type ='automatic' 
+          console.log(this.closeItemList[this.iniTimes],'this.closeItemList[this.iniTimes]');
           this.closeItemList[this.iniTimes].close()
-          console.log('-------');
-          this.showItems--
+          // console.log('-------');
+          // if(this.showItems > 5){
+          //   this.showItems--
+          // }
           this.iniTimes++
       }
       if (data.type ==4  && data.subType == 5) {
@@ -64,8 +68,8 @@ export default {
                               </div>
                               <div class="popupRight" style='position:relative;margin-left:20px'>
                                   <p class='${data.linkUrl && 'linkTitle'}'
-                                  style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-                                  width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;'
+                                  style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;height:100%
+                                  width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;;'
                                   >
                                   ${data.title}
                                   </p>
@@ -76,6 +80,16 @@ export default {
             position: 'bottom-right',
             onClick() {
               _this.openDialog(index)
+            },
+            onClose(isautomatic){
+              console.log('PLPL',isautomatic);
+                if(isautomatic.type == 'automatic'){
+                  console.log('automatic');
+                  _this.showItems > 5 ? _this.showItems-- : ''
+                }else{
+                  _this.showItems--
+                }
+                
             }
           }))
       }
@@ -112,7 +126,7 @@ export default {
                                             <p class='${
                                               ele.linkUrl && 'linkTitle'
                                             }'
-                                            style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+                                            style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;height:100%;
                                             width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;'
                                             >
                                             ${ele.popupName}
@@ -124,7 +138,15 @@ export default {
               position: 'bottom-right',
               onClick() {
                 _this.openDialog(index)
-              }
+              },
+              onClose(isautomatic){
+                console.log('PP',isautomatic);
+                if(isautomatic.type == 'automatic'){
+                  _this.showItems > 5 ? _this.showItems-- : ''
+                }else{
+                  _this.showItems--
+                }
+              },
             }),1)
           })
         } else {
@@ -135,7 +157,7 @@ export default {
   methods: {
     openDialog(index) {
 
-      this.showDialog = true
+      
       this.handelClick.push(index)
       const data = {
         userId:JSON.parse(sessionStorage.getItem('userInfo')).accountId,
@@ -144,16 +166,22 @@ export default {
       changeCheckedSta(data).then((res)=>{
         if(res.code == 200){
           const data = res.data
-          this.detaliData = data
+          const y = data.publishTime.slice(0,4)
+          const M = data.publishTime.slice(5,7)
+          const d = data.publishTime.slice(8,10)
+          const h = data.publishTime.slice(11,13)
+          const m = data.publishTime.slice(14,16)
+          let time = `${y}年   ${M}月${d}日${h}时${m}分`
           this.detail = {
-            title: this.detaliData.popupName,
-            content: this.detaliData.content,
-            picUrl: this.detaliData.picUrl,
-            linkUrl: this.detaliData.linkUrl
+            title: data.popupName,
+            content: data.content,
+            picUrl: data.picUrl,
+            linkUrl: data.linkUrl,
+            popupStyle:data.popupStyle,
+            publishTime:time
           }
+          this.showDialog = true
           this.closeItemList[index].close()
-          this.showItems--
-          console.log(this.showItems--,'this.showItems--');
         }else{
           this.$message.error(res.desZh)
         }

@@ -27,11 +27,6 @@
               </iSelect>
             </iFormItem>
           </el-col>
-          <el-col span="12">
-            <iFormItem :label="language('历史查看有效期')" prop='deletePreTime'>
-              <iDatePicker class="effect-time" :placeholder='language("请选择")' v-model="formContent.deletePreTime" :picker-options="pickerOptions"></iDatePicker>
-            </iFormItem>
-          </el-col>
         </el-row>
         <el-row :gutter="24" v-if="formContent.publishRange == 15">
           <el-col span="12">
@@ -49,13 +44,13 @@
             </iFormItem>
           </el-col>
         </el-row>
-        <!-- <el-row :gutter="24">
-          <el-col span="24" prop='popupType'>
-            <iFormItem :label="language('弹窗布局')" v-model="formContent.popupType">
-              <popupStyle></popupStyle>
+        <el-row :gutter="24">
+          <el-col span="24">
+            <iFormItem :label="language('弹窗布局')"  prop='popupStyle'>
+              <popupStyle :popupStyle.sync='formContent.popupStyle'></popupStyle>
             </iFormItem>
           </el-col>
-        </el-row> -->
+        </el-row>
         <el-row :gutter="24">
           <el-col span="24">
             <iFormItem :label="language('发布时间')">
@@ -97,9 +92,9 @@ export default {
           deletePreTime:'',
           publishPreTime:'',
           content:'',
-          popupType:'',
-          userList:'',
-          supplierList:''
+          popupStyle:0,
+          userList:[],
+          supplierList:[]
         },
         pickerOptions:{
           disabledDate(time){
@@ -111,7 +106,7 @@ export default {
           publishRange:{required:'true',message:'请输入发布范围',trigger:'blur'},
           // deletePreTime:{required:'true',message:'请选择历史查看有效期',trigger:'blur'},
           content:{required:'true',message:'请输入弹窗说明',trigger:'blur'},
-          popupType:{required:'true',message:'请选择弹框',trigger:'blur'}
+          popupStyle:{required:'true',message:'请选择弹框',trigger:'blur'}
         },
       }
     },

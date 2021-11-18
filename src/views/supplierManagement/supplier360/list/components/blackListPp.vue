@@ -5,8 +5,11 @@
 <template>
   <iDialog @close="closeDiolog()"
            :visible.sync="value"
-           :title="'供应商⿊名单记录 - 生产采购  -'+ clickTableList.nameZh"
+           top="5%"
            width="85%">
+ <div slot="title" class="headerTitle">
+      <span>{{'供应商黑名单记录 - 生产采购  -'+ clickTableList.nameZh}}</span>
+    </div>
     <div class="box">
       <el-tabs class="tabsHeader"
                type="card"
@@ -15,11 +18,11 @@
                @tab-click="changeTab">
         <el-tab-pane name="1"
                      :label="
-            language('GONGYINGSHANGHEIMINGDANZHUANGTAI', '供应商⿊名单状态')
+            language('GONGYINGSHANGHEIMINGDANZHUANGTAI', '供应商黑名单状态')
           ">
         </el-tab-pane>
         <el-tab-pane name="2"
-                     :label="language('GONGYINGSHANGHEIMINGDANJILU', '供应商⿊名单记录')">
+                     :label="language('GONGYINGSHANGHEIMINGDANJILU', '供应商黑名单记录')">
         </el-tab-pane>
       </el-tabs>
       <div class="dilogHeader">
@@ -144,25 +147,38 @@
       <p class="tableTitle">
         详情列表
       </p>
-      <table-list v-if="tabVal == 1"
-                  style="margin-top:20px"
-                  :tableData="tableListData"
-                  :tableTitle="tableTitlePpBlackList"
-                  :tableLoading="tableLoading"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-      <table-list v-if="tabVal == 2"
-                  style="margin-top:20px"
-                  :tableData="tableListDataRecord"
-                  :tableTitle="tableTitlePpBlackListRecord"
-                  :tableLoading="tableLoadingRecord"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-      <iPagination style="margin-top:20px"
-                   v-if="tabVal == 2"
+      <div class="tableBox">
+
+        <table-list v-if="tabVal == 1"
+                    style="margin-top:20px"
+                    :tableData="tableListData"
+                    :tableTitle="tableTitlePpBlackList"
+                    :tableLoading="tableLoading"
+                    :index="true"
+                    :selection="false">
+        </table-list>
+        <table-list v-if="tabVal == 2"
+                    style="margin-top:20px"
+                    :tableData="tableListDataRecord"
+                    :tableTitle="tableTitlePpBlackListRecord"
+                    :tableLoading="tableLoadingRecord"
+                    :index="true"
+                    :selection="false">
+        </table-list>
+         <iPagination style="margin-top:20px"
                    v-update
+                   v-if="tabVal == 1"
+                   @size-change="handleSizeChange($event, sure)"
+                   @current-change="handleCurrentChange($event, getList)"
+                   background
+                   :page-sizes="page.pageSizes"
+                   :page-size="page.pageSize"
+                   :layout="page.layout"
+                   :current-page="page.currPage"
+                   :total="page.totalCount" />
+        <iPagination style="margin-top:20px"
+                   v-update
+                   v-if="tabVal == 2"
                    @size-change="handleSizeChange($event, sure)"
                    @current-change="handleCurrentChange($event, getListRecord)"
                    background
@@ -171,6 +187,7 @@
                    :layout="page.layout"
                    :current-page="page.currPage"
                    :total="page.totalCount" />
+      </div>
     </div>
   </iDialog>
 </template>
@@ -331,13 +348,14 @@ export default {
         startTime: this.daterange[0],
         stopEndTime: this.daterange2[1],
         stopStartTime: this.daterange2[0],
-        pageNo: this.page.currPage,
+      pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         ...this.form
       }
       console.log(this.form)
       ppSupplerBlackListStatusPage(params).then((res) => {
         if (res && res.code == 200) {
+            this.page.totalCount = res.total
           this.tableLoading = false
           this.tableListData = res.data
         } else iMessage.error(res.desZh)
@@ -347,7 +365,7 @@ export default {
       this.tableLoadingRecord = true
       const params = {
         supplierId: this.clickTableList.subSupplierId,
-        pageNo: this.page.currPage,
+     pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         endTime: this.daterange[1],
         startTime: this.daterange[0],
@@ -407,10 +425,22 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
+::v-deep.el-tooltip__popper{ width: 100px; }
+</style>
+<style lang="scss" scoped>
+.headerTitle {
+  font-size: 20px;
+  font-family: Arial;
+  font-weight: bold;
+  color: #000000;
+}
 .box {
   padding-bottom: 20px;
+}
+.tableBox {
+//   max-height: 600px;
+//   overflow-y: scroll;
 }
 .header {
   display: flex;

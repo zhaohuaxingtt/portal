@@ -164,6 +164,7 @@ import MtzClose from "./MtzClose";
 import inputCustom from '@/components/inputCustom'
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import { getDeptData } from '@/api/kpiChart/index'
+// import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { pageMixins } from "@/utils/pageMixins"
 import {
   pageMtzNomi,
@@ -237,9 +238,14 @@ export default {
       getRawMaterialNos({}).then(res => {
         this.materialCode = res.data;
       })
-      getDeptData().then(res => {
+      getDeptData().then(res=>{
         this.linieDeptId = res.data;
       })
+      // fetchRemoteDept({}).then(res=>{
+      //   if (res && res.code == 200) {
+      //     this.linieDeptId = res.data;
+      //   }else iMessage.error(res.desZh)
+      // })
 
       this.getTableList();
     },
@@ -400,13 +406,18 @@ export default {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
       if (this.selection[0].appStatus == "NOMINATE") {
-        cancelMtzNomi({
-          ids: this.selection.map(item => item.id)
-        }).then(res => {
-          if (res && res.code == 200) {
-            iMessage.success(res.desZh)
-            this.getTableList()
-          } else iMessage.error(res.desZh)
+        iMessageBox(this.language('SHIFOUQUERENQUXIAODINGDIAN','是否确认取消定点？'),this.language('LK_WENXINTISHI','温馨提示'),{
+            confirmButtonText: this.language('QUEREN', '确认'),
+            cancelButtonText: this.language('QUXIAO', '取消')
+        }).then(res=>{
+          cancelMtzNomi({
+            ids: this.selection.map(item => item.id)
+          }).then(res => {
+            if (res && res.code == 200) {
+              iMessage.success(res.desZh)
+              this.getTableList()
+            } else iMessage.error(res.desZh)
+          })
         })
       } else {
         return iMessage.warn(this.language('ZYDDZTCKYQXDD', '只有定点状态才可以取消定点'))

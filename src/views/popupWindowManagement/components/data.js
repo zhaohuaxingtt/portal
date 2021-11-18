@@ -14,6 +14,7 @@ export const TABLE_COLUMNS = [
     {
         label:'弹窗标题',
         prop:'popupName',
+        tooltip:true
     },
     {
         label:'弹窗说明',

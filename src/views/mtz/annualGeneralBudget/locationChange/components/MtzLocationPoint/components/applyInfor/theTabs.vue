@@ -483,11 +483,12 @@
         </el-table-column>
         <el-table-column prop="startDate"
                          align="center"
-                         width="180"
+                         width="200"
                          :label="language('YOUXIAOQIQI','有效期起')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
                 <iDatePicker v-model="scope.row.startDate"
+                            style="width:180px!important;"
                             type="datetime"
                             v-if="editId.indexOf(scope.row.id)!==-1"
                             >
@@ -497,11 +498,12 @@
         </el-table-column>
         <el-table-column prop="endDate"
                          align="center"
-                         width="180"
+                         width="200"
                          :label="language('YOUXIAOQIZHI','有效期止')"
                          show-overflow-tooltip>
             <template slot-scope="scope">
                 <iDatePicker v-model="scope.row.endDate"
+                            style="width:180px!important;"
                             type="datetime"
                             v-if="editId.indexOf(scope.row.id)!==-1"
                             >

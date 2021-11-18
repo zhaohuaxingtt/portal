@@ -4,10 +4,13 @@
 -->
 <template>
   <iDialog @close="closeDiolog()"
-           title="加⼊⿊名单 - ⽣产采购"
            :visible.sync="value"
            width="85%"
            top="2%">
+    <div slot="title"
+         class="headerTitle">
+      <span>{{language('JIARUHEIMINGDANSHENGCHANCAIGOU', '加入黑名单 - 生产采购')}}</span>
+    </div>
     <div class="box">
       <el-form inline
                :model="form"
@@ -17,14 +20,14 @@
                ref="form">
         <div class="formStyle">
           <el-form-item :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')">
-            <iText style="min-width:240px"
+            <iText style="min-width: 240px"
                    class="text">{{
               clickTableList.nameZh
             }}</iText>
           </el-form-item>
           <el-form-item prop="categoryCodes"
                         :label="language('CAILIAOZU', '材料组')">
-            <iSelect multiple
+            <!-- <iSelect multiple
                      collapse-tags
                      filterable
                      @change="getStuffFitel"
@@ -36,29 +39,32 @@
                          :label="item.categoryName+'-'+item.categoryCode"
                          :value="item.categoryCode">
               </el-option>
-            </iSelect>
-            <!-- <custom-select style="width:240px"
+            </iSelect> -->
+            <custom-select style="width: 240px"
                            v-model="form.categoryCodes"
                            :user-options="categoryArr"
                            multiple
                            clearable
                            @change="getStuffFitel"
-                           :placeholder="language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')"
+                           :placeholder="
+                language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')
+              "
                            display-member="categoryName"
                            value-member="categoryCode"
                            value-key="categoryCode">
               <template v-slot:selected="scope">
-                <span>{{scope.data.categoryName}}{{scope.data.categoryCode}}</span>
+                <span>{{ scope.data.categoryName
+                  }}{{ scope.data.categoryCode }}</span>
               </template>
               <template v-slot:unselected="scope">
-                <span>{{scope.data.categoryName}}{{scope.data.categoryCode}}</span>
+                <span>{{ scope.data.categoryName
+                  }}{{ scope.data.categoryCode }}</span>
               </template>
-            </custom-select> -->
-
+            </custom-select>
           </el-form-item>
           <el-form-item prop="ppStuffSaveDTOList"
                         :label="language('GONGYIZU', '工艺组')">
-            <iSelect multiple
+            <!-- <iSelect multiple
                      collapse-tags
                      filterable
                      value-key='stuffCode'
@@ -70,29 +76,30 @@
                          :label="item.stuffName+'-'+item.stuffCode"
                          :value="item">
               </el-option>
-            </iSelect>
-            <!-- <custom-select style="width:240px"
+            </iSelect> -->
+            <custom-select style="width: 240px"
                            v-model="form.ppStuffSaveDTOList"
                            :user-options="stuffByArr"
                            multiple
                            clearable
-                           :placeholder="language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')"
+                           :placeholder="
+                language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')
+              "
                            display-member="stuffName"
                            value-member="stuffCode"
                            value-key="stuffCode">
-                           <template v-slot:selected="scope">
-                <span>{{scope.data.stuffName}}{{scope.data.stuffCode}}</span>
+              <template v-slot:selected="scope">
+                <span>{{ scope.data.stuffName }}{{ scope.data.stuffCode }}</span>
               </template>
               <template v-slot:unselected="scope">
-                <span>{{scope.data.stuffName}}{{scope.data.stuffCode}}</span>
+                <span>{{ scope.data.stuffName }}{{ scope.data.stuffCode }}</span>
               </template>
-            </custom-select> -->
+            </custom-select>
           </el-form-item>
           <el-form-item prop="daterange"
                         :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')">
-
             <iDatePicker :picker-options="pickerOptions"
-                         style="width:240px"
+                         style="width: 240px"
                          type="daterange"
                          :range-separator="$t('SUPPLIER_ZHI')"
                          :placeholder="''"
@@ -101,11 +108,11 @@
                          clearable />
           </el-form-item>
           <el-form-item prop="preDeptId"
-                        v-if="userType=='LINIE'"
+                        v-if="userType == 'LINIE'"
                         :label="language('KESHI', '科室')">
-            <iSelect style="width:240px"
+            <iSelect style="width: 240px"
                      filterable
-                     @change="changeData($event,'keshi')"
+                     @change="changeData($event, 'keshi')"
                      :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
                      v-model="form.preDeptId">
               <el-option v-for="item in prePurchaseDeptArr"
@@ -116,11 +123,11 @@
             </iSelect>
           </el-form-item>
           <el-form-item prop="linieDeptId"
-                        v-if="userType=='PRE'"
+                        v-if="userType == 'PRE'"
                         :label="language('LINIEKESHI', 'LINIE科室')">
-            <iSelect style="width:240px"
+            <iSelect style="width: 240px"
                      filterable
-                     @change="changeData($event,'liniekeshi')"
+                     @change="changeData($event, 'liniekeshi')"
                      :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
                      v-model="form.linieDeptId">
               <el-option v-for="item in liniePurchaseDeptArr"
@@ -131,12 +138,12 @@
             </iSelect>
           </el-form-item>
           <el-form-item prop="purchaserId"
-                        v-if="userType=='LINIE'"
+                        v-if="userType == 'LINIE'"
                         :label="language('QIANQICAIGOUYUAN', '前期采购员')">
-            <iSelect style="width:240px"
+            <iSelect style="width: 240px"
                      :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
                      filterable
-                     @change="changeData($event,'cgy')"
+                     @change="changeData($event, 'cgy')"
                      v-model="form.purchaserId">
               <el-option v-for="item in prePurchaseArr"
                          :key="item.purchaserId"
@@ -146,11 +153,11 @@
             </iSelect>
           </el-form-item>
           <el-form-item prop="liniePurchaserId"
-                        v-if="userType=='PRE'"
+                        v-if="userType == 'PRE'"
                         :label="language('LINIECAIGOUYUAN', 'LINIE采购员')">
-            <iSelect style="width:240px"
+            <iSelect style="width: 240px"
                      filterable
-                     @change="changeData($event,'liniecgy')"
+                     @change="changeData($event, 'liniecgy')"
                      :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
                      v-model="form.liniePurchaserId">
               <el-option v-for="item in liniePurchaseArr"
@@ -162,7 +169,7 @@
           </el-form-item>
           <el-form-item prop="measures"
                         :label="language('SHOUKONGCUOSHI', '受控措施')">
-            <iSelect style="width:240px"
+            <iSelect style="width: 240px"
                      :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
                      v-model="form.measures">
               <el-option v-for="item in measuresList"
@@ -177,7 +184,7 @@
         <div>
           <div class="section-box">
             <span>{{ language('JIARUYUANYINA', '加入原因') }}
-              <span style="color:red">*</span></span>
+              <span style="color: red">*</span></span>
           </div>
           <div>
             <iInput :placeholder="
@@ -218,7 +225,7 @@ import {
   categoryList,
   liniePurchaseList,
   getBuyerType,
-//   prePurchaseDeptList,
+  //   prePurchaseDeptList,
   liniePurchaseDeptList
 } from '@/api/supplier360/blackList'
 export default {
@@ -272,7 +279,7 @@ export default {
           }
         },
         disabledDate(time) {
-            return time.getTime() < Date.now() - 8.64e7
+          return time.getTime() < Date.now() - 8.64e7
         }
       },
       rules: {
@@ -512,7 +519,7 @@ export default {
                 params.daterange = undefined
                 params.categoryCodes = undefined
                 // this.form.ppStuffSaveDTOList.forEach(v=>{
-                //    v=this.stuffByArr.find(i=>{return v==i.stuffCode}) 
+                //    v=this.stuffByArr.find(i=>{return v==i.stuffCode})
                 // })
                 ppSupplerBlackSave(params).then((res) => {
                   if (res && res.code == 200) {
@@ -542,7 +549,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.box {
+.headerTitle {
+  font-size: 20px;
+  font-family: Arial;
+  font-weight: bold;
+  color: #000000;
 }
 .footer {
   display: flex;

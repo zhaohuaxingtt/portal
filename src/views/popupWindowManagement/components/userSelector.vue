@@ -11,7 +11,8 @@
       :filter="userFilters"
       :title="'选择用户'"
       :search-method="handleSearch"
-      sizeType='size'
+      idKey="accountId"
+      sizeType="size"
       tag-label="nameZh"
     />
   </div>
@@ -22,7 +23,7 @@ import { getUserSelectPageList } from '@/api/authorityMgmt/index'
 import iSelectorDialog from '@/components/iSelector/iSelectorDialog'
 import iSelectorInput from '@/components/iSelector/iSelectorInput'
 export default {
-  name: 'userSelector',
+  name: 'userSelect',
   components: { iSelectorDialog, iSelectorInput },
   props: {
     value: {
@@ -103,7 +104,6 @@ export default {
   },
   methods: {
     handleSearch(param) {
-      //区域控制员
       return getUserSelectPageList(param)
     }
   }
