@@ -530,9 +530,10 @@ export default {
           if (res && res.code == 200) {
             this.stuffByArr = res.data
             this.categoryLength = this.form.categoryCodes.length
-            this.form.ppStuffSaveDTOList = res.data.map(res => {
-              return res.stuffCode
-            })
+            this.form.ppStuffSaveDTOList = res.data
+            // .map(res => {
+            //   return res.stuffCode
+            // })
           }
         })
       }
