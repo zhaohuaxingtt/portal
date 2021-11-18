@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row content"  v-loading="loading">
+  <div class="flex flex-row content" v-loading="loading">
     <div class="left-content">
       <el-row :gutter="20">
         <el-col span="14">
@@ -67,28 +67,31 @@
           <i-button>{{ language('关闭问题') }}</i-button>
         </template>
       </div>
-      <div class="flex flex-row justify-between border mt20 mb20">
-        <el-form label-position="top" :model="editForm" :rules="editFormRules" ref="editForm">
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <iFormItem :label="$t('问题模块')">
-                <iInput :value="editForm.channelStr" :disabled="isDisabled" />
-              </iFormItem>
-            </el-col>
-            <el-col :span="8">
-              <iFormItem :label="$t('标签')">
-                <iInput v-model="editForm.code"  :disabled="isDisabled"></iInput>
-              </iFormItem>
-            </el-col>
-            <el-col :span="8">
-              <iFormItem :label="$t('问题来源')">
-                <iInput v-model="editForm.name"  :disabled="isDisabled" />
-              </iFormItem>
-            </el-col>
-            
-          </el-row>
-        </el-form>
-        <i-button class="edit-btn" @click="editHandler">{{ language('编辑') }}</i-button>
+      <div class="search-box flex-between-center-center mt20 mb20 border">
+        <div class="input-box flex-align-center margin-right30">
+          <el-form label-position="top" :model="editForm" :rules="editFormRules" ref="editForm">
+            <el-row :gutter="20">
+              <el-col :span="8">
+                <iFormItem :label="$t('问题模块')">
+                  <iInput :value="editForm.channelStr" :disabled="isDisabled" />
+                </iFormItem>
+              </el-col>
+              <el-col :span="8">
+                <iFormItem :label="$t('标签')">
+                  <iInput v-model="editForm.code" :disabled="isDisabled"></iInput>
+                </iFormItem>
+              </el-col>
+              <el-col :span="8">
+                <iFormItem :label="$t('问题来源')">
+                  <iInput v-model="editForm.name" :disabled="isDisabled" />
+                </iFormItem>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+        <div class="btn-box margin-top25">
+          <i-button class="edit-btn" @click="editHandler">{{ language('编辑') }}</i-button>
+        </div>
       </div>
       <div class="content-title mb20">{{ language('消息') }}</div>
       <!-- 正常状态 -->
@@ -204,7 +207,7 @@ export default {
     this.cardSelectHandler(this.categoryCardList[0]);
     setTimeout(() => {
       this.loading = false;
-    },1000);
+    }, 1000);
   },
   methods: {
     changeCategoryItem (item) {
@@ -228,10 +231,10 @@ export default {
     },
     sendMessageHandler () { },
     sendAndCloseHandler () { },
-    editHandler() {
+    editHandler () {
       this.isDisabled = false;
     },
-    finishedHandler() {
+    finishedHandler () {
       this.finishedDialog = true;
     },
   },
@@ -316,10 +319,6 @@ export default {
       box-sizing: border-box;
       padding-bottom: 20px;
       padding-top: 20px;
-      .edit-btn{
-        height: 35px;
-        align-self: center;
-      }
     }
     .content-title {
       font-weight: bold;
