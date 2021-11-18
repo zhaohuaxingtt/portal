@@ -147,7 +147,7 @@ export const levelSetting = [
     i18n: 'staffManagement.DEPARTMENT'
   },
   {
-    prop: 'gw',
+    prop: 'position',
     label: '岗位',
     align: 'center',
     i18n: 'staffManagement.JOBS'

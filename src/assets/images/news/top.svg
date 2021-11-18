@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="29.416" height="14" viewBox="0 0 29.416 14">
+  <g id="组_12902" data-name="组 12902" transform="translate(-267 -588)">
+    <g id="组_12272" data-name="组 12272" transform="translate(267 588)">
+      <path id="路径_19280" data-name="路径 19280" d="M0,0H29.416V12.444H0L3.909,6.2Z" fill="#cedeff"/>
+      <path id="路径_19281" data-name="路径 19281" d="M2688,896h1.556L2688,897.556Z" transform="translate(-2660.139 -883.556)" fill="#6d86b9"/>
+    </g>
+    <text id="filter" transform="translate(276 597)" fill="#2d539b" font-size="6" font-family="PingFangSC-Semibold, PingFang SC" font-weight="600"><tspan x="0" y="0">置顶</tspan></text>
+  </g>
+</svg>

@@ -36,3 +36,8 @@ router.afterEach(() => {
       })
   }
 })
+
+export default function (languageKey, name) {
+  // eslint-disable-next-line no-undef
+  return i18n.t(languageKey);
+}
