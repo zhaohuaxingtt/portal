@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-18 11:19:37
+ * @LastEditTime: 2021-11-18 19:04:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -58,7 +58,7 @@
                          multiple
                          clearable
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="departNameZh"
+                         display-member="departNameEn"
                          value-member="departId"
                          value-key="departId">
           </custom-select>
@@ -148,15 +148,12 @@ export default {
       })
     },
     // 获取部门数据
+    // 获取部门数据
     getDeptData () {
       fetchRemoteDept({}).then(res => {
-        try {
-          if (res && res.code == 200) {
-            this.deptList = res.data
-          } else iMessage.error(res.desZh)
-        } catch (err) {
-          console.log(err)
-        }
+        if (res && res.code == 200) {
+          this.deptList = res.data
+        } else iMessage.error(res.desZh)
       })
     },
     //原材料编号

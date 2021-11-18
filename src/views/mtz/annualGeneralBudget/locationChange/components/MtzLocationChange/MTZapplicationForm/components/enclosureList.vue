@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:56
- * @LastEditTime: 2021-11-17 21:57:50
+ * @LastEditTime: 2021-11-18 16:22:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\enclosureList.vue
@@ -14,6 +14,7 @@
       </span>
       <div>
         <iButton @click="del"
+                 v-if="!isView"
                  :disabled="disabled">{{language('SHANCHU','删除')}}</iButton>
         <uploadButton ref="uploadButtonAttachment"
                       :buttonText="language('SHANGCHUAN', '上传')"
