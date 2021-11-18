@@ -3,7 +3,7 @@
     <el-form class="search-form" label-position="top">
       <el-row :gutter="20">
         <el-col :span="10">
-          <div class="flex  date-durtion">
+          <div class="flex date-durtion">
             <iFormItem :label="$t('时间筛选')" style="margin-right: 0px">
               <iDatePicker
                 v-model="form.createDate_gt"
@@ -30,11 +30,11 @@
         </el-col>
         <el-col :span="6">
           <iFormItem :label="$t('操作类型')">
-            <iSelect v-model="form.type_obj_ae" filterable>
+            <iSelect v-model="form.adminType" filterable>
               <el-option
                 v-for="(item, index) in typeOptions"
-                :label="item.label"
-                :value="item.value"
+                :label="item.value"
+                :value="item.code"
                 :key="index"
               />
             </iSelect>
@@ -70,7 +70,7 @@ export default {
       form: { ...FILTER_FORM },
       typeOptions: FILTER_TYPES,
       endPickerOptions: {
-        disabledDate: time => {
+        disabledDate: (time) => {
           if (this.form.createDate_gt) {
             return (
               time.getTime() <
@@ -101,7 +101,7 @@ export default {
       this.$emit('search', searchData)
     },
     queryCategories() {
-      fetchBizLogCategories().then(res => {
+      fetchBizLogCategories({ isAdmin: true }).then((res) => {
         if (res.result) {
           this.typeOptions = res.data || []
         }

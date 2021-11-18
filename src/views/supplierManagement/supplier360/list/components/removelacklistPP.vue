@@ -3,83 +3,112 @@
  * @Date: 2021-010-20 
 -->
 <template>
-  <iDialog @close="closeDiolog()"
-           :title="'移除⿊名单 - ⽣产采购 -' + clickTableList.nameZh"
-           :visible.sync="value"
-           width="70%">
+  <iDialog
+    @close="closeDiolog()"
+    :title="'移除⿊名单 - ⽣产采购 -' + clickTableList.nameZh"
+    :visible.sync="value"
+    width="70%"
+  >
     <div class="box">
-      <el-form inline
-               label-position="top">
+      <el-form inline label-position="top">
         <div class="searchHeader">
           <div>
-            <el-form-item style="width: 220px"
-                          :label="language('CAIGOUYUAN', '采购员')">
-              <iSelect remote
-                       :remote-method="remoteGetPurchaseList"
-                       collapse-tags
-                       multiple
-                       filterable
-                       :placeholder="language('QINGSHURUXUANZE', '请输入/选择')"
-                       v-model.trim="form.purchaserIds">
-                <el-option v-for="item in purchaseList"
-                           :key="item.purchaserId"
-                           :label="item.purchaserName"
-                           :value="item.purchaserId">
+            <el-form-item
+              style="width: 220px"
+              :label="language('CAIGOUYUAN', '采购员')"
+            >
+              <iSelect
+                remote
+                :remote-method="remoteGetPurchaseList"
+                collapse-tags
+                multiple
+                filterable
+                :placeholder="language('QINGSHURUXUANZE', '请输入/选择')"
+                v-model.trim="form.purchaserIds"
+              >
+                <el-option
+                  v-for="item in purchaseList"
+                  :key="item.purchaserId"
+                  :label="item.purchaserName"
+                  :value="item.purchaserId"
+                >
                 </el-option>
               </iSelect>
             </el-form-item>
-            <el-form-item style="width: 220px"
-                          :label="language('CAILIAOZU', '材料组')">
-              <iSelect remote
-                       :remote-method="remoteGetCategoryList"
-                       collapse-tags
-                       multiple
-                       @change="getStuffFitel"
-                       filterable
-                       :placeholder="language('QINGSHURUXUANZE', '请输入/选择')"
-                       v-model.trim="form.categoryCodes">
-                <el-option v-for="item in categoryList"
-                           :key="item.categoryCode"
-                           :label="item.categoryCode+'-'+item.categoryName"
-                           :value="item.categoryCode">
+            <el-form-item
+              style="width: 220px"
+              :label="language('CAILIAOZU', '材料组')"
+            >
+              <iSelect
+                remote
+                :remote-method="remoteGetCategoryList"
+                collapse-tags
+                multiple
+                @change="getStuffFitel"
+                filterable
+                :placeholder="language('QINGSHURUXUANZE', '请输入/选择')"
+                v-model.trim="form.categoryCodes"
+              >
+                <el-option
+                  v-for="item in categoryList"
+                  :key="item.categoryCode"
+                  :label="item.categoryCode + '-' + item.categoryName"
+                  :value="item.categoryCode"
+                >
                 </el-option>
               </iSelect>
             </el-form-item>
-            <el-form-item style="width: 220px"
-                          :label="language('GONGYIZU', '工艺组')">
-              <iSelect remote
-                       :remote-method="remoteGetStuffList"
-                       collapse-tags
-                       multiple
-                       filterable
-                       :placeholder="language('QINGSHURUXUANZE', '请输入/选择')"
-                       v-model.trim="form.stuffCodes">
-                <el-option v-for="item in stuffList"
-                           :key="item.stuffCode"
-                           :label="item.stuffCode+'-'+item.stuffName"
-                           :value="item.stuffCode">
+            <el-form-item
+              style="width: 220px"
+              :label="language('GONGYIZU', '工艺组')"
+            >
+              <iSelect
+                remote
+                :remote-method="remoteGetStuffList"
+                collapse-tags
+                multiple
+                filterable
+                :placeholder="language('QINGSHURUXUANZE', '请输入/选择')"
+                v-model.trim="form.stuffCodes"
+              >
+                <el-option
+                  v-for="item in stuffList"
+                  :key="item.stuffCode"
+                  :label="item.stuffCode + '-' + item.stuffName"
+                  :value="item.stuffCode"
+                >
                 </el-option>
               </iSelect>
             </el-form-item>
-            <el-form-item style="width: 220px"
-                          :label="language('SHOUKONGCUOSHI', '受控措施')">
-              <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                       v-model="form.measures">
-                <el-option v-for="item in measuresList"
-                           :key="item.value"
-                           :label="item.label"
-                           :value="item.value">
+            <el-form-item
+              style="width: 220px"
+              :label="language('SHOUKONGCUOSHI', '受控措施')"
+            >
+              <iSelect
+                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                v-model="form.measures"
+              >
+                <el-option
+                  v-for="item in measuresList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
                 </el-option>
               </iSelect>
             </el-form-item>
-            <el-form-item style="width: 220px"
-                          :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')">
-              <iDatePicker type="daterange"
-                           :range-separator="$t('SUPPLIER_ZHI')"
-                           :placeholder="''"
-                           v-model="daterange"
-                           value-format="yyyy-MM-dd"
-                           clearable />
+            <el-form-item
+              style="width: 220px"
+              :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')"
+            >
+              <iDatePicker
+                type="daterange"
+                :range-separator="$t('SUPPLIER_ZHI')"
+                :placeholder="''"
+                v-model="daterange"
+                value-format="yyyy-MM-dd"
+                clearable
+              />
             </el-form-item>
           </div>
           <div class="btn-box">
@@ -96,21 +125,29 @@
           language('YICHU', '移除')
         }}</i-button>
       </div>
-      <table-list style="margin-top:20px"
-                  :tableData="tableListData"
-                  :tableTitle="tableTitlePp"
-                  :tableLoading="tableLoading"
-                  @handleSelectionChange="handleSelectionChange"
-                  :index="true"></table-list>
-      <iPagination v-update
-                   @size-change="handleSizeChange($event, getList)"
-                   @current-change="handleCurrentChange($event, getList)"
-                   background
-                   :page-sizes="page.pageSizes"
-                   :page-size="page.pageSize"
-                   :layout="page.layout"
-                   :current-page="page.currPage"
-                   :total="page.totalCount" />
+      <table-list
+        style="margin-top:20px"
+        :tableData="tableListData"
+        :tableTitle="tableTitlePp"
+        :tableLoading="tableLoading"
+        @handleSelectionChange="handleSelectionChange"
+        :index="true"
+      >
+        <template #stuffNameEnDe="scope">
+          <span>{{ scope.row.stuffName }}-{{ scope.row.stuffNameDe }}</span>
+        </template></table-list
+      >
+      <iPagination
+        v-update
+        @size-change="handleSizeChange($event, getList)"
+        @current-change="handleCurrentChange($event, getList)"
+        background
+        :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        :layout="page.layout"
+        :current-page="page.currPage"
+        :total="page.totalCount"
+      />
     </div>
   </iDialog>
 </template>
@@ -195,7 +232,7 @@ export default {
         endTime: this.daterange[1],
         startTime: this.daterange[0]
       }
-      ppSupplerBlackListPage(params).then((res) => {
+      ppSupplerBlackListPage(params).then(res => {
         if (res && res.code == 200) {
           this.tableLoading = false
           this.tableListData = res.data
@@ -205,7 +242,7 @@ export default {
     },
     //移除
     handleRemove() {
-      let ids = this.selectTableData.map((x) => {
+      let ids = this.selectTableData.map(x => {
         return x.id
       })
       const params = {
@@ -231,7 +268,7 @@ export default {
           }
         )
           .then(async () => {
-            ppSupplierBlackRemove(params).then((res) => {
+            ppSupplierBlackRemove(params).then(res => {
               if (res && res.code == 200) {
                 iMessage.success(res.desZh)
                 // this.$emit('closeDiolog', 1)
@@ -250,7 +287,7 @@ export default {
           keyword: query,
           supplierId: this.clickTableList.subSupplierId
         }
-        purchaseListSearch(params).then((res) => {
+        purchaseListSearch(params).then(res => {
           if (res && res.code == 200) {
             this.purchaseList = res.data
           } else iMessage.error(res.desZh)
@@ -269,7 +306,7 @@ export default {
           keyword: query,
           supplierId: this.clickTableList.subSupplierId
         }
-        categoryListSearch(params).then((res) => {
+        categoryListSearch(params).then(res => {
           if (res && res.code == 200) {
             this.categoryList = res.data
           } else iMessage.error(res.desZh)
@@ -284,7 +321,7 @@ export default {
           supplierId: this.clickTableList.subSupplierId,
           categoryCodes: this.form.categoryCodes
         }
-        stuffListSearch(params).then((res) => {
+        stuffListSearch(params).then(res => {
           if (res && res.code == 200) {
             this.stuffList = res.data
           } else iMessage.error(res.desZh)

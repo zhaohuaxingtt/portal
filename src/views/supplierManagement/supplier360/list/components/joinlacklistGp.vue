@@ -11,7 +11,8 @@
     width="85%"
   >
      <div slot="title" class="headerTitle">
-      <span>{{language('JIARUHEIMINGDANYIBANCAIGOU', '加⼊⿊名单 - ⼀般采购')}}</span>
+      <!-- <span>{{language('JIARUHEIMINGDANYIBANCAIGOU', '加入黑名单 - ⼀般采购')}}</span> -->
+        <span>加入黑名单 - ⼀般采购</span>
     </div>
     <div class="box">
       <el-form

@@ -38,6 +38,7 @@
       class="margin-bottom20"
       id="targetUser"
       :ruleCode="baseInfo.ruleCode"
+      :baseInfo="baseInfo"
     />
     <theDetailSupplierContact
       v-if="dicts.SUPPLIER_CODE_TYPE"

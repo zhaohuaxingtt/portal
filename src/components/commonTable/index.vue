@@ -177,7 +177,7 @@ export default {
 };
 </script>
 <style >
-.el-tooltip__popper{ width: 400px; }
+.el-tooltip__popper{ max-width: 400px; }
 </style>
 <style lang='scss' scoped>
 
