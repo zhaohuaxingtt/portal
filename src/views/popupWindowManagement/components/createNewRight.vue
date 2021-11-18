@@ -1,18 +1,22 @@
 <template>
   <div class="right-content">
       <p class="title">{{language('弹窗图片')}}</p>
-      <el-upload
+      <ImgCutter
+        v-on:cutDown="cutDown"
         class="avatar-uploader"
-        accept=".jpg, .jpeg, .png"
-        :show-file-list='false'
-        :on-change="handelChangePic"
-        :http-request='upload'
+        fileType=".jpg, .jpeg, .png"
+        @cutDown='upload'
         :file-list="fileList"
       >
-        <img v-if="imageUrl" :src="imageUrl" @error="handleImageError" @load="handleImageLoad" class="avatar">
+      <div slot="open">
+        <img v-if="imageUrl" :src="imageUrl" @error="handleImageError" @load="handleImageLoad" class="avatar" />
         <!-- <img v-else src="../../../assets/images/popupPic.png"   class="avatar"> -->
-        <i v-else class="el-icon-circle-plus-outline avatar-uploader-icon"></i>
-      </el-upload>
+        <i v-else class="el-icon-circle-plus-outline avatar-uploader-icon">
+
+        </i>
+      </div>
+        
+      </ImgCutter>
       <p class="right-content-bottom">{{language('建议使用16:9比例图片，不超过10M')}}</p>
   </div>
 </template>
