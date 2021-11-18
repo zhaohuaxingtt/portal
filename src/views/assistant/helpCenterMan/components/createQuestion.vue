@@ -49,7 +49,7 @@
         },
         data() {
             return {
-
+                form:{}
             }
         },
         methods: {
