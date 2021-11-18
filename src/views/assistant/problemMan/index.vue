@@ -60,7 +60,7 @@ import { iPage } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import ProblemHandler from './components/problemHandler/index';
 import LabelManagement from './components/labelManagement'
-import ModuleManagement from './components/moduleManagement'
+import ModuleManagement from './components/moduleManagement/index'
 import ProblemStatement from './components/problemStatement/index'
 import store from '@/store'
 export default {

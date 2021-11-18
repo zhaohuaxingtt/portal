@@ -2,11 +2,11 @@
   <div style="width: 100%;">
     <div class="nav">
       <el-tabs v-model="currentName">
-        <el-tab-pane label="供应商用户" name="supplierUser">
-          <ProblemHandlerPanel :type="1" v-if="currentName==='supplierUser'"/>
+        <el-tab-pane label="问题处理统计" name="supplierUser">
+          <ModuleManagementPanel :type="1" v-if="currentName==='supplierUser'"/>
         </el-tab-pane>
-        <el-tab-pane label="内部用户" name="internalUser">
-          <ProblemHandlerPanel :type="2" v-if="currentName==='internalUser'"/>
+        <el-tab-pane label="常见问题统计" name="internalUser">
+          <ModuleManagementPanel :type="2" v-if="currentName==='internalUser'"/>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import ProblemHandlerPanel from './problemHandlerPanel';
+import ModuleManagementPanel from './moduleManagementPanel';
 export default {
   data() {
     return {
@@ -22,7 +22,7 @@ export default {
     }
   },
   components: {
-    ProblemHandlerPanel,
+    ModuleManagementPanel,
   }
 }
 </script>
