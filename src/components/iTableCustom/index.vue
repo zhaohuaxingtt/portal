@@ -416,7 +416,8 @@ export default {
       tableColumns: [],
       settingVisible: false,
       tooltipContent: '',
-      settingId: ''
+      settingId: '',
+      emitLabel:[]
     }
   },
   watch: {
@@ -434,6 +435,13 @@ export default {
     }
     this.setDefaultDefaultCheckedKeys()
     this.getTableData()
+  },
+  mounted(){
+    this.emitLabel = this.tableVisibleColumns.map((ele) => {
+        if(ele.emit){
+          return ele.label
+        }
+      })
   },
   methods: {
     handleHeaderCellClassName({ columnIndex }) {
@@ -554,6 +562,10 @@ export default {
       return res
     },
     handleCellClick(row, column) {
+      if(!this.emitLabel.includes(column.label)){
+        row.flag = !row.flag
+        this.$refs.theCustomTable.toggleRowSelection(row,row.flag)
+      }
       if (this.treeExpand) {
         if (this.treeExpand.expandKey === column.property) {
           row.expanded = !row.expanded
