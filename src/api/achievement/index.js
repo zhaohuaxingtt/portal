@@ -672,7 +672,7 @@ export function updateSpLinie(data) {
 // 业绩基础明细-转派给自己
 export function updateSpLinieToMe(data) {
     return requst({
-        url: `/eklApi/spBasedetailEntity/pdateLinieToMe`,
+        url: `/eklApi/spBasedetailEntity/updateLinieToMe`,
         method: 'POST',
         data
     })

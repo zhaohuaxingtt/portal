@@ -401,7 +401,7 @@ export default {
     },
     getTaleList() {
       this.tableLoading = true
-    if (this.form.sapCode.length > 0 || this.form.supplierName.length > 0) {
+      if (this.form.sapCode.length > 0 || this.form.supplierName.length > 0) {
         this.form.supplierId = this.form.sapCode.concat(this.form.supplierName)
       }
       const req = {
@@ -423,10 +423,10 @@ export default {
       }
     },
     async getInit() {
-      this.getTaleList()
-      this.getDeptList()
       const res = await dictByCode('C_RATING')
       this.cratingLsit = res
+       this.getTaleList()
+      this.getDeptList()
       const res2 = await sapDropDown({ type: 'sap' })
       const res3 = await sapDropDown({ type: 'supplier' })
       //   const res4 = await dictByCode('RFQ_STATE')
@@ -434,9 +434,10 @@ export default {
       const resRfq = await sapDropDown({ type: 'rfq' })
       const resProject = await sapDropDown({ type: 'project' })
       const resMotor = await sapDropDown({ type: 'motor' })
+     
       if (this.sapCode && this.supplierId) {
-        this.form.sapCode[0] = this.sapCode
-        this.form.supplierName[0] = this.supplierId
+        this.form.sapCode[0] = this.sapCode || ''
+        this.form.supplierName[0] = this.supplierId || ''
       }
       this.partList = resPart.data
       this.resRfqList = resRfq.data
@@ -501,8 +502,10 @@ export default {
       this.getTaleList()
     },
     changeTab() {
+
       this.userList = []
       this.form = {
+          ...this.form,
         deptId: [],
         userId: [],
         iscRating: '',
