@@ -73,3 +73,12 @@ export function cartypePaged(data) {
     params: data
   })
 }
+
+export function getNominateProcessType(data) {
+  //车型主数据分页查询
+  return requst({
+    url: '/nominate-create/get-nominate-process-type',
+    method: 'GET',
+    params: data
+  })
+}

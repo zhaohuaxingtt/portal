@@ -2,107 +2,106 @@
 <template>
     <div style="padding-bottom:30px;">
         <div class="searchBox">
-            <el-form :inline="true" ref="searchForm" :model="searchForm" label-position="top" class="demo-form-inline leftBox">
-                <el-form-item style="marginRight:68px;width:180px" :label="language('LINGJIANHAO', '零件号')" class="formItem">
-                    <inputCustom v-model="searchForm.partnum"
-                            :editPlaceholder="language('QINGSHURU','请输入')"
-                            :placeholder="language('QINGSHURU','请输入')">
-                    </inputCustom>
-                </el-form-item>
-
-                <el-form-item style="marginRight:68px;width:180px" :label="language('LINGJIANMING','零件名')" class="formItem">
-                    <inputCustom v-model="searchForm.partName"
+            <iSearch @sure="handleSubmitSearch"
+                @reset="handleSearchReset">
+                <el-form :inline="true" ref="searchForm" :model="searchForm" label-position="top" class="demo-form-inline leftBox">
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('LINGJIANHAO', '零件号')" class="formItem">
+                        <inputCustom v-model="searchForm.partnum"
                                 :editPlaceholder="language('QINGSHURU','请输入')"
                                 :placeholder="language('QINGSHURU','请输入')">
-                    </inputCustom>
-                </el-form-item>
+                        </inputCustom>
+                    </el-form-item>
 
-                <el-form-item style="marginRight:68px;width:180px" :label="language('GONGYINGSHANGSAPHAO','供应商SAP号')" class="formItem">
-                    <inputCustom v-model="searchForm.supplierSap"
-                                :editPlaceholder="language('QINGSHURU','请输入')"
-                                :placeholder="language('QINGSHURU','请输入')">
-                    </inputCustom>
-                </el-form-item>
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('LINGJIANMING','零件名')" class="formItem">
+                        <inputCustom v-model="searchForm.partName"
+                                    :editPlaceholder="language('QINGSHURU','请输入')"
+                                    :placeholder="language('QINGSHURU','请输入')">
+                        </inputCustom>
+                    </el-form-item>
 
-                <el-form-item style="marginRight:68px;width:180px" :label="language('GONGYINGSHANGMINGCHENG','供应商名称')">
-                    <inputCustom v-model="searchForm.supplierName"
-                                :editPlaceholder="language('QINGSHURU','请输入')"
-                                :placeholder="language('QINGSHURU','请输入')">
-                    </inputCustom>
-                </el-form-item>
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('GONGYINGSHANGSAPHAO','供应商SAP号')" class="formItem">
+                        <inputCustom v-model="searchForm.supplierSap"
+                                    :editPlaceholder="language('QINGSHURU','请输入')"
+                                    :placeholder="language('QINGSHURU','请输入')">
+                        </inputCustom>
+                    </el-form-item>
 
-                <el-form-item style="marginRight:68px;width:180px" :label="language('YAUNCAILIAOPAIHAO','原材料牌号')">
-                    <inputCustom v-model="searchForm.materialCode"
-                                :editPlaceholder="language('QINGSHURU','请输入')"
-                                :placeholder="language('QINGSHURU','请输入')">
-                    </inputCustom>
-                </el-form-item>
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('GONGYINGSHANGMINGCHENG','供应商名称')">
+                        <inputCustom v-model="searchForm.supplierName"
+                                    :editPlaceholder="language('QINGSHURU','请输入')"
+                                    :placeholder="language('QINGSHURU','请输入')">
+                        </inputCustom>
+                    </el-form-item>
 
-                <el-form-item style="marginRight:68px;width:180px" :label="language('GUIZEBIANHAO','规则编号')" class="formItem">
-                    <inputCustom v-model="searchForm.ruleNo"
-                                :editPlaceholder="language('QINGSHURU','请输入')"
-                                :placeholder="language('QINGSHURU','请输入')">
-                    </inputCustom>
-                </el-form-item>
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('YAUNCAILIAOPAIHAO','原材料牌号')">
+                        <inputCustom v-model="searchForm.materialCode"
+                                    :editPlaceholder="language('QINGSHURU','请输入')"
+                                    :placeholder="language('QINGSHURU','请输入')">
+                        </inputCustom>
+                    </el-form-item>
 
-                <el-form-item style="marginRight:68px;width:180px" :label="language('KESHI','科室')" class="formItem">
-                    <custom-select v-model="searchForm.buyerDeptId"
-                                    :user-options="getLocationA11pplyStatus11"
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('GUIZEBIANHAO','规则编号')" class="formItem">
+                        <inputCustom v-model="searchForm.ruleNo"
+                                    :editPlaceholder="language('QINGSHURU','请输入')"
+                                    :placeholder="language('QINGSHURU','请输入')">
+                        </inputCustom>
+                    </el-form-item>
+
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('KESHI','科室')" class="formItem">
+                        <custom-select v-model="searchForm.buyerDeptId"
+                                        :user-options="getLocationA11pplyStatus11"
+                                        clearable
+                                        :placeholder="language('QINGXUANZE', '请选择')"
+                                        display-member="name"
+                                        value-member="code"
+                                        value-key="code">
+                        </custom-select>
+                    </el-form-item>
+
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('CAIGOUYUAN','采购员')" class="formItem">
+                        <inputCustom v-model="searchForm.buyerName"
+                                    :editPlaceholder="language('QINGSHURU','请输入')"
+                                    :placeholder="language('QINGSHURU','请输入')">
+                        </inputCustom>
+                    </el-form-item>
+                    
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('SHICHANGJIALAIYUAN','市场价来源')" class="formItem">
+                        <custom-select v-model="searchForm.marketSource"
+                                        :user-options="getLocationA11p222plyStatus11"
+                                        clearable
+                                        :placeholder="language('QINGXUANZE', '请选择')"
+                                        display-member="name"
+                                        value-member="code"
+                                        value-key="code">
+                        </custom-select>
+                    </el-form-item>
+
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('YOUXIAOQIQI','有效期起')" class="formItem">
+                        <iDatePicker v-model="searchForm.startDate"
+                                type="datetime"
+                                >
+                        </iDatePicker>
+                    </el-form-item>
+
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('YOUXIAOQIZHI', '有效期止')" class="formItem">
+                        <iDatePicker v-model="searchForm.endDate"
+                                type="datetime"
+                                >
+                        </iDatePicker>
+                    </el-form-item>
+
+                    <el-form-item style="marginRight:68px;width:180px" :label="language('BUCHAZHOUQI', '补差周期')" class="formItem">
+                        <custom-select v-model="searchForm.compensationPeriod"
+                                    :user-options="getSecondSupplierList"
                                     clearable
-                                    :placeholder="language('QINGXUANZE', '请选择')"
-                                    display-member="name"
+                                    :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                                    display-member="message"
                                     value-member="code"
                                     value-key="code">
-                    </custom-select>
-                </el-form-item>
-
-                <el-form-item style="marginRight:68px;width:180px" :label="language('CAIGOUYUAN','采购员')" class="formItem">
-                    <inputCustom v-model="searchForm.buyerName"
-                                :editPlaceholder="language('QINGSHURU','请输入')"
-                                :placeholder="language('QINGSHURU','请输入')">
-                    </inputCustom>
-                </el-form-item>
-                
-                <el-form-item style="marginRight:68px;width:180px" :label="language('SHICHANGJIALAIYUAN','市场价来源')" class="formItem">
-                    <custom-select v-model="searchForm.marketSource"
-                                    :user-options="getLocationA11p222plyStatus11"
-                                    clearable
-                                    :placeholder="language('QINGXUANZE', '请选择')"
-                                    display-member="name"
-                                    value-member="code"
-                                    value-key="code">
-                    </custom-select>
-                </el-form-item>
-
-                <el-form-item style="marginRight:68px;width:180px" :label="language('YOUXIAOQIQI','有效期起')" class="formItem">
-                    <iDatePicker v-model="searchForm.startDate"
-                            type="datetime"
-                            >
-                    </iDatePicker>
-                </el-form-item>
-
-                <el-form-item style="marginRight:68px;width:180px" :label="language('YOUXIAOQIZHI', '有效期止')" class="formItem">
-                    <iDatePicker v-model="searchForm.endDate"
-                            type="datetime"
-                            >
-                    </iDatePicker>
-                </el-form-item>
-
-                <el-form-item style="marginRight:68px;width:180px" :label="language('BUCHAZHOUQI', '补差周期')" class="formItem">
-                    <custom-select v-model="searchForm.compensationPeriod"
-                                :user-options="getSecondSupplierList"
-                                clearable
-                                :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                                display-member="message"
-                                value-member="code"
-                                value-key="code">
-                    </custom-select>
-                </el-form-item>
-            </el-form>
-            <div class="searchButton">
-                <iButton @click="handleSubmitSearch">{{language('CX', '查询')}}</iButton>
-                <iButton @click="handleSearchReset('searchForm')">{{language('CZ', '重置')}}</iButton>
-            </div>
+                        </custom-select>
+                    </el-form-item>
+                </el-form>
+            </iSearch>
         </div>
         <el-divider class="margin-top20"></el-divider>
         <div class="BtnTitle">
@@ -135,7 +134,7 @@
 </template>
 
 <script>
-import { iDatePicker, iMessage,iButton,iPagination } from 'rise'
+import { iDatePicker, iMessage,iButton,iPagination,iSearch } from 'rise'
 import { pageMixins } from "@/utils/pageMixins"
 import { tableTitleHistory } from "./data";
 import inputCustom from '@/components/inputCustom'
@@ -151,7 +150,8 @@ export default {
         iButton,
         iPagination,
         inputCustom,
-        tableList
+        tableList,
+        iSearch
     },
     mixins: [pageMixins],
     data(){
@@ -184,6 +184,11 @@ export default {
     },
     created(){
         this.init();
+    },
+    mounted(){
+        this.$nextTick(() => {
+            this.$el.querySelector('.el-icon-arrow-up').click()
+        });
     },
     methods:{
         init(){
@@ -222,6 +227,10 @@ export default {
             this.changeData = val;
         },
         save(){
+            if(this.changeData.length==0){
+                iMessage.error(this.language("QXZYTSJJXGL","请选择一条数据进行关联！"))
+                return false;
+            }
             this.$emit("historyDialog",this.changeData)
         }
     }
@@ -241,10 +250,6 @@ export default {
     z-index: 100;
   }
 }
-
-.leftBox{
-  margin-right: 200px;
-}
  
 
  .BtnTitle{
@@ -257,5 +262,17 @@ export default {
     font-size: 18px;
     font-weight: bold;
   }
+}
+
+::v-deep .el-form {
+    display: flex;
+    flex-wrap: wrap;
+}
+::v-deep .cardBody{
+  margin:0!important;
+  padding:0!important;
+}
+::v-deep .card{
+  box-shadow: 0 0 0px rgb(27 29 33 / 0%)
 }
 </style>

@@ -40,19 +40,15 @@ export default {
       if(this.showItems < 5){
         this.showItems++
       }else{
-        if(this.handelClick.includes(this.iniTimes)){
-          do{
+        while(this.handelClick.includes(this.iniTimes)){
+          // do{
             this.iniTimes++
-          }while(!this.handelClick.includes(this.iniTimes))
+          // }while(!this.handelClick.includes(this.iniTimes))
         }
-          console.log('水水水水水水');
+          // console.log('水水水水水水');
           this.closeItemList[this.iniTimes].type ='automatic' 
-          console.log(this.closeItemList[this.iniTimes],'this.closeItemList[this.iniTimes]');
+          // console.log(this.closeItemList[this.iniTimes],'this.closeItemList[this.iniTimes]');
           this.closeItemList[this.iniTimes].close()
-          // console.log('-------');
-          // if(this.showItems > 5){
-          //   this.showItems--
-          // }
           this.iniTimes++
       }
       if (data.type ==4  && data.subType == 5) {
@@ -82,6 +78,7 @@ export default {
               _this.openDialog(index)
             },
             onClose(isautomatic){
+              _this.handelClick.push(index)
               console.log('PLPL',isautomatic);
                 if(isautomatic.type == 'automatic'){
                   console.log('automatic');
@@ -89,7 +86,6 @@ export default {
                 }else{
                   _this.showItems--
                 }
-                
             }
           }))
       }
@@ -140,6 +136,7 @@ export default {
                 _this.openDialog(index)
               },
               onClose(isautomatic){
+                _this.handelClick.push(index)
                 console.log('PP',isautomatic);
                 if(isautomatic.type == 'automatic'){
                   _this.showItems > 5 ? _this.showItems-- : ''
@@ -156,9 +153,6 @@ export default {
   },
   methods: {
     openDialog(index) {
-
-      
-      this.handelClick.push(index)
       const data = {
         userId:JSON.parse(sessionStorage.getItem('userInfo')).accountId,
         popupId:this.popupDataList[index].id || JSON.parse(this.popupDataList[index].param).popupId
@@ -188,7 +182,7 @@ export default {
       })
       
       
-    }
+    },
   }
 }
 </script>

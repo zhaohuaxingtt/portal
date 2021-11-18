@@ -156,6 +156,9 @@
                     :tableLoading="tableLoading"
                     :index="true"
                     :selection="false">
+                         <template #stuffNameEnDe='scope'>
+                        <span>{{scope.row.stuffName}}-{{scope.row.stuffNameDe}}</span>
+                    </template>
         </table-list>
         <table-list v-if="tabVal == 2"
                     style="margin-top:20px"
@@ -164,6 +167,9 @@
                     :tableLoading="tableLoadingRecord"
                     :index="true"
                     :selection="false">
+                    <template #stuffNameEnDe='scope'>
+                        <span>{{scope.row.stuffName}}-{{scope.row.stuffNameDe}}</span>
+                    </template>
         </table-list>
          <iPagination style="margin-top:20px"
                    v-update
