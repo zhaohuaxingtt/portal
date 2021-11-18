@@ -48,7 +48,7 @@
       <div class="flex flex-row justify-end">
         <template v-if="cardSelectItem.status === 'unreply'">
           <i-button>{{ language('答复') }}</i-button>
-          <i-button>{{ language('指派') }}</i-button>
+          <i-button @click="dispatchHandler">{{ language('指派') }}</i-button>
         </template>
         <template v-else-if="cardSelectItem.status === 'finished'">
           <i-button>{{ language('关闭问题') }}</i-button>
@@ -72,11 +72,13 @@
         <a href="javscript:void(0);" @click.prevent="downFileHandle" style="color: #2369f1"><i class="el-icon-link"></i>点击下载</a>
       </div>
     </div>
+    <dispatchDialog v-if="showDialog" :show.sync="showDialog"/>
   </div>
 </template>
 
 <script>
-import { iInput, iSelect, iButton } from 'rise'
+import { iInput, iSelect, iButton } from 'rise';
+import DispatchDialog from './dispatchDialog';
 export default {
   props: {
     type: {
@@ -91,6 +93,7 @@ export default {
         type: ''
       },
       value1: '',
+      showDialog: false,
       currentCategoryItem: 'unreply',
       cardSelectItem: {},
       catgoryList: [
@@ -146,18 +149,23 @@ export default {
     },
     downFileHandle () {
       console.log('点击下载')
+    },
+    // 指派
+    dispatchHandler() {
+      this.showDialog = true;
     }
   },
   components: {
     iInput,
     iSelect,
-    iButton
+    iButton,
+    DispatchDialog,
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../../comon.scss';
+@import '../../../comon.scss';
 .content {
   width: 100%;
   height: 94%;
