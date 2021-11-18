@@ -3,7 +3,7 @@
         <div class="navBox">
             <iNavMvp :list="tabRouterList" class="margin-bottom20" routerPage :lev="1"/>
             <div class="btnRow">
-                <div class="dw" :class="!show?'mr40':''"><span v-text="!show?'单位：百万元':'Unit：Mio'"></span></div>
+                <div class="dw" :class="btnsgroup1.length?'mr40':''"><span v-text="!show?'单位：百万元':'Unit：Mio'"></span></div>
                 <div class="btnList flex-align-center margin-bottom20">
                     <ul class="btngroup">
                         <li v-for="(items, index) in btnsgroup1"
@@ -100,6 +100,9 @@
       dept() {
         return this.$store.state.permission.userInfo.deptDTO.deptNum || this.$store.state.permission.userInfo.deptDTO.fullCode
       },
+      pfjgly() {
+        return this.roleList.some(item => item.code == 'PFJYJGLY')
+      },
       // 角色判断
       role() {
         const deptName = this.$store.state.permission.userInfo.deptDTO.deptNum
@@ -115,7 +118,11 @@
           const zycggz = this.roleList.some(item => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ')
           const CGBZ_WF = this.roleList.some(item => item.code == 'CGBZ_WF')
           const ZYCGKZ_WF = this.roleList.some(item => item.code == 'ZYCGKZ_WF')
-          if (Linie) {        // 采购员 采购员视觉
+          const PFJYJGLY = this.roleList.some(item => item.code == 'PFJYJGLY')
+          if(PFJYJGLY) {
+//            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
+//            this.btnsgroup1 = ['CS(Spare)']
+          }else if (Linie) {        // 采购员 采购员视觉
             this.username = '8'
             this.btnsgroup1 = ['Linie', 'Linie(Spare)']
             return 'Linie'
@@ -153,7 +160,11 @@
           const BZ = this.roleList.some(item => item.code == 'CGBZ')      // 部长
           const BZZL = this.roleList.some(item => item.code == 'BZZL')    // 部长助理
           const GZ = this.roleList.some(item => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ') // 股长
-          if (KZ && Linie) {
+          const PFJYJGLY = this.roleList.some(item => item.code == 'PFJYJGLY')
+          if(PFJYJGLY) {
+//            this.btnsgroup1 = ['CS(Spare)', 'CSM(Spare)', 'CSEN(Spare)', 'Linie(Spare)']
+//            this.btnsgroup1 = ['CS(Spare)']
+          }else if (KZ && Linie) {
             this.username = '3'
             this.btnsgroup1 = ['CSM', 'CSM(Spare)']
             return 'KZ&&linie'
@@ -195,8 +206,9 @@
     },
 
     mounted() {
-      console.log(this.role)
-      if (this.role == 'CS' || this.role == 'BZ') { // 部门 部长助理||部长
+      if(this.pfjgly) {
+        this.currentView = 'pfjzfbmsj'
+      }else if (this.role == 'CS' || this.role == 'BZ') { // 部门 部长助理||部长
         this.currentView = 'zfbmsj'
       } else if (this.role == 'KZ&&linie' || this.role == 'KZ') { // 科长
         this.currentView = 'zfkssj'
@@ -458,13 +470,14 @@
             }
             .dw {
                 display: inline-block;
-                width: 84px;
+                width: 104px;
                 height: 20px;
+                font-size: 14px;
+                text-align: right;
                 font-family: Arial;
                 font-weight: 400;
                 line-height: 16px;
                 color: #6D7B96;
-                opacity: 1;
                 letter-spacing: 2px;
             }
         }

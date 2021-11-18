@@ -26,8 +26,11 @@
       if (roleList.some(item => item.code == 'CGBZ')) {
         this.formData.username = '1'
       }
-      if (roleList.some(item => item.code == 'BZZL')) {
+      if (roleList.some(item => item.code == 'BZZL' || item.code == 'PFJYJGLY')) {
         this.formData.username = '2'
+      }
+      if (roleList.some(item => item.code == 'PFJYJGLY')) {
+        this.formData.username = '0'
       }
       this.$emit('getData', this.formData)
     },
