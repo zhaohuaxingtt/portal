@@ -2138,6 +2138,9 @@ export default {
                 this.handleButtonDisabled(['freezeRsBill'], false)
               }
             }
+            if (val[0].fixedPointApplyType == 20) {
+              this.handleButtonDisabled(['senLol', 'translateTer'], true)
+            }
           }
         } else if (val[0].state === '02') {
           this.handleButtonDisabled(handleDisabledButtonName, true)

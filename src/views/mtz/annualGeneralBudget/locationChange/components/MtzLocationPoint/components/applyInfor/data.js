@@ -304,3 +304,34 @@ export const tableTitleHistory = [
   { width: 150, props: 'updateDate', name: '更新时间', key: 'GENGXINSHIJIAN' },
   { width: 150, props: 'source', name: '来源', key: 'LAIYUAN' }
 ]
+
+export const formRulesGZ = {
+  effectFlag:[{required: true, message: '请选择', trigger: 'change'}],
+  materialGroup:[{required: true, message: '请选择', trigger: 'change'}],//MTZ-材料组
+  carline:[{required: true, message: '请选择', trigger: 'change'}],//车型
+  supplierId:[{required: true, message: '请选择', trigger: 'change'}],
+  supplierName:[{required: true, message: '请选择', trigger: 'change'}],
+  materialCode:[{required: true, message: '请选择', trigger: 'change'}],
+  materialName:[{required: true, message: '请输入', trigger: 'blur'}],
+  price:[{required: true, message: '请输入', trigger: 'blur'}],
+  priceMeasureUnit:[{required: true, message: '请输入', trigger: 'blur'}],
+
+  tcCurrence:[{required: true, message: '请输入', trigger: 'blur'}],
+  tcExchangeRate:[{required: true, message: '请输入', trigger: 'blur'}],
+  source:[{required: true, message: '请输入', trigger: 'blur'}],
+  compensationRatio:[
+    {required: true, message: '请输入', trigger: 'blur'},
+    {validator: function(rule, value, callback){
+      if (value < 0) {
+        callback(new Error('不能为负数'));
+      }else{
+          callback();
+      }
+    },trigger: 'blur'}
+  ],
+  compensationPeriod:[{required: true, message: '请选择', trigger: 'change'}],
+  threshold:[{required: true, message: '请输入', trigger: 'blur'}],
+  thresholdCompensationLogic:[{required: true, message: '请选择', trigger: 'change'}],
+  startDate:[{required: true, message: '请选择', trigger: 'change'}],
+  endDate:[{required: true, message: '请选择', trigger: 'change'}],
+}

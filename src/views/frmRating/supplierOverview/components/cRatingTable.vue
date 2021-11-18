@@ -525,6 +525,10 @@ export default {
     async getInit() {
       const res = await dictByCode('C_RATING')
       this.cratingLsit = res
+        if (this.sapCode && this.supplierId) {
+        this.form.sapCode[0] = this.sapCode || ''
+        this.form.supplierName[0] = this.supplierId || ''
+      }
       this.getTaleList()
       this.getDeptList()
       const res2 = await sapDropDown({ type: 'sap' })
@@ -534,11 +538,8 @@ export default {
       const resRfq = await sapDropDown({ type: 'rfq' })
       const resProject = await sapDropDown({ type: 'project' })
       const resMotor = await sapDropDown({ type: 'motor' })
-
-      if (this.sapCode && this.supplierId) {
-        this.form.sapCode[0] = this.sapCode || ''
-        this.form.supplierName[0] = this.supplierId || ''
-      }
+        console.log(this.sapCode)
+    
       this.partList = resPart.data
       this.resRfqList = resRfq.data
       this.projectList = resProject.data

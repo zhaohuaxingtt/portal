@@ -29,6 +29,9 @@
                     :selection="false"
                     @handleSelectionChange="handleSelectionChange"
                     :index="true">
+                      <template #stuffNameEnDe='scope'>
+                        <span>{{scope.row.stuffName}}-{{scope.row.stuffNameDe}}</span>
+                    </template>
         </table-list>
         <iPagination v-update
                      @size-change="handleSizeChange($event, getTableList)"
