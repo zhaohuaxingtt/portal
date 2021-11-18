@@ -1,7 +1,7 @@
 <template>
 	<div class="leftContent">
 		<div class="list">
-			<div class="listTitle">常见问题</div>
+			<div class="listTitle" v-text="title"></div>
 			<div class="listContent">
 				<div v-for="(menu, index) in problemList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleIdx === index ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'">
 					<div class="idx">{{ index + 1 }}</div>
@@ -24,6 +24,10 @@ export default {
 		currentMoudleIdx: {
 			type: Array,
 			default: () => 0
+		},
+		title:{
+			type:String,
+			default:"常见问题"
 		}
 	},
 }
