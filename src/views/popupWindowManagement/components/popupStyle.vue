@@ -10,7 +10,7 @@
                     <span class="left-btn">xx</span>
                 </div>
                 <div class="checkIcon" v-if="popupStyle == 0">
-                    <img src="../../../assets/images/icon/checked.png" alt="">
+                    <img src="../../../assets/images/icon/checked.png" alt="" />
                 </div>
             </div>
             <div class="describe">
@@ -28,7 +28,7 @@
                     <span class="center-btn">xxx</span>
                 </div>
                 <div class="checkIcon" v-if="popupStyle == 1">
-                    <img src="../../../assets/images/icon/checked.png" alt="">
+                    <img src="../../../assets/images/icon/checked.png" alt="" />
                 </div>
             </div>
             <div class="describe" >
@@ -46,7 +46,7 @@
                     <span class="right-btn">xxx</span>
                 </div>
                 <div class='checkIcon' v-if="popupStyle == 2">
-                    <img src="../../../assets/images/icon/checked.png" alt="">
+                    <img src="../../../assets/images/icon/checked.png" alt="" />
                 </div>
             </div>
             <div class="describe">

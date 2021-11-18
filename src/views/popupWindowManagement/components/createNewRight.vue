@@ -9,7 +9,7 @@
         :file-list="fileList"
       >
       <div slot="open">
-        <img v-if="imageUrl" :src="imageUrl" @error="handleImageError" @load="handleImageLoad" class="avatar">
+        <img v-if="imageUrl" :src="imageUrl" @error="handleImageError" @load="handleImageLoad" class="avatar" />
         <!-- <img v-else src="../../../assets/images/popupPic.png"   class="avatar"> -->
         <i v-else class="el-icon-circle-plus-outline avatar-uploader-icon">
 
