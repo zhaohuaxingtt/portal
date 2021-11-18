@@ -21,7 +21,7 @@ export const tableSetting = [
     width: 150
   },
   {
-    props: 'materialNameZh',
+    props: 'materialCategoryCode',
     name: '材料中类',
     key: 'ZHONGLEIBIANHAO',
     width: 150
