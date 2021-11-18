@@ -277,6 +277,13 @@ export default {
     if (this.selectedTableData[0].conclusionCsc === '06') {
       this.getUpdateDateTableList('CSC', 'init')
     }
+    if (this.selectedTableData[0].fixedPointApplyType == 20) {
+      this.themenConclusionArrObj = this.themenConclusionArrObj.filter(
+        (item) => {
+          return item.conclusionCsc !== '03' && item.conclusionCsc !== '04'
+        }
+      )
+    }
     // this.$nextTick(() => {
     //   this.$refs.tableRef.setCurrentRow(this.currentRow)
     // })

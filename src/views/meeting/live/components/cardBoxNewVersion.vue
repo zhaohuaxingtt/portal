@@ -121,18 +121,18 @@ export default {
         return 0;
       },
     },
-    startDate: {
-      type: String,
-      default: () => {
-        return "";
-      },
-    },
-    endDate: {
-      type: String,
-      default: () => {
-        return "";
-      },
-    },
+    // startDate: {
+    //   type: String,
+    //   default: () => {
+    //     return "";
+    //   },
+    // },
+    // endDate: {
+    //   type: String,
+    //   default: () => {
+    //     return "";
+    //   },
+    // },
   },
   data() {
     return {

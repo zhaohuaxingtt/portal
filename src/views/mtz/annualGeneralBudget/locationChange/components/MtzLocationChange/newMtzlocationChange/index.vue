@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 17:43:45
- * @LastEditTime: 2021-11-18 14:35:15
+ * @LastEditTime: 2021-11-18 15:18:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\index.vue
@@ -16,6 +16,7 @@
       <span class="titleText">{{language('MTZBIANGENG','MTZ变更')}}</span>
     </div>
     <newChange v-bind="$attrs"
+               v-on="$listeners"
                @close="close"></newChange>
     <span slot="footer"
           class="dialog-footer">
@@ -40,14 +41,6 @@ export default {
     dialogVisible: {
       type: Boolean,
       default: false
-    },
-    addFlag: {
-      type: Boolean,
-      default: false
-    },
-    mtzAppId: {
-      type: String,
-      default: ""
     }
   },
   created () {
