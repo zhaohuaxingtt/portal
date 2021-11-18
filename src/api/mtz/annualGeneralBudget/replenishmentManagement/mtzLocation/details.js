@@ -344,3 +344,27 @@ export function checkPreciousMetal(params) {//判断是否为贵金属
         data: params,
     })
 }
+
+export function getDeptLimitLevel(params) {//科室下拉选择
+    return request({
+        url: '/commonDropDown/getDeptLimitLevel',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function getMtzGenericAppId(params) {//获取MTZ申请单号
+    return request({
+        url: '/commonDropDown/getMtzGenericAppId',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function getCurrentUser(params) {//获取采购员
+    return request({
+        url: '/commonDropDown/getCurrentUser',
+        method: 'POST',
+        data: params,
+    })
+}

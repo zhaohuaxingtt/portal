@@ -455,10 +455,10 @@
       </iPagination>
 
         <iDialog
-            :title="language('YINYONGRFQZHONGSHIJIAN', '引用RFQ中事件')"
+            :title="language('YINYONGRFQZHONGLINGJIAN', '引用RFQ中零件')"
             :visible.sync="rfqShowType"
             v-if="rfqShowType"
-            width="90%"
+            width="85%"
             @close='closeDiolog'
             >
             <rfqDialog @close="saveClose" @addRfq="addRfqData"></rfqDialog>
@@ -837,7 +837,7 @@ export default {
                 list[index].assemblyPartnum = item.partNum;
                 list[index].id = "";
                 list[index].partName = item.partNameZh;
-                list[index].partUnit = item.partUnit;
+                list[index].partUnit = item.unit;
             }
         })
         this.newDataList = list;
@@ -865,7 +865,7 @@ export default {
                 list[index].supplierName = item.supplierName;
                 list[index].sapCode = item.sapNum;
                 list[index].partName = item.partNameCn;
-                list[index].partUnit = item.partUnit;
+                list[index].partUnit = item.unit;
             }
         })
         this.newDataList = list;
