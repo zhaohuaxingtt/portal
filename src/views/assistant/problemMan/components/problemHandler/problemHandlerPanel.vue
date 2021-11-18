@@ -25,7 +25,7 @@
           <el-switch v-model="value1" active-text="仅看自己"> </el-switch>
         </el-col>
       </el-row>
-      <el-card class="card mb20 cursor" v-for="item of categoryCardList" :key="item.id" @click.native="cardSelectHandler(item)" :shadow="cardSelectItem.id === item.id ? 'always':'never'">
+      <el-card class="card mb20 cursor" v-for="item of categoryCardList" :key="item.id" @click.native="cardSelectHandler(item)" :shadow="cardSelectItem.id === item.id ? 'always' : 'never'">
         <div class="flex flex-row justify-between">
           <div class="title">{{ item.title }}</div>
           <div class="status">
@@ -47,16 +47,51 @@
     <div class="right-content ml20">
       <div class="flex flex-row justify-end">
         <template v-if="cardSelectItem.status === 'unreply'">
-          <i-button @click="replyHandler">{{ language('答复') }}</i-button>
-          <i-button @click="dispatchHandler">{{ language('指派') }}</i-button>
+          <template v-if="!isReplyStatus">
+            <i-button @click="replyHandler">{{ language('答复') }}</i-button>
+            <i-button @click="dispatchHandler">{{ language('指派') }}</i-button>
+          </template>
+          <template v-else>
+            <i-button @click="sendMessageHandler">{{
+              language('发送')
+            }}</i-button>
+            <i-button @click="sendAndCloseHandler">{{
+              language('发送并关闭问题')
+            }}</i-button>
+          </template>
         </template>
         <template v-else-if="cardSelectItem.status === 'finished'">
+          <i-button @click="finishedHandler">{{ language('归档') }}</i-button>
+        </template>
+        <template v-else-if="cardSelectItem.status === 'reply'">
           <i-button>{{ language('关闭问题') }}</i-button>
-          <i-button>{{ language('归档') }}</i-button>
         </template>
       </div>
-      <div class="flex flex-row justify-between border mt20 mb20"></div>
+      <div class="flex flex-row justify-between border mt20 mb20">
+        <el-form label-position="top" :model="editForm" :rules="editFormRules" ref="editForm">
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <iFormItem :label="$t('问题模块')">
+                <iInput :value="editForm.channelStr" :disabled="isDisabled" />
+              </iFormItem>
+            </el-col>
+            <el-col :span="8">
+              <iFormItem :label="$t('标签')">
+                <iInput v-model="editForm.code"  :disabled="isDisabled"></iInput>
+              </iFormItem>
+            </el-col>
+            <el-col :span="8">
+              <iFormItem :label="$t('问题来源')">
+                <iInput v-model="editForm.name"  :disabled="isDisabled" />
+              </iFormItem>
+            </el-col>
+            
+          </el-row>
+        </el-form>
+        <i-button class="edit-btn" @click="editHandler">{{ language('编辑') }}</i-button>
+      </div>
       <div class="content-title mb20">{{ language('消息') }}</div>
+      <!-- 正常状态 -->
       <div class="content flex flex-row">
         <div class="name">张三</div>
         <div class="content-text">
@@ -67,18 +102,29 @@
           <p>2021-10-28 16:20:12</p>
         </div>
       </div>
+      <!-- 答复状态 -->
+      <div v-if="isReplyStatus" class="reply-content mt20">
+        <iFormItem label="模板内容" prop="replyContent">
+          <iEditor ref="iEditor" v-model="replyContent" :toolbar="editToolbar" v-if="editable" />
+          <div v-else class="content" v-html="replyContent"></div>
+        </iFormItem>
+      </div>
       <div class="mt20 mb20">
         附件:
-        <a href="javscript:void(0);" @click.prevent="downFileHandle" style="color: #2369f1"><i class="el-icon-link"></i>点击下载</a>
+        <a v-if="!isReplyStatus" href="javscript:void(0);" @click.prevent="downFileHandle" style="color: #2369f1"><i class="el-icon-link"></i>点击下载</a>
+        <a v-else href="javscript:void(0);" @click.prevent="uploadFileHandle" style="color: #2369f1"><i class="el-icon-link"></i>点击上传</a>
       </div>
     </div>
     <dispatchDialog v-if="showDialog" :show.sync="showDialog" />
+    <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" />
   </div>
 </template>
 
 <script>
-import { iInput, iSelect, iButton } from 'rise';
+import { iInput, iSelect, iButton, iFormItem } from 'rise'
 import DispatchDialog from './dispatchDialog';
+import FinishedDialog from './finishedDialog';
+import iEditor from '@/components/iEditor'
 export default {
   props: {
     type: {
@@ -95,8 +141,10 @@ export default {
       value1: '',
       showDialog: false,
       isReplyStatus: false,
+      editable: true,
       currentCategoryItem: 'unreply',
       cardSelectItem: {},
+      replyContent: '',
       catgoryList: [
         {
           label: '未处理',
@@ -133,8 +181,21 @@ export default {
           name2: '李四',
           label: '主数据管理',
           time: '2021-10-28 10:20:20'
+        },
+        {
+          id: 3,
+          status: 'reply',
+          title: '如何配置',
+          name1: '张三',
+          name2: '李四',
+          label: '主数据管理',
+          time: '2021-10-28 10:20:20'
         }
-      ]
+      ],
+      editForm: {},
+      editFormRules: {},
+      isDisabled: true,
+      finishedDialog: false,
     }
   },
   mounted () {
@@ -143,27 +204,46 @@ export default {
   },
   methods: {
     changeCategoryItem (item) {
+      this.isReplyStatus = false
       this.currentCategoryItem = item.value
     },
     cardSelectHandler (item) {
+      this.isReplyStatus = false
       this.cardSelectItem = item
     },
     downFileHandle () {
       console.log('点击下载')
     },
+    uploadFileHandle () { },
     replyHandler () {
-      this.isReplyStatus = true;
+      this.isReplyStatus = true
     },
     // 指派
     dispatchHandler () {
-      this.showDialog = true;
-    }
+      this.showDialog = true
+    },
+    sendMessageHandler () { },
+    sendAndCloseHandler () { },
+    editHandler() {
+      this.isDisabled = false;
+    },
+    finishedHandler() {
+      this.finishedDialog = true;
+    },
+  },
+  computed: {
+    editToolbar () {
+      return []
+    },
   },
   components: {
     iInput,
     iSelect,
     iButton,
     DispatchDialog,
+    iFormItem,
+    iEditor,
+    FinishedDialog,
   }
 }
 </script>
@@ -231,6 +311,11 @@ export default {
       border-top: 1px solid #707070;
       box-sizing: border-box;
       padding-bottom: 20px;
+      padding-top: 20px;
+      .edit-btn{
+        height: 35px;
+        align-self: center;
+      }
     }
     .content-title {
       font-weight: bold;
