@@ -35,6 +35,23 @@
           </el-switch>
         </el-col>
       </el-row>
+      <el-card class="card mb20" v-for="item of categoryCardList" :key="item.id">
+        <div class="flex flex-row justify-between">
+          <div class="title">{{item.title}}</div>
+          <div class="status">
+            <template v-if="item.status === 0"><span style="color: #E30D0D;font-weight: bold;">未处理</span></template>
+            <template v-else-if="item.status === 1">已处理</template>
+          </div>
+        </div>
+        <div class="flex flex-row justify-between mt20 mb20 gray-color">
+          <div>提问人:{{item.name1}}</div>
+          <div>管理员:{{item.name2}}</div>
+        </div>
+        <div class="flex flex-row justify-between items-center gray-color">
+          <div class="label">{{item.label}}</div>
+          <div>{{item.time}}</div>
+        </div>
+      </el-card>
     </div>
     <div class="right-content ml20">右侧</div>
   </div>
@@ -74,7 +91,27 @@ export default {
           label: '全部',
           value: 3,
         },
-      ]
+      ],
+      categoryCardList: [
+        {
+          id:0,
+          status: 0,
+          title: '如何配置',
+          name1: '张三',
+          name2: '李四',
+          label: '主数据管理',
+          time: '2021-10-28 10:20:20'
+        },
+        {
+          id:2,
+          status: 1,
+          title: '如何配置',
+          name1: '张三',
+          name2: '李四',
+          label: '主数据管理',
+          time: '2021-10-28 10:20:20'
+        }
+      ],
     }
   },
   mounted() {
@@ -129,6 +166,17 @@ export default {
       .active {
         color:#1763F7;
       }
+    }
+    .card {
+      .gray-color {
+        color:#666666;
+      }
+      .label{
+        background:#EDEDED;
+        border-radius: 10px;
+        color:#4B5C7D;
+        padding: 5px 10px;
+      } 
     }
   }
   .right-content{
