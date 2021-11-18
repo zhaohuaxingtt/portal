@@ -215,19 +215,19 @@ export default {
           item.name =
             item.name +
             '    ' +
-            `${String((item.num / totalSum)) == 'NaN' ? '0' : (item.num / totalSum).toFixed(2) * 100 }.00%` +
+            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
             '   '
         } else if (item.name.length == 2) {
           item.name =
             item.name +
             '      ' +
-            `${String((item.num / totalSum)) == 'NaN' ? '0' : (item.num / totalSum).toFixed(2) * 100 }.00%` +
+            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
             '   '
         } else {
           item.name =
             item.name +
             '        ' +
-            `${String((item.num / totalSum)) == 'NaN' ? '0' : (item.num / totalSum).toFixed(2) * 100 }.00%` +
+            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
             '    '
         }
       })
@@ -250,7 +250,7 @@ export default {
             let name = data.data.name.split( /\s+/)[0]
             return `${name}:<br/>
             ${total}家<br/>
-            ${String((data.data.num / total)) === 'NaN' ? '0' : (data.data.num / total).toFixed(2) * 100}.00%
+            ${String((data.data.num / total)) === 'NaN' ? '0.00' : ((data.data.num / total).toFixed(2) * 100).toFixed(2)}%
             `
           }
         },
@@ -373,7 +373,7 @@ export default {
             }
             const type = data[0].data.type
             return `${type}-Rating数量：${total}<br/>${type}-Rating比例：${
-              String((total / totalCount)) === 'NaN' ? '0.00' : (total / totalCount).toFixed(2) * 100
+              String((total / totalCount)) === 'NaN' ? '0.00' : ((total / totalCount).toFixed(2) * 100).toFixed(2)
             }%`
           }
         },
