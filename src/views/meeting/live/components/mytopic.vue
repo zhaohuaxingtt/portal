@@ -89,7 +89,7 @@ export default {
           meetingId: this.curMeetingId ? this.curMeetingId : this.meetingId,
           meetingTypeId: this.meetingTypeId,
         };
-        let res = await findMyThemens(params).catch((err) => {
+        let res = await findMyThemens(params).catch(() => {
           clearTimeout(this.timer);
           this.timer = setTimeout(() => {
             this.queryMeeting();
