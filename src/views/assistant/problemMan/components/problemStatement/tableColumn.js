@@ -1,8 +1,13 @@
-export const tableColumn = () => {
+export const tableColumn = (e) => {
   return [
     {
-      type: 'selection',
-      width: 50
+      type: 'index',
+      label: '序号',
+      width: 50,
+      customRender: (h, scope) => {
+        console.log(scope.row, '====', e)
+        return <span class="open-link-text">{scope.row.index}===</span>
+      }
     },
     {
       prop: 'userNum',

@@ -30,25 +30,25 @@
     </div>
     <div
       class="flex flex-row content mt20"
-      v-show="helpMoudle === 'problemHandler'"
+      v-if="helpMoudle === 'problemHandler'"
     >
       <ProblemHandler />
     </div>
     <div
       class="flex flex-column content mt20"
-      v-show="helpMoudle === 'problemStatement'"
+      v-if="helpMoudle === 'problemStatement'"
     >
       <ProblemStatement />
     </div>
     <div
       class="flex flex-row content mt20"
-      v-show="helpMoudle === 'moduleManagement'"
+      v-if="helpMoudle === 'moduleManagement'"
     >
       <ModuleManagement />
     </div>
 		<div
       class="flex flex-row content mt20"
-      v-show="helpMoudle === 'labelManagement'"
+      v-if="helpMoudle === 'labelManagement'"
     >
       <LabelManagement />
     </div>

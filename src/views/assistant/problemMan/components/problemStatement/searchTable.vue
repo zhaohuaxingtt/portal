@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import {iButton,iPagination} from 'rise';
+import {iButton,iPagination,iTableCustom} from 'rise';
 import {tableColumn} from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins'
 export default {
@@ -51,7 +51,8 @@ export default {
   },
   components: {
     iButton,
-    iPagination
+    iPagination,
+    iTableCustom
   }
 }
 </script>

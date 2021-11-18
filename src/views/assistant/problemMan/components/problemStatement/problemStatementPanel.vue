@@ -21,6 +21,8 @@ export default {
       console.log(formData, '提交的搜索条件');
     },
   },
+  mounted() {
+  },
   components: {
     Search,
     SearchTable,
