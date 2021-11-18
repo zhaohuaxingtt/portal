@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-17 21:57:31
+ * @LastEditTime: 2021-11-18 14:53:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -107,11 +107,17 @@
         <i-button @click="handleCancel">取消</i-button>
       </span>
     </iDialog>
+    <new-mtzlocation-change :dialogVisible="dialogVisible"
+                            v-if="dialogVisible"
+                            :addFlag="addFlag"
+                            :mtzAppId="mtzAppId"
+                            @close="close"></new-mtzlocation-change>
   </div>
 </template>
 
 <script>
 import { iButton, iTabsList, iCard, iPagination, iMessage, iDialog, iInput } from "rise";
+import newMtzlocationChange from "@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationChange/newMtzlocationChange";
 import uploadButton from '@/components/uploadButton';
 import { basePriceChangePageList, uploadBasePriceChange, priceChangeExport, basePriceChangeDelete, updateBasePriceChange, approvalRecordList, approvalExplain } from '@/api/mtz/annualGeneralBudget/mtzChange'
 import iTableCustom from '@/components/iTableCustom'
@@ -127,7 +133,8 @@ export default {
     iPagination,
     uploadButton,
     iDialog,
-    iInput
+    iInput,
+    newMtzlocationChange
   },
   mixins: [pageMixins],
   data () {
@@ -145,7 +152,8 @@ export default {
       isShow: false,
       textarea: "",
       isView: false,
-      disabled: false
+      disabled: false,
+      dialogVisible: false
     }
   },
   created () {
@@ -210,14 +218,18 @@ export default {
       })
     },
     add () {
-      let routerPath = this.$router.resolve({
-        path: `/mtz/annualGeneralBudget/newMtzLocationChange`,
-        query: {
-          addFlag: true,
-          mtzAppId: this.mtzAppId
-        }
-      })
-      window.open(routerPath.href, '_blank')
+      this.dialogVisible = true
+      // let routerPath = this.$router.resolve({
+      //   path: `/mtz/annualGeneralBudget/newMtzLocationChange`,
+      //   query: {
+      //     addFlag: true,
+      //     mtzAppId: this.mtzAppId
+      //   }
+      // })
+      // window.open(routerPath.href, '_blank')
+    },
+    close (val) {
+      this.dialogVisible = val
     },
     edit () {
       if (this.muliteList.length === 0) {
