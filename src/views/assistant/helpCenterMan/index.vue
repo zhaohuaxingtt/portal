@@ -25,8 +25,17 @@
 			:currentMoudleIdx="currentMoudleIdx"
 		/>
 		<div class="content-right">
-			<div @click="show = true">open</div>
-			<CreateQuestion :show.sync="show"></CreateQuestion>
+			<div @click="show = true">用户手册</div>
+		</div>
+	</div>
+	<div class="flex flex-row content mt20" v-show="activeMoudle === 'question'">
+		<CommonProblem 
+			title="常见问题"
+			:problemList="problemList"
+			:currentMoudleIdx="currentMoudleIdx"
+		/>
+		<div class="content-right">
+			<Question></Question>
 		</div>
 	</div>
 </iPage>
@@ -37,7 +46,7 @@ import store from '@/store'
 import { iPage } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
-import CreateQuestion from "./components/createQuestion"
+import Question from "./components/question"
 
 export default {
 	components: {
@@ -45,7 +54,7 @@ export default {
 		iTabBadge,
 		iTabBadgeItem,
 		CommonProblem,
-		CreateQuestion
+		Question
 	},
 	data() {
 		return {
@@ -68,7 +77,6 @@ export default {
 			this.activeMoudle = val;
 		},
 		selectUser(v){
-			this.show = true
 			this.activeUser = v;
 		},
 	}
@@ -91,7 +99,7 @@ export default {
 		font-size: 18px;
 	}
 	.user-type{
-		margin: 30px 0 20px;
+		margin: 20px 0 15px;
 	}
 	.user-type-item{
 		padding: 8px 20px;
@@ -100,6 +108,9 @@ export default {
 		font-size: 10px;
 		cursor: pointer;
 		transition: all .3s ease;
+		&:hover{
+			color: #1660F1;
+		}
 		&.active{
 			background: #FFFFFF;
 			box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.08);
@@ -110,14 +121,16 @@ export default {
 	.content {
 		width: 100%;
 		flex: 1;
+		overflow: hidden;
 	}
 	.content-right{
 		flex: 1;
-		padding: 15px 20px 0px 20px;
+    	padding: 30px 40px 20px 40px;
 		margin-left: 20px;
 		box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
 		border-radius: 5px;
 		background-color: #fff;
+		overflow: auto;
 	}
 	
 </style>

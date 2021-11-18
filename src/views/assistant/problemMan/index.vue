@@ -30,25 +30,25 @@
     </div>
     <div
       class="flex flex-row content mt20"
-      v-show="helpMoudle === 'problemHandler'"
+      v-if="helpMoudle === 'problemHandler'"
     >
       <ProblemHandler />
     </div>
     <div
       class="flex flex-column content mt20"
-      v-show="helpMoudle === 'problemStatement'"
+      v-if="helpMoudle === 'problemStatement'"
     >
       <ProblemStatement />
     </div>
     <div
       class="flex flex-row content mt20"
-      v-show="helpMoudle === 'moduleManagement'"
+      v-if="helpMoudle === 'moduleManagement'"
     >
       <ModuleManagement />
     </div>
 		<div
       class="flex flex-row content mt20"
-      v-show="helpMoudle === 'labelManagement'"
+      v-if="helpMoudle === 'labelManagement'"
     >
       <LabelManagement />
     </div>
@@ -58,10 +58,10 @@
 <script>
 import { iPage } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
-import ProblemHandler from './components/problemHandler'
-import LabelManagement from './components/labelManagement'
-import ModuleManagement from './components/moduleManagement'
-import ProblemStatement from './components/problemStatement'
+import ProblemHandler from './components/problemHandler/index';
+import LabelManagement from './components/labelManagement/index'
+import ModuleManagement from './components/moduleManagement/index'
+import ProblemStatement from './components/problemStatement/index'
 import store from '@/store'
 export default {
   data() {
