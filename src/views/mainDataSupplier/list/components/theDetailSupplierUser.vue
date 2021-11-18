@@ -85,6 +85,12 @@ export default {
     ruleCode: {
       type: String,
       default: ''
+    },
+    baseInfo: {
+      type: Object,
+      default: function () {
+        return {}
+      }
     }
   },
   data() {
@@ -118,7 +124,13 @@ export default {
       this.selectedRows = val
     },
     handleEdit() {
-      this.detail = { ...this.selectedRows[0] }
+      this.detail = {
+        ...this.selectedRows[0],
+        opcsCompanyNameEn:
+          this.selectedRows[0].opcsCompanyNameEn || this.baseInfo.nameEn,
+        opcsCompanyNameZh:
+          this.selectedRows[0].opcsCompanyNameZh || this.baseInfo.nameZh
+      }
       this.dialogVisible = true
     },
     handleAdd() {
@@ -129,7 +141,9 @@ export default {
       this.detail = {
         ...SUPPLIER_USER_FORM,
         supplierId: this.supplierId,
-        type
+        type,
+        opcsCompanyNameEn: this.baseInfo.nameEn,
+        opcsCompanyNameZh: this.baseInfo.nameZh
       }
       this.dialogVisible = true
     },
