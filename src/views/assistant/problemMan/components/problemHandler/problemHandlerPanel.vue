@@ -12,7 +12,7 @@
         </el-col>
       </el-row>
       <el-row class="mt20 mb20" :gutter="10">
-        <el-col span="16">
+        <el-col span="13">
           <ul class="flex flex-row justify-between category-list">
             <li v-for="item of catgoryList" :key="item.value" :class="{
                 active: currentCategoryItem === item.value
@@ -21,17 +21,17 @@
             </li>
           </ul>
         </el-col>
-        <el-col span="8">
-          <el-switch v-model="value1" active-text="仅看自己"> </el-switch>
+        <el-col span="11">
+          <el-switch v-model="value1" active-text="仅看自己" inactive-text="全部"></el-switch>
         </el-col>
       </el-row>
       <el-card class="card mb20 cursor" v-for="item of categoryCardList" :key="item.id" @click.native="cardSelectHandler(item)" :shadow="cardSelectItem.id === item.id ? 'always' : 'never'">
         <div class="flex flex-row justify-between">
           <div class="title">{{ item.title }}</div>
           <div class="status">
-            <template v-if="item.status === 'unreply'"><span style="color: #e30d0d; font-weight: bold">未处理</span></template>
-            <template v-else-if="item.status === 'reply'">已处理</template>
-            <template v-else-if="item.status === 'finished'">已完成</template>
+            <template v-if="item.status === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">未处理</span></template>
+            <template v-else-if="item.status === 'reply'"><span style="color:#FF8E00; font-weight: bold;">已处理</span></template>
+            <template v-else-if="item.status === 'finished'"><span style="color:#05BB8B; font-weight: bold;">已完成</span></template>
           </div>
         </div>
         <div class="flex flex-row justify-between mt20 mb20 gray-color">
@@ -161,10 +161,6 @@ export default {
           label: '已完成',
           value: 'finished'
         },
-        {
-          label: '全部',
-          value: 'all'
-        }
       ],
       categoryCardList: [
         {
@@ -272,25 +268,33 @@ export default {
     ::v-deep .el-switch__core {
       width: 40px !important;
     }
+    ::v-deep .el-switch__label{
+      margin-right: 5px;
+      margin-left: 5px;
+      color:#999999;
+    }
     .category-list {
-      position: relative;
       padding-left: 10px;
-      &::before {
-        position: absolute;
-        left: 0;
-        bottom: 4px;
-        content: '';
-        display: block;
-        width: 3px;
-        height: 15px;
-        background: #1763f7;
-        border-radius: 5px;
-      }
       li {
         cursor: pointer;
+        position: relative;
+        padding-left: 8px;
+        color: #999;
       }
       .active {
         color: #1763f7;
+        font-weight: 600;
+        &::before {
+          position: absolute;
+          left: 0;
+          bottom: 4px;
+          content: '';
+          display: block;
+          width: 3px;
+          height: 15px;
+          background: #1763f7;
+          border-radius: 5px;
+        }
       }
     }
     .card {

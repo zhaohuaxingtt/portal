@@ -46,7 +46,9 @@ export default {
   },
   methods: {
     exportExcelHandler() {},
-    handleSelectionChange() {},
+    handleSelectionChange() {
+      console.log('11');
+    },
     handleGoDetail() {},
   },
   components: {
