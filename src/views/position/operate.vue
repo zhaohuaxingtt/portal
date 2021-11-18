@@ -73,18 +73,19 @@ export default {
     next()
   },
   beforeRouteUpdate(to, from, next) {
-    if (from.params.type === 'edit') {
-      this.$store.commit('SET_POSITION_DETAIL', this.originPosDetail)
-      this.$store.commit(
-        'INIT_DIMENSION_LIST',
-        this.originPosDetail.permissionList
-      )
-      this.$store.commit('INIT_ROLE_SELECTED', this.originPosDetail.roleDTOList)
-      this.$store.commit(
-        'INIT_ROLEIDS_SELECTED',
-        this.originPosDetail.roleDTOList
-      )
-    }
+    //if (from.params.type === 'edit') {
+    // this.$store.commit('SET_POSITION_DETAIL', this.originPosDetail)
+    this.$store.dispatch('GetPositionDetail', this.detailId)
+    this.$store.commit(
+      'INIT_DIMENSION_LIST',
+      this.originPosDetail.permissionList
+    )
+    this.$store.commit('INIT_ROLE_SELECTED', this.originPosDetail.roleDTOList)
+    this.$store.commit(
+      'INIT_ROLEIDS_SELECTED',
+      this.originPosDetail.roleDTOList
+    )
+    //}
     next()
   },
   methods: {
@@ -127,16 +128,20 @@ export default {
           iMessage.success(
             this.type === 'add' ? '新增岗位成功' : '更新岗位成功'
           )
-          if (this.type === 'add') {
-            const query = {
-              id: res.data.id,
-              deptId: this.deptId
-            }
-            this.$router.replace({
-              path: '/position/operate/detail',
-              query
-            })
+          // this.originPosDetail = _.cloneDeep(res.data)
+          this.$store.commit('SET_POSITION_ORIGIN_DETAIL', res.data)
+          // this.type = 'detail'
+          // if (this.type === 'add') {
+          this.detailId = res.data.id
+          const query = {
+            id: res.data.id,
+            deptId: this.deptId
           }
+          this.$router.replace({
+            path: '/position/operate/detail',
+            query
+          })
+          // }
         }
       }
     },

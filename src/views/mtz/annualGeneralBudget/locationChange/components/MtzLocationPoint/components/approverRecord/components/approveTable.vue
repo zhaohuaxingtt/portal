@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-17 11:45:14
+ * @LastEditTime: 2021-11-18 10:06:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -126,7 +126,7 @@
                :visible.sync="dialogVisible"
                width="30%"
                :before-close="handleClose">
-      <process-vertical instanceId="1212584" />
+      <process-vertical :instanceId="riseId" />
       <span slot="footer"
             class="dialog-footer">
       </span>
@@ -167,25 +167,25 @@ export default {
   created () {
     this.init()
   },
-  computed: {
-    mtzObject () {
-      return this.$store.state.location.mtzObject;
-    }
-  },
-  watch: {
-    mtzObject (newVlue, oldValue) {
-      this.init()
-    }
-  },
+  // computed: {
+  //   mtzObject () {
+  //     return this.$store.state.location.mtzObject;
+  //   }
+  // },
+  // watch: {
+  //   mtzObject (newVlue, oldValue) {
+  //     this.init()
+  //   }
+  // },
   mixins: [pageMixins],
   methods: {
     init () {
-      this.mtzAppId = this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+      this.mtzAppId = this.$route.query.mtzAppId
       this.flag = JSON.parse(this.$route.query.isView)
-      this.getTableList()
+      this.handleSync()
       this.selectDept()
       this.selectSection()
-      this.handleSync()
+
     },
     getTableList () {
       this.tableLoading = true
