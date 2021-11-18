@@ -67,7 +67,7 @@
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
              v-if="mtzAddShow"
-             width="90%"
+             width="85%"
              @close='closeDiolog'>
       <partApplication @close="saveClose"></partApplication>
     </iDialog>
