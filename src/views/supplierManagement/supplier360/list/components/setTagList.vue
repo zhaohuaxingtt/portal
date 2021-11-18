@@ -87,6 +87,7 @@
                            prop="tagDesc"
                            label="系统判断标准"> <template slot-scope="scope">
               <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
+                  <span v-else >{{scope.row.tagDesc}}</span>
             </template> </el-table-column>
           <!-- <el-table-column width="150"
                            align="center"

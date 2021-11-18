@@ -176,7 +176,11 @@ export default {
   },
 };
 </script>
+<style >
+.el-tooltip__popper{ width: 400px; }
+</style>
 <style lang='scss' scoped>
+
 .openLinkText {
   color: $color-blue;
 }
