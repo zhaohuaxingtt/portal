@@ -27,7 +27,9 @@
 				:problemList="problemList"
 				:currentMoudleIdx="currentMoudleIdx"
 			/>
-			<DataManage />
+			<DataManage 
+				@handleQuestion="handleQuestion"
+			/>
 		</div>
 		<div class="flex flex-column content mt20" v-show="helpMoudle === 'problem'">
 			<ProblemSearch />
@@ -43,6 +45,10 @@
 		<div class="flex flex-row content mt20" v-show="helpMoudle === 'ask'">
 			我的提问
 		</div>
+		<IntelligentDialog 
+			:intelligentVisible="intelligentVisible"
+			@closeDialog="closeDialog"
+		/>
 	</iPage>
 </template>
 
@@ -55,6 +61,7 @@ import CommonProblem from '../components/commonProblem'
 import DataManage from './components/dataManage'
 import ProblemSearch from './components/problemSearch'
 import ProblemDetail from './components/problemDetail'
+import IntelligentDialog from '../components/intelligentDialog'
 import { getSystemMeun } from '@/api/assistant'
 
 export default {
@@ -63,7 +70,8 @@ export default {
 			text: '用户助手',
 			helpMoudle: "manual",  // manual 用户手册 problem 常见问题 ask 我的提问
 			problemList: [],
-			currentMoudleIdx: 1
+			currentMoudleIdx: 1,
+			intelligentVisible: false
 		}
 	},
 	components: {
@@ -73,7 +81,8 @@ export default {
 		CommonProblem,
 		DataManage,
 		ProblemSearch,
-		ProblemDetail
+		ProblemDetail,
+		IntelligentDialog
 	},
 	mounted() {
 		this.getProbleList()
@@ -90,6 +99,13 @@ export default {
 		// 右上方分类点击事件
 		tabChange(val) {
 			this.helpMoudle = val
+		},
+		handleQuestion() {
+			console.log('handleQuestion')
+			this.intelligentVisible = true
+		},
+		closeDialog(va) {
+			this.intelligentVisible = va
 		}
 	}
 }

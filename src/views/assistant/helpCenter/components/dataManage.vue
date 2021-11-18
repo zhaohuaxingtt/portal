@@ -9,7 +9,7 @@
 				v-model="searchKey"
 			/>
 			<img src="~@/assets/images/search.png" alt="" class="search-icon" @click="search" />
-			<div class="ask-btn">我要提问</div>
+			<iButton class="ask-btn" @click="handleQuestion">{{ language('我要提问') }}</iButton>
 		</div>
 		<div class="mt15 line"></div>
 		<div class="title">{{ moudleName }}</div>
@@ -19,11 +19,12 @@
 </template>
 
 <script>
-import { iInput } from 'rise';
+import { iInput, iButton } from 'rise';
 export default {
 	name: "DataManage",
 	components: {
-		iInput
+		iInput,
+		iButton
 	},
 	data() {
 		return {
@@ -34,6 +35,9 @@ export default {
 		}
 	},
 	methods: {
+		handleQuestion() {
+			this.$emit('handleQuestion')
+		},
 		search() {
 			console.log(this.searchKey)
 			let num = document.getElementsByTagName('a').length;
@@ -85,11 +89,6 @@ export default {
 			.ask-btn {
 				width: 10%;
 				height: 36px;
-				line-height: 36px;
-				text-align: center;
-				background: #EEF2FB;
-				font-weight: bold;
-				color: #1660F1;
 				margin-left: 3%;
 			}
 			
