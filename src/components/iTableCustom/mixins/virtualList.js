@@ -1,3 +1,5 @@
+import { _ } from 'core-js'
+
 export default {
   data() {
     return {
@@ -68,6 +70,9 @@ export default {
           if (scrollHeight - scrollTop - clientHeight < 10) {
             this.getNextData()
           }
+          if (scrollTop < 10) {
+            this.getPrevData()
+          }
         })
       }
     },
@@ -77,6 +82,13 @@ export default {
         this.virtualListData.page++
         this.$nextTick(() => this.setVirtualPosMap())
       }
-    }, 1000)
+    }, 200),
+    getPrevData: _.debounce(function () {
+      console.log('到顶了')
+      if (this.virtualListData.page > 0) {
+        this.virtualListData.page--
+        this.$nextTick(() => this.setVirtualPosMap())
+      }
+    }, 200)
   }
 }
