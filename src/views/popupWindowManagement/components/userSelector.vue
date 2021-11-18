@@ -11,7 +11,8 @@
       :filter="userFilters"
       :title="'选择用户'"
       :search-method="handleSearch"
-      sizeType='size'
+      idKey="accountId"
+      sizeType="size"
       tag-label="nameZh"
     />
   </div>
