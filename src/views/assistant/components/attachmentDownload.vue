@@ -1,16 +1,25 @@
 <template>
   <div class="attch-box flex felx-row items-center">
 		<div class="attach-text">附件:</div>
-		<img src="@/assets/images/fujian.png" alt="" class="fujian-png">
-		<div class="load-text cursor" @click="load">点击下载</div>
+		<img v-if="load==='down'" src="@/assets/images/fujian.png" alt="" class="fujian-png">
+		<div v-if="load==='down'" class="load-text cursor" @click="handleLoad">点击下载</div>
+		<iButton class="ml20" v-if="load==='up'">{{ language('上传') }}</iButton>
 	</div>
 </template>
 
 <script>
+import { iButton } from 'rise'
 export default {
 	name: 'attachment-doenload',
+	components: { iButton },
+	props: {
+		load: {
+			type: String,
+			default: 'down'
+		}
+	},
 	methods: {
-		load() {
+		handleLoad() {
 			console.log('load')
 		}
 	}
