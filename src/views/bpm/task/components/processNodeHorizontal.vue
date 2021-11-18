@@ -175,7 +175,7 @@ export default {
                 ...approve.approvedUser
               }
               if (approve.agentUsers) {
-                taskUser.agentUsers = task.agentUsers || []
+                taskUser.agentUsers = approve.agentUsers || []
               }
               approvers.push(taskUser)
             })

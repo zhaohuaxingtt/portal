@@ -31,7 +31,26 @@
               {{ item.approvers[0].deptFullCode }}
               {{ item.approvers[0].nameZh }}
             </span>
-            <ul v-else class="approval-users">
+            <div
+              v-if="item.approvers.length === 1 && item.approvers[0].agentUsers"
+              class="single-approvers-agents"
+            >
+              <ul
+                v-if="
+                  item.approvers[0].agentUsers && item.approvers[0].agentUsers
+                "
+              >
+                <li
+                  v-for="(agentUser, agentIndex) in item.approvers[0]
+                    .agentUsers"
+                  :key="agentIndex"
+                >
+                  {{ agentUser.deptFullCode }} {{ agentUser.nameZh }}
+                  {{ agentUser.taskStatus }}(代)
+                </li>
+              </ul>
+            </div>
+            <ul v-if="item.approvers.length > 1" class="approval-users">
               <li
                 v-for="(approver, i) in item.approvers"
                 :key="i"
@@ -306,6 +325,26 @@ export default {
             }
           }
         }
+
+        .single-approvers-agents {
+          /* width: 100%;
+          margin-left: 50%;
+          transform: translateX(-5px);
+          > ul > li {
+            display: flex;
+            align-items: center;
+          }
+          > ul > li::before {
+            display: block;
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background-color: #ccc;
+            margin-right: 6px;
+          } */
+        }
+
         .title {
           margin-bottom: 20px;
           font-size: 16px;
