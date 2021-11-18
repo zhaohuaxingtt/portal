@@ -1,7 +1,7 @@
 export const FILTER_FORM = {
   createDate_gt: '',
   createDate_le: '',
-  type_obj_ae: '',
+  adminType: '',
   content_like: '',
   userNum$creator_or: ''
 }

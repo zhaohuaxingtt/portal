@@ -30,11 +30,11 @@
         </el-col>
         <el-col :span="6">
           <iFormItem :label="$t('操作类型')">
-            <iSelect v-model="form.type_obj_ae" filterable>
+            <iSelect v-model="form.adminType" filterable>
               <el-option
                 v-for="(item, index) in typeOptions"
-                :label="item.label"
-                :value="item.value"
+                :label="item.value"
+                :value="item.code"
                 :key="index"
               />
             </iSelect>
