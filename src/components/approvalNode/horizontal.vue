@@ -41,10 +41,12 @@
                   )
                 }"
               >
-                <span>
-                  {{ approver.deptFullCode }} {{ approver.nameZh }}
-                  {{ approver.taskStatus }}
-                </span>
+                <div class="self-user">
+                  <span>
+                    {{ approver.deptFullCode }} {{ approver.nameZh }}
+                    {{ approver.taskStatus }}
+                  </span>
+                </div>
                 <ul
                   v-if="approver.agentUsers && approver.agentUsers.length"
                   class="agent-users"
@@ -183,6 +185,7 @@ export default {
             padding: 0;
             position: relative;
             margin-top: 7px;
+            padding-right: 40px;
           }
 
           &.multiple ul.approval-users::before {
@@ -208,7 +211,24 @@ export default {
             flex-wrap: wrap;
           }
 
-          &.multiple ul.approval-users > li::before {
+          /* &.multiple ul.approval-users > li::before {
+            content: '';
+            display: block;
+            width: 16px;
+            height: 16px;
+            border: solid 1px #ddd;
+            border-radius: 16px;
+            box-sizing: border-box;
+            float: left;
+            margin: 0px 10px 0px -3px;
+            background: #fff;
+          } */
+          &.multiple ul.approval-users > li > .self-user {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+          }
+          &.multiple ul.approval-users > li > .self-user::before {
             content: '';
             display: block;
             width: 16px;
