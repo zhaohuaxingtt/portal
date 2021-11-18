@@ -270,10 +270,14 @@ const position = {
       const nameZh = query[1].value
       const array = list
         .filter((item) => {
-          return fullCode ? item.fullCode?.includes(fullCode) : item
+          return fullCode
+            ? item.fullCode?.toLowerCase().includes(fullCode.toLowerCase())
+            : item
         })
         .filter((item) => {
-          return nameZh ? item.nameZh?.includes(nameZh) : item
+          return nameZh
+            ? item.nameZh?.toLowerCase().includes(nameZh.toLowerCase())
+            : item
         })
       state.org.arrayList = array
       state.org.loading = false

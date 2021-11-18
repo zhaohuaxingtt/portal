@@ -9,8 +9,10 @@ const px2rem = require('postcss-px2rem')
 const postcss = px2rem({
   remUnit: 16
 })
-const BASE_IP = '10.122.18.166'
+// const BASE_DOMAN = '10.122.18.166'
+// const BASE_DOMAN = '10.122.17.38'
 // const BASE_IP = '10.122.17.38'
+const BASE_IP = '10.122.18.166'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
@@ -142,7 +144,7 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_EKL]: {
-        target: `http://${BASE_IP}:8043`,
+        target: `http://${BASE_IP}:8043/riseekl`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_EKL]: ''
@@ -163,7 +165,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_APPROVAL]: {
-        target: `http://${BASE_IP}:8012/approval`,
+        target: `http://10.160.138.138:8012/approval`,
+        // target: `http://${BASE_IP}:8012/approval`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_APPROVAL]: ''
@@ -196,8 +199,8 @@ module.exports = {
       },
       // 站内信
       [process.env.VUE_APP_MAIL]: {
-        // target: `http://10.122.17.38:8044/risemessage`,
-        target: `http://${BASE_IP}:8044/risemessage`,
+        target: `http://10.122.18.166:8044/risemessage`,
+        // target: `http://${BASE_IP}:8044/risemessage`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MAIL]: ''

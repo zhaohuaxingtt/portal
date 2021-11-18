@@ -14,6 +14,7 @@ export function getApprovalList(params) {
     url: '/web/workflow/statisticsDashboardWf',
     method: 'POST',
     params,
+    data: params,
     hideMessage: false
   })
 }
@@ -120,6 +121,14 @@ export function queryCalendar(data) {
 export function getEkl(data) {
   return requestEKL({
     url: '/spEklreportEntity/getCardAll',
+    method: 'post',
+    data
+  })
+}
+/* EKL附件卡片 */
+export function getEklAffix(data) {
+  return requestEKL({
+    url: '/spEklreportEntity/getCardSpAll',
     method: 'post',
     data
   })

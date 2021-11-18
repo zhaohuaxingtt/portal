@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:35
- * @LastEditTime: 2021-11-16 11:38:51
+ * @LastEditTime: 2021-11-17 21:57:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\formInformation.vue
@@ -10,19 +10,21 @@
   <div>
     <div class="header flex">
       <div>
-        <span class="title">{{language('SHENQINGDAN','MTZ申请单')}}-{{formInline.mtzAppId}}-</span>
-        <span class="title">{{formInline.appName}}-{{linieName}}-{{linieDeptNum}}</span>
+        <span class="title">{{language('BIANGENGDAN','MTZ变更单')}}-{{formInline.mtzAppId}}-</span>
+        <span class="title">{{formInline.appName}}-{{linieName}}- <span class="dTitle">{{linieDeptNum}}</span></span>
       </div>
       <div>
         <iButton v-if="!isView"
-                 @click="save(2)">{{language('TIJIAO','提交')}}</iButton>
+                 @click="save(2)"
+                 :disabled="disabled">{{language('TIJIAO','提交')}}</iButton>
       </div>
     </div>
     <iCard>
       <template slot="header">
         <span style="font-weight:bold">{{language('SHENGQINGDANXINXI','申请单信息')}}</span>
         <iButton v-if="!isView"
-                 @click="save(1)">{{language('BAOCUN','保存')}}</iButton>
+                 @click="save(1)"
+                 :disabled="disabled">{{language('BAOCUN','保存')}}</iButton>
       </template>
       <div class="informationForm">
         <el-form :inline="true"
@@ -35,7 +37,7 @@
             <el-form-item label="申请单名"
                           class="formItem"
                           prop="appName">
-              <el-input :disabled="isView"
+              <el-input :disabled="isView?true:(disabled?true:false)"
                         v-model="formInline.appName"></el-input>
             </el-form-item>
             <el-form-item label="申请单Id"
@@ -96,6 +98,7 @@ export default {
         appType: "",
         remark: "",
         approveRemarks: "",
+        disabled: false
       },
       rules: {
         appName: [
@@ -110,6 +113,15 @@ export default {
   components: {
     iCard,
     iButton
+  },
+  watch: {
+    '$store.state.location.disabled': {
+      handler (val) {
+        this.disabled = JSON.parse(val)
+      },
+      deep: true,
+      immediate: true
+    }
   },
   created () {
     this.init()
@@ -148,8 +160,12 @@ export default {
           }
           saveGenericAppChange(params).then(res => {
             if (res && res.code === '200') {
+              if (type === 2) {
+                this.$store.dispatch('setMtzChangeBtn', true);
+              }
               iMessage.success(res.desZh)
               this.getGenericAppChangeDetail()
+              console.log(this.$store.state)
             } else {
               iMessage.error(res.desZh)
             }
@@ -185,5 +201,8 @@ export default {
 }
 ::v-deep .el-form-item__content {
   width: 100%;
+}
+.dTitle {
+  font-size: 16px;
 }
 </style>

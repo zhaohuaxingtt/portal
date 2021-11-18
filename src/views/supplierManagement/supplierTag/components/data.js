@@ -13,7 +13,7 @@ export const Cloum = [{
         tooltip: true
     },
     {
-        props: 'halfYear',
+        props: 'tagDesc',
         name: '系统判断标准',
         key: 'XITONGPANDUANBIAOZHUN',
         tooltip: true

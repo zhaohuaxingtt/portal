@@ -2,7 +2,7 @@
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-16 14:46:22
+ * @LastEditTime: 2021-11-17 14:25:23
  * @Description:
  * @FilePath: \front-portal\src\router\Router.js
  */
@@ -56,6 +56,17 @@ export default {
       component: () =>
         import(
           '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/applicationForm/index.vue'
+        )
+    },
+    {
+      path: '/changeOrder',
+      name: 'changeOrder',
+      meta: {
+        title: 'MTZ变更单'
+      },
+      component: () =>
+        import(
+          '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationChange/MTZapplicationForm/preview.vue'
         )
     },
     {

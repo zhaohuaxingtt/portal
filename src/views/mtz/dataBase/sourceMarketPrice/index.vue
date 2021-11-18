@@ -104,7 +104,7 @@
             <p v-if="!editMode">{{scope.row.externalMaterialCode}}</p>
           </template>
           <!-- 取价规则 -->
-          <template #prPriceSourceTypeValue="scope">
+          <!-- <template #prPriceSourceTypeValue="scope">
             <div class="priceRuleDropDownData">
               <iSelect
               style="width: 450px;"
@@ -120,7 +120,7 @@
               </iSelect>
             </div>
             <p v-if="!editMode">{{scope.row.prPriceSourceTypeValue}}</p>
-          </template>
+          </template> -->
         </tableList>
         <!-- 分页标签 -->
         <iPagination
@@ -200,7 +200,7 @@ export default {
     // 初始化检索条件
     initSearchData() {
       for (const key in this.searchForm) {
-        this.searchForm[key] = null
+        this.searchForm[key] = []
       }
     },
     // 获取列表数据
@@ -283,7 +283,7 @@ export default {
     handleManualSync() {
       fetchManualSync().then(res => {
         if(res && res.code) {
-          iMessage.success(this.language(res.desZh))
+          iMessage.success(res.desZh)
           this.handleSubmitSearch()
         } else iMessage.error(res.desZh) 
       })

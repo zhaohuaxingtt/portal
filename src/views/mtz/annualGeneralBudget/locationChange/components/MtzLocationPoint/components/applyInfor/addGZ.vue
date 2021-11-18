@@ -36,15 +36,15 @@
             </iFormItem>
             <iFormItem prop="carline">
                 <iLabel :label="language('CHEXING','车型')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.carline"
+                <custom-select v-model="carlineNumber"
                          :user-options="carline"
                          clearable
                          multiple
                          filterable
                          :placeholder="language('QINGXUANZE', '请选择')"
                          display-member="modelNameZh"
-                         value-member="id"
-                         value-key="id">
+                         value-member="modelNameZh"
+                         value-key="modelNameZh">
                 </custom-select>
             </iFormItem>
             <iFormItem prop="supplierId">
@@ -106,7 +106,7 @@
                 v-model="contractForm.price"
                 type="number"
                 placeholder="请输入基价"
-                :disabled="disabled"
+                :disabled="metalType"
                 />
             </iFormItem>
             <iFormItem prop="priceMeasureUnit">
@@ -121,57 +121,63 @@
                 </custom-select>
             </iFormItem>
             <iFormItem prop="platinumPrice">
-                <iLabel :label="language('BOJIJIA','铂基价')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('BOJIJIA','铂基价')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.platinumPrice"
                 type="number"
                 placeholder="请输入铂基价"
-                :disabled="disabled"
+                :disabled="!metalType"
+                @change="jijiaCompute"
                 />
             </iFormItem>
             <iFormItem prop="platinumDosage">
-                <iLabel :label="language('BOYONGLIANG','铂用量')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('BOYONGLIANG','铂用量')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.platinumDosage"
                 type="number"
                 placeholder="请输入铂用量"
-                :disabled="disabled"
+                :disabled="!metalType"
+                @change="jijiaCompute"
                 />
             </iFormItem>
             <iFormItem prop="palladiumPrice">
-                <iLabel :label="language('BAJIJIA','钯基价')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('BAJIJIA','钯基价')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.palladiumPrice"
                 type="number"
                 placeholder="请输入钯基价"
-                :disabled="disabled"
+                :disabled="!metalType"
+                @change="jijiaCompute"
                 />
             </iFormItem>
             <iFormItem prop="palladiumDosage">
-                <iLabel :label="language('BAYONGLIANG','钯用量')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('BAYONGLIANG','钯用量')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.palladiumDosage"
                 type="number"
                 placeholder="请输入钯用量"
-                :disabled="disabled"
+                :disabled="!metalType"
+                @change="jijiaCompute"
                 />
             </iFormItem>
             <iFormItem prop="rhodiumPrice">
-                <iLabel :label="language('LAOJIJIA','铑基价')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('LAOJIJIA','铑基价')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.rhodiumPrice"
                 type="number"
                 placeholder="请输入铑基价"
-                :disabled="disabled"
+                :disabled="!metalType"
+                @change="jijiaCompute"
                 />
             </iFormItem>
             <iFormItem prop="rhodiumDosage">
-                <iLabel :label="language('LAOYONGLIANG','铑用量')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('LAOYONGLIANG','铑用量')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.rhodiumDosage"
                 type="number"
                 placeholder="请输入铑用量"
-                :disabled="disabled"
+                :disabled="!metalType"
+                @change="jijiaCompute"
                 />
             </iFormItem>
             <iFormItem prop="tcCurrence">
@@ -260,6 +266,7 @@
             </iFormGroup>
         </div>
         <span slot="footer" class="dialog-footer">
+            <span class="time_color" v-if="timeShow">重叠时间段为：{{startTime}}&nbsp;&nbsp;~&nbsp;&nbsp;{{endTime}}</span>
             <i-button @click="handleSave">保存</i-button>
             <i-button @click="handleReset">重置</i-button>
             <i-button @click="handleCancel">取消</i-button>
@@ -276,6 +283,7 @@ import {
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 import {
   addAppRule,//维护MTZ原材料规则-新增
+  checkPreciousMetal
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { 
     getRawMaterialNos
@@ -283,6 +291,7 @@ import {
 import {
   fetchRemoteMtzMaterial,//查询MTZ材料组
 } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit';
+import { isNumber,timeCoincide } from "./util";
 import {
   iButton,
   iMessage,
@@ -314,6 +323,12 @@ export default {components: {
       default: () => {
         return {}
       }
+    },
+    dataObject:{
+        type: Object,
+        default: () => {
+            return {}
+        }
     }
   },
   data() {
@@ -370,8 +385,11 @@ export default {components: {
             materialName:'',
             threshold:0,
             endDate:"2999-12-31 00:00:00",
-            source:"JD"
+            source:"JD",
+            price:"",
+            carline:"",
         },
+        carlineNumber:[],
         rules: {
             effectFlag: [{ required: true, message: '请选择', trigger: 'blur' }],
             materialGroup: [{ required: true, message: '请选择', trigger: 'blur' }],
@@ -382,12 +400,12 @@ export default {components: {
             materialName: [{ required: true, message: '请选择', trigger: 'blur' }],
             price: [{ required: true, message: '请输入', trigger: 'blur' }],
             priceMeasureUnit: [{ required: true, message: '请选择', trigger: 'blur' }],
-            platinumPrice: [{ required: true, message: '请输入', trigger: 'blur' }],
-            platinumDosage: [{ required: true, message: '请输入', trigger: 'blur' }],
-            palladiumPrice: [{ required: true, message: '请输入', trigger: 'blur' }],
-            palladiumDosage: [{ required: true, message: '请输入', trigger: 'blur' }],
-            rhodiumPrice: [{ required: true, message: '请输入', trigger: 'blur' }],
-            rhodiumDosage: [{ required: true, message: '请输入', trigger: 'blur' }],
+            // platinumPrice: [{ required: true, message: '请输入', trigger: 'blur' }],
+            // platinumDosage: [{ required: true, message: '请输入', trigger: 'blur' }],
+            // palladiumPrice: [{ required: true, message: '请输入', trigger: 'blur' }],
+            // palladiumDosage: [{ required: true, message: '请输入', trigger: 'blur' }],
+            // rhodiumPrice: [{ required: true, message: '请输入', trigger: 'blur' }],
+            // rhodiumDosage: [{ required: true, message: '请输入', trigger: 'blur' }],
             tcCurrence: [{ required: true, message: '请选择', trigger: 'blur' }],
             tcExchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }],
             source: [{ required: true, message: '请输入', trigger: 'blur' }],
@@ -415,6 +433,10 @@ export default {components: {
 
         supplierType1:false,
         supplierType2:false,
+        metalType:false,
+        timeShow:false,//重叠时间显示
+        startTime:"",
+        endTime:"",
     }
   },
   created(){
@@ -445,7 +467,18 @@ export default {components: {
     }
   },
   methods: {
+    jijiaCompute(){
+        if(isNumber(this.contractForm.platinumPrice) && isNumber(this.contractForm.platinumDosage) && isNumber(this.contractForm.palladiumPrice) && isNumber(this.contractForm.palladiumDosage) && isNumber(this.contractForm.rhodiumPrice) && isNumber(this.contractForm.rhodiumDosage)){
+            console.log("计算出基价值");
+            this.contractForm.price = "99.9"
+        }else{
+            iMessage.error("请填写完")
+        }
+    },
     MaterialGrade(value){
+        checkPreciousMetal({code:value}).then(res=>{
+            this.metalType = res.data;
+        })
         try{
             this.materialCode.forEach(e => {
                 if(e.code == value){
@@ -512,8 +545,24 @@ export default {components: {
         }
     },
     handleSave() {
+        this.contractForm.carline = this.carlineNumber.toString();
       this.$refs['contractForm'].validate(async valid => {
         if (valid) {
+            console.log("验证成功")
+            var num = 0; 
+            this.dataObject.forEach(e=>{
+                if(e.supplierId.toString() == this.contractForm.supplierId && e.materialCode == this.contractForm.materialCode && Number(e.price) == Number(this.contractForm.price) && timeCoincide(e.startDate,e.endDate,this.contractForm.startDate,this.contractForm.endDate)){
+                    this.startTime = e.startDate;
+                    this.endTime = e.endDate;
+                    this.timeShow = true;
+                    num++;
+                }
+            })
+            if(num !== 0){
+                iMessage.error(this.language("CZXTZJBNJXXZCZ","存在相同主键时，所有时间段均不能重叠"))
+                return false;
+            }
+            this.timeShow = false;
             addAppRule({
                 ...this.contractForm,
                 ttMtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
@@ -523,7 +572,6 @@ export default {components: {
                     this.$emit("addDialogGZ","")
                 }
             })
-          console.log("验证成功")
         } else {
           return false
         }
@@ -544,6 +592,12 @@ export default {components: {
 ::v-deep .dialog-footer{
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+}
+.time_color{
+    color:red;
+    display: inline-block;
+    margin-right:20px;
 }
 .vue-select{
     width:100%;

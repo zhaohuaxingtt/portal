@@ -142,15 +142,34 @@ export default {
     },
     openDialog(){
       // this.instance.close()
-      this.show = true
+      let time = ''
+      if(this.formData.publishTime){
+        const y = this.formData.publishTime.slice(0,4)
+        const M =this.formData.publishTime.slice(5,7)
+        const d = this.formData.publishTime.slice(8,10)
+        const h = this.formData.publishTime.slice(11,13)
+        const m = this.formData.publishTime.slice(14,16)
+        time = `${y}年   ${M}月${d}日${h}时${m}分`
+      }else{
+        const y = this.formData.publishPreTime.slice(0,4)
+        const M =this.formData.publishPreTime.slice(5,7)
+        const d = this.formData.publishPreTime.slice(8,10)
+        const h = this.formData.publishPreTime.slice(11,13)
+        const m = this.formData.publishPreTime.slice(14,16)
+        time = `${y}年   ${M}月${d}日${h}时${m}分`
+      }
+      
       
       this.detail = {
         title:this.formData.popupName,
         content:this.formData.content,
         picUrl:this.formData.picUrl,
-        linkUrl:this.formData.linkUrl
+        linkUrl:this.formData.linkUrl,
+        popupStyle:this.formData.popupStyle,
+        publishTime:time
       }
-      
+      this.show = true
+    
     },
     newCreate(){
         window.open('portal/#/dialogMgmt/popup-window-management/create')

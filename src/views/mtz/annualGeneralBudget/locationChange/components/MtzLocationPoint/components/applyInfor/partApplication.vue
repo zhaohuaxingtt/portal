@@ -11,6 +11,7 @@
 
             <el-form-item style="marginRight:68px;width:180px" :label="language('SHENQINGDANHAO','申请单号')" class="formItem">
               <iInput v-model="searchForm.nominateId"
+                          type="number"
                           :placeholder="language('QINGSHURU','请输入')">
               </iInput>
             </el-form-item>
@@ -33,9 +34,11 @@
             </el-form-item>
 
             <el-form-item style="marginRight:68px" :label="language('SHENQINGZHUANGTAI','申请状态')">
+                              <!-- multiple -->
               <custom-select v-model="searchForm.applicationStatus"
                               :user-options="getLocationApplyStatus"
                               clearable
+                              filterable
                               :placeholder="language('QINGXUANZE', '请选择')"
                               display-member="message"
                               value-member="code"

@@ -40,10 +40,9 @@ export default {
       if (this.type === 'pos') {
         this.$store.dispatch('GetPositionList', data)
       } else {
-        const flag = this.query.find(item => {
+        const flag = this.query.find((item) => {
           return item.value
         })
-        console.log(flag)
         if (flag) {
           this.$store.commit('SET_ORG_QUERY_FLAG', true)
           this.$store.commit('SET_ORG_ARRAYLIST_QUERY')
@@ -54,7 +53,7 @@ export default {
       }
     },
     handleReset() {
-      this.query.map(item => {
+      this.query.map((item) => {
         this.$set(item, 'value', '')
       })
       const data = { type: this.type, params: this.query }

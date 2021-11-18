@@ -366,11 +366,6 @@ export default {
     // }
   },
   created() {
-    if (this.sapCode && this.supplierId) {
-      this.form.sapCode[0] = this.sapCode
-      this.form.supplierName[0] = this.supplierId
-    }
-
     this.tabVal = '1'
     this.getInit()
   },
@@ -392,35 +387,23 @@ export default {
     deptChange(v) {
       console.log(v)
       var arr = []
-      if(v.length>=1){
-          v.forEach(v => {
-              let users=[]
-              users=this.deptList.find(i=>{return i.id==v}).userDTOList
-              arr.push(...users)
-          });
+      if (v.length >= 1) {
+        v.forEach((v) => {
+          let users = []
+          users = this.deptList.find((i) => {
+            return i.id == v
+          }).userDTOList
+          arr.push(...users)
+        })
       }
-      this.userList =arr
+      this.userList = arr
       console.log(arr)
-    //   if (v.length > 1) {
-    //     arr = this.deptList.find((res) => {
-    //       return v[v.length - 1] == res.id
-    //     }).userDTOList
-    //     if (arr.length != 0) {
-    //       this.userList.push(...arr)
-    //     }
-    //   } else {
-    //     this.userList = this.deptList.find((res) => {
-    //       return v == res.id
-    //     }).userDTOList
-    //   }
     },
     getTaleList() {
       this.tableLoading = true
-      if( this.form.sapCode.length>0|| this.form.supplierName.length>0){
-      this.form.supplierId = this.form.sapCode.concat(this.form.supplierName)
-
+    if (this.form.sapCode.length > 0 || this.form.supplierName.length > 0) {
+        this.form.supplierId = this.form.sapCode.concat(this.form.supplierName)
       }
-      // this.form.rfqStatus = [this.form.rfqStatus]
       const req = {
         ...this.form
       }
@@ -451,6 +434,10 @@ export default {
       const resRfq = await sapDropDown({ type: 'rfq' })
       const resProject = await sapDropDown({ type: 'project' })
       const resMotor = await sapDropDown({ type: 'motor' })
+      if (this.sapCode && this.supplierId) {
+        this.form.sapCode[0] = this.sapCode
+        this.form.supplierName[0] = this.supplierId
+      }
       this.partList = resPart.data
       this.resRfqList = resRfq.data
       this.projectList = resProject.data
@@ -514,7 +501,7 @@ export default {
       this.getTaleList()
     },
     changeTab() {
-         this.userList = []
+      this.userList = []
       this.form = {
         deptId: [],
         userId: [],
@@ -525,7 +512,7 @@ export default {
         partNum: [],
         rfq: [],
         motorProject: [],
-        motorType: [],
+        motorType: []
       }
       this.getTaleList()
     },
