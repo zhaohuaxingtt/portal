@@ -7,10 +7,12 @@
   <iDialog
   top="2%"
     @close="closeDiolog()"
-    title="加⼊⿊名单 - ⼀般采购"
     :visible.sync="value"
     width="85%"
   >
+     <div slot="title" class="headerTitle">
+      <span>{{language('JIARUHEIMINGDANYIBANCAIGOU', '加⼊⿊名单 - ⼀般采购')}}</span>
+    </div>
     <div class="box">
       <el-form
         :rules="rules"
@@ -255,7 +257,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.box {
+.headerTitle {
+font-size: 20px;
+font-family: Arial;
+font-weight: bold;
+color: #000000;
 }
 .footer {
   display: flex;
