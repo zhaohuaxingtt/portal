@@ -563,7 +563,7 @@ export default {
     },
     handleCellClick(row, column) {
       if(!this.emitLabel.includes(column.label)){
-        row.flag = !row.flag
+        
         this.$refs.theCustomTable.toggleRowSelection(row,row.flag)
       }
       if (this.treeExpand) {
@@ -609,6 +609,7 @@ export default {
       }
     },
     toggleRowSelection(row, selected) {
+      row.flag = selected
       let toggleRow = row
       if (this.rowKey) {
         const filterRow = this.realTableData.filter(
