@@ -19,7 +19,7 @@
           }}</iButton> -->
         </div>
       </div>
-      <iCard style="margin-top:20px">
+      <iCard :style="ifSelf?'margin-top:20px':''">
         <el-form inline
                  label-position="left"
                  label-width="120px">
@@ -54,6 +54,9 @@
                     :tableLoading="tableLoading"
                     @handleSelectionChange="handleSelectionChange"
                     :index="true">
+                       <template #stuffNameEnDe='scope'>
+                        <span>{{scope.row.stuffName}}-{{scope.row.stuffNameDe}}</span>
+                    </template>
         </table-list>
         <iPagination v-update
                      @size-change="handleSizeChange($event, getListData)"
@@ -73,7 +76,7 @@
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import { tableTitle } from './data'
-import { iPage, iCard, iButton, iText, iPagination, iMessage } from 'rise'
+import {  iCard, iButton, iText, iPagination, iMessage } from 'rise'
 import {
   supplierBlackListAudit,
   supplierBlackListAuditPage,
@@ -82,7 +85,6 @@ import {
 export default {
   mixins: [pageMixins],
   components: {
-    iPage,
     iCard,
     iButton,
     iText,

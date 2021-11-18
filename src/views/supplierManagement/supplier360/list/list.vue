@@ -457,37 +457,19 @@ export default {
         })
       } else if (type == 'join') {
         if (this.form.supplierType == 'GP') {
-          //   if (this.clickTableList.isGpBlackList == 1) {
-          //     this.$message({
-          //       type: 'warning',
-          //       message: this.language(
-          //         'GAIGONGYINGSHANGSUOYOUYEWULEIXINGJUNYISHOUKONG,WUXUCHONGFUTIANJIA',
-          //         '该供应商所有业务类型均已受控，无需重复添加！'
-          //       )
-          //     })
-          //   } else {
+    
           this.gpJoinParams = {
             ...this.gpJoinParams,
             key: Math.random(),
             visible: true
           }
-          //   }
         } else if (this.form.supplierType == 'PP') {
-          //   if (this.clickTableList.isPpBlackList == 1) {
-          //     this.$message({
-          //       type: 'warning',
-          //       message: this.language(
-          //         'GAIGONGYINGSHANGSUOYOUCAILIAOZUGONGYIZUYIZAIHEIMINGDANZHONG',
-          //         '该供应商所有材料组，工艺组已在黑名单中，无需重复添加'
-          //       )
-          //     })
-          //   } else {
+   
           this.ppJoinParams = {
             ...this.ppJoinParams,
             key: Math.random(),
             visible: true
           }
-          //   }
         }
       } else if (type == 'remove') {
         if (this.form.supplierType == 'GP') {

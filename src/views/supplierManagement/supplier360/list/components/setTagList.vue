@@ -46,9 +46,8 @@
         }}</iButton>
         </div>
       </div>
-      <div class="section"
-           style="margin-top:30px">
-        <div class="sectionTitle">
+    
+        <div style="margin-top:30px" class="sectionTitle">
           <span class="ptext">
             {{
               language(
@@ -61,11 +60,14 @@
           language('BAOCUN', '保存')
         }}</iButton>
         </div>
+          <div class="section"
+            style="margin-top:30px"
+           >
         <el-table :data="tabledata"
                   v-loading="tableLoading"
                   ref="mulitipleTable"
                   @selection-change="handleSelectionChange"
-                  style="margin-top:30px"
+                
                   :tableTitle="setTagCloum">
           <el-table-column type="selection"
                            width="50"
@@ -286,12 +288,13 @@ export default {
   .section {
     max-height: 700px;
     overflow-y: auto;
+  
+  }
     .sectionTitle {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-  }
   .ptext {
     font-size: 18px;
     font-family: Arial;
