@@ -35,6 +35,8 @@ import RouterPopupWindowMa from './RouterPopupWindowMa'
 import RouterManage from './RouterManage'
 import RouterMeeting from './RouterMeeting'
 
+import RouterNews from "./news";
+
 export default {
   routes: [
     {
@@ -142,7 +144,8 @@ export default {
         ...RouterAssistant,
         ...RouterPopupWindowMa,
         ...RouterMeeting,
-        ...RouterManage
+        ...RouterManage,
+        ...RouterNews,
       ]
     },
 
