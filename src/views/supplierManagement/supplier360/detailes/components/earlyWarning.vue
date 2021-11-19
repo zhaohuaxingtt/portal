@@ -10,11 +10,11 @@
     <el-row :gutter="20" type="flex" justify="space-between">
       <el-col :span="8">
         <!-- 供应商得分 -->
-        <supplierKpi></supplierKpi>
+        <supplierKpi v-permission="Card_SPI"></supplierKpi>
       </el-col>
       <el-col :span="8">
         <!-- 配附件供货率 -->
-        <supplyRate :infodata="infodata"></supplyRate>
+        <supplyRate  :infodata="infodata"></supplyRate>
       </el-col>
       <el-col :span="8">
         <!-- ekl批量件 -->

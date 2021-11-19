@@ -2,9 +2,9 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('GONGYINGSHANGDEFEN', '供应商得分')}}</p>
-      <!-- <span class="el-dropdown-link">
+      <span class="el-dropdown-link" v-permission="Card_SPI_More">
         <i class="el-icon-more"></i>
-      </span> -->
+      </span>
     </div>
     <div class="box">
       <img :src="img"

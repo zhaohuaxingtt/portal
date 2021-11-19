@@ -345,6 +345,17 @@
             </span>
           </template>
         </table-list>
+        <iPagination
+          v-update
+          @size-change="handleSizeChange($event, getTaleList)"
+          @current-change="handleCurrentChange($event, getTaleList)"
+          background
+          :page-sizes="page.pageSizes"
+          :page-size="page.pageSize"
+          :layout="page.layout"
+          :current-page="page.currPage"
+          :total="page.totalCount"
+        />
       </div>
       <div style="height: 30px"></div>
     </iDialog>
@@ -378,10 +389,12 @@
 </template>
 
 <script>
-import { icon, iDialog, iSelect, iButton, iInput, iMessage } from 'rise'
+import { icon, iDialog, iSelect, iButton, iInput, iMessage,iPagination } from 'rise'
 import tableList from '@/components/commonTable'
 import { tableTitleMonitor, tableTitleMonitorRecord, dictByCode } from './data'
 import { getDeptDropDownList } from '@/api/authorityMgmt/index'
+import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
+import { pageMixins } from '@/utils/pageMixins'
 import {
   currentList,
   sapDropDown,
@@ -389,13 +402,15 @@ import {
   cancel
 } from '@/api/frmRating/supplierOverview/index'
 export default {
+  mixins: [generalPageMixins, pageMixins],
   components: {
     iSelect,
     iButton,
     iDialog,
     tableList,
     iInput,
-    icon
+    icon,
+    iPagination
   },
   props: {
     value: {
@@ -491,7 +506,7 @@ export default {
         this.userList.forEach(v => {
           this.form.userId.forEach(i => {
             if (v.id == i) {
-           arr2.push(i)
+              arr2.push(i)
               console.log(i)
             }
           })
@@ -516,7 +531,13 @@ export default {
           this.tableListData = res.data
         })
       } else {
-        historyList(req).then(res => {
+        let form = {
+          ...req,
+          pageNo: this.page.currPage,
+          pageSize: this.page.pageSize
+        }
+        historyList(form).then(res => {
+          this.page.totalCount = res.total
           this.tableLoading = false
           this.tableListData = res.data
         })
@@ -525,7 +546,7 @@ export default {
     async getInit() {
       const res = await dictByCode('C_RATING')
       this.cratingLsit = res
-        if (this.sapCode && this.supplierId) {
+      if (this.sapCode && this.supplierId) {
         this.form.sapCode[0] = this.sapCode || ''
         this.form.supplierName[0] = this.supplierId || ''
       }
@@ -538,8 +559,8 @@ export default {
       const resRfq = await sapDropDown({ type: 'rfq' })
       const resProject = await sapDropDown({ type: 'project' })
       const resMotor = await sapDropDown({ type: 'motor' })
-        console.log(this.sapCode)
-    
+      console.log(this.sapCode)
+
       this.partList = resPart.data
       this.resRfqList = resRfq.data
       this.projectList = resProject.data
@@ -580,10 +601,14 @@ export default {
     },
 
     sure() {
+      this.page.currPage = 1
+      this.page.pageSize = 10
       this.getTaleList()
     },
 
     clickReset() {
+      this.page.currPage = 1
+      this.page.pageSize = 10
       this.userList = []
       this.form = {
         supplierId: [],
@@ -685,7 +710,7 @@ export default {
     display: inline-block;
     max-width: 150px;
     overflow: hidden;
-      vertical-align: middle;
+    vertical-align: middle;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
