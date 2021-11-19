@@ -47,12 +47,15 @@
       justify="space-between"
     >
       <el-col :span="8">
+          <!-- 产能预警 -->
         <productivity></productivity>
       </el-col>
       <el-col :span="8">
+          <!-- 财务预警 -->
         <newsMonitor :infodata="infodata"></newsMonitor>
       </el-col>
       <el-col :span="8">
+          <!-- 舆情监测 -->
         <publicOpinion> </publicOpinion>
       </el-col>
     </el-row>

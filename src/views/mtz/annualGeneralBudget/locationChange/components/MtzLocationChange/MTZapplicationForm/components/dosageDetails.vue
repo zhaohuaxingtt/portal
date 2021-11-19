@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-18 15:21:12
+ * @LastEditTime: 2021-11-19 10:08:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -277,12 +277,12 @@ export default {
       })
     },
     uploadBasePriceChange (val) {
-      console.log(val)
       let params = {
         multifile: val.file,
         mtzAppId: this.mtzAppId
       }
       uploadBasePriceChange(params).then((res) => {
+        console.log(res)
         if (res.code === '200') {
           iMessage.success(res.desZh)
         } else {

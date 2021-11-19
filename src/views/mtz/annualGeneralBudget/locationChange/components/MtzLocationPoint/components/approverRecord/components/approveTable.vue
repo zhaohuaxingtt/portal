@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-18 10:06:25
+ * @LastEditTime: 2021-11-19 11:23:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -17,6 +17,7 @@
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
         <iButton v-show="!flag"
+                 :disabled="disabled"
                  @click="edit">{{language('BIANJI', '编辑') }}</iButton>
       </div>
       <div v-if="editFlag">
@@ -153,7 +154,8 @@ export default {
       riseId: "",
       selectDeptList: [],
       selectSectionList: [],
-      flag: false
+      flag: false,
+      disabled: false
     }
   },
   components: {
@@ -234,6 +236,9 @@ export default {
       }).then(res => {
         if (res?.code === '200') {
           this.riseId = res.data.riseId
+          if (res.data.ttNominateAppId) {
+            this.disabled = true
+          }
         }
       })
     },
