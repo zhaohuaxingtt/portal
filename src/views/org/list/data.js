@@ -7,6 +7,9 @@ export const tableSetting = [
     width: 50
   },
   {
+    type: 'index'
+  },
+  {
     prop: 'bussinessAreaName',
     label: '组织机构名称（中）',
     i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_CNNAME',
@@ -64,16 +67,16 @@ export const tableSetting = [
     headerAlign: 'center',
     i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_OWNER',
     customRender: (h, scope) => {
-      let leaders = scope.row.positionList.filter(val => {
+      let leaders = scope.row.positionList.filter((val) => {
         return val.isDeptLead
       })
       let leaderStr = ''
       let userNames = []
       if (leaders) {
-        leaders.forEach(val => {
+        leaders.forEach((val) => {
           let users = val.userDTOList
           if (users) {
-            let nameList = users.map(element => {
+            let nameList = users.map((element) => {
               return element.nameZh
             })
             userNames.push(...nameList)

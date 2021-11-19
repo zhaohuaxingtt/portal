@@ -84,10 +84,11 @@ export default {
         '.i-table-custom .el-table__body-wrapper'
       )
       if (scrollElement) {
-        scrollElement.addEventListener('scroll', this.getVirtualDataPage())
+        scrollElement.addEventListener('scroll', this.getVirtualDataPage)
       }
     },
     getVirtualDataPage() {
+      console.log('getVirtualDataPage', 'getVirtualDataPage')
       const scrollElement = document.querySelector(
         '.i-table-custom .el-table__body-wrapper'
       )
@@ -97,33 +98,26 @@ export default {
         for (let i = 0; i < this.realTableData; i++) {
           const item = this.realTableData[i]
           upHideHeight += this.virtualPosMap[item.uniqueId]
-          if (scrollTop > upHideHeight - 10 || scrollTop < upHideHeight + 10) {
+          const page = Math.ceil(i / this.virtualListData.pageSize)
+          console.log('page', page)
+          if (
+            scrollTop !== upHideHeight &&
+            page !== this.virtualListData.page
+          ) {
+            this.virtualListData.page = page
+            this.setVirtualPosMap()
             break
           }
+          /* if (scrollTop > upHideHeight - 10 && scrollTop < upHideHeight + 10) {
+            break
+          } */
         }
       }
-
-      /* if (this.virtualData && this.virtualData.length) {
-        let upHeight = 0 // 上部分隐藏的高
-        for (let i = 0; i < this.realTableData; i++) {
-          const item = this.realTableData[i]
-          if (item.uniqueId === this.virtualData.uniqueId) {
-            break
-          }
-          upHeight += this.virtualPosMap[item.uniqueId]
-        }
-        if (scrollTop < upHeight) {
-          this.getPrevData()
-        }
-        if (scrollTop > clientHeight + upHeight) {
-          this.getNextData()
-        }
-      } */
     }
   },
   destroyed() {
     document
       .querySelector('.i-table-custom .el-table__body-wrapper')
-      .removeEventListener('scroll', this.getVirtualDataPage())
+      .removeEventListener('scroll', this.getVirtualDataPage)
   }
 }
