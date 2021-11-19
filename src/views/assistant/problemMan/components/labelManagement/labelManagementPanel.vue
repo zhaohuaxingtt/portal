@@ -1,7 +1,7 @@
 <template>
   <div v-loading="loading">
     <search @confirmSearch="confirmSearch" />
-    <searchTable />
+    <searchTable ref='searchTable' :type='type'/>
   </div>
 </template>
 
@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     confirmSearch(formData) {
-      console.log(formData, '提交的搜索条件');
+      this.$refs.searchTable.search(formData)
     },
   },
   mounted() {

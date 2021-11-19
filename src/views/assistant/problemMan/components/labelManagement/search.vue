@@ -5,19 +5,19 @@
         <el-form label-position="top" :model="searchForm" ref="searchForm">
           <el-row :gutter="20">
             <el-col :span="8">
-              <iFormItem :label="$t('标签内容')">
+              <iFormItem :label="language('问题模块')">
                 <iInput v-model="searchForm.code" placeholder="请输入"></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="$t('问题模块')">
+              <iFormItem :label="language('标签')">
                 <iSelect v-model="searchForm.type" filterable placeholder="请选择">
                   <el-option v-for="item in options" :key="item.code" :label="item.value" :value="item.code"></el-option>
                 </iSelect>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="$t('通知人')">
+              <iFormItem :label="language('创建人')">
                 <iInput v-model="searchForm.name" placeholder="请输入" />
               </iFormItem>
             </el-col>
@@ -25,8 +25,8 @@
         </el-form>
       </div>
       <div class="btn-box margin-top25">
-        <iButton @click="handleConfirm">{{ $t('LK_INQUIRE') }}</iButton>
-        <iButton @click="handleReset">{{ $t('LK_ZHONGZHI') }}</iButton>
+        <iButton @click="handleConfirm">{{ language('LK_INQUIRE') }}</iButton>
+        <iButton @click="handleReset">{{ language('LK_ZHONGZHI') }}</iButton>
       </div>
     </div>
   </el-card>
@@ -48,6 +48,8 @@ export default {
     return {
       searchForm: {
         code: '',
+        tyep:'',
+        name:''
       },
       options: [],
       startTimeOptions: {
@@ -74,7 +76,12 @@ export default {
       this.$emit('confirmSearch', this.searchForm);
     },
     handleReset () {
-
+      this.searchForm = {
+        code: '',
+        tyep:'',
+        name:''
+      }
+      this.handleConfirm()
     }
   }
 }

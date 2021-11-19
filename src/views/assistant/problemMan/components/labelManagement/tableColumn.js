@@ -5,11 +5,13 @@ export const tableColumn = (e) => {
       width: 50
     },
     {
+      type:'index',
+      label:'序号'
+    },
+    {
       prop: 'userNum',
       label: '标签内容',
-      i18n: 'staffManagement.EMPLOYEENUMBER',
       align: 'center',
-      emit: 'go-detail'
     },
     {
       prop: 'account',
@@ -22,14 +24,12 @@ export const tableColumn = (e) => {
       label: '通知人',
       width: '100px',
       align: 'center',
-      i18n: '中文名',
       tooltip: true
     },
     {
       prop: 'nameEn',
       label: '添加日期',
       align: 'center',
-      i18n: 'staffManagement.ENGLISHNAME',
       tooltip: true
     }
   ]

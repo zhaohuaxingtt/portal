@@ -52,7 +52,16 @@ import {TABLE_KEYWORDS_COLUMNS} from './data.js'
 import addKeyWordsDialog from './addKeyWords.vue'
 export default {
     name:'keyWordsMana',
-    components:{iSearch,iFormItem,iSelect,iTableCustom,iCard,iButton,iPagination,addKeyWordsDialog},
+    components:{
+        iSearch,
+        iFormItem,
+        iSelect,
+        iTableCustom,
+        iCard,
+        iButton,
+        iPagination,
+        addKeyWordsDialog
+    },
     mixins:[pageMixins],
     data(){
         return{
@@ -100,7 +109,7 @@ export default {
                 current: this.page.currPage,
                 size: this.page.pageSize
             }
-            
+
         },
         refresh(){
             this.getPage()
