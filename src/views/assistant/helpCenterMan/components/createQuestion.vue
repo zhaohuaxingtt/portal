@@ -59,7 +59,7 @@
         data() {
             return {
                 extraData: { applicationName: 'rise-dev', type: '1', businessId: '01', isTemp: 0 },
-                fileIds: ['1406890012558303234', '1406890292712644609'],
+                fileIds: [],
                 form:{
                     module:"",
                     tag:"",

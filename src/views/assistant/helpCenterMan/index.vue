@@ -26,7 +26,7 @@
 		>
 			<div class="flex" slot="top">
 				<iInput class="flex-1" v-model="key" placeholder="搜索.."></iInput>
-				<iSelect class="content-select" v-model="type">
+				<iSelect class="content-select" v-model="type" placeholder="问题模块">
 					<!-- <el-option value='' label='全部'></el-option> -->
 				</iSelect>
 			</div>
@@ -44,7 +44,7 @@
 		>
 			<div class="flex" slot="top">
 				<iInput class="flex-1" v-model="key" placeholder="搜索.."></iInput>
-				<iSelect class="content-select" v-model="type">
+				<iSelect class="content-select" v-model="type" placeholder="问题模块">
 					<!-- <el-option value='' label='全部'></el-option> -->
 				</iSelect>
 			</div>
@@ -132,7 +132,7 @@ export default {
 		font-size: 18px;
 	}
 	.content-select{
-		width: 100px;
+		width: 150px !important;
 		margin-left: 10px;
 	}
 	.user-type{
