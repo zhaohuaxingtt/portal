@@ -81,12 +81,9 @@ export default {
           } else {
             store.commit("routerMtzData", data);
             sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+            this.$emit("close", "")
           }
-
-          this.$emit("close", "")
         });
-
-
       }
     }
   }
