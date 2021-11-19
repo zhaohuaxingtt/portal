@@ -40,12 +40,12 @@ export const tableTitle = [
     key: 'RSDONGJIERIQI'
   },
   {
-    width: 150,
+    width: 200,
     props: 'isPriceConsistent',
     name: '报价一致性检验状态',
     key: 'BJYZXJYZT'
   },
-  { width: 150, props: 'selStatus', name: 'SEL单据确认状态', key: 'SELDJQRZT' },
+  { width: 150, props: 'selStatusDesc', name: 'SEL单据确认状态', key: 'SELDJQRZT' },
   { width: 200, props: 'nominateDate', name: '定点日期', key: 'DINGDIANRIQI' },
   { width: 150, props: 'ap8pAmt', name: '操作', key: 'CAOZUO' }
 ]
@@ -70,7 +70,7 @@ export const tableTitleInfor = [
   { width: 150, props: 'meetingPresentId', name: '会议', key: 'HUIYI' },
   {
     width: 150,
-    props: 'nominateUser',
+    props: 'nominateUserName',
     name: '询价采购员',
     key: 'XUNJIACAIGOUYUAN'
   },
@@ -88,7 +88,7 @@ export const tableTitleInfor = [
     name: '报价一致性检验状态',
     key: 'BJYZXJYZT'
   },
-  { width: 150, props: 'selStatus', name: 'SEL单据确认状态', key: 'SELDJQRZT' },
+  { width: 150, props: 'selStatusDesc', name: 'SEL单据确认状态', key: 'SELDJQRZT' },
   { width: 200, props: 'nominateDate', name: '定点日期', key: 'DINGDIANRIQI' },
   { width: 150, props: 'ap8pAmt', name: '操作', key: 'CAOZUO' }
 ]

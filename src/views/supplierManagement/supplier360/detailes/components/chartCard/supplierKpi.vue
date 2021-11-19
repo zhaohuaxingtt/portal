@@ -2,17 +2,16 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('GONGYINGSHANGDEFEN', '供应商得分')}}</p>
-      <!-- <span class="el-dropdown-link">
+      <span class="el-dropdown-link" v-permission="Card_SPI_More">
         <i class="el-icon-more"></i>
-      </span> -->
+      </span>
     </div>
     <div class="box">
-      <icon class="early "
-            symbol
-            name="iconcaiwuyujing-icon"></icon>
+      <img :src="img"
+           class="imgIcon" />
       <div class="boxText">
         <div> {{info.currentScore}} <div>
-            <icon v-if="info.upDown>0"
+            <icon  v-if="info.upDown>0"
                   symbol
                   class="green"
                   name="iconpaixu-xiangshang"> </icon>
@@ -25,8 +24,8 @@
            
           </div>
         </div>
-        <p>{{language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署')}} <span v-if="info.developScore!=0"
-                :class="parseInt(info.developScore)>=0?'green':'orgin'"> {{info.developScore?info.developScore.toString():''}}%</span></p>
+        <p>{{language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署')}} <span 
+                :class="parseInt(info.developScore)>=0?'green':'orgin'"> {{'+'+info.developScore?info.developScore.toString():''}}</span></p>
         <p>{{language('WURANWEIGUI', '污染违规')}} <span></span></p>
       </div>
       <div class="chartbox">
@@ -45,6 +44,7 @@
 import echarts from '@/utils/echarts'
 import { iCard, icon } from 'rise'
 import { performCard360 } from '@/api/supplierManagement/supplierCard/index'
+import img from '@/assets/images/supplierKpi.svg'
 export default {
   props: {},
   components: {
@@ -53,6 +53,7 @@ export default {
   },
   data() {
     return {
+        img:img,
       chart: 'oneChart',
       option: {},
       info: {},
@@ -155,6 +156,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.imgIcon{
+    width: 60px;
+    height: 60px;
+}
 .title {
   display: flex;
   justify-content: space-between;
@@ -195,13 +200,14 @@ export default {
     letter-spacing: 4px;
     div {
       display: flex;
+      width: 100px;
       align-items: center;
       position: absolute;
       top: 4px;
-      right: -100px;
+      right: -110px;
       span {
-        margin-left: 6px;
-        font-size: 18px;
+        margin-left: 4px;
+        font-size: 16px;
         font-family: Arial;
         font-weight: bold;
       }

@@ -116,7 +116,6 @@
             },
             // 确定提交 // 确认转派
             handleSubmit() {
-                console.log(this.listId,'listId')
                 if(!this.form.ksId) {
                    return iMessage.error(`${ this.$i18n.locale === 'zh' ? '请选择科室' : 'please select department' }`)
                 } else if(!this.form.linieId) {
@@ -149,7 +148,6 @@
             // 获取采购员
             async changeValue(id) {
                 this.linieList = await this.getLinieByDeptIdList(id)
-                console.log(this.changeValue,'changeValue')
             },
         }
     };

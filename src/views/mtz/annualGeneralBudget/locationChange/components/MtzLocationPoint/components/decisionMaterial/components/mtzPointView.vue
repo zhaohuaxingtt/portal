@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-11-04 10:02:28
- * @LastEditTime: 2021-11-10 14:12:02
+ * @LastEditTime: 2021-11-19 14:13:45
  * @LastEditors: Please set LastEditors
  * @Description: 会外流转单pdf预览
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signPreview.vue
@@ -9,42 +9,38 @@
 <template>
   <div id="content">
     <iCard>
-      <div slot="header" class="headBox">
+      <div slot="header"
+           class="headBox">
         <p class="headTitle">流转定点推荐 - MTZ Nomination Recommendation - MTZ</p>
-        <span class="buttonBox" v-if="!editMode">
-          <iButton @click="handleClickExport" :loading="exportButtonLoading">{{language('DAOCHU', '导出')}}</iButton>
-        </span>
       </div>
-      <el-form ref="form" :model="formData" label-width="140px" label-position="left">
+      <el-form ref="form"
+               :model="formData"
+               label-width="140px"
+               label-position="left">
         <el-row :gutter="20">
-          <el-col :span="8" v-for="item in formList" :key="item.prop">
-            <el-form-item :label="language(item.key ,item.label)" style="width: 70%;">
-              <el-input v-model="formData[item.prop]" disabled></el-input>
+          <el-col :span="8"
+                  v-for="item in formList"
+                  :key="item.prop">
+            <el-form-item :label="language(item.key ,item.label)"
+                          style="width: 70%;">
+              <el-input v-model="formData[item.prop]"
+                        disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <el-divider/>
+      <el-divider />
       <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}</p>
 
-        <tableList
-          class="margin-top20"
-          :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-        </tableList>
-             <!-- <tableList
-          class="margin-top20"
-          :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-        </tableList> -->
+      <tableList class="margin-top20"
+                 :tableData="ruleTableListData"
+                 :tableTitle="ruleTableTitle"
+                 :tableLoading="loading"
+                 :index="true"
+                 :selection="false">
+      </tableList>
 
-        <!-- <iPagination
+      <!-- <iPagination
         v-update
         @size-change="handleSizeChange($event, getPageAppRule)"
         @current-change="handleCurrentChange($event, getPageAppRule)"
@@ -54,27 +50,18 @@
         :layout="page.layout"
         :current-page='rulePageParams.currPage'
         :total="rulePageParams.totalCount"/> -->
-      <el-divider class="margin-top20"/>
+      <el-divider class="margin-top20" />
       <p class="tableTitle">{{language('LJQD', '零件清单')}}</p>
 
-        <tableList
-          class="margin-top20"
-          :tableData="partTableListData"
-          :tableTitle="partTableTitle"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-        </tableList>
-          <!-- <tableList
-          class="margin-top20"
-          :tableData="partTableListData"
-          :tableTitle="partTableTitle1"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-        </tableList> -->
+      <tableList class="margin-top20"
+                 :tableData="partTableListData"
+                 :tableTitle="partTableTitle"
+                 :tableLoading="loading"
+                 :index="true"
+                 :selection="false">
+      </tableList>
 
-        <!-- <iPagination
+      <!-- <iPagination
         v-update
         @size-change="handleSizeChange($event, getPagePartMasterData)"
         @current-change="handleCurrentChange($event, getPagePartMasterData)"
@@ -85,19 +72,25 @@
         :current-page='partPageParams.currPage'
         :total="partPageParams.totalCount"/> -->
     </iCard>
-    <iCard class="margin-top20">
-      <div slot="header" class="headBox">
-        <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
+    <!-- <iCard class="margin-top20">
+      <div slot="header"
+           class="headBox">
+        <p class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p>
       </div>
-      <p v-if="formData.cs1MeetingMemo">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
-      <iInput v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
+      <p>{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
+      <iInput v-model="formData.cs1MeetingMemo"
+              class="margin-top10"
+              :rows="8"
+              type="textarea" />
     </iCard>
     <div class="margin-top30 deptBox">
-      <div class="deptItem" v-for="(item, index) in deptData" :key="index">
+      <div class="deptItem"
+           v-for="(item, index) in deptData"
+           :key="index">
         <p>{{item.approvalDepartment}}：</p>
         <div></div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -105,7 +98,7 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle2, partTableTitle2} from './data'
+import { ruleTableTitle2, partTableTitle2 } from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { downloadPdfMixins } from '@/utils/pdf';
@@ -124,8 +117,8 @@ export default {
     return {
       formData: {},
       formList,
-      ruleTableTitle:ruleTableTitle2,
-      partTableTitle:partTableTitle2,
+      ruleTableTitle: ruleTableTitle2,
+      partTableTitle: partTableTitle2,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
@@ -145,16 +138,16 @@ export default {
       exportButtonLoading: false
     }
   },
-  created() {
+  created () {
     // this.$nextTick(e=>{
-      this.getAppFormInfo()
-      this.getPageAppRule()
-      this.getPagePartMasterData()
-      this.getSignPreviewDept()
+    this.getAppFormInfo()
+    this.getPageAppRule()
+    this.getPagePartMasterData()
+    this.getSignPreviewDept()
     // })
   },
   computed: {
-    title() {
+    title () {
       let res = ''
       switch (this.formData.flowType) {
         case 'MEETING':
@@ -167,42 +160,42 @@ export default {
           break;
         case 'FILING':
           // 备案
-          
+
           break;
-      
+
         default:
           break;
       }
-      return res 
+      return res
     },
-    isMeeting() {
+    isMeeting () {
       return this.formData.flowType == 'MEETING'
     },
-    isSign() {
+    isSign () {
       return this.formData.flowType == 'SIGN'
     },
-    mtzObject(){
+    mtzObject () {
       return this.$store.state.location.mtzObject;
     }
   },
   watch: {
-    mtzObject(newVlue,oldValue){
+    mtzObject (newVlue, oldValue) {
 
     }
   },
   methods: {
     // 获取申请单信息
-    getAppFormInfo() {
+    getAppFormInfo () {
       getAppFormInfo({
         mtzAppId: this.$route.query.mtzAppId
       }).then(res => {
-        if(res && res.code == 200) {
+        if (res && res.code == 200) {
           this.formData = res.data
         } else iMessage.error(res.desZh)
       })
     },
     // 获取规则清单表格数据
-    getPageAppRule() {
+    getPageAppRule () {
       pageAppRule({
         mtzAppId: this.$route.query.mtzAppId,
         // pageNo: this.rulePageParams.currPage,
@@ -210,60 +203,60 @@ export default {
         pageNo: 1,
         pageSize: 999999,
       }).then(res => {
-        if(res && res.code == 200) {
+        if (res && res.code == 200) {
           this.ruleTableListData = res.data
           this.rulePageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
       })
     },
     // 获取零件清单表格数据
-    getPagePartMasterData() {
+    getPagePartMasterData () {
       pagePartMasterData({
-        mtzAppId:this.$route.query.mtzAppId,
+        mtzAppId: this.$route.query.mtzAppId,
         // pageNo: this.partPageParams.currPage,
         // pageSize: this.partPageParams.pageSize,
         pageNo: 1,
         pageSize: 999999,
       }).then(res => {
-        if(res && res.code == 200) {
+        if (res && res.code == 200) {
           this.partTableListData = res.data
           this.partPageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
       })
     },
     // 获取部门数据 
-    getSignPreviewDept() {
+    getSignPreviewDept () {
       fetchSignPreviewDept({
         mtzAppId: this.$route.query.mtzAppId
       }).then(res => {
-        if(res && res.code == 200) {
+        if (res && res.code == 200) {
           this.deptData = res.data
         } else iMessage.error(res.error)
       })
     },
     // 点击保存
-    handleClickSave() {
+    handleClickSave () {
       let params = {}
-      if(this.isMeeting) {
+      if (this.isMeeting) {
         params = {
           mtzAppId: this.$route.query.mtzAppId,
           linieMeetingMemo: this.formData.linieMeetingMemo
         }
-      } else if(this.isFinite) {
+      } else if (this.isFinite) {
         params = {
           mtzAppId: this.$route.query.mtzAppId,
           cs1MeetingMemo: this.formData.cs1MeetingMemo
         }
       }
       fetchSaveCs1Remark(params).then(res => {
-        if(res && res.code == 200) {
+        if (res && res.code == 200) {
           this.getAppFormInfo()
           iMessage.success(res.desZh)
         } else iMessage.error(res.desZh)
       })
     },
     // 生成PDF
-    createPdf() {
+    createPdf () {
       return new Promise(resolve => {
         this.downloadButtonLoading = true
         const pdfParam = {
@@ -276,11 +269,11 @@ export default {
       })
     },
     // 导出：导出当前为pdf
-    handleClickExport() {
+    handleClickExport () {
       this.exportButtonLoading = true
       this.createPdf().then(res => {
         this.exportButtonLoading = false
-        if(res) {
+        if (res) {
           downloadFileByUrl(res.downloadUrl)
           iMessage.success(this.language('CAOZUOCHENGGONG', '操作成功'))
         } else iMessage.error(this.language('CAOZUOSHIBAI', '操作失败'))
@@ -322,7 +315,7 @@ export default {
   white-space: nowrap;
   .applayDateContent {
     display: inline-block;
-    background-color: #CDD4E2;
+    background-color: #cdd4e2;
     height: 178px;
     width: 224px;
     margin: 0 10px;
@@ -346,7 +339,6 @@ export default {
   }
 }
 .deptBox {
-    margin-left: 30px;
   display: flex;
   .deptItem {
     flex: auto;

@@ -3,11 +3,11 @@
         <div class="margin-bottom20 clearFloat">
             <div class="floatright">
                 <!--转派-->
-                <iButton :disabled="isForward" @click="taskTransfer" v-permission="ACHIEVEMENTMGT_SPARE_BASETABLE_TRANSFER">{{ $t('APPROVAL.TASK_TRANSFER') }}</iButton>
+                <iButton @click="taskTransfer" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_BASETABLE_TRANSFER')&&!isForward">{{ $t('APPROVAL.TASK_TRANSFER') }}</iButton>
                 <!--确认-->
-                <iButton @click="confirm" v-permission="ACHIEVEMENTMGT_SPARE_BASETABLE_CONFIRM">{{ $t('rfq.RFQINQUIRE') }}</iButton>
+                <iButton @click="confirm" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_BASETABLE_CONFIRM')&&!isForward">{{ $t('rfq.RFQINQUIRE') }}</iButton>
                 <!--导出-->
-                <iButton @click="download" v-permission="ACHIEVEMENTMGT_SPARE_BASETABLE_DOWN">{{ $t('APPROVAL.EXPORT')}}</iButton>
+                <iButton @click="download" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_BASETABLE_DOWN')">{{ $t('APPROVAL.EXPORT')}}</iButton>
             </div>
         </div>
         <tableList
@@ -51,6 +51,7 @@
     import {tableTitle, getRequest} from './data';
     import taskTransferDialog from './taskTransferDialog';
     import {toThousands,delcommafy,unique} from '@/utils'
+    import isAuth from '@/utils/isAuth';
     import {
         querySpbaseDetail,          // 明细list
         getSupplier,                // 获取供应商select数据
@@ -79,6 +80,9 @@
                 baseId: '',
                 listId:[],
                 isForward: false,
+                isAuth,
+                whiteBtnList: this.$store.state.permission.whiteBtnList,
+
             };
         },
         props: ['formData','title'],

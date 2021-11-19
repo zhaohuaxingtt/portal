@@ -45,7 +45,6 @@
         methods: {
             openModal() {
                 this.display = true
-                console.log(this.display)
             }
 
         },

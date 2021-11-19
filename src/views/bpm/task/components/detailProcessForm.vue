@@ -9,7 +9,8 @@
             marginheight="0"
             scrolling="no"
             allowtransparency="yes"
-            :style="{ height: formHeight }" />
+             />
+             <!-- :style="{ height: formHeight }" -->
   </div>
 </template>
 
@@ -41,6 +42,6 @@ export default {
 <style lang="scss" scoped>
 #flowForm {
   width: 100%;
-  min-height: 500px;
+//   min-height: 500px;
 }
 </style>
