@@ -23,8 +23,9 @@
             <div class="upload">
                 <iButton @click="upload">添加附件</iButton>
                 <span>只能上传不超过20MB的文件</span>
-                <iUpload v-show="false" ref="upload" :fileIds="fileIds" :extraData="extraData" @callback="uploadChange" />
+                <iUpload v-show="false" ref="upload" @callback="uploadChange" />
             </div>
+            <div>{{file}}</div>
         </template>
     </div>
 </template>
@@ -42,8 +43,7 @@
             return {
                 type:"detail",
                 content:"",
-                extraData: { applicationName: 'rise-dev', type: '1', businessId: '01', isTemp: 0 },
-                fileIds:[]
+                file:""
             }
         },
         methods: {
@@ -51,7 +51,7 @@
                 this.$refs.upload.$el.querySelector("input[type='file']").click()
             },
             uploadChange(file){
-
+                console.log(JSON.stringify(file)+'-------');
             }
         },
     }
