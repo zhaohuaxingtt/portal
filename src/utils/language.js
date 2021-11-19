@@ -21,6 +21,7 @@ Vue.prototype.language = function(languageKey, name) {
   }
   return this.$t(languageKey)
 }
+
 // eslint-disable-next-line no-undef
 router.afterEach(() => {
   if (process.env.NODE_ENV == 'dev' && languageList.length !== 0) {

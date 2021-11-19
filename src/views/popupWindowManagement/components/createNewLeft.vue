@@ -103,7 +103,7 @@ export default {
         formContent:{
           popupName:'',
           linkUrl:'',
-          publishRange:'',
+          publishRange:0,
           deletePreTime:'',
           publishPreTime:'',
           content:'',
@@ -121,7 +121,7 @@ export default {
           publishRange:{required:'true',message:'请输入发布范围',trigger:'blur'},
           // deletePreTime:{required:'true',message:'请选择历史查看有效期',trigger:'blur'},
           content:{required:'true',message:'请输入弹窗说明',trigger:'blur'},
-          popupStyle:{required:'true',message:'请选择弹框',trigger:'blur'}
+          popupStyle:{required:'true',message:'请选择弹窗布局',trigger:'blur'}
         },
       }
     },
@@ -136,7 +136,18 @@ export default {
         this.formContent.supplierList = val
       },  
       reset(){
-        this.formContent = {}
+        this.formContent = {
+          popupName:'',
+          linkUrl:'',
+          publishRange:0,
+          deletePreTime:'',
+          publishPreTime:'',
+          content:'',
+          popupStyle:0,
+          userList:[],
+          supplierList:[],
+        }
+        this.radio='1'
       },
       save(){
         let isValidate = true

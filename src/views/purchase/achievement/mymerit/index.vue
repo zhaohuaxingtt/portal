@@ -106,7 +106,6 @@
       // 角色判断
       role() {
         const deptName = this.$store.state.permission.userInfo.deptDTO.deptNum
-        console.log(deptName,'deptName')
         if (this.roleList.length == 1) {
           const Linie = this.roleList.some(item => item.code == 'LINIE')
           const zycgkzORkzzl = this.roleList.some(item => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ' || item.code == 'ZYCGKSXTY')
@@ -241,7 +240,6 @@
     },
     methods: {
       getData(data) {
-        console.log(data, 'data')
         this.getReportData(data)
       },
       getReportData(data) {
@@ -318,7 +316,6 @@
           }
           this.currentView = 'pfjzfcgysj'
         } else if (item == `${this.dept}(Spare)` || item == this.dept) {
-            console.log(item,this.role,this.dept)
           if(item == this.dept) {
             this.username = '4'
             this.currentView = 'zfkssj'

@@ -118,12 +118,12 @@ export default {
       let text = ''
       if (this.tableListData.isSelect) {
         text = this.language(
-          'TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUDANGGONGYINGSHANGZHUANZHENG?',
+          'TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUDANGGONGYINGSHANGZHUANZHENG',
           '提交供货公司信息更改后，当供应商转正批准后将立即同步SAP，不得撤销。'
         )
       } else {
         text = this.language(
-          'TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUSHUJULIJITONGBUSAO?',
+          'TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUSHUJULIJITONGBUSAO',
           '提交供货公司信息更改后，数据将立即同步SAP，不得撤销。'
         )
       }

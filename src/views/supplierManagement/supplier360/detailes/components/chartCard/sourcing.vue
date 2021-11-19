@@ -2,7 +2,7 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('XUNYUAN', '寻源')}}</p>
-      <el-dropdown>
+      <el-dropdown  v-permission="Card_Sourcing_More">
 
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
@@ -13,9 +13,8 @@
       </el-dropdown>
     </div>
     <div class="center">
-      <icon class="early"
-            symbol
-            name="iconcaiwuyujing-icon"></icon>
+ <img :src="img"
+           class="imgIcon" />
       <div class="float">
 
         <table cellpadding='10'>
@@ -108,14 +107,15 @@
   </iCard>
 </template>
 <script>
-import { iCard, icon, iDialog, iSearch, iSelect } from 'rise'
+import { iCard, iDialog, iSearch, iSelect } from 'rise'
 import { tableTitleMonitor, tableTitleMonitorRecord } from './data'
 import tableList from '@/components/commonTable'
+import img from '@/assets/images/sourcing.svg'
 export default {
   props: {},
   components: {
     iCard,
-    icon,
+ 
     iDialog,
     iSearch,
     iSelect,
@@ -127,7 +127,8 @@ export default {
       form: {},
       tabVal: '1',
       tableTitleMonitor: tableTitleMonitor,
-      tableTitleMonitorRecord: tableTitleMonitorRecord
+      tableTitleMonitorRecord: tableTitleMonitorRecord,
+      img:img
     }
   },
   computed: {
@@ -162,7 +163,10 @@ export default {
     color: #4d4d4d;
   }
 }
-
+.imgIcon{
+    width: 60px;
+    height: 60px;
+}
 .center {
   height: 160px;
   display: flex;

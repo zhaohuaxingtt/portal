@@ -77,9 +77,9 @@
                          multiple
                          clearable
                          :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="existShareNum"
-                         value-member="existShareId"
-                         value-key="existShareId">
+                         display-member="message"
+                         value-member="code"
+                         value-key="code">
           </custom-select>
         </el-form-item>
         <el-form-item :label="language('GUANLIANDANHAO','关联单号')">
@@ -109,7 +109,7 @@
           </iDatePicker>
         </el-form-item> -->
         <el-form-item :label="language('DINGDIANSHIJIAN','定点时间')">
-          <iDatePicker style="width:180px"
+          <iDatePicker style="width:220px"
                        v-model="value1"
                        @change="handleChange1"
                        type="daterange"
@@ -479,7 +479,11 @@ export default {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
       if (this.selection[0].flowType == "MEETING") {
-        //////////////////////////////////////
+        if (this.selection[0].appStatus == "SUBMIT" || this.selection[0].appStatus == "NOTPASS") {
+          this.mtzReasonShow = true;
+        }else{
+          return iMessage.warn(this.language('SHLXQZTWTJHWTGCKYCH', '上会类型且状态为提交（会议未锁定）或未通过才可以撤回'))
+        }
       } else {
         if (this.selection[0].appStatus == "SUBMIT") {
           this.mtzReasonShow = true;

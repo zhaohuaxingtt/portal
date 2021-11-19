@@ -79,8 +79,8 @@
         <div slot="footer" class="dialog-footer">
             <!--<iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>-->
             <!--<iButton @click="sendDepartment(form.year)">{{ $t('EKL_YJGL_TZKS') }}</iButton>-->
-            <iButton @click="handleSubmit" v-permission="ANNUALTARGET_PAGE_SAVEDATA">{{ $t('LK_QUEREN') }}</iButton>
-            <iButton @click="sendDepartment(form.year)" v-permission="ANNUALTARGET_PAGE_NOTICE">{{ $t('EKL_YJGL_TZKS') }}</iButton>
+            <iButton @click="handleSubmit" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_SAVEDATA')">{{ $t('LK_QUEREN') }}</iButton>
+            <iButton @click="sendDepartment(form.year)" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_NOTICE')">{{ $t('EKL_YJGL_TZKS') }}</iButton>
         </div>
     </iDialog>
 </template>
@@ -88,6 +88,7 @@
 <script>
     import {iDialog, iSelect, iInput, iButton, icon, iMessage} from 'rise';
     import tableList from './targetTable';
+    import isAuth from '@/utils/isAuth';
     import {
         querySavaTarget,       // 初始化
         queryYearTarget,       // 年度目标
@@ -131,7 +132,9 @@
                 tempTableListData: [], // 做提交数据用的
                 tableListData1: [],
                 inputProps: [],
-                orgName:''
+                orgName:'',
+                isAuth,
+                whiteBtnList: this.$store.state.permission.whiteBtnList,
 
             };
         },
