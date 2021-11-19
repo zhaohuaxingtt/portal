@@ -122,7 +122,7 @@ export default {
   computed: {
     ...mapState({
       code: (code) => code.permission.code,
-      eklTabList: (eklTabList) => eklTabList.permission.eklTabList,
+      eklPfjTabList: (eklPfjTabList) => eklPfjTabList.permission.eklPfjTabList,
       leadTabList: (leadTabList) => leadTabList.permission.leadTabList
     })
   },
@@ -130,9 +130,9 @@ export default {
     if (this.leadTabList.length > 0) {
       this.tabList = this.leadTabList
     } else {
-      this.tabList = JSON.parse(JSON.stringify(this.eklTabList))
-      this.query.dptCode = this.eklTabList[0].type
-      this.activeName = this.eklTabList[0].name
+      this.tabList = JSON.parse(JSON.stringify(this.eklPfjTabList))
+      this.query.dptCode = this.eklPfjTabList[0].type
+      this.activeName = this.eklPfjTabList[0].name
     }
     this.getEklAffix(this.query)
     // log.js
@@ -140,7 +140,7 @@ export default {
   methods: {
     handleClick({ name }) {
       this.activeName = name
-      this.eklTabList.forEach((item) => {
+      this.eklPfjTabList.forEach((item) => {
         if (item.name == name) {
           this.query.dptCode = item.type
           this.activeName = item.name
