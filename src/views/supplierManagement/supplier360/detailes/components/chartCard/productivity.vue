@@ -13,9 +13,8 @@
       </el-dropdown>
     </div>
     <div class="center">
-      <icon class="early"
-            symbol
-            name="iconcaiwuyujing-icon"></icon>
+      <img :src="img"
+           class="imgIcon" />
       <div class="float">
           <icon class="alert"
                 symbol
@@ -89,6 +88,7 @@
 </template>
 <script>
 import { iCard, icon, iDialog, iSearch, iSelect } from 'rise'
+import img from '@/assets/images/productivity.svg'
 import { tableTitleMonitor, tableTitleMonitorRecord } from './data'
 import tableList from '@/components/commonTable'
 export default {
@@ -107,6 +107,7 @@ export default {
       form: {},
       tabVal: '1',
       tableTitleMonitor: tableTitleMonitor,
+      img:img,
       tableTitleMonitorRecord: tableTitleMonitorRecord
     }
   },
@@ -126,6 +127,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.imgIcon{
+    width: 60px;
+    height: 60px;
+}
 .title {
   display: flex;
   justify-content: space-between;

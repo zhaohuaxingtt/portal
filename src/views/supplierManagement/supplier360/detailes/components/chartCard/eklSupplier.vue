@@ -1,34 +1,33 @@
 <template>
   <iCard style="height:14rem">
     <div class="title">
-      <p v-if="!isTitle">{{language('EKLPEIFUJIAN', 'EKL-配附件')}}</p>
-      <p v-if="isTitle">{{language('EKLPILIANGJIAN', 'EKL-批量件')}}</p>
+      <p v-if="!isTitle">{{ language('EKLPEIFUJIAN', 'EKL-配附件') }}</p>
+      <p v-if="isTitle">{{ language('EKLPILIANGJIAN', 'EKL-批量件') }}</p>
       <!-- <span class="el-dropdown-link">
         <i class="el-icon-more"></i>
       </span> -->
     </div>
+
     <div class="box">
-      <span v-if="!isTitle"
-            class="text"
-            @click="changeTab">{{language('EKLPILIANGJIAN', 'EKL-批量件')}}</span>
-      <span v-if="isTitle"
-            class="text"
-            @click="changeTab">{{language('EKLPEIFUJIAN', 'EKL-配附件')}}</span>
-      <icon class="early"
-            symbol
-            name="iconcaiwuyujing-icon"></icon>
-      <div ref="chart"
-           class="chartStyle"> </div>
+      <span v-if="!isTitle" class="text" @click="changeTab">{{
+        language('EKLPILIANGJIAN', 'EKL-批量件')
+      }}</span>
+      <span v-if="isTitle" class="text" @click="changeTab">{{
+        language('EKLPEIFUJIAN', 'EKL-配附件')
+      }}</span>
+      <img :src="img" class="imgIcon" />
+      <div ref="chart" class="chartStyle"></div>
     </div>
   </iCard>
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, icon } from 'rise'
+import { iCard,  } from 'rise'
 import { getSupplierCard } from '@/api/supplierManagement/supplierCard/index'
+import img from '@/assets/images/eklSupplier.svg'
 export default {
   props: {
-         infodata: {
+    infodata: {
       type: Object,
       default: () => {
         return {}
@@ -37,12 +36,12 @@ export default {
   },
   components: {
     iCard,
-    icon
   },
   data() {
     return {
       chart: 'oneChart',
-      isTitle: true
+      isTitle: true,
+      img: img
     }
   },
   computed: {
@@ -51,20 +50,19 @@ export default {
     }
   },
   watch: {
-       infodata(data) {
-           console.log(data)
-         this.getData(data.sapCode)
+    infodata(data) {
+      console.log(data)
+      this.getData(data.sapCode)
     }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     getData() {
       let req = {
         supplierSapCode: this.infodata.sapCode
       }
-      getSupplierCard(req).then((res) => {
-          this.info =res.data
+      getSupplierCard(req).then(res => {
+        this.info = res.data
         // this.info = {
         //   batchParts: [
         //     {
@@ -133,7 +131,7 @@ export default {
       } else {
         arr = this.info.parts
       }
-      arr.forEach((e) => {
+      arr.forEach(e => {
         data1.push(e.reductionAmount)
         if (e.increaseAmount != 0) {
           data2.push(e.increaseAmount * -1)
@@ -166,7 +164,7 @@ export default {
         tooltip: {
           trigger: 'axis',
           //   formatter:'{a}{b}{c}',
-          formatter: function (params) {
+          formatter: function(params) {
             let str = ''
             params.forEach((item, idx) => {
               item.data = Math.abs(item.data)
@@ -274,7 +272,7 @@ export default {
               }
             },
             label: {
-              formatter: function (params) {
+              formatter: function(params) {
                 console.log(params)
                 return params.data + '%'
               }
@@ -289,7 +287,7 @@ export default {
               position: 'top',
               fontSize: 10,
               color: '#727272',
-              formatter: function (params) {
+              formatter: function(params) {
                 let num = params.data
                 // console.log(num-data1[0])
                 // data1.forEach((res) => {
@@ -313,11 +311,11 @@ export default {
       }
       myChart.setOption(option)
     },
-    sumItem: function (arr1, arr2) {
+    sumItem: function(arr1, arr2) {
       if (arr2.length == 0) {
         return arr1
       } else {
-        arr1.map(function (value, index) {
+        arr1.map(function(value, index) {
           arr2[index] += value + 1
         })
       }
@@ -328,6 +326,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.imgIcon {
+  width: 60px;
+  height: 60px;
+}
 .title {
   display: flex;
   justify-content: space-between;

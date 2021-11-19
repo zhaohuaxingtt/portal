@@ -628,7 +628,9 @@ export default {
 ::v-deep.el-select__tags-text {
   display: inline-block;
   max-width: 140px;
+  vertical-align: middle;
   overflow: hidden;
+//   align-items: center;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

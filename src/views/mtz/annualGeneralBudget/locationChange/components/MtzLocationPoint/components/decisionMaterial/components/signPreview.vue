@@ -71,9 +71,9 @@
     </iCard>
     <iCard class="margin-top20">
       <div slot="header" class="headBox">
-        <p class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p>
+        <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
       </div>
-      <p>{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
+      <p v-if="formData.cs1MeetingMemo">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
       <iInput v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
     </iCard>
     <div class="margin-top30 deptBox">
@@ -330,6 +330,7 @@ export default {
   }
 }
 .deptBox {
+    margin-left: 30px;
   display: flex;
   .deptItem {
     flex: auto;

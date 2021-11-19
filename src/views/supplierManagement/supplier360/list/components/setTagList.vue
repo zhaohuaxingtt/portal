@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import { iDialog, iButton, iSelect, iMessage, iPagination, icon } from 'rise'
+import { iDialog, iButton, iSelect, iMessage,  } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { setTagCloum } from './data'
 import {
@@ -153,8 +153,7 @@ export default {
     iDialog,
     iButton,
     iSelect,
-    iPagination,
-    icon
+
   },
   props: {
     value: { type: Boolean },
@@ -170,6 +169,7 @@ export default {
       form: {},
       tagdropDownList: [],
       tagTypeList: [
+           { label: this.language('QUANBU', '全部'), value: '' },
         { label: this.language('XITONGPANDING', '系统判定'), value: 1 },
         { label: this.language('SHOUGONG', '手工'), value: 2 }
       ]

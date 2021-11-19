@@ -7,9 +7,8 @@
       </span>
     </div>
     <div class="box">
-      <icon class="early"
-            symbol
-            name="iconcaiwuyujing-icon"></icon>
+       <img :src="img"
+           class="imgIcon" />
       <div ref="chart"
            class="chartStyle">
 
@@ -43,16 +42,17 @@
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, icon } from 'rise'
+import { iCard, } from 'rise'
+import img from '@/assets/images/sampleDelivery.svg'
 export default {
   props: {},
   components: {
     iCard,
-    icon
   },
   data() {
     return {
-      chart: 'oneChart'
+      chart: 'oneChart',
+      img:img
     }
   },
   computed: {
@@ -96,6 +96,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.imgIcon{
+    width: 60px;
+    height: 60px;
+}
 .title {
   display: flex;
   justify-content: space-between;
