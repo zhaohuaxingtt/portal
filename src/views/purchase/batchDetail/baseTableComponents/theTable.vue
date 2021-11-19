@@ -4,13 +4,13 @@
             <div class="floatright">
                 <div v-if="!editStatus">
                     <!--批量编辑-->
-                    <iButton @click="bulkEdit" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_BATCHEDIT')">{{ $t('EKL_YJGL_PLBJ')}}</iButton>
+                    <iButton @click="bulkEdit" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_BATCHEDIT')&&!isForward">{{ $t('EKL_YJGL_PLBJ')}}</iButton>
                     <!--编辑-->
-                    <iButton @click="edit"  v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_EDIT')">{{ $t('APPROVAL.EDIT') }}</iButton>
+                    <iButton @click="edit"  v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_EDIT')&&!isForward">{{ $t('APPROVAL.EDIT') }}</iButton>
                     <!--转派-->
-                    <iButton :disabled="isForward" @click="taskTransfer" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_REASSIGNMENT')">{{ $t('APPROVAL.TASK_TRANSFER') }}</iButton>
+                    <iButton @click="taskTransfer" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_REASSIGNMENT')&&!isForward">{{ $t('APPROVAL.TASK_TRANSFER') }}</iButton>
                     <!--确认-->
-                    <iButton @click="confirm" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_CONFIRM')">{{ $t('rfq.RFQINQUIRE') }}</iButton>
+                    <iButton @click="confirm" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_CONFIRM')&&!isForward">{{ $t('rfq.RFQINQUIRE') }}</iButton>
                     <!--导出-->
                     <iButton @click="download" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_EXPORT')">{{ $t('APPROVAL.EXPORT')}}</iButton>
                 </div>

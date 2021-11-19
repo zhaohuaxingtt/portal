@@ -6,6 +6,7 @@ export const tableTitle = [
     {props: '_partProperty', name: '属性', key: 'EKL_PFJ_SX', width: 120, tooltip: true},
     {props: 'dptKeCode', name: '科室', key: 'SUPPLIER_KESHI', width: 100, tooltip: true,},
     {props: 'linieName', name: '采购员', key: 'EKL_YJGL_CGY', width: 120, tooltip: true,},
+    {props: 'isConfirm', name: '确认状态', key: 'EKL_YJGL_QRZT', width: 120, tooltip: true,},
     {props: '_supplierName', name: '供应商', key: 'EKL_YJGL_GYS', tooltip: true, width: 200},
     {props: '_supplierPercent', name: '份额', key: 'EKL_PFJ_FE', tooltip: true, width: 120},
     {props: 'preYearPrice', name: '上年采购价格', key: 'EKL_PFJ_CGJG', width: 150, tooltip: true,},
