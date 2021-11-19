@@ -1,42 +1,55 @@
 <template>
   <iCard style="height:14rem">
     <div class="title">
-      <p>{{language('GONGYINGSHANGDEFEN', '供应商得分')}}</p>
+      <p>{{ language('GONGYINGSHANGDEFEN', '供应商得分') }}</p>
       <span class="el-dropdown-link" v-permission="Card_SPI_More">
         <i class="el-icon-more"></i>
       </span>
     </div>
     <div class="box">
-      <img :src="img"
-           class="imgIcon" />
+      <img :src="img" class="imgIcon" />
       <div class="boxText">
-        <div> {{info.currentScore}} <div>
-            <icon  v-if="info.upDown>0"
-                  symbol
-                  class="green"
-                  name="iconpaixu-xiangshang"> </icon>
-            <icon v-if="info.upDown<0"
-                  symbol
-                  class="orgin"
-                  name="iconpaixu-xiangxia"> </icon>
-            <span v-if="info.upDown>0"
-                  class='green'>{{info.percent?parseInt(info.percent).toString():'' }}% </span>
-           
+        <div>
+          {{ info.currentScore }}
+          <div>
+            <icon
+              v-if="info.upDown > 0"
+              symbol
+              class="green"
+              name="iconpaixu-xiangshang"
+            >
+            </icon>
+            <icon
+              v-if="info.upDown < 0"
+              symbol
+              class="orgin"
+              name="iconpaixu-xiangxia"
+            >
+            </icon>
+            <span v-if="info.upDown > 0" class="green"
+              >{{ info.percent ? parseInt(info.percent).toString() : '' }}%
+            </span>
           </div>
         </div>
-        <p>{{language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署')}} <span 
-                :class="parseInt(info.developScore)>=0?'green':'orgin'"> {{'+'+info.developScore?info.developScore.toString():''}}</span></p>
-        <p>{{language('WURANWEIGUI', '污染违规')}} <span></span></p>
+        <p>
+          {{ language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署') }}
+          <span
+            v-if="info.developScore != 0"
+            :class="parseInt(info.developScore) >= 0 ? 'green' : 'orgin'"
+          >
+            + {{ info.developScore ? info.developScore.toString() : '' }}</span
+          >
+          <span class="green" v-if="info.developScore == 0"> 0</span>
+        </p>
+        <p>{{ language('WURANWEIGUI', '污染违规') }} <span></span></p>
       </div>
       <div class="chartbox">
-        <div ref="chart"
-             class="chartStyle"> </div>
-             <div class="line">
-        <p>{{fristYear}}</p>
-        <p>{{language('ZHIJIN', '至今')}}</p>
+        <div ref="chart" class="chartStyle"></div>
+        <div class="line">
+          <p>{{ fristYear }}</p>
+          <p>{{ language('ZHIJIN', '至今') }}</p>
+        </div>
       </div>
-      </div>
-      
     </div>
   </iCard>
 </template>
@@ -53,7 +66,7 @@ export default {
   },
   data() {
     return {
-        img:img,
+      img: img,
       chart: 'oneChart',
       option: {},
       info: {},
@@ -69,7 +82,7 @@ export default {
   methods: {
     getData() {
       performCard360({ supplierId: this.$route.query.subSupplierId }).then(
-        (res) => {
+        res => {
           this.info = res.data
           this.getChart()
         }
@@ -156,9 +169,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.imgIcon{
-    width: 60px;
-    height: 60px;
+.imgIcon {
+  width: 60px;
+  height: 60px;
 }
 .title {
   display: flex;
@@ -225,6 +238,8 @@ export default {
     border: 1px solid #d9dee5;
     position: relative;
     span {
+        width: 50px;
+        display: inline-block;
       position: absolute;
       top: 6px;
       right: -50px;
@@ -253,7 +268,7 @@ export default {
       height: 100%;
     }
     .line {
-        padding-right: 20%;
+      padding-right: 20%;
       position: absolute;
       width: 100%;
       bottom: 4%;

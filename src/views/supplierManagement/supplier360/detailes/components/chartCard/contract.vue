@@ -1,26 +1,19 @@
 <template>
   <iCard style="height:20rem">
     <div class="title">
-      <p>{{language('HETONGDINGDAN', '合同订单')}}</p>
-
+      <p>{{ language('HETONGDINGDAN', '合同订单') }}</p>
     </div>
     <div class="center">
       <div class=" chartStyleBox chartStyle">
-        <div ref="chart1"
-             class="chartStyle1">
-
-        </div>
+        <div ref="chart1" class="chartStyle1"></div>
         <div class="chartText ">
-          <p v-if="chooseEquipment.data!=''">{{chooseEquipment.data}}%</p>
-          <p>{{chooseEquipment.value}}</p>
+          <p v-if="chooseEquipment.data != ''">{{ chooseEquipment.data }}%</p>
+          <p>{{ chooseEquipment.value }}</p>
         </div>
       </div>
-       <img :src="img"
-           class="imgIcon" />
+      <img :src="img" class="imgIcon" />
 
-      <div ref="chart2"
-           class="chartStyle2"> </div>
-
+      <div ref="chart2" class="chartStyle2"></div>
     </div>
   </iCard>
 </template>
@@ -35,7 +28,7 @@ import img from '@/assets/images/contract.svg'
 export default {
   props: {},
   components: {
-    iCard,
+    iCard
   },
   data() {
     return {
@@ -47,8 +40,8 @@ export default {
         value: ''
       },
       infoBar: [],
-      img:img,
-      ifBarchart:false
+      img: img,
+      ifBarchart: false
     }
   },
   computed: {
@@ -63,7 +56,7 @@ export default {
   created() {},
   methods: {
     getData() {
-      getCatogeryCollect(this.$route.query.subSupplierId).then((res) => {
+      getCatogeryCollect(this.$route.query.subSupplierId).then(res => {
         this.info = res.data
         this.getLeftChart()
       })
@@ -71,14 +64,14 @@ export default {
         catogeryCode: '',
         tmSupplierId: this.$route.query.subSupplierId
       }
-      getCatogeryCollectYear(req).then((res) => {
+      getCatogeryCollectYear(req).then(res => {
         this.infoBar = res.data
         this.getRightChart()
       })
     },
     getLeftChart() {
       let data1 = []
-      this.info.forEach((e) => {
+      this.info.forEach(e => {
         data1.push({ value: Math.abs(e.receiveAmount), name: e.catogeryCode })
       })
       let obj = this
@@ -108,8 +101,8 @@ export default {
             fontSize: 10,
             color: '#909091'
           },
-          formatter: function (params) {
-            let obj = data1.find((res) => {
+          formatter: function(params) {
+            let obj = data1.find(res => {
               return res.name == params
             })
             var percent = 0
@@ -117,7 +110,12 @@ export default {
             for (var i = 0; i < data1.length; i++) {
               total += data1[i].value
             }
-            percent = ((obj.value / total) * 100).toFixed(0)
+            percent = (obj.value / total) * 100
+            if (percent.length > 2) {
+              percent = percent.substr(0, 2) + '...'
+            } else {
+              percent
+            }
             if (obj.name !== '') {
               return obj.name + '\n' + percent + '%'
             } else {
@@ -144,16 +142,15 @@ export default {
         ]
       }
       myChart.setOption(this.option1)
-      myChart.on('click', (params) => {
-          this.ifBarchart=!this.ifBarchart
-          if(this.ifBarchart){
-        this.getRightChart(params.name)
-          }else{
-              this.getRightChart()
-          }
-
+      myChart.on('click', params => {
+        this.ifBarchart = !this.ifBarchart
+        if (this.ifBarchart) {
+          this.getRightChart(params.name)
+        } else {
+          this.getRightChart()
+        }
       })
-      myChart.on('mouseover', function (params) {
+      myChart.on('mouseover', function(params) {
         /*添加鼠标事件*/ obj.chooseEquipment.value = params.value
         obj.chooseEquipment.value = parseInt(
           obj.chooseEquipment.value / 1000000
@@ -171,7 +168,7 @@ export default {
       let newDataSum = {}
       let barData = []
       let sumData = []
-      this.infoBar.forEach((e) => {
+      this.infoBar.forEach(e => {
         //新建属性名获取按材料id累计
         if (Object.keys(newDataBar).indexOf('' + e.catogeryCode) === -1) {
           newDataBar[e.catogeryCode] = []
@@ -199,8 +196,8 @@ export default {
       //给当前材料idpush进当前年总值
       if (val) {
         barData = newDataBar[val]
-        sumData.forEach((v) => {
-          barData.forEach((j) => {
+        sumData.forEach(v => {
+          barData.forEach(j => {
             if (v.year == j.year) {
               j.receiveAmountAll = v.receiveAmountAll
             }
@@ -208,13 +205,13 @@ export default {
         })
       }
       if (val) {
-        barData.forEach((v) => {
+        barData.forEach(v => {
           data1.push(parseInt(v.receiveAmountAll / 1000000))
           data2.push(Math.abs(parseInt(v.receiveAmount / 1000000)))
           data3.push(v.year)
         })
       } else {
-        sumData.forEach((v) => {
+        sumData.forEach(v => {
           data1 = []
           data2.push(Math.abs(parseInt(v.receiveAmountAll / 1000000)))
           data3.push(v.year)
@@ -259,21 +256,21 @@ export default {
           trigger: 'axis',
           textStyle: {
             align: 'left'
-          },
-        //   formatter: function (params) {
-        //    let str = ''
-        //     params.forEach((item, idx) => {
-        //         // console.log(item)
-        //       item.data = Math.abs(item.data)
-        //       if (idx == 2) {
-        //         item.data = item.data - params[0].data
-        //       }
-        //       str += `${item.marker}\n${item.name}<br/> ${item.marker}\n${item.data}`
-           
-        //       str += idx === params.length - 1 ? '' : '<br/>'
-        //     })
-        //     return str
-        //   }
+          }
+          //   formatter: function (params) {
+          //    let str = ''
+          //     params.forEach((item, idx) => {
+          //         // console.log(item)
+          //       item.data = Math.abs(item.data)
+          //       if (idx == 2) {
+          //         item.data = item.data - params[0].data
+          //       }
+          //       str += `${item.marker}\n${item.name}<br/> ${item.marker}\n${item.data}`
+
+          //       str += idx === params.length - 1 ? '' : '<br/>'
+          //     })
+          //     return str
+          //   }
         },
         grid: {
           top: '18%',
@@ -368,12 +365,20 @@ export default {
           return (
             num.slice(0, remainder) +
             ',' +
-            num.slice(remainder, len).match(/\d{3}/g).join(',') +
+            num
+              .slice(remainder, len)
+              .match(/\d{3}/g)
+              .join(',') +
             temp
           )
         } else {
           // 是3的整数倍
-          return num.slice(0, len).match(/\d{3}/g).join(',') + temp
+          return (
+            num
+              .slice(0, len)
+              .match(/\d{3}/g)
+              .join(',') + temp
+          )
         }
       }
     }
@@ -382,9 +387,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.imgIcon{
-    width: 60px;
-    height: 50px;
+.imgIcon {
+  width: 60px;
+  height: 50px;
 }
 .title {
   display: flex;
