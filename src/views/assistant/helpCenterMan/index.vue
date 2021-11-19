@@ -22,8 +22,15 @@
 		<CommonProblem 
 			title="问题模块"
 			:problemList="problemList"
-			:currentMoudleIdx="currentMoudleIdx"
-		/>
+			:currentMoudleIdx.sync="currentMoudleIdx"
+		>
+			<div class="flex" slot="top">
+				<iInput class="flex-1" v-model="key" placeholder="搜索.."></iInput>
+				<iSelect class="content-select" v-model="type">
+					<!-- <el-option value='' label='全部'></el-option> -->
+				</iSelect>
+			</div>
+		</CommonProblem>
 		<div class="content-right">
 			<UserManual></UserManual>
 		</div>
@@ -31,9 +38,18 @@
 	<div class="flex flex-row content mt20" v-show="activeMoudle === 'question'">
 		<CommonProblem 
 			title="常见问题"
+			showIcon
 			:problemList="problemList"
-			:currentMoudleIdx="currentMoudleIdx"
-		/>
+			:currentMoudleIdx.sync="currentMoudleIdx"
+		>
+			<div class="flex" slot="top">
+				<iInput class="flex-1" v-model="key" placeholder="搜索.."></iInput>
+				<iSelect class="content-select" v-model="type">
+					<!-- <el-option value='' label='全部'></el-option> -->
+				</iSelect>
+			</div>
+		</CommonProblem>
+
 		<div class="content-right">
 			<Question></Question>
 		</div>
@@ -43,7 +59,7 @@
 
 <script>
 import store from '@/store'
-import { iPage } from 'rise'
+import { iPage, iInput, iSelect } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
 import Question from "./components/question"
@@ -57,7 +73,9 @@ export default {
 		iTabBadgeItem,
 		CommonProblem,
 		Question,
-		UserManual
+		UserManual,
+		iSelect,
+		iInput
 	},
 	data() {
 		return {
@@ -69,7 +87,10 @@ export default {
 			activeUser: "supplier",
 			problemList: [],
 			currentMoudleIdx: 0,
-			show: false
+			show: false,
+
+			key:"",
+			type:""
 		}
 	},
 	mounted() {
@@ -110,8 +131,12 @@ export default {
 		opacity: 1;
 		font-size: 18px;
 	}
+	.content-select{
+		width: 100px;
+		margin-left: 10px;
+	}
 	.user-type{
-		margin: 20px 0 15px;
+		margin-top: 20px;
 	}
 	.user-type-item{
 		padding: 8px 20px;

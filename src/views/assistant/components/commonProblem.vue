@@ -1,10 +1,12 @@
 <template>
 	<div class="leftContent">
+		<slot name="top"></slot>
 		<div class="list">
 			<div class="listTitle" v-text="title"></div>
 			<div class="listContent">
-				<div v-for="(menu, index) in problemList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleIdx === index ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'">
+				<div v-for="(menu, index) in problemList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleIdx === index ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'" @click="select(menu,index)">
 					<div class="idx">{{ index + 1 }}</div>
+					<i v-if="showIcon" class="icon" :class="[rank[index] ? rank[index] : '']"></i>
 					<div>{{ menu.name }}</div>
 					<div class="block"></div>
 				</div> 
@@ -22,12 +24,31 @@ export default {
 			default: () => []
 		},
 		currentMoudleIdx: {
-			type: Array,
-			default: () => 0
+			type: Number,
+			default: 0
 		},
 		title:{
 			type:String,
 			default:"常见问题"
+		},
+		showIcon: {
+			type: Boolean,
+			default: false
+		}
+	},
+	data() {
+		return {
+			rank:{
+				0:"first",
+				1:"second",
+				2:"third"
+			}
+		}
+	},
+	methods: {
+		select(menu,index){
+			this.$emit("update:currentMoudleIdx", index)
+			this.$emit("change", menu)
 		}
 	},
 }
@@ -42,7 +63,7 @@ export default {
 		box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
 		opacity: 1;
 		border-radius: 5px;
-		padding: 15px 20px 0px 20px;
+		padding: 20px 20px 0px 20px;
 		overflow-y: auto;
 		.list {
 			.listTitle {
@@ -63,11 +84,28 @@ export default {
 					padding-left: 30px;
 					font-size: 400;
 					cursor: pointer;
+					transition: all .1s ease;
 					.idx {
 						width: 60px;
 					}
 				}
 			}
+		}
+	}
+	.icon {
+		margin-right: 20px;
+		width: 28px;
+		height: 28px;
+		background-size: contain;
+		background-repeat: no-repeat;
+		&.first{
+			background-image: url('~@/assets/images/icon/first.png');
+		}
+		&.second{
+			background-image: url('~@/assets/images/icon/second.png');
+		}
+		&.third{
+			background-image: url('~@/assets/images/icon/third.png');
 		}
 	}
 	.block {

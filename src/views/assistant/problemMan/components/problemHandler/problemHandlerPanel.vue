@@ -66,7 +66,8 @@
           <i-button @click="finishedHandler">{{ language('归档') }}</i-button>
         </template>
         <template v-else-if="cardSelectItem.status === 'reply'">
-          <i-button>{{ language('关闭问题') }}</i-button>
+          <i-button @click="closeQuestionHandler">{{ language('关闭问题') }}</i-button>
+          <i-button @click="dispatchHandler">{{ language('转派') }}</i-button>
         </template>
       </div>
       <div class="search-box flex-between-center-center mt20 mb20 border">
@@ -75,17 +76,17 @@
             <el-row :gutter="20">
               <el-col :span="8">
                 <iFormItem :label="$t('问题模块')">
-                  <iInput :value="editForm.channelStr" :disabled="isDisabled" />
+                  <iInput :value="editForm.channelStr" :disabled="isDisabledModule" />
                 </iFormItem>
               </el-col>
               <el-col :span="8">
                 <iFormItem :label="$t('标签')">
-                  <iInput v-model="editForm.code" :disabled="isDisabled"></iInput>
+                  <iInput v-model="editForm.code" :disabled="isDisabledLabel"></iInput>
                 </iFormItem>
               </el-col>
               <el-col :span="8">
                 <iFormItem :label="$t('问题来源')">
-                  <iInput v-model="editForm.name" :disabled="isDisabled" />
+                  <iInput v-model="editForm.name" :disabled="isDisabledQuestion" />
                 </iFormItem>
               </el-col>
             </el-row>
@@ -203,7 +204,9 @@ export default {
       ],
       editForm: {},
       editFormRules: {},
-      isDisabled: true,
+      isDisabledModule: true,
+      isDisabledLabel: true,
+      isDisabledQuestion: true,
       finishedDialog: false,
       loading: true,
     }
@@ -223,6 +226,9 @@ export default {
       this.currentCategoryItem = item.value;
       this.categoryCardList = item.value != 'all' ? this.mockDataList.filter(it => it.status === item.value) :this.mockDataList;
       this.cardSelectHandler(this.categoryCardList[0]);
+      this.isDisabledModule = true;
+      this.isDisabledLabel = true;
+      this.isDisabledQuestion = true;
     },
     // 点击卡片
     cardSelectHandler (item) {
@@ -240,10 +246,26 @@ export default {
     dispatchHandler () {
       this.showDialog = true
     },
+    closeQuestionHandler() {
+      this.$confirm('确定要关闭吗', {
+        type: 'warning'
+      }).then(async () => {
+        this.$message.success('关闭成功');
+      }).catch(() => {
+        this.$message.error('关闭失败');
+      })
+    },
     sendMessageHandler () { },
     sendAndCloseHandler () { },
+    // 点击编辑按钮
     editHandler () {
-      this.isDisabled = false;
+      if (Object.is(this.currentCategoryItem, 'finished')) {
+        this.isDisabledModule = false;
+        this.isDisabledQuestion = false;
+      } else {
+        this.isDisabledModule = false;
+        this.isDisabledLabel = false;
+      }
     },
     finishedHandler () {
       this.finishedDialog = true;
