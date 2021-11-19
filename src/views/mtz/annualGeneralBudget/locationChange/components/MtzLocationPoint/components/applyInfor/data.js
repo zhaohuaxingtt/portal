@@ -306,12 +306,12 @@ export const tableTitleHistory = [
 ]
 
 export const formRulesGZ = {
-  effectFlag:[{required: true, message: '请选择', trigger: 'change'}],
-  materialGroup:[{required: true, message: '请选择', trigger: 'change'}],//MTZ-材料组
-  carline:[{required: true, message: '请选择', trigger: 'change'}],//车型
-  supplierId:[{required: true, message: '请选择', trigger: 'change'}],
-  supplierName:[{required: true, message: '请选择', trigger: 'change'}],
-  materialCode:[{required: true, message: '请选择', trigger: 'change'}],
+  effectFlag:[{required: true, message: '请选择', trigger: 'blur'}],
+  materialGroup:[{required: true, message: '请选择', trigger: 'blur'}],//MTZ-材料组
+  carline:[{required: true, message: '请选择', trigger: 'blur'}],//车型
+  supplierId:[{required: true, message: '请选择', trigger: 'blur'}],
+  supplierName:[{required: true, message: '请选择', trigger: 'blur'}],
+  materialCode:[{required: true, message: '请选择', trigger: 'blur'}],
   materialName:[{required: true, message: '请输入', trigger: 'blur'}],
   price:[{required: true, message: '请输入', trigger: 'blur'}],
   priceMeasureUnit:[{required: true, message: '请输入', trigger: 'blur'}],
@@ -329,9 +329,9 @@ export const formRulesGZ = {
       }
     },trigger: 'blur'}
   ],
-  compensationPeriod:[{required: true, message: '请选择', trigger: 'change'}],
+  compensationPeriod:[{required: true, message: '请选择', trigger: 'blur'}],
   threshold:[{required: true, message: '请输入', trigger: 'blur'}],
-  thresholdCompensationLogic:[{required: true, message: '请选择', trigger: 'change'}],
-  startDate:[{required: true, message: '请选择', trigger: 'change'}],
-  endDate:[{required: true, message: '请选择', trigger: 'change'}],
+  thresholdCompensationLogic:[{required: true, message: '请选择', trigger: 'blur'}],
+  startDate:[{required: true, message: '请选择', trigger: 'blur'}],
+  endDate:[{required: true, message: '请选择', trigger: 'blur'}],
 }
