@@ -66,7 +66,7 @@
           <i-button @click="finishedHandler">{{ language('归档') }}</i-button>
         </template>
         <template v-else-if="cardSelectItem.status === 'reply'">
-          <i-button>{{ language('关闭问题') }}</i-button>
+          <i-button @click="closeQuestionHandler">{{ language('关闭问题') }}</i-button>
           <i-button @click="dispatchHandler">{{ language('转派') }}</i-button>
         </template>
       </div>
@@ -245,6 +245,15 @@ export default {
     // 指派
     dispatchHandler () {
       this.showDialog = true
+    },
+    closeQuestionHandler() {
+      this.$confirm('确定要关闭吗', {
+        type: 'warning'
+      }).then(async () => {
+        this.$message.success('关闭成功');
+      }).catch(() => {
+        this.$message.error('关闭失败');
+      })
     },
     sendMessageHandler () { },
     sendAndCloseHandler () { },
