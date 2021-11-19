@@ -1,7 +1,13 @@
 <template>
   <el-card>
     <div class="flex flex-row justify-end mt20 mb20">
-      <iButton @click="editHandler">{{ language('编辑') }}</iButton>
+      <template v-if="!isEdit">
+        <iButton @click="editHandler">{{ language('编辑') }}</iButton>
+      </template>
+      <template v-else>
+        <iButton @click="cancelEditHandler">{{ language('取消') }}</iButton>
+        <iButton @click="confirmEditHandler">{{ language('确认') }}</iButton>
+      </template>
     </div>
     <iTableCustom
       ref="testTable"
@@ -45,15 +51,32 @@ export default {
         {
           id: 1,
           account:1234,
+          name: '张三',
         }
       ],
       tableSetting:tableColumn(this),
+      selectionRowList: [],
+      selectionRowIds: [],
+      isEdit: false,
     }
   },
   methods: {
     handleGoDetail() {},
-    handleSelectionChange() {},
-    editHandler() {},
+    handleSelectionChange(ev) {
+      this.selectionRowList = ev;
+    },
+    editHandler() {
+      if (this.selectionRowList.length) {
+        this.isEdit = true;
+        this.selectionRowIds = this.selectionRowList.map(item => item.id);
+      } else {
+        this.$message.error('请选择编辑的行');
+      }
+    },
+    cancelEditHandler() {
+      this.isEdit = false;
+    },
+    confirmEditHandler() {},
   },
   mounted() {
     console.log(this.type);

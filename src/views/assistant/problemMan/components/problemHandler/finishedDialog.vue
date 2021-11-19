@@ -20,7 +20,7 @@
         </el-col>
         <el-col :span="8">
           <iFormItem :label="$t('问题来源')">
-            <iInput v-model="editForm.name" />
+            <iInput v-model="editForm.name" disabled/>
           </iFormItem>
         </el-col>
       </el-row>

@@ -25,7 +25,7 @@
 		<div class="flex flex-row content mt20" v-show="helpMoudle === 'manual'">
 			<CommonProblem 
 				:problemList="problemList"
-				:currentMoudleIdx="currentMoudleIdx"
+				:currentMoudleIdx.sync="currentMoudleIdx"
 			/>
 			<DataManage 
 				@handleQuestion="handleQuestion"
@@ -36,7 +36,7 @@
 			<div class="flex flex-row mt20 middle-content">
 				<CommonProblem 
 					:problemList="problemList"
-					:currentMoudleIdx="currentMoudleIdx"
+					:currentMoudleIdx.sync="currentMoudleIdx"
 				/>
 				<ProblemDetail
 					:moudleId="currentMoudleIdx" 
