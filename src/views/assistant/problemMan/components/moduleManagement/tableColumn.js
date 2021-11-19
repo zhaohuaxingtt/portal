@@ -1,4 +1,4 @@
-export const tableColumn = () => {
+export const tableColumn = (c) => {
   return [
     {
       type: 'selection',
@@ -17,9 +17,16 @@ export const tableColumn = () => {
       emit: 'go-detail'
     },
     {
-      prop: 'account',
+      prop: 'name',
       label: '姓名',
-      align: 'center'
+      align: 'center',
+      customRender: (h, scope) => {
+        if (c.selectionRowIds.includes(scope.row.id)) {
+          return 'TODO'
+        } else {
+          return <span class="open-link-text">{scope.row.name}</span>
+        }
+      }
     },
     {
       prop: 'positionList',
