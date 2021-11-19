@@ -29,7 +29,7 @@
 					</div>
 					<div class="flex flex-wrap item-content">
 						<div class="content-label" v-for="(label, lx) in moedle.labelArr" :key="lx">
-							<div class="label-name">{{ label.labelName }}</div>
+							<div class="label-name cursor">{{ label.labelName }}</div>
 						</div>
 					</div>
 				</div>

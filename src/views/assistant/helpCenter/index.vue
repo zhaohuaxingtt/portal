@@ -46,7 +46,11 @@
 			</div>
 		</div>
 		<div class="flex flex-row content mt20" v-show="helpMoudle === 'ask'">
-			我的提问
+			<QuestionList />
+			<QuestionDetail 
+				@handleZwQues="handleZwQues"
+				@handleQuestion="handleQuestion"
+			/>
 		</div>
 		<IntelligentDialog 
 			:intelligentVisible="intelligentVisible"
@@ -75,6 +79,8 @@ import ProblemSearch from './components/problemSearch'
 import ProblemDetail from './components/problemDetail'
 import IntelligentDialog from '../components/intelligentDialog'
 import QuestioningDialog from '../components/questioningDialog'
+import QuestionList from './components/questionList'
+import QuestionDetail from './components/questionDetail'
 import { getSystemMeun } from '@/api/assistant'
 
 export default {
@@ -99,7 +105,9 @@ export default {
 		ProblemSearch,
 		ProblemDetail,
 		IntelligentDialog,
-		QuestioningDialog
+		QuestioningDialog,
+		QuestionList,
+		QuestionDetail
 	},
 	mounted() {
 		this.getProbleList()
@@ -124,6 +132,7 @@ export default {
 		},
 		// 追问 打开问题弹框
 		handleZwQues(title) {
+			console.log(title, "handleZwQues")
 			this.questioningVisible = true
 			this.questioningTitle = title
 			this.zwFlag = true

@@ -42,7 +42,7 @@ export default {
 		box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
 		opacity: 1;
 		border-radius: 5px;
-		padding: 15px 20px 0px 20px;
+		padding: 15px 20px 20px 20px;
 		overflow-y: auto;
 		.list {
 			.listTitle {
