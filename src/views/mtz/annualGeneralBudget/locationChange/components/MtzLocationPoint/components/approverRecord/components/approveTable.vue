@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-19 19:25:56
+ * @LastEditTime: 2021-11-19 19:45:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -311,7 +311,7 @@ export default {
       this.userList = obj.userDTOList
     },
     handleSync () {
-      syncAuther({ mtzAppId: this.mtzAppId || '5107001' }).then(res => {
+      syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: "1" }).then(res => {
         if (res?.code === '200') {
           this.getTableList()
           iMessage.success(res.desZh)
