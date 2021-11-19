@@ -184,7 +184,7 @@
                          :user-options="tcCurrence"
                          clearable
                          :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
+                         display-member="code"
                          value-member="code"
                          value-key="code">
                 </custom-select>
@@ -277,6 +277,7 @@ import {
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 import {
   cartypePaged,//车型
+  currencyDict,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 import {
   addAppRule,//维护MTZ原材料规则-新增
@@ -289,7 +290,7 @@ import {
 import {
   fetchRemoteMtzMaterial,//查询MTZ材料组
 } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit';
-import { isNumber,timeCoincide } from "./util";
+import { isNumber,timeCoincide,timeTransformation } from "./util";
 import {
   iButton,
   iMessage,
@@ -337,6 +338,39 @@ export default {components: {
             callback();
         }
     };
+    var validatePass2 = (rule, value, callback) => {//阈值
+        if(value.toString().split(".")[1] !== undefined){
+            if (value.toString().split(".")[1].length>4) {
+                callback(new Error('最多输入小数点后4位'));
+            }else{
+                callback();
+            }
+        }else{
+            callback();
+        }
+    };
+    var validatePass3 = (rule, value, callback) => {//用量
+        if(value == "" || value == undefined){
+            callback();
+        }else{
+            if(value.toString().split(".")[1] !== undefined){
+                if (value.toString().split(".")[1].length>6) {
+                    callback(new Error('最多输入小数点后6位'));
+                }else{
+                    callback();
+                }
+            }else{
+                callback();
+            }
+        }
+    }
+    var validatePass4 = (rule, value, callback) => {
+        if(timeTransformation(this.contractForm.startDate)>=timeTransformation(this.contractForm.endDate)){
+            callback(new Error('有效期起不能大于等于有效期止'));
+        }else{
+            callback();
+        }
+    }
     return {
         thresholdCompensationLogic:[//阈值补差逻辑,全额补差/超额补差
             {
@@ -362,12 +396,7 @@ export default {components: {
                 message:"季度"
             },
         ],
-        tcCurrence:[//货币
-            {
-                code:"0",
-                message:"RMB"
-            }
-        ],
+        tcCurrence:[],
         supplierList:[],//供应商
         carline:[],//车型
         contractForm: {
@@ -391,9 +420,17 @@ export default {components: {
             supplierName: [{ required: true, message: '请选择', trigger: 'blur' }],
             materialCode: [{ required: true, message: '请选择', trigger: 'blur' }],
             materialName: [{ required: true, message: '请选择', trigger: 'blur' }],
-            price: [{ required: true, message: '请输入', trigger: 'blur' }],
+            price: [{ required: true, message: '请输入或补全铂钯铑基价和用量', trigger: 'blur' }],//基价
             priceMeasureUnit: [{ required: true, message: '请选择', trigger: 'blur' }],
-            
+            platinumDosage:[
+                { validator:validatePass3, trigger: 'blur' }
+            ],
+            palladiumDosage:[
+                { validator:validatePass3, trigger: 'blur' }
+            ],
+            rhodiumDosage:[
+                { validator:validatePass3, trigger: 'blur' }
+            ],
             tcCurrence: [{ required: true, message: '请选择', trigger: 'blur' }],
             tcExchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }],
             source: [{ required: true, message: '请输入', trigger: 'blur' }],
@@ -402,10 +439,19 @@ export default {components: {
                 { validator:validatePass1, trigger: 'blur' }
             ],
             compensationPeriod: [{ required: true, message: '请选择', trigger: 'blur' }],
-            threshold: [{ required: true, message: '请输入', trigger: 'blur' }],
+            threshold: [{ 
+                required: true, message: '请输入', trigger: 'blur' },
+                { validator:validatePass2, trigger: 'blur' }
+            ],
             thresholdCompensationLogic: [{ required: true, message: '请选择', trigger: 'blur' }],
-            startDate: [{ required: true, message: '请选择', trigger: 'blur' }],
-            endDate: [{ required: true, message: '请选择', trigger: 'blur' }],
+            startDate: [
+                { required: true, message: '请选择', trigger: 'blur' },
+                { validator:validatePass4, trigger: 'blur' }
+            ],
+            endDate: [
+                { required: true, message: '请选择', trigger: 'blur' },
+                { validator:validatePass4, trigger: 'blur' }
+            ],
         },
         effectFlag:[
             {
@@ -443,6 +489,10 @@ export default {components: {
     }).then(res=>{
         this.carline = res.data;
     })
+
+    currencyDict().then(res=>{
+        this.tcCurrence = res.data;
+    })
   },
   computed:{
       mtzObject(){
@@ -457,10 +507,10 @@ export default {components: {
   methods: {
     jijiaCompute(){
         if(isNumber(this.contractForm.platinumPrice) && isNumber(this.contractForm.platinumDosage) && isNumber(this.contractForm.palladiumPrice) && isNumber(this.contractForm.palladiumDosage) && isNumber(this.contractForm.rhodiumPrice) && isNumber(this.contractForm.rhodiumDosage)){
-            console.log("计算出基价值");
-            this.contractForm.price = "99.9"
+            this.contractForm.price = Number(this.contractForm.platinumPrice)*Number(this.contractForm.platinumDosage) + Number(this.contractForm.palladiumPrice)*Number(this.contractForm.palladiumDosage) + Number(this.contractForm.rhodiumPrice)*Number(this.contractForm.rhodiumDosage)
+            // console.log(this.contractForm.price);
         }else{
-            iMessage.error("请填写完")
+            // iMessage.warn("请填写完铂钯铑基价以及用量")
         }
     },
     MaterialGrade(value){
