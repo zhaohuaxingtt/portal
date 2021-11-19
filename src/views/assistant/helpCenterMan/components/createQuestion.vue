@@ -9,20 +9,28 @@
         <div class="content">
             <iFormGroup :model="form" ref="demoForm" :inline="true">
                 <el-form-item label="问题模块">
-                    <i-input class="input" type="text" v-model="keyword" placeholder="请输入" />
+                    <i-input class="input" type="text" v-model="form.module" placeholder="请输入" />
                 </el-form-item>
                 <el-form-item label="问题标签" style="margin-left:30px">
-                    <i-input class="input" type="text" v-model="keyword" placeholder="请输入" />
+                    <i-input class="input" type="text" v-model="form.tag" placeholder="请输入" />
                 </el-form-item>
                 <div class="flex flex-column" style="margin-bottom:20px;">
                     <iLabel class="label" label="问题描述" slot="label"></iLabel>
-                    <i-input class="textarea" rows="5" type="textarea" v-model="keyword" placeholder="请输入" />
+                    <i-input class="textarea" rows="5" type="textarea" v-model="form.desc" placeholder="请输入" />
                 </div>
                 <div class="flex flex-column">
-                    <iLabel class="label" label="问题描述" slot="label"></iLabel>
-                    <i-input class="textarea" rows="5" type="textarea" v-model="keyword" placeholder="请输入" />
+                    <iLabel class="label" label="管理员回复" slot="label"></iLabel>
+                    <i-input class="textarea" rows="5" type="textarea" v-model="form.answer" placeholder="请输入" />
                 </div>
             </iFormGroup>
+            <div class="flex" style="margin-top:20px;">
+                <iLabel class="label" label="附件:" slot="label"></iLabel>
+                <div class="upload-btn">
+                    <i class="el-icon-link"></i>
+                    <span @click="upload">点击上传</span>
+                    <iUpload v-show="false" ref="upload" :fileIds="fileIds" :extraData="extraData" @callback="handelCallback" />
+                </div>
+            </div>
         </div>
         <div slot="footer">
             <iButton>上 传</iButton>
@@ -32,14 +40,15 @@
 </template>
 
 <script>
-    import { iDialog, iFormGroup, iInput, iLabel, iButton } from "rise"
+    import { iDialog, iFormGroup, iInput, iLabel, iButton, iUpload } from "rise"
     export default {
         components:{
             iDialog,
             iFormGroup,
             iInput,
             iButton,
-            iLabel
+            iLabel,
+            iUpload
         },
         props:{
             show:{
@@ -49,13 +58,25 @@
         },
         data() {
             return {
-                form:{}
+                extraData: { applicationName: 'rise-dev', type: '1', businessId: '01', isTemp: 0 },
+                fileIds: ['1406890012558303234', '1406890292712644609'],
+                form:{
+                    module:"",
+                    tag:"",
+                    desc:"",
+                    answer:""
+                }
             }
         },
         methods: {
             closeDialog(){
-                console.log(1)
                 this.$emit("update:show",false)
+            },
+            handelCallback(res){
+                console.log(res);
+            },
+            upload(){
+                this.$refs.upload.$el.querySelector("input[type='file']").click()
             }
         }
     }
@@ -71,6 +92,14 @@
 }
 .textarea{
     width: 100%;
+}
+
+.upload-btn{
+    color: #2369f1;
+    cursor: pointer;
+    span{
+        text-decoration: underline;
+    }
 }
 
 .label{

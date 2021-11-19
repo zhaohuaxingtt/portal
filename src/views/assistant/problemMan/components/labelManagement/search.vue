@@ -33,9 +33,9 @@
 </template>
 
 <script>
-import { iInput, iButton, iFormItem, iSelect, iDatePicker } from 'rise'
+import { iInput, iButton, iFormItem, iSelect } from 'rise'
 export default {
-  components: { iInput, iButton, iFormItem, iSelect, iDatePicker },
+  components: { iInput, iButton, iFormItem, iSelect },
   props: {
     type: {
       type: String
