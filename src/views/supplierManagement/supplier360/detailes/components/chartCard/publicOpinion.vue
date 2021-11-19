@@ -2,11 +2,13 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('YUQINGJIANCE', '舆情监测')}}</p>
+      <span v-permission="Card_Public_opinion_monitoring_More" class="el-dropdown-link">
+        <i class="el-icon-more"></i>
+      </span>
     </div>
     <div class="center">
-      <icon class="early"
-            symbol
-            name="iconcaiwuyujing-icon"></icon>
+       <img :src="img"
+           class="imgIcon" />
       <div class="float">
         <div v-for="v in data"
              :key="v.address">
@@ -40,19 +42,19 @@
   </iCard>
 </template>
 <script>
-import { iCard, icon, iText, iButton } from 'rise'
+import { iCard,} from 'rise'
+import img from '@/assets/images/publicOpinion.svg'
 export default {
   props: {},
   components: {
     iCard,
-    icon,
-    iText,
-    iButton
+
   },
   data() {
     return {
       chart: 'oneChart',
-      data: [{ address: '测试' }, { address: '测试' }, { address: '测试' }]
+      data: [{ address: '测试' }, { address: '测试' }, { address: '测试' }],
+      img:img
     }
   },
   computed: {
@@ -67,6 +69,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.imgIcon{
+    width: 60px;
+    height: 60px;
+}
 .title {
   display: flex;
   justify-content: space-between;

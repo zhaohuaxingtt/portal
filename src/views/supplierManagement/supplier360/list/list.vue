@@ -288,7 +288,6 @@ export default {
     iSelect,
     iPagination,
     listDialog,
-
     iSearch,
     joinlacklistGp,
     removelacklistGp,
@@ -369,7 +368,7 @@ export default {
         tagdropDownList: [],
         supplierType: '',
         dept: '',
-        relatedToMe: '',
+        relatedToMe: true,
         materialOrCraftCode: ''
       },
       carTypeOptions: [],
@@ -401,7 +400,7 @@ export default {
       if (this.form.relatedToMe) {
         isMeRelated = 1
       } else isMeRelated = 0
-      dropDownTagName({ isMeRelated: isMeRelated }).then((res) => {
+      dropDownTagName({ isMeRelated: isMeRelated ,supplierId:this.$store.state.permission.userInfo.id}).then((res) => {
         if (res && res.code == 200) {
           this.tagdropDownList = res.data
         }

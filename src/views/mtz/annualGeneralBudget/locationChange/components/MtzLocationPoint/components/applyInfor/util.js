@@ -66,3 +66,9 @@ export const timeCoincide = (sData1,eData1,sData2,eData2) => {
   }
   return true;
 }
+
+export const timeTransformation = (data) => {
+  var time = (new Date(data)).getTime()/1000;
+
+  return time;
+}

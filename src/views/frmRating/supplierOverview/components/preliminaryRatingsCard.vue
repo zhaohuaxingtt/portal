@@ -7,16 +7,14 @@
 -->
 <template>
   <iCard :title="$t('SUPPLIER_CHUBUPINGJI')">
-    <div @click="handleTo"
-         class="height">
+    <div @click="handleTo" class="height">
       <!-- <div class="center1 height">
       <img :src="soon" width="70%" height="70%" alt="">
     </div> -->
       <!-- <div class="flex-align-center" style="justify-content: center;height: 100%;">
 		<img style="width: 60%;" src="./soon.png" >
 	</div> -->
-      <div ref="chart"
-           class="chartStyle"> </div>
+      <div ref="chart" class="chartStyle"></div>
     </div>
   </iCard>
 </template>
@@ -37,7 +35,7 @@ export default {
   },
 
   mounted() {
-    initRatingCard().then((res) => {
+    initRatingCard().then(res => {
       this.info = res.data
       this.getChart()
     })
@@ -52,14 +50,13 @@ export default {
     getChart() {
       let data1 = []
       let data2 = []
-      let totalCount=0
+      let totalCount = 0
       for (var i in this.info.rateNumber) {
         data1.push(i)
         data2.push(this.info.rateNumber[i])
-        totalCount+= this.info.rateNumber[i]
-       
+        totalCount += this.info.rateNumber[i]
       }
-    //    totalCount=totalCount-data2[data2.length-1]
+      //    totalCount=totalCount-data2[data2.length-1]
       const myChart = echarts().init(this.$refs.chart)
       var option = {
         title: {
@@ -84,20 +81,27 @@ export default {
 
         tooltip: {
           trigger: 'axis',
-           axisPointer: {
+          axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           },
-          formatter: function (data) {
-            let total = 0
-            for (let i in data) {
-              total += data[i].data.value
-            }
+          formatter: function(data) {
+              console.log(data)
             const type = data[0].axisValue
-            return `${type}-Rating数量：${total}<br/>${type}-Rating比例：${
-              (total / totalCount).toFixed(2) * 100
-            }%`
+            return `${type}-Rating数量：${data[0].value}<br/>${type}-Rating比例：${(
+              data[0].value / totalCount
+            ).toFixed(2) * 100}%`
           }
+        //    formatter: function(data) {
+        //     let total = 0
+        //     for (let i in data) {
+        //       total += data[i].data.value
+        //     }
+        //     const type = data[0].axisValue
+        //     return `${type}-Rating数量：${total}<br/>${type}-Rating比例：${(
+        //       total / totalCount
+        //     ).toFixed(2) * 100}%`
+        //   }
         },
         grid: {
           top: '18%',
@@ -107,10 +111,12 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: ['A', 'B', 'C'],
+          //   data: ['A', 'B', 'C'],
+          data: data1,
           axisLabel: {
-            color: '#fff',
-            interval: 0
+            color: '#727272',
+            interval: 0,
+            fontSize: 9
           },
           axisTick: {
             show: false
@@ -130,90 +136,118 @@ export default {
         series: [
           {
             type: 'bar',
-            data: [
-              { value: data2[0], name: data1[0] },
-              { value: data2[3], name: data1[3] },
-              { value: data2[6], name: data1[6] }
-            ],
+            data: data2,
             barWidth: 15,
 
             label: {
-              show: true,
+              show: false,
               position: 'bottom',
               align: 'center',
-              distance: 10,
-              color: '#727272',
-              formatter: function (data) {
-                return data.data.name
-              },
-              fontSize: 9
             },
             itemStyle: {
               normal: {
-                color: function (params) {
-                  let colorList = ['#A2C0FC', '#5B91FA', '#3764BA']
+                color: function(params) {
+                  let colorList = [
+                    '#A2C0FC',
+                    '#A2C0FC',
+                    '#A2C0FC',
+                    '#5B91FA',
+                    '#5B91FA',
+                    '#5B91FA',
+                    '#3764BA',
+                    '#3764BA',
+                    '#3764BA'
+                  ]
                   return colorList[params.dataIndex]
                 }
               }
             }
-          },
-          {
-            type: 'bar',
-            barWidth: 15,
-            label: {
-              show: true,
-              position: 'bottom',
-              align: 'center',
-              distance: 10,
-              color: '#727272',
-              formatter: function (data) {
-                return data.data.name
-              },
-              fontSize: 9
-            },
-            data: [
-              { value: data2[1], name: data1[1] },
-              { value: data2[4], name: data1[4] },
-              { value: data2[7], name: data1[7] }
-            ],
-            itemStyle: {
-              normal: {
-                color: function (params) {
-                  let colorList = ['#A2C0FC', '#5B91FA', '#3764BA']
-                  return colorList[params.dataIndex]
-                }
-              }
-            }
-          },
-          {
-            type: 'bar',
-            barWidth: 15,
-            label: {
-              show: true,
-              position: 'bottom',
-              align: 'center',
-              distance: 10,
-              color: '#727272',
-              formatter: function (data) {
-                return data.data.name
-              },
-              fontSize: 9
-            },
-            itemStyle: {
-              normal: {
-                color: function (params) {
-                  let colorList = ['#A2C0FC', '#5B91FA', '#3764BA']
-                  return colorList[params.dataIndex]
-                }
-              }
-            },
-            data: [
-              { value: data2[2], name: data1[2] },
-              { value: data2[5], name: data1[5] },
-              { value: data2[8], name: data1[8] }
-            ]
           }
-         
+          //   {
+          //     type: 'bar',
+          //     data: [
+          //       { value: data2[0], name: data1[0] },
+          //       { value: data2[3], name: data1[3] },
+          //       { value: data2[6], name: data1[6] }
+          //     ],
+          //     barWidth: 15,
+
+          //     label: {
+          //       show: true,
+          //       position: 'bottom',
+          //       align: 'center',
+          //       distance: 10,
+          //       color: '#727272',
+          //       formatter: function (data) {
+          //         return data.data.name
+          //       },
+          //       fontSize: 9
+          //     },
+          //     itemStyle: {
+          //       normal: {
+          //         color: function (params) {
+          //           let colorList = ['#A2C0FC', '#5B91FA', '#3764BA']
+          //           return colorList[params.dataIndex]
+          //         }
+          //       }
+          //     }
+          //   },
+          //   {
+          //     type: 'bar',
+          //     barWidth: 15,
+          //     label: {
+          //       show: true,
+          //       position: 'bottom',
+          //       align: 'center',
+          //       distance: 10,
+          //       color: '#727272',
+          //       formatter: function (data) {
+          //         return data.data.name
+          //       },
+          //       fontSize: 9
+          //     },
+          //     data: [
+          //       { value: data2[1], name: data1[1] },
+          //       { value: data2[4], name: data1[4] },
+          //       { value: data2[7], name: data1[7] }
+          //     ],
+          //     itemStyle: {
+          //       normal: {
+          //         color: function (params) {
+          //           let colorList = ['#A2C0FC', '#5B91FA', '#3764BA']
+          //           return colorList[params.dataIndex]
+          //         }
+          //       }
+          //     }
+          //   },
+          //   {
+          //     type: 'bar',
+          //     barWidth: 15,
+          //     label: {
+          //       show: true,
+          //       position: 'bottom',
+          //       align: 'center',
+          //       distance: 10,
+          //       color: '#727272',
+          //       formatter: function (data) {
+          //         return data.data.name
+          //       },
+          //       fontSize: 9
+          //     },
+          //     itemStyle: {
+          //       normal: {
+          //         color: function (params) {
+          //           let colorList = ['#A2C0FC', '#5B91FA', '#3764BA']
+          //           return colorList[params.dataIndex]
+          //         }
+          //       }
+          //     },
+          //     data: [
+          //       { value: data2[2], name: data1[2] },
+          //       { value: data2[5], name: data1[5] },
+          //       { value: data2[8], name: data1[8] }
+          //     ]
+          //   }
         ]
       }
       myChart.setOption(option)

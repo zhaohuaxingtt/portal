@@ -3,7 +3,7 @@
         <div class="margin-bottom20 clearFloat">
             <div class="floatright">
                 <!--导出-->
-                <iButton @click="download" v-permission="ACHIEVEMENTMGT_SPARE_TRACK_DOWN">
+                <iButton @click="download" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_TRACK_DOWN')">
                     {{ $t('APPROVAL.EXPORT')}}
                 </iButton>
             </div>
@@ -42,7 +42,7 @@
     import resultMessageMixin from '@/mixins/resultMessageMixin';
     import {tableTitle, monthTitle, getRequest} from './data';
     import {toThousands,delcommafy} from '@/utils'
-
+    import isAuth from '@/utils/isAuth';
     import {
         querySpTrackDetail,      // 跟踪明细list
         exportSpTrackDetail,     // 导出功能
@@ -68,6 +68,8 @@
                 trackId: '',
                 listId: [],
                 trackTypeList:[],
+                isAuth,
+                whiteBtnList: this.$store.state.permission.whiteBtnList,
             };
         },
         props: ['formData','title'],

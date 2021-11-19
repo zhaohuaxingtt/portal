@@ -2,14 +2,13 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('DINGDIAN', '定点')}}</p>
-      <span class="el-dropdown-link">
+      <span class="el-dropdown-link" v-permission="Card_Nomination_More">
         <i class="el-icon-more"></i>
       </span>
     </div>
     <div class="box">
-      <icon class="early"
-            symbol
-            name="iconcaiwuyujing-icon"></icon>
+  <img :src="img"
+           class="imgIcon" />
       <div class="boxTitle">
         <p>90</p>
         <div>
@@ -23,16 +22,18 @@
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, icon } from 'rise'
+import { iCard } from 'rise'
+import img from '@/assets/images/fixed.svg'
 export default {
   props: {},
   components: {
     iCard,
-    icon
+
   },
   data() {
     return {
-      chart: 'oneChart'
+      chart: 'oneChart',
+      img:img
     }
   },
   computed: {
@@ -84,6 +85,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.imgIcon{
+    width: 60px;
+    height: 60px;
+}
 .title {
   display: flex;
   justify-content: space-between;

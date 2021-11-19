@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-18 15:21:12
+ * @LastEditTime: 2021-11-19 15:21:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -51,7 +51,6 @@
                           :loading="tableLoading"
                           :data="tableList"
                           :columns="TABLE_COLUMNS"
-                          highlight-current-row
                           @handle-selection-change="handleSelectionChange">
             </iTableCustom>
             <iPagination v-update
@@ -116,11 +115,11 @@
 </template>
 
 <script>
-import { iButton, iTabsList, iCard, iPagination, iMessage, iDialog, iInput } from "rise";
+import { iButton, iTabsList, iCard, iPagination, iMessage, iDialog, iInput, iTableCustom } from "rise";
 import newMtzlocationChange from "@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationChange/newMtzlocationChange";
 import uploadButton from '@/components/uploadButton';
 import { basePriceChangePageList, uploadBasePriceChange, priceChangeExport, basePriceChangeDelete, updateBasePriceChange, approvalRecordList, approvalExplain } from '@/api/mtz/annualGeneralBudget/mtzChange'
-import iTableCustom from '@/components/iTableCustom'
+// import iTableCustom from '@/components/iTableCustom'
 import { TABLE_COLUMNS, TABLE_COLUMNS1 } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 
@@ -256,6 +255,7 @@ export default {
       this.muliteList1 = val
     },
     save () {
+
       this.muliteList.forEach(item => {
         item.editRow = false
       })
@@ -277,12 +277,12 @@ export default {
       })
     },
     uploadBasePriceChange (val) {
-      console.log(val)
       let params = {
         multifile: val.file,
         mtzAppId: this.mtzAppId
       }
       uploadBasePriceChange(params).then((res) => {
+        console.log(res)
         if (res.code === '200') {
           iMessage.success(res.desZh)
         } else {

@@ -17,7 +17,7 @@
           <iButton @click="save" v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BAOCUN', '保存') }}</iButton>
         </div>
         </template>
-        <el-form :rules="formRules" :model="{tableData}" ref="contractForm"  :class="editType?'':'formStyle'">
+        <el-form :rules="formRules" :model="{tableData}" ref="contractForm"  class="formStyle">
             <el-table :data="tableData"
                     ref="moviesTable"
                     v-loading="loading"
@@ -107,8 +107,8 @@
                             width="150">
                 <template slot-scope="scope">
                     <el-form-item
-                        :prop="'tableData.' + scope.$index + '.' + 'carlineList'"
-                        :rules="formRules.carlineList ? formRules.carlineList : ''"
+                        :prop="'tableData.' + scope.$index + '.' + 'carline'"
+                        :rules="formRules.carline ? formRules.carline : ''"
                     >
                         <el-select v-model="scope.row.carlineList"
                             clearable
@@ -149,7 +149,7 @@
                             <el-option
                                 v-for="item in supplierList"
                                 :key="item.code"
-                                :label="item.code"
+                                :label="item.codeMessage"
                                 :value="item.code">
                             </el-option>
                         </el-select>
@@ -262,7 +262,7 @@
                                 :value="item.code">
                             </el-option>
                         </el-select> -->
-                        <iInput type="number"
+                        <iInput
                             v-model="scope.row.priceMeasureUnit"
                             v-if="editId.indexOf(scope.row.id)!==-1"
                         ></iInput>
@@ -479,7 +479,18 @@
                         :prop="'tableData.' + scope.$index + '.' + 'tcCurrence'"
                         :rules="formRules.tcCurrence ? formRules.tcCurrence : ''"
                     >
-                        <iInput v-model="scope.row.tcCurrence" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                        <el-select v-model="scope.row.tcCurrence"
+                            clearable
+                            :placeholder="language('QINGSHURU', '请输入')"
+                            v-if="editId.indexOf(scope.row.id)!==-1"
+                            >
+                            <el-option
+                                v-for="item in tcCurrence"
+                                :key="item.code"
+                                :label="item.code"
+                                :value="item.code">
+                            </el-option>
+                        </el-select>
                         <span v-else>{{scope.row.tcCurrence}}</span>
                     </el-form-item>
                 </template>
@@ -592,7 +603,7 @@
                                 :value="item.code">
                             </el-option>
                         </el-select>
-                        <span v-else>{{scope.row.thresholdCompensationLogic}}</span>
+                        <span v-else>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
                     </el-form-item>
                 </template>
             </el-table-column>
@@ -609,6 +620,8 @@
                         <iDatePicker v-model="scope.row.startDate"
                                 style="width:180px!important;"
                                 type="datetime"
+                                value-format="yyyy-MM-dd"
+                                format="yyyy-MM-dd"
                                 v-if="editId.indexOf(scope.row.id)!==-1"
                                 >
                         </iDatePicker>
@@ -629,6 +642,8 @@
                         <iDatePicker v-model="scope.row.endDate"
                                 style="width:180px!important;"
                                 type="datetime"
+                                value-format="yyyy-MM-dd"
+                                format="yyyy-MM-dd"
                                 v-if="editId.indexOf(scope.row.id)!==-1"
                                 >
                         </iDatePicker>
@@ -690,6 +705,7 @@ import {
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   cartypePaged,//车型
+  currencyDict,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
@@ -715,6 +731,7 @@ export default {
   mixins: [pageMixins],
   data () {
     return {
+        tcCurrence:[],
         formRules:formRulesGZ,
         dataObject:[],
         supplierList:[],
@@ -792,6 +809,9 @@ export default {
     }).then(res=>{
         this.carline = res.data;
     })
+    currencyDict().then(res=>{
+        this.tcCurrence = res.data;
+    })
   },
   methods: {
     init () {
@@ -825,47 +845,50 @@ export default {
             iMessage.error("请选择需要修改数据！")
         }
     },
+    
     save(){//保存
-        
-        iMessageBox(this.language('SHIFOUBAOCUN','是否保存？'),this.language('LK_WENXINTISHI','温馨提示'),{
-            confirmButtonText: this.language('QUEREN', '确认'),
-            cancelButtonText: this.language('QUXIAO', '取消')
-        }).then(res=>{
-            if(this.dialogEditType){//新增
-                this.newDataList.forEach(item=>{
-                    item.carline = item.carlineList.toString();
-                    item.carlineList = null;
-                })
-                addBatchAppRule({
-                    mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-                    mtzAppNomiAppRuleList:this.newDataList
-                }).then(res=>{
-                    if(res.code == 200){
-                        iMessage.success(this.language(res.desEn,res.desZh))
-                        this.editId = "";
-                        this.editType = false;
-                        this.page.currPage = 1;
-                        this.page.pageSize = 10;
-                        this.getTableList();
-                    }else{
-                        iMessage.error(res.message)
-                    }
-                })
-            }else{//编辑
-                this.selectList.forEach(item=>{
-                    item.carline = item.carlineList.toString();
-                    item.carlineList = null;
-                })
-
-                // console.log(this.$refs['contractForm'])
-                // this.$refs['contractForm'].validate(async valid => {
-                //     console.log(valid)
-                //     if (valid) {
-                //         console.log("验证成功")
-                //         iMessage.success("成功")
-
-                //         return false;
-
+        if(this.dialogEditType){//新增
+            this.newDataList.forEach(item=>{
+                item.carline = item.carlineList.toString();
+            })
+            this.$refs['contractForm'].validate(async valid => {
+                if (valid) {
+                    iMessageBox(this.language('SHIFOUBAOCUN','是否保存？'),this.language('LK_WENXINTISHI','温馨提示'),{
+                        confirmButtonText: this.language('QUEREN', '确认'),
+                        cancelButtonText: this.language('QUXIAO', '取消')
+                    }).then(res=>{
+                        addBatchAppRule({
+                            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                            mtzAppNomiAppRuleList:this.newDataList
+                        }).then(res=>{
+                            if(res.code == 200){
+                                iMessage.success(this.language(res.desEn,res.desZh))
+                                this.editId = "";
+                                this.editType = false;
+                                this.page.currPage = 1;
+                                this.page.pageSize = 10;
+                                this.getTableList();
+                            }else{
+                                iMessage.error(res.message)
+                            }
+                        })
+                    })
+                    this.$refs['contractForm'].clearValidate();
+                }else{
+                    iMessage.error(this.language("QINGBUQUANBITIANXIANG","请补全必填项"))
+                    return false
+                }
+            })
+        }else{//编辑
+            this.selectList.forEach(item=>{
+                item.carline = item.carlineList.toString();
+            })
+            this.$refs['contractForm'].validate(async valid => {
+                if (valid) {
+                    iMessageBox(this.language('SHIFOUBAOCUN','是否保存？'),this.language('LK_WENXINTISHI','温馨提示'),{
+                        confirmButtonText: this.language('QUEREN', '确认'),
+                        cancelButtonText: this.language('QUXIAO', '取消')
+                    }).then(res=>{
                         modifyAppRule({
                             mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                             mtzAppNomiAppRuleList:this.selectList
@@ -878,15 +901,14 @@ export default {
                                 iMessage.error(res.message)
                             }
                         })
-                //     } else {
-                //         iMessage.error("失败")
-                //         // return false
-                //     }
-                // })
-            }
-        }).catch(res=>{
-            
-        })
+                    })
+                    this.$refs['contractForm'].clearValidate();
+                }else{
+                    iMessage.error(this.language("QINGBUQUANBITIANXIANG","请补全必填项"))
+                    return false
+                }
+            })
+        }
     },
     cancel(){//取消
         var that = this;
@@ -924,6 +946,7 @@ export default {
         this.newDataList = deepClone(val);
         this.newDataList.forEach(item =>{
             delete item.id;
+            item.carlineList = item.carline.split(",")
         })
         this.closeDiolog();
         this.tableData.unshift(...this.newDataList);

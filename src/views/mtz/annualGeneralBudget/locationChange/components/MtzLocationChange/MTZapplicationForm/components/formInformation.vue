@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:35
- * @LastEditTime: 2021-11-17 21:57:38
+ * @LastEditTime: 2021-11-19 16:43:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\formInformation.vue
@@ -162,12 +162,15 @@ export default {
           }
           saveGenericAppChange(params).then(res => {
             if (res && res.code === '200') {
-              if (type === 2) {
-                this.$store.dispatch('setMtzChangeBtn', true);
-              }
               iMessage.success(res.desZh)
               this.getGenericAppChangeDetail()
-              console.log(this.$store.state)
+              if (type === 2) {
+                this.$store.dispatch('setMtzChangeBtn', true);
+                let routeData = this.$router.resolve({
+                  path: '/mtz/annualGeneralBudget/locationChange/MtzLocationChange'
+                })
+                window.open(routeData.href)
+              }
             } else {
               iMessage.error(res.desZh)
             }

@@ -40,12 +40,12 @@ export const tableTitle = [
     key: 'RSDONGJIERIQI'
   },
   {
-    width: 150,
+    width: 200,
     props: 'isPriceConsistent',
     name: '报价一致性检验状态',
     key: 'BJYZXJYZT'
   },
-  { width: 150, props: 'selStatus', name: 'SEL单据确认状态', key: 'SELDJQRZT' },
+  { width: 150, props: 'selStatusDesc', name: 'SEL单据确认状态', key: 'SELDJQRZT' },
   { width: 200, props: 'nominateDate', name: '定点日期', key: 'DINGDIANRIQI' },
   { width: 150, props: 'ap8pAmt', name: '操作', key: 'CAOZUO' }
 ]
@@ -70,7 +70,7 @@ export const tableTitleInfor = [
   { width: 150, props: 'meetingPresentId', name: '会议', key: 'HUIYI' },
   {
     width: 150,
-    props: 'nominateUser',
+    props: 'nominateUserName',
     name: '询价采购员',
     key: 'XUNJIACAIGOUYUAN'
   },
@@ -88,7 +88,7 @@ export const tableTitleInfor = [
     name: '报价一致性检验状态',
     key: 'BJYZXJYZT'
   },
-  { width: 150, props: 'selStatus', name: 'SEL单据确认状态', key: 'SELDJQRZT' },
+  { width: 150, props: 'selStatusDesc', name: 'SEL单据确认状态', key: 'SELDJQRZT' },
   { width: 200, props: 'nominateDate', name: '定点日期', key: 'DINGDIANRIQI' },
   { width: 150, props: 'ap8pAmt', name: '操作', key: 'CAOZUO' }
 ]
@@ -133,12 +133,6 @@ export const continueBox = [
     name: '基价计量单位',
     key: 'JIJIAJILIANGDANWEI'
   },
-  { width: 150, props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA' },
-  { width: 150, props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG' },
-  { width: 150, props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA' },
-  { width: 150, props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG' },
-  { width: 150, props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA' },
-  { width: 150, props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG' },
   { width: 150, props: 'tcCurrence', name: '货币', key: 'HUOBI' },
   { width: 150, props: 'tcExchangeRate', name: '汇率', key: 'HUILV' },
   {
@@ -171,7 +165,13 @@ export const continueBox = [
   { width: 170, props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI' },
   { width: 170, props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI' },
   { width: 150, props: 'source', name: '来源', key: 'LAIYUAN' },
-  { width: 150, props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO' }
+  { width: 150, props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO' },
+  { width: 150, props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA' },
+  { width: 150, props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG' },
+  { width: 150, props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA' },
+  { width: 150, props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG' },
+  { width: 150, props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA' },
+  { width: 150, props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG' }
 ]
 
 export const tableLeftTitle = [
@@ -306,12 +306,12 @@ export const tableTitleHistory = [
 ]
 
 export const formRulesGZ = {
-  effectFlag:[{required: true, message: '请选择', trigger: 'change'}],
-  materialGroup:[{required: true, message: '请选择', trigger: 'change'}],//MTZ-材料组
-  carline:[{required: true, message: '请选择', trigger: 'change'}],//车型
-  supplierId:[{required: true, message: '请选择', trigger: 'change'}],
-  supplierName:[{required: true, message: '请选择', trigger: 'change'}],
-  materialCode:[{required: true, message: '请选择', trigger: 'change'}],
+  effectFlag:[{required: true, message: '请选择', trigger: 'blur'}],
+  materialGroup:[{required: true, message: '请选择', trigger: 'blur'}],//MTZ-材料组
+  carline:[{required: true, message: '请选择', trigger: 'blur'}],//车型
+  supplierId:[{required: true, message: '请选择', trigger: 'blur'}],
+  supplierName:[{required: true, message: '请选择', trigger: 'blur'}],
+  materialCode:[{required: true, message: '请选择', trigger: 'blur'}],
   materialName:[{required: true, message: '请输入', trigger: 'blur'}],
   price:[{required: true, message: '请输入', trigger: 'blur'}],
   priceMeasureUnit:[{required: true, message: '请输入', trigger: 'blur'}],
@@ -329,9 +329,9 @@ export const formRulesGZ = {
       }
     },trigger: 'blur'}
   ],
-  compensationPeriod:[{required: true, message: '请选择', trigger: 'change'}],
+  compensationPeriod:[{required: true, message: '请选择', trigger: 'blur'}],
   threshold:[{required: true, message: '请输入', trigger: 'blur'}],
-  thresholdCompensationLogic:[{required: true, message: '请选择', trigger: 'change'}],
-  startDate:[{required: true, message: '请选择', trigger: 'change'}],
-  endDate:[{required: true, message: '请选择', trigger: 'change'}],
+  thresholdCompensationLogic:[{required: true, message: '请选择', trigger: 'blur'}],
+  startDate:[{required: true, message: '请选择', trigger: 'blur'}],
+  endDate:[{required: true, message: '请选择', trigger: 'blur'}],
 }
