@@ -141,7 +141,9 @@ export default {
                 pageSize: this.page.pageSize,
                 states:["02"]
             }).then(res=>{
-                // console.log(res);
+                this.page.currPage = res.pageNum;
+                this.page.pageSize = res.pageSize;
+                this.page.totalCount = res.total;
                 this.tableListData = res.data;
                 this.loading = false;
             })
