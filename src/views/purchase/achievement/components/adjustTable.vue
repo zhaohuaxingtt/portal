@@ -155,13 +155,10 @@
                     if (num) this.tableData[index]['totalAmount'] = toThousands(num.toFixed(2))
                     this.$emit('changeData', this.tableData)
                 } else {
-//                    let oldNum = delcommafy(this.tableData[index]._adjustAmount)||0
-//                    let newNum = delcommafy(this.tableData[index].adjustAmount)
                     let adjustAmount = delcommafy(this.tableData[index].adjustAmount) // 调整后总金额
                     let total = delcommafy(this.listData.calcAmount)                  // 系统总金额
                     let obj = this.listData
                     let num = 0
-                    console.log(adjustAmount,'adjustAmount')
                     if(Number(adjustAmount)) {
                         this.inputProps.forEach(item => {
                             if (item !== 'adjustAmount') {

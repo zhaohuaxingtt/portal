@@ -77,11 +77,9 @@
         },
         methods: {
             getTableList(data) {
-                console.log(data,'data')
                 this.$refs.theTable.handleSearch();
             },
             getForm(data) {
-                console.log(data,'formDATA')
                 this.formData = data
             },
             getHeadDetail() {

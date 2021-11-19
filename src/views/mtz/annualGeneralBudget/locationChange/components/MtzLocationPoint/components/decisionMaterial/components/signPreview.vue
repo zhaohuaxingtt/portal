@@ -35,6 +35,14 @@
           :index="true"
           :selection="false">
         </tableList>
+             <!-- <tableList
+          class="margin-top20"
+          :tableData="ruleTableListData"
+          :tableTitle="ruleTableTitle1"
+          :tableLoading="loading"
+          :index="true"
+          :selection="false">
+        </tableList> -->
 
         <!-- <iPagination
         v-update
@@ -57,6 +65,14 @@
           :index="true"
           :selection="false">
         </tableList>
+          <!-- <tableList
+          class="margin-top20"
+          :tableData="partTableListData"
+          :tableTitle="partTableTitle1"
+          :tableLoading="loading"
+          :index="true"
+          :selection="false">
+        </tableList> -->
 
         <!-- <iPagination
         v-update
