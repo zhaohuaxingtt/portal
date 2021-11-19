@@ -43,7 +43,7 @@
 
         <div slot="footer" class="dialog-footer">
             <span class="pr20">单位：百万元</span>
-            <iButton v-permission="ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT_CONFIRM" @click="handleSubmit">{{ $t('LK_QUEREN')
+            <iButton v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT_CONFIRM')" @click="handleSubmit">{{ $t('LK_QUEREN')
                 }}
             </iButton>
         </div>
@@ -56,7 +56,7 @@
     import {getDepartment, getProductFamily, aveEklAdjust} from '@/api/achievement';
     //    import {tableTitle1, tableTitle2} from './data';
     import {delcommafy, toThousands} from '@/utils'
-
+    import isAuth from '@/utils/isAuth';
     export default {
         components: {
             iDialog,
@@ -109,6 +109,8 @@
                 ],
                 inputProps: ['adjustAmount'],
                 listInput: [],
+                isAuth,
+                whiteBtnList: this.$store.state.permission.whiteBtnList,
 
             };
         },

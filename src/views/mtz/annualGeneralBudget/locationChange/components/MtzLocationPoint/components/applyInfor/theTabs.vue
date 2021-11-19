@@ -17,7 +17,7 @@
           <iButton @click="save" v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BAOCUN', '保存') }}</iButton>
         </div>
         </template>
-        <el-form :rules="formRules" :model="{tableData}" ref="contractForm"  :class="editType?'':'formStyle'">
+        <el-form :rules="formRules" :model="{tableData}" ref="contractForm"  class="formStyle">
             <el-table :data="tableData"
                     ref="moviesTable"
                     v-loading="loading"
@@ -149,7 +149,7 @@
                             <el-option
                                 v-for="item in supplierList"
                                 :key="item.code"
-                                :label="item.code"
+                                :label="item.codeMessage"
                                 :value="item.code">
                             </el-option>
                         </el-select>
@@ -826,6 +826,16 @@ export default {
         }
     },
     save(){//保存
+        this.$refs['contractForm'].validate(async valid => {
+            if (valid) {
+                // console.log("验证成功")
+                iMessage.success("成功")
+                // return false;
+            } else {
+                iMessage.error("失败")
+                return false
+            }
+        })
         
         iMessageBox(this.language('SHIFOUBAOCUN','是否保存？'),this.language('LK_WENXINTISHI','温馨提示'),{
             confirmButtonText: this.language('QUEREN', '确认'),
@@ -857,32 +867,18 @@ export default {
                     item.carlineList = null;
                 })
 
-                // console.log(this.$refs['contractForm'])
-                // this.$refs['contractForm'].validate(async valid => {
-                //     console.log(valid)
-                //     if (valid) {
-                //         console.log("验证成功")
-                //         iMessage.success("成功")
-
-                //         return false;
-
-                        modifyAppRule({
-                            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-                            mtzAppNomiAppRuleList:this.selectList
-                        }).then(res=>{
-                            if(res.code == 200){
-                                this.editId = "";
-                                this.editType = false;
-                                this.getTableList();
-                            }else{
-                                iMessage.error(res.message)
-                            }
-                        })
-                //     } else {
-                //         iMessage.error("失败")
-                //         // return false
-                //     }
-                // })
+                modifyAppRule({
+                    mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                    mtzAppNomiAppRuleList:this.selectList
+                }).then(res=>{
+                    if(res.code == 200){
+                        this.editId = "";
+                        this.editType = false;
+                        this.getTableList();
+                    }else{
+                        iMessage.error(res.message)
+                    }
+                })
             }
         }).catch(res=>{
             

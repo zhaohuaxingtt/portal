@@ -15,9 +15,8 @@
           <p>{{chooseEquipment.value}}</p>
         </div>
       </div>
-      <icon class="alert"
-            symbol
-            name="icona-zhankailan"></icon>
+       <img :src="img"
+           class="imgIcon" />
 
       <div ref="chart2"
            class="chartStyle2"> </div>
@@ -32,11 +31,11 @@ import {
   getCatogeryCollect,
   getCatogeryCollectYear
 } from '@/api/supplierManagement/supplierCard/index'
+import img from '@/assets/images/contract.svg'
 export default {
   props: {},
   components: {
     iCard,
-    icon
   },
   data() {
     return {
@@ -48,6 +47,7 @@ export default {
         value: ''
       },
       infoBar: [],
+      img:img,
       ifBarchart:false
     }
   },
@@ -382,6 +382,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.imgIcon{
+    width: 60px;
+    height: 50px;
+}
 .title {
   display: flex;
   justify-content: space-between;

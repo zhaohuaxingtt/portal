@@ -111,14 +111,12 @@
             </iFormItem>
             <iFormItem prop="priceMeasureUnit">
                 <iLabel :label="language('JIJIAJILIANGDANWEI','基价计量单位')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.priceMeasureUnit"
-                         :user-options="priceMeasureUnit"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                <el-input
+                v-model="contractForm.priceMeasureUnit"
+                type="text"
+                placeholder="请输入"
+                :disabled="true"
+                />
             </iFormItem>
             <iFormItem prop="platinumPrice">
                 <iLabel :label="language('BOJIJIA','铂基价')" slot="label"></iLabel>
@@ -206,7 +204,6 @@
                 v-model="contractForm.source"
                 type="text"
                 placeholder="请输入市场价来源"
-                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="compensationRatio">
@@ -283,7 +280,8 @@ import {
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 import {
   addAppRule,//维护MTZ原材料规则-新增
-  checkPreciousMetal
+  checkPreciousMetal,
+  queryMaterialList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { 
     getRawMaterialNos
@@ -370,12 +368,6 @@ export default {components: {
                 message:"RMB"
             }
         ],
-        priceMeasureUnit:[//基价计量单位
-            {
-                code:"0",
-                message:"KG"
-            }
-        ],
         supplierList:[],//供应商
         carline:[],//车型
         contractForm: {
@@ -385,9 +377,10 @@ export default {components: {
             materialName:'',
             threshold:0,
             endDate:"2999-12-31 00:00:00",
-            source:"JD",
+            source:"",
             price:"",
             carline:"",
+            priceMeasureUnit:"",
         },
         carlineNumber:[],
         rules: {
@@ -473,6 +466,9 @@ export default {components: {
     MaterialGrade(value){
         checkPreciousMetal({code:value}).then(res=>{
             this.metalType = res.data;
+        })
+        queryMaterialList({materialCode:value}).then(res=>{
+            this.contractForm.priceMeasureUnit = res.data.countUnit;
         })
         try{
             this.materialCode.forEach(e => {
