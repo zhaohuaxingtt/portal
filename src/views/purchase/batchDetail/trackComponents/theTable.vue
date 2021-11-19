@@ -4,10 +4,10 @@
             <div class="floatright">
                 <div v-if="!editStatus">
                     <!--编辑-->
-                    <iButton @click="edit" v-permission="ACHIEVEMENT_TRACK_PAGE_EDIT">{{ $t('APPROVAL.EDIT') }}
+                    <iButton @click="edit" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_TRACK_PAGE_EDIT')">{{ $t('APPROVAL.EDIT') }}
                     </iButton>
                     <!--导出-->
-                    <iButton @click="download" v-permission="ACHIEVEMENT_TRACK_PAGE_EXPORT">
+                    <iButton @click="download" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_TRACK_PAGE_EXPORT')">
                         {{ $t('APPROVAL.EXPORT')}}
                     </iButton>
                 </div>
@@ -15,7 +15,7 @@
                     <!--退出编辑-->
                     <iButton @click="exitEdit">{{ $t('APPROVAL.EXIT_EDIT') }}</iButton>
                     <!--保存-->
-                    <iButton @click="save" v-permission="ACHIEVEMENT_TRACK_PAGE_SAVE">{{ $t('APPROVAL.SAVE') }}
+                    <iButton @click="save" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_TRACK_PAGE_SAVE')">{{ $t('APPROVAL.SAVE') }}
                     </iButton>
                 </div>
             </div>
@@ -57,7 +57,7 @@
     import resultMessageMixin from '@/mixins/resultMessageMixin';
     import {tableTitle, monthTitle, getRequest} from './data';
     import {toThousands,delcommafy} from '@/utils'
-
+    import isAuth from '@/utils/isAuth';
     import {
         queryMonthPartlistDetail, // 月度明细list
         updateMonthPartlistDetail, // 单个编辑 批量
@@ -93,7 +93,8 @@
                 listId: [],
                 trackTypeList:[],
                 selectData: JSON.parse(localStorage.getItem('allSelectObject')),
-
+                isAuth,
+                whiteBtnList: this.$store.state.permission.whiteBtnList,
             };
         },
         props: ['formData','title'],
