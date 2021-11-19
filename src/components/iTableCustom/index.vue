@@ -12,7 +12,7 @@
       tooltip-effect="light"
       :height="height"
       :max-height="maxHeight"
-      :data="virtualData"
+      :data="virtualList ? virtualTableData : realTableData"
       v-loading="loading"
       :row-key="rowKey || 'uniqueId'"
       :highlight-current-row="highlightCurrentRow"
@@ -335,20 +335,6 @@ export default {
     }
   },
   computed: {
-    // 虚拟列表数据
-    virtualData() {
-      if (!this.virtualList) {
-        return this.realTableData
-      }
-      const { page, pageSize, total } = this.virtualListData
-      const start = pageSize * (page - 1)
-      const end = pageSize * page
-      console.log(start, end)
-      if (total < end) {
-        return this.realTableData.slice(start, total)
-      }
-      return this.realTableData.slice(start, end)
-    },
     // 根据visible筛选是否要显示的数据
     realTableData() {
       if (this.tableData) {
@@ -493,8 +479,8 @@ export default {
       }
     },
     getTableData() {
-      this.virtualListData.total = this.data.length
-      this.virtualListData.pages = Math.ceil(this.data.length / 20)
+      this.virtualListConfig.total = this.data.length
+      this.virtualListConfig.pages = Math.ceil(this.data.length / 20)
       if (this.treeExpand) {
         this.tableData = this.getTreeTableData(this.data)
       } else {
@@ -780,6 +766,7 @@ export default {
       })
     },
     handleCheckedRow(val, row) {
+      console.log('自定义选择')
       const childs = this.getChildRows(row)
       if (childs.length > 0) {
         childs.forEach((e) => {

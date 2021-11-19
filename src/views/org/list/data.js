@@ -3,11 +3,12 @@
 //orgId  orgName  orgShortName  orgShortShortNickName  orgOwner orgMark
 export const tableSetting = [
   {
-    type: 'selection',
+    type: 'customSelection',
     width: 50
   },
   {
-    type: 'index'
+    type: 'index',
+    label: 'index'
   },
   {
     prop: 'bussinessAreaName',

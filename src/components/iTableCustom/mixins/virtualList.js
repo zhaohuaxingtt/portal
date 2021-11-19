@@ -1,14 +1,21 @@
 import { _ } from 'core-js'
 
 export default {
+  computed: {
+    virtualTableData() {
+      const { start, end } = this.virtualListConfig
+      return this.realTableData.slice(start, end)
+    },
+    totalCount() {
+      return this.realTableData.length
+    }
+  },
   data() {
     return {
-      virtualListData: {
-        page: 1,
+      virtualListConfig: {
         pageSize: 20,
-        total: 0,
-        pages: 1,
-        start: 0
+        start: 0,
+        end: 0
       },
       virtualPosMap: {}
     }
@@ -16,7 +23,6 @@ export default {
   mounted() {
     if (this.virtualList) {
       this.$nextTick(() => {
-        console.log('virtualData', this.virtualData)
         this.appendVirtualBar()
         this.listenerScroll() // 监听滚动条
       })
@@ -26,6 +32,8 @@ export default {
   methods: {
     // 初始化虚拟列表
     initVirtualList() {
+      this.virtualListConfig.start = 0
+      this.virtualListConfig.end = 20
       this.$nextTick(() => {
         this.setVirtualPosMap()
       })
@@ -42,15 +50,17 @@ export default {
         'left'
     },
     setVirtualPosMap() {
-      for (let i = 0; i < this.virtualData.length; i++) {
-        const dataItem = this.virtualData[i]
+      for (let i = 0; i < this.virtualTableData.length; i++) {
+        const dataItem = this.virtualTableData[i]
         const { uniqueId } = dataItem
-        if (Object.hasOwnProperty.call(this.virtualPosMap, uniqueId)) {
+        if (!Object.hasOwnProperty.call(this.virtualPosMap, uniqueId)) {
           const rowClass = `row-${uniqueId}`
           const element = document.querySelector(
             `.i-table-custom .el-table__body .el-table__row.${rowClass}`
           )
-          this.virtualPosMap[uniqueId] = element.clientHeight
+          if (element) {
+            this.virtualPosMap[uniqueId] = element.clientHeight
+          }
         }
       }
 
@@ -64,15 +74,18 @@ export default {
         bar.style.height = vHeight + 'px'
       }
 
-      // 表格内容主体
+      // 设置顶部距离
       const tableBody = document.querySelector(
         `.i-table-custom .el-table__body`
       )
       if (tableBody) {
         let translateY = 0
-        if (this.virtualListData.page > 1) {
-          for (let i = 0; i < this.virtualListData.page - 1 * 20; i++) {
+        if (this.virtualTableData && this.virtualTableData.length) {
+          for (let i = 0; i < this.totalCount; i++) {
             const item = this.realTableData[i]
+            if (item.uniqueId === this.virtualTableData[0].uniqueId) {
+              break
+            }
             translateY += this.virtualPosMap[item.uniqueId]
           }
         }
@@ -84,33 +97,27 @@ export default {
         '.i-table-custom .el-table__body-wrapper'
       )
       if (scrollElement) {
-        scrollElement.addEventListener('scroll', this.getVirtualDataPage)
+        scrollElement.addEventListener('scroll', this.getVirtualTableData)
       }
     },
-    getVirtualDataPage() {
-      console.log('getVirtualDataPage', 'getVirtualDataPage')
+    getVirtualTableData: function () {
       const scrollElement = document.querySelector(
         '.i-table-custom .el-table__body-wrapper'
       )
       const { scrollTop } = scrollElement
-      if (this.virtualData && this.virtualData.length) {
-        let upHideHeight = 0 // 未显示列表上半部分高度
-        for (let i = 0; i < this.realTableData; i++) {
-          const item = this.realTableData[i]
+      let upHideHeight = 0
+      for (let i = 0; i < this.totalCount; i++) {
+        const item = this.realTableData[i]
+        if (this.virtualPosMap[item.uniqueId]) {
           upHideHeight += this.virtualPosMap[item.uniqueId]
-          const page = Math.ceil(i / this.virtualListData.pageSize)
-          console.log('page', page)
-          if (
-            scrollTop !== upHideHeight &&
-            page !== this.virtualListData.page
-          ) {
-            this.virtualListData.page = page
+        }
+        if (upHideHeight >= scrollTop - 10 || scrollTop <= upHideHeight + 10) {
+          this.virtualListConfig.start = i
+          this.virtualListConfig.end = i + 20
+          this.$nextTick(() => {
             this.setVirtualPosMap()
-            break
-          }
-          /* if (scrollTop > upHideHeight - 10 && scrollTop < upHideHeight + 10) {
-            break
-          } */
+          })
+          break
         }
       }
     }
@@ -118,6 +125,6 @@ export default {
   destroyed() {
     document
       .querySelector('.i-table-custom .el-table__body-wrapper')
-      .removeEventListener('scroll', this.getVirtualDataPage)
+      .removeEventListener('scroll', this.getVirtualTableData)
   }
 }

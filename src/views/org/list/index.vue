@@ -140,6 +140,7 @@
                 :columns="tableSetting"
                 :tree-expand="exData"
                 height="450"
+                :custom-selection="true"
                 @handle-selection-change="handleSelectionChange"
               />
               <!-- 分页标签 -->
