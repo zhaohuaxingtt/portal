@@ -12,7 +12,7 @@
         </el-col>
       </el-row>
       <el-row class="mt20 mb20" :gutter="10">
-        <el-col span="13">
+        <el-col span="16">
           <ul class="flex flex-row justify-between category-list">
             <li v-for="item of catgoryList" :key="item.value" :class="{
                 active: currentCategoryItem === item.value
@@ -21,28 +21,30 @@
             </li>
           </ul>
         </el-col>
-        <el-col span="11">
-          <el-switch v-model="value1" active-text="仅看自己" inactive-text="全部"></el-switch>
+        <el-col span="8">
+          <el-switch v-model="value1" active-text="仅看自己"></el-switch>
         </el-col>
       </el-row>
-      <el-card class="card mb20 cursor" v-for="item of categoryCardList" :key="item.id" @click.native="cardSelectHandler(item)" :shadow="cardSelectItem.id === item.id ? 'always' : 'never'">
-        <div class="flex flex-row justify-between">
-          <div class="title">{{ item.title }}</div>
-          <div class="status">
-            <template v-if="item.status === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">未处理</span></template>
-            <template v-else-if="item.status === 'reply'"><span style="color:#FF8E00; font-weight: bold;">已处理</span></template>
-            <template v-else-if="item.status === 'finished'"><span style="color:#05BB8B; font-weight: bold;">已完成</span></template>
+      <template v-if="categoryCardList.length">
+        <el-card class="card mb20 cursor" v-for="item of categoryCardList" :key="item.id" @click.native="cardSelectHandler(item)" :shadow="cardSelectItem.id === item.id ? 'always' : 'never'">
+          <div class="flex flex-row justify-between">
+            <div class="title">{{ item.title }}</div>
+            <div class="status">
+              <template v-if="item.status === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">未处理</span></template>
+              <template v-else-if="item.status === 'reply'"><span style="color:#FF8E00; font-weight: bold;">已处理</span></template>
+              <template v-else-if="item.status === 'finished'"><span style="color:#05BB8B; font-weight: bold;">已完成</span></template>
+            </div>
           </div>
-        </div>
-        <div class="flex flex-row justify-between mt20 mb20 gray-color">
-          <div>提问人:{{ item.name1 }}</div>
-          <div>管理员:{{ item.name2 }}</div>
-        </div>
-        <div class="flex flex-row justify-between items-center gray-color">
-          <div class="label">{{ item.label }}</div>
-          <div>{{ item.time }}</div>
-        </div>
-      </el-card>
+          <div class="flex flex-row justify-between mt20 mb20 gray-color">
+            <div>提问人:{{ item.name1 }}</div>
+            <div>管理员:{{ item.name2 }}</div>
+          </div>
+          <div class="flex flex-row justify-between items-center gray-color">
+            <div class="label">{{ item.label }}</div>
+            <div>{{ item.time }}</div>
+          </div>
+        </el-card>
+      </template>
     </div>
     <div class="right-content ml20">
       <div class="flex flex-row justify-end">
@@ -64,7 +66,8 @@
           <i-button @click="finishedHandler">{{ language('归档') }}</i-button>
         </template>
         <template v-else-if="cardSelectItem.status === 'reply'">
-          <i-button>{{ language('关闭问题') }}</i-button>
+          <i-button @click="closeQuestionHandler">{{ language('关闭问题') }}</i-button>
+          <i-button @click="dispatchHandler">{{ language('转派') }}</i-button>
         </template>
       </div>
       <div class="search-box flex-between-center-center mt20 mb20 border">
@@ -73,17 +76,17 @@
             <el-row :gutter="20">
               <el-col :span="8">
                 <iFormItem :label="$t('问题模块')">
-                  <iInput :value="editForm.channelStr" :disabled="isDisabled" />
+                  <iInput :value="editForm.channelStr" :disabled="isDisabledModule" />
                 </iFormItem>
               </el-col>
               <el-col :span="8">
                 <iFormItem :label="$t('标签')">
-                  <iInput v-model="editForm.code" :disabled="isDisabled"></iInput>
+                  <iInput v-model="editForm.code" :disabled="isDisabledLabel"></iInput>
                 </iFormItem>
               </el-col>
               <el-col :span="8">
                 <iFormItem :label="$t('问题来源')">
-                  <iInput v-model="editForm.name" :disabled="isDisabled" />
+                  <iInput v-model="editForm.name" :disabled="isDisabledQuestion" />
                 </iFormItem>
               </el-col>
             </el-row>
@@ -106,9 +109,9 @@
         </div>
       </div>
       <!-- 答复状态 -->
-      <div v-if="true" class="reply-content mt20">
+      <div v-if="isReplyStatus" class="reply-content mt20">
         <el-form>
-          <iFormItem label="模板内容" prop="replyContent">
+          <iFormItem prop="replyContent">
             <iEditor ref="iEditor" v-model="replyContent" :toolbar="editToolbar" v-if="editable" />
             <div v-else class="content" v-html="replyContent"></div>
           </iFormItem>
@@ -163,8 +166,14 @@ export default {
           label: '已完成',
           value: 'finished'
         },
+        {
+          label: '全部',
+          value: 'all'
+        },
       ],
-      categoryCardList: [
+      categoryCardList: [],
+      // TODO 接口对接后就要删除
+      mockDataList: [
         {
           id: 0,
           status: 'unreply',
@@ -195,23 +204,33 @@ export default {
       ],
       editForm: {},
       editFormRules: {},
-      isDisabled: true,
+      isDisabledModule: true,
+      isDisabledLabel: true,
+      isDisabledQuestion: true,
       finishedDialog: false,
       loading: true,
     }
   },
   mounted () {
     console.log(this.type, '???')
+    this.changeCategoryItem({value: this.currentCategoryItem});
     this.cardSelectHandler(this.categoryCardList[0]);
     setTimeout(() => {
       this.loading = false;
     }, 1000);
   },
   methods: {
+    // 点击导航
     changeCategoryItem (item) {
       this.isReplyStatus = false
-      this.currentCategoryItem = item.value
+      this.currentCategoryItem = item.value;
+      this.categoryCardList = item.value != 'all' ? this.mockDataList.filter(it => it.status === item.value) :this.mockDataList;
+      this.cardSelectHandler(this.categoryCardList[0]);
+      this.isDisabledModule = true;
+      this.isDisabledLabel = true;
+      this.isDisabledQuestion = true;
     },
+    // 点击卡片
     cardSelectHandler (item) {
       this.isReplyStatus = false
       this.cardSelectItem = item
@@ -227,10 +246,26 @@ export default {
     dispatchHandler () {
       this.showDialog = true
     },
+    closeQuestionHandler() {
+      this.$confirm('确定要关闭吗', {
+        type: 'warning'
+      }).then(async () => {
+        this.$message.success('关闭成功');
+      }).catch(() => {
+        this.$message.error('关闭失败');
+      })
+    },
     sendMessageHandler () { },
     sendAndCloseHandler () { },
+    // 点击编辑按钮
     editHandler () {
-      this.isDisabled = false;
+      if (Object.is(this.currentCategoryItem, 'finished')) {
+        this.isDisabledModule = false;
+        this.isDisabledQuestion = false;
+      } else {
+        this.isDisabledModule = false;
+        this.isDisabledLabel = false;
+      }
     },
     finishedHandler () {
       this.finishedDialog = true;
@@ -270,10 +305,10 @@ export default {
     ::v-deep .el-switch__core {
       width: 40px !important;
     }
-    ::v-deep .el-switch__label{
+    ::v-deep .el-switch__label {
       margin-right: 5px;
       margin-left: 5px;
-      color:#999999;
+      color: #999999;
     }
     .category-list {
       padding-left: 10px;
