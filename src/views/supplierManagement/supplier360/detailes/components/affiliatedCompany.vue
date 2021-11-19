@@ -7,12 +7,12 @@
 -->
 <template>
   <el-row :gutter="20" type="flex" justify="space-between">
-    <el-col :span="16">
+    <el-col :span="16" v-permission="Card_Associated_Companies">
       <iCard :title="$t('SUPPLIER_GLGS')" class="affiliatedCompany">
         <div class="tree" ref="chart"></div>
       </iCard>
     </el-col>
-    <el-col :span="8">
+    <el-col :span="8" v-permission="Card_Related_Group">
       <iCard :title="$t('SUPPLIER_JTGX')" class="groupRelations">
         <iText class="margin-bottom20">
           <span class="text">{{$t('JITUANGONGSIQUANCHEN')}}</span>:{{groupTableListData.name}}

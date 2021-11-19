@@ -2,6 +2,9 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('YUQINGJIANCE', '舆情监测')}}</p>
+      <span v-permission="Card_Public_opinion_monitoring_More" class="el-dropdown-link">
+        <i class="el-icon-more"></i>
+      </span>
     </div>
     <div class="center">
        <img :src="img"

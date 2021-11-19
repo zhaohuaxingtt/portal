@@ -368,7 +368,7 @@ export default {
         tagdropDownList: [],
         supplierType: '',
         dept: '',
-        relatedToMe: '',
+        relatedToMe: true,
         materialOrCraftCode: ''
       },
       carTypeOptions: [],

@@ -2,7 +2,7 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('DINGDIAN', '定点')}}</p>
-      <span class="el-dropdown-link">
+      <span class="el-dropdown-link" v-permission="Card_Nomination_More">
         <i class="el-icon-more"></i>
       </span>
     </div>

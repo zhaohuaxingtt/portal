@@ -346,6 +346,7 @@
           </template>
         </table-list>
         <iPagination
+         v-if="tabVal == 2"
           v-update
           @size-change="handleSizeChange($event, getTaleList)"
           @current-change="handleCurrentChange($event, getTaleList)"
@@ -657,8 +658,8 @@ export default {
 
 <style lang="scss" scoped>
 .tableBox {
-  max-height: 500px;
-  overflow-y: auto;
+//   max-height: 500px;
+//   overflow-y: auto;
 }
 .early {
   display: inline-block;

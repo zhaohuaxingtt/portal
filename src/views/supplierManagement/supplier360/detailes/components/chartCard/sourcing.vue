@@ -2,7 +2,7 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('XUNYUAN', '寻源')}}</p>
-      <el-dropdown>
+      <el-dropdown  v-permission="Card_Sourcing_More">
 
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
