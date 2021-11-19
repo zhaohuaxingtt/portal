@@ -94,7 +94,7 @@
             openPage(val) {
                 const {id,name} = val
                 download(id,name).then(res => {
-                    console.log(res,99999)
+
                 })
             },
             handleSelectionChange(val) {
