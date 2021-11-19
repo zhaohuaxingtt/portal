@@ -70,6 +70,10 @@ export default {
   computed: {
   },
   created () {
+    this.searchData.processingStatus = this.$route.query.processingStatus
+    if (this.$route.query.type) {
+      this.searchData.type = this.$route.query.type
+    }
     this.query(this.searchData)
   },
   mounted () {
@@ -88,7 +92,8 @@ export default {
       this.selectedRows = val
     },
     openPage (val) {
-      this.$router.push({ path: val.url, query: { id: val.businessId } })
+      window.open(val.url)
+      // this.$router.push({ path: val.url, query: { id: val.businessId } })
     },
     async query (data) {
       this.tableLoading = true
