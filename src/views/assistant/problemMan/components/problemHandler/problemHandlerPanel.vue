@@ -25,24 +25,26 @@
           <el-switch v-model="value1" active-text="仅看自己"></el-switch>
         </el-col>
       </el-row>
-      <el-card class="card mb20 cursor" v-for="item of categoryCardList" :key="item.id" @click.native="cardSelectHandler(item)" :shadow="cardSelectItem.id === item.id ? 'always' : 'never'">
-        <div class="flex flex-row justify-between">
-          <div class="title">{{ item.title }}</div>
-          <div class="status">
-            <template v-if="item.status === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">未处理</span></template>
-            <template v-else-if="item.status === 'reply'"><span style="color:#FF8E00; font-weight: bold;">已处理</span></template>
-            <template v-else-if="item.status === 'finished'"><span style="color:#05BB8B; font-weight: bold;">已完成</span></template>
+      <template v-if="categoryCardList.length">
+        <el-card class="card mb20 cursor" v-for="item of categoryCardList" :key="item.id" @click.native="cardSelectHandler(item)" :shadow="cardSelectItem.id === item.id ? 'always' : 'never'">
+          <div class="flex flex-row justify-between">
+            <div class="title">{{ item.title }}</div>
+            <div class="status">
+              <template v-if="item.status === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">未处理</span></template>
+              <template v-else-if="item.status === 'reply'"><span style="color:#FF8E00; font-weight: bold;">已处理</span></template>
+              <template v-else-if="item.status === 'finished'"><span style="color:#05BB8B; font-weight: bold;">已完成</span></template>
+            </div>
           </div>
-        </div>
-        <div class="flex flex-row justify-between mt20 mb20 gray-color">
-          <div>提问人:{{ item.name1 }}</div>
-          <div>管理员:{{ item.name2 }}</div>
-        </div>
-        <div class="flex flex-row justify-between items-center gray-color">
-          <div class="label">{{ item.label }}</div>
-          <div>{{ item.time }}</div>
-        </div>
-      </el-card>
+          <div class="flex flex-row justify-between mt20 mb20 gray-color">
+            <div>提问人:{{ item.name1 }}</div>
+            <div>管理员:{{ item.name2 }}</div>
+          </div>
+          <div class="flex flex-row justify-between items-center gray-color">
+            <div class="label">{{ item.label }}</div>
+            <div>{{ item.time }}</div>
+          </div>
+        </el-card>
+      </template>
     </div>
     <div class="right-content ml20">
       <div class="flex flex-row justify-end">
@@ -106,9 +108,9 @@
         </div>
       </div>
       <!-- 答复状态 -->
-      <div v-if="true" class="reply-content mt20">
+      <div v-if="isReplyStatus" class="reply-content mt20">
         <el-form>
-          <iFormItem label="模板内容" prop="replyContent">
+          <iFormItem prop="replyContent">
             <iEditor ref="iEditor" v-model="replyContent" :toolbar="editToolbar" v-if="editable" />
             <div v-else class="content" v-html="replyContent"></div>
           </iFormItem>
@@ -168,7 +170,9 @@ export default {
           value: 'all'
         },
       ],
-      categoryCardList: [
+      categoryCardList: [],
+      // TODO 接口对接后就要删除
+      mockDataList: [
         {
           id: 0,
           status: 'unreply',
@@ -206,16 +210,21 @@ export default {
   },
   mounted () {
     console.log(this.type, '???')
+    this.changeCategoryItem({value: this.currentCategoryItem});
     this.cardSelectHandler(this.categoryCardList[0]);
     setTimeout(() => {
       this.loading = false;
     }, 1000);
   },
   methods: {
+    // 点击导航
     changeCategoryItem (item) {
       this.isReplyStatus = false
-      this.currentCategoryItem = item.value
+      this.currentCategoryItem = item.value;
+      this.categoryCardList = item.value != 'all' ? this.mockDataList.filter(it => it.status === item.value) :this.mockDataList;
+      this.cardSelectHandler(this.categoryCardList[0]);
     },
+    // 点击卡片
     cardSelectHandler (item) {
       this.isReplyStatus = false
       this.cardSelectItem = item
@@ -274,10 +283,10 @@ export default {
     ::v-deep .el-switch__core {
       width: 40px !important;
     }
-    ::v-deep .el-switch__label{
+    ::v-deep .el-switch__label {
       margin-right: 5px;
       margin-left: 5px;
-      color:#999999;
+      color: #999999;
     }
     .category-list {
       padding-left: 10px;
