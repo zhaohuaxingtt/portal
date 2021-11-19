@@ -8,7 +8,11 @@
 -->
 <template>
   <div class="content">
-    <topLayout :menus="menus_admin"></topLayout>
+    <topLayout
+      :menus="menus_admin"
+      :menu-relation="menuRelation"
+      @click-menu="handleClickAdminMenu"
+    ></topLayout>
     <leftLayout
       ref="leftLayout"
       :menus="menus"
@@ -19,6 +23,7 @@
         <sideMenu
           :side-menus="sideMenus"
           :menu-map="menuMap"
+          :menu-relation="menuRelation"
           @hide-side-menu="hideSideMenu"
         />
       </template>
@@ -109,6 +114,12 @@ export default {
         }
       }
       return []
+    },
+    menuRelation() {
+      console.log('menuList', this.menuList)
+      const relation = this.getMenusParent(this.menuList)
+      console.log('relation', relation)
+      return relation
     }
   },
   created() {
@@ -123,8 +134,10 @@ export default {
       this.contentShowFlag = !this.contentShowFlag
     },
     getMenus() {
-      const menuMap = this.getMenusMap(this.menus)
+      console.log('menuList', this.menuList)
+      const menuMap = this.getMenusMap(this.menuList)
       this.menuMap = menuMap
+      console.log('menuMap', menuMap)
     },
     getMenuList() {
       const menuList = _.cloneDeep(this.menuList)
@@ -176,6 +189,7 @@ export default {
     hideSideMenu() {
       this.$refs.leftLayout.hideSideMenu()
     },
+    // 获取每个链接的父级
     getMenusMap(menus, parent, res) {
       res = res || {}
       for (let i = 0; i < menus.length; i++) {
@@ -198,8 +212,25 @@ export default {
       this.menuModelVisible = val
     },
     handleClick(list) {
-      console.log(list.name, '11111')
       this.$router.push(list.path)
+    },
+    getMenusParent(menus, parent, res) {
+      res = res || {}
+      for (let i = 0; i < menus.length; i++) {
+        const menu = menus[i]
+        res[menu.url] = res[menu.url] || [menu.url]
+        if (parent) {
+          res[menu.url] = [...new Set(res[menu.url]), parent.url]
+        }
+        if (menu.menuList) {
+          this.getMenusParent(menu.menuList, menu, res)
+        }
+      }
+      return res
+    },
+    handleClickAdminMenu() {
+      console.log('点击了admin 菜单')
+      this.$refs.leftLayout.activeIndex = ''
     }
   }
 }

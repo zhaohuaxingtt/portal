@@ -41,16 +41,20 @@
             :class="{
               'flex-between-center-center': true,
               menu: true,
-              active: checkActive(menu),
+              active: getActive(menu.url),
               disabled: !menu.url
             }"
+            :url="menu.url"
           >
             <span>{{ menu.title }}</span>
           </div>
         </div>
       </div>
     </div>
-    <div :class="['user', { active: active }]" slot="reference">
+    <div
+      :class="['user', { active: active || usernameActive }]"
+      slot="reference"
+    >
       <el-avatar
         class="icon"
         src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3729239676,1542549068&fm=26&gp=0.jpg"
@@ -81,6 +85,12 @@ export default {
       default: function () {
         return []
       }
+    },
+    menuRelation: {
+      type: Object,
+      default: function () {
+        return {}
+      }
     }
   },
   components: {
@@ -92,6 +102,12 @@ export default {
         return ''
       }
       return this.userInfo?.deptDTO?.nameZh || ''
+    }
+  },
+  watch: {
+    '$route.path'() {
+      this.getParentUrl()
+      this.setNameActive()
     }
   },
   data() {
@@ -112,16 +128,28 @@ export default {
           name: 'logout'
         }
       ],
-      menus_admin: []
+      menus_admin: [],
+      parentUrls: [],
+      usernameActive: false
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.getParentUrl()
+      this.setNameActive()
+    })
+  },
   methods: {
-    checkActive(menu) {
-      const matched = this.$route.matched
-      for (let key in matched) {
-        if (matched[key].path && menu.url.includes(matched[key].path)) {
-          return true
-        }
+    setNameActive() {
+      this.usernameActive = false
+      const { matched } = this.$route
+      if (matched) {
+        matched.forEach((e) => {
+          const menuTop = e?.meta?.top
+          if (menuTop === 'admin') {
+            this.usernameActive = true
+          }
+        })
       }
     },
     handleShow() {
@@ -147,18 +175,62 @@ export default {
     handleRedirect(menu) {
       if (!menu.url) {
         iMessage.success('coming soon')
-      } else if (
-        menu?.url.indexOf('http') !== -1 ||
-        menu?.url.indexOf('https') !== -1
-      ) {
-        menu.target === '_blank'
-          ? window.open(menu.url)
-          : (location.href = menu.url)
+      } else if (menu?.url.indexOf('http') !== -1) {
+        if (menu.target !== '_blank') {
+          this.$emit('click-menu')
+          location.href = menu.url
+        } else {
+          window.open(menu.url)
+        }
       } else {
         if (this.$route.path !== menu.url) {
+          this.$emit('click-menu')
           this.$router.push(menu.url)
         }
       }
+    },
+    // 获取上级url列表
+    getParentUrl() {
+      const locationHref = window.location.href // 浏览器url
+      const locationUrl = locationHref.replace(process.env.VUE_APP_HOST, '') // 去除host的浏览器url
+      const topUrl = this.getTopUrl(locationUrl)
+      let key = topUrl || locationUrl
+
+      key = key.includes('#')
+        ? key
+        : process.env.VUE_APP_PUBLICPATH + '/#' + key
+      console.log('key', key)
+      this.parentUrls = this.menuRelation[key] || [key]
+    },
+    getActive(url) {
+      if (window.location.href === url) {
+        return true
+      }
+      url = url || ''
+      const pureUrl = url.replace(process.env.VUE_APP_HOST, '')
+      let topUrl = this.getTopUrl(pureUrl)
+      if (
+        this.parentUrls.includes(pureUrl) ||
+        this.parentUrls.includes(topUrl)
+      ) {
+        return true
+      }
+      return false
+    },
+    getTopUrl(url) {
+      let res = ''
+      const matched = this.$route.matched
+      if (matched) {
+        const realUrl = url.includes('#') ? url.split('#')[1] : url
+        for (let i = 0; i < matched.length; i++) {
+          const element = matched[i]
+          if (element.redirect === realUrl && element.path) {
+            res = element.path
+            break
+          }
+        }
+      }
+      return res
     }
   }
 }

@@ -2,7 +2,7 @@
   <div class="router-link">
     <router-link
       v-if="item.url.indexOf('http') === -1"
-      class="side-menu-link"
+      class="side-menu-link 1"
       :class="{ active: isActive, disabled: !item.url }"
       :to="{ path: item.url }"
       :target="item.target"
@@ -30,7 +30,7 @@
       :href="itemUrl"
       :class="{ active: isActive, disabled: !item.url }"
       :target="item.target"
-      class="side-menu-link"
+      class="side-menu-link 2"
       @click.stop="handleRouterClick"
     >
       <icon
@@ -66,41 +66,12 @@ export default {
         return {}
       }
     },
-    menuMap: {
-      type: Object,
-      default: function () {
-        return []
-      }
+    isActive: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
-    isActive() {
-      return false
-      /* const list = this.$route.matched
-      const url =
-        this.item.url?.match(/((?<=#).*(?=\?))|((?<=#).*)/g) &&
-        this.item.url?.match(/((?<=#).*(?=\?))|((?<=#).*)/g)[0]
-      console.log(
-        'this.item.url',
-        this.item.url,
-        this.item.url?.match(/((?<=#).*(?=\?))|((?<=#).*)/g)
-      )
-      if (url === '/index') {
-        return false
-      }
-      for (let key in list) {
-        if (
-          (list[key].path && url === list[key].path) ||
-          (list[key].path && url?.includes(list[key].path))
-        ) {
-          return true
-        }
-      }
-      return (
-        this.item.url.includes(this.$route.path) ||
-        this.item.url.includes(this.$route.redirectedFrom)
-      ) */
-    },
     itemUrl() {
       if (this.item.url) {
         if (
