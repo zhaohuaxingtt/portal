@@ -12,7 +12,7 @@
         </el-col>
       </el-row>
       <el-row class="mt20 mb20" :gutter="10">
-        <el-col span="13">
+        <el-col span="16">
           <ul class="flex flex-row justify-between category-list">
             <li v-for="item of catgoryList" :key="item.value" :class="{
                 active: currentCategoryItem === item.value
@@ -21,8 +21,8 @@
             </li>
           </ul>
         </el-col>
-        <el-col span="11">
-          <el-switch v-model="value1" active-text="仅看自己" inactive-text="全部"></el-switch>
+        <el-col span="8">
+          <el-switch v-model="value1" active-text="仅看自己"></el-switch>
         </el-col>
       </el-row>
       <el-card class="card mb20 cursor" v-for="item of categoryCardList" :key="item.id" @click.native="cardSelectHandler(item)" :shadow="cardSelectItem.id === item.id ? 'always' : 'never'">
@@ -162,6 +162,10 @@ export default {
         {
           label: '已完成',
           value: 'finished'
+        },
+        {
+          label: '全部',
+          value: 'all'
         },
       ],
       categoryCardList: [

@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     closeDiologBtn () {
-      this.show = false;
+      this.$emit('update:show', false)
     },
     close () {
       this.closeDiologBtn();
