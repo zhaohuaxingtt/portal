@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 17:43:45
- * @LastEditTime: 2021-11-18 14:36:39
+ * @LastEditTime: 2021-11-18 15:17:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\index.vue
@@ -10,9 +10,11 @@
 <template>
   <div>
     <theSearch ref="theSearch"
-               v-bind="$attrs"></theSearch>
+               v-bind="$attrs"
+               v-on="$listeners"></theSearch>
     <theTable ref="theTable"
               v-bind="$attrs"
+              v-on="$listeners"
               class="margin-top20"></theTable>
   </div>
 </template>
@@ -33,6 +35,7 @@ export default {
     }
   },
   created () {
+
   },
   methods: {
     backBtn () {

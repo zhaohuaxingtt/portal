@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-18 14:53:24
+ * @LastEditTime: 2021-11-19 10:08:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -39,7 +39,7 @@
                          :disabled="disabled"> {{language('BIANJI','编辑')}}</iButton>
               </div>
               <div v-show="editFlag">
-                <iButton @click="edit"
+                <iButton @click="cancel"
                          :disabled="disabled"> {{language('QUXIAO','取消')}}</iButton>
                 <iButton @click="save"
                          :disabled="disabled"> {{language('BAOCUN','保存')}}</iButton>
@@ -109,7 +109,7 @@
     </iDialog>
     <new-mtzlocation-change :dialogVisible="dialogVisible"
                             v-if="dialogVisible"
-                            :addFlag="addFlag"
+                            :addFlag="true"
                             :mtzAppId="mtzAppId"
                             @close="close"></new-mtzlocation-change>
   </div>
@@ -230,6 +230,8 @@ export default {
     },
     close (val) {
       this.dialogVisible = val
+      this.getBasePriceChangePageList()
+      this.getApprovalRecordList()
     },
     edit () {
       if (this.muliteList.length === 0) {
@@ -240,6 +242,12 @@ export default {
         item.editRow = true
       })
       this.editFlag = true
+    },
+    cancel () {
+      this.muliteList.forEach(item => {
+        item.editRow = false
+      })
+      this.editFlag = false
     },
     handleSelectionChange (val) {
       this.muliteList = val
@@ -269,12 +277,12 @@ export default {
       })
     },
     uploadBasePriceChange (val) {
-      console.log(val)
       let params = {
         multifile: val.file,
         mtzAppId: this.mtzAppId
       }
       uploadBasePriceChange(params).then((res) => {
+        console.log(res)
         if (res.code === '200') {
           iMessage.success(res.desZh)
         } else {

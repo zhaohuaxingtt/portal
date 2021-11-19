@@ -2,7 +2,7 @@
   <iCard class="baseInfo" v-loading="pageLoading">
     <div class="head">
       <div class="title">基础信息</div>
-      <div class="h-lables">
+      <div class="h-lables" v-if="pageData">
         <div class="lable" v-if="~~pageData.isMtz === 1">MTZ</div>
         <div class="lable" v-if="~~pageData.isAccessoriesParameter === 1">Spare</div>
         <div class="lable" v-if="~~pageData.isDb === 1">DB</div>
@@ -196,7 +196,7 @@ export default {
     return {
       isOpen: false,
       pageLoading: false,
-      pageData: {},
+      pageData: null,
       partsNum: ''
     }
   },

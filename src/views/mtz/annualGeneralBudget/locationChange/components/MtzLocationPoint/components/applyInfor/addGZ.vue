@@ -111,14 +111,12 @@
             </iFormItem>
             <iFormItem prop="priceMeasureUnit">
                 <iLabel :label="language('JIJIAJILIANGDANWEI','基价计量单位')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.priceMeasureUnit"
-                         :user-options="priceMeasureUnit"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                <el-input
+                v-model="contractForm.priceMeasureUnit"
+                type="text"
+                placeholder="请输入"
+                :disabled="true"
+                />
             </iFormItem>
             <iFormItem prop="platinumPrice">
                 <iLabel :label="language('BOJIJIA','铂基价')" slot="label"></iLabel>
@@ -206,7 +204,6 @@
                 v-model="contractForm.source"
                 type="text"
                 placeholder="请输入市场价来源"
-                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="compensationRatio">
@@ -266,7 +263,7 @@
             </iFormGroup>
         </div>
         <span slot="footer" class="dialog-footer">
-            <span class="time_color" v-if="timeShow">重叠时间段为：{{startTime}}&nbsp;&nbsp;~&nbsp;&nbsp;{{endTime}}</span>
+            <!-- <span class="time_color" v-if="timeShow">重叠时间段为：{{startTime}}&nbsp;&nbsp;~&nbsp;&nbsp;{{endTime}}</span> -->
             <i-button @click="handleSave">保存</i-button>
             <i-button @click="handleReset">重置</i-button>
             <i-button @click="handleCancel">取消</i-button>
@@ -283,7 +280,8 @@ import {
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 import {
   addAppRule,//维护MTZ原材料规则-新增
-  checkPreciousMetal
+  checkPreciousMetal,
+  queryMaterialList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { 
     getRawMaterialNos
@@ -370,12 +368,6 @@ export default {components: {
                 message:"RMB"
             }
         ],
-        priceMeasureUnit:[//基价计量单位
-            {
-                code:"0",
-                message:"KG"
-            }
-        ],
         supplierList:[],//供应商
         carline:[],//车型
         contractForm: {
@@ -385,9 +377,10 @@ export default {components: {
             materialName:'',
             threshold:0,
             endDate:"2999-12-31 00:00:00",
-            source:"JD",
+            source:"",
             price:"",
             carline:"",
+            priceMeasureUnit:"",
         },
         carlineNumber:[],
         rules: {
@@ -400,12 +393,7 @@ export default {components: {
             materialName: [{ required: true, message: '请选择', trigger: 'blur' }],
             price: [{ required: true, message: '请输入', trigger: 'blur' }],
             priceMeasureUnit: [{ required: true, message: '请选择', trigger: 'blur' }],
-            // platinumPrice: [{ required: true, message: '请输入', trigger: 'blur' }],
-            // platinumDosage: [{ required: true, message: '请输入', trigger: 'blur' }],
-            // palladiumPrice: [{ required: true, message: '请输入', trigger: 'blur' }],
-            // palladiumDosage: [{ required: true, message: '请输入', trigger: 'blur' }],
-            // rhodiumPrice: [{ required: true, message: '请输入', trigger: 'blur' }],
-            // rhodiumDosage: [{ required: true, message: '请输入', trigger: 'blur' }],
+            
             tcCurrence: [{ required: true, message: '请选择', trigger: 'blur' }],
             tcExchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }],
             source: [{ required: true, message: '请输入', trigger: 'blur' }],
@@ -479,6 +467,9 @@ export default {components: {
         checkPreciousMetal({code:value}).then(res=>{
             this.metalType = res.data;
         })
+        queryMaterialList({materialCode:value}).then(res=>{
+            this.contractForm.priceMeasureUnit = res.data.countUnit;
+        })
         try{
             this.materialCode.forEach(e => {
                 if(e.code == value){
@@ -546,36 +537,36 @@ export default {components: {
     },
     handleSave() {
         this.contractForm.carline = this.carlineNumber.toString();
-      this.$refs['contractForm'].validate(async valid => {
-        if (valid) {
-            console.log("验证成功")
-            var num = 0; 
-            this.dataObject.forEach(e=>{
-                if(e.supplierId.toString() == this.contractForm.supplierId && e.materialCode == this.contractForm.materialCode && Number(e.price) == Number(this.contractForm.price) && timeCoincide(e.startDate,e.endDate,this.contractForm.startDate,this.contractForm.endDate)){
-                    this.startTime = e.startDate;
-                    this.endTime = e.endDate;
-                    this.timeShow = true;
-                    num++;
-                }
-            })
-            if(num !== 0){
-                iMessage.error(this.language("CZXTZJBNJXXZCZ","存在相同主键时，所有时间段均不能重叠"))
-                return false;
+        this.$refs['contractForm'].validate(async valid => {
+            if (valid) {
+                console.log("验证成功")
+                // var num = 0; 
+                // this.dataObject.forEach(e=>{
+                //     if(e.supplierId.toString() == this.contractForm.supplierId && e.materialCode == this.contractForm.materialCode && Number(e.price) == Number(this.contractForm.price) && timeCoincide(e.startDate,e.endDate,this.contractForm.startDate,this.contractForm.endDate)){
+                //         this.startTime = e.startDate;
+                //         this.endTime = e.endDate;
+                //         this.timeShow = true;
+                //         num++;
+                //     }
+                // })
+                // if(num !== 0){
+                //     iMessage.error(this.language("CZXTZJBNJXXZCZ","存在相同主键时，所有时间段均不能重叠"))
+                //     return false;
+                // }
+                // this.timeShow = false;
+                addAppRule({
+                    ...this.contractForm,
+                    ttMtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+                }).then(res=>{
+                    if(res.code == 200 && res.result){
+                        iMessage.success(res.desZh)
+                        this.$emit("addDialogGZ","")
+                    }
+                })
+            } else {
+                return false
             }
-            this.timeShow = false;
-            addAppRule({
-                ...this.contractForm,
-                ttMtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-            }).then(res=>{
-                if(res.code == 200 && res.result){
-                    iMessage.success(res.desZh)
-                    this.$emit("addDialogGZ","")
-                }
-            })
-        } else {
-          return false
-        }
-      })
+        })
     },
     handleReset() {
       this.contractForm = {}

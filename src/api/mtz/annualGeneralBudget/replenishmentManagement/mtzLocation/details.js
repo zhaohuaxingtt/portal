@@ -344,3 +344,67 @@ export function checkPreciousMetal(params) {//判断是否为贵金属
         data: params,
     })
 }
+
+export function getDeptLimitLevel(params) {//科室下拉选择
+    return request({
+        url: '/commonDropDown/getDeptLimitLevel',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function getMtzGenericAppId(params) {//获取MTZ申请单号
+    return request({
+        url: '/commonDropDown/getMtzGenericAppId',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function getCurrentUser(params) {//获取采购员
+    return request({
+        url: '/commonDropDown/getCurrentUser',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function queryMaterialList(params) {//获取基价计量单位
+    return request({
+        url: '/common/queryMaterialList',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function getRawMaterial(params) {//原材料牌号下拉选择(材料小类)
+    return request({
+        url: '/commonDropDown/getRawMaterial',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function getSupplierByUser(params) {//获取供应商下拉选择(当前用户权限)
+    return request({
+        url: '/commonDropDown/getSupplierByUser',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function getMtzRuleCode(params) {//获取MTZ规则编号
+    return request({
+        url: '/commonDropDown/getMtzRuleCode',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function getOneSecondPartNo(params) {//一次、二次零件号下拉选择
+    return request({
+        url: '/commonDropDown/getOneSecondPartNo',
+        method: 'POST',
+        data: params,
+    })
+}

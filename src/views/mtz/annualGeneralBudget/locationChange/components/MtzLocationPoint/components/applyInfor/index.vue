@@ -67,7 +67,7 @@
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
              v-if="mtzAddShow"
-             width="90%"
+             width="85%"
              @close='closeDiolog'>
       <partApplication @close="saveClose"></partApplication>
     </iDialog>
@@ -191,6 +191,7 @@ export default {
         } else {
           this.applyNumber = res.data.ttNominateAppId;
         }
+
         store.commit("submitBtnType",res.data.flowType);
         // NOTPASS
         if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
