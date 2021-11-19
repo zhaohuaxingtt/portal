@@ -191,6 +191,7 @@ export default {
         } else {
           this.applyNumber = res.data.ttNominateAppId;
         }
+
         store.commit("submitBtnType",res.data.flowType);
         // NOTPASS
         if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
