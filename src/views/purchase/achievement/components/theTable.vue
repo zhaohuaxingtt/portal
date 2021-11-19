@@ -11,11 +11,11 @@
                     {{ $t('APPROVAL.INVALIDATION') }}
                 </iButton>
                 <!--产量管理-->
-                <iButton class="ml10" @click="openOutputManagemen" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_YIEIDMANAGE')">
+                <iButton class="ml10" @click="openOutputManagemen" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_YIEIDMANAGE')&&!state">
                     {{ $t('EKL_YJGL_CLGL') }}
                 </iButton>
                 <!--业绩金额调整-->
-                <iButton class="ml10" @click="openAmountAdjustment" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT')">
+                <iButton class="ml10" @click="openAmountAdjustment" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT')&&!state">
                     {{ $t('EKL_YEJIJINETIAOZHENG') }}
                 </iButton>
                 <!--年度目标管理-->
@@ -30,7 +30,10 @@
                 <iButton class="ml10" @click="openSpareTargetManDialog" v-if="(isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_TARGETMANAGE')&&state)||state">{{ $t('EKL_YJGL_NDMBGL') }}
                 </iButton>
                 <!--基础表模板下载 配附件-->
-                <iButton class="ml10" @click="spareTempDown" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_TABLE_TEMPLATE_DOWN')||state">
+                <!--<iButton class="ml10" @click="spareTempDown" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_TABLE_TEMPLATE_DOWN')||state">-->
+                    <!--{{ $t('EKL_JCBMBXZ') }}-->
+                <!--</iButton>-->
+                <iButton class="ml10" @click="spareTempDown">
                     {{ $t('EKL_JCBMBXZ') }}
                 </iButton>
                 <!--<iButton @click="spareTempDown" v-if="state">{{ $t('EKL_JCBMBXZ') }}</iButton>-->
