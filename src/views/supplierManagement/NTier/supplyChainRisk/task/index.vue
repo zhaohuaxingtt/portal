@@ -70,7 +70,7 @@ export default {
   computed: {
   },
   created () {
-    this.searchData.processingStatus = this.$route.query.processingStatus
+    this.searchData.processingStatus = Number(this.$route.query.processingStatus)
     if (this.$route.query.type) {
       this.searchData.type = this.$route.query.type
     }
