@@ -1,15 +1,13 @@
 <template>
-  <meetingLiveShow></meetingLiveShow>
+    <meetingLiveShow></meetingLiveShow>
 </template>
 
 <script>
-import meetingLiveShow from "./components/meetingLiveShow.vue";
+import meetingLiveShow from './components/meetingLiveShow.vue'
 export default {
   components: {
-    meetingLiveShow,
-  },
-};
+    meetingLiveShow
+  }
+}
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -3,7 +3,7 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!--批量创建-->
-        <iButton @click="handleAddMultiple">{{ '批量' }}</iButton>
+        <iButton @click="handleAddMultiple">{{ '批量创建' }}</iButton>
         <!--创建-->
         <iButton @click="handleAddSingle">{{ '创建' }}</iButton>
         <!--删除-->
@@ -476,7 +476,8 @@
               @click="actionObj('screen')(scope.row)"
             >
               <!-- <img class="screen" :src="screen" alt="" srcset="" /> -->
-              <span> 展示 |</span>
+              <span> 展示</span>
+              <span class="line">|</span>
             </p>
             <p
               v-if="scope.row.state == '05'"
@@ -800,9 +801,9 @@ export default {
           document
             .querySelectorAll('.meeting-home-action-box')
             .forEach((item) => {
-              let dom = item.querySelector('p:last-child>.line');
-              if(dom) {
-                dom.remove();
+              let dom = item.querySelector('p:last-child>.line')
+              if (dom) {
+                dom.remove()
               }
             })
         })
@@ -972,6 +973,8 @@ export default {
     },
     // 批量撤回
     handleRecall() {
+      console.log('this.selectedRow', this.selectedRow)
+       console.log('this.selectedRow', typeof batchRecallMeeting)
       let idArr = this.selectedRow.map((item) => {
         return item.id
       })
@@ -1143,9 +1146,11 @@ export default {
             clearTimeout(this.timeout)
           }
           this.timeout = setTimeout(() => {
-            generateAgenda({ id: e }).then(() => {
-              iMessage.success('生成Agenda成功')
-              this.refreshTable()
+            generateAgenda({ id: e }).then((res) => {
+              if (res.code === 200) {
+                iMessage.success('生成Agenda成功')
+                this.refreshTable()
+              }
             })
           }, 500)
         },
