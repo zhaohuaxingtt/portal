@@ -685,6 +685,7 @@ export default {
     display: inline-block;
     max-width: 150px;
     overflow: hidden;
+      vertical-align: middle;
     text-overflow: ellipsis;
     white-space: nowrap;
   }

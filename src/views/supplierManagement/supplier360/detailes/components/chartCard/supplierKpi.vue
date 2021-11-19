@@ -7,12 +7,11 @@
       </span> -->
     </div>
     <div class="box">
-      <icon class="early "
-            symbol
-            name="iconcaiwuyujing-icon"></icon>
+      <img :src="img"
+           class="imgIcon" />
       <div class="boxText">
         <div> {{info.currentScore}} <div>
-            <icon v-if="info.upDown>0"
+            <icon  v-if="info.upDown>0"
                   symbol
                   class="green"
                   name="iconpaixu-xiangshang"> </icon>
@@ -45,6 +44,7 @@
 import echarts from '@/utils/echarts'
 import { iCard, icon } from 'rise'
 import { performCard360 } from '@/api/supplierManagement/supplierCard/index'
+import img from '@/assets/images/financial.svg'
 export default {
   props: {},
   components: {
@@ -53,6 +53,7 @@ export default {
   },
   data() {
     return {
+        img:img,
       chart: 'oneChart',
       option: {},
       info: {},
@@ -155,6 +156,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.imgIcon{
+    width: 60px;
+    height: 60px;
+}
 .title {
   display: flex;
   justify-content: space-between;
