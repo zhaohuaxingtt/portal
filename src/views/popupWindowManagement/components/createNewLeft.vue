@@ -147,6 +147,7 @@ export default {
           userList:[],
           supplierList:[],
         }
+        this.radio='1'
       },
       save(){
         let isValidate = true
