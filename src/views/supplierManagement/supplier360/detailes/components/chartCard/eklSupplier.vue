@@ -3,12 +3,12 @@
     <div class="title">
       <p v-if="!isTitle">{{ language('EKLPEIFUJIAN', 'EKL-配附件') }}</p>
       <p v-if="isTitle">{{ language('EKLPILIANGJIAN', 'EKL-批量件') }}</p>
-      <!-- <span class="el-dropdown-link">
+      <span v-permission="Card_EKL_BP_More" class="el-dropdown-link">
         <i class="el-icon-more"></i>
-      </span> -->
+      </span>
     </div>
 
-    <div class="box">
+    <div  class="box">
       <span v-if="!isTitle" class="text" @click="changeTab">{{
         language('EKLPILIANGJIAN', 'EKL-批量件')
       }}</span>
