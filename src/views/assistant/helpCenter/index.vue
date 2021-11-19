@@ -38,7 +38,8 @@
 					:problemList="problemList"
 					:currentMoudleIdx="currentMoudleIdx"
 				/>
-				<ProblemDetail 
+				<ProblemDetail
+					:moudleId="currentMoudleIdx" 
 					@handleQuestion="handleQuestion"
 					@handleZwQues="handleZwQues"
 				/>
@@ -82,11 +83,11 @@ export default {
 			text: '用户助手',
 			helpMoudle: "manual",  // manual 用户手册 problem 常见问题 ask 我的提问
 			problemList: [],
-			currentMoudleIdx: 1,
-			intelligentVisible: false,
-			questioningVisible: false,
-			zwFlag: false,
-			questioningTitle: ''
+			currentMoudleIdx: 0,
+			intelligentVisible: false,  // 智能弹框visible
+			questioningVisible: false,  // 追问 提问visible
+			zwFlag: false,  // 追问 提问标志
+			questioningTitle: '',  // 追问 提问弹框title
 		}
 	},
 	components: {

@@ -3,7 +3,7 @@
 		<div class="ask-btn">
 			<iButton @click="putQuestion">{{ language('我要提问') }}</iButton>
 		</div>
-		<div class="detail-title flex flex-column items-start">
+		<div v-if="moudleId !== 0" class="detail-title flex flex-column items-start">
 			<div class="moudle-name">{{ language('主数据管理') }}</div>
 			<div class="flex flex-wrap label-box">
 				<div v-for="(item, idx) in labelList" :key="idx" class="item-label cursor" :class="labelIdx===idx ? 'activeIdx' : 'idx'" @click="handleLabel(item, idx)">
@@ -11,8 +11,32 @@
 				</div>
 			</div>
 		</div>
+		<div v-else>
+			<div class="detail-title flex flex-column items-start">
+				<div class="moudle-name">{{ language('热门问题') }}</div>
+				<div class="flex flex-row hot-ques">
+					<div v-for="(question, index) in hotProblemList" :key="index" :class="index===hotIdx?'first-hotQues':''" class="item-hotQues flex items-center cursor" @click="handleHotQues(question, index)">
+						<div class="blue-box"></div>
+						<div class="ml20">{{ `【热门】${question. problem}` }}</div>
+					</div>
+				</div>
+			</div>
+			<div class="moudle-label flex flex-wrap">
+				<div v-for="(moedle, ix) in moudleLabelList" :key="ix" class="moudleLabel-item flex flex-column">
+					<div class="flex items-center item-top">
+						<div class="blue-line"></div>
+						<div class="item-top-moudle">{{ moedle.moudleName }}</div>
+					</div>
+					<div class="flex flex-wrap item-content">
+						<div class="content-label" v-for="(label, lx) in moedle.labelArr" :key="lx">
+							<div class="label-name">{{ label.labelName }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-		<div class="list-content" v-show="currentFlag === 'listPage'">
+		<div class="list-content" v-show="moudleId !== 0 && currentFlag === 'listPage'">
 			<div class="flex flex-row label-title items-center">
 				<div class="blue-box"></div>
 				<div class="label-text">{{ labelText }}</div>
@@ -25,7 +49,7 @@
 			</div>
 		</div>
 
-		<div class="detail" v-show="currentFlag === 'detailPage'">
+		<div class="detail" v-show="moudleId !== 0 && currentFlag === 'detailPage'">
 			<div class="flex flex-row detail-box items-center">
 				<div class="black-box"></div>
 				<div class="detail-text">{{ problemText }}</div>
@@ -59,6 +83,12 @@ export default {
 		AttachmentDownload,
 		Solution
 	},
+	props: {
+		moudleId: {
+			type: Number,
+			default: 0
+		}
+	},
 	data() {
 		return {
 			labelList: [
@@ -73,12 +103,59 @@ export default {
 				{problem: '保存时，提示未填写BMG怎么办？', key: '0'},
 				{problem: '零件材料组如何与工艺组的关联关系是什么？', key: '1'}
 			],
+			hotProblemList: [
+				{
+					problem: '保存时，提示未填写BMG怎么办？', key: '0'
+				},
+				{
+					problem: '常用计量单位和基础计量单位的转换关系是什么？', key: '1'
+				}
+			],
+			moudleLabelList: [
+				{
+					moudleName: '零件信息',
+					labelArr: [
+						{ labelName: '交易条款', id: '1' },
+						{ labelName: '交易条款', id: '1' },
+						{ labelName: '交易条款', id: '1' },
+						{ labelName: '交易条款', id: '1' },
+					]
+				},
+				{
+					moudleName: '零件信息',
+					labelArr: [
+						{ labelName: '交易条款', id: '1' },
+						{ labelName: '交易条款', id: '1' },
+						{ labelName: '交易条款', id: '1' },
+						{ labelName: '交易条款', id: '1' },
+					]
+				},
+				{
+					moudleName: '零件信息',
+					labelArr: [
+						{ labelName: '交易条款', id: '1' },
+						{ labelName: '交易条款', id: '1' },
+						{ labelName: '交易条款', id: '1' },
+						{ labelName: '交易条款', id: '1' },
+					]
+				},
+				{
+					moudleName: '零件信息',
+					labelArr: [
+						{ labelName: '交易条款', id: '1' },
+						{ labelName: '交易条款', id: '1' },
+						{ labelName: '交易条款', id: '1' },
+						{ labelName: '交易条款', id: '1' },
+					]
+				}
+			],
 			labelIdx: 0,
 			labelText: '全部',
 			currentFlag: 'listPage',
 			problemText: '',
 			desDetail: '供应商一共分成三类：一般，生产，共用 一般：',
-			showTipsFlag: true
+			showTipsFlag: true,
+			hotIdx: 0
 		}
 	},
 	methods: {
@@ -98,6 +175,15 @@ export default {
 		},
 		putQuestion() {
 			this.$emit('handleQuestion')
+		},
+		// 点击热门问题 跳转该热门问题的详情
+		handleHotQues(item, index) {
+			debugger
+			console.log(item, "item")
+			this.hotIdx = index
+			this.moudleId = index + 1 // 切换当前模块id
+			this.currentFlag = 'detailPage'
+			this.problemText = item.problem
 		}
 	}
 }
@@ -132,6 +218,19 @@ export default {
 				line-height: 26px;
 				color: #000000;
 			}
+			.hot-ques {
+				width: 100%;
+				margin-top: 20px;
+				.item-hotQues {
+					width: 50%;
+					height: 30px;
+					font-weight: bold;
+				}
+				.first-hotQues {
+					color: #1660F1;
+					text-decoration: underline;
+				}
+			}
 			.label-box {
 				margin-top: 22px;
 				.item-label {
@@ -148,6 +247,44 @@ export default {
 				.idx {
 					color: #909091;
 					font-size: 14px;
+				}
+			}
+		}
+		.moudle-label {
+			width: 100%;
+			margin-top: 40px;
+			.moudleLabel-item {
+				width: 50%;
+				.item-top {
+					height: 40px;
+					.blue-line {
+						width: 6px;
+						height: 18px;
+						background: #1763F7;
+						opacity: 1;
+						border-radius: 5px;
+					}
+					.item-top-moudle {
+						margin-left: 20px;
+						font-size: 18px;
+						font-weight: bold;
+					}
+				}
+				.item-content {
+					margin-top: 20px;
+					margin-bottom: 50px;
+					margin-left: 20px;
+					width: 100%;
+					.content-label {
+						width: 33.3%;
+						.label-name {
+							width: 100%;
+							font-size: 14px;
+							color: #666666;
+							font-weight: bold;
+							margin-top: 20px;
+						}
+					}
 				}
 			}
 		}

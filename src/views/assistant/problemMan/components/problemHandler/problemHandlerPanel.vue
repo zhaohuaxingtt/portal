@@ -103,11 +103,13 @@
         </div>
       </div>
       <!-- 答复状态 -->
-      <div v-if="isReplyStatus" class="reply-content mt20">
-        <iFormItem label="模板内容" prop="replyContent">
-          <iEditor ref="iEditor" v-model="replyContent" :toolbar="editToolbar" v-if="editable" />
-          <div v-else class="content" v-html="replyContent"></div>
-        </iFormItem>
+      <div v-if="true" class="reply-content mt20">
+        <el-form>
+          <iFormItem label="模板内容" prop="replyContent">
+            <iEditor ref="iEditor" v-model="replyContent" :toolbar="editToolbar" v-if="editable" />
+            <div v-else class="content" v-html="replyContent"></div>
+          </iFormItem>
+        </el-form>
       </div>
       <div class="mt20 mb20">
         附件:
