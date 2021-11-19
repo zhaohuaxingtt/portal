@@ -39,7 +39,7 @@
                          :disabled="disabled"> {{language('BIANJI','编辑')}}</iButton>
               </div>
               <div v-show="editFlag">
-                <iButton @click="edit"
+                <iButton @click="cancel"
                          :disabled="disabled"> {{language('QUXIAO','取消')}}</iButton>
                 <iButton @click="save"
                          :disabled="disabled"> {{language('BAOCUN','保存')}}</iButton>
@@ -242,6 +242,12 @@ export default {
         item.editRow = true
       })
       this.editFlag = true
+    },
+    cancel () {
+      this.muliteList.forEach(item => {
+        item.editRow = false
+      })
+      this.editFlag = false
     },
     handleSelectionChange (val) {
       this.muliteList = val

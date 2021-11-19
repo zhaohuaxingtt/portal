@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
@@ -12,62 +12,37 @@
         $t('SUPPLIER_GONGYINGSHANGXINGMING')
       }}</span>
       <div class="floatright">
-        <i-button
-          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SAVE"
-          v-if="this.supplierType === 4"
-          @click="saveInfos('submit')"
-          >{{ $t('LK_BAOCUN') }}</i-button
-        >
-        <i-button
-          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_FREEZE"
-          v-if="this.supplierType === 4"
-          @click="handleActivity(false)"
-          >{{ $t('SUPPLIER_DONGJIE') }}</i-button
-        >
-        <i-button
-          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_UNFREEZE"
-          v-if="this.supplierType === 4"
-          @click="handleActivity(true)"
-          >{{ $t('SUPPLIER_JIEDONG') }}</i-button
-        >
-        <i-button
-          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SETASADMIN"
-          @click="setMasterUser"
-          >{{ $t('SUPPLIER_SHEWEIZHUYONGHU') }}</i-button
-        >
-        <i-button
-          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_ADD"
-          @click="handleAdd"
-          >{{ $t('LK_XINZENG') }}</i-button
-        >
-        <i-button
-          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_DELETE"
-          @click="deleteItem('ids', deleteUser)"
-          >{{ $t('LK_SHANCHU') }}</i-button
-        >
-        <i-button
-          v-permission="SUPPLIER_SUPPLIERCONTACT_USER_EXPORT"
-          @click="exportsTable"
-          v-if="showExportsButton"
-          >{{ $t('LK_DAOCHU') }}</i-button
-        >
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SAVE"
+                  v-if="this.supplierType === 4"
+                  @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_FREEZE"
+                  v-if="this.supplierType === 4"
+                  @click="handleActivity(false)">{{ $t('SUPPLIER_DONGJIE') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_UNFREEZE"
+                  v-if="this.supplierType === 4"
+                  @click="handleActivity(true)">{{ $t('SUPPLIER_JIEDONG') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_SETASADMIN"
+                  @click="setMasterUser">{{ $t('SUPPLIER_SHEWEIZHUYONGHU') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_ADD"
+                  @click="handleAdd">{{ $t('LK_XINZENG') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_DELETE"
+                  @click="deleteItem('ids', deleteUser)">{{ $t('LK_SHANCHU') }}</i-button>
+        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_USER_EXPORT"
+                  @click="exportsTable"
+                  v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
-    <table-list
-      v-permission="SUPPLIER_SUPPLIERCONTACT_USER"
-      ref="commonTable"
-      :tableData="tableListData"
-      :tableTitle="tableTitle"
-      :tableLoading="tableLoading"
-      @handleSelectionChange="handleSelectionChange"
-      :index="true"
-    >
+    <table-list v-permission="SUPPLIER_SUPPLIERCONTACT_USER"
+                ref="commonTable"
+                :tableData="tableListData"
+                :tableTitle="tableTitle"
+                :tableLoading="tableLoading"
+                @handleSelectionChange="handleSelectionChange"
+                :index="true">
       <template #isDefault="scope">
-        <icon
-          v-if="scope.row.isDefault === true"
-          name="iconsheweizhuyonghu1"
-          symbol
-        ></icon>
+        <icon v-if="scope.row.isDefault === true"
+              name="iconsheweizhuyonghu1"
+              symbol></icon>
       </template>
       <template #isActivity="scope">
         <span v-if="scope.row.isActivity">{{ $t('SUPPLIER_SHI') }}</span>
@@ -80,41 +55,41 @@
       <template #operation="scope">
         <div v-if="isSupplierUser">
           <!-- scope.row.id && scope.row.id !== 'null' &&  -->
-          <i-button type="text" v-if="(isSupplierUser&&!scope.row.isDefault)||!isUser" @click="handleDialog(scope.row)"
-            >操作</i-button
-          >
+          <i-button type="text"
+                    v-if="(isSupplierUser&&!scope.row.isDefault)||!isUser"
+                    @click="handleDialog(scope.row)">操作</i-button>
         </div>
       </template>
       <template #nameZh="scope">
-        <iInput @focus="handleTip" v-model="scope.row.nameZh"></iInput>
+        <iInput @focus="handleTip"
+                v-model="scope.row.nameZh"></iInput>
       </template>
       <template #designation="scope">
-        <iInput @focus="handleTip" v-model="scope.row.designation"></iInput>
+        <iInput @focus="handleTip"
+                v-model="scope.row.designation"></iInput>
       </template>
       <template #dept="scope">
-        <iInput @focus="handleTip" v-model="scope.row.dept"></iInput>
+        <iInput @focus="handleTip"
+                v-model="scope.row.dept"></iInput>
       </template>
       <template #telephoneAreaCode="scope">
-        <iInput
-          @focus="handleTip"
-          v-model="scope.row.telephoneAreaCode"
-        ></iInput>
+        <iInput @focus="handleTip"
+                v-model="scope.row.telephoneAreaCode"></iInput>
       </template>
       <template #telephone="scope">
-        <iInput @focus="handleTip" v-model="scope.row.telephone"></iInput>
+        <iInput @focus="handleTip"
+                v-model="scope.row.telephone"></iInput>
       </template>
       <template #email="scope">
-        <iInput @focus="handleTip" v-model="scope.row.email"></iInput>
+        <iInput @focus="handleTip"
+                v-model="scope.row.email"></iInput>
       </template>
     </table-list>
-    <supplierUserNameDialog
-      :rowList="rowList"
-      
-       :tabledata="tableListData"
-      v-if="userNameDialog"
-      @handleSelection="handleSelection"
-      v-model="userNameDialog"
-    />
+    <supplierUserNameDialog :rowList="rowList"
+                            :tabledata="tableListData"
+                            v-if="userNameDialog"
+                            @handleSelection="handleSelection"
+                            v-model="userNameDialog" />
     <tipDialog v-model="tipDialog" />
     <addDialog v-model="addDialog" />
     <personalPrivacyPolicyDialog v-model="personalPrivacyPolicyDialog" />
@@ -148,7 +123,7 @@ export default {
     addDialog,
     personalPrivacyPolicyDialog
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle: supplierUserNameTableTitle,
@@ -164,56 +139,58 @@ export default {
       isMainContact: true,
       userType: 1,
       isSupplierUser: true,
-      isUser:true,
+      isUser: true,
+      opcsCompanyNameZh: ""
     }
   },
-  created() {
+  created () {
     this.userType = this.$store.state.permission.userInfo.userType
     this.isMainContact = this.$store.state.permission.userInfo.isMainContact
+    this.opcsCompanyNameZh = this.$store.state.baseInfo.baseMsg.supplierDTO.nameZh
     if (this.isMainContact == null) this.isMainContact = false
     if (this.userType == 2 && this.isMainContact) {
       this.isSupplierUser = true
     } else if (this.userType == 2 && !this.isMainContact) {
       this.isSupplierUser = false
-    }else if (this.userType == 1 ) {
+    } else if (this.userType == 1) {
       this.isUser = false
     }
-      console.log(  this.isUser )
-    console.log( this.isSupplierUser)
+    console.log(this.isUser)
+    console.log(this.isSupplierUser)
     console.log(this.userType)
     console.log(this.isMainContact)
     this.tableTitles()
     this.getTableList()
   },
   methods: {
-    handleAdd() {
+    handleAdd () {
       if (this.addDialogFlag === 1) {
         this.addDialog = true
       } else if (this.addDialogFlag === 0) {
         this.addTableItem()
       }
     },
-    handlepersonalPrivacyPolicy() {
+    handlepersonalPrivacyPolicy () {
       this.personalPrivacyPolicyDialog = true
     },
-    handleTip() {
+    handleTip () {
       if (this.tipDialogFlag === 1) {
         this.tipDialog = true
       }
       this.tipDialogFlag = 0
     },
-    handleDialog(row) {
+    handleDialog (row) {
       this.rowList = row
-      
+
       this.userNameDialog = true
     },
-    tableTitles() {
+    tableTitles () {
       if (this.$route.query.supplierType <= 3) {
         supplierUserNameTableTitle.splice(11, 4)
         this.tableTitle = supplierUserNameTableTitle
       }
     },
-    handleActivity(isActivity) {
+    handleActivity (isActivity) {
       if (this.selectTableData.length === 0) {
         iMessage.warn('至少选择一条记录')
         return
@@ -227,7 +204,7 @@ export default {
       })
       this.saveInfos()
     },
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true
       const pms = {
         step: 'register',
@@ -244,10 +221,10 @@ export default {
       this.tableListData = res.data
       this.tableLoading = false
     },
-    handleSelectionChange(data) {
+    handleSelectionChange (data) {
       this.selectTableData = data
     },
-    setMasterUser() {
+    setMasterUser () {
       if (this.selectTableData.length !== 1) {
         this.iMessage.warn('只能存在一个主联系人，请重新设置')
       } else {
@@ -261,7 +238,7 @@ export default {
       }
       this.saveInfos()
     },
-    deleteItem(idName, fun) {
+    deleteItem (idName, fun) {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -308,7 +285,7 @@ export default {
         this.tableLoading = false
       })
     },
-    async saveInfos(step = '') {
+    async saveInfos (step = '') {
       if (!this.tableListData.length) {
         return
       }
@@ -319,6 +296,9 @@ export default {
             if (this.tableListData.length === 1) {
               this.tableListData[0].isDefault = true
             }
+            this.tableListData.forEach(item => {
+              this.$set(item, 'opcsCompanyNameZh', this.opcsCompanyNameZh);
+            })
             const pms = {
               list: this.tableListData,
               step: 'register'
@@ -348,7 +328,7 @@ export default {
         })
       })
     },
-    async handleNextStep() {
+    async handleNextStep () {
       await this.saveInfos()
       return this.nextStep
     },
