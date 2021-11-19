@@ -25,6 +25,11 @@
             :name="language('标签管理')"
             @click="tabChange('labelManagement')"
           />
+          <iTabBadgeItem
+            :active="helpMoudle === 'keyWordsManagement'"
+            :name="language('关键词管理')"
+            @click="tabChange('keyWordsManagement')"
+          />
         </iTabBadge>
       </div>
     </div>
@@ -52,6 +57,12 @@
     >
       <LabelManagement />
     </div>
+    <div
+      class="flex flex-row content mt20"
+      v-if="helpMoudle === 'keyWordsManagement'"
+    >
+      <KeyWordsManagement />
+    </div>
   </iPage>
 </template>
 
@@ -62,6 +73,7 @@ import ProblemHandler from './components/problemHandler/index';
 import LabelManagement from './components/labelManagement/index'
 import ModuleManagement from './components/moduleManagement/index'
 import ProblemStatement from './components/problemStatement/index'
+import KeyWordsManagement from './components/keyWordsManagement'
 import store from '@/store'
 export default {
   data() {
@@ -86,7 +98,8 @@ export default {
     ProblemHandler,
     LabelManagement,
     ModuleManagement,
-    ProblemStatement
+    ProblemStatement,
+    KeyWordsManagement
   }
 }
 </script>
