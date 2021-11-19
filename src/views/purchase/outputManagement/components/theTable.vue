@@ -3,13 +3,13 @@
         <div class="margin-bottom20 clearFloat">
             <div class="floatright">
                 <!--返回上级-->
-                <iButton @click="goBack" v-permission="OUTPUT_MANAGEMENT_PAGE_RETURNSTEP">{{ $t('EKL_YJGL_FHSJ') }}</iButton>
+                <iButton @click="goBack" v-if="isAuth(whiteBtnList,'OUTPUT_MANAGEMENT_PAGE_RETURNSTEP')">{{ $t('EKL_YJGL_FHSJ') }}</iButton>
                 <!--下载模板-->
-                <iButton @click="downFile" v-permission="OUTPUT_MANAGEMENT_PAGE_DOWNLOAD">{{ $t('EKL_YJGL_XZMB') }}</iButton>
+                <iButton @click="downFile" v-if="isAuth(whiteBtnList,'OUTPUT_MANAGEMENT_PAGE_DOWNLOAD')" >{{ $t('EKL_YJGL_XZMB') }}</iButton>
                 <!--上传产量-->
-                <iButton @click="uploadFile" v-permission="OUTPUT_MANAGEMENT_PAGE_UPLOAD">{{ $t('EKL_YJGL_SCCL') }}</iButton>
+                <iButton @click="uploadFile" v-if="isAuth(whiteBtnList,'OUTPUT_MANAGEMENT_PAGE_UPLOAD')">{{ $t('EKL_YJGL_SCCL') }}</iButton>
                 <!--删除-->
-                <iButton @click="delData" v-permission="OUTPUT_MANAGEMENT_PAGE_DELETE">{{ $t('delete') }}</iButton>
+                <iButton @click="delData" v-if="isAuth(whiteBtnList,'OUTPUT_MANAGEMENT_PAGE_DELETE')">{{ $t('delete') }}</iButton>
             </div>
         </div>
         <tableList
@@ -55,6 +55,7 @@
     import resultMessageMixin from '@/mixins/resultMessageMixin';
     import {tableTitle} from '../data';
     import uploadDialog from './uploadDialog';
+    import isAuth from '@/utils/isAuth';
     import {
         cartypeOutputList,    // list 列表
         downloadExampleExcel, // 下载模板
@@ -81,6 +82,8 @@
                 selectTableData: [],
                 uploadDialog: false,
                 yearList: [],
+                isAuth,
+                whiteBtnList: this.$store.state.permission.whiteBtnList,
             };
         },
         created() {

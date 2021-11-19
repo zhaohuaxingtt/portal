@@ -4,21 +4,21 @@
             <div class="floatright">
                 <div v-if="!editStatus">
                     <!--批量编辑-->
-                    <iButton @click="bulkEdit" v-permission="ACHIEVEMENT_DETAIL_PAGE_BATCHEDIT">{{ $t('EKL_YJGL_PLBJ')}}</iButton>
+                    <iButton @click="bulkEdit" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_BATCHEDIT')">{{ $t('EKL_YJGL_PLBJ')}}</iButton>
                     <!--编辑-->
-                    <iButton @click="edit" v-permission="ACHIEVEMENT_DETAIL_PAGE_EDIT">{{ $t('APPROVAL.EDIT') }}</iButton>
+                    <iButton @click="edit"  v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_EDIT')">{{ $t('APPROVAL.EDIT') }}</iButton>
                     <!--转派-->
-                    <iButton :disabled="isForward" @click="taskTransfer" v-permission="ACHIEVEMENT_DETAIL_PAGE_REASSIGNMENT">{{ $t('APPROVAL.TASK_TRANSFER') }}</iButton>
+                    <iButton :disabled="isForward" @click="taskTransfer" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_REASSIGNMENT')">{{ $t('APPROVAL.TASK_TRANSFER') }}</iButton>
                     <!--确认-->
-                    <iButton @click="confirm" v-permission="ACHIEVEMENT_DETAIL_PAGE_CONFIRM">{{ $t('rfq.RFQINQUIRE') }}</iButton>
+                    <iButton @click="confirm" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_CONFIRM')">{{ $t('rfq.RFQINQUIRE') }}</iButton>
                     <!--导出-->
-                    <iButton @click="download" v-permission="ACHIEVEMENT_DETAIL_PAGE_EXPORT">{{ $t('APPROVAL.EXPORT')}}</iButton>
+                    <iButton @click="download" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_EXPORT')">{{ $t('APPROVAL.EXPORT')}}</iButton>
                 </div>
                 <div v-else>
                     <!--退出编辑-->
                     <iButton @click="exitEdit">{{ $t('APPROVAL.EXIT_EDIT') }}</iButton>
                     <!--保存-->
-                    <iButton @click="save" v-permission="ACHIEVEMENT_DETAIL_PAGE_SAVE">{{ $t('APPROVAL.SAVE') }}</iButton>
+                    <iButton @click="save" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_SAVE')">{{ $t('APPROVAL.SAVE') }}</iButton>
                 </div>
 
             </div>
@@ -81,6 +81,7 @@
     import bulkEditDialog from './bulkEditDialog';
     import taskTransferDialog from './taskTransferDialog';
     import {toThousands,delcommafy,unique} from '@/utils'
+    import isAuth from '@/utils/isAuth';
     import {
         querySeriesbaseDetail, // 明细list
         updateSeriesbaseDetail, // 单个编辑 批量
@@ -128,6 +129,8 @@
                 listId:[],
                 isForward: false,
                 selectData: JSON.parse(localStorage.getItem('allSelectObject')),
+                isAuth,
+                whiteBtnList: this.$store.state.permission.whiteBtnList,
 
             };
         },
