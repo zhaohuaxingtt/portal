@@ -3,9 +3,9 @@
         <div class="margin-bottom20 clearFloat">
             <div class="floatright">
                 <!--转派-->
-                <iButton :disabled="isForward" @click="taskTransfer" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_BASETABLE_TRANSFER')">{{ $t('APPROVAL.TASK_TRANSFER') }}</iButton>
+                <iButton @click="taskTransfer" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_BASETABLE_TRANSFER')&&!isForward">{{ $t('APPROVAL.TASK_TRANSFER') }}</iButton>
                 <!--确认-->
-                <iButton @click="confirm" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_BASETABLE_CONFIRM')">{{ $t('rfq.RFQINQUIRE') }}</iButton>
+                <iButton @click="confirm" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_BASETABLE_CONFIRM')&&!isForward">{{ $t('rfq.RFQINQUIRE') }}</iButton>
                 <!--导出-->
                 <iButton @click="download" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_BASETABLE_DOWN')">{{ $t('APPROVAL.EXPORT')}}</iButton>
             </div>
