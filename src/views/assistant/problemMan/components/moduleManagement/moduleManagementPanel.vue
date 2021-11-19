@@ -52,7 +52,9 @@ export default {
   },
   methods: {
     handleGoDetail() {},
-    handleSelectionChange() {},
+    handleSelectionChange(ev) {
+      console.log(ev,'选中的');
+    },
     editHandler() {},
   },
   mounted() {
