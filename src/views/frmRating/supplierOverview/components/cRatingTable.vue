@@ -346,7 +346,7 @@
           </template>
         </table-list>
         <iPagination
-         v-if="tabVal == 2"
+          v-if="tabVal == 2"
           v-update
           @size-change="handleSizeChange($event, getTaleList)"
           @current-change="handleCurrentChange($event, getTaleList)"
@@ -390,7 +390,15 @@
 </template>
 
 <script>
-import { icon, iDialog, iSelect, iButton, iInput, iMessage,iPagination } from 'rise'
+import {
+  icon,
+  iDialog,
+  iSelect,
+  iButton,
+  iInput,
+  iMessage,
+  iPagination
+} from 'rise'
 import tableList from '@/components/commonTable'
 import { tableTitleMonitor, tableTitleMonitorRecord, dictByCode } from './data'
 import { getDeptDropDownList } from '@/api/authorityMgmt/index'
@@ -463,16 +471,16 @@ export default {
     }
   },
   watch: {
-    // supplierId(val) {
-    //   this.form.supplierName[0] = val
-    // },
-    // sapCode(val) {
-    //   this.form.sapCode[0] = val
-    // }
+   
   },
   created() {
     this.tabVal = '1'
+      if (this.sapCode && this.supplierId) {
+      this.form.sapCode[0] = this.sapCode || ''
+      this.form.supplierName[0] = this.supplierId || ''
+    }
     this.getInit()
+  
   },
   methods: {
     handleDialog() {
@@ -547,10 +555,7 @@ export default {
     async getInit() {
       const res = await dictByCode('C_RATING')
       this.cratingLsit = res
-      if (this.sapCode && this.supplierId) {
-        this.form.sapCode[0] = this.sapCode || ''
-        this.form.supplierName[0] = this.supplierId || ''
-      }
+
       this.getTaleList()
       this.getDeptList()
       const res2 = await sapDropDown({ type: 'sap' })
@@ -658,8 +663,8 @@ export default {
 
 <style lang="scss" scoped>
 .tableBox {
-//   max-height: 500px;
-//   overflow-y: auto;
+  //   max-height: 500px;
+  //   overflow-y: auto;
 }
 .early {
   display: inline-block;

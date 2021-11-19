@@ -24,8 +24,8 @@
            
           </div>
         </div>
-        <p>{{language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署')}} <span v-if="info.developScore!=0"
-                :class="parseInt(info.developScore)>=0?'green':'orgin'"> {{info.developScore?info.developScore.toString():''}}%</span></p>
+        <p>{{language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署')}} <span 
+                :class="parseInt(info.developScore)>=0?'green':'orgin'"> {{'+'+info.developScore?info.developScore.toString():''}}</span></p>
         <p>{{language('WURANWEIGUI', '污染违规')}} <span></span></p>
       </div>
       <div class="chartbox">
@@ -44,7 +44,7 @@
 import echarts from '@/utils/echarts'
 import { iCard, icon } from 'rise'
 import { performCard360 } from '@/api/supplierManagement/supplierCard/index'
-import img from '@/assets/images/financial.svg'
+import img from '@/assets/images/supplierKpi.svg'
 export default {
   props: {},
   components: {
@@ -200,13 +200,14 @@ export default {
     letter-spacing: 4px;
     div {
       display: flex;
+      width: 100px;
       align-items: center;
       position: absolute;
       top: 4px;
-      right: -100px;
+      right: -110px;
       span {
-        margin-left: 6px;
-        font-size: 18px;
+        margin-left: 4px;
+        font-size: 16px;
         font-family: Arial;
         font-weight: bold;
       }
