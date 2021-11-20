@@ -410,6 +410,12 @@ export default {components: {
             price:"",
             carline:"",
             priceMeasureUnit:"",
+            platinumPrice:'',
+            platinumDosage:'',
+            palladiumDosage:'',
+            rhodiumPrice:'',
+            rhodiumDosage:'',
+            palladiumPrice:"",
         },
         carlineNumber:[],
         rules: {
@@ -510,10 +516,18 @@ export default {components: {
             this.contractForm.price = Number(this.contractForm.platinumPrice)*Number(this.contractForm.platinumDosage) + Number(this.contractForm.palladiumPrice)*Number(this.contractForm.palladiumDosage) + Number(this.contractForm.rhodiumPrice)*Number(this.contractForm.rhodiumDosage)
             // console.log(this.contractForm.price);
         }else{
-            // iMessage.warn("请填写完铂钯铑基价以及用量")
+            this.contractForm.price = "";
         }
     },
     MaterialGrade(value){
+        this.contractForm.priceMeasureUnit = "",
+        this.contractForm.price = "",
+        this.contractForm.platinumPrice = "",
+        this.contractForm.platinumDosage = "",
+        this.contractForm.palladiumPrice = "",
+        this.contractForm.palladiumDosage = "",
+        this.contractForm.rhodiumPrice = "",
+        this.contractForm.rhodiumDosage = "",
         checkPreciousMetal({code:value}).then(res=>{
             this.metalType = res.data;
         })

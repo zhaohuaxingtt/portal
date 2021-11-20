@@ -781,6 +781,7 @@ export default {
             pageSize: this.page.pageSize,
             mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
         }).then(res=>{
+            if(res.data === null) return false;
             if(res.data.length<1){
                 listPartNumSupplierIdData({
                     partNumStr:this.$route.query.item,

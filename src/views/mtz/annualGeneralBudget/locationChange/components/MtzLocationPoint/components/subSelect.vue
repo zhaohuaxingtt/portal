@@ -112,8 +112,8 @@ export default {
                             mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
                         }).then(res=>{
                             if(res.result && res.code == 200){
-                            iMessage.success(this.language(res.desEn,res.desZh))
-                            this.$emit("close","refresh")
+                                this.$emit("close","refresh")
+                                iMessage.success(this.language(res.desEn,res.desZh))
                             }
                         })
                     }
