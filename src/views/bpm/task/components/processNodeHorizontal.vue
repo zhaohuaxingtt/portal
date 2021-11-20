@@ -191,19 +191,19 @@ export default {
       }
       if (panoromaItem.nodeName === '审批结束') {
         return {
+          ...panoromaItem,
           status: this.isEnd ? '审批结束' : '待审批',
           title: panoromaItem.nodeName,
           icon: this.iconMap[this.isEnd ? '审批结束' : '待审批'],
-          approvers: approvers,
-          ...panoromaItem
+          approvers: approvers
         }
       }
       return {
+        ...panoromaItem,
         status: panoromaItem.status,
         title: panoromaItem.status,
         icon: this.iconMap[panoromaItem.status],
-        approvers: approvers,
-        ...panoromaItem
+        approvers: approvers
       }
     }
   }

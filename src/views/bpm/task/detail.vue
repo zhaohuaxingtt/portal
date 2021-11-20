@@ -65,6 +65,7 @@
         :panorama="form.panorama"
         :state-code="form.stateCode"
       /> -->
+      {{ form.stateCode }}
       <processNodeHorizontal
         v-if="form.panorama"
         :panorama="form.panorama"
