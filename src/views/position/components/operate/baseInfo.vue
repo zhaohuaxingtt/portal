@@ -160,7 +160,7 @@
             <el-option
               v-for="item in tempPurchasegroupOptions"
               :key="item.id"
-              :label="item.purchaseGroupName"
+              :label="item.purchaseGroupCode"
               :value="item.purchaseGroupCode"
             />
           </iSelect>
