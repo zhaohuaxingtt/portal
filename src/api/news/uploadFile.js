@@ -1,6 +1,6 @@
 import axios from "@/utils/axios";
 import store from '@/store'
-const requstFile = axios(process.env.VUE_APP_FILEAPI + "/fileudApi");
+const requstFile = axios(process.env.VUE_APP_FILEAPI);
 requstFile.interceptors.request.use(function (config) {
   config.params = {
     userId: store.state.permission.userInfo.id,
