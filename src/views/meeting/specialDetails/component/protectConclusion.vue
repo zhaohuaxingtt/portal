@@ -323,7 +323,6 @@ export default {
       this.currentRow = val[val.length - 1]
     },
     handleSure() {
-      this.loading = true
       let param = {
         ...this.selectedTableData[0]
       }
@@ -357,6 +356,7 @@ export default {
         param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc
         param.isFrozenRs = false
       }
+      this.loading = true
       updateThemen(param)
         .then(() => {
           this.loading = false

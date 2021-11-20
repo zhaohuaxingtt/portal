@@ -45,4 +45,35 @@ const downloadAll = ({
     });
 };
 
-export { downloadAll };
+const downloadAllExport = ({
+  url,
+  filename,
+  callback,
+  // type = "application/pdf",
+  type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel",
+  data,
+}) => {
+  request({
+    url: url,
+    method: "POST",
+    responseType: "blob", // 响应类型必须设置
+    getResponse: true,
+    data,
+  })
+    .then((response) => {
+      const blobUrl = window.URL.createObjectURL(response);
+      // 获取响应中的filename
+      // const contentDisposition = response.headers.get('Content-Disposition');
+      // const resFileName =
+      //   contentDisposition &&
+      //   decodeURI(contentDisposition.split('filename=')?.[1]);
+      // const downloadFileName = decodeURIComponent(resFileName ?? filename);
+      createAnchorLink(blobUrl, filename);
+      window.URL.revokeObjectURL(blobUrl);
+      callback && callback(true);
+    })
+    .catch((err) => {
+      callback && callback(false);
+    });
+};
+export { downloadAll,downloadAllExport };

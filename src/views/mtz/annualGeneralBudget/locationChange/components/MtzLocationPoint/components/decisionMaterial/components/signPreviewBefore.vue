@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
 -->
 <template>
-  <div ref="qrCodeDiv" style="padding-bottom:30px;">
+  <div ref="qrCodeDiv" class="sign_swap" style="padding-bottom:30px;">
     <iCard>
       <div slot="header" class="headBox">
         <p class="headTitle">{{title}}</p>
@@ -342,6 +342,18 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.sign_swap{
+  position:fixed!important;
+  left:0;
+  right:0;
+  top:0;
+  right:0;
+  width:100%;
+  height:100%;
+  z-index:2000;
+  overflow-y:auto;
+  background:white!important;
+}
 .tableTitle {
   display: inline-block;
   font-weight: bold;
