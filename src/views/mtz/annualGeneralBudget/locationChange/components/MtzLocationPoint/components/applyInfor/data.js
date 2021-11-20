@@ -40,7 +40,7 @@ export const tableTitle = [
     key: 'RSDONGJIERIQI'
   },
   {
-    width: 200,
+    width: 220,
     props: 'isPriceConsistent',
     name: '报价一致性检验状态',
     key: 'BJYZXJYZT'
@@ -83,7 +83,7 @@ export const tableTitleInfor = [
     key: 'RSDONGJIERIQI'
   },
   {
-    width: 150,
+    width: 220,
     props: 'isPriceConsistent',
     name: '报价一致性检验状态',
     key: 'BJYZXJYZT'
