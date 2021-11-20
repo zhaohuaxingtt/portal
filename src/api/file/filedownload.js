@@ -1,7 +1,6 @@
 import axios from "@/utils/axios";
-const requst = axios();
 const requstFile = axios(process.env.VUE_APP_FILE_SERVER);
-
+const requstType = axios(process.env.VUE_APP_MEETING);
 // 通过文件id获取文件
 // export function getFileByIds(data) {
 //   return requst({
@@ -12,14 +11,6 @@ const requstFile = axios(process.env.VUE_APP_FILE_SERVER);
 // }
 // 通过文件id获取文件
 export function getFileByIds(data) {
-  if (process.env.NODE_ENV == "develop") {
-    return requst({
-      // url: `/rise-mock/batchSelectByIds`,
-      url: `/batchSelectByIds`,
-      method: "POST",
-      data,
-    });
-  }
   return requstFile({
     // url: `/rise-mock/batchSelectByIds`,
     url: `/batchSelectByIds`,
@@ -30,8 +21,8 @@ export function getFileByIds(data) {
 
 // 通过会议类型id获取文件资料
 export function findByMeetingTypeId(data) {
-  return requst({
-    url: `/rise-meeting/documentTypeService/findByMeetingTypeId`,
+  return requstType({
+    url: `/documentTypeService/findByMeetingTypeId`,
     method: "POST",
     data,
   });

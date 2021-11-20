@@ -670,7 +670,7 @@ export default {
                         this.dialogEditType = false;
                         this.getTableList();
                     }else{
-                        iMessage.error(res.message)
+                        iMessage.error(this.language(res.desEn,res.desZh))
                     }
                 })
             }else{//编辑
@@ -682,11 +682,12 @@ export default {
                     mtzAppNomiPartMasterDataList:this.selectList
                 }).then(res=>{
                     if(res.code == 200){
+                        iMessage.success(this.language(res.desEn,res.desZh))
                         this.editId = "";
                         this.editType = false;
                         this.getTableList();
                     }else{
-                        iMessage.error(res.message)
+                        iMessage.error(this.language(res.desEn,res.desZh))
                     }
                 })
             }
@@ -919,4 +920,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .el-table .el-table__row .el-input{
+    width:100%!important;
+}
+::v-deep .el-select__tags{
+    max-width:100%!important;
+}
+.formStyle ::v-deep .el-form-item {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 </style>
