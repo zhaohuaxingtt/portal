@@ -237,15 +237,15 @@ export default {
     closeDiolog(){
       this.mtzAddShow = false;
     },
-    closeBingo(val){
-      if(val = "refresh"){
+    closeBingo(valdata){
+      this.closeDiolog();
+      if(valdata = "refresh"){
         var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
         data.refresh = true;
         store.commit("routerMtzData",data);
         sessionStorage.setItem("MtzLIst",JSON.stringify(data))
         this.getType();
       }
-      this.closeDiolog()
     },
     closeTyoe(){
       this.beforReturn = false;
