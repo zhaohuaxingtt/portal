@@ -5,7 +5,7 @@ export default [
     meta: {
       title: '调查问卷'
     },
-    redirect: "/survey/management",
+    // redirect: "/survey/management",
     component: () => import('@/views/surveyManagement/manage/index.vue'),
     children: [
       {
