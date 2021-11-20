@@ -48,7 +48,7 @@ export default {
   },
   async mounted() {
     const http = new XMLHttpRequest()
-    const url = `/fileud/batchSelectByIds`
+    const url = `/fileudApi/batchSelectByIds`
     http.open('POST', url, true)
     http.setRequestHeader('content-type', 'application/json')
     http.onreadystatechange = () => {
@@ -70,7 +70,7 @@ export default {
     },
     download(id) {
       const xhr = new XMLHttpRequest()
-      xhr.open('POST', `/fileud/udDown?fileIds=${id}`, true)
+      xhr.open('POST', `/fileudApi/udDown?fileIds=${id}`, true)
       xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
       xhr.responseType = 'blob'
       xhr.onreadystatechange = () => {
