@@ -304,7 +304,8 @@ export default {
       this.searchForm.nominateEndDate = val[1];
     },
     sure () {
-      console.log(this.searchForm)
+      this.page.currPage = 1
+      this.page.pageSize = 10
       this.getTableList();
     },
     reset () {

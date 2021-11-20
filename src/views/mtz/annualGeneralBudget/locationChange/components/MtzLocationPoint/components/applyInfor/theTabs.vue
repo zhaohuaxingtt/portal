@@ -104,13 +104,15 @@
                             align="center"
                             :label="language('CHEXING','车型')"
                             show-overflow-tooltip
-                            width="150">
+                            width="200">
                 <template slot-scope="scope">
                     <el-form-item
                         :prop="'tableData.' + scope.$index + '.' + 'carline'"
                         :rules="formRules.carline ? formRules.carline : ''"
+                        style="width:180px!important"
                     >
-                        <el-select v-model="scope.row.carlineList"
+                        <i-select v-model="scope.row.carlineList"
+                            style="width:180px!important"
                             clearable
                             filterable
                             multiple
@@ -124,7 +126,7 @@
                                 :label="item.modelNameZh"
                                 :value="item.modelNameZh">
                             </el-option>
-                        </el-select>
+                        </i-select>
                         <span v-else>{{scope.row.carline}}</span>
                     </el-form-item>
                 </template>
@@ -197,6 +199,7 @@
                     >
                          <el-select v-model="scope.row.materialCode"
                             clearable
+                            filterable
                             :placeholder="language('QINGSHURU', '请输入')"
                             v-if="editId.indexOf(scope.row.id)!==-1"
                             @change="MaterialGrade(scope,$event)"
@@ -234,7 +237,7 @@
                          <iInput type="number"
                             v-model="scope.row.price"
                             v-if="editId.indexOf(scope.row.id)!==-1"
-                            :disabled='metalType && editId.indexOf(scope.row.id)!==-1'
+                            :disabled='scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         ></iInput>
                         <span v-else>{{scope.row.price}}</span>
                     </el-form-item>
@@ -297,7 +300,7 @@
                         type="number"
                         v-model="scope.row.platinumPrice"
                         v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!metalType && editId.indexOf(scope.row.id)!==-1'
+                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         @change="jijiaCompute(scope.row,$event)"
                         ></iInput>
                         <span v-else>{{scope.row.platinumPrice}}</span>
@@ -330,7 +333,7 @@
                         type="number"
                         v-model="scope.row.platinumDosage"
                         v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!metalType && editId.indexOf(scope.row.id)!==-1'
+                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         @change="jijiaCompute(scope.row,$event)"
                         ></iInput>
                         <span v-else>{{scope.row.platinumDosage}}</span>
@@ -363,7 +366,7 @@
                         type="number"
                         v-model="scope.row.palladiumPrice"
                         v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!metalType && editId.indexOf(scope.row.id)!==-1'
+                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         @change="jijiaCompute(scope.row,$event)"
                         ></iInput>
                         <span v-else>{{scope.row.palladiumPrice}}</span>
@@ -395,7 +398,7 @@
                         <iInput type="number"
                         v-model="scope.row.palladiumDosage"
                         v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!metalType && editId.indexOf(scope.row.id)!==-1'
+                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         @change="jijiaCompute(scope.row,$event)"
                         ></iInput>
                         <span v-else>{{scope.row.palladiumDosage}}</span>
@@ -427,7 +430,7 @@
                         <iInput type="number"
                         v-model="scope.row.rhodiumPrice"
                         v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!metalType && editId.indexOf(scope.row.id)!==-1'
+                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         @change="jijiaCompute(scope.row,$event)"
                         ></iInput>
                         <span v-else>{{scope.row.rhodiumPrice}}</span>
@@ -461,7 +464,7 @@
                         type="number"
                         v-model="scope.row.rhodiumDosage"
                         v-if="editId.indexOf(scope.row.id)!==-1"
-                        :disabled='!metalType && editId.indexOf(scope.row.id)!==-1'
+                        :disabled='!scope.row.metalType && editId.indexOf(scope.row.id)!==-1'
                         @change="jijiaCompute(scope.row,$event)"
                         ></iInput>
                         <span v-else>{{scope.row.rhodiumDosage}}</span>
@@ -686,7 +689,7 @@
 </template>
 
 <script>
-import { iCard, iButton, iPagination, icon, iMessage,iMessageBox,iInput,iDatePicker,iDialog } from 'rise'
+import { iCard, iButton, iPagination, icon, iMessage,iMessageBox,iInput,iDatePicker,iDialog,iSelect } from 'rise'
 import { pageMixins } from "@/utils/pageMixins"
 import continueBox from "./continueBox";
 import addGZ from "./addGZ";
@@ -723,6 +726,7 @@ export default {
     iDatePicker,
     continueBox,
     iDialog,
+    iSelect,
     addGZ
   },
   watch: {
@@ -780,7 +784,6 @@ export default {
         addDialog:false,
 
         dialogEditType:false,//判断是否是沿用过来的数据
-        metalType:false,
         carline:[],//车型
     }
   },
@@ -838,6 +841,9 @@ export default {
             var changeArrayList = [];
             this.selectList.forEach(item => {
                 changeArrayList.push(item.id);
+                checkPreciousMetal({code:item.materialCode}).then(res=>{
+                    this.$set(item,"metalType",res.data)
+                })
             })
             this.editId = changeArrayList;
             this.dialogEditType = false;
@@ -947,6 +953,10 @@ export default {
         this.newDataList.forEach(item =>{
             delete item.id;
             item.carlineList = item.carline.split(",")
+
+            checkPreciousMetal({code:item.materialCode}).then(res=>{
+                this.$set(item,"metalType",res.data)
+            })
         })
         this.closeDiolog();
         this.tableData.unshift(...this.newDataList);
@@ -1079,7 +1089,7 @@ export default {
     MaterialGrade(arr,value){
         var str = arr.row;
         checkPreciousMetal({code:value}).then(res=>{
-            this.metalType = res.data;
+            str.metalType = res.data;
         })
         try{
             this.materialCode.forEach(e => {
@@ -1107,5 +1117,11 @@ export default {
 .formStyle ::v-deep .el-form-item {
   margin-top: 0;
   margin-bottom: 0;
+}
+::v-deep .el-select__tags{
+    max-width:100%!important;
+}
+::v-deep .el-table .el-table__row .el-input{
+    width:100%!important;
 }
 </style>
