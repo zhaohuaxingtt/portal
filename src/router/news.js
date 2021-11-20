@@ -48,7 +48,6 @@ export default [
       meta: {
         title: "新闻大厅",
       },
-      component: () => import("@/views/newsManagement/hall/index.vue"),
       redirect: "/news/news",
       children: [
         {
