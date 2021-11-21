@@ -596,7 +596,7 @@
                         v-model="scope.row.threshold"
                         v-if="editId.indexOf(scope.row.id)!==-1"
                         ></iInput>
-                        <span>{{scope.row.threshold}}</span>
+                        <span v-else>{{scope.row.threshold}}</span>
                     </el-form-item>
                 </template>
             </el-table-column>
@@ -639,8 +639,8 @@
                     >
                         <!-- <iDatePicker v-model="scope.row.startDate"
                                 style="width:180px!important;"
-                                type="datetime"
-                                value-format="yyyy-MM-dd"
+                                type="date"
+                                value-format="yyyy-MM-dd hh:mm:ss"
                                 format="yyyy-MM-dd"
                                 v-if="editId.indexOf(scope.row.id)!==-1"
                                 >
@@ -661,8 +661,8 @@
                     >
                         <!-- <iDatePicker v-model="scope.row.endDate"
                                 style="width:180px!important;"
-                                type="datetime"
-                                value-format="yyyy-MM-dd"
+                                type="date"
+                                value-format="yyyy-MM-dd hh:mm:ss"
                                 format="yyyy-MM-dd"
                                 v-if="editId.indexOf(scope.row.id)!==-1"
                                 >
@@ -884,6 +884,9 @@ export default {
         if(this.dialogEditType){//新增
             this.newDataList.forEach(item=>{
                 item.carline = item.carlineList.toString();
+                // item.startDate = item.startDate + " 00:00:00";
+                // item.endDate = item.endDate + " 00:00:00";
+                // item.compensationPeriod = "A";
             })
             this.$refs['contractForm'].validate(async valid => {
                 if (valid) {
@@ -903,9 +906,18 @@ export default {
                                 this.page.pageSize = 10;
                                 this.getTableList();
                             }else{
-                                iMessage.error(res.message)
+                                iMessage.error(this.language(res.desEn,res.desZh))
+                                // this.newDataList.forEach(item=>{
+                                //     item.startDate = item.startDate.split(" ")[0];
+                                //     item.endDate = item.endDate.split(" ")[0];
+                                // })
                             }
                         })
+                    }).catch(res=>{
+                        // this.newDataList.forEach(item=>{
+                        //     item.startDate = item.startDate.split(" ")[0];
+                        //     item.endDate = item.endDate.split(" ")[0];
+                        // })
                     })
                     this.$refs['contractForm'].clearValidate();
                 }else{

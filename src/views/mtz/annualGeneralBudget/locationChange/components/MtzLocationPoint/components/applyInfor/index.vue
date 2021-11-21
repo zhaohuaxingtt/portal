@@ -37,8 +37,8 @@
         <div class="inforDiv"
              v-for="(item,index) in tabsInforList"
              :key="index">
-          <span>{{item.name}}</span>
-          <el-tooltip class="item" effect="dark" :content="inforData[item.prop]" placement="top-start" v-if="item.type=='tooltip'">
+          <span>{{language(item.key,item.name)}}</span>
+          <el-tooltip class="item" effect="dark" :content="inforData[item.prop]" placement="top-start" v-if="item.type=='tooltip'&&inforData[item.prop]!==null">
             <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
                   class="inforText"
                   v-model="inforData[item.prop]"

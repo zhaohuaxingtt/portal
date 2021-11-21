@@ -114,10 +114,13 @@ export default {
                             if(res.result && res.code == 200){
                                 this.$emit("close","refresh")
                                 iMessage.success(this.language(res.desEn,res.desZh))
+                            }else{
+                                iMessage.error(this.language(res.desEn,res.desZh))
                             }
                         })
+                    }else{
+                        iMessage.error(this.language(res.desEn,res.desZh))
                     }
-                    
                 })
             }else{
                 iMessage.warn("请选择会议")
