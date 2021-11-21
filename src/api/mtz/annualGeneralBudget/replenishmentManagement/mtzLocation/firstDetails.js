@@ -83,6 +83,15 @@ export function cartypePaged(data) {
   })
 }
 
+export function partInfoPaged(parmars) {
+  //零件中心列表分页查询
+  return requstPart({
+    url: '/web/partInfoPaged',
+    method: 'POST',
+    data: parmars
+  })
+}
+
 export function getNominateProcessType(data) {
   //车型主数据分页查询
   return requst({
