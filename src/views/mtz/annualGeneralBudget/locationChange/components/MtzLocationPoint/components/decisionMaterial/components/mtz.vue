@@ -1,13 +1,14 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2021-11-22 11:49:16
+ * @LastEditTime: 2021-11-22 21:35:28
  * @LastEditors: Please set LastEditors
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
 -->
 <template>
   <div ref="qrCodeDiv"
+       id="qrCodeDiv"
        style="padding-bottom:30px;">
     <iCard>
       <div slot="header"
@@ -27,9 +28,9 @@
              v-for="(item,index) in formList"
              :key="index">
           <span>{{language(item.key,item.name)}}</span>
-          <iInput :disabled="true"
-                  class="inforText"
-                  v-model="formData[item.prop]"></iInput>
+          <el-input :disabled="true"
+                    class="inforText"
+                    v-model="formData[item.prop]"></el-input>
         </div>
       </div>
       <el-divider />
@@ -40,6 +41,7 @@
                  :tableLoading="loading"
                  :index="true"
                  :selection="false"
+                 :renderHeader="renderHeader"
                  @handleSelectionChange="handleSelectionChange">
       </tableList>
       <iPagination v-if="RsObject"
@@ -136,8 +138,8 @@ import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1, ruleTableTitle2, partTableTitle1, partTableTitle2 } from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-import html2canvas from 'html2canvas';
-import JsPDF from 'jspdf';
+import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
+import { uploadUdFile } from "@/api/file/upload";
 export default {
   mixins: [pageMixins],
   components: {
@@ -234,51 +236,21 @@ export default {
       } else {
         name = this.title;
       }
-      console.log(this.title)
-      html2canvas(this.$refs.qrCodeDiv, {
-        useCORS: true,
-        allowTaint: true
-      }).then(canvas => {
-        // const link = document.createElement('a')
-        // link.href = canvas.toDataURL()
-        // link.setAttribute('download', this.title + '.pdf')
-        // link.style.display = 'none'
-        // document.body.appendChild(link)
-        // link.click()
-        // 内容的宽度
-        const contentWidth = canvas.width
-        // 内容高度
-        const contentHeight = canvas.height
-        const pageHeight = contentWidth / 592.28 * 841.89
-        // 未生成pdf的html页面高度
-        let leftHeight = contentHeight
-        let position = 0
-        // a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-        const imgWidth = 595.28
-        const imgHeight = 592.28 / contentWidth * contentHeight
-        // canvas转图片数据
-        const pageData = canvas.toDataURL('image/jpeg', 1.0)
-        // 新建JsPDF对象
-        const PDF = new JsPDF('', 'pt', 'a4')
-        // 判断是否分页
-        if (leftHeight < pageHeight) {
-          PDF.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
-        } else {
-          while (leftHeight > 0) {
-            PDF.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
-            leftHeight -= pageHeight
-            position -= 841.89
-            if (leftHeight > 0) {
-              PDF.addPage()
-            }
+      downloadPDF({
+        idEle: 'qrCodeDiv',
+        pdfName: name,
+        exportPdf: true,
+        waterMark: true,
+        callback: async (pdf, pdfName) => {
+          try {
+            this.downType = true;
+            const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
+            const pdfFile = pdf.output("datauristring");
+            const blob = dataURLtoFile(pdfFile, filename);
+          } catch {
+            iMessage.error(this.language('SHENGCHENGSHIBAI', '生成失败'));
           }
-        }
-        // 保存文件
-        PDF.save(name + '.pdf')
-      }).then(res => {
-        setTimeout(() => {
-          this.downType = true;
-        }, 300);
+        },
       })
     },
     initApplayDateData () {
@@ -380,6 +352,9 @@ export default {
         }
       })
       window.open(href, '_blank')
+    },
+    renderHeader (h, { column, $index }) {
+      console.log(h, column)
     }
   }
 }
