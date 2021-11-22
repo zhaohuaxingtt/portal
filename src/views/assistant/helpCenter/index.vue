@@ -113,15 +113,15 @@ export default {
 		QuestionDetail
 	},
 	mounted() {
-		this.getList()
+		// this.getList()
 		this.getProbleList()
 	},
 	methods: {
-		async getList() {
-			getModuleList().then((res) => {
-				console.log(res, '1111')
-			})
-		},
+		// async getList() {
+		// 	getModuleList().then((res) => {
+		// 		console.log(res, '1111')
+		// 	})
+		// },
 		async getProbleList() {
 			this.listLoading = true
 			getSystemMeun().then((res) => {

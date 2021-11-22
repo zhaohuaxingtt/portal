@@ -198,7 +198,7 @@ export default {
       this.menuModelVisible = val
     },
     handleClick(list) {
-      console.log(list, '11111')
+      console.log(window.location.href, '122222')
       this.$router.push({name: list.key})
     }
   }
