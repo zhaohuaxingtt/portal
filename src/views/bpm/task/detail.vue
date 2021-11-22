@@ -399,7 +399,6 @@ export default {
 }
 #flow-form {
   width: 100%;
-  min-height: 1000px;
 }
 .business-id {
   margin: 0px 20px;

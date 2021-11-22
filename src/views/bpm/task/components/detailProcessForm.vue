@@ -38,11 +38,21 @@ export default {
   },
   data() {
     return {
-      frameHeight: '300px'
+      frameHeight: '500px'
+    }
+  },
+  watch: {
+    formHeight() {
+      if (this.formHeight) {
+        this.frameHeight = this.formHeight
+      }
     }
   },
   created() {
-    this.frameHeight = this.formHeight
+    if (this.formHeight) {
+      this.frameHeight = this.formHeight
+    }
+
     window.addEventListener('message', (e) => {
       if (e && e.data) {
         try {
