@@ -37,6 +37,7 @@ import RouterMeeting from './RouterMeeting'
 
 import RouterNews from './news'
 import RouterSurvey from './survey'
+import RouterColorParts from './RouterColorParts'
 
 export default {
   routes: [
@@ -158,7 +159,8 @@ export default {
         ...RouterMeeting,
         ...RouterManage,
         ...RouterNews,
-        ...RouterSurvey
+        ...RouterSurvey,
+        ...RouterColorParts
       ]
     },
 

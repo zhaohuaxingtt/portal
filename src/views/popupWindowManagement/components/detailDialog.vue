@@ -4,7 +4,7 @@
     :title="papgeTitle"
     @close="closeDialog"
     :show-close='false'
-    width="711px"
+    width="851px"
     height='440px'
     :class="{'black-style':detail.popupStyle == '2'}"
   >
@@ -87,7 +87,7 @@ export default {
     width: 100%;
     justify-content:space-between;
     .left{
-        width: 400px;
+        width: 360px;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -102,9 +102,9 @@ export default {
         position: relative;
         // display: flex;
         // flex-direction: column;
-        width: 100%;
+        width: 400px;
         height: 100%;
-        margin-left: 430px;
+        margin-left: 360px;
         .content,
         .btn{
             position: absolute;
@@ -184,7 +184,7 @@ export default {
     background: #151316;
     justify-content:space-between;
     .left{
-        width: 400px;
+        width: 360px;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -199,9 +199,9 @@ export default {
         position: relative;
         // display: flex;
         // flex-direction: column;
-        width: 100%;
+        width: 400px;
         height: 100%;
-        margin-left: 430px;
+        margin-left: 360px;
         >h2{
             color: #FFFFFF;
         }

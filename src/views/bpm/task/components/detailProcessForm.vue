@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\bpm\task\components\detailProcessForm.vue
 -->
 <template>
-  <div v-if="url && formHeight !== '0px'" class="margin-bottom20">
+  <div ref="iframe" v-if="url && formHeight !== '0px'" class="margin-bottom20">
     <iframe
       :src="url"
       id="flowForm"
@@ -17,7 +17,7 @@
       marginheight="0"
       scrolling="no"
       allowtransparency="yes"
-      :style="{ height: frameHeight }"
+      :style="{ height: autoFrameHeight ? autoFrameHeight + 'px' : frameHeight }"
     />
   </div>
 </template>
@@ -46,7 +46,8 @@ export default {
   },
   data() {
     return {
-      frameHeight: '500px'
+      frameHeight: '500px',
+      autoFrameHeight: 0
     }
   },
   watch: {
@@ -74,28 +75,37 @@ export default {
       }
     })
   },
-  mounted() {
-    const iframe = this.$el.querySelector('#flowForm')
-    iframe.contentWindow.addEventListener('load', () => {
-      const iframeAppDom = iframe.contentWindow.document.querySelector('#app') // sourcing vue根DOM
-      if (iframeAppDom) {
-        const appDomObserver = new MutationObserver(() => {
-          const iframeAppContentDom =
-            iframeAppDom.querySelector('#appRouterView') // sourcing vue根一级router-view
-          this.frameHeight = iframeAppContentDom
-            ? iframeAppContentDom.clientHeight || 0
-            : 0
-        })
-        appDomObserver.observe(iframeAppDom, {
-          childList: true,
-          attributes: true,
-          subtree: true
-        })
+  destroyed() {
+    window.removeEventListener('message')
+  },
+  updated() {
+    this.$nextTick(() => {
+      if (this.$refs.iframe) {
+        this.initIframeDomObserver()
       }
     })
   },
-  destroyed() {
-    window.removeEventListener('message')
+  methods: {
+    initIframeDomObserver() {
+      const iframe = this.$el.querySelector('#flowForm')
+      iframe.contentWindow.addEventListener('load', () => {
+        const iframeAppDom = iframe.contentWindow.document.querySelector('#app') // sourcing vue根DOM
+        if (iframeAppDom) {
+          const appDomObserver = new MutationObserver(() => {
+            const iframeAppContentDom =
+              iframeAppDom.querySelector('#appRouterView') // sourcing vue根一级router-view
+            this.autoFrameHeight = iframeAppContentDom
+              ? iframeAppContentDom.clientHeight || 0
+              : 0
+          })
+          appDomObserver.observe(iframeAppDom, {
+            childList: true,
+            attributes: true,
+            subtree: true
+          })
+        }
+      })
+    }
   }
 }
 </script>

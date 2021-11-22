@@ -45,12 +45,14 @@
       ></div>
     </div>
     <div class="btn-button" @click="handleShow">
-      <img src="~@/assets/images/leftContent.png" alt="" />
+      <!-- <img src="~@/assets/images/leftContent.png" alt="" /> -->
+      <img :src="!contentShowFlag? popurIcon : activePopurIcon " alt="" />
     </div>
     <div class="povper-content" v-show="contentShowFlag">
       <div v-for="(list, index) in popoverList" :key="index">
         <div class="item-content" @click="handleClick(list)">
-          {{ list.name }}
+          <div><img src="@/assets/images/partLifyCycle.svg" class="img" /></div>
+          <div class="text">{{ list.name }}</div>
         </div>
       </div>
       <!-- <div class="item-content">零件寿命周期</div>
@@ -68,6 +70,8 @@ import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
 import { popoverList } from './components/data.js'
 import layoutNotify from './components/notify'
+import popurIcon from "@/assets/images/leftContent.png"
+import activePopurIcon from "@/assets/images/active-popur.svg"
 
 export default {
   components: { topLayout, LeftLayout, sideMenu, myModules, layoutNotify },
@@ -103,6 +107,8 @@ export default {
   watch: {
     '$route.path'() {
       this.setActiveMenu()
+      popurIcon,
+      activePopurIcon
     }
   },
   computed: {
@@ -245,16 +251,26 @@ export default {
     background-color: #fff;
     border-radius: 10%;
     box-shadow: 10px 10px 5px #e0e4ec;
-    width: 140px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     .item-content {
-      padding-top: 10px;
-      padding-bottom: 10px;
-      width: 80px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
       cursor: pointer;
+      .img {
+        width: 40px;
+        height: 40px;
+      }
+      .text {
+        font-size: 16px;
+        color: #5F6F8F;
+        margin-left: 20px;
+      }
     }
   }
   .btn-button {

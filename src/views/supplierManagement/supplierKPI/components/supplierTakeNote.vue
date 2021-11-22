@@ -148,18 +148,8 @@ export default {
         console.log(this.personType)
         this.loading = false
         if (res && res.code == 200) {
-          this.tableData =
-           {
-           list: [
-              {
-                actionPlan:
-                  'arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组arr将所有检查内容push进数组varr将所有检查内容push进数组',
-                explanation: '',
-                target: ''
-              },
-              { actionPlan: '', explanation: '', target: '' }
-            ]
-          }
+          this.tableData =res.data
+          
           // arr将所有检查内容push进数组
           let arr = []
           this.tableData.list.forEach(val => {
