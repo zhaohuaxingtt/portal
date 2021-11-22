@@ -363,7 +363,7 @@ export default {
         code: this.isParap ? this.numberP : this.number, // 问题编号
         number: this.isParap ? this.numberP : this.number, // 问题序号
         type: 4, // 问题类型
-        requiredQuestion: "", // 是否必答
+        requiredQuestion: true, // 是否必答
         options: [
           {
             uploadLoading: false,
@@ -588,7 +588,7 @@ export default {
       });
     },
     //上传图片
-    async httpUpload(content) {
+    async httpUpload() {
       // console.log("clickNumber", this.clickNumber);
       this.ruleForm.options[this.clickNumber].uploadLoading = true;
       let formData = new FormData();
@@ -602,7 +602,7 @@ export default {
           ).style.display = "none";
           iMessage.success(this.$t("上传成功！"));
         })
-        .catch((err) => {
+        .catch(() => {
           // iMessage.error("上传失败");
         });
       this.ruleForm.options[this.clickNumber].uploadLoading = false;
