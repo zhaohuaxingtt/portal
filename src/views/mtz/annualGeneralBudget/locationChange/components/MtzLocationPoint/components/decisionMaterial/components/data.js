@@ -38,7 +38,7 @@ export const formList = [
     prop: 'appName'
   },
   {
-    key: 'LINIEXIAOXIE',
+    key: 'LINIE',
     label: 'Linie',
     prop: 'linieName'
   },
