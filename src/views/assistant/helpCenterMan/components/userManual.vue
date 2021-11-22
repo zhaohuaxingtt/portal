@@ -35,7 +35,8 @@
 </template>
 
 <script>
-    import { iButton, iEditor, iUpload } from "rise"
+    import { iButton, iUpload } from "rise"
+    import iEditor from "@/components/iEditor"
     
     export default {
         components: {
@@ -89,12 +90,15 @@
     flex: 1;
     margin-top: 40px;
     overflow: hidden;
-    ::v-deep .editor{
+    ::v-deep .quillWrapper{
         height: 100%;
         display: flex;
         flex-direction: column;
         border: 1px solid #eee;
-        .w-e-text-container{
+        #quill-container{
+            overflow: hidden;
+        }
+        .ql-editor{
             flex: 1;
         }
     }
