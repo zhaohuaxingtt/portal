@@ -19,7 +19,7 @@
       </el-select>
     </div>
     <div class="pie-container" ref="pie" style="height: 180px"></div>
-    <div class="bar-container" ref="bar" style="height: 240px"></div>=
+    <div class="bar-container" ref="bar" style="height: 240px"></div>
   </div>
 </template>
 <script>
