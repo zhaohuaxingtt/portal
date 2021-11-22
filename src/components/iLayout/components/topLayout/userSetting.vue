@@ -146,8 +146,11 @@ export default {
     //模拟退出登录方法
     logout() {
       removeToken()
-      window.location.href = '/login'
-      window.location.reload()
+      if (['vsmit', 'dev'].includes(process.env.NODE_ENV)) {
+        window.location.href = '/portal/#/login'
+      } else {
+        window.location.href = `https://sidpdev.csvw.com/esc-sso/logout?redirectBack=true&redirectUrl=${process.env.VUE_APP_HOST}/umc/sso/sidp`
+      }
     },
     handleProfileClick(menu) {
       if (menu.name === 'logout') {
