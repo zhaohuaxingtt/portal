@@ -20,7 +20,7 @@
         <div class="inforDiv"
              v-for="(item,index) in formList"
              :key="index">
-          <span>{{language(item.key,item.name)}}</span>
+          <span>{{language(item.key,item.label)}}</span>
           <iInput :disabled="true"
                   class="inforText"
                   v-model="formData[item.prop]"
@@ -37,6 +37,12 @@
           :tableLoading="loading"
           :index="true"
           :selection="false">
+          <template slot-scope="scope" slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
+          <template slot-scope="scope" slot="thresholdCompensationLogic">
+            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
         </tableList>
              <!-- <tableList
           class="margin-top20"
@@ -67,6 +73,12 @@
           :tableLoading="loading"
           :index="true"
           :selection="false">
+          <template slot-scope="scope" slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
+          <template slot-scope="scope" slot="thresholdCompensationLogic">
+            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
         </tableList>
           <!-- <tableList
           class="margin-top20"
