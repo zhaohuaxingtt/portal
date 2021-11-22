@@ -633,8 +633,10 @@ export default {components: {
                     ttMtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
                 }).then(res=>{
                     if(res.code == 200 && res.result){
-                        iMessage.success(res.desZh)
+                        iMessage.success(this.language(res.desEn,res.desZh))
                         this.$emit("addDialogGZ","")
+                    }else{
+                        iMessage.error(this.language(res.desEn,res.desZh))
                     }
                 })
             } else {

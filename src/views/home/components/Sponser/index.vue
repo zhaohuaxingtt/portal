@@ -18,9 +18,8 @@
         </el-option>
       </el-select>
     </div>
-    <div class="pie-container" ref="pie" style="height: 180px"></div>
-    <div class="bar-container" ref="bar" style="height: 240px"></div>
-    =
+    <div class="pie-container" ref="pie" style="height: 190px"></div>
+    <div class="bar-container" ref="bar" style="height: 230px"></div>
   </div>
 </template>
 <script>
@@ -261,12 +260,19 @@ export default {
             orient: 'vertical',
             icon: 'circle',
             itemHeight: 8,
-            type: 'scroll',
-            // textStyle: {
-            //   fontSize: 10
-            // },
-            data: data
-          }
+            type: 'plain',
+            data: data,
+            tooltip: {
+              show: true,
+              formatter: function (data) {
+                let name = data.name.split( /\s+/)[0]
+                return `${name}:<br/>
+                ${total}家<br/>
+                ${String((data.num / total)) === 'NaN' ? '0.00' : ((data.num / total).toFixed(2) * 100).toFixed(2)}%
+                `
+              }
+            }
+          } 
         ],
         series: [
           {
@@ -313,29 +319,39 @@ export default {
     mergeOptions(newLegends) {
       let _that = this
       const option = {
-        tooltip: {
-          trigger: 'item'
-          // formatter: function (data) {
-          //   let name = data.data.name.split( /\s+/)[0]
-          //   return `${name}:<br/>
-          //   ${_that.total}家<br/>
-          //   ${(data.data.num / _that.total).toFixed(2) * 100}.00%
-          //   `
-          // }
-        },
+        // tooltip: {
+        //   trigger: 'item',
+        //   formatter: function (data) {
+        //     let name = data.data.name.split( /\s+/)[0]
+        //     return `${name}:<br/>
+        //     ${_that.total}家<br/>
+        //     ${String((data.data.num / _that.total)) === 'NaN' ? '0.00' : ((data.data.num / _that.total).toFixed(2) * 100).toFixed(2)}%
+        //     `
+        //   }
+        // },
         legend: [
           {
             left: '60%',
             orient: 'vertical',
             icon: 'circle',
             itemHeight: 8,
-            type: 'scroll',
+            type: 'plain',
             // textStyle: {
             //   fontSize: 10
             // },
-            data: newLegends
+            data: newLegends,
+            tooltip: {
+              show: true,
+              formatter: function (data) {
+                let name = data.name.split( /\s+/)[0]
+                return `${name}:<br/>
+                ${_that.total}家<br/>
+                ${String((data.num / _that.total)) === 'NaN' ? '0.00' : ((data.num / _that.total).toFixed(2) * 100).toFixed(2)}%
+                `
+              }
+            }
           }
-        ],
+        ], 
         series: [
           {
             type: 'pie',
@@ -419,10 +435,10 @@ export default {
             //   }
             // ]
             style: {
-              fill: '#7E84A3',
-              text: 'C-Rating数量:' + 36 + '\nC-Rating比例:60%',
-              font: '7px sans-serif'
-            }
+                  fill: '#7E84A3',
+                  text: 'C-Rating数量:36\n'+'\nC-Rating比例:60%',
+                  font: '7px sans-serif'
+                }
           }
         ],
         series: [
@@ -501,7 +517,7 @@ export default {
   }
   .bar-container {
     z-index: 1;
-    margin-top: -15px;
+    margin-top: -20px;
   }
   .Rating {
     position: absolute;
