@@ -17,7 +17,7 @@
       marginheight="0"
       scrolling="no"
       allowtransparency="yes"
-      :style="{ height: frameHeight }"
+      :style="{ height: autoFrameHeight || frameHeight }"
     />
   </div>
 </template>
@@ -46,7 +46,8 @@ export default {
   },
   data() {
     return {
-      frameHeight: '500px'
+      frameHeight: '500px',
+      autoFrameHeight: '0px'
     }
   },
   watch: {
@@ -93,9 +94,9 @@ export default {
           const appDomObserver = new MutationObserver(() => {
             const iframeAppContentDom =
               iframeAppDom.querySelector('#appRouterView') // sourcing vue根一级router-view
-            this.frameHeight = iframeAppContentDom
+            this.autoFrameHeight = iframeAppContentDom
               ? iframeAppContentDom.clientHeight || 0
-              : 0
+              : 0 + "px"
           })
           appDomObserver.observe(iframeAppDom, {
             childList: true,
