@@ -69,8 +69,7 @@
               @change="changeState(scope.row)"
           >
           </el-switch>
-        </template
-        >
+        </template>
       </el-table-column>
     </iTableML>
     <iPagination

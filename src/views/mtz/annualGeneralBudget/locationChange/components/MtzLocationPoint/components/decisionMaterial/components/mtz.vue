@@ -16,15 +16,18 @@
           <iButton v-if="RsObject && formData.flowTypeName == '流转'" @click="handleToSignPreview">{{language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')}}</iButton>
         </span>
       </div>
-      <el-form ref="form" :model="formData" label-width="140px" label-position="left">
-        <el-row :gutter="20">
-          <el-col :span="8" v-for="item in formList" :key="item.prop">
-            <el-form-item :label="language(item.key ,item.label)" style="width: 70%;">
-              <el-input v-model="formData[item.prop]" disabled></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
+
+      <div class="tabsBoxInfor">
+        <div class="inforDiv"
+             v-for="(item,index) in formList"
+             :key="index">
+          <span>{{language(item.key,item.name)}}</span>
+          <iInput :disabled="true"
+                  class="inforText"
+                  v-model="formData[item.prop]"
+                  ></iInput>
+        </div>
+      </div>
       <el-divider/>
       <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}</p>
         <tableList
@@ -72,16 +75,18 @@
     </iCard>
     <iCard class="margin-top20">
       <div slot="header" class="headBox">
-        <p v-if="isMeeting" class="headTitle">{{language('SHANGHUIBEIZHU', '上会备注')}}</p>
-        <p v-if="isSign" class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p>
+        <p v-if="isMeeting" class="headTitle">{{language('BEIZHU', '备注')}}</p>
+        <p v-if="isSign" class="headTitle">{{language('BEIZHU', '备注')}}</p>
+        <!-- <p v-if="isSign" class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p> -->
         <span class="buttonBox">
           <iButton v-if="RsObject" @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
         </span>
       </div>
-      <p v-if="isMeeting">{{language('LINEIESHANGHUIBEIZHU', 'LINIE上会备注')}}</p>
-      <p v-if="isSign">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
+      <!-- <p v-if="isMeeting">{{language('LINEIESHANGHUIBEIZHU', 'LINIE上会备注')}}</p> -->
+      <!-- <p v-if="isSign">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p> -->
       <iInput v-if="isMeeting" v-model="formData.linieMeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
-      <iInput v-if="isSign" v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
+      <iInput v-if="isSign" v-model="formData.linieMeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
+      <!-- <iInput v-if="isSign" v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/> -->
     </iCard>
     <iCard v-if="isMeeting" class="margin-top20">
       <p>{{language('SHENQINGRIQI', '申请日期')}}: 2020-01-01</p>
@@ -360,6 +365,8 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+$tabsInforHeight: 35px;
+
 .tableTitle {
   display: inline-block;
   font-weight: bold;
@@ -386,9 +393,9 @@ export default {
 }
 .applayDateBox1{
   display:flex;
-  justify-content: space-between;
   align-items: center;
   flex-flow: wrap;
+  margin-top:20px;
 }
 .applayDateBox {
   overflow-x: scroll;
@@ -415,9 +422,36 @@ export default {
     display: inline-block;
     background-color: #CDD4E2;
     height: 178px;
-    width: 224px;
-    margin: 0 10px;
+    width: 16%;
+    margin: 10px 0.3% 0;
     border-radius: 15px;
     text-align: center;
+}
+
+.tabsBoxInfor {
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+  .inforDiv {
+    width: 29%;
+    height: $tabsInforHeight;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0;
+    margin-bottom: 20px;
+    span {
+      font-size: 15px;
+    }
+    .inforText {
+      font-size: 14px;
+      width: 68%;
+      background: #f8f8fa;
+      text-align: center;
+      height: $tabsInforHeight;
+      line-height: $tabsInforHeight;
+    }
+  }
 }
 </style>
