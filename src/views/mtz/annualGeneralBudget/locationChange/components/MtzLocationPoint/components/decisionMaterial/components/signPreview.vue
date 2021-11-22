@@ -20,7 +20,7 @@
         <div class="inforDiv"
              v-for="(item,index) in formList"
              :key="index">
-          <span>{{language(item.key,item.name)}}</span>
+          <span>{{language(item.key,item.label)}}</span>
           <iInput :disabled="true"
                   class="inforText"
                   v-model="formData[item.prop]"

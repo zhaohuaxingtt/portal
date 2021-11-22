@@ -263,7 +263,7 @@ export default {
         code: this.isParap ? this.numberP : this.number, // 问题编号
         number: this.isParap ? this.numberP : this.number, // 问题序号
         type: 1, // 问题类型
-        requiredQuestion: "", // 是否必答
+        requiredQuestion: true, // 是否必答
         options: [
           {
             number: 1, // 选项序号
