@@ -32,6 +32,7 @@
       :stripe="stripe"
       :header-cell-class-name="handleHeaderCellClassName"
       @row-click="rowClick"
+      border
     >
       <template v-for="(item, index) in tableVisibleColumns">
         <el-table-column
@@ -417,7 +418,7 @@ export default {
       settingVisible: false,
       tooltipContent: '',
       settingId: '',
-      emitLabel:[]
+      emitLabel: []
     }
   },
   watch: {
@@ -436,12 +437,12 @@ export default {
     this.setDefaultDefaultCheckedKeys()
     this.getTableData()
   },
-  mounted(){
+  mounted() {
     this.emitLabel = this.tableVisibleColumns.map((ele) => {
-        if(ele.emit){
-          return ele.label
-        }
-      })
+      if (ele.emit) {
+        return ele.label
+      }
+    })
   },
   methods: {
     handleHeaderCellClassName({ columnIndex }) {
@@ -562,8 +563,7 @@ export default {
       return res
     },
     handleCellClick(row, column) {
-      if(!this.emitLabel.includes(column.label)){
-        
+      if (!this.emitLabel.includes(column.label)) {
         this.$refs.theCustomTable.toggleRowSelection(row)
       }
       if (this.treeExpand) {
