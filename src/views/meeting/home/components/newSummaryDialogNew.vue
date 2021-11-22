@@ -59,7 +59,10 @@
                 'agenda-item'
               ]"
             >
-              <div class="agenda-item-title" @click="chooseItem(index + 1)">
+              <div
+                class="agenda-item-title"
+                @click="chooseItem(index + 1, item)"
+              >
                 <div class="title-left">
                   <div class="title-index">{{ numToLetter[index + 1] }}</div>
                   <div class="title-name">{{ item.topic }}</div>
@@ -87,7 +90,15 @@
                   />
                 </iFormItem>
                 <p class="task">
-                  Result：{{ conclusionCscList[item.conclusionCsc] }}
+                  Result：{{
+                    item.conclusionCsc === '01'
+                      ? conclusionCscList[item.conclusionCsc]
+                      : item.conclusionCsc === '02'
+                      ? conclusionCscList[item.conclusionCsc]
+                      : item.conclusionCsc === '07'
+                      ? conclusionCscList[item.conclusionCsc]
+                      : ''
+                  }}
                 </p>
                 <iFormItem class="meet-desc">
                   <el-table
@@ -159,7 +170,7 @@
                 </iFormItem>
               </div>
             </li>
-          </ul>   
+          </ul>
         </div>
         <div class="button-list">
           <el-form-item>
@@ -283,6 +294,7 @@ export default {
       }
     },
     taskUserResult(item) {
+      console.log('6666666666666666666666666')
       let supporter = this.employeeDTOS?.filter(
         (e) => e.id === item.supporter
       )[0] || { name: '' }
@@ -335,7 +347,9 @@ export default {
     handleCancel() {
       this.$emit('handleCancel')
     },
-    chooseItem(e) {
+    chooseItem(e, o) {
+      console.log('o', o)
+      // this.taskUserResult()
       if (this.choosedIndex == e) {
         this.choosedIndex = -1
       } else {
