@@ -808,7 +808,14 @@ export default {
         })
     },
     locationClick(){
-        this.quoteDialog = true;
+        // iMessageBox(this.language('CCZJSCNYWHDSYLJZSJBGJDDSQDZDYMTZSXDLJDYDGYSJCGYSSYXGGZTJZMTZYCLGZLB','此操作将删除您已维护的所有零件主数据，并根据定点申请单中带有MTZ属性的零件对应的供应商将此供应商所有相关规则添加至MTZ原材料规则列表，是否继续？'),this.language('LK_WENXINTISHI','温馨提示'),{
+        //     confirmButtonText: this.language('QUEREN', '确认'),
+        //     cancelButtonText: this.language('QUXIAO', '取消')
+        // }).then(res=>{
+            this.quoteDialog = true;
+        // }).catch(res=>{
+            
+        // })
     },
     historyClick(){
         this.historyType = true;

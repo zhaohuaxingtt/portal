@@ -5,7 +5,7 @@
         <div class="row">
           <div class="meeting-type">
             <div class="name">会议名称</div>
-            <div class="name-content">
+            <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
             <iButton
@@ -1540,16 +1540,12 @@ export default {
         id: this.meetingInfo.id,
         state: '02'
       }
-      changeStateMeeting(param)
-        .then(() => {
-          iMessage.success('开放会议成功！')
-          // this.refreshTable();
-          this.flushTable()
-          this.getMeetingTypeObject()
-        })
-        .catch(() => {
-          iMessage.error('开放会议失败！')
-        })
+      changeStateMeeting(param).then(() => {
+        iMessage.success('开放会议成功！')
+        // this.refreshTable();
+        this.flushTable()
+        this.getMeetingTypeObject()
+      })
       // });
     },
     endMeeting() {
@@ -1850,14 +1846,17 @@ export default {
     .meeting-type {
       display: flex;
       font-size: 20px;
-
+      line-height: 35px;
       .name {
         color: #727272;
-
         margin-right: 20px;
       }
 
       .name-content {
+        max-width: 500px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         color: #000;
         margin-right: 10px;
       }

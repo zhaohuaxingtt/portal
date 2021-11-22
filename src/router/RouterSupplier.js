@@ -140,7 +140,7 @@ export default [{
 },
 {
   path: '/supplier/supplierKeyNote',
-  name: 'supplierTakeNote',
+  name: 'supplierKeyNote',
   component: () =>
     import('@/views/supplierManagement/supplierKPI/components/supplierKeyNote')
 },
