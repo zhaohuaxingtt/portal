@@ -291,7 +291,15 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_PARTLIFECYCLEAPI]: ''
         }
-      }
+      },
+      // 用户助手中心
+      [process.env.VUE_APP_USER_ASSISTANT]: {
+        target: `http://${BASE_IP}:8059`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
+        }
+      },
     }
   }
 }
