@@ -182,7 +182,7 @@ module.exports = {
       },
       // ------------------ 上传 ----------------------------
       [process.env.VUE_APP_FILEAPI]: {
-        target: `http://${BASE_IP}:8034/fileud`,
+        target: `http://${BASE_IP}:8034/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_FILEAPI]: ''
