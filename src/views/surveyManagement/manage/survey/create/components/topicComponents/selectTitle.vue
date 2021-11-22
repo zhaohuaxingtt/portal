@@ -244,7 +244,7 @@
 </template>
 
 <script>
-import { iLabel, iSelect, iInput, iFormItem, iButton, iMessage } from "rise";
+import { iLabel, iSelect, iInput, iFormItem, iButton } from "rise";
 import surveyMobile from "@/assets/images/survey/survey-mobile.svg";
 
 export default {
@@ -309,7 +309,7 @@ export default {
         code: this.isParap ? this.numberP : this.number, // 问题编号
         number: this.isParap ? this.numberP : this.number, // 问题序号
         type: 2, // 问题类型
-        requiredQuestion: "", // 是否必答
+        requiredQuestion: true, // 是否必答
         // multipleRule: {
         //   most: "",
         //   least: 1,

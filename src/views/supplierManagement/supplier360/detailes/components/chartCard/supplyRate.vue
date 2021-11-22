@@ -3,13 +3,11 @@
     <div class="title">
       <p>{{language('PEIFUJIANGONGHUOLV', '配附件供货率')}}</p>
     </div>
-    
-    <div class="box">
-       <img :src="img"
-           class="imgIcon" />
 
-      <div ref="chart"
-           class="chartStyle"> </div>
+    <div class="box">
+      <img :src="img" class="imgIcon" />
+
+      <div ref="chart" class="chartStyle"></div>
     </div>
   </iCard>
 </template>
@@ -49,7 +47,7 @@ export default {
     }
   },
   mounted() {
-   
+
   },
   methods: {
     getData() {
@@ -90,7 +88,18 @@ export default {
         },
 
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          formatter:function(data){
+
+              let str=''
+              let val=''
+              data.forEach(res=>{
+                      val= (Number(res.data)*100).toFixed(2) +"%"
+                  str+=res.marker+res.seriesName+':'+val +'<br>'
+              })
+              return str
+
+          }
         },
         grid: {
           top: '18%',
@@ -102,6 +111,7 @@ export default {
           type: 'category',
           data: data3,
           axisLabel: {
+              interval:0,
             show: true,
             textStyle: {
               color: '#7E84A3',
@@ -171,9 +181,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.imgIcon{
-    width: 60px;
-    height: 60px;
+.imgIcon {
+  width: 60px;
+  height: 60px;
 }
 .title {
   display: flex;
