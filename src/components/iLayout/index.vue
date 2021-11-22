@@ -101,14 +101,14 @@ export default {
       menuModelVisible: false,
       popoverList,
       contentShowFlag: false,
-      activeMenu: []
+      activeMenu: [],
+      popurIcon,
+      activePopurIcon
     }
   },
   watch: {
     '$route.path'() {
       this.setActiveMenu()
-      popurIcon,
-      activePopurIcon
     }
   },
   computed: {
