@@ -49,6 +49,14 @@ export default {
       },
       component: Login
     },
+    {
+      path: '/superLogin',
+      name: 'login',
+      meta: {
+        title: '登录'
+      },
+      component: Login
+    },
     ...RouterSupplierApprove,
     ...RouterExternal,
     {
@@ -166,6 +174,6 @@ export default {
   ],
 
   authType: 'white', //白名单 white 可以跳过登录 | 黑名单 black 不可以跳过登录
-  whiteList: [/^\/login/],
+  whiteList: [/^\/login/,/^\/superLogin/],
   blackList: []
 }

@@ -7,27 +7,30 @@
  * @FilePath: \rise\src\views\login\index.vue
 -->
 <template>
-  <div class="login">
+  <div v-if="ssoLogin">
+    <div>Loading...to redirect...</div>
+  </div>
+  <div v-else class="login">
     <div class="title">RISE</div>
     <div class="content">
       <el-form :rules="rules">
         <el-form-item :label="$t('LK_YONGHUMING')">
           <el-input
-            v-model="userName"
-            autocomplete="off"
-            :readonly="readonly"
-            @focus="stopAutoComplate"
-            @keyup.enter.native="login"
+              v-model="userName"
+              autocomplete="off"
+              :readonly="readonly"
+              @focus="stopAutoComplate"
+              @keyup.enter.native="login"
           ></el-input>
         </el-form-item>
         <el-form-item :label="$t('LK_MIMA')">
           <el-input
-            v-model="passWord"
-            autocomplete="off"
-            type="password"
-            :readonly="readonly"
-            @focus="stopAutoComplate"
-            @keyup.enter.native="login"
+              v-model="passWord"
+              autocomplete="off"
+              type="password"
+              :readonly="readonly"
+              @focus="stopAutoComplate"
+              @keyup.enter.native="login"
           ></el-input>
         </el-form-item>
       </el-form>
@@ -39,9 +42,9 @@
   </div>
 </template>
 <script>
-import { iMessage } from 'rise'
-import { login } from '@/api/usercenter'
-import { setToken } from '@/utils'
+import {iMessage} from 'rise'
+import {login} from '@/api/usercenter'
+import {setToken} from '@/utils'
 
 export default {
   data() {
@@ -49,14 +52,15 @@ export default {
       userName: '',
       passWord: '',
       readonly: true,
-      loading: false
+      loading: false,
+      ssoLogin: false
     }
   },
   watch: {
-    passWord: function(val) {
+    passWord: function (val) {
       if (val === '') this.stopAutoComplate()
     },
-    userName: function(val) {
+    userName: function (val) {
       if (val === '') this.stopAutoComplate()
     }
   },
@@ -66,23 +70,33 @@ export default {
         return iMessage.error(this.$t('LK_YONGHUMINGHUOMIMABUNENGWEIKONG'))
       }
       this.loading = true
-      login({ userName: this.userName, passWord: this.passWord })
-        .then(async res => {
-          this.loading = false
-          await setToken(res.data.token)
-          this.$router
-            .replace({
-              path: '/index'
-            })
-            .catch(err => console.log(err))
-        })
-        .finally(() => {
-          this.loading = false
-        })
+      login({userName: this.userName, passWord: this.passWord})
+          .then(async res => {
+            this.loading = false
+            await setToken(res.data.token)
+            this.$router
+                .replace({
+                  path: '/index'
+                })
+                .catch(err => console.log(err))
+          })
+          .finally(() => {
+            this.loading = false
+          })
     },
     stopAutoComplate() {
       this.readonly = true
       setTimeout(() => (this.readonly = false), 10)
+    }
+  },
+  created() {
+    if (this.$route.path.indexOf('superLogin') > -1) {
+      //nothing to do
+    } else {
+      if (process.env.VUE_APP_LOGIN_URL) {
+        this.ssoLogin = true;
+        location.href = process.env.VUE_APP_LOGIN_URL;
+      }
     }
   }
 }

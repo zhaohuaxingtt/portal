@@ -32,7 +32,7 @@ export function uploadFileWithNoToken(parmars) {
 
 export function uploadFileWithNOTokenTwo(data) {
   return filedud_requst({
-    url: '/udSingleFile',
+    url: '/fileud/udSingleFile',
     method: 'POST',
     data: data
   })
@@ -65,7 +65,7 @@ export function uploadUdFile(params) {
     url: `/fileudApi/udMutilfilesController`,
     method: 'POST',
     data: formData
-  }).then(res => {
+  }).then((res) => {
     if (Array.isArray(res) || res.length > 0) {
       return {
         code: 200,
