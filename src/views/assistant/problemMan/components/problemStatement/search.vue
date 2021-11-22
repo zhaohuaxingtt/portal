@@ -62,7 +62,12 @@ export default {
       searchForm: {
         code: '',
       },
-      options: [],
+      options: [
+        {
+          code: '1',
+          value: '张三',
+        }
+      ],
       startTimeOptions: {
         disabledDate (time) {
           return (

@@ -12,9 +12,7 @@ export const tableColumn = (c) => {
     {
       prop: 'userNum',
       label: '负责模块',
-      i18n: 'staffManagement.EMPLOYEENUMBER',
-      align: 'center',
-      emit: 'go-detail'
+      align: 'center'
     },
     {
       prop: 'name',
@@ -22,17 +20,38 @@ export const tableColumn = (c) => {
       align: 'center',
       customRender: (h, scope) => {
         if (c.selectionRowIds.includes(scope.row.id)) {
-          return 'TODO'
+          console.log(c.nameForm.name, '???')
+          return (
+            <el-form model={c.nameForm}>
+              <iFormItem>
+                <iSelect
+                  model={c.nameForm.name}
+                  filterable
+                  placeholder="请选择"
+                  onChange={c.changeNameHandler}
+                >
+                  {c.nameList.map((item) => {
+                    return (
+                      <el-option
+                        key={item.id}
+                        label={item.name}
+                        value={item.id}
+                      ></el-option>
+                    )
+                  })}
+                </iSelect>
+              </iFormItem>
+            </el-form>
+          )
         } else {
-          return <span class="open-link-text">{scope.row.name}</span>
+          return <span>{scope.row.name}</span>
         }
       }
     },
     {
-      prop: 'positionList',
-      label: '更新时间',
+      prop: 'nameEn',
+      label: '添加日期',
       align: 'center',
-      i18n: 'staffManagement.JOBS',
       tooltip: true
     }
   ]
