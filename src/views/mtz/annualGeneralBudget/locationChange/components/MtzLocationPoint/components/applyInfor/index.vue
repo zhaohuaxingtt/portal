@@ -317,15 +317,23 @@ export default {
       }).then(res=>{
         if(res.code == 200 && res.result){
           var jumpData = res.data.records[0];
-          this.$router.push({
-            path: "/designate/decisiondata/rs",
-            query: {
-              desinateId:jumpData.id,
-              designateType:jumpData.nominateProcessType,
-              partProjType:jumpData.partProjType,
-              applicationStatus:jumpData.applicationStatus,
-            }
-          })
+          var partProjType = "";
+          if(jumpData.partProjType == null){
+            partProjType = ""
+          }else{
+            partProjType = jumpData.partProjType
+          }
+          window.open("http://" + window.location.host + "/sourcing/#/designate/decisiondata/rs?desinateId=" + jumpData.id + "&designateType=" + jumpData.nominateProcessType + "&partProjType" + partProjType + "&applicationStatus=" + jumpData.applicationStatus)
+
+          // this.$router.push({
+          //   path: "/designate/decisiondata/rs",
+          //   query: {
+          //     desinateId:jumpData.id,
+          //     designateType:jumpData.nominateProcessType,
+          //     partProjType:jumpData.partProjType,
+          //     applicationStatus:jumpData.applicationStatus,
+          //   }
+          // })
         }else{
           iMessage.error(this.language(res.desEn,res.desZh))
         }
