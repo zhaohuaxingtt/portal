@@ -61,11 +61,11 @@
                   v-else></iInput>
         </div>
       </div>
-      <span style="display:block;margin-bottom:20px;">Linie上会备注</span>
+      <span style="display:block;margin-bottom:20px;">{{language("LINIEBEIAN","Linie备注")}}</span>
       <el-input :disabled="disabled"
                 type="textarea"
                 :rows="4"
-                placeholder="请输入备注"
+                :placeholder="language('QINGSHURUBEIAN','请输入备注')"
                 v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
     <theTabs v-if="!beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"></theTabs>
