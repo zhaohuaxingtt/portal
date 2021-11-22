@@ -8,8 +8,6 @@
       :loading="tableLoading"
       :data="tableListData"
       :columns="tableSetting"
-      @go-detail="handleGoDetail"
-      @handle-selection-change="handleSelectionChange"
     />
     <iPagination
       v-update
@@ -41,7 +39,7 @@ export default {
           account:1234,
         }
       ],
-      tableSetting:tableColumn(this),
+      tableSetting:tableColumn,
     }
   },
   methods: {
