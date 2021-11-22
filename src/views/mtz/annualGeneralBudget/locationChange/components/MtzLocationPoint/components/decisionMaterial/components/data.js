@@ -358,5 +358,5 @@ export const partTableTitle2 = [
 export const uploadTableTitle = [
   { props: 'fileName', name: '文件名', key: 'WENJIANMING' },
   { props: 'createDate', name: '上传日期', key: 'SHANGCHUANRIQI' },
-  { props: 'createBy', name: '上传人', key: 'SHANGCHUANREN' }
+  { props: 'createByName', name: '上传人', key: 'SHANGCHUANREN' }
 ]
