@@ -625,10 +625,20 @@ export default {
     },
     createStateFilter(queryString) {
       return (state) => {
-        return state?.name
-          ?.toLowerCase()
-          .toString()
-          .includes(queryString.toLowerCase().toString())
+        return (
+          state?.name
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state?.email
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state?.namePinyin
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString())
+        )
       }
     },
 
