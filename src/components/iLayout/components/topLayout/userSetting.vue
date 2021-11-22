@@ -146,7 +146,7 @@ export default {
     //模拟退出登录方法
     logout() {
       removeToken()
-      if (['vsmit', 'dev'].includes(process.env.NODE_ENV)) {
+      if (['vmsit', 'dev'].includes(process.env.NODE_ENV.toLowerCase())) {
         window.location.href = '/portal/#/login'
       } else {
         window.location.href = `https://eidpdev.csvw.com/esc-sso/logout?redirectBack=true&redirectUrl=${process.env.VUE_APP_HOST}/umc/sso/eidp`
