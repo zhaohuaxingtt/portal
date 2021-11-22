@@ -17,7 +17,7 @@
       marginheight="0"
       scrolling="no"
       allowtransparency="yes"
-      :style="{ height: autoFrameHeight || frameHeight }"
+      :style="{ height: autoFrameHeight ? autoFrameHeight + 'px' : frameHeight }"
     />
   </div>
 </template>
@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       frameHeight: '500px',
-      autoFrameHeight: '0px'
+      autoFrameHeight: 0
     }
   },
   watch: {
@@ -96,7 +96,7 @@ export default {
               iframeAppDom.querySelector('#appRouterView') // sourcing vue根一级router-view
             this.autoFrameHeight = iframeAppContentDom
               ? iframeAppContentDom.clientHeight || 0
-              : 0 + "px"
+              : 0
           })
           appDomObserver.observe(iframeAppDom, {
             childList: true,
