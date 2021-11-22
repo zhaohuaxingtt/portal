@@ -76,6 +76,7 @@ export default {
     }
   },
   created() {
+      console.log(window.parent)
         if (window.top === window.self) {
       this.ifSelf = true
     } else {
