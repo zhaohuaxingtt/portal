@@ -29,7 +29,7 @@
                 <span>只能上传不超过20MB的文件</span>
                 <iUpload v-show="false" ref="upload" @callback="uploadChange" />
             </div>
-            <div>{{file}}</div>
+            <FileList v-for="(f,i) in files" :key="i" :file="f" @del="delFile"></FileList>
         </template>
     </div>
 </template>
@@ -37,18 +37,22 @@
 <script>
     import { iButton, iUpload } from "rise"
     import iEditor from "@/components/iEditor"
+    import FileList from "./fileList"
     
     export default {
         components: {
             iButton,
             iEditor,
-            iUpload
+            iUpload,
+            FileList
         },
         data() {
             return {
                 type:"detail",
                 content:"",
-                file:"",
+                files:[
+                    {name:'1.png'}
+                ],
                 preview:false
             }
         },
@@ -60,6 +64,9 @@
                 console.log(file+'-------');
             },
             save(){
+                
+            },
+            delFile(file){
                 
             }
         },

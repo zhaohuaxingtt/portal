@@ -1,25 +1,36 @@
 <template>
     <div class="file-list">
-        <div>name</div>
-        <i class="close el-icon-close"></i>
+        <div>{{file.name}}</div>
+        <i class="close el-icon-close" @click="$emit('del',file)"></i>
     </div>
 </template>
 
 <script>
     export default {
-        
+        props:{
+            file:{
+                type: Object,
+                default: () => {}
+            }
+        }
     }
 </script>
 
 <style lang="scss" scoped>
 .file-list{
+    padding: 2px 8px;
     display: flex;
     align-items: flex-end;
     margin: 10px 0;
-    max-width: 300px;
+    max-width: 500px;
+    min-width: 200px;
     justify-content: space-between;
+    transition: all .3s ease;
+    background-color: #a0bffc46;
+    border-radius: 4px;
 }
 .close{
+    padding: 2px;
     margin-left: 30px;
     cursor: pointer;
     border-radius: 50%;
@@ -27,7 +38,7 @@
     opacity: .5;
 
     &:hover{
-        opacity: 1;
+        opacity: .9;
     }
 }
 </style>

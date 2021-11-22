@@ -32,7 +32,7 @@
                     <iUpload v-show="false" ref="upload" :fileIds="fileIds" :extraData="extraData" @callback="handelCallback" />
                 </div>
             </div>
-            <FileList></FileList>
+            <FileList v-for="(f,i) in files" :key="i" :file="f" @del="delFile"></FileList>
         </div>
         <div slot="footer">
             <iButton>上 传</iButton>
@@ -71,7 +71,10 @@
                     tag:"",
                     desc:"",
                     answer:""
-                }
+                },
+                files:[
+                    {name:'123.png'}
+                ]
             }
         },
         methods: {
@@ -83,6 +86,9 @@
             },
             upload(){
                 this.$refs.upload.$el.querySelector("input[type='file']").click()
+            },
+            delFile(file){
+                console.log(file);
             }
         }
     }
