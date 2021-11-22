@@ -75,16 +75,18 @@
     </iCard>
     <iCard class="margin-top20">
       <div slot="header" class="headBox">
-        <p v-if="isMeeting" class="headTitle">{{language('SHANGHUIBEIZHU', '上会备注')}}</p>
-        <p v-if="isSign" class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p>
+        <p v-if="isMeeting" class="headTitle">{{language('BEIZHU', '备注')}}</p>
+        <p v-if="isSign" class="headTitle">{{language('BEIZHU', '备注')}}</p>
+        <!-- <p v-if="isSign" class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p> -->
         <span class="buttonBox">
           <iButton v-if="RsObject" @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
         </span>
       </div>
-      <p v-if="isMeeting">{{language('LINEIESHANGHUIBEIZHU', 'LINIE上会备注')}}</p>
-      <p v-if="isSign">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
+      <!-- <p v-if="isMeeting">{{language('LINEIESHANGHUIBEIZHU', 'LINIE上会备注')}}</p> -->
+      <!-- <p v-if="isSign">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p> -->
       <iInput v-if="isMeeting" v-model="formData.linieMeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
-      <iInput v-if="isSign" v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
+      <iInput v-if="isSign" v-model="formData.linieMeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
+      <!-- <iInput v-if="isSign" v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/> -->
     </iCard>
     <iCard v-if="isMeeting" class="margin-top20">
       <p>{{language('SHENQINGRIQI', '申请日期')}}: 2020-01-01</p>
