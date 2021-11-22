@@ -37,6 +37,10 @@ export default {
         {
           id: 1,
           account:1234,
+        },
+        {
+          id: 2,
+          account:1254,
         }
       ],
       tableSetting:tableColumn,
