@@ -149,7 +149,7 @@ export default {
       if (['vsmit', 'dev'].includes(process.env.NODE_ENV)) {
         window.location.href = '/portal/#/login'
       } else {
-        window.location.href = `https://sidpdev.csvw.com/esc-sso/logout?redirectBack=true&redirectUrl=${process.env.VUE_APP_HOST}/umc/sso/sidp`
+        window.location.href = `https://eidpdev.csvw.com/esc-sso/logout?redirectBack=true&redirectUrl=${process.env.VUE_APP_HOST}/umc/sso/eidp`
       }
     },
     handleProfileClick(menu) {
