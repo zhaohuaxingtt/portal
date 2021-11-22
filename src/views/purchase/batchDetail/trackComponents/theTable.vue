@@ -13,7 +13,7 @@
                 </div>
                 <div v-else>
                     <!--退出编辑-->
-                    <iButton @click="exitEdit">{{ $t('APPROVAL.EXIT_EDIT') }}</iButton>
+                    <iButton @click="exitEdit">{{ $t('APPROVAL.CANCEL') }}</iButton>
                     <!--保存-->
                     <iButton @click="save" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_TRACK_PAGE_SAVE')">{{ $t('APPROVAL.SAVE') }}
                     </iButton>

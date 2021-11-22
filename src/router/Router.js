@@ -36,6 +36,7 @@ import RouterManage from './RouterManage'
 import RouterMeeting from './RouterMeeting'
 
 import RouterNews from "./news";
+import RouterSurvey from './survey'
 
 export default {
   routes: [
@@ -155,6 +156,7 @@ export default {
         ...RouterMeeting,
         ...RouterManage,
         ...RouterNews,
+        ...RouterSurvey
       ]
     },
 

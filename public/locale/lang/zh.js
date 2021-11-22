@@ -1549,6 +1549,7 @@
       '原告/被告、案由、金额、对生产经营、财务、短期资金的影响…', //原告/被告、案由、金额、对生产经营、财务、短期资金的影响…
     SPR_FRM_DEP_QTBCPLACE: '其他 - 补充', //其他 - 补充
     SPR_FRM_DEP_CXRY: '出席人员', //出席人员
+    SPR_FRM_DEP_HYRQ: '会议日期', //会议日期
     SPR_FRM_DEP_CC: '抄送', //抄送
     SPR_FRM_DEP_ZXR: '撰写人', //撰写人
     SPR_FRM_DEP_BM: '部门', //部门
@@ -1887,6 +1888,8 @@
     },
     //谈判助手
     TPZS: {
+      ZUIXINDINGDIANDANJIA: '最新定点单价', //最新定点单价
+      MUBIAODANJIA: '目标单价', //目标单价
       CHANLIANGLIANG: '产量(辆)', //产量（件）
       DANJIA: '单价', //单价
       YUANJIAN: '(元/件)', //（元/件）

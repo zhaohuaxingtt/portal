@@ -70,7 +70,12 @@ import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
 import MtzAdd from "./MtzAdd";
 import store from "@/store";
-import { mtzAppNomiSubmit,getAppFormInfo } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+import { 
+  mtzAppNomiSubmit,
+  getAppFormInfo,
+  setMtzAppCheckVO,//设置
+  getMtzAppCheckVO//获取
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 
 import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
 import { deepClone } from "./applyInfor/util"
@@ -108,13 +113,14 @@ export default {
     return {
       locationId:"",
       topImgList,
-      locationNow: this.$route.query.currentStep || 1,
+      locationNow: this.$route.query.stepNum || 1,
       mtzAddShow:false,
       rsType:false,
       downType:true,
       beforReturn:true,
       flowType:"",
       appStatus:"",
+      stepNum:1,
     }
   },
   computed: {
@@ -155,7 +161,30 @@ export default {
       this.beforReturn = false;
       this.locationId = this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       this.getType();
-    }
+    };
+    getMtzAppCheckVO({mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId}).then(res=>{
+      if(res.data.length == 0){
+        setMtzAppCheckVO({
+          mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+          isDone:true,
+          stepStr:"1"
+        }).then(parme => {
+          this.stepNum = parme.data
+        })
+      }else{
+        var atr = [];
+        res.data.forEach(e => {
+          if(e.isDone){
+            atr.push(Number(e.stepStr));
+          }
+        });
+        var arr = atr.sort();
+        setTimeout(() => {
+          this.stepNum = arr[arr.length-1];
+          this.locationNow = this.stepNum;
+        }, 100);
+      }
+    })
   },
   methods: {
     getType(){
@@ -216,36 +245,57 @@ export default {
     // 点击步骤
     handleClickStep(data) {
       if(this.$route.query.currentStep == data.id) return false;
-      iMessageBox(this.language('NQDYJXXYBMQQDSJYJWQBC','您确定要进行下一步吗？请确定数据已经完全保存'),this.language('LK_WENXINTISHI','温馨提示'),{
+      iMessageBox(this.language('QQDSJYJWQBC','请确定数据已经完全保存？'),this.language('LK_WENXINTISHI','温馨提示'),{
           confirmButtonText: this.language('QUEREN', '确认'),
           cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res=>{
-        this.locationNow = data.id;
-        var dataList = this.$route.query;
-        this.$router.push({
-          path: data.url,
-          query: {
-            ...dataList,
-            currentStep: data.id,
-            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-            appId:this.$route.query.appId || this.mtzObject.appId,
-            isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
-          }
-        })
+        if(data.id > this.stepNum){
+          setMtzAppCheckVO({
+            mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+            isDone:true,
+            stepStr:data.id
+          }).then(res => {
+            var dataList = this.$route.query;
+            this.$router.push({
+              path: data.url,
+              query: {
+                ...dataList,
+                currentStep: data.id,
+                stepNum:data.id,
+                mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                appId:this.$route.query.appId || this.mtzObject.appId,
+                isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
+              }
+            })
+          })
+        }else{
+          var dataList = this.$route.query;
+          this.$router.push({
+            path: data.url,
+            query: {
+              ...dataList,
+              currentStep: data.id,
+              stepNum:this.locationNow,
+              mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+              appId:this.$route.query.appId || this.mtzObject.appId,
+              isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
+            }
+          })
+        }
       })
     },
     closeDiolog(){
       this.mtzAddShow = false;
     },
-    closeBingo(val){
-      if(val = "refresh"){
+    closeBingo(valdata){
+      this.closeDiolog();
+      if(valdata = "refresh"){
         var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
         data.refresh = true;
         store.commit("routerMtzData",data);
         sessionStorage.setItem("MtzLIst",JSON.stringify(data))
         this.getType();
       }
-      this.closeDiolog()
     },
     closeTyoe(){
       this.beforReturn = false;

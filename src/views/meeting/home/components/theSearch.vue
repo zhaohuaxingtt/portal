@@ -32,8 +32,10 @@
             ></el-option>
           </iSelect>
         </el-form-item>
+      </el-row>
+      <el-row>
         <!--状态-->
-        <el-form-item :label="'状态'">
+        <el-form-item :label="'状态'" class="LastSearchOption">
           <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.states">
             <el-option value="" :label="$t('all')"></el-option>
             <el-option
@@ -44,8 +46,6 @@
             ></el-option>
           </iSelect>
         </el-form-item>
-      </el-row>
-      <el-row>
         <iDateRangePicker
           class="LastSearchOption"
           :startDateProps="form.startDateBegin"
@@ -111,6 +111,63 @@ export default {
   },
   mounted() {
     this.getAllSelectList()
+  },
+  watch: {
+    'form.meetingType': {
+      handler(value) {
+        if (value.name === 'CSC') {
+          this.statusList = [
+            {
+              label: '草稿',
+              value: '01'
+            },
+            {
+              label: '开放',
+              value: '02'
+            },
+            {
+              label: '开始',
+              value: '04'
+            },
+            {
+              label: '结束',
+              value: '05'
+            },
+            {
+              label: '关闭',
+              value: '06'
+            }
+          ]
+        } else {
+          this.statusList = [
+            {
+              label: '草稿',
+              value: '01'
+            },
+            {
+              label: '开放',
+              value: '02'
+            },
+            {
+              label: '锁定',
+              value: '03'
+            },
+            {
+              label: '开始',
+              value: '04'
+            },
+            {
+              label: '结束',
+              value: '05'
+            },
+            {
+              label: '关闭',
+              value: '06'
+            }
+          ]
+        }
+      }
+    }
   },
   methods: {
     handleSearchReset() {

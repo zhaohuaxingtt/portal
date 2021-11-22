@@ -421,5 +421,7 @@
         border-radius: 5px;
         background: rgba(171, 208, 254, .2);
     }
-
+    .pr20{
+        padding-right: 20px;
+    }
 </style>

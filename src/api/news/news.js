@@ -1,5 +1,6 @@
 import axios from "@/utils/axios";
 const requst = axios(process.env.VUE_APP_NEWS);
+const requstSurvey = axios(process.env.VUE_APP_SURVEY);
 import store from '@/store'
 requst.interceptors.request.use(function (config) {
   config.params = {
@@ -393,7 +394,7 @@ export function increasePageViews(data) {
 
 //问卷查询未完成数
 export function total(data) {
-  return requst({
+  return requstSurvey({
     url: `/surveyService/total`,
     method: "POST",
     data,

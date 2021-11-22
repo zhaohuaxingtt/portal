@@ -4,7 +4,7 @@ export const tableTitle = [
     { props: 'appName', name: '申请单名称', key: 'SHENQINGDANMINGCHENG' },
     { props: 'flowTypeDesc', name: '流程类型', key: 'LIUCHENGLEIXING' },
     { props: 'appStatusDesc', name: '申请状态', key: 'SHENQINGZHUANGTAI' },
-    { props: 'appStatusName', name: '会议', key: 'HUIYI' },
+    { props: 'meetingName', name: '会议', key: 'HUIYI' },
     { props: 'freezeDate', name: '冻结时间', key: 'DONGJIESHIJIAN' },
     { props: 'nominateDate', name: '定点时间', key: 'DINGDIANSHIJIAN' },
     { props: 'buyer', name: '采购员', key: 'CAIGOUYUAN' },

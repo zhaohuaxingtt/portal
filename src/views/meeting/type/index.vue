@@ -112,7 +112,7 @@
 <script>
 import { iPage, iCard, iPagination, iMessage } from 'rise'
 import iTableML from '@/components/iTableML'
-import { downloadAll } from '@/utils/downloadAll'
+import { downloadAllExport } from '@/utils/downloadAll'
 // import axios from '@/utils/axios.download'
 import {
   getMettingType,
@@ -128,6 +128,7 @@ import {
 } from './component'
 // import { excelExportCustom } from "@/utils/filedowLoad";
 import { tableColumns } from './component/data'
+import axios from '@/utils/axios'
 // import iTableCustom from "@/components/iTableCustom";
 export default {
   mixins: [pageMixins],
@@ -143,6 +144,7 @@ export default {
   },
   data() {
     return {
+      request: () => {},
       canDelete: true,
       tooltip: true,
       tableLoading: false,
@@ -163,9 +165,9 @@ export default {
     }
   },
   created() {
+    this.request = axios()
     this.query()
   },
-
   methods: {
     flushTable() {
       this.query()
@@ -251,12 +253,13 @@ export default {
         pageNum: 1,
         pageSize: 999
       }
-      downloadAll({
-        url: '/rise-meeting/meetingTypeService/exportMeetingType',
+      downloadAllExport({
+        // url: '/rise-meeting/meetingTypeService/exportMeetingType',
+        url: '/meetingApi/meetingTypeService/exportMeetingType',
         filename: '会议类型列表',
-        // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         // type: "application/x-xls",
-        type: 'application/vnd.ms-excel',
+        // type: 'application/vnd.ms-excel',
         data,
         callback: (e) => {
           if (e) {
@@ -281,7 +284,6 @@ export default {
   },
   mounted() {
     getApprovalProcess().then((res) => {
-      console.log('res', res)
       this.approvalProcess = res.data[0].subDictResultVo
       console.log('this.approvalProcess', this.approvalProcess)
     })
@@ -289,6 +291,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+/* .iframe {
+  width: auto;
+  height: auto;
+} */
 .header {
   font-size: 18px;
   font-weight: bold;
