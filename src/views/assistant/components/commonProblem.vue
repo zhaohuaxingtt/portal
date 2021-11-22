@@ -10,6 +10,7 @@
 					<div>{{ menu.name }}</div>
 					<div class="block"></div>
 				</div> 
+				<div v-if="!loading && problemList.length == 0" class="no-data">暂无数据</div>
 			</div>
 		</div>
 	</div>
@@ -117,6 +118,12 @@ export default {
 		&.third{
 			background-image: url('~@/assets/images/icon/third.png');
 		}
+	}
+	.no-data{
+		text-align: center;
+		margin-top: 100px;
+		font-size: 12px;
+		color: #999;
 	}
 	.block {
 		height: 50px;

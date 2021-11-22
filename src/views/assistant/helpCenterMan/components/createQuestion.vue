@@ -20,9 +20,10 @@
                 </div>
                 <div class="flex flex-column">
                     <iLabel class="label" label="管理员回复" slot="label"></iLabel>
-                    <i-input class="textarea" rows="5" type="textarea" v-model="form.answer" placeholder="请输入" />
+                    <iEditor class="flex-1 editor" id="qs-add" v-model="form.content"></iEditor>
                 </div>
             </iFormGroup>
+
             <div class="flex" style="margin-top:20px;">
                 <iLabel class="label" label="附件:" slot="label"></iLabel>
                 <div class="upload-btn">
@@ -31,6 +32,7 @@
                     <iUpload v-show="false" ref="upload" :fileIds="fileIds" :extraData="extraData" @callback="handelCallback" />
                 </div>
             </div>
+            <FileList></FileList>
         </div>
         <div slot="footer">
             <iButton>上 传</iButton>
@@ -41,6 +43,8 @@
 
 <script>
     import { iDialog, iFormGroup, iInput, iLabel, iButton, iUpload } from "rise"
+    import iEditor from "@/components/iEditor"
+    import FileList from "./fileList"
     export default {
         components:{
             iDialog,
@@ -48,7 +52,9 @@
             iInput,
             iButton,
             iLabel,
-            iUpload
+            iUpload,
+            iEditor,
+            FileList
         },
         props:{
             show:{
