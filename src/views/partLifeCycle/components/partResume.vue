@@ -189,7 +189,7 @@
           </div>
           <div class="divItem" v-show="currentType === 1">
             <span>Kick off 时间：</span>
-            <span>{{ infoData.kickOffSopDate }}</span>
+            <span>{{ infoData.businessDate }}</span>
           </div>
           <div class="divItem" v-show="currentType === 1">
             <span>FS号：</span>

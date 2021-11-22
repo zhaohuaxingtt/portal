@@ -19,7 +19,7 @@
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, icon } from 'rise'
+import { iCard } from 'rise'
 import {
   getCatogeryCollect,
   getCatogeryCollectYear
@@ -91,7 +91,11 @@ export default {
           right: '10%'
         },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
+          formatter:function(data){
+              console.log(data)
+              return data.seriesName+'  '+data.marker+data.name+'<br>'+ data.value/ 1000000
+          }
         },
         legend: {
           type: 'scroll',
@@ -175,7 +179,7 @@ export default {
         }
         //对应插入属性值
         newDataBar[e.catogeryCode].push(e)
-        //新建属性名
+        //新建属性名按年份累计
         if (Object.keys(newDataSum).indexOf('' + e.year) === -1) {
           newDataSum[e.year] = []
         }
@@ -186,7 +190,7 @@ export default {
       //循环生成每一年分累计得总值
       for (var i in newDataSum) {
         total = 0
-        newDataSum[i].forEach((res, j) => {
+        newDataSum[i].forEach((res) => {
           if (i == res.year) {
             total += Math.abs(parseInt(res.receiveAmount))
           }
