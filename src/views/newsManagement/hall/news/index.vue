@@ -83,13 +83,7 @@
 <script>
 import newsRightCard from "./components/newsRightCard.vue";
 import newsBottomCard from "./components/newsBottomCard.vue";
-import {
-  findKVs,
-  findLatestNews,
-  findHotNews,
-  findNewsTopicCards,
-  increasePageViews,
-} from "@/api/news/news";
+import {findHotNews, findKVs, findLatestNews, findNewsTopicCards, increasePageViews,} from "@/api/news/news";
 import dayjs from "dayjs";
 
 export default {
@@ -142,11 +136,7 @@ export default {
     },
     changeIndex(e) {
       console.log(145,this.boxFlag)
-      if(this.activeIndex === e){
-        this.activeIndexFlag=true;
-      }else{
-        this.activeIndexFlag=false;
-      }
+      this.activeIndexFlag = this.activeIndex === e;
       this.tagActiveIndex = "";
       this.activeIndex = e;
       this.handleRearch();
@@ -195,18 +185,12 @@ export default {
           if(this.activeIndexFlag && this.moreFlag){
             return;
           }
-          if(this.$refs.newsBottomCard.$refs.tagsBox.offsetHeight>30){
-            this.moreFlag=true;
-          }else{
-            this.moreFlag=false;
-          }
+          this.moreFlag = this.$refs.newsBottomCard.$refs.tagsBox.offsetHeight > 30;
      });
     },
     async queryLatesAndHot() {
-      const latestNews = await findLatestNews();
-      const hotNews = await findHotNews();
-      this.hotNews = hotNews;
-      this.latestNews = latestNews;
+      this.hotNews = await findHotNews();
+      this.latestNews = await findLatestNews();;
       this.latestNews = this.latestNews?.map((item) => {
         return {
           ...item,

@@ -13,22 +13,17 @@
            class="headBox">
         <p class="headTitle">流转定点推荐 - MTZ Nomination Recommendation - MTZ</p>
       </div>
-      <el-form ref="form"
-               :model="formData"
-               label-width="140px"
-               label-position="left">
-        <el-row :gutter="20">
-          <el-col :span="8"
-                  v-for="item in formList"
-                  :key="item.prop">
-            <el-form-item :label="language(item.key ,item.label)"
-                          style="width: 70%;">
-              <el-input v-model="formData[item.prop]"
-                        disabled></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
+      <div class="tabsBoxInfor">
+        <div class="inforDiv"
+             v-for="(item,index) in formList"
+             :key="index">
+          <span>{{language(item.key,item.name)}}</span>
+          <iInput :disabled="true"
+                  class="inforText"
+                  v-model="formData[item.prop]"
+                  ></iInput>
+        </div>
+      </div>
       <el-divider />
       <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}</p>
 

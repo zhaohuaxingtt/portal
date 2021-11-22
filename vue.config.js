@@ -276,6 +276,13 @@ module.exports = {
           ['^' + process.env.VUE_APP_NEWS]: ''
         }
       },
+      [process.env.VUE_APP_SURVEY]: {
+        target: `http://${BASE_IP}:8054/rise-survey`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_SURVEY]: ''
+        }
+      },
       [process.env.VUE_APP_CHANGEPRICE]: {
         target: `http://${BASE_IP}:8026/executionoperation`,
         changeOrigin: true,

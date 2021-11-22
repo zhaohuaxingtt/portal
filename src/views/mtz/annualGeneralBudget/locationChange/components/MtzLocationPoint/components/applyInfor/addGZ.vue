@@ -58,7 +58,7 @@
                     <el-option
                         v-for="item in supplierList"
                         :key="item.code"
-                        :label="item.code"
+                        :label="item.codeMessage"
                         :value="item.code">
                     </el-option>
                 </i-select>
@@ -268,6 +268,7 @@
             <i-button @click="handleReset">重置</i-button>
             <i-button @click="handleCancel">取消</i-button>
         </span>
+
     </div>
 </template>
 
@@ -290,7 +291,8 @@ import {
 import {
   fetchRemoteMtzMaterial,//查询MTZ材料组
 } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit';
-import { isNumber,timeCoincide,timeTransformation } from "./util";
+import { isNumber,timeCoincide,timeTransformation,Mul,numAdd } from "./util";
+
 import {
   iButton,
   iMessage,
@@ -300,7 +302,7 @@ import {
   iFormItem,
   iLabel,
   iSelect,
-  iDatePicker
+  iDatePicker,
 } from 'rise'
 export default {components: {
     iButton,
@@ -311,7 +313,7 @@ export default {components: {
     iFormItem,
     iLabel,
     iSelect,
-    iDatePicker
+    iDatePicker,
   },
   props: {
     show: {
@@ -410,6 +412,12 @@ export default {components: {
             price:"",
             carline:"",
             priceMeasureUnit:"",
+            platinumPrice:'',
+            platinumDosage:'',
+            palladiumDosage:'',
+            rhodiumPrice:'',
+            rhodiumDosage:'',
+            palladiumPrice:"",
         },
         carlineNumber:[],
         rules: {
@@ -507,13 +515,27 @@ export default {components: {
   methods: {
     jijiaCompute(){
         if(isNumber(this.contractForm.platinumPrice) && isNumber(this.contractForm.platinumDosage) && isNumber(this.contractForm.palladiumPrice) && isNumber(this.contractForm.palladiumDosage) && isNumber(this.contractForm.rhodiumPrice) && isNumber(this.contractForm.rhodiumDosage)){
-            this.contractForm.price = Number(this.contractForm.platinumPrice)*Number(this.contractForm.platinumDosage) + Number(this.contractForm.palladiumPrice)*Number(this.contractForm.palladiumDosage) + Number(this.contractForm.rhodiumPrice)*Number(this.contractForm.rhodiumDosage)
-            // console.log(this.contractForm.price);
+            var number = 0;
+            // this.contractForm.price = Mul(Number(this.contractForm.platinumPrice),Number(this.contractForm.platinumDosage)) + Mul(Number(this.contractForm.palladiumPrice),Number(this.contractForm.palladiumDosage)) + Mul(Number(this.contractForm.rhodiumPrice),Number(this.contractForm.rhodiumDosage))
+
+            number = numAdd(Mul(Number(this.contractForm.platinumPrice),Number(this.contractForm.platinumDosage)),Mul(Number(this.contractForm.palladiumPrice),Number(this.contractForm.palladiumDosage)))
+            number = numAdd(number,Mul(Number(this.contractForm.rhodiumPrice),Number(this.contractForm.rhodiumDosage)));
+
+            this.contractForm.price = number;
+
         }else{
-            // iMessage.warn("请填写完铂钯铑基价以及用量")
+            this.contractForm.price = "";
         }
     },
     MaterialGrade(value){
+        this.contractForm.priceMeasureUnit = "",
+        this.contractForm.price = "",
+        this.contractForm.platinumPrice = "",
+        this.contractForm.platinumDosage = "",
+        this.contractForm.palladiumPrice = "",
+        this.contractForm.palladiumDosage = "",
+        this.contractForm.rhodiumPrice = "",
+        this.contractForm.rhodiumDosage = "",
         checkPreciousMetal({code:value}).then(res=>{
             this.metalType = res.data;
         })
@@ -623,7 +645,7 @@ export default {components: {
     },
     handleCancel(){
         this.$emit("close","")
-    }
+    },
   }
 
 }

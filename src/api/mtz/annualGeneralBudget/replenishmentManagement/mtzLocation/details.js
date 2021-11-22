@@ -408,3 +408,19 @@ export function getOneSecondPartNo(params) {//一次、二次零件号下拉选�
         data: params,
     })
 }
+
+export function getMtzAppCheckVO(params) {//获取值
+    return request({
+        url: '/mtzAppNomi/getMtzAppCheckVO',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function setMtzAppCheckVO(params) {//设置值
+    return request({
+        url: '/mtzAppNomi/setMtzAppCheckVO',
+        method: 'POST',
+        data: params,
+    })
+}
