@@ -261,14 +261,15 @@ export default {
             icon: 'circle',
             itemHeight: 8,
             type: 'plain',
-            data: data,
+            data: this.legendData,
             tooltip: {
               show: true,
               formatter: function (data) {
                 let name = data.name.split( /\s+/)[0]
+                let num = (parseInt(data.name.split( /\s+/)[1])/100) * total
                 return `${name}:<br/>
                 ${total}家<br/>
-                ${String((data.num / total)) === 'NaN' ? '0.00' : ((data.num / total).toFixed(2) * 100).toFixed(2)}%
+                ${String((num / total)) === 'NaN' ? '0.00' : ((num / total).toFixed(2) * 100).toFixed(2)}%
                 `
               }
             }
@@ -344,9 +345,10 @@ export default {
               show: true,
               formatter: function (data) {
                 let name = data.name.split( /\s+/)[0]
+                let num = (parseInt(data.name.split( /\s+/)[1])/100) * _that.total
                 return `${name}:<br/>
                 ${_that.total}家<br/>
-                ${String((data.num / _that.total)) === 'NaN' ? '0.00' : ((data.num / _that.total).toFixed(2) * 100).toFixed(2)}%
+                ${String((num / _that.total)) === 'NaN' ? '0.00' : ((num / _that.total).toFixed(2) * 100).toFixed(2)}%
                 `
               }
             }
