@@ -5,10 +5,13 @@
                 <iButton>删除</iButton>
                 <iButton @click="type = 'edit'">编辑</iButton>
             </template>
-            <template v-else>
-                <iButton @click="type = 'detail'">取消</iButton>
-                <iButton>预览</iButton>
-                <iButton>保存</iButton>
+            <template v-if="type == 'edit'">
+                <template v-if="!preview">
+                    <iButton @click="type = 'detail'">取消</iButton>
+                    <iButton @click="preview = true">预览</iButton>
+                    <iButton @click="save">保存</iButton>
+                </template>
+                <iButton v-else @click="preview = false">返回</iButton>
             </template>
         </div>
         <template v-if="type == 'detail'">
@@ -19,7 +22,8 @@
             </div>
         </template>
         <template v-if="type == 'edit'">
-            <iEditor class="manual-editor"  v-model="content"></iEditor>
+            <div v-if="preview" v-html="content"></div>
+            <iEditor v-else class="manual-editor" v-model="content"></iEditor>
             <div class="upload">
                 <iButton @click="upload">添加附件</iButton>
                 <span>只能上传不超过20MB的文件</span>
@@ -43,7 +47,8 @@
             return {
                 type:"detail",
                 content:"",
-                file:""
+                file:"",
+                preview:false
             }
         },
         methods: {
@@ -51,7 +56,10 @@
                 this.$refs.upload.$el.querySelector("input[type='file']").click()
             },
             uploadChange(file){
-                console.log(JSON.stringify(file)+'-------');
+                console.log(file+'-------');
+            },
+            save(){
+                
             }
         },
     }
