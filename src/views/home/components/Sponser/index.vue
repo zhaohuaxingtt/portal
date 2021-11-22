@@ -319,18 +319,6 @@ export default {
     mergeOptions(newLegends) {
       let _that = this
       const option = {
-<<<<<<< HEAD
-        tooltip: {
-          trigger: 'item'
-          // formatter: function (data) {
-          //   let name = data.data.name.split( /\s+/)[0]
-          //   return `${name}:<br/>
-          //   ${_that.total}家<br/>
-          //   ${(data.data.num / _that.total).toFixed(2) * 100}.00%
-          //   `
-          // }
-        },
-=======
         // tooltip: {
         //   trigger: 'item',
         //   formatter: function (data) {
@@ -341,7 +329,6 @@ export default {
         //     `
         //   }
         // },
->>>>>>> dev_wendy.zhou
         legend: [
           {
             left: '60%',
@@ -448,17 +435,10 @@ export default {
             //   }
             // ]
             style: {
-<<<<<<< HEAD
-              fill: '#7E84A3',
-              text: 'C-Rating数量:' + 36 + '\nC-Rating比例:60%',
-              font: '7px sans-serif'
-            }
-=======
                   fill: '#7E84A3',
                   text: 'C-Rating数量:36\n'+'\nC-Rating比例:60%',
                   font: '7px sans-serif'
                 }
->>>>>>> dev_wendy.zhou
           }
         ],
         series: [
