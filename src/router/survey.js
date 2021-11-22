@@ -51,7 +51,8 @@ export default [
         path: '/survey/answer',
         name: 'answer',
         meta: {
-          title: '答题入口'
+          title: '答题入口',
+          activeMenu: ['CF_NEWS', 'RISE_COMMON_FUNCTION']
         },
         component: () => import('@/views/surveyManagement/answer/index.vue')
       }
@@ -61,7 +62,8 @@ export default [
     path: '/survey/answer/detail/:id',
     name: 'detail',
     meta: {
-      title: '问卷调查'
+      title: '问卷调查',
+      activeMenu: ['CF_NEWS', 'RISE_COMMON_FUNCTION']
     },
     component: () => import('@/views/surveyManagement/answer/detail/index.vue')
   }
