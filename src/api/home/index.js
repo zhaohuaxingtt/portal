@@ -148,3 +148,4 @@ export function getRate() {
     method: 'post'
   })
 }
+

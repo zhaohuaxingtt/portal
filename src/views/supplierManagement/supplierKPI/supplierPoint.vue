@@ -11,12 +11,8 @@
              style="margin-left:20px;"
              v-model="tabVal"
              @tab-click="changeTab">
-      <el-tab-pane name="PP"
-                   :label="language('SHENGCHANGYS', '生产供应商')">
-      </el-tab-pane>
-      <el-tab-pane name="GP"
-                   :label="language('YIBANGONGYS', '一般供应商')">
-      </el-tab-pane>
+            <el-tab-pane name="PP" :label="language('SHENGCHANGONGYINGSHANG', '生产供应商')"> </el-tab-pane>
+      <el-tab-pane name="GP" :label="language('YIBANGONGYINGSHANG', '一般供应商')"> </el-tab-pane>
     </el-tabs>
     <iSearch @reset="clickReset"
              @sure="sure"
@@ -373,7 +369,7 @@ export default {
     border-radius: 0px 10px 10px 0px;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.08);
     font-size: 16px;
-    width: 120px;
+    min-width: 120px;
     height: 35px;
     line-height: 35px;
   }

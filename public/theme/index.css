@@ -20225,6 +20225,7 @@
     text-align: center; }
 
 .el-time-spinner__list {
+  transform:translateY(-4px);
   padding: 0;
   margin: 0;
   list-style: none;

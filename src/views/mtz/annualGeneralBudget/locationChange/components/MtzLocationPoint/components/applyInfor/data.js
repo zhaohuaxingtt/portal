@@ -1,10 +1,10 @@
 export const tabsInforList = [
-  { name: '申请单号', prop: 'mtzAppId' },
-  { name: '申请单名', prop: 'appName' },
-  { name: 'Linie', prop: 'linieName' },
-  { name: '申请单类型', prop: 'flowType', type: 'select' },
-  { name: '申请状态', prop: 'appStatus' },
-  { name: '会议名称', prop: 'meetingName' }
+  { name: '申请单号',key:'SHENQINGDANHAO',prop: 'mtzAppId' },
+  { name: '申请单名',key:'SHENQINGDANMING', prop: 'appName' },
+  { name: 'Linie',key:'LINIE', prop: 'linieName' },
+  { name: '申请单类型',key:'SHENQINGDANLEIXING', prop: 'flowType', type: 'select' },
+  { name: '申请状态',key:'SHENQINGZHUANGTAI', prop: 'appStatus' },
+  { name: '会议名称',key:'HUIYIMINGCHENG', prop: 'meetingName',type:"tooltip"}
 ]
 
 export const tableTitle = [
@@ -40,7 +40,7 @@ export const tableTitle = [
     key: 'RSDONGJIERIQI'
   },
   {
-    width: 200,
+    width: 220,
     props: 'isPriceConsistent',
     name: '报价一致性检验状态',
     key: 'BJYZXJYZT'
@@ -83,7 +83,7 @@ export const tableTitleInfor = [
     key: 'RSDONGJIERIQI'
   },
   {
-    width: 150,
+    width: 220,
     props: 'isPriceConsistent',
     name: '报价一致性检验状态',
     key: 'BJYZXJYZT'
@@ -109,7 +109,7 @@ export const continueBox = [
   { width: 150, props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO' },
   {
     width: 150,
-    props: 'sapCode',
+    props: 'supplierId',
     name: '供应商编号',
     key: 'GONGYINGSHANGBIANHAO'
   },
@@ -166,12 +166,12 @@ export const continueBox = [
   { width: 170, props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI' },
   { width: 150, props: 'source', name: '来源', key: 'LAIYUAN' },
   { width: 150, props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO' },
-  { width: 150, props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA' },
-  { width: 150, props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG' },
-  { width: 150, props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA' },
-  { width: 150, props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG' },
-  { width: 150, props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA' },
-  { width: 150, props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG' }
+  { width: 150, props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA',icon:"iconxinxitishi",iconTextKey:"M01006002-Pt",iconText:"M01006002-Pt"},
+  { width: 150, props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG' ,icon:"iconxinxitishi",iconTextKey:"M01006002-Pt",iconText:"M01006002-Pt"},
+  { width: 150, props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA' ,icon:"iconxinxitishi",iconTextKey:"M01006001-Pd",iconText:"M01006001-Pd"},
+  { width: 150, props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG' ,icon:"iconxinxitishi",iconTextKey:"M01006001-Pd",iconText:"M01006001-Pd"},
+  { width: 150, props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA' ,icon:"iconxinxitishi",iconTextKey:"M01006003-Rh",iconText:"M01006003-Rh"},
+  { width: 150, props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG' ,icon:"iconxinxitishi",iconTextKey:"M01006003-Rh",iconText:"M01006003-Rh"}
 ]
 
 export const tableLeftTitle = [
@@ -309,17 +309,21 @@ export const formRulesGZ = {
   effectFlag:[{required: true, message: '请选择', trigger: 'blur'}],
   materialGroup:[{required: true, message: '请选择', trigger: 'blur'}],//MTZ-材料组
   carline:[{required: true, message: '请选择', trigger: 'blur'}],//车型
-  supplierId:[{required: true, message: '请选择', trigger: 'blur'}],
-  supplierName:[{required: true, message: '请选择', trigger: 'blur'}],
-  materialCode:[{required: true, message: '请选择', trigger: 'blur'}],
-  materialName:[{required: true, message: '请输入', trigger: 'blur'}],
-  price:[{required: true, message: '请输入', trigger: 'blur'}],
-  priceMeasureUnit:[{required: true, message: '请输入', trigger: 'blur'}],
 
-  tcCurrence:[{required: true, message: '请输入', trigger: 'blur'}],
-  tcExchangeRate:[{required: true, message: '请输入', trigger: 'blur'}],
-  source:[{required: true, message: '请输入', trigger: 'blur'}],
-  compensationRatio:[
+
+  // supplierId:[{required: true, message: '请选择', trigger: 'blur'}],//供应商编号
+  // supplierName:[{required: true, message: '请选择', trigger: 'blur'}],//供应商名
+  // materialCode:[{required: true, message: '请选择', trigger: 'blur'}],//原材料牌号
+  // materialName:[{required: true, message: '请输入', trigger: 'blur'}],//原材料
+  // price:[{required: true, message: '请输入', trigger: 'blur'}],//基价
+  // priceMeasureUnit:[{required: true, message: '请输入', trigger: 'blur'}],//基价计量单位
+
+
+
+  tcCurrence:[{required: true, message: '请输入', trigger: 'blur'}],//货币
+  tcExchangeRate:[{required: true, message: '请输入', trigger: 'blur'}],//汇率
+  source:[{required: true, message: '请输入', trigger: 'blur'}],//市场价来源
+  compensationRatio:[//补差系数
     {required: true, message: '请输入', trigger: 'blur'},
     {validator: function(rule, value, callback){
       if (value < 0) {
@@ -329,9 +333,87 @@ export const formRulesGZ = {
       }
     },trigger: 'blur'}
   ],
-  compensationPeriod:[{required: true, message: '请选择', trigger: 'blur'}],
-  threshold:[{required: true, message: '请输入', trigger: 'blur'}],
-  thresholdCompensationLogic:[{required: true, message: '请选择', trigger: 'blur'}],
-  startDate:[{required: true, message: '请选择', trigger: 'blur'}],
-  endDate:[{required: true, message: '请选择', trigger: 'blur'}],
+  compensationPeriod:[{required: true, message: '请选择', trigger: 'blur'}],//补差周期
+  threshold:[//阈值
+    {required: true, message: '请输入', trigger: 'blur'},
+    {validator: function(rule, value, callback){
+      if(value.toString().split(".")[1] !== undefined){
+        if (value.toString().split(".")[1].length>4) {
+            console.log(11111111)
+            callback(new Error('最多输入小数点后4位'));
+        }else{
+            callback();
+        }
+      }else{
+          callback();
+      }
+    }}
+  ],
+  thresholdCompensationLogic:[{required: true, message: '请选择', trigger: 'blur'}],//阈值补差逻辑
+
+
+
+  // startDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期起
+  // endDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期止
 }
+
+export const formRulesLJ = {
+  assemblyPartnum:[{required: true, message: '请选择', trigger: 'blur'}],//零件号
+  ruleNo:[{required: true, message: '请选择', trigger: 'blur'}],//规则编号
+  supplierId:[{required: true, message: '请选择', trigger: 'blur'}],//供应商编号
+  partUnit:[{required: true, message: '请选择', trigger: 'blur'}],//零件数量单位
+  priceUnit:[{required: true, message: '请选择', trigger: 'blur'}],//每
+  dosage:[{required: true, message: '请选择', trigger: 'blur'}],//用量
+  dosageMeasureUnit:[{required: true, message: '请选择', trigger: 'blur'}],//用量计量单位
+  mark:[{required: true, message: '请选择', trigger: 'blur'}],//备注
+
+  // materialGroup:[{required: true, message: '请选择', trigger: 'blur'}],//MTZ-材料组
+  // carline:[{required: true, message: '请选择', trigger: 'blur'}],//车型
+
+  // supplierName:[{required: true, message: '请选择', trigger: 'blur'}],//供应商名
+  // materialCode:[{required: true, message: '请选择', trigger: 'blur'}],//原材料牌号
+  // materialName:[{required: true, message: '请输入', trigger: 'blur'}],//原材料
+  // price:[{required: true, message: '请输入', trigger: 'blur'}],//基价
+  // priceMeasureUnit:[{required: true, message: '请输入', trigger: 'blur'}],//基价计量单位
+
+  // tcCurrence:[{required: true, message: '请输入', trigger: 'blur'}],//货币
+  // tcExchangeRate:[{required: true, message: '请输入', trigger: 'blur'}],//汇率
+  // source:[{required: true, message: '请输入', trigger: 'blur'}],//市场价来源
+  // compensationRatio:[//补差系数
+  //   {required: true, message: '请输入', trigger: 'blur'},
+  //   {validator: function(rule, value, callback){
+  //     if (value < 0) {
+  //       callback(new Error('不能为负数'));
+  //     }else{
+  //         callback();
+  //     }
+  //   },trigger: 'blur'}
+  // ],
+  // compensationPeriod:[{required: true, message: '请选择', trigger: 'blur'}],//补差周期
+  // threshold:[//阈值
+  //   {required: true, message: '请输入', trigger: 'blur'},
+  //   {validator: function(rule, value, callback){
+  //     if(value.toString().split(".")[1] !== undefined){
+  //       if (value.toString().split(".")[1].length>4) {
+  //           console.log(11111111)
+  //           callback(new Error('最多输入小数点后4位'));
+  //       }else{
+  //           callback();
+  //       }
+  //     }else{
+  //         callback();
+  //     }
+  //   }}
+  // ],
+  // thresholdCompensationLogic:[{required: true, message: '请选择', trigger: 'blur'}],//阈值补差逻辑
+
+  // startDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期起
+  // endDate:[{required: true, message: '请选择', trigger: 'blur'}],//有效期止
+}
+
+
+export const partNumberTitle = [
+  { props: 'partNum', name: '零件号', key: 'LINGJIANHAO' },
+  { props: 'partNameZh', name: '零件名（中）', key: 'LINGJIANMINGZHONG' },
+  { props: 'partNameDe', name: '零件名（德）', key: 'LINGJIANMINGDE' },
+]
