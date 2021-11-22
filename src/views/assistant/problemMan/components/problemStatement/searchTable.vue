@@ -3,29 +3,14 @@
     <div class="flex flex-row justify-end mt20 mb20">
       <iButton @click="exportExcelHandler">{{ language('导出') }}</iButton>
     </div>
-    <iTableCustom
-      ref="testTable"
-      :loading="tableLoading"
-      :data="tableListData"
-      :columns="tableSetting"
-    />
-    <iPagination
-      v-update
-      @size-change="handleSizeChange($event, getTableList)"
-      @current-change="handleCurrentChange($event, getTableList)"
-      background
-      :current-page="page.currPage"
-      :page-sizes="page.pageSizes"
-      :page-size="page.pageSize"
-      :layout="page.layout"
-      :total="page.totalCount"
-    />
+    <iTableCustom ref="testTable" :loading="tableLoading" :data="tableListData" :columns="tableSetting" />
+    <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :current-page="page.currPage" :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :total="page.totalCount" />
   </el-card>
 </template>
 
 <script>
-import {iButton,iPagination,iTableCustom} from 'rise';
-import {tableColumn} from './tableColumn';
+import { iButton, iPagination, iTableCustom } from 'rise';
+import { tableColumn } from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins'
 export default {
   mixins: [pageMixins],
@@ -36,18 +21,30 @@ export default {
       tableListData: [
         {
           id: 1,
-          account:1234,
+          account: 1234,
+        },
+        {
+          id: 2,
+          account: 1254,
+        },
+        {
+          id: 3,
+          account: 1254,
+        },
+        {
+          id: 4,
+          account: 1254,
         }
       ],
-      tableSetting:tableColumn,
+      tableSetting: tableColumn,
     }
   },
   methods: {
-    exportExcelHandler() {},
-    handleSelectionChange() {
+    exportExcelHandler () { },
+    handleSelectionChange () {
       console.log('11');
     },
-    handleGoDetail() {},
+    handleGoDetail () { },
   },
   components: {
     iButton,
@@ -59,4 +56,28 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../comon.scss';
+</style>
+
+
+<style lang="scss">
+.table-icon {
+  display: flex;
+  flex-direction: row;
+  .icon {
+    margin-right: 20px;
+    width: 28px;
+    height: 28px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    &.first {
+      background-image: url('~@/assets/images/icon/first.png');
+    }
+    &.second {
+      background-image: url('~@/assets/images/icon/second.png');
+    }
+    &.third {
+      background-image: url('~@/assets/images/icon/third.png');
+    }
+  }
+}
 </style>
