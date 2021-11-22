@@ -4,8 +4,8 @@
     :title="papgeTitle"
     @close="closeDialog"
     :show-close='false'
-    min-width="600px"
-    min-height='440px'
+    width="711px"
+    height='440px'
     :class="{'black-style':detail.popupStyle == '2'}"
   >
       <div class="" :class="{'center-style':detail.popupStyle == '1','main':detail.popupStyle == '0','right-style':detail.popupStyle == '2'}">
@@ -83,7 +83,7 @@ export default {
 }
 .main{
     display: flex;
-    height: 440px;
+    height:440px;
     width: 100%;
     justify-content:space-between;
     .left{
@@ -108,12 +108,12 @@ export default {
         .content,
         .btn{
             position: absolute;
-            bottom: 60px;
+            bottom: 40px;
         }
         .publishTime{
             position: absolute;
             display: inline-block;
-            bottom: 120px;
+            bottom: 100px;
             color: #1660F1;
             .publishTime-content{
                 color: #666666;
@@ -125,7 +125,7 @@ export default {
             position: absolute;
             top: 70px;
             line-height: 24px;
-            max-height: 200px;
+            max-height: 240px;
             overflow: auto;
         }
     }
@@ -134,6 +134,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items:center;
+    height: 440px;
     .left{
         width:100%;
         position: absolute;
@@ -141,13 +142,14 @@ export default {
         left: 0;
         .left-image{
             width: 100%;
-            height: 200px;
+            height: 160px;
             border-radius: 10px 10px 0 0 ;
         }
     }
     .right{
-        margin-top:160px ;
+        margin-top:120px ;
         text-align: center;
+        height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -160,6 +162,8 @@ export default {
         }
         .content{
             line-height: 24px;
+            height: 150px;
+            overflow: auto;
         }
         .publishTime{
             width: 250px;
@@ -204,12 +208,12 @@ export default {
         .content,
         .btn{
             position: absolute;
-            bottom: 60px;
+            bottom: 40px;
         }
         .publishTime{
             position: absolute;
             display: inline-block;
-            bottom: 120px;
+            bottom: 100px;
             color: #1660F1;
             .publishTime-content{
                 color: #FFFFFF;
@@ -222,7 +226,7 @@ export default {
             top: 70px;
             color: #888888;
             line-height: 24px;
-            max-height: 200px;
+            max-height: 240px;
             overflow: auto;
         }
     }

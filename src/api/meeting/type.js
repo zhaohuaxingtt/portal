@@ -63,7 +63,7 @@ export function uploadFile(data) {
   if (process.env.NODE_ENV == 'develop') {
     return requst({
       // url: `/rise-mock/udMutilfilesController`,
-      url: `/udMutilfilesController?currentUser=${currentUser}`,
+      url: `/fileud/udMutilfilesController?currentUser=${currentUser}`,
       method: 'POST',
       data
     })
@@ -71,7 +71,7 @@ export function uploadFile(data) {
 
   return requstFile({
     // url: `/rise-mock/udMutilfilesController`,
-    url: `/udMutilfilesController?currentUser=${currentUser}`,
+    url: `/fileud/udMutilfilesController?currentUser=${currentUser}`,
     method: 'POST',
     data
   })

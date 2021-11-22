@@ -489,7 +489,7 @@ export default {
     border-radius: 0px 10px 10px 0px;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.08);
     font-size: 16px;
-    width: 200px;
+    min-width: 200px;
     height: 35px;
     line-height: 35px;
   }

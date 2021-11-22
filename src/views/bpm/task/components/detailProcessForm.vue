@@ -1,16 +1,16 @@
 <template>
-  <div v-if="url && formHeight !== '0px'"
-       class="margin-bottom20">
-    <iframe :src="url"
-            id="flowForm"
-            frameborder="no"
-            border="0"
-            marginwidth="0"
-            marginheight="0"
-            scrolling="no"
-            allowtransparency="yes"
-             />
-             <!-- :style="{ height: formHeight }" -->
+  <div v-if="url && formHeight !== '0px'" class="margin-bottom20">
+    <iframe
+      :src="url"
+      id="flowForm"
+      frameborder="no"
+      border="0"
+      marginwidth="0"
+      marginheight="0"
+      scrolling="no"
+      allowtransparency="yes"
+      :style="{ height: frameHeight }"
+    />
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
     }
   },
   computed: {
-    url () {
+    url() {
       if (!this.flowFormUrl) {
         return ''
       }
@@ -35,6 +35,39 @@ export default {
       }
       return 'http://' + this.flowFormUrl
     }
+  },
+  data() {
+    return {
+      frameHeight: '500px'
+    }
+  },
+  watch: {
+    formHeight() {
+      if (this.formHeight) {
+        this.frameHeight = this.formHeight
+      }
+    }
+  },
+  created() {
+    if (this.formHeight) {
+      this.frameHeight = this.formHeight
+    }
+
+    window.addEventListener('message', (e) => {
+      if (e && e.data) {
+        try {
+          const data = e.data
+          if (data.value && data.key === 'setFormHeight') {
+            this.frameHeight = data.value
+          }
+        } catch (error) {
+          console.log('error', error)
+        }
+      }
+    })
+  },
+  destroyed() {
+    window.removeEventListener('message')
   }
 }
 </script>
@@ -42,6 +75,6 @@ export default {
 <style lang="scss" scoped>
 #flowForm {
   width: 100%;
-//   min-height: 500px;
+  //   min-height: 500px;
 }
 </style>
