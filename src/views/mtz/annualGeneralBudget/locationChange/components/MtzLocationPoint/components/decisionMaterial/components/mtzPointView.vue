@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-11-04 10:02:28
- * @LastEditTime: 2021-11-19 14:13:45
+ * @LastEditTime: 2021-11-22 12:36:47
  * @LastEditors: Please set LastEditors
  * @Description: 会外流转单pdf预览
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signPreview.vue
@@ -20,8 +20,7 @@
           <span>{{language(item.key,item.name)}}</span>
           <iInput :disabled="true"
                   class="inforText"
-                  v-model="formData[item.prop]"
-                  ></iInput>
+                  v-model="formData[item.prop]"></iInput>
         </div>
       </div>
       <el-divider />
@@ -279,6 +278,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+$tabsInforHeight: 35px;
 .tableTitle {
   display: inline-block;
   font-weight: bold;
@@ -345,6 +345,32 @@ export default {
       border-bottom: 1px solid black;
       margin-left: 10px;
       width: 60%;
+    }
+  }
+}
+.tabsBoxInfor {
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+  .inforDiv {
+    width: 29%;
+    height: $tabsInforHeight;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0;
+    margin-bottom: 20px;
+    span {
+      font-size: 15px;
+    }
+    .inforText {
+      font-size: 14px;
+      width: 68%;
+      background: #f8f8fa;
+      text-align: center;
+      height: $tabsInforHeight;
+      line-height: $tabsInforHeight;
     }
   }
 }
