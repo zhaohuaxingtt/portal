@@ -74,6 +74,26 @@ export default {
       }
     })
   },
+  mounted() {
+    const iframe = this.$el.querySelector('#flowForm')
+    iframe.contentWindow.addEventListener('load', () => {
+      const iframeAppDom = iframe.contentWindow.document.querySelector('#app') // sourcing vue根DOM
+      if (iframeAppDom) {
+        const appDomObserver = new MutationObserver(() => {
+          const iframeAppContentDom =
+            iframeAppDom.querySelector('#appRouterView') // sourcing vue根一级router-view
+          this.frameHeight = iframeAppContentDom
+            ? iframeAppContentDom.clientHeight || 0
+            : 0
+        })
+        appDomObserver.observe(iframeAppDom, {
+          childList: true,
+          attributes: true,
+          subtree: true
+        })
+      }
+    })
+  },
   destroyed() {
     window.removeEventListener('message')
   }
