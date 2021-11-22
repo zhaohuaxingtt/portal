@@ -7,8 +7,7 @@ export default [
     path: '/bpm',
     name: 'bpm',
     meta: {
-      title: 'bpm',
-      top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+      title: 'bpm'
     },
     component: () => import('@/layout/view.vue'),
     redirect: '/bpm/approval/center',
@@ -18,7 +17,7 @@ export default [
         name: 'approvalCenter',
         meta: {
           title: '审批中心',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
         },
         component: () => import('@/views/bpm/approvalCenter')
       },
@@ -27,7 +26,7 @@ export default [
         name: 'bpmTodoList',
         meta: {
           title: '我的审批-待办',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
         },
         component: BpmTodoList
       },
@@ -36,7 +35,7 @@ export default [
         name: 'bpmTaskUndoDetail',
         meta: {
           title: '我的审批-待办任务详情',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
         },
         component: BpmTaskDetail
       },
@@ -45,7 +44,7 @@ export default [
         name: 'bpmFinishList',
         meta: {
           title: '我的审批-已办',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
         },
         component: BpmFinishList
       },
@@ -54,7 +53,7 @@ export default [
         name: 'bpmTaskFinishDetail',
         meta: {
           title: '我的审批-已办任务详情',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
         },
         component: BpmTaskDetail
       },
@@ -63,7 +62,7 @@ export default [
         name: 'bpmMyAppy',
         meta: {
           title: '我的申请',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
         },
         component: () => import('@/views/bpm/myApplication')
       },
@@ -71,7 +70,8 @@ export default [
         path: '/bpm/myApply/detail/:instanceId/:finished',
         name: 'BpmTaskApplyDetail',
         meta: {
-          title: '我的申请任务详情'
+          title: '我的申请任务详情',
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
         },
         component: () => import('@/views/bpm/myApplication/detail')
       },
@@ -81,7 +81,8 @@ export default [
         path: '/bpm/myAekoApply',
         name: 'bpmMyAppyAeko',
         meta: {
-          title: '我的申请'
+          title: '我的申请',
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
         },
         component: () => import('@/views/bpm/myApplicationAeko')
       },
@@ -89,7 +90,8 @@ export default [
         path: '/bpm/myAekoApply/detail/:instanceId/:finished',
         name: 'BpmTaskApplyDetailAeko',
         meta: {
-          title: '我的申请任务详情'
+          title: '我的申请任务详情',
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
         },
         component: () => import('@/views/bpm/myApplicationAeko/detail')
       }

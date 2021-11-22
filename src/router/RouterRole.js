@@ -4,7 +4,7 @@ export default [
     name: 'Role',
     meta: {
       title: '角色管理',
-      top: 'admin' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
     component: () => import('@/views/role/index')
   },
@@ -14,7 +14,7 @@ export default [
     meta: {
       title: '查看角色',
       activePath: '/role/index',
-      top: 'admin' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
     component: () => import('@/views/role/view')
   },
@@ -24,7 +24,7 @@ export default [
     meta: {
       title: '角色授权',
       activePath: '/role/index',
-      top: 'admin' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
     component: () => import('@/views/role/edit')
   }
