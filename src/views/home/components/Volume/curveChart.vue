@@ -62,8 +62,8 @@ export default {
         backgroundColor: data > 0 ? '#C00000' : '#70AD47',
         borderRadius: 5,
         width: 100,
-        lineHeight: 30,
-        height: 30
+        lineHeight: 20,
+        height: 20
       }
     },
     initEcharts() {
