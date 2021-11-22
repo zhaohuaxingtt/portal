@@ -78,6 +78,7 @@
                 {{String(Number(tabsData.valEklType)/Number(tabsData.sumAll)) != 'NaN' ? ((Number(tabsData.valEklType)/Number(tabsData.sumAll))*100).toFixed(2)+"%" : '0.00%'}}
               </div>
             </div>
+            <div class="cursum">{{tabsData.curSum}}</div>
           </div>
         </div>
      
@@ -153,9 +154,12 @@ export default {
       if (res && res.code == '200') {
         this.tabsData = res.data
         let totalTarget = (parseFloat(this.tabsData.totalTarget ? this.tabsData.totalTarget:'0.00') / 100) * 1
-        this.tabsData.sumAll = (((this.tabsData.sumAll * 1)*totalTarget) / 1000000).toFixed(2) + ''
-        this.tabsData.valEklType = ((this.tabsData.valEklType * 1 * totalTarget) / 1000000).toFixed(2)
-        console.log(this.tabsData)
+        this.tabsData.sumAll = (+this.tabsData.sumAll / 1000000).toFixed(2)
+        this.tabsData.subtract = (+this.tabsData.subtract / 1000000).toFixed(2)
+        this.tabsData.valEklType = (+this.tabsData.valEklType / 1000000).toFixed(2)
+        // 业绩目标*业绩基础
+        this.tabsData.curSum = ((this.tabsData.sumAll * 1) * totalTarget).toFixed(2) + ''
+
         this.$nextTick(() => {
           this.initPie()
         })
@@ -186,7 +190,13 @@ export default {
           color: ['#1AB5C7', '#B9EBF2'],
           right: '10',
           icon: 'circle',
-          top: '0%'
+          top: '0%',
+          tooltip: {
+            show: true,
+            formatter: (data) => {
+              return `${data.name}金额：${data.name == "完成" ? this.tabsData.valEklType : this.tabsData.subtract}`
+            }
+          }
         },
         series: [
           {
@@ -200,7 +210,8 @@ export default {
               position: 'center',
               textStyle: {
                 fontSize: 16,
-                color: '#1763f7'
+                // color: '#1763f7',
+                color:"transparent"
               }
             },
             emphasis: {
@@ -208,7 +219,9 @@ export default {
                 show: true,
                 fontSize: '28',
                 fontWeight: 'bold',
-                color: '#45639B',
+                // color: '#45639B',
+                color:"transparent",
+
                 align: 'center',
                 formatter: (value) => {
                   return `${value.data.value}`
@@ -220,14 +233,14 @@ export default {
             },
             data: [
               {
-                value: (this.tabsData.sumAll),
+                value: (this.tabsData.valEklType),
                 itemStyle: {
                   color: '#1AB5C7'
                 },
                 name: '完成'
               },
               {
-                value: (this.tabsData.valEklType),
+                value: (this.tabsData.subtract),
                 itemStyle: {
                   color: '#B9EBF2'
                 },
@@ -297,6 +310,15 @@ export default {
         font-size: 32px;
       }
     }
+  }
+  .cursum{
+    position: absolute;
+    top: 48%;
+    left: 8%;
+    width: 160px;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
   }
   .unit {
     // position: absolute;
