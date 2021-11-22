@@ -2,17 +2,36 @@ export const tableColumn = [
   {
     label: '序号',
     width: 50,
-    customRender: (h, scope, column) => {
-      console.log(scope, '====', column)
+    customRender: (h, scope) => {
       const rowIndex = scope.$index + 1
       if (rowIndex === 1) {
-        return <span class="open-link-text">图片一{rowIndex}</span>
+        return (
+          <span class="table-icon">
+            <div class="icon first"></div>
+            {rowIndex}
+          </span>
+        )
       } else if (rowIndex === 2) {
-        return <span class="open-link-text">图片二{rowIndex}</span>
+        return (
+          <span class="table-icon">
+            <div class="icon second"></div>
+            {rowIndex}
+          </span>
+        )
       } else if (rowIndex === 3) {
-        return <span class="open-link-text">{rowIndex}</span>
+        return (
+          <span class="table-icon">
+            <div class="icon third"></div>
+            {rowIndex}
+          </span>
+        )
       } else {
-        return <span class="open-link-text">{rowIndex}</span>
+        return (
+          <span class="table-icon">
+            <div class="icon"></div>
+            {rowIndex}
+          </span>
+        )
       }
     }
   },
