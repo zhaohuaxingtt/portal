@@ -62,7 +62,7 @@ export function uploadUdFile(params) {
   formData.append('type', params.type || 1) // 文件类型 1:OBS 2:NFS，默认1
   formData.append('multifile', params.multifile || []) // 文件
   return fileRequst({
-    url: `/fileud/udMutilfilesController`,
+    url: `/fileudApi/udMutilfilesController`,
     method: 'POST',
     data: formData
   }).then(res => {

@@ -125,10 +125,11 @@ export default {
         if (Number(res.code) === 200) {
           // this.departmentsList = res.data
           if(res.data.status){
-            iMessage.success(this.language('LK_RENLINGCHENGGONG', '认领成功'))
+            iMessage.success(this.$i18n.locale === 'zh' ? '认领成功' : 'claim success')
             this.$emit('sure')
           } else {
-            iMessage.error(res.data.partNum.split(',') + this.language('LK_RENLINGSHIBAI', '认领失败'))
+            let partNum = res.data.partNum.split(',')
+            iMessage.error(this.$i18n.locale === 'zh' ? partNum + '认领失败' : partNum +'claim fail')
           }
         } else {
           iMessage.error(result)

@@ -88,7 +88,7 @@ export default {
                 this.loading = false;
             })
         },
-        handleSubmitSearch(){
+        handleSearchReset(){
             this.searchForm = {};
             this.page.currPage = 1;
             this.page.pageSize = 10;
@@ -153,5 +153,12 @@ export default {
 }
 ::v-deep .card{
   box-shadow: 0 0 0px rgb(27 29 33 / 0%)
+}
+
+::v-deep .el-icon-arrow-up{
+    display: none;
+}
+::v-deep .operation{
+    margin-top:30px!important;
 }
 </style>

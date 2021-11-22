@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2021-11-22 11:39:40
+ * @LastEditTime: 2021-11-22 11:49:16
  * @LastEditors: Please set LastEditors
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
@@ -77,26 +77,28 @@
       <div slot="header"
            class="headBox">
         <p v-if="isMeeting"
-           class="headTitle">{{language('SHANGHUIBEIZHU', '上会备注')}}</p>
+           class="headTitle">{{language('BEIZHU', '备注')}}</p>
         <p v-if="isSign"
-           class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p>
+           class="headTitle">{{language('BEIZHU', '备注')}}</p>
+        <!-- <p v-if="isSign" class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p> -->
         <span class="buttonBox">
           <iButton v-if="RsObject"
                    @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
         </span>
       </div>
-      <p v-if="isMeeting">{{language('LINEIESHANGHUIBEIZHU', 'LINIE上会备注')}}</p>
-      <p v-if="isSign">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
+      <!-- <p v-if="isMeeting">{{language('LINEIESHANGHUIBEIZHU', 'LINIE上会备注')}}</p> -->
+      <!-- <p v-if="isSign">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p> -->
       <iInput v-if="isMeeting"
               v-model="formData.linieMeetingMemo"
               class="margin-top10"
               :rows="8"
               type="textarea" />
       <iInput v-if="isSign"
-              v-model="formData.cs1MeetingMemo"
+              v-model="formData.linieMeetingMemo"
               class="margin-top10"
               :rows="8"
               type="textarea" />
+      <!-- <iInput v-if="isSign" v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/> -->
     </iCard>
     <iCard v-if="isMeeting"
            class="margin-top20">

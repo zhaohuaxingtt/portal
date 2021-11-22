@@ -116,7 +116,7 @@ const mutations = {
           id: index,
           type: 1
         })
-      }else if(["PFJYJGLY", "CGKZKZ", "PJCGGZ","FJCGGZ","CSXTGLY","CIXTGLY","LINIE"].includes(item.code)){
+      }else if(["PFJYJGLY", "CGKZKZ", "PJCGGZ","FJCGGZ","CSXTGLY","CIXTGLY"].includes(item.code)){
         //ekl配附件
         state.eklPfjTabList.push({
           name: 'EKL-CS',
