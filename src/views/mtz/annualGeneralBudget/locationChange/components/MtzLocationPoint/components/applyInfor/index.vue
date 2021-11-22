@@ -37,13 +37,15 @@
         <div class="inforDiv"
              v-for="(item,index) in tabsInforList"
              :key="index">
-          <span>{{item.name}}</span>
-          <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
+          <span>{{language(item.key,item.name)}}</span>
+          <el-tooltip class="item" effect="dark" :content="inforData[item.prop]" placement="top-start" v-if="item.type=='tooltip'&&inforData[item.prop]!==null">
+            <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
                   class="inforText"
                   v-model="inforData[item.prop]"
-                  v-if="item.type!=='select'"></iInput>
+                  ></iInput>
+          </el-tooltip>
           <iSelect style="width:68%;"
-                   v-else
+                   v-else-if="item.type=='select'"
                    :disabled="disabled"
                    :value="inforData[item.prop]"
                    :placeholder="language('QINGXUANZE','请选择')"
@@ -53,6 +55,10 @@
                        v-for="item in getFlowTypeList"
                        :key="item.code"></el-option>
           </iSelect>
+          <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
+                  class="inforText"
+                  v-model="inforData[item.prop]"
+                  v-else></iInput>
         </div>
       </div>
       <span style="display:block;margin-bottom:20px;">Linie上会备注</span>
@@ -62,8 +68,8 @@
                 placeholder="请输入备注"
                 v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
-    <theTabs v-if="!beforReturn" :appStatus='inforData.appStatus'></theTabs>
-    <theDataTabs v-if="!beforReturn" :appStatus='inforData.appStatus'></theDataTabs>
+    <theTabs v-if="!beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"></theTabs>
+    <theDataTabs v-if="!beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"></theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
              v-if="mtzAddShow"

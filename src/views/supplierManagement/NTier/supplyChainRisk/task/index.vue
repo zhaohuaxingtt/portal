@@ -1,19 +1,35 @@
 <template>
   <div class="i-table-custom">
-    <iPage class="template" :class="{
+    <iPage class="template"
+           :class="{
         'single-choise': true,
         'disable-children-selection': true
       }">
       <pageHeader class="margin-bottom20">
         {{ $t('APPROVAL.TASK_MANAGER') }}
       </pageHeader>
-      <searchForm :data="searchData" @search="search" @reset="reset" />
+      <searchForm :data="searchData"
+                  @search="search"
+                  @reset="reset" />
       <iCard>
         <div class="flex-end-center margin-bottom20">
           <iButton @click="exportData">{{ $t('APPROVAL.EXPORT') }}</iButton>
         </div>
-        <i-table-custom :loading="tableLoading" :data="tableData" :columns="tableColumns" ref="listRef" @go-detail="openPage" @handle-selection-change="handleSelectionChange" />
-        <iPagination v-update @size-change="handleSizeChange($event, query)" @current-change="handleCurrentChange($event, query)" background :current-page="page.currPage" :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :total="page.totalCount" />
+        <i-table-custom :loading="tableLoading"
+                        :data="tableData"
+                        :columns="tableColumns"
+                        ref="listRef"
+                        @go-detail="openPage"
+                        @handle-selection-change="handleSelectionChange" />
+        <iPagination v-update
+                     @size-change="handleSizeChange($event, query)"
+                     @current-change="handleCurrentChange($event, query)"
+                     background
+                     :current-page="page.currPage"
+                     :page-sizes="page.pageSizes"
+                     :page-size="page.pageSize"
+                     :layout="page.layout"
+                     :total="page.totalCount" />
       </iCard>
     </iPage>
   </div>
@@ -40,7 +56,7 @@ export default {
     searchForm,
     iTableCustom,
   },
-  data() {
+  data () {
     return {
       tableLoading: false,
       tableColumns: TABLE_COLUMNS,
@@ -53,28 +69,33 @@ export default {
   },
   computed: {
   },
-  created() {
+  created () {
+    this.searchData.processingStatus = Number(this.$route.query.processingStatus)
+    if (this.$route.query.type) {
+      this.searchData.type = this.$route.query.type
+    }
     this.query(this.searchData)
   },
-  mounted() {
+  mounted () {
   },
   methods: {
-    search(data) {
+    search (data) {
       this.page.currPage = 1
       this.query(data)
     },
-    reset() {
+    reset () {
       this.page.currPage = 1
       this.searchData = { ...SEARCH_DATA }
       this.query(this.searchData)
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectedRows = val
     },
-    openPage(val) {
-      this.$router.push({ path: '/supplier/NTier/feedback', query: { id: val.businessId } })
+    openPage (val) {
+      window.open(val.url)
+      // this.$router.push({ path: val.url, query: { id: val.businessId } })
     },
-    async query(data) {
+    async query (data) {
       this.tableLoading = true
       let params = {
         pageNo: this.page.currPage,
@@ -89,7 +110,7 @@ export default {
       this.page.totalCount = res.total
       this.tableData = res.data
     },
-    exportData() {
+    exportData () {
       if (!this.selectedRows.length)
         return iMessage.warn(this.$t('LK_QINGXUANZHEXUYAODAOCHUSHUJU'))
       const tableColumns = this.tableColumns.map(item => ({

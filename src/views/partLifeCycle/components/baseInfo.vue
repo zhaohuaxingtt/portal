@@ -184,7 +184,7 @@
 </template>
 
 <script>
-import { iCard, iSearch, icon } from 'rise';
+import { iCard, iSearch, icon, iMessage } from 'rise';
 import { findPartsInfo, getLatestOrderId } from '@/api/partLifeCycle';
 export default {
   name: 'baseInfo',
@@ -208,17 +208,49 @@ export default {
 
   methods: {
 
+    handleJumpData(data){
+      let path = '';
+      const { id, isOrder, type } = data;
+      if(+type === 55){ //  批量
+        path = `ws2/createbatchframework?frameItemTye=${type}&type=1&scheduleAgreementId=${id}`;
+      }else if(type === 'steel'){ //  钢材
+        if(isOrder){  //  钢材订单
+          path = `ws2/steel/components/order/SteelOrderDetailsPage/1/${id}`;
+        }else{  //  钢材框架
+          path = `ws2/steel/components/frame/SteelFrameDetailsPage/1/${id}`;
+        }
+      }else if(type === 'db'){  //  db框架
+        path = `ws2/dbframework/create?isSelf=1&frameItemTye=${type}&type=1&scheduleAgreementId=${id}`;
+      }else if(+type === 411){  //  工序委外
+        path = `ws2/order/Outsourcing/details/OutsourcingOrderDetails/1/${id}`;
+      }else if(+type === 42){ //  模具订单
+        path = `ws2/modeler/details/ModelOrderDetailsPage/1/${id}`;
+      }else{
+        return iMessage.error('返回数据错误')
+      }
+
+      window.open(window.location.origin + `/order/index.html#/${path}`, '_blank');
+    },
+
     jumpOrderDetails(code){
       getLatestOrderId({
-        contractCode: code
+        contractCode: '',
+        // contractSapCode: '5500060048'
+        contractSapCode: code,
       }).then(res => {
-        console.log('213123123123', res);
+        this.handleJumpData(res.data);
       })
     },
 
     //  跳转合同号
-    jumpContract(contractNumber){
-      window.open(window.location.origin + `/order/#/ws2/createbatchframework?contractNumber=${contractNumber}`, '_blank');
+    jumpContract(code){
+      getLatestOrderId({
+        contractCode: code,
+        contractSapCode: ''
+        // contractSapCode: code,
+      }).then(res => {
+        this.handleJumpData(res.data);
+      })
     },
 
     findPartsInfo(){

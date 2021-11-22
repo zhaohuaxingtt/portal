@@ -58,7 +58,7 @@
                     <el-option
                         v-for="item in supplierList"
                         :key="item.code"
-                        :label="item.code"
+                        :label="item.codeMessage"
                         :value="item.code">
                     </el-option>
                 </i-select>
@@ -111,14 +111,12 @@
             </iFormItem>
             <iFormItem prop="priceMeasureUnit">
                 <iLabel :label="language('JIJIAJILIANGDANWEI','基价计量单位')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.priceMeasureUnit"
-                         :user-options="priceMeasureUnit"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                <el-input
+                v-model="contractForm.priceMeasureUnit"
+                type="text"
+                placeholder="请输入"
+                :disabled="true"
+                />
             </iFormItem>
             <iFormItem prop="platinumPrice">
                 <iLabel :label="language('BOJIJIA','铂基价')" slot="label"></iLabel>
@@ -186,7 +184,7 @@
                          :user-options="tcCurrence"
                          clearable
                          :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
+                         display-member="code"
                          value-member="code"
                          value-key="code">
                 </custom-select>
@@ -206,7 +204,6 @@
                 v-model="contractForm.source"
                 type="text"
                 placeholder="请输入市场价来源"
-                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="compensationRatio">
@@ -271,6 +268,7 @@
             <i-button @click="handleReset">重置</i-button>
             <i-button @click="handleCancel">取消</i-button>
         </span>
+
     </div>
 </template>
 
@@ -280,10 +278,12 @@ import {
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 import {
   cartypePaged,//车型
+  currencyDict,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 import {
   addAppRule,//维护MTZ原材料规则-新增
-  checkPreciousMetal
+  checkPreciousMetal,
+  queryMaterialList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { 
     getRawMaterialNos
@@ -291,7 +291,8 @@ import {
 import {
   fetchRemoteMtzMaterial,//查询MTZ材料组
 } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit';
-import { isNumber,timeCoincide } from "./util";
+import { isNumber,timeCoincide,timeTransformation,Mul,numAdd } from "./util";
+
 import {
   iButton,
   iMessage,
@@ -301,7 +302,7 @@ import {
   iFormItem,
   iLabel,
   iSelect,
-  iDatePicker
+  iDatePicker,
 } from 'rise'
 export default {components: {
     iButton,
@@ -312,7 +313,7 @@ export default {components: {
     iFormItem,
     iLabel,
     iSelect,
-    iDatePicker
+    iDatePicker,
   },
   props: {
     show: {
@@ -339,6 +340,39 @@ export default {components: {
             callback();
         }
     };
+    var validatePass2 = (rule, value, callback) => {//阈值
+        if(value.toString().split(".")[1] !== undefined){
+            if (value.toString().split(".")[1].length>4) {
+                callback(new Error('最多输入小数点后4位'));
+            }else{
+                callback();
+            }
+        }else{
+            callback();
+        }
+    };
+    var validatePass3 = (rule, value, callback) => {//用量
+        if(value == "" || value == undefined){
+            callback();
+        }else{
+            if(value.toString().split(".")[1] !== undefined){
+                if (value.toString().split(".")[1].length>6) {
+                    callback(new Error('最多输入小数点后6位'));
+                }else{
+                    callback();
+                }
+            }else{
+                callback();
+            }
+        }
+    }
+    var validatePass4 = (rule, value, callback) => {
+        if(timeTransformation(this.contractForm.startDate)>=timeTransformation(this.contractForm.endDate)){
+            callback(new Error('有效期起不能大于等于有效期止'));
+        }else{
+            callback();
+        }
+    }
     return {
         thresholdCompensationLogic:[//阈值补差逻辑,全额补差/超额补差
             {
@@ -364,18 +398,7 @@ export default {components: {
                 message:"季度"
             },
         ],
-        tcCurrence:[//货币
-            {
-                code:"0",
-                message:"RMB"
-            }
-        ],
-        priceMeasureUnit:[//基价计量单位
-            {
-                code:"0",
-                message:"KG"
-            }
-        ],
+        tcCurrence:[],
         supplierList:[],//供应商
         carline:[],//车型
         contractForm: {
@@ -385,9 +408,16 @@ export default {components: {
             materialName:'',
             threshold:0,
             endDate:"2999-12-31 00:00:00",
-            source:"JD",
+            source:"",
             price:"",
             carline:"",
+            priceMeasureUnit:"",
+            platinumPrice:'',
+            platinumDosage:'',
+            palladiumDosage:'',
+            rhodiumPrice:'',
+            rhodiumDosage:'',
+            palladiumPrice:"",
         },
         carlineNumber:[],
         rules: {
@@ -398,9 +428,17 @@ export default {components: {
             supplierName: [{ required: true, message: '请选择', trigger: 'blur' }],
             materialCode: [{ required: true, message: '请选择', trigger: 'blur' }],
             materialName: [{ required: true, message: '请选择', trigger: 'blur' }],
-            price: [{ required: true, message: '请输入', trigger: 'blur' }],
+            price: [{ required: true, message: '请输入或补全铂钯铑基价和用量', trigger: 'blur' }],//基价
             priceMeasureUnit: [{ required: true, message: '请选择', trigger: 'blur' }],
-            
+            platinumDosage:[
+                { validator:validatePass3, trigger: 'blur' }
+            ],
+            palladiumDosage:[
+                { validator:validatePass3, trigger: 'blur' }
+            ],
+            rhodiumDosage:[
+                { validator:validatePass3, trigger: 'blur' }
+            ],
             tcCurrence: [{ required: true, message: '请选择', trigger: 'blur' }],
             tcExchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }],
             source: [{ required: true, message: '请输入', trigger: 'blur' }],
@@ -409,10 +447,19 @@ export default {components: {
                 { validator:validatePass1, trigger: 'blur' }
             ],
             compensationPeriod: [{ required: true, message: '请选择', trigger: 'blur' }],
-            threshold: [{ required: true, message: '请输入', trigger: 'blur' }],
+            threshold: [{ 
+                required: true, message: '请输入', trigger: 'blur' },
+                { validator:validatePass2, trigger: 'blur' }
+            ],
             thresholdCompensationLogic: [{ required: true, message: '请选择', trigger: 'blur' }],
-            startDate: [{ required: true, message: '请选择', trigger: 'blur' }],
-            endDate: [{ required: true, message: '请选择', trigger: 'blur' }],
+            startDate: [
+                { required: true, message: '请选择', trigger: 'blur' },
+                { validator:validatePass4, trigger: 'blur' }
+            ],
+            endDate: [
+                { required: true, message: '请选择', trigger: 'blur' },
+                { validator:validatePass4, trigger: 'blur' }
+            ],
         },
         effectFlag:[
             {
@@ -450,6 +497,10 @@ export default {components: {
     }).then(res=>{
         this.carline = res.data;
     })
+
+    currencyDict().then(res=>{
+        this.tcCurrence = res.data;
+    })
   },
   computed:{
       mtzObject(){
@@ -464,15 +515,32 @@ export default {components: {
   methods: {
     jijiaCompute(){
         if(isNumber(this.contractForm.platinumPrice) && isNumber(this.contractForm.platinumDosage) && isNumber(this.contractForm.palladiumPrice) && isNumber(this.contractForm.palladiumDosage) && isNumber(this.contractForm.rhodiumPrice) && isNumber(this.contractForm.rhodiumDosage)){
-            console.log("计算出基价值");
-            this.contractForm.price = "99.9"
+            var number = 0;
+            // this.contractForm.price = Mul(Number(this.contractForm.platinumPrice),Number(this.contractForm.platinumDosage)) + Mul(Number(this.contractForm.palladiumPrice),Number(this.contractForm.palladiumDosage)) + Mul(Number(this.contractForm.rhodiumPrice),Number(this.contractForm.rhodiumDosage))
+
+            number = numAdd(Mul(Number(this.contractForm.platinumPrice),Number(this.contractForm.platinumDosage)),Mul(Number(this.contractForm.palladiumPrice),Number(this.contractForm.palladiumDosage)))
+            number = numAdd(number,Mul(Number(this.contractForm.rhodiumPrice),Number(this.contractForm.rhodiumDosage)));
+
+            this.contractForm.price = number;
+
         }else{
-            iMessage.error("请填写完")
+            this.contractForm.price = "";
         }
     },
     MaterialGrade(value){
+        this.contractForm.priceMeasureUnit = "",
+        this.contractForm.price = "",
+        this.contractForm.platinumPrice = "",
+        this.contractForm.platinumDosage = "",
+        this.contractForm.palladiumPrice = "",
+        this.contractForm.palladiumDosage = "",
+        this.contractForm.rhodiumPrice = "",
+        this.contractForm.rhodiumDosage = "",
         checkPreciousMetal({code:value}).then(res=>{
             this.metalType = res.data;
+        })
+        queryMaterialList({materialCode:value}).then(res=>{
+            this.contractForm.priceMeasureUnit = res.data.countUnit;
         })
         try{
             this.materialCode.forEach(e => {
@@ -577,7 +645,7 @@ export default {components: {
     },
     handleCancel(){
         this.$emit("close","")
-    }
+    },
   }
 
 }

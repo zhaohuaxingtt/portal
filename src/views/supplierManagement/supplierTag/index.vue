@@ -197,6 +197,7 @@ export default {
       tagList: [],
       tagdropDownList: [],
       tagTypeList: [
+            { label: this.language('QUANBU', '全部'), value: '' },
         { label: this.language('XITONGPANDING', '系统判定'), value: 1 },
         { label: this.language('SHOUGONG', '手工'), value: 2 }
       ]

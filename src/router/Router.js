@@ -2,7 +2,7 @@
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-17 14:25:23
+ * @LastEditTime: 2021-11-19 14:15:08
  * @Description:
  * @FilePath: \front-portal\src\router\Router.js
  */
@@ -36,6 +36,7 @@ import RouterManage from './RouterManage'
 import RouterMeeting from './RouterMeeting'
 
 import RouterNews from "./news";
+import RouterSurvey from './survey'
 
 export default {
   routes: [
@@ -103,6 +104,15 @@ export default {
         import('@/views/supplierManagement/NTier/supplyChainMap/index.vue')
     },
     {
+      path: '/mtzPointView',
+      name: 'mtzPointView',
+      meta: {
+        title: '流转定点推荐'
+      },
+      component: () =>
+        import('@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/decisionMaterial/components/mtzPointView.vue')
+    },
+    {
       path: '/',
       name: 'home',
       redirect: '/index',
@@ -146,6 +156,7 @@ export default {
         ...RouterMeeting,
         ...RouterManage,
         ...RouterNews,
+        ...RouterSurvey
       ]
     },
 

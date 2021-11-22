@@ -2,14 +2,11 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('PEIFUJIANGONGHUOLV', '配附件供货率')}}</p>
-      <span class="el-dropdown-link">
-        <i class="el-icon-more"></i>
-      </span>
     </div>
+    
     <div class="box">
-      <icon class="early"
-            symbol
-            name="iconcaiwuyujing-icon"></icon>
+       <img :src="img"
+           class="imgIcon" />
 
       <div ref="chart"
            class="chartStyle"> </div>
@@ -18,8 +15,9 @@
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, icon } from 'rise'
+import { iCard,  } from 'rise'
 import { getSapSupplierRate } from '@/api/supplierManagement/supplierCard/index'
+import img from '@/assets/images/supplyRate.svg'
 export default {
   props: {
     infodata: {
@@ -31,10 +29,10 @@ export default {
   },
   components: {
     iCard,
-    icon
   },
   data() {
     return {
+         img:img,
       chart: 'oneChart',
       option: {},
       info: {}
@@ -173,6 +171,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.imgIcon{
+    width: 60px;
+    height: 60px;
+}
 .title {
   display: flex;
   justify-content: space-between;

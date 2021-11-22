@@ -29,6 +29,15 @@ export function selectDictByKeys(data) {
   })
 }
 
+export function currencyDict(data) {
+  //字典
+  return requstDict({
+    url: '/api/currencyDict',
+    method: 'GET',
+    params: data
+  })
+}
+
 export function getRfqPartList(parmars) {
   //引用RFQ中零件查询列表
   return requst({
@@ -71,6 +80,15 @@ export function cartypePaged(data) {
     url: '/web/cartypePaged',
     method: 'GET',
     params: data
+  })
+}
+
+export function partInfoPaged(parmars) {
+  //零件中心列表分页查询
+  return requstPart({
+    url: '/web/partInfoPaged',
+    method: 'POST',
+    data: parmars
   })
 }
 

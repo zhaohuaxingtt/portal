@@ -186,7 +186,6 @@
                 this.$refs.theTable.getTableList();
             },
             clickItem(index) {
-                console.log(this.display)
                 this.display = false
                 this.dataList.map(item => {
                     item.active? item.active = false:''
@@ -194,7 +193,6 @@
                 this.$set(this.dataList[index],'active',true)
             },
             changVal(val) {
-                console.log(val)
                 this.display = true
             },
 

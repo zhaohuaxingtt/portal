@@ -107,7 +107,7 @@ export default {
   },
   async mounted() {
     const http = new XMLHttpRequest()
-    const url = `/fileud/batchSelectByIds`
+    const url = `/fileudApi/batchSelectByIds`
     http.open('POST', url, true)
     http.setRequestHeader('content-type', 'application/json')
     http.onreadystatechange = () => {
@@ -121,7 +121,7 @@ export default {
   },
   data() {
     return {
-      uploadURL: '/fileud/udSingleFile',
+      uploadURL: '/fileudApi/udSingleFile',
       fileList: []
     }
   },

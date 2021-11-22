@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-18 10:06:25
+ * @LastEditTime: 2021-11-19 19:45:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -17,6 +17,7 @@
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
         <iButton v-show="!flag"
+                 :disabled="disabled"
                  @click="edit">{{language('BIANJI', '编辑') }}</iButton>
       </div>
       <div v-if="editFlag">
@@ -153,7 +154,8 @@ export default {
       riseId: "",
       selectDeptList: [],
       selectSectionList: [],
-      flag: false
+      flag: false,
+      disabled: false
     }
   },
   components: {
@@ -179,10 +181,10 @@ export default {
   // },
   mixins: [pageMixins],
   methods: {
-    init () {
+    async init () {
       this.mtzAppId = this.$route.query.mtzAppId
       this.flag = JSON.parse(this.$route.query.isView)
-      this.handleSync()
+      await this.getAppFormInfo()
       this.selectDept()
       this.selectSection()
 
@@ -226,16 +228,24 @@ export default {
         this.selectSectionList = res.data
       })
     },
-    approveStream () {
-      this.dialogVisible = true
+    getAppFormInfo () {
       getAppFormInfo({
         isDeptLead: true,
         mtzAppId: this.mtzAppId || '5107001'
       }).then(res => {
         if (res?.code === '200') {
           this.riseId = res.data.riseId
+          if (res.data.ttNominateAppId) {
+            this.disabled = true
+          }
+          if (res.data.flowType === 'FILING') {
+            this.handleSync()
+          }
         }
       })
+    },
+    approveStream () {
+      this.dialogVisible = true
     },
     edit () {
       if (this.muilteList.length === 0) {
@@ -301,7 +311,7 @@ export default {
       this.userList = obj.userDTOList
     },
     handleSync () {
-      syncAuther({ mtzAppId: this.mtzAppId || '5107001' }).then(res => {
+      syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: "1" }).then(res => {
         if (res?.code === '200') {
           this.getTableList()
           iMessage.success(res.desZh)

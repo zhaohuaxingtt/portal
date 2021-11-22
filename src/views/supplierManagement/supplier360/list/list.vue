@@ -288,7 +288,6 @@ export default {
     iSelect,
     iPagination,
     listDialog,
-
     iSearch,
     joinlacklistGp,
     removelacklistGp,
@@ -369,7 +368,7 @@ export default {
         tagdropDownList: [],
         supplierType: '',
         dept: '',
-        relatedToMe: '',
+        relatedToMe: true,
         materialOrCraftCode: ''
       },
       carTypeOptions: [],
@@ -397,11 +396,12 @@ export default {
     changTag() {
         this.form.tagNameList=[]
       //获取标签列表
-      let isMeRelated = 0
-      if (this.form.relatedToMe) {
-        isMeRelated = 1
-      } else isMeRelated = 0
-      dropDownTagName({ isMeRelated: isMeRelated }).then((res) => {
+    //   let isMeRelated = 0
+    //   if (this.form.relatedToMe) {
+    //     isMeRelated = 1
+    //   } else isMeRelated = 0
+    //   isMeRelated ,supplierId:this.$store.state.permission.userInfo.id
+      dropDownTagName({ isMeRelated: 0}).then((res) => {
         if (res && res.code == 200) {
           this.tagdropDownList = res.data
         }
@@ -421,7 +421,6 @@ export default {
             this.isCgy = true
           }
           if (this.userType == 'GP') this.form.supplierType = 'GP'
-          console.log(this.isCgy)
           this.form.relatedToMe = true
           this.getTableList(this.form.supplierType)
         } else {
@@ -519,7 +518,6 @@ export default {
     },
     //标签设置弹窗
     setTagBtn() {
-      console.log(this.selectTableData)
       if (this.selectTableData.length == 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
       } else this.isSetTag = true
@@ -557,7 +555,6 @@ export default {
       this.listDialog = true
     },
     openPage(params) {
-      console.log(params)
       let routeData = this.$router.resolve({
         path: '/supplier/supplierList/details',
         query: {
@@ -591,7 +588,6 @@ export default {
     },
 
     async getTableList() {
-      console.log(this.$store.state.permission.userInfo, '....')
       this.tableLoading = true
       const pms = {
         ...this.form,

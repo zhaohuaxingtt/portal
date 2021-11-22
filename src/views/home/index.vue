@@ -44,22 +44,6 @@ export default {
     }),
     cards() {
       let cards = this.cardList.filter(li => !li.value)
-      
-      // ekl-15
-      cards.push({
-        component: "EKLAffix",
-        createBy: 1,
-        createDate: "2021-09-03 10:53:02",
-        id: 10,
-        isDelete: false,
-        moduleData: null,
-        name: "EKL",
-        orderNum: 9,
-        permissionKey: "HOME_MODULE_EKLAffix",
-        updateBy: null,
-        updateDate: null,
-        value: false
-      })
       return cards
         // return this.cardList.filter(li => li.name ==`EKL`)
     }
