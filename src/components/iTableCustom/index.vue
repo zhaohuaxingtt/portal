@@ -32,7 +32,6 @@
       :stripe="stripe"
       :header-cell-class-name="handleHeaderCellClassName"
       @row-click="rowClick"
-      border
     >
       <template v-for="(item, index) in tableVisibleColumns">
         <el-table-column
