@@ -294,7 +294,7 @@ module.exports = {
       },
       // 用户助手中心
       [process.env.VUE_APP_USER_ASSISTANT]: {
-        target: `http://${BASE_IP}:8059`,
+        target: `http://${BASE_IP}:8059/riseassistant`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
