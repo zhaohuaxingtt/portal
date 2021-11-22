@@ -5,6 +5,7 @@
       <div class="basicMessage">
         <iCard :title="title.icardMessage" collapse>
           <div class="btnList">
+              <iButton style="margin-right:20px" @click="toColorStandardParts">{{language('批量修改')}}</iButton>
               <div class="browse" v-if='isDisabled>0 ? true : false'>
                   <iButton @click="edit">{{btnList.edit}}</iButton>
               </div>
@@ -248,6 +249,7 @@
 import {iPage,iCard,iButton,iFormItem,iInput,iSelect,iDatePicker,iMessage} from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
+import { openUrl } from '@/utils'
 import {measurementTable,itemLabel,measureEdit} from './data.js'
 import {getMaterielById,saveMateriel,getProGroupOptions,searchOptions,materielGroup,materielUnit,saveActive,upDateMateriel,
         getMaterielGroup,getUnitList,saveUnitList
@@ -662,6 +664,9 @@ export default {
             }).catch((err) => {
                 iMessage.error(err)
             })
+        },
+        toColorStandardParts(){
+            openUrl('/colorStandardParts')
         }
     },
     created(){
