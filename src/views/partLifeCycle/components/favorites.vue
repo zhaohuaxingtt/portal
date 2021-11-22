@@ -38,7 +38,7 @@
         <div class="liDiv" :style="{ maxHeight: a.expand ? '500px' : 0 }">
           <li v-for="(b, bIndex) in a.partsCollectVOList" :key="bIndex" v-show="Number(b.isDelete) === 0">
             <div>
-              <p>{{ b.partsNum }}</p>
+              <p @click="toPartLifeCycle(b.partsNum)">{{ b.partsNum }}</p>
               <p>{{ b.partsName }}</p>
             </div>
             <icon @click.native="deleteItem(b)" v-show="!isEdit" symbol name="icona-shanchulingjianbiaoqianzu"></icon>
@@ -74,6 +74,13 @@ export default {
     this.getFolderPartsList()
   },
   methods: {
+    toPartLifeCycle(partsNum) {
+      let routeData = this.$router.resolve({
+        path: '/partLifeCycle',
+        query: { partsNum: partsNum }
+      })
+      window.open(routeData.href)
+    },
     clearSaveDialog(isSave){
       this.addItemShow = false
       if(isSave){
