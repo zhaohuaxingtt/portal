@@ -1,13 +1,13 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-11-04 10:02:28
- * @LastEditTime: 2021-11-22 12:36:47
+ * @LastEditTime: 2021-11-22 13:51:54
  * @LastEditors: Please set LastEditors
  * @Description: 会外流转单pdf预览
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signPreview.vue
 -->
 <template>
-  <div id="content">
+  <iPage id="content">
     <iCard>
       <div slot="header"
            class="headBox">
@@ -66,26 +66,8 @@
         :current-page='partPageParams.currPage'
         :total="partPageParams.totalCount"/> -->
     </iCard>
-    <!-- <iCard class="margin-top20">
-      <div slot="header"
-           class="headBox">
-        <p class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p>
-      </div>
-      <p>{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
-      <iInput v-model="formData.cs1MeetingMemo"
-              class="margin-top10"
-              :rows="8"
-              type="textarea" />
-    </iCard>
-    <div class="margin-top30 deptBox">
-      <div class="deptItem"
-           v-for="(item, index) in deptData"
-           :key="index">
-        <p>{{item.approvalDepartment}}：</p>
-        <div></div>
-      </div>
-    </div> -->
-  </div>
+
+  </iPage>
 </template>
 
 <script>
