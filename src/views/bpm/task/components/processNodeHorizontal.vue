@@ -152,10 +152,10 @@ export default {
         panoromaItem.taskApprovesList.forEach((task) => {
           if (task.approvedUser) {
             const taskUser = {
+              ...task.approvedUser,
               taskStatus: '',
               taskId: '',
-              endTime: '',
-              ...task.approvedUser
+              endTime: ''
             }
             if (task.agentUsers) {
               taskUser.agentUsers = task.agentUsers
@@ -169,10 +169,10 @@ export default {
           if (task.taskApproves) {
             task.taskApproves.forEach((approve) => {
               const taskUser = {
+                ...approve.approvedUser,
                 taskStatus: task.taskStatus,
                 taskId: task.taskId,
-                endTime: task.endTime,
-                ...approve.approvedUser
+                endTime: task.endTime
               }
               if (approve.agentUsers) {
                 taskUser.agentUsers = approve.agentUsers || []

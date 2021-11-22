@@ -41,7 +41,10 @@
             :class="{
               'flex-between-center-center': true,
               menu: true,
-              active: getActive(menu.url),
+              active:
+                activeMenu &&
+                activeMenu.length > 1 &&
+                activeMenu[1] === menu.permissionKey,
               disabled: !menu.url
             }"
             :url="menu.url"
@@ -86,10 +89,10 @@ export default {
         return []
       }
     },
-    menuRelation: {
-      type: Object,
+    activeMenu: {
+      type: Array,
       default: function () {
-        return {}
+        return []
       }
     }
   },
@@ -102,12 +105,13 @@ export default {
         return ''
       }
       return this.userInfo?.deptDTO?.nameZh || ''
-    }
-  },
-  watch: {
-    '$route.path'() {
-      this.getParentUrl()
-      this.setNameActive()
+    },
+    usernameActive() {
+      return (
+        this.activeMenu &&
+        this.activeMenu.length &&
+        this.activeMenu[0] === 'RISE_ADMIN'
+      )
     }
   },
   data() {
@@ -128,30 +132,10 @@ export default {
           name: 'logout'
         }
       ],
-      menus_admin: [],
-      parentUrls: [],
-      usernameActive: false
+      menus_admin: []
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.getParentUrl()
-      this.setNameActive()
-    })
-  },
   methods: {
-    setNameActive() {
-      this.usernameActive = false
-      const { matched } = this.$route
-      if (matched) {
-        matched.forEach((e) => {
-          const menuTop = e?.meta?.top
-          if (menuTop === 'admin') {
-            this.usernameActive = true
-          }
-        })
-      }
-    },
     handleShow() {
       this.active = true
       this.menus_admin = this.menus
@@ -162,8 +146,11 @@ export default {
     //模拟退出登录方法
     logout() {
       removeToken()
-      window.location.href = '/login'
-      window.location.reload()
+      if (['vsmit', 'dev'].includes(process.env.NODE_ENV)) {
+        window.location.href = '/portal/#/login'
+      } else {
+        window.location.href = `https://sidpdev.csvw.com/esc-sso/logout?redirectBack=true&redirectUrl=${process.env.VUE_APP_HOST}/umc/sso/sidp`
+      }
     },
     handleProfileClick(menu) {
       if (menu.name === 'logout') {
@@ -188,49 +175,6 @@ export default {
           this.$router.push(menu.url)
         }
       }
-    },
-    // 获取上级url列表
-    getParentUrl() {
-      const locationHref = window.location.href // 浏览器url
-      const locationUrl = locationHref.replace(process.env.VUE_APP_HOST, '') // 去除host的浏览器url
-      const topUrl = this.getTopUrl(locationUrl)
-      let key = topUrl || locationUrl
-
-      key = key.includes('#')
-        ? key
-        : process.env.VUE_APP_PUBLICPATH + '/#' + key
-      console.log('key', key)
-      this.parentUrls = this.menuRelation[key] || [key]
-    },
-    getActive(url) {
-      if (window.location.href === url) {
-        return true
-      }
-      url = url || ''
-      const pureUrl = url.replace(process.env.VUE_APP_HOST, '')
-      let topUrl = this.getTopUrl(pureUrl)
-      if (
-        this.parentUrls.includes(pureUrl) ||
-        this.parentUrls.includes(topUrl)
-      ) {
-        return true
-      }
-      return false
-    },
-    getTopUrl(url) {
-      let res = ''
-      const matched = this.$route.matched
-      if (matched) {
-        const realUrl = url.includes('#') ? url.split('#')[1] : url
-        for (let i = 0; i < matched.length; i++) {
-          const element = matched[i]
-          if (element.redirect === realUrl && element.path) {
-            res = element.path
-            break
-          }
-        }
-      }
-      return res
     }
   }
 }

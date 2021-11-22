@@ -35,8 +35,9 @@ import RouterPopupWindowMa from './RouterPopupWindowMa'
 import RouterManage from './RouterManage'
 import RouterMeeting from './RouterMeeting'
 
-import RouterNews from "./news";
+import RouterNews from './news'
 import RouterSurvey from './survey'
+import RouterColorParts from './RouterColorParts'
 
 export default {
   routes: [
@@ -110,7 +111,9 @@ export default {
         title: '流转定点推荐'
       },
       component: () =>
-        import('@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/decisionMaterial/components/mtzPointView.vue')
+        import(
+          '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/decisionMaterial/components/mtzPointView.vue'
+        )
     },
     {
       path: '/',
@@ -123,7 +126,7 @@ export default {
           name: 'index',
           component: Home,
           meta: {
-            top: 'RISE_HOME'
+            activeMenu: ['RISE_HOME']
           }
         },
         {
@@ -156,7 +159,8 @@ export default {
         ...RouterMeeting,
         ...RouterManage,
         ...RouterNews,
-        ...RouterSurvey
+        ...RouterSurvey,
+        ...RouterColorParts
       ]
     },
 

@@ -14,7 +14,7 @@ export const TABLE_COLUMNS = [
     {
         label:'弹窗标题',
         prop:'popupName',
-        width:'400px',
+        width:'500px',
         tooltip:true
     },
     {

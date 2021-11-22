@@ -281,7 +281,7 @@ export default {
         // code: this.number, // 问题编号
         number: this.number, // 问题序号
         type: 9, // 问题类型
-        requiredQuestion: "", // 是否必答
+        requiredQuestion: true, // 是否必答
         sonQuestions: [],
       },
       rules: {
@@ -475,7 +475,7 @@ export default {
     handleCompleteAdd(str, str2) {
       let bol = false;
       if (this.$refs.childFIn) {
-        this.$refs.childFIn.forEach((item, index) => {
+        this.$refs.childFIn.forEach((item) => {
           if (!bol) {
             bol = item.complete();
           } else {

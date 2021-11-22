@@ -5,14 +5,15 @@ export default [
     meta: {
       title: '调查问卷'
     },
-    redirect: "/survey/management",
+    redirect: '/survey/management',
     component: () => import('@/views/surveyManagement/manage/index.vue'),
     children: [
       {
         path: '/survey/management',
         name: 'surveyManagement',
         meta: {
-          title: '问卷管理'
+          title: '问卷管理',
+          activeMenu: ['RISE_ADMIN', 'ADMIN_NEWS_SURVEY']
         },
         component: () =>
           import('@/views/surveyManagement/manage/survey/management/index')
@@ -21,7 +22,8 @@ export default [
         path: '/survey/create',
         name: 'surveyCreate',
         meta: {
-          title: '新建问卷'
+          title: '新建问卷',
+          activeMenu: ['RISE_ADMIN', 'ADMIN_NEWS_SURVEY']
         },
         component: () =>
           import('@/views/surveyManagement/manage/survey/create/index.vue')
@@ -61,7 +63,6 @@ export default [
     meta: {
       title: '问卷调查'
     },
-    component: () =>
-      import('@/views/surveyManagement/answer/detail/index.vue')
-  },
+    component: () => import('@/views/surveyManagement/answer/detail/index.vue')
+  }
 ]

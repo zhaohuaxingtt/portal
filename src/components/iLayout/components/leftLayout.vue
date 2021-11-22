@@ -11,6 +11,7 @@
     <div class="leftLayout">
       <div class="content">
         <img class="logo" src="~@/assets/images/rise.png" alt="" />
+
         <div :class="iconChangeClass" class="centerBtn">
           <!-- <span
             v-for="(item, index) in menus"
@@ -21,13 +22,15 @@
           <span
             v-for="item in menus"
             :key="item.id"
-            :class="{ transparent: activeIndex === item.permissionKey }"
+            :class="{ transparent: activeMenu.includes(item.permissionKey) }"
             @click="toggleSubMenu(item)"
           >
             <icon
               symbol
               :name="
-                activeIndex === item.permissionKey ? item.activeIcon : item.icon
+                activeMenu.includes(item.permissionKey)
+                  ? item.activeIcon
+                  : item.icon
               "
             />
           </span>
@@ -79,6 +82,12 @@ export default {
   components: { icon },
   props: {
     menus: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
+    activeMenu: {
       type: Array,
       default: function () {
         return []
