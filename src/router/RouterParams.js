@@ -4,7 +4,7 @@ export default [
     name: 'tree',
     meta: {
       title: '数据字典管理',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PARAMS']
     },
     component: () => import('@/views/params/table')
   },
@@ -13,7 +13,7 @@ export default [
     name: 'params',
     meta: {
       title: '参数管理',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PARAMS']
     },
     component: () => import('@/views/params/list')
   },
@@ -22,7 +22,7 @@ export default [
     name: 'contract',
     meta: {
       title: '合同管理',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PARAMS']
     },
     component: () => import('@/views/params/contract')
   }
