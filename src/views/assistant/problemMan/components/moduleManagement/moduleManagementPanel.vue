@@ -76,7 +76,10 @@ export default {
       this.isEdit = false;
       this.extraData.selectionRowIds = [];
     },
-    confirmEditHandler () { },
+    confirmEditHandler () { 
+      this.isEdit = false;
+      this.extraData.selectionRowIds = [];
+    },
     changeNameHandler (scope,val) {
       const { row, $index } = scope
       console.log('row', row,$index,val);
