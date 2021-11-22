@@ -210,7 +210,7 @@
     LK_CS_1SHANGHUIBEIZHU: 'CS*1 meeting remark', //CS*1上会备注
     LK_CSFPFUZEREN: 'CSF（P）Owner', //CSF（P）负责人
     LK_FS_GSHAO: 'FS/GS No.', //FS/GS号
-    LK_FSHAO: 'FS No.', //FS号
+    LK_FS_GS_SP: 'FS/GS/SP No', //FS号
     LK_INBOUNDWULIUFANGSHI: 'INBOUND Logistics Mode', //INBOUND物流方式
     LK_LINIE: 'LINIE', //LINIE
     LK_LINIEBEIZHU: 'Linie Remark', //Linie备注

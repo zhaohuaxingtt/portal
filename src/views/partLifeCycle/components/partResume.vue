@@ -48,8 +48,7 @@
           </div>
           <div class="version" v-if="Number(item.type) === 5"> — {{ item.title }}</div>
           <icon class="icon label1" v-if="Number(item.type) === 2" symbol name="iconlingjianlvlibiaoqian"></icon>
-          <icon class="icon label2" v-if="Number(item.type) === 5" symbol
-                name="iconlingjianlvliAekoyishishibiaoji"></icon>
+          <icon class="icon label2" v-if="item.label" symbol name="iconlingjianlvliAekoyishishibiaoji"></icon>
         </div>
       </div>
       <div class="right" v-loading="rightLoading">

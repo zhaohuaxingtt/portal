@@ -15,7 +15,7 @@
           <iButton v-if="!RsObject && downType" @click="downPdf">{{language('DAOCHUPDF','导出PDF')}}</iButton>
         </span>
       </div>
-      <el-form ref="form" :model="formData" label-width="140px" label-position="left">
+      <!-- <el-form ref="form" :model="formData" label-width="140px" label-position="left">
         <el-row :gutter="20">
           <el-col :span="8" v-for="item in formList" :key="item.prop">
             <el-form-item :label="language(item.key ,item.label)" style="width: 70%;">
@@ -23,7 +23,18 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </el-form>
+      </el-form> -->
+      <div class="tabsBoxInfor">
+        <div class="inforDiv"
+             v-for="(item,index) in formList"
+             :key="index">
+          <span>{{language(item.key,item.label)}}</span>
+          <iInput :disabled="true"
+                  class="inforText"
+                  v-model="formData[item.prop]"
+                  ></iInput>
+        </div>
+      </div>
       <el-divider/>
       <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}</p>
         <tableList
@@ -34,6 +45,12 @@
           :index="true"
           :selection="false"
           @handleSelectionChange="handleSelectionChange">
+          <template slot-scope="scope" slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
+          <template slot-scope="scope" slot="thresholdCompensationLogic">
+            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
         </tableList>
         <iPagination
         v-if="RsObject"
@@ -56,6 +73,12 @@
           :index="true"
           :selection="false"
           @handleSelectionChange="handleSelectionChange">
+          <template slot-scope="scope" slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
+          <template slot-scope="scope" slot="thresholdCompensationLogic">
+            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
         </tableList>
         <iPagination
         v-if="RsObject"
@@ -342,6 +365,8 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+$tabsInforHeight: 35px;
+
 .sign_swap{
   position:fixed!important;
   left:0;
@@ -413,5 +438,31 @@ export default {
     margin: 0 10px;
     border-radius: 15px;
     text-align: center;
+}
+.tabsBoxInfor {
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+  .inforDiv {
+    width: 29%;
+    height: $tabsInforHeight;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0;
+    margin-bottom: 20px;
+    span {
+      font-size: 15px;
+    }
+    .inforText {
+      font-size: 14px;
+      width: 68%;
+      background: #f8f8fa;
+      text-align: center;
+      height: $tabsInforHeight;
+      line-height: $tabsInforHeight;
+    }
+  }
 }
 </style>

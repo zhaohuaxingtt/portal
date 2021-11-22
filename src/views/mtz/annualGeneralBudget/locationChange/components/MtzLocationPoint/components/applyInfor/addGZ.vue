@@ -250,6 +250,7 @@
                 <iLabel :label="language('YOUXIAOQIQI','有效期起')" slot="label" :required="true"></iLabel>
                 <iDatePicker v-model="contractForm.startDate"
                             type="date"
+                            value-format="yyyy-MM-dd"
                             >
                 </iDatePicker>
             </iFormItem>
@@ -257,6 +258,7 @@
                 <iLabel :label="language('YOUXIAOQIZHI','有效期止')" slot="label" :required="true"></iLabel>
                 <iDatePicker v-model="contractForm.endDate"
                             type="date"
+                            value-format="yyyy-MM-dd"
                             >
                 </iDatePicker>
             </iFormItem>
@@ -407,7 +409,7 @@ export default {components: {
             compensationRatio:1,
             materialName:'',
             threshold:0,
-            endDate:"2999-12-31 00:00:00",
+            endDate:"2999-12-31",
             source:"",
             price:"",
             carline:"",
