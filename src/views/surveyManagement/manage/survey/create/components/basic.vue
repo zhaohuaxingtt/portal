@@ -78,7 +78,7 @@
                   value-format="yyyy-MM-dd HH:mm:ss"
                   format="yyyy-MM-dd HH:mm"
                   placeholder="请选择"
-                  default-time="23:00:00"
+                  default-time="23:59:59"
                   style="width: 322px"
                   @change="handle"
                 ></el-date-picker>
