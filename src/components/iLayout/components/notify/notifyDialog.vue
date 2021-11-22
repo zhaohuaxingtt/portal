@@ -5,14 +5,14 @@
     @close="closeDialog"
     :loading='loading'
     :show-close='false'
-    min-width="600px"
-    min-height='440px'
+    width="711px"
+    height='440px'
     :class="{'black-style':detail.popupStyle == '2'}"
   >
       <div class="" :class="{'center-style':detail.popupStyle == '1','main':detail.popupStyle == '0','right-style':detail.popupStyle == '2'}">
           <div class="left">
               <img v-show="detail.picUrl" :src="detail.picUrl" alt="" class="left-image" />
-              <img v-show="!detail.picUrl" src="../../../../assets/images/popupPic.png" alt="" class="left-image" />
+              <img v-show="!detail.picUrl" src="../../assets/images/popupPic.png" alt="" class="left-image" />
           </div>
           <div class="right">
               <h2 :class="{'link-text':detail.linkUrl}" @click="toNewPage">{{detail.title}}</h2>
@@ -115,12 +115,12 @@ export default {
         .content,
         .btn{
             position: absolute;
-            bottom: 60px;
+            bottom: 40px;
         }
         .publishTime{
             position: absolute;
             display: inline-block;
-            bottom: 120px;
+            bottom: 100px;
             color: #1660F1;
             .publishTime-content{
                 color: #666666;
@@ -141,6 +141,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items:center;
+    height: 440px;
     .left{
         width:100%;
         position: absolute;
@@ -148,13 +149,14 @@ export default {
         left: 0;
         .left-image{
             width: 100%;
-            height: 200px;
+            height: 160px;
             border-radius: 10px 10px 0 0 ;
         }
     }
     .right{
-        margin-top:160px ;
+        margin-top:120px ;
         text-align: center;
+        height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -167,6 +169,8 @@ export default {
         }
         .content{
             line-height: 24px;
+            height: 150px;
+            overflow: auto;
         }
         .publishTime{
             width: 250px;
@@ -211,12 +215,12 @@ export default {
         .content,
         .btn{
             position: absolute;
-            bottom: 60px;
+            bottom: 40px;
         }
         .publishTime{
             position: absolute;
             display: inline-block;
-            bottom: 120px;
+            bottom: 100px;
             color: #1660F1;
             .publishTime-content{
                 color: #FFFFFF;

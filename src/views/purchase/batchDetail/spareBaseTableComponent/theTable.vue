@@ -3,11 +3,11 @@
         <div class="margin-bottom20 clearFloat">
             <div class="floatright">
                 <!--转派-->
-                <iButton @click="taskTransfer" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_BASETABLE_TRANSFER')&&!isForward">{{ $t('APPROVAL.TASK_TRANSFER') }}</iButton>
+                <iButton @click="taskTransfer" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_REASSIGNMENT')&&!isForward">{{ $t('APPROVAL.TASK_TRANSFER') }}</iButton>
                 <!--确认-->
-                <iButton @click="confirm" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_BASETABLE_CONFIRM')&&!isForward">{{ $t('rfq.RFQINQUIRE') }}</iButton>
+                <iButton @click="confirm" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_CONFIRM')&&!isForward">{{ $t('rfq.RFQINQUIRE') }}</iButton>
                 <!--导出-->
-                <iButton @click="download" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_BASETABLE_DOWN')">{{ $t('APPROVAL.EXPORT')}}</iButton>
+                <iButton @click="download" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_EXPORT')">{{ $t('APPROVAL.EXPORT')}}</iButton>
             </div>
         </div>
         <tableList
@@ -89,7 +89,7 @@
         created() {
             let obj = getRequest()
             if(obj.status == 99) {
-//                this.isForward = true
+                this.isForward = true
             }
             this.baseId = obj.id
         },

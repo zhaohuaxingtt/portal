@@ -197,7 +197,7 @@
     LK_CS_1SHANGHUIBEIZHU: 'CS*1上会备注', //CS*1上会备注
     LK_CSFPFUZEREN: 'CSF（P）负责人', //CSF（P）负责人
     LK_FS_GSHAO: 'FS/GS号', //FS/GS号
-    LK_FSHAO: 'FS号', //FS号
+    LK_FS_GS_SP: 'FS/GS/SP号', //FS号
     LK_INBOUNDWULIUFANGSHI: 'INBOUND物流方式', //INBOUND物流方式
     LK_LINIE: 'LINIE', //LINIE
     LK_LINIEBEIZHU: 'Linie备注', //Linie备注

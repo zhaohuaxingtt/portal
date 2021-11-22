@@ -15,15 +15,18 @@
           <iButton @click="handleClickExport" :loading="exportButtonLoading">{{language('DAOCHU', '导出')}}</iButton>
         </span>
       </div>
-      <el-form ref="form" :model="formData" label-width="140px" label-position="left">
-        <el-row :gutter="20">
-          <el-col :span="8" v-for="item in formList" :key="item.prop">
-            <el-form-item :label="language(item.key ,item.label)" style="width: 70%;">
-              <el-input v-model="formData[item.prop]" disabled></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
+      <!-- label -->
+      <div class="tabsBoxInfor">
+        <div class="inforDiv"
+             v-for="(item,index) in formList"
+             :key="index">
+          <span>{{language(item.key,item.label)}}</span>
+          <iInput :disabled="true"
+                  class="inforText"
+                  v-model="formData[item.prop]"
+                  ></iInput>
+        </div>
+      </div>
       <el-divider/>
       <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}</p>
 
@@ -34,6 +37,12 @@
           :tableLoading="loading"
           :index="true"
           :selection="false">
+          <template slot-scope="scope" slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
+          <template slot-scope="scope" slot="thresholdCompensationLogic">
+            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
         </tableList>
              <!-- <tableList
           class="margin-top20"
@@ -64,6 +73,12 @@
           :tableLoading="loading"
           :index="true"
           :selection="false">
+          <template slot-scope="scope" slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
+          <template slot-scope="scope" slot="thresholdCompensationLogic">
+            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
         </tableList>
           <!-- <tableList
           class="margin-top20"
@@ -291,6 +306,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+$tabsInforHeight: 35px;
 .tableTitle {
   display: inline-block;
   font-weight: bold;
@@ -358,6 +374,32 @@ export default {
       border-bottom: 1px solid black;
       margin-left: 10px;
       width: 60%;
+    }
+  }
+}
+.tabsBoxInfor {
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+  .inforDiv {
+    width: 29%;
+    height: $tabsInforHeight;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0;
+    margin-bottom: 20px;
+    span {
+      font-size: 15px;
+    }
+    .inforText {
+      font-size: 14px;
+      width: 68%;
+      background: #f8f8fa;
+      text-align: center;
+      height: $tabsInforHeight;
+      line-height: $tabsInforHeight;
     }
   }
 }

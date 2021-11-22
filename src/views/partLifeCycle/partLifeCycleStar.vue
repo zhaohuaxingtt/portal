@@ -20,7 +20,7 @@
     >
       <el-form>
         <el-form-item :label="language('LK_LINGJIANHAO', '零件号')">
-          <iInput v-model="partsNum" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          <iInput v-model="partsNum" :placeholder="$i18n.locale === 'zh' ?'可批量查询':'batch Search'" clearable></iInput>
         </el-form-item>
         <el-form-item :label="language('LK_LINGJIANMINGCHENG', '零件名称')">
           <iInput v-model="partsName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
@@ -250,7 +250,7 @@
             ></el-option>
           </iSelect>
         </el-form-item>
-        <el-form-item :label="language('LK_FSHAO', 'FS号')">
+        <el-form-item :label="$t('LK_FS_GS_SP')">
           <iInput v-model="fsNum" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
         </el-form-item>
         <el-form-item :label="language('LK_DANGNIANZAIGONG', '当年在供')">
@@ -283,8 +283,8 @@
                 :name="expandRelevantPart ? 'iconxiangguanlingjianyizhankai' : 'iconxiangguanlingjianyishouqi'"></icon>
         </div>
       </div>
-      <div class="partLifeCycleStar_main_content">
-        <div class="left" v-loading="leftLoading">
+      <div class="partLifeCycleStar_main_content" v-loading="leftLoading">
+        <div class="left">
           <div v-for="(item, index) in defaultPartsList" :key="index" :class="{ isExpand: expandRelevantPart }"
                @click="currentDefaultPart = item.partsNum;getRelationParts()">
             <div class="title">
@@ -308,7 +308,7 @@
               <span>{{ language('LK_CHEXING', '车型') }}</span>
               <span>{{ item.productName }}</span>
             </div>
-            <div class="item">
+            <div class="item pb20">
               <span>{{ language('LK_ZHUANYECAIGOUYUAN', '专业采购员') }}</span>
               <span>{{ item.linieName }}</span>
             </div>
@@ -1006,7 +1006,9 @@ export default {
             height: 24px;
             color: #333333;
           }
-
+          .pb20{
+            padding-bottom: 20px;
+          }
           .item {
             font-size: 16px;
             margin-top: 20px;
