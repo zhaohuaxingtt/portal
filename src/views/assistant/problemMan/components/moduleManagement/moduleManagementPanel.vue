@@ -9,13 +9,13 @@
         <iButton @click="confirmEditHandler">{{ language('确认') }}</iButton>
       </template>
     </div>
-    <iTableCustom ref="testTable" :loading="tableLoading" :data="tableListData" :columns="tableSetting" @go-detail="handleGoDetail" @handle-selection-change="handleSelectionChange" />
+    <iTableCustom ref="testTable" :loading="tableLoading" :data="tableListData" :columns="tableSetting" :extra-data="extraData" @handle-selection-change="handleSelectionChange" />
     <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :current-page="page.currPage" :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :total="page.totalCount" />
   </el-card>
 </template>
 
 <script>
-import { iPagination, iTableCustom, iButton } from 'rise';
+import { iPagination,iTableCustom, iButton } from 'rise';
 import { tableColumn } from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins'
 export default {
@@ -37,23 +37,26 @@ export default {
           name: '张三',
         }
       ],
-      tableSetting: tableColumn(this),
+      tableSetting: tableColumn,
       selectionRowList: [],
-      selectionRowIds: [],
       isEdit: false,
-      nameForm: {
-        name: '1',
-      },
-      nameList: [
-        {
-          id: '1',
-          name: '张三',
+      extraData: {
+        selectionRowIds: [],
+        changeNameHandler: this.changeNameHandler,
+        nameForm: {
+          name: '1',
         },
-        {
-          id: '2',
-          name: '李四',
-        }
-      ],
+        nameList: [
+          {
+            id: '1',
+            name: '张三',
+          },
+          {
+            id: '2',
+            name: '李四',
+          }
+        ],
+      },
     }
   },
   methods: {
@@ -64,20 +67,20 @@ export default {
     editHandler () {
       if (this.selectionRowList.length) {
         this.isEdit = true;
-        this.selectionRowIds = this.selectionRowList.map(item => item.id);
+        this.extraData.selectionRowIds = this.selectionRowList.map(item => item.id);
       } else {
         this.$message.error('请选择编辑的行');
       }
     },
     cancelEditHandler () {
       this.isEdit = false;
-      this.selectionRowIds = [];
-      this.selectionRowList = [];
+      this.extraData.selectionRowIds = [];
     },
     confirmEditHandler () { },
-    changeNameHandler(val) {
-      this.$forceUpdate();
-      console.log(val, )
+    changeNameHandler (scope,val) {
+      const { row, $index } = scope
+      console.log('row', row,$index,val);
+      this.extraData.nameForm.name = val;
     },
   },
   mounted () {
