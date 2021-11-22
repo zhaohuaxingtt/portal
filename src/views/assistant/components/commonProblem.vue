@@ -1,5 +1,5 @@
 <template>
-	<div class="leftContent">
+	<div class="leftContent" v-loading="loading">
 		<slot name="top"></slot>
 		<div class="list">
 			<div class="listTitle" v-text="title"></div>
@@ -32,6 +32,10 @@ export default {
 			default:"常见问题"
 		},
 		showIcon: {
+			type: Boolean,
+			default: false
+		},
+		loading: {
 			type: Boolean,
 			default: false
 		}

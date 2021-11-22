@@ -23,11 +23,13 @@
 			</div>
 		</div>
 		<div class="flex flex-row content mt20" v-show="helpMoudle === 'manual'">
-			<CommonProblem 
+			<CommonProblem
+				:loading="listLoading"
 				:problemList="problemList"
 				:currentMoudleIdx.sync="currentMoudleIdx"
 			/>
-			<DataManage 
+			<DataManage
+				:loading="listLoading"
 				@handleQuestion="handleQuestion"
 			/>
 		</div>
@@ -81,7 +83,7 @@ import IntelligentDialog from '../components/intelligentDialog'
 import QuestioningDialog from '../components/questioningDialog'
 import QuestionList from './components/questionList'
 import QuestionDetail from './components/questionDetail'
-import { getSystemMeun } from '@/api/assistant'
+import { getSystemMeun, getModuleList } from '@/api/assistant'
 
 export default {
 	data() {
@@ -94,6 +96,7 @@ export default {
 			questioningVisible: false,  // 追问 提问visible
 			zwFlag: false,  // 追问 提问标志
 			questioningTitle: '',  // 追问 提问弹框title
+			listLoading: false
 		}
 	},
 	components: {
@@ -110,13 +113,21 @@ export default {
 		QuestionDetail
 	},
 	mounted() {
+		this.getList()
 		this.getProbleList()
 	},
 	methods: {
+		async getList() {
+			getModuleList().then((res) => {
+				console.log(res, '1111')
+			})
+		},
 		async getProbleList() {
+			this.listLoading = true
 			getSystemMeun().then((res) => {
 				if (res.code === '200') {
 					let { data: { menuList }} = res
+					this.listLoading = false
 					this.problemList = [...menuList[1]?.menuList, ...menuList[2]?.menuList]
 				}
 			})

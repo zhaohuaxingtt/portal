@@ -1,5 +1,5 @@
 <template>
-	<div class="rightContent ml20">
+	<div class="rightContent ml20" v-loading="loading">
 		<div class="top-box">
 			<iInput 
 				class="input" 
@@ -25,6 +25,12 @@ export default {
 	components: {
 		iInput,
 		iButton
+	},
+	props: {
+		loading: {
+			type: Boolean,
+			default: false
+		}
 	},
 	data() {
 		return {

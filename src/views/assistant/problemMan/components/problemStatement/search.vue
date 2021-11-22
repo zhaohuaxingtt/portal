@@ -37,7 +37,7 @@
           </el-row>
         </el-form>
       </div>
-      <div class="btn-box margin-top25">
+      <div class="btn-box margin-top60">
         <iButton @click="handleConfirm">{{ $t('LK_INQUIRE') }}</iButton>
         <iButton @click="handleReset">{{ $t('LK_ZHONGZHI') }}</iButton>
       </div>
