@@ -68,8 +68,8 @@ export default {
     drawLine() {
       const elementIcons = document.querySelectorAll('.node-icon')
       const data = []
-      // let itemWidth = 0
       const topIndent = 8
+      const horizontalSpace = 0 // 线条直接的间隔距离
       for (let i = 0; i < elementIcons.length; i++) {
         const element = elementIcons[i]
         const dataLevel = element.getAttribute('data-level')
@@ -87,10 +87,7 @@ export default {
           isEnd: dataIsEnd === '1',
           width: element.clientWidth
         })
-        // itemWidth = element.clientWidth
       }
-      /* const spacingLeft = itemWidth / 2 + 20
-      const spacingRight = itemWidth / 2 - 20 */
 
       const len = data.length
       const lines = []
@@ -99,8 +96,8 @@ export default {
 
         const nextItem = i < len - 1 ? data[i + 1] : null
         if (nextItem) {
-          const spacingLeft = item.width / 2 + 20
-          const spacingRight = nextItem.width / 2 - 20
+          const spacingLeft = item.width / 2 + horizontalSpace
+          const spacingRight = nextItem.width / 2 - horizontalSpace
           if (!item.group && !item.isEnd) {
             lines.push({
               style: this.getLineStyle(nextItem.status),
@@ -111,7 +108,7 @@ export default {
           }
         }
         if (item.group) {
-          const spacingLeft = item.width / 2 + 20
+          const spacingLeft = item.width / 2 + horizontalSpace
           // const spacingRight = item.width / 2 - 20
           const group = item.group.split('-')
           // const childLevel =  group[group.length - 1]
@@ -147,7 +144,7 @@ export default {
               }`
             )
             groupPositions.push(
-              `${childNodes[0].left + spacingLeft - 40},${
+              `${childNodes[0].left + spacingLeft - horizontalSpace * 2},${
                 childNodes[0].top + topIndent
               }`
             )
@@ -175,7 +172,7 @@ export default {
               }`
             )
             groupPositionDown.push(
-              `${childNodes[1].left + spacingLeft - 40},${
+              `${childNodes[1].left + spacingLeft - horizontalSpace * 2},${
                 childNodes[1].top + topIndent
               }`
             )
@@ -206,8 +203,8 @@ export default {
     z-index: 9;
   }
 }
-/* .hrizontalNode {
+.hrizontalNode {
   position: relative;
   z-index: 99;
-} */
+}
 </style>

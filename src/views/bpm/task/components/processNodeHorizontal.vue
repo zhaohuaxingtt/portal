@@ -53,7 +53,6 @@ export default {
 
       const nodeData = []
       const len = this.panorama.length
-      console.log('panorama', this.panorama)
       for (let i = 0; i < len; i++) {
         const panoromaItem = this.panorama[i]
 
@@ -61,6 +60,7 @@ export default {
 
         // 检查一下有没有并行节点
         if (
+          panoromaItem.branchFlag.indexOf('branch') === 0 &&
           panoromaItem.childBranchFlag &&
           panoromaItem.childBranchFlag.length
         ) {
@@ -71,7 +71,6 @@ export default {
                 e.branchFlag.indexOf(flag + '_') === 0 &&
                 e.branchFlag !== item.branchFlag
             )
-            console.log('filterItems', filterItems)
             const itemChildren = []
             filterItems.forEach((filterItem) => {
               itemChildren.push(this.getDatItem(filterItem))
@@ -87,7 +86,6 @@ export default {
 
         item.isUsed = true
       }
-      console.log('nodeData', nodeData)
       this.nodeData = nodeData
     },
     getDatItem(panoromaItem) {
