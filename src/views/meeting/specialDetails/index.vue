@@ -98,6 +98,7 @@
             v-if="!showUpdateTopicButtonList"
             :rowClassName="tableRowClassName"
             :currentRow="currentRow"
+            :isSingle="curState === '05'"
           >
             <el-table-column align="center" width="30"></el-table-column>
             <el-table-column
@@ -126,7 +127,7 @@
               </template>
             </el-table-column>
             <el-table-column align="center" width="30"></el-table-column>
-            <el-table-column
+            <!-- <el-table-column
               show-overflow-tooltip
               align="center"
               label="Present Items"
@@ -135,6 +136,20 @@
               <template slot-scope="scope">
                 <span
                   class="open-link-text look-themen-click"
+                  @click="lookThemen(scope.row)"
+                  >{{ scope.row.topic }}</span
+                >
+              </template>
+            </el-table-column> -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="Present Items"
+              min-width="191"
+            >
+              <template slot-scope="scope">
+                <span
+                  class="open-link-text look-themen-click inline"
                   @click="lookThemen(scope.row)"
                   >{{ scope.row.topic }}</span
                 >
@@ -359,7 +374,7 @@
               >
                 <template slot-scope="scope">
                   <span
-                    class="open-link-text look-themen-click"
+                    class="open-link-text look-themen-click inline"
                     @click="lookThemen(scope.row)"
                     >{{ scope.row.topic }}</span
                   >
@@ -720,7 +735,8 @@ export default {
   },
   data() {
     return {
-      // curState: '',
+      // closeLoading: false,
+      curState: '',
       processUrl: process.env.VUE_APP_POINT,
       buttonList,
       receiverId: '',
@@ -1239,7 +1255,7 @@ export default {
       })
     },
     goState(state, isCSC, isPreCSC) {
-      // this.curState = state
+      this.curState = state
       switch (state) {
         //草稿
         case '01':
@@ -1721,7 +1737,6 @@ export default {
     },
     //新增议题
     addTopic() {
-      console.log('this.meetingInfo', this.meetingInfo)
       this.editOrAdd = 'add'
       // if (
       //   this.meetingInfo.meetingTypeName === 'Pre CSC' ||
@@ -1749,8 +1764,10 @@ export default {
         id: this.meetingInfo.id,
         state: '02'
       }
-      changeStateMeeting(param).then(() => {
-        iMessage.success('开放会议成功！')
+      changeStateMeeting(param).then((res) => {
+        if (res.code === 200) {
+          iMessage.success('开放会议成功！')
+        }
         // this.refreshTable();
         this.flushTable()
         this.getMeetingTypeObject()
@@ -2233,6 +2250,9 @@ export default {
   max-height: 514px;
   overflow-y: auto;
 } */
+.inline {
+  display: inline!important;
+}
 .span-index {
   width: 15px;
   text-align: center;

@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import { iDialog, iFormItem, iLabel, iButton, iSelect, iMessage } from 'rise'
+import { iDialog, iFormItem, iLabel, iButton, iMessage } from 'rise'
 import iEditForm from '@/components/iEditForm'
 import { getApprovalProcessList, closeMeeting } from '@/api/meeting/home'
 import { uploadFile } from '@/api/meeting/type'
@@ -219,13 +219,10 @@ export default {
       }
       closeMeeting(param)
         .then((res) => {
-          if (res) {
-            if (res.code === 200) {
-              this.loading = false
-              iMessage.success('关闭成功')
-              this.$emit('handleOK')
-              this.handleClose()
-            }
+          if (res.code === 200) {
+            iMessage.success('关闭成功')
+            this.$emit('handleOK')
+            this.handleClose()
           } else {
             this.loading = false
             // iMessage.success('关闭失败')

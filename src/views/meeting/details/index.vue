@@ -94,6 +94,7 @@
           v-if="!showUpdateTopicButtonList"
           :rowClassName="tableRowClassName"
           :currentRow="currentRow"
+          :isSingle="curState === '05'"
         >
           <el-table-column type="selection" align="center"></el-table-column>
           <el-table-column
@@ -574,6 +575,7 @@ export default {
   },
   data() {
     return {
+      curState: '',
       currentRow: {},
       nameList: [],
       disabledImportThemenButton: false,
@@ -991,6 +993,7 @@ export default {
       })
     },
     goState(state) {
+      this.curState = state
       switch (state) {
         //草稿
         case '01':
@@ -1540,8 +1543,10 @@ export default {
         id: this.meetingInfo.id,
         state: '02'
       }
-      changeStateMeeting(param).then(() => {
-        iMessage.success('开放会议成功！')
+      changeStateMeeting(param).then((res) => {
+        if (res.code === 200) {
+          iMessage.success('开放会议成功！')
+        }
         // this.refreshTable();
         this.flushTable()
         this.getMeetingTypeObject()
@@ -1571,10 +1576,12 @@ export default {
         state: '05'
       }
       changeStateMeeting(param)
-        .then(() => {
-          iMessage.success('结束会议成功！')
-          this.flushTable()
-          this.getMeetingTypeObject()
+        .then((res) => {
+          if (res.code === 200) {
+            iMessage.success('结束会议成功！')
+            this.flushTable()
+            this.getMeetingTypeObject()
+          }
         })
         .catch(() => {
           // iMessage.error("结束会议失败！");
