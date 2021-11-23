@@ -39,7 +39,8 @@
         >
         </el-tab-pane>
       </el-tabs>
-      <div class="header">
+      <iSearch class="header" @sure="sure"
+                @reset="clickReset">
         <el-form inline label-position="top">
           <el-form-item :label="language('SAPHAO', 'SAP号')">
             <iSelect
@@ -264,13 +265,8 @@
             </iSelect>
           </el-form-item>
         </el-form>
-        <div class="btnStyle">
-          <iButton @click="sure">{{ language('CHAXUN', '查询') }}</iButton>
-          <iButton @click="clickReset">{{
-            language('CHONGZHI', '重置')
-          }}</iButton>
-        </div>
-      </div>
+       
+      </iSearch>
       <div class="tableBox">
         <div class="sectionTitle">
           <span class="ptext">
@@ -397,7 +393,8 @@ import {
   iButton,
   iInput,
   iMessage,
-  iPagination
+  iPagination,
+  iSearch
 } from 'rise'
 import tableList from '@/components/commonTable'
 import { tableTitleMonitor, tableTitleMonitorRecord, dictByCode } from './data'
@@ -419,7 +416,8 @@ export default {
     tableList,
     iInput,
     icon,
-    iPagination
+    iPagination,
+    iSearch
   },
   props: {
     value: {
@@ -470,17 +468,14 @@ export default {
       ]
     }
   },
-  watch: {
-
-  },
+  watch: {},
   created() {
     this.tabVal = '1'
-      if (this.sapCode && this.supplierId) {
+    if (this.sapCode && this.supplierId) {
       this.form.sapCode[0] = this.sapCode || ''
       this.form.supplierName[0] = this.supplierId || ''
     }
     this.getInit()
-
   },
   methods: {
     handleDialog() {
@@ -490,39 +485,41 @@ export default {
 
     // //选择相关科室
     deptChange(v) {
-      if(v.length>0){
-        let req={
-                    type:'user',
-                    deptIds:v
+      if (v.length > 0) {
+        let req = {
+          type: 'user',
+          deptIds: v
         }
-        userDropDown(req).then(res=>{
-            this.userList=res.data
-        })
-      }
-
-    //   console.log(v)
-    //   var arr = []
-    //   if (v.length >= 1) {
-    //     v.forEach(v => {
-    //       let users = []
-    //       users = this.deptList.find(i => {
-    //         return i.id == v
-    //       }).userDTOList
-    //       arr.push(...users)
-    //     })
-    //   }
-    //   this.userList = arr
-      var arr2 = []
+        userDropDown(req).then((res) => {
+          this.userList = res.data
+              var arr2 = []
       if (this.form.userId.length > 0) {
-        this.userList.forEach(v => {
-          this.form.userId.forEach(i => {
+        this.userList.forEach((v) => {
+          this.form.userId.forEach((i) => {
             if (v.kvalue == i) {
               arr2.push(i)
             }
           })
         })
       }
+      console.log(arr2)
       this.form.userId = arr2
+        })
+      }
+
+      //   console.log(v)
+      //   var arr = []
+      //   if (v.length >= 1) {
+      //     v.forEach(v => {
+      //       let users = []
+      //       users = this.deptList.find(i => {
+      //         return i.id == v
+      //       }).userDTOList
+      //       arr.push(...users)
+      //     })
+      //   }
+      //   this.userList = arr
+
     },
     getTaleList() {
       this.tableLoading = true
@@ -536,7 +533,7 @@ export default {
       req.sapCode = undefined
       req.supplierName = undefined
       if (this.tabVal == '1') {
-        currentList(req).then(res => {
+        currentList(req).then((res) => {
           this.tableLoading = false
           this.tableListData = res.data
         })
@@ -546,7 +543,7 @@ export default {
           pageNo: this.page.currPage,
           pageSize: this.page.pageSize
         }
-        historyList(form).then(res => {
+        historyList(form).then((res) => {
           this.page.totalCount = res.total
           this.tableLoading = false
           this.tableListData = res.data
@@ -559,14 +556,13 @@ export default {
 
       this.getTaleList()
       const res2 = await sapDropDown({ type: 'sap' })
-       const resDept = await sapDropDown({ type: 'dept' })
+      const resDept = await sapDropDown({ type: 'dept' })
       const res3 = await sapDropDown({ type: 'supplier' })
       //   const res4 = await dictByCode('RFQ_STATE')
       const resPart = await sapDropDown({ type: 'part' })
       const resRfq = await sapDropDown({ type: 'rfq' })
       const resProject = await sapDropDown({ type: 'project' })
       const resMotor = await sapDropDown({ type: 'motor' })
-      console.log(this.sapCode)
       this.deptList = resDept.data
       this.partList = resPart.data
       this.resRfqList = resRfq.data
@@ -593,12 +589,12 @@ export default {
         return false
       }
       let req = {
-        ids: this.selectData.map(res => {
+        ids: this.selectData.map((res) => {
           return res.recordId
         }),
         reason: this.takeStepsContent
       }
-      cancel(req).then(res => {
+      cancel(req).then((res) => {
         if (res && res.code == 200) {
           iMessage.success(res.desZh)
           this.visibleDetal = false
@@ -696,10 +692,11 @@ export default {
     font-weight: bold;
   }
 }
+::v-deep .card{
+  box-shadow: 0 0 0px rgb(27 29 33 / 0%)
+}
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
   padding-bottom: 20px;
   border-bottom: 1px solid #e3e3e3;
   .btnStyle {
@@ -721,9 +718,7 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  //   ::v-deep.el-select  ::v-deep.el-tag__close.el-icon-close {
-  //     top: -7px;
-  //   }
+
 }
 .sectionTitle {
   margin-top: 20px;

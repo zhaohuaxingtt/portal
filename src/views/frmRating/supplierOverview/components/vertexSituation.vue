@@ -7,14 +7,12 @@
 -->
 <template>
   <iCard :title="$t('SPR_FRM_XGYSPJ_GYSXJDDQK')">
+    <!-- @click="handleDialog" -->
 
-    <div ref="chart"
-         @click="handleDialog"
-         class="chartStyle"></div>
-    <cRatingTable @closeDiolog="closeDiolog"
+    <div ref="chart" @click="handlecRating" class="chartStyle"></div>
+    <!-- <cRatingTable @closeDiolog="closeDiolog"
                   v-if="visible"
-                  v-model="visible"></cRatingTable>
-
+                  v-model="visible"></cRatingTable> -->
   </iCard>
 </template>
 
@@ -48,7 +46,9 @@ export default {
         }
       })
     },
-
+    handlecRating(){
+            this.$emit('show',true)
+    },
     handleDialog() {
       this.visible = true
     },

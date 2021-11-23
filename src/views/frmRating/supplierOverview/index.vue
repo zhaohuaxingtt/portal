@@ -31,7 +31,7 @@
           <riskSignal @show="showRiskSignalCard" />
         </el-col>
         <el-col  :span="6">
-          <vertexSituation />
+          <vertexSituation  @show="showCrating"/>
         </el-col>
         <el-col :span="6">
           <monitor />
@@ -40,6 +40,7 @@
     </div>
     <further-rating-card v-if="showDepth" :deepGradeVOList='deepGradeVOList' @back="hideDepthCard" />
     <risk-signal-info v-if="showRiskSigna" @back="hideRiskSignalCard" />
+       <cRatingRouter v-if="showcRatintg" @back="hideCrating" />
   </iPage>
 </template>
 
@@ -54,6 +55,7 @@ import monitor from './components/monitor';
 import vertexSituation from './components/vertexSituation';
 import { getInitOverView } from "../../../api/frmRating/overView/overView";
 import DepthRatingOverview from './components/depthRatingOverview.vue';
+import cRatingRouter from './components/cRatingRouter.vue';
 import FurtherRatingCard from './components/furtherRatingCard.vue';
 import RiskSignalInfo from './components/riskSignalInfo.vue'
 
@@ -66,6 +68,7 @@ export default {
     resultsAnalysis,
     riskSignal,
     monitor,
+    cRatingRouter,
     vertexSituation,
     DepthRatingOverview,
     FurtherRatingCard,
@@ -80,7 +83,8 @@ export default {
       flag: false,
       showDepth: false,
       showRiskSigna: false,
-      showMain: true
+      showMain: true,
+      showcRatintg:false
     };
   },
   created() {
@@ -105,6 +109,14 @@ export default {
     hideDepthCard() {
       this.showDepth = false
       this.showMain = true
+    },
+    showCrating(){
+        this.showcRatintg=true
+         this.showMain = false
+    },
+    hideCrating(){
+        this.showcRatintg=false
+         this.showMain = true
     },
     showRiskSignalCard() {
       this.showRiskSigna = true

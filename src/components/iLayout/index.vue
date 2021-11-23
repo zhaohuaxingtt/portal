@@ -52,7 +52,7 @@
       <div v-for="(list, index) in popoverList" :key="index">
         <div class="item-content" @click="handleClick(list)">
           <div>
-            <img src="./assets/images/partLifyCycle.svg" class="img" />
+            <img src="@/assets/images/partLifyCycle.svg" class="img" />
           </div>
           <div class="text">{{ list.name }}</div>
         </div>
@@ -73,7 +73,7 @@ import { arrayToTree, treeToArray } from '@/utils'
 import { popoverList } from './components/data.js'
 import layoutNotify from './components/notify'
 import popurIcon from './assets/images/leftContent.png'
-import activePopurIcon from './assets/images/active-popur.svg'
+import activePopurIcon from '@/assets/images/active-popur.svg'
 
 export default {
   components: { topLayout, LeftLayout, sideMenu, myModules, layoutNotify },
