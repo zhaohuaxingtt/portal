@@ -7,7 +7,7 @@
  * @FilePath: \rise\src\views\home\index.vue
 -->
 <template>
-  <div style="flex: 1;">
+  <div style="flex: 1">
     <iPage>
       <div class="tab-list-box">
         <iNavMvp
@@ -23,47 +23,70 @@
 </template>
 
 <script>
-import { iNavMvp, iPage } from "rise";
-import { tabRouterList, meetingButtonList } from "./data";
+import { iNavMvp, iPage } from 'rise'
+import { tabRouterList, meetingButtonList } from './data'
 
 export default {
   components: {
     iNavMvp,
-    iPage,
+    iPage
   },
   data() {
     return {
       myMeetongTabRouterList: [
         {
           value: 1,
-          name: "会议直播",
-          url: "/meeting/live?id=" + (this.$route.query.meetingInfoId ? this.$route.query.id + '&meetingInfoId=' + this.$route.query.meetingInfoId : localStorage.getItem('my_meeting_id') + '&meetingInfoId=' + localStorage.getItem('my_meeting__info_id')),
-          activePath: "/meeting/live",
-          key: "会议直播",
+          name: '会议直播',
+          url:
+            '/meeting/live?id=' +
+            (this.$route.query.meetingInfoId
+              ? this.$route.query.id +
+                '&meetingInfoId=' +
+                this.$route.query.meetingInfoId
+              : localStorage.getItem('my_meeting_id') +
+                '&meetingInfoId=' +
+                localStorage.getItem('my_meeting__info_id')),
+          activePath: '/meeting/live',
+          key: '会议直播'
         },
         {
           value: 2,
-          name: "近期会议",
+          name: '近期会议',
           // url: "/meeting/near-meeting?id=" + this.$route.query.id + '&meetingInfoId=' + this.$route.query.meetingInfoId,
-          url: "/meeting/near-meeting?id=" + (this.$route.query.meetingInfoId ? this.$route.query.id + '&meetingInfoId=' + this.$route.query.meetingInfoId : localStorage.getItem('my_meeting_id') + '&meetingInfoId=' + localStorage.getItem('my_meeting__info_id')),
-          activePath: "/meeting/near-meeting",
-          key: "近期会议",
-        },
+          url:
+            '/meeting/near-meeting?id=' +
+            (this.$route.query.meetingInfoId
+              ? this.$route.query.id +
+                '&meetingInfoId=' +
+                this.$route.query.meetingInfoId
+              : localStorage.getItem('my_meeting_id') +
+                '&meetingInfoId=' +
+                localStorage.getItem('my_meeting__info_id')),
+          activePath: '/meeting/near-meeting',
+          key: '近期会议'
+        }
       ],
       tabRouterList,
-      meetingButtonList,
-    };
+      meetingButtonList
+    }
   },
   mounted() {
     if (this.$route.query.meetingInfoId) {
       localStorage.setItem('my_meeting_id', this.$route.query.id)
-      localStorage.setItem('my_meeting__info_id', this.$route.query.meetingInfoId)
+      localStorage.setItem(
+        'my_meeting__info_id',
+        this.$route.query.meetingInfoId
+      )
     }
   },
-  methods: {},
-};
+  methods: {}
+}
 </script>
 <style lang="scss" scoped>
+::v-deep .routerpage {
+  height: calc(100vh - 32px);
+}
+
 .tab-list-box {
   display: flex;
   justify-content: start;

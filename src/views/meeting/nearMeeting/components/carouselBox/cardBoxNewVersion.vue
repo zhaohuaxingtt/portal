@@ -121,7 +121,7 @@
 
 <script>
 import { iButton, iMessage } from "rise";
-import { MOCK_FILE_URL } from "@/constants";
+// import { MOCK_FILE_URL } from "@/constants";
 import { download } from "@/utils/downloadUtil";
 export default {
   components: {
@@ -358,6 +358,9 @@ export default {
       }
     }
     .meeting-name {
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
       height: 27px;
       font-size: 24px;
       font-weight: 400;

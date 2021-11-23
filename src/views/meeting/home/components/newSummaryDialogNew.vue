@@ -67,7 +67,7 @@
                   <div class="title-index">{{ numToLetter[index + 1] }}</div>
                   <div class="title-name">{{ item.topic }}</div>
                 </div>
-                <div class="up-arrow" @click="taskUserResult(item)">
+                <div class="up-arrow">
                   <img :src="upArrow" alt="" srcset="" />
                 </div>
               </div>
@@ -79,7 +79,7 @@
                       taskDeptResult(item, 'supporterDept', 'presenterDept')
                     }}</span>
                   </div>
-                  <div>{{ employeeStr }}</div>
+                  <div>{{ taskUserResult(item) }}</div>
                 </div>
                 <iFormItem prop="conclusion" class="meet-desc">
                   <iInput
@@ -94,8 +94,6 @@
                     item.conclusionCsc === '01'
                       ? conclusionCscList[item.conclusionCsc]
                       : item.conclusionCsc === '02'
-                      ? conclusionCscList[item.conclusionCsc]
-                      : item.conclusionCsc === '07'
                       ? conclusionCscList[item.conclusionCsc]
                       : ''
                   }}
@@ -273,8 +271,7 @@ export default {
       employeeStr: ''
     }
   },
-  mounted() {
-    this.getMeetingSummary()
+  created() {
     const data = {
       id: this.receiverId
     }
@@ -282,6 +279,9 @@ export default {
     getReceiverById(data).then((res) => {
       this.employeeDTOS = res?.employeeDTOS
     })
+  },
+  mounted() {
+    this.getMeetingSummary()
   },
   methods: {
     taskDeptResult(item, field, field1) {
@@ -294,15 +294,15 @@ export default {
       }
     },
     taskUserResult(item) {
-      console.log('6666666666666666666666666')
       let supporter = this.employeeDTOS?.filter(
         (e) => e.id === item.supporter
       )[0] || { name: '' }
       let presenter = this.employeeDTOS?.filter(
         (e) => e.id === item.presenter
       )[0] || { name: '' }
-      this.employeeStr = supporter?.name + '/' + presenter?.name
-      console.log(265, this.employeeStr)
+      // this.employeeStr = supporter?.name + '/' + presenter?.name
+      // console.log(265, this.employeeStr)
+      return supporter?.name + '/' + presenter?.name
     },
     toDoMeetingName(item) {
       return item.toDoMeetingName?.substring(0, 9)
