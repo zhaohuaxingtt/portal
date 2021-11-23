@@ -39,7 +39,8 @@
         >
         </el-tab-pane>
       </el-tabs>
-      <div class="header">
+      <iSearch class="header" @sure="sure"
+                @reset="clickReset">
         <el-form inline label-position="top">
           <el-form-item :label="language('SAPHAO', 'SAP号')">
             <iSelect
@@ -264,13 +265,8 @@
             </iSelect>
           </el-form-item>
         </el-form>
-        <div class="btnStyle">
-          <iButton @click="sure">{{ language('CHAXUN', '查询') }}</iButton>
-          <iButton @click="clickReset">{{
-            language('CHONGZHI', '重置')
-          }}</iButton>
-        </div>
-      </div>
+       
+      </iSearch>
       <div class="tableBox">
         <div class="sectionTitle">
           <span class="ptext">
@@ -397,7 +393,8 @@ import {
   iButton,
   iInput,
   iMessage,
-  iPagination
+  iPagination,
+  iSearch
 } from 'rise'
 import tableList from '@/components/commonTable'
 import { tableTitleMonitor, tableTitleMonitorRecord, dictByCode } from './data'
@@ -419,7 +416,8 @@ export default {
     tableList,
     iInput,
     icon,
-    iPagination
+    iPagination,
+    iSearch
   },
   props: {
     value: {
@@ -694,10 +692,11 @@ export default {
     font-weight: bold;
   }
 }
+::v-deep .card{
+  box-shadow: 0 0 0px rgb(27 29 33 / 0%)
+}
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
   padding-bottom: 20px;
   border-bottom: 1px solid #e3e3e3;
   .btnStyle {
@@ -719,9 +718,7 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  //   ::v-deep.el-select  ::v-deep.el-tag__close.el-icon-close {
-  //     top: -7px;
-  //   }
+
 }
 .sectionTitle {
   margin-top: 20px;
