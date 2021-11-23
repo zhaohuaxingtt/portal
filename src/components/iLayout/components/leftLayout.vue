@@ -36,11 +36,7 @@
           </span>
         </div>
         <div class="btn-button">
-<<<<<<< HEAD
-          <img src="../assets/images/leftContent.png" alt="" />
-=======
           <!-- <img src="~@/assets/images/leftContent.png" alt="" /> -->
->>>>>>> dev_wendy.zhou
         </div>
       </div>
     </div>
