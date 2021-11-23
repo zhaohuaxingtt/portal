@@ -5,7 +5,6 @@
       该数据来源于userPermission接口，为后台根据角色进行的menu配置，
       注意dev环境，vmsit环境请必须使用api返回的数据源 -->
   <iLayout />
-  
 </template>
 
 <script>

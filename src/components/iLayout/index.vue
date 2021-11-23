@@ -46,12 +46,14 @@
     </div>
     <div class="btn-button" @click="handleShow">
       <!-- <img src="~@/assets/images/leftContent.png" alt="" /> -->
-      <img :src="!contentShowFlag? popurIcon : activePopurIcon " alt="" />
+      <img :src="!contentShowFlag ? popurIcon : activePopurIcon" alt="" />
     </div>
     <div class="povper-content" v-show="contentShowFlag">
       <div v-for="(list, index) in popoverList" :key="index">
         <div class="item-content" @click="handleClick(list)">
-          <div><img src="@/assets/images/partLifyCycle.svg" class="img" /></div>
+          <div>
+            <img src="./assets/images/partLifyCycle.svg" class="img" />
+          </div>
           <div class="text">{{ list.name }}</div>
         </div>
       </div>
@@ -70,8 +72,8 @@ import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
 import { popoverList } from './components/data.js'
 import layoutNotify from './components/notify'
-import popurIcon from "@/assets/images/leftContent.png"
-import activePopurIcon from "@/assets/images/active-popur.svg"
+import popurIcon from './assets/images/leftContent.png'
+import activePopurIcon from './assets/images/active-popur.svg'
 
 export default {
   components: { topLayout, LeftLayout, sideMenu, myModules, layoutNotify },
@@ -268,7 +270,7 @@ export default {
       }
       .text {
         font-size: 16px;
-        color: #5F6F8F;
+        color: #5f6f8f;
         margin-left: 20px;
       }
     }
