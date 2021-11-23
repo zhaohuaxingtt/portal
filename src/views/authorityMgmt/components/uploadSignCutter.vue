@@ -25,7 +25,7 @@
           class="icon"
           symbol
           name="iconzichanfujianshangchuan"
-          style="font-size: 16px"
+          style="font-size: 16px; cursor: pointer"
         />
       </iInput>
       <ImgCutter
@@ -54,7 +54,7 @@
             class="icon"
             symbol
             name="iconzichanfujianshangchuan"
-            style="font-size: 16px"
+            style="font-size: 16px; cursor: pointer"
           ></icon>
         </iInput>
       </ImgCutter>

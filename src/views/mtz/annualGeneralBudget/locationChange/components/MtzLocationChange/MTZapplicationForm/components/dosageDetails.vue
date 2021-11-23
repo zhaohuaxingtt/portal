@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-09 18:42:22
+ * @LastEditTime: 2021-11-19 15:21:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -20,21 +20,29 @@
             <span>
               {{language('YONGLIANGXIANGQING','用量详情')}}
             </span>
-            <div class="opration">
+            <div class="opration"
+                 v-if="!isView">
               <div v-show="!editFlag">
                 <uploadButton ref="uploadButtonAttachment"
-                              :buttonText="language('YONGLIANGXIANGQING','上传原材料用量变更')"
+                              :buttonText="language('SHANGCHUANYUANCAILIAOYONGLIANGBIANGENG','上传原材料用量变更')"
                               :uploadByBusiness="true"
                               @uploadedCallback="uploadBasePriceChange($event)"
-                              class="margin-right20" />
-                <iButton @click="downFile"> {{language('XIAZAIMUBAN','下载模板')}}</iButton>
-                <iButton @click="del"> {{language('SHANCHU','删除')}}</iButton>
-                <iButton @click="add"> {{language('XINZENG','新增')}}</iButton>
-                <iButton @click="edit"> {{language('BIANJI','编辑')}}</iButton>
+                              class="margin-right20"
+                              :disabled="disabled" />
+                <iButton @click="downFile"
+                         :disabled="disabled"> {{language('XIAZAIMUBAN','下载模板')}}</iButton>
+                <iButton @click="del"
+                         :disabled="disabled"> {{language('SHANCHU','删除')}}</iButton>
+                <iButton @click="add"
+                         :disabled="disabled"> {{language('XINZENG','新增')}}</iButton>
+                <iButton @click="edit"
+                         :disabled="disabled"> {{language('BIANJI','编辑')}}</iButton>
               </div>
               <div v-show="editFlag">
-                <iButton @click="edit"> {{language('QUXIAO','取消')}}</iButton>
-                <iButton @click="save"> {{language('BAOCUN','保存')}}</iButton>
+                <iButton @click="cancel"
+                         :disabled="disabled"> {{language('QUXIAO','取消')}}</iButton>
+                <iButton @click="save"
+                         :disabled="disabled"> {{language('BAOCUN','保存')}}</iButton>
               </div>
             </div>
           </template>
@@ -43,7 +51,6 @@
                           :loading="tableLoading"
                           :data="tableList"
                           :columns="TABLE_COLUMNS"
-                          highlight-current-row
                           @handle-selection-change="handleSelectionChange">
             </iTableCustom>
             <iPagination v-update
@@ -65,9 +72,9 @@
             <span>
               {{language('SHENPIXIANGQING','审批详情')}}
             </span>
-            <div class="opration">
+            <!-- <div class="opration">
               <iButton @click="explain"> {{language('JIESHI','解释')}}</iButton>
-            </div>
+            </div> -->
           </template>
           <div class="table-wrapper">
             <iTableCustom :ref="'SPTable'"
@@ -78,20 +85,11 @@
                           highlight-current-row
                           @handle-selection-change="handleSelectionChange1">
             </iTableCustom>
-            <iPagination v-update
-                         @size-change="handleSizeChange($event, getDictList)"
-                         @current-change="handleCurrentChange($event, getDictList)"
-                         background
-                         :current-page="page.currPage"
-                         :page-sizes="page.pageSizes"
-                         :page-size="page.pageSize"
-                         :layout="page.layout"
-                         :total="page.totalCount" />
           </div>
         </iCard>
       </el-tab-pane>
     </iTabsList>
-    <iDialog :title="language('CHEHUIYUANYIN','撤回原因')"
+    <iDialog :title="language('JIESHIYUANYIN','解释原因')"
              :visible.sync="isShow"
              width="30%"
              class="table-header-modal"
@@ -105,17 +103,23 @@
       <span slot="footer"
             class="dialog-footer">
         <i-button @click="handleSave">保存</i-button>
-        <i-button @click="handleCancel">退出</i-button>
+        <i-button @click="handleCancel">取消</i-button>
       </span>
     </iDialog>
+    <new-mtzlocation-change :dialogVisible="dialogVisible"
+                            v-if="dialogVisible"
+                            :addFlag="true"
+                            :mtzAppId="mtzAppId"
+                            @close="close"></new-mtzlocation-change>
   </div>
 </template>
 
 <script>
-import { iButton, iTabsList, iCard, iPagination, iMessage, iDialog, iInput } from "rise";
+import { iButton, iTabsList, iCard, iPagination, iMessage, iDialog, iInput, iTableCustom } from "rise";
+import newMtzlocationChange from "@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationChange/newMtzlocationChange";
 import uploadButton from '@/components/uploadButton';
 import { basePriceChangePageList, uploadBasePriceChange, priceChangeExport, basePriceChangeDelete, updateBasePriceChange, approvalRecordList, approvalExplain } from '@/api/mtz/annualGeneralBudget/mtzChange'
-import iTableCustom from '@/components/iTableCustom'
+// import iTableCustom from '@/components/iTableCustom'
 import { TABLE_COLUMNS, TABLE_COLUMNS1 } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 
@@ -128,7 +132,8 @@ export default {
     iPagination,
     uploadButton,
     iDialog,
-    iInput
+    iInput,
+    newMtzlocationChange
   },
   mixins: [pageMixins],
   data () {
@@ -144,18 +149,27 @@ export default {
       tableLoading: false,
       approvalRecordList: [],
       isShow: false,
-      textarea: ""
+      textarea: "",
+      isView: false,
+      disabled: false,
+      dialogVisible: false
     }
   },
   created () {
     this.init()
   },
-
   watch: {
-
+    '$store.state.location.disabled': {
+      handler (val) {
+        this.disabled = JSON.parse(val)
+      },
+      deep: true,
+      immediate: true
+    }
   },
   methods: {
     init () {
+      this.isView = JSON.parse(this.$route.query.isView)
       this.mtzAppId = this.$route.query.mtzAppId
       this.getBasePriceChangePageList()
       this.getApprovalRecordList()
@@ -187,14 +201,12 @@ export default {
       let params = {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        mtzAppId: this.mtzAppId
+        mtzAppId: this.mtzAppId || "8"
+        // mtzAppId: "8"
       }
       approvalRecordList(params).then((res) => {
         if (res && res.code === '200') {
           this.approvalRecordList = res.data
-          this.page.currPage = res.pageNum
-          this.page.pageSize = res.pageSize
-          this.page.totalCount = res.total
           this.approvalRecordList.forEach(item => {
             this.$set(item, 'editRow', false);
           })
@@ -205,14 +217,20 @@ export default {
       })
     },
     add () {
-      let routerPath = this.$router.resolve({
-        path: `/mtz/annualGeneralBudget/newMtzLocationChange`,
-        query: {
-          addFlag: true,
-          mtzAppId: this.mtzAppId
-        }
-      })
-      window.open(routerPath.href, '_blank')
+      this.dialogVisible = true
+      // let routerPath = this.$router.resolve({
+      //   path: `/mtz/annualGeneralBudget/newMtzLocationChange`,
+      //   query: {
+      //     addFlag: true,
+      //     mtzAppId: this.mtzAppId
+      //   }
+      // })
+      // window.open(routerPath.href, '_blank')
+    },
+    close (val) {
+      this.dialogVisible = val
+      this.getBasePriceChangePageList()
+      this.getApprovalRecordList()
     },
     edit () {
       if (this.muliteList.length === 0) {
@@ -224,6 +242,12 @@ export default {
       })
       this.editFlag = true
     },
+    cancel () {
+      this.muliteList.forEach(item => {
+        item.editRow = false
+      })
+      this.editFlag = false
+    },
     handleSelectionChange (val) {
       this.muliteList = val
     },
@@ -231,6 +255,7 @@ export default {
       this.muliteList1 = val
     },
     save () {
+
       this.muliteList.forEach(item => {
         item.editRow = false
       })
@@ -252,14 +277,16 @@ export default {
       })
     },
     uploadBasePriceChange (val) {
-      console.log(val)
       let params = {
         multifile: val.file,
         mtzAppId: this.mtzAppId
       }
       uploadBasePriceChange(params).then((res) => {
+        console.log(res)
         if (res.code === '200') {
           iMessage.success(res.desZh)
+        } else {
+          iMessage.error(res.desZh)
         }
       })
     },
@@ -271,26 +298,32 @@ export default {
       })
     },
     explain () {
+      if (this.muliteList.length === 0) {
+        iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据'))
+        return
+      }
       this.isShow = true
-
     },
     handleSave () {
       let params = {
         comment: this.textarea,
         isDeptLead: true,
-        riseId: this.muliteList1[0].riseId,
-        taskId: this.muliteList1[0].taskId
+        riseId: this.muliteList1[0].riseId || "",
+        taskId: this.muliteList1[0].taskId || ""
       }
       approvalExplain(params).then(res => {
         if (res?.code === '200') {
+          this.isShow = false
+          this.getApprovalRecordList()
           iMessage.success(res.desZh)
         } else {
+          this.isShow = false
           iMessage.error(res.desZh)
         }
       })
     },
     handleCancel () {
-
+      this.isShow = false
     },
     del () {
       let ids = this.muliteList.map(item => {

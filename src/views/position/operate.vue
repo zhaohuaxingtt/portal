@@ -10,9 +10,15 @@
             @click="handleConfirm"
             v-if="type !== 'detail'"
             class="margin-right20"
+            :loading="saveLoading"
             >确认</iButton
           >
-          <iButton @click="handleReset" v-if="type !== 'detail'">重置</iButton>
+          <iButton
+            @click="handleReset"
+            :loading="saveLoading"
+            v-if="type !== 'detail'"
+            >重置</iButton
+          >
         </div>
       </pageHeader>
       <baseInfo ref="baseInfo" :type="type" />
@@ -32,7 +38,8 @@ export default {
     return {
       type: '',
       detailId: '',
-      deptId: ''
+      deptId: '',
+      saveLoading: false
     }
   },
   watch: {
@@ -59,25 +66,26 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     if (from.name !== 'positionTag' && to.params.type !== 'add') {
-      next(vm => {
+      next((vm) => {
         vm.$store.dispatch('GetPositionDetail', vm.detailId)
       })
     }
     next()
   },
   beforeRouteUpdate(to, from, next) {
-    if (from.params.type === 'edit') {
-      this.$store.commit('SET_POSITION_DETAIL', this.originPosDetail)
-      this.$store.commit(
-        'INIT_DIMENSION_LIST',
-        this.originPosDetail.permissionList
-      )
-      this.$store.commit('INIT_ROLE_SELECTED', this.originPosDetail.roleDTOList)
-      this.$store.commit(
-        'INIT_ROLEIDS_SELECTED',
-        this.originPosDetail.roleDTOList
-      )
-    }
+    //if (from.params.type === 'edit') {
+    // this.$store.commit('SET_POSITION_DETAIL', this.originPosDetail)
+    this.$store.dispatch('GetPositionDetail', this.detailId)
+    this.$store.commit(
+      'INIT_DIMENSION_LIST',
+      this.originPosDetail.permissionList
+    )
+    this.$store.commit('INIT_ROLE_SELECTED', this.originPosDetail.roleDTOList)
+    this.$store.commit(
+      'INIT_ROLEIDS_SELECTED',
+      this.originPosDetail.roleDTOList
+    )
+    //}
     next()
   },
   methods: {
@@ -93,32 +101,47 @@ export default {
     async handleConfirm() {
       const valid1 = await this.$refs['baseInfo'].$refs['baseForm1'].validate()
       const valid2 = await this.$refs['baseInfo'].$refs['baseForm2'].validate()
-      const obj = _.find(this.$store.state.position.pos.dimensionList, item => {
-        return !item.dimension || !item.content.length
-      })
+      const obj = _.find(
+        this.$store.state.position.pos.dimensionList,
+        (item) => {
+          return !item.dimension || !item.content.length
+        }
+      )
       if (obj) {
         iMessage.warn('增加的维度及内容不能为空')
         return
       }
+
       if (valid1 && valid2) {
+        this.saveLoading = true
         this.$store.commit('SET_DETAIL_DIMENSION')
         this.$store.commit('SET_DETAIL_ROLE')
         const res =
           this.type === 'add'
-            ? await this.$store.dispatch('SavePosition', this.deptId)
-            : await this.$store.dispatch('UpdatePosition', this.deptId)
+            ? await this.$store
+                .dispatch('SavePosition', this.deptId)
+                .finally(() => (this.saveLoading = false))
+            : await this.$store
+                .dispatch('UpdatePosition', this.deptId)
+                .finally(() => (this.saveLoading = false))
         if (res.code === '200' && res.data) {
           iMessage.success(
             this.type === 'add' ? '新增岗位成功' : '更新岗位成功'
           )
-          const query = { deptId: this.deptId }
-          if (this.$route.query.menuType) {
-            query.menuType = this.$route.query.menuType
+          // this.originPosDetail = _.cloneDeep(res.data)
+          this.$store.commit('SET_POSITION_ORIGIN_DETAIL', res.data)
+          // this.type = 'detail'
+          // if (this.type === 'add') {
+          this.detailId = res.data.id
+          const query = {
+            id: res.data.id,
+            deptId: this.deptId
           }
           this.$router.replace({
-            path: '/position/list',
+            path: '/position/operate/detail',
             query
           })
+          // }
         }
       }
     },

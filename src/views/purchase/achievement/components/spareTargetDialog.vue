@@ -1,7 +1,7 @@
 <template>
-    <!--VWAG评级-->
+    <!--spare-->
     <iDialog
-            :title="$t('EKL_YJGL_CJNDMBGL')"
+            :title="$i18n.locale === 'zh' ? '创建配附件年度目标':'create accessories annual target'"
             :visible.sync="value"
             width="90%"
             @close="clearDiolog"
@@ -52,7 +52,7 @@
             </iInput>
         </div>
         <div slot="footer" class="dialog-footer">
-            <iButton @click="handleSubmit" v-permission="ACHIEVEMENTMGT_SPARE_CONFIRM">{{ $t('LK_QUEREN') }}</iButton>
+            <iButton @click="handleSubmit" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_SPARE_CONFIRM')">{{ $t('LK_QUEREN') }}</iButton>
         </div>
     </iDialog>
 </template>
@@ -60,8 +60,8 @@
 <script>
     import {iDialog, iSelect, iInput, iButton, icon, iMessage} from 'rise';
     import tableList from './spareTargetTable';
+    import isAuth from '@/utils/isAuth';
     import {
- 
         querySpYearTarget,       // 年度目标
         querySpYearTargetDetail, // 科室
         saveSpYearTarget,        // 修改年度头数据
@@ -101,7 +101,10 @@
                 tempTableListData: [], // 做提交数据用的
                 tableListData1: [],
                 inputProps: [],
-                orgName:''
+                orgName:'',
+                isAuth,
+                whiteBtnList: this.$store.state.permission.whiteBtnList,
+
 
             };
         },
@@ -112,9 +115,6 @@
             show() {
                 return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'BZZL' || item.fullNameZh == '部长助理')
             },
-            linie() {
-                return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'LINIE')
-            }
         },
         methods: {
             clearDiolog() {

@@ -154,7 +154,9 @@ export default {
     },
     save() {
       this.saveLoading = true
-      const data = { ...this.detail }
+      const data = {
+        ...this.detail
+      }
       if (!this.detail.id) {
         data.generationKey = this.ruleCode || ''
       }

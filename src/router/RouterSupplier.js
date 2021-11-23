@@ -140,7 +140,7 @@ export default [{
 },
 {
   path: '/supplier/supplierKeyNote',
-  name: 'supplierTakeNote',
+  name: 'supplierKeyNote',
   component: () =>
     import('@/views/supplierManagement/supplierKPI/components/supplierKeyNote')
 },
@@ -157,17 +157,11 @@ export default [{
         import('@/views/supplierManagement/supplierKPI/supplierIndex/index.vue')
 },
 {
-    path: '/supplier/joinBlackApply',
-    name: 'joinBlackApply',
+    path: '/supplier/supplierTag',
+    name: 'supplierTag',
     component: () =>
-        import('@/views/supplierManagement/supplier360/list/joinBlackApply/index.vue')
-},
-{
-    path: '/supplier/removeBlackApply',
-    name: 'removeBlackApply',
-    component: () =>
-        import('@/views/supplierManagement/supplier360/list/removeBlackApply/index.vue')
-},
+      import('@/views/supplierManagement/supplierTag/index.vue')
+  },
 {
     path: '/supplier/supplierIndex',
     name: 'supplierIndex',
@@ -219,12 +213,7 @@ export default [{
     name: 'suppliersDetails',
     component: SuppliersDetails
   },
-  {
-    path: 'supplierTag',
-    name: 'supplierTag',
-    component: () =>
-      import('@/views/supplierManagement/supplierTag/index.vue')
-  },
+ 
   {
     path: 'NTier',
     name: 'NTier',

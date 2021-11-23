@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-10 11:35:00
+ * @LastEditTime: 2021-11-19 19:45:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -13,9 +13,12 @@
       <div v-if="!editFlag">
         <iButton type="text"
                  class="margin-right20"
+                 @click="handleSync"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
-        <iButton @click="edit">{{language('BIANJI', '编辑') }}</iButton>
+        <iButton v-show="!flag"
+                 :disabled="disabled"
+                 @click="edit">{{language('BIANJI', '编辑') }}</iButton>
       </div>
       <div v-if="editFlag">
         <iButton @click="del">{{language('SHANCHU', '删除') }}</iButton>
@@ -82,7 +85,7 @@
                    placeholder="输入关键词搜索"
                    :remote-method="queryOptions"
                    @change="handleChange">
-            <el-option v-for="item in options"
+            <el-option v-for="item in userList"
                        :key="item.id"
                        :label="item.nameZh"
                        :value="item.id">
@@ -124,7 +127,7 @@
                :visible.sync="dialogVisible"
                width="30%"
                :before-close="handleClose">
-      <process-vertical instanceId="1212584" />
+      <process-vertical :instanceId="riseId" />
       <span slot="footer"
             class="dialog-footer">
       </span>
@@ -134,10 +137,10 @@
 
 <script>
 import { iCard, iButton, iPagination, iMessage, iSelect, iDatePicker } from 'rise'
-import { getDeptDropDownList } from '@/api/authorityMgmt'
+// import { getDeptDropDownList } from '@/api/authorityMgmt'
 import { pageMixins } from '@/utils/pageMixins'
 import processVertical from './processVertical'
-import { pageApprove, deleteApprove, modifyApprove, getAppFormInfo, selectDept, selectSection } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
+import { pageApprove, deleteApprove, modifyApprove, getAppFormInfo, selectDept, selectSection, syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 export default {
   data () {
     return {
@@ -150,7 +153,9 @@ export default {
       dialogVisible: false,
       riseId: "",
       selectDeptList: [],
-      selectSectionList: []
+      selectSectionList: [],
+      flag: false,
+      disabled: false
     }
   },
   components: {
@@ -164,23 +169,25 @@ export default {
   created () {
     this.init()
   },
-  computed:{
-      mtzObject(){
-        return this.$store.state.location.mtzObject;
-      }
-  },
-  watch: {
-    mtzObject(newVlue,oldValue){
-      this.init()
-    }
-  },
+  // computed: {
+  //   mtzObject () {
+  //     return this.$store.state.location.mtzObject;
+  //   }
+  // },
+  // watch: {
+  //   mtzObject (newVlue, oldValue) {
+  //     this.init()
+  //   }
+  // },
   mixins: [pageMixins],
   methods: {
-    init () {
-      this.mtzAppId = this.mtzObject.mtzAppId || this.$route.query.mtzAppId
-      this.getTableList()
+    async init () {
+      this.mtzAppId = this.$route.query.mtzAppId
+      this.flag = JSON.parse(this.$route.query.isView)
+      await this.getAppFormInfo()
       this.selectDept()
       this.selectSection()
+
     },
     getTableList () {
       this.tableLoading = true
@@ -221,16 +228,24 @@ export default {
         this.selectSectionList = res.data
       })
     },
-    approveStream () {
-      this.dialogVisible = true
+    getAppFormInfo () {
       getAppFormInfo({
         isDeptLead: true,
         mtzAppId: this.mtzAppId || '5107001'
       }).then(res => {
         if (res?.code === '200') {
           this.riseId = res.data.riseId
+          if (res.data.ttNominateAppId) {
+            this.disabled = true
+          }
+          if (res.data.flowType === 'FILING') {
+            this.handleSync()
+          }
         }
       })
+    },
+    approveStream () {
+      this.dialogVisible = true
     },
     edit () {
       if (this.muilteList.length === 0) {
@@ -293,6 +308,17 @@ export default {
     handleChangeApprovalSection (val, row) {
       let obj = this.selectSectionList.find(item => item.nameZh === val)
       row.approvalDepartment = obj.id
+      this.userList = obj.userDTOList
+    },
+    handleSync () {
+      syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: "1" }).then(res => {
+        if (res?.code === '200') {
+          this.getTableList()
+          iMessage.success(res.desZh)
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
     }
   }
 }

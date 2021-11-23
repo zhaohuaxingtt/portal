@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-09 10:41:01
+ * @LastEditTime: 2021-11-15 13:55:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -56,7 +56,7 @@
               </custom-select>
 
             </el-form-item>
-            <el-form-item label="材料中类编号-名称"
+            <el-form-item label="材料中类"
                           class="searchFormItem"
                           prop="materialKindList">
               <custom-select v-model="searchForm.materialKindList"
@@ -227,6 +227,7 @@
                           :data="tableData"
                           :columns="tableColumns"
                           min-height="328px"
+                          height="600px"
                           ref="iTable"
                           @handle-selection-change="handleSelectionChange" />
           <!-- <iPagination v-update

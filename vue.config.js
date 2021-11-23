@@ -9,9 +9,9 @@ const px2rem = require('postcss-px2rem')
 const postcss = px2rem({
   remUnit: 16
 })
-// const BASE_DOMAN = '10.122.18.166'
-const BASE_DOMAN = '10.122.17.38'
-// const BASE_IP = '10.122.17.38'
+
+const BASE_IP = '10.122.17.38'
+// const BASE_IP = '10.122.18.166'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
@@ -136,35 +136,36 @@ module.exports = {
     // hotOnly: true,
     proxy: {
       [process.env.VUE_APP_PROJECT]: {
-        target: `http://${BASE_DOMAN}:8005/projectmgt`,
+        target: `http://${BASE_IP}:8005/projectmgt`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_PROJECT]: ''
         }
       },
       [process.env.VUE_APP_EKL]: {
-        target: `http://${BASE_DOMAN}:8043/riseekl`,
+        target: `http://${BASE_IP}:8043/riseekl`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_EKL]: ''
         }
       },
       [process.env.VUE_APP_COMMON]: {
-        target: `http://${BASE_DOMAN}:8014/common`,
+        target: `http://${BASE_IP}:8014/common`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_COMMON]: ''
         }
       },
       [process.env.VUE_APP_USER_CENTER]: {
-        target: `http://${BASE_DOMAN}:8015/usercenter/`,
+        target: `http://${BASE_IP}:8015/usercenter/`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_CENTER]: ''
         }
       },
       [process.env.VUE_APP_APPROVAL]: {
-        target: `http://${BASE_DOMAN}:8012/approval`,
+        // target: `http://10.160.141.176:8012/approval`,
+        target: `http://${BASE_IP}:8012/approval`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_APPROVAL]: ''
@@ -173,7 +174,7 @@ module.exports = {
       // -----------------ws3 供应商---------------------------
       [process.env.VUE_APP_SUPPLIER]: {
         //   供应商
-        target: `http://${BASE_DOMAN}:8010/supplierservice`,
+        target: `http://${BASE_IP}:8010/supplierservice`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_SUPPLIER]: ''
@@ -181,7 +182,7 @@ module.exports = {
       },
       // ------------------ 上传 ----------------------------
       [process.env.VUE_APP_FILEAPI]: {
-        target: `http://${BASE_DOMAN}:8034/fileud`,
+        target: `http://${BASE_IP}:8034/fileud`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_FILEAPI]: ''
@@ -189,7 +190,7 @@ module.exports = {
       },
       //------------------- 业务日志 ---------------------
       [process.env.VUE_APP_BIZLOG]: {
-        target: `http://${BASE_DOMAN}:8013/bizlog`,
+        target: `http://${BASE_IP}:8013/bizlog`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BIZLOG]: ''
@@ -197,49 +198,50 @@ module.exports = {
       },
       // 站内信
       [process.env.VUE_APP_MAIL]: {
-        target: `http://${BASE_DOMAN}:8044/risemessage`,
+        target: `http://10.122.18.166:8044/risemessage`,
+        // target: `http://${BASE_IP}:8044/risemessage`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MAIL]: ''
         }
       }, // 主数据
       [process.env.VUE_APP_BASE_INFO]: {
-        target: `http://${BASE_DOMAN}:8011/baseinfo`,
+        target: `http://${BASE_IP}:8011/baseinfo`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_INFO]: ''
         }
       }, // SEARCH
       [process.env.VUE_APP_SEARCH]: {
-        target: `http://${BASE_DOMAN}:8039/risesearch`,
+        target: `http://${BASE_IP}:8039/risesearch`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_SEARCH]: ''
         }
       }, //RISEDASHBOARD
       [process.env.VUE_APP_RISEDASHBOARD]: {
-        target: `http://${BASE_DOMAN}:8037/risedashboard`,
+        target: `http://${BASE_IP}:8037/risedashboard`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_RISEDASHBOARD]: ''
         }
       },
       [process.env.VUE_APP_AON]: {
-        target: `http://${BASE_DOMAN}:8036/aon`,
+        target: `http://${BASE_IP}:8036/aon`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_AON]: ''
         }
       },
       [process.env.VUE_APP_NTIER]: {
-        target: `http://${BASE_DOMAN}:8045/ntier`,
+        target: `http://${BASE_IP}:8045/ntier`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_NTIER]: ''
         }
       },
       [process.env.VUE_APP_MTZ]: {
-        target: `http://${BASE_DOMAN}:8046/mtz`,
+        target: `http://${BASE_IP}:8046/mtz`,
         // target: `http://${BASE_IP}:8046/mtz`,
         changeOrigin: true,
         pathRewrite: {
@@ -247,81 +249,53 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_MATERIEL]: {
-        target: `http://${BASE_DOMAN}:8018/parts`,
+        target: `http://${BASE_IP}:8018/parts`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MATERIEL]: ''
         }
       },
       [process.env.VUE_APP_RFQ]: {
-        target: `http://${BASE_DOMAN}:8025/sourcing`,
+        target: `http://${BASE_IP}:8025/sourcing`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_RFQ]: ''
         }
       },
       [process.env.VUE_APP_MEETING]: {
-        target: `http://${BASE_DOMAN}:8051/rise-meeting`,
+        target: `http://${BASE_IP}:8051/rise-meeting`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MEETING]: ''
         }
       },
       [process.env.VUE_APP_NEWS]: {
-        target: `http://${BASE_DOMAN}:8047/news`,
+        target: `http://${BASE_IP}:8047/news`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_NEWS]: ''
         }
       },
+      [process.env.VUE_APP_SURVEY]: {
+        target: `http://${BASE_IP}:8054/rise-survey`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_SURVEY]: ''
+        }
+      },
       [process.env.VUE_APP_CHANGEPRICE]: {
-        target: `http://${BASE_DOMAN}:8026/executionoperation`,
+        target: `http://${BASE_IP}:8026/executionoperation`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_CHANGEPRICE]: ''
         }
       },
       // #零件生命周期
-      [process.env.VUE_APP_PARTSCARD]: {
-        target: `http://192.168.50.160:8037`,
+      [process.env.VUE_APP_PARTLIFECYCLEAPI]: {
+        target: `http://${BASE_IP}:8037`,
         changeOrigin: true,
         pathRewrite: {
-          ['^/' + process.env.VUE_APP_PARTSCARD]: ''
-        }
-      },
-      [process.env.VUE_APP_PARTSRECORD]: {
-        target: `http://192.168.50.160:8037`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^/' + process.env.VUE_APP_PARTSRECORD]: ''
-        }
-      },
-      [process.env.VUE_APP_PARTSPROCESS]: {
-        target: `http://192.168.50.160:8037`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^/' + process.env.VUE_APP_PARTSPROCESS]: ''
-        }
-      },
-      [process.env.VUE_APP_PARTSFOLDER]: {
-        target: `http://192.168.50.160:8037`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^/' + process.env.VUE_APP_PARTSFOLDER]: ''
-        }
-      },
-      [process.env.VUE_APP_PARTSCOLLECT]: {
-        target: `http://192.168.50.160:8037`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^/' + process.env.VUE_APP_PARTSCOLLECT]: ''
-        }
-      },
-      [process.env.VUE_APP_RELATIONPARTS]: {
-        target: `http://192.168.50.160:8037`,
-        changeOrigin: true,
-        pathRewrite: {
-          ['^/' + process.env.VUE_APP_RELATIONPARTS]: ''
+          ['^' + process.env.VUE_APP_PARTLIFECYCLEAPI]: ''
         }
       }
     }

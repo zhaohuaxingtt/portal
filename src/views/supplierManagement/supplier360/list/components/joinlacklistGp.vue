@@ -7,10 +7,13 @@
   <iDialog
   top="2%"
     @close="closeDiolog()"
-    title="加⼊⿊名单 - ⼀般采购"
     :visible.sync="value"
     width="85%"
   >
+     <div slot="title" class="headerTitle">
+      <!-- <span>{{language('JIARUHEIMINGDANYIBANCAIGOU', '加入黑名单 - ⼀般采购')}}</span> -->
+        <span>加入黑名单 - ⼀般采购</span>
+    </div>
     <div class="box">
       <el-form
         :rules="rules"
@@ -24,7 +27,7 @@
           <el-form-item
             :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
           >
-            <iText style="min-width:240px" class="text">{{
+            <iText style="min-width:240px " class="text">{{
               clickTableList.nameZh
             }}</iText>
           </el-form-item>
@@ -98,7 +101,7 @@
 </template>
 
 <script>
-let that
+// let that
 import {
   gpSupplierBlackSave,
   measuresTypeList
@@ -148,9 +151,9 @@ export default {
           }
         },
         disabledDate(time) {
-          if (that.selectDate !== '') {
+          // if (that.selectDate !== '') {
             return time.getTime() < Date.now() - 8.64e7
-          }
+          // }
         }
       },
       rules: {
@@ -172,7 +175,7 @@ export default {
     }
   },
   beforeCreate() {
-    that = this
+    // that = this
   },
   created() {
     // this.$nextTick(() => {
@@ -255,7 +258,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.box {
+.headerTitle {
+font-size: 20px;
+font-family: Arial;
+font-weight: bold;
+color: #000000;
 }
 .footer {
   display: flex;

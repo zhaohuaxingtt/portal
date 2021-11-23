@@ -56,7 +56,7 @@ export default {
         type: this.agentType
       }
       this.tableLoading = true
-      queryTemplates(data).then(res => {
+      queryTemplates(data).then((res) => {
         const { data } = res.data
         this.approvalTodos = data
       })
@@ -92,10 +92,10 @@ export default {
       })
     },
     removeRows(rows) {
-      this.agentList = this.agentList.filter(e => !rows.includes(e))
+      this.agentList = this.agentList.filter((e) => !rows.includes(e))
     },
     save() {
-      const agentList = this.agentList.map(e => {
+      const agentList = this.agentList.map((e) => {
         return {
           ...e,
           startTime: e.startTime + ' 00:00:00',
@@ -104,11 +104,16 @@ export default {
       })
       this.loading = true
       addAgent(agentList)
-        .then(res => {
+        .then((res) => {
           if (res && res.result) {
             iMessage.success(this.$t('APPROVAL.SAVE_SUCCESSFUL'))
             this.$router.go(-1)
+          } else {
+            iMessage.error(res.desZh || '保存失败')
           }
+        })
+        .catch((err) => {
+          iMessage.error(err.desZh || '保存失败')
         })
         .finally(() => (this.loading = false))
     }

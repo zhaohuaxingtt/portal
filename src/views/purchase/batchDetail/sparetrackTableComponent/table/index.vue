@@ -156,7 +156,6 @@
             renderHeader(h, {column, $index}) {
                 // h 是一个渲染函数       column 是一个对象表示当前列      $index 第几列
                 if (column.label == this.label) {
-                    console.log(this.label)
                     return this.fn(column, h, $index)
                 } else if (column.label == '备注' && this.tableTitle.length > 16) {
                     return this.cb(column, h, $index)
@@ -197,7 +196,6 @@
 
             fn(column, h, $index) {
                 let index = $index
-                console.log($index,'index')
                 let vm = this
                 if (vm.tableTitle.length == 16 || !vm.show) {
                     return h('div', null, [

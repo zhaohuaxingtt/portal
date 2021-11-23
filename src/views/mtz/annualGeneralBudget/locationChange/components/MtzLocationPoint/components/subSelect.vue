@@ -46,6 +46,7 @@ import { pageMixins } from "@/utils/pageMixins"
 import { getMettingList } from "@/api/meeting/home"
 import {
   saveMeeting,//提交
+  mtzAppNomiSubmit
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 
 export default {
@@ -101,14 +102,24 @@ export default {
             // console.log(this.selectData)
             if (this.selectData.length > 0) {
                 saveMeeting({
-                    mtzAppId:this.$route.query.mtzAppId || this.mtzObject.mtzAppId,
+                    mtzAppId:this.$route.query.mtzAppId || this.mtzObject.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                     meetingId:this.selectData[0].id,
                     duration:this.selectData[0].duration,
                     topic:this.selectData[0].name,
                 }).then(res=>{
                     if(res.code == 200 && res.result){
-                        iMessage.success(this.language(res.desEn,res.desZh))
-                        this.$emit("close","refresh")
+                        mtzAppNomiSubmit({
+                            mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+                        }).then(res=>{
+                            if(res.result && res.code == 200){
+                                this.$emit("close","refresh")
+                                iMessage.success(this.language(res.desEn,res.desZh))
+                            }else{
+                                iMessage.error(this.language(res.desEn,res.desZh))
+                            }
+                        })
+                    }else{
+                        iMessage.error(this.language(res.desEn,res.desZh))
                     }
                 })
             }else{
@@ -130,9 +141,12 @@ export default {
             getMettingList({
                 meetingTypeEnum:this.changeValue,
                 pageNum: this.page.currPage,
-                pageSize: this.page.pageSize
+                pageSize: this.page.pageSize,
+                states:["02"]
             }).then(res=>{
-                // console.log(res);
+                this.page.currPage = res.pageNum;
+                this.page.pageSize = res.pageSize;
+                this.page.totalCount = res.total;
                 this.tableListData = res.data;
                 this.loading = false;
             })

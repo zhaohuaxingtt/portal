@@ -42,7 +42,6 @@
       :data="card"
     />
   </el-card>
-  
 </template>
 
 <script>
@@ -88,7 +87,7 @@ export default {
       }
     }
   },
-  computed:{
+  computed: {
     ...mapState({
       id: (id) => id.permission.userInfo.id
     }),
@@ -111,10 +110,10 @@ export default {
         window.open(process.env.VUE_APP_HOST + '/portal/#/bpm/approval/center')
       } else if (card.component === 'Task') {
         window.open(process.env.VUE_APP_HOST + '/portal/#/task/center')
-      } else if(card.component === 'Sourcing'){
-        window.location.href=this.$refs.parent.url.uri
-      }else if(card.component === 'News'){
-         window.location.href=`/portal/news/#/news/news?id=${this.id}`
+      } else if (card.component === 'Sourcing') {
+        window.location.href = this.$refs.parent.url.uri
+      } else if (card.component === 'News') {
+        window.location.href = `/portal/news/#/news/news?id=${this.id}`
       }
     },
     handleMore() {
@@ -164,7 +163,7 @@ export default {
 </style>
 <style lang="scss">
 .module-card {
-  margin-bottom: 20px;
+  margin-bottom: 20PX;
   .el-dropdown {
     z-index: 999;
   }

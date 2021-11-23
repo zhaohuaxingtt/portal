@@ -10,7 +10,7 @@ import { getDictByCode } from "@/api/dictionary";
 export const tableTitle = [
   { props: 'nameZh', name: '供应商名称', width: 170, key: 'LK_GONGYINGSHANGMINGCHENG', tooltip: true },
   { props: 'nameEn', name: '供应商英文名', width: 170, key: 'SupplierEn', tooltip: true },
-  { props: '', name: '是否黑名单', width: 80, key: 'SUPPLIER_SFHMD' },
+//   { props: '', name: '是否黑名单', width: 80, key: 'SUPPLIER_SFHMD' },
   { props: 'socialcreditNo', name: '统一社会信用代码', width: 150, key: 'UnifySocialCreditCode', tooltip: true },
   { props: 'supplierTagNameList', name: '供应商标签', width: 180, key: 'GONGYINGSHANGBIAOQIAN', tooltip: true },
   { props: 'dunsCode', name: 'DUNS', width: 120, tooltip: true },

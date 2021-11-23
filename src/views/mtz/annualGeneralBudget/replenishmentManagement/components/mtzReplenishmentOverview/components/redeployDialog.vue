@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-08-31 17:20:16
- * @LastEditTime: 2021-11-03 11:47:00
+ * @LastEditTime: 2021-11-11 17:06:19
  * @LastEditors: Please set LastEditors
  * @Description: 新增
  * @FilePath: \重庆软维科技\front-portal\src\views\mtz\annualGeneralBudgetLeader\annualBudget\components\add.vue
@@ -11,7 +11,7 @@
     <iDialog :title="language('ZHUANPAI', '转派')"
              :visible.sync="value"
              v-if="value"
-             width="20%"
+             width="25%"
              @close='closeDiolog'>
       <el-form :inline="true"
                :model="form"
@@ -41,10 +41,10 @@
           </iSelect> -->
         </el-form-item>
       </el-form>
-      <div slot="footer"
-           class="dialog-footer">
+      <div slot="footer" class="dialog-footer">
         <iButton @click="closeDiolog">{{language('FANHUI', '返回')}}</iButton>
         <iButton @click="handleSubmit">{{language('QUEREN', '确认')}}</iButton>
+        <iButton @click="handleRedeployMyself">{{language('ZHUANPAIZIJI', '转派自己')}}</iButton>
       </div>
     </iDialog>
   </div>
@@ -89,6 +89,12 @@ export default {
       } else {
         iMessage.error("请选择采购员！")
       }
+    },
+    // 转派自己
+    handleRedeployMyself() {
+      const userId = this.$store.state.permission.userInfo.id
+      const obj = this.buyerList.find(item => item.code == userId)
+      this.$set(this.form, 'selData', obj)
     },
     getListData () {
       fetchBuyerData({}).then(res => {

@@ -110,21 +110,26 @@ export default {
   },
   methods: {
     confirmParts(){
-      this.sureLoading = true
+      this.sureLoading = true;
+      const deptName = this.departmentsList.filter(item => item.deptId === this.deptId)[0].commodity;
+      const linieName = this.linieList.filter(item => item.linieId === this.linieId)[0].linieName;
       confirmParts({
-        partsNum: this. claimNum,
-        deptId: this. deptId,
-        linieId: this. linieId,
-        positionId: this. roleCode,
+        partsNum: this.claimNum,
+        deptId: this.deptId,
+        linieId: this.linieId,
+        positionId: this.roleCode,
+        deptName,
+        linieName
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           // this.departmentsList = res.data
           if(res.data.status){
-            iMessage.success(this.language('LK_RENLINGCHENGGONG', '认领成功'))
+            iMessage.success(this.$i18n.locale === 'zh' ? '认领成功' : 'claim success')
             this.$emit('sure')
           } else {
-            iMessage.error(res.data.partNum.split(',') + this.language('LK_RENLINGSHIBAI', '认领失败'))
+            let partNum = res.data.partNum.split(',')
+            iMessage.error(this.$i18n.locale === 'zh' ? partNum + '认领失败' : partNum +'claim fail')
           }
         } else {
           iMessage.error(result)
@@ -194,7 +199,7 @@ export default {
           let data = res.data
           this.deptId = data.deptId
           this.linieId = data.linieId
-          this.roleCode = data.rolePullDown.length > 0 ? data.rolePullDown[0].code : ''
+          this.roleCode = data.rolePullDown.length > 0 ? data.rolePullDown[0].id : ''
           this.getDepartmentsCombo()
           this.liniePullDownByDept()
           this.getRoleName()

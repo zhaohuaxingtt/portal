@@ -5,8 +5,11 @@
 <template>
   <iDialog @close="closeDiolog()"
            :visible.sync="value"
-           :title="'供应商⿊名单记录 - 生产采购  -'+ clickTableList.nameZh"
+           top="5%"
            width="85%">
+ <div slot="title" class="headerTitle">
+      <span>{{'供应商黑名单记录 - 生产采购  -'+ clickTableList.nameZh}}</span>
+    </div>
     <div class="box">
       <el-tabs class="tabsHeader"
                type="card"
@@ -15,14 +18,14 @@
                @tab-click="changeTab">
         <el-tab-pane name="1"
                      :label="
-            language('GONGYINGSHANGHEIMINGDANZHUANGTAI', '供应商⿊名单状态')
+            language('GONGYINGSHANGHEIMINGDANZHUANGTAI', '供应商黑名单状态')
           ">
         </el-tab-pane>
         <el-tab-pane name="2"
-                     :label="language('GONGYINGSHANGHEIMINGDANJILU', '供应商⿊名单记录')">
+                     :label="language('GONGYINGSHANGHEIMINGDANJILU', '供应商黑名单记录')">
         </el-tab-pane>
       </el-tabs>
-      <div class="dilogHeader" >
+      <div class="dilogHeader">
         <el-form label-width="80"
                  inline
                  label-position="top">
@@ -91,9 +94,8 @@
               </el-option>
             </iSelect>
           </el-form-item>
-         
-  
-           <el-form-item v-if="tabVal == 1"
+
+          <el-form-item v-if="tabVal == 1"
                         style="width:220px"
                         :label="language('SHOUKONGZHUANGTAI', '受控状态')">
             <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
@@ -105,7 +107,7 @@
               </el-option>
             </iSelect>
           </el-form-item>
-                  <el-form-item style="width:220px"
+          <el-form-item style="width:220px"
                         :label="language('SHOUKONGCUOSHI', '受控措施')">
             <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
                      v-model="form.measures">
@@ -116,13 +118,21 @@
               </el-option>
             </iSelect>
           </el-form-item>
-          <el-form-item :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')">
-
+          <el-form-item :label="language('SHOUKONGKAISHISHIJIAN', '受控开始时间')">
             <iDatePicker style="width:220px"
                          type="daterange"
                          :range-separator="$t('SUPPLIER_ZHI')"
                          :placeholder="''"
                          v-model="daterange"
+                         value-format="yyyy-MM-dd"
+                         clearable />
+          </el-form-item>
+          <el-form-item :label="language('SHOUKONGJIESHUJIAN', '受控结束时间')">
+            <iDatePicker style="width:220px"
+                         type="daterange"
+                         :range-separator="$t('SUPPLIER_ZHI')"
+                         :placeholder="''"
+                         v-model="daterange2"
                          value-format="yyyy-MM-dd"
                          clearable />
           </el-form-item>
@@ -137,25 +147,44 @@
       <p class="tableTitle">
         详情列表
       </p>
-      <table-list v-if="tabVal == 1"
-                  style="margin-top:20px"
-                  :tableData="tableListData"
-                  :tableTitle="tableTitlePpBlackList"
-                  :tableLoading="tableLoading"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-      <table-list v-if="tabVal == 2"
-                  style="margin-top:20px"
-                  :tableData="tableListDataRecord"
-                  :tableTitle="tableTitlePpBlackListRecord"
-                  :tableLoading="tableLoadingRecord"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-      <iPagination style="margin-top:20px"
-                   v-if="tabVal == 2"
+      <div class="tableBox">
+
+        <table-list v-if="tabVal == 1"
+                    style="margin-top:20px"
+                    :tableData="tableListData"
+                    :tableTitle="tableTitlePpBlackList"
+                    :tableLoading="tableLoading"
+                    :index="true"
+                    :selection="false">
+                         <template #stuffNameEnDe='scope'>
+                        <span>{{scope.row.stuffName}}-{{scope.row.stuffNameDe}}</span>
+                    </template>
+        </table-list>
+        <table-list v-if="tabVal == 2"
+                    style="margin-top:20px"
+                    :tableData="tableListDataRecord"
+                    :tableTitle="tableTitlePpBlackListRecord"
+                    :tableLoading="tableLoadingRecord"
+                    :index="true"
+                    :selection="false">
+                    <template #stuffNameEnDe='scope'>
+                        <span>{{scope.row.stuffName}}-{{scope.row.stuffNameDe}}</span>
+                    </template>
+        </table-list>
+         <iPagination style="margin-top:20px"
                    v-update
+                   v-if="tabVal == 1"
+                   @size-change="handleSizeChange($event, sure)"
+                   @current-change="handleCurrentChange($event, getList)"
+                   background
+                   :page-sizes="page.pageSizes"
+                   :page-size="page.pageSize"
+                   :layout="page.layout"
+                   :current-page="page.currPage"
+                   :total="page.totalCount" />
+        <iPagination style="margin-top:20px"
+                   v-update
+                   v-if="tabVal == 2"
                    @size-change="handleSizeChange($event, sure)"
                    @current-change="handleCurrentChange($event, getListRecord)"
                    background
@@ -164,6 +193,7 @@
                    :layout="page.layout"
                    :current-page="page.currPage"
                    :total="page.totalCount" />
+      </div>
     </div>
   </iDialog>
 </template>
@@ -207,14 +237,14 @@ export default {
   },
   data() {
     return {
-        isShow:false,
+      isShow: false,
       stuffList: [],
       categoryList: [],
       purchaseList: [],
       tableLoading: false,
       tableLoadingRecord: false,
       form: {
-          measuresStatus:''
+        measuresStatus: ''
       },
       processingList: [],
       tableTitlePpBlackList: tableTitlePpBlackList,
@@ -234,6 +264,7 @@ export default {
         }
       ],
       daterange: [],
+      daterange2: [],
       tabVal: '1',
       measuresList: [
         {
@@ -315,20 +346,22 @@ export default {
       //   this.remoteGetStuffList()
     },
     getList() {
-        this.isShow=true
+      this.isShow = true
       this.tableLoading = true
       const params = {
         supplierId: this.clickTableList.subSupplierId,
         endTime: this.daterange[1],
         startTime: this.daterange[0],
-        pageNo: this.page.currPage,
+        stopEndTime: this.daterange2[1],
+        stopStartTime: this.daterange2[0],
+      pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         ...this.form
       }
       console.log(this.form)
       ppSupplerBlackListStatusPage(params).then((res) => {
         if (res && res.code == 200) {
-            
+            this.page.totalCount = res.total
           this.tableLoading = false
           this.tableListData = res.data
         } else iMessage.error(res.desZh)
@@ -338,10 +371,12 @@ export default {
       this.tableLoadingRecord = true
       const params = {
         supplierId: this.clickTableList.subSupplierId,
-        pageNo: this.page.currPage,
+     pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         endTime: this.daterange[1],
         startTime: this.daterange[0],
+        stopEndTime: this.daterange2[1],
+        stopStartTime: this.daterange2[0],
         ...this.form
       }
       ppSupplerBlackListHistoryPage(params).then((res) => {
@@ -353,7 +388,7 @@ export default {
       })
     },
     changeTab() {
-          this.isShow=true
+      this.isShow = true
       this.clickReset(this.tabVal)
       console.log(this.form)
     },
@@ -382,6 +417,7 @@ export default {
       this.page.pageSize = 10
       this.page.currPage = 1
       this.daterange = []
+      this.daterange2 = []
       if (v == 1) {
         this.getList()
       } else {
@@ -395,10 +431,22 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
+::v-deep.el-tooltip__popper{ width: 100px; }
+</style>
+<style lang="scss" scoped>
+.headerTitle {
+  font-size: 20px;
+  font-family: Arial;
+  font-weight: bold;
+  color: #000000;
+}
 .box {
   padding-bottom: 20px;
+}
+.tableBox {
+//   max-height: 600px;
+//   overflow-y: scroll;
 }
 .header {
   display: flex;
@@ -441,7 +489,7 @@ export default {
     border-radius: 0px 10px 10px 0px;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.08);
     font-size: 16px;
-    width: 200px;
+    min-width: 200px;
     height: 35px;
     line-height: 35px;
   }

@@ -6,7 +6,7 @@
         <div class="card1">
             <iCard class="item">
                 <div class="status">
-                    <div class="status-value" :class="headBase&&headBase.status=='已生效'?'blue':'red'"><span v-text="headBase&&headBase.divide"></span> </div>
+                    <div class="status-value" :class="headBase&&headBase.status=='已完成'?'blue':'red'"><span v-text="headBase&&headBase.divide"></span> </div>
                     <div class="status-text">
                        <span v-text="$t('EKL_DQZT') +':'"></span>
                        <span v-text="headBase&&headBase.status? headBase.status:$t('EKL_WWC')"></span></div>
@@ -29,7 +29,7 @@
             </iCard>
             <iCard class="item">
                 <div class="status">
-                    <div class="status-value" :class="headBase&&headBase.status=='已生效'?'blue':'red'"><span v-text="headBase&&headBase.isConfirmSize"></span> </div>
+                    <div class="status-value" :class="headBase&&headBase.status=='已完成'?'blue':'red'"><span v-text="headBase&&headBase.isConfirmSize"></span> </div>
                     <div class="status-text"><span v-text="$t('EKL_DQESL')"></span></div>
                     <icon class="icon" symbol name="iconyejijichubiaodaiquerenshuliang1" />
                 </div>
@@ -77,18 +77,15 @@
         },
         methods: {
             getTableList(data) {
-                console.log(data,'data')
                 this.$refs.theTable.handleSearch();
             },
             getForm(data) {
-                console.log(data,'formDATA')
                 this.formData = data
             },
             getHeadDetail() {
                 this.$refs.theTable.handleSearch();
-                const {title,version,id} = this.$route.query
-                let ver = version?version:'V1'
-                this.title = `${title}（产量版本：${ver}）`
+                const {title,id} = this.$route.query
+                this.title = title
                 getHeadspBaseDetail({seriesbaseId:id}).then(res => {
                     if(res.result) {
                         this.headBase = res.data

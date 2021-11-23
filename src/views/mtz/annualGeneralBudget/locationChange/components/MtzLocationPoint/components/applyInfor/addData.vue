@@ -9,65 +9,78 @@
             ref="contractForm"
             >
             <iFormItem prop="assemblyPartnum">
-                <iLabel :label="language('LINGJIANHAO','零件号')" slot="label"></iLabel>
+                <iLabel :label="language('LINGJIANHAO','零件号')" slot="label" :required="true"></iLabel>
                 <iInput
-                v-model="contractForm.assemblyPartnum"
-                type="text"
-                placeholder="请输入规则编号"
-                :disabled="disabled"
-                />
-            </iFormItem>
-            <iFormItem prop="sapCode">
-                <iLabel :label="language('GONGYINGSHANGBIANHAOMINGCHENG','供应商编号/名称')" :required="true" slot="label"></iLabel>
-                <iInput
-                v-model="contractForm.sapCode"
-                type="text"
-                placeholder="请输入规则编号"
-                :disabled="disabled"
-                />
+                    v-model="contractForm.assemblyPartnum"
+                    type="text"
+                    @focus="partChange"
+                    :placeholder="language('QINGXUANZE','请选择')"
+                    :disabled="disabled"
+                    >
+                </iInput>
             </iFormItem>
             <iFormItem prop="ruleNo">
-                <iLabel :label="language('GUIZEBIANHAO','规则编号')" :required="true" slot="label"></iLabel>
-                <iInput
-                v-model="contractForm.ruleNo"
-                type="text"
-                placeholder="请输入规则编号"
-                :disabled="disabled"
-                />
+                <iLabel :label="language('GUIZEBIANHAO','规则编号')" slot="label" :required="true"></iLabel>
+                <iSelect v-model="contractForm.ruleNo"
+                   clearable
+                   value-key="code"
+                   @change="choiseGZ"
+                   :placeholder="language('QINGXUANZE','请选择')">
+                    <el-option v-for="item in ruleNo"
+                            :key="item.id"
+                            :value="item.id"
+                            :label="item.ruleNo"></el-option>
+                </iSelect>
+            </iFormItem>
+            <iFormItem prop="sapCode">
+                <iLabel :label="language('GONGYINGSHANGBIANHAOMINGCHENG','供应商编号/名称')" slot="label"></iLabel>
+                <iSelect v-model="contractForm.sapCode"
+                         clearable
+                         filterable
+                         :disabled="true"
+                         :placeholder="language('QINGSHURU', '请输入')"
+                        >
+                    <el-option
+                        v-for="item in supplierList"
+                        :key="item.code"
+                        :label="item.codeMessage"
+                        :value="item.code">
+                    </el-option>
+                </iSelect>
             </iFormItem>
             <iFormItem prop="priceUnit">
-                <iLabel :label="language('MEI','每')" :required="true" slot="label"></iLabel>
+                <iLabel :label="language('MEI','每')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.priceUnit"
                 type="number"
-                placeholder="请输入车型"
+                :placeholder="language('QINGSHURU','请输入')"
                 :disabled="disabled"
                 />
             </iFormItem>
             <iFormItem prop="partUnit">
-                <iLabel :label="language('LINGJIANSHULIANGDANWEI','零件数量单位')" :required="true" slot="label"></iLabel>
+                <iLabel :label="language('LINGJIANSHULIANGDANWEI','零件数量单位')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.partUnit"
                 type="text"
-                placeholder="请输入供应商编号"
+                :placeholder="language('QINGSHURU','请输入')"
                 :disabled="disabled"
                 />
             </iFormItem>
             <iFormItem prop="dosage">
-                <iLabel :label="language('YONGLIANG','用量')" slot="label"></iLabel>
+                <iLabel :label="language('YONGLIANG','用量')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.dosage"
                 type="text"
-                placeholder="请输入供应商名称"
+                :placeholder="language('QINGSHURU','请输入')"
                 :disabled="disabled"
                 />
             </iFormItem>
             <iFormItem prop="dosageMeasureUnit">
-                <iLabel :label="language('YONGLIANGJILIANGDANEWI','用量计量单位')" slot="label"></iLabel>
+                <iLabel :label="language('YONGLIANGJILIANGDANEWI','用量计量单位')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.dosageMeasureUnit"
                 type="text"
-                placeholder="请输入供应商名称"
+                :placeholder="language('QINGSHURU','请输入')"
                 :disabled="disabled"
                 />
             </iFormItem>
@@ -75,6 +88,7 @@
                 <iLabel :label="language('YOUXIAOQIQI','有效期起')" slot="label"></iLabel>
                 <iDatePicker v-model="contractForm.startDate"
                             type="datetime"
+                            :disabled="true"
                             >
                 </iDatePicker>
             </iFormItem>
@@ -82,29 +96,31 @@
                 <iLabel :label="language('YOUXIAOQIZHI','有效期止')" slot="label"></iLabel>
                 <iDatePicker v-model="contractForm.endDate"
                             type="datetime"
+                            :disabled="true"
                             >
                 </iDatePicker>
             </iFormItem>
             <iFormItem prop="mark">
-                <iLabel :label="language('BEIZHU','备注')" slot="label"></iLabel>
+                <iLabel :label="language('BEIZHU','备注')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.mark"
                 type="text"
-                placeholder="请输入基价计量单位"
+                :placeholder="language('QINGSHURU','请输入')"
                 :disabled="disabled"
                 />
             </iFormItem>
             <iFormItem prop="materialCode">
                 <iLabel :label="language('YUANCAILIAOPAIHAO','原材料牌号')" slot="label"></iLabel>
-                <custom-select v-model="contractForm.materialCode"
-                         :user-options="materialCode"
-                         @change="materialBrand"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                <iSelect v-model="contractForm.materialCode"
+                   clearable
+                   value-key="code"
+                   :disabled="true"
+                   :placeholder="language('QINGXUANZE','请选择')">
+                    <el-option v-for="item in materialCode"
+                            :key="item.code"
+                            :value="item.code"
+                            :label="item.code"></el-option>
+                </iSelect>
             </iFormItem>
             <iFormItem prop="materialName">
                 <iLabel :label="language('YUANCAILIAO','原材料')" slot="label"></iLabel>
@@ -112,7 +128,7 @@
                 v-model="contractForm.materialName"
                 :disabled="true"
                 type="text"
-                placeholder="请输入基价计量单位"
+                :placeholder="language('QINGSHURU','请输入')"
                 />
             </iFormItem>
 
@@ -121,8 +137,8 @@
                 <iInput
                 v-model="contractForm.price"
                 type="text"
-                placeholder="请输入基价计量单位"
-                :disabled="disabled"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
                 />
             </iFormItem>
 
@@ -131,8 +147,8 @@
                 <iInput
                 v-model="contractForm.priceMeasureUnit"
                 type="text"
-                placeholder="请输入基价计量单位"
-                :disabled="disabled"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
                 />
             </iFormItem>
 
@@ -141,8 +157,8 @@
                 <iInput
                 v-model="contractForm.platinumPrice"
                 type="text"
-                placeholder="请输入铂基价"
-                :disabled="disabled"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="platinumDosage">
@@ -150,8 +166,8 @@
                 <iInput
                 v-model="contractForm.platinumDosage"
                 type="text"
-                placeholder="请输入铂用量"
-                :disabled="disabled"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="palladiumPrice">
@@ -159,8 +175,8 @@
                 <iInput
                 v-model="contractForm.palladiumPrice"
                 type="text"
-                placeholder="请输入钯基价"
-                :disabled="disabled"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="palladiumDosage">
@@ -168,8 +184,8 @@
                 <iInput
                 v-model="contractForm.palladiumDosage"
                 type="text"
-                placeholder="请输入钯用量"
-                :disabled="disabled"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="rhodiumPrice">
@@ -177,8 +193,8 @@
                 <iInput
                 v-model="contractForm.rhodiumPrice"
                 type="text"
-                placeholder="请输入铑基价"
-                :disabled="disabled"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="tcCurrence">
@@ -186,8 +202,8 @@
                 <iInput
                 v-model="contractForm.tcCurrence"
                 type="text"
-                placeholder="请输入货币"
-                :disabled="disabled"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="tcExchangeRate">
@@ -195,8 +211,8 @@
                 <iInput
                 v-model="contractForm.tcExchangeRate"
                 type="text"
-                placeholder="请输入汇率"
-                :disabled="disabled"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="priceSource">
@@ -204,8 +220,8 @@
                 <iInput
                 v-model="contractForm.priceSource"
                 type="text"
-                placeholder="请输入市场价来源"
-                :disabled="disabled"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="compensationRatio">
@@ -213,38 +229,46 @@
                 <iInput
                 v-model="contractForm.compensationRatio"
                 type="text"
-                placeholder="请输入补差系数"
-                :disabled="disabled"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="compensationPeriod">
                 <iLabel :label="language('BUCHAZHOUQI','补差周期')" slot="label"></iLabel>
-                <iInput
-                v-model="contractForm.compensationPeriod"
-                type="text"
-                placeholder="请输入补差周期"
-                :disabled="disabled"
-                />
+                <i-select v-model="contractForm.compensationPeriod"
+                         clearable
+                         :placeholder="language('QINGXUANZE','请选择')"
+                         :disabled="true"
+                        >
+                    <el-option
+                        v-for="item in compensationPeriod"
+                        :key="item.code"
+                        :label="item.message"
+                        :value="item.code">
+                    </el-option>
+                </i-select>
             </iFormItem>
             <iFormItem prop="threshold">
                 <iLabel :label="language('YUZHI','阈值')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.threshold"
                 type="text"
-                placeholder="请输入阈值"
-                :disabled="disabled"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="thresholdCompensationLogic">
                 <iLabel :label="language('YUZHIBUCHALUOJI','阈值补差逻辑')" slot="label"></iLabel>
-                <custom-select v-model="contractForm.thresholdCompensationLogic"
-                         :user-options="thresholdCompensationLogic"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                <iSelect v-model="contractForm.thresholdCompensationLogic"
+                   clearable
+                   value-key="code"
+                   :disabled="true"
+                   :placeholder="language('QINGXUANZE','请选择')">
+                    <el-option v-for="item in thresholdCompensationLogic"
+                            :key="item.code"
+                            :value="item.code"
+                            :label="item.message"></el-option>
+                </iSelect>
             </iFormItem>
             </iFormGroup>
         </div>
@@ -253,13 +277,28 @@
             <i-button @click="handleReset">重置</i-button>
             <i-button @click="handleCancel">取消</i-button>
         </span>
+
+        
+        <iDialog :title="language('XUANZELINGJIANHAO', '选择零件号')"
+             :visible.sync="partType"
+             append-to-body
+             v-if="partType"
+             width="85%"
+             @close='closeDiolog'>
+            <partNumber @close="saveClose"></partNumber>
+        </iDialog>
     </div>
 </template>
 
 <script>
+import partNumber from "./partNumber";
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
+  getMtzSupplierList,//获取原材料牌号
+} from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
+import {
   addPartMasterData,//维护MTZ零件主数据-新增
+  pageAppRule
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   iButton,
@@ -270,7 +309,8 @@ import {
   iFormItem,
   iLabel,
   iSelect,
-  iDatePicker
+  iDatePicker,
+  iDialog,
 } from 'rise'
 import inputCustom from '@/components/inputCustom'
 export default {components: {
@@ -283,7 +323,9 @@ export default {components: {
     iLabel,
     iSelect,
     inputCustom,
-    iDatePicker
+    iDatePicker,
+    iDialog,
+    partNumber
   },
   props: {
     show: {
@@ -298,13 +340,26 @@ export default {components: {
   },
   data() {
     return {
-        contractForm: {},
-        rules: {
-            // name: [{ required: true, message: '请输入中文名', trigger: 'blur' }],
-            // nameEn: [{ required: true, message: '请输入英文名', trigger: 'blur' }],
-            // orderNum: [{ required: true, message: '请输入排序', trigger: 'blur' }],
-            // describe: [{ required: true, message: '请输入描述', trigger: 'blur' }]
+        supplierList:[],//供应商编号
+        contractForm: {
+            assemblyPartnum:"",
         },
+        rules: {
+            assemblyPartnum:[{ required: true, message: '请选择', trigger: 'blur' }],
+            ruleNo:[{ required: true, message: '请选择', trigger: 'blur' }],
+            priceUnit:[{ required: true, message: '请输入', trigger: 'blur' }],
+            partUnit:[{ required: true, message: '请输入', trigger: 'blur' }],
+            dosage:[{ required: true, message: '请输入', trigger: 'blur' }],
+            dosageMeasureUnit:[{ required: true, message: '请输入', trigger: 'blur' }],
+            mark:[{ required: true, message: '请输入', trigger: 'blur' }],
+        },
+        compensationPeriod:[
+            { code: 'A', message: '年度' },
+            { code: 'H', message: '半年度' },
+            { code: 'Q', message: '季度' },
+            { code: 'M', message: '月度' },
+        ],
+        ruleNo:[],
         thresholdCompensationLogic:[
             {
                 code:"A",
@@ -315,11 +370,22 @@ export default {components: {
             }
         ],
         materialCode:[],
+        partType:false,
     }
   },
   created(){
     getRawMaterialNos({}).then(res=>{
         this.materialCode = res.data;
+    })
+    pageAppRule({
+        pageNo: 1,
+        pageSize: 99999,
+        mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+    }).then(res=>{
+        this.ruleNo = res.data;
+    })
+    getMtzSupplierList({}).then(res=>{
+        this.supplierList = res.data;
     })
   },
   computed:{
@@ -333,25 +399,53 @@ export default {components: {
     }
   },
   methods: {
-    materialBrand(val){
-        console.log(val)
+      partChange(){
+          this.partType = true;
+      },
+    saveClose(val){
+        this.closeDiolog();
+        if(val){
+            this.contractForm.assemblyPartnum = val;
+        }
+    },
+    closeDiolog(){
+        this.partType = false;
+    },
+    choiseGZ(val){
+        try{
+            this.ruleNo.forEach(e => {
+                if(e.id == val){
+                    e.id = "";
+                    this.contractForm.sapCode = e.supplierId.toString();
+                    this.contractForm.priceSource = e.source;
+                    this.contractForm = Object.assign({...this.contractForm},e);
+                    throw new Error("EndIterative");
+                }
+            });
+        }catch(e){
+            if(e.message != "EndIterative") throw e;
+        }
     },
     handleSave() {
-        addPartMasterData({
-            ...this.contractForm,
-            ttMtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId
-        }).then(res=>{
-            console.log(res);
-            this.$emit("close","fresh")
+        this.$refs['contractForm'].validate(async valid => {
+            if (valid) {
+                addPartMasterData({
+                    ...this.contractForm,
+                    ttMtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+                }).then(res=>{
+                    console.log(res);
+                    if(res.code == 200){
+                        iMessage.success(this.language(res.desEn,res.desZh))
+                        this.$emit("close","fresh")
+                    }else{
+                        iMessage.error(this.language(res.desEn,res.desZh))
+                    }
+                })
+                console.log("验证成功")
+            } else {
+                return false
+            }
         })
-    //   this.$refs['contractForm'].validate(async valid => {
-    //     if (valid) {
-        //   console.log("验证成功")
-        // } else {
-        //   return false
-        // }
-    //   })
-
     },
     handleReset() {
       this.contractForm = {}

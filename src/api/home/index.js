@@ -14,6 +14,7 @@ export function getApprovalList(params) {
     url: '/web/workflow/statisticsDashboardWf',
     method: 'POST',
     params,
+    data: params,
     hideMessage: false
   })
 }
@@ -147,3 +148,4 @@ export function getRate() {
     method: 'post'
   })
 }
+

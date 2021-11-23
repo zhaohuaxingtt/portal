@@ -140,7 +140,7 @@ export default {
   props: {
     tagLabel: {
       type: String,
-      default: function() {
+      default: function () {
         return 'label'
       },
       required: true
@@ -148,34 +148,42 @@ export default {
     searchMethod: Function,
     title: {
       type: String,
-      default: function() {
+      default: function () {
         return '选择器'
       },
       required: true
     },
     filter: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       },
       required: true
     },
     tableSetting: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       },
       required: true
     },
     value: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       },
       required: true
     },
     show: {
       type: Boolean
+    },
+    sizeType: {
+      type: String,
+      default: ''
+    },
+    idKey: {
+      type: String,
+      default: 'id'
     }
   },
   data() {
@@ -190,7 +198,7 @@ export default {
       },
       query: {
         current: 1,
-        size: 10,
+        size: 10
       },
       tableLoading: false,
       tableData: [],
@@ -213,7 +221,7 @@ export default {
       this.$emit('closedia')
     },
     handleConfirm() {
-      this.$refs['ruleForm'].validate(valid => {
+      this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           this.$emit('change', this.listSelected)
           this.isShow = false
@@ -243,12 +251,12 @@ export default {
     },
     handleTagClose(tag) {
       let listSelected = _.cloneDeep(this.listSelected)
-      listSelected = listSelected.filter(item => {
-        return item.id !== tag.id
+      listSelected = listSelected.filter((item) => {
+        return item[this.idKey] !== tag[this.idKey]
       })
       for (let [key, value] of listSelectedByPage.entries()) {
-        const arr = value.filter(v => {
-          return v.id !== tag.id
+        const arr = value.filter((v) => {
+          return v[this.idKey] !== tag[this.idKey]
         })
         listSelectedByPage.set(key, arr)
       }
@@ -258,15 +266,15 @@ export default {
       this.toggleSelection()
     },
     toggleSelection() {
-      const ids = listSelectedByPage.get(this.page.currPage)?.map(item => {
-        return item.id
+      const ids = listSelectedByPage.get(this.page.currPage)?.map((item) => {
+        return item[this.idKey]
       })
       const arr = []
       const arrUn = []
       const rows = arr
       const rowSUn = arrUn
-      this.tableData.forEach(data => {
-        if (ids?.includes(data.id)) {
+      this.tableData.forEach((data) => {
+        if (ids?.includes(data[this.idKey])) {
           arr.push(data)
         } else {
           arrUn.push(data)
@@ -274,7 +282,7 @@ export default {
       })
 
       if (rows && rows.length) {
-        rows.forEach(row => {
+        rows.forEach((row) => {
           this.$nextTick(() => {
             this.$refs.multipleTable.toggleRowSelection(row, true)
           })
@@ -284,7 +292,7 @@ export default {
       }
 
       if (rowSUn && rowSUn.length) {
-        rowSUn.forEach(row => {
+        rowSUn.forEach((row) => {
           this.$nextTick(() => {
             this.$refs.multipleTable.toggleRowSelection(row, false)
           })
@@ -299,17 +307,19 @@ export default {
         const listSelectedCurrentPage = listSelectedByPage.get(
           this.page.currPage
         )
-        const listSelectedCurrentPageIds = listSelectedCurrentPage?.map(it => {
-          return it.id
-        })
-        listSelected.forEach(item => {
+        const listSelectedCurrentPageIds = listSelectedCurrentPage?.map(
+          (it) => {
+            return it.id
+          }
+        )
+        listSelected.forEach((item) => {
           if (listSelectedCurrentPageIds.includes(item.id)) {
             item.origin = true
           } else {
             item.origin = false
           }
         })
-        const other = listSelected.filter(li => {
+        const other = listSelected.filter((li) => {
           return !li.origin
         })
         listSelectedByPage.set(this.page.currPage, val)
@@ -323,9 +333,9 @@ export default {
     handleOpen() {
       this.listSelected = _.cloneDeep(this.value)
       const query = _.cloneDeep(this.query)
-      this.filter.forEach(item => {
+      this.filter.forEach((item) => {
         query[item.value] = item.initVal
-        //query[] = 
+        //query[] =
       })
       this.query = _.cloneDeep(query)
       this.$forceUpdate()
@@ -337,19 +347,19 @@ export default {
       this.getList()
     },
     reset() {
-      this.filter.forEach(item => {
+      this.filter.forEach((item) => {
         this.query[item.value] = item.initVal
       })
       this.page.currPage = 1
       this.getList()
     },
     getListSelectedByPage() {
-      const ids = this.listSelected?.map(li => {
-        return li.id
+      const ids = this.listSelected?.map((li) => {
+        return li[this.idKey]
       })
       const arr = []
-      this.tableData.find(t => {
-        if (ids.includes(t.id)) {
+      this.tableData.find((t) => {
+        if (ids.includes(t[this.idKey])) {
           arr.push(t)
         }
       })
@@ -357,8 +367,14 @@ export default {
     },
     async getList() {
       this.tableLoading = true
-      this.query.current = this.page.currPage
-      this.query.pageSize = this.page.pageSize
+      this.query.pageNo = this.page.currPage
+      if (this.sizeType == 'size') {
+        this.query.size = this.page.pageSize
+        this.query.current = this.page.currPage
+      } else {
+        this.query.pageSize = this.page.pageSize
+      }
+
       const res =
         typeof this.searchMethod === 'function'
           ? await this.searchMethod(this.query)
@@ -392,6 +408,9 @@ export default {
       top: 0;
       z-index: 1;
       overflow: auto;
+      white-space: nowrap;
+      // text-overflow: ellipsis;
+      width: 100%;
       max-height: 130px;
     }
     .el-input .el-input__inner {

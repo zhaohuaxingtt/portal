@@ -135,7 +135,7 @@
                     </template>
                 </el-table-column>
                 <!--纯展示 動態渲染-->
-                <el-table-column  :width="items.width" :show-overflow-tooltip='items.tooltip' :key="items.name"
+                <el-table-column :width="items.width" :show-overflow-tooltip='items.tooltip' :key="items.name"
                                  align='center'
                                  v-else-if="header"
                                  :label="items.key ? $t(items.key) : items.name"
@@ -150,7 +150,9 @@
                             <div> {{ scope.row.familyName}}</div>
                         </div>
 
-                        <div v-else>{{items.props=='priceConfirm'? toThousands(scope.row[items.props]):scope.row[items.props]}}</div>
+                        <div v-else>
+                            {{items.props == 'priceConfirm' ? toThousands(scope.row[items.props]) : scope.row[items.props]}}
+                        </div>
                     </template>
                     <!--&lt;!&ndash;自定义嵌入&ndash;&gt;-->
                     <!--<template #header>-->
@@ -174,7 +176,7 @@
 
                 </el-table-column>
                 <!--纯展示 -->
-                <el-table-column :width="items.width" :show-overflow-tooltip='items.tooltip' :key="items.name"
+                <el-table-column :width="items.width"  :key="items.name"
                                  align='center'
                                  v-else-if="!header"
                                  :label="items.key ? $t(items.key) : items.name"
@@ -183,20 +185,25 @@
                     <template #header>
                         <!--            {{ items.key ? $t(items.key) : items.name }}-->
                         <div v-html="items.key ? $t(items.key) : items.name "></div>
-                        <span class="required" v-if="items.required">*</span>
-                        <el-popover
-                                trigger="hover"
-                                :content="items.iconTextKey ? $t(items.iconTextKey) : items.iconText"
-                                placement="top-start">
-                            <icon slot="reference" symbol v-if="items.icon" :name="items.icon"
-                                  class="font-size16 marin-left5"/>
-                        </el-popover>
+                        <!--<span class="required" v-if="items.required">*</span>-->
+                        <!--<el-popover-->
+                                <!--trigger="hover"-->
+                                <!--:content="items.iconTextKey ? $t(items.iconTextKey) : items.iconText"-->
+                                <!--placement="top-start">-->
+                            <!--<icon slot="reference" symbol v-if="items.icon" :name="items.icon"-->
+                                  <!--class="font-size16 marin-left5"/>-->
+                        <!--</el-popover>-->
                     </template>
-                    <template v-if="$scopedSlots[items.props] || $slots[items.props]" v-slot="scope">
-                        <el-form-item :prop="'tableData.' + scope.$index + '.' + items.props"
-                                      :rules="items.rule ? items.rule : ''">
-                            <slot :name="items.props" :row="scope.row"></slot>
-                        </el-form-item>
+                    <template slot-scope="scope">
+                        <div>
+                            {{scope.row[items.props]}}
+                            <i class="iconfont icondangqianshiyongbanben blue"
+                               v-if="items.props == 'version'&&scope.row.isCite"
+                               @mouseover="showVersion" @mouseleave="hideVersion">
+                                <span v-if="status&&items.props == 'version'&&scope.row.isCite" class="showversion">当前使用版本</span>
+                            </i>
+
+                        </div>
                     </template>
 
                 </el-table-column>
@@ -207,274 +214,282 @@
 
 </template>
 <script>
-    import {iInput, iSelect, icon} from 'rise';
-    import {toThousands,delcommafy} from '@/utils'
-    export default {
-        props: {
-            label: {type: String},
-            tableData: {type: Array},
-            tableTitle: {type: Array},
-            monthTitle: {type: Array},
-            tempSupplierSelectList: {type: Array},
-            tableLoading: {type: Boolean, default: false},
-            state: {type: Boolean, default: false},
-            selection: {type: Boolean, default: true},
-            index: {type: Boolean, default: false},
-            header: {type: Boolean, default: false},
-            height: {type: Number || String},
-            openPageProps: {type: String, default: []},
-            inputProps: {
-                type: Array, default: () => {
-                    return [];
-                },
-            },
-            selectProps: {
-                type: Array, default: () => {
-                    return [];
-                },
-            },
-            selectPropsOptionsObject: {
-                type: Object, default: () => {
-                    return {};
-                },
-            },
-            customSelectValueKey: {type: String, default: ''},
-            customOpenPageWord: {type: String, default: ''},
-            openPageGetRowData: {type: Boolean, default: false},
-            inputType: {type: String, default: ''},
-            fileSizeProps: {type: String, default: 'fileSize'},
-            mergeValue: {type: String, default: ''},
-            fixed: {type: Boolean, default: false}
-        },
-        components: {
-            iInput,
-            iSelect,
-            icon,
-        },
-        data() {
-            return {
-                rules: [],
-                show: false,
-                toThousands
-            };
-        },
-        created() {
-            this.show = localStorage.getItem('status') == 'true' ? true : false
-        },
-        methods: {
-            changeValue(name, index, data, key) {
-                if (data && data.length) {
-                    data.map((item) => {
-                        if (name == item.shortNameZh && item.supplierId) {
-                            this.tableData[index].supplierCode = item.code
-                            this.tableData[index].supplierId = item.supplierId
-                            this.tableData[index].supplierName = item.shortNameZh
-                            this.tableData[index].supplierNameZh = item.nameZh
-                            this.$set(this.tableData[index], 'editStatus', true)
-                            this.$set(this.tableData[index], 'inputVal', 'supplierName')
-                        }
-                        if (name == item.name && key == 'partType') {
-                            this.tableData[index].partType = item.name
-                            this.$set(this.tableData[index], 'editStatus', true)
-                        }
-                    })
-                }
-            },
-            remoteMethod(query, name) {
-                if (query) {
-                    let arr = this.tempSupplierSelectList.filter(item => {
-                        return item.supplierName.indexOf(query) > -1
-                    })
-                    if(arr.length) {
-                       let data = this.unique([...arr,...this.selectPropsOptionsObject.supplierName])
-                        this.$nextTick(() => {
-                            this.$set(this.selectPropsOptionsObject,'supplierName',data)
-                        })
-                    }
-                }
-            },
-            unique(arr){
-                return arr.reduce((prev,cur) => prev.includes(cur) ? prev : [...prev,cur],[]);
-            },
-            onFocus(val,index,key) {
-                this.tableData[index][key] = delcommafy(val) // 转字符串数字
-            },
-            onBlur(val,index,key) {
-                if(!isNaN(val)) { // 非数字
-                    let num = Number(val).toFixed(2)
-                    this.tableData[index][key] = toThousands(num) // 转千分
-                }
-            },
-            changeInput(value, index, key) {
-                if(key) {
-                    let num = Number(value).toFixed(2)
-                    this.tableData[index][key] = toThousands(num) // 转千分
-                    this.$set(this.tableData[index], 'editStatus', true)
-                }
-            },
-            handleMerge({row, column, rowIndex, columnIndex}) {
-                // 判断需不需要合并
-                if (this.mergeValue === 'pkpiTable1') {
-                    if ((columnIndex === 1 || columnIndex === 3 || columnIndex === 4 || columnIndex === 5 || columnIndex === 6) &&
-                        rowIndex === 14) {
-                        return {
-                            rowspan: 2,
-                            colspan: 1,
-                        };
-                    }
-                }
-                if (this.mergeValue === 'furtherRatingCard') {
-                    if (columnIndex === 1) {
-                        return [1, 3];
-                    }
-                }
-            },
-            handleSelectionChange(val) {
-                this.$emit('handleSelectionChange', val);
-            },
-            handleSelectChange(type, val, time) {
-                const res = {
-                    type,
-                    val,
-                    time,
-                };
-                this.$emit('handleSelectChange', res);
-            },
-            openPage(params, value) {
-                let obj = {...params}
-                obj.value = value
-                this.$emit('openPage', obj);
-            },
-            handleTableRow(row) {
-                row.row.index = row.rowIndex;
-            },
-            renderHeader(h, {column, $index}) {
-                // h 是一个渲染函数       column 是一个对象表示当前列      $index 第几列
-                if (column.label.indexOf('KSL价来源') > -1) {
-                    return h("div", [
-                        h("span", column.label + "  ", {
-                            align: "center",
-                            marginTop: "10px"
-                        }),
-                        h(
-                            "el-popover",
-                            {
-                                props: {
-                                    placement: "top-start",    // 一般 icon 处可添加浮层说明，浮层位置等属性
-                                    width: "260",
-                                    trigger: "hover"
-                                }
-                            },
-                            [
-                                h("p", "C=正式订单价，F=上期正式订单价，D=定点价格，T=目标价，M=手工", {
-                                    class: "text-align: center; margin: 0"
-                                }),
-                                h("i", {                            // 生成 i 标签 ，添加icon 设置 样式，slot 必填
-                                    class: 'iconfont icon-xinxitishi',
-                                    style: 'color:#A0BFFC;font-size: 16px;position: relative; top:1px',
-                                    slot: "reference"
-                                })
-                            ]
-                        )
-                    ])
-                }
-                if (column.label.indexOf('参考价格来源') > -1) {
-                    return h("div", [
-                        h("span", column.label + "  ", {
-                            align: "center",
-                            marginTop: "10px"
-                        }),
-                        h(
-                            "el-popover",
-                            {
-                                props: {
-                                    placement: "top-start",    // 一般 icon 处可添加浮层说明，浮层位置等属性
-                                    width: "260",
-                                    trigger: "hover"
-                                }
-                            },
-                            [
-                                h("p", "C=合同价，P=台账中正式价，A=Aeko继承价格，T=目标价，M=手工", {
-                                    class: "text-align: center; margin: 0"
-                                }),
-                                h("i", {                            // 生成 i 标签 ，添加icon 设置 样式，slot 必填
-                                    class: 'iconfont icon-xinxitishi',
-                                    style: 'color:#A0BFFC;font-size: 16px;position: relative; top:1px',
-                                    slot: "reference"
-                                })
-                            ]
-                        )
-                    ])
-                } else if (column.label == this.label) {
-                    return this.fn(column, h, $index)
-                } else if (column.label == '12月') {
-                    return this.cb(column, h, $index)
-                } else {
-                    return h("span", column.label + "  ", {  //这是左边的
-                        align: "left"
-                    })
-                }
-            },
-            cb(column, h, $index) {
-                let vm = this
-                if (vm.show) {
-                    return h('div', null, [
-                        h("span", column.label + "  ", {  //这是左边的
-                            align: "left"
-                        }),
-                        h('span', null, [  //这个是渲染出来的icon
-                            h('i', {
-                                class: 'iconfont icon-liebiaoshouqilishishuju',  //组件库的icon，可根据需要修改
-                                style: 'color:#1663f6;font-size:24px;cursor: pointer;position: relative; top:2px',
-                                on: {
-                                    click: function () {
-                                        vm.show = false
-                                        localStorage.setItem('status', false)
-                                        vm.tableTitle.splice($index - 12, 12)
-                                    }
-                                }
-                            }, '')
-                        ]),
-                    ])
-                } else {
-                    return h("span", column.label + "  ", {  //这是左边的
-                        align: "left"
-                    })
-                }
-            },
+  import {iInput, iSelect, icon} from 'rise';
+  import {toThousands, delcommafy} from '@/utils'
 
-            fn(column, h, $index) {
-                let index = $index
-                let vm = this
-                if (vm.tableTitle.length == 22 || !vm.show) {
-                    return h('div', null, [
-                        h("span", column.label + "  ", {  //这是左边的
-                            align: "left"
-                        }),
-                        h('span', null, [  //这个是渲染出来的icon
-                            h('i', {
-                                class: 'iconfont icon-liebiaozhankailishishuju',  //组件库的icon，可根据需要修改
-                                style: 'color:#1663f6;font-size:24px;cursor: pointer;position: relative;top:2px',
-                                on: {
-                                    click: function () {
-                                        for (let i = vm.monthTitle.length - 1; i >= 0; i--) {
-                                            vm.tableTitle.splice(index, 0, vm.monthTitle[i])
-                                        }
-                                        vm.show = true
-                                        localStorage.setItem('status', true)
-                                    }
-                                }
-                            }, '')
-                        ]),
-                    ])
-                } else {
-                    return h("span", column.label + "  ", {  //这是左边的
-                        align: "left"
-                    })
-                }
-            },
+  export default {
+    props: {
+      label: {type: String},
+      tableData: {type: Array},
+      tableTitle: {type: Array},
+      monthTitle: {type: Array},
+      tempSupplierSelectList: {type: Array},
+      tableLoading: {type: Boolean, default: false},
+      state: {type: Boolean, default: false},
+      selection: {type: Boolean, default: true},
+      index: {type: Boolean, default: false},
+      header: {type: Boolean, default: false},
+      height: {type: Number || String},
+      openPageProps: {type: String, default: []},
+      inputProps: {
+        type: Array, default: () => {
+          return [];
         },
-    };
+      },
+      selectProps: {
+        type: Array, default: () => {
+          return [];
+        },
+      },
+      selectPropsOptionsObject: {
+        type: Object, default: () => {
+          return {};
+        },
+      },
+      customSelectValueKey: {type: String, default: ''},
+      customOpenPageWord: {type: String, default: ''},
+      openPageGetRowData: {type: Boolean, default: false},
+      inputType: {type: String, default: ''},
+      fileSizeProps: {type: String, default: 'fileSize'},
+      mergeValue: {type: String, default: ''},
+      fixed: {type: Boolean, default: false},
+    },
+    components: {
+      iInput,
+      iSelect,
+      icon,
+    },
+    data() {
+      return {
+        rules: [],
+        show: false,
+        status: false,
+        toThousands
+      };
+    },
+    created() {
+      this.show = localStorage.getItem('status') == 'true' ? true : false
+    },
+    methods: {
+      showVersion() {
+        this.status = true
+      },
+      hideVersion() {
+        this.status = false
+      },
+      changeValue(name, index, data, key) {
+        if (data && data.length) {
+          data.map((item) => {
+            if (name == item.shortNameZh && item.supplierId) {
+              this.tableData[index].supplierCode = item.code
+              this.tableData[index].supplierId = item.supplierId
+              this.tableData[index].supplierName = item.shortNameZh
+              this.tableData[index].supplierNameZh = item.nameZh
+              this.$set(this.tableData[index], 'editStatus', true)
+              this.$set(this.tableData[index], 'inputVal', 'supplierName')
+            }
+            if (name == item.name && key == 'partType') {
+              this.tableData[index].partType = item.name
+              this.$set(this.tableData[index], 'editStatus', true)
+            }
+          })
+        }
+      },
+      remoteMethod(query, name) {
+        if (query) {
+          let arr = this.tempSupplierSelectList.filter(item => {
+            return item.supplierName.indexOf(query) > -1
+          })
+          if (arr.length) {
+            let data = this.unique([...arr, ...this.selectPropsOptionsObject.supplierName])
+            this.$nextTick(() => {
+              this.$set(this.selectPropsOptionsObject, 'supplierName', data)
+            })
+          }
+        }
+      },
+      unique(arr) {
+        return arr.reduce((prev, cur) => prev.includes(cur) ? prev : [...prev, cur], []);
+      },
+      onFocus(val, index, key) {
+        this.tableData[index][key] = delcommafy(val) // 转字符串数字
+      },
+      onBlur(val, index, key) {
+        if (!isNaN(val)) { // 非数字
+          let num = Number(val).toFixed(2)
+          this.tableData[index][key] = toThousands(num) // 转千分
+        }
+      },
+      changeInput(value, index, key) {
+        if (key) {
+          let num = Number(value).toFixed(2)
+          this.tableData[index][key] = toThousands(num) // 转千分
+          this.$set(this.tableData[index], 'editStatus', true)
+        }
+      },
+      handleMerge({row, column, rowIndex, columnIndex}) {
+        // 判断需不需要合并
+        if (this.mergeValue === 'pkpiTable1') {
+          if ((columnIndex === 1 || columnIndex === 3 || columnIndex === 4 || columnIndex === 5 || columnIndex === 6) &&
+            rowIndex === 14) {
+            return {
+              rowspan: 2,
+              colspan: 1,
+            };
+          }
+        }
+        if (this.mergeValue === 'furtherRatingCard') {
+          if (columnIndex === 1) {
+            return [1, 3];
+          }
+        }
+      },
+      handleSelectionChange(val) {
+        this.$emit('handleSelectionChange', val);
+      },
+      handleSelectChange(type, val, time) {
+        const res = {
+          type,
+          val,
+          time,
+        };
+        this.$emit('handleSelectChange', res);
+      },
+      openPage(params, value) {
+        let obj = {...params}
+        obj.value = value
+        this.$emit('openPage', obj);
+      },
+      handleTableRow(row) {
+        row.row.index = row.rowIndex;
+      },
+      renderHeader(h, {column, $index}) {
+        // h 是一个渲染函数       column 是一个对象表示当前列      $index 第几列
+        if (column.label.indexOf('KSL价来源') > -1) {
+          return h("div", [
+            h("span", column.label + "  ", {
+              align: "center",
+              marginTop: "10px"
+            }),
+            h(
+              "el-popover",
+              {
+                props: {
+                  placement: "top-start",    // 一般 icon 处可添加浮层说明，浮层位置等属性
+                  width: "260",
+                  trigger: "hover"
+                }
+              },
+              [
+                h("p", "C=正式订单价，F=上期正式订单价，D=定点价格，T=目标价，M=手工", {
+                  class: "text-align: center; margin: 0"
+                }),
+                h("i", {                            // 生成 i 标签 ，添加icon 设置 样式，slot 必填
+                  class: 'iconfont icon-xinxitishi',
+                  style: 'color:#A0BFFC;font-size: 16px;position: relative; top:1px',
+                  slot: "reference"
+                })
+              ]
+            )
+          ])
+        }
+        if (column.label.indexOf('参考价格来源') > -1) {
+          return h("div", [
+            h("span", column.label + "  ", {
+              align: "center",
+              marginTop: "10px"
+            }),
+            h(
+              "el-popover",
+              {
+                props: {
+                  placement: "top-start",    // 一般 icon 处可添加浮层说明，浮层位置等属性
+                  width: "260",
+                  trigger: "hover"
+                }
+              },
+              [
+                h("p", "C=合同价，P=台账中正式价，A=Aeko继承价格，T=目标价，M=手工", {
+                  class: "text-align: center; margin: 0"
+                }),
+                h("i", {                            // 生成 i 标签 ，添加icon 设置 样式，slot 必填
+                  class: 'iconfont icon-xinxitishi',
+                  style: 'color:#A0BFFC;font-size: 16px;position: relative; top:1px',
+                  slot: "reference"
+                })
+              ]
+            )
+          ])
+        } else if (column.label == this.label) {
+          return this.fn(column, h, $index)
+        } else if (column.label == '12月') {
+          return this.cb(column, h, $index)
+        } else {
+          return h("span", column.label + "  ", {  //这是左边的
+            align: "left"
+          })
+        }
+      },
+      cb(column, h, $index) {
+        let vm = this
+        if (vm.show) {
+          return h('div', null, [
+            h("span", column.label + "  ", {  //这是左边的
+              align: "left"
+            }),
+            h('span', null, [  //这个是渲染出来的icon
+              h('i', {
+                class: 'iconfont icon-liebiaoshouqilishishuju',  //组件库的icon，可根据需要修改
+                style: 'color:#1663f6;font-size:24px;cursor: pointer;position: relative; top:2px',
+                on: {
+                  click: function () {
+                    vm.show = false
+                    localStorage.setItem('status', false)
+                    vm.tableTitle.splice($index - 12, 12)
+                  }
+                }
+              }, '')
+            ]),
+          ])
+        } else {
+          return h("span", column.label + "  ", {  //这是左边的
+            align: "left"
+          })
+        }
+      },
+
+      fn(column, h, $index) {
+        let index = $index
+        let vm = this
+        if (vm.tableTitle.length == 22 || !vm.show) {
+          return h('div', null, [
+            h("span", column.label + "  ", {  //这是左边的
+              align: "left"
+            }),
+            h('span', null, [  //这个是渲染出来的icon
+              h('i', {
+                class: 'iconfont icon-liebiaozhankailishishuju',  //组件库的icon，可根据需要修改
+                style: 'color:#1663f6;font-size:24px;cursor: pointer;position: relative;top:2px',
+                on: {
+                  click: function () {
+                    for (let i = vm.monthTitle.length - 1; i >= 0; i--) {
+                      vm.tableTitle.splice(index, 0, vm.monthTitle[i])
+                    }
+                    vm.show = true
+                    localStorage.setItem('status', true)
+                  }
+                }
+              }, '')
+            ]),
+          ])
+        } else {
+          return h("span", column.label + "  ", {  //这是左边的
+            align: "left"
+          })
+        }
+      },
+    },
+  };
 </script>
 <style lang='scss' scoped>
     .openLinkText {
@@ -538,8 +553,25 @@
         font-weight: 500 !important;
     }
 
-    [v-cloak]{
+    [v-cloak] {
         display: none;
     }
 
+    .blue {
+        color: #1663f6;
+    }
+    .showversion{
+        position: absolute;
+        top:40px;
+        left:60%;
+        z-index: 11111;
+        border: solid 1px #eee;
+        border-radius: 5px;
+        padding: 2px 5px;
+        background-color: #fff;
+        font-size: 12px;
+        color: #000;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+
+    }
 </style>

@@ -15,27 +15,45 @@
           <iButton @click="handleClickExport" :loading="exportButtonLoading">{{language('DAOCHU', '导出')}}</iButton>
         </span>
       </div>
-      <el-form ref="form" :model="formData" label-width="140px" label-position="left">
-        <el-row :gutter="20">
-          <el-col :span="8" v-for="item in formList" :key="item.prop">
-            <el-form-item :label="language(item.key ,item.label)" style="width: 70%;">
-              <el-input v-model="formData[item.prop]" disabled></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
+      <!-- label -->
+      <div class="tabsBoxInfor">
+        <div class="inforDiv"
+             v-for="(item,index) in formList"
+             :key="index">
+          <span>{{language(item.key,item.label)}}</span>
+          <iInput :disabled="true"
+                  class="inforText"
+                  v-model="formData[item.prop]"
+                  ></iInput>
+        </div>
+      </div>
       <el-divider/>
       <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}</p>
+
         <tableList
           class="margin-top20"
           :tableData="ruleTableListData"
           :tableTitle="ruleTableTitle"
           :tableLoading="loading"
           :index="true"
-          :selection="false"
-          @handleSelectionChange="handleSelectionChange">
+          :selection="false">
+          <template slot-scope="scope" slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
+          <template slot-scope="scope" slot="thresholdCompensationLogic">
+            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
         </tableList>
-        <iPagination
+             <!-- <tableList
+          class="margin-top20"
+          :tableData="ruleTableListData"
+          :tableTitle="ruleTableTitle1"
+          :tableLoading="loading"
+          :index="true"
+          :selection="false">
+        </tableList> -->
+
+        <!-- <iPagination
         v-update
         @size-change="handleSizeChange($event, getPageAppRule)"
         @current-change="handleCurrentChange($event, getPageAppRule)"
@@ -44,19 +62,34 @@
         :page-size="rulePageParams.pageSize"
         :layout="page.layout"
         :current-page='rulePageParams.currPage'
-        :total="rulePageParams.totalCount"/>
+        :total="rulePageParams.totalCount"/> -->
       <el-divider class="margin-top20"/>
       <p class="tableTitle">{{language('LJQD', '零件清单')}}</p>
+
         <tableList
           class="margin-top20"
           :tableData="partTableListData"
           :tableTitle="partTableTitle"
           :tableLoading="loading"
           :index="true"
-          :selection="false"
-          @handleSelectionChange="handleSelectionChange">
+          :selection="false">
+          <template slot-scope="scope" slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
+          <template slot-scope="scope" slot="thresholdCompensationLogic">
+            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
         </tableList>
-        <iPagination
+          <!-- <tableList
+          class="margin-top20"
+          :tableData="partTableListData"
+          :tableTitle="partTableTitle1"
+          :tableLoading="loading"
+          :index="true"
+          :selection="false">
+        </tableList> -->
+
+        <!-- <iPagination
         v-update
         @size-change="handleSizeChange($event, getPagePartMasterData)"
         @current-change="handleCurrentChange($event, getPagePartMasterData)"
@@ -65,13 +98,13 @@
         :page-size="partPageParams.pageSize"
         :layout="page.layout"
         :current-page='partPageParams.currPage'
-        :total="partPageParams.totalCount"/>
+        :total="partPageParams.totalCount"/> -->
     </iCard>
     <iCard class="margin-top20">
       <div slot="header" class="headBox">
-        <p class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p>
+        <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
       </div>
-      <p>{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
+      <p v-if="formData.cs1MeetingMemo">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
       <iInput v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
     </iCard>
     <div class="margin-top30 deptBox">
@@ -87,7 +120,7 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle, partTableTitle} from './data'
+import { ruleTableTitle2, partTableTitle2} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { downloadPdfMixins } from '@/utils/pdf';
@@ -106,8 +139,8 @@ export default {
     return {
       formData: {},
       formList,
-      ruleTableTitle,
-      partTableTitle,
+      ruleTableTitle:ruleTableTitle2,
+      partTableTitle:partTableTitle2,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
@@ -128,10 +161,12 @@ export default {
     }
   },
   created() {
-    this.getAppFormInfo()
-    this.getPageAppRule()
-    this.getPagePartMasterData()
-    this.getSignPreviewDept()
+    // this.$nextTick(e=>{
+      this.getAppFormInfo()
+      this.getPageAppRule()
+      this.getPagePartMasterData()
+      this.getSignPreviewDept()
+    // })
   },
   computed: {
     title() {
@@ -174,7 +209,7 @@ export default {
     // 获取申请单信息
     getAppFormInfo() {
       getAppFormInfo({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+        mtzAppId: this.$route.query.mtzAppId
       }).then(res => {
         if(res && res.code == 200) {
           this.formData = res.data
@@ -184,9 +219,11 @@ export default {
     // 获取规则清单表格数据
     getPageAppRule() {
       pageAppRule({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        pageNo: this.rulePageParams.currPage,
-        pageSize: this.rulePageParams.pageSize,
+        mtzAppId: this.$route.query.mtzAppId,
+        // pageNo: this.rulePageParams.currPage,
+        // pageSize: this.rulePageParams.pageSize,
+        pageNo: 1,
+        pageSize: 999999,
       }).then(res => {
         if(res && res.code == 200) {
           this.ruleTableListData = res.data
@@ -197,9 +234,11 @@ export default {
     // 获取零件清单表格数据
     getPagePartMasterData() {
       pagePartMasterData({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        pageNo: this.partPageParams.currPage,
-        pageSize: this.partPageParams.pageSize,
+        mtzAppId:this.$route.query.mtzAppId,
+        // pageNo: this.partPageParams.currPage,
+        // pageSize: this.partPageParams.pageSize,
+        pageNo: 1,
+        pageSize: 999999,
       }).then(res => {
         if(res && res.code == 200) {
           this.partTableListData = res.data
@@ -210,7 +249,7 @@ export default {
     // 获取部门数据 
     getSignPreviewDept() {
       fetchSignPreviewDept({
-        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+        mtzAppId: this.$route.query.mtzAppId
       }).then(res => {
         if(res && res.code == 200) {
           this.deptData = res.data
@@ -222,12 +261,12 @@ export default {
       let params = {}
       if(this.isMeeting) {
         params = {
-          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          mtzAppId: this.$route.query.mtzAppId,
           linieMeetingMemo: this.formData.linieMeetingMemo
         }
       } else if(this.isFinite) {
         params = {
-          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          mtzAppId: this.$route.query.mtzAppId,
           cs1MeetingMemo: this.formData.cs1MeetingMemo
         }
       }
@@ -267,6 +306,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+$tabsInforHeight: 35px;
 .tableTitle {
   display: inline-block;
   font-weight: bold;
@@ -322,6 +362,7 @@ export default {
   }
 }
 .deptBox {
+    margin-left: 30px;
   display: flex;
   .deptItem {
     flex: auto;
@@ -333,6 +374,32 @@ export default {
       border-bottom: 1px solid black;
       margin-left: 10px;
       width: 60%;
+    }
+  }
+}
+.tabsBoxInfor {
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+  .inforDiv {
+    width: 29%;
+    height: $tabsInforHeight;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0;
+    margin-bottom: 20px;
+    span {
+      font-size: 15px;
+    }
+    .inforText {
+      font-size: 14px;
+      width: 68%;
+      background: #f8f8fa;
+      text-align: center;
+      height: $tabsInforHeight;
+      line-height: $tabsInforHeight;
     }
   }
 }

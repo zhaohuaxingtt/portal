@@ -1,10 +1,10 @@
-;(function(global, factory) {
+;(function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined'
     ? (module.exports = factory(require('i18n')))
     : typeof define === 'function' && define.amd
     ? define(['i18n'], factory)
     : ((global = global || self), factory(window.i18n))
-})(this, function(i18n) {
+})(this, function (i18n) {
   'use strict'
   var oldLanguage = {
     delete: '删除',
@@ -133,10 +133,10 @@
     },
 
     /*
-	<!------------------------------------------------------------------------>
-	<!--                                                                   --->
-	<!------------------------------------------------------------------------>
-	*/
+  <!------------------------------------------------------------------------>
+  <!--                                                                   --->
+  <!------------------------------------------------------------------------>
+  */
 
     LK_CAIGOUFENEFENPEIDABUDAO: '采购份额分配达不到100%', // 采购份额分配达不到100%
     LK_CAIGOUGONGCHNEGMINGCHENG: '采购工厂名称', // 采购工厂名称
@@ -197,7 +197,7 @@
     LK_CS_1SHANGHUIBEIZHU: 'CS*1上会备注', //CS*1上会备注
     LK_CSFPFUZEREN: 'CSF（P）负责人', //CSF（P）负责人
     LK_FS_GSHAO: 'FS/GS号', //FS/GS号
-    LK_FSHAO: 'FS号', //FS号
+    LK_FS_GS_SP: 'FS/GS/SP号', //FS号
     LK_INBOUNDWULIUFANGSHI: 'INBOUND物流方式', //INBOUND物流方式
     LK_LINIE: 'LINIE', //LINIE
     LK_LINIEBEIZHU: 'Linie备注', //Linie备注
@@ -1180,7 +1180,8 @@
     SUPPLIER_BUMEN: '部门', //部门
     SUPPLIER_QUHAO: '区号', //区号
     SUPPLIER_WEIXINHAO: '微信号', //微信号
-    SUPPLIER_SWLXRLXRXMLXRDHBT: '商务联系人,联系人姓名，联系电话必填！', //商务联系人,联系人姓名，联系电话必填！
+    SUPPLIER_SWLXRLXRXMLXRDHBT:
+      '商务联系人,联系人姓名，联系电话,电子邮件必填！', //商务联系人,联系人姓名，联系电话必填！
 
     SUPPLIER_GONGYINGSHANGXINGMING: '供应商用户账号', //供应商用户账号
     SUPPLIER_YONGHUDENGLUMING: '用户登录名', //用户登录名
@@ -1337,6 +1338,7 @@
     SUPPLIER_XITONGXIUGAILISHI: '系统修改历史', //系统修改历史
     SUPPLIER_CAIWUDASHU: '财务大数', //财务大数
     SUPPLIER_CAIWUSHUJU: '财务数据', //财务数据
+    SUPPLIER_GONGHUOGONGSI: '供货公司', //供货公司
     // 详情信息
     SUPPLIER_GONGYINGSHANGXINXI: '供应商信息', //供应商信息
     SUPPLIER_GONGYINGSHANGZHONGWENMING: '供应商中文名', //供应商中文名
@@ -1552,7 +1554,6 @@
     SPR_FRM_DEP_ZXR: '撰写人', //撰写人
     SPR_FRM_DEP_BM: '部门', //部门
     SPR_FRM_DEP_ZT: '主题', //主题
-    SPR_FRM_DEP_HYRQ: '会议日期', //会议日期
     // 这里的冲突
     SPR_FRM_DEP_SCBXZ: '生成并下载', //生成并下载
     SPR_FRM_DEP_CXRYPLACE: '例：xxx,xxx,xxx…', //例：xxx,xxx,xxx…
@@ -1883,7 +1884,7 @@
       HOME_MODULE_APPROVE: 'iAgree',
       HOME_MODULE_VOLUME: 'Volume Pricing',
       HOME_MODULE_NEWS: 'News',
-      HOME_MODULE_PROVIDER_RATE:'配附件供货率'
+      HOME_MODULE_PROVIDER_RATE: '配附件供货率'
     },
     //谈判助手
     TPZS: {
@@ -1893,8 +1894,6 @@
       DANJIA: '单价', //单价
       YUANJIAN: '(元/件)', //（元/件）
       BANJIAJIAN: '(半价/件)', //（半价/件）
-      ZUIXINDINGDIANDANJIA: '最新定点单价', //最新定点单价
-      MUBIAODANJIA: '目标单价', //目标单价
       CHANLIANG: '产量'
     },
     // 以下ekl中文
@@ -1967,35 +1966,35 @@
     OCTOBER: '10月',
     NOVEMBER: '11月',
     DECEMBER: '12月',
-    KESHI:'科室',
-    PINJUN:'平均',
-    CHIXU:'持续',
-    EKL_VW:'大众',
-    EKL_AUDI:'奥迪',
-    EKL_SK:'斯柯达',
-    EKL_DQZT:'当前状态',
-    EKL_YWC:'已完成',
-    EKL_WWC:'未完成',
-    EKL_FQSJ:'发起时间',
-    EKL_WCSJ:'完成时间',
-    EKL_DQESL:'待确认数量',
-    EKL_JIAGEBIANHUA:'价格变化',
-    EKL_YEJIJINETIAOZHENG:'业绩金额调整',
-    EKL_SJJSJZSJ:'数据计算截止时间',
-    EKL_GZLJZS:'跟踪零件总数（项）',
-    EKL_XZLJZS:'新增零件总数（项）',
-    EKL_QXLJZS:'取消零件总数（项）',
-    EKL_LJGZLX:'零件跟踪类型',
-    EKL_JCBMBXZ:'基础表模板下载',
-    EKL_PFJ_LJMC:'零件名称',
-    EKL_PFJ_CLZ:'配附件材料组',
-    EKL_PFJ_PP:'品牌',
-    EKL_PFJ_SX:'属性',
-    EKL_PFJ_BZ:'备注',
-    EKL_PFJ_FE:'份额',
-    EKL_PFJ_CGJG:'上年采购价格',
-    EKL_PFJ_XSLYC:'当年销售量预测',
-    EKL_PFJ_DNCGJE:'当年采购金额',
+    KESHI: '科室',
+    PINJUN: '平均',
+    CHIXU: '持续',
+    EKL_VW: '大众',
+    EKL_AUDI: '奥迪',
+    EKL_SK: '斯柯达',
+    EKL_DQZT: '当前状态',
+    EKL_YWC: '已完成',
+    EKL_WWC: '未完成',
+    EKL_FQSJ: '发起时间',
+    EKL_WCSJ: '完成时间',
+    EKL_DQESL: '待确认数量',
+    EKL_JIAGEBIANHUA: '价格变化',
+    EKL_YEJIJINETIAOZHENG: '业绩金额调整',
+    EKL_SJJSJZSJ: '数据计算截止时间',
+    EKL_GZLJZS: '跟踪零件总数（个）',
+    EKL_XZLJZS: '新增零件总数（个）',
+    EKL_QXLJZS: '取消零件总数（个）',
+    EKL_LJGZLX: '零件跟踪类型',
+    EKL_JCBMBXZ: '基础表模板下载',
+    EKL_PFJ_LJMC: '零件名称',
+    EKL_PFJ_CLZ: '配附件材料组',
+    EKL_PFJ_PP: '品牌',
+    EKL_PFJ_SX: '属性',
+    EKL_PFJ_BZ: '备注',
+    EKL_PFJ_FE: '份额',
+    EKL_PFJ_CGJG: '上年采购价格',
+    EKL_PFJ_XSLYC: '当年销售量预测',
+    EKL_PFJ_DNCGJE: '当年采购金额'
     // 以上ekl中文
   }
   var xmlHttp = ''
@@ -2005,7 +2004,7 @@
     // eslint-disable-next-line no-undef
     xmlHttp = new ActiveXObject('Microsoft.XMLHTTP')
   }
-  xmlHttp.onreadystatechange = function() {
+  xmlHttp.onreadystatechange = function () {
     if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
       const data = JSON.parse(xmlHttp.responseText)
       i18n.setLocaleMessage('zh', Object.assign(oldLanguage, data.data.zh))

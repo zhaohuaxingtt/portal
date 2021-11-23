@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\replenishmentManagement\mtzLocation\firstDetails.js
  */
 import axios from '@/utils/axios'
-
+const requstPart = axios(process.env.VUE_APP_MATERIEL)//零件车型
 const requst = axios(process.env.VUE_APP_RFQ +'/web')
 const requstDict = axios(process.env.VUE_APP_BASE_INFO)
 
@@ -24,6 +24,15 @@ export function selectDictByKeys(data) {
   //字典
   return requstDict({
     url: '/web/selectDictByKeys',
+    method: 'GET',
+    params: data
+  })
+}
+
+export function currencyDict(data) {
+  //字典
+  return requstDict({
+    url: '/api/currencyDict',
     method: 'GET',
     params: data
   })
@@ -62,5 +71,32 @@ export function getApplicationPartPagedList(parmars) {
     url: '/mtz/getApplicationPartPagedList',
     method: 'POST',
     data: parmars
+  })
+}
+
+export function cartypePaged(data) {
+  //车型主数据分页查询
+  return requstPart({
+    url: '/web/cartypePaged',
+    method: 'GET',
+    params: data
+  })
+}
+
+export function partInfoPaged(parmars) {
+  //零件中心列表分页查询
+  return requstPart({
+    url: '/web/partInfoPaged',
+    method: 'POST',
+    data: parmars
+  })
+}
+
+export function getNominateProcessType(data) {
+  //车型主数据分页查询
+  return requst({
+    url: '/nominate-create/get-nominate-process-type',
+    method: 'GET',
+    params: data
   })
 }

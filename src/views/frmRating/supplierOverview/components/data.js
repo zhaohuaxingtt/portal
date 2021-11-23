@@ -20,8 +20,9 @@ export const tableTitleMonitor = [
     { props: 'supplierName', name: '供应商名称', key: 'GONGYINGSHANGMINGCHENG', tooltip: true },
     { props: 'deptNum', name: '相关科室', key: 'XIANGGUANKESHI', tooltip: true },
     { props: 'userName', name: '负责采购员', key: 'XIANGGUANCAIGOUYUAN', tooltip: true },
-    { props: 'email', name: '采购员邮箱', key: 'CAIGOUYUANYOUXIANG', tooltip: true },
-    { props: 'ratingSource', name: 'C-Rating来源', key: 'CRATINGLAIYUAN', tooltip: true },
+    // { props: 'email', name: '采购员邮箱', key: 'CAIGOUYUANYOUXIANG', tooltip: true },
+    { props: 'ratingSource', name: '加入C-Rating原因', key: 'JIARUCRATINGYUANYIN', tooltip: true },
+    { props: 'ratingDate', name: '加入C-Rating时间', key: 'JIARUCRATINGSHIJIAN', tooltip: true ,width:150},
   ]
   
 export const tableTitleMonitorRecord = [
@@ -33,8 +34,8 @@ export const tableTitleMonitorRecord = [
     { props: 'iscRatingNow', name: ' 目前是否C-Rating', key: 'MUQIANSHIFOUCRATING', tooltip: true,width:150 },
     { props: 'ratingSource', name: '加入C-Rating原因', key: 'JIARUCRATINGYUANYIN', tooltip: true,width:150 },
     { props: 'ratingDate', name: '加入C-Rating时间', key: 'JIARUCRATINGSHIJIAN', tooltip: true ,width:150},
-    { props: 'cancelReason', name: '移除C-Rating原因', key: 'YICHUCRATINGYUANYIN', tooltip: true ,width:150},
-    { props: 'cancelDate', name: '移除C-Rating时间', key: 'YICHUCRATINGSHIJIAN', tooltip: true ,width:150},
+    { props: 'cancelReason', name: '移出C-Rating原因', key: 'YICHUCRATINGYUANYIN', tooltip: true ,width:150},
+    { props: 'cancelDate', name: '移出C-Rating时间', key: 'YICHUCRATINGSHIJIAN', tooltip: true ,width:150},
     { props: 'rfqStatus', name: '供应商状态', key: 'GONGYINGSHANGZHUANGTAI', tooltip: true ,width:150},
     { props: 'partNum', name: '零件信息', key: 'LINGJIANXINXI', tooltip: true ,width:150},
     { props: 'rfq', name: 'RFQ号', key: 'RFQHAO', tooltip: true ,width:150},

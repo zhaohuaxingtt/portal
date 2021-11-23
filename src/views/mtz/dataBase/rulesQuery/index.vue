@@ -33,9 +33,9 @@
                   filterable
                   collapse-tags
                   :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                  display-member="existShareNum"
-                  value-member="existShareId"
-                  value-key="existShareId" />
+                  display-member="departNameEn"
+                  value-member="departId"
+                  value-key="departId" />
                 </el-form-item>
                 <el-form-item
                   :label="language('SHICHANGJIALAIYUAN','市场价来源')"
@@ -170,7 +170,7 @@ import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import {tableSetting,ruleQueryFormData} from './components/data'
 import Detail from './components/detail'
-import {rulePage,getDeptData,getMtzMarketSourceList,exportRuleData,ruleEntityEdit} from '@/api/mtz/database/partsQuery'
+import {rulePage,getDeptData,getMtzMarketSourceList,exportRuleData,ruleEntityEdit,queryDeptSection} from '@/api/mtz/database/partsQuery'
 import {selectDictByKeys} from '@/api/dictionary'
 export default {
   components:{
@@ -206,7 +206,7 @@ export default {
     },
     mounted(){
       this.getList()
-      getDeptData().then(res=>{this.departmentDrop=res.data})//初始化科室
+      queryDeptSection({}).then(res=>{this.departmentDrop=res.data})//初始化科室
       getMtzMarketSourceList().then(res=>{this.getMtzMarketSourceListDrop=res.data})
       // selectDictByKeys('keys=MTZ_MAKE_CYCLE').then(res=>{this.sendersCycle=res.data.MTZ_MAKE_CYCLE})//补差周期
       this.sendersCycle = [

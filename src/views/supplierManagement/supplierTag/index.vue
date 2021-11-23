@@ -3,17 +3,27 @@
  * @Date: 2021-010-13 
 -->
 <template>
-  <div>
+  <iPage>
     <!-- <iDialog width="80%" title="测试" :visible.sync="dialogVisible"></iDialog> -->
-
+    <span class="boxTitle"> {{language('GONGYINGSHANGBIAOQIANGUANLI', '供应商标签管理')}}</span>
     <iSearch @reset="clickReset"
              @sure="sure"
              :icon="true">
       <el-form inline
                label-position="top">
         <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
-          <iInput v-model="form.tagName"
-                  :placeholder="language('QINGSHURU', '请输入')"></iInput>
+          <iSelect multiple
+                   collapse-tags
+                   filterable
+                   :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                   v-model="form.tagNameList">
+            <el-option v-for="item in tagdropDownList"
+                       :key="item.code"
+                       :label="item.message"
+                       :value="item.code">
+            </el-option>
+          </iSelect>
+
         </el-form-item>
         <el-form-item :label="language('BIAOQIANLEIXING', '标签类型')">
           <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
@@ -44,21 +54,67 @@
           }}</iButton>
         </div>
       </div>
-      <tableList style="margin-top: 30px"
-                 :tableData="tabledata"
-                 :tableTitle="Cloum"
-                 @handleSelectionChange="handleSelectionChange"
-                 :tableLoading="tableLoading"
-                 :index="true">
-        <template #isShow="scope">
-          <div class="isShowBtnStyle"
-               @click="handleIs(scope.row)">
-            <icon class="icon"
-                  symbol
-                  :name="scope.row.isShow == 1 ? 'iconxianshi' : 'iconyincang'"></icon>
-          </div>
-        </template>
-      </tableList>
+
+      <el-table :data="tabledata"
+                v-loading="tableLoading"
+                @selection-change="handleSelectionChange"
+                style="margin-top:30px"
+                :tableTitle="setTagCloum">
+        <el-table-column type="selection"
+                         width="50"
+                         align="center"
+                         :selectable="selectable"></el-table-column>
+        <el-table-column key="BIAOQIANMINGCHENG"
+                         width="150"
+                         align="center"
+                         prop="tagName"
+                         label="标签名称"> </el-table-column>
+        <el-table-column key="BIAOQIANLEIXING"
+                         width="150"
+                         align="center"
+                         prop="tagTypeVale"
+                         label="标签类型"> </el-table-column>
+        <el-table-column key="XITONGPANDUANBIAOZHUN"
+                         width=""
+                         align="center"
+                         prop="tagDesc"
+                         label="系统判断标准"> <template slot-scope="scope">
+            <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
+              <span v-else >{{scope.row.tagDesc}}</span>
+          </template> </el-table-column>
+        <el-table-column width="150"
+                         align="center"
+                         prop="isShow"
+                         :label="
+          language('XIANSHIYINCNAG', '显示/隐藏')
+        ">
+          <template slot="header">
+
+            <el-popover width="280"
+                        :content="text">
+              <div slot="reference">
+                <span>{{ language('XIANSHIYINCNAG', '显示/隐藏')}}</span>
+                <icon class="icon"
+                      symbol
+                      name="iconxinxitishi"></icon>
+              </div>
+
+            </el-popover>
+
+          </template>
+          <template slot-scope="scope">
+
+            <div class="isShowBtnStyle"
+                 @click="handleIs(scope.row)">
+
+              <icon class="icon"
+                    symbol
+                    :name="scope.row.isShow == 1 ? 'iconxianshi' : 'iconyincang'"></icon>
+
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
       <iPagination style="margin-top: 20px"
                    v-update
                    @size-change="handleSizeChange($event, sure)"
@@ -87,11 +143,10 @@
         </div>
       </iDialog>
     </iCard>
-  </div>
+  </iPage>
 </template>
 
 <script>
-import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import {
   iSearch,
@@ -103,7 +158,8 @@ import {
   iInput,
   iMessageBox,
   icon,
-  iDialog
+  iDialog,
+  iPage
 } from 'rise'
 import { Cloum } from './components/data'
 import {
@@ -111,12 +167,12 @@ import {
   delBatchDel,
   showOrHide,
   tagAdd,
-  getTagList
+  getTagList,
+  dropDownTagName
 } from '@/api/supplierManagement/supplierTag/index'
 export default {
   mixins: [pageMixins],
   components: {
-    tableList,
     iButton,
     iSearch,
     iCard,
@@ -124,10 +180,12 @@ export default {
     iPagination,
     iInput,
     icon,
-    iDialog
+    iDialog,
+    iPage
   },
   data() {
     return {
+      text: '显示：显示的供应商标签会在界面中展示; 隐藏：隐藏的供应商标签不会在界面中展示。',
       tagName: '',
       isAdd: false,
       selectTableData: [],
@@ -137,18 +195,27 @@ export default {
       tabledata: [],
       tableLoading: true,
       tagList: [],
+      tagdropDownList: [],
       tagTypeList: [
+            { label: this.language('QUANBU', '全部'), value: '' },
         { label: this.language('XITONGPANDING', '系统判定'), value: 1 },
         { label: this.language('SHOUGONG', '手工'), value: 2 }
       ]
     }
   },
   created() {
-    // this.getUser()
+    this.getTagListdropDown()
     this.getTableData()
   },
   methods: {
     //获取标签列表
+    getTagListdropDown() {
+      dropDownTagName({}).then((res) => {
+        if (res && res.code == 200) {
+          this.tagdropDownList = res.data
+        }
+      })
+    },
     getTagListObj() {
       let params = {}
       getTagList(params).then((res) => {
@@ -207,13 +274,16 @@ export default {
       })
     },
     handleAdd() {
+      this.tagName = ''
       this.isAdd = true
       this.getTagListObj()
     },
     //保存
     handleBtn() {
       if (this.tagName == '') {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        iMessage.warn(
+          this.language('QINGSHURUBIAOQIANMINGCHENG', '请输入标签名称')
+        )
         return false
       }
       const req = {
@@ -251,6 +321,11 @@ export default {
     },
     closeDiolog() {
       this.isAdd = false
+    },
+    selectable(val) {
+      if (val.tagTypeVale == '手工维护') {
+        return true
+      }
     }
   }
 }
@@ -260,6 +335,15 @@ export default {
 // ::v-deep .el-tooltip__popper {
 // width: 100px!important;  //宽度可根据自己需要进行设置
 //   }
+
+.boxTitle{
+       font-size: 20px;
+    font-family: Arial;
+    font-weight: bold;
+    color: #000000;
+    padding: 20px;
+    display: inline-block;
+}
 .isShowBtnStyle {
   cursor: pointer;
 }
@@ -359,6 +443,10 @@ export default {
     right: 0;
   }
 }
+::v-deep.atooltip {
+  background: #fff !important;
+}
+
 .clearfix:after {
   content: '020';
   display: block;

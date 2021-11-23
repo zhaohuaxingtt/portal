@@ -1,30 +1,32 @@
 /*
  * @Author: your name
  * @Date: 2021-10-27 21:42:09
- * @LastEditTime: 2021-11-02 17:53:09
+ * @LastEditTime: 2021-11-18 15:22:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\data.js
  */
 export const TABLE_COLUMNS = [
   {
-    type: 'selection',
-    width: '60px'
-  },
-  {
     type: 'index',
     width: '60px',
     label: '#'
   },
   {
+    type: 'selection',
+    width: '60px'
+  },
+  {
     prop: 'assemblyPartnum',
     label: '零件号',
-    minWidth: 120
+    minWidth: 120,
+    tooltip: true
   },
   {
     prop: 'supplierCodeName',
     label: '供应商编号-名称',
-    minWidth: 160
+    minWidth: 160,
+    tooltip: true
   },
   {
     prop: 'materialCode',
@@ -33,8 +35,9 @@ export const TABLE_COLUMNS = [
   },
   {
     prop: 'material',
-    label: '原材料',
-    minWidth: 120
+    label: '原材料名称',
+    minWidth: 120,
+    tooltip: true
   },
   {
     prop: 'price',
@@ -60,7 +63,7 @@ export const TABLE_COLUMNS = [
         return h('div', [
           h('i-input', {
             on: {
-              input: (value) => {
+              input: value => {
                 scope.row.newDosage = value
               }
             },
@@ -88,7 +91,7 @@ export const TABLE_COLUMNS = [
         return h('div', [
           h('el-date-picker', {
             on: {
-              input: (value) => {
+              input: value => {
                 scope.row.startDate = value
               }
             },
@@ -114,7 +117,7 @@ export const TABLE_COLUMNS = [
           h('el-date-picker', {
             model: {
               value: scope.row.endDate,
-              callback: (value) => (scope.row.endDate = value)
+              callback: value => (scope.row.endDate = value)
             },
             // on: {
             //   input: value => {
@@ -148,7 +151,7 @@ export const TABLE_COLUMNS = [
     minWidth: 120
   },
   {
-    prop: 'material',
+    prop: 'threshold',
     label: '阈值',
     minWidth: 120
   },
@@ -161,31 +164,31 @@ export const TABLE_COLUMNS = [
 
 export const TABLE_COLUMNS1 = [
   {
-    type: 'selection',
-    width: '60px'
-  },
-  {
     type: 'index',
     width: '60px',
     label: '#'
   },
   {
-    prop: 'approvalName',
+    type: 'selection',
+    width: '60px'
+  },
+  {
+    prop: 'approvalUser',
     label: '审批人',
     minWidth: 120
   },
   {
-    prop: 'fileName',
+    prop: 'appStatus',
     label: '审批状态',
     minWidth: 160
   },
   {
-    prop: 'assemblySupplierName',
+    prop: 'idea',
     label: '意见',
     minWidth: 120
   },
   {
-    prop: 'assemblyPartName',
+    prop: 'startDate',
     label: '到达时间',
     minWidth: 120
   },
@@ -195,15 +198,15 @@ export const TABLE_COLUMNS1 = [
     minWidth: 120
   },
   {
-    prop: 'buyerName',
+    prop: 'duration',
     label: '任务持续时间',
     minWidth: 120
-  },
-  {
-    prop: 'explain',
-    label: '解释',
-    minWidth: 120
   }
+  // {
+  //   prop: 'explain',
+  //   label: '解释',
+  //   minWidth: 120
+  // }
 ]
 
 export const tableList = [

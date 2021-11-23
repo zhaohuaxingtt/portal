@@ -2,6 +2,8 @@
 <template>
   <div style="padding-bottom:30px;">
     <div class="searchBox">
+      <iSearch @sure="handleSubmitSearch"
+             @reset="handleSearchReset">
         <el-form :inline="true" ref="searchForm" :model="searchForm" label-position="top" class="demo-form-inline leftBox">
             <el-form-item style="marginRight:68px;width:180px" :label="language('LINGJIANHAO', '零件号')" class="formItem">
                 <iInput v-model="searchForm.partNum"
@@ -11,6 +13,7 @@
 
             <el-form-item style="marginRight:68px;width:180px" :label="language('SHENQINGDANHAO','申请单号')" class="formItem">
               <iInput v-model="searchForm.nominateId"
+                          type="number"
                           :placeholder="language('QINGSHURU','请输入')">
               </iInput>
             </el-form-item>
@@ -21,26 +24,29 @@
               </iInput>
             </el-form-item>
 
-            <el-form-item style="marginRight:68px" :label="language('LIUCHENGLEIXING','流程类型')">
+            <el-form-item style="marginRight:68px;width:180px" :label="language('LIUCHENGLEIXING','流程类型')">
               <custom-select v-model="searchForm.nominateProcessType"
                               :user-options="getFlowTypeList"
                               clearable
                               :placeholder="language('QINGXUANZE', '请选择')"
-                              display-member="message"
+                              display-member="desc"
                               value-member="code"
                               value-key="code">
               </custom-select>
             </el-form-item>
 
-            <el-form-item style="marginRight:68px" :label="language('SHENQINGZHUANGTAI','申请状态')">
-              <custom-select v-model="searchForm.applicationStatus"
-                              :user-options="getLocationApplyStatus"
-                              clearable
-                              :placeholder="language('QINGXUANZE', '请选择')"
-                              display-member="message"
-                              value-member="code"
-                              value-key="code">
-              </custom-select>
+            <el-form-item style="marginRight:68px;width:180px;" :label="language('SHENQINGZHUANGTAI','申请状态')">
+                              <!-- multiple -->
+                  <iSelect v-model="searchForm.applicationStatus"
+                         :placeholder="language('QINGXUANZE', '请选择')"
+                        >
+                    <el-option
+                        v-for="item in getLocationApplyStatus"
+                        :key="item.code"
+                        :label="item.message"
+                        :value="item.code">
+                    </el-option>
+                </iSelect>
             </el-form-item>
 
             <el-form-item style="marginRight:68px;width:180px" :label="language('FSNR/GSNR','FSNR/GSNR')" class="formItem">
@@ -68,7 +74,7 @@
               </iInput>
             </el-form-item>
 
-            <el-form-item style="marginRight:68px" :label="language('CHEXINGXIANGMU','车型项目')" class="formItem">
+            <el-form-item style="marginRight:68px;width:180px" :label="language('CHEXINGXIANGMU','车型项目')" class="formItem">
               <custom-select v-model="searchForm.carTypeProj"
                               :user-options="getLocationApplyStatus11"
                               clearable
@@ -79,7 +85,7 @@
               </custom-select>
             </el-form-item>
 
-            <el-form-item style="marginRight:68px" :label="language('BAOJIAYIZHIXINGJIAOYAN', '报价一致性校验')" class="formItem">
+            <el-form-item style="marginRight:68px;width:180px" :label="language('BAOJIAYIZHIXINGJIAOYAN', '报价一致性校验')" class="formItem">
                 <custom-select v-model="searchForm.isPriceConsistent"
                               :user-options="getSecondPartList"
                               clearable
@@ -90,7 +96,7 @@
                 </custom-select>
             </el-form-item>
 
-            <el-form-item style="marginRight:68px" :label="language('SHIFOUDANYIGONGYINGSHANG', '是否单一供应商')" class="formItem">
+            <el-form-item style="marginRight:68px;width:180px" :label="language('SHIFOUDANYIGONGYINGSHANG', '是否单一供应商')" class="formItem">
                 <custom-select v-model="searchForm.singleSourcing"
                               :user-options="getSecondSupplierList"
                               clearable
@@ -101,7 +107,7 @@
                 </custom-select>
             </el-form-item>
 
-            <el-form-item style="marginRight:68px" :label="language('XIANSHIZIJI', '显示自己')" class="formItem">
+            <el-form-item style="marginRight:68px;width:180px" :label="language('XIANSHIZIJI', '显示自己')" class="formItem">
                 <custom-select v-model="searchForm.showMe"
                               :user-options="zhongleiList"
                               clearable
@@ -112,10 +118,7 @@
                 </custom-select>
             </el-form-item>
         </el-form>
-        <div class="searchButton">
-            <iButton @click="handleSubmitSearch">{{language('CX', '查询')}}</iButton>
-            <iButton @click="handleSearchReset('searchForm')">{{language('CZ', '重置')}}</iButton>
-        </div>
+      </iSearch>
     </div>
     <el-divider class="margin-top20"></el-divider>
     <div class="BtnTitle">
@@ -145,7 +148,7 @@
 </template>
 
 <script>
-import { iCard, iSelect, iDatePicker, iMessage,iDialog,iButton,iTabs,iTabsList,iPagination,iInput } from 'rise'
+import { iCard, iSelect, iDatePicker, iMessage,iDialog,iButton,iTabs,iTabsList,iPagination,iInput,iSearch } from 'rise'
 import { pageMixins } from "@/utils/pageMixins"
 import { tableTitle } from "./data.js";
 import inputCustom from '@/components/inputCustom'
@@ -157,7 +160,8 @@ import {
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   page,
-  selectDictByKeys
+  selectDictByKeys,
+  getNominateProcessType
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 
 export default {
@@ -172,7 +176,8 @@ export default {
     iInput,
     inputCustom,
     iPagination,
-    tableList
+    tableList,
+    iSearch
   },
   props: ["detailObj"],
   mixins: [pageMixins],
@@ -190,7 +195,9 @@ export default {
             message:"否"
             }
         ],
-        searchForm: {},
+        searchForm: {
+          applicationStatus:"NEW"
+        },
         getSecondPartList:[
           {
             code:0,
@@ -220,6 +227,20 @@ export default {
             message:"否"
           },
         ],
+        getLocationApplyStatus:[
+          {
+            code:"NEW",
+            message: "草稿"
+          },
+          // {
+          //   code:"SUBMIT",
+          //   message: "已提交"
+          // },
+          {
+            code:"NOTPASS",
+            message: "未通过"
+          },
+        ],
         getLocationApplyStatus11:[],
         getFlowTypeList:[],
         handleSelectArr:[],
@@ -235,18 +256,23 @@ export default {
       // console.log(newVlue)
     }
   },
+  mounted(){
+    this.$nextTick(() => {
+      this.$el.querySelector('.el-icon-arrow-up').click()
+    });
+  },
   created() {
     this.init()
   },
   methods: {
     init(){
-      getFlowTypeList({}).then(res=>{
+
+      getNominateProcessType().then(res=>{
         this.getFlowTypeList = res.data;
       })
-      
-      getLocationApplyStatus({}).then(res=>{
-        this.getLocationApplyStatus = res.data;
-      })
+      // getLocationApplyStatus({}).then(res=>{
+      //   this.getLocationApplyStatus = res.data;
+      // })
 
       selectDictByKeys({
         keys:"CAR_TYPE_PRO"
@@ -272,6 +298,7 @@ export default {
     // 重置
     handleSearchReset(form) {
       this.searchForm = {};
+      this.searchForm.applicationStatus = "NEW";
       this.page.currPage = 1;
       this.page.pageSize = 10;
       this.getTableList();
@@ -298,9 +325,15 @@ export default {
       }
     },
     save(){
+      if(this.handleSelectArr.length==0){
+        iMessage.error(this.language("QXZYTSJJXGL","请选择一条数据进行关联！"))
+        return false;
+      }
       relation({
-        mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        meetingId:this.handleSelectArr[0].id
+        mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        ttNominateAppId:this.handleSelectArr[0].id,
+        flowType:this.handleSelectArr[0].nominateProcessType,
+        appStatus:this.handleSelectArr[0].applicationStatus,
       }).then(res=>{
         if(res.code == 200){
           iMessage.success(res.desZh)
@@ -327,10 +360,6 @@ export default {
     z-index: 100;
   }
 }
-
-.leftBox{
-  margin-right: 200px;
-}
  
 
  .BtnTitle{
@@ -343,5 +372,13 @@ export default {
     font-size: 18px;
     font-weight: bold;
   }
+}
+
+::v-deep .cardBody{
+  margin:0!important;
+  padding:0!important;
+}
+::v-deep .card{
+  box-shadow: 0 0 0px rgb(27 29 33 / 0%)
 }
 </style>

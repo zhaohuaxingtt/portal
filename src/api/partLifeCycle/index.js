@@ -5,31 +5,19 @@
 import axios from '@/utils/axios'
 import axiosFile from '@/utils/axios.download'
 
-const VUE_APP_PARTSRECORD = axios(
-  process.env.VUE_APP_RISEDASHBOARD + '/web/parts/record'
-)
-const VUE_APP_PARTSPROCESS = axios(
-  process.env.VUE_APP_RISEDASHBOARD + '/web/partsProcess'
-)
+const VUE_APP_PARTSRECORD = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/parts/record')
+const VUE_APP_PARTSPROCESS = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/partsProcess')
 const requst = axios(process.env.VUE_APP_RISEDASHBOARD)
-const VUE_APP_PARTSRECORDFile = axiosFile(
-  process.env.VUE_APP_RISEDASHBOARD + '/web/parts/record'
-)
-const VUE_APP_PARTSPROCESSFile = axiosFile(
-  process.env.VUE_APP_RISEDASHBOARD + '/web/partsProcess'
-)
-const VUE_APP_BASE_WS2_CHANGEPRICE_API = axiosFile(
-  process.env.VUE_APP_CHANGEPRICE
-)
+const VUE_APP_PARTSRECORDFile = axiosFile(process.env.VUE_APP_RISEDASHBOARD + '/web/parts/record')
+const VUE_APP_PARTSPROCESSFile = axiosFile(process.env.VUE_APP_RISEDASHBOARD + '/web/partsProcess')
+const VUE_APP_BASE_WS2_CHANGEPRICE_API = axios(process.env.VUE_APP_CHANGEPRICE + '/web')
 
 // 更具合同号获取订单id
 export function getLatestOrderId(params) {
   return VUE_APP_BASE_WS2_CHANGEPRICE_API({
-    url: `/web/scheduleAgreement/getLatestOrderOrAgreementId?contractCode=${
-      params.contractCode
-    }&contractSapCode=${params.contractSapCode || ''}`,
+    url: `/scheduleAgreement/getLatestOrderOrAgreementId?contractCode=${params.contractCode}&contractSapCode=${params.contractSapCode || ''}`,
     method: 'POST',
-    params
+    data: params
   })
 }
 
@@ -63,9 +51,9 @@ export function getRecordDetail(params) {
 // 零件进程主轴
 export function partsAxle(data) {
   return VUE_APP_PARTSPROCESS({
-    url: '/partsAxle',
-    method: 'POST',
-    data
+    url: `/partsAxle`,
+    method: 'GET',
+    params: data
   })
 }
 
@@ -79,20 +67,28 @@ export function getAmountAxle(data) {
 }
 
 // 一对多详情页
-export function getOneToMany({ nodePartsNum, caseType, data }) {
+export function getOneToMany({ nodePartsNum, caseType, data, id }) {
   return VUE_APP_PARTSPROCESS({
-    url: `/getOneToMany/${nodePartsNum}/${caseType}`,
-    method: 'POST',
-    data
+    url: `/getOneToMany`,
+    method: 'GET',
+    params: {
+      nodePartsNum,
+      caseType,
+      processId: id
+    }
   })
 }
 
 // 多对多详情页
-export function getMany({ nodePartsNum, caseType, data }) {
+export function getMany({ nodePartsNum, caseType, data, id }) {
   return VUE_APP_PARTSPROCESS({
-    url: `/getMany/${nodePartsNum}/${caseType}`,
-    method: 'POST',
-    data
+    url: `/getMany`,
+    method: 'GET',
+    params: {
+      nodePartsNum,
+      caseType,
+      processId: id
+    }
   })
 }
 
@@ -132,6 +128,7 @@ export function findPartsInfo(params) {
   })
 }
 
+
 //  导出零件履历
 export function exportFile(params) {
   return VUE_APP_PARTSRECORDFile({
@@ -149,3 +146,4 @@ export function exportFile2(data) {
     data: data
   })
 }
+

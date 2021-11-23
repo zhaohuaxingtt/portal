@@ -95,7 +95,7 @@ import { getSchedule, queryCalendar } from '@/api/home'
 import { mapState } from 'vuex'
 export default {
   filters: {
-    timePoint: function(value) {
+    timePoint: function (value) {
       return moment(value).format('LT')
     }
   },
@@ -124,7 +124,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userId: userId => userId.permission.userInfo
+      userId: (userId) => userId.permission.userInfo
     })
   },
   async mounted() {
@@ -184,7 +184,7 @@ export default {
         let all = [...data_3]
         this.attrs = all
         this.meetingList =
-          this.attrs?.find(a => {
+          this.attrs?.find((a) => {
             return a.dates === moment().format('YYYY-MM-DD')
           })?.customData || []
       }
@@ -220,23 +220,23 @@ export default {
         let result = await this.getMeetingList(body, this.userId.id)
         // 深度克隆 this.attrs  过滤掉数据会议
         let attrs = _.cloneDeep(this.attrs)
-        attrs = attrs.filter(item => {
+        attrs = attrs.filter((item) => {
           return !item.dot
         })
-        result.forEach(item => {
+        result.forEach((item) => {
           item.dot = 'yellow'
         })
         result && result.length > 0 ? (this.attrs = attrs.concat(result)) : ''
         this.meetingList = []
         let duringMonth = true
-        result.forEach(item => {
+        result.forEach((item) => {
           if (item.dates === moment().format('YYYY-MM-DD')) {
             duringMonth = false
             this.meetingList.push(...item.customData)
           }
         })
         if (duringMonth) {
-          result.forEach(item => {
+          result.forEach((item) => {
             this.meetingList.push(...item.customData)
           })
         }
@@ -255,6 +255,8 @@ export default {
           // let reg = /\s+/
           let newArr = []
           let disabledDates = [...data_1, ...data_2]
+          // disabledDates.forEach((item) => {
+            // let b = item.dateContent.split(reg)
           // disabledDates.forEach(item => {
           //   let b = item.dateContent.split(reg)
           //   newArr.push({
@@ -269,7 +271,7 @@ export default {
             })
           })
           this.holiday = newArr
-          result.forEach(item => {
+          result.forEach((item) => {
             item.dot = 'yellow'
           })
           let all = [...result]
@@ -286,7 +288,7 @@ export default {
         },
         this.userId.id
       )
-      result_4 = result_4.filter(item => item.dates == day)
+      result_4 = result_4.filter((item) => item.dates == day)
       this.meetingList = result_4[0]?.customData || []
     },
     handleDayFocusOut() {
@@ -376,10 +378,28 @@ export default {
         align-items: center;
         &.pass {
           border-left: 3px solid #afb0b3;
-          color: #AFB0B3;
+          color: #afb0b3;
           // background: #fff;
-          background: linear-gradient(135deg,#FFFFFF  15%,#E0E4EC 0,#E0E4EC 25%,#FFFFFF  0,#FFFFFF  40%,#E0E4EC 0,#E0E4EC 50%, #FFFFFF 0, #FFFFFF 65%, #E0E4EC 0, #E0E4EC 75%, #FFFFFF 0, #FFFFFF 90%, #E0E4EC 0, #E0E4EC 100%, #FFFFFF 0);
-      border-right: 14px solid #fff;
+          background: linear-gradient(
+            135deg,
+            #ffffff 15%,
+            #e0e4ec 0,
+            #e0e4ec 25%,
+            #ffffff 0,
+            #ffffff 40%,
+            #e0e4ec 0,
+            #e0e4ec 50%,
+            #ffffff 0,
+            #ffffff 65%,
+            #e0e4ec 0,
+            #e0e4ec 75%,
+            #ffffff 0,
+            #ffffff 90%,
+            #e0e4ec 0,
+            #e0e4ec 100%,
+            #ffffff 0
+          );
+          border-right: 14px solid #fff;
           width: 220px !important;
         }
         &.ongoing {

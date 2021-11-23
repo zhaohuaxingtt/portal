@@ -1,6 +1,6 @@
 <template>
     <iDialog :title="title"
-                style="margin-top:23vh"
+                style="margin-top:20vh"
                 :visible.sync="closeValue"
                 v-if="closeValue"
                 width="22%"

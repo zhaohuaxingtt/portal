@@ -30,27 +30,26 @@
                              <span class="openLinkText cursor linkEllipsis text"
                                    v-if="items.props=='title'"
                                    @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
-                    {{scope.row[items.props]}}
-                </span>
-                <div v-else>
-                     <span v-for="key,i in openPageProps">
-                      <span v-if="key=='operation'">
-                          <span class="openLinkText cursor linkEllipsis"
-                                v-permission="ACHIEVEMENTMGT_LIST_CONFIRM"
-                                @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
-                            {{scope.row[key == items.props ? key : '']}}
-                         </span>
-                          <span v-if="scope.row.refresh">
-                              <span v-permission="ACHIEVEMENTMGT_LIST_REFRESH" class="openLinkText cursor linkEllipsis pl10"
-                                  @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
-                                    {{scope.row.refresh}}
-                              </span>
-                          </span>
-
-                      </span>
-
-                     </span>
-                </div>
+                                {{scope.row[items.props]}}
+                             </span>
+                             <div v-else>
+                                 <span v-for="key,i in openPageProps">
+                                      <span v-if="key=='operation'">
+                                          <span class="openLinkText cursor linkEllipsis"
+                                                v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_CONFIRM')"
+                                                @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
+                                            {{scope.row[key == items.props ? key : '']}}
+                                          </span>
+                                          <span v-if="scope.row.refresh">
+                                              <span v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_REFRESH')"
+                                                    class="openLinkText cursor linkEllipsis pl10"
+                                                  @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
+                                                    {{scope.row.refresh}}
+                                              </span>
+                                          </span>
+                                      </span>
+                                 </span>
+                             </div>
 
                         </el-form-item>
                     </template>
@@ -221,7 +220,7 @@
 <script>
     import {iInput, iSelect, icon} from 'rise';
     import {toThousands,delcommafy,unique} from '@/utils'
-
+    import isAuth from '@/utils/isAuth';
     export default {
         props: {
             label: {type: String},
@@ -268,7 +267,9 @@
             return {
                 rules: [],
                 show: false,
-                toThousands
+                toThousands,
+                isAuth,
+                whiteBtnList: this.$store.state.permission.whiteBtnList,
             };
         },
         created() {

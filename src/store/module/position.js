@@ -10,10 +10,10 @@ import {
   GetPositionDetail,
   UpdatePosition
 } from '@/api/position'
-const tree2Array = data => {
+const tree2Array = (data) => {
   const result = []
-  data.forEach(item => {
-    const loop = data => {
+  data.forEach((item) => {
+    const loop = (data) => {
       result.push({
         ...data
       })
@@ -115,7 +115,9 @@ const position = {
         tagList: [],
         roleDTOList: [],
         permissionList: [],
-        userList: []
+        userList: [],
+        purchaseGroup: '',
+        tempPurchaseGroup: ''
       },
       originPosDetail: {},
 
@@ -183,7 +185,7 @@ const position = {
 
     SET_SUB_POSITION_STATUS: (state, data) => {
       const positionList = state.sub.positionList
-      positionList.forEach(item => {
+      positionList.forEach((item) => {
         item.isEdit = data
       })
       state.sub.positionList = positionList
@@ -194,17 +196,24 @@ const position = {
     },
 
     /**---------------------------------------------------------------- */
-
-    SET_POSITION_DETAIL: (state, data) => {
-      state.pos.positionDetail = _.cloneDeep(data)
+    SET_POSITION_ORIGIN_DETAIL: (state, data) => {
       state.pos.originPosDetail = _.cloneDeep(data)
+    },
+    SET_POSITION_DETAIL: (state, data) => {
+      const dataVal = data
+      if (dataVal.setCode && typeof dataVal.setCode === 'string') {
+        dataVal.setCode = dataVal.setCode.split(',')
+      }
+      state.pos.positionDetail = _.cloneDeep(dataVal)
+      state.pos.originPosDetail = _.cloneDeep(dataVal)
+
       window.sessionStorage.setItem(
         window.btoa('position_detail'),
         JSON.stringify(state.pos.positionDetail)
       )
     },
 
-    RESET_POSITION_DETAIL: state => {
+    RESET_POSITION_DETAIL: (state) => {
       state.pos.positionDetail = {
         code: '',
         fullNameZh: '',
@@ -214,7 +223,10 @@ const position = {
         tagList: [],
         roleDTOList: [],
         permissionList: [],
-        userList: []
+        userList: [],
+        purchaseGroup: '',
+        tempPurchaseGroup: '',
+        setCode: ''
       }
       state.pos.dimensionSelected = []
       state.pos.dimensionList = []
@@ -244,7 +256,7 @@ const position = {
     },
 
     SET_ORG_ARRAYLIST: (state, item) => {
-      item.map(i => {
+      item.map((i) => {
         i.fullCode = i.fullCode || ''
         i.nameZh = i.nameZh || ''
       })
@@ -252,18 +264,22 @@ const position = {
       state.org.arrayList = item
     },
 
-    SET_ORG_ARRAYLIST_QUERY: state => {
+    SET_ORG_ARRAYLIST_QUERY: (state) => {
       state.org.loading = true
       const query = state.org.query
       const list = tree2Array(_.cloneDeep(state.org.list))
       const fullCode = query[0].value
       const nameZh = query[1].value
       const array = list
-        .filter(item => {
-          return fullCode ? item.fullCode?.includes(fullCode) : item
+        .filter((item) => {
+          return fullCode
+            ? item.fullCode?.toLowerCase().includes(fullCode.toLowerCase())
+            : item
         })
-        .filter(item => {
-          return nameZh ? item.nameZh?.includes(nameZh) : item
+        .filter((item) => {
+          return nameZh
+            ? item.nameZh?.toLowerCase().includes(nameZh.toLowerCase())
+            : item
         })
       state.org.arrayList = array
       state.org.loading = false
@@ -305,7 +321,7 @@ const position = {
       state.pos.dimensionSelected = data
     },
     /** 删除维度 */
-    DEL_DIMENSION: state => {
+    DEL_DIMENSION: (state) => {
       const dimensionSelected = JSON.parse(
         JSON.stringify(state.pos.dimensionSelected)
       )
@@ -320,20 +336,20 @@ const position = {
       state.pos.dimensionList = dimensionList
     },
     /** 更改岗位信息里面的维度 */
-    SET_DETAIL_DIMENSION: state => {
+    SET_DETAIL_DIMENSION: (state) => {
       for (let i = 0; i < state.pos.dimensionList.length; i++) {
         state.pos.dimensionList[i].contentList = []
         state.pos.dimensionList[i].dimensionObj = {}
-        state.pos.dimensionList[i].content.forEach(c => {
+        state.pos.dimensionList[i].content.forEach((c) => {
           const itemC = _.filter(
             state.pos.dimensionList[i].contentOptions,
-            it => {
+            (it) => {
               return it.valueId === c
             }
           )[0]
           state.pos.dimensionList[i].contentList.push(itemC)
         })
-        const itemD = _.filter(state.pos.dimensionOptions, item => {
+        const itemD = _.filter(state.pos.dimensionOptions, (item) => {
           return item.id === state.pos.dimensionList[i].dimension
         })[0]
         state.pos.dimensionList[i].dimensionObj = itemD
@@ -345,16 +361,16 @@ const position = {
 
     INIT_DIMENSION_LIST: (state, data) => {
       const temp = _.cloneDeep(state.pos.dimensionOptions)
-      _.map(data, item => {
+      _.map(data, (item) => {
         item.dimension = item.id
         item.content = []
 
-        temp.forEach(i => {
+        temp.forEach((i) => {
           if (i.id === item.id) {
             item.contentOptions = i.valueList
           }
         })
-        _.map(item.valueList, o => {
+        _.map(item.valueList, (o) => {
           item.content.push(o.valueId)
         })
       })
@@ -364,7 +380,7 @@ const position = {
     /**---------------------------------------------------------------- */
 
     /** 更改岗位信息里面的角色 */
-    SET_POSITION_DETAIL_ROLE: state => {
+    SET_POSITION_DETAIL_ROLE: (state) => {
       state.pos.positionDetail.roleDTOList = JSON.parse(
         JSON.stringify(state.pos.roleSelected)
       )
@@ -384,13 +400,13 @@ const position = {
       state.pos.roleSelected = data
     },
     INIT_ROLEIDS_SELECTED: (state, data) => {
-      state.pos.roleSelectedIds = _.map(data, item => {
+      state.pos.roleSelectedIds = _.map(data, (item) => {
         return item.id
       })
     },
 
     /** 删除所选role */
-    DEL_ROLE: state => {
+    DEL_ROLE: (state) => {
       const roleSelected = state.pos.roleDeling
       const roleList = state.pos.positionDetail.roleDTOList
       for (let i = 0; i < roleSelected.length; i++) {
@@ -402,7 +418,7 @@ const position = {
       }
       state.pos.positionDetail.roleDTOList = roleList
       state.pos.roleSelected = roleList
-      state.pos.roleSelectedIds = _.map(roleList, item => {
+      state.pos.roleSelectedIds = _.map(roleList, (item) => {
         return item.id
       })
     },
@@ -428,7 +444,7 @@ const position = {
       if (data.status === 'add') {
         tags.unshift(data)
       } else {
-        tags = _.filter(tags, item => {
+        tags = _.filter(tags, (item) => {
           return item.name !== data.name
         })
       }
@@ -441,7 +457,7 @@ const position = {
         if (data.checked) {
           tagSelected.push(data)
         } else {
-          tagSelected = _.filter(tagSelected, item => {
+          tagSelected = _.filter(tagSelected, (item) => {
             return item.id !== data.id
           })
         }
@@ -449,7 +465,7 @@ const position = {
         if (data.status === 'add') {
           tagSelected.unshift(data)
         } else {
-          tagSelected = _.filter(tagSelected, item => {
+          tagSelected = _.filter(tagSelected, (item) => {
             return item.name !== data.name
           })
         }
@@ -457,15 +473,15 @@ const position = {
       state.pos.tagSelected = tagSelected
     },
     /** 获取所有tags，包含自定义及系统checked */
-    GET_TAGS: state => {
+    GET_TAGS: (state) => {
       const posDetail = _.cloneDeep(state.pos.positionDetail)
       const tags_s = _.cloneDeep(state.pos.tagsSystem)
 
-      const tags_1 = _.filter(posDetail?.tagList || [], item => {
+      const tags_1 = _.filter(posDetail?.tagList || [], (item) => {
         return item.type === '1'
       })
 
-      const tags_2 = _.filter(posDetail?.tagList || [], item => {
+      const tags_2 = _.filter(posDetail?.tagList || [], (item) => {
         return item.type === '2'
       })
 
@@ -479,20 +495,20 @@ const position = {
 
       state.pos.tags = tags_s.concat(tags_2)
     },
-    GET_TAGS_SELECTED: state => {
+    GET_TAGS_SELECTED: (state) => {
       //编辑
       const positionDetail = _.cloneDeep(state.pos.positionDetail)
       state.pos.tagSelected = positionDetail?.tagList || []
     },
     /**将选中标签放入detail中 */
-    SET_POSITION_TAGS: state => {
+    SET_POSITION_TAGS: (state) => {
       state.pos.positionDetail.tagList = JSON.parse(
         JSON.stringify(state.pos.tagSelected)
       )
     },
     /** tagSystem init */
     SET_TAG_SYSTEM: (state, data) => {
-      state.pos.tagsSystem = _.filter(data, item => {
+      state.pos.tagsSystem = _.filter(data, (item) => {
         return item.type === '1'
       })
       window.sessionStorage.setItem(
@@ -532,10 +548,10 @@ const position = {
     /**批量删除岗位 */
     async DelPositionList() {
       const idList = this.state.position.pos.listSelected
-        .filter(item => {
+        .filter((item) => {
           return !item.userDTOList || !item.userDTOList.length
         })
-        .map(item => {
+        .map((item) => {
           return item.id
         })
       console.log(idList)
@@ -580,45 +596,6 @@ const position = {
 
       if (res?.code === '200' && res?.data) {
         const data = res.data
-        /* data.push({
-          code: 'zhshijiacaigouzu',
-          description: '正式价采购组',
-          id: 325454,
-          name: 'zhshijiacaigouzu',
-          url: '',
-          valueList: [
-            {
-              value: 'P10',
-              valueId: 'P10'
-            }
-          ]
-        })
-        data.push({
-          code: 'zanzuojiacaigouzu',
-          description: '暂作价采购组',
-          id: 23233454,
-          name: 'zanzuojiacaigouzu',
-          url: '',
-          valueList: [
-            {
-              value: 'PZ1',
-              valueId: 'PZ1'
-            }
-          ]
-        })
-        data.push({
-          code: 'stGroup',
-          description: 'ST组',
-          id: 45342,
-          name: 'stGroup',
-          url: '',
-          valueList: [
-            {
-              value: 'PZZ',
-              valueId: 'PZZ'
-            }
-          ]
-        }) */
         commit('SET_DIMENSION_OPTIONS', data)
       }
     },
@@ -628,12 +605,13 @@ const position = {
         this.state.position.pos.positionDetail.permissionList
       )
       const temp = []
-      permissionList.forEach(item => {
+      permissionList.forEach((item) => {
         let obj = {}
         item.dimensionObj.valueList = item.contentList
         obj = item.dimensionObj
         temp.push(obj)
       })
+      const { setCode } = this.state.position.pos.positionDetail
       const params = {
         code: this.state.position.pos.positionDetail.code,
         description: this.state.position.pos.positionDetail.description,
@@ -643,7 +621,11 @@ const position = {
         tagList: this.state.position.pos.positionDetail.tagList,
         roleDTOList: this.state.position.pos.positionDetail.roleDTOList,
         permissionList: temp,
-        deptId: data
+        deptId: data,
+        purchaseGroup: this.state.position.pos.positionDetail.purchaseGroup,
+        tempPurchaseGroup:
+          this.state.position.pos.positionDetail.tempPurchaseGroup,
+        setCode: setCode ? setCode.join(',') : ''
       }
       const res = await SavePosition(params)
       return res
@@ -667,13 +649,13 @@ const position = {
         commit('SET_LIST', obj)
         commit(
           'SET_ORG_CURRENT_ROW',
-          _.find(arrayList, item => {
+          _.find(arrayList, (item) => {
             return item.id === parseInt(data)
           })
         )
         commit(
           'SET_CURRENT_ORG',
-          _.find(arrayList, item => {
+          _.find(arrayList, (item) => {
             return item.id === parseInt(data)
           }) || {}
         )
@@ -704,12 +686,13 @@ const position = {
         JSON.stringify(this.state.position.pos.positionDetail.permissionList)
       )
       const temp = []
-      permissionList.forEach(item => {
+      permissionList.forEach((item) => {
         let obj = {}
         item.dimensionObj.valueList = item.contentList
         obj = item.dimensionObj
         temp.push(obj)
       })
+      const { setCode } = this.state.position.pos.positionDetail
       const params = {
         id: this.state.position.pos.positionDetail.id,
         code: this.state.position.pos.positionDetail.code,
@@ -720,7 +703,11 @@ const position = {
         tagList: this.state.position.pos.positionDetail.tagList,
         roleDTOList: this.state.position.pos.positionDetail.roleDTOList,
         permissionList: temp,
-        deptId: data
+        deptId: data,
+        purchaseGroup: this.state.position.pos.positionDetail.purchaseGroup,
+        tempPurchaseGroup:
+          this.state.position.pos.positionDetail.tempPurchaseGroup,
+        setCode: setCode ? setCode.join(',') : ''
       }
       const res = await UpdatePosition(params)
       return res

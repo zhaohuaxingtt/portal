@@ -2,13 +2,13 @@
   <div class="types" slot="actions">
     <iTabBadge>
       <iTabBadgeItem
-        :active="$route.query.type === 'normal'"
-        :name="$t('APPROVAL.APPROVAL_AGENT')"
+        :active="agentType === 'normal'"
+        :name="language('审批代理')"
         @click="tabChange('/approval/agent?type=normal')"
       />
       <iTabBadgeItem
-        :active="$route.query.type === 'meeting'"
-        :name="$t('APPROVAL.APPROVAL_AGENT_MEETING')"
+        :active="agentType === 'meeting'"
+        :name="language('会议审批代理')"
         @click="tabChange('/approval/agent?type=meeting')"
       />
     </iTabBadge>
@@ -29,6 +29,14 @@ export default {
     taskType: {
       type: Number,
       default: 0
+    }
+  },
+  computed: {
+    agentType() {
+      if (this.$route.query.type) {
+        return this.$route.query.type
+      }
+      return 'normal'
     }
   },
   methods: {

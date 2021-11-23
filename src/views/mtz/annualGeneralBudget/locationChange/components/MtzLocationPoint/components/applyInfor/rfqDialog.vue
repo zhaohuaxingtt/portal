@@ -94,6 +94,7 @@ export default {
                 layout: 'total,sizes, prev, pager, next, jumper'
             },
             selectData:[],
+            changeData:[]
         }
     },
     created(){
@@ -165,6 +166,10 @@ export default {
             this.changeData = val;
         },
         save(){
+            if(this.changeData.length==0){
+                iMessage.error(this.language("QXZYTSJJXGL","请选择一条数据进行关联！"))
+                return false;
+            }
             this.$emit("addRfq",this.changeData)
         }
     }

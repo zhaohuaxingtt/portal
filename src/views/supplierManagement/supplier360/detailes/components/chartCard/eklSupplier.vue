@@ -1,41 +1,47 @@
 <template>
   <iCard style="height:14rem">
     <div class="title">
-      <p v-if="!isTitle">{{language('EKLPEIFUJIAN', 'EKL-配附件')}}</p>
-      <p v-if="isTitle">{{language('EKLPILIANGJIAN', 'EKL-批量件')}}</p>
-      <!-- <span class="el-dropdown-link">
+      <p v-if="!isTitle">{{ language('EKLPEIFUJIAN', 'EKL-配附件') }}</p>
+      <p v-if="isTitle">{{ language('EKLPILIANGJIAN', 'EKL-批量件') }}</p>
+      <span v-permission="Card_EKL_BP_More" class="el-dropdown-link">
         <i class="el-icon-more"></i>
-      </span> -->
+      </span>
     </div>
-    <div class="box">
-      <span v-if="!isTitle"
-            class="text"
-            @click="changeTab">{{language('EKLPILIANGJIAN', 'EKL-批量件')}}</span>
-      <span v-if="isTitle"
-            class="text"
-            @click="changeTab">{{language('EKLPEIFUJIAN', 'EKL-配附件')}}</span>
-      <icon class="early"
-            symbol
-            name="iconcaiwuyujing-icon"></icon>
-      <div ref="chart"
-           class="chartStyle"> </div>
+
+    <div  class="box">
+      <span v-if="!isTitle" class="text" @click="changeTab">{{
+        language('EKLPILIANGJIAN', 'EKL-批量件')
+      }}</span>
+      <span v-if="isTitle" class="text" @click="changeTab">{{
+        language('EKLPEIFUJIAN', 'EKL-配附件')
+      }}</span>
+      <img :src="img" class="imgIcon" />
+      <div ref="chart" class="chartStyle"></div>
     </div>
   </iCard>
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, icon, iMessage } from 'rise'
+import { iCard,  } from 'rise'
 import { getSupplierCard } from '@/api/supplierManagement/supplierCard/index'
+import img from '@/assets/images/eklSupplier.svg'
 export default {
-  props: {},
+  props: {
+    infodata: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
   components: {
     iCard,
-    icon
   },
   data() {
     return {
       chart: 'oneChart',
-      isTitle: true
+      isTitle: true,
+      img: img
     }
   },
   computed: {
@@ -43,17 +49,69 @@ export default {
       return {}
     }
   },
-  watch: {},
-  mounted() {
-    this.getData()
+  watch: {
+    infodata(data) {
+      console.log(data)
+      this.getData(data.sapCode)
+    }
   },
+  mounted() {},
   methods: {
     getData() {
       let req = {
-        supplierSapCode: this.$route.query.subSupplierId
+        supplierSapCode: this.infodata.sapCode
       }
-      getSupplierCard(req).then((res) => {
+      getSupplierCard(req).then(res => {
         this.info = res.data
+        // this.info = {
+        //   batchParts: [
+        //     {
+        //       increaseAmount: 10,
+        //       reductionAmount: 20,
+        //       increaseRtio: 4,
+        //       reductionRtio: 0.03,
+        //       year: 2019
+        //     },
+        //     {
+        //       increaseAmount: 20,
+        //       reductionAmount: 10,
+        //       increaseRtio: 5,
+        //       reductionRtio: 0.01,
+        //       year: 2020
+        //     },
+        //     {
+        //       increaseAmount: 15,
+        //       reductionAmount: 15,
+        //       increaseRtio: 4,
+        //       reductionRtio: 0.05,
+        //       year: 2021
+        //     }
+        //   ],
+        //   parts: [
+        //     {
+        //       increaseAmount: 30,
+        //       reductionAmount: 30,
+        //       increaseRtio: 10,
+        //       reductionRtio: 10,
+        //       year: 2019
+        //     },
+        //     {
+        //       increaseAmount: 40,
+        //       reductionAmount: 40,
+        //       increaseRtio: 0,
+        //       reductionRtio: 0,
+        //       year: 2020
+        //     },
+        //     {
+        //       increaseAmount: 0,
+        //       reductionAmount: 0,
+        //       increaseRtio: 0,
+        //       reductionRtio: 0,
+        //       year: 2021
+        //     }
+        //   ],
+        //   supplierSapCode: null
+        // }
         this.getChart()
       })
     },
@@ -73,14 +131,18 @@ export default {
       } else {
         arr = this.info.parts
       }
-      arr.forEach((e) => {
+      arr.forEach(e => {
         data1.push(e.reductionAmount)
-        if (e.incereseAmount != 0) {
-          data2.push('-' + e.incereseAmount)
+        if (e.increaseAmount != 0) {
+          data2.push(e.increaseAmount * -1)
         } else {
-          data2.push(e.incereseAmount)
+          data2.push(e.increaseAmount)
         }
-        data3.push(e.reductionRtio * 100)
+        if (e.reductionRtio != 0) {
+          data3.push(e.reductionRtio * 100 + e.reductionAmount)
+        } else {
+          data3.push(e.reductionRtio)
+        }
         data4.push(e.year)
       })
       // data3=this.sumItem(data3,data1)
@@ -100,10 +162,36 @@ export default {
         },
 
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          //   formatter:'{a}{b}{c}',
+          formatter: function(params) {
+            let str = ''
+            params.forEach((item, idx) => {
+              item.data = Math.abs(item.data)
+              if (idx == 2) {
+                item.data = item.data - params[0].data
+              }
+              str += `${item.marker}\n${item.seriesName}: ${item.data}`
+              switch (idx) {
+                case 0:
+                  str += ''
+                  break
+                case 1:
+                  str += ''
+                  break
+                case 2:
+                  str += '%'
+                  break
+                default:
+                  str += 'w(ﾟДﾟ)w'
+              }
+              str += idx === params.length - 1 ? '' : '<br/>'
+            })
+            return str
+          }
         },
         grid: {
-          top: '16%',
+          top: '20%',
           bottom: '16%%',
           right: '0%',
           left: '10%'
@@ -138,18 +226,18 @@ export default {
                 fontSize: '10px'
               }
             }
-          },
-          {
-            show: false,
-            type: 'value',
-            axisLabel: {
-              show: true,
-              textStyle: {
-                color: '#7E84A3',
-                fontSize: '10px'
-              }
-            }
           }
+          //   {
+          //     show: false,
+          //     type: 'value',
+          //     axisLabel: {
+          //       show: true,
+          //       textStyle: {
+          //         color: '#7E84A3',
+          //         fontSize: '10px'
+          //       }
+          //     }
+          //   }
         ],
         series: [
           {
@@ -184,7 +272,7 @@ export default {
               }
             },
             label: {
-              formatter: function (params) {
+              formatter: function(params) {
                 console.log(params)
                 return params.data + '%'
               }
@@ -192,17 +280,22 @@ export default {
           },
           {
             name: '节降比',
-            showSymbol: false,
             data: data3,
-            yAxisIndex: 1,
             type: 'line',
             label: {
-              show: true,
+              show: false,
               position: 'top',
-              color: '#333',
-              formatter: function (params) {
-                console.log(params)
-                return params.data + '%'
+              fontSize: 10,
+              color: '#727272',
+              formatter: function(params) {
+                let num = params.data
+                // console.log(num-data1[0])
+                // data1.forEach((res) => {
+                //   console.log(res)
+                //   num = num - res
+                // })
+
+                return num + '%'
               }
             },
             itemStyle: {
@@ -218,11 +311,11 @@ export default {
       }
       myChart.setOption(option)
     },
-    sumItem: function (arr1, arr2) {
+    sumItem: function(arr1, arr2) {
       if (arr2.length == 0) {
         return arr1
       } else {
-        arr1.map(function (value, index) {
+        arr1.map(function(value, index) {
           arr2[index] += value + 1
         })
       }
@@ -233,6 +326,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.imgIcon {
+  width: 60px;
+  height: 60px;
+}
 .title {
   display: flex;
   justify-content: space-between;

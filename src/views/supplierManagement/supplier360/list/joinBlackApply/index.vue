@@ -4,10 +4,10 @@
 -->
 <template>
   <div>
-    <iPage>
-      <div class="headerTitle">
+    <div  :class="ifSelf?'page':''">
+      <div v-if="ifSelf" class="headerTitle">
         <p>加入黑名单申请 - 生产采购</p>
-        <div>
+        <div >
           <iButton @click="handleBtn(2)">{{
             language('PIZHUN', '批准')
           }}</iButton>
@@ -19,7 +19,7 @@
           }}</iButton> -->
         </div>
       </div>
-      <iCard style="margin-top:20px">
+      <iCard :style="ifSelf?'margin-top:20px':''">
         <el-form inline
                  label-position="left"
                  label-width="120px">
@@ -54,6 +54,9 @@
                     :tableLoading="tableLoading"
                     @handleSelectionChange="handleSelectionChange"
                     :index="true">
+                       <template #stuffNameEnDe='scope'>
+                        <span>{{scope.row.stuffName}}-{{scope.row.stuffNameDe}}</span>
+                    </template>
         </table-list>
         <iPagination v-update
                      @size-change="handleSizeChange($event, getListData)"
@@ -65,7 +68,7 @@
                      :current-page="page.currPage"
                      :total="page.totalCount" />
       </iCard>
-    </iPage>
+    </div>
   </div>
 </template>
 
@@ -73,7 +76,7 @@
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import { tableTitle } from './data'
-import { iPage, iCard, iButton, iText, iPagination, iMessage } from 'rise'
+import {  iCard, iButton, iText, iPagination, iMessage } from 'rise'
 import {
   supplierBlackListAudit,
   supplierBlackListAuditPage,
@@ -82,7 +85,6 @@ import {
 export default {
   mixins: [pageMixins],
   components: {
-    iPage,
     iCard,
     iButton,
     iText,
@@ -94,10 +96,17 @@ export default {
       tableLoading: true,
       tableTitle: tableTitle,
       data: {},
-      tableListData: []
+      tableListData: [],
+      ifSelf: true
     }
   },
   created() {
+    if (window.top === window.self) {
+      this.ifSelf = true
+    } else {
+      this.ifSelf = false
+    }
+    console.log(window.top === window.self)
     this.getListData()
     this.getListArr()
   },
@@ -109,7 +118,13 @@ export default {
       }
       supplierBlackListAudit(params).then((res) => {
         if (res && res.code == 200) {
-          this.data = res.data
+          this.data = res.data || {
+            nameZh: '',
+            measures: '',
+            startTime: '',
+
+            endTime: ''
+          }
         } else iMessage.error(res.desZh)
       })
     },
@@ -151,6 +166,9 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .el-form--inline .el-form-item {
   // margin-right: 50px;
+}
+.page{
+     padding: 30px 40px 30px 40px;
 }
 .remark {
   word-wrap: break-word;

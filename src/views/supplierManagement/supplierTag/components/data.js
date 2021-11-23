@@ -13,7 +13,7 @@ export const Cloum = [{
         tooltip: true
     },
     {
-        props: 'halfYear',
+        props: 'tagDesc',
         name: '系统判断标准',
         key: 'XITONGPANDUANBIAOZHUN',
         tooltip: true
@@ -24,6 +24,9 @@ export const Cloum = [{
         key: 'XIANSHIYINCANG',
         tooltip: true,
         width: 150,
+        icon: 'iconxinxitishi',
+        iconTextKey: '',
+        iconText: '显示：显示的供应商标签会在界面中展示; 隐藏：隐藏的供应商标签不会在界面中展示。'
     },
 
 ]

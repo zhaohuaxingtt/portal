@@ -5,7 +5,7 @@
         v-model="checkList"
         multiple
         collapse-tags
-        style="width:55.5%"
+        style="width: 55.5%"
         placeholder="请选择科室"
         @change="handleChange"
       >
@@ -247,7 +247,7 @@ export default {
         tooltip: {
           trigger: 'item',
           formatter: function (data) {
-            let name = data.data.name.split( /\s+/)[0]
+            let name = data.data.name.split(/\s+/)[0]
             return `${name}:<br/>
             ${total}家<br/>
             ${String((data.data.num / total)) === 'NaN' ? '0.00' : ((data.data.num / total).toFixed(2) * 100).toFixed(2)}%
@@ -261,14 +261,15 @@ export default {
             icon: 'circle',
             itemHeight: 8,
             type: 'plain',
-            data: data,
+            data: this.legendData,
             tooltip: {
               show: true,
               formatter: function (data) {
                 let name = data.name.split( /\s+/)[0]
+                let num = (parseInt(data.name.split( /\s+/)[1])/100) * total
                 return `${name}:<br/>
                 ${total}家<br/>
-                ${String((data.num / total)) === 'NaN' ? '0.00' : ((data.num / total).toFixed(2) * 100).toFixed(2)}%
+                ${String((num / total)) === 'NaN' ? '0.00' : ((num / total).toFixed(2) * 100).toFixed(2)}%
                 `
               }
             }
@@ -295,20 +296,20 @@ export default {
 
       // 监听饼状图鼠标移入事件
       chart.on('mouseover', (param) => {
-        const newLegends = this.legendData.map(e => {
-            if (e.name === param.name) {
-              e.textStyle.fontWeight = 'bold'
-            } else {
-              e.textStyle.fontWeight = 'normal'
-            }
-            return e
+        const newLegends = this.legendData.map((e) => {
+          if (e.name === param.name) {
+            e.textStyle.fontWeight = 'bold'
+          } else {
+            e.textStyle.fontWeight = 'normal'
+          }
+          return e
         })
         this.mergeOptions(newLegends)
       })
 
       // 监听饼状图鼠标移出事件
       chart.on('mouseout', () => {
-        const newLegends = this.legendData.map(e => {
+        const newLegends = this.legendData.map((e) => {
           e.textStyle.fontWeight = 'normal'
           return e
         })
@@ -316,7 +317,7 @@ export default {
       })
     },
 
-    mergeOptions (newLegends) {
+    mergeOptions(newLegends) {
       let _that = this
       const option = {
         // tooltip: {
@@ -344,9 +345,10 @@ export default {
               show: true,
               formatter: function (data) {
                 let name = data.name.split( /\s+/)[0]
+                let num = (parseInt(data.name.split( /\s+/)[1])/100) * _that.total
                 return `${name}:<br/>
                 ${_that.total}家<br/>
-                ${String((data.num / _that.total)) === 'NaN' ? '0.00' : ((data.num / _that.total).toFixed(2) * 100).toFixed(2)}%
+                ${String((num / _that.total)) === 'NaN' ? '0.00' : ((num / _that.total).toFixed(2) * 100).toFixed(2)}%
                 `
               }
             }
@@ -403,9 +405,9 @@ export default {
           ),
           axisLabel: {
             color: '#fff',
-            interval: 0,
+            interval: 0
           },
-          axisTick:{
+          axisTick: {
             show: false
           }
         },

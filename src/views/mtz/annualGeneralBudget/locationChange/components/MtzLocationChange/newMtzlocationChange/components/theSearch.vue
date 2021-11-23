@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-10-27 18:05:40
+ * @LastEditTime: 2021-11-18 18:55:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -95,9 +95,9 @@
                          clearable
                          @change="handleChangmater"
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="existShareName"
-                         value-member="existShareId"
-                         value-key="existShareId">
+                         display-member="departNameEn"
+                         value-member="departId"
+                         value-key="departId">
           </custom-select>
         </el-form-item>
         <el-form-item label="采购员"
@@ -142,6 +142,7 @@
           <iDatePicker v-model="searchForm.endDate"
                        :disabled="editDisabled"
                        @change="handleChangeDate"
+                       :picker-options="pickerOptions"
                        :placeholder="language('QINGXUANZE', '请选择')"
                        type="date"
                        style="width:100%"
@@ -169,7 +170,7 @@
 <script>
 import { iCard, iButton, iMessage, iSearch, iDatePicker, iInput } from 'rise'
 import inputCustom from '@/components/inputCustom'
-import { getDeptData } from '@/api/kpiChart/index'
+import { fetchRemoteDept } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit'
 import { mtzBasePricePageFilterPartName, mtzBasePricePageFilterPeriod, mtzBasePricePageFilterRule, mtzBasePricePageFilterSource, mtzBasePricePageFilterSupplierName, mtzBasePricePageFilterSupplierSap, mtzBasePricePageFilterUser } from '@/api/mtz/annualGeneralBudget/mtzChange'
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview'
 export default {
@@ -195,10 +196,24 @@ export default {
       mtzUserList: [],
       mtzPeriodList: [],
       mtzSourceList: [],
+      // pickerOptions: {}
     }
   },
   created () {
     this.init()
+  },
+  computed: {
+    pickerOptions () {
+      let that = this
+      return {
+        disabledDate: time => {
+          if (that.searchForm.startDate) {
+            let startTime = that.searchForm.startDate.replace(/-/g, '/');
+            return time.getTime() < new Date(startTime)
+          }
+        }
+      }
+    }
   },
   methods: {
     init () {
@@ -214,7 +229,7 @@ export default {
     },
     // 获取部门数据
     getDeptData () {
-      getDeptData({}).then(res => {
+      fetchRemoteDept({}).then(res => {
         if (res && res.code == 200) {
           this.deptList = res.data
         } else iMessage.error(res.desZh)
@@ -304,6 +319,7 @@ export default {
     },
     handleSearchReset () {
       this.searchForm.partNameList = []
+      this.searchForm.partnumList = []
       this.searchForm.supplierSapList = []
       this.searchForm.supplierNameList = []
       this.searchForm.materialCodeList = []
@@ -317,6 +333,7 @@ export default {
       this.$parent.$refs.theTable.getTableList()
     },
     handleSubmitSearch () {
+      console.log(this.$parent)
       this.$parent.$refs.theTable.getTableList()
     }
   }
@@ -327,5 +344,6 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .el-form-item__content {
   width: 100%;
+  line-height: 2.5rem !important;
 }
 </style>

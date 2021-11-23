@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-26 10:13:30
- * @LastEditTime: 2021-11-10 14:56:29
+ * @LastEditTime: 2021-11-19 10:09:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\api\mtz\annualGeneralBudget\MTZchange.js
@@ -23,7 +23,7 @@ export function pageList(params) {
 //申请状态下拉
 export function getLocationApplyStatus(params) {
   return request({
-    url: '/mtzNomiList/getLocationApplyStatus',
+    url: '/mtzBasePriceChange/getLocationApplyStatus',
     method: 'POST',
     data: params
   })
@@ -140,19 +140,11 @@ export function addGenericAppChange(params) {
     data: params
   })
 }
-//   上传附件
-// export function uploadAttach(params) {
-//   return request({
-//     url: '/mtzBasePriceChange/uploadAttach',
-//     method: 'POST',
-//     data: params
-//   })
-// }
 export function uploadAttach(params) {
   const formData = new FormData()
   formData.append('mtzAppId', params.mtzAppId || 'rise') // 桶名，默认固定rise
   formData.append('userId', store.state.permission.userInfo.id) // 业务id，默认固定8025
-  formData.append('userName', store.state.permission.userInfo.userName) // 用户id
+  formData.append('userName', store.state.permission.userInfo.nameZh) // 用户id
   formData.append('file ', params.multifile || []) // 文件
   return request({
     url: `/mtzBasePriceChange/uploadAttach`,
@@ -202,22 +194,6 @@ export function uploadBasePriceChange(params) {
     url: `/mtzBasePriceChange/uploadBasePriceChange`,
     method: 'POST',
     data: formData
-  }).then(res => {
-    if (Array.isArray(res) || res.length > 0) {
-      return {
-        code: 200,
-        data: res,
-        desEn: 'success',
-        desZh: '操作成功'
-      }
-    } else {
-      return {
-        code: 400,
-        data: null,
-        desEn: 'error',
-        desZh: '操作失败'
-      }
-    }
   })
 }
 //    MTZ变更单详情
@@ -257,6 +233,22 @@ export function approvalRecordList(params) {
 export function approvalExplain(params) {
   return request({
     url: '/mtzBasePriceChange/approvalExplain',
+    method: 'POST',
+    data: params
+  })
+}
+// MTZ变更申请-分页-下拉筛选-申请单
+export function getLocationApplyFilter(params) {
+  return request({
+    url: '/mtzBasePriceChange/getLocationApplyFilter',
+    method: 'POST',
+    data: params
+  })
+}
+// MTZ变更申请-分页-下拉筛选-采购员
+export function getLocationApplyFilterLinie(params) {
+  return request({
+    url: '/mtzBasePriceChange/getLocationApplyFilterLinie',
     method: 'POST',
     data: params
   })

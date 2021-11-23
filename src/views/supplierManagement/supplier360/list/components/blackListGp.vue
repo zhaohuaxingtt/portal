@@ -5,8 +5,12 @@
 <template>
   <iDialog @close="closeDiolog()"
            :visible.sync="value"
+            top="5%"
            :title="'供应商⿊名单记录 - ⼀般采购  -'+ clickTableList.nameZh"
            width="85%">
+            <div slot="title" class="headerTitle">
+      <span>{{'供应商黑名单记录 - ⼀般采购  -'+ clickTableList.nameZh}}</span>
+    </div>
     <div class="box">
       <el-tabs class="tabsHeader"
                type="card"
@@ -15,11 +19,11 @@
                @tab-click="changeTab">
         <el-tab-pane name="1"
                      :label="
-            language('GONGYINGSHANGHEIMINGDANZHUANGTAI', '供应商⿊名单状态')
+            language('GONGYINGSHANGHEIMINGDANZHUANGTAI', '供应商黑名单状态')
           ">
         </el-tab-pane>
         <el-tab-pane name="2"
-                     :label="language('GONGYINGSHANGHEIMINGDANJILU', '供应商⿊名单记录')">
+                     :label="language('GONGYINGSHANGHEIMINGDANJILU', '供应商黑名单记录')">
         </el-tab-pane>
       </el-tabs>
       <div class="dilogHeader"
@@ -37,13 +41,21 @@
               </el-option>
             </iSelect>
           </el-form-item>
-          <el-form-item style="width:240px"
-                        :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')">
-
-            <iDatePicker type="daterange"
+          <el-form-item :label="language('SHOUKONGKAISHISHIJIAN', '受控开始时间')">
+            <iDatePicker style="width:220px"
+                         type="daterange"
                          :range-separator="$t('SUPPLIER_ZHI')"
                          :placeholder="''"
                          v-model="daterange"
+                         value-format="yyyy-MM-dd"
+                         clearable />
+          </el-form-item>
+          <el-form-item :label="language('SHOUKONGJIESHUJIAN', '受控结束时间')">
+            <iDatePicker style="width:220px"
+                         type="daterange"
+                         :range-separator="$t('SUPPLIER_ZHI')"
+                         :placeholder="''"
+                         v-model="daterange2"
                          value-format="yyyy-MM-dd"
                          clearable />
           </el-form-item>
@@ -58,6 +70,7 @@
       <p class="tableTitle">
         详情列表
       </p>
+       <div class="tableBox">
       <table-list v-if="tabVal == 1"
                   style="margin-top:20px"
                   :tableData="tableListData"
@@ -74,6 +87,7 @@
                   :index="true"
                   :selection="false">
       </table-list>
+       </div>
       <iPagination style="margin-top:20px"
                    v-if="tabVal == 2"
                    v-update
@@ -93,7 +107,7 @@
 import {
   measuresTypeList,
   gpSupplerBlackListHistoryPage,
-  gpSupplerBlackListStatus,
+  gpSupplerBlackListStatus
 } from '@/api/supplier360/blackList'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitleGpBlackList, tableTitleGpBlackListRecord } from './data'
@@ -136,6 +150,7 @@ export default {
       selectTableData: [],
       typeList: [],
       daterange: [],
+      daterange2: [],
       tabVal: '1'
     }
   },
@@ -174,10 +189,12 @@ export default {
       this.tableLoadingRecord = true
       const params = {
         supplierId: this.clickTableList.subSupplierId,
-        pageNo: this.page.currPage,
+     pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         endTime: this.daterange[1],
         startTime: this.daterange[0],
+        stopEndTime: this.daterange2[1],
+        stopStartTime: this.daterange2[0],
         ...this.form
       }
       gpSupplerBlackListHistoryPage(params).then((res) => {
@@ -197,14 +214,15 @@ export default {
     },
     sure() {
       this.page.currPage = 1
-       this.page.pageSize = 10
+      this.page.pageSize = 10
       this.getListRecord()
     },
     clickReset() {
       this.page.currPage = 1
-       this.page.pageSize = 10
+      this.page.pageSize = 10
       this.form.type = ''
       this.daterange = []
+      this.daterange2 = []
       this.getListRecord()
     },
     // 关闭弹窗
@@ -216,6 +234,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.headerTitle {
+font-size: 20px;
+font-family: Arial;
+font-weight: bold;
+color: #000000;
+}
+.tableBox{
+//   max-height: 600px;
+//   overflow-y: scroll;
+}
 .box {
   padding-bottom: 20px;
 }
@@ -255,7 +283,7 @@ export default {
     border-radius: 0px 10px 10px 0px;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.08);
     font-size: 16px;
-    width: 200px;
+     min-width: 200px;
     height: 35px;
     line-height: 35px;
   }

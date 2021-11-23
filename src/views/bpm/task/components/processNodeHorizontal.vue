@@ -1,5 +1,5 @@
 <template>
-  <horizontalPanel :nodeData="nodeData" />
+  <horizontalPanel v-if="nodeData && nodeData.length" :nodeData="nodeData" />
 </template>
 
 <script>
@@ -137,41 +137,73 @@ export default {
     },
     getDatItem(panoromaItem) {
       const approvers = []
-      if (panoromaItem.approvalUserList) {
+      /* if (panoromaItem.approvalUserList) {
         panoromaItem.approvalUserList.forEach((user) => {
           approvers.push({
             taskStatus: '',
             taskId: '',
             endTime: '',
-            ...user
+            ...user,
+            agentUsers: []
           })
+        })
+      } */
+      if (panoromaItem.taskApprovesList) {
+        panoromaItem.taskApprovesList.forEach((task) => {
+          if (task.approvedUser) {
+            const taskUser = {
+              taskStatus: '',
+              taskId: '',
+              endTime: '',
+              ...task.approvedUser
+            }
+            if (task.agentUsers) {
+              taskUser.agentUsers = task.agentUsers
+            }
+            approvers.push(taskUser)
+          }
         })
       }
       if (panoromaItem.taskNodeList) {
         panoromaItem.taskNodeList.forEach((task) => {
-          approvers.push({
+          if (task.taskApproves) {
+            task.taskApproves.forEach((approve) => {
+              const taskUser = {
+                taskStatus: task.taskStatus,
+                taskId: task.taskId,
+                endTime: task.endTime,
+                ...approve.approvedUser
+              }
+              if (approve.agentUsers) {
+                taskUser.agentUsers = approve.agentUsers || []
+              }
+              approvers.push(taskUser)
+            })
+            /* approvers.push({
             taskStatus: task.taskStatus,
             taskId: task.taskId,
             endTime: task.endTime,
-            ...task.approvedUser
-          })
+            ...task.approvedUser,
+            agentUsers: task.agentUsers || []
+          }) */
+          }
         })
       }
       if (panoromaItem.nodeName === '审批结束') {
         return {
+          ...panoromaItem,
           status: this.isEnd ? '审批结束' : '待审批',
           title: panoromaItem.nodeName,
           icon: this.iconMap[this.isEnd ? '审批结束' : '待审批'],
-          approvers: approvers,
-          ...panoromaItem
+          approvers: approvers
         }
       }
       return {
+        ...panoromaItem,
         status: panoromaItem.status,
         title: panoromaItem.status,
         icon: this.iconMap[panoromaItem.status],
-        approvers: approvers,
-        ...panoromaItem
+        approvers: approvers
       }
     }
   }

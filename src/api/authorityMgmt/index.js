@@ -40,7 +40,14 @@ export function getPageListByParams(data) {
     data: data
   })
 }
-
+// 
+export function getUserSelectPageList(data){
+  return requst({
+    url:'/web/account/pageList',
+    method:'post',
+    data
+  })
+}
 export function getUserListByIDs(data) {
   return requst({
     url: '/web/sapUser/getListByParam',

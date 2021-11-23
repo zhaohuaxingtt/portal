@@ -1,28 +1,55 @@
 <template>
   <iCard style="height:14rem">
     <div class="title">
-      <p>{{language('GONGYINGSHANGDEFEN', '供应商得分')}}</p>
-      <!-- <span class="el-dropdown-link">
+      <p>{{ language('GONGYINGSHANGDEFEN', '供应商得分') }}</p>
+      <span class="el-dropdown-link" v-permission="Card_SPI_More">
         <i class="el-icon-more"></i>
-      </span> -->
+      </span>
     </div>
     <div class="box">
-      <icon class="early "
-            symbol
-            name="iconcaiwuyujing-icon"></icon>
+      <img :src="img" class="imgIcon" />
       <div class="boxText">
-        <div  > {{info.currentScore}} <div>
-            <icon v-if="info.percent!=0" symbol
-                  :class="parseInt(info.percent)>=0?'green':'orgin'"
-                  name="iconpaixu-xiangshang"> </icon>
-            <span v-if="info.percent!=0" :class="parseInt(info.percent)>=0?'green':'orgin'">{{info.percent}} </span>
+        <div>
+          {{ info.currentScore }}
+          <div>
+            <icon
+              v-if="info.upDown > 0"
+              symbol
+              class="green"
+              name="iconpaixu-xiangshang"
+            >
+            </icon>
+            <icon
+              v-if="info.upDown < 0"
+              symbol
+              class="orgin"
+              name="iconpaixu-xiangxia"
+            >
+            </icon>
+            <span v-if="info.upDown > 0" class="green"
+              >{{ info.percent ? parseInt(info.percent).toString() : '' }}%
+            </span>
           </div>
         </div>
-        <p >{{language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署')}} <span v-if="info.developScore!=0" :class="parseInt(info.developScore)>=0?'green':'orgin'"> {{info.developScore}}</span></p>
-        <p>{{language('WURANWEIGUI', '污染违规')}} <span></span></p>
+        <p>
+          {{ language('KEZAISHENGNENGYUANQIANSHU', '可再生能源签署') }}
+          <span
+            v-if="info.developScore != 0"
+            :class="parseInt(info.developScore) >= 0 ? 'green' : 'orgin'"
+          >
+            + {{ info.developScore ? info.developScore.toString() : '' }}</span
+          >
+          <span class="green" v-if="info.developScore == 0"> 0</span>
+        </p>
+        <p>{{ language('WURANWEIGUI', '污染违规') }} <span></span></p>
       </div>
-      <div ref="chart"
-           class="chartStyle"> </div>
+      <div class="chartbox">
+        <div ref="chart" class="chartStyle"></div>
+        <div class="line">
+          <p>{{ fristYear }}</p>
+          <p>{{ language('ZHIJIN', '至今') }}</p>
+        </div>
+      </div>
     </div>
   </iCard>
 </template>
@@ -30,6 +57,7 @@
 import echarts from '@/utils/echarts'
 import { iCard, icon } from 'rise'
 import { performCard360 } from '@/api/supplierManagement/supplierCard/index'
+import img from '@/assets/images/supplierKpi.svg'
 export default {
   props: {},
   components: {
@@ -38,9 +66,11 @@ export default {
   },
   data() {
     return {
+      img: img,
       chart: 'oneChart',
       option: {},
-      info: {}
+      info: {},
+      fristYear: ''
     }
   },
   computed: {
@@ -52,7 +82,7 @@ export default {
   methods: {
     getData() {
       performCard360({ supplierId: this.$route.query.subSupplierId }).then(
-        (res) => {
+        res => {
           this.info = res.data
           this.getChart()
         }
@@ -62,11 +92,12 @@ export default {
       const myChart = echarts().init(this.$refs.chart)
       let data1 = []
       let data2 = []
+
       for (let item in this.info.mapMonth) {
         data1.push(item) // 将属性名放入list数组中
         data2.push(this.info.mapMonth[item])
       }
-      let max = Math.max(...data2)
+      this.fristYear = data1[0]
       this.option = {
         tooltip: {
           trigger: 'axis'
@@ -81,15 +112,17 @@ export default {
         xAxis: {
           type: 'category',
           data: data1,
-          interval :data1.lenth-4,
+
           axisLabel: {
-            show: true,
+            interval: data1.length / 2,
+            show: false,
             textStyle: {
               color: '#7E84A3',
               fontSize: '10px'
             }
           },
           axisLine: {
+            show: false,
             lineStyle: {
               color: '#7E84A3'
             }
@@ -107,9 +140,8 @@ export default {
               fontSize: '10px'
             }
           },
-          max: max,
-          min: 0,
-          splitNumber: 5
+
+          splitNumber: 3
         },
         series: [
           {
@@ -137,6 +169,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.imgIcon {
+  width: 60px;
+  height: 60px;
+}
 .title {
   display: flex;
   justify-content: space-between;
@@ -177,13 +213,14 @@ export default {
     letter-spacing: 4px;
     div {
       display: flex;
+      width: 100px;
       align-items: center;
       position: absolute;
       top: 4px;
-      right: -70px;
+      right: -110px;
       span {
-        margin-left: 6px;
-        font-size: 18px;
+        margin-left: 4px;
+        font-size: 16px;
         font-family: Arial;
         font-weight: bold;
       }
@@ -201,9 +238,11 @@ export default {
     border: 1px solid #d9dee5;
     position: relative;
     span {
+        width: 50px;
+        display: inline-block;
       position: absolute;
       top: 6px;
-      right: -30px;
+      right: -50px;
       margin-left: 6px;
       font-size: 16px;
       font-family: Arial;
@@ -220,9 +259,27 @@ export default {
   height: 160px;
   align-items: center;
   justify-content: space-between;
-  .chartStyle {
+  .chartbox {
     width: 55%;
     height: 100%;
+    position: relative;
+    > .chartStyle {
+      width: 100%;
+      height: 100%;
+    }
+    .line {
+      padding-right: 20%;
+      position: absolute;
+      width: 100%;
+      bottom: 4%;
+      left: 20%;
+      font-size: 10px;
+      font-family: Arial;
+      font-weight: 400;
+      color: #7e84a3;
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }
 .box:nth-child(1) div {

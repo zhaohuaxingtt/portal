@@ -1,7 +1,7 @@
 <!--
  * @Author: tanmou
  * @Date: 2021-08-27 16:29:54
- * @LastEditTime: 2021-10-09 18:29:05
+ * @LastEditTime: 2021-11-11 15:39:16
  * @LastEditors: Please set LastEditors
  * @Description: 
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\annualBudget\components\budget.vue
@@ -81,7 +81,7 @@
             <el-form-item style="marginRight:68px"
                           :label="language('BUCHASHIJIANDUAN', '补差时间段')"
                           class="formItem">
-              <iDatePicker style="width: 180px;"
+              <iDatePicker style="width: 220px;"
                           v-model="searchForm.dateTime"
                           type="monthrange">
               </iDatePicker>
@@ -133,19 +133,19 @@
                         v-if="btnShow3"
                        :label="language('BUCHADANMINGXIGUIJINSHU','补差单明细（贵金属）')"></el-tab-pane>
         </iTabsList>
-        <tabs1 :mtzDocId="mtzDocId"
+        <tabs1
                :searchFormList="seachWather"
                :dataObject="detailObj"
                v-if="tabsValue == 1 && btnShow1"
                @componentHidden="btnHidden1"
                v-on:closeDiolog1="closeDiolog"></tabs1>
-        <tabs2 :mtzDocId="mtzDocId"
+        <tabs2
                :searchFormList="seachWather"
                :dataObject="detailObj"
                v-show="tabsValue == 2 && btnShow2"
                @componentHidden="btnHidden2"
                v-on:closeDiolog2="closeDiolog"></tabs2>
-        <tabs3 :mtzDocId="mtzDocId"
+        <tabs3
                :searchFormList="seachWather"
                :dataObject="detailObj"
                v-show="tabsValue == 3 && btnShow3"
@@ -247,10 +247,14 @@ export default {
     }
   },
   created () {
-    console.log(this.detailObj)
     this.mtzDocId = this.detailObj.id;
     this.dialogTitle = "补差单号-" + this.detailObj.bizNo;
     this.getDemandData()
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.$el.querySelector('.el-icon-arrow-up').click()
+    });
   },
   methods: {
     tableChange (val) {

@@ -1,7 +1,7 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2021-10-16 13:57:02
+ * @LastEditTime: 2021-11-16 21:09:19
  * @LastEditors: Please set LastEditors
  * @Description: 自定义指令文件。
  * @FilePath: \rise\src\utils\mydirect.js
@@ -28,7 +28,11 @@ Vue.directive('permission', {
     if (isNeedJudgePermission()) {
       return true
     } else {
-      if (!store.state.permission.whiteBtnList[binding.expression]) {
+      let menuBtn = binding.value && binding.value.indexOf('ACHIEVEMENT') > -1
+      if (
+        !store.state.permission.whiteBtnList[binding.expression] &&
+        !menuBtn
+      ) {
         // 处理控件中，不可见的组件 列入：Ibutton.
         // el.parentNode.removeChild(el)
       }

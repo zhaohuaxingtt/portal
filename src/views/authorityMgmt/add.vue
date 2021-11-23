@@ -269,7 +269,7 @@
 </template>
 
 <script>
-import { iInput, iSelect, iPage, iCard, iFormItem } from 'rise'
+import { iInput, iSelect, iPage, iCard, iFormItem, iMessage } from 'rise'
 import pageHeader from '@/components/pageHeader'
 import actionButtons from './components/actionButtons'
 import iTableCustom from '@/components/iTableCustom'
@@ -450,9 +450,19 @@ export default {
     handleAdd() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          addUser(this.formData).then(() => {
-            this.$router.push('/authorityMgmt/index')
-          })
+          addUser(this.formData)
+            .then((res) => {
+              // this.$router.push('/authorityMgmt/index')
+              if (res.code == 200) {
+                // this.go(-1)
+                iMessage.success(res.desZh || '创建成功')
+              } else {
+                iMessage.error(res.desZh || '创建失败')
+              }
+            })
+            .catch((err) => {
+              iMessage.error(err.desZh || '创建失败')
+            })
         }
       })
     },

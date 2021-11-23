@@ -80,10 +80,19 @@ export const getHomeSocket = () =>
   JSON.parse(sessionStorage.getItem('userInfo')).accountId
 
 /* 实时获取消息 */
-
 export const getHomeSocketMessage = onMessage => {
   return getSocket(getHomeSocket, message => {
-    console.log(message)
+    onMessage(message)
+  })
+}
+
+//获取弹窗实时消息
+export const getPopupSocket = () =>
+process.env.VUE_APP_SOCKET + 'popup/'+
+JSON.parse(sessionStorage.getItem('userInfo')).accountId
+
+export const getgetPopupSocketMessage = onMessage =>{
+  return getSocket(getPopupSocket, message => {
     onMessage(message)
   })
 }

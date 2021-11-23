@@ -4,11 +4,19 @@
  */
 import axios from '@/utils/axios'
 
-const VUE_APP_PARTSFOLDER = axios(process.env.VUE_APP_PARTSFOLDER)
-const VUE_APP_PARTSCOLLECT = axios(process.env.VUE_APP_PARTSCOLLECT)
-const VUE_APP_RELATIONPARTS = axios(process.env.VUE_APP_RELATIONPARTS)
-const VUE_APP_PARTSCARD = axios(process.env.VUE_APP_PARTSCARD)
+const VUE_APP_PARTSFOLDER = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/partsFolder')
+const VUE_APP_PARTSCOLLECT = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/partsCollect')
+const VUE_APP_RELATIONPARTS = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/relationParts')
+const VUE_APP_PARTSCARD = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/partsCard')
 
+//  判断按钮权限
+export function getIsLinie(params) {
+  return VUE_APP_RELATIONPARTS({
+    url: '/getIsLinie',
+    method: 'GET',
+    params
+  })
+}
 
 // 收藏夹及收藏零件查询
 export function getFolderPartsList(params) {
@@ -77,8 +85,8 @@ export function getRelationParts(params) {
 export function getDepartmentsCombo(params) {
   return VUE_APP_RELATIONPARTS({
     url: '/getDepartmentsCombo',
-    method: 'GET',
-    params
+    method: 'POST',
+    data: params,
   })
 }
 
@@ -149,8 +157,8 @@ export function getAekoPullDown(params) {
 export function getDepartmentPullDown(params) {
   return VUE_APP_PARTSCARD({
     url: '/getDepartmentPullDown',
-    method: 'GET',
-    params
+    method: 'POST',
+    data: params
   })
 }
 
@@ -218,11 +226,11 @@ export function getIsSupplyPullDown(params) {
 }
 
 // 采购员下拉
-export function getPurchaserPullDown(params) {
+export function getPurchaserPullDown(data) {
   return VUE_APP_PARTSCARD({
     url: '/getPurchaserPullDown',
-    method: 'GET',
-    params
+    method: 'POST',
+    data
   })
 }
 

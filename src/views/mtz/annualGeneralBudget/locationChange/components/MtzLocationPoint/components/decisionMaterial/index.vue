@@ -9,8 +9,8 @@
 <template>
   <div class="downPdfBox">
     <iNavMvp v-if="RsObject" lang :list="tabRouterList" class="margin-bottom20" :lev="3" @change="handleClickNav"/>
-    <mtz v-if="currentNav == 1" :RsType="RsType" />
-    <accessoryUpload v-if="currentNav == 2"/>
+    <mtz v-if="currentNav == 1" :RsType="RsType" :appStatus="appStatus" />
+    <accessoryUpload v-if="currentNav == 2" :appStatus="appStatus" />
   </div>
 </template>
 
@@ -19,6 +19,7 @@ import { iNavMvp } from 'rise'
 import mtz from './components/mtz'
 import accessoryUpload from './components/accessoryUpload'
 import { tabRouterList } from './components/data'
+import { getAppFormInfo } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 export default {
   components: {
     iNavMvp,
@@ -33,13 +34,19 @@ export default {
       tabRouterList,
       currentNav: 1,
       formData: {},
-      RsObject:true
+      RsObject:true,
+      appStatus:"",
     }
   },
   created() {
     if(this.RsType){
       this.RsObject = false;
     }
+    getAppFormInfo({
+      mtzAppId:this.$route.query.mtzAppId || this.mtzObject.mtzAppId
+    }).then(res=>{
+      this.appStatus = res.data.appStatus;
+    })
   },
   methods: {
     // 点击导航

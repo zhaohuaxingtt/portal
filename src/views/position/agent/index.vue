@@ -74,15 +74,9 @@ export default {
           width: 180
         },
         {
-          prop: 'positionList',
+          prop: 'fullNameZh',
           label: '代理岗位',
-          width: 180,
-          customRender: (h, scope) => {
-            if (scope.row.positionList && scope.row.positionList.length) {
-              return scope.row.positionList[0].fullNameZh
-            }
-            return ''
-          }
+          width: 180
         },
         {
           prop: 'startDate',

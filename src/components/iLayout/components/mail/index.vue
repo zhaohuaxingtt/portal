@@ -56,7 +56,7 @@ export default {
     this.closeSocket = getHomeSocketMessage((messages) => {
       const tab = messages.msgTxt.type
       const type = messages.msgTxt.subType
-      console.log(messages.msgTxt)
+      console.log('接收到message', messages)
       this.$emit('triggerCallback')
       if (tab === '4') {
         this.$refs.list[1].getUnreadCount()
@@ -68,7 +68,7 @@ export default {
           this.$refs.list[1].query.type === '' ||
           this.$refs.list[1].query.type === type
         ) {
-          this.getNewList()
+          this.$refs.list[1].getNewList()
         }
       } else if (tab === '5') {
         this.$refs.list[0].getUnreadCount()
@@ -76,7 +76,7 @@ export default {
           this.$refs.list[0].query.type === '' ||
           this.$refs.list[0].query.type === type
         ) {
-          this.getNewList()
+          this.$refs.list[0].getNewList()
         }
         /* this.$refs.list[0].query.type === '' ||
         this.$refs.list[0].query.type === type
@@ -87,11 +87,21 @@ export default {
   },
   beforeDestroy() {
     this.closeSocket()
+
   },
   data() {
     return {
+      show: false,
+      popupData: {},
+      detail: {
+        title: '',
+        content: '',
+        picUrl: '',
+        linkUrl: ''
+      },
       activeTab: '0',
       closeSocket: null,
+      closePopupSocket:null,
       num: [],
       timer: null,
       tabs: [
@@ -115,6 +125,19 @@ export default {
     }
   },
   methods: {
+    close(val) {
+      this.show = val
+    },
+    openDialog() {
+      this.show = true
+      const param = JSON.parse(this.popupData.param)
+      this.detail = {
+        title: this.popupData.title,
+        content: this.popupData.content,
+        picUrl: param.picUrl,
+        linkUrl: this.popupData.url
+      }
+    },
     handleTriggerCallback() {
       this.$emit('triggerCallback')
     },

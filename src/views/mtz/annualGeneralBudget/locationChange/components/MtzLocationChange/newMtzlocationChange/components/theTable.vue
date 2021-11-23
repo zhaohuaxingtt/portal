@@ -2,45 +2,42 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-10-29 18:23:46
+ * @LastEditTime: 2021-11-18 15:16:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
 -->
 <template>
-  <div>
-    <iCard>
-      <template v-slot:header>
-        <div class="tableTitle">
-          <span class="margin-right10">只看自己</span>
-          <el-switch v-model="onlySeeMySelf"
-                     :active-value="true"
-                     :inactive-value="false" />
-        </div>
-        <div class="opration">
-          <iButton @click="handleSure">{{language('QUEREN', '确认')}}</iButton>
-          <!-- <iButton @click="handleRedeploy"
+  <iCard>
+    <template v-slot:header>
+      <div class="tableTitle">
+        <span class="margin-right10">只看自己</span>
+        <el-switch v-model="onlySeeMySelf"
+                   :active-value="true"
+                   :inactive-value="false" />
+      </div>
+      <div class="opration">
+        <iButton @click="handleSure">{{language('QUEREN', '确认')}}</iButton>
+        <!-- <iButton @click="handleRedeploy"
                    v-show="!addFlag">{{language('DAOCHU', '导出')}}</iButton> -->
-        </div>
-      </template>
-      <iTableCustom :data="tableList"
-                    :columns="TABLE_COLUMNS"
-                    :tableLoading="tableLoading"
-                    index
-                    @go-detail="goDetail"
-                    @handle-selection-change="handleSelectionChange">
-      </iTableCustom>
-      <iPagination @size-change="handleSizeChange($event, getTableList)"
-                   @current-change="handleCurrentChange($event, getTableList)"
-                   :page-sizes="page.pageSizes"
-                   :page-size="page.pageSize"
-                   :current-page="page.currPage"
-                   :total="page.totalCount"
-                   :layout="page.layout">
-      </iPagination>
-
-    </iCard>
-  </div>
+      </div>
+    </template>
+    <iTableCustom :data="tableList"
+                  :columns="TABLE_COLUMNS"
+                  :loading="tableLoading"
+                  index
+                  @go-detail="goDetail"
+                  @handle-selection-change="handleSelectionChange">
+    </iTableCustom>
+    <iPagination @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :current-page="page.currPage"
+                 :total="page.totalCount"
+                 :layout="page.layout">
+    </iPagination>
+  </iCard>
 </template>
 
 <script>
@@ -60,6 +57,16 @@ export default {
     iTableCustom,
 
   },
+  props: {
+    addFlag: {
+      type: Boolean,
+      default: false
+    },
+    mtzAppId: {
+      type: String,
+      default: ""
+    }
+  },
   watch: {
   },
   mixins: [pageMixins],
@@ -69,8 +76,8 @@ export default {
       TABLE_COLUMNS,
       onlySeeMySelf: true,
       muilteList: [],
-      addFlag: false,
-      mtzAppId: "",
+      // addFlag: false,
+      // mtzAppId: "",
       tableLoading: false
     }
   },
@@ -79,8 +86,8 @@ export default {
   },
   methods: {
     init () {
-      this.addFlag = this.$route.query.addFlag
-      this.mtzAppId = this.$route.query.mtzAppId
+      // this.addFlag = this.addFlag || false
+      // this.mtzAppId = this.mtzAppId || ""
       this.getTableList()
     },
     getTableList () {
@@ -127,13 +134,16 @@ export default {
         saveGenericAppChange(params).then(res => {
           if (res && res.code === '200') {
             // let data = res.data
-            let routerPath = this.$router.resolve({
-              path: '/mtz/annualGeneralBudget/MTZapplicationForm',
-              query: {
-                mtzAppId: this.mtzAppId || '',
-              }
-            })
-            window.open(routerPath.href, '_blank')
+            // let routerPath = this.$router.resolve({
+            //   path: '/mtz/annualGeneralBudget/MTZapplicationForm',
+            //   query: {
+            //     mtzAppId: this.mtzAppId || '',
+            //     isView: false
+            //   }
+            // })
+            this.$emit('close', false);
+            this.$store.dispatch('setMtzChangeBtn', false);
+            // window.open(routerPath.href, '_blank')
           } else {
             iMessage.error(res.desZh)
           }
@@ -146,15 +156,16 @@ export default {
               path: '/mtz/annualGeneralBudget/MTZapplicationForm',
               query: {
                 mtzAppId: data.mtzAppId || '',
+                isView: false
               }
             })
+            this.$store.dispatch('setMtzChangeBtn', false);
             window.open(routerPath.href, '_blank')
           } else {
             iMessage.error(res.desZh)
           }
         })
       }
-
     }
   }
 }

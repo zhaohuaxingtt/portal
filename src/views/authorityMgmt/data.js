@@ -31,7 +31,16 @@ export const tableSetting = [
     prop: 'gender',
     label: '性别',
     align: 'center',
-    i18n: 'staffManagement.SEX'
+    i18n: 'staffManagement.SEX',
+    customRender: (h, scope) => {
+      if (scope.row.gender === '1') {
+        return '男'
+      }
+      if (scope.row.gender === '2') {
+        return '女'
+      }
+      return scope.row.gender
+    }
   },
   {
     prop: 'department',
@@ -120,7 +129,16 @@ export const levelSetting = [
     prop: 'gender',
     label: '性别',
     align: 'center',
-    i18n: 'staffManagement.SEX'
+    i18n: 'staffManagement.SEX',
+    customRender: (h, scope) => {
+      if (scope.row.gender === '1') {
+        return '男'
+      }
+      if (scope.row.gender === '2') {
+        return '女'
+      }
+      return scope.row.gender
+    }
   },
   {
     prop: 'department',
@@ -129,7 +147,7 @@ export const levelSetting = [
     i18n: 'staffManagement.DEPARTMENT'
   },
   {
-    prop: 'gw',
+    prop: 'position',
     label: '岗位',
     align: 'center',
     i18n: 'staffManagement.JOBS'

@@ -2,7 +2,15 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('CAIWUYUJING', '财务预警')}}</p>
-   
+      <el-dropdown v-permission="Card_C-Rating_More">
+
+        <span class="el-dropdown-link">
+          <i class="el-icon-more"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="openDilog">查看</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <div class="center">
       <icon class="early"
@@ -26,22 +34,35 @@
         </div>
       </div>
     </div>
+    <cRatingTable v-model="visible"
+                  v-if="visible"
+                  @closeDiolog="closeDiolog"
+                  :supplierId="$route.query.subSupplierId"
+                  :sapCode="infodata.sapCode"></cRatingTable>
   </iCard>
 </template>
 <script>
 import { iCard, icon } from 'rise'
+import cRatingTable from '@/views/frmRating/supplierOverview/components/cRatingTable'
 import { supplierRatingCard } from '@/api/supplierManagement/supplierCard/index'
 export default {
-  props: {},
+  props: {
+    infodata: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
   components: {
     iCard,
-    icon
+    icon,
+    cRatingTable
   },
   data() {
     return {
       visible: false,
-   info:{}
-
+      info: {}
     }
   },
   computed: {
@@ -51,18 +72,23 @@ export default {
   },
   watch: {},
 
-  created(){
-      this.$nextTick(()=>{
-    this.getData()
-
-      })
-
+  created() {
+    this.$nextTick(() => {
+      this.getData()
+    })
   },
   methods: {
     getData() {
       supplierRatingCard(this.$route.query.subSupplierId).then((res) => {
         this.info = res.data
       })
+    },
+    openDilog() {
+        console.log(111)
+      this.visible = true
+    },
+    closeDiolog(){
+        this.visible=false
     }
   }
 }
@@ -86,7 +112,6 @@ export default {
   }
 }
 
-
 .center {
   height: 160px;
   display: flex;
@@ -97,10 +122,10 @@ export default {
     align-items: center;
   }
   .bjText {
-      width: 300px;
+    width: 240px;
     margin-left: 40px;
     text-align: left;
-    span{
+    span {
     }
     p {
       margin: 8px 0;
