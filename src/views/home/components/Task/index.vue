@@ -33,10 +33,10 @@
 </template>
 
 <script>
-import { Icon } from 'rise'
+// import { Icon } from 'rise'
 import { getDutyStatistics } from '@/api/duty'
 export default {
-  components: { Icon },
+  // components: { Icon },
   props: {
     data: {
       type: Array,
@@ -161,31 +161,31 @@ export default {
     .line {
       font-size: 24px;
     }
-    .numName {
-      position: relative;
-      > img {
-        width: 15px;
-        margin-right: 5px;
-      }
-      > .icon {
-        font-size: 16px;
-        margin-right: 5px;
-      }
-      // .numName-text {
-      //   line-height: 12px;
-      //   opacity: 0.86;
-      // }
-    }
-    .overdue {
-      .numName {
-        margin-right: 10px;
-      }
-    }
-    .progress {
-      .numName {
-        margin-right: 10px;
-      }
-    }
+    // .numName {
+    //   position: relative;
+    //   > img {
+    //     width: 15px;
+    //     margin-right: 5px;
+    //   }
+    //   > .icon {
+    //     font-size: 16px;
+    //     margin-right: 5px;
+    //   }
+    //   .numName-text {
+    //     line-height: 12px;
+    //     opacity: 0.86;
+    //   }
+    // }
+    // .overdue {
+    //   .numName {
+    //     margin-right: 10px;
+    //   }
+    // }
+    // .progress {
+    //   .numName {
+    //     margin-right: 10px;
+    //   }
+    // }
 
     .overdue,
     .progress {
@@ -207,10 +207,10 @@ export default {
             // font-size: 24px;
           }
         }
-        &:last-child {
-          min-height: 30px;
-          line-height: 30px;
-        }
+        // &:last-child {
+        //   min-height: 30px;
+        //   line-height: 30px;
+        // }
       }
     }
   }

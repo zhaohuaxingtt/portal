@@ -100,7 +100,7 @@ export default {
       this.totalCount = 0
       const result = await getSponserData(this.query)
       if (result.code === '200' && result.data) {
-        let data = result.data
+        let data = result.data.slice(0, 9)
         const dataGrade = data.map((item) => {
           return item.grade
         })
@@ -240,9 +240,9 @@ export default {
         total += data[i].value
       }
       this.total = total
-      let sortA = data.sort().slice(0,3).reverse()
-      let arr = [...sortA, ...data.slice(3, data.length)]
-      this.legendData = arr
+      // let sortA = data.sort().slice(0,3).reverse()
+      // let arr = [...sortA, ...data.slice(3, data.length)]
+      this.legendData = data
       const chart = echarts().init(this.$refs.pie)
       this.chart = chart
       const option = {
