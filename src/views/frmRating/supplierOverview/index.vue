@@ -7,40 +7,67 @@
 -->
 <template>
   <iPage>
-    <iNavMvp :list="tabRouterList" class="margin-bottom20" routerPage :lev="1" />
+    <iNavMvp
+      :list="tabRouterList"
+      class="margin-bottom20"
+      routerPage
+      :lev="1"
+      v-if="$route.query.isSupplier!=1"
+    />
     <div class="dashboard-div" v-if="showMain">
-       <el-row :gutter="16" type="flex" justify="space-between">
-            <el-col  :span="6">
-            <card1 v-if="flag" :title="$t('SUPPLIER_XINGONGYINGSHANGPINGJI')" :newSupplierAssessVOList='newSupplierAssessVOList' :chartsId="'newSupplierPie'" @getTableList="getTableList" />
-            </el-col>
-            <el-col  :span="6">
-            <card1 v-if="flag" :title="$t('SPR_FRM_XGYSPJ_GYSRZGL')" :newSupplierAssessVOList='financeAnalyseVOList' :chartsId="'supplierFinancingPie'" @getTableList="getTableList" />
-            </el-col>
-            <el-col  :span="6">
-            <preliminaryRatingsCard />
-            </el-col>
-            <el-col :span="6">
-            <depth-rating-overview @show="showDepthCard" />
-            </el-col>
+      <el-row :gutter="16" type="flex" justify="space-between">
+        <el-col :span="6">
+          <card1
+            v-if="flag"
+            :title="$t('SUPPLIER_XINGONGYINGSHANGPINGJI')"
+            :newSupplierAssessVOList="newSupplierAssessVOList"
+            :chartsId="'newSupplierPie'"
+            @getTableList="getTableList"
+          />
+        </el-col>
+        <el-col :span="6">
+          <card1
+            v-if="flag"
+            :title="$t('SPR_FRM_XGYSPJ_GYSRZGL')"
+            :newSupplierAssessVOList="financeAnalyseVOList"
+            :chartsId="'supplierFinancingPie'"
+            @getTableList="getTableList"
+          />
+        </el-col>
+        <el-col :span="6">
+          <preliminaryRatingsCard />
+        </el-col>
+        <el-col :span="6">
+          <depth-rating-overview @show="showDepthCard" />
+        </el-col>
       </el-row>
-      <el-row :gutter="16" class="margin-top20" type="flex" justify="space-between">
-        <el-col  :span="6">
+      <el-row
+        :gutter="16"
+        class="margin-top20"
+        type="flex"
+        justify="space-between"
+      >
+        <el-col :span="6">
           <resultsAnalysis />
         </el-col>
-        <el-col  :span="6">
+        <el-col :span="6">
           <riskSignal @show="showRiskSignalCard" />
         </el-col>
-        <el-col  :span="6">
-          <vertexSituation  @show="showCrating"/>
+        <el-col :span="6">
+          <vertexSituation @show="showCrating" />
         </el-col>
         <el-col :span="6">
           <monitor />
         </el-col>
       </el-row>
     </div>
-    <further-rating-card v-if="showDepth" :deepGradeVOList='deepGradeVOList' @back="hideDepthCard" />
+    <further-rating-card
+      v-if="showDepth"
+      :deepGradeVOList="deepGradeVOList"
+      @back="hideDepthCard"
+    />
     <risk-signal-info v-if="showRiskSigna" @back="hideRiskSignalCard" />
-       <cRatingRouter v-if="showcRatintg" @back="hideCrating" />
+    <cRatingRouter v-if="showcRatintg" @back="hideCrating" />
   </iPage>
 </template>
 
@@ -88,6 +115,10 @@ export default {
     };
   },
   created() {
+         if(this.$route.query.isSupplier==1){
+        this.showMain=false
+         this.showcRatintg=true
+    }
     this.getTableList()
   },
   methods: {
@@ -135,7 +166,7 @@ export default {
   .height {
     height: 19rem;
   }
-  .card{
+  .card {
     height: 27rem;
   }
   .resultsAnalysis {
