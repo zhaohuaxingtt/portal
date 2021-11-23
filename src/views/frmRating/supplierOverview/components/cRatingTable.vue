@@ -88,9 +88,9 @@
             >
               <el-option
                 v-for="item in deptList"
-                :key="item.id"
-                :label="item.deptNum"
-                :value="item.id"
+                :key="item.kvalue"
+                :label="item.vvalue"
+                :value="item.kvalue"
               >
               </el-option>
             </iSelect>
@@ -105,9 +105,9 @@
             >
               <el-option
                 v-for="item in userList"
-                :key="item.id"
-                :label="item.nameZh"
-                :value="item.id"
+                :key="item.kvalue"
+                :label="item.vvalue"
+                :value="item.kvalue"
               >
               </el-option>
             </iSelect>
@@ -401,7 +401,7 @@ import {
 } from 'rise'
 import tableList from '@/components/commonTable'
 import { tableTitleMonitor, tableTitleMonitorRecord, dictByCode } from './data'
-import { getDeptDropDownList } from '@/api/authorityMgmt/index'
+import { userDropDown } from '@/api/frmRating/supplierOverview/index'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import { pageMixins } from '@/utils/pageMixins'
 import {
@@ -471,7 +471,7 @@ export default {
     }
   },
   watch: {
-   
+
   },
   created() {
     this.tabVal = '1'
@@ -480,43 +480,44 @@ export default {
       this.form.supplierName[0] = this.supplierId || ''
     }
     this.getInit()
-  
+
   },
   methods: {
     handleDialog() {
       this.visible = true
       this.getInit()
     },
-    //获取科室
-    getDeptList() {
-      const req = {
-        level: 'K2'
-      }
-      getDeptDropDownList(req).then(res => {
-        this.deptList = res.data
-      })
-    },
-    //选择相关科室
+
+    // //选择相关科室
     deptChange(v) {
-      console.log(v)
-      var arr = []
-      if (v.length >= 1) {
-        v.forEach(v => {
-          let users = []
-          users = this.deptList.find(i => {
-            return i.id == v
-          }).userDTOList
-          arr.push(...users)
+      if(v.length>0){
+        let req={
+                    type:'user',
+                    deptIds:v
+        }
+        userDropDown(req).then(res=>{
+            this.userList=res.data
         })
       }
-      this.userList = arr
+
+    //   console.log(v)
+    //   var arr = []
+    //   if (v.length >= 1) {
+    //     v.forEach(v => {
+    //       let users = []
+    //       users = this.deptList.find(i => {
+    //         return i.id == v
+    //       }).userDTOList
+    //       arr.push(...users)
+    //     })
+    //   }
+    //   this.userList = arr
       var arr2 = []
       if (this.form.userId.length > 0) {
         this.userList.forEach(v => {
           this.form.userId.forEach(i => {
-            if (v.id == i) {
+            if (v.kvalue == i) {
               arr2.push(i)
-              console.log(i)
             }
           })
         })
@@ -557,8 +558,8 @@ export default {
       this.cratingLsit = res
 
       this.getTaleList()
-      this.getDeptList()
       const res2 = await sapDropDown({ type: 'sap' })
+       const resDept = await sapDropDown({ type: 'dept' })
       const res3 = await sapDropDown({ type: 'supplier' })
       //   const res4 = await dictByCode('RFQ_STATE')
       const resPart = await sapDropDown({ type: 'part' })
@@ -566,7 +567,7 @@ export default {
       const resProject = await sapDropDown({ type: 'project' })
       const resMotor = await sapDropDown({ type: 'motor' })
       console.log(this.sapCode)
-
+      this.deptList = resDept.data
       this.partList = resPart.data
       this.resRfqList = resRfq.data
       this.projectList = resProject.data
@@ -744,7 +745,7 @@ export default {
     border-radius: 0px 10px 10px 0px;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.08);
     font-size: 16px;
-     min-width: 250px;
+    min-width: 250px;
     height: 35px;
     line-height: 35px;
   }
