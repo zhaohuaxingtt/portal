@@ -274,7 +274,7 @@
     <div class="partLifeCycleStar_main">
       <div class="partLifeCycleStar_main_header">
         <div class="left" v-show="!isSearch">{{ language('LK_WODESHOUCANG', '我的收藏') }}</div>
-        <div class="left" v-show="isSearch">{{ language('LK_SOUSUOJIEGUO', '搜索结果') }}<span>相关结果{{ defaultPartsList.length }}个</span></div>
+        <div class="left" v-show="isSearch">{{ language('LK_SOUSUOJIEGUO', '搜索结果') }}<span>相关结果{{ defaultPartsTotal }}个</span></div>
         <div class="right">
           <iButton v-show="isEdit" @click="isEdit = false">{{ language('LK_TUICHU', '退出') }}</iButton>
           <iButton v-show="isEdit" @click="toClaim">{{ language('LK_QUERENRENLING', '确认认领') }}</iButton>
@@ -288,7 +288,7 @@
           <div v-for="(item, index) in defaultPartsList" :key="index" :class="{ isExpand: expandRelevantPart }"
                @click="currentDefaultPart = item.partsNum;getRelationParts()">
             <div class="title">
-              <span class="link" @click.stop="toPartLifeCycle(item.partsNum)">{{ item.partsNum }}</span>
+              <span class="link" @click.stop="toPartLifeCycle(item)">{{ item.partsNum }}</span>
               <span>{{ item.deptName }}</span>
               <icon v-show="!isEdit" symbol @click.native.stop.prevent="cancelOrCollect(item)"
                     :name="Number(item.isDefaultFolder) === 1 ? 'iconyishoucanglingjian' : 'iconweishoucanglingjian'"></icon>
@@ -327,7 +327,7 @@
                   <p>{{ item.partsNum }}</p>
                   <p>{{ item.partsNumNameZh }}</p>
                 </div>
-                <icon symbol @click.native="toPartLifeCycle(item.partsNum)" name="iconxiangguanlingjian-gengduo"></icon>
+                <icon symbol @click.native="toPartLifeCycle(item)" name="iconxiangguanlingjian-gengduo"></icon>
               </div>
             </div>
           </iCard>
@@ -446,6 +446,7 @@ export default {
       current: 1,
       size: 9,
       isButn: true,
+      defaultPartsTotal: 0,
     }
   },
   mounted() {
@@ -508,6 +509,7 @@ export default {
               item.isClaim = false
               return item
             })
+            this.defaultPartsTotal = res.total;
             this.defaultPartsList = this.defaultPartsList.concat(data)
           } else {
             iMessage.error(result)
@@ -585,6 +587,7 @@ export default {
             item.isClaim = false
             return item
           })
+          this.defaultPartsTotal = res.total;
           if (this.defaultPartsList.length > 0) {
             this.currentDefaultPart = this.defaultPartsList[0].partsNum
           }
@@ -760,10 +763,10 @@ export default {
         iMessage.warn(this.language('LK_QINGGOUXUANHOUZAIQUERENRENLING', '请勾选后再确认认领'))
       }
     },
-    toPartLifeCycle(partsNum) {
+    toPartLifeCycle(item) {
       let routeData = this.$router.resolve({
         path: '/partLifeCycle',
-        query: { partsNum: partsNum }
+        query: { partsNum: item.partsNum, isDefaultFolder:item.isDefaultFolder,partsCollectId:item.partsCollectId }
       })
       window.open(routeData.href)
     },
@@ -1005,9 +1008,6 @@ export default {
           .gray {
             height: 24px;
             color: #333333;
-          }
-          .pb20{
-            padding-bottom: 20px;
           }
           .item {
             font-size: 16px;

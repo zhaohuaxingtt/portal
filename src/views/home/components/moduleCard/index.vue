@@ -21,7 +21,7 @@
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
-        <el-dropdown-menu slot="dropdown">
+        <el-dropdown-menu slot="dropdown" class="card-dropdown">
           <el-dropdown-item
             @click.native="handleMore"
             v-if="card.component === 'Task' || card.component === 'Approve'"
@@ -172,6 +172,18 @@ export default {
   }
   .el-card__body {
     height: 570px;
+  }
+}
+.card-dropdown{
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid #4B5C7D !important;
+  .el-dropdown-menu__item{
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .popper__arrow::after{
+    border-bottom-color: #4B5C7D !important;
   }
 }
 </style>

@@ -13,7 +13,11 @@
             class="node-icon"
             :data-level="level"
             :data-index="index"
-            :data-group="item.children ? `group-${level}-${index}` : ''"
+            :data-group="
+              item.children && item.children.length
+                ? `group-${level}-${index}`
+                : ''
+            "
             :data-end="index === data.length - 1 ? 1 : 0"
             :data-status="item.status"
           >
