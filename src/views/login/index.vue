@@ -90,9 +90,13 @@ export default {
     }
   },
   created() {
-    if (process.env.VUE_APP_LOGIN_URL) {
-      this.ssoLogin = true
-      location.href = process.env.VUE_APP_LOGIN_URL
+    if (this.$route.path.indexOf('superLogin') > -1) {
+      //nothing to do
+    } else {
+      if (process.env.VUE_APP_LOGIN_URL) {
+        this.ssoLogin = true
+        location.href = process.env.VUE_APP_LOGIN_URL
+      }
     }
   }
 }
