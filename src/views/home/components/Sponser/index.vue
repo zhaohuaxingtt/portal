@@ -30,43 +30,43 @@ export default {
     return {
       checkList: [],
       options: [],
-      gradeList: ['A', 'AA', 'AAA', 'B', 'BB', 'BBB', 'C', 'CC', 'CCC'],
+      gradeList: ['AAA', 'AA', 'A', 'BBB', 'BB', 'B', 'CCC', 'CC', 'C'],
       colorList: [
         {
-          name: 'A',
-          color: '#297fd5'
+          name: 'AAA',
+          color: '#4a66ac'
         },
         {
           name: 'AA',
           color: '#629dd1'
         },
         {
-          name: 'AAA',
-          color: '#4a66ac'
-        },
-        {
-          name: 'B',
-          color: '#9d90a0'
-        },
-        {
-          name: 'BB',
-          color: '#5aa2ae'
+          name: 'A',
+          color: '#297fd5'
         },
         {
           name: 'BBB',
           color: '#7f8fa9'
         },
         {
-          name: 'C',
-          color: '#194c80'
+          name: 'BB',
+          color: '#5aa2ae'
+        },
+        {
+          name: 'B',
+          color: '#9d90a0'
+        },
+        {
+          name: 'CCC',
+          color: '#2c3d67'
         },
         {
           name: 'CC',
           color: '#2a5f8e'
         },
         {
-          name: 'CCC',
-          color: '#2c3d67'
+          name: 'C',
+          color: '#194c80'
         }
       ],
       list: [],
@@ -100,7 +100,7 @@ export default {
       this.totalCount = 0
       const result = await getSponserData(this.query)
       if (result.code === '200' && result.data) {
-        let data = result.data
+        let data = result.data.slice(0, 9)
         const dataGrade = data.map((item) => {
           return item.grade
         })
@@ -240,7 +240,9 @@ export default {
         total += data[i].value
       }
       this.total = total
-      this.legendData = data
+      let sortA = data.sort().slice(0,3).reverse()
+      let arr = [...sortA, ...data.slice(3, data.length)]
+      this.legendData = arr
       const chart = echarts().init(this.$refs.pie)
       this.chart = chart
       const option = {
@@ -261,14 +263,15 @@ export default {
             icon: 'circle',
             itemHeight: 8,
             type: 'plain',
-            data: data,
+            data: this.legendData,
             tooltip: {
               show: true,
               formatter: function (data) {
                 let name = data.name.split( /\s+/)[0]
+                let num = (parseInt(data.name.split( /\s+/)[1])/100) * total
                 return `${name}:<br/>
                 ${total}家<br/>
-                ${String((data.num / total)) === 'NaN' ? '0.00' : ((data.num / total).toFixed(2) * 100).toFixed(2)}%
+                ${String((num / total)) === 'NaN' ? '0.00' : ((num / total).toFixed(2) * 100).toFixed(2)}%
                 `
               }
             }
@@ -344,9 +347,10 @@ export default {
               show: true,
               formatter: function (data) {
                 let name = data.name.split( /\s+/)[0]
+                let num = (parseInt(data.name.split( /\s+/)[1])/100) * _that.total
                 return `${name}:<br/>
                 ${_that.total}家<br/>
-                ${String((data.num / _that.total)) === 'NaN' ? '0.00' : ((data.num / _that.total).toFixed(2) * 100).toFixed(2)}%
+                ${String((num / _that.total)) === 'NaN' ? '0.00' : ((num / _that.total).toFixed(2) * 100).toFixed(2)}%
                 `
               }
             }

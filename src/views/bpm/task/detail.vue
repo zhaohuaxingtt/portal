@@ -65,7 +65,6 @@
         :panorama="form.panorama"
         :state-code="form.stateCode"
       /> -->
-      {{ form.stateCode }}
       <processNodeHorizontal
         v-if="form.panorama"
         :panorama="form.panorama"
@@ -400,7 +399,6 @@ export default {
 }
 #flow-form {
   width: 100%;
-  min-height: 1000px;
 }
 .business-id {
   margin: 0px 20px;

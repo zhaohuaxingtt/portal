@@ -38,8 +38,14 @@
               :disabled="editOrAdd === 'look'"
             ></iInput>
           </iFormItem>
-          <iFormItem
+          <!-- <iFormItem
             v-if="editOrAdd !== 'edit'"
+            label="Duration"
+            prop="duration"
+            :hideRequiredAsterisk="true"
+            class="item"
+          > -->
+          <iFormItem
             label="Duration"
             prop="duration"
             :hideRequiredAsterisk="true"
@@ -625,10 +631,20 @@ export default {
     },
     createStateFilter(queryString) {
       return (state) => {
-        return state?.name
-          ?.toLowerCase()
-          .toString()
-          .includes(queryString.toLowerCase().toString())
+        return (
+          state?.name
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state?.email
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state?.namePinyin
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString())
+        )
       }
     },
 

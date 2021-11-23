@@ -65,7 +65,18 @@ export const tableTitle = [
     label: '申请号',
     i18n: '单据编号',
     width: 130,
-    tooltip: true
+    tooltip: true,
+    customRender: (h, scope) => {
+      const businessId = scope.row.businessId
+      if (businessId) {
+        const businessArr = businessId.split('-')
+        if (businessArr.length === 1) {
+          return businessId
+        }
+        return businessId.substring(0, businessId.lastIndexOf('-'))
+      }
+      return businessId
+    }
   },
   {
     prop: 'itemType',
@@ -82,7 +93,6 @@ export const tableTitle = [
     width: 160,
     customRender: (h, scope) => {
       if (scope.row.applyDate) {
-        // eslint-disable-next-line no-undef
         return moment(scope.row.applyDate).format('YYYY-MM-DD')
       }
       return <span>{scope.row.applyDate}</span>
@@ -154,7 +164,7 @@ export const tableTitle = [
 
       return (
         <div>
-          {res.map(e => (
+          {res.map((e) => (
             <div>{e}</div>
           ))}
         </div>

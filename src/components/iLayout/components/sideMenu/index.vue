@@ -9,8 +9,11 @@
     >
       <item-link
         :item="item"
-        :menu-relation="menuRelation"
-        :isActive="getActive(item.url)"
+        :isActive="
+          activeMenu &&
+          activeMenu.length > 1 &&
+          activeMenu[1] === item.permissionKey
+        "
         @hide-side-menu="$emit('hide-side-menu')"
       />
     </li>
@@ -27,10 +30,10 @@ export default {
       type: Array,
       default: () => []
     },
-    menuRelation: {
-      type: Object,
+    activeMenu: {
+      type: Array,
       default: function () {
-        return {}
+        return []
       }
     }
   },
@@ -39,32 +42,9 @@ export default {
       return this.sideMenus.filter((e) => !e.hidden)
     }
   },
-  watch: {
-    '$route.path'() {
-      this.getParentUrl()
-    }
-  },
   data() {
     return {
       parentUrls: []
-    }
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.getParentUrl()
-    })
-  },
-  methods: {
-    // 获取上级url列表
-    getParentUrl() {
-      const locationHref = window.location.href // 浏览器url
-      const locationUrl = locationHref.replace(process.env.VUE_APP_HOST, '') // 去除host的浏览器url
-      this.parentUrls = this.menuRelation[locationUrl] || [locationUrl]
-    },
-    getActive(url) {
-      url = url || ''
-      const pureUrl = url.replace(process.env.VUE_APP_HOST, '')
-      return this.parentUrls.includes(pureUrl)
     }
   }
 }

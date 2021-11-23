@@ -65,6 +65,9 @@ export default {
         data2.push(e.supplyRate)
         data3.push(e.month)
       })
+      data3=data3.map(res=>{
+         return res=parseInt(res)+'月'
+      })
       let max = Math.max(...data1)
       const myChart = echarts().init(this.$refs.chart)
       this.option = {

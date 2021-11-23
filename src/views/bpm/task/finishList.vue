@@ -6,7 +6,7 @@
         <actionHeader :todo-total="todoTotal" :task-type="1" />
       </div>
     </pageHeader>
-    <searchForm @search="search" />
+    <searchForm is-finished @search="search" />
     <iCard>
       <i-table-custom
         :loading="loading"

@@ -15,7 +15,7 @@
       <i-user-setting
         :userInfo="userInfo"
         :menus="menus"
-        :menu-relation="menuRelation"
+        :activeMenu="activeMenu"
         @click-menu="$emit('click-menu')"
       />
       <div class="language" @click="handleChangeLang">
@@ -57,10 +57,10 @@ export default {
         return []
       }
     },
-    menuRelation: {
-      type: Object,
+    activeMenu: {
+      type: Array,
       default: function () {
-        return {}
+        return []
       }
     }
   },

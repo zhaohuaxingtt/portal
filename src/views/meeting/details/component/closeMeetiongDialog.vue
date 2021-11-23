@@ -219,12 +219,12 @@ export default {
           closeMeeting(param)
             .then((res) => {
               this.loading = false
-              if (res) {
+              if (res.code === 200) {
                 iMessage.success('关闭成功')
                 this.$emit('handleOK')
                 this.handleClose()
               } else {
-                iMessage.success('关闭失败')
+                // iMessage.success('关闭失败')
                 this.handleClose()
               }
             })

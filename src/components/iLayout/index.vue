@@ -43,13 +43,15 @@
         @click="hideSideMenu"
       ></div>
     </div>
-    <div class="btn-button" @click="handleShow">
-      <img src="~@/assets/images/leftContent.png" alt="" />
+    <div class="btn-button" @click.stop="handleShow">
+      <!-- <img src="~@/assets/images/leftContent.png" alt="" /> -->
+      <img :src="!contentShowFlag? popurIcon : activePopurIcon " alt="" />
     </div>
     <div class="povper-content" v-show="contentShowFlag">
       <div v-for="(list, index) in popoverList" :key="index">
         <div class="item-content" @click="handleClick(list)">
-          {{ list.name }}
+          <div><img src="@/assets/images/partLifyCycle.svg" class="img" /></div>
+          <div class="text">{{ list.name }}</div>
         </div>
       </div>
       <!-- <div class="item-content">零件寿命周期</div>
@@ -67,6 +69,8 @@ import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
 import { popoverList } from './components/data.js'
 import layoutNotify from './components/notify'
+import popurIcon from "@/assets/images/popur.svg"
+import activePopurIcon from "@/assets/images/active-popur.svg"
 
 export default {
   components: { topLayout, LeftLayout, sideMenu, myModules, layoutNotify },
@@ -95,7 +99,9 @@ export default {
       },
       menuModelVisible: false,
       popoverList,
-      contentShowFlag: false
+      contentShowFlag: false,
+      popurIcon,
+      activePopurIcon
     }
   },
   computed: {
@@ -128,6 +134,11 @@ export default {
     }) */
 
     this.menus && this.menus.length ? this.getMenus() : this.getMenuList()
+  },
+  mounted() {
+    document.body.addEventListener('click', () => {
+      this.contentShowFlag = false
+    })
   },
   methods: {
     handleShow() {
@@ -248,21 +259,31 @@ export default {
   }
   .povper-content {
     position: fixed;
-    bottom: 40px;
-    right: 120px;
+    bottom: 120px;
+    right: 50px;
     background-color: #fff;
     border-radius: 10%;
     box-shadow: 10px 10px 5px #e0e4ec;
-    width: 140px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     .item-content {
-      padding-top: 10px;
-      padding-bottom: 10px;
-      width: 80px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
       cursor: pointer;
+      .img {
+        width: 40px;
+        height: 40px;
+      }
+      .text {
+        font-size: 16px;
+        color: #5F6F8F;
+        margin-left: 20px;
+      }
     }
   }
   .btn-button {
@@ -271,8 +292,8 @@ export default {
     right: 50px;
 
     img {
-      height: 50px;
-      width: 50px;
+      height: 60px;
+      width: 60px;
     }
   }
   .app-menu-model {

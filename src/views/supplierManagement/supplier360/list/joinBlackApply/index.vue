@@ -4,10 +4,10 @@
 -->
 <template>
   <div>
-    <div  :class="ifSelf?'page':''">
+    <div :class="ifSelf?'page':''">
       <div v-if="ifSelf" class="headerTitle">
         <p>加入黑名单申请 - 生产采购</p>
-        <div >
+        <div>
           <iButton @click="handleBtn(2)">{{
             language('PIZHUN', '批准')
           }}</iButton>
@@ -20,20 +20,23 @@
         </div>
       </div>
       <iCard :style="ifSelf?'margin-top:20px':''">
-        <el-form inline
-                 label-position="left"
-                 label-width="120px">
+        <el-form inline label-position="left" label-width="120px">
           <div class="formTitle">
-            <el-form-item :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')">
+            <el-form-item
+              :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
+            >
               <iText style="min-width:240px">{{data.nameZh}}</iText>
             </el-form-item>
             <el-form-item :label="language('SHOUKONGCUOSHI', '受控措施')">
               <iText style="width:240px">{{data.measures}}</iText>
-
             </el-form-item>
-            <el-form-item :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')">
-              <iText style="width:240px">{{data.startTime.replace(/-/g, '/')}}-{{data.endTime.replace(/-/g, '/')}}</iText>
-
+            <el-form-item
+              :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')"
+            >
+              <iText style="width:240px"
+                >{{data.startTime.replace(/-/g, '/')
+                }}-{{data.endTime.replace(/-/g, '/')}}</iText
+              >
             </el-form-item>
           </div>
 
@@ -47,26 +50,30 @@
       </iCard>
       <iCard style="margin-top:20px">
         <p class="tableTitle">详情列表</p>
-        <table-list style="margin-top:20px"
-                    :tableData="tableListData"
-                    :selection="false"
-                    :tableTitle="tableTitle"
-                    :tableLoading="tableLoading"
-                    @handleSelectionChange="handleSelectionChange"
-                    :index="true">
-                       <template #stuffNameEnDe='scope'>
-                        <span>{{scope.row.stuffName}}-{{scope.row.stuffNameDe}}</span>
-                    </template>
+        <table-list
+          style="margin-top:20px"
+          :tableData="tableListData"
+          :selection="false"
+          :tableTitle="tableTitle"
+          :tableLoading="tableLoading"
+          @handleSelectionChange="handleSelectionChange"
+          :index="true"
+        >
+          <template #stuffNameEnDe="scope">
+            <span>{{scope.row.stuffName}}-{{scope.row.stuffNameDe}}</span>
+          </template>
         </table-list>
-        <iPagination v-update
-                     @size-change="handleSizeChange($event, getListData)"
-                     @current-change="handleCurrentChange($event, getListData)"
-                     background
-                     :page-sizes="page.pageSizes"
-                     :page-size="page.pageSize"
-                     :layout="page.layout"
-                     :current-page="page.currPage"
-                     :total="page.totalCount" />
+        <iPagination
+          v-update
+          @size-change="handleSizeChange($event, getListData)"
+          @current-change="handleCurrentChange($event, getListData)"
+          background
+          :page-sizes="page.pageSizes"
+          :page-size="page.pageSize"
+          :layout="page.layout"
+          :current-page="page.currPage"
+          :total="page.totalCount"
+        />
       </iCard>
     </div>
   </div>
@@ -101,6 +108,9 @@ export default {
     }
   },
   created() {
+          var tbody = document.body
+        var height = tbody.clientHeight
+        window.parent.postMessage({ key: 'setFormHeight', value: height+'px'},'*')
     if (window.top === window.self) {
       this.ifSelf = true
     } else {
@@ -167,8 +177,8 @@ export default {
 ::v-deep .el-form--inline .el-form-item {
   // margin-right: 50px;
 }
-.page{
-     padding: 30px 40px 30px 40px;
+.page {
+  padding: 30px 40px 30px 40px;
 }
 .remark {
   word-wrap: break-word;

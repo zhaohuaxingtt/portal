@@ -49,6 +49,8 @@ export default {
       if (!this.panorama) {
         return []
       }
+      this.setItemChildBranchFlag()
+
       const nodeData = []
       const len = this.panorama.length
       for (let i = 0; i < len; i++) {
@@ -56,106 +58,46 @@ export default {
 
         const item = this.getDatItem(panoromaItem)
 
+        // 检查一下有没有并行节点
         if (
-          panoromaItem.nodeTye === 'Non_MultiInst' &&
-          panoromaItem.executionId
+          panoromaItem.branchFlag.indexOf('branch') === 0 &&
+          panoromaItem.childBranchFlag &&
+          panoromaItem.childBranchFlag.length
         ) {
-          const otherPanoromas = this.panorama.slice(i + 1, len)
-          const isSameExecutionIdItems = otherPanoromas.filter(
-            (e) =>
-              e.nodeTye === 'Non_MultiInst' &&
-              e.executionId === panoromaItem.executionId &&
-              e.executionId
-          )
-          const isNoSameExecutionIdItems = otherPanoromas.filter(
-            (e) =>
-              e.nodeTye === 'Non_MultiInst' &&
-              e.executionId !== panoromaItem.executionId &&
-              e.executionId
-          )
-          // 代办有分支
-          if (
-            isSameExecutionIdItems.length > 0 &&
-            isNoSameExecutionIdItems.length > 0
-          ) {
-            item.children = []
-            const sameExcutionIdChildren = []
-            const noSameExcutionIdChildren = []
-            let prevType = 'same'
-            otherPanoromas.forEach((oPanoroma) => {
-              if (
-                oPanoroma.nodeTye === 'Non_MultiInst' &&
-                oPanoroma.executionId &&
-                oPanoroma.executionId === panoromaItem.executionId
-              ) {
-                oPanoroma.isUsed = true
-                sameExcutionIdChildren.push(this.getDatItem(oPanoroma))
-                prevType = 'same'
-              }
-              if (
-                oPanoroma.nodeTye === 'Non_MultiInst' &&
-                !oPanoroma.executionId &&
-                prevType === 'same'
-              ) {
-                oPanoroma.isUsed = true
-                sameExcutionIdChildren.push(this.getDatItem(oPanoroma))
-              }
-              if (oPanoroma.nodeName === '审批结束') {
-                oPanoroma.isUsed = true
-                sameExcutionIdChildren.push(this.getDatItem(oPanoroma))
-              }
-
-              if (
-                oPanoroma.nodeTye === 'Non_MultiInst' &&
-                oPanoroma.executionId &&
-                oPanoroma.executionId !== panoromaItem.executionId
-              ) {
-                oPanoroma.isUsed = true
-                noSameExcutionIdChildren.push(this.getDatItem(oPanoroma))
-                prevType = 'noSame'
-              }
-              if (
-                oPanoroma.nodeTye === 'Non_MultiInst' &&
-                !oPanoroma.executionId &&
-                prevType === 'noSame'
-              ) {
-                oPanoroma.isUsed = true
-                noSameExcutionIdChildren.push(this.getDatItem(oPanoroma))
-              }
+          item.children = []
+          panoromaItem.childBranchFlag.forEach((flag) => {
+            const filterItems = this.panorama.filter(
+              (e) =>
+                e.branchFlag.indexOf(flag + '_') === 0 &&
+                e.branchFlag !== item.branchFlag
+            )
+            const itemChildren = []
+            filterItems.forEach((filterItem) => {
+              itemChildren.push(this.getDatItem(filterItem))
+              filterItem.isUsed = true
             })
-            item.children.push(sameExcutionIdChildren)
-            item.children.push(noSameExcutionIdChildren)
-          }
+            item.children.push(itemChildren)
+          })
         }
-        if (!panoromaItem.isUsed) {
+
+        if (!item.isUsed) {
           nodeData.push(item)
         }
 
-        panoromaItem.isUsed = true
+        item.isUsed = true
       }
       this.nodeData = nodeData
     },
     getDatItem(panoromaItem) {
       const approvers = []
-      /* if (panoromaItem.approvalUserList) {
-        panoromaItem.approvalUserList.forEach((user) => {
-          approvers.push({
-            taskStatus: '',
-            taskId: '',
-            endTime: '',
-            ...user,
-            agentUsers: []
-          })
-        })
-      } */
       if (panoromaItem.taskApprovesList) {
         panoromaItem.taskApprovesList.forEach((task) => {
           if (task.approvedUser) {
             const taskUser = {
+              ...task.approvedUser,
               taskStatus: '',
               taskId: '',
-              endTime: '',
-              ...task.approvedUser
+              endTime: ''
             }
             if (task.agentUsers) {
               taskUser.agentUsers = task.agentUsers
@@ -169,23 +111,16 @@ export default {
           if (task.taskApproves) {
             task.taskApproves.forEach((approve) => {
               const taskUser = {
+                ...approve.approvedUser,
                 taskStatus: task.taskStatus,
                 taskId: task.taskId,
-                endTime: task.endTime,
-                ...approve.approvedUser
+                endTime: task.endTime
               }
               if (approve.agentUsers) {
                 taskUser.agentUsers = approve.agentUsers || []
               }
               approvers.push(taskUser)
             })
-            /* approvers.push({
-            taskStatus: task.taskStatus,
-            taskId: task.taskId,
-            endTime: task.endTime,
-            ...task.approvedUser,
-            agentUsers: task.agentUsers || []
-          }) */
           }
         })
       }
@@ -205,6 +140,38 @@ export default {
         icon: this.iconMap[panoromaItem.status],
         approvers: approvers
       }
+    },
+    setItemChildBranchFlag() {
+      const len = this.panorama.length
+      let defaultBranchFlag = ''
+      for (let i = 0; i < len; i++) {
+        const element = this.panorama[i]
+        if (element.status === '已提交') {
+          const otherNodes = this.panorama.filter((e) => e.status !== '已提交')
+          const childs = []
+          otherNodes.forEach((e) => {
+            if (e.branchFlag) {
+              const branch = this.getBranchFlag(e.branchFlag)
+              if (!childs.includes(branch)) {
+                childs.push(branch)
+              }
+            }
+          })
+          element.childBranchFlag = childs
+        }
+        if (!defaultBranchFlag) {
+          defaultBranchFlag = element.branchFlag
+        }
+        if (element.nodeName === '审批结束') {
+          element.branchFlag = defaultBranchFlag + 'end'
+        }
+      }
+    },
+    getBranchFlag(flag) {
+      if (!flag) {
+        return ''
+      }
+      return flag.substring(0, flag.lastIndexOf('_'))
     }
   }
 }

@@ -59,12 +59,15 @@
                 'agenda-item'
               ]"
             >
-              <div class="agenda-item-title" @click="chooseItem(index + 1)">
+              <div
+                class="agenda-item-title"
+                @click="chooseItem(index + 1, item)"
+              >
                 <div class="title-left">
                   <div class="title-index">{{ numToLetter[index + 1] }}</div>
                   <div class="title-name">{{ item.topic }}</div>
                 </div>
-                <div class="up-arrow" @click="taskUserResult(item)">
+                <div class="up-arrow">
                   <img :src="upArrow" alt="" srcset="" />
                 </div>
               </div>
@@ -76,7 +79,7 @@
                       taskDeptResult(item, 'supporterDept', 'presenterDept')
                     }}</span>
                   </div>
-                  <div>{{ employeeStr }}</div>
+                  <div>{{ taskUserResult(item) }}</div>
                 </div>
                 <iFormItem prop="conclusion" class="meet-desc">
                   <iInput
@@ -87,7 +90,13 @@
                   />
                 </iFormItem>
                 <p class="task">
-                  Result：{{ conclusionCscList[item.conclusionCsc] }}
+                  Result：{{
+                    item.conclusionCsc === '01'
+                      ? conclusionCscList[item.conclusionCsc]
+                      : item.conclusionCsc === '02'
+                      ? conclusionCscList[item.conclusionCsc]
+                      : ''
+                  }}
                 </p>
                 <iFormItem class="meet-desc">
                   <el-table
@@ -159,7 +168,7 @@
                 </iFormItem>
               </div>
             </li>
-          </ul>   
+          </ul>
         </div>
         <div class="button-list">
           <el-form-item>
@@ -262,8 +271,7 @@ export default {
       employeeStr: ''
     }
   },
-  mounted() {
-    this.getMeetingSummary()
+  created() {
     const data = {
       id: this.receiverId
     }
@@ -271,6 +279,9 @@ export default {
     getReceiverById(data).then((res) => {
       this.employeeDTOS = res?.employeeDTOS
     })
+  },
+  mounted() {
+    this.getMeetingSummary()
   },
   methods: {
     taskDeptResult(item, field, field1) {
@@ -289,8 +300,9 @@ export default {
       let presenter = this.employeeDTOS?.filter(
         (e) => e.id === item.presenter
       )[0] || { name: '' }
-      this.employeeStr = supporter?.name + '/' + presenter?.name
-      console.log(265, this.employeeStr)
+      // this.employeeStr = supporter?.name + '/' + presenter?.name
+      // console.log(265, this.employeeStr)
+      return supporter?.name + '/' + presenter?.name
     },
     toDoMeetingName(item) {
       return item.toDoMeetingName?.substring(0, 9)
@@ -335,7 +347,9 @@ export default {
     handleCancel() {
       this.$emit('handleCancel')
     },
-    chooseItem(e) {
+    chooseItem(e, o) {
+      console.log('o', o)
+      // this.taskUserResult()
       if (this.choosedIndex == e) {
         this.choosedIndex = -1
       } else {

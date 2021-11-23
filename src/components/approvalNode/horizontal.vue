@@ -13,7 +13,11 @@
             class="node-icon"
             :data-level="level"
             :data-index="index"
-            :data-group="item.children ? `group-${level}-${index}` : ''"
+            :data-group="
+              item.children && item.children.length
+                ? `group-${level}-${index}`
+                : ''
+            "
             :data-end="index === data.length - 1 ? 1 : 0"
             :data-status="item.status"
           >
@@ -59,6 +63,7 @@
                     approver.taskStatus
                   )
                 }"
+                :status="approver.taskStatus"
               >
                 <div class="self-user">
                   <span>
@@ -258,6 +263,10 @@ export default {
             float: left;
             margin: 0px 10px 0px -3px;
             background: #fff;
+          }
+          &.multiple ul.approval-users > li.active > .self-user::before {
+            background: $color-blue;
+            border: $color-blue;
           }
 
           &.multiple ul.approval-users > li::after {

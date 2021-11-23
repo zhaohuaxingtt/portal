@@ -67,10 +67,10 @@ export default {
             attachmentName: res.name,
             attachmentUrl: res.path,
           });
-          iMessage.success(this.$t("TERMS_SHANGCHUANCHENGGONG"));
+          iMessage.success(this.$t("上传成功"));
         })
         .catch((err) => {
-          iMessage.error(this.$t("TERMS_SHANGCHUANSHIBAI"));
+          iMessage.error(this.$t("上传失败"));
         });
       this.uploadLoading = false;
     },
