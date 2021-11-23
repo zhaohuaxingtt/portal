@@ -38,8 +38,14 @@
               :disabled="editOrAdd === 'look'"
             ></iInput>
           </iFormItem>
-          <iFormItem
+          <!-- <iFormItem
             v-if="editOrAdd !== 'edit'"
+            label="Duration"
+            prop="duration"
+            :hideRequiredAsterisk="true"
+            class="item"
+          > -->
+          <iFormItem
             label="Duration"
             prop="duration"
             :hideRequiredAsterisk="true"

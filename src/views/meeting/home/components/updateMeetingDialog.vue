@@ -1,4 +1,3 @@
-
 <template>
   <!--转派-->
   <iDialog
@@ -28,7 +27,7 @@
           <div class="form-item-row1-col3">
             <iFormItem>
               <p class="type-title">会议类型</p>
-              <p class="type-name">{{typeObject[ruleForm.meetingTypeId]}}</p>
+              <p class="type-name">{{ typeObject[ruleForm.meetingTypeId] }}</p>
             </iFormItem>
           </div>
         </el-row>
@@ -42,7 +41,7 @@
                 v-model="ruleForm.startDate"
                 :picker-options="datePickerOptions"
                 placeholder="请选择会议开始日期"
-                @change='changeData'
+                @change="changeData"
               />
             </iFormItem>
           </div>
@@ -71,11 +70,9 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="clearDiolog" plain class="cancel">{{
-              $t("LK_QUXIAO")
+              $t('LK_QUXIAO')
             }}</iButton>
-            <iButton @click="handleSubmit" plain>{{
-              '保存'
-            }}</iButton>
+            <iButton @click="handleSubmit" plain>{{ '保存' }}</iButton>
           </el-form-item>
         </div>
       </el-form>
@@ -91,13 +88,13 @@ import {
   iLabel,
   iButton,
   iDatePicker,
-  iMessage,
-} from "rise";
-import iEditForm from "@/components/iEditForm";
-import { updateMeeting, getMeetingById } from "@/api/meeting/home";
-import { baseRulesUpdate } from "./data.js";
-import dayjs from "@/utils/dayjs.js";
-import { datestring } from "@/utils/utils.js";
+  iMessage
+} from 'rise'
+import iEditForm from '@/components/iEditForm'
+import { updateMeeting, getMeetingById } from '@/api/meeting/home'
+import { baseRulesUpdate } from './data.js'
+import dayjs from '@/utils/dayjs.js'
+import { datestring } from '@/utils/utils.js'
 
 export default {
   components: {
@@ -107,53 +104,55 @@ export default {
     iInput,
     iLabel,
     iButton,
-    iEditForm,
+    iEditForm
   },
   props: {
     openUpdate: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     typeObject: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     id: {
       type: String,
       default: () => {
-        return '';
-      },
-    },
+        return ''
+      }
+    }
   },
   data() {
     return {
       ruleForm: {
-        name: "",
-        startDate: "",
-        startTime: "",
-        meetingPlace: "",
+        name: '',
+        startDate: '',
+        startTime: '',
+        meetingPlace: ''
       },
       rules: baseRulesUpdate,
-      datePickerOptions: { // 日期选择
+      datePickerOptions: {
+        // 日期选择
         disabledDate: (date) => {
-          return date < new Date() - 24*60*60*1000;
+          return date < new Date() - 24 * 60 * 60 * 1000
         }
       },
-      timePickerOptions: { // 时间选择
-        selectableRange: '00:00:00 - 23:59:59',
+      timePickerOptions: {
+        // 时间选择
+        selectableRange: '00:00:00 - 23:59:59'
       }
-    };
+    }
   },
   mounted() {
     let param = {
-      id: this.id,
+      id: this.id
     }
     getMeetingById(param).then((res) => {
-      this.ruleForm = res;
+      this.ruleForm = res
       this.ruleForm.name = res.name
       this.ruleForm.startDate = res.startDate
       this.ruleForm.endDate = res.endDate
@@ -161,31 +160,38 @@ export default {
       this.ruleForm.meetingPlace = res.meetingPlace
       this.ruleForm.id = res.id
       this.ruleForm.meetingTypeId = res.meetingTypeId
-      let date = new Date(res.startDate);
-      let dateToday = new Date();
-      let dateUnuse = date.getMonth().toString() + date.getDate().toString();
-      let dateTodayUnuse = dateToday.getMonth().toString() + dateToday.getDate().toString();
+      let date = new Date(res.startDate)
+      let dateToday = new Date()
+      let dateUnuse = date.getMonth().toString() + date.getDate().toString()
+      let dateTodayUnuse =
+        dateToday.getMonth().toString() + dateToday.getDate().toString()
       if (dateUnuse == dateTodayUnuse) {
-        this.timePickerOptions = { // 时间选择
-          selectableRange: dayjs().hour().toString() + ':' + dayjs().minute().toString() + ":00" + ' - 23:59:59',
+        this.timePickerOptions = {
+          // 时间选择
+          selectableRange:
+            dayjs().hour().toString() +
+            ':' +
+            dayjs().minute().toString() +
+            ':00' +
+            ' - 23:59:59'
         }
       }
     })
   },
   methods: {
     close() {
-      this.$emit("closeDialog", false);
+      this.$emit('closeDialog', false)
     },
     clearDiolog(sub) {
-      if (sub === "submit") {
-        this.$emit("closeDialog", false);
+      if (sub === 'submit') {
+        this.$emit('closeDialog', false)
       } else {
         // this.$confirm("是否取消编辑?", "提示", {
         //   confirmButtonText: "是",
         //   cancelButtonText: "否",
         //   type: "warning",
         // }).then(() => {
-          this.$emit("closeDialog", false);
+        this.$emit('closeDialog', false)
         // });
       }
     },
@@ -195,57 +201,60 @@ export default {
       //   cancelButtonText: "否",
       //   type: "warning",
       // }).then(() => {
-        this.submitForm("ruleForm");
+      this.submitForm('ruleForm')
       // });
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let formData = this.ruleForm;
+          let formData = this.ruleForm
           updateMeeting(formData)
             .then((res) => {
-              if (res) {
-                this.clearDiolog("submit");
-                iMessage.success("保存成功");
-                this.$emit("refreshTable");
-              } else {
-                iMessage.success("保存失败");
-                this.clearDiolog("submit");
+              if (res.code === 200) {
+                iMessage.success('保存成功')
               }
+              this.clearDiolog('submit')
+              this.$emit('refreshTable')
             })
             .catch((err) => {
-              console.log("err", err);
-            });
+              console.log('err', err)
+            })
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
-    changeAttendee(e,) {
-      this.attendeeList.forEach(item => {
+    changeAttendee(e) {
+      this.attendeeList.forEach((item) => {
         if (item.id == e) {
-          this.ruleForm.attendee = item.attendeeName;
+          this.ruleForm.attendee = item.attendeeName
         }
-      });
+      })
     },
     changeData(e) {
       if (datestring() == e) {
-        this.timePickerOptions = { // 时间选择
-          selectableRange: dayjs().hour().toString() + ':' + dayjs().minute().toString() + ":00" + ' - 23:59:59',
+        this.timePickerOptions = {
+          // 时间选择
+          selectableRange:
+            dayjs().hour().toString() +
+            ':' +
+            dayjs().minute().toString() +
+            ':00' +
+            ' - 23:59:59'
         }
       } else {
-        this.timePickerOptions = { // 时间选择
-          selectableRange: "00:00:00" + ' - 23:59:59',
+        this.timePickerOptions = {
+          // 时间选择
+          selectableRange: '00:00:00' + ' - 23:59:59'
         }
       }
-      this.ruleForm.startTime = '';
+      this.ruleForm.startTime = ''
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped lang="scss">
-
 .form-box {
   padding-bottom: 30px;
 

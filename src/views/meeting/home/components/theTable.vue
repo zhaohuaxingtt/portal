@@ -565,7 +565,7 @@
       @refreshTable="refreshTable"
     />
     <!-- 关闭触发审批流 -->
-    <closeMeetiongDialog
+    <closeMeetingDialog
       v-if="openCloseMeeting"
       :openCloseMeeting="openCloseMeeting"
       :row="editRow"
@@ -573,6 +573,16 @@
       @handleOK="handleCloseOK"
       @handleClose="handleCloseCloseMeeting"
     />
+    <closeMeetingDialogSpecial
+      v-show="false"
+      :openCloseMeeting="openCloseMeeting"
+      :row="editRow"
+      :id="id"
+      @handleOK="handleCloseOK"
+      @handleClose="handleCloseCloseMeeting"
+      ref="closeDialog"
+    />
+
     <!-- 上传Agenda -->
     <updateFile
       title="上传Agenda"
@@ -668,7 +678,8 @@ import uploadFile from '@/assets/images/meeting-home/uploadFile.svg'
 import upload from '@/assets/images/meeting-home/upload.svg'
 import addMeetingSingleDialog from './addMeetingSingleDialog.vue'
 import addMeetingMultipleDialo from './addMeetingMultipleDialo.vue'
-import closeMeetiongDialog from './closeMeetiongDialog.vue'
+import closeMeetingDialogSpecial from './closeMeetingDialogSpecial.vue'
+import closeMeetingDialog from './closeMeetingDialog.vue'
 import updateMeetingDialog from './updateMeetingDialog.vue'
 // import newSummaryDialog from "./newSummaryDialog.vue";
 import newSummaryDialog from './newSummaryDialog.vue'
@@ -685,10 +696,11 @@ export default {
     // importThemens,
     addMeetingSingleDialog,
     addMeetingMultipleDialo,
-    closeMeetiongDialog,
+    closeMeetingDialog,
     updateMeetingDialog,
     newSummaryDialog,
-    newSummaryDialogNew
+    newSummaryDialogNew,
+    closeMeetingDialogSpecial
   },
   mixins: [resultMessageMixin],
   props: {
@@ -927,7 +939,6 @@ export default {
     },
     refreshTable() {
       this.$emit('getTableList')
-      this.handleLine()
     },
     handleDelete() {
       let listUnuse = []
@@ -1047,8 +1058,8 @@ export default {
           changeStateMeeting(param).then((res) => {
             if (res.code == 200) {
               iMessage.success('开始会议成功！')
-              this.refreshTable()
             }
+            this.refreshTable()
           })
           // });
         },
@@ -1063,8 +1074,10 @@ export default {
             id: e,
             state: '03'
           }
-          changeStateMeeting(param).then(() => {
-            iMessage.success('锁定会议成功！')
+          changeStateMeeting(param).then((res) => {
+            if (res.code === 200) {
+              iMessage.success('锁定会议成功！')
+            }
             this.refreshTable()
           })
           // .catch(() => {
@@ -1083,14 +1096,16 @@ export default {
             id: e,
             state: '02'
           }
-          changeStateMeeting(param)
-            .then(() => {
+          changeStateMeeting(param).then((res) => {
+            if (res.code === 200) {
               iMessage.success('解锁会议成功！')
-              this.refreshTable()
-            })
-            .catch(() => {
-              iMessage.error('解锁会议失败！')
-            })
+            }
+
+            this.refreshTable()
+          })
+          // .catch(() => {
+          //   iMessage.error('解锁会议失败！')
+          // })
           // });
         },
         change: (e) => {
@@ -1109,8 +1124,10 @@ export default {
             id: e,
             state: '02'
           }
-          changeStateMeeting(param).then(() => {
-            iMessage.success('开放会议成功！')
+          changeStateMeeting(param).then((res) => {
+            if (res.code === 200) {
+              iMessage.success('开放会议成功！')
+            }
             this.refreshTable()
           })
           // });
@@ -1166,8 +1183,8 @@ export default {
             .then((res) => {
               if (res.code == 200) {
                 iMessage.success('结束会议成功！')
-                this.refreshTable()
               }
+              this.refreshTable()
             })
             .catch(() => {
               // iMessage.error("结束会议失败！");
@@ -1203,7 +1220,6 @@ export default {
           //     id: e,
           //   },
           // });
-          console.log('object', e)
           let routeUrl = this.$router.resolve({
             path:
               // e.meetingTypeName == 'Pre CSC' || e.meetingTypeName == 'CSC'
@@ -1263,7 +1279,12 @@ export default {
               cancelButtonText: '否',
               type: 'warning'
             }).then(() => {
-              this.openCloseMeeting = true
+              console.log('e', e)
+              if (e.isPreCSC || e.isCSC) {
+                this.$refs['closeDialog'].handleSubmit(e.id)
+              } else {
+                this.openCloseMeeting = true
+              }
               this.id = e.id
               this.editRow.approvalProcessId = e.approvalProcessId
               this.editRow.isTriggerApproval = e.isTriggerApproval.toString()
