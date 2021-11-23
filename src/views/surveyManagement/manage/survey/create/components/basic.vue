@@ -373,7 +373,6 @@ export default {
     },
   },
   data() {
-
     const validLength = function (rule, value, callback) {
       function getStrLength(str) {
         return str.replace(/[^x00-xff]/g, "xx").length;
@@ -410,6 +409,9 @@ export default {
           { required: true, message: "必填", trigger: ["blur", "change"] },
         ],
         endTime: [
+          { required: true, message: "必填", trigger: ["blur", "change"] },
+        ],
+        putoutRange: [
           { required: true, message: "必填", trigger: ["blur", "change"] },
         ],
         name: [
@@ -631,10 +633,10 @@ export default {
         .then((res) => {
           this.basicRuleForm.surveyCover = res.path;
           this.basicRuleForm.coverName = res.name;
-          iMessage.success(this.$t("TERMS_SHANGCHUANCHENGGONG"));
+          iMessage.success(this.$t("上传成功"));
         })
         .catch(() => {
-          iMessage.error(this.$t("TERMS_SHANGCHUANSHIBAI"));
+          iMessage.error(this.$t("上传失败"));
         });
     },
     handleDeleteAccessory() {
