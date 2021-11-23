@@ -176,5 +176,14 @@ export default {
 }
 .card-dropdown{
   margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid #4B5C7D !important;
+  .el-dropdown-menu__item{
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .popper__arrow::after{
+    border-bottom-color: #4B5C7D !important;
+  }
 }
 </style>
