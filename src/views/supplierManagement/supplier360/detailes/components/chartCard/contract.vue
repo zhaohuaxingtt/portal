@@ -4,16 +4,23 @@
       <p>{{ language('HETONGDINGDAN', '合同订单') }}</p>
     </div>
     <div class="center">
-      <div class=" chartStyleBox chartStyle">
-        <div ref="chart1" class="chartStyle1"></div>
+      <div v-loading="loading1"
+           class=" chartStyleBox chartStyle">
+        <div ref="chart1"
+             class="chartStyle1"></div>
         <div class="chartText ">
-          <p v-if="chooseEquipment.data != ''">{{ chooseEquipment.data }}%</p>
-          <p>{{ chooseEquipment.value }}</p>
+          <p v-if="chooseEquipment.data != ''">
+            {{ chooseEquipment.data||'' }}%
+          </p>
+          <p>{{ chooseEquipment.value||'' }}</p>
         </div>
       </div>
-      <img :src="img" class="imgIcon" />
+      <img :src="img"
+           class="imgIcon" />
 
-      <div ref="chart2" class="chartStyle2"></div>
+      <div v-loading="loading2"
+           ref="chart2"
+           class="chartStyle2"></div>
     </div>
   </iCard>
 </template>
@@ -41,7 +48,9 @@ export default {
       },
       infoBar: [],
       img: img,
-      ifBarchart: false
+      ifBarchart: false,
+      loading1: false,
+      loading2: false
     }
   },
   computed: {
@@ -56,22 +65,34 @@ export default {
   created() {},
   methods: {
     getData() {
-      getCatogeryCollect(this.$route.query.subSupplierId).then(res => {
-        this.info = res.data
-        this.getLeftChart()
+      this.loading1 = true
+      this.loading2 = true
+      getCatogeryCollect(this.$route.query.subSupplierId).then((res) => {
+        if (res && res.code == 200) {
+          this.loading1 = false
+          this.info = res.data
+          if (this.info.length > 0) {
+            this.getLeftChart()
+          }
+        } else this.loading1 = false
       })
       let req = {
         catogeryCode: '',
         tmSupplierId: this.$route.query.subSupplierId
       }
-      getCatogeryCollectYear(req).then(res => {
-        this.infoBar = res.data
-        this.getRightChart()
+      getCatogeryCollectYear(req).then((res) => {
+        if (res && res.code == 200) {
+          this.loading2 = false
+          this.infoBar = res.data
+          if (this.infoBar.length > 0) {
+            this.getRightChart()
+          }
+        } else this.loading2 = false
       })
     },
     getLeftChart() {
       let data1 = []
-      this.info.forEach(e => {
+      this.info.forEach((e) => {
         data1.push({ value: Math.abs(e.receiveAmount), name: e.catogeryCode })
       })
       let obj = this
@@ -92,9 +113,16 @@ export default {
         },
         tooltip: {
           trigger: 'item',
-          formatter:function(data){
-              console.log(data)
-              return data.seriesName+'  '+data.marker+data.name+'<br>'+ data.value/ 1000000
+          formatter: function (data) {
+            console.log(data)
+            return (
+              data.seriesName +
+              '  ' +
+              data.marker +
+              data.name +
+              '<br>' +
+              data.value / 1000000
+            )
           }
         },
         legend: {
@@ -105,8 +133,8 @@ export default {
             fontSize: 10,
             color: '#909091'
           },
-          formatter: function(params) {
-            let obj = data1.find(res => {
+          formatter: function (params) {
+            let obj = data1.find((res) => {
               return res.name == params
             })
             var percent = 0
@@ -146,7 +174,7 @@ export default {
         ]
       }
       myChart.setOption(this.option1)
-      myChart.on('click', params => {
+      myChart.on('click', (params) => {
         this.ifBarchart = !this.ifBarchart
         if (this.ifBarchart) {
           this.getRightChart(params.name)
@@ -154,7 +182,7 @@ export default {
           this.getRightChart()
         }
       })
-      myChart.on('mouseover', function(params) {
+      myChart.on('mouseover', function (params) {
         /*添加鼠标事件*/ obj.chooseEquipment.value = params.value
         obj.chooseEquipment.value = parseInt(
           obj.chooseEquipment.value / 1000000
@@ -172,7 +200,7 @@ export default {
       let newDataSum = {}
       let barData = []
       let sumData = []
-      this.infoBar.forEach(e => {
+      this.infoBar.forEach((e) => {
         //新建属性名获取按材料id累计
         if (Object.keys(newDataBar).indexOf('' + e.catogeryCode) === -1) {
           newDataBar[e.catogeryCode] = []
@@ -200,8 +228,8 @@ export default {
       //给当前材料idpush进当前年总值
       if (val) {
         barData = newDataBar[val]
-        sumData.forEach(v => {
-          barData.forEach(j => {
+        sumData.forEach((v) => {
+          barData.forEach((j) => {
             if (v.year == j.year) {
               j.receiveAmountAll = v.receiveAmountAll
             }
@@ -209,13 +237,13 @@ export default {
         })
       }
       if (val) {
-        barData.forEach(v => {
+        barData.forEach((v) => {
           data1.push(parseInt(v.receiveAmountAll / 1000000))
           data2.push(Math.abs(parseInt(v.receiveAmount / 1000000)))
           data3.push(v.year)
         })
       } else {
-        sumData.forEach(v => {
+        sumData.forEach((v) => {
           data1 = []
           data2.push(Math.abs(parseInt(v.receiveAmountAll / 1000000)))
           data3.push(v.year)
@@ -369,20 +397,12 @@ export default {
           return (
             num.slice(0, remainder) +
             ',' +
-            num
-              .slice(remainder, len)
-              .match(/\d{3}/g)
-              .join(',') +
+            num.slice(remainder, len).match(/\d{3}/g).join(',') +
             temp
           )
         } else {
           // 是3的整数倍
-          return (
-            num
-              .slice(0, len)
-              .match(/\d{3}/g)
-              .join(',') + temp
-          )
+          return num.slice(0, len).match(/\d{3}/g).join(',') + temp
         }
       }
     }

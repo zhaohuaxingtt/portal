@@ -35,10 +35,11 @@
               v-if="active !== 2"
               :disabled="
                 checkModule == false ||
-                  checkType == false ||
-                  checkEndTime == false ||
-                  checkName == false ||
-                  checkPic == false
+                checkType == false ||
+                checkEndTime == false ||
+                checkName == false ||
+                checkPic == false ||
+                checkPutoutRange == false
               "
               >下一步</iButton
             >
@@ -75,12 +76,12 @@
   </iPage>
 </template>
 <script>
-import { iPage, iCard, iButton } from "rise";
-import { saveSurvey, updateSurvey } from "@/api/survey/survey";
-import Basic from "./components/basic.vue";
-import Topic from "./components/topic.vue";
-import { findById } from "@/api/survey/survey.js";
-import preSurvey from "../preview/index.vue";
+import { iPage, iCard, iButton } from 'rise'
+import { saveSurvey, updateSurvey } from '@/api/survey/survey'
+import Basic from './components/basic.vue'
+import Topic from './components/topic.vue'
+import { findById } from '@/api/survey/survey.js'
+import preSurvey from '../preview/index.vue'
 
 export default {
   components: {
@@ -89,80 +90,91 @@ export default {
     iPage,
     iCard,
     iButton,
-    preSurvey,
+    preSurvey
   },
   data() {
     return {
-      putoutRangeCopy: "",
+      putoutRangeCopy: '',
       active: 1,
-      interval: "",
+      interval: '',
       basicRuleForm: {
-        id: "",
-        surveyModel: "", // 问卷模块
-        type: "", // 问卷类型
-        endTime: "", // 截止时间
-        name: "", // 问卷名称
-        surveyDescription: "", // 问卷说明
-        closing: "", // 结束语
+        id: '',
+        surveyModel: '', // 问卷模块
+        type: '', // 问卷类型
+        endTime: '', // 截止时间
+        name: '', // 问卷名称
+        surveyDescription: '', // 问卷说明
+        closing: '', // 结束语
         // putoutUsers: [], // 投放范围
-        surveyCover: "", // 封面
-        coverName: "",
+        surveyCover: '', // 封面
+        coverName: '',
         questions: [], // 问题列表
-        putoutRange: "",
-        groupIds: "",
-        groupNames: "",
+        putoutRange: '01',
+        groupIds: '',
+        groupNames: ''
       },
       checkModule: false,
       checkType: false,
       checkEndTime: false,
       checkName: false,
       checkPic: false,
-      editorId: "",
+      checkPutoutRange: false,
+      editorId: '',
       // numberTotal: [],
       // 预览弹窗
       preOpen: false,
-      createPre: true,
-    };
+      createPre: true
+    }
   },
   watch: {
     // basicRuleForm:{
     //   handler(val) {
-
     //   }
     // },
-    "basicRuleForm.surveyModel": function(val) {
-      if (val !== "") this.checkModule = true;
+    'basicRuleForm.surveyModel': function (val) {
+      if (val !== '' && val !== null) this.checkModule = true
     },
-    "basicRuleForm.type": function(val) {
-      if (val !== "") this.checkType = true;
+    'basicRuleForm.type': function (val) {
+      if (val !== '' && val !== null) this.checkType = true
     },
-    "basicRuleForm.endTime": function(val) {
-      if (val !== "") this.checkEndTime = true;
+    'basicRuleForm.endTime': function (val) {
+      if (val !== '' && val !== null) this.checkEndTime = true
     },
-    "basicRuleForm.name": function(val) {
-      if (val !== "") {
-        this.checkName = true;
-      } else {
-        this.checkName = false;
+    'basicRuleForm.putoutRange': {
+      immediate: true,
+      deep: true,
+      handler: function (val) {
+        if (val !== '' && val !== null) {
+          this.checkPutoutRange = true
+        } else {
+          this.checkPutoutRange = false
+        }
       }
     },
-    "basicRuleForm.surveyCover": function(val) {
-      if (val !== "") {
-        this.checkPic = true;
+    'basicRuleForm.name': function (val) {
+      if (val !== '' && val !== null) {
+        this.checkName = true
       } else {
-        this.checkPic = false;
+        this.checkName = false
       }
     },
+    'basicRuleForm.surveyCover': function (val) {
+      if (val !== '' && val !== null) {
+        this.checkPic = true
+      } else {
+        this.checkPic = false
+      }
+    }
   },
   mounted() {
-    const id = this.$route.query.id;
-    this.editorId = id;
+    const id = this.$route.query.id
+    this.editorId = id
     if (id) {
-      this.query({ id: this.$route.query.id });
+      this.query({ id: this.$route.query.id })
     }
     this.interval = setInterval(() => {
-      this.completeS();
-    }, 60 * 1000);
+      this.completeS()
+    }, 60 * 1000)
   },
   methods: {
     //清除不必要的options
@@ -174,15 +186,15 @@ export default {
           Number(item.type) === 3 ||
           Number(item.type) === 5
         ) {
-          Reflect.deleteProperty(item, "options");
-          return item;
+          Reflect.deleteProperty(item, 'options')
+          return item
         }
         if (Number(item.type) === 2) {
-          Reflect.deleteProperty(item, "actionItem");
-          return item;
+          Reflect.deleteProperty(item, 'actionItem')
+          return item
         }
         if (Number(item.type) === 9) {
-          Reflect.deleteProperty(item, "options");
+          Reflect.deleteProperty(item, 'options')
           item.sonQuestions = item.sonQuestions.map((it) => {
             if (
               Number(it.type) === 7 ||
@@ -190,112 +202,112 @@ export default {
               Number(it.type) === 3 ||
               Number(it.type) === 5
             ) {
-              Reflect.deleteProperty(it, "options");
-              return it;
+              Reflect.deleteProperty(it, 'options')
+              return it
             }
             if (Number(it.type) === 2) {
-              Reflect.deleteProperty(item, "actionItem");
-              return it;
+              Reflect.deleteProperty(item, 'actionItem')
+              return it
             }
             return {
               ...it,
-              options: it.options ? it.options : [],
-            };
-          });
-          return item;
+              options: it.options ? it.options : []
+            }
+          })
+          return item
         }
-        return item;
-      });
+        return item
+      })
     },
     //设置code的函数
     handleCheckCode(arr) {
-      let curCode = 0;
+      let curCode = 0
       arr = arr.map((item) => {
         if (
           Number(item.type) !== 7 &&
           Number(item.type) !== 8 &&
           Number(item.type) !== 9
         ) {
-          curCode++;
+          curCode++
           return {
             ...item,
-            code: curCode,
-          };
+            code: curCode
+          }
           // item.code = curCode;
         }
         if (Number(item.type) === 9) {
-          curCode++;
-          let innerCurCode = 0;
+          curCode++
+          let innerCurCode = 0
           item.sonQuestions = item.sonQuestions.map((it) => {
             if (Number(it.type) !== 7 && Number(it.type) !== 8) {
-              innerCurCode++;
+              innerCurCode++
               return {
                 ...it,
-                code: curCode + "." + innerCurCode,
-              };
+                code: curCode + '.' + innerCurCode
+              }
             }
-            Reflect.deleteProperty(it, "code");
-            return it;
-          });
+            Reflect.deleteProperty(it, 'code')
+            return it
+          })
           return {
             ...item,
-            code: curCode,
-          };
+            code: curCode
+          }
         }
-        Reflect.deleteProperty(item, "code");
-        return item;
-      });
-      return arr;
+        Reflect.deleteProperty(item, 'code')
+        return item
+      })
+      return arr
     },
     handlePreview() {
-      this.preOpen = true;
+      this.preOpen = true
     },
     closePreDialog() {
-      this.preOpen = false;
+      this.preOpen = false
     },
     query(e) {
       findById(e).then((res) => {
-        this.basicRuleForm = res;
+        this.basicRuleForm = res
         this.basicRuleForm.questions = this.translateQuestion(
           this.basicRuleForm.questions,
-          "get"
-        );
-      });
+          'get'
+        )
+      })
     },
     next() {
       this.$refs.basicContent.$refs.basicRuleForm.validate((valid) => {
         if (valid) {
-          if (this.active++ > 2) this.active = 1;
+          if (this.active++ > 2) this.active = 1
         }
-      });
+      })
       // if (this.active++ > 2) this.active = 1;
     },
     last() {
-      const decument = this.active--;
-      if (decument == 0) this.active = 1;
+      const decument = this.active--
+      if (decument == 0) this.active = 1
     },
     //arr 按照number去重
     deleMuptil(arr) {
-      let obj = {};
+      let obj = {}
       arr = arr.reduce((cur, next) => {
         if (!obj[next.number]) {
-          obj[next.number] = true;
-          cur.push(next);
+          obj[next.number] = true
+          cur.push(next)
         }
-        return cur;
-      }, []);
-      return arr;
+        return cur
+      }, [])
+      return arr
     },
     translateQuestion(arr, model) {
-      if (model === "save") {
-        arr = this.deleMuptil(arr);
+      if (model === 'save') {
+        arr = this.deleMuptil(arr)
         return arr.map((item, index) => {
           if (Number(item.type) !== 9) {
             if (item.multipleRule) {
               return {
                 ...item,
                 multipleRule:
-                  typeof item.multipleRule === "object"
+                  typeof item.multipleRule === 'object'
                     ? JSON.stringify(item.multipleRule)
                     : item.multipleRule,
                 // code: item.number,
@@ -304,15 +316,15 @@ export default {
                       return {
                         ...t,
                         action:
-                          typeof t.action === "object"
+                          typeof t.action === 'object'
                             ? t.action
                               ? t.action.value
-                              : ""
-                            : t.action,
-                      };
+                              : ''
+                            : t.action
+                      }
                     })
-                  : "",
-              };
+                  : ''
+              }
             }
             return {
               ...item,
@@ -321,21 +333,21 @@ export default {
                     return {
                       ...s,
                       action:
-                        typeof s.action === "object"
+                        typeof s.action === 'object'
                           ? s.action
                             ? s.action.value
-                            : ""
-                          : s.action,
-                    };
+                            : ''
+                          : s.action
+                    }
                   })
-                : "",
+                : ''
               // code: item.number,
-            };
+            }
           } else {
             let arr = item.sonQuestions.filter((item) => {
-              return item;
-            });
-            arr = this.deleMuptil(arr);
+              return item
+            })
+            arr = this.deleMuptil(arr)
             return {
               ...item,
               // code: item.number,
@@ -344,7 +356,7 @@ export default {
                   return {
                     ...it,
                     multipleRule:
-                      typeof it.multipleRule === "object"
+                      typeof it.multipleRule === 'object'
                         ? JSON.stringify(it.multipleRule)
                         : it.multipleRule,
                     options: it.options
@@ -352,16 +364,16 @@ export default {
                           return {
                             ...i,
                             action:
-                              typeof i.action === "object"
+                              typeof i.action === 'object'
                                 ? i.action
                                   ? i.action.value
-                                  : ""
-                                : i.action,
-                          };
+                                  : ''
+                                : i.action
+                          }
                         })
-                      : "",
+                      : ''
                     // code: item.number + "." + it.number,
-                  };
+                  }
                 }
                 return {
                   ...it,
@@ -370,35 +382,35 @@ export default {
                         return {
                           ...e,
                           action:
-                            typeof e.action === "object"
+                            typeof e.action === 'object'
                               ? e.action
                                 ? e.action.value
-                                : ""
-                              : e.action,
-                        };
+                                : ''
+                              : e.action
+                        }
                       })
-                    : "",
+                    : ''
                   // code: item.number + "." + it.number,
-                };
-              }),
-            };
+                }
+              })
+            }
           }
-        });
+        })
       }
-      if (model === "get") {
+      if (model === 'get') {
         return arr.map((item, index) => {
           if (Number(item.type) !== 9) {
             if (item.multipleRule) {
               return {
                 ...item,
                 multipleRule: JSON.parse(item.multipleRule),
-                editor: false,
-              };
+                editor: false
+              }
             }
             return {
               ...item,
-              editor: false,
-            };
+              editor: false
+            }
           } else {
             return {
               ...item,
@@ -408,74 +420,74 @@ export default {
                   return {
                     ...it,
                     multipleRule: JSON.parse(it.multipleRule),
-                    editor: false,
+                    editor: false
                     // code: it.code.toString().split(".")[1],
-                  };
+                  }
                 }
                 return {
-                  ...it,
+                  ...it
                   // code: it.code.toString().split(".")[1],
-                };
-              }),
-            };
+                }
+              })
+            }
           }
-        });
+        })
       }
     },
     completeS() {
       this.basicRuleForm.putoutRange = this.basicRuleForm.putoutRange
-        ? typeof this.basicRuleForm.putoutRange === "object"
-          ? this.basicRuleForm.putoutRange.join(",")
+        ? typeof this.basicRuleForm.putoutRange === 'object'
+          ? this.basicRuleForm.putoutRange.join(',')
           : this.basicRuleForm.putoutRange
-        : "";
+        : ''
       this.basicRuleForm.questions = this.translateQuestion(
         this.basicRuleForm.questions,
-        "save"
-      );
+        'save'
+      )
       this.basicRuleForm.questions = this.handleCheckCode(
         this.basicRuleForm.questions
-      );
+      )
       this.basicRuleForm.questions = this.handleDeleteOptions(
         this.basicRuleForm.questions
-      );
+      )
       if (this.active == 1) {
         this.$refs.basicContent.$refs.basicRuleForm.validate((valid) => {
           if (valid) {
             if (this.basicRuleForm.id) {
-              updateSurvey({ ...this.basicRuleForm }).then(() => {});
+              updateSurvey({ ...this.basicRuleForm }).then(() => {})
             } else {
               saveSurvey(this.basicRuleForm).then((data) => {
-                this.basicRuleForm.id = data.id;
-              });
+                this.basicRuleForm.id = data.id
+              })
             }
           }
-        });
+        })
       } else {
         if (this.basicRuleForm.id) {
-          updateSurvey({ ...this.basicRuleForm }).then(() => {});
+          updateSurvey({ ...this.basicRuleForm }).then(() => {})
         } else {
           saveSurvey(this.basicRuleForm).then((data) => {
-            this.basicRuleForm.id = data.id;
-          });
+            this.basicRuleForm.id = data.id
+          })
         }
       }
     },
     complete() {
       this.basicRuleForm.putoutRange = this.basicRuleForm.putoutRange
-        ? typeof this.basicRuleForm.putoutRange === "object"
-          ? this.basicRuleForm.putoutRange.join(",")
+        ? typeof this.basicRuleForm.putoutRange === 'object'
+          ? this.basicRuleForm.putoutRange.join(',')
           : this.basicRuleForm.putoutRange
-        : "";
+        : ''
       this.basicRuleForm.questions = this.translateQuestion(
         this.basicRuleForm.questions,
-        "save"
-      );
+        'save'
+      )
       this.basicRuleForm.questions = this.handleCheckCode(
         this.basicRuleForm.questions
-      );
+      )
       this.basicRuleForm.questions = this.handleDeleteOptions(
         this.basicRuleForm.questions
-      );
+      )
 
       if (this.active == 1) {
         this.$refs.basicContent.$refs.basicRuleForm.validate((valid) => {
@@ -483,37 +495,37 @@ export default {
             if (this.basicRuleForm.id || this.editorId) {
               updateSurvey({
                 ...this.basicRuleForm,
-                id: this.editorId || this.basicRuleForm.id,
+                id: this.editorId || this.basicRuleForm.id
               }).then(() => {
                 this.$router.push({
-                  path: "/survey/management",
-                });
-              });
+                  path: '/survey/management'
+                })
+              })
             } else {
               saveSurvey(this.basicRuleForm).then((data) => {
                 this.$router.push({
-                  path: "/survey/management",
-                });
-              });
+                  path: '/survey/management'
+                })
+              })
             }
           }
-        });
+        })
       } else {
         if (this.basicRuleForm.id || this.editorId) {
           updateSurvey({
             ...this.basicRuleForm,
-            id: this.editorId || this.basicRuleForm.id,
+            id: this.editorId || this.basicRuleForm.id
           }).then(() => {
             this.$router.push({
-              path: "/survey/management",
-            });
-          });
+              path: '/survey/management'
+            })
+          })
         } else {
           saveSurvey(this.basicRuleForm).then((data) => {
             this.$router.push({
-              path: "/survey/management",
-            });
-          });
+              path: '/survey/management'
+            })
+          })
         }
       }
 
@@ -541,7 +553,7 @@ export default {
       //     }
       //   }
       // }
-      this.basicRuleForm.questions = [...data];
+      this.basicRuleForm.questions = [...data]
     },
     // 删除
     handleDeleteData(data, arr) {
@@ -554,25 +566,25 @@ export default {
       // this.basicRuleForm.questions.map((item, index) => {
       //   item.number = index + 1;
       // });
-      this.basicRuleForm.questions = [...arr];
+      this.basicRuleForm.questions = [...arr]
     },
     //复制
     handleCopy(arr) {
-      this.basicRuleForm.questions = [...arr];
+      this.basicRuleForm.questions = [...arr]
     },
     // 换位置
     handleSortTop(data, arr) {
       // let index = data.number - 1;
       // this.swapArray(this.basicRuleForm.questions, index - 1, index);
-      this.basicRuleForm.questions = [...arr];
+      this.basicRuleForm.questions = [...arr]
     },
     handleSortBottom(data, arr) {
       // let index = data.number - 1;
       // this.swapArray(this.basicRuleForm.questions, index, index + 1);
-      this.basicRuleForm.questions = [...arr];
+      this.basicRuleForm.questions = [...arr]
     },
     handleSortDrag(arr) {
-      this.basicRuleForm.questions = [...arr];
+      this.basicRuleForm.questions = [...arr]
     },
     swapArray(arr, index1, index2) {
       // arr[index1] = arr.splice(index2, 1, arr[index1])[0];
@@ -580,24 +592,24 @@ export default {
       //   item.number = index + 1;
       // });
       // return arr;
-      let item1 = { ...arr[index1] };
-      let item2 = { ...arr[index2] };
+      let item1 = { ...arr[index1] }
+      let item2 = { ...arr[index2] }
       arr = arr.map((item, index) => {
         if (index === index1) {
-          item = item2;
+          item = item2
         }
         if (index === index2) {
-          item = item1;
+          item = item1
         }
-        return item;
-      });
-      this.basicRuleForm.questions = arr;
-    },
+        return item
+      })
+      this.basicRuleForm.questions = arr
+    }
   },
   beforeDestroy() {
-    clearInterval(this.interval);
-  },
-};
+    clearInterval(this.interval)
+  }
+}
 </script>
 <style lang="scss" scoped>
 .header {

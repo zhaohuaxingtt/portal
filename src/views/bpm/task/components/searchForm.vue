@@ -47,8 +47,9 @@
                 :value="item.name"
                 :label="item.value"
                 :disabled="
+                  !isFinished &&
                   multipleCategoryList &&
-                    bpmSinglCategoryList.includes(item.name)
+                  bpmSinglCategoryList.includes(item.name)
                 "
               >
               </el-option>
@@ -97,6 +98,12 @@ import {
 import { AEKO_CATEGORY_LIST, BPM_SINGL_CATEGORY_LIST } from '@/constants'
 export default {
   name: 'searchForm',
+  props: {
+    isFinished: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {
     iSearch,
     iInput,
@@ -228,7 +235,7 @@ export default {
       const res = await queryModelTemplate(data)
       const list = res?.data?.records || []
       list.unshift({ name: '', value: '全部' })
-      this.templates = list.filter(e => !AEKO_CATEGORY_LIST.includes(e.name))
+      this.templates = list.filter((e) => !AEKO_CATEGORY_LIST.includes(e.name))
       this.search()
     }
   }
