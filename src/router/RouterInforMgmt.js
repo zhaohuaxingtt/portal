@@ -1,5 +1,4 @@
 import layoutDefault from '@/layout/default.vue'
-import RouterPopupWindowMa from './RouterPopupWindowMa'
 export default [
   {
     path: '/infoMgmt',
@@ -16,7 +15,7 @@ export default [
         name: 'infoMgmterrorMgmt',
         meta: {
           title: '错误管理',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
         },
         component: layoutDefault
       },
@@ -25,7 +24,8 @@ export default [
         name: 'infoMgmttipsMgmt',
         meta: {
           title: '提示管理',
-          top: 'admin'
+          top: 'admin',
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
         },
         component: layoutDefault
       },
@@ -34,29 +34,29 @@ export default [
         name: 'infoMgmtDialogMgmt',
         meta: {
           title: '弹窗管理',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
         },
         component: () => import('@/layout/empty.vue'),
-        redirect:'/dialogMgmt/popup-window-management',
-        children:[
+        redirect: '/dialogMgmt/popup-window-management',
+        children: [
           {
-            path:'popup-window-management',
-            name:'popup-window-management',
-            meta:{
-                title:'popup-window-management',
-                top: 'admin'
+            path: 'popup-window-management',
+            name: 'popup-window-management',
+            meta: {
+              title: 'popup-window-management',
+              activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
             },
-            component:()=>import('@/views/popupWindowManagement')
+            component: () => import('@/views/popupWindowManagement')
           },
           {
-              path:'popup-window-management/create',
-              name:'create-new',
-              meta:{
-                  title:'create-new',
-                  activePath:'/dialogMgmt/popup-window-management',
-                  top: 'admin'
-              },
-              component:()=> import('@/views/popupWindowManagement/createNew')
+            path: 'popup-window-management/create',
+            name: 'create-new',
+            meta: {
+              title: 'create-new',
+              activePath: '/dialogMgmt/popup-window-management',
+              activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
+            },
+            component: () => import('@/views/popupWindowManagement/createNew')
           }
         ]
       },
@@ -65,7 +65,7 @@ export default [
         name: 'infoMgmtinfoTemplate',
         meta: {
           title: '站内信/邮件模板管理',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
         },
         component: () => import('@/layout/empty.vue'),
         redirect: '/infoTemplate/template',
@@ -75,7 +75,7 @@ export default [
             name: 'infoMgmtmsgTemplate',
             meta: {
               title: '模板管理',
-              top: 'admin'
+              activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
             },
             component: () => import('@/views/InformationMgmt/template/index')
           },
@@ -85,7 +85,7 @@ export default [
             meta: {
               title: 'createInfo',
               activePath: '/infoTemplate/template',
-              top: 'admin'
+              activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
             },
             component: () => import('@/views/InformationMgmt/template/detail')
           },
@@ -95,7 +95,7 @@ export default [
             meta: {
               title: '发送消息',
               activePath: '/infoTemplate/publish/history',
-              top: 'admin'
+              activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
             },
             component: () => import('@/views/InformationMgmt/publish')
           },
@@ -105,7 +105,7 @@ export default [
             meta: {
               title: '发布历史',
               activePath: '/infoTemplate/publish',
-              top: 'admin'
+              activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
             },
             component: () => import('@/views/InformationMgmt/publish/history')
           }
@@ -117,7 +117,8 @@ export default [
     path: '/infoTemplate/publish/send',
     name: 'infoMgmtmsgPublishSend',
     meta: {
-      title: '发布消息'
+      title: '发布消息',
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
     },
     component: () => import('@/views/InformationMgmt/publish/send')
   },
@@ -126,7 +127,7 @@ export default [
     name: 'infoMgmtmsgPublishViewHistory',
     meta: {
       title: '发布历史详情',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
     },
     component: () => import('@/views/InformationMgmt/publish/viewHistory')
   },
@@ -135,7 +136,7 @@ export default [
     name: 'infoMgmtmsgPublishViewTemplate',
     meta: {
       title: '发布消息-查看模板',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
     },
     component: () => import('@/views/InformationMgmt/publish/viewTemplate')
   }

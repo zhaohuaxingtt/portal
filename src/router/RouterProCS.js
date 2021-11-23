@@ -39,7 +39,7 @@ export const cfProCS = [
         name: 'ProCSIndex',
         meta: {
           title: 'ProCS Index',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/procs')
       },
@@ -48,7 +48,7 @@ export const cfProCS = [
         name: 'knowledge',
         meta: {
           title: 'knowledge',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/knowledge')
       },

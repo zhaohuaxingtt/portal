@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-19 15:21:52
+ * @LastEditTime: 2021-11-22 14:31:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -255,7 +255,6 @@ export default {
       this.muliteList1 = val
     },
     save () {
-
       this.muliteList.forEach(item => {
         item.editRow = false
       })
@@ -282,8 +281,8 @@ export default {
         mtzAppId: this.mtzAppId
       }
       uploadBasePriceChange(params).then((res) => {
-        console.log(res)
         if (res.code === '200') {
+          this.this.getBasePriceChangePageList()
           iMessage.success(res.desZh)
         } else {
           iMessage.error(res.desZh)

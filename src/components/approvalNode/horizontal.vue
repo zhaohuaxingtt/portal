@@ -59,6 +59,7 @@
                     approver.taskStatus
                   )
                 }"
+                :status="approver.taskStatus"
               >
                 <div class="self-user">
                   <span>
@@ -258,6 +259,10 @@ export default {
             float: left;
             margin: 0px 10px 0px -3px;
             background: #fff;
+          }
+          &.multiple ul.approval-users > li.active > .self-user::before {
+            background: $color-blue;
+            border: $color-blue;
           }
 
           &.multiple ul.approval-users > li::after {

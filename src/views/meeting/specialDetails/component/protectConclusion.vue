@@ -184,11 +184,19 @@ export default {
       tableListData: [],
       ruleForm: {
         conclusion: {
-          conclusionCsc: this.selectedTableData[0].conclusionCsc,
+          conclusionCsc: this.selectedTableData[0].conclusionCsc
+            ? this.selectedTableData[0].conclusionCsc
+            : '01',
           conclusionName:
-            themenConclusion[this.selectedTableData[0].conclusionCsc]
+            themenConclusion[
+              this.selectedTableData[0].conclusionCsc
+                ? this.selectedTableData[0].conclusionCsc
+                : '01'
+            ]
         },
-        taskCsc: this.selectedTableData[0].conclusion,
+        taskCsc: this.selectedTableData[0].conclusion
+          ? this.selectedTableData[0].conclusion
+          : '',
         isFrozenRs:
           this.beforeResult === '02'
             ? this.selectedTableData[0].isFrozenRs
@@ -240,6 +248,10 @@ export default {
         {
           conclusionCsc: '05',
           conclusionName: '下次Pre CSC'
+        },
+        {
+          conclusionCsc: '06',
+          conclusionName: '转CSC'
         },
         {
           conclusionCsc: '07',

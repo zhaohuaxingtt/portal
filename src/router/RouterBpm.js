@@ -4,7 +4,7 @@ export default [
     name: 'template',
     meta: {
       title: '流程模板',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_APPROVAL'] // 一级菜单,二级菜单
     },
     component: () => import('@/views/bpm/template')
   },
@@ -13,7 +13,7 @@ export default [
     name: 'templateDetail',
     meta: {
       title: '流程模板详情',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_APPROVAL'] // 一级菜单,二级菜单
     },
     component: () => import('@/views/bpm/template/detail')
   },
@@ -22,7 +22,7 @@ export default [
     name: 'bpmMnonitoring',
     meta: {
       title: '流程监控',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_APPROVAL'] // 一级菜单,二级菜单
     },
     component: () => import('@/views/bpm/monitoring')
   },
@@ -31,7 +31,7 @@ export default [
     name: 'bpmReport',
     meta: {
       title: '流程报表',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_APPROVAL'] // 一级菜单,二级菜单
     },
     component: () => import('@/views/bpm/report')
   },
@@ -39,7 +39,8 @@ export default [
     path: '/approval/agent',
     name: 'approvalAgent',
     meta: {
-      title: '审批代理'
+      title: '审批代理',
+      activeMenu: ['RISE_ADMIN', 'ADMIN_APPROVAL'] // 一级菜单,二级菜单
     },
     component: () => import('@/views/bpm/approvalAgent')
   },
@@ -47,7 +48,8 @@ export default [
     path: '/approval/agent/add',
     name: 'ApprovalAgentAdd',
     meta: {
-      title: '新建审批代理'
+      title: '新建审批代理',
+      activeMenu: ['RISE_ADMIN', 'ADMIN_APPROVAL'] // 一级菜单,二级菜单
     },
     component: () => import('@/views/bpm/approvalAgent/add')
   },
@@ -55,7 +57,8 @@ export default [
     path: '/approval/agent/edit/:id',
     name: 'ApprovalAgentEdit',
     meta: {
-      title: '编辑审批代理'
+      title: '编辑审批代理',
+      activeMenu: ['RISE_ADMIN', 'ADMIN_APPROVAL'] // 一级菜单,二级菜单
     },
     component: () => import('@/views/bpm/approvalAgent/edit')
   }

@@ -4,7 +4,7 @@ export default [
     name: 'authorityMgmt/index',
     meta: {
       title: '员工管理',
-      top: 'admin' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
     component: () => import('@/views/authorityMgmt/index')
   },
@@ -13,7 +13,7 @@ export default [
     name: 'authorityMgmt',
     meta: {
       title: '员工详情',
-      top: 'admin' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
     component: () => import('@/views/authorityMgmt/staffMnagement')
   },
@@ -22,7 +22,7 @@ export default [
     name: 'authorityMgmt/add',
     meta: {
       title: '员工新建',
-      top: 'admin' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
     component: () => import('@/views/authorityMgmt/add')
   },
@@ -31,7 +31,7 @@ export default [
     name: 'addLabel',
     meta: {
       title: '标签',
-      top: 'admin' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
     component: () => import('@/views/authorityMgmt/components/addLabel')
   }

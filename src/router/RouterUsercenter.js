@@ -8,7 +8,7 @@ export const CfOrgChart = [
     name: 'orgChart',
     meta: {
       title: '组织架构图',
-      top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS'] // 一级菜单,二级菜单
     },
     component: () => import('@/views/org/chart')
   }
@@ -22,7 +22,8 @@ export default [
       title: '组织管理',
       top: 'admin' // 一级菜单 选中与否 flag
     },
-    component: OrgList
+    component: OrgList,
+    activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS'] // 一级菜单,二级菜单
   },
   {
     path: '/org/create/:id?/:type?/:upLevelID?/:upLevelName?',
@@ -30,7 +31,7 @@ export default [
     meta: {
       title: '创建组织机构',
       activePath: '/org/create',
-      top: 'admin' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS'] // 一级菜单,二级菜单
     },
     component: OrgCreate
   },
@@ -39,7 +40,7 @@ export default [
     name: 'orgTagCreate',
     meta: {
       title: '创建组织标签',
-      top: 'admin' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS'] // 一级菜单,二级菜单
     },
     component: OrgTagCreate
   }
