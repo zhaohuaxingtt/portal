@@ -61,6 +61,7 @@ export default {
 
         // 检查一下有没有并行节点
         if (
+          panoromaItem.branchFlag.indexOf('branch') === 0 &&
           panoromaItem.childBranchFlag &&
           panoromaItem.childBranchFlag.length
         ) {
