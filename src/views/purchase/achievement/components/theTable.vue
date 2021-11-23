@@ -19,24 +19,16 @@
                     {{ $t('EKL_YEJIJINETIAOZHENG') }}
                 </iButton>
                 <!--年度目标管理-->
-                <!--<iButton class="ml10" @click="openTargetManDialog" v-permission="ACHIEVEMENTMGT_LIST_TARGETMANAGE">-->
-                <!--{{ $t('EKL_YJGL_NDMBGL') }}-->
-                <!--</iButton>-->
-                <iButton class="ml10" @click="openTargetManDialog" v-if="(isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_TARGETMANAGE')&&bzzlorlinie)||bzzlorlinie">
+                <iButton class="ml10" @click="openTargetManDialog" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_TARGETMANAGE')||bzzl">
                     {{ $t('EKL_YJGL_NDMBGL') }}
                 </iButton>
                 <!--年度目标管理 配附件-->
-                <!--<iButton @click="openSpareTargetManDialog" v-permission="ACHIEVEMENTMGT_SPARE_ANNUAL_TATGET">{{ $t('EKL_YJGL_NDMBGL') }}</iButton>-->
                 <iButton class="ml10" @click="openSpareTargetManDialog" v-if="(isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_TARGETMANAGE')&&state)||state">{{ $t('EKL_YJGL_NDMBGL') }}
                 </iButton>
                 <!--基础表模板下载 配附件-->
-                <!--<iButton class="ml10" @click="spareTempDown" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_TABLE_TEMPLATE_DOWN')||state">-->
-                    <!--{{ $t('EKL_JCBMBXZ') }}-->
-                <!--</iButton>-->
-                <iButton class="ml10" @click="spareTempDown">
+                <iButton class="ml10" @click="spareTempDown" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_TABLE_TEMPLATE_DOWN')||state">
                     {{ $t('EKL_JCBMBXZ') }}
                 </iButton>
-                <!--<iButton @click="spareTempDown" v-if="state">{{ $t('EKL_JCBMBXZ') }}</iButton>-->
             </div>
         </div>
         <tableList
@@ -160,8 +152,8 @@
       state() {
         return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'PFJYJGLY')
       },
-      bzzlorlinie() {
-        return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'LINIE' || item.code == 'BZZL')
+      bzzl() {
+        return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'BZZL')
       },
     },
     created() {
