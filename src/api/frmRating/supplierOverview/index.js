@@ -22,7 +22,7 @@ export function currentList(parmars) {
         data: parmars
     })
 }
-//sap号
+//下拉集合
 export function sapDropDown(parmars) {
     return requst({
         url: `/supplierRatingRecord/dropDown`,
@@ -67,6 +67,22 @@ export function riskSignalCard(parmars) {
 export function initRatingCard(parmars) {
     return requst({
         url: `/initComment/initRatingCard`,
+        method: 'POST',
+        data: parmars
+    })
+}
+//crting科室
+export function deptDropDown(parmars) {
+    return requst({
+        url: `/supplierRatingRecord/dropDown`,
+        method: 'POST',
+        data: parmars
+    })
+}
+//crting采购员
+export function userDropDown(parmars) {
+    return requst({
+        url: `/supplierRatingRecord/userDropDown`,
         method: 'POST',
         data: parmars
     })
