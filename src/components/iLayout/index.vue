@@ -69,7 +69,7 @@ import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
 import { popoverList } from './components/data.js'
 import layoutNotify from './components/notify'
-import popurIcon from "@/assets/images/leftContent.png"
+import popurIcon from "@/assets/images/popur.svg"
 import activePopurIcon from "@/assets/images/active-popur.svg"
 
 export default {
@@ -254,8 +254,8 @@ export default {
   }
   .povper-content {
     position: fixed;
-    bottom: 40px;
-    right: 120px;
+    bottom: 120px;
+    right: 50px;
     background-color: #fff;
     border-radius: 10%;
     box-shadow: 10px 10px 5px #e0e4ec;
@@ -287,8 +287,8 @@ export default {
     right: 50px;
 
     img {
-      height: 50px;
-      width: 50px;
+      height: 60px;
+      width: 60px;
     }
   }
   .app-menu-model {
