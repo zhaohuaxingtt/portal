@@ -39,6 +39,7 @@
             </div>
             <div
               class="middle middle-m"
+              style="fontSize: 40px"
               v-if="
                 parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget
               "
@@ -355,7 +356,7 @@ export default {
     }
     > .middle {
       color: #1763f7;
-      font-size: 40px;
+      font-size: 26px;
       min-width: 120px;
     }
     > .middle-m {

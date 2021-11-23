@@ -288,7 +288,7 @@
           <div v-for="(item, index) in defaultPartsList" :key="index" :class="{ isExpand: expandRelevantPart }"
                @click="currentDefaultPart = item.partsNum;getRelationParts()">
             <div class="title">
-              <span class="link" @click.stop="toPartLifeCycle(item.partsNum)">{{ item.partsNum }}</span>
+              <span class="link" @click.stop="toPartLifeCycle(item)">{{ item.partsNum }}</span>
               <span>{{ item.deptName }}</span>
               <icon v-show="!isEdit" symbol @click.native.stop.prevent="cancelOrCollect(item)"
                     :name="Number(item.isDefaultFolder) === 1 ? 'iconyishoucanglingjian' : 'iconweishoucanglingjian'"></icon>
@@ -327,7 +327,7 @@
                   <p>{{ item.partsNum }}</p>
                   <p>{{ item.partsNumNameZh }}</p>
                 </div>
-                <icon symbol @click.native="toPartLifeCycle(item.partsNum)" name="iconxiangguanlingjian-gengduo"></icon>
+                <icon symbol @click.native="toPartLifeCycle(item)" name="iconxiangguanlingjian-gengduo"></icon>
               </div>
             </div>
           </iCard>
@@ -763,10 +763,10 @@ export default {
         iMessage.warn(this.language('LK_QINGGOUXUANHOUZAIQUERENRENLING', '请勾选后再确认认领'))
       }
     },
-    toPartLifeCycle(partsNum) {
+    toPartLifeCycle(item) {
       let routeData = this.$router.resolve({
         path: '/partLifeCycle',
-        query: { partsNum: partsNum }
+        query: { partsNum: item.partsNum, isDefaultFolder:item.isDefaultFolder,partsCollectId:item.partsCollectId }
       })
       window.open(routeData.href)
     },
@@ -961,7 +961,7 @@ export default {
         width: 100%;
         > div {
           width: calc(25% - 30px);
-          height: 263px;
+          height: 293px;
           background: linear-gradient(180deg, #FFFFFF 0%, #DBE1EF 100%);
           box-shadow: 0px 0px 20px rgba(27, 29, 33, 0.08);
           opacity: 1;
@@ -1008,9 +1008,6 @@ export default {
           .gray {
             height: 24px;
             color: #333333;
-          }
-          .pb20{
-            padding-bottom: 20px;
           }
           .item {
             font-size: 16px;
