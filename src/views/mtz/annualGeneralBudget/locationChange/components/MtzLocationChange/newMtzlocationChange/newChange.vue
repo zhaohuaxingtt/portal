@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 17:43:45
- * @LastEditTime: 2021-11-22 20:59:02
+ * @LastEditTime: 2021-11-23 14:21:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\index.vue
@@ -118,6 +118,7 @@ export default {
     sure () {
       this.dialogVisible = false
       this.$refs.theTable.handleSure()
+      this.dateList = []
     }
   }
 }

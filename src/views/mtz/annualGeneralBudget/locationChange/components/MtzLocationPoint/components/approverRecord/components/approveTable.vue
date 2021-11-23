@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-19 19:45:54
+ * @LastEditTime: 2021-11-23 11:04:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -14,6 +14,7 @@
         <iButton type="text"
                  class="margin-right20"
                  @click="handleSync"
+                 v-show="!flag"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
         <iButton v-show="!flag"
