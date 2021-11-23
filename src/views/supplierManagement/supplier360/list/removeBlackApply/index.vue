@@ -80,6 +80,9 @@ export default {
     }
   },
   created() {
+         var tbody = document.body
+        var height = tbody.clientHeight
+        window.parent.postMessage({ key: 'setFormHeight', value: height+'px'},'*')
         if (window.top === window.self) {
       this.ifSelf = true
     } else {
