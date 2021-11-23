@@ -22,7 +22,7 @@
                 <!--<iButton class="ml10" @click="openTargetManDialog" v-permission="ACHIEVEMENTMGT_LIST_TARGETMANAGE">-->
                 <!--{{ $t('EKL_YJGL_NDMBGL') }}-->
                 <!--</iButton>-->
-                <iButton class="ml10" @click="openTargetManDialog" v-if="(isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_TARGETMANAGE')&&bzzlorlinie)||bzzlorlinie">
+                <iButton class="ml10" @click="openTargetManDialog" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_TARGETMANAGE')||bzzl">
                     {{ $t('EKL_YJGL_NDMBGL') }}
                 </iButton>
                 <!--年度目标管理 配附件-->
@@ -160,8 +160,8 @@
       state() {
         return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'PFJYJGLY')
       },
-      bzzlorlinie() {
-        return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'LINIE' || item.code == 'BZZL')
+      bzzl() {
+        return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'BZZL')
       },
     },
     created() {
