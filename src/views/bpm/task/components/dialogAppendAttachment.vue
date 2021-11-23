@@ -116,7 +116,7 @@ export default {
     },
     attachColumns: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -194,10 +194,10 @@ export default {
         this.$store.state.permission.userInfo.userName
       )
       await uploadApprovalAttach(formData)
-        .then(res => {
+        .then((res) => {
           this.attachList.push(res)
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
           iMessage.error(this.$t('LK_SHANGCHUANSHIBAI'))
         })
@@ -214,7 +214,7 @@ export default {
         return false
       } */
 
-      const taskFiles = this.attachList.map(e => e.id).join(',')
+      const taskFiles = this.attachList.map((e) => e.id).join(',')
 
       const data = {
         addMaterialUserId: this.$store.state.permission.userInfo.id,
@@ -226,7 +226,7 @@ export default {
       }
       this.uploadLoading = true
       saveApprovalAttach(data)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success(this.$t('APPROVAL.SAVE_SUCCESSFUL'))
             this.attachList.length = 0
@@ -242,13 +242,13 @@ export default {
         })
     },
     del() {
-      const filePathes = this.selectedTableData.map(e => e.filePath)
+      const filePathes = this.selectedTableData.map((e) => e.filePath)
       if (filePathes.length === 0) {
         iMessage.error(this.$t('APPROVAL.CHOOSE_LEASET_ONE_ATTACH'))
         return false
       }
       this.onDelete().then(() => {
-        this.attachList = this.attachList.filter(e => {
+        this.attachList = this.attachList.filter((e) => {
           return filePathes.indexOf(e.filePath) === -1
         })
         this.page.totalCount = this.attachList.length
