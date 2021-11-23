@@ -274,7 +274,7 @@
     <div class="partLifeCycleStar_main">
       <div class="partLifeCycleStar_main_header">
         <div class="left" v-show="!isSearch">{{ language('LK_WODESHOUCANG', '我的收藏') }}</div>
-        <div class="left" v-show="isSearch">{{ language('LK_SOUSUOJIEGUO', '搜索结果') }}<span>相关结果{{ defaultPartsList.length }}个</span></div>
+        <div class="left" v-show="isSearch">{{ language('LK_SOUSUOJIEGUO', '搜索结果') }}<span>相关结果{{ defaultPartsTotal }}个</span></div>
         <div class="right">
           <iButton v-show="isEdit" @click="isEdit = false">{{ language('LK_TUICHU', '退出') }}</iButton>
           <iButton v-show="isEdit" @click="toClaim">{{ language('LK_QUERENRENLING', '确认认领') }}</iButton>
@@ -446,6 +446,7 @@ export default {
       current: 1,
       size: 9,
       isButn: true,
+      defaultPartsTotal: 0,
     }
   },
   mounted() {
@@ -585,6 +586,7 @@ export default {
             item.isClaim = false
             return item
           })
+          this.defaultPartsTotal = res.total;
           if (this.defaultPartsList.length > 0) {
             this.currentDefaultPart = this.defaultPartsList[0].partsNum
           }
