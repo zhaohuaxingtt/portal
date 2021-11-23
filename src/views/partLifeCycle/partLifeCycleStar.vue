@@ -958,7 +958,7 @@ export default {
         width: 100%;
         > div {
           width: calc(25% - 30px);
-          height: 293px;
+          height: 263px;
           background: linear-gradient(180deg, #FFFFFF 0%, #DBE1EF 100%);
           box-shadow: 0px 0px 20px rgba(27, 29, 33, 0.08);
           opacity: 1;
