@@ -882,9 +882,9 @@ export default {
       let formData = new FormData();
       formData.append("file", content.file);
       const res = await uploadFile(formData).catch((err) => {
-        iMessage.error(this.$t("TERMS_SHANGCHUANSHIBAI"));
+        iMessage.error(this.$t("上传成功"));
       });
-      iMessage.success(this.$t("TERMS_SHANGCHUANCHENGGONG"));
+      iMessage.success(this.$t("上传失败"));
       let list = [];
       let previewList = this.questions;
       list.push({
