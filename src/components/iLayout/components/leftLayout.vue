@@ -33,7 +33,7 @@
           </span>
         </div>
         <div class="btn-button">
-          <img src="~@/assets/images/leftContent.png" alt="" />
+          <!-- <img src="~@/assets/images/leftContent.png" alt="" /> -->
         </div>
       </div>
     </div>
@@ -309,11 +309,11 @@ export default {
   .btn-button {
     width: 70px;
     height: 70px;
-    background: #f1f5ff;
+    // background: #f1f5ff;
     margin: 0 auto;
     padding: 13px;
-    border-radius: 15px;
-    cursor: pointer;
+    // border-radius: 15px;
+    // cursor: pointer;
 
     img {
       display: inline-block;
