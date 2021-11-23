@@ -23,13 +23,15 @@
         </template>
         <template v-if="type == 'edit'">
             <div v-if="preview" v-html="content"></div>
-            <iEditor v-else class="manual-editor" v-model="content"></iEditor>
-            <div class="upload">
-                <iButton @click="upload">添加附件</iButton>
-                <span>只能上传不超过20MB的文件</span>
-                <iUpload v-show="false" ref="upload" @callback="uploadChange" />
-            </div>
-            <FileList v-for="(f,i) in files" :key="i" :file="f" @del="delFile"></FileList>
+            <template v-else>        
+                <iEditor class="manual-editor" v-model="content"></iEditor>
+                <div class="upload">
+                    <iButton @click="upload">添加附件</iButton>
+                    <span>只能上传不超过20MB的文件</span>
+                    <iUpload v-show="false" ref="upload" @callback="uploadChange" />
+                </div>
+                <FileList v-for="(f,i) in files" :key="i" :file="f" @del="delFile"></FileList>
+            </template>
         </template>
     </div>
 </template>
@@ -67,7 +69,13 @@
                 
             },
             delFile(file){
-                
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                   
+                    })
             }
         },
     }

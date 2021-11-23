@@ -26,8 +26,11 @@
     min-width: 200px;
     justify-content: space-between;
     transition: all .3s ease;
-    background-color: #a0bffc46;
     border-radius: 4px;
+    &:hover{
+        background-color: #f5f7fa;
+        color: #2369f1;
+    }
 }
 .close{
     padding: 2px;

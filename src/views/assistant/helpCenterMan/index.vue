@@ -60,7 +60,6 @@
 </template>
 
 <script>
-import store from '@/store'
 import { iPage, iInput, iSelect } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
@@ -170,7 +169,7 @@ export default {
 	}
 	.content-right{
 		flex: 1;
-    	padding: 30px 40px 20px 40px;
+		padding: 30px 40px 20px 40px;
 		margin-left: 20px;
 		box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
 		border-radius: 5px;
