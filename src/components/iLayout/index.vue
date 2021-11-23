@@ -43,7 +43,7 @@
         @click="hideSideMenu"
       ></div>
     </div>
-    <div class="btn-button" @click="handleShow">
+    <div class="btn-button" @click.stop="handleShow">
       <!-- <img src="~@/assets/images/leftContent.png" alt="" /> -->
       <img :src="!contentShowFlag? popurIcon : activePopurIcon " alt="" />
     </div>
@@ -134,6 +134,11 @@ export default {
     }) */
 
     this.menus && this.menus.length ? this.getMenus() : this.getMenuList()
+  },
+  mounted() {
+    document.body.addEventListener('click', () => {
+      this.contentShowFlag = false
+    })
   },
   methods: {
     handleShow() {
