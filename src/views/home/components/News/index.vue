@@ -9,11 +9,13 @@
         <div class="news-abs multi-ellipsis">{{ firstNews.summary }}</div>
         <div class="news-user-time">
           <div class="news-user">
-            <icon
+            <!-- <icon
               symbol
               class="icon"
               name="iconyuangong"
-            />{{ firstNews.publisher }}
+            /> -->
+            <i class="el-icon-user-solid" style="color:#F1F5FF;"></i>
+            {{ firstNews.publisher }}
           </div>
           <div class="news-time">
             {{ firstNews.publishDate }}
@@ -32,7 +34,8 @@
       <div class="news-abs multi-ellipsis">{{ item.summary }}</div>
       <div class="news-user-time">
         <div class="news-user">
-          <icon symbol class="icon" name="iconyuangong" />
+          <!-- <icon symbol class="icon" name="iconyuangong" /> -->
+            <i class="el-icon-user-solid" style="color:#F1F5FF;"></i>
           {{ item.publisher }}
         </div>
         <div class="news-time">{{ item.publishDate }}</div>
@@ -144,17 +147,21 @@ export default {
       font-weight: bold;
       margin-bottom: 6px;
       font-size: 14px;
+      opacity: 0.65;
     }
     > .news-abs {
       color: #707070;
       font-size: 12px;
       margin-bottom: 10px;
+      opacity: 0.7;
     }
     > .news-user-time {
       color: #09152c;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      opacity: 0.65;
+
       > .news-user {
         > .icon {
           font-size: 16px;
@@ -189,18 +196,21 @@ export default {
         margin-bottom: 6px;
         font-size: 14px;
         width: 200px;
+        opacity: 0.65;
       }
       > .news-abs {
         color: #707070;
         font-size: 12px;
         margin-bottom: 6px;
         width: 200px;
+        opacity: 0.7;
       }
       > .news-user-time {
         color: #09152c;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        opacity: 0.65;
       }
     }
   }

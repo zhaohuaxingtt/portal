@@ -3,13 +3,20 @@
  * @Author: caopeng
 -->
 <template>
-  <iCard :title="language(
+  <div >
+      <div class="boxTitle">
+          <p>
+              {{language(
               'GONGYINGSHANGXUNJIADINGDIANQINGKUANG',
               '供应商询价定点情况'
-            )">
-    <el-button slot="header-control"
+            )}}
+          </p>
+          <el-button slot="header-control"
+          v-if="$route.query.isSupplier!=1"
                type="primary"
                @click="$emit('back')">{{$t('LK_FANHUI')}}</el-button>
+      </div>
+    
     <el-tabs class="tabsHeader"
              type="card"
              style="margin-left: 20px"
@@ -197,7 +204,7 @@
         </el-form-item>
       </el-form>
     </iSearch>
-    <div class="tableBox">
+    <iCard class="tableBox" style="margin-top:20px">
       <div class="sectionTitle">
         <span class="ptext">
           {{ language('XIANGQINGLIEBIAO', '详情列表') }}
@@ -274,7 +281,7 @@
                    :layout="page.layout"
                    :current-page="page.currPage"
                    :total="page.totalCount" />
-    </div>
+    </iCard>
     <div style="height: 30px"></div>
     <iDialog destroy-on-close
              @close="closeDiologDetail()"
@@ -296,7 +303,7 @@
               show-word-limit></iInput>
       <div style="height: 30px"></div>
     </iDialog>
-  </iCard>
+  </div>
 </template>
 
 <script>
@@ -391,6 +398,7 @@ export default {
       this.form.sapCode[0] = this.sapCode || ''
       this.form.supplierName[0] = this.supplierId || ''
     }
+ 
     this.getInit()
   },
   methods: {
@@ -398,7 +406,6 @@ export default {
       this.visible = true
       this.getInit()
     },
-
     // //选择相关科室
     deptChange(v) {
       if (v.length > 0) {
@@ -422,19 +429,6 @@ export default {
           this.form.userId = arr2
         })
       }
-
-      //   console.log(v)
-      //   var arr = []
-      //   if (v.length >= 1) {
-      //     v.forEach(v => {
-      //       let users = []
-      //       users = this.deptList.find(i => {
-      //         return i.id == v
-      //       }).userDTOList
-      //       arr.push(...users)
-      //     })
-      //   }
-      //   this.userList = arr
     },
     getTaleList() {
       this.tableLoading = true
@@ -442,7 +436,9 @@ export default {
         this.form.supplierId = this.form.sapCode.concat(this.form.supplierName)
       }
       const req = {
-        ...this.form
+        ...this.form,
+          pageNo: this.page.currPage,
+          pageSize: this.page.pageSize
       }
 
       req.sapCode = undefined
@@ -453,12 +449,12 @@ export default {
           this.tableListData = res.data
         })
       } else {
-        let form = {
-          ...req,
-          pageNo: this.page.currPage,
-          pageSize: this.page.pageSize
-        }
-        historyList(form).then((res) => {
+        // let form = {
+        //   ...req,
+        //   pageNo: this.page.currPage,
+        //   pageSize: this.page.pageSize
+        // }
+        historyList(req).then((res) => {
           this.page.totalCount = res.total
           this.tableLoading = false
           this.tableListData = res.data
@@ -572,14 +568,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .card{
-  box-shadow: 0 0 0px rgb(27 29 33 / 0%)
-}
 .boxTitle {
   display: flex;
+  margin-bottom: 20px;
   align-items: center;
   justify-content: space-between;
-  p {
+  p{
+          font-size: 20px;
+    font-family: Arial;
+    font-weight: bold;
+    color: #131523;
   }
 }
 .early {
@@ -612,9 +610,6 @@ export default {
   }
 }
 .header {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e3e3e3;
-
   ::v-deep.el-form-item {
     margin: 0 20px;
   }
