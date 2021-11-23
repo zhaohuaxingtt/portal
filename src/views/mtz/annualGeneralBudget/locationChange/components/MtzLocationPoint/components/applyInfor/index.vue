@@ -180,7 +180,7 @@ export default {
     }
     this.getListData()
     if(this.$route.query.appId){
-      this.appIdType = false;
+      this.appIdType = true;
     }
   },
   methods: {

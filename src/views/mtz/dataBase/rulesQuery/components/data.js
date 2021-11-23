@@ -67,7 +67,9 @@ export const tableSetting = [
   {prop: 'buyerDeptName',label: 'MTZ定点采购员科室',align: 'center',i18n: 'MTZ定点采购员科室',width: 200},
   { prop: 'startDate', label: '有效期起', align: 'center', i18n: '有效期起',width: 150 },
   { prop: 'endDate', label: '有效期止', align: 'center', i18n: '有效期止',width: 150 },
-  { prop: 'sourceCode', label: '来源', align: 'center', i18n: '来源',width: 150 },
+  { prop: 'sourceCode', label: '来源', align: 'center', i18n: '来源',width: 150 ,  emit: 'go-detail', customRender: (h, scope) => {
+    return <span class="link-text">{scope.row?.sourceCode}</span>
+  }},
   { prop: 'effectFlag', label: '是否生效', align: 'center', i18n: '是否生效',width: 150 },
   { prop: 'platinumPrice;',label: '铂基价',align: 'center',i18n: '铂基价',tooltip:true, width:100, headerRender: (h, {column}) => renderIcon(h, column, 1)},
   { prop: 'platinumDosage',label: '铂用量',align: 'center',i18n: '铂用量',tooltip:true, width:100, headerRender: (h, {column}) => renderIcon(h, column, 1)},
