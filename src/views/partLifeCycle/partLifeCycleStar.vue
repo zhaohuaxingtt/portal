@@ -509,6 +509,7 @@ export default {
               item.isClaim = false
               return item
             })
+            this.defaultPartsTotal = res.total;
             this.defaultPartsList = this.defaultPartsList.concat(data)
           } else {
             iMessage.error(result)
