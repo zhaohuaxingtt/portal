@@ -12,7 +12,7 @@
             <span v-if="getOverdueQty(item.taskType) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
-            <icon symbol class="icon" name="iconOverdue" />
+            <!-- <icon symbol class="icon" name="iconOverdue" /> -->
             <div>{{ $t('HOME_CARD.OVERDUE') }}</div>
           </div>
         </div>
@@ -23,7 +23,7 @@
             <span v-if="getTodayQty(item.taskType) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
-            <icon symbol class="icon" name="icona-InProgress" />
+            <!-- <icon symbol class="icon" name="icona-InProgress" /> -->
             <div>{{ $t('HOME_CARD.IN_PROGRESS') }}</div>
           </div>
         </div>
@@ -120,10 +120,15 @@ export default {
 
 <style lang="scss" scoped>
 .single-ellipsis {
+  word-wrap: break-word;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 100px;
+  width: 120px;
+}
+.single-ellipsis:hover {
+  white-space: normal;
+  overflow: auto;
 }
 .task-card {
   border-radius: 10px;

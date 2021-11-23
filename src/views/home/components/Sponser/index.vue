@@ -30,43 +30,43 @@ export default {
     return {
       checkList: [],
       options: [],
-      gradeList: ['A', 'AA', 'AAA', 'B', 'BB', 'BBB', 'C', 'CC', 'CCC'],
+      gradeList: ['AAA', 'AA', 'A', 'BBB', 'BB', 'B', 'CCC', 'CC', 'C'],
       colorList: [
         {
-          name: 'A',
-          color: '#297fd5'
+          name: 'AAA',
+          color: '#4a66ac'
         },
         {
           name: 'AA',
           color: '#629dd1'
         },
         {
-          name: 'AAA',
-          color: '#4a66ac'
-        },
-        {
-          name: 'B',
-          color: '#9d90a0'
-        },
-        {
-          name: 'BB',
-          color: '#5aa2ae'
+          name: 'A',
+          color: '#297fd5'
         },
         {
           name: 'BBB',
           color: '#7f8fa9'
         },
         {
-          name: 'C',
-          color: '#194c80'
+          name: 'BB',
+          color: '#5aa2ae'
+        },
+        {
+          name: 'B',
+          color: '#9d90a0'
+        },
+        {
+          name: 'CCC',
+          color: '#2c3d67'
         },
         {
           name: 'CC',
           color: '#2a5f8e'
         },
         {
-          name: 'CCC',
-          color: '#2c3d67'
+          name: 'C',
+          color: '#194c80'
         }
       ],
       list: [],
@@ -240,7 +240,9 @@ export default {
         total += data[i].value
       }
       this.total = total
-      this.legendData = data
+      let sortA = data.sort().slice(0,3).reverse()
+      let arr = [...sortA, ...data.slice(3, data.length)]
+      this.legendData = arr
       const chart = echarts().init(this.$refs.pie)
       this.chart = chart
       const option = {

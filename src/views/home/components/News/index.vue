@@ -75,7 +75,8 @@ export default {
       if (item.linkUrl) {
         window.open(item.linkUrl, '_blank')
       } else {
-        window.location.href=`/portal/news/#/news/details?id=${item.id}`
+        // window.location.href=`/portal/news/#/news/details?id=${item.id}`
+        window.open(`/portal/news/#/news/details?id=${item.id}`, '_blank')
       }
     },
     async getNewsList() {
