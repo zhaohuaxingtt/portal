@@ -13,7 +13,7 @@
           </div>
           <div class="numName flex-align-center">
             <!-- <icon symbol class="icon" name="icona-MyApplication" /> -->
-            <div class="numName-text">{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
+            <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
           </div>
         </div>
         <div class="line">/</div>
@@ -24,7 +24,7 @@
           </div>
           <div class="numName flex-align-center">
             <!-- <icon symbol class="icon" name="icona-MyApproval" /> -->
-            <div class="numName-text">{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
+            <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
           </div>
         </div>
       </div>
@@ -206,7 +206,7 @@ export default {
     > .abs {
       font-size: 12px;
       text-align: left;
-      color: #222;
+      // color: #222;
     }
   }
   > .right {
