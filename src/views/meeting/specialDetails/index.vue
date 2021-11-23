@@ -5,7 +5,7 @@
         <div class="row">
           <div class="meeting-type">
             <div class="name">会议名称</div>
-            <div class="name-content">
+            <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
             <iButton
@@ -624,12 +624,13 @@
     ></newSummaryDialogNew>
     <!-- 关闭触发审批流 -->
     <closeMeetiongDialog
-      v-if="dialogStatusManageObj.openCloseMeetiongDialog"
+      v-show="dialogStatusManageObj.openCloseMeetiongDialog"
       :openCloseMeeting="dialogStatusManageObj.openCloseMeetiongDialog"
       :row="meetingInfo"
       :id="$route.query.id"
       @handleOK="handleOKTopics"
       @handleClose="handleCloseCancelTopics"
+      ref="closeDialog"
     />
     <protectConclusion
       v-if="dialogStatusManageObj.openProtectConclusion"
@@ -719,6 +720,7 @@ export default {
   },
   data() {
     return {
+      // curState: '',
       processUrl: process.env.VUE_APP_POINT,
       buttonList,
       receiverId: '',
@@ -1237,6 +1239,7 @@ export default {
       })
     },
     goState(state, isCSC, isPreCSC) {
+      // this.curState = state
       switch (state) {
         //草稿
         case '01':
@@ -1454,7 +1457,11 @@ export default {
           type: 'warning'
         }).then(() => {
           //在这里判断是不是已经生成会议纪要了
-          this.openDialog('openCloseMeetiongDialog')
+          // this.openDialog('openCloseMeetiongDialog')
+          this.$nextTick(() => {
+            console.log("this.$refs['closeDialog']", this.$refs)
+            this.$refs['closeDialog'].handleSubmit()
+          })
         })
       }
     },
@@ -1504,7 +1511,7 @@ export default {
           this.flushTable()
         })
         .catch(() => {
-          iMessage.error('开始议题失败！')
+          // iMessage.error('开始议题失败！')
         })
       // });
     },
@@ -1742,16 +1749,12 @@ export default {
         id: this.meetingInfo.id,
         state: '02'
       }
-      changeStateMeeting(param)
-        .then(() => {
-          iMessage.success('开放会议成功！')
-          // this.refreshTable();
-          this.flushTable()
-          this.getMeetingTypeObject()
-        })
-        .catch(() => {
-          iMessage.error('开放会议失败！')
-        })
+      changeStateMeeting(param).then(() => {
+        iMessage.success('开放会议成功！')
+        // this.refreshTable();
+        this.flushTable()
+        this.getMeetingTypeObject()
+      })
       // });
     },
     endMeeting() {
@@ -1765,10 +1768,12 @@ export default {
         state: '05'
       }
       changeStateMeeting(param)
-        .then(() => {
-          iMessage.success('结束会议成功！')
-          this.flushTable()
-          this.getMeetingTypeObject()
+        .then((res) => {
+          if (res.code == 200) {
+            iMessage.success('结束会议成功！')
+            this.flushTable()
+            this.getMeetingTypeObject()
+          }
         })
         .catch(() => {})
       // });
@@ -1831,7 +1836,7 @@ export default {
             this.flushTable()
           })
           .catch(() => {
-            iMessage.error('锁定会议失败！')
+            // iMessage.error('锁定会议失败！')
           })
       })
     },
@@ -1847,7 +1852,7 @@ export default {
           this.flushTable()
         })
         .catch(() => {
-          iMessage.error('解锁会议失败！')
+          // iMessage.error('解锁会议失败！')
         })
       // });
     },
@@ -2051,10 +2056,10 @@ export default {
       if (val.length === 1) {
         if (val[0].state === '03') {
           if (!val[0].isBreak) {
-            // this.handleButtonDisabled(["protectResult"], false);
-            if (!val[0].conclusionCsc || val[0].conclusionCsc === '01') {
-              this.handleButtonDisabled(['protectResult'], false)
-            }
+            this.handleButtonDisabled(['protectResult'], false)
+            // if (!val[0].conclusionCsc || val[0].conclusionCsc === '01') {
+            //   this.handleButtonDisabled(['protectResult'], false)
+            // }
             if (val[0].conclusionCsc) {
               this.handleButtonDisabled(['lookResult'], false)
             } else {
@@ -2324,12 +2329,17 @@ export default {
     .meeting-type {
       display: flex;
       font-size: 20px;
+      line-height: 35px;
       .name {
         color: #727272;
 
         margin-right: 20px;
       }
       .name-content {
+        max-width: 500px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         color: #000;
         margin-right: 10px;
       }

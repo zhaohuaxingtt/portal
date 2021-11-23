@@ -7,7 +7,10 @@
  * @FilePath: \rise\src\views\login\index.vue
 -->
 <template>
-  <div class="login">
+  <div v-if="ssoLogin">
+    <div>Loading...to redirect...</div>
+  </div>
+  <div v-else class="login">
     <div class="title">RISE</div>
     <div class="content">
       <el-form :rules="rules">
@@ -49,14 +52,15 @@ export default {
       userName: '',
       passWord: '',
       readonly: true,
-      loading: false
+      loading: false,
+      ssoLogin: false
     }
   },
   watch: {
-    passWord: function(val) {
+    passWord: function (val) {
       if (val === '') this.stopAutoComplate()
     },
-    userName: function(val) {
+    userName: function (val) {
       if (val === '') this.stopAutoComplate()
     }
   },
@@ -67,14 +71,14 @@ export default {
       }
       this.loading = true
       login({ userName: this.userName, passWord: this.passWord })
-        .then(async res => {
+        .then(async (res) => {
           this.loading = false
           await setToken(res.data.token)
           this.$router
             .replace({
               path: '/index'
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
         })
         .finally(() => {
           this.loading = false
@@ -83,6 +87,12 @@ export default {
     stopAutoComplate() {
       this.readonly = true
       setTimeout(() => (this.readonly = false), 10)
+    }
+  },
+  created() {
+    if (process.env.VUE_APP_LOGIN_URL) {
+      this.ssoLogin = true
+      location.href = process.env.VUE_APP_LOGIN_URL
     }
   }
 }

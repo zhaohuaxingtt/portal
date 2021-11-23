@@ -29,6 +29,9 @@
             <span v-if="info.upDown > 0" class="green"
               >{{ info.percent ? parseInt(info.percent).toString() : '' }}%
             </span>
+            <span v-if="info.upDown < 0" class="orgin"
+              >{{ info.percent ? parseInt(info.percent).toString() : '' }}%
+            </span>
           </div>
         </div>
         <p>
