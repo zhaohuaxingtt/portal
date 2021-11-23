@@ -53,7 +53,6 @@ export default {
 
       const nodeData = []
       const len = this.panorama.length
-      console.log('panorama', this.panorama)
       for (let i = 0; i < len; i++) {
         const panoromaItem = this.panorama[i]
 
@@ -72,7 +71,6 @@ export default {
                 e.branchFlag.indexOf(flag + '_') === 0 &&
                 e.branchFlag !== item.branchFlag
             )
-            console.log('filterItems', filterItems)
             const itemChildren = []
             filterItems.forEach((filterItem) => {
               itemChildren.push(this.getDatItem(filterItem))
@@ -88,7 +86,6 @@ export default {
 
         item.isUsed = true
       }
-      console.log('nodeData', nodeData)
       this.nodeData = nodeData
     },
     getDatItem(panoromaItem) {
