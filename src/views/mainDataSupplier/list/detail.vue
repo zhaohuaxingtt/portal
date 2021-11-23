@@ -99,6 +99,7 @@ export default {
   methods: {
     query() {
       const { id } = this.$route.query
+      console.log(id,'--------');
       if (id) {
         this.loading = true
         fetchSupplier({ id })

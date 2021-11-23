@@ -12,7 +12,7 @@ export const materirelList=[
         label:'零件号',
         emit:'goDetail',
         tooltip: true,
-        width:'120px',
+        width:'170px',
         openNewPage: true,
         customRender:(h,scope) => {
             return <span class='link-text'>{scope.row.partNum}</span>
