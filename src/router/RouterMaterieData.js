@@ -12,7 +12,7 @@ export default [
         name: 'partsMessage',
         meta: {
           title: '零件信息',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/materielMainData/partMainData')
       },
@@ -21,7 +21,7 @@ export default [
         name: 'materialGroup',
         meta: {
           title: '材料组信息',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/materielMainData/partsMaterialGroup')
       },
@@ -30,7 +30,7 @@ export default [
         name: 'productMessage',
         meta: {
           title: '产品主数据',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/materielMainData/ProductMasterData')
       },
@@ -39,7 +39,7 @@ export default [
         name: 'MTZMaterielGroupMould',
         meta: {
           title: '模具材料组信息',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/materielMainData/mould')
       },
@@ -48,7 +48,7 @@ export default [
         name: 'RAWMessage',
         meta: {
           title: '原材料信息',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/mtzDataManage/rawMaterielInfor')
       },
@@ -57,7 +57,7 @@ export default [
         name: 'MTZRAWMateriel',
         meta: {
           title: 'MTZ原材料信息',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/mtzDataManage/mtzRawMaterielInfor')
       },
@@ -66,7 +66,7 @@ export default [
         name: 'MTZMaterielGroup',
         meta: {
           title: 'MTZ材料组信息',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/mtzDataManage/mtzMaterielGroupInfor')
       },
@@ -74,7 +74,8 @@ export default [
         path: 'Heavy-Item',
         name: 'HeavyItem',
         meta: {
-          title: 'eavyItem'
+          title: 'eavyItem',
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/materielMainData/heavyItem')
       }
@@ -88,7 +89,7 @@ export const routerDetailMaterieData = [
     name: 'partsMessageEdit',
     meta: {
       title: '编辑零件主数据',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
     component: () => import('@/views/materielMainData/partMainData/edit')
   },
@@ -97,7 +98,7 @@ export const routerDetailMaterieData = [
     name: 'materialGroup',
     meta: {
       title: '材料组信息',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
     component: () => import('@/views/materielMainData/partsMaterialGroup')
   },
@@ -106,7 +107,7 @@ export const routerDetailMaterieData = [
     name: 'materialGroupDetail',
     meta: {
       title: '材料组信息',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
     component: () =>
       import('@/views/materielMainData/partsMaterialGroup/detail')
@@ -116,7 +117,7 @@ export const routerDetailMaterieData = [
     name: 'add-technology',
     meta: {
       title: '工艺组信息',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
     component: () =>
       import(
@@ -128,7 +129,7 @@ export const routerDetailMaterieData = [
     name: 'productDetailMessage',
     meta: {
       title: '产品主数据详情信息',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
     component: () =>
       import('@/views/materielMainData/ProductMasterData/detailMessage')
@@ -139,7 +140,7 @@ export const routerDetailMaterieData = [
     name: 'MTZMaterielGroupDetail',
     meta: {
       title: 'MTZ材料组信息详情',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
     component: () =>
       import('@/views/mtzDataManage/mtzMaterielGroupInfor/detail')
@@ -149,7 +150,7 @@ export const routerDetailMaterieData = [
     name: 'MTZMaterielGroupRelation',
     meta: {
       title: 'MTZ材料组关联关系列表',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
     component: () =>
       import('@/views/mtzDataManage/mtzMaterielGroupInfor/relation')
@@ -159,7 +160,7 @@ export const routerDetailMaterieData = [
     name: 'MTZMaterielGroupMouldDetail',
     meta: {
       title: '模具材料组详细信息',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
     component: () => import('@/views/materielMainData/mould/detail')
   }

@@ -5,7 +5,7 @@ export default [
     name: 'TaskCenter',
     meta: {
       title: '任务中心',
-      top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_COMMON_FUNCTION', 'CF_TASK']
     },
     component: () => import('@/views/bpm/taskCenter/center')
   },
@@ -14,7 +14,7 @@ export default [
     name: 'TaskList',
     meta: {
       title: '任务管理',
-      top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_COMMON_FUNCTION', 'CF_TASK']
     },
     component: () => import('@/views/bpm/taskCenter/list')
   }

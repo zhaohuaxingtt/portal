@@ -10,12 +10,13 @@
   <div class="content">
     <topLayout
       :menus="menus_admin"
-      :menu-relation="menuRelation"
+      :active-menu="activeMenu"
       @click-menu="handleClickAdminMenu"
     ></topLayout>
     <leftLayout
       ref="leftLayout"
       :menus="menus"
+      :active-menu="activeMenu"
       @toggle-active="toggleActive"
       @set-menu-modal-visible="setMenuModalVisible"
     >
@@ -23,7 +24,7 @@
         <sideMenu
           :side-menus="sideMenus"
           :menu-map="menuMap"
-          :menu-relation="menuRelation"
+          :active-menu="activeMenu"
           @hide-side-menu="hideSideMenu"
         />
       </template>
@@ -45,12 +46,14 @@
     </div>
     <div class="btn-button" @click="handleShow">
       <!-- <img src="~@/assets/images/leftContent.png" alt="" /> -->
-      <img :src="!contentShowFlag? popurIcon : activePopurIcon " alt="" />
+      <img :src="!contentShowFlag ? popurIcon : activePopurIcon" alt="" />
     </div>
     <div class="povper-content" v-show="contentShowFlag">
       <div v-for="(list, index) in popoverList" :key="index">
         <div class="item-content" @click="handleClick(list)">
-          <div><img src="@/assets/images/partLifyCycle.svg" class="img" /></div>
+          <div>
+            <img src="./assets/images/partLifyCycle.svg" class="img" />
+          </div>
           <div class="text">{{ list.name }}</div>
         </div>
       </div>
@@ -69,8 +72,8 @@ import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
 import { popoverList } from './components/data.js'
 import layoutNotify from './components/notify'
-import popurIcon from "@/assets/images/leftContent.png"
-import activePopurIcon from "@/assets/images/active-popur.svg"
+import popurIcon from './assets/images/leftContent.png'
+import activePopurIcon from './assets/images/active-popur.svg'
 
 export default {
   components: { topLayout, LeftLayout, sideMenu, myModules, layoutNotify },
@@ -100,8 +103,14 @@ export default {
       menuModelVisible: false,
       popoverList,
       contentShowFlag: false,
+      activeMenu: [],
       popurIcon,
       activePopurIcon
+    }
+  },
+  watch: {
+    '$route.path'() {
+      this.setActiveMenu()
     }
   },
   computed: {
@@ -120,12 +129,6 @@ export default {
         }
       }
       return []
-    },
-    menuRelation() {
-      console.log('menuList', this.menuList)
-      const relation = this.getMenusParent(this.menuList)
-      console.log('relation', relation)
-      return relation
     }
   },
   created() {
@@ -134,16 +137,21 @@ export default {
     }) */
 
     this.menus && this.menus.length ? this.getMenus() : this.getMenuList()
+    this.setActiveMenu()
   },
   methods: {
+    setActiveMenu() {
+      const meta = this.$route.meta
+      if (meta) {
+        this.activeMenu = meta.activeMenu || []
+      }
+    },
     handleShow() {
       this.contentShowFlag = !this.contentShowFlag
     },
     getMenus() {
-      console.log('menuList', this.menuList)
       const menuMap = this.getMenusMap(this.menuList)
       this.menuMap = menuMap
-      console.log('menuMap', menuMap)
     },
     getMenuList() {
       const menuList = _.cloneDeep(this.menuList)
@@ -220,20 +228,6 @@ export default {
     handleClick(list) {
       this.$router.push(list.path)
     },
-    getMenusParent(menus, parent, res) {
-      res = res || {}
-      for (let i = 0; i < menus.length; i++) {
-        const menu = menus[i]
-        res[menu.url] = res[menu.url] || [menu.url]
-        if (parent) {
-          res[menu.url] = [...new Set(res[menu.url]), parent.url]
-        }
-        if (menu.menuList) {
-          this.getMenusParent(menu.menuList, menu, res)
-        }
-      }
-      return res
-    },
     handleClickAdminMenu() {
       console.log('点击了admin 菜单')
       this.$refs.leftLayout.activeIndex = ''
@@ -276,7 +270,7 @@ export default {
       }
       .text {
         font-size: 16px;
-        color: #5F6F8F;
+        color: #5f6f8f;
         margin-left: 20px;
       }
     }

@@ -13,7 +13,8 @@ export default [
         path: '/position/agent',
         name: 'PositionAgent',
         meta: {
-          title: '岗位代理'
+          title: '岗位代理',
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/agent')
       },
@@ -22,7 +23,8 @@ export default [
         name: 'PositionAgentApply',
         meta: {
           title: '岗位代理申请',
-          activePath: '/position/agent'
+          activePath: '/position/agent',
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/agent/apply')
       },
@@ -31,7 +33,7 @@ export default [
         name: 'positionList',
         meta: {
           title: '岗位列表',
-          top: 'admin' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/list')
       },
@@ -40,7 +42,7 @@ export default [
         name: 'positionTag',
         meta: {
           title: '岗位标签',
-          top: 'admin' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/tag')
       },
@@ -49,7 +51,7 @@ export default [
         name: 'subPositionList',
         meta: {
           title: '下属岗位分配',
-          top: 'admin' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/subPositionList')
       },
@@ -57,7 +59,8 @@ export default [
         path: '/position/transfer',
         name: 'TransferHome',
         meta: {
-          title: '轮岗'
+          title: '轮岗',
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/transfer')
       },
@@ -66,7 +69,8 @@ export default [
         name: 'PositionTransferApply',
         meta: {
           title: '轮岗申请',
-          activePath: '/position/transfer'
+          activePath: '/position/transfer',
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/transfer/apply')
       }
@@ -76,7 +80,8 @@ export default [
     path: '/position/operate/:type',
     name: 'positionOperate',
     meta: {
-      title: '岗位操作'
+      title: '岗位操作',
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
     component: () => import('@/views/position/operate')
   }
@@ -98,7 +103,7 @@ export const CFPosition = [
         name: 'CFPositionAgent',
         meta: {
           title: '岗位代理',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/agent')
       },
@@ -108,7 +113,7 @@ export const CFPosition = [
         meta: {
           title: '岗位代理申请',
           activePath: '/cf-position/agent',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/agent/apply')
       },
@@ -117,7 +122,7 @@ export const CFPosition = [
         name: 'CFpositionList',
         meta: {
           title: '岗位列表',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/list')
       },
@@ -126,7 +131,7 @@ export const CFPosition = [
         name: 'CFpositionOperate',
         meta: {
           title: '岗位操作',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/operate')
       },
@@ -135,7 +140,7 @@ export const CFPosition = [
         name: 'positionTag',
         meta: {
           title: '岗位标签',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/tag')
       },
@@ -144,7 +149,7 @@ export const CFPosition = [
         name: 'CFsubPositionList',
         meta: {
           title: '下属岗位分配',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/subPositionList')
       },
@@ -153,7 +158,7 @@ export const CFPosition = [
         name: 'CFTransferHome',
         meta: {
           title: '轮岗',
-          top: 'RISE_COMMON_FUNCTION' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/transfer')
       },
@@ -163,7 +168,8 @@ export const CFPosition = [
         meta: {
           title: '轮岗申请',
           top: 'RISE_COMMON_FUNCTION', // 一级菜单 选中与否 flag
-          activePath: '/cf-position/transfer'
+          activePath: '/cf-position/transfer',
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
         },
         component: () => import('@/views/position/transfer/apply')
       }
