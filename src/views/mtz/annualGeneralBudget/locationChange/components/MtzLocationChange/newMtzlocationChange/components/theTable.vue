@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-18 15:16:32
+ * @LastEditTime: 2021-11-23 15:29:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -17,7 +17,7 @@
                    :inactive-value="false" />
       </div>
       <div class="opration">
-        <iButton @click="handleSure">{{language('QUEREN', '确认')}}</iButton>
+        <iButton @click="handleDialog">{{language('QUEREN', '确认')}}</iButton>
         <!-- <iButton @click="handleRedeploy"
                    v-show="!addFlag">{{language('DAOCHU', '导出')}}</iButton> -->
       </div>
@@ -65,9 +65,16 @@ export default {
     mtzAppId: {
       type: String,
       default: ""
+    },
+    dateList: {
+      type: Array,
+      default: () => {
+        return []
+      }
     }
   },
   watch: {
+
   },
   mixins: [pageMixins],
   data () {
@@ -111,11 +118,14 @@ export default {
     handleSelectionChange (val) {
       this.muilteList = val
     },
-    handleSure () {
+    handleDialog () {
       if (this.muilteList.length === 0) {
         iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据！'))
         return
       }
+      this.$parent.dialogVisible = true
+    },
+    handleSure () {
       let params = {
         isDeptLead: true,
         mtzBasePriceList: []
@@ -123,9 +133,15 @@ export default {
       let selectList = this.muilteList.map(item => {
         return {
           dosage: item.dosage || "",
-          endDate: item.endDate || "",
+          endDate: this.dateList[this.dateList.length - 1].value[1],
           mtzBasePriceId: item.id || "",
-          startDate: item.startDate || ""
+          startDate: this.dateList[0].value[0],
+          childBasePriceList: this.dateList.map(item => {
+            return {
+              startDate: item.value[0],
+              endDate: item.value[1]
+            }
+          })
         }
       })
       params.mtzBasePriceList = selectList
@@ -133,17 +149,8 @@ export default {
         params.mtzAppId = this.mtzAppId
         saveGenericAppChange(params).then(res => {
           if (res && res.code === '200') {
-            // let data = res.data
-            // let routerPath = this.$router.resolve({
-            //   path: '/mtz/annualGeneralBudget/MTZapplicationForm',
-            //   query: {
-            //     mtzAppId: this.mtzAppId || '',
-            //     isView: false
-            //   }
-            // })
             this.$emit('close', false);
             this.$store.dispatch('setMtzChangeBtn', false);
-            // window.open(routerPath.href, '_blank')
           } else {
             iMessage.error(res.desZh)
           }
@@ -156,7 +163,7 @@ export default {
               path: '/mtz/annualGeneralBudget/MTZapplicationForm',
               query: {
                 mtzAppId: data.mtzAppId || '',
-                isView: false
+                // isView: false
               }
             })
             this.$store.dispatch('setMtzChangeBtn', false);

@@ -12,8 +12,8 @@
             <span v-if="getLaunchNum(item.subType) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
-            <icon symbol class="icon" name="icona-MyApplication" />
-            <div class="numName-text">{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
+            <!-- <icon symbol class="icon" name="icona-MyApplication" /> -->
+            <div>{{ $t('HOME_CARD.MY_APPLICATION') }}</div>
           </div>
         </div>
         <div class="line">/</div>
@@ -23,8 +23,8 @@
             <span v-if="getTodoNum(item.subType) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
-            <icon symbol class="icon" name="icona-MyApproval" />
-            <div class="numName-text">{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
+            <!-- <icon symbol class="icon" name="icona-MyApproval" /> -->
+            <div>{{ $t('HOME_CARD.MY_APPROVAL') }}</div>
           </div>
         </div>
       </div>
@@ -173,10 +173,15 @@ export default {
   }
 }
 .single-ellipsis {
+  word-wrap: break-word;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   width: 120px;
+}
+.single-ellipsis:hover {
+  white-space: normal;
+  overflow: auto;
 }
 .task-card {
   height: 97px;
@@ -201,7 +206,7 @@ export default {
     > .abs {
       font-size: 12px;
       text-align: left;
-      color: #222;
+      // color: #222;
     }
   }
   > .right {

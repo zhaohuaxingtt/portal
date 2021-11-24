@@ -78,7 +78,6 @@
                 {{String(Number(tabsData.valEklType)/Number(tabsData.sumAll)) != 'NaN' ? ((Number(tabsData.valEklType)/Number(tabsData.sumAll))*100).toFixed(2)+"%" : '0.00%'}}
               </div>
             </div>
-            <div class="cursum">{{tabsData.curSum}}</div>
           </div>
         </div>
      
@@ -206,27 +205,24 @@ export default {
             top: '10%',
             avoidLabelOverlap: false,
             label: {
-              show: false,
+              show: true,
               position: 'center',
               textStyle: {
                 fontSize: 16,
-                // color: '#1763f7',
-                color:"transparent"
+                color: '#000',
+                // color:"transparent"
+              },
+              normal:{
+                show:true,
+                position: 'center',
+                color: '#000',
+                formatter: this.tabsData.curSum,
+                fontSize: 30,
+                fontWeight: 'bold'
               }
             },
             emphasis: {
-              label: {
-                show: true,
-                fontSize: '28',
-                fontWeight: 'bold',
-                // color: '#45639B',
-                color:"transparent",
-
-                align: 'center',
-                formatter: (value) => {
-                  return `${value.data.value}`
-                }
-              }
+              show: true
             },
             labelLine: {
               show: false
@@ -269,6 +265,7 @@ export default {
   width: 100%;
   height: 100%;
   padding: 8px 16px 16px 16px;
+  pointer-events: none;
 
  
  .ekl-tabs {
@@ -310,15 +307,6 @@ export default {
         font-size: 32px;
       }
     }
-  }
-  .cursum{
-    position: absolute;
-    top: 48%;
-    left: 8%;
-    width: 160px;
-    text-align: center;
-    font-size: 40px;
-    font-weight: bold;
   }
   .unit {
     // position: absolute;
