@@ -314,7 +314,7 @@ export default {
       this.userList = obj.userDTOList
     },
     handleSync (params) {
-      debugger
+
       syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: params || "" }).then(res => {
         if (res?.code === '200') {
           this.getTableList()
