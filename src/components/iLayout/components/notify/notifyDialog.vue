@@ -17,7 +17,7 @@
           <div class="right">
               <h2 :class="{'link-text':detail.linkUrl}" @click="toNewPage">{{detail.title}}</h2>
               <div class="content" :class="{'text-left':detail.wordAlign == 0,'text-center':detail.wordAlign==1,'text-right':detail.wordAlign == 2}">
-                  {{detail.content}}
+                  <el-input type="textarea" v-model="detail.content" disabled></el-input>
               </div>
               <div class="publishTime"><i class="el-icon-time"><span class="publishTime-content">{{detail.publishTime}}</span></i></div>
               <iButton @click="closeDialog" class="btn">{{language('确认')}}</iButton>
@@ -141,6 +141,7 @@ export default {
         .content{
             position: absolute;
             top: 70px;
+            width: 100%;
             line-height: 24px;
             max-height: 200px;
             overflow: auto;
@@ -180,6 +181,7 @@ export default {
         .content{
             line-height: 24px;
             height: 150px;
+            width: 800px;
             overflow: auto;
         }
         .publishTime{
@@ -241,6 +243,7 @@ export default {
         .content{
             position: absolute;
             top: 70px;
+            width: 100%;
             color: #888888;
             line-height: 24px;
             max-height: 200px;
@@ -252,5 +255,65 @@ export default {
 .link-text{
     text-decoration: underline;
     cursor: pointer;
+}
+
+.text-left{
+    height: 100%;
+    ::v-deep .el-textarea{
+        height: 100%;
+        .el-textarea__inner{
+            text-align: left;
+            border: none;
+            background:transparent;
+            height: 100%;
+            // width: 400px;
+            resize: none;
+            &:focus-visible{
+                outline-color: #D0D4D9;
+                border: 1px solid #D0D4D9;
+            }
+        }
+    }
+
+}
+.text-center{
+    height: 100%;
+    ::v-deep .el-textarea{
+        height: 100%;
+        width: 100%;
+        .el-textarea__inner{
+            text-align: center;
+            margin: 0;
+            width: 100%;
+            border: none;
+            background:transparent;
+            height: 100%;
+            resize: none;
+            &:focus-visible{
+                outline-color: #D0D4D9;
+                border: 1px solid #D0D4D9;
+            }
+        }
+    }   
+    
+
+}
+.text-right{
+    ::v-deep .el-textarea{
+        height: 100%;
+        .el-textarea__inner{
+            text-align: right;
+            // width: 400px;
+            border: none;
+            background:transparent;
+            height: 100%;
+            resize: none;
+                &:focus-visible{
+                outline-color: #D0D4D9;
+                border: 1px solid #D0D4D9;
+            }
+        }
+    }
+    
 }
 </style>

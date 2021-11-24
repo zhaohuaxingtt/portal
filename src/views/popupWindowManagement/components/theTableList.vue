@@ -159,7 +159,6 @@ export default {
         time = `${y}年   ${M}月${d}日${h}时${m}分`
       }
       
-      
       this.detail = {
         title:this.formData.popupName,
         content:this.formData.content,
