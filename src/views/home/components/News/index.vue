@@ -29,7 +29,7 @@
       :key="item.id"
       @click="goNewsDetail(item)"
     >
-      <div class="icon_title"></div>
+      <div class="icon_title" style="width:6px;height:6px;"></div>
       <div class="news-title multi-ellipsis">{{ item.title }}</div>
       <div class="news-abs multi-ellipsis">{{ item.summary }}</div>
       <div class="news-user-time">
@@ -136,8 +136,8 @@ export default {
       position: absolute;
       left: -5%;
       top: 6%;
-      width: 10px;
-      height: 10px;
+      // width: 10px;
+      // height: 10px;
       z-index: 10;
       border-radius: 50%;
       background-color: #1763f7;
