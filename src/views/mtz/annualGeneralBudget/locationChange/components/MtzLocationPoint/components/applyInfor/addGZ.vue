@@ -293,7 +293,7 @@ import {
 import {
   fetchRemoteMtzMaterial,//查询MTZ材料组
 } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit';
-import { isNumber,timeCoincide,timeTransformation,Mul,numAdd } from "./util";
+import { isNumber,timeCoincide,timeTransformation,Mul,numAdd,formatDecimal } from "./util";
 
 import {
   iButton,
@@ -326,6 +326,9 @@ export default {components: {
       default: () => {
         return {}
       }
+    },
+    resetNum:{
+        type: Boolean,
     },
     dataObject:{
         type: Object,
@@ -393,11 +396,11 @@ export default {components: {
                 code:"H",
                 message:"半年度"
             },{
-                code:"M",
-                message:"月度"
-            },{
                 code:"Q",
                 message:"季度"
+            },{
+                code:"M",
+                message:"月度"
             },
         ],
         tcCurrence:[],
@@ -432,10 +435,19 @@ export default {components: {
             materialName: [{ required: true, message: '请选择', trigger: 'blur' }],
             price: [{ required: true, message: '请输入或补全铂钯铑基价和用量', trigger: 'blur' }],//基价
             priceMeasureUnit: [{ required: true, message: '请选择', trigger: 'blur' }],
+            platinumPrice:[
+                { validator:validatePass3, trigger: 'blur' }
+            ],
             platinumDosage:[
                 { validator:validatePass3, trigger: 'blur' }
             ],
+            palladiumPrice:[
+                { validator:validatePass3, trigger: 'blur' }
+            ],
             palladiumDosage:[
+                { validator:validatePass3, trigger: 'blur' }
+            ],
+            rhodiumPrice:[
                 { validator:validatePass3, trigger: 'blur' }
             ],
             rhodiumDosage:[
@@ -523,7 +535,7 @@ export default {components: {
             number = numAdd(Mul(Number(this.contractForm.platinumPrice),Number(this.contractForm.platinumDosage)),Mul(Number(this.contractForm.palladiumPrice),Number(this.contractForm.palladiumDosage)))
             number = numAdd(number,Mul(Number(this.contractForm.rhodiumPrice),Number(this.contractForm.rhodiumDosage)));
 
-            this.contractForm.price = number;
+            this.contractForm.price = formatDecimal(number,6);
 
         }else{
             this.contractForm.price = "";

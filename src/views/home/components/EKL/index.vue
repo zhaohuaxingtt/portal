@@ -289,7 +289,7 @@ export default {
   width: 100%;
   height: 100%;
   padding: 8px 16px 16px 16px;
-  pointer-events: none;
+
   .center-bar {
     position: absolute;
     bottom: 22%;

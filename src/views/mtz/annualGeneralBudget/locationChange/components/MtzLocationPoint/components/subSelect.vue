@@ -115,11 +115,13 @@ export default {
                                 this.$emit("close","refresh")
                                 iMessage.success(this.language(res.desEn,res.desZh))
                             }else{
-                                iMessage.error(this.language(res.desEn,res.desZh))
+                                // iMessage.error(this.language(res.desEn,res.desZh))
+                                iMessage.error(res.desZh)
                             }
                         })
                     }else{
-                        iMessage.error(this.language(res.desEn,res.desZh))
+                        // iMessage.error(this.language(res.desEn,res.desZh))
+                        iMessage.error(res.desZh)
                     }
                 })
             }else{

@@ -20,7 +20,7 @@
     >
       <el-form>
         <el-form-item :label="language('LK_LINGJIANHAO', '零件号')">
-          <iInput v-model="partsNum" :placeholder="$i18n.locale === 'zh' ?'可批量查询':'batch Search'" clearable></iInput>
+          <iInput v-model.trim="partsNum" :placeholder="$i18n.locale === 'zh' ?'可批量查询':'batch Search'" clearable></iInput>
         </el-form-item>
         <el-form-item :label="language('LK_LINGJIANMINGCHENG', '零件名称')">
           <iInput v-model="partsName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
@@ -334,7 +334,7 @@
         </transition>
       </div>
     </div>
-    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="claimPartsShow = false;defaultParts()"
+    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="claimPartsShow = false"
                 @clearDiolog="claimPartsShow = false"></claimParts>
     <transition name="slide-fade">
       <favorites v-if="favoritesShow" @deleteItem="cancelOrCollect" @closeFavorites="favoritesShow = false"></favorites>
