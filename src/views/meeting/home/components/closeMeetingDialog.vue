@@ -156,7 +156,7 @@ export default {
     getApprovalProcessList().then((res) => {
       if (res) {
         // let resUnuse = JSON.parse(JSON.stringify(res));
-        let resUnuse = JSON.parse(JSON.stringify(res.data[0].subDictResultVo));
+        let resUnuse = JSON.parse(JSON.stringify(res.data[0].subDictResultVo))
         resUnuse.forEach((item, index) => {
           resUnuse[index].id = item.id.toString()
         })
@@ -169,48 +169,48 @@ export default {
       this.$emit('handleClose')
     },
     handleSubmit() {
-      this.$refs['ruleFormCloseMeeting'].validate((valid) => {
-        if (valid) {
-          let hashArr = window.location.hash.split('/')
-          hashArr.pop()
-          let param = {
-            id: this.id,
-            approvalProcessId: this.rowState.approvalProcessId,
-            isTriggerApproval:
-              this.rowState.isTriggerApproval == 'true' ? true : false,
-            fromUrl:
-              window.location.origin +
-              window.location.pathname +
-              hashArr.join('/') +
-              '/details?id=' +
-              this.id
-          }
-          if (this.attachment.id) {
-            param.attachment = {
-              attachmentId: this.attachment.id,
-              attachmentName: this.attachment.name,
-              attachmentUrl: this.attachment.attachmentUrl,
-              source: '05'
-            }
-          }
-          closeMeeting(param)
-            .then((res) => {
-              if (res) {
-                iMessage.success('关闭成功')
-                this.$emit('handleOK')
-                this.handleClose()
-              } else {
-                iMessage.success('关闭失败')
-                this.handleClose()
-              }
-            })
-            .catch((err) => {
-              console.log('err', err)
-            })
-        } else {
-          return false
+      // this.$refs['ruleFormCloseMeeting'].validate((valid) => {
+      // if (valid) {
+      let hashArr = window.location.hash.split('/')
+      hashArr.pop()
+      let param = {
+        id: this.id,
+        approvalProcessId: this.rowState.approvalProcessId,
+        isTriggerApproval:
+          this.rowState.isTriggerApproval == 'true' ? true : false,
+        fromUrl:
+          window.location.origin +
+          window.location.pathname +
+          hashArr.join('/') +
+          '/details?id=' +
+          this.id
+      }
+      if (this.attachment.id) {
+        param.attachment = {
+          attachmentId: this.attachment.id,
+          attachmentName: this.attachment.name,
+          attachmentUrl: this.attachment.attachmentUrl,
+          source: '05'
         }
-      })
+      }
+      closeMeeting(param)
+        .then((res) => {
+          if (res) {
+            iMessage.success('关闭成功')
+            this.$emit('handleOK')
+            this.handleClose()
+          } else {
+            // iMessage.success('关闭失败')
+            this.handleClose()
+          }
+        })
+        .catch((err) => {
+          console.log('err', err)
+        })
+      //   } else {
+      //     return false
+      //   }
+      // })
     },
     changeTriggerApproval(e) {
       if (e == 'false') {

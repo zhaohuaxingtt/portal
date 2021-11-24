@@ -113,11 +113,11 @@
                        value="0"></el-option>
           </i-select> -->
           <custom-select v-model="formData.effectFlag"
-          :user-options="effectFlagDropDown"
-          :placeholder="language('QINGXUANZE', '请选择')"
-          display-member="message"
-          value-member="code"
-          value-key="code"/>
+                         :user-options="effectFlagDropDown"
+                         :placeholder="language('QINGXUANZE', '请选择')"
+                         display-member="message"
+                         value-member="code"
+                         value-key="code" />
         </el-form-item>
       </el-form>
     </i-search>
@@ -188,12 +188,12 @@
       <RelationalValidity />
     </iDialog>
     <!-- 来源 -->
-    <iDialog :visible.sync="isShowSource"
+    <!-- <iDialog :visible.sync="isShowSource"
              v-if="isShowSource"
              title="312321"
              width="80%">
       <Source />
-    </iDialog>
+    </iDialog> -->
 
   </div>
 </template>
@@ -216,7 +216,7 @@ import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableSetting, exportTitle, formJSON } from './components/data'
 import Detail from './components/detail'
-import Source from './components/source'
+// import Source from './components/source'
 import RelationalValidity from './components/relationalValidity'
 import {
   getDeptData,
@@ -236,17 +236,17 @@ export default {
   components: {
     iSearch,
     iInput,
-    iSelect,
-    iPage,
+    // iSelect,
+    // iPage,
     iCard,
     iButton,
     iTableCustom,
     iPagination,
-    iFormItem,
+    // iFormItem,
     iDialog,
     iDatePicker,
     Detail,
-    Source,
+    // Source,
     RelationalValidity,
     uploadButton
   },
@@ -281,7 +281,7 @@ export default {
       { value: 'Q', name: '季度' },
       { value: 'M', name: '月度' },
     ]
-    
+
     getMtzMarketSourceList().then(res => { this.getMtzMarketSourceListDrop = res.data })
     this.$nextTick(_ => {
       this.mtzBasePricePage()
@@ -301,9 +301,9 @@ export default {
         this.$set(this.formData, 'partnum', this.$route.query.partnum || null)
       })
       this.effectFlagDropDown = [
-        {code: "", message: '全部'},
-        {code: "1", message: '生效'},
-        {code: "2", message: '失效'}
+        { code: "", message: '全部' },
+        { code: "1", message: '生效' },
+        { code: "2", message: '失效' }
       ]
       this.$set(this.formData, 'endDate', currDate)
       this.$set(this.formData, 'effectFlag', '1')
@@ -343,8 +343,23 @@ export default {
     handleSeePartsRelationship () {
       this.$router.push('/partsRelationship')
     },
-    handleSource () {
-      this.isShowSource = true
+    handleSource (val) {
+      let path = ""
+      if (val.source === '0') {
+        path = "/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor"
+      } else if (val.source === '1') {
+        path = "/mtz/annualGeneralBudget/MTZapplicationForm"
+      } else if (val.source === '2') {
+        path = "/mtz/annualGeneralBudget/MTZapplicationForm"
+      }
+      let routerPath = this.$router.resolve({
+        path,
+        query: {
+          mtzAppId: val.sourceCode
+        }
+      })
+      window.open(routerPath.herf)
+      // this.isShowSource = true
     },
     // 获取初始化列表
     mtzBasePricePage () {
