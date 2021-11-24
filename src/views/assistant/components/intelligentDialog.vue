@@ -7,27 +7,27 @@
 	>
 		<div class="chat-box">
 			<div v-for="(item, idx) in chatList" :key="idx">
-				<div class="flex flex-row mt20" :class="(idx+1) % 2 === 0 ? 'rightContent' : 'leftContent'">
+				<div class="flex flex-row mt20" :class="item.type !== 'admin' ? 'rightContent' : 'leftContent'">
 					<div class="icon-box">
 						<img src="~@/assets/images/administrator.png" alt="" class="icon" />
 						<!-- <img :src="(idx+1) %2 === 0 ? '~@/assets/images/administrator.png' : '~@/assets/images/inte-admin.png'" alt="" class="icon"/> -->
 					</div>	
-					<div class="flex flex-column content-box" :class="(idx+1) % 2 === 0 ? 'right-box' : 'left-box'">
-						<div class="auth-text" :class="(idx+1) % 2 === 0 ? 'rightText' : 'leftText'">{{ (idx+1) % 2 === 0 ? '自己' : '管理员'}}</div>
+					<div class="flex flex-column content-box" :class="item.type !== 'admin' ? 'right-box' : 'left-box'">
+						<div class="auth-text" :class="item.type !== 'admin' ? 'rightText' : 'leftText'">{{ item.type !== 'admin' ? '自己' : '管理员'}}</div>
 						<div v-if="idx === 0" class="ask-box moren-box">
-							<div class="moren-text">亲爱的XXX，您是遇到了以下问题吗？点击问题查看答案…</div>
+							<div class="moren-text">{{`亲爱的${nameZh}，您是遇到了以下问题吗？点击问题查看答案…`}}</div>
 							<div v-for="(issue, index) in chatList[0].hotIssues" :key="index">
 								<div class="flex flex-row issue-box items-center" @click="handleIssue(issue)">
 									<div class="blue-box"></div>
-									<div class="issue-text cursor">{{ issue.text }}</div>
+									<div class="issue-text cursor">{{ issue.questionTitle }}</div>
 								</div>
 							</div>
 						</div>
-						<div v-else-if="(idx+1) % 2 === 0" class="ask-box put-ques">
+						<div v-else-if="item.type !== 'admin'" class="ask-box put-ques">
 							{{ item.question }}
 						</div>
 						<div v-else class="ask-box put-ask">
-							<div class="ask-text">{{ item.anwser }}</div>
+							<div class="ask-text">{{ item.answerContent }}</div>
 							<div class="goon-put cursor" @click="handleTw">向管理员继续提问</div>
 						</div>
 					</div>
@@ -43,7 +43,7 @@
             />
 			<div class="flex felx-row mt20 justify-end ">
 				<iButton @click="clearDialog">{{ language('退出') }}</iButton>
-				<iButton @click="sendMessage">{{ language('发送') }}</iButton>
+				<iButton @click.native="sendMessage">{{ language('发送') }}</iButton>
 			</div>
 		</div>
 	</iDialog>
@@ -59,56 +59,60 @@ export default {
 		intelligentVisible: {
 			type: Boolean,
 			default: false
+		},
+		hotQuestionList: {
+			type: Array,
+			default: () => {
+				return []
+			}
+		},
+		fromPage: {
+			type: String,
+			default: 'manual'
 		}
 	},
+	mounted() {
+		this.initChatList()
+		console.log(this.nameZh, "baseInfo")
+	},
+	computed: {
+    nameZh() {
+			let permission = this.$store?.state?.permission
+			return permission?.userInfo?.nameZh
+    }
+  },
 	data() {
 		return {
 			intelligentTitle: '智能问答',
 			keywords: '',
 			chatList: [
-				{ 
-					name: '111', 
-					hotIssues: [
-						{text: '多个联系人怎么办？', id: '1'},
-						{text: '注册名必须是企业全称吗？', id: '2'},
-						{text: '注册页面加载缓慢怎么办？', id: '3'},
-						{text: '没有中文名怎么办？', id: '4'},
-						{text: '密码需要多少字符？', id: '5'}
-					],
-					question: '',
-					anwser: ''
-				},
 				{
-					question: '零件材料组如何与工艺组的关联关系是什么？',
-					anwser: ''
-				},
-				{
-					question: '',
-					anwser: '一个材料组对应多个工艺组'
+					hotIssues: [],
+					type: 'admin'
 				}
 			]
 		}
 	},
 	methods: {
+		initChatList() {
+			// 初始化智能列表
+			this.chatList[0].hotIssues = [...this.hotQuestionList]
+		},
 		clearDialog() {
 			this.$emit('closeDialog', false)
 		},
 		sendMessage() {
 			this.chatList.push({
 				question: this.keywords,
-				anwser: ''
+				anwser: '',
+				type: 'user'
 			})
 			this.keywords = ''
-			this.chatList.push({
-				question: '',
-				anwser: '不想回答此问题'
-			})
+			// console.log(this.chatList, "this.chatList")
 		},
 		handleIssue(issue) {
-			this.chatList.push({
-				question: issue.text,
-				anwser: ''
-			})
+			// 点击问题 跳转常见问题详情页面
+			this.$emit('gotoProblemDeatil', issue, this.fromPage)
 		},
 		handleTw() {
 			this.$emit('putAdminTw')

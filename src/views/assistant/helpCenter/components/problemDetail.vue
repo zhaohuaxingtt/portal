@@ -3,7 +3,7 @@
 		<div class="ask-btn">
 			<iButton @click="putQuestion">{{ language('我要提问') }}</iButton>
 		</div>
-		<div v-if="moudleId !== 0" class="detail-title flex flex-column items-start">
+		<div v-if="currentMoudleId" class="detail-title flex flex-column items-start">
 			<div class="moudle-name">{{ language('主数据管理') }}</div>
 			<div class="flex flex-wrap label-box">
 				<div v-for="(item, idx) in labelList" :key="idx" class="item-label cursor" :class="labelIdx===idx ? 'activeIdx' : 'idx'" @click="handleLabel(item, idx)">
@@ -36,7 +36,7 @@
 			</div>
 		</div>
 
-		<div class="list-content" v-show="moudleId !== 0 && currentFlag === 'listPage'">
+		<div class="list-content" v-show="currentMoudleId  && currentFlag === 'listPage'">
 			<div class="flex flex-row label-title items-center">
 				<div class="blue-box"></div>
 				<div class="label-text">{{ labelText }}</div>
@@ -49,7 +49,7 @@
 			</div>
 		</div>
 
-		<div class="detail" v-show="moudleId !== 0 && currentFlag === 'detailPage'">
+		<div class="detail" v-show="currentMoudleId && currentFlag === 'detailPage'">
 			<div class="flex flex-row detail-box items-center">
 				<div class="black-box"></div>
 				<div class="detail-text">{{ problemText }}</div>
@@ -84,10 +84,13 @@ export default {
 		Solution
 	},
 	props: {
-		moudleId: {
+		currentMoudleId: {
 			type: Number,
 			default: 0
 		}
+	},
+	mounted() {
+		console.log(this.currentMoudleId, "currentMoudleId")
 	},
 	data() {
 		return {
@@ -171,19 +174,24 @@ export default {
 		},
 		badSolutiob() {
 			console.log("点击跳转追问页面")
-			this.$emit('handleZwQues', this.problemText)
+			this.$emit('handleZwQues', this.problemText, this.desDetail)
 		},
 		putQuestion() {
 			this.$emit('handleQuestion')
 		},
 		// 点击热门问题 跳转该热门问题的详情
 		handleHotQues(item, index) {
-			debugger
 			console.log(item, "item")
 			this.hotIdx = index
-			this.moudleId = index + 1 // 切换当前模块id
+			// this.currentMoudleId = index + 1 // 切换当前模块id
 			this.currentFlag = 'detailPage'
 			this.problemText = item.problem
+		},
+		// 通过智能弹窗热门问题跳转问题详情
+		initDetailPage(issue) {
+			this.currentFlag = 'detailPage'
+			this.problemText = issue.questionTitle
+			this.desDetail = issue.answerContent
 		}
 	}
 }

@@ -41,7 +41,8 @@
 					:currentMoudleId.sync="currentMoudleId"
 				/>
 				<ProblemDetail
-					:moudleId="currentMoudleId" 
+					ref="problemDetail"
+					:currentMoudleId="currentMoudleId" 
 					@handleQuestion="handleQuestion"
 					@handleZwQues="handleZwQues"
 				/>
@@ -54,15 +55,20 @@
 				@handleQuestion="handleQuestion"
 			/>
 		</div>
-		<IntelligentDialog 
+		<IntelligentDialog
+			v-if="intelligentVisible"
 			:intelligentVisible="intelligentVisible"
+			:hotQuestionList="hotQuestionList"
+			:fromPage="helpMoudle"
 			@closeDialog="closeDialog"
 			@putAdminTw="putAdminTw"
+			@gotoProblemDeatil="gotoProblemDeatil"
 		/>
 
 		<QuestioningDialog
 			:questioningVisible="questioningVisible"
 			:questioningTitle="questioningTitle"
+			:questionAnswerContent="questionAnswerContent"
 			:zwFlag="zwFlag"
 			@closeQuesDialog="closeQuesDialog"
 		/>
@@ -92,12 +98,14 @@ export default {
 			helpMoudle: "manual",  // manual 用户手册 problem 常见问题 ask 我的提问
 			moudleList: [],
 			currentMoudleId: null,
+			currentUrl: '',
 			intelligentVisible: false,  // 智能弹框visible
 			questioningVisible: false,  // 追问 提问visible
 			zwFlag: false,  // 追问 提问标志
 			questioningTitle: '',  // 追问 提问弹框title
+			questionAnswerContent: '',
 			listLoading: false,
-			currentUrl: ''
+			hotQuestionList: []
 		}
 	},
 	components: {
@@ -144,22 +152,31 @@ export default {
 			this.helpMoudle = val
 		},
 		// 打开智能弹窗
-		async handleQuestion() {
-			console.log('handleQuestion')
-			await getHotFiveQues(this.currentMoudleId).then((res) => {
-				console.log(res, '111111111')
+		handleQuestion() {
+			getHotFiveQues(this.currentMoudleId).then((res) => {
+				if (res?.code === '200') {
+					// this.hotQuestionList = res?.data
+					this.hotQuestionList = [
+						{ questionTitle: '多个联系人怎么办？', id: '1', answerContent: '回答内容1', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
+						{ questionTitle: '注册名必须是企业全称吗？', id: '2', answerContent: '回答内容2', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
+						{ questionTitle: '注册页面加载缓慢怎么办？', id: '3', answerContent: '回答内容3', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
+						{ questionTitle: '没有中文名怎么办？', id: '4', answerContent: '回答内容4', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
+						{ questionTitle: '密码需要多少字符？', id: '5', answerContent: '回答内容5', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' }
+					]
+					this.intelligentVisible = true
+				}
 			})
-			this.intelligentVisible = true
 		},
 		// 关闭智能弹框
 		closeDialog(va) {
 			this.intelligentVisible = va
 		},
 		// 追问 打开问题弹框
-		handleZwQues(title) {
-			console.log(title, "handleZwQues")
+		handleZwQues(title, content) {
+			console.log(title, content, "handleZwQues")
 			this.questioningVisible = true
 			this.questioningTitle = title
+			this.questionAnswerContent = content
 			this.zwFlag = true
 		},
 		// 提问 打开问题弹框
@@ -173,6 +190,15 @@ export default {
 		closeQuesDialog(va) {
 			this.questioningVisible = va
 		},
+		// 根据弹窗热门问题跳转到常见问题详情
+		gotoProblemDeatil(issue, fromPage) {
+			console.log(issue, fromPage, '1111')
+			this.intelligentVisible = false
+			this.helpMoudle = 'problem'
+			this.currentMoudleId = 785 || issue.questionModuleId
+			console.log(this.$refs.problemDetail)
+			this.$refs.problemDetail.initDetailPage(issue)
+		}
 	}
 }
 </script>

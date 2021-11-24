@@ -15,7 +15,7 @@
 					{{ questioningTitle }}
 				</div>
 				<div class="ask">
-					该问题的第一次回答
+					{{ questionAnswerContent }}
 				</div>
 			</div>
 			<div class="te-text">{{ language('提问') }}</div>
@@ -43,9 +43,9 @@ export default {
 	components:{ iDialog, AttachmentDownload, iButton },
 	props: {
 		questioningVisible: {
-      type: Boolean,
-      default: false
-    },
+			type: Boolean,
+			default: false
+		},
 		questioningTitle: {
 			type: String,
 			default: ''
@@ -53,6 +53,10 @@ export default {
 		zwFlag: {
 			type: Boolean,
 			default: false
+		},
+		questionAnswerContent: {
+			type: String,
+			default: ''
 		}
 	},
 	methods: {
