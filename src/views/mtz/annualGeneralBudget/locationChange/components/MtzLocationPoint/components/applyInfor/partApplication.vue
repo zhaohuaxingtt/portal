@@ -297,8 +297,9 @@ export default {
     },
     // 重置
     handleSearchReset(form) {
-      this.searchForm = {};
-      this.searchForm.applicationStatus = "NEW";
+      this.searchForm = {
+        applicationStatus:"NEW"
+      };
       this.page.currPage = 1;
       this.page.pageSize = 10;
       this.getTableList();
