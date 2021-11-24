@@ -1,21 +1,25 @@
 <template>
   <div class="volume-container">
     <div class="table-container">
-      <iTableCustom ref="volumeTable"
-                    :loading="tableLoading"
-                    :data="partList"
-                    :isNavMenu="true"
-                    :columns="tableSetting"
-                    @handle-current-change="handleTableCurrentChange"
-                    highlight-current-row />
+      <iTableCustom
+        ref="volumeTable"
+        :loading="tableLoading"
+        :data="partList"
+        :isNavMenu="true"
+        :columns="tableSetting"
+        @handle-current-change="handleTableCurrentChange"
+        highlight-current-row
+      />
     </div>
     <div id="volumePriceChart">
-      <curveChart chartHeight="260px"
-                  :newestScatterData="curveChartData.newestScatterData"
-                  :targetScatterData="curveChartData.targetScatterData"
-                  :cpLineData="curveChartData.cpLineData"
-                  :lineData="curveChartData.lineData"
-                  :dataInfo="dataInfo" />
+      <curveChart
+        chartHeight="260px"
+        :newestScatterData="curveChartData.newestScatterData"
+        :targetScatterData="curveChartData.targetScatterData"
+        :cpLineData="curveChartData.cpLineData"
+        :lineData="curveChartData.lineData"
+        :dataInfo="dataInfo"
+      />
     </div>
   </div>
 </template>
@@ -26,7 +30,7 @@ import { getVpAnalysisDataList, getAnalysisProcessing } from '@/api/home'
 import curveChart from './curveChart.vue'
 export default {
   components: { iTableCustom, curveChart },
-  data () {
+  data() {
     return {
       tableLoading: false,
       tableSetting: [
@@ -39,13 +43,16 @@ export default {
           prop: 'partsNameZh',
           label: '零件名称',
           customRender: (h, scope, column, e) => {
-            return (
-              <span class="#303133">
-                {scope.row.partsNameZh.length > 5
-                  ? scope.row.partsNameZh.slice(0, 4) + `...`
-                  : scope.row.partsNameZh}
-              </span>
-            )
+            if (scope.row.partsNameZh) {
+              return (
+                <span class="#303133">
+                  {scope.row.partsNameZh.length > 5
+                    ? scope.row.partsNameZh.slice(0, 4) + `...`
+                    : scope.row.partsNameZh}
+                </span>
+              )
+            }
+            return scope.row.partsNameZh
           }
         },
         {
@@ -64,11 +71,11 @@ export default {
       dataInfo: {}
     }
   },
-  mounted () {
+  mounted() {
     this.getList()
   },
   methods: {
-    async getList () {
+    async getList() {
       const params = {
         pageNo: 1,
         pageSize: 5,
@@ -76,7 +83,9 @@ export default {
       }
       const result = await getVpAnalysisDataList(params)
       if (result && result.code === '200' && result.data) {
-        this.partList = result.data.sort((a, b) => b.reductionPotential - a.reductionPotential)
+        this.partList = result.data.sort(
+          (a, b) => b.reductionPotential - a.reductionPotential
+        )
         this.itemSelected = this.partList[0]
         this.$refs.volumeTable.$refs.theCustomTable.setCurrentRow(
           this.partList[0]
@@ -84,7 +93,7 @@ export default {
         this.getDetail()
       }
     },
-    handleCurveData (data) {
+    handleCurveData(data) {
       this.curveChartData.newestScatterData = []
       this.curveChartData.targetScatterData = []
       this.curveChartData.lineData = []
@@ -109,11 +118,11 @@ export default {
         }
       })
     },
-    handleTableCurrentChange (val) {
+    handleTableCurrentChange(val) {
       this.itemSelected = val
       this.getDetail()
     },
-    async getDetail () {
+    async getDetail() {
       const result = await getAnalysisProcessing({
         id: this.itemSelected.id,
         inMode: 1
