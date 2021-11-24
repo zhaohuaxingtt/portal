@@ -39,12 +39,24 @@ export function setToken(tokenData) {
 }
 //removeoken
 export function removeToken() {
-  const keys = document.cookie.match(/[^ =;]+(?=\=)/g)
+  const keys = document.cookie.match(/[^ =;]+(?==)/g)
   if (keys) {
-    for (var i = keys.length; i--; ) {
-      document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+    for (let i = keys.length; i--; ) {
+      document.cookie =
+        keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString() // 清除当前域名下的,例如：m.ratingdog.cn
+      document.cookie =
+        keys[i] +
+        '=0;path=/;domain=' +
+        document.domain +
+        ';expires=' +
+        new Date(0).toUTCString() // 清除当前域名下的，例如 .m.ratingdog.cn
+      document.cookie =
+        keys[i] +
+        '=0;path=/;domain=csvw.com;expires=' +
+        new Date(0).toUTCString() // 清除一级域名下的或指定的，例如 .ratingdog.cn
     }
   }
+  return 'ok'
   // return removeCookie(process.env.VUE_APP_TOKEN_NAME)
 }
 //获取token
