@@ -39,6 +39,7 @@
             </div>
             <div
               class="middle middle-m"
+              style="fontSize: 40px"
               v-if="
                 parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget
               "
@@ -89,7 +90,7 @@
             </div>
             <div class="right">
               <div
-                style="font-family: Arial; font-weight: bold; color: #343434"
+                style="font-family: Arial; font-weight: bold; color: #aaa"
               >
                 中期改款
               </div>
@@ -288,6 +289,7 @@ export default {
   width: 100%;
   height: 100%;
   padding: 8px 16px 16px 16px;
+
   .center-bar {
     position: absolute;
     bottom: 22%;
@@ -355,7 +357,7 @@ export default {
     }
     > .middle {
       color: #1763f7;
-      font-size: 40px;
+      font-size: 26px;
       min-width: 120px;
     }
     > .middle-m {

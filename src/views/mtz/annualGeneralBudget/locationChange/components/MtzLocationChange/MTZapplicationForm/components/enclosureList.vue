@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:56
- * @LastEditTime: 2021-11-18 16:22:30
+ * @LastEditTime: 2021-11-23 15:27:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\enclosureList.vue
@@ -64,7 +64,7 @@ export default {
       mtzAppId: "",
       loading: false,
       tableData: [],
-      isView: false,
+      // isView: false,
       mutileList: [],
       disabled: false
     }
@@ -75,7 +75,14 @@ export default {
     iButton
   },
   created () {
-    this.init()
+    this.$nextTick(() => {
+      this.init()
+    });
+  },
+  props: {
+    isView: {
+      type: Boolean
+    }
   },
   watch: {
     '$store.state.location.disabled': {
@@ -88,7 +95,6 @@ export default {
   },
   methods: {
     init () {
-      this.isView = JSON.parse(this.$route.query.isView)
       this.mtzAppId = this.$route.query.mtzAppId
       this.getAttachList()
     },

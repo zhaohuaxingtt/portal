@@ -100,7 +100,7 @@ export default {
       this.totalCount = 0
       const result = await getSponserData(this.query)
       if (result.code === '200' && result.data) {
-        let data = result.data
+        let data = result.data.slice(0, 9)
         const dataGrade = data.map((item) => {
           return item.grade
         })

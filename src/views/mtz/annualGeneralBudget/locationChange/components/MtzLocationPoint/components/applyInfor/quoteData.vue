@@ -297,9 +297,9 @@ export default {
       getNominateProcessType({}).then(res=>{
         this.getFlowTypeList = res.data;
       })
-      getLocationApplyStatus({}).then(res=>{
-        this.getLocationApplyStatus = res.data;
-      })
+      // getLocationApplyStatus({}).then(res=>{
+      //   this.getLocationApplyStatus = res.data;
+      // })
       selectDictByKeys({
         keys:"CAR_TYPE_PRO"
       }).then(res=>{
@@ -351,7 +351,11 @@ export default {
     },
     // 重置
     handleSearchReset(form) {
-      this.searchForm = {};
+      this.searchForm = {
+        applicationStatus:"NEW"
+      };
+      this.page.currPage = 1;
+      this.page.pageSize = 10;
       this.getTableList();
     },
     // 确定

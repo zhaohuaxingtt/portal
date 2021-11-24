@@ -53,6 +53,7 @@ export default {
             const picUrl = this.$refs.newRight.linkUrl()
             //校验是否通过校验
             let newLeftSave = this.$refs.newLeft.save()
+            console.log('pppp');
             let accountIds = []
             let supplierIds = []
             if(formData.publishRange == 15){
@@ -85,7 +86,7 @@ export default {
                     if(window.opener){
                         window.opener.location.reload()
                         window.setTimeout(()=>{
-                            // window.close()
+                            window.close()
                         },1000)
                     }
                 }else{
@@ -99,35 +100,8 @@ export default {
             this.formData = formData
             this.picUrl = this.$refs.newRight.linkUrl()
             this.openDialog()
-            // let _this = this
-            // this.instance = this.$notify({
-            //     // title:formData.popupName,
-            //     // ${formData.linkUrl && '<a href="'+formData.linkUrl+'"></a>'}
-            //     duration: 0,
-            //     dangerouslyUseHTMLString: true,
-            //     message:`<div style='display: flex;justify-content: space-between;${formData.linkUrl && 'cursor:pointer;'}'>
-            //                 <div class="popupLeft" style='width:50px;height:50px; '>
-            //                   <img src="${picUrl}" style='width:100%;height:100%; border-radius: 50%;'>
-            //                 </div>
-            //                 <div class="popupRight" style='position:relative;margin-left:20px'>
-            //                   <p class='${formData.linkUrl && 'linkTitle'}' 
-            //                     style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-            //                     width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;
-            //                     ${formData.linkUrl && 'text-decoration:underline'}'>
-            //                     ${formData.popupName}
-            //                   </p>
-            //                   <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
-            //                   >${formData.content}</p>
-            //                 </div>
-            //               </div>`,
-            //     position:'bottom-right',
-            //     onClick(){
-            //         _this.openDialog()
-            //     }
-            // })
         },
         openDialog(){
-            // this.instance.close()
             let time = ''
             if(!this.formData.publishPreTime){
                 const date = new Date()
@@ -153,7 +127,8 @@ export default {
                 picUrl:this.picUrl,
                 linkUrl:this.formData.linkUrl,
                 publishTime:time,
-                popupStyle:this.formData.popupStyle
+                popupStyle:this.formData.popupStyle,
+                wordAlign:this.formData.wordAlign
             }
         }
     }

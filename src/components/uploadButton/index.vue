@@ -36,7 +36,7 @@ export default {
     iButton,
   },
   props: {
-    buttonText: { type: String, default: 'LK_SH   ANGCHUANFUJIAN' },
+    buttonText: { type: String, default: 'LK_SHANGCHUANFUJIAN' },
     repeatClick: Boolean,
     uploadButtonLoading: { type: Boolean, default: false },
     showText: { type: Boolean, default: false },

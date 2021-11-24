@@ -101,7 +101,7 @@ export default {
   },
   data() {
     return {
-      activeName: 'EKL-CS',
+      activeName: 'CS(Spare)',
       num: 2400,
       options: [
         {name:'配件',value:1},
@@ -265,7 +265,6 @@ export default {
   width: 100%;
   height: 100%;
   padding: 8px 16px 16px 16px;
-
  
  .ekl-tabs {
     width: 66%;

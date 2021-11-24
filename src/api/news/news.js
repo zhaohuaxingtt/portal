@@ -8,6 +8,12 @@ requst.interceptors.request.use(function (config) {
   }
   return config;
 });
+requstSurvey.interceptors.request.use(function (config) {
+  config.params = {
+    userId: store.state.permission.userInfo.id,
+  }
+  return config;
+});
 //分页查询新闻信息
 export function findNewsPage(data) {
   return requst({

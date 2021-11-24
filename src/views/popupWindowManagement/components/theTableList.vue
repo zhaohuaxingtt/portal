@@ -166,7 +166,8 @@ export default {
         picUrl:this.formData.picUrl,
         linkUrl:this.formData.linkUrl,
         popupStyle:this.formData.popupStyle,
-        publishTime:time
+        publishTime:time,
+        wordAlign:this.formData.wordAlign
       }
       this.show = true
     

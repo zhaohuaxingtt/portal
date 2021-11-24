@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="right" v-loading="rightLoading">
-                <div class="title">
+                <div class="title" v-if="currentItem&&currentItem.typeName">
                     <i></i>{{ currentItem.typeName }} - {{ currentItem.title }}
                 </div>
                 <div class="partResume_right_content">

@@ -51,7 +51,7 @@ export default {
     },
     {
       path: '/superLogin',
-      name: 'login',
+      name: 'superlogin',
       meta: {
         title: '登录'
       },
@@ -176,6 +176,6 @@ export default {
   ],
 
   authType: 'white', //白名单 white 可以跳过登录 | 黑名单 black 不可以跳过登录
-  whiteList: [/^\/login/,/^\/superLogin/],
+  whiteList: [/^\/login/, /^\/superLogin/],
   blackList: []
 }
