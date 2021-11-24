@@ -21,40 +21,14 @@
                   ></iInput>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.sysType">
-                  <iSelect v-model="formData.systemType">
-                    <el-option
-                      v-for="item in systemOptions"
-                      :key="item.id"
-                      :label="item.label"
-                      :value="item.id"
-                    >
-                    </el-option>
-                  </iSelect>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.sysTag">
-                  <iSelect v-model="formData.supplierType">
-                    <el-option
-                      v-for="item in systemTagOptions"
-                      :key="item.id"
-                      :label="item.label"
-                      :value="item.id"
-                    >
-                    </el-option>
-                  </iSelect>
-                </el-form-item>
-              </el-col>
               <el-col :span="24">
                 <div class="searchButtons">
-                  <iButton @click="search">{{
-                    searchOptionTitles.buttons.search
-                  }}</iButton>
-                  <iButton @click="reset">{{
-                    searchOptionTitles.buttons.reset
-                  }}</iButton>
+                  <iButton @click="search">
+                    {{ searchOptionTitles.buttons.search }}
+                  </iButton>
+                  <iButton @click="reset">
+                    {{ searchOptionTitles.buttons.reset }}
+                  </iButton>
                 </div>
               </el-col>
             </el-row>
@@ -65,9 +39,9 @@
         <iCard>
           <div class="tableButtons">
             <iButton @click="create">{{ buttonTitles.create }}</iButton>
-            <iButton @click="deleteData" :disabled="selectedData.length == 0">{{
-              buttonTitles.delete
-            }}</iButton>
+            <iButton @click="deleteData" :disabled="selectedData.length == 0">
+              {{ buttonTitles.delete }}
+            </iButton>
             <iButton @click="exportData">{{ buttonTitles.export }}</iButton>
             <create-sys-mgm
               v-if="dialogFormVisible"
@@ -116,7 +90,7 @@ import {
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { tableColumnSetting } from './data/data'
-import CreateSysMgm from './create/CreateSysMgm'
+import CreateSysMgm from './components/CreateSysMgm'
 import { pageMixins } from '@/utils/pageMixins'
 import { sysList, deleteSys, sysExport } from '@/api/provider/index'
 export default {
@@ -255,11 +229,6 @@ export default {
       searchOptionTitles: {
         name: '中文名称',
         nameEN: '英文名称',
-        // ldap: "安全中心LDAP属性",
-        // type: "功能类型",
-        sysDesc: '系统功能说明',
-        sysType: '系统类型',
-        sysTag: '系统标签',
         buttons: {
           search: '查询',
           reset: '重置'

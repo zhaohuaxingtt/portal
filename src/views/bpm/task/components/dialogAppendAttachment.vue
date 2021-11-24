@@ -190,7 +190,7 @@ export default {
       formData.append('isTemp', 0)
       formData.append('type ', 1)
       formData.append(
-        'currentUserId',
+        'currentUser',
         this.$store.state.permission.userInfo.userName
       )
       await uploadApprovalAttach(formData)
@@ -198,7 +198,7 @@ export default {
           this.attachList.push(res)
         })
         .catch((err) => {
-          console.log(err)
+          console.log('uploadApprovalAttach err', err)
           iMessage.error(this.$t('LK_SHANGCHUANSHIBAI'))
         })
 
