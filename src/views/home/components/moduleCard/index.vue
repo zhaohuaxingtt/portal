@@ -17,6 +17,19 @@
         <!-- {{ language(`${card.permissionKey}`) }} -->
         <!-- {{ $t('HOME_CARD.' + card.permissionKey) }} -->
       </span>
+
+      <!-- 更多2 -->
+      <!-- <div class="more">
+        <span class="el-dropdown-link">
+          <i class="el-icon-more"></i>
+        </span>
+        <div class="more-content">
+          <div class="more-item" v-if="card.component === 'Task' || card.component === 'Approve'" @click="handleMore">更多</div>
+          <div class="more-item" :class="{overHide: card.component != 'Task' && card.component != 'Approve'}" @click="handleDel">删除</div>
+        </div>
+      </div> -->
+      
+      <!-- 更多1 -->
       <el-dropdown trigger="click">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
@@ -158,6 +171,66 @@ export default {
   }
   .module-card-btn {
     color: #4d4d4d;
+  }
+}
+.more{
+  position: relative;
+  margin-right: 10px;
+
+  &:hover .more-content{
+    display:block;
+  }
+  .el-dropdown-link{
+    cursor: pointer;
+  }
+  .more-content{
+    display: none;
+    width: 80px;
+    position: absolute;
+    top: 25px;
+    right: -20px;
+    z-index: 900;
+    border: 1px solid #4B5C7D;
+    background-color: #fff;
+    border-radius: 8px;
+    transition: all .3s ease-in;
+    &::before{
+      content:"";
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      border-left: 1px solid #4B5C7D;
+      border-top: 1px solid #4B5C7D;
+      z-index: 901;
+      background-color: #fff;
+      transform: rotate(45deg);
+    }
+    .more-item{
+      position: relative;
+      z-index: 902;
+      padding: 5px 10px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 12px;
+      color: #4B5C7D;
+      // border-radius: 8px;
+      &:hover{
+        color: #1660F1;
+        background-color: #F1F5FF;
+      }
+      &.overHide{
+        border-radius: 8px !important;
+      }
+
+      &:first-child{
+        border-radius: 8px 8px 0 0;
+      }
+      &:last-child{
+        border-radius: 0 0 8px 8px;
+      }
+    }
   }
 }
 </style>
