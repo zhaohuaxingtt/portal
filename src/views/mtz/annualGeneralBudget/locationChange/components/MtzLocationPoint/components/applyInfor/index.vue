@@ -72,7 +72,7 @@
       ref="theTabs"
       @isNomiNumber="isNomiNum"
       @handleReset="handleReset"
-      :jumpList="jumpList"
+      :relationType="relationType"
       v-if="!beforReturn"
       :appStatus='inforData.appStatus'
       :flowType="inforData.flowType"
@@ -168,8 +168,8 @@ export default {
       applyNumber: '',
       showType: false,
       appIdType:true,
-      jumpList:{},//关联申请单信息
       numIsNomi:0,
+      relationType:"",
     }
   },
   // beforeRouteEnter:(to,from,next)=>{
@@ -215,6 +215,7 @@ export default {
           this.applyNumber = "";
         } else {
           this.applyNumber = res.data.ttNominateAppId;
+          this.getLjLocation();
         }
         store.commit("submitBtnType",res.data.flowType);
         store.commit("submitNumGL",res.data.ttNominateAppId);
@@ -247,7 +248,20 @@ export default {
         ...this.inforData,
         flowType:"MEETING",
       }).then(res => {
-        this.init();
+        if(res.code == 200){
+          setTimeout(() => {
+            disassociate({
+              mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+            }).then(res => {
+              if (res.code == 200) {
+                this.applyNumber = "";
+                this.init();
+              } else {
+                iMessage.error(res.desZh)
+              }
+            })
+          }, 100);
+        }
       })
     },
     edit () {
@@ -345,7 +359,7 @@ export default {
         nominateId:this.applyNumber
       }).then(res=>{
         if(res.code == 200 && res.result){
-          this.jumpList = res.data.records[0];
+          this.relationType = res.data.records[0].nominateProcessType;
         }else{
           iMessage.error(this.language(res.desEn,res.desZh))
         }
