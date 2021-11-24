@@ -95,3 +95,14 @@ export const numAdd  = function(num1, num2) {//小数点加法运算
   baseNum = Math.pow(10, Math.max(baseNum1, baseNum2));
   return (num1 * baseNum + num2 * baseNum) / baseNum;
 };
+
+export const formatDecimal = function(num, decimal) {//保留小数点后几位，超出截掉
+  num = num.toString()
+  let index = num.indexOf('.')
+  if (index !== -1) {
+      num = num.substring(0, decimal + index + 1)
+  } else {
+      num = num.substring(0)
+  }
+  return parseFloat(num).toFixed(decimal)
+}

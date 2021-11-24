@@ -40,9 +40,10 @@ export function getColorListById(data){
 
 //根据零件编号获取单位列表
 export function getUnitList(data){
+    let param = {'bizId':data}
     return request({
         url:'/web/queryUnitConverseByBizId',
         method:'GET',
-        params: data
+        params: param
     })
 }

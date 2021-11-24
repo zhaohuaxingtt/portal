@@ -405,7 +405,8 @@ export default {components: {
     saveClose(val){
         this.closeDiolog();
         if(val){
-            this.contractForm.assemblyPartnum = val;
+            this.contractForm.assemblyPartnum = val.partNum;
+            this.contractForm.partName = val.partName;
         }
     },
     closeDiolog(){

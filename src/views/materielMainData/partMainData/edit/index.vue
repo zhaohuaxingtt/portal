@@ -506,31 +506,33 @@ export default {
             if(this.initialValue.baseUnitId == ''){
                 this.initialValue.baseUnitId = '59'
             }
-            if(this.initialValue.vos.length == this.measureEditdata.length && 
-                this.initialValue.vos.length!=0 && this.measureEditdata.length!=0){
-                for (let i = 0;i<this.measureEditdata.length;i++){
-                    if(this.initialValue.vos[i].denominatorUnitId != this.measureEditdata[i].denominatorUnitId || 
-                        this.initialValue.vos[i].numeratorValue != this.measureEditdata[i].numeratorValue
-                    ){
-                        return    this.confirmCancel()
-                    }else if(this.initialValue.baseUnitId != this.materielUnit){
-                        this.confirmCancel()
+            if(this.initialValue.vos && this.measureEditdata){
+                if(this.initialValue.vos.length == this.measureEditdata.length && 
+                    this.initialValue.vos.length!=0 && this.measureEditdata.length!=0){
+                    for (let i = 0;i<this.measureEditdata.length;i++){
+                        if(this.initialValue.vos[i].denominatorUnitId != this.measureEditdata[i].denominatorUnitId || 
+                            this.initialValue.vos[i].numeratorValue != this.measureEditdata[i].numeratorValue
+                        ){
+                            return    this.confirmCancel()
+                        }else if(this.initialValue.baseUnitId != this.materielUnit){
+                            this.confirmCancel()
+                        }
+                        else{
+                            this.editStatus = true
+                            this.id = 0
+                            this.getUnitTableList()
+                        }
                     }
-                    else{
-                        this.editStatus = true
-                        this.id = 0
-                        this.getUnitTableList()
-                    }
+                }else if( this.initialValue.baseUnitId != this.materielUnit ||
+                            this.initialValue.vos.length != this.measureEditdata.length ){
+                            this.confirmCancel()
+                }else{
+                    this.editStatus = true
+                    this.id = 0
+                    this.getUnitTableList()
                 }
-            }else if( this.initialValue.baseUnitId != this.materielUnit ||
-                        this.initialValue.vos.length != this.measureEditdata.length ){
-                        this.confirmCancel()
             }
-            else{
-                this.editStatus = true
-                this.id = 0
-                this.getUnitTableList()
-            }
+            
         },
         confirmCancel(){
             this.$confirm('数据有改动，是否取消此次的改动','提示',{
@@ -609,9 +611,16 @@ export default {
                         this.loading = false
                         this.materielUnit = '59'
                     }else{
+                        
                         const data = val.data.vos 
-                        this.data = data
+                        if(data){
+                            console.log('ppp');
+                            this.data = data
+                        }else{
+                            this.data=[]
+                        }
                         let propData = ''
+                        
                         for(let item of this.unitoptions){
                             if(val.data.baseUnitId == item.id){
                                 propData= item.name
@@ -620,7 +629,9 @@ export default {
                         this.extraData.materielUnit = propData
                         this.readeExtraData.materielUnit = propData
                         this.materielUnit = val.data.baseUnitId
-                        this.measureEditdata = val.data.vos
+                        if(val.data.vos){
+                            this.measureEditdata = val.data.vos
+                        }
                         this.initialValue = JSON.parse(JSON.stringify(val.data))
                         this.loading = false
                     }
