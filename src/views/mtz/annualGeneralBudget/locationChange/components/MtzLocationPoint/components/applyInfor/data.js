@@ -361,7 +361,7 @@ export const formRulesLJ = {
   assemblyPartnum:[{required: true, message: '请选择', trigger: 'blur'}],//零件号
   ruleNo:[{required: true, message: '请选择', trigger: 'blur'}],//规则编号
   supplierId:[{required: true, message: '请选择', trigger: 'blur'}],//供应商编号
-  partUnit:[{required: true, message: '请选择', trigger: 'blur'}],//零件数量单位
+  // partUnit:[{required: true, message: '请选择', trigger: 'blur'}],//零件数量单位
   priceUnit:[{required: true, message: '请选择', trigger: 'blur'}],//每
   dosage:[{required: true, message: '请选择', trigger: 'blur'}],//用量
   dosageMeasureUnit:[{required: true, message: '请选择', trigger: 'blur'}],//用量计量单位

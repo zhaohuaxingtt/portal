@@ -121,8 +121,8 @@
                         :prop="'tableData.' + scope.$index + '.' + 'partUnit'"
                         :rules="formRules.partUnit ? formRules.partUnit : ''"
                     >
-                        <iInput v-model="scope.row.partUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
-                        <span v-else>{{scope.row.partUnit}}</span>
+                        <!-- <iInput v-model="scope.row.partUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+                        <span>{{scope.row.partUnit}}</span>
                     </el-form-item>
                 </template>
             </el-table-column>
@@ -693,6 +693,13 @@ export default {
         }catch(e){
             if(e.message != "EndIterative") throw e;
         }
+    },
+    removePartMasterData(){//清空
+        removePartMasterData({
+            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        }).then(res=>{
+            this.getTableList();
+        })
     },
     save(){//保存
         if(this.dialogEditType){//新增
