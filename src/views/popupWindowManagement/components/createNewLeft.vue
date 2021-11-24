@@ -65,13 +65,13 @@
             <iFormItem :label="language('弹窗说明')" prop='content'>
               <div>
                 <div class="btnList">
-                  <el-radio v-model="radio" label="1">{{language('文字居左')}}</el-radio>
-                  <el-radio v-model="radio" label="2">{{language('文字居中')}}</el-radio>
-                  <el-radio v-model="radio" label="3">{{language('文字居右')}}</el-radio>
+                  <el-radio v-model="formContent.wordAlign" label="0">{{language('文字居左')}}</el-radio>
+                  <el-radio v-model="formContent.wordAlign" label="1">{{language('文字居中')}}</el-radio>
+                  <el-radio v-model="formContent.wordAlign" label="2">{{language('文字居右')}}</el-radio>
                 </div>
                 <el-input 
                     type="textarea" 
-                    :class="{'popup-explain-left':radio == 1,'popup-explain-center':radio == 2,'popup-explain-right':radio == 3}" 
+                    :class="{'popup-explain-left':formContent.wordAlign == 0,'popup-explain-center':formContent.wordAlign == 1,'popup-explain-right':formContent.wordAlign == 2}" 
                     :placeholder='language("请输入")' 
                     v-model="formContent.content" 
                     maxlength="300"
@@ -98,11 +98,12 @@ export default {
     props:{},
     data(){
       return{
-        radio:'1',
+        radio:'0',
         publishRangeOptions:PUBLISH_SCOPE_OPTIONS,
         formContent:{
           popupName:'',
           linkUrl:'',
+          wordAlign:'0',
           publishRange:0,
           deletePreTime:'',
           publishPreTime:'',
