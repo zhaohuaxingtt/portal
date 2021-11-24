@@ -110,7 +110,7 @@ export default {
     margin-left: 40px;
     .check-box{
         position: absolute;
-        left: -170px;
+        left: -210px;
         ::v-deep .el-checkbox__inner{
             border-radius: 4px;
         }
