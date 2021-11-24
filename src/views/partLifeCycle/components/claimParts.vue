@@ -126,7 +126,7 @@ export default {
           // this.departmentsList = res.data
           if(res.data.status){
             iMessage.success(this.$i18n.locale === 'zh' ? '认领成功' : 'claim success')
-            this.$emit('sure')
+//            this.$emit('sure')  // 数据保持在当前页面
           } else {
             let partNum = res.data.partNum.split(',')
             iMessage.error(this.$i18n.locale === 'zh' ? partNum + '认领失败' : partNum +'claim fail')

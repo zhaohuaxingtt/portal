@@ -334,7 +334,7 @@
         </transition>
       </div>
     </div>
-    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="claimPartsShow = false;defaultParts()"
+    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="claimPartsShow = false"
                 @clearDiolog="claimPartsShow = false"></claimParts>
     <transition name="slide-fade">
       <favorites v-if="favoritesShow" @deleteItem="cancelOrCollect" @closeFavorites="favoritesShow = false"></favorites>
