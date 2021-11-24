@@ -69,7 +69,7 @@ export function uploadFile(data) {
   }
 
   return requstFile({
-    url: `/udMutilfilesController?currentUser=${currentUser}`,
+    url: `/fileud/udMutilfilesController?currentUser=${currentUser}`,
     method: 'POST',
     data
   })

@@ -19,7 +19,7 @@ export function uploadFile(data, options) {
   data.append('type', 1)
   data.delete('file')
   return requstFile({
-    url: `/udMutilfiles`,
+    url: `/fileud/udMutilfiles`,
     data,
     method: 'POST',
     timeout: 600000,
@@ -32,7 +32,7 @@ export function uploadFile(data, options) {
 //通过文件 ID 下载文件, 返回字节流
 export function getFileId(fileId) {
   return requstFile({
-    url: `/udDown/${fileId}`,
+    url: `/fileud/udDown/${fileId}`,
     method: 'GET',
     responseType: 'blob'
   })
