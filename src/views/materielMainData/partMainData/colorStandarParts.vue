@@ -33,7 +33,8 @@ export default {
       partNum:'',
       basicCheck:0,
       //获取选中item partNum
-      partItems:[]
+      partItems:[],
+      passCheck:false
     }
   },
   methods:{
@@ -61,9 +62,12 @@ export default {
       const unitId = this.$refs.colorPartsUnit.getUnitId()
       const unitConverseDtos = this.$refs.colorPartsUnit.getUnitItems()
       //判断是否通过检验
+      
       if(this.basicCheck == 0 || (list != null &&  list.length == 0  )){
         this.$message.error(this.basicCheck == 0 ? '未勾选修改的内容，请最少选择一个需调整的内容继续操作' : '未勾选色标零件，请最少选中一行继续操作' )
-        return
+        
+      }else{
+        this.passCheck = true
       }
       const data = {
        ...basicContent,
@@ -71,21 +75,34 @@ export default {
         unitId,
         unitConverseDtos
       }
-      console.log(data,'------');
-      this.$confirm('确认是否修改选中色标修改','提示',{
-        confirmButtonText:'确定',
-        cancelButtonText:'取消',
-        type:'warning'
-      }).then(()=>{
-        updateColorParts(data).then((res)=>{
-          if(res.code == 200){
-            this.$message.success('批量修改成功')
-          }else{
-            this.$message.error(res.desZh)
-          }
-        })
-      }).catch(()=>{})
+      console.log(this.passCheck,'------');
+      if( this.passCheck){
+
+        this.$confirm('确认是否修改选中色标修改','提示',{
+          confirmButtonText:'确定',
+          cancelButtonText:'取消',
+          type:'warning'
+        }).then(()=>{
+          updateColorParts(data).then((res)=>{
+            if(res.code == 200){
+              this.$message.success('批量修改成功')
+              this.initial()
+            }else{
+              this.$message.error(res.desZh)
+            }
+          })
+        }).catch(()=>{})
+      }
+
       
+    },
+    initial(){
+      this.passCheck = false
+      this.basicCheck = 0
+      this.partItems = []
+    },
+    cancel(){
+      window.close()
     }
   }
 
