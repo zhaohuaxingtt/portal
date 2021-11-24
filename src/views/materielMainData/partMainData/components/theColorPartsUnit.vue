@@ -9,8 +9,8 @@
                             <el-option
                                 v-for="item in unitOptions"
                                 :key="item.value"
-                                :label='item.name'
-                                :value="item.id"
+                                :label='item.label'
+                                :value="item.value"
                             >
                             </el-option>
                         </iSelect>
@@ -57,22 +57,20 @@ export default {
         materielUnit().then((res)=>{
             if(res.code == 200){
                 for(let item of res.data){
-                    this.unitOptions.push({name:item['nameZh'],value:item['code'],id:item['id']})
+                    this.unitOptions.push({label:item.nameZh,value:item.id,code:item.code})
                 }
             }else{
                 this.$message.error(res.desZh)
             }
         })
         const id =this.$route.query.id
-        // const id =1039179
 
         getUnitList(id).then((res)=>{
             if(res.code == 200){
                 const data = res.data
                 if(data){
                     this.unitData = data
-                    console.log('======');
-                    this.unit = data[0].currentUnitCode
+                    this.unit = data[0].currentUnitId
                     this.$refs.unitTable.toggleAllSelection()
                 }
                 
@@ -100,7 +98,7 @@ export default {
                     "targetUnitId":ele.targetUnitId
                 }
             })
-            // return data
+            return data
         }
     }
 }
