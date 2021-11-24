@@ -125,7 +125,8 @@ export default {
             picUrl: data.picUrl,
             linkUrl: data.linkUrl,
             popupStyle:data.popupStyle,
-            publishTime:time
+            publishTime:time,
+            wordAlign:data.wordAlign
           }
           this.showDialog = true
           this.clearNotify()

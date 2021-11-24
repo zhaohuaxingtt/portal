@@ -2,6 +2,7 @@
   <el-card class="module-card">
     <div
       slot="header"
+      class="card-header"
       :class="
         !['EKL','EKLAffix'].includes(card.component)
           ? 'flex-between-center-center'
@@ -23,9 +24,10 @@
         <span class="el-dropdown-link" @click.stop="show = !show">
           <i class="el-icon-more"></i>
         </span>
-        <div class="more-content" v-show="show">
+        <div class="more-content" style="top:17px;" v-show="show">
           <div class="more-item" v-if="card.component === 'Task' || card.component === 'Approve'" @click="handleMore">更多</div>
-          <div class="more-item" :class="{overHide: card.component != 'Task' && card.component != 'Approve'}" @click="handleDel">删除</div>
+          <div class="more-item" :class="[card.component != 'Task' && card.component != 'Approve' ? 'all' : 'bottom']" @click="handleDel">删除</div>
+          <i class="arrow" style="width:8px;height:8px; top:-4px;"></i>
         </div>
       </div>
       
@@ -176,6 +178,11 @@ export default {
     font-weight: bold;
     cursor: pointer;
   }
+
+  .card-header{
+    position: relative;
+    z-index: 100;
+  }
   .module-card-btn {
     color: #4d4d4d;
   }
@@ -194,18 +201,18 @@ export default {
     // display: none;
     width: 80px;
     position: absolute;
-    top: 25px;
+    // top: 25px;
     right: -20px;
     z-index: 900;
     border: 1px solid #4B5C7D;
     background-color: #fff;
     border-radius: 8px;
     transition: all .3s ease-in;
-    &::before{
-      content:"";
+     .arrow{
+      // content:"";
       position: absolute;
-      top: -17%;
-      left: 58%;
+      // top: -17%;
+      right: 24px;
       width: 8px;
       height: 8px;
       border-left: 1px solid #4B5C7D;
@@ -223,21 +230,25 @@ export default {
       font-size: 12px;
       color: #4B5C7D;
       // border-radius: 8px;
+        background-color: #fff;
       &:hover{
         color: #1660F1;
         background-color: #F1F5FF;
       }
-      &.overHide{
+      &.all{
         border-radius: 8px !important;
       }
+      &.bottom{
+        border-radius: 0 0 8px 8px !important;
+      }
 
-      &:first-child{
+    }
+      .more-item:first-child{
         border-radius: 8px 8px 0 0;
       }
-      &:last-child{
+      .more-item:last-child{
         border-radius: 0 0 8px 8px;
       }
-    }
   }
 }
 </style>

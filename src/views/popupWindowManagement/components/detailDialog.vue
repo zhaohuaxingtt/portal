@@ -8,14 +8,14 @@
     height='440px'
     :class="{'black-style':detail.popupStyle == '2'}"
   >
-      <div class="" :class="{'center-style':detail.popupStyle == '1','main':detail.popupStyle == '0','right-style':detail.popupStyle == '2'}">
+      <div  :class="{'center-style':detail.popupStyle == '1','main':detail.popupStyle == '0','right-style':detail.popupStyle == '2',} ">
           <div class="left">
               <img v-if="detail.picUrl" :src="detail.picUrl" alt="" class="left-image" />
               <img v-else src="../../../assets/images/popupPic.png" alt="" class="left-image" />
           </div>
           <div class="right">
               <h2 :class="{'link-text':detail.linkUrl}" @click="toNewPage">{{detail.title}}</h2>
-              <div class="content">
+              <div class="content" :class="{'text-left':detail.wordAlign == 0,'text-center':detail.wordAlign==1,'text-right':detail.wordAlign == 2}">
                   {{detail.content}}
               </div>
               <div class="publishTime"><i class="el-icon-time"><span class="publishTime-content">{{detail.publishTime}}</span></i></div>
@@ -40,7 +40,8 @@ export default {
                     picUrl:'',
                     linkUrl:'',
                     publishTime:'',
-                    popupStyle:''
+                    popupStyle:'',
+                    wordAlign:'0'
                 }
             }
         },
@@ -68,6 +69,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.text-left{
+    text-align: left;
+}
+.text-center{
+    text-align: center;
+}
+.text-right{
+    text-align: right;
+}
 ::v-deep .el-dialog__header{
     position: relative;
 }

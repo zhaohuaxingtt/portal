@@ -19,7 +19,7 @@ export function uploadFile(data, options) {
   data.append('type', 1)
   data.delete('file')
   return requstFile({
-    url: `/fileud/udMutilfiles`,
+    url: `/udMutilfiles`,
     data,
     method: 'POST',
     timeout: 600000,

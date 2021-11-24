@@ -5,11 +5,11 @@
               <el-col span="8">
                   <iFormItem :label='language("基本计量单位")' class="unit-option">
                         <el-checkbox class="check-box" v-model="unitCheckbox"></el-checkbox>
-                        <iSelect>
+                        <iSelect v-model="unit" disabled>
                             <el-option
                                 v-for="item in unitOptions"
                                 :key="item.value"
-                                :label='item.name'
+                                :label='item.label'
                                 :value="item.value"
                             >
                             </el-option>
@@ -45,7 +45,9 @@ export default {
             unitOptions:[],
             loading:false,
             columns:UNIT_COLUMNS,
-            unitCheckbox:true
+            unitCheckbox:true,
+            unit:'',
+            selectedItems:[]
         }
     },
     watch:{
@@ -55,20 +57,23 @@ export default {
         materielUnit().then((res)=>{
             if(res.code == 200){
                 for(let item of res.data){
-                    this.unitOptions.push({name:item['nameZh'],value:item['nameZh'],id:item['id']})
+                    this.unitOptions.push({label:item.nameZh,value:item.id,code:item.code})
                 }
             }else{
                 this.$message.error(res.desZh)
             }
         })
-        const id = parseInt(this.$route.query.id)
-        let params = {
-            bizId: id
-        }
-        getUnitList(params).then((res)=>{
+        const id =this.$route.query.id
+
+        getUnitList(id).then((res)=>{
             if(res.code == 200){
                 const data = res.data
-                this.unitData = data
+                if(data){
+                    this.unitData = data
+                    this.unit = data[0].currentUnitId
+                    this.$refs.unitTable.toggleAllSelection()
+                }
+                
             }else{
                 this.$message.error(res.desZh)
             }
@@ -76,7 +81,24 @@ export default {
     },
     methods:{
         handleSelectionChange(val){
-            return val
+            this.selectedItems = val
+        },
+        getUnitId(){
+            return this.unit
+        },
+        getUnitItems(){
+            let data = []
+            data = this.selectedItems.map((ele)=>{
+                console.log(ele,'====');
+                return {
+                    "bizId":this.$route.query.id,
+                    "converseRate":ele.converseRate,
+                    "currentUnitId":ele.currentUnitId,
+                    "limit":ele.limit,
+                    "targetUnitId":ele.targetUnitId
+                }
+            })
+            return data
         }
     }
 }
