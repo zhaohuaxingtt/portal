@@ -41,7 +41,7 @@ export const chooseReceiverTableColumns = [
   },
   {
     // prop: "email",
-    width: 200,
+    // width: 200,
     label: "电子邮箱",
     i18n: "电子邮箱",
     align: "left",

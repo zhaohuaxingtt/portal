@@ -86,7 +86,8 @@ export default {
           updateColorParts(data).then((res)=>{
             if(res.code == 200){
               this.$message.success('批量修改成功')
-              this.initial()
+              // this.initial()
+              this.cancel()
             }else{
               this.$message.error(res.desZh)
             }

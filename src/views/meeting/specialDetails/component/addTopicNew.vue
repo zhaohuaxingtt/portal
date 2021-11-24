@@ -666,6 +666,7 @@ export default {
       uploadFile(formData)
         .then((res) => {
           let attachment = {
+            source: '04',
             attachmentId: res[0].id,
             attachmentUrl: res[0].path,
             attachmentName: res[0].name
