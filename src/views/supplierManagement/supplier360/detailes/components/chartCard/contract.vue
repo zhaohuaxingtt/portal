@@ -27,9 +27,11 @@
 <script>
 import echarts from '@/utils/echarts'
 import { iCard } from 'rise'
+import { cloneDeep } from 'lodash'
 import {
   getCatogeryCollect,
-  getCatogeryCollectYear
+  getCatogeryCollectYear,
+  queryMaterialGroupByCondition
 } from '@/api/supplierManagement/supplierCard/index'
 import img from '@/assets/images/contract.svg'
 export default {
@@ -50,7 +52,8 @@ export default {
       img: img,
       ifBarchart: false,
       loading1: false,
-      loading2: false
+      loading2: false,
+      topcarogery: []
     }
   },
   computed: {
@@ -90,11 +93,53 @@ export default {
         } else this.loading2 = false
       })
     },
-    getLeftChart() {
-      let data1 = []
+    // 排序
+    compare(property, desc) {
+      return function (a, b) {
+        var value1 = a[property]
+        var value2 = b[property]
+        if (desc == true) {
+          // 升序排列
+          return value1 - value2
+        } else {
+          // 降序排列
+          return value2 - value1
+        }
+      }
+    },
+    async getLeftChart() {
+      var data1 = []
       this.info.forEach((e) => {
         data1.push({ value: Math.abs(e.receiveAmount), name: e.catogeryCode })
       })
+      let total = 0
+      data1 = data1.sort(this.compare('value', false))
+      data1.forEach((res, i) => {
+        if (i > 4) {
+          total += res.value
+        }
+      })
+      if (data1.length > 4) {
+        data1.splice(
+          data1.findIndex((res) => res.name == 'other'),
+          data1.findIndex((res) => res.name == 'other')
+        )
+      }
+      data1 = data1.splice(0, 5)
+      this.topcarogery = data1.map((res) => res.name)
+
+      const data = await queryMaterialGroupByCondition({
+        codes: this.topcarogery
+      })
+      data.data.forEach((res) => {
+        data1.forEach((v) => {
+          if (v.name == res.categoryCode) {
+            v.name = res.categoryNameZh
+          }
+        })
+      })
+      data1.push({ name: '其他', value: total })
+      data1 = data1.sort(this.compare('value', false))
       let obj = this
 
       const myChart = echarts().init(this.$refs.chart1)
@@ -114,7 +159,6 @@ export default {
         tooltip: {
           trigger: 'item',
           formatter: function (data) {
-            console.log(data)
             return (
               data.seriesName +
               '  ' +
@@ -149,7 +193,7 @@ export default {
               percent
             }
             if (obj.name !== '') {
-              return obj.name + '\n' + percent + '%'
+              return obj.name + '\n' + percent.toFixed(2) + '%'
             } else {
               return ''
             }
@@ -167,7 +211,7 @@ export default {
             radius: ['45%', '70%'],
             itemStyle: {
               borderColor: '#fff',
-              borderWidth: 5
+              borderWidth: 3
             },
             data: data1
           }
@@ -177,7 +221,16 @@ export default {
       myChart.on('click', (params) => {
         this.ifBarchart = !this.ifBarchart
         if (this.ifBarchart) {
-          this.getRightChart(params.name)
+          var cotegory = ''
+          if (params.name != '其他') {
+            cotegory = data.data.find(
+              (res) => res.categoryNameZh == params.name
+            ).categoryCode
+          } else {
+            cotegory = params.name
+          }
+
+          this.getRightChart(cotegory)
         } else {
           this.getRightChart()
         }
@@ -196,10 +249,12 @@ export default {
       var data1 = []
       var data2 = []
       var data3 = []
-      let newDataBar = {}
-      let newDataSum = {}
-      let barData = []
-      let sumData = []
+      const newDataBar = {}
+      const newDataSum = {}
+      const sumData = []
+      var barData = []
+
+      // 当不为其他时-------------------------------------------
       this.infoBar.forEach((e) => {
         //新建属性名获取按材料id累计
         if (Object.keys(newDataBar).indexOf('' + e.catogeryCode) === -1) {
@@ -216,18 +271,37 @@ export default {
       })
       let total = 0
       //循环生成每一年分累计得总值
-      for (var i in newDataSum) {
+      for (var j in newDataSum) {
         total = 0
-        newDataSum[i].forEach((res) => {
-          if (i == res.year) {
+        newDataSum[j].forEach((res) => {
+          if (j == res.year) {
             total += Math.abs(parseInt(res.receiveAmount))
           }
         })
-        sumData.push({ year: i, receiveAmountAll: total })
+        sumData.push({ year: j, receiveAmountAll: total })
       }
+
+      //   计算好后赋值-------------------------------------
       //给当前材料idpush进当前年总值
       if (val) {
-        barData = newDataBar[val]
+        console.log(newDataBar)
+        if (val == '其他') {
+        //   let otherTotal = 0
+        //   for (let key in newDataBar) {
+        //       otherTotal=0
+        //     if (this.topcarogery.find((v) => key != v)) {
+        //         newDataBar[key]
+        //       newDataBar[key].forEach((res) => {
+        //           if(res.year==)
+        //         otherTotal += Math.abs(parseInt(res.receiveAmount))
+        //       })
+        //     }
+        //     // barData.push({ year: j, receiveAmount: otherTotal })
+        //   }
+        //   console.log(barData)
+        } else {
+          barData = newDataBar[val]
+        }
         sumData.forEach((v) => {
           barData.forEach((j) => {
             if (v.year == j.year) {
@@ -236,24 +310,21 @@ export default {
           })
         })
       }
-      if (val) {
-        barData.forEach((v) => {
-          data1.push(parseInt(v.receiveAmountAll / 1000000))
-          data2.push(Math.abs(parseInt(v.receiveAmount / 1000000)))
-          data3.push(v.year)
-        })
-      } else {
-        sumData.forEach((v) => {
-          data1 = []
-          data2.push(Math.abs(parseInt(v.receiveAmountAll / 1000000)))
-          data3.push(v.year)
-        })
-      }
-      //   console.log(data1)
-      //   console.log(data2)
-      //   console.log(data3)
-      console.log(barData)
-      //   console.log(sumData)
+        if (val) {
+          barData = newDataBar[val]
+          barData.forEach((v) => {
+            data1.push(parseInt(v.receiveAmountAll / 1000000))
+            data2.push(Math.abs(parseInt(v.receiveAmount / 1000000)))
+            data3.push(v.year)
+          })
+        } else {
+          sumData.forEach((v) => {
+            data1 = []
+            data2.push(Math.abs(parseInt(v.receiveAmountAll / 1000000)))
+            data3.push(v.year)
+          })
+        }
+
       let title = 'Turnover' || val
       const myChart = echarts().init(this.$refs.chart2)
       this.option2 = {
@@ -271,38 +342,12 @@ export default {
             fontSize: 10
           }
         },
-        // legend: {
-        //   icon: 'circle',
-        //   right: '10%',
-
-        //   top: 14,
-        //   textStyle: {
-        //     fontSize: 10,
-        //     color: '#909091'
-        //   },
-        //   itemWidth: 8,
-        //   itemHeight: 8
-        // },
 
         tooltip: {
           trigger: 'axis',
           textStyle: {
             align: 'left'
           }
-          //   formatter: function (params) {
-          //    let str = ''
-          //     params.forEach((item, idx) => {
-          //         // console.log(item)
-          //       item.data = Math.abs(item.data)
-          //       if (idx == 2) {
-          //         item.data = item.data - params[0].data
-          //       }
-          //       str += `${item.marker}\n${item.name}<br/> ${item.marker}\n${item.data}`
-
-          //       str += idx === params.length - 1 ? '' : '<br/>'
-          //     })
-          //     return str
-          //   }
         },
         grid: {
           top: '18%',
