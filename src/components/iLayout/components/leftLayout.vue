@@ -111,10 +111,10 @@ export default {
     return this
   },
   created() {
-    const rootIndex = this.getFirstMenuActive()
+    /* const rootIndex = this.getFirstMenuActive()
 
     this.activeIndex = rootIndex
-    this.$emit('toggle-active', rootIndex)
+    this.$emit('toggle-active', rootIndex) */
   },
   mounted() {
     document.addEventListener('click', (e) => {
@@ -126,7 +126,7 @@ export default {
       this.clickListener(e)
     })
   },
-  watch: {
+  /* watch: {
     $route: {
       handler: function (route) {
         if (route.path === '/index') {
@@ -135,7 +135,7 @@ export default {
       },
       immediate: true
     }
-  },
+  }, */
   methods: {
     getFirstMenuActive() {
       return this.$route.meta.top || 'RISE_WORKBENCH'
@@ -145,7 +145,7 @@ export default {
         .getElementsByClassName('leftLayout')[0]
         .getBoundingClientRect()
       const sideRect = document
-        .getElementsByClassName('meunContent')[0]
+        .getElementsByClassName('menuLayout')[0]
         .getBoundingClientRect()
       const xt = 0
       const xb = leftLayoutRect.width + sideRect.width
@@ -161,34 +161,39 @@ export default {
       }
     },
     toggleSubMenu(item) {
-      const activeMenu = item
-      if (this.menus.length > 0) {
-        if (activeMenu.subMenus) {
-          if (this.activeIndex === item.permissionKey) {
-            if (this.menuVisible) {
-              this.hideSideMenu()
+      if (item.permissionKey === 'RISE_HOME') {
+        this.$emit('toggle-active', 'RISE_HOME')
+        this.showSideMenu()
+      } else {
+        const activeMenu = item
+        if (this.menus.length > 0) {
+          if (activeMenu.subMenus) {
+            if (this.activeIndex === item.permissionKey) {
+              if (this.menuVisible) {
+                this.hideSideMenu()
+              } else {
+                this.showSideMenu()
+              }
             } else {
               this.showSideMenu()
             }
-          } else {
-            this.showSideMenu()
+          } else if (activeMenu.url) {
+            if (
+              activeMenu.url.indexOf('http') !== -1 ||
+              activeMenu.url.indexOf('https') !== -1
+            ) {
+              activeMenu.target
+                ? window.open(activeMenu.url)
+                : (location.href = activeMenu.url)
+            }
+            // if (this.$route.path !== activeMenu.url) {
+            //   this.$router.push({ path: activeMenu.url })
+            // }
+            this.hideSideMenu()
           }
-        } else if (activeMenu.url) {
-          if (
-            activeMenu.url.indexOf('http') !== -1 ||
-            activeMenu.url.indexOf('https') !== -1
-          ) {
-            activeMenu.target
-              ? window.open(activeMenu.url)
-              : (location.href = activeMenu.url)
-          }
-          // if (this.$route.path !== activeMenu.url) {
-          //   this.$router.push({ path: activeMenu.url })
-          // }
-          this.hideSideMenu()
+          this.activeIndex = item.permissionKey
+          this.$emit('toggle-active', item.permissionKey)
         }
-        this.activeIndex = item.permissionKey
-        this.$emit('toggle-active', item.permissionKey)
       }
     },
     showSideMenu() {
