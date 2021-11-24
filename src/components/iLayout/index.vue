@@ -43,37 +43,25 @@
         @click="hideSideMenu"
       ></div>
     </div>
-    <div class="btn-button" @click.stop="handleShow">
-      <!-- <img src="~@/assets/images/leftContent.png" alt="" /> -->
-      <img :src="!contentShowFlag? popurIcon : activePopurIcon " alt="" />
-    </div>
-    <div class="povper-content" v-show="contentShowFlag">
-      <div v-for="(list, index) in popoverList" :key="index">
-        <div class="item-content" @click="handleClick(list)">
-          <div><img src="@/assets/images/partLifyCycle.svg" class="img" /></div>
-          <div class="text">{{ list.name }}</div>
-        </div>
-      </div>
-      <!-- <div class="item-content">零件寿命周期</div>
-      <div class="item-content">外部数据查询</div>
-      <div class="item-content" >用户助手</div> -->
-    </div>
+    <RightBottom 
+      :contentShowFlag="contentShowFlag"
+      @handleSelect="handleSelect"
+      @handleShow="handleShow"
+    />
     <layoutNotify ref="popupNotify" />
   </div>
 </template>
 <script>
 import topLayout from './components/topLayout/'
 import LeftLayout from './components/leftLayout'
+import RightBottom from './components/rightBottom.vue'
 import sideMenu from './components/sideMenu'
 import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
-import { popoverList } from './components/data.js'
 import layoutNotify from './components/notify'
-import popurIcon from "@/assets/images/popur.svg"
-import activePopurIcon from "@/assets/images/active-popur.svg"
 
 export default {
-  components: { topLayout, LeftLayout, sideMenu, myModules, layoutNotify },
+  components: { topLayout, LeftLayout, sideMenu, myModules, layoutNotify, RightBottom },
   props: {
     menus: {
       type: Array,
@@ -98,10 +86,7 @@ export default {
         RISE_ADMIN: ['', '']
       },
       menuModelVisible: false,
-      popoverList,
       contentShowFlag: false,
-      popurIcon,
-      activePopurIcon
     }
   },
   computed: {
@@ -141,8 +126,8 @@ export default {
     })
   },
   methods: {
-    handleShow() {
-      this.contentShowFlag = !this.contentShowFlag
+    handleShow(va) {
+      this.contentShowFlag = !va
     },
     getMenus() {
       console.log('menuList', this.menuList)
@@ -222,7 +207,7 @@ export default {
     setMenuModalVisible(val) {
       this.menuModelVisible = val
     },
-    handleClick(list) {
+    handleSelect(list) {
       this.$router.push(list.path)
     },
     getMenusParent(menus, parent, res) {
