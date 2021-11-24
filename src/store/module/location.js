@@ -12,7 +12,8 @@ const location = {
     mtzObject: {},
     submitType: '',
     submitDataList: 0,
-    disabled: localStorage.getItem('disabled') || false
+    submitNumber:"",
+    disabled: localStorage.getItem('disabled') || false,
   },
   actions: {
     setMtzChangeBtn({ commit }, data) {
@@ -31,6 +32,9 @@ const location = {
     },
     submitDataNumber: (state, data) => {
       state.submitDataList = data
+    },
+    submitNumGL:(state,data) => {
+      state.submitNumber = data
     },
     SET_MTZ_CHANGE_DISABLED(state, data) {
       state.disabled = data
