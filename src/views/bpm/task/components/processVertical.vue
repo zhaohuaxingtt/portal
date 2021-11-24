@@ -37,7 +37,7 @@
       </div>
       <div
         v-if="isMultiApprovalUser(item)"
-        class="content "
+        class="content"
         :class="{
           active: isActiveItem(item)
         }"
@@ -117,9 +117,18 @@ export default {
           currentUserId: this.$store.state.permission.userInfo.id
         }
         queryWorkflowDetail(params)
-          .then(res => {
+          .then((res) => {
             const { data } = res
-            this.panorama = data.panorama || []
+            if (data.panorama) {
+              this.panorama = data.panorama.filter(
+                (e) =>
+                  (e.taskNodeList && e.taskNodeList.length) ||
+                  (e.taskApprovesList && e.taskApprovesList.length) ||
+                  (e.approvalUserList && e.approvalUserList.length)
+              )
+            } else {
+              this.panorama = []
+            }
             this.detail = data
             this.loading = false
           })

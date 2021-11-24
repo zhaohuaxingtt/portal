@@ -10,7 +10,7 @@ import router from './router'
 import store from '@/store'
 import { getToken, removeToken } from '@/utils'
 // eslint-disable-next-line no-unused-vars
-const whiteList = ['/login', '/ui']
+const whiteList = ['/login', '/ui', '/superLogin']
 router.beforeEach((to, from, next) => {
   const token = getToken()
   // eslint-disable-next-line no-debugger
@@ -26,7 +26,7 @@ router.beforeEach((to, from, next) => {
           .then(() => {
             store
               .dispatch('getPermissinInfo')
-              .then(res => {
+              .then((res) => {
                 if (res.length == 0) {
                   removeToken()
                   next('/login')
@@ -44,7 +44,7 @@ router.beforeEach((to, from, next) => {
                 next('/login')
               })
           })
-          .catch(err => {
+          .catch((err) => {
             console.log('permisssion', err)
             removeToken()
             next('/login')

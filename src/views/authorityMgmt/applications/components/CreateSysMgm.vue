@@ -6,17 +6,21 @@
     @close="onClose"
     lock-scroll="false"
     destroy-on-close="true"
+    :title="!isRead && !isEdit ? formTitles.createTitle : formTitles.editTitle"
   >
     <div class="main" v-loading="loading">
-      <div class="titleHeader">
-        <span v-if="!isRead && !isEdit">{{ formTitles.createTitle }}</span>
-        <span v-if="isEdit || isRead">{{ formTitles.editTitle }}</span>
-      </div>
       <div class="content">
-        <el-form label-position="left" label-width="110px">
+        <el-form
+          :model="formData"
+          :rules="rules"
+          ref="ruleForm"
+          label-position="left"
+          label-width="110px"
+          class="validate-required-form"
+        >
           <el-row gutter="20">
-            <el-col :span="8">
-              <iFormItem :label="formTitles.name">
+            <el-col :span="12">
+              <iFormItem :label="formTitles.name" prop="appNameCn">
                 <iInput
                   :placeholder="formTitles.input"
                   :disabled="isRead"
@@ -24,8 +28,8 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
-              <iFormItem :label="formTitles.nameEN">
+            <el-col :span="12">
+              <iFormItem :label="formTitles.nameEN" prop="appNameEn">
                 <iInput
                   :placeholder="formTitles.input"
                   :disabled="isRead"
@@ -33,7 +37,12 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="12">
+              <iFormItem :label="$t('系统URL')" prop="url">
+                <iInput v-model="formData.url" :disabled="isRead"></iInput>
+              </iFormItem>
+            </el-col>
+            <el-col :span="24">
               <iFormItem :label="formTitles.description">
                 <iInput
                   :placeholder="formTitles.input"
@@ -42,83 +51,28 @@
                 ></iInput>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
-              <iFormItem :label="formTitles.sysType">
-                <iSelect v-model="formData.systemType" :disabled="isRead">
-                  <el-option
-                    v-for="item in systemOptions"
-                    :key="item.id"
-                    :label="item.label"
-                    :value="item.id"
-                  >
-                  </el-option>
-                </iSelect>
-              </iFormItem>
-            </el-col>
-            <el-col :span="8" v-if="formData.systemType === '2'">
-              <iFormItem :label="$t('父级菜单')">
-                <iSelect v-model="formData.parentResourceId" :disabled="isRead">
-                  <el-option
-                    v-for="item in rootMenus"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  >
-                  </el-option>
-                </iSelect>
-              </iFormItem>
-            </el-col>
-            <el-col :span="8" v-if="formData.systemType === '2'">
-              <iFormItem :label="$t('Url')">
-                <iInput v-model="formData.url" :disabled="isRead"></iInput>
-              </iFormItem>
-            </el-col>
-            <el-col :span="8">
-              <iFormItem :label="formTitles.sysTag">
-                <iSelect
-                  v-model="formData.supplierType"
-                  :disabled="isRead"
-                  multiple
-                >
-                  <el-option
-                    v-for="item in systemTagOptions"
-                    :key="item.id"
-                    :label="item.label"
-                    :value="item.id"
-                  >
-                  </el-option>
-                </iSelect>
-              </iFormItem>
-            </el-col>
-            <el-col :span="8" v-if="formData.systemType === '1'">
-              <iFormItem label="App Code">
-                <iInput v-model="formData.appCode" :disabled="isRead"></iInput>
-              </iFormItem>
-            </el-col>
-          </el-row>
-          <el-row gutter="20">
-            <el-col :span="24">
-              <div class="buttons">
-                <iButton v-if="isRead" @click="edit">
-                  {{ buttonTitles.edit }}
-                </iButton>
-                <iButton v-if="!isRead" @click="comfirm">
-                  {{ buttonTitles.true }}
-                </iButton>
-                <iButton v-if="!isRead" @click="reset">
-                  {{ buttonTitles.reset }}
-                </iButton>
-              </div>
-            </el-col>
           </el-row>
         </el-form>
+      </div>
+    </div>
+    <div slot="footer">
+      <div class="buttons">
+        <iButton v-if="isRead" @click="edit">
+          {{ buttonTitles.edit }}
+        </iButton>
+        <iButton v-if="!isRead" @click="comfirm">
+          {{ buttonTitles.true }}
+        </iButton>
+        <iButton v-if="!isRead" @click="reset">
+          {{ buttonTitles.reset }}
+        </iButton>
       </div>
     </div>
   </iDialog>
 </template>
 
 <script>
-import { iFormItem, iInput, iSelect, iButton, iDialog, iMessage } from 'rise'
+import { iFormItem, iInput, iButton, iDialog, iMessage } from 'rise'
 import {
   createSys,
   editSys,
@@ -138,7 +92,7 @@ export default {
       this.loading = true
       let param = { id: this.id }
       sysDetail(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             this.loading = false
             let {
@@ -168,13 +122,20 @@ export default {
             iMessage.error(val.desZh || '获取数据失败')
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.loading = false
           console.log('-----error ==', error)
           iMessage.error('获取数据失败')
         })
     },
     comfirm() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.save()
+        }
+      })
+    },
+    save() {
       //确认
       if (this.isEdit) {
         //编辑系统
@@ -183,7 +144,7 @@ export default {
         newFormData.supplierType = newFormData.supplierType.join(',')
         let param = { ...newFormData, id: this.id }
         editSys(param)
-          .then(val => {
+          .then((val) => {
             if (val.code == 200) {
               //编辑成功
               this.loading = false
@@ -204,7 +165,7 @@ export default {
         newFormData.supplierType = newFormData.supplierType.join(',')
         let param = { ...newFormData, id: this.id }
         createSys(param)
-          .then(val => {
+          .then((val) => {
             if (val.code == 200) {
               //创建成功
               this.loading = false
@@ -239,14 +200,13 @@ export default {
     if (this.isRead) {
       this.getDetail()
     }
-    fetchSupplierRootMenu().then(res => {
+    fetchSupplierRootMenu().then((res) => {
       this.rootMenus = res.data
     })
   },
   components: {
     iFormItem,
     iInput,
-    iSelect,
     iButton,
     iDialog
   },
@@ -325,7 +285,16 @@ export default {
           label: '一般采购'
         }
       ],
-      rootMenus: []
+      rootMenus: [],
+      rules: {
+        appNameCn: [
+          { required: true, message: '请输入中文名称', trigger: 'blur' }
+        ],
+        appNameEn: [
+          { required: true, message: '请输入英文名称', trigger: 'blur' }
+        ],
+        url: [{ required: true, message: '请输入系统URL', trigger: 'blur' }]
+      }
     }
   }
 }
