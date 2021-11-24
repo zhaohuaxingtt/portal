@@ -3,9 +3,9 @@
     <el-form class="search-form" label-position="top">
       <el-row :gutter="20">
         <el-col :span="6">
-          <iFormItem :label="$t('流程名称')">
+          <iFormItem :label="language('流程名称')">
             <iSelect
-              :placeholder="$t('请选择')"
+              :placeholder="language('请选择')"
               v-model="form.processDefinitionKey"
               filterable
             >
@@ -21,18 +21,27 @@
         </el-col>
         <el-col :span="6">
           <iFormItem :label="$t('申请单号')">
-            <iInput v-model="form.businessId" :placeholder="$t('请输入')" />
+            <iInput
+              v-model="form.businessId"
+              :placeholder="language('请输入')"
+            />
           </iFormItem>
         </el-col>
         <el-col :span="6">
           <iFormItem :label="$t('申请人')">
-            <userSelect v-model="form.applyUserId" />
+            <userSelect
+              v-model="form.applyUserId"
+              :placeholder="language('输入姓名和工号搜索')"
+            />
           </iFormItem>
         </el-col>
         <el-col :span="6">
           <iFormItem :label="$t('当前状态')">
             <!-- multiple collapse-tags -->
-            <iSelect v-model="form.procStatus" :placeholder="$t('请选择')">
+            <iSelect
+              v-model="form.procStatus"
+              :placeholder="language('请选择')"
+            >
               <el-option
                 v-for="item in statusOptions"
                 :key="item.value"

@@ -39,11 +39,11 @@
       <router-view v-if="!$route.meta.keepAlive" :key="$route.fullPath" />
       <div
         v-if="menuModelVisible"
-        class="app-menu-model"
+        class="app-menu-madel"
         @click="hideSideMenu"
       ></div>
     </div>
-    <RightBottom 
+    <RightBottom
       :contentShowFlag="contentShowFlag"
       @handleSelect="handleSelect"
       @handleShow="handleShow"
@@ -61,7 +61,14 @@ import { arrayToTree, treeToArray } from '@/utils'
 import layoutNotify from './components/notify'
 
 export default {
-  components: { topLayout, LeftLayout, sideMenu, myModules, layoutNotify, RightBottom },
+  components: {
+    topLayout,
+    LeftLayout,
+    sideMenu,
+    myModules,
+    layoutNotify,
+    RightBottom
+  },
   props: {
     menus: {
       type: Array,
@@ -86,7 +93,7 @@ export default {
         RISE_ADMIN: ['', '']
       },
       menuModelVisible: false,
-      contentShowFlag: false,
+      contentShowFlag: false
     }
   },
   computed: {
@@ -266,7 +273,7 @@ export default {
       }
       .text {
         font-size: 16px;
-        color: #5F6F8F;
+        color: #5f6f8f;
         margin-left: 20px;
       }
     }
@@ -281,7 +288,7 @@ export default {
       width: 60px;
     }
   }
-  .app-menu-model {
+  .app-menu-madel {
     position: absolute;
     width: 100%;
     height: 100%;

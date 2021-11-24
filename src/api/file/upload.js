@@ -32,7 +32,7 @@ export function uploadFileWithNoToken(parmars) {
 
 export function uploadFileWithNOTokenTwo(data) {
   return filedud_requst({
-    url: '/fileud/udSingleFile',
+    url: '/udSingleFile',
     method: 'POST',
     data: data
   })
@@ -61,8 +61,9 @@ export function uploadUdFile(params) {
   formData.append('currentUser', store.state.permission.userInfo.userName) // 用户id
   formData.append('type', params.type || 1) // 文件类型 1:OBS 2:NFS，默认1
   formData.append('multifile', params.multifile || []) // 文件
+
   return fileRequst({
-    url: `/fileudApi/udMutilfilesController`,
+    url: `/udMutilfilesController`,
     method: 'POST',
     data: formData
   }).then((res) => {
