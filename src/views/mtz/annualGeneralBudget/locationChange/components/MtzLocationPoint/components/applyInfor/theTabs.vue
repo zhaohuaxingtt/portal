@@ -863,7 +863,7 @@ export default {
         this.getMtzCailiao();
     },
     add(){//新增
-        if(this.flowType == "MEETING" && this.relationType == "MEETING"){
+        if(this.flowType == "MEETING"){
             this.addDialog = true;
             var list = [];
             this.tableData.forEach(e=>{
@@ -902,7 +902,7 @@ export default {
         if(this.resetNum){
             this.$emit("handleReset","")
             this.$parent.$refs.theDataTabs.removePartMasterData()
-
+            this.resetNum = false;
         }
         this.saveGzDialog();
         // this.page.currPage = 1;
