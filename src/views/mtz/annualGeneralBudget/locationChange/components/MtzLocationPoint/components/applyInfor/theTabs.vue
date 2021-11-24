@@ -771,7 +771,7 @@ export default {
   },
   watch: {
   },
-  props:["appStatus","flowType"],
+  props:["appStatus","flowType","relationType"],
 //   mixins: [pageMixins],
   data () {
     return {
@@ -863,7 +863,7 @@ export default {
         this.getMtzCailiao();
     },
     add(){//新增
-        if(this.flowType == "MEETING"){
+        if(this.flowType == "MEETING" && this.relationType == "MEETING"){
             this.addDialog = true;
             var list = [];
             this.tableData.forEach(e=>{
@@ -877,7 +877,7 @@ export default {
             })
             this.dataObject = list;
         }else{
-            iMessageBox(this.language('MTZYCLGZZBHXDGZBHSQLXBNWLZBAJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ','MTZ原材料规则中包含新的规则编号，申请单类型不能为流转/备案，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'),this.language('LK_WENXINTISHI','温馨提示'),{
+            iMessageBox(this.language('XZMTZYCLGZSSQDLXBNWLZBAJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ','新增MTZ原材料规则时，申请单类型不能为流转/备案，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'),this.language('LK_WENXINTISHI','温馨提示'),{
                 confirmButtonText: this.language('QUEREN', '确认'),
                 cancelButtonText: this.language('QUXIAO', '取消')
             }).then(res=>{
@@ -902,6 +902,7 @@ export default {
         if(this.resetNum){
             this.$emit("handleReset","")
             this.$parent.$refs.theDataTabs.removePartMasterData()
+
         }
         this.saveGzDialog();
         // this.page.currPage = 1;
