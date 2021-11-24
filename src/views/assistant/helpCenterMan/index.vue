@@ -23,6 +23,7 @@
 			title="问题模块"
 			:problemList="problemList"
 			:currentMoudleIdx.sync="currentMoudleIdx"
+			:loading="manualLoading"
 		>
 			<div class="flex" slot="top">
 				<iInput class="flex-1" v-model="key" placeholder="搜索.."></iInput>
@@ -41,6 +42,7 @@
 			showIcon
 			:problemList="problemList"
 			:currentMoudleIdx.sync="currentMoudleIdx"
+			:loading="questionLoading"
 		>
 			<div class="flex" slot="top">
 				<iInput class="flex-1" v-model="key" placeholder="搜索.."></iInput>
@@ -58,7 +60,6 @@
 </template>
 
 <script>
-import store from '@/store'
 import { iPage, iInput, iSelect } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
@@ -90,21 +91,27 @@ export default {
 			show: false,
 
 			key:"",
-			type:""
+			type:"",
+			questionLoading:false,
+			manualLoading:false
 		}
 	},
 	mounted() {
 		this.getProbleList()
 	},
 	methods:{
-		getProbleList() {
-			getSystemMeun().then((res) => {
-				if (res.code === '200') {
-					let { data: { menuList }} = res
-					this.problemList = menuList[3] ? menuList[3].menuList : []
-	
-				}
-			})
+		async getProbleList() {
+			this.manualLoading = true
+			try {
+				await getSystemMeun().then((res) => {
+					if (res.code === '200') {
+						let { data: { menuList }} = res
+						this.problemList = menuList[3] ? menuList[3].menuList : []
+					}
+				})
+			} finally {
+				this.manualLoading = false
+			}
 		},
 		tabChange(val) {
 			this.activeMoudle = val;
@@ -162,7 +169,7 @@ export default {
 	}
 	.content-right{
 		flex: 1;
-    	padding: 30px 40px 20px 40px;
+		padding: 30px 40px 20px 40px;
 		margin-left: 20px;
 		box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
 		border-radius: 5px;

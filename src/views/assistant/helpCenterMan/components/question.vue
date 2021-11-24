@@ -11,11 +11,12 @@
                 <iButton>确定</iButton>
             </template>
         </div>
+
         <div class="flex qs-p">
             <div class="flex flex-column qs-params">
                 <iLabel class="label" label="问题模块" slot="label"></iLabel>
                 <iSelect class="input" :disabled="type == 'detail'" v-model="form.module">
-                    <!-- <el-option value='' label='全部'></el-option> -->
+                    <el-option value='' label='全部'></el-option>
                 </iSelect>
             </div>
             <div class="flex flex-column qs-params">
@@ -34,8 +35,9 @@
 </template>
 
 <script>
-    import { iInput, iLabel, iButton, iSelect, iEditor } from "rise"
+    import { iInput, iLabel, iButton, iSelect } from "rise"
     import CreateQuestion from "../components/createQuestion"
+    import iEditor from "@/components/iEditor"
     export default {
         components:{
             iInput,

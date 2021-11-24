@@ -1,11 +1,38 @@
 export const tableColumn = [
   {
-    type: 'index',
     label: '序号',
     width: 50,
     customRender: (h, scope) => {
-      console.log(scope.row, '====', e)
-      return <span class="open-link-text">{scope.row.index}===</span>
+      const rowIndex = scope.$index + 1
+      if (rowIndex === 1) {
+        return (
+          <span class="table-icon">
+            <div class="icon first"></div>
+            {rowIndex}
+          </span>
+        )
+      } else if (rowIndex === 2) {
+        return (
+          <span class="table-icon">
+            <div class="icon second"></div>
+            {rowIndex}
+          </span>
+        )
+      } else if (rowIndex === 3) {
+        return (
+          <span class="table-icon">
+            <div class="icon third"></div>
+            {rowIndex}
+          </span>
+        )
+      } else {
+        return (
+          <span class="table-icon">
+            <div class="icon"></div>
+            {rowIndex}
+          </span>
+        )
+      }
     }
   },
   {

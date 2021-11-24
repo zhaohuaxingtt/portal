@@ -23,31 +23,38 @@
         </template>
         <template v-if="type == 'edit'">
             <div v-if="preview" v-html="content"></div>
-            <iEditor v-else class="manual-editor" v-model="content"></iEditor>
-            <div class="upload">
-                <iButton @click="upload">添加附件</iButton>
-                <span>只能上传不超过20MB的文件</span>
-                <iUpload v-show="false" ref="upload" @callback="uploadChange" />
-            </div>
-            <div>{{file}}</div>
+            <template v-else>        
+                <iEditor class="manual-editor" v-model="content"></iEditor>
+                <div class="upload">
+                    <iButton @click="upload">添加附件</iButton>
+                    <span>只能上传不超过20MB的文件</span>
+                    <iUpload v-show="false" ref="upload" @callback="uploadChange" />
+                </div>
+                <FileList v-for="(f,i) in files" :key="i" :file="f" @del="delFile"></FileList>
+            </template>
         </template>
     </div>
 </template>
 
 <script>
-    import { iButton, iEditor, iUpload } from "rise"
+    import { iButton, iUpload } from "rise"
+    import iEditor from "@/components/iEditor"
+    import FileList from "./fileList"
     
     export default {
         components: {
             iButton,
             iEditor,
-            iUpload
+            iUpload,
+            FileList
         },
         data() {
             return {
                 type:"detail",
                 content:"",
-                file:"",
+                files:[
+                    {name:'1.png'}
+                ],
                 preview:false
             }
         },
@@ -60,6 +67,15 @@
             },
             save(){
                 
+            },
+            delFile(file){
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                   
+                    })
             }
         },
     }
@@ -89,12 +105,15 @@
     flex: 1;
     margin-top: 40px;
     overflow: hidden;
-    ::v-deep .editor{
+    ::v-deep .quillWrapper{
         height: 100%;
         display: flex;
         flex-direction: column;
         border: 1px solid #eee;
-        .w-e-text-container{
+        #quill-container{
+            overflow: hidden;
+        }
+        .ql-editor{
             flex: 1;
         }
     }
