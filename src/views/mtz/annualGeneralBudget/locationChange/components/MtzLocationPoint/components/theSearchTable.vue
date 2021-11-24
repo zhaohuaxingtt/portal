@@ -345,18 +345,34 @@ export default {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if (this.selection[0].flowType == "MEETING") {
-        if (this.selection[0].appStatus == "CHECK_PASS") {
-          this.MtzFreezeRequest();
-        } else {
-          return iMessage.warn(this.language('SHLXZYHHTGZTCKYDJ', '上会类型只有复核通过状态才可以冻结'))
-        }
-      } else {
-        if (this.selection[0].appStatus == "SUBMIT") {
-          this.MtzFreezeRequest();
-        } else {
-          return iMessage.warn(this.language('LZBALXZYTJZTCKYDJ', '流转/备案类型只有提交状态才可以冻结'))
-        }
+      var num = 0;
+      try{
+        this.selection.forEach(e=>{
+          if(e.ttNominateAppId !== "" && e.ttNominateAppId !== null && e.ttNominateAppId !== "null"){
+            console.log(e.ttNominateAppId)
+            num++;
+            iMessage.warn(this.language('YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ', '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'))
+            throw new Error("EndIterative");
+          }
+          if(e.flowType == "MEETING"){
+            if(e.appStatus !== "CHECK_PASS"){
+              num++;
+              iMessage.warn(this.language('SHLXZYHHTGZTCKYDJ', '上会类型只有复核通过状态才可以冻结'))
+              throw new Error("EndIterative");
+            }
+          }else{
+            if (e.appStatus !== "SUBMIT") {
+              num++;
+              iMessage.warn(this.language('LZBALXZYTJZTCKYDJ', '流转/备案类型只有提交状态才可以冻结'))
+              throw new Error("EndIterative");
+            }
+          }
+        })
+      }catch(e){
+          if(e.message != "EndIterative") throw e;
+      }
+      if(num==0){
+        this.MtzFreezeRequest();
       }
     },
     MtzFreezeRequest () {
@@ -375,7 +391,24 @@ export default {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if (this.selection[0].appStatus == "FREERE") {
+      var num = 0;
+      try{
+        this.selection.forEach(e=>{
+          if(e.ttNominateAppId !== "" && e.ttNominateAppId !== null && e.ttNominateAppId !== "null"){
+            num++;
+            iMessage.warn(this.language('YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ', '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'))
+            throw new Error("EndIterative");
+          }
+          if(e.appStatus !== "FREERE"){
+            num++;
+            iMessage.warn(this.language('ZYZTWDJDCKYJD', '只有状态为冻结的才可以解冻'))
+            throw new Error("EndIterative");
+          }
+        })
+      }catch(e){
+          if(e.message != "EndIterative") throw e;
+      }
+      if(num==0){
         mtzUnfreeze({
           ids: this.selection.map(item => item.id)
         }).then(res => {
@@ -384,8 +417,6 @@ export default {
             this.getTableList()
           } else iMessage.error(res.desZh)
         })
-      } else {
-        return iMessage.warn(this.language('ZYZTWDJDCKYJD', '只有状态为冻结的才可以解冻'))
       }
     },
 
@@ -394,20 +425,37 @@ export default {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if (this.selection[0].flowType == "FILING") {
-        if (this.selection[0].appStatus == "FREERE") {
-          this.getNomi()
-        } else {
-          return iMessage.warn(this.language('BALXQZTWDJCKYDD', '备案类型且状态为冻结才可以定点'))
-        }
-      } else if (this.selection[0].flowType == "SIGN") {
-        if (this.selection[0].appStatus == "FLOWED") {
-          this.getNomi()
-        } else {
-          return iMessage.warn(this.language('LZLXQZTWLZWCCKYDD', '流转类型且状态为流转完成才可以定点'))
-        }
-      } else if (this.selection[0].flowType == "MEETING") {
-        return iMessage.warn(this.language('SHLXBNJXDD', '上会类型不能进行定点'))
+      var num = 0;
+      try{
+        this.selection.forEach(e=>{
+          if(e.ttNominateAppId !== "" && e.ttNominateAppId !== null && e.ttNominateAppId !== "null"){
+            num++;
+            iMessage.warn(this.language('YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ', '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'))
+            throw new Error("EndIterative");
+          }
+          if(e.flowType == "FILING"){
+            if(e.appStatus !== "FREERE"){
+              num++;
+              iMessage.warn(this.language('BALXQZTWDJCKYDD', '备案类型且状态为冻结才可以定点'))
+              throw new Error("EndIterative");
+            }
+          } else if (e.flowType == "SIGN") {
+            if(e.appStatus !== "FLOWED"){
+              num++;
+              iMessage.warn(this.language('LZLXQZTWLZWCCKYDD', '流转类型且状态为流转完成才可以定点'))
+              throw new Error("EndIterative");
+            }
+          }else if(e.flowType == "MEETING"){
+            num++;
+            iMessage.warn(this.language('SHLXBNJXDD', '上会类型不能进行定点'))
+            throw new Error("EndIterative");
+          }
+        })
+      }catch(e){
+          if(e.message != "EndIterative") throw e;
+      }
+      if(num==0){
+        this.getNomi();
       }
     },
     getNomi () {
@@ -426,7 +474,24 @@ export default {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if (this.selection[0].appStatus == "NOMINATE") {
+      var num = 0;
+      try{
+        this.selection.forEach(e=>{
+          if(e.ttNominateAppId !== "" && e.ttNominateAppId !== null && e.ttNominateAppId !== "null"){
+            num++;
+            iMessage.warn(this.language('YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ', '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'))
+            throw new Error("EndIterative");
+          }
+          if(e.appStatus !== "NOMINATE"){
+            num++;
+            iMessage.warn(this.language('ZYDDZTCKYQXDD', '只有定点状态才可以取消定点'))
+            throw new Error("EndIterative");
+          }
+        })
+      }catch(e){
+          if(e.message != "EndIterative") throw e;
+      }
+      if(num==0){
         iMessageBox(this.language('SHIFOUQUERENQUXIAODINGDIAN','是否确认取消定点？'),this.language('LK_WENXINTISHI','温馨提示'),{
             confirmButtonText: this.language('QUEREN', '确认'),
             cancelButtonText: this.language('QUXIAO', '取消')
@@ -440,17 +505,31 @@ export default {
             } else iMessage.error(res.desZh)
           })
         })
-      } else {
-        return iMessage.warn(this.language('ZYDDZTCKYQXDD', '只有定点状态才可以取消定点'))
       }
     },
-
     // 会外流转
     handleClickOutFlow () {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if (this.selection[0].flowType == "SIGN" && this.selection[0].appStatus == "FREERE") {
+      var num = 0;
+      try{
+        this.selection.forEach(e=>{
+          if(e.ttNominateAppId !== "" && e.ttNominateAppId !== null && e.ttNominateAppId !== "null"){
+            num++;
+            iMessage.warn(this.language('YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ', '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'))
+            throw new Error("EndIterative");
+          }
+          if(e.flowType == "SIGN" && e.appStatus == "FREERE"){}else{
+            num++;
+            iMessage.warn(this.language('ZYLZLXQZTWDJCKYHWLZ', '只有流转类型且状态为冻结才可以会外流转'))
+            throw new Error("EndIterative");
+          }
+        })
+      }catch(e){
+          if(e.message != "EndIterative") throw e;
+      }
+      if(num==0){
         mtzMeetingOutFlow({
           ids: this.selection.map(item => item.id)
         }).then(res => {
@@ -459,8 +538,6 @@ export default {
             this.getTableList()
           } else iMessage.error(res.desZh)
         })
-      } else {
-        return iMessage.warn(this.language('ZYLZLXQZTWDJCKYHWLZ', '只有流转类型且状态为冻结才可以会外流转'))
       }
     },
 
@@ -479,20 +556,39 @@ export default {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if (this.selection[0].flowType == "MEETING") {
-        if (this.selection[0].appStatus == "SUBMIT" || this.selection[0].appStatus == "NOTPASS") {
-          this.mtzReasonShow = true;
-        }else{
-          return iMessage.warn(this.language('SHLXQZTWTJHWTGCKYCH', '上会类型且状态为提交（会议未锁定）或未通过才可以撤回'))
-        }
-      } else {
-        if (this.selection[0].appStatus == "SUBMIT") {
-          this.mtzReasonShow = true;
-        } else {
-          return iMessage.warn(this.language('LZBALXZYTJZTCKYCH', '流转/备案类型只有提交状态才可以撤回'))
-        }
+
+      var num = 0;
+      try{
+        this.selection.forEach(e=>{
+          if(e.ttNominateAppId !== "" && e.ttNominateAppId !== null && e.ttNominateAppId !== "null"){
+            num++;
+            iMessage.warn(this.language('YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ', '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'))
+            throw new Error("EndIterative");
+          }
+          if (e.flowType == "MEETING") {
+            if (e.appStatus == "SUBMIT" || e.appStatus == "NOTPASS") {
+            }else{
+              num++;
+              iMessage.warn(this.language('SHLXQZTWTJHWTGCKYCH', '上会类型且状态为提交（会议未锁定）或未通过才可以撤回'))
+              throw new Error("EndIterative");
+            }
+          } else {
+            if (e.appStatus == "SUBMIT") {
+            } else {
+              num++;
+              iMessage.warn(this.language('LZBALXZYTJZTCKYCH', '流转/备案类型只有提交状态才可以撤回'))
+              throw new Error("EndIterative");
+            }
+          }
+        })
+      }catch(e){
+          if(e.message != "EndIterative") throw e;
+      }
+      if(num==0){
+        this.mtzReasonShow = true;
       }
     },
+
     // 提交撤回
     handleSubmitRecall (val) {
       mtzRecall({
@@ -511,22 +607,26 @@ export default {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      if (this.selection.find(e => e.appStatus == "NEW")) {
-        iMessageBox(this.language('SHIFOUSHANCHU', '是否删除？'), this.language('LK_WENXINTISHI', '温馨提示'), {
-          confirmButtonText: this.language('QUEREN', '确认'),
-          cancelButtonText: this.language('QUXIAO', '取消')
-        }).then(res => {
-          mtzDel({
-            ids: this.selection.map(item => item.id)
+      if(this.selection.find(e => e.ttNominateAppId == "" || e.ttNominateAppId == null || e.ttNominateAppId == "null")){
+        if (this.selection.find(e => e.appStatus == "NEW")) {
+          iMessageBox(this.language('SHIFOUSHANCHU', '是否删除？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+            confirmButtonText: this.language('QUEREN', '确认'),
+            cancelButtonText: this.language('QUXIAO', '取消')
           }).then(res => {
-            if (res && res.code == 200) {
-              iMessage.success(res.desZh)
-              this.getTableList()
-            } else iMessage.error(res.desZh)
+            mtzDel({
+              ids: this.selection.map(item => item.id)
+            }).then(res => {
+              if (res && res.code == 200) {
+                iMessage.success(res.desZh)
+                this.getTableList()
+              } else iMessage.error(res.desZh)
+            })
           })
-        })
-      } else {
-        return iMessage.warn(this.language('ZYCGZTCKYSC', '只有草稿状态才可以删除'))
+        } else {
+          return iMessage.warn(this.language('ZYCGZTCKYSC', '只有草稿状态才可以删除'))
+        }
+      }else{
+        return iMessage.warn(this.language('YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ', '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'))
       }
     },
   },

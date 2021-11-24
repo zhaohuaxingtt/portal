@@ -47,6 +47,22 @@
                 </template>
             </el-table-column>
 
+            <el-table-column prop="isNomi"
+                            align="center"
+                            show-overflow-tooltip
+                            width="150"
+                            :label="language('SHIFOUWEIXINGUIZE','是否为新规则')">
+                <template slot-scope="scope">
+                    <el-form-item
+                        :prop="'tableData.' + scope.$index + '.' + 'isNomi'"
+                        :rules="formRules.isNomi ? formRules.isNomi : ''"
+                    >
+                        <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+                        <span>{{scope.row.isNomi?"否":"是"}}</span>
+                    </el-form-item>
+                </template>
+            </el-table-column>
+
             <el-table-column prop="effectFlag"
                             align="center"
                             :label="language('SHIFOUSHENGXIAO','是否生效')"
@@ -673,14 +689,14 @@
             </el-table-column>
         </el-table>
       </el-form>
-      <iPagination @size-change="handleSizeChange($event, getTableList)"
+      <!-- <iPagination @size-change="handleSizeChange($event, getTableList)"
                    @current-change="handleCurrentChange($event, getTableList)"
                    :page-sizes="page.pageSizes"
                    :page-size="page.pageSize"
                    :current-page="page.currPage"
                    :total="page.totalCount"
                    :layout="page.layout">
-      </iPagination>
+      </iPagination> -->
 
     <iDialog
       :title="language('SHUJUYANYONG', '数据沿用')"
@@ -699,7 +715,13 @@
         width="70%"
         @close="saveGzDialog"
         >
-        <addGZ :dataObject="dataObject" @close="saveGzClose" @addDialogGZ="addDialogGZList"></addGZ>
+        <addGZ
+            :dataObject="dataObject"
+            :resetType="resetType"
+            @close="saveGzClose"
+            @addDialogGZ="addDialogGZList"
+            >
+        </addGZ>
     </iDialog>
 
     </iCard>
@@ -707,7 +729,7 @@
 
 <script>
 import { iCard, iButton, iPagination, icon, iMessage,iMessageBox,iInput,iDatePicker,iDialog,iSelect } from 'rise'
-import { pageMixins } from "@/utils/pageMixins"
+// import { pageMixins } from "@/utils/pageMixins"
 import continueBox from "./continueBox";
 import addGZ from "./addGZ";
 import { deepClone,isNumber } from "./util";
@@ -749,8 +771,8 @@ export default {
   },
   watch: {
   },
-  props:["appStatus","flowType"],
-  mixins: [pageMixins],
+  props:["appStatus","flowType","relationType"],
+//   mixins: [pageMixins],
   data () {
     return {
         tcCurrence:[],
@@ -803,6 +825,7 @@ export default {
 
         dialogEditType:false,//判断是否是沿用过来的数据
         carline:[],//车型
+        resetNum:false,
     }
   },
   computed:{
@@ -854,14 +877,37 @@ export default {
             })
             this.dataObject = list;
         }else{
-            iMessageBox(this.language('MTZYCLGZZBHXDGZBHSQLXBNWLZBAJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ','MTZ原材料规则中包含新的规则编号，申请单类型不能为流转/备案，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'),this.language('LK_WENXINTISHI','温馨提示'),{
+            iMessageBox(this.language('XZMTZYCLGZSSQDLXBNWLZBAJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ','新增MTZ原材料规则时，申请单类型不能为流转/备案，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'),this.language('LK_WENXINTISHI','温馨提示'),{
                 confirmButtonText: this.language('QUEREN', '确认'),
                 cancelButtonText: this.language('QUXIAO', '取消')
             }).then(res=>{
                 // iMessage.success(this.language("KAIFAZHONG","开发中"))
-
+                this.addDialog = true;
+                var list = [];
+                this.tableData.forEach(e=>{
+                    list.push({
+                        supplierId:e.supplierId || "",
+                        materialCode:e.materialCode || "",
+                        price:e.price || "",
+                        startDate:e.startDate || "",
+                        endDate:e.endDate || "",
+                    })
+                })
+                this.dataObject = list;
+                this.resetNum = true;
             })
         }
+    },
+    addDialogGZList(){//mtz申请单类型或已关联申请单类型为流转备案/新增原材料规则
+        if(this.resetNum){
+            this.$emit("handleReset","")
+            this.$parent.$refs.theDataTabs.removePartMasterData()
+            this.resetNum = false;
+        }
+        this.saveGzDialog();
+        // this.page.currPage = 1;
+        // this.page.pageSize = 99999;
+        this.getTableList();
     },
     edit(){//编辑
         if(this.selectList.length>0){
@@ -890,7 +936,7 @@ export default {
             })
             this.$refs['contractForm'].validate(async valid => {
                 if (valid) {
-                    iMessageBox(this.language('SHIFOUBAOCUN','是否保存？'),this.language('LK_WENXINTISHI','温馨提示'),{
+                    iMessageBox(this.language('GZRFSBHSFTBXGGG','规则若发生变化，是否同步相关更改？'),this.language('LK_WENXINTISHI','温馨提示'),{
                         confirmButtonText: this.language('QUEREN', '确认'),
                         cancelButtonText: this.language('QUXIAO', '取消')
                     }).then(res=>{
@@ -902,8 +948,8 @@ export default {
                                 iMessage.success(this.language(res.desEn,res.desZh))
                                 this.editId = "";
                                 this.editType = false;
-                                this.page.currPage = 1;
-                                this.page.pageSize = 10;
+                                // this.page.currPage = 1;
+                                // this.page.pageSize = 10;
                                 setTimeout(() => {
                                     this.$parent.$refs.theDataTabs.pageAppRequest()
                                 }, 500);
@@ -935,7 +981,7 @@ export default {
             })
             this.$refs['contractForm'].validate(async valid => {
                 if (valid) {
-                    iMessageBox(this.language('SHIFOUBAOCUN','是否保存？'),this.language('LK_WENXINTISHI','温馨提示'),{
+                    iMessageBox(this.language('GZRFSBHSFTBXGGG','规则若发生变化，是否同步相关更改？'),this.language('LK_WENXINTISHI','温馨提示'),{
                         confirmButtonText: this.language('QUEREN', '确认'),
                         cancelButtonText: this.language('QUXIAO', '取消')
                     }).then(res=>{
@@ -1053,12 +1099,7 @@ export default {
     closeDiolog(){
         this.mtzAddShow = false;
     },
-    addDialogGZList(){
-        this.saveGzDialog();
-        this.page.currPage = 1;
-        this.page.pageSize = 10;
-        this.getTableList();
-    },
+    
     saveGzDialog(){
         this.addDialog=false;
     },
@@ -1076,16 +1117,23 @@ export default {
     getTableList () {
         this.loading = true
         pageAppRule({
-            pageNo: this.page.currPage,
-            pageSize: this.page.pageSize,
+            pageNo: 1,
+            pageSize: 99999,
             mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
             sortType:"DESC",
             sortColumn:"id"
         }).then(res=>{
             this.tableData = res.data;
-            this.page.currPage = res.pageNum
-            this.page.pageSize = res.pageSize
-            this.page.totalCount = res.total
+            // this.page.currPage = res.pageNum
+            // this.page.pageSize = res.pageSize
+            // this.page.totalCount = res.total
+            var num = 0;
+            res.data.forEach(e=>{
+                if(!e.isNomi){
+                    num++;
+                }
+            })
+            this.$emit("isNomiNumber",num);
             this.loading = false;
             if(res.total < 1){
                 store.commit("submitDataNumber",0);
