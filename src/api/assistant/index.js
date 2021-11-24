@@ -14,7 +14,24 @@ export function getSystemMeun() {
 // 根据用户来源（内部用户/供应商）获取模块列表
 export function getModuleList() {
   return assistantRequest({
-    url: '/assistantModuleService/queryModules',
+    url: '/riseassistant/assistantModuleEntity/queryModuleBySor',
+    method: 'GET'
+  })
+}
+
+// 根据模块id 获取用户手册
+export function getUserDes() {
+  return assistantRequest({
+    url: '/riseassistant/assistantManual/getManualById',
+    method: 'GET'
+  })
+}
+
+// 根据模块id 查询热门的前五个话题
+export function getHotFiveQues(id) {
+  console.log(id, '11123456')
+  return assistantRequest({
+    url: `/assistantFaq/queryTopFiveHotQuestion/${id}`,
     method: 'GET'
   })
 }

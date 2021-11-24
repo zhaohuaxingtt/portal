@@ -1,6 +1,6 @@
 export default [
 	{
-		path: '/assistant/helpCenter',
+		path: '/assistant/problemMan',
 		name: 'problemMan',
 		meta: {
 			title: 'problemMan'
@@ -16,7 +16,7 @@ export default [
 		component: () => import('@/views/assistant/helpCenter')
 	},
 	{
-		path: '/assistant/helpCenter',
+		path: '/assistant/helpCenterMan',
 		name: 'helpCenterMan',
 		meta: {
 			title: 'helpCenterMan',

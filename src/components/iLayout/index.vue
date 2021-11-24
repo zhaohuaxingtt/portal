@@ -224,8 +224,8 @@ export default {
     },
     handleClick(list) {
       console.log(window.location.href, '122222')
-      // this.$router.push({name: list.key})
-      this.$router.push(list.path)
+      this.$router.push({name: list.key, params: { currentUrl: window.location.href }})
+      // this.$router.push(list.path)
     },
     getMenusParent(menus, parent, res) {
       res = res || {}

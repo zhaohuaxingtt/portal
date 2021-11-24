@@ -25,8 +25,8 @@
 		<div class="flex flex-row content mt20" v-show="helpMoudle === 'manual'">
 			<CommonProblem
 				:loading="listLoading"
-				:problemList="problemList"
-				:currentMoudleIdx.sync="currentMoudleIdx"
+				:moudleList="moudleList"
+				:currentMoudleId.sync="currentMoudleId"
 			/>
 			<DataManage
 				:loading="listLoading"
@@ -37,11 +37,11 @@
 			<ProblemSearch />
 			<div class="flex flex-row mt20 middle-content">
 				<CommonProblem 
-					:problemList="problemList"
-					:currentMoudleIdx.sync="currentMoudleIdx"
+					:moudleList="moudleList"
+					:currentMoudleId.sync="currentMoudleId"
 				/>
 				<ProblemDetail
-					:moudleId="currentMoudleIdx" 
+					:moudleId="currentMoudleId" 
 					@handleQuestion="handleQuestion"
 					@handleZwQues="handleZwQues"
 				/>
@@ -83,20 +83,21 @@ import IntelligentDialog from '../components/intelligentDialog'
 import QuestioningDialog from '../components/questioningDialog'
 import QuestionList from './components/questionList'
 import QuestionDetail from './components/questionDetail'
-import { getSystemMeun, getModuleList } from '@/api/assistant'
+import { getSystemMeun, getModuleList, getHotFiveQues } from '@/api/assistant'
 
 export default {
 	data() {
 		return {
 			text: '用户助手',
 			helpMoudle: "manual",  // manual 用户手册 problem 常见问题 ask 我的提问
-			problemList: [],
-			currentMoudleIdx: 0,
+			moudleList: [],
+			currentMoudleId: null,
 			intelligentVisible: false,  // 智能弹框visible
 			questioningVisible: false,  // 追问 提问visible
 			zwFlag: false,  // 追问 提问标志
 			questioningTitle: '',  // 追问 提问弹框title
-			listLoading: false
+			listLoading: false,
+			currentUrl: ''
 		}
 	},
 	components: {
@@ -112,34 +113,47 @@ export default {
 		QuestionList,
 		QuestionDetail
 	},
-	mounted() {
-		// this.getList()
-		this.getProbleList()
+	created() {
+		// 获取当前路径
+		let { currentUrl } = this.$route.params
+		console.log(currentUrl, "params")
+		this.currentUrl = currentUrl
+	},
+	async mounted() {
+		await this.getMoudleList()
+		await this.getCurrentModule()
 	},
 	methods: {
-		// async getList() {
-		// 	getModuleList().then((res) => {
-		// 		console.log(res, '1111')
-		// 	})
-		// },
-		async getProbleList() {
+		async getMoudleList() {
 			this.listLoading = true
-			getSystemMeun().then((res) => {
+			await getSystemMeun().then((res) => {
 				if (res.code === '200') {
 					let { data: { menuList }} = res
 					this.listLoading = false
-					this.problemList = [...menuList[1]?.menuList, ...menuList[2]?.menuList]
+					this.moudleList = [...menuList[1]?.menuList, ...menuList[2]?.menuList]
 				}
 			})
+		},
+		// 根据当前url和模块列表定位具体模块
+		getCurrentModule() {
+			console.log(this.moudleList, "moudleList")
+			this.currentMoudleId = 785
 		},
 		// 右上方分类点击事件
 		tabChange(val) {
 			this.helpMoudle = val
 		},
 		// 打开智能弹窗
-		handleQuestion() {
+		async handleQuestion() {
 			console.log('handleQuestion')
+			await getHotFiveQues(this.currentMoudleId).then((res) => {
+				console.log(res, '111111111')
+			})
 			this.intelligentVisible = true
+		},
+		// 关闭智能弹框
+		closeDialog(va) {
+			this.intelligentVisible = va
 		},
 		// 追问 打开问题弹框
 		handleZwQues(title) {
@@ -148,21 +162,17 @@ export default {
 			this.questioningTitle = title
 			this.zwFlag = true
 		},
-		// 关闭智能弹框
-		closeDialog(va) {
-			this.intelligentVisible = va
-		},
-		// 关闭问题弹框
-		closeQuesDialog(va) {
-			this.questioningVisible = va
-		},
 		// 提问 打开问题弹框
 		putAdminTw() {
 			this.intelligentVisible = false
 			this.questioningVisible = true
 			this.questioningTitle = '提问'
 			this.zwFlag = false
-		}
+		},
+		// 关闭问题弹框
+		closeQuesDialog(va) {
+			this.questioningVisible = va
+		},
 	}
 }
 </script>
