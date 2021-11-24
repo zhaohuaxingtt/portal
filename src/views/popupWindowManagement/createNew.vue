@@ -53,6 +53,7 @@ export default {
             const picUrl = this.$refs.newRight.linkUrl()
             //校验是否通过校验
             let newLeftSave = this.$refs.newLeft.save()
+            console.log('pppp');
             let accountIds = []
             let supplierIds = []
             if(formData.publishRange == 15){
