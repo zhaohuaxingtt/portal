@@ -13,7 +13,7 @@ const requstType = axios(process.env.VUE_APP_MEETING)
 export function getFileByIds(data) {
   return requstFile({
     // url: `/rise-mock/batchSelectByIds`,
-    url: `/fileUd/batchSelectByIds`,
+    url: `/batchSelectByIds`,
     method: 'POST',
     data
   })
