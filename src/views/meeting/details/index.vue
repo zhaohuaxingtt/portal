@@ -94,7 +94,7 @@
           v-if="!showUpdateTopicButtonList"
           :rowClassName="tableRowClassName"
           :currentRow="currentRow"
-          :isSingle="curState === '05'"
+          :isSingle="isSingle"
         >
           <el-table-column type="selection" align="center"></el-table-column>
           <el-table-column
@@ -575,6 +575,7 @@ export default {
   },
   data() {
     return {
+      isSingle:false,
       curState: '',
       currentRow: {},
       nameList: [],
@@ -633,6 +634,7 @@ export default {
     },
     resThemeData: {
       handler(data) {
+        console.log('data', data)
         const row = data.find((item) => item.state === '02')
         this.currentRow = { ...row }
       }
@@ -1724,6 +1726,17 @@ export default {
 
     // 表格选中值集
     handleSelectionChange(val) {
+      if (this.curState === '05') {
+        val = [val[val.length - 1]]
+        this.currentRow = val[0]
+        
+        this.isSingle=true;
+      }else {
+        this.isSingle=false;
+      }
+      if(!val[0]) {
+        return;
+      }
       this.selectedTableData = val
       const handleDisabledButtonName = this.handleDisabledButtonName
       if (val.length === 1) {
