@@ -46,9 +46,8 @@
         }}</iButton>
         </div>
       </div>
-      <div class="section"
-           style="margin-top:30px">
-        <div class="sectionTitle">
+    
+        <div style="margin-top:30px" class="sectionTitle">
           <span class="ptext">
             {{
               language(
@@ -61,11 +60,14 @@
           language('BAOCUN', '保存')
         }}</iButton>
         </div>
+          <div class="section"
+            style="margin-top:30px"
+           >
         <el-table :data="tabledata"
                   v-loading="tableLoading"
                   ref="mulitipleTable"
                   @selection-change="handleSelectionChange"
-                  style="margin-top:30px"
+                
                   :tableTitle="setTagCloum">
           <el-table-column type="selection"
                            width="50"
@@ -87,6 +89,7 @@
                            prop="tagDesc"
                            label="系统判断标准"> <template slot-scope="scope">
               <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
+                  <span v-else >{{scope.row.tagDesc}}</span>
             </template> </el-table-column>
           <!-- <el-table-column width="150"
                            align="center"
@@ -135,7 +138,7 @@
 </template>
 
 <script>
-import { iDialog, iButton, iSelect, iMessage, iPagination, icon } from 'rise'
+import { iDialog, iButton, iSelect, iMessage,  } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { setTagCloum } from './data'
 import {
@@ -150,8 +153,7 @@ export default {
     iDialog,
     iButton,
     iSelect,
-    iPagination,
-    icon
+
   },
   props: {
     value: { type: Boolean },
@@ -167,6 +169,7 @@ export default {
       form: {},
       tagdropDownList: [],
       tagTypeList: [
+           { label: this.language('QUANBU', '全部'), value: '' },
         { label: this.language('XITONGPANDING', '系统判定'), value: 1 },
         { label: this.language('SHOUGONG', '手工'), value: 2 }
       ]
@@ -285,12 +288,13 @@ export default {
   .section {
     max-height: 700px;
     overflow-y: auto;
+  
+  }
     .sectionTitle {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-  }
   .ptext {
     font-size: 18px;
     font-family: Arial;

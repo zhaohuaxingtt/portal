@@ -13,10 +13,10 @@
           >
         </li>
         <li class="button-item">
-          <iButton @click="cancel">{{ $t("取消") }}</iButton>
+          <iButton @click="cancel">{{ $t('取消') }}</iButton>
         </li>
         <li class="button-item">
-          <iButton @click="handleSubmit('ruleForm')">{{ $t("保存") }}</iButton>
+          <iButton @click="handleSubmit('ruleForm')">{{ $t('保存') }}</iButton>
         </li>
       </ul>
       <el-form
@@ -55,7 +55,7 @@
                   @change="hanldeChange"
                   @visible-change="
                     (e) => {
-                      handleOptionChange(e);
+                      handleOptionChange(e)
                     }
                   "
                 >
@@ -139,181 +139,182 @@ import {
   getMeetingContact,
   updateMeetingContact,
   saveMeetingContact,
-  deleteMeetingContact,
-} from "@/api/meeting/information";
-import { iFormItem, iButton, iInput, iSelect } from "rise";
-import iEditForm from "@/components/iEditForm";
-import iTableML from "@/components/iTableML";
-import { getMettingType } from "@/api/meeting/type";
+  deleteMeetingContact
+} from '@/api/meeting/information'
+import { iFormItem, iButton, iInput, iSelect } from 'rise'
+import iEditForm from '@/components/iEditForm'
+import iTableML from '@/components/iTableML'
+import { getMettingType } from '@/api/meeting/type'
 export default {
   components: { iEditForm, iFormItem, iButton, iTableML, iInput, iSelect },
   data() {
     const validatePhone = (rule, value, callback) => {
-      var reg = /(^[0-9-]{1,})/;
-      if (value.trim() === "") {
-        callback(new Error("必填"));
+      var reg = /(^[0-9-]{1,})/
+      if (value.trim() === '') {
+        callback(new Error('必填'))
       } else {
         if (!reg.test(value)) {
-          callback(new Error("电话格式不正确"));
+          callback(new Error('电话格式不正确'))
         } else {
-          callback();
+          callback()
         }
       }
-    };
+    }
     const validateEmail = (rule, value, callback) => {
-      const reg = /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
-      if (value.trim() === "") {
-        callback(new Error("必填"));
+      const reg =
+        /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/
+      if (value.trim() === '') {
+        callback(new Error('必填'))
       } else {
         if (!reg.test(value)) {
-          callback(new Error("邮箱格式不正确"));
+          callback(new Error('邮箱格式不正确'))
         } else {
-          callback();
+          callback()
         }
       }
-    };
+    }
     const validateBase = (rule, value, callback) => {
-      if (value.trim() === "") {
-        callback(new Error("必填"));
+      if (value.trim() === '') {
+        callback(new Error('必填'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       originRes: [],
       meetingTypeList: [],
       meetingTypeListCopy: [],
       ruleForm: {
-        meetingInfo: [],
+        meetingInfo: []
       },
       selectedRow: [],
-      baseRule: [{ validator: validateBase, trigger: "blur" }],
-      rulePhone: [{ validator: validatePhone, trigger: "blur" }],
-      ruleEmail: [{ validator: validateEmail, trigger: "blur" }],
-      baseSelect: [{ required: true, message: "必选", trigger: "change" }],
-    };
+      baseRule: [{ validator: validateBase, trigger: 'blur' }],
+      rulePhone: [{ validator: validatePhone, trigger: 'blur' }],
+      ruleEmail: [{ validator: validateEmail, trigger: 'blur' }],
+      baseSelect: [{ required: true, message: '必选', trigger: 'change' }]
+    }
   },
   mounted() {
     this.getAllSelectList().then(() => {
       this.query().then(() => {
-        this.meetingTypeListCopy = [...this.meetingTypeList];
-      });
-    });
+        this.meetingTypeListCopy = [...this.meetingTypeList]
+      })
+    })
   },
   methods: {
     handleOptionChange(bol) {
       if (bol) {
-        this.hanldeChange();
+        this.hanldeChange()
       } else {
-        this.meetingTypeListCopy = [...this.meetingTypeList];
+        this.meetingTypeListCopy = [...this.meetingTypeList]
       }
     },
     hanldeChange() {
       this.meetingTypeListCopy = this.meetingTypeList.filter((item) => {
         return !this.ruleForm.meetingInfo.some((it) => {
-          return it.meetingTypeId ? it.meetingTypeId.id === item.id : false;
-        });
-      });
+          return it.meetingTypeId ? it.meetingTypeId.id === item.id : false
+        })
+      })
     },
     // 获取会议类型列表
     async getAllSelectList() {
       let param = {
         pageSize: 1000,
         pageNum: 1,
-        isCurrentUser: true,
-      };
-      const res = await getMettingType(param);
-      this.meetingTypeList = res.data;
+        isCurrentUser: true
+      }
+      const res = await getMettingType(param)
+      this.meetingTypeList = res.data
     },
     handleChoose(e) {
-      this.selectedRow = e;
+      this.selectedRow = e
     },
     handleAdd() {
       this.ruleForm.meetingInfo.push({
-        uniqueId: "a" + Math.random() + Math.random(),
-        meetingTypeId: "",
-        dept: "",
-        office: "",
-        phone: "",
-        email: "",
-      });
+        uniqueId: 'a' + Math.random() + Math.random(),
+        meetingTypeId: '',
+        dept: '',
+        office: '',
+        phone: '',
+        email: ''
+      })
     },
     handleDelete() {
-      this.$confirm("你确定要删除吗?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('你确定要删除吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(() => {
         this.ruleForm.meetingInfo = this.ruleForm.meetingInfo.filter((item) => {
           return !this.selectedRow.some((it) => {
-            return it.uniqueId === item.uniqueId;
-          });
-        });
+            return it.uniqueId === item.uniqueId
+          })
+        })
         let shouldDelete = this.originRes.filter((item) => {
           return this.selectedRow.some((it) => {
-            return Number(item.id) === Number(it.id);
-          });
-        });
+            return Number(item.id) === Number(it.id)
+          })
+        })
         if (shouldDelete && shouldDelete.length > 0) {
-          let promiseArr = [];
+          let promiseArr = []
           shouldDelete.forEach((item) => {
             promiseArr.push(
               new Promise((resolve) => {
                 deleteMeetingContact(item).then((data) => {
-                  resolve(data);
-                });
+                  resolve(data)
+                })
               })
-            );
-          });
+            )
+          })
           Promise.all(promiseArr).then((res) => {
-            this.$message.success(res && res[0] && res[0].message);
-          });
+            this.$message.success(res && res[0] && res[0].message)
+          })
         }
-      });
+      })
     },
     renderHeader(h, { column }) {
-      return h("div", {
+      return h('div', {
         attrs: {
-          class: "cell-header",
+          class: 'cell-header'
         },
         domProps: {
-          innerHTML: column.label + '<span class="red">*</span>',
-        },
-      });
+          innerHTML: column.label + '<span class="red">*</span>'
+        }
+      })
     },
     async query() {
       await new Promise((resolve, reject) => {
         getMeetingContact()
           .then((res) => {
             if (res.length == 0) {
-              resolve();
-              return;
+              resolve()
+              return
             } else {
               this.ruleForm.meetingInfo = [...res].map((it) => {
                 return {
                   ...it,
                   meetingTypeId: this.meetingTypeList.find((item) => {
-                    return Number(it.meetingTypeId) === Number(item.id);
+                    return Number(it.meetingTypeId) === Number(item.id)
                   }),
-                  uniqueId: "a" + Math.random() + Math.random(),
-                };
-              });
-              this.originRes = [...res];
+                  uniqueId: 'a' + Math.random() + Math.random()
+                }
+              })
+              this.originRes = [...res]
             }
-            resolve();
+            resolve()
           })
           .catch((err) => {
-            console.log(err);
-            reject(err);
-            this.$message.error("获取失败！");
-          });
-      });
+            console.log(err)
+            reject(err)
+            this.$message.error('获取失败！')
+          })
+      })
     },
     cancel() {
-      this.query();
+      this.query()
     },
     async saveOrUpdate() {
-      let promiseArr = [];
+      let promiseArr = []
       // let shouldDelete = this.originRes
       //   .filter((item) => {
       //     return !this.ruleForm.meetingInfo.some((it) => {
@@ -329,59 +330,62 @@ export default {
       let dataArr = this.ruleForm.meetingInfo.map((item) => {
         return {
           ...item,
-          meetingTypeId: item.meetingTypeId.id,
-        };
-      });
+          meetingTypeId: item.meetingTypeId.id
+        }
+      })
 
-      [...dataArr].forEach((item) => {
+      ;[...dataArr].forEach((item) => {
         promiseArr.push(
           new Promise((resolve) => {
             if (item.id) {
               updateMeetingContact({ ...item })
                 .then((data) => {
-                  resolve(data);
+                  resolve(data)
                 })
                 .catch((err) => {
-                  console.log(err);
-                });
+                  console.log(err)
+                })
             } else {
               saveMeetingContact({ ...item })
                 .then((data) => {
-                  resolve(data);
+                  resolve(data)
                 })
                 .catch((err) => {
-                  console.log(err);
-                });
+                  console.log(err)
+                })
             }
           })
-        );
-      });
+        )
+      })
       return Promise.all(promiseArr).then((data) => {
         this.ruleForm.meetingInfo = [...data].map((item) => {
           return {
             ...item,
-            uniqueId: "a" + Math.random() + Math.random(),
-          };
-        });
-        this.$message.success("保存成功！");
-      });
+            uniqueId: 'a' + Math.random() + Math.random()
+          }
+        })
+        this.$message.success('保存成功！')
+      })
     },
     handleSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.saveOrUpdate().then(() => {
-            this.query();
-          });
+            this.query()
+          })
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
+::v-deep .el-table .el-table__row .el-input {
+  width: 100% !important;
+}
 ::v-deep .el-form-item__error {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
 }
 ::v-deep .cell {
   overflow: initial !important;
@@ -390,6 +394,9 @@ export default {
   .el-form-item {
     margin-bottom: 0;
   }
+}
+::v-deep .el-table td {
+  padding: 14px 0;
 }
 .button-list {
   display: flex;

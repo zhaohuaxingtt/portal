@@ -77,9 +77,10 @@
         <el-table-column key="XITONGPANDUANBIAOZHUN"
                          width=""
                          align="center"
-                         prop="halfYear"
+                         prop="tagDesc"
                          label="系统判断标准"> <template slot-scope="scope">
             <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
+              <span v-else >{{scope.row.tagDesc}}</span>
           </template> </el-table-column>
         <el-table-column width="150"
                          align="center"
@@ -196,6 +197,7 @@ export default {
       tagList: [],
       tagdropDownList: [],
       tagTypeList: [
+            { label: this.language('QUANBU', '全部'), value: '' },
         { label: this.language('XITONGPANDING', '系统判定'), value: 1 },
         { label: this.language('SHOUGONG', '手工'), value: 2 }
       ]

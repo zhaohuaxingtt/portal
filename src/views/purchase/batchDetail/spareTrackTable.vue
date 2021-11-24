@@ -6,15 +6,15 @@
         <div class="card1">
             <iCard class="item">
                 <div class="status">
-                    <div class="status-value blue"><span v-text="headBase&&headBase.calcDate"></span> </div>
-                    <div class="status-text"><span v-text="$t('EKL_SJJSJZSJ')"></span></div>
+                    <span class="status-text" v-text="$t('EKL_SJJSJZSJ')"></span>
+                    <span class="status-value blue" v-text="headBase&&headBase.calcDate"></span>
                     <icon class="icon" symbol name="iconyejijichubiaodaiquerenshuliang1" />
                 </div>
             </iCard>
             <iCard class="item">
                 <div class="status">
-                    <div class="status-value success"> <span v-text="headBase&&headBase.sumAll"></span> </div>
-                    <div class="status-text"><span v-text="$t('EKL_GZLJZS')"></span></div>
+                    <span class="status-text" v-text="$t('EKL_GZLJZS')"></span>
+                    <span class="status-value success" v-text="headBase&&headBase.sumAll"></span>
                     <icon class="icon" symbol name="iconyejijichubiaowanchengshijian" />
                 </div>
             </iCard>
@@ -56,8 +56,6 @@
         },
         mounted() {
             const {title,version,id,year} = this.$route.query
-            let ver = version?version:'V1'
-          console.log(year)
             this.title = `${year}年业绩进度跟踪`
         },
         methods: {
@@ -99,7 +97,6 @@
                 top: 26px;
                 width: 78px;
                 height: 78px;
-
                 background-color: #E8F0FF;
                 background-size: 42px 47px;
                 background-repeat: no-repeat;
@@ -112,12 +109,13 @@
     .card1 :last-child {
         margin-right: 0px;
     }
-
+    .status
     .status-value {
         font-size: 42px;
         font-weight: bold;
         position: relative;
-        top: -10px;
+        top:24px;
+        padding-left: 100px;
     }
 
     .blue {
@@ -135,7 +133,8 @@
     .status-text {
         font-size: 16px;
         color: #798489;
-        position: absolute;
-        bottom: 30px;
+        padding-left: 54px;
+        position: relative;
+        top: 16px;
     }
 </style>

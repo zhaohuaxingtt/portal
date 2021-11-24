@@ -76,7 +76,6 @@
             const {billType} = this.$route.query
             if(billType == 1) {
                 this.getHeadDetail()
-                console.log('基础')
             }
         },
         methods: {

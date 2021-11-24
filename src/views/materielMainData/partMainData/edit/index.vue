@@ -5,6 +5,7 @@
       <div class="basicMessage">
         <iCard :title="title.icardMessage" collapse>
           <div class="btnList">
+              <iButton style="margin-right:20px" @click="toColorStandardParts"  v-if="isEditColorPart">{{language('批量修改')}}</iButton>
               <div class="browse" v-if='isDisabled>0 ? true : false'>
                   <iButton @click="edit">{{btnList.edit}}</iButton>
               </div>
@@ -248,6 +249,7 @@
 import {iPage,iCard,iButton,iFormItem,iInput,iSelect,iDatePicker,iMessage} from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
+import { openUrl } from '@/utils'
 import {measurementTable,itemLabel,measureEdit} from './data.js'
 import {getMaterielById,saveMateriel,getProGroupOptions,searchOptions,materielGroup,materielUnit,saveActive,upDateMateriel,
         getMaterielGroup,getUnitList,saveUnitList
@@ -590,6 +592,8 @@ export default {
                     })
                     this.oldDrawingDate = data.drawingDate ? data.drawingDate.slice(0,10) : data.drawingDate
                     this.initialItemContent = JSON.parse(JSON.stringify(val.data))
+                    this.isEditColorPart = data.isEditColorPart
+                    // this.isEditColorPart = true
                 }
             }).catch((err) => {
                 iMessage.error('获取数据失败')
@@ -662,6 +666,9 @@ export default {
             }).catch((err) => {
                 iMessage.error(err)
             })
+        },
+        toColorStandardParts(){
+            openUrl(`/colorStandardParts?id=${this.$route.query.id}`)
         }
     },
     created(){
@@ -751,6 +758,7 @@ export default {
                 }
         }
         return {
+            isEditColorPart:true,
             rules:{
                 partNameZh:[
                     { required: true, message: '请输入零件中文名称', trigger: 'blur' },
@@ -889,7 +897,8 @@ export default {
                 baseUnitId:'',
                 vos:[]
             },
-            datePickerStatus:false
+            datePickerStatus:false,
+            
         }
     }
 }

@@ -137,33 +137,42 @@
       <iFormGroup row="3" :model="positionObj" ref="baseForm3">
         <iFormItem>
           <iLabel :label="language('正式价采购组')" slot="label"></iLabel>
-          <iSelect v-model="positionObj.purchaseGroup" filterable>
+          <iSelect
+            v-model="positionObj.purchaseGroup"
+            filterable
+            :disabled="type === 'detail'"
+          >
             <el-option
               v-for="item in purchasegroupOptions"
               :key="item.id"
-              :label="item.purchaseGroupName"
+              :label="item.purchaseGroupCode"
               :value="item.purchaseGroupCode"
             />
           </iSelect>
         </iFormItem>
         <iFormItem>
           <iLabel :label="language('暂作价采购组')" slot="label"></iLabel>
-          <iSelect v-model="positionObj.tempPurchaseGroup" filterable>
+          <iSelect
+            v-model="positionObj.tempPurchaseGroup"
+            filterable
+            :disabled="type === 'detail'"
+          >
             <el-option
               v-for="item in tempPurchasegroupOptions"
               :key="item.id"
-              :label="item.purchaseGroupName"
+              :label="item.purchaseGroupCode"
               :value="item.purchaseGroupCode"
             />
           </iSelect>
         </iFormItem>
         <iFormItem prop="set">
-          <iLabel :label="language('SET组')" slot="label"></iLabel>
+          <iLabel :label="language('专业组')" slot="label"></iLabel>
           <iSelect
             v-model="positionObj.setCode"
             multiple
             filterable
             collapse-tags
+            :disabled="type === 'detail'"
           >
             <el-option
               v-for="item in setCodeOptions"

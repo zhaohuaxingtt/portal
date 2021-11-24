@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:56
- * @LastEditTime: 2021-11-16 11:39:09
+ * @LastEditTime: 2021-11-23 15:27:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\enclosureList.vue
@@ -12,12 +12,19 @@
       <span style="font-weight:bold">
         {{language('SHENPIFUJIAN','审批附件')}}
       </span>
-      <uploadButton ref="uploadButtonAttachment"
-                    :buttonText="language('SHANGCHUAN', '上传')"
-                    :uploadByBusiness="true"
-                    v-if="!isView"
-                    @uploadedCallback="handleUploadForm($event)"
-                    class="margin-left20" />
+      <div>
+        <iButton @click="del"
+                 v-if="!isView"
+                 :disabled="disabled">{{language('SHANCHU','删除')}}</iButton>
+        <uploadButton ref="uploadButtonAttachment"
+                      :buttonText="language('SHANGCHUAN', '上传')"
+                      :uploadByBusiness="true"
+                      v-if="!isView"
+                      :disabled="disabled"
+                      @uploadedCallback="handleUploadForm($event)"
+                      class="margin-left20" />
+      </div>
+
     </template>
     <el-table ref="multipleTable"
               :data="tableData"
@@ -50,26 +57,44 @@
 <script>
 import { iCard, iButton, iMessage } from 'rise'
 import uploadButton from '@/components/uploadButton';
-import { attachList, uploadAttach } from '@/api/mtz/annualGeneralBudget/mtzChange'
+import { attachList, uploadAttach, deleteAttach } from '@/api/mtz/annualGeneralBudget/mtzChange'
 export default {
   data () {
     return {
       mtzAppId: "",
       loading: false,
       tableData: [],
-      isView: false
+      // isView: false,
+      mutileList: [],
+      disabled: false
     }
   },
   components: {
     iCard,
-    uploadButton
+    uploadButton,
+    iButton
   },
   created () {
-    this.init()
+    this.$nextTick(() => {
+      this.init()
+    });
+  },
+  props: {
+    isView: {
+      type: Boolean
+    }
+  },
+  watch: {
+    '$store.state.location.disabled': {
+      handler (val) {
+        this.disabled = JSON.parse(val)
+      },
+      deep: true,
+      immediate: true
+    }
   },
   methods: {
     init () {
-      this.isView = JSON.parse(this.$route.query.isView)
       this.mtzAppId = this.$route.query.mtzAppId
       this.getAttachList()
     },
@@ -99,8 +124,23 @@ export default {
         }
       })
     },
+    handleSelectionChange (val) {
+      this.mutileList = val
+    },
     downFile (val) {
       window.open(val.fileUrl)
+    },
+    del () {
+      deleteAttach({
+        fileIdList: this.mutileList.map(item => item.fileId)
+      }).then(res => {
+        if (res?.code === '200') {
+          iMessage.success(res.desZh)
+          this.getAttachList()
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
     }
   }
 }

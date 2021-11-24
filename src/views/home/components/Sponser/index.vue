@@ -18,9 +18,8 @@
         </el-option>
       </el-select>
     </div>
-    <div class="pie-container" ref="pie" style="height: 180px"></div>
-    <div class="bar-container" ref="bar" style="height: 240px"></div>
-    =
+    <div class="pie-container" ref="pie" style="height: 190px"></div>
+    <div class="bar-container" ref="bar" style="height: 230px"></div>
   </div>
 </template>
 <script>
@@ -31,43 +30,43 @@ export default {
     return {
       checkList: [],
       options: [],
-      gradeList: ['A', 'AA', 'AAA', 'B', 'BB', 'BBB', 'C', 'CC', 'CCC'],
+      gradeList: ['AAA', 'AA', 'A', 'BBB', 'BB', 'B', 'CCC', 'CC', 'C'],
       colorList: [
         {
-          name: 'A',
-          color: '#297fd5'
+          name: 'AAA',
+          color: '#4a66ac'
         },
         {
           name: 'AA',
           color: '#629dd1'
         },
         {
-          name: 'AAA',
-          color: '#4a66ac'
-        },
-        {
-          name: 'B',
-          color: '#9d90a0'
-        },
-        {
-          name: 'BB',
-          color: '#5aa2ae'
+          name: 'A',
+          color: '#297fd5'
         },
         {
           name: 'BBB',
           color: '#7f8fa9'
         },
         {
-          name: 'C',
-          color: '#194c80'
+          name: 'BB',
+          color: '#5aa2ae'
+        },
+        {
+          name: 'B',
+          color: '#9d90a0'
+        },
+        {
+          name: 'CCC',
+          color: '#2c3d67'
         },
         {
           name: 'CC',
           color: '#2a5f8e'
         },
         {
-          name: 'CCC',
-          color: '#2c3d67'
+          name: 'C',
+          color: '#194c80'
         }
       ],
       list: [],
@@ -101,7 +100,7 @@ export default {
       this.totalCount = 0
       const result = await getSponserData(this.query)
       if (result.code === '200' && result.data) {
-        let data = result.data
+        let data = result.data.slice(0, 9)
         const dataGrade = data.map((item) => {
           return item.grade
         })
@@ -216,19 +215,19 @@ export default {
           item.name =
             item.name +
             '    ' +
-            `${(item.num / totalSum).toFixed(2) * 100}.00%` +
+            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
             '   '
         } else if (item.name.length == 2) {
           item.name =
             item.name +
             '      ' +
-            `${(item.num / totalSum).toFixed(2) * 100}.00%` +
+            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
             '   '
         } else {
           item.name =
             item.name +
             '        ' +
-            `${(item.num / totalSum).toFixed(2) * 100}.00%` +
+            `${String((item.num / totalSum)) == 'NaN' ? '0.00' : ((item.num / totalSum).toFixed(2) * 100).toFixed(2) }%` +
             '    '
         }
       })
@@ -241,7 +240,9 @@ export default {
         total += data[i].value
       }
       this.total = total
-      this.legendData = data
+      let sortA = data.sort().slice(0,3).reverse()
+      let arr = [...sortA, ...data.slice(3, data.length)]
+      this.legendData = arr
       const chart = echarts().init(this.$refs.pie)
       this.chart = chart
       const option = {
@@ -251,7 +252,7 @@ export default {
             let name = data.data.name.split(/\s+/)[0]
             return `${name}:<br/>
             ${total}家<br/>
-            ${(data.data.num / total).toFixed(2) * 100}.00%
+            ${String((data.data.num / total)) === 'NaN' ? '0.00' : ((data.data.num / total).toFixed(2) * 100).toFixed(2)}%
             `
           }
         },
@@ -261,12 +262,20 @@ export default {
             orient: 'vertical',
             icon: 'circle',
             itemHeight: 8,
-            type: 'scroll',
-            // textStyle: {
-            //   fontSize: 10
-            // },
-            data: data
-          }
+            type: 'plain',
+            data: this.legendData,
+            tooltip: {
+              show: true,
+              formatter: function (data) {
+                let name = data.name.split( /\s+/)[0]
+                let num = (parseInt(data.name.split( /\s+/)[1])/100) * total
+                return `${name}:<br/>
+                ${total}家<br/>
+                ${String((num / total)) === 'NaN' ? '0.00' : ((num / total).toFixed(2) * 100).toFixed(2)}%
+                `
+              }
+            }
+          } 
         ],
         series: [
           {
@@ -313,29 +322,40 @@ export default {
     mergeOptions(newLegends) {
       let _that = this
       const option = {
-        tooltip: {
-          trigger: 'item'
-          // formatter: function (data) {
-          //   let name = data.data.name.split( /\s+/)[0]
-          //   return `${name}:<br/>
-          //   ${_that.total}家<br/>
-          //   ${(data.data.num / _that.total).toFixed(2) * 100}.00%
-          //   `
-          // }
-        },
+        // tooltip: {
+        //   trigger: 'item',
+        //   formatter: function (data) {
+        //     let name = data.data.name.split( /\s+/)[0]
+        //     return `${name}:<br/>
+        //     ${_that.total}家<br/>
+        //     ${String((data.data.num / _that.total)) === 'NaN' ? '0.00' : ((data.data.num / _that.total).toFixed(2) * 100).toFixed(2)}%
+        //     `
+        //   }
+        // },
         legend: [
           {
             left: '60%',
             orient: 'vertical',
             icon: 'circle',
             itemHeight: 8,
-            type: 'scroll',
+            type: 'plain',
             // textStyle: {
             //   fontSize: 10
             // },
-            data: newLegends
+            data: newLegends,
+            tooltip: {
+              show: true,
+              formatter: function (data) {
+                let name = data.name.split( /\s+/)[0]
+                let num = (parseInt(data.name.split( /\s+/)[1])/100) * _that.total
+                return `${name}:<br/>
+                ${_that.total}家<br/>
+                ${String((num / _that.total)) === 'NaN' ? '0.00' : ((num / _that.total).toFixed(2) * 100).toFixed(2)}%
+                `
+              }
+            }
           }
-        ],
+        ], 
         series: [
           {
             type: 'pie',
@@ -374,7 +394,7 @@ export default {
             }
             const type = data[0].data.type
             return `${type}-Rating数量：${total}<br/>${type}-Rating比例：${
-              (total / totalCount).toFixed(2) * 100
+              String((total / totalCount)) === 'NaN' ? '0.00' : ((total / totalCount).toFixed(2) * 100).toFixed(2)
             }%`
           }
         },
@@ -419,10 +439,10 @@ export default {
             //   }
             // ]
             style: {
-              fill: '#7E84A3',
-              text: 'C-Rating数量:' + 36 + '\nC-Rating比例:60%',
-              font: '7px sans-serif'
-            }
+                  fill: '#7E84A3',
+                  text: 'C-Rating数量:36\n'+'\nC-Rating比例:60%',
+                  font: '7px sans-serif'
+                }
           }
         ],
         series: [
@@ -501,7 +521,7 @@ export default {
   }
   .bar-container {
     z-index: 1;
-    margin-top: -15px;
+    margin-top: -20px;
   }
   .Rating {
     position: absolute;

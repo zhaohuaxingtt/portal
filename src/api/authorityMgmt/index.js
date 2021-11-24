@@ -40,11 +40,11 @@ export function getPageListByParams(data) {
     data: data
   })
 }
-// 
-export function getUserSelectPageList(data){
+//
+export function getUserSelectPageList(data) {
   return requst({
-    url:'/web/account/pageList',
-    method:'POST',
+    url: '/web/account/pageList',
+    method: 'post',
     data
   })
 }
@@ -108,7 +108,7 @@ export function purchasegroup(data) {
 
 export function uploadSignImage(data) {
   return requestFile({
-    url: `/udSignaturephoto`,
+    url: `/fileud/udSignaturephoto`,
     method: 'post',
     data
   })

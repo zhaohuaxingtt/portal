@@ -28,10 +28,10 @@
                     <template slot-scope="scope">
                         <el-form-item>
               <span v-for="key,i in openPageProps">
-                <span v-if="key=='operation'" class="openLinkText cursor linkEllipsis"
-                      v-permission="ACHIEVEMENTMGT_LIST_CONFIRM"
+                <span v-if="key=='operation'" class="openLinkText cursor linkEllipsis">
+                  <span v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_CONFIRM')"
                       @click="openPage(openPageGetRowData ?  scope.row : scope.row[items.props],$event.target.innerText)">
-                    {{scope.row[key == items.props ? key : '']}}
+                    {{scope.row[key == items.props ? key : '']}}></span>
                 </span>
                 <span class="openLinkText cursor linkEllipsis"
                       v-else
@@ -198,7 +198,7 @@
 <script>
     import {iInput, iSelect, icon} from 'rise';
     import {delcommafy} from '@/utils'
-
+    import isAuth from '@/utils/isAuth';
     export default {
         props: {
             label: {type: String},
@@ -244,6 +244,8 @@
             return {
                 rules: [],
                 show: false,
+                isAuth,
+                whiteBtnList: this.$store.state.permission.whiteBtnList,
             };
         },
         created() {

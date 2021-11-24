@@ -8,7 +8,7 @@
         <div>
           <span>{{language('SHENQINGDANXINXI',"申请单信息")}}</span>
           <a v-if="applyNumber!==''">-</a>
-          <a class="number_color">{{applyNumber}}</a>
+          <a class="number_color" @click="jumpInforBtn">{{applyNumber}}</a>
           <el-tooltip effect="light"
                       placement="right"
                       v-if="applyNumber!==''">
@@ -37,13 +37,15 @@
         <div class="inforDiv"
              v-for="(item,index) in tabsInforList"
              :key="index">
-          <span>{{item.name}}</span>
-          <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
+          <span>{{language(item.key,item.name)}}</span>
+          <el-tooltip class="item" effect="dark" :content="inforData[item.prop]" placement="top-start" v-if="item.type=='tooltip'&&inforData[item.prop]!==null">
+            <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
                   class="inforText"
                   v-model="inforData[item.prop]"
-                  v-if="item.type!=='select'"></iInput>
+                  ></iInput>
+          </el-tooltip>
           <iSelect style="width:68%;"
-                   v-else
+                   v-else-if="item.type=='select'"
                    :disabled="disabled"
                    :value="inforData[item.prop]"
                    :placeholder="language('QINGXUANZE','请选择')"
@@ -53,21 +55,25 @@
                        v-for="item in getFlowTypeList"
                        :key="item.code"></el-option>
           </iSelect>
+          <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
+                  class="inforText"
+                  v-model="inforData[item.prop]"
+                  v-else></iInput>
         </div>
       </div>
-      <span style="display:block;margin-bottom:20px;">Linie上会备注</span>
+      <span style="display:block;margin-bottom:20px;">{{language("LINIEBEIAN","Linie备注")}}</span>
       <el-input :disabled="disabled"
                 type="textarea"
                 :rows="4"
-                placeholder="请输入备注"
+                :placeholder="language('QINGSHURUBEIAN','请输入备注')"
                 v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
-    <theTabs v-if="!beforReturn" :appStatus='inforData.appStatus'></theTabs>
-    <theDataTabs v-if="!beforReturn" :appStatus='inforData.appStatus'></theDataTabs>
+    <theTabs v-if="!beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"></theTabs>
+    <theDataTabs v-if="!beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"></theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
              v-if="mtzAddShow"
-             width="90%"
+             width="85%"
              @close='closeDiolog'>
       <partApplication @close="saveClose"></partApplication>
     </iDialog>
@@ -81,8 +87,10 @@ import theTabs from "./theTabs";
 import theDataTabs from "./theDataTabs";
 import partApplication from "./partApplication";
 import store from "@/store";
+import {
+  page,
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 // import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
-
 import {
   getAppFormInfo,
   modifyAppFormInfo,
@@ -172,7 +180,7 @@ export default {
     }
     this.getListData()
     if(this.$route.query.appId){
-      this.appIdType = false;
+      this.appIdType = true;
     }
   },
   methods: {
@@ -298,6 +306,39 @@ export default {
     chioce (e, name) {
       this.inforData[name] = e;
     },
+
+
+
+    jumpInforBtn(){
+      page({
+        current: 1,
+        size: 9999,
+        nominateId:this.applyNumber
+      }).then(res=>{
+        if(res.code == 200 && res.result){
+          var jumpData = res.data.records[0];
+          var partProjType = "";
+          if(jumpData.partProjType == null){
+            partProjType = ""
+          }else{
+            partProjType = jumpData.partProjType
+          }
+          window.open("http://" + window.location.host + "/sourcing/#/designate/decisiondata/rs?desinateId=" + jumpData.id + "&designateType=" + jumpData.nominateProcessType + "&partProjType" + partProjType + "&applicationStatus=" + jumpData.applicationStatus)
+
+          // this.$router.push({
+          //   path: "/designate/decisiondata/rs",
+          //   query: {
+          //     desinateId:jumpData.id,
+          //     designateType:jumpData.nominateProcessType,
+          //     partProjType:jumpData.partProjType,
+          //     applicationStatus:jumpData.applicationStatus,
+          //   }
+          // })
+        }else{
+          iMessage.error(this.language(res.desEn,res.desZh))
+        }
+      })
+    }
     
   },
   destroyed () {

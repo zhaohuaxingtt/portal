@@ -2,7 +2,7 @@
   <iCard style="height:14rem">
     <div class="title">
       <p>{{language('CAIWUYUJING', '财务预警')}}</p>
-      <el-dropdown>
+      <el-dropdown v-permission="Card_C-Rating_More">
 
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
@@ -43,7 +43,6 @@
 </template>
 <script>
 import { iCard, icon } from 'rise'
-import cRatingTable from '@/views/frmRating/supplierOverview/components/cRatingTable'
 import { supplierRatingCard } from '@/api/supplierManagement/supplierCard/index'
 export default {
   props: {
@@ -57,7 +56,6 @@ export default {
   components: {
     iCard,
     icon,
-    cRatingTable
   },
   data() {
     return {
@@ -84,8 +82,13 @@ export default {
       })
     },
     openDilog() {
-        console.log(111)
-      this.visible = true
+         let routeData = this.$router.resolve({
+        path: '/supplier/frmrating/supplieroverview',
+        query: {
+            isSupplier:1
+        }
+      })
+      window.open(routeData.href)
     },
     closeDiolog(){
         this.visible=false

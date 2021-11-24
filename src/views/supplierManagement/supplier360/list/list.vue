@@ -88,6 +88,7 @@
         </el-form-item>
         <el-form-item :label="$t('SUPPLIER_CAILIAOZU_ISXIANGGUNA')">
           <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                   @change="changTag"
                    v-model="form.relatedToMe">
             <el-option v-for="(item, index) in fromGroup.relatedToMeList"
                        :key="index"
@@ -287,7 +288,6 @@ export default {
     iSelect,
     iPagination,
     listDialog,
-
     iSearch,
     joinlacklistGp,
     removelacklistGp,
@@ -298,7 +298,7 @@ export default {
     setTagdilog,
     setTagList
   },
-  data () {
+  data() {
     return {
       tagdropDownList: [],
       supplierId: '',
@@ -355,6 +355,7 @@ export default {
       isCgy: false,
       userType: 'LINIE',
       form: {
+          tagNameList:[],
         supplierName: '',
         socialcreditNo: '',
         address: '',
@@ -367,7 +368,7 @@ export default {
         tagdropDownList: [],
         supplierType: '',
         dept: '',
-        relatedToMe: '',
+        relatedToMe: true,
         materialOrCraftCode: ''
       },
       carTypeOptions: [],
@@ -384,14 +385,29 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.handleInfo()
     // this.$nextTick(() => {
     this.getUserType()
+    this.changTag()
     // })
   },
   methods: {
-    getUserType () {
+    changTag() {
+        this.form.tagNameList=[]
+      //获取标签列表
+    //   let isMeRelated = 0
+    //   if (this.form.relatedToMe) {
+    //     isMeRelated = 1
+    //   } else isMeRelated = 0
+    //   isMeRelated ,supplierId:this.$store.state.permission.userInfo.id
+      dropDownTagName({ isMeRelated: 0}).then((res) => {
+        if (res && res.code == 200) {
+          this.tagdropDownList = res.data
+        }
+      })
+    },
+    getUserType() {
       getBuyerType({}).then((res) => {
         if (res && res.code == 200) {
           this.userType = res.data
@@ -405,7 +421,6 @@ export default {
             this.isCgy = true
           }
           if (this.userType == 'GP') this.form.supplierType = 'GP'
-          console.log(this.isCgy)
           this.form.relatedToMe = true
           this.getTableList(this.form.supplierType)
         } else {
@@ -415,7 +430,7 @@ export default {
       })
     },
     //加入黑名单
-    lacklistBtn (type, text) {
+    lacklistBtn(type, text) {
       if (this.selectTableData.length == 0) {
         this.supplierId = ''
       } else {
@@ -441,37 +456,19 @@ export default {
         })
       } else if (type == 'join') {
         if (this.form.supplierType == 'GP') {
-          //   if (this.clickTableList.isGpBlackList == 1) {
-          //     this.$message({
-          //       type: 'warning',
-          //       message: this.language(
-          //         'GAIGONGYINGSHANGSUOYOUYEWULEIXINGJUNYISHOUKONG,WUXUCHONGFUTIANJIA',
-          //         '该供应商所有业务类型均已受控，无需重复添加！'
-          //       )
-          //     })
-          //   } else {
+    
           this.gpJoinParams = {
             ...this.gpJoinParams,
             key: Math.random(),
             visible: true
           }
-          //   }
         } else if (this.form.supplierType == 'PP') {
-          //   if (this.clickTableList.isPpBlackList == 1) {
-          //     this.$message({
-          //       type: 'warning',
-          //       message: this.language(
-          //         'GAIGONGYINGSHANGSUOYOUCAILIAOZUGONGYIZUYIZAIHEIMINGDANZHONG',
-          //         '该供应商所有材料组，工艺组已在黑名单中，无需重复添加'
-          //       )
-          //     })
-          //   } else {
+   
           this.ppJoinParams = {
             ...this.ppJoinParams,
             key: Math.random(),
             visible: true
           }
-          //   }
         }
       } else if (type == 'remove') {
         if (this.form.supplierType == 'GP') {
@@ -510,39 +507,33 @@ export default {
       }
     },
 
-    async handleInfo () {
+    async handleInfo() {
       const res2 = await dictByCode('RELEVANT_DEPT')
       const res3 = await dictByCode('supplier_active')
       const res4 = await dictByCode('supplier_main_type')
-      //获取标签列表
-      dropDownTagName({}).then((res) => {
-        if (res && res.code == 200) {
-          this.tagdropDownList = res.data
-        }
-      })
+
       this.fromGroup.deptList = res2
       this.fromGroup.supplierStatusList = res3
       this.fromGroup.supplierTypeList = res4
     },
     //标签设置弹窗
-    setTagBtn () {
-      console.log(this.selectTableData)
+    setTagBtn() {
       if (this.selectTableData.length == 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
       } else this.isSetTag = true
     },
     //标签列表弹窗
-    handleTagsList (row) {
+    handleTagsList(row) {
       this.rowList = row
       this.issetTagList = true
     },
-    tagTab () {
+    tagTab() {
       let routeData = this.$router.resolve({
         path: '/supplier/supplierTag'
       })
       window.open(routeData.href)
     },
-    async handleRating () {
+    async handleRating() {
       if (this.selectTableData.length === 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
@@ -560,11 +551,10 @@ export default {
         })
       })
     },
-    handleRegister () {
+    handleRegister() {
       this.listDialog = true
     },
-    openPage (params) {
-      console.log(params)
+    openPage(params) {
       let routeData = this.$router.resolve({
         path: '/supplier/supplierList/details',
         query: {
@@ -575,7 +565,7 @@ export default {
       window.open(routeData.href)
       // this.$router.push({ name: 'ViewSuppliers', query: { supplierToken: params.supplierToken || '', supplierType: "4" } })
     },
-    handleSearchReset () {
+    handleSearchReset() {
       this.form.relatedToMe == true
       this.relatedToMe = true
       this.form = {
@@ -597,8 +587,7 @@ export default {
       this.getUserType()
     },
 
-    async getTableList () {
-      console.log(this.$store.state.permission.userInfo, "....")
+    async getTableList() {
       this.tableLoading = true
       const pms = {
         ...this.form,
@@ -622,10 +611,10 @@ export default {
       this.page.totalCount = res.total
       this.tableLoading = false
     },
-    handleSelectionChange (e) {
+    handleSelectionChange(e) {
       this.selectTableData = e
     },
-    handleBlackList (row) {
+    handleBlackList(row) {
       this.rowList = row
       if (this.form.supplierType == 'GP') {
         this.gpBlackParams = {
@@ -643,18 +632,18 @@ export default {
       }
     },
     // 选中数据
-    handleClickRow (val) {
+    handleClickRow(val) {
       this.selectTableList = val
     },
-    changeSupplierType () {
+    changeSupplierType() {
       this.closeDiolog(1)
     },
-    getLsitBtn () {
+    getLsitBtn() {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.getTableList()
     },
-    closeDiolog (v) {
+    closeDiolog(v) {
       if (v == 1) {
         this.getLsitBtn()
       }

@@ -31,7 +31,9 @@
           ">
         </el-tab-pane>
       </el-tabs>
-      <div class="header">
+      <iSearch class="header"
+               @sure="sure"
+               @reset="clickReset">
         <el-form inline
                  label-position="top">
           <el-form-item :label="language('SAPHAO', 'SAP号')">
@@ -68,9 +70,9 @@
                      :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                      v-model.trim="form.deptId">
               <el-option v-for="item in deptList"
-                         :key="item.id"
-                         :label="item.deptNum"
-                         :value="item.id">
+                         :key="item.kvalue"
+                         :label="item.vvalue"
+                         :value="item.kvalue">
               </el-option>
             </iSelect>
           </el-form-item>
@@ -81,9 +83,9 @@
                      :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                      v-model.trim="form.userId">
               <el-option v-for="item in userList"
-                         :key="item.id"
-                         :label="item.nameZh"
-                         :value="item.id">
+                         :key="item.kvalue"
+                         :label="item.vvalue"
+                         :value="item.kvalue">
               </el-option>
             </iSelect>
           </el-form-item>
@@ -194,13 +196,7 @@
             </iSelect>
           </el-form-item>
         </el-form>
-        <div class="btnStyle">
-          <iButton @click="sure">{{ language('CHAXUN', '查询') }}</iButton>
-          <iButton @click="clickReset">{{
-            language('CHONGZHI', '重置')
-          }}</iButton>
-        </div>
-      </div>
+      </iSearch>
       <div class="tableBox">
         <div class="sectionTitle">
           <span class="ptext">
@@ -208,8 +204,8 @@
           </span>
           <iButton v-if="tabVal == 1"
                    @click="handleSaveBtn">{{
-          language('YICHUCRATING', '移出C-Rating')
-        }}</iButton>
+            language('YICHUCRATING', '移出C-Rating')
+          }}</iButton>
         </div>
         <table-list v-if="tabVal == 1"
                     style="margin-top: 20px"
@@ -218,15 +214,15 @@
                     :tableTitle="tableTitleMonitor"
                     :tableLoading="tableLoading"
                     :index="true">
-
           <template #ratingSource="scope">
             <span v-if="
-              scope.row.ratingSource != '100' && scope.row.ratingSource != null
-            ">{{
-              cratingLsit.find((res) => {
-                return res.code == scope.row.ratingSource
-              }).name
-            }}</span>
+                scope.row.ratingSource != '100' &&
+                  scope.row.ratingSource != null
+              ">{{
+                cratingLsit.find(res => {
+                  return res.code == scope.row.ratingSource
+                }).name
+              }}</span>
             <span v-if="scope.row.ratingSource == '100'">深入评级-
               <icon class="early"
                     symbol
@@ -242,20 +238,22 @@
                     :index="true"
                     :selection="false">
           <template #rfqStatus="scope">
-            <!-- <span>{{  supplierStatus.find((res) => {
-                return res.code == scope.row.rfqStatus
-              }).name}}</span> -->
-            <span v-if="scope.row.rfqStatus==0">{{language('WEIBAOJIA', '未报价') }}</span>
-            <span v-if="scope.row.rfqStatus==1">{{language('XUNJIAZHONG', '询价中') }}</span>
+            <span v-if="scope.row.rfqStatus == 0">{{
+              language('WEIBAOJIA', '未报价')
+            }}</span>
+            <span v-if="scope.row.rfqStatus == 1">{{
+              language('XUNJIAZHONG', '询价中')
+            }}</span>
           </template>
           <template #ratingSource="scope">
             <span v-if="
-              scope.row.ratingSource != '100' && scope.row.ratingSource != null
-            ">{{
-                cratingLsit.find((res) => {
-                return res.code == scope.row.ratingSource
-              }).name
-            }}</span>
+                scope.row.ratingSource != '100' &&
+                  scope.row.ratingSource != null
+              ">{{
+                cratingLsit.find(res => {
+                  return res.code == scope.row.ratingSource
+                }).name
+              }}</span>
             <span v-if="scope.row.ratingSource == '100'">深入评级-
               <icon class="early"
                     symbol
@@ -263,6 +261,16 @@
             </span>
           </template>
         </table-list>
+        <iPagination v-if="tabVal == 2"
+                     v-update
+                     @size-change="handleSizeChange($event, getTaleList)"
+                     @current-change="handleCurrentChange($event, getTaleList)"
+                     background
+                     :page-sizes="page.pageSizes"
+                     :page-size="page.pageSize"
+                     :layout="page.layout"
+                     :current-page="page.currPage"
+                     :total="page.totalCount" />
       </div>
       <div style="height: 30px"></div>
     </iDialog>
@@ -290,10 +298,21 @@
 </template>
 
 <script>
-import { icon, iDialog, iSelect, iButton, iInput, iMessage } from 'rise'
+import {
+  icon,
+  iDialog,
+  iSelect,
+  iButton,
+  iInput,
+  iMessage,
+  iPagination,
+  iSearch
+} from 'rise'
 import tableList from '@/components/commonTable'
 import { tableTitleMonitor, tableTitleMonitorRecord, dictByCode } from './data'
-import { getDeptDropDownList } from '@/api/authorityMgmt/index'
+import { userDropDown } from '@/api/frmRating/supplierOverview/index'
+import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
+import { pageMixins } from '@/utils/pageMixins'
 import {
   currentList,
   sapDropDown,
@@ -301,13 +320,16 @@ import {
   cancel
 } from '@/api/frmRating/supplierOverview/index'
 export default {
+  mixins: [generalPageMixins, pageMixins],
   components: {
     iSelect,
     iButton,
     iDialog,
     tableList,
     iInput,
-    icon
+    icon,
+    iPagination,
+    iSearch
   },
   props: {
     value: {
@@ -335,7 +357,8 @@ export default {
         supplierName: [],
         iscRating: '',
         supplierId: [],
-        rfqStatus: []
+        rfqStatus: [],
+        userId: []
       },
       cratingLsit: [{ name: '' }],
       tableLoading: true,
@@ -357,21 +380,13 @@ export default {
       ]
     }
   },
-  watch: {
-    // supplierId(val) {
-    //   this.form.supplierName[0] = val
-    // },
-    // sapCode(val) {
-    //   this.form.sapCode[0] = val
-    // }
-  },
+  watch: {},
   created() {
-    if (this.sapCode && this.supplierId) {
-      this.form.sapCode[0] = this.sapCode
-      this.form.supplierName[0] = this.supplierId
-    }
-
     this.tabVal = '1'
+    if (this.sapCode && this.supplierId) {
+      this.form.sapCode[0] = this.sapCode || ''
+      this.form.supplierName[0] = this.supplierId || ''
+    }
     this.getInit()
   },
   methods: {
@@ -379,48 +394,35 @@ export default {
       this.visible = true
       this.getInit()
     },
-    //获取科室
-    getDeptList() {
-      const req = {
-        level: 'K2'
-      }
-      getDeptDropDownList(req).then((res) => {
-        this.deptList = res.data
-      })
-    },
-    //选择相关科室
+
+    // //选择相关科室
     deptChange(v) {
-      console.log(v)
-      var arr = []
-      if(v.length>=1){
-          v.forEach(v => {
-              let users=[]
-              users=this.deptList.find(i=>{return i.id==v}).userDTOList
-              arr.push(...users)
-          });
+      if (v.length > 0) {
+        let req = {
+          type: 'user',
+          deptIds: v
+        }
+        userDropDown(req).then((res) => {
+          this.userList = res.data
+          var arr2 = []
+          if (this.form.userId.length > 0) {
+            this.userList.forEach((v) => {
+              this.form.userId.forEach((i) => {
+                if (v.kvalue == i) {
+                  arr2.push(i)
+                }
+              })
+            })
+          }
+          this.form.userId = arr2
+        })
       }
-      this.userList =arr
-      console.log(arr)
-    //   if (v.length > 1) {
-    //     arr = this.deptList.find((res) => {
-    //       return v[v.length - 1] == res.id
-    //     }).userDTOList
-    //     if (arr.length != 0) {
-    //       this.userList.push(...arr)
-    //     }
-    //   } else {
-    //     this.userList = this.deptList.find((res) => {
-    //       return v == res.id
-    //     }).userDTOList
-    //   }
     },
     getTaleList() {
       this.tableLoading = true
-      if( this.form.sapCode.length>0|| this.form.supplierName.length>0){
-      this.form.supplierId = this.form.sapCode.concat(this.form.supplierName)
-
+      if (this.form.sapCode.length > 0 || this.form.supplierName.length > 0) {
+        this.form.supplierId = this.form.sapCode.concat(this.form.supplierName)
       }
-      // this.form.rfqStatus = [this.form.rfqStatus]
       const req = {
         ...this.form
       }
@@ -433,24 +435,32 @@ export default {
           this.tableListData = res.data
         })
       } else {
-        historyList(req).then((res) => {
+        let form = {
+          ...req,
+          pageNo: this.page.currPage,
+          pageSize: this.page.pageSize
+        }
+        historyList(form).then((res) => {
+          this.page.totalCount = res.total
           this.tableLoading = false
           this.tableListData = res.data
         })
       }
     },
     async getInit() {
-      this.getTaleList()
-      this.getDeptList()
       const res = await dictByCode('C_RATING')
       this.cratingLsit = res
+
+      this.getTaleList()
       const res2 = await sapDropDown({ type: 'sap' })
+      const resDept = await sapDropDown({ type: 'dept' })
       const res3 = await sapDropDown({ type: 'supplier' })
       //   const res4 = await dictByCode('RFQ_STATE')
       const resPart = await sapDropDown({ type: 'part' })
       const resRfq = await sapDropDown({ type: 'rfq' })
       const resProject = await sapDropDown({ type: 'project' })
       const resMotor = await sapDropDown({ type: 'motor' })
+      this.deptList = resDept.data
       this.partList = resPart.data
       this.resRfqList = resRfq.data
       this.projectList = resProject.data
@@ -491,10 +501,14 @@ export default {
     },
 
     sure() {
+      this.page.currPage = 1
+      this.page.pageSize = 10
       this.getTaleList()
     },
 
     clickReset() {
+      this.page.currPage = 1
+      this.page.pageSize = 10
       this.userList = []
       this.form = {
         supplierId: [],
@@ -514,8 +528,11 @@ export default {
       this.getTaleList()
     },
     changeTab() {
-         this.userList = []
+      this.page.currPage = 1
+      this.page.pageSize = 10
+      this.userList = []
       this.form = {
+        ...this.form,
         deptId: [],
         userId: [],
         iscRating: '',
@@ -525,7 +542,7 @@ export default {
         partNum: [],
         rfq: [],
         motorProject: [],
-        motorType: [],
+        motorType: []
       }
       this.getTaleList()
     },
@@ -540,11 +557,7 @@ export default {
 }
 </script>
 
-<style  lang="scss" scoped>
-.tableBox {
-  max-height: 500px;
-  overflow-y: auto;
-}
+<style lang="scss" scoped>
 .early {
   display: inline-block;
   font-size: 20px;
@@ -574,10 +587,10 @@ export default {
     font-weight: bold;
   }
 }
+::v-deep .card {
+  box-shadow: 0 0 0px rgb(27 29 33 / 0%);
+}
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding-bottom: 20px;
   border-bottom: 1px solid #e3e3e3;
   .btnStyle {
@@ -595,12 +608,10 @@ export default {
     display: inline-block;
     max-width: 150px;
     overflow: hidden;
+    vertical-align: middle;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  //   ::v-deep.el-select  ::v-deep.el-tag__close.el-icon-close {
-  //     top: -7px;
-  //   }
 }
 .sectionTitle {
   margin-top: 20px;
@@ -622,7 +633,7 @@ export default {
     border-radius: 0px 10px 10px 0px;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.08);
     font-size: 16px;
-    width: 250px;
+    min-width: 250px;
     height: 35px;
     line-height: 35px;
   }

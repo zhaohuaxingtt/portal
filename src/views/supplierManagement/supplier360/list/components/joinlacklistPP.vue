@@ -3,172 +3,232 @@
  * @Date: 2021-10-17 
 -->
 <template>
-  <iDialog @close="closeDiolog()"
-           title="加⼊⿊名单 - ⽣产采购"
-           :visible.sync="value"
-           width="85%"
-           top="2%">
+  <iDialog @close="closeDiolog()" :visible.sync="value" width="85%" top="2%">
+    <div slot="title" class="headerTitle">
+      <span>{{
+        language('JIARUHEIMINGDANSHENGCHANCAIGOU', '加入黑名单 - 生产采购')
+      }}</span>
+    </div>
     <div class="box">
-      <el-form inline
-               :model="form"
-               label-position="left"
-               label-width="120px"
-               :rules="rules"
-               ref="form">
+      <el-form
+        inline
+        :model="form"
+        label-position="left"
+        label-width="120px"
+        :rules="rules"
+        ref="form"
+      >
         <div class="formStyle">
-          <el-form-item :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')">
-            <iText style="min-width:240px"
-                   class="text">{{
+          <el-form-item
+            :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
+          >
+            <iText style="min-width: 240px" class="text">{{
               clickTableList.nameZh
             }}</iText>
           </el-form-item>
-          <el-form-item prop="categoryCodes"
-                        :label="language('CAILIAOZU', '材料组')">
-            <iSelect multiple
-                     collapse-tags
-                     filterable
-                     @change="getStuffFitel"
-                     style="width:240px"
-                     :placeholder="language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')"
-                     v-model="form.categoryCodes">
-              <el-option v-for="item in categoryArr"
-                         :key="item.categoryCode"
-                         :label="item.categoryName+'-'+item.categoryCode"
-                         :value="item.categoryCode">
+          <el-form-item
+            prop="categoryCodes"
+            :label="language('CAILIAOZU', '材料组')"
+          >
+            <iSelect
+              multiple
+              collapse-tags
+              filterable
+              @change="getStuffFitel"
+              style="width:240px"
+              :placeholder="
+                language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')
+              "
+              v-model="form.categoryCodes"
+            >
+              <el-option
+                v-for="item in categoryArr"
+                :key="item.categoryCode"
+                :label="item.categoryName + '-' + item.categoryCode"
+                :value="item.categoryCode"
+              >
               </el-option>
             </iSelect>
-            <!-- <custom-select style="width:240px"
+            <!-- <custom-select style="width: 240px"
                            v-model="form.categoryCodes"
                            :user-options="categoryArr"
                            multiple
+                           filterable
                            clearable
                            @change="getStuffFitel"
-                           :placeholder="language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')"
+                           :placeholder="
+                language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')
+              "
                            display-member="categoryName"
                            value-member="categoryCode"
                            value-key="categoryCode">
               <template v-slot:selected="scope">
-                <span>{{scope.data.categoryName}}{{scope.data.categoryCode}}</span>
+                <span>{{ scope.data.categoryName
+                  }}{{ scope.data.categoryCode }}</span>
               </template>
               <template v-slot:unselected="scope">
-                <span>{{scope.data.categoryName}}{{scope.data.categoryCode}}</span>
+                <span>{{ scope.data.categoryName
+                  }}{{ scope.data.categoryCode }}</span>
               </template>
             </custom-select> -->
-
           </el-form-item>
-          <el-form-item prop="ppStuffSaveDTOList"
-                        :label="language('GONGYIZU', '工艺组')">
-            <iSelect multiple
-                     collapse-tags
-                     filterable
-                     value-key='stuffCode'
-                     style="width:240px"
-                     :placeholder="language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')"
-                     v-model="form.ppStuffSaveDTOList">
-              <el-option  v-for="item in stuffByArr"
-                         :key="item.stuffCode"
-                         :label="item.stuffName+'-'+item.stuffCode"
-                         :value="item">
+          <el-form-item
+            prop="ppStuffSaveDTOList"
+            :label="language('GONGYIZU', '工艺组')"
+          >
+            <iSelect
+              multiple
+              collapse-tags
+              filterable
+              value-key="stuffCode"
+              style="width:240px"
+              :placeholder="
+                language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')
+              "
+              v-model="form.ppStuffSaveDTOList"
+            >
+              <el-option
+                v-for="item in stuffByArr"
+                :key="item.stuffCode"
+                :label="item.stuffName + '-' + item.stuffCode"
+                :value="item"
+              >
               </el-option>
             </iSelect>
-            <!-- <custom-select style="width:240px"
+            <!-- <custom-select style="width: 240px"
                            v-model="form.ppStuffSaveDTOList"
                            :user-options="stuffByArr"
                            multiple
+                           filterable
                            clearable
-                           :placeholder="language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')"
+                           :placeholder="
+                language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')
+              "
                            display-member="stuffName"
                            value-member="stuffCode"
                            value-key="stuffCode">
-                           <template v-slot:selected="scope">
-                <span>{{scope.data.stuffName}}{{scope.data.stuffCode}}</span>
+              <template v-slot:selected="scope">
+                <span>{{ scope.data.stuffName }}{{ scope.data.stuffCode }}</span>
               </template>
               <template v-slot:unselected="scope">
-                <span>{{scope.data.stuffName}}{{scope.data.stuffCode}}</span>
+                <span>{{ scope.data.stuffName }}{{ scope.data.stuffCode }}</span>
               </template>
             </custom-select> -->
           </el-form-item>
-          <el-form-item prop="daterange"
-                        :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')">
-
-            <iDatePicker :picker-options="pickerOptions"
-                         style="width:240px"
-                         type="daterange"
-                         :range-separator="$t('SUPPLIER_ZHI')"
-                         :placeholder="''"
-                         v-model="form.daterange"
-                         value-format="yyyy-MM-dd"
-                         clearable />
+          <el-form-item
+            prop="daterange"
+            :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')"
+          >
+            <iDatePicker
+              :picker-options="pickerOptions"
+              style="width: 240px"
+              type="daterange"
+              :range-separator="$t('SUPPLIER_ZHI')"
+              :placeholder="''"
+              v-model="form.daterange"
+              value-format="yyyy-MM-dd"
+              clearable
+            />
           </el-form-item>
-          <el-form-item prop="preDeptId"
-                        v-if="userType=='LINIE'"
-                        :label="language('KESHI', '科室')">
-            <iSelect style="width:240px"
-                     filterable
-                     @change="changeData($event,'keshi')"
-                     :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                     v-model="form.preDeptId">
-              <el-option v-for="item in prePurchaseDeptArr"
-                         :key="item.deptId"
-                         :label="item.deptName"
-                         :value="item.deptId">
+          <el-form-item
+            prop="preDeptId"
+            v-if="userType == 'LINIE'"
+            :label="language('KESHI', '科室')"
+          >
+            <iSelect
+              style="width: 240px"
+              filterable
+              @change="changeData($event, 'keshi')"
+              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              v-model="form.preDeptId"
+            >
+              <el-option
+                v-for="item in prePurchaseDeptArr"
+                :key="item.deptId"
+                :label="item.deptName"
+                :value="item.deptId"
+              >
               </el-option>
             </iSelect>
           </el-form-item>
-          <el-form-item prop="linieDeptId"
-                        v-if="userType=='PRE'"
-                        :label="language('LINIEKESHI', 'LINIE科室')">
-            <iSelect style="width:240px"
-                     filterable
-                     @change="changeData($event,'liniekeshi')"
-                     :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                     v-model="form.linieDeptId">
-              <el-option v-for="item in liniePurchaseDeptArr"
-                         :key="item.linieDeptId"
-                         :label="item.linieDeptName"
-                         :value="item.linieDeptId">
+          <el-form-item
+            prop="linieDeptId"
+            v-if="userType == 'PRE'"
+            :label="language('LINIEKESHI', 'LINIE科室')"
+          >
+            <iSelect
+              style="width: 240px"
+              filterable
+              @change="changeData($event, 'liniekeshi')"
+              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              v-model="form.linieDeptId"
+            >
+              <el-option
+                v-for="item in liniePurchaseDeptArr"
+                :key="item.linieDeptId"
+                :label="item.linieDeptName"
+                :value="item.linieDeptId"
+              >
               </el-option>
             </iSelect>
           </el-form-item>
-          <el-form-item prop="purchaserId"
-                        v-if="userType=='LINIE'"
-                        :label="language('QIANQICAIGOUYUAN', '前期采购员')">
-            <iSelect style="width:240px"
-                     :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                     filterable
-                     @change="changeData($event,'cgy')"
-                     v-model="form.purchaserId">
-              <el-option v-for="item in prePurchaseArr"
-                         :key="item.purchaserId"
-                         :label="item.purchaserName"
-                         :value="item.purchaserId">
+          <el-form-item
+            prop="purchaserId"
+            v-if="userType == 'LINIE'"
+            :label="language('QIANQICAIGOUYUAN', '前期采购员')"
+          >
+            <iSelect
+              style="width: 240px"
+              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              filterable
+              @change="changeData($event, 'cgy')"
+              v-model="form.purchaserId"
+            >
+              <el-option
+                v-for="item in prePurchaseArr"
+                :key="item.purchaserId"
+                :label="item.purchaserName"
+                :value="item.purchaserId"
+              >
               </el-option>
             </iSelect>
           </el-form-item>
-          <el-form-item prop="liniePurchaserId"
-                        v-if="userType=='PRE'"
-                        :label="language('LINIECAIGOUYUAN', 'LINIE采购员')">
-            <iSelect style="width:240px"
-                     filterable
-                     @change="changeData($event,'liniecgy')"
-                     :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                     v-model="form.liniePurchaserId">
-              <el-option v-for="item in liniePurchaseArr"
-                         :key="item.liniePurchaserId"
-                         :label="item.liniePurchaserName"
-                         :value="item.liniePurchaserId">
+          <el-form-item
+            prop="liniePurchaserId"
+            v-if="userType == 'PRE'"
+            :label="language('LINIECAIGOUYUAN', 'LINIE采购员')"
+          >
+            <iSelect
+              style="width: 240px"
+              filterable
+              @change="changeData($event, 'liniecgy')"
+              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              v-model="form.liniePurchaserId"
+            >
+              <el-option
+                v-for="item in liniePurchaseArr"
+                :key="item.liniePurchaserId"
+                :label="item.liniePurchaserName"
+                :value="item.liniePurchaserId"
+              >
               </el-option>
             </iSelect>
           </el-form-item>
-          <el-form-item prop="measures"
-                        :label="language('SHOUKONGCUOSHI', '受控措施')">
-            <iSelect style="width:240px"
-                     :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                     v-model="form.measures">
-              <el-option v-for="item in measuresList"
-                         :key="item.value"
-                         :label="item.label"
-                         :value="item.value">
+          <el-form-item
+            prop="measures"
+            :label="language('SHOUKONGCUOSHI', '受控措施')"
+          >
+            <iSelect
+              style="width: 240px"
+              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              v-model="form.measures"
+            >
+              <el-option
+                v-for="item in measuresList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
               </el-option>
             </iSelect>
           </el-form-item>
@@ -176,17 +236,21 @@
 
         <div>
           <div class="section-box">
-            <span>{{ language('JIARUYUANYINA', '加入原因') }}
-              <span style="color:red">*</span></span>
+            <span
+              >{{ language('JIARUYUANYINA', '加入原因') }}
+              <span style="color: red">*</span></span
+            >
           </div>
           <div>
-            <iInput :placeholder="
+            <iInput
+              :placeholder="
                 language('QINGSHURUCHULIXIANGQING', '请输入处理详情…')
               "
-                    type="textarea"
-                    maxlength="200"
-                    show-word-limit
-                    v-model="form.reason"></iInput>
+              type="textarea"
+              maxlength="200"
+              show-word-limit
+              v-model="form.reason"
+            ></iInput>
           </div>
         </div>
         <div class="footer">
@@ -218,7 +282,7 @@ import {
   categoryList,
   liniePurchaseList,
   getBuyerType,
-//   prePurchaseDeptList,
+  //   prePurchaseDeptList,
   liniePurchaseDeptList
 } from '@/api/supplier360/blackList'
 export default {
@@ -247,6 +311,7 @@ export default {
         purchaserId: '',
         liniePurchaserId: ''
       },
+      categoryLength: 0,
       selectDate: '',
       prePurchaseDeptArr: [],
       liniePurchaseDeptArr: [],
@@ -272,7 +337,7 @@ export default {
           }
         },
         disabledDate(time) {
-            return time.getTime() < Date.now() - 8.64e7
+          return time.getTime() < Date.now() - 8.64e7
         }
       },
       rules: {
@@ -338,11 +403,19 @@ export default {
   beforeCreate() {
     // that = this
   },
+  watch: {
+    categoryLength(val) {
+      console.log(val)
+      //   if(val.length==0){
+      //       this.stuffByArr=[]
+      //   }
+    }
+  },
 
   created() {
     let pramas = {}
     this.$nextTick(() => {
-      getBuyerType(pramas).then((res) => {
+      getBuyerType(pramas).then(res => {
         if (res && res.code == 200) {
           this.userType = res.data
           if (res.data == 'LINIE') {
@@ -364,7 +437,7 @@ export default {
           this.form.purchaserId = ''
           //科室名称
           this.form.deptName = this.prePurchaseDeptArr.find(
-            (res) => res.deptId == type
+            res => res.deptId == type
           ).deptName
           this.getprePurchase()
           break
@@ -372,20 +445,20 @@ export default {
           this.form.liniePurchaserId = ''
           //linie科室名称
           this.form.linieDeptName = this.liniePurchaseDeptArr.find(
-            (res) => res.linieDeptId == type
+            res => res.linieDeptId == type
           ).linieDeptName
           this.getliniePurchase()
           break
         case 'cgy':
           //采购员名称
           this.form.purchaserName = this.prePurchaseArr.find(
-            (res) => res.purchaserId == type
+            res => res.purchaserId == type
           ).purchaserName
           break
         case 'liniecgy':
           //linie采购员名称
           this.form.liniePurchaserName = this.liniePurchaseArr.find(
-            (res) => res.liniePurchaserId == type
+            res => res.liniePurchaserId == type
           ).liniePurchaserName
           break
         default:
@@ -407,7 +480,7 @@ export default {
     getliniePurchaseDept() {
       liniePurchaseDeptList({
         supplierId: this.clickTableList.subSupplierId
-      }).then((res) => {
+      }).then(res => {
         if (res && res.code == 200) {
           this.liniePurchaseDeptArr = res.data
         }
@@ -418,7 +491,7 @@ export default {
       prePurchaseList({
         supplierId: this.clickTableList.subSupplierId
         // purchaserDeptId: this.form.preDeptId
-      }).then((res) => {
+      }).then(res => {
         if (res && res.code == 200) {
           this.prePurchaseArr = res.data
           if (this.prePurchaseArr.length != 0) {
@@ -427,7 +500,7 @@ export default {
             this.form.preDeptId = this.prePurchaseArr[0].deptId
             this.form.deptName = this.prePurchaseArr[0].deptName
           }
-          this.prePurchaseArr.forEach((res) => {
+          this.prePurchaseArr.forEach(res => {
             this.prePurchaseDeptArr.push({
               deptId: res.deptId,
               deptName: res.deptName
@@ -441,7 +514,7 @@ export default {
       liniePurchaseList({
         supplierId: this.clickTableList.subSupplierId,
         purchaserDeptId: this.form.linieDeptId
-      }).then((res) => {
+      }).then(res => {
         if (res && res.code == 200) {
           this.liniePurchaseArr = res.data
         }
@@ -453,10 +526,14 @@ export default {
         listStuffByCategory({
           supplierId: this.clickTableList.subSupplierId,
           categoryCodes: this.form.categoryCodes
-        }).then((res) => {
+        }).then(res => {
           if (res && res.code == 200) {
             this.stuffByArr = res.data
+            this.categoryLength = this.form.categoryCodes.length
             this.form.ppStuffSaveDTOList = res.data
+            // .map(res => {
+            //   return res.stuffCode
+            // })
           }
         })
       }
@@ -464,20 +541,23 @@ export default {
     //材料组
     getLinieList() {
       categoryList({ supplierId: this.clickTableList.subSupplierId }).then(
-        (res) => {
+        res => {
           if (res && res.code == 200) {
             this.categoryArr = res.data
-            this.form.categoryCodes = res.data.map((res) => {
+            this.form.categoryCodes = res.data.map(res => {
               return res.categoryCode
             })
+
             this.getStuffByList()
           }
         }
       )
     },
     getStuffFitel() {
+      console.log(this.stuffByArr)
       this.form.ppStuffSaveDTOList = []
-      this.stuffByArr = []
+      this.$set(this.stuffByArr, [])
+      //   this.stuffByArr = []
       this.getStuffByList()
     },
     //提交
@@ -494,7 +574,7 @@ export default {
           message: this.language('QINGSHURUBITIANXIANG', '请输入必填项')
         })
       } else {
-        this.$refs['form'].validate((valid) => {
+        this.$refs['form'].validate(valid => {
           if (valid) {
             this.value = false
             iMessageBox(
@@ -511,10 +591,12 @@ export default {
               .then(async () => {
                 params.daterange = undefined
                 params.categoryCodes = undefined
-                // this.form.ppStuffSaveDTOList.forEach(v=>{
-                //    v=this.stuffByArr.find(i=>{return v==i.stuffCode}) 
+                // this.form.ppStuffSaveDTOList.forEach((v) => {
+                //   v = this.stuffByArr.find((i) => {
+                //     return v == i.stuffCode
+                //   })
                 // })
-                ppSupplerBlackSave(params).then((res) => {
+                ppSupplerBlackSave(params).then(res => {
                   if (res && res.code == 200) {
                     // this.$emit('closeDiolog',1)
                     iMessage.success(res.desZh)
@@ -542,7 +624,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.box {
+.box{
+::v-deep.el-select__tags-text {
+  display: inline-block;
+  max-width: 140px;
+  vertical-align: middle;
+  overflow: hidden;
+//   align-items: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+}
+
+.headerTitle {
+  font-size: 20px;
+  font-family: Arial;
+  font-weight: bold;
+  color: #000000;
 }
 .footer {
   display: flex;

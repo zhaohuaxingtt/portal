@@ -10,7 +10,7 @@
     </div>
 
     <!-- v-permission="SUPPLIER_CHANGEHISTORY_TABLE" -->
-    <el-table :data="tableListData"
+    <el-table :data="tableListData.procureFactoryList"
               v-loading="tableLoading"
               @selection-change="handleSelectionChange"
               ref="mulitipleTable">
@@ -103,37 +103,44 @@ export default {
         this.tableListData = res.data ? res.data : []
 
         this.tableLoading = false
-        this.$nextTick(() => {
-          this.tableListData.forEach((e) => {
-            this.$refs.mulitipleTable.toggleRowSelection(e, true)
+        if (this.tableListData.isSelect) {
+          this.$nextTick(() => {
+            this.tableListData.procureFactoryList.forEach((e) => {
+              this.$refs.mulitipleTable.toggleRowSelection(e, true)
+            })
           })
-        })
+        }
       } catch {
         this.tableLoading = false
       }
     },
     subBtn() {
-      //   let text = ''
+      let text = ''
+      if (this.tableListData.isSelect) {
+        text = this.language(
+          'TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUDANGGONGYINGSHANGZHUANZHENG',
+          '提交供货公司信息更改后，当供应商转正批准后将立即同步SAP，不得撤销。'
+        )
+      } else {
+        text = this.language(
+          'TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUSHUJULIJITONGBUSAO',
+          '提交供货公司信息更改后，数据将立即同步SAP，不得撤销。'
+        )
+      }
       if (this.selectTableData.length == 0) {
         this.$message({
           type: 'warning',
           message: this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU')
         })
       } else
-        iMessageBox(
-          this.language('SHIFOUQUERENTIJIAO?', '是否确认提交'),
-          this.language('TIJIAO', '提交'),
-          {
-            confirmButtonText: this.language('SHI', '是'),
-            cancelButtonText: this.language('FOU', '否')
-          }
-        ).then(async () => {
+        iMessageBox(text, this.language('TIJIAO', '提交'), {
+          confirmButtonText: this.language('SHI', '是'),
+          cancelButtonText: this.language('FOU', '否')
+        }).then(async () => {
           const req = {
             procureFactoryList: this.selectTableData,
             supplierToken: this.$route.query.supplierToken
           }
-          //  this.language('TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUDANGGONGYINGSHANGZHUANZHENG?', '提交供货公司信息更改后，当供应商转正批准后将立即同步SAP，不得撤销。')
-          //   this.language('TIJIAOGONGHUOGONGSIXINXIGENGGAIHOUSHUJULIJITONGBUSAO?', '提交供货公司信息更改后，数据将立即同步SAP，不得撤销。')
           saveSupplierProcureFactory(req).then((res) => {
             if (res && res.code == 200) {
               this.getTableList()

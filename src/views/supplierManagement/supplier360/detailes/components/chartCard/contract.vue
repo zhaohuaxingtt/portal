@@ -1,42 +1,41 @@
 <template>
   <iCard style="height:20rem">
     <div class="title">
-      <p>{{language('HETONGDINGDAN', '合同订单')}}</p>
-
+      <p>{{ language('HETONGDINGDAN', '合同订单') }}</p>
     </div>
     <div class="center">
-      <div class=" chartStyleBox chartStyle">
+      <div v-loading="loading1"
+           class=" chartStyleBox chartStyle">
         <div ref="chart1"
-             class="chartStyle1">
-
-        </div>
+             class="chartStyle1"></div>
         <div class="chartText ">
-          <p v-if="chooseEquipment.data!=''">{{chooseEquipment.data}}%</p>
-          <p>{{chooseEquipment.value}}</p>
+          <p v-if="chooseEquipment.data != ''">
+            {{ chooseEquipment.data||'' }}%
+          </p>
+          <p>{{ chooseEquipment.value||'' }}</p>
         </div>
       </div>
-      <icon class="alert"
-            symbol
-            name="icona-zhankailan"></icon>
+      <img :src="img"
+           class="imgIcon" />
 
-      <div ref="chart2"
-           class="chartStyle2"> </div>
-
+      <div v-loading="loading2"
+           ref="chart2"
+           class="chartStyle2"></div>
     </div>
   </iCard>
 </template>
 <script>
 import echarts from '@/utils/echarts'
-import { iCard, icon } from 'rise'
+import { iCard } from 'rise'
 import {
   getCatogeryCollect,
   getCatogeryCollectYear
 } from '@/api/supplierManagement/supplierCard/index'
+import img from '@/assets/images/contract.svg'
 export default {
   props: {},
   components: {
-    iCard,
-    icon
+    iCard
   },
   data() {
     return {
@@ -48,7 +47,10 @@ export default {
         value: ''
       },
       infoBar: [],
-      ifBarchart:false
+      img: img,
+      ifBarchart: false,
+      loading1: false,
+      loading2: false
     }
   },
   computed: {
@@ -63,17 +65,29 @@ export default {
   created() {},
   methods: {
     getData() {
+      this.loading1 = true
+      this.loading2 = true
       getCatogeryCollect(this.$route.query.subSupplierId).then((res) => {
-        this.info = res.data
-        this.getLeftChart()
+        if (res && res.code == 200) {
+          this.loading1 = false
+          this.info = res.data
+          if (this.info.length > 0) {
+            this.getLeftChart()
+          }
+        } else this.loading1 = false
       })
       let req = {
         catogeryCode: '',
         tmSupplierId: this.$route.query.subSupplierId
       }
       getCatogeryCollectYear(req).then((res) => {
-        this.infoBar = res.data
-        this.getRightChart()
+        if (res && res.code == 200) {
+          this.loading2 = false
+          this.infoBar = res.data
+          if (this.infoBar.length > 0) {
+            this.getRightChart()
+          }
+        } else this.loading2 = false
       })
     },
     getLeftChart() {
@@ -98,7 +112,18 @@ export default {
           right: '10%'
         },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
+          formatter: function (data) {
+            console.log(data)
+            return (
+              data.seriesName +
+              '  ' +
+              data.marker +
+              data.name +
+              '<br>' +
+              data.value / 1000000
+            )
+          }
         },
         legend: {
           type: 'scroll',
@@ -117,7 +142,12 @@ export default {
             for (var i = 0; i < data1.length; i++) {
               total += data1[i].value
             }
-            percent = ((obj.value / total) * 100).toFixed(0)
+            percent = (obj.value / total) * 100
+            if (percent.length > 2) {
+              percent = percent.substr(0, 2) + '...'
+            } else {
+              percent
+            }
             if (obj.name !== '') {
               return obj.name + '\n' + percent + '%'
             } else {
@@ -145,13 +175,12 @@ export default {
       }
       myChart.setOption(this.option1)
       myChart.on('click', (params) => {
-          this.ifBarchart=!this.ifBarchart
-          if(this.ifBarchart){
-        this.getRightChart(params.name)
-          }else{
-              this.getRightChart()
-          }
-
+        this.ifBarchart = !this.ifBarchart
+        if (this.ifBarchart) {
+          this.getRightChart(params.name)
+        } else {
+          this.getRightChart()
+        }
       })
       myChart.on('mouseover', function (params) {
         /*添加鼠标事件*/ obj.chooseEquipment.value = params.value
@@ -178,7 +207,7 @@ export default {
         }
         //对应插入属性值
         newDataBar[e.catogeryCode].push(e)
-        //新建属性名
+        //新建属性名按年份累计
         if (Object.keys(newDataSum).indexOf('' + e.year) === -1) {
           newDataSum[e.year] = []
         }
@@ -189,7 +218,7 @@ export default {
       //循环生成每一年分累计得总值
       for (var i in newDataSum) {
         total = 0
-        newDataSum[i].forEach((res, j) => {
+        newDataSum[i].forEach((res) => {
           if (i == res.year) {
             total += Math.abs(parseInt(res.receiveAmount))
           }
@@ -259,21 +288,21 @@ export default {
           trigger: 'axis',
           textStyle: {
             align: 'left'
-          },
-        //   formatter: function (params) {
-        //    let str = ''
-        //     params.forEach((item, idx) => {
-        //         // console.log(item)
-        //       item.data = Math.abs(item.data)
-        //       if (idx == 2) {
-        //         item.data = item.data - params[0].data
-        //       }
-        //       str += `${item.marker}\n${item.name}<br/> ${item.marker}\n${item.data}`
-           
-        //       str += idx === params.length - 1 ? '' : '<br/>'
-        //     })
-        //     return str
-        //   }
+          }
+          //   formatter: function (params) {
+          //    let str = ''
+          //     params.forEach((item, idx) => {
+          //         // console.log(item)
+          //       item.data = Math.abs(item.data)
+          //       if (idx == 2) {
+          //         item.data = item.data - params[0].data
+          //       }
+          //       str += `${item.marker}\n${item.name}<br/> ${item.marker}\n${item.data}`
+
+          //       str += idx === params.length - 1 ? '' : '<br/>'
+          //     })
+          //     return str
+          //   }
         },
         grid: {
           top: '18%',
@@ -382,6 +411,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.imgIcon {
+  width: 60px;
+  height: 50px;
+}
 .title {
   display: flex;
   justify-content: space-between;

@@ -56,8 +56,9 @@ export default {
         this.perData.push(lindData[i].supplyRatePerson)
         this.month.push(lindData[i].month.split('.')[0] + '月')
       }
-      this.rate.personal = lindData_2[0].person
-      this.rate.CS = lindData_2[1].cs
+      this.rate.personal =
+        lindData_2 && lindData_2.length && lindData_2[0].person
+      this.rate.CS = lindData_2 && lindData_2.length > 1 && lindData_2[1].cs
       this.initLine()
     }
   },
@@ -68,7 +69,7 @@ export default {
       const option = {
         tooltip: {
           trigger: 'axis',
-          formatter: data => {
+          formatter: (data) => {
             data.sort((a, b) => a.value - b.value)
             return `<div class="tooltip_fs">${data[0].value}%</div>`
           }

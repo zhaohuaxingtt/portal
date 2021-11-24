@@ -41,7 +41,16 @@ export const tableSetting = [
     label: '性别',
     align: 'center',
     i18n: 'staffManagement.SEX',
-    tooltip: true
+    tooltip: true,
+    customRender: (h, scope) => {
+      if (scope.row.gender === '1') {
+        return '男'
+      }
+      if (scope.row.gender === '2') {
+        return '女'
+      }
+      return scope.row.gender
+    }
   },
   {
     prop: 'deptList',
@@ -109,7 +118,16 @@ export const exportTableSetting = [
   },
   {
     props: 'gender',
-    name: '性别'
+    name: '性别',
+    customRender: (h, scope) => {
+      if (scope.row.gender === '1') {
+        return '男'
+      }
+      if (scope.row.gender === '2') {
+        return '女'
+      }
+      return scope.row.gender
+    }
   },
   {
     props: 'deptList',

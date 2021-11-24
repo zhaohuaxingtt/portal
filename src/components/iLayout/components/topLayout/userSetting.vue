@@ -1,23 +1,23 @@
 <template>
   <el-popover
-    placement="bottom"
-    trigger="click"
-    :popper-class="'setting-popover'"
-    @show="handleShow"
-    @hide="handleHide"
+      placement="bottom"
+      trigger="click"
+      :popper-class="'setting-popover'"
+      @show="handleShow"
+      @hide="handleHide"
   >
     <div class="admin-menus">
       <div class="title flex-align-center">
-        <icon symbol class="icon" name="iconSetting" />
+        <icon symbol class="icon" name="iconSetting"/>
         <!-- <span class="margin-left10">{{ $t('topLayout.setting.personal') | capitalizeFilter }}</span> -->
         <span class="margin-left10">个人设置</span>
       </div>
       <div>
         <div
-          v-for="(menu, index) in menus_genaral"
-          :key="index"
-          @click="handleProfileClick(menu)"
-          :class="{
+            v-for="(menu, index) in menus_genaral"
+            :key="index"
+            @click="handleProfileClick(menu)"
+            :class="{
             'flex-between-center-center': true,
             menu: true,
             active: $route.path === menu.url,
@@ -29,31 +29,38 @@
       </div>
       <div v-if="menus_admin.length">
         <div class="title flex-align-center">
-          <icon symbol class="icon" name="iconguanliyuanshezhi" />
+          <icon symbol class="icon" name="iconguanliyuanshezhi"/>
           <!-- <span class="margin-left10">{{ $t('topLayout.setting.admin') | capitalizeFilter }}</span> -->
           <span class="margin-left10">管理端</span>
         </div>
         <div>
           <div
-            v-for="(menu, index) in menus_admin"
-            :key="index"
-            @click="handleRedirect(menu)"
-            :class="{
+              v-for="(menu, index) in menus_admin"
+              :key="index"
+              @click="handleRedirect(menu)"
+              :class="{
               'flex-between-center-center': true,
               menu: true,
-              active: checkActive(menu),
+              active:
+                activeMenu &&
+                activeMenu.length > 1 &&
+                activeMenu[1] === menu.permissionKey,
               disabled: !menu.url
             }"
+              :url="menu.url"
           >
             <span>{{ menu.title }}</span>
           </div>
         </div>
       </div>
     </div>
-    <div :class="['user', { active: active }]" slot="reference">
+    <div
+        :class="['user', { active: active || usernameActive }]"
+        slot="reference"
+    >
       <el-avatar
-        class="icon"
-        src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3729239676,1542549068&fm=26&gp=0.jpg"
+          class="icon"
+          src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3729239676,1542549068&fm=26&gp=0.jpg"
       ></el-avatar>
       <div class="info">
         <p class="name">{{ userInfo.nameZh || 'admin' }}</p>
@@ -64,9 +71,10 @@
 </template>
 
 <script>
-import { icon, iMessage } from 'rise'
+import {icon, iMessage} from 'rise'
 import filters from '@/utils/filters'
-import { removeToken } from '@/utils/index.js'
+import {removeToken} from '@/utils/index.js'
+
 export default {
   mixins: [filters],
   props: {
@@ -77,6 +85,12 @@ export default {
       }
     },
     menus: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
+    activeMenu: {
       type: Array,
       default: function () {
         return []
@@ -92,6 +106,13 @@ export default {
         return ''
       }
       return this.userInfo?.deptDTO?.nameZh || ''
+    },
+    usernameActive() {
+      return (
+          this.activeMenu &&
+          this.activeMenu.length &&
+          this.activeMenu[0] === 'RISE_ADMIN'
+      )
     }
   },
   data() {
@@ -116,14 +137,6 @@ export default {
     }
   },
   methods: {
-    checkActive(menu) {
-      const matched = this.$route.matched
-      for (let key in matched) {
-        if (matched[key].path && menu.url.includes(matched[key].path)) {
-          return true
-        }
-      }
-    },
     handleShow() {
       this.active = true
       this.menus_admin = this.menus
@@ -134,8 +147,7 @@ export default {
     //模拟退出登录方法
     logout() {
       removeToken()
-      window.location.href = '/login'
-      window.location.reload()
+      window.location.href = process.env.VUE_APP_LOGOUT_URL;
     },
     handleProfileClick(menu) {
       if (menu.name === 'logout') {
@@ -147,15 +159,16 @@ export default {
     handleRedirect(menu) {
       if (!menu.url) {
         iMessage.success('coming soon')
-      } else if (
-        menu?.url.indexOf('http') !== -1 ||
-        menu?.url.indexOf('https') !== -1
-      ) {
-        menu.target === '_blank'
-          ? window.open(menu.url)
-          : (location.href = menu.url)
+      } else if (menu?.url.indexOf('http') !== -1) {
+        if (menu.target !== '_blank') {
+          this.$emit('click-menu')
+          location.href = menu.url
+        } else {
+          window.open(menu.url)
+        }
       } else {
         if (this.$route.path !== menu.url) {
+          this.$emit('click-menu')
           this.$router.push(menu.url)
         }
       }
@@ -171,9 +184,11 @@ export default {
   display: flex;
   align-items: center;
   cursor: pointer;
+
   &.active {
     border-bottom: 3px solid #1763f7;
   }
+
   .icon {
     width: 44px;
     height: 44px;
@@ -207,9 +222,11 @@ export default {
   &.setting-popover {
     width: 330px;
     padding: 0px;
+
     .admin-menus {
       max-height: calc(100vh - 80px);
       overflow-y: auto;
+
       > div {
         &:last-child {
           > .menu {
@@ -219,26 +236,31 @@ export default {
           }
         }
       }
+
       .title {
         font-weight: bold;
         color: #5f6f8f;
         font-size: 16px;
         padding: 15px 0 15px 20px;
       }
+
       > .title:first-child {
         padding-top: 30px;
       }
+
       .menu {
         cursor: pointer;
         color: #707070;
         padding: 15px 0 15px 50px;
         font-size: 14px;
+
         &:hover,
         &.active {
           border-left: 3px solid #1660f1;
           font-weight: bold;
           background: rgba(22, 96, 241, 0.08);
         }
+
         &.disabled {
           pointer-events: none;
           cursor: not-allowed;

@@ -1,7 +1,7 @@
 import axios from '@/utils/axios'
 import { deleteString } from '@/utils/utils'
 const requst = axios(process.env.VUE_APP_MEETING)
-const requstDict = axios(process.env.VUE_APP_BASE_INFO);
+const requstDict = axios(process.env.VUE_APP_BASE_INFO)
 
 // 获取会议列表
 export function getMettingList(data) {
@@ -158,6 +158,15 @@ export function importThemen(data) {
 export function closeMeeting(data) {
   return requst({
     url: `/meetingService/closeMeeting`,
+    method: 'POST',
+    data: deleteString(data)
+  })
+}
+
+//撤回会议
+export function batchRecallMeeting(data) {
+  return requst({
+    url: `/meetingService/batchRecallMeeting`,
     method: 'POST',
     data: deleteString(data)
   })

@@ -10,15 +10,14 @@
             >
             <iFormItem prop="assemblyPartnum">
                 <iLabel :label="language('LINGJIANHAO','零件号')" slot="label" :required="true"></iLabel>
-                <iSelect v-model="contractForm.assemblyPartnum"
-                   clearable
-                   value-key="code"
-                   :placeholder="language('QINGXUANZE','请选择')">
-                    <el-option v-for="item in assemblyPartnum"
-                            :key="item.code"
-                            :value="item.code"
-                            :label="item.message"></el-option>
-                </iSelect>
+                <iInput
+                    v-model="contractForm.assemblyPartnum"
+                    type="text"
+                    @focus="partChange"
+                    :placeholder="language('QINGXUANZE','请选择')"
+                    :disabled="disabled"
+                    >
+                </iInput>
             </iFormItem>
             <iFormItem prop="ruleNo">
                 <iLabel :label="language('GUIZEBIANHAO','规则编号')" slot="label" :required="true"></iLabel>
@@ -278,10 +277,21 @@
             <i-button @click="handleReset">重置</i-button>
             <i-button @click="handleCancel">取消</i-button>
         </span>
+
+        
+        <iDialog :title="language('XUANZELINGJIANHAO', '选择零件号')"
+             :visible.sync="partType"
+             append-to-body
+             v-if="partType"
+             width="85%"
+             @close='closeDiolog'>
+            <partNumber @close="saveClose"></partNumber>
+        </iDialog>
     </div>
 </template>
 
 <script>
+import partNumber from "./partNumber";
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
   getMtzSupplierList,//获取原材料牌号
@@ -300,6 +310,7 @@ import {
   iLabel,
   iSelect,
   iDatePicker,
+  iDialog,
 } from 'rise'
 import inputCustom from '@/components/inputCustom'
 export default {components: {
@@ -312,7 +323,9 @@ export default {components: {
     iLabel,
     iSelect,
     inputCustom,
-    iDatePicker
+    iDatePicker,
+    iDialog,
+    partNumber
   },
   props: {
     show: {
@@ -327,11 +340,9 @@ export default {components: {
   },
   data() {
     return {
-        assemblyPartnum:[//零件号
-            
-        ],
         supplierList:[],//供应商编号
         contractForm: {
+            assemblyPartnum:"",
         },
         rules: {
             assemblyPartnum:[{ required: true, message: '请选择', trigger: 'blur' }],
@@ -359,6 +370,7 @@ export default {components: {
             }
         ],
         materialCode:[],
+        partType:false,
     }
   },
   created(){
@@ -387,12 +399,24 @@ export default {components: {
     }
   },
   methods: {
+      partChange(){
+          this.partType = true;
+      },
+    saveClose(val){
+        this.closeDiolog();
+        if(val){
+            this.contractForm.assemblyPartnum = val;
+        }
+    },
+    closeDiolog(){
+        this.partType = false;
+    },
     choiseGZ(val){
         try{
             this.ruleNo.forEach(e => {
                 if(e.id == val){
                     e.id = "";
-                    this.contractForm.sapCode = e.sapCode.toString();
+                    this.contractForm.sapCode = e.supplierId.toString();
                     this.contractForm.priceSource = e.source;
                     this.contractForm = Object.assign({...this.contractForm},e);
                     throw new Error("EndIterative");
@@ -410,7 +434,12 @@ export default {components: {
                     ttMtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
                 }).then(res=>{
                     console.log(res);
-                    this.$emit("close","fresh")
+                    if(res.code == 200){
+                        iMessage.success(this.language(res.desEn,res.desZh))
+                        this.$emit("close","fresh")
+                    }else{
+                        iMessage.error(this.language(res.desEn,res.desZh))
+                    }
                 })
                 console.log("验证成功")
             } else {

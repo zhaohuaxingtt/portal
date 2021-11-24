@@ -42,6 +42,9 @@
                             <div v-text="scope.row.partName"></div>
                             <div v-text="scope.row.partNameDe"></div>
                         </div>
+                        <div v-else-if="items.props == 'isConfirm'">
+                            <div v-text="scope.row.isConfirm == 0 ?'待确认':scope.row.isConfirm == 1 ? '已确认' :''"></div>
+                        </div>
                         <div v-else-if="items.props=='spMaterialGroup'">
                             <div v-text="scope.row.spMaterialGroup"></div>
                             <div v-text="scope.row.spMaterialGroupDe"></div>

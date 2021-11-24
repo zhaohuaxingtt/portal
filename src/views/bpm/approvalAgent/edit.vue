@@ -233,7 +233,7 @@ export default {
         type: this.agentType
       }
       this.tableLoading = true
-      queryTemplates(data).then(res => {
+      queryTemplates(data).then((res) => {
         const { data } = res.data
         this.approvalTodos = data
       })
@@ -256,14 +256,13 @@ export default {
     },
     handleTaskIdChange(taskId, row) {
       const approvalTodoItem = this.approvalTodos.filter(
-        e => e.taskId === taskId
+        (e) => e.taskId === taskId
       )
       if (approvalTodoItem && approvalTodoItem.length > 0) {
         row.processId = approvalTodoItem[0].instanceId
       }
     },
     save() {
-      this.loading = false
       const submitData = {
         ...this.form,
         startTime: this.form.startTime.includes('00:00:00')
@@ -273,13 +272,22 @@ export default {
           ? this.form.endTime
           : this.form.endTime + ' 23:59:59'
       }
-
-      updateAgent(submitData).then(res => {
-        if (res.result) {
-          iMessage.success(this.$t('APPROVAL.SAVE_SUCCESSFUL'))
-          this.$router.go(-1)
-        }
-      })
+      this.loading = true
+      updateAgent(submitData)
+        .then((res) => {
+          if (res.result) {
+            iMessage.success(this.$t('APPROVAL.SAVE_SUCCESSFUL'))
+            this.$router.go(-1)
+          } else {
+            iMessage.error(res.desZh || '保存失败')
+          }
+        })
+        .catch((err) => {
+          iMessage.error(err.desZh || '保存失败')
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }

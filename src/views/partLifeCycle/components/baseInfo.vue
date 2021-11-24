@@ -1,8 +1,9 @@
 <template>
   <iCard class="baseInfo" v-loading="pageLoading">
+
     <div class="head">
       <div class="title">基础信息</div>
-      <div class="h-lables">
+      <div class="h-lables" v-if="pageData">
         <div class="lable" v-if="~~pageData.isMtz === 1">MTZ</div>
         <div class="lable" v-if="~~pageData.isAccessoriesParameter === 1">Spare</div>
         <div class="lable" v-if="~~pageData.isDb === 1">DB</div>
@@ -22,13 +23,13 @@
       <div class="line1">
         <div class="title">材料组：</div>
         <div class="content-box">
-          {{pageData.categoryName}}
+          {{pageData&&pageData.categoryName}}
         </div>
       </div>
       <div class="line1">
         <div class="title">科室：</div>
         <div class="content-box">
-          {{pageData.deptName}}
+          {{pageData&&pageData.deptName}}
         </div>
       </div>
     </div>
@@ -36,7 +37,7 @@
     <div class="line1">
       <div class="title">采购工厂：</div>
       <div class="content-box">
-        {{pageData.factoryName}}
+        {{pageData&&pageData.factoryName}}
       </div>
     </div>
 
@@ -44,13 +45,13 @@
       <div class="line1">
         <div class="title">前期采购：</div>
         <div class="content-box">
-          {{pageData.earlyLinie}}
+          {{pageData&&pageData.earlyLinie}}
         </div>
       </div>
       <div class="line1">
         <div class="title">Linie：</div>
         <div class="content-box">
-          {{pageData.linie}}
+          {{pageData&&pageData.linie}}
         </div>
       </div>
     </div>
@@ -60,13 +61,13 @@
         <div class="line1">
           <div class="title">配件前期：</div>
           <div class="content-box">
-            {{pageData.earlyEmployee}}
+            {{pageData&&pageData.earlyEmployee}}
           </div>
         </div>
         <div class="line1">
           <div class="title">质保：</div>
           <div class="content-box">
-            {{pageData.qualityEmployee}}
+            {{pageData&&pageData.qualityEmployee}}
           </div>
         </div>
       </div>
@@ -74,13 +75,13 @@
         <div class="line1">
           <div class="title">EP：</div>
           <div class="content-box">
-            {{pageData.epEmployee}}
+            {{pageData&&pageData.epEmployee}}
           </div>
         </div>
         <div class="line1">
           <div class="title">EP售后：</div>
           <div class="content-box">
-            {{pageData.epSalesEmployee}}
+            {{pageData&&pageData.epSalesEmployee}}
           </div>
         </div>
       </div>
@@ -88,13 +89,13 @@
         <div class="line1">
           <div class="title">批量物流：</div>
           <div class="content-box">
-            {{pageData.batchEmployee}}
+            {{pageData&&pageData.batchEmployee}}
           </div>
         </div>
         <div class="line1">
           <div class="title">配件物流：</div>
           <div class="content-box">
-            {{pageData.accessoriesEmployee}}
+            {{pageData&&pageData.accessoriesEmployee}}
           </div>
         </div>
       </div>
@@ -102,27 +103,27 @@
         <div class="line1">
           <div class="title">RISE合同号：</div>
           <div class="content-box">
-            {{pageData.contractCode}}
+            {{pageData&&pageData.contractCode}}
           </div>
         </div>
         <div class="line1">
           <div class="title">截至日期：</div>
           <div class="content-box">
-            {{pageData.endDate}}
+            {{pageData&&pageData.endDate}}
           </div>
         </div>
       </div>
       <div class="line1">
         <div class="line1">
           <div class="title">SAP合同号：</div>
-          <div class="content-box link" @click="jumpOrderDetails(pageData.contractSapCode)">
-            {{pageData.contractSapCode}}
+          <div class="content-box link" @click="jumpOrderDetails(pageData&&pageData.contractSapCode)">
+            {{pageData&&pageData.contractSapCode}}
           </div>
         </div>
         <div class="line1">
           <div class="title">模具合同号：</div>
-          <div class="content-box link" @click="jumpContract(pageData.contractMouldCode)">
-            {{pageData.contractMouldCode}}
+          <div class="content-box link" @click="jumpContract(pageData&&pageData.contractMouldCode)">
+            {{pageData&&pageData.contractMouldCode}}
           </div>
         </div>
       </div>
@@ -131,14 +132,14 @@
     <div class="line1">
       <div class="title">品牌：</div>
       <div class="content-box">
-        {{pageData.someBrand}}
+        {{pageData&&pageData.someBrand}}
       </div>
     </div>
 
     <div class="line1">
       <div class="title">车型：</div>
       <div class="content-box">
-        {{pageData.someCartype}}
+        {{pageData&&pageData.someCartype}}
       </div>
     </div>
 
@@ -146,20 +147,20 @@
       <div class="line1">
         <div class="title">曾用车型：</div>
         <div class="content-box oldLink">
-          {{pageData.someUsedCartype}}
+          {{pageData&&pageData.someUsedCartype}}
         </div>
       </div>
       <div class="line1">
         <div class="line1">
           <div class="title">零件重量：</div>
           <div class="content-box">
-            {{pageData.partsWeight}}
+            {{pageData&&pageData.partsWeight}}
           </div>
         </div>
         <div class="line1">
           <div class="title">零件长：</div>
           <div class="content-box">
-            {{pageData.length}}
+            {{pageData&&pageData.length}}
           </div>
         </div>
       </div>
@@ -167,13 +168,13 @@
         <div class="line1">
           <div class="title">零件宽：</div>
           <div class="content-box">
-            {{pageData.wide}}
+            {{pageData&&pageData.wide}}
           </div>
         </div>
         <div class="line1">
           <div class="title">零件高：</div>
           <div class="content-box">
-            {{pageData.high}}
+            {{pageData&&pageData.high}}
           </div>
         </div>
       </div>
@@ -184,7 +185,7 @@
 </template>
 
 <script>
-import { iCard, iSearch, icon } from 'rise';
+import { iCard, iSearch, icon, iMessage } from 'rise';
 import { findPartsInfo, getLatestOrderId } from '@/api/partLifeCycle';
 export default {
   name: 'baseInfo',
@@ -196,7 +197,7 @@ export default {
     return {
       isOpen: false,
       pageLoading: false,
-      pageData: {},
+      pageData: null,
       partsNum: ''
     }
   },
@@ -208,17 +209,49 @@ export default {
 
   methods: {
 
+    handleJumpData(data){
+      let path = '';
+      const { id, isOrder, type } = data;
+      if(+type === 55){ //  批量
+        path = `ws2/createbatchframework?frameItemTye=${type}&type=1&scheduleAgreementId=${id}`;
+      }else if(type === 'steel'){ //  钢材
+        if(isOrder){  //  钢材订单
+          path = `ws2/steel/components/order/SteelOrderDetailsPage/1/${id}`;
+        }else{  //  钢材框架
+          path = `ws2/steel/components/frame/SteelFrameDetailsPage/1/${id}`;
+        }
+      }else if(type === 'db'){  //  db框架
+        path = `ws2/dbframework/create?isSelf=1&frameItemTye=${type}&type=1&scheduleAgreementId=${id}`;
+      }else if(+type === 411){  //  工序委外
+        path = `ws2/order/Outsourcing/details/OutsourcingOrderDetails/1/${id}`;
+      }else if(+type === 42){ //  模具订单
+        path = `ws2/modeler/details/ModelOrderDetailsPage/1/${id}`;
+      }else{
+        return iMessage.error('返回数据错误')
+      }
+
+      window.open(window.location.origin + `/order/index.html#/${path}`, '_blank');
+    },
+
     jumpOrderDetails(code){
       getLatestOrderId({
-        contractCode: code
+        contractCode: '',
+        // contractSapCode: '5500060048'
+        contractSapCode: code,
       }).then(res => {
-        console.log('213123123123', res);
+        this.handleJumpData(res.data);
       })
     },
 
     //  跳转合同号
-    jumpContract(contractNumber){
-      window.open(window.location.origin + `/order/#/ws2/createbatchframework?contractNumber=${contractNumber}`, '_blank');
+    jumpContract(code){
+      getLatestOrderId({
+        contractCode: code,
+        contractSapCode: ''
+        // contractSapCode: code,
+      }).then(res => {
+        this.handleJumpData(res.data);
+      })
     },
 
     findPartsInfo(){
@@ -227,7 +260,8 @@ export default {
         partsNum: this.partsNum
       }).then(res => {
         this.pageData = res.data;
-        this.$emit('getHeaderTitle', `${this.partsNum}-${this.pageData.partsNumNameZh} ${this.pageData.partsNumNameDe}`)
+        console.log(this.pageData,'PAGEDATA')
+        this.$emit('getHeaderTitle', `${this.partsNum}-${this.pageData.partsNumNameZh} ${this.pageData.partsNumNameDe||''}`)
         this.pageLoading = false;
       }).catch(() => {
         this.pageLoading = false;

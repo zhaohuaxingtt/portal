@@ -85,8 +85,8 @@ export function getRelationParts(params) {
 export function getDepartmentsCombo(params) {
   return VUE_APP_RELATIONPARTS({
     url: '/getDepartmentsCombo',
-    method: 'GET',
-    params
+    method: 'POST',
+    data: params,
   })
 }
 
@@ -157,8 +157,8 @@ export function getAekoPullDown(params) {
 export function getDepartmentPullDown(params) {
   return VUE_APP_PARTSCARD({
     url: '/getDepartmentPullDown',
-    method: 'GET',
-    params
+    method: 'POST',
+    data: params
   })
 }
 

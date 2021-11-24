@@ -122,7 +122,7 @@ export default {
   computed: {
     ...mapState({
       code: (code) => code.permission.code,
-      eklTabList: (eklTabList) => eklTabList.permission.eklTabList,
+      eklPfjTabList: (eklPfjTabList) => eklPfjTabList.permission.eklPfjTabList,
       leadTabList: (leadTabList) => leadTabList.permission.leadTabList
     })
   },
@@ -130,9 +130,9 @@ export default {
     if (this.leadTabList.length > 0) {
       this.tabList = this.leadTabList
     } else {
-      this.tabList = JSON.parse(JSON.stringify(this.eklTabList))
-      this.query.dptCode = this.eklTabList[0].type
-      this.activeName = this.eklTabList[0].name
+      this.tabList = JSON.parse(JSON.stringify(this.eklPfjTabList))
+      this.query.dptCode = this.eklPfjTabList[0].type
+      this.activeName = this.eklPfjTabList[0].name
     }
     this.getEklAffix(this.query)
     // log.js
@@ -140,7 +140,7 @@ export default {
   methods: {
     handleClick({ name }) {
       this.activeName = name
-      this.eklTabList.forEach((item) => {
+      this.eklPfjTabList.forEach((item) => {
         if (item.name == name) {
           this.query.dptCode = item.type
           this.activeName = item.name
@@ -153,9 +153,12 @@ export default {
       if (res && res.code == '200') {
         this.tabsData = res.data
         let totalTarget = (parseFloat(this.tabsData.totalTarget ? this.tabsData.totalTarget:'0.00') / 100) * 1
-        this.tabsData.sumAll = (((this.tabsData.sumAll * 1)*totalTarget) / 1000000).toFixed(2) + ''
-        this.tabsData.valEklType = ((this.tabsData.valEklType * 1 * totalTarget) / 1000000).toFixed(2)
-        console.log(this.tabsData)
+        this.tabsData.sumAll = (+this.tabsData.sumAll / 1000000).toFixed(2)
+        this.tabsData.subtract = (+this.tabsData.subtract / 1000000).toFixed(2)
+        this.tabsData.valEklType = (+this.tabsData.valEklType / 1000000).toFixed(2)
+        // 业绩目标*业绩基础
+        this.tabsData.curSum = ((this.tabsData.sumAll * 1) * totalTarget).toFixed(2) + ''
+
         this.$nextTick(() => {
           this.initPie()
         })
@@ -186,7 +189,13 @@ export default {
           color: ['#1AB5C7', '#B9EBF2'],
           right: '10',
           icon: 'circle',
-          top: '0%'
+          top: '0%',
+          tooltip: {
+            show: true,
+            formatter: (data) => {
+              return `${data.name}金额：${data.name == "完成" ? this.tabsData.valEklType : this.tabsData.subtract}`
+            }
+          }
         },
         series: [
           {
@@ -196,38 +205,38 @@ export default {
             top: '10%',
             avoidLabelOverlap: false,
             label: {
-              show: false,
+              show: true,
               position: 'center',
               textStyle: {
                 fontSize: 16,
-                color: '#1763f7'
+                color: '#000',
+                // color:"transparent"
+              },
+              normal:{
+                show:true,
+                position: 'center',
+                color: '#000',
+                formatter: this.tabsData.curSum,
+                fontSize: 30,
+                fontWeight: 'bold'
               }
             },
             emphasis: {
-              label: {
-                show: true,
-                fontSize: '28',
-                fontWeight: 'bold',
-                color: '#45639B',
-                align: 'center',
-                formatter: (value) => {
-                  return `${value.data.value}`
-                }
-              }
+              show: true
             },
             labelLine: {
               show: false
             },
             data: [
               {
-                value: (this.tabsData.sumAll),
+                value: (this.tabsData.valEklType),
                 itemStyle: {
                   color: '#1AB5C7'
                 },
                 name: '完成'
               },
               {
-                value: (this.tabsData.valEklType),
+                value: (this.tabsData.subtract),
                 itemStyle: {
                   color: '#B9EBF2'
                 },
@@ -256,6 +265,7 @@ export default {
   width: 100%;
   height: 100%;
   padding: 8px 16px 16px 16px;
+  pointer-events: none;
 
  
  .ekl-tabs {

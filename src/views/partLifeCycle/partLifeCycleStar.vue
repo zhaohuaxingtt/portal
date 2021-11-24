@@ -20,7 +20,7 @@
     >
       <el-form>
         <el-form-item :label="language('LK_LINGJIANHAO', '零件号')">
-          <iInput v-model="partsNum" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          <iInput v-model="partsNum" :placeholder="$i18n.locale === 'zh' ?'可批量查询':'batch Search'" clearable></iInput>
         </el-form-item>
         <el-form-item :label="language('LK_LINGJIANMINGCHENG', '零件名称')">
           <iInput v-model="partsName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
@@ -250,7 +250,7 @@
             ></el-option>
           </iSelect>
         </el-form-item>
-        <el-form-item :label="language('LK_FSHAO', 'FS号')">
+        <el-form-item :label="$t('LK_FS_GS_SP')">
           <iInput v-model="fsNum" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
         </el-form-item>
         <el-form-item :label="language('LK_DANGNIANZAIGONG', '当年在供')">
@@ -277,18 +277,18 @@
         <div class="left" v-show="isSearch">{{ language('LK_SOUSUOJIEGUO', '搜索结果') }}<span>相关结果{{ defaultPartsList.length }}个</span></div>
         <div class="right">
           <iButton v-show="isEdit" @click="isEdit = false">{{ language('LK_TUICHU', '退出') }}</iButton>
-          <iButton v-show="isEdit && isButn" @click="toClaim">{{ language('LK_QUERENRENLING', '确认认领') }}</iButton>
-          <iButton v-show="!isEdit" @click="isEdit = true">{{ language('LK_RENLINGLINGJIAN', '认领零件') }}</iButton>
+          <iButton v-show="isEdit" @click="toClaim">{{ language('LK_QUERENRENLING', '确认认领') }}</iButton>
+          <iButton v-show="!isEdit && isButn" @click="isEdit = true">{{ language('LK_RENLINGLINGJIAN', '认领零件') }}</iButton>
           <icon @click.native="changeRelevantPart" symbol
                 :name="expandRelevantPart ? 'iconxiangguanlingjianyizhankai' : 'iconxiangguanlingjianyishouqi'"></icon>
         </div>
       </div>
-      <div class="partLifeCycleStar_main_content">
-        <div class="left" v-loading="leftLoading">
+      <div class="partLifeCycleStar_main_content" v-loading="leftLoading">
+        <div class="left">
           <div v-for="(item, index) in defaultPartsList" :key="index" :class="{ isExpand: expandRelevantPart }"
                @click="currentDefaultPart = item.partsNum;getRelationParts()">
             <div class="title">
-              <span class="link" @click.stop="toPartLifeCycle(item.partsNum)">{{ item.partsNum }}</span>
+              <span class="link" @click.stop="toPartLifeCycle(item)">{{ item.partsNum }}</span>
               <span>{{ item.deptName }}</span>
               <icon v-show="!isEdit" symbol @click.native.stop.prevent="cancelOrCollect(item)"
                     :name="Number(item.isDefaultFolder) === 1 ? 'iconyishoucanglingjian' : 'iconweishoucanglingjian'"></icon>
@@ -308,7 +308,7 @@
               <span>{{ language('LK_CHEXING', '车型') }}</span>
               <span>{{ item.productName }}</span>
             </div>
-            <div class="item">
+            <div class="item pb20">
               <span>{{ language('LK_ZHUANYECAIGOUYUAN', '专业采购员') }}</span>
               <span>{{ item.linieName }}</span>
             </div>
@@ -327,7 +327,7 @@
                   <p>{{ item.partsNum }}</p>
                   <p>{{ item.partsNumNameZh }}</p>
                 </div>
-                <icon symbol @click.native="toPartLifeCycle(item.partsNum)" name="iconxiangguanlingjian-gengduo"></icon>
+                <icon symbol @click.native="toPartLifeCycle(item)" name="iconxiangguanlingjian-gengduo"></icon>
               </div>
             </div>
           </iCard>
@@ -760,10 +760,10 @@ export default {
         iMessage.warn(this.language('LK_QINGGOUXUANHOUZAIQUERENRENLING', '请勾选后再确认认领'))
       }
     },
-    toPartLifeCycle(partsNum) {
+    toPartLifeCycle(item) {
       let routeData = this.$router.resolve({
         path: '/partLifeCycle',
-        query: { partsNum: partsNum }
+        query: { partsNum: item.partsNum, isDefaultFolder:item.isDefaultFolder,partsCollectId:item.partsCollectId }
       })
       window.open(routeData.href)
     },
@@ -1006,7 +1006,6 @@ export default {
             height: 24px;
             color: #333333;
           }
-
           .item {
             font-size: 16px;
             margin-top: 20px;

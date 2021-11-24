@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-16 19:59:44
+ * @LastEditTime: 2021-11-23 15:04:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -85,11 +85,14 @@
                    :layout="page.layout">
       </iPagination>
     </iCard>
+    <new-mtzlocation-change :dialogVisible="dialogVisible"
+                            @close="close"></new-mtzlocation-change>
   </div>
 </template>
 
 <script>
-import { iCard, iButton, iPagination, icon, iMessage } from 'rise'
+import { iCard, iButton, iPagination, iMessage } from 'rise'
+import newMtzlocationChange from '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationChange/newMtzlocationChange'
 import { pageList, mtzDel, mtzRecall } from '@/api/mtz/annualGeneralBudget/mtzChange'
 import { pageMixins } from "@/utils/pageMixins"
 export default {
@@ -99,6 +102,7 @@ export default {
     iCard,
     iButton,
     iPagination,
+    newMtzlocationChange
   },
   watch: {
   },
@@ -107,7 +111,8 @@ export default {
     return {
       tableData: [],
       loading: false,
-      muilteList: []
+      muilteList: [],
+      dialogVisible: false
     }
   },
   mounted () {
@@ -120,10 +125,11 @@ export default {
       });
     },
     addMTZ () {
-      let routeData = this.$router.resolve({
-        path: `/mtz/annualGeneralBudget/newMtzLocationChange`
-      })
-      window.open(routeData.href, '_blank')
+      this.dialogVisible = true
+      // let routeData = this.$router.resolve({
+      //   path: `/mtz/annualGeneralBudget/newMtzLocationChange`
+      // })
+      // window.open(routeData.href, '_blank')
     },
     //获取列表
     getTableList () {
@@ -157,9 +163,10 @@ export default {
         path: '/mtz/annualGeneralBudget/MTZapplicationForm',
         query: {
           mtzAppId: val.mtzAppId || '',
-          isView: (val.appStatus === '草稿' || val.appStatus === '未通过') ? false : true
+          // isView: (val.appStatus === '草稿' || val.appStatus === '未通过') ? false : true
         }
       })
+      this.$store.dispatch('setMtzChangeBtn', false);
       window.open(routerPath.href, '_blank')
     },
     handleSelectionChange (val) {
@@ -212,6 +219,9 @@ export default {
           iMessage.error(res.desZh)
         }
       })
+    },
+    close (val) {
+      this.dialogVisible = val
     }
   }
 }

@@ -4,8 +4,8 @@
 -->
 <template>
   <div>
-    <iPage>
-      <div class="headerTitle">
+    <div :class="ifSelf?'page':''">
+      <div class="headerTitle" v-if="ifSelf">
         <p>移除黑名单申请 - 生产采购</p>
         <div>
           <iButton @click="handleBtn(2)">{{
@@ -20,27 +20,34 @@
         </div>
       </div>
 
-      <iCard style="margin-top:20px">
+      <iCard :style="ifSelf?'margin-top:20px':''">
         <p class="tableTitle">{{supplierName}}</p>
-        <table-list style="margin-top:20px"
-                    :tableData="tableListData"
-                    :tableTitle="tableTitle"
-                    :tableLoading="tableLoading"
-                    :selection="false"
-                    @handleSelectionChange="handleSelectionChange"
-                    :index="true">
+        <table-list
+          style="margin-top:20px"
+          :tableData="tableListData"
+          :tableTitle="tableTitle"
+          :tableLoading="tableLoading"
+          :selection="false"
+          @handleSelectionChange="handleSelectionChange"
+          :index="true"
+        >
+          <template #stuffNameEnDe="scope">
+            <span>{{scope.row.stuffName}}-{{scope.row.stuffNameDe}}</span>
+          </template>
         </table-list>
-        <iPagination v-update
-                     @size-change="handleSizeChange($event, getTableList)"
-                     @current-change="handleCurrentChange($event, getTableList)"
-                     background
-                     :page-sizes="page.pageSizes"
-                     :page-size="page.pageSize"
-                     :layout="page.layout"
-                     :current-page="page.currPage"
-                     :total="page.totalCount" />
+        <iPagination
+          v-update
+          @size-change="handleSizeChange($event, getTableList)"
+          @current-change="handleCurrentChange($event, getTableList)"
+          background
+          :page-sizes="page.pageSizes"
+          :page-size="page.pageSize"
+          :layout="page.layout"
+          :current-page="page.currPage"
+          :total="page.totalCount"
+        />
       </iCard>
-    </iPage>
+    </div>
   </div>
 </template>
 
@@ -48,7 +55,7 @@
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import { tableTitle } from './data'
-import { iPage, iCard, iButton, iPagination, iMessage } from 'rise'
+import { iCard, iButton, iPagination, iMessage } from 'rise'
 import {
   supplierBlackListAuditPage,
   blackApprove,
@@ -57,21 +64,30 @@ import {
 export default {
   mixins: [pageMixins],
   components: {
-    iPage,
     iCard,
     iButton,
     iPagination,
-    tableList
+    tableList,
   },
   data() {
     return {
       tableLoading: true,
       tableTitle: tableTitle,
       supplierName: '',
-      tableListData: []
+      tableListData: [],
+      ifSelf: true
+
     }
   },
   created() {
+         var tbody = document.body
+        var height = tbody.clientHeight
+        window.parent.postMessage({ key: 'setFormHeight', value: height+'px'},'*')
+        if (window.top === window.self) {
+      this.ifSelf = true
+    } else {
+      this.ifSelf = false
+    }
     this.getListArr()
     this.getSupplierName()
   },
@@ -121,6 +137,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page {
+  padding: 30px 40px 30px 40px;
+}
 .tableTitle {
   font-size: 18px;
   font-family: Arial;

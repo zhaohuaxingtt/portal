@@ -38,8 +38,14 @@
               :disabled="editOrAdd === 'look'"
             ></iInput>
           </iFormItem>
-          <iFormItem
+          <!-- <iFormItem
             v-if="editOrAdd !== 'edit'"
+            label="Duration"
+            prop="duration"
+            :hideRequiredAsterisk="true"
+            class="item"
+          > -->
+          <iFormItem
             label="Duration"
             prop="duration"
             :hideRequiredAsterisk="true"
@@ -153,7 +159,7 @@
             :hideRequiredAsterisk="true"
             class="item"
           >
-            <iLabel :label="$t('Linie Buyer')" slot="label" required></iLabel>
+            <iLabel :label="$t('Linie Buyer')" slot="label"></iLabel>
             <iSelect
               class="autoSearch"
               v-model="ruleForm.presenter"
@@ -201,12 +207,10 @@
                 :uploadLoading="uploadLoading"
                 :disabled="editOrAdd === 'look'"
               >
-                <span class="upload-text"><img :src="uploadIcon"/></span>
+                <span class="upload-text"><img :src="uploadIcon" /></span>
                 <span class="upload-text-content">选择文件</span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">
-                文件大小最大限制30M
-              </div>
+              <div slot="tip" class="el-upload__tip">文件大小最大限制30M</div>
             </el-upload>
             <ul class="file-list">
               <li v-for="(item, index) of ruleForm.attachments" :key="index">
@@ -364,7 +368,7 @@ export default {
           }
         ],
         supporter: [{ required: true, message: '必选', trigger: 'blur' }],
-        presenter: [{ required: true, message: '必选', trigger: 'blur' }],
+        // presenter: [{ required: true, message: '必选', trigger: 'blur' }],
         duration: [
           { required: true, message: '必填', trigger: 'blur' },
           {
@@ -524,7 +528,7 @@ export default {
   methods: {
     handleDeleteFile(file) {
       // console.log(file);
-      this.ruleForm.attachments = this.ruleForm.attachments.filter(item => {
+      this.ruleForm.attachments = this.ruleForm.attachments.filter((item) => {
         return item.attachmentId !== file.attachmentId
       })
     },
@@ -533,7 +537,7 @@ export default {
         themenId: this.ruleForm.id,
         meetingId: this.meetingInfo.id
       }
-      findTheThemenById(data).then(res => {
+      findTheThemenById(data).then((res) => {
         this.ruleForm.supporter = res.supporter
         this.ruleForm.presenter = res.presenter
       })
@@ -542,7 +546,7 @@ export default {
       download({
         fileIds: row.attachmentId,
         filename: row.attachmentName,
-        callback: e => {
+        callback: (e) => {
           if (!e) {
             iMessage.error('下载失败')
           }
@@ -567,12 +571,12 @@ export default {
         : []
       //需要上传的文件
       this.shouldUploadAttachments = this.ruleForm.attachments
-        .filter(item => {
-          return !sourceAttachments.find(it => {
+        .filter((item) => {
+          return !sourceAttachments.find((it) => {
             return it.attachmentId === item.attachmentId
           })
         })
-        .map(item => {
+        .map((item) => {
           return {
             ...item,
             source: '04'
@@ -582,7 +586,7 @@ export default {
     },
     saveAllNewThemen(shouldUploadAttachments) {
       let promiseArr = []
-      shouldUploadAttachments.forEach(item => {
+      shouldUploadAttachments.forEach((item) => {
         let data
         if (this.editOrAdd === 'edit') {
           data = {
@@ -600,16 +604,16 @@ export default {
         }
         const p = new Promise((resolve, reject) => {
           addThemenAttachment(data)
-            .then(res => {
+            .then((res) => {
               resolve(res)
             })
-            .catch(err => {
+            .catch((err) => {
               reject(err)
             })
         })
         promiseArr.push(p)
       })
-      Promise.all(promiseArr).catch(err => {
+      Promise.all(promiseArr).catch((err) => {
         console.log(err)
       })
     },
@@ -619,18 +623,28 @@ export default {
         id: this.meetingInfo.receiverId
       }
       //查询收件人
-      getReceiverById(data).then(res => {
-        this.userData = res.employeeDTOS.filter(e => e.id !== null)
+      getReceiverById(data).then((res) => {
+        this.userData = res.employeeDTOS.filter((e) => e.id !== null)
         this.currentSearchUserData = [...res.employeeDTOS]
         this.remoteMethod()
       })
     },
     createStateFilter(queryString) {
-      return state => {
-        return state?.name
-          ?.toLowerCase()
-          .toString()
-          .includes(queryString.toLowerCase().toString())
+      return (state) => {
+        return (
+          state?.name
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state?.email
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state?.namePinyin
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString())
+        )
       }
     },
 
@@ -650,17 +664,17 @@ export default {
       formData.append('currentUserId', -1)
       formData.append('type', 1)
       uploadFile(formData)
-        .then(res => {
+        .then((res) => {
           let attachment = {
             attachmentId: res[0].id,
             attachmentUrl: res[0].path,
             attachmentName: res[0].name
           }
-          this.ruleForm.attachment.push(attachment)
+          this.ruleForm.attachments.push(attachment)
           iMessage.success(this.$t('上传成功'))
           this.uploadLoading = false
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
           this.uploadLoading = false
         })
@@ -685,13 +699,13 @@ export default {
         cancelButtonText: '否',
         type: 'warning'
       }).then(() => {
-        this.loading = true
         this.submitForm('ruleForm')
       })
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.loading = true
           this.subButtonFlag = true
           //开始保存
           if (this.editOrAdd === 'edit') {
@@ -701,15 +715,18 @@ export default {
               meetingId: this.meetingInfo.id,
               id: this.selectedTableData[0].id,
               presenterDept:
-                this.userData.filter(e => e.id === this.ruleForm.presenter)[0]
-                  .department || '',
+                this.userData.filter((e) => e.id === this.ruleForm.presenter)
+                  .length > 0
+                  ? this.userData.filter(
+                      (e) => e.id === this.ruleForm.presenter
+                    )[0].department
+                  : '' || '',
               supporterDept:
-                this.userData.filter(e => e.id === this.ruleForm.supporter)[0]
+                this.userData.filter((e) => e.id === this.ruleForm.supporter)[0]
                   .department || ''
             }
-            console.log(671, this.userData, formData)
             updateThemen(formData)
-              .then(data => {
+              .then((data) => {
                 if (data) {
                   iMessage.success('修改成功')
                 } else {
@@ -719,7 +736,7 @@ export default {
                 this.loading = false
                 this.close()
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log('err', err)
                 this.loading = false
                 this.subButtonFlag = false
@@ -731,16 +748,20 @@ export default {
                 id: '',
                 meetingId: this.meetingInfo.id,
                 isBreak: false,
-                presenterDept: this.userData.filter(
-                  e => e.id === this.ruleForm.presenter
-                )[0].department,
+                presenterDept:
+                  this.userData.filter((e) => e.id === this.ruleForm.presenter)
+                    .length > 0
+                    ? this.userData.filter(
+                        (e) => e.id === this.ruleForm.presenter
+                      )[0].department
+                    : '' || '',
                 supporterDept: this.userData.filter(
-                  e => e.id === this.ruleForm.supporter
+                  (e) => e.id === this.ruleForm.supporter
                 )[0].department
               }
             }
             saveThemen(formData)
-              .then(data => {
+              .then((data) => {
                 if (data) {
                   iMessage.success('保存成功')
                 } else {
@@ -750,7 +771,7 @@ export default {
                 this.subButtonFlag = false
                 this.close()
               })
-              .catch(err => {
+              .catch((err) => {
                 this.loading = false
                 console.log('err', err)
                 this.subButtonFlag = false

@@ -19,7 +19,7 @@ export default [
         name: 'MainDataProductFamily',
         meta: {
           title: '产品家族',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/mainData/productFamily')
       },
@@ -28,7 +28,7 @@ export default [
         name: 'MainDataCarProject',
         meta: {
           title: '车型项目管理',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/mainData/carProject')
       },
@@ -37,7 +37,7 @@ export default [
         name: 'MainDataCar',
         meta: {
           title: '车型主数据管理',
-          top: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/mainData/car')
       }
@@ -51,7 +51,7 @@ export const routerDetailMainData = [
     name: 'MainDataCarDetail',
     meta: {
       title: '车型主数据',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
     component: () => import('@/views/mainData/car/detail')
   },
@@ -60,7 +60,7 @@ export const routerDetailMainData = [
     name: 'MainDataCarProjectAdd',
     meta: {
       title: '车型项目主数据',
-      top: 'admin'
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
     component: () => import('@/views/mainData/carProject/detail')
   }

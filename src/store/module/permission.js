@@ -58,6 +58,7 @@ const state = {
   roleList: '',
   code: [],
   eklTabList: [],
+  eklPfjTabList:[],
   leadTabList: [],
   whiteBtnList: [],
   userInfo: {},
@@ -92,17 +93,37 @@ const mutations = {
     data.forEach((item, index) => {
       if (
         item.code === 'BZZL' ||
-        item.code === 'ADMIN' ||
         item.code === 'CGBZ_WF' ||
         (item.code === 'CGBZ' && cs < 1)
       ) {
         cs += 1
+        //ekl
         state.eklTabList.push({
           name: 'EKL-CS',
           id: index,
           type: 1
         })
-      } else if (item.code === 'CWEKLGLY') {
+        //ekl配附件
+        state.eklPfjTabList.push({
+          name: 'EKL-CS',
+          id: index,
+          type: 1
+        })
+      }else if(item.code === 'ADMIN'){
+        //ekl
+        state.eklTabList.push({
+          name: 'EKL-CS',
+          id: index,
+          type: 1
+        })
+      }else if(["PFJYJGLY", "CGKZKZ", "PJCGGZ","FJCGGZ","CSXTGLY","CIXTGLY"].includes(item.code)){
+        //ekl配附件
+        state.eklPfjTabList.push({
+          name: 'EKL-CS',
+          id: index,
+          type: 1
+        })
+      }else if (item.code === 'CWEKLGLY') {
         state.eklTabList.push({
           name: 'EKL-CFPM',
           id: index,
@@ -120,7 +141,14 @@ const mutations = {
           type: 2
         })
       } else if (item.code === 'LINIE') {
+        //ekl
         state.eklTabList.push({
+          name: 'EKL-Linie',
+          id: index,
+          type: 4
+        })
+        //ekl配附件
+        state.eklPfjTabList.push({
           name: 'EKL-Linie',
           id: index,
           type: 4

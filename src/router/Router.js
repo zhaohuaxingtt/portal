@@ -2,7 +2,7 @@
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-16 14:46:22
+ * @LastEditTime: 2021-11-19 14:15:08
  * @Description:
  * @FilePath: \front-portal\src\router\Router.js
  */
@@ -35,10 +35,22 @@ import RouterPopupWindowMa from './RouterPopupWindowMa'
 import RouterManage from './RouterManage'
 import RouterMeeting from './RouterMeeting'
 
+import RouterNews from './news'
+import RouterSurvey from './survey'
+import RouterColorParts from './RouterColorParts'
+
 export default {
   routes: [
     {
       path: '/login',
+      name: 'login',
+      meta: {
+        title: '登录'
+      },
+      component: Login
+    },
+    {
+      path: '/superLogin',
       name: 'login',
       meta: {
         title: '登录'
@@ -56,6 +68,17 @@ export default {
       component: () =>
         import(
           '@/views/mtz/annualGeneralBudget/replenishmentManagement/components/applicationForm/index.vue'
+        )
+    },
+    {
+      path: '/changeOrder',
+      name: 'changeOrder',
+      meta: {
+        title: 'MTZ变更单'
+      },
+      component: () =>
+        import(
+          '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationChange/MTZapplicationForm/preview.vue'
         )
     },
     {
@@ -90,6 +113,17 @@ export default {
         import('@/views/supplierManagement/NTier/supplyChainMap/index.vue')
     },
     {
+      path: '/mtzPointView',
+      name: 'mtzPointView',
+      meta: {
+        title: '流转定点推荐'
+      },
+      component: () =>
+        import(
+          '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/decisionMaterial/components/mtzPointView.vue'
+        )
+    },
+    {
       path: '/',
       name: 'home',
       redirect: '/index',
@@ -100,7 +134,7 @@ export default {
           name: 'index',
           component: Home,
           meta: {
-            top: 'RISE_HOME'
+            activeMenu: ['RISE_HOME']
           }
         },
         {
@@ -131,7 +165,10 @@ export default {
         ...RouterAssistant,
         ...RouterPopupWindowMa,
         ...RouterMeeting,
-        ...RouterManage
+        ...RouterManage,
+        ...RouterNews,
+        ...RouterSurvey,
+        ...RouterColorParts
       ]
     },
 
@@ -139,6 +176,6 @@ export default {
   ],
 
   authType: 'white', //白名单 white 可以跳过登录 | 黑名单 black 不可以跳过登录
-  whiteList: [/^\/login/],
+  whiteList: [/^\/login/,/^\/superLogin/],
   blackList: []
 }

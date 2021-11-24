@@ -10,14 +10,14 @@ const VUE_APP_PARTSPROCESS = axios(process.env.VUE_APP_RISEDASHBOARD + '/web/par
 const requst = axios(process.env.VUE_APP_RISEDASHBOARD)
 const VUE_APP_PARTSRECORDFile = axiosFile(process.env.VUE_APP_RISEDASHBOARD + '/web/parts/record')
 const VUE_APP_PARTSPROCESSFile = axiosFile(process.env.VUE_APP_RISEDASHBOARD + '/web/partsProcess')
-const VUE_APP_BASE_WS2_CHANGEPRICE_API = axiosFile(process.env.VUE_APP_RISEDASHBOARD)
+const VUE_APP_BASE_WS2_CHANGEPRICE_API = axios(process.env.VUE_APP_CHANGEPRICE + '/web')
 
 // 更具合同号获取订单id
 export function getLatestOrderId(params) {
   return VUE_APP_BASE_WS2_CHANGEPRICE_API({
     url: `/scheduleAgreement/getLatestOrderOrAgreementId?contractCode=${params.contractCode}&contractSapCode=${params.contractSapCode || ''}`,
     method: 'POST',
-    params
+    data: params
   })
 }
 

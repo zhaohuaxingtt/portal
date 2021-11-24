@@ -14,10 +14,13 @@ export const TABLE_COLUMNS = [
     {
         label:'弹窗标题',
         prop:'popupName',
+        width:'500px',
+        tooltip:true
     },
     {
         label:'弹窗说明',
         prop:'content',
+        width:'400px',
         tooltip:true,
     },
     {

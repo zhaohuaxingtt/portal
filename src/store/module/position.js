@@ -196,10 +196,12 @@ const position = {
     },
 
     /**---------------------------------------------------------------- */
-
+    SET_POSITION_ORIGIN_DETAIL: (state, data) => {
+      state.pos.originPosDetail = _.cloneDeep(data)
+    },
     SET_POSITION_DETAIL: (state, data) => {
       const dataVal = data
-      if (dataVal.setCode) {
+      if (dataVal.setCode && typeof dataVal.setCode === 'string') {
         dataVal.setCode = dataVal.setCode.split(',')
       }
       state.pos.positionDetail = _.cloneDeep(dataVal)
@@ -270,10 +272,14 @@ const position = {
       const nameZh = query[1].value
       const array = list
         .filter((item) => {
-          return fullCode ? item.fullCode?.includes(fullCode) : item
+          return fullCode
+            ? item.fullCode?.toLowerCase().includes(fullCode.toLowerCase())
+            : item
         })
         .filter((item) => {
-          return nameZh ? item.nameZh?.includes(nameZh) : item
+          return nameZh
+            ? item.nameZh?.toLowerCase().includes(nameZh.toLowerCase())
+            : item
         })
       state.org.arrayList = array
       state.org.loading = false

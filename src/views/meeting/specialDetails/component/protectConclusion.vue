@@ -184,11 +184,19 @@ export default {
       tableListData: [],
       ruleForm: {
         conclusion: {
-          conclusionCsc: this.selectedTableData[0].conclusionCsc,
+          conclusionCsc: this.selectedTableData[0].conclusionCsc
+            ? this.selectedTableData[0].conclusionCsc
+            : '01',
           conclusionName:
-            themenConclusion[this.selectedTableData[0].conclusionCsc]
+            themenConclusion[
+              this.selectedTableData[0].conclusionCsc
+                ? this.selectedTableData[0].conclusionCsc
+                : '01'
+            ]
         },
-        taskCsc: this.selectedTableData[0].conclusion,
+        taskCsc: this.selectedTableData[0].conclusion
+          ? this.selectedTableData[0].conclusion
+          : '',
         isFrozenRs:
           this.beforeResult === '02'
             ? this.selectedTableData[0].isFrozenRs
@@ -242,6 +250,10 @@ export default {
           conclusionName: '下次Pre CSC'
         },
         {
+          conclusionCsc: '06',
+          conclusionName: '转CSC'
+        },
+        {
           conclusionCsc: '07',
           conclusionName: '关闭'
         }
@@ -276,6 +288,13 @@ export default {
     }
     if (this.selectedTableData[0].conclusionCsc === '06') {
       this.getUpdateDateTableList('CSC', 'init')
+    }
+    if (this.selectedTableData[0].fixedPointApplyType == 20) {
+      this.themenConclusionArrObj = this.themenConclusionArrObj.filter(
+        (item) => {
+          return item.conclusionCsc !== '03' && item.conclusionCsc !== '04'
+        }
+      )
     }
     // this.$nextTick(() => {
     //   this.$refs.tableRef.setCurrentRow(this.currentRow)
@@ -316,7 +335,6 @@ export default {
       this.currentRow = val[val.length - 1]
     },
     handleSure() {
-      this.loading = true
       let param = {
         ...this.selectedTableData[0]
       }
@@ -350,6 +368,7 @@ export default {
         param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc
         param.isFrozenRs = false
       }
+      this.loading = true
       updateThemen(param)
         .then(() => {
           this.loading = false

@@ -58,6 +58,7 @@
           ></theLiveTable>
         </div>
         <div v-show="!value" class="card-list">
+          <div class="white"></div>
           <div class="card-list-left" v-if="myThemenData.length > 0">
             <!-- <cardBoxNewVersion
             :themen="item"
@@ -83,8 +84,6 @@
                 <div class="show-single-card">
                   <cardBoxNewVersion
                     :themen="item"
-                    :startDate="meetingInfo.startDate"
-                    :endDate="meetingInfo.endDate"
                     :meetingName="meetingInfo.name"
                     class="left-card"
                     :total="myThemenData.length"
@@ -133,8 +132,6 @@
                   <cardBoxNewVersion
                     :themen="item[0]"
                     :total="total"
-                    :startDate="meetingInfo.startDate"
-                    :endDate="meetingInfo.endDate"
                     :meetingName="meetingInfo.name"
                     class="right-card"
                   />
@@ -161,8 +158,6 @@
                     v-else
                     :themen="item[1]"
                     :total="total"
-                    :startDate="meetingInfo.startDate"
-                    :endDate="meetingInfo.endDate"
                     :meetingName="meetingInfo.name"
                     class="right-card"
                   />
@@ -204,18 +199,14 @@
                   <cardBoxNewVersion
                     :themen="item[0]"
                     :total="noMyTotal"
-                    :startDate="meetingInfo.startDate"
-                    :endDate="meetingInfo.endDate"
                     :meetingName="meetingInfo.name"
-                    class="right-card "
+                    class="right-card"
                   />
                   <div v-if="!item[1]" class="right-card-empty"></div>
                   <cardBoxNewVersion
                     v-else
                     :themen="item[1]"
                     :total="noMyTotal"
-                    :startDate="meetingInfo.startDate"
-                    :endDate="meetingInfo.endDate"
                     :meetingName="meetingInfo.name"
                     class="right-card"
                   />
@@ -224,8 +215,6 @@
                     v-else
                     :themen="item[2]"
                     :total="noMyTotal"
-                    :startDate="meetingInfo.startDate"
-                    :endDate="meetingInfo.endDate"
                     :meetingName="meetingInfo.name"
                     class="right-card"
                   />
@@ -233,13 +222,12 @@
               </el-carousel-item>
             </el-carousel>
           </div>
+          <div class="white"></div>
         </div>
       </div>
       <div class="bootom notice">会议直播进程将每5秒自动刷新，请耐心等待。</div>
     </div>
-    <div v-else class="no-live">
-      暂无直播会议
-    </div>
+    <div v-else class="no-live">暂无直播会议</div>
     <my-topics
       ref="childTopic"
       :meetingInfo="meetingInfo"
@@ -252,33 +240,33 @@
 </template>
 
 <script>
-import cardBoxNewVersion from "./cardBoxNewVersion.vue";
-import theLiveTable from "./theLiveTable.vue";
-import { findThemenById } from "@/api/meeting/details";
-import { getMettingType } from "@/api/meeting/type";
-import { iMessage } from "rise";
-import dayjs from "dayjs";
+import cardBoxNewVersion from './cardBoxNewVersion.vue'
+import theLiveTable from './theLiveTable.vue'
+import { findThemenById } from '@/api/meeting/details'
+import { getMettingType } from '@/api/meeting/type'
+import { iMessage } from 'rise'
+import dayjs from 'dayjs'
 // import myTopics from "../../nearMeeting/components/myTopics/index.vue";
-import myTopics from "./mytopic.vue";
-import dataDownload from "./dataDownload.vue";
-import positionMark from "@/assets/images/position-mark.svg";
+import myTopics from './mytopic.vue'
+import dataDownload from './dataDownload.vue'
+import positionMark from '@/assets/images/position-mark.svg'
 export default {
   components: {
     cardBoxNewVersion,
     theLiveTable,
     myTopics,
     dataDownload,
-    // iPage,
     // swiper,
   },
   data() {
     return {
+      meetingId: this.$route.query.meetingInfoId,
       positionMark,
-      curMeetingId: "",
+      curMeetingId: '',
       fresh: false,
       myLiveIndex: 0,
       noMyLiveIndex: 0,
-      currentUserId: "",
+      currentUserId: '',
       value: false,
       // switchStatus: "列表",
       meetingInfo: {},
@@ -290,16 +278,12 @@ export default {
       // refresh: false,
       myThemenData: [],
       noMyThemenData: [],
-      meetingTypeId: "",
+      meetingTypeId: '',
       total: 0,
-      begin: "",
-      end: "",
-      noMyTotal: 0,
-    };
-  },
-  created() {
-    this.meetingId = this.$route.query.meetingInfoId;
-    this.meetingTypeId = this.$route.query.id;
+      begin: '',
+      end: '',
+      noMyTotal: 0
+    }
   },
   // watch: {
   //   myThemenData: {
@@ -311,17 +295,17 @@ export default {
   //   },
   // },
   mounted() {
-    this.currentUserId = Number(sessionStorage.getItem("userId"));
-    this.getMeetingTypeObject();
+    this.currentUserId = Number(sessionStorage.getItem('userId'))
+    this.getMeetingTypeObject()
     // this.refresh = false;
-    this.getTableData();
+    this.getTableData()
   },
   methods: {
     handleTurnMode() {
-      this.value = !this.value;
+      this.value = !this.value
     },
     setActiveItem(name) {
-      console.log(name);
+      console.log(name)
     },
     //取俩个数组的前6后6
     // assignArr(beforeArr, afterArr, isMy) {
@@ -359,53 +343,53 @@ export default {
     // },
     //新版本
     assignArr(beforeArr, afterArr) {
-      let arr = [];
+      let arr = []
       if (beforeArr.length <= 1) {
-        arr = [...beforeArr, ...afterArr].slice(0, 6);
+        arr = [...beforeArr, ...afterArr].slice(0, 6)
       }
       if (beforeArr.length > 1 && afterArr.length >= 5) {
-        let before = [];
-        let after = [];
-        before = beforeArr.slice(-1);
-        after = afterArr.slice(0, 5);
-        arr = [...before, ...after];
+        let before = []
+        let after = []
+        before = beforeArr.slice(-1)
+        after = afterArr.slice(0, 5)
+        arr = [...before, ...after]
       }
       if (beforeArr.length > 1 && afterArr.length < 5) {
-        arr = [...beforeArr, ...afterArr].slice(-6);
+        arr = [...beforeArr, ...afterArr].slice(-6)
       }
-      return arr;
+      return arr
     },
     // 一维数组转二维 数组
     arrTrans(num, arr) {
-      const newArr = [];
+      const newArr = []
       while (arr.length > 0) {
-        newArr.push(arr.splice(0, num));
+        newArr.push(arr.splice(0, num))
       }
-      return newArr;
+      return newArr
     },
     // 点击直接选择某项卡片
     refreshList(bol, obj) {
       this.$refs.childTopic
         .queryMeeting()
         .then(() => {
-          iMessage.success(bol ? "取消成功" : "关注成功");
+          iMessage.success(bol ? '取消成功' : '关注成功')
           this.$refs.childTopic.query().then(() => {
-            obj.following = false;
-          });
+            obj.following = false
+          })
         })
-        .catch((err) => {
-          obj.following = false;
-          iMessage.err(bol ? "取消成功" : "关注成功");
-        });
+        .catch(() => {
+          obj.following = false
+          iMessage.err(bol ? '取消成功' : '关注成功')
+        })
     },
     getMyTopics(themens) {
-      this.generateTime();
-      this.resThemeData = [...themens];
+      this.generateTime()
+      this.resThemeData = [...themens]
       if (this.resThemeData.length > 0) {
-        this.meetingId = this.resThemeData[0].meetingId;
+        this.meetingId = this.resThemeData[0].meetingId
       }
       if (Number(this.meetingId) === -1) {
-        const liveItem = this.isHaveLiveTheme();
+        const liveItem = this.isHaveLiveTheme()
 
         if (liveItem) {
           // this.$route.push({
@@ -415,11 +399,11 @@ export default {
           //     meetingInfoId: liveItem.meetingId,
           //   },
           // });
-          this.queryMeetingInfoById(liveItem.meetingId);
-          this.curMeetingId = liveItem.meetingId;
+          this.queryMeetingInfoById(liveItem.meetingId)
+          this.curMeetingId = liveItem.meetingId
         }
       } else {
-        const liveItem = this.isHaveLiveTheme();
+        const liveItem = this.isHaveLiveTheme()
         if (!liveItem) {
           // this.$route.push({f
           //   path: "/meeting/live",
@@ -428,10 +412,10 @@ export default {
           //     meetingInfoId: -1,
           //   },
           // });
-          this.curMeetingId = -1;
-          this.queryMeetingInfoById(-1);
+          this.curMeetingId = -1
+          this.queryMeetingInfoById(-1)
         } else {
-          this.queryMeetingInfoById(liveItem.meetingId);
+          this.queryMeetingInfoById(liveItem.meetingId)
         }
       }
       // let curIndex = this.getCurrentLiveIndex();
@@ -443,18 +427,18 @@ export default {
     },
     handlePreClick() {
       if (this.curIndex > 1) {
-        this.curIndex--;
+        this.curIndex--
       }
       if (this.resThemeData.length > 2) {
-        this.translateX(this.$refs.swiperRef, this.curIndex);
+        this.translateX(this.$refs.swiperRef, this.curIndex)
       }
     },
     handleNextClick() {
       if (this.curIndex < this.resThemeData.length - 2) {
-        this.curIndex++;
+        this.curIndex++
       }
       if (this.resThemeData.length > 2) {
-        this.translateX(this.$refs.swiperRef, this.curIndex);
+        this.translateX(this.$refs.swiperRef, this.curIndex)
       }
     },
     // getCurrentLiveIndex() {
@@ -481,8 +465,8 @@ export default {
     //判断当前 是否 有直播的议题
     isHaveLiveTheme() {
       return this.resThemeData.find((item) => {
-        return item.state === "02";
-      });
+        return item.state === '02'
+      })
     },
     //判断一个议题是否与我有关
     isThemeBelongMy(liveItem) {
@@ -490,65 +474,66 @@ export default {
         Number(liveItem.createBy) === this.currentUserId ||
         liveItem.follow ||
         this.isTheyHaveMy(liveItem)
-      );
+      )
     },
     isTheyHaveMy(item) {
-      const presenterId = item.presenterId ? item.presenterId.split(",") : [];
-      const supporterId = item.supporterId ? item.supporterId.split(",") : [];
-      const currentUserIdStr = this.currentUserId.toString();
+      const presenterId = item.presenterId ? item.presenterId.split(',') : []
+      const supporterId = item.supporterId ? item.supporterId.split(',') : []
+      const currentUserIdStr = this.currentUserId.toString()
       if (
         presenterId.includes(currentUserIdStr) ||
         supporterId.includes(currentUserIdStr)
       ) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     generateTime() {
-      const startDate = this.meetingInfo.startDate;
-      const startTime = this.meetingInfo.startTime;
-      const endDate = this.meetingInfo.endDate;
-      const endTime = this.meetingInfo.endTime;
+      console.log('this.meetingInfo', this.meetingInfo)
+      const startDate = this.meetingInfo.startDate
+      const startTime = this.meetingInfo.startTime
+      const endDate = this.meetingInfo.endDate
+      const endTime = this.meetingInfo.endTime
       this.begin = dayjs(new Date(`${startDate} ${startTime}`)).format(
-        "YYYY/MM/DD HH:mm:ss"
-      );
-      this.end = dayjs(new Date(`${endDate} ${endTime}`)).format("HH:mm:ss");
+        'YYYY/MM/DD HH:mm:ss'
+      )
+      this.end = dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm:ss')
     },
     getMeetingTypeObject() {
       let param = {
         pageSize: 1000,
-        pageNum: 1,
-      };
+        pageNum: 1
+      }
       getMettingType(param).then((res) => {
-        this.meetingTypeList = res.data;
-        console.log("res.data", res);
-        this.setTypeObj(res.data);
+        this.meetingTypeList = res.data
+        this.setTypeObj(res.data)
         // this.$emit("setTypeObj", res.data);
-      });
+      })
     },
     setTypeObj(e) {
-      let typeObj = {};
+      let typeObj = {}
       e.forEach((item) => {
-        typeObj[item.id] = item.name;
-      });
-      this.typeObject = typeObj;
+        typeObj[item.id] = item.name
+      })
+      this.typeObject = typeObj
     },
     getTableData() {
-      this.queryMeetingInfoById(this.meetingId);
+      this.queryMeetingInfoById(this.meetingId)
     },
     async queryMeetingInfoById(id) {
       if (Number(id) === -1) {
-        this.isLiving = false;
-        return;
+        this.isLiving = false
+        return
       }
       const data = {
-        id,
-      };
-      const _this = this;
-      const res = await findThemenById(data);
-      _this.meetingInfo = res;
-      return res;
-    },
+        id
+      }
+      console.log('data', data)
+      const _this = this
+      const res = await findThemenById(data)
+      _this.meetingInfo = res
+      return res
+    }
     //移动
     // translateX(refDom, curIndex) {
     //   if (refDom) {
@@ -558,19 +543,19 @@ export default {
   },
   watch: {
     isLiving: {
-      handler(bol) {
+      handler() {
         if (this.meetingId == -1) {
-          this.isLiving = false;
+          this.isLiving = false
         }
-        this.meetingInfo = {};
-        const liveItem = this.isHaveLiveTheme();
+        this.meetingInfo = {}
+        const liveItem = this.isHaveLiveTheme()
         if (liveItem) {
           this.queryMeetingInfoById(liveItem.meetingId).then(() => {
-            this.generateTime();
-          });
+            this.generateTime()
+          })
         }
       },
-      immediate: true,
+      immediate: true
     },
     // value(val) {
     //   if (val) {
@@ -639,23 +624,23 @@ export default {
     // },
     resThemeData: {
       handler(resData) {
-        this.total = resData ? resData.length : 0;
-        this.fresh = !this.fresh;
-        let liveItem = this.isHaveLiveTheme();
-        let bolMy = true;
-        let bolNoMy = true;
+        this.total = resData ? resData.length : 0
+        this.fresh = !this.fresh
+        let liveItem = this.isHaveLiveTheme()
+        let bolMy = true
+        let bolNoMy = true
         // let whereArr;
-        let numType = 2;
-        let myArr = [];
-        let noMyArr = [];
-        let beforeSix = [];
-        let afterSix = [];
+        let numType = 2
+        let myArr = []
+        let noMyArr = []
+        let beforeSix = []
+        let afterSix = []
         if (liveItem) {
-          this.isLiving = true;
+          this.isLiving = true
         } else {
-          this.isLiving = false;
+          this.isLiving = false
 
-          return;
+          return
         }
         // if (
         //   Number(liveItem.createBy) === this.currentUserId ||
@@ -668,60 +653,60 @@ export default {
           let bol =
             Number(item.createBy) === this.currentUserId ||
             item.follow ||
-            this.isTheyHaveMy(item);
+            this.isTheyHaveMy(item)
           if (bol) {
-            if (item.state === "02") {
-              bolMy = false; //狙击直播的那个议题
+            if (item.state === '02') {
+              bolMy = false //狙击直播的那个议题
             }
-            myArr.push({ ...item, itemNo: index + 1, isMy: bol });
+            myArr.push({ ...item, itemNo: index + 1, isMy: bol })
           } else {
-            if (item.state === "02") {
-              bolNoMy = false; //狙击直播的那个议题
+            if (item.state === '02') {
+              bolNoMy = false //狙击直播的那个议题
             }
           }
           if (bolMy && bolNoMy) {
-            beforeSix.push({ ...item, itemNo: index + 1, isMy: bol });
+            beforeSix.push({ ...item, itemNo: index + 1, isMy: bol })
           }
           if (!bolMy || !bolNoMy) {
-            afterSix.push({ ...item, itemNo: index + 1, isMy: bol });
+            afterSix.push({ ...item, itemNo: index + 1, isMy: bol })
           }
-        });
-        this.myThemenData = myArr;
-        noMyArr = this.assignArr(beforeSix, afterSix);
+        })
+        this.myThemenData = myArr
+        noMyArr = this.assignArr(beforeSix, afterSix)
         if (this.myThemenData.length === 0) {
-          numType = 3;
+          numType = 3
           // noMyArr = [...resData];
-          this.noMyTotal = this.total;
+          this.noMyTotal = this.total
         }
-        const newTypeNoMyArr = this.arrTrans(numType, [...noMyArr]);
-        this.noMyThemenData = newTypeNoMyArr;
+        const newTypeNoMyArr = this.arrTrans(numType, [...noMyArr])
+        this.noMyThemenData = newTypeNoMyArr
       },
-      immediate: true,
+      immediate: true
     },
     myThemenData: {
       handler(myData) {
-        let bol = true;
-        let liveIndex = 0;
+        let bol = true
+        let liveIndex = 0
         for (let index = 0; index <= myData.length - 1; index++) {
-          if (myData[index].state === "01" && bol) {
-            liveIndex = index;
-            bol = false;
-            continue;
+          if (myData[index].state === '01' && bol) {
+            liveIndex = index
+            bol = false
+            continue
           }
-          if (myData[index].state === "02") {
-            liveIndex = index;
-            break;
+          if (myData[index].state === '02') {
+            liveIndex = index
+            break
           }
-          liveIndex = myData.length - 1;
+          liveIndex = myData.length - 1
         }
-        this.myLiveIndex = liveIndex;
+        this.myLiveIndex = liveIndex
       },
       deep: true,
-      immediate: true,
+      immediate: true
     },
     noMyThemenData: {
       handler(myData) {
-        let liveIndex = 0;
+        let liveIndex = 0
         aaa: for (let index = 0; index <= myData.length - 1; index++) {
           for (
             let innerIndex = 0;
@@ -729,31 +714,31 @@ export default {
             innerIndex++
           ) {
             if (
-              myData[index][innerIndex].state === "02" ||
-              myData[index][innerIndex].state === "01"
+              myData[index][innerIndex].state === '02' ||
+              myData[index][innerIndex].state === '01'
             ) {
-              liveIndex = index;
-              break aaa;
+              liveIndex = index
+              break aaa
             }
           }
 
-          liveIndex = myData.length - 1;
+          liveIndex = myData.length - 1
         }
-        this.noMyLiveIndex = liveIndex;
-      },
+        this.noMyLiveIndex = liveIndex
+      }
       // deep: true,
       // immediate: true,
     },
     fresh: {
       handler() {
         this.$refs.carouselMy &&
-          this.$refs.carouselMy.setActiveItem(this.myLiveIndex);
+          this.$refs.carouselMy.setActiveItem(this.myLiveIndex)
         this.$refs.carouselNoMy &&
-          this.$refs.carouselNoMy.setActiveItem(this.noMyLiveIndex);
-      },
-    },
-  },
-};
+          this.$refs.carouselNoMy.setActiveItem(this.noMyLiveIndex)
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -971,8 +956,20 @@ export default {
     }
   }
   .card-list {
+    position: relative;
     display: flex;
+    /* .white-box-shadow {
+      background-color: rgb(248, 249, 250);
+      height: 380px;
+      width: 10px;
+    } */
+    .white {
+      background-color: #fff;
+      height: 380px;
+      width: 40px;
+    }
     .card-list-left {
+      z-index: 10;
       width: 564px;
       margin-right: 16px;
       .show-single-card {
@@ -1022,6 +1019,7 @@ export default {
       background-color: #d0d4d9;
     }
     .card-list-container {
+      z-index: 10;
       position: relative;
       /* padding-bottom: 40px; */
       overflow: hidden;

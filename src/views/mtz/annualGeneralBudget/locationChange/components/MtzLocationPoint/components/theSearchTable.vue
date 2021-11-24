@@ -6,10 +6,20 @@
       <el-form class="searchForm">
         <el-form-item :label="language('SHENQINGDANHAO','申请单号')"
                       class="searchFormItem">
-          <input-custom v-model="searchForm.mtzAppId"
+                      <!-- getMtzGenericAppId -->
+          <custom-select v-model="searchForm.mtzAppId"
+                         :user-options="getMtzGenericAppId"
+                         multiple
+                         clearable
+                         :placeholder="language('QINGXUANZE', '请选择')"
+                         display-member="code"
+                         value-member="code"
+                         value-key="code">
+          </custom-select>
+          <!-- <input-custom v-model="searchForm.mtzAppId"
                         :editPlaceholder="language('QINGSHURU','请输入')"
                         :placeholder="language('QINGSHURU','请输入')">
-          </input-custom>
+          </input-custom> -->
         </el-form-item>
         <el-form-item :label="language('LIUCHENGLEIXING','流程类型')">
           <custom-select v-model="searchForm.flowType"
@@ -33,13 +43,13 @@
                          value-key="code">
           </custom-select>
         </el-form-item>
-        <el-form-item label="原材料牌号">
+        <el-form-item :label="language('YUANCAILIAOPAIHAO','原材料牌号')">
           <custom-select v-model="searchForm.materialCode"
                          :user-options="materialCode"
                          multiple
                          clearable
                          :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
+                         display-member="codeMessage"
                          value-member="code"
                          value-key="code">
           </custom-select>
@@ -50,24 +60,29 @@
                         :placeholder="language('QINGSHURU','请输入')">
           </input-custom>
         </el-form-item>
-        <el-form-item label="采购员">
-          <input-custom v-model="searchForm.buyer"
-                        :editPlaceholder="language('QINGSHURU','请输入')"
-                        :placeholder="language('QINGSHURU','请输入')">
-          </input-custom>
+        <el-form-item :label="language('CAIGOUYUAN','采购员')">
+          <custom-select v-model="searchForm.buyer"
+                         :user-options="getCurrentUser"
+                         multiple
+                         clearable
+                         :placeholder="language('QINGXUANZE', '请选择')"
+                         display-member="message"
+                         value-member="code"
+                         value-key="code">
+          </custom-select>
         </el-form-item>
-        <el-form-item label="科室">
+        <el-form-item :label="language('KESHI','科室')">
           <custom-select v-model="searchForm.linieDeptId"
                          :user-options="linieDeptId"
                          multiple
                          clearable
                          :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="existShareNum"
-                         value-member="existShareId"
-                         value-key="existShareId">
+                         display-member="message"
+                         value-member="code"
+                         value-key="code">
           </custom-select>
         </el-form-item>
-        <el-form-item label="关联单号">
+        <el-form-item :label="language('GUANLIANDANHAO','关联单号')">
           <input-custom v-model="searchForm.ttNominateAppId"
                         :editPlaceholder="language('QINGSHURU','请输入')"
                         :placeholder="language('QINGSHURU','请输入')">
@@ -93,8 +108,8 @@
                        end-placeholder="结束日期">
           </iDatePicker>
         </el-form-item> -->
-        <el-form-item label="定点时间">
-          <iDatePicker style="width:180px"
+        <el-form-item :label="language('DINGDIANSHIJIAN','定点时间')">
+          <iDatePicker style="width:220px"
                        v-model="value1"
                        @change="handleChange1"
                        type="daterange"
@@ -163,7 +178,6 @@ import { tableTitle } from "./data";
 import MtzClose from "./MtzClose";
 import inputCustom from '@/components/inputCustom'
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
-import { getDeptData } from '@/api/kpiChart/index'
 import { pageMixins } from "@/utils/pageMixins"
 import {
   pageMtzNomi,
@@ -177,6 +191,9 @@ import {
   mtzMeetingOutFlow,
   mtzRecall,
   mtzDel,
+  getDeptLimitLevel,
+  getMtzGenericAppId,
+  getCurrentUser
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 export default {
   name: "theSearchTable",
@@ -216,7 +233,9 @@ export default {
       tableListData: [],
       tableTitle: tableTitle,
       loading: false,
-      selection: []
+      selection: [],
+      getMtzGenericAppId:[],//申请单号
+      getCurrentUser:[],//采购员
     }
   },
 
@@ -237,8 +256,15 @@ export default {
       getRawMaterialNos({}).then(res => {
         this.materialCode = res.data;
       })
-      getDeptData().then(res => {
+      getDeptLimitLevel({}).then(res=>{
         this.linieDeptId = res.data;
+      })
+
+      getMtzGenericAppId({}).then(res=>{
+        this.getMtzGenericAppId = res.data;
+      })
+      getCurrentUser({}).then(res=>{
+        this.getCurrentUser = res.data;
       })
 
       this.getTableList();
@@ -278,7 +304,8 @@ export default {
       this.searchForm.nominateEndDate = val[1];
     },
     sure () {
-      console.log(this.searchForm)
+      this.page.currPage = 1
+      this.page.pageSize = 10
       this.getTableList();
     },
     reset () {
@@ -400,13 +427,18 @@ export default {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
       if (this.selection[0].appStatus == "NOMINATE") {
-        cancelMtzNomi({
-          ids: this.selection.map(item => item.id)
-        }).then(res => {
-          if (res && res.code == 200) {
-            iMessage.success(res.desZh)
-            this.getTableList()
-          } else iMessage.error(res.desZh)
+        iMessageBox(this.language('SHIFOUQUERENQUXIAODINGDIAN','是否确认取消定点？'),this.language('LK_WENXINTISHI','温馨提示'),{
+            confirmButtonText: this.language('QUEREN', '确认'),
+            cancelButtonText: this.language('QUXIAO', '取消')
+        }).then(res=>{
+          cancelMtzNomi({
+            ids: this.selection.map(item => item.id)
+          }).then(res => {
+            if (res && res.code == 200) {
+              iMessage.success(res.desZh)
+              this.getTableList()
+            } else iMessage.error(res.desZh)
+          })
         })
       } else {
         return iMessage.warn(this.language('ZYDDZTCKYQXDD', '只有定点状态才可以取消定点'))
@@ -448,7 +480,11 @@ export default {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
       if (this.selection[0].flowType == "MEETING") {
-        //////////////////////////////////////
+        if (this.selection[0].appStatus == "SUBMIT" || this.selection[0].appStatus == "NOTPASS") {
+          this.mtzReasonShow = true;
+        }else{
+          return iMessage.warn(this.language('SHLXQZTWTJHWTGCKYCH', '上会类型且状态为提交（会议未锁定）或未通过才可以撤回'))
+        }
       } else {
         if (this.selection[0].appStatus == "SUBMIT") {
           this.mtzReasonShow = true;

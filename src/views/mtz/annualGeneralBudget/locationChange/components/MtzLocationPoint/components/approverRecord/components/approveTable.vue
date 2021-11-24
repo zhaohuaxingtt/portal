@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-15 15:37:44
+ * @LastEditTime: 2021-11-23 11:04:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -14,9 +14,11 @@
         <iButton type="text"
                  class="margin-right20"
                  @click="handleSync"
+                 v-show="!flag"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
         <iButton v-show="!flag"
+                 :disabled="disabled"
                  @click="edit">{{language('BIANJI', '编辑') }}</iButton>
       </div>
       <div v-if="editFlag">
@@ -126,7 +128,7 @@
                :visible.sync="dialogVisible"
                width="30%"
                :before-close="handleClose">
-      <process-vertical instanceId="1212584" />
+      <process-vertical :instanceId="riseId" />
       <span slot="footer"
             class="dialog-footer">
       </span>
@@ -153,7 +155,8 @@ export default {
       riseId: "",
       selectDeptList: [],
       selectSectionList: [],
-      flag: false
+      flag: false,
+      disabled: false
     }
   },
   components: {
@@ -167,24 +170,25 @@ export default {
   created () {
     this.init()
   },
-  computed: {
-    mtzObject () {
-      return this.$store.state.location.mtzObject;
-    }
-  },
-  watch: {
-    mtzObject (newVlue, oldValue) {
-      this.init()
-    }
-  },
+  // computed: {
+  //   mtzObject () {
+  //     return this.$store.state.location.mtzObject;
+  //   }
+  // },
+  // watch: {
+  //   mtzObject (newVlue, oldValue) {
+  //     this.init()
+  //   }
+  // },
   mixins: [pageMixins],
   methods: {
-    init () {
-      this.mtzAppId = this.mtzObject.mtzAppId || this.$route.query.mtzAppId
+    async init () {
+      this.mtzAppId = this.$route.query.mtzAppId
       this.flag = JSON.parse(this.$route.query.isView)
-      this.getTableList()
+      await this.getAppFormInfo()
       this.selectDept()
       this.selectSection()
+
     },
     getTableList () {
       this.tableLoading = true
@@ -225,16 +229,24 @@ export default {
         this.selectSectionList = res.data
       })
     },
-    approveStream () {
-      this.dialogVisible = true
+    getAppFormInfo () {
       getAppFormInfo({
         isDeptLead: true,
         mtzAppId: this.mtzAppId || '5107001'
       }).then(res => {
         if (res?.code === '200') {
           this.riseId = res.data.riseId
+          if (res.data.ttNominateAppId) {
+            this.disabled = true
+          }
+          if (res.data.flowType === 'FILING') {
+            this.handleSync()
+          }
         }
       })
+    },
+    approveStream () {
+      this.dialogVisible = true
     },
     edit () {
       if (this.muilteList.length === 0) {
@@ -300,7 +312,7 @@ export default {
       this.userList = obj.userDTOList
     },
     handleSync () {
-      syncAuther({ mtzAppId: this.mtzAppId || '5107001' }).then(res => {
+      syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: "1" }).then(res => {
         if (res?.code === '200') {
           this.getTableList()
           iMessage.success(res.desZh)

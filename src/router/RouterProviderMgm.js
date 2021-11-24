@@ -6,7 +6,7 @@ export default [
     redirect: '/provider/userMgm/list',
     meta: {
       title: 'provider',
-      top: 'admin' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
     component: () => import('@/layout/empty.vue'),
     children: [
@@ -15,7 +15,7 @@ export default [
         name: 'userMgm',
         meta: {
           title: '供应商用户管理',
-          top: 'admin' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
         },
         component: () => import('@/views/provider/userMgm/index')
       },
@@ -24,7 +24,7 @@ export default [
         name: 'authMgm',
         meta: {
           title: '供应商授权管理',
-          top: 'admin' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
         },
         component: () => import('@/views/provider/authMgm/index')
       },
@@ -33,7 +33,7 @@ export default [
         name: 'sysMgm',
         meta: {
           title: '供应商系统管理',
-          top: 'admin' // 一级菜单 选中与否 flag
+          activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
         },
         component: () => import('@/views/provider/sysMgm/index')
       }
@@ -44,7 +44,7 @@ export default [
     name: 'authEdit',
     meta: {
       title: '供应商授权管理编辑',
-      top: 'admin' // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
     component: () => import('@/views/provider/authMgm/edit/index')
   }

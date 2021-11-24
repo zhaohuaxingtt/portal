@@ -8,15 +8,15 @@
 <template>
   <div>
     <el-row :gutter="20" type="flex" justify="space-between">
-      <el-col :span="8">
+      <el-col :span="8" v-permission="Card_SPI">
         <!-- 供应商得分 -->
         <supplierKpi></supplierKpi>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="8" v-permission="Card_Accessories_Supply_Rate">
         <!-- 配附件供货率 -->
         <supplyRate :infodata="infodata"></supplyRate>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="8" v-permission="Card_EKL_BP">
         <!-- ekl批量件 -->
         <eklSupplier :infodata="infodata"></eklSupplier>
       </el-col>
@@ -31,11 +31,11 @@
         <!-- 送样 -->
         <sampleDelivery></sampleDelivery>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="8" v-permission="Card_Nomination">
         <!-- 定点 -->
         <fixed></fixed>
       </el-col>
-      <el-col :span="8">
+      <el-col v-permission="Card_Sourcing" :span="8">
         <!-- 寻源 -->
         <sourcing></sourcing>
       </el-col>
@@ -47,12 +47,15 @@
       justify="space-between"
     >
       <el-col :span="8">
+        <!-- 产能预警 -->
         <productivity></productivity>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="8" v-permission="Card_C-Rating">
+        <!-- 财务预警 -->
         <newsMonitor :infodata="infodata"></newsMonitor>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="8"  v-permission="Card_Public_opinion_monitoring">
+        <!-- 舆情监测 -->
         <publicOpinion> </publicOpinion>
       </el-col>
     </el-row>
@@ -62,7 +65,7 @@
       type="flex"
       justify="space-between"
     >
-      <el-col :span="24">
+      <el-col :span="24" v-permission="Card_Contract">
         <contract> </contract>
       </el-col>
     </el-row>

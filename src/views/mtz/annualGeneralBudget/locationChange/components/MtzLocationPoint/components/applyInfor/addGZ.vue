@@ -36,15 +36,15 @@
             </iFormItem>
             <iFormItem prop="carline">
                 <iLabel :label="language('CHEXING','车型')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.carline"
+                <custom-select v-model="carlineNumber"
                          :user-options="carline"
                          clearable
                          multiple
                          filterable
                          :placeholder="language('QINGXUANZE', '请选择')"
                          display-member="modelNameZh"
-                         value-member="id"
-                         value-key="id">
+                         value-member="modelNameZh"
+                         value-key="modelNameZh">
                 </custom-select>
             </iFormItem>
             <iFormItem prop="supplierId">
@@ -58,7 +58,7 @@
                     <el-option
                         v-for="item in supplierList"
                         :key="item.code"
-                        :label="item.code"
+                        :label="item.codeMessage"
                         :value="item.code">
                     </el-option>
                 </i-select>
@@ -106,72 +106,76 @@
                 v-model="contractForm.price"
                 type="number"
                 placeholder="请输入基价"
-                :disabled="disabled"
+                :disabled="metalType"
                 />
             </iFormItem>
             <iFormItem prop="priceMeasureUnit">
                 <iLabel :label="language('JIJIAJILIANGDANWEI','基价计量单位')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.priceMeasureUnit"
-                         :user-options="priceMeasureUnit"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                <el-input
+                v-model="contractForm.priceMeasureUnit"
+                type="text"
+                placeholder="请输入"
+                :disabled="true"
+                />
             </iFormItem>
             <iFormItem prop="platinumPrice">
-                <iLabel :label="language('BOJIJIA','铂基价')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('BOJIJIA','铂基价')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.platinumPrice"
                 type="number"
                 placeholder="请输入铂基价"
-                :disabled="disabled"
+                :disabled="!metalType"
+                @change="jijiaCompute"
                 />
             </iFormItem>
             <iFormItem prop="platinumDosage">
-                <iLabel :label="language('BOYONGLIANG','铂用量')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('BOYONGLIANG','铂用量')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.platinumDosage"
                 type="number"
                 placeholder="请输入铂用量"
-                :disabled="disabled"
+                :disabled="!metalType"
+                @change="jijiaCompute"
                 />
             </iFormItem>
             <iFormItem prop="palladiumPrice">
-                <iLabel :label="language('BAJIJIA','钯基价')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('BAJIJIA','钯基价')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.palladiumPrice"
                 type="number"
                 placeholder="请输入钯基价"
-                :disabled="disabled"
+                :disabled="!metalType"
+                @change="jijiaCompute"
                 />
             </iFormItem>
             <iFormItem prop="palladiumDosage">
-                <iLabel :label="language('BAYONGLIANG','钯用量')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('BAYONGLIANG','钯用量')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.palladiumDosage"
                 type="number"
                 placeholder="请输入钯用量"
-                :disabled="disabled"
+                :disabled="!metalType"
+                @change="jijiaCompute"
                 />
             </iFormItem>
             <iFormItem prop="rhodiumPrice">
-                <iLabel :label="language('LAOJIJIA','铑基价')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('LAOJIJIA','铑基价')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.rhodiumPrice"
                 type="number"
                 placeholder="请输入铑基价"
-                :disabled="disabled"
+                :disabled="!metalType"
+                @change="jijiaCompute"
                 />
             </iFormItem>
             <iFormItem prop="rhodiumDosage">
-                <iLabel :label="language('LAOYONGLIANG','铑用量')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('LAOYONGLIANG','铑用量')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.rhodiumDosage"
                 type="number"
                 placeholder="请输入铑用量"
-                :disabled="disabled"
+                :disabled="!metalType"
+                @change="jijiaCompute"
                 />
             </iFormItem>
             <iFormItem prop="tcCurrence">
@@ -180,7 +184,7 @@
                          :user-options="tcCurrence"
                          clearable
                          :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
+                         display-member="code"
                          value-member="code"
                          value-key="code">
                 </custom-select>
@@ -200,7 +204,6 @@
                 v-model="contractForm.source"
                 type="text"
                 placeholder="请输入市场价来源"
-                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="compensationRatio">
@@ -247,6 +250,7 @@
                 <iLabel :label="language('YOUXIAOQIQI','有效期起')" slot="label" :required="true"></iLabel>
                 <iDatePicker v-model="contractForm.startDate"
                             type="date"
+                            value-format="yyyy-MM-dd"
                             >
                 </iDatePicker>
             </iFormItem>
@@ -254,16 +258,19 @@
                 <iLabel :label="language('YOUXIAOQIZHI','有效期止')" slot="label" :required="true"></iLabel>
                 <iDatePicker v-model="contractForm.endDate"
                             type="date"
+                            value-format="yyyy-MM-dd"
                             >
                 </iDatePicker>
             </iFormItem>
             </iFormGroup>
         </div>
         <span slot="footer" class="dialog-footer">
+            <!-- <span class="time_color" v-if="timeShow">重叠时间段为：{{startTime}}&nbsp;&nbsp;~&nbsp;&nbsp;{{endTime}}</span> -->
             <i-button @click="handleSave">保存</i-button>
             <i-button @click="handleReset">重置</i-button>
             <i-button @click="handleCancel">取消</i-button>
         </span>
+
     </div>
 </template>
 
@@ -273,9 +280,12 @@ import {
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 import {
   cartypePaged,//车型
+  currencyDict,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 import {
   addAppRule,//维护MTZ原材料规则-新增
+  checkPreciousMetal,
+  queryMaterialList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { 
     getRawMaterialNos
@@ -283,6 +293,8 @@ import {
 import {
   fetchRemoteMtzMaterial,//查询MTZ材料组
 } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit';
+import { isNumber,timeCoincide,timeTransformation,Mul,numAdd } from "./util";
+
 import {
   iButton,
   iMessage,
@@ -292,7 +304,7 @@ import {
   iFormItem,
   iLabel,
   iSelect,
-  iDatePicker
+  iDatePicker,
 } from 'rise'
 export default {components: {
     iButton,
@@ -303,7 +315,7 @@ export default {components: {
     iFormItem,
     iLabel,
     iSelect,
-    iDatePicker
+    iDatePicker,
   },
   props: {
     show: {
@@ -314,6 +326,12 @@ export default {components: {
       default: () => {
         return {}
       }
+    },
+    dataObject:{
+        type: Object,
+        default: () => {
+            return {}
+        }
     }
   },
   data() {
@@ -324,6 +342,39 @@ export default {components: {
             callback();
         }
     };
+    var validatePass2 = (rule, value, callback) => {//阈值
+        if(value.toString().split(".")[1] !== undefined){
+            if (value.toString().split(".")[1].length>4) {
+                callback(new Error('最多输入小数点后4位'));
+            }else{
+                callback();
+            }
+        }else{
+            callback();
+        }
+    };
+    var validatePass3 = (rule, value, callback) => {//用量
+        if(value == "" || value == undefined){
+            callback();
+        }else{
+            if(value.toString().split(".")[1] !== undefined){
+                if (value.toString().split(".")[1].length>6) {
+                    callback(new Error('最多输入小数点后6位'));
+                }else{
+                    callback();
+                }
+            }else{
+                callback();
+            }
+        }
+    }
+    var validatePass4 = (rule, value, callback) => {
+        if(timeTransformation(this.contractForm.startDate)>=timeTransformation(this.contractForm.endDate)){
+            callback(new Error('有效期起不能大于等于有效期止'));
+        }else{
+            callback();
+        }
+    }
     return {
         thresholdCompensationLogic:[//阈值补差逻辑,全额补差/超额补差
             {
@@ -349,18 +400,7 @@ export default {components: {
                 message:"季度"
             },
         ],
-        tcCurrence:[//货币
-            {
-                code:"0",
-                message:"RMB"
-            }
-        ],
-        priceMeasureUnit:[//基价计量单位
-            {
-                code:"0",
-                message:"KG"
-            }
-        ],
+        tcCurrence:[],
         supplierList:[],//供应商
         carline:[],//车型
         contractForm: {
@@ -369,9 +409,19 @@ export default {components: {
             compensationRatio:1,
             materialName:'',
             threshold:0,
-            endDate:"2999-12-31 00:00:00",
-            source:"JD"
+            endDate:"2999-12-31",
+            source:"",
+            price:"",
+            carline:"",
+            priceMeasureUnit:"",
+            platinumPrice:'',
+            platinumDosage:'',
+            palladiumDosage:'',
+            rhodiumPrice:'',
+            rhodiumDosage:'',
+            palladiumPrice:"",
         },
+        carlineNumber:[],
         rules: {
             effectFlag: [{ required: true, message: '请选择', trigger: 'blur' }],
             materialGroup: [{ required: true, message: '请选择', trigger: 'blur' }],
@@ -380,14 +430,17 @@ export default {components: {
             supplierName: [{ required: true, message: '请选择', trigger: 'blur' }],
             materialCode: [{ required: true, message: '请选择', trigger: 'blur' }],
             materialName: [{ required: true, message: '请选择', trigger: 'blur' }],
-            price: [{ required: true, message: '请输入', trigger: 'blur' }],
+            price: [{ required: true, message: '请输入或补全铂钯铑基价和用量', trigger: 'blur' }],//基价
             priceMeasureUnit: [{ required: true, message: '请选择', trigger: 'blur' }],
-            platinumPrice: [{ required: true, message: '请输入', trigger: 'blur' }],
-            platinumDosage: [{ required: true, message: '请输入', trigger: 'blur' }],
-            palladiumPrice: [{ required: true, message: '请输入', trigger: 'blur' }],
-            palladiumDosage: [{ required: true, message: '请输入', trigger: 'blur' }],
-            rhodiumPrice: [{ required: true, message: '请输入', trigger: 'blur' }],
-            rhodiumDosage: [{ required: true, message: '请输入', trigger: 'blur' }],
+            platinumDosage:[
+                { validator:validatePass3, trigger: 'blur' }
+            ],
+            palladiumDosage:[
+                { validator:validatePass3, trigger: 'blur' }
+            ],
+            rhodiumDosage:[
+                { validator:validatePass3, trigger: 'blur' }
+            ],
             tcCurrence: [{ required: true, message: '请选择', trigger: 'blur' }],
             tcExchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }],
             source: [{ required: true, message: '请输入', trigger: 'blur' }],
@@ -396,10 +449,19 @@ export default {components: {
                 { validator:validatePass1, trigger: 'blur' }
             ],
             compensationPeriod: [{ required: true, message: '请选择', trigger: 'blur' }],
-            threshold: [{ required: true, message: '请输入', trigger: 'blur' }],
+            threshold: [{ 
+                required: true, message: '请输入', trigger: 'blur' },
+                { validator:validatePass2, trigger: 'blur' }
+            ],
             thresholdCompensationLogic: [{ required: true, message: '请选择', trigger: 'blur' }],
-            startDate: [{ required: true, message: '请选择', trigger: 'blur' }],
-            endDate: [{ required: true, message: '请选择', trigger: 'blur' }],
+            startDate: [
+                { required: true, message: '请选择', trigger: 'blur' },
+                { validator:validatePass4, trigger: 'blur' }
+            ],
+            endDate: [
+                { required: true, message: '请选择', trigger: 'blur' },
+                { validator:validatePass4, trigger: 'blur' }
+            ],
         },
         effectFlag:[
             {
@@ -415,6 +477,10 @@ export default {components: {
 
         supplierType1:false,
         supplierType2:false,
+        metalType:false,
+        timeShow:false,//重叠时间显示
+        startTime:"",
+        endTime:"",
     }
   },
   created(){
@@ -433,6 +499,10 @@ export default {components: {
     }).then(res=>{
         this.carline = res.data;
     })
+
+    currencyDict().then(res=>{
+        this.tcCurrence = res.data;
+    })
   },
   computed:{
       mtzObject(){
@@ -445,7 +515,35 @@ export default {components: {
     }
   },
   methods: {
+    jijiaCompute(){
+        if(isNumber(this.contractForm.platinumPrice) && isNumber(this.contractForm.platinumDosage) && isNumber(this.contractForm.palladiumPrice) && isNumber(this.contractForm.palladiumDosage) && isNumber(this.contractForm.rhodiumPrice) && isNumber(this.contractForm.rhodiumDosage)){
+            var number = 0;
+            // this.contractForm.price = Mul(Number(this.contractForm.platinumPrice),Number(this.contractForm.platinumDosage)) + Mul(Number(this.contractForm.palladiumPrice),Number(this.contractForm.palladiumDosage)) + Mul(Number(this.contractForm.rhodiumPrice),Number(this.contractForm.rhodiumDosage))
+
+            number = numAdd(Mul(Number(this.contractForm.platinumPrice),Number(this.contractForm.platinumDosage)),Mul(Number(this.contractForm.palladiumPrice),Number(this.contractForm.palladiumDosage)))
+            number = numAdd(number,Mul(Number(this.contractForm.rhodiumPrice),Number(this.contractForm.rhodiumDosage)));
+
+            this.contractForm.price = number;
+
+        }else{
+            this.contractForm.price = "";
+        }
+    },
     MaterialGrade(value){
+        this.contractForm.priceMeasureUnit = "",
+        this.contractForm.price = "",
+        this.contractForm.platinumPrice = "",
+        this.contractForm.platinumDosage = "",
+        this.contractForm.palladiumPrice = "",
+        this.contractForm.palladiumDosage = "",
+        this.contractForm.rhodiumPrice = "",
+        this.contractForm.rhodiumDosage = "",
+        checkPreciousMetal({code:value}).then(res=>{
+            this.metalType = res.data;
+        })
+        queryMaterialList({materialCode:value}).then(res=>{
+            this.contractForm.priceMeasureUnit = res.data.countUnit;
+        })
         try{
             this.materialCode.forEach(e => {
                 if(e.code == value){
@@ -512,29 +610,46 @@ export default {components: {
         }
     },
     handleSave() {
-      this.$refs['contractForm'].validate(async valid => {
-        if (valid) {
-            addAppRule({
-                ...this.contractForm,
-                ttMtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-            }).then(res=>{
-                if(res.code == 200 && res.result){
-                    iMessage.success(res.desZh)
-                    this.$emit("addDialogGZ","")
-                }
-            })
-          console.log("验证成功")
-        } else {
-          return false
-        }
-      })
+        this.contractForm.carline = this.carlineNumber.toString();
+        this.$refs['contractForm'].validate(async valid => {
+            if (valid) {
+                console.log("验证成功")
+                // var num = 0; 
+                // this.dataObject.forEach(e=>{
+                //     if(e.supplierId.toString() == this.contractForm.supplierId && e.materialCode == this.contractForm.materialCode && Number(e.price) == Number(this.contractForm.price) && timeCoincide(e.startDate,e.endDate,this.contractForm.startDate,this.contractForm.endDate)){
+                //         this.startTime = e.startDate;
+                //         this.endTime = e.endDate;
+                //         this.timeShow = true;
+                //         num++;
+                //     }
+                // })
+                // if(num !== 0){
+                //     iMessage.error(this.language("CZXTZJBNJXXZCZ","存在相同主键时，所有时间段均不能重叠"))
+                //     return false;
+                // }
+                // this.timeShow = false;
+                addAppRule({
+                    ...this.contractForm,
+                    ttMtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+                }).then(res=>{
+                    if(res.code == 200 && res.result){
+                        iMessage.success(this.language(res.desEn,res.desZh))
+                        this.$emit("addDialogGZ","")
+                    }else{
+                        iMessage.error(this.language(res.desEn,res.desZh))
+                    }
+                })
+            } else {
+                return false
+            }
+        })
     },
     handleReset() {
       this.contractForm = {}
     },
     handleCancel(){
         this.$emit("close","")
-    }
+    },
   }
 
 }
@@ -544,6 +659,12 @@ export default {components: {
 ::v-deep .dialog-footer{
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+}
+.time_color{
+    color:red;
+    display: inline-block;
+    margin-right:20px;
 }
 .vue-select{
     width:100%;
