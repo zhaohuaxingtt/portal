@@ -1,6 +1,6 @@
 import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_APPROVAL)
-const requstUpload = axios(process.env.VUE_APP_COMMON)
+const requstUpload = axios(process.env.VUE_APP_FILEAPI)
 
 export function queryHistoryTask(params) {
   return requst({
@@ -27,7 +27,7 @@ export function saveApprovalAttach(data) {
 
 export function uploadApprovalAttach(data) {
   return requstUpload({
-    url: `/web/udFile/udSingleFile`,
+    url: `/fileud/udSingleFile`,
     method: 'POST',
     data
   })

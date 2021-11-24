@@ -523,7 +523,7 @@
             width="90%"
             @close="quoteType"
             >
-            <quoteData @close="quoteClose" @quoteDialog="quoteDialogList"></quoteData>
+            <quoteData @quoteDialog="quoteDialogList"></quoteData>
         </iDialog>
 
         <iDialog
@@ -553,7 +553,8 @@ import {
   modifyPartMasterData,//维护MTZ零件主数据-编辑多条
   deletePartMasterData,//维护MTZ零件主数据-删除
   listPartNumSupplierIdData,
-  pageAppRule
+  pageAppRule,
+  removePartMasterData,//清空维护mtz零件主数据
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   getMtzSupplierList,//获取原材料牌号
@@ -564,7 +565,7 @@ import { formRulesLJ } from "./data";
 
 export default {
   name: "Search",
-  componentName: "theTable",
+  componentName: "theDataTabs",
   props:["appStatus"],
   components: {
     iCard,
@@ -607,6 +608,7 @@ export default {
         quoteDialog:false,
         historyType:false,
         dialogEditType:false,
+        dataCloseAllRequest:false,//判断是否为选择维护mtz零件主数据
     }
   },
   computed:{
@@ -703,28 +705,56 @@ export default {
                         confirmButtonText: this.language('QUEREN', '确认'),
                         cancelButtonText: this.language('QUXIAO', '取消')
                     }).then(res=>{
-                        addBatchPartMasterData({
-                            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-                            mtzAppNomiPartMasterDataList:this.newDataList
-                        }).then(res=>{
-                            if(res.code == 200){
-                                iMessage.success(this.language(res.desEn,res.desZh))
-                                this.editId = "";
-                                this.editType = false;
-                                this.page.currPage = 1;
-                                this.page.pageSize = 10;
-                                this.dialogEditType = false;
-                                this.getTableList();
-                            }else{
-                                iMessage.error(this.language(res.desEn,res.desZh))
-                            }
-                        })
+                        if(this.dataCloseAllRequest){
+                            removePartMasterData({
+                                mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                            }).then(res=>{
+                                if(res.code == 200 && res.result){
+                                    addBatchPartMasterData({
+                                        mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                                        mtzAppNomiPartMasterDataList:this.newDataList
+                                    }).then(res=>{
+                                        if(res.code == 200){
+                                            iMessage.success(this.language(res.desEn,res.desZh))
+                                            this.editId = "";
+                                            this.editType = false;
+                                            this.page.currPage = 1;
+                                            this.page.pageSize = 10;
+                                            this.dialogEditType = false;
+                                            this.dataCloseAllRequest = false;
+                                            this.getTableList();
+                                        }else{
+                                            iMessage.error(this.language(res.desEn,res.desZh))
+                                        }
+                                    })
+                                }else{
+                                    iMessage.error(this.language(res.desEn,res.desZh))
+                                }
+                            })
+                        }else{
+                            addBatchPartMasterData({
+                                mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                                mtzAppNomiPartMasterDataList:this.newDataList
+                            }).then(res=>{
+                                if(res.code == 200){
+                                    iMessage.success(this.language(res.desEn,res.desZh))
+                                    this.editId = "";
+                                    this.editType = false;
+                                    this.page.currPage = 1;
+                                    this.page.pageSize = 10;
+                                    this.dialogEditType = false;
+                                    this.getTableList();
+                                }else{
+                                    iMessage.error(this.language(res.desEn,res.desZh))
+                                }
+                            })
+                        }
                     }).catch(res=>{
                        
                     })
                     this.$refs['contractForm'].clearValidate();
                 }else{
-                    iMessage.error(this.language("QINGBUQUANBITIANXIANG","请补全必填项"))
+                    iMessage.error(this.language("QINGBUQUANYANZHENGBITIANXIANG","请补全验证必填项"))
                     return false
                 }
             })
@@ -755,7 +785,7 @@ export default {
                     })
                     this.$refs['contractForm'].clearValidate();
                 }else{
-                    iMessage.error(this.language("QINGBUQUANBITIANXIANG","请补全必填项"))
+                    iMessage.error(this.language("QINGBUQUANYANZHENGBITIANXIANG","请补全验证必填项"))
                     return false
                 }
             })
@@ -772,11 +802,14 @@ export default {
                     this.tableData.splice(0,1);
                 })
                 this.dialogEditType = false;
+                this.getTableList();
             }else{
                 this.getTableList();
             }
         }).then(res=>{
-            this.editId = ""; 
+            this.editId = "";
+            this.$refs['contractForm'].clearValidate();
+            this.dataCloseAllRequest = false;
         }).catch(res=>{
             
         })
@@ -808,14 +841,14 @@ export default {
         })
     },
     locationClick(){
-        // iMessageBox(this.language('CCZJSCNYWHDSYLJZSJBGJDDSQDZDYMTZSXDLJDYDGYSJCGYSSYXGGZTJZMTZYCLGZLB','此操作将删除您已维护的所有零件主数据，并根据定点申请单中带有MTZ属性的零件对应的供应商将此供应商所有相关规则添加至MTZ原材料规则列表，是否继续？'),this.language('LK_WENXINTISHI','温馨提示'),{
-        //     confirmButtonText: this.language('QUEREN', '确认'),
-        //     cancelButtonText: this.language('QUXIAO', '取消')
-        // }).then(res=>{
+        iMessageBox(this.language('CCZJSCNYWHDSYLJZSJSFJX','此操作将删除您已维护的所有零件主数据，是否继续？'),this.language('LK_WENXINTISHI','温馨提示'),{
+            confirmButtonText: this.language('QUEREN', '确认'),
+            cancelButtonText: this.language('QUXIAO', '取消')
+        }).then(res=>{
             this.quoteDialog = true;
-        // }).catch(res=>{
+        }).catch(res=>{
             
-        // })
+        })
     },
     historyClick(){
         this.historyType = true;
@@ -928,8 +961,10 @@ export default {
         this.dialogEditType = true;
         this.pageAppRequest();
     },
-    quoteDialogList(val){
+    quoteDialogList(val){//引用定点申请单零件
         // this.newDataList = deepClone(val);
+
+        this.tableData = [];
         this.quoteType();
         var list = [];
         val.forEach((item,index) => {
@@ -954,6 +989,7 @@ export default {
         })
         this.editId = changeArrayList;
         this.dialogEditType = true;
+        this.dataCloseAllRequest = true;
         this.pageAppRequest();
     },
     historyDialogList(val){

@@ -90,7 +90,7 @@
             </div>
             <div class="right">
               <div
-                style="font-family: Arial; font-weight: bold; color: #343434"
+                style="font-family: Arial; font-weight: bold; color: #aaa"
               >
                 中期改款
               </div>
@@ -289,6 +289,7 @@ export default {
   width: 100%;
   height: 100%;
   padding: 8px 16px 16px 16px;
+  pointer-events: none;
   .center-bar {
     position: absolute;
     bottom: 22%;

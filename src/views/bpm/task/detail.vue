@@ -3,9 +3,8 @@
     <div class="page-header margin-bottom20">
       <div class="font18 font-weight">
         {{ form.itemName }}
-        <span class="business-id">{{ form.businessId }}</span> ({{
-          form.stateMsg
-        }})
+        <span class="business-id">{{ form.businessId }}</span>
+        ({{ form.stateMsg }})
       </div>
       <div class="operation-btn">
         <!-- 批准 -->
