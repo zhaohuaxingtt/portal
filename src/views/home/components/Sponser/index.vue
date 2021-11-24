@@ -240,9 +240,9 @@ export default {
         total += data[i].value
       }
       this.total = total
-      // let sortA = data.sort().slice(0,3).reverse()
-      // let arr = [...sortA, ...data.slice(3, data.length)]
-      this.legendData = data
+      let sortA = data.sort().slice(0,3).reverse()
+      let arr = [...sortA, ...data.slice(3, data.length)]
+      this.legendData = arr
       const chart = echarts().init(this.$refs.pie)
       this.chart = chart
       const option = {

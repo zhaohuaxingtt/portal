@@ -5,7 +5,7 @@
       <div class="basicMessage">
         <iCard :title="title.icardMessage" collapse>
           <div class="btnList">
-              <!-- <iButton style="margin-right:20px" @click="toColorStandardParts">{{language('批量修改')}}</iButton> -->
+              <iButton style="margin-right:20px" @click="toColorStandardParts"  v-if="isEditColorPart">{{language('批量修改')}}</iButton>
               <div class="browse" v-if='isDisabled>0 ? true : false'>
                   <iButton @click="edit">{{btnList.edit}}</iButton>
               </div>
@@ -592,6 +592,8 @@ export default {
                     })
                     this.oldDrawingDate = data.drawingDate ? data.drawingDate.slice(0,10) : data.drawingDate
                     this.initialItemContent = JSON.parse(JSON.stringify(val.data))
+                    this.isEditColorPart = data.isEditColorPart
+                    // this.isEditColorPart = true
                 }
             }).catch((err) => {
                 iMessage.error('获取数据失败')
@@ -666,7 +668,7 @@ export default {
             })
         },
         toColorStandardParts(){
-            openUrl('/colorStandardParts')
+            openUrl(`/colorStandardParts?id=${this.$route.query.id}`)
         }
     },
     created(){
@@ -756,6 +758,7 @@ export default {
                 }
         }
         return {
+            isEditColorPart:true,
             rules:{
                 partNameZh:[
                     { required: true, message: '请输入零件中文名称', trigger: 'blur' },
@@ -894,7 +897,8 @@ export default {
                 baseUnitId:'',
                 vos:[]
             },
-            datePickerStatus:false
+            datePickerStatus:false,
+            
         }
     }
 }

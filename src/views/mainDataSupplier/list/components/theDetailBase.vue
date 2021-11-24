@@ -407,7 +407,7 @@ export default {
       })
     },
     save() {
-      const params = { id: this.supplierId }
+      const params = { id: this.$route.query.id }
       const data = {
         addressInfoUpdateVo: this.detail.addressInfoVo,
         addressId: this.detail.addressInfoVo.addressId,
@@ -433,7 +433,8 @@ export default {
         socialcreditNo: this.detail.socialcreditNo,
         stockCode: this.detail.stockCode,
         supplierGrade: this.detail.supplierGrade,
-        supplierId: this.detail.supplierId,
+        // supplierId: this.detail.supplierId ,
+        supplierId:this.$route.query.id ,
         supplierType: this.detail.supplierType,
         svwCode: this.detail.svwCode,
         svwTempCode: this.detail.svwTempCode,
