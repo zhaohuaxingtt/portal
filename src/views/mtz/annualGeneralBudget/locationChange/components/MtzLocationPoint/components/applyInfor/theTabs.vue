@@ -188,7 +188,7 @@
                 </template>
             </el-table-column>
             <el-table-column prop="materialCode"
-                            align="center"
+                            align="center"  
                             width="150"
                             :label="language('YUANCAILIAOPAIHAO','原材料牌号')"
                             show-overflow-tooltip>
@@ -735,7 +735,7 @@ import {
 
 export default {
   name: "Search",
-  componentName: "theTable",
+  componentName: "theTabs",
   components: {
     iCard,
     iButton,
@@ -904,6 +904,10 @@ export default {
                                 this.editType = false;
                                 this.page.currPage = 1;
                                 this.page.pageSize = 10;
+                                setTimeout(() => {
+                                    this.$parent.$refs.theDataTabs.pageAppRequest()
+                                }, 500);
+
                                 this.getTableList();
                             }else{
                                 iMessage.error(this.language(res.desEn,res.desZh))
@@ -921,7 +925,7 @@ export default {
                     })
                     this.$refs['contractForm'].clearValidate();
                 }else{
-                    iMessage.error(this.language("QINGBUQUANBITIANXIANG","请补全必填项"))
+                    iMessage.error(this.language("QINGBUQUANYANZHENGBITIANXIANG","请补全验证必填项"))
                     return false
                 }
             })
@@ -942,6 +946,10 @@ export default {
                             if(res.code == 200){
                                 this.editId = "";
                                 this.editType = false;
+                                setTimeout(() => {
+                                    this.$parent.$refs.theDataTabs.pageAppRequest()
+                                }, 500);
+
                                 this.getTableList();
                             }else{
                                 iMessage.error(res.message)
@@ -950,7 +958,7 @@ export default {
                     })
                     this.$refs['contractForm'].clearValidate();
                 }else{
-                    iMessage.error(this.language("QINGBUQUANBITIANXIANG","请补全必填项"))
+                    iMessage.error(this.language("QINGBUQUANYANZHENGBITIANXIANG","请补全验证必填项"))
                     return false
                 }
             })
@@ -973,6 +981,7 @@ export default {
             }
         }).then(res=>{
             this.editId = ""; 
+            this.$refs['contractForm'].clearValidate();
         }).catch(res=>{
             
         })
@@ -1011,6 +1020,7 @@ export default {
         this.dialogEditType = true;
     },
     delecte(){//删除
+        // console.log(this.$parent.$refs)
         iMessageBox(this.language('SHIFOUSHANCHU','是否删除？'),this.language('LK_WENXINTISHI','温馨提示'),{
             confirmButtonText: this.language('QUEREN', '确认'),
             cancelButtonText: this.language('QUXIAO', '取消')
@@ -1024,6 +1034,10 @@ export default {
             }).then(res=>{
                 if(res.code == 200 && res.result){
                     iMessage.success(res.desZh)
+                    setTimeout(() => {
+                        this.$parent.$refs.theDataTabs.pageAppRequest()
+                    }, 500);
+
                     this.getTableList();
                 }else{
                     iMessage.error(res.desZh)
@@ -1075,10 +1089,8 @@ export default {
             this.loading = false;
             if(res.total < 1){
                 store.commit("submitDataNumber",0);
-                console.log(0)
             }else{
                 store.commit("submitDataNumber",1);
-                console.log(1)
             }
         })
     },

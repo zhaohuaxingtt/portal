@@ -68,8 +68,8 @@
                 :placeholder="language('QINGSHURUBEIAN','请输入备注')"
                 v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
-    <theTabs v-if="!beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"></theTabs>
-    <theDataTabs v-if="!beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"></theDataTabs>
+    <theTabs ref="theTabs" v-if="!beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"></theTabs>
+    <theDataTabs ref="theDataTabs" v-if="!beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"></theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
              v-if="mtzAddShow"
@@ -306,7 +306,6 @@ export default {
     chioce (e, name) {
       this.inforData[name] = e;
     },
-
 
 
     jumpInforBtn(){
