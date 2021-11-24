@@ -19,18 +19,18 @@
       </span>
 
       <!-- 更多2 -->
-      <!-- <div class="more">
-        <span class="el-dropdown-link">
+      <div class="more">
+        <span class="el-dropdown-link" @click.stop="show = !show">
           <i class="el-icon-more"></i>
         </span>
-        <div class="more-content">
+        <div class="more-content" v-show="show">
           <div class="more-item" v-if="card.component === 'Task' || card.component === 'Approve'" @click="handleMore">更多</div>
           <div class="more-item" :class="{overHide: card.component != 'Task' && card.component != 'Approve'}" @click="handleDel">删除</div>
         </div>
-      </div> -->
+      </div>
       
       <!-- 更多1 -->
-      <el-dropdown trigger="click">
+      <!-- <el-dropdown trigger="click">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
@@ -43,7 +43,8 @@
           </el-dropdown-item>
           <el-dropdown-item @click.native="handleDel">删除</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
+      </el-dropdown> -->
+
     </div>
     <div class="module-content">
       <component :is="card.component" :data="card" ref="parent"></component>
@@ -76,7 +77,8 @@ export default {
   data() {
     return {
       showDialog: false,
-      modalTitle: ''
+      modalTitle: '',
+      show:false
     }
   },
   components: {
@@ -116,6 +118,11 @@ export default {
         return this.$t('HOME_CARD.' + this.card.permissionKey)
       }
     }
+  },
+  mounted(){
+    document.body.addEventListener("click",() => {
+      this.show = false
+    })
   },
   methods: {
     handleClickTitle(card) {
@@ -184,7 +191,7 @@ export default {
     cursor: pointer;
   }
   .more-content{
-    display: none;
+    // display: none;
     width: 80px;
     position: absolute;
     top: 25px;
@@ -197,8 +204,8 @@ export default {
     &::before{
       content:"";
       position: absolute;
-      top: -6px;
-      left: 50%;
+      top: -5px;
+      left: 58%;
       width: 8px;
       height: 8px;
       border-left: 1px solid #4B5C7D;
