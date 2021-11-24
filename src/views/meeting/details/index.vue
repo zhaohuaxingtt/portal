@@ -5,7 +5,7 @@
         <div class="row">
           <div class="meeting-type">
             <div class="name">会议名称</div>
-            <div class="name-content">
+            <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
             <iButton
@@ -94,6 +94,7 @@
           v-if="!showUpdateTopicButtonList"
           :rowClassName="tableRowClassName"
           :currentRow="currentRow"
+          :isSingle="curState === '05'"
         >
           <el-table-column type="selection" align="center"></el-table-column>
           <el-table-column
@@ -574,6 +575,7 @@ export default {
   },
   data() {
     return {
+      curState: '',
       currentRow: {},
       nameList: [],
       disabledImportThemenButton: false,
@@ -991,6 +993,7 @@ export default {
       })
     },
     goState(state) {
+      this.curState = state
       switch (state) {
         //草稿
         case '01':
@@ -1540,16 +1543,14 @@ export default {
         id: this.meetingInfo.id,
         state: '02'
       }
-      changeStateMeeting(param)
-        .then(() => {
+      changeStateMeeting(param).then((res) => {
+        if (res.code === 200) {
           iMessage.success('开放会议成功！')
-          // this.refreshTable();
-          this.flushTable()
-          this.getMeetingTypeObject()
-        })
-        .catch(() => {
-          iMessage.error('开放会议失败！')
-        })
+        }
+        // this.refreshTable();
+        this.flushTable()
+        this.getMeetingTypeObject()
+      })
       // });
     },
     endMeeting() {
@@ -1575,10 +1576,12 @@ export default {
         state: '05'
       }
       changeStateMeeting(param)
-        .then(() => {
-          iMessage.success('结束会议成功！')
-          this.flushTable()
-          this.getMeetingTypeObject()
+        .then((res) => {
+          if (res.code === 200) {
+            iMessage.success('结束会议成功！')
+            this.flushTable()
+            this.getMeetingTypeObject()
+          }
         })
         .catch(() => {
           // iMessage.error("结束会议失败！");
@@ -1850,14 +1853,17 @@ export default {
     .meeting-type {
       display: flex;
       font-size: 20px;
-
+      line-height: 35px;
       .name {
         color: #727272;
-
         margin-right: 20px;
       }
 
       .name-content {
+        max-width: 500px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         color: #000;
         margin-right: 10px;
       }

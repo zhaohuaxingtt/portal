@@ -26,7 +26,7 @@ export default [
       title: '会议类型管理',
       activeMenu: ['RISE_ADMIN', 'ADMIN_MEETING_TYPE']
     },
-    component: () => import(`@/views/meeting/type/index.vue`),
+    component: () => import('@/views/meeting/type/index.vue'),
     beforeEnter: (to, from, next) => {
       // if (to.query.userId) {
       //   sessionStorage.setItem("userId", to.query.userId);
@@ -103,7 +103,7 @@ export default [
     meta: {
       title: '会议详情管理'
     },
-    component: () => import(`@/views/meeting/details/index.vue`)
+    component: () => import('@/views/meeting/details/index.vue')
   },
   {
     path: '/meeting/specialDetails',
@@ -111,7 +111,7 @@ export default [
     meta: {
       title: '会议详情管理'
     },
-    component: () => import(`@/views/meeting/specialDetails/index.vue`)
+    component: () => import('@/views/meeting/specialDetails/index.vue')
   },
   {
     path: '/meeting/same-screen',
@@ -119,7 +119,7 @@ export default [
     meta: {
       title: '会议同屏'
     },
-    component: () => import(`@/views/meeting/sameScreen/index.vue`)
+    component: () => import('@/views/meeting/sameScreen/index.vue')
   },
   {
     path: '/meeting/meeting-same-screen',
@@ -127,7 +127,7 @@ export default [
     meta: {
       title: '新会议同屏'
     },
-    component: () => import(`@/views/meeting/meetingSameScreen/index.vue`)
+    component: () => import('@/views/meeting/meetingSameScreen/index.vue')
   },
   {
     path: '/meeting/meeting-show',
@@ -135,6 +135,6 @@ export default [
     meta: {
       title: '会议展示'
     },
-    component: () => import(`@/views/meeting/meetingShow/index.vue`)
+    component: () => import('@/views/meeting/meetingShow/index.vue')
   }
 ]

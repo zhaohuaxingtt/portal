@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-19 15:21:52
+ * @LastEditTime: 2021-11-23 15:29:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -150,13 +150,21 @@ export default {
       approvalRecordList: [],
       isShow: false,
       textarea: "",
-      isView: false,
+      // isView: false,
       disabled: false,
       dialogVisible: false
     }
   },
   created () {
-    this.init()
+    this.$nextTick(() => {
+      this.init()
+    });
+
+  },
+  props: {
+    isView: {
+      type: Boolean
+    }
   },
   watch: {
     '$store.state.location.disabled': {
@@ -169,7 +177,6 @@ export default {
   },
   methods: {
     init () {
-      this.isView = JSON.parse(this.$route.query.isView)
       this.mtzAppId = this.$route.query.mtzAppId
       this.getBasePriceChangePageList()
       this.getApprovalRecordList()
@@ -255,7 +262,6 @@ export default {
       this.muliteList1 = val
     },
     save () {
-
       this.muliteList.forEach(item => {
         item.editRow = false
       })
@@ -282,8 +288,8 @@ export default {
         mtzAppId: this.mtzAppId
       }
       uploadBasePriceChange(params).then((res) => {
-        console.log(res)
         if (res.code === '200') {
+          this.this.getBasePriceChangePageList()
           iMessage.success(res.desZh)
         } else {
           iMessage.error(res.desZh)

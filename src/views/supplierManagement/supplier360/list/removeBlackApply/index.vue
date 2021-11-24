@@ -5,7 +5,7 @@
 <template>
   <div>
     <div :class="ifSelf?'page':''">
-      <div class="headerTitle"  v-if="ifSelf">
+      <div class="headerTitle" v-if="ifSelf">
         <p>移除黑名单申请 - 生产采购</p>
         <div>
           <iButton @click="handleBtn(2)">{{
@@ -22,26 +22,30 @@
 
       <iCard :style="ifSelf?'margin-top:20px':''">
         <p class="tableTitle">{{supplierName}}</p>
-        <table-list style="margin-top:20px"
-                    :tableData="tableListData"
-                    :tableTitle="tableTitle"
-                    :tableLoading="tableLoading"
-                    :selection="false"
-                    @handleSelectionChange="handleSelectionChange"
-                    :index="true">
-                      <template #stuffNameEnDe='scope'>
-                        <span>{{scope.row.stuffName}}-{{scope.row.stuffNameDe}}</span>
-                    </template>
+        <table-list
+          style="margin-top:20px"
+          :tableData="tableListData"
+          :tableTitle="tableTitle"
+          :tableLoading="tableLoading"
+          :selection="false"
+          @handleSelectionChange="handleSelectionChange"
+          :index="true"
+        >
+          <template #stuffNameEnDe="scope">
+            <span>{{scope.row.stuffName}}-{{scope.row.stuffNameDe}}</span>
+          </template>
         </table-list>
-        <iPagination v-update
-                     @size-change="handleSizeChange($event, getTableList)"
-                     @current-change="handleCurrentChange($event, getTableList)"
-                     background
-                     :page-sizes="page.pageSizes"
-                     :page-size="page.pageSize"
-                     :layout="page.layout"
-                     :current-page="page.currPage"
-                     :total="page.totalCount" />
+        <iPagination
+          v-update
+          @size-change="handleSizeChange($event, getTableList)"
+          @current-change="handleCurrentChange($event, getTableList)"
+          background
+          :page-sizes="page.pageSizes"
+          :page-size="page.pageSize"
+          :layout="page.layout"
+          :current-page="page.currPage"
+          :total="page.totalCount"
+        />
       </iCard>
     </div>
   </div>
@@ -76,7 +80,9 @@ export default {
     }
   },
   created() {
-      console.log(window.parent)
+         var tbody = document.body
+        var height = tbody.clientHeight
+        window.parent.postMessage({ key: 'setFormHeight', value: height+'px'},'*')
         if (window.top === window.self) {
       this.ifSelf = true
     } else {
@@ -131,8 +137,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page{
-     padding: 30px 40px 30px 40px;
+.page {
+  padding: 30px 40px 30px 40px;
 }
 .tableTitle {
   font-size: 18px;

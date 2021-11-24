@@ -17,11 +17,24 @@
         <!-- {{ language(`${card.permissionKey}`) }} -->
         <!-- {{ $t('HOME_CARD.' + card.permissionKey) }} -->
       </span>
-      <el-dropdown trigger="click">
+
+      <!-- 更多2 -->
+      <div class="more">
+        <span class="el-dropdown-link" @click.stop="show = !show">
+          <i class="el-icon-more"></i>
+        </span>
+        <div class="more-content" v-show="show">
+          <div class="more-item" v-if="card.component === 'Task' || card.component === 'Approve'" @click="handleMore">更多</div>
+          <div class="more-item" :class="{overHide: card.component != 'Task' && card.component != 'Approve'}" @click="handleDel">删除</div>
+        </div>
+      </div>
+      
+      <!-- 更多1 -->
+      <!-- <el-dropdown trigger="click">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
         </span>
-        <el-dropdown-menu slot="dropdown">
+        <el-dropdown-menu slot="dropdown" class="card-dropdown">
           <el-dropdown-item
             @click.native="handleMore"
             v-if="card.component === 'Task' || card.component === 'Approve'"
@@ -30,7 +43,8 @@
           </el-dropdown-item>
           <el-dropdown-item @click.native="handleDel">删除</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
+      </el-dropdown> -->
+
     </div>
     <div class="module-content">
       <component :is="card.component" :data="card" ref="parent"></component>
@@ -63,7 +77,8 @@ export default {
   data() {
     return {
       showDialog: false,
-      modalTitle: ''
+      modalTitle: '',
+      show:false
     }
   },
   components: {
@@ -103,6 +118,11 @@ export default {
         return this.$t('HOME_CARD.' + this.card.permissionKey)
       }
     }
+  },
+  mounted(){
+    document.body.addEventListener("click",() => {
+      this.show = false
+    })
   },
   methods: {
     handleClickTitle(card) {
@@ -160,6 +180,66 @@ export default {
     color: #4d4d4d;
   }
 }
+.more{
+  position: relative;
+  margin-right: 10px;
+
+  &:hover .more-content{
+    display:block;
+  }
+  .el-dropdown-link{
+    cursor: pointer;
+  }
+  .more-content{
+    // display: none;
+    width: 80px;
+    position: absolute;
+    top: 25px;
+    right: -20px;
+    z-index: 900;
+    border: 1px solid #4B5C7D;
+    background-color: #fff;
+    border-radius: 8px;
+    transition: all .3s ease-in;
+    &::before{
+      content:"";
+      position: absolute;
+      top: -17%;
+      left: 58%;
+      width: 8px;
+      height: 8px;
+      border-left: 1px solid #4B5C7D;
+      border-top: 1px solid #4B5C7D;
+      z-index: 901;
+      background-color: #fff;
+      transform: rotate(45deg);
+    }
+    .more-item{
+      position: relative;
+      z-index: 902;
+      padding: 5px 10px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 12px;
+      color: #4B5C7D;
+      // border-radius: 8px;
+      &:hover{
+        color: #1660F1;
+        background-color: #F1F5FF;
+      }
+      &.overHide{
+        border-radius: 8px !important;
+      }
+
+      &:first-child{
+        border-radius: 8px 8px 0 0;
+      }
+      &:last-child{
+        border-radius: 0 0 8px 8px;
+      }
+    }
+  }
+}
 </style>
 <style lang="scss">
 .module-card {
@@ -172,6 +252,18 @@ export default {
   }
   .el-card__body {
     height: 570px;
+  }
+}
+.card-dropdown{
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid #4B5C7D !important;
+  .el-dropdown-menu__item{
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .popper__arrow::after{
+    border-bottom-color: #4B5C7D !important;
   }
 }
 </style>

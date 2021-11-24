@@ -62,16 +62,14 @@ export function uploadFile(data) {
   let currentUser = userInfo.nameZh ? userInfo.nameZh : userInfo.nameEn
   if (process.env.NODE_ENV == 'develop') {
     return requst({
-      // url: `/rise-mock/udMutilfilesController`,
-      url: `/fileud/udMutilfilesController?currentUser=${currentUser}`,
+      url: `/udMutilfilesController?currentUser=${currentUser}`,
       method: 'POST',
       data
     })
   }
 
   return requstFile({
-    // url: `/rise-mock/udMutilfilesController`,
-    url: `/fileud/udMutilfilesController?currentUser=${currentUser}`,
+    url: `/udMutilfilesController?currentUser=${currentUser}`,
     method: 'POST',
     data
   })
