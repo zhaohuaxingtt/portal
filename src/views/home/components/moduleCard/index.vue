@@ -2,6 +2,7 @@
   <el-card class="module-card">
     <div
       slot="header"
+      class="card-header"
       :class="
         !['EKL','EKLAffix'].includes(card.component)
           ? 'flex-between-center-center'
@@ -176,6 +177,11 @@ export default {
     color: #222222;
     font-weight: bold;
     cursor: pointer;
+  }
+
+  .card-header{
+    position: relative;
+    z-index: 100;
   }
   .module-card-btn {
     color: #4d4d4d;
