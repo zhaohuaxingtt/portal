@@ -126,7 +126,8 @@ export default {
                 picUrl:this.picUrl,
                 linkUrl:this.formData.linkUrl,
                 publishTime:time,
-                popupStyle:this.formData.popupStyle
+                popupStyle:this.formData.popupStyle,
+                wordAlign:this.formData.wordAlign
             }
         }
     }
