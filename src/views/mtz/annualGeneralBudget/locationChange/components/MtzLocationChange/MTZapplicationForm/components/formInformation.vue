@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:27:35
- * @LastEditTime: 2021-11-19 16:43:50
+ * @LastEditTime: 2021-11-23 15:44:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\formInformation.vue
@@ -108,12 +108,24 @@ export default {
       linieName: "",
       linieDeptNum: "",
       linieDeptNumK2: "",
-      isView: false
+      // isView: false
     }
   },
   components: {
     iCard,
     iButton
+  },
+  props: {
+    formData: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    isView: {
+      type: Boolean,
+      default: false
+    }
   },
   watch: {
     '$store.state.location.disabled': {
@@ -122,33 +134,28 @@ export default {
       },
       deep: true,
       immediate: true
-    }
+    },
+    formData: {
+      handler (val) {
+        this.formInline.appName = val.appName
+        this.formInline.mtzAppId = val.mtzAppId
+        this.formInline.appStatus = val.appStatus
+        this.formInline.appType = val.appType
+        this.formInline.remark = val.remark
+        this.formInline.approveRemarks = val.approveRemarks
+        this.linieName = val.linieName
+        this.linieDeptNum = val.linieDeptNum
+        this.linieDeptNumK2 = val.linieDeptNumK2
+      },
+      immediate: true,
+      deep: true
+    },
+
   },
   created () {
-    this.init()
+
   },
   methods: {
-    init () {
-      this.isView = JSON.parse(this.$route.query.isView)
-      this.formInline.mtzAppId = this.$route.query.mtzAppId
-      this.getGenericAppChangeDetail()
-    },
-    getGenericAppChangeDetail () {
-      genericAppChangeDetail({
-        mtzAppId: this.formInline.mtzAppId
-      }).then(res => {
-        if (res.code === '200') {
-          this.formInline.appName = res.data.appName
-          this.formInline.appStatus = res.data.appStatus
-          this.formInline.appType = res.data.appType
-          this.formInline.remark = res.data.remark
-          this.formInline.approveRemarks = res.data.approveRemarks
-          this.linieName = res.data.linieName
-          this.linieDeptNum = res.data.linieDeptNum
-          this.linieDeptNumK2 = res.data.linieDeptNumK2
-        }
-      })
-    },
     save (type) {
       this.$refs['baseInfoForm'].validate((valid) => {
         if (valid) {
