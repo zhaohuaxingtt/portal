@@ -182,11 +182,11 @@ module.exports = {
         }
       },
       // ------------------ 上传 ----------------------------
-      [process.env.VUE_APP_FILEAPI]: {
-        target: `http://${BASE_IP}:8034/`,
+      '/fileApi': {
+        target: `http://${BASE_IP}:8034/fileud`,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_FILEAPI]: ''
+          '/fileApi': ''
         }
       },
       //------------------- 业务日志 ---------------------

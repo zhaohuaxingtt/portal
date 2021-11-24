@@ -36,7 +36,11 @@ export const TABLE_COLUMS = [
     i18n: '流程序号',
     prop: 'instanceId',
     width: '100px',
-    label: '流程序号'
+    label: '流程序号',
+    emit: 'go-detail',
+    customRender: (h, scope) => {
+      return <span class="link-text">{scope.row?.instanceId}</span>
+    }
   },
   {
     prop: 'processDefinitionName',

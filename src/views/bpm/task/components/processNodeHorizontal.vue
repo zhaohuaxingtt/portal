@@ -62,7 +62,7 @@ export default {
         if (
           panoromaItem.branchFlag.indexOf('branch') === 0 &&
           panoromaItem.childBranchFlag &&
-          panoromaItem.childBranchFlag.length
+          panoromaItem.childBranchFlag.length > 1
         ) {
           item.children = []
           panoromaItem.childBranchFlag.forEach((flag) => {

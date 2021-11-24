@@ -327,6 +327,9 @@ export default {components: {
         return {}
       }
     },
+    resetNum:{
+        type: Boolean,
+    },
     dataObject:{
         type: Object,
         default: () => {

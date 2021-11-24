@@ -10,20 +10,16 @@
     <!-- @click="handleDialog" -->
 
     <div ref="chart" @click="handlecRating" class="chartStyle"></div>
-    <!-- <cRatingTable @closeDiolog="closeDiolog"
-                  v-if="visible"
-                  v-model="visible"></cRatingTable> -->
   </iCard>
 </template>
 
 <script>
 import echarts from '@/utils/echarts'
 import { iCard } from 'rise'
-import cRatingTable from './cRatingTable'
 import { supplierRatingCard } from '@/api/frmRating/supplierOverview/index'
 
 export default {
-  components: { iCard, cRatingTable },
+  components: { iCard },
 
   data() {
     return {
@@ -61,8 +57,8 @@ export default {
     getChart() {
       const myChart = echarts().init(this.$refs.chart)
       const data1 = [
-        this.info.ppSupplierTotal || 0,
-        this.info.gpSupplierTotal || 0
+        this.info.ppSupplierTotal-this.info.ppSupplierQuoteTotal || 0,
+        this.info.gpSupplierTotal-this.info.gpSupplierQuoteTotal  || 0
       ]
       const data2 = [
         this.info.ppSupplierQuoteTotal || 0,
