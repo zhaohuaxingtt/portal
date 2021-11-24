@@ -21,8 +21,8 @@
 	<div class="flex flex-row content mt20" v-show="activeMoudle === 'manual'">
 		<CommonProblem 
 			title="问题模块"
-			:problemList="problemList"
-			:currentMoudleIdx.sync="currentMoudleIdx"
+			:moudleList="moudleList"
+			:currentMoudleId.sync="currentMoudleId"
 			:loading="manualLoading"
 		>
 			<div class="flex" slot="top">
@@ -40,8 +40,8 @@
 		<CommonProblem 
 			title="常见问题"
 			showIcon
-			:problemList="problemList"
-			:currentMoudleIdx.sync="currentMoudleIdx"
+			:moudleList="moudleList"
+			:currentMoudleId.sync="currentMoudleId"
 			:loading="questionLoading"
 		>
 			<div class="flex" slot="top">
@@ -86,8 +86,8 @@ export default {
 			],
 			activeMoudle: "manual",
 			activeUser: "supplier",
-			problemList: [],
-			currentMoudleIdx: 0,
+			moudleList: [],
+			currentMoudleId: 0,
 			show: false,
 
 			key:"",
@@ -106,7 +106,8 @@ export default {
 				await getSystemMeun().then((res) => {
 					if (res.code === '200') {
 						let { data: { menuList }} = res
-						this.problemList = menuList[3] ? menuList[3].menuList : []
+						this.moudleList = menuList[3] ? menuList[3].menuList : []
+						console.log(this.moudleList);
 					}
 				})
 			} finally {

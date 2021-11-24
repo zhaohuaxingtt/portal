@@ -51,8 +51,8 @@ export default {
 		}
 	},
 	methods: {
-		select(menu,index){
-			this.$emit("update:currentMoudleId", index)
+		select(menu){
+			this.$emit("update:currentMoudleId", menu.id)
 			this.$emit("change", menu)
 		}
 	},
