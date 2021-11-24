@@ -14,7 +14,8 @@
       <!-- <span class="title_name">MTZ申请单-100386 申请单名-采购员-科室</span> -->
       <span class="title_name">{{ commonTitle }} - {{locationId}}</span>
       <div class="opration">
-        <iButton @click="submit" :disabled="appStatus !== '草稿'">{{ language('TIJIAO', '提交') }}</iButton>
+         <!-- && ttNominateAppId !== '' -->
+        <iButton @click="submit" :disabled="appStatus !== '草稿' || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
         <iButton @click="downRS">{{ language('DAOCHURS', '导出RS') }}</iButton>
       </div>
     </div>
@@ -121,9 +122,13 @@ export default {
       flowType:"",
       appStatus:"",
       stepNum:1,
+      ttNominateAppId:"",
     }
   },
   computed: {
+    submitNumber(){
+      return this.$store.state.location.submitNumber;
+    },
     submitType(){
       return this.$store.state.location.submitType;
     },
@@ -140,6 +145,10 @@ export default {
   },
   
   watch: {
+    submitNumber(newValue,oldValue){
+      // this.getType();
+      this.ttNominateAppId = newValue;
+    },
     submitType(newValue,oldValue){
       this.flowType = newValue;
     },
@@ -191,6 +200,7 @@ export default {
       getAppFormInfo({ mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId}).then(res=>{
         this.flowType = res.data.flowType;
         this.appStatus = res.data.appStatus;
+        this.ttNominateAppId = res.data.ttNominateAppId;
       })
     },
     closeType(){
@@ -245,27 +255,28 @@ export default {
     // 点击步骤
     handleClickStep(data) {
       if(this.$route.query.currentStep == data.id) return false;
-      iMessageBox(this.language('QQDSJYJWQBC','请确定数据已经完全保存？'),this.language('LK_WENXINTISHI','温馨提示'),{
-          confirmButtonText: this.language('QUEREN', '确认'),
-          cancelButtonText: this.language('QUXIAO', '取消')
-      }).then(res=>{
         if(data.id > this.stepNum){
-          setMtzAppCheckVO({
-            mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-            isDone:true,
-            stepStr:data.id
-          }).then(res => {
-            var dataList = this.$route.query;
-            this.$router.push({
-              path: data.url,
-              query: {
-                ...dataList,
-                currentStep: data.id,
-                stepNum:data.id,
-                mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
-                appId:this.$route.query.appId || this.mtzObject.appId,
-                isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
-              }
+          iMessageBox(this.language('QQDSJYJWQBC','请确定数据已经完全保存？'),this.language('LK_WENXINTISHI','温馨提示'),{
+              confirmButtonText: this.language('QUEREN', '确认'),
+              cancelButtonText: this.language('QUXIAO', '取消')
+          }).then(res=>{
+            setMtzAppCheckVO({
+              mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+              isDone:true,
+              stepStr:data.id
+            }).then(res => {
+              var dataList = this.$route.query;
+              this.$router.push({
+                path: data.url,
+                query: {
+                  ...dataList,
+                  currentStep: data.id,
+                  stepNum:data.id,
+                  mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                  appId:this.$route.query.appId || this.mtzObject.appId,
+                  isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
+                }
+              })
             })
           })
         }else{
@@ -282,7 +293,6 @@ export default {
             }
           })
         }
-      })
     },
     closeDiolog(){
       this.mtzAddShow = false;

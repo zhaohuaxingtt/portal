@@ -68,14 +68,29 @@
                 :placeholder="language('QINGSHURUBEIAN','请输入备注')"
                 v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
-    <theTabs ref="theTabs" v-if="!beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"></theTabs>
-    <theDataTabs ref="theDataTabs" v-if="!beforReturn" :appStatus='inforData.appStatus' :flowType="inforData.flowType"></theDataTabs>
+    <theTabs
+      ref="theTabs"
+      @isNomiNumber="isNomiNum"
+      @handleReset="handleReset"
+      :jumpList="jumpList"
+      v-if="!beforReturn"
+      :appStatus='inforData.appStatus'
+      :flowType="inforData.flowType"
+      >
+    </theTabs>
+    <theDataTabs
+      ref="theDataTabs"
+      v-if="!beforReturn"
+      :appStatus='inforData.appStatus'
+      :flowType="inforData.flowType"
+      >
+    </theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
              v-if="mtzAddShow"
              width="85%"
              @close='closeDiolog'>
-      <partApplication @close="saveClose"></partApplication>
+      <partApplication @close="saveClose" :numIsNomi="numIsNomi"></partApplication>
     </iDialog>
   </div>
 </template>
@@ -153,6 +168,8 @@ export default {
       applyNumber: '',
       showType: false,
       appIdType:true,
+      jumpList:{},//关联申请单信息
+      numIsNomi:0,
     }
   },
   // beforeRouteEnter:(to,from,next)=>{
@@ -200,6 +217,7 @@ export default {
           this.applyNumber = res.data.ttNominateAppId;
         }
         store.commit("submitBtnType",res.data.flowType);
+        store.commit("submitNumGL",res.data.ttNominateAppId);
         // NOTPASS
         if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
           this.showType = true;
@@ -224,10 +242,21 @@ export default {
     handleChange1 (val) {
 
     },
+    handleReset(){
+      modifyAppFormInfo({
+        ...this.inforData,
+        flowType:"MEETING",
+      }).then(res => {
+        this.init();
+      })
+    },
     edit () {
       this.disabled = false;
     },
     save () {
+      if(this.inforData.flowType!=="MEETING" && this.numIsNomi!==0){
+        return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZBA', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转/备案'))
+      }
       iMessageBox(this.language('QUERENBAOCUN', '确认保存？'), this.language('LK_WENXINTISHI', '温馨提示'), {
         confirmButtonText: this.language('QUEREN', '确认'),
         cancelButtonText: this.language('QUXIAO', '取消')
@@ -244,11 +273,9 @@ export default {
 
       })
     },
-    sure () {
-
-    },
     cancel () {
       this.disabled = true;
+      this.init();
     },
     relation () {//关联零件定点申请
       iMessageBox(this.language('GLSQDHQZTBLJDDSQLXHSPRXXRLJSQDYSHHCSTJTYGHY','关联申请单会强制同步零件定点申请类型和审批人信息！若零件申请单已上会，会尝试提交同一个会议！'),this.language('LK_WENXINTISHI', '温馨提示'), {
@@ -269,6 +296,7 @@ export default {
           if (res.code == 200) {
             iMessage.success(res.desZh)
             this.applyNumber = "";
+            this.init();
           } else {
             iMessage.error(res.desZh)
           }
@@ -306,8 +334,23 @@ export default {
     chioce (e, name) {
       this.inforData[name] = e;
     },
+    isNomiNum(val){
+      this.numIsNomi = val;
+    },
 
-
+    getLjLocation(){
+      page({
+        current: 1,
+        size: 9999,
+        nominateId:this.applyNumber
+      }).then(res=>{
+        if(res.code == 200 && res.result){
+          this.jumpList = res.data.records[0];
+        }else{
+          iMessage.error(this.language(res.desEn,res.desZh))
+        }
+      })
+    },
     jumpInforBtn(){
       page({
         current: 1,

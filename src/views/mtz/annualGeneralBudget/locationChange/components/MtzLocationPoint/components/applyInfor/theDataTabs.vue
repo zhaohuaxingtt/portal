@@ -694,6 +694,13 @@ export default {
             if(e.message != "EndIterative") throw e;
         }
     },
+    removePartMasterData(){//清空
+        removePartMasterData({
+            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        }).then(res=>{
+            this.getTableList();
+        })
+    },
     save(){//保存
         if(this.dialogEditType){//新增
             this.newDataList.forEach(e => {
