@@ -27,7 +27,7 @@ export function saveApprovalAttach(data) {
 
 export function uploadApprovalAttach(data) {
   return requstUpload({
-    url: `/fileud/udSingleFile`,
+    url: `/udSingleFile`,
     method: 'POST',
     data
   })

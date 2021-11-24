@@ -1,12 +1,12 @@
-import axios from "@/utils/axios";
+import axios from '@/utils/axios'
 import store from '@/store'
-const requstFile = axios(process.env.VUE_APP_FILEAPI);
+const requstFile = axios(process.env.VUE_APP_FILEAPI)
 requstFile.interceptors.request.use(function (config) {
   config.params = {
-    userId: store.state.permission.userInfo.id,
+    userId: store.state.permission.userInfo.id
   }
-  return config;
-});
+  return config
+})
 
 // 上传文件
 export function uploadFile(data, options) {

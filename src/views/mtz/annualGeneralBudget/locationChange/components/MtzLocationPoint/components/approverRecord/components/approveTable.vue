@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-23 11:04:33
+ * @LastEditTime: 2021-11-24 17:37:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -13,7 +13,7 @@
       <div v-if="!editFlag">
         <iButton type="text"
                  class="margin-right20"
-                 @click="handleSync"
+                 @click="handleSync('')"
                  v-show="!flag"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
@@ -240,8 +240,10 @@ export default {
             this.disabled = true
           }
           if (res.data.flowType === 'FILING') {
-            this.handleSync()
+            this.disabled = true
+            return
           }
+          this.handleSync('1')
         }
       })
     },
@@ -311,8 +313,9 @@ export default {
       row.approvalDepartment = obj.id
       this.userList = obj.userDTOList
     },
-    handleSync () {
-      syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: "1" }).then(res => {
+    handleSync (params) {
+
+      syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: params || "" }).then(res => {
         if (res?.code === '200') {
           this.getTableList()
           iMessage.success(res.desZh)

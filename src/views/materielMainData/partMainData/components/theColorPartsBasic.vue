@@ -215,9 +215,13 @@ export default {
             const data = {}
             if(this.checkBoxs.partNameZh){
                 data.partNameZh = this.formContent.partNameZh
+            }else{
+                data.partNameZh = ''
             }
             if(this.checkBoxs.partNameDe){
                 data.partNameDe = this.formContent.partNameDe
+            }else{
+                data.partNameDe = ''
             }
             if(this.checkBoxs.bmg){
                 data.bmg = this.formContent.bmg
@@ -231,9 +235,13 @@ export default {
             }
             if(this.checkBoxs.fop){
                 data.fop = this.formContent.fop
+            }else{
+                data.fop = ''
             }
             if(this.checkBoxs.techDept){
                 data.techDeptId = this.formContent.techDept
+            }else{
+                 data.techDeptId = ''
             }
             if(this.checkBoxs.isCommonSourcing){
                 data.isCommonSourcing = this.formContent.isCommonSourcing
@@ -247,6 +255,8 @@ export default {
             }
             if(this.checkBoxs.set){
                 data.setCode = this.formContent.set
+            }else{
+                 data.setCode = ''
             }
             return data
         }
@@ -269,7 +279,7 @@ export default {
     position: relative;
     .check-box{
         position: absolute;
-        left: -170px;
+        left: -210px;
         ::v-deep .el-checkbox__inner{
             border-radius: 4px;
         }

@@ -118,7 +118,7 @@ export default {
                 iMessage.error(this.language("QXZYTLJHSJ","请选择一条零件号数据！"))
                 return false;
             }
-            this.$emit("close",this.handleSelectArr[0].partNum);
+            this.$emit("close",this.handleSelectArr[0]);
         },
     }
 }

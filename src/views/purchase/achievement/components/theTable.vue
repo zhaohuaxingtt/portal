@@ -297,11 +297,9 @@
           }
           this.tableLoading = false;
         } catch {
-          this
-      .
-        tableListData = [];
-        this.tableLoading = false;
-      }
+          this.tableListData = [];
+          this.tableLoading = false;
+        }
       },
       // 创建年度目标
       openTargetManDialog() {

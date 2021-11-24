@@ -248,7 +248,7 @@ export default {
     // 修改操作
     handleEdit() {
       this.$router.push({
-        path: '/authorityMgmt',
+        path: '/authorityMgmt/detail',
         query: { id: this.selectData[0].id }
       })
     },
