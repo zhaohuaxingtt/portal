@@ -39,7 +39,13 @@ export function setToken(tokenData) {
 }
 //removeoken
 export function removeToken() {
-  return removeCookie(process.env.VUE_APP_TOKEN_NAME)
+  const keys = document.cookie.match(/[^ =;]+(?=\=)/g)
+  if (keys) {
+    for (var i = keys.length; i--; ) {
+      document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+    }
+  }
+  // return removeCookie(process.env.VUE_APP_TOKEN_NAME)
 }
 //获取token
 export function getRefreshToken() {
@@ -86,10 +92,10 @@ export function password(str, publicKey) {
 
 export function closeCliantClearStoreage() {
   let beginTime = null
-  window.onbeforeunload = function(params) {
+  window.onbeforeunload = function (params) {
     beginTime = new Date().getTime()
   }
-  window.onunload = function() {
+  window.onunload = function () {
     let endTime = new Date().getTime()
     if (endTime - beginTime <= 5) {
       removeToken()
@@ -104,10 +110,10 @@ export function permissionTitle(key, titleList) {
   let newTitleList = JSON.parse(JSON.stringify(titleList))
   if (permissionMap) {
     const a = []
-    titleList.forEach(element => {
+    titleList.forEach((element) => {
       if (
         permissionMap.fieldList.find(
-          items => items.fieldName == element.props || element.list
+          (items) => items.fieldName == element.props || element.list
         )
       )
         a.push(element)
@@ -140,12 +146,12 @@ export function px2rem(value) {
 export function isNeedJudgePermission(
   list = ['supplier/register', 'supplier/bkraRegister']
 ) {
-  if (list.some(item => window.location.href.indexOf(item) > -1)) {
+  if (list.some((item) => window.location.href.indexOf(item) > -1)) {
     return true
   }
 }
 // 数字限制输入
-export const numberProcessor = function(val, precision = 4) {
+export const numberProcessor = function (val, precision = 4) {
   let result = ''
   if (+precision > 0) {
     result = (val + '')
@@ -162,7 +168,7 @@ export const numberProcessor = function(val, precision = 4) {
   return result
 }
 
-export const openUrl = function(url, target) {
+export const openUrl = function (url, target) {
   if (url.indexOf('http') === -1) {
     const baseUrl = window.location.href.split('#')[0]
     url = baseUrl + '#' + url
@@ -206,7 +212,7 @@ export function arrayToTree(list, idKey, parentKey, childrenKey) {
     obj[list[i][idKey]] = list[i]
   }
   const result = []
-  list.forEach(node => {
+  list.forEach((node) => {
     if (!obj[node[parentKey]]) {
       result.push(node)
       return
@@ -222,7 +228,7 @@ export function arrayToMap(array, valueKey, labelKey) {
     return {}
   }
   const res = {}
-  array.forEach(e => {
+  array.forEach((e) => {
     res[e[valueKey]] = e[labelKey]
   })
   return res
@@ -292,10 +298,7 @@ export function toTree(list, parId) {
 // 数字转千分位
 export function toThousands(s, n = 2) {
   s = parseFloat((s + '').replace(/[^\d\.-]/g, '')).toFixed(n) + ''
-  var l = s
-      .split('.')[0]
-      .split('')
-      .reverse(),
+  var l = s.split('.')[0].split('').reverse(),
     r = s.split('.')[1]
   var t = ''
   for (var i = 0; i < l.length; i++) {
@@ -305,14 +308,7 @@ export function toThousands(s, n = 2) {
   for (var i = 0; i < r.length; i++) {
     t1 += r[i] + ((i + 1) % 3 == 0 && i + 1 != r.length ? ',' : '')
   }
-  return (
-    t
-      .split('')
-      .reverse()
-      .join('') +
-    '.' +
-    t1
-  )
+  return t.split('').reverse().join('') + '.' + t1
 }
 
 // 千分位转数字

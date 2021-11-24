@@ -39,13 +39,13 @@
       <router-view v-if="!$route.meta.keepAlive" :key="$route.fullPath" />
       <div
         v-if="menuModelVisible"
-        class="app-menu-model"
+        class="app-menu-madel"
         @click="hideSideMenu"
       ></div>
     </div>
     <div class="btn-button" @click.stop="handleShow">
       <!-- <img src="~@/assets/images/leftContent.png" alt="" /> -->
-      <img :src="!contentShowFlag? popurIcon : activePopurIcon " alt="" />
+      <img :src="!contentShowFlag ? popurIcon : activePopurIcon" alt="" />
     </div>
     <div class="povper-content" v-show="contentShowFlag">
       <div v-for="(list, index) in popoverList" :key="index">
@@ -54,9 +54,6 @@
           <div class="text">{{ list.name }}</div>
         </div>
       </div>
-      <!-- <div class="item-content">零件寿命周期</div>
-      <div class="item-content">外部数据查询</div>
-      <div class="item-content" >用户助手</div> -->
     </div>
     <layoutNotify ref="popupNotify" />
   </div>
@@ -69,8 +66,8 @@ import myModules from './components/myModules'
 import { arrayToTree, treeToArray } from '@/utils'
 import { popoverList } from './components/data.js'
 import layoutNotify from './components/notify'
-import popurIcon from "@/assets/images/popur.svg"
-import activePopurIcon from "@/assets/images/active-popur.svg"
+import popurIcon from '@/assets/images/popur.svg'
+import activePopurIcon from '@/assets/images/active-popur.svg'
 
 export default {
   components: { topLayout, LeftLayout, sideMenu, myModules, layoutNotify },
@@ -281,7 +278,7 @@ export default {
       }
       .text {
         font-size: 16px;
-        color: #5F6F8F;
+        color: #5f6f8f;
         margin-left: 20px;
       }
     }
@@ -296,7 +293,7 @@ export default {
       width: 60px;
     }
   }
-  .app-menu-model {
+  .app-menu-madel {
     position: absolute;
     width: 100%;
     height: 100%;
