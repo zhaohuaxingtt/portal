@@ -455,7 +455,10 @@ export default {
       }
       // 初始化岗位
       if (this.$route.query.deptDTO !== null) {
-        this.positionListId = this.formData.positionList[0].id
+        if (this.formData.positionList && this.formData.positionList.length) {
+          this.positionListId = this.formData.positionList[0].id
+        }
+
         this.getPositionCommonFn(this.$route.query.deptDTO.id)
         const deptDTO = this.$route.query.deptDTO
         this.defaultDeptOptions = [

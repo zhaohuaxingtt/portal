@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-24 17:37:57
+ * @LastEditTime: 2021-11-25 13:41:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -15,6 +15,7 @@
                  class="margin-right20"
                  @click="handleSync('')"
                  v-show="!flag"
+                 :disabled="disabled"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
         <iButton v-show="!flag"
@@ -49,7 +50,7 @@
                    remote
                    placeholder="输入关键词搜索"
                    @change="function(changedVal) {handleChangeDepartment(changedVal, scope.row)}">
-            <el-option v-for="item in selectDeptList"
+            <el-option v-for="item in scope.row.selectDeptList"
                        :key="item.id"
                        :label="item.nameZh"
                        :value="item.nameZh">
@@ -67,7 +68,7 @@
                      remote
                      placeholder="输入关键词搜索"
                      @change="function(changedVal) {handleChangeApprovalSection(changedVal, scope.row)}">
-              <el-option v-for="item in selectSectionList"
+              <el-option v-for="item in scope.row.selectSectionList"
                          :key="item.id"
                          :label="item.nameZh"
                          :value="item.nameZh">
@@ -85,11 +86,11 @@
                    remote
                    placeholder="输入关键词搜索"
                    :remote-method="queryOptions"
-                   @change="handleChange">
+                   @change="function(changedVal) {handleChangeApprovalName(changedVal, scope.row)}">
             <el-option v-for="item in userList"
                        :key="item.id"
                        :label="item.nameZh"
-                       :value="item.id">
+                       :value="item.nameZh">
             </el-option>
           </iSelect>
           <span v-else> {{ scope.row.approvalName }}</span>
@@ -187,8 +188,6 @@ export default {
       this.flag = JSON.parse(this.$route.query.isView)
       await this.getAppFormInfo()
       this.selectDept()
-      this.selectSection()
-
     },
     getTableList () {
       this.tableLoading = true
@@ -216,6 +215,17 @@ export default {
     },
     handleSelectionChange (val) {
       this.muilteList = val
+      this.muilteList.forEach(item => {
+        selectDept({}).then((res) => {
+          if (res?.code === '200') {
+            this.$set(item, 'selectDeptList', res.data);
+          }
+        })
+        selectSection({ deptId: item.approvalDepartment }).then((res) => {
+          this.$set(item, 'selectSectionList', res.data);
+        })
+      })
+      console.log(this.muilteList)
     },
     selectDept () {
       selectDept({}).then((res) => {
@@ -224,8 +234,8 @@ export default {
         }
       })
     },
-    selectSection () {
-      selectSection({}).then((res) => {
+    selectSection (id) {
+      selectSection({ deptId: id }).then((res) => {
         this.selectSectionList = res.data
       })
     },
@@ -307,14 +317,20 @@ export default {
     handleChangeDepartment (val, row) {
       let obj = this.selectDeptList.find(item => item.nameZh === val)
       row.approvalDepartment = obj.id
+      this.selectSection(obj.id)
     },
     handleChangeApprovalSection (val, row) {
       let obj = this.selectSectionList.find(item => item.nameZh === val)
-      row.approvalDepartment = obj.id
+      row.approvalSection = obj.id
       this.userList = obj.userDTOList
     },
-    handleSync (params) {
+    handleChangeApprovalName (val, row) {
+      let obj = this.userList.find(item => item.id === val)
+      console.log(obj)
+      // row.approvalName = obj.id
 
+    },
+    handleSync (params) {
       syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: params || "" }).then(res => {
         if (res?.code === '200') {
           this.getTableList()

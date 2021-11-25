@@ -334,7 +334,8 @@
         </transition>
       </div>
     </div>
-    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="claimPartsShow = false"
+    <!--领养模态框-->
+    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="sureClaimPart"
                 @clearDiolog="claimPartsShow = false"></claimParts>
     <transition name="slide-fade">
       <favorites v-if="favoritesShow" @deleteItem="cancelOrCollect" @closeFavorites="favoritesShow = false"></favorites>
@@ -452,12 +453,22 @@ export default {
   mounted() {
     this.getSeletes()
     this.defaultParts()
+    if(this.$refs.partLifeCycleStar)
     this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.scrollGetData); //this.setHeadPosition方法名
   },
   destroyed() {
+    if(this.$refs.partLifeCycleStar)
     this.$refs.partLifeCycleStar.$el.removeEventListener("scroll", this.scrollGetData, true);
   },
   methods: {
+    // 确认领养后
+    sureClaimPart() {
+      this.claimPartsShow = false
+      this.isEdit = false
+      this.defaultPartsList.map(item => {
+        item.isClaim = false
+      })
+    },
     remoteMethod(val){
       this.AekoPullDown = this.AekoPullDownClone.filter(item => {
         if(item.includes(val)){
@@ -468,9 +479,6 @@ export default {
     scrollGetData(e){
       const { scrollTop, clientHeight, scrollHeight } = e.target
       if((scrollTop + clientHeight) === scrollHeight){
-//        if(this.leftLoading || !this.isScroll){
-//          return
-//        }
         this.leftLoading = true
         this.showLoading()
         this.current++
@@ -504,7 +512,7 @@ export default {
           const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
           if (Number(res.code) === 200) {
             if(res.data.length < 9){
-              this.isScroll = false
+              this.isScroll = true
             }
             let data = res.data.map(item => {
               item.isClaim = false
@@ -966,6 +974,7 @@ export default {
     .partLifeCycleStar_main_content {
       display: flex;
       justify-content: space-between;
+      min-height: 530px;
 
       .left {
         display: flex;
