@@ -334,7 +334,8 @@
         </transition>
       </div>
     </div>
-    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="claimPartsShow = false"
+    <!--领养模态框-->
+    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="sureClaimPart"
                 @clearDiolog="claimPartsShow = false"></claimParts>
     <transition name="slide-fade">
       <favorites v-if="favoritesShow" @deleteItem="cancelOrCollect" @closeFavorites="favoritesShow = false"></favorites>
@@ -452,12 +453,22 @@ export default {
   mounted() {
     this.getSeletes()
     this.defaultParts()
+    if(this.$refs.partLifeCycleStar)
     this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.scrollGetData); //this.setHeadPosition方法名
   },
   destroyed() {
+    if(this.$refs.partLifeCycleStar)
     this.$refs.partLifeCycleStar.$el.removeEventListener("scroll", this.scrollGetData, true);
   },
   methods: {
+    // 确认领养后
+    sureClaimPart() {
+      this.claimPartsShow = false
+      this.isEdit = false
+      this.defaultPartsList.map(item => {
+        item.isClaim = false
+      })
+    },
     remoteMethod(val){
       this.AekoPullDown = this.AekoPullDownClone.filter(item => {
         if(item.includes(val)){
