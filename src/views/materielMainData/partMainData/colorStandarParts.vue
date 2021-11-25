@@ -75,7 +75,7 @@ export default {
         unitId,
         unitConverseDtos
       }
-      console.log(this.passCheck,'------');
+      // console.log(this.passCheck,'------');
       if( this.passCheck){
 
         this.$confirm('确认是否修改选中色标修改','提示',{
