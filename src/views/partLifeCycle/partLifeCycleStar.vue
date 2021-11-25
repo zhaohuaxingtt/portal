@@ -283,7 +283,7 @@
                 :name="expandRelevantPart ? 'iconxiangguanlingjianyizhankai' : 'iconxiangguanlingjianyishouqi'"></icon>
         </div>
       </div>
-      <div class="partLifeCycleStar_main_content" v-loading="leftLoading">
+      <div class="partLifeCycleStar_main_content">
         <div class="left">
           <div v-for="(item, index) in defaultPartsList" :key="index" :class="{ isExpand: expandRelevantPart }"
                @click="currentDefaultPart = item.partsNum;getRelationParts()">
@@ -468,10 +468,11 @@ export default {
     scrollGetData(e){
       const { scrollTop, clientHeight, scrollHeight } = e.target
       if((scrollTop + clientHeight) === scrollHeight){
-        if(this.leftLoading || !this.isScroll){
-          return
-        }
+//        if(this.leftLoading || !this.isScroll){
+//          return
+//        }
         this.leftLoading = true
+        this.showLoading()
         this.current++
         getPartsCollect({
           partsNum: this.partsNum,
@@ -515,8 +516,10 @@ export default {
             iMessage.error(result)
           }
           this.leftLoading = false
+          this.hideLoading()
         }).catch(() => {
           this.leftLoading = false
+          this.hideLoading()
         })
       }
     },
@@ -554,6 +557,7 @@ export default {
       this.isScroll = true
       this.isSearch = true
       this.leftLoading = true
+      this.showLoading()
       getPartsCollect({
         partsNum: this.partsNum,
         partsName: this.partsName,
@@ -595,10 +599,11 @@ export default {
         } else {
           iMessage.error(result)
         }
-        this.leftLoading = false
-
+//        this.leftLoading = false
+        this.hideLoading()
       }).catch(() => {
-        this.leftLoading = false
+//        this.leftLoading = false
+        this.hideLoading()
       })
     },
     getCategoryPullDown(val){
@@ -777,6 +782,7 @@ export default {
       let operationType = Number(item.isDefaultFolder) === 1 ? 2 : 1
       this.leftLoading = true
       let promiseDelete = Number(item.isDefault === 1) ? removeCollect : cancelOrCollect
+      console.log(item.isDefaultFolder,'item.isDefaultFolder',operationType)
       promiseDelete({
         operationType: operationType,
         partsCollectId: item.partsCollectId,
@@ -784,12 +790,17 @@ export default {
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
-          this.defaultPartsList.forEach(obj => {
-            if (obj.partsNum === item.partsNum)
-              obj.isDefaultFolder = operationType
-          })
+//          this.defaultPartsList.forEach(obj => {
+//            if (obj.partsCollectId === item.partsCollectId)
+//              obj.isDefaultFolder = operationType
+//          })
           // item.isDefaultFolder = operationType
           iMessage.success(result)
+          if(this.isSearch) {
+            this.getPartsCollect()
+          } else {
+            this.defaultParts()
+          }
         } else {
           iMessage.error(result)
         }
@@ -800,7 +811,8 @@ export default {
       })
     },
     defaultParts() {
-      this.leftLoading = true
+//      this.leftLoading = true
+      this.showLoading()
       defaultParts().then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
@@ -815,9 +827,11 @@ export default {
         } else {
           iMessage.error(result)
         }
-        this.leftLoading = false
+//        this.leftLoading = false
+        this.hideLoading()
       }).catch(() => {
-        this.leftLoading = false
+//        this.leftLoading = false
+        this.hideLoading()
       })
     },
     getRelationParts() {

@@ -4,6 +4,7 @@
       <ImgCutter
         class="avatar-uploader"
         fileType=".jpg, .jpeg, .png"
+        rate='16:9'
         @cutDown='upload'
         :file-list="fileList"
       >
