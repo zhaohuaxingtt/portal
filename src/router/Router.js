@@ -18,8 +18,8 @@ import RouterMainData from './RouterMainData'
 import RouterProcessApproval from './RouterProcessApproval'
 import RouterMaster from './RouterMaster'
 import RouterProjectMgmt from './RouterProjectMgmt'
-
 import RouterInfo from './RouterInfo'
+import RouterOpcs from './RouterOpcs'
 import RouterParams from './RouterParams'
 import RouterTaskCenter from './RouterTaskCenter'
 import RouterApproval from './RouterApproval'
@@ -145,6 +145,7 @@ export default {
           },
           component: () => import('@/views/search')
         },
+        ...RouterOpcs,
         ...RouterSupplier,
         ...RouterDemo,
         ...RouterCfProcCS,
