@@ -16,12 +16,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RiSE</title>
   <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.CDN_HOST %>/favicon.ico" />
+  <link rel="stylesheet" href="<%= BASE_URL %>theme/loading.css" />
   <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.CDN_HOST %>/theme/index.css" />
   <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.CDN_HOST %>/theme/fonts/iconfont.css" />
   <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.CDN_HOST %>/theme/fontfamily.css" />
 
   <link rel="stylesheet" href="<%= BASE_URL %>ws3select/VueSelect.css" />
 
+
+</head>
+
+<body>
+  <div id="app"></div>
+  <div class="loading-wrapper" id="app-loading">
+    <div class="loading-container">
+      <div class="inner-bg"></div>
+      <div class="inner">
+        <div class="rising">Rising</div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
   <script src="<%= htmlWebpackPlugin.options.CDN_HOST %>/coreJs/vue@2.4.2/vue.min.js"></script>
   <script src="<%= htmlWebpackPlugin.options.CDN_HOST %>/coreJs/vue-router@2.7.0/vue-router.min.js"></script>
   <script src="<%= htmlWebpackPlugin.options.CDN_HOST %>/theme/fonts/iconfont.js"></script>
@@ -48,10 +63,6 @@
 
   <script src="<%= BASE_URL %>ws3select/WS3Util.js"></script>
   <script src="<%= BASE_URL %>ws3select/customSelect.js"></script>
-</head>
-
-<body>
-  <div id="app"></div>
   <!-- built files will be auto injected -->
   <script>
     console.log('build on ' + new Date())

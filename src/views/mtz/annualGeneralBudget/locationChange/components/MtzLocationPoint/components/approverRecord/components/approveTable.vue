@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-25 13:41:38
+ * @LastEditTime: 2021-11-25 18:14:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -187,7 +187,7 @@ export default {
       this.mtzAppId = this.$route.query.mtzAppId
       this.flag = JSON.parse(this.$route.query.isView)
       await this.getAppFormInfo()
-      this.selectDept()
+      // this.selectDept()
     },
     getTableList () {
       this.tableLoading = true
@@ -219,26 +219,29 @@ export default {
         selectDept({}).then((res) => {
           if (res?.code === '200') {
             this.$set(item, 'selectDeptList', res.data);
+            let deptList = item.selectDeptList.find(i => item.approvalDepartmentName === i.nameZh)
+            console.log(deptList)
+            selectSection({
+              deptId: deptList.id
+            }).then((res) => {
+              this.$set(item, 'selectSectionList', res.data);
+            })
           }
         })
-        selectSection({ deptId: item.approvalDepartment }).then((res) => {
-          this.$set(item, 'selectSectionList', res.data);
-        })
-      })
-      console.log(this.muilteList)
-    },
-    selectDept () {
-      selectDept({}).then((res) => {
-        if (res?.code === '200') {
-          this.selectDeptList = res.data
-        }
       })
     },
-    selectSection (id) {
-      selectSection({ deptId: id }).then((res) => {
-        this.selectSectionList = res.data
-      })
-    },
+    // selectDept () {
+    //   selectDept({}).then((res) => {
+    //     if (res?.code === '200') {
+    //       this.selectDeptList = res.data
+    //     }
+    //   })
+    // },
+    // selectSection (id) {
+    //   selectSection({ deptId: id }).then((res) => {
+    //     this.selectSectionList = res.data
+    //   })
+    // },
     getAppFormInfo () {
       getAppFormInfo({
         isDeptLead: true,
@@ -315,14 +318,16 @@ export default {
       done();
     },
     handleChangeDepartment (val, row) {
-      let obj = this.selectDeptList.find(item => item.nameZh === val)
-      row.approvalDepartment = obj.id
-      this.selectSection(obj.id)
+      let obj = row.selectDeptList.find(item => item.nameZh === val)
+      row.approvalDepartment = obj.approvalDepartment
+      selectSection({ deptId: obj.id }).then(res => {
+        this.$set(row, 'selectSectionList', res.data);
+      })
     },
     handleChangeApprovalSection (val, row) {
-      let obj = this.selectSectionList.find(item => item.nameZh === val)
-      row.approvalSection = obj.id
-      this.userList = obj.userDTOList
+      let obj = row.selectSectionList.find(item => item.nameZh === val)
+      row.approvalSection = obj.approvalSection
+      this.$set(row, 'userList', obj.userDTOList);
     },
     handleChangeApprovalName (val, row) {
       let obj = this.userList.find(item => item.id === val)

@@ -212,10 +212,9 @@
           </iFormItem>
         </el-col> -->
         <el-col :span="6">
-          <iFormItem :label="language(
-                'QIANDINGCAIGOUTIAOKUAN',
-                '签订采购条款'
-              )">
+          <iFormItem
+            :label="language('QIANDINGCAIGOUTIAOKUAN', '签订采购条款')"
+          >
             <iSelect :disabled="!editable">
               <el-option
                 v-for="item in supplierStatus"
@@ -433,8 +432,7 @@ export default {
         socialcreditNo: this.detail.socialcreditNo,
         stockCode: this.detail.stockCode,
         supplierGrade: this.detail.supplierGrade,
-        // supplierId: this.detail.supplierId ,
-        supplierId:this.$route.query.id ,
+        supplierId: this.detail.supplierId,
         supplierType: this.detail.supplierType,
         svwCode: this.detail.svwCode,
         svwTempCode: this.detail.svwTempCode,
