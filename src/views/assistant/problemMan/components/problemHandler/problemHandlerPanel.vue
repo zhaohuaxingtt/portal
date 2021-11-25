@@ -121,6 +121,7 @@
         附件:
         <a v-if="!isReplyStatus" href="javscript:void(0);" @click.prevent="downFileHandle" style="color: #2369f1"><i class="el-icon-link"></i>点击下载</a>
         <a v-else href="javscript:void(0);" @click.prevent="uploadFileHandle" style="color: #2369f1"><i class="el-icon-link"></i>点击上传</a>
+        <iUpload v-show="false" ref="upload" :fileIds="fileIds" :extraData="extraData" @callback="handelCallback" />
       </div>
     </div>
     <dispatchDialog v-if="showDialog" :show.sync="showDialog" />
@@ -129,10 +130,11 @@
 </template>
 
 <script>
-import { iInput, iSelect, iButton, iFormItem } from 'rise'
+import { iInput, iSelect, iButton, iFormItem,iUpload } from 'rise'
 import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
 import iEditor from '@/components/iEditor'
+// import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
 export default {
   props: {
     type: {
@@ -153,6 +155,8 @@ export default {
       currentCategoryItem: 'unreply',
       cardSelectItem: {},
       replyContent: '',
+      fileIds: [],
+      extraData: { applicationName: 'rise-dev', type: '1', businessId: '01', isTemp: 0 },
       catgoryList: [
         {
           label: '未处理',
@@ -238,7 +242,23 @@ export default {
     downFileHandle () {
       console.log('点击下载')
     },
-    uploadFileHandle () { },
+    async handelCallback(res){
+      console.log(res, '上传回调');
+      // const formData = new FormData()
+      // formData.append('businessId', 1)
+      // formData.append('type', 1)
+      // formData.append('isTemp', 0)
+      // formData.append('applicationName', 'rise')
+      // formData.append('file', file)
+      // formData.append(
+      //   'currentUser',
+      //   this.$store.state.permission.userInfo.userName
+      // )
+      // const { path } = await uploadFileWithNOTokenTwo(formData)
+    },
+    uploadFileHandle () { 
+      this.$refs.upload.$el.querySelector("input[type='file']").click();
+    },
     replyHandler () {
       this.isReplyStatus = true
     },
@@ -284,6 +304,7 @@ export default {
     iFormItem,
     iEditor,
     FinishedDialog,
+    iUpload,
   }
 }
 </script>
