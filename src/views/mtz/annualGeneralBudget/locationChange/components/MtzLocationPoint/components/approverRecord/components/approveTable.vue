@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-25 11:51:33
+ * @LastEditTime: 2021-11-25 13:41:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -15,6 +15,7 @@
                  class="margin-right20"
                  @click="handleSync('')"
                  v-show="!flag"
+                 :disabled="disabled"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
         <iButton v-show="!flag"
@@ -49,7 +50,7 @@
                    remote
                    placeholder="输入关键词搜索"
                    @change="function(changedVal) {handleChangeDepartment(changedVal, scope.row)}">
-            <el-option v-for="item in selectDeptList"
+            <el-option v-for="item in scope.row.selectDeptList"
                        :key="item.id"
                        :label="item.nameZh"
                        :value="item.nameZh">
@@ -67,7 +68,7 @@
                      remote
                      placeholder="输入关键词搜索"
                      @change="function(changedVal) {handleChangeApprovalSection(changedVal, scope.row)}">
-              <el-option v-for="item in selectSectionList"
+              <el-option v-for="item in scope.row.selectSectionList"
                          :key="item.id"
                          :label="item.nameZh"
                          :value="item.nameZh">
@@ -187,8 +188,6 @@ export default {
       this.flag = JSON.parse(this.$route.query.isView)
       await this.getAppFormInfo()
       this.selectDept()
-
-
     },
     getTableList () {
       this.tableLoading = true
@@ -216,10 +215,17 @@ export default {
     },
     handleSelectionChange (val) {
       this.muilteList = val
-      console.log(this.muilteList)
       this.muilteList.forEach(item => {
-        this.selectSection(item.approvalDepartment)
+        selectDept({}).then((res) => {
+          if (res?.code === '200') {
+            this.$set(item, 'selectDeptList', res.data);
+          }
+        })
+        selectSection({ deptId: item.approvalDepartment }).then((res) => {
+          this.$set(item, 'selectSectionList', res.data);
+        })
       })
+      console.log(this.muilteList)
     },
     selectDept () {
       selectDept({}).then((res) => {
@@ -319,7 +325,6 @@ export default {
       this.userList = obj.userDTOList
     },
     handleChangeApprovalName (val, row) {
-
       let obj = this.userList.find(item => item.id === val)
       console.log(obj)
       // row.approvalName = obj.id
