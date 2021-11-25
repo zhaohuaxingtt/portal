@@ -165,7 +165,7 @@
             >
               <template slot-scope="scope">
                 {{
-                  scope.row.type === 'MANUAL' ? '非标准议题' : scope.row.type
+                  scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type
                 }}
               </template>
             </el-table-column>
@@ -390,7 +390,7 @@
               >
                 <template slot-scope="scope">
                   {{
-                    scope.row.type === 'MANUAL' ? '非标准议题' : scope.row.type
+                    scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type
                   }}
                 </template>
               </el-table-column>
