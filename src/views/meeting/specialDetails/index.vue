@@ -1563,10 +1563,13 @@ export default {
         endThemen(param)
           .then(() => {
             iMessage.success('结束议题成功!')
-            this.autoOpenProtectConclusionObj = choiceThemen
-            // this.refreshTable();
+            if (!choiceThemen.isBreak) {
+              this.autoOpenProtectConclusionObj = choiceThemen
+            }
             this.flushTable()
-            this.openDialog('openProtectConclusion')
+            if (!choiceThemen.isBreak) {
+              this.openDialog('openProtectConclusion')
+            }
           })
           .catch(() => {
             // iMessage.error("结束会议失败！");
