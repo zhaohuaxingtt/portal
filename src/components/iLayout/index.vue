@@ -144,10 +144,8 @@ export default {
       this.contentShowFlag = !va
     },
     getMenus() {
-      console.log('menuList', this.menuList)
       const menuMap = this.getMenusMap(this.menuList)
       this.menuMap = menuMap
-      console.log('menuMap', menuMap)
     },
     getMenuList() {
       const menuList = _.cloneDeep(this.menuList)

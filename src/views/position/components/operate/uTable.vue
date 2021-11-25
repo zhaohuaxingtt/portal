@@ -75,7 +75,10 @@ export default {
   },
   methods: {
     handleGoDetail(val) {
-      this.$router.push({ path: '/authorityMgmt', query: { id: val.id } })
+      this.$router.push({
+        path: '/authorityMgmt/detail',
+        query: { id: val.id }
+      })
     }
   }
 }

@@ -112,14 +112,17 @@ export default {
     },
     //获取标签列表
     getTagList() {
-      organizationTagList({ category: 1, type: 1 }).then(value => {
+      organizationTagList({ category: 1, type: 1 }).then((value) => {
         if (value.code == 200) {
           this.tagList = value.data
 
           this.addData = { ...this.$route.query.addData }
-          if (this.$route.query.addData.tagList.length > 0) {
+          if (
+            this.$route.query.addData.tagList &&
+            this.$route.query.addData.tagList.length > 0
+          ) {
             //this.$route.query.addData.tagList.length>0?this.tagList=this.$route.query.addData.tagList:''
-            this.$route.query.addData.tagList.forEach(x => {
+            this.$route.query.addData.tagList.forEach((x) => {
               if (x.type == '2') {
                 this.tagList.push(x)
               }
@@ -129,7 +132,6 @@ export default {
               JSON.stringify(this.$route.query.addData.tagList)
             )
           }
-          console.log(this.selectedTagList, this.tagList)
         }
       })
     },
@@ -169,14 +171,17 @@ export default {
       if (this.$route.query.isEdit == 'true') {
         this.addData.role = this.$route.query.role
         this.addData.level = this.$route.query.level
-        this.$router.push({ path: '/authorityMgmt', query: this.addData })
+        this.$router.push({
+          path: '/authorityMgmt/detail',
+          query: this.addData
+        })
       } else {
         this.$router.push({ path: '/authorityMgmt/add', query: this.addData })
       }
     },
     resetBtnClick() {
       this.selectedTagList = []
-      organizationTagList({ category: 1, type: 1 }).then(value => {
+      organizationTagList({ category: 1, type: 1 }).then((value) => {
         if (value.code == 200) {
           this.tagList = value.data
         }
