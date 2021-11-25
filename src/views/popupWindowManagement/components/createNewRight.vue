@@ -4,7 +4,7 @@
       <ImgCutter
         class="avatar-uploader"
         fileType=".jpg, .jpeg, .png"
-        rate='16:9'
+        :rate='imgCutterRate'
         @cutDown='upload'
         :file-list="fileList"
       >
@@ -25,10 +25,27 @@ import {uploadFileWithNoToken} from '@/api/file/upload';
 export default {
   name:'createNewRight',
   components:{ImgCutter},
+  props:{
+    cutterRate:{
+      type:Number,
+      default:0
+    }
+  },
+  computed:{
+    imgCutterRate(){
+      if(this.cutterRate == 1){
+        console.log('ppppp');
+        return '16:3.5'
+      }else{
+        return '18:25'
+      }
+    }
+  },
   data(){
     return{
       imageUrl: '',
-      fileList:[]
+      fileList:[],
+      // imgCutterRate:'18:25'
     }
   },
   methods:{

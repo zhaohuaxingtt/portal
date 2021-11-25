@@ -13,11 +13,11 @@
                 <iInput
                     v-model="contractForm.assemblyPartnum"
                     type="text"
-                    @focus="partChange"
                     :placeholder="language('QINGXUANZE','请选择')"
                     :disabled="disabled"
                     >
                 </iInput>
+                <i class="el-icon-search search_btn_lj" @click="partChange"></i>
             </iFormItem>
             <iFormItem prop="ruleNo">
                 <iLabel :label="language('GUIZEBIANHAO','规则编号')" slot="label" :required="true"></iLabel>
@@ -70,19 +70,22 @@
                 <iLabel :label="language('YONGLIANG','用量')" slot="label" :required="true"></iLabel>
                 <iInput
                 v-model="contractForm.dosage"
-                type="text"
+                type="number"
                 :placeholder="language('QINGSHURU','请输入')"
                 :disabled="disabled"
                 />
             </iFormItem>
             <iFormItem prop="dosageMeasureUnit">
                 <iLabel :label="language('YONGLIANGJILIANGDANEWI','用量计量单位')" slot="label" :required="true"></iLabel>
-                <iInput
-                v-model="contractForm.dosageMeasureUnit"
-                type="text"
-                :placeholder="language('QINGSHURU','请输入')"
-                :disabled="disabled"
-                />
+                <iSelect v-model="contractForm.dosageMeasureUnit"
+                   clearable
+                   value-key="code"
+                   :placeholder="language('QINGXUANZE','请选择')">
+                    <el-option v-for="item in dosageMeasureUnit"
+                            :key="item.code"
+                            :value="item.code"
+                            :label="item.code"></el-option>
+                </iSelect>
             </iFormItem>
             <iFormItem prop="startDate">
                 <iLabel :label="language('YOUXIAOQIQI','有效期起')" slot="label"></iLabel>
@@ -298,7 +301,8 @@ import {
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 import {
   addPartMasterData,//维护MTZ零件主数据-新增
-  pageAppRule
+  pageAppRule,
+  getDosageUnitList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   iButton,
@@ -336,6 +340,9 @@ export default {components: {
       default: () => {
         return {}
       }
+    },
+    listData:{//主数据中现有零件号数组
+        type: Array,
     }
   },
   data() {
@@ -343,8 +350,11 @@ export default {components: {
         supplierList:[],//供应商编号
         contractForm: {
             assemblyPartnum:"",
-            partUnit:"PC"
+            partUnit:"PC",
+            priceUnit:1,
+            dosageMeasureUnit:'kg'
         },
+        dosageMeasureUnit:[],
         rules: {
             assemblyPartnum:[{ required: true, message: '请选择', trigger: 'blur' }],
             ruleNo:[{ required: true, message: '请选择', trigger: 'blur' }],
@@ -377,6 +387,9 @@ export default {components: {
   created(){
     getRawMaterialNos({}).then(res=>{
         this.materialCode = res.data;
+    })
+    getDosageUnitList({}).then(res=>{
+        this.dosageMeasureUnit = res.data;
     })
     pageAppRule({
         pageNo: 1,
@@ -471,5 +484,12 @@ export default {components: {
 }
 ::v-deep .el-date-editor{
     width:100%;
+}
+.search_btn_lj{
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    font-size: 18px;
+    cursor: pointer;
 }
 </style>

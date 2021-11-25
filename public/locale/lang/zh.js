@@ -1890,7 +1890,7 @@
     TPZS: {
       ZUIXINDINGDIANDANJIA: '最新定点单价', //最新定点单价
       MUBIAODANJIA: '目标单价', //目标单价
-      CHANLIANGLIANG: '产量(辆)', //产量（件）
+      CHANLIANGLIANG: '产量(件)', //产量（件）
       DANJIA: '单价', //单价
       YUANJIAN: '(元/件)', //（元/件）
       BANJIAJIAN: '(半价/件)', //（半价/件）
@@ -1981,9 +1981,9 @@
     EKL_JIAGEBIANHUA: '价格变化',
     EKL_YEJIJINETIAOZHENG: '业绩金额调整',
     EKL_SJJSJZSJ: '数据计算截止时间',
-    EKL_GZLJZS: '跟踪零件总数（个）',
-    EKL_XZLJZS: '新增零件总数（个）',
-    EKL_QXLJZS: '取消零件总数（个）',
+    EKL_GZLJZS: '跟踪零件总数（项）',
+    EKL_XZLJZS: '新增零件总数（项）',
+    EKL_QXLJZS: '取消零件总数（项）',
     EKL_LJGZLX: '零件跟踪类型',
     EKL_JCBMBXZ: '基础表模板下载',
     EKL_PFJ_LJMC: '零件名称',

@@ -432,3 +432,11 @@ export function removePartMasterData(params) {//清空维护mtz零件主数据
         data: params,
     })
 }
+
+export function getDosageUnitList(params) {//用量单位下拉
+    return request({
+        url: '/mtzNomiList/getDosageUnitList',
+        method: 'POST',
+        data: params,
+    })
+}

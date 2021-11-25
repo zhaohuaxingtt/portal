@@ -297,14 +297,17 @@
             </iFormItem>
             <iFormItem prop="thresholdCompensationLogic">
                 <iLabel :label="language('YUZHIBUCHALUOJI','阈值补差逻辑')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.thresholdCompensationLogic"
-                         :user-options="thresholdCompensationLogic"
-                         clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="message"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                <i-select v-model="contractForm.thresholdCompensationLogic"
+                    clearable
+                    :placeholder="language('QINGXUANZE', '请选择')"
+                    >
+                    <el-option
+                        v-for="item in thresholdCompensationLogic"
+                        :key="item.code"
+                        :label="item.message"
+                        :value="item.code">
+                    </el-option>
+                </i-select>
             </iFormItem>
             <iFormItem prop="startDate">
                 <iLabel :label="language('YOUXIAOQIQI','有效期起')" slot="label" :required="true"></iLabel>
@@ -467,6 +470,7 @@ export default {components: {
         supplierList:[],//供应商
         carline:[],//车型
         contractForm: {
+            thresholdCompensationLogic:"A",
             effectFlag:0,
             tcExchangeRate:1,
             compensationRatio:1,

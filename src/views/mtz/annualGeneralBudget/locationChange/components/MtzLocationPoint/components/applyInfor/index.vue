@@ -72,7 +72,6 @@
       ref="theTabs"
       @isNomiNumber="isNomiNum"
       @handleReset="handleReset"
-      :relationType="relationType"
       v-if="!beforReturn"
       :appStatus='inforData.appStatus'
       :flowType="inforData.flowType"
@@ -169,7 +168,6 @@ export default {
       showType: false,
       appIdType:true,
       numIsNomi:0,
-      relationType:"",
     }
   },
   // beforeRouteEnter:(to,from,next)=>{
@@ -201,7 +199,7 @@ export default {
     }
   },
   methods: {
-    init () {
+    init (val) {
       getAppFormInfo({
         mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId 
       }).then(res => {
@@ -215,10 +213,11 @@ export default {
           this.applyNumber = "";
         } else {
           this.applyNumber = res.data.ttNominateAppId;
-          this.getLjLocation();
+          // this.getLjLocation();
         }
-        store.commit("submitBtnType",res.data.flowType);
-        store.commit("submitNumGL",res.data.ttNominateAppId);
+        if(val !== "取消"){
+          store.commit("submitBtnInfor",{...res.data});
+        }
         // NOTPASS
         if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
           this.showType = true;
@@ -229,7 +228,6 @@ export default {
         this.inforData.appName = res.data.appName
         this.inforData.flowType = res.data.flowType
       })
-      
     },
     getListData(){
       getFlowTypeList({}).then(res => {
@@ -289,10 +287,10 @@ export default {
     },
     cancel () {
       this.disabled = true;
-      this.init();
+      this.init("取消");
     },
     relation () {//关联零件定点申请
-      iMessageBox(this.language('GLSQDHQZTBLJDDSQLXHSPRXXRLJSQDYSHHCSTJTYGHY','关联申请单会强制同步零件定点申请类型和审批人信息！若零件申请单已上会，会尝试提交同一个会议！'),this.language('LK_WENXINTISHI', '温馨提示'), {
+      iMessageBox(this.language('GLSQDHWFCMTZJMFQTJCHHWLZDJQXDDDCZ','关联申请单后，无法从MTZ界面发起提交、撤回、会外流转、冻结、取消定点等操作'),this.language('LK_WENXINTISHI', '温馨提示'), {
         confirmButtonText: this.language('QUEREN', '确认'),
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res => {
@@ -352,19 +350,19 @@ export default {
       this.numIsNomi = val;
     },
 
-    getLjLocation(){
-      page({
-        current: 1,
-        size: 9999,
-        nominateId:this.applyNumber
-      }).then(res=>{
-        if(res.code == 200 && res.result){
-          this.relationType = res.data.records[0].nominateProcessType;
-        }else{
-          iMessage.error(this.language(res.desEn,res.desZh))
-        }
-      })
-    },
+    // getLjLocation(){
+    //   page({
+    //     current: 1,
+    //     size: 9999,
+    //     nominateId:this.applyNumber
+    //   }).then(res=>{
+    //     if(res.code == 200 && res.result){
+    //       this.relationType = res.data.records[0].nominateProcessType;
+    //     }else{
+    //       iMessage.error(this.language(res.desEn,res.desZh))
+    //     }
+    //   })
+    // },
     jumpInforBtn(){
       page({
         current: 1,
