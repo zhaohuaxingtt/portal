@@ -54,7 +54,7 @@ export default {
       const list = this.$refs.colorPartsList.getPartsList()
       if(list){
         this.partItems = list.map((ele)=>{
-          return ele.partNum5
+          return ele.partNum
         })
       }
 

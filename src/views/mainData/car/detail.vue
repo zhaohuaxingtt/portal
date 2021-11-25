@@ -46,7 +46,7 @@ export default {
       if (!this.baseForm.productFactory) {
         return []
       }
-      return this.productFactoryOptions.filter(e =>
+      return this.productFactoryOptions.filter((e) =>
         this.baseForm.productFactory.includes(e.id)
       )
     }
@@ -68,7 +68,8 @@ export default {
         productId: 0,
         sourceType: '',
         type: '',
-        vwModelCode: ''
+        vwModelCode: '',
+        isModify: false
       },
       productFactoryOptions: [], // 投产工厂
       baseSaveLoading: false
@@ -86,7 +87,8 @@ export default {
       const productFactory = data.productFactory
         ? data.productFactory.split(',')
         : data.productFactory
-      this.baseForm = { ...data, productFactory }
+      const isModify = data.isModify || false
+      this.baseForm = { ...data, isModify, productFactory }
     },
     async queryProcureFactorySelectVo() {
       const { data } = await fetchProcureFactorySelectVo()
