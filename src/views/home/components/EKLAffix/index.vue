@@ -131,8 +131,8 @@ export default {
       this.tabList = this.leadTabList
     } else {
       this.tabList = JSON.parse(JSON.stringify(this.eklPfjTabList))
-      this.query.dptCode = this.eklPfjTabList[0].type
-      this.activeName = this.eklPfjTabList[0].name
+      this.query.dptCode = this.eklPfjTabList[0]?.type
+      this.activeName = this.eklPfjTabList[0]?.name
     }
     this.getEklAffix(this.query)
     // log.js

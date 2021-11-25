@@ -5,7 +5,7 @@
         v-model="checkList"
         multiple
         collapse-tags
-        style="width: 55.5%"
+        style="width: 100%"
         placeholder="请选择科室"
         @change="handleChange"
       >
@@ -393,7 +393,7 @@ export default {
               total += data[i].data.value
             }
             const type = data[0].data.type
-            return `${type}-Rating数量：${total}<br/>${type}-Rating比例：${
+            return `${type}-Rating数量：${total}家<br/>${type}-Rating比例：${
               String((total / totalCount)) === 'NaN' ? '0.00' : ((total / totalCount).toFixed(2) * 100).toFixed(2)
             }%`
           }
@@ -440,7 +440,7 @@ export default {
             // ]
             style: {
                   fill: '#7E84A3',
-                  text: 'C-Rating数量:36\n'+'\nC-Rating比例:60%',
+                  text: 'C-Rating数量:36家\n'+'\nC-Rating比例:60%',
                   font: '7px sans-serif'
                 }
           }
