@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-25 11:49:33
+ * @LastEditTime: 2021-11-25 11:51:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -89,7 +89,7 @@
             <el-option v-for="item in userList"
                        :key="item.id"
                        :label="item.nameZh"
-                       :value="item.id">
+                       :value="item.nameZh">
             </el-option>
           </iSelect>
           <span v-else> {{ scope.row.approvalName }}</span>
