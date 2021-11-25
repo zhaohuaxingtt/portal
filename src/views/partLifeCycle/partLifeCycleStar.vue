@@ -779,7 +779,7 @@ export default {
     toPartLifeCycle(item) {
       let routeData = this.$router.resolve({
         path: '/partLifeCycle',
-        query: { partsNum: item.partsNum, isDefaultFolder:item.isDefaultFolder,partsCollectId:item.partsCollectId }
+        query: { partsNum: item.partsNum}
       })
       window.open(routeData.href)
     },
@@ -798,11 +798,6 @@ export default {
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
-//          this.defaultPartsList.forEach(obj => {
-//            if (obj.partsCollectId === item.partsCollectId)
-//              obj.isDefaultFolder = operationType
-//          })
-          // item.isDefaultFolder = operationType
           iMessage.success(result)
           if(this.isSearch) {
             this.getPartsCollect()
