@@ -17,7 +17,8 @@ export const AEKO_CATEGORY_LIST = ['aeko_mp', 'aeko_aea', 'aeko_content']
 // 审批列表只能单选的类型
 export const BPM_SINGL_CATEGORY_LIST = [
   'meeting_rs_recheck',
-  'meeting_recheck_m_sign'
+  'meeting_recheck_m_sign',
+  'officialPricing'
 ]
 // 审批有异议、无异议判断
 export const BPM_CATEGORY_RENAME_YIYI_LIST = ['meeting_rs_recheck']
