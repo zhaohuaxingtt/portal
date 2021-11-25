@@ -22,15 +22,15 @@
           <span
             v-for="item in menus"
             :key="item.id"
-            :class="{ transparent: activeMenu.includes(item.permissionKey) }"
+            :class="{
+              transparent: activeIndex === item.permissionKey
+            }"
             @click="toggleSubMenu(item)"
           >
             <icon
               symbol
               :name="
-                activeMenu.includes(item.permissionKey)
-                  ? item.activeIcon
-                  : item.icon
+                activeIndex === item.permissionKey ? item.activeIcon : item.icon
               "
             />
           </span>
@@ -79,6 +79,7 @@
 <script>
 import { icon } from 'rise'
 export default {
+  name: 'leftLayout',
   components: { icon },
   props: {
     menus: {
@@ -110,33 +111,28 @@ export default {
   provide() {
     return this
   },
-  created() {
-    /* const rootIndex = this.getFirstMenuActive()
-
-    this.activeIndex = rootIndex
-    this.$emit('toggle-active', rootIndex) */
+  watch: {
+    activeMenu() {
+      this.setDefaultActiveIndex()
+    }
   },
   mounted() {
     document.addEventListener('click', (e) => {
       this.clickListener(e)
     })
+    this.setDefaultActiveIndex()
   },
   beforeDestroy() {
     document.removeEventListener('click', (e) => {
       this.clickListener(e)
     })
   },
-  /* watch: {
-    $route: {
-      handler: function (route) {
-        if (route.path === '/index') {
-          this.showSideMenu()
-        }
-      },
-      immediate: true
-    }
-  }, */
   methods: {
+    setDefaultActiveIndex() {
+      if (this.activeMenu && this.activeMenu.length) {
+        this.activeIndex = this.activeMenu[0]
+      }
+    },
     getFirstMenuActive() {
       return this.$route.meta.top || 'RISE_WORKBENCH'
     },
@@ -162,6 +158,7 @@ export default {
     },
     toggleSubMenu(item) {
       if (item.permissionKey === 'RISE_HOME') {
+        this.activeIndex = 'RISE_HOME'
         this.$emit('toggle-active', 'RISE_HOME')
         this.showSideMenu()
       } else {

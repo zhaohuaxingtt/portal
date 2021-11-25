@@ -27,14 +27,12 @@
 </template>
 
 <script>
-import { Icon } from 'rise'
 export default {
   name: 'panelCategory',
-  components: { Icon },
   props: {
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
