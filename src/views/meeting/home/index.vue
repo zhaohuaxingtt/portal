@@ -72,7 +72,8 @@ export default {
         meetingPlace: '',
         receiverId: '',
         attendeeId: '',
-        attendee: ''
+        attendee: '',
+        weekOfYears: []
       },
       meetingTypeList: [],
       attendeeList: [],
@@ -119,7 +120,11 @@ export default {
         .finally(() => (this.loading = false))
     },
     handleSearchReset() {
-      this.form = {}
+      this.form = {
+        weekOfYears: [],
+        startDate: '',
+        startTime: ''
+      }
       this.page.currPage = 1
       this.getTableList()
     },

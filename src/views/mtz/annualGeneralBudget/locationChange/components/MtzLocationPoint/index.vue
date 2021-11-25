@@ -1,7 +1,7 @@
 <!-- MTZ定点分页页面 -->
 <template>
   <div>
-    <theSearchTable v-show="$route.meta.showFooter"></theSearchTable>
+    <theSearchTable v-if="$route.meta.showFooter"></theSearchTable>
     <router-view />
   </div>
 </template>

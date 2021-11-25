@@ -7,7 +7,7 @@
  * @FilePath: \rise\src\views\login\index.vue
 -->
 <template>
-  <div v-if="ssoLogin">
+  <div v-if="ssoLogin" class="eidp-login">
     <div>Loading...to redirect...</div>
   </div>
   <div v-else class="login">
@@ -102,6 +102,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.eidp-login {
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+}
 $colorpage: rgb(67, 152, 217);
 .login {
   background-color: rgb(1, 5, 32);

@@ -213,7 +213,7 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增临时议题", methodName: "addTopic" },
+        { title: "新增手工议题", methodName: "addTopic" },
         { title: "议题调整", methodName: "updateTopic" },
         // { title: "导入议题", methodName: "importTopic" },
       ],
@@ -237,7 +237,7 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增临时议题", methodName: "addTopic" },
+        { title: "新增手工议题", methodName: "addTopic" },
         { title: "议题调整", methodName: "updateTopic" },
         // { title: "导入议题", methodName: "importTopic" },
       ],
@@ -263,7 +263,7 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增临时议题", methodName: "addTopic" },
+        { title: "新增手工议题", methodName: "addTopic" },
         { title: "议题调整", methodName: "updateTopic" },
         // { title: "导入议题", methodName: "importTopic" },
       ],
@@ -332,7 +332,7 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest", disabled: true },
-        { title: "新增临时议题", methodName: "addTopic", disabled: true },
+        { title: "新增手工议题", methodName: "addTopic", disabled: true },
         { title: "议题调整", methodName: "updateTopic", disabled: true },
       ],
       [{ title: "查看结论", methodName: "lookResult", disabled: true }],

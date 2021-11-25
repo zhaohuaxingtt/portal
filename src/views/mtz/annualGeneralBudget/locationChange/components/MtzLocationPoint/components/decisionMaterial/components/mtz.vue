@@ -36,8 +36,10 @@
                       v-model="formData[item.prop]"></el-input>
           </div>
         </div>
-        <el-divider />
-        <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}</p>
+        <el-divider v-if="RsObject" />
+        <el-divider v-if="!RsObject && ruleTableListData.length>0" />
+        <p class="tableTitle" v-if="RsObject">{{language('GUIZEQINGDAN', '规则清单')}}</p>
+        <p class="tableTitle" v-if="!RsObject && ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}</p>
                   <!-- :renderHeader="renderHeader" -->
         <tableList class="margin-top20"
                   :tableData="ruleTableListData"
@@ -60,7 +62,7 @@
                   :tableData="ruleTableListData"
                   :tableTitle="ruleTableTitle1_1"
                   :tableLoading="loading"
-                  v-if="!RsObject"
+                  v-if="!RsObject && ruleTableListData.length>0"
                   :index="true"
                   :selection="false"
                   @handleSelectionChange="handleSelectionChange">
@@ -75,7 +77,7 @@
         </tableList>
         <tableList class="margin-top20"
                   :tableData="ruleTableListData"
-                  v-if="!RsObject"
+                  v-if="!RsObject && ruleTableListData.length>0"
                   :tableTitle="ruleTableTitle1_2"
                   :tableLoading="loading"
                   :index="true"
@@ -100,8 +102,10 @@
                     :layout="page.layout"
                     :current-page='rulePageParams.currPage'
                     :total="rulePageParams.totalCount" /> -->
-        <el-divider class="margin-top20" />
-        <p class="tableTitle">{{language('LJQD', '零件清单')}}</p>
+        <el-divider v-if="RsObject" />
+        <el-divider class="margin-top20" v-if="!RsObject && partTableListData.length>0" />
+        <p class="tableTitle" v-if="RsObject">{{language('LJQD', '零件清单')}}</p>
+        <p class="tableTitle" v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
         <tableList class="margin-top20"
                   :tableData="partTableListData"
                   :tableTitle="partTableTitle1"
@@ -123,7 +127,7 @@
                   :tableData="partTableListData"
                   :tableTitle="partTableTitle1_1"
                   :tableLoading="loading"
-                  v-if="!RsObject"
+                  v-if="!RsObject && partTableListData.length>0"
                   :index="true"
                   :selection="false"
                   @handleSelectionChange="handleSelectionChange">
@@ -140,7 +144,7 @@
                   :tableData="partTableListData"
                   :tableTitle="partTableTitle1_2"
                   :tableLoading="loading"
-                  v-if="!RsObject"
+                  v-if="!RsObject && partTableListData.length>0"
                   :index="true"
                   :selection="false"
                   @handleSelectionChange="handleSelectionChange">

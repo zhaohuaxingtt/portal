@@ -196,8 +196,8 @@ export default {
       closeMeeting(param)
         .then((res) => {
           if (res) {
-            iMessage.success('关闭成功')
-            this.$emit('handleOK')
+            // iMessage.success('关闭成功')
+            this.$emit('handleOK',"close")
             this.handleClose()
           } else {
             // iMessage.success('关闭失败')

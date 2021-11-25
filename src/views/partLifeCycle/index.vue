@@ -114,6 +114,7 @@ export default {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.currentData = res.data[0]
+          console.log(this.currentData,'this.currentData')
         } else {
           iMessage.error(result)
         }
@@ -125,7 +126,7 @@ export default {
   },
   mounted() {
     this.currentData = this.$route.query
-//    this.getPartsCollect(partsNum)
+    this.getPartsCollect(this.currentData.partsNum)
     this.getFolderCombo()
   }
 
