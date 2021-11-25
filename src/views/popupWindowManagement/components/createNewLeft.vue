@@ -40,14 +40,14 @@
             <iFormItem
               :label="language('选择供应商')"
             > 
-              <sullpierSelect v-model="formContent.supplierList" @change="supplierListChange" />
+              <supplierSelect v-model="formContent.supplierList" @change="supplierListChange" />
             </iFormItem>
           </el-col>
         </el-row>
         <el-row :gutter="24">
           <el-col span="24">
             <iFormItem :label="language('弹窗布局')"  prop='popupStyle'>
-              <popupStyle :popupStyle.sync='formContent.popupStyle'></popupStyle>
+              <popupStyle :popupStyle.sync='changePopupStyle' ></popupStyle>
             </iFormItem>
           </el-col>
         </el-row>
@@ -90,14 +90,15 @@
 import {iFormItem,iDatePicker,iInput,iSelect,iButton} from 'rise'
 import {PUBLISH_SCOPE_OPTIONS} from './data.js'
 import userSelector from './userSelector.vue'
-import sullpierSelect from './supplierSelect.vue'
+import supplierSelect from './supplierSelect.vue'
 import popupStyle from './popupStyle.vue'
 export default {
     name:'newLeft',
-    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,sullpierSelect,popupStyle,iButton},
+    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,supplierSelect,popupStyle,iButton},
     props:{},
     data(){
       return{
+        changePopupStyle:0,
         radio:'0',
         publishRangeOptions:PUBLISH_SCOPE_OPTIONS,
         formContent:{
@@ -128,6 +129,13 @@ export default {
     },
     created(){
       this.formContent.publishRange = 0
+    },
+    watch:{
+      changePopupStyle(newVal,oldVal){
+        console.log('-------');
+        this.formContent.popupStyle = newVal
+        this.$emit('cutterRateSty',newVal)
+      }
     },
     methods:{
       userListChange(val){
@@ -164,7 +172,8 @@ export default {
       formData(){
         return this.formContent
       }
-    }
+    },
+
 }
 </script>
 

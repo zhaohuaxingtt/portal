@@ -12,8 +12,8 @@
         </div>
         <iCard style="margin-top:20px">
             <div class="content">
-                <new-left ref="newLeft" :formData='formData'/>
-                <new-right ref="newRight" />
+                <new-left ref="newLeft" :formData='formData' @cutterRateSty='cutterRateSty' />
+                <new-right ref="newRight" :cutterRate='cutterRate' />
             </div>
         </iCard>
         <detailDialog :show.sync='show' :detail='detail' />
@@ -40,7 +40,8 @@ export default {
                 linkUrl:''
             },
             picUrl:'',
-            instance:''
+            instance:'',
+            cutterRate:0
         }
     },
     methods:{
@@ -130,6 +131,10 @@ export default {
                 popupStyle:this.formData.popupStyle,
                 wordAlign:this.formData.wordAlign
             }
+        },
+        cutterRateSty(val){
+            console.log('====');
+            this.cutterRate = val
         }
     }
 }
