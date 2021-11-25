@@ -10,12 +10,13 @@
   <div class="content">
     <topLayout
       :menus="menus_admin"
-      :menu-relation="menuRelation"
+      :active-menu="activeMenu"
       @click-menu="handleClickAdminMenu"
-    ></topLayout>
+    />
     <leftLayout
       ref="leftLayout"
       :menus="menus"
+      :active-menu="activeMenu"
       @toggle-active="toggleActive"
       @set-menu-modal-visible="setMenuModalVisible"
     >
@@ -23,7 +24,7 @@
         <sideMenu
           :side-menus="sideMenus"
           :menu-map="menuMap"
-          :menu-relation="menuRelation"
+          :active-menu="activeMenu"
           @hide-side-menu="hideSideMenu"
         />
       </template>
@@ -33,17 +34,16 @@
     </leftLayout>
     <div class="app-content" :class="{ keepAlive: $route.meta.keepAlive }">
       <keep-alive>
-        <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath">
-        </router-view>
+        <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath" />
       </keep-alive>
       <router-view v-if="!$route.meta.keepAlive" :key="$route.fullPath" />
       <div
         v-if="menuModelVisible"
-        class="app-menu-model"
+        class="app-menu-madel"
         @click="hideSideMenu"
       ></div>
     </div>
-    <RightBottom 
+    <RightBottom
       :contentShowFlag="contentShowFlag"
       @handleSelect="handleSelect"
       @handleShow="handleShow"
@@ -61,7 +61,14 @@ import { arrayToTree, treeToArray } from '@/utils'
 import layoutNotify from './components/notify'
 
 export default {
-  components: { topLayout, LeftLayout, sideMenu, myModules, layoutNotify, RightBottom },
+  components: {
+    topLayout,
+    LeftLayout,
+    sideMenu,
+    myModules,
+    layoutNotify,
+    RightBottom
+  },
   props: {
     menus: {
       type: Array,
@@ -87,6 +94,7 @@ export default {
       },
       menuModelVisible: false,
       contentShowFlag: false,
+      activeMenu: []
     }
   },
   computed: {
@@ -105,12 +113,11 @@ export default {
         }
       }
       return []
-    },
-    menuRelation() {
-      console.log('menuList', this.menuList)
-      const relation = this.getMenusParent(this.menuList)
-      console.log('relation', relation)
-      return relation
+    }
+  },
+  watch: {
+    '$route.path'() {
+      this.setActiveMenu()
     }
   },
   created() {
@@ -119,6 +126,7 @@ export default {
     }) */
 
     this.menus && this.menus.length ? this.getMenus() : this.getMenuList()
+    this.setActiveMenu()
   },
   mounted() {
     document.body.addEventListener('click', () => {
@@ -126,6 +134,12 @@ export default {
     })
   },
   methods: {
+    setActiveMenu() {
+      const meta = this.$route.meta
+      if (meta) {
+        this.activeMenu = meta.activeMenu || []
+      }
+    },
     handleShow(va) {
       this.contentShowFlag = !va
     },
@@ -210,20 +224,6 @@ export default {
     handleSelect(list) {
       this.$router.push(list.path)
     },
-    getMenusParent(menus, parent, res) {
-      res = res || {}
-      for (let i = 0; i < menus.length; i++) {
-        const menu = menus[i]
-        res[menu.url] = res[menu.url] || [menu.url]
-        if (parent) {
-          res[menu.url] = [...new Set(res[menu.url]), parent.url]
-        }
-        if (menu.menuList) {
-          this.getMenusParent(menu.menuList, menu, res)
-        }
-      }
-      return res
-    },
     handleClickAdminMenu() {
       console.log('点击了admin 菜单')
       this.$refs.leftLayout.activeIndex = ''
@@ -266,7 +266,7 @@ export default {
       }
       .text {
         font-size: 16px;
-        color: #5F6F8F;
+        color: #5f6f8f;
         margin-left: 20px;
       }
     }
@@ -281,7 +281,7 @@ export default {
       width: 60px;
     }
   }
-  .app-menu-model {
+  .app-menu-madel {
     position: absolute;
     width: 100%;
     height: 100%;

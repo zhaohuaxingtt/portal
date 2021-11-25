@@ -48,16 +48,16 @@
 </template>
 
 <script>
-import { iPagination } from "rise";
+import { iPagination } from 'rise'
 import {
   actionButtons,
   addOrEditReceiverDialog,
   chooseReceiverDialog,
-  editReceiverDialog,
-} from "./components";
-import { getReceiver, deleteReceiver } from "@/api/meeting/type";
-import { pageMixins } from "@/utils/pageMixins";
-import iTableCustom from "@/components/iTableCustom";
+  editReceiverDialog
+} from './components'
+import { getReceiver, deleteReceiver } from '@/api/meeting/type'
+import { pageMixins } from '@/utils/pageMixins'
+import iTableCustom from '@/components/iTableCustom'
 
 export default {
   mixins: [pageMixins],
@@ -67,138 +67,138 @@ export default {
     iTableCustom,
     addOrEditReceiverDialog,
     chooseReceiverDialog,
-    editReceiverDialog,
+    editReceiverDialog
   },
   data() {
     return {
       tableLoading: false,
       tableColumns: [
         {
-          type: "index",
-          label: "序号",
-          i18n: "序号",
+          type: 'index',
+          label: '序号',
+          i18n: '序号',
           width: 68,
-          tooltip: false,
+          tooltip: false
         },
         {
           // prop: "meetingTypeName",
-          label: "会议类型",
-          i18n: "会议类型",
+          label: '会议类型',
+          i18n: '会议类型',
           width: 240,
-          align: "left",
+          align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.meetingTypeName ? scope.row.meetingTypeName : ""
-            );
-          },
+              scope.row.meetingTypeName ? scope.row.meetingTypeName : ''
+            )
+          }
         },
         {
           // prop: "groupName",
-          label: "组名",
-          i18n: "组名",
+          label: '组名',
+          i18n: '组名',
           width: 240,
-          align: "left",
+          align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.groupName ? scope.row.groupName : ""
-            );
-          },
+              scope.row.groupName ? scope.row.groupName : ''
+            )
+          }
         },
 
         {
           // prop: "employeeDTOS",
-          label: "参与人员姓名",
-          i18n: "参与人员姓名",
+          label: '参与人员姓名',
+          i18n: '参与人员姓名',
           // width: 240,
 
-          align: "left",
+          align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
               scope.row.employeeDTOS
-                ? scope.row.employeeDTOS.map((item) => item.name).join(",")
-                : ""
-            );
-          },
+                ? scope.row.employeeDTOS.map((item) => item.name).join(',')
+                : ''
+            )
+          }
         },
         {
-          label: "操作",
+          label: '操作',
           width: 100,
           customRender: (h, scope) => {
-            return h("span", [
+            return h('span', [
               h(
-                "a",
+                'a',
                 {
                   style: {
-                    marginRight: "5px",
-                    cursor: "pointer",
-                    color: "#1660f1",
+                    marginRight: '5px',
+                    cursor: 'pointer',
+                    color: '#1660f1'
                   },
-                  class: "open-link-text",
+                  class: 'open-link-text',
                   on: {
                     click: () => {
-                      this.editReceiver(scope.row);
-                    },
-                  },
+                      this.editReceiver(scope.row)
+                    }
+                  }
                 },
-                "修改"
+                '修改'
               ),
               h(
-                "a",
+                'a',
                 {
                   style: {
-                    marginRight: "5px",
-                    cursor: "pointer",
+                    marginRight: '5px',
+                    cursor: 'pointer'
                   },
-                  class: "open-link-text",
+                  class: 'open-link-text'
                 },
-                "|"
+                '|'
               ),
               h(
-                "a",
+                'a',
                 {
                   style: {
-                    cursor: "pointer",
-                    color: "#1660f1",
+                    cursor: 'pointer',
+                    color: '#1660f1'
                   },
-                  class: "open-link-text",
+                  class: 'open-link-text',
                   on: {
                     click: () => {
-                      this.deleteReceiver(scope.row);
-                    },
-                  },
+                      this.deleteReceiver(scope.row)
+                    }
+                  }
                 },
-                "删除"
-              ),
-            ]);
-          },
-        },
+                '删除'
+              )
+            ])
+          }
+        }
       ],
       tableData: [],
       // 创建弹框
@@ -207,84 +207,85 @@ export default {
       openEditDialog: false,
       // 选择收件人弹框
       openReceiverDialog: false,
-      editOrAdd: "add",
+      editOrAdd: 'add',
       clickScope: [],
       // getUsersList: [],
-      selectedTableData: [],
-    };
+      selectedTableData: []
+    }
   },
   created() {
-    this.query();
+    this.query()
   },
   methods: {
     handleChooseReceiver(selectedTableData) {
-      this.selectedTableData = selectedTableData;
-      this.closeChooseDialog();
+      this.selectedTableData = selectedTableData
+      this.closeChooseDialog()
     },
     addReceiverData() {
-      this.openReceiverDialog = true;
+      this.openReceiverDialog = true
     },
     deleteReceiver(e) {
-      this.$confirm("请确认是否要删除该群组?", "提示", {
-        confirmButtonText: "是",
-        cancelButtonText: "否",
-        type: "warning",
+      this.$confirm('请确认是否要删除该群组?', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
       }).then(() => {
-        deleteReceiver({ id: e.id })
-          .then(() => {
-            this.$message.success("删除成功!");
-            this.query();
-          })
-          .catch((err) => {
-            this.$message.error("删除失败!");
-          });
-      });
+        deleteReceiver({ id: e.id }).then((res) => {
+          if (res.code === 200) {
+            this.$message.success('删除成功!')
+            this.query()
+          }
+        })
+        // .catch((err) => {
+        //   this.$message.error('删除失败!')
+        // })
+      })
     },
     editReceiver(scope) {
-      this.clickScope = scope;
-      this.openEditDialog = true;
+      this.clickScope = scope
+      this.openEditDialog = true
     },
     flushTable() {
-      this.query();
+      this.query()
     },
     query() {
       const data = {
         pageNum: this.page.currPage,
-        pageSize: this.page.pageSize,
-      };
-      this.tableLoading = true;
+        pageSize: this.page.pageSize
+      }
+      this.tableLoading = true
       getReceiver(data)
         .then((res) => {
-          this.tableLoading = false;
-          const { data, pageNum, pageSize, total, pages } = res;
-          this.page.currPage = pageNum;
-          this.page.pageSize = pageSize;
-          this.page.totalCount = total;
-          this.page.pages = pages;
-          this.tableData = data;
-          console.log(data);
+          this.tableLoading = false
+          const { data, pageNum, pageSize, total, pages } = res
+          this.page.currPage = pageNum
+          this.page.pageSize = pageSize
+          this.page.totalCount = total
+          this.page.pages = pages
+          this.tableData = data
+          console.log(data)
         })
         .catch((err) => {
-          this.tableLoading = false;
-        });
+          this.tableLoading = false
+        })
     },
     addReceiver() {
-      this.openDialog = true;
-      this.editOrAdd = "add";
+      this.openDialog = true
+      this.editOrAdd = 'add'
     },
     closeDialog(bol) {
-      this.selectedTableData = [];
-      this.openDialog = bol;
+      this.selectedTableData = []
+      this.openDialog = bol
     },
     closeChooseDialog(bol) {
-      this.openReceiverDialog = bol;
+      this.openReceiverDialog = bol
     },
     closeEditDialog(bol) {
-      this.openEditDialog = bol;
-      this.selectedTableData = [];
-    },
-  },
-};
+      this.openEditDialog = bol
+      this.selectedTableData = []
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>
