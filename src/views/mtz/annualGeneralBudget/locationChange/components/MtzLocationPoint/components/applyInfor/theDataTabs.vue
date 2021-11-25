@@ -121,8 +121,8 @@
                         :prop="'tableData.' + scope.$index + '.' + 'partUnit'"
                         :rules="formRules.partUnit ? formRules.partUnit : ''"
                     >
-                        <iInput v-model="scope.row.partUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
-                        <span v-else>{{scope.row.partUnit}}</span>
+                        <!-- <iInput v-model="scope.row.partUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
+                        <span>{{scope.row.partUnit}}</span>
                     </el-form-item>
                 </template>
             </el-table-column>

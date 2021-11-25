@@ -1,5 +1,5 @@
 <template>
-  <iPage >
+  <iPage class="template">
     <!-- <pageHeader class="title">{{language('弹窗管理')}}</pageHeader> -->
     <div class="content">
         <theTableFilter @search='search'/>
@@ -30,6 +30,6 @@ export default {
 
 <style lang="scss" scoped>
 .content{
-  margin-top:20px ;
+  // margin-top:20px ;
 }
 </style>

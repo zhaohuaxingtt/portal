@@ -58,12 +58,12 @@
                 />
             </iFormItem>
             <iFormItem prop="partUnit">
-                <iLabel :label="language('LINGJIANSHULIANGDANWEI','零件数量单位')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('LINGJIANSHULIANGDANWEI','零件数量单位')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.partUnit"
                 type="text"
                 :placeholder="language('QINGSHURU','请输入')"
-                :disabled="disabled"
+                :disabled="true"
                 />
             </iFormItem>
             <iFormItem prop="dosage">
@@ -343,12 +343,13 @@ export default {components: {
         supplierList:[],//供应商编号
         contractForm: {
             assemblyPartnum:"",
+            partUnit:"PC"
         },
         rules: {
             assemblyPartnum:[{ required: true, message: '请选择', trigger: 'blur' }],
             ruleNo:[{ required: true, message: '请选择', trigger: 'blur' }],
             priceUnit:[{ required: true, message: '请输入', trigger: 'blur' }],
-            partUnit:[{ required: true, message: '请输入', trigger: 'blur' }],
+            // partUnit:[{ required: true, message: '请输入', trigger: 'blur' }],
             dosage:[{ required: true, message: '请输入', trigger: 'blur' }],
             dosageMeasureUnit:[{ required: true, message: '请输入', trigger: 'blur' }],
             mark:[{ required: true, message: '请输入', trigger: 'blur' }],
@@ -403,10 +404,11 @@ export default {components: {
           this.partType = true;
       },
     saveClose(val){
+        console.log(val);
         this.closeDiolog();
         if(val){
             this.contractForm.assemblyPartnum = val.partNum;
-            this.contractForm.partName = val.partName;
+            this.contractForm.partName = val.partNameZh;
         }
     },
     closeDiolog(){
