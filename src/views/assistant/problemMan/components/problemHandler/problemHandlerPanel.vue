@@ -121,7 +121,22 @@
         附件:
         <a v-if="!isReplyStatus" href="javscript:void(0);" @click.prevent="downFileHandle" style="color: #2369f1"><i class="el-icon-link"></i>点击下载</a>
         <a v-else href="javscript:void(0);" @click.prevent="uploadFileHandle" style="color: #2369f1"><i class="el-icon-link"></i>点击上传</a>
-        <iUpload v-show="false" ref="upload" :fileIds="fileIds" :extraData="extraData" @callback="handelCallback" />
+        <!-- <iUpload v-show="false" :fileIds="fileIds" :extraData="extraData" @callback="handelCallback" /> -->
+        <el-upload
+          ref="upload" 
+          v-show="false"
+          class="upload"
+          action="/fileApi/upload"
+          :show-file-list="false"
+          :data="{ applicationName: 'rise' }"
+          name="multipartFile"
+          with-credentials
+          :on-success="handelCallback"
+          :before-upload="beforeUpload"
+          :http-request="myUpload"
+          accept=".xlsx,.pdf,.docx"
+        >
+        </el-upload>
       </div>
     </div>
     <dispatchDialog v-if="showDialog" :show.sync="showDialog" />
