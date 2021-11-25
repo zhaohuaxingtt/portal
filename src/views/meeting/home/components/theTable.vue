@@ -862,7 +862,10 @@ export default {
       this.openUpdate = true
     },
     // 确认提交审批流
-    handleCloseOK() {
+    handleCloseOK(info) {
+      if(info ==="close") {
+        iMessage.success("关闭成功");
+      }
       this.openCloseMeeting = false
       this.refreshTable()
     },
