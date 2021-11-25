@@ -39,6 +39,8 @@ import RouterNews from './news'
 import RouterSurvey from './survey'
 import RouterColorParts from './RouterColorParts'
 
+import RouterApplications from './applications'
+
 export default {
   routes: [
     {
@@ -169,7 +171,8 @@ export default {
         ...RouterManage,
         ...RouterNews,
         ...RouterSurvey,
-        ...RouterColorParts
+        ...RouterColorParts,
+        ...RouterApplications
       ]
     },
 
