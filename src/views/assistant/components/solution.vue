@@ -30,10 +30,11 @@ export default {
 	methods: {
 		good() {
 			console.log('good')
+			this.$emit('goodSolution')
 		},
 		bad() {
 			console.log('bad')
-			this.$emit('badSolutiob')
+			this.$emit('badSolution')
 		}
 	}
 }

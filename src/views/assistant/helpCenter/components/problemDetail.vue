@@ -4,7 +4,7 @@
 			<iButton @click="putQuestion">{{ language('我要提问') }}</iButton>
 		</div>
 		<div v-if="currentMoudleId" class="detail-title flex flex-column items-start">
-			<div class="moudle-name">{{ language('主数据管理') }}</div>
+			<div class="moudle-name">{{ language(`${currMoudleName}`) }}</div>
 			<div class="flex flex-wrap label-box">
 				<div v-for="(item, idx) in labelList" :key="idx" class="item-label cursor" :class="labelIdx===idx ? 'activeIdx' : 'idx'" @click="handleLabel(item, idx)">
 					{{ item.label }}
@@ -62,7 +62,8 @@
 			<div class="bottom-zan">
 				<Solution
 					:showTipsFlag="showTipsFlag"
-					@badSolutiob="badSolutiob"
+					@badSolution="badSolution"
+					@goodSolution="goodSolution"
 				/>
 			</div>
 		</div>
@@ -73,6 +74,7 @@
 <script>
 import AttachmentDownload from '../../components/attachmentDownload'
 import Solution from '../../components/solution'
+import { updateFavour, getCurrLabelList, getProblemDetail } from '@/api/assistant'
 import {
 	iButton
 } from 'rise'
@@ -87,25 +89,30 @@ export default {
 		currentMoudleId: {
 			type: Number,
 			default: 0
+		},
+		currMoudleName: {
+			type: String,
+			default: ''
 		}
 	},
-	mounted() {
-		console.log(this.currentMoudleId, "currentMoudleId")
+	async mounted() {
+		console.log('12345')
+		await this.getLabelList()
 	},
 	data() {
 		return {
-			labelList: [
-				{label: '全部', key: '-1'},
-				{label: "车型", key: '0'},
-				{label: "零件信息", key: '1'},
-				{label: "MTZ材料", key: '2'},
-				{label: "供应商主数据", key: '3'}
-			],
+			labelList: [],
 			problemList: [
-				{problem: '常用计量单位和基础计量单位的转换关系是什么？', key: '-1'},
-				{problem: '保存时，提示未填写BMG怎么办？', key: '0'},
-				{problem: '零件材料组如何与工艺组的关联关系是什么？', key: '1'}
+				{problem: '常用计量单位和基础计量单位的转换关系是什么？', key: '-1', id: 1111},
+				{problem: '保存时，提示未填写BMG怎么办？', key: '0', id: 2222},
+				{problem: '零件材料组如何与工艺组的关联关系是什么？', key: '1', id: 3333}
 			],
+			problemQuery: {
+				pageNum: 0,
+				pageSize: 0,
+				questionLableId: '',
+				questionModuleId: ''
+			},
 			hotProblemList: [
 				{
 					problem: '保存时，提示未填写BMG怎么办？', key: '0'
@@ -158,7 +165,8 @@ export default {
 			problemText: '',
 			desDetail: '供应商一共分成三类：一般，生产，共用 一般：',
 			showTipsFlag: true,
-			hotIdx: 0
+			hotIdx: 0,
+			favourQuery: null  // 点赞时的请求体
 		}
 	},
 	methods: {
@@ -166,32 +174,64 @@ export default {
 			console.log(item, "item")
 			this.labelIdx = idx
 			this.labelText = item.label
+			this.currentFlag = 'listPage'
 		},
-		handleProbelm(item, idx) {
+		// 点击问题查询问题详情
+		async handleProbelm(item, idx) {
 			console.log(item, idx, "item")
 			this.currentFlag = 'detailPage'
 			this.problemText = item.problem
+			await getProblemDetail(item.id).then(res => {
+				console.log(res, '112344')
+			})
 		},
-		badSolutiob() {
+		badSolution() {
 			console.log("点击跳转追问页面")
 			this.$emit('handleZwQues', this.problemText, this.desDetail)
+		},
+		// 问题点赞 + 1
+		goodSolution() {
+			updateFavour(this.favourQuery).then((res) => {
+				console.log(res, '11111')
+			})
 		},
 		putQuestion() {
 			this.$emit('handleQuestion')
 		},
 		// 点击热门问题 跳转该热门问题的详情
-		handleHotQues(item, index) {
+		async handleHotQues(item, index) {
 			console.log(item, "item")
 			this.hotIdx = index
 			// this.currentMoudleId = index + 1 // 切换当前模块id
 			this.currentFlag = 'detailPage'
 			this.problemText = item.problem
+			await getProblemDetail(item.id).then(res => {
+				console.log(res, '112344')
+			})
 		},
 		// 通过智能弹窗热门问题跳转问题详情
 		initDetailPage(issue) {
 			this.currentFlag = 'detailPage'
+			this.favourQuery = issue
 			this.problemText = issue.questionTitle
 			this.desDetail = issue.answerContent
+			console.log(this.currentFlag, "currentFlag")
+		},
+		async getLabelList() {
+			if (!this.currentMoudleId) return
+			await getCurrLabelList(this.currentMoudleId).then(res => {
+				console.log(res, '1111111')
+				if (res?.code === '200') {
+					// this.labelList = res?.data || []
+					this.labelList = [
+						{label: '全部', key: '-1'},
+						{label: "车型", key: '0'},
+						{label: "零件信息", key: '1'},
+						{label: "MTZ材料", key: '2'},
+						{label: "供应商主数据", key: '3'}
+					]
+				}
+			})
 		}
 	}
 }
@@ -202,7 +242,6 @@ export default {
 	.detail-content {
 		min-height: 100%;
 		padding: 20px 40px 0px 40px;
-		position: relative;
 		width: 100%;
 		background: #FFFFFF;
 		box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
@@ -320,6 +359,7 @@ export default {
 				}
 		}
 		.detail {
+			position: relative;
 			margin-top: 30px;
 			.detail-box {
 				.detail-text {
@@ -352,7 +392,7 @@ export default {
 			}
 			.bottom-zan {
 				position: absolute;
-				bottom: 20px;
+				bottom: -200px;
 				left: 40%;
 			}
 		}

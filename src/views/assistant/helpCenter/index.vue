@@ -22,33 +22,38 @@
 				</iTabBadge>
 			</div>
 		</div>
-		<div class="flex flex-row content mt20" v-show="helpMoudle === 'manual'">
+		<div class="flex flex-row content mt20" v-if="helpMoudle === 'manual'">
 			<CommonProblem
 				:loading="listLoading"
 				:moudleList="moudleList"
 				:currentMoudleId.sync="currentMoudleId"
+				@change="moduleChange"
 			/>
 			<DataManage
 				:loading="listLoading"
+				:currMoudleName="currMoudleName"
+				:currModuleDetailData="currModuleDetailData"
 				@handleQuestion="handleQuestion"
 			/>
 		</div>
-		<div class="flex flex-column content mt20" v-show="helpMoudle === 'problem'">
+		<div class="flex flex-column content mt20" v-else-if="helpMoudle === 'problem'">
 			<ProblemSearch />
 			<div class="flex flex-row mt20 middle-content">
 				<CommonProblem 
 					:moudleList="moudleList"
 					:currentMoudleId.sync="currentMoudleId"
+					@change="moduleChange"
 				/>
 				<ProblemDetail
 					ref="problemDetail"
 					:currentMoudleId="currentMoudleId" 
+					:currMoudleName="currMoudleName"
 					@handleQuestion="handleQuestion"
 					@handleZwQues="handleZwQues"
 				/>
 			</div>
 		</div>
-		<div class="flex flex-row content mt20" v-show="helpMoudle === 'ask'">
+		<div class="flex flex-row content mt20" v-else>
 			<QuestionList />
 			<QuestionDetail 
 				@handleZwQues="handleZwQues"
@@ -89,7 +94,7 @@ import IntelligentDialog from '../components/intelligentDialog'
 import QuestioningDialog from '../components/questioningDialog'
 import QuestionList from './components/questionList'
 import QuestionDetail from './components/questionDetail'
-import { getSystemMeun, getModuleList, getHotFiveQues } from '@/api/assistant'
+import { getSystemMeun, getHotFiveQues, getUserDes } from '@/api/assistant'
 
 export default {
 	data() {
@@ -97,7 +102,9 @@ export default {
 			text: '用户助手',
 			helpMoudle: "manual",  // manual 用户手册 problem 常见问题 ask 我的提问
 			moudleList: [],
-			currentMoudleId: null,
+			currentMoudleId: null,  // 当前模块id
+			currMoudleName: null,   // 当前模块名称	
+			currModuleDetailData: null,  // 当前模块内容
 			currentUrl: '',
 			intelligentVisible: false,  // 智能弹框visible
 			questioningVisible: false,  // 追问 提问visible
@@ -142,10 +149,27 @@ export default {
 				}
 			})
 		},
-		// 根据当前url和模块列表定位具体模块
+		// 根据当前url和模块列表定位具体模块及模块名称
 		getCurrentModule() {
 			console.log(this.moudleList, "moudleList")
 			this.currentMoudleId = 785
+			this.moudleList.map(item => {
+				if (item.id === this.currentMoudleId) {
+					this.currMoudleName = item.name
+				}
+			})
+			if (this.currentMoudleId) {
+				this.getManauContent()
+			}
+		},
+		getManauContent() {
+			if (!this.currentMoudleId) return
+			getUserDes({moduleId: this.currentMoudleId}).then(res => {
+				if (res?.code === '200') {
+					this.currModuleDetailData = '实打实的就喀什角动量喀什觉得'
+					// this.currModuleDetailData = res?.data?.manualContent
+				}
+			})
 		},
 		// 右上方分类点击事件
 		tabChange(val) {
@@ -196,8 +220,26 @@ export default {
 			this.intelligentVisible = false
 			this.helpMoudle = 'problem'
 			this.currentMoudleId = 785 || issue.questionModuleId
-			console.log(this.$refs.problemDetail)
-			this.$refs.problemDetail.initDetailPage(issue)
+			this.$nextTick(() => {
+				this.$refs.problemDetail.initDetailPage(issue)
+			})
+			
+		},
+		// 选择模块变化时 的事件
+		moduleChange(moudle) {
+			console.log(moudle, "moudle")
+			this.currentMoudleId = moudle.id
+			this.currMoudleName = moudle.name
+			if (this.helpMoudle === 'manual') {
+				this.getManauContent()
+			} else if (this.helpMoudle === 'problem') {
+				this.$nextTick(() => {
+					this.$refs.problemDetail.getLabelList()
+				})
+			} else {
+				return false
+			}
+			
 		}
 	}
 }
