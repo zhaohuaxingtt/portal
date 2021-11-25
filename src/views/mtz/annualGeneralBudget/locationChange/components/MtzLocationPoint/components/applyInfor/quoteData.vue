@@ -75,6 +75,7 @@
             
             <el-form-item style="marginRight:68px;width:180px" :label="language('LINIE','LINIE')" class="formItem">
               <iInput v-model="searchForm.linieName"
+                      :disabled="true"
                           :editPlaceholder="language('QINGSHURU','请输入')"
                           :placeholder="language('QINGSHURU','请输入')">
               </iInput>
@@ -181,13 +182,14 @@ import tableList from '@/components/commonTable/index.vue';
 import {
   getFlowTypeList,
   getLocationApplyStatus,
+  getCurrentUser
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   page,
   selectDictByKeys,
   getNomiAppPageList,
   getApplicationPartPagedList,
-  getNominateProcessType
+  getNominateProcessType,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 
 export default {
@@ -226,7 +228,8 @@ export default {
           }
       ],
       searchForm: {
-        applicationStatus:"NEW"
+        applicationStatus:"NEW",
+        linieName:"",
       },
       linieDeptId:[],
       page1:{
@@ -282,6 +285,7 @@ export default {
         },
       ],
       changeData:[],
+      linieData:{},
     }
   },
   created() {
@@ -300,13 +304,18 @@ export default {
       // getLocationApplyStatus({}).then(res=>{
       //   this.getLocationApplyStatus = res.data;
       // })
+
       selectDictByKeys({
         keys:"CAR_TYPE_PRO"
       }).then(res=>{
         this.getLocationApplyStatus11 = res.data.CAR_TYPE_PRO;
       })
 
-      this.getTableList();
+      getCurrentUser({}).then(res=>{
+        this.searchForm.linieName = res.data[0].message;
+        this.linieData = res.data[0];
+        this.getTableList();
+      })
     },
     getTableList(){
       this.loadingInfor = true;
@@ -352,7 +361,8 @@ export default {
     // 重置
     handleSearchReset(form) {
       this.searchForm = {
-        applicationStatus:"NEW"
+        applicationStatus:"NEW",
+        linieName : this.linieData.message
       };
       this.page.currPage = 1;
       this.page.pageSize = 10;

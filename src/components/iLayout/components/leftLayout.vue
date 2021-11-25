@@ -22,15 +22,15 @@
           <span
             v-for="item in menus"
             :key="item.id"
-            :class="{ transparent: activeMenu.includes(item.permissionKey) }"
+            :class="{
+              transparent: activeIndex === item.permissionKey
+            }"
             @click="toggleSubMenu(item)"
           >
             <icon
               symbol
               :name="
-                activeMenu.includes(item.permissionKey)
-                  ? item.activeIcon
-                  : item.icon
+                activeIndex === item.permissionKey ? item.activeIcon : item.icon
               "
             />
           </span>
@@ -79,6 +79,7 @@
 <script>
 import { icon } from 'rise'
 export default {
+  name: 'leftLayout',
   components: { icon },
   props: {
     menus: {
@@ -110,33 +111,28 @@ export default {
   provide() {
     return this
   },
-  created() {
-    const rootIndex = this.getFirstMenuActive()
-
-    this.activeIndex = rootIndex
-    this.$emit('toggle-active', rootIndex)
+  watch: {
+    activeMenu() {
+      this.setDefaultActiveIndex()
+    }
   },
   mounted() {
     document.addEventListener('click', (e) => {
       this.clickListener(e)
     })
+    this.setDefaultActiveIndex()
   },
   beforeDestroy() {
     document.removeEventListener('click', (e) => {
       this.clickListener(e)
     })
   },
-  watch: {
-    $route: {
-      handler: function (route) {
-        if (route.path === '/index') {
-          this.showSideMenu()
-        }
-      },
-      immediate: true
-    }
-  },
   methods: {
+    setDefaultActiveIndex() {
+      if (this.activeMenu && this.activeMenu.length) {
+        this.activeIndex = this.activeMenu[0]
+      }
+    },
     getFirstMenuActive() {
       return this.$route.meta.top || 'RISE_WORKBENCH'
     },
@@ -145,7 +141,7 @@ export default {
         .getElementsByClassName('leftLayout')[0]
         .getBoundingClientRect()
       const sideRect = document
-        .getElementsByClassName('meunContent')[0]
+        .getElementsByClassName('menuLayout')[0]
         .getBoundingClientRect()
       const xt = 0
       const xb = leftLayoutRect.width + sideRect.width
@@ -161,34 +157,40 @@ export default {
       }
     },
     toggleSubMenu(item) {
-      const activeMenu = item
-      if (this.menus.length > 0) {
-        if (activeMenu.subMenus) {
-          if (this.activeIndex === item.permissionKey) {
-            if (this.menuVisible) {
-              this.hideSideMenu()
+      if (item.permissionKey === 'RISE_HOME') {
+        this.activeIndex = 'RISE_HOME'
+        this.$emit('toggle-active', 'RISE_HOME')
+        this.showSideMenu()
+      } else {
+        const activeMenu = item
+        if (this.menus.length > 0) {
+          if (activeMenu.subMenus) {
+            if (this.activeIndex === item.permissionKey) {
+              if (this.menuVisible) {
+                this.hideSideMenu()
+              } else {
+                this.showSideMenu()
+              }
             } else {
               this.showSideMenu()
             }
-          } else {
-            this.showSideMenu()
+          } else if (activeMenu.url) {
+            if (
+              activeMenu.url.indexOf('http') !== -1 ||
+              activeMenu.url.indexOf('https') !== -1
+            ) {
+              activeMenu.target
+                ? window.open(activeMenu.url)
+                : (location.href = activeMenu.url)
+            }
+            // if (this.$route.path !== activeMenu.url) {
+            //   this.$router.push({ path: activeMenu.url })
+            // }
+            this.hideSideMenu()
           }
-        } else if (activeMenu.url) {
-          if (
-            activeMenu.url.indexOf('http') !== -1 ||
-            activeMenu.url.indexOf('https') !== -1
-          ) {
-            activeMenu.target
-              ? window.open(activeMenu.url)
-              : (location.href = activeMenu.url)
-          }
-          // if (this.$route.path !== activeMenu.url) {
-          //   this.$router.push({ path: activeMenu.url })
-          // }
-          this.hideSideMenu()
+          this.activeIndex = item.permissionKey
+          this.$emit('toggle-active', item.permissionKey)
         }
-        this.activeIndex = item.permissionKey
-        this.$emit('toggle-active', item.permissionKey)
       }
     },
     showSideMenu() {
