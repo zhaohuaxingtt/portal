@@ -1,5 +1,12 @@
 <template>
   <div class="operation-btn">
+    <!-- <iButton
+      v-show="categoryList === 'officialPricing'"
+      :disabled="selectedRow.length === 0"
+      @click="mock"
+    >
+      {{ language('模拟') }}
+    </iButton> -->
     <iButton
       v-show="taskType === 0"
       :disabled="selectedRow.length === 0"
@@ -80,6 +87,11 @@ export default {
         return this.language('有异议')
       }
       return this.language('补充材料')
+    }
+  },
+  methods: {
+    mock() {
+      console.log('moni')
     }
   }
 }
