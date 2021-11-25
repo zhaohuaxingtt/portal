@@ -120,6 +120,16 @@
             </iFormItem>
             <iFormItem prop="platinumPrice">
                 <iLabel :label="language('BOJIJIA','铂基价')" slot="label"></iLabel>
+                <el-tooltip effect="light"
+                            placement="top-end"
+                            class="tooltip_div_left"
+                            >
+                    <div slot="content">
+                        <p>M01006002-Pt</p>
+                    </div>
+                    <i class="el-icon-warning-outline margin-left10"
+                    style="color:blue"></i>
+                </el-tooltip>
                 <iInput
                 v-model="contractForm.platinumPrice"
                 type="number"
@@ -130,6 +140,16 @@
             </iFormItem>
             <iFormItem prop="platinumDosage">
                 <iLabel :label="language('BOYONGLIANG','铂用量')" slot="label"></iLabel>
+                <el-tooltip effect="light"
+                            placement="top-end"
+                            class="tooltip_div_left"
+                            >
+                    <div slot="content">
+                        <p>M01006002-Pt</p>
+                    </div>
+                    <i class="el-icon-warning-outline margin-left10"
+                    style="color:blue"></i>
+                </el-tooltip>
                 <iInput
                 v-model="contractForm.platinumDosage"
                 type="number"
@@ -140,6 +160,16 @@
             </iFormItem>
             <iFormItem prop="palladiumPrice">
                 <iLabel :label="language('BAJIJIA','钯基价')" slot="label"></iLabel>
+                <el-tooltip effect="light"
+                            placement="top-end"
+                            class="tooltip_div_left"
+                            >
+                    <div slot="content">
+                        <p>M01006001-Pd</p>
+                    </div>
+                    <i class="el-icon-warning-outline margin-left10"
+                    style="color:blue"></i>
+                </el-tooltip>
                 <iInput
                 v-model="contractForm.palladiumPrice"
                 type="number"
@@ -150,6 +180,16 @@
             </iFormItem>
             <iFormItem prop="palladiumDosage">
                 <iLabel :label="language('BAYONGLIANG','钯用量')" slot="label"></iLabel>
+                <el-tooltip effect="light"
+                            placement="top-end"
+                            class="tooltip_div_left"
+                            >
+                    <div slot="content">
+                        <p>M01006001-Pd</p>
+                    </div>
+                    <i class="el-icon-warning-outline margin-left10"
+                    style="color:blue"></i>
+                </el-tooltip>
                 <iInput
                 v-model="contractForm.palladiumDosage"
                 type="number"
@@ -160,6 +200,16 @@
             </iFormItem>
             <iFormItem prop="rhodiumPrice">
                 <iLabel :label="language('LAOJIJIA','铑基价')" slot="label"></iLabel>
+                <el-tooltip effect="light"
+                            placement="top-end"
+                            class="tooltip_div_left"
+                            >
+                    <div slot="content">
+                        <p>M01006003-Rh</p>
+                    </div>
+                    <i class="el-icon-warning-outline margin-left10"
+                    style="color:blue"></i>
+                </el-tooltip>
                 <iInput
                 v-model="contractForm.rhodiumPrice"
                 type="number"
@@ -170,6 +220,16 @@
             </iFormItem>
             <iFormItem prop="rhodiumDosage">
                 <iLabel :label="language('LAOYONGLIANG','铑用量')" slot="label"></iLabel>
+                <el-tooltip effect="light"
+                            placement="top-end"
+                            class="tooltip_div_left"
+                            >
+                    <div slot="content">
+                        <p>M01006003-Rh</p>
+                    </div>
+                    <i class="el-icon-warning-outline margin-left10"
+                    style="color:blue"></i>
+                </el-tooltip>
                 <iInput
                 v-model="contractForm.rhodiumDosage"
                 type="number"
@@ -683,5 +743,10 @@ export default {components: {
 }
 ::v-deep .el-date-editor{
     width:100%!important;
+}
+.tooltip_div_left{
+    position: absolute;
+    top: 10px;
+    left: -30px;
 }
 </style>
