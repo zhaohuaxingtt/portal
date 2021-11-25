@@ -1890,7 +1890,7 @@
     TPZS: {
       ZUIXINDINGDIANDANJIA: '最新定点单价', //最新定点单价
       MUBIAODANJIA: '目标单价', //目标单价
-      CHANLIANGLIANG: '产量(辆)', //产量（件）
+      CHANLIANGLIANG: '产量(件)', //产量（件）
       DANJIA: '单价', //单价
       YUANJIAN: '(元/件)', //（元/件）
       BANJIAJIAN: '(半价/件)', //（半价/件）
