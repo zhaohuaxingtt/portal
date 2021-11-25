@@ -33,16 +33,18 @@ export default {
     }
   },
   mounted() {
+    
     this.closePopupSocket = getgetPopupSocketMessage((res) => {
-      // let _this = this
+      let _this = this
       const data = res.msgTxt
       if(this.popupDataList.length > 4){
-        this.popupDataList.splice(0,1)
-        this.popupDataList.push(data) 
+        // this.popupDataList.splice(0,1)
+        // this.popupDataList.push(data) 
+        
       }else{
         this.popupDataList.push(data) 
       }
-      this.clearNotify()
+      this.iniNotify('pushNew')
     })
   },
   beforeDestroy() {
@@ -50,6 +52,7 @@ export default {
   },
   created(){
     this.getLatest('init')
+    debugger
   },
   methods: {
     openDialog(index) {
@@ -109,44 +112,48 @@ export default {
       }
       this.getLatest()
     },
-    iniNotify(){
+    iniNotify(pushNew){
       let _this = this
-      this.popupDataList.forEach((ele, index) => {
-        window.setTimeout(()=>
-          this.closeItemList[index] = { 
-          'notify': this.$notify({
-            duration: 0,
-            dangerouslyUseHTMLString: true,
-            customClass:'notifyHandel',
-            message: `<div style='display: flex;justify-content: space-between;cursor:pointer'>
-                      <div class="popupLeft" style='width:50px;height:50px; '>
-                          <img src="${
-                            ele.picUrl ?  ele.picUrl : '/portal/static/img/popupPic.f3ff87ac.png'
-                          }" style='width:100%;height:100%; border-radius: 50%;'>
-                      </div>
-                      <div class="popupRight" style='position:relative;margin-left:20px'>
-                          <p class='${
-                            ele.linkUrl && 'linkTitle'
-                          }'
-                          style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;height:100%;
-                          width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;'
-                          >
-                          ${ele.popupName}
-                          </p>
-                          <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
-                          >${ele.content}</p>
-                      </div>
-                  </div>`,
-            position: 'bottom-right',
-            onClick() {
-              _this.openDialog(index)
-            },
-            onClose(){
-            },
-          }),
-        'times':0
-        },1)
-      })
+      if(pushNew == 'pushNew'){
+        this.clearNotify()
+      }else{
+        this.popupDataList.forEach((ele, index) => {
+          window.setTimeout(()=>
+            this.closeItemList[index] = { 
+            'notify': this.$notify({
+              duration: 0,
+              dangerouslyUseHTMLString: true,
+              customClass:'notifyHandel',
+              message: `<div style='display: flex;justify-content: space-between;cursor:pointer'>
+                        <div class="popupLeft" style='width:50px;height:50px; '>
+                            <img src="${
+                              ele.picUrl ?  ele.picUrl : '/portal/static/img/popupPic.f3ff87ac.png'
+                            }" style='width:100%;height:100%; border-radius: 50%;'>
+                        </div>
+                        <div class="popupRight" style='position:relative;margin-left:20px'>
+                            <p class='${
+                              ele.linkUrl && 'linkTitle'
+                            }'
+                            style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;height:100%;
+                            width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;'
+                            >
+                            ${ele.popupName}
+                            </p>
+                            <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
+                            >${ele.content}</p>
+                        </div>
+                    </div>`,
+              position: 'bottom-right',
+              onClick() {
+                _this.openDialog(index)
+              },
+              onClose(){
+              },
+            }),
+          'times':0
+          },1)
+        })
+      }
     }
   }
 }
