@@ -320,11 +320,16 @@ export default {
     },
     async queryUserInfo(userIdsArr) {
       const res = await getUsers({ userIdList: [...userIdsArr] })
-      let arr = res.data
-        ? res.data.map((item) => {
-            return item ? item.nameZh : ''
-          })
-        : []
+      const userData = res.data ? res.data : []
+      let arrObj = userIdsArr.map((item) => {
+        let user = userData.find((it) => {
+          return item == it.id
+        })
+        return user
+      })
+      let arr = arrObj.map((item) => {
+        return item ? item.nameZh : ''
+      })
       this.userNameArr = this.arrTrans(2, [...arr])
       // return res.data
     },

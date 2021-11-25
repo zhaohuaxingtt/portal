@@ -183,7 +183,7 @@ import {
   pageMtzNomi,
   getFlowTypeList,
   getLocationApplyStatus,
-  getRsBillStatusList,
+  // getRsBillStatusList,
   mtzFreeze,
   mtzUnfreeze,
   mtzNomi,
@@ -226,9 +226,9 @@ export default {
       getFlowTypeList: [],
       getLocationApplyStatus: [],
       linieDeptId: [],//科室
-      value: "",
+      // value: "",
       value1: "",
-      getRsBillStatusList: [],
+      // getRsBillStatusList: [],
 
       tableListData: [],
       tableTitle: tableTitle,
@@ -250,9 +250,9 @@ export default {
       getLocationApplyStatus({}).then(res => {
         this.getLocationApplyStatus = res.data;
       })
-      getRsBillStatusList({}).then(res => {
-        this.getRsBillStatusList = res.data;
-      })
+      // getRsBillStatusList({}).then(res => {
+      //   this.getRsBillStatusList = res.data;
+      // })
       getRawMaterialNos({}).then(res => {
         this.materialCode = res.data;
       })
@@ -285,15 +285,15 @@ export default {
         }
       })
     },
-    handleChange (val) {
-      if (val.length < 1) {
-        this.searchForm.rsFreezeStartDate = "";
-        this.searchForm.rsFreezeEndDate = "";
-        return false;
-      }
-      this.searchForm.rsFreezeStartDate = val[0];
-      this.searchForm.rsFreezeEndDate = val[1];
-    },
+    // handleChange (val) {
+    //   if (val.length < 1) {
+    //     this.searchForm.rsFreezeStartDate = "";
+    //     this.searchForm.rsFreezeEndDate = "";
+    //     return false;
+    //   }
+    //   this.searchForm.rsFreezeStartDate = val[0];
+    //   this.searchForm.rsFreezeEndDate = val[1];
+    // },
     handleChange1 (val) {
       if (val.length < 1) {
         this.searchForm.nominateStartDate = "";
