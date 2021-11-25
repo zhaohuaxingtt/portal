@@ -224,14 +224,14 @@ export default {
                 data.partNameDe = ''
             }
             if(this.checkBoxs.bmg){
-                data.bmg = this.formContent.bmg
+                data.bmg = this.formContent.bmg || false
             }else{
                 data.bmg = false
             }
             if(this.checkBoxs.zp){
-                data.zp = this.formContent.zp
+                data.zp = this.formContent.zp || ''
             }else{
-                data.zp = false
+                data.zp = ''
             }
             if(this.checkBoxs.fop){
                 data.fop = this.formContent.fop
@@ -244,14 +244,14 @@ export default {
                  data.techDeptId = ''
             }
             if(this.checkBoxs.isCommonSourcing){
-                data.isCommonSourcing = this.formContent.isCommonSourcing
+                data.isCommonSourcing = this.formContent.isCommonSourcing || false
             }else{
                 data.isCommonSourcing = false
             }
             if(this.checkBoxs.fgId){
-                data.fgId = this.formContent.fgId
+                data.fgId = this.formContent.fgId || ''
             }else{
-                data.fgId = false
+                data.fgId = ''
             }
             if(this.checkBoxs.set){
                 data.setCode = this.formContent.set
