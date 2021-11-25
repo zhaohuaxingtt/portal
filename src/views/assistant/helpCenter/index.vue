@@ -37,7 +37,9 @@
 			/>
 		</div>
 		<div class="flex flex-column content mt20" v-else-if="helpMoudle === 'problem'">
-			<ProblemSearch />
+			<ProblemSearch 
+				:moudleList="moudleList"
+			/>
 			<div class="flex flex-row mt20 middle-content">
 				<CommonProblem 
 					:moudleList="moudleList"

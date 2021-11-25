@@ -103,9 +103,9 @@ export default {
 		return {
 			labelList: [],
 			problemList: [
-				{problem: '常用计量单位和基础计量单位的转换关系是什么？', key: '-1', id: 1111},
-				{problem: '保存时，提示未填写BMG怎么办？', key: '0', id: 2222},
-				{problem: '零件材料组如何与工艺组的关联关系是什么？', key: '1', id: 3333}
+				{problem: '常用计量单位和基础计量单位的转换关系是什么？', key: '-1', id: 1},
+				{problem: '保存时，提示未填写BMG怎么办？', key: '0', id: 2},
+				{problem: '零件材料组如何与工艺组的关联关系是什么？', key: '1', id: 3}
 			],
 			problemQuery: {
 				pageNum: 0,

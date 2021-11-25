@@ -7,12 +7,13 @@
             <iSelect
               :placeholder="formTitle.selectPlaceholder"
               v-model="searchForm.problemModule"
+							@change="handleModuleChange"
             >
               <el-option
-                v-for="item in moduleList"
+                v-for="item in moudleList"
                 :key="item.id"
                 :label="item.name"
-                :value="item.value"
+                :value="item.id"
               >
               </el-option>
             </iSelect>
@@ -21,14 +22,15 @@
 				<el-col :span="5" push="2">
           <el-form-item :label="formTitle.problemLabel" prop="labelModule">
             <iSelect
+							:disabled=" searchForm.problemModule ? false : true"
               :placeholder="formTitle.selectPlaceholder"
               v-model="searchForm.labelModule"
             >
               <el-option
-                v-for="item in moduleList"
+                v-for="item in labelList"
                 :key="item.id"
                 :label="item.name"
-                :value="item.value"
+                :value="item.id"
               >
               </el-option>
             </iSelect>
@@ -54,6 +56,7 @@
 </template>
 
 <script>
+import { getCurrLabelList } from '@/api/assistant'
 import {
   iSelect,
 	iInput,
@@ -65,6 +68,12 @@ export default {
 		iSelect,
 		iInput,
 		iButton
+	},
+	props: {
+		moudleList: {
+			type: Array,
+			default: () => []
+		},
 	},
 	data() {
 		return {
@@ -80,12 +89,7 @@ export default {
 				inputPlaceholder: '请输入',
 				problemLabel: '标签',
 				problemTitle: '问题标题'
-			},
-			moduleList: [
-				{id: '0', name: '模块一', value: '0'},
-				{id: '1', name: '模块二', value: '1'},
-				{id: '2', name: '模块三', value: '2'}
-			]
+			}
 		}
 	},
 	methods: {
@@ -94,6 +98,13 @@ export default {
 		},
 		reset() {
 			this.$refs.searchForm.resetFields()
+		},
+		handleModuleChange() {
+			console.log(this.searchForm.problemModule, "problemModule")
+			if (!this.searchForm.problemModule) return
+			getCurrLabelList(this.searchForm.problemModule).then(res => {
+				console.log(res, '11111')
+			})
 		}
 	}
 }
