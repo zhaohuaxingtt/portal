@@ -248,6 +248,8 @@ export default {
                 store.commit("routerMtzData", data);
                 sessionStorage.setItem("MtzLIst", JSON.stringify(data))
                 this.getType();
+              }else{
+                iMessage.error(res.desZh)
               }
             })
           }).catch((err) => {
