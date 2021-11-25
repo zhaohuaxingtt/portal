@@ -936,7 +936,7 @@ export default {
             })
             this.$refs['contractForm'].validate(async valid => {
                 if (valid) {
-                    iMessageBox(this.language('GZRFSBHSFTBXGGG','规则若发生变化，是否同步相关更改？'),this.language('LK_WENXINTISHI','温馨提示'),{
+                    iMessageBox(this.language('GZFSBHXGLJJTBGGSFJX','规则发生变化，相关零件将同步更改，是否继续？'),this.language('LK_WENXINTISHI','温馨提示'),{
                         confirmButtonText: this.language('QUEREN', '确认'),
                         cancelButtonText: this.language('QUXIAO', '取消')
                     }).then(res=>{

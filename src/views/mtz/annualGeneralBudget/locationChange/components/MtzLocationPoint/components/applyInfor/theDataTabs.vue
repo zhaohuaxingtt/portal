@@ -166,7 +166,18 @@
                         :prop="'tableData.' + scope.$index + '.' + 'dosageMeasureUnit'"
                         :rules="formRules.dosageMeasureUnit ? formRules.dosageMeasureUnit : ''"
                     >
-                        <iInput v-model="scope.row.dosageMeasureUnit" v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+                        <el-select v-model="scope.row.dosageMeasureUnit"
+                                clearable
+                                :placeholder="language('QINGSHURU', '请输入')"
+                                v-if="editId.indexOf(scope.row.id)!==-1"
+                                >
+                            <el-option
+                                v-for="item in dosageMeasureUnit"
+                                :key="item.code"
+                                :label="item.code"
+                                :value="item.code">
+                            </el-option>
+                        </el-select>
                         <span v-else>{{scope.row.dosageMeasureUnit}}</span>
                     </el-form-item>
                 </template>
@@ -487,14 +498,14 @@
             </el-table-column>
         </el-table>
       </el-form>
-      <iPagination @size-change="handleSizeChange($event, getTableList)"
+      <!-- <iPagination @size-change="handleSizeChange($event, getTableList)"
                    @current-change="handleCurrentChange($event, getTableList)"
                    :page-sizes="page.pageSizes"
                    :page-size="page.pageSize"
                    :current-page="page.currPage"
                    :total="page.totalCount"
                    :layout="page.layout">
-      </iPagination>
+      </iPagination> -->
 
         <iDialog
             :title="language('YINYONGRFQZHONGLINGJIAN', '引用RFQ中零件')"
@@ -513,7 +524,7 @@
             width="70%"
             @close="saveGzDialog"
             >
-            <addData @close="saveGzClose"></addData>
+            <addData @close="saveGzClose" :listData="listData"></addData>
         </iDialog>
 
         <iDialog
@@ -555,6 +566,7 @@ import {
   listPartNumSupplierIdData,
   pageAppRule,
   removePartMasterData,//清空维护mtz零件主数据
+  getDosageUnitList,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   getMtzSupplierList,//获取原材料牌号
@@ -588,6 +600,7 @@ export default {
         supplierList:[],//供应商编号
         ruleNo:[],//规则编号
         tableData: [],
+        dosageMeasureUnit:[],
         newDataList:[],
         editId:"",
         selectList:[],
@@ -609,6 +622,7 @@ export default {
         historyType:false,
         dialogEditType:false,
         dataCloseAllRequest:false,//判断是否为选择维护mtz零件主数据
+        listData:[],
     }
   },
   computed:{
@@ -627,6 +641,9 @@ export default {
     this.pageAppRequest();
     getMtzSupplierList({}).then(res=>{
         this.supplierList = res.data;
+    })
+    getDosageUnitList({}).then(res=>{
+        this.dosageMeasureUnit = res.data;
     })
   },
   mounted () {
@@ -661,6 +678,11 @@ export default {
         }
     },
     add(){//新增
+        var arr = [];
+        this.tableData.forEach(e=>{
+            arr.push(e.assemblyPartnum)
+        })
+        this.listData = arr;
         this.addDialog = true;
     },
     edit(){//编辑
@@ -876,14 +898,14 @@ export default {
     getTableList () {
         this.loading = true
         pagePartMasterData({
-            pageNo: this.page.currPage,
-            pageSize: this.page.pageSize,
+            pageNo: 1,
+            pageSize: 99999,
             mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
         }).then(res=>{
             this.tableData = res.data;
-            this.page.currPage = res.pageNum
-            this.page.pageSize = res.pageSize
-            this.page.totalCount = res.total
+            // this.page.currPage = res.pageNum
+            // this.page.pageSize = res.pageSize
+            // this.page.totalCount = res.total
             this.loading = false;
         })
     },
