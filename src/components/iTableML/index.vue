@@ -41,6 +41,7 @@ export default {
     return {}
   },
   mounted() {
+    console.log('isSingle', this.isSingle)
     this.handleCurrentRow(this.currentRow)
   },
   computed: {

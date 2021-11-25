@@ -111,7 +111,7 @@
           :type="item.type"
           :align="item.align || 'center'"
           :header-align="item.headerAlign"
-          :show-overflow-tooltip="false"
+          :show-overflow-tooltip="item.tooltip"
           :prop="item.prop"
           :label="item.i18n ? $t(item.i18n) : item.label"
           :sortable="item.sortable"

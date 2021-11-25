@@ -7,110 +7,100 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signPreview.vue
 -->
 <template>
-  <div id="content">
-    <iCard>
-      <div slot="header" class="headBox">
-        <p class="headTitle">流转定点推荐 - MTZ Nomination Recommendation - MTZ</p>
-        <span class="buttonBox" v-if="!editMode">
-          <iButton @click="handleClickExport" :loading="exportButtonLoading">{{language('DAOCHU', '导出')}}</iButton>
-        </span>
-      </div>
-      <!-- label -->
-      <div class="tabsBoxInfor">
-        <div class="inforDiv"
-             v-for="(item,index) in formList"
-             :key="index">
-          <span>{{language(item.key,item.label)}}</span>
-          <iInput :disabled="true"
-                  class="inforText"
-                  v-model="formData[item.prop]"
-                  ></iInput>
+  <div>
+    <span class="download_btn" v-if="!editMode">
+      <iButton @click="handleClickExport" :loading="exportButtonLoading">{{language('DAOCHU', '导出')}}</iButton>
+    </span>
+    <div id="content">
+      <iCard>
+        <div slot="header" class="headBox">
+          <p class="headTitle">流转定点推荐 - MTZ Nomination Recommendation - MTZ</p>
         </div>
-      </div>
-      <el-divider/>
-      <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}</p>
-
-        <tableList
-          class="margin-top20"
-          :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-          <template slot-scope="scope" slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-        </tableList>
-             <!-- <tableList
-          class="margin-top20"
-          :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-        </tableList> -->
-
-        <!-- <iPagination
-        v-update
-        @size-change="handleSizeChange($event, getPageAppRule)"
-        @current-change="handleCurrentChange($event, getPageAppRule)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="rulePageParams.pageSize"
-        :layout="page.layout"
-        :current-page='rulePageParams.currPage'
-        :total="rulePageParams.totalCount"/> -->
-      <el-divider class="margin-top20"/>
-      <p class="tableTitle">{{language('LJQD', '零件清单')}}</p>
-
-        <tableList
-          class="margin-top20"
-          :tableData="partTableListData"
-          :tableTitle="partTableTitle"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-          <template slot-scope="scope" slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-        </tableList>
-          <!-- <tableList
-          class="margin-top20"
-          :tableData="partTableListData"
-          :tableTitle="partTableTitle1"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-        </tableList> -->
-
-        <!-- <iPagination
-        v-update
-        @size-change="handleSizeChange($event, getPagePartMasterData)"
-        @current-change="handleCurrentChange($event, getPagePartMasterData)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="partPageParams.pageSize"
-        :layout="page.layout"
-        :current-page='partPageParams.currPage'
-        :total="partPageParams.totalCount"/> -->
-    </iCard>
-    <iCard class="margin-top20">
-      <div slot="header" class="headBox">
-        <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
-      </div>
-      <p v-if="formData.cs1MeetingMemo">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
-      <iInput v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
-    </iCard>
-    <div class="margin-top30 deptBox">
-      <div class="deptItem" v-for="(item, index) in deptData" :key="index">
-        <p>{{item.approvalDepartment}}：</p>
-        <div></div>
+        <!-- label -->
+        <div class="tabsBoxInfor">
+          <div class="inforDiv"
+              v-for="(item,index) in formList"
+              :key="index">
+            <span>{{language(item.key,item.label)}}</span>
+            <iInput :disabled="true"
+                    class="inforText"
+                    v-model="formData[item.prop]"
+                    ></iInput>
+          </div>
+        </div>
+        <el-divider/>
+        <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}</p>
+          <tableList
+            class="margin-top20"
+            :tableData="ruleTableListData"
+            :tableTitle="ruleTableTitle1_1"
+            :tableLoading="loading"
+            :index="true"
+            :selection="false">
+            <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+            </template>
+          </tableList>
+          <tableList
+            class="margin-top20"
+            :tableData="ruleTableListData"
+            :tableTitle="ruleTableTitle1_2"
+            :tableLoading="loading"
+            :index="true"
+            :selection="false">
+            <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+            </template>
+          </tableList>
+        <el-divider class="margin-top20"/>
+        <p class="tableTitle">{{language('LJQD', '零件清单')}}</p>
+          <tableList
+            class="margin-top20"
+            :tableData="partTableListData"
+            :tableTitle="partTableTitle2_1"
+            :tableLoading="loading"
+            :index="true"
+            :selection="false">
+            <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+            </template>
+          </tableList>
+          <tableList
+            class="margin-top20"
+            :tableData="partTableListData"
+            :tableTitle="partTableTitle2_2"
+            :tableLoading="loading"
+            :index="true"
+            :selection="false">
+            <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+            </template>
+          </tableList>
+      </iCard>
+      <iCard class="margin-top20">
+        <div slot="header" class="headBox">
+          <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
+        </div>
+        <p v-if="formData.cs1MeetingMemo">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
+        <iInput v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
+      </iCard>
+      <div class="margin-top30 deptBox">
+        <div class="deptItem" v-for="(item, index) in deptData" :key="index">
+          <p>{{item.approvalDepartment}}：</p>
+          <div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -120,13 +110,14 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle2, partTableTitle2} from './data'
+import { ruleTableTitle1_1,ruleTableTitle1_2, partTableTitle2_1,partTableTitle2_2} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-import { downloadPdfMixins } from '@/utils/pdf';
-import { downloadFileByUrl } from '@/utils';
+// import { downloadPdfMixins } from '@/utils/pdf';
+import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
+import { downloadFileByUrl} from '@/utils';
 export default {
-  mixins: [pageMixins, downloadPdfMixins],
+  mixins: [pageMixins],
   components: {
     iCard,
     icon,
@@ -139,8 +130,10 @@ export default {
     return {
       formData: {},
       formList,
-      ruleTableTitle:ruleTableTitle2,
-      partTableTitle:partTableTitle2,
+      ruleTableTitle1_1,
+      ruleTableTitle1_2,
+      partTableTitle2_1,
+      partTableTitle2_2,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
@@ -278,28 +271,50 @@ export default {
       })
     },
     // 生成PDF
-    createPdf() {
-      return new Promise(resolve => {
-        this.downloadButtonLoading = true
-        const pdfParam = {
-          domId: 'content',
-          pdfName: '会外流转单',
-        }
-        this.getDownloadFileAndExportPdf(pdfParam).then(res => {
-          resolve(res)
-        })
-      })
-    },
+    // createPdf() {
+    //   return new Promise(resolve => {
+    //     this.downloadButtonLoading = true
+    //     const pdfParam = {
+    //       domId: 'content',
+    //       pdfName: '会外流转单',
+    //     }
+    //     this.getDownloadFileAndExportPdf(pdfParam).then(res => {
+    //       resolve(res)
+    //     })
+    //   })
+    // },
     // 导出：导出当前为pdf
     handleClickExport() {
-      this.exportButtonLoading = true
-      this.createPdf().then(res => {
-        this.exportButtonLoading = false
-        if(res) {
-          downloadFileByUrl(res.downloadUrl)
-          iMessage.success(this.language('CAOZUOCHENGGONG', '操作成功'))
-        } else iMessage.error(this.language('CAOZUOSHIBAI', '操作失败'))
+      console.log(this.title)
+      var name = "";
+      if (this.title == "") {
+        name = "MTZ申请单"+this.$route.query.mtzAppId +"流转导出";
+      } else {
+        name = this.title;
+      }
+      downloadPDF({
+        idEle: 'content',
+        pdfName: name,
+        exportPdf: true,
+        waterMark: true,
+        callback: async (pdf, pdfName) => {
+          try {
+            const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
+            const pdfFile = pdf.output("datauristring");
+            const blob = dataURLtoFile(pdfFile, filename);
+          } catch {
+            iMessage.error(this.language('SHENGCHENGSHIBAI', '生成失败'));
+          }
+        },
       })
+      // this.exportButtonLoading = true
+      // this.createPdf().then(res => {
+      //   this.exportButtonLoading = false
+      //   if(res) {
+      //     downloadFileByUrl(res.downloadUrl)
+      //     iMessage.success(this.language('CAOZUOCHENGGONG', '操作成功'))
+      //   } else iMessage.error(this.language('CAOZUOSHIBAI', '操作失败'))
+      // })
     }
   }
 }
@@ -402,5 +417,12 @@ $tabsInforHeight: 35px;
       line-height: $tabsInforHeight;
     }
   }
+}
+.download_btn{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-top:10px;
+  padding-bottom:20px;
 }
 </style>
