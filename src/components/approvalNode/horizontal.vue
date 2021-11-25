@@ -336,12 +336,16 @@ export default {
         }
 
         .single-approvers-agents {
-          /* width: 100%;
+          width: 100%;
           margin-left: 50%;
           transform: translateX(-5px);
+          padding: 5px 0px;
           > ul > li {
             display: flex;
             align-items: center;
+            color: #888;
+            padding: 5px 0px;
+            font-size: 12px;
           }
           > ul > li::before {
             display: block;
@@ -351,7 +355,7 @@ export default {
             border-radius: 10px;
             background-color: #ccc;
             margin-right: 6px;
-          } */
+          }
         }
 
         .title {

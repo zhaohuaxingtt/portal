@@ -1,14 +1,14 @@
 <template>
-  <iCard :title="$t('基本信息')" header-control collapse>
+  <iCard :title="language('基本信息')" header-control collapse>
     <div class="flex-end-center margin-bottom20">
       <iButton v-if="isEditPage && !editable" @click="edit">
-        {{ $t('编辑') }}
+        {{ language('编辑') }}
       </iButton>
       <iButton @click="save" v-show="editable">
-        {{ $t('确认') }}
+        {{ language('确认') }}
       </iButton>
       <iButton @click="cancel" v-show="editable && baseForm.id">
-        {{ $t('取消') }}
+        {{ language('取消') }}
       </iButton>
     </div>
     <el-form
@@ -17,26 +17,26 @@
       label-position="left"
       ref="ruleForm"
       label-width="120px"
-      class="validate-required-form "
+      class="validate-required-form"
     >
       <el-row :gutter="30">
         <el-col :span="6">
-          <iFormItem :label="$t('TIPS中车型ID')">
+          <iFormItem :label="language('TIPS中车型ID')">
             <iInput v-model="baseForm.id" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('车型编号')" prop="vwModelCode">
+          <iFormItem :label="language('车型编号')" prop="vwModelCode">
             <iInput v-model="baseForm.vwModelCode" :disabled="!editable" />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('车型名称')" prop="modelNameZh">
+          <iFormItem :label="language('车型名称')" prop="modelNameZh">
             <iInput v-model="baseForm.modelNameZh" :disabled="!editable" />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('车型类型')" prop="type">
+          <iFormItem :label="language('车型类型')" prop="type">
             <iSelect v-model="baseForm.type" :disabled="!editable" filterable>
               <el-option
                 v-for="item in carTypeOptions"
@@ -64,12 +64,12 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('中文描述')">
+          <iFormItem :label="language('中文描述')">
             <iInput v-model="baseForm.description" :disabled="!editable" />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('平台属性')" prop="carPlatformCode">
+          <iFormItem :label="language('平台属性')" prop="carPlatformCode">
             <iSelect
               v-model="baseForm.carPlatformCode"
               :disabled="!editable"
@@ -85,7 +85,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('所属品牌')" prop="brandCode">
+          <iFormItem :label="language('所属品牌')" prop="brandCode">
             <iSelect
               v-model="baseForm.brandCode"
               :disabled="!editable"
@@ -101,7 +101,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="12">
-          <iFormItem :label="$t('投产工厂')" prop="productFactory">
+          <iFormItem :label="language('投产工厂')" prop="productFactory">
             <iSelect
               v-model="baseForm.productFactory"
               filterable
@@ -118,7 +118,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6" v-if="baseForm.id">
-          <iFormItem :label="$t('计算车型')">
+          <iFormItem :label="language('计算车型')">
             <iSelect
               v-model="baseForm.calCartype"
               :disabled="!editable"
@@ -134,7 +134,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('Sourcing类别')" prop="sourceType">
+          <iFormItem :label="language('Sourcing类别')" prop="sourceType">
             <iSelect
               v-model="baseForm.sourceType"
               :disabled="!editable"
@@ -150,7 +150,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('车型级别')" prop="carTypeLevel">
+          <iFormItem :label="language('车型级别')" prop="carTypeLevel">
             <iSelect
               v-model="baseForm.carTypeLevel"
               :disabled="!editable"
@@ -166,14 +166,26 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('是否有效')" prop="isValid">
+          <iFormItem :label="language('是否有效')" prop="isValid">
             <iSelect
               v-model="baseForm.isValid"
               :disabled="!editable"
               filterable
             >
-              <el-option :value="true" :label="$t('有效')" />
-              <el-option :value="false" :label="$t('无效')" />
+              <el-option :value="true" :label="language('有效')" />
+              <el-option :value="false" :label="language('无效')" />
+            </iSelect>
+          </iFormItem>
+        </el-col>
+        <el-col :span="6">
+          <iFormItem :label="language('是否TIPS同步')">
+            <iSelect
+              v-model="baseForm.isModify"
+              :disabled="!editable"
+              filterable
+            >
+              <el-option :value="true" :label="language('是')" />
+              <el-option :value="false" :label="language('否')" />
             </iSelect>
           </iFormItem>
         </el-col>
@@ -202,13 +214,13 @@ export default {
     }, */
     productFactoryOptions: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     baseForm: {
       type: Object,
-      default: function() {
+      default: function () {
         return {
           aekoCartype: '',
           brandCode: '',
@@ -224,7 +236,8 @@ export default {
           productId: 0,
           sourceType: '',
           type: '',
-          vwModelCode: ''
+          vwModelCode: '',
+          isModify: false
         }
       }
     }
@@ -305,12 +318,8 @@ export default {
         'SOURCE_TYPE'
       ]
       const { data } = await fetchSelectDicts(req)
-      const {
-        CAR_PLATFORM_CODE,
-        CAR_MODEL_TYPE_LEVEL,
-        CAR_TYPE,
-        SOURCE_TYPE
-      } = data
+      const { CAR_PLATFORM_CODE, CAR_MODEL_TYPE_LEVEL, CAR_TYPE, SOURCE_TYPE } =
+        data
       this.platformCodeOptions = CAR_PLATFORM_CODE
       this.modelTypeLevelOptions = CAR_MODEL_TYPE_LEVEL
       this.carTypeOptions = CAR_TYPE
@@ -354,7 +363,7 @@ export default {
       }
     },
     save() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.saveBaseForm()
         } else {

@@ -468,9 +468,6 @@ export default {
     scrollGetData(e){
       const { scrollTop, clientHeight, scrollHeight } = e.target
       if((scrollTop + clientHeight) === scrollHeight){
-//        if(this.leftLoading || !this.isScroll){
-//          return
-//        }
         this.leftLoading = true
         this.showLoading()
         this.current++
@@ -504,7 +501,7 @@ export default {
           const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
           if (Number(res.code) === 200) {
             if(res.data.length < 9){
-              this.isScroll = false
+              this.isScroll = true
             }
             let data = res.data.map(item => {
               item.isClaim = false
@@ -966,6 +963,7 @@ export default {
     .partLifeCycleStar_main_content {
       display: flex;
       justify-content: space-between;
+      min-height: 530px;
 
       .left {
         display: flex;
