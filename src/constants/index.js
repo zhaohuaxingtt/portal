@@ -19,5 +19,6 @@ export const BPM_SINGL_CATEGORY_LIST = [
   'meeting_rs_recheck',
   'meeting_recheck_m_sign'
 ]
+// 'officialPricing'
 // 审批有异议、无异议判断
 export const BPM_CATEGORY_RENAME_YIYI_LIST = ['meeting_rs_recheck']
