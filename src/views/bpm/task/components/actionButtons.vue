@@ -1,12 +1,12 @@
 <template>
   <div class="operation-btn">
-    <iButton
+    <!-- <iButton
       v-show="categoryList === 'officialPricing'"
       :disabled="selectedRow.length === 0"
       @click="mock"
     >
       {{ language('模拟') }}
-    </iButton>
+    </iButton> -->
     <iButton
       v-show="taskType === 0"
       :disabled="selectedRow.length === 0"
