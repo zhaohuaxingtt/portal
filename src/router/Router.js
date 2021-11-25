@@ -18,8 +18,8 @@ import RouterMainData from './RouterMainData'
 import RouterProcessApproval from './RouterProcessApproval'
 import RouterMaster from './RouterMaster'
 import RouterProjectMgmt from './RouterProjectMgmt'
-
 import RouterInfo from './RouterInfo'
+import RouterOpcs from './RouterOpcs'
 import RouterParams from './RouterParams'
 import RouterTaskCenter from './RouterTaskCenter'
 import RouterApproval from './RouterApproval'
@@ -38,6 +38,8 @@ import RouterMeeting from './RouterMeeting'
 import RouterNews from './news'
 import RouterSurvey from './survey'
 import RouterColorParts from './RouterColorParts'
+
+import RouterApplications from './applications'
 
 export default {
   routes: [
@@ -145,6 +147,7 @@ export default {
           },
           component: () => import('@/views/search')
         },
+        ...RouterOpcs,
         ...RouterSupplier,
         ...RouterDemo,
         ...RouterCfProcCS,
@@ -168,7 +171,8 @@ export default {
         ...RouterManage,
         ...RouterNews,
         ...RouterSurvey,
-        ...RouterColorParts
+        ...RouterColorParts,
+        ...RouterApplications
       ]
     },
 

@@ -1,7 +1,7 @@
 <template>
-  <iCard>
-      <div class="main">
-        <el-form class="form-content">
+  <iCard class="main">
+      <div >
+        <el-form class="form-content" label-position="left" label-width="100px">
             <el-row :gutter="24"> 
                 <el-col span='6'>
                     <iFormItem :label="language('弹窗标题')">
@@ -20,12 +20,12 @@
                 </el-col>
             </el-row>
         </el-form>
-        <div class="btnItems">
+        
+      </div>
+      <div class="btnItems">
             <iButton @click="sure">{{language('确定')}}</iButton>
             <iButton @click="cancel">{{language('重置')}}</iButton>
         </div>
-      </div>
-      
   </iCard>
 </template>
 
@@ -53,12 +53,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main{
+::v-deep .cardBody{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     .form-content{
-        width: 1000px;
+        
+        width: 1200px;
+        
         .el-row{
+            margin-top: 10px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
             .send-time{
                 width: 100%;
             }
@@ -70,7 +77,7 @@ export default {
 
     }
     .btnItems{
-        margin-top: 36px;
+        // margin-top: 36px;
     }
 }
 </style>

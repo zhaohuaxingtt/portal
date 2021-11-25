@@ -404,10 +404,11 @@ export default {components: {
           this.partType = true;
       },
     saveClose(val){
+        console.log(val);
         this.closeDiolog();
         if(val){
             this.contractForm.assemblyPartnum = val.partNum;
-            this.contractForm.partName = val.partName;
+            this.contractForm.partName = val.partNameZh;
         }
     },
     closeDiolog(){
