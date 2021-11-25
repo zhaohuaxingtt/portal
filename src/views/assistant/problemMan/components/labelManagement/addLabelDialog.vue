@@ -1,11 +1,11 @@
 <template>
   <iDialog title="新增标签" style="margin-top:20vh" :visible.sync="show" v-if="show" width="30%" @close='closeDiologBtn' append-to-body>
     <el-form label-position="left" :model="newLabelForm" :rules="newLabeRules" ref="newLabelForm" label-width="100px" class="validate-required-form">
-      <iFormItem :label="language('标签内容')" prop='code'>
-        <iInput v-model="newLabelForm.code" placeholder="请输入"></iInput>
+      <iFormItem :label="language('标签内容')" prop='lableName'>
+        <iInput v-model="newLabelForm.lableName" placeholder="请输入"></iInput>
       </iFormItem>
-      <iFormItem :label="language('问题模块')" prop='type'>
-        <iSelect v-model="newLabelForm.type" filterable placeholder="请选择">
+      <iFormItem :label="language('问题模块')" prop='moduleId'>
+        <iSelect v-model="newLabelForm.moduleId" filterable placeholder="请选择">
           <el-option v-for="item in options" :key="item.code" :label="item.value" :value="item.code"></el-option>
         </iSelect>
       </iFormItem>
@@ -19,6 +19,7 @@
 
 <script>
 import { iDialog, iButton, iSelect, iFormItem, iInput } from 'rise'
+import { newLabel } from "@/api/assistant"
 export default {
   name: 'dispatchDialog',
   props: {
@@ -41,12 +42,12 @@ export default {
         }
       ],
       newLabelForm: {
-        code:'',
-        type:''
+        lableName:'',
+        moduleId:''
       },
       newLabeRules: {
-        code:{required:'true',message:"请输入标签内容",trigger:'blur'},
-        type:{required:'true',message:"请选择内容模块",trigger:'blur'},
+        lableName:{required:'true',message:"请输入标签内容",trigger:'blur'},
+        moduleId:{required:'true',message:"请选择内容模块",trigger:'change'},
       },
     }
   },
@@ -58,10 +59,11 @@ export default {
       this.closeDiologBtn();
     },
     save () {
-      this.$refs.newLabelForm.validate((valid) => {
+      this.$refs.newLabelForm.validate(async (valid) => {
         if (valid) {
           if(this.type == 1){
-            console.log('add--1');
+            await newLabel(this.newLabelForm)
+            this.$refs.newLabelForm.resetFields()
           }else{
             console.log('add---2');
           }

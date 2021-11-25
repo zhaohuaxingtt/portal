@@ -31,6 +31,7 @@ import {iButton,iPagination,iTableCustom} from 'rise';
 import {tableColumn} from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins'
 import AddLabelDialog from './addLabelDialog';
+import { removeLabel } from '@/api/assistant'
 export default {
   components: {
     iButton,
@@ -88,6 +89,7 @@ export default {
       }).then(()=>{
         if(this.type ==1){
           console.log('del--1');
+          // removeLabel()
         }else{
           console.log('del--2');
         }

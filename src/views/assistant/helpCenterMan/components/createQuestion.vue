@@ -24,15 +24,15 @@
                 </div>
             </iFormGroup>
 
-            <div class="flex" style="margin-top:20px;">
+            <div class="flex" style="margin-top:20px;align-items: flex-start;">
                 <iLabel class="label" label="附件:" slot="label"></iLabel>
-                <div class="upload-btn">
+                <div class="upload-btn flex">
                     <i class="el-icon-link"></i>
-                    <span @click="upload">点击上传</span>
-                    <iUpload v-show="false" ref="upload" :fileIds="fileIds" :extraData="extraData" @callback="handelCallback" />
+                    <iUpload ref="upload" v-model="files" @onSuccess="uploadSucc" >
+                        <span>点击上传</span>
+                    </iUpload>
                 </div>
             </div>
-            <FileList v-for="(f,i) in files" :key="i" :file="f" @del="delFile"></FileList>
         </div>
         <div slot="footer">
             <iButton>上 传</iButton>
@@ -42,9 +42,9 @@
 </template>
 
 <script>
-    import { iDialog, iFormGroup, iInput, iLabel, iButton, iUpload } from "rise"
+    import { iDialog, iFormGroup, iInput, iLabel, iButton } from "rise"
     import iEditor from "@/components/iEditor"
-    import FileList from "./fileList"
+    import iUpload from "./../../components/iUpload.vue"
     export default {
         components:{
             iDialog,
@@ -53,8 +53,7 @@
             iButton,
             iLabel,
             iUpload,
-            iEditor,
-            FileList
+            iEditor
         },
         props:{
             show:{
@@ -81,14 +80,8 @@
             closeDialog(){
                 this.$emit("update:show",false)
             },
-            handelCallback(res){
+            uploadSucc(res){
                 console.log(res);
-            },
-            upload(){
-                this.$refs.upload.$el.querySelector("input[type='file']").click()
-            },
-            delFile(file){
-                console.log(file);
             }
         }
     }
@@ -107,6 +100,7 @@
 }
 
 .upload-btn{
+    align-items: baseline;
     color: #2369f1;
     cursor: pointer;
     span{

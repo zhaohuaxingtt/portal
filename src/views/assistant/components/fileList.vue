@@ -27,6 +27,7 @@
     justify-content: space-between;
     transition: all .3s ease;
     border-radius: 4px;
+    color: #444;
     &:hover{
         background-color: #f5f7fa;
         color: #2369f1;

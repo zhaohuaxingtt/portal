@@ -14,10 +14,10 @@
 			</iTabBadge>
 		</div>
 	</div>
-	<div class="flex user-type">
+	<!-- <div class="flex user-type">
 		<div class="user-type-item" :class="{active: activeUser == 'supplier'}" @click="selectUser('supplier')">供应商用户</div>
 		<div class="user-type-item" :class="{active: activeUser == 'inner'}" @click="selectUser('inner')">内部用户</div>
-	</div>
+	</div> -->
 	<div class="flex flex-row content mt20" v-show="activeMoudle === 'manual'">
 		<CommonProblem 
 			title="问题模块"
@@ -40,7 +40,7 @@
 		<CommonProblem 
 			title="常见问题"
 			showIcon
-			:moudleList="moudleList"
+			:moudleList="hotList"
 			:currentMoudleId.sync="currentMoudleId"
 			:loading="questionLoading"
 		>
@@ -65,7 +65,7 @@ import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
 import Question from "./components/question"
 import UserManual from "./components/userManual"
-import { getSystemMeun } from '@/api/assistant'
+import { getSystemMeun, getModuleList, queryHotFaq } from '@/api/assistant'
 
 export default {
 	components: {
@@ -87,6 +87,7 @@ export default {
 			activeMoudle: "manual",
 			activeUser: "supplier",
 			moudleList: [],
+			hotList:[],
 			currentMoudleId: 0,
 			show: false,
 
@@ -97,21 +98,35 @@ export default {
 		}
 	},
 	mounted() {
-		this.getProbleList()
+		this.aqueryHotFaq()
 	},
 	methods:{
 		async getProbleList() {
 			this.manualLoading = true
 			try {
-				await getSystemMeun().then((res) => {
+				await getModuleList().then((res) => {
 					if (res.code === '200') {
-						let { data: { menuList }} = res
-						this.moudleList = menuList[3] ? menuList[3].menuList : []
+						// let { data: { menuList }} = res
+						// this.moudleList = menuList[3] ? menuList[3].menuList : []
 						console.log(this.moudleList);
 					}
 				})
 			} finally {
 				this.manualLoading = false
+			}
+		},
+		// 热门常见问题
+		async aqueryHotFaq(){
+			this.questionLoading = true
+			try {
+				await queryHotFaq().then((res) => {
+					if (res.code === '200') {
+						this.hotList = res
+						console.log(this.moudleList);
+					}
+				})
+			} finally {
+				this.questionLoading = false
 			}
 		},
 		tabChange(val) {
@@ -166,6 +181,7 @@ export default {
 	.content {
 		width: 100%;
 		flex: 1;
+		margin-top: 40px;
 		overflow: hidden;
 	}
 	.content-right{

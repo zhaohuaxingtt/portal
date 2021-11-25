@@ -10,7 +10,6 @@
                         :label="item.label"
                         :value="item.value"
                       >
-
                       </el-option>
                   </iSelect>
               </iFormItem>
@@ -50,6 +49,7 @@ import {iSearch,iFormItem,iSelect,iTableCustom,iCard,iButton,iPagination} from '
 import {pageMixins} from '@/utils/pageMixins'
 import {TABLE_KEYWORDS_COLUMNS} from './data.js'
 import addKeyWordsDialog from './addKeyWords.vue'
+import { getKeywordByPage, delKeywordById } from "@/api/assistant"
 export default {
     name:'keyWordsMana',
     components:{
@@ -67,7 +67,9 @@ export default {
         return{
             searchWord:'',
             show:false,
-            keyWordsOptions:[],
+            keyWordsOptions:[
+                {label:1,value:2}
+            ],
             tableLoading:false,
             tableListData:[
                 {
@@ -85,6 +87,9 @@ export default {
 
         }
     },
+    created(){
+        this.getPage()
+    },
     methods:{
         handleSelectionChange(val){
             this.selectedItems = val
@@ -98,18 +103,18 @@ export default {
                 cancelButtonText:'取消',
                 type:'warning'
             }).then(()=>{
-                
+                // delKeywordById()
             }).catch(()=>{
                 this.$refs.tableListRef.clearSelection()
             })
         },
-        getPage(){
+        async getPage(){
             const data= {
-                ...this.searchWord,
+                keyWord: this.searchWord,
                 current: this.page.currPage,
                 size: this.page.pageSize
             }
-
+            let res = await getKeywordByPage(data)
         },
         refresh(){
             this.getPage()

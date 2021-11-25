@@ -25,28 +25,27 @@
             <div v-if="preview" v-html="content"></div>
             <template v-else>        
                 <iEditor class="manual-editor" v-model="content"></iEditor>
-                <div class="upload">
-                    <iButton @click="upload">添加附件</iButton>
-                    <span>只能上传不超过20MB的文件</span>
-                    <iUpload v-show="false" ref="upload" @callback="uploadChange" />
-                </div>
-                <FileList v-for="(f,i) in files" :key="i" :file="f" @del="delFile"></FileList>
+                <iUpload ref="upload" v-model="files" :maxSize="20" @onSuccess="uploadChange" >
+                    <div class="upload flex" style="align-items: end;">
+                        <iButton>添加附件</iButton>
+                        <span @click.stop=";">只能上传不超过20MB的文件</span>
+                    </div>
+                </iUpload>
             </template>
         </template>
     </div>
 </template>
 
 <script>
-    import { iButton, iUpload } from "rise"
+    import { iButton } from "rise"
     import iEditor from "@/components/iEditor"
-    import FileList from "./fileList"
+    import iUpload from "./../../components/iUpload.vue"
     
     export default {
         components: {
             iButton,
             iEditor,
-            iUpload,
-            FileList
+            iUpload
         },
         data() {
             return {
@@ -59,23 +58,11 @@
             }
         },
         methods: {
-            upload(){
-                this.$refs.upload.$el.querySelector("input[type='file']").click()
-            },
             uploadChange(file){
                 console.log(file+'-------');
             },
             save(){
                 
-            },
-            delFile(file){
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                    }).then(() => {
-                   
-                    })
             }
         },
     }
