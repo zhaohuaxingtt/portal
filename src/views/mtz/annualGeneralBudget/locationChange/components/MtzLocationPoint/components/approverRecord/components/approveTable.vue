@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-24 18:57:05
+ * @LastEditTime: 2021-11-25 11:49:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -85,7 +85,7 @@
                    remote
                    placeholder="输入关键词搜索"
                    :remote-method="queryOptions"
-                   @change="handleChange">
+                   @change="function(changedVal) {handleChangeApprovalName(changedVal, scope.row)}">
             <el-option v-for="item in userList"
                        :key="item.id"
                        :label="item.nameZh"
@@ -187,7 +187,7 @@ export default {
       this.flag = JSON.parse(this.$route.query.isView)
       await this.getAppFormInfo()
       this.selectDept()
-      this.selectSection()
+
 
     },
     getTableList () {
@@ -216,6 +216,10 @@ export default {
     },
     handleSelectionChange (val) {
       this.muilteList = val
+      console.log(this.muilteList)
+      this.muilteList.forEach(item => {
+        this.selectSection(item.approvalDepartment)
+      })
     },
     selectDept () {
       selectDept({}).then((res) => {
@@ -224,8 +228,8 @@ export default {
         }
       })
     },
-    selectSection () {
-      selectSection({}).then((res) => {
+    selectSection (id) {
+      selectSection({ deptId: id }).then((res) => {
         this.selectSectionList = res.data
       })
     },
@@ -307,11 +311,19 @@ export default {
     handleChangeDepartment (val, row) {
       let obj = this.selectDeptList.find(item => item.nameZh === val)
       row.approvalDepartment = obj.id
+      this.selectSection(obj.id)
     },
     handleChangeApprovalSection (val, row) {
       let obj = this.selectSectionList.find(item => item.nameZh === val)
-      row.approvalDepartment = obj.id
+      row.approvalSection = obj.id
       this.userList = obj.userDTOList
+    },
+    handleChangeApprovalName (val, row) {
+
+      let obj = this.userList.find(item => item.id === val)
+      console.log(obj)
+      // row.approvalName = obj.id
+
     },
     handleSync (params) {
       syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: params || "" }).then(res => {
