@@ -52,7 +52,7 @@ export default {
 	},
 	methods: {
 		select(menu){
-			this.$emit("update:currentMoudleId", menu.id)
+			// this.$emit("update:currentMoudleId", menu.id)
 			this.$emit("change", menu)
 		}
 	},

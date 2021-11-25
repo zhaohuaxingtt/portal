@@ -12,31 +12,40 @@
 			<iButton class="ask-btn" @click="handleQuestion">{{ language('我要提问') }}</iButton>
 		</div>
 		<div class="mt15 line"></div>
-		<div class="title">{{ moudleName }}</div>
+		<div class="title">{{ currMoudleName ? language(`${currMoudleName}`) : '' }}</div>
 		<div class="line"></div>
-		<div class="editor-box" v-html="changeColor(dataContent)"></div>
+		<!-- <div class="editor-box" v-html="changeColor(currModuleDetailData)"></div> -->
+		<iEditor ref="iEditor" v-html="changeColor(currModuleDetailData)" disabled />
 	</div>
 </template>
 
 <script>
 import { iInput, iButton } from 'rise';
+import iEditor from '@/components/iEditor'
 export default {
 	name: "DataManage",
 	components: {
 		iInput,
-		iButton
+		iButton,
+		iEditor
 	},
 	props: {
 		loading: {
 			type: Boolean,
 			default: false
+		},
+		currMoudleName: {
+			type: String,
+			default: ''
+		},
+		currModuleDetailData: {
+			type: String,
+			default: ''
 		}
 	},
 	data() {
 		return {
 			searchKey: "",
-			moudleName: '主数据管理',
-			dataContent: '啥叫肯定会尽快啥的接口了哈健康的好看极了啊是多久啊考虑看罗杰撒啊撒开了觉得卡拉沙克发货都是废话安徽的接口',
 			searchHead: 0
 		}
 	},
@@ -53,7 +62,7 @@ export default {
 					this.searchHead += 1
 				} else if (this.searchHead == (num - 1)) {
 					this.searchHead = 0
-				} else {}
+				} else return false
 			}
 		},
 		changeColor(item) {
