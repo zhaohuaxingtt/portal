@@ -9,6 +9,7 @@
   left: 0;
   background-color: rgba(255,255,255,0.5);
   z-index: 9999989;
+  transition: display ease-out  2s;
 }
 
 .loading-wrapper .loading-container {
