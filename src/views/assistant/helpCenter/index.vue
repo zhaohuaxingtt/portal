@@ -67,6 +67,7 @@
 			:intelligentVisible="intelligentVisible"
 			:hotQuestionList="hotQuestionList"
 			:fromPage="helpMoudle"
+			:currentMoudleId="currentMoudleId"
 			@closeDialog="closeDialog"
 			@putAdminTw="putAdminTw"
 			@gotoProblemDeatil="gotoProblemDeatil"
@@ -154,7 +155,7 @@ export default {
 		// 根据当前url和模块列表定位具体模块及模块名称
 		getCurrentModule() {
 			console.log(this.moudleList, "moudleList")
-			this.currentMoudleId = 785
+			this.currentMoudleId = ''
 			this.moudleList.map(item => {
 				if (item.id === this.currentMoudleId) {
 					this.currMoudleName = item.name

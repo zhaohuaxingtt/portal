@@ -45,9 +45,11 @@ export function queryHotFaq() {
 }
 
 // 分页查询常见问题
-export function queryFaqByPage() {
+export function queryFaqByPage(data) {
   return assistantRequest({
     url: `/assistantFaq/findByPage`,
+    method: 'POST',
+    data: data
   })
 }
 
@@ -113,6 +115,14 @@ export function saveKeyword(data) {
 export function getProblemDetail(id) {
   return assistantRequest({
     url: `/assistantFaq/queryFaqDetail/${id}`,
+    method: 'GET'
+  })
+}
+
+//  查询全部模块及其标签
+export function getAllModuleLabel() {
+  return assistantRequest({
+    url: '/assistantModuleEntity/queryMAndL',
     method: 'GET'
   })
 }
