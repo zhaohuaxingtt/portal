@@ -92,7 +92,6 @@ export default {
         getUnitItems(){
             let data = []
             data = this.selectedItems.map((ele)=>{
-                console.log(ele,'====');
                 return {
                     "bizId":this.$route.query.id,
                     "converseRate":ele.converseRate,
