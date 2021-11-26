@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-25 18:14:03
+ * @LastEditTime: 2021-11-25 21:01:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -214,6 +214,7 @@ export default {
       })
     },
     handleSelectionChange (val) {
+      console.log('111')
       this.muilteList = val
       this.muilteList.forEach(item => {
         selectDept({}).then((res) => {
