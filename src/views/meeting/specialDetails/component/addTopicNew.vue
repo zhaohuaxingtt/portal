@@ -146,9 +146,9 @@
                   ? selectUserArr
                   : currentSearchUserData"
                 :key="item.id"
-                :label="`${item.name ? item.name + '-' : ''}${
-                  item.jobNumber ? item.jobNumber + '-' : ''
-                }${item.department ? item.department + '-' : ''}${
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
                   item.namePinyin ? item.namePinyin  : ''
                 }`"
                 :value="item.id"
@@ -178,9 +178,9 @@
                   ? selectUserArr
                   : currentSearchUserData"
                 :key="item.id"
-                :label="`${item.name ? item.name + '-' : ''}${
-                  item.jobNumber ? item.jobNumber + '-' : ''
-                }${item.department ? item.department + '-' : ''}${
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
                   item.namePinyin ? item.namePinyin  : ''
                 }`"
                 :value="item.id"
