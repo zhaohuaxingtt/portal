@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2021-11-26 16:21:47
+ * @LastEditTime: 2021-11-26 16:25:15
  * @LastEditors: Please set LastEditors
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
@@ -31,9 +31,7 @@
                v-for="(item,index) in formList"
                :key="index">
             <span>{{language(item.key,item.name)}}</span>
-            <el-input :disabled="true"
-                      class="inforText"
-                      v-model="formData[item.prop]"></el-input>
+            <span class="inforText">{{formData[item.prop]}}</span>
           </div>
         </div>
         <el-divider v-if="RsObject" />
@@ -94,16 +92,6 @@
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
         </tableList>
-        <!-- <iPagination v-if="RsObject"
-                    v-update
-                    @size-change="handleSizeChange($event, getPageAppRule)"
-                    @current-change="handleCurrentChange($event, getPageAppRule)"
-                    background
-                    :page-sizes="page.pageSizes"
-                    :page-size="rulePageParams.pageSize"
-                    :layout="page.layout"
-                    :current-page='rulePageParams.currPage'
-                    :total="rulePageParams.totalCount" /> -->
         <el-divider v-if="RsObject" />
         <el-divider class="margin-top20"
                     v-if="!RsObject && partTableListData.length>0" />
@@ -162,43 +150,20 @@
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
         </tableList>
-        <!-- <iPagination v-if="RsObject"
-                    v-update
-                    @size-change="handleSizeChange($event, getPagePartMasterData)"
-                    @current-change="handleCurrentChange($event, getPagePartMasterData)"
-                    background
-                    :page-sizes="page.pageSizes"
-                    :page-size="partPageParams.pageSize"
-                    :layout="page.layout"
-                    :current-page='partPageParams.currPage'
-                    :total="partPageParams.totalCount" /> -->
       </iCard>
       <iCard class="margin-top20">
         <div slot="header"
              class="headBox">
-          <p v-if="isMeeting"
-             class="headTitle">{{language('BEIZHU', '备注')}}</p>
-          <p v-if="isSign"
-             class="headTitle">{{language('BEIZHU', '备注')}}</p>
-          <!-- <p v-if="isSign" class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p> -->
+          <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
           <span class="buttonBox">
             <iButton v-if="RsObject"
                      @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
           </span>
         </div>
-        <!-- <p v-if="isMeeting">{{language('LINEIESHANGHUIBEIZHU', 'LINIE上会备注')}}</p> -->
-        <!-- <p v-if="isSign">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p> -->
-        <iInput v-if="isMeeting"
-                v-model="formData.linieMeetingMemo"
+        <iInput v-model="formData.linieMeetingMemo"
                 class="margin-top10"
                 :rows="8"
                 type="textarea" />
-        <iInput v-if="isSign"
-                v-model="formData.linieMeetingMemo"
-                class="margin-top10"
-                :rows="8"
-                type="textarea" />
-        <!-- <iInput v-if="isSign" v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/> -->
       </iCard>
       <iCard v-if="isMeeting"
              class="margin-top20">
@@ -235,10 +200,10 @@ import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1, ruleTableTitle1_1, ruleTableTitle1_2, partTableTitle1, partTableTitle1_1, partTableTitle1_2 } from './data'
-import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, panorama } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
+import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
-import { uploadUdFile } from "@/api/file/upload";
+// import { uploadUdFile } from "@/api/file/upload";
 export default {
   mixins: [pageMixins],
   components: {
@@ -311,9 +276,8 @@ export default {
           break;
         case 'FILING':
           // 备案
-
+          res = '备案定点推荐 - MTZ Nomination Recommendation - MTZ'
           break;
-
         default:
           break;
       }
@@ -322,13 +286,10 @@ export default {
     isMeeting () {
       return this.formData.flowType == 'MEETING'
     },
-    isSign () {
-      return this.formData.flowType == 'SIGN'
-    }
   },
   methods: {
     downPdf () {
-      console.log(this.title)
+      // console.log(this.title)
       var name = "";
       if (this.title == "") {
         name = "RS导出"
@@ -424,17 +385,18 @@ export default {
     // 点击保存
     handleClickSave () {
       let params = {}
-      if (this.isMeeting) {
-        params = {
-          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-          linieMeetingMemo: this.formData.linieMeetingMemo
-        }
-      } else if (this.isFinite) {
-        params = {
-          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-          cs1MeetingMemo: this.formData.cs1MeetingMemo
-        }
+      // if (this.isMeeting) {
+      params = {
+        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+        linieMeetingMemo: this.formData.linieMeetingMemo
       }
+      // }
+      //  else if (this.isFinite) {
+      //   params = {
+      //     mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+      //     cs1MeetingMemo: this.formData.cs1MeetingMemo
+      //   }
+      // }
       fetchSaveCs1Remark(params).then(res => {
         if (res && res.code == 200) {
           this.getAppFormInfo()
@@ -530,7 +492,6 @@ $tabsInforHeight: 35px;
   justify-content: space-between;
   .inforDiv {
     width: 29%;
-    height: $tabsInforHeight;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -541,11 +502,12 @@ $tabsInforHeight: 35px;
     }
     .inforText {
       font-size: 14px;
+      padding: 10px 10px;
       width: 68%;
+      min-height: $tabsInforHeight;
+      height: auto;
       background: #f8f8fa;
       text-align: center;
-      height: $tabsInforHeight;
-      line-height: $tabsInforHeight;
     }
   }
 }

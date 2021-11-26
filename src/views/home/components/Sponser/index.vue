@@ -82,7 +82,8 @@ export default {
         departmentIds: []
       },
       legendData: [],
-      chart: null
+      pieChart: null,
+      barChart: null
     }
   },
   mounted() {
@@ -99,6 +100,7 @@ export default {
     async getSponserList() {
       this.totalCount = 0
       const result = await getSponserData(this.query)
+
       if (result.code === '200' && result.data) {
         let data = result.data.slice(0, 9)
         const dataGrade = data.map((item) => {
@@ -118,6 +120,7 @@ export default {
             ratio: 0
           })
         }
+
         for (let i = 0; i < data.length; i++) {
           data[i].value = data[i].num
           data[i].name = data[i].grade
@@ -130,8 +133,12 @@ export default {
           }
           this.totalCount += data[i].num
         }
-        this.data = data
-        this.data.forEach((item) => {
+
+        this.data = JSON.parse(JSON.stringify(data))
+        this.newArr = []
+        this.newBrr = []
+        this.newCrr = []
+        data.forEach((item) => {
           if (item.type == 'A') {
             this.newArr.push(item)
           } else if (item.type == 'B') {
@@ -140,13 +147,16 @@ export default {
             this.newCrr.push(item)
           }
         })
+
         this.newArr = this.handleArr(this.newArr, 'A')
         this.newBrr = this.handleArr(this.newBrr, 'B')
         this.newCrr = this.handleArr(this.newCrr, 'C')
         this.newCrr.forEach((item) => (this.total += item.value))
+
+        this.initPie()
+        this.initBar()
       }
-      this.initPie()
-      this.initBar()
+
     },
     handleChange(val) {
       this.query.departmentIds = val
@@ -207,7 +217,7 @@ export default {
       return arr
     },
     initPie() {
-      const data = _.cloneDeep(this.data)
+      let data = _.cloneDeep(this.data)
       let totalSum = 0
       data.forEach((item) => (totalSum += item.num))
       data.forEach((item) => {
@@ -231,6 +241,7 @@ export default {
             '    '
         }
       })
+
       for (let i = 0; i < data.length; i++) {
         data[i].itemStyle = { normal: { color: this.colorList[i]?.color } }
         data[i].textStyle = { fontSize: 10, fontWeight: 'normal' }
@@ -240,12 +251,23 @@ export default {
         total += data[i].value
       }
       this.total = total
-      let sortA = data.sort().slice(0,3).reverse()
-      let arr = [...sortA, ...data.slice(3, data.length)]
-      this.legendData = arr
-      const chart = echarts().init(this.$refs.pie)
-      this.chart = chart
-      const option = {
+      let A = data.filter(e => e.grade.includes("A"))
+      let B = data.filter(e => e.grade.includes("B"))
+      let C = data.filter(e => e.grade.includes("C"))
+      this.legendData = [...this.arrSort(A),...this.arrSort(B),...this.arrSort(C)]
+      this.setPieChart(data,total)
+
+    },
+    arrSort(arr){
+      // 倒序
+      return arr.sort((a,b) => b.grade.length - a.grade.length)
+    },
+    // init pieecharts
+    setPieChart(data,total){
+      if(!this.pieChart){
+        this.pieChart = echarts().init(this.$refs.pie)
+      }
+      let option = {
         tooltip: {
           trigger: 'item',
           formatter: function (data) {
@@ -294,10 +316,11 @@ export default {
           }
         ]
       }
-      option && chart.setOption(option)
-
+      this.$nextTick(() => {
+        this.pieChart && this.pieChart.setOption(option)
+      })
       // 监听饼状图鼠标移入事件
-      chart.on('mouseover', (param) => {
+      this.pieChart.on('mouseover', (param) => {
         const newLegends = this.legendData.map((e) => {
           if (e.name === param.name) {
             e.textStyle.fontWeight = 'bold'
@@ -310,7 +333,7 @@ export default {
       })
 
       // 监听饼状图鼠标移出事件
-      chart.on('mouseout', () => {
+      this.pieChart.on('mouseout', () => {
         const newLegends = this.legendData.map((e) => {
           e.textStyle.fontWeight = 'normal'
           return e
@@ -373,11 +396,16 @@ export default {
           }
         ]
       }
-      option && this.chart.setOption(option)
+      this.$nextTick(() => {
+        option && this.pieChart.setOption(option)
+      })
     },
+    // init bar echarts
     initBar() {
       const totalCount = _.cloneDeep(this.totalCount)
-      const chart = echarts().init(this.$refs.bar)
+      if(!this.barChart){
+        this.barChart = echarts().init(this.$refs.bar)
+      }
       // let total = this.data.reduce((prev, val) => prev + val, 0)
       // let str = `C-Rating数量:${total}\nC-Rating比例:60%`
       const option = {
@@ -501,7 +529,9 @@ export default {
           }
         ]
       }
-      option && chart.setOption(option)
+      this.$nextTick(() => {
+        this.barChart &&  this.barChart.setOption(option)
+      })
     }
   }
 }

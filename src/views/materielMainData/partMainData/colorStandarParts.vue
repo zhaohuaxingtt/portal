@@ -19,6 +19,7 @@ import {iPage,iButton} from 'rise'
 import pageHeader from '@/components/pageHeader'
 import {updateColorParts} from '@/api/colorStandardParts'
 import {colorPartsBasic,colorPartsUnit,colorPartsList}  from './components/index.js'
+import { deepClone } from '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/applyInfor/util.js'
 export default {
   components:{
     iPage,
@@ -34,7 +35,8 @@ export default {
       basicCheck:0,
       //获取选中item partNum
       partItems:[],
-      passCheck:false
+      passCheck:false,
+      ids:[]
     }
   },
   methods:{
@@ -53,16 +55,27 @@ export default {
       //获取选中的色标
       const list = this.$refs.colorPartsList.getPartsList()
       if(list){
-        this.partItems = list.map((ele)=>{
-          return ele.partNum
+        // this.partItems = list.map((ele)=>{
+        //   return ele.partNum
+        // })
+        this.ids = list.map((ele)=>{
+          return ele.id
         })
       }
-
       //获取unit id 和 计量单位选项
       const unitId = this.$refs.colorPartsUnit.getUnitId()
-      const unitConverseDtos = this.$refs.colorPartsUnit.getUnitItems()
-      //判断是否通过检验
+      const unitItems = this.$refs.colorPartsUnit.getUnitItems()
       
+      let unitConverseDtos = []
+        for(let i = 0; i<this.ids.length;i++){
+          const onlyUnitItems = deepClone(unitItems)
+          for(let j = 0 ;j<onlyUnitItems.length;j++ ){
+              onlyUnitItems[j].bizId = this.ids[i]
+              const data = onlyUnitItems[j]
+              unitConverseDtos.push(data)
+          }
+        }
+      //判断是否通过检验
       if(this.basicCheck == 0 || (list != null &&  list.length == 0  )){
         this.$message.error(this.basicCheck == 0 ? '未勾选修改的内容，请最少选择一个需调整的内容继续操作' : '未勾选色标零件，请最少选中一行继续操作' )
         
@@ -71,11 +84,10 @@ export default {
       }
       const data = {
        ...basicContent,
-       'partNum':this.partItems,
+       'partIds':this.ids,
         unitId,
         unitConverseDtos
       }
-      console.log(this.passCheck,'------');
       if( this.passCheck){
 
         this.$confirm('确认是否修改选中色标修改','提示',{

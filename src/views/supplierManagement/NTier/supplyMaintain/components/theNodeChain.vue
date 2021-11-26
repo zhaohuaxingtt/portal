@@ -197,6 +197,7 @@ export default {
     },
     // 查询 卡片信息
     async getCardChain(par) {
+      this.onDataLoading = true
       const pms = {
         ...par
       }
@@ -225,6 +226,9 @@ export default {
       });
       this.$set(this.chainNodeDatas, "nodeList", nodeList);
       this.$set(this.chainNodeDatas, "edges", edges);
+      this.$nextTick(() => {
+        this.onDataLoading = false;
+      })
     },
     // 链路扁平化
     flat(data = [], id = '') {

@@ -52,5 +52,14 @@ export function isBlack(params) {
       data:params
     })
   }
+    //是否签署
+export function isSigned(params) {
+    return requstSupplier({
+      url: `/web/supplierInfo/isSigned`,
+      method: 'POST',
+      data:params
+    })
+  }
+
   
 

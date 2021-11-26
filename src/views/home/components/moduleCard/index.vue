@@ -181,7 +181,7 @@ export default {
 
   .card-header{
     position: relative;
-    z-index: 100;
+    z-index: 10;
   }
   .module-card-btn {
     color: #4d4d4d;
