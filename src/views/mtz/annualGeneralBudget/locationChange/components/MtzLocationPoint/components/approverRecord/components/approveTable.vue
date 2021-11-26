@@ -146,7 +146,7 @@ import { pageApprove, deleteApprove, modifyApprove, getAppFormInfo, selectDept, 
 export default {
   data () {
     return {
-      mtzAppId: "",
+      mtzAppId: this.$route.query.mtzAppId,
       tableData: [],
       tableLoading: false,
       editFlag: false,
@@ -171,21 +171,20 @@ export default {
   created () {
     this.init()
   },
-  // computed: {
-  //   mtzObject () {
-  //     return this.$store.state.location.mtzObject;
-  //   }
-  // },
-  // watch: {
-  //   mtzObject (newVlue, oldValue) {
-  //     this.init()
-  //   }
-  // },
+  computed: {
+    mtzObject () {
+      return this.$store.state.location.mtzObject;
+    }
+  },
+  watch: {
+    mtzObject (newVlue, oldValue) {
+      this.init()
+    }
+  },
   mixins: [pageMixins],
   methods: {
     async init () {
-      this.mtzAppId = this.$route.query.mtzAppId
-      this.flag = JSON.parse(this.$route.query.isView)
+      // this.flag = JSON.parse(this.$route.query.isView)
       await this.getAppFormInfo()
       // this.selectDept()
     },
@@ -252,6 +251,11 @@ export default {
         mtzAppId: this.mtzAppId || '5107001'
       }).then(res => {
         if (res?.code === '200') {
+          if(res.data.appStatus === '草稿' || res.data.appStatus === '未通过'){
+            this.flag = false;
+          }else{
+            this.flag = true;
+          }
           if (res.data.flowType === 'FILING') {
             this.disabled = true
             return
