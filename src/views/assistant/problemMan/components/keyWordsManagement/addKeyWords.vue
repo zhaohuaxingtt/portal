@@ -6,11 +6,11 @@
     width="600px"
     height='400px'
   >
-  <el-form label-position="left" label-width="100px">
+  <el-form label-position="left" label-width="80px">
     <el-row gutter='24'>
       <el-col :span='24'>
-        <iFormItem :label='language("关键词")'>
-          <iInput v-model="keyWord" :placeholder='language("请输入")'></iInput>
+        <iFormItem :label='language("关键词")' prop="keyWord">
+          <iInput v-model="form.keyWord" :placeholder='language("请输入")'></iInput>
         </iFormItem>
       </el-col>
     </el-row>
@@ -21,6 +21,7 @@
 
 <script>
 import {iDialog,iInput,iFormItem,iButton} from 'rise'
+import { saveKeyword } from "@/api/assistant"
 export default {
     name:'addKeyWordsDialog',
     components:{iDialog,iInput,iFormItem,iButton},
@@ -33,14 +34,18 @@ export default {
     data(){
       return{
         papgeTitle:'新建关键词',
-        keyWord:''
+        form:{
+          keyWord:''
+        }
       }
     },
     methods:{
       closeDialog(){
         this.$emit('update:show',false)
       },
-      sure(){
+      async sure(){
+        if(!this.form.keyWord) return this.$message.warning("请输入关键字")
+        await saveKeyword(this.form)
         this.$emit('refresh')
         this.closeDialog()
       }

@@ -3,7 +3,6 @@ import axios from '@/utils/axios'
 const userRequest = axios(process.env.VUE_APP_USER_CENTER)
 const assistantRequest = axios(process.env.VUE_APP_USER_ASSISTANT)
 
-
 // 查询常见问题列表
 export function getSystemMeun() {
   return userRequest({
