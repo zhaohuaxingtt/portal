@@ -6,14 +6,12 @@
  * @Descripttion: your project
 -->
 <template>
-  <div class="margin-bottom20  box "
-       style="margin-top: 20px ">
-    <!-- @sure="getTableList"
+  <iSearch  @sure="getTableList"
            @reset="handleSearchReset"
            :resetKey="PARTSPROCURE_RESET"
-           :searchKey="PARTSPROCURE_CONFIRM" -->
-    <iCard>
-      <div class="formbox">
+           :searchKey="PARTSPROCURE_CONFIRM" class="margin-bottom20  box "
+       style="margin-top: 20px ">
+
         <el-form inline>
           <el-form-item :label="language('DIQU','地区')">
             <el-cascader @change="queryByParamsWithAuth"
@@ -47,66 +45,10 @@
             </iSelect>
           </el-form-item>
         </el-form>
-        <div class="btnStyle">
-          <iButton @click="isDilog=true">{{
-            language('NTIERZHUCEYAOQING','N-Tier注册邀请')
-          }}</iButton>
-          <iButton @click="getTableList">{{
-            language('QUEREN','确认')
-          }}</iButton>
-          <iButton @click="handleSearchReset">{{
-            language('CHONGZHI','重置')
-          }}</iButton>
-        </div>
-      </div>
-    </iCard>
+     
 
-    <iDialog @close="closeDiolog()"
-             :title=" language('NTIERZHUCEYAOQING','N-Tier注册邀请')"
-             :visible.sync="isDilog"
-             v-if="isDilog"
-             width="80%">
-      <!-- :rules="baseRules" -->
-      <iFormGroup row="3"
-                  :modeliFormGroup="formModel"
-                  ref="formModelRules">
-        <iFormItem prop="supplierName">
-          <iLabel :label="language('GONGYINGSHANGZHONGWENMING','供应商中文名')"
-                  required
-                  slot="label"></iLabel>
-          <iInput :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                  v-model="formModel.supplierName">
-          </iInput>
-        </iFormItem>
-        <iFormItem prop="contactName">
-          <iLabel :label="language('LIANXIRENXINGMING','联系人姓名')"
-                  required
-                  slot="label"></iLabel>
-          <iInput :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                  v-model="formModel.contactName">
-
-          </iInput>
-        </iFormItem>
-        <iFormItem prop="contactEmail">
-          <iLabel :label="language('contactEmail','联系人邮箱')"
-                  required
-                  slot="label"></iLabel>
-          <iInput :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                  v-model="formModel.contactEmail">
-          </iInput>
-        </iFormItem>
-
-      </iFormGroup>
-      <div class="btnStyle">
-        <iButton @click="isDilog=false">{{
-            language('QUXIAO','取消')
-          }}</iButton>
-        <iButton @click="handleSbumit">{{
-            language('QUEREN','确认')
-          }}</iButton>
-      </div>
-    </iDialog>
-  </div>
+ 
+  </iSearch>
 
 </template>
 
@@ -148,13 +90,6 @@ export default {
   data() {
     // 这里存放数据
     return {
-      formModel: {
-        supplierName: '',
-        contactName: '',
-        contactEmail: ''
-      },
-      baseRules: baseRules,
-      isDilog: false,
       form: {
         areaArray: [],
         supplierId: '',
@@ -173,28 +108,7 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-    handleSbumit() {
-      //   this.$refs.formModelRules.validate((valid) => {
-      //     if (valid) {
-      if (
-        this.formModel.supplierName == '' ||
-        this.formModel.contactName == '' ||
-        this.formModel.contactEmail == ''
-      ) {
-        iMessage.warn(this.language('QINGSHURUBITIANXIANG', '请输入必填项'))
-        return false
-      }
-      invitation(this.formModel).then((res) => {
-        if (res && res.code == 200) {
-          iMessage.success(res.desZh)
-                this.isDilog = false
-        } else iMessage.error(res.desZh)
-      })
-      // } else {
-      //   return false
-      // }
-      //   })
-    },
+
     async getSelect() {
       const res = await getCity()
       this.formGroup.areaList = res
@@ -234,19 +148,7 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-.formbox {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.btnStyle {
-  text-align: right;
-  padding-bottom: 20px;
-}
-.box {
-  width: 100%;
-}
+
 // @import url(); 引入公共css类
 ::v-deep .custom-select-input > input {
   height: 2.1875rem;

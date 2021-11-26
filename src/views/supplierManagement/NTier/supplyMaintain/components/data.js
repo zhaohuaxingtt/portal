@@ -63,27 +63,32 @@ export const dictByCode = async function (key) {
         return dicResult
     }
 }
-// export const baseRules = {
-//     supplierName: [{
-//             required: true,
-//             message: '请输入供应商中文名',
-//             trigger: 'blur'
-//         },
-       
-//     ],
-//     contactName: [{
-//             required: true,
-//             message: '请输入联系人姓名',
-//             trigger: 'blur'
-//         },
-     
+export const baseRules = {
+    supplierName: [{
+            required: true,
+            message: '请输入供应商中文名',
+            trigger: 'blur'
+        },
 
-//     ],
-//     contactEmail: [{
-//             required: true,
-//             message: '请输入联系人邮箱',
-//             trigger: 'blur'
-//         },
-      
-//     ]
-// }
+    ],
+    contactName: [{
+            required: true,
+            message: '请输入联系人姓名',
+            trigger: 'blur'
+        },
+
+
+    ],
+    contactEmail: [{
+            required: true,
+            message: '请输入联系人邮箱',
+            trigger: 'blur'
+        },
+        {
+            type: 'email',
+            message: '请输入正确的邮箱地址',
+            trigger: ['blur', 'change']
+        }
+
+    ]
+}
