@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-25 21:01:23
+ * @LastEditTime: 2021-11-26 10:13:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -214,7 +214,6 @@ export default {
       })
     },
     handleSelectionChange (val) {
-      console.log('111')
       this.muilteList = val
       this.muilteList.forEach(item => {
         selectDept({}).then((res) => {
@@ -249,12 +248,14 @@ export default {
         mtzAppId: this.mtzAppId || '5107001'
       }).then(res => {
         if (res?.code === '200') {
+          if (res.data.flowType === 'FILING') {
+            this.disabled = true
+            return
+          }
           this.riseId = res.data.riseId
           if (res.data.ttNominateAppId) {
             this.disabled = true
-          }
-          if (res.data.flowType === 'FILING') {
-            this.disabled = true
+            this.handleSync('')
             return
           }
           this.handleSync('1')
