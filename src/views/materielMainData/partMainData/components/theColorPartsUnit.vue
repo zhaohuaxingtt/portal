@@ -59,25 +59,28 @@ export default {
                 for(let item of res.data){
                     this.unitOptions.push({label:item.nameZh,value:item.id,code:item.code})
                 }
+                const id =this.$route.query.id
+                getUnitList(id).then((res)=>{
+                    if(res.code == 200){
+                        const data = res.data
+                        if(data){
+                            this.unitData = data
+                            this.unit = data[0].currentUnitId
+                            this.$refs.unitTable.toggleAllSelection()
+                        }
+                        
+                    }else{
+                        this.$message.error(res.desZh)
+                    }
+                })
             }else{
                 this.$message.error(res.desZh)
             }
         })
-        const id =this.$route.query.id
-
-        getUnitList(id).then((res)=>{
-            if(res.code == 200){
-                const data = res.data
-                if(data){
-                    this.unitData = data
-                    this.unit = data[0].currentUnitId
-                    this.$refs.unitTable.toggleAllSelection()
-                }
-                
-            }else{
-                this.$message.error(res.desZh)
-            }
-        })
+        
+    },
+    mounted(){
+        
     },
     methods:{
         handleSelectionChange(val){

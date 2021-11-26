@@ -786,14 +786,22 @@ export default {
     checkClaim(item) {
       item.isClaim = !item.isClaim
     },
-    cancelOrCollect(item) {
+    async cancelOrCollect(item) {
+      let partsCollectId
+      if(this.isSearch) {
+        let {data} = await defaultParts()
+        data.forEach(it => {
+          if(item.partsNum==it.partsNum) {
+            partsCollectId = it.partsCollectId
+          }
+        })
+      }
       let operationType = Number(item.isDefaultFolder) === 1 ? 2 : 1
       this.leftLoading = true
       let promiseDelete = Number(item.isDefault === 1) ? removeCollect : cancelOrCollect
-      console.log(item.isDefaultFolder,'item.isDefaultFolder',operationType)
       promiseDelete({
         operationType: operationType,
-        partsCollectId: item.partsCollectId,
+        partsCollectId: !this.isSearch? item.partsCollectId: partsCollectId ,
         partsNum: item.partsNum
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
@@ -814,7 +822,6 @@ export default {
       })
     },
     defaultParts() {
-//      this.leftLoading = true
       this.showLoading()
       defaultParts().then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
@@ -830,10 +837,8 @@ export default {
         } else {
           iMessage.error(result)
         }
-//        this.leftLoading = false
         this.hideLoading()
       }).catch(() => {
-//        this.leftLoading = false
         this.hideLoading()
       })
     },
