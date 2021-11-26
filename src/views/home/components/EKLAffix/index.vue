@@ -101,7 +101,7 @@ export default {
   },
   data() {
     return {
-      activeName: 'EKL-CS',
+      activeName: 'CS(Spare)',
       num: 2400,
       options: [
         {name:'配件',value:1},
@@ -131,8 +131,8 @@ export default {
       this.tabList = this.leadTabList
     } else {
       this.tabList = JSON.parse(JSON.stringify(this.eklPfjTabList))
-      this.query.dptCode = this.eklPfjTabList[0].type
-      this.activeName = this.eklPfjTabList[0].name
+      this.query.dptCode = this.eklPfjTabList[0]?.type
+      this.activeName = this.eklPfjTabList[0]?.name
     }
     this.getEklAffix(this.query)
     // log.js
@@ -265,8 +265,6 @@ export default {
   width: 100%;
   height: 100%;
   padding: 8px 16px 16px 16px;
-  pointer-events: none;
-
  
  .ekl-tabs {
     width: 66%;

@@ -40,14 +40,14 @@
             <iFormItem
               :label="language('选择供应商')"
             > 
-              <sullpierSelect v-model="formContent.supplierList" @change="supplierListChange" />
+              <supplierSelect v-model="formContent.supplierList" @change="supplierListChange" />
             </iFormItem>
           </el-col>
         </el-row>
         <el-row :gutter="24">
           <el-col span="24">
             <iFormItem :label="language('弹窗布局')"  prop='popupStyle'>
-              <popupStyle :popupStyle.sync='formContent.popupStyle'></popupStyle>
+              <popupStyle :popupStyle.sync='changePopupStyle' ></popupStyle>
             </iFormItem>
           </el-col>
         </el-row>
@@ -65,13 +65,13 @@
             <iFormItem :label="language('弹窗说明')" prop='content'>
               <div>
                 <div class="btnList">
-                  <el-radio v-model="radio" label="1">{{language('文字居左')}}</el-radio>
-                  <el-radio v-model="radio" label="2">{{language('文字居中')}}</el-radio>
-                  <el-radio v-model="radio" label="3">{{language('文字居右')}}</el-radio>
+                  <el-radio v-model="formContent.wordAlign" label="0">{{language('文字居左')}}</el-radio>
+                  <el-radio v-model="formContent.wordAlign" label="1">{{language('文字居中')}}</el-radio>
+                  <el-radio v-model="formContent.wordAlign" label="2">{{language('文字居右')}}</el-radio>
                 </div>
                 <el-input 
                     type="textarea" 
-                    :class="{'popup-explain-left':radio == 1,'popup-explain-center':radio == 2,'popup-explain-right':radio == 3}" 
+                    :class="{'popup-explain-left':formContent.wordAlign == 0,'popup-explain-center':formContent.wordAlign == 1,'popup-explain-right':formContent.wordAlign == 2}" 
                     :placeholder='language("请输入")' 
                     v-model="formContent.content" 
                     maxlength="300"
@@ -90,19 +90,21 @@
 import {iFormItem,iDatePicker,iInput,iSelect,iButton} from 'rise'
 import {PUBLISH_SCOPE_OPTIONS} from './data.js'
 import userSelector from './userSelector.vue'
-import sullpierSelect from './supplierSelect.vue'
+import supplierSelect from './supplierSelect.vue'
 import popupStyle from './popupStyle.vue'
 export default {
     name:'newLeft',
-    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,sullpierSelect,popupStyle,iButton},
+    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,supplierSelect,popupStyle,iButton},
     props:{},
     data(){
       return{
-        radio:'1',
+        changePopupStyle:0,
+        radio:'0',
         publishRangeOptions:PUBLISH_SCOPE_OPTIONS,
         formContent:{
           popupName:'',
           linkUrl:'',
+          wordAlign:'0',
           publishRange:0,
           deletePreTime:'',
           publishPreTime:'',
@@ -127,6 +129,13 @@ export default {
     },
     created(){
       this.formContent.publishRange = 0
+    },
+    watch:{
+      changePopupStyle(newVal,oldVal){
+        console.log('-------');
+        this.formContent.popupStyle = newVal
+        this.$emit('cutterRateSty',newVal)
+      }
     },
     methods:{
       userListChange(val){
@@ -163,7 +172,8 @@ export default {
       formData(){
         return this.formContent
       }
-    }
+    },
+
 }
 </script>
 

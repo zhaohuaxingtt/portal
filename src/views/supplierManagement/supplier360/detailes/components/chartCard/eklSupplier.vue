@@ -1,5 +1,5 @@
 <template>
-  <iCard style="height:14rem">
+  <iCard class="section" style="height:14rem">
     <div class="title">
       <p v-if="!isTitle">{{ language('EKLPEIFUJIAN', 'EKL-配附件') }}</p>
       <p v-if="isTitle">{{ language('EKLPILIANGJIAN', 'EKL-批量件') }}</p>
@@ -7,7 +7,7 @@
         <i class="el-icon-more"></i>
       </span>
     </div>
-
+    <p class="tagMoney">{{ language('JINEWANAYUAN', '金额(万元)') }}</p>
     <div  class="box">
       <span v-if="!isTitle" class="text" @click="changeTab">{{
         language('EKLPILIANGJIAN', 'EKL-批量件')
@@ -240,6 +240,25 @@ export default {
           //   }
         ],
         series: [
+               {
+            name: '涨价',
+            data: data2,
+            type: 'bar',
+            barWidth: 30,
+            itemStyle: {
+              normal: {
+                fontSize: 12,
+                barBorderRadius: [0, 0, 5, 5],
+                color: '#73A1FA' //改变折线点的颜色
+              }
+            },
+            label: {
+              formatter: function(params) {
+                console.log(params)
+                return params.data + '%'
+              }
+            }
+          },
           {
             name: '降价',
             data: data1,
@@ -259,25 +278,7 @@ export default {
               }
             }
           },
-          {
-            name: '涨价',
-            data: data2,
-            type: 'bar',
-            barWidth: 30,
-            itemStyle: {
-              normal: {
-                fontSize: 12,
-                barBorderRadius: [0, 0, 5, 5],
-                color: '#73A1FA' //改变折线点的颜色
-              }
-            },
-            label: {
-              formatter: function(params) {
-                console.log(params)
-                return params.data + '%'
-              }
-            }
-          },
+       
           {
             name: '节降比',
             data: data3,
@@ -326,6 +327,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.section{
+    position: relative;
+}
+.tagMoney{
+    position: absolute;
+    top: 35px;
+    left: 160px;
+    color: #5f6f8f;
+    font-size: 14px;
+}
 .imgIcon {
   width: 60px;
   height: 60px;

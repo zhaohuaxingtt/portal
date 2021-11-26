@@ -108,7 +108,7 @@ export function purchasegroup(data) {
 
 export function uploadSignImage(data) {
   return requestFile({
-    url: `/fileud/udSignaturephoto`,
+    url: `/udSignaturephoto`,
     method: 'post',
     data
   })

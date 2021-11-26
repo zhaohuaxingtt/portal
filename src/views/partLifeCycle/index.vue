@@ -40,7 +40,7 @@ import baseInfo from './components/baseInfo'
 import supplyInfo from './components/supplyInfo'
 import partResume from './components/partResume'
 import joinItem from './components/joinItem'
-import { getFolderCombo,  cancelOrCollect, removeCollect, getPartsCollect } from '@/api/partLifeCycle/partLifeCycleStar'
+import { getFolderCombo,  cancelOrCollect, removeCollect, getDefaultInfo, defaultParts } from '@/api/partLifeCycle/partLifeCycleStar'
 
 export default {
   name: 'index',
@@ -61,10 +61,30 @@ export default {
       headerTitle: '',
       tagList:[],
       isDefaultFolder:1,
-      currentData:null
+      currentData:null,
+      defaultPartsList:[]
     }
   },
   methods: {
+    defaultParts(partsNum) {
+      this.showLoading()
+      defaultParts().then(res => {
+        const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+        if (Number(res.code) === 200) {
+          this.defaultPartsList = res.data
+          this.defaultPartsList.forEach(item => {
+            if(item.partsNum==partsNum) {
+              this.currentData = item
+            }
+          })
+        } else {
+          iMessage.error(result)
+        }
+        this.hideLoading()
+      }).catch(() => {
+        this.hideLoading()
+      })
+    },
     getHeaderTitle(headerTitle){
       this.headerTitle = headerTitle
     },
@@ -98,6 +118,7 @@ export default {
             iMessage.success(result)
             this.currentData.isDefaultFolder = operationType
 //            this.getPartsCollect(this.currentData.partsNum)
+            this.defaultParts(this.currentData.partsNum)
           } else {
             iMessage.error(result)
           }
@@ -105,15 +126,12 @@ export default {
         })
     },
     // 获取当前收藏数据
-    getPartsCollect(partsNum){
-      getPartsCollect({
-        partsNum,
-        current : 1 ,
-        size: 10,
-      }).then(res => {
+    getDefaultInfo(){
+      getDefaultInfo().then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.currentData = res.data[0]
+          console.log(this.currentData,'this.currentData')
         } else {
           iMessage.error(result)
         }
@@ -124,8 +142,9 @@ export default {
 
   },
   mounted() {
-    this.currentData = this.$route.query
-//    this.getPartsCollect(partsNum)
+    let partsNum = this.$route.query.partsNum
+    this.defaultParts(partsNum)
+//    this.getDefaultInfo()
     this.getFolderCombo()
   }
 

@@ -4,8 +4,18 @@
         <el-row :gutter="24">
           <el-col span="8">
             <iFormItem :label='language("编号")' class="color-list-search">
+              <!-- <iSelect v-model="colorStandardCode" multiple >
+                <el-option
+                  v-for="item in partNumOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+
+                </el-option>
+              </iSelect> -->
               <iInput v-model="colorStandardCode"></iInput>
-              <iButton style="margin-left:20px">{{language('查询')}}</iButton>
+              <iButton style="margin-left:20px" @click="search">{{language('查询')}}</iButton>
             </iFormItem>
           </el-col>
         </el-row>
@@ -26,15 +36,16 @@
 import {
   iCard,
   iFormItem,
-  iInput,
-  iButton
+  iButton,
+  iSelect,
+  iInput
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import {COLOR_COLUMNS} from './data.js'
 import { getColorListById} from '@/api/colorStandardParts'
 export default {
   name:'colorStandardList',
-  components:{iCard,iFormItem,iInput,iButton,iTableCustom},
+  components:{iCard,iFormItem,iButton,iTableCustom,iSelect,iInput},
   props:{
     partNum:{
       type:String,
@@ -46,19 +57,29 @@ export default {
       colorListData:[],
       loading:false,
       columns:COLOR_COLUMNS,
-      colorStandardCode:[]
+      colorStandardCode:[],
+      selectedItems:[],
+      partNumOptions:[],
+      iniTableData:[]
     }
   },
   watch:{
     partNum(newVal,oldVal){
       const data = {
         partNum:newVal,
-        codes:this.colorStandardCode
       }
        getColorListById(data).then((res) => {
         if(res.code == 200){
           const data = res.data
-          this.colorListData = data
+          if(data){
+            this.colorListData = data
+            this.iniTableData = data
+            this.$refs.colorListTable.toggleAllSelection()
+            this.partNumOptions= data.map((ele)=>{
+              return {'label':ele.partNum5,'value':ele.partNum5}
+            })
+          }
+          
         }else{
                 this.$message.error(res.desZh)
             }
@@ -66,22 +87,31 @@ export default {
     }
   },
   mounted(){
-    // if(this.partNum){
-    //   const data = {
-    //     partNum:this.partNum,
-    //     codes:this.colorStandardCode
-    //   }
-    //   getColorListById(data).then((res) => {
-    //     if(res.code == 200){
-    //     }else{
-    //             this.$message.error(res.desZh)
-    //         }
-    //   })
-    // }
   },
   methods:{
     handleSelectionChange(val){
-      return [val,this.colorListData]
+      this.selectedItems = val
+    },
+    getPartsList(){
+      return this.selectedItems
+    },
+    search(){
+      this.colorListData = []
+      const input = this.colorStandardCode.split(',')
+      let searchedData = []
+      this.iniTableData.forEach((ele)=>{
+        input.forEach((item)=>{
+          if( ele.partNameZh.toLowerCase().includes(item.toLowerCase()) || ele.partNum5.toLowerCase().includes(item.toLowerCase())){
+            searchedData.push(ele)
+          }
+        })
+      })
+      if(input.length == 0){
+        this.colorListData = this.iniTableData
+      }else{
+        this.colorListData = Array.from(new Set(searchedData)) 
+      }
+      this.$refs.colorListTable.toggleAllSelection()
     }
   }
 
@@ -98,6 +128,10 @@ export default {
 ::v-deep .el-form-item__content{
   display: flex;
   align-items: center;
+}
+::v-deep .el-select__tags{
+  flex-wrap: nowrap;
+  overflow: auto;
 }
 .divider{
     margin:0 0  20px 0;

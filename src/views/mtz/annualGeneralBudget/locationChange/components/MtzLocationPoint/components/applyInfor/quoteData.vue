@@ -68,6 +68,7 @@
 
             <el-form-item style="marginRight:68px;width:180px" :label="language('XUNJIACAIGOUYUAN','询价采购员')" class="formItem">
               <iInput v-model="searchForm.buyerName"
+                          :disabled="true"
                           :editPlaceholder="language('QINGSHURU','请输入')"
                           :placeholder="language('QINGSHURU','请输入')">
               </iInput>
@@ -181,13 +182,14 @@ import tableList from '@/components/commonTable/index.vue';
 import {
   getFlowTypeList,
   getLocationApplyStatus,
+  getCurrentUser
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   page,
   selectDictByKeys,
   getNomiAppPageList,
   getApplicationPartPagedList,
-  getNominateProcessType
+  getNominateProcessType,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 
 export default {
@@ -226,7 +228,8 @@ export default {
           }
       ],
       searchForm: {
-        applicationStatus:"NEW"
+        applicationStatus:"NOMINATE",
+        linieName:"",
       },
       linieDeptId:[],
       page1:{
@@ -238,18 +241,18 @@ export default {
       },
       getFlowTypeList:[],
       getLocationApplyStatus:[
-        {
-          code:"NEW",
-          message: "草稿"
-        },
         // {
-        //   code:"SUBMIT",
-        //   message: "已提交"
+        //   code:"NEW",
+        //   message: "草稿"
         // },
         {
-          code:"NOTPASS",
-          message: "未通过"
+          code:"NOMINATE",
+          message: "定点"
         },
+        // {
+        //   code:"NOTPASS",
+        //   message: "未通过"
+        // },
       ],
       getLocationApplyStatus11:[],
       getSecondPartList:[
@@ -297,16 +300,20 @@ export default {
       getNominateProcessType({}).then(res=>{
         this.getFlowTypeList = res.data;
       })
-      getLocationApplyStatus({}).then(res=>{
-        this.getLocationApplyStatus = res.data;
-      })
+      // getLocationApplyStatus({}).then(res=>{
+      //   this.getLocationApplyStatus = res.data;
+      // })
+
       selectDictByKeys({
         keys:"CAR_TYPE_PRO"
       }).then(res=>{
         this.getLocationApplyStatus11 = res.data.CAR_TYPE_PRO;
       })
 
-      this.getTableList();
+      // getCurrentUser({}).then(res=>{
+        this.searchForm.buyerName = JSON.parse(sessionStorage.getItem('userInfo')).nameZh;
+        this.getTableList();
+      // })
     },
     getTableList(){
       this.loadingInfor = true;
@@ -351,7 +358,12 @@ export default {
     },
     // 重置
     handleSearchReset(form) {
-      this.searchForm = {};
+      this.searchForm = {
+        applicationStatus:"NOMINATE",
+        buyerName : JSON.parse(sessionStorage.getItem('userInfo')).nameZh
+      };
+      this.page.currPage = 1;
+      this.page.pageSize = 10;
       this.getTableList();
     },
     // 确定
@@ -408,5 +420,10 @@ export default {
 }
 ::v-deep .card{
   box-shadow: 0 0 0px rgb(27 29 33 / 0%)
+}
+
+:v-deep .el-form{
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

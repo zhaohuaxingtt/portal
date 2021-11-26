@@ -88,13 +88,13 @@
               </el-col>
               <el-col span="8">
                   <iFormItem :label='language("专业组")' class="form-label">
-                      <el-checkbox class="check-box" v-model="checkBoxs.fgZhDesc"></el-checkbox>
-                      <iSelect :placeholder='language("请选择")' v-model="formContent.fgZhDesc" disabled>
+                      <el-checkbox class="check-box" v-model="checkBoxs.fgId"></el-checkbox>
+                      <iSelect :placeholder='language("请选择")' v-model="formContent.fgId" disabled>
                           <el-option
                             v-for="item in profationalOptions"
                             :key="item.value"
                             :label="item.name"
-                            :value="item.value"
+                            :value="item.id"
                           >
 
                           </el-option>
@@ -154,7 +154,7 @@ export default {
                 fop:true,
                 techDept:true,
                 isCommonSourcing:true,
-                fgZhDesc:true,
+                fgId:true,
                 setCode:true
             },
             formContent:{
@@ -170,7 +170,7 @@ export default {
                 fop:'',
                 techDept:'',
                 isCommonSourcing:'',
-                fgZhDesc:'',
+                fgId:'',
                 setCode:''
             }
         }
@@ -210,6 +210,55 @@ export default {
     methods:{
         save(){
             return this.checkBoxs
+        },
+        getFormContent(){
+            const data = {}
+            if(this.checkBoxs.partNameZh){
+                data.partNameZh = this.formContent.partNameZh
+            }else{
+                data.partNameZh = ''
+            }
+            if(this.checkBoxs.partNameDe){
+                data.partNameDe = this.formContent.partNameDe
+            }else{
+                data.partNameDe = ''
+            }
+            if(this.checkBoxs.bmg){
+                data.bmg = this.formContent.bmg || false
+            }else{
+                data.bmg = false
+            }
+            if(this.checkBoxs.zp){
+                data.zp = this.formContent.zp || ''
+            }else{
+                data.zp = ''
+            }
+            if(this.checkBoxs.fop){
+                data.fop = this.formContent.fop
+            }else{
+                data.fop = ''
+            }
+            if(this.checkBoxs.techDept){
+                data.techDeptId = this.formContent.techDept
+            }else{
+                 data.techDeptId = ''
+            }
+            if(this.checkBoxs.isCommonSourcing){
+                data.isCommonSourcing = this.formContent.isCommonSourcing || false
+            }else{
+                data.isCommonSourcing = false
+            }
+            if(this.checkBoxs.fgId){
+                data.fgId = this.formContent.fgId || ''
+            }else{
+                data.fgId = ''
+            }
+            if(this.checkBoxs.set){
+                data.setCode = this.formContent.set
+            }else{
+                 data.setCode = ''
+            }
+            return data
         }
     }
 }
@@ -230,7 +279,7 @@ export default {
     position: relative;
     .check-box{
         position: absolute;
-        left: -170px;
+        left: -210px;
         ::v-deep .el-checkbox__inner{
             border-radius: 4px;
         }

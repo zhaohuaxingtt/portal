@@ -157,7 +157,6 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_USER_CENTER]: {
-        // target: `http://${BASE_IP}:8015/usercenter/`,
         target: `http://${BASE_IP}:8015/usercenter/`,
         changeOrigin: true,
         pathRewrite: {
@@ -165,7 +164,6 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_APPROVAL]: {
-        // target: `http://10.160.141.176:8012/approval`,
         target: `http://${BASE_IP}:8012/approval`,
         changeOrigin: true,
         pathRewrite: {
@@ -182,11 +180,11 @@ module.exports = {
         }
       },
       // ------------------ 上传 ----------------------------
-      [process.env.VUE_APP_FILEAPI]: {
-        target: `http://${BASE_IP}:8034/`,
+      '/fileApi': {
+        target: `http://${BASE_IP}:8034/fileud`,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_FILEAPI]: ''
+          '/fileApi': ''
         }
       },
       //------------------- 业务日志 ---------------------
@@ -199,8 +197,7 @@ module.exports = {
       },
       // 站内信
       [process.env.VUE_APP_MAIL]: {
-        target: `http://10.122.18.166:8044/risemessage`,
-        // target: `http://${BASE_IP}:8044/risemessage`,
+        target: `http://${BASE_IP}:8044/risemessage`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MAIL]: ''

@@ -18,8 +18,8 @@ import RouterMainData from './RouterMainData'
 import RouterProcessApproval from './RouterProcessApproval'
 import RouterMaster from './RouterMaster'
 import RouterProjectMgmt from './RouterProjectMgmt'
-
 import RouterInfo from './RouterInfo'
+import RouterOpcs from './RouterOpcs'
 import RouterParams from './RouterParams'
 import RouterTaskCenter from './RouterTaskCenter'
 import RouterApproval from './RouterApproval'
@@ -39,6 +39,8 @@ import RouterNews from './news'
 import RouterSurvey from './survey'
 import RouterColorParts from './RouterColorParts'
 
+import RouterApplications from './applications'
+
 export default {
   routes: [
     {
@@ -51,7 +53,7 @@ export default {
     },
     {
       path: '/superLogin',
-      name: 'login',
+      name: 'superlogin',
       meta: {
         title: '登录'
       },
@@ -145,6 +147,7 @@ export default {
           },
           component: () => import('@/views/search')
         },
+        ...RouterOpcs,
         ...RouterSupplier,
         ...RouterDemo,
         ...RouterCfProcCS,
@@ -168,7 +171,8 @@ export default {
         ...RouterManage,
         ...RouterNews,
         ...RouterSurvey,
-        ...RouterColorParts
+        ...RouterColorParts,
+        ...RouterApplications
       ]
     },
 
@@ -176,6 +180,6 @@ export default {
   ],
 
   authType: 'white', //白名单 white 可以跳过登录 | 黑名单 black 不可以跳过登录
-  whiteList: [/^\/login/,/^\/superLogin/],
+  whiteList: [/^\/login/, /^\/superLogin/],
   blackList: []
 }

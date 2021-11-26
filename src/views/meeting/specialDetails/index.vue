@@ -98,7 +98,7 @@
             v-if="!showUpdateTopicButtonList"
             :rowClassName="tableRowClassName"
             :currentRow="currentRow"
-            :isSingle="curState === '05'"
+            :isSingle="isSingle"
           >
             <el-table-column align="center" width="30"></el-table-column>
             <el-table-column
@@ -165,7 +165,7 @@
             >
               <template slot-scope="scope">
                 {{
-                  scope.row.type === 'MANUAL' ? '非标准议题' : scope.row.type
+                  scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type
                 }}
               </template>
             </el-table-column>
@@ -390,7 +390,7 @@
               >
                 <template slot-scope="scope">
                   {{
-                    scope.row.type === 'MANUAL' ? '非标准议题' : scope.row.type
+                    scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type
                   }}
                 </template>
               </el-table-column>
@@ -656,6 +656,7 @@
       :meetingInfo="meetingInfo"
       :isOther="isOther"
       :beforeResult="beforeResult"
+      :autoOpenProtectConclusionObj="autoOpenProtectConclusionObj"
     />
     <lookConclusion
       v-if="dialogStatusManageObj.openLookConclusion"
@@ -735,6 +736,8 @@ export default {
   },
   data() {
     return {
+      autoOpenProtectConclusionObj: '',
+      isSingle: false,
       // closeLoading: false,
       curState: '',
       processUrl: process.env.VUE_APP_POINT,
@@ -1092,7 +1095,10 @@ export default {
       this.openAddTopic = false
     },
     // 导入议题保存
-    handleOKTopics() {
+    handleOKTopics(info) {
+      if (info === 'close') {
+        iMessage.success('关闭成功')
+      }
       this.closeDialog()
       this.flushTable()
     },
@@ -1386,6 +1392,7 @@ export default {
       this.dialogStatusManageObj = dialogObj
     },
     closeDialog() {
+      this.autoOpenProtectConclusionObj = ''
       this.initDialog()
     },
     openDialog(val) {
@@ -1475,7 +1482,6 @@ export default {
           //在这里判断是不是已经生成会议纪要了
           // this.openDialog('openCloseMeetiongDialog')
           this.$nextTick(() => {
-            console.log("this.$refs['closeDialog']", this.$refs)
             this.$refs['closeDialog'].handleSubmit()
           })
         })
@@ -1556,6 +1562,23 @@ export default {
       if (bol) {
         endThemen(param)
           .then(() => {
+            iMessage.success('结束议题成功!')
+            if (!choiceThemen.isBreak) {
+              this.autoOpenProtectConclusionObj = choiceThemen
+            }
+            this.flushTable()
+            if (!choiceThemen.isBreak) {
+              this.openDialog('openProtectConclusion')
+            }
+          })
+          .catch(() => {
+            // iMessage.error("结束会议失败！");
+          })
+        // });
+        return
+      } else {
+        endThemen(param)
+          .then(() => {
             iMessage.success('结束议题成功！')
             // this.refreshTable();
             this.flushTable()
@@ -1563,18 +1586,7 @@ export default {
           .catch(() => {
             // iMessage.error("结束会议失败！");
           })
-        // });
-        return
       }
-      endThemen(param)
-        .then(() => {
-          iMessage.success('结束议题成功！')
-          // this.refreshTable();
-          this.flushTable()
-        })
-        .catch(() => {
-          // iMessage.error("结束会议失败！");
-        })
     },
     split() {
       this.$confirm('确认拆分该议题么?', '提示', {
@@ -2068,9 +2080,23 @@ export default {
     // },
     // 表格选中值集
     handleSelectionChange(val) {
+      if (this.curState === '05') {
+        val = [val[val.length - 1]]
+        this.currentRow = val[0]
+
+        this.isSingle = true
+      } else {
+        this.isSingle = false
+      }
+      if (!val[0]) {
+        return
+      }
       this.selectedTableData = val
       const handleDisabledButtonName = this.handleDisabledButtonName
       if (val.length === 1) {
+        if (this.haveThemenIsStarting()) {
+          this.handleButtonDisabled(['overTopic'], false)
+        }
         if (val[0].state === '03') {
           if (!val[0].isBreak) {
             this.handleButtonDisabled(['protectResult'], false)
@@ -2251,7 +2277,7 @@ export default {
   overflow-y: auto;
 } */
 .inline {
-  display: inline!important;
+  display: inline !important;
 }
 .span-index {
   width: 15px;

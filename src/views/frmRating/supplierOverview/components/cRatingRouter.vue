@@ -75,7 +75,7 @@
                    multiple
                    @change="deptChange"
                    :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                   v-model.trim="form.deptId">
+                   v-model.trim="form.deptIds">
             <el-option v-for="item in deptList"
                        :key="item.kvalue"
                        :label="item.vvalue"
@@ -88,7 +88,7 @@
                    filterable
                    multiple
                    :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                   v-model.trim="form.userId">
+                   v-model.trim="form.usersIds">
             <el-option v-for="item in userList"
                        :key="item.kvalue"
                        :label="item.vvalue"
@@ -127,7 +127,7 @@
                    multiple
                    :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
                    v-model.trim="form.cancelReason">
-            <el-option v-for="item in cratingLsit"
+            <el-option v-for="item in removeCratingLsit"
                        :key="item.code"
                        :label="item.name"
                        :value="item.code">
@@ -367,15 +367,16 @@ export default {
         sapCode: [],
         supplierName: [],
         iscRating: '',
-        supplierId: [],
+        supplierIds: [],
         rfqStatus: [],
-        userId: []
+        userIds: []
       },
       cratingLsit: [{ name: '' }],
       tableLoading: true,
       sapList: [],
       takeStepsContent: '',
       deptList: [],
+      removeCratingLsit:[],
       userList: [],
       supplierList: [],
       selectData: [],
@@ -416,24 +417,23 @@ export default {
         userDropDown(req).then((res) => {
           this.userList = res.data
           var arr2 = []
-          if (this.form.userId.length > 0) {
+          if (this.form.userIds.length > 0) {
             this.userList.forEach((v) => {
-              this.form.userId.forEach((i) => {
+              this.form.userIds.forEach((i) => {
                 if (v.kvalue == i) {
                   arr2.push(i)
                 }
               })
             })
           }
-          console.log(arr2)
-          this.form.userId = arr2
+          this.form.userIds = arr2
         })
       }
     },
     getTaleList() {
       this.tableLoading = true
       if (this.form.sapCode.length > 0 || this.form.supplierName.length > 0) {
-        this.form.supplierId = this.form.sapCode.concat(this.form.supplierName)
+        this.form.supplierIds = this.form.sapCode.concat(this.form.supplierName)
       }
       const req = {
         ...this.form,
@@ -445,8 +445,9 @@ export default {
       req.supplierName = undefined
       if (this.tabVal == '1') {
         currentList(req).then((res) => {
+              this.page.totalCount = res.data.total
           this.tableLoading = false
-          this.tableListData = res.data
+          this.tableListData = res.data.records
         })
       } else {
         // let form = {
@@ -455,9 +456,9 @@ export default {
         //   pageSize: this.page.pageSize
         // }
         historyList(req).then((res) => {
-          this.page.totalCount = res.total
+          this.page.totalCount = res.data.total
           this.tableLoading = false
-          this.tableListData = res.data
+          this.tableListData = res.data.records
         })
       }
     },
@@ -466,6 +467,8 @@ export default {
       this.cratingLsit = res
 
       this.getTaleList()
+           const resRemoveCrating = await dictByCode('CANCEL_C_RATING')
+      this.removeCratingLsit = resRemoveCrating
       const res2 = await sapDropDown({ type: 'sap' })
       const resDept = await sapDropDown({ type: 'dept' })
       const res3 = await sapDropDown({ type: 'supplier' })
@@ -525,9 +528,9 @@ export default {
       this.page.pageSize = 10
       this.userList = []
       this.form = {
-        supplierId: [],
-        deptId: [],
-        userId: [],
+        supplierIds: [],
+        deptIds: [],
+        userIds: [],
         iscRating: '',
         ratingSource: [],
         cancelReason: [],
@@ -545,8 +548,8 @@ export default {
       this.userList = []
       this.form = {
         ...this.form,
-        deptId: [],
-        userId: [],
+        deptIds: [],
+        userIds: [],
         iscRating: '',
         ratingSource: [],
         cancelReason: [],

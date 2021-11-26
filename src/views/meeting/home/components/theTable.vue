@@ -232,8 +232,22 @@
                 <!-- <span v-if="scope.row.state == '03'"> |</span> -->
               </p>
               <p
-                v-if="scope.row.state == '02' || scope.row.state == '03'"
+                v-if="
+                  (scope.row.state == '02' || scope.row.state == '03') &&
+                  !isGenerating
+                "
                 @click="actionObj('newA')(scope.row.id)"
+              >
+                <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
+                <span> 生成Agenda</span>
+                <span class="line">|</span>
+                <!-- <span v-if="scope.row.state == '02'">|</span> -->
+              </p>
+              <p
+                v-if="
+                  (scope.row.state == '02' || scope.row.state == '03') &&
+                  isGenerating
+                "
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
                 <span> 生成Agenda</span>
@@ -350,11 +364,25 @@
                 <span class="line">|</span>
               </p>
               <p
-                v-if="scope.row.state == '02' || scope.row.state == '03'"
+                v-if="
+                  (scope.row.state == '02' || scope.row.state == '03') &&
+                  !isGenerating
+                "
                 @click="actionObj('newA')(scope.row.id)"
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span>生成Agenda</span>
+                <span> 生成Agenda</span>
+                <span class="line">|</span>
+                <!-- <span v-if="scope.row.state == '02'">|</span> -->
+              </p>
+              <p
+                v-if="
+                  (scope.row.state == '02' || scope.row.state == '03') &&
+                  isGenerating
+                "
+              >
+                <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
+                <span> 生成Agenda</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -448,9 +476,15 @@
                 <span class="line">|</span>
               </p>
               <p
-                v-if="scope.row.state == '02'"
+                v-if="scope.row.state == '02' && !isGenerating"
                 @click="actionObj('newA')(scope.row.id)"
               >
+                <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
+                <span>生成Agenda</span>
+                <span class="line">|</span>
+                <!-- <span v-if="scope.row.state == '02'">|</span> -->
+              </p>
+              <p v-if="scope.row.state == '02' && isGenerating">
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
                 <span>生成Agenda</span>
                 <span class="line">|</span>
@@ -743,6 +777,7 @@ export default {
   },
   data() {
     return {
+      isGenerating: false,
       isCanRecall: false,
       nameList: [],
       beginVedio,
@@ -827,7 +862,10 @@ export default {
       this.openUpdate = true
     },
     // 确认提交审批流
-    handleCloseOK() {
+    handleCloseOK(info) {
+      if(info ==="close") {
+        iMessage.success("关闭成功");
+      }
       this.openCloseMeeting = false
       this.refreshTable()
     },
@@ -1138,22 +1176,29 @@ export default {
           this.id = e
         },
         newA: (e) => {
+          this.isGenerating = true
           // 生成Agenda
           // generateAgenda({ id: e }).then((res) => {
           //   iMessage.success("生成Agenda成功");
           //   this.refreshTable();
           // });
-          if (this.timeout) {
-            clearTimeout(this.timeout)
-          }
-          this.timeout = setTimeout(() => {
-            generateAgenda({ id: e }).then((res) => {
+          // if (this.timeout) {
+          //   clearTimeout(this.timeout)
+          // }
+          // this.timeout = setTimeout(() => {
+
+          // }, 500)
+          generateAgenda({ id: e })
+            .then((res) => {
               if (res.code === 200) {
                 iMessage.success('生成Agenda成功')
-                this.refreshTable()
               }
+              this.isGenerating = false
+              this.refreshTable()
             })
-          }, 500)
+            .catch(() => {
+              this.isGenerating = false
+            })
         },
         importFile: (e) => {
           // 导入议题
@@ -1342,6 +1387,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.generating {
+  color: #000;
+}
 ::v-deep .el-table_1_column_2 {
   position: relative;
   .table-index {

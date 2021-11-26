@@ -116,4 +116,4 @@ const download = ({
   }
 }
 
-export { download }
+export { download, createAnchorLink }

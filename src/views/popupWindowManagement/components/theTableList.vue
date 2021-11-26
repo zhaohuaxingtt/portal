@@ -159,14 +159,14 @@ export default {
         time = `${y}年   ${M}月${d}日${h}时${m}分`
       }
       
-      
       this.detail = {
         title:this.formData.popupName,
         content:this.formData.content,
         picUrl:this.formData.picUrl,
         linkUrl:this.formData.linkUrl,
         popupStyle:this.formData.popupStyle,
-        publishTime:time
+        publishTime:time,
+        wordAlign:this.formData.wordAlign
       }
       this.show = true
     

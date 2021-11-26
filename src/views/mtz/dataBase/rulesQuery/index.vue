@@ -225,16 +225,16 @@ export default {
       ]
     },
     methods:{
-        handlecreatemtz(row){
-             let routeData = this.$router.resolve({
-        path: '',
-        query: {
-            currentStep:1,
-            mtzAppId:row.sourceCode
-        }
-      })
-      window.open(routeData.href)
-        },
+      handlecreatemtz(row){
+        let routeData = this.$router.resolve({
+          path: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow',
+          query: {
+              currentStep:1,
+              mtzAppId:row.sourceCode
+          }
+        })
+        window.open(routeData.href)
+      },
       handlePartNumberDetail(){
         this.isShow=true
       },

@@ -278,7 +278,7 @@ export default {
       // refresh: false,
       myThemenData: [],
       noMyThemenData: [],
-      meetingTypeId: '',
+      meetingTypeId: this.$route.query.id,
       total: 0,
       begin: '',
       end: '',

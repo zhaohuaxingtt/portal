@@ -18,21 +18,14 @@
       >
         <el-row class="form-row">
           <iFormItem>
-            <iLabel
-              :label="resultData.name"
-              slot="label"
-              required
-            ></iLabel>
-            <iSelect
-              v-model="resultData.attendeeGroupName"
-              :disabled="!edit"
-            >
+            <iLabel :label="resultData.name" slot="label" required></iLabel>
+            <iSelect v-model="resultData.attendeeGroupName" :disabled="!edit">
               <el-option
                 v-for="(item, index) in [
                   {
                     value: resultData.attendeeGroupName,
-                    label: resultData.attendeeGroupName,
-                  },
+                    label: resultData.attendeeGroupName
+                  }
                 ]"
                 :key="index"
                 :label="item.label"
@@ -50,11 +43,7 @@
                 :disabled="!edit"
               />
             </iFormItem> -->
-            <iFormItem
-              prop="attendees"
-              class="meet-desc"
-              :rules="rule"
-            >
+            <iFormItem prop="attendees" class="meet-desc" :rules="rule">
               <iInput
                 v-model="resultData.attendees"
                 type="textarea"
@@ -68,8 +57,10 @@
         <div>
           <p class="agenda-box-title">
             <span>Agenda items</span>
-            <span>(Please click the following tittle which will lead to the detail
-              content.)</span>
+            <span
+              >(Please click the following tittle which will lead to the detail
+              content.)</span
+            >
           </p>
           <ul class="agenda-item-box">
             <li
@@ -77,21 +68,14 @@
               :key="item.id"
               :class="[
                 choosedIndex == index + 1 ? 'active-agenda-item' : '',
-                'agenda-item',
+                'agenda-item'
               ]"
             >
-              <div
-                class="agenda-item-title"
-                @click="chooseItem(index + 1)"
-              >
+              <div class="agenda-item-title" @click="chooseItem(index + 1)">
                 <div class="title-index">{{ numToLetter[index + 1] }}</div>
                 <div class="title-name">{{ item.topic }}</div>
                 <div class="up-arrow">
-                  <img
-                    :src="upArrow"
-                    alt=""
-                    srcset=""
-                  />
+                  <img :src="upArrow" alt="" srcset="" />
                 </div>
               </div>
               <div class="agenda-item-content">
@@ -166,22 +150,18 @@
             </li>
           </ul>
         </div>
-        <div
-          class="button-list"
-          v-show="edit"
-        >
+        <div class="button-list" v-show="edit">
           <el-form-item>
-            <iButton
-              @click="handleCancel"
-              plain
-              class="cancel"
-            >{{
-              $t("LK_QUXIAO")
+            <iButton @click="handleCancel" plain class="cancel">{{
+              $t('LK_QUXIAO')
             }}</iButton>
             <iButton
               @click="handleOK"
               plain
-            >{{ "创建" }}</iButton>
+              :loading="loadingCreate"
+              :disabled="loadingCreate"
+              >{{ '创建' }}</iButton
+            >
           </el-form-item>
         </div>
       </el-form>
@@ -197,12 +177,12 @@ import {
   iLabel,
   iSelect,
   iMessage,
-  iButton,
-} from "rise";
-import { numToLetter } from "./data";
-import iEditForm from "@/components/iEditForm";
-import { getMeetingSummary, saveMeetingMinutes } from "@/api/meeting/home";
-import upArrow from "@/assets/images/up-arrow.svg";
+  iButton
+} from 'rise'
+import { numToLetter } from './data'
+import iEditForm from '@/components/iEditForm'
+import { getMeetingSummary, saveMeetingMinutes } from '@/api/meeting/home'
+import upArrow from '@/assets/images/up-arrow.svg'
 
 export default {
   components: {
@@ -212,70 +192,73 @@ export default {
     iInput,
     iLabel,
     iButton,
-    iEditForm,
+    iEditForm
   },
   props: {
     loading: { type: Boolean, default: false },
     open: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     id: {
       type: Number || String,
       default: () => {
-        return "";
-      },
+        return ''
+      }
     },
     edit: {
       type: Boolean,
       default: () => {
-        return false;
-      },
-    },
+        return false
+      }
+    }
   },
   data() {
     return {
+      loadingCreate: false,
       numToLetter,
       upArrow,
       choosedIndex: -1,
       form: {},
       resultData: {
         themens: [
-          { conclusion: "" },
-          { conclusion: "" },
-          { conclusion: "" },
-          { conclusion: "" },
-          { conclusion: "" },
-          { conclusion: "" },
-          { conclusion: "" },
-          { conclusion: "" },
-          { conclusion: "" },
-        ],
+          { conclusion: '' },
+          { conclusion: '' },
+          { conclusion: '' },
+          { conclusion: '' },
+          { conclusion: '' },
+          { conclusion: '' },
+          { conclusion: '' },
+          { conclusion: '' },
+          { conclusion: '' }
+        ]
       },
       rules: {
         attendees: [
-          { required: true, message: "请输入议题结论！", trigger: "blur" },
-        ],
+          { required: true, message: '请输入议题结论！', trigger: 'blur' }
+        ]
         // conclusion0: [
         //   { required: true, message: "请输入议题结论！", trigger: "blur" },
         //   { min: 1, max: 10, message: "最大长度1024字符", trigger: "blur" },
         // ],
       },
-      rule: [{ min: 0, max: 2048, message: "最大长度2048字符", trigger: "blur" }],
-    };
+      rule: [
+        { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
+      ]
+    }
   },
   mounted() {
-    this.getMeetingSummary();
+    this.getMeetingSummary()
   },
   methods: {
     getMeetingSummary() {
       let param = {
-        id: this.id,
-      };
+        id: this.id
+      }
       getMeetingSummary(param).then((res) => {
-        this.resultData = res;
+        this.resultData = res
         // this.$set(this.resultData.name, res.name)
         // this.resultData.name = res.name;
         // this.resultData.attendeeGroupName = res.attendeeGroupName;
@@ -284,30 +267,34 @@ export default {
         // res.themens.forEach((item,index) => {
         //   Vue.set(this.resultData.themens, this.resultData.themens.length, item.conclusion)
         // })
-      });
+      })
     },
     handleOK() {
-      this.$refs.ruleForm.validate((valid, obj) => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
+          this.loadingCreate = true
           saveMeetingMinutes(this.resultData).then((res) => {
-            iMessage.success("保存成功");
-            this.$emit("handleOK");
-          });
+            this.loadingCreate = false
+            if (res.code == 200) {
+              iMessage.success('保存成功')
+              this.$emit('handleOK')
+            }
+          })
         }
-      });
+      })
     },
     handleCancel() {
-      this.$emit("handleCancel");
+      this.$emit('handleCancel')
     },
     chooseItem(e) {
       if (this.choosedIndex == e) {
-        this.choosedIndex = -1;
+        this.choosedIndex = -1
       } else {
-        this.choosedIndex = e;
+        this.choosedIndex = e
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

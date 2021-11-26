@@ -3,10 +3,10 @@
   <iDialog
     :title="
       editOrAdd === 'add'
-        ? '新增非标准议题'
+        ? '新增手工议题'
         : editOrAdd === 'look'
-        ? '查看非标准议题'
-        : '修改非标准议题'
+        ? '查看手工议题'
+        : '修改手工议题'
     "
     :visible.sync="dialogStatusManageObj.openAddTopicNewDialog"
     width="58.25rem"
@@ -24,7 +24,7 @@
         <div class="row-box">
           <iFormItem label="议题类型" :hideRequiredAsterisk="true" class="item">
             <iLabel :label="$t('议题类型')" slot="label"></iLabel>
-            <iInput class="disabledAll" value="非标准议题" disabled></iInput>
+            <iInput class="disabledAll" value="手工议题" disabled></iInput>
           </iFormItem>
           <iFormItem
             label="Items Name"
@@ -666,6 +666,7 @@ export default {
       uploadFile(formData)
         .then((res) => {
           let attachment = {
+            source: '04',
             attachmentId: res[0].id,
             attachmentUrl: res[0].path,
             attachmentName: res[0].name

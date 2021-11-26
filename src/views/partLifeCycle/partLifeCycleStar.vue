@@ -20,7 +20,7 @@
     >
       <el-form>
         <el-form-item :label="language('LK_LINGJIANHAO', '零件号')">
-          <iInput v-model="partsNum" :placeholder="$i18n.locale === 'zh' ?'可批量查询':'batch Search'" clearable></iInput>
+          <iInput v-model.trim="partsNum" :placeholder="$i18n.locale === 'zh' ?'可批量查询':'batch Search'" clearable></iInput>
         </el-form-item>
         <el-form-item :label="language('LK_LINGJIANMINGCHENG', '零件名称')">
           <iInput v-model="partsName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
@@ -274,7 +274,7 @@
     <div class="partLifeCycleStar_main">
       <div class="partLifeCycleStar_main_header">
         <div class="left" v-show="!isSearch">{{ language('LK_WODESHOUCANG', '我的收藏') }}</div>
-        <div class="left" v-show="isSearch">{{ language('LK_SOUSUOJIEGUO', '搜索结果') }}<span>相关结果{{ defaultPartsList.length }}个</span></div>
+        <div class="left" v-show="isSearch">{{ language('LK_SOUSUOJIEGUO', '搜索结果') }}<span>相关结果{{ defaultPartsTotal }}个</span></div>
         <div class="right">
           <iButton v-show="isEdit" @click="isEdit = false">{{ language('LK_TUICHU', '退出') }}</iButton>
           <iButton v-show="isEdit" @click="toClaim">{{ language('LK_QUERENRENLING', '确认认领') }}</iButton>
@@ -283,7 +283,7 @@
                 :name="expandRelevantPart ? 'iconxiangguanlingjianyizhankai' : 'iconxiangguanlingjianyishouqi'"></icon>
         </div>
       </div>
-      <div class="partLifeCycleStar_main_content" v-loading="leftLoading">
+      <div class="partLifeCycleStar_main_content">
         <div class="left">
           <div v-for="(item, index) in defaultPartsList" :key="index" :class="{ isExpand: expandRelevantPart }"
                @click="currentDefaultPart = item.partsNum;getRelationParts()">
@@ -334,7 +334,8 @@
         </transition>
       </div>
     </div>
-    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="claimPartsShow = false;defaultParts()"
+    <!--领养模态框-->
+    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="sureClaimPart"
                 @clearDiolog="claimPartsShow = false"></claimParts>
     <transition name="slide-fade">
       <favorites v-if="favoritesShow" @deleteItem="cancelOrCollect" @closeFavorites="favoritesShow = false"></favorites>
@@ -446,17 +447,33 @@ export default {
       current: 1,
       size: 9,
       isButn: true,
+      defaultPartsTotal: 0,
     }
   },
   mounted() {
     this.getSeletes()
     this.defaultParts()
+    if(this.$refs.partLifeCycleStar)
     this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.scrollGetData); //this.setHeadPosition方法名
   },
   destroyed() {
+    if(this.$refs.partLifeCycleStar)
     this.$refs.partLifeCycleStar.$el.removeEventListener("scroll", this.scrollGetData, true);
   },
   methods: {
+    // 确认领养后
+    sureClaimPart() {
+      this.claimPartsShow = false
+      this.isEdit = false
+      this.defaultPartsList.map(item => {
+        item.isClaim = false
+      })
+      if(this.isSearch) {
+        this.getPartsCollect()
+      } else {
+        this.defaultParts()
+      }
+    },
     remoteMethod(val){
       this.AekoPullDown = this.AekoPullDownClone.filter(item => {
         if(item.includes(val)){
@@ -467,10 +484,8 @@ export default {
     scrollGetData(e){
       const { scrollTop, clientHeight, scrollHeight } = e.target
       if((scrollTop + clientHeight) === scrollHeight){
-        if(this.leftLoading || !this.isScroll){
-          return
-        }
         this.leftLoading = true
+        this.showLoading()
         this.current++
         getPartsCollect({
           partsNum: this.partsNum,
@@ -502,19 +517,22 @@ export default {
           const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
           if (Number(res.code) === 200) {
             if(res.data.length < 9){
-              this.isScroll = false
+              this.isScroll = true
             }
             let data = res.data.map(item => {
               item.isClaim = false
               return item
             })
+            this.defaultPartsTotal = res.total;
             this.defaultPartsList = this.defaultPartsList.concat(data)
           } else {
             iMessage.error(result)
           }
           this.leftLoading = false
+          this.hideLoading()
         }).catch(() => {
           this.leftLoading = false
+          this.hideLoading()
         })
       }
     },
@@ -552,6 +570,7 @@ export default {
       this.isScroll = true
       this.isSearch = true
       this.leftLoading = true
+      this.showLoading()
       getPartsCollect({
         partsNum: this.partsNum,
         partsName: this.partsName,
@@ -585,6 +604,7 @@ export default {
             item.isClaim = false
             return item
           })
+          this.defaultPartsTotal = res.total;
           if (this.defaultPartsList.length > 0) {
             this.currentDefaultPart = this.defaultPartsList[0].partsNum
           }
@@ -592,10 +612,11 @@ export default {
         } else {
           iMessage.error(result)
         }
-        this.leftLoading = false
-
+//        this.leftLoading = false
+        this.hideLoading()
       }).catch(() => {
-        this.leftLoading = false
+//        this.leftLoading = false
+        this.hideLoading()
       })
     },
     getCategoryPullDown(val){
@@ -763,30 +784,39 @@ export default {
     toPartLifeCycle(item) {
       let routeData = this.$router.resolve({
         path: '/partLifeCycle',
-        query: { partsNum: item.partsNum, isDefaultFolder:item.isDefaultFolder,partsCollectId:item.partsCollectId }
+        query: { partsNum: item.partsNum}
       })
       window.open(routeData.href)
     },
     checkClaim(item) {
       item.isClaim = !item.isClaim
     },
-    cancelOrCollect(item) {
+    async cancelOrCollect(item) {
+      let partsCollectId
+      if(this.isSearch) {
+        let {data} = await defaultParts()
+        data.forEach(it => {
+          if(item.partsNum==it.partsNum) {
+            partsCollectId = it.partsCollectId
+          }
+        })
+      }
       let operationType = Number(item.isDefaultFolder) === 1 ? 2 : 1
       this.leftLoading = true
       let promiseDelete = Number(item.isDefault === 1) ? removeCollect : cancelOrCollect
       promiseDelete({
         operationType: operationType,
-        partsCollectId: item.partsCollectId,
+        partsCollectId: !this.isSearch? item.partsCollectId: partsCollectId ,
         partsNum: item.partsNum
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
-          this.defaultPartsList.forEach(obj => {
-            if (obj.partsNum === item.partsNum)
-              obj.isDefaultFolder = operationType
-          })
-          // item.isDefaultFolder = operationType
           iMessage.success(result)
+          if(this.isSearch) {
+            this.getPartsCollect()
+          } else {
+            this.defaultParts()
+          }
         } else {
           iMessage.error(result)
         }
@@ -797,7 +827,7 @@ export default {
       })
     },
     defaultParts() {
-      this.leftLoading = true
+      this.showLoading()
       defaultParts().then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
@@ -812,9 +842,9 @@ export default {
         } else {
           iMessage.error(result)
         }
-        this.leftLoading = false
+        this.hideLoading()
       }).catch(() => {
-        this.leftLoading = false
+        this.hideLoading()
       })
     },
     getRelationParts() {
@@ -949,6 +979,7 @@ export default {
     .partLifeCycleStar_main_content {
       display: flex;
       justify-content: space-between;
+      min-height: 530px;
 
       .left {
         display: flex;

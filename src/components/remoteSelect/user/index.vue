@@ -8,7 +8,7 @@
       filterable
       remote
       reserve-keyword
-      placeholder="输入姓名搜索"
+      :placeholder="placeholder"
       :remote-method="queryAgentUser"
       :loading="loading"
       :disabled="disabled"
@@ -39,7 +39,7 @@ export default {
     },
     defaultOptions: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -53,6 +53,10 @@ export default {
     iconVisible: {
       type: Boolean,
       default: true
+    },
+    placeholder: {
+      type: String,
+      default: '输入姓名搜索'
     }
   },
   data() {
@@ -92,7 +96,7 @@ export default {
           () => (this.loading = false)
         )
         if (this.filterUserId) {
-          this.userOptions = data.filter(e => e.id !== this.filterUserId)
+          this.userOptions = data.filter((e) => e.id !== this.filterUserId)
         } else {
           this.userOptions = data
         }

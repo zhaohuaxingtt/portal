@@ -203,7 +203,10 @@ export default {
       this.getList()
     },
     handleGoDetail(val) {
-      this.$router.push({ path: '/authorityMgmt', query: { id: val.id } })
+      this.$router.push({
+        path: '/authorityMgmt/detail',
+        query: { id: val.id }
+      })
     },
     getList() {
       this.formData.current = this.page.currPage
@@ -245,7 +248,7 @@ export default {
     // 修改操作
     handleEdit() {
       this.$router.push({
-        path: '/authorityMgmt',
+        path: '/authorityMgmt/detail',
         query: { id: this.selectData[0].id }
       })
     },

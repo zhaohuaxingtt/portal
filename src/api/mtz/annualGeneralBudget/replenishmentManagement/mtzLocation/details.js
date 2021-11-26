@@ -424,3 +424,19 @@ export function setMtzAppCheckVO(params) {//设置值
         data: params,
     })
 }
+
+export function removePartMasterData(params) {//清空维护mtz零件主数据
+    return request({
+        url: '/mtzAppNomi/removePartMasterData',
+        method: 'POST',
+        data: params,
+    })
+}
+
+export function getDosageUnitList(params) {//用量单位下拉
+    return request({
+        url: '/mtzNomiList/getDosageUnitList',
+        method: 'POST',
+        data: params,
+    })
+}

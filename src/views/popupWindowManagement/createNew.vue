@@ -4,7 +4,7 @@
             <div class="header">
                 <!-- <pageHeader class="title">{{language('弹窗管理')}}</pageHeader> -->
                 <div>
-                    <iButton @click="save">{{language('发布')}}</iButton>
+                    <iButton @click="saveClick">{{language('发布')}}</iButton>
                     <iButton @click="reset">{{language('重置')}}</iButton>
                     <iButton @click="preview">{{language('预览')}}</iButton>
                 </div>
@@ -12,8 +12,8 @@
         </div>
         <iCard style="margin-top:20px">
             <div class="content">
-                <new-left ref="newLeft" :formData='formData'/>
-                <new-right ref="newRight" />
+                <new-left ref="newLeft" :formData='formData' @cutterRateSty='cutterRateSty' />
+                <new-right ref="newRight" :cutterRate='cutterRate' />
             </div>
         </iCard>
         <detailDialog :show.sync='show' :detail='detail' />
@@ -40,7 +40,9 @@ export default {
                 linkUrl:''
             },
             picUrl:'',
-            instance:''
+            instance:'',
+            cutterRate:0,
+            timer:null
         }
     },
     methods:{
@@ -48,11 +50,15 @@ export default {
             this.$refs.newLeft.reset()
             this.$refs.newRight.reset()
         },
+        saveClick(){
+            this.debounce()
+        },
         async save(){
             let formData = this.$refs.newLeft.formData()
             const picUrl = this.$refs.newRight.linkUrl()
             //校验是否通过校验
             let newLeftSave = this.$refs.newLeft.save()
+            console.log('pppp');
             let accountIds = []
             let supplierIds = []
             if(formData.publishRange == 15){
@@ -94,40 +100,19 @@ export default {
             })
             }
         },
+        debounce(){
+            if(this.timer !== null) clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+                this.save()
+            }, 1000);
+        },
         preview(){
             const formData = this.$refs.newLeft.formData()
             this.formData = formData
             this.picUrl = this.$refs.newRight.linkUrl()
             this.openDialog()
-            // let _this = this
-            // this.instance = this.$notify({
-            //     // title:formData.popupName,
-            //     // ${formData.linkUrl && '<a href="'+formData.linkUrl+'"></a>'}
-            //     duration: 0,
-            //     dangerouslyUseHTMLString: true,
-            //     message:`<div style='display: flex;justify-content: space-between;${formData.linkUrl && 'cursor:pointer;'}'>
-            //                 <div class="popupLeft" style='width:50px;height:50px; '>
-            //                   <img src="${picUrl}" style='width:100%;height:100%; border-radius: 50%;'>
-            //                 </div>
-            //                 <div class="popupRight" style='position:relative;margin-left:20px'>
-            //                   <p class='${formData.linkUrl && 'linkTitle'}' 
-            //                     style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-            //                     width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;
-            //                     ${formData.linkUrl && 'text-decoration:underline'}'>
-            //                     ${formData.popupName}
-            //                   </p>
-            //                   <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
-            //                   >${formData.content}</p>
-            //                 </div>
-            //               </div>`,
-            //     position:'bottom-right',
-            //     onClick(){
-            //         _this.openDialog()
-            //     }
-            // })
         },
         openDialog(){
-            // this.instance.close()
             let time = ''
             if(!this.formData.publishPreTime){
                 const date = new Date()
@@ -153,8 +138,13 @@ export default {
                 picUrl:this.picUrl,
                 linkUrl:this.formData.linkUrl,
                 publishTime:time,
-                popupStyle:this.formData.popupStyle
+                popupStyle:this.formData.popupStyle,
+                wordAlign:this.formData.wordAlign
             }
+        },
+        cutterRateSty(val){
+            console.log('====');
+            this.cutterRate = val
         }
     }
 }

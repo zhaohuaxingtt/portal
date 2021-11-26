@@ -41,6 +41,7 @@
         with-credentials
         :http-request="httpUpload"
         :on-remove="handleRemove"
+        :on-error="handleError"
         :before-remove="handleBeforeRemove"
         accept="image/jpeg,image/gif,image/png,application/pdf,application/vnd.ms-powerpoint,application/vnd.ms-excel,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation"
         multiple
@@ -140,13 +141,19 @@ export default {
       formData.append('businessId', this.instanceId)
       formData.append('isTemp', 0)
       formData.append('type ', 1)
-      formData.append('currentUserId', this.$store.state.permission.userInfo.id)
-      await uploadApprovalAttach(formData)
-        .then(res => {
-          this.attachList.push(res)
+      formData.append(
+        'currentUser',
+        this.$store.state.permission.userInfo.userName
+      )
+      uploadApprovalAttach(formData)
+        .then((res) => {
+          console.log('uploadApprovalAttach', res)
+          if (res) {
+            this.attachList.push(res)
+          }
         })
-        .catch(err => {
-          console.log(err)
+        .catch((err) => {
+          console.log('uploadApprovalAttach err', err)
           iMessage.error(this.$t('LK_SHANGCHUANSHIBAI'))
         })
 
@@ -158,7 +165,7 @@ export default {
         return false
       }
 
-      const taskFiles = this.attachList.map(e => e.id).join(',')
+      const taskFiles = this.attachList.map((e) => e.id).join(',')
 
       const data = {
         addMaterialUserId: this.$store.state.permission.userInfo.id,
@@ -170,7 +177,7 @@ export default {
       }
       this.uploadLoading = true
       saveApprovalAttach(data)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success(this.$t('APPROVAL.SAVE_SUCCESSFUL'))
             this.attachList.length = 0
@@ -179,7 +186,7 @@ export default {
             iMessage.error(res.desZh || this.$t('APPROVAL.SAVE_FAILED'))
           }
         })
-        .catch(error => {
+        .catch((error) => {
           iMessage.error(error.desZh || this.$t('APPROVAL.SAVE_FAILED'))
           this.uploadLoading = false
         })
@@ -188,9 +195,12 @@ export default {
       return this.onDelete()
     },
     handleRemove(file) {
-      const index = this.attachList.findIndex(e => e.name === file.name)
+      const index = this.attachList.findIndex((e) => e.name === file.name)
       this.attachList.splice(index, 1)
       console.log('attachList', this.attachList)
+    },
+    handleError(error) {
+      console.log('handleError', error)
     }
   }
 }
