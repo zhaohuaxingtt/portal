@@ -4,7 +4,7 @@
             <div class="header">
                 <!-- <pageHeader class="title">{{language('弹窗管理')}}</pageHeader> -->
                 <div>
-                    <iButton @click="save">{{language('发布')}}</iButton>
+                    <iButton @click="saveClick">{{language('发布')}}</iButton>
                     <iButton @click="reset">{{language('重置')}}</iButton>
                     <iButton @click="preview">{{language('预览')}}</iButton>
                 </div>
@@ -41,13 +41,17 @@ export default {
             },
             picUrl:'',
             instance:'',
-            cutterRate:0
+            cutterRate:0,
+            timer:null
         }
     },
     methods:{
         reset(){
             this.$refs.newLeft.reset()
             this.$refs.newRight.reset()
+        },
+        saveClick(){
+            this.debounce()
         },
         async save(){
             let formData = this.$refs.newLeft.formData()
@@ -95,6 +99,12 @@ export default {
                 }
             })
             }
+        },
+        debounce(){
+            if(this.timer !== null) clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+                this.save()
+            }, 1000);
         },
         preview(){
             const formData = this.$refs.newLeft.formData()

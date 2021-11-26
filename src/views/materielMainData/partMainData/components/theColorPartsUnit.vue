@@ -19,7 +19,7 @@
               </el-col>
           </el-row>
       </el-form>
-    <el-divider class="divider" ></el-divider></el-divider>
+    <el-divider class="divider" ></el-divider>
     <h4 style="margin:0 0 20px 20px">{{language('常用计量单位与基本计量单位转换关系')}}</h4>
     <iTableCustom 
         ref="unitTable"

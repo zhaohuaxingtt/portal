@@ -12,4 +12,12 @@ const router = new VueRouter({
   routes: routeConfig.routes
 })
 
+router.afterEach(() => {
+  // Remove initial loading
+  const appLoading = document.getElementById('app-loading')
+  if (appLoading) {
+    appLoading.style.display = 'none'
+  }
+})
+
 export default router

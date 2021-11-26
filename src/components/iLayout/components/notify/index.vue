@@ -25,31 +25,21 @@ export default {
       popupDataList: [],
       closeItemList: [],
       closePopupSocket: null,
-      handelClick:[],
-      iniTimes:0,//0
-      iniPopupData:[],
-      showItems:0,//5
-      detaliData:{}
+      timer:null
     }
   },
   mounted() {
+    
     this.closePopupSocket = getgetPopupSocketMessage((res) => {
-      // let _this = this
-      const data = res.msgTxt
-      if(this.popupDataList.length > 4){
-        this.popupDataList.splice(0,1)
-        this.popupDataList.push(data) 
-      }else{
-        this.popupDataList.push(data) 
-      }
-      this.clearNotify()
+      // this.iniNotify('pushNew')
+      this.debounce(3000)
     })
   },
   beforeDestroy() {
     this.closePopupSocket()
   },
   created(){
-    this.getLatest('init')
+    this.getLatest()
   },
   methods: {
     openDialog(index) {
@@ -82,18 +72,24 @@ export default {
         }
       })
     },
-    getLatest(init){
+    //防抖
+    debounce(delay){
+      if(this.timer !== null) clearTimeout(this.timer)
+      this.timer = setTimeout(()=>{
+        this.iniNotify('pushNew')
+      },delay)
+      
+    },
+    getLatest(){
         this.closeItemList = []
+        this.popupDataList = []
+      console.log(this.closeItemList, this.popupDataList, '====')
       const accountId = JSON.parse(sessionStorage.getItem('userInfo')).accountId
       getPopupList(accountId).then((res) => {
         if (res.code == 200) {
           let popupDataList = res.data
           this.popupDataList = popupDataList.reverse()
-          if(init == 'init'){
             this.iniNotify()
-          }else{
-            this.iniNotify()
-          }
         } else {
           this.$message.error(res.desZh)
         }
@@ -107,46 +103,54 @@ export default {
           }
         })
       }
+      this.popupDataList = []
       this.getLatest()
     },
-    iniNotify(){
+    iniNotify(pushNew){
       let _this = this
-      this.popupDataList.forEach((ele, index) => {
-        window.setTimeout(()=>
-          this.closeItemList[index] = { 
-          'notify': this.$notify({
-            duration: 0,
-            dangerouslyUseHTMLString: true,
-            customClass:'notifyHandel',
-            message: `<div style='display: flex;justify-content: space-between;cursor:pointer'>
-                      <div class="popupLeft" style='width:50px;height:50px; '>
-                          <img src="${
-                            ele.picUrl ?  ele.picUrl : '/portal/static/img/popupPic.f3ff87ac.png'
-                          }" style='width:100%;height:100%; border-radius: 50%;'>
-                      </div>
-                      <div class="popupRight" style='position:relative;margin-left:20px'>
-                          <p class='${
-                            ele.linkUrl && 'linkTitle'
-                          }'
-                          style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;height:100%;
-                          width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;'
-                          >
-                          ${ele.popupName}
-                          </p>
-                          <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
-                          >${ele.content}</p>
-                      </div>
-                  </div>`,
-            position: 'bottom-right',
-            onClick() {
-              _this.openDialog(index)
-            },
-            onClose(){
-            },
-          }),
-        'times':0
-        },1)
-      })
+      if(pushNew == 'pushNew'){
+        this.clearNotify()
+      } else{
+        this.popupDataList.forEach((ele, index) => {
+          setTimeout(()=>{
+              // console.log('-----');
+              this.closeItemList[index] = { 
+              'notify': this.$notify({
+                duration: 0,
+                dangerouslyUseHTMLString: true,
+                customClass:'notifyHandel',
+                message: `<div style='display: flex;justify-content: space-between;cursor:pointer'>
+                          <div class="popupLeft" style='width:50px;height:50px; '>
+                              <img src="${
+                                ele.picUrl ?  ele.picUrl : '/portal/static/img/popupPic.f3ff87ac.png'
+                              }" style='width:100%;height:100%; border-radius: 50%;'>
+                          </div>
+                          <div class="popupRight" style='position:relative;margin-left:20px'>
+                              <p class='${
+                                ele.linkUrl && 'linkTitle'
+                              }'
+                              style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;height:100%;
+                              width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;'
+                              >
+                              ${ele.popupName}
+                              </p>
+                              <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
+                              >${ele.content}</p>
+                          </div>
+                      </div>`,
+                position: 'bottom-right',
+                onClick() {
+                  _this.openDialog(index)
+                },
+                onClose(){
+                },
+              }),
+            'times':0
+            }
+          }
+             ,1)
+        })
+      }
     }
   }
 }

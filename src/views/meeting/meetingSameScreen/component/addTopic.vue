@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="editOrAdd === 'add' ? '新增非标准议题' : '修改非标准议题'"
+    :title="editOrAdd === 'add' ? '新增手工议题' : '修改手工议题'"
     :visible.sync="openDialog"
     width="58.25rem"
     :close-on-click-modal="false"
@@ -18,7 +18,7 @@
         <div class="row-box" v-if="editOrAdd !== 'look'">
           <iFormItem label="议题类型" :hideRequiredAsterisk="true" class="item">
             <iLabel :label="$t('议题类型')" slot="label"></iLabel>
-            <iInput class="disabledAll" value="非标准议题" disabled></iInput>
+            <iInput class="disabledAll" value="手工议题" disabled></iInput>
           </iFormItem>
           <iFormItem
             label="Items Name"
