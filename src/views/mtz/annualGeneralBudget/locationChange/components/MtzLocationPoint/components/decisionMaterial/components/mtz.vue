@@ -247,7 +247,7 @@ export default {
   },
   watch: {
     mtzObject (newVlue, oldValue) {
-
+      this.getAppFormInfo();
     }
   },
   created () {

@@ -275,7 +275,7 @@ export default {
                 dept: this.dept,
                 mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                 appId: this.$route.query.appId || this.mtzObject.appId,
-                isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
+                // isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
               }
             })
           })
@@ -293,7 +293,7 @@ export default {
             dept: this.dept,
             mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
             appId: this.$route.query.appId || this.mtzObject.appId,
-            isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
+            // isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
           }
         })
       }
