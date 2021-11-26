@@ -69,13 +69,10 @@ export default {
   },
   methods: {
     save() {
-      if(!this.folderName){
-        iMessage.warn(this.$i18n.locale === 'zh' ? '请输入标签' : 'please enter a label')
-        return
-      }
       this.saveLoading = true
       multipleAndCollect({
         folderName: this.folderName,
+        ids: this.ids,
         partsNum: this.$route.query.partsNum
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
@@ -97,6 +94,9 @@ export default {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.resData = res.data
+          this.resData = this.resData.filter(item=> {
+            return item.folderName!='我的收藏'
+          })
           if(this.resData.length) {
             this.resData.forEach(item => {
               this.ids.push(item.id)

@@ -12,7 +12,10 @@
          class="flex-between-center"
          style="width:100%">
       <!-- <span class="title_name">MTZ申请单-100386 申请单名-采购员-科室</span> -->
-      <span class="title_name">{{ commonTitle }}-{{locationId}}  {{mtzAppName}}-{{user}}-{{dept}}</span>
+      <div>
+        <span class="title_name">{{ commonTitle }}-{{locationId}}</span>
+        <span class="title_name">-{{mtzAppName}}-{{user}}-{{dept}}</span>
+      </div>
       <div class="opration">
         <!-- && ttNominateAppId !== '' -->
         <iButton @click="submit"

@@ -98,17 +98,18 @@ export default {
     search(){
       this.colorListData = []
       const input = this.colorStandardCode.split(',')
+      let searchedData = []
       this.iniTableData.forEach((ele)=>{
         input.forEach((item)=>{
-          // const isSame = 
-          if( ele.partNum5 == item){
-            this.colorListData.push(ele)
+          if( ele.partNameZh.toLowerCase().includes(item.toLowerCase()) || ele.partNum5.toLowerCase().includes(item.toLowerCase())){
+            searchedData.push(ele)
           }
         })
       })
       if(input.length == 0){
-        console.log('this.colorStandardCode',this.colorStandardCode);
         this.colorListData = this.iniTableData
+      }else{
+        this.colorListData = Array.from(new Set(searchedData)) 
       }
       this.$refs.colorListTable.toggleAllSelection()
     }
