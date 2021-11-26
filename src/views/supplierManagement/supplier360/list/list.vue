@@ -455,8 +455,9 @@ export default {
           )
         })
       } else if (type == 'join') {
+        console.log(this.selectTableData)
         checkAddBlackIsFull({
-          supplierId: this.selectTableData.subSupplierId
+          supplierId: this.selectTableData[0].subSupplierId
         }).then((res) => {
           if (res && res.code == '200') {
             if (this.form.supplierType == 'GP') {
