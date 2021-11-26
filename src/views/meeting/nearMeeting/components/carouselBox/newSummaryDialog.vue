@@ -45,7 +45,7 @@
           <ul class="agenda-item-box">
             <li v-for="(item, index) in resultData.themens" :key='item.id' :class="[choosedIndex == index+1 ? 'active-agenda-item' : '', 'agenda-item']">
               <div class="agenda-item-title" @click="chooseItem(index+1)">
-                <div class="title-index">{{numToLetter[index+1]}}</div>
+                <div class="title-index">{{index+1}}</div>
                 <div class="title-name">{{item.topic}}</div>
                 <div class="up-arrow"><img :src="upArrow" alt="" srcset="" /></div>
               </div>

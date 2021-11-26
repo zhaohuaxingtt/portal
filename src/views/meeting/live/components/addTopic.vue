@@ -151,7 +151,11 @@
                   ? selectUserArr
                   : currentSearchUserData"
                 :key="item.id"
-                :label="item.name"
+                :label="`${item.name ? item.name + '-' : ''}${
+                  item.jobNumber ? item.jobNumber + '-' : ''
+                }${item.department ? item.department + '-' : ''}${
+                  item.namePinyin ? item.namePinyin  : ''
+                }`"
                 :value="item"
               >
               </el-option>
@@ -218,7 +222,11 @@
                   ? selectUserArr
                   : currentSearchUserData"
                 :key="item.id"
-                :label="item.name"
+                :label="`${item.name ? item.name + '-' : ''}${
+                  item.jobNumber ? item.jobNumber + '-' : ''
+                }${item.department ? item.department + '-' : ''}${
+                  item.namePinyin ? item.namePinyin  : ''
+                }`"
                 :value="item"
               >
               </el-option>
@@ -1153,11 +1161,29 @@ export default {
     },
     createStateFilter(queryString) {
       return (state) => {
-        return state.name
-          .toLowerCase()
-          .toString()
-          .includes(queryString.toLowerCase().toString());
-      };
+        state.name = state.department ? state.department : ''
+        state.namePinyin = state.department ? state.department : ''
+        state.department = state.department ? state.department : ''
+        state.jobNumber = state.department ? state.department : ''
+        return (
+          state.name
+            .toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state.namePinyin
+            .toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state.department
+            .toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state.jobNumber
+            .toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString())
+        )
+      }
     },
     handlePresenterSelect(val) {
       this.hanldeSelect(val, "pre");
@@ -1472,6 +1498,18 @@ export default {
     margin-left: 115px;
   }
 }
+
+::v-deep .el-select__tags-text {
+  display: inline-block;
+  max-width: 70px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+::v-deep.el-tag__close.el-icon-close {
+  top: -7px;
+}
+
 ::v-deep .row-upload {
   display: flex;
   width: 100%;
