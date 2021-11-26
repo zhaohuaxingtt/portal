@@ -25,6 +25,7 @@
                   handleClick(item.methodName)
                 }
               "
+              :disabled="item.disabled == true && tableData.length !== 0"
             >
               {{ $t(item.title) }}
             </iButton>
@@ -545,7 +546,7 @@ import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
 import updateMeetingDialog from '../home/components/updateMeetingDialog.vue'
 import newSummaryDialog from './component/newSummaryDialog.vue'
-import { changeStateMeeting, importThemen } from '@/api/meeting/home'
+import { batchRecallMeeting, changeStateMeeting, importThemen } from '@/api/meeting/home'
 import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
 import { download } from '@/utils/downloadUtil'
 import enclosure from '@/assets/images/enclosure.svg'
@@ -1435,6 +1436,22 @@ export default {
           // iMessage.error(err);
         })
       // });
+    },
+    recall(){
+      let ids = []
+      ids.push(this.$route.query.id)
+      this.$confirm('是否撤回该会议 ？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
+      }).then(() => {
+        batchRecallMeeting( {ids} ).then((res) => {
+          if (res.code == 200) {
+            this.$message.success('撤回成功!')
+            this.$router.go(-1)
+          }
+        })
+      })
     },
     updateDate() {
       // alert("updateDate");

@@ -1,13 +1,14 @@
 export const triggerApproval = [
   {
     value: 1,
-    label: "是",
+    label: '是'
   },
   {
     value: 0,
-    label: "否",
-  },
-];
+    label: '否'
+  }
+]
+
 
 // export const baseRules = {
 //   name: [
@@ -68,21 +69,21 @@ export const triggerApproval = [
 
 export const tableColumns = [
   {
-    type: "selection",
-    width: 50,
+    type: 'selection',
+    width: 50
   },
   {
-    type: "index",
-    i18n: "序号",
+    type: 'index',
+    i18n: '序号',
     width: 69,
-    tooltip: false,
+    tooltip: false
   },
   {
-    prop: "name",
-    label: "类型名称",
-    i18n: "类型名称",
-    align: "left",
-    emit: "go-detail",
+    prop: 'name',
+    label: '类型名称',
+    i18n: '类型名称',
+    align: 'left',
+    emit: 'go-detail',
     customRender: (h, scope) => {
       return (
         <span
@@ -91,46 +92,46 @@ export const tableColumns = [
         >
           {scope.row.name}
         </span>
-      );
+      )
     },
-    tooltip: false,
+    tooltip: false
   },
   {
-    prop: "meetingInfoDesc",
-    label: "会议信息描述",
-    i18n: "会议信息描述",
-    align: "left",
-    tooltip: true,
+    prop: 'meetingInfoDesc',
+    label: '会议信息描述',
+    i18n: '会议信息描述',
+    align: 'left',
+    tooltip: true
   },
   {
-    prop: "meetingNameSuffix",
-    label: "生成会议名称后缀",
-    i18n: "生成会议名称后缀",
-    align: "left",
-    tooltip: true,
+    prop: 'meetingNameSuffix',
+    label: '生成会议名称后缀',
+    i18n: '生成会议名称后缀',
+    align: 'left',
+    tooltip: true
   },
   {
-    prop: "duration",
-    label: "默认议题时长",
-    i18n: "默认议题时长",
+    prop: 'duration',
+    label: '默认议题时长',
+    i18n: '默认议题时长',
     width: 163,
-    tooltip: false,
+    tooltip: false
   },
   {
-    prop: "isTriggerApproval",
-    label: "是否触发审批流",
-    i18n: "是否触发审批流",
+    prop: 'isTriggerApproval',
+    label: '是否触发审批流',
+    i18n: '是否触发审批流',
     width: 163,
     tooltip: false,
     customRender: (h, scope) => {
-      return <span>{scope.row.isTriggerApproval ? "是" : "否"}</span>;
-    },
-  },
-];
+      return <span>{scope.row.isTriggerApproval ? '是' : '否'}</span>
+    }
+  }
+]
 
 //会议类型管理列表入参
 export const searchForm = {
-  name: "",
-  meetingInfoDesc: "",
-  isTriggerApproval: "",
-};
+  name: '',
+  meetingInfoDesc: '',
+  isTriggerApproval: ''
+}

@@ -31029,7 +31029,11 @@
     line-height: 40px;
     padding: 0 12px 0 0;
     -webkit-box-sizing: border-box;
-    box-sizing: border-box; }
+    box-sizing: border-box;
+  }
+  .el-form-item__label .el-tooltip[tabindex]:focus {
+    outline: none;
+  }
   .el-form-item__content {
     line-height: 40px;
     position: relative;
@@ -31053,7 +31057,7 @@
     .el-form-item__error--inline {
       position: relative;
       top: auto;
-      left: auto;
+      left: auto;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
       display: inline-block;
       margin-left: 10px; }
   .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before,
