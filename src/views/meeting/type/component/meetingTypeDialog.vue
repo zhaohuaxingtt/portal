@@ -24,6 +24,39 @@
               @error="handleError"
               @load="handleLoad"
             />
+            <div class="form-upload">
+              <iFormItem
+                label="上传封面图片"
+                prop="coverImage"
+                ref="ruleFormCoverImage"
+              >
+                <iLabel
+                  :label="$t('上传封面图片')"
+                  slot="label"
+                  required
+                ></iLabel>
+                <el-upload
+                  action="1"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload"
+                  :show-file-list="false"
+                  :http-request="httpUpload"
+                >
+                  <iButton
+                    type="button"
+                    class="upload-button"
+                    :uploadLoading="uploadLoading"
+                  >
+                    请选择文件<span class="upload-text"
+                      ><img :src="uploadIcon"
+                    /></span>
+                  </iButton>
+                  <div slot="tip" class="el-upload__tip">
+                    建议使用16:9比例，图片最大15M
+                  </div>
+                </el-upload>
+              </iFormItem>
+            </div>
           </div>
           <div class="input-box">
             <div class="form-row">
@@ -87,6 +120,8 @@
                   </el-option>
                 </iSelect>
               </iFormItem>
+            </div>
+            <div class="form-row">
               <iFormItem
                 label="会议管理员"
                 prop="userIds"
@@ -98,7 +133,7 @@
                   slot="label"
                   required
                 ></iLabel>
-                <el-select
+                <iSelect
                   class="autoSearch"
                   v-model="ruleForm.userIds"
                   multiple
@@ -114,49 +149,118 @@
                     :value="item"
                   >
                   </el-option>
-                </el-select>
+                </iSelect>
+              </iFormItem>
+              <iFormItem
+                label="会议属性"
+                prop="meetingAttribute"
+                :hideRequiredAsterisk="true"
+                class="item"
+              >
+                <iLabel :label="$t('会议属性')" slot="label" required></iLabel>
+                <iSelect
+                  class="autoSearch"
+                  v-model="ruleForm.meetingAttribute"
+                  value-key="id"
+                >
+                  <el-option
+                    v-for="item in meetingAttributeList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  >
+                  </el-option>
+                </iSelect>
               </iFormItem>
             </div>
-          </div>
-        </div>
-        <div class="select-box">
-          <div class="form-upload">
-            <iFormItem
-              label="上传封面图片"
-              prop="coverImage"
-              ref="ruleFormCoverImage"
-            >
-              <iLabel
-                :label="$t('上传封面图片')"
-                slot="label"
-                required
-              ></iLabel>
-              <el-upload
-                action="1"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
-                :show-file-list="false"
-                :http-request="httpUpload"
+            <div class="form-row" v-if="ruleForm.category != '01'">
+              <iFormItem
+                label="会议结论配置"
+                prop="conclusionConfig"
+                :hideRequiredAsterisk="true"
+                class="item"
               >
-                <iButton
-                  type="button"
-                  class="upload-button"
-                  :uploadLoading="uploadLoading"
+                <iLabel :label="$t('会议结论配置')" slot="label"></iLabel>
+                <iSelect
+                  class="autoSearch"
+                  v-model="ruleForm.conclusionConfig"
+                  value-key="id"
                 >
-                  请选择文件<span class="upload-text"
-                    ><img :src="uploadIcon"
-                  /></span>
-                </iButton>
-                <div slot="tip" class="el-upload__tip">
-                  建议使用16:9比例，图片最大15M
-                </div>
-              </el-upload>
-            </iFormItem>
-          </div>
-
-          <div class="form-select">
-            <div class="form-time-len">
-              <iFormItem label="默认议题时长" class="time" prop="duration">
+                  <el-option
+                    v-for="item in ruleForm.category == '02'
+                      ? conclusionConfigList2
+                      : conclusionConfigList3"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  >
+                  </el-option>
+                </iSelect>
+              </iFormItem>
+              <iFormItem
+                label="会议上下限金额"
+                :hideRequiredAsterisk="true"
+                class="itemLimit"
+              >
+                <iLabel
+                  :label="$t('会议上下限金额')"
+                  slot="label"
+                  required
+                ></iLabel>
+                <el-col :span="12">
+                  <iFormItem prop="lowerLimitMoney">
+                    <iInput
+                      class="limitMoney"
+                      placeholder="下限"
+                      v-model.number="ruleForm.lowerLimitMoney"
+                      type="number"
+                    ></iInput>
+                  </iFormItem>
+                </el-col>
+                <el-col :span="1">-</el-col>
+                <el-col :span="7">
+                  <iFormItem prop="lowerLimitMoney">
+                    <iInput
+                      class="limitMoney"
+                      placeholder="上限"
+                      v-model.number="ruleForm.upperLimitMoney"
+                      type="number"
+                    ></iInput>
+                  </iFormItem>
+                </el-col>
+              </iFormItem>
+            </div>
+            <div class="form-row" v-if="ruleForm.category != '01'">
+              <iFormItem
+                label="关联关系"
+                prop="incidenceRelation"
+                :hideRequiredAsterisk="true"
+                class="item"
+              >
+                <iLabel :label="$t('关联关系')" slot="label"></iLabel>
+                <iSelect
+                  class="autoSearch"
+                  v-model="ruleForm.incidenceRelation"
+                  multiple
+                  filterable
+                  collapse-tags
+                  value-key="id"
+                >
+                  <el-option
+                    v-for="item in incidenceRelationList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  >
+                  </el-option>
+                </iSelect>
+              </iFormItem>
+              <iFormItem
+                label="默认议题时长"
+                :hideRequiredAsterisk="true"
+                class="time"
+                prop="duration"
+              >
                 <iLabel
                   :label="$t('默认议题时长')"
                   slot="label"
@@ -164,6 +268,7 @@
                 ></iLabel>
                 <div class="time-box">
                   <iInput
+                    style="width: 180px"
                     v-model.number="ruleForm.duration"
                     type="number"
                   ></iInput>
@@ -171,44 +276,124 @@
                 </div>
               </iFormItem>
             </div>
-            <div class="select-trigger">
-              <iFormItem label="是否触发审批" prop="isTriggerApproval">
+            <div class="form-row" v-if="ruleForm.category == '01'">
+              <iFormItem
+                label="会议上下限金额"
+                :hideRequiredAsterisk="true"
+                class="itemLimit"
+              >
                 <iLabel
-                  :label="$t('是否触发审批')"
+                  :label="$t('会议上下限金额')"
                   slot="label"
                   required
                 ></iLabel>
+                <el-col :span="12">
+                  <iFormItem prop="lowerLimitMoney"
+                    ><iInput
+                      class="limitMoney"
+                      placeholder="下限"
+                      v-model.number="ruleForm.lowerLimitMoney"
+                      type="number"
+                    ></iInput
+                  ></iFormItem>
+                </el-col>
+                <el-col :span="1">-</el-col>
+                <el-col :span="7">
+                  <iFormItem prop="upperLimitMoney">
+                    <iInput
+                      class="limitMoney"
+                      placeholder="上限"
+                      v-model.number="ruleForm.upperLimitMoney"
+                      type="number"
+                    ></iInput>
+                  </iFormItem>
+                </el-col>
+              </iFormItem>
+              <iFormItem
+                label="关联关系"
+                prop="incidenceRelation"
+                :hideRequiredAsterisk="true"
+                class="item"
+              >
+                <iLabel :label="$t('关联关系')" slot="label"></iLabel>
                 <iSelect
-                  v-model="ruleForm.isTriggerApproval"
-                  placeholder="请选择"
+                  class="autoSearch"
+                  v-model="ruleForm.incidenceRelation"
+                  multiple
+                  filterable
+                  collapse-tags
+                  value-key="id"
                 >
                   <el-option
-                    v-for="item in isApprovalOption"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="item in incidenceRelationList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
                   >
                   </el-option>
                 </iSelect>
               </iFormItem>
             </div>
-            <div class="select-process" ref="selectProcess">
-              <iFormItem label="审批流程" prop="approvalProcessId">
-                <iLabel :label="$t('审批流程')" slot="label" required></iLabel>
-                <iSelect
-                  v-model="ruleForm.approvalProcessName"
-                  placeholder="请选择"
-                  :disabled="!ruleForm.isTriggerApproval"
-                >
-                  <el-option
-                    v-for="(item, index) in approvalProcess"
-                    :key="index"
-                    :label="item.name"
-                    :value="item.name"
+            <div class="form-select" v-if="ruleForm.category == '01'">
+              <div class="form-time-len">
+                <iFormItem label="默认议题时长" class="time" prop="duration">
+                  <iLabel
+                    :label="$t('默认议题时长')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <div class="time-box">
+                    <iInput
+                      v-model.number="ruleForm.duration"
+                      type="number"
+                    ></iInput>
+                    <span>分钟</span>
+                  </div>
+                </iFormItem>
+              </div>
+              <div class="form-time-len">
+                <iFormItem label="是否触发审批" prop="isTriggerApproval">
+                  <iLabel
+                    :label="$t('是否触发审批')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <iSelect
+                    v-model="ruleForm.isTriggerApproval"
+                    placeholder="请选择"
                   >
-                  </el-option>
-                </iSelect>
-              </iFormItem>
+                    <el-option
+                      v-for="item in isApprovalOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </iSelect>
+                </iFormItem>
+              </div>
+              <div class="form-time-len" ref="selectProcess">
+                <iFormItem label="审批流程" prop="approvalProcessId">
+                  <iLabel
+                    :label="$t('审批流程')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <iSelect
+                    v-model="ruleForm.approvalProcessName"
+                    placeholder="请选择"
+                    :disabled="!ruleForm.isTriggerApproval"
+                  >
+                    <el-option
+                      v-for="(item, index) in approvalProcess"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.name"
+                    >
+                    </el-option>
+                  </iSelect>
+                </iFormItem>
+              </div>
             </div>
           </div>
         </div>
@@ -244,7 +429,8 @@ import iEditForm from '@/components/iEditForm'
 import {
   saveMettingType,
   updateMettingType,
-  uploadFile
+  uploadFile,
+  findMeetingTypesByProperties
 } from '@/api/meeting/type'
 // import { MOCK_FILE_URL } from '@/constants'
 import {
@@ -300,22 +486,27 @@ export default {
     approvalProcess: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   data() {
+    // const validateUpper = (rule, value, callback) => {
+    //   if (this.ruleForm.upperLimitMoney == '') {
+    //     callback(new Error('必填'))
+    //   }
+    // }
     const validateApprovalProcessId = (rule, value, callback) => {
       let approvalProcessId = value
       if (this.ruleForm.isTriggerApproval) {
         approvalProcessId = this.ruleForm.approvalProcessId
           ? this.ruleForm.approvalProcessId
-          : this.approvalProcess.find(item => {
+          : this.approvalProcess.find((item) => {
               return item.name === this.ruleForm.approvalProcessName
             })
           ? this.ruleForm.approvalProcessId
             ? this.ruleForm.approvalProcessId
-            : this.approvalProcess.find(item => {
+            : this.approvalProcess.find((item) => {
                 return item.name === this.ruleForm.approvalProcessName
               }).id
           : ''
@@ -343,6 +534,7 @@ export default {
     //   }
     // };
     return {
+      incidenceRelationList: [],
       initSelectArr: [],
       selectUserArr: [],
       userDataAll: [],
@@ -350,27 +542,92 @@ export default {
       uploadIcon,
       rules: {
         name: [
-          { required: true, message: '必填', trigger: 'blur' },
-          { min: 1, max: 64, message: '最大长度 64 字符', trigger: 'blur' }
+          { required: true, message: '必填', trigger: ['blur', 'change'] },
+          {
+            min: 1,
+            max: 64,
+            message: '最大长度 64 字符',
+            trigger: ['blur', 'change']
+          }
         ],
         meetingNameSuffix: [
-          { required: true, message: '必填', trigger: 'blur' },
-          { min: 1, max: 64, message: '最大长度 64 字符', trigger: 'blur' }
+          { required: true, message: '必填', trigger: ['blur', 'change'] },
+          {
+            min: 1,
+            max: 64,
+            message: '最大长度 64 字符',
+            trigger: ['blur', 'change']
+          }
         ],
         meetingInfoDesc: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          {
+            max: 255,
+            message: '最大长度 255 字符',
+            trigger: ['blur', 'change']
+          }
+        ],
+        lowerLimitMoney: [
+          { required: true, message: '必填', trigger: ['blur', 'change'] },
+          {
+            type: 'number',
+            message: '必须正整数',
+            trigger: ['blur', 'change'],
+            transform(value) {
+              if (value !== null && value !== '') {
+                if (String(value).trim() === '' || Number(value) <= 0) {
+                  return false
+                } else if (
+                  String(value).indexOf('.') !== -1 ||
+                  String(value).indexOf('-') !== -1
+                ) {
+                  return false
+                } else {
+                  return Number(value)
+                }
+              } else {
+                return null
+              }
+            }
+          }
+        ],
+        upperLimitMoney: [
+          { required: true, message: '必填', trigger: ['blur', 'change'] },
+          {
+            type: 'number',
+            message: '必须正整数',
+            trigger: ['blur', 'change'],
+            transform(value) {
+              if (value !== null && value !== '') {
+                if (String(value).trim() === '' || Number(value) <= 0) {
+                  return false
+                } else if (
+                  String(value).indexOf('.') !== -1 ||
+                  String(value).indexOf('-') !== -1
+                ) {
+                  return false
+                } else {
+                  return Number(value)
+                }
+              } else {
+                return null
+              }
+            }
+          }
+        ],
+        meetingAttribute: [
+          { required: true, message: '必选', trigger: ['blur', 'change'] }
         ],
         duration: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message: '必填', trigger: ['blur', 'change'] },
           {
             type: 'number',
             message: '最大长度3位，单位（分钟），必须正整数',
-            trigger: 'blur'
+            trigger: ['blur', 'change']
           },
           {
             type: 'number',
             message: '最大长度3位，单位（分钟），必须正整数',
-            trigger: 'blur',
+            trigger: ['blur', 'change'],
             transform(value) {
               if (value !== null && value !== '') {
                 if (
@@ -399,16 +656,20 @@ export default {
           //   message: "必填",
           //   trigger: "change",
           // },
-          { validator: validateApprovalCoverImage, trigger: 'change' }
+          { validator: validateApprovalCoverImage, trigger: ['blur', 'change'] }
         ],
         approvalProcessId: [
-          { validator: validateApprovalProcessId, trigger: 'change' }
+          { validator: validateApprovalProcessId, trigger: ['blur', 'change'] }
         ],
         isTriggerApproval: [
-          { required: true, message: '必选', trigger: 'change' }
+          { required: true, message: '必选', trigger: ['blur', 'change'] }
         ],
-        userIds: [{ required: true, message: '必选', trigger: 'blur' }],
-        category: [{ required: true, message: '必选', trigger: 'change' }]
+        userIds: [
+          { required: true, message: '必选', trigger: ['blur', 'change'] }
+        ],
+        category: [
+          { required: true, message: '必选', trigger: ['blur', 'change'] }
+        ]
       },
 
       ruleForm: {
@@ -420,8 +681,13 @@ export default {
         approvalProcessId: '',
         coverImage: '',
         approvalProcessName: '',
-        category: '',
-        userIds: ''
+        category: '01',
+        meetingAttribute: '',
+        incidenceRelation: '',
+        conclusionConfig: '',
+        userIds: '',
+        lowerLimitMoney: '',
+        upperLimitMoney: ''
       },
       isApprovalOption: [
         {
@@ -447,6 +713,100 @@ export default {
           name: '一般采购CSG'
         }
       ],
+      meetingAttributeList: [
+        {
+          id: '01',
+          name: '大会'
+        },
+        {
+          id: '02',
+          name: '非大会'
+        },
+        {
+          id: '03',
+          name: 'MBDL会'
+        }
+      ],
+      conclusionConfigList2: [
+        {
+          id: '01',
+          name: '待定'
+        },
+        {
+          id: '02',
+          name: '定点'
+        },
+        {
+          id: '03',
+          name: '发LOI'
+        },
+        {
+          id: '04',
+          name: '转TER/TOP-TER'
+        },
+        {
+          id: '05',
+          name: '下次Pre CSC'
+        },
+        {
+          id: '06',
+          name: '转CSC'
+        },
+        {
+          id: '07',
+          name: '关闭'
+        },
+        {
+          id: '08',
+          name: '通过'
+        },
+        {
+          id: '09',
+          name: '预备会通过'
+        },
+        {
+          id: '10',
+          name: '不通过'
+        },
+        {
+          id: '11',
+          name: 'Last Call'
+        },
+        {
+          id: '12',
+          name: '分段定点'
+        }
+      ],
+      conclusionConfigList3: [
+        {
+          id: '01',
+          name: '待定'
+        },
+        {
+          id: '02',
+          name: '定点'
+        },
+        {
+          id: '03',
+          name: '发LOI'
+        },
+        {
+          id: '04',
+          name: '转TER/TOP-TER'
+        },
+        {
+          id: '05',
+          name: '下次Pre CSC'
+        },
+        {
+          id: '06',
+          name: '转CSC'
+        },
+        {
+          id: '07',
+          name: '关闭'
+        }
+      ],
       // approvalProcess: [
       //   {
       //     name: 'CW 通用会议审批',
@@ -464,19 +824,29 @@ export default {
   },
   mounted() {
     if (this.editOrAdd === 'edit') {
+      this.selectedTableData[0].incidenceRelation = this.selectedTableData[0].incidenceRelation.split(',')
       const userIdsArr = this.selectedTableData[0].userIds
         ? this.selectedTableData[0].userIds.split(',')
         : []
       // this.handleFocus().then(() => {
       //   console.log(this.selectUserArr);
       // });
-      this.queryEdit(userIdsArr).then(currentSearchUserData => {
+      this.queryEdit(userIdsArr).then((currentSearchUserData) => {
         this.initSelectArr = [...currentSearchUserData]
         this.ruleForm = {
           ...this.selectedTableData[0],
           userIds: currentSearchUserData
         }
         this.handleLoad()
+      })
+      findMeetingTypesByProperties({ id: this.selectedTableData[0].id }).then(
+        (res) => {
+          this.incidenceRelationList = res
+        }
+      )
+    } else {
+      findMeetingTypesByProperties({ id: '' }).then((res) => {
+        this.incidenceRelationList = res
       })
     }
   },
@@ -512,15 +882,16 @@ export default {
       handler(v) {
         if (!v) {
           v = this.approvalProcess.find(
-            item => Number(item.id) === Number(this.ruleForm.approvalProcessId)
+            (item) =>
+              Number(item.id) === Number(this.ruleForm.approvalProcessId)
           ).name
         }
         let name = ''
         let id = ''
         if (v) {
           if (this.ruleForm.isTriggerApproval) {
-            name = this.approvalProcess.find(item => item.name === v).name
-            id = this.approvalProcess.find(item => item.name === v).id
+            name = this.approvalProcess.find((item) => item.name === v).name
+            id = this.approvalProcess.find((item) => item.name === v).id
           }
           this.ruleForm = {
             ...this.ruleForm,
@@ -539,10 +910,11 @@ export default {
       if (v) {
         if (this.isTriggerApproval) {
           name = this.approvalProcess.find(
-            item => Number(item.id) === Number(v)
+            (item) => Number(item.id) === Number(v)
           ).name
-          id = this.approvalProcess.find(item => Number(item.id) === Number(v))
-            .id
+          id = this.approvalProcess.find(
+            (item) => Number(item.id) === Number(v)
+          ).id
         }
         console.log(name, id)
 
@@ -652,27 +1024,37 @@ export default {
       //   cancelButtonText: "否",
       //   type: "warning",
       // }).then(() => {
-      this.submitForm('ruleForm')
+      if (this.ruleForm.lowerLimitMoney > this.ruleForm.upperLimitMoney) {
+        iMessage.error('下限金额不能大于上限金额！')
+      } else {
+        this.submitForm('ruleForm')
+      }
       //});
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           let userIdsStr = this.ruleForm.userIds
-            .map(item => {
+            .map((item) => {
               return item.id
+            })
+            .join(',')
+          let incidenceRelationStr = this.ruleForm.incidenceRelation
+            .map((item) => {
+              return item
             })
             .join(',')
           let formData = {
             ...this.ruleForm,
-            userIds: userIdsStr
+            userIds: userIdsStr,
+            incidenceRelation: incidenceRelationStr
           }
           if (this.ruleForm.isTriggerApproval) {
             let approvalProcessId = this.ruleForm.approvalProcessId
-              ? this.approvalProcess.find(item => {
+              ? this.approvalProcess.find((item) => {
                   return item.id === this.ruleForm.approvalProcessId
                 }).id
-              : this.approvalProcess.find(item => {
+              : this.approvalProcess.find((item) => {
                   return item.name === this.ruleForm.approvalProcessName
                 }).id
             formData = {
@@ -683,7 +1065,7 @@ export default {
           }
           if (this.editOrAdd === 'edit') {
             updateMettingType(formData)
-              .then(data => {
+              .then((data) => {
                 // console.log("data", data);
                 if (data) {
                   this.clearDiolog('submit')
@@ -695,12 +1077,12 @@ export default {
                   this.$emit('flushTable')
                 }
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log('err', err)
               })
           } else {
             saveMettingType(formData)
-              .then(data => {
+              .then((data) => {
                 if (data) {
                   this.clearDiolog('submit')
                   iMessage.success('保存成功')
@@ -711,7 +1093,7 @@ export default {
                   this.$emit('flushTable')
                 }
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log('err', err)
               })
           }
@@ -779,6 +1161,7 @@ export default {
   width: 162px;
   .image-box {
     width: 288px;
+    height: 162px;
     background-image: url('../../../../assets/images/imgBg.svg');
     background-repeat: no-repeat;
     background-color: #eee;
@@ -798,6 +1181,34 @@ export default {
     .error {
       visibility: hidden;
     }
+    .form-upload {
+      width: 288px;
+      display: flex;
+      margin-top: 2.7rem;
+      // flex-direction: column;
+      height: 56px;
+      flex-shrink: 0;
+      flex-grow: 1;
+      .upload-button {
+        position: relative;
+        /* border: 1px solid #d8dce6; */
+        width: 288px;
+        height: 35px;
+        line-height: 35px;
+        padding: 0;
+        color: #fff;
+        background-color: #1660f1;
+        .upload-text {
+          position: absolute;
+          right: 15px;
+          top: 3px;
+          img {
+            width: 23.85px;
+            height: 17.69px;
+          }
+        }
+      }
+    }
   }
   .input-box {
     display: flex;
@@ -806,6 +1217,7 @@ export default {
     .form-row {
       width: 640px;
       display: flex;
+      margin-bottom: 1rem;
       justify-content: space-between;
       .el-form-item {
         width: 100%;
@@ -814,67 +1226,51 @@ export default {
       .el-form-item + .el-form-item {
         margin-left: 40px;
       }
-    }
-    .form-row:last-child {
-      transform: translateY(26px);
-    }
-  }
-}
-.select-box {
-  display: flex;
-  width: 100%;
-  margin-top: 40px;
-  padding-left: 20px;
-  .form-upload {
-    width: 268px;
-    display: flex;
-    /* flex-direction: column; */
-    height: 56px;
-    flex-shrink: 0;
-    flex-grow: 1;
-    .upload-button {
-      position: relative;
-      /* border: 1px solid #d8dce6; */
-      width: 268px;
-      height: 35px;
-      line-height: 35px;
-      padding: 0;
-      color: #fff;
-      background-color: #1660f1;
-      .upload-text {
-        position: absolute;
-        right: 15px;
-        top: 3px;
-        img {
-          width: 23.85px;
-          height: 17.69px;
+      .itemLimit {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .limitMoney {
+          width: 140px;
         }
       }
     }
+    // .form-row:last-child {
+    //   transform: translateY(26px);
+    // }
   }
+}
+// .select-box {
+//   display: flex;
+//   width: 100%;
+//   margin-top: 40px;
+//   padding-left: 20px;
+// }
 
-  .form-select {
+.form-select {
+  width: 640px;
+  display: flex;
+  margin-bottom: 1rem;
+  justify-content: space-between;
+  .el-form-item + .el-form-item {
     margin-left: 40px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    .form-time-len {
-      width: 180px;
-      .time {
+  }
+  .form-time-len {
+    width: 180px;
+    .time {
+      display: flex;
+      flex-direction: column;
+      .time-box {
         display: flex;
-        flex-direction: column;
-        .time-box {
-          display: flex;
-          align-items: center;
-          span {
-            width: 28px;
-            font-size: 14px;
-            margin-left: 20px;
-            flex-shrink: 0;
-            flex-grow: 1;
-            display: block;
-            white-space: nowrap;
-          }
+        align-items: center;
+        span {
+          width: 28px;
+          font-size: 14px;
+          margin-left: 20px;
+          flex-shrink: 0;
+          flex-grow: 1;
+          display: block;
+          white-space: nowrap;
         }
       }
     }

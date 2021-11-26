@@ -2,6 +2,10 @@
   <iCard class="margin-top20">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
+        <iButton @click="handleRecall" :disabled="!isCanRecall">{{
+          '撤回'
+        }}</iButton>
+        <iButton @click="handleOpen" :disabled="!isCanOpen">{{ '开放' }}</iButton>
         <!--批量创建-->
         <iButton @click="handleAddMultiple">{{ '批量创建' }}</iButton>
         <!--创建-->
@@ -9,9 +13,6 @@
         <!--删除-->
         <iButton @click="handleDelete" :disabled="selectedRow.length === 0">{{
           '删除'
-        }}</iButton>
-        <iButton @click="handleRecall" :disabled="!isCanRecall">{{
-          '撤回'
         }}</iButton>
       </div>
     </div>
@@ -659,6 +660,12 @@
       @handleCancel="handleCancelSummary"
       @handleOK="handleOKSummary"
     />
+    <importErrorDialog
+      v-if="openError"
+      :openError="openError"
+      :errorList="errorList"
+      @handleCloseError="handleCloseError"
+    />
     <!-- 生成会议纪要 -->
     <newSummaryDialog
       v-if="openNewSummary"
@@ -687,6 +694,7 @@ import updateFile from '@/components/updateFile'
 // import importThemens from "./importThemens.vue";
 import { statusObj } from './data'
 import {
+  batchChangeState,
   batchRecallMeeting,
   deleteMeeting,
   changeStateMeeting,
@@ -715,6 +723,7 @@ import addMeetingMultipleDialo from './addMeetingMultipleDialo.vue'
 import closeMeetingDialogSpecial from './closeMeetingDialogSpecial.vue'
 import closeMeetingDialog from './closeMeetingDialog.vue'
 import updateMeetingDialog from './updateMeetingDialog.vue'
+import importErrorDialog from './importErrorDialog.vue'
 // import newSummaryDialog from "./newSummaryDialog.vue";
 import newSummaryDialog from './newSummaryDialog.vue'
 // import { MOCK_FILE_URL } from '@/constants'
@@ -734,7 +743,8 @@ export default {
     updateMeetingDialog,
     newSummaryDialog,
     newSummaryDialogNew,
-    closeMeetingDialogSpecial
+    closeMeetingDialogSpecial,
+    importErrorDialog
   },
   mixins: [resultMessageMixin],
   props: {
@@ -779,6 +789,7 @@ export default {
     return {
       isGenerating: false,
       isCanRecall: false,
+      isCanOpen: false,
       nameList: [],
       beginVedio,
       closeVedio,
@@ -819,8 +830,10 @@ export default {
       openSummary: false,
       openNewSummary: false,
       openNewSummaryNew: false,
+      openError: false,
       timeout: null,
-      receiverId: ''
+      receiverId: '',
+      errorList: []
     }
   },
   mounted() {},
@@ -828,6 +841,7 @@ export default {
     selectedRow: {
       handler(rows) {
         this.isCanRecall = false
+        this.isCanOpen = false
         if (rows.length > 0) {
           this.isCanRecall = rows.every((item) => {
             // return (
@@ -837,6 +851,13 @@ export default {
             return (
               (item.state === '02' && item.isPreCSC) ||
               (item.state === '02' && item.isCSC)
+            )
+          })
+        }
+        if (rows.length > 0) {
+          this.isCanOpen = rows.every((item) => {
+            return (
+              item.state === '01' 
             )
           })
         }
@@ -915,11 +936,15 @@ export default {
       }
       importThemen(param)
         .then((res) => {
-          if (res.id) {
+          if (res.length == 0) {
             iMessage.success('导入议题成功')
             this.openTopics = false
             this.refreshTable()
             this.nameList = []
+          } else if (res.length != 0) {
+            // this.openTopics = false
+            this.openError = true
+            this.errorList = res
           }
         })
         .catch(() => {
@@ -966,6 +991,10 @@ export default {
     // 上传会议纪要取消
     handleCancelSummary() {
       this.openSummary = false
+    },
+    // 上传议题错误提示框关闭
+    handleCloseError() {
+      this.openError = false
     },
     // 生成会议纪要取消
     handleNewSummaryCancel() {
@@ -1022,6 +1051,21 @@ export default {
         batchRecallMeeting({ ids: idArr }).then((res) => {
           if (res.code == 200) {
             this.$message.success(' 撤回成功!')
+            this.$emit('getTableList')
+          }
+        })
+      })
+    },
+    // 批量开放
+    handleOpen(){
+      this.$confirm('是否开放该会议 ？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
+      }).then(() => {
+        batchChangeState(this.selectedRow).then((res) => {
+          if (res.code == 200) {
+            this.$message.success('会议已成功开放!')
             this.$emit('getTableList')
           }
         })
