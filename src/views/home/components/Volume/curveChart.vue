@@ -169,6 +169,7 @@ export default {
             lineStyle: {
               color: '#0059FF'
             },
+            symbolSize: 20,
             /*areaStyle: {},*/
             markArea: {
               data: [
@@ -189,6 +190,7 @@ export default {
             type: 'scatter',
             data: this.newestScatterData,
             color: '#0059FF',
+            symbolSize: 16,
             label: {
               offset: [30, 0],
               rich: {
@@ -218,6 +220,7 @@ export default {
             type: 'scatter',
             data: this.targetScatterData,
             color: '#70AD47',
+            symbolSize: 16,
             label: {
               rich: {
                 bgGrowth: this.setBg(proGrowthRate),
@@ -226,7 +229,7 @@ export default {
               //distance: 20,
               show: true,
               position: 'top',
-              offset: [50, 8],
+              offset: [50, -8],
               formatter: () => {
                 const bgGrowthPlus = proGrowthRate > 0 ? '+' : ''
                 const bgReductionPlus = reductionPotential > 0 ? '+' : ''
