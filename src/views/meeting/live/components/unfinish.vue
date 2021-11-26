@@ -63,16 +63,16 @@
       <el-table-column
         show-overflow-tooltip
         prop="follow"
-        align="center"
-        label="NO."
+        align="left"
+        label="No."
         width="60"
         min-width="60"
       >
         <template slot-scope="scope">
           <div class="img-word">
-            <div>
+            <span>
               {{ scope.$index + 1 }}
-            </div>
+            </span>
             <div>
               <img
                 v-if="scope.row.follow"
@@ -606,7 +606,7 @@ export default {
         this.disabledButton = true;
       }
     },
-    searchTableList(e) {
+    searchTableList() {
       this.$emit("findMyThemensByCondition", this.form);
     },
     changeStart(e) {
@@ -701,11 +701,12 @@ export default {
 }
 .img-word {
   display: flex;
-  justify-content: center;
-  div:first-child {
-    width: 30px;
-    text-align: center;
-    margin-right: 9.42px;
+  /* justify-content: center; */
+  span:first-child {
+     display: block;
+    width: 20px;
+    /* text-align: center; */
+    margin-right: 5px;
   }
 }
 ::v-deep .divider {

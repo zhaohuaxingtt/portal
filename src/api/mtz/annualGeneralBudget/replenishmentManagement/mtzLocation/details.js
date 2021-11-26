@@ -494,7 +494,7 @@ export function panorama(params) {
   //用量单位下拉
   return req({
     url: '/preview/panorama/' + params,
-    method: 'POST',
+    method: 'GET',
     data: params
   })
 }

@@ -61,7 +61,7 @@
             >
               <div class="agenda-item-title" @click="chooseItem(index + 1)">
                 <div class="title-left">
-                  <div class="title-index">{{ numToLetter[index + 1] }}</div>
+                  <div class="title-index">{{ index + 1 }}</div>
                   <div class="title-name">{{ item.topic }}</div>
                 </div>
                 <div class="up-arrow" @click="taskUserResult(item)">

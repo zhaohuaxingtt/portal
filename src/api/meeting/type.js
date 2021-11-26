@@ -195,3 +195,12 @@ export function getUsers(data) {
 //     data,
 //   });
 // }
+
+// 查询关联关系
+export function findMeetingTypesByProperties(data) {
+  return requst({
+    url: `/meetingService/findMeetingTypesByProperties`,
+    method: 'POST',
+    data
+  })
+}

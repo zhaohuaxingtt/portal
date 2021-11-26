@@ -146,7 +146,11 @@
                   ? selectUserArr
                   : currentSearchUserData"
                 :key="item.id"
-                :label="item.name"
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
+                  item.namePinyin ? item.namePinyin  : ''
+                }`"
                 :value="item.id"
               >
               </el-option>
@@ -174,7 +178,11 @@
                   ? selectUserArr
                   : currentSearchUserData"
                 :key="item.id"
-                :label="item.name"
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
+                  item.namePinyin ? item.namePinyin  : ''
+                }`"
                 :value="item.id"
               >
               </el-option>
@@ -631,16 +639,24 @@ export default {
     },
     createStateFilter(queryString) {
       return (state) => {
+        state.name = state.department ? state.department : ''
+        state.namePinyin = state.department ? state.department : ''
+        state.department = state.department ? state.department : ''
+        state.jobNumber = state.department ? state.department : ''
         return (
           state?.name
             ?.toLowerCase()
             .toString()
             .includes(queryString.toLowerCase().toString()) ||
-          state?.email
+          state?.department
             ?.toLowerCase()
             .toString()
             .includes(queryString.toLowerCase().toString()) ||
           state?.namePinyin
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state?.jobNumber
             ?.toLowerCase()
             .toString()
             .includes(queryString.toLowerCase().toString())
@@ -922,6 +938,7 @@ export default {
     margin-left: 20px;
   }
 }
+
 .file-list {
   margin-top: 15px;
   flex-shrink: 0;

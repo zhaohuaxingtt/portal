@@ -72,7 +72,7 @@
           />
         </template>
       </el-table-column> -->
-      <el-table-column prop="follow" align="center" label="NO." width="50">
+      <el-table-column prop="follow" align="left" label="No." width="50">
         <template slot-scope="scope">
           <div class="img-word">
             <div>
@@ -522,17 +522,19 @@ export default {
 }
 .img-word {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   div:first-child {
-    width: 30px;
-    text-align: center;
+    width: 20px;
+    flex-grow: 1;
+    flex-shrink: 0;
+    /* text-align: center; */
     /* margin-right: 9.42px; */
   }
   div:first-child + div {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 9.42px;
+    /* margin-left: 5px; */
   }
 }
 .my-topics-box {

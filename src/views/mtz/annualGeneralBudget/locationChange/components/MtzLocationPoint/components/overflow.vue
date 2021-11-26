@@ -316,7 +316,7 @@ export default {
     },
   },
   destroyed () {
-    sessionStorage.removeItem("MtzLIst");
+    sessionStorage.setItem("MtzLIst", JSON.stringify({}))
     store.commit("routerMtzData", {});
   }
 }

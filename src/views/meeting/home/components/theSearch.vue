@@ -58,6 +58,8 @@
         <!-- 周次 -->
         <el-form-item :label="'周次'" class="LastSearchOption">
           <iSelect
+            filterable
+            @keyup.native="keyUp"
             :placeholder="$t('LK_QINGXUANZE')"
             v-model="form.weekOfYears"
             :multiple="true"
@@ -179,6 +181,9 @@ export default {
     }
   },
   methods: {
+    keyUp(e) {
+      e.target.value = e.target.value.replace(/[^\d]/g, '')
+    },
     handleSearchReset() {
       this.form = {}
       this.weekList = weekListInit
