@@ -22,6 +22,22 @@
   <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.CDN_HOST %>/theme/fontfamily.css" />
 
   <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.CDN_HOST %>/ws3select/VueSelect.css" />
+
+
+</head>
+
+<body>
+  <div class="loading-wrapper" id="app-loading">
+    <div class="loading-container">
+      <div class="inner-bg"></div>
+      <div class="inner">
+        <div class="rising">Rising</div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
+  <div id="app"></div>
+
   <script src="<%= htmlWebpackPlugin.options.CDN_HOST %>/coreJs/vue@2.4.2/vue.min.js"></script>
   <script src="<%= htmlWebpackPlugin.options.CDN_HOST %>/coreJs/vue-router@2.7.0/vue-router.min.js"></script>
   <script src="<%= htmlWebpackPlugin.options.CDN_HOST %>/theme/fonts/iconfont.js"></script>
@@ -48,21 +64,6 @@
 
   <script src="<%= htmlWebpackPlugin.options.CDN_HOST %>/ws3select/WS3Util.js"></script>
   <script src="<%= htmlWebpackPlugin.options.CDN_HOST %>/ws3select/customSelect.js"></script>
-
-</head>
-
-<body>
-  <div id="app"></div>
-  <div class="loading-wrapper" id="app-loading">
-    <div class="loading-container">
-      <div class="inner-bg"></div>
-      <div class="inner">
-        <div class="rising">Rising</div>
-        <div class="dot"></div>
-      </div>
-    </div>
-  </div>
-
   <!-- built files will be auto injected -->
   <script>
     console.log('build on ' + new Date())

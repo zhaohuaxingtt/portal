@@ -48,7 +48,7 @@
   justify-content: center;
   flex-direction: column;
   font-family: PingFang SC;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .loading-wrapper .loading-container .inner .rising {
@@ -58,6 +58,7 @@
 .loading-wrapper .loading-container .inner .dot {
   color: #1563F8;
   margin-top: -5px;
+  font-size: 16px;
 
 }
 
