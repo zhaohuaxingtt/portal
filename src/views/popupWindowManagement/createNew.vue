@@ -4,7 +4,7 @@
             <div class="header">
                 <!-- <pageHeader class="title">{{language('弹窗管理')}}</pageHeader> -->
                 <div>
-                    <iButton @click="save">{{language('发布')}}</iButton>
+                    <iButton @click.once="save">{{language('发布')}}</iButton>
                     <iButton @click="reset">{{language('重置')}}</iButton>
                     <iButton @click="preview">{{language('预览')}}</iButton>
                 </div>
@@ -87,7 +87,7 @@ export default {
                     if(window.opener){
                         window.opener.location.reload()
                         window.setTimeout(()=>{
-                            // window.close()
+                            window.close()
                         },1000)
                     }
                 }else{
