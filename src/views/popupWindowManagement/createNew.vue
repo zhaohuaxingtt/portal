@@ -4,7 +4,7 @@
             <div class="header">
                 <!-- <pageHeader class="title">{{language('弹窗管理')}}</pageHeader> -->
                 <div>
-                    <iButton @click="save">{{language('发布')}}</iButton>
+                    <iButton @click="saveClick">{{language('发布')}}</iButton>
                     <iButton @click="reset">{{language('重置')}}</iButton>
                     <iButton @click="preview">{{language('预览')}}</iButton>
                 </div>
@@ -12,8 +12,8 @@
         </div>
         <iCard style="margin-top:20px">
             <div class="content">
-                <new-left ref="newLeft" :formData='formData'/>
-                <new-right ref="newRight" />
+                <new-left ref="newLeft" :formData='formData' @cutterRateSty='cutterRateSty' />
+                <new-right ref="newRight" :cutterRate='cutterRate' />
             </div>
         </iCard>
         <detailDialog :show.sync='show' :detail='detail' />
@@ -40,13 +40,18 @@ export default {
                 linkUrl:''
             },
             picUrl:'',
-            instance:''
+            instance:'',
+            cutterRate:0,
+            timer:null
         }
     },
     methods:{
         reset(){
             this.$refs.newLeft.reset()
             this.$refs.newRight.reset()
+        },
+        saveClick(){
+            this.debounce()
         },
         async save(){
             let formData = this.$refs.newLeft.formData()
@@ -95,6 +100,12 @@ export default {
             })
             }
         },
+        debounce(){
+            if(this.timer !== null) clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+                this.save()
+            }, 1000);
+        },
         preview(){
             const formData = this.$refs.newLeft.formData()
             this.formData = formData
@@ -130,6 +141,10 @@ export default {
                 popupStyle:this.formData.popupStyle,
                 wordAlign:this.formData.wordAlign
             }
+        },
+        cutterRateSty(val){
+            console.log('====');
+            this.cutterRate = val
         }
     }
 }

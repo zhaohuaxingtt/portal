@@ -144,10 +144,8 @@ export default {
       this.contentShowFlag = !va
     },
     getMenus() {
-      console.log('menuList', this.menuList)
       const menuMap = this.getMenusMap(this.menuList)
       this.menuMap = menuMap
-      console.log('menuMap', menuMap)
     },
     getMenuList() {
       const menuList = _.cloneDeep(this.menuList)
@@ -228,6 +226,10 @@ export default {
       console.log('点击了admin 菜单')
       this.$refs.leftLayout.activeIndex = ''
     }
+  },
+  beforeRouteEnter(to,from,next){
+     console.log(to,'==============');
+        console.log(from,'==============');
   }
 }
 </script>

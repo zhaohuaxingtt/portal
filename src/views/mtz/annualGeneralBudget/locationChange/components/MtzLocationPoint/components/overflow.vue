@@ -12,7 +12,10 @@
          class="flex-between-center"
          style="width:100%">
       <!-- <span class="title_name">MTZ申请单-100386 申请单名-采购员-科室</span> -->
-      <span class="title_name">{{ commonTitle }} - {{locationId}}</span>
+      <div>
+        <span class="title_name">{{ commonTitle }}-{{locationId}}</span>
+        <span class="title_name">-{{mtzAppName}}-{{user}}-{{dept}}</span>
+      </div>
       <div class="opration">
         <!-- && ttNominateAppId !== '' -->
         <iButton @click="submit"
@@ -93,22 +96,6 @@ export default {
     MtzAdd
   },
   props: {
-    mtzApplayNum: {
-      type: String,
-      default: ''
-    },
-    mtzApplayName: {
-      type: String,
-      default: ''
-    },
-    user: {
-      type: String,
-      default: ''
-    },
-    dept: {
-      type: String,
-      default: ''
-    },
     params: {
       type: Object,
       default: null
@@ -117,6 +104,9 @@ export default {
   data () {
     return {
       locationId: "",
+      mtzAppName:"",
+      user:"",
+      dept:"",
       topImgList,
       locationNow: this.$route.query.stepNum || 1,
       mtzAddShow: false,
@@ -130,36 +120,31 @@ export default {
     }
   },
   computed: {
-    submitNumber () {
-      return this.$store.state.location.submitNumber;
-    },
-    submitType () {
-      return this.$store.state.location.submitType;
-    },
     mtzObject () {
       return this.$store.state.location.mtzObject;
     },
     commonTitle () {
       // MTZ申请单-100386 申请单名-采购员-科室
-      return this.language('MTZSHENGQINGDAN', 'MTZ申请单') + (this.mtzApplayNum ? '-' + this.mtzApplayNum : '') + (' ' + this.mtzApplayName || '') + (this.user ? '-' + this.user : '') + (this.dept ? '-' + this.dept : '')
+      return this.language('MTZSHENGQINGDAN', 'MTZ申请单')
     },
     submitDataList () {
       return this.$store.state.location.submitDataList;
     },
+    submitInfor(){
+      return this.$store.state.location.submitInfor;
+    }
   },
 
   watch: {
-    submitNumber (newValue, oldValue) {
-      // this.getType();
-      this.ttNominateAppId = newValue;
-    },
-    submitType (newValue, oldValue) {
-      this.flowType = newValue;
+    submitInfor(newValue, oldValue){
+      this.ttNominateAppId = newValue.ttNominateAppId;
+      this.flowType = newValue.flowType;
+      this.mtzAppName = newValue.appName;
     },
     mtzObject (newValue, oldValue) {
       if (this.$route.query.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined) {
       } else {
-        this.locationId = this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+        this.locationId = this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId;
       }
       this.getType();
     }
@@ -172,7 +157,11 @@ export default {
       this.beforReturn = true;
     } else {
       this.beforReturn = false;
-      this.locationId = this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+      this.locationId = this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId;
+      this.mtzAppName = this.$route.query.mtzAppName;
+      this.user = this.$route.query.user;
+      this.dept = this.$route.query.dept;
+
       this.getType();
     }
     getMtzAppCheckVO({ mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId }).then(res => {
@@ -205,6 +194,9 @@ export default {
         this.flowType = res.data.flowType;
         this.appStatus = res.data.appStatus;
         this.ttNominateAppId = res.data.ttNominateAppId;
+        this.mtzAppName = res.data.appName;
+        this.user = res.data.linieName;
+        this.dept = res.data.linieDeptName;
       })
     },
     closeType () {
@@ -278,6 +270,9 @@ export default {
                 ...dataList,
                 currentStep: data.id,
                 stepNum: data.id,
+                mtzAppName: this.mtzAppName,
+                user: this.user,
+                dept: this.dept,
                 mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
                 appId: this.$route.query.appId || this.mtzObject.appId,
                 isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true
@@ -293,6 +288,9 @@ export default {
             ...dataList,
             currentStep: data.id,
             stepNum: this.locationNow,
+            mtzAppName: this.mtzAppName,
+            user: this.user,
+            dept: this.dept,
             mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
             appId: this.$route.query.appId || this.mtzObject.appId,
             isView: (this.appStatus === '草稿' || this.appStatus === '未通过') ? false : true

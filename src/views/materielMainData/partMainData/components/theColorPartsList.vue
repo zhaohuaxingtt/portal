@@ -4,7 +4,7 @@
         <el-row :gutter="24">
           <el-col span="8">
             <iFormItem :label='language("编号")' class="color-list-search">
-              <iSelect v-model="colorStandardCode" multiple >
+              <!-- <iSelect v-model="colorStandardCode" multiple >
                 <el-option
                   v-for="item in partNumOptions"
                   :key="item.value"
@@ -13,7 +13,8 @@
                 >
 
                 </el-option>
-              </iSelect>
+              </iSelect> -->
+              <iInput v-model="colorStandardCode"></iInput>
               <iButton style="margin-left:20px" @click="search">{{language('查询')}}</iButton>
             </iFormItem>
           </el-col>
@@ -36,14 +37,15 @@ import {
   iCard,
   iFormItem,
   iButton,
-  iSelect
+  iSelect,
+  iInput
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import {COLOR_COLUMNS} from './data.js'
 import { getColorListById} from '@/api/colorStandardParts'
 export default {
   name:'colorStandardList',
-  components:{iCard,iFormItem,iButton,iTableCustom,iSelect},
+  components:{iCard,iFormItem,iButton,iTableCustom,iSelect,iInput},
   props:{
     partNum:{
       type:String,
@@ -95,16 +97,19 @@ export default {
     },
     search(){
       this.colorListData = []
+      const input = this.colorStandardCode.split(',')
+      let searchedData = []
       this.iniTableData.forEach((ele)=>{
-        this.colorStandardCode.forEach((item)=>{
-          if( ele.partNum5 == item){
-            this.colorListData.push(ele)
+        input.forEach((item)=>{
+          if( ele.partNameZh.toLowerCase().includes(item.toLowerCase()) || ele.partNum5.toLowerCase().includes(item.toLowerCase())){
+            searchedData.push(ele)
           }
         })
       })
-      if(this.colorStandardCode.length == 0){
-        console.log('this.colorStandardCode',this.colorStandardCode);
+      if(input.length == 0){
         this.colorListData = this.iniTableData
+      }else{
+        this.colorListData = Array.from(new Set(searchedData)) 
       }
       this.$refs.colorListTable.toggleAllSelection()
     }

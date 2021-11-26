@@ -19,7 +19,7 @@
               </el-col>
           </el-row>
       </el-form>
-    <el-divider class="divider" ></el-divider></el-divider>
+    <el-divider class="divider" ></el-divider>
     <h4 style="margin:0 0 20px 20px">{{language('常用计量单位与基本计量单位转换关系')}}</h4>
     <iTableCustom 
         ref="unitTable"
@@ -59,25 +59,28 @@ export default {
                 for(let item of res.data){
                     this.unitOptions.push({label:item.nameZh,value:item.id,code:item.code})
                 }
+                const id =this.$route.query.id
+                getUnitList(id).then((res)=>{
+                    if(res.code == 200){
+                        const data = res.data
+                        if(data){
+                            this.unitData = data
+                            this.unit = data[0].currentUnitId
+                            this.$refs.unitTable.toggleAllSelection()
+                        }
+                        
+                    }else{
+                        this.$message.error(res.desZh)
+                    }
+                })
             }else{
                 this.$message.error(res.desZh)
             }
         })
-        const id =this.$route.query.id
-
-        getUnitList(id).then((res)=>{
-            if(res.code == 200){
-                const data = res.data
-                if(data){
-                    this.unitData = data
-                    this.unit = data[0].currentUnitId
-                    this.$refs.unitTable.toggleAllSelection()
-                }
-                
-            }else{
-                this.$message.error(res.desZh)
-            }
-        })
+        
+    },
+    mounted(){
+        
     },
     methods:{
         handleSelectionChange(val){
@@ -89,7 +92,6 @@ export default {
         getUnitItems(){
             let data = []
             data = this.selectedItems.map((ele)=>{
-                console.log(ele,'====');
                 return {
                     "bizId":this.$route.query.id,
                     "converseRate":ele.converseRate,

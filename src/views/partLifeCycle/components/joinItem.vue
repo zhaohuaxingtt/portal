@@ -51,7 +51,7 @@ export default {
     iButton
   },
   props: {
-    value: { type: Boolean, default: false }
+    value: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -69,10 +69,6 @@ export default {
   },
   methods: {
     save() {
-      if(this.ids.length === 0 && this.folderName === ''){
-        iMessage.warn(this.language('LK_QINGXUANZHE', '请选择'))
-        return
-      }
       this.saveLoading = true
       multipleAndCollect({
         folderName: this.folderName,
@@ -93,10 +89,19 @@ export default {
     },
     getFolderCombo() {
       this.contentLoading = true
+      this.ids = []
       getFolderCombo().then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.resData = res.data
+          this.resData = this.resData.filter(item=> {
+            return item.folderName!='我的收藏'
+          })
+          if(this.resData.length) {
+            this.resData.forEach(item => {
+              this.ids.push(item.id)
+            })
+          }
         } else {
           iMessage.error(result)
         }
@@ -112,7 +117,6 @@ export default {
   watch: {
     value(val) {
       if (val) {
-        this.ids = []
         this.folderName = ''
         this.getFolderCombo()
       }

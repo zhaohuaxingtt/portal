@@ -63,6 +63,7 @@
 
             <el-form-item style="marginRight:68px;width:180px" :label="language('XUNJIACAIGOUYUAN','询价采购员')" class="formItem">
               <iInput v-model="searchForm.buyerName"
+                          :disabled="true"
                           :placeholder="language('QINGSHURU','请输入')">
               </iInput>
             </el-form-item>
@@ -157,6 +158,7 @@ import {
   getFlowTypeList,
   getLocationApplyStatus,
   relation,
+  getCurrentUser
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   page,
@@ -196,6 +198,7 @@ export default {
             }
         ],
         searchForm: {
+          linieName:'',
           applicationStatus:"NEW"
         },
         getSecondPartList:[
@@ -273,13 +276,17 @@ export default {
       // getLocationApplyStatus({}).then(res=>{
       //   this.getLocationApplyStatus = res.data;
       // })
-
       selectDictByKeys({
         keys:"CAR_TYPE_PRO"
       }).then(res=>{
         this.getLocationApplyStatus11 = res.data.CAR_TYPE_PRO;
       })
-      this.getTableList();
+
+      // getCurrentUser({}).then(res=>{
+        // console.log(res)
+        this.searchForm.buyerName = JSON.parse(sessionStorage.getItem('userInfo')).nameZh;
+        this.getTableList();
+      // })
     },
     getTableList(val){
       this.loading = true;
@@ -298,7 +305,8 @@ export default {
     // 重置
     handleSearchReset(form) {
       this.searchForm = {
-        applicationStatus:"NEW"
+        applicationStatus:"NEW",
+        buyerName : JSON.parse(sessionStorage.getItem('userInfo')).nameZh
       };
       this.page.currPage = 1;
       this.page.pageSize = 10;

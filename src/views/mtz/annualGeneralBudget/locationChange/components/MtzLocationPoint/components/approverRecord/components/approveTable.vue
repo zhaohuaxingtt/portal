@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-24 17:37:57
+ * @LastEditTime: 2021-11-26 10:13:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -15,6 +15,7 @@
                  class="margin-right20"
                  @click="handleSync('')"
                  v-show="!flag"
+                 :disabled="disabled"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
         <iButton v-show="!flag"
@@ -49,7 +50,7 @@
                    remote
                    placeholder="输入关键词搜索"
                    @change="function(changedVal) {handleChangeDepartment(changedVal, scope.row)}">
-            <el-option v-for="item in selectDeptList"
+            <el-option v-for="item in scope.row.selectDeptList"
                        :key="item.id"
                        :label="item.nameZh"
                        :value="item.nameZh">
@@ -67,7 +68,7 @@
                      remote
                      placeholder="输入关键词搜索"
                      @change="function(changedVal) {handleChangeApprovalSection(changedVal, scope.row)}">
-              <el-option v-for="item in selectSectionList"
+              <el-option v-for="item in scope.row.selectSectionList"
                          :key="item.id"
                          :label="item.nameZh"
                          :value="item.nameZh">
@@ -85,11 +86,11 @@
                    remote
                    placeholder="输入关键词搜索"
                    :remote-method="queryOptions"
-                   @change="handleChange">
+                   @change="function(changedVal) {handleChangeApprovalName(changedVal, scope.row)}">
             <el-option v-for="item in userList"
                        :key="item.id"
                        :label="item.nameZh"
-                       :value="item.id">
+                       :value="item.nameZh">
             </el-option>
           </iSelect>
           <span v-else> {{ scope.row.approvalName }}</span>
@@ -186,9 +187,7 @@ export default {
       this.mtzAppId = this.$route.query.mtzAppId
       this.flag = JSON.parse(this.$route.query.isView)
       await this.getAppFormInfo()
-      this.selectDept()
-      this.selectSection()
-
+      // this.selectDept()
     },
     getTableList () {
       this.tableLoading = true
@@ -216,31 +215,47 @@ export default {
     },
     handleSelectionChange (val) {
       this.muilteList = val
-    },
-    selectDept () {
-      selectDept({}).then((res) => {
-        if (res?.code === '200') {
-          this.selectDeptList = res.data
-        }
+      this.muilteList.forEach(item => {
+        selectDept({}).then((res) => {
+          if (res?.code === '200') {
+            this.$set(item, 'selectDeptList', res.data);
+            let deptList = item.selectDeptList.find(i => item.approvalDepartmentName === i.nameZh)
+            console.log(deptList)
+            selectSection({
+              deptId: deptList.id
+            }).then((res) => {
+              this.$set(item, 'selectSectionList', res.data);
+            })
+          }
+        })
       })
     },
-    selectSection () {
-      selectSection({}).then((res) => {
-        this.selectSectionList = res.data
-      })
-    },
+    // selectDept () {
+    //   selectDept({}).then((res) => {
+    //     if (res?.code === '200') {
+    //       this.selectDeptList = res.data
+    //     }
+    //   })
+    // },
+    // selectSection (id) {
+    //   selectSection({ deptId: id }).then((res) => {
+    //     this.selectSectionList = res.data
+    //   })
+    // },
     getAppFormInfo () {
       getAppFormInfo({
         isDeptLead: true,
         mtzAppId: this.mtzAppId || '5107001'
       }).then(res => {
         if (res?.code === '200') {
+          if (res.data.flowType === 'FILING') {
+            this.disabled = true
+            return
+          }
           this.riseId = res.data.riseId
           if (res.data.ttNominateAppId) {
             this.disabled = true
-          }
-          if (res.data.flowType === 'FILING') {
-            this.disabled = true
+            this.handleSync('')
             return
           }
           this.handleSync('1')
@@ -305,16 +320,24 @@ export default {
       done();
     },
     handleChangeDepartment (val, row) {
-      let obj = this.selectDeptList.find(item => item.nameZh === val)
-      row.approvalDepartment = obj.id
+      let obj = row.selectDeptList.find(item => item.nameZh === val)
+      row.approvalDepartment = obj.approvalDepartment
+      selectSection({ deptId: obj.id }).then(res => {
+        this.$set(row, 'selectSectionList', res.data);
+      })
     },
     handleChangeApprovalSection (val, row) {
-      let obj = this.selectSectionList.find(item => item.nameZh === val)
-      row.approvalDepartment = obj.id
-      this.userList = obj.userDTOList
+      let obj = row.selectSectionList.find(item => item.nameZh === val)
+      row.approvalSection = obj.approvalSection
+      this.$set(row, 'userList', obj.userDTOList);
+    },
+    handleChangeApprovalName (val, row) {
+      let obj = this.userList.find(item => item.id === val)
+      console.log(obj)
+      // row.approvalName = obj.id
+
     },
     handleSync (params) {
-
       syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: params || "" }).then(res => {
         if (res?.code === '200') {
           this.getTableList()
