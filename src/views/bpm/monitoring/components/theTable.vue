@@ -12,6 +12,7 @@
       :columns="tableColumns"
       min-height="328px"
       @go-detail="openPage"
+      @go-template="openTemplage"
       @handle-selection-change="handleSelectionChange"
     />
 
@@ -65,6 +66,9 @@ export default {
           item.procStatus === 1 ? 'yes' : 'no'
         }`
       )
+    },
+    openTemplage(item) {
+      window.open(`/portal/#/bpm/template/detail/${item.modelNo}`)
     },
     exportProcess() {
       return exportProcessHistorics({
