@@ -136,12 +136,15 @@ export default {
           if (valid) {
             this.tableLoading = true
             const reqTableList = cloneDeep(this.tableListData)
+            console.log(this.tableListData)
+
             reqTableList.map(item => {
               item['country'] = item.country.cityNameCn ? item.country.cityNameCn : item.country
               item['province'] = item.province.cityNameCn ? item.province.cityNameCn : item.province
               item['city'] = item.city.cityNameCn ? item.city.cityNameCn : item.city
               return item
             })
+              console.log(reqTableList)
             const req = {
               saveSupplierPlantDTOList: reqTableList,
               step: 'register',
