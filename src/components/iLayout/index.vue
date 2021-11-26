@@ -226,6 +226,10 @@ export default {
       console.log('点击了admin 菜单')
       this.$refs.leftLayout.activeIndex = ''
     }
+  },
+  beforeRouteEnter(to,from,next){
+     console.log(to,'==============');
+        console.log(from,'==============');
   }
 }
 </script>
