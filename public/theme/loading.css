@@ -10,6 +10,9 @@
   background-color: rgba(255,255,255,0.5);
   z-index: 9999989;
   transition: display ease-out  2s;
+  /* background: url(./white-bg.png) no-repeat;
+  background-size: contain;
+  opacity: 0.3; */
 }
 
 .loading-wrapper .loading-container {
