@@ -105,3 +105,12 @@ export function deletePart(parmars) {
     data: parmars
   })
 }
+// --供应商注册邀请
+export function invitation(parmars) {
+    return requst({
+      url: `/ntierSupplier/invitation`,
+      method: 'POST',
+      data: parmars
+    })
+  }
+  
