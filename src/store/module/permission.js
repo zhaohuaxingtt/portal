@@ -105,7 +105,7 @@ const mutations = {
         })
         //ekl配附件
         state.eklPfjTabList.push({
-          name: 'EKL-CS',
+          name: 'CS(Spare)',
           id: index,
           type: 1
         })
@@ -119,7 +119,7 @@ const mutations = {
       }else if(["PFJYJGLY", "CGKZKZ", "PJCGGZ","FJCGGZ","CSXTGLY","CIXTGLY"].includes(item.code)){
         //ekl配附件
         state.eklPfjTabList.push({
-          name: 'EKL-CS',
+          name: 'CS(Spare)',
           id: index,
           type: 1
         })
@@ -149,7 +149,7 @@ const mutations = {
         })
         //ekl配附件
         state.eklPfjTabList.push({
-          name: 'EKL-Linie',
+          name: 'Linie(Spare)',
           id: index,
           type: 4
         })

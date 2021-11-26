@@ -1,15 +1,13 @@
 <template>
   <iCard class="margin-bottom20" title="基本信息" header-control collapse>
     <div class="top-buttons margin-bottom20">
-      <iButton v-if="isEditPage && !editable" @click="edit">
-        编辑
-      </iButton>
+      <iButton v-if="isEditPage && !editable" @click="edit"> 编辑 </iButton>
       <iButton v-show="editable" @click="save">保存</iButton>
       <iButton v-show="editable && $route.query.id" @click="cancel">
         取消
       </iButton>
     </div>
-    <div class="filter-form">
+    <div class="filter-form" v-loading="saveLoading">
       <el-form
         label-position="left"
         label-width="115px"
@@ -258,6 +256,18 @@
               </iSelect>
             </iFormItem>
           </el-col>
+          <el-col :span="8">
+            <iFormItem :label="language('是否TIPS同步')">
+              <iSelect
+                v-model="formData.isModify"
+                :disabled="!editable"
+                filterable
+              >
+                <el-option :value="true" :label="language('是')" />
+                <el-option :value="false" :label="language('否')" />
+              </iSelect>
+            </iFormItem>
+          </el-col>
         </el-row>
       </el-form>
       <!-- 项目采购员 -->
@@ -370,7 +380,7 @@ export default {
     },
     getCarTypeSelectOptions() {
       let param = {}
-      carTypeSelectOptions(param).then(val => {
+      carTypeSelectOptions(param).then((val) => {
         if (val.code == 200) {
           this.carTypeSelectList = val.data.TYPE_VEHICLE_PROJECT
         }
@@ -378,7 +388,7 @@ export default {
     },
     getCarTypeFuelSelectOptions() {
       let param = {}
-      carTypeFuelSelectOptions(param).then(val => {
+      carTypeFuelSelectOptions(param).then((val) => {
         if (val.code == 200) {
           //
           this.carTypeFuelSelectList = val.data.cartype_fuel_type
@@ -387,7 +397,7 @@ export default {
     },
     getProcureFactorySelectOptions() {
       let param = {}
-      procureFactorySelectOptions(param).then(val => {
+      procureFactorySelectOptions(param).then((val) => {
         if (val.code == 200) {
           //
           this.procureFactorySelectList = val.data
@@ -397,7 +407,7 @@ export default {
     getCarProjectReleaseStatusList() {
       let param = {}
       carProjectReleaseStatusList(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             //
             this.publishStatusSelectList = val.data.cartype_pro_public_state
@@ -420,7 +430,7 @@ export default {
       }
     },
     save() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.editstate ? this.updateBaseInfo() : this.createBaseInfo()
         } else {
@@ -450,17 +460,17 @@ export default {
     },
     async createBaseInfo() {
       let projectPurchaserId = this.formData.projectPurchaser
-        .map(val => {
+        .map((val) => {
           return val.id
         })
         .join(',')
       let areaControllerId = this.formData.areaController
-        .map(val => {
+        .map((val) => {
           return val.id
         })
         .join(',')
       let projectManagerId = this.formData.projectManager
-        .map(val => {
+        .map((val) => {
           return val.id
         })
         .join(',')
@@ -471,8 +481,9 @@ export default {
         areaController: areaControllerId,
         projectManager: projectManagerId
       }
+      this.saveLoading = true
       let val = await carProjectCreateBaseInfo(param).finally(() => {
-        //
+        this.saveLoading = false
       })
       if (val.code == 200) {
         //基本信息创建成功之后，回传数据
@@ -492,17 +503,17 @@ export default {
         return
       }
       let projectPurchaserId = this.formData.projectPurchaser
-        .map(val => {
+        .map((val) => {
           return val.id
         })
         .join(',')
       let areaControllerId = this.formData.areaController
-        .map(val => {
+        .map((val) => {
           return val.id
         })
         .join(',')
       let projectManagerId = this.formData.projectManager
-        .map(val => {
+        .map((val) => {
           return val.id
         })
         .join(',')
@@ -515,7 +526,10 @@ export default {
         id: carProjectID
       }
 
-      let val = await carProjectUpdateBaseInfo(param)
+      this.saveLoading = true
+      let val = await carProjectUpdateBaseInfo(param).finally(() => {
+        this.saveLoading = false
+      })
       if (val.code == 200) {
         //基本信息创建成功之后，回传数据
         this.$emit('save-success', val.data.id)
@@ -527,8 +541,9 @@ export default {
     },
     async queryCarProjectBaseInfo(data) {
       let params = { idOrCode: data, type: '1' }
+      this.saveLoading = true
       let val = await carProjectDetail(params).finally(() => {
-        //
+        this.saveLoading = false
       })
       if (val.code == 200) {
         //purchase
@@ -540,7 +555,7 @@ export default {
         let newFormData = { ...val.data }
         if (purchaseIDs) {
           let purchaseIDList = purchaseIDs.split(',')
-          let purchaseIDNumList = purchaseIDList.map(item => {
+          let purchaseIDNumList = purchaseIDList.map((item) => {
             return parseInt(item)
           })
           let param = { userIdList: purchaseIDNumList }
@@ -550,7 +565,7 @@ export default {
 
         if (areaControllerIDs) {
           let areaControllerIDList = areaControllerIDs.split(',')
-          let areaControllerIDNumList = areaControllerIDList.map(item => {
+          let areaControllerIDNumList = areaControllerIDList.map((item) => {
             return parseInt(item)
           })
           let param = { userIdList: areaControllerIDNumList }
@@ -560,7 +575,7 @@ export default {
 
         if (projectManagerIDs) {
           let projectManagerIDList = projectManagerIDs.split(',')
-          let projectManagerIDNumList = projectManagerIDList.map(item => {
+          let projectManagerIDNumList = projectManagerIDList.map((item) => {
             return parseInt(item)
           })
           let param = { userIdList: projectManagerIDNumList }
@@ -587,7 +602,7 @@ export default {
       }
       let param = { param: queryString }
       cartypeNameList(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             this.carTypes = val.data
           }
@@ -690,7 +705,8 @@ export default {
         beginTime: '', // 开始时间
         closeTime: '', //  关闭时间
         publishStatus: '', // 发布状态 0：草稿 （Draft）;1:生效(Effective)
-        isValid: '' // 是否有效
+        isValid: '', // 是否有效
+        isModify: false
       },
       inputFormData: {
         projectPurchaser: [], // 项目采购员
@@ -774,7 +790,8 @@ export default {
         isValid: [
           { required: true, message: '请选择是否有效', trigger: 'blur' }
         ]
-      }
+      },
+      saveLoading: false
     }
   }
 }

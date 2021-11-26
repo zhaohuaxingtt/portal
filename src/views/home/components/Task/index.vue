@@ -12,7 +12,7 @@
             <span v-if="getOverdueQty(item.taskType) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
-            <icon symbol class="icon" name="iconOverdue" />
+            <!-- <icon symbol class="icon" name="iconOverdue" /> -->
             <div>{{ $t('HOME_CARD.OVERDUE') }}</div>
           </div>
         </div>
@@ -23,7 +23,7 @@
             <span v-if="getTodayQty(item.taskType) > 99">+</span>
           </div>
           <div class="numName flex-align-center">
-            <icon symbol class="icon" name="icona-InProgress" />
+            <!-- <icon symbol class="icon" name="icona-InProgress" /> -->
             <div>{{ $t('HOME_CARD.IN_PROGRESS') }}</div>
           </div>
         </div>
@@ -33,10 +33,10 @@
 </template>
 
 <script>
-import { Icon } from 'rise'
+// import { Icon } from 'rise'
 import { getDutyStatistics } from '@/api/duty'
 export default {
-  components: { Icon },
+  // components: { Icon },
   props: {
     data: {
       type: Array,
@@ -120,10 +120,15 @@ export default {
 
 <style lang="scss" scoped>
 .single-ellipsis {
+  word-wrap: break-word;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 100px;
+  width: 120px;
+}
+.single-ellipsis:hover {
+  white-space: normal;
+  overflow: auto;
 }
 .task-card {
   border-radius: 10px;
@@ -156,31 +161,31 @@ export default {
     .line {
       font-size: 24px;
     }
-    .numName {
-      position: relative;
-      > img {
-        width: 15px;
-        margin-right: 5px;
-      }
-      > .icon {
-        font-size: 16px;
-        margin-right: 5px;
-      }
-      // .numName-text {
-      //   line-height: 12px;
-      //   opacity: 0.86;
-      // }
-    }
-    .overdue {
-      .numName {
-        margin-right: 10px;
-      }
-    }
-    .progress {
-      .numName {
-        margin-right: 10px;
-      }
-    }
+    // .numName {
+    //   position: relative;
+    //   > img {
+    //     width: 15px;
+    //     margin-right: 5px;
+    //   }
+    //   > .icon {
+    //     font-size: 16px;
+    //     margin-right: 5px;
+    //   }
+    //   .numName-text {
+    //     line-height: 12px;
+    //     opacity: 0.86;
+    //   }
+    // }
+    // .overdue {
+    //   .numName {
+    //     margin-right: 10px;
+    //   }
+    // }
+    // .progress {
+    //   .numName {
+    //     margin-right: 10px;
+    //   }
+    // }
 
     .overdue,
     .progress {
@@ -202,10 +207,10 @@ export default {
             // font-size: 24px;
           }
         }
-        &:last-child {
-          min-height: 30px;
-          line-height: 30px;
-        }
+        // &:last-child {
+        //   min-height: 30px;
+        //   line-height: 30px;
+        // }
       }
     }
   }

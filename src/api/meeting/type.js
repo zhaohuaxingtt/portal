@@ -62,7 +62,6 @@ export function uploadFile(data) {
   let currentUser = userInfo.nameZh ? userInfo.nameZh : userInfo.nameEn
   if (process.env.NODE_ENV == 'develop') {
     return requst({
-      // url: `/rise-mock/udMutilfilesController`,
       url: `/udMutilfilesController?currentUser=${currentUser}`,
       method: 'POST',
       data
@@ -70,7 +69,6 @@ export function uploadFile(data) {
   }
 
   return requstFile({
-    // url: `/rise-mock/udMutilfilesController`,
     url: `/udMutilfilesController?currentUser=${currentUser}`,
     method: 'POST',
     data
@@ -197,3 +195,12 @@ export function getUsers(data) {
 //     data,
 //   });
 // }
+
+// 查询关联关系
+export function findMeetingTypesByProperties(data) {
+  return requst({
+    url: `/meetingService/findMeetingTypesByProperties`,
+    method: 'POST',
+    data
+  })
+}

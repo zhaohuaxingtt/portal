@@ -5,7 +5,7 @@
         v-model="checkList"
         multiple
         collapse-tags
-        style="width: 55.5%"
+        style="width: 100%"
         placeholder="请选择科室"
         @change="handleChange"
       >
@@ -30,43 +30,43 @@ export default {
     return {
       checkList: [],
       options: [],
-      gradeList: ['A', 'AA', 'AAA', 'B', 'BB', 'BBB', 'C', 'CC', 'CCC'],
+      gradeList: ['AAA', 'AA', 'A', 'BBB', 'BB', 'B', 'CCC', 'CC', 'C'],
       colorList: [
         {
-          name: 'A',
-          color: '#297fd5'
+          name: 'AAA',
+          color: '#4a66ac'
         },
         {
           name: 'AA',
           color: '#629dd1'
         },
         {
-          name: 'AAA',
-          color: '#4a66ac'
-        },
-        {
-          name: 'B',
-          color: '#9d90a0'
-        },
-        {
-          name: 'BB',
-          color: '#5aa2ae'
+          name: 'A',
+          color: '#297fd5'
         },
         {
           name: 'BBB',
           color: '#7f8fa9'
         },
         {
-          name: 'C',
-          color: '#194c80'
+          name: 'BB',
+          color: '#5aa2ae'
+        },
+        {
+          name: 'B',
+          color: '#9d90a0'
+        },
+        {
+          name: 'CCC',
+          color: '#2c3d67'
         },
         {
           name: 'CC',
           color: '#2a5f8e'
         },
         {
-          name: 'CCC',
-          color: '#2c3d67'
+          name: 'C',
+          color: '#194c80'
         }
       ],
       list: [],
@@ -82,7 +82,8 @@ export default {
         departmentIds: []
       },
       legendData: [],
-      chart: null
+      pieChart: null,
+      barChart: null
     }
   },
   mounted() {
@@ -99,8 +100,9 @@ export default {
     async getSponserList() {
       this.totalCount = 0
       const result = await getSponserData(this.query)
+
       if (result.code === '200' && result.data) {
-        let data = result.data
+        let data = result.data.slice(0, 9)
         const dataGrade = data.map((item) => {
           return item.grade
         })
@@ -118,6 +120,7 @@ export default {
             ratio: 0
           })
         }
+
         for (let i = 0; i < data.length; i++) {
           data[i].value = data[i].num
           data[i].name = data[i].grade
@@ -130,8 +133,12 @@ export default {
           }
           this.totalCount += data[i].num
         }
-        this.data = data
-        this.data.forEach((item) => {
+
+        this.data = JSON.parse(JSON.stringify(data))
+        this.newArr = []
+        this.newBrr = []
+        this.newCrr = []
+        data.forEach((item) => {
           if (item.type == 'A') {
             this.newArr.push(item)
           } else if (item.type == 'B') {
@@ -140,13 +147,16 @@ export default {
             this.newCrr.push(item)
           }
         })
+
         this.newArr = this.handleArr(this.newArr, 'A')
         this.newBrr = this.handleArr(this.newBrr, 'B')
         this.newCrr = this.handleArr(this.newCrr, 'C')
         this.newCrr.forEach((item) => (this.total += item.value))
+
+        this.initPie()
+        this.initBar()
       }
-      this.initPie()
-      this.initBar()
+
     },
     handleChange(val) {
       this.query.departmentIds = val
@@ -207,7 +217,7 @@ export default {
       return arr
     },
     initPie() {
-      const data = _.cloneDeep(this.data)
+      let data = _.cloneDeep(this.data)
       let totalSum = 0
       data.forEach((item) => (totalSum += item.num))
       data.forEach((item) => {
@@ -231,6 +241,7 @@ export default {
             '    '
         }
       })
+
       for (let i = 0; i < data.length; i++) {
         data[i].itemStyle = { normal: { color: this.colorList[i]?.color } }
         data[i].textStyle = { fontSize: 10, fontWeight: 'normal' }
@@ -240,10 +251,23 @@ export default {
         total += data[i].value
       }
       this.total = total
-      this.legendData = data
-      const chart = echarts().init(this.$refs.pie)
-      this.chart = chart
-      const option = {
+      let A = data.filter(e => e.grade.includes("A"))
+      let B = data.filter(e => e.grade.includes("B"))
+      let C = data.filter(e => e.grade.includes("C"))
+      this.legendData = [...this.arrSort(A),...this.arrSort(B),...this.arrSort(C)]
+      this.setPieChart(data,total)
+
+    },
+    arrSort(arr){
+      // 倒序
+      return arr.sort((a,b) => b.grade.length - a.grade.length)
+    },
+    // init pieecharts
+    setPieChart(data,total){
+      if(!this.pieChart){
+        this.pieChart = echarts().init(this.$refs.pie)
+      }
+      let option = {
         tooltip: {
           trigger: 'item',
           formatter: function (data) {
@@ -292,10 +316,11 @@ export default {
           }
         ]
       }
-      option && chart.setOption(option)
-
+      this.$nextTick(() => {
+        this.pieChart && this.pieChart.setOption(option)
+      })
       // 监听饼状图鼠标移入事件
-      chart.on('mouseover', (param) => {
+      this.pieChart.on('mouseover', (param) => {
         const newLegends = this.legendData.map((e) => {
           if (e.name === param.name) {
             e.textStyle.fontWeight = 'bold'
@@ -308,7 +333,7 @@ export default {
       })
 
       // 监听饼状图鼠标移出事件
-      chart.on('mouseout', () => {
+      this.pieChart.on('mouseout', () => {
         const newLegends = this.legendData.map((e) => {
           e.textStyle.fontWeight = 'normal'
           return e
@@ -371,11 +396,16 @@ export default {
           }
         ]
       }
-      option && this.chart.setOption(option)
+      this.$nextTick(() => {
+        option && this.pieChart.setOption(option)
+      })
     },
+    // init bar echarts
     initBar() {
       const totalCount = _.cloneDeep(this.totalCount)
-      const chart = echarts().init(this.$refs.bar)
+      if(!this.barChart){
+        this.barChart = echarts().init(this.$refs.bar)
+      }
       // let total = this.data.reduce((prev, val) => prev + val, 0)
       // let str = `C-Rating数量:${total}\nC-Rating比例:60%`
       const option = {
@@ -391,7 +421,7 @@ export default {
               total += data[i].data.value
             }
             const type = data[0].data.type
-            return `${type}-Rating数量：${total}<br/>${type}-Rating比例：${
+            return `${type}-Rating数量：${total}家<br/>${type}-Rating比例：${
               String((total / totalCount)) === 'NaN' ? '0.00' : ((total / totalCount).toFixed(2) * 100).toFixed(2)
             }%`
           }
@@ -438,7 +468,7 @@ export default {
             // ]
             style: {
                   fill: '#7E84A3',
-                  text: 'C-Rating数量:36\n'+'\nC-Rating比例:60%',
+                  text: 'C-Rating数量:36家\n'+'\nC-Rating比例:60%',
                   font: '7px sans-serif'
                 }
           }
@@ -499,7 +529,9 @@ export default {
           }
         ]
       }
-      option && chart.setOption(option)
+      this.$nextTick(() => {
+        this.barChart &&  this.barChart.setOption(option)
+      })
     }
   }
 }

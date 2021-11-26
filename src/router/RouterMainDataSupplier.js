@@ -18,7 +18,8 @@ export default [
         path: 'list',
         name: 'MainDataSupplierList',
         meta: {
-          title: '供应商信息'
+          title: '供应商信息',
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/mainDataSupplier/list')
       },
@@ -26,7 +27,8 @@ export default [
         path: 'user',
         name: 'MainDataSupplierUser',
         meta: {
-          title: '供应商用户'
+          title: '供应商用户',
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/mainDataSupplier/user')
       },
@@ -35,7 +37,7 @@ export default [
         name: 'MainDataSupplierUser',
         meta: {
           title: '车型主数据管理',
-          perm: 'admin'
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
         },
         component: () => import('@/views/mainDataSupplier/N-Tier')
       }
@@ -48,16 +50,18 @@ export const RouterDetailSupplier = [
     path: '/mainDataSupplier/list/detail',
     name: 'MainDataSupplierListDeail',
     meta: {
-      title: '供应商详情信息'
+      title: '供应商详情信息',
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
     component: () => import('@/views/mainDataSupplier/list/detail')
   },
   {
-    path:'/mainDataSupplier/N-Tier/detail',
-    name:'MainDataSupplierN-TierDetail',
-    meta:{
-      title:'N-Tier详情页面'
+    path: '/mainDataSupplier/N-Tier/detail',
+    name: 'MainDataSupplierN-TierDetail',
+    meta: {
+      title: 'N-Tier详情页面',
+      activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
-    component:()=> import('@/views/mainDataSupplier/N-Tier/detail')
+    component: () => import('@/views/mainDataSupplier/N-Tier/detail')
   }
 ]

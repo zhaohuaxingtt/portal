@@ -17,6 +17,7 @@
     highlight-current-row
     ref="tableML"
     :border="border"
+    @row-click="handleRowClick"
   >
     <slot></slot>
   </el-table>
@@ -38,7 +39,9 @@ export default {
     border: { type: Boolean, default: false }
   },
   data() {
-    return {}
+    return {
+      selectedArr: []
+    }
   },
   mounted() {
     this.handleCurrentRow(this.currentRow)
@@ -62,26 +65,36 @@ export default {
     }
   },
   methods: {
+    handleRowClick(row) {
+      let bol = this.selectedArr.some((item) => {
+        return item.id === row.id
+      })
+      this.handleSelectCheckBox(row, !bol)
+    },
     handleSelectionChange(val) {
       let selectArr = val
         ? val.filter((item) => {
             return item !== undefined
           })
         : []
+      this.selectedArr = selectArr
       this.$emit('selectionChange', selectArr)
+    },
+    handleSelectCheckBox(row,bol) {
+      const index = this.$refs.tableML.data.findIndex((item) => {
+        return item.id === row.id
+      })
+      this.$refs.tableML.toggleRowSelection(
+        this.$refs.tableML.data[index],
+        bol
+      )
     },
     handleCurrentRow(row) {
       if (this.isSingle) {
         this.$refs.tableML.clearSelection()
       }
       if (row) {
-        const index = this.$refs.tableML.data.findIndex((item) => {
-          return item.id === row.id
-        })
-        this.$refs.tableML.toggleRowSelection(
-          this.$refs.tableML.data[index],
-          true
-        )
+        this.handleSelectCheckBox(row,true)
       }
     }
   }

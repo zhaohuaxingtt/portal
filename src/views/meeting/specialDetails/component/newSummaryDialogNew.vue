@@ -62,7 +62,7 @@
             >
               <div class="agenda-item-title" @click="chooseItem(index + 1)">
                 <div class="title-left">
-                  <div class="title-index">{{ numToLetter[index + 1] }}</div>
+                  <div class="title-index">{{ index + 1 }}</div>
                   <div class="title-name">{{ item.topic }}</div>
                 </div>
                 <div class="up-arrow">
@@ -133,7 +133,7 @@
             <iButton @click="handleCancel" plain class="cancel">{{
               $t('LK_QUXIAO')
             }}</iButton>
-            <iButton @click="handleOK" plain :loading="loadingCreate">{{
+            <iButton @click="handleOK" plain :loading="loadingCreate" :disabled="loadingCreate">{{
               '创建'
             }}</iButton>
           </el-form-item>
@@ -191,7 +191,7 @@ export default {
   },
   data() {
     return {
-      loadingCreate:false,
+      loadingCreate: false,
       numToLetter,
       upArrow,
       choosedIndex: -1,

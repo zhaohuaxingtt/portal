@@ -23,8 +23,8 @@
                 v-for="(item, index) in [
                   {
                     value: resultData.attendeeGroupName,
-                    label: resultData.attendeeGroupName,
-                  },
+                    label: resultData.attendeeGroupName
+                  }
                 ]"
                 :key="index"
                 :label="item.label"
@@ -56,12 +56,12 @@
               :key="item.id"
               :class="[
                 choosedIndex == index + 1 ? 'active-agenda-item' : '',
-                'agenda-item',
+                'agenda-item'
               ]"
             >
               <div class="agenda-item-title" @click="chooseItem(index + 1)">
                 <div class="title-left">
-                  <div class="title-index">{{ numToLetter[index + 1] }}</div>
+                  <div class="title-index">{{ index + 1 }}</div>
                   <div class="title-name">{{ item.topic }}</div>
                 </div>
                 <div class="up-arrow" @click="taskUserResult(item)">
@@ -71,8 +71,12 @@
               <div class="agenda-item-content">
                 <p class="task">Task</p>
                 <div class="task-title">
-                  <div>部门：<span>{{taskDeptResult(item,'supporterDept','presenterDept')}}</span></div>
-                  <div>{{employeeStr}}</div>
+                  <div>
+                    部门：<span>{{
+                      taskDeptResult(item, 'supporterDept', 'presenterDept')
+                    }}</span>
+                  </div>
+                  <div>{{ employeeStr }}</div>
                 </div>
                 <iFormItem prop="conclusion" class="meet-desc">
                   <iInput
@@ -82,9 +86,24 @@
                     rows="4"
                   />
                 </iFormItem>
-                <p class="task">Result：{{conclusionCscList[item.conclusionCsc]}}</p>
+                <p class="task">
+                  Result：{{
+                    item.conclusionCsc === '01'
+                      ? conclusionCscList[item.conclusionCsc]
+                      : item.conclusionCsc === '02'
+                      ? conclusionCscList[item.conclusionCsc]
+                      : item.conclusionCsc === '07'
+                      ? conclusionCscList[item.conclusionCsc]
+                      : ''
+                  }}
+                </p>
                 <iFormItem class="meet-desc">
-                  <el-table v-if="item.conclusionCsc==='02'" :data="tableData" border style="width: 100%">
+                  <el-table
+                    v-if="item.conclusionCsc === '02'"
+                    :data="tableData"
+                    border
+                    style="width: 100%"
+                  >
                     <el-table-column
                       prop="date"
                       align="center"
@@ -121,23 +140,23 @@
                     >
                     </el-table-column>
                   </el-table>
-                  <div v-if="item.conclusionCsc==='03'">
+                  <div v-if="item.conclusionCsc === '03'">
                     <p>对于车型，发 LOI 给</p>
                     <p>For carline send LOI to</p>
                   </div>
-                  <div v-if="item.conclusionCsc==='04'">
+                  <div v-if="item.conclusionCsc === '04'">
                     <p>转 TER/TOP TER</p>
                     <p>Present in TER/TOP TER</p>
                   </div>
-                  <div v-if="item.conclusionCsc==='05'">
-                    <p>在 {{toDoMeetingName(item)}} 周预备会上展示</p>
-                    <p>Present in {{toDoMeetingName(item)}} SVW Pre CSC</p>
+                  <div v-if="item.conclusionCsc === '05'">
+                    <p>在 {{ toDoMeetingName(item) }} 周预备会上展示</p>
+                    <p>Present in {{ toDoMeetingName(item) }} SVW Pre CSC</p>
                   </div>
-                  <div v-if="item.conclusionCsc==='06'">
-                    <p>在 {{toDoMeetingName(item)}} 周正式会上展示</p>
-                    <p>Present in {{toDoMeetingName(item)}}  SVW CSC</p>
+                  <div v-if="item.conclusionCsc === '06'">
+                    <p>在 {{ toDoMeetingName(item) }} 周正式会上展示</p>
+                    <p>Present in {{ toDoMeetingName(item) }} SVW CSC</p>
                   </div>
-                  <div v-if="item.conclusionCsc==='07'">
+                  <div v-if="item.conclusionCsc === '07'">
                     <p>议题关闭</p>
                     <p>The items are closed</p>
                   </div>
@@ -149,9 +168,9 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="handleCancel" plain class="cancel">{{
-              $t("LK_QUXIAO")
+              $t('LK_QUXIAO')
             }}</iButton>
-            <iButton @click="handleOK" plain>{{ "创建" }}</iButton>
+            <iButton @click="handleOK" plain>{{ '创建' }}</iButton>
           </el-form-item>
         </div>
       </el-form>
@@ -167,13 +186,13 @@ import {
   iLabel,
   iButton,
   iSelect,
-  iMessage,
-} from "rise";
-import { numToLetter } from "./data";
-import iEditForm from "@/components/iEditForm";
-import { getMeetingSummary, saveMeetingMinutes } from "@/api/meeting/home";
-import upArrow from "@/assets/images/up-arrow.svg";
-import {getReceiverById } from "@/api/meeting/type";
+  iMessage
+} from 'rise'
+import { numToLetter } from './data'
+import iEditForm from '@/components/iEditForm'
+import { getMeetingSummary, saveMeetingMinutes } from '@/api/meeting/home'
+import upArrow from '@/assets/images/up-arrow.svg'
+import { getReceiverById } from '@/api/meeting/type'
 export default {
   components: {
     iDialog,
@@ -182,28 +201,28 @@ export default {
     iInput,
     iLabel,
     iButton,
-    iEditForm,
+    iEditForm
   },
   props: {
     loading: { type: Boolean, default: false },
     open: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     id: {
       type: Number || String,
       default: () => {
-        return "";
-      },
+        return ''
+      }
     },
     receiverId: {
       type: Number || String,
       default: () => {
-        return "";
-      },
-    },
+        return ''
+      }
+    }
   },
   data() {
     return {
@@ -213,74 +232,82 @@ export default {
       form: {},
       tableData: [],
       resultData: {
-        name: "",
-        attendeeGroupName: "",
-        attendees: "",
-        themens: [],
+        name: '',
+        attendeeGroupName: '',
+        attendees: '',
+        themens: []
       },
       rules: {
         attendees: [
-          { required: true, message: "请输入议题结论！", trigger: "blur" },
-           { min: 0, max: 2048, message: "最大长度2048字符", trigger: "blur" },
+          { required: true, message: '请输入议题结论！', trigger: 'blur' },
+          { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
         ],
-        conclusion:[
-           { min: 0, max: 2048, message: "最大长度2048字符", trigger: "blur" },
-        ],
+        conclusion: [
+          { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
+        ]
       },
-      employeeDTOS:[],
-      conclusionCscList:{
-        '01':'待定','02':'定点','03':'发LOI','04':'转TER/TOP-TER','05':'下次Pre CSC','06':'转CSC','07':'关闭'
+      employeeDTOS: [],
+      conclusionCscList: {
+        '01': '待定',
+        '02': '定点',
+        '03': '发LOI',
+        '04': '转TER/TOP-TER',
+        '05': '下次Pre CSC',
+        '06': '转CSC',
+        '07': '关闭'
       },
-      employeeStr:'',
-    };
+      employeeStr: ''
+    }
   },
-  computed:{
-    
-  },
+  computed: {},
   mounted() {
-    this.getMeetingSummary();
+    this.getMeetingSummary()
     const data = {
-        id: this.receiverId,
-      };
-      //查询收件人
-      getReceiverById(data).then((res) => {
-        this.employeeDTOS=res?.employeeDTOS;
-      });
+      id: this.receiverId
+    }
+    //查询收件人
+    getReceiverById(data).then((res) => {
+      this.employeeDTOS = res?.employeeDTOS
+    })
   },
   methods: {
-    taskDeptResult(item,field,field1){
-      if(item[field] && item[field1] && item[field] === item[field1]){
-        return item[field];
-      }else if(!item[field] && !item[field1]){
-        return '暂无';
-      }else{
-        return  item[field1]+'/'+item[field];
+    taskDeptResult(item, field, field1) {
+      if (item[field] && item[field1] && item[field] === item[field1]) {
+        return item[field]
+      } else if (!item[field] && !item[field1]) {
+        return '暂无'
+      } else {
+        return item[field1] + '/' + item[field]
       }
     },
-    taskUserResult(item){
-      let supporter= this.employeeDTOS?.filter(e=>e.id===item.supporter)[0] || {name:''};
-      let presenter= this.employeeDTOS?.filter(e=>e.id===item.presenter)[0] || {name:''};
-      this.employeeStr = supporter?.name + "/"+presenter?.name;
-      console.log(265,this.employeeStr)
+    taskUserResult(item) {
+      let supporter = this.employeeDTOS?.filter(
+        (e) => e.id === item.supporter
+      )[0] || { name: '' }
+      let presenter = this.employeeDTOS?.filter(
+        (e) => e.id === item.presenter
+      )[0] || { name: '' }
+      this.employeeStr = supporter?.name + '/' + presenter?.name
+      console.log(265, this.employeeStr)
     },
-    toDoMeetingName(item){
-      return item.toDoMeetingName?.substring(0,9);
+    toDoMeetingName(item) {
+      return item.toDoMeetingName?.substring(0, 9)
     },
     //表头汉子两行展示
     renderHeader(h, { column, $index }) {
-      return h("span", {}, [
-        h("span", {}, column.label.split("/")[0]),
-        h("br"),
-        h("span", {}, column.label.split("/")[1]),
-      ]);
+      return h('span', {}, [
+        h('span', {}, column.label.split('/')[0]),
+        h('br'),
+        h('span', {}, column.label.split('/')[1])
+      ])
     },
     getMeetingSummary() {
       let param = {
-        id: this.id,
-      };
+        id: this.id
+      }
       getMeetingSummary(param).then((res) => {
-        console.log(242,res)
-        this.resultData = res;
+        console.log(242, res)
+        this.resultData = res
         // this.$set(this.resultData.name, res.name)
         // this.resultData.name = res.name;
         // this.resultData.attendeeGroupName = res.attendeeGroupName;
@@ -289,30 +316,30 @@ export default {
         // res.themens.forEach((item,index) => {
         //   Vue.set(this.resultData.themens, this.resultData.themens.length, item.conclusion)
         // })
-      });
+      })
     },
     handleOK() {
       this.$refs.ruleForm.validate((valid, obj) => {
         if (valid) {
           saveMeetingMinutes(this.resultData).then((res) => {
-            iMessage.success("保存成功");
-            this.$emit("handleOK");
-          });
+            iMessage.success('保存成功')
+            this.$emit('handleOK')
+          })
         }
-      });
+      })
     },
     handleCancel() {
-      this.$emit("handleCancel");
+      this.$emit('handleCancel')
     },
     chooseItem(e) {
       if (this.choosedIndex == e) {
-        this.choosedIndex = -1;
+        this.choosedIndex = -1
       } else {
-        this.choosedIndex = e;
+        this.choosedIndex = e
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -331,12 +358,12 @@ export default {
   padding: 0 1px;
   padding-bottom: 30px;
   &:before {
-    content: ""; /*空 内容*/
+    content: ''; /*空 内容*/
     display: block; /*块元素*/
     clear: both; /*两边不能有浮动元素*/
   }
   &:after {
-    content: ""; /*空 内容*/
+    content: ''; /*空 内容*/
     display: block; /*块元素*/
     clear: both; /*两边不能有浮动元素*/
   }

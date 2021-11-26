@@ -3,7 +3,7 @@
     <iEditForm>
       <ul class="button-list">
         <li class="button-item">
-          <iButton @click="handleAdd">新增</iButton>
+          <iButton @click="handleAdd" :disabled="!isCanAdd">新增</iButton>
         </li>
         <li class="button-item">
           <iButton
@@ -181,6 +181,7 @@ export default {
       }
     }
     return {
+      isCanAdd: false,
       originRes: [],
       meetingTypeList: [],
       meetingTypeListCopy: [],
@@ -200,6 +201,19 @@ export default {
         this.meetingTypeListCopy = [...this.meetingTypeList]
       })
     })
+  },
+  watch: {
+    'ruleForm.meetingInfo': {
+      handler(meetingArr) {
+        if (meetingArr.length >= this.meetingTypeList.length) {
+          this.isCanAdd = false
+        } else {
+          this.isCanAdd = true
+        }
+      },
+      immediate: true,
+      deep: true
+    }
   },
   methods: {
     handleOptionChange(bol) {

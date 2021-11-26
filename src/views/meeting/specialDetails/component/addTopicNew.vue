@@ -3,10 +3,10 @@
   <iDialog
     :title="
       editOrAdd === 'add'
-        ? '新增非标准议题'
+        ? '新增手工议题'
         : editOrAdd === 'look'
-        ? '查看非标准议题'
-        : '修改非标准议题'
+        ? '查看手工议题'
+        : '修改手工议题'
     "
     :visible.sync="dialogStatusManageObj.openAddTopicNewDialog"
     width="58.25rem"
@@ -24,7 +24,7 @@
         <div class="row-box">
           <iFormItem label="议题类型" :hideRequiredAsterisk="true" class="item">
             <iLabel :label="$t('议题类型')" slot="label"></iLabel>
-            <iInput class="disabledAll" value="非标准议题" disabled></iInput>
+            <iInput class="disabledAll" value="手工议题" disabled></iInput>
           </iFormItem>
           <iFormItem
             label="Items Name"
@@ -38,8 +38,14 @@
               :disabled="editOrAdd === 'look'"
             ></iInput>
           </iFormItem>
-          <iFormItem
+          <!-- <iFormItem
             v-if="editOrAdd !== 'edit'"
+            label="Duration"
+            prop="duration"
+            :hideRequiredAsterisk="true"
+            class="item"
+          > -->
+          <iFormItem
             label="Duration"
             prop="duration"
             :hideRequiredAsterisk="true"
@@ -140,7 +146,11 @@
                   ? selectUserArr
                   : currentSearchUserData"
                 :key="item.id"
-                :label="item.name"
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
+                  item.namePinyin ? item.namePinyin  : ''
+                }`"
                 :value="item.id"
               >
               </el-option>
@@ -168,7 +178,11 @@
                   ? selectUserArr
                   : currentSearchUserData"
                 :key="item.id"
-                :label="item.name"
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
+                  item.namePinyin ? item.namePinyin  : ''
+                }`"
                 :value="item.id"
               >
               </el-option>
@@ -625,10 +639,28 @@ export default {
     },
     createStateFilter(queryString) {
       return (state) => {
-        return state?.name
-          ?.toLowerCase()
-          .toString()
-          .includes(queryString.toLowerCase().toString())
+        state.name = state.department ? state.department : ''
+        state.namePinyin = state.department ? state.department : ''
+        state.department = state.department ? state.department : ''
+        state.jobNumber = state.department ? state.department : ''
+        return (
+          state?.name
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state?.department
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state?.namePinyin
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state?.jobNumber
+            ?.toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString())
+        )
       }
     },
 
@@ -650,6 +682,7 @@ export default {
       uploadFile(formData)
         .then((res) => {
           let attachment = {
+            source: '04',
             attachmentId: res[0].id,
             attachmentUrl: res[0].path,
             attachmentName: res[0].name
@@ -905,6 +938,7 @@ export default {
     margin-left: 20px;
   }
 }
+
 .file-list {
   margin-top: 15px;
   flex-shrink: 0;

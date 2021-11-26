@@ -212,10 +212,9 @@
           </iFormItem>
         </el-col> -->
         <el-col :span="6">
-          <iFormItem :label="language(
-                'QIANDINGCAIGOUTIAOKUAN',
-                '签订采购条款'
-              )">
+          <iFormItem
+            :label="language('QIANDINGCAIGOUTIAOKUAN', '签订采购条款')"
+          >
             <iSelect :disabled="!editable">
               <el-option
                 v-for="item in supplierStatus"
@@ -407,7 +406,7 @@ export default {
       })
     },
     save() {
-      const params = { id: this.supplierId }
+      const params = { id: this.$route.query.id }
       const data = {
         addressInfoUpdateVo: this.detail.addressInfoVo,
         addressId: this.detail.addressInfoVo.addressId,

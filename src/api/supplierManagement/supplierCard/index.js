@@ -4,6 +4,7 @@ import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
 const requstEkl = axios(process.env.VUE_APP_EKL)
 const requstEklPf = axios(process.env.VUE_APP_CHANGEPRICE)
+const requstCondition = axios(process.env.VUE_APP_MATERIEL)
 // ekl卡片
 export function getSupplierCard(parmars) {
     return requstEkl({
@@ -47,6 +48,14 @@ export function getCatogeryCollect(parmars) {
 export function getCatogeryCollectYear(parmars) {
     return requstEklPf({
         url: `/api/purchaseOrder/executionoperation/api/purchaseOrder/getCatogeryCollectYear`,
+        method: 'POST',
+        data:parmars
+    })
+}
+//合同订单
+export function queryMaterialGroupByCondition(parmars) {
+    return requstCondition({
+        url: `/web/queryMaterialGroupByCondition`,
         method: 'POST',
         data:parmars
     })

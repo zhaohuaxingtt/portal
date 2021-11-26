@@ -7,33 +7,40 @@
     <div class="header">
         <div class="left">{{ headerTitle }}</div>
       <div class="right">
-        <div class="input">CSE</div>
-        <div class="input">Tiguan</div>
-        <icon class="icon" symbol name="iconlingjianweishoucang"></icon>
+        <!--tag-->
+        <span class="input" v-for="item,index in tagList" :key= item.id v-text="item.folderName"></span>
+        <icon symbol @click.native="setCollection"
+              :name="currentData&&currentData.isDefaultFolder == 1 ? 'iconyishoucanglingjian' : 'iconweishoucanglingjian'"></icon>
         <icon class="icon" symbol @click.native="joinItemShow = true" name="iconlingjianyibiaoji"></icon>
       </div>
     </div>
+    <!--演变进度-->
     <evolutionProcess></evolutionProcess>
     <div class="main">
       <div class="left">
+        <!--基础信息-->
         <baseInfo @getHeaderTitle="getHeaderTitle"></baseInfo>
+        <!--供应商信息-->
         <supplyInfo></supplyInfo>
       </div>
+      <!--零件履历-->
       <div class="right">
         <partResume></partResume>
       </div>
     </div>
-    <joinItem :value="joinItemShow" @clearDiolog="joinItemShow = false"></joinItem>
+    <!--加入标签-->
+    <joinItem :value="joinItemShow" @clearDiolog="clearDiolog"></joinItem>
   </iPage>
 </template>
 
 <script>
-import { iPage, icon } from 'rise'
+import { iPage, icon, iMessage } from 'rise'
 import evolutionProcess from './components/evolutionProcess'
 import baseInfo from './components/baseInfo'
 import supplyInfo from './components/supplyInfo'
 import partResume from './components/partResume'
 import joinItem from './components/joinItem'
+import { getFolderCombo,  cancelOrCollect, removeCollect, getDefaultInfo, defaultParts } from '@/api/partLifeCycle/partLifeCycleStar'
 
 export default {
   name: 'index',
@@ -45,18 +52,100 @@ export default {
     supplyInfo,
     partResume,
     joinItem,
+    iMessage,
   },
   data() {
     return {
       changePriceModalShow: false,
       joinItemShow: false,
-      headerTitle: ''
+      headerTitle: '',
+      tagList:[],
+      isDefaultFolder:1,
+      currentData:null,
+      defaultPartsList:[]
     }
   },
   methods: {
+    defaultParts(partsNum) {
+      this.showLoading()
+      defaultParts().then(res => {
+        const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+        if (Number(res.code) === 200) {
+          this.defaultPartsList = res.data
+          this.defaultPartsList.forEach(item => {
+            if(item.partsNum==partsNum) {
+              this.currentData = item
+            }
+          })
+        } else {
+          iMessage.error(result)
+        }
+        this.hideLoading()
+      }).catch(() => {
+        this.hideLoading()
+      })
+    },
     getHeaderTitle(headerTitle){
       this.headerTitle = headerTitle
-    }
+    },
+    clearDiolog() {
+      this.joinItemShow = false
+      this.getFolderCombo(this.$route.query.partsNum)
+    },
+    getFolderCombo(partNum) {
+      getFolderCombo({partNum}).then(res => {
+        const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+        if (Number(res.code) === 200) {
+          this.tagList = res.data
+          this.tagList = this.tagList.filter(item => item.folderName!='我的收藏')
+        } else {
+          iMessage.error(result)
+        }
+      }).catch(() => {
+      })
+    },
+    // 详情收藏
+    setCollection() {
+      let operationType = this.currentData?.isDefaultFolder == 1 ? 2 : 1
+//      let promiseDelete = this.currentData?.isDefaultFolder == 1 ? removeCollect : cancelOrCollect
+        cancelOrCollect({
+          operationType: operationType,
+          partsCollectId: this.currentData?.partsCollectId,
+          partsNum: this.currentData?.partsNum
+      }).then(res => {
+          const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+          if (Number(res.code) === 200) {
+            iMessage.success(result)
+            this.currentData.isDefaultFolder = operationType
+//            this.getPartsCollect(this.currentData.partsNum)
+            this.defaultParts(this.currentData.partsNum)
+          } else {
+            iMessage.error(result)
+          }
+        }).catch(() => {
+        })
+    },
+    // 获取当前收藏数据
+    getDefaultInfo(){
+      getDefaultInfo().then(res => {
+        const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+        if (Number(res.code) === 200) {
+          this.currentData = res.data[0]
+          console.log(this.currentData,'this.currentData')
+        } else {
+          iMessage.error(result)
+        }
+      }).catch(() => {
+      })
+    },
+
+
+  },
+  mounted() {
+    let partsNum = this.$route.query.partsNum
+    this.defaultParts(partsNum)
+//    this.getDefaultInfo()
+    this.getFolderCombo(partsNum)
   }
 
 }
@@ -102,7 +191,8 @@ export default {
         cursor: pointer;
       }
       .input{
-        width: 68px;
+        /*width: 68px;*/
+        padding: 2px 10px;
         height: 30px;
         line-height: 30px;
         text-align: center;

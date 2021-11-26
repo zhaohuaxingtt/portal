@@ -254,7 +254,8 @@ export default {
       const map = {
         1: 1,
         2: -1,
-        3: 0
+        3: 0,
+        4: 0,
       }
       let key = map[caseType];
       // let key = Number(caseType) === 1 ? 1 : -1
@@ -269,7 +270,8 @@ export default {
       const map = {
         1: 1,
         2: -1,
-        3: 0
+        3: 0,
+        4: 0,
       }
       let key = map[caseType];
       // let key = Number(caseType) === 1 ? 1 : -1

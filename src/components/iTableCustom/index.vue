@@ -111,7 +111,7 @@
           :type="item.type"
           :align="item.align || 'center'"
           :header-align="item.headerAlign"
-          :show-overflow-tooltip="false"
+          :show-overflow-tooltip="item.tooltip"
           :prop="item.prop"
           :label="item.i18n ? $t(item.i18n) : item.label"
           :sortable="item.sortable"
@@ -417,7 +417,7 @@ export default {
       settingVisible: false,
       tooltipContent: '',
       settingId: '',
-      emitLabel:[]
+      emitLabel: []
     }
   },
   watch: {
@@ -436,12 +436,12 @@ export default {
     this.setDefaultDefaultCheckedKeys()
     this.getTableData()
   },
-  mounted(){
+  mounted() {
     this.emitLabel = this.tableVisibleColumns.map((ele) => {
-        if(ele.emit){
-          return ele.label
-        }
-      })
+      if (ele.emit) {
+        return ele.label
+      }
+    })
   },
   methods: {
     handleHeaderCellClassName({ columnIndex }) {
@@ -562,8 +562,7 @@ export default {
       return res
     },
     handleCellClick(row, column) {
-      if(!this.emitLabel.includes(column.label)){
-        
+      if (!this.emitLabel.includes(column.label)) {
         this.$refs.theCustomTable.toggleRowSelection(row)
       }
       if (this.treeExpand) {

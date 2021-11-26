@@ -6,33 +6,28 @@
  * @Descripttion: 供应商询价定点情况
 -->
 <template>
-  <iCard :title="$t('SPR_FRM_XGYSPJ_GYSXJDDQK')">
+  <iCard v-loading="loading" :title="$t('SPR_FRM_XGYSPJ_GYSXJDDQK')">
+    <!-- @click="handleDialog" -->
 
-    <div ref="chart"
-         @click="handleDialog"
-         class="chartStyle"></div>
-    <cRatingTable @closeDiolog="closeDiolog"
-                  v-if="visible"
-                  v-model="visible"></cRatingTable>
-
+    <div ref="chart" @click="handlecRating" class="chartStyle"></div>
   </iCard>
 </template>
 
 <script>
 import echarts from '@/utils/echarts'
 import { iCard } from 'rise'
-import cRatingTable from './cRatingTable'
 import { supplierRatingCard } from '@/api/frmRating/supplierOverview/index'
 
 export default {
-  components: { iCard, cRatingTable },
+  components: { iCard },
 
   data() {
     return {
       chart: 'vertexSituationChati',
       option: {},
       info: {},
-      visible: false
+      visible: false,
+      loading:false
     }
   },
   created() {
@@ -41,14 +36,18 @@ export default {
   },
   methods: {
     async getData() {
+      this.loading=true
       supplierRatingCard().then((res) => {
         if (res && res.data) {
+            this.loading=false
           this.info = res.data
           this.getChart()
-        }
+        }else  this.loading=false
       })
     },
-
+    handlecRating(){
+            this.$emit('show',true)
+    },
     handleDialog() {
       this.visible = true
     },
@@ -58,8 +57,8 @@ export default {
     getChart() {
       const myChart = echarts().init(this.$refs.chart)
       const data1 = [
-        this.info.ppSupplierTotal || 0,
-        this.info.gpSupplierTotal || 0
+        this.info.ppSupplierTotal-this.info.ppSupplierQuoteTotal || 0,
+        this.info.gpSupplierTotal-this.info.gpSupplierQuoteTotal  || 0
       ]
       const data2 = [
         this.info.ppSupplierQuoteTotal || 0,

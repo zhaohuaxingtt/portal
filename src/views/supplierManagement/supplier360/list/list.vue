@@ -119,7 +119,7 @@
           <i-button @click="tagTab"
                     v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN"
                     v-if="relatedToMe">{{
-            language('GONGYINGSHANGBIAOQIAN', '供应商标签')
+            language('GONGYINGSHANGBIAOQIANKU', '供应商标签库')
           }}</i-button>
           <i-button @click="setTagBtn"
                     v-permission="PORTAL_SUPPLIER_BIAOQIANSHEZHI"
@@ -261,7 +261,7 @@ import {
   iSelect,
   iPagination
 } from 'rise'
-import { getBuyerType } from '@/api/supplier360/blackList'
+import { getBuyerType, checkAddBlackIsFull } from '@/api/supplier360/blackList'
 import setTagList from './components/setTagList'
 import { dropDownTagName } from '@/api/supplierManagement/supplierTag/index'
 import setTagdilog from './components/setTag'
@@ -355,7 +355,7 @@ export default {
       isCgy: false,
       userType: 'LINIE',
       form: {
-          tagNameList:[],
+        tagNameList: [],
         supplierName: '',
         socialcreditNo: '',
         address: '',
@@ -394,14 +394,14 @@ export default {
   },
   methods: {
     changTag() {
-        this.form.tagNameList=[]
+      this.form.tagNameList = []
       //获取标签列表
-    //   let isMeRelated = 0
-    //   if (this.form.relatedToMe) {
-    //     isMeRelated = 1
-    //   } else isMeRelated = 0
-    //   isMeRelated ,supplierId:this.$store.state.permission.userInfo.id
-      dropDownTagName({ isMeRelated: 0}).then((res) => {
+      //   let isMeRelated = 0
+      //   if (this.form.relatedToMe) {
+      //     isMeRelated = 1
+      //   } else isMeRelated = 0
+      //   isMeRelated ,supplierId:this.$store.state.permission.userInfo.id
+      dropDownTagName({ isMeRelated: 0 }).then((res) => {
         if (res && res.code == 200) {
           this.tagdropDownList = res.data
         }
@@ -455,21 +455,32 @@ export default {
           )
         })
       } else if (type == 'join') {
-        if (this.form.supplierType == 'GP') {
-    
-          this.gpJoinParams = {
-            ...this.gpJoinParams,
-            key: Math.random(),
-            visible: true
+        checkAddBlackIsFull({
+          supplierId: this.selectTableData.subSupplierId
+        }).then((res) => {
+          if (res && res.code == '200') {
+            if (this.form.supplierType == 'GP') {
+              this.gpJoinParams = {
+                ...this.gpJoinParams,
+                key: Math.random(),
+                visible: true
+              }
+            } else if (this.form.supplierType == 'PP') {
+              this.ppJoinParams = {
+                ...this.ppJoinParams,
+                key: Math.random(),
+                visible: true
+              }
+            }
+          }else{
+               iMessage.warn(this.language(
+                'GAIGONGYINGSHANGYIZAISUOYOUKENENGDEGONGYIZUHEIMINGDANZHONGWUXUCHONGFUTIANJIA',
+                '该供应商已在所有可能的工艺组的黑名单中，无需重复添加！'
+              ))
+            
+              
           }
-        } else if (this.form.supplierType == 'PP') {
-   
-          this.ppJoinParams = {
-            ...this.ppJoinParams,
-            key: Math.random(),
-            visible: true
-          }
-        }
+        })
       } else if (type == 'remove') {
         if (this.form.supplierType == 'GP') {
           if (this.clickTableList.isGpBlackList != 1) {

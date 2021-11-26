@@ -61,11 +61,12 @@ export function uploadUdFile(params) {
   formData.append('currentUser', store.state.permission.userInfo.userName) // 用户id
   formData.append('type', params.type || 1) // 文件类型 1:OBS 2:NFS，默认1
   formData.append('multifile', params.multifile || []) // 文件
+
   return fileRequst({
-    url: `/fileudApi/udMutilfilesController`,
+    url: `/udMutilfilesController`,
     method: 'POST',
     data: formData
-  }).then(res => {
+  }).then((res) => {
     if (Array.isArray(res) || res.length > 0) {
       return {
         code: 200,

@@ -13,7 +13,11 @@
             class="node-icon"
             :data-level="level"
             :data-index="index"
-            :data-group="item.children ? `group-${level}-${index}` : ''"
+            :data-group="
+              item.children && item.children.length
+                ? `group-${level}-${index}`
+                : ''
+            "
             :data-end="index === data.length - 1 ? 1 : 0"
             :data-status="item.status"
           >
@@ -59,6 +63,7 @@
                     approver.taskStatus
                   )
                 }"
+                :status="approver.taskStatus"
               >
                 <div class="self-user">
                   <span>
@@ -259,6 +264,10 @@ export default {
             margin: 0px 10px 0px -3px;
             background: #fff;
           }
+          &.multiple ul.approval-users > li.active > .self-user::before {
+            background: $color-blue;
+            border: $color-blue;
+          }
 
           &.multiple ul.approval-users > li::after {
             content: '';
@@ -327,12 +336,16 @@ export default {
         }
 
         .single-approvers-agents {
-          /* width: 100%;
+          width: 100%;
           margin-left: 50%;
           transform: translateX(-5px);
+          padding: 5px 0px;
           > ul > li {
             display: flex;
             align-items: center;
+            color: #888;
+            padding: 5px 0px;
+            font-size: 12px;
           }
           > ul > li::before {
             display: block;
@@ -342,7 +355,7 @@ export default {
             border-radius: 10px;
             background-color: #ccc;
             margin-right: 6px;
-          } */
+          }
         }
 
         .title {

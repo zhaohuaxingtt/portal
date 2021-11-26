@@ -213,7 +213,7 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增临时议题", methodName: "addTopic" },
+        { title: "新增手工议题", methodName: "addTopic" },
         { title: "议题调整", methodName: "updateTopic" },
         // { title: "导入议题", methodName: "importTopic" },
       ],
@@ -237,7 +237,7 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增临时议题", methodName: "addTopic" },
+        { title: "新增手工议题", methodName: "addTopic" },
         { title: "议题调整", methodName: "updateTopic" },
         // { title: "导入议题", methodName: "importTopic" },
       ],
@@ -263,17 +263,17 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增临时议题", methodName: "addTopic" },
+        { title: "新增手工议题", methodName: "addTopic" },
         { title: "议题调整", methodName: "updateTopic" },
         // { title: "导入议题", methodName: "importTopic" },
       ],
       [
-        {
-          title: "开始议题",
-          methodName: "startTopic",
-          // disabled: true,
-          triggerDisabled: true,
-        },
+        // {
+        //   title: "开始议题",
+        //   methodName: "startTopic",
+        //   // disabled: true,
+        //   triggerDisabled: true,
+        // },
         { title: "修改议题", methodName: "editTopic", disabled: true },
         { title: "维护资料", methodName: "protectInfo", disabled: true },
         { title: "删除", methodName: "deleteTopAll", disabled: true },
@@ -332,7 +332,7 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest", disabled: true },
-        { title: "新增临时议题", methodName: "addTopic", disabled: true },
+        { title: "新增手工议题", methodName: "addTopic", disabled: true },
         { title: "议题调整", methodName: "updateTopic", disabled: true },
       ],
       [{ title: "查看结论", methodName: "lookResult", disabled: true }],

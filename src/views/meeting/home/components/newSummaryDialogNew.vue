@@ -59,12 +59,15 @@
                 'agenda-item'
               ]"
             >
-              <div class="agenda-item-title" @click="chooseItem(index + 1)">
+              <div
+                class="agenda-item-title"
+                @click="chooseItem(index + 1, item)"
+              >
                 <div class="title-left">
-                  <div class="title-index">{{ numToLetter[index + 1] }}</div>
+                  <div class="title-index">{{ index + 1 }}</div>
                   <div class="title-name">{{ item.topic }}</div>
                 </div>
-                <div class="up-arrow" @click="taskUserResult(item)">
+                <div class="up-arrow">
                   <img :src="upArrow" alt="" srcset="" />
                 </div>
               </div>
@@ -76,7 +79,23 @@
                       taskDeptResult(item, 'supporterDept', 'presenterDept')
                     }}</span>
                   </div>
-                  <div>{{ employeeStr }}</div>
+                  <div>
+                    {{
+                      userNameArr.length === resultData.themens.length
+                        ? userNameArr[index][0]
+                        : ''
+                    }}
+                    {{
+                      userNameArr.length === resultData.themens.length
+                        ? userNameArr[index][0] && userNameArr[index][1] && '/'
+                        : ''
+                    }}
+                    {{
+                      userNameArr.length === resultData.themens.length
+                        ? userNameArr[index][1]
+                        : ''
+                    }}
+                  </div>
                 </div>
                 <iFormItem prop="conclusion" class="meet-desc">
                   <iInput
@@ -87,7 +106,13 @@
                   />
                 </iFormItem>
                 <p class="task">
-                  Result：{{ conclusionCscList[item.conclusionCsc] }}
+                  Result：{{
+                    item.conclusionCsc === '01'
+                      ? conclusionCscList[item.conclusionCsc]
+                      : item.conclusionCsc === '02'
+                      ? conclusionCscList[item.conclusionCsc]
+                      : ''
+                  }}
                 </p>
                 <iFormItem class="meet-desc">
                   <el-table
@@ -159,14 +184,20 @@
                 </iFormItem>
               </div>
             </li>
-          </ul>   
+          </ul>
         </div>
         <div class="button-list">
           <el-form-item>
             <iButton @click="handleCancel" plain class="cancel">{{
               $t('LK_QUXIAO')
             }}</iButton>
-            <iButton @click="handleOK" plain>{{ '创建' }}</iButton>
+            <iButton
+              @click="handleOK"
+              plain
+              :loading="loadingCreate"
+              :disabled="loadingCreate"
+              >{{ '创建' }}</iButton
+            >
           </el-form-item>
         </div>
       </el-form>
@@ -188,7 +219,8 @@ import { numToLetter } from '../../details/component/data'
 import iEditForm from '@/components/iEditForm'
 import { getMeetingSummary, saveMeetingMinutes } from '@/api/meeting/home'
 import upArrow from '@/assets/images/up-arrow.svg'
-import { getReceiverById } from '@/api/meeting/type'
+// import { getReceiverById } from '@/api/meeting/type'
+import { getUsers } from '@/api/usercenter/receiver.js'
 
 export default {
   components: {
@@ -229,6 +261,9 @@ export default {
   },
   data() {
     return {
+      userNameArr: [],
+      userIdsArr: [],
+      loadingCreate: false,
       numToLetter,
       upArrow,
       choosedIndex: -1,
@@ -262,36 +297,78 @@ export default {
       employeeStr: ''
     }
   },
+  // created() {
+  //   const data = {
+  //     id: this.receiverId
+  //   }
+  //   //查询收件人
+  //   getReceiverById(data).then((res) => {
+  //     this.employeeDTOS = res?.employeeDTOS
+  //   })
+  // },
   mounted() {
     this.getMeetingSummary()
-    const data = {
-      id: this.receiverId
-    }
-    //查询收件人
-    getReceiverById(data).then((res) => {
-      this.employeeDTOS = res?.employeeDTOS
-    })
   },
   methods: {
+    // 一维数组转二维 数组
+    arrTrans(num, arr) {
+      const newArr = []
+      while (arr.length > 0) {
+        newArr.push(arr.splice(0, num))
+      }
+      return newArr
+    },
+    async queryUserInfo(userIdsArr) {
+      const res = await getUsers({ userIdList: [...userIdsArr] })
+      const userData = res.data ? res.data : []
+      let arrObj = userIdsArr.map((item) => {
+        let user = userData.find((it) => {
+          return item == it.id
+        })
+        return user
+      })
+      let arr = arrObj.map((item) => {
+        return item ? item.nameZh : ''
+      })
+      this.userNameArr = this.arrTrans(2, [...arr])
+      // return res.data
+    },
     taskDeptResult(item, field, field1) {
-      if (item[field] && item[field1] && item[field] === item[field1]) {
+      if (
+        item[field]
+          ? item[field].toString().trim()
+          : '' && item[field1]
+          ? item[field1].toString().trim()
+          : '' && item[field]
+          ? item[field].toString().trim()
+          : '' === item[field1]
+          ? item[field1].toString().trim()
+          : ''
+      ) {
         return item[field]
-      } else if (!item[field] && !item[field1]) {
+      } else if (
+        !(item[field] ? item[field].toString().trim() : '') &&
+        !(item[field1] ? item[field1].toString().trim() : '')
+      ) {
         return '暂无'
       } else {
         return item[field1] + '/' + item[field]
       }
     },
-    taskUserResult(item) {
-      let supporter = this.employeeDTOS?.filter(
-        (e) => e.id === item.supporter
-      )[0] || { name: '' }
-      let presenter = this.employeeDTOS?.filter(
-        (e) => e.id === item.presenter
-      )[0] || { name: '' }
-      this.employeeStr = supporter?.name + '/' + presenter?.name
-      console.log(265, this.employeeStr)
-    },
+    // taskUserResult(item, index) {
+    //   this.queryUserInfo([item.supporter, item.presenter]).then((res) => {
+    //     console.log('res', res)
+    //   })
+    //   // let supporter = this.employeeDTOS?.filter(
+    //   //   (e) => e.id === item.supporter
+    //   // )[0] || { name: '' }
+    //   // let presenter = this.employeeDTOS?.filter(
+    //   //   (e) => e.id === item.presenter
+    //   // )[0] || { name: '' }
+    //   // this.employeeStr = supporter?.name + '/' + presenter?.name
+    //   // console.log(265, this.employeeStr)
+    //   return supporter?.name + '/' + presenter?.name
+    // },
     toDoMeetingName(item) {
       return item.toDoMeetingName?.substring(0, 9)
     },
@@ -310,6 +387,11 @@ export default {
       getMeetingSummary(param).then((res) => {
         console.log(242, res)
         this.resultData = res
+        res.themens.forEach((item) => {
+          this.userIdsArr.push(item.presenter)
+          this.userIdsArr.push(item.supporter)
+        })
+        this.queryUserInfo(this.userIdsArr)
         // this.$set(this.resultData.name, res.name)
         // this.resultData.name = res.name;
         // this.resultData.attendeeGroupName = res.attendeeGroupName;
@@ -323,11 +405,13 @@ export default {
     handleOK() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
+          this.loadingCreate = true
           saveMeetingMinutes(this.resultData).then((res) => {
             if (Number(res.code) === 200) {
               iMessage.success('保存成功')
               this.$emit('handleOK')
             }
+            this.loadingCreate = false
           })
         }
       })
@@ -335,7 +419,9 @@ export default {
     handleCancel() {
       this.$emit('handleCancel')
     },
-    chooseItem(e) {
+    chooseItem(e, o) {
+      console.log('o', o)
+      // this.taskUserResult()
       if (this.choosedIndex == e) {
         this.choosedIndex = -1
       } else {

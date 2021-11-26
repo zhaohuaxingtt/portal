@@ -61,7 +61,7 @@
               ]"
             >
               <div class="agenda-item-title" @click="chooseItem(index + 1)">
-                <div class="title-index">{{ numToLetter[index + 1] }}</div>
+                <div class="title-index">{{ index + 1 }}</div>
                 <div class="title-name">{{ item.topic }}</div>
                 <div class="up-arrow">
                   <img :src="upArrow" alt="" srcset="" />
@@ -103,7 +103,13 @@
             <iButton @click="handleCancel" plain class="cancel">{{
               $t('LK_QUXIAO')
             }}</iButton>
-            <iButton @click="handleOK" plain>{{ '创建' }}</iButton>
+            <iButton
+              @click="handleOK"
+              plain
+              :loading="loadingCreate"
+              :disabled="loadingCreate"
+              >{{ '创建' }}</iButton
+            >
           </el-form-item>
         </div>
       </el-form>
@@ -153,6 +159,7 @@ export default {
   },
   data() {
     return {
+      loadingCreate: false,
       numToLetter,
       upArrow,
       choosedIndex: -1,
@@ -193,11 +200,13 @@ export default {
     handleOK() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
+          this.loadingCreate = true
           saveMeetingMinutes(this.resultData).then((res) => {
             if (Number(res.code) === 200) {
               iMessage.success('保存成功')
               this.$emit('handleOK')
             }
+            this.loadingCreate = false
           })
         }
       })

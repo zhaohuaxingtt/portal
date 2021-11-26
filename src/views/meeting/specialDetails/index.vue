@@ -5,7 +5,7 @@
         <div class="row">
           <div class="meeting-type">
             <div class="name">会议名称</div>
-            <div class="name-content">
+            <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
             <iButton
@@ -25,6 +25,7 @@
                   handleClick(item.methodName)
                 }
               "
+              :disabled="item.disabled == true && tableData.length !== 0"
             >
               {{ $t(item.title) }}</iButton
             >
@@ -98,6 +99,7 @@
             v-if="!showUpdateTopicButtonList"
             :rowClassName="tableRowClassName"
             :currentRow="currentRow"
+            :isSingle="isSingle"
           >
             <el-table-column align="center" width="30"></el-table-column>
             <el-table-column
@@ -126,7 +128,7 @@
               </template>
             </el-table-column>
             <el-table-column align="center" width="30"></el-table-column>
-            <el-table-column
+            <!-- <el-table-column
               show-overflow-tooltip
               align="center"
               label="Present Items"
@@ -135,6 +137,20 @@
               <template slot-scope="scope">
                 <span
                   class="open-link-text look-themen-click"
+                  @click="lookThemen(scope.row)"
+                  >{{ scope.row.topic }}</span
+                >
+              </template>
+            </el-table-column> -->
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="Present Items"
+              min-width="191"
+            >
+              <template slot-scope="scope">
+                <span
+                  class="open-link-text look-themen-click inline"
                   @click="lookThemen(scope.row)"
                   >{{ scope.row.topic }}</span
                 >
@@ -150,7 +166,7 @@
             >
               <template slot-scope="scope">
                 {{
-                  scope.row.type === 'MANUAL' ? '非标准议题' : scope.row.type
+                  scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type
                 }}
               </template>
             </el-table-column>
@@ -359,7 +375,7 @@
               >
                 <template slot-scope="scope">
                   <span
-                    class="open-link-text look-themen-click"
+                    class="open-link-text look-themen-click inline"
                     @click="lookThemen(scope.row)"
                     >{{ scope.row.topic }}</span
                   >
@@ -375,7 +391,7 @@
               >
                 <template slot-scope="scope">
                   {{
-                    scope.row.type === 'MANUAL' ? '非标准议题' : scope.row.type
+                    scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type
                   }}
                 </template>
               </el-table-column>
@@ -624,12 +640,13 @@
     ></newSummaryDialogNew>
     <!-- 关闭触发审批流 -->
     <closeMeetiongDialog
-      v-if="dialogStatusManageObj.openCloseMeetiongDialog"
+      v-show="dialogStatusManageObj.openCloseMeetiongDialog"
       :openCloseMeeting="dialogStatusManageObj.openCloseMeetiongDialog"
       :row="meetingInfo"
       :id="$route.query.id"
       @handleOK="handleOKTopics"
       @handleClose="handleCloseCancelTopics"
+      ref="closeDialog"
     />
     <protectConclusion
       v-if="dialogStatusManageObj.openProtectConclusion"
@@ -640,6 +657,7 @@
       :meetingInfo="meetingInfo"
       :isOther="isOther"
       :beforeResult="beforeResult"
+      :autoOpenProtectConclusionObj="autoOpenProtectConclusionObj"
     />
     <lookConclusion
       v-if="dialogStatusManageObj.openLookConclusion"
@@ -688,7 +706,7 @@ import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
 import updateMeetingDialog from '../home/components/updateMeetingDialog.vue'
 import newSummaryDialog from './component/newSummaryDialog.vue'
-import { changeStateMeeting, importThemen } from '@/api/meeting/home'
+import { batchRecallMeeting, changeStateMeeting, importThemen } from '@/api/meeting/home'
 import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
 import { download } from '@/utils/downloadUtil'
 import enclosure from '@/assets/images/enclosure.svg'
@@ -719,6 +737,10 @@ export default {
   },
   data() {
     return {
+      autoOpenProtectConclusionObj: '',
+      isSingle: false,
+      // closeLoading: false,
+      curState: '',
       processUrl: process.env.VUE_APP_POINT,
       buttonList,
       receiverId: '',
@@ -1074,7 +1096,10 @@ export default {
       this.openAddTopic = false
     },
     // 导入议题保存
-    handleOKTopics() {
+    handleOKTopics(info) {
+      if (info === 'close') {
+        iMessage.success('关闭成功')
+      }
       this.closeDialog()
       this.flushTable()
     },
@@ -1237,6 +1262,7 @@ export default {
       })
     },
     goState(state, isCSC, isPreCSC) {
+      this.curState = state
       switch (state) {
         //草稿
         case '01':
@@ -1254,6 +1280,7 @@ export default {
           if (isCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
+                { title: "撤回", methodName: "recall", disabled: true},
                 { title: '锁定', methodName: 'lock' },
                 { title: '开始', methodName: 'start' },
                 { title: '修改', methodName: 'edit' },
@@ -1265,6 +1292,7 @@ export default {
           if (isPreCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
+                { title: "撤回", methodName: "recall", disabled: true},
                 { title: '锁定', methodName: 'lock' },
                 { title: '开始', methodName: 'start' },
                 { title: '修改', methodName: 'edit' },
@@ -1367,6 +1395,7 @@ export default {
       this.dialogStatusManageObj = dialogObj
     },
     closeDialog() {
+      this.autoOpenProtectConclusionObj = ''
       this.initDialog()
     },
     openDialog(val) {
@@ -1454,7 +1483,10 @@ export default {
           type: 'warning'
         }).then(() => {
           //在这里判断是不是已经生成会议纪要了
-          this.openDialog('openCloseMeetiongDialog')
+          // this.openDialog('openCloseMeetiongDialog')
+          this.$nextTick(() => {
+            this.$refs['closeDialog'].handleSubmit()
+          })
         })
       }
     },
@@ -1504,7 +1536,7 @@ export default {
           this.flushTable()
         })
         .catch(() => {
-          iMessage.error('开始议题失败！')
+          // iMessage.error('开始议题失败！')
         })
       // });
     },
@@ -1533,6 +1565,23 @@ export default {
       if (bol) {
         endThemen(param)
           .then(() => {
+            iMessage.success('结束议题成功!')
+            if (!choiceThemen.isBreak) {
+              this.autoOpenProtectConclusionObj = choiceThemen
+            }
+            this.flushTable()
+            if (!choiceThemen.isBreak) {
+              this.openDialog('openProtectConclusion')
+            }
+          })
+          .catch(() => {
+            // iMessage.error("结束会议失败！");
+          })
+        // });
+        return
+      } else {
+        endThemen(param)
+          .then(() => {
             iMessage.success('结束议题成功！')
             // this.refreshTable();
             this.flushTable()
@@ -1540,18 +1589,7 @@ export default {
           .catch(() => {
             // iMessage.error("结束会议失败！");
           })
-        // });
-        return
       }
-      endThemen(param)
-        .then(() => {
-          iMessage.success('结束议题成功！')
-          // this.refreshTable();
-          this.flushTable()
-        })
-        .catch(() => {
-          // iMessage.error("结束会议失败！");
-        })
     },
     split() {
       this.$confirm('确认拆分该议题么?', '提示', {
@@ -1590,6 +1628,22 @@ export default {
           // iMessage.error(err);
         })
       // });
+    },
+    recall(){
+      let ids = []
+      ids.push(this.$route.query.id)
+      this.$confirm('是否撤回该会议 ？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
+      }).then(() => {
+        batchRecallMeeting( {ids} ).then((res) => {
+          if (res.code == 200) {
+            this.$message.success('撤回成功!')
+            this.$router.go(-1)
+          }
+        })
+      })
     },
     updateDate() {
       // alert("updateDate");
@@ -1714,7 +1768,6 @@ export default {
     },
     //新增议题
     addTopic() {
-      console.log('this.meetingInfo', this.meetingInfo)
       this.editOrAdd = 'add'
       // if (
       //   this.meetingInfo.meetingTypeName === 'Pre CSC' ||
@@ -1742,16 +1795,14 @@ export default {
         id: this.meetingInfo.id,
         state: '02'
       }
-      changeStateMeeting(param)
-        .then(() => {
+      changeStateMeeting(param).then((res) => {
+        if (res.code === 200) {
           iMessage.success('开放会议成功！')
-          // this.refreshTable();
-          this.flushTable()
-          this.getMeetingTypeObject()
-        })
-        .catch(() => {
-          iMessage.error('开放会议失败！')
-        })
+        }
+        // this.refreshTable();
+        this.flushTable()
+        this.getMeetingTypeObject()
+      })
       // });
     },
     endMeeting() {
@@ -1765,10 +1816,12 @@ export default {
         state: '05'
       }
       changeStateMeeting(param)
-        .then(() => {
-          iMessage.success('结束会议成功！')
-          this.flushTable()
-          this.getMeetingTypeObject()
+        .then((res) => {
+          if (res.code == 200) {
+            iMessage.success('结束会议成功！')
+            this.flushTable()
+            this.getMeetingTypeObject()
+          }
         })
         .catch(() => {})
       // });
@@ -1831,7 +1884,7 @@ export default {
             this.flushTable()
           })
           .catch(() => {
-            iMessage.error('锁定会议失败！')
+            // iMessage.error('锁定会议失败！')
           })
       })
     },
@@ -1847,7 +1900,7 @@ export default {
           this.flushTable()
         })
         .catch(() => {
-          iMessage.error('解锁会议失败！')
+          // iMessage.error('解锁会议失败！')
         })
       // });
     },
@@ -2046,15 +2099,29 @@ export default {
     // },
     // 表格选中值集
     handleSelectionChange(val) {
+      if (this.curState === '05') {
+        val = [val[val.length - 1]]
+        this.currentRow = val[0]
+
+        this.isSingle = true
+      } else {
+        this.isSingle = false
+      }
+      if (!val[0]) {
+        return
+      }
       this.selectedTableData = val
       const handleDisabledButtonName = this.handleDisabledButtonName
       if (val.length === 1) {
+        if (this.haveThemenIsStarting()) {
+          this.handleButtonDisabled(['overTopic'], false)
+        }
         if (val[0].state === '03') {
           if (!val[0].isBreak) {
-            // this.handleButtonDisabled(["protectResult"], false);
-            if (!val[0].conclusionCsc || val[0].conclusionCsc === '01') {
-              this.handleButtonDisabled(['protectResult'], false)
-            }
+            this.handleButtonDisabled(['protectResult'], false)
+            // if (!val[0].conclusionCsc || val[0].conclusionCsc === '01') {
+            //   this.handleButtonDisabled(['protectResult'], false)
+            // }
             if (val[0].conclusionCsc) {
               this.handleButtonDisabled(['lookResult'], false)
             } else {
@@ -2228,6 +2295,9 @@ export default {
   max-height: 514px;
   overflow-y: auto;
 } */
+.inline {
+  display: inline !important;
+}
 .span-index {
   width: 15px;
   text-align: center;
@@ -2324,12 +2394,17 @@ export default {
     .meeting-type {
       display: flex;
       font-size: 20px;
+      line-height: 35px;
       .name {
         color: #727272;
 
         margin-right: 20px;
       }
       .name-content {
+        max-width: 500px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         color: #000;
         margin-right: 10px;
       }

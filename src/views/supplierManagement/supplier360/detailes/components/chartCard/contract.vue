@@ -4,25 +4,34 @@
       <p>{{ language('HETONGDINGDAN', '合同订单') }}</p>
     </div>
     <div class="center">
-      <div class=" chartStyleBox chartStyle">
-        <div ref="chart1" class="chartStyle1"></div>
+      <div v-loading="loading1"
+           class=" chartStyleBox chartStyle">
+        <div ref="chart1"
+             class="chartStyle1"></div>
         <div class="chartText ">
-          <p v-if="chooseEquipment.data != ''">{{ chooseEquipment.data }}%</p>
-          <p>{{ chooseEquipment.value }}</p>
+          <p v-if="chooseEquipment.data != ''">
+            {{ chooseEquipment.data||'' }}%
+          </p>
+          <p>{{ chooseEquipment.value||'' }}</p>
         </div>
       </div>
-      <img :src="img" class="imgIcon" />
+      <img :src="img"
+           class="imgIcon" />
 
-      <div ref="chart2" class="chartStyle2"></div>
+      <div v-loading="loading2"
+           ref="chart2"
+           class="chartStyle2"></div>
     </div>
   </iCard>
 </template>
 <script>
 import echarts from '@/utils/echarts'
 import { iCard } from 'rise'
+import { cloneDeep } from 'lodash'
 import {
   getCatogeryCollect,
-  getCatogeryCollectYear
+  getCatogeryCollectYear,
+  queryMaterialGroupByCondition
 } from '@/api/supplierManagement/supplierCard/index'
 import img from '@/assets/images/contract.svg'
 export default {
@@ -41,7 +50,10 @@ export default {
       },
       infoBar: [],
       img: img,
-      ifBarchart: false
+      ifBarchart: false,
+      loading1: false,
+      loading2: false,
+      topcarogery: []
     }
   },
   computed: {
@@ -56,26 +68,81 @@ export default {
   created() {},
   methods: {
     getData() {
-      getCatogeryCollect(this.$route.query.subSupplierId).then(res => {
-        this.info = res.data
-        this.getLeftChart()
+      this.loading1 = true
+      this.loading2 = true
+      getCatogeryCollect(this.$route.query.subSupplierId).then((res) => {
+        if (res && res.code == 200) {
+          this.loading1 = false
+          this.info = res.data
+          if (this.info.length > 0) {
+            this.getLeftChart()
+          }
+        } else this.loading1 = false
       })
       let req = {
         catogeryCode: '',
         tmSupplierId: this.$route.query.subSupplierId
       }
-      getCatogeryCollectYear(req).then(res => {
-        this.infoBar = res.data
-        this.getRightChart()
+      getCatogeryCollectYear(req).then((res) => {
+        if (res && res.code == 200) {
+          this.loading2 = false
+          this.infoBar = res.data
+          if (this.infoBar.length > 0) {
+            this.getRightChart()
+          }
+        } else this.loading2 = false
       })
     },
-    getLeftChart() {
-      let data1 = []
-      this.info.forEach(e => {
+    // 排序
+    compare(property, desc) {
+      return function (a, b) {
+        var value1 = a[property]
+        var value2 = b[property]
+        if (desc == true) {
+          // 升序排列
+          return value1 - value2
+        } else {
+          // 降序排列
+          return value2 - value1
+        }
+      }
+    },
+    async getLeftChart() {
+      var data1 = []
+      this.info.forEach((e) => {
         data1.push({ value: Math.abs(e.receiveAmount), name: e.catogeryCode })
       })
-      let obj = this
+      let total = 0
+      data1 = data1.sort(this.compare('value', false))
+       if (data1.length > 4) {
+        data1.splice(//数据源自带other，但在这不适用，需要自己取出前五材料组其余算为其他，并删除自带其他
+          data1.findIndex((res) => res.name == 'other'),
+          data1.findIndex((res) => res.name == 'other')
+        )
+      }
+      data1.forEach((res, i) => {
+        if (i > 4) {
+          total += res.value
+        }
+      })
+     
+      data1 = data1.splice(0, 5)
+      this.topcarogery = data1.map((res) => res.name)
 
+      const data = await queryMaterialGroupByCondition({
+        codes: this.topcarogery
+      })
+      data.data.forEach((res) => {
+        data1.forEach((v) => {
+          if (v.name == res.categoryCode) {
+            v.name = res.categoryNameZh
+          }
+        })
+      })
+      data1.push({ name: this.language('QITA','其他'), value: total })
+    //   data1 = data1.sort(this.compare('value', false))
+      let obj = this
+        console.log(data1)
       const myChart = echarts().init(this.$refs.chart1)
       this.option1 = {
         title: {
@@ -87,14 +154,19 @@ export default {
           }
         },
         grid: {
-          top: 0,
           right: '10%'
         },
         tooltip: {
           trigger: 'item',
-          formatter:function(data){
-              console.log(data)
-              return data.seriesName+'  '+data.marker+data.name+'<br>'+ data.value/ 1000000
+          formatter: function (data) {
+            return (
+              data.seriesName +
+              '  ' +
+              data.marker +
+              data.name +
+              '<br>' +
+              data.value / 1000000
+            )
           }
         },
         legend: {
@@ -105,8 +177,8 @@ export default {
             fontSize: 10,
             color: '#909091'
           },
-          formatter: function(params) {
-            let obj = data1.find(res => {
+          formatter: function (params) {
+            let obj = data1.find((res) => {
               return res.name == params
             })
             var percent = 0
@@ -121,7 +193,7 @@ export default {
               percent
             }
             if (obj.name !== '') {
-              return obj.name + '\n' + percent + '%'
+              return obj.name + '\n' + percent.toFixed(2) + '%'
             } else {
               return ''
             }
@@ -129,32 +201,41 @@ export default {
         },
         series: [
           {
-            center: ['50%', '34%'],
+            center: ['50%', '36%'],
             label: {
               show: false,
               position: 'center'
             },
-            name: '材料组编号',
+            name:this.language('CAILIAOZUMINGCHENG','材料组名称'),
             type: 'pie',
             radius: ['45%', '70%'],
             itemStyle: {
               borderColor: '#fff',
-              borderWidth: 5
+              borderWidth: 3
             },
             data: data1
           }
         ]
       }
       myChart.setOption(this.option1)
-      myChart.on('click', params => {
+      myChart.on('click', (params) => {
         this.ifBarchart = !this.ifBarchart
         if (this.ifBarchart) {
-          this.getRightChart(params.name)
+          var cotegory = ''
+          if (params.name != '其他') {
+            cotegory = data.data.find(
+              (res) => res.categoryNameZh == params.name
+            ).categoryCode
+          } else {
+            cotegory = params.name
+          }
+
+          this.getRightChart(cotegory)
         } else {
           this.getRightChart()
         }
       })
-      myChart.on('mouseover', function(params) {
+      myChart.on('mouseover', function (params) {
         /*添加鼠标事件*/ obj.chooseEquipment.value = params.value
         obj.chooseEquipment.value = parseInt(
           obj.chooseEquipment.value / 1000000
@@ -165,14 +246,48 @@ export default {
       })
     },
     getRightChart(val) {
+        //其他为前五之后的累计
       var data1 = []
       var data2 = []
       var data3 = []
-      let newDataBar = {}
-      let newDataSum = {}
-      let barData = []
-      let sumData = []
-      this.infoBar.forEach(e => {
+      const newDataBar = {}
+      const newDataSum = {}
+      const sumData = []
+      const otherSumData = []
+      const OthernewDataSum = {}
+      var barData = []
+      var otherData = cloneDeep(this.infoBar)
+    // 点击为其他时------------------------------
+      if (val == this.language('QITA','其他')) {
+        otherData.forEach((v, i) => {//'其他'需要过滤出排名前五的材料组集合和为自带other的集合
+          this.topcarogery.forEach((res) => {
+            if (v.catogeryCode == res||v.catogeryCode == 'other') {
+              otherData[i] = []
+            }
+          })
+        })
+        otherData.forEach((e) => {
+          //新建属性名按年份累计
+          if (Object.keys(OthernewDataSum).indexOf('' + e.year) === -1) {
+            OthernewDataSum[e.year] = []
+          }
+          //对应插入属性值获取按年累计
+          OthernewDataSum[e.year].push(e)
+        })
+        let otherTotal = 0
+        //循环生成每一年份累计得总值
+        for (var i in OthernewDataSum) {
+          otherTotal = 0
+          OthernewDataSum[i].forEach((res) => {
+            if (i == res.year) {
+              otherTotal += Math.abs(parseFloat(res.receiveAmount))
+            }
+          })
+          otherSumData.push({ year: i, receiveAmount: otherTotal })
+        }
+      }
+      // 当不为其他时-------------------------------------------
+      this.infoBar.forEach((e) => {
         //新建属性名获取按材料id累计
         if (Object.keys(newDataBar).indexOf('' + e.catogeryCode) === -1) {
           newDataBar[e.catogeryCode] = []
@@ -186,46 +301,68 @@ export default {
         //对应插入属性值获取按年累计
         newDataSum[e.year].push(e)
       })
+      newDataBar.other=otherSumData//第二种方法，将'其他'加入材料组集合，点击时 newDataBar[val]  val为other即可，需修改点击饼图传参
       let total = 0
       //循环生成每一年分累计得总值
-      for (var i in newDataSum) {
+      for (var j in newDataSum) {
         total = 0
-        newDataSum[i].forEach((res) => {
-          if (i == res.year) {
-            total += Math.abs(parseInt(res.receiveAmount))
+        newDataSum[j].forEach((res) => {
+          if (j == res.year) {
+            total += Math.abs(parseFloat(res.receiveAmount))
           }
         })
-        sumData.push({ year: i, receiveAmountAll: total })
+        sumData.push({ year: j, receiveAmountAll: total })
       }
+      //   计算好后赋值-------------------------------------
       //给当前材料idpush进当前年总值
       if (val) {
-        barData = newDataBar[val]
-        sumData.forEach(v => {
-          barData.forEach(j => {
-            if (v.year == j.year) {
-              j.receiveAmountAll = v.receiveAmountAll
-            }
+        if (val != this.language('QITA','其他')) {
+          barData = newDataBar[val]
+          sumData.forEach((v) => {
+            barData.forEach((j) => {
+              if (v.year == j.year) {
+                j.receiveAmountAll = v.receiveAmountAll
+              }
+            })
           })
-        })
+        } else {
+          sumData.forEach((v) => {
+            otherSumData.forEach((j) => {
+              if (v.year == j.year) {
+                j.receiveAmountAll = v.receiveAmountAll
+              }
+            })
+          })
+        }
       }
+      //val有值代表被点击的值与综合对比
       if (val) {
-        barData.forEach(v => {
-          data1.push(parseInt(v.receiveAmountAll / 1000000))
-          data2.push(Math.abs(parseInt(v.receiveAmount / 1000000)))
-          data3.push(v.year)
-        })
+          //细分为点击其他和材料ID，其他为前五之后所有的累计
+        if (val == this.language('QITA','其他')) {
+          barData = otherSumData
+          barData.forEach((v) => {
+            data2.push(Math.abs(parseInt(v.receiveAmount / 1000000)))
+            data3.push(v.year)
+             data1.push(parseInt(v.receiveAmountAll / 1000000))
+          })
+         data3.pop()
+        } else {
+          barData = newDataBar[val]
+            console.log(barData)
+          barData.forEach((v) => {
+            data1.push(parseInt(v.receiveAmountAll / 1000000))
+            data2.push(Math.abs(parseInt(v.receiveAmount / 1000000)))
+            data3.push(v.year)
+          })
+        }
+         //综合所有柱状图
       } else {
-        sumData.forEach(v => {
+        sumData.forEach((v) => {
           data1 = []
           data2.push(Math.abs(parseInt(v.receiveAmountAll / 1000000)))
           data3.push(v.year)
         })
       }
-      //   console.log(data1)
-      //   console.log(data2)
-      //   console.log(data3)
-      console.log(barData)
-      //   console.log(sumData)
       let title = 'Turnover' || val
       const myChart = echarts().init(this.$refs.chart2)
       this.option2 = {
@@ -243,38 +380,12 @@ export default {
             fontSize: 10
           }
         },
-        // legend: {
-        //   icon: 'circle',
-        //   right: '10%',
-
-        //   top: 14,
-        //   textStyle: {
-        //     fontSize: 10,
-        //     color: '#909091'
-        //   },
-        //   itemWidth: 8,
-        //   itemHeight: 8
-        // },
 
         tooltip: {
           trigger: 'axis',
           textStyle: {
             align: 'left'
           }
-          //   formatter: function (params) {
-          //    let str = ''
-          //     params.forEach((item, idx) => {
-          //         // console.log(item)
-          //       item.data = Math.abs(item.data)
-          //       if (idx == 2) {
-          //         item.data = item.data - params[0].data
-          //       }
-          //       str += `${item.marker}\n${item.name}<br/> ${item.marker}\n${item.data}`
-
-          //       str += idx === params.length - 1 ? '' : '<br/>'
-          //     })
-          //     return str
-          //   }
         },
         grid: {
           top: '18%',
@@ -369,20 +480,12 @@ export default {
           return (
             num.slice(0, remainder) +
             ',' +
-            num
-              .slice(remainder, len)
-              .match(/\d{3}/g)
-              .join(',') +
+            num.slice(remainder, len).match(/\d{3}/g).join(',') +
             temp
           )
         } else {
           // 是3的整数倍
-          return (
-            num
-              .slice(0, len)
-              .match(/\d{3}/g)
-              .join(',') + temp
-          )
+          return num.slice(0, len).match(/\d{3}/g).join(',') + temp
         }
       }
     }

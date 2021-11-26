@@ -10,9 +10,9 @@ const location = {
   state: {
     locationNumber: 1,
     mtzObject: {},
-    submitType: '',
     submitDataList: 0,
-    disabled: localStorage.getItem('disabled') || false
+    submitInfor:{},
+    disabled: localStorage.getItem('disabled') || false,
   },
   actions: {
     setMtzChangeBtn({ commit }, data) {
@@ -20,14 +20,14 @@ const location = {
     }
   },
   mutations: {
+    submitBtnInfor: (state, data) => {
+      state.submitInfor = data
+    },
     locationBtnChange: (state, data) => {
       state.locationNumber = data
     },
     routerMtzData: (state, data) => {
       state.mtzObject = data
-    },
-    submitBtnType: (state, data) => {
-      state.submitType = data
     },
     submitDataNumber: (state, data) => {
       state.submitDataList = data

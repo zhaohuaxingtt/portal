@@ -3,9 +3,8 @@
     <div class="page-header margin-bottom20">
       <div class="font18 font-weight">
         {{ form.itemName }}
-        <span class="business-id">{{ form.businessId }}</span> ({{
-          form.stateMsg
-        }})
+        <span class="business-id">{{ form.businessId }}</span>
+        ({{ form.stateMsg }})
       </div>
       <div class="operation-btn">
         <!-- 批准 -->
@@ -65,7 +64,6 @@
         :panorama="form.panorama"
         :state-code="form.stateCode"
       /> -->
-      {{ form.stateCode }}
       <processNodeHorizontal
         v-if="form.panorama"
         :panorama="form.panorama"
@@ -400,7 +398,6 @@ export default {
 }
 #flow-form {
   width: 100%;
-  min-height: 1000px;
 }
 .business-id {
   margin: 0px 20px;

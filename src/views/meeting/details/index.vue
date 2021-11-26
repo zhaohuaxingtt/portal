@@ -5,7 +5,7 @@
         <div class="row">
           <div class="meeting-type">
             <div class="name">会议名称</div>
-            <div class="name-content">
+            <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
             <iButton
@@ -25,6 +25,7 @@
                   handleClick(item.methodName)
                 }
               "
+              :disabled="item.disabled == true && tableData.length !== 0"
             >
               {{ $t(item.title) }}
             </iButton>
@@ -94,6 +95,7 @@
           v-if="!showUpdateTopicButtonList"
           :rowClassName="tableRowClassName"
           :currentRow="currentRow"
+          :isSingle="isSingle"
         >
           <el-table-column type="selection" align="center"></el-table-column>
           <el-table-column
@@ -544,7 +546,7 @@ import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
 import updateMeetingDialog from '../home/components/updateMeetingDialog.vue'
 import newSummaryDialog from './component/newSummaryDialog.vue'
-import { changeStateMeeting, importThemen } from '@/api/meeting/home'
+import { batchRecallMeeting, changeStateMeeting, importThemen } from '@/api/meeting/home'
 import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
 import { download } from '@/utils/downloadUtil'
 import enclosure from '@/assets/images/enclosure.svg'
@@ -574,6 +576,8 @@ export default {
   },
   data() {
     return {
+      isSingle: false,
+      curState: '',
       currentRow: {},
       nameList: [],
       disabledImportThemenButton: false,
@@ -631,6 +635,7 @@ export default {
     },
     resThemeData: {
       handler(data) {
+        console.log('data', data)
         const row = data.find((item) => item.state === '02')
         this.currentRow = { ...row }
       }
@@ -991,6 +996,7 @@ export default {
       })
     },
     goState(state) {
+      this.curState = state
       switch (state) {
         //草稿
         case '01':
@@ -1372,16 +1378,17 @@ export default {
           })
         // });
         return
+      } else {
+        endThemen(param)
+          .then(() => {
+            iMessage.success('结束议题成功！')
+            // this.refreshTable();
+            this.flushTable()
+          })
+          .catch(() => {
+            // iMessage.error("结束会议失败！");
+          })
       }
-      endThemen(param)
-        .then(() => {
-          iMessage.success('结束议题成功！')
-          // this.refreshTable();
-          this.flushTable()
-        })
-        .catch(() => {
-          // iMessage.error("结束会议失败！");
-        })
     },
     split() {
       // alert("split");
@@ -1429,6 +1436,22 @@ export default {
           // iMessage.error(err);
         })
       // });
+    },
+    recall(){
+      let ids = []
+      ids.push(this.$route.query.id)
+      this.$confirm('是否撤回该会议 ？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
+      }).then(() => {
+        batchRecallMeeting( {ids} ).then((res) => {
+          if (res.code == 200) {
+            this.$message.success('撤回成功!')
+            this.$router.go(-1)
+          }
+        })
+      })
     },
     updateDate() {
       // alert("updateDate");
@@ -1540,16 +1563,14 @@ export default {
         id: this.meetingInfo.id,
         state: '02'
       }
-      changeStateMeeting(param)
-        .then(() => {
+      changeStateMeeting(param).then((res) => {
+        if (res.code === 200) {
           iMessage.success('开放会议成功！')
-          // this.refreshTable();
-          this.flushTable()
-          this.getMeetingTypeObject()
-        })
-        .catch(() => {
-          iMessage.error('开放会议失败！')
-        })
+        }
+        // this.refreshTable();
+        this.flushTable()
+        this.getMeetingTypeObject()
+      })
       // });
     },
     endMeeting() {
@@ -1575,10 +1596,12 @@ export default {
         state: '05'
       }
       changeStateMeeting(param)
-        .then(() => {
-          iMessage.success('结束会议成功！')
-          this.flushTable()
-          this.getMeetingTypeObject()
+        .then((res) => {
+          if (res.code === 200) {
+            iMessage.success('结束会议成功！')
+            this.flushTable()
+            this.getMeetingTypeObject()
+          }
         })
         .catch(() => {
           // iMessage.error("结束会议失败！");
@@ -1721,6 +1744,17 @@ export default {
 
     // 表格选中值集
     handleSelectionChange(val) {
+      if (this.curState === '05') {
+        val = [val[val.length - 1]]
+        this.currentRow = val[0]
+
+        this.isSingle = true
+      } else {
+        this.isSingle = false
+      }
+      if (!val[0]) {
+        return
+      }
       this.selectedTableData = val
       const handleDisabledButtonName = this.handleDisabledButtonName
       if (val.length === 1) {
@@ -1850,14 +1884,17 @@ export default {
     .meeting-type {
       display: flex;
       font-size: 20px;
-
+      line-height: 35px;
       .name {
         color: #727272;
-
         margin-right: 20px;
       }
 
       .name-content {
+        max-width: 500px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         color: #000;
         margin-right: 10px;
       }

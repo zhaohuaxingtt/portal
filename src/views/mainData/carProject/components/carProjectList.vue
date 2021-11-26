@@ -75,7 +75,7 @@ export default {
   props: {
     filterForm: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
@@ -115,14 +115,14 @@ export default {
         type: 'warning'
       }).then(() => {
         const reqData = []
-        this.selectedRows.forEach(e => {
+        this.selectedRows.forEach((e) => {
           reqData.push({
             carTypeProId: e.id,
             valid: false
           })
         })
         carProjectSetValidStatus(reqData)
-          .then(res => {
+          .then((res) => {
             if (res.result) {
               this.query()
               iMessage.success('设置成功')
@@ -145,14 +145,14 @@ export default {
       formData.append('file', content.file)
       formData.append('currentUserId', this.$store.state.permission.userInfo.id)
       carProjectImport(formData)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success(res.desZh || '导入成功')
           } else {
             iMessage.error(res.desZh || '导入失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
           iMessage.error(err.desZh || this.$t('LK_SHANGCHUANSHIBAI'))
         })
@@ -170,8 +170,9 @@ export default {
         current: this.page.currPage,
         size: this.page.pageSize
       }
+      this.tableLoading = true
       carProjectList(requestData)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             this.tableData = val.data
             this.page.totalCount = val.total
@@ -181,6 +182,9 @@ export default {
         })
         .catch(() => {
           iMessage.error('获取数据失败')
+        })
+        .finally(() => {
+          this.tableLoading = false
         })
     },
     //表格选中值集

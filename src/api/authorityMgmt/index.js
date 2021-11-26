@@ -40,11 +40,11 @@ export function getPageListByParams(data) {
     data: data
   })
 }
-// 
-export function getUserSelectPageList(data){
+//
+export function getUserSelectPageList(data) {
   return requst({
-    url:'/web/account/pageList',
-    method:'post',
+    url: '/web/account/pageList',
+    method: 'post',
     data
   })
 }

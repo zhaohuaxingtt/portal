@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-18 11:49:15
+ * @LastEditTime: 2021-11-24 10:52:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -163,7 +163,7 @@ export default {
         path: '/mtz/annualGeneralBudget/MTZapplicationForm',
         query: {
           mtzAppId: val.mtzAppId || '',
-          isView: (val.appStatus === '草稿' || val.appStatus === '未通过') ? false : true
+          // isView: (val.appStatus === '草稿' || val.appStatus === '未通过') ? false : true
         }
       })
       this.$store.dispatch('setMtzChangeBtn', false);
@@ -210,6 +210,10 @@ export default {
 
     },
     recall () {
+      if (this.muilteList.length === 0) {
+        iMessage.error('QINGXUANZESHUJU', '请选择数据')
+        return
+      }
       let ids = this.muilteList.map(item => item.mtzAppId)
       mtzRecall({ ids }).then((res) => {
         if (res && res.code === '200') {

@@ -137,7 +137,7 @@ export const continueBox = [
   { width: 150, props: 'tcExchangeRate', name: '汇率', key: 'HUILV' },
   {
     width: 150,
-    props: 'source',
+    props: 'sourceType',
     name: '市场价来源',
     key: 'SHICHANGJIALAIYUAN'
   },
@@ -160,8 +160,8 @@ export const continueBox = [
     name: '补差周期',
     key: 'BUCHAZHOUQI'
   },
-  { width: 150, props: 'buyer', name: '采购员', key: 'CAIGOUYUAN' },
-  { width: 150, props: 'buyerDeptId', name: '科室', key: 'KESHI' },
+  { width: 150, props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
+  { width: 150, props: 'buyerDeptName', name: '科室', key: 'KESHI' },
   { width: 170, props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI' },
   { width: 170, props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI' },
   { width: 150, props: 'source', name: '来源', key: 'LAIYUAN' },
@@ -361,7 +361,7 @@ export const formRulesLJ = {
   assemblyPartnum:[{required: true, message: '请选择', trigger: 'blur'}],//零件号
   ruleNo:[{required: true, message: '请选择', trigger: 'blur'}],//规则编号
   supplierId:[{required: true, message: '请选择', trigger: 'blur'}],//供应商编号
-  partUnit:[{required: true, message: '请选择', trigger: 'blur'}],//零件数量单位
+  // partUnit:[{required: true, message: '请选择', trigger: 'blur'}],//零件数量单位
   priceUnit:[{required: true, message: '请选择', trigger: 'blur'}],//每
   dosage:[{required: true, message: '请选择', trigger: 'blur'}],//用量
   dosageMeasureUnit:[{required: true, message: '请选择', trigger: 'blur'}],//用量计量单位

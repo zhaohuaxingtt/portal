@@ -135,6 +135,12 @@ export default {
     iTableML
   },
   props: {
+    autoOpenProtectConclusionObj: {
+      type: Object,
+      default: () => {
+        return ''
+      }
+    },
     selectedTableData: {
       type: Array,
       default: () => {
@@ -167,37 +173,88 @@ export default {
     }
   },
   data() {
-    return {
-      loading: false,
-      themenConclusion,
-      curChooseArr: [],
-      isShowSwitch:
-        this.selectedTableData[0].conclusionCsc === '02'
-          ? this.selectedTableData[0].isFrozenRs
-          : false,
-      isShowTable:
-        this.selectedTableData[0].conclusionCsc === '05' ||
-        this.selectedTableData[0].conclusionCsc === '06'
-          ? true
-          : false,
-      themenConclusionArrObj,
-      tableListData: [],
-      ruleForm: {
-        conclusion: {
-          conclusionCsc: this.selectedTableData[0].conclusionCsc,
-          conclusionName:
-            themenConclusion[this.selectedTableData[0].conclusionCsc]
+    if (this.autoOpenProtectConclusionObj) {
+      return {
+        loading: false,
+        themenConclusion,
+        curChooseArr: [],
+        isShowSwitch:
+          this.autoOpenProtectConclusionObj.conclusionCsc === '02'
+            ? this.autoOpenProtectConclusionObj.isFrozenRs
+            : false,
+        isShowTable:
+          this.autoOpenProtectConclusionObj.conclusionCsc === '05' ||
+          this.autoOpenProtectConclusionObj.conclusionCsc === '06'
+            ? true
+            : false,
+        themenConclusionArrObj,
+        tableListData: [],
+        ruleForm: {
+          conclusion: {
+            conclusionCsc: this.autoOpenProtectConclusionObj.conclusionCsc
+              ? this.autoOpenProtectConclusionObj.conclusionCsc
+              : '01',
+            conclusionName:
+              themenConclusion[
+                this.autoOpenProtectConclusionObj.conclusionCsc
+                  ? this.autoOpenProtectConclusionObj.conclusionCsc
+                  : '01'
+              ]
+          },
+          taskCsc: this.autoOpenProtectConclusionObj.conclusion
+            ? this.autoOpenProtectConclusionObj.conclusion
+            : '',
+          isFrozenRs:
+            this.beforeResult === '02'
+              ? this.autoOpenProtectConclusionObj.isFrozenRs
+              : true
         },
-        taskCsc: this.selectedTableData[0].conclusion,
-        isFrozenRs:
-          this.beforeResult === '02'
+        currentRow: {}
+      }
+    } else {
+      return {
+        loading: false,
+        themenConclusion,
+        curChooseArr: [],
+        isShowSwitch:
+          this.selectedTableData[0].conclusionCsc === '02'
             ? this.selectedTableData[0].isFrozenRs
-            : true
-      },
-      currentRow: {}
+            : false,
+        isShowTable:
+          this.selectedTableData[0].conclusionCsc === '05' ||
+          this.selectedTableData[0].conclusionCsc === '06'
+            ? true
+            : false,
+        themenConclusionArrObj,
+        tableListData: [],
+        ruleForm: {
+          conclusion: {
+            conclusionCsc: this.selectedTableData[0].conclusionCsc
+              ? this.selectedTableData[0].conclusionCsc
+              : '01',
+            conclusionName:
+              themenConclusion[
+                this.selectedTableData[0].conclusionCsc
+                  ? this.selectedTableData[0].conclusionCsc
+                  : '01'
+              ]
+          },
+          taskCsc: this.selectedTableData[0].conclusion
+            ? this.selectedTableData[0].conclusion
+            : '',
+          isFrozenRs:
+            this.beforeResult === '02'
+              ? this.selectedTableData[0].isFrozenRs
+              : true
+        },
+        currentRow: {}
+      }
     }
   },
   mounted() {
+    const curObj = this.autoOpenProtectConclusionObj
+      ? this.autoOpenProtectConclusionObj
+      : this.selectedTableData[0]
     // if (this.meetingInfo.meetingTypeName === 'CSC') {
     if (this.meetingInfo.isCSC) {
       this.themenConclusionArrObj = [
@@ -230,27 +287,7 @@ export default {
     if (
       // this.meetingInfo.meetingTypeName === 'Pre CSC' &&
       this.meetingInfo.isPreCSC &&
-      this.selectedTableData[0].type === 'MANUAL'
-    ) {
-      this.themenConclusionArrObj = [
-        {
-          conclusionCsc: '01',
-          conclusionName: '待定'
-        },
-        {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
-        },
-        {
-          conclusionCsc: '07',
-          conclusionName: '关闭'
-        }
-      ]
-    }
-    if (
-      // this.meetingInfo.meetingTypeName === 'CSC' &&
-      this.meetingInfo.isCSC &&
-      this.selectedTableData[0].type === 'MANUAL'
+      curObj.type === 'MANUAL'
     ) {
       this.themenConclusionArrObj = [
         {
@@ -271,13 +308,37 @@ export default {
         }
       ]
     }
-    if (this.selectedTableData[0].conclusionCsc === '05') {
+    if (
+      // this.meetingInfo.meetingTypeName === 'CSC' &&
+      this.meetingInfo.isCSC &&
+      curObj.type === 'MANUAL'
+    ) {
+      this.themenConclusionArrObj = [
+        {
+          conclusionCsc: '01',
+          conclusionName: '待定'
+        },
+        {
+          conclusionCsc: '05',
+          conclusionName: '下次Pre CSC'
+        },
+        {
+          conclusionCsc: '06',
+          conclusionName: '转CSC'
+        },
+        {
+          conclusionCsc: '07',
+          conclusionName: '关闭'
+        }
+      ]
+    }
+    if (curObj.conclusionCsc === '05') {
       this.getUpdateDateTableList('Pre CSC', 'init')
     }
-    if (this.selectedTableData[0].conclusionCsc === '06') {
+    if (curObj.conclusionCsc === '06') {
       this.getUpdateDateTableList('CSC', 'init')
     }
-    if (this.selectedTableData[0].fixedPointApplyType == 20) {
+    if (curObj.fixedPointApplyType == 20) {
       this.themenConclusionArrObj = this.themenConclusionArrObj.filter(
         (item) => {
           return item.conclusionCsc !== '03' && item.conclusionCsc !== '04'
@@ -323,8 +384,11 @@ export default {
       this.currentRow = val[val.length - 1]
     },
     handleSure() {
+      const curObj = this.autoOpenProtectConclusionObj
+        ? this.autoOpenProtectConclusionObj
+        : this.selectedTableData[0]
       let param = {
-        ...this.selectedTableData[0]
+        ...curObj
       }
       if (
         this.ruleForm.conclusion.conclusionCsc === '05' ||
@@ -357,15 +421,13 @@ export default {
         param.isFrozenRs = false
       }
       this.loading = true
-      updateThemen(param)
-        .then(() => {
-          this.loading = false
+      updateThemen(param).then((res) => {
+        if (res.code === 200) {
           iMessage.success('维护成功!')
-          this.close()
-        })
-        .catch((err) => {
-          iMessage.error('维护失败: ' + err)
-        })
+        }
+        this.loading = false
+        this.close()
+      })
     },
     handleCancel() {
       this.close()
@@ -392,12 +454,15 @@ export default {
     },
     //获取日期改期的更新的表格数据
     async getUpdateDateTableList(str, str2) {
+      const curObj = this.autoOpenProtectConclusionObj
+        ? this.autoOpenProtectConclusionObj
+        : this.selectedTableData[0]
       let param = {
         pageNum: 1,
         pageSize: 10,
         states: ['02', '03'],
         meetingId: this.meetingInfo.id,
-        themenId: this.selectedTableData[0].id,
+        themenId: curObj.id,
         startDateBegin: dayjs(new Date()).format('YYYY-MM-DD'),
         meetingTypeNames: [str]
       }
@@ -407,11 +472,14 @@ export default {
     },
     //会议改期调取会议大厅列表
     async queryMettingList(e, str2) {
+      const curObj = this.autoOpenProtectConclusionObj
+        ? this.autoOpenProtectConclusionObj
+        : this.selectedTableData[0]
       const res = await getMettingList(e)
       this.tableListData = res.data
       if (str2 === 'init') {
         this.currentRow = this.tableListData.find((item) => {
-          return item.id === this.selectedTableData[0].toDoMeeting
+          return item.id === curObj.toDoMeeting
         })
       }
     },

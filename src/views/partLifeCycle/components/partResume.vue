@@ -58,8 +58,10 @@
                 </div>
             </div>
             <div class="right" v-loading="rightLoading">
-                <div class="title">
-                    <i></i>{{ currentItem.typeName }} - {{ currentItem.title }}
+                <div class="title" v-if="currentItem&&currentItem.typeName">
+                    <i></i>
+                    <span style="text-decoration: none">{{ currentItem.typeName }}</span>
+                    <span style="text-decoration: none" v-if="currentItem.title" @click="toUrl"> - {{ currentItem.title }}</span>
                 </div>
                 <div class="partResume_right_content">
                     <!--          //Sourcing-->
@@ -523,7 +525,12 @@
         })
         a.index = index
         this.bookmarkNodes = [...this.bookmarkNodes]
-      }
+      },
+      toUrl() {
+        let path = ''
+        console.log('跳转页面')
+//        window.open(window.location.origin + `/order/index.html#/${path}`, '_blank');
+      },
     }
   }
 </script>

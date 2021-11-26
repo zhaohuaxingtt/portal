@@ -132,10 +132,13 @@
                   :loading="tableLoading"
                   :data="tableListData"
                   :columns="tableSetting"
+                  @go-detail="handlecreatemtz"
                   @go-partNumber="handlePartNumberDetail"
                   @go-source='handleSource'
                   @handle-selection-change="handleSelectChange"
-                />
+                >
+                       
+                </iTableCustom>
                 <!-- 分页标签 -->
                 <iPagination
                 v-update
@@ -222,6 +225,16 @@ export default {
       ]
     },
     methods:{
+      handlecreatemtz(row){
+        let routeData = this.$router.resolve({
+          path: '/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow',
+          query: {
+              currentStep:1,
+              mtzAppId:row.sourceCode
+          }
+        })
+        window.open(routeData.href)
+      },
       handlePartNumberDetail(){
         this.isShow=true
       },
