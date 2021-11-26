@@ -9,7 +9,7 @@
       <el-table-column
         type="index"
         align="center"
-        label="NO."
+        label="No."
         width="40"
         min-width="40"
       ></el-table-column>
@@ -177,7 +177,7 @@ import { iPagination, iMessage, iCard } from "rise";
 import iTableML from "@/components/iTableML";
 import enclosure from "@/assets/images/enclosure.svg";
 import newFile from "@/assets/images/meeting-home/newFile.svg";
-import { findThemenById } from "@/api/meeting/details";
+// import { findThemenById } from "@/api/meeting/details";
 import newSummaryDialog from "./newSummaryDialog.vue";
 import { MOCK_FILE_URL } from "@/constants";
 import { download } from "@/utils/downloadUtil";

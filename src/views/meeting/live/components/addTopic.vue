@@ -542,11 +542,9 @@ import {
   addThemenAttachment,
   findTheThemenById,
 } from "@/api/meeting/details";
-import { uploadFile, getUsers, getReceiverById } from "@/api/meeting/type";
-
+import { uploadFile, getReceiverById } from "@/api/meeting/type";
 import { getMyMettingList } from "@/api/meeting/home";
 import { download } from "@/utils/downloadUtil";
-import { MOCK_FILE_URL } from "@/constants";
 export default {
   components: {
     iDialog,
@@ -1008,7 +1006,7 @@ export default {
       deep: true,
     },
     attachments: {
-      handler: function(newV) {},
+      handler: function() {},
       deep: true,
       immediate: true,
     },
@@ -1243,7 +1241,7 @@ export default {
           this.attachments.push({ ...this.attachment });
           iMessage.success(this.$t("上传成功"));
         })
-        .catch((err) => {
+        .catch(() => {
           // iMessage.error("上传失败");
         });
       this.uploadLoading = false;
