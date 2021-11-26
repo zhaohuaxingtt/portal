@@ -101,6 +101,14 @@ export default {
     }
   },
   created() {
+    var tbody = document.body
+        var height = tbody.clientHeight
+        // window.parent.postMessage({
+        //     height: height,
+        //     width: width
+        // }, '*')
+        console.log(height)
+        window.parent.postMessage({ key: 'setFormHeight', value: height },'*')
     if (window.top === window.self) {
       this.ifSelf = true
     } else {

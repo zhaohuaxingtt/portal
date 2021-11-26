@@ -1,5 +1,5 @@
 <template>
-  <iCard style="height:14rem">
+  <iCard style="height: 14rem">
     <div class="title">
       <p>{{ language('GONGYINGSHANGDEFEN', '供应商得分') }}</p>
       <span class="el-dropdown-link" v-permission="Card_SPI_More">
@@ -27,6 +27,9 @@
             >
             </icon>
             <span v-if="info.upDown > 0" class="green"
+              >{{ info.percent ? parseInt(info.percent).toString() : '' }}%
+            </span>
+            <span v-if="info.upDown < 0" class="orgin"
               >{{ info.percent ? parseInt(info.percent).toString() : '' }}%
             </span>
           </div>
@@ -82,7 +85,7 @@ export default {
   methods: {
     getData() {
       performCard360({ supplierId: this.$route.query.subSupplierId }).then(
-        res => {
+        (res) => {
           this.info = res.data
           this.getChart()
         }
@@ -238,8 +241,8 @@ export default {
     border: 1px solid #d9dee5;
     position: relative;
     span {
-        width: 50px;
-        display: inline-block;
+      width: 50px;
+      display: inline-block;
       position: absolute;
       top: 6px;
       right: -50px;
