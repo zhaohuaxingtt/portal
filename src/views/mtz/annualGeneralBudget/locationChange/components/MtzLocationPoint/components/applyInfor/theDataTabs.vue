@@ -171,6 +171,7 @@
                     >
                         <el-select v-model="scope.row.dosageMeasureUnit"
                                 clearable
+                                filterable
                                 :placeholder="language('QINGSHURU', '请输入')"
                                 v-if="editId.indexOf(scope.row.id)!==-1"
                                 >
@@ -969,6 +970,7 @@ export default {
           list[index].id = "";
           list[index].partName = item.partNameZh;
           list[index].partUnit = item.unit;
+          list[index].dosageMeasureUnit = "kg";
         }
       })
       this.newDataList = list;
@@ -999,6 +1001,7 @@ export default {
           list[index].sapCode = item.sapNum;
           list[index].partName = item.partNameCn;
           list[index].partUnit = item.unit;
+          list[index].dosageMeasureUnit = "kg";
         }
       })
       this.newDataList = list;
@@ -1032,6 +1035,7 @@ export default {
           list[index].priceUnit = item.priceUnit;
           list[index].partName = item.assemblyPartName;
           list[index].partUnit = item.countUnit;
+          list[index].dosageMeasureUnit = "kg";
         }
       })
       // console.log(list);

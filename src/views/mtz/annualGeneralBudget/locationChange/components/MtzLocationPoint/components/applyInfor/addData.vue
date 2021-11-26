@@ -79,6 +79,7 @@
                 <iLabel :label="language('YONGLIANGJILIANGDANEWI','用量计量单位')" slot="label" :required="true"></iLabel>
                 <iSelect v-model="contractForm.dosageMeasureUnit"
                    clearable
+                   filterable
                    value-key="code"
                    :placeholder="language('QINGXUANZE','请选择')">
                     <el-option v-for="item in dosageMeasureUnit"
@@ -305,6 +306,9 @@ import {
   getDosageUnitList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
+  queryPartsByCondition,
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
+import {
   iButton,
   iMessage,
   iInput,
@@ -346,6 +350,22 @@ export default {components: {
     }
   },
   data() {
+    var validator1 = (rule, value, callback) => {
+        queryPartsByCondition({
+            partNum:value
+        }).then(res=>{
+            if(res.code == 200 && res.result){
+                if(res.data == null){
+                    callback(new Error(this.language("LINGJIANHAOBUCUNZAI",'零件号不存在！')));
+                }else{
+                    iMessage.success(this.language("YANZHENGTONGGUO","验证通过！"))
+                    callback();
+                }
+            }else{
+                callback(new Error(this.language("QINGQIUCUOWU",'请求错误！')));
+            }
+        })
+    };
     return {
         supplierList:[],//供应商编号
         contractForm: {
@@ -356,7 +376,10 @@ export default {components: {
         },
         dosageMeasureUnit:[],
         rules: {
-            assemblyPartnum:[{ required: true, message: '请选择', trigger: 'blur' }],
+            assemblyPartnum:[
+                { required: true, message: '请输入/选择', trigger: 'blur' },
+                {validator: validator1,trigger: 'blur'}
+            ],
             ruleNo:[{ required: true, message: '请选择', trigger: 'blur' }],
             priceUnit:[{ required: true, message: '请输入', trigger: 'blur' }],
             // partUnit:[{ required: true, message: '请输入', trigger: 'blur' }],
@@ -417,7 +440,6 @@ export default {components: {
           this.partType = true;
       },
     saveClose(val){
-        console.log(val);
         this.closeDiolog();
         if(val){
             this.contractForm.assemblyPartnum = val.partNum;

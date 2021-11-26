@@ -8,7 +8,8 @@
         <div>
           <span>{{language('SHENQINGDANXINXI',"申请单信息")}}</span>
           <a v-if="applyNumber!==''">-</a>
-          <a class="number_color" @click="jumpInforBtn">{{applyNumber}}</a>
+          <a class="number_color"
+             @click="jumpInforBtn">{{applyNumber}}</a>
           <el-tooltip effect="light"
                       placement="right"
                       v-if="applyNumber!==''">
@@ -22,7 +23,7 @@
         <div class="opration">
           <iButton @click="edit"
                    v-show="disabled && appIdType && inforData.appStatus == '草稿'">{{ language('BIANJI', '编辑') }}</iButton>
-                   <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
+          <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
           <iButton @click="save"
@@ -38,11 +39,14 @@
              v-for="(item,index) in tabsInforList"
              :key="index">
           <span>{{language(item.key,item.name)}}</span>
-          <el-tooltip class="item" effect="dark" :content="inforData[item.prop]" placement="top-start" v-if="item.type=='tooltip'&&inforData[item.prop]!==null">
+          <el-tooltip class="item"
+                      effect="dark"
+                      :content="inforData[item.prop]"
+                      placement="top-start"
+                      v-if="item.type=='tooltip'&&inforData[item.prop]!==null">
             <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
-                  class="inforText"
-                  v-model="inforData[item.prop]"
-                  ></iInput>
+                    class="inforText"
+                    v-model="inforData[item.prop]"></iInput>
           </el-tooltip>
           <iSelect style="width:68%;"
                    v-else-if="item.type=='select'"
@@ -68,28 +72,25 @@
                 :placeholder="language('QINGSHURUBEIAN','请输入备注')"
                 v-model="inforData.linieMeetingMemo"></el-input>
     </iCard>
-    <theTabs
-      ref="theTabs"
-      @isNomiNumber="isNomiNum"
-      @handleReset="handleReset"
-      v-if="!beforReturn"
-      :appStatus='inforData.appStatus'
-      :flowType="inforData.flowType"
-      >
+    <theTabs ref="theTabs"
+             @isNomiNumber="isNomiNum"
+             @handleReset="handleReset"
+             v-if="!beforReturn"
+             :appStatus='inforData.appStatus'
+             :flowType="inforData.flowType">
     </theTabs>
-    <theDataTabs
-      ref="theDataTabs"
-      v-if="!beforReturn"
-      :appStatus='inforData.appStatus'
-      :flowType="inforData.flowType"
-      >
+    <theDataTabs ref="theDataTabs"
+                 v-if="!beforReturn"
+                 :appStatus='inforData.appStatus'
+                 :flowType="inforData.flowType">
     </theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
              v-if="mtzAddShow"
              width="85%"
              @close='closeDiolog'>
-      <partApplication @close="saveClose" :numIsNomi="numIsNomi"></partApplication>
+      <partApplication @close="saveClose"
+                       :numIsNomi="numIsNomi"></partApplication>
     </iDialog>
   </div>
 </template>
@@ -111,7 +112,7 @@ import {
   getFlowTypeList,
   disassociate
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
-
+import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 export default {
   name: "searchTabs",
   components: {
@@ -166,42 +167,42 @@ export default {
 
       applyNumber: '',
       showType: false,
-      appIdType:true,
-      numIsNomi:0,
+      appIdType: true,
+      numIsNomi: 0,
     }
   },
   // beforeRouteEnter:(to,from,next)=>{
   //   if(to.query.mtzAppId == undefined){
-      
+
   //   }else{
   //     next()
   //   }
   // },
-  computed:{
-      mtzObject(){
-        return this.$store.state.location.mtzObject;
-      }
+  computed: {
+    mtzObject () {
+      return this.$store.state.location.mtzObject;
+    }
   },
   watch: {
-    mtzObject(newVlue,oldValue){
+    mtzObject (newVlue, oldValue) {
       this.init()
     }
   },
   created () {
-    if(JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined && this.$route.query.mtzAppId == undefined){
-      
-    }else{
+    if (JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined && this.$route.query.mtzAppId == undefined) {
+
+    } else {
       this.init()
     }
     this.getListData()
-    if(this.$route.query.appId){
+    if (this.$route.query.appId) {
       this.appIdType = true;
     }
   },
   methods: {
     init (val) {
       getAppFormInfo({
-        mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId 
+        mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
       }).then(res => {
         this.inforData.mtzAppId = res.data.mtzAppId;
         this.inforData.linieName = res.data.linieName
@@ -215,13 +216,13 @@ export default {
           this.applyNumber = res.data.ttNominateAppId;
           // this.getLjLocation();
         }
-        if(val !== "取消"){
-          store.commit("submitBtnInfor",{...res.data});
+        if (val !== "取消") {
+          store.commit("submitBtnInfor", { ...res.data });
         }
         // NOTPASS
         if (res.data.appStatus == "草稿" || res.data.appStatus == "未通过") {
           this.showType = true;
-        }else{
+        } else {
           this.showType = false;
         }
 
@@ -229,7 +230,10 @@ export default {
         this.inforData.flowType = res.data.flowType
       })
     },
-    getListData(){
+    getsyncAuther () {
+      syncAuther({ mtzAppId: this.$route.query.mtzAppId })
+    },
+    getListData () {
       getFlowTypeList({}).then(res => {
         this.getFlowTypeList = res.data;
       })
@@ -241,12 +245,12 @@ export default {
     handleChange1 (val) {
 
     },
-    handleReset(){
+    handleReset () {
       modifyAppFormInfo({
         ...this.inforData,
-        flowType:"MEETING",
+        flowType: "MEETING",
       }).then(res => {
-        if(res.code == 200){
+        if (res.code == 200) {
           setTimeout(() => {
             disassociate({
               mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
@@ -266,7 +270,7 @@ export default {
       this.disabled = false;
     },
     save () {
-      if(this.inforData.flowType!=="MEETING" && this.numIsNomi!==0){
+      if (this.inforData.flowType !== "MEETING" && this.numIsNomi !== 0) {
         return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZBA', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转/备案'))
       }
       iMessageBox(this.language('QUERENBAOCUN', '确认保存？'), this.language('LK_WENXINTISHI', '温馨提示'), {
@@ -290,7 +294,7 @@ export default {
       this.init("取消");
     },
     relation () {//关联零件定点申请
-      iMessageBox(this.language('GLSQDHWFCMTZJMFQTJCHHWLZDJQXDDDCZ','关联申请单后，无法从MTZ界面发起提交、撤回、会外流转、冻结、取消定点等操作'),this.language('LK_WENXINTISHI', '温馨提示'), {
+      iMessageBox(this.language('GLSQDHWFCMTZJMFQTJCHHWLZDJQXDDDCZ', '关联申请单后，无法从MTZ界面发起提交、撤回、会外流转、冻结、取消定点等操作'), this.language('LK_WENXINTISHI', '温馨提示'), {
         confirmButtonText: this.language('QUEREN', '确认'),
         cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res => {
@@ -308,6 +312,7 @@ export default {
           if (res.code == 200) {
             iMessage.success(res.desZh)
             this.applyNumber = "";
+            this.getsyncAuther()
             this.init();
           } else {
             iMessage.error(res.desZh)
@@ -346,7 +351,7 @@ export default {
     chioce (e, name) {
       this.inforData[name] = e;
     },
-    isNomiNum(val){
+    isNomiNum (val) {
       this.numIsNomi = val;
     },
 
@@ -363,18 +368,18 @@ export default {
     //     }
     //   })
     // },
-    jumpInforBtn(){
+    jumpInforBtn () {
       page({
         current: 1,
         size: 9999,
-        nominateId:this.applyNumber
-      }).then(res=>{
-        if(res.code == 200 && res.result){
+        nominateId: this.applyNumber
+      }).then(res => {
+        if (res.code == 200 && res.result) {
           var jumpData = res.data.records[0];
           var partProjType = "";
-          if(jumpData.partProjType == null){
+          if (jumpData.partProjType == null) {
             partProjType = ""
-          }else{
+          } else {
             partProjType = jumpData.partProjType
           }
           window.open("http://" + window.location.host + "/sourcing/#/designate/decisiondata/rs?desinateId=" + jumpData.id + "&designateType=" + jumpData.nominateProcessType + "&partProjType" + partProjType + "&applicationStatus=" + jumpData.applicationStatus)
@@ -388,12 +393,12 @@ export default {
           //     applicationStatus:jumpData.applicationStatus,
           //   }
           // })
-        }else{
-          iMessage.error(this.language(res.desEn,res.desZh))
+        } else {
+          iMessage.error(this.language(res.desEn, res.desZh))
         }
       })
     }
-    
+
   },
   destroyed () {
 

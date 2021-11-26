@@ -83,6 +83,15 @@ export function cartypePaged(data) {
   })
 }
 
+export function queryPartsByCondition(parmars) {
+  //零件号查询零件号信息
+  return requstPart({
+    url: '/web/queryPartsByCondition',
+    method: 'POST',
+    data: parmars
+  })
+}
+
 export function partInfoPaged(parmars) {
   //零件中心列表分页查询
   return requstPart({

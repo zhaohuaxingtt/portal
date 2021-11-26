@@ -68,6 +68,7 @@
 
             <el-form-item style="marginRight:68px;width:180px" :label="language('XUNJIACAIGOUYUAN','询价采购员')" class="formItem">
               <iInput v-model="searchForm.buyerName"
+                          :disabled="true"
                           :editPlaceholder="language('QINGSHURU','请输入')"
                           :placeholder="language('QINGSHURU','请输入')">
               </iInput>
@@ -75,7 +76,6 @@
             
             <el-form-item style="marginRight:68px;width:180px" :label="language('LINIE','LINIE')" class="formItem">
               <iInput v-model="searchForm.linieName"
-                      :disabled="true"
                           :editPlaceholder="language('QINGSHURU','请输入')"
                           :placeholder="language('QINGSHURU','请输入')">
               </iInput>
@@ -228,7 +228,7 @@ export default {
           }
       ],
       searchForm: {
-        applicationStatus:"NEW",
+        applicationStatus:"NOMINATE",
         linieName:"",
       },
       linieDeptId:[],
@@ -241,18 +241,18 @@ export default {
       },
       getFlowTypeList:[],
       getLocationApplyStatus:[
-        {
-          code:"NEW",
-          message: "草稿"
-        },
         // {
-        //   code:"SUBMIT",
-        //   message: "已提交"
+        //   code:"NEW",
+        //   message: "草稿"
         // },
         {
-          code:"NOTPASS",
-          message: "未通过"
+          code:"NOMINATE",
+          message: "定点"
         },
+        // {
+        //   code:"NOTPASS",
+        //   message: "未通过"
+        // },
       ],
       getLocationApplyStatus11:[],
       getSecondPartList:[
@@ -285,7 +285,6 @@ export default {
         },
       ],
       changeData:[],
-      linieData:{},
     }
   },
   created() {
@@ -311,11 +310,10 @@ export default {
         this.getLocationApplyStatus11 = res.data.CAR_TYPE_PRO;
       })
 
-      getCurrentUser({}).then(res=>{
-        this.searchForm.linieName = res.data[0].message;
-        this.linieData = res.data[0];
+      // getCurrentUser({}).then(res=>{
+        this.searchForm.buyerName = JSON.parse(sessionStorage.getItem('userInfo')).nameZh;
         this.getTableList();
-      })
+      // })
     },
     getTableList(){
       this.loadingInfor = true;
@@ -361,8 +359,8 @@ export default {
     // 重置
     handleSearchReset(form) {
       this.searchForm = {
-        applicationStatus:"NEW",
-        linieName : this.linieData.message
+        applicationStatus:"NOMINATE",
+        buyerName : JSON.parse(sessionStorage.getItem('userInfo')).nameZh
       };
       this.page.currPage = 1;
       this.page.pageSize = 10;
@@ -422,5 +420,10 @@ export default {
 }
 ::v-deep .card{
   box-shadow: 0 0 0px rgb(27 29 33 / 0%)
+}
+
+:v-deep .el-form{
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
