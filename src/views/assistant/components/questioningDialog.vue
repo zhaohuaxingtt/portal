@@ -28,9 +28,6 @@
 				load="up"
 				@getFilesList="getFilesList"
 			/>
-			<div  class=" flex flex-row">
-				{{fileList.length > 0 ? fileList[0].name : ''}}
-			</div>
 		</div>
 		<div class="flex flex-row mt20 justify-end items-center btns">
 			<iButton @click="clearDialog">{{ language('退出') }}</iButton>
