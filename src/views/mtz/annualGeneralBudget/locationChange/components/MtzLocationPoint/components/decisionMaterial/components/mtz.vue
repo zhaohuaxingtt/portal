@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2021-11-26 16:25:15
+ * @LastEditTime: 2021-11-26 17:26:12
  * @LastEditors: Please set LastEditors
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
@@ -172,21 +172,21 @@
           <div class="applayDateContent"
                v-for="(item, index) in applayDateData"
                :key="index">
-            <icon v-if="item.flag"
+            <icon v-if="item.taskStatus==='同意'"
                   class="margin-left5 applayDateIcon"
                   symbol
                   name="iconrs-wancheng"></icon>
-            <icon v-if="!item.flag"
+            <icon v-else
                   class="margin-left5 applayDateIcon"
                   symbol
                   name="iconrs-quxiao"></icon>
             <div class="applayDateContentItem">
               <span>部门：</span>
-              <span class="applayDateDeptTitle">{{item.dept}}</span>
+              <span class="applayDateDeptTitle">{{item.taskApproves[0].approvedUser.deptNameZh}}</span>
             </div>
             <div class="applayDateContentItem">
               <span>日期：</span>
-              <span>{{item.date}}</span>
+              <span>{{item.endTime}}</span>
             </div>
           </div>
         </div>
@@ -200,7 +200,7 @@ import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1, ruleTableTitle1_1, ruleTableTitle1_2, partTableTitle1, partTableTitle1_1, partTableTitle1_2 } from './data'
-import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
+import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, panorama } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
 // import { uploadUdFile } from "@/api/file/upload";
@@ -313,18 +313,15 @@ export default {
       })
     },
     initApplayDateData () {
-      panorama().then(res => { })
-      // this.applayDateData = [
-      //   { flag: true, dept: 'TL', date: '2020-01-01' },
-      //   { flag: true, dept: 'TL', date: '2020-01-01' },
-      //   { flag: true, dept: 'TL', date: '2020-01-01' },
-      //   { flag: true, dept: 'TL', date: '2020-01-01' },
-      //   { flag: true, dept: 'TL', date: '2020-01-01' },
-      //   { flag: true, dept: 'TL', date: '2020-01-01' },
-      //   { flag: true, dept: 'TL', date: '2020-01-01' },
-      //   { flag: true, dept: 'TL', date: '2020-01-01' },
-      //   { flag: true, dept: 'TL', date: '2020-01-01' },
-      // ]
+      panorama('1783106').then(res => {
+        if (res?.code === '200') {
+          let data = res.data[1]
+          this.applayDateData = data.taskNodeList
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+
     },
     // 获取申请单信息
     getAppFormInfo () {
