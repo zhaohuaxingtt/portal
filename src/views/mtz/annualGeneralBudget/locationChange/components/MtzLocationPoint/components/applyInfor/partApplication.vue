@@ -63,6 +63,7 @@
 
             <el-form-item style="marginRight:68px;width:180px" :label="language('XUNJIACAIGOUYUAN','询价采购员')" class="formItem">
               <iInput v-model="searchForm.buyerName"
+                          :disabled="true"
                           :placeholder="language('QINGSHURU','请输入')">
               </iInput>
             </el-form-item>
@@ -70,7 +71,6 @@
             <!-- :editPlaceholder="language('QINGSHURU','请输入')" -->
             <el-form-item style="marginRight:68px;width:180px" :label="language('LINIE','LINIE')" class="formItem">
               <iInput v-model="searchForm.linieName"
-                      :disabled="true"
                           :placeholder="language('QINGSHURU','请输入')">
               </iInput>
             </el-form-item>
@@ -247,7 +247,6 @@ export default {
         getLocationApplyStatus11:[],
         getFlowTypeList:[],
         handleSelectArr:[],
-        linieData:{},
     }
   },
   computed:{
@@ -283,12 +282,11 @@ export default {
         this.getLocationApplyStatus11 = res.data.CAR_TYPE_PRO;
       })
 
-      getCurrentUser({}).then(res=>{
-        console.log(res)
-        this.searchForm.linieName = res.data[0].message;
-        this.linieData = res.data[0];
+      // getCurrentUser({}).then(res=>{
+        // console.log(res)
+        this.searchForm.buyerName = JSON.parse(sessionStorage.getItem('userInfo')).nameZh;
         this.getTableList();
-      })
+      // })
     },
     getTableList(val){
       this.loading = true;
@@ -308,7 +306,7 @@ export default {
     handleSearchReset(form) {
       this.searchForm = {
         applicationStatus:"NEW",
-        linieName : this.linieData.message
+        buyerName : JSON.parse(sessionStorage.getItem('userInfo')).nameZh
       };
       this.page.currPage = 1;
       this.page.pageSize = 10;
