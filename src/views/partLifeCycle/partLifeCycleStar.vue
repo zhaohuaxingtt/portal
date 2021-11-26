@@ -468,6 +468,11 @@ export default {
       this.defaultPartsList.map(item => {
         item.isClaim = false
       })
+      if(this.isSearch) {
+        this.getPartsCollect()
+      } else {
+        this.defaultParts()
+      }
     },
     remoteMethod(val){
       this.AekoPullDown = this.AekoPullDownClone.filter(item => {
