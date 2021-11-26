@@ -26,12 +26,12 @@
 			<CommonProblem
 				:loading="listLoading"
 				:moudleList="moudleList"
-				:currentMoudleId.sync="currentMoudleId"
+				:currentMoudleId="currentMoudleId ? currentMoudleId : this.$store.state.baseInfo.originalModuleId"
 				@change="moduleChange"
 			/>
 			<DataManage
 				:loading="listLoading"
-				:currMoudleName="currMoudleName"
+				:currMoudleName="currentMoudleId ? currMoudleName : originalMoudleName"
 				:currModuleDetailData="currModuleDetailData"
 				@handleQuestion="handleQuestion"
 			/>
@@ -115,7 +115,9 @@ export default {
 			questioningTitle: '',  // 追问 提问弹框title
 			questionAnswerContent: '',
 			listLoading: false,
-			hotQuestionList: []
+			hotQuestionList: [],
+			currentMenu: [],
+			originalMoudleName: ''
 		}
 	},
 	components: {
@@ -133,9 +135,8 @@ export default {
 	},
 	created() {
 		// 获取当前路径
-		let { currentUrl } = this.$route.params
-		console.log(currentUrl, "params")
-		this.currentUrl = currentUrl
+		let params  = this.$route.params
+		this.currentMenu = params.currentMenu
 	},
 	async mounted() {
 		await this.getMoudleList()
@@ -154,20 +155,32 @@ export default {
 		},
 		// 根据当前url和模块列表定位具体模块及模块名称
 		getCurrentModule() {
-			console.log(this.moudleList, "moudleList")
-			this.currentMoudleId = ''
+			let currFlag = false
 			this.moudleList.map(item => {
-				if (item.id === this.currentMoudleId) {
+				if (this.currentMenu.includes(item.permissionKey)) {
+					this.currentMoudleId = item.id
 					this.currMoudleName = item.name
+					this.$store.dispatch('setOriginalModuleId', item.id)
+					this.$store.dispatch('setCurrPageFlag', true)
+					currFlag = true
 				}
 			})
-			if (this.currentMoudleId) {
-				this.getManauContent()
+			if (!currFlag) {
+				this.currentMoudleId = ''
+				this.originalMoudleName = this.moudleList[0].name
+				this.$store.dispatch('setOriginalModuleId', this.moudleList[0].id)
+				this.$store.dispatch('setCurrPageFlag', false)
 			}
+			this.getManauContent()
 		},
 		getManauContent() {
-			if (!this.currentMoudleId) return
-			getUserDes({moduleId: this.currentMoudleId}).then(res => {
+			let queryContentId = ''
+			if (!this.currentMoudleId) {
+				queryContentId = this.moudleList[0].id
+			} else {
+				queryContentId = this.currentMoudleId
+			}
+			getUserDes({moduleId: queryContentId}).then(res => {
 				if (res?.code === '200') {
 					this.currModuleDetailData = '实打实的就喀什角动量喀什觉得'
 					// this.currModuleDetailData = res?.data?.manualContent
@@ -180,7 +193,8 @@ export default {
 		},
 		// 打开智能弹窗
 		handleQuestion() {
-			getHotFiveQues(this.currentMoudleId).then((res) => {
+			let moudleId = this.$store.state.baseInfo.originalModuleId
+			getHotFiveQues(moudleId).then((res) => {
 				if (res?.code === '200') {
 					// this.hotQuestionList = res?.data
 					this.hotQuestionList = [
@@ -219,7 +233,6 @@ export default {
 		},
 		// 根据弹窗热门问题跳转到常见问题详情
 		gotoProblemDeatil(issue, fromPage) {
-			console.log(issue, fromPage, '1111')
 			this.intelligentVisible = false
 			this.helpMoudle = 'problem'
 			this.currentMoudleId = 785 || issue.questionModuleId
