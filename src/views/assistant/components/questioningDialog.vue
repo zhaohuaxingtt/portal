@@ -23,12 +23,16 @@
 		<div class="editor">
 			（1）供应商在首页点击注册，打开供应商账号申请界面；
 		</div>
-		<div class="attach-box">
+		<div class="attach-box flex flex-column">
 			<AttachmentDownload
 				load="up"
+				@getFilesList="getFilesList"
 			/>
+			<div  class=" flex flex-row">
+				{{fileList.length > 0 ? fileList[0].name : ''}}
+			</div>
 		</div>
-		<div class="flex felx-row mt20 justify-end items-center btns">
+		<div class="flex flex-row mt20 justify-end items-center btns">
 			<iButton @click="clearDialog">{{ language('退出') }}</iButton>
 			<iButton @click="sendMessage">{{ language('发送') }}</iButton>
 		</div>
@@ -59,10 +63,19 @@ export default {
 			default: ''
 		}
 	},
+	data() {
+		return {
+			fileList: []
+		}
+	},
 	methods: {
 		clearDialog() {
 			this.$emit('closeQuesDialog', false)
 		},
+		getFilesList(fileList) {
+			console.log(fileList, "11111")
+			this.fileList = fileList
+		}
 	}
 }
 </script>
