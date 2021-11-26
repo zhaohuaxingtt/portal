@@ -10,16 +10,22 @@
 // eslint-disable-next-line no-undef
 import { sendKey } from '@/api/usercenter'
 import router from '../router'
+//
+// eslint-disable-next-line no-undef
+
 let languageList = []
 // eslint-disable-next-line no-undef
-Vue.prototype.language = function(languageKey, name) {
+Vue.use(i18n)
+
+Vue.prototype.language = function (languageKey, name) {
   if (process.env.NODE_ENV == 'dev') {
     name = name || languageKey
     languageList.push(
       languageKey + '----' + name + '----' + this.$router.currentRoute.path
     )
   }
-  return this.$t(languageKey)
+  console.log('languageKey', languageKey)
+  return this.$t(languageKey) || languageKey
 }
 
 // eslint-disable-next-line no-undef
@@ -27,12 +33,12 @@ router.afterEach(() => {
   if (process.env.NODE_ENV == 'dev' && languageList.length !== 0) {
     let languageLists = Array.from(new Set(languageList))
     sendKey(languageLists)
-      .then(res => {
+      .then((res) => {
         if (res.code == 200) {
           languageList = []
         }
       })
-      .catch(err => {
+      .catch((err) => {
         languageList = []
       })
   }
@@ -40,5 +46,5 @@ router.afterEach(() => {
 
 export default function (languageKey, name) {
   // eslint-disable-next-line no-undef
-  return i18n.t(languageKey);
+  return i18n.t(languageKey)
 }
