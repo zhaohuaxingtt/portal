@@ -55,9 +55,9 @@ export default {
       //获取选中的色标
       const list = this.$refs.colorPartsList.getPartsList()
       if(list){
-        this.partItems = list.map((ele)=>{
-          return ele.partNum
-        })
+        // this.partItems = list.map((ele)=>{
+        //   return ele.partNum
+        // })
         this.ids = list.map((ele)=>{
           return ele.id
         })
@@ -84,7 +84,7 @@ export default {
       }
       const data = {
        ...basicContent,
-       'partNum':this.partItems,
+       'partIds':this.ids,
         unitId,
         unitConverseDtos
       }
