@@ -990,8 +990,12 @@ export default {
       this.newDataList = deepClone(val);
       this.newDataList.forEach(item => {
         delete item.id;
-        item.carlineList = item.carline.split(",")
-
+        if(item.carline == null){
+          item.carlineList = []
+          item.carline = "";
+        }else{
+          item.carlineList = item.carline.split(",")
+        }
         // checkPreciousMetal({code:item.materialCode}).then(res=>{
         //     this.$set(item,"metalType",res.data)
         // })

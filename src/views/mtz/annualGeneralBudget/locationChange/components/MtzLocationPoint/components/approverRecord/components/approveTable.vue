@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-26 10:13:22
+ * @LastEditTime: 2021-11-26 14:52:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -87,7 +87,7 @@
                    placeholder="输入关键词搜索"
                    :remote-method="queryOptions"
                    @change="function(changedVal) {handleChangeApprovalName(changedVal, scope.row)}">
-            <el-option v-for="item in userList"
+            <el-option v-for="item in scope.row.userList"
                        :key="item.id"
                        :label="item.nameZh"
                        :value="item.nameZh">
@@ -146,7 +146,7 @@ import { pageApprove, deleteApprove, modifyApprove, getAppFormInfo, selectDept, 
 export default {
   data () {
     return {
-      mtzAppId: "",
+      mtzAppId: this.$route.query.mtzAppId,
       tableData: [],
       tableLoading: false,
       editFlag: false,
@@ -171,21 +171,20 @@ export default {
   created () {
     this.init()
   },
-  // computed: {
-  //   mtzObject () {
-  //     return this.$store.state.location.mtzObject;
-  //   }
-  // },
-  // watch: {
-  //   mtzObject (newVlue, oldValue) {
-  //     this.init()
-  //   }
-  // },
+  computed: {
+    mtzObject () {
+      return this.$store.state.location.mtzObject;
+    }
+  },
+  watch: {
+    mtzObject (newVlue, oldValue) {
+      this.init()
+    }
+  },
   mixins: [pageMixins],
   methods: {
     async init () {
-      this.mtzAppId = this.$route.query.mtzAppId
-      this.flag = JSON.parse(this.$route.query.isView)
+      // this.flag = JSON.parse(this.$route.query.isView)
       await this.getAppFormInfo()
       // this.selectDept()
     },
@@ -220,14 +219,18 @@ export default {
           if (res?.code === '200') {
             this.$set(item, 'selectDeptList', res.data);
             let deptList = item.selectDeptList.find(i => item.approvalDepartmentName === i.nameZh)
-            console.log(deptList)
+            item.approvalDepartment = deptList.nameEn
             selectSection({
-              deptId: deptList.id
+              lineDeptId: deptList.id
             }).then((res) => {
               this.$set(item, 'selectSectionList', res.data);
+              let approvalNameList = item.selectSectionList.find(i => item.approvalSectionName === i.nameZh)
+              item.approvalSection = deptList.nameEn
+              this.$set(item, 'userList', approvalNameList.userDTOList);
             })
           }
         })
+        console.log(item)
       })
     },
     // selectDept () {
@@ -248,6 +251,11 @@ export default {
         mtzAppId: this.mtzAppId || '5107001'
       }).then(res => {
         if (res?.code === '200') {
+          if(res.data.appStatus === '草稿' || res.data.appStatus === '未通过'){
+            this.flag = false;
+          }else{
+            this.flag = true;
+          }
           if (res.data.flowType === 'FILING') {
             this.disabled = true
             return
@@ -283,6 +291,11 @@ export default {
       this.getTableList()
     },
     save () {
+      this.muilteList.forEach(item => {
+        delete item.selectDeptList
+        delete item.selectSectionList
+        delete item.userList
+      })
       this.loading = true
       modifyApprove({
         mtzAppId: this.mtzAppId || '5107001',
@@ -321,15 +334,16 @@ export default {
     },
     handleChangeDepartment (val, row) {
       let obj = row.selectDeptList.find(item => item.nameZh === val)
-      row.approvalDepartment = obj.approvalDepartment
-      selectSection({ deptId: obj.id }).then(res => {
+      row.approvalDepartment = obj.nameEn
+      selectSection({ lineDeptId: obj.id }).then(res => {
         this.$set(row, 'selectSectionList', res.data);
       })
     },
     handleChangeApprovalSection (val, row) {
       let obj = row.selectSectionList.find(item => item.nameZh === val)
-      row.approvalSection = obj.approvalSection
+      row.approvalSection = obj.nameEn
       this.$set(row, 'userList', obj.userDTOList);
+      console.log(row)
     },
     handleChangeApprovalName (val, row) {
       let obj = this.userList.find(item => item.id === val)

@@ -34,7 +34,7 @@
           <el-table-column
             width="28"
             min-width="28"
-            label="NO."
+            label="No."
             show-overflow-tooltip
           >
             <template slot-scope="scope">

@@ -13,7 +13,7 @@
       <el-table-column
         prop="follow"
         align="center"
-        label="NO."
+        label="No."
         width="40"
         type="selection"
       >
@@ -21,7 +21,7 @@
       <el-table-column
         prop="follow"
         align="center"
-        label="NO."
+        label="No."
         width="68"
         type="index"
       >
@@ -68,9 +68,9 @@
 import { iPagination, iMessage } from "rise";
 import { iButton } from "rise";
 import iTableML from "@/components/iTableML";
-import { MOCK_FILE_URL } from "@/constants";
+// import { MOCK_FILE_URL } from "@/constants";
 import { download } from "@/utils/downloadUtil";
-import { getDoucumentsById, getFileByIds } from "@/api/file/filedownload.js";
+import { getFileByIds } from "@/api/file/filedownload.js";
 import { MIME_TYPE } from "@/api/file/type.js";
 import dayjs from "dayjs";
 export default {
@@ -124,7 +124,7 @@ export default {
         // });
         let d = [];
         for (let item of docs) {
-          let a = new Promise((resolve, reject) => {
+          let a = new Promise((resolve) => {
             getFileByIds([item.attachmentId]).then((data) => {
               resolve(data[0]);
             });
@@ -137,7 +137,7 @@ export default {
             .filter((item) => {
               return item;
             })
-            .map((it, index) => {
+            .map((it) => {
               return {
                 ...it,
                 updateDate: dayjs(it.createDate).format("YYYY-MM-DD HH:mm"),
