@@ -231,7 +231,7 @@
                          align="center"
                          width="150"
                          :label="language('JIJIA','基价')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'price'"
                           :rules="formRules.price ? formRules.price : ''">
@@ -248,7 +248,7 @@
                          align="center"
                          width="150"
                          :label="language('JIJIAJILIANGDANWEI','基价计量单位')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'priceMeasureUnit'"
                           :rules="formRules.priceMeasureUnit ? formRules.priceMeasureUnit : ''">
@@ -276,7 +276,7 @@
                          align="center"
                          width="150"
                          :label="language('HUOBI','货币')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'tcCurrence'"
                           :rules="formRules.tcCurrence ? formRules.tcCurrence : ''">
@@ -298,7 +298,7 @@
                          align="center"
                          width="150"
                          :label="language('HUILV','汇率')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'tcExchangeRate'"
                           :rules="formRules.tcExchangeRate ? formRules.tcExchangeRate : ''">
@@ -313,7 +313,7 @@
                          align="center"
                          width="150"
                          :label="language('SHICHANGJIALAIYUAN','市场价来源')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'source'"
                           :rules="formRules.source ? formRules.source : ''">
@@ -327,7 +327,7 @@
                          align="center"
                          width="150"
                          :label="language('BUCHAXISHU','补差系数')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'compensationRatio'"
                           :rules="formRules.compensationRatio ? formRules.compensationRatio : ''">
@@ -343,7 +343,7 @@
                          align="center"
                          width="150"
                          :label="language('BUCHAZHOUQI','补差周期')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'compensationPeriod'"
                           :rules="formRules.compensationPeriod ? formRules.compensationPeriod : ''">
@@ -363,27 +363,23 @@
         </el-table-column>
         <el-table-column prop="threshold"
                          align="center"
+                         :label="language('YUZHI','阈值')"
                          width="150"
-                         show-overflow-tooltip>
-          <template slot="header">
-            <div>
-              <span>{{language('YUZHI','阈值')}}</span>
-              <el-tooltip effect="light"
-                          placement="top">
-                <div slot="content">
-                  <p>{{language("ZUIDUOSHURUXIAOSHUDIANHOUSIWEI","最多输入小数点后4位")}}</p>
-                </div>
-                <i class="el-icon-warning-outline margin-left10"
-                   style="color:blue"></i>
-              </el-tooltip>
-            </div>
-          </template>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'threshold'"
                           :rules="formRules.threshold ? formRules.threshold : ''">
-              <iInput type="number"
-                      v-model="scope.row.threshold"
-                      v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+              <el-tooltip effect="light"
+                          v-if="editId.indexOf(scope.row.id)!==-1"
+                          placement="bottom">
+                <div slot="content">
+                  <p>{{language("ZUIDUOSHURUXIAOSHUDIANHOUSIWEI","最多输入小数点后4位")}}</p>
+                </div>
+                <iInput type="number"
+                    step="0.0001"
+                    v-model="scope.row.threshold"
+                    ></iInput>
+              </el-tooltip>
               <span v-else>{{scope.row.threshold}}</span>
             </el-form-item>
           </template>
@@ -392,7 +388,7 @@
                          align="center"
                          width="150"
                          :label="language('YUZHIBUCHALUOJI','阈值补差逻辑')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'thresholdCompensationLogic'"
                           :rules="formRules.thresholdCompensationLogic ? formRules.thresholdCompensationLogic : ''">
@@ -414,7 +410,7 @@
                          align="center"
                          width="200"
                          :label="language('YOUXIAOQIQI','有效期起')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'startDate'"
                           :rules="formRules.startDate ? formRules.startDate : ''">
@@ -434,7 +430,7 @@
                          align="center"
                          width="200"
                          :label="language('YOUXIAOQIZHI','有效期止')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'endDate'"
                           :rules="formRules.endDate ? formRules.endDate : ''">
@@ -924,7 +920,7 @@ export default {
         })
         this.$refs['contractForm'].validate(async valid => {
           if (valid) {
-            iMessageBox(this.language('GZRFSBHSFTBXGGG', '规则若发生变化，是否同步相关更改？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+            iMessageBox(this.language('GZFSBHXGLJJTBGGSFJX','规则发生变化，相关零件将同步更改，是否继续？'), this.language('LK_WENXINTISHI', '温馨提示'), {
               confirmButtonText: this.language('QUEREN', '确认'),
               cancelButtonText: this.language('QUXIAO', '取消')
             }).then(res => {

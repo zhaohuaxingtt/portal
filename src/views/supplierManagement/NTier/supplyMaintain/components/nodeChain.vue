@@ -16,6 +16,9 @@
       <div style="flex:1;">
         <slot name="toolbar" :initWidth="initWidth"></slot>
       </div> <!-- 工具栏插槽 -->
+        <iButton @click="isDilog=true">{{
+            language('NTIERZHUCEYAOQING','N-Tier注册邀请')
+          }}</iButton>
       <div v-if="toolbar.indexOf('reassign-lvl') >= 0" :class="['node-button', optimizeLevelClass]" @click="optimizeLevel" title="重置层级"></div>
       <div v-if="toolbar.indexOf('save') >= 0" :class="['node-button', emitDataClass]" @click="emitDatas" title="提交数据"></div>
       <iButton v-if="toolbar.indexOf('opt-node') >= 0" @click="optimizeNodes">{{language('CHONGZHICENGJI','重置层级')}}</iButton>
@@ -43,16 +46,80 @@
         </template>
       </div>
     </div>
+      <iDialog @close="closeDiolog()"
+             :title=" language('NTIERZHUCEYAOQING','N-Tier注册邀请')"
+             :visible.sync="isDilog"
+             v-if="isDilog"
+             width="80%">
+      <iFormGroup row="3"
+      :rules="baseRules"
+
+                  :model="formModel"
+                  ref="formModelRules">
+        <iFormItem prop="supplierName">
+          <iLabel :label="language('GONGYINGSHANGZHONGWENMING','供应商中文名')"
+                  required
+                  slot="label"></iLabel>
+          <iInput :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                  v-model="formModel.supplierName">
+          </iInput>
+        </iFormItem>
+        <iFormItem prop="contactName">
+          <iLabel :label="language('LIANXIRENXINGMING','联系人姓名')"
+                  required
+                  slot="label"></iLabel>
+          <iInput :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                  v-model="formModel.contactName">
+
+          </iInput>
+        </iFormItem>
+        <iFormItem prop="contactEmail">
+          <iLabel :label="language('contactEmail','联系人邮箱')"
+                  required
+                  slot="label"></iLabel>
+          <iInput :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                  v-model="formModel.contactEmail">
+          </iInput>
+        </iFormItem>
+
+      </iFormGroup>
+      <div class="btnStyle">
+        <iButton @click="isDilog=false">{{
+            language('QUXIAO','取消')
+          }}</iButton>
+        <iButton @click="handleSbumit">{{
+            language('QUEREN','确认')
+          }}</iButton>
+      </div>
+    </iDialog>
   </div>
 </template>
 
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import { icon, iButton } from "rise";
-
+import { baseRules } from './data.js'
+import { icon, iButton, iCard,
+  iSelect,
+  iSearch,
+  iInput,
+  iDialog,
+  iFormItem,
+  iMessage,
+  iFormGroup,
+  iLabel } from "rise";
+import {
+  invitation
+} from '@/api/supplierManagement/supplyMaintain/index.js'
 export default {
-  components: { icon, iButton },
+  components: { icon, iButton, iCard,
+    iSelect,
+    iSearch,
+    iInput,
+    iDialog,
+    iFormItem,
+    iFormGroup,
+    iLabel },
   props: {
     nodeDatas: {
       type: Object,
@@ -174,6 +241,13 @@ export default {
   },
   data: function() {
     return {
+        formModel: {
+        supplierName: '',
+        contactName: '',
+        contactEmail: ''
+      },
+      baseRules: baseRules,
+      isDilog: false,
       onDataLoading: false,
       initWidth: 0,
       initHeight: 0,
@@ -277,7 +351,32 @@ export default {
         }
       });
     },
-
+        handleSbumit() {
+        this.$refs.formModelRules.validate((valid) => {
+          if (valid) {
+      // if (
+      //   this.formModel.supplierName == '' ||
+      //   this.formModel.contactName == '' ||
+      //   this.formModel.contactEmail == ''
+      // ) {
+      //   iMessage.warn(this.language('QINGSHURUBITIANXIANG', '请输入必填项'))
+      //   return false
+      // }
+      invitation(this.formModel).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+                this.isDilog = false
+        } else iMessage.error(res.desZh)
+      })
+      } else {
+        return false
+      }
+        })
+    },
+   closeDiolog() {
+      this.isDilog = false
+      this.formModel = {}
+    },
     fintRootId: function(nodeId) {
       var self = this;
       var currentEdge = self.edgeList.filter(function(edge) {
@@ -889,7 +988,19 @@ export default {
 .full-height {
   height: 100%;
 }
-
+.formbox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btnStyle {
+  text-align: right;
+  padding-bottom: 20px;
+}
+.box {
+  width: 100%;
+}
 .node-button {
   height: 34px;
   width: 34px;
