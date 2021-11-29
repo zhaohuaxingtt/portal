@@ -2,7 +2,7 @@
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-19 14:15:08
+ * @LastEditTime: 2021-11-29 16:03:00
  * @Description:
  * @FilePath: \front-portal\src\router\Router.js
  */
@@ -40,6 +40,7 @@ import RouterSurvey from './survey'
 import RouterColorParts from './RouterColorParts'
 
 import RouterApplications from './applications'
+import ApproveDetails from '@/views/generalPage/approveDetails/preview'
 
 export default {
   routes: [
@@ -146,6 +147,11 @@ export default {
             title: '搜索'
           },
           component: () => import('@/views/search')
+        },
+        {
+          path: '/supplier/approve',
+          name: 'approve',
+          component: ApproveDetails
         },
         ...RouterOpcs,
         ...RouterSupplier,
