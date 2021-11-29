@@ -20,9 +20,10 @@
 			</div>
 			<div class="te-text">{{ language('提问') }}</div>
 		</div>
-		<div class="editor">
+		<!-- <div class="editor-box">
 			（1）供应商在首页点击注册，打开供应商账号申请界面；
-		</div>
+		</div> -->
+		<iEditor ref="iEditor" v-model="askContent" />
 		<div class="attach-box flex flex-column">
 			<AttachmentDownload
 				load="up"
@@ -39,9 +40,11 @@
 <script>
 import { iDialog, iButton } from 'rise'
 import AttachmentDownload from './attachmentDownload'
+import iEditor from '@/components/iEditor'
+import { submitQuestion } from "@/api/assistant"
 export default {
 	name: 'questioningDialog',
-	components:{ iDialog, AttachmentDownload, iButton },
+	components:{ iDialog, AttachmentDownload, iButton, iEditor },
 	props: {
 		questioningVisible: {
 			type: Boolean,
@@ -58,20 +61,66 @@ export default {
 		questionAnswerContent: {
 			type: String,
 			default: ''
+		},
+		currentMoudleId: {
+			type: Number,
+			default: 0
+		},
+		currLabelId: {
+			type: Number,
+			default: 0
 		}
 	},
 	data() {
 		return {
-			fileList: []
+			fileList: [],
+			askContent: '',
+			assistantQuestionDTO: {
+				attachmentDTOList: [],
+				questionLableId: '',
+				questionModuleId: '',
+				questionTitle: ''
+			}
 		}
 	},
 	methods: {
+		init() {
+			this.fileList = []
+			this.askContent = ''
+		},
 		clearDialog() {
+			this.init()
 			this.$emit('closeQuesDialog', false)
 		},
 		getFilesList(fileList) {
 			console.log(fileList, "11111")
 			this.fileList = fileList
+		},
+		sendMessage() {
+			if (this.zwFlag) {
+				// 追问提交问题
+				console.log("====")
+			} else {
+				// 提问提交问题
+				this.assistantQuestionDTO.questionLableId = this.currLabelId 
+				this.assistantQuestionDTO.questionModuleId = this.currentMoudleId
+				this.assistantQuestionDTO.questionTitle = this.askContent
+				this.fileList.map(item => {
+					this.assistantQuestionDTO.attachmentDTOList.push({
+						fileName: item.name,
+						fileUrl: item.path,
+						bizType: '',
+						bizId: 0
+					})
+				})
+				submitQuestion(this.assistantQuestionDTO).then((res) => {
+					console.log(res, '000000')
+					if (res?.code === '200') {
+						this.$message.success('您的问题已提交,请等待管理远答复！')
+						this.clearDialog()
+					}
+				})
+			}
 		}
 	}
 }
@@ -99,7 +148,7 @@ export default {
 		color: #131523;
 		font-size: 16px;
 	}
-	.editor {
+	.editor-box {
 		margin-top: 30px;
 		width: 100%;
 		height: 260px;
@@ -108,6 +157,11 @@ export default {
 		border-radius: 2px;
 		color: #000000;
 		font-size: 18px;
+	}
+	.editor {
+		margin-top: 30px;
+		width: 100%;
+		height: 260px;
 	}
 	.attach-box {
 		height: 100px;

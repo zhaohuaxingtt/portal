@@ -39,6 +39,7 @@
 		<div class="flex flex-column content mt20" v-else-if="helpMoudle === 'problem'">
 			<ProblemSearch 
 				:moudleList="moudleList"
+				@queryProblem="queryProblem"
 			/>
 			<div class="flex flex-row mt20 middle-content">
 				<CommonProblem 
@@ -48,10 +49,12 @@
 				/>
 				<ProblemDetail
 					ref="problemDetail"
-					:currentMoudleId="currentMoudleId" 
+					:currentMoudleId="currentMoudleId"
 					:currMoudleName="currMoudleName"
+					:queryProblemList="queryProblemList"
 					@handleQuestion="handleQuestion"
 					@handleZwQues="handleZwQues"
+					@putAdminTw="putAdminTw"
 				/>
 			</div>
 		</div>
@@ -77,6 +80,8 @@
 			:questioningVisible="questioningVisible"
 			:questioningTitle="questioningTitle"
 			:questionAnswerContent="questionAnswerContent"
+			:currentMoudleId="currentMoudleId"
+			:currLabelId="currLabelId"
 			:zwFlag="zwFlag"
 			@closeQuesDialog="closeQuesDialog"
 		/>
@@ -97,7 +102,7 @@ import IntelligentDialog from '../components/intelligentDialog'
 import QuestioningDialog from '../components/questioningDialog'
 import QuestionList from './components/questionList'
 import QuestionDetail from './components/questionDetail'
-import { getSystemMeun, getHotFiveQues, getUserDes } from '@/api/assistant'
+import { getHotFiveQues, getUserDes, getQueryProblemList, getModuleList } from '@/api/assistant'
 
 export default {
 	data() {
@@ -108,16 +113,17 @@ export default {
 			currentMoudleId: null,  // 当前模块id
 			currMoudleName: null,   // 当前模块名称	
 			currModuleDetailData: null,  // 当前模块内容
-			currentUrl: '',
 			intelligentVisible: false,  // 智能弹框visible
 			questioningVisible: false,  // 追问 提问visible
 			zwFlag: false,  // 追问 提问标志
 			questioningTitle: '',  // 追问 提问弹框title
 			questionAnswerContent: '',
 			listLoading: false,
-			hotQuestionList: [],
-			currentMenu: [],
-			originalMoudleName: ''
+			hotQuestionList: [],  // 热门问题
+			currentMenu: [],  // 当前的二级模块菜单
+			originalMoudleName: '',  // 无模块id展示的模块名称
+			currLabelId: null,  // 当前标签的id(常见问题筛查查询时才有)
+			queryProblemList: []  // 常见问题模块查询时的问题列表
 		}
 	},
 	components: {
@@ -145,21 +151,21 @@ export default {
 	methods: {
 		async getMoudleList() {
 			this.listLoading = true
-			await getSystemMeun().then((res) => {
+			await getModuleList().then((res) => {
 				if (res.code === '200') {
-					let { data: { menuList }} = res
 					this.listLoading = false
-					this.moudleList = [...menuList[1]?.menuList, ...menuList[2]?.menuList]
+					this.moudleList = res?.data || []
 				}
 			})
 		},
 		// 根据当前url和模块列表定位具体模块及模块名称
 		getCurrentModule() {
 			let currFlag = false
+			console.log(this.currentMenu, "this.currentMenu")
 			this.moudleList.map(item => {
-				if (this.currentMenu.includes(item.permissionKey)) {
-					this.currentMoudleId = item.id
-					this.currMoudleName = item.name
+				if (this.currentMenu?.includes(item.permissionKey)) {
+					this.currentMoudleId = item.menuId
+					this.currMoudleName = item.menuName
 					this.$store.dispatch('setOriginalModuleId', item.id)
 					this.$store.dispatch('setCurrPageFlag', true)
 					currFlag = true
@@ -167,29 +173,36 @@ export default {
 			})
 			if (!currFlag) {
 				this.currentMoudleId = ''
-				this.originalMoudleName = this.moudleList[0].name
-				this.$store.dispatch('setOriginalModuleId', this.moudleList[0].id)
+				this.originalMoudleName = this.moudleList[0].menuName
+				this.$store.dispatch('setOriginalModuleId', this.moudleList[0].menuId)
 				this.$store.dispatch('setCurrPageFlag', false)
 			}
 			this.getManauContent()
 		},
+		// 获取用户手册内容
 		getManauContent() {
 			let queryContentId = ''
 			if (!this.currentMoudleId) {
-				queryContentId = this.moudleList[0].id
+				queryContentId = this.moudleList[0].menuId
 			} else {
 				queryContentId = this.currentMoudleId
 			}
 			getUserDes({moduleId: queryContentId}).then(res => {
 				if (res?.code === '200') {
-					this.currModuleDetailData = '实打实的就喀什角动量喀什觉得'
-					// this.currModuleDetailData = res?.data?.manualContent
+					// this.currModuleDetailData = '实打实的就喀什角动量喀什觉得'
+					this.currModuleDetailData = res?.data?.manualContent
 				}
 			})
 		},
 		// 右上方分类点击事件
 		tabChange(val) {
 			this.helpMoudle = val
+			this.moudleList.map(item => {
+				console.log(item, this.currentMoudleId, "this.currentMoudleId")
+				if(item.menuId === this.currentMoudleId) {
+					this.currMoudleName = item.menuName
+				}
+			})
 		},
 		// 打开智能弹窗
 		handleQuestion() {
@@ -211,6 +224,7 @@ export default {
 		// 关闭智能弹框
 		closeDialog(va) {
 			this.intelligentVisible = va
+			this.hotQuestionList = []
 		},
 		// 追问 打开问题弹框
 		handleZwQues(title, content) {
@@ -221,11 +235,12 @@ export default {
 			this.zwFlag = true
 		},
 		// 提问 打开问题弹框
-		putAdminTw() {
+		putAdminTw(labelId) {
 			this.intelligentVisible = false
 			this.questioningVisible = true
 			this.questioningTitle = '提问'
 			this.zwFlag = false
+			this.currLabelId = labelId
 		},
 		// 关闭问题弹框
 		closeQuesDialog(va) {
@@ -244,8 +259,8 @@ export default {
 		// 选择模块变化时 的事件
 		moduleChange(moudle) {
 			console.log(moudle, "moudle")
-			this.currentMoudleId = moudle.id
-			this.currMoudleName = moudle.name
+			this.currentMoudleId = moudle.menuId
+			this.currMoudleName = moudle.menuName
 			if (this.helpMoudle === 'manual') {
 				this.getManauContent()
 			} else if (this.helpMoudle === 'problem') {
@@ -256,6 +271,25 @@ export default {
 				return false
 			}
 			
+		},
+		// 根据常见问题查询条件筛查数据
+		async queryProblem(queryValue) {
+			const { labelId, moduleId } = queryValue
+			this.currentMoudleId = moduleId
+			this.currLabelId = labelId
+			this.moudleList.map(item => {
+				if (item.id === moduleId) {
+					this.currMoudleName = item.menuName
+				}
+			})
+			await getQueryProblemList(queryValue).then((res) => {
+				if (res?.code === '200') {
+					const { data } = res
+					this.$nextTick(() => {
+						this.$refs.problemDetail.getQueryProblemList(data, this.currLabelId)
+					})
+				}
+			})
 		}
 	}
 }

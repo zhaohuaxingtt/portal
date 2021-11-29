@@ -14,7 +14,7 @@ export function getSystemMeun() {
 // 根据用户来源（内部用户/供应商）获取模块列表
 export function getModuleList() {
   return assistantRequest({
-    url: '/assistantModuleEntity/queryModuleBySor',
+    url: '/assistantModuleEntity/queryCurrentUserModuleList',
     method: 'GET'
   })
 }
@@ -58,8 +58,8 @@ export function updateFavour(data) {
   console.log(data, '1111111')
   return assistantRequest({
     url: '/assistantFaq/updateFavour',
-    method: 'GET',
-    params: data
+    method: 'POST',
+    data
   })
 }
 
@@ -124,5 +124,32 @@ export function getAllModuleLabel() {
   return assistantRequest({
     url: '/assistantModuleEntity/queryMAndL',
     method: 'GET'
+  })
+}
+
+//  常见问题搜索问题
+export function getQueryProblemList(data) {
+  return assistantRequest({
+    url: '/assistantFaq/queryFaqByMLId',
+    method: 'POST',
+    data: data
+  })
+}
+
+// 判断该用户是否给该问题点赞
+export function judgeFavour(data) {
+  return assistantRequest({
+    url: `/assistantFaqFavourRecordEntity/judgeLike`,
+    method: 'GET',
+    params: data
+  })
+}
+
+// 用户提交问题
+export function submitQuestion(data) {
+  return assistantRequest({
+    url: `/assistantQuestion/newQuestion`,
+    method: 'POST',
+    data
   })
 }
