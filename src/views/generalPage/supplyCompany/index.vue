@@ -149,8 +149,15 @@ export default {
           })
         })
     },
-    selectable(val) {
+   selectable(val) {
+      if (this.tableListData.isSelect) {
+        if (val.companyCode == '9000' || val.companyCode == '8000') {
+          return false
+        }
+        return true
+      }
       return !val.isExist
+      // return true
     }
   }
 }
