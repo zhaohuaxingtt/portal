@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="会议改期"
+    :title="$t('会议改期')"
     :visible.sync="dialogStatusManageObj.openUpdateDateDialog"
     width="67.5rem"
     :close-on-click-modal="false"

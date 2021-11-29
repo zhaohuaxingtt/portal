@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">会议同屏</div>
+    <div class="header">{{$t('MT_HUIYITONGPING')}}</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <div class="info-line-1">

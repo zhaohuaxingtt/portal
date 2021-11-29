@@ -2,7 +2,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="会议修改"
+    :title="$t('MT_HUIYIXIUGAI')"
     :visible.sync="openUpdate"
     width="38.625rem"
     :close-on-click-modal="false"
@@ -20,14 +20,14 @@
         <el-row class="form-row">
           <div class="form-item-row1-col1">
             <iFormItem label="会议名称" prop="name">
-              <iLabel :label="$t('会议名称')" slot="label"></iLabel>
+              <iLabel :label="$t('MT_HUIYIMINGCHENG')" slot="label"></iLabel>
               <iInput v-model="ruleForm.name" />
             </iFormItem>
           </div>
           <div class="form-item-row1-col2"></div>
           <div class="form-item-row1-col3">
             <iFormItem>
-              <p class="type-title">会议类型</p>
+              <p class="type-title">{{$t('MT_HUIYILEIXING')}}</p>
               <p class="type-name">{{typeObject[ruleForm.meetingTypeId]}}</p>
             </iFormItem>
           </div>
@@ -35,23 +35,23 @@
         <el-row class="form-row">
           <div class="form-item-row2-col1">
             <iFormItem label="会议日期" prop="startDate">
-              <iLabel :label="$t('会议日期')" slot="label" required></iLabel>
+              <iLabel :label="$t('MT_HUIYIRIQI')" slot="label" required></iLabel>
               <iDatePicker
                 value-format="yyyy-MM-dd"
                 type="date"
                 v-model="ruleForm.startDate"
                 :picker-options="datePickerOptions"
-                placeholder="请选择会议开始日期"
+                :placeholder="$t('MT_QINGXUANZEHUIYIKAISHIRIQI')"
               />
             </iFormItem>
           </div>
           <div class="form-item-row2-col2"></div>
           <div class="form-item-row2-col3">
             <iFormItem label="开始时间" prop="startTime">
-              <iLabel :label="$t('开始时间')" slot="label" required></iLabel>
+              <iLabel :label="$t('MT_KAISHISHIJIAN')" slot="label" required></iLabel>
               <el-time-picker
                 value-format="hh:mm:ss"
-                placeholder="请选择会议开始时间"
+                :placeholder="$t('MT_QINGXUANZEHUIYIKAISHIJIAN')"
                 v-model="ruleForm.startTime"
               />
             </iFormItem>
@@ -60,7 +60,7 @@
         <el-row class="form-row">
           <div class="form-item-row3-col1">
             <iFormItem label="会议地址" prop="meetingPlace">
-              <iLabel :label="$t('会议地址')" slot="label" required></iLabel>
+              <iLabel :label="$t('MT_HUIYIDIZHI')" slot="label" required></iLabel>
               <iInput v-model="ruleForm.meetingPlace" />
             </iFormItem>
           </div>
@@ -68,10 +68,10 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="clearDiolog" plain class="cancel">{{
-              $t("LK_QUXIAO")
+              $t("MT_XIUGAI")
             }}</iButton>
             <iButton type="primary" @click="handleSubmit" plain>{{
-              '修改'
+               $t("LK_QUXIAO")
             }}</iButton>
           </el-form-item>
         </div>

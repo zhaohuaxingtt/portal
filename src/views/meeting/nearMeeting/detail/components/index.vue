@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <p class="go-back"><iButton @click="goBack">返回</iButton></p>
+    <p class="go-back"><iButton @click="goBack">{{$t('返回')}}</iButton></p>
     <div class="title-info">
       <div class="header-content">
         <div>

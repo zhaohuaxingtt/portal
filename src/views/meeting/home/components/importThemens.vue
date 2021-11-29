@@ -29,7 +29,7 @@
                 class="upload-button"
                 :uploadLoading="uploadLoading"
               >
-                请选择文件<span class="upload-text"
+                ${{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text"
                   ><img :src="uploadIcon"
                 /></span>
               </iButton>
