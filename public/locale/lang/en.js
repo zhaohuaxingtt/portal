@@ -1967,7 +1967,7 @@
   xmlHttp.open(
     'GET',
     'http://10.122.18.136:8088/i18n/getTranslationMap?from=protal',
-    true
+    false
   )
   xmlHttp.setRequestHeader('Content-type', 'application/json')
   xmlHttp.setRequestHeader('Accept', '*/*')

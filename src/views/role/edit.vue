@@ -10,7 +10,7 @@
   <iPage>
     <div v-loading="loading">
       <viewHeader
-        title="分配角色权限"
+        :title="language('分配角色权限')"
         editable
         :active="activeTab"
         @toggle-tab="toggleTab"
