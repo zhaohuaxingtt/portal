@@ -25,7 +25,7 @@
               <el-option
                 v-for="(item, index) in dOptions"
                 :key="index"
-                :value="item.label"
+                :value="item.value"
                 :label="item.label"
               >
               </el-option>
