@@ -733,30 +733,6 @@ export default {
           name: '待定'
         },
         {
-          id: '02',
-          name: '定点'
-        },
-        {
-          id: '03',
-          name: '发LOI'
-        },
-        {
-          id: '04',
-          name: '转TER/TOP-TER'
-        },
-        {
-          id: '05',
-          name: '下次Pre CSC'
-        },
-        {
-          id: '06',
-          name: '转CSC'
-        },
-        {
-          id: '07',
-          name: '关闭'
-        },
-        {
           id: '08',
           name: '通过'
         },
