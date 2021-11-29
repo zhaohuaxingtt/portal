@@ -118,25 +118,7 @@
         </el-form>
       </div>
       <div class="mt20 mb20">
-        附件:
-        <a v-if="!isReplyStatus" href="javscript:void(0);" @click.prevent="downFileHandle" style="color: #2369f1"><i class="el-icon-link"></i>点击下载</a>
-        <a v-else href="javscript:void(0);" @click.prevent="uploadFileHandle" style="color: #2369f1"><i class="el-icon-link"></i>点击上传</a>
-        <!-- <iUpload v-show="false" :fileIds="fileIds" :extraData="extraData" @callback="handelCallback" /> -->
-        <el-upload
-          ref="upload" 
-          v-show="false"
-          class="upload"
-          action="/fileApi/upload"
-          :show-file-list="false"
-          :data="{ applicationName: 'rise' }"
-          name="multipartFile"
-          with-credentials
-          :on-success="handelCallback"
-          :before-upload="beforeUpload"
-          :http-request="myUpload"
-          accept=".xlsx,.pdf,.docx"
-        >
-        </el-upload>
+        <attachmentDownload :load="loadText"/>
       </div>
     </div>
     <dispatchDialog v-if="showDialog" :show.sync="showDialog" />
@@ -145,11 +127,11 @@
 </template>
 
 <script>
-import { iInput, iSelect, iButton, iFormItem,iUpload } from 'rise'
+import { iInput, iSelect, iButton, iFormItem } from 'rise'
 import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
-import iEditor from '@/components/iEditor'
-// import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
+import iEditor from '@/components/iEditor';
+import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue'
 export default {
   props: {
     type: {
@@ -232,7 +214,7 @@ export default {
   },
   mounted () {
     console.log(this.type, '???')
-    this.changeCategoryItem({value: this.currentCategoryItem});
+    this.changeCategoryItem({ value: this.currentCategoryItem });
     this.cardSelectHandler(this.categoryCardList[0]);
     setTimeout(() => {
       this.loading = false;
@@ -243,7 +225,7 @@ export default {
     changeCategoryItem (item) {
       this.isReplyStatus = false
       this.currentCategoryItem = item.value;
-      this.categoryCardList = item.value != 'all' ? this.mockDataList.filter(it => it.status === item.value) :this.mockDataList;
+      this.categoryCardList = item.value != 'all' ? this.mockDataList.filter(it => it.status === item.value) : this.mockDataList;
       this.cardSelectHandler(this.categoryCardList[0]);
       this.isDisabledModule = true;
       this.isDisabledLabel = true;
@@ -254,26 +236,7 @@ export default {
       this.isReplyStatus = false
       this.cardSelectItem = item
     },
-    downFileHandle () {
-      console.log('点击下载')
-    },
-    async handelCallback(res){
-      console.log(res, '上传回调');
-      // const formData = new FormData()
-      // formData.append('businessId', 1)
-      // formData.append('type', 1)
-      // formData.append('isTemp', 0)
-      // formData.append('applicationName', 'rise')
-      // formData.append('file', file)
-      // formData.append(
-      //   'currentUser',
-      //   this.$store.state.permission.userInfo.userName
-      // )
-      // const { path } = await uploadFileWithNOTokenTwo(formData)
-    },
-    uploadFileHandle () { 
-      this.$refs.upload.$el.querySelector("input[type='file']").click();
-    },
+    
     replyHandler () {
       this.isReplyStatus = true
     },
@@ -281,7 +244,7 @@ export default {
     dispatchHandler () {
       this.showDialog = true
     },
-    closeQuestionHandler() {
+    closeQuestionHandler () {
       this.$confirm('确定要关闭吗', {
         type: 'warning'
       }).then(async () => {
@@ -310,6 +273,13 @@ export default {
     editToolbar () {
       return []
     },
+    loadText() {
+      if (this.isReplyStatus) {
+        return 'up';
+      } else {
+        return 'down';
+      }
+    },
   },
   components: {
     iInput,
@@ -319,7 +289,7 @@ export default {
     iFormItem,
     iEditor,
     FinishedDialog,
-    iUpload,
+    AttachmentDownload,
   }
 }
 </script>
