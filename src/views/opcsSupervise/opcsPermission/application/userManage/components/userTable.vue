@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 15:28:52
+ * @LastEditTime: 2021-11-29 17:19:36
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -27,25 +27,25 @@
         <i-button v-if="!edit"
                   @click="editBtn">{{ language('BIANJI', '编辑') }}
         </i-button>
-         <i-button v-if="!edit"
+        <i-button v-if="!edit"
                   @click="editBtn">{{ language('DONGJIE', '冻结') }}
         </i-button>
-         <i-button v-if="!edit"
+        <i-button v-if="!edit"
                   @click="editBtn">{{ language('JIEDONG', '解冻') }}
         </i-button>
-         <i-button v-if="!edit"
+        <i-button v-if="!edit"
                   @click="editBtn">{{ language('TONGBULDAP', '同步LDAP') }}
         </i-button>
-          <i-button v-if="!edit"
+        <i-button v-if="!edit"
                   @click="editBtn">{{ language('JIHUO', '激活') }}
         </i-button>
-          <i-button v-if="!edit"
+        <i-button v-if="!edit"
                   @click="editBtn">{{ language('XUQI', '续期') }}
         </i-button>
-          <i-button v-if="!edit"
+        <i-button v-if="!edit"
                   @click="download">{{ language('XIAZAIMOBAN', '下载模板') }}
         </i-button>
-          <i-button v-if="!edit"
+        <i-button v-if="!edit"
                   @click="exportFile">{{ language('TONGBULDAP', '导出') }}
         </i-button>
       </div>
@@ -68,7 +68,7 @@
 
 <script>
 import tableList from '@/components/commonTable'
-import { tableTitle,tableTitleEdit } from './data'
+import { tableTitle, tableTitleEdit } from './data'
 import { iCard, iButton, iSelect, iInput } from 'rise'
 export default {
   components: {
@@ -84,7 +84,7 @@ export default {
       tableLoading: false,
       selectTableData: [],
       tableTitle: tableTitle,
-      tableTitleEdit:tableTitleEdit,
+      tableTitleEdit: tableTitleEdit,
       tableListData: [{ position: '111', id: '1' }]
     }
   },
@@ -96,7 +96,16 @@ export default {
       this.edit = false
     },
     add() {
-      this.tableListData.push({})
+      const newItemList = this.tableTitle.map((item) => {
+        return item.props
+      })
+      const newItem = {}
+      newItemList.map((item) => {
+        newItem[item] = ''
+      })
+      this.tableListData.push({
+        ...newItem
+      })
       this.editMode = true
     },
     //修改表格改动列

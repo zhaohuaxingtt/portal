@@ -4,7 +4,7 @@
             <div class="header">
                 <!-- <pageHeader class="title">{{language('弹窗管理')}}</pageHeader> -->
                 <div>
-                    <iButton @click="saveClick">{{language('发布')}}</iButton>
+                    <iButton @click.once="save">{{language('发布')}}</iButton>
                     <iButton @click="reset">{{language('重置')}}</iButton>
                     <iButton @click="preview">{{language('预览')}}</iButton>
                 </div>
@@ -104,7 +104,7 @@ export default {
             if(this.timer !== null) clearTimeout(this.timer)
             this.timer = setTimeout(() => {
                 this.save()
-            }, 1000);
+            }, 3000);
         },
         preview(){
             const formData = this.$refs.newLeft.formData()

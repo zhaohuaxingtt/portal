@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 15:15:46
+ * @LastEditTime: 2021-11-29 17:20:07
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\manage\components\manageTable.vue
 -->
 <template>
@@ -74,7 +74,16 @@ export default {
       this.edit = false
     },
     add() {
-      this.tableListData.push({})
+      const newItemList = this.tableTitle.map((item) => {
+        return item.props
+      })
+      const newItem = {}
+      newItemList.map((item) => {
+        newItem[item] = ''
+      })
+      this.tableListData.push({
+        ...newItem
+      })
       this.editMode = true
     },
     //修改表格改动列

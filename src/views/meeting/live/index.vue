@@ -225,9 +225,11 @@
           <div class="white"></div>
         </div>
       </div>
-      <div class="bootom notice">会议直播进程将每5秒自动刷新，请耐心等待。</div>
+      <div class="bootom notice">
+        {{ $t('MT_HUIYIZHIBOMEIWUMIAOSHUAXIN') }}
+      </div>
     </div>
-    <div v-else class="no-live">暂无直播会议</div>
+    <div v-else class="no-live">{{ $t('MT_ZANWUZHIBOHUIYI') }}</div>
     <my-topics
       ref="childTopic"
       :meetingInfo="meetingInfo"

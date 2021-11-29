@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <div class="header">我的议题</div>
+    <div class="header">{{$t('MT_WODEYITI')}}</div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="未完成" name="first">
+      <el-tab-pane :label="$t('MT_WEIWANCHENG')" name="first">
         <iCard class="my-topics-all">
           <unfinish
             :meetingInfo="meetingInfo"
@@ -12,7 +12,7 @@
           />
         </iCard>
       </el-tab-pane>
-      <el-tab-pane label="已完成" name="second">
+      <el-tab-pane :label="$t('MT_YIWANCHENG')" name="second">
         <iCard class="my-topics-all">
           <finished
             :meetingInfo="meetingInfo"
