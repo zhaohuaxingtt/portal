@@ -1,5 +1,5 @@
 export const FILTER_FORM = {
-  processDefinitionKey: '',
+  processDefinitionKeys: '',
   businessId: '',
   applyUserId: '',
   procStatus: ''
@@ -45,7 +45,7 @@ export const TABLE_COLUMS = [
   {
     prop: 'processDefinitionName',
     i18n: '流程名称',
-    emit: 'go-detail',
+    emit: 'go-template',
     customRender: (h, scope) => {
       return <span class="link-text">{scope.row?.processDefinitionName}</span>
     }

@@ -127,8 +127,8 @@ export const nTierRouterList = [
   {
     value: 4,
     name: 'N级供应链维护',
-    url: '/supplier/NTier/supplyMaintain',
-    activePath: '/supplier/NTier/supplyMaintain',
+    url: '/supplier/NTier/supplyMaintain/nTierBKL',
+    activePath: '/supplier/NTier/supplyMaintain/nTierBKL',
     key: 'N级供应链维护'
   }
 ]

@@ -9,6 +9,10 @@
   left: 0;
   background-color: rgba(255,255,255,0.5);
   z-index: 9999989;
+  transition: display ease-out  2s;
+  /* background: url(./white-bg.png) no-repeat;
+  background-size: contain;
+  opacity: 0.3; */
 }
 
 .loading-wrapper .loading-container {
@@ -44,7 +48,7 @@
   justify-content: center;
   flex-direction: column;
   font-family: PingFang SC;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .loading-wrapper .loading-container .inner .rising {
@@ -54,6 +58,7 @@
 .loading-wrapper .loading-container .inner .dot {
   color: #1563F8;
   margin-top: -5px;
+  font-size: 16px;
 
 }
 
