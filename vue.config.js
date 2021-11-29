@@ -60,6 +60,18 @@ module.exports = {
       }),
         config.optimization.runtimeChunk('single')
     }
+
+    // 标记打包版本号
+    config.plugin('define').tap((pluginConfig) => {
+      const [options] = pluginConfig
+      const env = options['process.env']
+      const IS_DEV = process.env.NODE_ENV !== 'production'
+      process.env.VUE_APP_VERSION = IS_DEV
+        ? `DEV_${new Date().toLocaleString()}`
+        : `PROD_${new Date().toLocaleString()}`
+      env.VUE_APP_VERSION = JSON.stringify(process.env.VUE_APP_VERSION)
+      return pluginConfig
+    })
   },
   configureWebpack: (config) => {
     config.plugins.forEach((val) => {

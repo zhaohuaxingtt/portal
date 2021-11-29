@@ -188,8 +188,8 @@
                 >
                   <el-option
                     v-for="item in ruleForm.category == '02'
-                      ? conclusionConfigList2
-                      : conclusionConfigList3"
+                      ? conclusionConfigList3
+                      : conclusionConfigList2"
                     :key="item.id"
                     :label="item.name"
                     :value="item.id"
@@ -665,7 +665,7 @@ export default {
           { required: true, message: '必选', trigger: ['blur', 'change'] }
         ],
         userIds: [
-          { required: true, message: '必选', trigger: ['blur', 'change'] }
+          { required: true, message: '必选', trigger: ['blur'] }
         ],
         category: [
           { required: true, message: '必选', trigger: ['blur', 'change'] }
@@ -731,30 +731,6 @@ export default {
         {
           id: '01',
           name: '待定'
-        },
-        {
-          id: '02',
-          name: '定点'
-        },
-        {
-          id: '03',
-          name: '发LOI'
-        },
-        {
-          id: '04',
-          name: '转TER/TOP-TER'
-        },
-        {
-          id: '05',
-          name: '下次Pre CSC'
-        },
-        {
-          id: '06',
-          name: '转CSC'
-        },
-        {
-          id: '07',
-          name: '关闭'
         },
         {
           id: '08',

@@ -1,7 +1,7 @@
 <!--
  * @Author: youyuan
  * @Date: 2021-10-28 16:45:22
- * @LastEditTime: 2021-11-26 17:26:12
+ * @LastEditTime: 2021-11-29 10:54:35
  * @LastEditors: Please set LastEditors
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
@@ -167,7 +167,7 @@
       </iCard>
       <iCard v-if="isMeeting"
              class="margin-top20">
-        <p>{{language('SHENQINGRIQI', '申请日期')}}: 2020-01-01</p>
+        <p>{{language('SHENQINGRIQI', '申请日期')}}:{{moment(new Date()).format('YYYY-MM-DD')}}</p>
         <div :class="RsObject?'applayDateBox':'applayDateBox1'">
           <div class="applayDateContent"
                v-for="(item, index) in applayDateData"
@@ -182,7 +182,7 @@
                   name="iconrs-quxiao"></icon>
             <div class="applayDateContentItem">
               <span>部门：</span>
-              <span class="applayDateDeptTitle">{{item.taskApproves[0].approvedUser.deptNameZh}}</span>
+              <span class="applayDateDeptTitle">{{item.deptNameZh}}</span>
             </div>
             <div class="applayDateContentItem">
               <span>日期：</span>
@@ -200,7 +200,7 @@ import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1, ruleTableTitle1_1, ruleTableTitle1_2, partTableTitle1, partTableTitle1_1, partTableTitle1_2 } from './data'
-import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, panorama } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
+import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
 // import { uploadUdFile } from "@/api/file/upload";
@@ -243,11 +243,12 @@ export default {
       },
       applayDateData: [],
       RsObject: true,
+      moment: window.moment
     }
   },
   watch: {
     mtzObject (newVlue, oldValue) {
-
+      this.getAppFormInfo();
     }
   },
   created () {
@@ -313,10 +314,10 @@ export default {
       })
     },
     initApplayDateData () {
-      panorama('1783106').then(res => {
+      approvalList({ mtzAppId: '157546' }).then(res => {
         if (res?.code === '200') {
-          let data = res.data[1]
-          this.applayDateData = data.taskNodeList
+          let data = res.data
+          this.applayDateData = data
         } else {
           iMessage.error(res.desZh)
         }

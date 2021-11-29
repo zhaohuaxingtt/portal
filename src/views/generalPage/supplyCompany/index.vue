@@ -109,6 +109,12 @@ export default {
               this.$refs.mulitipleTable.toggleRowSelection(e, true)
             })
           })
+        } else {
+          this.tableListData.procureFactoryList.forEach((e) => {
+            if (e.isExist) {
+              this.$refs.mulitipleTable.toggleRowSelection(e, true)
+            }
+          })
         }
       } catch {
         this.tableLoading = false
@@ -149,8 +155,15 @@ export default {
           })
         })
     },
-    selectable(val) {
+   selectable(val) {
+      if (this.tableListData.isSelect) {
+        if (val.companyCode == '9000' || val.companyCode == '8000') {
+          return false
+        }
+        return true
+      }
       return !val.isExist
+      // return true
     }
   }
 }

@@ -261,7 +261,7 @@ import {
   iSelect,
   iPagination
 } from 'rise'
-import { getBuyerType } from '@/api/supplier360/blackList'
+import { getBuyerType, checkAddBlackIsFull } from '@/api/supplier360/blackList'
 import setTagList from './components/setTagList'
 import { dropDownTagName } from '@/api/supplierManagement/supplierTag/index'
 import setTagdilog from './components/setTag'
@@ -298,7 +298,7 @@ export default {
     setTagdilog,
     setTagList
   },
-  data () {
+  data() {
     return {
       tagdropDownList: [],
       supplierId: '',
@@ -385,7 +385,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.handleInfo()
     // this.$nextTick(() => {
     this.getUserType()
@@ -393,7 +393,7 @@ export default {
     // })
   },
   methods: {
-    changTag () {
+    changTag() {
       this.form.tagNameList = []
       //获取标签列表
       //   let isMeRelated = 0
@@ -407,7 +407,7 @@ export default {
         }
       })
     },
-    getUserType () {
+    getUserType() {
       getBuyerType({}).then((res) => {
         if (res && res.code == 200) {
           this.userType = res.data
@@ -430,7 +430,7 @@ export default {
       })
     },
     //加入黑名单
-    lacklistBtn (type, text) {
+    lacklistBtn(type, text) {
       if (this.selectTableData.length == 0) {
         this.supplierId = ''
       } else {
@@ -455,21 +455,33 @@ export default {
           )
         })
       } else if (type == 'join') {
-        if (this.form.supplierType == 'GP') {
-
-          this.gpJoinParams = {
-            ...this.gpJoinParams,
-            key: Math.random(),
-            visible: true
+        console.log(this.selectTableData)
+        checkAddBlackIsFull({
+          supplierId: this.selectTableData[0].subSupplierId
+        }).then((res) => {
+          if (res && res.code == '200') {
+            if (this.form.supplierType == 'GP') {
+              this.gpJoinParams = {
+                ...this.gpJoinParams,
+                key: Math.random(),
+                visible: true
+              }
+            } else if (this.form.supplierType == 'PP') {
+              this.ppJoinParams = {
+                ...this.ppJoinParams,
+                key: Math.random(),
+                visible: true
+              }
+            }
+          }else{
+               iMessage.warn(this.language(
+                'GAIGONGYINGSHANGYIZAISUOYOUKENENGDEGONGYIZUHEIMINGDANZHONGWUXUCHONGFUTIANJIA',
+                '该供应商已在所有可能的工艺组的黑名单中，无需重复添加！'
+              ))
+            
+              
           }
-        } else if (this.form.supplierType == 'PP') {
-
-          this.ppJoinParams = {
-            ...this.ppJoinParams,
-            key: Math.random(),
-            visible: true
-          }
-        }
+        })
       } else if (type == 'remove') {
         if (this.form.supplierType == 'GP') {
           if (this.clickTableList.isGpBlackList != 1) {
@@ -507,7 +519,7 @@ export default {
       }
     },
 
-    async handleInfo () {
+    async handleInfo() {
       const res2 = await dictByCode('RELEVANT_DEPT')
       const res3 = await dictByCode('supplier_active')
       const res4 = await dictByCode('supplier_main_type')
@@ -517,23 +529,23 @@ export default {
       this.fromGroup.supplierTypeList = res4
     },
     //标签设置弹窗
-    setTagBtn () {
+    setTagBtn() {
       if (this.selectTableData.length == 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
       } else this.isSetTag = true
     },
     //标签列表弹窗
-    handleTagsList (row) {
+    handleTagsList(row) {
       this.rowList = row
       this.issetTagList = true
     },
-    tagTab () {
+    tagTab() {
       let routeData = this.$router.resolve({
         path: '/supplier/supplierTag'
       })
       window.open(routeData.href)
     },
-    async handleRating () {
+    async handleRating() {
       if (this.selectTableData.length === 0) {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
@@ -551,10 +563,10 @@ export default {
         })
       })
     },
-    handleRegister () {
+    handleRegister() {
       this.listDialog = true
     },
-    openPage (params) {
+    openPage(params) {
       let routeData = this.$router.resolve({
         path: '/supplier/supplierList/details',
         query: {
@@ -565,7 +577,7 @@ export default {
       window.open(routeData.href)
       // this.$router.push({ name: 'ViewSuppliers', query: { supplierToken: params.supplierToken || '', supplierType: "4" } })
     },
-    handleSearchReset () {
+    handleSearchReset() {
       this.form.relatedToMe == true
       this.relatedToMe = true
       this.form = {
@@ -587,7 +599,7 @@ export default {
       this.getUserType()
     },
 
-    async getTableList () {
+    async getTableList() {
       this.tableLoading = true
       const pms = {
         ...this.form,
@@ -611,10 +623,10 @@ export default {
       this.page.totalCount = res.total
       this.tableLoading = false
     },
-    handleSelectionChange (e) {
+    handleSelectionChange(e) {
       this.selectTableData = e
     },
-    handleBlackList (row) {
+    handleBlackList(row) {
       this.rowList = row
       if (this.form.supplierType == 'GP') {
         this.gpBlackParams = {
@@ -632,18 +644,18 @@ export default {
       }
     },
     // 选中数据
-    handleClickRow (val) {
+    handleClickRow(val) {
       this.selectTableList = val
     },
-    changeSupplierType () {
+    changeSupplierType() {
       this.closeDiolog(1)
     },
-    getLsitBtn () {
+    getLsitBtn() {
       this.page.currPage = 1
       this.page.pageSize = 10
       this.getTableList()
     },
-    closeDiolog (v) {
+    closeDiolog(v) {
       if (v == 1) {
         this.getLsitBtn()
       }

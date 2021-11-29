@@ -132,7 +132,6 @@ export default {
     },
     watch:{
       changePopupStyle(newVal,oldVal){
-        console.log('-------');
         this.formContent.popupStyle = newVal
         this.$emit('cutterRateSty',newVal)
       }
@@ -148,6 +147,7 @@ export default {
         this.formContent = {
           popupName:'',
           linkUrl:'',
+          wordAlign:'0',
           publishRange:0,
           deletePreTime:'',
           publishPreTime:'',
@@ -157,6 +157,7 @@ export default {
           supplierList:[],
         }
         this.radio='1'
+        this.changePopupStyle = 0
       },
       save(){
         let isValidate = true
