@@ -3,33 +3,33 @@
 		<el-form :model="searchForm" ref="searchForm" class="search">
 			<el-row :gutter="20">
 				<el-col :span="4">
-          <el-form-item :label="formTitle.problemModule" prop="problemModule">
+          <el-form-item :label="formTitle.problemModule" prop="moduleId">
             <iSelect
               :placeholder="formTitle.selectPlaceholder"
-              v-model="searchForm.problemModule"
+              v-model="searchForm.moduleId"
 							@change="handleModuleChange"
             >
               <el-option
                 v-for="item in moudleList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
+                :key="item.menuId"
+                :label="item.menuName"
+                :value="item.menuId"
               >
               </el-option>
             </iSelect>
           </el-form-item>
         </el-col>
 				<el-col :span="5" push="2">
-          <el-form-item :label="formTitle.problemLabel" prop="labelModule">
+          <el-form-item :label="formTitle.problemLabel" prop="labelId">
             <iSelect
-							:disabled=" searchForm.problemModule ? false : true"
+							:disabled=" labelList.length > 0 ? false : true "
               :placeholder="formTitle.selectPlaceholder"
-              v-model="searchForm.labelModule"
+              v-model="searchForm.labelId"
             >
               <el-option
                 v-for="item in labelList"
                 :key="item.id"
-                :label="item.name"
+                :label="item.lableName"
                 :value="item.id"
               >
               </el-option>
@@ -37,10 +37,10 @@
           </el-form-item>
         </el-col>
 				<el-col :span="4" push="3">
-          <el-form-item :label="formTitle.problemTitle" prop="titleProblem">
+          <el-form-item :label="formTitle.problemTitle" prop="questionTitle">
             <iInput
               :placeholder="formTitle.inputPlaceholder"
-              v-model="searchForm.titleProblem"
+              v-model="searchForm.questionTitle"
             />
           </el-form-item>
         </el-col>
@@ -78,9 +78,9 @@ export default {
 	data() {
 		return {
 			searchForm: {
-				problemModule: '',
-				labelModule: '',
-				titleProblem: ''
+				moduleId: null,
+				labelId: null,
+				questionTitle: ''
 		
 			},
 			formTitle: {
@@ -89,21 +89,25 @@ export default {
 				inputPlaceholder: '请输入',
 				problemLabel: '标签',
 				problemTitle: '问题标题'
-			}
+			},
+			labelList: []
 		}
 	},
 	methods: {
 		query() {
-			console.log(this.searchForm)
+			this.labelList = []
+			this.$emit('queryProblem', this.searchForm)
 		},
 		reset() {
 			this.$refs.searchForm.resetFields()
 		},
 		handleModuleChange() {
-			console.log(this.searchForm.problemModule, "problemModule")
-			if (!this.searchForm.problemModule) return
-			getCurrLabelList(this.searchForm.problemModule).then(res => {
-				console.log(res, '11111')
+			console.log(this.searchForm.moduleId, "moduleId")
+			if (!this.searchForm.moduleId) return
+			getCurrLabelList(this.searchForm.moduleId).then(res => {
+				if (res?.code === '200') {
+					this.labelList = res?.data || []
+				}
 			})
 		}
 	}

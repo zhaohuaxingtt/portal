@@ -65,8 +65,8 @@ export function updateFavour(data) {
   console.log(data, '1111111')
   return assistantRequest({
     url: '/assistantFaq/updateFavour',
-    method: 'GET',
-    params: data
+    method: 'POST',
+    data
   })
 }
 
@@ -128,7 +128,6 @@ export function removeLabel(data) {
   })
 }
 
-
 // 关键词管理 - 查询关键词分页
 export function getKeywordByPage(data) {
   return assistantRequest({
@@ -168,3 +167,58 @@ export function getAllModuleLabel() {
     method: 'GET'
   })
 }
+
+//  常见问题搜索问题
+export function getQueryProblemList(data) {
+  return assistantRequest({
+    url: '/assistantFaq/queryFaqByMLId',
+    method: 'POST',
+    data: data
+  })
+}
+
+// 判断该用户是否给该问题点赞
+export function judgeFavour(data) {
+  return assistantRequest({
+    url: `/assistantFaqFavourRecordEntity/judgeLike`,
+    method: 'GET',
+    params: data
+  })
+}
+
+// 用户提交问题
+export function submitQuestion(data) {
+  return assistantRequest({
+    url: `/assistantQuestion/newQuestion`,
+    method: 'POST',
+    data
+  })
+}
+// 供应商用户和内部用户查询模块列表
+export const getModuleListByUserTypeApi = (userType) => {
+  return assistantRequest({
+    url: '/assistantModuleEntity/queryModuleList',
+    method: 'GET',
+    params: {
+      source: userType
+    }
+  })
+}
+
+// 根据条件查询问题列表
+export const queryProblemListApi = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestion/pageForDeal',
+    method: 'POST',
+    data
+  })
+}
+
+// 根据问题id查询问题详情
+export const queryDetailByIdApi = (questionId) => {
+  return assistantRequest({
+    url: `assistantQuestion/queryQuestionList/${questionId}`,
+    method: 'GET'
+  })
+}
+

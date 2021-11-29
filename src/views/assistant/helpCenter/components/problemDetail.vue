@@ -6,7 +6,7 @@
 		<div v-if="currentMoudleId" class="detail-title flex flex-column items-start">
 			<div class="moudle-name">{{ language(`${currMoudleName}`) }}</div>
 			<div class="flex flex-wrap label-box">
-				<div v-for="(item, idx) in labelList" :key="idx" class="item-label cursor" :class="labelIdx===idx ? 'activeIdx' : 'idx'" @click="handleLabel(item, idx)">
+				<div v-for="(item, idx) in labelList" :key="idx" class="item-label cursor" :class="labelIdx===item.id ? 'activeIdx' : 'idx'" @click="handleLabel(item, idx)">
 					{{ item.lableName }}
 				</div>
 			</div>
@@ -28,7 +28,7 @@
 						<div class="item-top-moudle">{{ moudle.menuName }}</div>
 					</div>
 					<div class="flex flex-wrap item-content">
-						<div class="content-label" v-for="(label, lx) in moudle.assistantModuleLabelEntityList" :key="lx">
+						<div class="content-label" v-for="(label, lx) in moudle.assistantModuleLabelEntityList" :key="lx" @click="handleLabel(label, idx)">
 							<div class="label-name cursor">{{ label.lableName }}</div>
 						</div>
 					</div>
@@ -42,9 +42,9 @@
 				<div class="label-text">{{ labelText }}</div>
 			</div>
 			<div class="flex flex-column problem-box">
-				<div v-for="(item, idx) in problemList" :key="idx" class="item-problem flex flex-row items-center" @click="handleProbelm(item, idx)">
+				<div v-for="(item, idx) in problemList" :key="idx" class="item-problem flex flex-row items-center" @click="handleProblem(item, idx)">
 					<div class="blue-box"></div>
-					<div class="problem-text cursor">{{ `【热门】${item.problem}` }}</div>
+					<div class="problem-text cursor">{{ `【热门】${item.questionTitle}` }}</div>
 				</div>
 			</div>
 		</div>
@@ -74,7 +74,7 @@
 <script>
 import AttachmentDownload from '../../components/attachmentDownload'
 import Solution from '../../components/solution'
-import { updateFavour, getCurrLabelList, getProblemDetail, queryFaqByPage, queryHotFaq, getAllModuleLabel } from '@/api/assistant'
+import { updateFavour, getCurrLabelList, getProblemDetail, queryFaqByPage, queryHotFaq, getAllModuleLabel, judgeFavour } from '@/api/assistant'
 import {
 	iButton
 } from 'rise'
@@ -100,6 +100,7 @@ export default {
 		}
 	},
 	async mounted() {
+		console.log('12345')
 		await this.getLabelList('init')
 		// 从首页进入 没有对应的模块id 查询热门问题 取前两个 查全部模块及标签
 		if (!this.currentMoudleId) {
@@ -114,7 +115,7 @@ export default {
 			problemQuery: {
 				pageNum: 0,
 				pageSize: 3,
-				questionLableId: '',
+				questionLableId: 2,
 				questionModuleId: ''
 			},
 			hotProblemList: [],
@@ -123,37 +124,53 @@ export default {
 			labelText: '全部',
 			currentFlag: 'listPage',
 			problemText: '',
-			desDetail: '供应商一共分成三类：一般，生产，共用 一般：',
+			desDetail: '',
 			showTipsFlag: true,
 			hotIdx: 0,
-			favourQuery: null  // 点赞时的请求体
+			favourQuery: null,  // 点赞时的请求体
+			queryProblemList: []  // 搜索框查询出的问题数组
 		}
 	},
 	methods: {
 		handleLabel(item, idx) {
 			console.log(item, "item")
-			this.labelIdx = idx
+			this.labelIdx = item.id
 			this.labelText = item.lableName
+			//  这里有问题  props传进来的 currentMoudleId  不允许修改
+			this.currentMoudleId = item.moduleId
 			this.problemQuery.questionLableId = item.id
 			this.problemQuery.questionModuleId = item.moduleId
 			this.currentFlag = 'listPage'
 			this.getProblemList()
 		},
 		// 点击问题查询问题详情
-		async handleProbelm(item, idx) {
+		async handleProblem(item, idx) {
 			console.log(item, idx, "item")
 			this.currentFlag = 'detailPage'
-			this.problemText = item.problem
+			this.problemText = item.questionTitle
 			await getProblemDetail(item.id).then(res => {
 				console.log(res, '112344')
+				if (res?.code === '200') {
+					const { data } = res
+					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
+					this.getJudgeFavour()
+				}
+			})
+		},
+		// 获取该用户是否给该问题点赞
+		async getJudgeFavour() {
+			await judgeFavour({ faqId: 3 }).then((res) => {
+				console.log(res, '+++++')
 			})
 		},
 		badSolution() {
-			console.log("点击跳转追问页面")
-			this.$emit('handleZwQues', this.problemText, this.desDetail)
+			console.log("点击跳转提问页面")
+			// this.$emit('putAdminTw', this.problemText, this.desDetail)
+			this.$emit('putAdminTw', this.labelIdx)
 		},
 		// 问题点赞 + 1
 		goodSolution() {
+			console.log(this.favourQuery, '11222222')
 			updateFavour(this.favourQuery).then((res) => {
 				console.log(res, '11111')
 			})
@@ -165,10 +182,16 @@ export default {
 		async handleHotQues(item, index) {
 			console.log(item, "item")
 			this.hotIdx = index
+			this.labelIdx = item.questionLableId
+			this.labelList.map(label => {
+				if (label.id === item.questionLableId) {
+					this.labelText = item.lableName
+				}
+			})
 			let currName = ''
 			this.moudleList.map(moudle => {
-				if (moudle.id === item.questionModuleId) {
-					currName = moudle.name
+				if (moudle.menuId === item.questionModuleId) {
+					currName = moudle.menuName
 				} else {
 					currName = '示例模块名称'
 				}
@@ -181,6 +204,10 @@ export default {
 			await this.getLabelList()	
 			await getProblemDetail(item.id).then(res => {
 				console.log(res, '112344')
+				if (res?.code === '200') {
+					const { data } = res
+					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
+				}
 			})
 		},
 		// 通过智能弹窗热门问题跳转问题详情
@@ -194,13 +221,16 @@ export default {
 		async getLabelList(va) {
 			if (!this.currentMoudleId) return
 			await getCurrLabelList(this.currentMoudleId).then(res => {
-				console.log(res, '1111111')
 				if (res?.code === '200') {
 					this.labelList = res?.data || []
+					this.labelIdx = res?.data[0].id
+					this.labelText = res?.data[0].lableName
 					if (va === 'init') {
+						// 如第一次查询 标签id是全部  questionLableId为0
 						this.problemQuery.questionLableId = 0
 					}
-					// 根据模板id 标签id 查询问题
+					// 根据模板id 标签id 
+					if (this.queryProblemList.length > 0) return
 					this.getProblemList()
 				}
 			})
@@ -212,9 +242,15 @@ export default {
 				if (res?.code === '200') {
 					// this.problemList = res?.data?.records || []
 					this.problemList = [
-						{problem: '常用计量单位和基础计量单位的转换关系是什么？', key: '-1', id: 1},
-						{problem: '保存时，提示未填写BMG怎么办？', key: '0', id: 2},
-						{problem: '零件材料组如何与工艺组的关联关系是什么？', key: '1', id: 3}
+						{questionTitle: '常用计量单位和基础计量单位的转换关系是什么？', key: '-1', id: 1},
+						{questionTitle: '保存时，提示未填写BMG怎么办？', key: '0', id: 2},
+						{questionTitle: '零件材料组如何与工艺组的关联关系是什么？', key: '1', id: 3}
+					]
+				} else {
+					this.problemList = [
+						{questionTitle: '常用计量单位和基础计量单位的转换关系是什么？', key: '-1', id: 1},
+						{questionTitle: '保存时，提示未填写BMG怎么办？', key: '0', id: 2},
+						{questionTitle: '零件材料组如何与工艺组的关联关系是什么？', key: '1', id: 3}
 					]
 				}
 			})
@@ -234,42 +270,68 @@ export default {
 						{
 								menuName: '零件信息',
 								assistantModuleLabelEntityList: [
-										{ lableName: '交易条款', id: '1' },
-										{ lableName: '交易条款', id: '1' },
-										{ lableName: '交易条款', id: '1' },
-										{ lableName: '交易条款', id: '1' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
 								]
 						},
 						{
 								menuName: '零件信息',
 								assistantModuleLabelEntityList: [
-										{ lableName: '交易条款', id: '1' },
-										{ lableName: '交易条款', id: '1' },
-										{ lableName: '交易条款', id: '1' },
-										{ lableName: '交易条款', id: '1' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
 								]
 						},
 						{
 								menuName: '零件信息',
 								assistantModuleLabelEntityList: [
-										{ lableName: '交易条款', id: '1' },
-										{ lableName: '交易条款', id: '1' },
-										{ lableName: '交易条款', id: '1' },
-										{ lableName: '交易条款', id: '1' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
 								]
 						},
 						{
 								menuName: '零件信息',
 								assistantModuleLabelEntityList: [
-										{ lableName: '交易条款', id: '1' },
-										{ lableName: '交易条款', id: '1' },
-										{ lableName: '交易条款', id: '1' },
-										{ lableName: '交易条款', id: '1' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
+										{ lableName: '交易条款', id: '1', moduleId: '12' },
 								]
 						}
 					]
 				}
 			})
+		},
+		async getQueryProblemList(data, currLabelId) {
+			console.log(data, currLabelId, '11111')
+			this.queryProblemList = data || []
+			this.labelIdx = currLabelId
+			await this.getLabelList()
+			let currNameId = ''
+			let currName = ''
+			console.log(this.labelList, "labelList")
+			this.currentFlag = 'listPage'
+			this.labelList.map(item => {
+				console.log(item, '1111111')
+				if (item.id === currLabelId) {
+					currNameId = item.moduleId
+					this.labelText = item.lableName
+				}
+			})
+			this.moudleList.map(moudle => {
+				if (moudle.menuId === currNameId) {
+					currName = moudle.menuName
+				} else {
+					currName = '示例模块名称'
+				}
+			})
+			this.currMoudleName = currName
+			this.problemList = this.queryProblemList || []
 		}
 	}
 }
