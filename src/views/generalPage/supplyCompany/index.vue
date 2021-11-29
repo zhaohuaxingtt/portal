@@ -109,6 +109,12 @@ export default {
               this.$refs.mulitipleTable.toggleRowSelection(e, true)
             })
           })
+        } else {
+          this.tableListData.procureFactoryList.forEach((e) => {
+            if (e.isExist) {
+              this.$refs.mulitipleTable.toggleRowSelection(e, true)
+            }
+          })
         }
       } catch {
         this.tableLoading = false
