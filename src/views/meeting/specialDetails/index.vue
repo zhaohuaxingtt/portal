@@ -673,6 +673,12 @@
       @closeDialog="closeDialog"
       :topicInfo="topicInfo"
     />
+    <importErrorDialog
+      v-if="openError"
+      :openError="openError"
+      :errorList="errorList"
+      @handleCloseError="handleCloseError"
+    />
   </iPage>
 </template>
 <script>
@@ -689,6 +695,7 @@ import iTableML from '@/components/iTableML'
 import protectConclusion from './component/protectConclusion.vue'
 import addTopicNew from './component/addTopicNew.vue'
 import lookConclusion from './component/lookConclusion.vue'
+import importErrorDialog from './component/importErrorDialog.vue'
 
 import {
   findThemenById,
@@ -733,10 +740,13 @@ export default {
     lookConclusion,
     iTableML,
     newSummaryDialogNew,
-    addTopicNew
+    addTopicNew,
+    importErrorDialog
   },
   data() {
     return {
+      openError: false,
+      errorList: [],
       autoOpenProtectConclusionObj: '',
       isSingle: false,
       // closeLoading: false,
@@ -1121,14 +1131,28 @@ export default {
       }
       importThemen(param)
         .then((res) => {
-          if (res.id) {
+          // if (res.id) {
+          //   iMessage.success('导入议题成功')
+          //   this.openTopics = false
+          //   this.disabledImportThemenButton = false
+          //   // this.refreshTable();
+          //   this.flushTable()
+          //   this.closeDialog()
+          //   this.nameList = []
+          // }
+          if (res.length == 0) {
             iMessage.success('导入议题成功')
             this.openTopics = false
             this.disabledImportThemenButton = false
-            // this.refreshTable();
+            // this.refreshTable()
             this.flushTable()
             this.closeDialog()
             this.nameList = []
+          } else if (res.length != 0) {
+            // this.openTopics = false
+            this.disabledImportThemenButton = false
+            this.openError = true
+            this.errorList = res
           }
         })
         .catch(() => {
@@ -1136,6 +1160,10 @@ export default {
           this.nameList = []
         })
       this.flushTable()
+    },
+    // 上传议题错误提示框关闭
+    handleCloseError() {
+      this.openError = false
     },
     // 导入议题取消
     handleCancelTopics() {
