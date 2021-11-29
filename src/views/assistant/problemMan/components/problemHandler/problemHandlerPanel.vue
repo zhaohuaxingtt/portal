@@ -127,7 +127,7 @@
           </el-form>
         </div>
         <div class="mt20 mb20">
-          <attachmentDownload :load="loadText" />
+          <attachmentDownload :load="loadText" @getFilesList="getFilesList"/>
         </div>
       </template>
     </div>
@@ -324,6 +324,10 @@ export default {
       this.isReplyStatus = false
       this.cardSelectItem = item;
       this.queryDetailById(item.id);
+    },
+    // 上传文件回调
+    getFilesList(fileList) {
+      console.log(fileList, '上传文件');
     },
     replyHandler () {
       this.isReplyStatus = true
