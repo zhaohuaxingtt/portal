@@ -7,10 +7,6 @@ export const tableSetting = [
     width: 50
   },
   {
-    type: 'index',
-    label: 'index'
-  },
-  {
     prop: 'bussinessAreaName',
     label: '组织机构名称（中）',
     i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_CNNAME',

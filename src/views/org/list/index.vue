@@ -143,18 +143,6 @@
                 :custom-selection="true"
                 @handle-selection-change="handleSelectionChange"
               />
-              <!-- 分页标签 -->
-              <!-- <iPagination
-                v-update
-                background
-                @size-change="handleSizeChange($event, getTableList)"
-                @current-change="handleCurrentChange($event, getTableList)"
-                :current-page="page.currPage"
-                :page-sizes="page.pageSizes"
-                :page-size="page.pageSize"
-                :layout="page.layout"
-              >
-              </iPagination> -->
             </div>
           </iCard>
         </div>
@@ -164,17 +152,7 @@
 </template>
 
 <script>
-// import SearchBar from './components/SearchView/SearchBar'
-import {
-  iSearch,
-  iInput,
-  iSelect,
-  iPage,
-  iCard,
-  iButton
-
-  // iPagination,
-} from 'rise'
+import { iSearch, iInput, iSelect, iPage, iCard, iButton } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { tableSetting, exportTableSetting } from './data.js'
 import { pageMixins } from '@/utils/pageMixins'
@@ -186,8 +164,7 @@ import {
 } from '@/api/organization/index.js'
 import { filterEmptyValue, treeToArray } from '@/utils'
 import orgData from './org'
-// import searchSelector from './components/searchSelector'
-// import searchInput from './components/searchInput';
+
 export default {
   mixins: [pageMixins],
   components: {
@@ -283,9 +260,11 @@ export default {
     },
     //发送请求得到表格数据
     sendQuest() {
-      console.log('sendQuest')
+      this.alltableListData = _.cloneDeep(orgData.data)
+      this.tableListData = orgData.data
+      this.flatTableData = treeToArray(this.alltableListData, 'supDeptList')
       //获取表格数据
-      const data = {
+      /* const data = {
         fullCode: this.formData.orCode,
         leadUserId: this.formData.orName,
         svcdCode: this.formData.svcd,
@@ -295,9 +274,9 @@ export default {
         orName: this.formData.orName
       }
       //得到数据
-      // this.tableLoading = true
-      this.tableListData = orgData.data
-      /* getOrganizationList(null, data)
+      
+      this.tableLoading = true
+      getOrganizationList(null, data)
         .then((value) => {
           this.tableLoading = false
           if (value.code == 200) {

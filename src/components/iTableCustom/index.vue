@@ -16,7 +16,7 @@
       v-loading="loading"
       :row-key="rowKey || 'uniqueId'"
       :highlight-current-row="highlightCurrentRow"
-      :empty-text="$t('LK_ZANWUSHUJU')"
+      :empty-text="language('LK_ZANWUSHUJU')"
       ref="theCustomTable"
       :row-class-name="getRowClassNameDefault"
       :row-style="getRowStyle"
@@ -39,7 +39,7 @@
           v-if="['selection', 'index'].includes(item.type)"
           :reserve-selection="item.reserveSelection || false"
           :type="item.type"
-          :label="item.i18n ? $t(item.i18n) : item.label"
+          :label="item.i18n ? language(item.i18n) : item.label"
           :width="item.width || '50'"
           :min-width="item.minWidth"
           :align="item.align || 'center'"
@@ -65,7 +65,7 @@
           v-else-if="['customSelection'].includes(item.type)"
           reserve-selection
           :type="item.type"
-          :label="item.i18n ? $t(item.i18n) : item.label"
+          :label="item.i18n ? language(item.i18n) : item.label"
           :width="item.width || '50'"
           :min-width="item.minWidth || '50'"
           :align="item.align || 'center'"
@@ -94,7 +94,7 @@
           :key="index"
           v-else-if="['fullIndex'].includes(item.type)"
           :type="item.type"
-          :label="item.i18n ? $t(item.i18n) : item.label"
+          :label="item.i18n ? language(item.i18n) : item.label"
           :width="item.width || '50'"
           :align="item.align || 'center'"
           :selectable="handleSelectable"
@@ -113,7 +113,7 @@
           :header-align="item.headerAlign"
           :show-overflow-tooltip="false"
           :prop="item.prop"
-          :label="item.i18n ? $t(item.i18n) : item.label"
+          :label="item.i18n ? language(item.i18n) : item.label"
           :sortable="item.sortable"
           :sort-method="item.sortMethod"
           :sort-by="item.sortBy"
@@ -123,44 +123,11 @@
           :fixed="item.fixed"
         >
           <template slot-scope="scope">
-            <template v-if="item.children">
-              <el-table-column
-                v-for="(subItem, subIndex) of item.children"
-                :render-header="subItem.headerRender"
-                :key="subIndex"
-                :type="subItem.type"
-                :align="subItem.align || 'center'"
-                :header-align="subItem.headerAlign"
-                :show-overflow-tooltip="subItem.tooltip"
-                :prop="subItem.prop"
-                :label="subItem.i18n ? $t(subItem.i18n) : subItem.label"
-                :width="subItem.width ? subItem.width.toString() : ''"
-                :min-width="subItem.minWidth ? subItem.minWidth.toString() : ''"
-                :sortable="subItem.sortable"
-                :sort-method="item.sortMethod"
-                :sort-by="item.sortBy"
-                :sort-orders="item.sortOrders"
-              >
-                <i-table-column
-                  v-if="subItem.customRender || subItem.type === 'expanded'"
-                  :scope="scope"
-                  :column="subItem"
-                  :custom-render="subItem.customRender"
-                  :extra-data="extraData"
-                  :prop="subItem.prop"
-                  :child-num-visible="childNumVisible"
-                />
-                <span v-else>
-                  {{ scope.row[subItem.prop] }}
-                </span>
-              </el-table-column>
-            </template>
             <div
               :class="{ 'custom-cell-tooltip': item.tooltip }"
               @mouseenter="customMouseenter"
               @mouseleave="customMouseleave"
               @click="handleEmit(item, scope.row)"
-              v-else
             >
               <i-table-column
                 v-if="item.customRender || item.type === 'expanded'"
@@ -207,23 +174,20 @@
 </template>
 
 <script>
-import { iButton, iSelect, iInput, iRadio, Icon, iMessage } from 'rise'
+import { iButton, iSelect, iInput, iRadio, Icon } from 'rise'
 import iTableColumn from './iTableColumn'
-import iTableHeaderSorter from '@/components/iTableHeaderSort'
-import { virtualListMixin } from './mixins'
+
+import {
+  virtualListMixin,
+  settingMixin,
+  tooltipMixin,
+  customSelection
+} from './mixins'
 export default {
   name: 'iTableCustom',
   // eslint-disable-next-line vue/no-unused-components
-  components: {
-    iTableColumn,
-    iButton,
-    iSelect,
-    iInput,
-    iRadio,
-    Icon,
-    iTableHeaderSorter
-  },
-  mixins: [virtualListMixin],
+  components: { iTableColumn, iButton, iSelect, iInput, iRadio, Icon },
+  mixins: [virtualListMixin, settingMixin, tooltipMixin, customSelection],
   props: {
     permissionKey: {
       type: String
@@ -369,49 +333,6 @@ export default {
 
       const mergeKeys = [...new Set([...dataKeys, ...defaultCheckedKeys])]
       return mergeKeys.length === defaultCheckedKeys.length
-    },
-    unCols() {
-      // 列权限控制，返回无权限的字段列表
-      if (!this.permissionKey) {
-        return []
-      }
-      const columnPermissions = sessionStorage.getItem('columnConfig')
-      if (columnPermissions) {
-        const currentColumnPermission =
-          JSON.parse(columnPermissions)[this.permissionKey]
-        if (currentColumnPermission) {
-          return currentColumnPermission.unCols
-        }
-      }
-      return []
-    },
-    tableVisibleColumns() {
-      // 表格的列
-      if (this.tableColumns.length) {
-        return this.tableColumns.filter(
-          (e) => !e.isHidden && !this.unCols.includes(e.prop)
-        )
-      }
-      return this.columns.filter((e) => !this.unCols.includes(e.prop))
-    },
-    tableSettingColumns() {
-      // 表格自由列表设置列
-      if (this.tableColumns.length) {
-        return this.tableColumns.filter((e) => !this.unCols.includes(e.prop))
-      }
-      return this.columns.filter((e) => !this.unCols.includes(e.prop))
-    },
-    usercenterApiPrefix() {
-      let env = window.sessionStorage.getItem('env') || this.env
-      const baseMap = {
-        '': '/api',
-        dev: '/usercenterApi',
-        sit: '/usercenterApi',
-        vmsit: '/usercenterApi',
-        uat: '/usercenterApi',
-        production: '/api'
-      }
-      return baseMap[env.toLowerCase()] || '/api'
     }
   },
   data() {
@@ -437,9 +358,6 @@ export default {
     }
   },
   created() {
-    if (this.permissionKey) {
-      this.querySetting()
-    }
     this.setDefaultCheckedKeys()
     this.getTableData()
   },
@@ -748,127 +666,7 @@ export default {
         (e) => e.uniqueId.indexOf(row.uniqueId + '-') === 0
       )
     },
-    /*-----------------------------------------------------------------------------------------
-    ---------------------------------------下面是自定义级联复选框的------------------------------
-    ------------------------------------------------------------------------------------------*/
-    handleCheckedAll(val) {
-      this.tableData.forEach((e) => {
-        e.checked = val
-        e.isIndeterminate = false
-      })
-      this.indeterminateAll = false
 
-      const returnData = val ? this.tableData : []
-      this.$emit('handle-selection-change', returnData, {
-        checked: val,
-        checkedAll: val,
-        rows: this.tableData
-      })
-    },
-    handleCheckedRow(val, row) {
-      console.log('自定义选择')
-      const childs = this.getChildRows(row)
-      if (childs.length > 0) {
-        childs.forEach((e) => {
-          e.checked = val
-          e.isIndeterminate = false
-        })
-      }
-      if (!val) {
-        row.isIndeterminate = false
-      }
-      // 如果是取消选中
-      this.setParentChecked(row.parentUniqueId)
-
-      // 头部全选反选
-      const checkedData = this.tableData.filter((e) => e.checked)
-      this.indeterminateAll =
-        checkedData.length > 0 && checkedData.length !== this.tableData.length
-      this.checkedAll = checkedData.length === this.tableData.length
-      const returnProptities = {
-        checked: val,
-        isCheckedAll: false,
-        row
-      }
-      if (this.emitHalfSelection) {
-        this.$emit(
-          'handle-selection-change',
-          this.tableData.filter((e) => e.checked),
-          returnProptities
-        )
-      } else {
-        this.$emit(
-          'handle-selection-change',
-          this.tableData.filter((e) => e.checked && !e.isIndeterminate),
-          returnProptities
-        )
-      }
-    },
-    // 手动设置选中状态
-    handleToggleSelectedRow(val, row) {
-      const filterRow = this.tableData.filter(
-        (e) => e[this.rowKey] === row[this.rowKey]
-      )
-      if (filterRow.length > 0) {
-        filterRow[0].checked = val
-        this.handleCheckedRow(val, row)
-      }
-    },
-    handleToggleSelectedAll(val) {
-      // this.handleCheckedAll(val)
-      this.tableData.forEach((e) => {
-        e.checked = val
-        e.isIndeterminate = false
-      })
-      this.indeterminateAll = false
-      this.checkedAll = val
-    },
-    // 设置父级反选
-    setParentChecked(parentUniqueId) {
-      if (parentUniqueId) {
-        const parentFilters = this.tableData.filter(
-          (e) => e.uniqueId === parentUniqueId
-        )
-        if (parentFilters.length > 0) {
-          const parent = parentFilters[0]
-          //  所有子集
-          const parentAllChild = this.tableData.filter(
-            (e) => e.parentUniqueId === parentUniqueId
-          )
-          // 包括半选和全选
-          const parentAllChildChecked = this.tableData.filter(
-            (e) => e.parentUniqueId === parentUniqueId && e.checked
-          )
-          // 只是半选
-          const parentAllChildIndeterminate = parentAllChildChecked.filter(
-            (e) => e.isIndeterminate
-          )
-          const childLength = parentAllChild.length
-          const CheckedLength = parentAllChildChecked.length
-          const IndeterminateLength = parentAllChildIndeterminate.length
-          if (CheckedLength > 0) {
-            if (CheckedLength === childLength) {
-              parent.checked = true
-              parent.isIndeterminate = false
-            }
-            if (CheckedLength < childLength) {
-              parent.checked = true
-              parent.isIndeterminate = true
-            }
-            if (
-              IndeterminateLength > 0 &&
-              IndeterminateLength < CheckedLength
-            ) {
-              parent.isIndeterminate = true
-            }
-          } else {
-            parent.isIndeterminate = false
-            parent.checked = false
-          }
-          this.setParentChecked(parent.parentUniqueId)
-        }
-      }
-    },
     getSpanMethod(val) {
       if (this.spanMethod) {
         return this.spanMethod(val)
@@ -885,107 +683,7 @@ export default {
         }
       }
       return res
-    },
-    /******************* 记忆列表 ********************/
-    getCookie(name) {
-      const strCookie = document.cookie //获取cookie字符串
-      const arrCookie = strCookie.split('; ') //分割
-      //遍历匹配
-      for (let i = 0; i < arrCookie.length; i++) {
-        if (arrCookie[i].indexOf(`${name}=`) === 0) {
-          return arrCookie[i].replace(`${name}=`, '')
-        }
-      }
-      return ''
-    },
-    openSetting() {
-      this.settingVisible = true
-    },
-    handleSaveSetting(val) {
-      const userInfo = window.sessionStorage.getItem('userInfo') || ''
-      if (userInfo) {
-        const userData = JSON.parse(userInfo)
-        const accountId = userData?.accountId
-        const http = new XMLHttpRequest()
-        const url = `${this.usercenterApiPrefix}/web/configUserListMemory`
-        http.open('POST', url, true)
-        http.setRequestHeader('content-type', 'application/json')
-        http.setRequestHeader('token', this.getCookie('token'))
-        http.onreadystatechange = (res) => {
-          if (http.readyState === 4 && http.status == 200) {
-            const response = JSON.parse(http.responseText)
-            if (response.code === '200') {
-              this.tableColumns = val.length ? val : this.columns
-              iMessage.success('保存成功')
-            } else {
-              iMessage.error('保存失败')
-            }
-          }
-        }
-        const requestData = {
-          accountId: accountId,
-          listConfig: JSON.stringify(val),
-          permissionKey: this.permissionKey
-        }
-        if (this.settingId) {
-          requestData.id = this.settingId
-        }
-        http.send(JSON.stringify(requestData))
-      }
-    },
-    handleResetSetting() {
-      this.handleSaveSetting([])
-    },
-    querySetting() {
-      /*  const userInfo = window.sessionStorage.getItem('userInfo') || ''
-      if (userInfo) {
-        const userData = JSON.parse(userInfo)
-        const accountId = userData?.accountId */
-      const http = new XMLHttpRequest()
-      const url = `${this.usercenterApiPrefix}/web/getUserListMemory`
-      http.open('POST', url, true)
-      http.setRequestHeader('content-type', 'application/json')
-      http.setRequestHeader('token', this.getCookie('token'))
-      http.onreadystatechange = () => {
-        if (http.readyState === 4 && http.status == 200) {
-          const response = JSON.parse(http.responseText).data
-          if (response && response.length > 0) {
-            this.tableColumns = JSON.parse(response[0].listConfig)
-            this.settingId = response[0].id
-          } else {
-            this.tableColumns = this.columns
-          }
-        } else {
-          this.tableColumns = this.columns
-        }
-      }
-      const requestData = {
-        permissionKey: this.permissionKey
-      }
-      http.send(JSON.stringify(requestData))
-      // }
-    },
-    /******************气泡框 Start****************** */
-
-    customMouseenter($event) {
-      const ele = $event.toElement
-
-      const clientWidth = ele.clientWidth
-      const scrollWidth = ele.scrollWidth
-      if (clientWidth < scrollWidth) {
-        this.tooltipContent = ele.innerText || ele.textContent
-        const tooltip = this.$refs.customTableTooltip
-        tooltip.referenceElm = ele
-        tooltip.show()
-      }
-    },
-    customMouseleave() {
-      const tooltip = this.$refs.customTableTooltip
-      if (tooltip) {
-        tooltip.hide()
-      }
     }
-    /******************气泡框 end****************** */
   }
 }
 </script>

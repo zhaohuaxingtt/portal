@@ -1,9 +1,9 @@
-import { _ } from 'core-js'
-
 export default {
   computed: {
     virtualTableData() {
       const { start, end } = this.virtualListConfig
+      console.log('start', start)
+      console.log('end', end)
       return this.realTableData.slice(start, end)
     },
     totalCount() {
@@ -58,6 +58,8 @@ export default {
           const element = document.querySelector(
             `.i-table-custom .el-table__body .el-table__row.${rowClass}`
           )
+          let fragment = document.createDocumentFragment()
+          fragment.appendChild(element)
           if (element) {
             this.virtualPosMap[uniqueId] = element.clientHeight
           }
