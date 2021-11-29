@@ -40,18 +40,8 @@ export default {
   data() {
     return {
       loading: false
-      // errorList1: ['1.第2行hhhhhhhh', '2.第3行hhhhhhhh', '3.第4行hhhhhhhh']
     }
   },
-  // filters: {
-  //   filterText(item) {
-  //     let num = item.indexOf('行');
-  //     item.replace(
-  //       item.substring(4, num),
-  //       '<span style="color:red">' + item.substring(4, num) + '</span>'
-  //     )
-  //   }
-  // },
   created() {
     this.errorList = this.errorList.map((item) => {
       const num1 = item.indexOf('第')

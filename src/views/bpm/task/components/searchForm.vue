@@ -25,7 +25,7 @@
               <el-option
                 v-for="(item, index) in dOptions"
                 :key="index"
-                :value="item.label"
+                :value="item.value"
                 :label="item.label"
               >
               </el-option>
@@ -89,7 +89,7 @@
 
 <script>
 import { iFormItem, iInput, iSearch, iSelect, iDatePicker } from 'rise'
-
+import { BPM_APPROVAL_TYPE_OPTIONS } from '@/constants'
 import { queryModelTemplate } from '@/api/approval/myApproval'
 import {
   userSelect as userSearch,
@@ -129,68 +129,7 @@ export default {
       templates: [{ name: '', value: '全部' }],
       nameOptions: [],
       loading: false,
-      dOptions: [
-        {
-          value: -1,
-          label: '未知类型'
-        },
-        {
-          value: 0,
-          label: '项目管理'
-        },
-        {
-          value: 2,
-          label: '寻源定点'
-        },
-        {
-          value: 4,
-          label: '谈判'
-        },
-        {
-          value: 6,
-          label: '零件价格与订单'
-        },
-        {
-          value: 7,
-          label: '模具采购'
-        },
-        {
-          value: 8,
-          label: '供应商管理'
-        },
-        {
-          value: 9,
-          label: '总成散件管理'
-        },
-        {
-          value: 10,
-          label: '需求产能管理'
-        },
-        {
-          value: 11,
-          label: '财务风险管理'
-        },
-        {
-          value: 12,
-          label: '采购业绩'
-        },
-        {
-          value: 13,
-          label: '原材料价格补差'
-        },
-        {
-          value: 14,
-          label: '0公里索赔'
-        },
-        {
-          value: 15,
-          label: '零件对外销售'
-        },
-        {
-          value: 16,
-          label: '定价管理'
-        }
-      ],
+      dOptions: BPM_APPROVAL_TYPE_OPTIONS,
       multipleCategoryList: true,
       bpmSinglCategoryList: BPM_SINGL_CATEGORY_LIST
     }
@@ -223,7 +162,17 @@ export default {
       this.$emit('search', searchData, this.templates)
     },
     reset() {
-      this.form = {}
+      this.form = {
+        businessId: '',
+        applyUserId: '',
+        categoryList: '',
+        endTime: '',
+        itemName: '',
+        startTime: '',
+        applyUserDeptId: '',
+        itemTypeList: ''
+      }
+      this.date = ''
       this.$emit('search', this.form, this.templates)
     },
     async queryModelTemplate() {

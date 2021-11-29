@@ -513,6 +513,12 @@
       @handleOK="handleOKTopics"
       @handleClose="handleCloseCancelTopics"
     />
+    <importErrorDialog
+      v-if="openError"
+      :openError="openError"
+      :errorList="errorList"
+      @handleCloseError="handleCloseError"
+    />
   </iPage>
 </template>
 <script>
@@ -530,6 +536,7 @@ import updateDate from './component/updateDate.vue'
 // import confirmSplit from "./component/confirmSplit.vue";
 // import importThemens from "../home/components/importThemens.vue";
 import updateFile from '@/components/updateFile'
+import importErrorDialog from './component/importErrorDialog.vue'
 import iTableML from '@/components/iTableML'
 import {
   deleteThemen,
@@ -572,10 +579,13 @@ export default {
     newSummaryDialog,
     closeMeetiongDialog,
     updateFile,
-    iTableML
+    iTableML,
+    importErrorDialog
   },
   data() {
     return {
+      openError: false,
+      errorList: [],
       isSingle: false,
       curState: '',
       currentRow: {},
@@ -763,14 +773,28 @@ export default {
       }
       importThemen(param)
         .then((res) => {
-          if (res.id) {
+          // if (res.id) {
+          //   iMessage.success('导入议题成功')
+          //   this.openTopics = false
+          //   this.disabledImportThemenButton = false
+          //   // this.refreshTable();
+          //   this.flushTable()
+          //   this.closeDialog()
+          //   this.nameList = []
+          // }
+          if (res.length == 0) {
             iMessage.success('导入议题成功')
             this.openTopics = false
             this.disabledImportThemenButton = false
-            // this.refreshTable();
+            // this.refreshTable()
             this.flushTable()
             this.closeDialog()
             this.nameList = []
+          } else if (res.length != 0) {
+            // this.openTopics = false
+            this.disabledImportThemenButton = false
+            this.openError = true
+            this.errorList = res
           }
         })
         .catch(() => {
@@ -778,6 +802,10 @@ export default {
           this.nameList = []
         })
       this.flushTable()
+    },
+    // 上传议题错误提示框关闭
+    handleCloseError() {
+      this.openError = false
     },
     // 导入议题取消
     handleCancelTopics() {

@@ -490,10 +490,18 @@ export function getDosageUnitList(params) {
     data: params
   })
 }
-export function panorama(params) {
+// export function panorama(params) {
+//   //用量单位下拉
+//   return req({
+//     url: '/preview/panorama/' + params,
+//     method: 'GET',
+//     data: params
+//   })
+// }
+export function approvalList(params) {
   //用量单位下拉
-  return req({
-    url: '/preview/panorama/' + params,
+  return request({
+    url: '/mtzAppNomiDecisionData/approvalList',
     method: 'POST',
     data: params
   })

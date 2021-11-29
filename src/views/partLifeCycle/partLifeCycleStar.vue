@@ -483,7 +483,7 @@ export default {
     },
     scrollGetData(e){
       const { scrollTop, clientHeight, scrollHeight } = e.target
-      if((scrollTop + clientHeight) === scrollHeight){
+      if((scrollTop + clientHeight) == scrollHeight){
         this.leftLoading = true
         this.showLoading()
         this.current++

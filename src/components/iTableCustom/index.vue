@@ -190,6 +190,7 @@
       @reset="handleResetSetting"
     />
     <el-tooltip
+      open-delay="3000"
       effect="light"
       placement="top"
       ref="customTableTooltip"

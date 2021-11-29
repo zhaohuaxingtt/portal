@@ -123,18 +123,25 @@ export default {
   overflow: hidden;
 }
 .news-container {
-  padding-left: 20px;
+  // padding-left: 20px;
   padding-right: 4px;
   overflow-y: auto;
   overflow-x: hidden;
   height: 520px;
   .news-card {
-    margin-bottom: 30px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
     cursor: pointer;
     position: relative;
+    border-bottom: 1px solid #F8F9FA;
+
+    &:last-child{
+      border: none;
+    }
     .icon_title {
       position: absolute;
-      left: -5%;
+      left: -15px;
       top: 6%;
       // width: 10px;
       // height: 10px;
@@ -172,10 +179,13 @@ export default {
     }
   }
   .news-img-card {
+    padding: 10px;
     margin-bottom: 15px;
     display: flex;
     align-items: center;
     cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid #F8F9FA;
     .icon {
       font-size: 16px;
       margin-right: 5px;
