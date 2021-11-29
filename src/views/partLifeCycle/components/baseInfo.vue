@@ -227,7 +227,7 @@ export default {
       }else if(+type === 42){ //  模具订单
         path = `ws2/modeler/details/ModelOrderDetailsPage/1/${id}`;
       }else{
-        return iMessage.error('返回数据错误')
+        return iMessage.error('返回数据类型值错误')
       }
 
       window.open(window.location.origin + `/order/index.html#/${path}`, '_blank');
