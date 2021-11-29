@@ -79,24 +79,30 @@
               <el-row :gutter="20">
                 <el-col :span="8">
                   <iFormItem :label="$t('问题模块')">
-                    <iInput :value="editForm.channelStr" :disabled="isDisabledModule" />
+                    <iSelect v-model="editForm.questionModuleId"  filterable  :disabled="isDisabledModule" >
+                      <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
+                    </iSelect>
                   </iFormItem>
                 </el-col>
                 <el-col :span="8">
                   <iFormItem :label="$t('标签')">
-                    <iInput v-model="editForm.code" :disabled="isDisabledLabel"></iInput>
+                    <!-- <iInput v-model="editForm.questionLableId" :disabled="isDisabledLabel"></iInput> -->
+                    <iSelect v-model="editForm.questionLableId" filterable :disabled="isDisabledModule" >
+                      <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
+                    </iSelect>
                   </iFormItem>
                 </el-col>
                 <el-col :span="8">
                   <iFormItem :label="$t('问题来源')">
-                    <iInput v-model="editForm.name" :disabled="isDisabledQuestion" />
+                    <iInput v-model="editForm.source" :disabled="isDisabledQuestion" />
                   </iFormItem>
                 </el-col>
               </el-row>
             </el-form>
           </div>
           <div class="btn-box margin-top25">
-            <i-button class="edit-btn" @click="editHandler">{{ language('编辑') }}</i-button>
+            <i-button v-if="!editFormBtn" class="edit-btn" @click="editHandler">{{ language('编辑') }}</i-button>
+            <i-button v-else class="edit-btn" @click="saveHandler">{{ language('保存') }}</i-button>
           </div>
         </div>
         <div class="content-title mb20">{{ language('消息') }}</div>
@@ -136,7 +142,7 @@ import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
 import iEditor from '@/components/iEditor';
 import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
-import { getModuleListByUserTypeApi, queryProblemListApi } from '@/api/assistant';
+import { getModuleListByUserTypeApi, queryProblemListApi ,queryDetailByIdApi,getCurrLabelList} from '@/api/assistant';
 // 来源 inner:内部用户 supplier:供应商用户
 export default {
   props: {
@@ -185,6 +191,7 @@ export default {
       categoryCardList: [],
       flag: false,
       editForm: {},
+      editFormBtn: false,
       editFormRules: {},
       isDisabledModule: true,
       isDisabledLabel: true,
@@ -198,6 +205,7 @@ export default {
         questionStatus: this.currentCategoryItem,
         selfOnly: this.selfOnly ? 0 : 1,
       },
+      questionDetail: {},
     }
   },
   mounted () {
@@ -226,8 +234,9 @@ export default {
     },
     // 获取问题列表
     async queryProblemList (queryForm) {
-      const { code, data } = await queryProblemListApi(queryForm);
-      if (code === '200') {
+      const response = await queryProblemListApi(queryForm);
+      if (response?.code === '200') {
+        const {data} = response;
         if (data.records.length) {
           if (this.flag) {
             this.categoryCardList.push(data.records);
@@ -236,6 +245,8 @@ export default {
           }
           // 默认选中第一个
           this.cardSelectItem = this.categoryCardList[0];
+          // 查询问题详情
+          this.queryDetailById(this.cardSelectItem.id);
         } else {
           if(!this.flag) {
             this.cardSelectItem =  {
@@ -273,18 +284,46 @@ export default {
       this.isDisabledQuestion = true;
     },
     changeSelfHandle(val) {
-      this.queryProblemList(this._queryForm({selfOnly: val ? 1 : 0}));
+      this.queryProblemList(this._queryForm({selfOnly: val ? 1 : 0, pageNum:1}));
     },
     keyWordBlurHandle() {
-      this.queryProblemList(this._queryForm({keyWord: this.keyWord}));
+      this.queryProblemList(this._queryForm({keyWord: this.keyWord, pageNum:1}));
     },
     questionModuleHandle(val) {
-      this.queryProblemList(this._queryForm({questionModuleId: val}));
+      this.queryProblemList(this._queryForm({questionModuleId: val, pageNum:1}));
+    },
+    // 根据问题id查询问题详情
+    async queryDetailById(questionId) {
+      const response = await queryDetailByIdApi(questionId);
+      if (response?.code === '200') {
+        const {data} = response;
+        this.questionDetail = data;
+        this.editForm = {
+          questionLableId: data?.questionLableId,
+          questionModuleId:data?.questionModuleId,
+          source:data?.source,
+        }
+        // 查询标签列表
+        this.queryLabelByModuleId(data?.questionModuleId);
+      } else {
+        console.error('根据id获取问题详情失败');
+      }
+    },
+    // 根据模块id查询标签
+    async queryLabelByModuleId(moduleId) {
+      const response = await getCurrLabelList(moduleId);
+      if (response?.code === '200') {
+        console.log(response.data);
+      } else {
+        console.error('根据模块id查询标签失败');
+      }
     },
     // 点击卡片
     cardSelectHandler (item) {
+      console.log(item,'当前');
       this.isReplyStatus = false
-      this.cardSelectItem = item
+      this.cardSelectItem = item;
+      this.queryDetailById(item.id);
     },
     replyHandler () {
       this.isReplyStatus = true
@@ -313,6 +352,13 @@ export default {
         this.isDisabledModule = false;
         this.isDisabledLabel = false;
       }
+      this.editFormBtn = true;
+    },
+    saveHandler() {
+      this.editFormBtn = false;
+      this.isDisabledModule = true;
+      this.isDisabledQuestion = true;
+      this.isDisabledLabel = true;
     },
     finishedHandler () {
       this.finishedDialog = true;

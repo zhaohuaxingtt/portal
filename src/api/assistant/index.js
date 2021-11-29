@@ -145,3 +145,12 @@ export const queryProblemListApi = (data) => {
     data
   })
 }
+
+// 根据问题id查询问题详情
+export const queryDetailByIdApi = (questionId) => {
+  return assistantRequest({
+    url: `assistantQuestion/queryQuestionList/${questionId}`,
+    method: 'GET'
+  })
+}
+
