@@ -13,6 +13,12 @@ export default {
   components: {
     notifyDialog
   },
+  // props:{
+  //   login:{
+  //     type:String,
+  //     default:''
+  //   }
+  // },
   data() {
     return {
       showDialog: false,
@@ -39,7 +45,10 @@ export default {
     this.closePopupSocket()
   },
   created(){
+
+    // this.login != 'login' ? this.getLatest() : ''
     this.getLatest()
+    
   },
   methods: {
     openDialog(index) {
@@ -81,8 +90,7 @@ export default {
       
     },
     getLatest(){
-        this.closeItemList = []
-        this.popupDataList = []
+
       console.log(this.closeItemList, this.popupDataList, '====')
       const accountId = JSON.parse(sessionStorage.getItem('userInfo')).accountId
       getPopupList(accountId).then((res) => {
@@ -95,7 +103,8 @@ export default {
         }
       })
     },
-    clearNotify(){
+    clearNotify(isLogout){
+      console.log('clear',this.closeItemList);
       if(this.closeItemList){
         this.closeItemList.forEach((ele) => {
           if(ele.notify){
@@ -103,8 +112,11 @@ export default {
           }
         })
       }
+      this.closeItemList = []
       this.popupDataList = []
-      this.getLatest()
+      if(isLogout != 'logout'){
+        this.getLatest()
+      }
     },
     iniNotify(pushNew){
       let _this = this
@@ -160,7 +172,6 @@ export default {
 .popupContent {
   width: 600px;
   height: 100%;
-  background-color: red;
 }
 .notifyHandel{
   margin: 0px; 
