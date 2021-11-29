@@ -87,7 +87,6 @@ export function removeLabel(id) {
   })
 }
 
-
 // 关键词管理 - 查询关键词分页
 export function getKeywordByPage(data) {
   return assistantRequest({
@@ -124,5 +123,25 @@ export function getAllModuleLabel() {
   return assistantRequest({
     url: '/assistantModuleEntity/queryMAndL',
     method: 'GET'
+  })
+}
+
+// 供应商用户和内部用户查询模块列表
+export const getModuleListByUserTypeApi = (userType) => {
+  return assistantRequest({
+    url: '/assistantModuleEntity/queryModuleList',
+    method: 'GET',
+    params: {
+      source: userType
+    }
+  })
+}
+
+// 根据条件查询问题列表
+export const queryProblemListApi = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestion/pageForDeal',
+    method: 'POST',
+    data
   })
 }

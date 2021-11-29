@@ -3,11 +3,11 @@
     <div class="left-content">
       <el-row :gutter="20">
         <el-col span="14">
-          <iInput placeholder="搜索.." />
+          <iInput v-model="keyWord" placeholder="搜索.." @blur="keyWordBlurHandle"/>
         </el-col>
         <el-col span="10">
-          <iSelect v-model="query.type" filterable placeholder="问题模块">
-            <el-option v-for="item in options" :key="item.code" :label="item.value" :value="item.code"></el-option>
+          <iSelect v-model="questionModuleId"  filterable placeholder="问题模块" @change="questionModuleHandle">
+            <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
           </iSelect>
         </el-col>
       </el-row>
@@ -22,33 +22,35 @@
           </ul>
         </el-col>
         <el-col span="8">
-          <el-switch v-model="value1" active-text="仅看自己"></el-switch>
+          <el-switch v-model="selfOnly" active-text="仅看自己" @change="changeSelfHandle"></el-switch>
         </el-col>
       </el-row>
       <template v-if="categoryCardList.length">
-        <el-card class="card mb20 cursor" v-for="item of categoryCardList" :key="item.id" @click.native="cardSelectHandler(item)" :shadow="cardSelectItem.id === item.id ? 'always' : 'never'">
-          <div class="flex flex-row justify-between">
-            <div class="title">{{ item.title }}</div>
-            <div class="status">
-              <template v-if="item.status === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">未处理</span></template>
-              <template v-else-if="item.status === 'reply'"><span style="color:#FF8E00; font-weight: bold;">已处理</span></template>
-              <template v-else-if="item.status === 'finished'"><span style="color:#05BB8B; font-weight: bold;">已完成</span></template>
+        <div class="card-list" @scroll="scrollHandle($event)">
+          <el-card class="card mb20 cursor" v-for="item of categoryCardList" :key="item.id" @click.native="cardSelectHandler(item)" :shadow="cardSelectItem.id === item.id ? 'always' : 'never'">
+            <div class="flex flex-row justify-between">
+              <div class="title">{{ item.questionTitle }}</div>
+              <div class="status">
+                <template v-if="item.questionStatus === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">未处理</span></template>
+                <template v-else-if="item.questionStatus === 'reply'"><span style="color:#FF8E00; font-weight: bold;">已处理</span></template>
+                <template v-else-if="item.questionStatus === 'finished'"><span style="color:#05BB8B; font-weight: bold;">已完成</span></template>
+              </div>
             </div>
-          </div>
-          <div class="flex flex-row justify-between mt20 mb20 gray-color">
-            <div>提问人:{{ item.name1 }}</div>
-            <div>管理员:{{ item.name2 }}</div>
-          </div>
-          <div class="flex flex-row justify-between items-center gray-color">
-            <div class="label">{{ item.label }}</div>
-            <div>{{ item.time }}</div>
-          </div>
-        </el-card>
+            <div class="flex flex-row justify-between mt20 mb20 gray-color">
+              <div>提问人:{{ item.createByUerName }}</div>
+              <div>管理员:{{ item.handlerUserName }}</div>
+            </div>
+            <div class="flex flex-row justify-between items-center gray-color">
+              <div class="label">{{ item.questionDescription }}</div>
+              <div>{{ item.createDate }}</div>
+            </div>
+          </el-card>
+        </div>
       </template>
     </div>
     <div class="right-content ml20">
       <div class="flex flex-row justify-end">
-        <template v-if="cardSelectItem.status === 'unreply'">
+        <template v-if="cardSelectItem.questionStatus === 'unreply'">
           <template v-if="!isReplyStatus">
             <i-button @click="replyHandler">{{ language('答复') }}</i-button>
             <i-button @click="dispatchHandler">{{ language('指派') }}</i-button>
@@ -62,64 +64,66 @@
             }}</i-button>
           </template>
         </template>
-        <template v-else-if="cardSelectItem.status === 'finished'">
+        <template v-else-if="cardSelectItem.questionStatus === 'finished'">
           <i-button @click="finishedHandler">{{ language('归档') }}</i-button>
         </template>
-        <template v-else-if="cardSelectItem.status === 'reply'">
+        <template v-else-if="cardSelectItem.questionStatus === 'reply'">
           <i-button @click="closeQuestionHandler">{{ language('关闭问题') }}</i-button>
           <i-button @click="dispatchHandler">{{ language('转派') }}</i-button>
         </template>
       </div>
-      <div class="search-box flex-between-center-center mt20 mb20 border">
-        <div class="input-box flex-align-center margin-right30">
-          <el-form label-position="top" :model="editForm" :rules="editFormRules" ref="editForm">
-            <el-row :gutter="20">
-              <el-col :span="8">
-                <iFormItem :label="$t('问题模块')">
-                  <iInput :value="editForm.channelStr" :disabled="isDisabledModule" />
-                </iFormItem>
-              </el-col>
-              <el-col :span="8">
-                <iFormItem :label="$t('标签')">
-                  <iInput v-model="editForm.code" :disabled="isDisabledLabel"></iInput>
-                </iFormItem>
-              </el-col>
-              <el-col :span="8">
-                <iFormItem :label="$t('问题来源')">
-                  <iInput v-model="editForm.name" :disabled="isDisabledQuestion" />
-                </iFormItem>
-              </el-col>
-            </el-row>
+      <template v-if="cardSelectItem.questionStatus">
+        <div class="search-box flex-between-center-center mt20 mb20 border">
+          <div class="input-box flex-align-center margin-right30">
+            <el-form label-position="top" :model="editForm" :rules="editFormRules" ref="editForm">
+              <el-row :gutter="20">
+                <el-col :span="8">
+                  <iFormItem :label="$t('问题模块')">
+                    <iInput :value="editForm.channelStr" :disabled="isDisabledModule" />
+                  </iFormItem>
+                </el-col>
+                <el-col :span="8">
+                  <iFormItem :label="$t('标签')">
+                    <iInput v-model="editForm.code" :disabled="isDisabledLabel"></iInput>
+                  </iFormItem>
+                </el-col>
+                <el-col :span="8">
+                  <iFormItem :label="$t('问题来源')">
+                    <iInput v-model="editForm.name" :disabled="isDisabledQuestion" />
+                  </iFormItem>
+                </el-col>
+              </el-row>
+            </el-form>
+          </div>
+          <div class="btn-box margin-top25">
+            <i-button class="edit-btn" @click="editHandler">{{ language('编辑') }}</i-button>
+          </div>
+        </div>
+        <div class="content-title mb20">{{ language('消息') }}</div>
+        <!-- 正常状态 -->
+        <div class="content flex flex-row">
+          <div class="name">张三</div>
+          <div class="content-text">
+            <p>
+              一个材料组可关联多个工艺组，如果该工艺组为Heavy iTem，则引用此工艺组
+              的材料组为Heavy Item
+            </p>
+            <p>2021-10-28 16:20:12</p>
+          </div>
+        </div>
+        <!-- 答复状态 -->
+        <div v-if="isReplyStatus" class="reply-content mt20">
+          <el-form>
+            <iFormItem prop="replyContent">
+              <iEditor ref="iEditor" v-model="replyContent" :toolbar="editToolbar" v-if="editable" />
+              <div v-else class="content" v-html="replyContent"></div>
+            </iFormItem>
           </el-form>
         </div>
-        <div class="btn-box margin-top25">
-          <i-button class="edit-btn" @click="editHandler">{{ language('编辑') }}</i-button>
+        <div class="mt20 mb20">
+          <attachmentDownload :load="loadText" />
         </div>
-      </div>
-      <div class="content-title mb20">{{ language('消息') }}</div>
-      <!-- 正常状态 -->
-      <div class="content flex flex-row">
-        <div class="name">张三</div>
-        <div class="content-text">
-          <p>
-            一个材料组可关联多个工艺组，如果该工艺组为Heavy iTem，则引用此工艺组
-            的材料组为Heavy Item
-          </p>
-          <p>2021-10-28 16:20:12</p>
-        </div>
-      </div>
-      <!-- 答复状态 -->
-      <div v-if="isReplyStatus" class="reply-content mt20">
-        <el-form>
-          <iFormItem prop="replyContent">
-            <iEditor ref="iEditor" v-model="replyContent" :toolbar="editToolbar" v-if="editable" />
-            <div v-else class="content" v-html="replyContent"></div>
-          </iFormItem>
-        </el-form>
-      </div>
-      <div class="mt20 mb20">
-        <attachmentDownload :load="loadText"/>
-      </div>
+      </template>
     </div>
     <dispatchDialog v-if="showDialog" :show.sync="showDialog" />
     <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" />
@@ -131,29 +135,35 @@ import { iInput, iSelect, iButton, iFormItem } from 'rise'
 import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
 import iEditor from '@/components/iEditor';
-import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue'
+import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
+import { getModuleListByUserTypeApi, queryProblemListApi } from '@/api/assistant';
+// 来源 inner:内部用户 supplier:供应商用户
 export default {
   props: {
-    type: {
-      type: Number,
-      default: 1
+    userType: {
+      type: String,
+      default: 'supplier',
     }
   },
   data () {
     return {
-      options: [],
-      query: {
-        type: ''
-      },
-      value1: '',
+      // 问题模块下拉框
+      problemModuleList: [],
+      // 搜索关键词
+      keyWord: '',
+      questionModuleId: '',
+      selfOnly: false,
       showDialog: false,
       isReplyStatus: false,
       editable: true,
       currentCategoryItem: 'unreply',
-      cardSelectItem: {},
+      cardSelectItem: {
+        questionStatus: '',
+        id: null,
+      },
       replyContent: '',
-      fileIds: [],
-      extraData: { applicationName: 'rise-dev', type: '1', businessId: '01', isTemp: 0 },
+      pageNum: 1,
+      pageSize: 10,
       catgoryList: [
         {
           label: '未处理',
@@ -173,36 +183,7 @@ export default {
         },
       ],
       categoryCardList: [],
-      // TODO 接口对接后就要删除
-      mockDataList: [
-        {
-          id: 0,
-          status: 'unreply',
-          title: '如何配置',
-          name1: '张三',
-          name2: '李四',
-          label: '主数据管理',
-          time: '2021-10-28 10:20:20'
-        },
-        {
-          id: 2,
-          status: 'finished',
-          title: '如何配置',
-          name1: '张三',
-          name2: '李四',
-          label: '主数据管理',
-          time: '2021-10-28 10:20:20'
-        },
-        {
-          id: 3,
-          status: 'reply',
-          title: '如何配置',
-          name1: '张三',
-          name2: '李四',
-          label: '主数据管理',
-          time: '2021-10-28 10:20:20'
-        }
-      ],
+      flag: false,
       editForm: {},
       editFormRules: {},
       isDisabledModule: true,
@@ -210,33 +191,101 @@ export default {
       isDisabledQuestion: true,
       finishedDialog: false,
       loading: true,
+      queryForm: {
+        source: this.userType,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        questionStatus: this.currentCategoryItem,
+        selfOnly: this.selfOnly ? 0 : 1,
+      },
     }
   },
   mounted () {
-    console.log(this.type, '???')
-    this.changeCategoryItem({ value: this.currentCategoryItem });
-    this.cardSelectHandler(this.categoryCardList[0]);
+    
     setTimeout(() => {
       this.loading = false;
     }, 1000);
+    this.getModuleListByUserType(this.userType);
+    this.queryProblemList(this._queryForm({
+      source: this.userType,
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
+      questionStatus: this.currentCategoryItem,
+      selfOnly: this.selfOnly ? 1 : 0,
+    }));
   },
   methods: {
+    // 根据用户类型获取模块下拉框
+    async getModuleListByUserType (userType) {
+      const { code, data } = await getModuleListByUserTypeApi(userType);
+      if (code === '200') {
+        this.problemModuleList = data;
+      } else {
+        console.error('获取模块接口失败');
+      }
+    },
+    // 获取问题列表
+    async queryProblemList (queryForm) {
+      const { code, data } = await queryProblemListApi(queryForm);
+      if (code === '200') {
+        if (data.records.length) {
+          if (this.flag) {
+            this.categoryCardList.push(data.records);
+          } else {
+            this.categoryCardList = data.records;
+          }
+          // 默认选中第一个
+          this.cardSelectItem = this.categoryCardList[0];
+        } else {
+          if(!this.flag) {
+            this.cardSelectItem =  {
+              questionStatus: '',
+              id: null,
+            };
+            this.categoryCardList = [];
+          }
+        }
+        this.flag = false;
+      } else {
+        console.error('获取问题列表失败');
+      }
+    },
+    // 监听左侧滚动条
+    scrollHandle (e) {
+      let Scroll = e.target
+      let scrollHeight = Scroll.scrollHeight - Scroll.clientHeight
+      if (scrollHeight - Scroll.scrollTop < 100 && !this.flag) {
+        this.flag = true
+        this.queryProblemList(this._queryForm({ pageNum: this.pageNum++ }));
+      }
+    },
     // 点击导航
     changeCategoryItem (item) {
       this.isReplyStatus = false
       this.currentCategoryItem = item.value;
-      this.categoryCardList = item.value != 'all' ? this.mockDataList.filter(it => it.status === item.value) : this.mockDataList;
-      this.cardSelectHandler(this.categoryCardList[0]);
+      // 重新请求数据
+      this.queryProblemList(this._queryForm({ 
+        questionStatus: item.value == 'all' ? '' : item.value,
+        pageNum:1,
+      }));
       this.isDisabledModule = true;
       this.isDisabledLabel = true;
       this.isDisabledQuestion = true;
+    },
+    changeSelfHandle(val) {
+      this.queryProblemList(this._queryForm({selfOnly: val ? 1 : 0}));
+    },
+    keyWordBlurHandle() {
+      this.queryProblemList(this._queryForm({keyWord: this.keyWord}));
+    },
+    questionModuleHandle(val) {
+      this.queryProblemList(this._queryForm({questionModuleId: val}));
     },
     // 点击卡片
     cardSelectHandler (item) {
       this.isReplyStatus = false
       this.cardSelectItem = item
     },
-    
     replyHandler () {
       this.isReplyStatus = true
     },
@@ -268,12 +317,15 @@ export default {
     finishedHandler () {
       this.finishedDialog = true;
     },
+    _queryForm (params) {
+      return Object.assign(this.queryForm, params);
+    }
   },
   computed: {
     editToolbar () {
       return []
     },
-    loadText() {
+    loadText () {
       if (this.isReplyStatus) {
         return 'up';
       } else {
@@ -315,6 +367,10 @@ export default {
       margin-right: 5px;
       margin-left: 5px;
       color: #999999;
+    }
+    .card-list {
+      height: calc(100% - 300px);
+      overflow-y: auto;
     }
     .category-list {
       padding-left: 10px;
