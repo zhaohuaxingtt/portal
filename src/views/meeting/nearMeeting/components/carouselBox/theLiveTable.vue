@@ -17,7 +17,7 @@
       <el-table-column
         show-overflow-tooltip
         align="center"
-        label="会议名称"
+        :label="$t('会议名称')"
         width="340"
         min-width="340"
       >
@@ -32,7 +32,7 @@
         show-overflow-tooltip
         prop="meetingTypeName"
         align="center"
-        label="会议类型"
+        :label="$t('会议类型')"
         min-width="90"
         width="90"
       ></el-table-column>
@@ -41,7 +41,7 @@
         show-overflow-tooltip
         prop="state"
         align="center"
-        label="会议状态"
+        :label="$t('会议状态')"
         min-width="70"
         width="70"
       >
@@ -67,7 +67,7 @@
         show-overflow-tooltip
         prop="meetingPlace"
         align="center"
-        label="会议地点"
+        :label="$t('会议地点')"
         width="150"
         min-width="150"
       ></el-table-column>
@@ -76,7 +76,7 @@
         show-overflow-tooltip
         prop="time"
         align="center"
-        label="会议时间"
+        :label="$t('会议时间')"
         min-width="200"
         width="200"
       >
@@ -95,7 +95,7 @@
         show-overflow-tooltip
         prop="weekOfYear"
         align="center"
-        label="周次"
+        :label="$t('周次')"
         min-width="90"
         width="90"
       >
@@ -108,7 +108,7 @@
         show-overflow-tooltip
         prop="presenterDept"
         align="center"
-        label="附件"
+        :label="$t('附件')"
         min-width="60"
         width="60"
       >
@@ -116,7 +116,7 @@
           <span class="attachments-box">
             <el-popover placement="right" trigger="click">
               <div class="enclosure-popover">
-                <p class="title">附件</p>
+                <p class="title">{{$t('附件')}}</p>
                 <ul>
                   <li
                     v-for="item in scope.row.attachments"
@@ -158,8 +158,8 @@
       :current-page="pageNum"
       :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      prev-text="上一页"
-      next-text="下一页"
+      :prev-text="$t('上一页')"
+      :next-text="$t('下一页')"
       :total="total"
     />
     <!-- 生成会议纪要 -->

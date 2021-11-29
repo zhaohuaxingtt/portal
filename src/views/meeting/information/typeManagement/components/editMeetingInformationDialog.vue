@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="'修改会议类型信息'"
+    :title="$t('修改会议类型信息')"
     :visible.sync="openEditMeetingDialog"
     width="30rem"
     :close-on-click-modal="false"
@@ -16,7 +16,7 @@
         <iFormItem prop="name">
           <!-- <iLabel :label="$t('会议类型')" slot="label"></iLabel> -->
           <div>
-            <p>会议类型</p>
+            <p>{{$t('会议类型')}}</p>
             <p class="name">{{ ruleForm.name }}</p>
           </div>
         </iFormItem>
@@ -52,9 +52,9 @@
                 class="upload-button"
                 :uploadLoading="uploadLoading"
               >
-                修改封面图<span class="upload-text"></span>
+                {{$t('修改封面图')}}<span class="upload-text"></span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">文件大小最大限制15MB</div>
+              <div slot="tip" class="el-upload__tip">{{$t('文件大小最大限制')}}15MB</div>
             </el-upload>
           </iFormItem>
         </div>

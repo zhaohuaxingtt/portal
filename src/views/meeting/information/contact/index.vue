@@ -3,13 +3,13 @@
     <iEditForm>
       <ul class="button-list">
         <li class="button-item">
-          <iButton @click="handleAdd" :disabled="!isCanAdd">新增</iButton>
+          <iButton @click="handleAdd" :disabled="!isCanAdd">{{$t('新增')}}</iButton>
         </li>
         <li class="button-item">
           <iButton
             @click="handleDelete"
             :disabled="selectedRow.length > 0 ? false : true"
-            >删除</iButton
+            >{{$t('删除')}}</iButton
           >
         </li>
         <li class="button-item">
@@ -39,7 +39,7 @@
           ></el-table-column>
           <el-table-column
             align="center"
-            label="会议类型"
+            :label="$t('会议类型')"
             :render-header="renderHeader"
           >
             <template slot-scope="scope">
@@ -70,7 +70,7 @@
           ></el-table-column>
           <el-table-column
             align="center"
-            label="部门"
+            :label="$t('部门')"
             :render-header="renderHeader"
           >
             <template slot-scope="scope">
@@ -85,7 +85,7 @@
           </el-table-column>
           <el-table-column
             align="center"
-            label="办公室"
+            :label="$t('办公室')"
             :render-header="renderHeader"
           >
             <template slot-scope="scope">
@@ -100,7 +100,7 @@
           </el-table-column>
           <el-table-column
             align="center"
-            label="电话"
+            :label="$t('电话')"
             :render-header="renderHeader"
           >
             <template slot-scope="scope">
@@ -115,7 +115,7 @@
           </el-table-column>
           <el-table-column
             align="center"
-            label="邮件"
+            :label="$t('邮件')"
             :render-header="renderHeader"
           >
             <template slot-scope="scope">

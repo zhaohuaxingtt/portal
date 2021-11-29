@@ -1949,7 +1949,39 @@
       HOME_MODULE_APPROVE: 'iAgree',
       HOME_MODULE_VOLUME: 'Volume Pricing',
       HOME_MODULE_NEWS: 'News'
-    }
+    },
+    //会议中英文
+    MT_HUIYIMINGCHENG: 'Meeting name',
+    MT_HUIYIDIDIAN: 'Meeting place',
+    MT_HUIYILEIXING: 'Meeting type',
+    MT_ZHUANGTAI: 'Status',
+    MT_HUIYIRIQI: 'Meeting date',
+    MT_ZHOUCI: 'Weeks',
+    // MT_QUEREN: '确认',
+    // MT_CHONGZHI: '重置',
+    MT_XUHAO: 'Num',
+    MT_CAOZUO: 'Operate',
+    MT_CHEHUI: 'Recall',
+    MT_SHANCHU: 'Delete',
+    MT_CHUANGJIAN: 'Create',
+    MT_PILIANGCHUANGJIAN: 'Batch Create',
+    MT_CAOGAO: 'Draw',
+    MT_KAIFANG: 'Open',
+    MT_KAISHI: 'Start',
+    MT_SUODING: 'Lock',
+    MT_XIUGAI: 'Edit',
+    MT_DAORUYITI: 'Import themen',
+    MT_GUANBI: 'Close',
+    MT_JIESHU: 'End',
+    MT_TONGPING: 'Same screen',
+    MT_ZHANSHI: 'Display',
+    MT_SHENGCHENGHUIYIJIYAO: 'Generate meeting minutes',
+    MT_SHANGCHUANHUIYIJIYAO: 'Upload meeting minutes',
+    MT_HUIYISHIJIAN: 'Meeting time',
+    MT_FUJIAN: 'Attachment',
+    MT_QINGSHURU: 'Please input',
+    MT_QINGXUANZE: 'Please select',
+    MT_TO: 'To'
   }
   var xmlHttp = ''
   if (window.XMLHttpRequest) {
