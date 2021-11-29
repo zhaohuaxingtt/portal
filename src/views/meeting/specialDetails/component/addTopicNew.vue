@@ -639,10 +639,10 @@ export default {
     },
     createStateFilter(queryString) {
       return (state) => {
-        state.name = state.department ? state.department : ''
-        state.namePinyin = state.department ? state.department : ''
+        state.name = state.name ? state.name : ''
+        state.namePinyin = state.namePinyin ? state.namePinyin : ''
         state.department = state.department ? state.department : ''
-        state.jobNumber = state.department ? state.department : ''
+        state.jobNumber = state.jobNumber ? state.jobNumber : ''
         return (
           state?.name
             ?.toLowerCase()

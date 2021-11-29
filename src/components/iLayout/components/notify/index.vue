@@ -37,7 +37,6 @@ export default {
   mounted() {
     
     this.closePopupSocket = getgetPopupSocketMessage((res) => {
-      // this.iniNotify('pushNew')
       this.debounce(3000)
     })
   },
@@ -45,8 +44,6 @@ export default {
     this.closePopupSocket()
   },
   created(){
-
-    // this.login != 'login' ? this.getLatest() : ''
     this.getLatest()
     
   },

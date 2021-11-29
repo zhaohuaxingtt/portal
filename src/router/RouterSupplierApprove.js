@@ -1,21 +1,21 @@
 /*
  * @Author: 舒杰
  * @Date: 2021-07-12 16:07:32
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\router\RouterSupplierApprove.js
  */
 //updated by dolphin on 5/19/2020, 7:54:14 PM.
 
-"use strict";
-import CorrectionApprovalDetails from '../views/generalPage/correctionApprovalDetails/index';
+'use strict'
+import CorrectionApprovalDetails from '../views/generalPage/correctionApprovalDetails/index'
 import DepthReportApproval from '../views/bpm/frmRatingApproval/depthReportApproval'
 import FrmRatingApproval from '../views/bpm/frmRatingApproval/depthRatingApproval'
-import NewsupplierratingTask from '../views/frmRating/newSupplierRating/task';
-import generalSupplierApprove from '../views/generalPage/generalSupplierApprove/index';
-import ApproveDetails from '../views/generalPage/approveDetails/index';
-import ChangeApprovalDetails from '../views/generalPage/changeApprovalDetails/index';
-import ConversionDetails from '../views/generalPage/conversionDetails/index';
+import NewsupplierratingTask from '../views/frmRating/newSupplierRating/task'
+import generalSupplierApprove from '../views/generalPage/generalSupplierApprove/index'
+import ApproveDetails from '../views/generalPage/approveDetails/index'
+import ChangeApprovalDetails from '../views/generalPage/changeApprovalDetails/index'
+import ConversionDetails from '../views/generalPage/conversionDetails/index'
 export default [
   {
     path: '/supplier/correction-approval-details',
