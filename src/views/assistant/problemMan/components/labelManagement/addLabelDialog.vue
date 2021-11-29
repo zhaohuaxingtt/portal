@@ -6,7 +6,7 @@
       </iFormItem>
       <iFormItem :label="language('问题模块')" prop='moduleId'>
         <iSelect v-model="newLabelForm.moduleId" filterable placeholder="请选择">
-          <el-option v-for="item in options" :key="item.code" :label="item.value" :value="item.code"></el-option>
+          <el-option v-for="item in moduleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
         </iSelect>
       </iFormItem>
     </el-form>
@@ -20,8 +20,11 @@
 <script>
 import { iDialog, iButton, iSelect, iFormItem, iInput } from 'rise'
 import { newLabel } from "@/api/assistant"
+import assistant_mixin from "./../../../mixins"
+
 export default {
   name: 'dispatchDialog',
+  mixins:[assistant_mixin],
   props: {
     show: {
       type: Boolean,
@@ -30,20 +33,18 @@ export default {
     type:{
       type:Number,
       default:1
+    },
+    moduleList:{
+      type:Array,
+      default: () => []
     }
   },
   data () {
     return {
       visible: false,
-      options: [
-        {
-          value:"123",
-          code:'123'
-        }
-      ],
       newLabelForm: {
         lableName:'',
-        moduleId:''
+        moduleId:'123'
       },
       newLabeRules: {
         lableName:{required:'true',message:"请输入标签内容",trigger:'blur'},
@@ -62,8 +63,8 @@ export default {
       this.$refs.newLabelForm.validate(async (valid) => {
         if (valid) {
           if(this.type == 1){
+            this.newLabelForm.source = this.getUserType()
             await newLabel(this.newLabelForm)
-            this.$refs.newLabelForm.resetFields()
           }else{
             console.log('add---2');
           }

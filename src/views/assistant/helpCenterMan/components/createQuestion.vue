@@ -25,13 +25,13 @@
             </iFormGroup>
 
             <div class="flex" style="margin-top:20px;align-items: flex-start;">
-                <iLabel class="label" label="附件:" slot="label"></iLabel>
-                <div class="upload-btn flex">
-                    <i class="el-icon-link"></i>
-                    <iUpload ref="upload" v-model="files" @onSuccess="uploadSucc" >
+                <div class="label">附件：</div>
+                <iUpload ref="upload" v-model="files" @onSuccess="uploadSucc" >
+                    <div class="upload-btn flex">
+                        <i class="el-icon-link"></i>
                         <span>点击上传</span>
-                    </iUpload>
-                </div>
+                    </div>
+                </iUpload>
             </div>
         </div>
         <div slot="footer">

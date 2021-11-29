@@ -10,10 +10,13 @@ export const   TABLE_KEYWORDS_COLUMNS=[
     },
     {
         label:'关键词',
-        prop:'keyWords'
+        prop:'keyWord'
     },
     {
         label:"添加时间",
-        prop:'addTime'
+        prop:'createDate',
+        // customRender: (h, scope) => {
+        //     return <span>{scope.row.createDate | }</span>
+        // }
     }
 ]

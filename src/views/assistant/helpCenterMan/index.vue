@@ -108,7 +108,7 @@ export default {
 					if (res.code === '200') {
 						// let { data: { menuList }} = res
 						// this.moudleList = menuList[3] ? menuList[3].menuList : []
-						console.log(this.moudleList);
+						// console.log(this.moudleList);
 					}
 				})
 			} finally {
@@ -121,8 +121,7 @@ export default {
 			try {
 				await queryHotFaq().then((res) => {
 					if (res.code === '200') {
-						this.hotList = res
-						console.log(this.moudleList);
+						this.hotList = res.data
 					}
 				})
 			} finally {

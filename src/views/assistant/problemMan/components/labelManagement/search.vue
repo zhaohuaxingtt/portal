@@ -6,27 +6,27 @@
           <el-row :gutter="20">
             <el-col :span="8">
               <iFormItem :label="language('问题模块')">
-                <iInput v-model="searchForm.code" placeholder="请输入"></iInput>
-              </iFormItem>
-            </el-col>
-            <el-col :span="8">
-              <iFormItem :label="language('标签')">
-                <iSelect v-model="searchForm.type" filterable placeholder="请选择">
-                  <el-option v-for="item in options" :key="item.code" :label="item.value" :value="item.code"></el-option>
+                <iSelect v-model="searchForm.moduleId" filterable clearable placeholder="请选择">
+                  <el-option v-for="item in moduleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
                 </iSelect>
               </iFormItem>
             </el-col>
             <el-col :span="8">
+              <iFormItem :label="language('标签')">
+                <iInput v-model="searchForm.lableName" clearable placeholder="请输入" />
+              </iFormItem>
+            </el-col>
+            <el-col :span="8">
               <iFormItem :label="language('创建人')">
-                <iInput v-model="searchForm.name" placeholder="请输入" />
+                <iInput v-model="searchForm.createBy" clearable placeholder="请输入" />
               </iFormItem>
             </el-col>
           </el-row>
         </el-form>
       </div>
       <div class="btn-box margin-top25">
-        <iButton @click="handleConfirm">{{ language('LK_INQUIRE') }}</iButton>
-        <iButton @click="handleReset">{{ language('LK_ZHONGZHI') }}</iButton>
+        <iButton @click="handleConfirm">{{ language('确定') }}</iButton>
+        <iButton @click="handleReset">{{ language('重置') }}</iButton>
       </div>
     </div>
   </el-card>
@@ -34,11 +34,13 @@
 
 <script>
 import { iInput, iButton, iFormItem, iSelect } from 'rise'
+
 export default {
   components: { iInput, iButton, iFormItem, iSelect },
   props: {
-    type: {
-      type: String
+    moduleList: {
+      type: Array,
+      default: () => []
     },
     query: {
       type: Array
@@ -47,9 +49,9 @@ export default {
   data () {
     return {
       searchForm: {
-        code: '',
-        tyep:'',
-        name:''
+        moduleId: '',
+        lableName:'',
+        createBy:''
       },
       options: [],
       startTimeOptions: {

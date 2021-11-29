@@ -11,13 +11,13 @@
             <slot></slot>
         </el-upload>
         <template v-if="showFile">    
-            <FileList v-for="(f,i) in files" :key="i" :file="f" @del="removeFile"></FileList>
+            <FileList v-for="(f,i) in files" :key="i" :file="f" @del="removeFile(i)"></FileList>
         </template>
     </div>
 </template>
 
 <script>
-    import {uploadFile} from "./uploadFile"
+    import {uploadFile} from "@/api/assistant/uploadFile"
     import FileList from "./fileList.vue"
     export default {
         components:{
@@ -121,13 +121,15 @@
                 }
                 return isLtSize;
             },
-            removeFile(file){
+            removeFile(index){
                  this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                
+                    let val = this.files;
+                    val.splice(index,1);
+                    this.$emit("input",val);
                 })
             }
         }

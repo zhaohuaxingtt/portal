@@ -10,11 +10,18 @@ export function getSystemMeun() {
     method: 'GET'
   })
 }
+// 查询管理员用户列表(用于转派)
+export function queryProCsUserList() {
+  return assistantRequest({
+    url: '/assistantQuestion/queryProCsUserList',
+    method: 'GET'
+  })
+}
 
 // 根据用户来源（内部用户/供应商）获取模块列表
 export function getModuleList() {
   return assistantRequest({
-    url: '/assistantModuleEntity/queryModuleBySor',
+    url: '/assistantModuleEntity/queryCurrentUserModuleList',
     method: 'GET'
   })
 }
@@ -71,6 +78,31 @@ export function getCurrLabelList(id) {
   })
 }
 
+// 模块管理 查询模块列表数据
+export function queryModuleList(type) {
+  return assistantRequest({
+    url: `/assistantModuleEntity/queryModuleList?source=${type}`,
+    method: 'GET'
+  })
+}
+// 模块管理 保存模块信息
+export function saveModules(data) {
+  return assistantRequest({
+    url: `/assistantModuleEntity/saveModules`,
+    method: 'GET',
+    data
+  })
+}
+
+
+// 标签管理 查询问题模块列表
+export function queryModuleBySource(type) {
+  return assistantRequest({
+    url: `/assistantModuleEntity/queryModuleBySource?source=${type}`,
+    method: 'get'
+  })
+}
+
 // 标签管理 - 新增标签
 export function newLabel(data) {
   return assistantRequest({
@@ -79,11 +111,20 @@ export function newLabel(data) {
     data
   })
 }
-// 标签管理 - 删除标签
-export function removeLabel(id) {
+// 标签管理 - 查询标签分页
+export function queryLabelByPage(data) {
   return assistantRequest({
-    url: `/assistantLabel/removeLabel/${id}`,
-    method: 'get'
+    url: `/assistantLabel/queryLabelByPage`,
+    method: 'post',
+    data
+  })
+}
+// 标签管理 - 批量删除标签
+export function removeLabel(data) {
+  return assistantRequest({
+    url: `/assistantLabel/batchRemove`,
+    method: 'post',
+    data
   })
 }
 
@@ -97,10 +138,11 @@ export function getKeywordByPage(data) {
   })
 }
 // 关键词管理 - 删除关键词
-export function delKeywordById(id) {
+export function delKeywordByIds(data) {
   return assistantRequest({
-    url: `/assistantFaqKeyWords/delete/${id}`,
-    method: 'get'
+    url: `/assistantFaqKeyWords/batchDelete`,
+    method: 'post',
+    data
   })
 }
 // 关键词管理 - 保存关键词

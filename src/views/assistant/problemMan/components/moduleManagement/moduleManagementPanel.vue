@@ -10,7 +10,7 @@
       </template>
     </div>
     <iTableCustom ref="testTable" :loading="tableLoading" :data="tableListData" :columns="tableSetting" :extra-data="extraData" @handle-selection-change="handleSelectionChange" />
-    <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :current-page="page.currPage" :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :total="page.totalCount" />
+    <!-- <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :current-page="page.currPage" :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :total="page.totalCount" /> -->
   </el-card>
 </template>
 
@@ -18,17 +18,24 @@
 import { iPagination,iTableCustom, iButton } from 'rise';
 import { tableColumn } from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins'
+import { queryModuleList } from "@/api/assistant"
+import assistant_mixin from "./../../../mixins"
 export default {
-  mixins: [pageMixins],
+  mixins: [pageMixins,assistant_mixin],
   props: {
     type: {
       type: Number,
       default: 1
     }
   },
+  components: {
+    iPagination,
+    iTableCustom,
+    iButton
+  },
   data () {
     return {
-      tableLoading: true,
+      tableLoading: false,
       exportLoading: false,
       tableListData: [
         {
@@ -59,7 +66,19 @@ export default {
       },
     }
   },
+  mounted () {
+    this.query()
+  },
   methods: {
+    async query(){
+      this.tableLoading = true
+      try {
+        let res = await queryModuleList(this.getUserType())
+        this.tableListData = res.data
+      } finally {
+        this.tableLoading = false
+      }
+    },
     handleGoDetail () { },
     handleSelectionChange (ev) {
       this.selectionRowList = ev;
@@ -85,17 +104,6 @@ export default {
       console.log('row', row,$index,val);
       this.extraData.nameForm.name = val;
     },
-  },
-  mounted () {
-    console.log(this.type);
-    setTimeout(() => {
-      this.tableLoading = false;
-    }, 1000);
-  },
-  components: {
-    iPagination,
-    iTableCustom,
-    iButton
   }
 }
 </script>

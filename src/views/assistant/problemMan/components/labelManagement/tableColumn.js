@@ -1,4 +1,4 @@
-export const tableColumn = (e) => {
+export const tableColumn = (list) => {
   return [
     {
       type: 'selection',
@@ -9,25 +9,28 @@ export const tableColumn = (e) => {
       label:'序号'
     },
     {
-      prop: 'userNum',
+      prop: 'lableName',
       label: '标签内容',
       align: 'center',
     },
     {
-      prop: 'account',
+      // prop: 'moduleId',
       label: '问题模块',
       i18n: '问题模块',
-      align: 'center'
+      align: 'center',
+      customRender: (h, scope) => {
+        return list[scope.row.moduleId] ? list[scope.row.moduleId].menuName : "";
+      }
     },
     {
-      prop: 'nameZh',
+      prop: 'createBy',
       label: '通知人',
       width: '100px',
       align: 'center',
       tooltip: true
     },
     {
-      prop: 'nameEn',
+      prop: 'createDate',
       label: '添加日期',
       align: 'center',
       tooltip: true

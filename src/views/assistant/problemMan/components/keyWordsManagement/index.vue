@@ -3,15 +3,7 @@
       <iSearch @sure='sure' @reset="reset">
           <el-form>
               <iFormItem :label='language("关键词")'>
-                  <iSelect v-model="searchWord">
-                      <el-option
-                        v-for="item in keyWordsOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                      >
-                      </el-option>
-                  </iSelect>
+                <iInput v-model="searchWord" :placeholder='language("请输入")'></iInput>
               </iFormItem>
           </el-form>
       </iSearch>
@@ -45,17 +37,17 @@
 </template>
 
 <script>
-import {iSearch,iFormItem,iSelect,iTableCustom,iCard,iButton,iPagination} from 'rise'
+import {iSearch,iFormItem,iInput,iTableCustom,iCard,iButton,iPagination} from 'rise'
 import {pageMixins} from '@/utils/pageMixins'
 import {TABLE_KEYWORDS_COLUMNS} from './data.js'
 import addKeyWordsDialog from './addKeyWords.vue'
-import { getKeywordByPage, delKeywordById } from "@/api/assistant"
+import { getKeywordByPage, delKeywordByIds } from "@/api/assistant"
 export default {
     name:'keyWordsMana',
     components:{
         iSearch,
         iFormItem,
-        iSelect,
+        iInput,
         iTableCustom,
         iCard,
         iButton,
@@ -71,17 +63,7 @@ export default {
                 {label:1,value:2}
             ],
             tableLoading:false,
-            tableListData:[
-                {
-                    keyWords:'sdf'
-                },
-                {
-                    keyWords:'sdf'
-                },
-                {
-                    keyWords:'sdf'
-                },
-            ],
+            tableListData:[],
             selectedItems:[],
             tableSetting:TABLE_KEYWORDS_COLUMNS,
 
@@ -102,24 +84,39 @@ export default {
                 confirmButtonText:'确认',
                 cancelButtonText:'取消',
                 type:'warning'
-            }).then(()=>{
-                // delKeywordById()
+            }).then(async ()=>{
+                let ids = this.selectedItems.map(e => e.id)
+                await delKeywordByIds(ids)
+                this.getPage()
             }).catch(()=>{
                 this.$refs.tableListRef.clearSelection()
             })
         },
         async getPage(){
-            const data= {
-                keyWord: this.searchWord,
-                current: this.page.currPage,
-                size: this.page.pageSize
+            try {
+                this.tableLoading = true
+                const data= {
+                    keyWord: this.searchWord,
+                    pageNum: this.page.currPage,
+                    pageSize: this.page.pageSize
+                }
+                let res = await getKeywordByPage(data)
+                if(res.code == 200){
+                    this.tableListData = res.data.records || []
+                    this.page.totalCount = res.data.total
+                }
+            } finally {
+                this.tableLoading = false
             }
-            let res = await getKeywordByPage(data)
         },
         refresh(){
             this.getPage()
         },
         reset(){
+            this.searchWord = ""
+            this.sure()
+        },
+        sure(){
             this.page.currPage = 1
             this.page.totalCount = 0
             this.getPage()

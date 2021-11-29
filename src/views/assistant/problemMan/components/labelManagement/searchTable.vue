@@ -4,6 +4,7 @@
       <iButton @click="addHandler">{{ language('新建标签') }}</iButton>
       <iButton @click="delHandler" :disabled='selectedItems.length == 0'>{{ language('删除') }}</iButton>
     </div>
+
     <iTableCustom
       ref="testTable"
       :loading="tableLoading"
@@ -11,6 +12,7 @@
       :columns="tableSetting"
       @handle-selection-change="handleSelectionChange"
     />
+
     <iPagination
       v-update
       @size-change="handleSizeChange($event, getTableList)"
@@ -22,7 +24,7 @@
       :layout="page.layout"
       :total="page.totalCount"
     />
-    <addLabelDialog  v-if="showDialog" :show.sync="showDialog" @refresh='getTableList' :type='type'/>
+    <addLabelDialog :moduleList="moduleList" v-if="showDialog" :show.sync="showDialog" @refresh='getTableList' :type='type'/>
   </el-card>
 </template>
 
@@ -31,7 +33,9 @@ import {iButton,iPagination,iTableCustom} from 'rise';
 import {tableColumn} from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins'
 import AddLabelDialog from './addLabelDialog';
-import { removeLabel } from '@/api/assistant'
+import { removeLabel, queryLabelByPage,queryProCsUserList } from '@/api/assistant'
+import assistant_mixin from "./../../../mixins"
+
 export default {
   components: {
     iButton,
@@ -39,39 +43,40 @@ export default {
     iTableCustom,
     AddLabelDialog,
   },
-  mixins: [pageMixins],
+  mixins: [pageMixins,assistant_mixin],
   props:{
     type:{
       type:Number,
       default:1
+    },
+    moduleList:{
+      type: Array,
+      default: () => []
     }
   },
   data () {
     return {
       tableLoading: false,
       exportLoading: false,
-      tableListData: [
-        {
-          id: 1,
-          userNum:1234,
-        },
-        {
-          id: 1,
-          userNum:'sadf',
-        },
-        {
-          id: 1,
-          userNum:'asdfsdf',
-        },
-        {
-          id: 1,
-          userNum:'ojmkokok',
-        },
-      ],
-      tableSetting:tableColumn(this),
+      tableListData: [],
+      tableSetting:[],
       showDialog: false,
       selectedItems:[],
       searchContent:{}
+    }
+  },
+  async created() {
+    this.getTableList()
+    this.tableSetting = tableColumn(this.moduleListKV)
+    // let csList = await queryProCsUserList()
+  },
+  computed: {
+    moduleListKV(){
+      let m = {}
+      this.moduleList.forEach(e => {
+        m[e.menuId] = e
+      })
+      return m;
     }
   },
   methods: {
@@ -86,10 +91,11 @@ export default {
         confirmButtonText:'确认',
         cancelButtonText:"取消",
         type:'warning'
-      }).then(()=>{
+      }).then(async ()=>{
         if(this.type ==1){
-          console.log('del--1');
-          // removeLabel()
+          let ids = this.selectedItems.map(e => e.id)
+          await removeLabel(ids)
+          this.getTableList()
         }else{
           console.log('del--2');
         }
@@ -97,22 +103,29 @@ export default {
         this.$refs.testTable.clearSelection()
       })
     },
-    getTableList(){
-      const data = {
-        ...this.searchContent,
-        current:this.page.currPage,
-        size: this.page.pageSize
-      }
-      if(this.type == 1){
-        console.log('111');
-      }else{
-        console.log('222');
+    async getTableList(){
+      this.tableLoading = true
+      try {
+        let data = {
+          ...this.searchContent,
+          pageNum:this.page.currPage,
+          pageSize: this.page.pageSize,
+          source:this.getUserType()
+        }
+        let res = await queryLabelByPage(data)
+        if(res.code == 200){
+          this.tableListData = res.data.records || []
+          this.page.totalCount = res.data.total
+        }
+      } finally {
+        this.tableLoading = false
       }
     },
     search(val){
       this.page.currPage = 1
       this.page.totalCount = 0
       this.searchContent = val
+      this.getTableList()
     }
   },
 }
