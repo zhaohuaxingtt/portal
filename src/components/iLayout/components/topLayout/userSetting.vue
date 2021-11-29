@@ -146,6 +146,7 @@ export default {
     },
     //模拟退出登录方法
     logout() {
+      this.$emit('click-menu','logout')
       removeToken()
       window.location.href = process.env.VUE_APP_LOGOUT_URL;
     },
