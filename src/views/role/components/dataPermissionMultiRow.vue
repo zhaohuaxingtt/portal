@@ -10,7 +10,7 @@
     >
       <el-row :gutter="50">
         <el-col :span="12">
-          <iFormItem :label="$t('ROLE.PERMISSION')">
+          <iFormItem :label="language('权限')">
             <iSelect v-model="form.permission" :disabled="!editable">
               <el-option
                 v-for="item in rowPermissions"
@@ -22,14 +22,14 @@
           </iFormItem>
         </el-col>
         <el-col :span="12">
-          <iFormItem style="opacity: 0;"><iInput /> </iFormItem>
+          <iFormItem style="opacity: 0"><iInput /> </iFormItem>
         </el-col>
         <el-col :span="12">
-          <iFormItem :label="$t('ROLE.DESIGNATED_DEPARTMENT')">
+          <iFormItem :label="language('指定部门')">
             <iInput
               v-if="editable"
               v-model="form.department.nameZh"
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               :disabled="form.permission !== 'CUSTOM'"
               readonly
             >
@@ -41,14 +41,14 @@
             </iInput>
             <iInput
               v-else
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               v-model="form.department.nameZh"
               disabled
             />
           </iFormItem>
         </el-col>
         <el-col :span="12">
-          <iFormItem :label="$t('ROLE.USE_FOLLOW_PROP_FILTER')">
+          <iFormItem :label="language('按以下属性筛选')">
             <iSelect
               v-if="editable"
               v-model="form.properties"
@@ -92,7 +92,7 @@ export default {
     },
     form: {
       type: Object,
-      default: function() {
+      default: function () {
         return {
           department: {
             nameZh: ''

@@ -151,7 +151,11 @@
                   ? selectUserArr
                   : currentSearchUserData"
                 :key="item.id"
-                :label="item.name"
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
+                  item.namePinyin ? item.namePinyin  : ''
+                }`"
                 :value="item"
               >
               </el-option>
@@ -218,7 +222,11 @@
                   ? selectUserArr
                   : currentSearchUserData"
                 :key="item.id"
-                :label="item.name"
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
+                  item.namePinyin ? item.namePinyin  : ''
+                }`"
                 :value="item"
               >
               </el-option>
@@ -534,11 +542,9 @@ import {
   addThemenAttachment,
   findTheThemenById,
 } from "@/api/meeting/details";
-import { uploadFile, getUsers, getReceiverById } from "@/api/meeting/type";
-
+import { uploadFile, getReceiverById } from "@/api/meeting/type";
 import { getMyMettingList } from "@/api/meeting/home";
 import { download } from "@/utils/downloadUtil";
-import { MOCK_FILE_URL } from "@/constants";
 export default {
   components: {
     iDialog,
@@ -1000,7 +1006,7 @@ export default {
       deep: true,
     },
     attachments: {
-      handler: function(newV) {},
+      handler: function() {},
       deep: true,
       immediate: true,
     },
@@ -1153,11 +1159,29 @@ export default {
     },
     createStateFilter(queryString) {
       return (state) => {
-        return state.name
-          .toLowerCase()
-          .toString()
-          .includes(queryString.toLowerCase().toString());
-      };
+        state.name = state.department ? state.department : ''
+        state.namePinyin = state.department ? state.department : ''
+        state.department = state.department ? state.department : ''
+        state.jobNumber = state.department ? state.department : ''
+        return (
+          state.name
+            .toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state.namePinyin
+            .toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state.department
+            .toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state.jobNumber
+            .toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString())
+        )
+      }
     },
     handlePresenterSelect(val) {
       this.hanldeSelect(val, "pre");
@@ -1217,7 +1241,7 @@ export default {
           this.attachments.push({ ...this.attachment });
           iMessage.success(this.$t("上传成功"));
         })
-        .catch((err) => {
+        .catch(() => {
           // iMessage.error("上传失败");
         });
       this.uploadLoading = false;
@@ -1472,6 +1496,18 @@ export default {
     margin-left: 115px;
   }
 }
+
+::v-deep .el-select__tags-text {
+  display: inline-block;
+  max-width: 70px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+::v-deep.el-tag__close.el-icon-close {
+  top: -7px;
+}
+
 ::v-deep .row-upload {
   display: flex;
   width: 100%;

@@ -21,11 +21,10 @@
           <div class="inforDiv"
               v-for="(item,index) in formList"
               :key="index">
-            <span>{{language(item.key,item.label)}}</span>
-            <iInput :disabled="true"
-                    class="inforText"
-                    v-model="formData[item.prop]"
-                    ></iInput>
+            <span>{{language(item.key,item.name)}}</span>
+            <span
+                  class="inforText"
+                  >{{formData[item.prop]}}</span>
           </div>
         </div>
         <el-divider v-if="ruleTableListData.length>0" />
@@ -96,29 +95,12 @@
       <iCard class="margin-top20">
         <div slot="header"
             class="headBox">
-          <p v-if="isMeeting"
-            class="headTitle">{{language('BEIZHU', '备注')}}</p>
-          <p v-if="isSign"
-            class="headTitle">{{language('BEIZHU', '备注')}}</p>
-          <!-- <p v-if="isSign" class="headTitle">{{language('LIUZHUANBEIZHU', '流转备注')}}</p> -->
-          <!-- <span class="buttonBox">
-            <iButton v-if="RsObject"
-                    @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
-          </span> -->
+          <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
         </div>
-        <!-- <p v-if="isMeeting">{{language('LINEIESHANGHUIBEIZHU', 'LINIE上会备注')}}</p> -->
-        <!-- <p v-if="isSign">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p> -->
-        <iInput v-if="isMeeting"
-                v-model="formData.linieMeetingMemo"
+        <iInput v-model="formData.linieMeetingMemo"
                 class="margin-top10"
                 :rows="8"
                 type="textarea" />
-        <iInput v-if="isSign"
-                v-model="formData.linieMeetingMemo"
-                class="margin-top10"
-                :rows="8"
-                type="textarea" />
-        <!-- <iInput v-if="isSign" v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/> -->
       </iCard>
       <div class="margin-top30 deptBox">
         <div class="deptItem" v-for="(item, index) in deptData" :key="index">
@@ -199,9 +181,8 @@ export default {
           break;
         case 'FILING':
           // 备案
-          
+          res = '备案定点推荐 - MTZ Nomination Recommendation - MTZ'
           break;
-      
         default:
           break;
       }
@@ -423,7 +404,6 @@ $tabsInforHeight: 35px;
   justify-content: space-between;
   .inforDiv {
     width: 29%;
-    height: $tabsInforHeight;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -434,11 +414,12 @@ $tabsInforHeight: 35px;
     }
     .inforText {
       font-size: 14px;
+      padding:10px 10px;
       width: 68%;
+      min-height: $tabsInforHeight;
+      height:auto;
       background: #f8f8fa;
       text-align: center;
-      height: $tabsInforHeight;
-      line-height: $tabsInforHeight;
     }
   }
 }

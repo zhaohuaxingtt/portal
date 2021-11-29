@@ -90,10 +90,10 @@ export default {
     },
     clearDiolog() {
       this.joinItemShow = false
-      this.getFolderCombo()
+      this.getFolderCombo(this.$route.query.partsNum)
     },
-    getFolderCombo() {
-      getFolderCombo().then(res => {
+    getFolderCombo(partNum) {
+      getFolderCombo({partNum}).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.tagList = res.data
@@ -145,7 +145,7 @@ export default {
     let partsNum = this.$route.query.partsNum
     this.defaultParts(partsNum)
 //    this.getDefaultInfo()
-    this.getFolderCombo()
+    this.getFolderCombo(partsNum)
   }
 
 }

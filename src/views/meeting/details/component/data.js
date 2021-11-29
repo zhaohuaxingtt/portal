@@ -160,6 +160,7 @@ export const buttonList = [
     title: "开放",
     methodName: "open",
     rightButtonList: [
+      { title: "撤回", methodName: "recall", disabled: true},
       { title: "锁定", methodName: "lock" },
       { title: "修改", methodName: "edit" },
       { title: "返回", methodName: "back" },

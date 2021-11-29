@@ -5,7 +5,7 @@
       :data="data"
       :rowClassName="tableRowClassName"
     >
-      <el-table-column prop="follow" align="center" label="NO." width="50">
+      <el-table-column prop="follow" align="left" label="No." width="50">
         <template slot-scope="scope">
           <div class="img-word">
             <div class="img-box">
@@ -396,15 +396,16 @@ export default {
   display: flex;
   /* justify-content: center; */
   /* position: relative; */
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   /* transform: translateX(-10px); */
-  div:first-child {
+  span:first-child {
+    display: block;
     /* margin-left: 30px; */
     flex-grow: 1;
     flex-shrink: 0;
     width: 20px;
-    text-align: center;
+    /* text-align: center; */
     /* margin-right: 9.42px; */
     /* margin-right: 5px; */
   }
@@ -432,7 +433,7 @@ export default {
       cursor: pointer;
     }
     .follow {
-      margin-left: 4px;
+      /* margin-left: 4px; */
       cursor: pointer;
     }
   }
