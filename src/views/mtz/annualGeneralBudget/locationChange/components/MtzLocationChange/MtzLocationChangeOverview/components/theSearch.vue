@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-18 19:04:17
+ * @LastEditTime: 2021-11-29 10:21:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -70,7 +70,7 @@
                        :placeholder="language('QINGXUANZESHIJIAN', '请选择时间')"
                        type="date"
                        style="width:100%"
-                       format="yyyy-MM"
+                       format="yyyy-MM-dd"
                        value-format="yyyy-MM-dd">
           </iDatePicker>
         </el-form-item>

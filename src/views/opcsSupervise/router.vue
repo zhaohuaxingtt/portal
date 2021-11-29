@@ -1,10 +1,10 @@
 <!--
- * @version: 1.0
- * @Author: zbin
- * @Date: 2021-08-23 15:39:07
- * @LastEditors: zbin
- * @Descripttion: your project
+ * @Date: 2021-11-25 09:47:22
+ * @LastEditors: caopeng
+ * @LastEditTime: 2021-11-29 11:25:57
+ * @FilePath: \front-portal-new\src\views\opcsSupervise\router.vue
 -->
+
 <template>
   <iPage :class="padding?'padding':''">
     <headerNav :class="padding?'nav':''" />

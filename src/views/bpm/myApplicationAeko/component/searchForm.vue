@@ -6,7 +6,7 @@
     @reset="reset"
     :search-key="PARTSPROCURE_CONFIRM"
   >
-    <el-form>
+    <el-form ref="searchFrom">
       <el-row :gutter="20">
         <el-col :span="6">
           <iFormItem :label="$t('单据编号')">
@@ -16,11 +16,16 @@
         <el-col :span="6">
           <iFormItem :label="$t('单据类型')">
             <!-- <iInput :placeholder="$t('请输入')" v-model="form.itemType" /> -->
-            <iSelect :placeholder="$t('请选择')" v-model="form.itemType">
+            <iSelect
+              :placeholder="$t('请选择')"
+              multiple
+              collapse-tags
+              v-model="form.itemType"
+            >
               <el-option
                 v-for="(item, index) in dOptions"
                 :key="index"
-                :value="item.label"
+                :value="item.value"
                 :label="item.label"
               >
               </el-option>
@@ -33,7 +38,11 @@
         <iInput :placeholder="$t('请输入')" v-model="form.itemName" />
       </iFormItem> -->
 
-          <iFormItem :label="$t('任务起止日期')" class="form-item-date">
+          <iFormItem
+            :label="$t('任务起止日期')"
+            class="form-item-date"
+            ref="dateFormItem"
+          >
             <iDatePicker
               v-model="date"
               type="daterange"
@@ -41,8 +50,8 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               style="width: 100%"
-            >
-            </iDatePicker>
+              @change="handleDateChange"
+            />
           </iFormItem>
         </el-col>
         <el-col :span="6">
@@ -76,6 +85,7 @@ import {
   approvalFinishedStatus,
   approvalTypes
 } from './data'
+import { BPM_APPROVAL_TYPE_OPTIONS } from '@/constants'
 export default {
   name: 'searchForm',
   props: {
@@ -96,72 +106,7 @@ export default {
       form: { ...searchForm },
       approvalTypes,
       date: '',
-      dOptions: [
-        {
-          value: -1,
-          label: '未知类型'
-        },
-        {
-          value: 0,
-          label: '项目管理'
-        },
-        {
-          value: 2,
-          label: '寻源定点'
-        },
-        {
-          value: 4,
-          label: '谈判'
-        },
-        {
-          value: 5,
-          label: 'AEKO技术变更'
-        },
-        {
-          value: 6,
-          label: '零件价格与订单'
-        },
-        {
-          value: 7,
-          label: '模具采购'
-        },
-        {
-          value: 8,
-          label: '供应商管理'
-        },
-        {
-          value: 9,
-          label: '总成散件管理'
-        },
-        {
-          value: 10,
-          label: '需求产能管理'
-        },
-        {
-          value: 11,
-          label: '财务风险管理'
-        },
-        {
-          value: 12,
-          label: '采购业绩'
-        },
-        {
-          value: 13,
-          label: '原材料价格补差'
-        },
-        {
-          value: 14,
-          label: '0公里索赔'
-        },
-        {
-          value: 15,
-          label: '零件对外销售'
-        },
-        {
-          value: 16,
-          label: '定价管理'
-        }
-      ]
+      dOptions: BPM_APPROVAL_TYPE_OPTIONS
     }
   },
   computed: {
@@ -177,7 +122,7 @@ export default {
   methods: {
     sure() {
       const searchData = { ...this.form }
-      if (this.date) {
+      if (this.date && this.date.length === 2) {
         searchData.startTime = this.date[0]
         searchData.endTime = this.date[1]
       }
@@ -185,7 +130,12 @@ export default {
     },
     reset() {
       this.form = { ...searchForm }
+
+      this.date = ''
       this.$emit('search', this.form)
+    },
+    handleDateChange(e) {
+      console.log('handleDateChange', e)
     },
     handleProcProgressChange(val) {
       if (val.length > 0) {

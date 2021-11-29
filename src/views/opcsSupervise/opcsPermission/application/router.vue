@@ -1,30 +1,32 @@
 <!--
- * @version: 1.0
- * @Author: zbin
- * @Date: 2021-10-06 11:13:02
- * @LastEditors: Please set LastEditors
- * @Descripttion: your project
+ * @Date: 2021-11-29 10:30:10
+ * @LastEditors: caopeng
+ * @LastEditTime: 2021-11-29 11:27:39
+ * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\router.vue
 -->
+
+
 <template>
   <div>
-    <theSearch />
-    <router-view></router-view>
-    <!-- <theNodeChain class="margin-top20"/> -->
+    <iNavMvp :list="applicationRouterList" :lev='2' right routerPage class="nav" />
+    <router-view />
   </div>
 </template>
 
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import theNodeChain from "./components/theNodeChain.vue";
-import theSearch from "./components/theSearch.vue";
+import {  iNavMvp } from "rise";
+import { applicationRouterList } from "../../commonHeardNav/navData.js";
+import { cloneDeep } from "lodash"
+
 export default {
   // import引入的组件需要注入到对象中才能使用
-  components: { theNodeChain, theSearch },
-  data () {
+  components: {  iNavMvp },
+  data() {
     // 这里存放数据
     return {
-
+      applicationRouterList: cloneDeep(applicationRouterList),
     }
   },
   // 监听属性 类似于data概念
@@ -36,15 +38,20 @@ export default {
 
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created () {
+  created() {
 
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted () {
+  mounted() {
 
   },
 }
 </script>
 <style lang='scss' scoped>
 // @import url(); 引入公共css类
+.nav {
+  position: absolute;
+  top: 1.85rem;
+  right: 9rem;
+}
 </style>
