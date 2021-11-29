@@ -1,3 +1,9 @@
+/*
+ * @Date: 2021-11-25 09:47:21
+ * @LastEditors: caopeng
+ * @LastEditTime: 2021-11-29 14:35:16
+ * @FilePath: \front-portal-new\src\router\RouterOpcs.js
+ */
 export default [{
 
     path: 'opcs',
@@ -16,8 +22,12 @@ export default [{
             children: [{
                 path: 'manage',
                 name: 'manage',
-                component: () => import('@/views/opcsSupervise/opcsPermission/application/manage'),
-            }, ]
+                component: () => import('@/views/opcsSupervise/opcsPermission/application/manage/index'),
+            },{
+                path: 'userManage',
+                name: 'userManage',
+                component: () => import('@/views/opcsSupervise/opcsPermission/application/userManage/index'),
+            },  ]
         },
 
     ]
