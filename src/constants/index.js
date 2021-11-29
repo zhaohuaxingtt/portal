@@ -29,55 +29,55 @@ export const BPM_CATEGORY_RENAME_YIYI_LIST = ['meeting_rs_recheck']
  */
 export const BPM_APPROVAL_TYPE_OPTIONS = [
   {
-    value: -1,
+    value: '-1',
     label: '未知类型'
   },
   {
-    value: 0,
+    value: '0',
     label: '供应商管理'
   },
   {
-    value: 1,
+    value: '1',
     label: '供应商转正'
   },
   {
-    value: 2,
+    value: '2',
     label: '供应商修改'
   },
   {
-    value: 4,
+    value: '4',
     label: '供应商准入'
   },
   {
-    value: 5,
+    value: '5',
     label: '价格管理'
   },
   {
-    value: 6,
+    value: '6',
     label: '寻源执行'
   },
   {
-    value: 7,
+    value: '7',
     label: 'ProCS'
   },
   {
-    value: 8,
+    value: '8',
     label: '寻源与定点'
   },
   {
-    value: 9,
+    value: '9',
     label: '订单与合同'
   },
   {
-    value: 10,
+    value: '10',
     label: 'AEKO'
   },
   {
-    value: 11,
+    value: '11',
     label: '模具采购'
   },
   {
-    value: 12,
+    value: '12',
     label: 'MTZ'
   }
 ]

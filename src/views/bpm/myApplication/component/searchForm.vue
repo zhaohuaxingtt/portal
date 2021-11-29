@@ -16,11 +16,16 @@
         <el-col :span="6">
           <iFormItem :label="$t('单据类型')">
             <!-- <iInput :placeholder="$t('请输入')" v-model="form.itemType" /> -->
-            <iSelect :placeholder="$t('请选择')" v-model="form.itemType">
+            <iSelect
+              :placeholder="$t('请选择')"
+              multiple
+              collapse-tags
+              v-model="form.itemType"
+            >
               <el-option
                 v-for="(item, index) in dOptions"
                 :key="index"
-                :value="item.label"
+                :value="item.value"
                 :label="item.label"
               >
               </el-option>
