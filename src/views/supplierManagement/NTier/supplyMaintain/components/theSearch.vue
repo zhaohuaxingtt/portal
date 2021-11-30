@@ -37,7 +37,8 @@
       <el-form-item :label="language('ZONGCHENLINGJIAN','总成零件')">
         <iSelect filterable
                  :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                 v-model="form.partNum">
+                 v-model="form.partNum"
+                 @change="hanldeChange">
           <el-option v-for="(item, index) in formGroup.partNumList"
                      :key="index"
                      :value="item.partNum"
@@ -76,15 +77,8 @@ import {
 export default {
   // import引入的组件需要注入到对象中才能使用
   components: {
-    iCard,
     iSelect,
     iSearch,
-    iInput,
-    iButton,
-    iDialog,
-    iFormItem,
-    iFormGroup,
-    iLabel
   },
   data () {
     // 这里存放数据
@@ -107,7 +101,6 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-
     async getSelect () {
       const res = await getCity()
       this.formGroup.areaList = res
@@ -119,6 +112,11 @@ export default {
     async queryPart () {
       const res = await queryPart({})
       this.formGroup.partNumList = res.data
+      if (localStorage.getItem('partNum')) {
+        this.form.partNum = localStorage.getItem('partNum')
+      } else {
+        this.form.partNum = this.formGroup.partNumList[0].partNum
+      }
     },
     async getTableList () {
       if (!this.form.supplierId && !this.form.partNum) {
@@ -138,10 +136,14 @@ export default {
     closeDiolog () {
       this.isDilog = false
       this.formModel = {}
+    },
+    hanldeChange (val) {
+      localStorage.setItem('partNum', val)
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
+    console.log(this.$store.state)
     this.getSelect()
     this.queryByParamsWithAuth([])
     this.queryPart()

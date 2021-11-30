@@ -153,14 +153,14 @@ export default {
         supplierToken: this.$route.query.supplierToken,
         taskId: this.$route.query.id,
         "bdlSaveList": [],
-        bdlType: 1
       }
       this.selectTableData.forEach((item) => {
         pms.bdlSaveList.push({
           stuffId: item.id,
           categoryId: item.categoryId,
           categoryCode: item.categoryCode,
-          categoryNameZh: item.categoryNameZh
+          categoryNameZh: item.categoryNameZh,
+          bdlType: 1
         })
       })
       const res = await submitBdl(pms)

@@ -142,7 +142,6 @@ export default {
       })
     },
     async saveInfos (step = '') {
-
       let p = 0
       this.tableListData.map(item => {
         if (item.contactType === '商务联系人') {

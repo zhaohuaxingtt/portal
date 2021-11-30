@@ -331,10 +331,11 @@ export default {
         query: {
           currentStep: 1,
           mtzAppId: val.id,
-          isView: (val.appStatus === 'NEW' || val.appStatus === 'NOTPASS') ? false : true
+          // isView: (val.appStatus === 'NEW' || val.appStatus === 'NOTPASS') ? false : true
         }
       })
-      window.open(routeData.href, '_blank')
+      window.open(routeData.href)
+      // window.open(routeData.href, '_blank')
     },
     // 选中table数据
     handleSelectionChange (val) {
