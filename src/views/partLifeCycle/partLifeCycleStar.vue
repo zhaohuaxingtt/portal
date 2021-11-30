@@ -464,10 +464,6 @@ export default {
     // 确认领养后
     sureClaimPart() {
       this.claimPartsShow = false
-      this.isEdit = false
-      this.defaultPartsList.map(item => {
-        item.isClaim = false
-      })
       if(this.isSearch) {
         this.getPartsCollect()
       } else {
