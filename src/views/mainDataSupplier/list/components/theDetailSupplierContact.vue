@@ -131,6 +131,7 @@ export default {
             designation,
             email,
             id,
+            telephoneAreaCode,
             nameZh,
             phoneH,
             remark
@@ -141,6 +142,7 @@ export default {
             designation,
             email,
             id,
+            telephoneAreaCode,
             nameZh,
             phoneH,
             remark
