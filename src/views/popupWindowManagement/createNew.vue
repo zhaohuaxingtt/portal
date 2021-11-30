@@ -123,7 +123,7 @@ export default {
                 const d = date.getDate()
                 const h = date.getHours()
                 const m = date.getMinutes()
-                time = `${y}年   ${M}月${d}日${h}时${m}分`
+                time = `${y}年${M}月${d}日 ${h}时${m}分`
             }else{
                 console.log(this.formData.publishPreTime);
                 const y = this.formData.publishPreTime.slice(0,4)
@@ -131,7 +131,7 @@ export default {
                 const d = this.formData.publishPreTime.slice(8,10)
                 const h = this.formData.publishPreTime.slice(11,13)
                 const m = this.formData.publishPreTime.slice(14,16)
-                time = `${y}年   ${M}月${d}日${h}时${m}分`
+                time = `${y}年${M}月${d}日 ${h}时${m}分`
             }
             this.show = true
             this.detail = {
@@ -145,7 +145,6 @@ export default {
             }
         },
         cutterRateSty(val){
-            console.log('====');
             this.cutterRate = val
         }
     }

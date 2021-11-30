@@ -165,9 +165,7 @@
               prop="type"
             >
               <template slot-scope="scope">
-                {{
-                  scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type
-                }}
+                {{ scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type }}
               </template>
             </el-table-column>
             <el-table-column align="center" width="30"></el-table-column>
@@ -713,7 +711,11 @@ import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
 import updateMeetingDialog from '../home/components/updateMeetingDialog.vue'
 import newSummaryDialog from './component/newSummaryDialog.vue'
-import { batchRecallMeeting, changeStateMeeting, importThemen } from '@/api/meeting/home'
+import {
+  batchRecallMeeting,
+  changeStateMeeting,
+  importThemen
+} from '@/api/meeting/home'
 import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
 import { download } from '@/utils/downloadUtil'
 import enclosure from '@/assets/images/enclosure.svg'
@@ -752,6 +754,7 @@ export default {
       // closeLoading: false,
       curState: '',
       processUrl: process.env.VUE_APP_POINT,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       buttonList,
       receiverId: '',
       selectedTableData: [],
@@ -1089,10 +1092,22 @@ export default {
         this.editOrAdd = 'look'
         this.lookThemenObj = themen
         if (themen.source === '04') {
-          window.open(
-            `${this.processUrl}/designate/decisiondata/mtz?desinateId=${themen.fixedPointApplyId}&isPreview=1`,
-            '_blank'
-          )
+          if (themen.type === 'FS+MTZ') {
+            window.open(
+              `${this.processUrl}/designate/decisiondata/mtz?desinateId=${themen.fixedPointApplyId}&isPreview=1`,
+              '_blank'
+            )
+          } else if (themen.type === 'MTZ') {
+            window.open(
+              `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${themen.fixedPointApplyId}`,
+              '_blank'
+            )
+          } else {
+            window.open(
+              `${this.processUrl}/designate/decisiondata/title?desinateId=${themen.fixedPointApplyId}&isPreview=1`,
+              '_blank'
+            )
+          }
         } else {
           this.openDialog('openAddTopicNewDialog')
         }
@@ -1308,7 +1323,7 @@ export default {
           if (isCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
-                { title: "撤回", methodName: "recall", disabled: true},
+                { title: '撤回', methodName: 'recall', disabled: true },
                 { title: '锁定', methodName: 'lock' },
                 { title: '开始', methodName: 'start' },
                 { title: '修改', methodName: 'edit' },
@@ -1320,7 +1335,7 @@ export default {
           if (isPreCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
-                { title: "撤回", methodName: "recall", disabled: true},
+                { title: '撤回', methodName: 'recall', disabled: true },
                 { title: '锁定', methodName: 'lock' },
                 { title: '开始', methodName: 'start' },
                 { title: '修改', methodName: 'edit' },
@@ -1657,7 +1672,7 @@ export default {
         })
       // });
     },
-    recall(){
+    recall() {
       let ids = []
       ids.push(this.$route.query.id)
       this.$confirm('是否撤回该会议 ？', '提示', {
@@ -1665,7 +1680,7 @@ export default {
         cancelButtonText: '否',
         type: 'warning'
       }).then(() => {
-        batchRecallMeeting( {ids} ).then((res) => {
+        batchRecallMeeting({ ids }).then((res) => {
           if (res.code == 200) {
             this.$message.success('撤回成功!')
             this.$router.go(-1)
