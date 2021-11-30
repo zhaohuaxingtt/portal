@@ -249,3 +249,11 @@ export const questionUnReplyCountApi = (selfOnly) => {
     }
   })
 }
+
+// 关闭问题
+export const closeQuestionApi = (questionId) => {
+  return assistantRequest({
+    url: `/assistantQuestion/closeQuestion/${questionId}`,
+    method: 'post'
+  })
+}
