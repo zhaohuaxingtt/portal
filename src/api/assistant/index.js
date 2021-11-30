@@ -229,3 +229,12 @@ export const answerQuestionApi = (data) => {
     data
   })
 }
+
+// 指派
+export const questionTransferApi = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestion/transfer',
+    method: 'POST',
+    data
+  })
+}

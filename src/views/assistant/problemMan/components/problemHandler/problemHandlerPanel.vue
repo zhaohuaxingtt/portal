@@ -130,7 +130,7 @@
         </div>
       </template>
     </div>
-    <dispatchDialog v-if="showDialog" :show.sync="showDialog" />
+    <dispatchDialog v-if="showDialog" :show.sync="showDialog" :questionId="cardSelectItem.id" />
     <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" />
   </div>
 </template>
