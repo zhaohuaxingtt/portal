@@ -504,6 +504,16 @@ export default {
 
       if (this.customSelection) {
         this.checkedAll = this.isDefaultCheckedAll
+        /********** 211130 判断是不是要半选顶部复选框 start ***************/
+        if (this.defaultCheckedKeys && !this.checkedAll) {
+          const checkedRootNums = this.data.filter((e) =>
+            this.defaultCheckedKeys.includes(e[this.rowKey])
+          )
+          if (checkedRootNums.length) {
+            this.indeterminateAll = true
+          }
+        }
+        /***************** end ****************************************/
       }
     },
     getTreeTableData(data, parentKey, res) {
@@ -541,6 +551,16 @@ export default {
             resItem.checked = false
           }
           resItem.isIndeterminate = false
+          /********** 211130 判断是不是要半选复选框 start ***************/
+          if (hasChild && resItem.childNum) {
+            const notCheckedNums = row[childrenKey].filter(
+              (e) => !this.defaultCheckedKeys.includes(e[this.rowKey])
+            ).length
+            if (notCheckedNums !== resItem.childNum) {
+              resItem.isIndeterminate = true
+            }
+          }
+          /***************** end ********************************/
           // 设置已选中值
           if (this.defaultSelectedRows) {
             if (this.defaultCheckedKeys.includes(row[this.rowKey])) {
