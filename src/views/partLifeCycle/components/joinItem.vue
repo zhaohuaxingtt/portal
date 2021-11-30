@@ -40,7 +40,7 @@
 <script>
 import { iDialog, iInput, iSelect, iMessage, iButton } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
-import { getFolderCombo, multipleAndCollect } from '@/api/partLifeCycle/partLifeCycleStar'
+import { getFolderCombo, multipleAndCollect, getTagList,insert } from '@/api/partLifeCycle/partLifeCycleStar'
 
 export default {
   mixins: [pageMixins],
@@ -58,7 +58,7 @@ export default {
       title: '',
       ids: [],
       folderName: '',
-      resData: {},
+      resData: [],
       saveLoading: false,
       contentLoading: false
 
@@ -70,38 +70,63 @@ export default {
   methods: {
     save() {
       this.saveLoading = true
-      multipleAndCollect({
-        folderName: this.folderName,
-        ids: this.ids,
-        partsNum: this.$route.query.partsNum
-      }).then(res => {
-        const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
-        if (Number(res.code) === 200) {
-          iMessage.success(result)
-          this.clearDiolog()
-        } else {
-          iMessage.error(result)
+      if(this.folderName) { // 新建标签
+        insert({folderName:this.folderName}).then(res => {
+          const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+          if (Number(res.code) === 200) {
+            iMessage.success(result)
+            this.clearDiolog()
+          } else {
+            iMessage.error(result)
+          }
+          this.saveLoading = false
+        }).catch(() => {
+          this.saveLoading = false
+        })
+      }else {
+        let partsFolderComboVOList = this.resData
+        partsFolderComboVOList.map(item => {
+          item.isThere = 1
+          item.isDelete = 1
+          this.ids.forEach(it => {
+            if(item.id == it) {
+              item.isDelete = 0
+              item.isThere = 0
+            }
+          })
+        })
+        let obj = {
+          partsNum:this.$route.query.partsNum,
+          partsFolderComboVOList
         }
-        this.saveLoading = false
-      }).catch(() => {
-        this.saveLoading = false
-      })
+        multipleAndCollect(obj).then(res => {
+          const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+          if (Number(res.code) === 200) {
+            iMessage.success(result)
+            this.clearDiolog()
+          } else {
+            iMessage.error(result)
+          }
+          this.saveLoading = false
+        }).catch(() => {
+          this.saveLoading = false
+        })
+      }
     },
     getFolderCombo() {
       this.contentLoading = true
-      this.ids = []
-      getFolderCombo().then(res => {
+      let partNum = this.$route.query.partsNum
+      getFolderCombo({partNum}).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.resData = res.data
           this.resData = this.resData.filter(item=> {
             return item.folderName!='我的收藏'
           })
-          if(this.resData.length) {
-            this.resData.forEach(item => {
-              this.ids.push(item.id)
-            })
-          }
+          this.ids = []
+          this.resData.forEach(item => {
+            this.ids.push(item.id)
+          })
         } else {
           iMessage.error(result)
         }
