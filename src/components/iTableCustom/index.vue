@@ -812,7 +812,8 @@ export default {
       )
       if (filterRow.length > 0) {
         filterRow[0].checked = val
-        this.handleCheckedRow(val, row)
+        // 1130修改资源权限
+        this.handleCheckedRow(val, { ...row, ...filterRow[0] })
       }
     },
     handleToggleSelectedAll(val) {
