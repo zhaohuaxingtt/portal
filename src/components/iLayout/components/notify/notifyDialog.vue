@@ -188,7 +188,7 @@ export default {
             width: 250px;
             padding: 5px;
             color: #1660F1;
-            border: solid rgb(229, 229, 229) 1px;
+            // border: solid rgb(229, 229, 229) 1px;
             .publishTime-content{
                 margin-left: 20px;
                 color: #1B1D21;
