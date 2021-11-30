@@ -56,5 +56,7 @@ export default [
     path: '/supplier/generalSupplierApprove',
     name: 'generalSupplierApprove',
     component: generalSupplierApprove
-  }
+  },
+
+
 ]

@@ -112,7 +112,8 @@ import {
   getAppFormInfo,
   modifyAppFormInfo,
   getFlowTypeList,
-  disassociate
+  disassociate,
+  fetchAppNomiDecisionDataPage
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 export default {
@@ -276,9 +277,29 @@ export default {
       this.disabled = false;
     },
     save () {
-      if (this.inforData.flowType == "SIGN"  && this.numIsNomi !== 0) {
+      if (this.inforData.flowType == "SIGN" && this.numIsNomi !== 0) {//流转
         return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZ', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转'))
       }
+      if (this.inforData.flowType == "FILING") {//备案
+        fetchAppNomiDecisionDataPage({
+          pageNo: 1,
+          pageSize: 10,
+          mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+        }).then(res => {
+          if(res && res.code == 200) {
+            if(res.data.length<1){
+              return iMessage.error(this.language('SQDLXWBASSPFJBNWK', '申请单类型为备案时，审批附件不能为空'))
+            }else{
+              this.saveEdit();
+            }
+          } else iMessage.error(res.desZh)
+        })
+      }
+      if(this.inforData.flowType == "MEETING"){
+        this.saveEdit();
+      }
+    },
+    saveEdit(){
       iMessageBox(this.language('QUERENBAOCUN', '确认保存？'), this.language('LK_WENXINTISHI', '温馨提示'), {
         confirmButtonText: this.language('QUEREN', '确认'),
         cancelButtonText: this.language('QUXIAO', '取消')
