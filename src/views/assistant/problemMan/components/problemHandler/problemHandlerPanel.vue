@@ -324,8 +324,12 @@ export default {
     // 点击卡片
     cardSelectHandler (item) {
       console.log(item,'当前');
+      this.editFormBtn = false;
       this.isReplyStatus = false
       this.cardSelectItem = item;
+      this.isDisabledModule = true;
+      this.isDisabledQuestion = true;
+      this.isDisabledLabel = true;
       this.queryDetailById(item.id);
     },
     // 上传文件回调
