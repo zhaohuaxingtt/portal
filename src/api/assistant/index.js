@@ -94,7 +94,6 @@ export function saveModules(data) {
   })
 }
 
-
 // 标签管理 查询问题模块列表
 export function queryModuleBySource(type) {
   return assistantRequest({
@@ -222,3 +221,11 @@ export const queryDetailByIdApi = (questionId) => {
   })
 }
 
+// 回复问题
+export const answerQuestionApi = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestion/answerQuestion',
+    method: 'POST',
+    data
+  })
+}

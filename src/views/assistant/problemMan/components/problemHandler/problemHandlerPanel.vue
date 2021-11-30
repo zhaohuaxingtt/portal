@@ -86,9 +86,8 @@
                 </el-col>
                 <el-col :span="8">
                   <iFormItem :label="$t('标签')">
-                    <!-- <iInput v-model="editForm.questionLableId" :disabled="isDisabledLabel"></iInput> -->
                     <iSelect v-model="editForm.questionLableId" filterable :disabled="isDisabledModule" >
-                      <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
+                      <el-option v-for="item in labelList" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
                     </iSelect>
                   </iFormItem>
                 </el-col>
@@ -142,7 +141,7 @@ import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
 import iEditor from '@/components/iEditor';
 import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
-import { getModuleListByUserTypeApi, queryProblemListApi ,queryDetailByIdApi,getCurrLabelList} from '@/api/assistant';
+import { getModuleListByUserTypeApi, queryProblemListApi ,queryDetailByIdApi,getCurrLabelList,answerQuestionApi} from '@/api/assistant';
 // 来源 inner:内部用户 supplier:供应商用户
 export default {
   props: {
@@ -206,6 +205,8 @@ export default {
         selfOnly: this.selfOnly ? 0 : 1,
       },
       questionDetail: {},
+      labelList: [],
+      uploadFileList: [],
     }
   },
   mounted () {
@@ -314,6 +315,7 @@ export default {
       const response = await getCurrLabelList(moduleId);
       if (response?.code === '200') {
         console.log(response.data);
+        this.labelList = response.data;
       } else {
         console.error('根据模块id查询标签失败');
       }
@@ -328,6 +330,7 @@ export default {
     // 上传文件回调
     getFilesList(fileList) {
       console.log(fileList, '上传文件');
+      this.uploadFileList = fileList;
     },
     replyHandler () {
       this.isReplyStatus = true
@@ -345,8 +348,45 @@ export default {
         this.$message.error('关闭失败');
       })
     },
-    sendMessageHandler () { },
-    sendAndCloseHandler () { },
+    async answerQuestion(hasClosed) {
+      console.log(this.uploadFileList);
+      if (!this.uploadFileList.length) {
+        this.$message.error('请上传附件');
+      }
+      if (!this.replyContent) {
+        this.$message.error('请填写回复内容');
+      }
+      const attachmentList = this.uploadFileList.map(item => {
+        return {
+          fileName: item.name,
+          fileUrl: item.path,
+        };
+      });
+      const data = {
+        attachmentList,
+        content: this.replyContent,
+        // 是否关闭 0：否 1：是
+        hasClosed,
+        questionId: this.cardSelectItem.id,
+      };
+      console.log(data);
+      const response = await answerQuestionApi(data);
+      if (response?.code === '200') {
+        this.$message.success(response.desZh);
+        this.isReplyStatus = false;
+      } else {
+        this.$message.error('保存失败');
+      }
+    },
+    // 回复
+    sendMessageHandler () { 
+      // answerQuestionApi
+      this.answerQuestion(0);
+    },
+    // 回复和关闭
+    sendAndCloseHandler () { 
+      this.answerQuestion(1);
+    },
     // 点击编辑按钮
     editHandler () {
       if (Object.is(this.currentCategoryItem, 'finished')) {
