@@ -8,32 +8,17 @@
     <el-form label-position="left" label-width="100px">
       <el-row :gutter="20">
         <el-col :span="12">
-          <iFormItem :label="language('审批备注')" v-if="form.remark">
-            <iInput
-              :value="form.remark || '无'"
-              type="textarea"
-              :rows="5"
-              disabled
-            />
+          <iFormItem :label="language('审批备注')">
+            <div>{{ form.remark || '无' }}</div>
           </iFormItem>
-          <!-- <iFormItem :label="language('审批事项')">
-            <iInput
-              v-model="form.itemEvent"
-              type="textarea"
-              :rows="textareaRows"
-              disabled
-            />
-          </iFormItem> -->
         </el-col>
         <el-col :span="12">
           <iFormItem :label="language('附件')">
-            <iInput
-              :value="'无'"
-              type="textarea"
-              :rows="5"
-              disabled
+            <div
               v-if="!form.procAttachments || form.procAttachments.length === 0"
-            />
+            >
+              无
+            </div>
             <div v-else class="attach-area">
               <attachmentList :data="form.procAttachments || []" icon />
             </div>

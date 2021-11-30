@@ -3,8 +3,9 @@
     <div class="page-header margin-bottom20">
       <div class="font18 font-weight">
         {{ form.itemName }}
-        <span class="business-id">{{ form.businessId }}</span>
         <span class="item-event">{{ form.itemEvent }}</span>
+        <span class="business-id">{{ form.businessId }}</span>
+
         ({{ form.stateMsg }})
       </div>
       <div class="operation-btn">
@@ -400,10 +401,10 @@ export default {
 #flow-form {
   width: 100%;
 }
-.business-id {
+.item-event {
   margin: 0px 20px;
 }
-.item-event {
+.business-id {
   margin-right: 20px;
 }
 </style>
