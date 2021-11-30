@@ -480,8 +480,7 @@ export default {
     },
     scrollGetData(e){
       const { scrollTop, clientHeight, scrollHeight } = e.target
-      // console.log('~~(scrollTop + clientHeight)', Math.ceil(scrollTop + clientHeight), scrollHeight)
-      if(Math.ceil(scrollTop + clientHeight) >= scrollHeight){
+      if(~~(scrollTop + clientHeight) === scrollHeight){
         this.leftLoading = true
         this.showLoading()
         this.current++

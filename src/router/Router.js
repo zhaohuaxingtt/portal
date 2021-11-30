@@ -41,6 +41,7 @@ import RouterColorParts from './RouterColorParts'
 
 import RouterApplications from './applications'
 import ApproveDetails from '@/views/generalPage/approveDetails/preview'
+import RouterPublicOpinionDetection from '@/router/RouterPublicOpinionDetection'
 
 export default {
   routes: [
@@ -178,7 +179,8 @@ export default {
         ...RouterNews,
         ...RouterSurvey,
         ...RouterColorParts,
-        ...RouterApplications
+        ...RouterApplications,
+        ...RouterPublicOpinionDetection
       ]
     },
 
