@@ -52,6 +52,8 @@
 					:currentMoudleId="currentMoudleId"
 					:currMoudleName="currMoudleName"
 					:queryProblemList="queryProblemList"
+					:moudleList="moudleList"
+					@changeCurrValue="changeCurrValue"
 					@handleQuestion="handleQuestion"
 					@handleZwQues="handleZwQues"
 					@putAdminTw="putAdminTw"
@@ -59,8 +61,13 @@
 			</div>
 		</div>
 		<div class="flex flex-row content mt20" v-else>
-			<QuestionList />
-			<QuestionDetail 
+			<QuestionList 
+				:currentMoudleId="currentMoudleId ? currentMoudleId : this.$store.state.baseInfo.originalModuleId"
+				:moudleList="moudleList"
+				@selectQues="selectQues"
+			/>
+			<QuestionDetail
+				ref="questionDetail"
 				@handleZwQues="handleZwQues"
 				@handleQuestion="handleQuestion"
 			/>
@@ -80,7 +87,7 @@
 			:questioningVisible="questioningVisible"
 			:questioningTitle="questioningTitle"
 			:questionAnswerContent="questionAnswerContent"
-			:currentMoudleId="currentMoudleId"
+			:currentMoudleId="currentMoudleId ? currentMoudleId : this.$store.state.baseInfo.originalModuleId"
 			:currLabelId="currLabelId"
 			:zwFlag="zwFlag"
 			@closeQuesDialog="closeQuesDialog"
@@ -198,7 +205,6 @@ export default {
 		tabChange(val) {
 			this.helpMoudle = val
 			this.moudleList.map(item => {
-				console.log(item, this.currentMoudleId, "this.currentMoudleId")
 				if(item.menuId === this.currentMoudleId) {
 					this.currMoudleName = item.menuName
 				}
@@ -250,7 +256,7 @@ export default {
 		gotoProblemDeatil(issue, fromPage) {
 			this.intelligentVisible = false
 			this.helpMoudle = 'problem'
-			this.currentMoudleId = 785 || issue.questionModuleId
+			this.currentMoudleId = issue.questionModuleId
 			this.$nextTick(() => {
 				this.$refs.problemDetail.initDetailPage(issue)
 			})
@@ -265,6 +271,7 @@ export default {
 				this.getManauContent()
 			} else if (this.helpMoudle === 'problem') {
 				this.$nextTick(() => {
+					this.$refs.problemDetail.currentFlag = 'listPage'
 					this.$refs.problemDetail.getLabelList()
 				})
 			} else {
@@ -290,6 +297,14 @@ export default {
 					})
 				}
 			})
+		},
+		changeCurrValue(id, name) {
+			this.currentMoudleId = id
+			if (name) this.currMoudleName = name
+		},
+		selectQues(list) {
+			console.log(list, '====')
+			this.$refs.questionDetail.getCurrQuesDetail()
 		}
 	}
 }

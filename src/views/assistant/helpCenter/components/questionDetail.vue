@@ -31,6 +31,7 @@
 
 <script>
 import { iButton } from 'rise';
+import { queryDetailByIdApi } from '@/api/assistant'
 export default {
 	name: 'QuestionDetail',
 	components: {
@@ -71,6 +72,9 @@ export default {
 		handleQuestion() {
 			console.log('打开智能弹窗')
 			this.$emit('handleQuestion')
+		},
+		getCurrQuesDetail() {
+			console.log('111112222')
 		}
 	}
 }

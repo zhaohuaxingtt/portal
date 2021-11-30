@@ -130,7 +130,7 @@
         </div>
       </template>
     </div>
-    <dispatchDialog v-if="showDialog" :show.sync="showDialog" />
+    <dispatchDialog v-if="showDialog" :show.sync="showDialog" :questionId="cardSelectItem.id" />
     <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" />
   </div>
 </template>
@@ -286,6 +286,7 @@ export default {
     },
     changeSelfHandle(val) {
       this.queryProblemList(this._queryForm({selfOnly: val ? 1 : 0, pageNum:1}));
+      this.$emit('changeSelfHandle', val ? 1 : 0);
     },
     keyWordBlurHandle() {
       this.queryProblemList(this._queryForm({keyWord: this.keyWord, pageNum:1}));
@@ -323,8 +324,12 @@ export default {
     // 点击卡片
     cardSelectHandler (item) {
       console.log(item,'当前');
+      this.editFormBtn = false;
       this.isReplyStatus = false
       this.cardSelectItem = item;
+      this.isDisabledModule = true;
+      this.isDisabledQuestion = true;
+      this.isDisabledLabel = true;
       this.queryDetailById(item.id);
     },
     // 上传文件回调

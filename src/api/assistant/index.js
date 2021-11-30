@@ -56,17 +56,15 @@ export function queryFaqByPage(data) {
   return assistantRequest({
     url: `/assistantFaq/findByPage`,
     method: 'POST',
-    data: data
+    data
   })
 }
 
 // 点赞的常见问题点赞量+1
-export function updateFavour(data) {
-  console.log(data, '1111111')
+export function updateFavour(id) {
   return assistantRequest({
-    url: '/assistantFaq/updateFavour',
-    method: 'POST',
-    data
+    url: `/assistantFaq/updateFavour/${id}`,
+    method: 'GET'
   })
 }
 
@@ -152,10 +150,10 @@ export function saveKeyword(data) {
   })
 }
 // 根据问题的id 查询问题的详细信息及附件列表
-export function getProblemDetail(id) {
+export function getProblemDetail(data) {
   return assistantRequest({
-    url: `/assistantFaq/queryFaqDetail/${id}`,
-    method: 'GET'
+    url: `/assistantFaq/queryFaqDetail?id=${data.id}`,
+    method: 'POST'
   })
 }
 
@@ -221,11 +219,39 @@ export const queryDetailByIdApi = (questionId) => {
   })
 }
 
+// 我的提问分页查询接口
+export function getMineQuesList(data) {
+  return assistantRequest({
+    url: '/assistantQuestion/pageForMyQuestion',
+    method: 'POST',
+    data
+  })
+}
 // 回复问题
 export const answerQuestionApi = (data) => {
   return assistantRequest({
     url: '/assistantQuestion/answerQuestion',
     method: 'POST',
     data
+  })
+}
+
+// 指派
+export const questionTransferApi = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestion/transfer',
+    method: 'POST',
+    data
+  })
+}
+
+// 获取问答处理未读个数
+export const questionUnReplyCountApi = (selfOnly) => {
+  return assistantRequest({
+    url: '/assistantQuestion/queryUnReplyQuestionCount',
+    method: 'GET',
+    params: {
+      selfOnly
+    }
   })
 }
