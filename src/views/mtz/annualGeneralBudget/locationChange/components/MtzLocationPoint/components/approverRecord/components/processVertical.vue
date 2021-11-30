@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 14:32:30
- * @LastEditTime: 2021-11-08 17:14:17
+ * @LastEditTime: 2021-11-29 19:48:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\components\processVertical.vue
@@ -148,34 +148,41 @@ export default {
     getDetail () {
       this.loading = true
       if (this.instanceId) {
-        const params = {
-          processInstanceId: this.instanceId,
-          currentUserId: this.$store.state.permission.userInfo.id
+        try {
+          const params = {
+            processInstanceId: this.instanceId,
+            currentUserId: this.$store.state.permission.userInfo.id
+          }
+          queryWorkflowDetail(params)
+            .then(res => {
+              const { data } = res
+              this.panorama = data.panorama || []
+              this.detail = data
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        } catch (err) {
+          this.loading = false
         }
-        queryWorkflowDetail(params)
-          .then(res => {
-            const { data } = res
-            this.panorama = data.panorama || []
-            this.detail = data
-            this.loading = false
-          })
-          .catch(() => {
-            this.loading = false
-          })
       }
       if (this.epmsId) {
-        // const params = { id: '1000000002', "isDeptLead": true }
-        const params = { id: this.epmsId, "isDeptLead": true }
-        approvalStatus(params)
-          .then(res => {
-            const { data } = res
-            this.panorama = data.epmsApprovalFlow || []
-            this.detail = data
-            this.loading = false
-          })
-          .catch(() => {
-            this.loading = false
-          })
+        try {
+          const params = { id: this.epmsId, "isDeptLead": true }
+          approvalStatus(params)
+            .then(res => {
+              const { data } = res
+              this.panorama = data.epmsApprovalFlow || []
+              this.detail = data
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        } catch (err) {
+          this.loading = false
+        }
       }
     },
     getUserName (user) {
