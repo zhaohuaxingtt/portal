@@ -75,14 +75,16 @@
     <theTabs ref="theTabs"
              @isNomiNumber="isNomiNum"
              @handleReset="handleReset"
-             v-if="!beforReturn"
+             v-if="beforReturn"
              :appStatus='inforData.appStatus'
              :flowType="inforData.flowType">
     </theTabs>
     <theDataTabs ref="theDataTabs"
-                 v-if="!beforReturn"
+                 v-if="beforReturn"
                  :appStatus='inforData.appStatus'
-                 :flowType="inforData.flowType">
+                 :flowType="inforData.flowType"
+                 :inforData="inforData"
+                 >
     </theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
@@ -128,6 +130,7 @@ export default {
   },
   data () {
     return {
+      beforReturn:false,
       getFlowTypeList: [],
       mtzAddShow: false,
       disabled: true,
@@ -228,6 +231,9 @@ export default {
 
         this.inforData.appName = res.data.appName
         this.inforData.flowType = res.data.flowType
+
+      }).then(res=>{
+        this.beforReturn = true;
       })
     },
     getsyncAuther () {
