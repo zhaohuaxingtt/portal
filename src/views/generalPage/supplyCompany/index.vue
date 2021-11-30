@@ -112,10 +112,7 @@ export default {
                 isExistList.push(e)
               }
             })
-            console.log(isExistList)
-              console.log(isExistList.length == 0)
             if (isExistList.length == 0) {
-                console.log(111)
               this.selectTableData.forEach((res) => {
                 if (res.companyCode == '9000' || res.companyCode == '8000') {
                   data.push(res)
@@ -170,7 +167,7 @@ export default {
           }
           saveSupplierProcureFactory(req).then((res) => {
             if (res && res.code == 200) {
-              this.getTableList()
+              this.getTableList(1)
               iMessage.success(res.desZh)
             } else iMessage.error(res.desZh)
           })
