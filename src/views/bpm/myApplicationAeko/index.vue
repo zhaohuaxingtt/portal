@@ -13,6 +13,7 @@
     <searchForm :finished="finished" @search="search" />
     <iCard>
       <i-table-custom
+        :key="finished.toString()"
         :loading="tableLoading"
         :data="tableListData"
         :columns="tableTitle"
@@ -75,6 +76,11 @@ export default {
       this.finished = isFinished
       this.page.currPage = 1
       this.form = { ...dataSearchForm }
+      if (isFinished) {
+        this.tableTitle = tableTitle.filter((e) => e.type !== 'selection')
+      } else {
+        this.tableTitle = tableTitle
+      }
       this.getTableList()
     },
     //表格选中值集
@@ -115,7 +121,7 @@ export default {
       }
       this.tableLoading = true
       queryApplications(params, data)
-        .then(res => {
+        .then((res) => {
           this.tableLoading = false
           const { current, size, total, records } = res.data
           this.page.currPage = current

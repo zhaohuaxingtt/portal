@@ -407,4 +407,9 @@ export default {
 .business-id {
   margin-right: 20px;
 }
+.operation-btn {
+  flex-grow: 1;
+  min-width: 350px;
+  text-align: right;
+}
 </style>

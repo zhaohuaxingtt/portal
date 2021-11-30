@@ -65,10 +65,6 @@ export default {
       },
       tableTitle: [
         {
-          type: 'selection',
-          width: 50
-        },
-        {
           prop: 'businessId',
           label: '单据编号',
           i18n: '单据编号',
