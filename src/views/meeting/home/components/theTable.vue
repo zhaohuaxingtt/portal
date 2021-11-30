@@ -322,7 +322,7 @@
                 @click="actionObj('begin')(scope.row.id)"
               >
                 <!-- <img class="begin-vedio" :src="beginVedio" alt="" srcset="" /> -->
-                <span>>{{$t('MT_KAISHI')}}</span>
+                <span>{{$t('MT_KAISHI')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -330,7 +330,7 @@
                 @click="actionObj('lock')(scope.row.id)"
               >
                 <!-- <img class="lock" :src="openLock" alt="" srcset="" /> -->
-                <span>>{{$t('MT_SUODING')}}</span>
+                <span>{{$t('MT_SUODING')}}</span>
                 <span class="line">|</span>
               </p>
               <p

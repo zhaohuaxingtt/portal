@@ -802,7 +802,7 @@ export default {
       this.getMtzCailiao();
     },
     add () {//新增
-      if (this.flowType == "MEETING") {
+      if (this.flowType !== "SIGN") {
         this.addDialog = true;
         var list = [];
         this.tableData.forEach(e => {
@@ -816,7 +816,7 @@ export default {
         })
         this.dataObject = list;
       } else {
-        iMessageBox(this.language('XZMTZYCLGZSSQDLXBNWLZBAJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ', '新增MTZ原材料规则时，申请单类型不能为流转/备案，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+        iMessageBox(this.language('XZMTZYCLGZSSQDLXBNWLZJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ', '新增MTZ原材料规则时，申请单类型不能为流转，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'), this.language('LK_WENXINTISHI', '温馨提示'), {
           confirmButtonText: this.language('QUEREN', '确认'),
           cancelButtonText: this.language('QUXIAO', '取消')
         }).then(res => {
