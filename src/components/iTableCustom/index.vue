@@ -504,6 +504,15 @@ export default {
 
       if (this.customSelection) {
         this.checkedAll = this.isDefaultCheckedAll
+        // 211130 判断是不是要半选顶部复选框
+        if (this.defaultCheckedKeys && !this.checkedAll) {
+          const checkedRootNums = this.data.filter((e) =>
+            this.defaultCheckedKeys.includes(e[this.rowKey])
+          )
+          if (checkedRootNums.length) {
+            this.indeterminateAll = true
+          }
+        }
       }
     },
     getTreeTableData(data, parentKey, res) {
@@ -541,6 +550,15 @@ export default {
             resItem.checked = false
           }
           resItem.isIndeterminate = false
+          if (hasChild && resItem.childNum) {
+            // 没有选中的项 20211130
+            const notCheckedNums = row[childrenKey].filter(
+              (e) => !this.defaultCheckedKeys.includes(e[this.rowKey])
+            ).length
+            if (notCheckedNums !== resItem.childNum) {
+              resItem.isIndeterminate = true
+            }
+          }
           // 设置已选中值
           if (this.defaultSelectedRows) {
             if (this.defaultCheckedKeys.includes(row[this.rowKey])) {
