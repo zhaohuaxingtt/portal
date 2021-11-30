@@ -10,7 +10,7 @@
 			<iSelect
 				class="select-style"
 				:placeholder="language('请选择...')"
-				v-model="queryParam.questionModuleId"
+				v-model="questionModuleId"
 				@change="searchQuestion"
 			>
 				<el-option
@@ -23,18 +23,18 @@
 			</iSelect>
 		</div>
 		<div class="search-list">
-			<el-card class="card mb20 cursor" v-for="(list, idx) in questionList" :key="idx" @click="handleQuestion(list, idx)" :shadow="selectedCardId === idx ? 'always' : 'never'">
+			<div class="card mb20 cursor" v-for="(list, idx) in questionList" :key="idx" @click="handleQuestion(list, idx)" :class="selectedCardId === idx ? 'selected' : ''">
 				<div class="flex flex-row justify-between list-top">
           <div class="title">{{ list.questionTitle }}</div>
-          <div class="status" :class="list.status === 'unreply' ? 'unreply-text' : list.status === 'reply' ? 'reply-text' : 'finish-text'">
-            {{ list.status === 'unreply' ? '未答复' : list.status === 'reply' ? '已答复' : '已完成' }}
+          <div class="status" :class="list.questionStatus === 'unreply' ? 'unreply-text' : list.questionStatus === 'reply' ? 'reply-text' : 'finish-text'">
+            {{ list.questionStatus === 'unreply' ? '未答复' : list.questionStatus === 'reply' ? '已答复' : '已完成' }}
           </div>
         </div>
         <div class="flex flex-row mt20 justify-between gray-color">
           <div class="label">{{ list.moudleName }}</div>
           <div>{{ list.timeDate }}</div>
         </div>
-			</el-card>
+			</div>
 		</div>
 	</div>
 </template>
@@ -86,14 +86,25 @@ export default {
 		},
 		searchQuestion() {
 			this.getQuesList()
+		},
+		getCurrModuleName(id) {
+			this.moudleList.map(item => {
+				if (item.menuId === id) {
+					return item.menuName
+				} else {
+					return '示例名称'
+				}
+			})
 		},	
 		async getQuesList() {
 			await getMineQuesList(this.queryParam).then((res) => {
 				console.log(res, "11122333")
 				if (res?.code === '200') {
+					this.$emit('selectQues', res?.data?.records?.[0] || {})
 					this.questionList = res?.data?.records || []
 					this.questionList.map(item => {
 						item.timeDate = moment(item.updateDate).format('YYYY-MM-DD')
+						item.moudleName = this.getCurrModuleName(item.questionLableId) || '示例名称'
 					})
 				}
 			})
@@ -134,6 +145,8 @@ export default {
 			margin-top: 10px;
 			overflow-y: auto;
 			.card {
+				padding: 20px;
+				border-bottom: 1px dotted rgba(112, 112, 112, 0.14901960784313725);
 				.list-top {
 					.title {
 						color: #000000;
@@ -164,5 +177,11 @@ export default {
 				}
 			}
 		}
+	}
+	.selected {
+		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16);
+		border-radius: 2px;
+		background: #F8F9FA;
+		border: 1px solid #E5E5E5;
 	}
 </style>

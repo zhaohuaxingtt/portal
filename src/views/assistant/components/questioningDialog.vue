@@ -11,22 +11,22 @@
 	>
 		<div v-if="zwFlag">
 			<div class="zw-box">
-				<div class="ques">
+				<!-- <div class="ques">
 					{{ questioningTitle }}
-				</div>
-				<div class="ask">
-					{{ questionAnswerContent }}
+				</div> -->
+				<div class="ask" v-for="(item) in questionAnswerContent.replyQuestionList" :key="item.id">
+					<div v-html="item.content"></div>
 				</div>
 			</div>
 			<div class="te-text">{{ language('提问') }}</div>
 		</div>
 		<div class="editor-box" v-if="!zwFlag">
 			<iInput
-              type="textarea"
-              :rows="6"
-              v-model="askContent"
-			  resize="none"
-            ></iInput>
+        type="textarea"
+        :rows="6"
+        v-model="askContent"
+				resize="none"
+      ></iInput>
 		</div>
 		<iEditor v-else ref="iEditor" v-model="askContent" />
 		<div class="attach-box flex flex-column">
@@ -65,7 +65,7 @@ export default {
 		},
 		questionAnswerContent: {
 			type: String,
-			default: ''
+			default: () => {}
 		},
 		currentMoudleId: {
 			type: Number,

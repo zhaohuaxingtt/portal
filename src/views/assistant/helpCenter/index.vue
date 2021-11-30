@@ -304,7 +304,7 @@ export default {
 		},
 		selectQues(list) {
 			console.log(list, '====')
-			this.$refs.questionDetail.getCurrQuesDetail()
+			this.$refs.questionDetail.getCurrQuesDetail(list || {})
 		}
 	}
 }
