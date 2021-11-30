@@ -255,3 +255,12 @@ export const questionUnReplyCountApi = (selfOnly) => {
     }
   })
 }
+
+//  新增追问内容
+export const submitAwContent = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestionReplyEntity/newQuestionAsk',
+    method: 'POST',
+    data
+  })
+}

@@ -46,7 +46,7 @@
 import { iDialog, iButton, iInput } from 'rise'
 import AttachmentDownload from './attachmentDownload'
 import iEditor from '@/components/iEditor'
-import { submitQuestion } from "@/api/assistant"
+import { submitQuestion, submitAwContent } from "@/api/assistant"
 export default {
 	name: 'questioningDialog',
 	components:{ iDialog, AttachmentDownload, iButton, iEditor, iInput },
@@ -104,7 +104,26 @@ export default {
 		sendMessage() {
 			if (this.zwFlag) {
 				// 追问提交问题
-				console.log("====")
+				console.log(this.questionAnswerContent, "====")
+				let list = []
+				if (this.fileList.length > 0) {
+					this.fileList.map(item => {
+						list.push({
+							fileName: item.name,
+							fileUrl: item.path,
+							bizType: '',
+							bizId: 0
+						})
+					})
+				}
+				let params = {
+					replyContent: this.askContent,
+					questionId: this.questionAnswerContent.id,
+					list
+				}
+				submitAwContent(params).then((res) => {
+					console.log(res, "111122233")
+				})
 			} else {
 				// 提问提交问题
 				this.assistantQuestionDTO.questionLableId = this.currLabelId 
@@ -150,8 +169,9 @@ export default {
 	}
 	.te-text {
 		margin-top: 70px;
+		margin-bottom: 40px;
 		color: #131523;
-		font-size: 16px;
+		font-size: 20px;
 	}
 	.editor-box {
 		margin-top: 30px;

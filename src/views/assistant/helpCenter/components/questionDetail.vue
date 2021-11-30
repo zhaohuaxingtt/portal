@@ -15,7 +15,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="solution-box" v-show="currQuesInfo.replyQuestionList.length > 0">
+	<div class="solution-box">
 		<div class="good-box flex flex-row items-center justify-center cursor" @click="good">
 			<img src="@/assets/images/good.png" alt="" class="icon-png">
 			<div class="good-text">已解决</div>
