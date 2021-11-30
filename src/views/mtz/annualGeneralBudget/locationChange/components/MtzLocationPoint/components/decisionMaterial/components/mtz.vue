@@ -156,7 +156,7 @@
              class="headBox">
           <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
           <span class="buttonBox">
-            <iButton v-if="RsObject"
+            <iButton v-if="RsObject && formData.appStatus == '草稿'"
                      @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
           </span>
         </div>
