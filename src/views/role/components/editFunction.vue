@@ -132,7 +132,7 @@ export default {
           }
         }
       } else {
-        this.resourceList = val
+        this.detail.resourceList = val
       }
     },
     async saveResource() {
@@ -140,7 +140,7 @@ export default {
       const data = {
         ...this.detail,
         menuList: treeToArray(menuList, 'menuList'),
-        resourceList: this.resourceList || this.detail.resourceList
+        resourceList: this.detail.resourceList
       }
       delete data.permissionList
       this.loading = true
