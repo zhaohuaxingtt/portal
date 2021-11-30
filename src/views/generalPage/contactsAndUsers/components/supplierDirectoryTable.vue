@@ -68,7 +68,8 @@ export default {
       const res = await getDictByCode('SUPPLIER_CODE_TYPE')
       res.data[0].subDictResultVo.forEach((item) => {
         this.tableListData.push({
-          nameType: item.name
+          nameType: item.name,
+          code: item.code
         })
       })
     },
@@ -85,16 +86,16 @@ export default {
       }
       const res = await selectContacts(pms, this.supplierType)
       this.tableLoading = false
-
       let cust = [...this.tableListData]
       res.data.forEach((item, x) => {
         this.tableListData.map((val, index) => {
-          if (item.contactType === val.contactType) {
-            cust.splice(index, 1, item)
+          if (item.contactType === val.code) {
+            cust[index] = { ...item, ...val }
           }
         })
       })
       this.tableListData = cust
+      console.log(this.tableListData)
     },
     handleSelectionChange (e) {
       this.selectTableData = e
