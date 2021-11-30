@@ -7,15 +7,15 @@
 	<div class="title-des flex items-center mt20">{{ title }}</div>
 	<div class="label mt20">{{ moudleName }}</div>
 	<div class="ques-box flex flex-column">
-		<div v-for="(ques, idx) in aqlist" :key="idx" class="item-ques flex flex-row">
-			<div class="item-who"> {{ques.type===0?'管理员':'我'}} </div>
+		<div v-for="(ques, idx) in chatList" :key="idx" class="item-ques flex flex-row">
+			<div class="item-who"> {{ques.replyType==='reply'?'管理员':'我'}} </div>
 			<div class="desc-box">
 				<div class="desc">{{ ques.content }}</div>
-				<div class="date">{{ ques.date }}</div>
+				<div class="date">{{ ques.createDate }}</div>
 			</div>
 		</div>
 	</div>
-	<div class="solution-box ">
+	<div class="solution-box">
 		<div class="good-box flex flex-row items-center justify-center cursor" @click="good">
 			<img src="@/assets/images/good.png" alt="" class="icon-png">
 			<div class="good-text">已解决</div>
@@ -31,6 +31,8 @@
 
 <script>
 import { iButton } from 'rise';
+import { queryDetailByIdApi, judgeFavour, updateFavour } from '@/api/assistant'
+import moment from 'moment'
 export default {
 	name: 'QuestionDetail',
 	components: {
@@ -38,40 +40,65 @@ export default {
 	},
 	data() {
 		return {
-			title: '如何配置工艺组？',
+			title: '',
 			moudleName: '主数据管理',
-			aqlist: [
-				// 0 为管理员 1 为我
-				{
-					type: 0,
-					content: '一个材料组可关联多个工艺组，如果该工艺组为Heavy iTem，则引用此工艺组 的材料组为Heavy Item',
-					date: '2021-10-28 16:20:12'
-				},
-				{
-					type: 1,
-					content: '那我进入零件材料组，点击新建后…',
-					date: '2021-10-28 16:20:12'
-				},
-				{
-					type: 0,
-					content: '那我进入零件材料组，点击新建后…',
-					date: '2021-10-28 16:20:12'
-				}
-			]
+			chatList: [],
+			currQuesFavourFlag: false,  //  当前问题是否点赞
+			currQuestionId: null,  //  当前问题id
+			currQuesInfo: null  //  当前问题的全部信息
 		}
 	},
 	methods: {
 		good() {
-			console.log('已解决 接口处理')
+			if (this.currQuesFavourFlag) return  // 已对该问题点赞
+			updateFavour(this.currQuestionId).then((res) => {
+				console.log(res, '11111')
+			})
 		},
 		bad() {
 			console.log('未解决 打开追问 并带信息')
-			this.$emit('handleZwQues', this.title)
+			this.$emit('handleZwQues', this.title, this.currQuesInfo)
 		},
 		handleQuestion() {
 			console.log('打开智能弹窗')
 			this.$emit('handleQuestion')
-		}
+		},
+		async getCurrQuesDetail(list) {
+			this.currQuestionId = list.id
+			this.title = list.questionTitle
+			await this.getJudgeFavour()
+			this.getQuesDetail(list.id)
+		},
+		async getQuesDetail(id) {
+			if (!id) return
+			await queryDetailByIdApi(id).then((res) => {
+				if (res?.code === '200') {
+					const { data } = res
+					this.currQuesInfo = data
+					this.dealData(data?.replyQuestionList || [], data?.questionTitle, data?.createDate )
+				}
+			})
+		},
+		dealData(replyList, questionTitle, createDate) {
+			let list = []
+			if (questionTitle && createDate) {
+				list.push({
+					content: questionTitle,
+					createDate: moment(createDate).format('YYYY-MM-DD'),
+					replyType: 'question'
+				})
+			}
+			if (replyList.length > 0) list = [...list, ...replyList]
+			this.chatList = list
+		},
+		// 获取该用户是否给该问题点赞
+		async getJudgeFavour() {
+			await judgeFavour({ faqId: this.currQuestionId || 3 }).then((res) => {
+				if (res?.code === '200') {
+					this.currQuesFavourFlag = res?.data
+				}
+			})
+		},
 	}
 }
 </script>

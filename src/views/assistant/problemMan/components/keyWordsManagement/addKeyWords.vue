@@ -10,7 +10,7 @@
     <el-row gutter='24'>
       <el-col :span='24'>
         <iFormItem :label='language("关键词")' prop="keyWord">
-          <iInput v-model="form.keyWord" :placeholder='language("请输入")'></iInput>
+          <iInput v-model="form.keyWord" @keydown.native.enter="sure" :placeholder='language("请输入")'></iInput>
         </iFormItem>
       </el-col>
     </el-row>

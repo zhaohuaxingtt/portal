@@ -56,17 +56,15 @@ export function queryFaqByPage(data) {
   return assistantRequest({
     url: `/assistantFaq/findByPage`,
     method: 'POST',
-    data: data
+    data
   })
 }
 
 // 点赞的常见问题点赞量+1
-export function updateFavour(data) {
-  console.log(data, '1111111')
+export function updateFavour(id) {
   return assistantRequest({
-    url: '/assistantFaq/updateFavour',
-    method: 'POST',
-    data
+    url: `/assistantFaq/updateFavour/${id}`,
+    method: 'GET'
   })
 }
 
@@ -86,10 +84,10 @@ export function queryModuleList(type) {
   })
 }
 // 模块管理 保存模块信息
-export function saveModules(data) {
+export function saveModules(data,source) {
   return assistantRequest({
-    url: `/assistantModuleEntity/saveModules`,
-    method: 'GET',
+    url: `/assistantModuleEntity/saveModules?source=${source}`,
+    method: 'post',
     data
   })
 }
@@ -152,10 +150,10 @@ export function saveKeyword(data) {
   })
 }
 // 根据问题的id 查询问题的详细信息及附件列表
-export function getProblemDetail(id) {
+export function getProblemDetail(data) {
   return assistantRequest({
-    url: `/assistantFaq/queryFaqDetail/${id}`,
-    method: 'GET'
+    url: `/assistantFaq/queryFaqDetail?id=${data.id}`,
+    method: 'POST'
   })
 }
 
@@ -221,6 +219,14 @@ export const queryDetailByIdApi = (questionId) => {
   })
 }
 
+// 我的提问分页查询接口
+export function getMineQuesList(data) {
+  return assistantRequest({
+    url: '/assistantQuestion/pageForMyQuestion',
+    method: 'POST',
+    data
+  })
+}
 // 回复问题
 export const answerQuestionApi = (data) => {
   return assistantRequest({
@@ -255,5 +261,13 @@ export const closeQuestionApi = (questionId) => {
   return assistantRequest({
     url: `/assistantQuestion/closeQuestion/${questionId}`,
     method: 'post'
+  })
+}
+//  新增追问内容
+export const submitAwContent = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestionReplyEntity/newQuestionAsk',
+    method: 'POST',
+    data
   })
 }

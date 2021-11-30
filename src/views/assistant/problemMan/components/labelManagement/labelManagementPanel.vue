@@ -31,13 +31,8 @@ export default {
   },
   methods: {
     async queryModuleBySource(){
-      try {
-        this.loading = true
-        let res = await queryModuleBySource(this.getUserType())
-        this.moduleList = res.data
-      } finally {
-        this.loading = false
-      }
+      let res = await queryModuleBySource(this.getUserType())
+      this.moduleList = res.data
     },
     confirmSearch(formData) {
       this.$refs.searchTable.search(formData)
