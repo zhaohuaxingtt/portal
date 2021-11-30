@@ -290,7 +290,7 @@ export default {
         ...par
       }
       this.supplierId = pms.supplierId
-      // this.onDataLoading = true;
+      this.onDataLoading = true;
       this.ntierChains = []
       const res = await cardChain(pms)
       this.flat(res.data)
