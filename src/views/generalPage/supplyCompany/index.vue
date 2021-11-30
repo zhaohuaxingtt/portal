@@ -93,7 +93,7 @@ export default {
     handleSelectionChange(val) {
       this.selectTableData = val
     },
-    async getTableList() {
+    async getTableList(val) {
       this.tableLoading = true
       const req = {
         supplierToken: this.$route.query.supplierToken
@@ -103,17 +103,19 @@ export default {
         this.tableListData = res.data ? res.data : []
 
         this.tableLoading = false
-        if (this.tableListData.isSelect) {
+        if (this.tableListData.isSelect && val != 1) {
           this.$nextTick(() => {
             this.tableListData.procureFactoryList.forEach((e) => {
               this.$refs.mulitipleTable.toggleRowSelection(e, true)
             })
           })
         } else {
-          this.tableListData.procureFactoryList.forEach((e) => {
-            if (e.isExist) {
-              this.$refs.mulitipleTable.toggleRowSelection(e, true)
-            }
+          this.$nextTick(() => {
+            this.tableListData.procureFactoryList.forEach((e) => {
+              if (e.isExist) {
+                this.$refs.mulitipleTable.toggleRowSelection(e, true)
+              }
+            })
           })
         }
       } catch {
@@ -155,7 +157,7 @@ export default {
           })
         })
     },
-   selectable(val) {
+    selectable(val) {
       if (this.tableListData.isSelect) {
         if (val.companyCode == '9000' || val.companyCode == '8000') {
           return false
