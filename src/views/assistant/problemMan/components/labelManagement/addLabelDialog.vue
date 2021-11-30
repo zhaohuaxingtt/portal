@@ -44,7 +44,7 @@ export default {
       visible: false,
       newLabelForm: {
         lableName:'',
-        moduleId:'123'
+        moduleId:''
       },
       newLabeRules: {
         lableName:{required:'true',message:"请输入标签内容",trigger:'blur'},
