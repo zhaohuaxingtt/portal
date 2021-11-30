@@ -928,12 +928,12 @@ export default {
       let param
       if (val) {
         param = {
-          roleCode: 'MEETINGADMIN',
+          roleCode: process.env.VUE_APP_ROLE_CODE,
           nameZh: val
         }
       } else {
         param = {
-          roleCode: 'MEETINGADMIN',
+          roleCode: process.env.VUE_APP_ROLE_CODE,
           nameZh: ''
         }
       }
