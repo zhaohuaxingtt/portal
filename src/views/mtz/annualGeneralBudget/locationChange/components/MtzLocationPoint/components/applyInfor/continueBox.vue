@@ -97,9 +97,9 @@
         <template slot="thresholdCompensationLogic" slot-scope="scope">
           <span>{{scope.row.thresholdCompensationLogic=="A"?"全额补差":scope.row.thresholdCompensationLogic=="B"?"超额补差":""}}</span>
         </template>
-        <!-- <template slot="thresholdCompensationLogic" slot-scope="scope">
-          <span>{{scope.row.thresholdCompensationLogic=="A"?"全额补差":scope.row.thresholdCompensationLogic=="B"?"超额补差":""}}</span>
-        </template> -->
+        <template slot="compensationPeriod" slot-scope="scope">
+          <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+        </template>
     </tableList>
     <iPagination @size-change="handleSizeChange($event, getTableList)"
                    @current-change="handleCurrentChange($event, getTableList)"

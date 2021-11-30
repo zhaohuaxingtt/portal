@@ -354,14 +354,10 @@
                     </iFormItem>
                   </el-col>
                   <el-col :span="6" class="Col-Three">
-                    <p
-                      style="
-                            white-space: nowrap; 
-                          "
-                    >
+                    <p style="white-space: nowrap">
                       <span
                         class="DepartmentLogoTipSuffix"
-                        style="zoom: 0.85; line-height: 28px; color: red;"
+                        style="zoom: 0.85; line-height: 28px; color: red"
                       >
                         {{
                           $t(
@@ -391,9 +387,8 @@
                 <el-row
                   class="OrgOptionFromFive"
                   :gutter="appearance.itemSpace"
-                  v-if="isEdit"
                 >
-                  <el-col :span="12" class="Col-One">
+                  <el-col :span="12" class="Col-One" v-if="isEdit">
                     <el-popover
                       ref="hover"
                       placement="right"
@@ -487,6 +482,20 @@
                       </iFormItem>
                     </el-popover>
                   </el-col>
+                  <el-col :span="6" class="Col-Three">
+                    <iFormItem
+                      :label="language('成本中心')"
+                      :label-width="appearance.labelWidth"
+                      class="Col-ThreeItem"
+                    >
+                      <iInput
+                        :placeholder="
+                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
+                        "
+                        v-model="formCommitData.costCenterId"
+                      ></iInput>
+                    </iFormItem>
+                  </el-col>
                 </el-row>
               </el-form>
             </div>
@@ -496,7 +505,7 @@
                   @click="incrementDimension"
                   :disabled="
                     table.extraData.dimensionLeftMenu == null ||
-                      table.extraData.dimensionLeftMenu.length == 0
+                    table.extraData.dimensionLeftMenu.length == 0
                   "
                 >
                   {{ $t('ORGANIZATION_MANAGERMENT.ORG_CREATE.INCREMENT_BTN') }}
@@ -570,7 +579,7 @@ export default {
   },
   methods: {
     trueBtnClick() {
-      this.$refs.orgForm.validate(valid => {
+      this.$refs.orgForm.validate((valid) => {
         if (valid) {
           if (this.isEdit) {
             //编辑组织
@@ -612,7 +621,7 @@ export default {
       data.append('currentUserId', this.$store.state.permission.userInfo.id)
       data.append('currentUser', this.$store.state.permission.userInfo.userName)
       return uploadFileWithNOTokenTwo(data)
-        .then(val => {
+        .then((val) => {
           if (val) {
             let commitData = { ...this.formCommitData }
             commitData.logoName = val.name
@@ -627,7 +636,7 @@ export default {
             return false
           }
         })
-        .catch(error => {
+        .catch((error) => {
           iMessage.error('上传文件失败', error)
           return false
         })
@@ -654,13 +663,13 @@ export default {
     decrementDimension() {
       //删除维度
       if (this.isEdit) {
-        this.table.tableListData = this.table.tableListData.filter(value => {
+        this.table.tableListData = this.table.tableListData.filter((value) => {
           return this.selectDimensionRows.indexOf(value) < 0
         })
       } else {
         //删除维度
         // console.log(this.table.tableListData);
-        this.table.tableListData = this.table.tableListData.filter(value => {
+        this.table.tableListData = this.table.tableListData.filter((value) => {
           return this.selectDimensionRows.indexOf(value) < 0
         })
       }
@@ -670,13 +679,13 @@ export default {
       let param = this.formCommitData
       let dimensions = []
       for (let item of this.table.tableListData) {
-        let newSelects = item.optionsSelect.filter(val => {
+        let newSelects = item.optionsSelect.filter((val) => {
           return item.rightSelect.indexOf(val.valueId) > -1
         })
         /* newSelects = newSelects.map(val => {
           return { valueId: parseInt(val.valueId), value: val.value }
         }) */
-        newSelects = newSelects.map(val => {
+        newSelects = newSelects.map((val) => {
           return { valueId: val.valueId, value: val.value }
         })
         let obj = { id: item.leftSelect, valueList: newSelects }
@@ -698,7 +707,7 @@ export default {
       }
       this.loading = true
       createOrganization(null, param)
-        .then(value => {
+        .then((value) => {
           this.loading = false
           if (value.code == 200) {
             //创建成功
@@ -726,13 +735,13 @@ export default {
       let dimensions = []
       for (let item of this.table.tableListData) {
         if (item.optionsSelect && item.optionsSelect.length > 0) {
-          let newSelects = item.optionsSelect.filter(val => {
+          let newSelects = item.optionsSelect.filter((val) => {
             return item.rightSelect.indexOf(val.valueId) > -1
           })
           /* newSelects = newSelects.map(val => {
             return { valueId: parseInt(val.valueId), value: val.value }
           }) */
-          newSelects = newSelects.map(val => {
+          newSelects = newSelects.map((val) => {
             return { valueId: val.valueId, value: val.value }
           })
           let obj = { id: item.leftSelect, valueList: newSelects }
@@ -757,7 +766,7 @@ export default {
       param.id = this.$route.params.id //调试使用
       this.loading = true
       editOrganization(null, param)
-        .then(value => {
+        .then((value) => {
           this.loading = false
           if (value.code == 200) {
             //编辑成功
@@ -806,7 +815,7 @@ export default {
       } else {
         let param = { keys: 'ORG_LEVEL' }
         orgLevelListData(param, null)
-          .then(value => {
+          .then((value) => {
             // orgLevelList
             if (value.code == 200) {
               Vue.set(this, 'orgLevelList', value.data.ORG_LEVEL)
@@ -823,7 +832,7 @@ export default {
       if (parentID != null && parentID != '0') {
         let param = { parentId: parentID }
         parentOrgDimensionList(param)
-          .then(value => {
+          .then((value) => {
             if (value.code == 200) {
               Vue.set(this.table.extraData, 'dimensionLeftMenu', value.data)
               // console.log("=====", this.table.extraData.dimensionLeftMenu);
@@ -833,7 +842,7 @@ export default {
           .catch(() => {})
       } else {
         orgDimensionList(null, {})
-          .then(value => {
+          .then((value) => {
             if (value.code == 200) {
               Vue.set(this.table.extraData, 'dimensionLeftMenu', value.data)
               // console.log("=====", this.table.extraData.dimensionLeftMenu);
@@ -848,11 +857,12 @@ export default {
       // let value = null
       let param = { id: this.$route.params.id }
       searchOrganizationByID(param, null)
-        .then(value => {
+        .then((value) => {
           this.loading = false //关闭提示状态
           if (value.code == 200) {
             let obj = value.data
             let commitData = {}
+            commitData.costCenterId = obj.costCenterId
             commitData.superDeptId = obj.superDeptId
             commitData.subDeptId = obj.subDeptId
             commitData.fullCode = obj.fullCode
@@ -882,7 +892,7 @@ export default {
             if (obj.permissionDTOList.length > 0) {
               let newDimension = []
               for (let item of obj.permissionDTOList) {
-                let idList = item.valueList.map(value => {
+                let idList = item.valueList.map((value) => {
                   return value.valueId.toString()
                 })
                 let obj = {
@@ -962,11 +972,11 @@ export default {
         this.formCommitData.parentId == null ||
         this.formCommitData.parentId == '0'
       ) {
-        return this.orgLevelList.filter(val => {
+        return this.orgLevelList.filter((val) => {
           return val.name == 'K0'
         })
       } else {
-        return this.orgLevelList.filter(val => {
+        return this.orgLevelList.filter((val) => {
           return val.name != 'K0'
         })
       }
@@ -974,7 +984,7 @@ export default {
   },
   created() {},
   beforeRouteEnter(to, from, next) {
-    next(vm => {
+    next((vm) => {
       //初始化路由数据
       vm.pageInit()
 

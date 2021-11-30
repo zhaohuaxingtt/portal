@@ -242,6 +242,8 @@ export default {
       div.style.lineHeight = '16px'
       div.style.fontSize = '12px'
       div.innerHTML = this.item.content || ''
+      div.style.whiteSpace='pre-wrap';
+      div.style.wordBreak='break-all'
       document.body.append(div)
       const divRows = div.clientHeight / 16
       this.rows = divRows
