@@ -4,6 +4,7 @@
       <div class="font18 font-weight">
         {{ form.itemName }}
         <span class="business-id">{{ form.businessId }}</span>
+        <span class="item-event">{{ form.itemEvent }}</span>
         ({{ form.stateMsg }})
       </div>
       <div class="operation-btn">
@@ -401,5 +402,8 @@ export default {
 }
 .business-id {
   margin: 0px 20px;
+}
+.item-event {
+  margin-right: 20px;
 }
 </style>
