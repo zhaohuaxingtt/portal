@@ -453,6 +453,7 @@ export default {
   mounted() {
     this.getSeletes()
     this.defaultParts()
+    console.log('this.$refs.partLifeCycleStar', this.$refs.partLifeCycleStar);
     if(this.$refs.partLifeCycleStar)
     this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.scrollGetData); //this.setHeadPosition方法名
   },
@@ -483,7 +484,7 @@ export default {
     },
     scrollGetData(e){
       const { scrollTop, clientHeight, scrollHeight } = e.target
-      if((scrollTop + clientHeight) === scrollHeight){
+      if((scrollTop + clientHeight) == scrollHeight){
         this.leftLoading = true
         this.showLoading()
         this.current++

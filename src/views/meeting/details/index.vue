@@ -4,7 +4,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">会议名称</div>
+            <div class="name">{{$t('会议名称')}}</div>
             <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
@@ -34,13 +34,13 @@
         <div class="row">
           <div class="list">
             <div class="show">
-              <div class="title">会议类型</div>
+              <div class="title">{{$t('会议类型')}}</div>
               <div class="content">
                 {{ typeObject[meetingInfo.meetingTypeId] }}
               </div>
             </div>
             <div class="show">
-              <div class="title">会议地点</div>
+              <div class="title">{{$t('会议地点')}}</div>
               <div
                 class="content content-address"
                 :title="meetingInfo.meetingPlace"
@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="show">
-              <div class="title">会议时间</div>
+              <div class="title">{{$t('会议时间')}}</div>
               <div class="content">
                 {{ `${begin}${end.includes(':') ? end : ''}` }}
               </div>
@@ -387,8 +387,8 @@
           :page-sizes="page.pages"
           :page-size="page.pageSize"
           layout="prev, pager, next"
-          prev-text="上一页"
-          next-text="下一页"
+          :prev-text="$t('上一页')"
+          :next-text="$t('下一页')"
           :total="page.totalCount"
         />
       </iCard>
@@ -468,7 +468,7 @@
       </div>
     </importThemens> -->
     <updateFile
-      title="导入议题"
+      :title="$t('导入议题')"
       :maxSize="10"
       :fileNum="1"
       :open="dialogStatusManageObj.openImportTopicDialog"
@@ -482,7 +482,7 @@
     >
       <div class="title-down-demo" @click="downDemo">
         <img :src="enclosure" alt="" srcset="" />
-        <span>下载模版</span>
+        <span>{{$t('下载模版')}}</span>
       </div>
     </updateFile>
     <updateMeetingDialog

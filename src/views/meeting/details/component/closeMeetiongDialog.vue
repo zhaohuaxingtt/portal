@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="关闭会议"
+    :title="$t('关闭会议')"
     :visible.sync="openCloseMeeting"
     width="23.75rem"
     :close-on-click-modal="false"
@@ -22,7 +22,7 @@
               <iLabel :label="$t('是否触发审批')" slot="label"></iLabel>
               <iSelect
                 v-model="isOrNot"
-                placeholder="请选择"
+                :placeholder="$t('请选择')"
                 @change="changeTriggerApproval"
                 :disabled="row.isTriggerApproval === 'false'"
               >
@@ -43,7 +43,7 @@
               <iLabel :label="$t('审批流程')" slot="label"></iLabel>
               <iSelect
                 v-model="rowState.approvalProcessId"
-                placeholder="请选择"
+                :placeholder="$t('请选择')"
                 :disabled="isOrNot === 'false'"
               >
                 <el-option
@@ -73,20 +73,20 @@
                 class="upload-button"
                 :uploadLoading="uploadLoading"
               >
-                请选择文件
+                {{ $t('请选择文件') }}
                 <span class="upload-text"><img :src="uploadIcon" /></span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">文件大小最大限制10MB</div>
+              <div slot="tip" class="el-upload__tip">{{$t('文件大小最大限制')}}10MB</div>
             </el-upload>
           </iFormItem>
         </el-row>
         <div class="button-list">
           <el-form-item>
             <iButton @click="handleClose" plain class="cancel"
-              >{{ '取消' }}
+              >{{ $t('取消') }}
             </iButton>
             <iButton @click="handleSubmit" plain :loading="loading">{{
-              '确认'
+              $t('确认')
             }}</iButton>
           </el-form-item>
         </div>
