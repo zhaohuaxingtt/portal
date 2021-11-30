@@ -1,6 +1,8 @@
 <!--
- * @version: 1.0
- * @Author: caopeng
+ * @Date: 2021-11-23 15:29:59
+ * @LastEditors: caopeng
+ * @LastEditTime: 2021-11-29 13:39:42
+ * @FilePath: \front-portal-new\src\views\frmRating\supplierOverview\components\cRatingRouter.vue
 -->
 <template>
   <div >
@@ -11,10 +13,9 @@
               '供应商询价定点情况'
             )}}
           </p>
-          <el-button slot="header-control"
+          <iButton slot="header-control"
           v-if="$route.query.isSupplier!=1"
-               type="primary"
-               @click="$emit('back')">{{$t('LK_FANHUI')}}</el-button>
+               @click="$emit('back')">{{$t('LK_FANHUI')}}</iButton>
       </div>
     
     <el-tabs class="tabsHeader"

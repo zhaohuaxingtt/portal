@@ -4,20 +4,20 @@
       <!--第一行-->
       <el-row>
         <!--会议名称-->
-        <el-form-item :label="'会议名称'" class="meeting-name-item">
+        <el-form-item :label="$t('MT_HUIYIMINGCHENG')" class="meeting-name-item">
           <iInput
             :placeholder="$t('LK_QINGSHURU')"
             v-model="form.name"
           ></iInput>
         </el-form-item>
-        <el-form-item :label="'会议地点'" class="meeting-name-item">
+        <el-form-item :label="$t('MT_HUIYIDIDIAN')" class="meeting-name-item">
           <iInput
             :placeholder="$t('LK_QINGSHURU')"
             v-model="form.meetingPlace"
           ></iInput>
         </el-form-item>
         <!--会议类型-->
-        <el-form-item :label="'会议类型'">
+        <el-form-item :label="$t('MT_HUIYILEIXING')">
           <iSelect
             :placeholder="$t('LK_QINGXUANZE')"
             v-model="form.meetingType"
@@ -35,7 +35,7 @@
       </el-row>
       <el-row>
         <!--状态-->
-        <el-form-item :label="'状态'" class="LastSearchOption">
+        <el-form-item :label="$t('MT_ZHUANGTAI')" class="LastSearchOption">
           <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.states">
             <el-option value="" :label="$t('all')"></el-option>
             <el-option
@@ -53,17 +53,17 @@
           @change-start="changeStart"
           @change-end="changeEnd"
           ref="iDateRangePicker"
-          label="会议日期"
+          :label="$t('MT_HUIYIRIQI')"
         />
         <!-- 周次 -->
-        <el-form-item :label="'周次'" class="LastSearchOption">
+        <el-form-item :label="$t('MT_ZHOUCI')" class="LastSearchOption">
           <iSelect
             filterable
-            @keyup.native="keyUp"
             :placeholder="$t('LK_QINGXUANZE')"
             v-model="form.weekOfYears"
             :multiple="true"
             :collapse-tags="true"
+            onkeypress='return( /[\d]/.test(String.fromCharCode(event.keyCode)))'
           >
             <el-option
               :value="item.value"
@@ -181,9 +181,9 @@ export default {
     }
   },
   methods: {
-    keyUp(e) {
-      e.target.value = e.target.value.replace(/[^\d]/g, '')
-    },
+    // keyUp(e) {
+    //   e.target.value = e.target.value.replace(/[^\d]/g, '')
+    // },
     handleSearchReset() {
       this.form = {}
       this.weekList = weekListInit

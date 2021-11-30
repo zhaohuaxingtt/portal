@@ -19,7 +19,7 @@
       <div class="opration">
         <!-- && ttNominateAppId !== '' -->
         <iButton @click="submit"
-                 :disabled="appStatus !== '草稿' || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
+                 :disabled="appStatus == '草稿' || appStatus == '未通过' || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
         <iButton @click="downRS">{{ language('DAOCHURS', '导出RS') }}</iButton>
       </div>
     </div>

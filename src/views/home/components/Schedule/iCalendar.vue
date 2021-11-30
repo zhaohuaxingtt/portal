@@ -212,5 +212,8 @@ export default {
     opacity: 1 !important;
     color: #cbd5e0 !important;
   }
+  .vc-nav-item:focus{
+    border-color:transparent !important;
+  }
 }
 </style>

@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-27 14:47:25
- * @LastEditors: zbin
+ * @LastEditors: caopeng
  * @Descripttion: 供应商询价定点情况
 -->
 <template>
@@ -77,7 +77,6 @@ export default {
           icon: 'circle',
           orient: 'vertical',
           right: 0,
-          top: 0,
           textStyle: {
             fontSize: 10,
             color: '#909091'
@@ -89,7 +88,7 @@ export default {
           trigger: 'axis'
         },
         grid: {
-          top: '18%',
+          top: '26%',
           bottom: '10%%',
           right: '0%',
           left: '10%'
@@ -128,6 +127,30 @@ export default {
           }
         },
         series: [
+                     {
+            name: this.language(
+              'CRatingWEIZAIBAOJIAGONGYINGSHANG',
+              'C-Rating未在报价中供应商'
+            ),
+            data: data2,
+            type: 'bar',
+            //    barGap: '-100%',
+            barWidth: 50,
+            // zlevel:1000,
+               stack:'使用情况',
+            label: {
+              show: true,
+              position: 'inside',
+              color: '#fff'
+            },
+            itemStyle: {
+              normal: {
+                fontSize: 12,
+                // barBorderRadius: [5, 5, 0, 0],
+                color: '#5B91FA' //改变折线点的颜色
+              }
+            }
+          },
           {
             name: this.language(
               'CRatingZHENGZAIBAOJIAGONGYINGSHANG',
@@ -135,7 +158,9 @@ export default {
             ),
             data: data1,
             type: 'bar',
-            barGap: '-100%',
+            // barGap: '-100%',
+            // zlevel:100,
+               stack:'使用情况',
             barWidth: 50,
             label: {
               show: true,
@@ -153,27 +178,7 @@ export default {
               }
             }
           },
-          {
-            name: this.language(
-              'CRatingWEIZAIBAOJIAGONGYINGSHANG',
-              'C-Rating未在报价中供应商'
-            ),
-            data: data2,
-            type: 'bar',
-            barWidth: 50,
-            label: {
-              show: true,
-              position: 'inside',
-              color: '#fff'
-            },
-            itemStyle: {
-              normal: {
-                fontSize: 12,
-                barBorderRadius: [5, 5, 0, 0],
-                color: '#5B91FA' //改变折线点的颜色
-              }
-            }
-          }
+ 
         ]
       }
       myChart.setOption(this.option)

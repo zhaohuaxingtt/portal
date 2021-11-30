@@ -453,6 +453,7 @@ export default {
   mounted() {
     this.getSeletes()
     this.defaultParts()
+    console.log('this.$refs.partLifeCycleStar', this.$refs.partLifeCycleStar);
     if(this.$refs.partLifeCycleStar)
     this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.scrollGetData); //this.setHeadPosition方法名
   },
@@ -464,10 +465,6 @@ export default {
     // 确认领养后
     sureClaimPart() {
       this.claimPartsShow = false
-      this.isEdit = false
-      this.defaultPartsList.map(item => {
-        item.isClaim = false
-      })
       if(this.isSearch) {
         this.getPartsCollect()
       } else {
@@ -483,7 +480,7 @@ export default {
     },
     scrollGetData(e){
       const { scrollTop, clientHeight, scrollHeight } = e.target
-      if((scrollTop + clientHeight) === scrollHeight){
+      if((scrollTop + clientHeight) == scrollHeight){
         this.leftLoading = true
         this.showLoading()
         this.current++

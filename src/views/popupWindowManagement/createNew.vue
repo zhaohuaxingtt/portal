@@ -4,7 +4,7 @@
             <div class="header">
                 <!-- <pageHeader class="title">{{language('弹窗管理')}}</pageHeader> -->
                 <div>
-                    <iButton @click="saveClick">{{language('发布')}}</iButton>
+                    <iButton @click="save" :disabled='isClicked'>{{language('发布')}}</iButton>
                     <iButton @click="reset">{{language('重置')}}</iButton>
                     <iButton @click="preview">{{language('预览')}}</iButton>
                 </div>
@@ -42,7 +42,8 @@ export default {
             picUrl:'',
             instance:'',
             cutterRate:0,
-            timer:null
+            timer:null,
+            isClicked:false
         }
     },
     methods:{
@@ -85,6 +86,7 @@ export default {
                 supplierIds,
             }
             if(newLeftSave){
+                this.isClicked = true
                 savePopup(data).then((res)=>{
                 if(res.code == 200){
                     this.$message.success('发布成功')
@@ -104,7 +106,7 @@ export default {
             if(this.timer !== null) clearTimeout(this.timer)
             this.timer = setTimeout(() => {
                 this.save()
-            }, 1000);
+            }, 3000);
         },
         preview(){
             const formData = this.$refs.newLeft.formData()

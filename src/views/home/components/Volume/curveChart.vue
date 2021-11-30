@@ -112,7 +112,8 @@ export default {
             formatter: function (value) {
               return value + 'k'
             },
-            show: false
+            show: false,
+            rotate:-30
           },
           axisLine: {
             lineStyle: {
@@ -143,7 +144,8 @@ export default {
             }
           },
           axisLabel: {
-            show: false
+            show: false,
+            rotate:-30
           }
         },
         /* visualMap: {
@@ -253,7 +255,7 @@ export default {
           this.createYline(this.cpLineData, this.cpLineData[1])
         ],
         grid: {
-          top: 65,
+          top: 94,
           left: 60,
           right:66
         }
@@ -275,7 +277,9 @@ export default {
               color: '#7E84A3',
               formatter() {
                 return zeroData + 'K'
-              }
+              },
+              rotate:35,
+              fontSize:10
             }
           }
         ],
@@ -300,7 +304,9 @@ export default {
               color: '#7E84A3',
               formatter() {
                 return zeroData
-              }
+              },
+              rotate:35,
+              fontSize:10
             }
           }
         ],

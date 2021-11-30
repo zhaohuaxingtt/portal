@@ -104,6 +104,7 @@
                   v-model="ruleForm.category"
                   placeholder="请选择"
                   value-key="id"
+                  @change="selectChanged"
                   :disabled="
                     selectedTableData[0]
                       ? selectedTableData[0].name === 'Pre CSC' ||
@@ -188,8 +189,8 @@
                 >
                   <el-option
                     v-for="item in ruleForm.category == '02'
-                      ? conclusionConfigList2
-                      : conclusionConfigList3"
+                      ? conclusionConfigList3
+                      : conclusionConfigList2"
                     :key="item.id"
                     :label="item.name"
                     :value="item.id"
@@ -664,9 +665,7 @@ export default {
         isTriggerApproval: [
           { required: true, message: '必选', trigger: ['blur', 'change'] }
         ],
-        userIds: [
-          { required: true, message: '必选', trigger: ['blur', 'change'] }
-        ],
+        userIds: [{ required: true, message: '必选', trigger: ['blur'] }],
         category: [
           { required: true, message: '必选', trigger: ['blur', 'change'] }
         ]
@@ -731,30 +730,6 @@ export default {
         {
           id: '01',
           name: '待定'
-        },
-        {
-          id: '02',
-          name: '定点'
-        },
-        {
-          id: '03',
-          name: '发LOI'
-        },
-        {
-          id: '04',
-          name: '转TER/TOP-TER'
-        },
-        {
-          id: '05',
-          name: '下次Pre CSC'
-        },
-        {
-          id: '06',
-          name: '转CSC'
-        },
-        {
-          id: '07',
-          name: '关闭'
         },
         {
           id: '08',
@@ -824,7 +799,8 @@ export default {
   },
   mounted() {
     if (this.editOrAdd === 'edit') {
-      this.selectedTableData[0].incidenceRelation = this.selectedTableData[0].incidenceRelation.split(',')
+      this.selectedTableData[0].incidenceRelation =
+        this.selectedTableData[0].incidenceRelation.split(',')
       const userIdsArr = this.selectedTableData[0].userIds
         ? this.selectedTableData[0].userIds.split(',')
         : []
@@ -941,6 +917,9 @@ export default {
     }
   },
   methods: {
+    selectChanged() {
+      this.ruleForm.conclusionConfig = ''
+    },
     async queryEdit(userIdsArr) {
       const res = await getUsers({ userIdList: [...userIdsArr] })
       return res.data

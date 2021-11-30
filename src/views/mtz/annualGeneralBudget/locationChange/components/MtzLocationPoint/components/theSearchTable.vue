@@ -566,7 +566,7 @@ export default {
             throw new Error("EndIterative");
           }
           if (e.flowType == "MEETING") {
-            if (e.appStatus == "SUBMIT" || e.appStatus == "NOTPASS") {
+            if (e.appStatus == "SUBMIT" || e.appStatus == "NOTPASS") {////////////////////////////////////////////
             }else{
               num++;
               iMessage.warn(this.language('SHLXQZTWTJHWTGCKYCH', '上会类型且状态为提交（会议未锁定）或未通过才可以撤回'))

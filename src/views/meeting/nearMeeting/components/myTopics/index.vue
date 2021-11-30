@@ -1,7 +1,7 @@
 
 <template>
   <div class="card">
-    <div class="header">我的议题</div>
+    <div class="header">{{$t('我的议题')}}</div>
     <!-- <iCard class="my-topics-all">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="未完成" name="first">
@@ -13,12 +13,12 @@
       </el-tabs>
     </iCard> -->
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="未完成" name="first">
+      <el-tab-pane :label="$t('未完成')" name="first">
         <iCard class="my-topics-all">
           <unfinish />
         </iCard>
       </el-tab-pane>
-      <el-tab-pane label="已完成" name="second">
+      <el-tab-pane :label="$t('已完成')" name="second">
         <iCard class="my-topics-all">
           <finished />
         </iCard>
