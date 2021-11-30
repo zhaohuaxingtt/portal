@@ -21,7 +21,7 @@
             v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
             >
             <el-tooltip
-                content="文件大小不超过20MB"
+                :content="language('WENJIANDAXIAOBUCHAOGUO20MB','文件大小不超过20MB')"
                 placement="top"
             >
                 <iButton>{{language('SHANGCHUANFUJIAN', '上传附件')}}</iButton>
