@@ -253,3 +253,19 @@ export function getPartsCollect(data) {
   })
 }
 
+// 获取默认文件夹
+export function getDefaultInfo() {
+  return VUE_APP_PARTSFOLDER({
+    url: '/getDefaultInfo',
+    method: 'GET',
+  })
+}
+
+// 标签下拉框查询
+export function getTagList(params) {
+  return VUE_APP_PARTSFOLDER({
+    url: '/getFolderCombo',
+    method: 'GET',
+    params: params
+  })
+}

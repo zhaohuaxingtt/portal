@@ -13,6 +13,12 @@ export default {
   components: {
     notifyDialog
   },
+  // props:{
+  //   login:{
+  //     type:String,
+  //     default:''
+  //   }
+  // },
   data() {
     return {
       showDialog: false,
@@ -25,84 +31,21 @@ export default {
       popupDataList: [],
       closeItemList: [],
       closePopupSocket: null,
-      handelClick:[],
-      iniTimes:0,//0
-      iniPopupData:[],
-      showItems:0,//5
-      detaliData:{}
+      timer:null
     }
   },
   mounted() {
+    
     this.closePopupSocket = getgetPopupSocketMessage((res) => {
-      // let _this = this
-      const data = res.msgTxt
-      if(this.popupDataList.length > 4){
-        this.popupDataList.splice(0,1)
-        this.popupDataList.push(data) 
-      }else{
-        this.popupDataList.push(data) 
-      }
-      this.clearNotify()
-
-      // if(this.showItems < 5){
-      //   this.showItems++
-      // }else{
-      //   while(this.handelClick.includes(this.iniTimes)){
-      //       this.iniTimes++
-      //   }
-      //     this.closeItemList[this.iniTimes].type ='automatic' 
-      //     this.closeItemList[this.iniTimes].notify.close()
-          
-      //     this.iniTimes++
-      // }
-      // if (data.type ==4  && data.subType == 5) {
-      //   const index = _this.closeItemList.length 
-      //     this.closeItemList.push ( 
-      //       {'notify':this.$notify({
-      //       duration: 0,
-      //       dangerouslyUseHTMLString: true,
-      //       message: `<div style='display: flex;justify-content: space-between;cursor:pointer;'>
-      //                         <div class="popupLeft" style='width:50px;height:50px; '>
-      //                             <img src="${
-      //                              JSON.parse(data.param).picUrl || '/portal/static/img/popupPic.f3ff87ac.png'
-      //                             }" style='width:100%;height:100%; border-radius: 50%;'>
-      //                         </div>
-      //                         <div class="popupRight" style='position:relative;margin-left:20px'>
-      //                             <p class='${data.linkUrl && 'linkTitle'}'
-      //                             style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;height:100%
-      //                             width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;;'
-      //                             >
-      //                             ${data.title}
-      //                             </p>
-      //                             <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
-      //                             >${data.content}</p>
-      //                         </div>
-      //                         </div>`,
-      //       position: 'bottom-right',
-      //       onClick() {
-      //         _this.openDialog(index)
-      //       },
-      //       onClose(isautomatic){
-      //         _this.closeItemList.splice(index,1)
-      //         _this.handelClick.push(index)
-      //           if(isautomatic.type == 'automatic'){
-      //             _this.showItems > 5 ? _this.showItems-- : ''
-      //           }else{
-      //             _this.showItems--
-      //             _this.getLatest()
-      //           }
-      //       }
-      //     }),
-      //     'times':0
-      //     })
-      // }
+      this.debounce(3000)
     })
   },
   beforeDestroy() {
     this.closePopupSocket()
   },
   created(){
-    this.getLatest('init')
+    this.getLatest()
+    
   },
   methods: {
     openDialog(index) {
@@ -135,94 +78,30 @@ export default {
         }
       })
     },
-    getLatest(init){
-      // console.log('sssss',this.closeItemList);
-      // if(this.closeItemList.length != 0){
-        
-      //   this.closeItemList.forEach((ele)=>{
-      //     console.log('ele',ele);
-      //     // if(ele.times == 0){
-      //       ele.notify.close()
-      //     // }
-      //   })
-        this.closeItemList = []
-      //   this.iniTimes = 0
-      //   this.showItems = 0
-        // this.popupDataList = []
-      //   this.handelClick = []
-      // }
+    //防抖
+    debounce(delay){
+      if(this.timer !== null) clearTimeout(this.timer)
+      this.timer = setTimeout(()=>{
+        this.iniNotify('pushNew')
+      },delay)
+      
+    },
+    getLatest(){
+
+      console.log(this.closeItemList, this.popupDataList, '====')
       const accountId = JSON.parse(sessionStorage.getItem('userInfo')).accountId
       getPopupList(accountId).then((res) => {
         if (res.code == 200) {
           let popupDataList = res.data
-          // if(popupDataList === this.popupDataList){
-          //   popupDataList.splice()
-          // }else{
-          //   this.popupDataList = []
-          // }
           this.popupDataList = popupDataList.reverse()
-          if(init == 'init'){
             this.iniNotify()
-          }else{
-            this.iniNotify()
-          }
-          // let _this = this
-          // if(popupDataList.length > 5){
-          //   popupDataList = popupDataList.slice(0,5)
-          // }
-          // popupDataList.reverse()
-          // this.showItems = popupDataList.length
-
-          // popupDataList.forEach((ele, index) => {
-          //   window.setTimeout(()=>
-          //     this.closeItemList[index] = { 
-          //     'notify': this.$notify({
-          //       duration: 0,
-          //       dangerouslyUseHTMLString: true,
-          //       customClass:'notifyHandel',
-          //       message: `<div style='display: flex;justify-content: space-between;cursor:pointer'>
-          //                                 <div class="popupLeft" style='width:50px;height:50px; '>
-          //                                     <img src="${
-          //                                       ele.picUrl ?  ele.picUrl : '/portal/static/img/popupPic.f3ff87ac.png'
-          //                                     }" style='width:100%;height:100%; border-radius: 50%;'>
-          //                                 </div>
-          //                                 <div class="popupRight" style='position:relative;margin-left:20px'>
-          //                                     <p class='${
-          //                                       ele.linkUrl && 'linkTitle'
-          //                                     }'
-          //                                     style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;height:100%;
-          //                                     width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;'
-          //                                     >
-          //                                     ${ele.popupName}
-          //                                     </p>
-          //                                     <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
-          //                                     >${ele.content}</p>
-          //                                 </div>
-          //                             </div>`,
-          //       position: 'bottom-right',
-          //       onClick() {
-          //         _this.openDialog(index)
-          //       },
-          //       onClose(isautomatic){
-          //         _this.closeItemList.splice(index,1)
-          //         _this.handelClick.push(index)
-          //         if(isautomatic.type == 'automatic'){
-          //           _this.showItems > 5 ? _this.showItems-- : ''
-          //         }else{
-          //           _this.showItems--
-          //           _this.getLatest()
-          //         }
-          //       },
-          //     }),
-          //   'times':0
-          //   },1)
-          // })
         } else {
           this.$message.error(res.desZh)
         }
       })
     },
-    clearNotify(){
+    clearNotify(isLogout){
+      console.log('clear',this.closeItemList);
       if(this.closeItemList){
         this.closeItemList.forEach((ele) => {
           if(ele.notify){
@@ -230,48 +109,57 @@ export default {
           }
         })
       }
-      this.getLatest()
+      this.closeItemList = []
+      this.popupDataList = []
+      if(isLogout != 'logout'){
+        this.getLatest()
+      }
     },
-    iniNotify(){
+    iniNotify(pushNew){
       let _this = this
-      this.popupDataList.forEach((ele, index) => {
-        window.setTimeout(()=>
-          this.closeItemList[index] = { 
-          'notify': this.$notify({
-            duration: 0,
-            dangerouslyUseHTMLString: true,
-            customClass:'notifyHandel',
-            message: `<div style='display: flex;justify-content: space-between;cursor:pointer'>
-                      <div class="popupLeft" style='width:50px;height:50px; '>
-                          <img src="${
-                            ele.picUrl ?  ele.picUrl : '/portal/static/img/popupPic.f3ff87ac.png'
-                          }" style='width:100%;height:100%; border-radius: 50%;'>
-                      </div>
-                      <div class="popupRight" style='position:relative;margin-left:20px'>
-                          <p class='${
-                            ele.linkUrl && 'linkTitle'
-                          }'
-                          style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;height:100%;
-                          width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;'
-                          >
-                          ${ele.popupName}
-                          </p>
-                          <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
-                          >${ele.content}</p>
-                      </div>
-                  </div>`,
-            position: 'bottom-right',
-            onClick() {
-              _this.openDialog(index)
-            },
-            onClose(){
-              // _this.popupDataList.splice(index,1)
-              // _this.iniNotify()
-            },
-          }),
-        'times':0
-        },1)
-      })
+      if(pushNew == 'pushNew'){
+        this.clearNotify()
+      } else{
+        this.popupDataList.forEach((ele, index) => {
+          setTimeout(()=>{
+              // console.log('-----');
+              this.closeItemList[index] = { 
+              'notify': this.$notify({
+                duration: 0,
+                dangerouslyUseHTMLString: true,
+                customClass:'notifyHandel',
+                message: `<div style='display: flex;justify-content: space-between;cursor:pointer'>
+                          <div class="popupLeft" style='width:50px;height:50px; '>
+                              <img src="${
+                                ele.picUrl ?  ele.picUrl : '/portal/static/img/popupPic.f3ff87ac.png'
+                              }" style='width:100%;height:100%; border-radius: 50%;'>
+                          </div>
+                          <div class="popupRight" style='position:relative;margin-left:20px'>
+                              <p class='${
+                                ele.linkUrl && 'linkTitle'
+                              }'
+                              style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;height:100%;
+                              width:100px;font-weight:bolder;font-size:16px;position:absolute;color: #0D2451;'
+                              >
+                              ${ele.popupName}
+                              </p>
+                              <p style='overflow: hidden;white-space:nowrap;text-overflow:ellipsis;width:150px;position:absolute;top:30px;color: #4B5C7D;'
+                              >${ele.content}</p>
+                          </div>
+                      </div>`,
+                position: 'bottom-right',
+                onClick() {
+                  _this.openDialog(index)
+                },
+                onClose(){
+                },
+              }),
+            'times':0
+            }
+          }
+             ,1)
+        })
+      }
     }
   }
 }
@@ -281,7 +169,6 @@ export default {
 .popupContent {
   width: 600px;
   height: 100%;
-  background-color: red;
 }
 .notifyHandel{
   margin: 0px; 

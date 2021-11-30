@@ -1,32 +1,49 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-15 17:30:36
- * @LastEditors: 舒杰
+ * @LastEditors: Please set LastEditors
  * @Description: 材料表格
 -->
 <template>
   <div>
     <i-card>
       <div class="font18 font-weight margin-bottom10">{{$t('SUPPLIER_FUJIANCAILIAOZUBUXUYAOXUANZE_LINIE_KESHIHE_LINIE')}}</div>
-      <el-form :model="form" ref="formName">
-        <el-row :gutter="20" justify='space-between' align='middle'>
+      <el-form :model="form"
+               ref="formName">
+        <el-row :gutter="20"
+                justify='space-between'
+                align='middle'>
           <el-col :span="5">
             <el-form-item :label="$t('SUPPLIER_VW_LINIE_KESHI')">
-              <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_DEPT" @change="handleUser" :placeholder="$t('LK_QINGXUANZE')" v-model="form.deptId">
-                <el-option :value="item.id" :label="item.nameZh" v-for="(item, index) in formGroup.deptList" :key="index"></el-option>
+              <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_DEPT"
+                       @change="handleUser"
+                       :placeholder="$t('LK_QINGXUANZE')"
+                       v-model="form.deptId">
+                <el-option :value="item.id"
+                           :label="item.nameZh"
+                           v-for="(item, index) in formGroup.deptList"
+                           :key="index"></el-option>
               </iSelect>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item prop="linieId" :rules="[{required: true, message: '请选择',}]" :label="$t('SUPPLIER_VW_LINIE_CAIGOUYUAN')">
-              <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_SOURCER" :placeholder="$t('LK_QINGSHURU')" v-model="form.linieId">
-                <el-option :value="item.id" :label="item.nameZh" v-for="(item, index) in formGroup.userList" :key="index"></el-option>
+            <el-form-item prop="linieId"
+                          :rules="[{required: true, message: '请选择',}]"
+                          :label="$t('SUPPLIER_VW_LINIE_CAIGOUYUAN')">
+              <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_SOURCER"
+                       :placeholder="$t('LK_QINGSHURU')"
+                       v-model="form.linieId">
+                <el-option :value="item.id"
+                           :label="item.nameZh"
+                           v-for="(item, index) in formGroup.userList"
+                           :key="index"></el-option>
               </iSelect>
             </el-form-item>
           </el-col>
           <el-col :span="14">
             <div class="info-btn">
-              <i-button v-permission="SUPPLIER_APPLYBDL_RESET" @click="getReset">{{$t('LK_ZHONGZHI')}}</i-button>
+              <i-button v-permission="SUPPLIER_APPLYBDL_RESET"
+                        @click="getReset">{{$t('LK_ZHONGZHI')}}</i-button>
             </div>
           </el-col>
         </el-row>
@@ -35,13 +52,24 @@
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
-          <i-button v-permission="SUPPLIER_APPLYBDL_ADD" @click="addBDL">{{$t('LK_TIANJIA')}}</i-button>
-          <i-button v-permission="SUPPLIER_APPLYBDL_SUBMIT" @click="submit">{{$t('LK_TIJIAO')}}</i-button>
-          <i-button v-permission="SUPPLIER_APPLYBDL_EXPORT" @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
+          <i-button v-permission="SUPPLIER_APPLYBDL_ADD"
+                    @click="addBDL">{{$t('LK_TIANJIA')}}</i-button>
+          <i-button v-permission="SUPPLIER_APPLYBDL_SUBMIT"
+                    @click="submit">{{$t('LK_TIJIAO')}}</i-button>
+          <i-button v-permission="SUPPLIER_APPLYBDL_EXPORT"
+                    @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
       </div>
-      <table-list v-permission="SUPPLIER_APPLYBDL_TABEL" :height="400" :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" :index="true" @handleSelectionChange="handleSelectionChange" />
-      <add-bdl-dialog :title="$t('LK_TIANJIA')" @handleSelection='handleSelection' v-model="addBdldialog" />
+      <table-list v-permission="SUPPLIER_APPLYBDL_TABEL"
+                  :height="400"
+                  :tableData="tableListData"
+                  :tableTitle="tableTitle"
+                  :tableLoading="tableLoading"
+                  :index="true"
+                  @handleSelectionChange="handleSelectionChange" />
+      <add-bdl-dialog :title="$t('LK_TIANJIA')"
+                      @handleSelection='handleSelection'
+                      v-model="addBdldialog" />
     </i-card>
   </div>
 </template>
@@ -65,7 +93,7 @@ export default {
     addBdlDialog,
     iSelect
   },
-  data() {
+  data () {
     return {
       form: {
         deptId: '',
@@ -83,24 +111,24 @@ export default {
       index: null
     }
   },
-  created() {
+  created () {
     this.getDeptList()
     // this.getTableList()
   },
   methods: {
-    async handleUser(val) {
+    async handleUser (val) {
       this.formGroup.userList = []
       this.form.linieId = ''
       const res = await getUserList(this.form.deptId)
       this.formGroup.userList = res.data
     },
-    getReset() {
+    getReset () {
       this.form = {
         deptId: '',
         linieId: ''
       }
     },
-    submit() {
+    submit () {
       if (this.selectTableData.length === 0) {
         iMessage.warn(this.$t('SPR_FRM_XGYSPJ_QXZYTSJTJ'))
         return
@@ -119,29 +147,30 @@ export default {
         })
       }
     },
-    async handleSubmit() {
+    async handleSubmit () {
       const pms = {
         "linieId": this.form.linieId,
         supplierToken: this.$route.query.supplierToken,
         taskId: this.$route.query.id,
-        "bdlSaveList": []
+        "bdlSaveList": [],
       }
       this.selectTableData.forEach((item) => {
         pms.bdlSaveList.push({
           stuffId: item.id,
           categoryId: item.categoryId,
           categoryCode: item.categoryCode,
-          categoryNameZh: item.categoryNameZh
+          categoryNameZh: item.categoryNameZh,
+          bdlType: 1
         })
       })
       const res = await submitBdl(pms)
       this.resultMessage(res, () => {
         // this.getTableList()
-        this.tableListData=window._.difference(this.tableListData,this.selectTableData)
+        this.tableListData = window._.difference(this.tableListData, this.selectTableData)
         this.selectTableData = []
       })
     },
-    async getDeptList() {
+    async getDeptList () {
       const dept = await getDeptList()
       this.formGroup.deptList = dept.data
     },
@@ -160,12 +189,12 @@ export default {
     //   this.tableListData = res.data
     //   this.index = res.data.length - 1
     // },
-    handleOpenPage() {
+    handleOpenPage () {
     },
-    handleSelectionChange(e) {
+    handleSelectionChange (e) {
       this.selectTableData = e
     },
-    handleSelection(e) {
+    handleSelection (e) {
       var ids = []
       e.forEach(item => {
         this.tableListData.forEach(item => {
@@ -176,7 +205,7 @@ export default {
         }
       })
     },
-    addBDL() {
+    addBDL () {
       this.addBdldialog = true
     }
   }

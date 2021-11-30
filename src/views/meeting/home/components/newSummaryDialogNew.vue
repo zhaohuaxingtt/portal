@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="会议纪要"
+    :title="$t('MT_HUIYIJIYAO')"
     :visible.sync="open"
     width="50rem"
     :close-on-click-modal="false"
@@ -64,7 +64,7 @@
                 @click="chooseItem(index + 1, item)"
               >
                 <div class="title-left">
-                  <div class="title-index">{{ numToLetter[index + 1] }}</div>
+                  <div class="title-index">{{ index + 1 }}</div>
                   <div class="title-name">{{ item.topic }}</div>
                 </div>
                 <div class="up-arrow">
@@ -75,7 +75,7 @@
                 <p class="task">Task</p>
                 <div class="task-title">
                   <div>
-                    部门：<span>{{
+                    {{$t('MT_BUMEN')}}：<span>{{
                       taskDeptResult(item, 'supporterDept', 'presenterDept')
                     }}</span>
                   </div>
@@ -196,7 +196,7 @@
               plain
               :loading="loadingCreate"
               :disabled="loadingCreate"
-              >{{ '创建' }}</iButton
+              >{{ $t('MT_CHUANGJIAN') }}</iButton
             >
           </el-form-item>
         </div>
@@ -320,11 +320,16 @@ export default {
     },
     async queryUserInfo(userIdsArr) {
       const res = await getUsers({ userIdList: [...userIdsArr] })
-      let arr = res.data
-        ? res.data.map((item) => {
-            return item ? item.nameZh : ''
-          })
-        : []
+      const userData = res.data ? res.data : []
+      let arrObj = userIdsArr.map((item) => {
+        let user = userData.find((it) => {
+          return item == it.id
+        })
+        return user
+      })
+      let arr = arrObj.map((item) => {
+        return item ? item.nameZh : ''
+      })
       this.userNameArr = this.arrTrans(2, [...arr])
       // return res.data
     },

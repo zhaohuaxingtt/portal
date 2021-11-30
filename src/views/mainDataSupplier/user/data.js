@@ -101,5 +101,17 @@ export const USER_TABLE_COLUMNS = [
     label: '最后登录时间',
     prop: 'lastLoginDate',
     minWidth: '180px'
+  },
+  {
+    label:'是否删除',
+    prop:'isDelete',
+    width:100,
+    customRender:(h,scope)=>{
+      if(scope.row.isDelete){
+        return '是'
+      }else{
+        return '否'
+      }
+    }
   }
 ]

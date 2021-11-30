@@ -5,12 +5,7 @@
       :data="data"
       :rowClassName="tableRowClassName"
     >
-      <el-table-column
-        prop="follow"
-        align="center"
-        label="NO."
-        width="50"
-      >
+      <el-table-column prop="follow" align="left" label="No." width="50">
         <template slot-scope="scope">
           <div class="img-word">
             <div class="img-box">
@@ -20,10 +15,10 @@
               <div
                 v-show="
                   currentUserId !== Number(scope.row.createBy) &&
-                    scope.row.state !== '03' &&
-                    !Boolean(scope.row.isBreak) &&
-                    Boolean(scope.row.follow) &&
-                    !isThemenHavaMy(scope.row)
+                  scope.row.state !== '03' &&
+                  !Boolean(scope.row.isBreak) &&
+                  Boolean(scope.row.follow) &&
+                  !isThemenHavaMy(scope.row)
                 "
                 @click="handleUnfollow(scope.row, following)"
                 class="follow-new"
@@ -33,10 +28,10 @@
               <div
                 v-show="
                   currentUserId !== Number(scope.row.createBy) &&
-                    scope.row.state === '03' &&
-                    !Boolean(scope.row.isBreak) &&
-                    Boolean(scope.row.follow) &&
-                    !isThemenHavaMy(scope.row)
+                  scope.row.state === '03' &&
+                  !Boolean(scope.row.isBreak) &&
+                  Boolean(scope.row.follow) &&
+                  !isThemenHavaMy(scope.row)
                 "
                 class="follow-new"
               >
@@ -45,10 +40,10 @@
               <div
                 v-show="
                   currentUserId !== Number(scope.row.createBy) &&
-                    scope.row.state !== '03' &&
-                    !Boolean(scope.row.isBreak) &&
-                    !Boolean(scope.row.follow) &&
-                    !isThemenHavaMy(scope.row)
+                  scope.row.state !== '03' &&
+                  !Boolean(scope.row.isBreak) &&
+                  !Boolean(scope.row.follow) &&
+                  !isThemenHavaMy(scope.row)
                 "
                 @click="handleFollow(scope.row, following)"
                 class="follow-new"
@@ -58,10 +53,10 @@
               <div
                 v-show="
                   currentUserId !== Number(scope.row.createBy) &&
-                    scope.row.state === '03' &&
-                    !Boolean(scope.row.isBreak) &&
-                    !Boolean(scope.row.follow) &&
-                    !isThemenHavaMy(scope.row)
+                  scope.row.state === '03' &&
+                  !Boolean(scope.row.isBreak) &&
+                  !Boolean(scope.row.follow) &&
+                  !isThemenHavaMy(scope.row)
                 "
                 class="follow-new"
               >
@@ -71,7 +66,7 @@
                 v-show="
                   (currentUserId === Number(scope.row.createBy) &&
                     !Boolean(scope.row.isBreak)) ||
-                    (isThemenHavaMy(scope.row) && !Boolean(scope.row.isBreak))
+                  (isThemenHavaMy(scope.row) && !Boolean(scope.row.isBreak))
                 "
                 class="follow-new"
               >
@@ -90,7 +85,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            !scope.row.count && scope.row.isBreak ? "/" : scope.row.count
+            !scope.row.count && scope.row.isBreak ? '/' : scope.row.count
           }}</span>
         </template>
       </el-table-column>
@@ -103,7 +98,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            !scope.row.topic && scope.row.isBreak ? "/" : scope.row.topic
+            !scope.row.topic && scope.row.isBreak ? '/' : scope.row.topic
           }}</span>
         </template>
       </el-table-column>
@@ -116,7 +111,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            !scope.row.duration && scope.row.isBreak ? "/" : scope.row.duration
+            !scope.row.duration && scope.row.isBreak ? '/' : scope.row.duration
           }}</span>
         </template>
       </el-table-column>
@@ -147,7 +142,7 @@
           <span
             v-if="
               (scope.row.presenter && scope.row.presenterNosys) ||
-                scope.row.isBreak
+              scope.row.isBreak
             "
             >/</span
           >
@@ -165,7 +160,7 @@
           <span
             v-if="
               (scope.row.presenterDept && scope.row.presenterDeptNosys) ||
-                scope.row.isBreak
+              scope.row.isBreak
             "
             >/</span
           >
@@ -183,7 +178,7 @@
           <span
             v-if="
               (scope.row.supporter && scope.row.supporterNosys) ||
-                scope.row.isBreak
+              scope.row.isBreak
             "
             >/</span
           >
@@ -201,7 +196,7 @@
           <span
             v-if="
               (scope.row.supporterDept && scope.row.supporterDeptNosys) ||
-                scope.row.isBreak
+              scope.row.isBreak
             "
             >/</span
           >
@@ -228,7 +223,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            !scope.row.remark && scope.row.isBreak ? "/" : scope.row.remark
+            !scope.row.remark && scope.row.isBreak ? '/' : scope.row.remark
           }}</span>
         </template>
       </el-table-column>
@@ -248,114 +243,123 @@
 </template>
 
 <script>
-import { iPagination, iMessage } from "rise";
-import iTableML from "@/components/iTableML";
-import { follow, unfollow } from "@/api/meeting/myMeeting";
+import { iPagination, iMessage } from 'rise'
+import iTableML from '@/components/iTableML'
+import { follow, unfollow } from '@/api/meeting/myMeeting'
 
 export default {
   components: {
     iPagination,
-    iTableML,
+    iTableML
   },
   props: {
     data: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     total: {
       type: Number || String,
       default: () => {
-        return 0;
-      },
+        return 0
+      }
     },
     pageSize: {
       type: Number || String,
       default: () => {
-        return 1;
-      },
+        return 1
+      }
     },
     pageNum: {
       type: Number || String,
       default: () => {
-        return 1;
-      },
-    },
+        return 1
+      }
+    }
   },
   data() {
     return {
       following: false,
       statusObj: {
-        "01": "未进行",
-        "02": "进行中",
-        "03": "已结束",
-      },
-    };
+        '01': '未进行',
+        '02': '进行中',
+        '03': '已结束'
+      }
+    }
   },
   mounted() {
-    this.currentUserId = Number(sessionStorage.getItem("userId"));
+    this.currentUserId = Number(sessionStorage.getItem('userId'))
   },
   methods: {
     isThemenHavaMy(item) {
-      const presenterId = item.presenterId ? item.presenterId.split(",") : [];
-      const supporterId = item.supporterId ? item.supporterId.split(",") : [];
-      const currentUserIdStr = this.currentUserId.toString();
+      const presenterId = item.presenterId ? item.presenterId.split(',') : []
+      const supporterId = item.supporterId ? item.supporterId.split(',') : []
+      const currentUserIdStr = this.currentUserId.toString()
       if (
         presenterId.includes(currentUserIdStr) ||
         supporterId.includes(currentUserIdStr)
       ) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     // 切换分页
     handleCurrentChange(e) {
-      this.$emit("handleCurrentChange", e);
+      this.$emit('handleCurrentChange', e)
     },
 
     // 行高亮
     tableRowClassName(row) {
-      if (row.row.state === "03") {
-        return "unuse-row";
-      } else if (row.row.state === "02") {
-        return "active-row";
+      if (row.row.state === '03') {
+        return 'unuse-row'
+      } else if (row.row.state === '02') {
+        return 'active-row'
       }
-      return "narmal-row";
+      return 'narmal-row'
     },
 
     // 取消关注
     handleUnfollow(e, bol) {
-      this.following = true;
+      if (e.state === '03') {
+        iMessage.warn('已经结束的议题不可以添加关注!')
+        return
+      }
+      this.following = true
       if (!bol) {
         let param = {
           meetingId: e.meetingId,
-          themenId: e.id,
-        };
+          themenId: e.id
+        }
         // this.$confirm("是否取消关注该议题?", "提示", {
         //   confirmButtonText: "是",
         //   cancelButtonText: "否",
         //   type: "warning",
         // }).then(() => {
-        unfollow(param)
-          .then((res) => {
-            iMessage.success("取消关注成功!");
-            this.$emit("query", this);
-          })
-          .catch((err) => {
-            iMessage.error("取消关注失败!");
-          });
+        unfollow(param).then((res) => {
+          if (res.code === 200) {
+            iMessage.success('取消关注成功!')
+          }
+          this.$emit('query', this)
+        })
+        // .catch((err) => {
+        //   iMessage.error('取消关注失败!')
+        // })
         // });
       }
     },
     // 添加关注
     handleFollow(e, bol) {
-      this.following = true;
+      if (e.state === '03') {
+        iMessage.warn('已经结束的议题不可以取消关注!')
+        return
+      }
+      this.following = true
       if (!bol) {
         let param = {
           meetingId: e.meetingId,
-          themenId: e.id,
-        };
+          themenId: e.id
+        }
         // this.$confirm("是否确定关注该议题?", "提示", {
         //   confirmButtonText: "是",
         //   cancelButtonText: "否",
@@ -363,17 +367,19 @@ export default {
         // }).then(() => {
         follow(param)
           .then((res) => {
-            iMessage.success("关注成功");
-            this.$emit("query", this);
+            if (res.code === 200) {
+              iMessage.success('关注成功')
+            }
+            this.$emit('query', this)
           })
-          .catch((err) => {
-            iMessage.error("关注失败");
-          });
+          // .catch((err) => {
+          //   iMessage.error('关注失败')
+          // })
         // });
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -390,15 +396,16 @@ export default {
   display: flex;
   /* justify-content: center; */
   /* position: relative; */
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   /* transform: translateX(-10px); */
-  div:first-child {
+  span:first-child {
+    display: block;
     /* margin-left: 30px; */
     flex-grow: 1;
     flex-shrink: 0;
     width: 20px;
-    text-align: center;
+    /* text-align: center; */
     /* margin-right: 9.42px; */
     /* margin-right: 5px; */
   }
@@ -426,7 +433,7 @@ export default {
       cursor: pointer;
     }
     .follow {
-      margin-left: 4px;
+      /* margin-left: 4px; */
       cursor: pointer;
     }
   }

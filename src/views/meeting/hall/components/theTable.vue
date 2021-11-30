@@ -48,7 +48,7 @@
         </p>
       </li>
     </ul>
-    <p v-else class="no-data">暂无会议</p>
+    <p v-else class="no-data">{{$t('暂无会议')}}</p>
     <!-- <div class="load-more" @click="loadMore">{{loading ? '加载中' : "加载更多"}}</div> -->
   </iCard>
 </template>

@@ -2,7 +2,7 @@
   <div class="my-topics-box">
     <el-row class="row-el">
       <iButton @click="handleDownLoad" :disabled="selectVal.length < 1">{{
-        "下载"
+     $t('MT_XIAZAI')
       }}</iButton>
     </el-row>
     <iTableML
@@ -13,7 +13,7 @@
       <el-table-column
         prop="follow"
         align="center"
-        label="NO."
+        label="No."
         width="40"
         type="selection"
       >
@@ -21,12 +21,12 @@
       <el-table-column
         prop="follow"
         align="center"
-        label="NO."
+        label="No."
         width="68"
         type="index"
       >
       </el-table-column>
-      <el-table-column prop="name" align="center" label="下载名称" width="756">
+      <el-table-column prop="name" align="center" :label="$t('MT_XAIZAIMINGCHENG')" width="756">
         <template slot-scope="scope">
           <span class="doc-name" @click="handleDownLoadSingle(scope.row)">{{
             scope.row.name
@@ -37,7 +37,7 @@
         show-overflow-tooltip
         prop="createUserName"
         align="center"
-        label="上传附件人"
+        :label="$t('MT_SHANGCHUANFUJIANREN')"
         width="402"
       >
       </el-table-column>
@@ -45,7 +45,7 @@
         show-overflow-tooltip
         prop="createDate"
         align="center"
-        label="上传附件时间"
+        :label="$t('MT_SHANGCHUANFUJIANSHIJIAN')"
       >
       </el-table-column>
     </iTableML>
@@ -57,8 +57,8 @@
       :current-page="page.pageNum"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      prev-text="上一页"
-      next-text="下一页"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
   </div>
@@ -68,9 +68,9 @@
 import { iPagination, iMessage } from "rise";
 import { iButton } from "rise";
 import iTableML from "@/components/iTableML";
-import { MOCK_FILE_URL } from "@/constants";
+// import { MOCK_FILE_URL } from "@/constants";
 import { download } from "@/utils/downloadUtil";
-import { getDoucumentsById, getFileByIds } from "@/api/file/filedownload.js";
+import { getFileByIds } from "@/api/file/filedownload.js";
 import { MIME_TYPE } from "@/api/file/type.js";
 import dayjs from "dayjs";
 export default {
@@ -124,7 +124,7 @@ export default {
         // });
         let d = [];
         for (let item of docs) {
-          let a = new Promise((resolve, reject) => {
+          let a = new Promise((resolve) => {
             getFileByIds([item.attachmentId]).then((data) => {
               resolve(data[0]);
             });
@@ -137,7 +137,7 @@ export default {
             .filter((item) => {
               return item;
             })
-            .map((it, index) => {
+            .map((it) => {
               return {
                 ...it,
                 updateDate: dayjs(it.createDate).format("YYYY-MM-DD HH:mm"),

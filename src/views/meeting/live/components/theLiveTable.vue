@@ -9,8 +9,8 @@
         <el-table-column width="24" align="center" label=""></el-table-column>
         <el-table-column
           prop="follow"
-          align="center"
-          label="NO."
+          align="left"
+          label="No."
           width="60"
           min-width="60"
         >
@@ -277,7 +277,7 @@
 </template>
 
 <script>
-import { iPagination } from "rise";
+// import { iPagination } from "rise";
 // import tableListColumns from "./data.js";
 import iTableML from "@/components/iTableML";
 import { pageMixins } from "@/utils/pageMixins";
@@ -359,7 +359,7 @@ export default {
           themenId: row.id,
         };
         unfollow(params)
-          .then((res) => {
+          .then(() => {
             this.$emit("refreshList", true, this);
           })
           .catch((err) => {
@@ -382,7 +382,7 @@ export default {
           themenId: row.id,
         };
         follow(params)
-          .then((res) => {
+          .then(() => {
             this.$emit("refreshList", false, this);
             // this.following = false;
           })
@@ -496,7 +496,7 @@ export default {
 }
 .img-word {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   /* justify-content: center; */
   /* position: relative; */
@@ -515,7 +515,7 @@ export default {
     position: relative;
     transform: translateY(2px);
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     img {
       flex-grow: 1;

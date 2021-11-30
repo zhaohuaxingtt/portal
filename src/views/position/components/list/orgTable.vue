@@ -78,7 +78,7 @@ export default {
           }
         },
         {
-          prop: 'memberCount',
+          prop: 'userCount',
           label: '用户数量',
           align: 'center',
           width: 80,

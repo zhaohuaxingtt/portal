@@ -25,8 +25,16 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="searchLabel.department">
-              <iInput placeholder="请输入" v-model="searchContent.department" />
+            <iFormItem :label="$t('临时号')">
+              <iInput
+                placeholder="请输入"
+                v-model="searchContent.temporaryNum"
+              />
+            </iFormItem>
+          </el-col>
+          <el-col :span="8">
+            <iFormItem :label="$t('正式/SVW号')">
+              <iInput placeholder="请输入" v-model="searchContent.svwCode" />
             </iFormItem>
           </el-col>
           <el-col :span="8">
@@ -35,16 +43,8 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="$t('SVW')">
-              <iInput placeholder="请输入" v-model="searchContent.svwCode" />
-            </iFormItem>
-          </el-col>
-          <el-col :span="8">
-            <iFormItem :label="$t('临时号')">
-              <iInput
-                placeholder="请输入"
-                v-model="searchContent.temporaryNum"
-              />
+            <iFormItem :label="searchLabel.department">
+              <iInput placeholder="请输入" v-model="searchContent.department" />
             </iFormItem>
           </el-col>
           <el-col :span="8">

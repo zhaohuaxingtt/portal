@@ -21,18 +21,18 @@
           <div class="inforDiv"
               v-for="(item,index) in formList"
               :key="index">
-            <span>{{language(item.key,item.label)}}</span>
-            <iInput :disabled="true"
-                    class="inforText"
-                    v-model="formData[item.prop]"
-                    ></iInput>
+            <span>{{language(item.key,item.name)}}</span>
+            <span
+                  class="inforText"
+                  >{{formData[item.prop]}}</span>
           </div>
         </div>
-        <el-divider/>
-        <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}</p>
+        <el-divider v-if="ruleTableListData.length>0" />
+        <p class="tableTitle" v-if="ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}</p>
           <tableList
             class="margin-top20"
             :tableData="ruleTableListData"
+            v-if="ruleTableListData.length>0"
             :tableTitle="ruleTableTitle1_1"
             :tableLoading="loading"
             :index="true"
@@ -48,6 +48,7 @@
             class="margin-top20"
             :tableData="ruleTableListData"
             :tableTitle="ruleTableTitle1_2"
+            v-if="ruleTableListData.length>0"
             :tableLoading="loading"
             :index="true"
             :selection="false">
@@ -58,12 +59,13 @@
               <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
             </template>
           </tableList>
-        <el-divider class="margin-top20"/>
-        <p class="tableTitle">{{language('LJQD', '零件清单')}}</p>
+        <el-divider class="margin-top20" v-if="partTableListData.length>0" />
+        <p class="tableTitle" v-if="partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
           <tableList
             class="margin-top20"
             :tableData="partTableListData"
-            :tableTitle="partTableTitle2_1"
+            :tableTitle="partTableTitle1_1"
+            v-if="partTableListData.length>0"
             :tableLoading="loading"
             :index="true"
             :selection="false">
@@ -77,7 +79,8 @@
           <tableList
             class="margin-top20"
             :tableData="partTableListData"
-            :tableTitle="partTableTitle2_2"
+            :tableTitle="partTableTitle1_2"
+            v-if="partTableListData.length>0"
             :tableLoading="loading"
             :index="true"
             :selection="false">
@@ -90,11 +93,14 @@
           </tableList>
       </iCard>
       <iCard class="margin-top20">
-        <div slot="header" class="headBox">
+        <div slot="header"
+            class="headBox">
           <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
         </div>
-        <p v-if="formData.cs1MeetingMemo">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p>
-        <iInput v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
+        <iInput v-model="formData.linieMeetingMemo"
+                class="margin-top10"
+                :rows="8"
+                type="textarea" />
       </iCard>
       <div class="margin-top30 deptBox">
         <div class="deptItem" v-for="(item, index) in deptData" :key="index">
@@ -110,7 +116,7 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1_1,ruleTableTitle1_2, partTableTitle2_1,partTableTitle2_2} from './data'
+import { ruleTableTitle1_1,ruleTableTitle1_2, partTableTitle1_1,partTableTitle1_2} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 // import { downloadPdfMixins } from '@/utils/pdf';
@@ -132,8 +138,8 @@ export default {
       formList,
       ruleTableTitle1_1,
       ruleTableTitle1_2,
-      partTableTitle2_1,
-      partTableTitle2_2,
+      partTableTitle1_1,
+      partTableTitle1_2,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
@@ -175,9 +181,8 @@ export default {
           break;
         case 'FILING':
           // 备案
-          
+          res = '备案定点推荐 - MTZ Nomination Recommendation - MTZ'
           break;
-      
         default:
           break;
       }
@@ -399,7 +404,6 @@ $tabsInforHeight: 35px;
   justify-content: space-between;
   .inforDiv {
     width: 29%;
-    height: $tabsInforHeight;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -410,11 +414,12 @@ $tabsInforHeight: 35px;
     }
     .inforText {
       font-size: 14px;
+      padding:10px 10px;
       width: 68%;
+      min-height: $tabsInforHeight;
+      height:auto;
       background: #f8f8fa;
       text-align: center;
-      height: $tabsInforHeight;
-      line-height: $tabsInforHeight;
     }
   }
 }

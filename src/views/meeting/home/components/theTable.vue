@@ -2,16 +2,17 @@
   <iCard class="margin-top20">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
+        <iButton @click="handleRecall" :disabled="!isCanRecall">{{
+          $t("MT_CHEHUI")
+        }}</iButton>
+        <iButton @click="handleOpen" :disabled="!isCanOpen">{{ $t('MT_KAIFANG') }}</iButton>
         <!--批量创建-->
-        <iButton @click="handleAddMultiple">{{ '批量创建' }}</iButton>
+        <iButton @click="handleAddMultiple">{{ $t('MT_PILIANGCHUANGJIAN') }}</iButton>
         <!--创建-->
-        <iButton @click="handleAddSingle">{{ '创建' }}</iButton>
+        <iButton @click="handleAddSingle">{{ $t('MT_CHUANGJIAN') }}</iButton>
         <!--删除-->
         <iButton @click="handleDelete" :disabled="selectedRow.length === 0">{{
-          '删除'
-        }}</iButton>
-        <iButton @click="handleRecall" :disabled="!isCanRecall">{{
-          '撤回'
+          $t('MT_SHANCHU')
         }}</iButton>
       </div>
     </div>
@@ -34,7 +35,7 @@
         width="40"
         min-width="40"
         align="center"
-        label="序号"
+        :label="$t('MT_XUHAO')"
       ></el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
       <el-table-column
@@ -42,7 +43,7 @@
         align="center"
         width="220"
         min-width="220"
-        label="会议名称"
+        :label="$t('MT_HUIYIMINGCHENG')"
       >
         <template slot-scope="scope">
           <span
@@ -58,7 +59,7 @@
         align="center"
         width="80"
         min-width="80"
-        label="会议类型"
+        :label="$t('MT_HUIYILEIXING')"
       >
         <template slot-scope="scope">
           <span>{{ typeObject[scope.row.meetingTypeId] }}</span>
@@ -70,7 +71,7 @@
         align="center"
         width="70"
         min-width="70"
-        label="会议状态"
+        :label="$t('MT_HUIYIZHUANGTAI')"
       >
         <template slot-scope="scope">
           <span
@@ -95,7 +96,7 @@
         align="center"
         width="150"
         min-width="150"
-        label="会议地点"
+        :label="$t('MT_HUIYIDIDIAN')"
         prop="meetingPlace"
       ></el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
@@ -104,7 +105,7 @@
         align="center"
         width="200"
         min-width="200"
-        label="会议时间"
+        :label="$t('MT_HUIYISHIJIAN')"
       >
         <template slot-scope="scope">
           <span>
@@ -123,13 +124,13 @@
         align="center"
         width="60"
         min-width="60"
-        label="附件"
+        :label="$t('MT_FUJIAN')"
       >
         <template slot-scope="scope">
           <span class="attachments-box">
             <el-popover placement="right" trigger="click">
               <div class="enclosure-popover">
-                <p class="title">附件</p>
+                <p class="title">{{$t('MT_FUJIAN')}}</p>
                 <ul>
                   <li
                     v-for="item in scope.row.attachments"
@@ -160,7 +161,7 @@
         align="center"
         width="260"
         min-width="260"
-        label="操作"
+        :label="$t('MT_CAOZUO')"
       >
         <template slot-scope="scope">
           <!-- <div
@@ -180,7 +181,7 @@
                 @click="actionObj('begin')(scope.row.id)"
               >
                 <!-- <img class="begin-vedio" :src="beginVedio" alt="" srcset="" /> -->
-                <span>开始</span>
+                <span>{{$t('MT_KAISHI')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -188,7 +189,7 @@
                 @click="actionObj('lock')(scope.row.id)"
               >
                 <!-- <img class="lock" :src="openLock" alt="" srcset="" /> -->
-                <span> 锁定 </span>
+                <span> {{$t('MT_SUODING')}} </span>
                 <span class="line">|</span>
               </p>
               <p
@@ -196,7 +197,7 @@
                 @click="actionObj('openLock')(scope.row.id)"
               >
                 <!-- <img class="open-lock" :src="openLock" alt="" srcset="" /> -->
-                <span>解锁</span>
+                <span>{{$t('MT_JIESUO')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -208,7 +209,7 @@
                 @click="actionObj('change')(scope.row.id)"
               >
                 <!-- <img class="change" :src="change" alt="" srcset="" /> -->
-                <span> 修改 </span>
+                <span> {{$t('MT_XIUGAI')}} </span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02' || scope.row.state == '01'">
                 |</span
@@ -219,7 +220,7 @@
                 @click="actionObj('open')(scope.row.id)"
               >
                 <!-- <img class="open-lock" :src="openLock" alt="" srcset="" /> -->
-                <span> 开放</span>
+                <span> {{$t('MT_KAIFANG')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -227,7 +228,7 @@
                 @click="actionObj('uploadA')(scope.row.id)"
               >
                 <!-- <img class="upload" :src="upload" alt="" srcset="" /> -->
-                <span> 上传Agenda</span>
+                <span> {{$t('LK_SHANGCHUAN')}}Agenda</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '03'"> |</span> -->
               </p>
@@ -239,7 +240,7 @@
                 @click="actionObj('newA')(scope.row.id)"
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span> 生成Agenda</span>
+                <span>  {{$t('MT_SHENGCHENG')}}Agenda</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -250,7 +251,7 @@
                 "
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span> 生成Agenda</span>
+         <span>  {{$t('MT_SHENGCHENG')}}Agenda</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -259,7 +260,7 @@
                 @click="actionObj('importFile')(scope.row.id)"
               >
                 <!-- <img class="import-file" :src="importFile" alt="" srcset="" /> -->
-                <span> 导入议题</span>
+                <span>  {{$t('MT_DAORUYITI')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -267,7 +268,7 @@
                 @click="actionObj('endVedio')(scope.row)"
               >
                 <!-- <img class="end-vedio" :src="endVedio" alt="" srcset="" /> -->
-                <span>结束</span>
+                <span> {{$t('MT_JIESHU')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -275,7 +276,7 @@
                 @click="actionObj('doubleScreen')(scope.row)"
               >
                 <!-- <img class="double-screen" :src="doubleScreen" alt="" srcset="" /> -->
-                <span>同屏</span>
+                <span> {{$t('MT_TONGPING')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -283,7 +284,7 @@
                 @click="actionObj('screen')(scope.row)"
               >
                 <!-- <img class="screen" :src="screen" alt="" srcset="" /> -->
-                <span>展示</span>
+                <span>{{$t('MT_ZHANSHI')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -291,7 +292,7 @@
                 @click="actionObj('closeVedio')(scope.row)"
               >
                 <!-- <img class="close-vedio" :src="closeVedio" alt="" srcset="" /> -->
-                <span>关闭</span>
+                <span>{{$t('MT_GUANBI')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -299,7 +300,7 @@
                 @click="actionObj('newFile')(scope.row)"
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
-                <span>生成会议纪要</span>
+                <span>{{$t('MT_SHENGCHENGHUIYIJIYAO')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -307,7 +308,7 @@
                 @click="actionObj('uploadFile')(scope.row.id)"
               >
                 <!-- <img class="upload-file" :src="uploadFile" alt="" srcset="" /> -->
-                <span>上传会议纪要</span>
+                <span>{{$t('MT_SHANGCHUANHUIYIJIYAO')}}</span>
                 <span class="line">|</span>
               </p>
             </div>
@@ -321,7 +322,7 @@
                 @click="actionObj('begin')(scope.row.id)"
               >
                 <!-- <img class="begin-vedio" :src="beginVedio" alt="" srcset="" /> -->
-                <span>开始</span>
+                <span>{{$t('MT_KAISHI')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -329,7 +330,7 @@
                 @click="actionObj('lock')(scope.row.id)"
               >
                 <!-- <img class="lock" :src="openLock" alt="" srcset="" /> -->
-                <span>锁定</span>
+                <span>{{$t('MT_SUODING')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -337,7 +338,7 @@
                 @click="actionObj('openLock')(scope.row.id)"
               >
                 <!-- <img class="open-lock" :src="openLock" alt="" srcset="" /> -->
-                <span>解锁</span>
+                <span>{{$t('MT_JIESUO')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -349,7 +350,7 @@
                 @click="actionObj('change')(scope.row.id)"
               >
                 <!-- <img class="change" :src="change" alt="" srcset="" /> -->
-                <span>修改</span>
+                <span>{{$t('MT_XIUGAI')}}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02' || scope.row.state == '01'">
                 |</span
@@ -360,7 +361,7 @@
                 @click="actionObj('open')(scope.row.id)"
               >
                 <!-- <img class="open-lock" :src="openLock" alt="" srcset="" /> -->
-                <span>开放</span>
+                <span>{{$t('MT_KAIFANG')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -371,7 +372,7 @@
                 @click="actionObj('newA')(scope.row.id)"
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span> 生成Agenda</span>
+                <span> {{$t('生成Agenda')}}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -382,7 +383,7 @@
                 "
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span> 生成Agenda</span>
+                <span>  {{$t('生成Agenda')}}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -391,7 +392,7 @@
                 @click="actionObj('endVedio')(scope.row)"
               >
                 <!-- <img class="end-vedio" :src="endVedio" alt="" srcset="" /> -->
-                <span>结束</span>
+                <span> {{$t('MT_JIESHU')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -399,7 +400,7 @@
                 @click="actionObj('doubleScreen')(scope.row)"
               >
                 <!-- <img class="double-screen" :src="doubleScreen" alt="" srcset="" /> -->
-                <span>同屏</span>
+                <span>{{$t('MT_TONGPING')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -407,7 +408,7 @@
                 @click="actionObj('screen')(scope.row)"
               >
                 <!-- <img class="screen" :src="screen" alt="" srcset="" /> -->
-                <span>展示</span>
+                <span>{{$t('MT_ZHANSHI')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -415,7 +416,7 @@
                 @click="actionObj('closeVedio')(scope.row)"
               >
                 <!-- <img class="close-vedio" :src="closeVedio" alt="" srcset="" /> -->
-                <span>关闭</span>
+                <span>{{$t('MT_GUANBI')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -423,7 +424,7 @@
                 @click="actionObj('newFile')(scope.row)"
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
-                <span>生成会议纪要</span>
+                <span>{{$t('生成会议纪要')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -431,7 +432,7 @@
                 @click="actionObj('uploadFile')(scope.row.id)"
               >
                 <!-- <img class="upload-file" :src="uploadFile" alt="" srcset="" /> -->
-                <span>上传会议纪要</span>
+                <span>{{$t('MT_SHENGCHENGHUIYIJIYAO')}}</span>
                 <span class="line">|</span>
               </p>
             </div>
@@ -445,7 +446,7 @@
                 @click="actionObj('begin')(scope.row.id)"
               >
                 <!-- <img class="begin-vedio" :src="beginVedio" alt="" srcset="" /> -->
-                <span>开始</span>
+                <span>{{$t('MT_KAISHI')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -453,7 +454,7 @@
                 @click="actionObj('openLock')(scope.row.id)"
               >
                 <!-- <img class="open-lock" :src="openLock" alt="" srcset="" /> -->
-                <span>解锁</span>
+                <span>{{$t('MT_JIESUO')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -461,7 +462,7 @@
                 @click="actionObj('change')(scope.row.id)"
               >
                 <!-- <img class="change" :src="change" alt="" srcset="" /> -->
-                <span>修改</span>
+                <span>{{$t('MT_XIUGAI')}}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02' || scope.row.state == '01'">
                 |</span
@@ -472,7 +473,7 @@
                 @click="actionObj('open')(scope.row.id)"
               >
                 <!-- <img class="open-lock" :src="openLock" alt="" srcset="" /> -->
-                <span>开放</span>
+                <span>{{$t('MT_KAIFANG')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -480,13 +481,13 @@
                 @click="actionObj('newA')(scope.row.id)"
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span>生成Agenda</span>
+                <span>{{$t('生成Agenda')}}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
               <p v-if="scope.row.state == '02' && isGenerating">
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span>生成Agenda</span>
+                <span>{{$t('生成Agenda')}}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -495,7 +496,7 @@
                 @click="actionObj('endVedio')(scope.row)"
               >
                 <!-- <img class="end-vedio" :src="endVedio" alt="" srcset="" /> -->
-                <span>结束</span>
+                <span>{{$t('MT_JIESHU')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -503,7 +504,7 @@
                 @click="actionObj('doubleScreen')(scope.row)"
               >
                 <!-- <img class="double-screen" :src="doubleScreen" alt="" srcset="" /> -->
-                <span>同屏</span>
+                <span>{{$t('MT_TONGPING')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -511,7 +512,7 @@
                 @click="actionObj('screen')(scope.row)"
               >
                 <!-- <img class="screen" :src="screen" alt="" srcset="" /> -->
-                <span> 展示</span>
+                <span> {{$t('MT_ZHANSHI')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -519,7 +520,7 @@
                 @click="actionObj('closeVedio')(scope.row)"
               >
                 <!-- <img class="close-vedio" :src="closeVedio" alt="" srcset="" /> -->
-                <span>关闭</span>
+                <span> {{$t('MT_GUANBI')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -527,7 +528,7 @@
                 @click="actionObj('newFile')(scope.row)"
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
-                <span>生成会议纪要</span>
+                <span> {{$t('MT_SHENGCHENGHUIYIJIYAO')}}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -535,7 +536,7 @@
                 @click="actionObj('uploadFile')(scope.row.id)"
               >
                 <!-- <img class="upload-file" :src="uploadFile" alt="" srcset="" /> -->
-                <span>上传会议纪要</span>
+                <span>{{$t('MT_SHANGCHUANHUIYIJIYAO')}}</span>
                 <span class="line">|</span>
               </p>
             </div>
@@ -546,7 +547,7 @@
       <el-table-column
         show-overflow-tooltip
         align="center"
-        label="周次"
+        :label="$t('MT_ZHOUCI_')"
         width="80"
         min-width="80"
         prop="weekOfYear"
@@ -564,8 +565,8 @@
       background
       :page-sizes="page.pageSizes"
       :page-size="page.pageSize"
-      prev-text="上一页"
-      next-text="下一页"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :layout="page.layout"
       :current-page="page.currPage"
       :total="page.total"
@@ -619,8 +620,8 @@
 
     <!-- 上传Agenda -->
     <updateFile
-      title="上传Agenda"
-      warnText="请上传附件！"
+      :title="$t('MT_SHANGCHUAN')+'Agenda'"
+      :warnText="$t('MT_QINGSHANGCHUANFUJIAN')"
       :maxSize="10"
       :fileNum="1"
       :open="openAgenda"
@@ -631,7 +632,7 @@
     />
     <!-- 导入议题 -->
     <updateFile
-      title="导入议题"
+      :title="$t('MT_DAORUYITI')"
       :maxSize="10"
       :fileNum="1"
       :open="openTopics"
@@ -644,20 +645,26 @@
     >
       <div class="title-down-demo" @click="downDemo">
         <img :src="enclosure" alt="" srcset="" />
-        <span>下载模版</span>
+        <span>{{$t('MT_XIAZAIMUBAN')}}</span>
       </div>
     </updateFile>
     <!-- 上传会议纪要 -->
     <updateFile
-      title="上传会议纪要"
-      warnText="请上传附件！"
-      descText="文件大小最大限制10MB | 只支持pdf文件"
+      :title="$t('MT_SHANGCHUANHUIYIJIYAO')"
+      :warnText="$t('MT_QINGSHANGCHUANFUJIAN')+'!'"
+      :descText="$t('MT_WENJIANDAXIAOXIANZHIORZHIZHICHIPDFWENJIAN')"
       :maxSize="10"
       :fileNum="1"
       :open="openSummary"
       v-if="openSummary"
       @handleCancel="handleCancelSummary"
       @handleOK="handleOKSummary"
+    />
+    <importErrorDialog
+      v-if="openError"
+      :openError="openError"
+      :errorList="errorList"
+      @handleCloseError="handleCloseError"
     />
     <!-- 生成会议纪要 -->
     <newSummaryDialog
@@ -687,6 +694,7 @@ import updateFile from '@/components/updateFile'
 // import importThemens from "./importThemens.vue";
 import { statusObj } from './data'
 import {
+  batchChangeState,
   batchRecallMeeting,
   deleteMeeting,
   changeStateMeeting,
@@ -715,6 +723,7 @@ import addMeetingMultipleDialo from './addMeetingMultipleDialo.vue'
 import closeMeetingDialogSpecial from './closeMeetingDialogSpecial.vue'
 import closeMeetingDialog from './closeMeetingDialog.vue'
 import updateMeetingDialog from './updateMeetingDialog.vue'
+import importErrorDialog from './importErrorDialog.vue'
 // import newSummaryDialog from "./newSummaryDialog.vue";
 import newSummaryDialog from './newSummaryDialog.vue'
 // import { MOCK_FILE_URL } from '@/constants'
@@ -734,7 +743,8 @@ export default {
     updateMeetingDialog,
     newSummaryDialog,
     newSummaryDialogNew,
-    closeMeetingDialogSpecial
+    closeMeetingDialogSpecial,
+    importErrorDialog
   },
   mixins: [resultMessageMixin],
   props: {
@@ -779,6 +789,7 @@ export default {
     return {
       isGenerating: false,
       isCanRecall: false,
+      isCanOpen: false,
       nameList: [],
       beginVedio,
       closeVedio,
@@ -819,8 +830,10 @@ export default {
       openSummary: false,
       openNewSummary: false,
       openNewSummaryNew: false,
+      openError: false,
       timeout: null,
-      receiverId: ''
+      receiverId: '',
+      errorList: []
     }
   },
   mounted() {},
@@ -828,6 +841,7 @@ export default {
     selectedRow: {
       handler(rows) {
         this.isCanRecall = false
+        this.isCanOpen = false
         if (rows.length > 0) {
           this.isCanRecall = rows.every((item) => {
             // return (
@@ -837,6 +851,13 @@ export default {
             return (
               (item.state === '02' && item.isPreCSC) ||
               (item.state === '02' && item.isCSC)
+            )
+          })
+        }
+        if (rows.length > 0) {
+          this.isCanOpen = rows.every((item) => {
+            return (
+              item.state === '01' 
             )
           })
         }
@@ -862,7 +883,10 @@ export default {
       this.openUpdate = true
     },
     // 确认提交审批流
-    handleCloseOK() {
+    handleCloseOK(info) {
+      if(info ==="close") {
+        iMessage.success("关闭成功");
+      }
       this.openCloseMeeting = false
       this.refreshTable()
     },
@@ -912,11 +936,15 @@ export default {
       }
       importThemen(param)
         .then((res) => {
-          if (res.id) {
+          if (res.length == 0) {
             iMessage.success('导入议题成功')
             this.openTopics = false
             this.refreshTable()
             this.nameList = []
+          } else if (res.length != 0) {
+            // this.openTopics = false
+            this.openError = true
+            this.errorList = res
           }
         })
         .catch(() => {
@@ -963,6 +991,10 @@ export default {
     // 上传会议纪要取消
     handleCancelSummary() {
       this.openSummary = false
+    },
+    // 上传议题错误提示框关闭
+    handleCloseError() {
+      this.openError = false
     },
     // 生成会议纪要取消
     handleNewSummaryCancel() {
@@ -1019,6 +1051,21 @@ export default {
         batchRecallMeeting({ ids: idArr }).then((res) => {
           if (res.code == 200) {
             this.$message.success(' 撤回成功!')
+            this.$emit('getTableList')
+          }
+        })
+      })
+    },
+    // 批量开放
+    handleOpen(){
+      this.$confirm('是否开放该会议 ？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
+      }).then(() => {
+        batchChangeState(this.selectedRow).then((res) => {
+          if (res.code == 200) {
+            this.$message.success('会议已成功开放!')
             this.$emit('getTableList')
           }
         })

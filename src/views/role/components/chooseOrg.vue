@@ -3,28 +3,28 @@
     <div class="choose-org">
       <div class="search-box">
         <el-form inline>
-          <iFormItem :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_CODE')">
+          <iFormItem :label="language('组织机构编码')">
             <iInput
-              :placeholder="$t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')"
+              :placeholder="language('请输入')"
               v-model="formData.deptNum"
             />
           </iFormItem>
-          <iFormItem :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_NAME')">
+          <iFormItem :label="language('组织机构名称')">
             <iInput
-              :placeholder="$t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')"
+              :placeholder="language('请输入')"
               v-model="formData.nameZh"
             />
           </iFormItem>
-          <iFormItem :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_OWNER')">
+          <iFormItem :label="language('负责人')">
             <iInput
-              :placeholder="$t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')"
+              :placeholder="language('请输入')"
               v-model="formData.leaderName"
             />
           </iFormItem>
         </el-form>
         <div class="form-button">
-          <iButton @click="search">{{ $t('POSITION.QUERY') }}</iButton>
-          <iButton @click="reset">{{ $t('POSITION.RESET') }}</iButton>
+          <iButton @click="search">{{ language('查询') }}</iButton>
+          <iButton @click="reset">{{ language('重置') }}</iButton>
         </div>
       </div>
       <div class="divider"></div>
@@ -189,7 +189,9 @@ export default {
     },
     setDefaultChecked() {
       if (this.defaultSelectedId) {
-        const rows = this.tableData.filter(e => e.id === this.defaultSelectedId)
+        const rows = this.tableData.filter(
+          (e) => e.id === this.defaultSelectedId
+        )
         // console.log('setDefaultChecked', this.defaultSelectedId, rows)
         if (rows.length > 0) {
           // console.log('selectedRows', this.selectedRows)

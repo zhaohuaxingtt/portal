@@ -38,7 +38,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('是否隶属华城 ')" prop="dept">
+          <iFormItem :label="$t('是否隶属华域 ')" prop="dept">
             <iSelect v-model="detail.isSubjectionchina" :disabled="!editable">
               <el-option
                 v-for="item in boolIntegerOptions"

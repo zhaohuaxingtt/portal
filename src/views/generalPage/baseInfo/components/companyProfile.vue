@@ -302,21 +302,7 @@
                      :key="index"></el-option>
         </iSelect>
       </iFormItem>
-      <!-- <iFormItem v-if="isPP"
-                 v-permission="SUPPLIER_BASEINFO_COMPANY_FINANCIALTREND">
-        <iLabel :label="language(
-                'QIANDINGCAIGOUTIAOKUAN',
-                '签订采购条款'
-              )"
-                slot="label"></iLabel>
-                 <iText>{{supplierData.supplierDTO.financialTrend?'是':'否'}}</iText>
-        <iSelect v-model="supplierData.supplierDTO.financialTrend">
-          <el-option :value="item.code"
-                     :label="item.name"
-                     v-for="(item, index) in fromGroup.TREND"
-                     :key="index"></el-option>
-        </iSelect>
-      </iFormItem> -->
+
       <iFormItem>
         <iLabel :label="language(
                 'SHIFOUHEIMINGDAN',
@@ -338,6 +324,15 @@
                      :key="index"></el-option>
         </iSelect> -->
       </iFormItem>
+      <iFormItem>
+        <iLabel :label="language(
+                'QIANDINGCAIGOUTIAOKUAN',
+                '签订采购条款'
+              )"
+                slot="label"></iLabel>
+        <iText> </iText>
+
+      </iFormItem>
     </iFormGroup>
   </iCard>
 </template>
@@ -352,7 +347,12 @@ import {
   iText,
   iDatePicker
 } from 'rise'
-import { getCityInfo, isForeignCountry, isBlack } from '@/api/dictionary'
+import {
+  getCityInfo,
+  isForeignCountry,
+  isBlack,
+  isSigned
+} from '@/api/dictionary'
 import { baseInfoRules, listingAddress, stockCode } from './data'
 export default {
   components: {
@@ -380,8 +380,7 @@ export default {
     }
   },
   watch: {
-    supplierData() {
-    },
+    supplierData() {},
     country(val) {
       if (val.length > 0) {
         console.log(val)
@@ -442,6 +441,8 @@ export default {
     }
   },
   created() {
+    this.getIsSigned()
+
     this.getisBlack()
   },
   methods: {
@@ -489,6 +490,10 @@ export default {
           this.$set(this.supplierData.supplierDTO, 'isBlacklist', code)
         }
       )
+    },
+    //是否签署
+    getIsSigned() {
+      isSigned({}).then((res) => {})
     },
     //是否国内外
     getisForeignCountry(val) {

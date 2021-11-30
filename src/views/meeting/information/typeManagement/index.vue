@@ -26,8 +26,8 @@
       :page-size="page.pageSize"
       :page-sizes="page.pages"
       layout="prev, pager, next, jumper"
-      prev-text="上一页"
-      next-text="下一页"
+      :prev-text="$t('上一页')"
+      :next-text="$t('下一页')"
       :total="page.totalCount"
     />
 

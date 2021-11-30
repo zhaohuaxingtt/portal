@@ -14,6 +14,9 @@
 				<iButton @click='openIndustry'>{{$t('SPR_FRM_DEP_JRHYJZ')}}</iButton>
 				<!-- 维护行业均值 -->
 				<iButton @click='onJumpIndustryAverage'>{{$t('SPR_FRM_DEP_WHHYJZ')}}</iButton>
+                  <iButton slot="header-control"
+    
+               @click="$router.push({path:'/supplier/frmrating/supplieroverview'})">{{$t('LK_FANHUI')}}</iButton>
 			</div>
 		</div>
 		<iCard id='powerBi'>

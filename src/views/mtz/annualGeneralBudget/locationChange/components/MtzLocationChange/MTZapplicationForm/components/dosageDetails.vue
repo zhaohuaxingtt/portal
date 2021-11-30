@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-24 16:38:16
+ * @LastEditTime: 2021-11-29 11:34:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -89,7 +89,7 @@
         </iCard>
       </el-tab-pane>
     </iTabsList>
-    <iDialog :title="language('JIESHIYUANYIN','解释原因')"
+    <!-- <iDialog :title="language('JIESHIYUANYIN','解释原因')"
              :visible.sync="isShow"
              width="30%"
              class="table-header-modal"
@@ -105,7 +105,7 @@
         <i-button @click="handleSave">保存</i-button>
         <i-button @click="handleCancel">取消</i-button>
       </span>
-    </iDialog>
+    </iDialog> -->
     <new-mtzlocation-change :dialogVisible="dialogVisible"
                             v-if="dialogVisible"
                             :addFlag="true"
@@ -240,17 +240,17 @@ export default {
       this.getApprovalRecordList()
     },
     edit () {
-      if (this.muliteList.length === 0) {
-        iMessage.error('请选择数据')
-        return
-      }
-      this.muliteList.forEach(item => {
+      // if (this.muliteList.length === 0) {
+      //   iMessage.error('请选择数据')
+      //   return
+      // }
+      this.tableList.forEach(item => {
         item.editRow = true
       })
       this.editFlag = true
     },
     cancel () {
-      this.muliteList.forEach(item => {
+      this.tableList.forEach(item => {
         item.editRow = false
       })
       this.editFlag = false

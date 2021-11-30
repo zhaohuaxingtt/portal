@@ -183,7 +183,7 @@ import {
   pageMtzNomi,
   getFlowTypeList,
   getLocationApplyStatus,
-  getRsBillStatusList,
+  // getRsBillStatusList,
   mtzFreeze,
   mtzUnfreeze,
   mtzNomi,
@@ -226,9 +226,9 @@ export default {
       getFlowTypeList: [],
       getLocationApplyStatus: [],
       linieDeptId: [],//科室
-      value: "",
+      // value: "",
       value1: "",
-      getRsBillStatusList: [],
+      // getRsBillStatusList: [],
 
       tableListData: [],
       tableTitle: tableTitle,
@@ -250,9 +250,9 @@ export default {
       getLocationApplyStatus({}).then(res => {
         this.getLocationApplyStatus = res.data;
       })
-      getRsBillStatusList({}).then(res => {
-        this.getRsBillStatusList = res.data;
-      })
+      // getRsBillStatusList({}).then(res => {
+      //   this.getRsBillStatusList = res.data;
+      // })
       getRawMaterialNos({}).then(res => {
         this.materialCode = res.data;
       })
@@ -285,15 +285,15 @@ export default {
         }
       })
     },
-    handleChange (val) {
-      if (val.length < 1) {
-        this.searchForm.rsFreezeStartDate = "";
-        this.searchForm.rsFreezeEndDate = "";
-        return false;
-      }
-      this.searchForm.rsFreezeStartDate = val[0];
-      this.searchForm.rsFreezeEndDate = val[1];
-    },
+    // handleChange (val) {
+    //   if (val.length < 1) {
+    //     this.searchForm.rsFreezeStartDate = "";
+    //     this.searchForm.rsFreezeEndDate = "";
+    //     return false;
+    //   }
+    //   this.searchForm.rsFreezeStartDate = val[0];
+    //   this.searchForm.rsFreezeEndDate = val[1];
+    // },
     handleChange1 (val) {
       if (val.length < 1) {
         this.searchForm.nominateStartDate = "";
@@ -331,10 +331,11 @@ export default {
         query: {
           currentStep: 1,
           mtzAppId: val.id,
-          isView: (val.appStatus === 'NEW' || val.appStatus === 'NOTPASS') ? false : true
+          // isView: (val.appStatus === 'NEW' || val.appStatus === 'NOTPASS') ? false : true
         }
       })
-      window.open(routeData.href, '_blank')
+      window.open(routeData.href)
+      // window.open(routeData.href, '_blank')
     },
     // 选中table数据
     handleSelectionChange (val) {
@@ -566,7 +567,7 @@ export default {
             throw new Error("EndIterative");
           }
           if (e.flowType == "MEETING") {
-            if (e.appStatus == "SUBMIT" || e.appStatus == "NOTPASS") {
+            if (e.appStatus == "SUBMIT" || e.appStatus == "NOTPASS") {////////////////////////////////////////////
             }else{
               num++;
               iMessage.warn(this.language('SHLXQZTWTJHWTGCKYCH', '上会类型且状态为提交（会议未锁定）或未通过才可以撤回'))

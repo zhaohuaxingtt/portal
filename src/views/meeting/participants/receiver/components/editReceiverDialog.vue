@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="'修改收件人'"
+   :title="$t('修改收件人')"
     :visible.sync="openEditDialog"
     width="54.875rem"
     :close-on-click-modal="false"
@@ -24,7 +24,7 @@
             <iLabel :label="$t('会议类型')" slot="label" required></iLabel>
             <iSelect
               v-model="ruleForm.meetingType"
-              placeholder="请选择"
+              :placeholder="$t('请选择')"
               value-key="id"
             >
               <el-option
@@ -38,7 +38,7 @@
           </iFormItem>
         </div>
         <div class="receiverLine">
-          <div class="receiver">收件人</div>
+          <div class="receiver">{{$t('收件人')}}</div>
           <iInput
             suffix-icon="el-icon-search"
             v-model="search"
@@ -47,7 +47,7 @@
           >
           </iInput>
           <iButton @click="$emit('addReceiverData')" class="add-receiver"
-            >添加收件人</iButton
+            >{{$t('添加收件人')}}</iButton
           >
         </div>
         <i-table-custom
@@ -61,8 +61,8 @@
           :page-size="pageSize"
           layout="prev, pager, next, jumper"
           :total="total"
-          prev-text="上一页"
-          next-text="下一页"
+         :prev-text="$t('上一页')"
+         :next-text="$t('下一页')"
         >
         </el-pagination>
 

@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="editOrAdd === 'add' ? '新增非标准议题' : '修改非标准议题'"
+    :title="editOrAdd === 'add' ? $t('MT_XINZENGSHOUGONGYITI') : $t('MT_XIUGAISHOUGONGYITI')"
     :visible.sync="openDialog"
     width="58.25rem"
     :close-on-click-modal="false"
@@ -17,8 +17,8 @@
       >
         <div class="row-box" v-if="editOrAdd !== 'look'">
           <iFormItem label="议题类型" :hideRequiredAsterisk="true" class="item">
-            <iLabel :label="$t('议题类型')" slot="label"></iLabel>
-            <iInput class="disabledAll" value="非标准议题" disabled></iInput>
+            <iLabel :label="$t('MT_YITILEIXING')" slot="label"></iLabel>
+            <iInput class="disabledAll" value="手工议题" disabled></iInput>
           </iFormItem>
           <iFormItem
             label="Items Name"
@@ -163,7 +163,7 @@
             <iInput v-model="ruleForm.ep"></iInput>
           </iFormItem>
           <iFormItem label="议题资料" :hideRequiredAsterisk="true" class="item">
-            <iLabel :label="$t('议题资料')" slot="label"></iLabel>
+            <iLabel :label="$t('MT_YITIZILIAO')" slot="label"></iLabel>
             <el-upload
               class="upload-file"
               action="1"
@@ -179,9 +179,9 @@
                 :uploadLoading="uploadLoading"
               >
                 <span class="upload-text"><img :src="uploadIcon" /></span>
-                <span class="upload-text-content">选择文件</span>
+                <span class="upload-text-content">{{$t('MT_XUANZEWENJIAN')}}</span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">文件大小最大限制30M</div>
+              <div slot="tip" class="el-upload__tip">{{$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}}30M</div>
             </el-upload>
             <ul class="file-list">
               <li v-for="(item, index) of ruleForm.attachments" :key="index">

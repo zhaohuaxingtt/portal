@@ -334,7 +334,8 @@
         </transition>
       </div>
     </div>
-    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="claimPartsShow = false"
+    <!--领养模态框-->
+    <claimParts :value="claimPartsShow" :claimNum="claimNum" @sure="sureClaimPart"
                 @clearDiolog="claimPartsShow = false"></claimParts>
     <transition name="slide-fade">
       <favorites v-if="favoritesShow" @deleteItem="cancelOrCollect" @closeFavorites="favoritesShow = false"></favorites>
@@ -452,12 +453,23 @@ export default {
   mounted() {
     this.getSeletes()
     this.defaultParts()
+    if(this.$refs.partLifeCycleStar)
     this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.scrollGetData); //this.setHeadPosition方法名
   },
   destroyed() {
+    if(this.$refs.partLifeCycleStar)
     this.$refs.partLifeCycleStar.$el.removeEventListener("scroll", this.scrollGetData, true);
   },
   methods: {
+    // 确认领养后
+    sureClaimPart() {
+      this.claimPartsShow = false
+      if(this.isSearch) {
+        this.getPartsCollect()
+      } else {
+        this.defaultParts()
+      }
+    },
     remoteMethod(val){
       this.AekoPullDown = this.AekoPullDownClone.filter(item => {
         if(item.includes(val)){
@@ -467,10 +479,8 @@ export default {
     },
     scrollGetData(e){
       const { scrollTop, clientHeight, scrollHeight } = e.target
-      if((scrollTop + clientHeight) === scrollHeight){
-//        if(this.leftLoading || !this.isScroll){
-//          return
-//        }
+      // console.log('~~(scrollTop + clientHeight)', Math.ceil(scrollTop + clientHeight), scrollHeight)
+      if(Math.ceil(scrollTop + clientHeight) >= scrollHeight){
         this.leftLoading = true
         this.showLoading()
         this.current++
@@ -504,7 +514,7 @@ export default {
           const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
           if (Number(res.code) === 200) {
             if(res.data.length < 9){
-              this.isScroll = false
+              this.isScroll = true
             }
             let data = res.data.map(item => {
               item.isClaim = false
@@ -771,30 +781,33 @@ export default {
     toPartLifeCycle(item) {
       let routeData = this.$router.resolve({
         path: '/partLifeCycle',
-        query: { partsNum: item.partsNum, isDefaultFolder:item.isDefaultFolder,partsCollectId:item.partsCollectId }
+        query: { partsNum: item.partsNum}
       })
       window.open(routeData.href)
     },
     checkClaim(item) {
       item.isClaim = !item.isClaim
     },
-    cancelOrCollect(item) {
+    async cancelOrCollect(item) {
+      let partsCollectId
+      if(this.isSearch) {
+        let {data} = await defaultParts()
+        data.forEach(it => {
+          if(item.partsNum==it.partsNum) {
+            partsCollectId = it.partsCollectId
+          }
+        })
+      }
       let operationType = Number(item.isDefaultFolder) === 1 ? 2 : 1
       this.leftLoading = true
       let promiseDelete = Number(item.isDefault === 1) ? removeCollect : cancelOrCollect
-      console.log(item.isDefaultFolder,'item.isDefaultFolder',operationType)
       promiseDelete({
         operationType: operationType,
-        partsCollectId: item.partsCollectId,
+        partsCollectId: !this.isSearch? item.partsCollectId: partsCollectId ,
         partsNum: item.partsNum
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
-//          this.defaultPartsList.forEach(obj => {
-//            if (obj.partsCollectId === item.partsCollectId)
-//              obj.isDefaultFolder = operationType
-//          })
-          // item.isDefaultFolder = operationType
           iMessage.success(result)
           if(this.isSearch) {
             this.getPartsCollect()
@@ -811,7 +824,6 @@ export default {
       })
     },
     defaultParts() {
-//      this.leftLoading = true
       this.showLoading()
       defaultParts().then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
@@ -827,10 +839,8 @@ export default {
         } else {
           iMessage.error(result)
         }
-//        this.leftLoading = false
         this.hideLoading()
       }).catch(() => {
-//        this.leftLoading = false
         this.hideLoading()
       })
     },
@@ -966,6 +976,7 @@ export default {
     .partLifeCycleStar_main_content {
       display: flex;
       justify-content: space-between;
+      min-height: 530px;
 
       .left {
         display: flex;

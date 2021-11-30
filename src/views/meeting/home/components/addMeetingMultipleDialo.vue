@@ -1,14 +1,14 @@
 <template>
   <!--转派-->
   <iDialog
-    title="批量会议创建"
+    :title="$t('MT_PILIANGHUIYICHUANGJIAN')"
     :visible.sync="openAddMultiple"
     width="38.625rem"
     :close-on-click-modal="false"
     :destroy-on-close="true"
     @close="close"
   >
-    <iEditForm>
+    <iEditForm> 
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -30,10 +30,10 @@
         <el-row class="form-row">
           <div class="form-item-row2-col1">
             <iFormItem label="会议类型" prop="meetingTypeId">
-              <iLabel :label="$t('会议类型')" slot="label" required></iLabel>
+              <iLabel :label="$t('MT_HUIYILEIXING')" slot="label" required></iLabel>
               <iSelect
                 v-model="ruleForm.meetingTypeId"
-                placeholder="请选择会议类型"
+                :placeholder="$t('MT_QINGXUANZEHUIYILEIXNG')"
               >
                 <el-option
                   v-for="(item, index) in meetingTypeList"
@@ -48,11 +48,11 @@
           <div class="form-item-row2-col2"></div>
           <div class="form-item-row2-col3">
             <iFormItem label="会议间隔" prop="meetingInterval">
-              <iLabel :label="$t('会议间隔')" slot="label" required></iLabel>
+              <iLabel :label="$t('MT_HUIYIJIANGE')" slot="label" required></iLabel>
               <div class="time-box">
                 <iSelect
                   v-model="ruleForm.meetingInterval"
-                  placeholder="请选择会议间隔"
+                  placeholder="$t('MT_QINGXUANZEHUIYIJIANGE')"
                 >
                   <el-option
                     v-for="(item, index) in intervalList"
@@ -62,7 +62,7 @@
                   >
                   </el-option>
                 </iSelect>
-                <span>周/次</span>
+                <span>{{$t('MT_ZHOUCI')}}</span>
               </div>
             </iFormItem>
           </div>
@@ -72,18 +72,18 @@
         <el-row class="form-row">
           <div class="form-item-row3-col1">
             <iFormItem label="会议日期" prop="startDate">
-              <iLabel :label="$t('会议日期')" slot="label" required></iLabel>
+              <iLabel :label="$t('MT_HUIYIRIQI')" slot="label" required></iLabel>
               <iDatePicker
                 value-format="yyyy-MM-dd"
                 type="date"
                 v-model="ruleForm.startDate"
                 :picker-options="dateStartPickerOptions"
-                placeholder="请选择开始日期"
+                :placeholder="$t('MT_QINGXUANZEKAISHISHIJIAN')"
                 @change="changeStartDate"
               />
             </iFormItem>
           </div>
-          <div class="form-item-row3-col2">至</div>
+          <div class="form-item-row3-col2">{{$t("MT_TO")}}</div>
           <div class="form-item-row3-col3">
             <iFormItem label="" prop="endDate">
               <iLabel label="" required></iLabel>
@@ -92,7 +92,7 @@
                 type="date"
                 v-model="ruleForm.endDate"
                 :picker-options="dateEndPickerOptions"
-                placeholder="请选择结束日期"
+                :placeholder="$t('MT_QINGXUANZEJIESHURIQI')"
               />
             </iFormItem>
           </div>
@@ -102,12 +102,12 @@
         <el-row class="form-row">
           <div class="form-item-row4-col1">
             <iFormItem label="会议周期" prop="meetingCycle">
-              <iLabel :label="$t('会议周期')" slot="label" required></iLabel>
+              <iLabel :label="$t('MT_HUIYIZHOUQI')" slot="label" required></iLabel>
               <iSelect
                 v-model="ruleForm.meetingCycle"
                 multiple
                 collapse-tags
-                placeholder="请选择会议周期"
+                :placeholder="$t('MT_QINGXUANZEHUIYIZHOUQI')"
               >
                 <el-option
                   v-for="(item, index) in cycleList"
@@ -122,11 +122,11 @@
           <div class="form-item-row4-col2"></div>
           <div class="form-item-row4-col3">
             <iFormItem label="开始时间" prop="startTime">
-              <iLabel :label="$t('开始时间')" slot="label" required></iLabel>
+              <iLabel :label="$t('MT_KAISHISHIJIAN')" slot="label" required></iLabel>
               <el-time-picker
                 value-format="HH:mm:ss"
                 format="HH:mm"
-                placeholder="请选择会议开始时间"
+                :placeholder="$t('MT_QINGXUANZEHUIYIKAISHIJIAN')"
                 v-model="ruleForm.startTime"
               />
             </iFormItem>
@@ -137,7 +137,7 @@
         <el-row class="form-row">
           <div class="form-item-row5-col1">
             <iFormItem label="会议地址" prop="meetingPlace">
-              <iLabel :label="$t('会议地址')" slot="label" required></iLabel>
+              <iLabel :label="$t('MT_HUIYIDIZHI')" slot="label" required></iLabel>
               <iInput v-model="ruleForm.meetingPlace" />
             </iFormItem>
           </div>
@@ -147,8 +147,8 @@
         <el-row class="form-row">
           <div class="form-item-row6-col1">
             <iFormItem label="收件人" prop="receiverId">
-              <iLabel :label="$t('收件人')" slot="label" required></iLabel>
-              <iSelect v-model="ruleForm.receiverId" placeholder="请选择收件人">
+              <iLabel :label="$t('MT_SHOUJIANREN')" slot="label" required></iLabel>
+              <iSelect v-model="ruleForm.receiverId" :placeholder="$t('MT_QINGXUANZESHOUJIANREN')">
                 <el-option
                   v-for="(item, index) in receiverListShow"
                   :key="index"
@@ -165,11 +165,11 @@
         <el-row class="form-row">
           <div class="form-item-row7-col1">
             <iFormItem label="与会人" prop="attendeeId">
-              <iLabel :label="$t('与会人')" slot="label" required></iLabel>
+              <iLabel :label="$t('MT_YUHUIREN')" slot="label" required></iLabel>
               <iSelect
                 v-model="ruleForm.attendeeId"
                 @change="changeAttendee"
-                placeholder="请选择与会人"
+                :placeholder="$t('MT_QINGXUANZEYUHUIREN')"
               >
                 <el-option
                   v-for="(item, index) in attendeeListShow"

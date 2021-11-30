@@ -60,6 +60,18 @@ module.exports = {
       }),
         config.optimization.runtimeChunk('single')
     }
+
+    // 标记打包版本号
+    config.plugin('define').tap((pluginConfig) => {
+      const [options] = pluginConfig
+      const env = options['process.env']
+      const IS_DEV = process.env.NODE_ENV !== 'production'
+      process.env.VUE_APP_VERSION = IS_DEV
+        ? `DEV_${new Date().toLocaleString()}`
+        : `PROD_${new Date().toLocaleString()}`
+      env.VUE_APP_VERSION = JSON.stringify(process.env.VUE_APP_VERSION)
+      return pluginConfig
+    })
   },
   configureWebpack: (config) => {
     config.plugins.forEach((val) => {
@@ -157,7 +169,6 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_USER_CENTER]: {
-        // target: `http://${BASE_IP}:8015/usercenter/`,
         target: `http://${BASE_IP}:8015/usercenter/`,
         changeOrigin: true,
         pathRewrite: {
@@ -165,7 +176,6 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_APPROVAL]: {
-        // target: `http://10.160.141.176:8012/approval`,
         target: `http://${BASE_IP}:8012/approval`,
         changeOrigin: true,
         pathRewrite: {
@@ -199,8 +209,7 @@ module.exports = {
       },
       // 站内信
       [process.env.VUE_APP_MAIL]: {
-        target: `http://10.122.18.166:8044/risemessage`,
-        // target: `http://${BASE_IP}:8044/risemessage`,
+        target: `http://${BASE_IP}:8044/risemessage`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_MAIL]: ''

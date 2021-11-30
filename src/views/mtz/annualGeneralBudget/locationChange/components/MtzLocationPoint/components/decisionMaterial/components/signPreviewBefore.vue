@@ -11,28 +11,15 @@
     <iCard>
       <div slot="header" class="headBox">
         <p class="headTitle">{{title}}</p>
-        <!-- <span class="buttonBox" v-if="!editMode">
-          <iButton v-if="!RsObject && downType" @click="downPdf">{{language('DAOCHUPDF','导出PDF')}}</iButton>
-        </span> -->
       </div>
-      <!-- <el-form ref="form" :model="formData" label-width="140px" label-position="left">
-        <el-row :gutter="20">
-          <el-col :span="8" v-for="item in formList" :key="item.prop">
-            <el-form-item :label="language(item.key ,item.label)" style="width: 70%;">
-              <el-input v-model="formData[item.prop]" disabled></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form> -->
       <div class="tabsBoxInfor">
         <div class="inforDiv"
-             v-for="(item,index) in formList"
-             :key="index">
-          <span>{{language(item.key,item.label)}}</span>
-          <iInput :disabled="true"
-                  class="inforText"
-                  v-model="formData[item.prop]"
-                  ></iInput>
+            v-for="(item,index) in formList"
+            :key="index">
+          <span>{{language(item.key,item.name)}}</span>
+          <span
+                class="inforText"
+                >{{formData[item.prop]}}</span>
         </div>
       </div>
       <el-divider/>
@@ -93,35 +80,16 @@
         :total="partPageParams.totalCount"/>
     </iCard>
     <iCard class="margin-top20">
-      <div slot="header" class="headBox">
-        <p class="headTitle" v-if="isMeeting">{{language('BEIZHU', '备注')}}</p>
-        <p v-if="isSign" class="headTitle">{{language('BEIZHU', '备注')}}</p>
-        <!-- <span class="buttonBox">
-          <iButton v-if="RsObject" @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
-        </span> -->
-      </div>
-      <!-- <p v-if="isMeeting">{{language('LINEIESHANGHUIBEIZHU', '备注')}}</p> -->
-      <!-- <p v-if="isSign">{{language('LINEIELIUZHUANBEIZHU', 'LINIE流转备注')}}</p> -->
-      <iInput v-if="isMeeting" v-model="formData.linieMeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
-      <iInput v-if="isSign" v-model="formData.cs1MeetingMemo" class="margin-top10" :rows="8" type="textarea"/>
-    </iCard>
-    <!-- <iCard v-if="isMeeting" class="margin-top20">
-      <p>{{language('SHENQINGRIQI', '申请日期')}}: 2020-01-01</p>
-      <div :class="RsObject?'applayDateBox':'applayDateBox1'">
-        <div class="applayDateContent" v-for="(item, index) in applayDateData" :key="index">
-          <icon  v-if="item.flag" class="margin-left5 applayDateIcon" symbol name="iconrs-wancheng"></icon>
-          <icon  v-if="!item.flag" class="margin-left5 applayDateIcon" symbol name="iconrs-quxiao"></icon>
-          <div class="applayDateContentItem">
-            <span>部门：</span>  
-            <span class="applayDateDeptTitle">{{item.dept}}</span>
-          </div>
-          <div class="applayDateContentItem">
-            <span>日期：</span>  
-            <span>{{item.date}}</span>  
-          </div>
+        <div slot="header"
+            class="headBox">
+          <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
         </div>
-      </div>
-    </iCard> -->
+        <iInput
+                v-model="formData.linieMeetingMemo"
+                class="margin-top10"
+                :rows="8"
+                type="textarea" />
+      </iCard>
   </div>
 </template>
 
@@ -205,9 +173,8 @@ export default {
           break;
         case 'FILING':
           // 备案
-          
+          res = '备案定点推荐 - MTZ Nomination Recommendation - MTZ'
           break;
-      
         default:
           break;
       }
@@ -446,7 +413,6 @@ $tabsInforHeight: 35px;
   justify-content: space-between;
   .inforDiv {
     width: 29%;
-    height: $tabsInforHeight;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -457,11 +423,12 @@ $tabsInforHeight: 35px;
     }
     .inforText {
       font-size: 14px;
+      padding:10px 10px;
       width: 68%;
+      min-height: $tabsInforHeight;
+      height:auto;
       background: #f8f8fa;
       text-align: center;
-      height: $tabsInforHeight;
-      line-height: $tabsInforHeight;
     }
   }
 }

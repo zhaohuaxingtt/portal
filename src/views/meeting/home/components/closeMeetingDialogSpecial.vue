@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="关闭会议"
+    :title="$t('MT_GUANBIHUIYI')"
     :visible.sync="openCloseMeeting"
     width="23.75rem"
     :close-on-click-modal="false"
@@ -19,10 +19,10 @@
         <el-row class="form-row">
           <div class="form-item">
             <iFormItem label="是否触发审批" prop="approvalProcessBoolean">
-              <iLabel :label="$t('是否触发审批')" slot="label"></iLabel>
+              <iLabel :label="$t('MT_SHIFOUCHUFASHENPI')" slot="label"></iLabel>
               <iSelect
                 v-model="rowState.isTriggerApproval"
-                placeholder="请选择"
+                :placeholder="$t('MT_QINGXUANZE')"
                 @change="changeTriggerApproval"
                 :disabled="row.isTriggerApproval === 'false'"
               >
@@ -40,10 +40,10 @@
         <el-row class="form-row">
           <div class="form-item">
             <iFormItem label="审批流程" prop="approvalProcessId">
-              <iLabel :label="$t('审批流程')" slot="label"></iLabel>
+              <iLabel :label="$t('MT_SHENPILIUCHENG')" slot="label"></iLabel>
               <iSelect
                 v-model="rowState.approvalProcessId"
-                placeholder="请选择"
+                :placeholder="$t('MT_QINGXUANZE')"
                 :disabled="true"
               >
                 <el-option
@@ -59,7 +59,7 @@
         </el-row>
         <el-row class="form-row form-upload">
           <iFormItem label="上传附件" prop="uploadFile">
-            <iLabel :label="$t('上传附件')" slot="label"></iLabel>
+            <iLabel :label="$t('MT_SHANGCHUANFUJIAN')" slot="label"></iLabel>
             <el-upload
               action="1"
               :limit="1"
@@ -73,19 +73,21 @@
                 class="upload-button"
                 :uploadLoading="uploadLoading"
               >
-                请选择文件
+                {{ $t('MT_QINGXUANZEWENJIAN') }}
                 <span class="upload-text"><img :src="uploadIcon" /></span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">文件大小最大限制10MB</div>
+              <div slot="tip" class="el-upload__tip">
+                {{ $t('MT_WENJIANDAXIAOXIANZHI') }}10MB
+              </div>
             </el-upload>
           </iFormItem>
         </el-row>
         <div class="button-list">
           <el-form-item>
             <iButton @click="handleClose" plain class="cancel">{{
-              '取消'
+              $t('MT_QUXIAO')
             }}</iButton>
-            <iButton @click="handleSubmit" plain>{{ '确认' }}</iButton>
+            <iButton @click="handleSubmit" plain>{{ $t('MT_QUEREN') }}</iButton>
           </el-form-item>
         </div>
       </el-form>
@@ -196,8 +198,8 @@ export default {
       closeMeeting(param)
         .then((res) => {
           if (res) {
-            iMessage.success('关闭成功')
-            this.$emit('handleOK')
+            // iMessage.success('关闭成功')
+            this.$emit('handleOK', 'close')
             this.handleClose()
           } else {
             // iMessage.success('关闭失败')

@@ -86,14 +86,14 @@ export default {
       selectTableData: []
     }
   },
-  created() {
-    this.getTableList()
+  async created() {
+    await this.getTableList()
   },
   methods: {
     handleSelectionChange(val) {
       this.selectTableData = val
     },
-    async getTableList() {
+    async getTableList(val) {
       this.tableLoading = true
       const req = {
         supplierToken: this.$route.query.supplierToken
@@ -101,12 +101,36 @@ export default {
       try {
         const res = await getSupplierProcureFactory(req)
         this.tableListData = res.data ? res.data : []
-
         this.tableLoading = false
-        if (this.tableListData.isSelect) {
+        if (this.tableListData.isSelect && val != 1) {
+          const data = []
+          const isExistList = []
           this.$nextTick(() => {
             this.tableListData.procureFactoryList.forEach((e) => {
               this.$refs.mulitipleTable.toggleRowSelection(e, true)
+              if (e.isExist) {
+                isExistList.push(e)
+              }
+            })
+            if (isExistList.length == 0) {
+              this.selectTableData.forEach((res) => {
+                if (res.companyCode == '9000' || res.companyCode == '8000') {
+                  data.push(res)
+                }
+              })
+              const parms = {
+                procureFactoryList: data,
+                supplierToken: this.$route.query.supplierToken
+              }
+              saveSupplierProcureFactory(parms)
+            }
+          })
+        } else {
+          this.$nextTick(() => {
+            this.tableListData.procureFactoryList.forEach((e) => {
+              if (e.isExist) {
+                this.$refs.mulitipleTable.toggleRowSelection(e, true)
+              }
             })
           })
         }
@@ -143,14 +167,21 @@ export default {
           }
           saveSupplierProcureFactory(req).then((res) => {
             if (res && res.code == 200) {
-              this.getTableList()
+              this.getTableList(1)
               iMessage.success(res.desZh)
             } else iMessage.error(res.desZh)
           })
         })
     },
     selectable(val) {
+      if (this.tableListData.isSelect) {
+        if (val.companyCode == '9000' || val.companyCode == '8000') {
+          return false
+        }
+        return true
+      }
       return !val.isExist
+      // return true
     }
   }
 }

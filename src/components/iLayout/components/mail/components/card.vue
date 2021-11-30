@@ -76,7 +76,9 @@
             (!tab && item.subType === null)
         "
       >
-        <span class="multi-ellipsis" v-html="item.content"></span>
+        <!-- <span class="multi-ellipsis" v-html="item.content"></span> -->
+        <div class="multi-ellipsis" v-html="item.content"></div>
+
         <div
           class="btn-expanded"
           v-if="rows > 2 && !expanded"
@@ -240,6 +242,8 @@ export default {
       div.style.lineHeight = '16px'
       div.style.fontSize = '12px'
       div.innerHTML = this.item.content || ''
+      div.style.whiteSpace='pre-wrap';
+      div.style.wordBreak='break-all'
       document.body.append(div)
       const divRows = div.clientHeight / 16
       this.rows = divRows
@@ -363,6 +367,8 @@ export default {
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
       overflow: hidden;
     }
     &.expanded .multi-ellipsis {

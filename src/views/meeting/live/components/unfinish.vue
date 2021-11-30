@@ -37,12 +37,12 @@
       <el-divider class="divider-line"></el-divider>
     </el-row> -->
     <el-row class="row-el">
-      <iButton class="add-topic" @click="handleAddTopic">添加议题</iButton>
+      <iButton class="add-topic" @click="handleAddTopic">{{$t('添加议题')}}</iButton>
       <iButton
         class="revort-topic"
         :disabled="disabledButton"
         @click="handleRevokeTopic"
-        >撤回议题</iButton
+        >{{$t('撤回议题')}}</iButton
       >
       <iButton @click="handleMore">{{ "MORE" }}</iButton>
     </el-row>
@@ -63,16 +63,16 @@
       <el-table-column
         show-overflow-tooltip
         prop="follow"
-        align="center"
-        label="NO."
+        align="left"
+        label="No."
         width="60"
         min-width="60"
       >
         <template slot-scope="scope">
           <div class="img-word">
-            <div>
+            <span>
               {{ scope.$index + 1 }}
-            </div>
+            </span>
             <div>
               <img
                 v-if="scope.row.follow"
@@ -301,8 +301,8 @@
       :current-page="page.pageNum"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      prev-text="上一页"
-      next-text="下一页"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t(' MT_XIAYIYE')"
       :total="total"
     />
     <!-- <detailDialog
@@ -606,7 +606,7 @@ export default {
         this.disabledButton = true;
       }
     },
-    searchTableList(e) {
+    searchTableList() {
       this.$emit("findMyThemensByCondition", this.form);
     },
     changeStart(e) {
@@ -701,11 +701,12 @@ export default {
 }
 .img-word {
   display: flex;
-  justify-content: center;
-  div:first-child {
-    width: 30px;
-    text-align: center;
-    margin-right: 9.42px;
+  /* justify-content: center; */
+  span:first-child {
+     display: block;
+    width: 20px;
+    /* text-align: center; */
+    margin-right: 5px;
   }
 }
 ::v-deep .divider {

@@ -25,6 +25,7 @@
                   handleClick(item.methodName)
                 }
               "
+              :disabled="item.disabled == true && tableData.length !== 0"
             >
               {{ $t(item.title) }}</iButton
             >
@@ -165,7 +166,7 @@
             >
               <template slot-scope="scope">
                 {{
-                  scope.row.type === 'MANUAL' ? '非标准议题' : scope.row.type
+                  scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type
                 }}
               </template>
             </el-table-column>
@@ -390,7 +391,7 @@
               >
                 <template slot-scope="scope">
                   {{
-                    scope.row.type === 'MANUAL' ? '非标准议题' : scope.row.type
+                    scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type
                   }}
                 </template>
               </el-table-column>
@@ -656,6 +657,7 @@
       :meetingInfo="meetingInfo"
       :isOther="isOther"
       :beforeResult="beforeResult"
+      :autoOpenProtectConclusionObj="autoOpenProtectConclusionObj"
     />
     <lookConclusion
       v-if="dialogStatusManageObj.openLookConclusion"
@@ -670,6 +672,12 @@
       :openAddTopic="dialogStatusManageObj.openTopicLookDialog"
       @closeDialog="closeDialog"
       :topicInfo="topicInfo"
+    />
+    <importErrorDialog
+      v-if="openError"
+      :openError="openError"
+      :errorList="errorList"
+      @handleCloseError="handleCloseError"
     />
   </iPage>
 </template>
@@ -687,6 +695,7 @@ import iTableML from '@/components/iTableML'
 import protectConclusion from './component/protectConclusion.vue'
 import addTopicNew from './component/addTopicNew.vue'
 import lookConclusion from './component/lookConclusion.vue'
+import importErrorDialog from './component/importErrorDialog.vue'
 
 import {
   findThemenById,
@@ -704,7 +713,7 @@ import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
 import updateMeetingDialog from '../home/components/updateMeetingDialog.vue'
 import newSummaryDialog from './component/newSummaryDialog.vue'
-import { changeStateMeeting, importThemen } from '@/api/meeting/home'
+import { batchRecallMeeting, changeStateMeeting, importThemen } from '@/api/meeting/home'
 import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
 import { download } from '@/utils/downloadUtil'
 import enclosure from '@/assets/images/enclosure.svg'
@@ -731,10 +740,14 @@ export default {
     lookConclusion,
     iTableML,
     newSummaryDialogNew,
-    addTopicNew
+    addTopicNew,
+    importErrorDialog
   },
   data() {
     return {
+      openError: false,
+      errorList: [],
+      autoOpenProtectConclusionObj: '',
       isSingle: false,
       // closeLoading: false,
       curState: '',
@@ -1093,7 +1106,10 @@ export default {
       this.openAddTopic = false
     },
     // 导入议题保存
-    handleOKTopics() {
+    handleOKTopics(info) {
+      if (info === 'close') {
+        iMessage.success('关闭成功')
+      }
       this.closeDialog()
       this.flushTable()
     },
@@ -1115,14 +1131,28 @@ export default {
       }
       importThemen(param)
         .then((res) => {
-          if (res.id) {
+          // if (res.id) {
+          //   iMessage.success('导入议题成功')
+          //   this.openTopics = false
+          //   this.disabledImportThemenButton = false
+          //   // this.refreshTable();
+          //   this.flushTable()
+          //   this.closeDialog()
+          //   this.nameList = []
+          // }
+          if (res.length == 0) {
             iMessage.success('导入议题成功')
             this.openTopics = false
             this.disabledImportThemenButton = false
-            // this.refreshTable();
+            // this.refreshTable()
             this.flushTable()
             this.closeDialog()
             this.nameList = []
+          } else if (res.length != 0) {
+            // this.openTopics = false
+            this.disabledImportThemenButton = false
+            this.openError = true
+            this.errorList = res
           }
         })
         .catch(() => {
@@ -1130,6 +1160,10 @@ export default {
           this.nameList = []
         })
       this.flushTable()
+    },
+    // 上传议题错误提示框关闭
+    handleCloseError() {
+      this.openError = false
     },
     // 导入议题取消
     handleCancelTopics() {
@@ -1274,6 +1308,7 @@ export default {
           if (isCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
+                { title: "撤回", methodName: "recall", disabled: true},
                 { title: '锁定', methodName: 'lock' },
                 { title: '开始', methodName: 'start' },
                 { title: '修改', methodName: 'edit' },
@@ -1285,6 +1320,7 @@ export default {
           if (isPreCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
+                { title: "撤回", methodName: "recall", disabled: true},
                 { title: '锁定', methodName: 'lock' },
                 { title: '开始', methodName: 'start' },
                 { title: '修改', methodName: 'edit' },
@@ -1387,6 +1423,7 @@ export default {
       this.dialogStatusManageObj = dialogObj
     },
     closeDialog() {
+      this.autoOpenProtectConclusionObj = ''
       this.initDialog()
     },
     openDialog(val) {
@@ -1476,7 +1513,6 @@ export default {
           //在这里判断是不是已经生成会议纪要了
           // this.openDialog('openCloseMeetiongDialog')
           this.$nextTick(() => {
-            console.log("this.$refs['closeDialog']", this.$refs)
             this.$refs['closeDialog'].handleSubmit()
           })
         })
@@ -1557,6 +1593,23 @@ export default {
       if (bol) {
         endThemen(param)
           .then(() => {
+            iMessage.success('结束议题成功!')
+            if (!choiceThemen.isBreak) {
+              this.autoOpenProtectConclusionObj = choiceThemen
+            }
+            this.flushTable()
+            if (!choiceThemen.isBreak) {
+              this.openDialog('openProtectConclusion')
+            }
+          })
+          .catch(() => {
+            // iMessage.error("结束会议失败！");
+          })
+        // });
+        return
+      } else {
+        endThemen(param)
+          .then(() => {
             iMessage.success('结束议题成功！')
             // this.refreshTable();
             this.flushTable()
@@ -1564,18 +1617,7 @@ export default {
           .catch(() => {
             // iMessage.error("结束会议失败！");
           })
-        // });
-        return
       }
-      endThemen(param)
-        .then(() => {
-          iMessage.success('结束议题成功！')
-          // this.refreshTable();
-          this.flushTable()
-        })
-        .catch(() => {
-          // iMessage.error("结束会议失败！");
-        })
     },
     split() {
       this.$confirm('确认拆分该议题么?', '提示', {
@@ -1614,6 +1656,22 @@ export default {
           // iMessage.error(err);
         })
       // });
+    },
+    recall(){
+      let ids = []
+      ids.push(this.$route.query.id)
+      this.$confirm('是否撤回该会议 ？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
+      }).then(() => {
+        batchRecallMeeting( {ids} ).then((res) => {
+          if (res.code == 200) {
+            this.$message.success('撤回成功!')
+            this.$router.go(-1)
+          }
+        })
+      })
     },
     updateDate() {
       // alert("updateDate");
@@ -2083,6 +2141,9 @@ export default {
       this.selectedTableData = val
       const handleDisabledButtonName = this.handleDisabledButtonName
       if (val.length === 1) {
+        if (this.haveThemenIsStarting()) {
+          this.handleButtonDisabled(['overTopic'], false)
+        }
         if (val[0].state === '03') {
           if (!val[0].isBreak) {
             this.handleButtonDisabled(['protectResult'], false)
