@@ -276,8 +276,8 @@ export default {
       this.disabled = false;
     },
     save () {
-      if (this.inforData.flowType !== "MEETING" && this.numIsNomi !== 0) {
-        return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZBA', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转/备案'))
+      if (this.inforData.flowType == "SIGN"  && this.numIsNomi !== 0) {
+        return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZ', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转'))
       }
       iMessageBox(this.language('QUERENBAOCUN', '确认保存？'), this.language('LK_WENXINTISHI', '温馨提示'), {
         confirmButtonText: this.language('QUEREN', '确认'),
