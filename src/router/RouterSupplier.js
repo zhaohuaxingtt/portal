@@ -25,6 +25,7 @@ import Supplier360 from '@/views/supplierManagement/supplier360/list/list.vue'
 import supplierManagement from '@/views/supplierManagement/index.vue'
 import NTierMap from '@/views/supplierManagement/NTier/supplyChainMap/index.vue'
 import NTierRouter from '@/views/supplierManagement/NTier/router.vue'
+import PublicOpinionDetection from '@/views/supplierManagement/yuqingjiance'
 
 export default [
   {
@@ -61,6 +62,11 @@ export default [
     path: '/supplier/frmrating/depthRating',
     name: 'supplierFrmDepthRating',
     component: SupplierFrmDepthRating
+  },
+  {
+    path: '/supplier/frmrating/publicOpinion',
+    name: 'PublicOpinionDetection',
+    component:PublicOpinionDetection
   },
   {
     path: '/supplier/frmrating/depthRating/interView',
