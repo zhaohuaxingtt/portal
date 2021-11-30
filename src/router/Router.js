@@ -178,7 +178,7 @@ export default {
         ...RouterNews,
         ...RouterSurvey,
         ...RouterColorParts,
-        ...RouterApplications
+        ...RouterApplications,
       ]
     },
 

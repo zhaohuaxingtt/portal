@@ -7,22 +7,44 @@
         {{language('WHMTZLLZSJ','维护MTZ零件主数据')}}
       </span>
       <div>
+        <el-upload
+            class="upload-demo"
+            style="display:inline-block;margin-right:10px;"
+            multiple
+            :action="uploadUrl"
+            :show-file-list="false"
+            :on-success="uploadSuccess"
+            :on-progress="uploadProgress"
+            :data="uploadData"
+            :before-upload="beforeUpload"
+            :on-exceed="handleExceed"
+            v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+            >
+            <el-tooltip
+                :content="language('WENJIANDAXIAOBUCHAOGUO20MB','文件大小不超过20MB')"
+                placement="top"
+            >
+                <iButton>{{language('SHANGCHUANFUJIAN', '上传附件')}}</iButton>
+            </el-tooltip>
+        </el-upload>
+        <iButton @click="download"
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('XIAZAIMUBAN', '下载模板') }}</iButton>
         <iButton @click="cancel"
-                 v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('QUXIAO', '取消') }}</iButton>
+                 v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('QUXIAO', '取消') }}</iButton>
         <iButton @click="rfqClick"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('YYRFQZLJ', '引用RFQ中零件') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('YYRFQZLJ', '引用RFQ中零件') }}</iButton>
         <iButton @click="locationClick"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('YYDDSQDLJ', '引用定点申请单零件') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('YYDDSQDLJ', '引用定点申请单零件') }}</iButton>
         <iButton @click="historyClick"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('ZJLSMTZLJZSJ', '增加历史MTZ零件主数据') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('ZJLSMTZLJZSJ', '增加历史MTZ零件主数据') }}</iButton>
         <iButton @click="add"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('XINZENG', '新增') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('XINZENG', '新增') }}</iButton>
         <iButton @click="edit"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BIANJI', '编辑') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
         <iButton @click="delecte"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('SHANCHU', '删除') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('SHANCHU', '删除') }}</iButton>
         <iButton @click="save"
-                 v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BAOCUN', '保存') }}</iButton>
+                 v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BAOCUN', '保存') }}</iButton>
       </div>
     </template>
     <el-form :rules="formRules"
@@ -517,15 +539,15 @@
                  @addRfq="addRfqData"></rfqDialog>
     </iDialog>
 
-        <iDialog
-            :title="language('XINZENGMTZLINGJIANZHUSHUJU', '新增MTZ零件主数据')"
-            :visible.sync="addDialog"
-            v-if="addDialog"
-            width="70%"
-            @close="saveGzDialog"
-            >
-            <addData @close="saveGzClose" :listData="listData"></addData>
-        </iDialog>
+    <iDialog
+        :title="language('XINZENGMTZLINGJIANZHUSHUJU', '新增MTZ零件主数据')"
+        :visible.sync="addDialog"
+        v-if="addDialog"
+        width="70%"
+        @close="saveGzDialog"
+        >
+        <addData @close="saveGzClose" :listData="listData"></addData>
+    </iDialog>
 
     <iDialog :title="language('YINGYONGDINGDIANSHENQINGDANLINGJIAN', '引用定点申请单零件')"
              :visible.sync="quoteDialog"
@@ -564,6 +586,7 @@ import {
   pageAppRule,
   removePartMasterData,//清空维护mtz零件主数据
   getDosageUnitList,
+  downloadFile,//下载
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   getMtzSupplierList,//获取原材料牌号
@@ -575,7 +598,7 @@ import { formRulesLJ } from "./data";
 export default {
   name: "Search",
   componentName: "theDataTabs",
-  props: ["appStatus"],
+  props: ["appStatus","inforData"],
   components: {
     iCard,
     iButton,
@@ -593,6 +616,8 @@ export default {
   mixins: [pageMixins],
   data () {
     return {
+        uploadUrl:process.env.VUE_APP_MTZ + "/web/mtz/mtzAppNomi/uploadData",
+        uploadData:{},
         formRules:formRulesLJ,
         supplierList:[],//供应商编号
         ruleNo:[],//规则编号
@@ -635,6 +660,10 @@ export default {
     },
   },
   created () {
+    this.uploadData = {
+      mtzAppId:this.inforData.mtzAppId,
+      userId:JSON.parse(sessionStorage.getItem('userInfo')).id
+    };
     this.pageAppRequest();
     getMtzSupplierList({}).then(res => {
       this.supplierList = res.data;
@@ -657,11 +686,53 @@ export default {
         this.materialCode = res.data;
       })
     },
+    download(){
+      iMessageBox(this.language('SHIFOUDAOCHUMUBAN', '是否导出模板？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+        confirmButtonText: this.language('QUEREN', '确认'),
+        cancelButtonText: this.language('QUXIAO', '取消')
+      }).then(res => {
+        downloadFile({
+          mtzAppId: this.inforData.mtzAppId
+        }).then(res=>{
+          let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+          let objectUrl = URL.createObjectURL(blob);
+          let link = document.createElement("a");
+          link.href = objectUrl;
+          // let fname = "补差单汇总" + getNowFormatDate() + ".xlsx";
+          let fname = "MTZ零件主数据-" + this.inforData.mtzAppId + "-" + this.inforData.appName + ".xlsx";
+          link.setAttribute("download", fname);
+          document.body.appendChild(link);
+          link.click();
+          link.parentNode.removeChild(link);
+          iMessage.success("链接成功！")
+        })
+      })
+    },
+    uploadSuccess(res, file){
+      this.getTableList()
+    },
+    beforeUpload(file){
+        const isLt2M = file.size / 1024 / 1024 < 20;
+        if (!isLt2M) {
+            iMessage.error("上传文件大小不能超过 20MB!");
+        }
+        return isLt2M;
+    },
+    handleExceed(files, fileList) {
+        iMessage.warn(
+            `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+            files.length + fileList.length
+            } 个文件`
+        );
+    },
+
+
+
     pageAppRequest () {
       pageAppRule({
         pageNo: 1,
         pageSize: 99999,
-        mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        mtzAppId: this.inforData.mtzAppId,
       }).then(res => {
         this.ruleNo = res.data;
       })
@@ -714,7 +785,7 @@ export default {
     },
     removePartMasterData () {//清空
       removePartMasterData({
-        mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        mtzAppId: this.inforData.mtzAppId,
       }).then(res => {
         this.getTableList();
       })
@@ -732,11 +803,11 @@ export default {
             }).then(res => {
               if (this.dataCloseAllRequest) {
                 removePartMasterData({
-                  mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                  mtzAppId: this.inforData.mtzAppId,
                 }).then(res => {
                   if (res.code == 200 && res.result) {
                     addBatchPartMasterData({
-                      mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                      mtzAppId: this.inforData.mtzAppId,
                       mtzAppNomiPartMasterDataList: this.newDataList
                     }).then(res => {
                       if (res.code == 200) {
@@ -758,7 +829,7 @@ export default {
                 })
               } else {
                 addBatchPartMasterData({
-                  mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                  mtzAppId: this.inforData.mtzAppId,
                   mtzAppNomiPartMasterDataList: this.newDataList
                 }).then(res => {
                   if (res.code == 200) {
@@ -794,7 +865,7 @@ export default {
               cancelButtonText: this.language('QUXIAO', '取消')
             }).then(res => {
               modifyPartMasterData({
-                mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                mtzAppId: this.inforData.mtzAppId,
                 mtzAppNomiPartMasterDataList: this.selectList
               }).then(res => {
                 if (res.code == 200) {
@@ -895,7 +966,7 @@ export default {
         pagePartMasterData({
             pageNo: 1,
             pageSize: 99999,
-            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+            mtzAppId:this.inforData.mtzAppId,
         }).then(res=>{
             this.tableData = res.data;
             // this.page.currPage = res.pageNum
@@ -909,7 +980,7 @@ export default {
       pagePartMasterData({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        mtzAppId: this.inforData.mtzAppId,
       }).then(res => {
         if (res.data === null) return false;
         if (res.data.length < 1) {
