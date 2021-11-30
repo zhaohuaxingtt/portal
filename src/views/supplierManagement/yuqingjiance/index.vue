@@ -1,8 +1,9 @@
 <!--舆情检测-->
 <template>
- <div>
+ <iPage >
+   <iNavMvp :list="tabRouterList" class="margin-bottom20" routerPage :lev="1" />
    <!--搜索区-->
-   <i-search @sure='queryPublicOpinionDetection' @reset='resetQuery'>
+   <i-search class="margin-bottom20" @sure='queryPublicOpinionDetection' @reset='resetQuery'>
     <el-form :model='queryForm'>
        <el-form-item :label="language('LK_YQ_GONGYINGSANGMINGCHEN', '供应商名称')">
          <i-input v-model='queryForm.a'   :placeholder="language('LK_QINGSHURU','请输入')" clearable></i-input>
@@ -62,17 +63,31 @@
        v-loading="tableLoading"
        @handleSelectionChange="handleSelectionChange"
      ></tablelist>
+     <div class="pagination">
+       <iPagination v-update class="pagination"
+                    @size-change="handleSizeChange($event, )"
+                    @current-change="handleCurrentChange($event, )"
+                    background
+                    :current-page="page.currPage"
+                    :page-sizes="page.pageSizes"
+                    :page-size="page.pageSize"
+                    :layout="page.layout"
+                    :total="page.totalCount"/>
+     </div>
    </i-card>
- </div>
+ </iPage>
 </template>
 
 <script>
-import { iSearch,iInput,iCard,iButton,iSelect,iPagination,iDatePicker } from "rise";
+import { iSearch,iInput,iCard,iButton,iSelect,iPagination,iDatePicker,iPage,iNavMvp } from "rise";
 import {selectConfig, indexConfig,publicOpinionDetectionColumns} from './config/data'
 import tablelist from 'rise/web/components/iFile/tableList';
+import {pageMixins} from '@/utils/pageMixins'
+import { tabRouterList } from '../../frmRating/data';
 
 export default {
   name: 'index',
+  mixins: [pageMixins],
   components:{
     iSearch,
     iInput,
@@ -81,10 +96,13 @@ export default {
     iSelect,
     iPagination,
     iDatePicker,
-    tablelist
+    tablelist,
+    iPage,
+    iNavMvp
   },
   data(){
     return {
+      tabRouterList,
       selectConfig,
       indexConfig,
       queryForm:{},
