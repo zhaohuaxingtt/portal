@@ -3,9 +3,8 @@
     <div class="menu">
       <iCard title="页面菜单">
         <functionMenu
-          key="menu"
           editable
-          :default-selected-rows="detail.menuList"
+          :default-selected-rows="defaultSelectedMenus"
           :full-menu="fullMenu"
           @set-menu-list="setMenuList"
           @set-resource-parent="setResourceParent"
@@ -19,10 +18,9 @@
           <iButton @click="saveResource">确定</iButton>
         </template>
         <functionResource
-          key="resource"
           editable
           :full-menu="fullMenu"
-          :default-selected-rows="detail.resourceList"
+          :default-selected-rows="defaultSelectedResource"
           :parent-id="resourceParent.id"
           ref="functionResource"
           @set-resource-list="setResourceList"
@@ -61,6 +59,18 @@ export default {
         return `【${this.resourceParent.name}】页面控件`
       }
       return '页面控件'
+    },
+    defaultSelectedMenus() {
+      return _.cloneDeep(this.detail.menuList)
+    },
+    defaultSelectedResource() {
+      return _.cloneDeep(this.detail.resourceList)
+    }
+  },
+  watch: {
+    'detail.menuList'() {
+      console.log('watch menuList')
+      this.setDefaultCheckedMenuList()
     }
   },
   data() {
@@ -71,11 +81,20 @@ export default {
       resourceList: null
     }
   },
+  created() {
+    this.setDefaultCheckedMenuList()
+  },
   methods: {
+    setDefaultCheckedMenuList() {
+      if (this.detail.menuList) {
+        this.menuList = treeToArray(this.detail.menuList, 'menuList')
+      }
+    },
     setResourceParent(row) {
       this.resourceParent = row
     },
     setMenuList(val, properties) {
+      console.log('setMenuList', val)
       this.menuList = val
       if (properties) {
         const { rows, row, checked } = properties
@@ -121,6 +140,7 @@ export default {
             )
           }
         }
+        console.log('checked', checked)
         // 关联选中菜单
         if (checked) {
           const firstRow = row || (rows && rows[0])
@@ -159,21 +179,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* .edit-function {
-  position: relative;
-  .el-tabs--card {
-    background: none !important;
-  }
-  ::v-deep .i-pagination .page-info {
-    margin-top: 15px;
-  }
-  .action-buttons {
-    position: absolute;
-    z-index: 9;
-    top: 0;
-    right: 0;
-  }
-} */
 .view-data {
   display: flex;
   justify-content: space-between;

@@ -470,8 +470,11 @@ export default {
       this.$emit('handle-current-change', val)
     },
     handleSelectionChange(val) {
-      this.selectedRows = val
-      this.$emit('handle-selection-change', val)
+      // 20211130 原生的selection
+      if (!this.customSelection) {
+        this.selectedRows = val
+        this.$emit('handle-selection-change', val)
+      }
     },
     handleEmit(item, row) {
       if (item.emit) {
@@ -481,6 +484,13 @@ export default {
     getTableData() {
       if (this.treeExpand) {
         this.tableData = this.getTreeTableData(this.data)
+        /****************** 20211130 如果有默认的，先emit */
+        /* if (this.defaultSelectedRows) {
+          this.selectedRows = this.tableData.filter((e) =>
+            this.defaultCheckedKeys.includes(e[this.rowKey])
+          )
+        } */
+        /******************* end *********************/
       } else {
         this.tableData = this.data
         this.tableData.forEach((e, index) => {

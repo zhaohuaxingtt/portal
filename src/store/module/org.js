@@ -7,43 +7,43 @@
  * @FilePath: \front-supplier\src\store\module\home.js
  */
 
-
 const state = {
   orgInfo: {
-    parentId: "", //所属组织部门ID
-    parentName: "",
-    superDeptId: "", //上级部门id
-    subDeptId: "", //下级部门id
-    fullCode: "", //组织机构编码
-    nameZh: "", //组织机构名称（中）
-    nameEn: "", //组织机构名称（英）
-    level: "", //组织级别
-    svcdCode: "", //SVCD组织编码
-    description: "", //组织描述
+    parentId: '', //所属组织部门ID
+    parentName: '',
+    superDeptId: '', //上级部门id
+    subDeptId: '', //下级部门id
+    fullCode: '', //组织机构编码
+    nameZh: '', //组织机构名称（中）
+    nameEn: '', //组织机构名称（英）
+    level: '', //组织级别
+    svcdCode: '', //SVCD组织编码
+    description: '', //组织描述
     tagList: [], //组织标签
-    isVisible: "", //是否显示在组织树
-    isCommodity: "", //是否为Commodity
-    syncStatus: "", //是否同步svcd
-    logoName:"",//部门logo名字
-    supDeptList:[], //下级组织
-    remark:null, //备注
+    isVisible: '', //是否显示在组织树
+    isCommodity: '', //是否为Commodity
+    syncStatus: '', //是否同步svcd
+    logoName: '', //部门logo名字
+    supDeptList: [], //下级组织
+    remark: null, //备注
+    costCenterId: ''
   },
   table: {
     tableListData: [],
     extraData: {
       dimensionLeftMenu: [],
-      dimensionRightMenu: [],
-    },
+      dimensionRightMenu: []
+    }
   } //组织维度
 }
 
 const mutations = {
   SET_ORG_TAG(state, data) {
-    console.log("===mutations",state.orgInfo)
+    console.log('===mutations', state.orgInfo)
     if (state.orgInfo) {
-        // , tagList: data 
-    //   state.orgInfo = { ...state.orgInfo}
-    state.orgInfo = data;
+      // , tagList: data
+      //   state.orgInfo = { ...state.orgInfo}
+      state.orgInfo = data
     }
   },
   SET_ORG_INFO(state, data) {
@@ -52,8 +52,8 @@ const mutations = {
   RESET_ORG_INFO(state) {
     state.orgInfo = null
   },
-  SET_ORG_TABLE(state,data){
-      state.table = data;
+  SET_ORG_TABLE(state, data) {
+    state.table = data
   }
 }
 
@@ -66,11 +66,11 @@ const actions = {
   },
   resetOrgInfo({ commit }) {
     commit('RESET_ORG_INFO')
-  },
+  }
 }
 
 export default {
   state,
   mutations,
-  actions,
+  actions
 }
