@@ -10,17 +10,17 @@
       </span>
       <div>
         <iButton @click="cancel"
-                 v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('QUXIAO', '取消') }}</iButton>
+                 v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('QUXIAO', '取消') }}</iButton>
         <iButton @click="add"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('XINZENG', '新增') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('XINZENG', '新增') }}</iButton>
         <iButton @click="edit"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BIANJI', '编辑') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
         <iButton @click="continueBtn"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('YANYONG', '沿用') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('YANYONG', '沿用') }}</iButton>
         <iButton @click="delecte"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('SHANCHU', '删除') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('SHANCHU', '删除') }}</iButton>
         <iButton @click="save"
-                 v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BAOCUN', '保存') }}</iButton>
+                 v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BAOCUN', '保存') }}</iButton>
       </div>
     </template>
     <el-form :rules="formRules"
@@ -891,6 +891,7 @@ export default {
                   // this.page.pageSize = 10;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
+                    this.$parent.$refs.theDataTabs.getTableList()
                   }, 500);
 
                   this.getTableList();
@@ -933,6 +934,7 @@ export default {
                   this.editType = false;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
+                    this.$parent.$refs.theDataTabs.getTableList()
                   }, 500);
 
                   this.getTableList();
@@ -1025,6 +1027,7 @@ export default {
             iMessage.success(res.desZh)
             setTimeout(() => {
               this.$parent.$refs.theDataTabs.pageAppRequest()
+              this.$parent.$refs.theDataTabs.getTableList()
             }, 500);
 
             this.getTableList();

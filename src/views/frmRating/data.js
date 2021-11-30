@@ -52,7 +52,9 @@ export const tabRouterList = [
   {
     value: 7,
     name: '舆情监测',
-    key: 'SUPPLIER_YUQINGJIANCE'
+    key: 'SUPPLIER_YUQINGJIANCE',
+    url: '/supplier/frmrating/publicOpinion',
+    activePath: '/supplier/frmrating/publicOpinion',
   },
   {
     value: 8,

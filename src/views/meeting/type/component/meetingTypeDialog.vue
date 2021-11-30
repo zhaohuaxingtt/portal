@@ -104,6 +104,7 @@
                   v-model="ruleForm.category"
                   placeholder="请选择"
                   value-key="id"
+                  @change="selectChanged"
                   :disabled="
                     selectedTableData[0]
                       ? selectedTableData[0].name === 'Pre CSC' ||
@@ -664,9 +665,7 @@ export default {
         isTriggerApproval: [
           { required: true, message: '必选', trigger: ['blur', 'change'] }
         ],
-        userIds: [
-          { required: true, message: '必选', trigger: ['blur'] }
-        ],
+        userIds: [{ required: true, message: '必选', trigger: ['blur'] }],
         category: [
           { required: true, message: '必选', trigger: ['blur', 'change'] }
         ]
@@ -800,7 +799,8 @@ export default {
   },
   mounted() {
     if (this.editOrAdd === 'edit') {
-      this.selectedTableData[0].incidenceRelation = this.selectedTableData[0].incidenceRelation.split(',')
+      this.selectedTableData[0].incidenceRelation =
+        this.selectedTableData[0].incidenceRelation.split(',')
       const userIdsArr = this.selectedTableData[0].userIds
         ? this.selectedTableData[0].userIds.split(',')
         : []
@@ -917,6 +917,9 @@ export default {
     }
   },
   methods: {
+    selectChanged() {
+      this.ruleForm.conclusionConfig = ''
+    },
     async queryEdit(userIdsArr) {
       const res = await getUsers({ userIdList: [...userIdsArr] })
       return res.data
@@ -925,12 +928,12 @@ export default {
       let param
       if (val) {
         param = {
-          roleCode: 'MEETINGADMIN',
+          roleCode: process.env.VUE_APP_ROLE_CODE,
           nameZh: val
         }
       } else {
         param = {
-          roleCode: 'MEETINGADMIN',
+          roleCode: process.env.VUE_APP_ROLE_CODE,
           nameZh: ''
         }
       }

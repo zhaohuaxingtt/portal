@@ -2,58 +2,89 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-06 11:13:02
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
-  <div v-cloak class="full-width flex-ver full-height" v-loading="onDataLoading">
-    <div class="full-width flex-hor" style="height: 40px;overflow:hidden;padding: 0;" v-show="(toolbar && toolbar.length > 0) || $scopedSlots.toolbar || $slots.toolbar">
+  <div v-cloak
+       class="full-width flex-ver full-height"
+       v-loading="onDataLoading">
+    <div class="full-width flex-hor"
+         style="height: 40px;overflow:hidden;padding: 0;"
+         v-show="(toolbar && toolbar.length > 0) || $scopedSlots.toolbar || $slots.toolbar">
       <template v-if="toolbar.indexOf('zoom') >= 0">
-        <div :class="['node-button', zoomInClass]" @click="zoomIn" title="放大"></div>
+        <div :class="['node-button', zoomInClass]"
+             @click="zoomIn"
+             title="放大"></div>
         <div style="width: 40px;text-align:center;">{{parseInt(zoom*100)}}%</div>
-        <div :class="['node-button', zoomOutClass]" @click="zoomOut" title="缩小"></div>
+        <div :class="['node-button', zoomOutClass]"
+             @click="zoomOut"
+             title="缩小"></div>
       </template>
       <div style="flex:1;">
-        <slot name="toolbar" :initWidth="initWidth"></slot>
+        <slot name="toolbar"
+              :initWidth="initWidth"></slot>
       </div> <!-- 工具栏插槽 -->
-        <iButton @click="isDilog=true">{{
+      <iButton @click="isDilog=true">{{
             language('NTIERZHUCEYAOQING','N-Tier注册邀请')
           }}</iButton>
-      <div v-if="toolbar.indexOf('reassign-lvl') >= 0" :class="['node-button', optimizeLevelClass]" @click="optimizeLevel" title="重置层级"></div>
-      <div v-if="toolbar.indexOf('save') >= 0" :class="['node-button', emitDataClass]" @click="emitDatas" title="提交数据"></div>
-      <iButton v-if="toolbar.indexOf('opt-node') >= 0" @click="optimizeNodes">{{language('CHONGZHICENGJI','重置层级')}}</iButton>
-      <iButton v-if="toolbar.indexOf('copy') >= 0" @click="copyNode">{{language('FUZHIGONGYINGLIANLU','复制供应链路')}}</iButton>
+      <div v-if="toolbar.indexOf('reassign-lvl') >= 0"
+           :class="['node-button', optimizeLevelClass]"
+           @click="optimizeLevel"
+           title="重置层级"></div>
+      <div v-if="toolbar.indexOf('save') >= 0"
+           :class="['node-button', emitDataClass]"
+           @click="emitDatas"
+           title="提交数据"></div>
+      <iButton v-if="toolbar.indexOf('opt-node') >= 0"
+               @click="optimizeNodes">{{language('CHONGZHICENGJI','重置层级')}}</iButton>
+      <iButton v-if="toolbar.indexOf('copy') >= 0"
+               @click="copyNode">{{language('FUZHIGONGYINGLIANLU','复制供应链路')}}</iButton>
     </div>
-    <div style="flex:1;height:0;overflow:auto;width: 100%;" ref="nodeChainArea">
-      <div id="canvas" :style="{'height': compTop +'px','width': compLeft +'px'}" @click.prevent.stop="isSelected = ''">
+    <div style="flex:1;height:0;overflow:auto;width: 100%;"
+         ref="nodeChainArea">
+      <div id="canvas"
+           :style="{'height': compTop +'px','width': compLeft +'px'}"
+           @click.prevent.stop="isSelected = ''">
         <template v-for="node in chainNodeList">
-          <div :key="node.id" :class="{'node-css':node.supplierId!=supplierId,'highlight-node-css':node.supplierId==supplierId,'is-selected':isSelected == node.id}" :id='node.id' v-if='!node.hidden' :style="{'top': node.top+'px','left': node.left +'px','width': nodeWidth + 'px','height': nodeHeight + 'px'}" @click.prevent.stop="handleSelectedChange(node)">
-            <div class="full-width full-height flex-ver" style="align-items: flex-start;justify-content: flex-start;">
-              <div class="full-width flex-hor" style="height: 40px;align-items: center;justify-content: flex-end;">
-                <slot name="head" :node="node"></slot> <!-- 节点抬头插槽 -->
+          <div :key="node.id"
+               :class="{'node-css':node.supplierId!=supplierId,'highlight-node-css':node.supplierId==supplierId,'is-selected':isSelected == node.id}"
+               :id='node.id'
+               v-if='!node.hidden'
+               :style="{'top': node.top+'px','left': node.left +'px','width': nodeWidth + 'px','height': nodeHeight + 'px'}"
+               @click.prevent.stop="handleSelectedChange(node)">
+            <div class="full-width full-height flex-ver"
+                 style="align-items: flex-start;justify-content: flex-start;">
+              <div class="full-width flex-hor"
+                   style="height: 40px;align-items: center;justify-content: flex-end;">
+                <slot name="head"
+                      :node="node"></slot> <!-- 节点抬头插槽 -->
                 <template v-if="node.chainLevel>1">
-                  <div :class="['node-button', removeNodeClass, 'show-mini']" @click="removeNode(node)"></div>
+                  <div :class="['node-button', removeNodeClass, 'show-mini']"
+                       @click="removeNode(node)"></div>
                 </template>
                 <template v-if="node.chainLevel>-1">
-                  <div :class="['node-button', addChildNodeClass, 'show-mini']" @click="addChildNode(node)"></div>
+                  <div :class="['node-button', addChildNodeClass, 'show-mini']"
+                       @click="addChildNode(node)"></div>
                 </template>
               </div>
               <slot :node="node"></slot> <!-- 节点内容插槽 -->
-              <div v-if="showExpand(node)" :class="['expand-node', nodeExpanded(node) ? expandClass : reduceClass]" @click.prevent.stop="expandClicked(node)">
+              <div v-if="showExpand(node)"
+                   :class="['expand-node', nodeExpanded(node) ? expandClass : reduceClass]"
+                   @click.prevent.stop="expandClicked(node)">
               </div>
             </div>
           </div>
         </template>
       </div>
     </div>
-      <iDialog @close="closeDiolog()"
+    <iDialog @close="closeDiolog()"
              :title=" language('NTIERZHUCEYAOQING','N-Tier注册邀请')"
              :visible.sync="isDilog"
              v-if="isDilog"
              width="80%">
       <iFormGroup row="3"
-      :rules="baseRules"
-
+                  :rules="baseRules"
                   :model="formModel"
                   ref="formModelRules">
         <iFormItem prop="supplierName">
@@ -99,7 +130,8 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
 import { baseRules } from './data.js'
-import { icon, iButton, iCard,
+import {
+  icon, iButton, iCard,
   iSelect,
   iSearch,
   iInput,
@@ -107,24 +139,27 @@ import { icon, iButton, iCard,
   iFormItem,
   iMessage,
   iFormGroup,
-  iLabel } from "rise";
+  iLabel
+} from "rise";
 import {
   invitation
 } from '@/api/supplierManagement/supplyMaintain/index.js'
 export default {
-  components: { icon, iButton, iCard,
+  components: {
+    icon, iButton, iCard,
     iSelect,
     iSearch,
     iInput,
     iDialog,
     iFormItem,
     iFormGroup,
-    iLabel },
+    iLabel
+  },
   props: {
     nodeDatas: {
       type: Object,
       requried: true,
-      default: function() {
+      default: function () {
         return { nodeList: {}, edges: [] };
       }
     },
@@ -166,13 +201,13 @@ export default {
     },
     visoConfig: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     },
     toolbar: {
       type: Array,
-      default: function() {
+      default: function () {
         return ["zoom", "opt-node", "copy"];
       }
     },
@@ -230,7 +265,7 @@ export default {
     },
     disableDragConnectLvls: {
       type: Array,
-      default: function() {
+      default: function () {
         return [0, 1]
       }
     },
@@ -239,9 +274,9 @@ export default {
       default: ''
     }
   },
-  data: function() {
+  data: function () {
     return {
-        formModel: {
+      formModel: {
         supplierName: '',
         contactName: '',
         contactEmail: ''
@@ -302,7 +337,7 @@ export default {
     }
   },
   methods: {
-    handleScroll(id) {
+    handleScroll (id) {
       var div = this.$refs.nodeChainArea
       for (const key in this.chainNodeList) {
         if (this.chainNodeList[key].id === id) {
@@ -311,24 +346,24 @@ export default {
         }
       }
     },
-    expainExpress(str, node) {
+    expainExpress (str, node) {
       return eval(str);
     },
-    handleSelectedChange(node) {
+    handleSelectedChange (node) {
       this.isSelected = node.id
       this.node = node
     },
-    initNodeChains: function() {
+    initNodeChains: function () {
       var self = this;
 
       //jsPlumb 初始化 
       jsPlumb.reset();
 
-      self.$nextTick(function() {
+      self.$nextTick(function () {
         jsPlumb.ready(self.mainInit);
       });
     },
-    mainInit: function() {
+    mainInit: function () {
       var self = this;
       //jsPlumb 初始化  bind设定
       self.jsPlumbBindSet();
@@ -339,11 +374,11 @@ export default {
       self.onDataLoading = false;
     },
 
-    messageConfirm: function(option, successFun, errorFun) {
+    messageConfirm: function (option, successFun, errorFun) {
       option = _.cloneDeep(Object.assign({ type: "warning" }, option));
-      successFun = successFun || function() { };
-      errorFun = errorFun || function() { };
-      Vue.confirm(option).then(successFun).catch(function(action) {
+      successFun = successFun || function () { };
+      errorFun = errorFun || function () { };
+      Vue.confirm(option).then(successFun).catch(function (action) {
         if (typeof action == "object") {
           throw action;
         } else {
@@ -351,35 +386,35 @@ export default {
         }
       });
     },
-        handleSbumit() {
-        this.$refs.formModelRules.validate((valid) => {
-          if (valid) {
-      // if (
-      //   this.formModel.supplierName == '' ||
-      //   this.formModel.contactName == '' ||
-      //   this.formModel.contactEmail == ''
-      // ) {
-      //   iMessage.warn(this.language('QINGSHURUBITIANXIANG', '请输入必填项'))
-      //   return false
-      // }
-      invitation(this.formModel).then((res) => {
-        if (res && res.code == 200) {
-          iMessage.success(res.desZh)
-                this.isDilog = false
-        } else iMessage.error(res.desZh)
+    handleSbumit () {
+      this.$refs.formModelRules.validate((valid) => {
+        if (valid) {
+          // if (
+          //   this.formModel.supplierName == '' ||
+          //   this.formModel.contactName == '' ||
+          //   this.formModel.contactEmail == ''
+          // ) {
+          //   iMessage.warn(this.language('QINGSHURUBITIANXIANG', '请输入必填项'))
+          //   return false
+          // }
+          invitation(this.formModel).then((res) => {
+            if (res && res.code == 200) {
+              iMessage.success(res.desZh)
+              this.isDilog = false
+            } else iMessage.error(res.desZh)
+          })
+        } else {
+          return false
+        }
       })
-      } else {
-        return false
-      }
-        })
     },
-   closeDiolog() {
+    closeDiolog () {
       this.isDilog = false
       this.formModel = {}
     },
-    fintRootId: function(nodeId) {
+    fintRootId: function (nodeId) {
       var self = this;
-      var currentEdge = self.edgeList.filter(function(edge) {
+      var currentEdge = self.edgeList.filter(function (edge) {
         return edge.source == nodeId;
       });
       if (currentEdge.length == 0) {
@@ -390,13 +425,13 @@ export default {
     },
 
     // 根据json画出每个节点的端点
-    jsPlumbBindSet: function() {
+    jsPlumbBindSet: function () {
       var self = this;
 
       jsPlumb.setContainer("canvas");
 
       //绑定 “连接node前” 事件, 避免连线源锚点和目标锚点在同一节点
-      jsPlumb.bind('beforeDrop', function(conn) {
+      jsPlumb.bind('beforeDrop', function (conn) {
         if (conn.sourceId === conn.targetId) {
           return false
         } else {
@@ -417,7 +452,7 @@ export default {
       });
 
       //绑定 “连接node变化” 事件，修改前后node id
-      jsPlumb.bind("connectionMoved", function(p) {
+      jsPlumb.bind("connectionMoved", function (p) {
         var fromId = p.newSourceId;
         var newToId = p.newTargetId;
         var oldToId = p.originalTargetId;
@@ -432,8 +467,8 @@ export default {
 
       // 绑定 双击连接线删除 事件
       if (self.enableDeleteConnection) {
-        jsPlumb.bind('dblclick', function(conn, originalEvent) {
-          self.messageConfirm({ message: "是否确认删除此连接" }, function(action) {
+        jsPlumb.bind('dblclick', function (conn, originalEvent) {
+          self.messageConfirm({ message: "是否确认删除此连接" }, function (action) {
             //DAG图形数据中连线删除
             jsPlumb.deleteConnection(conn);
             self.deleteRelFromParent(conn.sourceId, conn.targetId);
@@ -443,11 +478,11 @@ export default {
       }
 
       // 绑定 当连线从一个终端点断开时的事件
-      jsPlumb.bind("connectionDetached", function(info, originalEvent) {
+      jsPlumb.bind("connectionDetached", function (info, originalEvent) {
       });
 
       // 绑定 当连线从一个终端点断开时的事件
-      jsPlumb.bind("connectionDragStop", function(info, originalEvent) {
+      jsPlumb.bind("connectionDragStop", function (info, originalEvent) {
         if (!info.connector) {
           var edgeList = [];
           edgeList[0] = {
@@ -459,8 +494,8 @@ export default {
       });
 
       //绑定 连接node 事件
-      jsPlumb.bind("connection", function(p) {
-        var exists = self.edgeList.filter(function(conn) {
+      jsPlumb.bind("connection", function (p) {
+        var exists = self.edgeList.filter(function (conn) {
           return conn.source == p.sourceId && conn.target == p.targetId;
         });
         if (exists.length > 0) {
@@ -475,7 +510,7 @@ export default {
 
       //禁止某层级连接被更改
       if (self.disableDragConnectLvls && self.disableDragConnectLvls.length > 0) {
-        jsPlumb.bind("beforeStartDetach", function(p) {
+        jsPlumb.bind("beforeStartDetach", function (p) {
           if (self.disableDragConnectLvls.indexOf(self.chainNodeList[p.connection.targetId].level) >= 0) {
             return false;
           }
@@ -484,7 +519,7 @@ export default {
       }
     },
 
-    addToNewParent: function(sourceId, targetId, isChange) {
+    addToNewParent: function (sourceId, targetId, isChange) {
       var self = this;
       self.edgeList.push({
         source: sourceId,
@@ -502,10 +537,10 @@ export default {
       }
     },
 
-    deleteRelFromParent: function(sourceId, oldTargetId) {
+    deleteRelFromParent: function (sourceId, oldTargetId) {
       var self = this;
       var delIndex;
-      self.edgeList.forEach(function(nodeConn, index) {
+      self.edgeList.forEach(function (nodeConn, index) {
         if (nodeConn.source == sourceId && nodeConn.target == oldTargetId) {
           delIndex = index;
           return false;
@@ -514,9 +549,9 @@ export default {
       self.edgeList.splice(delIndex, 1);
     },
 
-    fireLevelChange: function(sourceId, level, needDispatch) {
+    fireLevelChange: function (sourceId, level, needDispatch) {
       var self = this;
-      var iterators = self.edgeList.filter(function(nodeConn) {
+      var iterators = self.edgeList.filter(function (nodeConn) {
         return nodeConn.target == sourceId;
       });
       if (iterators.length > 0) {
@@ -529,33 +564,33 @@ export default {
     },
 
     // 根据json画出每个节点的端点
-    drawPoint: function(nodeList) {
+    drawPoint: function (nodeList) {
       var self = this;
       for (var nodeId in nodeList) {
         if (!nodeList[nodeId].hidden) self.initSetNode(nodeList[nodeId].type, nodeId);
-      };
+      }
     },
 
     // 根据json画出连线
-    drawConnect: function(edgeList) {
+    drawConnect: function (edgeList) {
       var self = this;
-      edgeList.forEach(function(edge) {
+      edgeList.forEach(function (edge) {
         if (!self.chainNodeList[edge.source].hidden) self.connectEndpointOfAnnounce(edge);
       });
     },
 
-    connectEndpointOfAnnounce: function(edge) {
+    connectEndpointOfAnnounce: function (edge) {
       if (edge.source) {
         this.connectEndpoint(edge.source + '-out', edge.target + '-in');
       }
     },
 
-    connectEndpoint: function(from, to) {
+    connectEndpoint: function (from, to) {
       jsPlumb.connect({ uuids: [from, to] });
     },
 
     // 初始化节点设置
-    initSetNode: function(template, id) {
+    initSetNode: function (template, id) {
       this.addDraggable(id)
       this.setMaxSize(id);
 
@@ -569,7 +604,7 @@ export default {
       }
     },
 
-    setMaxSize: function(id) {
+    setMaxSize: function (id) {
       if (this.chainNodeList[id].left > this.maxLeft) {
         this.maxLeft = this.chainNodeList[id].left;
       }
@@ -579,7 +614,7 @@ export default {
     },
 
     // 设置入口点
-    setEnterPoint: function(id) {
+    setEnterPoint: function (id) {
       var config = this.getBaseNodeConfig()
 
       if (this.flowDirection == "straight") {
@@ -597,7 +632,7 @@ export default {
     },
 
     // 设置出口点
-    setExitPoint: function(id, position) {
+    setExitPoint: function (id, position) {
       var config = this.getBaseNodeConfig();
 
       if (this.flowDirection == "straight") {
@@ -615,12 +650,12 @@ export default {
     },
 
     // 让元素可拖动
-    addDraggable: function(id) {
+    addDraggable: function (id) {
       var self = this;
       jsPlumb.draggable(id, {
         // containment: 'document',
         grid: [10, 10],
-        stop: function(ev) {
+        stop: function (ev) {
           if (!ev.drag) {
             return;
           }
@@ -631,10 +666,10 @@ export default {
             self.$emit("pos-changed", id, self.chainNodeList[id].left, self.chainNodeList[id].top)
           }
         },
-        drag: function(ev) {
+        drag: function (ev) {
           if (ev.pos[0] + self.nodeWidth + self.nextElOffset >= self.screenWidth) {
             self.screenWidth = self.screenWidth + self.nodeWidth * 2;
-            self.$nextTick(function() {
+            self.$nextTick(function () {
               self.triggerScrollX();
             });
           } else {
@@ -647,7 +682,7 @@ export default {
           }
           if (ev.pos[1] + self.nodeHeight + self.nextElOffset >= self.screenHeight) {
             self.screenHeight = self.screenHeight + self.nodeHeight * 2;
-            self.$nextTick(function() {
+            self.$nextTick(function () {
               self.triggerScrollY();
             });
           } else {
@@ -662,7 +697,7 @@ export default {
       })
     },
 
-    triggerScrollX: function(reverse) {
+    triggerScrollX: function (reverse) {
       if (reverse) {
         this.$refs.nodeChainArea.scrollTo(this.$refs.nodeChainArea.scrollLeft - 5, this.$refs.nodeChainArea.scrollTop);
       } else {
@@ -670,7 +705,7 @@ export default {
       }
     },
 
-    triggerScrollY: function(reverse) {
+    triggerScrollY: function (reverse) {
       if (reverse) {
         this.$refs.nodeChainArea.scrollTo(this.$refs.nodeChainArea.scrollLeft, this.$refs.nodeChainArea.scrollTop - 5);
       } else {
@@ -679,17 +714,17 @@ export default {
     },
 
     // 获取基本配置
-    getBaseNodeConfig: function() {
+    getBaseNodeConfig: function () {
       return Object.assign({}, this.defaultVisoConfig.baseStyle)
     },
 
-    addChildNode: function(node) {
+    addChildNode: function (node) {
       this.$emit("add-node", node);
     },
-    removeNode: function(node) {
+    removeNode: function (node) {
       this.$emit("delete-node", node);
     },
-    checkPositionDuplicate: function(left, top) {
+    checkPositionDuplicate: function (left, top) {
       var self = this;
       var newPosition;
 
@@ -712,15 +747,15 @@ export default {
           }
           break;
         }
-      };
+      }
       return newPosition;
     },
-    copyNode: function() {
+    copyNode: function () {
       this.$emit("copy-node", this.node);
     },
 
     //设置缩放比例
-    setZoomFun: function(scale) {
+    setZoomFun: function (scale) {
       document.getElementById('canvas').style['-webkit-transform'] = 'scale(' + scale + ')';
       document.getElementById('canvas').style['-moz-transform'] = 'scale(' + scale + ')';
       document.getElementById('canvas').style['-ms-transform'] = 'scale(' + scale + ')';
@@ -729,7 +764,7 @@ export default {
       jsPlumb.setZoom(scale);
     },
 
-    zoomIn: function() {
+    zoomIn: function () {
       if (this.zoom < 1 && this.zoom >= 0) {
         this.zoom += 0.1;
         if (this.zoom > 1) {
@@ -739,7 +774,7 @@ export default {
       }
     },
 
-    zoomOut: function() {
+    zoomOut: function () {
       if (this.zoom <= 1 && this.zoom > 0) {
         this.zoom -= 0.1;
         if (this.zoom < 0.1) {
@@ -749,30 +784,30 @@ export default {
       }
     },
 
-    initialContainerSize: function() {
+    initialContainerSize: function () {
       var self = this;
       for (var nodeId in self.chainNodeList) {
         self.setMaxSize(nodeId);
-      };
+      }
       self.initWidth = self.screenWidth = parseInt(document.getElementById("canvas").parentNode.getBoundingClientRect().width - 16);
       self.initHeight = self.screenHeight = parseInt(document.getElementById("canvas").parentNode.getBoundingClientRect().height);
     },
 
-    optimizeNodes: function() {
+    optimizeNodes: function () {
       var self = this;
       self.onDataLoading = true;
-      self.$nextTick(function() {
+      self.$nextTick(function () {
         var startNodeIds = self.findAllStartNodes();
         self.optimizeChildNodes(startNodeIds, -self.nodeWidth, self.nextElOffset);
-        self.$nextTick(function() {
+        self.$nextTick(function () {
           self.initNodeChains();
         });
       });
     },
 
-    findChildIds: function(parentId) {
+    findChildIds: function (parentId) {
       var childIds = [];
-      this.edgeList.forEach(function(edge) {
+      this.edgeList.forEach(function (edge) {
         if (edge.target == parentId) {
           childIds.push(edge.source);
         }
@@ -780,12 +815,12 @@ export default {
       return childIds;
     },
 
-    optimizeChildNodes: function(parentIds, left, top) {
+    optimizeChildNodes: function (parentIds, left, top) {
       var self = this;
       var currentTop = top;
       var currentLeft = left + self.nextElOffset + self.nodeWidth;
       var childIds;
-      parentIds.forEach(function(parentId, index) {
+      parentIds.forEach(function (parentId, index) {
         currentTop = currentTop + (self.nextElOffset + self.nodeHeight) * (index > 0 ? 1 : 0);
         self.chainNodeList[parentId].top = currentTop;
         self.chainNodeList[parentId].left = currentLeft;
@@ -797,20 +832,20 @@ export default {
       return currentTop;
     },
 
-    optimizeLevel: function() {
+    optimizeLevel: function () {
       var self = this;
       self.onDataLoading = true;
-      self.$nextTick(function() {
+      self.$nextTick(function () {
         var startNodes = self.findAllStartNodes();
 
-        startNodes.forEach(function(node) {
+        startNodes.forEach(function (node) {
           self.fireLevelChange(node.id, self.lvlStart, false);
           self.onDataLoading = false;
         });
       });
     },
 
-    findAllStartNodes: function() {
+    findAllStartNodes: function () {
       var self = this;
       var startNodeIds = [];
       for (var nodeId in self.chainNodeList) {
@@ -821,34 +856,34 @@ export default {
       return startNodeIds;
     },
 
-    emitDatas: function() {
+    emitDatas: function () {
       this.$emit('node-data', this.chainNodeList, this.edgeList);
     },
 
-    initialZoom: function() {
+    initialZoom: function () {
       if (this.zoom != this.initZoom) {
         this.zoom = this.initZoom;
         this.setZoomFun(this.zoom);
       }
     },
 
-    showExpand: function(node) {
-      return this.parentNodes.some(function(parent) {
+    showExpand: function (node) {
+      return this.parentNodes.some(function (parent) {
         return parent.id == node.id && node.chainLevel > -1;
       });
     },
 
-    nodeExpanded: function(node) {
-      return this.parentNodes.some(function(parent) {
+    nodeExpanded: function (node) {
+      return this.parentNodes.some(function (parent) {
         return parent.id == node.id && parent.expanded;
       });
     },
 
-    expandClicked: function(node) {
+    expandClicked: function (node) {
       var self = this;
       self.onDataLoading = true;
-      self.$nextTick(function() {
-        self.parentNodes.forEach(function(parent) {
+      self.$nextTick(function () {
+        self.parentNodes.forEach(function (parent) {
           if (parent.id == node.id) {
             self.expandAllChilds(parent.id, parent.expanded);
 
@@ -859,9 +894,9 @@ export default {
       })
     },
 
-    expandAllChilds: function(parentId, expand) {
+    expandAllChilds: function (parentId, expand) {
       var self = this;
-      self.edgeList.forEach(function(edge) {
+      self.edgeList.forEach(function (edge) {
         if (edge.target == parentId) {
           self.chainNodeList[edge.source]["hidden"] = expand;
           self.expandAllChilds(edge.source, expand);
@@ -870,45 +905,47 @@ export default {
     }
   },
   computed: {
-    compLeft: function() {
+    compLeft: function () {
       var left = parseInt(this.maxLeft) + this.nodeWidth + this.nextElOffset * 2;
       return left > this.screenWidth ? left : this.screenWidth;
     },
-    compTop: function() {
+    compTop: function () {
       var top = parseInt(this.maxTop) + this.nodeHeight + this.nextElOffset * 2;
       return top > this.screenHeight ? top : this.screenHeight;
     },
   },
   watch: {
     nodeDatas: {
-      handler: function(val) {
-        var self = this;
-        this.onDataLoading = true;
-        if (val && val.nodeList && val.edges) {
-          Object.assign(self.defaultVisoConfig, self.visoConfig);
-          self.chainNodeList = _.cloneDeep(val.nodeList);
-          self.edgeList = _.cloneDeep(val.edges);
+      handler: function (val) {
+        if (JSON.stringify(val) !== '{}') {
+          var self = this;
+          this.onDataLoading = true;
+          if (val && val.nodeList && val.edges) {
+            Object.assign(self.defaultVisoConfig, self.visoConfig);
+            self.chainNodeList = _.cloneDeep(val.nodeList);
+            self.edgeList = _.cloneDeep(val.edges);
 
-          self.parentNodes = [];
-          self.edgeList.forEach(function(edge) {
-            self.parentNodes.push({
-              id: edge.target,
-              expanded: true
+            self.parentNodes = [];
+            self.edgeList.forEach(function (edge) {
+              self.parentNodes.push({
+                id: edge.target,
+                expanded: true
+              });
             });
-          });
 
-          self.optimizeNodes();
-          self.$nextTick(function() {
-            self.initialContainerSize();
-            self.initialZoom();
-          });
+            self.optimizeNodes();
+            self.$nextTick(function () {
+              self.initialContainerSize();
+              self.initialZoom();
+            });
+          }
         }
       },
       immediate: true,
       deep: true
     }
   },
-  beforeDestory: function() {
+  beforeDestory: function () {
     //取消绑定 “连接node前” 事件, 避免连线源锚点和目标锚点在同一节点
     jsPlumb.unbind('beforeDrop');
 

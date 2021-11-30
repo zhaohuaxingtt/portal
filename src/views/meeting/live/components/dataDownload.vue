@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="header">资料下载</div>
+    <div class="header">{{ $t('资料下载') }}</div>
     <div v-if="documentTypeList.length > 0">
       <el-tabs v-model="activeName">
         <el-tab-pane
@@ -17,48 +17,48 @@
       </el-tabs>
     </div>
     <div v-else class="no-doc">
-      暂无下载资料
+      {{ $t('暂无下载资料') }}
     </div>
   </div>
 </template>
 <script>
-import { iCard } from "rise";
-import dataTable from "./dataTable.vue";
-import { findByMeetingTypeId } from "@/api/file/filedownload.js";
+import { iCard } from 'rise'
+import dataTable from './dataTable.vue'
+import { findByMeetingTypeId } from '@/api/file/filedownload.js'
 export default {
   components: {
     iCard,
-    dataTable,
+    dataTable
   },
   props: {
     meetingTypeId: {
       type: Number,
       default: () => {
-        return "";
-      },
-    },
+        return ''
+      }
+    }
   },
   data() {
     return {
-      activeName: "first0",
-      documentTypeList: [],
-    };
+      activeName: 'first0',
+      documentTypeList: []
+    }
   },
   mounted() {
     const param = {
-      meetingTypeId: this.meetingTypeId,
-    };
-    this.query(param);
+      meetingTypeId: this.meetingTypeId
+    }
+    this.query(param)
   },
   methods: {
     query(param) {
       findByMeetingTypeId(param).then((res) => {
-        console.log("res", res);
-        this.documentTypeList = [...res].slice(0, 8);
-      });
-    },
-  },
-};
+        console.log('res', res)
+        this.documentTypeList = [...res].slice(0, 8)
+      })
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .no-doc {

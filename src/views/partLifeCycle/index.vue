@@ -61,7 +61,7 @@ export default {
       headerTitle: '',
       tagList:[],
       isDefaultFolder:1,
-      currentData:null,
+      currentData:{},
       defaultPartsList:[]
     }
   },
@@ -72,9 +72,11 @@ export default {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.defaultPartsList = res.data
+          console.log(this.defaultPartsList,'this.defaultPartsList')
           this.defaultPartsList.forEach(item => {
             if(item.partsNum==partsNum) {
               this.currentData = item
+              console.log(this.currentData,'current')
             }
           })
         } else {
@@ -107,23 +109,22 @@ export default {
     // 详情收藏
     setCollection() {
       let operationType = this.currentData?.isDefaultFolder == 1 ? 2 : 1
-//      let promiseDelete = this.currentData?.isDefaultFolder == 1 ? removeCollect : cancelOrCollect
-        cancelOrCollect({
-          operationType: operationType,
-          partsCollectId: this.currentData?.partsCollectId,
-          partsNum: this.currentData?.partsNum
+      cancelOrCollect({
+        operationType: operationType,
+        partsCollectId: this.currentData?.partsCollectId,
+        partsNum: this.currentData?.partsNum || this.$route.query.partsNum
       }).then(res => {
-          const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
-          if (Number(res.code) === 200) {
-            iMessage.success(result)
-            this.currentData.isDefaultFolder = operationType
-//            this.getPartsCollect(this.currentData.partsNum)
-            this.defaultParts(this.currentData.partsNum)
-          } else {
-            iMessage.error(result)
-          }
-        }).catch(() => {
-        })
+        const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+        if (res.result) {
+          this.$set(this.currentData,'isDefaultFolder',operationType)
+          let partsNum = this.$route.query.partsNum
+          this.defaultParts(partsNum)
+          iMessage.success(result)
+        } else {
+          iMessage.error(result)
+        }
+      }).catch(() => {
+      })
     },
     // 获取当前收藏数据
     getDefaultInfo(){
@@ -131,7 +132,6 @@ export default {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.currentData = res.data[0]
-          console.log(this.currentData,'this.currentData')
         } else {
           iMessage.error(result)
         }
@@ -144,7 +144,6 @@ export default {
   mounted() {
     let partsNum = this.$route.query.partsNum
     this.defaultParts(partsNum)
-//    this.getDefaultInfo()
     this.getFolderCombo(partsNum)
   }
 

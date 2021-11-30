@@ -1,7 +1,7 @@
 <template>
   <div>
     <iPage>
-      <div class="header">会议展示</div>
+      <div class="header">{{$t('MT_HUIYIZHANSHI')}}</div>
       <iCard class="card-same-screen-box">
         <div class="title-info">
           <p class="info-line-1">

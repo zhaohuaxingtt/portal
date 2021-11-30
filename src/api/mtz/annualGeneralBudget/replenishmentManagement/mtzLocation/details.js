@@ -482,6 +482,15 @@ export function removePartMasterData(params) {
   })
 }
 
+export function downloadFile(params) {//下载
+  return request({
+    url: '/mtzAppNomi/downloadFile',
+    method: 'POST',
+    data: params,
+    responseType: 'blob',
+  })
+}
+
 export function getDosageUnitList(params) {
   //用量单位下拉
   return request({
