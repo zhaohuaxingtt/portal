@@ -36,17 +36,17 @@
           ><span></span>
         </li>
         <li class="content-item">
-          <span>会议时间</span
+          <span>{{$t('会议时间')}}</span
           ><span>{{
             `${themen.startDate} ${themen.startTime}`
           }}</span>
         </li>
         <li class="content-item">
-          <span>会议地点</span
+          <span>{{$t('会议地点')}}</span
           ><span>{{ themen.meetingPlace }}</span>
         </li>
         <li class="content-item">
-          <span>部门</span><span>{{ themen.dept }}</span>
+          <span>{{$t('部门')}}</span><span>{{ themen.dept }}</span>
         </li>
         <li class="content-item">
           <span></span

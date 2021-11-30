@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="会议纪要"
+    :title="$t('MT_HUIYIJIYAO')"
     :visible.sync="open"
     width="50rem"
     :close-on-click-modal="false"
@@ -135,7 +135,7 @@
             <iButton @click="handleCancel" plain class="cancel">{{
               $t('LK_QUXIAO')
             }}</iButton>
-            <iButton @click="handleOK" plain>{{ '创建' }}</iButton>
+            <iButton @click="handleOK" plain>{{ $t('MT_CHUANGJIAN') }}</iButton>
           </el-form-item>
         </div>
       </el-form>

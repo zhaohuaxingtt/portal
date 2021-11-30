@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="editOrAdd === 'add' ? '添加资料类型' : '修改资料类型'"
+    :title="editOrAdd === 'add' ? $t('添加资料类型') : $t('修改资料类型')"
     :visible.sync="openDialog"
     width="24rem"
     :close-on-click-modal="false"
@@ -27,7 +27,7 @@
             v-model="ruleForm.meetingTypes"
             multiple
             collapse-tags
-            placeholder="请选择会议类型"
+            :placeholder="$t('请选择会议类型')"
           >
             <el-option
               v-for="item in meetingType"

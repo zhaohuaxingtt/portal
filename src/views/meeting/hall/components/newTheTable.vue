@@ -43,7 +43,7 @@
           <div class="footer">{{ item.name }}</div>
         </li>
       </ul>
-      <p v-else class="no-data">您尚无该类型会议的查看权限</p>
+      <p v-else class="no-data">{{$t('您尚无该类型会议的查看权限')}}</p>
     </div>
   </div>
 </template>

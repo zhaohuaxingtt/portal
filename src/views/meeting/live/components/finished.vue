@@ -230,8 +230,8 @@
       :current-page="page.pageNum"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      prev-text="上一页"
-      next-text="下一页"
+      :prev-text="$t('上一页')"
+      :next-text="$t('下一页')"
       :total="total"
     />
     <!-- <detailDialog :openDialog="openDetail" v-if="openDetail" :id="id" /> -->

@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="editOrAdd === 'add' ? '添加资料' : '修改资料'"
+    :title="editOrAdd === 'add' ? $t('添加资料') : $t('修改资料')"
     :visible.sync="openDialog"
     width="24rem"
     :close-on-click-modal="false"
@@ -15,7 +15,7 @@
       >
         <iFormItem label="资料类型" prop="type">
           <iLabel :label="$t('资料类型')" slot="label" required></iLabel>
-          <iSelect v-model="ruleForm.type" placeholder="请选择">
+          <iSelect v-model="ruleForm.type" :placeholder="$t('请选择')">
             <el-option
               v-for="(item, index) in dataType"
               :key="index"
@@ -75,7 +75,7 @@
                 :disabled="uploadLoading"
                 :loading="uploadLoading"
               >
-                请选择文件<span class="upload-text"
+                {{$t('请选择文件')}}<span class="upload-text"
                   ><img :src="uploadIcon"
                 /></span>
               </iButton>
