@@ -37,7 +37,7 @@
       class="flex flex-row content mt20"
       v-if="helpMoudle === 'problemHandler'"
     >
-      <ProblemHandler />
+      <ProblemHandler @changeSelfHandle="changeSelfHandle" />
     </div>
     <div
       class="flex flex-column content mt20"
@@ -74,22 +74,36 @@ import LabelManagement from './components/labelManagement/index'
 import ModuleManagement from './components/moduleManagement/index'
 import ProblemStatement from './components/problemStatement/index'
 import KeyWordsManagement from './components/keyWordsManagement'
+import { questionUnReplyCountApi} from '@/api/assistant';
 import store from '@/store'
 export default {
   data() {
     return {
       text: '问答处理',
       helpMoudle: 'problemHandler',
-      problemHandlerCount: 10
+      problemHandlerCount: 0,
     }
   },
   methods: {
 		tabChange(val) {
 			this.helpMoudle = val
 		},
+    // 获取未读问题数量
+    async questionUnReplyCount(selfOnly) {
+      const response = await questionUnReplyCountApi(selfOnly);
+      if (response?.code === '200') {
+        this.problemHandlerCount = response.data;
+      } else {
+        console.error('获取未读数量失败');
+      }
+    },
+    changeSelfHandle(val) {
+      this.questionUnReplyCount(val);
+    }
 	},
   mounted() {
-    console.log(store.state, 'store.state')
+    console.log(store.state, 'store.state');
+    this.questionUnReplyCount(0);
   },
   components: {
     iPage,

@@ -92,7 +92,6 @@ export function saveModules(data) {
   })
 }
 
-
 // 标签管理 查询问题模块列表
 export function queryModuleBySource(type) {
   return assistantRequest({
@@ -228,4 +227,31 @@ export function getMineQuesList(data) {
     data
   })
 }
+// 回复问题
+export const answerQuestionApi = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestion/answerQuestion',
+    method: 'POST',
+    data
+  })
+}
 
+// 指派
+export const questionTransferApi = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestion/transfer',
+    method: 'POST',
+    data
+  })
+}
+
+// 获取问答处理未读个数
+export const questionUnReplyCountApi = (selfOnly) => {
+  return assistantRequest({
+    url: '/assistantQuestion/queryUnReplyQuestionCount',
+    method: 'GET',
+    params: {
+      selfOnly
+    }
+  })
+}
