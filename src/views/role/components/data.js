@@ -151,7 +151,7 @@ export const COLUMNS_FUNCTION_RESOURCE = [
 export const COLUMNS_FUNCTION_MENU = [
   {
     type: 'fullIndex',
-    width: 50,
+    width: 80,
     align: 'left'
   },
   {
@@ -159,7 +159,7 @@ export const COLUMNS_FUNCTION_MENU = [
     label: '资源名称',
     i18n: 'ROLE.NAME',
     type: 'expanded',
-    minWidth: 160,
+    minWidth: 200,
     align: 'left'
   },
   {
