@@ -1,6 +1,6 @@
 <template>
   <iCard
-    :title="$t('申请备注')"
+    :title="language('审批备注与附件')"
     header-control
     collapse
     class="margin-bottom20"
@@ -8,21 +8,18 @@
     <el-form label-position="left" label-width="100px">
       <el-row :gutter="20">
         <el-col :span="12">
-          <iFormItem :label="$t('审批备注')" v-if="form.remark">
-            <iInput v-model="form.remark" type="textarea" :rows="1" disabled />
-          </iFormItem>
-          <iFormItem :label="$t('审批事项')">
-            <iInput
-              v-model="form.itemEvent"
-              type="textarea"
-              :rows="textareaRows"
-              disabled
-            />
+          <iFormItem :label="language('审批备注')">
+            <div>{{ form.remark || '无' }}</div>
           </iFormItem>
         </el-col>
         <el-col :span="12">
-          <iFormItem :label="$t('附件')">
-            <div class="attach-area">
+          <iFormItem :label="language('附件')">
+            <div
+              v-if="!form.procAttachments || form.procAttachments.length === 0"
+            >
+              无
+            </div>
+            <div v-else class="attach-area">
               <attachmentList :data="form.procAttachments || []" icon />
             </div>
           </iFormItem>
@@ -41,7 +38,7 @@ export default {
   props: {
     form: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
@@ -62,8 +59,11 @@ export default {
   position: relative;
   background-color: #f5f7fa;
   border: solid 1px #e4e7ed;
-  min-height: 146px;
+  min-height: 126px;
   box-shadow: 0 0 0.1875rem rgb(0 38 98 / 15%);
   border-radius: 5px;
+}
+.no-attach {
+  padding: 5px 12px;
 }
 </style>
