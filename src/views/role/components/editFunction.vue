@@ -44,13 +44,13 @@ export default {
   props: {
     detail: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     },
     fullMenu: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -80,12 +80,12 @@ export default {
       if (properties) {
         const { rows, row, checked } = properties
         const isMultipleCheck = !!rows
+        // 如果是取消选择，联动取消资源
         if (!checked) {
           const selectRows = isMultipleCheck ? rows : [row]
-          console.log('selectRows', selectRows)
-          const ids = selectRows.map(e => e.id)
+          const ids = selectRows.map((e) => e.id)
           this.detail.resourceList = this.detail.resourceList.filter(
-            e => ids.indexOf(e.parentId) === -1
+            (e) => ids.indexOf(e.parentId) === -1
           )
           this.$refs.functionResource.handleToggleSelectedAll(false)
         }
@@ -99,15 +99,14 @@ export default {
           if (checked) {
             // 全选
             const oldResourceList = this.detail.resourceList
-            // const oldIds = oldResourceList.map(e => e.id)
-            rows.forEach(e => {
+            rows.forEach((e) => {
               oldResourceList.push(e)
             })
           } else {
             // 反选
-            const ids = rows.map(e => e.id)
+            const ids = rows.map((e) => e.id)
             this.detail.resourceList = this.detail.resourceList.filter(
-              e => ids.indexOf(e.id) === -1
+              (e) => ids.indexOf(e.id) === -1
             )
           }
         } else {
@@ -118,7 +117,7 @@ export default {
           } else {
             // 未选中
             this.detail.resourceList = this.detail.resourceList.filter(
-              e => e.id !== row.id
+              (e) => e.id !== row.id
             )
           }
         }
