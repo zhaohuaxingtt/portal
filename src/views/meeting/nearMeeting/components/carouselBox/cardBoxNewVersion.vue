@@ -62,10 +62,10 @@
           "
         >
           <div class="time-info">
-            <p class="top">距离会议还有</p>
+            <p class="top">{{$t('距离会议还有')}}</p>
             <p class="bottom">
               <span>{{ day }}</span
-              >天<span>{{ hour }}:{{ minutes }}:{{ seconds }}</span>
+              >{{$t('天')}}<span>{{ hour }}:{{ minutes }}:{{ seconds }}</span>
             </p>
           </div>
         </dt>

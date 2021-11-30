@@ -28,22 +28,22 @@
       </ul>
     </div>
     <div class="connection-info">
-      <p class="info-title">联系人信息</p>
+      <p class="info-title">{{$t('联系人信息')}}</p>
       <ul>
         <li class="info-item">
-          <span>部门</span>
+          <span>{{$t('部门')}}</span>
           <span>{{contact.dept}}</span>
         </li>
         <li class="info-item">
-          <span>岗位</span>
+          <span>{{$t('岗位')}}</span>
           <span>{{contact.office}}</span>
         </li>
         <li class="info-item">
-          <span>电话</span>
+          <span>{{$t('电话')}}</span>
           <span>{{contact.phone}}</span>
         </li>
         <li class="info-item">
-          <span>邮箱</span>
+          <span>{{$t('邮箱')}}</span>
           <span>{{contact.email}}</span>
         </li>
       </ul>

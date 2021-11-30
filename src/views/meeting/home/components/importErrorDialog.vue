@@ -1,12 +1,12 @@
 <template>
   <iDialog
-    title="导入异常"
+    :title="$t('MT_DAORUYICHANG')"
     :visible.sync="openError"
     width="42rem"
     :close-on-click-modal="false"
     @close="handleCloseError"
     ><div class="box">
-      <div class="text">请修改后重新执行导入操作！</div>
+      <div class="text">{{$t('MT_QINGXIUGAIHOUCHONGXINZHIXINGDAORUCAOZUO')}}</div>
       <div class="content">
         <ul v-for="item in this.errorList" :key="item">
           <li class="li" v-html="item"></li>
@@ -40,18 +40,8 @@ export default {
   data() {
     return {
       loading: false
-      // errorList1: ['1.第2行hhhhhhhh', '2.第3行hhhhhhhh', '3.第4行hhhhhhhh']
     }
   },
-  // filters: {
-  //   filterText(item) {
-  //     let num = item.indexOf('行');
-  //     item.replace(
-  //       item.substring(4, num),
-  //       '<span style="color:red">' + item.substring(4, num) + '</span>'
-  //     )
-  //   }
-  // },
   created() {
     this.errorList = this.errorList.map((item) => {
       const num1 = item.indexOf('第')

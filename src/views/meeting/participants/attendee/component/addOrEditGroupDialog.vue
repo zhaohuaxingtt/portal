@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="editOrAdd === 'add' ? '创建与会人分组' : '修改与会人分组'"
+    :title="editOrAdd === 'add' ? $t('创建与会人分组') : $t('修改与会人分组')"
     :visible.sync="openDialog"
     width="39rem"
     :close-on-click-modal="false"
@@ -17,7 +17,7 @@
           <iLabel :label="$t('会议类型')" slot="label" required></iLabel>
           <iSelect
             v-model="ruleForm.meetingType"
-            placeholder="请选择"
+     :placeholder="$t('请选择')"
             value-key="id"
           >
             <el-option

@@ -83,7 +83,7 @@
           </el-carousel-item>
         </el-carousel>
       </div>
-      <p v-else class="no-data">暂无会议</p>
+      <p v-else class="no-data">{{$t('暂无会议')}}</p>
     </div>
   </div>
 </template>
