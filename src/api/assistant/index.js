@@ -238,3 +238,14 @@ export const questionTransferApi = (data) => {
     data
   })
 }
+
+// 获取问答处理未读个数
+export const questionUnReplyCountApi = (selfOnly) => {
+  return assistantRequest({
+    url: '/assistantQuestion/queryUnReplyQuestionCount',
+    method: 'GET',
+    params: {
+      selfOnly
+    }
+  })
+}

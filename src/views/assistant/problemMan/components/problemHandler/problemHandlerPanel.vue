@@ -286,6 +286,7 @@ export default {
     },
     changeSelfHandle(val) {
       this.queryProblemList(this._queryForm({selfOnly: val ? 1 : 0, pageNum:1}));
+      this.$emit('changeSelfHandle', val ? 1 : 0);
     },
     keyWordBlurHandle() {
       this.queryProblemList(this._queryForm({keyWord: this.keyWord, pageNum:1}));
