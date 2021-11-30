@@ -9,7 +9,7 @@ export const tableColumn = [
     label: '序号'
   },
   {
-    prop: 'userNum',
+    prop: 'menuName',
     label: '负责模块',
     align: 'center'
   },
@@ -18,10 +18,11 @@ export const tableColumn = [
     label: '姓名',
     align: 'center',
     customRender: (h, scope, column, extraData) => {
-      if (extraData.selectionRowIds.includes(scope.row.id)) {
+      if (extraData.selectionRowIds.includes(scope.row.menuId)) {
         return (
           <iSelect
-            value={extraData.nameForm.name}
+            multiple
+            value={ extraData.tableListData[scope.$index].adminUserId }
             onChange={(val) => {
               extraData.changeNameHandler(scope, val)
             }}
@@ -29,19 +30,22 @@ export const tableColumn = [
             {extraData.nameList.map((item) => (
               <el-option
                 key={item.id}
-                label={item.name}
+                label={item.nameZh}
                 value={item.id}
               ></el-option>
             ))}
           </iSelect>
         )
       } else {
-        return <span>{scope.row.name}</span>
+        let nameIds = scope.row.adminUserId
+        return nameIds.map(e => {
+          return extraData.nameListKV[+e] ? extraData.nameListKV[+e].nameZh : ""
+        }).join(",")
       }
     }
   },
   {
-    prop: 'nameEn',
+    prop: 'createDate',
     label: '添加日期',
     align: 'center',
     tooltip: true

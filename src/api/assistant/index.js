@@ -84,10 +84,10 @@ export function queryModuleList(type) {
   })
 }
 // 模块管理 保存模块信息
-export function saveModules(data) {
+export function saveModules(data,source) {
   return assistantRequest({
-    url: `/assistantModuleEntity/saveModules`,
-    method: 'GET',
+    url: `/assistantModuleEntity/saveModules?source=${source}`,
+    method: 'post',
     data
   })
 }

@@ -62,21 +62,24 @@ export default {
       tableSetting:[],
       showDialog: false,
       selectedItems:[],
-      searchContent:{}
+      searchContent:{},
+      userList:{}
     }
   },
-  async created() {
+  async mounted() {
     this.getTableList()
-    this.tableSetting = tableColumn(this.moduleListKV)
-    // let csList = await queryProCsUserList()
+    let { data } = await queryProCsUserList()
+    data.forEach(e => {
+      this.userList[e.id] = e
+    })
   },
-  computed: {
-    moduleListKV(){
+  watch:{
+    moduleList(n){
       let m = {}
-      this.moduleList.forEach(e => {
+      n.forEach(e => {
         m[e.menuId] = e
       })
-      return m;
+      this.tableSetting = tableColumn(m)
     }
   },
   methods: {
