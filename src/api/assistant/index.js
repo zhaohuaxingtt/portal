@@ -56,17 +56,15 @@ export function queryFaqByPage(data) {
   return assistantRequest({
     url: `/assistantFaq/findByPage`,
     method: 'POST',
-    data: data
+    data
   })
 }
 
 // 点赞的常见问题点赞量+1
-export function updateFavour(data) {
-  console.log(data, '1111111')
+export function updateFavour(id) {
   return assistantRequest({
-    url: '/assistantFaq/updateFavour',
-    method: 'POST',
-    data
+    url: `/assistantFaq/updateFavour/${id}`,
+    method: 'GET'
   })
 }
 
@@ -153,10 +151,10 @@ export function saveKeyword(data) {
   })
 }
 // 根据问题的id 查询问题的详细信息及附件列表
-export function getProblemDetail(id) {
+export function getProblemDetail(data) {
   return assistantRequest({
-    url: `/assistantFaq/queryFaqDetail/${id}`,
-    method: 'GET'
+    url: `/assistantFaq/queryFaqDetail?id=${data.id}`,
+    method: 'POST'
   })
 }
 
@@ -219,6 +217,15 @@ export const queryDetailByIdApi = (questionId) => {
   return assistantRequest({
     url: `assistantQuestion/queryQuestionList/${questionId}`,
     method: 'GET'
+  })
+}
+
+// 我的提问分页查询接口
+export function getMineQuesList(data) {
+  return assistantRequest({
+    url: '/assistantQuestion/pageForMyQuestion',
+    method: 'POST',
+    data
   })
 }
 

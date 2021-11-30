@@ -20,10 +20,15 @@
 			</div>
 			<div class="te-text">{{ language('提问') }}</div>
 		</div>
-		<!-- <div class="editor-box">
-			（1）供应商在首页点击注册，打开供应商账号申请界面；
-		</div> -->
-		<iEditor ref="iEditor" v-model="askContent" />
+		<div class="editor-box" v-if="!zwFlag">
+			<iInput
+              type="textarea"
+              :rows="6"
+              v-model="askContent"
+			  resize="none"
+            ></iInput>
+		</div>
+		<iEditor v-else ref="iEditor" v-model="askContent" />
 		<div class="attach-box flex flex-column">
 			<AttachmentDownload
 				load="up"
@@ -38,13 +43,13 @@
 </template>
 
 <script>
-import { iDialog, iButton } from 'rise'
+import { iDialog, iButton, iInput } from 'rise'
 import AttachmentDownload from './attachmentDownload'
 import iEditor from '@/components/iEditor'
 import { submitQuestion } from "@/api/assistant"
 export default {
 	name: 'questioningDialog',
-	components:{ iDialog, AttachmentDownload, iButton, iEditor },
+	components:{ iDialog, AttachmentDownload, iButton, iEditor, iInput },
 	props: {
 		questioningVisible: {
 			type: Boolean,
@@ -151,10 +156,10 @@ export default {
 	.editor-box {
 		margin-top: 30px;
 		width: 100%;
-		height: 260px;
-		border: 1px solid #D0D4D9;
-		opacity: 1;
-		border-radius: 2px;
+		height: 160px;
+		// border: 1px solid #D0D4D9;
+		// opacity: 1;
+		// border-radius: 2px;
 		color: #000000;
 		font-size: 18px;
 	}
