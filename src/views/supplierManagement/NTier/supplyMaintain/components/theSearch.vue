@@ -2,52 +2,51 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 09:57:42
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
-  <iSearch  @sure="getTableList"
+  <iSearch @sure="getTableList"
            @reset="handleSearchReset"
            :resetKey="PARTSPROCURE_RESET"
-           :searchKey="PARTSPROCURE_CONFIRM" class="margin-bottom20  box "
-       style="margin-top: 20px ">
+           :searchKey="PARTSPROCURE_CONFIRM"
+           class="margin-bottom20  box "
+           style="margin-top: 20px ">
 
-        <el-form inline>
-          <el-form-item :label="language('DIQU','地区')">
-            <el-cascader @change="queryByParamsWithAuth"
-                         v-model="form.areaArray"
-                         :placeholder="language('QINGXUANZHE','请选择')"
-                         :options="formGroup.areaList"
-                         :props="{multiple:true}"
-                         :clearable="true"
-                         collapse-tags></el-cascader>
-          </el-form-item>
-          <el-form-item :label="language('GONGYINGSHANGMINGCHEN','供应商名称')">
-            <iSelect filterable
-                     :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                     v-model="form.supplierId">
-              <el-option v-for="(item, index) in formGroup.supplierNameList"
-                         :key="index"
-                         :value="item.id"
-                         :label="item.supplierNameCn">
-              </el-option>
-            </iSelect>
-          </el-form-item>
-          <el-form-item :label="language('ZONGCHENLINGJIAN','总成零件')">
-            <iSelect filterable
-                     :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                     v-model="form.partNum">
-              <el-option v-for="(item, index) in formGroup.partNumList"
-                         :key="index"
-                         :value="item.partNum"
-                         :label="item.partName+'/'+item.partNum">
-              </el-option>
-            </iSelect>
-          </el-form-item>
-        </el-form>
-     
+    <el-form inline>
+      <el-form-item :label="language('DIQU','地区')">
+        <el-cascader @change="queryByParamsWithAuth"
+                     v-model="form.areaArray"
+                     :placeholder="language('QINGXUANZHE','请选择')"
+                     :options="formGroup.areaList"
+                     :props="{multiple:true}"
+                     :clearable="true"
+                     collapse-tags></el-cascader>
+      </el-form-item>
+      <el-form-item :label="language('GONGYINGSHANGMINGCHEN','供应商名称')">
+        <iSelect filterable
+                 :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                 v-model="form.supplierId">
+          <el-option v-for="(item, index) in formGroup.supplierNameList"
+                     :key="index"
+                     :value="item.id"
+                     :label="item.supplierNameCn">
+          </el-option>
+        </iSelect>
+      </el-form-item>
+      <el-form-item :label="language('ZONGCHENLINGJIAN','总成零件')">
+        <iSelect filterable
+                 :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                 v-model="form.partNum">
+          <el-option v-for="(item, index) in formGroup.partNumList"
+                     :key="index"
+                     :value="item.partNum"
+                     :label="item.partName+'/'+item.partNum">
+          </el-option>
+        </iSelect>
+      </el-form-item>
+    </el-form>
 
- 
   </iSearch>
 
 </template>
@@ -87,7 +86,7 @@ export default {
     iFormGroup,
     iLabel
   },
-  data() {
+  data () {
     // 这里存放数据
     return {
       form: {
@@ -109,22 +108,26 @@ export default {
   // 方法集合
   methods: {
 
-    async getSelect() {
+    async getSelect () {
       const res = await getCity()
       this.formGroup.areaList = res
     },
-    async queryByParamsWithAuth(val) {
+    async queryByParamsWithAuth (val) {
       const res = await queryByParamsWithAuth({ areaArray: val })
       this.formGroup.supplierNameList = res.data
     },
-    async queryPart() {
+    async queryPart () {
       const res = await queryPart({})
       this.formGroup.partNumList = res.data
     },
-    async getTableList() {
+    async getTableList () {
+      if (!this.form.supplierId && !this.form.partNum) {
+        iMessage.error(this.language('QINGXUANZEGONGYINSHANGMINGCHENGHUOZHEZONGCHENGLINGJIAN', '请选择供应商名称或者总成零件'))
+        return
+      }
       await this.$parent.$children[1].getCardChain(this.form)
     },
-    handleSearchReset() {
+    handleSearchReset () {
       this.form = {
         areaArray: [],
         supplierId: '',
@@ -132,23 +135,22 @@ export default {
       }
       this.getTableList()
     },
-    closeDiolog() {
+    closeDiolog () {
       this.isDilog = false
       this.formModel = {}
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
+  created () {
     this.getSelect()
     this.queryByParamsWithAuth([])
     this.queryPart()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {}
+  mounted () { }
 }
 </script>
 <style lang='scss' scoped>
-
 // @import url(); 引入公共css类
 ::v-deep .custom-select-input > input {
   height: 2.1875rem;
