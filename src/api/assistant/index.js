@@ -256,6 +256,13 @@ export const questionUnReplyCountApi = (selfOnly) => {
   })
 }
 
+// 关闭问题
+export const closeQuestionApi = (questionId) => {
+  return assistantRequest({
+    url: `/assistantQuestion/closeQuestion/${questionId}`,
+    method: 'post'
+  })
+}
 //  新增追问内容
 export const submitAwContent = (data) => {
   return assistantRequest({
