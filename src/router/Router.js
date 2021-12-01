@@ -41,6 +41,9 @@ import RouterColorParts from './RouterColorParts'
 
 import RouterApplications from './applications'
 import ApproveDetails from '@/views/generalPage/approveDetails/preview'
+import MaintenanceSupplier from '../views/supplierManagement/yuqingjiance/maintenanceSupplier'
+
+import RouterOfflineDownload from './RouterOfflineDownload'
 
 export default {
   routes: [
@@ -153,6 +156,11 @@ export default {
           name: 'approve',
           component: ApproveDetails
         },
+        {
+          path: '/supplier/maintenancesupplier',
+          name: 'MaintenanceSupplier',
+          component: MaintenanceSupplier
+        },
         ...RouterOpcs,
         ...RouterSupplier,
         ...RouterDemo,
@@ -179,6 +187,7 @@ export default {
         ...RouterSurvey,
         ...RouterColorParts,
         ...RouterApplications,
+        ...RouterOfflineDownload
       ]
     },
 

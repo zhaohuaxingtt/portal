@@ -4,6 +4,17 @@
            tabCard
            collapse
            title="供应商信息">
+      <template slot="header">
+        <div>
+          <span style="font-weight:bold">{{detail.desc}}</span>
+        </div>
+        <div>
+          <iButton @click="handler('1')"
+                   :loading="buttonLoad">{{language('QUEREN','确认')}}</iButton>
+          <iButton @click="handler('0')"
+                   :loading="buttonLoad">{{language('JUJUE','拒绝')}}</iButton>
+        </div>
+      </template>
       <iFormGroup row="3"
                   ref="baseRulesForm">
         <iFormItem prop="nameZh">
@@ -36,10 +47,6 @@
                   slot="label"></iLabel>
           <div class="duns flex-align-center">
             <iText>{{ detail.dunsCode }}</iText>
-            <!--            <span></span>
-                        <iText></iText>
-                        <span></span>
-                        <iText></iText>-->
           </div>
         </iFormItem>
         <iFormItem prop="sapCode">
@@ -73,8 +80,8 @@
 </template>
 
 <script>
-import { iCard, iFormGroup, iFormItem, iLabel, iText, iPage } from 'rise'
-import { priorApprovalDetail } from '../../../api/supplier360/approve'
+import { iCard, iFormGroup, iFormItem, iLabel, iText, iPage, iButton, iMessage } from 'rise'
+import { priorApprovalDetail, priorApproval } from '../../../api/supplier360/approve'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import { TableTitle } from "./components/data";
@@ -89,7 +96,8 @@ export default {
     iLabel,
     iText,
     tableList,
-    iPage
+    iPage,
+    iButton
   },
   created () {
     this.$store.dispatch('setValiCode', this.$route.query.supplierToken)
@@ -102,7 +110,8 @@ export default {
       tableListData: [],
       tableTitle: TableTitle,
       tableLoading: false,
-      selectTableData: []
+      selectTableData: [],
+      buttonLoad: false
     }
   },
   methods: {
@@ -119,6 +128,45 @@ export default {
       } catch {
         this.loading = false
       }
+    },
+    handler (val) {
+      this.buttonLoad = true
+      if (val === '0') {
+        this.$confirm('确认拒绝?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let params = {
+            approvalStatus: val,
+            taskId: this.$route.query.taskId
+          }
+          priorApproval(params).then(res => {
+            if (res?.code === '200') {
+              this.buttonLoad = false
+              iMessage.success(res.desZh)
+            } else {
+              this.buttonLoad = false
+              iMessage.error(res.desZh)
+            }
+          })
+        })
+      } else {
+        let params = {
+          approvalStatus: val,
+          taskId: this.$route.query.taskId
+        }
+        priorApproval(params).then(res => {
+          if (res?.code === '200') {
+            this.buttonLoad = false
+            iMessage.success(res.desZh)
+          } else {
+            this.buttonLoad = false
+            iMessage.error(res.desZh)
+          }
+        })
+      }
+
     }
   }
 }

@@ -3,7 +3,7 @@
  <iPage >
    <iNavMvp :list="tabRouterList" class="margin-bottom20" routerPage :lev="1" />
    <!--搜索区-->
-   <i-search class="margin-bottom20" @sure='queryPublicOpinionDetection' @reset='resetQuery'>
+   <i-search class="margin-bottom20 margin-top10" @sure='queryPublicOpinionDetection' @reset='resetQuery'>
     <el-form :model='queryForm'>
        <el-form-item :label="language('LK_YQ_GONGYINGSANGMINGCHEN', '供应商名称')">
          <i-input v-model='queryForm.a'   :placeholder="language('LK_QINGSHURU','请输入')" clearable></i-input>
@@ -44,12 +44,19 @@
    <i-card>
      <span class="font18 font-weight">{{ language('LK_YQ_XIANGQINGLIEBIAO', '详情列表') }}</span>
      <div class="editControl floatright margin-bottom20">
-       <i-button @click="" > {{language('LK_YQ_DAORU','导入')}}</i-button>
+       <span  class=" margin-left10 margin-right10">
+            <Upload
+              hideTip
+              :buttonText="language('LK_YQ_DAORU','导⼊')"
+              :onHttpUploaded="onHttpUploaded"
+              :accept="'.xlsx,.xls'"
+            />
+          </span>
        <i-button @click="" > {{language('LK_YQ_DAOCHUQUANBU','导出全部')}}</i-button>
        <i-button @click="" > {{language('LK_YQ_SHANCHU','删除')}}</i-button>
        <i-button @click="" > {{language('LK_YQ_FABUYUQINGZHOUBAO','发布舆情周报')}}</i-button>
        <i-button @click="dialogVisble = true" > {{language('LK_YQ_FENXIYUQINGJIEGUO','分析舆情结果')}}</i-button>
-       <i-button @click="" > {{language('LK_YQ_WEIHUGONGYINGSHANGMINGDAN','维护供应商名单')}}</i-button>
+       <i-button @click="maintenanceSupplier" > {{language('LK_YQ_WEIHUGONGYINGSHANGMINGDAN','维护供应商名单')}}</i-button>
      </div>
 
      <!-- 弹窗 -->
@@ -104,7 +111,8 @@ export default {
     tablelist,
     iPage,
     iNavMvp,
-    yuqingjianceDialog
+    yuqingjianceDialog,
+    Upload
   },
   data(){
     return {
@@ -129,7 +137,18 @@ export default {
     },
     handleSelectionChange(val){
 
-    }
+    },
+    onHttpUploaded(formData,content){
+      const newFormData = new FormData()
+      newFormData.append('file', content.file)
+    },
+    //维护供应商
+    maintenanceSupplier(){
+      let routeData = this.$router.resolve({
+        path: `/supplier/maintenancesupplier`,
+      })
+      window.open(routeData.href, '_blank')
+    },
   }
 }
 </script>

@@ -65,10 +65,6 @@ export default {
       },
       tableTitle: [
         {
-          type: 'selection',
-          width: 50
-        },
-        {
           prop: 'businessId',
           label: '单据编号',
           i18n: '单据编号',
@@ -136,18 +132,19 @@ export default {
           width: 150,
           customRender: (h, scope) => {
             const res = []
-            if (scope.row.deptFullCode) {
+            /* if (scope.row.deptFullCode) {
               res.push(scope.row.deptFullCode)
             }
             if (scope.row.applyUserName) {
               res.push(scope.row.applyUserName)
             }
-            return <span>{res.join(' ')}</span>
+            return <span>{res.join(' ')}</span> */
+            return scope.row.applyUserName
           }
         },
         {
-          prop: 'applyUserOrg',
-          label: '申请部门?',
+          prop: 'deptFullCode',
+          label: '申请部门',
           i18n: '申请部门',
           tooltip: true,
           width: 150

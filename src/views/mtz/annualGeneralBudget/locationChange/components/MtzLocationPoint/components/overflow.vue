@@ -19,7 +19,7 @@
       <div class="opration">
         <!-- && ttNominateAppId !== '' -->
         <iButton @click="submit"
-                 :disabled="appStatus == '草稿' || appStatus == '未通过' || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
+                 :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
         <iButton @click="downRS">{{ language('DAOCHURS', '导出RS') }}</iButton>
       </div>
     </div>
@@ -82,7 +82,8 @@ import {
   mtzAppNomiSubmit,
   getAppFormInfo,
   setMtzAppCheckVO,//设置
-  getMtzAppCheckVO//获取
+  getMtzAppCheckVO,//获取
+  fetchAppNomiDecisionDataPage,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 
 import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
@@ -222,33 +223,50 @@ export default {
         this.flowType = this.mtzObject.flowType || this.flowType || this.submitType
         if (this.flowType === "MEETING") {//上会
           this.mtzAddShow = true;
-        } else {//备案
-          NewMessageBox({
-            title: this.language('LK_WENXINTISHI', '温馨提示'),
-            Tips: this.language('SHIROUQUERENTIJIAO', '是否确认提交？'),
-            cancelButtonText: this.language('QUXIAO', '取消'),
-            confirmButtonText: this.language('QUEREN', '确认'),
-          }).then(() => {
-            mtzAppNomiSubmit({
-              mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-            }).then(res => {
-              if (res.result && res.code == 200) {
-                iMessage.success(this.language(res.desEn, res.desZh))
-
-                var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
-                data.refresh = true;
-                store.commit("routerMtzData", data);
-                sessionStorage.setItem("MtzLIst", JSON.stringify(data))
-                this.getType();
+        } else if(this.flowType === "SIGN"){//流转
+          this.submitRequest();
+        }else if(this.flowType === "FILING"){//备案
+          fetchAppNomiDecisionDataPage({
+            pageNo: 1,
+            pageSize: 10,
+            mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+          }).then(res => {
+            if(res && res.code == 200) {
+              if(res.data.length<1){
+                return iMessage.error(this.language('SQDLXWBASTJSSPFJBNWK', '申请单类型为备案时，提交时审批附件不能为空'))
               }else{
-                iMessage.error(res.desZh)
+                this.submitRequest();
               }
-            })
-          }).catch((err) => {
-            // console.log(err)
+            } else iMessage.error(res.desZh)
           })
         }
       }
+    },
+    submitRequest(){
+      NewMessageBox({
+        title: this.language('LK_WENXINTISHI', '温馨提示'),
+        Tips: this.language('SHIROUQUERENTIJIAO', '是否确认提交？'),
+        cancelButtonText: this.language('QUXIAO', '取消'),
+        confirmButtonText: this.language('QUEREN', '确认'),
+      }).then(() => {
+        mtzAppNomiSubmit({
+          mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+        }).then(res => {
+          if (res.result && res.code == 200) {
+            iMessage.success(this.language(res.desEn, res.desZh))
+
+            var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
+            data.refresh = true;
+            store.commit("routerMtzData", data);
+            sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+            this.getType();
+          }else{
+            iMessage.error(res.desZh)
+          }
+        })
+      }).catch((err) => {
+        // console.log(err)
+      })
     },
     // 点击步骤
     handleClickStep (data) {

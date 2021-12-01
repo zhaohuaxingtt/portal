@@ -1871,7 +1871,8 @@
     EKL_YJGL_CGCKJ: 'purchase reference price',
     EKL_YJGL_JIJIA: 'base price',
     EKL_YJGL_GZJD: 'track progress',
-
+    EKL_LAIYUAN:'sorce',
+    EKL_CAOZUO:'operation',
     JANUARY: 'january',
     FEBRUARY: 'february',
     MARCH: 'march',
@@ -1885,13 +1886,13 @@
     NOVEMBER: 'november',
     DECEMBER: 'december',
 
-    KESHI: 'department',
+    EKL_KESHI: 'department',
     PINJUN: 'average',
     CHIXU: 'continued',
     EKL_VW: 'VW',
     EKL_AUDI: 'AUDI',
     EKL_SK: 'SK',
-
+    EKL_CAIGOUJINE: 'Amount Of Purchasing', //采购金额
     EKL_DQZT: 'current state',
     EKL_YWC: 'completed',
     EKL_WWC: 'incomplete',
@@ -1906,7 +1907,6 @@
     EKL_XZLJZS: 'total number of new parts',
     EKL_QXLJZS: 'total number of cancelled parts',
     EKL_LJGZLX: 'part tracking type',
-
     //SP15
     EKL_JCBMBXZ: 'table template down',
     EKL_PFJ_LJMC: 'partName',
@@ -1918,6 +1918,10 @@
     EKL_PFJ_CGJG: 'purchase price',
     EKL_PFJ_XSLYC: 'sales volume',
     EKL_PFJ_DNCGJE: 'Purchase amount',
+    EKL_CAILIAOZU:'Stuff Gategory',
+    EKL_DANWEI:'unit',
+    EKL_LINGJIANLEIXING: 'part type', //零件类型
+    EKL_CHEXINGDENGJI: 'Car Level', //车型等级
     //
     MAIL: {
       NOTIFICATION: 'notification',

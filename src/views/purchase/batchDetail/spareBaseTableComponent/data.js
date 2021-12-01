@@ -1,10 +1,10 @@
 export const tableTitle = [
-    {props: 'partNum', name: '零件号', key: 'LK_LINGJIANHAO', tooltip: true, width: 150,},
-    {props: 'partName', name: '零件名称', key: 'LK_LINGJIANMINGCHENG', width: 200, tooltip: true,},
+    {props: 'partNum', name: '零件号', key: 'EKL_YJGL_LJHAO', tooltip: true, width: 150,},
+    {props: 'partName', name: '零件名称', key: 'EKL_PFJ_LJMC', width: 200, tooltip: true,},
     {props: 'spMaterialGroup', name: '配附件材料组', key: 'EKL_PFJ_CLZ', width: 150, tooltip: true,},
     {props: 'partBrand', name: '品牌', key: 'EKL_PFJ_PP', width: 120, tooltip: true},
     {props: '_partProperty', name: '属性', key: 'EKL_PFJ_SX', width: 120, tooltip: true},
-    {props: 'dptKeCode', name: '科室', key: 'SUPPLIER_KESHI', width: 100, tooltip: true,},
+    {props: 'dptKeCode', name: '科室', key: 'EKL_KESHI', width: 100, tooltip: true,},
     {props: 'linieName', name: '采购员', key: 'EKL_YJGL_CGY', width: 120, tooltip: true,},
     {props: 'isConfirm', name: '确认状态', key: 'EKL_YJGL_QRZT', width: 120, tooltip: true,},
     {props: '_supplierName', name: '供应商', key: 'EKL_YJGL_GYS', tooltip: true, width: 200},
