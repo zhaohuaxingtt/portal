@@ -131,7 +131,7 @@
       </template>
     </div>
     <dispatchDialog v-if="showDialog" :show.sync="showDialog" :questionId="cardSelectItem.id" @loadData="initData" />
-    <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" />
+    <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" :problemModuleList="problemModuleList" :labelList="labelList" :source="userType" :questionItem="cardSelectItem" @loadData="initData" @queryLabelByModuleId="queryLabelByModuleId" />
   </div>
 </template>
 
@@ -336,6 +336,7 @@ export default {
     },
     // 点击卡片
     cardSelectHandler (item) {
+      console.log(item, '点击了');
       this.editFormBtn = false;
       this.isReplyStatus = false
       this.cardSelectItem = item;

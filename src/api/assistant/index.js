@@ -298,3 +298,12 @@ export const queryQListByPageApi = (data) => {
     data
   })
 }
+
+// 问题归档
+export const assistantFaqSaveFaqApi = (data) => {
+  return assistantRequest({
+    url: '/assistantFaq/saveFaq',
+    method: 'POST',
+    data
+  })
+}
