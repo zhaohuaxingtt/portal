@@ -280,23 +280,23 @@ export default {
       if (this.inforData.flowType == "SIGN" && this.numIsNomi !== 0) {//流转
         return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZ', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转'))
       }else{
-        if (this.inforData.flowType == "FILING") {//备案
-          fetchAppNomiDecisionDataPage({
-            pageNo: 1,
-            pageSize: 10,
-            mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-          }).then(res => {
-            if(res && res.code == 200) {
-              if(res.data.length<1){
-                return iMessage.error(this.language('SQDLXWBASSPFJBNWK', '申请单类型为备案时，审批附件不能为空'))
-              }else{
-                this.saveEdit();
-              }
-            } else iMessage.error(res.desZh)
-          })
-        }else{
+        // if (this.inforData.flowType == "FILING") {//备案
+          // fetchAppNomiDecisionDataPage({
+          //   pageNo: 1,
+          //   pageSize: 10,
+          //   mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+          // }).then(res => {
+          //   if(res && res.code == 200) {
+          //     if(res.data.length<1){
+          //       return iMessage.error(this.language('SQDLXWBASSPFJBNWK', '申请单类型为备案时，审批附件不能为空'))
+          //     }else{
+          //       this.saveEdit();
+          //     }
+          //   } else iMessage.error(res.desZh)
+          // })
+        // }else{
           this.saveEdit();
-        }
+        // }
       }
     },
     saveEdit(){

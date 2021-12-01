@@ -12,6 +12,7 @@
       <iButton @click="handleClickExport" :loading="exportButtonLoading">{{language('DAOCHU', '导出')}}</iButton>
     </span>
     <div id="content">
+      <div class="content_dialog"></div>
       <iCard>
         <div slot="header" class="headBox">
           <p class="headTitle">流转定点推荐 - MTZ Nomination Recommendation - MTZ</p>
@@ -429,5 +430,20 @@ $tabsInforHeight: 35px;
   justify-content: flex-end;
   padding-top:10px;
   padding-bottom:20px;
+}
+.content{
+  position:relative;
+}
+.content_dialog{
+  width:100%;
+  height:100%;
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:url("~@/assets/images/icon/pass.png");
+  z-index: 100000;
+  opacity:0.2;
 }
 </style>
