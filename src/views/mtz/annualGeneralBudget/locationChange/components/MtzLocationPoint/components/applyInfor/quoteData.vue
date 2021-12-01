@@ -1,7 +1,7 @@
 <!-- 引用定点申请单零件弹窗 -->
 <template>
   <div style="padding-bottom:30px;">
-    <div class="searchBox">
+    <!-- <div class="searchBox">
       <iSearch @sure="handleSubmitSearch"
              @reset="handleSearchReset">
         <el-form :inline="true" ref="searchForm" :model="searchForm" label-position="top" class="demo-form-inline leftBox">
@@ -144,7 +144,7 @@
                   :total="page1.totalCount"
                   :layout="page1.layout">
     </iPagination>
-    <el-divider class="margin-top20"></el-divider>
+    <el-divider class="margin-top20"></el-divider> -->
     <div class="BtnTitle">
         <div>
           <span>{{language("SHENQINGDANHAO","申请单号")}}</span>
@@ -207,7 +207,7 @@ export default {
     iSearch,
     tableList
   },
-  props: ["detailObj"],
+  props: ["detailObj","applyNumber"],
   mixins: [pageMixins],
   data () {
     return {
@@ -228,7 +228,7 @@ export default {
           }
       ],
       searchForm: {
-        applicationStatus:"NOMINATE",
+        applicationStatus:"NEW",
         linieName:"",
       },
       linieDeptId:[],
@@ -241,18 +241,18 @@ export default {
       },
       getFlowTypeList:[],
       getLocationApplyStatus:[
-        // {
-        //   code:"NEW",
-        //   message: "草稿"
-        // },
         {
-          code:"NOMINATE",
-          message: "定点"
+          code:"NEW",
+          message: "草稿"
         },
         // {
-        //   code:"NOTPASS",
-        //   message: "未通过"
+        //   code:"NOMINATE",
+        //   message: "定点"
         // },
+        {
+          code:"NOTPASS",
+          message: "未通过"
+        },
       ],
       getLocationApplyStatus11:[],
       getSecondPartList:[
@@ -291,28 +291,30 @@ export default {
     this.init()
   },
   mounted(){
-    this.$nextTick(() => {
-      this.$el.querySelector('.el-icon-arrow-up').click()
-    });
+    // this.$nextTick(() => {
+    //   this.$el.querySelector('.el-icon-arrow-up').click()
+    // });
   },
   methods: {
     init(){
-      getNominateProcessType({}).then(res=>{
-        this.getFlowTypeList = res.data;
-      })
+      // getNominateProcessType({}).then(res=>{
+      //   this.getFlowTypeList = res.data;
+      // })
+      this.sNumber = this.applyNumber;
+      this.getBottomData();
       // getLocationApplyStatus({}).then(res=>{
       //   this.getLocationApplyStatus = res.data;
       // })
 
-      selectDictByKeys({
-        keys:"CAR_TYPE_PRO"
-      }).then(res=>{
-        this.getLocationApplyStatus11 = res.data.CAR_TYPE_PRO;
-      })
+      // selectDictByKeys({
+      //   keys:"CAR_TYPE_PRO"
+      // }).then(res=>{
+      //   this.getLocationApplyStatus11 = res.data.CAR_TYPE_PRO;
+      // })
 
       // getCurrentUser({}).then(res=>{
-        this.searchForm.buyerName = JSON.parse(sessionStorage.getItem('userInfo')).nameZh;
-        this.getTableList();
+        // this.searchForm.buyerName = JSON.parse(sessionStorage.getItem('userInfo')).nameZh;
+        // this.getTableList();
       // })
     },
     getTableList(){
@@ -338,10 +340,10 @@ export default {
       this.page1.currPage = val;
       this.getTableList();
     },
-    handleCurrentChangeTable(val){
-      this.sNumber = val.id;
-      this.getBottomData();
-    },
+    // handleCurrentChangeTable(val){
+    //   this.sNumber = val.id;
+    //   this.getBottomData();
+    // },
     getBottomData(){
       this.loading = true;
       getApplicationPartPagedList({
@@ -359,7 +361,7 @@ export default {
     // 重置
     handleSearchReset(form) {
       this.searchForm = {
-        applicationStatus:"NOMINATE",
+        applicationStatus:"NEW",
         buyerName : JSON.parse(sessionStorage.getItem('userInfo')).nameZh
       };
       this.page.currPage = 1;

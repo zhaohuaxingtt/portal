@@ -50,6 +50,8 @@ export default {
           this.$refs.list[li].getList()
           this.$refs.list[li].getUnreadCount()
         }
+      } else {
+        this.$emit('hide-drawer')
       }
     }
   },

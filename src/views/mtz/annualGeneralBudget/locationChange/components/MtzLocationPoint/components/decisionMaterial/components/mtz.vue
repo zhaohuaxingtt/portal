@@ -14,7 +14,8 @@
     </div>
     <div ref="qrCodeDiv"
          id="qrCodeDiv"
-         style="padding-bottom:30px;">
+         style="padding-bottom:30px;position:relative;">
+      <div class="content_dialog" v-if="!RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
       <iCard>
         <div slot="header"
              class="headBox">
@@ -30,7 +31,7 @@
           <div class="inforDiv"
                v-for="(item,index) in formList"
                :key="index">
-            <span>{{language(item.key,item.name)}}</span>
+            <span>{{language(item.key,item.label)}}</span>
             <span class="inforText">{{formData[item.prop]}}</span>
           </div>
         </div>
@@ -165,7 +166,7 @@
                 :rows="8"
                 type="textarea" />
       </iCard>
-      <iCard v-if="isMeeting"
+      <iCard v-if="isMeeting && applayDateData.length>0"
              class="margin-top20">
         <p>{{language('SHENQINGRIQI', '申请日期')}}:{{moment(new Date()).format('YYYY-MM-DD')}}</p>
         <div :class="RsObject?'applayDateBox':'applayDateBox1'">
@@ -285,7 +286,7 @@ export default {
       return res
     },
     isMeeting () {
-      return this.formData.flowType == 'MEETING'
+      return this.formData.flowType == 'MEETING' || this.formData.flowType == 'SIGN'
     },
   },
   methods: {
@@ -314,7 +315,7 @@ export default {
       })
     },
     initApplayDateData () {
-      approvalList({ mtzAppId: '157546' }).then(res => {
+      approvalList({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res => {
         if (res?.code === '200') {
           let data = res.data
           this.applayDateData = data
@@ -515,5 +516,17 @@ $tabsInforHeight: 35px;
   justify-content: flex-end;
   padding-top: 10px;
   padding-bottom: 20px;
+}
+.content_dialog{
+  width:100%;
+  height:100%;
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:url("~@/assets/images/icon/pass.png");
+  z-index: 100000;
+  opacity:0.07;
 }
 </style>

@@ -832,6 +832,7 @@ export default {
       return currentTop;
     },
 
+
     optimizeLevel: function () {
       var self = this;
       self.onDataLoading = true;
@@ -917,6 +918,7 @@ export default {
   watch: {
     nodeDatas: {
       handler: function (val) {
+        console.log(val, "val")
         if (JSON.stringify(val) !== '{}') {
           var self = this;
           this.onDataLoading = true;
@@ -932,7 +934,6 @@ export default {
                 expanded: true
               });
             });
-
             self.optimizeNodes();
             self.$nextTick(function () {
               self.initialContainerSize();

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 14:32:30
- * @LastEditTime: 2021-11-29 19:48:32
+ * @LastEditTime: 2021-12-01 16:47:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\supplementaryList\components\processVertical.vue
@@ -103,6 +103,10 @@
         </div>
       </div>
     </div>
+    <div class="noData flex"
+         v-else>
+      {{language('ZANWUSHENPIJIEGUO','暂无审批结果')}}
+    </div>
   </div>
 </template>
 
@@ -166,6 +170,8 @@ export default {
         } catch (err) {
           this.loading = false
         }
+      } else {
+        this.loading = false
       }
       if (this.epmsId) {
         try {
@@ -183,7 +189,10 @@ export default {
         } catch (err) {
           this.loading = false
         }
+      } else {
+        this.loading = false
       }
+
     },
     getUserName (user) {
       const res = []
@@ -419,5 +428,13 @@ $borderColor: #cbcbcb;
       }
     }
   }
+}
+.noData {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
 }
 </style>
