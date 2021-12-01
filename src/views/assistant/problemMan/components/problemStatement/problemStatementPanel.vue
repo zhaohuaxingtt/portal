@@ -1,7 +1,7 @@
 <template>
   <div v-loading="loading">
     <search @confirmSearch="confirmSearch" />
-    <searchTable />
+    <searchTable :tableListData="tableListData" :total="total" v-if="!loading" @changePage="changePage" />
   </div>
 </template>
 
@@ -20,32 +20,46 @@ export default {
   data () {
     return {
       loading: true,
+      tableListData: [],
+      total: 0,
+      formData: {},
+      pages: {},
     }
   },
   methods: {
     confirmSearch(formData) {
-      this.queryTable(formData);
-      console.log(formData, '提交的搜索条件');
+      this.formData = formData;
+      this.queryTable(formData, {
+        pageNum: this.pages.currPage,
+        pageSize: this.pages.pageSize,
+      });
+      this.loading = true;
+    },
+    changePage(pages) {
+      console.log('分页==11',pages);
+      this.pages = pages;
+      this.queryTable(this.formData, {
+        pageNum: pages.currPage,
+        pageSize: pages.pageSize,
+      });
     },
     // 查询数据
-    queryTable(formData) {
+    queryTable(formData, pages) {
       if (this.userType === 'inner') {
-        this.queryFaqListByPage(Object.assign(formData, {
-          pageNum: 1,
-          pageSize:10,
-        }));
+        this.queryFaqListByPage(Object.assign(formData, pages));
       } else if (this.userType === 'supplier') {
-        this.queryQListByPage(Object.assign(formData, {
-          pageNum: 1,
-          pageSize:10,
-        }))
+        this.queryQListByPage(Object.assign(formData, pages))
       }
     },
     // 常见问题统计
     async queryFaqListByPage(data) {
+      console.log(data, '查询调解');
       const response = await queryFaqListByPageApi(data);
       if (response?.code === '200') {
-        console.log('chax sh ');
+        const {total,records} = response?.data || {total:0,records:[]};
+        this.tableListData = records;
+        this.total = total;
+        this.loading = false;
       } else {
         console.error('查询数据失败');
       }
@@ -54,14 +68,20 @@ export default {
     async queryQListByPage(data) {
       const response = await queryQListByPageApi(data);
       if (response?.code == 200) {
-        console.log('11');
+        const {total,records} = response?.data || {total:0,records:[]};
+        this.tableListData = records;
+        this.total = total;
+        this.loading = false;
       } else {
         console.log('获取数据失败');
       }
     }
   },
   mounted() {
-    this.queryTable({});
+    this.queryTable({},{
+      pageNum: 1,
+      pageSize:10,
+    });
     setTimeout(() => {
       this.loading = false;
     },1000)

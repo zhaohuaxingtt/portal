@@ -14,37 +14,48 @@ import { tableColumn } from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins'
 export default {
   mixins: [pageMixins],
+  props: {
+    tableListData:{
+      type:Array,
+      default:() => [],
+    },
+    total: {
+      type:Number,
+      default:0,
+    }
+  },
   data () {
     return {
       tableLoading: false,
       exportLoading: false,
-      tableListData: [
-        {
-          id: 1,
-          account: 1234,
-        },
-        {
-          id: 2,
-          account: 1254,
-        },
-        {
-          id: 3,
-          account: 1254,
-        },
-        {
-          id: 4,
-          account: 1254,
-        }
-      ],
       tableSetting: tableColumn,
     }
   },
   methods: {
-    exportExcelHandler () { },
-    handleSelectionChange () {
-      console.log('11');
+    getTableList (pages) { 
+      this.$emit('changePage',pages);
     },
-    handleGoDetail () { },
+    handleSizeChange(val, callback) {
+      console.log(val, callback)
+      if (typeof callback != 'function')
+        return console.warn(
+          'function handleSizeChange parmars must be a function!'
+        )
+      this.page.pageSize = val;
+      this.page.currPage = 1;
+      callback(this.page)
+    },
+    handleCurrentChange(val, callback) {
+      if (typeof callback != 'function')
+        return console.warn(
+          'function handleCurrentChange parmars must be a function!'
+        )
+      this.page.currPage = val
+      callback(this.page)
+    },
+  },
+  mounted() {
+    this.page.totalCount = this.total;
   },
   components: {
     iButton,

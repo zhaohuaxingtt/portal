@@ -293,7 +293,7 @@ export const queryFaqListByPageApi = (data) => {
 // 问题处理统计
 export const queryQListByPageApi = (data) => {
   return assistantRequest({
-    url: '/queryQListByPage',
+    url: '/assistantQuestion/queryQListByPage',
     method: 'POST',
     data
   })

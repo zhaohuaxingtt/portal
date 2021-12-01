@@ -81,7 +81,7 @@ export default {
             new Date().getTime() - 24 * 60 * 60 * 1000
           )
         }
-      }
+      },
     }
   },
   methods: {
@@ -141,6 +141,7 @@ export default {
         source: '',
         date: '',
       };
+      this.$emit('confirmSearch', this.searchForm);
     }
   },
   mounted() {
