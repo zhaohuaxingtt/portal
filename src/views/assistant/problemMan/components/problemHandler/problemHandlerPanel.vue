@@ -6,7 +6,7 @@
           <iInput v-model="keyWord" placeholder="搜索.." @blur="keyWordBlurHandle" />
         </el-col>
         <el-col span="10">
-          <iSelect v-model="questionModuleId" filterable placeholder="问题模块" @change="questionModuleHandle">
+          <iSelect v-model="questionModuleId" filterable placeholder="问题模块" clearable="true" @change="questionModuleHandle" @clear="ckearModuleHandle">
             <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
           </iSelect>
         </el-col>
@@ -199,14 +199,15 @@ export default {
       loading: true,
       queryForm: {
         source: this.userType,
-        pageNum: this.pageNum,
-        pageSize: this.pageSize,
+        pageNum: 1,
+        pageSize: 10,
         questionStatus: this.currentCategoryItem,
         selfOnly: this.selfOnly ? 0 : 1,
       },
       questionDetail: {},
       labelList: [],
       uploadFileList: [],
+      total: 0,
     }
   },
   mounted () {
@@ -240,7 +241,7 @@ export default {
         const { data } = response;
         if (data.records.length) {
           if (this.flag) {
-            this.categoryCardList.push(data.records);
+            this.categoryCardList = this.categoryCardList.concat(data.records);
           } else {
             this.categoryCardList = data.records;
           }
@@ -248,6 +249,7 @@ export default {
           this.cardSelectItem = this.categoryCardList[0];
           // 查询问题详情
           this.queryDetailById(this.cardSelectItem.id);
+          this.total = data.total;
         } else {
           if (!this.flag) {
             this.cardSelectItem = {
@@ -257,6 +259,7 @@ export default {
             this.categoryCardList = [];
           }
         }
+        console.log(this.categoryCardList, '======>>>>');
         this.flag = false;
       } else {
         console.error('获取问题列表失败');
@@ -268,7 +271,9 @@ export default {
       let scrollHeight = Scroll.scrollHeight - Scroll.clientHeight
       if (scrollHeight - Scroll.scrollTop < 100 && !this.flag) {
         this.flag = true
-        this.queryProblemList(this._queryForm({ pageNum: this.pageNum++ }));
+        const pageNum = this.pageNum + 1;
+        console.log(pageNum, '当前页面');
+        this.queryProblemList(this._queryForm({ pageNum }));
       }
     },
     // 点击导航
@@ -283,6 +288,7 @@ export default {
       this.isDisabledModule = true;
       this.isDisabledLabel = true;
       this.isDisabledQuestion = true;
+      this.editFormBtn = false;
     },
     changeSelfHandle (val) {
       this.queryProblemList(this._queryForm({ selfOnly: val ? 1 : 0, pageNum: 1 }));
@@ -293,6 +299,10 @@ export default {
     },
     questionModuleHandle (val) {
       this.queryProblemList(this._queryForm({ questionModuleId: val, pageNum: 1 }));
+    },
+    ckearModuleHandle() {
+      this.questionModuleId = '';
+      this.queryProblemList(this._queryForm({ questionModuleId: '', pageNum: 1 }));
     },
     // 根据问题id查询问题详情
     async queryDetailById (questionId) {
