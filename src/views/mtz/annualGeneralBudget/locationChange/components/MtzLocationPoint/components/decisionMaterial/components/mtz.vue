@@ -286,7 +286,7 @@ export default {
       return res
     },
     isMeeting () {
-      return this.formData.flowType == 'MEETING'
+      return this.formData.flowType == 'MEETING' || this.formData.flowType == 'SIGN'
     },
   },
   methods: {
