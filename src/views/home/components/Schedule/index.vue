@@ -68,8 +68,8 @@
                   "
                 />
               </div>
-              <div>
-                <div class="name f-family">
+              <div class="info">
+                <div class="name f-family" :title="item.name">
                   {{ item.name }}
                 </div>
                 <div class="time" style="font-family: Arial">
@@ -338,13 +338,13 @@ export default {
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
-    bottom: -46%;
+    bottom: -50%;
     cursor: pointer;
     left: 0;
     height: 180px;
     text-align: center;
     padding-right: 14px;
-    width: 95%;
+    width: 100%;
     box-sizing: border-box;
     background-color: #fff;
     .meeting-card {
@@ -422,23 +422,32 @@ export default {
         .avatar {
           padding: 0 10px;
         }
-        .name {
-          text-align: left;
-          margin-bottom: 4px;
-          font-weight: bold;
-          font-size: 16px;
-        }
-        .f-family {
-          font-family: 'VWTEXTOFFICE-REGULAR', 'VWHEADOFFICE-REGULAR',
-            'VWAGTHESANS-BOLD', 'VWHEADOFFICE-BOLD', 'VWHEADOFFICE-BOLDITALIC',
-            'VWHEADOFFICE-REGULARITALIC', 'VWTEXTOFFICE-BOLD',
-            'VWTEXTOFFICE-BOLDITALIC', 'VWTEXTOFFICE-REGULARITALIC';
-          font-size: 14px;
-        }
-        .time {
-          text-align: left;
-          > div:first-child {
-            margin-bottom: 5px;
+        .info {
+          height: 50px;
+          flex: 1;
+          overflow: hidden;
+          .name {
+            margin-top: 4px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 16px;
+            height: 24px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .f-family {
+            font-family: 'VWTEXTOFFICE-REGULAR', 'VWHEADOFFICE-REGULAR',
+              'VWAGTHESANS-BOLD', 'VWHEADOFFICE-BOLD', 'VWHEADOFFICE-BOLDITALIC',
+              'VWHEADOFFICE-REGULARITALIC', 'VWTEXTOFFICE-BOLD',
+              'VWTEXTOFFICE-BOLDITALIC', 'VWTEXTOFFICE-REGULARITALIC';
+            font-size: 14px;
+          }
+          .time {
+            text-align: left;
+            > div:first-child {
+              margin-bottom: 5px;
+            }
           }
         }
       }

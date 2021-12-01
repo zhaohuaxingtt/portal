@@ -166,7 +166,7 @@
                 :rows="8"
                 type="textarea" />
       </iCard>
-      <iCard v-if="isMeeting"
+      <iCard v-if="isMeeting && applayDateData.length>0"
              class="margin-top20">
         <p>{{language('SHENQINGRIQI', '申请日期')}}:{{moment(new Date()).format('YYYY-MM-DD')}}</p>
         <div :class="RsObject?'applayDateBox':'applayDateBox1'">
@@ -315,7 +315,7 @@ export default {
       })
     },
     initApplayDateData () {
-      approvalList({ mtzAppId: '157546' }).then(res => {
+      approvalList({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res => {
         if (res?.code === '200') {
           let data = res.data
           this.applayDateData = data

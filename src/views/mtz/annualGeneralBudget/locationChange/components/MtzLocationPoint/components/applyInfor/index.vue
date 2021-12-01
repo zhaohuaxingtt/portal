@@ -84,6 +84,7 @@
                  :appStatus='inforData.appStatus'
                  :flowType="inforData.flowType"
                  :inforData="inforData"
+                 :applyNumber="applyNumber"
                  >
     </theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
