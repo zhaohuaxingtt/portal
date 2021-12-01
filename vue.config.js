@@ -126,7 +126,11 @@ module.exports = {
     //是否开起css分离
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     extract: false,
+=======
+    extract: true,
+>>>>>>> bd4735047... iDrawer 点击空白处关闭
 =======
     extract: true,
 >>>>>>> bd4735047... iDrawer 点击空白处关闭
