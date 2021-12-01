@@ -38,10 +38,16 @@ export default {
 	components: {
 		iButton
 	},
+	props: {
+		moudleList: {
+			type: Array,
+			default: () => []
+		}
+	},
 	data() {
 		return {
 			title: '',
-			moudleName: '主数据管理',
+			moudleName: null,
 			chatList: [],
 			currQuesFavourFlag: false,  //  当前问题是否点赞
 			currQuestionId: null,  //  当前问题id
@@ -66,6 +72,11 @@ export default {
 		async getCurrQuesDetail(list) {
 			this.currQuestionId = list.id
 			this.title = list.questionTitle
+			this.moudleList.map(item => {
+				if (item.id === list.questionModuleId) {
+					this.moudleName = item.menuName
+				}
+			})
 			await this.getJudgeFavour()
 			this.getQuesDetail(list.id)
 		},
