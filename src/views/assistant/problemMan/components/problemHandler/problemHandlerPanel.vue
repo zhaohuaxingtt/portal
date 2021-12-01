@@ -130,7 +130,7 @@
         </div>
       </template>
     </div>
-    <dispatchDialog v-if="showDialog" :show.sync="showDialog" :questionId="cardSelectItem.id" />
+    <dispatchDialog v-if="showDialog" :show.sync="showDialog" :questionId="cardSelectItem.id" @loadData="initData" />
     <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" />
   </div>
 </template>
@@ -216,15 +216,18 @@ export default {
       this.loading = false;
     }, 1000);
     this.getModuleListByUserType(this.userType);
-    this.queryProblemList(this._queryForm({
-      source: this.userType,
-      pageNum: this.pageNum,
-      pageSize: this.pageSize,
-      questionStatus: this.currentCategoryItem,
-      selfOnly: this.selfOnly ? 1 : 0,
-    }));
+    this.initData();
   },
   methods: {
+    initData() {
+      this.queryProblemList(this._queryForm({
+        source: this.userType,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        questionStatus: this.currentCategoryItem,
+        selfOnly: this.selfOnly ? 1 : 0,
+      }));
+    },
     // 根据用户类型获取模块下拉框
     async getModuleListByUserType (userType) {
       const response = await getModuleListByUserTypeApi(userType);
@@ -360,6 +363,7 @@ export default {
         const response = await closeQuestionApi(this.cardSelectItem.id);
         if (response?.code === '200') {
           this.$message.success('关闭成功');
+          this.initData();
         } else {
           this.$message.error('关闭失败');
         }
