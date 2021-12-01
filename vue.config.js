@@ -124,7 +124,11 @@ module.exports = {
   //引入全局css变量
   css: {
     //是否开起css分离
+<<<<<<< HEAD
     extract: false,
+=======
+    extract: true,
+>>>>>>> bd4735047... iDrawer 点击空白处关闭
     sourceMap: process.env.NODE_ENV === 'production',
     requireModuleExtension: true,
     loaderOptions: {
