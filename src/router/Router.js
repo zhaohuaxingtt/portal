@@ -2,7 +2,7 @@
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-29 16:03:00
+ * @LastEditTime: 2021-12-01 17:10:35
  * @Description:
  * @FilePath: \front-portal\src\router\Router.js
  */
@@ -159,6 +159,14 @@ export default {
           name: 'MaintenanceSupplier',
           component: MaintenanceSupplier
         },
+        {
+          path: '/nTierBKL',
+          name: 'nTierBKL',
+          component: () =>
+            import(
+              '@/views/supplierManagement/NTier/supplyMaintain/components/ntierChain'
+            )
+        },
         ...RouterOpcs,
         ...RouterSupplier,
         ...RouterDemo,
@@ -184,7 +192,7 @@ export default {
         ...RouterNews,
         ...RouterSurvey,
         ...RouterColorParts,
-        ...RouterApplications,
+        ...RouterApplications
       ]
     },
 

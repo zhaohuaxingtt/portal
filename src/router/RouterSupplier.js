@@ -66,7 +66,7 @@ export default [
   {
     path: '/supplier/frmrating/publicOpinion',
     name: 'PublicOpinionDetection',
-    component:PublicOpinionDetection
+    component: PublicOpinionDetection
   },
   {
     path: '/supplier/frmrating/depthRating/interView',

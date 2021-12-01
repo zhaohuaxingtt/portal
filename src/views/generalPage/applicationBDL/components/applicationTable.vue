@@ -112,6 +112,7 @@ export default {
     }
   },
   created () {
+
     this.getDeptList()
     // this.getTableList()
   },
@@ -160,7 +161,7 @@ export default {
           categoryId: item.categoryId,
           categoryCode: item.categoryCode,
           categoryNameZh: item.categoryNameZh,
-          bdlType: 1
+          bdlType: this.$route.query.mbdl ? 2 : 1
         })
       })
       const res = await submitBdl(pms)
