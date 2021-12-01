@@ -171,7 +171,7 @@ export default {
 			console.log(this.currentMenu, "this.currentMenu")
 			this.moudleList.map(item => {
 				if (this.currentMenu?.includes(item.permissionKey)) {
-					this.currentMoudleId = item.menuId
+					this.currentMoudleId = item.id
 					this.currMoudleName = item.menuName
 					this.$store.dispatch('setOriginalModuleId', item.id)
 					this.$store.dispatch('setCurrPageFlag', true)
@@ -181,7 +181,7 @@ export default {
 			if (!currFlag) {
 				this.currentMoudleId = ''
 				this.originalMoudleName = this.moudleList[0].menuName
-				this.$store.dispatch('setOriginalModuleId', this.moudleList[0].menuId)
+				this.$store.dispatch('setOriginalModuleId', this.moudleList[0].id)
 				this.$store.dispatch('setCurrPageFlag', false)
 			}
 			this.getManauContent()
@@ -190,7 +190,7 @@ export default {
 		getManauContent() {
 			let queryContentId = ''
 			if (!this.currentMoudleId) {
-				queryContentId = this.moudleList[0].menuId
+				queryContentId = this.moudleList[0].id
 			} else {
 				queryContentId = this.currentMoudleId
 			}
@@ -205,7 +205,7 @@ export default {
 		tabChange(val) {
 			this.helpMoudle = val
 			this.moudleList.map(item => {
-				if(item.menuId === this.currentMoudleId) {
+				if(item.id === this.currentMoudleId) {
 					this.currMoudleName = item.menuName
 				}
 			})
@@ -265,14 +265,15 @@ export default {
 		// 选择模块变化时 的事件
 		moduleChange(moudle) {
 			console.log(moudle, "moudle")
-			this.currentMoudleId = moudle.menuId
+			this.currentMoudleId = moudle.id
 			this.currMoudleName = moudle.menuName
 			if (this.helpMoudle === 'manual') {
 				this.getManauContent()
 			} else if (this.helpMoudle === 'problem') {
 				this.$nextTick(() => {
 					this.$refs.problemDetail.currentFlag = 'listPage'
-					this.$refs.problemDetail.getLabelList()
+					this.$refs.problemDetail.labelText = null
+					this.$refs.problemDetail.getLabelList('init')
 				})
 			} else {
 				return false
@@ -304,7 +305,7 @@ export default {
 		},
 		selectQues(list) {
 			console.log(list, '====')
-			this.$refs.questionDetail.getCurrQuesDetail()
+			this.$refs.questionDetail.getCurrQuesDetail(list || {})
 		}
 	}
 }
