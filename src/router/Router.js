@@ -43,6 +43,8 @@ import RouterApplications from './applications'
 import ApproveDetails from '@/views/generalPage/approveDetails/preview'
 import MaintenanceSupplier from '../views/supplierManagement/yuqingjiance/maintenanceSupplier'
 
+import RouterOfflineDownload from './RouterOfflineDownload'
+
 export default {
   routes: [
     {
@@ -185,6 +187,7 @@ export default {
         ...RouterSurvey,
         ...RouterColorParts,
         ...RouterApplications,
+        ...RouterOfflineDownload
       ]
     },
 
