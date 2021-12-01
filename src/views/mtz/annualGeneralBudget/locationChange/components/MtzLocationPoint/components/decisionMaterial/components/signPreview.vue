@@ -103,6 +103,32 @@
                 :rows="8"
                 type="textarea" />
       </iCard>
+      <iCard v-if="isMeeting"
+             class="margin-top20">
+        <p>{{language('SHENQINGRIQI', '申请日期')}}:{{moment(new Date()).format('YYYY-MM-DD')}}</p>
+        <div class="applayDateBox1">
+          <div class="applayDateContent"
+               v-for="(item, index) in applayDateData"
+               :key="index">
+            <icon v-if="item.taskStatus==='同意'"
+                  class="margin-left5 applayDateIcon"
+                  symbol
+                  name="iconrs-wancheng"></icon>
+            <icon v-else
+                  class="margin-left5 applayDateIcon"
+                  symbol
+                  name="iconrs-quxiao"></icon>
+            <div class="applayDateContentItem">
+              <span>部门：</span>
+              <span class="applayDateDeptTitle">{{item.deptNameZh}}</span>
+            </div>
+            <div class="applayDateContentItem">
+              <span>日期：</span>
+              <span>{{item.endTime}}</span>
+            </div>
+          </div>
+        </div>
+      </iCard>
       <div class="margin-top30 deptBox">
         <div class="deptItem" v-for="(item, index) in deptData" :key="index">
           <p>{{item.approvalDepartment}}：</p>
@@ -359,10 +385,10 @@ $tabsInforHeight: 35px;
   white-space: nowrap;
   .applayDateContent {
     display: inline-block;
-    background-color: #CDD4E2;
+    background-color: #cdd4e2;
     height: 178px;
-    width: 224px;
-    margin: 0 10px;
+    width: 16%;
+    margin: 10px 0.3% 0;
     border-radius: 15px;
     text-align: center;
     .applayDateIcon {
@@ -424,6 +450,13 @@ $tabsInforHeight: 35px;
     }
   }
 }
+.applayDateBox1 {
+  display: flex;
+  align-items: center;
+  flex-flow: wrap;
+  margin-top: 20px;
+}
+
 .download_btn{
   width: 100%;
   display: flex;
