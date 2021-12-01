@@ -146,8 +146,6 @@ export default {
 				this.moudleList.map(mou => {
 					if (item.moduleId === mou.id) {
 						currName = mou.menuName
-					} else {
-						currName = '示例模块名称'
 					}
 				})
 				this.$emit('changeCurrValue', item.moduleId, currName)
@@ -217,24 +215,25 @@ export default {
 			this.moudleList.map(moudle => {
 				if (moudle.id == item.questionModuleId) {
 					console.log(moudle, "moudle")
+					console.log(moudle.menuName, "menuName")
 					currName = moudle.menuName
-				} else {
-					currName = '示例模块名称'
 				}
 			})
 			//  这里有问题  props传进来的 currentMoudleId currMoudleName  不允许修改
 			// this.currentMoudleId = item.questionModuleId
 			// this.currMoudleName = currName
-			await this.$emit("changeCurrValue", item.questionModuleId, currName)
-			this.currentFlag = 'detailPage'
-			this.problemText = item.questionTitle
-			await this.getLabelList()	
-			await getProblemDetail({id:item.id}).then(res => {
-				if (res?.code === '200') {
-					const { data } = res
-					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
-					this.getJudgeFavour(item.questionId)
-				}
+			this.$emit("changeCurrValue", item.questionModuleId, currName)
+			this.$nextTick(() => {
+				this.currentFlag = 'detailPage'
+				this.problemText = item.questionTitle
+				this.getLabelList()	
+				getProblemDetail({id:item.id}).then(res => {
+					if (res?.code === '200') {
+						const { data } = res
+						this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
+						this.getJudgeFavour(item.questionId)
+					}
+				})
 			})
 		},
 		// 通过智能弹窗热门问题跳转问题详情

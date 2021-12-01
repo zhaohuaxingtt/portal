@@ -58,7 +58,9 @@ export default {
 		good() {
 			if (this.currQuesFavourFlag) return  // 已对该问题点赞
 			updateFavour(this.currQuestionId).then((res) => {
-				console.log(res, '11111')
+				if (res?.code === '200') {
+					this.$message.success("很开心该回答能帮助您...")
+				}
 			})
 		},
 		bad() {
@@ -74,6 +76,7 @@ export default {
 			this.title = list.questionTitle
 			this.moudleList.map(item => {
 				if (item.id === list.questionModuleId) {
+					console.log(item.menuName, "item.menuName")
 					this.moudleName = item.menuName
 				}
 			})
