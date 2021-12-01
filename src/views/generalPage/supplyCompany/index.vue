@@ -137,7 +137,7 @@ export default {
               }
               saveSupplierProcureFactory(parms).then((res) => {
                 this.$nextTick(() => {
-                  data.forEach((e) => {
+                   this.tableListData.procureFactoryList.forEach((e) => {
                     this.$refs.mulitipleTable.toggleRowSelection(e, true)
                   })
                 })
