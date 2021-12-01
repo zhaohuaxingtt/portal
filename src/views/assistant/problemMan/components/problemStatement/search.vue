@@ -95,6 +95,7 @@ export default {
       }
     },
     sourceHandle(val) {
+      if (!val) return;
       this.getModuleListByUserType(val);
       this.searchForm = Object.assign(this.searchForm, {
         questionModuleId: '',
@@ -102,6 +103,7 @@ export default {
       });
     },
     async questionModuleHandle (val) {
+      if (!val) return;
       const response = await getCurrLabelList(val);
       if (response?.code === '200') {
         console.log(response.data);

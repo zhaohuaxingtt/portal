@@ -79,7 +79,7 @@
               <el-row :gutter="20">
                 <el-col :span="8">
                   <iFormItem :label="$t('问题模块')">
-                    <iSelect v-model="editForm.questionModuleId" filterable :disabled="isDisabledModule">
+                    <iSelect v-model="editForm.questionModuleId" filterable :disabled="isDisabledModule" @change="changeModuleHandle">
                       <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
                     </iSelect>
                   </iFormItem>
@@ -421,6 +421,11 @@ export default {
         this.isDisabledLabel = false;
       }
       this.editFormBtn = true;
+    },
+    // 表单中切换模块
+    changeModuleHandle(val) {
+      this.queryLabelByModuleId(val);
+      this.editForm = Object.assign(this.editForm, {questionLableId:''});
     },
     saveHandler () {
       this.editFormBtn = false;
