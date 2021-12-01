@@ -31,6 +31,9 @@ export default {
       tableSetting: tableColumn,
     }
   },
+  created() {
+    this.page.totalCount = this.total;
+  },
   methods: {
     getTableList (pages) { 
       this.$emit('changePage',pages);
@@ -55,7 +58,7 @@ export default {
     },
   },
   mounted() {
-    this.page.totalCount = this.total;
+    
   },
   components: {
     iButton,

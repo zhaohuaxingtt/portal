@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading || loadPage">
     <search @confirmSearch="confirmSearch" />
     <searchTable :tableListData="tableListData" :total="total" v-if="!loading" @changePage="changePage" />
   </div>
@@ -24,10 +24,12 @@ export default {
       total: 0,
       formData: {},
       pages: {},
+      loadPage: true,
     }
   },
   methods: {
     confirmSearch(formData) {
+      this.loading = true;
       this.formData = formData;
       this.queryTable(formData, {
         pageNum: this.pages.currPage,
@@ -36,7 +38,7 @@ export default {
       this.loading = true;
     },
     changePage(pages) {
-      console.log('分页==11',pages);
+      this.loadPage = true;
       this.pages = pages;
       this.queryTable(this.formData, {
         pageNum: pages.currPage,
@@ -53,13 +55,13 @@ export default {
     },
     // 常见问题统计
     async queryFaqListByPage(data) {
-      console.log(data, '查询调解');
       const response = await queryFaqListByPageApi(data);
       if (response?.code === '200') {
         const {total,records} = response?.data || {total:0,records:[]};
         this.tableListData = records;
         this.total = total;
         this.loading = false;
+        this.loadPage = false;
       } else {
         console.error('查询数据失败');
       }
@@ -72,6 +74,7 @@ export default {
         this.tableListData = records;
         this.total = total;
         this.loading = false;
+        this.loadPage = false;
       } else {
         console.log('获取数据失败');
       }
