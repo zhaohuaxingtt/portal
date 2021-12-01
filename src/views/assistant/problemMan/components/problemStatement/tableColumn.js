@@ -1,7 +1,7 @@
 export const tableColumn = [
   {
     label: '序号',
-    width: 50,
+    width: 80,
     customRender: (h, scope) => {
       const rowIndex = scope.$index + 1
       if (rowIndex === 1) {
@@ -36,26 +36,24 @@ export const tableColumn = [
     }
   },
   {
-    prop: 'userNum',
+    prop: 'questionTitle',
     label: '提问问题',
-    align: 'center',
-    emit: 'go-detail'
+    align: 'center'
   },
   {
-    prop: 'account',
+    prop: 'source',
     label: '用户类型',
     align: 'center'
   },
   {
-    prop: 'nameZh',
+    prop: 'createDate',
     label: '创建时间',
-    width: '100px',
+    width: '180px',
     align: 'center',
-    i18n: '创建时间',
     tooltip: true
   },
   {
-    prop: 'nameEn',
+    prop: 'createByUerName',
     label: '创建人',
     align: 'center',
     tooltip: true
@@ -69,22 +67,16 @@ export const tableColumn = [
   {
     prop: 'deptList',
     label: '标签',
-    align: 'center',
-    i18n: 'staffManagement.DEPARTMENT',
-    tooltip: true
+    align: 'center'
   },
   {
-    prop: 'positionList',
+    prop: 'favourCount',
     label: '点赞量',
-    align: 'center',
-    i18n: 'staffManagement.JOBS',
-    tooltip: true
+    align: 'center'
   },
   {
-    prop: 'positionList',
+    prop: 'viewCount',
     label: '浏览量',
-    align: 'center',
-    i18n: 'staffManagement.JOBS',
-    tooltip: true
+    align: 'center'
   }
 ]

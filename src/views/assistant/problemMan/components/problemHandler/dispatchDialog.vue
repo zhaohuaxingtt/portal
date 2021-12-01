@@ -65,6 +65,7 @@ export default {
         console.log(response);
         this.$message.success('指派成功');
         this.closeDiologBtn();
+        this.$emit('loadData');
       } else {
         this.$message('指派失败');
       }

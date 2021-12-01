@@ -15,11 +15,8 @@
             </template>
         </div>
         <template v-if="type == 'detail'">
-            <div class="manual-tlt">主数据管理</div>
-            <div class="content">
-                <div>（1）供应商在首页点击注册，打开供应商账号申请界面；</div>
-                <div>（2）在供应商申请界面输入供应商信息，包括联系人姓名，供应商中文名，临时号，职位，部门，区号，联系电话，手机号码等；</div>
-            </div>
+            <div class="manual-tlt" v-text="qs.menuName"></div>
+            <div class="content" v-html="detail.manualContent"></div>
         </template>
         <template v-if="type == 'edit'">
             <div v-if="preview" v-html="content"></div>
@@ -42,6 +39,16 @@
     import iUpload from "./../../components/iUpload.vue"
     
     export default {
+        props:{
+            detail:{
+                type:Object,
+                default:()=>{}
+            },
+            qs:{
+                type:Object,
+                default:()=>{}
+            }
+        },
         components: {
             iButton,
             iEditor,
@@ -51,10 +58,13 @@
             return {
                 type:"detail",
                 content:"",
-                files:[
-                    {name:'1.png'}
-                ],
+                files:[],
                 preview:false
+            }
+        },
+        watch:{
+            detail(n){
+                this.content = JSON.parse(JSON.stringify(n.manualContent))
             }
         },
         methods: {

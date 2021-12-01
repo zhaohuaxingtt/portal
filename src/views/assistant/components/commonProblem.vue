@@ -4,10 +4,10 @@
 		<div class="list">
 			<div class="listTitle" v-text="title"></div>
 			<div class="listContent">
-				<div v-for="(menu, index) in moudleList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleId === menu.id ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'" @click="select(menu,index)">
+				<div v-for="(menu, index) in moudleList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleId === menu[idKey] ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'" @click="select(menu,index)">
 					<div class="idx">{{ index + 1 }}</div>
 					<i v-if="showIcon" class="icon" :class="[rank[index] ? rank[index] : '']"></i>
-					<div>{{ menu.menuName }}</div>
+					<div>{{ menu[nameKey] }}</div>
 					<div class="block"></div>
 				</div> 
 				<div v-if="!loading && moudleList.length == 0" class="no-data">暂无数据</div>
@@ -39,6 +39,14 @@ export default {
 		loading: {
 			type: Boolean,
 			default: false
+		},
+		nameKey:{
+			type:String,
+			default:"menuName"
+		},
+		idKey:{
+			type:String,
+			default:"menuId"
 		}
 	},
 	data() {
@@ -52,7 +60,7 @@ export default {
 	},
 	methods: {
 		select(menu){
-			// this.$emit("update:currentMoudleId", menu.id)
+			// this.$emit("update:currentMoudleId", menu.menuId)
 			this.$emit("change", menu)
 		}
 	},
