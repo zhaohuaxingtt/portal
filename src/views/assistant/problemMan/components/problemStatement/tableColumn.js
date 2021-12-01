@@ -59,13 +59,13 @@ export const tableColumn = [
     tooltip: true
   },
   {
-    prop: 'gender',
+    prop: 'questionModuleName',
     label: '问题模块',
     align: 'center',
     tooltip: true
   },
   {
-    prop: 'deptList',
+    prop: 'questionLableName',
     label: '标签',
     align: 'center'
   },

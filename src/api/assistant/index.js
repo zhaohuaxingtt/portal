@@ -298,3 +298,21 @@ export const queryQListByPageApi = (data) => {
     data
   })
 }
+
+// 问题归档
+export const assistantFaqSaveFaqApi = (data) => {
+  return assistantRequest({
+    url: '/assistantFaq/saveFaq',
+    method: 'POST',
+    data
+  })
+}
+
+// 修改问题模块和标签
+export const modifyModuleAndLabelApi = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestion/updateModuleId',
+    method: 'POST',
+    data
+  })
+}
