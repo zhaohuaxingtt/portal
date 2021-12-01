@@ -175,8 +175,13 @@ export default {
         window.open('portal/#/dialogMgmt/popup-window-management/create')
     },
     exportExcell(){
+      let popupIds = []
+      popupIds = this.selectedItems.map((ele)=>{
+        return ele.id
+      })
       const data = {
-        ...this.iniSearchForm
+        ...this.iniSearchForm,
+        popupIds
       }
       exportEx(data)
     },

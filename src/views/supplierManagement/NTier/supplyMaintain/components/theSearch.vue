@@ -123,7 +123,7 @@ export default {
         iMessage.error(this.language('QINGXUANZEGONGYINSHANGMINGCHENGHUOZHEZONGCHENGLINGJIAN', '请选择供应商名称或者总成零件'))
         return
       }
-      await this.$parent.$children[1].getCardChain(this.form)
+      await this.$parent.$refs.view.getCardChain(this.form)
     },
     handleSearchReset () {
       this.form = {

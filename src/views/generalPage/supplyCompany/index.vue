@@ -102,18 +102,31 @@ export default {
         const res = await getSupplierProcureFactory(req)
         this.tableListData = res.data ? res.data : []
         this.tableLoading = false
+        //转正前
         if (this.tableListData.isSelect && val != 1) {
           const data = []
           const isExistList = []
           this.$nextTick(() => {
             this.tableListData.procureFactoryList.forEach((e) => {
-              this.$refs.mulitipleTable.toggleRowSelection(e, true)
               if (e.isExist) {
                 isExistList.push(e)
               }
             })
+            //若只有两个默认8000，9000其他默认全选，有除了默认的外就只勾选选中的
+            if (isExistList.length == 2) {
+              this.tableListData.procureFactoryList.forEach((e) => {
+                this.$refs.mulitipleTable.toggleRowSelection(e, true)
+              })
+            } else {
+              this.tableListData.procureFactoryList.forEach((e) => {
+                if (e.isExist) {
+                  this.$refs.mulitipleTable.toggleRowSelection(e, true)
+                }
+              })
+            }
+            //进入页面若没提交过则默认提交code为9000与8000的公司
             if (isExistList.length == 0) {
-              this.selectTableData.forEach((res) => {
+              this.tableListData.procureFactoryList.forEach((res) => {
                 if (res.companyCode == '9000' || res.companyCode == '8000') {
                   data.push(res)
                 }
@@ -122,10 +135,17 @@ export default {
                 procureFactoryList: data,
                 supplierToken: this.$route.query.supplierToken
               }
-              saveSupplierProcureFactory(parms)
+              saveSupplierProcureFactory(parms).then((res) => {
+                this.$nextTick(() => {
+                   this.tableListData.procureFactoryList.forEach((e) => {
+                    this.$refs.mulitipleTable.toggleRowSelection(e, true)
+                  })
+                })
+              })
             }
           })
         } else {
+          //转正后的默认选中
           this.$nextTick(() => {
             this.tableListData.procureFactoryList.forEach((e) => {
               if (e.isExist) {

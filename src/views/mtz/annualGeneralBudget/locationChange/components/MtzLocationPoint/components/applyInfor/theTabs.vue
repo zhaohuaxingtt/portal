@@ -987,6 +987,8 @@ export default {
     addDialogDataList (val) {//沿用
       this.newDataList = deepClone(val);
       this.newDataList.forEach(item => {
+        item.source = item.sourceType;
+        delete item.sourceType;
         delete item.id;
         if(item.carline == null){
           item.carlineList = []

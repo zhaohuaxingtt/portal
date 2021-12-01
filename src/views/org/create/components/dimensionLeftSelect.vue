@@ -19,12 +19,12 @@
 
 <script>
 import { iSelect } from 'rise'
-import { orgChildrenDimensionList } from '@/api/organization/index'
+import { orgChildrenDimensionList, queryParts } from '@/api/organization/index'
 export default {
   props: {
     dimensionLeftMenu: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -39,7 +39,9 @@ export default {
   computed: {
     selectedIds() {
       if (this.$store.state.org.table.tableListData) {
-        return this.$store.state.org.table.tableListData.map(e => e.leftSelect)
+        return this.$store.state.org.table.tableListData.map(
+          (e) => e.leftSelect
+        )
       }
       return []
     }
@@ -59,7 +61,7 @@ export default {
     },
     setRightSelectOptions(isResetRightSelected) {
       if (this.row.leftSelect) {
-        const obj = this.dimensionLeftMenu.filter(value => {
+        const obj = this.dimensionLeftMenu.filter((value) => {
           return value.id == this.row.leftSelect
         })
         if (obj.length > 0) {
@@ -77,17 +79,27 @@ export default {
         }
       }
     },
-    getOrgChildrenDimesionList(value) {
+    getOrgChildrenDimesionList(url) {
       //获取组织子维度
       // console.log("==== getOrgChildrenDimesionList1");
       // console.log("==== getOrgChildrenDimesionList2");
-      orgChildrenDimensionList(value, null, null)
-        .then(value => {
-          if (value.code == 200) {
-            Vue.set(this.row, 'optionsSelect', value.data)
-          }
-        })
-        .catch(() => {})
+      if (url.includes('http://') || url.includes('https://')) {
+        orgChildrenDimensionList(url, null, null)
+          .then((value) => {
+            if (value.code == 200) {
+              Vue.set(this.row, 'optionsSelect', value.data)
+            }
+          })
+          .catch(() => {})
+      } else {
+        queryParts(url)
+          .then((value) => {
+            if (value.code == 200) {
+              Vue.set(this.row, 'optionsSelect', value.data)
+            }
+          })
+          .catch(() => {})
+      }
     }
   }
 }

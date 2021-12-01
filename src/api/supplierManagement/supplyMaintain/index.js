@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-09 10:18:42
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
  */
 import axios from '@/utils/axios'
@@ -107,10 +107,17 @@ export function deletePart(parmars) {
 }
 // --供应商注册邀请
 export function invitation(parmars) {
-    return requst({
-      url: `/ntierSupplier/invitation`,
-      method: 'POST',
-      data: parmars
-    })
-  }
-  
+  return requst({
+    url: `/ntierSupplier/invitation`,
+    method: 'POST',
+    data: parmars
+  })
+}
+
+// --供应商注册邀请
+export function chain(parmars) {
+  return requst({
+    url: `bkm/chain/` + parmars.supplierId + '/' + parmars.tlk,
+    method: 'GET'
+  })
+}

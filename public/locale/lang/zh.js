@@ -1951,9 +1951,12 @@
     EKL_YJGL_CKJG: '参考价格',
     EKL_YJGL_CKJGLY: '参考价格来源',
     EKL_YJGL_CGY: '采购员',
+    EKL_CAIGOUJINE: '采购金额', //采购金额
     EKL_YJGL_CGCKJ: '采购参考价',
     EKL_YJGL_JIJIA: '基价',
     EKL_YJGL_GZJD: '跟踪进度',
+    EKL_LAIYUAN:'来源',
+    EKL_CAOZUO:'操作',
     JANUARY: '1月',
     FEBRUARY: '2月',
     MARCH: '3月',
@@ -1966,7 +1969,7 @@
     OCTOBER: '10月',
     NOVEMBER: '11月',
     DECEMBER: '12月',
-    KESHI: '科室',
+    EKL_KESHI: '科室',
     PINJUN: '平均',
     CHIXU: '持续',
     EKL_VW: '大众',
@@ -1995,6 +1998,10 @@
     EKL_PFJ_CGJG: '上年采购价格',
     EKL_PFJ_XSLYC: '当年销售量预测',
     EKL_PFJ_DNCGJE: '当年采购金额',
+    EKL_CAILIAOZU:'材料组',
+    EKL_DANWEI:'单位',
+    EKL_LINGJIANLEIXING: '零件类型', //零件类型
+    EKL_CHEXINGDENGJI: '车型等级', //车型等级
     // 以上ekl中文
     //会议中英文
     MT_HUIYIMINGCHENG: '会议名称',

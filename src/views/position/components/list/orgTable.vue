@@ -83,27 +83,7 @@ export default {
           align: 'center',
           width: 80,
           key: '',
-          tooltip: false,
-          customRender: (h, scope) => {
-            let sum = 0
-            for (let i = 0; i < scope.row.positionList.length; i++) {
-              if (
-                scope.row.positionList[i].userDTOList &&
-                scope.row.positionList[i].userDTOList.length
-              ) {
-                for (
-                  let j = 0;
-                  j < scope.row.positionList[i].userDTOList.length;
-                  j++
-                ) {
-                  sum++
-                }
-              } else {
-                break
-              }
-            }
-            return <span>{sum}</span>
-          }
+          tooltip: false
         }
       ]
     }

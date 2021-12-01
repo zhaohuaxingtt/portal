@@ -1,5 +1,4 @@
 import axios from "@/utils/axios";
-import { callbackify } from "util";
 
 const request = axios();
 
@@ -40,7 +39,7 @@ const downloadAll = ({
       window.URL.revokeObjectURL(blobUrl);
       callback && callback(true);
     })
-    .catch((err) => {
+    .catch(() => {
       callback && callback(false);
     });
 };
@@ -50,7 +49,7 @@ const downloadAllExport = ({
   filename,
   callback,
   // type = "application/pdf",
-  type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel",
+  // type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel",
   data,
 }) => {
   request({
@@ -72,7 +71,7 @@ const downloadAllExport = ({
       window.URL.revokeObjectURL(blobUrl);
       callback && callback(true);
     })
-    .catch((err) => {
+    .catch(() => {
       callback && callback(false);
     });
 };

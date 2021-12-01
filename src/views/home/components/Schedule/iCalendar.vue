@@ -4,7 +4,6 @@
       :locale="lang"
       :masks="mask"
       :attributes="attributes"
-      is-expanded
       v-model="value"
       :disabled-dates="weekDays"
       :firstDayOfWeek="firstDayOfWeek"
