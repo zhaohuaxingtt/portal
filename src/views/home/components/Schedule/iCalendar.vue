@@ -4,7 +4,6 @@
       :locale="lang"
       :masks="mask"
       :attributes="attributes"
-      is-expanded
       v-model="value"
       :disabled-dates="weekDays"
       :firstDayOfWeek="firstDayOfWeek"
@@ -190,9 +189,12 @@ export default {
     outline: none;
   }
   .vc-weeks {
-    height: 300px !important;
+    height: 280px !important;
     // min-width: 380px;
     border: none;
+  }
+  .vc-day {
+    z-index: 0 !important;
   }
   .vc-day-content {
     font-family: 'PingFang SC';

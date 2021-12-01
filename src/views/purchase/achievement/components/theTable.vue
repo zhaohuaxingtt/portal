@@ -168,7 +168,7 @@
             this.yearList = res.data
             this.yearList = this.yearList.sort((a, b) => b - a)
           }
-        })
+        }).catch(()=> {})
       },
       openPage(val) {
         if (val.value == '刷新') {

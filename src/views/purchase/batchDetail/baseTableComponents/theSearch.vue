@@ -8,7 +8,7 @@
                     <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.partNumber"></iInput>
                 </el-form-item>
                 <!--材料组-->
-                <el-form-item :label="$t('LK_CAILIAOZU')">
+                <el-form-item :label="language('EKL_CAILIAOZU','材料组')">
                     <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.csGroup">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -72,7 +72,7 @@
                     </iSelect>
                 </el-form-item>
                 <!--车型等级-->
-                <el-form-item :label="$t('LK_CHEXINGDENGJI')">
+                <el-form-item :label="$t('EKL_CHEXINGDENGJI')">
                     <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.position">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -94,7 +94,7 @@
             <!--三行-->
             <el-row>
                 <!--科室-->
-                <el-form-item :label="$t('SUPPLIER_KESHI')">
+                <el-form-item :label="$t('EKL_KESHI')">
                     <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.deptCode">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -106,7 +106,7 @@
                 </el-form-item>
 
                 <!--采购员-->
-                <el-form-item :label="$t('SPR_FRM_XGYSPJ_CGY')">
+                <el-form-item :label="$t('EKL_YJGL_CGY')">
                     <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.linieId">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option

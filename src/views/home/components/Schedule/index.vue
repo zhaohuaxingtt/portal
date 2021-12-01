@@ -21,8 +21,8 @@
         <div class="info_container">
           <div
             class="meeting-card"
-            v-for="item in meetingList"
-            :key="item.id"
+            v-for="(item, idx) in meetingList"
+            :key="idx"
             @click="handleGoMeetingDetail(item.id)"
           >
             <!-- 背景 -->
@@ -37,7 +37,7 @@
                   item.state === '05' || item.state === '06' ? `fs-color` : ''
                 "
               >
-                {{ item.startTime }}
+                {{ item.strStartTime }}
               </div>
               <div class="meeting_img" v-if="item.state === '04'">
                 <p class="circle"></p>
@@ -68,7 +68,7 @@
                   "
                 />
               </div>
-              <div @click="handlePubliuc">
+              <div>
                 <div class="name f-family">
                   {{ item.name }}
                 </div>
@@ -220,6 +220,7 @@ export default {
         let result = await this.getMeetingList(body, this.userId.id)
         // 深度克隆 this.attrs  过滤掉数据会议
         let attrs = _.cloneDeep(this.attrs)
+        console.log(attrs, "0++++x")
         attrs = attrs.filter((item) => {
           return !item.dot
         })
@@ -296,7 +297,7 @@ export default {
     },
     // 去详情
     handleGoMeetingDetail(id) {
-      window.location.href = `/portal/meeting/#/meeting/near-meeting/detail?id=${id}`
+      window.location.href = `/meeting/#/meeting/near-meeting/detail?id=${id}`
     }
   }
 }
@@ -329,11 +330,15 @@ export default {
       color: #fff;
     }
   }
+  .empty-meeting {
+    margin-top: 10px;
+    height: 100%;
+  }
   .info_container {
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
-    bottom: -38%;
+    bottom: -46%;
     cursor: pointer;
     left: 0;
     height: 180px;
@@ -341,9 +346,7 @@ export default {
     padding-right: 14px;
     width: 95%;
     box-sizing: border-box;
-    .empty-meeting {
-      height: 100%;
-    }
+    background-color: #fff;
     .meeting-card {
       margin-bottom: 8px;
       margin-left: 20px;

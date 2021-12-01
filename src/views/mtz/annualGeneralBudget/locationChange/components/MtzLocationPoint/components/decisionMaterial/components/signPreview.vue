@@ -12,6 +12,7 @@
       <iButton @click="handleClickExport" :loading="exportButtonLoading">{{language('DAOCHU', '导出')}}</iButton>
     </span>
     <div id="content">
+      <!-- <div class="content_dialog" v-if="formData.appStatus == '流转完成' || formData.appStatus == '定点'"></div> -->
       <iCard>
         <div slot="header" class="headBox">
           <p class="headTitle">流转定点推荐 - MTZ Nomination Recommendation - MTZ</p>
@@ -21,7 +22,7 @@
           <div class="inforDiv"
               v-for="(item,index) in formList"
               :key="index">
-            <span>{{language(item.key,item.name)}}</span>
+            <span>{{language(item.key,item.label)}}</span>
             <span
                   class="inforText"
                   >{{formData[item.prop]}}</span>
@@ -101,6 +102,32 @@
                 class="margin-top10"
                 :rows="8"
                 type="textarea" />
+      </iCard>
+      <iCard v-if="isMeeting"
+             class="margin-top20">
+        <p>{{language('SHENQINGRIQI', '申请日期')}}:{{moment(new Date()).format('YYYY-MM-DD')}}</p>
+        <div class="applayDateBox1">
+          <div class="applayDateContent"
+               v-for="(item, index) in applayDateData"
+               :key="index">
+            <icon v-if="item.taskStatus==='同意'"
+                  class="margin-left5 applayDateIcon"
+                  symbol
+                  name="iconrs-wancheng"></icon>
+            <icon v-else
+                  class="margin-left5 applayDateIcon"
+                  symbol
+                  name="iconrs-quxiao"></icon>
+            <div class="applayDateContentItem">
+              <span>部门：</span>
+              <span class="applayDateDeptTitle">{{item.deptNameZh}}</span>
+            </div>
+            <div class="applayDateContentItem">
+              <span>日期：</span>
+              <span>{{item.endTime}}</span>
+            </div>
+          </div>
+        </div>
       </iCard>
       <div class="margin-top30 deptBox">
         <div class="deptItem" v-for="(item, index) in deptData" :key="index">
@@ -358,10 +385,10 @@ $tabsInforHeight: 35px;
   white-space: nowrap;
   .applayDateContent {
     display: inline-block;
-    background-color: #CDD4E2;
+    background-color: #cdd4e2;
     height: 178px;
-    width: 224px;
-    margin: 0 10px;
+    width: 16%;
+    margin: 10px 0.3% 0;
     border-radius: 15px;
     text-align: center;
     .applayDateIcon {
@@ -423,11 +450,33 @@ $tabsInforHeight: 35px;
     }
   }
 }
+.applayDateBox1 {
+  display: flex;
+  align-items: center;
+  flex-flow: wrap;
+  margin-top: 20px;
+}
+
 .download_btn{
   width: 100%;
   display: flex;
   justify-content: flex-end;
   padding-top:10px;
   padding-bottom:20px;
+}
+#content{
+  position:relative;
+}
+.content_dialog{
+  width:100%;
+  height:100%;
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:url("~@/assets/images/icon/pass.png");
+  z-index: 100000;
+  opacity:0.07;
 }
 </style>

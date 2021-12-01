@@ -16,7 +16,7 @@
         <div class="inforDiv"
             v-for="(item,index) in formList"
             :key="index">
-          <span>{{language(item.key,item.name)}}</span>
+          <span>{{language(item.key,item.label)}}</span>
           <span
                 class="inforText"
                 >{{formData[item.prop]}}</span>

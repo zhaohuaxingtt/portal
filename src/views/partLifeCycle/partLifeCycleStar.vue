@@ -453,7 +453,6 @@ export default {
   mounted() {
     this.getSeletes()
     this.defaultParts()
-    console.log('this.$refs.partLifeCycleStar', this.$refs.partLifeCycleStar);
     if(this.$refs.partLifeCycleStar)
     this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.scrollGetData); //this.setHeadPosition方法名
   },

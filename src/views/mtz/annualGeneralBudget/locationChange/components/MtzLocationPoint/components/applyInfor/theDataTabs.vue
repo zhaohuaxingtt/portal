@@ -709,7 +709,11 @@ export default {
       })
     },
     uploadSuccess(res, file){
-      this.getTableList()
+      if(res.code == 200 && res.result){
+        this.getTableList()
+      }else{
+        iMessage.error(res.desZh);
+      }
     },
     beforeUpload(file){
         const isLt2M = file.size / 1024 / 1024 < 20;
