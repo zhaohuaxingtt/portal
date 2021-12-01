@@ -228,7 +228,7 @@ export default {
           }
       ],
       searchForm: {
-        applicationStatus:"NOMINATE",
+        applicationStatus:"NEW",
         linieName:"",
       },
       linieDeptId:[],
@@ -241,18 +241,18 @@ export default {
       },
       getFlowTypeList:[],
       getLocationApplyStatus:[
-        // {
-        //   code:"NEW",
-        //   message: "草稿"
-        // },
         {
-          code:"NOMINATE",
-          message: "定点"
+          code:"NEW",
+          message: "草稿"
         },
         // {
-        //   code:"NOTPASS",
-        //   message: "未通过"
+        //   code:"NOMINATE",
+        //   message: "定点"
         // },
+        {
+          code:"NOTPASS",
+          message: "未通过"
+        },
       ],
       getLocationApplyStatus11:[],
       getSecondPartList:[
@@ -359,7 +359,7 @@ export default {
     // 重置
     handleSearchReset(form) {
       this.searchForm = {
-        applicationStatus:"NOMINATE",
+        applicationStatus:"NEW",
         buyerName : JSON.parse(sessionStorage.getItem('userInfo')).nameZh
       };
       this.page.currPage = 1;
