@@ -296,7 +296,7 @@ export default {
     },
     // 去详情
     handleGoMeetingDetail(id) {
-      window.location.href = `/portal/meeting/#/meeting/near-meeting/detail?id=${id}`
+      window.location.href = `/meeting/#/meeting/near-meeting/detail?id=${id}`
     }
   }
 }
@@ -333,7 +333,7 @@ export default {
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
-    bottom: -38%;
+    bottom: -50%;
     cursor: pointer;
     left: 0;
     height: 180px;
