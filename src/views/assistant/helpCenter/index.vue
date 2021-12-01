@@ -68,6 +68,7 @@
 			/>
 			<QuestionDetail
 				ref="questionDetail"
+				:moudleList="moudleList"
 				@handleZwQues="handleZwQues"
 				@handleQuestion="handleQuestion"
 			/>
@@ -215,14 +216,14 @@ export default {
 			let moudleId = this.$store.state.baseInfo.originalModuleId
 			getHotFiveQues(moudleId).then((res) => {
 				if (res?.code === '200') {
-					// this.hotQuestionList = res?.data
-					this.hotQuestionList = [
-						{ questionTitle: '多个联系人怎么办？', id: '1', answerContent: '回答内容1', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
-						{ questionTitle: '注册名必须是企业全称吗？', id: '2', answerContent: '回答内容2', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
-						{ questionTitle: '注册页面加载缓慢怎么办？', id: '3', answerContent: '回答内容3', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
-						{ questionTitle: '没有中文名怎么办？', id: '4', answerContent: '回答内容4', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
-						{ questionTitle: '密码需要多少字符？', id: '5', answerContent: '回答内容5', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' }
-					]
+					this.hotQuestionList = res?.data
+					// this.hotQuestionList = [
+					// 	{ questionTitle: '多个联系人怎么办？', id: '1', answerContent: '回答内容1', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
+					// 	{ questionTitle: '注册名必须是企业全称吗？', id: '2', answerContent: '回答内容2', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
+					// 	{ questionTitle: '注册页面加载缓慢怎么办？', id: '3', answerContent: '回答内容3', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
+					// 	{ questionTitle: '没有中文名怎么办？', id: '4', answerContent: '回答内容4', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
+					// 	{ questionTitle: '密码需要多少字符？', id: '5', answerContent: '回答内容5', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' }
+					// ]
 					this.intelligentVisible = true
 				}
 			})
@@ -254,9 +255,15 @@ export default {
 		},
 		// 根据弹窗热门问题跳转到常见问题详情
 		gotoProblemDeatil(issue, fromPage) {
+			console.log(issue, "issue")
 			this.intelligentVisible = false
 			this.helpMoudle = 'problem'
 			this.currentMoudleId = issue.questionModuleId
+			this.moudleList.map(item => {
+				if (item.id === issue.questionModuleId) {
+					this.currMoudleName = item.menuName
+				}
+			})
 			this.$nextTick(() => {
 				this.$refs.problemDetail.initDetailPage(issue)
 			})

@@ -6,7 +6,7 @@
       </iFormItem>
       <iFormItem :label="language('问题模块')" prop='moduleId'>
         <iSelect v-model="newLabelForm.moduleId" filterable placeholder="请选择">
-          <el-option v-for="item in moduleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
+          <el-option v-for="item in moduleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
         </iSelect>
       </iFormItem>
     </el-form>

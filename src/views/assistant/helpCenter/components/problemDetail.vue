@@ -167,7 +167,7 @@ export default {
 					const { data } = res
 					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
 					this.showAttachFlag = data?.annexList.length > 0 && data?.annexString
-					this.getJudgeFavour(item.questionId)
+					this.getJudgeFavour(item.questionId || item.id)
 				} 
 				// else {
 				// 	this.getJudgeFavour(item.questionId)
@@ -176,7 +176,7 @@ export default {
 		},
 		// 获取该用户是否给该问题点赞
 		async getJudgeFavour(questionId) {
-			await judgeFavour({ faqId: questionId || 3 }).then((res) => {
+			await judgeFavour({ faqId: questionId }).then((res) => {
 				console.log(res, '+++++')
 				if (res?.code === '200') {
 					this.currQuesFavourFlag = res?.data
@@ -212,8 +212,11 @@ export default {
 				}
 			})
 			let currName = ''
+			console.log(this.moudleList, "this.moudleList")
+			console.log(item.questionModuleId, "item.questionModuleId")
 			this.moudleList.map(moudle => {
 				if (moudle.id == item.questionModuleId) {
+					console.log(moudle, "moudle")
 					currName = moudle.menuName
 				} else {
 					currName = '示例模块名称'
@@ -240,6 +243,7 @@ export default {
 			this.favourQuestionId = issue.questionId || issue.id
 			this.problemText = issue.questionTitle
 			this.desDetail = issue.answerContent
+			this.showAttachFlag = issue?.annexList.length > 0 && issue?.annexString
 			console.log(this.currentFlag, "currentFlag")
 		},
 		async getLabelList(va) {

@@ -4,7 +4,7 @@
 		<div class="list">
 			<div class="listTitle" v-text="title"></div>
 			<div class="listContent">
-				<div v-for="(menu, index) in moudleList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleId === menu.menuId ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'" @click="select(menu,index)">
+				<div v-for="(menu, index) in moudleList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleId === menu.id ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'" @click="select(menu,index)">
 					<div class="idx">{{ index + 1 }}</div>
 					<i v-if="showIcon" class="icon" :class="[rank[index] ? rank[index] : '']"></i>
 					<div>{{ menu.menuName }}</div>
