@@ -22,6 +22,7 @@
         </iButton>
       </div>
       <i-table-custom
+        :key="finished.toString()"
         :loading="tableLoading"
         :data="tableListData"
         :columns="tableTitle"
@@ -111,6 +112,11 @@ export default {
       this.finished = isFinished
       this.page.currPage = 1
       this.form = { ...dataSearchForm }
+      if (isFinished) {
+        this.tableTitle = tableTitle.filter((e) => e.type !== 'selection')
+      } else {
+        this.tableTitle = tableTitle
+      }
       this.getTableList()
     },
     //表格选中值集

@@ -50,7 +50,7 @@
             <!--2行-->
             <el-row>
                 <!--科室-->
-                <el-form-item :label="$t('SUPPLIER_KESHI')">
+                <el-form-item :label="$t('EKL_KESHI')">
                     <iSelect multiple filterable collapse-tags :placeholder="$t('LK_QINGXUANZE')" v-model="form.dptKeCode">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -62,7 +62,7 @@
                 </el-form-item>
 
                 <!--采购员-->
-                <el-form-item :label="$t('SPR_FRM_XGYSPJ_CGY')">
+                <el-form-item :label="$t('EKL_YJGL_CGY')">
                     <iSelect multiple filterable collapse-tags :placeholder="$t('LK_QINGXUANZE')" v-model="form.linieId">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option

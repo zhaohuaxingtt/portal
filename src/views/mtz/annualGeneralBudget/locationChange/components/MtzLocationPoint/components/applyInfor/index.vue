@@ -22,7 +22,7 @@
         </div>
         <div class="opration">
           <iButton @click="edit"
-                   v-show="disabled && appIdType && inforData.appStatus == '草稿'">{{ language('BIANJI', '编辑') }}</iButton>
+                   v-show="disabled && appIdType && inforData.appStatus == '草稿' && applyNumber==''">{{ language('BIANJI', '编辑') }}</iButton>
           <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
@@ -200,7 +200,7 @@ export default {
     }
     this.getListData()
     if (this.$route.query.appId) {
-      this.appIdType = true;
+      this.appIdType = false;
     }
   },
   methods: {
@@ -279,24 +279,24 @@ export default {
     save () {
       if (this.inforData.flowType == "SIGN" && this.numIsNomi !== 0) {//流转
         return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZ', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转'))
-      }
-      if (this.inforData.flowType == "FILING") {//备案
-        fetchAppNomiDecisionDataPage({
-          pageNo: 1,
-          pageSize: 10,
-          mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-        }).then(res => {
-          if(res && res.code == 200) {
-            if(res.data.length<1){
-              return iMessage.error(this.language('SQDLXWBASSPFJBNWK', '申请单类型为备案时，审批附件不能为空'))
-            }else{
-              this.saveEdit();
-            }
-          } else iMessage.error(res.desZh)
-        })
-      }
-      if(this.inforData.flowType == "MEETING"){
-        this.saveEdit();
+      }else{
+        // if (this.inforData.flowType == "FILING") {//备案
+          // fetchAppNomiDecisionDataPage({
+          //   pageNo: 1,
+          //   pageSize: 10,
+          //   mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+          // }).then(res => {
+          //   if(res && res.code == 200) {
+          //     if(res.data.length<1){
+          //       return iMessage.error(this.language('SQDLXWBASSPFJBNWK', '申请单类型为备案时，审批附件不能为空'))
+          //     }else{
+          //       this.saveEdit();
+          //     }
+          //   } else iMessage.error(res.desZh)
+          // })
+        // }else{
+          this.saveEdit();
+        // }
       }
     },
     saveEdit(){
