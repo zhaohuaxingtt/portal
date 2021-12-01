@@ -988,6 +988,7 @@ export default {
       this.newDataList = deepClone(val);
       this.newDataList.forEach(item => {
         item.source = item.sourceType;
+        item.formalFlag = "Y";
         delete item.sourceType;
         delete item.id;
         if(item.carline == null){
