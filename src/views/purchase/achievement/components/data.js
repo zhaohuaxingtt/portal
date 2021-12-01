@@ -12,9 +12,9 @@ export const tableTitle = [
     {props: 'version', name: '版本号', key: 'LK_BANBENHAO', tooltip: true,},
     {props: '_billType', name: '单据类型', key: 'EKL_YJGL_DJLX', tooltip: true, width: 110,},
     {props: '_type', name: '业务类型', key: 'EKL_YJGL_YWLX', width: 120, tooltip: true,},
-    {props: '_source', name: '来源', key: 'SUPPLIER_LAIYUAN', tooltip: true},
+    {props: '_source', name: '来源', key: 'EKL_LAIYUAN', tooltip: true},
     {props: 'createByName', name: '发起人', key: 'EKL_YJGL_FQR', width: 110, tooltip: true,},
-    {props: 'operation', name: '操作', key: 'LK_CAOZUO', width: 200, tooltip: true,},
+    {props: 'operation', name: '操作', key: 'EKL_CAOZUO', width: 200, tooltip: true,},
 
 ];
 export const tableTitle1 = [
