@@ -126,7 +126,7 @@ export default {
             }
             //进入页面若没提交过则默认提交code为9000与8000的公司
             if (isExistList.length == 0) {
-              this.selectTableData.forEach((res) => {
+              this.tableListData.procureFactoryList.forEach((res) => {
                 if (res.companyCode == '9000' || res.companyCode == '8000') {
                   data.push(res)
                 }
