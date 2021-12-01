@@ -554,7 +554,7 @@
              v-if="quoteDialog"
              width="90%"
              @close="quoteType">
-      <quoteData @quoteDialog="quoteDialogList"></quoteData>
+      <quoteData @quoteDialog="quoteDialogList" :applyNumber="applyNumber"></quoteData>
     </iDialog>
 
     <iDialog :title="language('LSMTZLJZSJ', '历史MTZ零件主数据')"
@@ -598,7 +598,7 @@ import { formRulesLJ } from "./data";
 export default {
   name: "Search",
   componentName: "theDataTabs",
-  props: ["appStatus","inforData"],
+  props: ["appStatus","inforData","applyNumber"],
   components: {
     iCard,
     iButton,
@@ -940,6 +940,9 @@ export default {
       })
     },
     locationClick () {
+      if(this.applyNumber == ""){
+        return iMessage.error(this.language('YYDDSQDLJXXGLLJDDSQ', '引用定点申请单零件需先关联零件定点申请！'))
+      }
       iMessageBox(this.language('CCZJSCNYWHDSYLJZSJSFJX', '此操作将删除您已维护的所有零件主数据，是否继续？'), this.language('LK_WENXINTISHI', '温馨提示'), {
         confirmButtonText: this.language('QUEREN', '确认'),
         cancelButtonText: this.language('QUXIAO', '取消')

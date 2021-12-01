@@ -103,9 +103,8 @@
                 :rows="8"
                 type="textarea" />
       </iCard>
-      <iCard v-if="isMeeting"
-             class="margin-top20">
-        <p>{{language('SHENQINGRIQI', '申请日期')}}:{{moment(new Date()).format('YYYY-MM-DD')}}</p>
+      <iCard v-if="applayDateData.length>0" class="margin-top20">
+        <p>{{language('SHENQINGRIQI','申请日期')}}:{{moment(new Date()).format('YYYY-MM-DD')}}</p>
         <div class="applayDateBox1">
           <div class="applayDateContent"
                v-for="(item, index) in applayDateData"
@@ -144,7 +143,7 @@ import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1_1,ruleTableTitle1_2, partTableTitle1_1,partTableTitle1_2} from './data'
-import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
+import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 // import { downloadPdfMixins } from '@/utils/pdf';
 import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
@@ -183,12 +182,14 @@ export default {
       },
       applayDateData: [],
       deptData: [],
-      exportButtonLoading: false
+      exportButtonLoading: false,
+      moment: window.moment
     }
   },
   created() {
     // this.$nextTick(e=>{
       this.getAppFormInfo()
+      this.initApplayDateData()
       this.getPageAppRule()
       this.getPagePartMasterData()
       this.getSignPreviewDept()
@@ -218,9 +219,6 @@ export default {
     isMeeting() {
       return this.formData.flowType == 'MEETING'
     },
-    isSign() {
-      return this.formData.flowType == 'SIGN'
-    },
     mtzObject(){
       return this.$store.state.location.mtzObject;
     }
@@ -231,6 +229,17 @@ export default {
     }
   },
   methods: {
+    initApplayDateData () {
+      approvalList({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res => {
+        if (res?.code === '200') {
+          let data = res.data
+          this.applayDateData = data
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+
+    },
     // 获取申请单信息
     getAppFormInfo() {
       getAppFormInfo({
@@ -378,33 +387,61 @@ $tabsInforHeight: 35px;
     right: 0;
   }
 }
-.applayDateBox {
-  overflow-x: scroll;
-  margin: 20px 0;
-  padding-bottom: 20px;
-  white-space: nowrap;
-  .applayDateContent {
-    display: inline-block;
-    background-color: #cdd4e2;
-    height: 178px;
-    width: 16%;
-    margin: 10px 0.3% 0;
-    border-radius: 15px;
-    text-align: center;
-    .applayDateIcon {
-      margin-top: 10px;
-      font-size: 30px;
+
+.applayDateBox1 {
+  display: flex;
+  align-items: center;
+  flex-flow: wrap;
+  margin-top: 20px;
+}
+.applayDateIcon {
+  margin-top: 10px;
+  font-size: 30px;
+}
+.applayDateContentItem {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding: 0 20px;
+  font-size: 16px;
+  .applayDateDeptTitle {
+    font-weight: bold;
+  }
+}
+.applayDateContent {
+  display: inline-block;
+  background-color: #cdd4e2;
+  height: 178px;
+  width: 16%;
+  margin: 10px 0.3% 0;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.tabsBoxInfor {
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+  .inforDiv {
+    width: 29%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0;
+    margin-bottom: 20px;
+    span {
+      font-size: 15px;
     }
-    .applayDateContentItem {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-      padding: 0 20px;
-      font-size: 16px;
-      .applayDateDeptTitle {
-        font-weight: bold;
-      }
+    .inforText {
+      font-size: 14px;
+      padding: 10px 10px;
+      width: 68%;
+      min-height: $tabsInforHeight;
+      height: auto;
+      background: #f8f8fa;
+      text-align: center;
     }
   }
 }
@@ -424,6 +461,7 @@ $tabsInforHeight: 35px;
     }
   }
 }
+
 .tabsBoxInfor {
   margin-bottom: 10px;
   display: flex;
@@ -449,12 +487,6 @@ $tabsInforHeight: 35px;
       text-align: center;
     }
   }
-}
-.applayDateBox1 {
-  display: flex;
-  align-items: center;
-  flex-flow: wrap;
-  margin-top: 20px;
 }
 
 .download_btn{
