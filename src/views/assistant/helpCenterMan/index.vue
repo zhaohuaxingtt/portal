@@ -18,54 +18,31 @@
 		<div class="user-type-item" :class="{active: activeUser == 'supplier'}" @click="selectUser('supplier')">供应商用户</div>
 		<div class="user-type-item" :class="{active: activeUser == 'inner'}" @click="selectUser('inner')">内部用户</div>
 	</div> -->
-	<div class="flex flex-row content mt20" v-show="activeMoudle === 'manual'">
+	<div class="flex flex-row content mt20">
 		<CommonProblem 
 			title="问题模块"
-			:moudleList="moudleList"
-			:currentMoudleId.sync="currentMoudleId"
-			:loading="manualLoading"
+			:moudleList="qsList"
+			:currentMoudleId="qs.id"
+			:loading="qs.loading"
+			@change="moduleChange"
 		>
-			<div class="flex" slot="top">
-				<iInput class="flex-1" v-model="key" placeholder="搜索.."></iInput>
-				<iSelect class="content-select" v-model="type" placeholder="问题模块">
-					<!-- <el-option value='' label='全部'></el-option> -->
-				</iSelect>
-			</div>
+			<iInput slot="top" v-model="qs.keyword" placeholder="搜索.."></iInput>
 		</CommonProblem>
-		<div class="content-right">
-			<UserManual></UserManual>
-		</div>
-	</div>
-	<div class="flex flex-row content mt20" v-show="activeMoudle === 'question'">
-		<CommonProblem 
-			title="常见问题"
-			showIcon
-			:moudleList="hotList"
-			:currentMoudleId.sync="currentMoudleId"
-			:loading="questionLoading"
-		>
-			<div class="flex" slot="top">
-				<iInput class="flex-1" v-model="key" placeholder="搜索.."></iInput>
-				<iSelect class="content-select" v-model="type" placeholder="问题模块">
-					<!-- <el-option value='' label='全部'></el-option> -->
-				</iSelect>
-			</div>
-		</CommonProblem>
-
-		<div class="content-right">
-			<Question></Question>
+		<div class="content-right" v-loading="contentLoading">
+			<UserManual v-if="activeMoudle === 'manual'" :detail="qs.detail" :qs="qs.activeInfo"></UserManual>
+			<Question v-else></Question>
 		</div>
 	</div>
 </iPage>
 </template>
 
 <script>
-import { iPage, iInput, iSelect } from 'rise'
+import { iPage, iInput } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
 import Question from "./components/question"
 import UserManual from "./components/userManual"
-import { getSystemMeun, getModuleList, queryHotFaq } from '@/api/assistant'
+import { getModuleList, getUserDes } from '@/api/assistant'
 
 export default {
 	components: {
@@ -75,7 +52,6 @@ export default {
 		CommonProblem,
 		Question,
 		UserManual,
-		iSelect,
 		iInput
 	},
 	data() {
@@ -84,56 +60,77 @@ export default {
 				{name:'用户手册',type:'manual'},
 				{name:'常见问题',type:'question'}
 			],
-			activeMoudle: "manual",
-			activeUser: "supplier",
-			moudleList: [],
-			hotList:[],
-			currentMoudleId: 0,
+			activeMoudle:"manual",
+			contentLoading:false,
+			qs:{
+				keyword:"",
+				list: [],
+				loading:false,
+			
+			},
+			manualInfo:{
+				id: "",
+				activeInfo:{},
+				detail:{}
+			},
 			show: false,
-
 			key:"",
 			type:"",
-			questionLoading:false,
-			manualLoading:false
 		}
 	},
-	mounted() {
-		this.aqueryHotFaq()
+	created() {
+		this.getProbleList()
+	},
+	computed:{
+		qsList(){
+			if(this.qs.keyword){
+				return this.qs.list.filter(e => e.menuName && e.menuName.includes(this.qs.keyword))
+			}
+			return this.qs.list
+		}
 	},
 	methods:{
+		// 用户手册-问题模块
 		async getProbleList() {
-			this.manualLoading = true
+			this.qs.loading = true
 			try {
 				await getModuleList().then((res) => {
 					if (res.code === '200') {
-						// let { data: { menuList }} = res
-						// this.moudleList = menuList[3] ? menuList[3].menuList : []
-						// console.log(this.moudleList);
+						this.qs.list = res.data
+						this.manualInfo.id = res.data[0]?.menuId
+						this.manualInfo.activeInfo = res.data[0]
+						this.queryManualDetail()
 					}
 				})
 			} finally {
-				this.manualLoading = false
-			}
-		},
-		// 热门常见问题
-		async aqueryHotFaq(){
-			this.questionLoading = true
-			try {
-				await queryHotFaq().then((res) => {
-					if (res.code === '200') {
-						this.hotList = res.data
-					}
-				})
-			} finally {
-				this.questionLoading = false
+				this.qs.loading = false
 			}
 		},
 		tabChange(val) {
 			this.activeMoudle = val;
+			this.qs.keyword = ""
+			
 		},
 		selectUser(v){
 			this.activeUser = v;
 		},
+		// 查询用户手册详情
+		async queryManualDetail(){
+			try {
+				this.contentLoading = true
+				let {data} = await getUserDes({moduleId:this.qs.id})
+				this.qs.detail = data
+			} finally {
+				this.contentLoading = false
+			}
+		},
+		moduleChange(v){
+			this.manualInfo.id = v.id
+			this.manualInfo.activeInfo = v
+			if(this.activeMoudle == 'manual'){
+				this.queryManualDetail()
+			}
+		}
 	}
 }
 </script>

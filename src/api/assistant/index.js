@@ -35,6 +35,15 @@ export function getUserDes(data) {
   })
 }
 
+// 用户手册管理 新增用户手册
+export function insertNewManual(data) {
+  return assistantRequest({
+    url: '/assistantManual/insertNewManual',
+    method: 'post',
+    data
+  })
+}
+
 // 根据模块id 查询热门的前五个话题
 export function getHotFiveQues(id) {
   return assistantRequest({
