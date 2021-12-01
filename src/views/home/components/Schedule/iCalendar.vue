@@ -189,12 +189,9 @@ export default {
     outline: none;
   }
   .vc-weeks {
-    height: 280px !important;
+    height: 300px !important;
     // min-width: 380px;
     border: none;
-  }
-  .vc-day {
-    z-index: 0 !important;
   }
   .vc-day-content {
     font-family: 'PingFang SC';
