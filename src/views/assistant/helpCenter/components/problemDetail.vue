@@ -58,7 +58,7 @@
 				<div class="des-title">{{ problemText }}</div>
 				<div class="des-detail">{{ desDetail }}</div>
 			</div>
-			<AttachmentDownload />
+			<AttachmentDownload v-if="showAttachFlag" />
 			<div class="bottom-zan">
 				<Solution
 					:showTipsFlag="showTipsFlag"
@@ -114,13 +114,13 @@ export default {
 			problemQuery: {
 				pageNum: 1,
 				pageSize: 3,
-				questionLableId: 2,
-				questionModuleId: ''
+				questionLableId: null,
+				questionModuleId: null
 			},
 			hotProblemList: [],
 			moudleLabelList: [],
 			labelIdx: 0,
-			labelText: '全部',
+			labelText: null,
 			currentFlag: 'listPage',
 			problemText: '',
 			desDetail: '',
@@ -128,7 +128,8 @@ export default {
 			hotIdx: 0,
 			favourQuestionId: null,  // 点赞时的请求id
 			queryProblemList: [],  // 搜索框查询出的问题数组
-			currQuesFavourFlag: false  //  当前问题是否点赞
+			currQuesFavourFlag: false,  //  当前问题是否点赞
+			showAttachFlag: false  //  是否展示附件下载
 		}
 	},
 	methods: {
@@ -143,7 +144,7 @@ export default {
 			if (!this.currMoudleName) {
 				let currName = null
 				this.moudleList.map(mou => {
-					if (item.moduleId === mou.menuId) {
+					if (item.moduleId === mou.id) {
 						currName = mou.menuName
 					} else {
 						currName = '示例模块名称'
@@ -152,7 +153,6 @@ export default {
 				this.$emit('changeCurrValue', item.moduleId, currName)
 			}
 			this.$emit('changeCurrValue', item.moduleId)
-			console.log(this.labelList, "labelList")
 			this.problemQuery.questionLableId = item.id
 			this.problemQuery.questionModuleId = item.moduleId
 			this.currentFlag = 'listPage'
@@ -160,18 +160,18 @@ export default {
 		},
 		// 点击问题查询问题详情
 		async handleProblem(item, idx) {
-			console.log(item, idx, "item")
 			this.currentFlag = 'detailPage'
 			this.problemText = item.questionTitle
 			await getProblemDetail({id:item.id}).then(res => {
-				console.log(res, '112344')
 				if (res?.code === '200') {
 					const { data } = res
 					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
+					this.showAttachFlag = data?.annexList.length > 0 && data?.annexString
 					this.getJudgeFavour(item.questionId)
-				} else {
-					this.getJudgeFavour(item.questionId)
-				}
+				} 
+				// else {
+				// 	this.getJudgeFavour(item.questionId)
+				// }
 			})
 		},
 		// 获取该用户是否给该问题点赞
@@ -184,15 +184,17 @@ export default {
 			})
 		},
 		badSolution() {
-			console.log("点击跳转提问页面")
 			// this.$emit('putAdminTw', this.problemText, this.desDetail)
 			this.$emit('putAdminTw', this.labelIdx)
 		},
 		// 问题点赞 + 1
 		goodSolution() {
-			if (this.currQuesFavourFlag) return  // 已对该问题点赞
+			if (!this.favourQuestionId) return
+			if (this.currQuesFavourFlag) return this.$message.warning("您已对该问题点赞！") // 已对该问题点赞
 			updateFavour(this.favourQuestionId).then((res) => {
-				console.log(res, '11111')
+				if (res?.code === '200') {
+					this.$message.success("很开心该回答能帮助您...")
+				}
 			})
 		},
 		putQuestion() {
@@ -201,7 +203,7 @@ export default {
 		// 点击热门问题 跳转该热门问题的详情且查询当前热门问题的标签 模块name及id
 		async handleHotQues(item, index) {
 			console.log(item, "item")
-			this.favourQuestionId = item.questionId || 3
+			this.favourQuestionId = item.questionId || item.id
 			this.hotIdx = index
 			this.labelIdx = item.questionLableId
 			this.labelList.map(label => {
@@ -211,7 +213,7 @@ export default {
 			})
 			let currName = ''
 			this.moudleList.map(moudle => {
-				if (moudle.menuId === item.questionModuleId) {
+				if (moudle.id == item.questionModuleId) {
 					currName = moudle.menuName
 				} else {
 					currName = '示例模块名称'
@@ -225,12 +227,9 @@ export default {
 			this.problemText = item.questionTitle
 			await this.getLabelList()	
 			await getProblemDetail({id:item.id}).then(res => {
-				console.log(res, '112344')
 				if (res?.code === '200') {
 					const { data } = res
 					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
-					this.getJudgeFavour(item.questionId)
-				} else {
 					this.getJudgeFavour(item.questionId)
 				}
 			})
@@ -238,7 +237,7 @@ export default {
 		// 通过智能弹窗热门问题跳转问题详情
 		initDetailPage(issue) {
 			this.currentFlag = 'detailPage'
-			this.favourQuestionId = issue.questionId || 3
+			this.favourQuestionId = issue.questionId || issue.id
 			this.problemText = issue.questionTitle
 			this.desDetail = issue.answerContent
 			console.log(this.currentFlag, "currentFlag")
@@ -252,8 +251,8 @@ export default {
 					this.labelIdx = this.labelIdx ? this.labelIdx : res?.data[0]?.id
 					this.labelText = this.labelText ? this.labelText : res?.data[0]?.lableName
 					if (va === 'init') {
-						// 如第一次查询 标签id是全部  questionLableId为0
-						this.problemQuery.questionLableId = 0
+						// 如第一次查询 标签id是第一个
+						this.problemQuery.questionLableId = res?.data[0]?.id
 					}
 					// 根据模板id 标签id 
 					if (this.queryProblemList.length > 0) return
@@ -266,12 +265,12 @@ export default {
 			await queryFaqByPage(this.problemQuery).then((res) => {
 				console.log(res, '090000')
 				if (res?.code === '200') {
-					// this.problemList = res?.data?.records || []
-					this.problemList = [
-						{questionTitle: '常用计量单位和基础计量单位的转换关系是什么？', key: '-1', id: 1},
-						{questionTitle: '保存时，提示未填写BMG怎么办？', key: '0', id: 2},
-						{questionTitle: '零件材料组如何与工艺组的关联关系是什么？', key: '1', id: 3}
-					]
+					this.problemList = res?.data?.records || []
+					// this.problemList = [
+					// 	{questionTitle: '常用计量单位和基础计量单位的转换关系是什么？', key: '-1', id: 1},
+					// 	{questionTitle: '保存时，提示未填写BMG怎么办？', key: '0', id: 2},
+					// 	{questionTitle: '零件材料组如何与工艺组的关联关系是什么？', key: '1', id: 3}
+					// ]
 				}
 			})
 		},
@@ -284,29 +283,25 @@ export default {
 		async getAllMoudleLabel() {
 			await getAllModuleLabel().then((res) => {
 				if (res?.code === '200') {
-					console.log(11111)
 					this.moudleLabelList = res?.data || []
 				}
 			})
 		},
 		async getQueryProblemList(data, currLabelId) {
-			console.log(data, currLabelId, '11111')
 			this.queryProblemList = data || []
 			this.labelIdx = currLabelId
 			await this.getLabelList()
 			let currNameId = ''
 			let currName = ''
-			console.log(this.labelList, "labelList")
 			this.currentFlag = 'listPage'
 			this.labelList.map(item => {
-				console.log(item, '1111111')
 				if (item.id === currLabelId) {
 					currNameId = item.moduleId
 					this.labelText = item.lableName
 				}
 			})
 			this.moudleList.map(moudle => {
-				if (moudle.menuId === currNameId) {
+				if (moudle.id === currNameId) {
 					currName = moudle.menuName
 				} else {
 					currName = '示例模块名称'

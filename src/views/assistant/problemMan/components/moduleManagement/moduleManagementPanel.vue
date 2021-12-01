@@ -53,12 +53,13 @@ export default {
     }
   },
   async mounted () {
-    this.query()
     let {data} = await queryProCsUserList()
     data.forEach(e => {
       this.extraData.nameListKV[+e.id] = e
     })
     this.extraData.nameList = data
+    this.query()
+
   },
   methods: {
     async query(){
@@ -68,7 +69,9 @@ export default {
         res.data.forEach(e => {
           e.adminUserId = e.adminUserId ? e.adminUserId.split(",") : []
         })
-        this.extraData.tableListData = res.data
+        this.$nextTick(() => {
+          this.extraData.tableListData = res.data
+        })
       } finally {
         this.tableLoading = false
       }
@@ -89,6 +92,7 @@ export default {
     cancelEditHandler () {
       this.isEdit = false;
       this.extraData.selectionRowIds = [];
+      this.$refs.testTable.clearSelection()
     },
     async confirmEditHandler () { 
       // 保存
