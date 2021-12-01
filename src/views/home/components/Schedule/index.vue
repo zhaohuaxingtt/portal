@@ -297,7 +297,7 @@ export default {
     },
     // 去详情
     handleGoMeetingDetail(id) {
-      window.location.href = `/meeting/#/meeting/near-meeting/detail?id=${id}`
+      window.location.href = `/portal/#/meeting/near-meeting/detail?id=${id}`
     }
   }
 }
