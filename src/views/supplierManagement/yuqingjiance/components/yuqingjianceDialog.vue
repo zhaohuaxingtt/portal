@@ -131,10 +131,10 @@
     },
     methods:{
       clearDialog() {
-        this.$emit("value", false);
+        this.$emit('input', false)
       },
       save(){
-        this.$emit("value", false);
+        this.$emit('input', false)
       }
     }
   }

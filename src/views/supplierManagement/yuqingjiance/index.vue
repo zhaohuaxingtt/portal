@@ -93,18 +93,16 @@
         <i-button @click="">
           {{ language('LK_YQ_FABUYUQINGZHOUBAO', '发布舆情周报') }}</i-button
         >
-        <i-button @click="dialogVisble = true">
+        <i-button @click="updateItemDate()">
           {{ language('LK_YQ_FENXIYUQINGJIEGUO', '分析舆情结果') }}</i-button
         >
-        <i-button @click="maintenanceSupplier">
+        <i-button @click="maintenanceSupplier()">
           {{
             language('LK_YQ_WEIHUGONGYINGSHANGMINGDAN', '维护供应商名单')
           }}</i-button
         >
       </div>
 
-      <!-- 弹窗 -->
-      <yuqingjianceDialog v-model="dialogVisble"></yuqingjianceDialog>
 
       <tablelist
         height="400"
@@ -133,6 +131,9 @@
         />
       </div>
     </i-card>
+    <!-- 弹窗 -->
+    <yuqingjianceDialog v-model="dialogVisble"></yuqingjianceDialog>
+
   </iPage>
 </template>
 
@@ -157,7 +158,7 @@ import tablelist from 'rise/web/components/iFile/tableList'
 import { pageMixins } from '@/utils/pageMixins'
 import { tabRouterList } from '../../frmRating/data'
 import yuqingjianceDialog from './components/yuqingjianceDialog'
-
+import Upload from '@/components/Upload'
 export default {
   name: 'index',
   mixins: [pageMixins],
@@ -172,8 +173,8 @@ export default {
     tablelist,
     iPage,
     iNavMvp,
-    yuqingjianceDialog
-    /* Upload */
+    yuqingjianceDialog,
+    Upload
   },
   data() {
     return {
@@ -203,6 +204,9 @@ export default {
         path: `/supplier/maintenancesupplier`
       })
       window.open(routeData.href, '_blank')
+    },
+    updateItemDate(){
+      this.dialogVisble=true
     }
   }
 }
