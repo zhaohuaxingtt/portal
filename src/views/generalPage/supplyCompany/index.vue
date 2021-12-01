@@ -135,7 +135,13 @@ export default {
                 procureFactoryList: data,
                 supplierToken: this.$route.query.supplierToken
               }
-              saveSupplierProcureFactory(parms)
+              saveSupplierProcureFactory(parms).then((res) => {
+                this.$nextTick(() => {
+                  data.forEach((e) => {
+                    this.$refs.mulitipleTable.toggleRowSelection(e, true)
+                  })
+                })
+              })
             }
           })
         } else {
