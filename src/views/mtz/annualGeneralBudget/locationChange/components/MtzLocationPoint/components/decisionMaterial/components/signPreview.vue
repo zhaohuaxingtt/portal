@@ -431,7 +431,7 @@ $tabsInforHeight: 35px;
   padding-top:10px;
   padding-bottom:20px;
 }
-.content{
+#content{
   position:relative;
 }
 .content_dialog{
