@@ -50,9 +50,9 @@
               :class="
                 item.state === '05' || item.state === '06'
                   ? 'pass'
-                  : item.state === '03' || item.state === '04'
-                  ? 'ongoing'
-                  : 'future'
+                  : item.state === '03' || item.state === '02'
+                  ? 'future'
+                  : 'ongoing'
               "
             >
               <!-- icon -->
@@ -297,7 +297,7 @@ export default {
     },
     // 去详情
     handleGoMeetingDetail(id) {
-      window.location.href = `/meeting/#/meeting/near-meeting/detail?id=${id}`
+      window.location.href = `/portal/#/meeting/near-meeting/detail?id=${id}`
     }
   }
 }

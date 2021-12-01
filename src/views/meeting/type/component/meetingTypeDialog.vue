@@ -676,7 +676,7 @@ export default {
         meetingNameSuffix: '',
         meetingInfoDesc: '',
         duration: '',
-        isTriggerApproval: '',
+        isTriggerApproval: false,
         approvalProcessId: '',
         coverImage: '',
         approvalProcessName: '',
@@ -793,7 +793,7 @@ export default {
       //   }
       // ],
       value: '',
-      isTriggerApproval: ''
+      isTriggerApproval: false
       // showWord: true,
     }
   },
