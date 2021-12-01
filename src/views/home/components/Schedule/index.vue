@@ -62,9 +62,9 @@
                   :name="
                     item.state === '05' || item.state === '06'
                       ? 'iconhuiyi-2'
-                      : item.state === '03' || item.state === '04'
-                      ? 'iconhuiyi-3'
-                      : 'iconhuiyi-shouye'
+                      : item.state === '03' || item.state === '02'
+                      ? 'iconhuiyi-shouye'
+                      : 'iconhuiyi-3'
                   "
                 />
               </div>
