@@ -1113,10 +1113,10 @@ export default {
     downDemo() {
       download({
         noFileUd: true,
-        url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
+        url: '/meetingApi/meetingService/downloadThemenImportTemplate',
         filename: '议题模版',
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
-        type: 'application/vnd.ms-excel',
+        // type: 'application/vnd.ms-excel',
         callback: (e) => {
           if (e) {
             iMessage.success('下载模版成功')
