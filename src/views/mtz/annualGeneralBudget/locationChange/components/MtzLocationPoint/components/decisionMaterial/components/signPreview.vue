@@ -12,7 +12,7 @@
       <iButton @click="handleClickExport" :loading="exportButtonLoading">{{language('DAOCHU', '导出')}}</iButton>
     </span>
     <div id="content">
-      <div class="content_dialog"></div>
+      <!-- <div class="content_dialog" v-if="formData.appStatus == '流转完成' || formData.appStatus == '定点'"></div> -->
       <iCard>
         <div slot="header" class="headBox">
           <p class="headTitle">流转定点推荐 - MTZ Nomination Recommendation - MTZ</p>
@@ -22,7 +22,7 @@
           <div class="inforDiv"
               v-for="(item,index) in formList"
               :key="index">
-            <span>{{language(item.key,item.name)}}</span>
+            <span>{{language(item.key,item.label)}}</span>
             <span
                   class="inforText"
                   >{{formData[item.prop]}}</span>
@@ -444,6 +444,6 @@ $tabsInforHeight: 35px;
   bottom:0;
   background:url("~@/assets/images/icon/pass.png");
   z-index: 100000;
-  opacity:0.2;
+  opacity:0.07;
 }
 </style>
