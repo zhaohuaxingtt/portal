@@ -39,6 +39,7 @@
         @handleSelectionChange="handleSelectionChange"
       >
 
+
       </tablelist>
       <div class="pagination">
         <iPagination v-update class="pagination"
@@ -99,7 +100,7 @@ export default {
     },
     //新增供应商
     addNewSupplier(){
-    this.maintenanceSupplierDatas.push({})
+    this.maintenanceSupplierDatas.push({isEdit:true})
     },
     //删除供应商
     deleteSupplier(){
