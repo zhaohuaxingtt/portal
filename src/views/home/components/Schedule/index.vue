@@ -344,7 +344,7 @@ export default {
     height: 180px;
     text-align: center;
     padding-right: 14px;
-    width: 95%;
+    width: 100%;
     box-sizing: border-box;
     background-color: #fff;
     .meeting-card {
