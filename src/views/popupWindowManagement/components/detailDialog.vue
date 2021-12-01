@@ -108,15 +108,16 @@ export default {
         width: 400px;
         height: 100%;
         margin-left: 360px;
+        top: -40px;
         .content,
         .btn{
             position: absolute;
-            bottom: 40px;
+            bottom: 0px;
         }
         .publishTime{
             position: absolute;
             display: inline-block;
-            bottom: 100px;
+            bottom: 60px;
             color: #1660F1;
             .publishTime-content{
                 color: #666666;
@@ -127,10 +128,13 @@ export default {
         .content{
             position: absolute;
             top: 70px;
-            width: 100%;
+            width: 104%;
             line-height: 24px;
-            max-height: 240px;
+            max-height: 280px;
             overflow: auto;
+            ::v-deep .el-textarea__inner{
+                padding: 0;
+            }
         }
     }
 }
@@ -205,6 +209,7 @@ export default {
         // display: flex;
         // flex-direction: column;
         width: 400px;
+        top: -40px;
         height: 100%;
         margin-left: 360px;
         >h2{
@@ -213,12 +218,12 @@ export default {
         .content,
         .btn{
             position: absolute;
-            bottom: 40px;
+            bottom: 0px;
         }
         .publishTime{
             position: absolute;
             display: inline-block;
-            bottom: 100px;
+            bottom: 60px;
             color: #1660F1;
             .publishTime-content{
                 color: #FFFFFF;
@@ -229,11 +234,14 @@ export default {
         .content{
             position: absolute;
             top: 70px;
-            width: 100%;
+            width: 104%;
             color: #888888;
             line-height: 24px;
-            max-height: 240px;
+            max-height: 280px;
             overflow: auto;
+            ::v-deep .el-textarea__inner{
+                padding: 0;
+            }
         }
     }
 }
