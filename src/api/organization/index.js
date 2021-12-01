@@ -6,10 +6,9 @@ import axios from '@/utils/axios'
 import axiosDownload from '@/utils/axios.download'
 
 const requst = axios(process.env.VUE_APP_USER_CENTER)
-const requestParts = axios(process.env.VUE_APP_MATERIEL)
 const requstOrgLevel = axios(process.env.VUE_APP_BASE_INFO)
 const requestDownload = axiosDownload(process.env.VUE_APP_USER_CENTER)
-
+const requestParts = axios(process.env.VUE_APP_MATERIEL)
 //组织查看
 export function getOrganizationStructure(params, data) {
   return requst({

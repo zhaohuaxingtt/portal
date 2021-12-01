@@ -19,7 +19,7 @@
 
 <script>
 import { iSelect } from 'rise'
-import { orgChildrenDimensionList } from '@/api/organization/index'
+import { orgChildrenDimensionList, queryParts } from '@/api/organization/index'
 export default {
   props: {
     dimensionLeftMenu: {
@@ -83,7 +83,7 @@ export default {
       //获取组织子维度
       // console.log("==== getOrgChildrenDimesionList1");
       // console.log("==== getOrgChildrenDimesionList2");
-      if (url.indexOf('http://') || url.indexOf('https://')) {
+      if (url.includes('http://') || url.includes('https://')) {
         orgChildrenDimensionList(url, null, null)
           .then((value) => {
             if (value.code == 200) {

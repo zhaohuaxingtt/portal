@@ -23,7 +23,7 @@
               v-if="info.upDown < 0"
               symbol
               class="orgin"
-              name="iconpaixu-xiangxia"
+              name="iconxiajiang-VP"
             >
             </icon>
             <span v-if="info.upDown > 0" class="green"
