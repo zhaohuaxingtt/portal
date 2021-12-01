@@ -6,7 +6,7 @@
           <iInput v-model="keyWord" placeholder="搜索.." @blur="keyWordBlurHandle" />
         </el-col>
         <el-col span="10">
-          <iSelect v-model="questionModuleId" filterable placeholder="问题模块" clearable="true" @change="questionModuleHandle" @clear="ckearModuleHandle">
+          <iSelect v-model="questionModuleId" filterable placeholder="问题模块" clearable="true" @change="questionModuleHandle" @clear="clearModuleHandle">
             <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
           </iSelect>
         </el-col>
@@ -300,7 +300,7 @@ export default {
     questionModuleHandle (val) {
       this.queryProblemList(this._queryForm({ questionModuleId: val, pageNum: 1 }));
     },
-    ckearModuleHandle() {
+    clearModuleHandle() {
       this.questionModuleId = '';
       this.queryProblemList(this._queryForm({ questionModuleId: '', pageNum: 1 }));
     },

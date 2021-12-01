@@ -11,9 +11,9 @@ import SearchTable from './searchTable';
 export default {
   name: 'problemStatementPanel',
   props: {
-    type: {
-      type: Number,
-      default: 1
+    userType: {
+      type: String,
+      default: 'supplier',
     }
   }, 
   data () {
