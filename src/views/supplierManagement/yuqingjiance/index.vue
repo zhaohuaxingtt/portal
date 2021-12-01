@@ -55,9 +55,13 @@
        <i-button @click="" > {{language('LK_YQ_DAOCHUQUANBU','导出全部')}}</i-button>
        <i-button @click="" > {{language('LK_YQ_SHANCHU','删除')}}</i-button>
        <i-button @click="" > {{language('LK_YQ_FABUYUQINGZHOUBAO','发布舆情周报')}}</i-button>
-       <i-button @click="" > {{language('LK_YQ_FENXIYUQINGJIEGUO','分析舆情结果')}}</i-button>
+       <i-button @click="dialogVisble = true" > {{language('LK_YQ_FENXIYUQINGJIEGUO','分析舆情结果')}}</i-button>
        <i-button @click="maintenanceSupplier" > {{language('LK_YQ_WEIHUGONGYINGSHANGMINGDAN','维护供应商名单')}}</i-button>
      </div>
+
+     <!-- 弹窗 -->
+     <yuqingjianceDialog v-model="dialogVisble"></yuqingjianceDialog>
+
      <tablelist
        height="400"
        index
@@ -87,11 +91,11 @@
 
 <script>
 import { iSearch,iInput,iCard,iButton,iSelect,iPagination,iDatePicker,iPage,iNavMvp } from "rise";
-import {selectConfig, indexConfig,publicOpinionDetectionColumns} from './config/data'
+import {selectConfig, indexConfig,publicOpinionDetectionColumns} from './config/data';
 import tablelist from 'rise/web/components/iFile/tableList';
-import {pageMixins} from '@/utils/pageMixins'
+import {pageMixins} from '@/utils/pageMixins';
 import { tabRouterList } from '../../frmRating/data';
-import Upload from '@/components/Upload'
+import yuqingjianceDialog from './components/yuqingjianceDialog';
 
 export default {
   name: 'index',
@@ -107,6 +111,7 @@ export default {
     tablelist,
     iPage,
     iNavMvp,
+    yuqingjianceDialog,
     Upload
   },
   data(){
@@ -118,6 +123,7 @@ export default {
       tableLoading:false,
       publicOpinionDetectionColumns,
       publicOpinionDetectionDatas:[],
+      dialogVisble:false,
     }
   },
   methods:{
