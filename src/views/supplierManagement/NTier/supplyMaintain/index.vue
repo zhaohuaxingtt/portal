@@ -7,8 +7,8 @@
 -->
 <template>
   <div>
-    <theSearch />
-    <router-view></router-view>
+    <theSearch @form="getForm" />
+    <router-view ref="view"></router-view>
     <!-- <theNodeChain class="margin-top20"/> -->
   </div>
 </template>
@@ -24,7 +24,6 @@ export default {
   data () {
     // 这里存放数据
     return {
-
     }
   },
   // 监听属性 类似于data概念
