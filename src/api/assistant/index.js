@@ -307,3 +307,12 @@ export const assistantFaqSaveFaqApi = (data) => {
     data
   })
 }
+
+// 修改问题模块和标签
+export const modifyModuleAndLabelApi = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestion/updateModuleId',
+    method: 'POST',
+    data
+  })
+}

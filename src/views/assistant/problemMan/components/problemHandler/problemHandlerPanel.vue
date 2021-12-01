@@ -78,14 +78,14 @@
             <el-form label-position="top" :model="editForm" :rules="editFormRules" ref="editForm">
               <el-row :gutter="20">
                 <el-col :span="8">
-                  <iFormItem :label="$t('问题模块')">
+                  <iFormItem :label="$t('问题模块')" prop="questionModuleId">
                     <iSelect v-model="editForm.questionModuleId" filterable :disabled="isDisabledModule" @change="changeModuleHandle">
                       <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
                     </iSelect>
                   </iFormItem>
                 </el-col>
                 <el-col :span="8">
-                  <iFormItem :label="$t('标签')">
+                  <iFormItem :label="$t('标签')" prop="questionLableId">
                     <iSelect v-model="editForm.questionLableId" filterable :disabled="isDisabledModule">
                       <el-option v-for="item in labelList" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
                     </iSelect>
@@ -141,7 +141,7 @@ import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
 import iEditor from '@/components/iEditor';
 import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
-import { getModuleListByUserTypeApi, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi,closeQuestionApi } from '@/api/assistant';
+import { getModuleListByUserTypeApi, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi,closeQuestionApi,modifyModuleAndLabelApi } from '@/api/assistant';
 // 来源 inner:内部用户 supplier:供应商用户
 export default {
   props: {
@@ -191,7 +191,6 @@ export default {
       flag: false,
       editForm: {},
       editFormBtn: false,
-      editFormRules: {},
       isDisabledModule: true,
       isDisabledLabel: true,
       isDisabledQuestion: true,
@@ -208,6 +207,16 @@ export default {
       labelList: [],
       uploadFileList: [],
       total: 0,
+      editFormRules: {
+        questionModuleId: [
+          {required: true, trigger: 'change',message: '请选择模块'},
+          {required: true, trigger: 'blur',message: '请选择模块'}
+        ],
+        questionLableId: [
+          {required: true, trigger: 'change',message: '请选择标签'},
+          {required: true, trigger: 'blur',message: '请选择标签'}
+        ]
+      },
     }
   },
   mounted () {
@@ -428,10 +437,20 @@ export default {
       this.editForm = Object.assign(this.editForm, {questionLableId:''});
     },
     saveHandler () {
-      this.editFormBtn = false;
-      this.isDisabledModule = true;
-      this.isDisabledQuestion = true;
-      this.isDisabledLabel = true;
+      this.$refs.editForm.validate(async (valid) => {
+        if (valid) {
+          const response = await modifyModuleAndLabelApi(Object.assign(this.editForm, {id:this.cardSelectItem.id}));
+          if (response?.code === '200') {
+            this.$message.success('保存成功');
+            this.editFormBtn = false;
+            this.isDisabledModule = true;
+            this.isDisabledQuestion = true;
+            this.isDisabledLabel = true;
+          } else {
+            this.$message.error('保存失败');
+          }
+        }
+      })
     },
     finishedHandler () {
       this.finishedDialog = true;
