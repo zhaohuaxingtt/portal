@@ -47,6 +47,12 @@
 					<div class="problem-text cursor">{{ `【热门】${item.questionTitle}` }}</div>
 				</div>
 			</div>
+			<el-pagination 
+				:total="totalCount" 
+				:current-page="problemQuery.pageNum" 
+				:page-size="problemQuery.pageSize"
+				@current-change="handleCurrentChange"
+			></el-pagination>
 		</div>
 
 		<div class="detail" v-show="currentMoudleId && currentFlag === 'detailPage'">
@@ -58,7 +64,12 @@
 				<div class="des-title">{{ problemText }}</div>
 				<div v-html="desDetail" class="des-detail"></div>
 			</div>
-			<AttachmentDownload v-if="showAttachFlag" />
+			<AttachmentDownload 
+				ref="attachment"
+				v-if="showAttachFlag && attach.length > 0"
+				@loadAttach="loadAttach"
+
+			/>
 			<div class="bottom-zan">
 				<Solution
 					:showTipsFlag="showTipsFlag"
@@ -74,6 +85,7 @@
 <script>
 import AttachmentDownload from '../../components/attachmentDownload'
 import Solution from '../../components/solution'
+import { getFileId } from "@/api/assistant/uploadFile.js"
 import { updateFavour, getCurrLabelList, getProblemDetail, queryFaqByPage, queryHotFaq, getAllModuleLabel, judgeFavour, queryFaqListByPage } from '@/api/assistant'
 import {
 	iButton
@@ -121,8 +133,10 @@ export default {
 				questionLableId: null,
 				questionModuleId: null
 			},
+			totalCount: 0,
 			hotProblemList: [],
 			moudleLabelList: [],
+			attach: [],
 			labelIdx: 0,
 			labelText: null,
 			currentFlag: 'listPage',
@@ -170,10 +184,31 @@ export default {
 					const { data } = res
 					this.problemLoading = false
 					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
-					this.showAttachFlag = data?.annexList.length > 0 && data?.annexString
+					this.showAttachFlag = data?.annexList.length > 0
+					this.attach = data?.annexList
+					this.$nextTick(() => {
+						if (this.showAttachFlag) {
+							console.log(this.$refs.attachment, "111111")
+							this.$refs.attachment.fileList = data?.annexList
+						}
+					})
 					this.getJudgeFavour(item.questionId || item.id)
 				}
 			})
+		},
+		// 下载详情附件
+		loadAttach(file) {
+			let picArr = ['png', 'jpeg', 'jpg']
+			const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
+			console.log(fileExtension, '23456')
+			if (picArr.includes(fileExtension)) {
+				console.log("=====")
+				window.location.href = file.fileUrl
+			} else {
+				getFileId(this.attach[0]?.bizId).then((res) => {
+					console.log(res, '1111111111')
+				})
+			}
 		},
 		// 获取该用户是否给该问题点赞
 		async getJudgeFavour(questionId) {
@@ -250,7 +285,7 @@ export default {
 			this.favourQuestionId = issue.questionId || issue.id
 			this.problemText = issue.questionTitle
 			this.desDetail = issue.answerContent
-			this.showAttachFlag = (issue?.annexList || []).length > 0 && issue?.annexString
+			this.showAttachFlag = (issue?.annexList || []).length > 0
 		},
 		async getLabelList(va) {
 			if (!this.currentMoudleId) return
@@ -272,11 +307,20 @@ export default {
 				}
 			})
 		},
+		handleCurrentChange(current) {
+			console.log(current, "11")
+			this.problemQuery.pageNum = current
+			this.getProblemList()
+		},
 		async getProblemList() {
 			this.problemQuery.questionModuleId = this.currentMoudleId
 			await queryFaqByPage(this.problemQuery).then((res) => {
 				if (res?.code === '200') {
-					this.problemList = res?.data?.records || []
+					const { data } = res
+					this.problemList = data?.records || []
+					this.totalCount = data.total
+					this.problemQuery.pageSize = data.size
+					this.problemQuery.pageNum = data.current
 				}
 			})
 		},
@@ -313,8 +357,6 @@ export default {
 			this.moudleList.map(moudle => {
 				if (moudle.id === currNameId) {
 					currName = moudle.menuName
-				} else {
-					currName = '示例模块名称'
 				}
 			})
 			this.currMoudleName = currName
