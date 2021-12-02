@@ -253,7 +253,7 @@ export default {
             }else{
                 data.fgId = ''
             }
-            if(this.checkBoxs.set){
+            if(this.checkBoxs.setCode){
                 data.setCode = this.formContent.setCode
             }else{
                  data.setCode = ''
