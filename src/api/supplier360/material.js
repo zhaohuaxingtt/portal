@@ -1,7 +1,7 @@
 /*
  * @Author: moxuan
  * @Date: 2021-04-19 17:50:00
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Description: 联系人与用户
  */
 import axios from '@/utils/axios'
@@ -66,11 +66,22 @@ export function updateUncontrol(parmars) {
     }
   })
 }
-// 取消关联
+// 移除BDL
 export function updateAssociated(parmars) {
   return requst({
     url: `/materialGroup/cancel/associated`,
     method: 'PUT',
+    data: {
+      ...parmars,
+      supplierToken: store.state.home.valiCode
+    }
+  })
+}
+// 移除MBDL
+export function mbdlCancelAssociated(parmars) {
+  return requst({
+    url: `/materials/mbdlCancelAssociated`,
+    method: 'POST',
     data: {
       ...parmars,
       supplierToken: store.state.home.valiCode

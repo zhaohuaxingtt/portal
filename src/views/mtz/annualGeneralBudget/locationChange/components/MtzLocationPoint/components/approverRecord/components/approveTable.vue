@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-11-26 14:52:44
+ * @LastEditTime: 2021-12-02 14:00:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -219,18 +219,19 @@ export default {
           if (res?.code === '200') {
             this.$set(item, 'selectDeptList', res.data);
             let deptList = item.selectDeptList.find(i => item.approvalDepartmentName === i.nameZh)
-            item.approvalDepartment = deptList.nameEn
-            selectSection({
-              lineDeptId: deptList.id
-            }).then((res) => {
-              this.$set(item, 'selectSectionList', res.data);
-              let approvalNameList = item.selectSectionList.find(i => item.approvalSectionName === i.nameZh)
-              item.approvalSection = deptList.nameEn
-              this.$set(item, 'userList', approvalNameList.userDTOList);
-            })
+            if (deptList) {
+              item.approvalDepartment = deptList.nameEn || ''
+              selectSection({
+                lineDeptId: deptList.id
+              }).then((res) => {
+                this.$set(item, 'selectSectionList', res.data);
+                let approvalNameList = item.selectSectionList.find(i => item.approvalSectionName === i.nameZh)
+                item.approvalSection = deptList.nameEn
+                this.$set(item, 'userList', approvalNameList.userDTOList || '');
+              })
+            }
           }
         })
-        console.log(item)
       })
     },
     // selectDept () {
@@ -251,9 +252,9 @@ export default {
         mtzAppId: this.mtzAppId || '5107001'
       }).then(res => {
         if (res?.code === '200') {
-          if(res.data.appStatus === '草稿' || res.data.appStatus === '未通过'){
+          if (res.data.appStatus === '草稿' || res.data.appStatus === '未通过') {
             this.flag = false;
-          }else{
+          } else {
             this.flag = true;
           }
           if (res.data.flowType === 'FILING') {
@@ -343,13 +344,12 @@ export default {
       let obj = row.selectSectionList.find(item => item.nameZh === val)
       row.approvalSection = obj.nameEn
       this.$set(row, 'userList', obj.userDTOList);
-      console.log(row)
+
     },
     handleChangeApprovalName (val, row) {
-      let obj = this.userList.find(item => item.id === val)
-      console.log(obj)
+      let obj = row.userList.find(item => item.nameZh === val)
+      row.approvalBy = obj.id
       // row.approvalName = obj.id
-
     },
     handleSync (params) {
       syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: params || "" }).then(res => {

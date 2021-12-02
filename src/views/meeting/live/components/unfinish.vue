@@ -123,7 +123,7 @@
         min-width="120"
         width="120"
       >
-        <!-- <template scope="scope">
+        <!-- <template slot-scope="scope">
           <span class="open-link-text" @click="checkDetail(scope.row.id)">{{
             scope.row.meetingName
           }}</span>
