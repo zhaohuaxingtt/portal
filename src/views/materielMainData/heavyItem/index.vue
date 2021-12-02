@@ -8,7 +8,7 @@
               <iFormItem :label="searchLabel.materialGroup">
                 <iSelect
                   v-model="searchContent.stuffCategoryId"
-                  placeholder="请选择"
+                  :placeholder="language('请选择')"
                   filterable
                 >
                   <el-option
@@ -25,7 +25,7 @@
               <iFormItem :label="searchLabel.isHeavyItem">
                 <iSelect
                   v-model="searchContent.isHeavyItem"
-                  placeholder="请选择"
+                  :placeholder="language('请选择')"
                 >
                   <el-option
                     v-for="item in heavyItemStaOption"
@@ -39,7 +39,7 @@
             </el-col>
             <el-col :span="8">
               <iFormItem :label="searchLabel.analyseType">
-                <iSelect v-model="searchContent.heavyItem" placeholder="请选择">
+                <iSelect v-model="searchContent.heavyItem" :placeholder="language('请选择')">
                   <el-option
                     v-for="item in analyseTypeOption"
                     :key="item.value"
@@ -56,7 +56,7 @@
               <iFormItem :label="searchLabel.partsCostAnalyst">
                 <iSelect
                   v-model="searchContent.partsAanlystUserId"
-                  placeholder="请选择"
+                  :placeholder="language('请选择')"
                 >
                   <el-option
                     v-for="item in partsCostAnalystOption"
@@ -72,7 +72,7 @@
               <iFormItem :label="searchLabel.moldCostAnalyst">
                 <iSelect
                   v-model="searchContent.modlAanlystUserId"
-                  placeholder="请选择"
+                  :placeholder="language('请选择')"
                 >
                   <el-option
                     v-for="item in moldCostAnalystOption"
@@ -88,7 +88,7 @@
               <iFormItem :label="searchLabel.commoditySta">
                 <iInput
                   v-model="searchContent.commidityDeptCode"
-                  placeholder="请输入"
+                  :placeholder="language('请选择')"
                 >
                 </iInput>
               </iFormItem>
@@ -101,8 +101,8 @@
         <iCard title="Heavy Item材料组">
             <div class="btnList" slot="header-control">
                 <div v-if="viewSta">
-                    <iButton @click="edit">编辑</iButton>
-                    <buttonDownload :download-method="exportExcel">导出</buttonDownload>
+                    <iButton @click="edit">{{language('编辑')}}</iButton>
+                    <buttonDownload :download-method="exportExcel">{{language('导出')}}</buttonDownload>
                 </div>
                 <div v-else>
                     <iButton @click="save">保存</iButton>

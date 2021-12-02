@@ -19,7 +19,7 @@
                     {{ $t('EKL_YEJIJINETIAOZHENG') }}
                 </iButton>
                 <!--年度目标管理-->
-                <iButton class="ml10" @click="openTargetManDialog" v-if="bzzlorbz">
+                <iButton class="ml10" @click="openTargetManDialog" v-if="bzzlorbzorkzzl">
                     {{ $t('EKL_YJGL_NDMBGL') }}
                 </iButton>
                 <!--年度目标管理 配附件-->
@@ -152,8 +152,8 @@
       state() {
         return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'PFJYJGLY')
       },
-      bzzlorbz() {
-        return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'BZZL'||item.code == 'CGBZ')
+      bzzlorbzorkzzl() {
+        return this.$store.state.permission.userInfo.roleList.some(item => item.code == 'BZZL'||item.code == 'CGBZ'||item.code=='ZYCGKSXTY')
       },
     },
     created() {

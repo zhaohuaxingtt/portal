@@ -22,7 +22,7 @@
         </div>
         <div class="opration">
           <iButton @click="edit"
-                   v-show="disabled && appIdType && inforData.appStatus == '草稿' && applyNumber==''">{{ language('BIANJI', '编辑') }}</iButton>
+                   v-show="disabled && appIdType && applyNumber=='' && (inforData.appStatus == '草稿' || inforData.appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
           <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
@@ -410,17 +410,10 @@ export default {
           } else {
             partProjType = jumpData.partProjType
           }
-          window.open("http://" + window.location.host + "/sourcing/#/designate/decisiondata/rs?desinateId=" + jumpData.id + "&designateType=" + jumpData.nominateProcessType + "&partProjType" + partProjType + "&applicationStatus=" + jumpData.applicationStatus)
-
-          // this.$router.push({
-          //   path: "/designate/decisiondata/rs",
-          //   query: {
-          //     desinateId:jumpData.id,
-          //     designateType:jumpData.nominateProcessType,
-          //     partProjType:jumpData.partProjType,
-          //     applicationStatus:jumpData.applicationStatus,
-          //   }
-          // })
+          var path = "";
+          path = "designate/decisiondata/rs?desinateId=" + jumpData.id + "&designateType=" + jumpData.nominateProcessType + "&partProjType" + partProjType + "&applicationStatus=" + jumpData.applicationStatus
+          window.open(process.env.VUE_APP_SOURCING_URL + path)
+          
         } else {
           iMessage.error(this.language(res.desEn, res.desZh))
         }

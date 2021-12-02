@@ -34,6 +34,7 @@ import {
 import iTableCustom from '@/components/iTableCustom'
 import {pageMixins} from '@/utils/pageMixins'
 import {TABLE_COLUMNS} from './index.js'
+import {getOfflineDownloadList,downLoadXls} from '@/api/offlineDownload'
 export default {
     name:'OfflineDownloadTableList',
     components:{
@@ -45,13 +46,25 @@ export default {
     mixins:[pageMixins],
     data(){
         return{
+            loading:false,
             tableColumns:TABLE_COLUMNS,
-            searchForm:{}
+            searchForm:{
+                taskCode:'',
+                taskName:'',
+                userName:'',
+                status:'',
+                startTime:'',
+                endTime:''
+            }
         }
+    },
+    created(){
+        this.getPage()
     },
     methods:{
         download(){
-
+            const data = this.searchForm
+            downLoadXls(data)
         },
         search(val){
             this.page.currPage = 1
@@ -62,11 +75,23 @@ export default {
             this.getPage()
         },
         getPage(){
+            this.loading = true
             const data = {
                 ...this.searchForm,
                 size:this.page.pageSize,
                 current:this.page.currPage
             }
+            getOfflineDownloadList(data).then((res)=>{
+                if(res.code == 200){
+                    const tableData = res.data.records
+                    this.tableListData = tableData
+                    this.page.totalCount = res.data.total
+                }else{
+                    this.$message.error(res.desZh || '获取数据失败')
+                }
+            }).finally(()=>{
+                this.loading = false
+            })
         }
 
     }

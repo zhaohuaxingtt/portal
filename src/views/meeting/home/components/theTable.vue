@@ -848,14 +848,7 @@ export default {
         this.isCanOpen = false
         if (rows.length > 0) {
           this.isCanRecall = rows.every((item) => {
-            // return (
-            //   (item.state === '02' && item.meetingTypeName === 'Pre CSC') ||
-            //   (item.state === '02' && item.meetingTypeName === 'CSC')
-            // )
-            return (
-              (item.state === '02' && item.isPreCSC) ||
-              (item.state === '02' && item.isCSC)
-            )
+            return item.state === '02'
           })
         }
         if (rows.length > 0) {

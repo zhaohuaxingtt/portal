@@ -214,12 +214,11 @@ export default {
 
     .left {
       flex-grow: 1;
-      width: 33.333333%;
       margin-right: 20px
     }
 
     .right {
-      width: 66.666666%;
+      width: calc(64% - 40px);
       flex-grow: 2;
     }
   }

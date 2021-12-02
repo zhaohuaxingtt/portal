@@ -8,7 +8,7 @@
               <iFormItem :label="searchLabel.generalCategoryCode">
                 <iInput
                   v-model="searchContent.generalCategoryCode"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
@@ -16,7 +16,7 @@
               <iFormItem :label="searchLabel.generalCategoryNameZh">
                 <iInput
                   v-model="searchContent.generalCategoryNameZh"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
@@ -24,7 +24,7 @@
               <iFormItem :label="searchLabel.generalCategoryNameEn">
                 <iInput
                   v-model="searchContent.generalCategoryNameEn"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
@@ -34,7 +34,7 @@
               <iFormItem :label="searchLabel.rawMaterielElement">
                 <iInput
                   v-model="searchContent.generalShortName"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
@@ -58,15 +58,15 @@
     <div class="tabelList">
       <iCard>
         <div class="btnList">
-          <iButton @click="add">新建</iButton>
-          <iButton @click="active" :disabled="activeBtnDis">生效</iButton>
+          <iButton @click="add">{{language('新建')}}</iButton>
+          <iButton @click="active" :disabled="activeBtnDis">{{language('生效')}}</iButton>
           <iButton @click="loseActive" :disabled="loseActiveBtnDis"
-            >失效</iButton
+            >{{language('失效')}}</iButton
           >
           <iButton @click="del" :disabled="this.selectedItem.length == 0"
-            >删除</iButton
+            >{{language('删除')}}</iButton
           >
-          <buttonDownload :download-method="exportExcel">导出</buttonDownload>
+          <buttonDownload :download-method="exportExcel">{{language('导出')}}</buttonDownload>
         </div>
         <div class="tabelContent">
           <iTabelCustom
