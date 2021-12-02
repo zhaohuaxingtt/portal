@@ -14,8 +14,8 @@
 		<div class="mt15 line"></div>
 		<div class="title">{{ currMoudleName ? language(`${currMoudleName}`) : '' }}</div>
 		<div class="line"></div>
-		<!-- <div class="editor-box" v-html="changeColor(currModuleDetailData)"></div> -->
-		<iEditor ref="iEditor" v-html="changeColor(currModuleDetailData)" disabled />
+		<div class="editor-box" v-html="changeColor(currModuleDetailData)"></div>
+		<!-- <iEditor ref="iEditor" v-html="changeColor(currModuleDetailData)" disabled /> -->
 	</div>
 </template>
 
@@ -55,20 +55,21 @@ export default {
 		},
 		search() {
 			console.log(this.searchKey)
-			let num = document.getElementsByTagName('a').length;
-			if (num !== 0) {
-				document.getElementsByTagName('a')[this.searchHead].scrollIntoView()
-				if (this.searchHead < (num - 1)) {
-					this.searchHead += 1
-				} else if (this.searchHead == (num - 1)) {
-					this.searchHead = 0
-				} else return false
-			}
+			document.querySelectorAll('.searchActive')[0].scrollIntoViewIfNeeded()
+			// let num = document.getElementsByTagName('a').length;
+			// if (num !== 0) {
+			// 	document.getElementsByTagName('a')[this.searchHead].scrollIntoView()
+			// 	if (this.searchHead < (num - 1)) {
+			// 		this.searchHead += 1
+			// 	} else if (this.searchHead == (num - 1)) {
+			// 		this.searchHead = 0
+			// 	} else return false
+			// }
 		},
 		changeColor(item) {
 			let searchKey = this.searchKey
 			if (searchKey !== '') {
-				return item.replace(new RegExp(searchKey, 'g'), '<a style="color:red" id="seach" >' + searchKey + '</a>');
+				return item.replace(new RegExp(searchKey, 'g'), '<a id="seach" class="searchActive" style="color:red">' + searchKey + '</a>');
 			} else {
 				return item;
 			}
@@ -125,8 +126,8 @@ export default {
 		}
 		.editor-box {
 			width: 100%;
-			height: calc(100% - 160px);
-			border: 1px solid red;
+			height: calc(100% - 150px);
+			// border: 1px solid red;
 			overflow-y: auto;
 			white-space: pre-line;
 		}

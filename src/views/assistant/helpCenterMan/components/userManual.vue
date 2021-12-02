@@ -2,12 +2,12 @@
     <div class="manual" v-loading="loading">
         <div class="manual-btns">
             <template v-if="type == 'detail'">
-                <iButton @click="del">删除</iButton>
-                <iButton @click="type = 'edit'">编辑</iButton>
+                <iButton v-if="detail.id" @click="del">删除</iButton>
+                <iButton v-if="detail.id" @click="type = 'edit'">编辑</iButton>
             </template>
             <template v-if="type == 'edit'">
                 <template v-if="!preview">
-                    <iButton @click="type = 'detail'">取消</iButton>
+                    <iButton @click="cancel">取消</iButton>
                     <iButton @click="preview = true">预览</iButton>
                     <iButton @click="save">保存</iButton>
                 </template>
@@ -99,6 +99,9 @@
                     this.$message.success("已删除")
                     this.$emit("refresh")
                 })
+            },
+            cancel(){
+                this.type = 'detail'
             }
         },
     }

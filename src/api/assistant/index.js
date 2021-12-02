@@ -374,3 +374,12 @@ export const exportQuestionsApi = (data) => {
     data
   })
 }
+
+//  智能问答
+export const getSmartContent = (data) => {
+  return assistantRequest({
+    url: '/assistantFaq/smartAnswer',
+    method: 'POST',
+    data
+  })
+}
