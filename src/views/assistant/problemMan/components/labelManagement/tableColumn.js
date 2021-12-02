@@ -23,8 +23,8 @@ export const tableColumn = (list) => {
       }
     },
     {
-      prop: 'createBy',
-      label: '通知人',
+      prop: 'createByName',
+      label: '添加人',
       width: '100px',
       align: 'center',
       tooltip: true
