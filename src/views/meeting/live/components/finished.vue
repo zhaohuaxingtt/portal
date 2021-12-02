@@ -81,7 +81,7 @@
         align="center"
         label="Meeting"
       >
-        <!-- <template scope="scope">
+        <!-- <template slot-scope="scope">
           <span class="open-link-text" @click="checkDetail(scope.row.id)">{{
             scope.row.meetingName
           }}</span>

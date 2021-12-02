@@ -6,6 +6,7 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <i-button @click="subBtn">{{ language('TIJIAO', '提交') }}</i-button>
+        <iButton @click="$router.go(-1)">{{ $t('FANHUIGONGYINSHANG360') }}</iButton>
       </div>
     </div>
 

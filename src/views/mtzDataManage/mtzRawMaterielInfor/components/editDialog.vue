@@ -7,7 +7,7 @@
   >
     <el-form label-position="left" label-width="150px" :rules="rules" :model="formContent" ref="rulesRef" class="validate-required-form">
         <iFormItem :label='formLabel.mtzRawMateriel' prop='generalCategoryCode'>
-            <iSelect v-model="formContent.generalCategoryCode"  placeholder="请选择" v-if='!editBtnSta' @change="selectedCode" :disabled='this.papgeTitle!= "新增"'>
+            <iSelect v-model="formContent.generalCategoryCode"  :placeholder="language('请选择')" v-if='!editBtnSta' @change="selectedCode" :disabled='this.papgeTitle!= "新增"'>
                 <el-option
                     v-for="item in materielBigOption"
                     :key="item.code"
@@ -22,7 +22,7 @@
         </iFormItem>
         <iFormItem :label='formLabel.middleNumber' prop='rawMaterialDesc'>
             <div v-if='this.papgeTitle== "新增"'>
-                <el-autocomplete v-model="formContent.rawMaterialDesc" filterable placeholder="请输入/请选择" class="inline-input"
+                <el-autocomplete v-model="formContent.rawMaterialDesc" filterable :placeholder="language('请输入/请选择')" class="inline-input"
                 @change="changeDesc"  :fetch-suggestions="querySearch" @select="handleSelect" :disabled='this.papgeTitle!= "新增"'
                 style="width:100%;" >
                 </el-autocomplete>
@@ -39,11 +39,11 @@
             <iInput v-model="formContent.rawMaterialCode" disabled v-else></iInput>
         </iFormItem>
         <iFormItem :label='formLabel.middleNameEn' prop='rawMaterialNameEn'>
-            <iInput v-model="formContent.rawMaterialNameEn"  placeholder='请输入' :disabled="editBtnSta">
+            <iInput v-model="formContent.rawMaterialNameEn"  :placeholder='language("请输入")' :disabled="editBtnSta">
             </iInput>
         </iFormItem>
         <iFormItem :label='formLabel.middleUnit' prop='rawMaterialCountUnit'>
-            <iSelect v-model="formContent.rawMaterialCountUnit" v-if="!editBtnSta" placeholder='请选择' @change.once="changeUnit">
+            <iSelect v-model="formContent.rawMaterialCountUnit" v-if="!editBtnSta" :placeholder='language("请选择")' @change.once="changeUnit">
                 <el-option
                     v-for="item in unitOptions"
                     :key="item.code"
@@ -53,7 +53,7 @@
             </iSelect>
             <iInput v-model="formContent.rawMaterialCountUnit" disabled v-else></iInput>
         </iFormItem>
-        <iFormItem :label="$t('是否为贵金属')" prop='isPreciousMetal'>
+        <iFormItem :label="language('是否为贵金属')" prop='isPreciousMetal'>
             <iSelect :disabled="editBtnSta" v-model="formContent.isPreciousMetal">
                 <el-option
                     v-for="item in metalsOption"
@@ -76,7 +76,7 @@
             <iInput v-model="formContent.mtzRawMaterialCode" disabled v-else></iInput>
         </iFormItem>
         <iFormItem :label='formLabel.smallUnit' prop='mtzRawMaterialCountUnit'>
-            <iSelect v-model="formContent.mtzRawMaterialCountUnit" v-if="!editBtnSta" placeholder='请选择' >
+            <iSelect v-model="formContent.mtzRawMaterialCountUnit" v-if="!editBtnSta" :placeholder='language("请选择")' >
                 <el-option
                     v-for="item in smallUnitOption"
                     :key="item.code"
@@ -89,12 +89,12 @@
     </el-form>
     <div slot="footer">
         <div v-if='editBtnSta'>
-            <iButton @click="edit">编辑</iButton>
+            <iButton @click="edit">{{language('编辑')}}</iButton>
         </div>
         <div v-else>
-            <iButton @click="save">保存</iButton>
-            <iButton @click="reset">重置</iButton>
-            <iButton @click="closeDialog">退出</iButton>
+            <iButton @click="save">{{language('保存')}}</iButton>
+            <iButton @click="reset">{{language('重置')}}</iButton>
+            <iButton @click="closeDialog">{{language('退出')}}</iButton>
         </div>
     </div>
   </iDialog>
