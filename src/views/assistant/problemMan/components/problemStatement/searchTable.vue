@@ -28,7 +28,7 @@ export default {
     return {
       tableLoading: false,
       exportLoading: false,
-      tableSetting: tableColumn,
+      tableSetting: tableColumn(this),
     }
   },
   created() {
