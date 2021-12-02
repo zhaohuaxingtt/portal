@@ -110,7 +110,10 @@
                 let f = await uploadFile(formData);
 
                 let val = this.files;
-                val.push(res.file);
+                val.push({
+                    fileName:f.name,
+                    fileUrl: f.path
+                });
                 this.$emit("input",val);
                 this.$emit("onSuccess",f);
             },

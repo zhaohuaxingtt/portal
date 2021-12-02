@@ -77,7 +77,7 @@ export default {
     moduleList(n){
       let m = {}
       n.forEach(e => {
-        m[e.menuId] = e
+        m[e.id] = e
       })
       this.tableSetting = tableColumn(m)
     }
