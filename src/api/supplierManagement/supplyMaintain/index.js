@@ -8,6 +8,7 @@
 import axios from '@/utils/axios'
 
 const requst = axios(process.env.VUE_APP_NTIER + '/web/ntier')
+const request = axios(process.env.VUE_APP_NTIER + '/api/ntier')
 
 // 查询-供应链路维护(card)批量查询
 export function cardChain(parmars) {
@@ -116,7 +117,7 @@ export function invitation(parmars) {
 
 // --供应商注册邀请
 export function chain(parmars) {
-  return requst({
+  return request({
     url: `bkm/chain/` + parmars.supplierId + '/' + parmars.tlk,
     method: 'GET'
   })

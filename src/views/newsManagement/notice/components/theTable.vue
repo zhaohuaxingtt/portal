@@ -77,7 +77,7 @@
         >
         <el-table-column align="center" min-width="50" :label="language('NEWS_DIANJILIANG', '点击量')"
         >
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{ scope.row["clicks"] }}</span>
           </template>
         </el-table-column

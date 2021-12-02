@@ -10,8 +10,8 @@ const postcss = px2rem({
   remUnit: 16
 })
 
-// const BASE_IP = '10.122.17.38'
-const BASE_IP = '10.122.18.166'
+const BASE_IP = '10.122.17.38'
+// const BASE_IP = '10.122.18.166'
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
@@ -307,7 +307,15 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_PARTLIFECYCLEAPI]: ''
         }
-      }
+      },
+      // 用户助手中心
+      [process.env.VUE_APP_USER_ASSISTANT]: {
+        target: `http://${BASE_IP}:8059/riseassistant`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
+        }
+      },
     }
   }
 }

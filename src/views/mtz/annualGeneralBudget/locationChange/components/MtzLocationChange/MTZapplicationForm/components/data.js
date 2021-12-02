@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-27 21:42:09
- * @LastEditTime: 2021-11-18 15:22:50
+ * @LastEditTime: 2021-12-02 17:18:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\data.js
@@ -63,7 +63,7 @@ export const TABLE_COLUMNS = [
         return h('div', [
           h('i-input', {
             on: {
-              input: value => {
+              input: (value) => {
                 scope.row.newDosage = value
               }
             },
@@ -85,55 +85,55 @@ export const TABLE_COLUMNS = [
   {
     prop: 'startDate',
     label: '有效期起',
-    minWidth: 120,
-    customRender: (h, scope) => {
-      if (scope.row.editRow) {
-        return h('div', [
-          h('el-date-picker', {
-            on: {
-              input: value => {
-                scope.row.startDate = value
-              }
-            },
-            props: {
-              value: scope.row.startDate,
-              valueFormat: 'yyyy-MM-dd',
-              format: 'yyyy-MM-dd'
-            }
-          })
-        ])
-      } else {
-        return <span>{scope.row.startDate}</span>
-      }
-    }
+    minWidth: 120
+    // customRender: (h, scope) => {
+    //   if (scope.row.editRow) {
+    //     return h('div', [
+    //       h('el-date-picker', {
+    //         on: {
+    //           input: value => {
+    //             scope.row.startDate = value
+    //           }
+    //         },
+    //         props: {
+    //           value: scope.row.startDate,
+    //           valueFormat: 'yyyy-MM-dd',
+    //           format: 'yyyy-MM-dd'
+    //         }
+    //       })
+    //     ])
+    //   } else {
+    //     return <span>{scope.row.startDate}</span>
+    //   }
+    // }
   },
   {
     prop: 'endDate',
     label: '有效期止',
-    minWidth: 160,
-    customRender: (h, scope) => {
-      if (scope.row.editRow) {
-        return h('div', [
-          h('el-date-picker', {
-            model: {
-              value: scope.row.endDate,
-              callback: value => (scope.row.endDate = value)
-            },
-            // on: {
-            //   input: value => {
-            //     scope.row.endDate = value
-            //   }
-            // },
-            props: {
-              valueFormat: 'yyyy-MM-dd',
-              format: 'yyyy-MM-dd'
-            }
-          })
-        ])
-      } else {
-        return <span>{scope.row.endDate}</span>
-      }
-    }
+    minWidth: 160
+    // customRender: (h, scope) => {
+    //   if (scope.row.editRow) {
+    //     return h('div', [
+    //       h('el-date-picker', {
+    //         model: {
+    //           value: scope.row.endDate,
+    //           callback: (value) => (scope.row.endDate = value)
+    //         },
+    //         // on: {
+    //         //   input: value => {
+    //         //     scope.row.endDate = value
+    //         //   }
+    //         // },
+    //         props: {
+    //           valueFormat: 'yyyy-MM-dd',
+    //           format: 'yyyy-MM-dd'
+    //         }
+    //       })
+    //     ])
+    //   } else {
+    //     return <span>{scope.row.endDate}</span>
+    //   }
+    // }
   },
   {
     prop: 'priceSource',

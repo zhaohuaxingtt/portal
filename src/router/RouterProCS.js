@@ -1,6 +1,7 @@
 import RouterPosition, { CFPosition } from './RouterPosition'
 import RouterUsercenter, { CfOrgChart } from './RouterUsercenter'
 import RouterAuthorityMgmt from './RouterAuthorityMgmt'
+// import RouterStaffMgmt from './RouterStaffMgmt'
 import RouterProviderMgm from './RouterProviderMgm'
 import RouterRole from './RouterRole'
 export default [
@@ -16,6 +17,7 @@ export default [
       ...RouterPosition,
       ...RouterUsercenter,
       ...RouterAuthorityMgmt,
+      // ...RouterStaffMgmt,
       ...RouterProviderMgm,
       ...RouterRole
     ]
