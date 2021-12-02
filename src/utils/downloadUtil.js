@@ -20,7 +20,7 @@ const download = ({
   filename,
   url,
   callback,
-  // type = 'application/pdf',
+  type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   noFileUd = false
 }) => {
   if (process.env.NODE_ENV == 'develop') {
@@ -32,8 +32,8 @@ const download = ({
         getResponse: true
       })
         .then((response) => {
-          console.log("response",response)
-          const blobUrl = window.URL.createObjectURL(response)
+          let blob = new Blob([response], { type })
+          const blobUrl = window.URL.createObjectURL(blob)
           // 获取响应中的filename
           // const contentDisposition = response.headers.get('Content-Disposition');
           // const resFileName =
@@ -55,7 +55,7 @@ const download = ({
         getResponse: true
       })
         .then((response) => {
-          console.log("response",response)
+          console.log('response', response)
           const blobUrl = window.URL.createObjectURL(response)
           // 获取响应中的filename
           // const contentDisposition = response.headers.get('Content-Disposition');
@@ -86,8 +86,10 @@ const download = ({
         getResponse: true
       })
         .then((response) => {
-          console.log("response",response)
-          const blobUrl = window.URL.createObjectURL(response)
+          console.log(type)
+          let blob = new Blob([response], { type })
+          console.log(blob)
+          const blobUrl = window.URL.createObjectURL(blob)
           createAnchorLink(blobUrl, filename)
           window.URL.revokeObjectURL(blobUrl)
           callback && callback(true)
@@ -103,7 +105,7 @@ const download = ({
         getResponse: true
       })
         .then((response) => {
-          console.log("response",response)
+          console.log('response', response)
           const blobUrl = window.URL.createObjectURL(response)
           // 获取响应中的filename
           // const contentDisposition = response.headers.get('Content-Disposition');

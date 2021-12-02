@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 17:43:45
- * @LastEditTime: 2021-11-23 14:21:52
+ * @LastEditTime: 2021-12-01 20:03:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\index.vue
@@ -17,7 +17,7 @@
               v-on="$listeners"
               :dateList="dateList"
               class="margin-top20"></theTable>
-    <iDialog title="提示"
+    <!-- <iDialog title="提示"
              :visible.sync="dialogVisible"
              append-to-body
              width="30%"
@@ -50,7 +50,7 @@
         <iButton type="primary"
                  @click="sure">确 定</iButton>
       </span>
-    </iDialog>
+    </iDialog> -->
   </div>
 </template>
 

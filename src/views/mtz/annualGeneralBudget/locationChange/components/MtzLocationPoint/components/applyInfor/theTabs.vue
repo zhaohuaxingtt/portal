@@ -54,16 +54,16 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="isNomi"
+        <el-table-column prop="formalFlag"
                          align="center"
                          show-overflow-tooltip
                          width="150"
                          :label="language('SHIFOUWEIXINGUIZE','是否为新规则')">
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'isNomi'"
-                          :rules="formRules.isNomi ? formRules.isNomi : ''">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'formalFlag'"
+                          :rules="formRules.formalFlag ? formRules.formalFlag : ''">
               <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{scope.row.isNomi?"否":"是"}}</span>
+              <span>{{scope.row.formalFlag=="Y"?"否":"是"}}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -988,6 +988,7 @@ export default {
       this.newDataList = deepClone(val);
       this.newDataList.forEach(item => {
         item.source = item.sourceType;
+        item.formalFlag = "Y";
         delete item.sourceType;
         delete item.id;
         if(item.carline == null){
@@ -1077,10 +1078,12 @@ export default {
         // this.page.totalCount = res.total
         var num = 0;
         res.data.forEach(e => {
-          if (!e.isNomi) {
+          // if (!e.formalFlag) {
+          if (e.formalFlag == "N") {
             num++;
           }
         })
+        console.log(num)
         this.$emit("isNomiNumber", num);
         this.loading = false;
         if (res.total < 1) {

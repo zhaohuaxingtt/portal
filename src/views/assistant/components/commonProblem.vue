@@ -1,0 +1,156 @@
+<template>
+	<div class="leftContent" v-loading="loading">
+		<slot name="top"></slot>
+		<div class="list">
+			<div class="listTitle" v-text="title"></div>
+			<div class="listContent" v-infinite-scroll="load">
+				<div v-for="(menu, index) in moudleList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleId === menu[idKey] ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'" @click="select(menu,index)">
+					<div class="idx">{{ index + 1 }}</div>
+					<i v-if="showIcon" class="icon" :class="[rank[index] ? rank[index] : '']"></i>
+					<div>{{ menu[nameKey] }}</div>
+					<div class="block"></div>
+				</div> 
+				<div v-if="!loading && moudleList.length == 0" class="no-data">暂无数据</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+export default {
+	name: 'CommonProbelm',
+	props: {
+		moudleList: {
+			type: Array,
+			default: () => []
+		},
+		currentMoudleId: {
+			type: Number,
+			default: 0
+		},
+		title:{
+			type:String,
+			default:"常见问题"
+		},
+		showIcon: {
+			type: Boolean,
+			default: false
+		},
+		loading: {
+			type: Boolean,
+			default: false
+		},
+		nameKey:{
+			type:String,
+			default:"menuName"
+		},
+		idKey:{
+			type:String,
+			default:"id"
+		}
+	},
+	data() {
+		return {
+			rank:{
+				0:"first",
+				1:"second",
+				2:"third"
+			}
+		}
+	},
+	methods: {
+		select(menu){
+			// this.$emit("update:currentMoudleId", menu.menuId)
+			this.$emit("change", menu)
+		},
+		load(){
+			console.log('scr');
+		}
+	},
+}
+</script>
+
+<style lang="scss" scoped>
+@import "../comon.scss";
+	.leftContent {
+		width: 28%;
+		min-height: 100%;
+		background: #FFFFFF;
+		box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
+		opacity: 1;
+		border-radius: 5px;
+		padding: 20px 20px;
+		overflow: hidden;
+		.list {
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+			.listTitle {
+				height: 50px;
+				background-color: rgba(22, 96, 241, 0.1);
+				border-radius: 5px 5px 0px 0px;
+				color: #000000;
+				font-size: 14px;
+				text-align: center;
+				line-height: 50px;
+				font-weight: bold;
+				margin-top: 20px;
+			}
+			.listContent {
+				flex: 1;
+				overflow: auto;
+				.itemMenu {
+					width: 100%;
+					height: 50px;
+					padding-left: 30px;
+					font-size: 400;
+					cursor: pointer;
+					transition: all .1s ease;
+					.idx {
+						width: 60px;
+					}
+				}
+			}
+		}
+	}
+	.icon {
+		margin-right: 20px;
+		width: 28px;
+		height: 28px;
+		background-size: contain;
+		background-repeat: no-repeat;
+		&.first{
+			background-image: url('~@/assets/images/icon/first.png');
+		}
+		&.second{
+			background-image: url('~@/assets/images/icon/second.png');
+		}
+		&.third{
+			background-image: url('~@/assets/images/icon/third.png');
+		}
+	}
+	.no-data{
+		text-align: center;
+		margin-top: 100px;
+		font-size: 12px;
+		color: #999;
+	}
+	.block {
+		height: 50px;
+		width: 1px;
+		margin-left: auto;
+	}
+	.bluegc {
+		background: #F7FAFF;
+		color: #000000;
+	}
+	.whgc {
+		background: #FFFFFF;
+		color: #000000;
+	}
+	.findBgc {
+		background: #1660F1;
+		color: #FFFFFF;
+	}
+</style>

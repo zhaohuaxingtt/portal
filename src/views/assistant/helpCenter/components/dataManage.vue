@@ -1,0 +1,134 @@
+<template>
+	<div class="rightContent ml20" v-loading="loading">
+		<div class="top-box">
+			<iInput 
+				class="input" 
+				type="text" 
+				placeholder="搜索..."
+				@keyup.enter.native="search"
+				v-model="searchKey"
+			/>
+			<img src="~@/assets/images/search.png" alt="" class="search-icon" @click="search" />
+			<iButton class="ask-btn" @click="handleQuestion">{{ language('我要提问') }}</iButton>
+		</div>
+		<div class="mt15 line"></div>
+		<div class="title">{{ currMoudleName ? language(`${currMoudleName}`) : '' }}</div>
+		<div class="line"></div>
+		<!-- <div class="editor-box" v-html="changeColor(currModuleDetailData)"></div> -->
+		<iEditor ref="iEditor" v-html="changeColor(currModuleDetailData)" disabled />
+	</div>
+</template>
+
+<script>
+import { iInput, iButton } from 'rise';
+import iEditor from '@/components/iEditor'
+export default {
+	name: "DataManage",
+	components: {
+		iInput,
+		iButton,
+		iEditor
+	},
+	props: {
+		loading: {
+			type: Boolean,
+			default: false
+		},
+		currMoudleName: {
+			type: String,
+			default: ''
+		},
+		currModuleDetailData: {
+			type: String,
+			default: ''
+		}
+	},
+	data() {
+		return {
+			searchKey: "",
+			searchHead: 0
+		}
+	},
+	methods: {
+		handleQuestion() {
+			this.$emit('handleQuestion')
+		},
+		search() {
+			console.log(this.searchKey)
+			let num = document.getElementsByTagName('a').length;
+			if (num !== 0) {
+				document.getElementsByTagName('a')[this.searchHead].scrollIntoView()
+				if (this.searchHead < (num - 1)) {
+					this.searchHead += 1
+				} else if (this.searchHead == (num - 1)) {
+					this.searchHead = 0
+				} else return false
+			}
+		},
+		changeColor(item) {
+			let searchKey = this.searchKey
+			if (searchKey !== '') {
+				return item.replace(new RegExp(searchKey, 'g'), '<a style="color:red" id="seach" >' + searchKey + '</a>');
+			} else {
+				return item;
+			}
+		}
+	}
+}
+</script>
+
+<style lang="scss" scoped>
+@import "../../comon.scss";
+	.rightContent {
+		width: 100%;
+		height: 100%;
+		background: #FFFFFF;
+		box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
+		opacity: 1;
+		border-radius: 5px;
+		padding: 30px 40px 20px 40px;
+		.top-box {
+			height: 50px;
+			display: flex;
+			position: relative;
+			.input {
+				width: 85%;
+			}
+			.search-icon {
+				position: absolute;
+				width: 20px;
+				height: 20px;
+				top: 8px;
+				right: 17%;
+			}
+			.ask-btn {
+				width: 10%;
+				height: 36px;
+				margin-left: 3%;
+			}
+			
+		}
+		.mt10 {
+			margin-top: 10px;
+		}
+		.line {
+			width: 100%;
+			height: 0px;
+			border: 1px dotted rgba(112, 112, 112, 0.14901960784313725);
+			opacity: 1;
+		}
+		.title {
+			margin: 18px 0px 22px 0px;
+			font-size: 20px;
+			font-weight: bold;
+			color: #000000;
+		}
+		.editor-box {
+			width: 100%;
+			height: calc(100% - 160px);
+			border: 1px solid red;
+			overflow-y: auto;
+			white-space: pre-line;
+		}
+	}
+</style>
