@@ -285,7 +285,7 @@ export default {
 					this.$refs.problemDetail.labelText = null
 					this.$refs.problemDetail.labelIdx = 0
 					this.$refs.problemDetail.problemDetail = []
-					this.$refs.problemDetail.getLabelList()
+					this.$refs.problemDetail.getLabelList('init')
 				})
 			} else {
 				return false

@@ -25,7 +25,7 @@
 		<div class="search-list">
 			<div class="card mb20 cursor" v-for="(list, idx) in questionList" :key="idx" @click="handleQuestion(list, idx)" :class="selectedCardId === idx ? 'selected' : ''">
 				<div class="flex flex-row justify-between list-top">
-          <div class="title">{{ list.questionTitle }}</div>
+          <div class="title" :v-html="list.questionTitle"></div>
           <div class="status" :class="list.questionStatus === 'unreply' ? 'unreply-text' : list.questionStatus === 'reply' ? 'reply-text' : 'finish-text'">
             {{ list.questionStatus === 'unreply' ? '未答复' : list.questionStatus === 'reply' ? '已答复' : '已完成' }}
           </div>
@@ -36,18 +36,30 @@
         </div>
 			</div>
 		</div>
+		<div class="iPagination flex items-center justify-center">
+			<iPagination
+        v-update
+        @current-change="handleCurrentChange($event, getQuesList)"
+        background
+				small=true
+        :current-page="page.currPage"
+        :page-size="page.pageSize"
+        :total="page.totalCount"
+      />
+		</div>
 	</div>
 </template>
 
 <script>
-import { iInput, iSelect } from 'rise';
+import { iInput, iSelect, iPagination } from 'rise';
 import { getMineQuesList } from '@/api/assistant'
 import moment from 'moment'
 export default {
 	name: 'QuestionList',
 	components: {
 		iInput,
-		iSelect
+		iSelect,
+		iPagination
 	},
 	props: {
 		currentMoudleId: {
@@ -63,9 +75,12 @@ export default {
 		return {
 			queryParam: {
 				keyWord: '',
-				questionModuleId: '',
-				pageSize: 5,
-				pageNum: 1
+				questionModuleId: ''
+			},
+			page: {
+				totalCount: 0,
+				pageSize: 10,
+				currPage: 1
 			},
 			// unreply:未答复 reply:已答复 finished:已完成
 			questionList: [],
@@ -84,27 +99,32 @@ export default {
 			this.getQuesList()
 		},
 		getCurrModuleName(id) {
-			console.log(id, this.moudleList, "00000000")
 			let currName = null
 			this.moudleList.map(item => {
 				if (item.id === id) {
-					console.log(item, '1112222')
 					currName = item.menuName
-				} else {
-					currName = '示例名称'
 				}
 			})
 			return currName
 		},	
 		async getQuesList() {
-			await getMineQuesList(this.queryParam).then((res) => {
+			let params = {
+				...this.queryParam,
+				pageNum: this.page.currPage,
+        pageSize: this.page.pageSize
+			}
+			await getMineQuesList(params).then((res) => {
 				console.log(res, "11122333")
 				if (res?.code === '200') {
+					const { pageNum, pageSize, total } = res.data
+					this.page.currPage = pageNum
+          this.page.pageSize = pageSize
+          this.page.totalCount = total
 					this.$emit('selectQues', res?.data?.records?.[0] || {})
 					this.questionList = res?.data?.records || []
 					this.questionList.map(item => {
 						item.timeDate = moment(item.updateDate).format('YYYY-MM-DD')
-						// item.moudleName = this.getCurrModuleName(item.questionModuleId) || '示例名称'
+						item.moudleName = this.getCurrModuleName(item.questionModuleId)
 					})
 				}
 			})
@@ -141,7 +161,7 @@ export default {
 		}
 		.search-list {
 			width: 100%;
-			height: calc(100% - 50px);
+			height: calc(100% - 120px);
 			margin-top: 10px;
 			overflow-y: auto;
 			.card {
@@ -177,11 +197,18 @@ export default {
 				}
 			}
 		}
+		.iPagination {
+			height: 70px;
+			width: 100%;
+		}
 	}
 	.selected {
 		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16);
 		border-radius: 2px;
 		background: #F8F9FA;
 		border: 1px solid #E5E5E5;
+	}
+	.el-pagination__rightwrapper {
+		margin-top: 20px !important;
 	}
 </style>
