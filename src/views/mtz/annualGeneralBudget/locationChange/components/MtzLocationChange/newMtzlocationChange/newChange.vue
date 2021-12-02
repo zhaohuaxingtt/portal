@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-25 17:43:45
- * @LastEditTime: 2021-12-01 20:03:14
+ * @LastEditTime: 2021-12-02 16:17:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\index.vue
@@ -17,40 +17,7 @@
               v-on="$listeners"
               :dateList="dateList"
               class="margin-top20"></theTable>
-    <!-- <iDialog title="提示"
-             :visible.sync="dialogVisible"
-             append-to-body
-             width="30%"
-             :before-close="handleClose">
-      <div style="display:inline-block"
-           class="margin-right10">
-        <div v-for="item in dateList"
-             :key="item.id"
-             class="margin-bottom10">
-          <iDatePicker v-model="item.value"
-                       type="daterange"
-                       format="yyyy-MM-dd"
-                       value-format="yyyy-MM-dd"
-                       range-separator="至"
-                       :pickerOptions="pickerOptions"
-                       start-placeholder="开始月份"
-                       end-placeholder="结束月份" />
-        </div>
-      </div>
-      <el-button type="primary"
-                 style="vertical-align:top"
-                 icon="el-icon-plus"
-                 size="mini"
-                 @click="addDate"
-                 circle></el-button>
 
-      <span slot="footer"
-            class="dialog-footer">
-        <iButton @click="dialogVisible = false">取 消</iButton>
-        <iButton type="primary"
-                 @click="sure">确 定</iButton>
-      </span>
-    </iDialog> -->
   </div>
 </template>
 
@@ -69,57 +36,20 @@ export default {
   },
   data () {
     return {
-      dialogVisible: false,
-      dateList: [{
-        id: 1,
-        value: []
-      }],
-      maxDate: [],
-      pickerOptions: {
-        onPick: ({ maxDate }) => {
-          this.maxDate = maxDate
-        }
-      }
+
     }
   },
   created () {
 
   },
   watch: {
-    maxDate (val) {
-      this.pickerOptions = {
-        onPick: ({ maxDate }) => {
-          this.maxDate = maxDate
-        },
-        disabledDate: time => {
-          if (this.dateList.length === 1) {
-            return
-          }
-          if (val) {
-            return time < val.getTime() + 86400000
-          }
-        }
-      }
-    },
+
   },
   methods: {
     backBtn () {
       this.$router.go(-1)
     },
-    handleClose (done) {
-      done()
-    },
-    addDate () {
-      this.dateList.push({
-        id: this.dateList.length + 1,
-        value: []
-      })
-    },
-    sure () {
-      this.dialogVisible = false
-      this.$refs.theTable.handleSure()
-      this.dateList = []
-    }
+
   }
 }
 </script>
