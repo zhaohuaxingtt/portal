@@ -3,14 +3,20 @@
 		<slot name="top"></slot>
 		<div class="list">
 			<div class="listTitle" v-text="title"></div>
-			<div class="listContent" v-infinite-scroll="load">
+			<div 
+				class="listContent"
+				v-infinite-scroll="load"
+				infinite-scroll-disabled="disabled"
+				>
 				<div v-for="(menu, index) in moudleList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleId === menu[idKey] ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'" @click="select(menu,index)">
 					<div class="idx">{{ index + 1 }}</div>
 					<i v-if="showIcon" class="icon" :class="[rank[index] ? rank[index] : '']"></i>
-					<div>{{ menu[nameKey] }}</div>
+					<div class="flex-1">{{ menu[nameKey] }}</div>
 					<div class="block"></div>
 				</div> 
 				<div v-if="!loading && moudleList.length == 0" class="no-data">暂无数据</div>
+				<p v-if="loading" class="no-data" style="margin: 10px 0;">加载中...</p>
+				<div v-if="noMore" class="no-data" style="margin: 10px 0;">没有更多了</div>
 			</div>
 		</div>
 	</div>
@@ -47,6 +53,14 @@ export default {
 		idKey:{
 			type:String,
 			default:"id"
+		},
+		loadmore:{
+			type:Boolean,
+			default: false
+		},
+		noMore:{
+			type:Boolean,
+			default: false
 		}
 	},
 	data() {
@@ -58,13 +72,20 @@ export default {
 			}
 		}
 	},
+	computed:{
+		disabled () {
+			return this.loading || this.noMore
+		}
+	},
 	methods: {
 		select(menu){
 			// this.$emit("update:currentMoudleId", menu.menuId)
 			this.$emit("change", menu)
 		},
 		load(){
-			console.log('scr');
+			console.log(this.loadmore,this.noMore,'---');
+			if(!this.loadmore || this.noMore) return false
+			this.$emit("onLoad")
 		}
 	},
 }
@@ -102,7 +123,8 @@ export default {
 				overflow: auto;
 				.itemMenu {
 					width: 100%;
-					height: 50px;
+					// min-height: 30px;
+					padding: 5px 10px;
 					padding-left: 30px;
 					font-size: 400;
 					cursor: pointer;
