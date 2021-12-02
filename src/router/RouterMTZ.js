@@ -60,7 +60,7 @@ export default [
                     name: 'overflow',
                     meta: {
                       title: 'MTZ定点',
-                      showFooter: true //隐藏
+                      showFooter: false //隐藏
                     },
                     redirect: 'overflow/applyInfor',
                     component: () =>

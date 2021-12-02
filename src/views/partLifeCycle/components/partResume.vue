@@ -61,7 +61,7 @@
                 <div class="title" v-if="currentItem&&currentItem.typeName">
                     <i></i>
                     <span style="text-decoration: none">{{ currentItem.typeName }}</span>
-                    <span style="text-decoration: none" v-if="currentItem.title" @click="toUrl"> - {{ currentItem.title }}</span>
+                    <span style="text-decoration: none" v-if="currentItem.title" @click="toUrl(currentItem)"> - {{ currentItem.title }}</span>
                 </div>
                 <div class="partResume_right_content">
                     <!--          //Sourcing-->
@@ -71,7 +71,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 2">
                         <span>RFQ号：</span>
-                        <span>{{ infoData.businessTitle }}</span>
+                        <span class="link" @click="toUrl(infoData,'RFQ')">{{ infoData.businessTitle }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 2">
                         <span>RFQ类型：</span>
@@ -115,11 +115,11 @@
                     </div>
                     <div class="divItem" v-show="currentType === 4">
                         <span>FS号：</span>
-                        <span>{{ infoData.fsNum }}</span>
+                        <span class="link" @click="toUrl(infoData,'fsNum')">{{ infoData.fsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
                         <span>RS单号：</span>
-                        <span>{{ infoData.rsNum }}</span>
+                        <span class="link" @click="toUrl(infoData,'rsNum')">{{ infoData.rsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
                         <span>A价：</span>
@@ -179,16 +179,16 @@
                     </div>
                     <div class="divItem" v-show="currentType === 4">
                         <span>是否做过成本分析：</span>
-                        <span>{{ infoData.isIngredientAnalyze ? language('LK_SHI', '是') : language('LK_FOU', '否')
+                        <span :class="infoData.isIngredientAnalyze?'link':''"  @click="toUrl(infoData,'isIngredientAnalyze')">{{ infoData.isIngredientAnalyze ? language('LK_SHI', '是') : language('LK_FOU', '否')
                             }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
                         <span>MTZ RS单号：</span>
-                        <span>{{ infoData.mtzRsNum }}</span>
+                        <span class="link"  @click="toUrl(infoData,'mtzRsNum')">{{ infoData.mtzRsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
                         <span>定点信编号：</span>
-                        <span>{{ infoData.rsNlNum }}</span>
+                        <span class="link"  @click="toUrl(infoData,'rsNlNum')">{{ infoData.rsNlNum }}</span>
                     </div>
 
                     <!--          //Kick off-->
@@ -202,7 +202,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 1">
                         <span>FS号：</span>
-                        <span>{{ infoData.fsNum }}</span>
+                        <span class="link" @click="toUrl(infoData,'fsNum')">{{ infoData.fsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 1">
                         <span>SOP时间：</span>
@@ -232,11 +232,11 @@
                     </div>
                     <div class="divItem" v-show="currentType === 6">
                         <span>FS号：</span>
-                        <span>{{ infoData.fsNum }}</span>
+                        <span class="link" @click="toUrl(infoData,'fsNum')">{{ infoData.fsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
                         <span>RS单号：</span>
-                        <span>{{ infoData.accessoriesRsNum }}</span>
+                        <span class="link"  @click="toUrl(infoData,'rsNum')">{{ infoData.accessoriesRsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
                         <span>配件A价：</span>
@@ -292,7 +292,7 @@
                     <!--          //Aeko-->
                     <div class="divItem" v-show="currentType === 5">
                         <span>AEKO号：</span>
-                        <span>{{ infoData.aekoCode }}</span>
+                        <span class="link" @click="toUrl(infoData,'aekoCode')">{{ infoData.aekoCode }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
                         <span>原零件号：</span>
@@ -415,7 +415,8 @@
         mainLoading: false,
         middleLoading: false,
         rightLoading: false,
-        exportLoading: false
+        exportLoading: false,
+        baseUrl:process.env.NODE_ENV== 'dev'?'http://10.122.17.38':process.env.NODE_ENV!= 'production' ? process.env.VUE_APP_HOST: 'http://rise-nginx-internal.apps.vmocp-test.csvw.com'
       }
     },
     created() {
@@ -443,6 +444,7 @@
         })
       },
       getRecordDetail(item, index) {
+        console.log(item,'iii')
         if (this.checkedIndex3 === index) {
           return
         }
@@ -526,10 +528,29 @@
         a.index = index
         this.bookmarkNodes = [...this.bookmarkNodes]
       },
-      toUrl() {
+      toUrl(item,typeName) {
+        console.log(item,'')
+        let {type,id,title,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,accessoriesRsNum,rsNum,businessType,aekoCode} = item
         let path = ''
-        console.log('跳转页面')
-//        window.open(window.location.origin + `/order/index.html#/${path}`, '_blank');
+        if(type==1) path = ''                        // 会议
+        if(type==2) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editorInfo?id=${title}` // 寻源 ok
+        if(type==3) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/loidetail?id=${title}` // LOI
+        if(type==4) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${id}&businessKey=${type}` // 定点
+        if(type==5) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${title}` // Aeko
+        if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/accessorypartdetail?spNum=${title}` // 配件定点
+        if(type==7) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${id}` // mtz定点
+        if(typeName == 'aekoCode' && aekoCode) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoCode}` // 定点信编号
+        if(typeName == 'rsNlNum' && rsNlNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/letterdetail?id=${rsNlNum}` // 定点信编号
+        if(typeName == 'mtzRsNum' && mtzRsNum) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${id}` // mtz rs编号
+        if(typeName == 'isIngredientAnalyze' && isIngredientAnalyze && rfqType ==2 && businessTitle) path = `/sourcing/#/targetpriceandscore/costanalysismanage/costanalysis?rfqId=${businessTitle}` // 成本分析
+        if(typeName == 'RFQ' && businessTitle) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editordetail?id=${businessTitle}` // rfq编号
+        if(typeName == 'fsNum' && fsNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${id}&businessKey=${businessType}` // fs编号
+//        if(typeName == 'accessoriesRsNum' && accessoriesRsNum) path = `/sourcing/#/sourcing/designate/rsSingleMaintenance?${id}&designateType=${businessType}` // RS单号
+        if(typeName == 'rsNum' && rsNum) path = `/sourcing/#/sourcing/designate/rsSingleMaintenance?desinateId=${id}&designateType=${businessType}` // RS单号
+        if(path){
+          window.open(this.baseUrl + path, '_blank');
+        }
+
       },
     }
   }
@@ -895,4 +916,8 @@
             }
         }
     }
+    .link :hover{
+        cursor:pointer
+    }
+
 </style>

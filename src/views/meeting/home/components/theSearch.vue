@@ -4,7 +4,10 @@
       <!--第一行-->
       <el-row>
         <!--会议名称-->
-        <el-form-item :label="$t('MT_HUIYIMINGCHENG')" class="meeting-name-item">
+        <el-form-item
+          :label="$t('MT_HUIYIMINGCHENG')"
+          class="meeting-name-item"
+        >
           <iInput
             :placeholder="$t('LK_QINGSHURU')"
             v-model="form.name"
@@ -58,12 +61,13 @@
         <!-- 周次 -->
         <el-form-item :label="$t('MT_ZHOUCI')" class="LastSearchOption">
           <iSelect
-            filterable
             :placeholder="$t('LK_QINGXUANZE')"
+            onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode)))"
             v-model="form.weekOfYears"
             :multiple="true"
             :collapse-tags="true"
-            onkeypress='return( /[\d]/.test(String.fromCharCode(event.keyCode)))'
+            :reserve-keyword="true"
+            :filterable="true"
           >
             <el-option
               :value="item.value"
