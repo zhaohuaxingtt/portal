@@ -140,11 +140,17 @@
             </iFormItem>
             <iFormItem prop="source">
                 <iLabel :label="language('SHICHANGJIALAIYUAN','市场价来源')" slot="label" :required="true"></iLabel>
-                <iInput
-                v-model="contractForm.source"
-                type="text"
-                placeholder="请输入市场价来源"
-                />
+                <i-select v-model="contractForm.source"
+                    clearable
+                    :placeholder="language('QINGXUANZE', '请选择')"
+                    >
+                    <el-option
+                        v-for="item in getMtzMarketSourceList"
+                        :key="item.code"
+                        :label="item.message"
+                        :value="item.code">
+                    </el-option>
+                </i-select>
             </iFormItem>
             <iFormItem prop="compensationRatio">
                 <iLabel :label="language('BUCHAXISHU','补差系数')" slot="label" :required="true"></iLabel>
@@ -288,7 +294,8 @@ import {
 import {
   addAppRule,//维护MTZ原材料规则-新增
   checkPreciousMetal,
-  queryMaterialList
+  queryMaterialList,
+  getMtzMarketSourceList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { 
     getRawMaterialNos
@@ -490,6 +497,7 @@ export default {components: {
         ],
         materialCode:[],
         materialGroup:[],
+        getMtzMarketSourceList:[],
 
         supplierType1:false,
         supplierType2:false,
@@ -518,6 +526,10 @@ export default {components: {
 
     currencyDict().then(res=>{
         this.tcCurrence = res.data;
+    })
+
+    getMtzMarketSourceList({}).then(res=>{
+        this.getMtzMarketSourceList = res.data;
     })
   },
   computed:{
