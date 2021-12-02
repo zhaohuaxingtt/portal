@@ -29,22 +29,33 @@
 			<iInput slot="top" v-model="manualInfo.keyword" placeholder="搜索.."></iInput>
 		</CommonProblem>
 		<div class="content-right" v-loading="contentLoading">
-			<UserManual :detail="manualInfo.detail" :qs="manualInfo.activeInfo" @refresh="queryManualDetail()"></UserManual>
+			<UserManual ref="manual" :detail="manualInfo.detail" :qs="manualInfo.activeInfo" @refresh="queryManualDetail()"></UserManual>
 		</div>
 	</div>
 	<div class="flex flex-row content mt20" v-show="activeMoudle === 'question'">
 		<CommonProblem 
 			title="常见问题"
-			:moudleList="qsList"
+			:moudleList="qsInfo.list"
 			:currentMoudleId="qsInfo.id"
 			:loading="qsInfo.loading"
-			@change="moduleChange($event,'qsInfo')"
 			showIcon
+			nameKey="questionTitle"
+			loadmore
+			:noMore="qsInfo.noMore"
+			@change="moduleChange($event,'qsInfo')"
+			@onLoad="loadQs"
 		>
-			<iInput slot="top" v-model="qsInfo.keyword" placeholder="搜索.."></iInput>
+			<iInput slot="top" v-model="qsInfo.params.keyword" @keydown.enter="queryFaqListByPage" placeholder="搜索.."></iInput>
 		</CommonProblem>
 		<div class="content-right" v-loading="contentLoading">
-			<Question :detail="qsInfo.detail" :qs="qsInfo.activeInfo" @refresh="queryProblemDetail()"></Question>
+			<Question 
+				ref="qs"
+				:detail="qsInfo.detail"
+				:qs="qsInfo.activeInfo" 
+				@editChange="queryProblemDetail()"
+				@delChange="refreshQs"
+				@addChange="refreshQs"
+				></Question>
 		</div>
 	</div>
 	
@@ -88,11 +99,16 @@ export default {
 			},
 			qsInfo:{	//常见问题
 				detail:{},
-				keyword:"",
 				list: [],
 				loading:false,
 				id: "",
 				activeInfo:{},
+				params:{
+					pageNum: 1,
+					pageSize: 10,
+					keyword:""
+				},
+				noMore:false
 			},
 			show: false,
 			key:"",
@@ -101,6 +117,7 @@ export default {
 	},
 	created() {
 		this.getProbleList()
+		this.queryFaqListByPage()
 	},
 	computed:{
 		manualList(){
@@ -131,23 +148,53 @@ export default {
 		async queryFaqListByPage() {
 			this.qsInfo.loading = true
 			try {
-				await queryFaqListByPage().then((res) => {
+				this.qsInfo.params.source = this.getUserType()
+				await queryFaqListByPage(this.qsInfo.params).then((res) => {
 					if (res.code === '200') {
-						this.qsInfo.list = res.data
-						this.qsInfo.id = res.data[0]?.id
-						this.qsInfo.activeInfo = res.data[0]
-						this.queryProblemDetail()
+						let list = res.data?.records || []
+						if(this.qsInfo.params.pageNum == 1 && res.data.total == 0) {
+							this.qsInfo.noMore = true
+							this.qsInfo.list = []
+						}else{
+							if(this.qsInfo.params.pageNum == 1){
+								this.qsInfo.list = list
+							}else{
+								this.qsInfo.list.push(...list)
+							}
+							if(this.qsInfo.params.pageNum >= res.data.pages) {
+								this.qsInfo.noMore = true
+							}
+						}
+						// this.qsInfo.id = this.qsInfo.list[0]?.id
+						// this.qsInfo.activeInfo = res.data[0] || {}
+						// this.queryProblemDetail()
 					}
 				})
 			} finally {
 				this.qsInfo.loading = false
 			}
 		},
+		// 加载问题列表
+		loadQs(){
+			console.log('load',this.qsInfo.noMore);
+			if(this.qsInfo.noMore) return
+			this.qsInfo.params.pageNum++
+			console.log('load',this.qsInfo.noMore);
+
+			this.queryFaqListByPage()
+		},
+		refreshQs(){
+			this.qsInfo.params.pageNum = 1
+			this.qsInfo.list = []
+			this.qsInfo.detail = {}
+			this.qsInfo.noMore = false
+			this.queryFaqListByPage()
+		},
 		tabChange(val) {
 			this.activeMoudle = val
 			if(!this.qsInfo.id){
-				this.manualInfo.id = this.manualInfo.list[0]?.id
-				this.manualInfo.activeInfo = this.manualInfo.list[0]
+				this.qsInfo.id = this.qsInfo.list[0]?.id
+				this.qsInfo.activeInfo = this.qsInfo.list[0]
 			}
 			if(this.activeMoudle == 'manual'){
 				this.queryManualDetail()
@@ -172,7 +219,7 @@ export default {
 		async queryProblemDetail(){
 			try {
 				this.contentLoading = true
-				let {data} = await getProblemDetail({id:this.manualInfo.id})
+				let {data} = await getProblemDetail({id:this.qsInfo.id})
 				this.qsInfo.detail = data || {}
 			} finally {
 				this.contentLoading = false
@@ -182,8 +229,10 @@ export default {
 			this[type].id = v.id
 			this[type].activeInfo = v
 			if(type == 'manualInfo'){
+				this.$refs.manual.cancel()
 				this.queryManualDetail()
 			}else{
+				this.$refs.qs.cancel()
 				this.queryProblemDetail()
 			}
 		}

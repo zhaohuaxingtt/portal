@@ -45,7 +45,7 @@
                   <iButton
                       type="button"
                       class="upload-button"
-                      :uploadLoading="uploadLoading"
+                      :loading="uploadLoading"
                   >
                     请选择文件<span class="upload-text"
                   ><img :src="uploadIcon"
@@ -186,6 +186,7 @@
                     class="autoSearch"
                     v-model="ruleForm.conclusionConfig"
                     value-key="id"
+                    multiple
                 >
                   <el-option
                       v-for="item in ruleForm.category == '02'
@@ -785,8 +786,8 @@ export default {
   },
   mounted() {
     if (this.editOrAdd === 'edit') {
-      this.selectedTableData[0].incidenceRelation =
-          this.selectedTableData[0].incidenceRelation.split(',')
+      this.selectedTableData[0].incidenceRelation = this.selectedTableData[0].incidenceRelation ?
+          this.selectedTableData[0].incidenceRelation.split(','):[]
       const userIdsArr = this.selectedTableData[0].userIds
           ? this.selectedTableData[0].userIds.split(',')
           : []
@@ -929,7 +930,7 @@ export default {
       this.selectUserArr = currentSearchUserData
       return currentSearchUserData
     },
-    async httpUpload(content) {
+    httpUpload(content) {
       this.uploadLoading = true
       let formData = new FormData()
       // formData.append("file", content.file);
@@ -938,16 +939,27 @@ export default {
       formData.append('businessId', 8025)
       formData.append('currentUserId', -1)
       formData.append('type', 1)
-      const res = await uploadFile(formData)
-      // const infoById = await getFileByIds([res[0].id]);
-      console.log('res[0].path', res[0].path)
-      this.ruleForm.coverImage = res[0].path
-      // console.log(info);
-      this.$refs['ruleFormCoverImage'].$el.querySelector(
+      uploadFile(formData).then((res)=>{
+        this.ruleForm.coverImage = res[0].path
+        this.$refs['ruleFormCoverImage'].$el.querySelector(
           '.el-form-item__error'
       ).style.display = 'none'
       iMessage.success(this.$t('上传成功'))
       this.uploadLoading = false
+      })
+      .catch(()=>{
+        this.uploadLoading = false;
+      })
+      // const res = await uploadFile(formData)
+      // // const infoById = await getFileByIds([res[0].id]);
+      // console.log('res[0].path', res[0].path)
+      // this.ruleForm.coverImage = res[0].path
+      // // console.log(info);
+      // this.$refs['ruleFormCoverImage'].$el.querySelector(
+      //     '.el-form-item__error'
+      // ).style.display = 'none'
+      // iMessage.success(this.$t('上传成功'))
+      // this.uploadLoading = false
     },
     handleLoad() {
       this.$refs['img'].classList.remove('error')

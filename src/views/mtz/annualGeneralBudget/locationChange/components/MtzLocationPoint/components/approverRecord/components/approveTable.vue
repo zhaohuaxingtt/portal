@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-02 11:03:41
+ * @LastEditTime: 2021-12-02 14:00:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -217,7 +217,6 @@ export default {
       this.muilteList.forEach(item => {
         selectDept({}).then((res) => {
           if (res?.code === '200') {
-            debugger
             this.$set(item, 'selectDeptList', res.data);
             let deptList = item.selectDeptList.find(i => item.approvalDepartmentName === i.nameZh)
             if (deptList) {

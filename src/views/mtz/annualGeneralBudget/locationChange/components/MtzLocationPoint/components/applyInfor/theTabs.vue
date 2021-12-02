@@ -317,8 +317,17 @@
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'source'"
                           :rules="formRules.source ? formRules.source : ''">
-              <iInput v-model="scope.row.source"
-                      v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+
+              <el-select v-model="scope.row.source"
+                         clearable
+                         :placeholder="language('QINGSHURU', '请输入')"
+                         v-if="editId.indexOf(scope.row.id)!==-1">
+                <el-option v-for="item in getMtzMarketSourceList"
+                           :key="item.code"
+                           :label="item.message"
+                           :value="item.code">
+                </el-option>
+              </el-select>
               <span v-else>{{scope.row.source}}</span>
             </el-form-item>
           </template>
@@ -682,8 +691,8 @@ import {
   addBatchAppRule,//维护MTZ原材料规则-批量新增
   deleteAppRule,//列表删除,
   modifyAppRule,
-  checkPreciousMetal,
-  getAppFormInfo
+  // checkPreciousMetal,
+  getMtzMarketSourceList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   cartypePaged,//车型
@@ -757,6 +766,7 @@ export default {
           message: "KG"
         }
       ],
+      getMtzMarketSourceList:[],//市场价来源
       materialGroup: [],
       materialCode: [],
       mtzAddShow: false,
@@ -794,6 +804,9 @@ export default {
     })
     currencyDict().then(res => {
       this.tcCurrence = res.data;
+    })
+    getMtzMarketSourceList({}).then(res=>{
+      this.getMtzMarketSourceList = res.data;
     })
   },
   methods: {
@@ -842,6 +855,12 @@ export default {
         this.$emit("handleReset", "")
         this.$parent.$refs.theDataTabs.removePartMasterData()
         this.resetNum = false;
+        setTimeout(() => {
+          this.$parent.$refs.theDataTabs.pageAppRequest()
+          if(this.$parent.$refs.theDataTabs.tableData.length>0){
+            this.$parent.$refs.theDataTabs.getTableList()
+          }
+        }, 500);
       }
       this.saveGzDialog();
       // this.page.currPage = 1;
@@ -891,7 +910,9 @@ export default {
                   // this.page.pageSize = 10;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
-                    this.$parent.$refs.theDataTabs.getTableList()
+                    if(this.$parent.$refs.theDataTabs.tableData.length>0){
+                      this.$parent.$refs.theDataTabs.getTableList()
+                    }
                   }, 500);
 
                   this.getTableList();
@@ -934,7 +955,9 @@ export default {
                   this.editType = false;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
-                    this.$parent.$refs.theDataTabs.getTableList()
+                    if(this.$parent.$refs.theDataTabs.tableData.length>0){
+                      this.$parent.$refs.theDataTabs.getTableList()
+                    }
                   }, 500);
 
                   this.getTableList();
@@ -1030,7 +1053,9 @@ export default {
             iMessage.success(res.desZh)
             setTimeout(() => {
               this.$parent.$refs.theDataTabs.pageAppRequest()
-              this.$parent.$refs.theDataTabs.getTableList()
+              if(this.$parent.$refs.theDataTabs.tableData.length>0){
+                this.$parent.$refs.theDataTabs.getTableList()
+              }
             }, 500);
 
             this.getTableList();

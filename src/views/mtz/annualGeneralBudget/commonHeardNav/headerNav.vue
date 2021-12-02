@@ -9,9 +9,9 @@
 <template>
   <div>
     <div class="navBox">
-      <iNavMvp :list="tabRouterList" class="margin-bottom20" routerPage :lev="1" v-show="$route.meta.showFooter"/>
+      <iNavMvp :list="tabRouterList" class="margin-bottom20" routerPage :lev="1" v-if="$route.meta.showFooter"/>
       <router-view />
-      <logButton class="logButton" v-show="$route.meta.showFooter"/>
+      <logButton class="logButton" v-if="$route.meta.showFooter"/>
     </div>
   </div>
 </template>

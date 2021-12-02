@@ -10,7 +10,7 @@
 		<div v-for="(ques, idx) in chatList" :key="idx" class="item-ques flex flex-row">
 			<div class="item-who"> {{ques.replyType==='reply'?'管理员':'我'}} </div>
 			<div class="desc-box">
-				<div class="desc">{{ ques.content }}</div>
+				<div class="desc" v-html="ques.content"></div>
 				<div class="date">{{ ques.createDate }}</div>
 			</div>
 		</div>
