@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-23 15:29:39
+ * @LastEditTime: 2021-12-01 20:15:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -119,11 +119,16 @@ export default {
       this.muilteList = val
     },
     handleDialog () {
-      if (this.muilteList.length === 0) {
-        iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据！'))
-        return
+      if (!this.addFlag) {
+        if (this.muilteList.length === 0) {
+          iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据！'))
+          return
+        }
+        this.$parent.dialogVisible = true
+      } else {
+        this.handleSure()
       }
-      this.$parent.dialogVisible = true
+
     },
     handleSure () {
       let params = {
@@ -162,8 +167,7 @@ export default {
             let routerPath = this.$router.resolve({
               path: '/mtz/annualGeneralBudget/MTZapplicationForm',
               query: {
-                mtzAppId: data.mtzAppId || '',
-                // isView: false
+                mtzAppId: data.mtzAppId || ''
               }
             })
             this.$store.dispatch('setMtzChangeBtn', false);
