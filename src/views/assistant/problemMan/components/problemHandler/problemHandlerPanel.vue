@@ -49,86 +49,88 @@
       </template>
     </div>
     <div class="right-content ml20">
-      <div class="flex flex-row justify-end">
-        <template v-if="cardSelectItem.questionStatus === 'unreply'">
-          <template v-if="!isReplyStatus">
-            <i-button @click="replyHandler">{{ language('答复') }}</i-button>
-            <i-button @click="dispatchHandler">{{ language('指派') }}</i-button>
-          </template>
-          <template v-else>
-            <i-button @click="sendMessageHandler">{{
+      <div class="content">
+        <div class="flex flex-row justify-end">
+          <template v-if="cardSelectItem.questionStatus === 'unreply'">
+            <template v-if="!isReplyStatus">
+              <i-button @click="replyHandler">{{ language('答复') }}</i-button>
+              <i-button @click="dispatchHandler">{{ language('指派') }}</i-button>
+            </template>
+            <template v-else>
+              <i-button @click="sendMessageHandler">{{
               language('发送')
             }}</i-button>
-            <i-button @click="sendAndCloseHandler">{{
+              <i-button @click="sendAndCloseHandler">{{
               language('发送并关闭问题')
             }}</i-button>
+            </template>
           </template>
-        </template>
-        <template v-else-if="cardSelectItem.questionStatus === 'finished'">
-          <i-button @click="finishedHandler">{{ language('归档') }}</i-button>
-        </template>
-        <template v-else-if="cardSelectItem.questionStatus === 'reply'">
-          <i-button @click="closeQuestionHandler">{{ language('关闭问题') }}</i-button>
-          <i-button @click="dispatchHandler">{{ language('转派') }}</i-button>
-        </template>
-      </div>
-      <template v-if="cardSelectItem.questionStatus">
-        <div class="search-box flex-between-center-center mt20 mb20 border">
-          <div class="input-box flex-align-center margin-right30">
-            <el-form label-position="top" :model="editForm" :rules="editFormRules" ref="editForm">
-              <el-row :gutter="20">
-                <el-col :span="8">
-                  <iFormItem :label="$t('问题模块')" prop="questionModuleId">
-                    <iSelect v-model="editForm.questionModuleId" filterable :disabled="isDisabledModule" @change="changeModuleHandle">
-                      <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
-                    </iSelect>
-                  </iFormItem>
-                </el-col>
-                <el-col :span="8">
-                  <iFormItem :label="$t('标签')" prop="questionLableId">
-                    <iSelect v-model="editForm.questionLableId" filterable :disabled="isDisabledModule">
-                      <el-option v-for="item in labelList" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
-                    </iSelect>
-                  </iFormItem>
-                </el-col>
-                <el-col :span="8">
-                  <iFormItem :label="$t('问题来源')">
-                    <iInput v-model="editForm.source" :disabled="isDisabledQuestion" />
-                  </iFormItem>
-                </el-col>
-              </el-row>
-            </el-form>
-          </div>
-          <div class="btn-box margin-top25">
-            <i-button v-if="!editFormBtn" class="edit-btn" @click="editHandler">{{ language('编辑') }}</i-button>
-            <i-button v-else class="edit-btn" @click="saveHandler">{{ language('保存') }}</i-button>
-          </div>
+          <template v-else-if="cardSelectItem.questionStatus === 'finished'">
+            <i-button @click="finishedHandler">{{ language('归档') }}</i-button>
+          </template>
+          <template v-else-if="cardSelectItem.questionStatus === 'reply'">
+            <i-button @click="closeQuestionHandler">{{ language('关闭问题') }}</i-button>
+            <i-button @click="dispatchHandler">{{ language('转派') }}</i-button>
+          </template>
         </div>
-        <div class="content-title mb20">{{ language('消息') }}</div>
-        <!-- 正常状态 -->
-        <template v-for="item of questionDetail.replyQuestionList">
-          <div class="content flex flex-row" :key="item.id">
-            <div class="name">{{item.replyUserName}}</div>
-            <div class="content-text">
-              <p class="html" v-html="item.content"></p>
-              <p class="time">{{item.createDate}}</p>
+        <template v-if="cardSelectItem.questionStatus">
+          <div class="search-box flex-between-center-center mt20 mb20 border">
+            <div class="input-box flex-align-center margin-right30">
+              <el-form label-position="top" :model="editForm" :rules="editFormRules" ref="editForm">
+                <el-row :gutter="20">
+                  <el-col :span="8">
+                    <iFormItem :label="$t('问题模块')" prop="questionModuleId">
+                      <iSelect v-model="editForm.questionModuleId" filterable :disabled="isDisabledModule" @change="changeModuleHandle">
+                        <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
+                      </iSelect>
+                    </iFormItem>
+                  </el-col>
+                  <el-col :span="8">
+                    <iFormItem :label="$t('标签')" prop="questionLableId">
+                      <iSelect v-model="editForm.questionLableId" filterable :disabled="isDisabledModule">
+                        <el-option v-for="item in labelList" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
+                      </iSelect>
+                    </iFormItem>
+                  </el-col>
+                  <el-col :span="8">
+                    <iFormItem :label="$t('问题来源')">
+                      <iInput v-model="editForm.source" :disabled="isDisabledQuestion" />
+                    </iFormItem>
+                  </el-col>
+                </el-row>
+              </el-form>
+            </div>
+            <div class="btn-box margin-top25">
+              <i-button v-if="!editFormBtn" class="edit-btn" @click="editHandler">{{ language('编辑') }}</i-button>
+              <i-button v-else class="edit-btn" @click="saveHandler">{{ language('保存') }}</i-button>
             </div>
           </div>
-        </template>
+          <div class="content-title mb20">{{ language('消息') }}</div>
+          <!-- 正常状态 -->
+          <template v-for="item of questionDetail.replyQuestionList">
+            <div class="content flex flex-row" :key="item.id">
+              <div class="name">{{item.replyUserName}}</div>
+              <div class="content-text">
+                <p class="html" v-html="item.content"></p>
+                <p class="time">{{item.createDate}}</p>
+              </div>
+            </div>
+          </template>
 
-        <!-- 答复状态 -->
-        <div v-if="isReplyStatus" class="reply-content mt20">
-          <el-form>
-            <iFormItem prop="replyContent">
-              <iEditor ref="iEditor" v-model="replyContent" :toolbar="editToolbar" v-if="editable" />
-              <div v-else class="content" v-html="replyContent"></div>
-            </iFormItem>
-          </el-form>
-        </div>
-        <div class="mt20 mb20">
-          <attachmentDownload :load="loadText" @getFilesList="getFilesList" />
-        </div>
-      </template>
+          <!-- 答复状态 -->
+          <div v-if="isReplyStatus" class="reply-content mt20">
+            <el-form>
+              <iFormItem prop="replyContent">
+                <iEditor ref="iEditor" v-model="replyContent" :toolbar="editToolbar" v-if="editable" />
+                <div v-else class="content" v-html="replyContent"></div>
+              </iFormItem>
+            </el-form>
+          </div>
+          <div class="mt20 mb20">
+            <attachmentDownload :load="loadText" @getFilesList="getFilesList" />
+          </div>
+        </template>
+      </div>
     </div>
     <dispatchDialog v-if="showDialog" :show.sync="showDialog" :questionId="cardSelectItem.id" @loadData="initData" />
     <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" :problemModuleList="problemModuleList" :labelList="labelList" :source="userType" :questionItem="cardSelectItem" @loadData="initData" @queryLabelByModuleId="queryLabelByModuleId" />
@@ -141,7 +143,7 @@ import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
 import iEditor from '@/components/iEditor';
 import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
-import { getModuleListByUserTypeApi, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi,closeQuestionApi,modifyModuleAndLabelApi } from '@/api/assistant';
+import { getModuleListByUserTypeApi, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi, closeQuestionApi, modifyModuleAndLabelApi } from '@/api/assistant';
 // 来源 inner:内部用户 supplier:供应商用户
 export default {
   props: {
@@ -209,12 +211,12 @@ export default {
       total: 0,
       editFormRules: {
         questionModuleId: [
-          {required: true, trigger: 'change',message: '请选择模块'},
-          {required: true, trigger: 'blur',message: '请选择模块'}
+          { required: true, trigger: 'change', message: '请选择模块' },
+          { required: true, trigger: 'blur', message: '请选择模块' }
         ],
         questionLableId: [
-          {required: true, trigger: 'change',message: '请选择标签'},
-          {required: true, trigger: 'blur',message: '请选择标签'}
+          { required: true, trigger: 'change', message: '请选择标签' },
+          { required: true, trigger: 'blur', message: '请选择标签' }
         ]
       },
     }
@@ -228,7 +230,7 @@ export default {
     this.initData();
   },
   methods: {
-    initData() {
+    initData () {
       this.queryProblemList(this._queryForm({
         source: this.userType,
         pageNum: this.pageNum,
@@ -312,7 +314,7 @@ export default {
     questionModuleHandle (val) {
       this.queryProblemList(this._queryForm({ questionModuleId: val, pageNum: 1 }));
     },
-    clearModuleHandle() {
+    clearModuleHandle () {
       this.questionModuleId = '';
       this.queryProblemList(this._queryForm({ questionModuleId: '', pageNum: 1 }));
     },
@@ -432,14 +434,14 @@ export default {
       this.editFormBtn = true;
     },
     // 表单中切换模块
-    changeModuleHandle(val) {
+    changeModuleHandle (val) {
       this.queryLabelByModuleId(val);
-      this.editForm = Object.assign(this.editForm, {questionLableId:''});
+      this.editForm = Object.assign(this.editForm, { questionLableId: '' });
     },
     saveHandler () {
       this.$refs.editForm.validate(async (valid) => {
         if (valid) {
-          const response = await modifyModuleAndLabelApi(Object.assign(this.editForm, {id:this.cardSelectItem.id}));
+          const response = await modifyModuleAndLabelApi(Object.assign(this.editForm, { id: this.cardSelectItem.id }));
           if (response?.code === '200') {
             this.$message.success('保存成功');
             this.editFormBtn = false;
@@ -507,7 +509,7 @@ export default {
       color: #999999;
     }
     .card-list {
-      height: calc(100vh - 300px);
+      height: calc(100vh - 350px);
       overflow-y: auto;
     }
     .category-list {
@@ -554,6 +556,10 @@ export default {
     opacity: 1;
     border-radius: 5px;
     padding: 30px 40px 20px 40px;
+    .content{
+      overflow-y: auto;
+      max-height: calc(100vh - 350px);
+    }
     .border {
       border-bottom: 1px solid #707070;
       border-top: 1px solid #707070;
