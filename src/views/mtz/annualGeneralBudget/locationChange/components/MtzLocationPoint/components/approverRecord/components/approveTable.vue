@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-02 14:00:36
+ * @LastEditTime: 2021-12-02 20:23:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -18,6 +18,7 @@
                  :disabled="disabled"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
+        <iButton @click="addStream">{{language('XINZENG', '新增') }}</iButton>
         <iButton v-show="!flag"
                  :disabled="disabled"
                  @click="edit">{{language('BIANJI', '编辑') }}</iButton>
@@ -125,7 +126,6 @@
                  :layout="page.layout"
                  :total="page.totalCount" />
     <el-dialog title="审批流"
-               v-if="dialogVisible"
                :visible.sync="dialogVisible"
                width="30%"
                :before-close="handleClose">
@@ -234,6 +234,24 @@ export default {
         })
       })
     },
+    addStream () {
+      this.editFlag = true
+      let obj = {
+        approvalDepartmentName: "",
+        approvalSectionName: "",
+        approvalName: "",
+        startDate: "",
+        endDate: "",
+        editRow: true
+      }
+      selectDept({}).then((res) => {
+        if (res?.code === '200') {
+          this.$set(obj, 'selectDeptList', res.data);
+        }
+      })
+      this.tableData.push(obj)
+      this.$refs.approveTable.toggleRowSelection(this.tableData[this.tableData.length - 1], true)
+    },
     // selectDept () {
     //   selectDept({}).then((res) => {
     //     if (res?.code === '200') {
@@ -262,6 +280,7 @@ export default {
             return
           }
           this.riseId = res.data.riseId
+          console.log(this.riseId, "22222222222")
           if (res.data.ttNominateAppId) {
             this.disabled = true
             this.handleSync('')
