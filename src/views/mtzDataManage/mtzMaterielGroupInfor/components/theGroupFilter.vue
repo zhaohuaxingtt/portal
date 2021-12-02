@@ -3,45 +3,45 @@
     <el-form class="search-form">
       <el-row :gutter="20">
         <el-col :span="8">
-          <iFormItem :label="$t('MTZ材料组编号')">
+          <iFormItem :label="language('MTZ材料组编号')">
             <iInput
               v-model="form.materialGroupCode"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('大类编号/名称')">
+          <iFormItem :label="language('大类编号/名称')">
             <iInput
               v-model="form.generalCategoryCode"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('科室')">
-            <iInput v-model="form.dept" :placeholder="$t('请输入科室编号')" />
+          <iFormItem :label="language('科室')">
+            <iInput v-model="form.dept" :placeholder="language('请输入科室编号')" />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('MTZ材料组名称(中)')">
+          <iFormItem :label="language('MTZ材料组名称(中)')">
             <iInput
               v-model="form.materialGroupNameZh"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('材料中类')">
+          <iFormItem :label="language('材料中类')">
             <iInput
               v-model="form.rawMaterialCode"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('状态')">
-            <iSelect v-model="form.status" :placeholder="$t('请选择')">
+          <iFormItem :label="language('状态')">
+            <iSelect v-model="form.status" :placeholder="language('请选择')">
               <el-option
                 v-for="item in statusOptions"
                 :key="item.value"
@@ -52,18 +52,18 @@
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('MTZ材料组名称(英)')">
+          <iFormItem :label="language('MTZ材料组名称(英)')">
             <iInput
               v-model="form.materialGroupNameEn"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('中类描述')">
+          <iFormItem :label="language('中类描述')">
             <iInput
               v-model="form.rawMaterialName"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
             />
           </iFormItem>
         </el-col>

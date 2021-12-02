@@ -1,6 +1,6 @@
 <template>
     <div>
-        <iInput @input="handleInput" v-model="row.exchangeRate" :placeholder="$t('请输入汇率')" ></iInput>
+        <iInput @input="handleInput" v-model="row.exchangeRate" :placeholder="language('请输入汇率')" ></iInput>
     </div>
 </template>
 

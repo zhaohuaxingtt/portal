@@ -855,6 +855,12 @@ export default {
         this.$emit("handleReset", "")
         this.$parent.$refs.theDataTabs.removePartMasterData()
         this.resetNum = false;
+        setTimeout(() => {
+          this.$parent.$refs.theDataTabs.pageAppRequest()
+          if(this.$parent.$refs.theDataTabs.tableData.length>0){
+            this.$parent.$refs.theDataTabs.getTableList()
+          }
+        }, 500);
       }
       this.saveGzDialog();
       // this.page.currPage = 1;
@@ -904,7 +910,9 @@ export default {
                   // this.page.pageSize = 10;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
-                    this.$parent.$refs.theDataTabs.getTableList()
+                    if(this.$parent.$refs.theDataTabs.tableData.length>0){
+                      this.$parent.$refs.theDataTabs.getTableList()
+                    }
                   }, 500);
 
                   this.getTableList();
@@ -947,7 +955,9 @@ export default {
                   this.editType = false;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
-                    this.$parent.$refs.theDataTabs.getTableList()
+                    if(this.$parent.$refs.theDataTabs.tableData.length>0){
+                      this.$parent.$refs.theDataTabs.getTableList()
+                    }
                   }, 500);
 
                   this.getTableList();
@@ -1043,7 +1053,9 @@ export default {
             iMessage.success(res.desZh)
             setTimeout(() => {
               this.$parent.$refs.theDataTabs.pageAppRequest()
-              this.$parent.$refs.theDataTabs.getTableList()
+              if(this.$parent.$refs.theDataTabs.tableData.length>0){
+                this.$parent.$refs.theDataTabs.getTableList()
+              }
             }, 500);
 
             this.getTableList();

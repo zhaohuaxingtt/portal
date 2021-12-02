@@ -8,7 +8,7 @@
               <iFormItem :label="searchLabel.mtzRawMateriel">
                 <iSelect
                   v-model="searchContent.generalCategoryCode"
-                  placeholder="请选择"
+                  :placeholder="language('请选择')"
                 >
                   <el-option
                     v-for="item in mtzRawCodeOptions"
@@ -23,7 +23,7 @@
               <iFormItem :label="searchLabel.elementAbb">
                 <iInput
                   v-model="searchContent.generalShortName"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
@@ -31,7 +31,7 @@
               <iFormItem :label="searchLabel.middleNumber">
                 <iInput
                   v-model="searchContent.rawMaterialCode"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
@@ -41,7 +41,7 @@
               <iFormItem :label="searchLabel.middleName">
                 <iInput
                   v-model="searchContent.rawMaterialName"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 >
                 </iInput>
               </iFormItem>
@@ -50,7 +50,7 @@
               <iFormItem :label="searchLabel.middleUnit">
                 <iInput
                   v-model="searchContent.rawMaterialCountUnit"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
@@ -58,7 +58,7 @@
               <iFormItem :label="searchLabel.smallBrandNumber">
                 <iInput
                   v-model="searchContent.mtzRawMaterialCode"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
@@ -68,7 +68,7 @@
               <iFormItem :label="searchLabel.smallBrandName">
                 <iInput
                   v-model="searchContent.mtzRawMaterialName"
-                  placeholder="请选择"
+                  :placeholder="language('请选择')"
                 >
                 </iInput>
               </iFormItem>
@@ -77,13 +77,13 @@
               <iFormItem :label="searchLabel.smallUnit">
                 <iInput
                   v-model="searchContent.mtzRawMaterialCountUnit"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
               <iFormItem :label="searchLabel.status">
-                <iSelect v-model="searchContent.status" placeholder="请选择">
+                <iSelect v-model="searchContent.status" :placeholder="language('请选择')">
                   <el-option
                     v-for="item in staOptions"
                     :key="item.value"
@@ -108,13 +108,11 @@
     <div class="rawMaterielList">
       <iCard>
         <div class="btnList">
-          <iButton @click="add">新建</iButton>
-          <iButton @click="active" :disabled="disAtiveBtn">生效</iButton>
-          <iButton @click="loseActive" :disabled="disLOActiveBtn">失效</iButton>
-          <iButton @click="del" :disabled="this.selectedItem.length == 0"
-            >删除</iButton
-          >
-          <button-download :download-method="exportExcel">导出</button-download>
+          <iButton @click="add">{{language('新建')}}</iButton>
+          <iButton @click="active" :disabled="disAtiveBtn">{{language('生效')}}</iButton>
+          <iButton @click="loseActive" :disabled="disLOActiveBtn">{{language('失效')}}</iButton>
+          <iButton @click="del" :disabled="this.selectedItem.length == 0">{{language('删除')}}</iButton>
+          <button-download :download-method="exportExcel">{{language('导出')}}</button-download>
         </div>
         <div class="rawMaterielTabel">
           <iTabelCustom
