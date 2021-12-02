@@ -54,7 +54,7 @@
         <el-row :gutter="24">
           <el-col span="24">
             <iFormItem :label="language('发布时间')">
-              <iDatePicker class="release-time" :placeholder='language("请选择发布时间，若未选择发布时间则立即发送")' 
+              <iDatePicker class="release-time" :placeholder='language("请选择发布时间  若未选择发布时间则立即发送")' 
                 v-model="formContent.publishPreTime" type='datetime' format='yyyy-MM-dd HH:mm'>
               </iDatePicker>
             </iFormItem>
