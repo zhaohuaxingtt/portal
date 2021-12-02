@@ -128,6 +128,7 @@ export default {
   },
   methods: {
     handleClickTitle(card) {
+      console.log(card, '111111111')
       if (card.component === 'Approve') {
         window.open(process.env.VUE_APP_HOST + '/portal/#/bpm/approval/center')
       } else if (card.component === 'Task') {
@@ -136,6 +137,8 @@ export default {
         window.location.href = this.$refs.parent.url.uri
       } else if (card.component === 'News') {
         window.location.href = `/portal/news/#/news/news?id=${this.id}`
+      } else if (card.component === "Schedule") {
+        window.location.href = '/portal/#/meeting/hall'
       }
     },
     handleMore() {
