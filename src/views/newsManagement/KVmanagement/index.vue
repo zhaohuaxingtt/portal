@@ -25,19 +25,19 @@
           align="center"
       ></el-table-column>
       <el-table-column align="center" :label="language('NEWS_TUPIANYULAN','图片预览')">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span class="content">
             <el-image :src="scope.row.picUrl" class="image"></el-image>
           </span>
         </template>
       </el-table-column>
       <el-table-column align="center" :label="language('NEWS_SHANGCHUANRIQI','上传日期')">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{ scope.row.publishDate.substring(0, 10) }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" :label="language('NEWS_BOFANGSHUNXU','播放顺序')">
-        <template scope="scope">
+        <template slot-scope="scope">
           <div class="sortBox">
             <p class="number">
               <!-- {{ scope.row.sort > 9 ? scope.row.sort : "0" + scope.row.sort }} -->
@@ -59,7 +59,7 @@
       </el-table-column>
       <el-table-column align="center" :label="language('NEWS_ZHUANGTAI', '状态')"
       >
-        <template scope="scope">
+        <template slot-scope="scope">
           <el-switch
               v-model="scope.row.status"
               :active-text="language('NEWS_SHANGJIA', '上架')"
