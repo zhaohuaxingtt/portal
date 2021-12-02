@@ -1,6 +1,6 @@
 <template>
     <div class="file-list">
-        <div>{{file.name}}</div>
+        <div>{{file.fileName}}</div>
         <i class="close el-icon-close" @click="$emit('del',file)"></i>
     </div>
 </template>

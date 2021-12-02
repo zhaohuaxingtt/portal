@@ -38,11 +38,50 @@ export function getUserDes(data) {
 // 用户手册管理 新增用户手册
 export function insertNewManual(data) {
   return assistantRequest({
-    url: '/assistantManual/insertNewManual',
+    url: '/assistantManual/saveManual',
     method: 'post',
     data
   })
 }
+// 用户手册管理 删除用户手册
+export function delManual(id) {
+  return assistantRequest({
+    url: `/assistantManual/delete/${id}`,
+    method: 'post'
+  })
+}
+// 用户手册管理 删除常见问题
+export function delFaq(id) {
+  return assistantRequest({
+    url: `/assistantFaq/delete/${id}`,
+    method: 'post'
+  })
+}
+// 用户手册管理 更新常见问题
+export function updateFaq(id,data) {
+  return assistantRequest({
+    url: `/assistantFaq/updateFaq/${id}`,
+    method: 'post',
+    data
+  })
+}
+// 用户手册管理 新增常见问题
+export function saveFaq(data) {
+  return assistantRequest({
+    url: `/assistantFaq/saveFaq`,
+    method: 'post',
+    data
+  })
+}
+// 用户手册管理 常见问题列表查询
+export function queryFaqListByPage(data) {
+  return assistantRequest({
+    url: `/assistantFaq/queryFaqListByPage`,
+    method: 'post',
+    data
+  })
+}
+
 
 // 根据模块id 查询热门的前五个话题
 export function getHotFiveQues(id) {

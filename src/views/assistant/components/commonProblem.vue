@@ -3,7 +3,7 @@
 		<slot name="top"></slot>
 		<div class="list">
 			<div class="listTitle" v-text="title"></div>
-			<div class="listContent">
+			<div class="listContent" v-infinite-scroll="load">
 				<div v-for="(menu, index) in moudleList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleId === menu[idKey] ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'" @click="select(menu,index)">
 					<div class="idx">{{ index + 1 }}</div>
 					<i v-if="showIcon" class="icon" :class="[rank[index] ? rank[index] : '']"></i>
@@ -46,7 +46,7 @@ export default {
 		},
 		idKey:{
 			type:String,
-			default:"menuId"
+			default:"id"
 		}
 	},
 	data() {
@@ -62,6 +62,9 @@ export default {
 		select(menu){
 			// this.$emit("update:currentMoudleId", menu.menuId)
 			this.$emit("change", menu)
+		},
+		load(){
+			console.log('scr');
 		}
 	},
 }

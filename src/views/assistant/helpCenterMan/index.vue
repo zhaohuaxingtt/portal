@@ -18,21 +18,36 @@
 		<div class="user-type-item" :class="{active: activeUser == 'supplier'}" @click="selectUser('supplier')">供应商用户</div>
 		<div class="user-type-item" :class="{active: activeUser == 'inner'}" @click="selectUser('inner')">内部用户</div>
 	</div> -->
-	<div class="flex flex-row content mt20">
+	<div class="flex flex-row content mt20" v-show="activeMoudle === 'manual'">
 		<CommonProblem 
 			title="问题模块"
-			:moudleList="qsList"
-			:currentMoudleId="qs.id"
-			:loading="qs.loading"
-			@change="moduleChange"
+			:moudleList="manualList"
+			:currentMoudleId="manualInfo.id"
+			:loading="manualInfo.loading"
+			@change="moduleChange($event,'manualInfo')"
 		>
-			<iInput slot="top" v-model="qs.keyword" placeholder="搜索.."></iInput>
+			<iInput slot="top" v-model="manualInfo.keyword" placeholder="搜索.."></iInput>
 		</CommonProblem>
 		<div class="content-right" v-loading="contentLoading">
-			<UserManual v-if="activeMoudle === 'manual'" :detail="qs.detail" :qs="qs.activeInfo"></UserManual>
-			<Question v-else></Question>
+			<UserManual :detail="manualInfo.detail" :qs="manualInfo.activeInfo" @refresh="queryManualDetail()"></UserManual>
 		</div>
 	</div>
+	<div class="flex flex-row content mt20" v-show="activeMoudle === 'question'">
+		<CommonProblem 
+			title="常见问题"
+			:moudleList="qsList"
+			:currentMoudleId="qsInfo.id"
+			:loading="qsInfo.loading"
+			@change="moduleChange($event,'qsInfo')"
+			showIcon
+		>
+			<iInput slot="top" v-model="qsInfo.keyword" placeholder="搜索.."></iInput>
+		</CommonProblem>
+		<div class="content-right" v-loading="contentLoading">
+			<Question :detail="qsInfo.detail" :qs="qsInfo.activeInfo" @refresh="queryProblemDetail()"></Question>
+		</div>
+	</div>
+	
 </iPage>
 </template>
 
@@ -42,8 +57,8 @@ import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
 import Question from "./components/question"
 import UserManual from "./components/userManual"
-import { getModuleList, getUserDes } from '@/api/assistant'
-
+import { getModuleList, getUserDes, getProblemDetail, queryFaqListByPage } from '@/api/assistant'
+import assistant_mixin from "./../mixins"
 export default {
 	components: {
 		iPage,
@@ -54,6 +69,7 @@ export default {
 		UserManual,
 		iInput
 	},
+	mixins: [assistant_mixin],
 	data() {
 		return {
 			tabs: [
@@ -62,16 +78,21 @@ export default {
 			],
 			activeMoudle:"manual",
 			contentLoading:false,
-			qs:{
+			manualInfo:{	//用户手册
+				detail:{},
 				keyword:"",
 				list: [],
 				loading:false,
-			
-			},
-			manualInfo:{
 				id: "",
 				activeInfo:{},
-				detail:{}
+			},
+			qsInfo:{	//常见问题
+				detail:{},
+				keyword:"",
+				list: [],
+				loading:false,
+				id: "",
+				activeInfo:{},
 			},
 			show: false,
 			key:"",
@@ -82,34 +103,57 @@ export default {
 		this.getProbleList()
 	},
 	computed:{
-		qsList(){
-			if(this.qs.keyword){
-				return this.qs.list.filter(e => e.menuName && e.menuName.includes(this.qs.keyword))
+		manualList(){
+			if(this.manualInfo.keyword){
+				return this.manualInfo.list.filter(e => e.menuName && e.menuName.includes(this.manualInfo.keyword))
 			}
-			return this.qs.list
+			return this.manualInfo.list
 		}
 	},
 	methods:{
 		// 用户手册-问题模块
 		async getProbleList() {
-			this.qs.loading = true
+			this.manualInfo.loading = true
 			try {
 				await getModuleList().then((res) => {
 					if (res.code === '200') {
-						this.qs.list = res.data
-						this.manualInfo.id = res.data[0]?.menuId
+						this.manualInfo.list = res.data
+						this.manualInfo.id = res.data[0]?.id
 						this.manualInfo.activeInfo = res.data[0]
 						this.queryManualDetail()
 					}
 				})
 			} finally {
-				this.qs.loading = false
+				this.manualInfo.loading = false
+			}
+		},
+		// 用户手册-常见问题查询
+		async queryFaqListByPage() {
+			this.qsInfo.loading = true
+			try {
+				await queryFaqListByPage().then((res) => {
+					if (res.code === '200') {
+						this.qsInfo.list = res.data
+						this.qsInfo.id = res.data[0]?.id
+						this.qsInfo.activeInfo = res.data[0]
+						this.queryProblemDetail()
+					}
+				})
+			} finally {
+				this.qsInfo.loading = false
 			}
 		},
 		tabChange(val) {
-			this.activeMoudle = val;
-			this.qs.keyword = ""
-			
+			this.activeMoudle = val
+			if(!this.qsInfo.id){
+				this.manualInfo.id = this.manualInfo.list[0]?.id
+				this.manualInfo.activeInfo = this.manualInfo.list[0]
+			}
+			if(this.activeMoudle == 'manual'){
+				this.queryManualDetail()
+			}else{
+				this.queryProblemDetail()
+			}
 		},
 		selectUser(v){
 			this.activeUser = v;
@@ -118,17 +162,29 @@ export default {
 		async queryManualDetail(){
 			try {
 				this.contentLoading = true
-				let {data} = await getUserDes({moduleId:this.qs.id})
-				this.qs.detail = data
+				let {data} = await getUserDes({moduleId:this.manualInfo.id,source:this.getUserType()})
+				this.manualInfo.detail = data || {}
 			} finally {
 				this.contentLoading = false
 			}
 		},
-		moduleChange(v){
-			this.manualInfo.id = v.id
-			this.manualInfo.activeInfo = v
-			if(this.activeMoudle == 'manual'){
+		// 查询问题详情
+		async queryProblemDetail(){
+			try {
+				this.contentLoading = true
+				let {data} = await getProblemDetail({id:this.manualInfo.id})
+				this.qsInfo.detail = data || {}
+			} finally {
+				this.contentLoading = false
+			}
+		},
+		moduleChange(v,type){
+			this[type].id = v.id
+			this[type].activeInfo = v
+			if(type == 'manualInfo'){
 				this.queryManualDetail()
+			}else{
+				this.queryProblemDetail()
 			}
 		}
 	}

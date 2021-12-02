@@ -1,8 +1,8 @@
 <template>
-    <div class="manual">
+    <div class="manual" v-loading="loading">
         <div class="manual-btns">
             <template v-if="type == 'detail'">
-                <iButton>删除</iButton>
+                <iButton @click="del">删除</iButton>
                 <iButton @click="type = 'edit'">编辑</iButton>
             </template>
             <template v-if="type == 'edit'">
@@ -16,13 +16,13 @@
         </div>
         <template v-if="type == 'detail'">
             <div class="manual-tlt" v-text="qs.menuName"></div>
-            <div class="content" v-html="detail.manualContent"></div>
+            <div class="content" v-if="detail && detail.manualContent" v-html="detail.manualContent"></div>
         </template>
         <template v-if="type == 'edit'">
             <div v-if="preview" v-html="content"></div>
             <template v-else>        
                 <iEditor class="manual-editor" v-model="content"></iEditor>
-                <iUpload ref="upload" v-model="files" :maxSize="20" @onSuccess="uploadChange" >
+                <iUpload ref="upload" v-model="files" :maxSize="20" >
                     <div class="upload flex" style="align-items: end;">
                         <iButton>添加附件</iButton>
                         <span @click.stop=";">只能上传不超过20MB的文件</span>
@@ -37,8 +37,10 @@
     import { iButton } from "rise"
     import iEditor from "@/components/iEditor"
     import iUpload from "./../../components/iUpload.vue"
-    
+    import { delManual, insertNewManual } from "@/api/assistant"
+    import assistant_mixin from "./../../mixins"
     export default {
+        mixins: [assistant_mixin],
         props:{
             detail:{
                 type:Object,
@@ -59,20 +61,44 @@
                 type:"detail",
                 content:"",
                 files:[],
-                preview:false
+                preview:false,
+                loading:false
             }
         },
         watch:{
             detail(n){
-                this.content = JSON.parse(JSON.stringify(n.manualContent))
+                this.content = n && n.manualContent ? JSON.parse(JSON.stringify(n.manualContent)) : ""
             }
         },
         methods: {
-            uploadChange(file){
-                console.log(file+'-------');
+            async save(){
+                if(!this.content) return this.$message.warning("请输入内容")
+                try {
+                    this.loading = true
+                    await insertNewManual({
+                        id:this.detail.id || "",
+                        moduleId:this.qs.id,
+                        manualContent:this.content,
+                        source:this.getUserType(),
+                        attachmentList: this.files
+                    })
+                    this.$message.success("保存成功")
+                    this.type = "detail"
+                    this.$emit("refresh")
+                } finally {
+                    this.loading = false
+                }
             },
-            save(){
-                
+            async del(){
+                this.$confirm('确定要删除吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(async () => {
+                    await delManual(this.detail.id)
+                    this.$message.success("已删除")
+                    this.$emit("refresh")
+                })
             }
         },
     }
