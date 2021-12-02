@@ -3,17 +3,17 @@
       <el-form label-position="left" label-width="100px" style="margin-top:20px">
           <el-row :gutter="24">
               <el-col span="6">
-                  <iFormItem :label="$t('源货币编码')">
+                  <iFormItem :label="language('源货币编码')">
                       <iInput v-model="formContent.originCurrencyCode"></iInput>
                   </iFormItem>
               </el-col>
               <el-col span="6">
-                  <iFormItem :label="$t('目标货币编码')">
+                  <iFormItem :label="language('目标货币编码')">
                       <iInput v-model="formContent.currencyCode"></iInput>
                   </iFormItem>
               </el-col>
               <el-col span="6">
-                  <iFormItem :label="$t('汇率类型')">
+                  <iFormItem :label="language('汇率类型')">
                       <iSelect v-model="formContent.type">
                           <el-option
                           v-for="item in paritiesType"
@@ -27,8 +27,8 @@
               </el-col>
               <el-col span="6">
                   <iFormItem style="margin-left:8px">
-                      <iButton @click="search">{{$t('查询')}}</iButton>
-                      <iButton @click='reset'>{{$t('重置')}}</iButton>
+                      <iButton @click="search">{{language('查询')}}</iButton>
+                      <iButton @click='reset'>{{language('重置')}}</iButton>
                   </iFormItem>
               </el-col>
           </el-row>
