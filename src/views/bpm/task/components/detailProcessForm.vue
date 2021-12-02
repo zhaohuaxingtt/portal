@@ -67,7 +67,7 @@ export default {
         try {
           const data = e.data
           if (data.value && data.key === 'setFormHeight') {
-            this.frameHeight = data.value
+            this.frameHeight = data.valuez
           }
         } catch (error) {
           console.log('error', error)
