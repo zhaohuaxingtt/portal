@@ -264,6 +264,10 @@ export default {
           // 查询问题详情
           this.queryDetailById(this.cardSelectItem.id);
           this.total = data.total;
+          // 拉取数据完成
+          if (this.records.length < this.pageSize) {
+            this.flag = true;
+          }
         } else {
           if (!this.flag) {
             this.cardSelectItem = {
