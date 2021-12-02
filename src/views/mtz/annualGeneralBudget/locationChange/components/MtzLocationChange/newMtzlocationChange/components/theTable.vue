@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-12-02 09:58:12
+ * @LastEditTime: 2021-12-02 16:44:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -118,18 +118,6 @@ export default {
     handleSelectionChange (val) {
       this.muilteList = val
     },
-    // handleDialog () {
-    //   if (!this.addFlag) {
-    //     if (this.muilteList.length === 0) {
-    //       iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据！'))
-    //       return
-    //     }
-    //     this.$parent.dialogVisible = true
-    //   } else {
-    //     this.handleSure()
-    //   }
-
-    // },
     handleSure () {
       let params = {
         isDeptLead: true,

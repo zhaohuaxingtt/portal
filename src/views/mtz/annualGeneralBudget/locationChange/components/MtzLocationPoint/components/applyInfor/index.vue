@@ -410,17 +410,10 @@ export default {
           } else {
             partProjType = jumpData.partProjType
           }
-          window.open("http://" + window.location.host + "/sourcing/#/designate/decisiondata/rs?desinateId=" + jumpData.id + "&designateType=" + jumpData.nominateProcessType + "&partProjType" + partProjType + "&applicationStatus=" + jumpData.applicationStatus)
-
-          // this.$router.push({
-          //   path: "/designate/decisiondata/rs",
-          //   query: {
-          //     desinateId:jumpData.id,
-          //     designateType:jumpData.nominateProcessType,
-          //     partProjType:jumpData.partProjType,
-          //     applicationStatus:jumpData.applicationStatus,
-          //   }
-          // })
+          var path = "";
+          path = "designate/decisiondata/rs?desinateId=" + jumpData.id + "&designateType=" + jumpData.nominateProcessType + "&partProjType" + partProjType + "&applicationStatus=" + jumpData.applicationStatus
+          window.open(process.env.VUE_APP_SOURCING_URL + path)
+          
         } else {
           iMessage.error(this.language(res.desEn, res.desZh))
         }
