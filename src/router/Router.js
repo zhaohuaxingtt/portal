@@ -44,6 +44,7 @@ import ApproveDetails from '@/views/generalPage/approveDetails/preview'
 import MaintenanceSupplier from '../views/supplierManagement/yuqingjiance/maintenanceSupplier'
 
 import RouterOfflineDownload from './RouterOfflineDownload'
+import RouterStaffMgmt from './RouterStaffMgmt'
 
 export default {
   routes: [
@@ -195,7 +196,8 @@ export default {
         ...RouterSurvey,
         ...RouterColorParts,
         ...RouterApplications,
-        ...RouterOfflineDownload
+        ...RouterOfflineDownload,
+        ...RouterStaffMgmt
       ]
     },
 
