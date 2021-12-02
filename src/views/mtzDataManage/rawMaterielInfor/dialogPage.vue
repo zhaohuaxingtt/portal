@@ -7,26 +7,26 @@
   >
     <el-form label-position="left" label-width="150px" :rules="rules" class="validate-required-form" :model="formContent" ref="rulesRef">
         <iFormItem :label='formLabel.generalCategoryCode' prop='generalCategoryCode'>
-            <iInput v-model="formContent.generalCategoryCode" placeholder='请输入' :disabled='propItem.id' maxLength='2' @input="limitNumber"></iInput>
+            <iInput v-model="formContent.generalCategoryCode" :placeholder='language("请输入")' :disabled='propItem.id' maxLength='2' @input="limitNumber"></iInput>
         </iFormItem>
         <iFormItem :label='formLabel.generalCategoryNameZh' prop='generalCategoryNameZh'>
-            <iInput v-model="formContent.generalCategoryNameZh" placeholder='请输入' :disabled='edit'></iInput>
+            <iInput v-model="formContent.generalCategoryNameZh" :placeholder='language("请输入")' :disabled='edit'></iInput>
         </iFormItem>
         <iFormItem :label='formLabel.generalCategoryNameEn' prop='generalCategoryNameEn'>
-            <iInput v-model="formContent.generalCategoryNameEn" placeholder='请输入' :disabled='edit'></iInput>
+            <iInput v-model="formContent.generalCategoryNameEn" :placeholder='language("请输入")' :disabled='edit'></iInput>
         </iFormItem>
         <iFormItem :label='formLabel.rawMaterielElement' prop='generalShortName'>
-            <iInput v-model="formContent.generalShortName" placeholder='请输入' :disabled='edit'></iInput>
+            <iInput v-model="formContent.generalShortName" :placeholder='language("请输入")' :disabled='edit'></iInput>
         </iFormItem>
     </el-form>
     <div class="btnList" slot='footer'>
         <div v-if='edit'>
-            <iButton @click="editForm">编辑</iButton>
+            <iButton @click="editForm">{{language('编辑')}}</iButton>
         </div>
         <div v-else>
-            <iButton @click="save('rulesRef')">保存</iButton>
-            <iButton @click="reset">重置</iButton>
-            <iButton @click="closeDialog">退出</iButton>
+            <iButton @click="save('rulesRef')">{{language('保存')}}</iButton>
+            <iButton @click="reset">{{language('重置')}}</iButton>
+            <iButton @click="closeDialog">{{language('退出')}}</iButton>
         </div>
     </div>
   </iDialog>

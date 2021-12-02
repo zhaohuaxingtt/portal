@@ -1,24 +1,24 @@
 <template>
   <iSearch @sure="sure" @reset="reset">
     <el-form class="search-form" inline>
-      <iFormItem :label="$t('MTZ材料组编号')">
-        <iInput v-model="form.materialGroupCode" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('MTZ材料组编号')">
+        <iInput v-model="form.materialGroupCode" :placeholder="language('请输入')" />
       </iFormItem>
-      <iFormItem :label="$t('MTZ材料组名称')">
-        <iInput v-model="form.materialGroupName" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('MTZ材料组名称')">
+        <iInput v-model="form.materialGroupName" :placeholder="language('请输入')" />
       </iFormItem>
-      <iFormItem :label="$t('零件材料组编号')">
-        <iInput v-model="form.categoryCode" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('零件材料组编号')">
+        <iInput v-model="form.categoryCode" :placeholder="language('请输入')" />
       </iFormItem>
-      <iFormItem :label="$t('零件材料组名称')">
-        <iInput v-model="form.categoryName" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('零件材料组名称')">
+        <iInput v-model="form.categoryName" :placeholder="language('请输入')" />
       </iFormItem>
-      <iFormItem :label="$t('零件六位号')">
-        <iInput v-model="form.sixPartCode" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('零件六位号')">
+        <iInput v-model="form.sixPartCode" :placeholder="language('请输入')" />
       </iFormItem>
-      <iFormItem :label="$t('科室')">
+      <iFormItem :label="language('科室')">
         <!-- <orgSelect v-model="form.deptCode" /> -->
-        <iInput v-model="form.deptCode" :placeholder="$t('请输入科室编号')" />
+        <iInput v-model="form.deptCode" :placeholder="language('请输入科室编号')" />
       </iFormItem>
     </el-form>
   </iSearch>
