@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-12-01 20:15:41
+ * @LastEditTime: 2021-12-02 09:58:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -17,7 +17,7 @@
                    :inactive-value="false" />
       </div>
       <div class="opration">
-        <iButton @click="handleDialog">{{language('QUEREN', '确认')}}</iButton>
+        <iButton @click="handleSure">{{language('QUEREN', '确认')}}</iButton>
         <!-- <iButton @click="handleRedeploy"
                    v-show="!addFlag">{{language('DAOCHU', '导出')}}</iButton> -->
       </div>
@@ -118,18 +118,18 @@ export default {
     handleSelectionChange (val) {
       this.muilteList = val
     },
-    handleDialog () {
-      if (!this.addFlag) {
-        if (this.muilteList.length === 0) {
-          iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据！'))
-          return
-        }
-        this.$parent.dialogVisible = true
-      } else {
-        this.handleSure()
-      }
+    // handleDialog () {
+    //   if (!this.addFlag) {
+    //     if (this.muilteList.length === 0) {
+    //       iMessage.error(this.language('QINGXUANZESHUJU', '请选择数据！'))
+    //       return
+    //     }
+    //     this.$parent.dialogVisible = true
+    //   } else {
+    //     this.handleSure()
+    //   }
 
-    },
+    // },
     handleSure () {
       let params = {
         isDeptLead: true,
@@ -138,15 +138,9 @@ export default {
       let selectList = this.muilteList.map(item => {
         return {
           dosage: item.dosage || "",
-          endDate: this.dateList[this.dateList.length - 1].value[1],
+          endDate: item.endDate,
           mtzBasePriceId: item.id || "",
-          startDate: this.dateList[0].value[0],
-          childBasePriceList: this.dateList.map(item => {
-            return {
-              startDate: item.value[0],
-              endDate: item.value[1]
-            }
-          })
+          startDate: item.startDate,
         }
       })
       params.mtzBasePriceList = selectList
