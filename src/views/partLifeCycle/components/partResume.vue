@@ -292,7 +292,7 @@
                     <!--          //Aeko-->
                     <div class="divItem" v-show="currentType === 5">
                         <span>AEKO号：</span>
-                        <span>{{ infoData.aekoCode }}</span>
+                        <span class="link" @click="toUrl(infoData,'aekoCode')">{{ infoData.aekoCode }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
                         <span>原零件号：</span>
@@ -530,7 +530,7 @@
       },
       toUrl(item,typeName) {
         console.log(item,'')
-        let {type,id,title,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,accessoriesRsNum,rsNum,businessType} = item
+        let {type,id,title,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,accessoriesRsNum,rsNum,businessType,aekoCode} = item
         let path = ''
         if(type==1) path = ''                        // 会议
         if(type==2) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editorInfo?id=${title}` // 寻源 ok
@@ -539,6 +539,7 @@
         if(type==5) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${title}` // Aeko
         if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/accessorypartdetail?spNum=${title}` // 配件定点
         if(type==7) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${id}` // mtz定点
+        if(typeName == 'aekoCode' && aekoCode) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoCode}` // 定点信编号
         if(typeName == 'rsNlNum' && rsNlNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/letterdetail?id=${rsNlNum}` // 定点信编号
         if(typeName == 'mtzRsNum' && mtzRsNum) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${id}` // mtz rs编号
         if(typeName == 'isIngredientAnalyze' && isIngredientAnalyze && rfqType ==2 && businessTitle) path = `/sourcing/#/targetpriceandscore/costanalysismanage/costanalysis?rfqId=${businessTitle}` // 成本分析
