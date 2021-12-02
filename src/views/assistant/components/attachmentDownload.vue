@@ -3,11 +3,11 @@
 		<div class="attch-box flex flex-row items-center">
 			<div class="attach-text">附件：</div>
 			<img v-if="load==='down'" src="@/assets/images/fujian.png" alt="" class="fujian-png">
-			<div v-if="load==='down'" class="load-text cursor" @click="handleLoad">{{ language('下载') }}</div>
+			<div v-if="load==='down'" class="load-text cursor">{{ language('下载') }}</div>
 			<el-upload
 				v-if="load==='up'"
 				:before-upload="beforeAttachUpload"
-							:show-file-list="false"
+				:show-file-list="false"
 							accept="image/png,image/jpeg,image/gif,image/jpg"
 							:http-request="httpUpload"
 			>
@@ -15,10 +15,10 @@
 			</el-upload>
 			<div v-if="load==='up'" class="text-tip ml20">{{ attachText }}</div>
 		</div>
-		<div v-if="fileList.length > 0 || load === 'show' " class="file-list">
-			<div v-for="(file, idx) in fileList" :key="idx" class="flex">
-				<div>{{ file.name }}</div>
-				<i class="close el-icon-close" @click="deleteFile(file)"></i>
+		<div v-show="fileList.length > 0" class="file-list">
+			<div v-for="(file, idx) in fileList" :key="idx" class="flex cursor" @click="handleLoad(file)">
+				<div>{{ load === 'down' ? file.fileName : file.name }}</div>
+				<i :class="load==='down' ? '' : 'el-icon-close close' " @click.stop="deleteFile(file)"></i>
 			</div>
 		</div>
 	</div>
@@ -31,6 +31,7 @@ export default {
 	name: 'attachment-doenload',
 	components: { iButton },
 	props: {
+		//  up 上传  down 下载
 		load: {
 			type: String,
 			default: 'down'
@@ -40,6 +41,9 @@ export default {
 			default: '附件'
 		}
 	},
+	mounted() {
+		console.log()
+	},
 	data() {
 		return {
 			copyFile: '',
@@ -48,10 +52,12 @@ export default {
 		}
 	},
 	methods: {
-		handleLoad() {
-			console.log('load')
+		handleLoad(file) {
+			if (this.load === 'up') return
+			this.$emit("loadAttach", file)
 		},
 		beforeAttachUpload(file) {
+			if (this.fileList.length > 5) return this.$$message.error("上传文件不能超过5个")
 			console.log(file, "file")
 			const fileName = file.name
 			this.copyFile = new File([file], fileName);
@@ -62,7 +68,6 @@ export default {
 			let formData = new FormData()
 			formData.append("file", this.copyFile);
 			await uploadFile(formData).then((res) => {
-				console.log(res, '111111111112222')
 				this.fileList.push({
 					name: res.name,
 					id: res.id,
@@ -73,6 +78,7 @@ export default {
 		},
 		deleteFile(file) {
 			// this.fileList.filter(item => { item.id === file.id })
+			if (this.load === 'down') return
 			this.fileList.map((item, index) => {
 				if (item.id === file.id) {
 					this.fileList.splice(index, 1)

@@ -2,24 +2,24 @@
   <iCard class="margin-top20">
     <div class="flex-end-center margin-bottom20">
       <iButton @click="add">
-        {{ $t('新建') }}
+        {{ language('新建') }}
       </iButton>
       <iButton
         :loading="updateLoading"
         :disabled="activeSta"
         @click="changeStatus(1)"
       >
-        {{ $t('生效') }}
+        {{ language('生效') }}
       </iButton>
       <iButton
         :loading="updateLoading"
         :disabled="loseAcSta"
         @click="changeStatus(0)"
       >
-        {{ $t('失效') }}
+        {{ language('失效') }}
       </iButton>
       <iButton :disabled="selectedRows.length !== 1" @click="viewRelation">
-        {{ $t('查看关联关系') }}
+        {{ language('查看关联关系') }}
       </iButton>
       <button-download :download-method="exportExcel" />
     </div>
