@@ -9,7 +9,7 @@
 <!-- 定点与变更 -->
 <template>
   <div>
-    <iTabsList v-show="$route.meta.showFooter" v-model="tabsValue" @tab-click="tableChange" type="card" slot="components" calss="margin-top20 iTabsList">
+    <iTabsList v-if="$route.meta.showFooter" v-model="tabsValue" @tab-click="tableChange" type="card" slot="components" calss="margin-top20 iTabsList">
       <el-tab-pane :name="1" path="MtzLocationPoint" :label="language('MTZDINGDIAN','MTZ定点')"></el-tab-pane>
       <el-tab-pane :name="2" path="MtzLocationChange" :label="language('MTZBIANGENG','MTZ变更')"></el-tab-pane>
     </iTabsList>
@@ -33,7 +33,7 @@ export default {
     },
     data(){
       return {
-
+        number:0,
       }
     },
     created(){
@@ -52,6 +52,7 @@ export default {
     },
     methods:{
       tableChange(val){
+        console.log(this.number++)
         if(val.name !== this.tabsValue){
           var path = "";
           if(val.name == 1){

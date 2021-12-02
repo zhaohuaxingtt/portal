@@ -118,6 +118,7 @@ export default {
       appStatus: "",
       stepNum: 1,
       ttNominateAppId: "",
+      NumberCESHI:0
     }
   },
   computed: {
@@ -271,6 +272,7 @@ export default {
     // 点击步骤
     handleClickStep (data) {
       if (this.$route.query.currentStep == data.id) return false;
+      console.log(this.NumberCESHI++);
       if (data.id > this.stepNum) {
         iMessageBox(this.language('QQDSJYJWQBC', '请确定数据已经完全保存？'), this.language('LK_WENXINTISHI', '温馨提示'), {
           confirmButtonText: this.language('QUEREN', '确认'),
