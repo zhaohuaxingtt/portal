@@ -43,7 +43,7 @@
             </div>
         </div>
         <div slot="footer">
-            <iButton>上 传</iButton>
+            <!-- <iButton>上 传</iButton> -->
             <iButton @click="save">确 认</iButton>
         </div>
     </iDialog>
@@ -126,6 +126,7 @@
                         await saveFaq(this.form)
                         this.$message.success("保存成功")
                         this.closeDialog()
+                        this.$emit("refresh")
                     }
                 })
             }
