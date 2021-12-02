@@ -5,14 +5,14 @@
 		</div>
 		<div v-if="currentMoudleId" class="detail-title flex flex-column items-start">
 			<div class="moudle-name">{{ language(`${currMoudleName}`) }}</div>
-			<div class="flex flex-wrap label-box">
+			<div class="flex flex-wrap label-box" v-loading="labelLoading">
 				<div v-for="(item, idx) in labelList" :key="idx" class="item-label cursor" :class="labelIdx===item.id ? 'activeIdx' : 'idx'" @click="handleLabel(item, idx)">
 					{{ item.lableName }}
 				</div>
 			</div>
 		</div>
 		<div v-else>
-			<div class="detail-title flex flex-column items-start">
+			<div class="detail-title flex flex-column items-start" v-loading="hotQuesLoading">
 				<div class="moudle-name">{{ language('热门问题') }}</div>
 				<div class="flex flex-row hot-ques">
 					<div v-for="(question, index) in hotProblemList" :key="index" :class="index===hotIdx?'first-hotQues':''" class="item-hotQues flex items-center cursor" @click="handleHotQues(question, index)">
@@ -21,7 +21,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="moudle-label flex flex-wrap">
+			<div class="moudle-label flex flex-wrap" v-loading="allModuleLabelLoading">
 				<div v-for="(moudle, ix) in moudleLabelList" :key="ix" class="moudleLabel-item flex flex-column">
 					<div class="flex items-center item-top">
 						<div class="blue-line"></div>
@@ -41,7 +41,7 @@
 				<div class="blue-box"></div>
 				<div class="label-text">{{ labelText }}</div>
 			</div>
-			<div class="flex flex-column problem-box">
+			<div class="flex flex-column problem-box" v-loading="problemLoading">
 				<div v-for="(item, idx) in problemList" :key="idx" class="item-problem flex flex-row items-center" @click="handleProblem(item, idx)">
 					<div class="blue-box"></div>
 					<div class="problem-text cursor">{{ `【热门】${item.questionTitle}` }}</div>
@@ -56,7 +56,7 @@
 			</div>
 			<div class="des-box">
 				<div class="des-title">{{ problemText }}</div>
-				<div class="des-detail">{{ desDetail }}</div>
+				<div v-html="desDetail" class="des-detail"></div>
 			</div>
 			<AttachmentDownload v-if="showAttachFlag" />
 			<div class="bottom-zan">
@@ -74,7 +74,7 @@
 <script>
 import AttachmentDownload from '../../components/attachmentDownload'
 import Solution from '../../components/solution'
-import { updateFavour, getCurrLabelList, getProblemDetail, queryFaqByPage, queryHotFaq, getAllModuleLabel, judgeFavour } from '@/api/assistant'
+import { updateFavour, getCurrLabelList, getProblemDetail, queryFaqByPage, queryHotFaq, getAllModuleLabel, judgeFavour, queryFaqListByPage } from '@/api/assistant'
 import {
 	iButton
 } from 'rise'
@@ -109,6 +109,10 @@ export default {
 	},
 	data() {
 		return {
+			problemLoading: false,  //  问题列表loading
+			labelLoading: false,  //  查询标签loading
+			allModuleLabelLoading: false,  //  查询全部模板标签loading
+			hotQuesLoading: false,  // 查询热门问题loading 
 			labelList: [],
 			problemList: [],
 			problemQuery: {
@@ -160,16 +164,15 @@ export default {
 		async handleProblem(item, idx) {
 			this.currentFlag = 'detailPage'
 			this.problemText = item.questionTitle
+			this.problemLoading = true
 			await getProblemDetail({id:item.id}).then(res => {
 				if (res?.code === '200') {
 					const { data } = res
+					this.problemLoading = false
 					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
 					this.showAttachFlag = data?.annexList.length > 0 && data?.annexString
 					this.getJudgeFavour(item.questionId || item.id)
-				} 
-				// else {
-				// 	this.getJudgeFavour(item.questionId)
-				// }
+				}
 			})
 		},
 		// 获取该用户是否给该问题点赞
@@ -210,12 +213,8 @@ export default {
 				}
 			})
 			let currName = ''
-			console.log(this.moudleList, "this.moudleList")
-			console.log(item.questionModuleId, "item.questionModuleId")
 			this.moudleList.map(moudle => {
 				if (moudle.id == item.questionModuleId) {
-					console.log(moudle, "moudle")
-					console.log(moudle.menuName, "menuName")
 					currName = moudle.menuName
 				}
 			})
@@ -226,30 +225,38 @@ export default {
 			this.$nextTick(() => {
 				this.currentFlag = 'detailPage'
 				this.problemText = item.questionTitle
-				this.getLabelList()	
+				this.getLabelList()
+				this.problemLoading = true
 				getProblemDetail({id:item.id}).then(res => {
 					if (res?.code === '200') {
 						const { data } = res
 						this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
+						this.problemLoading = false
 						this.getJudgeFavour(item.questionId)
 					}
 				})
 			})
 		},
 		// 通过智能弹窗热门问题跳转问题详情
-		initDetailPage(issue) {
+		async initDetailPage(issue) {
+			this.labelIdx = issue.questionLableId
+			await this.getLabelList()
+			this.labelList.map(label => {
+				if (label.id === issue.questionLableId) {
+					this.labelText = label.lableName
+				}
+			})
 			this.currentFlag = 'detailPage'
 			this.favourQuestionId = issue.questionId || issue.id
 			this.problemText = issue.questionTitle
 			this.desDetail = issue.answerContent
-			this.showAttachFlag = issue?.annexList.length > 0 && issue?.annexString
-			console.log(this.currentFlag, "currentFlag")
+			this.showAttachFlag = (issue?.annexList || []).length > 0 && issue?.annexString
 		},
 		async getLabelList(va) {
 			if (!this.currentMoudleId) return
+			this.labelLoading = true
 			await getCurrLabelList(this.currentMoudleId).then(res => {
 				if (res?.code === '200') {
-					console.log(res, '1112234')
 					this.labelList = res?.data || []
 					this.labelIdx = this.labelIdx ? this.labelIdx : res?.data[0]?.id
 					this.labelText = this.labelText ? this.labelText : res?.data[0]?.lableName
@@ -257,8 +264,10 @@ export default {
 						// 如第一次查询 标签id是第一个
 						this.problemQuery.questionLableId = res?.data[0]?.id
 					}
-					// 根据模板id 标签id 
-					if (this.queryProblemList.length > 0) return
+					// 查询标签结束后 会查询该标签下的问题
+					this.queryProblemList = []
+					this.problemList = []
+					this.labelLoading = false
 					this.getProblemList()
 				}
 			})
@@ -266,26 +275,24 @@ export default {
 		async getProblemList() {
 			this.problemQuery.questionModuleId = this.currentMoudleId
 			await queryFaqByPage(this.problemQuery).then((res) => {
-				console.log(res, '090000')
 				if (res?.code === '200') {
 					this.problemList = res?.data?.records || []
-					// this.problemList = [
-					// 	{questionTitle: '常用计量单位和基础计量单位的转换关系是什么？', key: '-1', id: 1},
-					// 	{questionTitle: '保存时，提示未填写BMG怎么办？', key: '0', id: 2},
-					// 	{questionTitle: '零件材料组如何与工艺组的关联关系是什么？', key: '1', id: 3}
-					// ]
 				}
 			})
 		},
 		async getHotQueTwo() {
 			if (this.currentMoudleId) return
+			this.hotQuesLoading = true
 			await queryHotFaq().then((res) => {
+				this.hotQuesLoading = false
 				this.hotProblemList = res?.data || []
 			})
 		},
 		async getAllMoudleLabel() {
+			this.allModuleLabelLoading = true
 			await getAllModuleLabel().then((res) => {
 				if (res?.code === '200') {
+					this.allModuleLabelLoading = false
 					this.moudleLabelList = res?.data || []
 				}
 			})
