@@ -33,7 +33,7 @@ export default {
     },
     data(){
         return{
-            searchContent:SEARCH_CONTENT
+            searchContent:_.cloneDeep(SEARCH_CONTENT)
         }
     },
     methods:{
