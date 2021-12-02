@@ -4,7 +4,6 @@
       :locale="lang"
       :masks="mask"
       :attributes="attributes"
-      is-expanded
       v-model="value"
       :disabled-dates="weekDays"
       :firstDayOfWeek="firstDayOfWeek"
@@ -211,6 +210,9 @@ export default {
     }
     opacity: 1 !important;
     color: #cbd5e0 !important;
+  }
+  .vc-nav-item:focus{
+    border-color:transparent !important;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="会议纪要"
+    :title="$t('MT_HUIYIJIYAO')"
     :visible.sync="open"
     width="50rem"
     :close-on-click-modal="false"
@@ -61,7 +61,7 @@
               ]"
             >
               <div class="agenda-item-title" @click="chooseItem(index + 1)">
-                <div class="title-index">{{ numToLetter[index + 1] }}</div>
+                <div class="title-index">{{ index + 1 }}</div>
                 <div class="title-name">{{ item.topic }}</div>
                 <div class="up-arrow">
                   <img :src="upArrow" alt="" srcset="" />
@@ -108,7 +108,7 @@
               plain
               :loading="loadingCreate"
               :disabled="loadingCreate"
-              >{{ '创建' }}</iButton
+              >{{ $t('MT_CHUANGJIAN') }}</iButton
             >
           </el-form-item>
         </div>

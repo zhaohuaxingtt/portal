@@ -149,14 +149,14 @@ export default {
         const d = this.formData.publishTime.slice(8,10)
         const h = this.formData.publishTime.slice(11,13)
         const m = this.formData.publishTime.slice(14,16)
-        time = `${y}年   ${M}月${d}日${h}时${m}分`
+        time = `${y}年${M}月${d}日 ${h}时${m}分`
       }else{
         const y = this.formData.publishPreTime.slice(0,4)
         const M =this.formData.publishPreTime.slice(5,7)
         const d = this.formData.publishPreTime.slice(8,10)
         const h = this.formData.publishPreTime.slice(11,13)
         const m = this.formData.publishPreTime.slice(14,16)
-        time = `${y}年   ${M}月${d}日${h}时${m}分`
+        time = `${y}年${M}月${d}日 ${h}时${m}分`
       }
       
       this.detail = {
@@ -175,8 +175,13 @@ export default {
         window.open('portal/#/dialogMgmt/popup-window-management/create')
     },
     exportExcell(){
+      let popupIds = []
+      popupIds = this.selectedItems.map((ele)=>{
+        return ele.id
+      })
       const data = {
-        ...this.iniSearchForm
+        ...this.iniSearchForm,
+        popupIds
       }
       exportEx(data)
     },

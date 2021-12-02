@@ -12,7 +12,7 @@
       :tree-expand="tableExpanded"
       :default-selected-rows="defaultSelectedRows"
       @handle-selection-change="handleSelectionChange"
-      @row-click="rowClick"
+      @row-click="handleRowClick"
     />
   </div>
 </template>
@@ -31,13 +31,13 @@ export default {
     },
     defaultSelectedRows: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     fullMenu: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -107,11 +107,8 @@ export default {
         this.$emit('set-resource-parent', this.tableData[0])
       }
     },
-    setResourceParent(row) {
+    handleRowClick(row) {
       this.$emit('set-resource-parent', row)
-    },
-    rowClick(row) {
-      this.setResourceParent(row)
     },
     handleToggleSelectedRow(val, row) {
       this.$refs.functionMenu.handleToggleSelectedRow(val, row)

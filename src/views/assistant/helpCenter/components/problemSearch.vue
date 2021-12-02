@@ -11,9 +11,9 @@
             >
               <el-option
                 v-for="item in moudleList"
-                :key="item.menuId"
+                :key="item.id"
                 :label="item.menuName"
-                :value="item.menuId"
+                :value="item.id"
               >
               </el-option>
             </iSelect>

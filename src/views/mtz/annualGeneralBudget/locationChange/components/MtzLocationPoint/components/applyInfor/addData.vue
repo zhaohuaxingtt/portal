@@ -358,7 +358,7 @@ export default {components: {
                 if(res.data == null){
                     callback(new Error(this.language("LINGJIANHAOBUCUNZAI",'零件号不存在！')));
                 }else{
-                    iMessage.success(this.language("YANZHENGTONGGUO","验证通过！"))
+                    // iMessage.success(this.language("YANZHENGTONGGUO","验证通过！"))
                     callback();
                 }
             }else{

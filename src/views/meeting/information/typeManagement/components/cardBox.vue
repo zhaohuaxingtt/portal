@@ -17,7 +17,7 @@
       </div>
       <div class="table">
         <div v-if="item.word == null || item.word == 0" class="table noData">
-          暂无数据
+          {{ $t('暂无数据') }}
         </div>
         <div
           v-else
@@ -30,17 +30,17 @@
         </div>
       </div>
       <iButton class="button" @click="$emit('editMeetingType', item)"
-        >修改会议类型信息</iButton
+        >{{$t('修改会议类型信息')}}</iButton
       >
     </iCard>
   </div>
 </template>
 
 <script>
-import { iCard, iButton, iMessage } from "rise";
-import { download } from "@/utils/downloadUtil";
-import { MOCK_FILE_URL } from "@/constants";
-import { getFileByIds } from "@/api/file/filedownload";
+import { iCard, iButton, iMessage } from 'rise'
+import { download } from '@/utils/downloadUtil'
+import { MOCK_FILE_URL } from '@/constants'
+import { getFileByIds } from '@/api/file/filedownload'
 export default {
   components: { iCard, iButton },
   computed: {},
@@ -48,18 +48,18 @@ export default {
     item: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
     // 附件下载
     downLoadFileInfo(i) {
       getFileByIds([i.id]).then((data) => {
-        const { name } = data[0];
+        const { name } = data[0]
         download({
           // url: MOCK_FILE_URL + i.id,
           // filename: name,
@@ -67,14 +67,14 @@ export default {
           filename: name,
           callback: (e) => {
             if (!e) {
-              iMessage.error("下载失败");
+              iMessage.error('下载失败')
             }
-          },
-        });
-      });
-    },
-  },
-};
+          }
+        })
+      })
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .card-content {
@@ -139,7 +139,7 @@ export default {
 }
 .image {
   width: 100%;
-  background-image: url("../../../../../assets/images/imgBg.svg");
+  background-image: url('../../../../../assets/images/imgBg.svg');
   background-repeat: no-repeat;
   background-color: #eee;
   background-position: center;

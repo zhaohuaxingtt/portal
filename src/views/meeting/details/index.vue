@@ -4,7 +4,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">会议名称</div>
+            <div class="name">{{$t('会议名称')}}</div>
             <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
@@ -25,6 +25,7 @@
                   handleClick(item.methodName)
                 }
               "
+              :disabled="item.disabled == true && tableData.length !== 0"
             >
               {{ $t(item.title) }}
             </iButton>
@@ -33,13 +34,13 @@
         <div class="row">
           <div class="list">
             <div class="show">
-              <div class="title">会议类型</div>
+              <div class="title">{{$t('会议类型')}}</div>
               <div class="content">
                 {{ typeObject[meetingInfo.meetingTypeId] }}
               </div>
             </div>
             <div class="show">
-              <div class="title">会议地点</div>
+              <div class="title">{{$t('会议地点')}}</div>
               <div
                 class="content content-address"
                 :title="meetingInfo.meetingPlace"
@@ -48,7 +49,7 @@
               </div>
             </div>
             <div class="show">
-              <div class="title">会议时间</div>
+              <div class="title">{{$t('会议时间')}}</div>
               <div class="content">
                 {{ `${begin}${end.includes(':') ? end : ''}` }}
               </div>
@@ -386,8 +387,8 @@
           :page-sizes="page.pages"
           :page-size="page.pageSize"
           layout="prev, pager, next"
-          prev-text="上一页"
-          next-text="下一页"
+          :prev-text="$t('上一页')"
+          :next-text="$t('下一页')"
           :total="page.totalCount"
         />
       </iCard>
@@ -467,7 +468,7 @@
       </div>
     </importThemens> -->
     <updateFile
-      title="导入议题"
+      :title="$t('导入议题')"
       :maxSize="10"
       :fileNum="1"
       :open="dialogStatusManageObj.openImportTopicDialog"
@@ -481,7 +482,7 @@
     >
       <div class="title-down-demo" @click="downDemo">
         <img :src="enclosure" alt="" srcset="" />
-        <span>下载模版</span>
+        <span>{{$t('下载模版')}}</span>
       </div>
     </updateFile>
     <updateMeetingDialog
@@ -512,6 +513,12 @@
       @handleOK="handleOKTopics"
       @handleClose="handleCloseCancelTopics"
     />
+    <importErrorDialog
+      v-if="openError"
+      :openError="openError"
+      :errorList="errorList"
+      @handleCloseError="handleCloseError"
+    />
   </iPage>
 </template>
 <script>
@@ -529,6 +536,7 @@ import updateDate from './component/updateDate.vue'
 // import confirmSplit from "./component/confirmSplit.vue";
 // import importThemens from "../home/components/importThemens.vue";
 import updateFile from '@/components/updateFile'
+import importErrorDialog from './component/importErrorDialog.vue'
 import iTableML from '@/components/iTableML'
 import {
   deleteThemen,
@@ -545,7 +553,7 @@ import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
 import updateMeetingDialog from '../home/components/updateMeetingDialog.vue'
 import newSummaryDialog from './component/newSummaryDialog.vue'
-import { changeStateMeeting, importThemen } from '@/api/meeting/home'
+import { batchRecallMeeting, changeStateMeeting, importThemen } from '@/api/meeting/home'
 import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
 import { download } from '@/utils/downloadUtil'
 import enclosure from '@/assets/images/enclosure.svg'
@@ -571,10 +579,13 @@ export default {
     newSummaryDialog,
     closeMeetiongDialog,
     updateFile,
-    iTableML
+    iTableML,
+    importErrorDialog
   },
   data() {
     return {
+      openError: false,
+      errorList: [],
       isSingle: false,
       curState: '',
       currentRow: {},
@@ -654,7 +665,7 @@ export default {
       download({
         url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
         filename: '议题模版',
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
+        // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
         callback: (e) => {
           if (e) {
             iMessage.success('下载模版成功')
@@ -762,14 +773,28 @@ export default {
       }
       importThemen(param)
         .then((res) => {
-          if (res.id) {
+          // if (res.id) {
+          //   iMessage.success('导入议题成功')
+          //   this.openTopics = false
+          //   this.disabledImportThemenButton = false
+          //   // this.refreshTable();
+          //   this.flushTable()
+          //   this.closeDialog()
+          //   this.nameList = []
+          // }
+          if (res.length == 0) {
             iMessage.success('导入议题成功')
             this.openTopics = false
             this.disabledImportThemenButton = false
-            // this.refreshTable();
+            // this.refreshTable()
             this.flushTable()
             this.closeDialog()
             this.nameList = []
+          } else if (res.length != 0) {
+            // this.openTopics = false
+            this.disabledImportThemenButton = false
+            this.openError = true
+            this.errorList = res
           }
         })
         .catch(() => {
@@ -777,6 +802,10 @@ export default {
           this.nameList = []
         })
       this.flushTable()
+    },
+    // 上传议题错误提示框关闭
+    handleCloseError() {
+      this.openError = false
     },
     // 导入议题取消
     handleCancelTopics() {
@@ -1435,6 +1464,22 @@ export default {
           // iMessage.error(err);
         })
       // });
+    },
+    recall(){
+      let ids = []
+      ids.push(this.$route.query.id)
+      this.$confirm('是否撤回该会议 ？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
+      }).then(() => {
+        batchRecallMeeting( {ids} ).then((res) => {
+          if (res.code == 200) {
+            this.$message.success('撤回成功!')
+            this.$router.go(-1)
+          }
+        })
+      })
     },
     updateDate() {
       // alert("updateDate");

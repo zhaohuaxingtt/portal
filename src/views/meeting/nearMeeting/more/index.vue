@@ -37,10 +37,10 @@
       <div class="operation" v-if="!hiddenRight">
         <slot name="button">
           <iButton @click="query('search')" :v-permission="searchKey">{{
-            '搜索'
+            $t('搜索')
           }}</iButton>
           <iButton @click="goBack" :v-permission="resetKey">{{
-            '返回'
+            $t('返回')
           }}</iButton>
         </slot>
       </div>
@@ -72,7 +72,7 @@
           />
         </template>
       </el-table-column> -->
-      <el-table-column prop="follow" align="center" label="NO." width="50">
+      <el-table-column prop="follow" align="left" label="No." width="50">
         <template slot-scope="scope">
           <div class="img-word">
             <div>
@@ -259,8 +259,8 @@
       :current-page="page.pageNum"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      prev-text="上一页"
-      next-text="下一页"
+      :prev-text="$t('上一页')"
+      :next-text="$t('下一页')"
       :total="total"
     />
     <detailDialog
@@ -522,17 +522,19 @@ export default {
 }
 .img-word {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   div:first-child {
-    width: 30px;
-    text-align: center;
+    width: 20px;
+    flex-grow: 1;
+    flex-shrink: 0;
+    /* text-align: center; */
     /* margin-right: 9.42px; */
   }
   div:first-child + div {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 9.42px;
+    /* margin-left: 5px; */
   }
 }
 .my-topics-box {

@@ -3,10 +3,10 @@
   <iDialog
     :title="
       editOrAdd === 'add'
-        ? '新增议题'
+        ? $t('新增议题')
         : editOrAdd === 'look'
-        ? '查看议题'
-        : '修改议题'
+        ? $t('查看议题')
+        : $t('修改议题')
     "
     :visible.sync="dialogStatusManageObj.openAddTopicDialog"
     width="58.25rem"
@@ -117,7 +117,11 @@
                   ? selectUserArr
                   : currentSearchUserData"
                 :key="item.id"
-                :label="item.name"
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
+                  item.namePinyin ? item.namePinyin : ''
+                }`"
                 :value="item"
               >
               </el-option>
@@ -184,7 +188,11 @@
                   ? selectUserArr
                   : currentSearchUserData"
                 :key="item.id"
-                :label="item.name"
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
+                  item.namePinyin ? item.namePinyin : ''
+                }`"
                 :value="item"
               >
               </el-option>
@@ -341,9 +349,8 @@
                     :loading="uploadLoading"
                     disabled
                   >
-                    请选择文件<span class="upload-text"
-                      ><img :src="uploadIcon"
-                    /></span>
+                    {{ $t('请选择文件')
+                    }}<span class="upload-text"><img :src="uploadIcon" /></span>
                   </iButton>
                   <!-- <div slot="tip" class="el-upload__tip">
                   文件大小最大限制10M
@@ -365,16 +372,15 @@
                     :loading="uploadLoading"
                     :disabled="ruleForm.state === '02'"
                   >
-                    请选择文件<span class="upload-text"
-                      ><img :src="uploadIcon"
-                    /></span>
+                    {{ $t('请选择文件')
+                    }}<span class="upload-text"><img :src="uploadIcon" /></span>
                   </iButton>
                   <!-- <div slot="tip" class="el-upload__tip">
                   文件大小最大限制10M
                 </div> -->
                 </el-upload>
               </iFormItem>
-              <div class="el-upload-text">文件大小最大限制30M</div>
+              <div class="el-upload-text">{{ $t('文件大小最大限制') }}30M</div>
             </div>
             <ul class="file-list">
               <li v-for="(item, index) of attachments" :key="index">
@@ -972,10 +978,28 @@ export default {
     },
     createStateFilter(queryString) {
       return (state) => {
-        return state.name
-          .toLowerCase()
-          .toString()
-          .includes(queryString.toLowerCase().toString())
+        state.name = state.name ? state.name : ''
+        state.namePinyin = state.namePinyin ? state.namePinyin : ''
+        state.department = state.department ? state.department : ''
+        state.jobNumber = state.jobNumber ? state.jobNumber : ''
+        return (
+          state.name
+            .toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state.namePinyin
+            .toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state.department
+            .toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString()) ||
+          state.jobNumber
+            .toLowerCase()
+            .toString()
+            .includes(queryString.toLowerCase().toString())
+        )
       }
     },
     handlePresenterSelect(val) {
@@ -1092,7 +1116,7 @@ export default {
             console.log('formData', formData)
             updateThemen(formData)
               .then((data) => {
-                this.loading = false;
+                this.loading = false
                 if (data) {
                   iMessage.success('修改成功')
                 } else {
@@ -1101,7 +1125,7 @@ export default {
                 this.close()
               })
               .catch((err) => {
-                this.loading = false;
+                this.loading = false
                 console.log('err', err)
               })
           } else {
@@ -1132,7 +1156,7 @@ export default {
             }
             saveThemen(formData)
               .then((data) => {
-                this.loading = false;
+                this.loading = false
                 if (data) {
                   iMessage.success('保存成功')
                 } else {
@@ -1141,7 +1165,7 @@ export default {
                 this.close()
               })
               .catch((err) => {
-                this.loading = false;
+                this.loading = false
                 console.log('err', err)
               })
           }
@@ -1301,6 +1325,17 @@ export default {
   .item:nth-of-type(2n) {
     margin-left: 115px;
   }
+}
+
+::v-deep .el-select__tags-text {
+  display: inline-block;
+  max-width: 70px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+::v-deep.el-tag__close.el-icon-close {
+  top: -7px;
 }
 
 ::v-deep .row-upload {

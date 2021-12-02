@@ -13,6 +13,12 @@ export default {
   components: {
     notifyDialog
   },
+  // props:{
+  //   login:{
+  //     type:String,
+  //     default:''
+  //   }
+  // },
   data() {
     return {
       showDialog: false,
@@ -31,7 +37,6 @@ export default {
   mounted() {
     
     this.closePopupSocket = getgetPopupSocketMessage((res) => {
-      // this.iniNotify('pushNew')
       this.debounce(3000)
     })
   },
@@ -40,6 +45,7 @@ export default {
   },
   created(){
     this.getLatest()
+    
   },
   methods: {
     openDialog(index) {
@@ -55,7 +61,7 @@ export default {
           const d = data.publishTime.slice(8,10)
           const h = data.publishTime.slice(11,13)
           const m = data.publishTime.slice(14,16)
-          let time = `${y}年   ${M}月${d}日${h}时${m}分`
+          let time = `${y}年${M}月${d}日 ${h}时${m}分`
           this.detail = {
             title: data.popupName,
             content: data.content,
@@ -81,8 +87,7 @@ export default {
       
     },
     getLatest(){
-        this.closeItemList = []
-        this.popupDataList = []
+
       console.log(this.closeItemList, this.popupDataList, '====')
       const accountId = JSON.parse(sessionStorage.getItem('userInfo')).accountId
       getPopupList(accountId).then((res) => {
@@ -95,7 +100,8 @@ export default {
         }
       })
     },
-    clearNotify(){
+    clearNotify(isLogout){
+      console.log('clear',this.closeItemList);
       if(this.closeItemList){
         this.closeItemList.forEach((ele) => {
           if(ele.notify){
@@ -103,8 +109,11 @@ export default {
           }
         })
       }
+      this.closeItemList = []
       this.popupDataList = []
-      this.getLatest()
+      if(isLogout != 'logout'){
+        this.getLatest()
+      }
     },
     iniNotify(pushNew){
       let _this = this
@@ -160,7 +169,6 @@ export default {
 .popupContent {
   width: 600px;
   height: 100%;
-  background-color: red;
 }
 .notifyHandel{
   margin: 0px; 

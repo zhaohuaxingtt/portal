@@ -123,6 +123,10 @@ export default {
 				}
 				submitAwContent(params).then((res) => {
 					console.log(res, "111122233")
+					if (res?.code === '200') {
+						this.$message.success('您的问题已提交,请等待管理员答复！')
+						this.clearDialog()
+					}
 				})
 			} else {
 				// 提问提交问题
@@ -140,7 +144,7 @@ export default {
 				submitQuestion(this.assistantQuestionDTO).then((res) => {
 					console.log(res, '000000')
 					if (res?.code === '200') {
-						this.$message.success('您的问题已提交,请等待管理远答复！')
+						this.$message.success('您的问题已提交,请等待管理员答复！')
 						this.clearDialog()
 					}
 				})

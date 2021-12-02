@@ -260,3 +260,12 @@ export function getDefaultInfo() {
     method: 'GET',
   })
 }
+
+// 标签下拉框查询
+export function getTagList(params) {
+  return VUE_APP_PARTSFOLDER({
+    url: '/getFolderCombo',
+    method: 'GET',
+    params: params
+  })
+}

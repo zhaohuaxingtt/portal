@@ -38,10 +38,16 @@ export default {
 	components: {
 		iButton
 	},
+	props: {
+		moudleList: {
+			type: Array,
+			default: () => []
+		}
+	},
 	data() {
 		return {
 			title: '',
-			moudleName: '主数据管理',
+			moudleName: null,
 			chatList: [],
 			currQuesFavourFlag: false,  //  当前问题是否点赞
 			currQuestionId: null,  //  当前问题id
@@ -52,7 +58,9 @@ export default {
 		good() {
 			if (this.currQuesFavourFlag) return  // 已对该问题点赞
 			updateFavour(this.currQuestionId).then((res) => {
-				console.log(res, '11111')
+				if (res?.code === '200') {
+					this.$message.success("很开心该回答能帮助您...")
+				}
 			})
 		},
 		bad() {
@@ -66,6 +74,12 @@ export default {
 		async getCurrQuesDetail(list) {
 			this.currQuestionId = list.id
 			this.title = list.questionTitle
+			this.moudleList.map(item => {
+				if (item.id === list.questionModuleId) {
+					console.log(item.menuName, "item.menuName")
+					this.moudleName = item.menuName
+				}
+			})
 			await this.getJudgeFavour()
 			this.getQuesDetail(list.id)
 		},

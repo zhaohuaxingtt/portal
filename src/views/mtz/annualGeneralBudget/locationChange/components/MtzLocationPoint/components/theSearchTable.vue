@@ -127,14 +127,15 @@
            style="width:100%">
         <span>详情列表</span>
         <div class="opration">
-          <iButton @click="handleClickMtzFreeze">{{ language('DONGJIE', '冻结') }}</iButton>
-          <iButton @click="handleClickMtzUnfreeze">{{ language('JIEDONG', '解冻') }}</iButton>
-          <iButton @click="handleClickMtzNomi">{{ language('DINGDIAN', '定点') }}</iButton>
-          <iButton @click="handleClickCancelMtzNomi">{{ language('QUXIAODINGDIAN', '取消定点') }}</iButton>
-          <iButton @click="handleClickOutFlow">{{ language('HUIWAILIUZHUAN', '会外流转') }}</iButton>
-          <iButton @click="addMtz">{{ language('XINJIANMTZDINGDIANSHENQING', '新建MTZ定点申请') }}</iButton>
-          <iButton @click="handleClickMtzRecall">{{ language('CHEHUI', '撤回') }}</iButton>
-          <iButton @click="mtzDel">{{ language('SHANCHU', '删除') }}</iButton>
+          <iButton @click="handleClickMtzFreeze" v-permission="PORTAL_MTZ_POINT_DONGJIE">{{ language('DONGJIE', '冻结') }}</iButton>
+          <iButton @click="handleClickMtzUnfreeze" v-permission="PORTAL_MTZ_POINT_JIEDONG">{{ language('JIEDONG', '解冻') }}</iButton>
+          <iButton @click="handleClickMtzNomi" v-permission="PORTAL_MTZ_POINT_DINGDIAN">{{ language('DINGDIAN', '定点') }}</iButton>
+          <iButton @click="handleClickCancelMtzNomi" v-permission="PORTAL_MTZ_POINT_QUXIAODINGDIAN">{{ language('QUXIAODINGDIAN', '取消定点') }}</iButton>
+          <iButton @click="handleClickOutFlow" v-permission="PORTAL_MTZ_POINT_HUIWAILIUZHUAN">{{ language('HUIWAILIUZHUAN', '会外流转') }}</iButton>
+          <iButton @click="addMtz" v-permission="PORTAL_MTZ_POINT_XINJIANMTZDINGDIANSHENQING">{{ language('XINJIANMTZDINGDIANSHENQING', '新建MTZ定点申请') }}</iButton>
+          <iButton @click="handleClickMtzRecall" v-permission="PORTAL_MTZ_POINT_CHEHUI">{{ language('CHEHUI', '撤回') }}</iButton>
+          <iButton @click="handleClickMtzRecallPointAdmin" v-permission="PORTAL_MTZ_POINT_CHEHUIPOINTADMIN">{{ language('CHEHUI', '撤回') }}</iButton>
+          <iButton @click="mtzDel" v-permission="PORTAL_MTZ_POINT_SHANCHU">{{ language('SHANCHU', '删除') }}</iButton>
         </div>
       </div>
       <tableList class="margin-top20"
@@ -331,10 +332,11 @@ export default {
         query: {
           currentStep: 1,
           mtzAppId: val.id,
-          isView: (val.appStatus === 'NEW' || val.appStatus === 'NOTPASS') ? false : true
+          // isView: (val.appStatus === 'NEW' || val.appStatus === 'NOTPASS') ? false : true
         }
       })
-      window.open(routeData.href, '_blank')
+      window.open(routeData.href)
+      // window.open(routeData.href, '_blank')
     },
     // 选中table数据
     handleSelectionChange (val) {
@@ -550,7 +552,42 @@ export default {
     reasonClose () {
       this.mtzReasonShow = false;
     },
+    handleClickMtzRecallPointAdmin(){
+      if (this.selection && this.selection.length == 0) {
+        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      }
 
+      var num = 0;
+      try{
+        this.selection.forEach(e=>{
+          if(e.ttNominateAppId !== "" && e.ttNominateAppId !== null && e.ttNominateAppId !== "null"){
+            num++;
+            iMessage.warn(this.language('YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ', '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'))
+            throw new Error("EndIterative");
+          }
+          if (e.flowType == "MEETING") {
+            if (e.appStatus == "SUBMIT" || e.appStatus == "NOTPASS" || e.appStatus == "CHECK_INPROCESS") {////////////////////////////////////////////
+            }else{
+              num++;
+              iMessage.warn(this.language('SHLXQZTWTJHWTGHFHZCKYCH', '上会类型且状态为提交（会议未锁定）、未通过或复核中才可以撤回'))
+              throw new Error("EndIterative");
+            }
+          } else {
+            if (e.appStatus == "SUBMIT" || e.appStatus == "FREERE") {
+            } else {
+              num++;
+              iMessage.warn(this.language('LZBALXZYTJHDJZTCKYCH', '流转/备案类型只有提交或冻结状态才可以撤回'))
+              throw new Error("EndIterative");
+            }
+          }
+        })
+      }catch(e){
+          if(e.message != "EndIterative") throw e;
+      }
+      if(num==0){
+        this.mtzReasonShow = true;
+      }
+    },
     // 点击撤回
     handleClickMtzRecall () {
       if (this.selection && this.selection.length == 0) {
@@ -566,7 +603,7 @@ export default {
             throw new Error("EndIterative");
           }
           if (e.flowType == "MEETING") {
-            if (e.appStatus == "SUBMIT" || e.appStatus == "NOTPASS") {
+            if (e.appStatus == "SUBMIT" || e.appStatus == "NOTPASS") {////////////////////////////////////////////
             }else{
               num++;
               iMessage.warn(this.language('SHLXQZTWTJHWTGCKYCH', '上会类型且状态为提交（会议未锁定）或未通过才可以撤回'))

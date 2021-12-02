@@ -171,3 +171,13 @@ export function batchRecallMeeting(data) {
     data: deleteString(data)
   })
 }
+
+// 批量开放会议
+export function batchChangeState(data) {
+  return requst({
+    url: `/meetingService/batchChangeState`,
+    method: 'POST',
+    data: deleteString(data)
+  })
+}
+

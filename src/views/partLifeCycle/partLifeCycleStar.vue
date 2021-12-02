@@ -464,10 +464,6 @@ export default {
     // 确认领养后
     sureClaimPart() {
       this.claimPartsShow = false
-      this.isEdit = false
-      this.defaultPartsList.map(item => {
-        item.isClaim = false
-      })
       if(this.isSearch) {
         this.getPartsCollect()
       } else {
@@ -483,7 +479,8 @@ export default {
     },
     scrollGetData(e){
       const { scrollTop, clientHeight, scrollHeight } = e.target
-      if((scrollTop + clientHeight) === scrollHeight){
+      // console.log('~~(scrollTop + clientHeight)', Math.ceil(scrollTop + clientHeight), scrollHeight)
+      if(Math.ceil(scrollTop + clientHeight) >= scrollHeight){
         this.leftLoading = true
         this.showLoading()
         this.current++

@@ -20,7 +20,7 @@ const download = ({
   filename,
   url,
   callback,
-  type = 'application/pdf',
+  type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   noFileUd = false
 }) => {
   if (process.env.NODE_ENV == 'develop') {
@@ -32,7 +32,7 @@ const download = ({
         getResponse: true
       })
         .then((response) => {
-          let blob = new Blob([response.data], { type })
+          let blob = new Blob([response], { type })
           const blobUrl = window.URL.createObjectURL(blob)
           // 获取响应中的filename
           // const contentDisposition = response.headers.get('Content-Disposition');
@@ -55,8 +55,14 @@ const download = ({
         getResponse: true
       })
         .then((response) => {
-          let blob = new Blob([response.data], { type })
-          const blobUrl = window.URL.createObjectURL(blob)
+          console.log('response', response)
+          const blobUrl = window.URL.createObjectURL(response)
+          // 获取响应中的filename
+          // const contentDisposition = response.headers.get('Content-Disposition');
+          // const resFileName =
+          //   contentDisposition &&
+          //   decodeURI(contentDisposition.split('filename=')?.[1]);
+          // const downloadFileName = decodeURIComponent(resFileName ?? filename);
           // 获取响应中的filename
           // const contentDisposition = response.headers.get('Content-Disposition');
           // const resFileName =
@@ -80,7 +86,9 @@ const download = ({
         getResponse: true
       })
         .then((response) => {
-          let blob = new Blob([response.data], { type })
+          console.log(type)
+          let blob = new Blob([response], { type })
+          console.log(blob)
           const blobUrl = window.URL.createObjectURL(blob)
           createAnchorLink(blobUrl, filename)
           window.URL.revokeObjectURL(blobUrl)
@@ -97,8 +105,8 @@ const download = ({
         getResponse: true
       })
         .then((response) => {
-          let blob = new Blob([response.data], { type })
-          const blobUrl = window.URL.createObjectURL(blob)
+          console.log('response', response)
+          const blobUrl = window.URL.createObjectURL(response)
           // 获取响应中的filename
           // const contentDisposition = response.headers.get('Content-Disposition');
           // const resFileName =

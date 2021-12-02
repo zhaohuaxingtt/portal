@@ -6,7 +6,8 @@
           <iFormItem :label="language('流程名称')">
             <iSelect
               :placeholder="language('请选择')"
-              v-model="form.processDefinitionKey"
+              v-model="form.processDefinitionKeys"
+              multiple
               filterable
             >
               <el-option

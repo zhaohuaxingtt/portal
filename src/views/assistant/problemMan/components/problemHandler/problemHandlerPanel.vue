@@ -6,7 +6,7 @@
           <iInput v-model="keyWord" placeholder="搜索.." @blur="keyWordBlurHandle" />
         </el-col>
         <el-col span="10">
-          <iSelect v-model="questionModuleId" filterable placeholder="问题模块" clearable="true" @change="questionModuleHandle" @clear="ckearModuleHandle">
+          <iSelect v-model="questionModuleId" filterable placeholder="问题模块" clearable="true" @change="questionModuleHandle" @clear="clearModuleHandle">
             <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
           </iSelect>
         </el-col>
@@ -78,14 +78,14 @@
             <el-form label-position="top" :model="editForm" :rules="editFormRules" ref="editForm">
               <el-row :gutter="20">
                 <el-col :span="8">
-                  <iFormItem :label="$t('问题模块')">
-                    <iSelect v-model="editForm.questionModuleId" filterable :disabled="isDisabledModule">
+                  <iFormItem :label="$t('问题模块')" prop="questionModuleId">
+                    <iSelect v-model="editForm.questionModuleId" filterable :disabled="isDisabledModule" @change="changeModuleHandle">
                       <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
                     </iSelect>
                   </iFormItem>
                 </el-col>
                 <el-col :span="8">
-                  <iFormItem :label="$t('标签')">
+                  <iFormItem :label="$t('标签')" prop="questionLableId">
                     <iSelect v-model="editForm.questionLableId" filterable :disabled="isDisabledModule">
                       <el-option v-for="item in labelList" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
                     </iSelect>
@@ -130,8 +130,8 @@
         </div>
       </template>
     </div>
-    <dispatchDialog v-if="showDialog" :show.sync="showDialog" :questionId="cardSelectItem.id" />
-    <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" />
+    <dispatchDialog v-if="showDialog" :show.sync="showDialog" :questionId="cardSelectItem.id" @loadData="initData" />
+    <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" :problemModuleList="problemModuleList" :labelList="labelList" :source="userType" :questionItem="cardSelectItem" @loadData="initData" @queryLabelByModuleId="queryLabelByModuleId" />
   </div>
 </template>
 
@@ -141,7 +141,7 @@ import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
 import iEditor from '@/components/iEditor';
 import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
-import { getModuleListByUserTypeApi, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi,closeQuestionApi } from '@/api/assistant';
+import { getModuleListByUserTypeApi, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi,closeQuestionApi,modifyModuleAndLabelApi } from '@/api/assistant';
 // 来源 inner:内部用户 supplier:供应商用户
 export default {
   props: {
@@ -191,7 +191,6 @@ export default {
       flag: false,
       editForm: {},
       editFormBtn: false,
-      editFormRules: {},
       isDisabledModule: true,
       isDisabledLabel: true,
       isDisabledQuestion: true,
@@ -208,6 +207,16 @@ export default {
       labelList: [],
       uploadFileList: [],
       total: 0,
+      editFormRules: {
+        questionModuleId: [
+          {required: true, trigger: 'change',message: '请选择模块'},
+          {required: true, trigger: 'blur',message: '请选择模块'}
+        ],
+        questionLableId: [
+          {required: true, trigger: 'change',message: '请选择标签'},
+          {required: true, trigger: 'blur',message: '请选择标签'}
+        ]
+      },
     }
   },
   mounted () {
@@ -216,15 +225,18 @@ export default {
       this.loading = false;
     }, 1000);
     this.getModuleListByUserType(this.userType);
-    this.queryProblemList(this._queryForm({
-      source: this.userType,
-      pageNum: this.pageNum,
-      pageSize: this.pageSize,
-      questionStatus: this.currentCategoryItem,
-      selfOnly: this.selfOnly ? 1 : 0,
-    }));
+    this.initData();
   },
   methods: {
+    initData() {
+      this.queryProblemList(this._queryForm({
+        source: this.userType,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        questionStatus: this.currentCategoryItem,
+        selfOnly: this.selfOnly ? 1 : 0,
+      }));
+    },
     // 根据用户类型获取模块下拉框
     async getModuleListByUserType (userType) {
       const response = await getModuleListByUserTypeApi(userType);
@@ -300,7 +312,7 @@ export default {
     questionModuleHandle (val) {
       this.queryProblemList(this._queryForm({ questionModuleId: val, pageNum: 1 }));
     },
-    ckearModuleHandle() {
+    clearModuleHandle() {
       this.questionModuleId = '';
       this.queryProblemList(this._queryForm({ questionModuleId: '', pageNum: 1 }));
     },
@@ -333,6 +345,7 @@ export default {
     },
     // 点击卡片
     cardSelectHandler (item) {
+      console.log(item, '点击了');
       this.editFormBtn = false;
       this.isReplyStatus = false
       this.cardSelectItem = item;
@@ -360,6 +373,7 @@ export default {
         const response = await closeQuestionApi(this.cardSelectItem.id);
         if (response?.code === '200') {
           this.$message.success('关闭成功');
+          this.initData();
         } else {
           this.$message.error('关闭失败');
         }
@@ -417,11 +431,26 @@ export default {
       }
       this.editFormBtn = true;
     },
+    // 表单中切换模块
+    changeModuleHandle(val) {
+      this.queryLabelByModuleId(val);
+      this.editForm = Object.assign(this.editForm, {questionLableId:''});
+    },
     saveHandler () {
-      this.editFormBtn = false;
-      this.isDisabledModule = true;
-      this.isDisabledQuestion = true;
-      this.isDisabledLabel = true;
+      this.$refs.editForm.validate(async (valid) => {
+        if (valid) {
+          const response = await modifyModuleAndLabelApi(Object.assign(this.editForm, {id:this.cardSelectItem.id}));
+          if (response?.code === '200') {
+            this.$message.success('保存成功');
+            this.editFormBtn = false;
+            this.isDisabledModule = true;
+            this.isDisabledQuestion = true;
+            this.isDisabledLabel = true;
+          } else {
+            this.$message.error('保存失败');
+          }
+        }
+      })
     },
     finishedHandler () {
       this.finishedDialog = true;

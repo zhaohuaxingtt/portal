@@ -15,8 +15,8 @@
 			>
 				<el-option
 					v-for="(item) in moudleList"
-					:key="item.menuId"
-					:value="item.menuId"
+					:key="item.id"
+					:value="item.id"
 					:label="item.menuName"
 				>
 				</el-option>
@@ -67,12 +67,8 @@ export default {
 				pageSize: 5,
 				pageNum: 1
 			},
-			questionList: [
-				// unreply:未答复 reply:已答复 finished:已完成
-				{ title: '如何配置工艺', status: 'unreply', moudleName: '主数据管理', date: '2021-10-26 ' },
-				{ title: '如何配置工艺二', status: 'reply', moudleName: '主数据管理', date: '2021-10-26' },
-				{ title: '如何配置工艺三', status: 'finished', moudleName: '主数据管理', date: '2021-10-26' }
-			],
+			// unreply:未答复 reply:已答复 finished:已完成
+			questionList: [],
 			selectedCardId: 0
 		}
 	},
@@ -88,13 +84,17 @@ export default {
 			this.getQuesList()
 		},
 		getCurrModuleName(id) {
+			console.log(id, this.moudleList, "00000000")
+			let currName = null
 			this.moudleList.map(item => {
-				if (item.menuId === id) {
-					return item.menuName
+				if (item.id === id) {
+					console.log(item, '1112222')
+					currName = item.menuName
 				} else {
-					return '示例名称'
+					currName = '示例名称'
 				}
 			})
+			return currName
 		},	
 		async getQuesList() {
 			await getMineQuesList(this.queryParam).then((res) => {
@@ -104,7 +104,7 @@ export default {
 					this.questionList = res?.data?.records || []
 					this.questionList.map(item => {
 						item.timeDate = moment(item.updateDate).format('YYYY-MM-DD')
-						item.moudleName = this.getCurrModuleName(item.questionLableId) || '示例名称'
+						// item.moudleName = this.getCurrModuleName(item.questionModuleId) || '示例名称'
 					})
 				}
 			})

@@ -13,7 +13,7 @@
       <div class="right" @click="handlePreClick">&lt;</div>
       <div class="left" @click="handleNextClick">&gt;</div>
     </div>
-    <div class="warn">会议直播进程将每5秒自动刷新，请耐心等待。</div>
+    <div class="warn">{{$t('MT_HUIYIZHIBOMEIWUMIAOSHUAXIN')}}</div>
   </div>
 </template>
 

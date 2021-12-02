@@ -132,7 +132,7 @@ export function queryModuleList(type) {
   })
 }
 // 模块管理 保存模块信息
-export function saveModules(data,source) {
+export function saveModules(data, source) {
   return assistantRequest({
     url: `/assistantModuleEntity/saveModules?source=${source}`,
     method: 'post',
@@ -315,6 +315,42 @@ export const closeQuestionApi = (questionId) => {
 export const submitAwContent = (data) => {
   return assistantRequest({
     url: '/assistantQuestionReplyEntity/newQuestionAsk',
+    method: 'POST',
+    data
+  })
+}
+
+// 常见问题查询
+export const queryFaqListByPageApi = (data) => {
+  return assistantRequest({
+    url: '/assistantFaq/queryFaqListByPage',
+    method: 'POST',
+    data
+  })
+}
+
+// 问题处理统计
+export const queryQListByPageApi = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestion/queryQListByPage',
+    method: 'POST',
+    data
+  })
+}
+
+// 问题归档
+export const assistantFaqSaveFaqApi = (data) => {
+  return assistantRequest({
+    url: '/assistantFaq/saveFaq',
+    method: 'POST',
+    data
+  })
+}
+
+// 修改问题模块和标签
+export const modifyModuleAndLabelApi = (data) => {
+  return assistantRequest({
+    url: '/assistantQuestion/updateModuleId',
     method: 'POST',
     data
   })

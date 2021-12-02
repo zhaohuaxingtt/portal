@@ -137,7 +137,7 @@ export const continueBox = [
   { width: 150, props: 'tcExchangeRate', name: '汇率', key: 'HUILV' },
   {
     width: 150,
-    props: 'source',
+    props: 'sourceType',
     name: '市场价来源',
     key: 'SHICHANGJIALAIYUAN'
   },
@@ -160,11 +160,11 @@ export const continueBox = [
     name: '补差周期',
     key: 'BUCHAZHOUQI'
   },
-  { width: 150, props: 'buyer', name: '采购员', key: 'CAIGOUYUAN' },
-  { width: 150, props: 'buyerDeptId', name: '科室', key: 'KESHI' },
+  { width: 150, props: 'buyerName', name: '采购员', key: 'CAIGOUYUAN' },
+  { width: 150, props: 'buyerDeptName', name: '科室', key: 'KESHI' },
   { width: 170, props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI' },
   { width: 170, props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI' },
-  { width: 150, props: 'source', name: '来源', key: 'LAIYUAN' },
+  { width: 150, props: 'sourceCode', name: '来源', key: 'LAIYUAN' },
   { width: 150, props: 'effectFlag', name: '是否生效', key: 'SHIFOUSHENGXIAO' },
   { width: 150, props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA',icon:"iconxinxitishi",iconTextKey:"M01006002-Pt",iconText:"M01006002-Pt"},
   { width: 150, props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG' ,icon:"iconxinxitishi",iconTextKey:"M01006002-Pt",iconText:"M01006002-Pt"},

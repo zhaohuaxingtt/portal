@@ -214,3 +214,11 @@ export function getSupplerInfo(params) {
     params: params
   })
 }
+//校验加入黑名单是否已经全部加入
+export function checkAddBlackIsFull(params) {
+    return requst({
+      url: '/ppSupplerBlack/checkAddBlackIsFull',
+      method: 'post',
+      data: params
+    })
+  }

@@ -229,15 +229,14 @@ export default {
       this.$router.push({name: list.key, params: { currentUrl: window.location.href }})
       // this.$router.push(list.path)
     },
-    handleClickAdminMenu() {
+    handleClickAdminMenu(val) {
+      if(val == 'logout'){
+        this.$refs.popupNotify.clearNotify(val)
+      }
       console.log('点击了admin 菜单')
       this.$refs.leftLayout.activeIndex = ''
     }
   },
-  beforeRouteEnter(to,from,next){
-     console.log(to,'==============');
-        console.log(from,'==============');
-  }
 }
 </script>
 <style lang="scss" scoped>

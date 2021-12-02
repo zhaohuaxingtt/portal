@@ -146,8 +146,6 @@ export default {
 				this.moudleList.map(mou => {
 					if (item.moduleId === mou.id) {
 						currName = mou.menuName
-					} else {
-						currName = '示例模块名称'
 					}
 				})
 				this.$emit('changeCurrValue', item.moduleId, currName)
@@ -167,7 +165,7 @@ export default {
 					const { data } = res
 					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
 					this.showAttachFlag = data?.annexList.length > 0 && data?.annexString
-					this.getJudgeFavour(item.questionId)
+					this.getJudgeFavour(item.questionId || item.id)
 				} 
 				// else {
 				// 	this.getJudgeFavour(item.questionId)
@@ -176,7 +174,7 @@ export default {
 		},
 		// 获取该用户是否给该问题点赞
 		async getJudgeFavour(questionId) {
-			await judgeFavour({ faqId: questionId || 3 }).then((res) => {
+			await judgeFavour({ faqId: questionId }).then((res) => {
 				console.log(res, '+++++')
 				if (res?.code === '200') {
 					this.currQuesFavourFlag = res?.data
@@ -212,26 +210,30 @@ export default {
 				}
 			})
 			let currName = ''
+			console.log(this.moudleList, "this.moudleList")
+			console.log(item.questionModuleId, "item.questionModuleId")
 			this.moudleList.map(moudle => {
 				if (moudle.id == item.questionModuleId) {
+					console.log(moudle, "moudle")
+					console.log(moudle.menuName, "menuName")
 					currName = moudle.menuName
-				} else {
-					currName = '示例模块名称'
 				}
 			})
 			//  这里有问题  props传进来的 currentMoudleId currMoudleName  不允许修改
 			// this.currentMoudleId = item.questionModuleId
 			// this.currMoudleName = currName
-			await this.$emit("changeCurrValue", item.questionModuleId, currName)
-			this.currentFlag = 'detailPage'
-			this.problemText = item.questionTitle
-			await this.getLabelList()	
-			await getProblemDetail({id:item.id}).then(res => {
-				if (res?.code === '200') {
-					const { data } = res
-					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
-					this.getJudgeFavour(item.questionId)
-				}
+			this.$emit("changeCurrValue", item.questionModuleId, currName)
+			this.$nextTick(() => {
+				this.currentFlag = 'detailPage'
+				this.problemText = item.questionTitle
+				this.getLabelList()	
+				getProblemDetail({id:item.id}).then(res => {
+					if (res?.code === '200') {
+						const { data } = res
+						this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
+						this.getJudgeFavour(item.questionId)
+					}
+				})
 			})
 		},
 		// 通过智能弹窗热门问题跳转问题详情
@@ -240,6 +242,7 @@ export default {
 			this.favourQuestionId = issue.questionId || issue.id
 			this.problemText = issue.questionTitle
 			this.desDetail = issue.answerContent
+			this.showAttachFlag = issue?.annexList.length > 0 && issue?.annexString
 			console.log(this.currentFlag, "currentFlag")
 		},
 		async getLabelList(va) {
