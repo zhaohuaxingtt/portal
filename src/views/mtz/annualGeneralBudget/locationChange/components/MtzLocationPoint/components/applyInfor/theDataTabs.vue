@@ -566,6 +566,18 @@
                   @historyDialog="historyDialogList"></historyBox>
     </iDialog>
 
+    <iDialog
+      :title="language('SCFJYZBTG', '上传附件验证不通过')"
+      class="title_color"
+      :visible.sync="cancelNo"
+      v-if="cancelNo"
+      width="90%"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      @close="cancelClose"
+    >
+      <cancelReqestNo :errorList="errorList"></cancelReqestNo>
+    </iDialog>
   </iCard>
 </template>
 
@@ -575,6 +587,7 @@ import { pageMixins } from "@/utils/pageMixins"
 import rfqDialog from "./rfqDialog";
 import quoteData from "./quoteData";
 import addData from "./addData";
+import cancelReqestNo from "./cancelReqestNo";
 import historyBox from "./historyBox";
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
@@ -595,6 +608,8 @@ import {
 import { deepClone } from "./util"
 import { formRulesLJ } from "./data";
 
+import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
+
 export default {
   name: "Search",
   componentName: "theDataTabs",
@@ -609,6 +624,7 @@ export default {
     iDialog,
     addData,
     quoteData,
+    cancelReqestNo,
     historyBox
   },
   watch: {
@@ -645,6 +661,8 @@ export default {
         dialogEditType:false,
         dataCloseAllRequest:false,//判断是否为选择维护mtz零件主数据
         listData:[],
+        cancelNo:false,
+        errorList:[],
     }
   },
   computed: {
@@ -708,11 +726,15 @@ export default {
         })
       })
     },
+    cancelClose(){
+      this.cancelNo = false;
+    },
     uploadSuccess(res, file){
       if(res.code == 200 && res.result){
         this.getTableList()
       }else{
-        iMessage.error(res.desZh);
+        this.errorList = res.data;
+        this.cancelNo = true;
       }
     },
     beforeUpload(file){
@@ -1144,5 +1166,10 @@ export default {
 .formStyle ::v-deep .el-form-item {
   margin-top: 0;
   margin-bottom: 0;
+}
+.title_color{
+  ::v-deep .el-dialog__title{
+    color:red;
+  }
 }
 </style>
