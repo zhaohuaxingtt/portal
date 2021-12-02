@@ -91,10 +91,8 @@ export default {
     },
     created(){
         if(this.title == '新建'){
-            console.log('-----');
             this.edit = false
         }else{
-            console.log('ppppp');
             this.edit =  true
         }
         
