@@ -254,7 +254,7 @@ export default {
                 data.fgId = ''
             }
             if(this.checkBoxs.set){
-                data.setCode = this.formContent.set
+                data.setCode = this.formContent.setCode
             }else{
                  data.setCode = ''
             }
