@@ -83,7 +83,7 @@ export default {
     editHandler () {
       if (this.selectionRowList.length) {
         this.isEdit = true;
-        this.extraData.selectionRowIds = this.selectionRowList.map(item => item.id);
+        this.extraData.selectionRowIds = this.selectionRowList.map(item => item.menuId);
         console.log(this.extraData);
       } else {
         this.$message.warning('请选择编辑的行');
@@ -99,8 +99,9 @@ export default {
       let f 
       let list = JSON.parse(JSON.stringify(this.extraData.tableListData))
       for (let i = 0; i < list.length; i++) {
+        list[i].adminUserName = list[i].adminUserId.map(e => this.extraData.nameListKV[+e].nameZh).join(",")
         list[i].adminUserId = list[i].adminUserId ? list[i].adminUserId.join(",") : ""
-        if(this.extraData.selectionRowIds.includes(list[i].id) && !list[i].adminUserId){
+        if(this.extraData.selectionRowIds.includes(list[i].menuId) && !list[i].adminUserId){
           f = list[i]
           break
         }

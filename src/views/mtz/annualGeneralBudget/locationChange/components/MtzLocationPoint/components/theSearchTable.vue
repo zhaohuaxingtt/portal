@@ -545,7 +545,7 @@ export default {
 
     addMtz () {
       let routeData = this.$router.resolve({
-        path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor`
+        path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow`
       })
       window.open(routeData.href, '_blank')
     },

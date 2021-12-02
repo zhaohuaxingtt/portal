@@ -71,6 +71,9 @@ export default {
             searchForm:{}
         }
     },
+    created(){
+        this.getPage()
+    },
     methods:{
         handleSelectionChange(val){
             this.selectedItems = val
