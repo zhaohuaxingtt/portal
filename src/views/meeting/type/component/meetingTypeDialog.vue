@@ -788,6 +788,8 @@ export default {
     if (this.editOrAdd === 'edit') {
       this.selectedTableData[0].incidenceRelation = this.selectedTableData[0].incidenceRelation ?
           this.selectedTableData[0].incidenceRelation.split(','):[]
+      this.selectedTableData[0].conclusionConfig = this.selectedTableData[0].conclusionConfig ?
+          this.selectedTableData[0].conclusionConfig.split(','):[]
       const userIdsArr = this.selectedTableData[0].userIds
           ? this.selectedTableData[0].userIds.split(',')
           : []
@@ -1007,15 +1009,19 @@ export default {
                 return item.id
               })
               .join(',')
-          let incidenceRelationStr = this.ruleForm.incidenceRelation
+          let incidenceRelationStr = this.ruleForm.incidenceRelation&&this.ruleForm.incidenceRelation
               .map((item) => {
                 return item
               })
               .join(',')
+          let conclusionConfigStr = this.ruleForm.conclusionConfig&&this.ruleForm.conclusionConfig.map((item)=>{
+            return item
+          }).join(',')
           let formData = {
             ...this.ruleForm,
             userIds: userIdsStr,
-            incidenceRelation: incidenceRelationStr
+            incidenceRelation: incidenceRelationStr,
+            conclusionConfig: conclusionConfigStr
           }
           if (this.ruleForm.isTriggerApproval) {
             let approvalProcessId = this.ruleForm.approvalProcessId
@@ -1028,7 +1034,9 @@ export default {
             formData = {
               ...this.ruleForm,
               approvalProcessId,
-              userIds: userIdsStr
+              userIds: userIdsStr,
+              incidenceRelation: incidenceRelationStr,
+              conclusionConfig: conclusionConfigStr
             }
           }
           if (this.editOrAdd === 'edit') {
