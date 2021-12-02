@@ -24,7 +24,7 @@
                 <!-- 点击事件-->
                 <el-table-column :key="index" align='center' :width="items.width" :show-overflow-tooltip='items.tooltip'
                                  v-if="openPageProps.indexOf(items.props)>-1" :prop="items.props"
-                                 :label="items.key ? $t(items.key) : items.name" :fixed="items.fixed">
+                                 :label="items.key ? language(items.key, items.name) : items.name" :fixed="items.fixed">
                     <template slot-scope="scope">
                         <el-form-item>
                              <span class="openLinkText cursor linkEllipsis text"

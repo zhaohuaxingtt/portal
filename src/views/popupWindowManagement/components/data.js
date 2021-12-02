@@ -5,22 +5,24 @@ export const TABLE_COLUMNS = [
     },
     {
         label:'序号',
-        type:'index'
+        type:'index',
+        width:100
     },
     {
         label:'弹窗编码',
         prop:'id',
+        width:400
     },
     {
         label:'弹窗标题',
         prop:'popupName',
-        width:'500px',
+        // width:'400px',
         tooltip:true
     },
     {
         label:'弹窗说明',
         prop:'content',
-        width:'400px',
+        // width:'500px',
         tooltip:true,
     },
     {

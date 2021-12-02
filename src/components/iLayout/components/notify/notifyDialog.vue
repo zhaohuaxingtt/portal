@@ -122,15 +122,16 @@ export default {
         width:400px;
         height: 100%;
         margin-left: 360px;
+        top: -40px;
         .content,
         .btn{
             position: absolute;
-            bottom: 40px;
+            bottom: 0;
         }
         .publishTime{
             position: absolute;
             display: inline-block;
-            bottom: 100px;
+            bottom: 60px;
             color: #1660F1;
             .publishTime-content{
                 color: #666666;
@@ -141,10 +142,13 @@ export default {
         .content{
             position: absolute;
             top: 70px;
-            width: 100%;
+            width: 104%;
             line-height: 24px;
-            max-height: 200px;
+            max-height: 280px;
             overflow: auto;
+            ::v-deep .el-textarea__inner{
+                padding: 0;
+            }
         }
     }
 }
@@ -188,7 +192,7 @@ export default {
             width: 250px;
             padding: 5px;
             color: #1660F1;
-            border: solid rgb(229, 229, 229) 1px;
+            // border: solid rgb(229, 229, 229) 1px;
             .publishTime-content{
                 margin-left: 20px;
                 color: #1B1D21;
@@ -221,18 +225,19 @@ export default {
         width: 400px;
         height: 100%;
         margin-left: 360px;
+        top: -40px;
         >h2{
             color: #FFFFFF;
         }
         .content,
         .btn{
             position: absolute;
-            bottom: 40px;
+            bottom: 0;
         }
         .publishTime{
             position: absolute;
             display: inline-block;
-            bottom: 100px;
+            bottom: 60px;
             color: #1660F1;
             .publishTime-content{
                 color: #FFFFFF;
@@ -243,11 +248,14 @@ export default {
         .content{
             position: absolute;
             top: 70px;
-            width: 100%;
+            width: 104%;
             color: #888888;
             line-height: 24px;
-            max-height: 200px;
+            max-height: 280px;
             overflow: auto;
+            ::v-deep .el-textarea__inner{
+                padding: 0;
+            }
         }
     }
 }

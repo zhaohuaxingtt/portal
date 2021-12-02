@@ -10,17 +10,17 @@
       </span>
       <div>
         <iButton @click="cancel"
-                 v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('QUXIAO', '取消') }}</iButton>
+                 v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('QUXIAO', '取消') }}</iButton>
         <iButton @click="add"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('XINZENG', '新增') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('XINZENG', '新增') }}</iButton>
         <iButton @click="edit"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BIANJI', '编辑') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
         <iButton @click="continueBtn"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('YANYONG', '沿用') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('YANYONG', '沿用') }}</iButton>
         <iButton @click="delecte"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('SHANCHU', '删除') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('SHANCHU', '删除') }}</iButton>
         <iButton @click="save"
-                 v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BAOCUN', '保存') }}</iButton>
+                 v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BAOCUN', '保存') }}</iButton>
       </div>
     </template>
     <el-form :rules="formRules"
@@ -54,16 +54,16 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="isNomi"
+        <el-table-column prop="formalFlag"
                          align="center"
                          show-overflow-tooltip
                          width="150"
                          :label="language('SHIFOUWEIXINGUIZE','是否为新规则')">
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'isNomi'"
-                          :rules="formRules.isNomi ? formRules.isNomi : ''">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'formalFlag'"
+                          :rules="formRules.formalFlag ? formRules.formalFlag : ''">
               <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{scope.row.isNomi?"否":"是"}}</span>
+              <span>{{scope.row.formalFlag=="Y"?"否":"是"}}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -231,7 +231,7 @@
                          align="center"
                          width="150"
                          :label="language('JIJIA','基价')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'price'"
                           :rules="formRules.price ? formRules.price : ''">
@@ -248,7 +248,7 @@
                          align="center"
                          width="150"
                          :label="language('JIJIAJILIANGDANWEI','基价计量单位')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'priceMeasureUnit'"
                           :rules="formRules.priceMeasureUnit ? formRules.priceMeasureUnit : ''">
@@ -276,7 +276,7 @@
                          align="center"
                          width="150"
                          :label="language('HUOBI','货币')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'tcCurrence'"
                           :rules="formRules.tcCurrence ? formRules.tcCurrence : ''">
@@ -298,7 +298,7 @@
                          align="center"
                          width="150"
                          :label="language('HUILV','汇率')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'tcExchangeRate'"
                           :rules="formRules.tcExchangeRate ? formRules.tcExchangeRate : ''">
@@ -313,7 +313,7 @@
                          align="center"
                          width="150"
                          :label="language('SHICHANGJIALAIYUAN','市场价来源')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'source'"
                           :rules="formRules.source ? formRules.source : ''">
@@ -327,7 +327,7 @@
                          align="center"
                          width="150"
                          :label="language('BUCHAXISHU','补差系数')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'compensationRatio'"
                           :rules="formRules.compensationRatio ? formRules.compensationRatio : ''">
@@ -343,7 +343,7 @@
                          align="center"
                          width="150"
                          :label="language('BUCHAZHOUQI','补差周期')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'compensationPeriod'"
                           :rules="formRules.compensationPeriod ? formRules.compensationPeriod : ''">
@@ -363,27 +363,23 @@
         </el-table-column>
         <el-table-column prop="threshold"
                          align="center"
+                         :label="language('YUZHI','阈值')"
                          width="150"
-                         show-overflow-tooltip>
-          <template slot="header">
-            <div>
-              <span>{{language('YUZHI','阈值')}}</span>
-              <el-tooltip effect="light"
-                          placement="top">
-                <div slot="content">
-                  <p>{{language("ZUIDUOSHURUXIAOSHUDIANHOUSIWEI","最多输入小数点后4位")}}</p>
-                </div>
-                <i class="el-icon-warning-outline margin-left10"
-                   style="color:blue"></i>
-              </el-tooltip>
-            </div>
-          </template>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'threshold'"
                           :rules="formRules.threshold ? formRules.threshold : ''">
-              <iInput type="number"
-                      v-model="scope.row.threshold"
-                      v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+              <el-tooltip effect="light"
+                          v-if="editId.indexOf(scope.row.id)!==-1"
+                          placement="bottom">
+                <div slot="content">
+                  <p>{{language("ZUIDUOSHURUXIAOSHUDIANHOUSIWEI","最多输入小数点后4位")}}</p>
+                </div>
+                <iInput type="number"
+                    step="0.0001"
+                    v-model="scope.row.threshold"
+                    ></iInput>
+              </el-tooltip>
               <span v-else>{{scope.row.threshold}}</span>
             </el-form-item>
           </template>
@@ -392,7 +388,7 @@
                          align="center"
                          width="150"
                          :label="language('YUZHIBUCHALUOJI','阈值补差逻辑')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'thresholdCompensationLogic'"
                           :rules="formRules.thresholdCompensationLogic ? formRules.thresholdCompensationLogic : ''">
@@ -414,7 +410,7 @@
                          align="center"
                          width="200"
                          :label="language('YOUXIAOQIQI','有效期起')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'startDate'"
                           :rules="formRules.startDate ? formRules.startDate : ''">
@@ -434,7 +430,7 @@
                          align="center"
                          width="200"
                          :label="language('YOUXIAOQIZHI','有效期止')"
-                         show-overflow-tooltip>
+                         >
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'endDate'"
                           :rules="formRules.endDate ? formRules.endDate : ''">
@@ -806,7 +802,7 @@ export default {
       this.getMtzCailiao();
     },
     add () {//新增
-      if (this.flowType == "MEETING") {
+      if (this.flowType !== "SIGN") {
         this.addDialog = true;
         var list = [];
         this.tableData.forEach(e => {
@@ -820,7 +816,7 @@ export default {
         })
         this.dataObject = list;
       } else {
-        iMessageBox(this.language('XZMTZYCLGZSSQDLXBNWLZBAJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ', '新增MTZ原材料规则时，申请单类型不能为流转/备案，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+        iMessageBox(this.language('XZMTZYCLGZSSQDLXBNWLZJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ', '新增MTZ原材料规则时，申请单类型不能为流转，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'), this.language('LK_WENXINTISHI', '温馨提示'), {
           confirmButtonText: this.language('QUEREN', '确认'),
           cancelButtonText: this.language('QUXIAO', '取消')
         }).then(res => {
@@ -895,6 +891,7 @@ export default {
                   // this.page.pageSize = 10;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
+                    this.$parent.$refs.theDataTabs.getTableList()
                   }, 500);
 
                   this.getTableList();
@@ -924,7 +921,7 @@ export default {
         })
         this.$refs['contractForm'].validate(async valid => {
           if (valid) {
-            iMessageBox(this.language('GZRFSBHSFTBXGGG', '规则若发生变化，是否同步相关更改？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+            iMessageBox(this.language('GZFSBHXGLJJTBGGSFJX','规则发生变化，相关零件将同步更改，是否继续？'), this.language('LK_WENXINTISHI', '温馨提示'), {
               confirmButtonText: this.language('QUEREN', '确认'),
               cancelButtonText: this.language('QUXIAO', '取消')
             }).then(res => {
@@ -937,6 +934,7 @@ export default {
                   this.editType = false;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
+                    this.$parent.$refs.theDataTabs.getTableList()
                   }, 500);
 
                   this.getTableList();
@@ -989,9 +987,16 @@ export default {
     addDialogDataList (val) {//沿用
       this.newDataList = deepClone(val);
       this.newDataList.forEach(item => {
+        item.source = item.sourceType;
+        item.formalFlag = "Y";
+        delete item.sourceType;
         delete item.id;
-        item.carlineList = item.carline.split(",")
-
+        if(item.carline == null){
+          item.carlineList = []
+          item.carline = "";
+        }else{
+          item.carlineList = item.carline.split(",")
+        }
         // checkPreciousMetal({code:item.materialCode}).then(res=>{
         //     this.$set(item,"metalType",res.data)
         // })
@@ -1025,6 +1030,7 @@ export default {
             iMessage.success(res.desZh)
             setTimeout(() => {
               this.$parent.$refs.theDataTabs.pageAppRequest()
+              this.$parent.$refs.theDataTabs.getTableList()
             }, 500);
 
             this.getTableList();
@@ -1072,10 +1078,12 @@ export default {
         // this.page.totalCount = res.total
         var num = 0;
         res.data.forEach(e => {
-          if (!e.isNomi) {
+          // if (!e.formalFlag) {
+          if (e.formalFlag == "N") {
             num++;
           }
         })
+        console.log(num)
         this.$emit("isNomiNumber", num);
         this.loading = false;
         if (res.total < 1) {

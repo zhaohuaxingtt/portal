@@ -15,8 +15,8 @@
       </div>
     </div>
     <div class="btn-box margin-top25">
-      <iButton @click="handleConfirm">{{ $t('LK_INQUIRE') }}</iButton>
-      <iButton @click="handleReset">{{ $t('LK_ZHONGZHI') }}</iButton>
+      <iButton @click="handleConfirm">{{ language('查询') }}</iButton>
+      <iButton @click="handleReset">{{ language('重置') }}</iButton>
     </div>
   </div>
 </template>

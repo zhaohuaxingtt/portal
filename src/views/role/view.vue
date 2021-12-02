@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <viewHeader title="角色名称" @toggle-tab="toggleTab" />
+    <viewHeader :title="language('角色名称')" @toggle-tab="toggleTab" />
     <viewBase v-show="activeTab === 'base'" :form="roleData" />
     <viewFunction v-show="activeTab === 'function'" :detail="roleData" />
     <viewData
@@ -61,7 +61,7 @@ export default {
     roleDetail() {
       let param = { id: this.$route.params.id }
       fetchRoleDetail(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             //头部信息
             const { data } = val

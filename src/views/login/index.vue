@@ -45,7 +45,6 @@
 import { iMessage } from 'rise'
 import { login } from '@/api/usercenter'
 import { setToken } from '@/utils'
-
 export default {
   data() {
     return {

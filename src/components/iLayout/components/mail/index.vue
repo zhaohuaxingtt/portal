@@ -4,6 +4,8 @@
       class="messageDrawer1"
       :visible.sync="visible"
       v-loading="loading"
+      wrapper-closable
+      modal
     >
       <el-tabs :stretch="true" v-model="activeTab" @tab-click="handleClick">
         <el-tab-pane v-for="item in tabs" :key="item.name" :name="item.name">
@@ -48,6 +50,8 @@ export default {
           this.$refs.list[li].getList()
           this.$refs.list[li].getUnreadCount()
         }
+      } else {
+        this.$emit('hide-drawer')
       }
     }
   },
@@ -87,7 +91,6 @@ export default {
   },
   beforeDestroy() {
     this.closeSocket()
-
   },
   data() {
     return {
@@ -101,7 +104,7 @@ export default {
       },
       activeTab: '0',
       closeSocket: null,
-      closePopupSocket:null,
+      closePopupSocket: null,
       num: [],
       timer: null,
       tabs: [

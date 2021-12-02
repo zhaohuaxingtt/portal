@@ -3,9 +3,8 @@
     <div class="menu">
       <iCard title="页面菜单">
         <functionMenu
-          key="menu"
           editable
-          :default-selected-rows="detail.menuList"
+          :default-selected-rows="defaultSelectedMenus"
           :full-menu="fullMenu"
           @set-menu-list="setMenuList"
           @set-resource-parent="setResourceParent"
@@ -19,10 +18,9 @@
           <iButton @click="saveResource">确定</iButton>
         </template>
         <functionResource
-          key="resource"
           editable
           :full-menu="fullMenu"
-          :default-selected-rows="detail.resourceList"
+          :default-selected-rows="defaultSelectedResource"
           :parent-id="resourceParent.id"
           ref="functionResource"
           @set-resource-list="setResourceList"
@@ -44,13 +42,13 @@ export default {
   props: {
     detail: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     },
     fullMenu: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -61,6 +59,18 @@ export default {
         return `【${this.resourceParent.name}】页面控件`
       }
       return '页面控件'
+    },
+    defaultSelectedMenus() {
+      return _.cloneDeep(this.detail.menuList)
+    },
+    defaultSelectedResource() {
+      return _.cloneDeep(this.detail.resourceList)
+    }
+  },
+  watch: {
+    'detail.menuList'() {
+      console.log('watch menuList')
+      this.setDefaultCheckedMenuList()
     }
   },
   data() {
@@ -71,21 +81,30 @@ export default {
       resourceList: null
     }
   },
+  created() {
+    this.setDefaultCheckedMenuList()
+  },
   methods: {
+    setDefaultCheckedMenuList() {
+      if (this.detail.menuList) {
+        this.menuList = treeToArray(this.detail.menuList, 'menuList')
+      }
+    },
     setResourceParent(row) {
       this.resourceParent = row
     },
     setMenuList(val, properties) {
+      console.log('setMenuList', val)
       this.menuList = val
       if (properties) {
         const { rows, row, checked } = properties
         const isMultipleCheck = !!rows
+        // 如果是取消选择，联动取消资源
         if (!checked) {
           const selectRows = isMultipleCheck ? rows : [row]
-          console.log('selectRows', selectRows)
-          const ids = selectRows.map(e => e.id)
+          const ids = selectRows.map((e) => e.id)
           this.detail.resourceList = this.detail.resourceList.filter(
-            e => ids.indexOf(e.parentId) === -1
+            (e) => ids.indexOf(e.parentId) === -1
           )
           this.$refs.functionResource.handleToggleSelectedAll(false)
         }
@@ -99,15 +118,14 @@ export default {
           if (checked) {
             // 全选
             const oldResourceList = this.detail.resourceList
-            // const oldIds = oldResourceList.map(e => e.id)
-            rows.forEach(e => {
+            rows.forEach((e) => {
               oldResourceList.push(e)
             })
           } else {
             // 反选
-            const ids = rows.map(e => e.id)
+            const ids = rows.map((e) => e.id)
             this.detail.resourceList = this.detail.resourceList.filter(
-              e => ids.indexOf(e.id) === -1
+              (e) => ids.indexOf(e.id) === -1
             )
           }
         } else {
@@ -118,10 +136,11 @@ export default {
           } else {
             // 未选中
             this.detail.resourceList = this.detail.resourceList.filter(
-              e => e.id !== row.id
+              (e) => e.id !== row.id
             )
           }
         }
+        console.log('checked', checked)
         // 关联选中菜单
         if (checked) {
           const firstRow = row || (rows && rows[0])
@@ -133,7 +152,7 @@ export default {
           }
         }
       } else {
-        this.resourceList = val
+        this.detail.resourceList = val
       }
     },
     async saveResource() {
@@ -141,7 +160,7 @@ export default {
       const data = {
         ...this.detail,
         menuList: treeToArray(menuList, 'menuList'),
-        resourceList: this.resourceList || this.detail.resourceList
+        resourceList: this.detail.resourceList
       }
       delete data.permissionList
       this.loading = true
@@ -160,21 +179,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* .edit-function {
-  position: relative;
-  .el-tabs--card {
-    background: none !important;
-  }
-  ::v-deep .i-pagination .page-info {
-    margin-top: 15px;
-  }
-  .action-buttons {
-    position: absolute;
-    z-index: 9;
-    top: 0;
-    right: 0;
-  }
-} */
 .view-data {
   display: flex;
   justify-content: space-between;

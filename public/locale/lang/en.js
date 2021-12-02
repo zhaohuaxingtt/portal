@@ -1871,7 +1871,8 @@
     EKL_YJGL_CGCKJ: 'purchase reference price',
     EKL_YJGL_JIJIA: 'base price',
     EKL_YJGL_GZJD: 'track progress',
-
+    EKL_LAIYUAN:'sorce',
+    EKL_CAOZUO:'operation',
     JANUARY: 'january',
     FEBRUARY: 'february',
     MARCH: 'march',
@@ -1885,13 +1886,13 @@
     NOVEMBER: 'november',
     DECEMBER: 'december',
 
-    KESHI: 'department',
+    EKL_KESHI: 'department',
     PINJUN: 'average',
     CHIXU: 'continued',
     EKL_VW: 'VW',
     EKL_AUDI: 'AUDI',
     EKL_SK: 'SK',
-
+    EKL_CAIGOUJINE: 'Amount Of Purchasing', //采购金额
     EKL_DQZT: 'current state',
     EKL_YWC: 'completed',
     EKL_WWC: 'incomplete',
@@ -1906,7 +1907,6 @@
     EKL_XZLJZS: 'total number of new parts',
     EKL_QXLJZS: 'total number of cancelled parts',
     EKL_LJGZLX: 'part tracking type',
-
     //SP15
     EKL_JCBMBXZ: 'table template down',
     EKL_PFJ_LJMC: 'partName',
@@ -1918,6 +1918,10 @@
     EKL_PFJ_CGJG: 'purchase price',
     EKL_PFJ_XSLYC: 'sales volume',
     EKL_PFJ_DNCGJE: 'Purchase amount',
+    EKL_CAILIAOZU:'Stuff Gategory',
+    EKL_DANWEI:'unit',
+    EKL_LINGJIANLEIXING: 'part type', //零件类型
+    EKL_CHEXINGDENGJI: 'Car Level', //车型等级
     //
     MAIL: {
       NOTIFICATION: 'notification',
@@ -1949,7 +1953,39 @@
       HOME_MODULE_APPROVE: 'iAgree',
       HOME_MODULE_VOLUME: 'Volume Pricing',
       HOME_MODULE_NEWS: 'News'
-    }
+    },
+    //会议中英文
+    MT_HUIYIMINGCHENG: 'Meeting name',
+    MT_HUIYIDIDIAN: 'Meeting place',
+    MT_HUIYILEIXING: 'Meeting type',
+    MT_ZHUANGTAI: 'Status',
+    MT_HUIYIRIQI: 'Meeting date',
+    MT_ZHOUCI: 'Weeks',
+    // MT_QUEREN: '确认',
+    // MT_CHONGZHI: '重置',
+    MT_XUHAO: 'Num',
+    MT_CAOZUO: 'Operate',
+    MT_CHEHUI: 'Recall',
+    MT_SHANCHU: 'Delete',
+    MT_CHUANGJIAN: 'Create',
+    MT_PILIANGCHUANGJIAN: 'Batch Create',
+    MT_CAOGAO: 'Draw',
+    MT_KAIFANG: 'Open',
+    MT_KAISHI: 'Start',
+    MT_SUODING: 'Lock',
+    MT_XIUGAI: 'Edit',
+    MT_DAORUYITI: 'Import themen',
+    MT_GUANBI: 'Close',
+    MT_JIESHU: 'End',
+    MT_TONGPING: 'Same screen',
+    MT_ZHANSHI: 'Display',
+    MT_SHENGCHENGHUIYIJIYAO: 'Generate meeting minutes',
+    MT_SHANGCHUANHUIYIJIYAO: 'Upload meeting minutes',
+    MT_HUIYISHIJIAN: 'Meeting time',
+    MT_FUJIAN: 'Attachment',
+    MT_QINGSHURU: 'Please input',
+    MT_QINGXUANZE: 'Please select',
+    MT_TO: 'To'
   }
   var xmlHttp = ''
   if (window.XMLHttpRequest) {
@@ -1967,7 +2003,7 @@
   xmlHttp.open(
     'GET',
     'http://10.122.18.136:8088/i18n/getTranslationMap?from=protal',
-    true
+    false
   )
   xmlHttp.setRequestHeader('Content-type', 'application/json')
   xmlHttp.setRequestHeader('Accept', '*/*')

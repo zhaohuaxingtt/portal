@@ -190,6 +190,7 @@
       @reset="handleResetSetting"
     />
     <el-tooltip
+      open-delay="3000"
       effect="light"
       placement="top"
       ref="customTableTooltip"
@@ -469,8 +470,11 @@ export default {
       this.$emit('handle-current-change', val)
     },
     handleSelectionChange(val) {
-      this.selectedRows = val
-      this.$emit('handle-selection-change', val)
+      // 20211130 原生的selection
+      if (!this.customSelection) {
+        this.selectedRows = val
+        this.$emit('handle-selection-change', val)
+      }
     },
     handleEmit(item, row) {
       if (item.emit) {
@@ -480,6 +484,13 @@ export default {
     getTableData() {
       if (this.treeExpand) {
         this.tableData = this.getTreeTableData(this.data)
+        /****************** 20211130 如果有默认的，先emit */
+        /* if (this.defaultSelectedRows) {
+          this.selectedRows = this.tableData.filter((e) =>
+            this.defaultCheckedKeys.includes(e[this.rowKey])
+          )
+        } */
+        /******************* end *********************/
       } else {
         this.tableData = this.data
         this.tableData.forEach((e, index) => {
@@ -503,6 +514,16 @@ export default {
 
       if (this.customSelection) {
         this.checkedAll = this.isDefaultCheckedAll
+        /********** 211130 判断是不是要半选顶部复选框 start ***************/
+        if (this.defaultCheckedKeys && !this.checkedAll) {
+          const checkedRootNums = this.data.filter((e) =>
+            this.defaultCheckedKeys.includes(e[this.rowKey])
+          )
+          if (checkedRootNums.length) {
+            this.indeterminateAll = true
+          }
+        }
+        /***************** end ****************************************/
       }
     },
     getTreeTableData(data, parentKey, res) {
@@ -540,6 +561,16 @@ export default {
             resItem.checked = false
           }
           resItem.isIndeterminate = false
+          /********** 211130 判断是不是要半选复选框 start ***************/
+          if (hasChild && resItem.childNum) {
+            const notCheckedNums = row[childrenKey].filter(
+              (e) => !this.defaultCheckedKeys.includes(e[this.rowKey])
+            ).length
+            if (notCheckedNums !== resItem.childNum) {
+              resItem.isIndeterminate = true
+            }
+          }
+          /***************** end ********************************/
           // 设置已选中值
           if (this.defaultSelectedRows) {
             if (this.defaultCheckedKeys.includes(row[this.rowKey])) {
@@ -811,7 +842,8 @@ export default {
       )
       if (filterRow.length > 0) {
         filterRow[0].checked = val
-        this.handleCheckedRow(val, row)
+        // 1130修改资源权限
+        this.handleCheckedRow(val, { ...row, ...filterRow[0] })
       }
     },
     handleToggleSelectedAll(val) {

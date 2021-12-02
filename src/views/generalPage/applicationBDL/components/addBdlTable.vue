@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-15 17:30:36
- * @LastEditTime: 2021-04-15 17:30:36
+ * @LastEditTime: 2021-12-01 11:43:54
  * @LastEditors: Please set LastEditors
  * @Description: 材料表格
 -->
@@ -13,8 +13,20 @@
         <i-button @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
-    <table-list :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" :index="true" @handleSelectionChange="handleSelectionChange" />
-    <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :current-page='page.currPage' :total="page.totalCount" />
+    <table-list :tableData="tableListData"
+                :tableTitle="tableTitle"
+                :tableLoading="tableLoading"
+                :index="true"
+                @handleSelectionChange="handleSelectionChange" />
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page='page.currPage'
+                 :total="page.totalCount" />
   </div>
 </template>
 
@@ -28,13 +40,13 @@ import { getPageStuffMaterialGroup } from "../../../../api/supplier360/material"
 
 
 export default {
-  mixins: [generalPageMixins,pageMixins],
+  mixins: [generalPageMixins, pageMixins],
   components: {
     iButton,
     tableList,
     iPagination
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle: addBDLTableTitle,
@@ -43,19 +55,20 @@ export default {
       addBdldialog: false
     }
   },
-  created() {
+  created () {
     this.getTableList()
   },
   methods: {
-    handleSelectionChange(e) {
+    handleSelectionChange (e) {
       this.selectTableData = e
     },
-    async getTableList(form) {
+    async getTableList (form) {
       this.tableLoading = true
       const pms = {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        ...form
+        ...form,
+        supplierToken: this.$route.query.supplierToken
       }
       const res = await getPageStuffMaterialGroup(pms)
       this.page.currPage = res.pageNum
@@ -64,10 +77,10 @@ export default {
       this.tableLoading = false
       this.tableListData = res.data
     },
-    handleSelect() {
+    handleSelect () {
       this.$emit('handleSelection', this.selectTableData)
     },
-    handleOpenPage() {
+    handleOpenPage () {
     }
   }
 }

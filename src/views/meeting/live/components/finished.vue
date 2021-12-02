@@ -34,15 +34,15 @@
       </el-form>
     </iSearch> -->
     <el-row class="row-el">
-      <iButton @click="handleMore">{{ "MORE" }}</iButton>
+      <iButton @click="handleMore">{{ 'MORE' }}</iButton>
     </el-row>
     <iTableML tooltip-effect="light" :data="tableData">
-      <el-table-column prop="follow" align="center" label="NO." width="50">
+      <el-table-column prop="follow" align="left" label="No." width="50">
         <template slot-scope="scope">
           <div class="img-word">
-            <div>
+            <span>
               {{ scope.$index + 1 }}
-            </div>
+            </span>
             <div>
               <img
                 v-if="scope.row.follow"
@@ -97,9 +97,9 @@
                 lock: scope.row.meetingStatus == '03',
                 begin: scope.row.meetingStatus == '04',
                 end: scope.row.meetingStatus == '05',
-                close: scope.row.meetingStatus == '06',
+                close: scope.row.meetingStatus == '06'
               },
-              'circle',
+              'circle'
             ]"
             >{{ statusObj[scope.row.meetingStatus] }}</span
           >
@@ -230,8 +230,8 @@
       :current-page="page.pageNum"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      prev-text="上一页"
-      next-text="下一页"
+      :prev-text="$t('上一页')"
+      :next-text="$t('下一页')"
       :total="total"
     />
     <!-- <detailDialog :openDialog="openDetail" v-if="openDetail" :id="id" /> -->
@@ -248,15 +248,9 @@
 </template>
 
 <script>
-import { iPagination } from "rise";
-import { iInput, iSelect, iButton } from "rise";
-import iSearch from "@/components/iSearch/index.vue";
-import iDateRangePicker from "@/components/iDateRangePicker/index.vue";
-import iTableML from "@/components/iTableML";
-import addTopic from "./addTopic.vue";
-// import { getMyMettingList, findMyThemens } from "@/api/meeting/myMeeting";
-// import detailDialog from "./detailDialog.vue";
-
+import { iPagination, iButton } from 'rise'
+import iTableML from '@/components/iTableML'
+import addTopic from './addTopic.vue'
 export default {
   components: {
     // iInput,
@@ -266,46 +260,46 @@ export default {
     iButton,
     iPagination,
     iTableML,
-    addTopic,
+    addTopic
     // detailDialog,
   },
   data() {
     return {
-      meetingTypeId: "",
+      meetingTypeId: '',
       openAddTopic: false,
       tableLoading: false,
       openDetail: false,
       lookThemenObj: {},
-      id: "",
+      id: '',
       form: {
-        presentItem: "01",
+        presentItem: '01'
       },
       tableData: [],
       dataAll: [],
       page: {
         pageSize: 10,
-        pageNum: 1,
+        pageNum: 1
       },
       total: 1,
       presentList: [
         {
-          value: "01",
-          label: "全部",
+          value: '01',
+          label: '全部'
         },
         {
-          value: "02",
-          label: "我的",
-        },
+          value: '02',
+          label: '我的'
+        }
       ],
       statusObj: {
-        "01": "草稿",
-        "02": "开放",
-        "03": "锁定",
-        "04": "开始",
-        "05": "结束",
-        "06": "关闭",
-      },
-    };
+        '01': '草稿',
+        '02': '开放',
+        '03': '锁定',
+        '04': '开始',
+        '05': '结束',
+        '06': '关闭'
+      }
+    }
   },
   props: {
     // condition: {
@@ -317,67 +311,67 @@ export default {
     meetingInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     finishedData: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   mounted() {
-    this.meetingTypeId = this.$route.query.id;
+    this.meetingTypeId = this.$route.query.id
   },
   watch: {
     finishedData: {
       handler(newV) {
         this.dataAll = [...newV].filter((item) => {
-          return !item.isBreak;
-        });
-        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize);
-        this.total = this.dataAll.length;
+          return !item.isBreak
+        })
+        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
+        this.total = this.dataAll.length
       },
-      immediate: true,
+      immediate: true
     },
     meetingInfo: {
-      handler(v) {
-        this.dataAll = [...this.finishedData];
-        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize);
-        this.total = this.dataAll.length;
+      handler() {
+        this.dataAll = [...this.finishedData]
+        this.tableData = this.dataAll.slice(0, 1 * this.page.pageSize)
+        this.total = this.dataAll.length
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     closeDialog() {
-      this.openAddTopic = false;
+      this.openAddTopic = false
     },
     lookOrEdit(row) {
-      this.lookThemenObj = { ...row };
-      this.editOrAdd = "look";
-      this.openAddTopic = true;
+      this.lookThemenObj = { ...row }
+      this.editOrAdd = 'look'
+      this.openAddTopic = true
     },
-    searchTableList(e) {
+    searchTableList() {
       // this.query();
-      this.$emit("findMyThemensByCondition", this.form);
+      this.$emit('findMyThemensByCondition', this.form)
     },
     changeStart(e) {
-      this.form.startDateBegin = e;
+      this.form.startDateBegin = e
     },
     changeEnd(e) {
-      this.form.startDateEnd = e;
+      this.form.startDateEnd = e
     },
     handleSearchReset() {
       this.form = {
-        presentItem: "01",
-      };
-      this.page.pageNum = 1;
+        presentItem: '01'
+      }
+      this.page.pageNum = 1
       setTimeout(() => {
-        this.$refs.iDateRangePicker.initDate();
-      }, 4);
-      this.query();
+        this.$refs.iDateRangePicker.initDate()
+      }, 4)
+      this.query()
     },
     query() {
       // let param = {
@@ -395,46 +389,47 @@ export default {
       //   this.tableData = data.slice(0, 1 * this.page.pageSize);
       //   this.total = data.length;
       // });
-      this.$emit("findMyThemens");
+      this.$emit('findMyThemens')
     },
     //选择页数
     handleCurrentChange(curPage) {
-      this.page.pageNum = curPage;
-      this.currentChangePage(this.dataAll, this.page.pageNum);
+      this.page.pageNum = curPage
+      this.currentChangePage(this.dataAll, this.page.pageNum)
     },
     // 分页方法
     currentChangePage(data, pageNum) {
-      let from = (pageNum - 1) * this.page.pageSize;
-      let to = pageNum * this.page.pageSize;
-      this.tableData = data.slice(from, to);
+      let from = (pageNum - 1) * this.page.pageSize
+      let to = pageNum * this.page.pageSize
+      this.tableData = data.slice(from, to)
     },
 
     // 查看详情
     checkDetail(e) {
-      this.id = e;
-      this.openDetail = true;
+      this.id = e
+      this.openDetail = true
     },
     // 查看更多
     handleMore() {
       this.$router.push({
-        path: "/meeting/live/more-themens",
+        path: '/meeting/live/more-themens',
         query: {
-          meetingTypeId: this.meetingTypeId,
-        },
-      });
-    },
-  },
-};
+          meetingTypeId: this.meetingTypeId
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
 .img-word {
   display: flex;
-  justify-content: center;
-  div:first-child {
-    width: 30px;
-    text-align: center;
-    margin-right: 9.42px;
+  /* justify-content: center; */
+  span:first-child {
+    display: block;
+    width: 20px;
+    /* text-align: center; */
+    margin-right: 5px;
   }
 }
 ::v-deep .open-link-text {

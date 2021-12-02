@@ -56,6 +56,7 @@
         <el-col :span="6">
           <vertexSituation @show="showCrating" />
         </el-col>
+        <!--舆情检测卡片-->
         <el-col :span="6">
           <monitor />
         </el-col>
@@ -156,7 +157,7 @@ export default {
     hideRiskSignalCard() {
       this.showRiskSigna = false
       this.showMain = true
-    }
+    },
   },
 };
 </script>

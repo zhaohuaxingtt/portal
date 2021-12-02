@@ -1,8 +1,8 @@
 /*
  * @Author: moxuan
  * @Date: 2021-04-19 17:50:00
- * @LastEditTime: 2021-04-15 17:50:00
- * @LastEditors: moxuan
+ * @LastEditTime: 2021-11-30 14:52:06
+ * @LastEditors: Please set LastEditors
  * @Description: 联系人与用户
  */
 import axios from '@/utils/axios'
@@ -15,5 +15,20 @@ export function getApprove(applyId) {
   return requst({
     url: `/bdl/stuffMaterials/${applyId}`,
     method: 'GET'
+  })
+}
+// 材料组分页查询
+export function priorApprovalDetail(taskId) {
+  return requst({
+    url: `/bdl/priorApprovalDetail/${taskId}`,
+    method: 'GET'
+  })
+}
+// 材料组分页查询
+export function priorApproval(params) {
+  return requst({
+    url: `/bdl/priorApproval`,
+    method: 'POST',
+    data: params
   })
 }

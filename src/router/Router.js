@@ -2,7 +2,7 @@
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-19 14:15:08
+ * @LastEditTime: 2021-12-01 17:13:26
  * @Description:
  * @FilePath: \front-portal\src\router\Router.js
  */
@@ -40,6 +40,10 @@ import RouterSurvey from './survey'
 import RouterColorParts from './RouterColorParts'
 
 import RouterApplications from './applications'
+import ApproveDetails from '@/views/generalPage/approveDetails/preview'
+import MaintenanceSupplier from '../views/supplierManagement/yuqingjiance/maintenanceSupplier'
+
+import RouterOfflineDownload from './RouterOfflineDownload'
 
 export default {
   routes: [
@@ -147,6 +151,24 @@ export default {
           },
           component: () => import('@/views/search')
         },
+        {
+          path: '/supplier/approve',
+          name: 'approve',
+          component: ApproveDetails
+        },
+        {
+          path: '/supplier/maintenancesupplier',
+          name: 'MaintenanceSupplier',
+          component: MaintenanceSupplier
+        },
+        {
+          path: '/nTierBKL',
+          name: 'nTierBKL',
+          component: () =>
+            import(
+              '@/views/supplierManagement/NTier/supplyMaintain/components/ntierChain'
+            )
+        },
         ...RouterOpcs,
         ...RouterSupplier,
         ...RouterDemo,
@@ -172,7 +194,8 @@ export default {
         ...RouterNews,
         ...RouterSurvey,
         ...RouterColorParts,
-        ...RouterApplications
+        ...RouterApplications,
+        ...RouterOfflineDownload
       ]
     },
 

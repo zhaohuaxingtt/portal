@@ -15,7 +15,7 @@
     label-suffix=":"
     size="mini"
   >
-    <iFormItem :label="$t('ROLE.SET_FOLLOW_COL_DISVISIBLE')">
+    <iFormItem :label="$t('设置以下属性不可见')">
       <iSelect v-model="form.unCols" multiple :disabled="!editable">
         <el-option
           v-for="item in data"
