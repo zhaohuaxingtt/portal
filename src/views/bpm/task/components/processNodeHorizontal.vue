@@ -16,13 +16,17 @@ export default {
     },
     stateCode: {
       type: Number
+    },
+    isEnd: {
+      type: Boolean,
+      default: false
     }
   },
-  computed: {
+  /* computed: {
     isEnd() {
       return this.stateCode !== 3 && this.stateCode !== 4
     }
-  },
+  }, */
   watch: {
     panorama() {
       this.getData()

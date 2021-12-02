@@ -711,16 +711,27 @@ export default {
           this.loading = false
           if (value.code == 200) {
             //创建成功
-            this.$router.go(-1)
+            iMessage.success(value.desZh || '创建失败')
+            setTimeout(() => {
+              window.close()
+            }, 2000)
+            /* this.$router.replace({
+              params: {
+                id: value.id,
+                type: 'createOrg',
+                upLevelID: value.id,
+                upLevelName: name
+              }
+            }) */
           } else {
             //创建失败
             iMessage.error(value.desZh || '创建失败')
           }
         })
-        .catch(() => {
+        .catch((err) => {
           //异常处理
           this.loading = false
-          iMessage.error('创建失败')
+          iMessage.error(err.desZh || '创建失败')
         })
     },
     async editOrg() {
