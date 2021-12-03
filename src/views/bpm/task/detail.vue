@@ -1,14 +1,9 @@
 <template>
   <iPage class="approval-detail" v-loading="loading">
     <div class="page-header margin-bottom20">
-      <div class="font18 font-weight">
-        {{ form.itemName }}
-        <span class="item-event">{{ form.itemEvent }}</span>
-        <span class="business-id">{{ form.businessId }}</span>
-
-        ({{ form.stateMsg }})
-      </div>
+      <detailTitle :form="form" />
       <div class="operation-btn">
+        <viewFlow :detail="form" />
         <!-- 批准 -->
         <iButton
           v-if="(!finished && buttons.批准) || buttons.无异议"
@@ -55,23 +50,18 @@
       :form-height="form.formHeight"
     />
 
-    <i-card
+    <!-- <i-card
       :title="$t('APPROVAL.FLOW_INFO')"
       header-control
       collapse
       class="margin-bottom20"
-    >
-      <!-- <process-horizontal
-        v-if="form.panorama"
-        :panorama="form.panorama"
-        :state-code="form.stateCode"
-      /> -->
+    > 
       <processNodeHorizontal
         v-if="form.panorama"
         :panorama="form.panorama"
         :state-code="form.stateCode"
       />
-    </i-card>
+    </i-card> -->
 
     <i-card
       :title="$t('APPROVAL.MORE_APPROVAL_HISTORY')"
@@ -112,7 +102,8 @@ import {
   detailProcessForm,
   lastNode,
   baseForm,
-  processNodeHorizontal
+  viewFlow,
+  detailTitle
 } from './components'
 import { excelExport } from '@/utils/filedowLoad'
 import iTableCustom from '@/components/iTableCustom'
@@ -135,7 +126,8 @@ export default {
     dialogAppendAttachment,
     lastNode,
     baseForm,
-    processNodeHorizontal
+    viewFlow,
+    detailTitle
   },
   data() {
     return {
@@ -253,13 +245,13 @@ export default {
   },
   methods: {
     getDetail() {
-      this.loading = true
       const { instanceId } = this.$route.params
       const params = {
         processInstanceId: instanceId,
         currentUserId: this.$store.state.permission.userInfo.id
       }
       if (instanceId) {
+        this.loading = true
         queryWorkflowDetail(params)
           .then((res) => {
             if (res.result) {
@@ -401,12 +393,7 @@ export default {
 #flow-form {
   width: 100%;
 }
-.item-event {
-  margin: 0px 20px;
-}
-.business-id {
-  margin-right: 20px;
-}
+
 .operation-btn {
   flex-grow: 1;
   min-width: 350px;

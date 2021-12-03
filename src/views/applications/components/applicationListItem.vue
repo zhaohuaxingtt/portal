@@ -1,6 +1,24 @@
 <template>
-  <el-col>
-    <div class="tag" @click="tap(item)" :class="{ disabled: !item.url }">
+  <el-col :span="8">
+    <el-tooltip
+      v-if="item.description"
+      effect="light"
+      :content="item.description"
+      placement="top"
+    >
+      <div class="tag" @click="tap(item)" :class="{ disabled: !item.url }">
+        <div class="left-content">
+          <div class="dot"></div>
+          <div>
+            <span>{{ item.appNameCn }}</span>
+          </div>
+        </div>
+        <div class="icon">
+          <Icon symbol name="icontiaozhuananniu" style="font-size: 10px"></Icon>
+        </div>
+      </div>
+    </el-tooltip>
+    <div v-else class="tag" @click="tap(item)" :class="{ disabled: !item.url }">
       <div class="left-content">
         <div class="dot"></div>
         <div>

@@ -4,9 +4,9 @@
       <span v-if="icon" class="icon">
         <icon symbol class="icon" name="iconshenpi-fujian" />
       </span>
-      <a :href="item.path" class="open-link-text" target="_blank">{{
-        item.name
-      }}</a>
+      <a :href="item.path" class="open-link-text" target="_blank">
+        {{ item.name }}
+      </a>
     </li>
   </ul>
 </template>
@@ -19,7 +19,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -47,5 +47,16 @@ export default {
 .icon {
   font-size: 16px;
   margin-right: 5px;
+}
+.attachs {
+  li {
+    display: flex;
+    align-items: center;
+
+    a {
+      font-size: 1rem;
+      line-height: 0px;
+    }
+  }
 }
 </style>

@@ -50,3 +50,11 @@ export function stageCompleteApproval(data) {
     data
   })
 }
+
+export function queryPanoramaLists(params) {
+  return requst({
+    url: '/web/history/getPanoramasByBusinessId',
+    method: 'POST',
+    params
+  })
+}
