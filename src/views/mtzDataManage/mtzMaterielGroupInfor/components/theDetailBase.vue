@@ -1,5 +1,5 @@
 <template>
-  <iCard :title="$t('基础信息')" collapse>
+  <iCard :title="language('基础信息')" collapse>
     <div class="actions" slot="header-control">
       <iButton v-show="!editable" @click="editable = true">编辑</iButton>
       <iButton v-show="editable" @click="save">保存</iButton>
@@ -15,44 +15,44 @@
     >
       <el-row :gutter="20">
         <el-col :span="8">
-          <iFormItem :label="$t('MTZ材料组编号')" prop="materialGroupCode">
+          <iFormItem :label="language('MTZ材料组编号')" prop="materialGroupCode">
             <iInput
               v-model="form.materialGroupCode"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
               :disabled="this.$route.query.id"
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
           <iFormItem
-            :label="$t('MTZ材料组名称(中)')"
+            :label="language('MTZ材料组名称(中)')"
             prop="materialGroupNameZh"
           >
             <iInput
               v-model="form.materialGroupNameZh"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
               :disabled="!editable"
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
           <iFormItem
-            :label="$t('MTZ材料组名称(英)')"
+            :label="language('MTZ材料组名称(英)')"
             prop="materialGroupNameEn"
           >
             <iInput
               v-model="form.materialGroupNameEn"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
               :disabled="!editable"
             />
           </iFormItem>
         </el-col>
 
         <el-col :span="8">
-          <iFormItem :label="$t('中类名称')" prop="rawMaterialCodes">
+          <iFormItem :label="language('中类名称')" prop="rawMaterialCodes">
             <iSelect
               v-model="form.rawMaterialCodes"
-              :placeholder="$t('请选择')"
+              :placeholder="language('请选择')"
               :disabled="!editable"
               filterable
               multiple
@@ -67,16 +67,16 @@
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('备注')">
+          <iFormItem :label="language('备注')">
             <iInput
               v-model="form.remark"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
               :disabled="!editable"
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('科室')" prop="depts">
+          <iFormItem :label="language('科室')" prop="depts">
             <orgSelect
               v-model="form.depts"
               :disabled="!editable"
