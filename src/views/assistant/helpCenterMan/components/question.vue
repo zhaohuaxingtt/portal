@@ -45,7 +45,7 @@
                     <span>点击上传</span>
                 </div>
             </iUpload>
-            <span v-if="type == 'detail' && form.annexList.length == 0" >无</span>
+            <span v-if="type == 'detail' && form.annexList && form.annexList.length == 0" >无</span>
         </div>
         
         <CreateQuestion 

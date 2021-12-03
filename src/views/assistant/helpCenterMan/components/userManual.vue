@@ -17,12 +17,12 @@
         <template v-if="type == 'detail'">
             <div class="manual-tlt" v-text="qs.menuName"></div>
             <!-- <div class="content" v-if="detail.manualContent" v-html="detail.manualContent"></div> -->
-            <iEditor class="manual-editor" disabled v-model="detail.manualContent"></iEditor>
+            <iEditor class="content" disabled v-model="detail.manualContent"></iEditor>
         </template>
         <template v-if="type == 'edit'">
             <div v-if="preview" v-html="content"></div>
             <template v-else>        
-                <iEditor class="manual-editor" v-model="content"></iEditor>
+                <iEditor class="content manual-editor" v-model="content"></iEditor>
                 <iUpload ref="upload" v-model="files" :maxSize="20" >
                     <div class="upload flex" style="align-items: end;">
                         <iButton>添加附件</iButton>
@@ -126,12 +126,13 @@
     border-bottom: 1px solid #ccc;
 }
 .content{
+    flex: 1;
     padding: 20px 10px;
+    overflow: auto;
 }
 .manual-editor{
     flex: 1;
-    margin-top: 40px;
-    overflow: hidden;
+    // margin-top: 40px;
     ::v-deep .quillWrapper{
         height: 100%;
         display: flex;
