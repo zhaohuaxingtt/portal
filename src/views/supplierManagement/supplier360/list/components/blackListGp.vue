@@ -5,10 +5,11 @@
 <template>
   <iDialog @close="closeDiolog()"
            :visible.sync="value"
-            top="2%"
+           top="2%"
            :title="'供应商⿊名单记录 - ⼀般采购  -'+ clickTableList.nameZh"
            width="85%">
-            <div slot="title" class="headerTitle">
+    <div slot="title"
+         class="headerTitle">
       <span>{{'供应商黑名单记录 - ⼀般采购  -'+ clickTableList.nameZh}}</span>
     </div>
     <div class="box">
@@ -68,26 +69,26 @@
         </div>
       </div>
       <p class="tableTitle">
-        详情列表
+        {{ language('XIANGQINGLIEBIAO', '详情列表') }}
       </p>
-       <div class="tableBox">
-      <table-list v-if="tabVal == 1"
-                  style="margin-top:20px"
-                  :tableData="tableListData"
-                  :tableTitle="tableTitleGpBlackList"
-                  :tableLoading="tableLoading"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-      <table-list v-if="tabVal == 2"
-                  style="margin-top:20px"
-                  :tableData="tableListDataRecord"
-                  :tableTitle="tableTitleGpBlackListRecord"
-                  :tableLoading="tableLoadingRecord"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-       </div>
+      <div class="tableBox">
+        <table-list v-if="tabVal == 1"
+                    style="margin-top:20px"
+                    :tableData="tableListData"
+                    :tableTitle="tableTitleGpBlackList"
+                    :tableLoading="tableLoading"
+                    :index="true"
+                    :selection="false">
+        </table-list>
+        <table-list v-if="tabVal == 2"
+                    style="margin-top:20px"
+                    :tableData="tableListDataRecord"
+                    :tableTitle="tableTitleGpBlackListRecord"
+                    :tableLoading="tableLoadingRecord"
+                    :index="true"
+                    :selection="false">
+        </table-list>
+      </div>
       <iPagination style="margin-top:20px"
                    v-if="tabVal == 2"
                    v-update
@@ -189,7 +190,7 @@ export default {
       this.tableLoadingRecord = true
       const params = {
         supplierId: this.clickTableList.subSupplierId,
-     pageNo: this.page.currPage,
+        pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         endTime: this.daterange[1],
         startTime: this.daterange[0],
@@ -235,14 +236,14 @@ export default {
 
 <style lang="scss" scoped>
 .headerTitle {
-font-size: 20px;
-font-family: Arial;
-font-weight: bold;
-color: #000000;
+  font-size: 20px;
+  font-family: Arial;
+  font-weight: bold;
+  color: #000000;
 }
-.tableBox{
-//   max-height: 600px;
-//   overflow-y: scroll;
+.tableBox {
+  //   max-height: 600px;
+  //   overflow-y: scroll;
 }
 .box {
   padding-bottom: 20px;
@@ -283,7 +284,7 @@ color: #000000;
     border-radius: 0px 10px 10px 0px;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.08);
     font-size: 16px;
-     min-width: 200px;
+    min-width: 200px;
     height: 35px;
     line-height: 35px;
   }
