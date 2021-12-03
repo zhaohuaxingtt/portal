@@ -217,21 +217,6 @@
                             >
                 </iDatePicker>
             </iFormItem>
-            
-            <iFormItem prop="preciousMetalDosageUnit" v-if="metalType">
-                <iLabel :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')" slot="label" :required="true"></iLabel>
-                <i-select v-model="contractForm.preciousMetalDosageUnit"
-                    clearable
-                    :placeholder="language('QINGXUANZE', '请选择')"
-                    >
-                    <el-option
-                        v-for="item in getPreciousMetalDosageUnit"
-                        :key="item.code"
-                        :label="item.code"
-                        :value="item.code">
-                    </el-option>
-                </i-select>
-            </iFormItem>
 
             <iFormItem prop="platinumPrice">
                 <iLabel :label="language('BOJIJIA','铂基价')" slot="label" icons="iconxinxitishi" tip="M01006002-Pt"></iLabel>
@@ -292,6 +277,21 @@
                 :disabled="!metalType"
                 @change="jijiaCompute"
                 />
+            </iFormItem>
+            
+            <iFormItem prop="preciousMetalDosageUnit" v-if="metalType">
+                <iLabel :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')" slot="label" :required="true"></iLabel>
+                <i-select v-model="contractForm.preciousMetalDosageUnit"
+                    clearable
+                    :placeholder="language('QINGXUANZE', '请选择')"
+                    >
+                    <el-option
+                        v-for="item in getPreciousMetalDosageUnit"
+                        :key="item.code"
+                        :label="item.code"
+                        :value="item.code">
+                    </el-option>
+                </i-select>
             </iFormItem>
             </iFormGroup>
         </div>
