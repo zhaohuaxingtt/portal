@@ -3,9 +3,7 @@
     <div class="top-buttons margin-bottom20">
       <iButton v-if="isEditPage && !editable" @click="edit"> 编辑 </iButton>
       <iButton v-show="editable" @click="save">保存</iButton>
-      <iButton v-show="editable && $route.query.id" @click="cancel">
-        取消
-      </iButton>
+      <iButton v-show="editable" @click="cancel"> 取消 </iButton>
     </div>
     <div class="filter-form" v-loading="saveLoading">
       <el-form
@@ -440,6 +438,9 @@ export default {
       })
     },
     cancel() {
+      if (!this.$route.query.id) {
+        window.close()
+      }
       if (_.isEqual(this.originalBaseForm, this.formData)) {
         this.$emit('reset', this.originalBaseForm)
         this.editstate = false
