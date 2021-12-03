@@ -457,6 +457,7 @@ export default {components: {
             rhodiumPrice:'',
             rhodiumDosage:'',
             palladiumPrice:"",
+            preciousMetalDosageUnit:""
         },
         carlineNumber:[],
         rules: {
@@ -595,8 +596,14 @@ export default {components: {
         this.contractForm.palladiumDosage = "",
         this.contractForm.rhodiumPrice = "",
         this.contractForm.rhodiumDosage = "",
+        this.contractForm.preciousMetalDosageUnit = "";
         checkPreciousMetal({code:value}).then(res=>{
             this.metalType = res.data;
+            if(res.data){
+                this.contractForm.preciousMetalDosageUnit = "G";
+            }else{
+                this.contractForm.preciousMetalDosageUnit = "";
+            }
         })
         queryMaterialList({materialCode:value}).then(res=>{
             this.contractForm.priceMeasureUnit = res.data.countUnit;

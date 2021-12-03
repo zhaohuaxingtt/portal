@@ -64,7 +64,7 @@ export const tableTitle = [
     prop: 'businessId',
     label: '申请号',
     i18n: '单据编号',
-    width: 100,
+    width: 120,
     tooltip: true,
     customRender: (h, scope) => {
       const businessId = scope.row.businessId
