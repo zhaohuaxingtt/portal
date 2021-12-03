@@ -52,7 +52,7 @@
               <div class="time-box">
                 <iSelect
                   v-model="ruleForm.meetingInterval"
-                  placeholder="$t('MT_QINGXUANZEHUIYIJIANGE')"
+                  :placeholder="$t('MT_QINGXUANZEHUIYIJIANGE')"
                 >
                   <el-option
                     v-for="(item, index) in intervalList"

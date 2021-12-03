@@ -1,6 +1,7 @@
 <!-- 维护MTZ原材料规则新增弹窗 -->
 <template>
     <div style="padding-bottom:30px;">
+        <!-- :rules="metalType?rules1:rules2" -->
          <div class="form-wrapper">
             <iFormGroup
             :row="2"
@@ -24,15 +25,17 @@
             </iFormItem>
             <iFormItem prop="materialGroup">
                 <iLabel :label="language('MTZCAILIAOZU','MTZ-材料组')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.materialGroup"
-                         :user-options="materialGroup"
+                <i-select v-model="contractForm.materialGroup"
                          clearable
-                         filterable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="materialGroupNameZh"
-                         value-member="materialGroupCode"
-                         value-key="materialGroupCode">
-                </custom-select>
+                         :placeholder="language('QINGSHURU', '请输入')"
+                        >
+                    <el-option
+                        v-for="item in materialGroup"
+                        :key="item.materialGroupCode"
+                        :label="item.materialGroupNameZh"
+                        :value="item.materialGroupCode">
+                    </el-option>
+                </i-select>
             </iFormItem>
             <iFormItem prop="carline">
                 <iLabel :label="language('CHEXING','车型')" slot="label" :required="true"></iLabel>
@@ -81,15 +84,18 @@
             </iFormItem>
             <iFormItem prop="materialCode">
                 <iLabel :label="language('YUANCAILIAOPAIHAO','原材料牌号')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.materialCode"
-                         :user-options="materialCode"
-                         @change="MaterialGrade"
+                <i-select v-model="contractForm.materialCode"
                          clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="codeMessage"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                         @change="MaterialGrade"
+                         :placeholder="language('QINGSHURU', '请输入')"
+                        >
+                    <el-option
+                        v-for="item in materialCode"
+                        :key="item.code"
+                        :label="item.codeMessage"
+                        :value="item.code">
+                    </el-option>
+                </i-select>
             </iFormItem>
             <iFormItem prop="materialName">
                 <iLabel :label="language('YUANCAILIAO','原材料')" slot="label" :required="true"></iLabel>
@@ -118,126 +124,6 @@
                 :disabled="true"
                 />
             </iFormItem>
-            <iFormItem prop="platinumPrice">
-                <iLabel :label="language('BOJIJIA','铂基价')" slot="label"></iLabel>
-                <el-tooltip effect="light"
-                            placement="top-end"
-                            class="tooltip_div_left"
-                            >
-                    <div slot="content">
-                        <p>M01006002-Pt</p>
-                    </div>
-                    <i class="el-icon-warning-outline margin-left10"
-                    style="color:blue"></i>
-                </el-tooltip>
-                <iInput
-                v-model="contractForm.platinumPrice"
-                type="number"
-                placeholder="请输入铂基价"
-                :disabled="!metalType"
-                @change="jijiaCompute"
-                />
-            </iFormItem>
-            <iFormItem prop="platinumDosage">
-                <iLabel :label="language('BOYONGLIANG','铂用量')" slot="label"></iLabel>
-                <el-tooltip effect="light"
-                            placement="top-end"
-                            class="tooltip_div_left"
-                            >
-                    <div slot="content">
-                        <p>M01006002-Pt</p>
-                    </div>
-                    <i class="el-icon-warning-outline margin-left10"
-                    style="color:blue"></i>
-                </el-tooltip>
-                <iInput
-                v-model="contractForm.platinumDosage"
-                type="number"
-                placeholder="请输入铂用量"
-                :disabled="!metalType"
-                @change="jijiaCompute"
-                />
-            </iFormItem>
-            <iFormItem prop="palladiumPrice">
-                <iLabel :label="language('BAJIJIA','钯基价')" slot="label"></iLabel>
-                <el-tooltip effect="light"
-                            placement="top-end"
-                            class="tooltip_div_left"
-                            >
-                    <div slot="content">
-                        <p>M01006001-Pd</p>
-                    </div>
-                    <i class="el-icon-warning-outline margin-left10"
-                    style="color:blue"></i>
-                </el-tooltip>
-                <iInput
-                v-model="contractForm.palladiumPrice"
-                type="number"
-                placeholder="请输入钯基价"
-                :disabled="!metalType"
-                @change="jijiaCompute"
-                />
-            </iFormItem>
-            <iFormItem prop="palladiumDosage">
-                <iLabel :label="language('BAYONGLIANG','钯用量')" slot="label"></iLabel>
-                <el-tooltip effect="light"
-                            placement="top-end"
-                            class="tooltip_div_left"
-                            >
-                    <div slot="content">
-                        <p>M01006001-Pd</p>
-                    </div>
-                    <i class="el-icon-warning-outline margin-left10"
-                    style="color:blue"></i>
-                </el-tooltip>
-                <iInput
-                v-model="contractForm.palladiumDosage"
-                type="number"
-                placeholder="请输入钯用量"
-                :disabled="!metalType"
-                @change="jijiaCompute"
-                />
-            </iFormItem>
-            <iFormItem prop="rhodiumPrice">
-                <iLabel :label="language('LAOJIJIA','铑基价')" slot="label"></iLabel>
-                <el-tooltip effect="light"
-                            placement="top-end"
-                            class="tooltip_div_left"
-                            >
-                    <div slot="content">
-                        <p>M01006003-Rh</p>
-                    </div>
-                    <i class="el-icon-warning-outline margin-left10"
-                    style="color:blue"></i>
-                </el-tooltip>
-                <iInput
-                v-model="contractForm.rhodiumPrice"
-                type="number"
-                placeholder="请输入铑基价"
-                :disabled="!metalType"
-                @change="jijiaCompute"
-                />
-            </iFormItem>
-            <iFormItem prop="rhodiumDosage">
-                <iLabel :label="language('LAOYONGLIANG','铑用量')" slot="label"></iLabel>
-                <el-tooltip effect="light"
-                            placement="top-end"
-                            class="tooltip_div_left"
-                            >
-                    <div slot="content">
-                        <p>M01006003-Rh</p>
-                    </div>
-                    <i class="el-icon-warning-outline margin-left10"
-                    style="color:blue"></i>
-                </el-tooltip>
-                <iInput
-                v-model="contractForm.rhodiumDosage"
-                type="number"
-                placeholder="请输入铑用量"
-                :disabled="!metalType"
-                @change="jijiaCompute"
-                />
-            </iFormItem>
             <iFormItem prop="tcCurrence">
                 <iLabel :label="language('HUOBI','货币')" slot="label" :required="true"></iLabel>
                 <custom-select v-model="contractForm.tcCurrence"
@@ -260,11 +146,17 @@
             </iFormItem>
             <iFormItem prop="source">
                 <iLabel :label="language('SHICHANGJIALAIYUAN','市场价来源')" slot="label" :required="true"></iLabel>
-                <iInput
-                v-model="contractForm.source"
-                type="text"
-                placeholder="请输入市场价来源"
-                />
+                <i-select v-model="contractForm.source"
+                    clearable
+                    :placeholder="language('QINGXUANZE', '请选择')"
+                    >
+                    <el-option
+                        v-for="item in getMtzMarketSourceList"
+                        :key="item.code"
+                        :label="item.message"
+                        :value="item.code">
+                    </el-option>
+                </i-select>
             </iFormItem>
             <iFormItem prop="compensationRatio">
                 <iLabel :label="language('BUCHAXISHU','补差系数')" slot="label" :required="true"></iLabel>
@@ -325,6 +217,82 @@
                             >
                 </iDatePicker>
             </iFormItem>
+            
+            <iFormItem prop="preciousMetalDosageUnit" v-if="metalType">
+                <iLabel :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')" slot="label" :required="true"></iLabel>
+                <i-select v-model="contractForm.preciousMetalDosageUnit"
+                    clearable
+                    :placeholder="language('QINGXUANZE', '请选择')"
+                    >
+                    <el-option
+                        v-for="item in getPreciousMetalDosageUnit"
+                        :key="item.code"
+                        :label="item.code"
+                        :value="item.code">
+                    </el-option>
+                </i-select>
+            </iFormItem>
+
+            <iFormItem prop="platinumPrice">
+                <iLabel :label="language('BOJIJIA','铂基价')" slot="label" icons="iconxinxitishi" tip="M01006002-Pt"></iLabel>
+                <iInput
+                v-model="contractForm.platinumPrice"
+                type="number"
+                placeholder="请输入铂基价"
+                :disabled="!metalType"
+                @change="jijiaCompute"
+                />
+            </iFormItem>
+            <iFormItem prop="platinumDosage">
+                <iLabel :label="language('BOYONGLIANG','铂用量')" slot="label" icons="iconxinxitishi" tip="M01006002-Pt"></iLabel>
+                <iInput
+                v-model="contractForm.platinumDosage"
+                type="number"
+                placeholder="请输入铂用量"
+                :disabled="!metalType"
+                @change="jijiaCompute"
+                />
+            </iFormItem>
+            <iFormItem prop="palladiumPrice">
+                <iLabel :label="language('BAJIJIA','钯基价')" slot="label" icons="iconxinxitishi" tip="M01006002-Pd"></iLabel>
+                <iInput
+                v-model="contractForm.palladiumPrice"
+                type="number"
+                placeholder="请输入钯基价"
+                :disabled="!metalType"
+                @change="jijiaCompute"
+                />
+            </iFormItem>
+            <iFormItem prop="palladiumDosage">
+                <iLabel :label="language('BAYONGLIANG','钯用量')" slot="label" icons="iconxinxitishi" tip="M01006002-Pd"></iLabel>
+                <iInput
+                v-model="contractForm.palladiumDosage"
+                type="number"
+                placeholder="请输入钯用量"
+                :disabled="!metalType"
+                @change="jijiaCompute"
+                />
+            </iFormItem>
+            <iFormItem prop="rhodiumPrice">
+                <iLabel :label="language('LAOJIJIA','铑基价')" slot="label" icons="iconxinxitishi" tip="M01006002-Rh"></iLabel>
+                <iInput
+                v-model="contractForm.rhodiumPrice"
+                type="number"
+                placeholder="请输入铑基价"
+                :disabled="!metalType"
+                @change="jijiaCompute"
+                />
+            </iFormItem>
+            <iFormItem prop="rhodiumDosage">
+                <iLabel :label="language('LAOYONGLIANG','铑用量')" slot="label" icons="iconxinxitishi" tip="M01006002-Rh"></iLabel>
+                <iInput
+                v-model="contractForm.rhodiumDosage"
+                type="number"
+                placeholder="请输入铑用量"
+                :disabled="!metalType"
+                @change="jijiaCompute"
+                />
+            </iFormItem>
             </iFormGroup>
         </div>
         <span slot="footer" class="dialog-footer">
@@ -348,7 +316,9 @@ import {
 import {
   addAppRule,//维护MTZ原材料规则-新增
   checkPreciousMetal,
-  queryMaterialList
+  queryMaterialList,
+  getMtzMarketSourceList,
+  getPreciousMetalDosageUnit
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { 
     getRawMaterialNos
@@ -517,6 +487,7 @@ export default {components: {
             rhodiumDosage:[
                 { validator:validatePass3, trigger: 'blur' }
             ],
+            preciousMetalDosageUnit:[{ required: true, message: '请选择', trigger: 'blur' }],
             tcCurrence: [{ required: true, message: '请选择', trigger: 'blur' }],
             tcExchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }],
             source: [{ required: true, message: '请输入', trigger: 'blur' }],
@@ -550,6 +521,8 @@ export default {components: {
         ],
         materialCode:[],
         materialGroup:[],
+        getMtzMarketSourceList:[],
+        getPreciousMetalDosageUnit:[],
 
         supplierType1:false,
         supplierType2:false,
@@ -578,6 +551,14 @@ export default {components: {
 
     currencyDict().then(res=>{
         this.tcCurrence = res.data;
+    })
+
+    getMtzMarketSourceList({}).then(res=>{
+        this.getMtzMarketSourceList = res.data;
+    })
+
+    getPreciousMetalDosageUnit({}).then(res=>{
+        this.getPreciousMetalDosageUnit = res.data;
     })
   },
   computed:{
@@ -748,9 +729,7 @@ export default {components: {
 ::v-deep .el-date-editor{
     width:100%!important;
 }
-.tooltip_div_left{
-    position: absolute;
-    top: 10px;
-    left: -30px;
+::v-deep .el-form-item__label{
+    width:13.5rem!important;
 }
 </style>

@@ -344,7 +344,7 @@ export default {
       this.$router.push('/partsRelationship')
     },
     handleSource (val) {
-      val.source = '2'
+
       let path = ""
       let query = {}
       if (val.source === '0') {
@@ -359,9 +359,7 @@ export default {
         }
       } else if (val.source === '2') {
         path = "aeko/mtz/details?aekoNum=" + val.sourceCode
-        if (process.env.NODE_ENV === 'dev') {
-          window.open(process.env.VUE_APP_SOURCING_URL + path)
-        }
+        window.open(process.env.VUE_APP_SOURCING_URL + path)
         return
       }
       let routerPath = this.$router.resolve({

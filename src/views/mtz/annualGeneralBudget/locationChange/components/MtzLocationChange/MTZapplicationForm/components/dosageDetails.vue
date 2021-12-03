@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-11-29 11:34:08
+ * @LastEditTime: 2021-12-02 21:02:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -23,6 +23,9 @@
             <div class="opration"
                  v-if="!isView">
               <div v-show="!editFlag">
+                <iButton @click="handleChangeDate"
+                         class="margin-right20"
+                         :disabled="disabled"> {{language('BIANGENGYOUXIAOQI','变更有效期')}}</iButton>
                 <uploadButton ref="uploadButtonAttachment"
                               :buttonText="language('SHANGCHUANYUANCAILIAOYONGLIANGBIANGENG','上传原材料用量变更')"
                               :uploadByBusiness="true"
@@ -72,9 +75,6 @@
             <span>
               {{language('SHENPIXIANGQING','审批详情')}}
             </span>
-            <!-- <div class="opration">
-              <iButton @click="explain"> {{language('JIESHI','解释')}}</iButton>
-            </div> -->
           </template>
           <div class="table-wrapper">
             <iTableCustom :ref="'SPTable'"
@@ -89,23 +89,47 @@
         </iCard>
       </el-tab-pane>
     </iTabsList>
-    <!-- <iDialog :title="language('JIESHIYUANYIN','解释原因')"
-             :visible.sync="isShow"
+
+    <iDialog title="提示"
+             :visible.sync="visible"
+             v-if="visible"
+             append-to-body
              width="30%"
-             class="table-header-modal"
-             :before-close="handleBeforeClose">
-      <div class="content">
-        <iInput type='textarea'
-                :placeholder="language('QINGSHURUNEIRONG','请输入内容') "
-                v-model="textarea"
-                :rows="4"></iInput>
+             :before-close="handleClose">
+      <div style="display:inline-block"
+           class="margin-right10">
+        <div v-for="item in dateList"
+             :key="item.id"
+             class="margin-bottom10">
+          <iDatePicker v-model="item.value"
+                       type="daterange"
+                       format="yyyy-MM-dd"
+                       value-format="yyyy-MM-dd"
+                       range-separator="至"
+                       :pickerOptions="pickerOptions"
+                       start-placeholder="开始月份"
+                       end-placeholder="结束月份" />
+        </div>
       </div>
+      <el-button type="primary"
+                 style="vertical-align:top"
+                 icon="el-icon-plus"
+                 size="mini"
+                 @click="addDate"
+                 circle></el-button>
+      <el-button type="primary"
+                 style="vertical-align:top"
+                 icon="el-icon-minus"
+                 size="mini"
+                 @click="delDate"
+                 circle></el-button>
       <span slot="footer"
             class="dialog-footer">
-        <i-button @click="handleSave">保存</i-button>
-        <i-button @click="handleCancel">取消</i-button>
+        <iButton @click="dialogVisible = false">取 消</iButton>
+        <iButton type="primary"
+                 @click="sure">确 定</iButton>
       </span>
-    </iDialog> -->
+    </iDialog>
     <new-mtzlocation-change :dialogVisible="dialogVisible"
                             v-if="dialogVisible"
                             :addFlag="true"
@@ -115,14 +139,14 @@
 </template>
 
 <script>
-import { iButton, iTabsList, iCard, iPagination, iMessage, iDialog, iInput, iTableCustom } from "rise";
+import { iButton, iTabsList, iCard, iPagination, iMessage, iDialog, iInput, iTableCustom, iDatePicker } from "rise";
 import newMtzlocationChange from "@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationChange/newMtzlocationChange";
 import uploadButton from '@/components/uploadButton';
 import { basePriceChangePageList, uploadBasePriceChange, priceChangeExport, basePriceChangeDelete, updateBasePriceChange, approvalRecordList, approvalExplain } from '@/api/mtz/annualGeneralBudget/mtzChange'
 // import iTableCustom from '@/components/iTableCustom'
+import { addGenericAppChange, saveGenericAppChange } from '@/api/mtz/annualGeneralBudget/mtzChange.js'
 import { TABLE_COLUMNS, TABLE_COLUMNS1 } from './data'
 import { pageMixins } from '@/utils/pageMixins'
-
 export default {
   components: {
     iButton,
@@ -132,7 +156,7 @@ export default {
     iPagination,
     uploadButton,
     iDialog,
-    iInput,
+    iDatePicker,
     newMtzlocationChange
   },
   mixins: [pageMixins],
@@ -152,7 +176,30 @@ export default {
       textarea: "",
       // isView: false,
       disabled: false,
-      dialogVisible: false
+      dialogVisible: false,
+      visible: false,
+      dateList: [{
+        id: 1,
+        value: []
+      }],
+      maxDate: [],
+      minDate: [],
+      pickerOptions: {
+        onPick: ({ minDate, maxDate }) => {
+          this.minDate = minDate
+          this.maxDate = maxDate
+        },
+        disabledDate: time => {
+          if (this.muliteList[0].endDateAll) {
+            var date = this.muliteList[0].endDateAll.replace(/-/g, '/');
+            console.log(new Date(date))
+            if (this.dateList.length === 1) {
+              return new Date(date).getTime() > time.getTime()
+            }
+          }
+
+        }
+      }
     }
   },
   created () {
@@ -173,6 +220,22 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    maxDate (val) {
+      console.log(val, "11")
+      this.pickerOptions = {
+        // onPick: ({ maxDate }) => {
+        //   this.maxDate = maxDate
+        // },
+        disabledDate: time => {
+          if (this.dateList.length === 1) {
+            return
+          }
+          if (val) {
+            return time < val.getTime() + 86400000
+          }
+        }
+      }
     }
   },
   methods: {
@@ -225,14 +288,6 @@ export default {
     },
     add () {
       this.dialogVisible = true
-      // let routerPath = this.$router.resolve({
-      //   path: `/mtz/annualGeneralBudget/newMtzLocationChange`,
-      //   query: {
-      //     addFlag: true,
-      //     mtzAppId: this.mtzAppId
-      //   }
-      // })
-      // window.open(routerPath.href, '_blank')
     },
     close (val) {
       this.dialogVisible = val
@@ -240,10 +295,6 @@ export default {
       this.getApprovalRecordList()
     },
     edit () {
-      // if (this.muliteList.length === 0) {
-      //   iMessage.error('请选择数据')
-      //   return
-      // }
       this.tableList.forEach(item => {
         item.editRow = true
       })
@@ -328,8 +379,45 @@ export default {
         }
       })
     },
+    handleSure () {
+      let params = {
+        isDeptLead: true,
+        mtzBasePriceList: []
+      }
+      let selectList = this.muliteList.map(item => {
+        return {
+          dosage: item.newDosage || "",
+          endDate: this.dateList[this.dateList.length - 1].value[1],
+          mtzBasePriceId: item.mtzBasePriceId || "",
+          startDate: this.dateList[0].value[0],
+          childBasePriceList: this.dateList.map(item => {
+            return {
+              startDate: item.value[0],
+              endDate: item.value[1]
+            }
+          })
+        }
+      })
+      params.mtzBasePriceList = selectList
+      params.mtzAppId = this.mtzAppId
+      saveGenericAppChange(params).then(res => {
+        if (res && res.code === '200') {
+          this.getBasePriceChangePageList()
+        } else {
+          iMessage.error(res.desZh)
+        }
+      })
+
+    },
     handleCancel () {
       this.isShow = false
+    },
+    handleChangeDate () {
+      if (this.muliteList.length === 0) {
+        iMessage.error('请选择数据')
+        return
+      }
+      this.visible = true
     },
     del () {
       let ids = this.muliteList.map(item => {
@@ -346,10 +434,32 @@ export default {
         }
       })
     },
-    handleBeforeClose (done) {
+    handleClose (done) {
       done()
+    },
+    addDate () {
+      this.dateList.push({
+        id: this.dateList.length + 1,
+        value: []
+      })
+      console.log(this.dateList, "2222")
+    },
+    delDate () {
+      if (this.dateList.length === 1) {
+        return
+      }
+      this.dateList.splice(this.dateList.length - 1, 1)
+    },
+    sure () {
+      this.visible = false
+      this.handleSure()
+      this.dateList = [{
+        id: 1,
+        value: []
+      }]
     }
   },
+
 
 }
 </script>

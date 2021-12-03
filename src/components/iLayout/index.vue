@@ -143,6 +143,11 @@ export default {
     handleShow(va) {
       this.contentShowFlag = !va
     },
+    handleSelect(list) {
+      console.log(list, 'llll')
+      let activeMenu = this.$route.meta?.activeMenu || []
+      this.$router.push({ name: list.key, params: { currentMenu: activeMenu }})
+    },
     getMenus() {
       const menuMap = this.getMenusMap(this.menuList)
       this.menuMap = menuMap
@@ -219,8 +224,10 @@ export default {
     setMenuModalVisible(val) {
       this.menuModelVisible = val
     },
-    handleSelect(list) {
-      this.$router.push(list.path)
+    handleClick(list) {
+      console.log(window.location.href, '122222')
+      this.$router.push({name: list.key, params: { currentUrl: window.location.href }})
+      // this.$router.push(list.path)
     },
     handleClickAdminMenu(val) {
       if(val == 'logout'){

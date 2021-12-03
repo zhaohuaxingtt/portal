@@ -10,7 +10,7 @@ export const UNIT_COLUMNS=[
     },
     {
         label:'常用计量单位',
-        prop:'targetUnitCode'
+        prop:'targetUnitNameZh'
     },
     {
         label:'计量单位转换关系',

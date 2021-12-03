@@ -31,6 +31,7 @@
       :span-method="getSpanMethod"
       :stripe="stripe"
       :header-cell-class-name="handleHeaderCellClassName"
+      :border="true"
       @row-click="rowClick"
     >
       <template v-for="(item, index) in tableVisibleColumns">
@@ -39,7 +40,7 @@
           v-if="['selection', 'index'].includes(item.type)"
           :reserve-selection="item.reserveSelection || false"
           :type="item.type"
-          :label="item.i18n ? $t(item.i18n) : item.label"
+          :label="item.i18n ? language(item.i18n) : item.label"
           :width="item.width || '50'"
           :min-width="item.minWidth"
           :align="item.align || 'center'"
@@ -65,7 +66,7 @@
           v-else-if="['customSelection'].includes(item.type)"
           reserve-selection
           :type="item.type"
-          :label="item.i18n ? $t(item.i18n) : item.label"
+          :label="item.i18n ? language(item.i18n) : item.label"
           :width="item.width || '50'"
           :min-width="item.minWidth || '50'"
           :align="item.align || 'center'"
@@ -94,7 +95,7 @@
           :key="index"
           v-else-if="['fullIndex'].includes(item.type)"
           :type="item.type"
-          :label="item.i18n ? $t(item.i18n) : item.label"
+          :label="item.i18n ? language(item.i18n) : item.label"
           :width="item.width || '50'"
           :align="item.align || 'center'"
           :selectable="handleSelectable"
@@ -113,7 +114,7 @@
           :header-align="item.headerAlign"
           :show-overflow-tooltip="item.tooltip"
           :prop="item.prop"
-          :label="item.i18n ? $t(item.i18n) : item.label"
+          :label="item.i18n ? language(item.i18n) : item.label"
           :sortable="item.sortable"
           :sort-method="item.sortMethod"
           :sort-by="item.sortBy"
@@ -133,7 +134,7 @@
                 :header-align="subItem.headerAlign"
                 :show-overflow-tooltip="subItem.tooltip"
                 :prop="subItem.prop"
-                :label="subItem.i18n ? $t(subItem.i18n) : subItem.label"
+                :label="subItem.i18n ? language(subItem.i18n) : subItem.label"
                 :width="subItem.width ? subItem.width.toString() : ''"
                 :min-width="subItem.minWidth ? subItem.minWidth.toString() : ''"
                 :sortable="subItem.sortable"
@@ -1149,4 +1150,15 @@ export default {
 .custom-table-popper-content {
   max-width: 1200px;
 }
+
+.i-table-custom {
+  ::v-deep .el-table--border th {
+    border-right: 1px solid #FFFFFF !important;
+  }
+
+  ::v-deep .el-table--border td {
+    border-right: 0 !important;
+  }
+}
+
 </style>

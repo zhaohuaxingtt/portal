@@ -9,17 +9,17 @@
             :placeholder="placeholder"
             clearable
           />
-          <iButton @click="search">{{ $t('查询') }}</iButton>
+          <iButton @click="search">{{ language('查询') }}</iButton>
         </div>
         <div>
           <iButton v-show="!editable" @click="edit">
-            {{ $t('编辑') }}
+            {{ language('编辑') }}
           </iButton>
           <iButton v-show="editable" @click="saveRight">
-            {{ $t('保存') }}
+            {{ language('保存') }}
           </iButton>
           <iButton v-show="editable" @click="cancel">
-            {{ $t('取消') }}
+            {{ language('取消') }}
           </iButton>
         </div>
       </div>
