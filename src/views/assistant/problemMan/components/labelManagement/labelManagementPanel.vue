@@ -9,15 +9,13 @@
 import Search from './search';
 import SearchTable from './searchTable';
 import {queryModuleBySource} from "@/api/assistant"
-import assistant_mixin from "./../../../mixins"
 
 export default {
   name: 'problemStatementPanel',
-  mixins: [assistant_mixin],
   props: {
     type: {
-      type: Number,
-      default: 1
+      type: String,
+      default: ""
     }
   }, 
   data () {
@@ -31,7 +29,7 @@ export default {
   },
   methods: {
     async queryModuleBySource(){
-      let res = await queryModuleBySource(this.getUserType())
+      let res = await queryModuleBySource(this.type)
       this.moduleList = res.data
     },
     confirmSearch(formData) {

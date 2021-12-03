@@ -39,9 +39,7 @@
     import iEditor from "@/components/iEditor"
     import iUpload from "./../../components/iUpload.vue"
     import { delManual, insertNewManual } from "@/api/assistant"
-    import assistant_mixin from "./../../mixins"
     export default {
-        mixins: [assistant_mixin],
         props:{
             detail:{
                 type:Object,
@@ -50,6 +48,10 @@
             qs:{
                 type:Object,
                 default:()=>{}
+            },
+            userType:{
+                type: String,
+                default: ""
             }
         },
         components: {
@@ -80,7 +82,7 @@
                         id:this.detail.id || "",
                         moduleId:this.qs.id,
                         manualContent:this.content,
-                        source:this.getUserType(),
+                        source:this.userType,
                         attachmentList: this.files
                     })
                     this.$message.success("保存成功")

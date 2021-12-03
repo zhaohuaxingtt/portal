@@ -18,7 +18,7 @@
 				</div> 
 				<div v-if="!loading && moudleList.length == 0" class="no-data">暂无数据</div>
 				<p v-if="loading" class="no-data" style="margin: 10px 0;">加载中...</p>
-				<div v-if="moudleList.length != 0 && noMore" class="no-data" style="margin: 10px 0;">没有更多了</div>
+				<div v-if="moudleList.length != 0 && noMore && !loading" class="no-data" style="margin: 10px 0;">没有更多了</div>
 			</div>
 		</div>
 	</div>

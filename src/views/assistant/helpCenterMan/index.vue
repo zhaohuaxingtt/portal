@@ -14,11 +14,14 @@
 			</iTabBadge>
 		</div>
 	</div>
-	<!-- <div class="flex user-type">
-		<div class="user-type-item" :class="{active: activeUser == 'supplier'}" @click="selectUser('supplier')">供应商用户</div>
-		<div class="user-type-item" :class="{active: activeUser == 'inner'}" @click="selectUser('inner')">内部用户</div>
-	</div> -->
-	<div class="flex flex-row content mt20" v-if="activeMoudle === 'manual'">
+	<el-tabs class="nav" v-model="activeUser" @tab-click="typeChange">
+        <el-tab-pane label="供应商用户" name="supplier">
+        </el-tab-pane>
+        <el-tab-pane label="内部用户" name="inner">
+        </el-tab-pane>
+    </el-tabs>
+	<!-- 用户手册 -->
+	<div class="flex flex-row content" v-if="activeMoudle === 'manual'">
 		<CommonProblem 
 			title="问题模块"
 			:moudleList="manualList"
@@ -29,10 +32,12 @@
 			<iInput slot="top" v-model="manualInfo.keyword" placeholder="搜索.."></iInput>
 		</CommonProblem>
 		<div class="content-right" v-loading="contentLoading">
-			<UserManual ref="manual" :detail="manualInfo.detail" :qs="manualInfo.activeInfo" @refresh="queryManualDetail()"></UserManual>
+			<UserManual ref="manual" :userType="activeUser" :detail="manualInfo.detail" :qs="manualInfo.activeInfo" @refresh="queryManualDetail()"></UserManual>
 		</div>
 	</div>
-	<div class="flex flex-row content mt20" v-if="activeMoudle === 'question'">
+
+	<!-- 常见问题 -->
+	<div class="flex flex-row content" v-if="activeMoudle === 'question'">
 		<CommonProblem 
 			ref="CommonProblem2"
 			title="常见问题"
@@ -56,6 +61,7 @@
 		<div class="content-right" v-loading="contentLoading">
 			<Question 
 				ref="qs"
+				:userType="activeUser"
 				:detail="qsInfo.detail"
 				:qs="qsInfo.activeInfo" 
 				@editChange="queryProblemDetail()"
@@ -75,7 +81,6 @@ import CommonProblem from '../components/commonProblem'
 import Question from "./components/question"
 import UserManual from "./components/userManual"
 import { getModuleList, getUserDes, getProblemDetail, queryFaqListByPage } from '@/api/assistant'
-import assistant_mixin from "./../mixins"
 export default {
 	components: {
 		iPage,
@@ -87,9 +92,9 @@ export default {
 		iInput,
 		iSelect
 	},
-	mixins: [assistant_mixin],
 	data() {
 		return {
+			activeUser:"supplier",
 			tabs: [
 				{name:'用户手册',type:'manual'},
 				{name:'常见问题',type:'question'}
@@ -159,7 +164,7 @@ export default {
 		async queryFaqListByPage() {
 			this.qsInfo.loading = true
 			try {
-				this.qsInfo.params.source = this.getUserType()
+				this.qsInfo.params.source = this.activeUser
 				await queryFaqListByPage(this.qsInfo.params).then((res) => {
 					if (res.code === '200') {
 						let list = res.data?.records || []
@@ -188,15 +193,20 @@ export default {
 			this.qsInfo.params.pageNum++
 			this.queryFaqListByPage()
 		},
+		// 刷新常见问题列表
 		refreshQs(){
 			this.qsInfo.params.pageNum = 1
 			this.qsInfo.list = []
 			this.qsInfo.noMore = false
 			this.queryFaqListByPage()
 		},
-		// tab切换
+		// tabs切换
 		tabChange(val) {
 			this.activeMoudle = val
+			this.activeUser = "supplier"
+			this.changeReq()
+		},
+		changeReq(){
 			if(this.activeMoudle == 'manual'){
 				if(!this.manualInfo.id){
 					this.manualInfo.id = this.manualInfo.list[0]?.id
@@ -211,14 +221,19 @@ export default {
 				}
 			}
 		},
-		selectUser(v){
-			this.activeUser = v;
+		// 用户类型切换
+		typeChange(t){
+			this.activeUser = t.name
+			this.getProbleList()
+			if(this.activeMoudle == 'question'){
+				this.refreshQs()
+			}
 		},
 		// 查询用户手册详情
 		async queryManualDetail(){
 			try {
 				this.contentLoading = true
-				let res = await getUserDes({moduleId:this.manualInfo.id,source:this.getUserType()})
+				let res = await getUserDes({moduleId:this.manualInfo.id,source:this.activeUser})
 				this.manualInfo.detail = res.data || {}
 			} finally {
 				this.contentLoading = false
@@ -234,6 +249,7 @@ export default {
 				this.contentLoading = false
 			}
 		},
+		// 左侧问题列表change事件
 		moduleChange(v,type){
 			this[type].id = v.id
 			this[type].activeInfo = v
@@ -257,6 +273,9 @@ export default {
 		flex-direction: column;
 		overflow: hidden;
 	}
+	.nav{
+		margin-top: 20px;
+	}
 	.content-title {
 		font-weight: bold;
 		color: #000000;
@@ -267,30 +286,10 @@ export default {
 		width: 150px !important;
 		margin-left: 10px;
 	}
-	.user-type{
-		margin-top: 20px;
-	}
-	.user-type-item{
-		padding: 8px 20px;
-		margin-right: 20px;
-		color: #999;
-		font-size: 10px;
-		cursor: pointer;
-		transition: all .3s ease;
-		&:hover{
-			color: #1660F1;
-		}
-		&.active{
-			background: #FFFFFF;
-			box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.08);
-			border-radius: 6px;
-			color: #1660F1;
-		}
-	}
 	.content {
 		width: 100%;
 		flex: 1;
-		margin-top: 40px;
+		// margin-top: 40px;
 		overflow: hidden;
 	}
 	.content-right{

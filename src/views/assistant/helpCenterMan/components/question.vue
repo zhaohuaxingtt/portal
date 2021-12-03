@@ -50,7 +50,7 @@
         
         <CreateQuestion 
             :qs="qs" 
-            :source="getUserType()" 
+            :source="userType" 
             :moduleList="moduleList" 
             :labelList="labelList" 
             :show.sync="dialog" 
@@ -64,11 +64,9 @@
     import CreateQuestion from "../components/createQuestion"
     import iEditor from "@/components/iEditor"
     import { queryModuleBySource, getCurrLabelList, delFaq,updateFaq } from "@/api/assistant"
-    import assistant_mixin from "./../../mixins"
     import iUpload from "./../../components/iUpload.vue"
 
     export default {
-        mixins: [assistant_mixin],
         components:{
             iInput,
             iLabel,
@@ -86,6 +84,10 @@
             qs:{
                 type:Object,
                 default:()=>{}
+            },
+            userType:{
+                type: String,
+                default: ""
             }
         },
         watch:{
@@ -111,7 +113,7 @@
             }
         },
         async created(){
-            let { data } = await queryModuleBySource(this.getUserType())
+            let { data } = await queryModuleBySource(this.userType)
             this.moduleList = data
         },
         methods: {
