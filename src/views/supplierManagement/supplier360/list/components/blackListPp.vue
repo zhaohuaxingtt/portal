@@ -5,7 +5,7 @@
 <template>
   <iDialog @close="closeDiolog()"
            :visible.sync="value"
-           top="5%"
+           top="2%"
            width="85%">
  <div slot="title" class="headerTitle">
       <span>{{'供应商黑名单记录 - 生产采购  -'+ clickTableList.nameZh}}</span>

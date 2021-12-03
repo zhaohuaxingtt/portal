@@ -7,7 +7,8 @@
     @close="closeDiolog()"
     :title="'移除⿊名单 - ⽣产采购 -' + clickTableList.nameZh"
     :visible.sync="value"
-    width="70%"
+    top="2%"
+    width="85%"
   >
     <div class="box">
       <el-form inline label-position="top">
