@@ -16,21 +16,24 @@
           collapse
           class="margin-bottom20"
           style="overflow: auto"
+          :defalutCollVal="!item.isEnd"
+          @handleCollapse="(val) => handleCollapse(val, item)"
         >
           <processNodeHorizontal
-            :stateCode="detail.stateCode"
+            v-if="!item.isEnd || item.ok"
             :detail="detail"
             :panorama="item.panorama"
             :isEnd="item.isEnd"
+            :instanceId="item.processInstanceId + index"
           />
         </iCard>
       </div>
-      <div v-if="panoramas.length === 1">
+      <div v-if="panoramas.length === 1" style="overflow: auto">
         <processNodeHorizontal
-          :stateCode="detail.stateCode"
           :detail="detail"
-          :panorama="panoramas[0]"
-          :isEnd="item.isEnd"
+          :panorama="panoramas[0].panorama"
+          :isEnd="panoramas[0].isEnd"
+          :instanceId="panoramas[0].processInstanceId"
         />
       </div>
       <div class="no-data" v-if="loadText">{{ loadText }}</div>
@@ -108,6 +111,9 @@ export default {
     onClose() {
       this.dialogVisible = false
       this.$emit('update:visible', false)
+    },
+    handleCollapse(val, item) {
+      Vue.set(item, 'ok', true)
     }
   }
 }

@@ -1,5 +1,9 @@
 <template>
-  <horizontalPanel v-if="nodeData && nodeData.length" :nodeData="nodeData" />
+  <horizontalPanel
+    v-if="nodeData && nodeData.length"
+    :nodeData="nodeData"
+    :instanceId="instanceId"
+  />
 </template>
 
 <script>
@@ -14,19 +18,15 @@ export default {
         return []
       }
     },
-    stateCode: {
-      type: Number
-    },
     isEnd: {
       type: Boolean,
       default: false
+    },
+    instanceId: {
+      type: String,
+      default: ''
     }
   },
-  /* computed: {
-    isEnd() {
-      return this.stateCode !== 3 && this.stateCode !== 4
-    }
-  }, */
   watch: {
     panorama() {
       this.getData()
