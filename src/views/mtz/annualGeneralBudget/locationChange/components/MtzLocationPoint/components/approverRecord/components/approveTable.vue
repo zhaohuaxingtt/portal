@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-02 20:23:38
+ * @LastEditTime: 2021-12-03 16:46:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -18,7 +18,9 @@
                  :disabled="disabled"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
-        <iButton @click="addStream">{{language('XINZENG', '新增') }}</iButton>
+        <iButton @click="addStream"
+                 v-show="!flag"
+                 :disabled="disabled">{{language('XINZENG', '新增') }}</iButton>
         <iButton v-show="!flag"
                  :disabled="disabled"
                  @click="edit">{{language('BIANJI', '编辑') }}</iButton>
@@ -225,7 +227,7 @@ export default {
               selectSection({
                 lineDeptId: deptList.id
               }).then((res) => {
-                console.log( res.data)
+                console.log(res.data)
                 this.$set(item, 'selectSectionList', res.data);
                 let approvalNameList = item.selectSectionList.find(i => item.approvalSection === i.nameEn)
                 item.approvalSectionName = deptList.nameZh

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-03 14:26:40
+ * @LastEditTime: 2021-12-03 16:48:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -296,7 +296,16 @@ export default {
       this.editFlag = false
     },
     handleSelectionChange (val) {
-      this.muliteList = val
+      if (val.length > 1) {
+        var duoxuans = val.pop();
+        this.muliteList = val.pop();
+        //清除所有选中
+        this.$refs.paramsTable.clearSelection();
+        //给最后一个加上选中
+        this.$refs.paramsTable.toggleRowSelection(duoxuans);
+      } else {
+        this.muliteList = val
+      }
     },
     handleSelectionChange1 (val) {
       this.muliteList1 = val

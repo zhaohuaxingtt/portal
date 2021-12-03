@@ -172,6 +172,10 @@ export default {
         iMessage.warn('只能提交一条数据')
         return
       }
+      if (!this.selectTableData[0].isEffect) {
+        iMessage.warn('审批中不能申请移除BDL')
+        return
+      }
       const pms = {
         stuffBdlId: this.selectTableData[0].id
       }
