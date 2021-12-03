@@ -85,7 +85,10 @@ export default {
     queryPanoramas() {
       if (this.detail.businessId) {
         this.loading = true
-        queryPanoramaLists({ businessId: this.detail.businessId })
+        queryPanoramaLists({
+          businessId: this.detail.businessId,
+          processInstanceId: this.detail.flowInstanceId
+        })
           .then((res) => {
             this.panoramas = res.data || []
             if (res.data) {

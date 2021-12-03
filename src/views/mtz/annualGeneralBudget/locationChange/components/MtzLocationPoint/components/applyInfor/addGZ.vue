@@ -217,21 +217,6 @@
                             >
                 </iDatePicker>
             </iFormItem>
-            
-            <iFormItem prop="preciousMetalDosageUnit" v-if="metalType">
-                <iLabel :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')" slot="label" :required="true"></iLabel>
-                <i-select v-model="contractForm.preciousMetalDosageUnit"
-                    clearable
-                    :placeholder="language('QINGXUANZE', '请选择')"
-                    >
-                    <el-option
-                        v-for="item in getPreciousMetalDosageUnit"
-                        :key="item.code"
-                        :label="item.code"
-                        :value="item.code">
-                    </el-option>
-                </i-select>
-            </iFormItem>
 
             <iFormItem prop="platinumPrice">
                 <iLabel :label="language('BOJIJIA','铂基价')" slot="label" icons="iconxinxitishi" tip="M01006002-Pt"></iLabel>
@@ -292,6 +277,21 @@
                 :disabled="!metalType"
                 @change="jijiaCompute"
                 />
+            </iFormItem>
+            
+            <iFormItem prop="preciousMetalDosageUnit" v-if="metalType">
+                <iLabel :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')" slot="label" :required="true"></iLabel>
+                <i-select v-model="contractForm.preciousMetalDosageUnit"
+                    clearable
+                    :placeholder="language('QINGXUANZE', '请选择')"
+                    >
+                    <el-option
+                        v-for="item in getPreciousMetalDosageUnit"
+                        :key="item.code"
+                        :label="item.code"
+                        :value="item.code">
+                    </el-option>
+                </i-select>
             </iFormItem>
             </iFormGroup>
         </div>
@@ -457,6 +457,7 @@ export default {components: {
             rhodiumPrice:'',
             rhodiumDosage:'',
             palladiumPrice:"",
+            preciousMetalDosageUnit:""
         },
         carlineNumber:[],
         rules: {
@@ -573,18 +574,42 @@ export default {components: {
   },
   methods: {
     jijiaCompute(){
-        if(isNumber(this.contractForm.platinumPrice) && isNumber(this.contractForm.platinumDosage) && isNumber(this.contractForm.palladiumPrice) && isNumber(this.contractForm.palladiumDosage) && isNumber(this.contractForm.rhodiumPrice) && isNumber(this.contractForm.rhodiumDosage)){
-            var number = 0;
-            // this.contractForm.price = Mul(Number(this.contractForm.platinumPrice),Number(this.contractForm.platinumDosage)) + Mul(Number(this.contractForm.palladiumPrice),Number(this.contractForm.palladiumDosage)) + Mul(Number(this.contractForm.rhodiumPrice),Number(this.contractForm.rhodiumDosage))
+        var jijia = [
+            this.contractForm.platinumPrice?this.contractForm.platinumPrice:0,
+            this.contractForm.palladiumPrice?this.contractForm.palladiumPrice:0,
+            this.contractForm.rhodiumPrice?this.contractForm.rhodiumPrice:0,
+        ];
+        var yongliang = [
+            this.contractForm.platinumDosage?this.contractForm.platinumDosage:0,
+            this.contractForm.palladiumDosage?this.contractForm.palladiumDosage:0,
+            this.contractForm.rhodiumDosage?this.contractForm.rhodiumDosage:0,
+        ];
 
-            number = numAdd(Mul(Number(this.contractForm.platinumPrice),Number(this.contractForm.platinumDosage)),Mul(Number(this.contractForm.palladiumPrice),Number(this.contractForm.palladiumDosage)))
-            number = numAdd(number,Mul(Number(this.contractForm.rhodiumPrice),Number(this.contractForm.rhodiumDosage)));
+        var number = 0;
+        
+        for(var i=0;i<jijia.length;i++){
+            number = numAdd(number,(Mul(Number(jijia[i]),Number(yongliang[i]))));
+        }
+        
+        this.contractForm.price = formatDecimal(number,6);
 
-            this.contractForm.price = formatDecimal(number,6);
-
-        }else{
+        if(Number(number) == 0){
             this.contractForm.price = "";
         }
+
+        
+        // if(isNumber(this.contractForm.platinumPrice) && isNumber(this.contractForm.platinumDosage) && isNumber(this.contractForm.palladiumPrice) && isNumber(this.contractForm.palladiumDosage) && isNumber(this.contractForm.rhodiumPrice) && isNumber(this.contractForm.rhodiumDosage)){
+        //     var number = 0;
+        //     // Mul(Number(this.contractForm.platinumPrice),Number(this.contractForm.platinumDosage))
+        //     // Mul(Number(this.contractForm.palladiumPrice),Number(this.contractForm.palladiumDosage))
+        //     // number = numAdd(,)
+        //     number = numAdd(number,Mul(Number(this.contractForm.rhodiumPrice),Number(this.contractForm.rhodiumDosage)));
+
+        //     this.contractForm.price = formatDecimal(number,6);
+
+        // }else{
+        //     this.contractForm.price = "";
+        // }
     },
     MaterialGrade(value){
         this.contractForm.priceMeasureUnit = "",
@@ -595,9 +620,7 @@ export default {components: {
         this.contractForm.palladiumDosage = "",
         this.contractForm.rhodiumPrice = "",
         this.contractForm.rhodiumDosage = "",
-        checkPreciousMetal({code:value}).then(res=>{
-            this.metalType = res.data;
-        })
+        this.contractForm.preciousMetalDosageUnit = "";
         queryMaterialList({materialCode:value}).then(res=>{
             this.contractForm.priceMeasureUnit = res.data.countUnit;
         })
@@ -611,6 +634,18 @@ export default {components: {
         }catch(e){
             if(e.message != "EndIterative") throw e;
         }
+        
+        checkPreciousMetal({
+            code:value,
+            message:this.contractForm.materialName
+        }).then(res=>{
+            this.metalType = res.data;
+            if(res.data){
+                this.contractForm.preciousMetalDosageUnit = "G";
+            }else{
+                this.contractForm.preciousMetalDosageUnit = "";
+            }
+        })
     },
     supplierBH(value){
         if(this.supplierType2 == true) return false;

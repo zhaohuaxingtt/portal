@@ -14,6 +14,7 @@
 </template>
 
 <script>
+
 import ProblemStatementPanel from './problemStatementPanel';
 export default {
   data() {

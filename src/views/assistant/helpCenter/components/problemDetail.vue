@@ -131,7 +131,8 @@ export default {
 				pageNum: 1,
 				pageSize: 3,
 				questionLableId: null,
-				questionModuleId: null
+				questionModuleId: null,
+				questionTitle: null
 			},
 			totalCount: 0,
 			hotProblemList: [],
@@ -144,14 +145,16 @@ export default {
 			desDetail: '',
 			showTipsFlag: true,
 			hotIdx: 0,
+			formSource: null,
 			favourQuestionId: null,  // 点赞时的请求id
-			queryProblemList: [],  // 搜索框查询出的问题数组
 			currQuesFavourFlag: false,  //  当前问题是否点赞
 			showAttachFlag: false  //  是否展示附件下载
 		}
 	},
 	methods: {
 		async handleLabel(item) {
+			//  重置查询参数
+			this.problemQuery.pageNum = 1
 			this.labelIdx = item.id
 			this.labelText = item.lableName	
 			//  这里有问题  props传进来的 currentMoudleId  不允许修改
@@ -198,10 +201,21 @@ export default {
 		},
 		// 下载详情附件
 		loadAttach(file) {
-			let picArr = ['png', 'jpeg', 'jpg']
+			let fileTypeArr = ['jpg',
+				'jpeg',
+				'gif',
+				'png',
+				'txt',
+				'doc',
+				'docx',
+				'xls',
+				'xlsx',
+				'ppt',
+				'pptx',
+				'pdf']
 			const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
 			console.log(fileExtension, '23456')
-			if (picArr.includes(fileExtension)) {
+			if (fileTypeArr.includes(fileExtension)) {
 				console.log("=====")
 				window.location.href = file.fileUrl
 			} else {
@@ -300,7 +314,7 @@ export default {
 						this.problemQuery.questionLableId = res?.data[0]?.id
 					}
 					// 查询标签结束后 会查询该标签下的问题
-					this.queryProblemList = []
+					if (this.formSource === 'query') return this.labelLoading = false
 					this.problemList = []
 					this.labelLoading = false
 					this.getProblemList()
@@ -321,6 +335,7 @@ export default {
 					this.totalCount = data.total
 					this.problemQuery.pageSize = data.size
 					this.problemQuery.pageNum = data.current
+					this.formSource = null
 				}
 			})
 		},
@@ -341,8 +356,9 @@ export default {
 				}
 			})
 		},
-		async getQueryProblemList(data, currLabelId) {
-			this.queryProblemList = data || []
+		async getQueryProblemList(currLabelId, queryValue) {
+			this.problemQuery.pageNum = 1
+			this.formSource = 'query'
 			this.labelIdx = currLabelId
 			await this.getLabelList()
 			let currNameId = ''
@@ -360,7 +376,8 @@ export default {
 				}
 			})
 			this.currMoudleName = currName
-			this.problemList = this.queryProblemList || []
+			Object.assign(this.problemQuery, queryValue)
+			await this.getProblemList()
 		}
 	}
 }
@@ -488,7 +505,6 @@ export default {
 				}
 		}
 		.detail {
-			position: relative;
 			margin-top: 30px;
 			.detail-box {
 				.detail-text {
@@ -520,9 +536,7 @@ export default {
 				}
 			}
 			.bottom-zan {
-				position: absolute;
-				bottom: -200px;
-				left: 40%;
+				margin-top: 30px;
 			}
 		}
 	}

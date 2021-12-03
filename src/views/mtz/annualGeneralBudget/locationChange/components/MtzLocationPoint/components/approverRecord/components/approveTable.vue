@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-02 20:23:38
+ * @LastEditTime: 2021-12-03 17:04:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -18,7 +18,9 @@
                  :disabled="disabled"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
         <iButton @click="approveStream">{{language('SHENPILIU', '审批流') }}</iButton>
-        <iButton @click="addStream">{{language('XINZENG', '新增') }}</iButton>
+        <iButton @click="addStream"
+                 v-show="!flag"
+                 :disabled="disabled">{{language('XINZENG', '新增') }}</iButton>
         <iButton v-show="!flag"
                  :disabled="disabled"
                  @click="edit">{{language('BIANJI', '编辑') }}</iButton>
@@ -46,37 +48,37 @@
                        width="240">
         <template slot-scope="scope">
           <iSelect v-if="scope.row.editRow"
-                   v-model="scope.row.approvalDepartmentName"
+                   v-model="scope.row.approvalDepartment"
                    filterable
                    remote
                    placeholder="输入关键词搜索"
                    @change="function(changedVal) {handleChangeDepartment(changedVal, scope.row)}">
             <el-option v-for="item in scope.row.selectDeptList"
                        :key="item.id"
-                       :label="item.nameZh"
-                       :value="item.nameZh">
+                       :label="item.nameEn"
+                       :value="item.nameEn">
             </el-option>
           </iSelect>
-          <span v-else>{{scope.row.approvalDepartmentName}}</span>
+          <span v-else>{{scope.row.approvalDepartment}}</span>
         </template>
       </el-table-column>
       <el-table-column label="审批科室"
                        width="240">
         <template slot-scope="scope">
           <div v-if="scope.row.editRow">
-            <iSelect v-model="scope.row.approvalSectionName"
+            <iSelect v-model="scope.row.approvalSection"
                      filterable
                      remote
                      placeholder="输入关键词搜索"
                      @change="function(changedVal) {handleChangeApprovalSection(changedVal, scope.row)}">
               <el-option v-for="item in scope.row.selectSectionList"
                          :key="item.id"
-                         :label="item.nameZh"
-                         :value="item.nameZh">
+                         :label="item.nameEn"
+                         :value="item.nameEn">
               </el-option>
             </iSelect>
           </div>
-          <span v-else> {{ scope.row.approvalSectionName }}</span>
+          <span v-else> {{ scope.row.approvalSection }}</span>
         </template>
       </el-table-column>
       <el-table-column label="审批人">
@@ -218,15 +220,17 @@ export default {
         selectDept({}).then((res) => {
           if (res?.code === '200') {
             this.$set(item, 'selectDeptList', res.data);
-            let deptList = item.selectDeptList.find(i => item.approvalDepartmentName === i.nameZh)
+            console.log(res.data)
+            let deptList = item.selectDeptList.find(i => item.approvalDepartment === i.nameEn)
             if (deptList) {
-              item.approvalDepartment = deptList.nameEn || ''
+              item.approvalDepartmentName = deptList.nameZh || ''
               selectSection({
                 lineDeptId: deptList.id
               }).then((res) => {
+                console.log(res.data)
                 this.$set(item, 'selectSectionList', res.data);
-                let approvalNameList = item.selectSectionList.find(i => item.approvalSectionName === i.nameZh)
-                item.approvalSection = deptList.nameEn
+                let approvalNameList = item.selectSectionList.find(i => item.approvalSection === i.nameEn)
+                item.approvalSectionName = deptList.nameZh
                 this.$set(item, 'userList', approvalNameList.userDTOList || '');
               })
             }
@@ -237,7 +241,7 @@ export default {
     addStream () {
       this.editFlag = true
       let obj = {
-        approvalDepartmentName: "",
+        approvalDepartment: "",
         approvalSectionName: "",
         approvalName: "",
         startDate: "",
@@ -353,17 +357,16 @@ export default {
       done();
     },
     handleChangeDepartment (val, row) {
-      let obj = row.selectDeptList.find(item => item.nameZh === val)
-      row.approvalDepartment = obj.nameEn
+      let obj = row.selectDeptList.find(item => item.nameEn === val)
+      row.approvalDepartmentName = obj.nameZh
       selectSection({ lineDeptId: obj.id }).then(res => {
         this.$set(row, 'selectSectionList', res.data);
       })
     },
     handleChangeApprovalSection (val, row) {
-      let obj = row.selectSectionList.find(item => item.nameZh === val)
-      row.approvalSection = obj.nameEn
+      let obj = row.selectSectionList.find(item => item.nameEn === val)
+      row.approvalSectionName = obj.nameZh
       this.$set(row, 'userList', obj.userDTOList);
-
     },
     handleChangeApprovalName (val, row) {
       let obj = row.userList.find(item => item.nameZh === val)

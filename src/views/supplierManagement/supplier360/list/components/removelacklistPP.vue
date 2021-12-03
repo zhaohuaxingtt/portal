@@ -7,7 +7,8 @@
     @close="closeDiolog()"
     :title="'移除⿊名单 - ⽣产采购 -' + clickTableList.nameZh"
     :visible.sync="value"
-    width="70%"
+    top="2%"
+    width="85%"
   >
     <div class="box">
       <el-form inline label-position="top">
@@ -169,7 +170,9 @@ import {
   iDatePicker,
   iDialog,
   iMessageBox,
-  iMessage
+  iMessage,
+
+  iPagination
 } from 'rise'
 export default {
   mixins: [pageMixins],
@@ -185,7 +188,8 @@ export default {
     tableList,
     iSelect,
     iDatePicker,
-    iDialog
+    iDialog,
+    iPagination
   },
 
   data() {
@@ -253,14 +257,14 @@ export default {
         this.$message({
           type: 'warning',
           message: this.language(
-            'QINGXUANZEXUYAOYICHUDECAILIAOZUYUGONGYIZU!',
+            'QINGXUANZEXUYAOYICHUDECAILIAOZUYUGONGYIZU',
             '请选择需要移除的材料组与工艺组！'
           )
         })
       } else {
         this.value = false
         iMessageBox(
-          this.language('SHIFOUQUERENYICHUHEIMINGDAN?', '是否确认移除黑名单'),
+          this.language('SHIFOUQUERENYICHUHEIMINGDAN', '是否确认移除黑名单'),
           this.language('TIJIAO', '提交'),
           {
             confirmButtonText: this.language('QUEREN', '确认'),

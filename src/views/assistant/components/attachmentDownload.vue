@@ -8,8 +8,14 @@
 				v-if="load==='up'"
 				:before-upload="beforeAttachUpload"
 				:show-file-list="false"
-							accept="image/png,image/jpeg,image/gif,image/jpg"
-							:http-request="httpUpload"
+				:accept="
+					fileTypes
+					.map(type => {
+						return `.${type}`
+					})
+					.join(',')
+				"
+				:http-request="httpUpload"
 			>
 				<iButton class="ml20">{{ language('添加附件') }}</iButton>
 			</el-upload>
@@ -39,10 +45,26 @@ export default {
 		text: {
 			type: String,
 			default: '附件'
+		},
+		fileTypes: {
+			type: Array,
+			default: function() {
+				return [
+				'jpg',
+				'jpeg',
+				'gif',
+				'png',
+				'txt',
+				'doc',
+				'docx',
+				'xls',
+				'xlsx',
+				'ppt',
+				'pptx',
+				'pdf'
+				]
+			}
 		}
-	},
-	mounted() {
-		console.log()
 	},
 	data() {
 		return {
@@ -57,12 +79,12 @@ export default {
 			this.$emit("loadAttach", file)
 		},
 		beforeAttachUpload(file) {
-			if (this.fileList.length > 5) return this.$$message.error("上传文件不能超过5个")
+			if (this.fileList.length > 5) return this.$message.error("上传文件不能超过5个")
 			console.log(file, "file")
 			const fileName = file.name
 			this.copyFile = new File([file], fileName);
 			const isLt20M = file.size / 1024 / 1024 < 20
-			if (!isLt20M) return this.$$message.error("上传文件大小不能超过 20MB!")
+			if (!isLt20M) return this.$message.error("上传文件大小不能超过 20MB!")
 		},
 		async httpUpload() {
 			let formData = new FormData()
@@ -77,7 +99,6 @@ export default {
 			})
 		},
 		deleteFile(file) {
-			// this.fileList.filter(item => { item.id === file.id })
 			if (this.load === 'down') return
 			this.fileList.map((item, index) => {
 				if (item.id === file.id) {

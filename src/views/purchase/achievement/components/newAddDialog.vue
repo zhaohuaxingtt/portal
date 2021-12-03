@@ -126,7 +126,12 @@
                     formData.append('type', self.form.type)
                     this.showLoading('content')
                     batchImport(formData).then(res => {
+                      if(res.result) {
                         this.hideLoading()
+                        this.value = false
+                        this.$emit('handleSubmit')
+                        iMessage.success(`${ this.$i18n.locale === 'zh' ? res.desZh : res.desEn }`)
+                      }
                     }).catch(() => {
                         this.hideLoading()
                     })
@@ -162,13 +167,14 @@
             },
             uploadSuccess(res, file) {
                 this.uploadLoading = false
-                if (res.code == 200) {
+                if (res.result) {
                     iMessage.success(`${ file.name } ${ this.$t('LK_SHANGCHUANCHENGGONG') }`)
                     this.value = false
                     this.$emit('handleSubmit')
                 }
             },
             uploadError(err, file) {
+              console.log(err,'err')
                 this.uploadLoading = false
                 iMessage.error(`${ file.name } ${ this.$t('LK_SHANGCHUANSHIBAI') }`)
             },

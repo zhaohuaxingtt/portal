@@ -318,16 +318,29 @@
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'source'"
                           :rules="formRules.source ? formRules.source : ''">
 
-              <el-select v-model="scope.row.source"
+              <!-- <el-select v-model="scope.row.tcCurrence"
                          clearable
                          :placeholder="language('QINGSHURU', '请输入')"
                          v-if="editId.indexOf(scope.row.id)!==-1">
-                <el-option v-for="item in getMtzMarketSourceList"
+                <el-option v-for="item in tcCurrence"
                            :key="item.code"
-                           :label="item.message"
+                           :label="item.code"
                            :value="item.code">
                 </el-option>
-              </el-select>
+              </el-select> -->
+
+              <i-select v-model="scope.row.source"
+                        clearable
+                        @change="sourceChange(scope.row,$event)"
+                        :placeholder="language('QINGSHURU', '请输入')"
+                        v-if="editId.indexOf(scope.row.id)!==-1">
+                <el-option v-for="item in getMtzMarketSourceList"
+                           :key="item.code"
+                           :label="item.code"
+                           :value="item.code">
+                </el-option>
+              </i-select>
+
               <span v-else>{{scope.row.source}}</span>
             </el-form-item>
           </template>
@@ -455,22 +468,6 @@
             </el-form-item>
           </template>
         </el-table-column>
-
-
-
-        <el-table-column prop="preciousMetalDosageUnit"
-                         align="center"
-                         width="150"
-                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
-                         >
-          <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
-                          :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
-              <span>{{scope.row.preciousMetalDosageUnit}}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-
 
         <el-table-column prop="platinumPrice"
                          align="center"
@@ -658,6 +655,19 @@
             </el-form-item>
           </template>
         </el-table-column>
+        
+        <el-table-column prop="preciousMetalDosageUnit"
+                         align="center"
+                         width="150"
+                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
+                         >
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
+                          :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
+              <span>{{scope.row.preciousMetalDosageUnit}}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
       </el-table>
     </el-form>
     <!-- <iPagination @size-change="handleSizeChange($event, getTableList)"
@@ -831,6 +841,9 @@ export default {
       this.getTableList();
       this.getMtzCailiao();
     },
+    sourceChange(e,val){
+      this.$set(e,'source',val);
+    },
     add () {//新增
       if (this.flowType !== "SIGN") {
         this.addDialog = true;
@@ -874,9 +887,10 @@ export default {
         this.resetNum = false;
         setTimeout(() => {
           this.$parent.$refs.theDataTabs.pageAppRequest()
-          if(this.$parent.$refs.theDataTabs.tableData.length>0){
-            this.$parent.$refs.theDataTabs.getTableList()
-          }
+          console.log(this.$parent.$refs.theDataTabs)
+          // if(this.$parent.$refs.theDataTabs.tableData.length>0){
+          //   this.$parent.$refs.theDataTabs.getTableList()
+          // }
         }, 500);
       }
       this.saveGzDialog();
@@ -1025,8 +1039,7 @@ export default {
       this.mtzAddShow = true;
     },
     addDialogDataList (val) {//沿用
-      this.newDataList = deepClone(val);
-      this.newDataList.forEach(item => {
+      val.forEach(item => {
         item.source = item.sourceType;
         item.formalFlag = "Y";
         delete item.sourceType;
@@ -1041,6 +1054,7 @@ export default {
         //     this.$set(item,"metalType",res.data)
         // })
       })
+      this.newDataList = val;
       this.closeDiolog();
       this.tableData.unshift(...this.newDataList);
       this.editType = true;
