@@ -4,7 +4,7 @@ import dialogReset from './dialogReset.vue'
 const ConfirmBoxConstructor = Vue.extend(dialogReset)
 
 let instance
-const initInstance = (title, Tips, cancelButtonText, confirmButtonText) => {
+const initInstance = (title, Tips, cancelButtonText, confirmButtonText,width) => {
     instance = new ConfirmBoxConstructor({
         el: document.createElement('div'),
         data() {
@@ -13,15 +13,16 @@ const initInstance = (title, Tips, cancelButtonText, confirmButtonText) => {
                 Tips,
                 cancelButtonText,
                 confirmButtonText,
+                width
             }
         },
     })
 }
 
 const NewMessageBox = obj => {
-    let { title, Tips, cancelButtonText, confirmButtonText } = obj
+    let { title, Tips, cancelButtonText, confirmButtonText,width } = obj
     return new Promise((reslove, reject) => {
-        initInstance(title, Tips, cancelButtonText, confirmButtonText)
+        initInstance(title, Tips, cancelButtonText, confirmButtonText,width)
         instance.callback = action => {
             if (action === 'confirm') {
                 reslove()

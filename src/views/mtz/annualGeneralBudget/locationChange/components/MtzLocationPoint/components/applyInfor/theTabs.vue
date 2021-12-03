@@ -455,10 +455,27 @@
             </el-form-item>
           </template>
         </el-table-column>
+
+
+
+        <el-table-column prop="preciousMetalDosageUnit"
+                         align="center"
+                         width="150"
+                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
+                         >
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
+                          :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
+              <span>{{scope.row.preciousMetalDosageUnit}}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+
+
         <el-table-column prop="platinumPrice"
                          align="center"
                          width="150"
-                         show-overflow-tooltip>
+                         >
           <template slot="header">
             <div>
               <span>{{language('BOJIJIA','铂基价')}}</span>
@@ -490,7 +507,7 @@
         <el-table-column prop="platinumDosage"
                          align="center"
                          width="150"
-                         show-overflow-tooltip>
+                         >
           <template slot="header">
             <div>
               <span>{{language('BOYONGLIANG','铂用量')}}</span>
@@ -521,7 +538,7 @@
         <el-table-column prop="palladiumPrice"
                          align="center"
                          width="150"
-                         show-overflow-tooltip>
+                         >
           <template slot="header">
             <div>
               <span>{{language('BAJIJIA','钯基价')}}</span>
@@ -552,7 +569,7 @@
         <el-table-column prop="palladiumDosage"
                          align="center"
                          width="150"
-                         show-overflow-tooltip>
+                         >
           <template slot="header">
             <div>
               <span>{{language('BAYONGLIANG','钯用量')}}</span>
@@ -582,7 +599,7 @@
         <el-table-column prop="rhodiumPrice"
                          align="center"
                          width="150"
-                         show-overflow-tooltip>
+                         >
           <template slot="header">
             <div>
               <span>{{language('LAOJIJIA','铑基价')}}</span>
@@ -613,7 +630,7 @@
         <el-table-column prop="rhodiumDosage"
                          align="center"
                          width="150"
-                         show-overflow-tooltip>
+                         >
           <template slot="header">
             <div>
               <span>{{language('LAOYONGLIANG','铑用量')}}</span>

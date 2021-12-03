@@ -1,100 +1,81 @@
 <template>
-  <i-dialog :title="language('SHANGHAIZHONGHUIQICHEYOUXIANGONGSI', '上海汇众汽车有限公司')"
+  <i-dialog :title="language('LK_YQ_SHANGHAIZHONGHUIQICHEYOUXIANGONGSI', '上海汇众汽车有限公司')"
             :visible.sync="value"
             width="96%"
             height="90%"
             @close="clearDialog"
             >
-    <div class="content" style="font-size:14px">
+    <div class="content" style="font-size:1rem">
       <!-- 第一行 -->
-      <el-row :gutter="60">
-        <el-col :span="3">
-          <span>{{language('GONGYINGSHANGMINGCHENG','供应商名称')}}</span>
-        </el-col>
-        <el-col :span="5">
-          <i-input v-model="msg.name"></i-input>
-        </el-col>
-        <el-col :span="3">
-          <!-- <el-form-item :label="language('GONGYINGSHANGJIANCHENG','供应商简称')"></el-form-item> -->
-          <span>{{language('GONGYINGSHANGJIANCHENG','供应商简称')}}</span>
-        </el-col>
-        <el-col :span="5">
-          <i-input v-model="msg.abbreviation"></i-input>
-        </el-col>
-        <el-col :span="3">
-          <span>{{language('TONGYISHEHUIXINYONGDAIMA','统一社会信用代码')}}</span>
-        </el-col>
-        <el-col :span="5">
-          <i-input disabled v-model="msg.code"></i-input>
-        </el-col>
-      </el-row>
-      <!-- 第二行 -->
-      <el-row :gutter="60">
-        <el-col :span="3">
-          <span>{{language('FABURIQI','发布日期')}}</span>
-        </el-col>
-        <el-col :span="5">
-          <i-input disables v-model="msg.date"></i-input>
-        </el-col>
-        <el-col :span="3">
-          <span>{{language('FABURIQI','发布日期')}}</span>
-        </el-col>
-        <el-col :span="5">
-          <i-input v-model="msg.link"></i-input>
-        </el-col>
-        <el-col :span="3">
-          <span>{{language('XIANGGUANKESHI','相关科室')}}</span>
-        </el-col>
-        <el-col :span="5">
-          <i-select v-model="value" :placeholder="language('QINGXUANZE','请选择')">
+      <i-form-group v-model="opinionMonitoringItem" row="3">
+
+        <i-form-item :label="language('LK_YQ_GONGYINGSHANGMINGCHEN','供应商名称')">
+          <i-input v-model='opinionMonitoringItem.name'></i-input>
+        </i-form-item>
+        <i-form-item :label="language('LK_YQ_GONGYINGSHANGJIANCHENG','供应商简称')">
+          <i-input v-model='opinionMonitoringItem.shortName'></i-input>
+        </i-form-item>
+        <i-form-item :label="language('LK_YQ_TONGYISHEHUIXINYONGDAIMA','统一社会信用代码')">
+          <i-text>{{ opinionMonitoringItem.socialcreditNo }}</i-text>
+        </i-form-item>
+
+        <i-form-item :label="language('LK_YQ_FABURIQI','发布日期')">
+          <i-text>{{ opinionMonitoringItem.releaseDate|formatDate }}</i-text>
+        </i-form-item>
+
+        <i-form-item :label="language('LK_YQ_WANGZHILIANJIE','网址链接')">
+          <i-input v-model='opinionMonitoringItem.link'></i-input>
+        </i-form-item>
+
+        <i-form-item :label="language('LK_YQ_XIANGGUANKESHI','相关科室')">
+          <i-select v-model='opinionMonitoringItem.existSectionName'>
             <el-option
-              v-for="item in msg.department"
-              :key="item.value"
-              :label="item.label"
               :value="item.value"
-            >
-            </el-option>
+              :label="item.label"
+              v-for="(item) in departments"
+              :key="item.value"
+            ></el-option>
           </i-select>
-        </el-col>
-      </el-row>
-      <!-- 第三行 -->
+        </i-form-item>
+        <i-form-item :label="language('LK_YQ_NEIRONGFENLEI','内容分类')">
+          <i-text>{{ opinionMonitoringItem.contentClassification }}</i-text>
+        </i-form-item>
+        <i-form-item :label="language('LK_YQ_SHIFOUMINGAN','是否敏感')">
+          <i-text>{{ opinionMonitoringItem.isSensitive==1?'是':'否' }}</i-text>
+        </i-form-item>
+      </i-form-group>
+      <i-form-group row='1'>
+        <el-row>
+          <el-col :span='24' >
+            <!--内容标题-->
+              <i-form-item :label="language('LK_YQ_NEIRONGBIAOTI','内容标题')">
+                <i-input disabled v-model="opinionMonitoringItem.title"></i-input>
+              </i-form-item>
+          </el-col>
+
+        </el-row>
+      </i-form-group>
+
       <el-row :gutter="60">
-        <el-col :span="3">
-          <span>{{language('NEIRONGFENLEI','内容分类')}}</span>
-        </el-col>
-        <el-col :span="5">
-          <i-input disabled v-model="msg.classify"></i-input>
-        </el-col>
-        <el-col :span="3">
-          <span>{{language('SHIFOUMINGAN','是否敏感')}}</span>
-        </el-col>
-        <el-col :span="5">
-          <i-input disabled v-model="msg.isSusceptible"></i-input>
-        </el-col>
+        <el-col :span="3"><span>{{language('LK_YQ_XIANGQINGNEIRONG','详情内容')}}</span></el-col>
       </el-row>
-      <el-row :gutter="60">
-        <el-col :span="3">
-          <span>{{language('NEIRONGBIAOTI','内容标题')}}</span>
-        </el-col>
-        <el-col :span="21">
-          <i-input v-model="msg.title"></i-input>
-        </el-col>
+      <el-row :gutter="60" class='margin-top20'>
+        <el-col :span="24"><i-input type="textarea" :rows="8" clearable class="textarea" disabled v-model="opinionMonitoringItem.remark"></i-input></el-col>
       </el-row>
-      <el-row :gutter="60">
-        <el-col :span="3"><span>{{language('XIANGQINGNEIRONG','详情内容')}}</span></el-col>
-      </el-row>
-      <el-row :gutter="60">
-        <el-col :span="24"><i-input type="textarea" :rows="12" clearable class="textarea" disabled v-model="msg.content"></i-input></el-col>
-      </el-row>
-      <el-row>
-        <div style="float:right;padding-bottom:20px"><i-button @click="save"><span>{{language('BAOCUN','保存')}}</span></i-button></div>
+      <el-row class='margin-top20'>
+        <div style="float:right;padding-bottom:20px"><i-button @click="modifyOpinionMonitoringItem"><span>{{language('LK_YQ_BAOCUN','保存')}}</span></i-button></div>
       </el-row>
     </div>
   </i-dialog>
 </template>
 
 <script>
-  import {iButton, iDialog, iSelect, iInput} from 'rise'
+import { iDialog, iFormGroup,iSelect, iFormItem, iText, iInput, iButton } from 'rise'
+import {
+  queryOpinionMonitoringDetail,
+  updatePublicOptionMonitoringItem
+} from '@/api/supplierManagement/publicOpinionMonitoring'
+import * as dateUtils from "@/utils/date";
 
   export default {
     name:'yuqingjianceDialog',
@@ -102,60 +83,65 @@
       iButton,
       iDialog,
       iSelect,
-      iInput
+      iFormGroup,
+      iInput,
+      iFormItem,
+      iText
     },
     props:{
       value:{type: Boolean, require: true, default: false},
+      opinionMonitoringId:{type:String,require: true,default: null}
+    },
+    filters:{
+      formatDate(value) {
+        if (value == null || value == '') return ''
+        //let creationTimeStr= new Date(+new Date(value) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+        let date = new Date(value);
+        return dateUtils.formatDate(date, 'yyyy-MM-dd')
+      },
     },
     data(){
       return{
-        msg:{
-          name:"上海汇众汽车有限公司",
-          abbreviation:"供应商简称",
-          code:"1234567",
-          date:"2020-01-01",
-          link:"http:/www.wwwwwwww.com",
-          department:[{
-            value:"1",
-            label:'ABC'
-          },{
-            value:"2",
-            label:"DEF"
-          }],
-          classify:"其他",
-          isSusceptible:"是",
-          title:"是",
-          content:"可乐不加冰"
-        }
+        opinionMonitoringItem:{},
+        departments:[],
+      }
+    },
+    watch:{
+      opinionMonitoringId(val){
+       this.getOpinionMonitoringDetail()
       }
     },
     methods:{
       clearDialog() {
         this.$emit('input', false)
       },
-      save(){
-        this.$emit('input', false)
+
+     //获取舆情详情
+      getOpinionMonitoringDetail(){
+        queryOpinionMonitoringDetail(this.opinionMonitoringId).then(res=>{
+          if(res.code==200){
+            this.opinionMonitoringItem=res.data
+          }
+        })
+      },
+      //修改舆情
+      modifyOpinionMonitoringItem(){
+        updatePublicOptionMonitoringItem(this.opinionMonitoringItem).then(res=>{
+          if(res.code==200){
+            this.$message.success(res.desZh)
+            this.$emit('refrshPage')
+            this.$emit('input', false)
+          }else{
+            this.$message.error(res.desZh)
+          }
+        })
       }
     }
   }
 </script>
 
-<style>
-  .contentLeft{
-    display: inline;
-    float: left;
-  }
-  .contentRight{
-    display: inline;
-    float: right;
-    width: 300px;
-  }
-  .el-row {
-    margin-bottom: 20px;
-  }
-  .el-col {
-    border-radius: 4px;
-  }
+<style lang='scss' scoped>
+
   .textarea{
     font-size:14px;
     /* background-color: rgb(248,248,250) */
