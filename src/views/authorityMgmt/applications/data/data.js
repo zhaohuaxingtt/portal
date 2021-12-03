@@ -4,6 +4,11 @@ export const tableColumnSetting = [
     width: 50
   },
   {
+    type: 'index',
+    width: 50,
+    label: '#'
+  },
+  {
     prop: 'appNameCn',
     label: '中文名称',
     align: 'center',
