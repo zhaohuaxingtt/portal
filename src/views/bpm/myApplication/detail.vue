@@ -7,6 +7,7 @@
         ({{ form.stateMsg }})
       </div>
       <div class="operation-btn">
+        <viewFlow :detail="form" />
         <!-- 撤回 -->
         <iButton v-if="!finished" @click="dialogRecallVisible = true">
           {{ $t('APPROVAL.RECALL') }}
@@ -81,7 +82,8 @@ import {
   dialogRecall,
   detailProcessForm,
   attachmentList,
-  processNodeHorizontal
+  processNodeHorizontal,
+  viewFlow
 } from '../task/components'
 import { excelExport } from '@/utils/filedowLoad'
 import iTableCustom from '@/components/iTableCustom'
@@ -101,7 +103,8 @@ export default {
     appentAttachment,
     baseForm,
     lastNode,
-    processNodeHorizontal
+    processNodeHorizontal,
+    viewFlow
   },
   data() {
     return {

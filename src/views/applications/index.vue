@@ -49,12 +49,8 @@ export default {
     }
   },
   created() {
-    let param = {}
-    let type = this.$store.state.permission.userInfo.userType // 1供应商 2员工
-    if (type == '2') {
-      param = { userId: this.$store.state.permission.userInfo.id }
-    }
-    userApplicationList(param).then((val) => {
+    const requestData = { systemType: 3 }
+    userApplicationList(requestData).then((val) => {
       if (val.code == 200) {
         this.originapplications = val.data
         this.titles = Object.keys(this.originapplications)
