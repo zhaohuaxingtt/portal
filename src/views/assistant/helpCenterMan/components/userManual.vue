@@ -1,9 +1,9 @@
 <template>
-    <div class="manual" v-loading="loading">
+    <div class="manual" ref="content" v-loading="loading">
         <div class="manual-btns">
             <template v-if="type == 'detail'">
-                <iButton v-if="detail.id" @click="del">删除</iButton>
-                <iButton v-if="detail.id" @click="type = 'edit'">编辑</iButton>
+                <iButton v-if="qs.id" @click="del">删除</iButton>
+                <iButton v-if="qs.id" @click="type = 'edit'">编辑</iButton>
             </template>
             <template v-if="type == 'edit'">
                 <template v-if="!preview">
@@ -16,12 +16,13 @@
         </div>
         <template v-if="type == 'detail'">
             <div class="manual-tlt" v-text="qs.menuName"></div>
-            <div class="content" v-if="detail && detail.manualContent" v-html="detail.manualContent"></div>
+            <!-- <div class="content" v-if="detail.manualContent" v-html="detail.manualContent"></div> -->
+            <iEditor class="content" disabled v-model="detail.manualContent"></iEditor>
         </template>
         <template v-if="type == 'edit'">
             <div v-if="preview" v-html="content"></div>
             <template v-else>        
-                <iEditor class="manual-editor" v-model="content"></iEditor>
+                <iEditor class="content manual-editor" v-model="content"></iEditor>
                 <iUpload ref="upload" v-model="files" :maxSize="20" >
                     <div class="upload flex" style="align-items: end;">
                         <iButton>添加附件</iButton>
@@ -38,9 +39,7 @@
     import iEditor from "@/components/iEditor"
     import iUpload from "./../../components/iUpload.vue"
     import { delManual, insertNewManual } from "@/api/assistant"
-    import assistant_mixin from "./../../mixins"
     export default {
-        mixins: [assistant_mixin],
         props:{
             detail:{
                 type:Object,
@@ -49,6 +48,10 @@
             qs:{
                 type:Object,
                 default:()=>{}
+            },
+            userType:{
+                type: String,
+                default: ""
             }
         },
         components: {
@@ -79,7 +82,7 @@
                         id:this.detail.id || "",
                         moduleId:this.qs.id,
                         manualContent:this.content,
-                        source:this.getUserType(),
+                        source:this.userType,
                         attachmentList: this.files
                     })
                     this.$message.success("保存成功")
@@ -121,16 +124,18 @@
 
 .manual-tlt{
     padding: 40px 0 20px;
+    margin-bottom: 10px;
     font-weight: bold;
     border-bottom: 1px solid #ccc;
 }
 .content{
+    flex: 1;
     padding: 20px 10px;
+    overflow: auto;
 }
 .manual-editor{
     flex: 1;
-    margin-top: 40px;
-    overflow: hidden;
+    // margin-top: 40px;
     ::v-deep .quillWrapper{
         height: 100%;
         display: flex;
