@@ -812,7 +812,7 @@ export default {
           if (e.id == val) {
             e.id = arr.row.id;
             delete e.mark;
-            arr.row.sapCode = e.supplierId.toString() || e.sapCode.toString();
+            arr.row.supplierId = e.supplierId.toString() || e.sapCode.toString();
             arr.row.priceSource = e.source || e.priceSource;
             arr.row = (Object.assign(arr.row, e));
             throw new Error("EndIterative");
@@ -1083,6 +1083,7 @@ export default {
           list[index].id = "";
           list[index].partName = item.partNameZh;
           list[index].partUnit = item.unit;
+          list[index].priceUnit = 1;//每
           list[index].dosageMeasureUnit = "KG";
         }
       })
@@ -1111,9 +1112,10 @@ export default {
           list[index].assemblyPartnum = item.partNum;
           list[index].id = "";
           list[index].supplierName = item.supplierName;
-          list[index].sapCode = item.sapNum;
+          list[index].supplierId = item.sapNum;
           list[index].partName = item.partNameCn;
           list[index].partUnit = item.unit;
+          list[index].priceUnit = 1;//每
           list[index].dosageMeasureUnit = "KG";
         }
       })
@@ -1141,7 +1143,7 @@ export default {
           list[index].assemblyPartnum = item.assemblyPartnum;
           list[index].id = "";
           list[index].supplierName = item.assemblySupplierName;
-          list[index].sapCode = item.assemblySupplierSap;
+          list[index].supplierId = item.assemblySupplierSap;
           list[index].ruleNo = item.ruleNo;
           list[index].materialCode = item.materialCode;
           list[index].materialName = item.material;
@@ -1168,7 +1170,6 @@ export default {
           list[index].endDate = item.endDate;
           list[index].startDate = item.startDate;
           list[index].dosage = item.dosage;
-          list[index].priceUnit = item.priceUnit;
         }
       })
       // console.log(list);
