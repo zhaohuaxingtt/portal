@@ -217,9 +217,8 @@ export function getAllModuleLabel() {
 //  常见问题搜索问题
 export function getQueryProblemList(data) {
   return assistantRequest({
-    url: '/assistantFaq/queryFaqByMLId',
-    method: 'POST',
-    data: data
+    url: `/assistantFaq/queryFaqByMLId?labelId=${data.labelId}?moduleId=${data.moduleId}?questionTitle=${data.questionTitle}`,
+    method: 'POST'
   })
 }
 
