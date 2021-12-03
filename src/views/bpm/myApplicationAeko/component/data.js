@@ -64,7 +64,7 @@ export const tableTitle = [
     prop: 'businessId',
     label: '申请号',
     i18n: '单据编号',
-    width: 130,
+    width: 100,
     tooltip: true,
     customRender: (h, scope) => {
       const businessId = scope.row.businessId
@@ -83,14 +83,14 @@ export const tableTitle = [
     label: '单据类型',
     i18n: '单据类型',
     tooltip: true,
-    width: 140
+    width: 100
   },
   {
     prop: 'applyDate',
     label: '申请时间',
     i18n: '申请时间',
     tooltip: true,
-    width: 160,
+    width: 100,
     customRender: (h, scope) => {
       if (scope.row.applyDate) {
         return moment(scope.row.applyDate).format('YYYY-MM-DD')
@@ -121,15 +121,16 @@ export const tableTitle = [
     prop: 'itemEvent',
     label: '审批事项',
     i18n: 'APPROVAL.APPROVAL_ITEMS',
-    minWidth: 200,
+    minWidth: 300,
     tooltip: true
   },
   {
     prop: 'currentNode',
     label: '审批进度',
     i18n: 'APPROVAL.APPROVAL_PROGRESS',
-    minWidth: 300,
+    minWidth: 150,
     tooltip: true,
+    align: 'left',
     customRender: (h, scope) => {
       if (['同意', '拒绝'].indexOf(scope.row.procStatusMsg) > -1) {
         return scope.row.procStatusMsg

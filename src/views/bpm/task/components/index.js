@@ -16,3 +16,6 @@ export { default as baseForm } from './baseForm'
 
 export { default as processNodeHorizontal } from './processNodeHorizontal'
 export { default as processNodeVertical } from './processNodeVertical'
+
+export { default as viewFlow } from './viewFlow'
+export { default as detailTitle } from './detailTitle'
