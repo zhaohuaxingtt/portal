@@ -658,7 +658,7 @@
         
         <el-table-column prop="preciousMetalDosageUnit"
                          align="center"
-                         width="150"
+                         width="200"
                          :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
                          >
           <template slot-scope="scope">
@@ -692,8 +692,8 @@
              v-if="addDialog"
              width="70%"
              @close="saveGzDialog">
-      <addGZ :dataObject="dataObject"
-             :resetType="resetType"
+             <!-- :dataObject="dataObject" -->
+      <addGZ :resetType="resetType"
              @close="saveGzClose"
              @addDialogGZ="addDialogGZList">
       </addGZ>
@@ -752,7 +752,7 @@ export default {
     return {
       tcCurrence: [],
       formRules: formRulesGZ,
-      dataObject: [],
+      // dataObject: [],
       supplierList: [],
       newDataList: [],//传过来的列表数据
       editType: false,
@@ -847,17 +847,17 @@ export default {
     add () {//新增
       if (this.flowType !== "SIGN") {
         this.addDialog = true;
-        var list = [];
-        this.tableData.forEach(e => {
-          list.push({
-            supplierId: e.supplierId || "",
-            materialCode: e.materialCode || "",
-            price: e.price || "",
-            startDate: e.startDate || "",
-            endDate: e.endDate || ""
-          })
-        })
-        this.dataObject = list;
+        // var list = [];
+        // this.tableData.forEach(e => {
+        //   list.push({
+        //     supplierId: e.supplierId || "",
+        //     materialCode: e.materialCode || "",
+        //     price: e.price || "",
+        //     startDate: e.startDate || "",
+        //     endDate: e.endDate || ""
+        //   })
+        // })
+        // this.dataObject = list;
       } else {
         iMessageBox(this.language('XZMTZYCLGZSSQDLXBNWLZJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ', '新增MTZ原材料规则时，申请单类型不能为流转，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'), this.language('LK_WENXINTISHI', '温馨提示'), {
           confirmButtonText: this.language('QUEREN', '确认'),
@@ -865,37 +865,43 @@ export default {
         }).then(res => {
           // iMessage.success(this.language("KAIFAZHONG","开发中"))
           this.addDialog = true;
-          var list = [];
-          this.tableData.forEach(e => {
-            list.push({
-              supplierId: e.supplierId || "",
-              materialCode: e.materialCode || "",
-              price: e.price || "",
-              startDate: e.startDate || "",
-              endDate: e.endDate || "",
-            })
-          })
-          this.dataObject = list;
-          this.resetNum = true;
+          // var list = [];
+          // this.tableData.forEach(e => {
+          //   list.push({
+          //     supplierId: e.supplierId || "",
+          //     materialCode: e.materialCode || "",
+          //     price: e.price || "",
+          //     startDate: e.startDate || "",
+          //     endDate: e.endDate || "",
+          //   })
+          // })
+          // this.dataObject = list;
+          this.resetNum = true;//流转
         })
       }
     },
     addDialogGZList () {//mtz申请单类型或已关联申请单类型为流转备案/新增原材料规则
-      if (this.resetNum) {
+      // console.log(this.resetNum);
+      if (this.resetNum) {//流转
         this.$emit("handleReset", "")
         this.$parent.$refs.theDataTabs.removePartMasterData()
         this.resetNum = false;
         setTimeout(() => {
           this.$parent.$refs.theDataTabs.pageAppRequest()
-          console.log(this.$parent.$refs.theDataTabs)
-          // if(this.$parent.$refs.theDataTabs.tableData.length>0){
-          //   this.$parent.$refs.theDataTabs.getTableList()
-          // }
+          if(!this.$parent.$refs.theDataTabs.editType){
+            this.$parent.$refs.theDataTabs.getTableList()
+          }
+        }, 500);
+        
+      }else{//上会、备案
+        setTimeout(() => {
+          this.$parent.$refs.theDataTabs.pageAppRequest()
+          if(!this.$parent.$refs.theDataTabs.editType){
+            this.$parent.$refs.theDataTabs.getTableList()
+          }
         }, 500);
       }
       this.saveGzDialog();
-      // this.page.currPage = 1;
-      // this.page.pageSize = 99999;
       this.getTableList();
     },
     edit () {//编辑
@@ -941,7 +947,7 @@ export default {
                   // this.page.pageSize = 10;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
-                    if(this.$parent.$refs.theDataTabs.tableData.length>0){
+                    if(!this.$parent.$refs.theDataTabs.editType){
                       this.$parent.$refs.theDataTabs.getTableList()
                     }
                   }, 500);
@@ -986,7 +992,7 @@ export default {
                   this.editType = false;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
-                    if(this.$parent.$refs.theDataTabs.tableData.length>0){
+                    if(!this.$parent.$refs.theDataTabs.editType){
                       this.$parent.$refs.theDataTabs.getTableList()
                     }
                   }, 500);
@@ -1084,7 +1090,7 @@ export default {
             iMessage.success(res.desZh)
             setTimeout(() => {
               this.$parent.$refs.theDataTabs.pageAppRequest()
-              if(this.$parent.$refs.theDataTabs.tableData.length>0){
+              if(!this.$parent.$refs.theDataTabs.editType){
                 this.$parent.$refs.theDataTabs.getTableList()
               }
             }, 500);

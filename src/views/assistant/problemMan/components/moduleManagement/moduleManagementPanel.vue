@@ -19,13 +19,12 @@ import { iTableCustom, iButton } from 'rise';
 import { tableColumn } from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins'
 import { queryModuleList, queryProCsUserList, saveModules } from "@/api/assistant"
-import assistant_mixin from "./../../../mixins"
 export default {
-  mixins: [pageMixins,assistant_mixin],
+  mixins: [pageMixins],
   props: {
     type: {
-      type: Number,
-      default: 1
+      type: String,
+      default: ""
     }
   },
   components: {
@@ -65,7 +64,7 @@ export default {
     async query(){
       this.tableLoading = true
       try {
-        let res = await queryModuleList(this.getUserType())
+        let res = await queryModuleList(this.type)
         res.data.forEach(e => {
           e.adminUserId = e.adminUserId ? e.adminUserId.split(",") : []
         })
@@ -93,6 +92,7 @@ export default {
       this.isEdit = false;
       this.extraData.selectionRowIds = [];
       this.$refs.testTable.clearSelection()
+      this.query()
     },
     async confirmEditHandler () { 
       // 保存
@@ -109,7 +109,7 @@ export default {
       if(f) return this.$message.warning(`"${f.menuName}"模块的人员不能为空`)
       this.loading = true
       try {
-        await saveModules(list,this.getUserType())
+        await saveModules(list,this.type)
         this.isEdit = false;
         this.query()
         this.extraData.selectionRowIds = [];

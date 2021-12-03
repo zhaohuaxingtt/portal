@@ -80,7 +80,7 @@ export function updateAssociated(parmars) {
 // 移除MBDL
 export function mbdlCancelAssociated(parmars) {
   return requst({
-    url: `/materials/mbdlCancelAssociated`,
+    url: `/materialGroup/materials/mbdlCancelAssociated`,
     method: 'POST',
     data: {
       ...parmars,

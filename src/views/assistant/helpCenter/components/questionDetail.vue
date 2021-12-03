@@ -1,5 +1,5 @@
 <template>
-  <div class="right-content ml20">
+  <div class="right-content ml20" v-loading="detailLoading">
 	<div class="search-box flex justify-end items-center">
 		<iButton @click="handleQuestion">{{ language('我要提问') }}</iButton>
 	</div>
@@ -46,6 +46,7 @@ export default {
 	},
 	data() {
 		return {
+			detailLoading: false,
 			title: '',
 			moudleName: null,
 			chatList: [],
@@ -85,11 +86,13 @@ export default {
 		},
 		async getQuesDetail(id) {
 			if (!id) return
+			this.detailLoading = true
 			await queryDetailByIdApi(id).then((res) => {
 				if (res?.code === '200') {
 					const { data } = res
 					this.currQuesInfo = data
 					this.dealData(data?.replyQuestionList || [], data?.questionTitle, data?.createDate )
+					this.detailLoading = false
 				}
 			})
 		},
@@ -98,7 +101,7 @@ export default {
 			if (questionTitle && createDate) {
 				list.push({
 					content: questionTitle,
-					createDate: moment(createDate).format('YYYY-MM-DD'),
+					createDate: moment(createDate).format('YYYY-MM-DD hh:mm:ss'),
 					replyType: 'question'
 				})
 			}
