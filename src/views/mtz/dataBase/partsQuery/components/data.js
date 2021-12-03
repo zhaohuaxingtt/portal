@@ -570,7 +570,7 @@ export const partNumber = [
     i18n: '来源',
     emit: 'go-detail',
     customRender: (h, scope) => {
-      return <span class="open-link-text">{scope.row.source}</span>
+      return <span class="open-link-text">{scope.row.sourceCode}</span>
     }
   },
   { prop: 'versionNum', label: '版本', align: 'center', i18n: '版本' },

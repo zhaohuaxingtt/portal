@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-02 21:02:57
+ * @LastEditTime: 2021-12-03 14:26:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -125,9 +125,8 @@
                  circle></el-button>
       <span slot="footer"
             class="dialog-footer">
-        <iButton @click="dialogVisible = false">取 消</iButton>
-        <iButton type="primary"
-                 @click="sure">确 定</iButton>
+        <iButton @click="reject">取 消</iButton>
+        <iButton @click="sure">确 定</iButton>
       </span>
     </iDialog>
     <new-mtzlocation-change :dialogVisible="dialogVisible"
@@ -188,16 +187,6 @@ export default {
         onPick: ({ minDate, maxDate }) => {
           this.minDate = minDate
           this.maxDate = maxDate
-        },
-        disabledDate: time => {
-          if (this.muliteList[0].endDateAll) {
-            var date = this.muliteList[0].endDateAll.replace(/-/g, '/');
-            console.log(new Date(date))
-            if (this.dateList.length === 1) {
-              return new Date(date).getTime() > time.getTime()
-            }
-          }
-
         }
       }
     }
@@ -222,11 +211,11 @@ export default {
       immediate: true
     },
     maxDate (val) {
-      console.log(val, "11")
       this.pickerOptions = {
-        // onPick: ({ maxDate }) => {
-        //   this.maxDate = maxDate
-        // },
+        onPick: ({ minDate, maxDate }) => {
+          this.minDate = minDate
+          this.maxDate = maxDate
+        },
         disabledDate: time => {
           if (this.dateList.length === 1) {
             return
@@ -417,7 +406,21 @@ export default {
         iMessage.error('请选择数据')
         return
       }
+      this.dateList[0].value[0] = this.muliteList[0].endDateAll
+      this.dateList[0].value[1] = this.getNewDay(this.muliteList[0].endDateAll, 365)
       this.visible = true
+    },
+    getNewDay (dateTemp, days) {
+      var dateTemp = dateTemp.split("-");
+      var nDate = new Date(dateTemp[1] + '-' + dateTemp[2] + '-' + dateTemp[0]); //转换为MM-DD-YYYY格式  
+      var millSeconds = Math.abs(nDate) + (days * 24 * 60 * 60 * 1000);
+      var rDate = new Date(millSeconds);
+      var year = rDate.getFullYear();
+      var month = rDate.getMonth() + 1;
+      if (month < 10) month = "0" + month;
+      var date = rDate.getDate();
+      if (date < 10) date = "0" + date;
+      return (year + "-" + month + "-" + date);
     },
     del () {
       let ids = this.muliteList.map(item => {
@@ -434,6 +437,13 @@ export default {
         }
       })
     },
+    reject () {
+      this.visible = false;
+      this.dateList = [{
+        id: 1,
+        value: []
+      }]
+    },
     handleClose (done) {
       done()
     },
@@ -442,7 +452,17 @@ export default {
         id: this.dateList.length + 1,
         value: []
       })
-      console.log(this.dateList, "2222")
+      this.pickerOptions = {
+        disabledDate: time => {
+          let date = this.dateList[this.dateList.length - 2].value[1]
+          if (this.dateList.length === 1) {
+            return
+          }
+          if (date) {
+            return time < new Date(date.replace(/-/g, '/')).getTime() + 86400000
+          }
+        }
+      }
     },
     delDate () {
       if (this.dateList.length === 1) {
