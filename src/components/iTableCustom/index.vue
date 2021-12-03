@@ -419,7 +419,8 @@ export default {
       settingVisible: false,
       tooltipContent: '',
       settingId: '',
-      emitLabel: []
+      emitLabel: [],
+      isCustomSelection:false
     }
   },
   watch: {
@@ -439,11 +440,20 @@ export default {
     this.getTableData()
   },
   mounted() {
-    this.emitLabel = this.tableVisibleColumns.map((ele) => {
-      if (ele.emit) {
-        return ele.label
-      }
-    })
+    if(this.tableVisibleColumns[0].type == 'customSelection'){
+      this.isCustomSelection = true
+      const customSelectionLabel = this.tableVisibleColumns.map((item)=>{
+        return item.label
+      })
+      this.emitLabel = [...customSelectionLabel,...this.emitLabel]
+    }
+    else{
+      this.emitLabel = this.tableVisibleColumns.map((ele) => {
+        if (ele.emit) {
+          return ele.label
+        }
+      })
+    }
   },
   methods: {
     handleHeaderCellClassName({ columnIndex }) {
@@ -594,8 +604,15 @@ export default {
       return res
     },
     handleCellClick(row, column) {
+      console.log(row,column,'=====');
       if (!this.emitLabel.includes(column.label)) {
-        this.$refs.theCustomTable.toggleRowSelection(row)
+        if(this.isCustomSelection){
+          console.log('QWQ');
+          this.handleToggleSelectedRow(true,row)
+        }else{
+          console.log('T-T');
+           this.$refs.theCustomTable.toggleRowSelection(row)
+        }
       }
       if (this.treeExpand) {
         if (this.treeExpand.expandKey === column.property) {

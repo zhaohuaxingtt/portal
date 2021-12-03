@@ -73,8 +73,8 @@ export default {
         },
         download(){
             const data = this.selectedItems[0].downloadUrl
-            console.log(data,'=====');
-            downLoadXls(data)
+            window.open(data)
+            // downLoadXls(data)
         },
         search(val){
             this.page.currPage = 1
