@@ -52,7 +52,7 @@ export const monthTitle = [
     },
     {props: 'mayCarvolumn', name: '5月', key: 'MAY', width: 120, tooltip: true,
         child:[
-            {props: 'augPrice', name: '价格', key: 'EKL_YJGL_JAGE', width: 120, tooltip: true,},
+            {props: 'mayPrice', name: '价格', key: 'EKL_YJGL_JAGE', width: 120, tooltip: true,},
             {props: 'mayCarvolumn', name: '数量', key: 'EKL_YJGL_SHUL', width: 80, tooltip: true,}
         ]
     },
