@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-03 17:04:36
+ * @LastEditTime: 2021-12-03 18:29:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -356,9 +356,13 @@ export default {
     handleClose (done) {
       done();
     },
+
     handleChangeDepartment (val, row) {
       let obj = row.selectDeptList.find(item => item.nameEn === val)
       row.approvalDepartmentName = obj.nameZh
+      row.approvalSectionName = ""
+      row.approvalSection = ""
+      row.approvalBy = ""
       selectSection({ lineDeptId: obj.id }).then(res => {
         this.$set(row, 'selectSectionList', res.data);
       })
@@ -366,6 +370,7 @@ export default {
     handleChangeApprovalSection (val, row) {
       let obj = row.selectSectionList.find(item => item.nameEn === val)
       row.approvalSectionName = obj.nameZh
+      row.approvalBy = ""
       this.$set(row, 'userList', obj.userDTOList);
     },
     handleChangeApprovalName (val, row) {
