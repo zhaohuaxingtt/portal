@@ -7,6 +7,7 @@
     @close="closeDiolog()"
            :title="'移除⿊名单 - 一般采购 -'+ clickTableList.nameZh"
     :visible.sync="value"
+       top="2%"
     width="85%"
   >
     <div class="box">
@@ -91,14 +92,14 @@ export default {
         this.$message({
           type: 'warning',
           message: this.language(
-            'QINGXUANZEXUYAOYICHUDESHOUKONGYEWULEIXING!',
+            'QINGXUANZEXUYAOYICHUDESHOUKONGYEWULEIXING',
             '请选择需要移除的受控业务类型！'
           )
         })
       } else {
                   this.value = false
         iMessageBox(
-          this.language('SHIFOUQUERENYICHUHEIMINGDAN?', '是否确认移除黑名单'),
+          this.language('SHIFOUQUERENYICHUHEIMINGDAN', '是否确认移除黑名单'),
           this.language('TIJIAO', '提交'),
           {
             confirmButtonText: this.language('QUEREN', '确认'),

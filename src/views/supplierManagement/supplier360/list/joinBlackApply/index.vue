@@ -6,7 +6,7 @@
   <div>
     <div :class="ifSelf?'page':''">
       <div v-if="ifSelf" class="headerTitle">
-        <p>加入黑名单申请 - 生产采购</p>
+        <p>{{ language('JIARUHEIMINGDANSHENQINGSHENGCHANCAIGOU', '加入黑名单申请 - 生产采购') }}</p>
         <div>
           <iButton @click="handleBtn(2)">{{
             language('PIZHUN', '批准')
@@ -41,7 +41,7 @@
           </div>
 
           <div>
-            <p>加入黑名单原因</p>
+            <p>   {{ language('JIARUHEIMINGDANYUANYIN', '加入黑名单原因') }}</p>
             <div class="remark">
               {{data.reason}}
             </div>
@@ -49,7 +49,7 @@
         </el-form>
       </iCard>
       <iCard style="margin-top:20px">
-        <p class="tableTitle">详情列表</p>
+        <p class="tableTitle">   {{ language('XIANGQINGLIEBIAO', '详情列表') }}</p>
         <table-list
           style="margin-top:20px"
           :tableData="tableListData"
@@ -65,8 +65,8 @@
         </table-list>
         <iPagination
           v-update
-          @size-change="handleSizeChange($event, getListData)"
-          @current-change="handleCurrentChange($event, getListData)"
+          @size-change="handleSizeChange($event, getListArr)"
+          @current-change="handleCurrentChange($event, getListArr)"
           background
           :page-sizes="page.pageSizes"
           :page-size="page.pageSize"

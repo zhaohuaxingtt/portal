@@ -176,7 +176,7 @@ import {
 import iTableCustom from '@/components/iTableCustom'
 import { tableSetting, exportTableSetting } from './data.js'
 import { pageMixins } from '@/utils/pageMixins'
-import {openUrl} from '@/utils'
+import { openUrl } from '@/utils'
 import {
   getOrganizationList,
   deleteOrganization,
@@ -294,7 +294,7 @@ export default {
       //得到数据
       this.tableLoading = true
       getOrganizationList(null, data)
-        .then(value => {
+        .then((value) => {
           this.tableLoading = false
           if (value.code == 200) {
             this.alltableListData = _.cloneDeep(value.data)
@@ -305,7 +305,7 @@ export default {
             )
           }
         })
-        .catch(error => {
+        .catch((error) => {
           //错误处理
           this.tableLoading = false
           return console.log(error)
@@ -338,14 +338,14 @@ export default {
             if (action === 'confirm') {
               this.tableLoading = true
               deleteOrganization(null, data)
-                .then(value => {
+                .then((value) => {
                   this.tableLoading = false
                   if (value.code == 200) {
                     this.sendQuest()
                     this.tableListData = value
                   }
                 })
-                .catch(error => {
+                .catch((error) => {
                   this.tableLoading = false
                   console.log('删除错误', error)
                 })
@@ -354,7 +354,7 @@ export default {
               done()
             }
           }
-        }).then(action => {})
+        }).then((action) => {})
       }
     },
     //搜索(模糊查询)
@@ -377,17 +377,20 @@ export default {
     },
     filterTable(keys, filterData) {
       const res = []
-      this.flatTableData.forEach(e => {
+      this.flatTableData.forEach((e) => {
         let isOk = true
-        keys.forEach(key => {
+        keys.forEach((key) => {
           if (key === 'fullCode' && !e.fullCode.includes(filterData.fullCode)) {
             isOk = false
           }
           if (
             key === 'leaderName' &&
             e.userDTOList &&
-            e.userDTOList.filter(user => user.nameZh === filterData.leaderName)
-              .length === 0
+            e.userDTOList.filter((user) =>
+              user.nameZh
+                .toLowerCase()
+                .includes(filterData.leaderName.toLowerCase())
+            ).length === 0
           ) {
             isOk = false
           }

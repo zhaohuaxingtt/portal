@@ -1,5 +1,11 @@
 <template>
   <div style="padding-bottom:30px;">
+    <div class="BtnTitle">
+      <span></span>
+      <div>
+          <iButton @click="upload">{{language('DAOCHU', '导出')}}</iButton>
+      </div>
+    </div>
       <el-form :rules="formRules"
              :model="{tableData}"
              ref="contractForm"
@@ -487,8 +493,15 @@
 </template>
 
 <script>
+import { iButton } from "rise";
+import {
+  downloadError
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 export default {
     name:'cancelReqestNo',
+    components:{
+      iButton
+    },
     data(){
         return{
             tableData:[],
@@ -501,7 +514,22 @@ export default {
         this.tableData = this.errorList;
     },
     methods:{
-
+      upload(){
+        downloadError(
+          this.tableData
+        ).then(res=>{
+          let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+          let objectUrl = URL.createObjectURL(blob);
+          let link = document.createElement("a");
+          link.href = objectUrl;
+          let fname = "MTZ零件主数据错误信息.xlsx";
+          link.setAttribute("download", fname);
+          document.body.appendChild(link);
+          link.click();
+          link.parentNode.removeChild(link);
+          iMessage.success("链接成功！")
+        })
+      },
     }
 }
 </script>
@@ -510,5 +538,15 @@ export default {
 .formStyle ::v-deep .el-form-item {
   margin-top: 0;
   margin-bottom: 0;
+}
+ .BtnTitle{
+  margin-bottom:30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  >span{
+    font-size: 18px;
+    font-weight: bold;
+  }
 }
 </style>

@@ -31,32 +31,6 @@
         </div>
       </div>
     </div>
-    <!-- <el-form label-position="left" label-width="100px">
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <iFormItem>
-            <div>{{ language('审批备注与附件') }}</div>
-          </iFormItem>
-        </el-col>
-        <el-col :span="12">
-          <iFormItem :label="language('审批备注')">
-            <div>{{ form.remark || '无' }}</div>
-          </iFormItem>
-        </el-col>
-        <el-col :span="12">
-          <iFormItem :label="language('附件')">
-            <div
-              v-if="!form.procAttachments || form.procAttachments.length === 0"
-            >
-              无
-            </div>
-            <div v-else class="attach-area">
-              <attachmentList :data="form.procAttachments || []" icon />
-            </div>
-          </iFormItem>
-        </el-col>
-      </el-row>
-    </el-form> -->
   </iCard>
 </template>
 
@@ -120,21 +94,22 @@ export default {
   .name {
     width: 150px;
     font-weight: bold;
+    font-size: 16px;
   }
   .content {
+    font-size: 14px;
     width: calc(100% - 150px);
     display: flex;
     justify-content: space-between;
     .remark {
       width: 45%;
-      font-weight: bold;
       .multi-ellipsis:hover {
         -webkit-line-clamp: unset;
       }
     }
     .attachments {
       width: 45%;
-      font-weight: bold;
+      font-weight: inherit;
     }
   }
 }
