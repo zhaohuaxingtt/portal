@@ -139,6 +139,15 @@
                   </i-select>
                 </el-form-item>
               </el-col>
+              <el-col :span="6">
+                <el-form-item :label="language('正式/SVW号')">
+                  <iInput
+                    :placeholder="searchOptionTitles.input"
+                    v-model="formData.sapNum"
+                  >
+                  </iInput>
+                </el-form-item>
+              </el-col>
             </el-row>
           </el-form>
         </iSearch>
@@ -356,9 +365,9 @@ export default {
         telephoneO: '', //座机
         userName: '', //用户登录名
         sapNum: '', //SAP号
-        temporaryNum: '' //临时号
+        temporaryNum: '', //临时号
+        svw:''//svw号
       },
-      selectedData: [],
       falseTrueSelect: [
         {
           value: false,
