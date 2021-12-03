@@ -344,7 +344,7 @@ export default {
       this.$router.push('/partsRelationship')
     },
     handleSource (val) {
-      val.source = '2'
+
       let path = ""
       let query = {}
       if (val.source === '0') {
