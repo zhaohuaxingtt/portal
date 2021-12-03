@@ -515,3 +515,11 @@ export function approvalList(params) {
     data: params
   })
 }
+
+export function getPreciousMetalDosageUnit(params) {//贵金属单位下拉
+  return request({
+    url: '/mtzNomiList/getPreciousMetalDosageUnit',
+    method: 'POST',
+    data: params
+  })
+}
