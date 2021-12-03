@@ -48,7 +48,10 @@
                 :inputProps="['remark']"
                 @handleSelectionChange="handleSelectionChange">
       <template #isEffect="scope">
-        <span>{{scope.row.isEffect?$t('SUPPLIER_SPWC'):$t('SUPPLIER_SPZ')}}</span>
+        <span>{{scope.row.isEffect?language('SHENPITONGGUO','审批通过'):language('SHENPIZHONG','审批中')}}</span>
+      </template>
+      <template #bdlType="scope">
+        <span>{{scope.row.bdlType==='2'?language('SHI','是'):language('FOU','否')}}</span>
       </template>
     </table-list>
   </i-card>
