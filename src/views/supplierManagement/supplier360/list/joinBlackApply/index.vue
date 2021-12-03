@@ -65,8 +65,8 @@
         </table-list>
         <iPagination
           v-update
-          @size-change="handleSizeChange($event, getListData)"
-          @current-change="handleCurrentChange($event, getListData)"
+          @size-change="handleSizeChange($event, getListArr)"
+          @current-change="handleCurrentChange($event, getListArr)"
           background
           :page-sizes="page.pageSizes"
           :page-size="page.pageSize"
