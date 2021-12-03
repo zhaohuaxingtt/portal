@@ -5,8 +5,8 @@
 			<div class="listTitle" v-text="title"></div>
 			<div 
 				class="listContent"
-				v-infinite-scroll="load"
-				infinite-scroll-disabled="disabled"
+				@scroll="loadEvent"
+				ref="loadList"
 				>
 				<div v-for="(menu, index) in moudleList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleId === menu[idKey] ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'" @click="select(menu,index)">
 					<div class="idx">{{ index + 1 }}</div>
@@ -16,7 +16,7 @@
 				</div> 
 				<div v-if="!loading && moudleList.length == 0" class="no-data">暂无数据</div>
 				<p v-if="loading" class="no-data" style="margin: 10px 0;">加载中...</p>
-				<div v-if="noMore" class="no-data" style="margin: 10px 0;">没有更多了</div>
+				<div v-if="moudleList.length != 0 && noMore" class="no-data" style="margin: 10px 0;">没有更多了</div>
 			</div>
 		</div>
 	</div>
@@ -72,6 +72,13 @@ export default {
 			}
 		}
 	},
+	watch:{
+		moudleList(n){
+			if(n.length && this.loadmore && !this.noMore){
+				this.$nextTick(this.init)
+			}	
+		}
+	},
 	computed:{
 		disabled () {
 			return this.loading || this.noMore
@@ -82,10 +89,28 @@ export default {
 			// this.$emit("update:currentMoudleId", menu.menuId)
 			this.$emit("change", menu)
 		},
-		load(){
-			console.log(this.loadmore,this.noMore,'---');
-			if(!this.loadmore || this.noMore) return false
-			this.$emit("onLoad")
+		loadEvent(e){
+			if(!this.loadmore) return
+			if(this.disabled) return
+			let scrollHeight = e.target.scrollHeight	//滚动高度
+			let clientHeight = e.target.clientHeight	//当前元素高度
+			let scrollTop = e.target.scrollTop			//滚动距离
+			
+			if(scrollTop + clientHeight >= (scrollHeight - 10)){
+				this.$emit("onLoad")
+			}
+		},
+		init(){
+			let totalHeigth = 0
+			let el = this.$refs.loadList
+			el.childNodes.forEach(e => {
+				if(e.nodeType == 1){
+					totalHeigth += e.offsetHeight
+				}
+			})
+			if(el.clientHeight >= totalHeigth){
+				this.$emit("onLoad")
+			}
 		}
 	},
 }
@@ -95,6 +120,8 @@ export default {
 @import "../comon.scss";
 	.leftContent {
 		width: 28%;
+		display: flex;
+		flex-direction: column;
 		min-height: 100%;
 		background: #FFFFFF;
 		box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);

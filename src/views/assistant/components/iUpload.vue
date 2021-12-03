@@ -7,11 +7,12 @@
             :show-file-list="false"
             :http-request="httpUpload"
             :disabled="disabled"
+            v-if="!disabled"
             >
             <slot></slot>
         </el-upload>
         <template v-if="showFile">    
-            <FileList v-for="(f,i) in files" :key="i" :file="f" @del="removeFile(i)"></FileList>
+            <FileList v-for="(f,i) in files" :key="i" :disabled="disabled" :file="f" @del="removeFile(i)"></FileList>
         </template>
     </div>
 </template>

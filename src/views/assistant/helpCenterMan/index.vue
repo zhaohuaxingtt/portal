@@ -34,6 +34,7 @@
 	</div>
 	<div class="flex flex-row content mt20" v-show="activeMoudle === 'question'">
 		<CommonProblem 
+			ref="CommonProblem2"
 			title="常见问题"
 			:moudleList="qsInfo.list"
 			:currentMoudleId="qsInfo.id"
@@ -45,7 +46,12 @@
 			@change="moduleChange($event,'qsInfo')"
 			@onLoad="loadQs"
 		>
-			<iInput slot="top" v-model="qsInfo.params.keyword" @keydown.enter="queryFaqListByPage" placeholder="搜索.."></iInput>
+			<div class="flex" slot="top">
+				<iInput class="flex-1" v-model="qsInfo.params.keyWord" @keydown.native.enter="refreshQs" placeholder="搜索.."></iInput>
+				<iSelect class="content-select" v-model="qsInfo.params.questionModuleId" filterable clearable @change="refreshQs">
+					<el-option v-for="m in qsInfo.moduleList" :key="m.id" :value='m.id' :label='m.menuName'></el-option>
+				</iSelect>
+			</div>
 		</CommonProblem>
 		<div class="content-right" v-loading="contentLoading">
 			<Question 
@@ -63,7 +69,7 @@
 </template>
 
 <script>
-import { iPage, iInput } from 'rise'
+import { iPage, iInput, iSelect } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
 import Question from "./components/question"
@@ -78,7 +84,8 @@ export default {
 		CommonProblem,
 		Question,
 		UserManual,
-		iInput
+		iInput,
+		iSelect
 	},
 	mixins: [assistant_mixin],
 	data() {
@@ -105,10 +112,13 @@ export default {
 				activeInfo:{},
 				params:{
 					pageNum: 1,
-					pageSize: 10,
-					keyword:""
+					pageSize: 20,
+					keyWord:"",
+					questionModuleId:""
 				},
-				noMore:false
+				noMore:false,
+
+				moduleList:[]
 			},
 			show: false,
 			key:"",
@@ -134,6 +144,7 @@ export default {
 			try {
 				await getModuleList().then((res) => {
 					if (res.code === '200') {
+						this.qsInfo.moduleList = res.data
 						this.manualInfo.list = res.data
 						this.manualInfo.id = res.data[0]?.id
 						this.manualInfo.activeInfo = res.data[0]
@@ -165,9 +176,6 @@ export default {
 								this.qsInfo.noMore = true
 							}
 						}
-						// this.qsInfo.id = this.qsInfo.list[0]?.id
-						// this.qsInfo.activeInfo = res.data[0] || {}
-						// this.queryProblemDetail()
 					}
 				})
 			} finally {
@@ -179,27 +187,31 @@ export default {
 			console.log('load',this.qsInfo.noMore);
 			if(this.qsInfo.noMore) return
 			this.qsInfo.params.pageNum++
-			console.log('load',this.qsInfo.noMore);
-
 			this.queryFaqListByPage()
 		},
 		refreshQs(){
 			this.qsInfo.params.pageNum = 1
 			this.qsInfo.list = []
-			this.qsInfo.detail = {}
 			this.qsInfo.noMore = false
 			this.queryFaqListByPage()
 		},
+		// tab切换
 		tabChange(val) {
 			this.activeMoudle = val
-			if(!this.qsInfo.id){
-				this.qsInfo.id = this.qsInfo.list[0]?.id
-				this.qsInfo.activeInfo = this.qsInfo.list[0]
-			}
 			if(this.activeMoudle == 'manual'){
-				this.queryManualDetail()
+				this.$refs.manual.cancel()
+				if(!this.manualInfo.id){
+					this.manualInfo.id = this.manualInfo.list[0]?.id
+					this.manualInfo.activeInfo = this.manualInfo.list[0]
+					this.queryManualDetail()
+				}
 			}else{
-				this.queryProblemDetail()
+				this.$refs.qs.cancel()
+				if(!this.qsInfo.id){
+					this.qsInfo.id = this.qsInfo.list[0]?.id
+					this.qsInfo.activeInfo = this.qsInfo.list[0]
+					this.queryProblemDetail()
+				}
 			}
 		},
 		selectUser(v){
@@ -209,8 +221,8 @@ export default {
 		async queryManualDetail(){
 			try {
 				this.contentLoading = true
-				let {data} = await getUserDes({moduleId:this.manualInfo.id,source:this.getUserType()})
-				this.manualInfo.detail = data || {}
+				let res = await getUserDes({moduleId:this.manualInfo.id,source:this.getUserType()})
+				this.manualInfo.detail = res.data || {}
 			} finally {
 				this.contentLoading = false
 			}
@@ -229,8 +241,8 @@ export default {
 			this[type].id = v.id
 			this[type].activeInfo = v
 			if(type == 'manualInfo'){
-				this.$refs.manual.cancel()
 				this.queryManualDetail()
+				this.$refs.manual.cancel()
 			}else{
 				this.$refs.qs.cancel()
 				this.queryProblemDetail()
@@ -243,7 +255,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "../comon.scss";
-
 	.main{
 		display: flex;
 		flex-direction: column;

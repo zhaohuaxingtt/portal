@@ -93,6 +93,7 @@ export default {
       this.isEdit = false;
       this.extraData.selectionRowIds = [];
       this.$refs.testTable.clearSelection()
+      this.query()
     },
     async confirmEditHandler () { 
       // 保存

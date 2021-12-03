@@ -1,9 +1,9 @@
 <template>
-    <div class="manual" v-loading="loading">
+    <div class="manual" ref="content" v-loading="loading">
         <div class="manual-btns">
             <template v-if="type == 'detail'">
-                <iButton v-if="detail.id" @click="del">删除</iButton>
-                <iButton v-if="detail.id" @click="type = 'edit'">编辑</iButton>
+                <iButton v-if="qs.id" @click="del">删除</iButton>
+                <iButton v-if="qs.id" @click="type = 'edit'">编辑</iButton>
             </template>
             <template v-if="type == 'edit'">
                 <template v-if="!preview">
@@ -16,7 +16,8 @@
         </div>
         <template v-if="type == 'detail'">
             <div class="manual-tlt" v-text="qs.menuName"></div>
-            <div class="content" v-if="detail && detail.manualContent" v-html="detail.manualContent"></div>
+            <!-- <div class="content" v-if="detail.manualContent" v-html="detail.manualContent"></div> -->
+            <iEditor class="manual-editor" disabled v-model="detail.manualContent"></iEditor>
         </template>
         <template v-if="type == 'edit'">
             <div v-if="preview" v-html="content"></div>
