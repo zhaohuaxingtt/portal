@@ -456,22 +456,6 @@
           </template>
         </el-table-column>
 
-
-
-        <el-table-column prop="preciousMetalDosageUnit"
-                         align="center"
-                         width="150"
-                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
-                         >
-          <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
-                          :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
-              <span>{{scope.row.preciousMetalDosageUnit}}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-
-
         <el-table-column prop="platinumPrice"
                          align="center"
                          width="150"
@@ -655,6 +639,19 @@
                         @change="jijiaCompute(scope.row,$event)"
                         ></iInput> -->
               <span>{{scope.row.rhodiumDosage}}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        
+        <el-table-column prop="preciousMetalDosageUnit"
+                         align="center"
+                         width="150"
+                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
+                         >
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
+                          :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
+              <span>{{scope.row.preciousMetalDosageUnit}}</span>
             </el-form-item>
           </template>
         </el-table-column>

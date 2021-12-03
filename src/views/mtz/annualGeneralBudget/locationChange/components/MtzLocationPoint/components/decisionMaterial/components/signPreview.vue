@@ -7,15 +7,15 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signPreview.vue
 -->
 <template>
-  <div>
+  <div style="padding-bottom:30px;">
     <span class="download_btn" v-if="!editMode">
       <iButton @click="handleClickExport" :loading="exportButtonLoading">{{language('DAOCHU', '导出')}}</iButton>
     </span>
     <div id="content">
-      <!-- <div class="content_dialog" v-if="formData.appStatus == '流转完成' || formData.appStatus == '定点'"></div> -->
+      <div class="content_dialog" v-if="m1&&(formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
       <iCard>
         <div slot="header" class="headBox">
-          <p class="headTitle">流转定点推荐 - MTZ Nomination Recommendation - MTZ</p>
+          <p class="headTitle">{{title}}</p>
         </div>
         <!-- label -->
         <div class="tabsBoxInfor">
@@ -128,7 +128,7 @@
           </div>
         </div>
       </iCard>
-      <div class="margin-top30 deptBox">
+      <div class="margin-top30 deptBox" v-if="!m1">
         <div class="deptItem" v-for="(item, index) in deptData" :key="index">
           <p>{{item.approvalDepartment}}：</p>
           <div></div>
@@ -150,6 +150,7 @@ import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
 import { downloadFileByUrl} from '@/utils';
 export default {
   mixins: [pageMixins],
+  props:["m1"],
   components: {
     iCard,
     icon,

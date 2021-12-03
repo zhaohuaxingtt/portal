@@ -88,26 +88,6 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.temNumber">
-                  <iInput
-                    :placeholder="searchOptionTitles.input"
-                    v-model="formData.temporaryNum"
-                  >
-                  </iInput>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row :gutter="formAppearance.gutter">
-              <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.sapNO">
-                  <iInput
-                    :placeholder="searchOptionTitles.input"
-                    v-model="formData.sapNum"
-                  >
-                  </iInput>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
                 <el-form-item :label="searchOptionTitles.status">
                   <i-select
                     :placeholder="searchOptionTitles.iselect"
@@ -123,6 +103,8 @@
                   </i-select>
                 </el-form-item>
               </el-col>
+            </el-row>
+            <el-row :gutter="formAppearance.gutter">
               <el-col :span="6">
                 <el-form-item :label="searchOptionTitles.isExpire">
                   <i-select
@@ -140,10 +122,28 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="language('正式/SVW号')">
+                <el-form-item :label="searchOptionTitles.sapNO">
                   <iInput
                     :placeholder="searchOptionTitles.input"
                     v-model="formData.sapNum"
+                  >
+                  </iInput>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="language('正式/SVW号')">
+                  <iInput
+                    :placeholder="searchOptionTitles.input"
+                    v-model="formData.svw"
+                  >
+                  </iInput>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="searchOptionTitles.temNumber">
+                  <iInput
+                    :placeholder="searchOptionTitles.input"
+                    v-model="formData.temporaryNum"
                   >
                   </iInput>
                 </el-form-item>

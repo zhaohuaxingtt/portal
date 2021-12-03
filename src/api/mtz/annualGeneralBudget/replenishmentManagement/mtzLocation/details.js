@@ -523,3 +523,12 @@ export function getPreciousMetalDosageUnit(params) {//贵金属单位下拉
     data: params
   })
 }
+
+export function downloadError(params) {//导出错误信息
+  return request({
+    url: '/mtzAppNomi/downloadError',
+    method: 'POST',
+    responseType: 'blob',
+    data: params
+  })
+}
