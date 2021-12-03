@@ -195,7 +195,11 @@ export default {
 			} else {
 				queryContentId = this.currentMoudleId
 			}
-			getUserDes({moduleId: queryContentId}).then(res => {
+			let params = {
+				moduleId: queryContentId,
+				source: this.$store.state.permission.userInfo.userType == 1 ? "inner" : "supplier"
+			}
+			getUserDes(params).then(res => {
 				if (res?.code === '200') {
 					// this.currModuleDetailData = '实打实的就喀什角动量喀什觉得'
 					this.currModuleDetailData = res?.data?.manualContent
@@ -271,7 +275,6 @@ export default {
 		},
 		// 选择模块变化时 的事件
 		moduleChange(moudle) {
-			console.log(moudle, "moudle")
 			this.currentMoudleId = moudle.id
 			this.currMoudleName = moudle.menuName
 			if (this.helpMoudle === 'manual') {
@@ -280,6 +283,8 @@ export default {
 				this.$nextTick(() => {
 					this.$refs.problemDetail.currentFlag = 'listPage'
 					this.$refs.problemDetail.labelText = null
+					this.$refs.problemDetail.labelIdx = 0
+					this.$refs.problemDetail.problemDetail = []
 					this.$refs.problemDetail.getLabelList('init')
 				})
 			} else {

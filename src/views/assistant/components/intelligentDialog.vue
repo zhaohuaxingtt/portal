@@ -26,8 +26,22 @@
 						<div v-else-if="item.type !== 'admin'" class="ask-box put-ques">
 							{{ item.question }}
 						</div>
-						<div v-else class="ask-box put-ask">
+						<!-- <div v-else class="ask-box put-ask" v-for="(content, index) in item.answerContent" :key="index" >
 							<div class="ask-text">{{ item.answerContent }}</div>
+							<div class="goon-put cursor" @click="handleTw">向管理员继续提问</div>
+						</div> -->
+						<div v-else class="ask-box moren-box">
+							<div v-if="item.answerContent.length > 0">
+								<div v-for="(content, index) in item.answerContent" :key="index">
+									<div class="flex flex-row issue-box items-center" @click="handleIssue(content)" >
+										<div class="blue-box"></div>
+										<div class="issue-text cursor">{{ content.questionTitle }}</div>
+									</div>
+								</div>
+							</div>
+							<div v-else>
+								抱歉，未能找到相关问题，您可以直接向管理员提问
+							</div>
 							<div class="goon-put cursor" @click="handleTw">向管理员继续提问</div>
 						</div>
 					</div>
@@ -51,6 +65,8 @@
 
 <script>
 import { iDialog, iInput, iButton } from 'rise'
+import { getSmartContent } from '@/api/assistant'
+
 
 export default {
 	name:'intelligentDialog',
@@ -73,7 +89,6 @@ export default {
 	},
 	mounted() {
 		this.initChatList()
-		console.log(this.nameZh, "baseInfo")
 	},
 	computed: {
     nameZh() {
@@ -101,14 +116,23 @@ export default {
 		clearDialog() {
 			this.$emit('closeDialog', false)
 		},
-		sendMessage() {
+		async sendMessage() {
 			this.chatList.push({
 				question: this.keywords,
-				anwser: '',
+				answerContent: [],
 				type: 'user'
 			})
-			this.keywords = ''
-			// console.log(this.chatList, "this.chatList")
+			let question = this.keywords
+			await getSmartContent(question).then((res) => {
+				if (res?.code === '200') {
+					this.chatList.push({
+						question: '',
+						answerContent: res?.data || [],
+						type: 'admin'
+					})
+				}
+				this.keywords = ''
+			})
 		},
 		handleIssue(issue) {
 			// 点击问题 跳转常见问题详情页面
@@ -231,6 +255,13 @@ export default {
 		height: 200px;
 		background: #FFFFFF;
 		opacity: 1;
+		margin-top: 10px;
+	}
+	.goon-put {
+		color: #2369F1;
+		text-decoration: underline;
+		font-size: 14px;
+		text-align: left;
 		margin-top: 10px;
 	}
 </style>

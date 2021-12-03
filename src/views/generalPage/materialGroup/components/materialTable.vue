@@ -31,7 +31,7 @@
         <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_CANCLE"
                   @click="getUncontrol">{{$t('SUPPLIER_QUXIAOSHOUKONG')}}</i-button>
         <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_CANCELBDL_RELATION"
-                  @click="handleAssociated">{{language('YICHUMDBL','移除MBDL')}}</i-button>
+                  @click="handleMbdlCance">{{language('YICHUMDBL','移除MBDL')}}</i-button>
         <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_CANCELBDL_RELATION"
                   @click="handleAssociated">{{language('YIICHUBDL','移除BDL')}}</i-button>
 
@@ -59,7 +59,7 @@ import { iCard, iButton, iMessage } from "rise";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import { materialTableTitle } from './data'
-import { addControl, getPageMaterialGroup, updateUncontrol, updateAssociated, updateControl } from "../../../../api/supplier360/material";
+import { addControl, getPageMaterialGroup, updateUncontrol, updateAssociated, updateControl, mbdlCancelAssociated } from "../../../../api/supplier360/material";
 import { getDictByCode } from "../../../../api/dictionary/index";
 
 export default {
@@ -173,6 +173,19 @@ export default {
         stuffBdlId: this.selectTableData[0].id
       }
       const res = await updateAssociated(pms)
+      this.resultMessage(res, () => {
+        this.getTableList()
+      })
+    },
+    async handleMbdlCance () {
+      if (this.selectTableData.length !== 1) {
+        iMessage.warn('只能提交一条数据')
+        return
+      }
+      const pms = {
+        stuffBdlId: this.selectTableData[0].id
+      }
+      const res = await mbdlCancelAssociated(pms)
       this.resultMessage(res, () => {
         this.getTableList()
       })

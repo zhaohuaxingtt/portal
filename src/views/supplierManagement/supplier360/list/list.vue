@@ -1,9 +1,9 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: caopeng
  * @Description: In User Settings Edit
- * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
+ * @FilePath: \front-portal-new\src\views\supplierManagement\supplier360\list\list.vue
 -->
 <template>
   <div>
@@ -475,7 +475,7 @@ export default {
             }
           }else{
                iMessage.warn(this.language(
-                'GAIGONGYINGSHANGYIZAISUOYOUKENENGDEGONGYIZUHEIMINGDANZHONGWUXUCHONGFUTIANJIA',
+                'GAIGONGYINGSHANGYIZAISUOYOUKENENGDEGONGYIZUHEIMINGDANZHON',
                 '该供应商已在所有可能的工艺组的黑名单中，无需重复添加！'
               ))
             

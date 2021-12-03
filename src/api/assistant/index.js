@@ -2,6 +2,8 @@ import axios from '@/utils/axios'
 // const request = axios(process.env.VUE_APP_APPROVAL)
 const userRequest = axios(process.env.VUE_APP_USER_CENTER)
 const assistantRequest = axios(process.env.VUE_APP_USER_ASSISTANT)
+import axiosDownload from '@/utils/axios.download'
+const requestDownload = axiosDownload(process.env.VUE_APP_USER_ASSISTANT)
 
 // 查询常见问题列表
 export function getSystemMeun() {
@@ -58,7 +60,7 @@ export function delFaq(id) {
   })
 }
 // 用户手册管理 更新常见问题
-export function updateFaq(id,data) {
+export function updateFaq(id, data) {
   return assistantRequest({
     url: `/assistantFaq/updateFaq/${id}`,
     method: 'post',
@@ -81,7 +83,6 @@ export function queryFaqListByPage(data) {
     data
   })
 }
-
 
 // 根据模块id 查询热门的前五个话题
 export function getHotFiveQues(id) {
@@ -351,6 +352,33 @@ export const assistantFaqSaveFaqApi = (data) => {
 export const modifyModuleAndLabelApi = (data) => {
   return assistantRequest({
     url: '/assistantQuestion/updateModuleId',
+    method: 'POST',
+    data
+  })
+}
+
+// 常见问题统计导出
+export const exportStatisticsQuestionsApi = (data) => {
+  return requestDownload({
+    url: '/assistantFaq/exportQuestions',
+    method: 'POST',
+    data
+  })
+}
+
+// 问题处理统计导出
+export const exportQuestionsApi = (data) => {
+  return requestDownload({
+    url: '/assistantQuestion/exportQuestions',
+    method: 'POST',
+    data
+  })
+}
+
+//  智能问答
+export const getSmartContent = (data) => {
+  return assistantRequest({
+    url: '/assistantFaq/smartAnswer',
     method: 'POST',
     data
   })
