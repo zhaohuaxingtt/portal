@@ -6,7 +6,7 @@
   <div>
     <div :class="ifSelf?'page':''">
       <div class="headerTitle" v-if="ifSelf">
-        <p>移除黑名单申请 - 生产采购</p>
+               <p>{{ language('YICHUHEIMINGDANSHENQINGSHENGCHANCAIGOU', '移除黑名单申请 - 生产采购') }}</p>
         <div>
           <iButton @click="handleBtn(2)">{{
             language('PIZHUN', '批准')
