@@ -658,7 +658,7 @@
         
         <el-table-column prop="preciousMetalDosageUnit"
                          align="center"
-                         width="150"
+                         width="200"
                          :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
                          >
           <template slot-scope="scope">
