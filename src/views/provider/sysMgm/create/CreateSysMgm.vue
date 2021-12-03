@@ -323,6 +323,10 @@ export default {
         {
           id: '2',
           label: '一般采购'
+        },
+        {
+          id:'3',
+          label:'物流应用'
         }
       ],
       rootMenus: []

@@ -46,28 +46,27 @@
         }}</iButton>
         </div>
       </div>
-    
-        <div style="margin-top:30px" class="sectionTitle">
-          <span class="ptext">
-            {{
+
+      <div style="margin-top:30px"
+           class="sectionTitle">
+        <span class="ptext">
+          {{
               language(
                 'XIANGQINGLIEBIAO',
                 '详情列表'
               )
             }}
-          </span>
-          <iButton @click="clickBtn">{{
+        </span>
+        <iButton @click="clickBtn">{{
           language('BAOCUN', '保存')
         }}</iButton>
-        </div>
-          <div class="section"
-            style="margin-top:30px"
-           >
+      </div>
+      <div class="section"
+           style="margin-top:30px">
         <el-table :data="tabledata"
                   v-loading="tableLoading"
                   ref="mulitipleTable"
                   @selection-change="handleSelectionChange"
-                
                   :tableTitle="setTagCloum">
           <el-table-column type="selection"
                            width="50"
@@ -88,8 +87,10 @@
                            align="center"
                            prop="tagDesc"
                            label="系统判断标准"> <template slot-scope="scope">
-              <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
-                  <span v-else >{{scope.row.tagDesc}}</span>
+              <span v-if="scope.row.tagTypeVale=='手工维护'">{{
+          language('WU', '保存')
+        }}</span>
+              <span v-else>{{scope.row.tagDesc}}</span>
             </template> </el-table-column>
           <!-- <el-table-column width="150"
                            align="center"
@@ -138,7 +139,7 @@
 </template>
 
 <script>
-import { iDialog, iButton, iSelect, iMessage,  } from 'rise'
+import { iDialog, iButton, iSelect, iMessage } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { setTagCloum } from './data'
 import {
@@ -152,8 +153,7 @@ export default {
   components: {
     iDialog,
     iButton,
-    iSelect,
-
+    iSelect
   },
   props: {
     value: { type: Boolean },
@@ -169,7 +169,7 @@ export default {
       form: {},
       tagdropDownList: [],
       tagTypeList: [
-           { label: this.language('QUANBU', '全部'), value: '' },
+        { label: this.language('QUANBU', '全部'), value: '' },
         { label: this.language('XITONGPANDING', '系统判定'), value: 1 },
         { label: this.language('SHOUGONG', '手工'), value: 2 }
       ]
@@ -288,13 +288,12 @@ export default {
   .section {
     max-height: 700px;
     overflow-y: auto;
-  
   }
-    .sectionTitle {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  .sectionTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .ptext {
     font-size: 18px;
     font-family: Arial;

@@ -221,13 +221,6 @@ export default {
 			getHotFiveQues(moudleId).then((res) => {
 				if (res?.code === '200') {
 					this.hotQuestionList = res?.data
-					// this.hotQuestionList = [
-					// 	{ questionTitle: '多个联系人怎么办？', id: '1', answerContent: '回答内容1', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
-					// 	{ questionTitle: '注册名必须是企业全称吗？', id: '2', answerContent: '回答内容2', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
-					// 	{ questionTitle: '注册页面加载缓慢怎么办？', id: '3', answerContent: '回答内容3', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
-					// 	{ questionTitle: '没有中文名怎么办？', id: '4', answerContent: '回答内容4', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' },
-					// 	{ questionTitle: '密码需要多少字符？', id: '5', answerContent: '回答内容5', annexList: [], questionId: '11', questionLableId: '12', questionModuleId: '122' }
-					// ]
 					this.intelligentVisible = true
 				}
 			})
@@ -285,6 +278,7 @@ export default {
 					this.$refs.problemDetail.labelText = null
 					this.$refs.problemDetail.labelIdx = 0
 					this.$refs.problemDetail.problemDetail = []
+					this.$refs.problemDetail.problemQuery.pageNum = 1
 					this.$refs.problemDetail.getLabelList('init')
 				})
 			} else {
@@ -293,23 +287,27 @@ export default {
 			
 		},
 		// 根据常见问题查询条件筛查数据
-		async queryProblem(queryValue) {
-			const { labelId, moduleId } = queryValue
-			this.currentMoudleId = moduleId
-			this.currLabelId = labelId
+		queryProblem(queryValue) {
+			const { questionLableId, questionModuleId } = queryValue
+			this.currentMoudleId = questionModuleId
+			this.currLabelId = questionLableId
 			this.moudleList.map(item => {
-				if (item.id === moduleId) {
+				if (item.id === questionModuleId) {
 					this.currMoudleName = item.menuName
 				}
 			})
-			await getQueryProblemList(queryValue).then((res) => {
-				if (res?.code === '200') {
-					const { data } = res
-					this.$nextTick(() => {
-						this.$refs.problemDetail.getQueryProblemList(data, this.currLabelId)
-					})
-				}
+			console.log(queryValue, "queryValue")
+			this.$nextTick(() => {
+				this.$refs.problemDetail.getQueryProblemList(questionLableId, queryValue)
 			})
+			// await getQueryProblemList(queryValue).then((res) => {
+			// 	if (res?.code === '200') {
+			// 		const { data } = res
+			// 		this.$nextTick(() => {
+			// 			this.$refs.problemDetail.getQueryProblemList(data, this.currLabelId)
+			// 		})
+			// 	}
+			// })
 		},
 		changeCurrValue(id, name) {
 			this.currentMoudleId = id

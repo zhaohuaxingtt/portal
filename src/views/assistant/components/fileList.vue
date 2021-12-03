@@ -1,7 +1,7 @@
 <template>
-    <div class="file-list">
-        <div>{{file.fileName}}</div>
-        <i class="close el-icon-close" @click="$emit('del',file)"></i>
+    <div class="file-list" :title="disabled ? '点击下载' : ''">
+        <div @click="down">{{file.fileName}}</div>
+        <i class="close el-icon-close" v-if="!disabled" @click="$emit('del',file)"></i>
     </div>
 </template>
 
@@ -11,7 +11,18 @@
             file:{
                 type: Object,
                 default: () => {}
+            },
+            disabled:{
+                type: Boolean,
+                default: false
             }
+        },
+        methods: {
+            down(){
+                if(this.disabled && this.file.fileUrl){
+                    window.open(this.file.fileUrl)
+                }
+            }   
         }
     }
 </script>
@@ -28,6 +39,11 @@
     transition: all .3s ease;
     border-radius: 4px;
     color: #444;
+    cursor: pointer;
+
+    &:first-child{
+        margin-top: 0;
+    }
     &:hover{
         background-color: #f5f7fa;
         color: #2369f1;

@@ -145,7 +145,7 @@
         </div>
       </div>
       <p class="tableTitle">
-        详情列表
+      {{ language('XIANGQINGLIEBIAO', '详情列表') }}
       </p>
       <div class="tableBox">
 

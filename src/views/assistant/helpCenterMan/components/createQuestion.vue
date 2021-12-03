@@ -116,6 +116,7 @@
                     answerContent:"",
                     annexList:[],
                 }
+                this.$refs.form.resetFields()
                 this.$emit("update:show",false)
             },
             save(){

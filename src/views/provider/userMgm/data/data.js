@@ -44,6 +44,11 @@ export const tableColumnSetting = [{
     align: 'center',
   },
   {
+    prop:'svwCode',
+    label:'正式/SVW号',
+    align:'center'
+  },
+  {
     prop: 'sapNum',
     label: 'SAP号',
     align: 'center',
@@ -105,7 +110,7 @@ export const tableColumnSetting = [{
   },
   {
     prop: 'lastLoginDate',
-    label: '最近登录',
+    label: '最近登录时间',
     align: 'center',
     tooltip:true
   },

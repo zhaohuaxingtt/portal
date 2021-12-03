@@ -5,7 +5,9 @@
 			<div class="listTitle" v-text="title"></div>
 			<div 
 				class="listContent"
+				ref="loadList"
 				v-infinite-scroll="load"
+				infinite-scroll-distance="20"
 				infinite-scroll-disabled="disabled"
 				>
 				<div v-for="(menu, index) in moudleList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleId === menu[idKey] ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'" @click="select(menu,index)">
@@ -16,7 +18,7 @@
 				</div> 
 				<div v-if="!loading && moudleList.length == 0" class="no-data">暂无数据</div>
 				<p v-if="loading" class="no-data" style="margin: 10px 0;">加载中...</p>
-				<div v-if="noMore" class="no-data" style="margin: 10px 0;">没有更多了</div>
+				<div v-if="moudleList.length != 0 && noMore && !loading" class="no-data" style="margin: 10px 0;">没有更多了</div>
 			</div>
 		</div>
 	</div>
@@ -77,14 +79,16 @@ export default {
 			return this.loading || this.noMore
 		}
 	},
+	mounted() {
+		// this.height = (parseFloat(this.$refs.loadList.offsetHeight)-20) + 'px'
+	},
 	methods: {
 		select(menu){
 			// this.$emit("update:currentMoudleId", menu.menuId)
 			this.$emit("change", menu)
 		},
 		load(){
-			console.log(this.loadmore,this.noMore,'---');
-			if(!this.loadmore || this.noMore) return false
+			if(!this.loadmore) return
 			this.$emit("onLoad")
 		}
 	},
@@ -95,6 +99,8 @@ export default {
 @import "../comon.scss";
 	.leftContent {
 		width: 28%;
+		display: flex;
+		flex-direction: column;
 		min-height: 100%;
 		background: #FFFFFF;
 		box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);

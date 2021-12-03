@@ -62,7 +62,7 @@ export const userMessage = [
 
 export const authList = [
   {
-    type: 'selection',
+    type: 'customSelection',
     width: 50
   },
   {

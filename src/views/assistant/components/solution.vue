@@ -1,7 +1,7 @@
 <template>
 	<div class="flex flex-column content">
 		<div class="tip" v-if="showTipsFlag">{{ text }}</div>
-		<div class="flex flex-row">
+		<div class="flex flex-row justify-center">
 			<div class="good-box flex flex-row items-center justify-center cursor" @click="good">
 				<img src="@/assets/images/good.png" alt="" class="icon-png">
 				<div class="good-text">已解决</div>

@@ -11,7 +11,8 @@
 <script>
 import { iButton, iPagination, iTableCustom } from 'rise';
 import { tableColumn } from './tableColumn';
-import { pageMixins } from '@/utils/pageMixins'
+import { pageMixins } from '@/utils/pageMixins';
+
 export default {
   mixins: [pageMixins],
   props: {
@@ -22,7 +23,7 @@ export default {
     total: {
       type:Number,
       default:0,
-    }
+    },
   },
   data () {
     return {
@@ -55,6 +56,10 @@ export default {
         )
       this.page.currPage = val
       callback(this.page)
+    },
+    // 导出
+    exportExcelHandler() {
+      this.$emit('exportHandler');
     },
   },
   mounted() {
