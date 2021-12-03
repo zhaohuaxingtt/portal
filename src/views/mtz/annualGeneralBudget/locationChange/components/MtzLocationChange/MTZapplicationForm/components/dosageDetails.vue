@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-03 14:26:40
+ * @LastEditTime: 2021-12-03 17:09:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -302,11 +302,11 @@ export default {
       this.muliteList1 = val
     },
     save () {
-      this.muliteList.forEach(item => {
+      this.tableList.forEach(item => {
         item.editRow = false
       })
       this.editFlag = false
-      let editList = this.muliteList.map(item => {
+      let editList = this.tableList.map(item => {
         return {
           dosage: item.newDosage,
           endDate: item.endDate,

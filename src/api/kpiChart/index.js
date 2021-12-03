@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-07 10:24:35
- * @LastEditTime: 2021-11-10 14:42:20
+ * @LastEditTime: 2021-12-03 16:53:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-web\src\api\kpiChart\index.js
@@ -102,7 +102,7 @@ export function getStuffByCategory(data) {
 // 折叠表头页面
 export function getTableData(data) {
   return requst({
-    url: '/web/kpi/totalScore/list',
+    url: '/kpi/totalScore/list',
     method: 'GET',
     params: data
   })
@@ -110,7 +110,7 @@ export function getTableData(data) {
 // 折叠列表——获取材料组
 export function getCategoryData(data) {
   return requst({
-    url: '/web/kpi/totalScore/template/category',
+    url: '/kpi/totalScore/template/category',
     method: 'GET',
     params: data
   })
