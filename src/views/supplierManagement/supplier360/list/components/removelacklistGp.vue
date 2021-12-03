@@ -7,6 +7,7 @@
     @close="closeDiolog()"
            :title="'移除⿊名单 - 一般采购 -'+ clickTableList.nameZh"
     :visible.sync="value"
+       top="2%"
     width="85%"
   >
     <div class="box">

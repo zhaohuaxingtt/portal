@@ -1,23 +1,23 @@
 <template>
   <el-popover
-      placement="bottom"
-      trigger="click"
-      :popper-class="'setting-popover'"
-      @show="handleShow"
-      @hide="handleHide"
+    placement="bottom"
+    trigger="click"
+    :popper-class="'setting-popover'"
+    @show="handleShow"
+    @hide="handleHide"
   >
     <div class="admin-menus">
       <div class="title flex-align-center">
-        <icon symbol class="icon" name="iconSetting"/>
+        <icon symbol class="icon" name="iconSetting" />
         <!-- <span class="margin-left10">{{ $t('topLayout.setting.personal') | capitalizeFilter }}</span> -->
         <span class="margin-left10">个人设置</span>
       </div>
       <div>
         <div
-            v-for="(menu, index) in menus_genaral"
-            :key="index"
-            @click="handleProfileClick(menu)"
-            :class="{
+          v-for="(menu, index) in menus_genaral"
+          :key="index"
+          @click="handleProfileClick(menu)"
+          :class="{
             'flex-between-center-center': true,
             menu: true,
             active: $route.path === menu.url,
@@ -29,16 +29,16 @@
       </div>
       <div v-if="menus_admin.length">
         <div class="title flex-align-center">
-          <icon symbol class="icon" name="iconguanliyuanshezhi"/>
+          <icon symbol class="icon" name="iconguanliyuanshezhi" />
           <!-- <span class="margin-left10">{{ $t('topLayout.setting.admin') | capitalizeFilter }}</span> -->
           <span class="margin-left10">管理端</span>
         </div>
         <div>
           <div
-              v-for="(menu, index) in menus_admin"
-              :key="index"
-              @click="handleRedirect(menu)"
-              :class="{
+            v-for="(menu, index) in menus_admin"
+            :key="index"
+            @click="handleRedirect(menu)"
+            :class="{
               'flex-between-center-center': true,
               menu: true,
               active:
@@ -47,7 +47,7 @@
                 activeMenu[1] === menu.permissionKey,
               disabled: !menu.url
             }"
-              :url="menu.url"
+            :url="menu.url"
           >
             <span>{{ menu.title }}</span>
           </div>
@@ -55,12 +55,12 @@
       </div>
     </div>
     <div
-        :class="['user', { active: active || usernameActive }]"
-        slot="reference"
+      :class="['user', { active: active || usernameActive }]"
+      slot="reference"
     >
       <el-avatar
-          class="icon"
-          src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3729239676,1542549068&fm=26&gp=0.jpg"
+        class="icon"
+        src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3729239676,1542549068&fm=26&gp=0.jpg"
       ></el-avatar>
       <div class="info">
         <p class="name">{{ userInfo.nameZh || 'admin' }}</p>
@@ -71,9 +71,9 @@
 </template>
 
 <script>
-import {icon, iMessage} from 'rise'
+import { icon, iMessage } from 'rise'
 import filters from '@/utils/filters'
-import {removeToken} from '@/utils/index.js'
+import { removeToken } from '@/utils/index.js'
 
 export default {
   mixins: [filters],
@@ -109,9 +109,9 @@ export default {
     },
     usernameActive() {
       return (
-          this.activeMenu &&
-          this.activeMenu.length &&
-          this.activeMenu[0] === 'RISE_ADMIN'
+        this.activeMenu &&
+        this.activeMenu.length &&
+        this.activeMenu[0] === 'RISE_ADMIN'
       )
     }
   },
@@ -146,9 +146,10 @@ export default {
     },
     //模拟退出登录方法
     logout() {
-      this.$emit('click-menu','logout')
+      this.$emit('click-menu', 'logout')
+      this.$store.commit('SET_USER_INFO', {})
       removeToken()
-      window.location.href = process.env.VUE_APP_LOGOUT_URL;
+      window.location.href = process.env.VUE_APP_LOGOUT_URL
     },
     handleProfileClick(menu) {
       if (menu.name === 'logout') {
