@@ -387,6 +387,7 @@
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
         </el-table-column>
+
         <el-table-column prop="platinumPrice"
                          align="center"
                          width="150"
@@ -517,6 +518,18 @@
           <template slot-scope="scope">
             <!-- <iInput v-model="scope.row.rhodiumDosage" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
             <span>{{scope.row.rhodiumDosage}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="preciousMetalDosageUnit"
+                         align="center"
+                         width="150"
+                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
+                         >
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
+                          :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
+              <span>{{scope.row.preciousMetalDosageUnit}}</span>
+            </el-form-item>
           </template>
         </el-table-column>
       </el-table>
@@ -1070,7 +1083,7 @@ export default {
           list[index].id = "";
           list[index].partName = item.partNameZh;
           list[index].partUnit = item.unit;
-          list[index].dosageMeasureUnit = "kg";
+          list[index].dosageMeasureUnit = "KG";
         }
       })
       this.newDataList = list;
@@ -1101,7 +1114,7 @@ export default {
           list[index].sapCode = item.sapNum;
           list[index].partName = item.partNameCn;
           list[index].partUnit = item.unit;
-          list[index].dosageMeasureUnit = "kg";
+          list[index].dosageMeasureUnit = "KG";
         }
       })
       this.newDataList = list;
@@ -1135,7 +1148,27 @@ export default {
           list[index].priceUnit = item.priceUnit;
           list[index].partName = item.assemblyPartName;
           list[index].partUnit = item.countUnit;
-          list[index].dosageMeasureUnit = "kg";
+          list[index].dosageMeasureUnit = item.dosageMeasureUnit;
+          list[index].preciousMetalDosageUnit = item.preciousMetalDosageUnit;
+          list[index].rhodiumDosage = item.rhodiumDosage;
+          list[index].rhodiumPrice = item.rhodiumPrice;
+          list[index].palladiumDosage = item.palladiumDosage;
+          list[index].palladiumPrice = item.palladiumPrice;
+          list[index].platinumDosage = item.platinumDosage;
+          list[index].platinumPrice = item.platinumPrice;
+          list[index].thresholdCompensationLogic = item.thresholdCompensationLogic;
+          list[index].threshold = item.threshold;
+          list[index].compensationPeriod = item.compensationPeriod;
+          list[index].compensationRatio = item.compensationRatio;
+          list[index].priceSource = item.marketSource;
+          list[index].tcExchangeRate = item.tcExchangeRate;
+          list[index].tcCurrence = item.tcCurrence;
+          list[index].priceMeasureUnit = item.priceCountUnit;
+          list[index].price = item.price;
+          list[index].endDate = item.endDate;
+          list[index].startDate = item.startDate;
+          list[index].dosage = item.dosage;
+          list[index].priceUnit = item.priceUnit;
         }
       })
       // console.log(list);
