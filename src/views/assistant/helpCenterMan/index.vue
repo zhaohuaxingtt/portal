@@ -18,7 +18,7 @@
 		<div class="user-type-item" :class="{active: activeUser == 'supplier'}" @click="selectUser('supplier')">供应商用户</div>
 		<div class="user-type-item" :class="{active: activeUser == 'inner'}" @click="selectUser('inner')">内部用户</div>
 	</div> -->
-	<div class="flex flex-row content mt20" v-show="activeMoudle === 'manual'">
+	<div class="flex flex-row content mt20" v-if="activeMoudle === 'manual'">
 		<CommonProblem 
 			title="问题模块"
 			:moudleList="manualList"
@@ -32,7 +32,7 @@
 			<UserManual ref="manual" :detail="manualInfo.detail" :qs="manualInfo.activeInfo" @refresh="queryManualDetail()"></UserManual>
 		</div>
 	</div>
-	<div class="flex flex-row content mt20" v-show="activeMoudle === 'question'">
+	<div class="flex flex-row content mt20" v-if="activeMoudle === 'question'">
 		<CommonProblem 
 			ref="CommonProblem2"
 			title="常见问题"
@@ -184,7 +184,6 @@ export default {
 		},
 		// 加载问题列表
 		loadQs(){
-			console.log('load',this.qsInfo.noMore);
 			if(this.qsInfo.noMore) return
 			this.qsInfo.params.pageNum++
 			this.queryFaqListByPage()
@@ -199,14 +198,12 @@ export default {
 		tabChange(val) {
 			this.activeMoudle = val
 			if(this.activeMoudle == 'manual'){
-				this.$refs.manual.cancel()
 				if(!this.manualInfo.id){
 					this.manualInfo.id = this.manualInfo.list[0]?.id
 					this.manualInfo.activeInfo = this.manualInfo.list[0]
 					this.queryManualDetail()
 				}
 			}else{
-				this.$refs.qs.cancel()
 				if(!this.qsInfo.id){
 					this.qsInfo.id = this.qsInfo.list[0]?.id
 					this.qsInfo.activeInfo = this.qsInfo.list[0]

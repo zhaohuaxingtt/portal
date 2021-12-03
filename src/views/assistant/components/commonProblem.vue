@@ -5,8 +5,10 @@
 			<div class="listTitle" v-text="title"></div>
 			<div 
 				class="listContent"
-				@scroll="loadEvent"
 				ref="loadList"
+				v-infinite-scroll="load"
+				infinite-scroll-distance="20"
+				infinite-scroll-disabled="disabled"
 				>
 				<div v-for="(menu, index) in moudleList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleId === menu[idKey] ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'" @click="select(menu,index)">
 					<div class="idx">{{ index + 1 }}</div>
@@ -72,45 +74,22 @@ export default {
 			}
 		}
 	},
-	watch:{
-		moudleList(n){
-			if(n.length && this.loadmore && !this.noMore){
-				this.$nextTick(this.init)
-			}	
-		}
-	},
 	computed:{
 		disabled () {
 			return this.loading || this.noMore
 		}
+	},
+	mounted() {
+		// this.height = (parseFloat(this.$refs.loadList.offsetHeight)-20) + 'px'
 	},
 	methods: {
 		select(menu){
 			// this.$emit("update:currentMoudleId", menu.menuId)
 			this.$emit("change", menu)
 		},
-		loadEvent(e){
+		load(){
 			if(!this.loadmore) return
-			if(this.disabled) return
-			let scrollHeight = e.target.scrollHeight	//滚动高度
-			let clientHeight = e.target.clientHeight	//当前元素高度
-			let scrollTop = e.target.scrollTop			//滚动距离
-			
-			if(scrollTop + clientHeight >= (scrollHeight - 10)){
-				this.$emit("onLoad")
-			}
-		},
-		init(){
-			let totalHeigth = 0
-			let el = this.$refs.loadList
-			el.childNodes.forEach(e => {
-				if(e.nodeType == 1){
-					totalHeigth += e.offsetHeight
-				}
-			})
-			if(el.clientHeight >= totalHeigth){
-				this.$emit("onLoad")
-			}
+			this.$emit("onLoad")
 		}
 	},
 }

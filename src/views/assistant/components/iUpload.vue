@@ -6,7 +6,7 @@
             :before-upload="beforeAvatarUpload"
             :show-file-list="false"
             :http-request="httpUpload"
-            :disabled="disabled"
+            :disabled="disabled || (files.length >= limit)"
             v-if="!disabled"
             >
             <slot></slot>
@@ -88,6 +88,10 @@
             // 尺寸 w,h
             px:{
                 default:() => {}
+            },
+            limit:{
+                type:[Number,String],
+                default:5
             },
             showFile:{
                 type:Boolean,

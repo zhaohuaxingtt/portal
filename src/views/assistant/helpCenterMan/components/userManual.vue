@@ -122,6 +122,7 @@
 
 .manual-tlt{
     padding: 40px 0 20px;
+    margin-bottom: 10px;
     font-weight: bold;
     border-bottom: 1px solid #ccc;
 }

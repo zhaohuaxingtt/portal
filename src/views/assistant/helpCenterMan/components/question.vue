@@ -36,7 +36,7 @@
                 <i-input class="input" type="text" :disabled="type == 'detail'" v-model="form.questionTitle" placeholder="请输入" />
             </div>
         </div>
-        <iEditor class="flex-1 qs-editor" :disabled="type == 'detail'" v-model="form.answerContent"></iEditor>
+        <iEditor class="flex-1 qs-editor" :class="[type == 'detail' ? 'overflow-auto' : 'overflow-hidden']" :disabled="type == 'detail'" v-model="form.answerContent"></iEditor>
         <div class="flex" style="margin-top:20px;align-items: flex-start;">
             <div class="label">附件：</div>
             <iUpload ref="upload" :disabled="type == 'detail'" v-model="form.annexList" @onSuccess="uploadSucc" >
@@ -174,11 +174,19 @@
 }
 
 .qs-editor{
-    // height: 100%;
-    // display: flex;
-    // flex-direction: column;
-    ::v-deep .w-e-text-container{
-        height: auto !important;
+    flex:1;
+
+    ::v-deep .quillWrapper{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #eee;
+        #quill-container{
+            overflow: hidden;
+        }
+        .ql-editor{
+            flex: 1;
+        }
     }
 }
 .input{
