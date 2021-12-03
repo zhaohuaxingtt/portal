@@ -15,10 +15,9 @@ export function getOfflineDownloadList(data){
 
 
 //下载
-export function downLoadXls(data){
+export function downLoadXls(url){
     return download({
-        url:'/getFileByPath',
+        url,
         method:'GET',
-        params:data
     })
 }
