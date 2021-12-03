@@ -318,16 +318,29 @@
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'source'"
                           :rules="formRules.source ? formRules.source : ''">
 
-              <el-select v-model="scope.row.source"
+              <!-- <el-select v-model="scope.row.tcCurrence"
                          clearable
                          :placeholder="language('QINGSHURU', '请输入')"
                          v-if="editId.indexOf(scope.row.id)!==-1">
-                <el-option v-for="item in getMtzMarketSourceList"
+                <el-option v-for="item in tcCurrence"
                            :key="item.code"
-                           :label="item.message"
+                           :label="item.code"
                            :value="item.code">
                 </el-option>
-              </el-select>
+              </el-select> -->
+
+              <i-select v-model="scope.row.source"
+                        clearable
+                        @change="sourceChange(scope.row,$event)"
+                        :placeholder="language('QINGSHURU', '请输入')"
+                        v-if="editId.indexOf(scope.row.id)!==-1">
+                <el-option v-for="item in getMtzMarketSourceList"
+                           :key="item.code"
+                           :label="item.code"
+                           :value="item.code">
+                </el-option>
+              </i-select>
+
               <span v-else>{{scope.row.source}}</span>
             </el-form-item>
           </template>
@@ -455,22 +468,6 @@
             </el-form-item>
           </template>
         </el-table-column>
-
-
-
-        <el-table-column prop="preciousMetalDosageUnit"
-                         align="center"
-                         width="150"
-                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
-                         >
-          <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
-                          :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
-              <span>{{scope.row.preciousMetalDosageUnit}}</span>
-            </el-form-item>
-          </template>
-        </el-table-column>
-
 
         <el-table-column prop="platinumPrice"
                          align="center"
@@ -658,6 +655,19 @@
             </el-form-item>
           </template>
         </el-table-column>
+        
+        <el-table-column prop="preciousMetalDosageUnit"
+                         align="center"
+                         width="200"
+                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
+                         >
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
+                          :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
+              <span>{{scope.row.preciousMetalDosageUnit}}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
       </el-table>
     </el-form>
     <!-- <iPagination @size-change="handleSizeChange($event, getTableList)"
@@ -682,8 +692,8 @@
              v-if="addDialog"
              width="70%"
              @close="saveGzDialog">
-      <addGZ :dataObject="dataObject"
-             :resetType="resetType"
+             <!-- :dataObject="dataObject" -->
+      <addGZ :resetType="resetType"
              @close="saveGzClose"
              @addDialogGZ="addDialogGZList">
       </addGZ>
@@ -742,7 +752,7 @@ export default {
     return {
       tcCurrence: [],
       formRules: formRulesGZ,
-      dataObject: [],
+      // dataObject: [],
       supplierList: [],
       newDataList: [],//传过来的列表数据
       editType: false,
@@ -831,20 +841,23 @@ export default {
       this.getTableList();
       this.getMtzCailiao();
     },
+    sourceChange(e,val){
+      this.$set(e,'source',val);
+    },
     add () {//新增
       if (this.flowType !== "SIGN") {
         this.addDialog = true;
-        var list = [];
-        this.tableData.forEach(e => {
-          list.push({
-            supplierId: e.supplierId || "",
-            materialCode: e.materialCode || "",
-            price: e.price || "",
-            startDate: e.startDate || "",
-            endDate: e.endDate || ""
-          })
-        })
-        this.dataObject = list;
+        // var list = [];
+        // this.tableData.forEach(e => {
+        //   list.push({
+        //     supplierId: e.supplierId || "",
+        //     materialCode: e.materialCode || "",
+        //     price: e.price || "",
+        //     startDate: e.startDate || "",
+        //     endDate: e.endDate || ""
+        //   })
+        // })
+        // this.dataObject = list;
       } else {
         iMessageBox(this.language('XZMTZYCLGZSSQDLXBNWLZJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ', '新增MTZ原材料规则时，申请单类型不能为流转，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'), this.language('LK_WENXINTISHI', '温馨提示'), {
           confirmButtonText: this.language('QUEREN', '确认'),
@@ -852,36 +865,43 @@ export default {
         }).then(res => {
           // iMessage.success(this.language("KAIFAZHONG","开发中"))
           this.addDialog = true;
-          var list = [];
-          this.tableData.forEach(e => {
-            list.push({
-              supplierId: e.supplierId || "",
-              materialCode: e.materialCode || "",
-              price: e.price || "",
-              startDate: e.startDate || "",
-              endDate: e.endDate || "",
-            })
-          })
-          this.dataObject = list;
-          this.resetNum = true;
+          // var list = [];
+          // this.tableData.forEach(e => {
+          //   list.push({
+          //     supplierId: e.supplierId || "",
+          //     materialCode: e.materialCode || "",
+          //     price: e.price || "",
+          //     startDate: e.startDate || "",
+          //     endDate: e.endDate || "",
+          //   })
+          // })
+          // this.dataObject = list;
+          this.resetNum = true;//流转
         })
       }
     },
     addDialogGZList () {//mtz申请单类型或已关联申请单类型为流转备案/新增原材料规则
-      if (this.resetNum) {
+      // console.log(this.resetNum);
+      if (this.resetNum) {//流转
         this.$emit("handleReset", "")
         this.$parent.$refs.theDataTabs.removePartMasterData()
         this.resetNum = false;
         setTimeout(() => {
           this.$parent.$refs.theDataTabs.pageAppRequest()
-          if(this.$parent.$refs.theDataTabs.tableData.length>0){
+          if(!this.$parent.$refs.theDataTabs.editType){
+            this.$parent.$refs.theDataTabs.getTableList()
+          }
+        }, 500);
+        
+      }else{//上会、备案
+        setTimeout(() => {
+          this.$parent.$refs.theDataTabs.pageAppRequest()
+          if(!this.$parent.$refs.theDataTabs.editType){
             this.$parent.$refs.theDataTabs.getTableList()
           }
         }, 500);
       }
       this.saveGzDialog();
-      // this.page.currPage = 1;
-      // this.page.pageSize = 99999;
       this.getTableList();
     },
     edit () {//编辑
@@ -927,7 +947,7 @@ export default {
                   // this.page.pageSize = 10;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
-                    if(this.$parent.$refs.theDataTabs.tableData.length>0){
+                    if(!this.$parent.$refs.theDataTabs.editType){
                       this.$parent.$refs.theDataTabs.getTableList()
                     }
                   }, 500);
@@ -972,7 +992,7 @@ export default {
                   this.editType = false;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
-                    if(this.$parent.$refs.theDataTabs.tableData.length>0){
+                    if(!this.$parent.$refs.theDataTabs.editType){
                       this.$parent.$refs.theDataTabs.getTableList()
                     }
                   }, 500);
@@ -1025,8 +1045,7 @@ export default {
       this.mtzAddShow = true;
     },
     addDialogDataList (val) {//沿用
-      this.newDataList = deepClone(val);
-      this.newDataList.forEach(item => {
+      val.forEach(item => {
         item.source = item.sourceType;
         item.formalFlag = "Y";
         delete item.sourceType;
@@ -1041,6 +1060,7 @@ export default {
         //     this.$set(item,"metalType",res.data)
         // })
       })
+      this.newDataList = val;
       this.closeDiolog();
       this.tableData.unshift(...this.newDataList);
       this.editType = true;
@@ -1070,7 +1090,7 @@ export default {
             iMessage.success(res.desZh)
             setTimeout(() => {
               this.$parent.$refs.theDataTabs.pageAppRequest()
-              if(this.$parent.$refs.theDataTabs.tableData.length>0){
+              if(!this.$parent.$refs.theDataTabs.editType){
                 this.$parent.$refs.theDataTabs.getTableList()
               }
             }, 500);

@@ -156,51 +156,6 @@
                 />
             </iFormItem>
 
-            <iFormItem prop="platinumPrice">
-                <iLabel :label="language('BOJIJIA','铂基价')" slot="label"></iLabel>
-                <iInput
-                v-model="contractForm.platinumPrice"
-                type="text"
-                :placeholder="language('QINGSHURU','请输入')"
-                :disabled="true"
-                />
-            </iFormItem>
-            <iFormItem prop="platinumDosage">
-                <iLabel :label="language('BOYONGLIANG','铂用量')" slot="label"></iLabel>
-                <iInput
-                v-model="contractForm.platinumDosage"
-                type="text"
-                :placeholder="language('QINGSHURU','请输入')"
-                :disabled="true"
-                />
-            </iFormItem>
-            <iFormItem prop="palladiumPrice">
-                <iLabel :label="language('BAJIJIA','钯基价')" slot="label"></iLabel>
-                <iInput
-                v-model="contractForm.palladiumPrice"
-                type="text"
-                :placeholder="language('QINGSHURU','请输入')"
-                :disabled="true"
-                />
-            </iFormItem>
-            <iFormItem prop="palladiumDosage">
-                <iLabel :label="language('BAYONGLIANG','钯用量')" slot="label"></iLabel>
-                <iInput
-                v-model="contractForm.palladiumDosage"
-                type="text"
-                :placeholder="language('QINGSHURU','请输入')"
-                :disabled="true"
-                />
-            </iFormItem>
-            <iFormItem prop="rhodiumPrice">
-                <iLabel :label="language('LAOJIJIA','铑基价')" slot="label"></iLabel>
-                <iInput
-                v-model="contractForm.rhodiumPrice"
-                type="text"
-                :placeholder="language('QINGSHURU','请输入')"
-                :disabled="true"
-                />
-            </iFormItem>
             <iFormItem prop="tcCurrence">
                 <iLabel :label="language('HUOBI','货币')" slot="label"></iLabel>
                 <iInput
@@ -273,6 +228,61 @@
                             :value="item.code"
                             :label="item.message"></el-option>
                 </iSelect>
+            </iFormItem>
+
+            <iFormItem prop="platinumPrice">
+                <iLabel :label="language('BOJIJIA','铂基价')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.platinumPrice"
+                type="text"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
+                />
+            </iFormItem>
+            <iFormItem prop="platinumDosage">
+                <iLabel :label="language('BOYONGLIANG','铂用量')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.platinumDosage"
+                type="text"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
+                />
+            </iFormItem>
+            <iFormItem prop="palladiumPrice">
+                <iLabel :label="language('BAJIJIA','钯基价')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.palladiumPrice"
+                type="text"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
+                />
+            </iFormItem>
+            <iFormItem prop="palladiumDosage">
+                <iLabel :label="language('BAYONGLIANG','钯用量')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.palladiumDosage"
+                type="text"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
+                />
+            </iFormItem>
+            <iFormItem prop="rhodiumPrice">
+                <iLabel :label="language('LAOJIJIA','铑基价')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.rhodiumPrice"
+                type="text"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
+                />
+            </iFormItem>
+            <iFormItem prop="preciousMetalDosageUnit">
+                <iLabel :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')" slot="label"></iLabel>
+                <iInput
+                v-model="contractForm.preciousMetalDosageUnit"
+                type="text"
+                :placeholder="language('QINGSHURU','请输入')"
+                :disabled="true"
+                />
             </iFormItem>
             </iFormGroup>
         </div>
@@ -372,7 +382,7 @@ export default {components: {
             assemblyPartnum:"",
             partUnit:"PC",
             priceUnit:1,
-            dosageMeasureUnit:'kg'
+            dosageMeasureUnit:'KG'
         },
         dosageMeasureUnit:[],
         rules: {
@@ -513,5 +523,8 @@ export default {components: {
     top: 12px;
     font-size: 18px;
     cursor: pointer;
+}
+::v-deep .el-form-item__label{
+    width:13.5rem!important;
 }
 </style>

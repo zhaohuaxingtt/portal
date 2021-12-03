@@ -134,7 +134,7 @@
                 <el-form-item :label="language('正式/SVW号')">
                   <iInput
                     :placeholder="searchOptionTitles.input"
-                    v-model="formData.svw"
+                    v-model="formData.svwCode"
                   >
                   </iInput>
                 </el-form-item>
@@ -332,7 +332,7 @@ export default {
       pageTitle: '供应商用户管理',
       searchOptionTitles: {
         contactName: '联系人姓名',
-        providerName: '供应商中文名',
+        providerName: '供应商中/英文名',
         loginName: '用户登录名',
         isMainContact: '是否是主联系人',
         mail: '邮箱',
@@ -366,7 +366,7 @@ export default {
         userName: '', //用户登录名
         sapNum: '', //SAP号
         temporaryNum: '', //临时号
-        svw:''//svw号
+        svwCode:''//svw号
       },
       falseTrueSelect: [
         {

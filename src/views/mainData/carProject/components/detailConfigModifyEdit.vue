@@ -118,7 +118,7 @@
           </el-form-item>
         </template>
       </el-table-column>
-      <el-table-column label="车型等级" header-align="center" align="center">
+      <el-table-column label="" header-align="center" align="center">
         <template slot-scope="scope">
           <span @click="removeRow(scope.$index)">
             <Icon symbol name="icondingdianshenqingyusheluoji-shanchu" />

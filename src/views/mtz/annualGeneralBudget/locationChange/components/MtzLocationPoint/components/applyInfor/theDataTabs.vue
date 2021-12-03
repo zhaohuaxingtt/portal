@@ -387,6 +387,7 @@
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
         </el-table-column>
+
         <el-table-column prop="platinumPrice"
                          align="center"
                          width="150"
@@ -517,6 +518,18 @@
           <template slot-scope="scope">
             <!-- <iInput v-model="scope.row.rhodiumDosage" :disabled="true" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
             <span>{{scope.row.rhodiumDosage}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="preciousMetalDosageUnit"
+                         align="center"
+                         width="200"
+                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
+                         >
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
+                          :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
+              <span>{{scope.row.preciousMetalDosageUnit}}</span>
+            </el-form-item>
           </template>
         </el-table-column>
       </el-table>
@@ -733,8 +746,12 @@ export default {
       if(res.code == 200 && res.result){
         this.getTableList()
       }else{
-        this.errorList = res.data;
-        this.cancelNo = true;
+        if(res.data == null){
+          iMessage.error(this.language(res.desEn,res.desZh));
+        }else{
+          this.errorList = res.data;
+          this.cancelNo = true;
+        }
       }
     },
     beforeUpload(file){
@@ -799,7 +816,7 @@ export default {
           if (e.id == val) {
             e.id = arr.row.id;
             delete e.mark;
-            arr.row.sapCode = e.supplierId.toString() || e.sapCode.toString();
+            arr.row.supplierId = e.supplierId.toString() || e.sapCode.toString();
             arr.row.priceSource = e.source || e.priceSource;
             arr.row = (Object.assign(arr.row, e));
             throw new Error("EndIterative");
@@ -1070,7 +1087,8 @@ export default {
           list[index].id = "";
           list[index].partName = item.partNameZh;
           list[index].partUnit = item.unit;
-          list[index].dosageMeasureUnit = "kg";
+          list[index].priceUnit = 1;//每
+          list[index].dosageMeasureUnit = "KG";
         }
       })
       this.newDataList = list;
@@ -1098,10 +1116,11 @@ export default {
           list[index].assemblyPartnum = item.partNum;
           list[index].id = "";
           list[index].supplierName = item.supplierName;
-          list[index].sapCode = item.sapNum;
+          list[index].supplierId = item.sapNum;
           list[index].partName = item.partNameCn;
           list[index].partUnit = item.unit;
-          list[index].dosageMeasureUnit = "kg";
+          list[index].priceUnit = 1;//每
+          list[index].dosageMeasureUnit = "KG";
         }
       })
       this.newDataList = list;
@@ -1128,14 +1147,33 @@ export default {
           list[index].assemblyPartnum = item.assemblyPartnum;
           list[index].id = "";
           list[index].supplierName = item.assemblySupplierName;
-          list[index].sapCode = item.assemblySupplierSap;
+          list[index].supplierId = item.assemblySupplierSap;
           list[index].ruleNo = item.ruleNo;
           list[index].materialCode = item.materialCode;
           list[index].materialName = item.material;
           list[index].priceUnit = item.priceUnit;
           list[index].partName = item.assemblyPartName;
           list[index].partUnit = item.countUnit;
-          list[index].dosageMeasureUnit = "kg";
+          list[index].dosageMeasureUnit = item.dosageMeasureUnit;
+          list[index].preciousMetalDosageUnit = item.preciousMetalDosageUnit;
+          list[index].rhodiumDosage = item.rhodiumDosage;
+          list[index].rhodiumPrice = item.rhodiumPrice;
+          list[index].palladiumDosage = item.palladiumDosage;
+          list[index].palladiumPrice = item.palladiumPrice;
+          list[index].platinumDosage = item.platinumDosage;
+          list[index].platinumPrice = item.platinumPrice;
+          list[index].thresholdCompensationLogic = item.thresholdCompensationLogic;
+          list[index].threshold = item.threshold;
+          list[index].compensationPeriod = item.compensationPeriod;
+          list[index].compensationRatio = item.compensationRatio;
+          list[index].priceSource = item.marketSource;
+          list[index].tcExchangeRate = item.tcExchangeRate;
+          list[index].tcCurrence = item.tcCurrence;
+          list[index].priceMeasureUnit = item.priceCountUnit;
+          list[index].price = item.price;
+          list[index].endDate = item.endDate;
+          list[index].startDate = item.startDate;
+          list[index].dosage = item.dosage;
         }
       })
       // console.log(list);

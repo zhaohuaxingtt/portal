@@ -6,12 +6,13 @@
             :before-upload="beforeAvatarUpload"
             :show-file-list="false"
             :http-request="httpUpload"
-            :disabled="disabled"
+            :disabled="disabled || (files.length >= limit)"
+            v-if="!disabled"
             >
             <slot></slot>
         </el-upload>
         <template v-if="showFile">    
-            <FileList v-for="(f,i) in files" :key="i" :file="f" @del="removeFile(i)"></FileList>
+            <FileList v-for="(f,i) in files" :key="i" :disabled="disabled" :file="f" @del="removeFile(i)"></FileList>
         </template>
     </div>
 </template>
@@ -87,6 +88,10 @@
             // 尺寸 w,h
             px:{
                 default:() => {}
+            },
+            limit:{
+                type:[Number,String],
+                default:5
             },
             showFile:{
                 type:Boolean,

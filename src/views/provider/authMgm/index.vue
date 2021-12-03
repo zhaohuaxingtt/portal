@@ -87,6 +87,33 @@
                     </iSelect>
                   </el-form-item>
                 </el-col>
+                <el-col :span="4">
+                <el-form-item :label="language('SAP号')">
+                  <iInput
+                    :placeholder="searchOptionTitles.input"
+                    v-model="searchCondition.sapNum"
+                  >
+                  </iInput>
+                </el-form-item>
+              </el-col>
+              <el-col :span="4">
+                <el-form-item :label="language('正式/SVW号')">
+                  <iInput
+                    :placeholder="searchOptionTitles.input"
+                    v-model="searchCondition.svwCode"
+                  >
+                  </iInput>
+                </el-form-item>
+              </el-col>
+              <el-col :span="4">
+                <el-form-item :label="language('临时号')">
+                  <iInput
+                    :placeholder="searchOptionTitles.input"
+                    v-model="searchCondition.temporaryNum"
+                  >
+                  </iInput>
+                </el-form-item>
+              </el-col>
               </el-row>
             </el-form>
           </div>
@@ -122,8 +149,7 @@
               @goEdit="goEdit"
               @handle-selection-change="handleSelectionChange"
               ref="authList"
-            >
-            </iTableCustom>
+              />
             <iPagination
               v-update
               @size-change="handleSizeChange($event, getTableData)"
@@ -146,6 +172,7 @@
       :selectedUsers="selectedUsers"
       @getTableData="getTableData"
       :operationType="operation"
+      v-if="isVisible"
     ></authorization>
   </iPage>
 </template>
@@ -286,9 +313,10 @@ export default {
       ],
       tableData: [],
       searchOptionTitles: {
+        sapNO:'SAP号',
         pageTitle: '供应商用户授权管理',
         contactName: '联系人姓名',
-        supChina: '供应商中文名',
+        supChina: '供应商中/英文名',
         position: '职位',
         department: '部门',
         Landline: '联系电话',
@@ -316,7 +344,10 @@ export default {
         telephoneM: '', //手机
         telephoneO: '', //座机
         position: '',
-        department: ''
+        department: '',
+        sapNum:'',//sap
+        svwCode:'',//svw
+        temporaryNum:''//临时号
       }
     }
   }

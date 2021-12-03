@@ -6,7 +6,7 @@
   <div>
     <div :class="ifSelf?'page':''">
       <div class="headerTitle" v-if="ifSelf">
-        <p>移除黑名单申请 - 生产采购</p>
+               <p>{{ language('YICHUHEIMINGDANSHENQINGSHENGCHANCAIGOU', '移除黑名单申请 - 生产采购') }}</p>
         <div>
           <iButton @click="handleBtn(2)">{{
             language('PIZHUN', '批准')
@@ -37,8 +37,8 @@
         </table-list>
         <iPagination
           v-update
-          @size-change="handleSizeChange($event, getTableList)"
-          @current-change="handleCurrentChange($event, getTableList)"
+          @size-change="handleSizeChange($event, getListArr)"
+          @current-change="handleCurrentChange($event, getListArr)"
           background
           :page-sizes="page.pageSizes"
           :page-size="page.pageSize"

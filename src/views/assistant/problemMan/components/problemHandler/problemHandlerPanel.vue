@@ -7,7 +7,7 @@
         </el-col>
         <el-col span="10">
           <iSelect v-model="questionModuleId" filterable placeholder="问题模块" clearable="true" @change="questionModuleHandle" @clear="clearModuleHandle">
-            <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
+            <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
           </iSelect>
         </el-col>
       </el-row>
@@ -81,7 +81,7 @@
                   <el-col :span="8">
                     <iFormItem :label="$t('问题模块')" prop="questionModuleId">
                       <iSelect v-model="editForm.questionModuleId" filterable :disabled="isDisabledModule" @change="changeModuleHandle">
-                        <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
+                        <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
                       </iSelect>
                     </iFormItem>
                   </el-col>
@@ -328,6 +328,7 @@ export default {
       if (response?.code === '200') {
         const { data } = response;
         this.questionDetail = data;
+        console.log(data, '11213456')
         this.editForm = {
           questionLableId: data?.questionLableId,
           questionModuleId: data?.questionModuleId,

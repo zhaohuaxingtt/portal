@@ -14,11 +14,14 @@
 			</iTabBadge>
 		</div>
 	</div>
-	<!-- <div class="flex user-type">
-		<div class="user-type-item" :class="{active: activeUser == 'supplier'}" @click="selectUser('supplier')">供应商用户</div>
-		<div class="user-type-item" :class="{active: activeUser == 'inner'}" @click="selectUser('inner')">内部用户</div>
-	</div> -->
-	<div class="flex flex-row content mt20" v-show="activeMoudle === 'manual'">
+	<el-tabs class="nav" v-model="activeUser" @tab-click="typeChange">
+        <el-tab-pane label="供应商用户" name="supplier">
+        </el-tab-pane>
+        <el-tab-pane label="内部用户" name="inner">
+        </el-tab-pane>
+    </el-tabs>
+	<!-- 用户手册 -->
+	<div class="flex flex-row content" v-if="activeMoudle === 'manual'">
 		<CommonProblem 
 			title="问题模块"
 			:moudleList="manualList"
@@ -29,11 +32,14 @@
 			<iInput slot="top" v-model="manualInfo.keyword" placeholder="搜索.."></iInput>
 		</CommonProblem>
 		<div class="content-right" v-loading="contentLoading">
-			<UserManual ref="manual" :detail="manualInfo.detail" :qs="manualInfo.activeInfo" @refresh="queryManualDetail()"></UserManual>
+			<UserManual ref="manual" :userType="activeUser" :detail="manualInfo.detail" :qs="manualInfo.activeInfo" @refresh="queryManualDetail()"></UserManual>
 		</div>
 	</div>
-	<div class="flex flex-row content mt20" v-show="activeMoudle === 'question'">
+
+	<!-- 常见问题 -->
+	<div class="flex flex-row content" v-if="activeMoudle === 'question'">
 		<CommonProblem 
+			ref="CommonProblem2"
 			title="常见问题"
 			:moudleList="qsInfo.list"
 			:currentMoudleId="qsInfo.id"
@@ -45,11 +51,17 @@
 			@change="moduleChange($event,'qsInfo')"
 			@onLoad="loadQs"
 		>
-			<iInput slot="top" v-model="qsInfo.params.keyword" @keydown.enter="queryFaqListByPage" placeholder="搜索.."></iInput>
+			<div class="flex" slot="top">
+				<iInput class="flex-1" v-model="qsInfo.params.keyWord" @keydown.native.enter="refreshQs" placeholder="搜索.."></iInput>
+				<iSelect class="content-select" v-model="qsInfo.params.questionModuleId" filterable clearable @change="refreshQs">
+					<el-option v-for="m in qsInfo.moduleList" :key="m.id" :value='m.id' :label='m.menuName'></el-option>
+				</iSelect>
+			</div>
 		</CommonProblem>
 		<div class="content-right" v-loading="contentLoading">
 			<Question 
 				ref="qs"
+				:userType="activeUser"
 				:detail="qsInfo.detail"
 				:qs="qsInfo.activeInfo" 
 				@editChange="queryProblemDetail()"
@@ -63,13 +75,12 @@
 </template>
 
 <script>
-import { iPage, iInput } from 'rise'
+import { iPage, iInput, iSelect } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
 import Question from "./components/question"
 import UserManual from "./components/userManual"
 import { getModuleList, getUserDes, getProblemDetail, queryFaqListByPage } from '@/api/assistant'
-import assistant_mixin from "./../mixins"
 export default {
 	components: {
 		iPage,
@@ -78,11 +89,12 @@ export default {
 		CommonProblem,
 		Question,
 		UserManual,
-		iInput
+		iInput,
+		iSelect
 	},
-	mixins: [assistant_mixin],
 	data() {
 		return {
+			activeUser:"supplier",
 			tabs: [
 				{name:'用户手册',type:'manual'},
 				{name:'常见问题',type:'question'}
@@ -105,10 +117,13 @@ export default {
 				activeInfo:{},
 				params:{
 					pageNum: 1,
-					pageSize: 10,
-					keyword:""
+					pageSize: 20,
+					keyWord:"",
+					questionModuleId:""
 				},
-				noMore:false
+				noMore:false,
+
+				moduleList:[]
 			},
 			show: false,
 			key:"",
@@ -134,6 +149,7 @@ export default {
 			try {
 				await getModuleList().then((res) => {
 					if (res.code === '200') {
+						this.qsInfo.moduleList = res.data
 						this.manualInfo.list = res.data
 						this.manualInfo.id = res.data[0]?.id
 						this.manualInfo.activeInfo = res.data[0]
@@ -148,7 +164,7 @@ export default {
 		async queryFaqListByPage() {
 			this.qsInfo.loading = true
 			try {
-				this.qsInfo.params.source = this.getUserType()
+				this.qsInfo.params.source = this.activeUser
 				await queryFaqListByPage(this.qsInfo.params).then((res) => {
 					if (res.code === '200') {
 						let list = res.data?.records || []
@@ -165,9 +181,6 @@ export default {
 								this.qsInfo.noMore = true
 							}
 						}
-						// this.qsInfo.id = this.qsInfo.list[0]?.id
-						// this.qsInfo.activeInfo = res.data[0] || {}
-						// this.queryProblemDetail()
 					}
 				})
 			} finally {
@@ -176,41 +189,52 @@ export default {
 		},
 		// 加载问题列表
 		loadQs(){
-			console.log('load',this.qsInfo.noMore);
 			if(this.qsInfo.noMore) return
 			this.qsInfo.params.pageNum++
-			console.log('load',this.qsInfo.noMore);
-
 			this.queryFaqListByPage()
 		},
+		// 刷新常见问题列表
 		refreshQs(){
 			this.qsInfo.params.pageNum = 1
 			this.qsInfo.list = []
-			this.qsInfo.detail = {}
 			this.qsInfo.noMore = false
 			this.queryFaqListByPage()
 		},
+		// tabs切换
 		tabChange(val) {
 			this.activeMoudle = val
-			if(!this.qsInfo.id){
-				this.qsInfo.id = this.qsInfo.list[0]?.id
-				this.qsInfo.activeInfo = this.qsInfo.list[0]
-			}
+			this.activeUser = "supplier"
+			this.changeReq()
+		},
+		changeReq(){
 			if(this.activeMoudle == 'manual'){
-				this.queryManualDetail()
+				if(!this.manualInfo.id){
+					this.manualInfo.id = this.manualInfo.list[0]?.id
+					this.manualInfo.activeInfo = this.manualInfo.list[0]
+					this.queryManualDetail()
+				}
 			}else{
-				this.queryProblemDetail()
+				if(!this.qsInfo.id){
+					this.qsInfo.id = this.qsInfo.list[0]?.id
+					this.qsInfo.activeInfo = this.qsInfo.list[0]
+					this.queryProblemDetail()
+				}
 			}
 		},
-		selectUser(v){
-			this.activeUser = v;
+		// 用户类型切换
+		typeChange(t){
+			this.activeUser = t.name
+			this.getProbleList()
+			if(this.activeMoudle == 'question'){
+				this.refreshQs()
+			}
 		},
 		// 查询用户手册详情
 		async queryManualDetail(){
 			try {
 				this.contentLoading = true
-				let {data} = await getUserDes({moduleId:this.manualInfo.id,source:this.getUserType()})
-				this.manualInfo.detail = data || {}
+				let res = await getUserDes({moduleId:this.manualInfo.id,source:this.activeUser})
+				this.manualInfo.detail = res.data || {}
 			} finally {
 				this.contentLoading = false
 			}
@@ -225,12 +249,13 @@ export default {
 				this.contentLoading = false
 			}
 		},
+		// 左侧问题列表change事件
 		moduleChange(v,type){
 			this[type].id = v.id
 			this[type].activeInfo = v
 			if(type == 'manualInfo'){
-				this.$refs.manual.cancel()
 				this.queryManualDetail()
+				this.$refs.manual.cancel()
 			}else{
 				this.$refs.qs.cancel()
 				this.queryProblemDetail()
@@ -243,11 +268,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "../comon.scss";
-
 	.main{
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
+	}
+	.nav{
+		margin-top: 20px;
 	}
 	.content-title {
 		font-weight: bold;
@@ -259,30 +286,10 @@ export default {
 		width: 150px !important;
 		margin-left: 10px;
 	}
-	.user-type{
-		margin-top: 20px;
-	}
-	.user-type-item{
-		padding: 8px 20px;
-		margin-right: 20px;
-		color: #999;
-		font-size: 10px;
-		cursor: pointer;
-		transition: all .3s ease;
-		&:hover{
-			color: #1660F1;
-		}
-		&.active{
-			background: #FFFFFF;
-			box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.08);
-			border-radius: 6px;
-			color: #1660F1;
-		}
-	}
 	.content {
 		width: 100%;
 		flex: 1;
-		margin-top: 40px;
+		// margin-top: 40px;
 		overflow: hidden;
 	}
 	.content-right{

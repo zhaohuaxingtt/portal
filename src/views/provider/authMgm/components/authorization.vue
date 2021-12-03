@@ -184,16 +184,54 @@ export default {
               const notInData = sysData.filter((e) => !authedIds.includes(e.id))
               this.authListData = inData.concat(notInData)
               this.page.totalCount = sysResult.total
-              this.$nextTick(() => {
-                data.forEach((e) => {
-                  const items = this.authListData.filter(
-                    (sys) => sys.id === e.id
-                  )
-                  if (items.length > 0) {
-                    this.$refs.authorization.toggleRowSelection(items[0], true)
-                  }
+              // this.$nextTick(() => {
+                const ids = data.map((ele)=>{
+                  return ele.id
                 })
-              })
+                if(this.operationType == 'auth'){
+                  this.authListData.forEach(item => {
+                    data.forEach(e => {
+                      if(item.id == e.id){
+                          item.disabledChecked = true
+                      }
+                    })
+                  })
+                }else{
+                  this.authListData.forEach(item => {
+                    if(!ids.includes(item.id)){
+                      item.disabledChecked = true
+                    }
+                  })
+                }
+                // data.forEach((e) => {
+                  // const items = this.authListData.filter(
+                  //   (sys) => sys.id === e.id
+                  // )
+                  // if(this.operationType == 'auth'){
+                  //   this.authListData.forEach((item)=>{
+                  //     if(item.id === e.id){
+                  //       console.log('========w',e.id);
+                  //       item.disabledChecked = true
+                  //     }else{
+                  //       item.disabledChecked = false
+                  //     }
+                  //   })
+                  // }else if(this.operationType == 'cancelAuth'){
+                  //   console.log('-----');
+                  //   this.authListData.forEach((item)=>{
+                  //     if(item.id != e.id){
+                  //       console.log('------q');
+                  //       item.disabledChecked = true
+                  //     }else{
+                  //       item.disabledChecked = false
+                  //     }
+                  //   })
+                  // }
+                  // if (items.length > 0) {
+                  //   // this.$refs.authorization.toggleRowSelection(items[0], true)
+                  // }
+                // })
+              // })
             } else {
               this.authListData = sysResult.data
               this.page.totalCount = sysResult.total
@@ -311,7 +349,10 @@ export default {
       }
     }
   },
-  created() {},
+  created() {
+    this.getSysUserList()
+    this.getSysList()
+  },
   watch: {
     isVisible() {
       // console.log('88888', this.selectedUsers)

@@ -22,44 +22,40 @@
 				</el-option>
 			</iSelect>
 		</div>
-		<div class="search-list">
+		<div class="search-list" v-loading="listLoading">
 			<div class="card mb20 cursor" v-for="(list, idx) in questionList" :key="idx" @click="handleQuestion(list, idx)" :class="selectedCardId === idx ? 'selected' : ''">
 				<div class="flex flex-row justify-between list-top">
-          <div class="title" :v-html="list.questionTitle"></div>
+          <div class="title" v-html="list.questionTitle" :title="list.questionTitle"></div>
           <div class="status" :class="list.questionStatus === 'unreply' ? 'unreply-text' : list.questionStatus === 'reply' ? 'reply-text' : 'finish-text'">
             {{ list.questionStatus === 'unreply' ? '未答复' : list.questionStatus === 'reply' ? '已答复' : '已完成' }}
           </div>
         </div>
         <div class="flex flex-row mt20 justify-between gray-color">
-          <div class="label">{{ list.moudleName }}</div>
+          <div class="label" :title="list.moudleName">{{ list.moudleName }}</div>
           <div>{{ list.timeDate }}</div>
         </div>
 			</div>
 		</div>
 		<div class="iPagination flex items-center justify-center">
-			<iPagination
-        v-update
-        @current-change="handleCurrentChange($event, getQuesList)"
-        background
-				small=true
-        :current-page="page.currPage"
-        :page-size="page.pageSize"
-        :total="page.totalCount"
-      />
+			<el-pagination
+				small="true"
+				:total="totalCount"
+				:page-size="queryParam.pageSize" 
+				@current-change="handleCurrentChange" 
+			></el-pagination>
 		</div>
 	</div>
 </template>
 
 <script>
-import { iInput, iSelect, iPagination } from 'rise';
+import { iInput, iSelect } from 'rise';
 import { getMineQuesList } from '@/api/assistant'
 import moment from 'moment'
 export default {
 	name: 'QuestionList',
 	components: {
 		iInput,
-		iSelect,
-		iPagination
+		iSelect
 	},
 	props: {
 		currentMoudleId: {
@@ -75,16 +71,15 @@ export default {
 		return {
 			queryParam: {
 				keyWord: '',
-				questionModuleId: ''
-			},
-			page: {
-				totalCount: 0,
+				questionModuleId: '',
+				pageNum: 1,
 				pageSize: 10,
-				currPage: 1
 			},
 			// unreply:未答复 reply:已答复 finished:已完成
 			questionList: [],
-			selectedCardId: 0
+			selectedCardId: 0,
+			listLoading: false,
+			totalCount: 0
 		}
 	},
 	mounted() {
@@ -92,10 +87,20 @@ export default {
 	},
 	methods: {
 		initMyQuesList() {
-			this.queryParam.questionModuleId = this.currentMoudleId
+			// this.queryParam.questionModuleId = this.currentMoudleId
 			this.getQuesList()
 		},
-		searchQuestion() {
+		searchQuestion(e) {
+			if (e.key !== 'Enter') {
+				this.queryParam.questionModuleId = e
+			}
+			this.queryParam.pageNum = 1
+			this.$nextTick(() => {
+				this.getQuesList()
+			})
+		},
+		handleCurrentChange(curr) {
+			this.queryParam.pageNum = curr
 			this.getQuesList()
 		},
 		getCurrModuleName(id) {
@@ -108,24 +113,18 @@ export default {
 			return currName
 		},	
 		async getQuesList() {
-			let params = {
-				...this.queryParam,
-				pageNum: this.page.currPage,
-        pageSize: this.page.pageSize
-			}
-			await getMineQuesList(params).then((res) => {
+			this.listLoading = true
+			await getMineQuesList(this.queryParam).then((res) => {
 				console.log(res, "11122333")
 				if (res?.code === '200') {
-					const { pageNum, pageSize, total } = res.data
-					this.page.currPage = pageNum
-          this.page.pageSize = pageSize
-          this.page.totalCount = total
+					this.totalCount = res?.data?.total
 					this.$emit('selectQues', res?.data?.records?.[0] || {})
 					this.questionList = res?.data?.records || []
 					this.questionList.map(item => {
 						item.timeDate = moment(item.updateDate).format('YYYY-MM-DD')
 						item.moudleName = this.getCurrModuleName(item.questionModuleId)
 					})
+					this.listLoading = false
 				}
 			})
 		},
@@ -165,12 +164,18 @@ export default {
 			margin-top: 10px;
 			overflow-y: auto;
 			.card {
+				width: 100%;
 				padding: 20px;
 				border-bottom: 1px dotted rgba(112, 112, 112, 0.14901960784313725);
 				.list-top {
+					width: 100%;
 					.title {
+						width: 80%;
 						color: #000000;
 						font-size: 16px;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
 					}
 					.status {
 						font-size: 14px;
@@ -190,10 +195,15 @@ export default {
 					color: #666666;
 				}
 				.label {
+					width: 60%;
 					background: #ededed;
 					border-radius: 10px;
 					color: #4b5c7d;
 					padding: 5px 10px;
+					text-align: center;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
 				}
 			}
 		}
