@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-03 16:46:55
+ * @LastEditTime: 2021-12-03 17:04:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -357,17 +357,16 @@ export default {
       done();
     },
     handleChangeDepartment (val, row) {
-      let obj = row.selectDeptList.find(item => item.nameZh === val)
+      let obj = row.selectDeptList.find(item => item.nameEn === val)
       row.approvalDepartmentName = obj.nameZh
       selectSection({ lineDeptId: obj.id }).then(res => {
         this.$set(row, 'selectSectionList', res.data);
       })
     },
     handleChangeApprovalSection (val, row) {
-      // let obj = row.selectSectionList.find(item => item.nameZh === val)
-      // row.approvalSection = obj.nameEn
-      // this.$set(row, 'userList', obj.userDTOList);
-
+      let obj = row.selectSectionList.find(item => item.nameEn === val)
+      row.approvalSectionName = obj.nameZh
+      this.$set(row, 'userList', obj.userDTOList);
     },
     handleChangeApprovalName (val, row) {
       let obj = row.userList.find(item => item.nameZh === val)
