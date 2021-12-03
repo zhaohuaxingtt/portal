@@ -36,11 +36,21 @@
                 <i-input class="input" type="text" :disabled="type == 'detail'" v-model="form.questionTitle" placeholder="请输入" />
             </div>
         </div>
-        <iEditor class="flex-1 qs-editor" :disabled="type == 'detail'" v-model="form.answerContent"></iEditor>
-
+        <iEditor class="flex-1 qs-editor" :class="[type == 'detail' ? 'overflow-auto' : 'overflow-hidden']" :disabled="type == 'detail'" v-model="form.answerContent"></iEditor>
+        <div class="flex" style="margin-top:20px;align-items: flex-start;">
+            <div class="label">附件：</div>
+            <iUpload ref="upload" :disabled="type == 'detail'" v-model="form.annexList" @onSuccess="uploadSucc" >
+                <div class="upload-btn flex" v-if="type != 'detail'">
+                    <i class="el-icon-link"></i>
+                    <span>点击上传</span>
+                </div>
+            </iUpload>
+            <span v-if="type == 'detail' && form.annexList && form.annexList.length == 0" >无</span>
+        </div>
+        
         <CreateQuestion 
             :qs="qs" 
-            :source="getUserType()" 
+            :source="userType" 
             :moduleList="moduleList" 
             :labelList="labelList" 
             :show.sync="dialog" 
@@ -54,17 +64,17 @@
     import CreateQuestion from "../components/createQuestion"
     import iEditor from "@/components/iEditor"
     import { queryModuleBySource, getCurrLabelList, delFaq,updateFaq } from "@/api/assistant"
-    import assistant_mixin from "./../../mixins"
+    import iUpload from "./../../components/iUpload.vue"
 
     export default {
-        mixins: [assistant_mixin],
         components:{
             iInput,
             iLabel,
             iButton,
             iSelect,
             iEditor,
-            CreateQuestion
+            CreateQuestion,
+            iUpload
         },
         props:{
             detail:{
@@ -74,6 +84,10 @@
             qs:{
                 type:Object,
                 default:()=>{}
+            },
+            userType:{
+                type: String,
+                default: ""
             }
         },
         watch:{
@@ -99,16 +113,19 @@
             }
         },
         async created(){
-            let { data } = await queryModuleBySource(this.getUserType())
+            let { data } = await queryModuleBySource(this.userType)
             this.moduleList = data
         },
         methods: {
             moduleChange(v){
-                getCurrLabelList(v).then(res => {
-                    this.labelList = res.data
-                    this.$forceUpdate()
-                })
+                if(v){
+                    getCurrLabelList(v).then(res => {
+                        this.labelList = res.data
+                        this.$forceUpdate()
+                    })
+                }
             },
+            // 编辑
             async save(){
                 if(!this.form.questionModuleId) return this.$message.warning("请选择问题模块")
                 if(!this.form.questionLableId) return this.$message.warning("请选择标签")
@@ -119,6 +136,7 @@
                     this.loading = true
                     await updateFaq(this.form.id, this.form)
                     this.$message.success("保存成功")
+                    this.type = 'detail'
                     this.$emit("editChange")
                 } finally {
                     this.loading = false
@@ -158,11 +176,19 @@
 }
 
 .qs-editor{
-    // height: 100%;
-    // display: flex;
-    // flex-direction: column;
-    ::v-deep .w-e-text-container{
-        height: auto !important;
+    flex:1;
+
+    ::v-deep .quillWrapper{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #eee;
+        #quill-container{
+            overflow: hidden;
+        }
+        .ql-editor{
+            flex: 1;
+        }
     }
 }
 .input{
@@ -177,5 +203,13 @@
 }
 ::v-deep .el-select .el-input__inner{
   height: auto !important;
+}
+.upload-btn{
+    align-items: baseline;
+    color: #2369f1;
+    cursor: pointer;
+    span{
+        text-decoration: underline;
+    }
 }
 </style>

@@ -34,7 +34,6 @@ import {tableColumn} from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins'
 import AddLabelDialog from './addLabelDialog';
 import { removeLabel, queryLabelByPage,queryProCsUserList } from '@/api/assistant'
-import assistant_mixin from "./../../../mixins"
 
 export default {
   components: {
@@ -43,11 +42,11 @@ export default {
     iTableCustom,
     AddLabelDialog,
   },
-  mixins: [pageMixins,assistant_mixin],
+  mixins: [pageMixins],
   props:{
     type:{
-      type:Number,
-      default:1
+      type:String,
+      default:""
     },
     moduleList:{
       type: Array,
@@ -113,7 +112,7 @@ export default {
           ...this.searchContent,
           pageNum:this.page.currPage,
           pageSize: this.page.pageSize,
-          source:this.getUserType()
+          source: this.type
         }
         let res = await queryLabelByPage(data)
         if(res.code == 200){

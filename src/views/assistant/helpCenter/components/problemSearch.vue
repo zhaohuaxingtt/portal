@@ -3,10 +3,10 @@
 		<el-form :model="searchForm" ref="searchForm" class="search">
 			<el-row :gutter="20">
 				<el-col :span="4">
-          <el-form-item :label="formTitle.problemModule" prop="moduleId">
+          <el-form-item :label="formTitle.problemModule" prop="questionModuleId">
             <iSelect
               :placeholder="formTitle.selectPlaceholder"
-              v-model="searchForm.moduleId"
+              v-model="searchForm.questionModuleId"
 							@change="handleModuleChange"
             >
               <el-option
@@ -20,11 +20,11 @@
           </el-form-item>
         </el-col>
 				<el-col :span="5" push="2">
-          <el-form-item :label="formTitle.problemLabel" prop="labelId">
+          <el-form-item :label="formTitle.problemLabel" prop="questionLableId">
             <iSelect
 							:disabled=" labelList.length > 0 ? false : true "
               :placeholder="formTitle.selectPlaceholder"
-              v-model="searchForm.labelId"
+              v-model="searchForm.questionLableId"
             >
               <el-option
                 v-for="item in labelList"
@@ -78,8 +78,8 @@ export default {
 	data() {
 		return {
 			searchForm: {
-				moduleId: null,
-				labelId: null,
+				questionModuleId: null,
+				questionLableId: null,
 				questionTitle: ''
 		
 			},
@@ -102,9 +102,9 @@ export default {
 			this.$refs.searchForm.resetFields()
 		},
 		handleModuleChange() {
-			console.log(this.searchForm.moduleId, "moduleId")
-			if (!this.searchForm.moduleId) return
-			getCurrLabelList(this.searchForm.moduleId).then(res => {
+			console.log(this.searchForm.questionModuleId, "questionModuleId")
+			if (!this.searchForm.questionModuleId) return
+			getCurrLabelList(this.searchForm.questionModuleId).then(res => {
 				if (res?.code === '200') {
 					this.labelList = res?.data || []
 				}
