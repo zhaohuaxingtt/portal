@@ -107,10 +107,14 @@ export default {
       ifSelf: true
     }
   },
-  created() {
-          var tbody = document.body
+   updated() {
+       var tbody = window.document.getElementById('appRouterView')
         var height = tbody.clientHeight
+        console.log(height)
         window.parent.postMessage({ key: 'setFormHeight', value: height+'px'},'*')
+   },
+  created() {
+   
     if (window.top === window.self) {
       this.ifSelf = true
     } else {

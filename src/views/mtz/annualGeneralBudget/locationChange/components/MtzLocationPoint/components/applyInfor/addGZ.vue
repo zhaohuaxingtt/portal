@@ -1,6 +1,7 @@
 <!-- 维护MTZ原材料规则新增弹窗 -->
 <template>
     <div style="padding-bottom:30px;">
+        <!-- :rules="metalType?rules1:rules2" -->
          <div class="form-wrapper">
             <iFormGroup
             :row="2"
@@ -24,15 +25,17 @@
             </iFormItem>
             <iFormItem prop="materialGroup">
                 <iLabel :label="language('MTZCAILIAOZU','MTZ-材料组')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.materialGroup"
-                         :user-options="materialGroup"
+                <i-select v-model="contractForm.materialGroup"
                          clearable
-                         filterable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="materialGroupNameZh"
-                         value-member="materialGroupCode"
-                         value-key="materialGroupCode">
-                </custom-select>
+                         :placeholder="language('QINGSHURU', '请输入')"
+                        >
+                    <el-option
+                        v-for="item in materialGroup"
+                        :key="item.materialGroupCode"
+                        :label="item.materialGroupNameZh"
+                        :value="item.materialGroupCode">
+                    </el-option>
+                </i-select>
             </iFormItem>
             <iFormItem prop="carline">
                 <iLabel :label="language('CHEXING','车型')" slot="label" :required="true"></iLabel>
@@ -81,15 +84,18 @@
             </iFormItem>
             <iFormItem prop="materialCode">
                 <iLabel :label="language('YUANCAILIAOPAIHAO','原材料牌号')" slot="label" :required="true"></iLabel>
-                <custom-select v-model="contractForm.materialCode"
-                         :user-options="materialCode"
-                         @change="MaterialGrade"
+                <i-select v-model="contractForm.materialCode"
                          clearable
-                         :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="codeMessage"
-                         value-member="code"
-                         value-key="code">
-                </custom-select>
+                         @change="MaterialGrade"
+                         :placeholder="language('QINGSHURU', '请输入')"
+                        >
+                    <el-option
+                        v-for="item in materialCode"
+                        :key="item.code"
+                        :label="item.codeMessage"
+                        :value="item.code">
+                    </el-option>
+                </i-select>
             </iFormItem>
             <iFormItem prop="materialName">
                 <iLabel :label="language('YUANCAILIAO','原材料')" slot="label" :required="true"></iLabel>
@@ -211,6 +217,22 @@
                             >
                 </iDatePicker>
             </iFormItem>
+            
+            <iFormItem prop="preciousMetalDosageUnit" v-if="metalType">
+                <iLabel :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')" slot="label" :required="true"></iLabel>
+                <i-select v-model="contractForm.preciousMetalDosageUnit"
+                    clearable
+                    :placeholder="language('QINGXUANZE', '请选择')"
+                    >
+                    <el-option
+                        v-for="item in getPreciousMetalDosageUnit"
+                        :key="item.code"
+                        :label="item.code"
+                        :value="item.code">
+                    </el-option>
+                </i-select>
+            </iFormItem>
+
             <iFormItem prop="platinumPrice">
                 <iLabel :label="language('BOJIJIA','铂基价')" slot="label" icons="iconxinxitishi" tip="M01006002-Pt"></iLabel>
                 <iInput
@@ -295,7 +317,8 @@ import {
   addAppRule,//维护MTZ原材料规则-新增
   checkPreciousMetal,
   queryMaterialList,
-  getMtzMarketSourceList
+  getMtzMarketSourceList,
+  getPreciousMetalDosageUnit
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { 
     getRawMaterialNos
@@ -464,6 +487,7 @@ export default {components: {
             rhodiumDosage:[
                 { validator:validatePass3, trigger: 'blur' }
             ],
+            preciousMetalDosageUnit:[{ required: true, message: '请选择', trigger: 'blur' }],
             tcCurrence: [{ required: true, message: '请选择', trigger: 'blur' }],
             tcExchangeRate: [{ required: true, message: '请输入', trigger: 'blur' }],
             source: [{ required: true, message: '请输入', trigger: 'blur' }],
@@ -498,6 +522,7 @@ export default {components: {
         materialCode:[],
         materialGroup:[],
         getMtzMarketSourceList:[],
+        getPreciousMetalDosageUnit:[],
 
         supplierType1:false,
         supplierType2:false,
@@ -530,6 +555,10 @@ export default {components: {
 
     getMtzMarketSourceList({}).then(res=>{
         this.getMtzMarketSourceList = res.data;
+    })
+
+    getPreciousMetalDosageUnit({}).then(res=>{
+        this.getPreciousMetalDosageUnit = res.data;
     })
   },
   computed:{
@@ -699,5 +728,8 @@ export default {components: {
 }
 ::v-deep .el-date-editor{
     width:100%!important;
+}
+::v-deep .el-form-item__label{
+    width:13.5rem!important;
 }
 </style>

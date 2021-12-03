@@ -31,6 +31,7 @@
       :span-method="getSpanMethod"
       :stripe="stripe"
       :header-cell-class-name="handleHeaderCellClassName"
+      :border="true"
       @row-click="rowClick"
     >
       <template v-for="(item, index) in tableVisibleColumns">
@@ -1149,4 +1150,15 @@ export default {
 .custom-table-popper-content {
   max-width: 1200px;
 }
+
+.i-table-custom {
+  ::v-deep .el-table--border th {
+    border-right: 1px solid #FFFFFF !important;
+  }
+
+  ::v-deep .el-table--border td {
+    border-right: 0 !important;
+  }
+}
+
 </style>
