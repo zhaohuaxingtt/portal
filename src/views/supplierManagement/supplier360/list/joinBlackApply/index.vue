@@ -19,7 +19,9 @@
           }}</iButton> -->
         </div>
       </div>
-      <iCard :style="ifSelf?'margin-top:20px':''">
+ <div :class="ifSelf?'cardBox':''" :style="ifSelf?'margin-top:20px':''">
+
+      <iCard >
         <el-form inline label-position="left" label-width="120px">
           <div class="formTitle">
             <el-form-item
@@ -75,6 +77,8 @@
           :total="page.totalCount"
         />
       </iCard>
+ </div>
+
     </div>
   </div>
 </template>
@@ -181,8 +185,14 @@ export default {
 ::v-deep .el-form--inline .el-form-item {
   // margin-right: 50px;
 }
+.cardBox{
+  height: 88vh;
+  overflow-y: auto;
+  padding-bottom: 20px;
+}
 .page {
   padding: 30px 40px 30px 40px;
+
 }
 .remark {
   word-wrap: break-word;

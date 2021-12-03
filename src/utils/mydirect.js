@@ -1,10 +1,10 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:09
- * @LastEditTime: 2021-11-16 21:09:19
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-12-03 18:08:09
+ * @LastEditors: caopeng
  * @Description: 自定义指令文件。
- * @FilePath: \rise\src\utils\mydirect.js
+ * @FilePath: \front-portal-new\src\utils\mydirect.js
  */
 
 import store from '../store'

@@ -363,12 +363,12 @@ export default {components: {
     resetNum:{
         type: Boolean,
     },
-    dataObject:{
-        type: Object,
-        default: () => {
-            return {}
-        }
-    }
+    // dataObject:{
+    //     type: Object,
+    //     default: () => {
+    //         return {}
+    //     }
+    // }
   },
   data() {
     var validatePass1 = (rule, value, callback) => {//非负数字
