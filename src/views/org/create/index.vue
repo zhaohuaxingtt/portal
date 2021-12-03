@@ -581,7 +581,7 @@ export default {
     trueBtnClick() {
       this.$refs.orgForm.validate((valid) => {
         if (valid) {
-          if (this.isEdit) {
+          if (this.$route.params.id) {
             //编辑组织
             this.editOrg()
           } else {
@@ -711,16 +711,29 @@ export default {
           this.loading = false
           if (value.code == 200) {
             //创建成功
-            this.$router.go(-1)
+            iMessage.success(value.desZh || '创建成功')
+            /* setTimeout(() => {
+              window.close()
+            }, 2000) */
+            this.isEdit = true
+            const { data } = value
+            this.$router.replace({
+              params: {
+                id: data.id,
+                type: 'editOrg',
+                upLevelID: data.parentId,
+                upLevelName: data.parentName
+              }
+            })
           } else {
             //创建失败
             iMessage.error(value.desZh || '创建失败')
           }
         })
-        .catch(() => {
+        .catch((err) => {
           //异常处理
           this.loading = false
-          iMessage.error('创建失败')
+          iMessage.error(err.desZh || '创建失败')
         })
     },
     async editOrg() {
@@ -770,16 +783,16 @@ export default {
           this.loading = false
           if (value.code == 200) {
             //编辑成功
-            this.$router.go(-1)
+            iMessage.success(value.desZh || '创建成功')
           } else {
             //编辑失败
             iMessage.error(value.desZh || '编辑失败')
           }
         })
-        .catch(() => {
+        .catch((err) => {
           //异常处理
           this.loading = false
-          iMessage.error('编辑失败')
+          iMessage.error(err.desZh || '编辑失败')
         })
     },
     resetOrg() {
