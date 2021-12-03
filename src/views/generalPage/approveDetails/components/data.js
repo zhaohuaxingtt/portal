@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-11-09 15:26:24
- * @LastEditTime: 2021-12-03 16:12:53
+ * @LastEditTime: 2021-12-03 16:15:49
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \front-portal\src\views\generalPage\approveDetails\components\data.js
@@ -25,12 +25,14 @@ export const TableTitle = [
   {
     props: 'stuffName',
     name: '材料组工艺中文名称',
-    key: 'SUPPLIER_CAILIAOZUGONGYIZHONGWENGMINGCHENG'
+    key: 'SUPPLIER_CAILIAOZUGONGYIZHONGWENGMINGCHENG',
+    width: 180
   },
   {
     props: 'stuffNameDe',
     name: '材料组工艺德文名称',
-    key: 'SUPPLIER_CAILIAOZUGONGYIDEWENMINGCHENG'
+    key: 'SUPPLIER_CAILIAOZUGONGYIDEWENMINGCHENG',
+    width: 180
   },
   { props: 'applyDeptName', name: '申请科室', key: 'SHENGQINGKESHI' },
   { props: 'prePurchase', name: '前期采购员', key: 'QIANQICAIGOUYUAN' },
