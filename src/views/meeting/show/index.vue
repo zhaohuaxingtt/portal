@@ -17,7 +17,18 @@
           <span class="date-time-start">
             <img :src="timeClock" alt="" srcset="" />
             <span>{{
-              result.startDate + ' ' + result.startTime + '~' + result.endTime
+              `${result.startDate} ${result.startTime.substring(0, 5)}
+                ~
+                ${
+                  Number(
+                    result.themens[result.themens.length - 1].plusDayEndTime
+                  ) > 0
+                    ? result.endTime.substring(0, 5) +
+                      ` +${
+                        Number(result.themens[result.themens.length - 1].plusDayEndTime)
+                      }`
+                    : result.endTime.substring(0, 5)
+                }`
             }}</span>
           </span>
           <span class="date-time-end">
@@ -189,10 +200,20 @@
         >
           <template slot-scope="scope">
             <div v-if="scope.row.startTime">
-              <span>{{ scope.row.startTime.substring(0, 5) }}</span
+              <span>{{
+                Number(scope.row.plusDayStartTime) > 0
+                  ? scope.row.startTime.substring(0, 5) +
+                    ' +' +
+                    Number(scope.row.plusDayStartTime)
+                  : scope.row.startTime.substring(0, 5)
+              }}</span
               ><span>~</span>
               <span v-if="scope.row.endTime">{{
-                scope.row.endTime.substring(0, 5)
+                Number(scope.row.plusDayEndTime) > 0
+                  ? scope.row.endTime.substring(0, 5) +
+                    ' +' +
+                    Number(scope.row.plusDayEndTime)
+                  : scope.row.endTime.substring(0, 5)
               }}</span>
             </div>
             <span v-else>-</span>
@@ -229,7 +250,7 @@ import timeClock from '@/assets/images/time-clock.svg'
 import positionMark from '@/assets/images/position-mark.svg'
 import topicLookDialog from './components/topicLookDialog.vue'
 import { pageMixins } from '@/utils/pageMixins'
-
+import dayjs from 'dayjs'
 export default {
   mixins: [pageMixins],
   components: {
@@ -242,7 +263,7 @@ export default {
   data() {
     return {
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal:process.env.VUE_APP_POINT_PORTA,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
       timeClock,
       positionMark,
       data: [],
@@ -281,6 +302,21 @@ export default {
     }
   },
   methods: {
+    handleEndTime(row) {
+      // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return '~' + str + ' +1'
+      }
+      return '~' + str
+    },
     lookOrEdit(row) {
       console.log('row', row)
       if (row.source === '04') {

@@ -5,121 +5,148 @@
       :data="data"
       :rowClassName="tableRowClassName"
     >
-      <el-table-column prop="follow" align="left" label="No." width="50">
+      <el-table-column width="20" align="center" label=""></el-table-column>
+      <el-table-column prop="follow" align="left" label="#" min-width="15">
         <template slot-scope="scope">
           <div class="img-word">
-            <div class="img-box">
-              <span>
-                {{ scope.$index + 1 }}
-              </span>
-              <div
-                v-show="
-                  currentUserId !== Number(scope.row.createBy) &&
-                  scope.row.state !== '03' &&
-                  !Boolean(scope.row.isBreak) &&
-                  Boolean(scope.row.follow) &&
-                  !isThemenHavaMy(scope.row)
-                "
-                @click="handleUnfollow(scope.row, following)"
-                class="follow-new"
-              >
-                <img src="@/assets/images/empty-star.svg" class="follow" />
-              </div>
-              <div
-                v-show="
-                  currentUserId !== Number(scope.row.createBy) &&
-                  scope.row.state === '03' &&
-                  !Boolean(scope.row.isBreak) &&
-                  Boolean(scope.row.follow) &&
-                  !isThemenHavaMy(scope.row)
-                "
-                class="follow-new"
-              >
-                <img src="@/assets/images/empty-star.svg" class="follow" />
-              </div>
-              <div
-                v-show="
-                  currentUserId !== Number(scope.row.createBy) &&
-                  scope.row.state !== '03' &&
-                  !Boolean(scope.row.isBreak) &&
-                  !Boolean(scope.row.follow) &&
-                  !isThemenHavaMy(scope.row)
-                "
-                @click="handleFollow(scope.row, following)"
-                class="follow-new"
-              >
-                <img src="@/assets/images/solid-star.svg" class="follow" />
-              </div>
-              <div
-                v-show="
-                  currentUserId !== Number(scope.row.createBy) &&
-                  scope.row.state === '03' &&
-                  !Boolean(scope.row.isBreak) &&
-                  !Boolean(scope.row.follow) &&
-                  !isThemenHavaMy(scope.row)
-                "
-                class="follow-new"
-              >
-                <img src="@/assets/images/solid-star.svg" class="follow" />
-              </div>
-              <div
-                v-show="
-                  (currentUserId === Number(scope.row.createBy) &&
-                    !Boolean(scope.row.isBreak)) ||
-                  (isThemenHavaMy(scope.row) && !Boolean(scope.row.isBreak))
-                "
-                class="follow-new"
-              >
-                <img src="@/assets/images/add-follow-red.svg" class="follow" />
-              </div>
-            </div>
+            <span>
+              {{ scope.$index + 1 }}
+            </span>
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="count"
-        align="center"
-        label="Count"
-        width="70"
-      >
-        <template slot-scope="scope">
-          <span>{{
-            !scope.row.count && scope.row.isBreak ? '/' : scope.row.count
-          }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="topic"
         align="center"
-        label="Topic"
-        width="220"
+        label="Present Items"
+        min-width="120"
       >
         <template slot-scope="scope">
-          <span>{{
-            !scope.row.topic && scope.row.isBreak ? '/' : scope.row.topic
+          <span v-if="scope.row.isBreak">{{ scope.row.topic }}</span>
+          <span class="open-link-text" @click="lookOrEdit(scope.row)" v-else>{{
+            scope.row.topic
           }}</span>
         </template>
       </el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
       <el-table-column
-        show-overflow-tooltip
-        prop="duration"
+        prop="cscCount"
         align="center"
-        label="Duration"
-        width="90"
+        label="Record"
+        show-overflow-tooltip
       >
         <template slot-scope="scope">
-          <span>{{
-            !scope.row.duration && scope.row.isBreak ? '/' : scope.row.duration
+          <span v-if="scope.row.isBreak">-</span>
+          <span v-else>{{
+            (scope.row.cscCount || 0) + '/' + (scope.row.preCount || 0)
           }}</span>
         </template>
       </el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="time"
+        align="center"
+        label="Part No."
+        min-width="100"
+        prop="tnr"
+      >
+        <template slot-scope="scope">
+          <span v-if="!scope.row.tnr">-</span>
+          <span v-else>{{ scope.row.tnr }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        align="center"
+        label="BEN(CN)"
+        min-width="100"
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.benCn">{{ scope.row.benCn }}</span>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        align="center"
+        label="Carline"
+        min-width="100"
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.carline">{{ scope.row.carline }}</span>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        align="center"
+        label="Sourcing"
+        min-width="100"
+      >
+        <template slot-scope="scope">
+          <span v-if="!scope.row.supporter">-</span>
+          <span v-else>{{ scope.row.supporter }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        align="center"
+        label="Linie"
+        min-width="100"
+        prop="presenter"
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.presenter">{{ scope.row.presenter }}</span>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        align="center"
+        label="Commodity"
+        min-width="100"
+      >
+        <template slot-scope="scope">
+          <span v-if="!scope.row.presenterDept">-</span>
+          <span v-else>{{ scope.row.presenterDept }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        align="center"
+        label="EP"
+        min-width="100"
+      >
+        <template slot-scope="scope">
+          <span v-if="!scope.row.ep">-</span>
+          <span v-else>{{ scope.row.ep }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        align="center"
+        label="Status"
+        min-width="100"
+      >
+        <template slot-scope="scope">
+          {{ stateObj[scope.row.state] }}
+        </template>
+      </el-table-column>
+      <el-table-column width="24" align="center" label=""></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
         align="center"
         label="Time"
+        min-width="120"
       >
         <template slot-scope="scope">
           <div v-if="scope.row.startTime">
@@ -139,104 +166,10 @@
                 : scope.row.endTime.substring(0, 5)
             }}</span>
           </div>
+          <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="presenter"
-        align="center"
-        label="Presenter"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.presenter }}</span>
-          <span
-            v-if="
-              (scope.row.presenter && scope.row.presenterNosys) ||
-              scope.row.isBreak
-            "
-            >/</span
-          >
-          <span>{{ scope.row.presenterNosys }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="presenterDept"
-        align="center"
-        label="Presenter Dept."
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.presenterDept }}</span>
-          <span
-            v-if="
-              (scope.row.presenterDept && scope.row.presenterDeptNosys) ||
-              scope.row.isBreak
-            "
-            >/</span
-          >
-          <span>{{ scope.row.presenterDeptNosys }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="supporter"
-        align="center"
-        label="Supporter"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.supporter }}</span>
-          <span
-            v-if="
-              (scope.row.supporter && scope.row.supporterNosys) ||
-              scope.row.isBreak
-            "
-            >/</span
-          >
-          <span>{{ scope.row.supporterNosys }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="supporterDept"
-        align="center"
-        label="Supporter Dept."
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.supporterDept }}</span>
-          <span
-            v-if="
-              (scope.row.supporterDept && scope.row.supporterDeptNosys) ||
-              scope.row.isBreak
-            "
-            >/</span
-          >
-          <span>{{ scope.row.supporterDeptNosys }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="status"
-        width="120"
-        min-width="120"
-        align="center"
-        label="Status"
-      >
-        <template slot-scope="scope">
-          {{ statusObj[scope.row.state] }}
-        </template>
-      </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="remark"
-        align="center"
-        label="Remark"
-      >
-        <template slot-scope="scope">
-          <span>{{
-            !scope.row.remark && scope.row.isBreak ? '/' : scope.row.remark
-          }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column width="20" align="center" label=""></el-table-column>
     </iTableML>
     <iPagination
       v-update
@@ -245,10 +178,19 @@
       :current-page="pageNum"
       :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      prev-text="上一页"
-      next-text="下一页"
+      :prev-text="$t('上一页')"
+      :next-text="$t('下一页')"
       :total="total"
     />
+    <addTopicNew
+      v-if="openAddTopic"
+      :openAddTopic="openAddTopic"
+      :meetingInfo="meetingInfo"
+      :editOrAdd="editOrAdd"
+      @closeDialog="closeDialog"
+      :topicInfo="lookThemenObj"
+    >
+    </addTopicNew>
   </div>
 </template>
 
@@ -256,11 +198,17 @@
 import { iPagination, iMessage } from 'rise'
 import iTableML from '@/components/iTableML'
 import { follow, unfollow } from '@/api/meeting/myMeeting'
+import {
+  stateObj,
+  themenConclusion
+} from '../../../specialNearMeeting/components/carouselBox/data.js'
+import addTopicNew from '@/views/meeting/show/components/topicLookDialog.vue'
 
 export default {
   components: {
     iPagination,
-    iTableML
+    iTableML,
+    addTopicNew
   },
   props: {
     data: {
@@ -290,6 +238,13 @@ export default {
   },
   data() {
     return {
+      lookThemenObj: {},
+      editOrAdd: 'add',
+      openAddTopic: false,
+      processUrl: process.env.VUE_APP_POINT,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+      stateObj,
+      themenConclusion,
       following: false,
       statusObj: {
         '01': '未进行',
@@ -302,6 +257,30 @@ export default {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
   },
   methods: {
+    lookOrEdit(row) {
+      if (row.source === '04') {
+        if (row.type === 'FS+MTZ') {
+          window.open(
+            `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
+            '_blank'
+          )
+        } else if (row.type === 'MTZ') {
+          window.open(
+            `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${row.fixedPointApplyId}`,
+            '_blank'
+          )
+        } else {
+          window.open(
+            `${this.processUrl}/designate/decisiondata/title?desinateId=${row.fixedPointApplyId}&isPreview=1`,
+            '_blank'
+          )
+        }
+      } else {
+        this.lookThemenObj = { ...row }
+        this.editOrAdd = 'look'
+        this.openAddTopic = true
+      }
+    },
     isThemenHavaMy(item) {
       const presenterId = item.presenterId ? item.presenterId.split(',') : []
       const supporterId = item.supporterId ? item.supporterId.split(',') : []
@@ -392,6 +371,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+::v-deep .cell {
+  padding: 0 !important;
+}
 /* .img-word {
   display: flex;
   justify-content: center;
@@ -401,22 +383,14 @@ export default {
     margin-right: 9.42px;
   }
 } */
-.img-word {
+/* .img-word {
   display: flex;
-  /* justify-content: center; */
-  /* position: relative; */
-  /* justify-content: center; */
   align-items: center;
-  /* transform: translateX(-10px); */
   span:first-child {
     display: block;
-    /* margin-left: 30px; */
     flex-grow: 1;
     flex-shrink: 0;
     width: 20px;
-    /* text-align: center; */
-    /* margin-right: 9.42px; */
-    /* margin-right: 5px; */
   }
   .img-box {
     flex: 1;
@@ -428,9 +402,6 @@ export default {
     img {
       flex-grow: 1;
       flex-shrink: 0;
-      /* position: absolute;
-      left: 0;
-      top: 0; */
       width: 20px;
       height: 20px;
       object-fit: contain;
@@ -442,8 +413,42 @@ export default {
       cursor: pointer;
     }
     .follow {
-      /* margin-left: 4px; */
       cursor: pointer;
+    }
+  }
+} */
+.img-word {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  /* justify-content: center; */
+  /* position: relative; */
+  /* transform: translateX(-10px); */
+  div:first-child {
+    /* margin-left: 30px; */
+    flex-grow: 1;
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
+    /* margin-right: 9.42px; */
+    /* margin-right: 5px; */
+  }
+  .img-box {
+    flex: 1;
+    position: relative;
+    transform: translateY(2px);
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    img {
+      flex-grow: 1;
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      /* position: absolute; */
+      /* left: 0;
+      top: 0; */
+      object-fit: contain;
     }
   }
 }

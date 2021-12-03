@@ -84,7 +84,7 @@ export default {
     handleSizeChange(e, q) {
       console.log(e, q);
     },
-    handleCurrentChange(e, q) {
+    handleCurrentChange(e) {
       this.page.currPage = e;
       this.query(this.search);
     },
@@ -126,7 +126,7 @@ export default {
           this.tableData = [...data];
           this.tableDataAll = [...data];
         })
-        .catch((err) => {
+        .catch(() => {
           this.tableLoading = false;
         });
     },

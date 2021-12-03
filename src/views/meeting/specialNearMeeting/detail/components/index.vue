@@ -25,12 +25,6 @@
       <p class="info-line-2">
         <span class="date-time-start">
           <img :src="timeClock" alt="" srcset="" />
-          <!-- <span>{{
-            result.startDate +
-              " " +
-              result.startTime +
-              (result.endTime ? "~" + result.endTime : "")
-          }}</span> -->
           <span>{{
             `${result.startDate}
               ${result.startTime ? result.startTime.substring(0, 5) : ''}~
@@ -85,28 +79,81 @@
     </div>
     <div v-else>
       <div v-if="data && data.length > 0" class="card-list-container">
-        <div class="click-area">
-          <div class="right" @click="handlePreClick">&lt;</div>
-          <div class="left" @click="handleNextClick">&gt;</div>
-        </div>
-        <div class="swiper" ref="swiperRef">
-          <div class="slide" v-for="(item, index) of data" :key="index">
-            <cardBox
-              :themen="item"
-              :total="data.length"
-              :num="index + 1"
-              :startDate="result.startDate"
-              :endDate="result.endDate"
-            />
-          </div>
-        </div>
+        <el-carousel
+          indicator-position="outside"
+          :autoplay="false"
+          trigger="click"
+          height="35rem"
+          ref="carouselNoMy"
+          :initial-index="initIndex"
+        >
+          <el-carousel-item
+            v-for="(item, index) of newTypeData"
+            :key="index"
+            :name="index"
+          >
+            <div class="show-double-card">
+              <cardBox
+                :themen="item[0]"
+                :total="data.length"
+                :num="index * 3 + 1"
+                :startDate="result.startDate"
+                :endDate="result.endDate"
+                class="right-card"
+              />
+              <cardBox
+                v-if="item.length >= 2"
+                :themen="item[1]"
+                :total="data.length"
+                :num="index * 3 + 2"
+                :startDate="result.startDate"
+                :endDate="result.endDate"
+                class="right-card"
+              />
+              <div v-else class="empty"></div>
+              <cardBox
+                v-if="item.length === 3"
+                :themen="item[2]"
+                :total="data.length"
+                :num="index * 3 + 3"
+                :startDate="result.startDate"
+                :endDate="result.endDate"
+                class="right-card"
+              />
+              <div v-else class="empty"></div>
+              <!-- <cardBoxNewVersion
+                    :themen="item[0]"
+                    :total="data.length"
+                    :num="index + 1"
+                    class="right-card"
+                  />
+
+                  <cardBoxNewVersion
+                    v-if="item.length >= 2"
+                    :themen="item[1]"
+                    :total="data.length"
+                    :num="index + 1"
+                    class="right-card"
+                  />
+                  <div v-else class="empty"></div>
+                  <cardBoxNewVersion
+                    v-if="item.length === 3"
+                    :themen="item[2]"
+                    :total="data.length"
+                    :num="index + 1"
+                    class="right-card"
+                  />
+                  <div v-else class="empty"></div> -->
+            </div>
+          </el-carousel-item>
+        </el-carousel>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import cardBox from './cardBox.vue'
+import cardBox from './cardBoxNew.vue'
 import { iButton, iMessage } from 'rise'
 import theLiveTable from './theLiveTable.vue'
 import { getMeetingDetail } from '@/api/meeting/home'
@@ -126,6 +173,7 @@ export default {
     return {
       value: true,
       // switchStatus: "卡片",
+      newTypeData: [[]],
       timeClock,
       positionMark,
       data: [],
@@ -157,9 +205,18 @@ export default {
       }
       return '~' + str
     },
+    // 一维数组转二维 数组
+    arrTrans(num, arr) {
+      const newArr = []
+      while (arr.length > 0) {
+        newArr.push(arr.splice(0, num))
+      }
+      return newArr
+    },
     isSource02() {
       const themen = this.result
       if (
+        themen.attachments &&
         themen.attachments.length > 0 &&
         themen.attachments.some((item) => {
           return item.source === '02'
@@ -190,7 +247,6 @@ export default {
         })
     },
     handleTurnMode() {
-      console.log('1111111111')
       this.value = !this.value
     },
     // 获取会议类型列表
@@ -211,6 +267,7 @@ export default {
     async query(obj) {
       let param = {
         meetingId: this.$route.query.id,
+        // category: '02',
         presentItem: '02',
         pageNum: 1,
         pageSize: 999
@@ -219,11 +276,12 @@ export default {
       this.result = res
       const res2 = await findMyThemens(param)
       this.data = res2.data
+      this.newTypeData = this.arrTrans(3, [...this.data])
       this.dataTable = res2.data.slice(
         (this.pageNum - 1) * this.pageSize,
         this.pageNum * this.pageSize
       )
-      obj.following = false
+      obj ? (obj.following = false) : ''
       this.initMoveCard()
     },
     // 页码切换
@@ -304,16 +362,10 @@ export default {
     }
   }
   // watch: {
-  //   value(val) {
-  //     if (val) {
-  //       this.switchStatus = "卡片";
-  //       return;
-  //     }
-  //     this.switchStatus = "列表";
-  //     this.curIndex = 1;
-  //     this.initMoveCard();
-  //   },
-  // },
+  //   data(val) {
+  //     this.newTypeData = this.arrTrans(3, [...val])
+  //   }
+  // }
 }
 </script>
 
@@ -505,6 +557,23 @@ export default {
       }
     }
   }
+  .show-double-card {
+    display: flex;
+    justify-content: space-between;
+    .right-card {
+      width: 100%;
+      margin-left: 21px;
+    }
+    .right-card:nth-child(1) {
+      margin-left: 0;
+    }
+    .empty {
+      flex-shrink: 0;
+      flex-grow: 1;
+      width: 566px;
+      margin-left: 20px;
+    }
+  }
 }
 ::v-deep .el-carousel__indicators--outside {
   height: 60px;
@@ -613,5 +682,52 @@ export default {
       }
     }
   }
+}
+::v-deep .el-carousel__indicators--outside {
+  height: 60px;
+  line-height: 60px;
+}
+::v-deep .el-carousel__indicators--outside {
+  height: 26px;
+  line-height: 42px;
+}
+::v-deep .el-carousel--horizontal {
+  overflow: hidden;
+}
+::v-deep .el-carousel__indicator--horizontal {
+  .el-carousel__button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #cad9f8;
+  }
+}
+::v-deep .is-active {
+  .el-carousel__button {
+    height: 10px;
+    border-radius: 5px;
+    width: 40px;
+    background-color: #1660f1;
+  }
+}
+::v-deep .el-carousel__arrow {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  border: 1px solid #8f8f90;
+  background-color: #fff;
+  box-shadow: 0px 0px 20px rgba(27, 29, 33, 0.08);
+}
+::v-deep .el-carousel__arrow:nth-of-type(1) {
+  left: 0;
+}
+::v-deep .el-carousel__arrow:nth-of-type(2) {
+  right: 4px;
+}
+::v-deep .el-carousel__arrow--left {
+  color: #8f8f90;
+}
+::v-deep .el-carousel__arrow--right {
+  color: #8f8f90;
 }
 </style>

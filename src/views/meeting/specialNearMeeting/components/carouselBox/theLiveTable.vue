@@ -145,7 +145,7 @@
       </el-table-column>
       <el-table-column width="27" align="center" label=""></el-table-column>
       <!-- <el-table-column prop="supporter" align="center" label="操作" min-width="200">
-        <template slot-scope="scope">
+        <template scope="scope">
           <p class="action-box" @click="newSummary(scope.row.id)">
             <img class="new-file" :src="newFile" alt="" srcset="" />
             <span>查看会议纪要</span>
@@ -251,7 +251,6 @@ export default {
       }
       return str
     },
-
     goToDetail(e) {
       this.$router.push({
         path: '/meeting/near-meeting/detail',

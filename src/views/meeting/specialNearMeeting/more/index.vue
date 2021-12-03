@@ -4,6 +4,19 @@
       <div class="serch" :style="`margin-right:${stypeWidth}px;`">
         <el-form>
           <el-row>
+            <el-form-item :label="'Meeting'">
+              <iSelect
+                :placeholder="$t('LK_QINGXUANZE')"
+                v-model="form.meetingTypeId"
+              >
+                <el-option
+                  :value="item.id"
+                  :label="item.name"
+                  v-for="item of meetingTypeList"
+                  :key="item.id"
+                ></el-option>
+              </iSelect>
+            </el-form-item>
             <el-form-item :label="'Present Items'">
               <iSelect
                 :placeholder="$t('LK_QINGXUANZE')"
@@ -17,20 +30,37 @@
                 ></el-option>
               </iSelect>
             </el-form-item>
+            <el-form-item :label="'Commodity'">
+              <iSelect
+                :placeholder="$t('LK_QINGXUANZE')"
+                v-model="form.commodity"
+              >
+                <el-option
+                  :value="item.label"
+                  :label="item.label"
+                  v-for="item of commodityList"
+                  :key="item.label"
+                ></el-option>
+              </iSelect>
+            </el-form-item>
+            <el-form-item :label="'Result'">
+              <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.result">
+                <el-option
+                  :value="item.conclusionCsc"
+                  :label="item.conclusionName"
+                  v-for="item of resultList"
+                  :key="item.conclusionCsc"
+                ></el-option>
+              </iSelect>
+            </el-form-item>
             <iDateRangePicker
               :startDateProps="form.startDateBegin"
               :endDateProps="form.startDateEnd"
               @change-start="changeStart"
               @change-end="changeEnd"
               ref="iDateRangePicker"
-              label="Time"
+              :label="$t('会议日期')"
             />
-            <el-form-item label="Topic">
-              <iInput
-                :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.topic"
-              ></iInput>
-            </el-form-item>
           </el-row>
         </el-form>
       </div>
@@ -46,7 +76,16 @@
       </div>
     </div>
     <p class="line"></p>
-    <iTableML tooltip-effect="light" :data="tableData">
+    <div class="button-area">
+      <iButton @click="handleReCallThemen" :disabled="disabledButton">{{
+        $t('撤回议题')
+      }}</iButton>
+    </div>
+    <iTableML
+      tooltip-effect="light"
+      :data="tableData"
+      @selectionChange="selectionChange"
+    >
       <!-- <el-table-column
         type="index"
         min-width="48"
@@ -72,52 +111,38 @@
           />
         </template>
       </el-table-column> -->
-      <el-table-column prop="follow" align="left" label="No." width="50">
+      <el-table-column align="center" width="25"></el-table-column>
+      <el-table-column
+        type="selection"
+        align="center"
+        min-width="20"
+      ></el-table-column>
+      <el-table-column prop="follow" align="left" label="#" width="50">
         <template slot-scope="scope">
           <div class="img-word">
-            <div>
+            <span style="text-align: left">
               {{ scope.$index + 1 }}
-            </div>
+            </span>
             <div>
               <img
-                v-if="isTheyHaveMyOrCreatedByMyself(scope.row)"
-                src="@/assets/images/add-follow-red.svg"
-              />
-              <img
-                v-if="
-                  !isTheyHaveMyOrCreatedByMyself(scope.row) && scope.row.follow
-                "
+                v-if="scope.row.follow"
                 src="@/assets/images/empty-star.svg"
-                @click="handleUnfollow(scope.row, following)"
-                class="follow"
               />
               <img
-                v-if="
-                  !isTheyHaveMyOrCreatedByMyself(scope.row) && !scope.row.follow
-                "
-                src="@/assets/images/solid-star.svg"
-                @click="handleFollow(scope.row, following)"
-                class="follow"
+                v-if="!scope.row.follow"
+                src="@/assets/images/add-follow-red.svg"
               />
             </div>
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="count"
-        min-width="70"
-        align="center"
-        label="Count"
-        width="70"
-      ></el-table-column>
+      <el-table-column align="center" width="20"></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="topic"
-        min-width="130"
         align="center"
-        label="Topic"
-        width="220"
+        label="Present Items"
+        min-width="223"
       >
         <template slot-scope="scope">
           <span class="open-link-text" @click="lookOrEdit(scope.row)">{{
@@ -125,139 +150,92 @@
           }}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" width="30"></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="meetingName"
-        min-width="147"
         align="center"
         label="Meeting"
+        min-width="404"
       >
-        <template slot-scope="scope">
-          <!-- <span class="open-link-text" @click="checkDetail(scope.row.meetingId)">{{scope.row.meetingName}}</span> -->
-          <span>{{ scope.row.meetingName }}</span>
-        </template>
       </el-table-column>
+      <el-table-column align="center" width="30"></el-table-column>
       <el-table-column
         show-overflow-tooltip
         align="center"
-        min-width="90"
-        label="Status"
+        label="Part No."
+        min-width="164"
+        prop="tnr"
       >
-        <template slot-scope="scope">
-          <span
-            :class="[
-              {
-                draft: scope.row.meetingStatus == '01',
-                open: scope.row.meetingStatus == '02',
-                lock: scope.row.meetingStatus == '03',
-                begin: scope.row.meetingStatus == '04',
-                end: scope.row.meetingStatus == '05',
-                close: scope.row.meetingStatus == '06'
-              },
-              'circle'
-            ]"
-            >{{ statusObj[scope.row.meetingStatus] }}</span
-          >
-        </template>
       </el-table-column>
+      <el-table-column align="center" width="30"></el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="duration"
         align="center"
-        min-width="90"
-        label="Duration"
-        width="90"
-      ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        prop="time"
-        align="center"
-        min-width="200"
-        label="Time"
+        label="BEN(DE)"
+        min-width="58"
+        prop="benDe"
       >
-        <template slot-scope="scope">
-          <div v-if="scope.row.startTime">
-            <span>{{
-              Number(scope.row.plusDayStartTime) > 0
-                ? scope.row.startTime.substring(0, 5) +
-                  ' +' +
-                  Number(scope.row.plusDayStartTime)
-                : scope.row.startTime.substring(0, 5)
-            }}</span
-            ><span>~</span>
-            <span v-if="scope.row.endTime">{{
-              Number(scope.row.plusDayEndTime) > 0
-                ? scope.row.endTime.substring(0, 5) +
-                  ' +' +
-                  Number(scope.row.plusDayEndTime)
-                : scope.row.endTime.substring(0, 5)
-            }}</span>
-          </div>
-        </template>
       </el-table-column>
+      <el-table-column align="center" width="30"></el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="presenter"
         align="center"
-        min-width="188"
-        label="Presenter"
+        label="Carline"
+        min-width="60"
+        prop="carline"
       >
-        <template slot-scope="scope">
-          <span>{{ scope.row.presenter }}</span>
-          <span v-if="scope.row.presenter && scope.row.presenterNosys">/</span>
-          <span>{{ scope.row.presenterNosys }}</span>
-        </template>
       </el-table-column>
+      <el-table-column align="center" width="30"></el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="presenterDept"
         align="center"
-        min-width="170"
-        label="Presenter Dept."
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.presenterDept }}</span>
-          <span v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
-            >/</span
-          >
-          <span>{{ scope.row.presenterDeptNosys }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        show-overflow-tooltip
+        label="Sourcing"
+        min-width="61"
         prop="supporter"
-        align="center"
-        min-width="200"
-        label="Supporter"
       >
-        <template slot-scope="scope">
-          <span>{{ scope.row.supporter }}</span>
-          <span v-if="scope.row.supporter && scope.row.supporterNosys">/</span>
-          <span>{{ scope.row.supporterNosys }}</span>
-        </template>
       </el-table-column>
+      <el-table-column align="center" width="30"></el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="supporterDept"
         align="center"
-        min-width="161"
-        label="Supporter Dept."
+        label="Linie"
+        min-width="45"
+        prop="presenter"
       >
-        <template slot-scope="scope">
-          <span>{{ scope.row.supporterDept }}</span>
-          <span v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
-            >/</span
-          >
-          <span>{{ scope.row.supporterDeptNosys }}</span>
-        </template>
       </el-table-column>
+      <el-table-column align="center" width="30"></el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="remark"
         align="center"
-        min-width="104"
-        label="Remark"
-      ></el-table-column>
+        label="Commodity"
+        min-width="80"
+        prop="presenterDept"
+      >
+      </el-table-column>
+      <el-table-column align="center" width="30"></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        align="center"
+        label="State"
+        min-width="45"
+      >
+        <template slot-scope="scope">
+          {{ stateObj[scope.row.state] }}
+        </template>
+      </el-table-column>
+      <el-table-column align="center" width="30"></el-table-column>
+      <el-table-column
+        show-overflow-tooltip
+        align="center"
+        label="Result"
+        min-width="45"
+      >
+        <template slot-scope="scope">
+          <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" width="30"></el-table-column>
     </iTableML>
     <iPagination
       v-update
@@ -277,7 +255,7 @@
       :id="id"
       @closeDialog="closeDetail"
     />
-    <addTopic
+    <addTopicNew
       v-if="openAddTopic"
       :openAddTopic="openAddTopic"
       :meetingInfo="meetingInfo"
@@ -285,24 +263,26 @@
       @closeDialog="closeDialog"
       :lookThemenObj="lookThemenObj"
     >
-    </addTopic>
+    </addTopicNew>
   </iCard>
 </template>
 
 <script>
 import { iCard, iPagination, iMessage } from 'rise'
-import { iInput, iSelect, iButton } from 'rise'
+import { iSelect, iButton } from 'rise'
 import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
 import iTableML from '@/components/iTableML'
 import { findMyThemens } from '@/api/meeting/myMeeting'
 // import detailDialog from "./detailDialog.vue";
 import detailDialog from '../components/myTopics/detailDialog.vue'
-import addTopic from '../../live/components/addTopic.vue'
+import addTopicNew from '../../specialLive/components/addTopicNew.vue'
 import { follow, unfollow } from '@/api/meeting/myMeeting'
+import { stateObj, themenConclusion } from './data'
+import { recallThemen } from '@/api/meeting/details'
+import { getMettingType } from '@/api/meeting/type'
 export default {
   components: {
     iCard,
-    iInput,
     iSelect,
     iButton,
     iDateRangePicker,
@@ -310,10 +290,16 @@ export default {
     iPagination,
     iTableML,
     detailDialog,
-    addTopic
+    addTopicNew
   },
   data() {
     return {
+      meetingTypeList: [],
+      processUrl: process.env.VUE_APP_POINT,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+      disabledButton: true,
+      stateObj,
+      themenConclusion,
       following: false,
       currentPage: 1,
       lookThemenObj: {},
@@ -324,7 +310,11 @@ export default {
       openDetail: false,
       id: '',
       form: {
-        presentItem: '02'
+        presentItem: '02',
+        meetingTypeId: '',
+        commodity: '',
+        result: '',
+        time: ''
       },
       meetingInfo: {},
       tableData: [],
@@ -334,6 +324,64 @@ export default {
         pageNum: 1
       },
       total: 1,
+      meetingList: [
+        {
+          label: 'Pre CSC'
+        },
+        {
+          label: 'CSC'
+        }
+      ],
+      commodityList: [
+        {
+          label: 'CSE'
+        },
+        {
+          label: 'CSM'
+        },
+        {
+          label: 'CSE'
+        },
+        {
+          label: 'CSI'
+        },
+        {
+          label: 'CSX'
+        },
+        {
+          label: 'CSP'
+        }
+      ],
+      resultList: [
+        {
+          conclusionCsc: '01',
+          conclusionName: '待定'
+        },
+        {
+          conclusionCsc: '02',
+          conclusionName: '定点'
+        },
+        {
+          conclusionCsc: '03',
+          conclusionName: '发LOI'
+        },
+        {
+          conclusionCsc: '04',
+          conclusionName: '转TER/TOP-TER'
+        },
+        {
+          conclusionCsc: '05',
+          conclusionName: '下次Pre CSC'
+        },
+        {
+          conclusionCsc: '06',
+          conclusionName: '转CSC'
+        },
+        {
+          conclusionCsc: '07',
+          conclusionName: '关闭'
+        }
+      ],
       presentList: [
         {
           value: '02',
@@ -356,8 +404,9 @@ export default {
   },
   mounted() {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
-    this.meetingTypeId = this.$route.query.meetingTypeId
+    // this.meetingTypeId = this.$route.query.meetingTypeId
     this.query()
+    this.getAllSelectList()
   },
   watch: {
     tableData: {
@@ -367,6 +416,144 @@ export default {
     }
   },
   methods: {
+    getAllSelectList() {
+      let param = {
+        pageSize: 1000,
+        pageNum: 1
+      }
+      getMettingType(param).then((res) => {
+        this.meetingTypeList = res.data.filter((item) => {
+          return item.category === '02'
+        })
+      })
+    },
+    selectionChange(val) {
+      this.selectedData = val
+      let bol =
+        val.length === 0
+          ? false
+          : val.every((item) => {
+              // console.log(typeof item.follow)
+              return (
+                (item.meetingStatus === '03' || item.meetingStatus === '02') &&
+                !item.follow &&
+                item.state !== '04'
+              )
+            })
+      if ((val && val.length === 1 && bol) || bol) {
+        this.disabledButton = false
+      } else {
+        this.disabledButton = true
+      }
+    },
+    // 02 开放  03 锁定
+    //检索一个 数组是否包含03
+    findLockStatus(list) {
+      return list.some((item) => {
+        return item.meetingStatus === '03'
+      })
+    },
+    handleRevokeTopic() {
+      const bol = this.findLockStatus(this.selectedData)
+      const warn = bol
+        ? '请确认是否发送议题撤回申请至会议管理员?'
+        : '是否确认撤回该议题?'
+      if (
+        this.selectedData[0].meetingStatus === '02' ||
+        this.selectedData[0].meetingStatus === '03'
+      ) {
+        this.$confirm(warn, '提示', {
+          confirmButtonText: '是',
+          cancelButtonText: '否',
+          type: 'warning'
+        }).then(() => {
+          let promiseArr = []
+          this.selectedData.forEach((item) => {
+            const params = {
+              meetingId: item.meetingId,
+              themenId: item.id
+            }
+            const p = new Promise((resolve, reject) => {
+              recallThemen(params)
+                .then((res) => {
+                  resolve(res)
+                })
+                .catch((err) => {
+                  reject(err)
+                })
+            })
+            promiseArr.push(p)
+          })
+          Promise.all(promiseArr)
+            .then((res) => {
+              const message = res[0].code === 200 ? res[0].message : ''
+              if (bol) {
+                iMessage.success('已发送会议撤回申请给管理员。')
+              } else {
+                iMessage.success(message)
+              }
+              this.flushTable()
+              // res.forEach((it) => {
+              //   if (it.code === 200) {
+              //     iMessage.success(it.message);
+              //   }
+              //   this.flushTable();
+              // });
+            })
+            .catch((err) => {
+              iMessage.error(err && err[0] && err[0].message)
+              // err.forEach((it) => {
+              //   iMessage.error(it.message);
+              // });
+            })
+          // const params = {
+          //   meetingId: this.meetingInfo.id,
+          //   themenId: this.selectedData[0].id,
+          // };
+          // recallThemen(params)
+          //   .then((res) => {
+          //     if (res.code === 200) {
+          //       iMessage.success(res.message);
+          //     } else {
+          //       iMessage.error(res.message);
+          //     }
+          //   })
+          //   .catch((err) => {
+          //     console.log(err);
+          //   });
+        })
+      } else {
+        iMessage.warn('只有开放和锁定状态才可以撤回!')
+      }
+      // this.$confirm("请确认是否要撤回该议题?", "提示", {
+      //   confirmButtonText: "是",
+      //   cancelButtonText: "否",
+      //   type: "warning",
+      // }).then(() => {
+      //   if (
+      //     this.selectedData[0].meetingStatus === "02" ||
+      //     this.selectedData[0].meetingStatus === "03"
+      //   ) {
+      //     const params = {
+      //       meetingId: this.meetingInfo.id,
+      //       themenId: this.selectedData[0].id,
+      //     };
+      //     recallThemen(params)
+      //       .then((res) => {
+      //         if (res.code === 200) {
+      //           iMessage.success(res.message);
+      //         } else {
+      //           iMessage.error(res.message);
+      //         }
+      //       })
+      //       .catch((err) => {
+      //         console.log(err);
+      //       });
+      //   } else {
+      //     iMessage.warn("只有开放和锁定状态才可以撤回!");
+      //   }
+      // });
+    },
     // 取消关注
     handleUnfollow(e) {
       if (e.state === '03') {
@@ -452,9 +639,32 @@ export default {
       this.openAddTopic = false
     },
     lookOrEdit(row) {
-      this.lookThemenObj = { ...row }
-      this.editOrAdd = 'look'
-      this.openAddTopic = true
+      if (row.source === '04') {
+        // window.open(
+        //     `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
+        //     "_blank"
+        // );
+        if (row.type === 'FS+MTZ') {
+          window.open(
+            `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
+            '_blank'
+          )
+        } else if (row.type === 'MTZ') {
+          window.open(
+            `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${row.fixedPointApplyId}`,
+            '_blank'
+          )
+        } else {
+          window.open(
+            `${this.processUrl}/designate/decisiondata/title?desinateId=${row.fixedPointApplyId}&isPreview=1`,
+            '_blank'
+          )
+        }
+      } else {
+        this.lookThemenObj = { ...row }
+        this.editOrAdd = 'look'
+        this.openAddTopic = true
+      }
     },
     // searchTableList(e) {
     //   this.query();
@@ -499,7 +709,8 @@ export default {
         ...this.form,
         pageNum: 1,
         pageSize: 9999,
-        meetingTypeId: this.meetingTypeId
+        category: '02'
+        // meetingTypeId: this.meetingTypeId
       }
       const res = await findMyThemens(param)
       let data = res.data
@@ -525,6 +736,34 @@ export default {
 </script>
 
 <style scoped lang="scss">
+::v-deep .el-row {
+  margin-bottom: 0;
+}
+::v-deep .cell {
+  padding: 0 !important;
+  width: 100% !important;
+  min-width: initial !important;
+  span {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  .el-checkbox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .el-checkbox__input {
+      width: 14px;
+    }
+  }
+}
+.button-area {
+  height: 50px;
+  .el-button {
+    float: right;
+  }
+}
 .follow {
   cursor: pointer;
 }
@@ -565,7 +804,7 @@ export default {
         margin-bottom: 2px;
         width: 220px;
         float: left;
-        margin-right: 50px;
+        margin-right: 20px;
         padding-left: 2px;
         padding-top: 5px;
         padding-bottom: 5px;
@@ -586,7 +825,8 @@ export default {
 
     ::v-deep .operation {
       transition: 0.5s;
-      margin-top: 22px;
+      /* margin-top: 22px; */
+      transform: translateY(-5px);
       width: 230px;
       position: relative;
       text-align: right;

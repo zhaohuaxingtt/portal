@@ -24,7 +24,6 @@
 
 <script>
 import { iNavMvp, iPage } from 'rise'
-import { tabRouterList, meetingButtonList } from './data'
 
 export default {
   components: {
@@ -38,7 +37,7 @@ export default {
           value: 1,
           name: '会议直播',
           url:
-            '/meeting/live?id=' +
+            '/meeting/specialLive?id=' +
             (this.$route.query.meetingInfoId
               ? this.$route.query.id +
                 '&meetingInfoId=' +
@@ -46,7 +45,7 @@ export default {
               : localStorage.getItem('my_meeting_id') +
                 '&meetingInfoId=' +
                 localStorage.getItem('my_meeting__info_id')),
-          activePath: '/meeting/live',
+          activePath: '/meeting/specialLive',
           key: '会议直播'
         },
         {
@@ -54,7 +53,7 @@ export default {
           name: '近期会议',
           // url: "/meeting/near-meeting?id=" + this.$route.query.id + '&meetingInfoId=' + this.$route.query.meetingInfoId,
           url:
-            '/meeting/near-meeting?id=' +
+            '/meeting/special-near-meeting?id=' +
             (this.$route.query.meetingInfoId
               ? this.$route.query.id +
                 '&meetingInfoId=' +
@@ -62,12 +61,10 @@ export default {
               : localStorage.getItem('my_meeting_id') +
                 '&meetingInfoId=' +
                 localStorage.getItem('my_meeting__info_id')),
-          activePath: '/meeting/near-meeting',
+          activePath: '/meeting/special-near-meeting',
           key: '近期会议'
         },
       ],
-      tabRouterList,
-      meetingButtonList
     }
   },
   mounted() {

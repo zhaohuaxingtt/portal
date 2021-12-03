@@ -1,7 +1,7 @@
 <template>
   <div>
     <iPage>
-      <div class="header">{{$t('MT_HUIYIZHANSHI')}}</div>
+      <div class="header">{{ $t('MT_HUIYIZHANSHI') }}</div>
       <iCard class="card-same-screen-box">
         <div class="title-info">
           <p class="info-line-1">
@@ -16,7 +16,18 @@
             <span class="date-time-start">
               <img :src="timeClock" alt="" srcset="" />
               <span>{{
-                result.startDate + " " + result.startTime + "~" + result.endTime
+                `${result.startDate} ${result.startTime.substring(0, 5)}
+                ~
+                ${
+                  Number(
+                    result.themens[result.themens.length - 1].plusDayEndTime
+                  ) > 0
+                    ? result.endTime.substring(0, 5) +
+                      ` +${
+                        Number(result.themens[result.themens.length - 1].plusDayEndTime)
+                      }`
+                    : result.endTime.substring(0, 5)
+                }`
               }}</span>
             </span>
             <span class="date-time-end">
@@ -78,24 +89,36 @@
             label="Duration"
             show-overflow-tooltip
           ></el-table-column>
-          <el-table-column width="41" align="center" label=""></el-table-column>
+          <el-table-column width="31" align="center" label=""></el-table-column>
           <el-table-column
             prop="startTime"
-            width="90"
-            min-width="90"
+            width="110"
+            min-width="110"
             align="center"
             label="Time"
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <span>{{ scope.row.startTime.substring(0, 5) }}</span
-              ><span>~</span>
-              <span v-if="scope.row.endTime">{{
-                scope.row.endTime.substring(0, 5)
-              }}</span>
+              <div v-if="scope.row.startTime">
+                <span>{{
+                  Number(scope.row.plusDayStartTime) > 0
+                    ? scope.row.startTime.substring(0, 5) +
+                      ' +' +
+                      Number(scope.row.plusDayStartTime)
+                    : scope.row.startTime.substring(0, 5)
+                }}</span
+                ><span>~</span>
+                <span v-if="scope.row.endTime">{{
+                  Number(scope.row.plusDayEndTime) > 0
+                    ? scope.row.endTime.substring(0, 5) +
+                      ' +' +
+                      Number(scope.row.plusDayEndTime)
+                    : scope.row.endTime.substring(0, 5)
+                }}</span>
+              </div>
             </template>
           </el-table-column>
-          <el-table-column width="41" align="center" label=""></el-table-column>
+          <el-table-column width="31" align="center" label=""></el-table-column>
           <el-table-column
             width="190"
             min-width="190"
@@ -220,13 +243,13 @@
   </div>
 </template>
 <script>
-import { iPage, iCard, iPagination } from "rise";
-import iTableML from "@/components/iTableML";
-import { getMeetingDetail } from "@/api/meeting/home";
-import { getMettingType } from "@/api/meeting/type";
-import timeClock from "@/assets/images/time-clock.svg";
-import positionMark from "@/assets/images/position-mark.svg";
-import topicLookDialog from "./components/topicLookDialog.vue";
+import { iPage, iCard, iPagination } from 'rise'
+import iTableML from '@/components/iTableML'
+import { getMeetingDetail } from '@/api/meeting/home'
+import { getMettingType } from '@/api/meeting/type'
+import timeClock from '@/assets/images/time-clock.svg'
+import positionMark from '@/assets/images/position-mark.svg'
+import topicLookDialog from './components/topicLookDialog.vue'
 
 export default {
   components: {
@@ -234,7 +257,7 @@ export default {
     iCard,
     iTableML,
     iPagination,
-    topicLookDialog,
+    topicLookDialog
   },
   data() {
     return {
@@ -247,78 +270,78 @@ export default {
       result: {},
       typeObj: {},
       statusObj: {
-        "01": "未进行",
-        "02": "进行中",
-        "03": "已结束",
+        '01': '未进行',
+        '02': '进行中',
+        '03': '已结束'
       },
-      timer: "",
+      timer: '',
       openAddTopic: false,
-      topicInfo: {},
-    };
+      topicInfo: {}
+    }
   },
 
   methods: {
     lookOrEdit(row) {
-      this.topicInfo = row;
-      this.openAddTopic = true;
+      this.topicInfo = row
+      this.openAddTopic = true
     },
     closeDialog() {
-      this.openAddTopic = false;
+      this.openAddTopic = false
     },
     getTypeList() {
       let param = {
         pageSize: 1000,
-        pageNum: 1,
-      };
-      let obj = {};
+        pageNum: 1
+      }
+      let obj = {}
       getMettingType(param).then((res) => {
         res.data.forEach((item) => {
-          obj[item.id] = item.name;
-        });
-        this.typeObj = obj;
-      });
+          obj[item.id] = item.name
+        })
+        this.typeObj = obj
+      })
     },
     query() {
       getMeetingDetail(this.$route.query).then((res) => {
-        this.result = res;
-        this.data = res.themens;
-        this.dataTable = res.themens.slice(0, 1 * this.pageSize);
-        this.handleCurrentChange(1);
-      });
+        this.result = res
+        this.data = res.themens
+        this.dataTable = res.themens.slice(0, 1 * this.pageSize)
+        this.handleCurrentChange(1)
+      })
     },
     handleCurrentChange(pageNum) {
       // 页码切换
-      this.pageNum = pageNum;
-      this.currentChangePage(this.data, this.pageNum);
+      this.pageNum = pageNum
+      this.currentChangePage(this.data, this.pageNum)
     },
     // 分页方法
     currentChangePage(data, pageNum) {
-      let from = (pageNum - 1) * this.pageSize;
-      let to = pageNum * this.pageSize;
-      this.dataTable = data.slice(from, to);
+      let from = (pageNum - 1) * this.pageSize
+      let to = pageNum * this.pageSize
+      this.dataTable = data.slice(from, to)
     },
 
     // 行高亮
     tableRowClassName(row) {
-      if (row.row.state === "03") {
-        return "unuse-row";
-      } else if (row.row.state === "02") {
-        return "active-row";
+      if (row.row.state === '03') {
+        return 'unuse-row'
+      } else if (row.row.state === '02') {
+        return 'active-row'
       }
-      return "narmal-row";
-    },
+      return 'narmal-row'
+    }
   },
   mounted() {
-    this.getTypeList();
-    this.query();
+    this.getTypeList()
+    this.query()
     this.timer = setInterval(() => {
-      this.query();
-    }, 10000);
+      this.query()
+    }, 10000)
   },
   beforeDestroy() {
-    clearInterval(this.timer);
-  },
-};
+    clearInterval(this.timer)
+  }
+}
 </script>
 <style lang="scss" scoped>
 ::v-deep .el-table_1_column_2 {
