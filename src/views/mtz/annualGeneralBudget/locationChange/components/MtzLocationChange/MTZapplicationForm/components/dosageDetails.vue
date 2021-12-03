@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-02 17:16:02
+ * @LastEditTime: 2021-12-02 21:02:57
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -25,7 +25,7 @@
               <div v-show="!editFlag">
                 <iButton @click="handleChangeDate"
                          class="margin-right20"
-                         :disabled="disabled"> {{language('XIUGAISHIJIAN','修改时间')}}</iButton>
+                         :disabled="disabled"> {{language('BIANGENGYOUXIAOQI','变更有效期')}}</iButton>
                 <uploadButton ref="uploadButtonAttachment"
                               :buttonText="language('SHANGCHUANYUANCAILIAOYONGLIANGBIANGENG','上传原材料用量变更')"
                               :uploadByBusiness="true"
@@ -117,6 +117,12 @@
                  size="mini"
                  @click="addDate"
                  circle></el-button>
+      <el-button type="primary"
+                 style="vertical-align:top"
+                 icon="el-icon-minus"
+                 size="mini"
+                 @click="delDate"
+                 circle></el-button>
       <span slot="footer"
             class="dialog-footer">
         <iButton @click="dialogVisible = false">取 消</iButton>
@@ -177,9 +183,21 @@ export default {
         value: []
       }],
       maxDate: [],
+      minDate: [],
       pickerOptions: {
-        onPick: ({ maxDate }) => {
+        onPick: ({ minDate, maxDate }) => {
+          this.minDate = minDate
           this.maxDate = maxDate
+        },
+        disabledDate: time => {
+          if (this.muliteList[0].endDateAll) {
+            var date = this.muliteList[0].endDateAll.replace(/-/g, '/');
+            console.log(new Date(date))
+            if (this.dateList.length === 1) {
+              return new Date(date).getTime() > time.getTime()
+            }
+          }
+
         }
       }
     }
@@ -204,10 +222,11 @@ export default {
       immediate: true
     },
     maxDate (val) {
+      console.log(val, "11")
       this.pickerOptions = {
-        onPick: ({ maxDate }) => {
-          this.maxDate = maxDate
-        },
+        // onPick: ({ maxDate }) => {
+        //   this.maxDate = maxDate
+        // },
         disabledDate: time => {
           if (this.dateList.length === 1) {
             return
@@ -217,7 +236,7 @@ export default {
           }
         }
       }
-    },
+    }
   },
   methods: {
     init () {
@@ -369,7 +388,7 @@ export default {
         return {
           dosage: item.newDosage || "",
           endDate: this.dateList[this.dateList.length - 1].value[1],
-          mtzBasePriceId: item.id || "",
+          mtzBasePriceId: item.mtzBasePriceId || "",
           startDate: this.dateList[0].value[0],
           childBasePriceList: this.dateList.map(item => {
             return {
@@ -380,6 +399,7 @@ export default {
         }
       })
       params.mtzBasePriceList = selectList
+      params.mtzAppId = this.mtzAppId
       saveGenericAppChange(params).then(res => {
         if (res && res.code === '200') {
           this.getBasePriceChangePageList()
@@ -424,10 +444,19 @@ export default {
       })
       console.log(this.dateList, "2222")
     },
+    delDate () {
+      if (this.dateList.length === 1) {
+        return
+      }
+      this.dateList.splice(this.dateList.length - 1, 1)
+    },
     sure () {
       this.visible = false
       this.handleSure()
-      this.dateList = []
+      this.dateList = [{
+        id: 1,
+        value: []
+      }]
     }
   },
 

@@ -38,7 +38,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="12">
-              <iFormItem :label="$t('系统URL')" prop="url">
+              <iFormItem :label="language('系统URL')" prop="url">
                 <iInput v-model="formData.url" :disabled="isRead"></iInput>
               </iFormItem>
             </el-col>
@@ -74,146 +74,16 @@
 <script>
 import { iFormItem, iInput, iButton, iDialog, iMessage } from 'rise'
 import {
-  createSys,
-  editSys,
-  sysDetail,
-  fetchSupplierRootMenu
-} from '@/api/provider/index'
+  saveApplication,
+  updateApplication,
+  queryApplicationDetail
+} from '@/api/applications'
 export default {
-  methods: {
-    onClose() {
-      this.$emit('close')
-    },
-    edit() {
-      this.isRead = false
-      this.isEdit = true
-    },
-    getDetail() {
-      this.loading = true
-      let param = { id: this.id }
-      sysDetail(param)
-        .then((val) => {
-          if (val.code == 200) {
-            this.loading = false
-            let {
-              appNameCn,
-              appNameEn,
-              description,
-              systemType,
-              supplierType,
-              url,
-              parentResourceId,
-              appCode
-            } = val.data
-
-            systemType = '' + systemType
-            supplierType = supplierType ? supplierType.split(',') : []
-            this.formData = {
-              appNameCn,
-              appNameEn,
-              description,
-              systemType,
-              supplierType,
-              url,
-              parentResourceId,
-              appCode
-            }
-          } else {
-            iMessage.error(val.desZh || '获取数据失败')
-          }
-        })
-        .catch((error) => {
-          this.loading = false
-          console.log('-----error ==', error)
-          iMessage.error('获取数据失败')
-        })
-    },
-    comfirm() {
-      this.$refs.ruleForm.validate((valid) => {
-        if (valid) {
-          this.save()
-        }
-      })
-    },
-    save() {
-      //确认
-      if (this.isEdit) {
-        //编辑系统
-        this.loading = true
-        let newFormData = _.cloneDeep(this.formData)
-        newFormData.supplierType = newFormData.supplierType.join(',')
-        let param = { ...newFormData, id: this.id }
-        editSys(param)
-          .then((val) => {
-            if (val.code == 200) {
-              //编辑成功
-              this.loading = false
-              this.dialogFormVisible = false
-              this.$emit('update')
-            } else {
-              iMessage.error(val.desZh || '编辑失败')
-            }
-          })
-          .catch(() => {
-            this.loading = false
-            iMessage.error('编辑失败')
-          })
-      } else {
-        //创建系统
-        this.loading = true
-        let newFormData = _.cloneDeep(this.formData)
-        newFormData.supplierType = newFormData.supplierType.join(',')
-        let param = { ...newFormData, id: this.id }
-        createSys(param)
-          .then((val) => {
-            if (val.code == 200) {
-              //创建成功
-              this.loading = false
-              this.dialogFormVisible = false
-              this.$emit('update')
-            } else {
-              iMessage.error(val.desZh || '创建失败')
-            }
-          })
-          .catch(() => {
-            this.loading = false
-            iMessage.error('创建失败')
-          })
-      }
-    },
-    reset() {
-      //重置
-      this.formData = this.defaultFormData()
-    },
-    defaultFormData() {
-      return {
-        appNameCn: '',
-        appNameEn: '',
-        description: '',
-        systemType: '',
-        supplierType: []
-      }
-    }
-  },
-  created() {
-    this.dialogFormVisible = this.visible
-    if (this.isRead) {
-      this.getDetail()
-    }
-    fetchSupplierRootMenu().then((res) => {
-      this.rootMenus = res.data
-    })
-  },
   components: {
     iFormItem,
     iInput,
     iButton,
     iDialog
-  },
-  watch: {
-    visible() {
-      this.dialogFormVisible = this.visible
-    }
   },
   props: {
     visible: {
@@ -237,9 +107,7 @@ export default {
         appNameCn: '',
         appNameEn: '',
         description: '',
-        systemType: '',
-        supplierType: [],
-        appCode: ''
+        url: ''
       },
       formTitles: {
         name: '中文名称',
@@ -261,31 +129,6 @@ export default {
         true: '确认',
         reset: '重置'
       },
-      systemOptions: [
-        {
-          id: '1',
-          label: '系统'
-        },
-        {
-          id: '2',
-          label: 'Scenario'
-        }
-      ],
-      systemTagOptions: [
-        {
-          id: '3',
-          label: 'N-Tier'
-        },
-        {
-          id: '1',
-          label: '生产采购'
-        },
-        {
-          id: '2',
-          label: '一般采购'
-        }
-      ],
-      rootMenus: [],
       rules: {
         appNameCn: [
           { required: true, message: '请输入中文名称', trigger: 'blur' }
@@ -295,6 +138,78 @@ export default {
         ],
         url: [{ required: true, message: '请输入系统URL', trigger: 'blur' }]
       }
+    }
+  },
+  created() {
+    this.dialogFormVisible = this.visible
+    this.orginalData = _.cloneDeep(this.formData)
+    if (this.id) {
+      this.getDetail()
+    }
+  },
+  watch: {
+    visible() {
+      this.dialogFormVisible = this.visible
+    }
+  },
+  methods: {
+    onClose() {
+      this.$emit('close')
+    },
+    edit() {
+      this.isRead = false
+      this.isEdit = true
+    },
+    getDetail() {
+      this.loading = true
+      let param = { id: this.id }
+      queryApplicationDetail(param)
+        .then((val) => {
+          if (val.code == 200) {
+            this.loading = false
+            this.formData = val.data
+            this.orginalData = _.cloneDeep(val.data)
+          } else {
+            iMessage.error(val.desZh || '获取数据失败')
+          }
+        })
+        .catch((error) => {
+          this.loading = false
+          iMessage.error(error.desZh || '获取数据失败')
+        })
+    },
+    comfirm() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.save()
+        }
+      })
+    },
+    save() {
+      this.loading = true
+      const res = this.id
+        ? updateApplication(this.formData)
+        : saveApplication(this.formData)
+      res
+        .then((val) => {
+          if (val.code == 200) {
+            //编辑成功
+            this.loading = false
+            this.dialogFormVisible = false
+            this.$emit('update')
+            this.$emit('close')
+          } else {
+            iMessage.error(val.desZh || '编辑失败')
+          }
+        })
+        .catch((err) => {
+          this.loading = false
+          iMessage.error(err.desZh || '编辑失败')
+        })
+    },
+    reset() {
+      //重置
+      this.formData = _.cloneDeep(this.orginalData)
     }
   }
 }

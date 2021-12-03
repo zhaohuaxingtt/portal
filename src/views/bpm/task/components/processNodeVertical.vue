@@ -1,6 +1,11 @@
 <template>
   <div class="process-node-vertical" v-loading="loading">
-    <horizontalPanel v-if="nodeData && nodeData.length" :nodeData="nodeData" />
+    <horizontalPanel
+      v-if="nodeData && nodeData.length"
+      :nodeData="nodeData"
+      :isEnd="isEnd"
+      :instanceId="instanceId"
+    />
   </div>
 </template>
 

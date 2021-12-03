@@ -315,7 +315,7 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
         }
-      },
+      }
     }
   }
 }
