@@ -235,6 +235,38 @@ export default [
           title: '直播会议'
         },
         component: () => import(`@/views/meeting/live/index.vue`)
+      },
+    ]
+  },
+  {
+    path: '/meeting/my-meeting-special',
+    name: 'nearMeetingBoxSpecial',
+    component: () => import(`@/views/meeting/mySpecialMeeting.vue`),
+    children: [
+      {
+        path: '/meeting/special-near-meeting',
+        name: 'nearMeeting',
+        meta: {
+          title: '近期会议'
+        },
+        component: () => import(`@/views/meeting/specialNearMeeting/index.vue`)
+      },
+      {
+        path: '/meeting/special-near-meeting/specialDetail',
+        name: 'nearMeetingDetail',
+        meta: {
+          title: '近期会议详情'
+        },
+        component: () =>
+          import(`@/views/meeting/specialNearMeeting/detail/index.vue`)
+      },
+      {
+        path: '/meeting/specialLive',
+        name: 'liveMeeting',
+        meta: {
+          title: '直播会议'
+        },
+        component: () => import(`@/views/meeting/specialLive/index.vue`)
       }
     ]
   },
@@ -253,6 +285,22 @@ export default [
       title: '更多议题'
     },
     component: () => import(`@/views/meeting/nearMeeting/more/index.vue`)
+  },
+  {
+    path: '/meeting/near-meeting/special-more-themens',
+    name: 'moreThemens',
+    meta: {
+      title: '更多议题'
+    },
+    component: () => import(`@/views/meeting/specialNearMeeting/more/index.vue`)
+  },
+  {
+    path: '/meeting/live/special-more-themens',
+    name: 'moreThemens',
+    meta: {
+      title: '更多议题'
+    },
+    component: () => import(`@/views/meeting/specialNearMeeting/more/index.vue`)
   },
   {
     path: '/meeting/meetingShow',

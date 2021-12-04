@@ -18,7 +18,26 @@
                 <div class="img-box">
                   <img src="@/assets/images/time.svg" class="img" />
                 </div>
-                <span class="time"> {{ `${begin}~${end}` }}</span>
+                <!-- <span class="time"> {{ `${begin}~${end}` }}</span> -->
+                <span class="time">{{
+                  `${meetingInfo.startDate} ${meetingInfo.startTime.substring(
+                    0,
+                    5
+                  )}
+                ~
+                ${
+                  Number(
+                    meetingInfo.themens[meetingInfo.themens.length - 1]
+                      .plusDayEndTime
+                  ) > 0
+                    ? meetingInfo.endTime.substring(0, 5) +
+                      ` +${
+                        Number(meetingInfo.themens[meetingInfo.themens.length - 1]
+                          .plusDayEndTime)
+                      }`
+                    : meetingInfo.endTime.substring(0, 5)
+                }`
+                }}</span>
               </div>
               <div class="address">
                 <!-- <i class="el-icon-location"></i> -->
@@ -114,7 +133,10 @@
             </el-carousel>
           </div>
           <div class="card-list-line" v-if="myThemenData.length > 0"></div>
-          <div class="card-list-container" v-if="myThemenData.length > 0">
+          <div
+            class="card-list-container card-list-container-margin"
+            v-if="myThemenData.length > 0"
+          >
             <el-carousel
               indicator-position="outside"
               :autoplay="false"
@@ -1031,7 +1053,7 @@ export default {
       overflow: hidden;
       width: 1160px;
       /* height: 420px; */
-      margin-left: 20px;
+      /* margin-left: 20px; */
       .show-double-card {
         display: flex;
         .right-card:nth-child(1) {
@@ -1054,6 +1076,9 @@ export default {
     }
     .card-list-container-no {
       width: 100%;
+    }
+    .card-list-container-margin {
+      margin-left: 20px;
     }
   }
   .bootom {
