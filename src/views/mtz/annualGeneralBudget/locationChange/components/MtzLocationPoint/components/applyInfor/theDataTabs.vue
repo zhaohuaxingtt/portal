@@ -747,7 +747,7 @@ export default {
         this.getTableList()
       }else{
         if(res.data == null){
-          iMessage.error(this.language(res.desEn,res.desZh));
+          iMessage.error(res.desZh);
         }else{
           this.errorList = res.data;
           this.cancelNo = true;
