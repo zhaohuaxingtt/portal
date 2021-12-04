@@ -123,6 +123,7 @@ export default {
 
     //来源详情 
     handleSource (val) {
+      debugger
       let path = ""
       let query = {}
       if (val.source === '0') {

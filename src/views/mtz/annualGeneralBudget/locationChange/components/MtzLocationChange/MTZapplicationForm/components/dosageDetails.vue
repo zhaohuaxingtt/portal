@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-03 17:09:10
+ * @LastEditTime: 2021-12-04 17:00:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -376,6 +376,7 @@ export default {
       let selectList = this.muliteList.map(item => {
         return {
           dosage: item.newDosage || "",
+          id: item.id,
           endDate: this.dateList[this.dateList.length - 1].value[1],
           mtzBasePriceId: item.mtzBasePriceId || "",
           startDate: this.dateList[0].value[0],
