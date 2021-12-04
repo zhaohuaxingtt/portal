@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-03 21:37:50
+ * @LastEditTime: 2021-12-04 13:16:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -346,35 +346,35 @@ export default {
     save () {
       this.$refs['tableForm'].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.muilteList.forEach(item => {
+            delete item.selectDeptList
+            delete item.selectSectionList
+            delete item.userList
+          })
+          this.loading = true
+          modifyApprove({
+            mtzAppId: this.mtzAppId || '5107001',
+            dataList: this.muilteList
+          }).then(res => {
+            if (res?.code === '200') {
+              this.editFlag = false
+              this.loading = false
+              this.tableData.forEach(item => {
+                item.editRow = false
+              })
+              iMessage.success(res.desZh)
+              this.getTableList()
+            } else {
+              iMessage.error(res.desZh)
+            }
+          })
         } else {
-          console.log('error submit!!');
+          iMessage.error('请填写完整')
           return false;
         }
       });
       return
-      this.muilteList.forEach(item => {
-        delete item.selectDeptList
-        delete item.selectSectionList
-        delete item.userList
-      })
-      this.loading = true
-      modifyApprove({
-        mtzAppId: this.mtzAppId || '5107001',
-        dataList: this.muilteList
-      }).then(res => {
-        if (res?.code === '200') {
-          this.editFlag = false
-          this.loading = false
-          this.tableData.forEach(item => {
-            item.editRow = false
-          })
-          iMessage.success(res.desZh)
-          this.getTableList()
-        } else {
-          iMessage.error(res.desZh)
-        }
-      })
+
     },
     del () {
       if (this.muilteList.length === 0) {
