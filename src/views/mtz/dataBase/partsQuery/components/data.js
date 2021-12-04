@@ -480,9 +480,9 @@ export const partNumber = [
   { prop: 'priceUnit', label: '每', align: 'center', i18n: '每', width: 150 },
   {
     prop: 'countUnit',
-    label: '零件数量',
+    label: '零件数量单位',
     align: 'center',
-    i18n: '零件数量',
+    i18n: '零件数量单位',
     width: 150
   },
   { prop: 'dosage', label: '用量', align: 'center', i18n: '用量', width: 150 },
@@ -635,6 +635,13 @@ export const partNumber = [
     tooltip: true,
     width: 100,
     headerRender: (h, { column }) => renderIcon(h, column, 3)
+  },
+  {
+    prop: 'preciousMetalDosageUnit',
+    label: '贵金属用量&基价单位',
+    align: 'center',
+    i18n: '贵金属用量&基价单位',
+    width: 200
   }
 ]
 export const exportTitle = [
