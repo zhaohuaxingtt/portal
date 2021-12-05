@@ -49,7 +49,7 @@
                    :index="true"
                    v-if="RsObject"
                    :selection="false"
-                   @handleSelectionChange="handleSelectionChange">
+                   >
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
@@ -66,7 +66,7 @@
                    v-if="!RsObject && ruleTableListData.length>0"
                    :index="true"
                    :selection="false"
-                   @handleSelectionChange="handleSelectionChange">
+                   >
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
@@ -83,7 +83,7 @@
                    :tableLoading="loading"
                    :index="true"
                    :selection="false"
-                   @handleSelectionChange="handleSelectionChange">
+                   >
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
@@ -100,6 +100,7 @@
            v-if="RsObject">{{language('LJQD', '零件清单')}}</p>
         <p class="tableTitle"
            v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
+
         <tableList class="margin-top20"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1"
@@ -107,7 +108,7 @@
                    v-if="RsObject"
                    :index="true"
                    :selection="false"
-                   @handleSelectionChange="handleSelectionChange">
+                   >
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
@@ -116,7 +117,12 @@
                     slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
+          <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+          </template>
         </tableList>
+
         <tableList class="margin-top20"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_1"
@@ -124,14 +130,10 @@
                    v-if="!RsObject && partTableListData.length>0"
                    :index="true"
                    :selection="false"
-                   @handleSelectionChange="handleSelectionChange">
+                   >
           <template slot-scope="scope"
-                    slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-          <template slot-scope="scope"
-                    slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
           </template>
         </tableList>
         <tableList class="margin-top20"
@@ -141,7 +143,7 @@
                    v-if="!RsObject && partTableListData.length>0"
                    :index="true"
                    :selection="false"
-                   @handleSelectionChange="handleSelectionChange">
+                   >
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
@@ -151,6 +153,16 @@
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
         </tableList>
+        <tableList class="margin-top20"
+                   :tableData="partTableListData"
+                   :tableTitle="partTableTitle1_3"
+                   :tableLoading="loading"
+                   v-if="!RsObject && partTableListData.length>0"
+                   :index="true"
+                   :selection="false"
+                   >
+        </tableList>
+
       </iCard>
       <iCard class="margin-top20">
         <div slot="header"
@@ -200,7 +212,7 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1, ruleTableTitle1_1, ruleTableTitle1_2, partTableTitle1, partTableTitle1_1, partTableTitle1_2 } from './data'
+import { ruleTableTitle1, ruleTableTitle1_1, ruleTableTitle1_2, partTableTitle1, partTableTitle1_1, partTableTitle1_2,partTableTitle1_3 } from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
@@ -228,6 +240,7 @@ export default {
       partTableTitle1: partTableTitle1,
       partTableTitle1_1,
       partTableTitle1_2,
+      partTableTitle1_3,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,

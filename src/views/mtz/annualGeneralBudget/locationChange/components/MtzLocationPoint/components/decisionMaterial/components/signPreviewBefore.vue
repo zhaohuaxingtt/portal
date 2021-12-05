@@ -69,6 +69,10 @@
           <template slot-scope="scope" slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
+          <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+          </template>
         </tableList>
         <iPagination
         v-update
