@@ -105,7 +105,7 @@
                 </iDatePicker>
             </iFormItem>
             <iFormItem prop="mark">
-                <iLabel :label="language('BEIZHU','备注')" slot="label" :required="true"></iLabel>
+                <iLabel :label="language('BEIZHU','备注')" slot="label"></iLabel>
                 <iInput
                 v-model="contractForm.mark"
                 type="text"
@@ -395,7 +395,7 @@ export default {components: {
             // partUnit:[{ required: true, message: '请输入', trigger: 'blur' }],
             dosage:[{ required: true, message: '请输入', trigger: 'blur' }],
             dosageMeasureUnit:[{ required: true, message: '请输入', trigger: 'blur' }],
-            mark:[{ required: true, message: '请输入', trigger: 'blur' }],
+            // mark:[{ required: true, message: '请输入', trigger: 'blur' }],
         },
         compensationPeriod:[
             { code: 'A', message: '年度' },
