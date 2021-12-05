@@ -303,7 +303,7 @@ export default {
       this.effectFlagDropDown = [
         { code: "", message: '全部' },
         { code: "1", message: '生效' },
-        { code: "2", message: '失效' }
+        { code: "0", message: '失效' }
       ]
       this.$set(this.formData, 'endDate', currDate)
       this.$set(this.formData, 'effectFlag', '1')

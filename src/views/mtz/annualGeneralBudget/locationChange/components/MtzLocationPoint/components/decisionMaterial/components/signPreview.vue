@@ -104,6 +104,10 @@
                     :index="true"
                     :selection="false"
                     >
+            <template slot-scope="scope"
+                      slot="thresholdCompensationLogic">
+              <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+            </template>
           </tableList>
       </iCard>
       <iCard class="margin-top20">
