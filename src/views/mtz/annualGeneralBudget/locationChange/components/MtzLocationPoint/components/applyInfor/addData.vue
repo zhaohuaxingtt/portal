@@ -287,7 +287,7 @@
             </iFormGroup>
         </div>
         <span slot="footer" class="dialog-footer">
-            <i-button @click="handleSave">保存</i-button>
+            <i-button @click="handleSave" :disabled="saveLoading">保存</i-button>
             <i-button @click="handleReset">重置</i-button>
             <i-button @click="handleCancel">取消</i-button>
         </span>
@@ -415,6 +415,7 @@ export default {components: {
         ],
         materialCode:[],
         partType:false,
+        saveLoading:false,
     }
   },
   created(){
@@ -475,6 +476,7 @@ export default {components: {
         }
     },
     handleSave() {
+        this.saveLoading = true;
         this.$refs['contractForm'].validate(async valid => {
             if (valid) {
                 addPartMasterData({
@@ -484,13 +486,16 @@ export default {components: {
                     console.log(res);
                     if(res.code == 200){
                         iMessage.success(this.language(res.desEn,res.desZh))
+                        this.saveLoading = false;
                         this.$emit("close","fresh")
                     }else{
+                        this.saveLoading = false;
                         iMessage.error(this.language(res.desEn,res.desZh))
                     }
                 })
                 console.log("验证成功")
             } else {
+                this.saveLoading = false;
                 return false
             }
         })
