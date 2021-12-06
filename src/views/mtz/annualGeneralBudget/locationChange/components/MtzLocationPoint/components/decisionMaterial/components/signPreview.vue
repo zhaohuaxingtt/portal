@@ -273,7 +273,7 @@ export default {
       switch (this.formData.flowType) {
         case 'MEETING':
           // 上会
-          res = 'flowType CSC 定点推荐 - MTZ  CSC Nomination Recommendation - MTZ'
+          res = 'CSC 定点推荐 - MTZ  CSC Nomination Recommendation - MTZ'
           break;
         case 'SIGN':
           // 流转
@@ -412,7 +412,7 @@ export default {
     // },
     // 导出：导出当前为pdf
     handleClickExport() {
-      console.log(this.title)
+      // console.log(this.title)
       var name = "";
       if (this.title == "") {
         name = "MTZ申请单"+this.$route.query.mtzAppId +"流转导出";
