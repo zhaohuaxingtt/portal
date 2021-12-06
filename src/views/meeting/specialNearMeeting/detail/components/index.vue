@@ -157,7 +157,7 @@ import cardBox from './cardBoxNew.vue'
 import { iButton, iMessage } from 'rise'
 import theLiveTable from './theLiveTable.vue'
 import { getMeetingDetail } from '@/api/meeting/home'
-import { findMyThemens } from '@/api/meeting/myMeeting'
+// import { findMyThemens } from '@/api/meeting/myMeeting'
 import { getMettingType } from '@/api/meeting/type'
 import timeClock from '@/assets/images/time-clock.svg'
 import positionMark from '@/assets/images/position-mark.svg'
@@ -265,19 +265,19 @@ export default {
     },
     // 获取详细信息
     async query(obj) {
-      let param = {
-        meetingId: this.$route.query.id,
-        // category: '02',
-        presentItem: '02',
-        pageNum: 1,
-        pageSize: 999
-      }
+      // let param = {
+      //   meetingId: this.$route.query.id,
+      //   // category: '02',
+      //   presentItem: '02',
+      //   pageNum: 1,
+      //   pageSize: 999
+      // }
       const res = await getMeetingDetail(this.$route.query)
       this.result = res
-      const res2 = await findMyThemens(param)
-      this.data = res2.data
+      // const res2 = await findMyThemens(param)
+      this.data = [...res.themens];
       this.newTypeData = this.arrTrans(3, [...this.data])
-      this.dataTable = res2.data.slice(
+      this.dataTable = this.data.slice(
         (this.pageNum - 1) * this.pageSize,
         this.pageNum * this.pageSize
       )
