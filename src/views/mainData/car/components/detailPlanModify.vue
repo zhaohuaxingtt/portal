@@ -2,7 +2,7 @@
   <div>
     <pageHeader>
       <el-form inline>
-        <iFormItem :label="$t('版本号')" v-if="mode !== 'ADD'">
+        <iFormItem :label="language('版本号')" v-if="mode !== 'ADD'">
           <iSelect v-model="version" @change="versionChange">
             <el-option
               v-for="item in versions"
@@ -12,7 +12,7 @@
             />
           </iSelect>
         </iFormItem>
-        <iFormItem :label="$t('生产工厂')">
+        <iFormItem :label="language('生产工厂')">
           <iSelect
             v-model="productFactory"
             :disabled="mode !== 'ADD'"
@@ -26,22 +26,22 @@
             />
           </iSelect>
         </iFormItem>
-        <iFormItem :label="$t('车型总产量')">
+        <iFormItem :label="language('车型总产量')">
           <iInput :value="total" readonly disabled />
         </iFormItem>
       </el-form>
       <div slot="actions">
         <iButton v-show="!extraData.editable" @click="edit">
-          {{ $t('编辑') }}
+          {{ language('编辑') }}
         </iButton>
         <iButton v-show="extraData.editable" @click="addItem">
-          {{ $t('新增年份') }}
+          {{ language('新增年份') }}
         </iButton>
         <iButton v-show="extraData.editable" @click="save">
-          {{ $t('保存') }}
+          {{ language('保存') }}
         </iButton>
         <iButton v-show="extraData.editable" @click="cancel">
-          {{ $t('取消') }}
+          {{ language('取消') }}
         </iButton>
       </div>
     </pageHeader>
@@ -85,7 +85,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -95,7 +95,7 @@ export default {
     },
     productFactoryOptions: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -105,7 +105,7 @@ export default {
     },
     allProductFactoryIds: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -135,7 +135,7 @@ export default {
     },
     effectProductFactoryOptions() {
       return this.productFactoryOptions.filter(
-        e =>
+        (e) =>
           this.allProductFactoryIds.indexOf(e.id) === -1 ||
           e.id === this.productFactory
       )
@@ -236,7 +236,7 @@ export default {
       }
       this.loading = true
       fetchCartypeOutPutPlan(reqData)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             this.$emit('version-change', res.data || [])
           }
@@ -275,7 +275,7 @@ export default {
         return
       }
 
-      if (this.data.filter(e => !e.years).length > 0) {
+      if (this.data.filter((e) => !e.years).length > 0) {
         iMessage.error('年份不能为空')
         return
       }
@@ -301,7 +301,7 @@ export default {
       }
 
       // 年份不足，补充齐
-      const years = this.data.map(e => parseInt('' + e.years))
+      const years = this.data.map((e) => parseInt('' + e.years))
       years.sort((a, b) => (a > b ? 1 : -1))
       const start = years[0]
       const end = years[years.length - 1]
@@ -351,7 +351,7 @@ export default {
 
       const reqData = {
         cartypeId: this.$route.query.id,
-        outPutPlanList: sortData.map(e => {
+        outPutPlanList: sortData.map((e) => {
           e.createBy = currentUserId
           return e
         }),
@@ -361,7 +361,7 @@ export default {
       }
       this.loading = true
       saveCartypeOutputPlanVersion(reqData)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success('保存成功')
             this.$store.dispatch('setMainDataPlanEditMode', '')
@@ -370,7 +370,7 @@ export default {
             iMessage.error(res.desZh || '保存失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error(err.desZh || '保存失败')
         })
         .finally(() => (this.loading = false))
@@ -387,9 +387,8 @@ export default {
     handleYearChange(scope) {
       const { row, $index } = scope
       console.log('row', row)
-      const entYears = this.extraData.yearOptions[
-        this.extraData.yearOptions.length - 1
-      ]
+      const entYears =
+        this.extraData.yearOptions[this.extraData.yearOptions.length - 1]
       let years = row.years
       for (let i = $index + 1; i < this.data.length; i++) {
         const element = this.data[i]

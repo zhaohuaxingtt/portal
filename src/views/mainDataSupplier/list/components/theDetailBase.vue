@@ -1,14 +1,14 @@
 <template>
-  <iCard :title="$t('基本信息')" collapse>
+  <iCard :title="language('基本信息')" collapse>
     <div slot="header-control">
       <iButton v-show="!editable" @click="editable = true">
-        {{ $t('编辑') }}
+        {{ language('编辑') }}
       </iButton>
       <iButton v-show="editable" @click="editable = false">
-        {{ $t('取消') }}
+        {{ language('取消') }}
       </iButton>
       <iButton v-show="editable" :loading="loading" @click="handleSave">
-        {{ $t('保存') }}
+        {{ language('保存') }}
       </iButton>
     </div>
     <pre></pre>
@@ -23,59 +23,59 @@
       <el-row :gutter="20">
         <!-- 1 -->
         <el-col :span="6" prop="nameZh">
-          <iFormItem :label="$t('供应商中文名')" required>
+          <iFormItem :label="language('供应商中文名')" required>
             <iInput v-model="detail.nameZh" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('供应商简称(中)')" required>
+          <iFormItem :label="language('供应商简称(中)')" required>
             <iInput v-model="detail.shortNameZh" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('供应商英文名')" required>
+          <iFormItem :label="language('供应商英文名')" required>
             <iInput v-model="detail.nameEn" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('供应商简称(英)')" required>
+          <iFormItem :label="language('供应商简称(英)')" required>
             <iInput v-model="detail.shortNameEn" disabled />
           </iFormItem>
         </el-col>
         <!-- 2 -->
         <el-col :span="6">
-          <iFormItem :label="$t('临时号')">
+          <iFormItem :label="language('临时号')">
             <iInput v-model="detail.svwTempCode" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('SVW号')">
+          <iFormItem :label="language('SVW号')">
             <iInput v-model="detail.svwCode" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('SAP号')">
+          <iFormItem :label="language('SAP号')">
             <iInput v-model="detail.sapCode" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('VW号')">
+          <iFormItem :label="language('VW号')">
             <iInput v-model="detail.vmCode" :disabled="!editable" />
           </iFormItem>
         </el-col>
         <!-- 3 -->
         <el-col :span="6">
-          <iFormItem :label="$t('统一社会信用代码')" required>
+          <iFormItem :label="language('统一社会信用代码')" required>
             <iInput v-model="detail.socialcreditNo" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('DUNS')">
+          <iFormItem :label="language('DUNS')">
             <iInput v-model="detail.duns" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('供应商类型')" prop="supplierType">
+          <iFormItem :label="language('供应商类型')" prop="supplierType">
             <iSelect v-model="detail.supplierType" disabled>
               <el-option
                 v-for="item in supplierTypes"
@@ -87,7 +87,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('供应商状态')">
+          <iFormItem :label="language('供应商状态')">
             <iInput
               :value="detail.isActive === '1' ? '正常' : '冻结'"
               disabled
@@ -96,28 +96,28 @@
         </el-col>
         <!-- 4 -->
         <el-col :span="6">
-          <iFormItem :label="$t('采购员邮箱')" required>
+          <iFormItem :label="language('采购员邮箱')" required>
             <iInput v-model="detail.purchaserEmail" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('采购员名称')">
+          <iFormItem :label="language('采购员名称')">
             <iInput v-model="detail.purchaserNameZh" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('采购员科室')">
+          <iFormItem :label="language('采购员科室')">
             <iInput v-model="detail.purchaserDeptNameZh" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('采购员工号')">
+          <iFormItem :label="language('采购员工号')">
             <iInput v-model="detail.purchaserUserNum" disabled />
           </iFormItem>
         </el-col>
         <!-- 5 -->
         <el-col :span="6">
-          <iFormItem :label="$t('注册日期')" prop="registeredDate">
+          <iFormItem :label="language('注册日期')" prop="registeredDate">
             <iDatePicker
               v-model="detail.registeredDate"
               :disabled="!editable"
@@ -126,17 +126,17 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('注册资本')" prop="registeredCapital">
+          <iFormItem :label="language('注册资本')" prop="registeredCapital">
             <iInput v-model="detail.registeredCapital" :disabled="!editable" />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('公司网址')">
+          <iFormItem :label="language('公司网址')">
             <iInput v-model="detail.companyWebPage" :disabled="!editable" />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('是否国外厂商')">
+          <iFormItem :label="language('是否国外厂商')">
             <!-- <iInput v-model="detail.isForeign" :disabled="!editable" /> -->
             <iSelect
               v-model="detail.isForeignManufacture"
@@ -153,7 +153,7 @@
         </el-col>
         <!-- 6 -->
         <el-col :span="6">
-          <iFormItem :label="$t('国家-省份-城市')" prop="addressInfoVo">
+          <iFormItem :label="language('国家-省份-城市')" prop="addressInfoVo">
             <areaSelect
               v-if="
                 detail.addressInfoVo && Object.keys(detail.addressInfoVo).length
@@ -167,12 +167,12 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('地址')" prop="companyAddress">
+          <iFormItem :label="language('地址')" prop="companyAddress">
             <iInput v-model="detail.companyAddress" :disabled="!editable" />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('是否上市')" prop="isListing">
+          <iFormItem :label="language('是否上市')" prop="isListing">
             <iSelect v-model="detail.isListing" :disabled="!editable">
               <el-option
                 v-for="item in dicts.TURE_FALSE"
@@ -184,7 +184,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('上市地点')">
+          <iFormItem :label="language('上市地点')">
             <iSelect v-model="detail.listingAddress" :disabled="!editable">
               <el-option
                 v-for="item in dicts.MARKADDRESS"
@@ -197,17 +197,17 @@
         </el-col>
         <!-- 7 -->
         <el-col :span="6">
-          <iFormItem :label="$t('股票代码')">
+          <iFormItem :label="language('股票代码')">
             <iInput v-model="detail.stockCode" :disabled="!editable" />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('法定代表人')">
+          <iFormItem :label="language('法定代表人')">
             <iInput v-model="detail.legalPerson" :disabled="!editable" />
           </iFormItem>
         </el-col>
         <!-- <el-col :span="6">
-          <iFormItem :label="$t('税务代码')">
+          <iFormItem :label="language('税务代码')">
             <iInput v-model="detail.taxCode" :disabled="!editable" />
           </iFormItem>
         </el-col> -->
@@ -227,7 +227,7 @@
         </el-col>
 
         <el-col :span="6">
-          <iFormItem :label="$t('企业类型')" prop="enterpriseType">
+          <iFormItem :label="language('企业类型')" prop="enterpriseType">
             <iSelect v-model="detail.enterpriseType" :disabled="!editable">
               <el-option
                 v-for="item in dicts.LEGALSTATUS"
@@ -240,7 +240,10 @@
         </el-col>
         <!-- 8 -->
         <el-col :span="6">
-          <iFormItem :label="$t('企业性质(大类)')" prop="epNatureCategory">
+          <iFormItem
+            :label="language('企业性质(大类)')"
+            prop="epNatureCategory"
+          >
             <iSelect v-model="detail.epNatureCategory" :disabled="!editable">
               <el-option
                 v-for="item in dicts.ENTERPRISE_PROPERTY"
@@ -252,7 +255,10 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('企业性质(小类)')" prop="epNatureSubcategory">
+          <iFormItem
+            :label="language('企业性质(小类)')"
+            prop="epNatureSubcategory"
+          >
             <iSelect v-model="detail.epNatureSubcategory" :disabled="!editable">
               <el-option
                 v-for="item in smallEnterpriseProperty"
@@ -265,12 +271,12 @@
         </el-col>
         <!-- 9 -->
         <!-- <el-col :span="6">
-          <iFormItem :label="$t('集团公司全称?')">
+          <iFormItem :label="language('集团公司全称?')">
             <iInput v-model="detail.nameZh" :disabled="!editable" />
           </iFormItem>
         </el-col> -->
         <el-col :span="6" v-if="['GP', 'PD'].includes(supplierType)">
-          <iFormItem :label="$t('供应商等级')">
+          <iFormItem :label="language('供应商等级')">
             <iInput v-model="detail.supplierGrade" :disabled="!editable" />
           </iFormItem>
         </el-col>

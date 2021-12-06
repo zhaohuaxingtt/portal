@@ -2,13 +2,13 @@
   <iCard class="margin-top20">
     <div class="flex-end-center margin-bottom20">
       <iButton @click="add">
-        {{ $t('新建') }}
+        {{ language('新建') }}
       </iButton>
       <iButton :disabled="selectedRows.length !== 1" @click="edit">
-        {{ $t('编辑') }}
+        {{ language('编辑') }}
       </iButton>
       <iButton :disabled="!selectedRows.length" @click="del">
-        {{ $t('删除') }}
+        {{ language('删除') }}
       </iButton>
       <button-download :download-method="exportExcel" />
     </div>
@@ -73,9 +73,9 @@ export default {
     },
     del() {
       this.onDelete().then(() => {
-        const ids = this.selectedRows.map(e => e.id)
+        const ids = this.selectedRows.map((e) => e.id)
         deleteMouldGruops(ids)
-          .then(res => {
+          .then((res) => {
             if (res.result) {
               this.query()
               iMessage.success(res.desZh || '删除成功')
@@ -83,7 +83,7 @@ export default {
               iMessage.error(res.desZh || '获取数据失败')
             }
           })
-          .catch(err => {
+          .catch((err) => {
             iMessage.error(err.desZh || '获取数据失败')
           })
       })
