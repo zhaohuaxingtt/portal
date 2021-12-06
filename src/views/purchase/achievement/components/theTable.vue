@@ -4,7 +4,7 @@
             <div class="floatright">
                 <!--新增-->
                 <iButton class="ml10" @click="add" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_NEWADD')">
-                    {{ $t('LK_XINZENG') }}
+                    {{ $t('APPROVAL.ADD') }}
                 </iButton>
                 <!--失效-->
                 <iButton class="ml10" @click="invalid" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_INVALID')">
@@ -12,7 +12,7 @@
                 </iButton>
                 <!--产量管理-->
                 <iButton class="ml10" @click="openOutputManagemen" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_YIEIDMANAGE')&&!state">
-                    {{ $t('EKL_YJGL_CLGL') }}
+                    {{ $t('EKL_CLGL') }}
                 </iButton>
                 <!--业绩金额调整-->
                 <iButton class="ml10" @click="openAmountAdjustment" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT')&&!state">
@@ -20,10 +20,10 @@
                 </iButton>
                 <!--年度目标管理-->
                 <iButton class="ml10" @click="openTargetManDialog" v-if="bzzlorbzorkzzl">
-                    {{ $t('EKL_YJGL_NDMBGL') }}
+                    {{ $t('EKL_NDMBGL') }}
                 </iButton>
                 <!--年度目标管理 配附件-->
-                <iButton class="ml10" @click="openSpareTargetManDialog" v-if="(isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_TARGETMANAGE')&&state)||state">{{ $t('EKL_YJGL_NDMBGL') }}
+                <iButton class="ml10" @click="openSpareTargetManDialog" v-if="(isAuth(whiteBtnList,'ACHIEVEMENTMGT_LIST_TARGETMANAGE')&&state)||state">{{ $t('EKL_NDMBGL') }}
                 </iButton>
                 <!--基础表模板下载 配附件-->
                 <iButton class="ml10" @click="spareTempDown" v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_TABLE_TEMPLATE_DOWN')||state">

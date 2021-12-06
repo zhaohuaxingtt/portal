@@ -314,7 +314,7 @@ export const closeQuestionApi = (questionId) => {
 //  新增追问内容
 export const submitAwContent = (data) => {
   return assistantRequest({
-    url: '/assistantQuestionReplyEntity/newQuestionAsk',
+    url: '/assistantQuestion/additionQuestion',
     method: 'POST',
     data
   })
