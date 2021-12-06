@@ -112,11 +112,14 @@
                 loading:false
             }
         },
-        async created(){
-            let { data } = await queryModuleBySource(this.userType)
-            this.moduleList = data
+        created(){
+            this.getModuleList()
         },
         methods: {
+            async getModuleList(){
+                let { data } = await queryModuleBySource(this.userType)
+                this.moduleList = data
+            },
             moduleChange(v){
                 if(v){
                     getCurrLabelList(v).then(res => {

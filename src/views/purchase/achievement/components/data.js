@@ -5,16 +5,16 @@
  */
 
 export const tableTitle = [
-    {props: 'title', name: '描述', key: 'EKL_YJGL_MS', tooltip: true},
-    {props: '_status', name: '状态', key: 'EKL_YJGL_ZT', width: 200, tooltip: true,},
-    {props: 'createDate', name: '创建日期', key: 'EKL_YJGL_CJRQ', width: 120, tooltip: true},
-    {props: 'updateDate', name: '更新日期', key: 'EKL_YJGL_GXRQ', tooltip: true,},
-    {props: 'version', name: '版本号', key: 'LK_BANBENHAO', tooltip: true,},
-    {props: '_billType', name: '单据类型', key: 'EKL_YJGL_DJLX', tooltip: true, width: 110,},
-    {props: '_type', name: '业务类型', key: 'EKL_YJGL_YWLX', width: 120, tooltip: true,},
-    {props: '_source', name: '来源', key: 'EKL_LAIYUAN', tooltip: true},
-    {props: 'createByName', name: '发起人', key: 'EKL_YJGL_FQR', width: 110, tooltip: true,},
-    {props: 'operation', name: '操作', key: 'EKL_CAOZUO', width: 200, tooltip: true,},
+    {props: 'title', name: '描述', key: 'EKL_MIAOSHU', tooltip: true},
+    {props: '_status', name: '状态', key: 'EKL_ZHUANGTAI', width: 200, tooltip: true,},
+    {props: 'createDate', name: '创建日期', key: 'EKL_CJRQ', width: 120, tooltip: true},
+    {props: 'updateDate', name: '更新日期', key: 'EKL_GXRQ', tooltip: true,},
+    {props: 'version', name: '版本号', key: 'EKL_BANBENHAO', tooltip: true,},
+    {props: '_billType', name: '单据类型', key: 'EKL_DJLX', tooltip: true, width: 110,},
+    {props: '_type', name: '业务类型', key: 'EKL_YWLX', width: 120, tooltip: true,},
+    {props: '_source', name: '来源', key: 'EKL_LY', tooltip: true},
+    {props: 'createByName', name: '发起人', key: 'EKL_FAQIREN', width: 110, tooltip: true,},
+    {props: 'operation', name: '操作', key: 'EKL_CZ', width: 200, tooltip: true,},
 
 ];
 export const tableTitle1 = [

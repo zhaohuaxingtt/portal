@@ -24,7 +24,7 @@ export const COLOR_COLUMNS=[
     },
     {
         label:"色标零件编号",
-        prop:'partNum5'
+        prop:'partNum'
     },
     {
         label:'色标零件名称(中)',

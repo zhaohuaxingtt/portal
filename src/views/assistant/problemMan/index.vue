@@ -120,6 +120,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '../comon.scss';
+.content{
+  height: 100%;
+}
 .content-title {
   font-weight: bold;
   color: #000000;
