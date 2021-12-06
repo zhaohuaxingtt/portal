@@ -1036,8 +1036,17 @@ export default {
             supplierIdStr: this.$route.query.supplierId,
           }).then(res => {
             this.loading = false;
-            this.tableData = res.data;
-            this.newDataList = res.data;
+            var dataListCopy = res.data;
+            dataListCopy.forEach(e=>{
+              if(e.priceUnit == null){
+                this.$set(e,"priceUnit",1)
+              }
+              if(e.dosageMeasureUnit == null){
+                this.$set(e,"dosageMeasureUnit","KG")
+              }
+            })
+            this.tableData = dataListCopy;
+            this.newDataList = dataListCopy;
             this.editType = true;
 
             var changeArrayList = [];
