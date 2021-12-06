@@ -55,6 +55,9 @@
           :endDateProps="form.startDateEnd"
           @change-start="changeStart"
           @change-end="changeEnd"
+          :pickerOptionsStartProps="datePickerOptionsStart"
+          :pickerOptionsEndProps="datePickerOptionsEnd"
+          :pickerOptionsEndFun="pickerOptionsEndFun"
           ref="iDateRangePicker"
           :label="$t('MT_HUIYIRIQI')"
         />
@@ -112,7 +115,28 @@ export default {
       startWeek: 0,
       endWeek: dayjs(dayjs().year()).isoWeeksInYear(),
       weekListInit,
-      weekList: weekListInit
+      weekList: weekListInit,
+      datePickerOptionsStart: {
+        // 日期选择
+        disabledDate: (date) => {
+          let newDate = new Date().valueOf()
+          return (
+            date.valueOf() < newDate - 24 * 60 * 60 * 1000 * 14 ||
+            date.valueOf() > newDate + 24 * 60 * 60 * 1000 * 6
+          )
+        }
+      },
+      datePickerOptionsEnd: {
+        // 日期选择
+        disabledDate: (date) => {
+          let newDate = new Date().valueOf()
+          return (
+            date.valueOf() < newDate - 24 * 60 * 60 * 1000 * 14 ||
+            date > newDate + 24 * 60 * 60 * 1000 * 6
+          )
+        }
+      },
+      pickerOptionsEndFun: new Date().valueOf() + 24 * 60 * 60 * 1000 * 6
     }
   },
   mounted() {

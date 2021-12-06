@@ -103,6 +103,7 @@
                         :value="ruleForm.category"
                         @input="handleCategoryIntercept"
                         :disabled="ruleForm.id !== ''"
+                        @change="selectChanged"
                     >
                       <el-option
                           v-for="item in userNewsClassify"
@@ -133,7 +134,7 @@
                         slot="label"
                         required
                     ></iLabel>
-                    <iInput v-model.trim="ruleForm.source"></iInput>
+                    <iInput :disabled="ruleForm.category==2" v-model.trim="ruleForm.source"></iInput>
                   </iFormItem>
                   <iFormItem :label="language('NEWS_FABURIQI', '发布日期')" prop="publishDate">
                     <iLabel
@@ -580,6 +581,13 @@ export default {
       findTagList({category: this.ruleForm.category}).then((res) => {
         this.tagList = res;
       });
+    },
+    selectChanged(value){
+      if(value===2){
+        this.ruleForm.source = 'FRM_财务风险管理'
+      }else{
+        this.ruleForm.source = ''
+      }
     },
     handleChange(file) {
       this.$nextTick(() => {

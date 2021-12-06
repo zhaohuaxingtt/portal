@@ -194,9 +194,7 @@ export default {
     data(){
         return {
           isShow:false,//零件号
-          formData:{
-            effectFlag: '1'
-          },//表单数据
+          formData:{},//表单数据
           tableListData:[],//表格数据
           tableSetting,
           ruleQueryFormData,
@@ -221,8 +219,9 @@ export default {
       this.effectFlagDropDown = [
         {code: "", message: '全部'},
         {code: "1", message: '生效'},
-        {code: "2", message: '失效'}
+        {code: "0", message: '失效'}
       ]
+      this.$set(this.formData, 'effectFlag', '1')
     },
     methods:{
       handlecreatemtz(row){

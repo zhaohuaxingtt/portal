@@ -20,22 +20,20 @@
 <script>
 import { iDialog, iButton, iSelect, iFormItem, iInput } from 'rise'
 import { newLabel } from "@/api/assistant"
-import assistant_mixin from "./../../../mixins"
 
 export default {
   name: 'dispatchDialog',
-  mixins:[assistant_mixin],
   props: {
     show: {
       type: Boolean,
       default: false
     },
     type:{
-      type:Number,
-      default:1
+      type: String,
+      default: ''
     },
     moduleList:{
-      type:Array,
+      type: Array,
       default: () => []
     }
   },
@@ -62,12 +60,8 @@ export default {
     save () {
       this.$refs.newLabelForm.validate(async (valid) => {
         if (valid) {
-          if(this.type == 1){
-            this.newLabelForm.source = this.getUserType()
+            this.newLabelForm.source = this.type
             await newLabel(this.newLabelForm)
-          }else{
-            console.log('add---2');
-          }
           this.$emit('refresh')
           this.closeDiologBtn();
         } else {

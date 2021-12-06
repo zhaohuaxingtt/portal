@@ -1,6 +1,8 @@
 <template>
   <div class="card">
-    <p class="go-back"><iButton @click="goBack">{{$t('返回')}}</iButton></p>
+    <p class="go-back">
+      <iButton @click="goBack">{{ $t('返回') }}</iButton>
+    </p>
     <div class="title-info">
       <div class="header-content">
         <div>
@@ -23,11 +25,30 @@
       <p class="info-line-2">
         <span class="date-time-start">
           <img :src="timeClock" alt="" srcset="" />
-          <span>{{
+          <!-- <span>{{
             result.startDate +
               " " +
               result.startTime +
               (result.endTime ? "~" + result.endTime : "")
+          }}</span> -->
+          <span>{{
+            `${result.startDate}
+              ${result.startTime ? result.startTime.substring(0, 5) : ''}~
+              ${
+                result.endTime
+                  ? Number(
+                      result.themens[result.themens.length - 1]
+                        .plusDayEndTime
+                    ) > 0
+                    ? result.endTime.substring(0, 5) +
+                      ' +' +
+                      Number(
+                        result.themens[result.themens.length - 1]
+                          .plusDayEndTime
+                      )
+                    : result.endTime.substring(0, 5)
+                  : handleEndTime(result)
+              }`
           }}</span>
         </span>
         <span class="date-time-end">
@@ -85,22 +106,21 @@
 </template>
 
 <script>
-import cardBox from "./cardBox.vue";
-import { iButton, iMessage } from "rise";
-import theLiveTable from "./theLiveTable.vue";
-import { getMeetingDetail } from "@/api/meeting/home";
-import { findMyThemens } from "@/api/meeting/myMeeting";
-import { getMettingType } from "@/api/meeting/type";
-import timeClock from "@/assets/images/time-clock.svg";
-import positionMark from "@/assets/images/position-mark.svg";
-import { MOCK_FILE_URL } from "@/constants";
-import { download } from "@/utils/downloadUtil";
-
+import cardBox from './cardBox.vue'
+import { iButton, iMessage } from 'rise'
+import theLiveTable from './theLiveTable.vue'
+import { getMeetingDetail } from '@/api/meeting/home'
+import { findMyThemens } from '@/api/meeting/myMeeting'
+import { getMettingType } from '@/api/meeting/type'
+import timeClock from '@/assets/images/time-clock.svg'
+import positionMark from '@/assets/images/position-mark.svg'
+import { download } from '@/utils/downloadUtil'
+import dayjs from 'dayjs'
 export default {
   components: {
     cardBox,
     iButton,
-    theLiveTable,
+    theLiveTable
   },
   data() {
     return {
@@ -114,114 +134,129 @@ export default {
       typeObj: {},
       pageSize: 10,
       pageNum: 1,
-      curIndex: 1,
-    };
+      curIndex: 1
+    }
   },
   mounted() {
-    this.getTypeList();
-    this.query();
+    this.getTypeList()
+    this.query()
   },
   methods: {
+    handleEndTime(row) {
+      // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return '~' + str + ' +1'
+      }
+      return '~' + str
+    },
     isSource02() {
-      const themen = this.result;
+      const themen = this.result
       if (
         themen.attachments.length > 0 &&
         themen.attachments.some((item) => {
-          return item.source === "02";
+          return item.source === '02'
         })
       ) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     handleDownLoadMinutes() {
-      const themen = this.result;
+      const themen = this.result
       if (!themen.attachments) {
-        iMessage.error("没有要下载的附件!");
-        return;
+        iMessage.error('没有要下载的附件!')
+        return
       }
       const file = themen.attachments.find((item) => {
-        return item.source === "02";
-      });
+        return item.source === '02'
+      })
       file &&
         download({
           fileIds: file.attachmentId,
           filename: file.attachmentName,
           callback: (e) => {
             if (!e) {
-              iMessage.error("下载失败");
+              iMessage.error('下载失败')
             }
-          },
-        });
+          }
+        })
     },
     handleTurnMode() {
-      console.log("1111111111");
-      this.value = !this.value;
+      console.log('1111111111')
+      this.value = !this.value
     },
     // 获取会议类型列表
     getTypeList() {
       let param = {
         pageSize: 1000,
-        pageNum: 1,
-      };
-      let obj = {};
+        pageNum: 1
+      }
+      let obj = {}
       getMettingType(param).then((res) => {
         res.data.forEach((item) => {
-          obj[item.id] = item.name;
-        });
-        this.typeObj = obj;
-      });
+          obj[item.id] = item.name
+        })
+        this.typeObj = obj
+      })
     },
     // 获取详细信息
     async query(obj) {
       let param = {
         meetingId: this.$route.query.id,
-        presentItem: "02",
+        presentItem: '02',
         pageNum: 1,
-        pageSize: 999,
-      };
-      const res = await getMeetingDetail(this.$route.query);
-      this.result = res;
-      const res2 = await findMyThemens(param);
-      this.data = res2.data;
+        pageSize: 999
+      }
+      const res = await getMeetingDetail(this.$route.query)
+      this.result = res
+      const res2 = await findMyThemens(param)
+      this.data = res2.data
       this.dataTable = res2.data.slice(
         (this.pageNum - 1) * this.pageSize,
         this.pageNum * this.pageSize
-      );
-      obj.following = false;
-      this.initMoveCard();
+      )
+      obj.following = false
+      this.initMoveCard()
     },
     // 页码切换
     handleCurrentChange(pageNum) {
-      this.pageNum = pageNum;
-      this.currentChangePage(this.data, this.pageNum);
+      this.pageNum = pageNum
+      this.currentChangePage(this.data, this.pageNum)
     },
     // 分页方法
     currentChangePage(data, pageNum) {
-      let from = (pageNum - 1) * this.pageSize;
-      let to = pageNum * this.pageSize;
-      this.dataTable = data.slice(from, to);
+      let from = (pageNum - 1) * this.pageSize
+      let to = pageNum * this.pageSize
+      this.dataTable = data.slice(from, to)
     },
     // 返回上一页
     goBack() {
-      this.$router.go(-1);
+      this.$router.go(-1)
     },
     // 点击上一个轮播图
     handlePreClick() {
       if (this.data.length > 3) {
         if (this.curIndex > 1) {
-          this.curIndex--;
+          this.curIndex--
         }
-        this.translateX(this.$refs.swiperRef, this.curIndex);
+        this.translateX(this.$refs.swiperRef, this.curIndex)
       }
     },
     // 点击下一个轮播图
     handleNextClick() {
       if (this.data.length > 3) {
         if (this.curIndex < this.data.length - 2) {
-          this.curIndex++;
+          this.curIndex++
         }
-        this.translateX(this.$refs.swiperRef, this.curIndex);
+        this.translateX(this.$refs.swiperRef, this.curIndex)
       }
     },
     //移动
@@ -244,30 +279,30 @@ export default {
           (curIndex == 2 && this.data.length == 3))
       ) {
         // 初始化展示
-        refDom.style.transform = `translateX(0)`;
+        refDom.style.transform = `translateX(0)`
       } else if (refDom && curIndex > 1 && curIndex != this.data.length - 1) {
-        refDom.style.transform = `translateX(${(1 - curIndex) * 35}rem)`;
+        refDom.style.transform = `translateX(${(1 - curIndex) * 35}rem)`
       }
     },
     // 初始化移动至高亮项
     initMoveCard() {
       for (let i = 0; i < this.data.length; i++) {
-        if (this.data[i].state == "02") {
+        if (this.data[i].state == '02') {
           if (i >= this.data.length - 2) {
-            this.curIndex = this.data.length - 2;
+            this.curIndex = this.data.length - 2
           } else if (i == 0) {
-            this.curIndex = 1;
+            this.curIndex = 1
           } else {
-            this.curIndex = i;
+            this.curIndex = i
           }
           setTimeout(() => {
-            this.translateX(this.$refs.swiperRef, i);
-          }, 4);
-          return;
+            this.translateX(this.$refs.swiperRef, i)
+          }, 4)
+          return
         }
       }
-    },
-  },
+    }
+  }
   // watch: {
   //   value(val) {
   //     if (val) {
@@ -279,7 +314,7 @@ export default {
   //     this.initMoveCard();
   //   },
   // },
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -366,7 +401,7 @@ export default {
       .common {
         width: 150px;
         color: #1763f7;
-        font-family: "PingFangSC-Regular";
+        font-family: 'PingFangSC-Regular';
         font-size: 14px;
         font-weight: 400;
         line-height: 35px;
@@ -376,7 +411,7 @@ export default {
       .meeting {
         width: 337px;
         height: 35px;
-        font-family: "PingFangSC-Semibold";
+        font-family: 'PingFangSC-Semibold';
         font-size: 16px;
         font-weight: 400;
         line-height: 35px;
@@ -431,7 +466,7 @@ export default {
     .warn {
       height: 15px;
       color: #999999;
-      font-family: "PingFangSC-Semibold";
+      font-family: 'PingFangSC-Semibold';
       font-size: 12px;
       font-weight: 400;
       line-height: 15px;

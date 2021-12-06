@@ -746,8 +746,12 @@ export default {
       if(res.code == 200 && res.result){
         this.getTableList()
       }else{
-        this.errorList = res.data;
-        this.cancelNo = true;
+        if(res.data == null){
+          iMessage.error(res.desZh);
+        }else{
+          this.errorList = res.data;
+          this.cancelNo = true;
+        }
       }
     },
     beforeUpload(file){
