@@ -8,7 +8,7 @@
     :destroy-on-close="true"
     @close="close"
   >
-    <iEditForm> 
+    <iEditForm>
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -30,10 +30,15 @@
         <el-row class="form-row">
           <div class="form-item-row2-col1">
             <iFormItem label="会议类型" prop="meetingTypeId">
-              <iLabel :label="$t('MT_HUIYILEIXING')" slot="label" required></iLabel>
+              <iLabel
+                :label="$t('MT_HUIYILEIXING')"
+                slot="label"
+                required
+              ></iLabel>
               <iSelect
                 v-model="ruleForm.meetingTypeId"
                 :placeholder="$t('MT_QINGXUANZEHUIYILEIXNG')"
+                @change="handleChangeSelect"
               >
                 <el-option
                   v-for="(item, index) in meetingTypeList"
@@ -48,7 +53,11 @@
           <div class="form-item-row2-col2"></div>
           <div class="form-item-row2-col3">
             <iFormItem label="会议间隔" prop="meetingInterval">
-              <iLabel :label="$t('MT_HUIYIJIANGE')" slot="label" required></iLabel>
+              <iLabel
+                :label="$t('MT_HUIYIJIANGE')"
+                slot="label"
+                required
+              ></iLabel>
               <div class="time-box">
                 <iSelect
                   v-model="ruleForm.meetingInterval"
@@ -62,7 +71,7 @@
                   >
                   </el-option>
                 </iSelect>
-                <span>{{$t('MT_ZHOUCI')}}</span>
+                <span>{{ $t('MT_ZHOUCI') }}</span>
               </div>
             </iFormItem>
           </div>
@@ -72,7 +81,11 @@
         <el-row class="form-row">
           <div class="form-item-row3-col1">
             <iFormItem label="会议日期" prop="startDate">
-              <iLabel :label="$t('MT_HUIYIRIQI')" slot="label" required></iLabel>
+              <iLabel
+                :label="$t('MT_HUIYIRIQI')"
+                slot="label"
+                required
+              ></iLabel>
               <iDatePicker
                 value-format="yyyy-MM-dd"
                 type="date"
@@ -83,7 +96,7 @@
               />
             </iFormItem>
           </div>
-          <div class="form-item-row3-col2">{{$t("MT_TO")}}</div>
+          <div class="form-item-row3-col2">{{ $t('MT_TO') }}</div>
           <div class="form-item-row3-col3">
             <iFormItem label="" prop="endDate">
               <iLabel label="" required></iLabel>
@@ -102,7 +115,11 @@
         <el-row class="form-row">
           <div class="form-item-row4-col1">
             <iFormItem label="会议周期" prop="meetingCycle">
-              <iLabel :label="$t('MT_HUIYIZHOUQI')" slot="label" required></iLabel>
+              <iLabel
+                :label="$t('MT_HUIYIZHOUQI')"
+                slot="label"
+                required
+              ></iLabel>
               <iSelect
                 v-model="ruleForm.meetingCycle"
                 multiple
@@ -122,7 +139,11 @@
           <div class="form-item-row4-col2"></div>
           <div class="form-item-row4-col3">
             <iFormItem label="开始时间" prop="startTime">
-              <iLabel :label="$t('MT_KAISHISHIJIAN')" slot="label" required></iLabel>
+              <iLabel
+                :label="$t('MT_KAISHISHIJIAN')"
+                slot="label"
+                required
+              ></iLabel>
               <el-time-picker
                 value-format="HH:mm:ss"
                 format="HH:mm"
@@ -137,7 +158,11 @@
         <el-row class="form-row">
           <div class="form-item-row5-col1">
             <iFormItem label="会议地址" prop="meetingPlace">
-              <iLabel :label="$t('MT_HUIYIDIZHI')" slot="label" required></iLabel>
+              <iLabel
+                :label="$t('MT_HUIYIDIZHI')"
+                slot="label"
+                required
+              ></iLabel>
               <iInput v-model="ruleForm.meetingPlace" />
             </iFormItem>
           </div>
@@ -147,8 +172,15 @@
         <el-row class="form-row">
           <div class="form-item-row6-col1">
             <iFormItem label="收件人" prop="receiverId">
-              <iLabel :label="$t('MT_SHOUJIANREN')" slot="label" required></iLabel>
-              <iSelect v-model="ruleForm.receiverId" :placeholder="$t('MT_QINGXUANZESHOUJIANREN')">
+              <iLabel
+                :label="$t('MT_SHOUJIANREN')"
+                slot="label"
+                required
+              ></iLabel>
+              <iSelect
+                v-model="ruleForm.receiverId"
+                :placeholder="$t('MT_QINGXUANZESHOUJIANREN')"
+              >
                 <el-option
                   v-for="(item, index) in receiverListShow"
                   :key="index"
@@ -198,9 +230,9 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="clearDiolog" plain class="cancel">{{
-              $t("LK_QUXIAO")
+              $t('LK_QUXIAO')
             }}</iButton>
-            <iButton @click="handleSubmit" plain>{{ $t("LK_BAOCUN") }}</iButton>
+            <iButton @click="handleSubmit" plain>{{ $t('LK_BAOCUN') }}</iButton>
           </el-form-item>
         </div>
       </el-form>
@@ -217,11 +249,11 @@ import {
   iButton,
   iSelect,
   iDatePicker,
-  iMessage,
-} from "rise";
-import iEditForm from "@/components/iEditForm";
-import { addMeeting } from "@/api/meeting/home";
-import { baseRulesMultiple, cycleList, intervalList } from "./data.js";
+  iMessage
+} from 'rise'
+import iEditForm from '@/components/iEditForm'
+import { addMeeting } from '@/api/meeting/home'
+import { baseRulesMultiple, cycleList, intervalList } from './data.js'
 
 export default {
   components: {
@@ -232,33 +264,33 @@ export default {
     iInput,
     iLabel,
     iButton,
-    iEditForm,
+    iEditForm
   },
   props: {
     openAddMultiple: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     meetingTypeList: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     attendeeList: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     receiverList: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   data() {
     return {
@@ -267,47 +299,47 @@ export default {
       cycleList,
       intervalList,
       ruleForm: {
-        name: "",
-        meetingTypeId: "",
-        startDate: "",
-        endDate: "",
-        startTime: "",
-        meetingPlace: "",
-        receiverId: "",
-        attendeeId: "",
-        attendee: "",
+        name: '',
+        meetingTypeId: '',
+        startDate: '',
+        endDate: '',
+        startTime: '',
+        meetingPlace: '',
+        receiverId: '',
+        attendeeId: '',
+        attendee: '',
         meetingCycle: [],
-        meetingInterval: "",
-        isBatch: true,
+        meetingInterval: '',
+        isBatch: true
       },
       rules: baseRulesMultiple,
       dateStartPickerOptions: {
         // 日期选择
         disabledDate: (date) => {
-          return date < new Date() - 24 * 60 * 60 * 1000;
-        },
+          return date < new Date() - 24 * 60 * 60 * 1000
+        }
       },
       dateEndPickerOptions: {
         // 日期选择
         disabledDate: (date) => {
-          return date < new Date() - 24 * 60 * 60 * 1000;
-        },
-      },
-    };
+          return date < new Date() - 24 * 60 * 60 * 1000
+        }
+      }
+    }
   },
   computed: {
     attendeeInfo() {
       return {
         attendeeList: this.attendeeList,
-        meetingTypeId: this.ruleForm.meetingTypeId,
-      };
+        meetingTypeId: this.ruleForm.meetingTypeId
+      }
     },
     receiverInfo() {
       return {
         receiverList: this.receiverList,
-        meetingTypeId: this.ruleForm.meetingTypeId,
-      };
-    },
+        meetingTypeId: this.ruleForm.meetingTypeId
+      }
+    }
   },
   watch: {
     attendeeInfo: {
@@ -315,37 +347,42 @@ export default {
         this.attendeeListShow = attendeeInfoObj.attendeeList.filter(
           (item) =>
             Number(item.meetingTypeId) === Number(attendeeInfoObj.meetingTypeId)
-        );
+        )
       },
       immediate: true,
-      deep: true,
+      deep: true
     },
     receiverInfo: {
       handler(receiverInfoObj) {
         this.receiverListShow = receiverInfoObj.receiverList.filter(
           (item) =>
             Number(item.meetingTypeId) === Number(receiverInfoObj.meetingTypeId)
-        );
+        )
       },
       immediate: true,
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
+    handleChangeSelect() {
+      this.ruleForm.receiverId = ''
+      this.ruleForm.attendeeId = ''
+      this.ruleForm.attendee = ''
+    },
     close() {
-      this.$emit("closeDialog", false);
+      this.$emit('closeDialog', false)
     },
     clearDiolog(sub) {
-      if (sub === "submit") {
-        this.$emit("closeDialog", false);
+      if (sub === 'submit') {
+        this.$emit('closeDialog', false)
       } else {
         // this.$confirm("是否取消新增?", "提示", {
         //   confirmButtonText: "是",
         //   cancelButtonText: "否",
         //   type: "warning",
         // }).then(() => {
-          this.ruleForm = {};
-          this.$emit("closeDialog", false);
+        this.ruleForm = {}
+        this.$emit('closeDialog', false)
         // });
       }
     },
@@ -355,49 +392,46 @@ export default {
       //   cancelButtonText: "否",
       //   type: "warning",
       // }).then(() => {
-        this.submitForm("ruleForm");
+      this.submitForm('ruleForm')
       // });
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let formData = this.ruleForm;
+          let formData = this.ruleForm
           addMeeting(formData)
             .then((res) => {
-              if (res) {
-                this.clearDiolog("submit");
-                iMessage.success("保存成功");
-                this.$emit("refreshTable");
-              } else {
-                iMessage.success("保存失败");
-                this.clearDiolog("submit");
+              if (res.code === 200) {
+                iMessage.success('保存成功')
               }
+              this.$emit('refreshTable')
+              this.clearDiolog('submit')
             })
             .catch((err) => {
-              console.log("err", err);
-            });
+              console.log('err', err)
+            })
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     changeAttendee(e) {
       this.attendeeList.forEach((item) => {
         if (item.id == e) {
-          this.ruleForm.attendee = item.attendeeName;
+          this.ruleForm.attendee = item.attendeeName
         }
-      });
+      })
     },
     changeStartDate(e) {
-      let startDate = new Date(e);
+      let startDate = new Date(e)
       this.dateEndPickerOptions = {
         disabledDate: (date) => {
-          return date < startDate;
-        },
-      };
-    },
-  },
-};
+          return date < startDate
+        }
+      }
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

@@ -309,7 +309,7 @@ export default {
           } else {
             const formData = {
               attachmentId: this.ruleForm.attachmentId,
-              documentType: { ...documentType[0] },
+              documentType,
               name: this.ruleForm.name,
               state: 2
               // id: this.ruleForm.id,
