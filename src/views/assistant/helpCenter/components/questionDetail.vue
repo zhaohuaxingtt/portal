@@ -15,7 +15,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="solution-box">
+	<div class="solution-box" v-show="solutionFlag">
 		<div class="good-box flex flex-row items-center justify-center cursor" @click="good">
 			<img src="@/assets/images/good.png" alt="" class="icon-png">
 			<div class="good-text">已解决</div>
@@ -47,6 +47,7 @@ export default {
 	data() {
 		return {
 			detailLoading: false,
+			solutionFlag: false,
 			title: '',
 			moudleName: null,
 			chatList: [],
@@ -61,6 +62,7 @@ export default {
 			updateFavour(this.currQuestionId).then((res) => {
 				if (res?.code === '200') {
 					this.$message.success("很开心该回答能帮助您...")
+					this.$emit('changeQuesStatus', this.currQuestionId)
 				}
 			})
 		},
@@ -80,6 +82,7 @@ export default {
 					console.log(item.menuName, "item.menuName")
 					this.moudleName = item.menuName
 				}
+				this.solutionFlag = item.questionStatus === 'reply' ? true : false
 			})
 			await this.getJudgeFavour()
 			this.getQuesDetail(list.id)
@@ -110,7 +113,8 @@ export default {
 		},
 		// 获取该用户是否给该问题点赞
 		async getJudgeFavour() {
-			await judgeFavour({ faqId: this.currQuestionId || 3 }).then((res) => {
+			if (!this.currQuestionId) return
+			await judgeFavour({ faqId: this.currQuestionId }).then((res) => {
 				if (res?.code === '200') {
 					this.currQuesFavourFlag = res?.data
 				}

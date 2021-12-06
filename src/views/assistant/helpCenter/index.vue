@@ -62,6 +62,7 @@
 		</div>
 		<div class="flex flex-row content mt20" v-else>
 			<QuestionList 
+				ref="questionList"
 				:currentMoudleId="currentMoudleId ? currentMoudleId : this.$store.state.baseInfo.originalModuleId"
 				:moudleList="moudleList"
 				@selectQues="selectQues"
@@ -71,6 +72,7 @@
 				:moudleList="moudleList"
 				@handleZwQues="handleZwQues"
 				@handleQuestion="handleQuestion"
+				@changeQuesStatus="changeQuesStatus"
 			/>
 		</div>
 		<IntelligentDialog
@@ -316,6 +318,10 @@ export default {
 		selectQues(list) {
 			console.log(list, '====')
 			this.$refs.questionDetail.getCurrQuesDetail(list || {})
+		},
+		//  改变点赞问题的状态
+		changeQuesStatus(quesId) {
+			this.$res.questionList.changeCurrQuesStatus(quesId)
 		}
 	}
 }
