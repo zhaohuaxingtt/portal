@@ -1,6 +1,6 @@
 <template>
   <iCard collapse :title="language('请选择需要批量维护的色标零件')">
-      <el-form label-position="left" label-width="150px">
+      <el-form label-position="left" label-width="170px">
         <el-row :gutter="24">
           <el-col span="8">
             <iFormItem :label='language("色标零件号")' class="color-list-search">
