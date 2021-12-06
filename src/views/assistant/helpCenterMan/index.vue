@@ -80,7 +80,7 @@ import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import CommonProblem from '../components/commonProblem'
 import Question from "./components/question"
 import UserManual from "./components/userManual"
-import { getModuleList, getUserDes, getProblemDetail, queryFaqListByPage } from '@/api/assistant'
+import { queryModuleBySource, getUserDes, getProblemDetail, queryFaqListByPage } from '@/api/assistant'
 export default {
 	components: {
 		iPage,
@@ -147,13 +147,15 @@ export default {
 		async getProbleList() {
 			this.manualInfo.loading = true
 			try {
-				await getModuleList(this.activeUser).then((res) => {
+				await queryModuleBySource(this.activeUser).then((res) => {
 					if (res.code === '200') {
 						this.qsInfo.moduleList = res.data
 						this.manualInfo.list = res.data
 						this.manualInfo.id = res.data[0]?.id
-						this.manualInfo.activeInfo = res.data[0]
-						this.queryManualDetail()
+						if(this.manualInfo.id){
+							this.manualInfo.activeInfo = res.data[0]
+							this.queryManualDetail()
+						}
 					}
 				})
 			} finally {
@@ -224,12 +226,16 @@ export default {
 		// 用户类型切换
 		typeChange(t){
 			this.activeUser = t.name
-			this.getProbleList()
 			if(this.activeMoudle == 'question'){
 				this.$nextTick(() => {
 					this.refreshQs()
 					this.$refs.qs.getModuleList(t.name)
 				})
+			}else{
+				this.manualInfo.id = ""
+				this.$set(this.manualInfo,"activeInfo",{})
+				this.$set(this.manualInfo,"detail",{})
+				this.getProbleList()
 			}
 		},
 		// 查询用户手册详情
