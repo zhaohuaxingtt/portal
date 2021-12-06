@@ -201,14 +201,14 @@ export default {
       getMettingType(data)
         .then((res) => {
           this.tableLoading = false
-          const { data, pageNum, pageSize, total, pages } = res
+          const { data, pageNum, total, pages } = res
           this.page.currPage = pageNum
           // this.page.pageSize = pageSize;
           this.page.totalCount = total
           this.page.pages = pages
           this.tableData = data
         })
-        .catch((err) => {
+        .catch(() => {
           this.tableLoading = false
         })
     },
@@ -237,7 +237,7 @@ export default {
               this.$message.success('删除成功!')
               this.query()
             })
-            .catch((err) => {
+            .catch(() => {
               // this.$message.error("删除失败!");
             })
         })

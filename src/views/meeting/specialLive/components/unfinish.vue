@@ -201,6 +201,7 @@
       :editOrAdd="editOrAdd"
       @closeDialog="closeDialog"
       :topicInfo="lookThemenObj"
+      :isGetInfoById="true"
     >
     </addTopicNew>
   </div>
