@@ -120,17 +120,29 @@
       <el-table-column prop="follow" align="left" label="#" width="50">
         <template slot-scope="scope">
           <div class="img-word">
-            <span style="text-align: left">
+            <div>
               {{ scope.$index + 1 }}
-            </span>
+            </div>
             <div>
               <img
-                v-if="scope.row.follow"
-                src="@/assets/images/empty-star.svg"
+                v-if="isTheyHaveMyOrCreatedByMyself(scope.row)"
+                src="@/assets/images/add-follow-red.svg"
               />
               <img
-                v-if="!scope.row.follow"
-                src="@/assets/images/add-follow-red.svg"
+                v-if="
+                  !isTheyHaveMyOrCreatedByMyself(scope.row) && scope.row.follow
+                "
+                src="@/assets/images/empty-star.svg"
+                @click="handleUnfollow(scope.row, following)"
+                class="follow"
+              />
+              <img
+                v-if="
+                  !isTheyHaveMyOrCreatedByMyself(scope.row) && !scope.row.follow
+                "
+                src="@/assets/images/solid-star.svg"
+                @click="handleFollow(scope.row, following)"
+                class="follow"
               />
             </div>
           </div>
@@ -261,7 +273,8 @@
       :meetingInfo="meetingInfo"
       :editOrAdd="editOrAdd"
       @closeDialog="closeDialog"
-      :lookThemenObj="lookThemenObj"
+      :topicInfo="lookThemenObj"
+      :isGetInfoById="true"
     >
     </addTopicNew>
   </iCard>
@@ -275,7 +288,8 @@ import iTableML from '@/components/iTableML'
 import { findMyThemens } from '@/api/meeting/myMeeting'
 // import detailDialog from "./detailDialog.vue";
 import detailDialog from '../components/myTopics/detailDialog.vue'
-import addTopicNew from '../../specialLive/components/addTopicNew.vue'
+// import addTopicNew from '../../specialLive/components/addTopicNew.vue'
+import addTopicNew from '@/views/meeting/show/components/topicLookDialog.vue'
 import { follow, unfollow } from '@/api/meeting/myMeeting'
 import { stateObj, themenConclusion } from './data'
 import { recallThemen } from '@/api/meeting/details'

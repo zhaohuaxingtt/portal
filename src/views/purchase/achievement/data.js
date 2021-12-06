@@ -25,9 +25,9 @@ export const tabRouterList = [
     },
 ]
 export const btnsgroup1 = [
-    { value: 0, name: "年度业绩基础", message: 0, url: '',active:true, activePath: "", key: "EKL_NDYJJC" },
-    { value: 1, name: "总成散件基础表", message: 0, url: '', activePath: "", key: "EKL_ZCSJJCB" },
-    { value: 2, name: "其它", message: 0, url: '', activePath: "", key: "EKL_QT" },
+    { value: 0, name: "年度业绩基础", message: 0, url: '',active:true, activePath: "", key: "EKL_NIANDUYEJIJICHU" },
+    { value: 1, name: "总成散件基础表", message: 0, url: '', activePath: "", key: "EKL_ZONGCHENCHENGSANJIANJICHUBIAO" },
+    { value: 2, name: "其它", message: 0, url: '', activePath: "", key: "EKL_QITA" },
 ];
 export const getNowFormatDate = () => {
     var date = new Date();

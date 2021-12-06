@@ -82,7 +82,6 @@ export default {
 					console.log(item.menuName, "item.menuName")
 					this.moudleName = item.menuName
 				}
-				this.solutionFlag = item.questionStatus === 'reply' ? true : false
 			})
 			await this.getJudgeFavour()
 			this.getQuesDetail(list.id)
@@ -94,6 +93,7 @@ export default {
 				if (res?.code === '200') {
 					const { data } = res
 					this.currQuesInfo = data
+					this.solutionFlag = this.currQuesInfo.questionStatus === 'reply' ? true : false
 					this.dealData(data?.replyQuestionList || [], data?.questionTitle, data?.createDate )
 					this.detailLoading = false
 				}

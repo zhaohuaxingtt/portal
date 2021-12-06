@@ -4,11 +4,13 @@
             <!--第一行-->
             <el-row class="margin-bottom20">
                 <!--描述-->
-                <el-form-item :label="$t('EKL_MIAOSHU')">
+                <!--<el-form-item :label="$t('EKL_MIAOSHU')">-->
+                <el-form-item :label="language('LK_MIAOSHU','描述')">
                     <iInput :placeholder="language('请输入')" v-model="form.title"></iInput>
                 </el-form-item>
                 <!--状态-->
-                <el-form-item :label="$t('EKL_ZHUANGTAI')">
+                <!--<el-form-item :label="$t('EKL_ZHUANGTAI')">-->
+                <el-form-item :label="language('LK_ZHUANGTAI','状态')">
                     <iSelect multiple filterable collapse-tags :placeholder="language('请选择')" v-model="form.status">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -20,10 +22,13 @@
                 </el-form-item>
                 <!--发起人-->
                 <el-form-item :label="$t('EKL_FAQIREN')">
+                <!--<el-form-item :label="language('LK_FAQIREN','发起人')">-->
+
                     <iInput :placeholder="language('请输入')" v-model="form.createByName"></iInput>
                 </el-form-item>
                 <!--单据类型-->
                 <el-form-item :label="$t('EKL_DJLX')">
+                    <!--<el-form-item :label="language('LK_DANJULEIXING','单据类型')">-->
                     <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.billType">
                         <!--            <el-option value="" :label="$t('all')"></el-option>-->
                         <el-option

@@ -183,6 +183,7 @@
       :editOrAdd="editOrAdd"
       @closeDialog="closeDialog"
       :topicInfo="lookThemenObj"
+      :isGetInfoById="true"
     >
     </addTopicNew>
   </div>
@@ -382,7 +383,7 @@ export default {
     // 查看更多
     handleMore() {
       this.$router.push({
-        path: '/meeting/live/special-more-themens',
+        path: '/meeting/live/special-more-themens'
         // query: {
         //   meetingTypeId: this.meetingTypeId
         // }
