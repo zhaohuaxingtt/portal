@@ -83,7 +83,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 2">
                         <span>零件采购项目类型：</span>
-                        <span>{{ infoData.purchaseType }}</span>
+                        <span>{{ infoData.purchaseTypeName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 2">
                         <span>工厂：</span>
@@ -178,7 +178,7 @@
                         <span>{{ infoData.rsProCapacity }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>是否做过成本分析：</span>
+                        <span>是否做过零件成本分析：</span>
                         <span :class="infoData.isIngredientAnalyze?'link':''"  @click="toUrl(infoData,'isIngredientAnalyze')">{{ infoData.isIngredientAnalyze ? language('LK_SHI', '是') : language('LK_FOU', '否')
                             }}</span>
                     </div>
