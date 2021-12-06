@@ -60,11 +60,11 @@
                               .plusDayEndTime
                           ) > 0
                           ? end +
-                            ` +${
-                              Number(meetingInfo.themens[
+                            ` +${Number(
+                              meetingInfo.themens[
                                 meetingInfo.themens.length - 1
-                              ].plusDayEndTime)
-                            }`
+                              ].plusDayEndTime
+                            )}`
                           : end
                         : handleEndTime(meetingInfo)
                       : handleEndTime(meetingInfo)
@@ -181,7 +181,13 @@
               prop="type"
             >
               <template slot-scope="scope">
-                {{ scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type }}
+                {{
+                  scope.row.isBreak
+                    ? '/'
+                    : scope.row.type === 'MANUAL'
+                    ? '手工议题'
+                    : scope.row.type
+                }}
               </template>
             </el-table-column>
             <el-table-column align="center" width="30"></el-table-column>
@@ -203,7 +209,11 @@
               min-width="44"
             >
               <template slot-scope="scope">
-                <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
+                <span>{{
+                  scope.row.isBreak
+                    ? '/'
+                    : themenConclusion[scope.row.conclusionCsc]
+                }}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" width="30"></el-table-column>
@@ -214,6 +224,9 @@
               min-width="19"
               prop="ep"
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '/' : scope.row.ep }}</span>
+              </template>
             </el-table-column>
             <el-table-column align="center" width="31"></el-table-column>
             <el-table-column
@@ -223,6 +236,9 @@
               min-width="61"
               prop="supporter"
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '/' : scope.row.supporter }}</span>
+              </template>
             </el-table-column>
             <el-table-column align="center" width="24"></el-table-column>
             <el-table-column
@@ -232,6 +248,9 @@
               min-width="48"
               prop="presenter"
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '/' : scope.row.presenter }}</span>
+              </template>
             </el-table-column>
             <el-table-column align="center" width="24"></el-table-column>
             <el-table-column
@@ -241,6 +260,11 @@
               min-width="79"
               prop="presenterDept"
             >
+              <template slot-scope="scope">
+                <span>{{
+                  scope.row.isBreak ? '/' : scope.row.presenterDept
+                }}</span>
+              </template>
             </el-table-column>
             <el-table-column align="center" width="30"></el-table-column>
             <el-table-column
@@ -271,6 +295,11 @@
               min-width="89"
               prop="sourcingNo"
             >
+              <template slot-scope="scope">
+                <span>{{
+                  scope.row.isBreak ? '/' : scope.row.sourcingNo
+                }}</span>
+              </template>
             </el-table-column>
             <el-table-column align="center" width="30"></el-table-column>
             <el-table-column
@@ -280,6 +309,9 @@
               min-width="30"
               prop="tnr"
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '/' : scope.row.tnr }}</span>
+              </template>
             </el-table-column>
             <el-table-column align="center" width="30"></el-table-column>
             <el-table-column
@@ -289,6 +321,9 @@
               width="59"
               prop="benCn"
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '/' : scope.row.benCn }}</span>
+              </template>
             </el-table-column>
             <el-table-column align="center" width="30"></el-table-column>
             <el-table-column
@@ -298,6 +333,9 @@
               width="58"
               prop="benDe"
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '/' : scope.row.benDe }}</span>
+              </template>
             </el-table-column>
             <el-table-column align="center" width="30"></el-table-column>
             <el-table-column
@@ -307,7 +345,8 @@
               min-width="44"
             >
               <template slot-scope="scope">
-                <span
+                <span v-if="scope.row.isBreak">/</span>
+                <span v-else
                   >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
                     scope.row.preCount ? scope.row.preCount : 0
                   }}</span
@@ -322,6 +361,9 @@
               min-width="49"
               prop="carline"
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '/' : scope.row.carline }}</span>
+              </template>
             </el-table-column>
             <el-table-column align="center" width="30"></el-table-column>
             <el-table-column
@@ -332,8 +374,10 @@
               prop="partType"
             >
               <template slot-scope="scope">
-                <span class="open-link-text">{{ scope.row.remark }}</span>
                 <span v-if="scope.row.isBreak">/</span>
+                <span class="open-link-text" v-else>{{
+                  scope.row.partType
+                }}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" width="26.5"></el-table-column>
@@ -437,6 +481,9 @@
                 min-width="19"
                 prop="ep"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.isBreak ? '/' : scope.row.ep }}</span>
+                </template>
               </el-table-column>
               <el-table-column align="center" width="31"></el-table-column>
               <el-table-column
@@ -446,6 +493,11 @@
                 min-width="61"
                 prop="supporter"
               >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.isBreak ? '/' : scope.row.supporter
+                  }}</span>
+                </template>
               </el-table-column>
               <el-table-column align="center" width="24"></el-table-column>
               <el-table-column
@@ -455,6 +507,11 @@
                 min-width="48"
                 prop="presenter"
               >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.isBreak ? '/' : scope.row.presenter
+                  }}</span>
+                </template>
               </el-table-column>
               <el-table-column align="center" width="24"></el-table-column>
               <el-table-column
@@ -464,6 +521,11 @@
                 min-width="79"
                 prop="presenterDept"
               >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.isBreak ? '/' : scope.row.presenterDept
+                  }}</span>
+                </template>
               </el-table-column>
               <el-table-column align="center" width="30"></el-table-column>
               <el-table-column
@@ -482,6 +544,11 @@
                 min-width="89"
                 prop="sourcingNo"
               >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.isBreak ? '/' : scope.row.sourcingNo
+                  }}</span>
+                </template>
               </el-table-column>
               <el-table-column align="center" width="30"></el-table-column>
               <el-table-column
@@ -491,6 +558,9 @@
                 min-width="30"
                 prop="tnr"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.isBreak ? '/' : scope.row.tnr }}</span>
+                </template>
               </el-table-column>
               <el-table-column align="center" width="30"></el-table-column>
               <el-table-column
@@ -500,6 +570,9 @@
                 width="59"
                 prop="benCn"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.isBreak ? '/' : scope.row.benCn }}</span>
+                </template>
               </el-table-column>
               <el-table-column align="center" width="30"></el-table-column>
               <el-table-column
@@ -509,6 +582,9 @@
                 width="58"
                 prop="benDe"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.isBreak ? '/' : scope.row.benDe }}</span>
+                </template>
               </el-table-column>
               <el-table-column align="center" width="30"></el-table-column>
               <el-table-column
@@ -518,7 +594,8 @@
                 min-width="44"
               >
                 <template slot-scope="scope">
-                  <span
+                  <span v-if="scope.row.isBreak"></span>
+                  <span v-else
                     >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
                       scope.row.preCount ? scope.row.preCount : 0
                     }}</span
@@ -533,6 +610,9 @@
                 min-width="49"
                 prop="carline"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.isBreak ? '/' : scope.row.carline }}</span>
+                </template>
               </el-table-column>
               <el-table-column align="center" width="30"></el-table-column>
               <el-table-column
@@ -543,8 +623,10 @@
                 prop="partType"
               >
                 <template slot-scope="scope">
-                  <span class="open-link-text">{{ scope.row.remark }}</span>
                   <span v-if="scope.row.isBreak">/</span>
+                  <span class="open-link-text" v-else>{{
+                    scope.row.partType
+                  }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="26.5"></el-table-column>

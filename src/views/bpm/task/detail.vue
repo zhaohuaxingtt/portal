@@ -6,7 +6,8 @@
         <viewFlow :detail="form" />
         <!-- 批准 -->
         <iButton
-          v-if="(!finished && buttons.批准) || buttons.无异议"
+          v-if="!finished && (buttons.批准 || buttons.无异议)"
+          :loading="loading"
           @click="onComplete(mapApprovalType.AGREE, $t('APPROVAL.APPROVEL'))"
         >
           {{ buttons.批准 ? language('批准') : language('无异议') }}
@@ -14,6 +15,7 @@
         <!-- 拒绝 -->
         <iButton
           v-if="!finished && buttons.拒绝"
+          :loading="loading"
           @click="onComplete(mapApprovalType.REFUSE, $t('APPROVAL.REFUSE'))"
         >
           {{ $t('APPROVAL.REFUSE') }}
@@ -21,6 +23,7 @@
         <!-- 补充材料 -->
         <iButton
           v-if="!finished && (buttons.补充材料 || buttons.有异议)"
+          :loading="loading"
           @click="
             onComplete(
               mapApprovalType.APPEND_DATA,
@@ -251,6 +254,17 @@ export default {
     }
   },
   methods: {
+    replaceUrl() {
+      const { instanceId, taskId } = this.$route.params
+      this.$router.replace({
+        name: 'bpmTaskFinishDetail',
+        params: {
+          instanceId,
+          taskId,
+          finished: 'yes'
+        }
+      })
+    },
     getDetail() {
       const { instanceId } = this.$route.params
       const params = {
@@ -325,12 +339,14 @@ export default {
             this.loading = false
             if (res.result) {
               this.$message.success(this.$t('APPROVAL.OPERATION_SUCCESSFUL'))
-              setTimeout(() => {
+              /* setTimeout(() => {
                 window.close()
-              }, 3000)
+              }, 2000) */
+
               if (window.opener) {
                 window.opener.location.reload()
               }
+              this.replaceUrl()
             } else {
               this.$message.error(
                 res.desZh || this.$t('APPROVAL.OPERATION_FAILED')

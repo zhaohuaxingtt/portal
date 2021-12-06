@@ -55,7 +55,7 @@ export default {
     handleChange(e) {
       if (e.value === 2) {
         this.query().then((res) => {
-          if (res) {
+          if (res && res.id) {
             this.$router.push({
               path: '/meeting/specialLive',
               query: {

@@ -192,6 +192,7 @@
       :openAddTopic="openAddTopic"
       :editOrAdd="editOrAdd"
       :topicInfo="lookThemenObj"
+      :isGetInfoById="true"
     >
     </addTopicNew>
   </div>

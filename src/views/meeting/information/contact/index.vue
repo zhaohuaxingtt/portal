@@ -3,20 +3,30 @@
     <iEditForm>
       <ul class="button-list">
         <li class="button-item">
-          <iButton @click="handleAdd" :disabled="!isCanAdd">{{$t('新增')}}</iButton>
+          <iButton @click="handleAdd" :disabled="!isCanAdd">{{
+            $t('新增')
+          }}</iButton>
         </li>
         <li class="button-item">
           <iButton
             @click="handleDelete"
             :disabled="selectedRow.length > 0 ? false : true"
-            >{{$t('删除')}}</iButton
+            >{{ $t('删除') }}</iButton
           >
         </li>
         <li class="button-item">
-          <iButton @click="cancel">{{ $t('取消') }}</iButton>
+          <iButton
+            @click="cancel"
+            :disabled="ruleForm.meetingInfo.length <= 0"
+            >{{ $t('取消') }}</iButton
+          >
         </li>
         <li class="button-item">
-          <iButton @click="handleSubmit('ruleForm')">{{ $t('保存') }}</iButton>
+          <iButton
+            @click="handleSubmit('ruleForm')"
+            :disabled="ruleForm.meetingInfo.length <= 0"
+            >{{ $t('保存') }}</iButton
+          >
         </li>
       </ul>
       <el-form
@@ -300,21 +310,16 @@ export default {
       await new Promise((resolve, reject) => {
         getMeetingContact()
           .then((res) => {
-            if (res.length == 0) {
-              resolve()
-              return
-            } else {
-              this.ruleForm.meetingInfo = [...res].map((it) => {
-                return {
-                  ...it,
-                  meetingTypeId: this.meetingTypeList.find((item) => {
-                    return Number(it.meetingTypeId) === Number(item.id)
-                  }),
-                  uniqueId: 'a' + Math.random() + Math.random()
-                }
-              })
-              this.originRes = [...res]
-            }
+            this.ruleForm.meetingInfo = [...res].map((it) => {
+              return {
+                ...it,
+                meetingTypeId: this.meetingTypeList.find((item) => {
+                  return Number(it.meetingTypeId) === Number(item.id)
+                }),
+                uniqueId: 'a' + Math.random() + Math.random()
+              }
+            })
+            this.originRes = [...res]
             resolve()
           })
           .catch((err) => {

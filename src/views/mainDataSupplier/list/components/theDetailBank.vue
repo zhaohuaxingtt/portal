@@ -1,5 +1,5 @@
 <template>
-  <iCard :title="$t('银行信息')" collapse>
+  <iCard :title="language('银行信息')" collapse>
     <div class="actions" slot="header-control">
       <iButton v-show="!editable" @click="editable = true">编辑</iButton>
       <iButton v-show="editable" @click="save">保存</iButton>
@@ -15,43 +15,43 @@
     >
       <el-row :gutter="20">
         <el-col :span="6">
-          <iFormItem :label="$t('银行名称')" prop="materialGroupCode">
+          <iFormItem :label="language('银行名称')" prop="materialGroupCode">
             <iInput
               v-model="form.bankName"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
               :disabled="!editable"
             />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('银行代码')" prop="materialGroupNameZh">
+          <iFormItem :label="language('银行代码')" prop="materialGroupNameZh">
             <iInput
               v-model="form.bankCode"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
               :disabled="!editable"
             />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('银行账号')" prop="materialGroupNameEn">
+          <iFormItem :label="language('银行账号')" prop="materialGroupNameEn">
             <iInput
               v-model="form.bankAccount"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
               :disabled="!editable"
             />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('税务代码')" prop="dept">
+          <iFormItem :label="language('税务代码')" prop="dept">
             <iInput
               v-model="form.bankTaxCode"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
               :disabled="!editable"
             />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('银行所在地')" prop="rawMaterialCodes">
+          <iFormItem :label="language('银行所在地')" prop="rawMaterialCodes">
             <areaSelect
               :countryCode.sync="form.countryCode"
               :cityCode.sync="form.cityCode"
@@ -63,11 +63,11 @@
         </el-col>
 
         <el-col :span="6">
-          <iFormItem :label="$t('公司代码?')">
+          <iFormItem :label="language('公司代码?')">
             <iInput
               v-model="form.rawMaterialCodes"
               :disabled="!editable"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
             />
           </iFormItem>
         </el-col>
@@ -126,7 +126,7 @@ export default {
       }
     },
     save() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           const params = { supplierId: this.supplierId }
           const data = {
@@ -146,7 +146,7 @@ export default {
             }
           }
           updateSupplierBank(params, data)
-            .then(res => {
+            .then((res) => {
               if (res.result) {
                 iMessage.success(res.desZh || '保存成功')
                 this.editable = false
@@ -154,7 +154,7 @@ export default {
                 iMessage.error(res.desZh || '保存失败')
               }
             })
-            .catch(err => {
+            .catch((err) => {
               iMessage.error(err.desZh || '保存失败')
             })
         }

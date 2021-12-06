@@ -103,7 +103,7 @@ export default {
         publishRangeOptions:PUBLISH_SCOPE_OPTIONS,
         formContent:{
           popupName:'',
-          linkUrl:'',
+          linkUrl:null,
           wordAlign:'0',
           publishRange:0,
           deletePreTime:'',
