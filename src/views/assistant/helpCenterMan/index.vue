@@ -147,7 +147,7 @@ export default {
 		async getProbleList() {
 			this.manualInfo.loading = true
 			try {
-				await getModuleList().then((res) => {
+				await getModuleList(this.activeUser).then((res) => {
 					if (res.code === '200') {
 						this.qsInfo.moduleList = res.data
 						this.manualInfo.list = res.data
@@ -208,13 +208,13 @@ export default {
 		},
 		changeReq(){
 			if(this.activeMoudle == 'manual'){
-				if(!this.manualInfo.id){
+				if(!this.manualInfo.id && this.manualInfo.list.length > 0){
 					this.manualInfo.id = this.manualInfo.list[0]?.id
 					this.manualInfo.activeInfo = this.manualInfo.list[0]
 					this.queryManualDetail()
 				}
 			}else{
-				if(!this.qsInfo.id){
+				if(!this.qsInfo.id && this.qsInfo.list.length > 0){
 					this.qsInfo.id = this.qsInfo.list[0]?.id
 					this.qsInfo.activeInfo = this.qsInfo.list[0]
 					this.queryProblemDetail()
@@ -226,15 +226,18 @@ export default {
 			this.activeUser = t.name
 			this.getProbleList()
 			if(this.activeMoudle == 'question'){
-				this.refreshQs()
+				this.$nextTick(() => {
+					this.refreshQs()
+					this.$refs.qs.getModuleList(t.name)
+				})
 			}
 		},
 		// 查询用户手册详情
 		async queryManualDetail(){
 			try {
 				this.contentLoading = true
-				let res = await getUserDes({moduleId:this.manualInfo.id,source:this.activeUser})
-				this.manualInfo.detail = res.data || {}
+				let {data} = await getUserDes({moduleId:this.manualInfo.id,source:this.activeUser})
+				this.manualInfo.detail = data || {}
 			} finally {
 				this.contentLoading = false
 			}
