@@ -83,12 +83,12 @@ export default {
       menuMap: {},
       menus_admin: [],
       menu2IconMap: {
-        RISE_HOME: ['iconhomeweixuanzhong', 'iconhomexuanzhong'],
-        RISE_WORKBENCH: ['iconworkbenchweixuanzhong', 'iconworkbenchxuanzhong'],
+        RISE_HOME: ['iconshouyehei', 'iconshouyelan'],
+        RISE_WORKBENCH: ['iconcshei', 'iconcslan'],
         RISE_GP: ['icona-GPtubiaohei', 'icona-GPtubiaolan'],
         RISE_COMMON_FUNCTION: [
-          'iconcommonfunctionweixuanzhong',
-          'iconcommonfunctionxuanzhong'
+          'icontongyonggongnenghei',
+          'icontongyonggongnenglan'
         ],
         RISE_ADMIN: ['', '']
       },
@@ -146,7 +146,7 @@ export default {
     handleSelect(list) {
       console.log(list, 'llll')
       let activeMenu = this.$route.meta?.activeMenu || []
-      this.$router.push({ name: list.key, params: { currentMenu: activeMenu }})
+      this.$router.push({ name: list.key, params: { currentMenu: activeMenu } })
     },
     getMenus() {
       const menuMap = this.getMenusMap(this.menuList)
@@ -160,7 +160,10 @@ export default {
         item.key = item.id
         item.permissionKey === 'RISE_HOME'
           ? // item.url.slice(9)//
-            (item.url = process.env.VUE_APP_HOST + item.url)
+            (item.url = item.url =
+              (process.env.VUE_APP_HOST
+                ? process.env.VUE_APP_HOST
+                : window.location.origin) + item.url)
           : ''
         if (
           item.parentId &&
@@ -168,7 +171,10 @@ export default {
           item.url.indexOf('http') === -1 &&
           item.url.indexOf('https') === -1
         ) {
-          item.url = process.env.VUE_APP_HOST + item.url
+          item.url =
+            (process.env.VUE_APP_HOST
+              ? process.env.VUE_APP_HOST
+              : window.location.origin) + item.url
         } else {
           item.url = item.url || ''
         }
@@ -226,17 +232,20 @@ export default {
     },
     handleClick(list) {
       console.log(window.location.href, '122222')
-      this.$router.push({name: list.key, params: { currentUrl: window.location.href }})
+      this.$router.push({
+        name: list.key,
+        params: { currentUrl: window.location.href }
+      })
       // this.$router.push(list.path)
     },
     handleClickAdminMenu(val) {
-      if(val == 'logout'){
+      if (val == 'logout') {
         this.$refs.popupNotify.clearNotify(val)
       }
       console.log('点击了admin 菜单')
       this.$refs.leftLayout.activeIndex = ''
     }
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>
