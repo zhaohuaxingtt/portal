@@ -65,6 +65,11 @@
 .overflow-auto {
     overflow: auto;
 }
+.ellipsis{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .nav {
   ::v-deep .el-tabs__active-bar {
     background-color: transparent !important;

@@ -8,7 +8,7 @@
                     <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.partNumber"></iInput>
                 </el-form-item>
                 <!--材料组-->
-                <el-form-item :label="$t('EKL_CAILIAOZU')">
+                <el-form-item :label="$t('EKL_CLZ')">
                     <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.csGroup">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
