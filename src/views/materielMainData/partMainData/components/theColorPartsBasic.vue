@@ -279,7 +279,7 @@ export default {
     position: relative;
     .check-box{
         position: absolute;
-        left: -210px;
+        left: -170px;
         ::v-deep .el-checkbox__inner{
             border-radius: 4px;
         }
