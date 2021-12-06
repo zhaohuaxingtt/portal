@@ -49,6 +49,7 @@ export default {
         nameListKV:{},
         tableListData: [],
       },
+      tempList:[]
     }
   },
   async mounted () {
@@ -70,6 +71,7 @@ export default {
         })
         this.$nextTick(() => {
           this.extraData.tableListData = res.data
+          this.tempList = JSON.parse(JSON.stringify(res.data))
         })
       } finally {
         this.tableLoading = false
@@ -92,7 +94,7 @@ export default {
       this.isEdit = false;
       this.extraData.selectionRowIds = [];
       this.$refs.testTable.clearSelection()
-      this.query()
+      this.extraData.tableListData = JSON.parse(JSON.stringify(this.tempList))
     },
     async confirmEditHandler () { 
       // 保存

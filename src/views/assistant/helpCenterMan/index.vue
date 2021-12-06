@@ -147,7 +147,7 @@ export default {
 		async getProbleList() {
 			this.manualInfo.loading = true
 			try {
-				await getModuleList().then((res) => {
+				await getModuleList(this.activeUser).then((res) => {
 					if (res.code === '200') {
 						this.qsInfo.moduleList = res.data
 						this.manualInfo.list = res.data
@@ -226,7 +226,10 @@ export default {
 			this.activeUser = t.name
 			this.getProbleList()
 			if(this.activeMoudle == 'question'){
-				this.refreshQs()
+				this.$nextTick(() => {
+					this.refreshQs()
+					this.$refs.qs.getModuleList(t.name)
+				})
 			}
 		},
 		// 查询用户手册详情
