@@ -98,7 +98,6 @@ export default {
 			this.$emit('closeQuesDialog', false)
 		},
 		getFilesList(fileList) {
-			console.log(fileList, "11111")
 			this.fileList = fileList
 		},
 		sendMessage() {
@@ -110,16 +109,16 @@ export default {
 					this.fileList.map(item => {
 						list.push({
 							fileName: item.name,
-							fileUrl: item.path,
-							bizType: '',
-							bizId: 0
+							fileUrl: item.path
+							// bizType: '',
+							// bizId: 0
 						})
 					})
 				}
 				let params = {
 					replyContent: this.askContent,
 					questionId: this.questionAnswerContent.id,
-					list
+					attachmentList: list
 				}
 				submitAwContent(params).then((res) => {
 					console.log(res, "111122233")
