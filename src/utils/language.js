@@ -24,7 +24,6 @@ Vue.prototype.language = function (languageKey, name, params) {
       languageKey + '----' + name + '----' + this.$router.currentRoute.path
     )
   }
-  console.log('language languageKey', languageKey)
   if (params) {
     return this.$t(languageKey, params) || languageKey
   }
