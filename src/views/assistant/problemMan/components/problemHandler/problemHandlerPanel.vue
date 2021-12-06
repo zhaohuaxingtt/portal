@@ -3,7 +3,7 @@
     <div class="left-content">
       <el-row :gutter="20">
         <el-col span="14">
-          <iInput v-model="keyWord" placeholder="搜索.." @blur="keyWordBlurHandle" />
+          <iInput v-model="keyWord" placeholder="搜索.." @keydown.native.enter="keyWordBlurHandle" />
         </el-col>
         <el-col span="10">
           <iSelect v-model="questionModuleId" filterable placeholder="问题模块" clearable="true" @change="questionModuleHandle" @clear="clearModuleHandle">
@@ -47,6 +47,7 @@
           </el-card>
         </div>
       </template>
+      <p class="no-data" v-if="categoryCardList.length == 0">暂无数据</p>
     </div>
     <div class="right-content ml20">
       <div class="content">
@@ -329,10 +330,14 @@ export default {
         const { data } = response;
         this.questionDetail = data;
         console.log(data, '11213456')
+        let types = {
+          inner: "内部用户",
+          supplier:"供应商用户"
+        }
         this.editForm = {
           questionLableId: data?.questionLableId,
           questionModuleId: data?.questionModuleId,
-          source: data?.source,
+          source: types[data?.source] || ""
         }
         // 查询标签列表
         this.queryLabelByModuleId(data?.questionModuleId);
@@ -391,10 +396,10 @@ export default {
     async answerQuestion (hasClosed) {
       console.log(this.uploadFileList);
       if (!this.uploadFileList.length) {
-        this.$message.error('请上传附件');
+       return this.$message.error('请上传附件');
       }
       if (!this.replyContent) {
-        this.$message.error('请填写回复内容');
+        return this.$message.error('请填写回复内容');
       }
       const attachmentList = this.uploadFileList.map(item => {
         return {
@@ -582,7 +587,7 @@ export default {
     .content {
       border: 1px solid #f2f2f2;
       width: 100%;
-      height: auto;
+      // height: auto;
       padding: 30px;
       box-sizing: border-box;
       .name {
@@ -604,5 +609,10 @@ export default {
       }
     }
   }
+}
+.no-data{
+  margin-top: 50px;
+  color: #999;
+  text-align: center;
 }
 </style>

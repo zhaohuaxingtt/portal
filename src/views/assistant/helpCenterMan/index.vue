@@ -208,13 +208,13 @@ export default {
 		},
 		changeReq(){
 			if(this.activeMoudle == 'manual'){
-				if(!this.manualInfo.id){
+				if(!this.manualInfo.id && this.manualInfo.list.length > 0){
 					this.manualInfo.id = this.manualInfo.list[0]?.id
 					this.manualInfo.activeInfo = this.manualInfo.list[0]
 					this.queryManualDetail()
 				}
 			}else{
-				if(!this.qsInfo.id){
+				if(!this.qsInfo.id && this.qsInfo.list.length > 0){
 					this.qsInfo.id = this.qsInfo.list[0]?.id
 					this.qsInfo.activeInfo = this.qsInfo.list[0]
 					this.queryProblemDetail()
@@ -233,8 +233,8 @@ export default {
 		async queryManualDetail(){
 			try {
 				this.contentLoading = true
-				let res = await getUserDes({moduleId:this.manualInfo.id,source:this.activeUser})
-				this.manualInfo.detail = res.data || {}
+				let {data} = await getUserDes({moduleId:this.manualInfo.id,source:this.activeUser})
+				this.manualInfo.detail = data || {}
 			} finally {
 				this.contentLoading = false
 			}
