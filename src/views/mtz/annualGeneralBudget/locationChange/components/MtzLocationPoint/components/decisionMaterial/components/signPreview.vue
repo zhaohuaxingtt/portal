@@ -38,12 +38,6 @@
             :tableLoading="loading"
             :index="true"
             :selection="false">
-            <template slot-scope="scope" slot="compensationPeriod">
-              <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-            </template>
-            <template slot-scope="scope" slot="thresholdCompensationLogic">
-              <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-            </template>
           </tableList>
           <tableList
             class="margin-top20"
@@ -70,12 +64,10 @@
             :tableLoading="loading"
             :index="true"
             :selection="false">
-            <template slot-scope="scope" slot="compensationPeriod">
-              <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-            </template>
-            <template slot-scope="scope" slot="thresholdCompensationLogic">
-              <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-            </template>
+            <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+          </template>
           </tableList>
           <tableList
             class="margin-top20"
@@ -88,7 +80,17 @@
             <template slot-scope="scope" slot="compensationPeriod">
               <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
             </template>
-            <template slot-scope="scope" slot="thresholdCompensationLogic">
+          </tableList>
+          <tableList class="margin-top20"
+                    :tableData="partTableListData"
+                    :tableTitle="partTableTitle1_3"
+                    :tableLoading="loading"
+                    v-if="!RsObject && partTableListData.length>0"
+                    :index="true"
+                    :selection="false"
+                    >
+            <template slot-scope="scope"
+                      slot="thresholdCompensationLogic">
               <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
             </template>
           </tableList>
@@ -142,7 +144,7 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1_1,ruleTableTitle1_2, partTableTitle1_1,partTableTitle1_2} from './data'
+import { ruleTableTitle1_1,ruleTableTitle1_2, partTableTitle1_1,partTableTitle1_2,partTableTitle1_3} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 // import { downloadPdfMixins } from '@/utils/pdf';
@@ -167,6 +169,7 @@ export default {
       ruleTableTitle1_2,
       partTableTitle1_1,
       partTableTitle1_2,
+      partTableTitle1_3,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,

@@ -146,12 +146,12 @@ export default {
         this.viewLinke = false;
       }
       // 最热
-      findHotNews(params).then((res) => {
+      findHotNews().then((res) => {
         console.log(res);
         this.hotRuleForm = res;
       });
       // 最新
-      findLatestNews(params).then((res) => {
+      findLatestNews().then((res) => {
         console.log(res);
         this.testRuleForm = res;
         this.testRuleForm = this.testRuleForm?.map((item) => {

@@ -145,7 +145,7 @@ export default {
         query
       })
       window.open(routerPath.href)
-      this.isShowSource = true
+      // this.isShowSource = true
     },
     exoprtTemplate () {
       historyExport({

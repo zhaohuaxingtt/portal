@@ -268,6 +268,7 @@
           </el-col>
         </el-row>
       </el-form>
+
       <!-- 项目采购员 -->
       <i-selector-dialog
         :show.sync="dialogPurchaseVisible"
@@ -278,7 +279,7 @@
         :title="'项目采购员'"
         :search-method="handlePurchaseSearch"
         :tag-label="'nameZh'"
-      ></i-selector-dialog>
+      />
 
       <!-- 区域控制员 -->
       <i-selector-dialog
@@ -290,7 +291,7 @@
         :title="'区域控制员'"
         :search-method="handleAreaControllerSearch"
         :tag-label="'nameZh'"
-      ></i-selector-dialog>
+      />
 
       <!-- 产品经理 -->
       <i-selector-dialog
@@ -302,7 +303,7 @@
         :title="'产品经理'"
         :search-method="handleProjectManagerSearch"
         :tag-label="'nameZh'"
-      ></i-selector-dialog>
+      />
     </div>
   </iCard>
 </template>
@@ -368,8 +369,9 @@ export default {
       this.formData.cartypeId = parma
     },
     dialogUserList(param) {
-      let params = param
-      return getPageListByParams(params)
+      console.log('params', param)
+      // let params = param
+      return getPageListByParams({ ...param, current: param.pageNo })
     },
     searchUser(param) {
       // 人员配置

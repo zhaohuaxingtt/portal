@@ -1046,7 +1046,11 @@ export default {
     },
     addDialogDataList (val) {//沿用
       val.forEach(item => {
-        item.source = item.sourceType;
+        // item.source = item.sourceType;
+        this.$set(item,"source",item.sourceType)
+        // if(item.preciousMetalDosageUnit == ""){
+        //   this.$set(item,"preciousMetalDosageUnit","OZ")
+        // }
         item.formalFlag = "Y";
         delete item.sourceType;
         delete item.id;
@@ -1057,7 +1061,6 @@ export default {
           item.carlineList = item.carline.split(",")
         }
         // checkPreciousMetal({code:item.materialCode}).then(res=>{
-        //     this.$set(item,"metalType",res.data)
         // })
       })
       this.newDataList = val;

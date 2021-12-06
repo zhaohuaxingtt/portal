@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-03 17:09:10
+ * @LastEditTime: 2021-12-04 22:13:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -376,6 +376,7 @@ export default {
       let selectList = this.muliteList.map(item => {
         return {
           dosage: item.newDosage || "",
+          id: item.id,
           endDate: this.dateList[this.dateList.length - 1].value[1],
           mtzBasePriceId: item.mtzBasePriceId || "",
           startDate: this.dateList[0].value[0],
@@ -452,9 +453,13 @@ export default {
         id: this.dateList.length + 1,
         value: []
       })
+      let date = this.dateList[this.dateList.length - 2].value[1]
+      this.dateList[this.dateList.length - 1].value[0] = window.moment(new Date(date.replace(/-/g, '/')).getTime() + 86400000).format('YYYY-DD-MM')
+      this.dateList[this.dateList.length - 1].value[1] = this.getNewDay(this.dateList[this.dateList.length - 1].value[0], 365)
+      // this.dataList[this.dataList.length - 1].value = new Date(date.replace(/-/g, '/')).getTime() + 86400000
       this.pickerOptions = {
         disabledDate: time => {
-          let date = this.dateList[this.dateList.length - 2].value[1]
+
           if (this.dateList.length === 1) {
             return
           }

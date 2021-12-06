@@ -196,7 +196,7 @@ export default {
     },
     handlePreview() {
       let { href } = this.$router.resolve({
-        name: "newsProjectDetails",
+        name: this.ruleForm.category==2 ? "topicDetail" : "newsProjectDetails",
       });
       if (this.showButton) {
         const formData = {

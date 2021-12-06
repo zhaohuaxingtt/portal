@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <pageHeader>
+    <pageHeader class="margin-bottom20">
       <span>岗位代理</span>
       <div slot="actions">
         <actionButtons

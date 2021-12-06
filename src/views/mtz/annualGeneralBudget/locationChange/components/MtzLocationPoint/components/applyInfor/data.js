@@ -367,7 +367,7 @@ export const formRulesLJ = {
   priceUnit:[{required: true, message: '请选择', trigger: 'blur'}],//每
   dosage:[{required: true, message: '请选择', trigger: 'blur'}],//用量
   dosageMeasureUnit:[{required: true, message: '请选择', trigger: 'blur'}],//用量计量单位
-  mark:[{required: true, message: '请选择', trigger: 'blur'}],//备注
+  // mark:[{required: true, message: '请选择', trigger: 'blur'}],//备注
 
   // materialGroup:[{required: true, message: '请选择', trigger: 'blur'}],//MTZ-材料组
   // carline:[{required: true, message: '请选择', trigger: 'blur'}],//车型

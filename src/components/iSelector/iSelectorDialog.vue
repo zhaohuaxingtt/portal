@@ -232,10 +232,6 @@ export default {
       })
     },
     resetStyle() {
-      console.log(
-        'document.getElementsByClassName',
-        document.getElementsByClassName('tag-wrapper')
-      )
       const domArray = document.getElementsByClassName('tag-wrapper')
       const length = domArray.length
       const el = document.getElementsByClassName('tag-wrapper')[length - 1]
@@ -303,7 +299,7 @@ export default {
     },
     handleSelectionChange(val) {
       if (val) {
-        const listSelected = _.cloneDeep(this.listSelected)
+        const listSelected = _.cloneDeep(this.listSelected || [])
         const listSelectedCurrentPage = listSelectedByPage.get(
           this.page.currPage
         )

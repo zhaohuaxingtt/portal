@@ -51,7 +51,25 @@
             <div class="show">
               <div class="title">会议时间</div>
               <div class="content">
-                {{ `${begin}${end.includes(':') ? end : ''}` }}
+                {{
+                  `${begin}${
+                    end
+                      ? end.includes(':')
+                        ? Number(
+                            meetingInfo.themens[meetingInfo.themens.length - 1]
+                              .plusDayEndTime
+                          ) > 0
+                          ? end +
+                            ` +${
+                              Number(meetingInfo.themens[
+                                meetingInfo.themens.length - 1
+                              ].plusDayEndTime)
+                            }`
+                          : end
+                        : handleEndTime(meetingInfo)
+                      : handleEndTime(meetingInfo)
+                  }`
+                }}
               </div>
             </div>
           </div>
@@ -114,20 +132,18 @@
                 <span style="span-index">{{ scope.$index + 1 }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="24"></el-table-column>
+            <el-table-column align="center" width="14"></el-table-column>
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Time"
-              min-width="84"
+              min-width="104"
             >
               <template slot-scope="scope">
-                <span class="open-link-text">{{
-                  scope.row.time.split('~').join('-')
-                }}</span>
+                <span class="open-link-text">{{ scope.row.time }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <el-table-column align="center" width="20"></el-table-column>
             <!-- <el-table-column
               show-overflow-tooltip
               align="center"
@@ -359,9 +375,7 @@
                 min-width="84"
               >
                 <template slot-scope="scope">
-                  <span class="open-link-text">{{
-                    scope.row.time.split('~').join('-')
-                  }}</span>
+                  <span class="open-link-text">{{ scope.row.time }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" width="30"></el-table-column>
@@ -859,6 +873,21 @@ export default {
   //   }
   // },
   methods: {
+    handleEndTime(row) {
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return '~' + str + ' +1'
+      }
+      return '~' + str
+    },
     //待定
     bePending() {
       this.isOther = true
@@ -1295,7 +1324,15 @@ export default {
         const endTime = dayjs(`2020-6-30 ${item.endTime}`).format('HH:mm')
         return {
           ...item,
-          time: `${startTime}~${endTime}`
+          time: `${
+            Number(item.plusDayStartTime) > 0
+              ? startTime + ' +' + Number(item.plusDayStartTime)
+              : startTime
+          }~${
+            Number(item.plusDayEndTime) > 0
+              ? endTime + ' +' + Number(item.plusDayEndTime)
+              : endTime
+          }`
         }
       })
     },
