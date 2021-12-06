@@ -114,6 +114,11 @@ export default {
       buttonLoad: false
     }
   },
+  updated () {
+    var tbody = window.document.getElementById('appRouterView')
+    var height = tbody.clientHeight
+    window.parent.postMessage({ key: 'setFormHeight', value: height + 'px' }, '*')
+  },
   methods: {
     async getTaskDetails () {
       this.loading = true
