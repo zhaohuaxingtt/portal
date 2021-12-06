@@ -13,17 +13,19 @@
       class="level-inner-menu"
       v-show="menusLevel3.length > 0 || menusLevel4.length > 0"
     >
-      <iNavMvp :list="menusLevel3" :lev="1" router-page />
+      <iNavMvp :list="menusLevel3" :lev="1" lang router-page />
 
       <iNavMvp
         v-if="menusLevel4.length > 0"
         class="menusLevel4"
         :list="menusLevel4"
         :lev="2"
+        lang
         router-page
       />
     </div>
-    <router-view style="height:100%" />
+
+    <router-view style="height: 100%" />
   </div>
 </template>
 
@@ -55,7 +57,7 @@ export default {
       const activePath = meta.activePath
       const hasParams = params && Object.keys(params).length > 0
       // pathIndex 对应几级菜单
-      const pathIndex = matched.findIndex(e => {
+      const pathIndex = matched.findIndex((e) => {
         let ePath = e.path
         if (hasParams) {
           return e.regex.test(path)
@@ -83,11 +85,13 @@ export default {
           activePath
         )
         this.menusLevel3 = this.generateMenuData(parentMenus, 3)
+        console.log('menusLevel3', this.menusLevel3)
 
         this.menusLevel4 = this.generateMenuData(pathMenus, 4)
+        console.log('menusLevel4', this.menusLevel4)
         // 找不到本级菜单，可能url所在菜单未赋权限
         if (!pathMenus) {
-          const childMenus = parentMenus.filter(e => e.url === parentPath)
+          const childMenus = parentMenus.filter((e) => e.url === parentPath)
           if (childMenus.length) {
             this.menusLevel4 = this.generateMenuData(childMenus[0].menuList, 4)
             if (this.menusLevel4.length) {
