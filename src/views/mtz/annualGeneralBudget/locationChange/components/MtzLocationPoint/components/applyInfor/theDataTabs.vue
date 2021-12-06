@@ -23,6 +23,7 @@
             <el-tooltip
                 :content="language('WENJIANDAXIAOBUCHAOGUO20MB','文件大小不超过20MB')"
                 placement="top"
+                effect="light"
             >
                 <iButton>{{language('SHANGCHUANFUJIAN', '上传附件')}}</iButton>
             </el-tooltip>
@@ -1035,8 +1036,17 @@ export default {
             supplierIdStr: this.$route.query.supplierId,
           }).then(res => {
             this.loading = false;
-            this.tableData = res.data;
-            this.newDataList = res.data;
+            var dataListCopy = res.data;
+            dataListCopy.forEach(e=>{
+              if(e.priceUnit == null){
+                this.$set(e,"priceUnit",1)
+              }
+              if(e.dosageMeasureUnit == null){
+                this.$set(e,"dosageMeasureUnit","KG")
+              }
+            })
+            this.tableData = dataListCopy;
+            this.newDataList = dataListCopy;
             this.editType = true;
 
             var changeArrayList = [];

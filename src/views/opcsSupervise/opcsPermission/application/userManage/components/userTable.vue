@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 17:19:36
+ * @LastEditTime: 2021-12-06 15:14:11
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -28,25 +28,25 @@
                   @click="editBtn">{{ language('BIANJI', '编辑') }}
         </i-button>
         <i-button v-if="!edit"
-                  @click="editBtn">{{ language('DONGJIE', '冻结') }}
+                  @click="freezeBtn">{{ language('DONGJIE', '冻结') }}
         </i-button>
         <i-button v-if="!edit"
-                  @click="editBtn">{{ language('JIEDONG', '解冻') }}
+                  @click="thawBtn">{{ language('JIEDONG', '解冻') }}
         </i-button>
         <i-button v-if="!edit"
-                  @click="editBtn">{{ language('TONGBULDAP', '同步LDAP') }}
+                  @click="editBtn">{{ language('LDAPTONGBU', '同步LDAP') }}
         </i-button>
         <i-button v-if="!edit"
-                  @click="editBtn">{{ language('JIHUO', '激活') }}
+                  @click="activeBtn">{{ language('JIHUO', '激活') }}
         </i-button>
         <i-button v-if="!edit"
-                  @click="editBtn">{{ language('XUQI', '续期') }}
+                  @click="renewalBtn">{{ language('XUQI', '续期') }}
         </i-button>
         <i-button v-if="!edit"
                   @click="download">{{ language('XIAZAIMOBAN', '下载模板') }}
         </i-button>
         <i-button v-if="!edit"
-                  @click="exportFile">{{ language('TONGBULDAP', '导出') }}
+                  @click="exportsTable">{{ language('DAOCHU', '导出') }}
         </i-button>
       </div>
     </div>
@@ -54,29 +54,46 @@
                 :tableTitle="edit?tableTitleEdit:tableTitle"
                 :tableLoading="tableLoading"
                 @handleSelectionChange="handleSelectionChange"
+                :input-props="['supplierNum', 'supplierName', 'supplierAddress','contactName','contactMobile','contactEmail','contactTel']"
                 :index="true"
                 ref="commonTable">
-      <template #position="scope">
-        <iInput v-if="!scope.row.id"
-                v-model="scope.row.position"
-                :placeholder="language('QINGSHURU', '请输入')" />
-        <p v-if="scope.row.id">{{ scope.row.position }}</p>
-      </template>
     </table-list>
+    <iPagination style="margin-top: 20px"
+                 v-update
+                 @size-change="handleSizeChange($event, getTableData)"
+                 @current-change="handleCurrentChange($event, getTableData)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page="page.currPage"
+                 :total="page.totalCount" />
   </iCard>
 </template>
 
 <script>
 import tableList from '@/components/commonTable'
+import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle, tableTitleEdit } from './data'
-import { iCard, iButton, iSelect, iInput } from 'rise'
+import { iCard, iButton, iSelect, iMessage, iPagination } from 'rise'
+import {
+  queryDetailUser,
+  thawUser,
+  saveUser,
+  renewalUser,
+  freezeUser,
+  exportUser,
+  downloadUser,
+  activeUser
+} from '@/api/opcs/solPermission'
 export default {
+  mixins: [pageMixins],
   components: {
     iCard,
     iButton,
     iSelect,
-    iInput,
-    tableList
+    tableList,
+    iPagination
   },
   data() {
     return {
@@ -85,16 +102,75 @@ export default {
       selectTableData: [],
       tableTitle: tableTitle,
       tableTitleEdit: tableTitleEdit,
-      tableListData: [{ position: '111', id: '1' }]
+      tableListData: []
     }
   },
+  created() {
+    this.getTableData()
+  },
   methods: {
+    save() {
+      this.$refs.commonTable.$refs.commonTableForm.validate((valid) => {
+        if (valid) {
+          saveUser(this.tableListData).then((res) => {
+            if (res && res.data == 200) {
+              iMessage.success(res.desZh)
+            }
+          })
+        }
+      })
+    },
+    //获取列表接口
+    getTableData() {
+      this.tableLoading = true
+      const params = {
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        ...this.form
+      }
+      queryDetailUser(params).then((res) => {
+        this.tableLoading = false
+        if (res && res.code == 200) {
+          this.tableListData = res.data
+          this.page.totalCount = res.total
+        } else iMessage.error(res.desZh)
+      })
+    },
     editBtn() {
       this.edit = true
     },
     cancelBtn() {
+      this.tableListData = []
+      this.getTableData()
+      this.editMode = false
       this.edit = false
     },
+    //导出
+    exportsTable() {
+      exportUser()
+    },
+    //下载模板
+    download() {
+      downloadUser()
+    },
+    //解冻
+    thawBtn() {
+      thawUser()
+    },
+    //激活
+    activeBtn() {
+      activeUser()
+    },
+    //冻结
+    freezeBtn() {
+      freezeUser()
+    },
+    //续期
+    renewalBtn() {
+      renewalUser()
+    },
+
+    //新增
     add() {
       const newItemList = this.tableTitle.map((item) => {
         return item.props
@@ -116,4 +192,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style  lang="scss" scope>
+.el-table .el-table__row .el-input {
+  width: 100% !important;
+}
+</style>

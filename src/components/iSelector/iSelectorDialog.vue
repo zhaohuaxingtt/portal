@@ -256,7 +256,7 @@ export default {
         })
         listSelectedByPage.set(key, arr)
       }
-      this.listSelected = _.cloneDeep(listSelected)
+      this.listSelected = _.cloneDeep(listSelected || [])
       this.form.listSelected = this.listSelected?.join(',')
       this.resetStyle()
       this.toggleSelection()
@@ -327,7 +327,7 @@ export default {
       }
     },
     handleOpen() {
-      this.listSelected = _.cloneDeep(this.value)
+      this.listSelected = _.cloneDeep(this.value || [])
       const query = _.cloneDeep(this.query)
       this.filter.forEach((item) => {
         query[item.value] = item.initVal
@@ -350,7 +350,8 @@ export default {
       this.getList()
     },
     getListSelectedByPage() {
-      const ids = this.listSelected?.map((li) => {
+      const listSelected = this.listSelected || []
+      const ids = listSelected.map((li) => {
         return li[this.idKey]
       })
       const arr = []
