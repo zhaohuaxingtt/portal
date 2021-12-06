@@ -6,7 +6,7 @@
     @close="close"
   >
     <iEditForm class="content">
-      <div class="delete-info">{{$t('确认删除该议题吗?')}}</div>
+      <div class="delete-info">{{ $t('确认删除该议题吗?') }}</div>
       <div class="button-list">
         <iButton @click="clearDiolog" class="cancel"
           >{{ $t('LK_QUXIAO') }}
@@ -57,15 +57,18 @@ export default {
       this.loading = true
       const data = { ...this.selectedTableData[0] }
       deleteThemen(data)
-        .then(() => {
+        .then((res) => {
           this.loading = false
-          iMessage.success('删除成功')
+          if (res.code === 200) {
+            iMessage.success('删除成功')
+          }
+
           this.$emit('flushTable')
           this.close()
         })
         .catch(() => {
           this.loading = false
-          iMessage.error('删除失败')
+          // iMessage.error('删除失败')
           this.$emit('flushTable')
           this.close()
         })

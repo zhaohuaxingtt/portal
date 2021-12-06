@@ -16,15 +16,13 @@
           <div
             v-if="
               themen.state === '01' ||
-                themen.state === '02' ||
-                themen.state === '03'
+              themen.state === '02' ||
+              themen.state === '03'
             "
           >
             NEXT
           </div>
-          <div v-else>
-            FINISH
-          </div>
+          <div v-else>FINISH</div>
         </div>
         <div class="model">{{ themen.dept }}</div>
       </div>
@@ -42,11 +40,7 @@
             class="img"
             v-if="themen.state === '04'"
           />
-          <img
-            src="@/assets/images/place-grey.svg"
-            class="img"
-            v-else
-          />
+          <img src="@/assets/images/place-grey.svg" class="img" v-else />
         </div>
         <span class="text">{{ themen.meetingPlace }}</span>
       </h4>
@@ -57,21 +51,21 @@
           class="info-header"
           v-if="
             themen.state === '01' ||
-              themen.state === '02' ||
-              themen.state === '03'
+            themen.state === '02' ||
+            themen.state === '03'
           "
         >
           <div class="time-info">
-            <p class="top">{{$t('距离会议还有')}}</p>
+            <p class="top">{{ $t('距离会议还有') }}</p>
             <p class="bottom">
               <span>{{ day }}</span
-              >{{$t('天')}}<span>{{ hour }}:{{ minutes }}:{{ seconds }}</span>
+              >{{ $t('天') }}<span>{{ hour }}:{{ minutes }}:{{ seconds }}</span>
             </p>
           </div>
         </dt>
         <dd class="info" v-for="(item, index) of themen.themens" :key="index">
           <span class="doc-name">{{ index + 1 }}.{{ item.topic }}</span>
-          <div class="doc-info">{{ item.result }}</div>
+          <div class="doc-info">{{ themenConclusion[item.conclusionCsc] }}</div>
         </dd>
       </dl>
     </div>
@@ -81,16 +75,13 @@
           class="text"
           @click="
             () => {
-              handleDownLoad(themen);
+              handleDownLoad(themen)
             }
           "
           v-if="isPdfFile(themen)"
         >
           <div class="img-box">
-            <img
-              src="@/assets/images/download.svg"
-              class="img"
-            />
+            <img src="@/assets/images/download.svg" class="img" />
           </div>
           Agenda
         </div>
@@ -99,16 +90,13 @@
           class="text"
           @click="
             () => {
-              handleDownLoadMinutes(themen);
+              handleDownLoadMinutes(themen)
             }
           "
           v-if="isSource02(themen)"
         >
           <div class="img-box">
-            <img
-              src="@/assets/images/download.svg"
-              class="img"
-            />
+            <img src="@/assets/images/download.svg" class="img" />
           </div>
           Minutes
         </div>
@@ -120,177 +108,179 @@
 </template>
 
 <script>
-import { iButton, iMessage } from "rise";
+import { iButton, iMessage } from 'rise'
 // import { MOCK_FILE_URL } from "@/constants";
-import { download } from "@/utils/downloadUtil";
+import { download } from '@/utils/downloadUtil'
+import { themenConclusion } from './data.js'
 export default {
   components: {
-    iButton,
+    iButton
   },
   props: {
     themen: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     total: {
       type: Number,
       default: () => {
-        return 0;
-      },
+        return 0
+      }
     },
     num: {
       type: Number,
       default: () => {
-        return 0;
-      },
+        return 0
+      }
     },
     startDate: {
       type: String,
       default: () => {
-        return "";
-      },
+        return ''
+      }
     },
     endDate: {
       type: String,
       default: () => {
-        return "";
-      },
-    },
+        return ''
+      }
+    }
   },
   data() {
     return {
-      timer: "",
-      presenterDept: "",
-      day: "00",
-      hour: "00",
-      minutes: "00",
-      seconds: "00",
-      start: "",
-    };
+      themenConclusion,
+      timer: '',
+      presenterDept: '',
+      day: '00',
+      hour: '00',
+      minutes: '00',
+      seconds: '00',
+      start: ''
+    }
   },
   mounted() {
     // this.presenterDept = webStorage.get('userInfo').presenterDept;
     if (
-      this.themen.state === "01" ||
-      this.themen.state === "02" ||
-      this.themen.state === "03"
+      this.themen.state === '01' ||
+      this.themen.state === '02' ||
+      this.themen.state === '03'
     ) {
-      requestAnimationFrame(this.handleTime);
+      requestAnimationFrame(this.handleTime)
     }
   },
   methods: {
     handleDownLoadMinutes(themen) {
       if (!themen.attachments) {
-        iMessage.error("没有要下载的附件!");
-        return;
+        iMessage.error('没有要下载的附件!')
+        return
       }
       const file = themen.attachments.find((item) => {
-        return item.source === "02";
-      });
-      console.log(file, file.attachmentId);
+        return item.source === '02'
+      })
+      console.log(file, file.attachmentId)
       file &&
         download({
           fileIds: file.attachmentId,
           filename: file.attachmentName,
           callback: (e) => {
             if (!e) {
-              iMessage.error("下载失败");
+              iMessage.error('下载失败')
             }
-          },
-        });
+          }
+        })
     },
     isSource02(themen) {
       if (
         themen.attachments.length > 0 &&
         themen.attachments.some((item) => {
-          return item.source === "02";
+          return item.source === '02'
         })
       ) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     isPdfFile(themen) {
       if (
         themen.attachments.length > 0 &&
         themen.attachments.some((item) => {
-          const arr = item.attachmentName.split(".");
-          const suffix = arr[arr.length - 1];
-          return (suffix === "pdf" || suffix === "PDF") && item.source === "01";
+          const arr = item.attachmentName.split('.')
+          const suffix = arr[arr.length - 1]
+          return (suffix === 'pdf' || suffix === 'PDF') && item.source === '01'
         })
       ) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     //计算剩余时间
     handleTime() {
-      let startDate = this.themen.startDate;
-      let startTime = this.themen.startTime;
-      let time = new Date(`${startDate} ${startTime}`).getTime();
-      let restTime = time - new Date().getTime();
-      this.handleTransTime(restTime);
-      requestAnimationFrame(this.handleTime);
+      let startDate = this.themen.startDate
+      let startTime = this.themen.startTime
+      let time = new Date(`${startDate} ${startTime}`).getTime()
+      let restTime = time - new Date().getTime()
+      this.handleTransTime(restTime)
+      requestAnimationFrame(this.handleTime)
     },
     //毫秒转 天 时分秒
     //天: 24 * 60 *60*1000
     handleTransTime(longTime) {
-      let day = Math.floor(longTime / (24 * 60 * 60 * 1000));
+      let day = Math.floor(longTime / (24 * 60 * 60 * 1000))
       let hour = Math.floor(
         (longTime - 24 * 60 * 60 * 1000 * day) / (60 * 60 * 1000)
-      );
+      )
       let minutes = Math.floor(
         (longTime - 24 * 60 * 60 * 1000 * day - 60 * 60 * 1000 * hour) /
           (60 * 1000)
-      );
+      )
       let seconds = Math.floor(
         (longTime -
           24 * 60 * 60 * 1000 * day -
           60 * 60 * 1000 * hour -
           60 * 1000 * minutes) /
           1000
-      );
-      this.day = day < 10 && day >= 0 ? "0" + day : day;
-      this.hour = hour < 10 && hour >= 0 ? "0" + hour : hour;
-      this.minutes = minutes < 10 && minutes >= 0 ? "0" + minutes : minutes;
-      this.seconds = seconds < 10 && seconds >= 0 ? "0" + seconds : seconds;
+      )
+      this.day = day < 10 && day >= 0 ? '0' + day : day
+      this.hour = hour < 10 && hour >= 0 ? '0' + hour : hour
+      this.minutes = minutes < 10 && minutes >= 0 ? '0' + minutes : minutes
+      this.seconds = seconds < 10 && seconds >= 0 ? '0' + seconds : seconds
     },
     handleDownLoad(themen) {
       if (!themen.attachments) {
-        iMessage.error("没有要下载的附件!");
-        return;
+        iMessage.error('没有要下载的附件!')
+        return
       }
       const file = themen.attachments.find((item) => {
-        const arr = item.attachmentName.split(".");
-        const suffix = arr[arr.length - 1];
-        return (suffix === "pdf" || suffix === "PDF") && item.source === "01";
-      });
+        const arr = item.attachmentName.split('.')
+        const suffix = arr[arr.length - 1]
+        return (suffix === 'pdf' || suffix === 'PDF') && item.source === '01'
+      })
       file &&
         download({
           fileIds: file.attachmentId,
           filename: file.attachmentName,
           callback: (e) => {
             if (!e) {
-              iMessage.error("下载失败");
+              iMessage.error('下载失败')
             }
-          },
-        });
+          }
+        })
     },
     goToDetail(e) {
       this.$router.push({
-        path: "/meeting/special-near-meeting/specialDetail",
+        path: '/meeting/special-near-meeting/specialDetail',
         query: {
-          id: e,
-        },
-      });
-    },
+          id: e
+        }
+      })
+    }
   },
   beforeDestroy() {
-    clearInterval(this.timer);
-  },
-};
+    clearInterval(this.timer)
+  }
+}
 </script>
 <style lang="scss" scoped>
 ::-webkit-scrollbar {
@@ -359,7 +349,7 @@ export default {
     }
     .meeting-name {
       white-space: nowrap;
-      overflow:hidden;
+      overflow: hidden;
       text-overflow: ellipsis;
       height: 27px;
       font-size: 24px;
