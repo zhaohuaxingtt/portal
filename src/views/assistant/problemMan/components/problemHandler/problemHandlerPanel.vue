@@ -363,8 +363,6 @@ export default {
         const { data } = response;
         this.questionDetail = data;
         this.$refs.attachment.fileList = data.attachmentDTOList || []
-        this.
-        console.log(data, '11213456')
         let types = {
           inner: "内部用户",
           supplier:"供应商用户"
