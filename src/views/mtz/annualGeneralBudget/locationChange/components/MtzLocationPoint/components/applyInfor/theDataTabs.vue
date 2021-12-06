@@ -23,6 +23,7 @@
             <el-tooltip
                 :content="language('WENJIANDAXIAOBUCHAOGUO20MB','文件大小不超过20MB')"
                 placement="top"
+                effect="light"
             >
                 <iButton>{{language('SHANGCHUANFUJIAN', '上传附件')}}</iButton>
             </el-tooltip>

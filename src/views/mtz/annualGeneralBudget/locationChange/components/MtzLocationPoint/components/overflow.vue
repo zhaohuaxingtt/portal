@@ -234,7 +234,7 @@ export default {
           }).then(res => {
             if(res && res.code == 200) {
               if(res.data.length<1){
-                return iMessage.error(this.language('SQDLXWBASTJSSPFJBNWK', '申请单类型为备案时，提交时审批附件不能为空'))
+                return iMessage.error(this.language('SQDLXWBASTJSJCZLZDJCFJBNWK', '申请单类型为备案时，提交时决策资料中的附件不能为空！'))
               }else{
                 this.submitRequest();
               }
