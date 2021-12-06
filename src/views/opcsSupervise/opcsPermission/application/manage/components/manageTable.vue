@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-06 11:23:00
+ * @LastEditTime: 2021-12-06 14:09:54
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\manage\components\manageTable.vue
 -->
 <template>
@@ -80,7 +80,6 @@ export default {
   components: {
     iCard,
     iButton,
-    iSelect,
     iInput,
     tableList,
     iPagination
@@ -102,15 +101,15 @@ export default {
       this.edit = true
     },
     cancelBtn() {
-        this.tableListData=[]
-        this.getTableData()
+      this.tableListData = []
+      this.getTableData()
       this.editMode = false
       this.edit = false
     },
     save() {
       this.$refs.commonTable.$refs.commonTableForm.validate((valid) => {
         if (valid) {
-          addDetails().then((res) => {
+          addDetails(this.tableListData).then((res) => {
             if (res && res.data == 200) {
               iMessage.success(res.desZh)
             }

@@ -95,7 +95,7 @@ export default {
       } else {
         this.value = false
         iMessageBox(
-          this.language('SHIFOUQUERENYICHUHEIMINGDAN', '是否确认移除黑名单'),
+          this.language('SHIFOUQUERENYICHUHEIMINGDAN?', '是否确认移除黑名单'),
           this.language('TIJIAO', '提交'),
           {
             confirmButtonText: this.language('QUEREN', '确认'),
