@@ -97,6 +97,7 @@ export default {
                         },1000)
                     }
                 }else{
+                    this.isClicked = false
                     this.$message.error(res.desZh || '发布失败')
                 }
             })
