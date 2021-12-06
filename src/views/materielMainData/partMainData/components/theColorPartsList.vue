@@ -1,9 +1,9 @@
 <template>
-  <iCard collapse :title="language('色标零件清单')">
+  <iCard collapse :title="language('请选择需要批量维护的色标零件')">
       <el-form label-position="left" label-width="150px">
         <el-row :gutter="24">
           <el-col span="8">
-            <iFormItem :label='language("编号")' class="color-list-search">
+            <iFormItem :label='language("色标零件号")' class="color-list-search">
               <!-- <iSelect v-model="colorStandardCode" multiple >
                 <el-option
                   v-for="item in partNumOptions"
@@ -20,8 +20,8 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-divider class="divider" ></el-divider>
-      <h4 style="margin:0 0 20px 20px">{{language('色标件清单')}}</h4>
+      <!-- <el-divider class="divider" ></el-divider>
+      <h4 style="margin:0 0 20px 20px">{{language('色标件清单')}}</h4> -->
       <iTableCustom 
         ref="colorListTable"
         :loading='loading'
