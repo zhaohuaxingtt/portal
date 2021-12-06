@@ -41,7 +41,7 @@
               <div>管理员:{{ item.handlerUserName }}</div>
             </div>
             <div class="flex flex-row justify-between items-center gray-color">
-              <div class="label">{{ item.questionDescription }}</div>
+              <div class="label">{{ item.currModuleName }}</div>
               <div>{{ item.createDate }}</div>
             </div>
           </el-card>
@@ -128,7 +128,7 @@
             </el-form>
           </div>
           <div class="mt20 mb20">
-            <attachmentDownload :load="loadText" @getFilesList="getFilesList" />
+            <attachmentDownload :load="loadText" @loadAttach="loadAttach" ref="attachment" @getFilesList="getFilesList" />
           </div>
         </template>
       </div>
@@ -143,8 +143,9 @@ import { iInput, iSelect, iButton, iFormItem } from 'rise'
 import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
 import iEditor from '@/components/iEditor';
+import { getFileId } from "@/api/assistant/uploadFile.js"
 import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
-import { getModuleListByUserTypeApi, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi, closeQuestionApi, modifyModuleAndLabelApi } from '@/api/assistant';
+import { queryModuleBySource, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi, closeQuestionApi, modifyModuleAndLabelApi } from '@/api/assistant';
 // 来源 inner:内部用户 supplier:供应商用户
 export default {
   props: {
@@ -160,7 +161,7 @@ export default {
       // 搜索关键词
       keyWord: '',
       questionModuleId: '',
-      selfOnly: false,
+      selfOnly: true,
       showDialog: false,
       isReplyStatus: false,
       editable: true,
@@ -231,6 +232,31 @@ export default {
     this.initData();
   },
   methods: {
+    // 下载详情附件
+		loadAttach(file) {
+			let fileTypeArr = ['jpg',
+				'jpeg',
+				'gif',
+				'png',
+				'txt',
+				'doc',
+				'docx',
+				'xls',
+				'xlsx',
+				'ppt',
+				'pptx',
+				'pdf']
+			const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
+			console.log(fileExtension, '23456')
+			if (fileTypeArr.includes(fileExtension)) {
+				console.log("=====")
+				window.location.href = file.fileUrl
+			} else {
+				getFileId(this.attach[0]?.bizId).then((res) => {
+					console.log(res, '1111111111')
+				})
+			}
+		},
     initData () {
       this.queryProblemList(this._queryForm({
         source: this.userType,
@@ -242,7 +268,7 @@ export default {
     },
     // 根据用户类型获取模块下拉框
     async getModuleListByUserType (userType) {
-      const response = await getModuleListByUserTypeApi(userType);
+      const response = await queryModuleBySource(userType);
       if (response?.code === '200') {
         this.problemModuleList = response.data;
       } else {
@@ -329,6 +355,8 @@ export default {
       if (response?.code === '200') {
         const { data } = response;
         this.questionDetail = data;
+        this.$refs.attachment.fileList = data.attachmentDTOList || []
+        this.
         console.log(data, '11213456')
         let types = {
           inner: "内部用户",

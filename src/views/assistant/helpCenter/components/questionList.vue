@@ -137,6 +137,13 @@ export default {
 			console.log(list, idx)
 			this.selectedCardId = idx
 			this.$emit('selectQues', list)
+		},
+		changeCurrQuesStatus(id) {
+			this.questionList.map(item => {
+				if (item.id === id) {
+					item.questionStatus = 'reply'
+				}
+			})
 		}
 	}
 }
