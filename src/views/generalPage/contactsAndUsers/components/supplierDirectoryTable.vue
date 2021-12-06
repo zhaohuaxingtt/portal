@@ -69,7 +69,7 @@ export default {
       res.data[0].subDictResultVo.forEach((item) => {
         this.tableListData.push({
           nameType: item.name,
-          code: item.code
+          contactType: item.code
         })
       })
     },
@@ -89,7 +89,7 @@ export default {
       let cust = [...this.tableListData]
       res.data.forEach((item, x) => {
         this.tableListData.map((val, index) => {
-          if (item.contactType === val.code) {
+          if (item.contactType === val.contactType) {
             cust[index] = { ...item, ...val }
           }
         })

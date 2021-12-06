@@ -8,8 +8,8 @@
               <iFormItem :label="$t('用户类型')">
                 <!--  inner:内部用户 supplier:供应商用户 -->
                 <iSelect v-model="searchForm.source" filterable placeholder="请选择" clearable="true"  @clear="clearable('source')"  @change="sourceHandle">
-                  <el-option label="inner" value="inner"></el-option>
-                  <el-option label="supplier" value="supplier"></el-option>
+                  <el-option label="内部用户" value="inner"></el-option>
+                  <el-option label="供应商用户" value="supplier"></el-option>
                 </iSelect>
               </iFormItem>
             </el-col>
