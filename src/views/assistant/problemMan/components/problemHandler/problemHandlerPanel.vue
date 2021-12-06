@@ -428,9 +428,9 @@ export default {
     },
     async answerQuestion (hasClosed) {
       console.log(this.uploadFileList);
-      if (!this.uploadFileList.length) {
-       return this.$message.error('请上传附件');
-      }
+      // if (!this.uploadFileList.length) {
+      //  return this.$message.error('请上传附件');
+      // }
       if (!this.replyContent) {
         return this.$message.error('请填写回复内容');
       }
