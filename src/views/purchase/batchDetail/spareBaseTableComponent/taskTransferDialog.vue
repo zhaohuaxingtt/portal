@@ -1,7 +1,7 @@
 <template>
     <!--转派-->
     <iDialog
-            :title="$t('EKL_YJGL_ZP')"
+            :title="$t('EKL_ZP')"
             :visible.sync="value"
             width="382px"
             @close="clearDiolog"
@@ -36,8 +36,8 @@
                 </el-row>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <iButton :disabled="isForward" @click="giveMyself">{{ $t('EKL_YJGL_ZGZJ') }}</iButton>
-                <iButton :disabled="isForward" @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>
+                <iButton :disabled="isForward" @click="giveMyself">{{ $t('EKL_ZGZJ') }}</iButton>
+                <iButton :disabled="isForward" @click="handleSubmit">{{ $t('EKL_QUEREN') }}</iButton>
             </div>
         </div>
     </iDialog>

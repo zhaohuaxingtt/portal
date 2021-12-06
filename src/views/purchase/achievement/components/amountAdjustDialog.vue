@@ -42,8 +42,8 @@
         </div>
 
         <div slot="footer" class="dialog-footer">
-            <span class="pr20">单位：百万元</span>
-            <iButton v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT_CONFIRM')" @click="handleSubmit">{{ $t('LK_QUEREN')
+            <span class="pr20">{{$i18n.locale === 'zh' ? '单位：百万元' : 'Unit: million yuan'}}</span>
+            <iButton v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT_CONFIRM')" @click="handleSubmit">{{ $t('EKL_QUEREN')
                 }}
             </iButton>
         </div>
@@ -78,18 +78,18 @@
                 },
                 tableTitle1: [],
                 tableTitle2: [
-                    {props: 'productFamily', name: '产品家族', key: '', tooltip: true},
-                    {props: 'calcAmount', name: '系统计算金额', key: '', tooltip: true,},
-                    {props: 'adjustAmount', name: '调整后金额', key: '', tooltip: true,},
+                    {props: 'productFamily', name: this.$i18n.locale === 'zh'?'产品家族':'Product family', key: '', tooltip: true},
+                    {props: 'calcAmount', name: this.$i18n.locale === 'zh'?'系统计算金额':'System computed amount', key: '', tooltip: true,},
+                    {props: 'adjustAmount', name: this.$i18n.locale === 'zh'?'调整后金额':'Adjusted amount', key: '', tooltip: true,},
                 ],
                 tableLoading: false,
                 tableListData1: [
                     {
-                        title: "系统计算金额",
+                        title: this.$i18n.locale === 'zh'?'系统计算金额':'System computed amount',
                         calcAmount: '',
                     },
                     {
-                        title: "调整后金额",
+                        title: this.$i18n.locale === 'zh'?'调整后金额':'Adjusted amount',
                         totalAmount: '',
                     }
                 ],
@@ -179,9 +179,9 @@
                             {props: 'calcAmount', name: 'Total', key: '', width: '', tooltip: true,},
                         ]
                         this.tableTitle2 = [
-                            {props: 'productFamily', name: '产品家族', key: '', tooltip: true},
-                            {props: 'calcAmount', name: '系统计算金额', key: '', tooltip: true,},
-                            {props: 'adjustAmount', name: '调整后金额', key: '', tooltip: true,},
+                          {props: 'productFamily', name: this.$i18n.locale === 'zh'?'产品家族':'Product family', key: '', tooltip: true},
+                          {props: 'calcAmount', name: this.$i18n.locale === 'zh'?'系统计算金额':'System computed amount', key: '', tooltip: true,},
+                          {props: 'adjustAmount', name: this.$i18n.locale === 'zh'?'调整后金额':'Adjusted amount', key: '', tooltip: true,},
                         ]
                         this.templateList1 = data
                         let calcAmount = 0

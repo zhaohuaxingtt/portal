@@ -4,7 +4,7 @@
             <!--第一行-->
             <el-row class="margin-bottom10">
                 <!--零件号-->
-                <el-form-item :label="$t('EKL_YJGL_LJHAO')">
+                <el-form-item :label="$t('EKL_LJHAO')">
                     <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.partNumber"></iInput>
                 </el-form-item>
                 <!--材料组-->
@@ -19,11 +19,11 @@
                     </iSelect>
                 </el-form-item>
                 <!--供应商-->
-                <el-form-item :label="$t('EKL_YJGL_GYS')">
+                <el-form-item :label="$t('EKL_GYS')">
                     <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.supplierName"></iInput>
                 </el-form-item>
                 <!--采购工厂-->
-                <el-form-item :label="$t('EKL_YJGL_CGGC')">
+                <el-form-item :label="$t('EKL_CGGC')">
                     <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.factoryCode">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -34,7 +34,7 @@
                     </iSelect>
                 </el-form-item>
                 <!--确认状态-->
-                <el-form-item :label="$t('EKL_YJGL_QRZT')">
+                <el-form-item :label="$t('EKL_QRZT')">
                     <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.isConfirm">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -49,7 +49,7 @@
             <!--第二行-->
             <el-row class="margin-bottom10">
                 <!--发动机电池包-->
-                <el-form-item :label="$t('EKL_YJGL_FDJDCB')">
+                <el-form-item :label="$t('EKL_FDJDCB')">
                     <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.engine">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -61,7 +61,7 @@
                 </el-form-item>
 
                 <!--变速箱-->
-                <el-form-item :label="$t('EKL_YJGL_BSX')">
+                <el-form-item :label="$t('EKL_BSX')">
                     <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.transmission">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -83,11 +83,11 @@
                     </iSelect>
                 </el-form-item>
                 <!--配置-->
-                <el-form-item :label="$t('EKL_YJGL_PEIZ')">
+                <el-form-item :label="$t('EKL_PEIZ')">
                     <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.carconfigSixcodeName"></iInput>
                 </el-form-item>
                 <!--车型代码-->
-                <el-form-item :label="$t('EKL_YJGL_CXDM')">
+                <el-form-item :label="$t('EKL_CXDM')">
                     <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.carconfigSixcode"></iInput>
                 </el-form-item>
             </el-row>
@@ -106,7 +106,7 @@
                 </el-form-item>
 
                 <!--采购员-->
-                <el-form-item :label="$t('EKL_YJGL_CGY')">
+                <el-form-item :label="$t('EKL_CGY')">
                     <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.linieId">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -118,7 +118,7 @@
                 </el-form-item>
 
                 <!--产品家族-->
-                <el-form-item :label="$t('EKL_YJGL_CPJZ')">
+                <el-form-item :label="$t('EKL_CPJZ')">
                     <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.carFamily">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -129,7 +129,7 @@
                     </iSelect>
                 </el-form-item>
                 <!--KLS来源价格-->
-                <el-form-item :label="$t('EKL_YJGL_KSLJLY')">
+                <el-form-item :label="$t('EKL_KSLJLY')">
                     <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.kslPriceSource">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option

@@ -234,7 +234,7 @@
           url: '/achievement/baseData/mymerit',
           activePath: '/achievement/baseData/mymerit',
           permissionKey: 'ACHIEVEMENT',
-          key: 'EKL_YJGL_WDYJ'
+          key: 'EKL_WDYJ'
         }]
       }
     },
