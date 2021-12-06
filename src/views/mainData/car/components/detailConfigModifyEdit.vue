@@ -133,7 +133,6 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('车型等级')"
         header-align="center"
         align="center"
       >
