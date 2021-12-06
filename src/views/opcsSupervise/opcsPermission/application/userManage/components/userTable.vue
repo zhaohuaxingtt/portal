@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-06 14:37:06
+ * @LastEditTime: 2021-12-06 15:14:11
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -34,7 +34,7 @@
                   @click="thawBtn">{{ language('JIEDONG', '解冻') }}
         </i-button>
         <i-button v-if="!edit"
-                  @click="editBtn">{{ language('TONGBULDAP', '同步LDAP') }}
+                  @click="editBtn">{{ language('LDAPTONGBU', '同步LDAP') }}
         </i-button>
         <i-button v-if="!edit"
                   @click="activeBtn">{{ language('JIHUO', '激活') }}
@@ -46,7 +46,7 @@
                   @click="download">{{ language('XIAZAIMOBAN', '下载模板') }}
         </i-button>
         <i-button v-if="!edit"
-                  @click="exportsTable">{{ language('TONGBULDAP', '导出') }}
+                  @click="exportsTable">{{ language('DAOCHU', '导出') }}
         </i-button>
       </div>
     </div>
@@ -54,14 +54,9 @@
                 :tableTitle="edit?tableTitleEdit:tableTitle"
                 :tableLoading="tableLoading"
                 @handleSelectionChange="handleSelectionChange"
+                :input-props="['supplierNum', 'supplierName', 'supplierAddress','contactName','contactMobile','contactEmail','contactTel']"
                 :index="true"
                 ref="commonTable">
-      <template #position="scope">
-        <iInput v-if="!scope.row.id"
-                v-model="scope.row.position"
-                :placeholder="language('QINGSHURU', '请输入')" />
-        <p v-if="scope.row.id">{{ scope.row.position }}</p>
-      </template>
     </table-list>
     <iPagination style="margin-top: 20px"
                  v-update
@@ -80,7 +75,7 @@
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle, tableTitleEdit } from './data'
-import { iCard, iButton, iSelect, iInput, iMessage, iPagination } from 'rise'
+import { iCard, iButton, iSelect, iMessage, iPagination } from 'rise'
 import {
   queryDetailUser,
   thawUser,
@@ -89,16 +84,14 @@ import {
   freezeUser,
   exportUser,
   downloadUser,
-  activeUser,
-  
+  activeUser
 } from '@/api/opcs/solPermission'
 export default {
-      mixins: [pageMixins],
+  mixins: [pageMixins],
   components: {
     iCard,
     iButton,
     iSelect,
-    iInput,
     tableList,
     iPagination
   },
@@ -109,7 +102,7 @@ export default {
       selectTableData: [],
       tableTitle: tableTitle,
       tableTitleEdit: tableTitleEdit,
-      tableListData: [{ position: '111', id: '1' }]
+      tableListData: []
     }
   },
   created() {
@@ -199,4 +192,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style  lang="scss" scope>
+.el-table .el-table__row .el-input {
+  width: 100% !important;
+}
+</style>
