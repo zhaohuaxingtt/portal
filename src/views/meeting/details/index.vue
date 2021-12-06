@@ -60,11 +60,11 @@
                               .plusDayEndTime
                           ) > 0
                           ? end +
-                            ` +${
-                              Number(meetingInfo.themens[
+                            ` +${Number(
+                              meetingInfo.themens[
                                 meetingInfo.themens.length - 1
-                              ].plusDayEndTime)
-                            }`
+                              ].plusDayEndTime
+                            )}`
                           : end
                         : handleEndTime(meetingInfo)
                       : handleEndTime(meetingInfo)
@@ -350,7 +350,10 @@
               label="Presenter"
             >
               <template slot-scope="scope">
-                <span class="open-link-text">{{ scope.row.presenter }}</span>
+                <span v-if="scope.row.isBreak">/</span>
+                <span class="open-link-text" v-else>{{
+                  scope.row.presenter
+                }}</span>
               </template>
             </el-table-column>
 
@@ -360,7 +363,8 @@
               label="Presenter Dept."
             >
               <template slot-scope="scope">
-                <span class="open-link-text">{{
+                <span v-if="scope.row.isBreak">/</span>
+                <span class="open-link-text" v-else>{{
                   scope.row.presenterDept
                 }}</span>
               </template>
@@ -371,6 +375,7 @@
               label="Supporter"
             >
               <template slot-scope="scope">
+                <span v-if="scope.row.isBreak">/</span>
                 <span class="open-link-text">{{ scope.row.supporter }}</span>
               </template>
             </el-table-column>
@@ -380,7 +385,8 @@
               label="Supporter Dept."
             >
               <template slot-scope="scope">
-                <span class="open-link-text">{{
+                <span v-if="scope.row.isBreak">/</span>
+                <span class="open-link-text" v-else>{{
                   scope.row.supporterDept
                 }}</span>
               </template>
@@ -391,7 +397,10 @@
               label="Remark"
             >
               <template slot-scope="scope">
-                <span class="open-link-text">{{ scope.row.remark }}</span>
+                <span v-if="scope.row.isBreak">/</span>
+                <span class="open-link-text" v-else>{{
+                  scope.row.remark
+                }}</span>
               </template>
             </el-table-column>
           </iTableML>
@@ -1560,15 +1569,16 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteThemen(data)
-          .then(() => {
+        deleteThemen(data).then((res) => {
+          if (res.code === 200) {
             iMessage.success('删除成功')
-            this.flushTable()
-          })
-          .catch(() => {
-            iMessage.error('删除失败')
-            this.flushTable()
-          })
+          }
+        })
+        this.flushTable()
+        // .catch(() => {
+        //   iMessage.error('删除失败')
+        //   this.flushTable()
+        // })
       })
     },
     protectInfo() {
