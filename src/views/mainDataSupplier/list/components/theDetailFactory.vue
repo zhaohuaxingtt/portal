@@ -1,15 +1,15 @@
 <template>
-  <iCard :title="$t('工厂信息')" collapse>
+  <iCard :title="language('工厂信息')" collapse>
     <div class="actions" slot="header-control">
       <iButton
         :disabled="!selectedRows.length"
         :loading="delLoading"
         @click="handleDelete"
       >
-        {{ $t('删除') }}
+        {{ language('删除') }}
       </iButton>
       <iButton :disabled="selectedRows.length !== 1" @click="handleEdit">
-        {{ $t('编辑') }}
+        {{ language('编辑') }}
       </iButton>
     </div>
     <i-table-custom
@@ -59,7 +59,7 @@ export default {
     },
     supplierPlantVo: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -111,11 +111,11 @@ export default {
       this.onDelete().then(() => {
         const params = {
           supplierId: this.supplierId,
-          plantIds: this.selectedRows.map(e => e.id).join(',')
+          plantIds: this.selectedRows.map((e) => e.id).join(',')
         }
         this.delLoading = true
         deleteFactory(params)
-          .then(res => {
+          .then((res) => {
             if (res.result) {
               iMessage.success(res.dscZh || '删除成功')
               this.$emit('delete-factory-success')
@@ -123,7 +123,7 @@ export default {
               iMessage.error(res.dscZh || '删除失败')
             }
           })
-          .catch(err => {
+          .catch((err) => {
             iMessage.error(err.dscZh || '删除失败')
           })
           .finally(() => (this.delLoading = false))
@@ -131,7 +131,7 @@ export default {
     },
     saveSuccess(data) {
       console.log('saveSuccess', data)
-      const items = this.supplierPlantVo.filter(e => e.id === data.id)
+      const items = this.supplierPlantVo.filter((e) => e.id === data.id)
       if (items.length > 0) {
         items[0].factoryCode = data.factoryCode
         items[0].factoryName = data.factoryName

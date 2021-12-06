@@ -1,7 +1,7 @@
 <template>
   <div class="main-data-supplier-detail-header">
     <pageHeader>
-      供应商信息
+      {{ language('供应商信息') }}
       <div slot="actions">
         <iTabBadge>
           <iTabBadgeItem
@@ -29,32 +29,32 @@ export default {
       tabActive: 'base',
       tabs: [
         {
-          label: this.$t('基本信息'),
+          label: this.language('基本信息'),
           value: 'base',
           target: 'targetBase'
         },
         {
-          label: this.$t('供应商状态'),
+          label: this.language('供应商状态'),
           value: 'state',
           target: 'targetState'
         },
         {
-          label: this.$t('工厂信息'),
+          label: this.language('工厂信息'),
           value: 'factory',
           target: 'targetFactory'
         },
         {
-          label: this.$t('银行信息'),
+          label: this.language('银行信息'),
           value: 'bank',
           target: 'targetBank'
         },
         {
-          label: this.$t('供应商用户'),
+          label: this.language('供应商用户'),
           value: 'user',
           target: 'targetUser'
         },
         {
-          label: this.$t('供应商通讯录'),
+          label: this.language('供应商通讯录'),
           value: 'contact',
           target: 'targetContact'
         }

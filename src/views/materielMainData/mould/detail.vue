@@ -6,12 +6,12 @@
     <theDetailBase />
     <div v-if="$route.query.id">
       <tableTransfer
-        :title="$t('零件材料组')"
-        :sub-left-title="$t('零件材料组列表')"
-        :sub-right-title="$t('已有关联列表')"
-        :placeholder="$t('请输入零件材料组编号/名称')"
-        :left-null-select-tips="$t('请选择源零件材料组')"
-        :right-null-select-tips="$t('请选择已关联零件材料组')"
+        :title="language('零件材料组')"
+        :sub-left-title="language('零件材料组列表')"
+        :sub-right-title="language('已有关联列表')"
+        :placeholder="language('请输入零件材料组编号/名称')"
+        :left-null-select-tips="language('请选择源零件材料组')"
+        :right-null-select-tips="language('请选择已关联零件材料组')"
         :table-columns="tableColumnGroup"
         :query-left-fun="queryLeftFun"
         :query-right-fun="queryRightFun"
@@ -65,7 +65,7 @@ export default {
     },
     saveRightFun(data) {
       const requestData = {
-        categoryCodes: data.map(e => e.categoryCode),
+        categoryCodes: data.map((e) => e.categoryCode),
         moldGroupCode: this.$route.query.code
       }
       return saveMouldRelationByGroupId(requestData)

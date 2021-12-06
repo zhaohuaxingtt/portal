@@ -2,77 +2,81 @@
   <div>
     <iCard v-loading="cardLoading">
       <div class="margin-bottom20 clearFloat">
-        <span class="font18 font-weight">{{language('市场价详情', '市场价详情')}}</span>
+        <span class="font18 font-weight">{{language('SHICHANGJIAXIANGQING', '市场价详情')}}</span>
         <div class="floatright">
           <template v-if="!tableEditStatus">
-            <uploadButton
-                ref="uploadButtonAttachment"
-                :buttonText="language('上传附件', '上传附件')"
-                :uploadByBusiness="true"
-                :hideButton="true"
-                @uploadedCallback="handleUpload($event, 'attachment')"
-            />
-            <iButton @click="clickUpload(ATTACHMENT)">{{ language('上传附件', '上传附件') }}</iButton>
-            <iButton @click="handleDelete">{{ language('删除附件', '删除附件') }}</iButton>
-            <iButton @click="handleDownloadTemplate" :loading="downloadTemplateButtonLoading">
-              {{ language('下载模板', '下载模板')}}
+            <uploadButton ref="uploadButtonAttachment"
+                          :buttonText="language('SHANGCHUANFUJIAN', '上传附件')"
+                          :uploadByBusiness="true"
+                          :hideButton="true"
+                          @uploadedCallback="handleUpload($event, 'attachment')" />
+            <iButton @click="clickUpload(ATTACHMENT)">{{ language('SHANGCHUANFUJIAN', '上传附件') }}</iButton>
+            <iButton @click="handleDelete">{{ language('SHANCHUFUJIAN', '删除附件') }}</iButton>
+            <iButton @click="handleDownloadTemplate"
+                     :loading="downloadTemplateButtonLoading">
+              {{ language('XIAZAIMUBAN', '下载模板')}}
             </iButton>
-            <uploadButton
-                ref="uploadButtonOrder"
-                :buttonText="language('上传点价单', '上传点价单')"
-                :uploadByBusiness="true"
-                @uploadedCallback="handleUpload($event, 'order')"
-                class="margin-left10 margin-right10"
-            />
-            <iButton @click="handleEdit">{{ language('编辑', '编辑') }}</iButton>
-            <iButton @click="handleExport" :loading="exportButtonLoading">{{ language('导出', '导出') }}</iButton>
+            <uploadButton ref="uploadButtonOrder"
+                          :buttonText="language('SHANGCHUANDIANJIADAN', '上传点价单')"
+                          :uploadByBusiness="true"
+                          @uploadedCallback="handleUpload($event, 'order')"
+                          class="margin-left10 margin-right10" />
+            <iButton @click="handleEdit">{{ language('BIANJI', '编辑') }}</iButton>
+            <iButton @click="handleExport"
+                     :loading="exportButtonLoading">{{ language('DAOCHU', '导出') }}</iButton>
           </template>
           <template v-else>
-            <iButton @click="handleCancel">{{ language('取消', '取消') }}</iButton>
-            <iButton @click="handleSave">{{ language('保存', '保存') }}</iButton>
+            <iButton @click="handleCancel">{{ language('QUXIAO', '取消') }}</iButton>
+            <iButton @click="handleSave">{{ language('BAOCUN', '保存') }}</iButton>
           </template>
         </div>
       </div>
-      <tableList
-          ref="commonTable"
-          :tableData="tableListData"
-          :tableTitle="tableTitle"
-          :index="true"
-          openPageProps="fileName"
-          :openPageGetRowData="true"
-          @handleSelectionChange="handleSelectionChange"
-          @openPage="handleOpenPage">
-          <template #partNumber="scope">
-            <iInput v-Int v-if="tableEditStatus && (scope.row.partNumber != scope.row.bulkPartsConsume + scope.row.partsConsume)" v-model="scope.row.partNumber"></iInput>
-            <p v-else>{{scope.row.partNumber}}</p>
-          </template>
-          <template #partsConsume="scope">
-            <iInput v-Int v-if="tableEditStatus" v-model="scope.row.partsConsume"></iInput>
-            <p v-else>{{scope.row.partsConsume}}</p>
-          </template>
+      <tableList ref="commonTable"
+                 :tableData="tableListData"
+                 :tableTitle="tableTitle"
+                 :index="true"
+                 openPageProps="fileName"
+                 :openPageGetRowData="true"
+                 @handleSelectionChange="handleSelectionChange"
+                 @openPage="handleOpenPage">
+        <template #partNumber="scope">
+          <iInput v-Int
+                  v-if="tableEditStatus && (scope.row.partNumber != scope.row.bulkPartsConsume + scope.row.partsConsume)"
+                  v-model="scope.row.partNumber"></iInput>
+          <p v-else>{{scope.row.partNumber}}</p>
+        </template>
+        <template #partsConsume="scope">
+          <iInput v-Int
+                  v-if="tableEditStatus"
+                  v-model="scope.row.partsConsume"></iInput>
+          <p v-else>{{scope.row.partsConsume}}</p>
+        </template>
       </tableList>
-      <iPagination
-          v-update
-          @size-change="handleSizeChange($event, getTableList)"
-          @current-change="handleCurrentChange($event, getTableList)"
-          background
-          :page-sizes="page.pageSizes"
-          :page-size="page.pageSize"
-          :layout="page.layout"
-          :current-page='page.currPage'
-          :total="page.totalCount"/>
+      <iPagination v-update
+                   @size-change="handleSizeChange($event, getTableList)"
+                   @current-change="handleCurrentChange($event, getTableList)"
+                   background
+                   :page-sizes="page.pageSizes"
+                   :page-size="page.pageSize"
+                   :layout="page.layout"
+                   :current-page='page.currPage'
+                   :total="page.totalCount" />
     </iCard>
-    <orderDialog v-model="orderDialogParams.visible" :key="orderDialogParams.key" :tableTitle="orderInfoTableTitle" :data="orderDialogParams.data" @handleCloseDialog="handleCloseDialog"/>
+    <orderDialog v-model="orderDialogParams.visible"
+                 :key="orderDialogParams.key"
+                 :tableTitle="orderInfoTableTitle"
+                 :data="orderDialogParams.data"
+                 @handleCloseDialog="handleCloseDialog" />
   </div>
 </template>
 
 <script>
-import {iCard, iPagination, iButton, iMessage, iMessageBox, iInput} from 'rise';
-import {pageMixins} from '@/utils/pageMixins';
+import { iCard, iPagination, iButton, iMessage, iMessageBox, iInput } from 'rise';
+import { pageMixins } from '@/utils/pageMixins';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
 import tableList from '@/components/commonTable';
 import uploadButton from '@/components/uploadButton';
-import {tableTitle} from './data';
+import { tableTitle } from './data';
 import orderDialog from '@/views/mtz/dataBase/marketPriceEnquiry/components/uploadInfoDialog'
 import { orderInfoTableTitle } from './data'
 import {
@@ -85,7 +89,7 @@ import {
   uploadOrder,
   fileudUdDown
 } from '@/api/mtz/database/preciousMetalMarketPriceInquiry';
-import {downloadFileByUrl} from '@/utils';
+import { downloadFileByUrl } from '@/utils';
 
 export default {
   mixins: [pageMixins, resultMessageMixin],
@@ -98,7 +102,7 @@ export default {
     iInput,
     orderDialog
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       backupData: [],
@@ -118,22 +122,22 @@ export default {
       orderInfoTableTitle
     };
   },
-  created() {
+  created () {
     this.getTableList();
   },
   methods: {
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectTableData = val;
     },
-    handleEdit() {
+    handleEdit () {
       this.tableEditStatus = true;
       this.backupData = window._.cloneDeep(this.tableListData)
     },
-    handleCancel() {
+    handleCancel () {
       this.tableEditStatus = false;
       this.tableListData = window._.cloneDeep(this.backupData)
     },
-    async handleSave() {
+    async handleSave () {
       try {
         this.cardLoading = true;
         const req = {
@@ -148,7 +152,7 @@ export default {
         this.cardLoading = false;
       }
     },
-    async getTableList() {
+    async getTableList () {
       this.cardLoading = true;
       const searchItem = this.$parent.$children.filter(item => {
         return item.$attrs.name === 'theSearch';
@@ -178,10 +182,10 @@ export default {
         this.cardLoading = false;
       }
     },
-    handleOpenPage(row) {
+    handleOpenPage (row) {
       downloadFileByUrl(row.fileUrl);
     },
-    async handleExport() {
+    async handleExport () {
       try {
         const searchItem = this.$parent.$children.filter(item => {
           return item.$attrs.name === 'theSearch';
@@ -198,7 +202,7 @@ export default {
         this.exportButtonLoading = false;
       }
     },
-    async handleDownloadTemplate() {
+    async handleDownloadTemplate () {
       let res
       try {
         this.downloadTemplateButtonLoading = true;
@@ -223,7 +227,7 @@ export default {
         this.downloadTemplateButtonLoading = false;
       }
     },
-    async handleDelete() {
+    async handleDelete () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.language('QINGXUANZEXUYAOSHANCHUFUJIANDEPICI', '请选择需要删除附件的批次'));
       }
@@ -231,9 +235,9 @@ export default {
         return iMessage.warn(this.language('WEIZHAODAODAISHANCHUFUJIAN', '未找到待删除附件'));
       }
       iMessageBox(
-          this.language('SHIFOUSHANCHUSUOXUANPICIDEFUJIAN', '是否删除所选批次的附件？'),
-          this.$t('LK_WENXINTISHI'),
-          {confirmButtonText: this.language('SHI', '是'), cancelButtonText: this.language('FOU', '否')},
+        this.language('SHIFOUSHANCHUSUOXUANPICIDEFUJIAN', '是否删除所选批次的附件？'),
+        this.$t('LK_WENXINTISHI'),
+        { confirmButtonText: this.language('SHI', '是'), cancelButtonText: this.language('FOU', '否') },
       ).then(async () => {
         const id = this.selectTableData.map(item => {
           return item.id;
@@ -249,17 +253,18 @@ export default {
         });
       });
     },
-    clickUpload(type) {
+    clickUpload (type) {
       if (this.selectTableData.length != 1) {
         return iMessage.warn(this.language('QINGXUANZEDANGEPICIJINXINGFUJIANSHANGCHUAN', '请选择单个批次进行附件上传'));
       }
       if (type === this.ATTACHMENT) {
+        console.log(this.$refs.uploadButtonAttachment)
         this.$refs.uploadButtonAttachment.$refs.upload.$refs['upload-inner'].handleClick();
       } else if (type === this.ORDER) {
         this.$refs.uploadButtonOrder.$refs.upload.$refs['upload-inner'].handleClick();
       }
     },
-    async handleUpload(content, type) {
+    async handleUpload (content, type) {
       try {
         this.cardLoading = true;
         const formData = new FormData();
@@ -274,7 +279,7 @@ export default {
           res = await uploadAttach(formData);
         } else if (type === this.ORDER) {
           res = await uploadOrder(formData);
-          if(res && res.data && res.data.length > 0) {
+          if (res && res.data && res.data.length > 0) {
             this.orderDialogParams = {
               ...this.orderDialogParams,
               key: Math.random(),
@@ -292,7 +297,7 @@ export default {
       }
     },
     // 关闭弹窗
-    handleCloseDialog() {
+    handleCloseDialog () {
       this.orderDialogParams.visible = false
     }
   },
@@ -300,5 +305,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

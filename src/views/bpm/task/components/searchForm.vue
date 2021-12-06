@@ -9,14 +9,17 @@
     <el-form label-position="top">
       <el-row :gutter="2">
         <el-col :span="6">
-          <iFormItem :label="$t('单据编号')">
-            <iInput :placeholder="$t('请输入')" v-model="form.businessId" />
+          <iFormItem :label="language('单据编号')">
+            <iInput
+              :placeholder="language('请输入')"
+              v-model="form.businessId"
+            />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('单据类型')">
+          <iFormItem :label="language('单据类型')">
             <iSelect
-              :placeholder="$t('请选择')"
+              :placeholder="language('请选择')"
               v-model="form.itemTypeList"
               multiple
               collapse-tags
@@ -33,9 +36,9 @@
           </iFormItem>
         </el-col>
         <el-col :span="12">
-          <iFormItem :label="$t('任务名称')" style="width: 80%">
+          <iFormItem :label="language('任务名称')" style="width: 80%">
             <iSelect
-              :placeholder="$t('请选择')"
+              :placeholder="language('请选择')"
               v-model="form.categoryList"
               :multiple="multipleCategoryList"
               collapse-tags
@@ -57,20 +60,17 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('申请人')">
+          <iFormItem :label="language('申请人')">
             <userSearch v-model="form.applyUserId" />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('申请部门')">
+          <iFormItem :label="language('申请部门')">
             <orgSearch v-model="form.applyUserDeptId" />
           </iFormItem>
         </el-col>
         <el-col :span="12">
-          <!-- <iFormItem :label="$t('任务名称')">
-        <iInput :placeholder="$t('请输入')" v-model="form.itemName" />
-      </iFormItem> -->
-          <iFormItem :label="$t('任务起止日期')" style="width: 80%">
+          <iFormItem :label="language('任务起止日期')" style="width: 80%">
             <iDatePicker
               v-model="date"
               type="daterange"

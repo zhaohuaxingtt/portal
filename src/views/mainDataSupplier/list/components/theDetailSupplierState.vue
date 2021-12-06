@@ -1,5 +1,5 @@
 <template>
-  <iCard :title="$t('供应商状态')" collapse>
+  <iCard :title="language('供应商状态')" collapse>
     <div class="actions" slot="header-control">
       <iButton v-show="!editable" @click="editable = true">编辑</iButton>
       <iButton v-show="editable" :loading="saveLoading" @click="handleSave">
@@ -16,17 +16,20 @@
     >
       <el-row :gutter="20">
         <el-col :span="6">
-          <iFormItem :label="$t('是否在供')" prop="materialGroupCode">
+          <iFormItem :label="language('是否在供')" prop="materialGroupCode">
             <el-input :value="detail.isSupply ? '是' : '否'" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('供应商身份')" prop="materialGroupNameZh">
+          <iFormItem :label="language('供应商身份')" prop="materialGroupNameZh">
             <el-input :value="detail.formalStatus" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('是否业内工厂')" prop="materialGroupNameEn">
+          <iFormItem
+            :label="language('是否业内工厂')"
+            prop="materialGroupNameEn"
+          >
             <iSelect v-model="detail.isFactory" :disabled="!editable">
               <el-option
                 v-for="item in boolIntegerOptions"
@@ -38,7 +41,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('是否隶属华域 ')" prop="dept">
+          <iFormItem :label="language('是否隶属华域 ')" prop="dept">
             <iSelect v-model="detail.isSubjectionchina" :disabled="!editable">
               <el-option
                 v-for="item in boolIntegerOptions"
@@ -50,30 +53,30 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('供货类型')" prop="rawMaterialCodes">
+          <iFormItem :label="language('供货类型')" prop="rawMaterialCodes">
             <el-input :value="detail.supplyType" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('是否共用供应商')">
+          <iFormItem :label="language('是否共用供应商')">
             <el-input :value="detail.isShareSupplier ? '是' : '否'" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('供货零件类型')">
+          <iFormItem :label="language('供货零件类型')">
             <el-input :value="detail.supplyPartForm" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('相关专业科室')">
+          <iFormItem :label="language('相关专业科室')">
             <el-input :value="detail.relevantDept" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('是否签署定点协议')">
+          <iFormItem :label="language('是否签署定点协议')">
             <iSelect
               v-model="detail.isSign"
-              :placeholder="$t('请选择')"
+              :placeholder="language('请选择')"
               :disabled="!editable"
               filterable
             >
@@ -123,7 +126,7 @@ export default {
       if (!this.dicts.TURE_FALSE) {
         return []
       }
-      return this.dicts.TURE_FALSE.map(e => {
+      return this.dicts.TURE_FALSE.map((e) => {
         return { ...e, code: +e.code }
       })
     }
@@ -152,7 +155,7 @@ export default {
         supplierId: this.supplierId
       }
       updateSupplierState(params, data)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             this.editable = false
             iMessage.success(res.desZh || '保存成功')
@@ -160,7 +163,7 @@ export default {
             iMessage.error(res.desZh || '保存失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error(err.desZh || '保存失败')
         })
         .finally(() => (this.saveLoading = false))

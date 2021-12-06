@@ -25,7 +25,6 @@ Vue.prototype.language = function (languageKey, name, params) {
     )
   }
   if (params) {
-    console.log('language params', params)
     return this.$t(languageKey, params) || languageKey
   }
   return this.$t(languageKey) || languageKey
