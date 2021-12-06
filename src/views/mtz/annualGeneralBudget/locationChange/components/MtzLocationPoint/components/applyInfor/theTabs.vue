@@ -1048,6 +1048,9 @@ export default {
       val.forEach(item => {
         // item.source = item.sourceType;
         this.$set(item,"source",item.sourceType)
+        // if(item.preciousMetalDosageUnit == ""){
+        //   this.$set(item,"preciousMetalDosageUnit","OZ")
+        // }
         item.formalFlag = "Y";
         delete item.sourceType;
         delete item.id;
