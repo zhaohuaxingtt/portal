@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 10:30:10
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-06 15:34:53
+ * @LastEditTime: 2021-12-06 16:08:42
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\router.vue
 -->
 
@@ -10,17 +10,18 @@
   <div class="box">
     <!-- <iNavMvp :list="applicationRouterList" :lev='2' right routerPage class="nav" /> -->
     <div class="menu">
-      <el-menu default-active="2"
+      <el-menu router :default-active="$route.path"
                class="el-menu-vertical-demo"
                @open="handleOpen"
                @close="handleClose">
-        <el-menu-item index="2">
-          <span slot="title">导航二</span>
+        <el-menu-item v-for="(item,index) in applicationRouterList"
+                      :index="item.url"
+                      :key="index">
+          <span slot="title">{{language(item.key, item.name)}}</span>
         </el-menu-item>
       </el-menu>
     </div>
-
-    <div>
+    <div class="section">
       <router-view />
 
     </div>
@@ -61,9 +62,18 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-between;
- .menu{
-     margin-top:20px;
-      width: 280px;
+  .menu {
+    margin-top: 30px;
+    width: 16%;
+
+    position: fixed;
+    height: 100%;
+    background: white;
+    z-index: 10;
+  }
+  .section {
+    margin-left: 19%;
+    width: 81%;
   }
 }
 </style>
