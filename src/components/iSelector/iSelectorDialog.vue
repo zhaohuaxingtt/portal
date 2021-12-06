@@ -262,7 +262,8 @@ export default {
       this.toggleSelection()
     },
     toggleSelection() {
-      const ids = listSelectedByPage.get(this.page.currPage)?.map((item) => {
+      const currPageSelected = listSelectedByPage.get(this.page.currPage) || []
+      const ids = currPageSelected.map((item) => {
         return item[this.idKey]
       })
       const arr = []
@@ -300,16 +301,13 @@ export default {
     handleSelectionChange(val) {
       if (val) {
         const listSelected = _.cloneDeep(this.listSelected || [])
-        const listSelectedCurrentPage = listSelectedByPage.get(
-          this.page.currPage
-        )
-        const listSelectedCurrentPageIds = listSelectedCurrentPage?.map(
-          (it) => {
-            return it.id
-          }
-        )
+        const listSelectedCurrentPage =
+          listSelectedByPage.get(this.page.currPage) || []
+        const listSelectedCurrentPageIds = listSelectedCurrentPage.map((it) => {
+          return it[this.idKey]
+        })
         listSelected.forEach((item) => {
-          if (listSelectedCurrentPageIds.includes(item.id)) {
+          if (listSelectedCurrentPageIds.includes(item[this.idKey])) {
             item.origin = true
           } else {
             item.origin = false
