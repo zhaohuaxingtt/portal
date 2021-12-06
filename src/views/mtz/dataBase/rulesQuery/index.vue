@@ -115,10 +115,16 @@
               </el-form>
           </i-search>
 
-
           <iCard class="OrganizationTable">
               <div class="export">
-                <div class="tt">{{language('GUIZHEXIANGQING','规则详情')}}</div>
+                <div class="export_title">
+                  <div class="tt">{{language('GUIZHEXIANGQING','规则详情')}}</div>
+                  <el-tooltip :content="language('YYCLPHGYSJJYXSJDZCWYGZ','由原材料牌号＋供应商＋基价+有效时间段组成唯一规则')" placement="right" effect="light">
+                   <icon symbol
+                      name="iconxinxitishi"
+                      class="font-size16 marin-left5" />
+                  </el-tooltip>
+                </div>
                 <div>
                     <iButton @click="takeEffect(1)">{{language('SHENGXIAO','生效')}}</iButton> 
                     <iButton @click="takeEffect(0)">{{language('SHIXIAO','失效')}}</iButton> 
@@ -167,7 +173,8 @@ import {
   iFormItem,
   iDialog,
   iDatePicker,
-  iMessage
+  iMessage,
+  icon
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
@@ -179,6 +186,7 @@ export default {
   components:{
     iSearch,
     iInput,
+    icon,
     iSelect,
     iPage,
     iCard,
@@ -302,9 +310,15 @@ export default {
         justify-content: space-between;
         align-items: center;
         margin-bottom: 20px;
+        .export_title{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
         .tt{
-            font-size: 18px;
-            font-weight: bold;
+          margin-right: 10px;
+          font-size: 18px;
+          font-weight: bold;
         }
     }
     .SearchOption{

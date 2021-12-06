@@ -1,33 +1,33 @@
 /*
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 11:26:18
+ * @LastEditTime: 2021-12-06 10:05:55
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\components\data.js
  */
 export const tableTitle=[
     {
         props: 'ys',
         name: '应⽤中⽂名',
-        key: 'YINGYONGYINGWENMING',
+        key: 'nameZh',
     },  {
         props: 'ys1',
         name: '应⽤英⽂名',
-        key: 'YINGYONGZHONGWENMING',
+        key: 'nameEn',
     },  {
         props: 'ys2',
         name: '应⽤简称',
-        key: 'YINGYONGJIANCHENG',
+        key: 'shortName',
     },  {
         props: 'ys3',
         name: '创建时间',
-        key: 'CHUANGJIANSHIJIAN',
+        key: 'createDate',
     },  {
         props: 'ys4',
         name: '更新时间',
-        key: 'GENGXINSHIJIAN',
+        key: 'updateDate',
     },  {
         props: 'ys5',
         name: '应⽤负责⼈',
-        key: 'YINGYONGFUZEREN',
+        key: 'contactUserName',
     },
 ] 
