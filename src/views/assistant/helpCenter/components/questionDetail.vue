@@ -110,7 +110,8 @@ export default {
 		},
 		// 获取该用户是否给该问题点赞
 		async getJudgeFavour() {
-			await judgeFavour({ faqId: this.currQuestionId || 3 }).then((res) => {
+			if (!this.currQuestionId) return
+			await judgeFavour({ faqId: this.currQuestionId }).then((res) => {
 				if (res?.code === '200') {
 					this.currQuesFavourFlag = res?.data
 				}

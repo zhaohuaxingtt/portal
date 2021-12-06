@@ -23,17 +23,22 @@
 			</iSelect>
 		</div>
 		<div class="search-list" v-loading="listLoading">
-			<div class="card mb20 cursor" v-for="(list, idx) in questionList" :key="idx" @click="handleQuestion(list, idx)" :class="selectedCardId === idx ? 'selected' : ''">
-				<div class="flex flex-row justify-between list-top">
-          <div class="title" v-html="list.questionTitle" :title="list.questionTitle"></div>
-          <div class="status" :class="list.questionStatus === 'unreply' ? 'unreply-text' : list.questionStatus === 'reply' ? 'reply-text' : 'finish-text'">
-            {{ list.questionStatus === 'unreply' ? '未答复' : list.questionStatus === 'reply' ? '已答复' : '已完成' }}
-          </div>
-        </div>
-        <div class="flex flex-row mt20 justify-between gray-color">
-          <div class="label" :title="list.moudleName">{{ list.moudleName }}</div>
-          <div>{{ list.timeDate }}</div>
-        </div>
+			<div v-if="questionList.length > 0">
+				<div class="card mb20 cursor" v-for="(list, idx) in questionList" :key="idx" @click="handleQuestion(list, idx)" :class="selectedCardId === idx ? 'selected' : ''">
+					<div class="flex flex-row justify-between list-top">
+						<div class="title" v-html="list.questionTitle" :title="list.questionTitle"></div>
+						<div class="status" :class="list.questionStatus === 'unreply' ? 'unreply-text' : list.questionStatus === 'reply' ? 'reply-text' : 'finish-text'">
+							{{ list.questionStatus === 'unreply' ? '未答复' : list.questionStatus === 'reply' ? '已答复' : '已完成' }}
+						</div>
+					</div>
+					<div class="flex flex-row mt20 justify-between gray-color">
+						<div class="label" :title="list.moudleName">{{ list.moudleName }}</div>
+						<div>{{ list.timeDate }}</div>
+					</div>
+				</div>
+			</div>
+			<div v-else>
+				暂无数据
 			</div>
 		</div>
 		<div class="iPagination flex items-center justify-center">
