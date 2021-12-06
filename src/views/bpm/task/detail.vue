@@ -98,7 +98,7 @@ import { iPage, iCard, iMessage, iButton } from 'rise'
 import {
   dialogApproval,
   dialogAppendAttachment,
-  attachmentList as AttachmentList,
+  attachmentList,
   detailProcessForm,
   lastNode,
   baseForm,
@@ -168,12 +168,19 @@ export default {
           tooltip: false
         },
         {
-          prop: 'attachmentEntityList',
           label: '附件',
           i18n: 'APPROVAL.ATTACH',
           tooltip: false,
           customRender: (h, scope) => {
-            return <AttachmentList data={scope.row.taskAttachments} />
+            if (scope.row.taskAttachments) {
+              return (
+                <attachmentList
+                  key={scope.row.id}
+                  data={scope.row.taskAttachments}
+                />
+              )
+            }
+            return ''
           }
         },
         {

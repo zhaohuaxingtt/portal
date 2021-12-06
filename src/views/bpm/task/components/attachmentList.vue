@@ -1,6 +1,6 @@
 <template>
   <ul class="attachs">
-    <li v-for="(item, index) in data" :key="index">
+    <li v-for="(item, index) in attachData" :key="index">
       <span v-if="icon" class="icon">
         <icon symbol class="icon" name="iconshenpi-fujian" />
       </span>
@@ -26,6 +26,11 @@ export default {
     icon: {
       type: Boolean,
       default: false
+    }
+  },
+  computed: {
+    attachData() {
+      return this.data || []
     }
   },
   methods: {
@@ -55,7 +60,6 @@ export default {
 
     a {
       font-size: 1rem;
-      line-height: 0px;
     }
   }
 }
