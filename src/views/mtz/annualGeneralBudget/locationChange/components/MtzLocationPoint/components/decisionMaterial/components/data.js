@@ -214,7 +214,7 @@ export const ruleTableTitle1_2 = [
   { props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG'},
   { props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA'},
   { props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG'},
-  { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 160 },
+  { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 180 },
 ]
 
 export const ruleTableTitle2_1 = [
@@ -432,7 +432,7 @@ export const partTableTitle1_3 = [
   { props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG'},
   { props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA'},
   { props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG'},
-  { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 160 },
+  { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 180 },
 ]
 
 export const partTableTitle2_1 = [

@@ -24,6 +24,7 @@
         <el-table-column :label="language('EXCELHANGSHU','Excel行数')"
                         prop="index"
                         align="center"
+                        width="100"
                         >
         </el-table-column>
         <el-table-column prop="remark"
