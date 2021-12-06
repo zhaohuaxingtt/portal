@@ -52,7 +52,7 @@
           <p class="no-data" v-if="categoryCardList.length == 0 && !l_loading">暂无数据</p>
           <p class="no-data" style="margin-top:20px" v-if="noMore && !l_loading && categoryCardList.length">没有更多了</p>
         </div>
-    </div>
+      </div>
     <div class="right-content ml20">
       <div class="content">
         <div class="flex flex-row justify-end">
@@ -228,8 +228,8 @@ export default {
       noMore:false
     }
   },
-  mounted () {
-    this.getModuleListByUserType(this.userType);
+  async mounted () {
+    await this.getModuleListByUserType(this.userType);
     this.initData();
   },
   computed: {
@@ -249,12 +249,16 @@ export default {
     },
     // 根据用户类型获取模块下拉框
     async getModuleListByUserType (userType) {
-      const response = await queryModuleBySource(userType);
-      if (response?.code === '200') {
-        this.problemModuleList = response.data;
-      } else {
-        console.error('获取模块接口失败');
-      }
+      return new Promise(async (resolve,reject) => {
+        const response = await queryModuleBySource(userType);
+        if (response?.code === '200') {
+          this.problemModuleList = response.data;
+          resolve()
+        } else {
+          console.error('获取模块接口失败');
+          reject()
+        }
+      })
     },
     // 获取问题列表
     async queryProblemList (queryForm) {
@@ -297,7 +301,7 @@ export default {
     // 根据模块id获取模块名称
     getCurrModuleName(id) {
       let m = this.problemModuleList.find(pm => pm.id === id)
-      return m.menuName
+      return m ? m.menuName : ""
     },
     // 监听左侧滚动条
     loadmore(){
