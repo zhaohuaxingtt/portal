@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-row content" v-loading="loading">
-    <div class="left-content">
+    <div class="left-content" >
       <el-row :gutter="20">
         <el-col span="14">
-          <iInput v-model="keyWord" placeholder="搜索.." @blur="keyWordBlurHandle" />
+          <iInput v-model="keyWord" placeholder="搜索.." @keydown.native.enter="keyWordBlurHandle" />
         </el-col>
         <el-col span="10">
           <iSelect v-model="questionModuleId" filterable placeholder="问题模块" clearable="true" @change="questionModuleHandle" @clear="clearModuleHandle">
@@ -25,11 +25,15 @@
           <el-switch v-model="selfOnly" active-text="仅看自己" @change="changeSelfHandle"></el-switch>
         </el-col>
       </el-row>
-      <template v-if="categoryCardList.length">
-        <div class="card-list" @scroll="scrollHandle($event)">
+        <!-- <div class="card-list" @scroll="scrollHandle($event)" v-loading="l_loading"> -->
+        <div class="card-list" 
+          v-infinite-scroll="loadmore"
+          infinite-scroll-distance="20"
+          infinite-scroll-disabled="disabled"
+          v-loading="l_loading">
           <el-card class="card mb20 cursor" v-for="item of categoryCardList" :key="item.id" @click.native="cardSelectHandler(item)" :shadow="cardSelectItem.id === item.id ? 'always' : 'never'">
             <div class="flex flex-row justify-between">
-              <div class="title">{{ item.questionTitle }}</div>
+              <div class="title ellipsis">{{ item.questionTitle }}</div>
               <div class="status">
                 <template v-if="item.questionStatus === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">未处理</span></template>
                 <template v-else-if="item.questionStatus === 'reply'"><span style="color:#FF8E00; font-weight: bold;">已处理</span></template>
@@ -41,13 +45,14 @@
               <div>管理员:{{ item.handlerUserName }}</div>
             </div>
             <div class="flex flex-row justify-between items-center gray-color">
-              <div class="label">{{ item.questionDescription }}</div>
+              <div class="label">{{ item.currModuleName }}</div>
               <div>{{ item.createDate }}</div>
             </div>
           </el-card>
+          <p class="no-data" v-if="categoryCardList.length == 0 && !l_loading">暂无数据</p>
+          <p class="no-data" style="margin-top:20px" v-if="noMore && !l_loading && categoryCardList.length">没有更多了</p>
         </div>
-      </template>
-    </div>
+      </div>
     <div class="right-content ml20">
       <div class="content">
         <div class="flex flex-row justify-end">
@@ -127,7 +132,7 @@
             </el-form>
           </div>
           <div class="mt20 mb20">
-            <attachmentDownload :load="loadText" @getFilesList="getFilesList" />
+            <attachmentDownload :load="loadText" @loadAttach="loadAttach" ref="attachment" @getFilesList="getFilesList" />
           </div>
         </template>
       </div>
@@ -142,8 +147,9 @@ import { iInput, iSelect, iButton, iFormItem } from 'rise'
 import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
 import iEditor from '@/components/iEditor';
+import { getFileId } from "@/api/assistant/uploadFile.js"
 import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
-import { getModuleListByUserTypeApi, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi, closeQuestionApi, modifyModuleAndLabelApi } from '@/api/assistant';
+import { queryModuleBySource, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi, closeQuestionApi, modifyModuleAndLabelApi } from '@/api/assistant';
 // 来源 inner:内部用户 supplier:供应商用户
 export default {
   props: {
@@ -159,7 +165,7 @@ export default {
       // 搜索关键词
       keyWord: '',
       questionModuleId: '',
-      selfOnly: false,
+      selfOnly: true,
       showDialog: false,
       isReplyStatus: false,
       editable: true,
@@ -190,14 +196,13 @@ export default {
         },
       ],
       categoryCardList: [],
-      flag: false,
       editForm: {},
       editFormBtn: false,
       isDisabledModule: true,
       isDisabledLabel: true,
       isDisabledQuestion: true,
       finishedDialog: false,
-      loading: true,
+      loading: false,
       queryForm: {
         source: this.userType,
         pageNum: 1,
@@ -208,7 +213,6 @@ export default {
       questionDetail: {},
       labelList: [],
       uploadFileList: [],
-      total: 0,
       editFormRules: {
         questionModuleId: [
           { required: true, trigger: 'change', message: '请选择模块' },
@@ -219,17 +223,41 @@ export default {
           { required: true, trigger: 'blur', message: '请选择标签' }
         ]
       },
+
+      l_loading:false,
+      noMore:false
     }
   },
-  mounted () {
-
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
-    this.getModuleListByUserType(this.userType);
+  async mounted () {
+    await this.getModuleListByUserType(this.userType);
     this.initData();
   },
   methods: {
+    // 下载详情附件
+		loadAttach(file) {
+			let fileTypeArr = ['jpg',
+				'jpeg',
+				'gif',
+				'png',
+				'txt',
+				'doc',
+				'docx',
+				'xls',
+				'xlsx',
+				'ppt',
+				'pptx',
+				'pdf']
+			const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
+			console.log(fileExtension, '23456')
+			if (fileTypeArr.includes(fileExtension)) {
+				console.log("=====")
+				window.location.href = file.fileUrl
+			} else {
+				getFileId(this.attach[0]?.bizId).then((res) => {
+					console.log(res, '1111111111')
+				})
+			}
+		},
     initData () {
       this.queryProblemList(this._queryForm({
         source: this.userType,
@@ -241,58 +269,64 @@ export default {
     },
     // 根据用户类型获取模块下拉框
     async getModuleListByUserType (userType) {
-      const response = await getModuleListByUserTypeApi(userType);
-      if (response?.code === '200') {
-        this.problemModuleList = response.data;
-      } else {
-        console.error('获取模块接口失败');
-      }
+      return new Promise(async (resolve,reject) => {
+        const response = await queryModuleBySource(userType);
+        if (response?.code === '200') {
+          this.problemModuleList = response.data;
+          resolve()
+        } else {
+          console.error('获取模块接口失败');
+          reject()
+        }
+      })
     },
     // 获取问题列表
     async queryProblemList (queryForm) {
-      const response = await queryProblemListApi(queryForm);
-      if (response?.code === '200') {
-        const { data } = response;
-        if (data.records.length) {
-          if (this.flag) {
-            this.categoryCardList = this.categoryCardList.concat(data.records);
-          } else {
-            this.categoryCardList = data.records;
-          }
-          // 默认选中第一个
-          this.cardSelectItem = this.categoryCardList[0];
-          // 查询问题详情
-          this.queryDetailById(this.cardSelectItem.id);
-          this.total = data.total;
-          // 拉取数据完成
-          if (this.records.length < this.pageSize) {
-            this.flag = true;
-          }
+      this.l_loading = true
+      try {
+        const response = await queryProblemListApi(queryForm);
+        if (response?.code === '200') {
+          const { data } = response;
+            let list = data.records || []
+            list.map(item => {
+              item.currModuleName = this.getCurrModuleName(item.questionModuleId)
+            })
+            if(queryForm.pageNum == 1 && data.total == 0) {
+							this.noMore = true
+							this.categoryCardList = []
+						}else{
+							if(queryForm.pageNum == 1){
+								this.categoryCardList = list
+							}else{
+								this.categoryCardList.push(...list)
+							}
+							if(queryForm.pageNum >= data.pages) {
+								this.noMore = true
+							}
+						}
+            // 默认选中第一个
+            this.cardSelectItem = this.categoryCardList[0] || {};
+            if(this.cardSelectItem.id){
+              // 查询问题详情
+              this.queryDetailById(this.cardSelectItem.id);
+            }
+            
         } else {
-          if (!this.flag) {
-            this.cardSelectItem = {
-              questionStatus: '',
-              id: null,
-            };
-            this.categoryCardList = [];
-          }
+          console.error('获取问题列表失败');
         }
-        console.log(this.categoryCardList, '======>>>>');
-        this.flag = false;
-      } else {
-        console.error('获取问题列表失败');
+      } finally {
+        this.l_loading = false
       }
     },
+    // 根据模块id获取模块名称
+    getCurrModuleName(id) {
+      let m = this.problemModuleList.find(pm => pm.id === id)
+      return m ? m.menuName : ""
+    },
     // 监听左侧滚动条
-    scrollHandle (e) {
-      let Scroll = e.target
-      let scrollHeight = Scroll.scrollHeight - Scroll.clientHeight
-      if (scrollHeight - Scroll.scrollTop < 100 && !this.flag) {
-        this.flag = true
-        const pageNum = this.pageNum + 1;
-        console.log(pageNum, '当前页面');
-        this.queryProblemList(this._queryForm({ pageNum }));
-      }
+    loadmore(){
+      if(this.noMore) return
+      this.queryProblemList(this._queryForm({ pageNum: this.pageNum + 1}));
     },
     // 点击导航
     changeCategoryItem (item) {
@@ -328,11 +362,17 @@ export default {
       if (response?.code === '200') {
         const { data } = response;
         this.questionDetail = data;
+        this.$refs.attachment.fileList = data.attachmentDTOList || []
+        this.
         console.log(data, '11213456')
+        let types = {
+          inner: "内部用户",
+          supplier:"供应商用户"
+        }
         this.editForm = {
           questionLableId: data?.questionLableId,
           questionModuleId: data?.questionModuleId,
-          source: data?.source,
+          source: types[data?.source] || ""
         }
         // 查询标签列表
         this.queryLabelByModuleId(data?.questionModuleId);
@@ -391,10 +431,10 @@ export default {
     async answerQuestion (hasClosed) {
       console.log(this.uploadFileList);
       if (!this.uploadFileList.length) {
-        this.$message.error('请上传附件');
+       return this.$message.error('请上传附件');
       }
       if (!this.replyContent) {
-        this.$message.error('请填写回复内容');
+        return this.$message.error('请填写回复内容');
       }
       const attachmentList = this.uploadFileList.map(item => {
         return {
@@ -414,6 +454,10 @@ export default {
       if (response?.code === '200') {
         this.$message.success(response.desZh);
         this.isReplyStatus = false;
+        this.replyContent = ""
+        this.categoryCardList = []
+        this.noMore = false
+        this.queryProblemList(this._queryForm({ pageNum:1 }));
       } else {
         this.$message.error('保存失败');
       }
@@ -477,6 +521,9 @@ export default {
         return 'down';
       }
     },
+    disabled(){
+      return this.noMore || this.loadmore
+    }
   },
   components: {
     iInput,
@@ -498,13 +545,14 @@ export default {
   height: 94%;
   .left-content {
     width: 35%;
-    min-height: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
     opacity: 1;
     border-radius: 5px;
     padding: 15px 20px 0px 20px;
-    overflow-y: auto;
     ::v-deep .el-switch__core {
       width: 40px !important;
     }
@@ -514,7 +562,8 @@ export default {
       color: #999999;
     }
     .card-list {
-      height: calc(100vh - 350px);
+      // height: calc(100vh - 350px);
+      flex: 1;
       overflow-y: auto;
     }
     .category-list {
@@ -546,10 +595,15 @@ export default {
         color: #666666;
       }
       .label {
+        padding: 5px 10px;
+        margin-right: 10px;
         background: #ededed;
         border-radius: 10px;
         color: #4b5c7d;
-        padding: 5px 10px;
+      }
+
+      .title{
+        width: 70%;
       }
     }
   }
@@ -582,7 +636,7 @@ export default {
     .content {
       border: 1px solid #f2f2f2;
       width: 100%;
-      height: auto;
+      // height: auto;
       padding: 30px;
       box-sizing: border-box;
       .name {
@@ -604,5 +658,11 @@ export default {
       }
     }
   }
+}
+.no-data{
+  margin-top: 50px;
+  margin-bottom: 20px;
+  color: #999;
+  text-align: center;
 }
 </style>
