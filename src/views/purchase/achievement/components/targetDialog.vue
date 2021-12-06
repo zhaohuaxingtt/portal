@@ -1,7 +1,7 @@
 <template>
     <!--VWAG评级-->
     <iDialog
-            :title="$t('EKL_YJGL_CJNDMBGL')"
+            :title="$t('EKL_CJNDMBGL')"
             :visible.sync="value"
             width="90%"
             @close="clearDiolog"
@@ -77,10 +77,10 @@
             </iInput>
         </div>
         <div slot="footer" class="dialog-footer">
-            <!--<iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>-->
-            <!--<iButton @click="sendDepartment(form.year)">{{ $t('EKL_YJGL_TZKS') }}</iButton>-->
-            <iButton @click="handleSubmit" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_SAVEDATA')">{{ $t('LK_QUEREN') }}</iButton>
-            <iButton @click="sendDepartment(form.year)" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_NOTICE')">{{ $t('EKL_YJGL_TZKS') }}</iButton>
+            <!--<iButton @click="handleSubmit">{{ $t('EKL_QUEREN') }}</iButton>-->
+            <!--<iButton @click="sendDepartment(form.year)">{{ $t('EKL_TZKS') }}</iButton>-->
+            <iButton @click="handleSubmit" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_SAVEDATA')">{{ $t('EKL_QUEREN') }}</iButton>
+            <iButton @click="sendDepartment(form.year)" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_NOTICE')">{{ $t('EKL_TZKS') }}</iButton>
         </div>
     </iDialog>
 </template>

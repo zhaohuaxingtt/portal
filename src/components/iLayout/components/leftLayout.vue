@@ -157,7 +157,14 @@ export default {
       }
     },
     toggleSubMenu(item) {
-      if (item.permissionKey === 'RISE_HOME') {
+      const href = window.location.href
+      const origin = window.location.origin
+      const path = href.replace(origin, '')
+      if (
+        item.permissionKey === 'RISE_HOME' &&
+        path.indexOf('/portal') === 0 &&
+        path.indexOf('#/index') > -1
+      ) {
         this.activeIndex = 'RISE_HOME'
         this.$emit('toggle-active', 'RISE_HOME')
         this.showSideMenu()
@@ -183,9 +190,6 @@ export default {
                 ? window.open(activeMenu.url)
                 : (location.href = activeMenu.url)
             }
-            // if (this.$route.path !== activeMenu.url) {
-            //   this.$router.push({ path: activeMenu.url })
-            // }
             this.hideSideMenu()
           }
           this.activeIndex = item.permissionKey

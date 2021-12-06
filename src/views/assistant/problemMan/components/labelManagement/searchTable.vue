@@ -94,13 +94,9 @@ export default {
         cancelButtonText:"取消",
         type:'warning'
       }).then(async ()=>{
-        if(this.type ==1){
-          let ids = this.selectedItems.map(e => e.id)
-          await removeLabel(ids)
-          this.getTableList()
-        }else{
-          console.log('del--2');
-        }
+        let ids = this.selectedItems.map(e => e.id)
+        await removeLabel(ids)
+        this.getTableList()
       }).catch(()=>{
         this.$refs.testTable.clearSelection()
       })

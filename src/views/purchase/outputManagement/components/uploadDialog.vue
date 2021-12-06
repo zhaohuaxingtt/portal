@@ -1,7 +1,7 @@
 <template>
     <!--上传产量-->
     <iDialog
-            :title="$t('EKL_YJGL_SCCL')"
+            :title="$t('EKL_SCCL')"
             :visible.sync="value"
             width="381px"
             @close="clearDiolog"
@@ -29,11 +29,11 @@
             </div>
             <div class="margin-top10 tip" v-else>
                 <icon class="icon" symbol name="iconzengjiacailiaochengben_lan"></icon>
-                <span style="padding-left: 8px;">{{ $t('EKL_YJGL_XZYJFJTIP')}}</span>
+                <span style="padding-left: 8px;">{{ $t('EKL_XZYJFJTIP')}}</span>
             </div>
 
             <div slot="footer" class="dialog-footer">
-                <!--<iButton @click="handleSubmit">{{ $t('EKL_YJGL_XZWJ') }}</iButton>-->
+                <!--<iButton @click="handleSubmit">{{ $t('EKL_XZWJ') }}</iButton>-->
                 <el-upload
                         class="uploadBtn"
                         multiple
@@ -46,9 +46,9 @@
                         :before-upload="beforeUpload"
                         :on-change="fileChange"
                         accept=".pdf,.xlsx,.xls,.docx,.cvs">
-                    <iButton :loading="uploadLoading">{{ $t('EKL_YJGL_XZWJ') }}</iButton>
+                    <iButton :loading="uploadLoading">{{ $t('EKL_XZWJ') }}</iButton>
                 </el-upload>
-                <iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>
+                <iButton @click="handleSubmit">{{ $t('EKL_QUEREN') }}</iButton>
             </div>
         </div>
     </iDialog>

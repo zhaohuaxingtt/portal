@@ -1,19 +1,19 @@
 export const tableTitle = [
-    {props: 'partNum', name: '零件号', key: 'EKL_YJGL_LJHAO', tooltip: true, width: 150,},
+    {props: 'partNum', name: '零件号', key: 'EKL_LJHAO', tooltip: true, width: 150,},
     {props: 'partName', name: '零件名称', key: 'EKL_PFJ_LJMC', width: 200, tooltip: true,},
     {props: 'spMaterialGroup', name: '配附件材料组', key: 'EKL_PFJ_CLZ', width: 150, tooltip: true,},
     {props: 'partBrand', name: '品牌', key: 'EKL_PFJ_PP', width: 120, tooltip: true},
     {props: '_partProperty', name: '属性', key: 'EKL_PFJ_SX', width: 120, tooltip: true},
     {props: 'dptKeCode', name: '科室', key: 'EKL_KESHI', width: 100, tooltip: true,},
-    {props: 'linieName', name: '采购员', key: 'EKL_YJGL_CGY', width: 120, tooltip: true,},
-    {props: '_supplierName', name: '供应商', key: 'EKL_YJGL_GYS', tooltip: true, width: 200},
+    {props: 'linieName', name: '采购员', key: 'EKL_CGY', width: 120, tooltip: true,},
+    {props: '_supplierName', name: '供应商', key: 'EKL_GYS', tooltip: true, width: 200},
     {props: '_supplierPercent', name: '份额', key: 'EKL_PFJ_FE', tooltip: true, width: 120},
     {props: 'preYearPrice', name: '上年采购价格', key: 'EKL_PFJ_CGJG', width: 150, tooltip: true,},
     {props: 'yearForecastVolume', name: '当年销售量预测', key: 'EKL_PFJ_XSLYC', width: 150, tooltip: true,},
     {props: 'yearAmount', name: '当年采购金额', key: 'EKL_PFJ_DNCGJE', width: 150, tooltip: true,},
     {props: 'lasting', name: 'Lasting', key: '', width: 150, tooltip: true,},
     {props: 'average', name: 'Average', key: '', width: 150, tooltip: true,},
-    {props: '', name: '跟踪进度', key: 'EKL_YJGL_GZJD', width: 100, tooltip: true,},
+    {props: '', name: '跟踪进度', key: 'EKL_GZJD', width: 100, tooltip: true,},
     {props: 'idxCode', name: '备注', key: 'EKL_PFJ_BZ', width: 150, tooltip: true,},
 
 ];

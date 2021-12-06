@@ -330,7 +330,10 @@
                 '签订采购条款'
               )"
                 slot="label"></iLabel>
-        <iText> </iText>
+        <iText> {{language(
+                'WEIQIANSHU',
+                '未签署'
+              )}}</iText>
 
       </iFormItem>
     </iFormGroup>
@@ -493,7 +496,7 @@ export default {
     },
     //是否签署
     getIsSigned() {
-      isSigned({}).then((res) => {})
+      //   isSigned({}).then((res) => {})
     },
     //是否国内外
     getisForeignCountry(val) {

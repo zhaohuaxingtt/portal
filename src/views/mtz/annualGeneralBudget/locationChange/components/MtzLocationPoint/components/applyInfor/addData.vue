@@ -501,7 +501,12 @@ export default {components: {
         })
     },
     handleReset() {
-      this.contractForm = {}
+      this.contractForm = {
+        assemblyPartnum:"",
+        partUnit:"PC",
+        priceUnit:1,
+        dosageMeasureUnit:'KG'
+      }
     },
     handleCancel(){
         this.$emit("close","")

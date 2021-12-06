@@ -457,7 +457,7 @@ export default {components: {
             rhodiumPrice:'',
             rhodiumDosage:'',
             palladiumPrice:"",
-            preciousMetalDosageUnit:""
+            preciousMetalDosageUnit:"OZ"
         },
         carlineNumber:[],
         rules: {
@@ -642,7 +642,7 @@ export default {components: {
         }).then(res=>{
             this.metalType = res.data;
             if(res.data){
-                this.contractForm.preciousMetalDosageUnit = "G";
+                this.contractForm.preciousMetalDosageUnit = "OZ";
             }else{
                 this.contractForm.preciousMetalDosageUnit = "";
             }
@@ -688,8 +688,8 @@ export default {components: {
         try{
             this.supplierList.forEach(e => {
                 if(e.message == value){
-                    console.log(e.code,2222222)
-                    console.log(value,2222222)
+                    // console.log(e.code,2222222)
+                    // console.log(value,2222222)
                     this.contractForm.supplierName = value;
                     this.contractForm.supplierId = e.code;
                     setTimeout(() => {
@@ -730,7 +730,28 @@ export default {components: {
         })
     },
     handleReset() {
-      this.contractForm = {}
+      this.contractForm = {
+        thresholdCompensationLogic:"A",
+        effectFlag:0,
+        tcExchangeRate:1,
+        compensationRatio:1,
+        materialName:'',
+        threshold:0,
+        endDate:"2999-12-31",
+        source:"",
+        price:"",
+        carline:"",
+        priceMeasureUnit:"",
+        platinumPrice:'',
+        platinumDosage:'',
+        palladiumDosage:'',
+        rhodiumPrice:'',
+        rhodiumDosage:'',
+        palladiumPrice:"",
+        preciousMetalDosageUnit:""
+      }
+      this.carlineNumber = []
+      this.metalType = false;
     },
     handleCancel(){
         this.$emit("close","")

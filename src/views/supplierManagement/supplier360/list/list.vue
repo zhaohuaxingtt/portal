@@ -117,31 +117,26 @@
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <i-button @click="tagTab"
-                    v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN"
-                    v-if="relatedToMe">{{
+                    v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{
             language('GONGYINGSHANGBIAOQIANKU', '供应商标签库')
           }}</i-button>
           <i-button @click="setTagBtn"
-                    v-permission="PORTAL_SUPPLIER_BIAOQIANSHEZHI"
-                    v-if="relatedToMe">{{
+                    v-permission="PORTAL_SUPPLIER_BIAOQIANSHEZHI">{{
             language('BIAOQIANSHEZHI', '标签设置')
           }}</i-button>
           <i-button @click="lacklistBtn('join', language('JIARU', '加入'))"
-                    v-permission="PORTAL_SUPPLIER_JIARUHEIMINGDAN"
-                    v-if="relatedToMe">{{
+                    v-permission="PORTAL_SUPPLIER_JIARUHEIMINGDAN">{{
             $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN')
           }}</i-button>
           <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))"
-                    v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN"
-                    v-if="relatedToMe">{{
+                    v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN">{{
             $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN')
           }}</i-button>
           <i-button @click="handleRating"
-                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN"
-                    v-if="relatedToMe">{{
+                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
-          <i-button @click="handleRegister">{{
+          <i-button @click="handleRegister" v-permission="PORTAL_SUPPLIER_YAOQINGZHUCE">{{
             $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
           }}</i-button>
         </div>
@@ -473,13 +468,13 @@ export default {
                 visible: true
               }
             }
-          }else{
-               iMessage.warn(this.language(
+          } else {
+            iMessage.warn(
+              this.language(
                 'GAIGONGYINGSHANGYIZAISUOYOUKENENGDEGONGYIZUHEIMINGDANZHON',
                 '该供应商已在所有可能的工艺组的黑名单中，无需重复添加！'
-              ))
-            
-              
+              )
+            )
           }
         })
       } else if (type == 'remove') {
