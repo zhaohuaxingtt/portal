@@ -16,9 +16,8 @@ export const tableTitle = [
     {props: 'lasting', name: 'Lasting', key: '', width: 150, tooltip: true,},
     {props: 'average', name: 'Average', key: '', width: 150, tooltip: true,},
     {props: '', name: '跟踪进度', key: 'EKL_GZJD', width: 100, tooltip: true,},
-
     {props: 'configName', name: '配置', key: 'EKL_PEIZ', width: 200, tooltip: true,},
-    {props: 'csGroupName', name: '材料组', key: 'EKL_CAILIAOZU', width: 150, tooltip: true,},
+    {props: 'csGroupName', name: '材料组', key: 'EKL_CLZ', width: 150, tooltip: true,},
     {props: 'partType', name: '零件类型', key: 'EKL_LINGJIANLEIXING', width: 120, tooltip: true,},
     {props: 'deptCode', name: '科室', key: 'EKL_KESHI', width: 100, tooltip: true,},
     {props: 'buyerName', name: '采购员', key: 'EKL_CGY', width: 120, tooltip: true,},
