@@ -12,7 +12,7 @@ export const tabRouterList = [
         name: '批量件预算产量管理',
         // url: '/supplier/frmrating/supplieroverview',
         // activePath: '/supplier/frmrating/supplieroverview',
-        key: 'EKL_YJGL_PLJYSCLGL'
+        key: 'EKL_PLJYSCLGL'
     },
 ]
 export const tableTitle = [
@@ -20,6 +20,6 @@ export const tableTitle = [
     {props: 'name', name: '文件名称', key: 'LK_WENJIANMINGCHENG', tooltip: true,},
     {props: 'version', name: '版本', key: 'SPR_FRM_CBPJ_BB', tooltip: true,},
     {props: 'updateDate', name: '上传时间', key: 'SUPPLIER_SHANGCHUANSHIJIAN', tooltip: true},
-    {props: 'createByName', name: '上传人', key: 'LK_SHANGCHUANREN', tooltip: true,},
+    {props: 'createByName', name: '上传人', key: 'EKL_SHANGCHUANREN', tooltip: true,},
 
 ];

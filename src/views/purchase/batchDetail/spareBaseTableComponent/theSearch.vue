@@ -4,7 +4,7 @@
             <!--第一行-->
             <el-row class="margin-bottom10">
                 <!--零件号-->
-                <el-form-item :label="$t('EKL_YJGL_LJHAO')">
+                <el-form-item :label="$t('EKL_LJHAO')">
                     <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.partNum"></iInput>
                 </el-form-item>
                 <!--零件名称-->
@@ -62,7 +62,7 @@
                 </el-form-item>
 
                 <!--采购员-->
-                <el-form-item :label="$t('EKL_YJGL_CGY')">
+                <el-form-item :label="$t('EKL_CGY')">
                     <iSelect multiple filterable collapse-tags :placeholder="$t('LK_QINGXUANZE')" v-model="form.linieId">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -73,7 +73,7 @@
                     </iSelect>
                 </el-form-item>
                 <!--供应商-->
-                <el-form-item :label="$t('EKL_YJGL_GYS')">
+                <el-form-item :label="$t('EKL_GYS')">
                     <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.supplierName"></iInput>
                 </el-form-item>
                 <!--备注-->
@@ -81,7 +81,7 @@
                     <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.memo"></iInput>
                 </el-form-item>
                 <!--确认状态-->
-                <el-form-item :label="$t('EKL_YJGL_QRZT')">
+                <el-form-item :label="$t('EKL_QRZT')">
                     <iSelect multiple filterable collapse-tags :placeholder="$t('LK_QINGXUANZE')" v-model="form.isConfirm">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option

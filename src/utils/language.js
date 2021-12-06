@@ -17,12 +17,16 @@ let languageList = []
 // eslint-disable-next-line no-undef
 Vue.use(i18n)
 
-Vue.prototype.language = function (languageKey, name) {
+Vue.prototype.language = function (languageKey, name, params) {
   if (process.env.NODE_ENV == 'dev') {
     name = name || languageKey
     languageList.push(
       languageKey + '----' + name + '----' + this.$router.currentRoute.path
     )
+  }
+  if (params) {
+    console.log('language params', params)
+    return this.$t(languageKey, params) || languageKey
   }
   return this.$t(languageKey) || languageKey
 }
@@ -45,5 +49,5 @@ router.afterEach(() => {
 
 export default function (languageKey, name) {
   // eslint-disable-next-line no-undef
-  return i18n.t(languageKey)
+  return i18n.t(languageKey) || languageKey
 }

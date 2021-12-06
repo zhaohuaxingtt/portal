@@ -6,7 +6,7 @@
                     <!--批量编辑-->
                     <iButton @click="bulkEdit"
                              v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_BATCHEDIT')&&!isForward">
-                        {{ $t('EKL_YJGL_PLBJ')}}
+                        {{ $t('EKL_PLBJ')}}
                     </iButton>
                     <!--编辑-->
                     <iButton @click="edit" v-if="isAuth(whiteBtnList,'ACHIEVEMENT_DETAIL_PAGE_EDIT')&&!isForward">
