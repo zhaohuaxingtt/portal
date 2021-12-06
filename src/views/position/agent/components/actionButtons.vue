@@ -18,11 +18,11 @@ export default {
   props: {
     selectedRows: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
-      },
-    },
-  },
+      }
+    }
+  }
 }
 </script>
 
@@ -30,7 +30,6 @@ export default {
 .operation-btn {
   float: right;
   display: flex;
-  margin-bottom: 22px;
   text-align: right;
 }
 </style>
