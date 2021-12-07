@@ -63,42 +63,57 @@ export default {
 
       dialog:false,
       imgUrl:"",
-      loading:false
+      loading:false,
+      tempHtml:""
     }
   },
   created() {
     this.editorContent = this.value
+    this.tempHtml = this.value
+  },
+  mounted() {
+    console.log(this.$refs.vueEditor)
   },
   methods: {
-    textChange() {
-      this.editorContent = this.editorContent.replace(/<img*/g,`<img class="editor-img" `)
-        console.log(this.editorContent);
-        this.$emit('input', this.editorContent)
-        this.$forceUpdate()
-        this.$nextTick(async () => {
-          let imgs = this.$refs.vueEditor ? this.$refs.vueEditor.$el.querySelectorAll('img') : ""
+    async textChange() {
+            console.log(this.tempHtml);
 
-          if(imgs){
-            let img = Array.from(imgs).find(e => {
-              return e.src.includes("data:image/")
-              // 图片预览
-              // e.addEventListener("click",(el) => {
-              //   el.stopPropagation()
-              //   this.dialog = true
-              //   this.imgUrl = el.target.src
-              // })
+      let html = this.editorContent
+      // html = html.replace(/<img*/g,`<img class="editor-img" `)      
+      // console.log(html);
+        let base_imgs = this.$refs.vueEditor ? this.$refs.vueEditor.$el.querySelectorAll('img') : ""
+
+        if(base_imgs){
+          let base_img = Array.from(base_imgs).find(e => {
+            return e.src.includes("data:image/")
+            // 图片预览
+            // e.addEventListener("click",(el) => {
+            //   el.stopPropagation()
+            //   this.dialog = true
+            //   this.imgUrl = el.target.src
+            // })
+            
+          })
+          if(base_img){
+            let file = this.dataURLtoFile(base_img.src,'test.png')
+            let path = await this.upload(file)
+            let img = document.createElement("img")
+            img.src = path
+            html += img.outerHTML
+            this.tempHtml = this.tempHtml + img.outerHTML
+            console.log(this.tempHtml);
+            html = html.replace(/<img.*?src="data:image.*?"*?\/?>/gi,"")
+            this.$nextTick( () => {
+              // setInterval(() => {
+                this.$emit('input', html)
+              // }, 1000);
+
             })
-            console.log(img);
-            if(img){
-              let file = this.dataURLtoFile(img.src,'test.png')
-              // let path = await this.upload(file)
-              // console.log(path);
-
-              // this.handleImageAdded(file,this.$refs.vueEditor.quill,0,this.$refs.vueEditor.resetUploader)
-              // this.$refs.vueEditor.imageAdded(file)
-            }
+          }else{
+            this.$emit('input', html)
           }
-        })
+        }
+
     },
     dataURLtoFile(dataurl, filename) {
       let arr = dataurl.split(","),
@@ -165,6 +180,7 @@ export default {
   },
   watch: {
     value(newVal) {
+      console.log(newVal);
       this.editorContent = newVal
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <iDialog title="问题归档" :visible.sync="show" v-if="show" width="70%" @close='closeDiologBtn' append-to-body>
-    <el-form label-position="left" label-width="60px" :model="editForm" :rules="editFormRules" ref="editForm">
+    <el-form label-position="left" label-width="100px" :model="editForm" :rules="editFormRules" ref="editForm">
       <el-row :gutter="20">
         <el-col :span="8">
           <iFormItem :label="$t('问题模块')" prop="questionModuleId">
