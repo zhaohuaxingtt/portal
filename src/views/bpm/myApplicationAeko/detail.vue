@@ -21,7 +21,7 @@
     />
 
     <i-card
-      :title="$t('APPROVAL.FLOW_INFO')"
+      :title="language('审批流程')"
       header-control
       collapse
       class="margin-bottom20"
@@ -33,11 +33,7 @@
       />
     </i-card>
 
-    <i-card
-      :title="$t('APPROVAL.MORE_APPROVAL_HISTORY')"
-      header-control
-      collapse
-    >
+    <i-card :title="language('审批历史')" header-control collapse>
       <i-table-custom :data="form.histories" :columns="historyTableTitle" />
     </i-card>
   </iPage>

@@ -1,7 +1,6 @@
 <template>
   <iSearch
     class="margin-bottom20"
-    
     icon
     resetKey="ROLE_SEARCH_RESET"
     searchKey="ROLE_SEARCH_CONFIRM"
@@ -9,17 +8,11 @@
     @reset="reset"
   >
     <el-form ref="searchForm">
-      <iFormItem :label="$t('ROLE.ROLE_CODE')">
-        <iInput
-          :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-          v-model="form.code"
-        />
+      <iFormItem :label="language('角色代码')">
+        <iInput :placeholder="language('请输入')" v-model="form.code" />
       </iFormItem>
-      <iFormItem :label="$t('ROLE.ROLE_NAME')">
-        <iInput
-          :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-          v-model="form.fullNameZh"
-        />
+      <iFormItem :label="language('角色名称')">
+        <iInput :placeholder="language('请输入')" v-model="form.fullNameZh" />
       </iFormItem>
     </el-form>
   </iSearch>

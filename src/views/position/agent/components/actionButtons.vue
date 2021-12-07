@@ -1,11 +1,11 @@
 <template>
   <div class="operation-btn">
-    <iButton @click="$emit('add')">{{ $t('APPROVAL.ADD') }}</iButton>
+    <iButton @click="$emit('add')">{{ language('新增') }}</iButton>
     <iButton @click="$emit('edit')" :disabled="selectedRows.length !== 1">
-      {{ $t('APPROVAL.EDIT') }}
+      {{ language('编辑') }}
     </iButton>
     <iButton @click="$emit('delete')" :disabled="selectedRows.length === 0">
-      {{ $t('APPROVAL.DELETE') }}
+      {{ language('删除') }}
     </iButton>
   </div>
 </template>

@@ -172,7 +172,7 @@ export default {
     //导出
     exportTemplate() {
       if (this.selectTableData.length == 0) {
-        return iMessage.warn(this.language('LK_QINGXUANZHEXUYAODAOCHUSHUJU'))
+        return iMessage.warn(this.language('请选择需要导出数据'))
       }
 
       excelExport(this.selectTableData, this.tableTitle)

@@ -27,10 +27,10 @@
     <!-- 
     <div slot="footer" class="dialog-footer">
       <iButton type="info" @click="onClose">
-        {{ $t('APPROVAL.CANCEL') }}
+        {{ language('取消') }}
       </iButton>
       <iButton type="primary" @click="recall">
-        {{ $t('APPROVAL.OK') }}
+        {{ language('确定') }}
       </iButton>
     </div> -->
   </iDialog>
@@ -49,13 +49,13 @@ export default {
   props: {
     instanceId: {
       type: String,
-      require: true,
+      require: true
     },
     visible: {
       type: Boolean,
       default: false,
-      require: true,
-    },
+      require: true
+    }
   },
   data() {
     return {
@@ -63,7 +63,7 @@ export default {
       formUrlColumns,
       formUrlData: [],
       tableLoading: false,
-      loading: false,
+      loading: false
     }
   },
   created() {
@@ -82,8 +82,8 @@ export default {
         params: {
           instanceId: item.instanceId,
           pageType: 'approval',
-          taskId: item.taskId,
-        },
+          taskId: item.taskId
+        }
       })
     },
     getTableList() {
@@ -92,7 +92,7 @@ export default {
         ...this.form,
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        taskId: 'formUrl',
+        taskId: 'formUrl'
       }
       queryFormUrls(data)
         .then((res) => {
@@ -114,13 +114,13 @@ export default {
     },
     onClose() {
       this.$emit('close')
-    },
+    }
   },
   watch: {
     visible(val) {
       this.dialogFormVisible = val
-    },
-  },
+    }
+  }
 }
 </script>
 

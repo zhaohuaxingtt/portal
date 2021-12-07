@@ -169,9 +169,9 @@ export default {
       )
       this.$emit('save-success')
       if (res.code == 200) {
-        iMessage.success(this.$t('APPROVAL.SAVE_SUCCESSFUL'))
+        iMessage.success(this.language('保存成功'))
       } else {
-        iMessage.error(this.$t('APPROVAL.SAVE_FAILED'))
+        iMessage.error(this.language('保存失败'))
       }
     }
   }

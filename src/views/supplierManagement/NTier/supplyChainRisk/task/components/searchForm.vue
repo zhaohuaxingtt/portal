@@ -6,19 +6,41 @@
  * @Descripttion: your project
 -->
 <template>
-  <iSearch class="margin-bottom20" @sure="sure" @reset="reset" search-key="APPROVAL_AGENT" icon>
+  <iSearch
+    class="margin-bottom20"
+    @sure="sure"
+    @reset="reset"
+    search-key="APPROVAL_AGENT"
+    icon
+  >
     <el-form @submit.native.prevent @keyup.enter.native="sure">
-      <iFormItem :label="$t('APPROVAL.TASK_NAME')">
-        <iInput :placeholder="$t('APPROVAL.PLEASE_INPUT')" v-model="data.name" />
+      <iFormItem :label="language('任务名称')">
+        <iInput :placeholder="language('请输入')" v-model="data.name" />
       </iFormItem>
-      <iFormItem :label="$t('APPROVAL.TASK_STATUS')">
-        <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')" v-model="data.processingStatus">
-          <el-option v-for="(item, index) in taskStatuses" :key="index" :value="item.code" :label="item.message">
+      <iFormItem :label="language('任务状态')">
+        <iSelect
+          :placeholder="language('请选择')"
+          v-model="data.processingStatus"
+        >
+          <el-option
+            v-for="(item, index) in taskStatuses"
+            :key="index"
+            :value="item.code"
+            :label="item.message"
+          >
           </el-option>
         </iSelect>
       </iFormItem>
-      <iFormItem :label="$t('APPROVAL.TASK_START_END_DATE')">
-        <iDatePicker style="width: 300px" v-model="data.timeRanges" type="datetimerange" :range-separator="$t('SUPPLIER_ZHI')" :placeholder="''" value-format="yyyy-MM-dd HH:mm:ss" clearable />
+      <iFormItem :label="language('任务起止时间')">
+        <iDatePicker
+          style="width: 300px"
+          v-model="data.timeRanges"
+          type="datetimerange"
+          :range-separator="$t('SUPPLIER_ZHI')"
+          :placeholder="''"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          clearable
+        />
       </iFormItem>
     </el-form>
   </iSearch>
@@ -63,7 +85,7 @@ export default {
     },
     reset() {
       this.$emit('reset')
-    },
+    }
   }
 }
 </script>

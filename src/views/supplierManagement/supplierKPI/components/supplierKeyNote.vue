@@ -5,7 +5,7 @@
 <template>
   <div>
     <iPage>
-      <iCard style="margin-top:20px">
+      <iCard style="margin-top: 20px">
         <div class="headerTitle">
           <div class="supplier-table-tittle">
             {{ $route.query.supplierName }}
@@ -16,7 +16,7 @@
           <el-form>
             <el-form-item label="是否采取措施">
               <iSelect
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                :placeholder="language('请选择')"
                 v-model="form.isTakeSteps"
               >
                 <el-option
@@ -30,7 +30,7 @@
             </el-form-item>
             <el-form-item label="跟进人">
               <iSelect
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                :placeholder="language('请选择')"
                 v-model="form.followUserId"
               >
                 <el-option
@@ -44,7 +44,7 @@
             </el-form-item>
             <el-form-item label="加入原因">
               <iSelect
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                :placeholder="language('请选择')"
                 v-model="form.followUserId"
               >
               </iSelect>
@@ -52,12 +52,12 @@
           </el-form>
         </iSearch>
         <div class="tableBox">
-            <div class="table-title">
-        <p>{{ language('XIANGQINGLIEBIAO', '详情列表') }}</p>
-        <iButton @click="handleExportCurrent">{{
-          language('DAOCHUQUANBU', '导出全部')
-        }}</iButton>
-      </div>
+          <div class="table-title">
+            <p>{{ language('XIANGQINGLIEBIAO', '详情列表') }}</p>
+            <iButton @click="handleExportCurrent">{{
+              language('DAOCHUQUANBU', '导出全部')
+            }}</iButton>
+          </div>
           <table-list
             :tableData="tableData"
             :tableTitle="KeyNoteTableTitle"
@@ -82,7 +82,15 @@
 </template>
 
 <script>
-import { iPage, iCard, iSelect, iMessage, iSearch, iPagination,iButton } from 'rise'
+import {
+  iPage,
+  iCard,
+  iSelect,
+  iMessage,
+  iSearch,
+  iPagination,
+  iButton
+} from 'rise'
 import { KeyNoteTableTitle } from './data'
 import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
@@ -137,7 +145,7 @@ export default {
       const params = {
         spiReportId: this.supplierId
       }
-      spiDetailList(params).then(res => {
+      spiDetailList(params).then((res) => {
         this.loading = false
 
         if (res && res.code == 200) {
@@ -152,7 +160,7 @@ export default {
     },
     sure() {
       this.page.currPage = 1
-       this.page.pageSize = 10
+      this.page.pageSize = 10
       this.fetchReportDetail()
     }
   }
@@ -177,7 +185,7 @@ export default {
   cursor: pointer;
 }
 .table-title {
-    padding: 30px 0;
+  padding: 30px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;

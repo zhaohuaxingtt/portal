@@ -60,7 +60,7 @@
                 <iDatePicker
                   v-model="form.startDate"
                   type="date"
-                  :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                  :placeholder="language('请选择')"
                   :disabled="!canEdit"
                   value-format="yyyy-MM-dd"
                   :picker-options="startDateOptions"
@@ -70,7 +70,7 @@
                 <iDatePicker
                   v-model="form.endDate"
                   type="date"
-                  :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                  :placeholder="language('请选择')"
                   :picker-options="endDateOptions"
                   :disabled="!canEdit"
                   value-format="yyyy-MM-dd"
@@ -84,7 +84,7 @@
           <el-col :span="12">
             <el-form-item label="代理原因" style="width: 100%">
               <iInput
-                :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+                :placeholder="language('请输入')"
                 v-model="form.description"
                 style="width: 100%"
                 :disabled="!canEdit"
