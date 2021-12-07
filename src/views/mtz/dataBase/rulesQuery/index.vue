@@ -214,6 +214,7 @@ export default {
         }
     },
     mounted(){
+      this.$set(this.formData, 'effectFlag', '1')
       this.getList()
       queryDeptSection({}).then(res=>{this.departmentDrop=res.data})//初始化科室
       getMtzMarketSourceList().then(res=>{this.getMtzMarketSourceListDrop=res.data})
@@ -229,7 +230,6 @@ export default {
         {code: "1", message: '生效'},
         {code: "0", message: '失效'}
       ]
-      this.$set(this.formData, 'effectFlag', '1')
     },
     methods:{
       handlecreatemtz(row){
