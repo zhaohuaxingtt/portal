@@ -14,11 +14,12 @@
                 justify='space-between'
                 align='middle'>
           <el-col :span="5">
-            <el-form-item :label="language('LINIEKESHICSS3','LINIE科室/CSS-3')">
+            <el-form-item :label="language('LINIEKESHICSS3','LINIE科室')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_DEPT"
                        @change="handleUser"
                        :placeholder="$t('LK_QINGXUANZE')"
-                       v-model="form.deptId">
+                       v-model="form.deptId"
+                       :disabled="isGs">
                 <el-option :value="item.id"
                            :label="item.nameZh"
                            v-for="(item, index) in formGroup.deptList"
@@ -28,11 +29,12 @@
           </el-col>
           <el-col :span="5">
             <el-form-item prop="linieId"
-                          :rules="[{required: true, message: '请选择',}]"
+                          :rules="isGs ? [] : [{required: true, message: '请选择',}]"
                           :label="$t('SUPPLIER_VW_LINIE_CAIGOUYUAN')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_SOURCER"
                        :placeholder="$t('LK_QINGSHURU')"
-                       v-model="form.linieId">
+                       v-model="form.linieId"
+                       :disabled="isGs">
                 <el-option :value="item.id"
                            :label="item.nameZh"
                            v-for="(item, index) in formGroup.userList"
@@ -66,6 +68,7 @@
                   :tableTitle="tableTitle"
                   :tableLoading="tableLoading"
                   :index="true"
+                  :selection="false"
                   @handleSelectionChange="handleSelectionChange" />
       <add-bdl-dialog :title="$t('LK_TIANJIA')"
                       @handleSelection='handleSelection'
@@ -108,7 +111,8 @@ export default {
         userList: [],
         deptList: []
       },
-      index: null
+      index: null,
+      isGs: false
     }
   },
   created () {
@@ -204,7 +208,13 @@ export default {
           ids.push(item.id)
         })
         if (!ids.includes(item.id)) {
+          if (item.categoryCode == "9999") {
+            this.isGs = true;
+            Vue.set(this.form, "deptId", "")
+            Vue.set(this.form, "linieId", "")
+          }
           this.tableListData.push(item)
+          this.selectTableData = this.tableListData
         }
       })
     },
