@@ -105,7 +105,7 @@
         },
         computed:{
             files(){
-                return this.value
+                return this.value || []
             }
         },
         methods: {

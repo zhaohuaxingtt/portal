@@ -1902,8 +1902,8 @@
     LK_YIXIANGSHUBIANHAO: '意向书编号',
     LK_DINDDIANSHIJIAN: '定点时间',
     LK_RS_DANHAO: 'RS单号',
-    LK_AJIAN: 'A价',
-    LK_BJIAN: 'B价',
+    LK_AJIA: 'A价',
+    LK_BJIA: 'B价',
     LK_BNKJIAGE: 'BNK价格',
     LK_QIANDUANBAOZHUANGFEI: '前段包装费',
     LK_HOUDUANBAOZHUANGFEI: '后段包装费',
@@ -1937,7 +1937,8 @@
     LK_GONGYINGSHANGFENE: '供应商份额',
     LK_GONGCHANGFENE: '工厂份额',
     LK_ERCIJIAN: '二次件',
-
+    LK_FSHAO: 'FS号',
+    LK_LJQSMZQ: '零件全生命周期',
     //会议中英文
     MT_HUIYIMINGCHENG: '会议名称',
     MT_HUIYIDIDIAN: '会议地点',

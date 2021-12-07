@@ -133,19 +133,27 @@
                          :fixed="items.fixed">
           <!--自定义嵌入-->
           <template #header>
-            <span style="margin-right: 10px;"
+            <div v-if="!items.overlap">
+              <span style="margin-right: 10px;"
                   v-html="items.key ? language(items.key,items.name) : items.name "></span>
-            <span class="required"
-                  v-if="items.required">*</span>
-            <el-popover trigger="hover"
-                        :content="items.iconTextKey ? language(items.iconTextKey) : items.iconText"
-                        placement="top-start">
-              <icon slot="reference"
-                    symbol
-                    v-if="items.icon"
-                    :name="items.icon"
-                    class="font-size16 marin-left5" />
-            </el-popover>
+              <span class="required"
+                    v-if="items.required">*</span>
+              <el-popover trigger="hover"
+                          :content="items.iconTextKey ? language(items.iconTextKey) : items.iconText"
+                          placement="top-start">
+                <icon slot="reference"
+                      symbol
+                      v-if="items.icon"
+                      :name="items.icon"
+                      class="font-size16 marin-left5" />
+              </el-popover>
+            </div>
+            <div v-else>
+              <span style="margin-right: 10px;"
+                  v-html="items.key ? language(items.key,items.name) : items.name "></span>
+              <br/>
+              <span style="margin-right: 10px;font-weight:initial!important;">{{items.overlapbottom}}</span>
+            </div>
           </template>
           <template v-if="$scopedSlots[items.props] || $slots[items.props]"
                     v-slot="scope">

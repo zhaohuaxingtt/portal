@@ -59,7 +59,7 @@
           <template v-if="cardSelectItem.questionStatus === 'unreply'">
             <template v-if="!isReplyStatus">
               <i-button @click="replyHandler">{{ language('答复') }}</i-button>
-              <i-button @click="dispatchHandler">{{ language('指派') }}</i-button>
+              <i-button @click="dispatchHandler">{{ language('转派') }}</i-button>
             </template>
             <template v-else>
               <i-button @click="sendMessageHandler">{{
@@ -99,7 +99,9 @@
                   </el-col>
                   <el-col :span="8">
                     <iFormItem :label="$t('问题来源')">
-                      <iInput v-model="editForm.source" :disabled="isDisabledQuestion" />
+                      <iSelect v-model="editForm.source" :disabled="isDisabledQuestion">
+                        <el-option v-for="(v,k) in userTypes" :key="k" :label="v" :value="k"></el-option>
+                      </iSelect>
                     </iFormItem>
                   </el-col>
                 </el-row>
@@ -225,7 +227,11 @@ export default {
       },
 
       l_loading:false,
-      noMore:false
+      noMore:false,
+      userTypes:{
+        inner: "内部用户",
+        supplier:"供应商用户"
+      }
     }
   },
   async mounted () {
@@ -253,7 +259,7 @@ export default {
 				console.log("=====")
 				window.location.href = file.fileUrl
 			} else {
-				getFileId(this.attach[0]?.bizId).then((res) => {
+				getFileId(file?.bizId).then((res) => {
 					console.log(res, '1111111111')
 				})
 			}
@@ -362,15 +368,23 @@ export default {
       if (response?.code === '200') {
         const { data } = response;
         this.questionDetail = data;
-        this.$refs.attachment.fileList = data.attachmentDTOList || []
-        let types = {
-          inner: "内部用户",
-          supplier:"供应商用户"
+        // 获取当前问题的附件(用户上传及管理员回复的附件)
+        let currQuesFileList = []
+        if (data.attachmentDTOList.length > 0) {
+          currQuesFileList = data.attachmentDTOList || []
         }
+        if (data.replyQuestionList.length > 0) {
+          data.replyQuestionList.map(item => {
+            if (item.attachmentList.length > 0) {
+              currQuesFileList = currQuesFileList.concat(item.attachmentList)
+            }
+          })
+        }
+        this.$refs.attachment.fileList = currQuesFileList || []
         this.editForm = {
           questionLableId: data?.questionLableId,
           questionModuleId: data?.questionModuleId,
-          source: types[data?.source] || ""
+          source: data?.source
         }
         // 查询标签列表
         this.queryLabelByModuleId(data?.questionModuleId);
@@ -543,7 +557,7 @@ export default {
   width: 100%;
   height: 94%;
   .left-content {
-    width: 35%;
+    width: 30%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -607,7 +621,7 @@ export default {
     }
   }
   .right-content {
-    width: 100%;
+    width: 70%;
     height: 100%;
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
@@ -663,8 +677,5 @@ export default {
   margin-bottom: 20px;
   color: #999;
   text-align: center;
-}
-.item-height {
-  height: auto;
 }
 </style>

@@ -2,7 +2,7 @@
   <iCard class="baseInfo" v-loading="pageLoading">
 
     <div class="head">
-      <div class="title">基础信息</div>
+      <div class="title">{{ language('LK_JICHUXINXI', '基础信息') }}</div>
       <div class="h-lables" v-if="pageData">
         <div class="lable" v-if="~~pageData.isMtz === 1">MTZ</div>
         <div class="lable" v-if="~~pageData.isAccessoriesParameter === 1">Spare</div>
@@ -21,13 +21,13 @@
 
     <div class="line1">
       <div class="line1">
-        <div class="title">材料组：</div>
+        <div class="title">{{ language('LK_CAILIAOZU', '材料组') }}：</div>
         <div class="content-box">
           {{pageData&&pageData.categoryName}}
         </div>
       </div>
       <div class="line1">
-        <div class="title">科室：</div>
+        <div class="title">{{ language('LK_KESHI', '科室') }}：</div>
         <div class="content-box">
           {{pageData&&pageData.deptName}}
         </div>
@@ -35,7 +35,7 @@
     </div>
 
     <div class="line1">
-      <div class="title">采购工厂：</div>
+      <div class="title">{{ language('LK_CAIGOUGONGCHANG', '采购工厂') }}：</div>
       <div class="content-box">
         {{pageData&&pageData.factoryName}}
       </div>
@@ -43,7 +43,7 @@
 
     <div class="line1">
       <div class="line1">
-        <div class="title">前期采购：</div>
+        <div class="title">{{ language('LK_QIANQICAIGOU', '前期采购') }}：</div>
         <div class="content-box">
           {{pageData&&pageData.earlyLinie}}
         </div>
@@ -59,13 +59,13 @@
     <template v-if="isOpen">
       <div class="line1">
         <div class="line1">
-          <div class="title">配件前期：</div>
+          <div class="title">{{ language('LK_PEIJIANQIANQI', '配件前期') }}：</div>
           <div class="content-box">
             {{pageData&&pageData.earlyEmployee}}
           </div>
         </div>
         <div class="line1">
-          <div class="title">质保：</div>
+          <div class="title">{{ language('LK_ZHIBAO', '质保') }}：</div>
           <div class="content-box">
             {{pageData&&pageData.qualityEmployee}}
           </div>
@@ -79,7 +79,7 @@
           </div>
         </div>
         <div class="line1">
-          <div class="title">EP售后：</div>
+          <div class="title">{{ language('LK_EP_SHOUHOU', 'EP售后') }}：</div>
           <div class="content-box">
             {{pageData&&pageData.epSalesEmployee}}
           </div>
@@ -87,13 +87,13 @@
       </div>
       <div class="line1">
         <div class="line1">
-          <div class="title">批量物流：</div>
+          <div class="title">{{ language('LK_PILIANGWULIU', '批量物流') }}：</div>
           <div class="content-box">
             {{pageData&&pageData.batchEmployee}}
           </div>
         </div>
         <div class="line1">
-          <div class="title">配件物流：</div>
+          <div class="title">{{ language('LK_PEIJIANWULIU', '配件物流') }}：</div>
           <div class="content-box">
             {{pageData&&pageData.accessoriesEmployee}}
           </div>
@@ -101,13 +101,13 @@
       </div>
       <div class="line1">
         <div class="line1">
-          <div class="title">RISE合同号：</div>
+          <div class="title">{{ language('LK_RISE_HETONGHAO', 'RISE合同号') }}：</div>
           <div class="content-box">
             {{pageData&&pageData.contractCode}}
           </div>
         </div>
         <div class="line1">
-          <div class="title">截至日期：</div>
+          <div class="title">{{ language('LK_JIEZHIRIQI', '截至日期') }}：</div>
           <div class="content-box">
             {{pageData&&pageData.endDate}}
           </div>
@@ -115,13 +115,13 @@
       </div>
       <div class="line1">
         <div class="line1">
-          <div class="title">SAP合同号：</div>
+          <div class="title">{{ language('LK_SAP_HETONGHAO', 'SAP合同号') }}：</div>
           <div class="content-box link" @click="jumpOrderDetails(pageData&&pageData.contractSapCode)">
             {{pageData&&pageData.contractSapCode}}
           </div>
         </div>
         <div class="line1">
-          <div class="title">模具合同号：</div>
+          <div class="title">{{ language('LK_MOJUHETONGHAO', '模具合同号') }}：</div>
           <div class="content-box link" @click="jumpContract(pageData&&pageData.contractMouldCode)">
             {{pageData&&pageData.contractMouldCode}}
           </div>
@@ -130,14 +130,14 @@
     </template>
 
     <div class="line1">
-      <div class="title">品牌：</div>
+      <div class="title">{{ language('LK_PINGPAI', '品牌') }}：</div>
       <div class="content-box">
         {{pageData&&pageData.someBrand}}
       </div>
     </div>
 
     <div class="line1">
-      <div class="title">车型：</div>
+      <div class="title">{{ language('LK_CHEXING', '车型') }}：</div>
       <div class="content-box">
         {{pageData&&pageData.someCartype}}
       </div>
@@ -145,20 +145,20 @@
 
     <template v-if="isOpen">
       <div class="line1">
-        <div class="title">曾用车型：</div>
+        <div class="title">{{ language('LK_CENGYONGCHEXING', '曾用车型') }}：</div>
         <div class="content-box oldLink">
           {{pageData&&pageData.someUsedCartype}}
         </div>
       </div>
       <div class="line1">
         <div class="line1">
-          <div class="title">零件重量：</div>
+          <div class="title">{{ language('LK_LINGJIANZHONGLIANG', '零件重量') }}：</div>
           <div class="content-box">
             {{pageData&&pageData.partsWeight}}
           </div>
         </div>
         <div class="line1">
-          <div class="title">零件长：</div>
+          <div class="title">{{ language('LK_LINGJIANCHANG', '零件长') }}：</div>
           <div class="content-box">
             {{pageData&&pageData.length}}
           </div>
@@ -166,13 +166,13 @@
       </div>
       <div class="line1">
         <div class="line1">
-          <div class="title">零件宽：</div>
+          <div class="title">{{ language('LK_LINGJIANKUAN', '零件宽') }}：</div>
           <div class="content-box">
             {{pageData&&pageData.wide}}
           </div>
         </div>
         <div class="line1">
-          <div class="title">零件高：</div>
+          <div class="title">{{ language('LK_LINGJIANGAO', '零件高') }}：</div>
           <div class="content-box">
             {{pageData&&pageData.high}}
           </div>
@@ -308,9 +308,12 @@ export default {
 
     .title{
       min-width: 70px;
+      max-width: 100px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
       margin-right: 18px;
       font-size: 14px;
-      white-space: nowrap;
     }
   }
 
