@@ -40,7 +40,7 @@
               !isForward
             "
           >
-            {{ language('查询) }}
+            {{ language('查询') }}
           </iButton>
           <!--导出-->
           <iButton
