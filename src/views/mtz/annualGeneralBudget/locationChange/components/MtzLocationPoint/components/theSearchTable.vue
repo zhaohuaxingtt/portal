@@ -301,8 +301,8 @@ export default {
         this.searchForm.nominateEndDate = "";
         return false;
       }
-      this.searchForm.nominateStartDate = val[0];
-      this.searchForm.nominateEndDate = val[1];
+      this.searchForm.nominateStartDate = val[0].split(" ")[0] + " 00:00:00";
+      this.searchForm.nominateEndDate = val[1].split(" ")[0] + " 23:59:59";
     },
     sure () {
       this.page.currPage = 1

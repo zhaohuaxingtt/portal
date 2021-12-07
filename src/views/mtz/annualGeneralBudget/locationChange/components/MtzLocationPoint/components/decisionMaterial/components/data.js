@@ -156,7 +156,7 @@ export const ruleTableTitle1_1 = [
   {
     props: 'supplierId',
     name: '供应商编号/名称',
-    key: 'GONGYINGSHANGBIANHAO',
+    key: 'GYSBHMC',
     overlap:true,
     overlapbottom:"Supplier"
   },
@@ -257,8 +257,8 @@ export const ruleTableTitle2_1 = [
   { props: 'carline', name: '车型', key: 'CHEXING' },
   {
     props: 'supplierId',
-    name: '供应商编号',
-    key: 'GONGYINGSHANGBIANHAO',
+    name: '供应商编号/名称',
+    key: 'GYSBHMC',
   },
   {
     props: 'supplierName',
