@@ -72,7 +72,7 @@ export default {
                 {
                     value:"PRECSC",
                     name:"Precsc",
-                    id:1
+                    id:0
                 },
                 // {
                 //     value:"NONE",
@@ -80,8 +80,8 @@ export default {
                 //     id:2
                 // }
             ],
-            indexValue:1,
-            changeValue:"CSC",
+            indexValue:0,
+            changeValue:"PRECSC",
             selectData:[],
         }
     },
