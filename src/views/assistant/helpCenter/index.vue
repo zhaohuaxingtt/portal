@@ -112,7 +112,7 @@ import IntelligentDialog from '../components/intelligentDialog'
 import QuestioningDialog from '../components/questioningDialog'
 import QuestionList from './components/questionList'
 import QuestionDetail from './components/questionDetail'
-import { getHotFiveQues, getUserDes, getQueryProblemList, getModuleList } from '@/api/assistant'
+import { getHotFiveQues, getUserDes, getModuleList } from '@/api/assistant'
 
 export default {
 	data() {
@@ -288,28 +288,21 @@ export default {
 			}
 			
 		},
+		// 根据模块id获取模块名称
+		getCurrModuleName(id) {
+			let m = this.moudleList.find(pm => pm.id == id)
+			return m ? m.menuName : ""
+		},
 		// 根据常见问题查询条件筛查数据
 		queryProblem(queryValue) {
 			const { questionLableId, questionModuleId } = queryValue
 			this.currentMoudleId = questionModuleId
 			this.currLabelId = questionLableId
-			this.moudleList.map(item => {
-				if (item.id === questionModuleId) {
-					this.currMoudleName = item.menuName
-				}
-			})
-			console.log(queryValue, "queryValue")
+			this.currMoudleName = this.getCurrModuleName(questionModuleId)
+			console.log(this.currMoudleName, "this.currMoudleName")
 			this.$nextTick(() => {
 				this.$refs.problemDetail.getQueryProblemList(questionLableId, queryValue)
 			})
-			// await getQueryProblemList(queryValue).then((res) => {
-			// 	if (res?.code === '200') {
-			// 		const { data } = res
-			// 		this.$nextTick(() => {
-			// 			this.$refs.problemDetail.getQueryProblemList(data, this.currLabelId)
-			// 		})
-			// 	}
-			// })
 		},
 		changeCurrValue(id, name) {
 			this.currentMoudleId = id

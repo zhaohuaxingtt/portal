@@ -6,8 +6,9 @@
 		<div v-if="currentMoudleId" class="detail-title flex flex-column items-start">
 			<div class="moudle-name">{{ language(`${currMoudleName}`) }}</div>
 			<div class="flex flex-wrap label-box" v-loading="labelLoading">
-				<div v-for="(item, idx) in labelList" :key="idx" class="item-label cursor" :class="labelIdx===item.id ? 'activeIdx' : 'idx'" @click="handleLabel(item, idx)">
-					{{ item.lableName }}
+				<div v-for="(item, idx) in labelList" :key="idx" class="flex flex-row item-label cursor" :class="labelIdx===item.id ? 'activeIdx' : 'idx'" @click="handleLabel(item, idx)">
+					<div :class="labelIdx===item.id ? 'blue-line' : ''"></div>
+					<div>{{ item.lableName }}</div>
 				</div>
 			</div>
 		</div>
@@ -37,16 +38,17 @@
 		</div>
 
 		<div class="list-content" v-show="currentMoudleId  && currentFlag === 'listPage'">
-			<div class="flex flex-row label-title items-center">
+			<!-- <div class="flex flex-row label-title items-center">
 				<div class="blue-box"></div>
 				<div class="label-text">{{ labelText }}</div>
-			</div>
-			<div class="flex flex-column problem-box" v-loading="problemLoading">
+			</div> -->
+			<div class="flex flex-column problem-box" v-loading="problemLoading" v-if="problemList.length > 0">
 				<div v-for="(item, idx) in problemList" :key="idx" class="item-problem flex flex-row items-center" @click="handleProblem(item, idx)">
 					<div class="blue-box"></div>
-					<div class="problem-text cursor">{{ `【热门】${item.questionTitle}` }}</div>
+					<div class="problem-text cursor">{{ `${item.questionTitle}` }}</div>
 				</div>
 			</div>
+			<div v-else>暂无该标签所属问题,您可提交您的疑问</div>
 			<el-pagination 
 				:total="totalCount" 
 				:current-page="problemQuery.pageNum" 
@@ -86,7 +88,7 @@
 import AttachmentDownload from '../../components/attachmentDownload'
 import Solution from '../../components/solution'
 import { getFileId } from "@/api/assistant/uploadFile.js"
-import { updateFavour, getCurrLabelList, getProblemDetail, queryFaqByPage, queryHotFaq, getAllModuleLabel, judgeFavour, queryFaqListByPage } from '@/api/assistant'
+import { updateFavour, getCurrLabelList, getProblemDetail, queryFaqByPage, queryHotFaq, getAllModuleLabel, judgeFavour } from '@/api/assistant'
 import {
 	iButton
 } from 'rise'
@@ -129,7 +131,7 @@ export default {
 			problemList: [],
 			problemQuery: {
 				pageNum: 1,
-				pageSize: 3,
+				pageSize: 5,
 				questionLableId: null,
 				questionModuleId: null,
 				questionTitle: null
@@ -307,11 +309,18 @@ export default {
 			await getCurrLabelList(this.currentMoudleId).then(res => {
 				if (res?.code === '200') {
 					this.labelList = res?.data || []
+					this.labelList.unshift({
+						lableName: "全部",
+						id: '',
+						moduleId: this.labelList[0]?.moduleId
+					})
 					this.labelIdx = this.labelIdx ? this.labelIdx : res?.data[0]?.id
-					this.labelText = this.labelText ? this.labelText : res?.data[0]?.lableName
+					// this.labelText = this.labelText ? this.labelText : res?.data[0]?.lableName
 					if (va === 'init') {
 						// 如第一次查询 标签id是第一个
 						this.problemQuery.questionLableId = res?.data[0]?.id
+					} else {
+						this.problemQuery.questionLableId = this.labelIdx
 					}
 					// 查询标签结束后 会查询该标签下的问题
 					if (this.formSource === 'query') return this.labelLoading = false
@@ -431,6 +440,17 @@ export default {
 					line-height: 20px;
 					margin-right: 30px;
 					margin-bottom: 10px;
+					.blue-line {
+						width: 4px;
+						height: 20px;
+						background: #1763F7;
+						margin-right: 10px;
+						border-radius: 5px;
+					}
+				}
+				:hover {
+					color: #1660F1;
+					text-decoration: underline;
 				}
 				.activeIdx {
 					color: #1763F7;
@@ -477,6 +497,9 @@ export default {
 							font-weight: bold;
 							margin-top: 20px;
 						}
+						:hover {
+							color: #1763F7;
+						}
 					}
 				}
 			}
@@ -500,6 +523,10 @@ export default {
 							font-size: 16px;
 							font-weight: bold;
 							color: #222222;
+						}
+						:hover {
+							color: #1660F1;
+							text-decoration: underline;
 						}
 					}
 				}

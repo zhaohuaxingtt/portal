@@ -33,7 +33,7 @@
 					</div>
 					<div class="flex flex-row mt20 justify-between gray-color">
 						<div class="label" :title="list.moudleName">{{ list.moudleName }}</div>
-						<div>{{ list.timeDate }}</div>
+						<div class="time">{{ list.timeDate }}</div>
 					</div>
 				</div>
 			</div>
@@ -216,6 +216,9 @@ export default {
 					white-space: nowrap;
 					overflow: hidden;
 					text-overflow: ellipsis;
+				}
+				.time {
+					padding: 5px 0px;
 				}
 			}
 		}

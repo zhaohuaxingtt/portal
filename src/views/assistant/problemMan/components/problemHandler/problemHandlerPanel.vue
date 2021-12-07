@@ -408,6 +408,7 @@ export default {
     },
     replyHandler () {
       this.isReplyStatus = true
+      this.$refs.attachment.fileList = []
     },
     // 指派
     dispatchHandler () {
@@ -634,9 +635,9 @@ export default {
       margin-bottom: 40px;
     }
     .content {
-      border: 1px solid #f2f2f2;
+      // border: 1px solid #f2f2f2;
       width: 100%;
-      // height: auto;
+      height: auto;
       padding: 30px;
       box-sizing: border-box;
       .name {
@@ -644,7 +645,7 @@ export default {
       }
       .content-text {
         background: #f8f8fa;
-        margin-left: 30px;
+        margin-left: 20px;
         width: 700px;
         padding: 10px 30px 10px;
         box-sizing: border-box;
@@ -664,5 +665,8 @@ export default {
   margin-bottom: 20px;
   color: #999;
   text-align: center;
+}
+.item-height {
+  height: auto;
 }
 </style>
