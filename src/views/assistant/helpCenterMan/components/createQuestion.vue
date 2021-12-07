@@ -20,7 +20,7 @@
                         </iSelect>
                     </el-form-item>
                 </div>
-                <el-form-item label="问题描述" prop="questionTitle">
+                <el-form-item label="常见问题" prop="questionTitle">
                     <i-input class="textarea" rows="5" type="textarea" v-model="form.questionTitle" placeholder="请输入" />
                 </el-form-item>
                 <el-form-item label="管理员回复" prop="answerContent">
@@ -53,7 +53,7 @@
     import { iDialog, iFormGroup, iInput, iButton,iSelect } from "rise"
     import iEditor from "@/components/iEditor"
     import iUpload from "./../../components/iUpload.vue"
-    import { saveFaq } from "@/api/assistant"
+    import { saveFaq,getCurrLabelList } from "@/api/assistant"
     export default {
         components:{
             iDialog,
@@ -70,10 +70,6 @@
                 default:false
             },
             moduleList:{
-                type: Array,
-                default:() => []
-            },
-            labelList:{
                 type: Array,
                 default:() => []
             },
@@ -94,7 +90,7 @@
                     answerContent:"",
                     annexList:[]
                 },
-
+                labelList:[],
                 formRules: {
                     questionModuleId:{required:'true',message:"请选择问题模块",trigger:'cahnge'},
                     questionLableId:{required:'true',message:"请选择标签",trigger:'change'},
@@ -105,8 +101,13 @@
         },
         methods: {
             change(id){
-                this.$emit('moduleChange',id)
                 this.form.questionLableId = ""
+                if(id){
+                    getCurrLabelList(id).then(res => {
+                        this.labelList = res.data
+                        this.$forceUpdate()
+                    })
+                }
             },
             closeDialog(){
                 this.form = {
@@ -118,6 +119,7 @@
                 }
                 this.$refs.form.resetFields()
                 this.$emit("update:show",false)
+                this.labelList = []
             },
             save(){
                 this.$refs.form.validate(async v => {
