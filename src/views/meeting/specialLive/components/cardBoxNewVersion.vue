@@ -72,7 +72,7 @@
           </div>
         </div>
         <div class="ul-li">
-          <div class="left">carline</div>
+          <div class="left">Carline</div>
           <div class="right" :title="themen.carline">
             {{ themen.carline }}
             <!-- {{ themen.presenterDept
@@ -92,7 +92,7 @@
           </div>
           <div class="time-right" v-else>
             {{ themen.startTime }}/
-            {{ themen.state === '01' ? 'Next' : 'Finished' }}!
+            {{ themen.state === '01' ? 'Next' : 'Finished' }}
           </div>
         </div>
       </div>

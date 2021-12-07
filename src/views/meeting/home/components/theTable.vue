@@ -429,7 +429,7 @@
                 @click="actionObj('newFile')(scope.row)"
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
-                <span>{{ $t('生成会议纪要') }}</span>
+                <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -437,7 +437,7 @@
                 @click="actionObj('uploadFile')(scope.row.id)"
               >
                 <!-- <img class="upload-file" :src="uploadFile" alt="" srcset="" /> -->
-                <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
+                <span>{{ $t('MT_SHANGCHUANHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
             </div>

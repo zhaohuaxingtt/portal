@@ -259,7 +259,7 @@
       @getMyTopics="getMyTopics"
       :curMeetingId="curMeetingId"
     ></my-topics>
-    <dataDownload :meetingTypeId="meetingTypeId"></dataDownload>
+    <dataDownload></dataDownload>
   </div>
 </template>
 
@@ -302,7 +302,6 @@ export default {
       // refresh: false,
       myThemenData: [],
       noMyThemenData: [],
-      meetingTypeId: this.$route.query.id,
       total: 0,
       begin: '',
       end: '',
@@ -407,38 +406,18 @@ export default {
         const liveItem = this.isHaveLiveTheme()
 
         if (liveItem) {
-          // this.$route.push({
-          //   path: "/meeting/live",
-          //   query: {
-          //     id: this.meetingTypeId,
-          //     meetingInfoId: liveItem.meetingId,
-          //   },
-          // });
           this.queryMeetingInfoById(liveItem.meetingId)
           this.curMeetingId = liveItem.meetingId
         }
       } else {
         const liveItem = this.isHaveLiveTheme()
         if (!liveItem) {
-          // this.$route.push({f
-          //   path: "/meeting/live",
-          //   query: {
-          //     id: this.meetingTypeId,
-          //     meetingInfoId: -1,
-          //   },
-          // });
           this.curMeetingId = -1
           this.queryMeetingInfoById(-1)
         } else {
           this.queryMeetingInfoById(liveItem.meetingId)
         }
       }
-      // let curIndex = this.getCurrentLiveIndex();
-      // let refDom = this.$refs.swiperRef;
-      // if (this.resThemeData.length > 2) {
-      //   this.translateX(refDom, curIndex);
-      // }
-      // this.curIndex = curIndex;
     },
     handlePreClick() {
       if (this.curIndex > 1) {
