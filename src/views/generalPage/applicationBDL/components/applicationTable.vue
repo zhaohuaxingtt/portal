@@ -19,7 +19,7 @@
                        @change="handleUser"
                        :placeholder="$t('LK_QINGXUANZE')"
                        v-model="form.deptId"
-                       :disabled="isGs">
+                       :disabled="isAcc">
                 <el-option :value="item.id"
                            :label="item.nameZh"
                            v-for="(item, index) in formGroup.deptList"
@@ -29,12 +29,12 @@
           </el-col>
           <el-col :span="5">
             <el-form-item prop="linieId"
-                          :rules="isGs ? [] : [{required: true, message: '请选择',}]"
+                          :rules="isAcc ? [] : [{required: true, message: '请选择',}]"
                           :label="$t('SUPPLIER_VW_LINIE_CAIGOUYUAN')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_SOURCER"
                        :placeholder="$t('LK_QINGSHURU')"
                        v-model="form.linieId"
-                       :disabled="isGs">
+                       :disabled="isAcc">
                 <el-option :value="item.id"
                            :label="item.nameZh"
                            v-for="(item, index) in formGroup.userList"
@@ -112,7 +112,7 @@ export default {
         deptList: []
       },
       index: null,
-      isGs: false
+      isAcc: false
     }
   },
   created () {
@@ -209,7 +209,7 @@ export default {
         })
         if (!ids.includes(item.id)) {
           if (item.categoryCode == "9999") {
-            this.isGs = true;
+            this.isAcc = true;
             Vue.set(this.form, "deptId", "")
             Vue.set(this.form, "linieId", "")
           }
