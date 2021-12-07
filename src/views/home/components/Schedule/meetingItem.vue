@@ -1,16 +1,22 @@
 <template>
-  <div class="meeting-card" @click="handleGoMeetingDetail(item.id)">
+  <div
+    class="meeting-card"
+    @click="handleGoMeetingDetail(item.id)"
+    ref="meetingCard"
+  >
     <!-- 背景 -->
-    <div style="position: relative">
+    <div class="meeting-card-head">
       <div
         class="start-time"
         :class="{ 'fs-color': ['05', '06'].includes(item.state) }"
       >
         {{ item.strStartTime }}
       </div>
-      <div class="meeting_img" v-if="item.state === '04'">
-        <p class="circle"></p>
-        <p class="twim_item"></p>
+      <div v-if="progressBarVisible" class="progress-bar-container">
+        <div class="progress-bar" :style="progressStyle" ref="progressBar">
+          <p class="circle"></p>
+          <p class="twim_item"></p>
+        </div>
       </div>
     </div>
     <!-- 信息 -->
@@ -64,12 +70,84 @@ export default {
         return 'future'
       }
       return 'ongoing'
+    },
+    start() {
+      const startDate = this.item.startDate || '1970-01-01'
+      const startTime = this.item.startTime || '00:00:00'
+      return startDate + ' ' + startTime
+    },
+    end() {
+      const endDate = this.item.endDate || '1970-01-01'
+      const endTime = this.item.endTime || '23:59:59'
+      return endDate + ' ' + endTime
+    },
+    progressBarVisible() {
+      /* if (!this.visible) {
+        return false
+      } */
+      const { state } = this.item
+      const now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      return state === '04' && now >= this.start && now <= this.end
+    },
+    totalSeconds() {
+      return moment(this.end).valueOf() - moment(this.start).valueOf()
     }
+  },
+  data() {
+    return {
+      progressStyle: {},
+      intervalTime: 5, // 单位秒
+      raf: null,
+      progressTimestamp: 0,
+      visible: false
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      if (this.progressBarVisible) {
+        this.handleListenProgressBar()
+      }
+    })
   },
   methods: {
     handleGoMeetingDetail(id) {
       window.location.href = `/portal/#/meeting/near-meeting/detail?id=${id}`
+    },
+    handleListenProgressBar() {
+      this.raf = window.requestAnimationFrame(() => {
+        this.moveProgressBar()
+      })
+    },
+    moveProgressBar() {
+      if (!this.progressTimestamp) {
+        this.progressTimestamp = new Date().valueOf()
+      }
+      const nowValue = new Date().valueOf()
+      const startValue = moment(this.start).valueOf()
+      const endValue = moment(this.end).valueOf()
+
+      if (nowValue < endValue) {
+        if (nowValue >= this.progressTimestamp) {
+          const rate = (nowValue - startValue) / (endValue - startValue)
+          this.progressStyle = {
+            top: rate * 100 + '%'
+          }
+          this.progressTimestamp += this.intervalTime * 1000
+        }
+        this.handleListenProgressBar()
+      } else {
+        this.clearAnimationFrame()
+      }
+    },
+    clearAnimationFrame() {
+      this.visible = false
+      if (this.raf) {
+        window.cancelAnimationFrame(this.raf)
+      }
     }
+  },
+  destroyed() {
+    this.clearAnimationFrame()
   }
 }
 </script>
@@ -89,12 +167,13 @@ export default {
   .fs-color {
     color: #afb0b3;
   }
-  .meeting_img {
+  .progress-bar {
     position: absolute;
     right: 0;
-    top: 50%;
+    top: 0;
     display: flex;
     align-items: center;
+    transform: translateY(-50%);
     .circle {
       width: 10px;
       height: 10px;
@@ -183,6 +262,16 @@ export default {
         }
       }
     }
+  }
+}
+.meeting-card-head {
+  position: relative;
+  .progress-bar-container {
+    margin: 2px 0px 2px 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: calc(100% - 4px);
   }
 }
 </style>
