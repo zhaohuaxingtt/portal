@@ -1,53 +1,48 @@
 <!--
  * @Author: yuszhou
  * @Date: 2020-07-22 14:56:34
- * @LastEditTime: 2021-03-25 23:15:21
+ * @LastEditTime: 2021-12-06 19:43:33
  * @LastEditors: Please set LastEditors
  * @Description: 项目默认layout
  * @FilePath: \test\src\layout\default.vue
 -->
 <template>
   <div class="content">
-    <topLayout
-      :menus="menus_admin"
-      :active-menu="activeMenu"
-      @click-menu="handleClickAdminMenu"
-    />
-    <leftLayout
-      ref="leftLayout"
-      :menus="menus"
-      :active-menu="activeMenu"
-      @toggle-active="toggleActive"
-      @set-menu-modal-visible="setMenuModalVisible"
-    >
-      <template slot="menu" v-if="activeIndex != 'RISE_HOME'">
-        <sideMenu
-          :side-menus="sideMenus"
-          :menu-map="menuMap"
-          :active-menu="activeMenu"
-          @hide-side-menu="hideSideMenu"
-        />
+    <topLayout :menus="menus_admin"
+               :active-menu="activeMenu"
+               @click-menu="handleClickAdminMenu" />
+    <leftLayout ref="leftLayout"
+                :menus="menus"
+                :active-menu="activeMenu"
+                @toggle-active="toggleActive"
+                @set-menu-modal-visible="setMenuModalVisible">
+      <template slot="menu"
+                v-if="activeIndex != 'RISE_HOME'">
+        <sideMenu :side-menus="sideMenus"
+                  :menu-map="menuMap"
+                  :active-menu="activeMenu"
+                  @hide-side-menu="hideSideMenu" />
       </template>
-      <template slot="dashboard" v-else>
+      <template slot="dashboard"
+                v-else>
         <myModules :index="activeIndex" />
       </template>
     </leftLayout>
-    <div class="app-content" :class="{ keepAlive: $route.meta.keepAlive }">
+    <div class="app-content"
+         :class="{ keepAlive: $route.meta.keepAlive }">
       <keep-alive>
-        <router-view v-if="$route.meta.keepAlive" :key="$route.fullPath" />
+        <router-view v-if="$route.meta.keepAlive"
+                     :key="$route.fullPath" />
       </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive" :key="$route.fullPath" />
-      <div
-        v-if="menuModelVisible"
-        class="app-menu-madel"
-        @click="hideSideMenu"
-      ></div>
+      <router-view v-if="!$route.meta.keepAlive"
+                   :key="$route.fullPath" />
+      <div v-if="menuModelVisible"
+           class="app-menu-madel"
+           @click="hideSideMenu"></div>
     </div>
-    <RightBottom
-      :contentShowFlag="contentShowFlag"
-      @handleSelect="handleSelect"
-      @handleShow="handleShow"
-    />
+    <RightBottom :contentShowFlag="contentShowFlag"
+                 @handleSelect="handleSelect"
+                 @handleShow="handleShow" />
     <layoutNotify ref="popupNotify" />
   </div>
 </template>
@@ -77,7 +72,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       activeIndex: '',
       menuMap: {},
@@ -102,7 +97,7 @@ export default {
     ...Vuex.mapState({
       menuList: (state) => state.permission.menuList
     }),
-    sideMenus() {
+    sideMenus () {
       if (this.menus.length > 0) {
         // const activeMenu = this.menus[this.activeIndex]
         const activeMenu = this.menus.find((item) => {
@@ -116,11 +111,11 @@ export default {
     }
   },
   watch: {
-    '$route.path'() {
+    '$route.path' () {
       this.setActiveMenu()
     }
   },
-  created() {
+  created () {
     /* this.$nextTick(()=>{
       this.$refs.popupNotify.getPopupItemList()
     }) */
@@ -128,31 +123,31 @@ export default {
     this.menus && this.menus.length ? this.getMenus() : this.getMenuList()
     this.setActiveMenu()
   },
-  mounted() {
+  mounted () {
     document.body.addEventListener('click', () => {
       this.contentShowFlag = false
     })
   },
   methods: {
-    setActiveMenu() {
+    setActiveMenu () {
       const meta = this.$route.meta
       if (meta) {
         this.activeMenu = meta.activeMenu || []
       }
     },
-    handleShow(va) {
+    handleShow (va) {
       this.contentShowFlag = !va
     },
-    handleSelect(list) {
+    handleSelect (list) {
       console.log(list, 'llll')
       let activeMenu = this.$route.meta?.activeMenu || []
       this.$router.push({ name: list.key, params: { currentMenu: activeMenu } })
     },
-    getMenus() {
+    getMenus () {
       const menuMap = this.getMenusMap(this.menuList)
       this.menuMap = menuMap
     },
-    getMenuList() {
+    getMenuList () {
       const menuList = _.cloneDeep(this.menuList)
       const list = treeToArray(menuList, 'menuList')
       list.forEach((item) => {
@@ -160,10 +155,10 @@ export default {
         item.key = item.id
         item.permissionKey === 'RISE_HOME'
           ? // item.url.slice(9)//
-            (item.url = item.url =
-              (process.env.VUE_APP_HOST
-                ? process.env.VUE_APP_HOST
-                : window.location.origin) + item.url)
+          (item.url = item.url =
+            (process.env.VUE_APP_HOST
+              ? process.env.VUE_APP_HOST
+              : window.location.origin) + item.url)
           : ''
         if (
           item.parentId &&
@@ -202,14 +197,14 @@ export default {
       this.menuMap = menuMap
       this.menus_admin = menus_tree_admin?.subMenus
     },
-    toggleActive(index) {
+    toggleActive (index) {
       this.activeIndex = index
     },
-    hideSideMenu() {
+    hideSideMenu () {
       this.$refs.leftLayout.hideSideMenu()
     },
     // 获取每个链接的父级
-    getMenusMap(menus, parent, res) {
+    getMenusMap (menus, parent, res) {
       res = res || {}
       for (let i = 0; i < menus.length; i++) {
         const menu = menus[i]
@@ -227,18 +222,17 @@ export default {
       }
       return res
     },
-    setMenuModalVisible(val) {
+    setMenuModalVisible (val) {
       this.menuModelVisible = val
     },
-    handleClick(list) {
-      console.log(window.location.href, '122222')
+    handleClick (list) {
       this.$router.push({
         name: list.key,
         params: { currentUrl: window.location.href }
       })
       // this.$router.push(list.path)
     },
-    handleClickAdminMenu(val) {
+    handleClickAdminMenu (val) {
       if (val == 'logout') {
         this.$refs.popupNotify.clearNotify(val)
       }

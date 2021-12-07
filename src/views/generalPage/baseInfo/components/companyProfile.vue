@@ -309,7 +309,7 @@
                 '是否黑名单'
               )"
                 slot="label"></iLabel>
-        <iText>{{supplierData.supplierDTO.isBlacklist?language(
+        <iText>{{supplierData.supplierDTO.isBlacklist==1?language(
                 'SHI',
                 '是'
               ):language(

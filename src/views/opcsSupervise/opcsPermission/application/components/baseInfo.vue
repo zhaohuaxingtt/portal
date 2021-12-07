@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 10:20:21
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-06 11:25:50
+ * @LastEditTime: 2021-12-07 14:34:11
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\components\baseInfo.vue
 -->
 <template>
@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     getInfo() {
-      let req = {}
+      let req = { opcsSupplierId: this.$route.query.opcsSupplierId }
       queryBase(req).then((res) => {
         if (res && res.code == 200) {
           this.form = res.data
@@ -119,7 +119,13 @@ export default {
       })
     },
     cancel() {
-      this.form = {}
+      this.form = {
+          nameZh:'',
+          nameEn:'',
+          shortName:'',
+          contactUserId:''
+      }
+      this.$refs.baseRules.clearValidate();
       this.getInfo()
       this.edit = false
     },
@@ -129,9 +135,17 @@ export default {
     save() {
       this.$refs.baseRules.validate((valid) => {
         if (valid) {
-          baseEdit(this.form).then((res) => {
+          let req = {
+            opcsSupplierId: this.$route.query.opcsSupplierId,
+            ...this.form
+          }
+          baseEdit(req).then((res) => {
             if (res && res.code == 200) {
-              iMessage(res.desZh)
+                this.edit=false
+                this.queryBase()
+              iMessage.success(res.desZh)
+            }else{
+                iMessage.error(res.desZh)
             }
           })
         }

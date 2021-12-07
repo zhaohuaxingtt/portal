@@ -1,27 +1,30 @@
 <template>
 	<iPage>
-		<div class="flex justify-between">
-			<div class="content-title">用户助手</div>
+		<!-- <div class="flex justify-between"> -->
+			<!-- <div class="content-title">用户助手</div> -->
+		<pageHeader class="title">
+			{{language('用户助手')}}
 			<div class="types" slot="actions">
-				<iTabBadge>
-					<iTabBadgeItem
-						:active="helpMoudle === 'manual'"
-						:name="language('用户手册')"
-						@click="tabChange('manual')"
-					/>
-					<iTabBadgeItem
-						:active="helpMoudle === 'problem'"
-						:name="language('常见问题')"
-						@click="tabChange('problem')"
-					/>
-					<iTabBadgeItem
-						:active="helpMoudle === 'ask'"
-						:name="language('我的提问')"
-						@click="tabChange('ask')"
-					/>
-				</iTabBadge>
-			</div>
+			<iTabBadge>
+				<iTabBadgeItem
+					:active="helpMoudle === 'manual'"
+					:name="language('用户手册')"
+					@click="tabChange('manual')"
+				/>
+				<iTabBadgeItem
+					:active="helpMoudle === 'problem'"
+					:name="language('常见问题')"
+					@click="tabChange('problem')"
+				/>
+				<iTabBadgeItem
+					:active="helpMoudle === 'ask'"
+					:name="language('我的提问')"
+					@click="tabChange('ask')"
+				/>
+			</iTabBadge>
 		</div>
+		</pageHeader>
+		<!-- </div> -->
 		<div class="flex flex-row content mt20" v-if="helpMoudle === 'manual'">
 			<CommonProblem
 				:loading="listLoading"
@@ -104,6 +107,7 @@
 // import store from '@/store'
 import { iPage } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
+import pageHeader from '@/components/pageHeader'
 import CommonProblem from '../components/commonProblem'
 import DataManage from './components/dataManage'
 import ProblemSearch from './components/problemSearch'
@@ -112,7 +116,7 @@ import IntelligentDialog from '../components/intelligentDialog'
 import QuestioningDialog from '../components/questioningDialog'
 import QuestionList from './components/questionList'
 import QuestionDetail from './components/questionDetail'
-import { getHotFiveQues, getUserDes, getQueryProblemList, getModuleList } from '@/api/assistant'
+import { getHotFiveQues, getUserDes, getModuleList } from '@/api/assistant'
 
 export default {
 	data() {
@@ -147,7 +151,8 @@ export default {
 		IntelligentDialog,
 		QuestioningDialog,
 		QuestionList,
-		QuestionDetail
+		QuestionDetail,
+		pageHeader
 	},
 	created() {
 		// 获取当前路径
@@ -288,28 +293,21 @@ export default {
 			}
 			
 		},
+		// 根据模块id获取模块名称
+		getCurrModuleName(id) {
+			let m = this.moudleList.find(pm => pm.id == id)
+			return m ? m.menuName : ""
+		},
 		// 根据常见问题查询条件筛查数据
 		queryProblem(queryValue) {
 			const { questionLableId, questionModuleId } = queryValue
 			this.currentMoudleId = questionModuleId
 			this.currLabelId = questionLableId
-			this.moudleList.map(item => {
-				if (item.id === questionModuleId) {
-					this.currMoudleName = item.menuName
-				}
-			})
-			console.log(queryValue, "queryValue")
+			this.currMoudleName = this.getCurrModuleName(questionModuleId)
+			console.log(this.currMoudleName, "this.currMoudleName")
 			this.$nextTick(() => {
 				this.$refs.problemDetail.getQueryProblemList(questionLableId, queryValue)
 			})
-			// await getQueryProblemList(queryValue).then((res) => {
-			// 	if (res?.code === '200') {
-			// 		const { data } = res
-			// 		this.$nextTick(() => {
-			// 			this.$refs.problemDetail.getQueryProblemList(data, this.currLabelId)
-			// 		})
-			// 	}
-			// })
 		},
 		changeCurrValue(id, name) {
 			this.currentMoudleId = id
