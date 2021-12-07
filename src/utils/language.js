@@ -18,7 +18,7 @@ let languageList = []
 Vue.use(i18n)
 
 Vue.prototype.language = function (languageKey, name, params) {
-  if (process.env.NODE_ENV == 'dev') {
+  if (process.env.NODE_ENV == 'dev' || process.env.NODE_ENV == 'vmsit') {
     name = name || languageKey
     languageList.push(
       languageKey + '----' + name + '----' + this.$router.currentRoute.path
