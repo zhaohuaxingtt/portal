@@ -543,7 +543,7 @@ export default {
   width: 100%;
   height: 94%;
   .left-content {
-    width: 35%;
+    width: 30%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -607,7 +607,7 @@ export default {
     }
   }
   .right-content {
-    width: 100%;
+    width: 70%;
     height: 100%;
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
@@ -663,8 +663,5 @@ export default {
   margin-bottom: 20px;
   color: #999;
   text-align: center;
-}
-.item-height {
-  height: auto;
 }
 </style>
