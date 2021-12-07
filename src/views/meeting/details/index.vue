@@ -842,6 +842,7 @@ export default {
             this.disabledImportThemenButton = false
             this.openError = true
             this.errorList = res
+            this.flushTable()
           }
         })
         .catch(() => {
@@ -1573,8 +1574,8 @@ export default {
           if (res.code === 200) {
             iMessage.success('删除成功')
           }
+          this.flushTable()
         })
-        this.flushTable()
         // .catch(() => {
         //   iMessage.error('删除失败')
         //   this.flushTable()
