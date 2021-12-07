@@ -5,17 +5,79 @@
       :data="data"
       :rowClassName="tableRowClassName"
     >
-      <el-table-column width="20" align="center" label=""></el-table-column>
-      <el-table-column prop="follow" align="left" label="#" min-width="15">
+      <el-table-column width="15" align="center" label=""></el-table-column>
+      <el-table-column prop="follow" align="left" label="No." width="50">
         <template slot-scope="scope">
           <div class="img-word">
-            <span>
-              {{ scope.$index + 1 }}
-            </span>
+            <div class="img-box">
+              <span>
+                {{ scope.$index + 1 }}
+              </span>
+              <div
+                v-show="
+                  currentUserId !== Number(scope.row.createBy) &&
+                  scope.row.state !== '03' &&
+                  !Boolean(scope.row.isBreak) &&
+                  Boolean(scope.row.follow) &&
+                  !isThemenHavaMy(scope.row)
+                "
+                @click="handleUnfollow(scope.row, following)"
+                class="follow-new"
+              >
+                <img src="@/assets/images/empty-star.svg" class="follow" />
+              </div>
+              <div
+                v-show="
+                  currentUserId !== Number(scope.row.createBy) &&
+                  scope.row.state === '03' &&
+                  !Boolean(scope.row.isBreak) &&
+                  Boolean(scope.row.follow) &&
+                  !isThemenHavaMy(scope.row)
+                "
+                class="follow-new"
+              >
+                <img src="@/assets/images/empty-star.svg" class="follow" />
+              </div>
+              <div
+                v-show="
+                  currentUserId !== Number(scope.row.createBy) &&
+                  scope.row.state !== '03' &&
+                  !Boolean(scope.row.isBreak) &&
+                  !Boolean(scope.row.follow) &&
+                  !isThemenHavaMy(scope.row)
+                "
+                @click="handleFollow(scope.row, following)"
+                class="follow-new"
+              >
+                <img src="@/assets/images/solid-star.svg" class="follow" />
+              </div>
+              <div
+                v-show="
+                  currentUserId !== Number(scope.row.createBy) &&
+                  scope.row.state === '03' &&
+                  !Boolean(scope.row.isBreak) &&
+                  !Boolean(scope.row.follow) &&
+                  !isThemenHavaMy(scope.row)
+                "
+                class="follow-new"
+              >
+                <img src="@/assets/images/solid-star.svg" class="follow" />
+              </div>
+              <div
+                v-show="
+                  (currentUserId === Number(scope.row.createBy) &&
+                    !Boolean(scope.row.isBreak)) ||
+                  (isThemenHavaMy(scope.row) && !Boolean(scope.row.isBreak))
+                "
+                class="follow-new"
+              >
+                <img src="@/assets/images/add-follow-red.svg" class="follow" />
+              </div>
+            </div>
           </div>
         </template>
       </el-table-column>
-      <el-table-column width="44" align="center" label=""></el-table-column>
+      <el-table-column width="14" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="topic"
@@ -417,19 +479,44 @@ export default {
     }
   }
 } */
-.img-word {
+/* .img-word {
   display: flex;
-  /* justify-content: center; */
   align-items: center;
-  /* justify-content: center; */
-  /* position: relative; */
-  /* transform: translateX(-10px); */
   div:first-child {
-    /* margin-left: 30px; */
     flex-grow: 1;
     flex-shrink: 0;
     width: 20px;
     text-align: center;
+  }
+  .img-box {
+    flex: 1;
+    position: relative;
+    transform: translateY(2px);
+    display: flex;
+    align-items: center;
+    img {
+      flex-grow: 1;
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+  }
+} */
+.img-word {
+  display: flex;
+  /* justify-content: center; */
+  /* position: relative; */
+  /* justify-content: center; */
+  align-items: center;
+  /* transform: translateX(-10px); */
+  span:first-child {
+    display: block;
+    /* margin-left: 30px; */
+    flex-grow: 1;
+    flex-shrink: 0;
+    width: 20px;
+    /* text-align: center; */
     /* margin-right: 9.42px; */
     /* margin-right: 5px; */
   }
@@ -438,17 +525,27 @@ export default {
     position: relative;
     transform: translateY(2px);
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
     align-items: center;
     img {
       flex-grow: 1;
       flex-shrink: 0;
+      /* position: absolute;
+      left: 0;
+      top: 0; */
       width: 20px;
       height: 20px;
-      /* position: absolute; */
-      /* left: 0;
-      top: 0; */
       object-fit: contain;
+    }
+    .follow-new {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    .follow {
+      /* margin-left: 4px; */
+      cursor: pointer;
     }
   }
 }

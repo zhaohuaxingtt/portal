@@ -363,8 +363,6 @@ export default {
         const { data } = response;
         this.questionDetail = data;
         this.$refs.attachment.fileList = data.attachmentDTOList || []
-        this.
-        console.log(data, '11213456')
         let types = {
           inner: "内部用户",
           supplier:"供应商用户"
@@ -408,6 +406,7 @@ export default {
     },
     replyHandler () {
       this.isReplyStatus = true
+      this.$refs.attachment.fileList = []
     },
     // 指派
     dispatchHandler () {
@@ -430,9 +429,9 @@ export default {
     },
     async answerQuestion (hasClosed) {
       console.log(this.uploadFileList);
-      if (!this.uploadFileList.length) {
-       return this.$message.error('请上传附件');
-      }
+      // if (!this.uploadFileList.length) {
+      //  return this.$message.error('请上传附件');
+      // }
       if (!this.replyContent) {
         return this.$message.error('请填写回复内容');
       }
@@ -634,9 +633,9 @@ export default {
       margin-bottom: 40px;
     }
     .content {
-      border: 1px solid #f2f2f2;
+      // border: 1px solid #f2f2f2;
       width: 100%;
-      // height: auto;
+      height: auto;
       padding: 30px;
       box-sizing: border-box;
       .name {
@@ -644,7 +643,7 @@ export default {
       }
       .content-text {
         background: #f8f8fa;
-        margin-left: 30px;
+        margin-left: 20px;
         width: 700px;
         padding: 10px 30px 10px;
         box-sizing: border-box;
@@ -664,5 +663,8 @@ export default {
   margin-bottom: 20px;
   color: #999;
   text-align: center;
+}
+.item-height {
+  height: auto;
 }
 </style>

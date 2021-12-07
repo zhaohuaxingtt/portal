@@ -7,18 +7,20 @@
  * @FilePath: \front-portal\src\views\bpm\task\components\detailProcessForm.vue
 -->
 <template>
-  <div ref="iframe"
-       v-if="url && formHeight !== '0px'"
-       class="margin-bottom20">
-    <iframe :src="url"
-            id="flowForm"
-            frameborder="no"
-            border="0"
-            marginwidth="0"
-            marginheight="0"
-            scrolling="no"
-            allowtransparency="yes"
-            :style="{ height: autoFrameHeight ? autoFrameHeight + 'px' : frameHeight }" />
+  <div ref="iframe" v-if="url" class="margin-bottom20">
+    <iframe
+      :src="url"
+      id="flowForm"
+      frameborder="no"
+      border="0"
+      marginwidth="0"
+      marginheight="0"
+      scrolling="no"
+      allowtransparency="yes"
+      :style="{
+        height: autoFrameHeight ? autoFrameHeight + 'px' : frameHeight
+      }"
+    />
   </div>
 </template>
 
@@ -34,7 +36,7 @@ export default {
     }
   },
   computed: {
-    url () {
+    url() {
       if (!this.flowFormUrl) {
         return ''
       }
@@ -44,25 +46,42 @@ export default {
       return 'http://' + this.flowFormUrl
     }
   },
-  data () {
+  data() {
     return {
       frameHeight: '500px',
       autoFrameHeight: 0
     }
   },
   watch: {
-    formHeight () {
+    formHeight() {
       if (this.formHeight) {
         this.frameHeight = this.formHeight
       }
     }
   },
-  created () {
+  created() {
     if (this.formHeight) {
       this.frameHeight = this.formHeight
     }
 
-    window.addEventListener('message', (e) => {
+    window.addEventListener('message', this.setHeight)
+  },
+  destroyed() {
+    window.removeEventListener('message', this.setHeight)
+  },
+  updated() {
+    this.$nextTick(() => {
+      if (
+        this.$refs.iframe &&
+        this.url &&
+        this.url.indexOf(window.location.origin) > -1
+      ) {
+        window.requestAnimationFrame(() => this.initIframeDomObserver())
+      }
+    })
+  },
+  methods: {
+    setHeight(e) {
       if (e && e.data) {
         try {
           const data = e.data
@@ -73,21 +92,9 @@ export default {
           console.log('error', error)
         }
       }
-    })
-  },
-  destroyed () {
-    window.removeEventListener('message')
-  },
-  updated () {
-    this.$nextTick(() => {
-      if (this.$refs.iframe) {
-        this.initIframeDomObserver()
-      }
-    })
-  },
-  methods: {
-    initIframeDomObserver () {
-      const iframe = this.$el.querySelector('#flowForm')
+    },
+    initIframeDomObserver() {
+      const iframe = document.querySelector('#flowForm')
       iframe.contentWindow.addEventListener('load', () => {
         const iframeAppDom = iframe.contentWindow.document.querySelector('#app') // sourcing vue根DOM
         if (iframeAppDom) {

@@ -3,23 +3,26 @@
     <el-form class="search-form">
       <el-row :gutter="20">
         <el-col :span="8">
-          <iFormItem :label="$t('供应商中文名称')">
-            <iInput v-model="form.nameZh" :placeholder="$t('请输入')" />
+          <iFormItem :label="language('供应商中文名称')">
+            <iInput v-model="form.nameZh" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('供应商英文名称')">
-            <iInput v-model="form.nameEn" :placeholder="$t('请输入')" />
+          <iFormItem :label="language('供应商英文名称')">
+            <iInput v-model="form.nameEn" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('DUNS')">
-            <iInput v-model="form.dunsCode" :placeholder="$t('请输入')" />
+          <iFormItem :label="language('DUNS')">
+            <iInput v-model="form.dunsCode" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('供应商类型')">
-            <iSelect v-model="form.supplierType" :placeholder="$t('请选择')">
+          <iFormItem :label="language('供应商类型')">
+            <iSelect
+              v-model="form.supplierType"
+              :placeholder="language('请选择')"
+            >
               <el-option
                 v-for="item in supplierTypes"
                 :key="item.value"
@@ -30,28 +33,34 @@
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('临时号')">
-            <iInput v-model="form.svwTempCode" :placeholder="$t('请输入')" />
+          <iFormItem :label="language('临时号')">
+            <iInput
+              v-model="form.svwTempCode"
+              :placeholder="language('请输入')"
+            />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('SVW号')">
-            <iInput v-model="form.svwCode" :placeholder="$t('请输入')" />
+          <iFormItem :label="language('SVW号')">
+            <iInput v-model="form.svwCode" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('SAP号')">
-            <iInput v-model="form.sapCode" :placeholder="$t('请输入')" />
+          <iFormItem :label="language('SAP号')">
+            <iInput v-model="form.sapCode" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('VW号')">
-            <iInput v-model="form.vmCode" :placeholder="$t('请输入')" />
+          <iFormItem :label="language('VW号')">
+            <iInput v-model="form.vmCode" :placeholder="language('请输入')" />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('统一社会信用代码')">
-            <iInput v-model="form.socialcreditNo" :placeholder="$t('请输入')" />
+          <iFormItem :label="language('统一社会信用代码')">
+            <iInput
+              v-model="form.socialcreditNo"
+              :placeholder="language('请输入')"
+            />
           </iFormItem>
         </el-col>
       </el-row>

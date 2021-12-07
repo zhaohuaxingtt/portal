@@ -1,19 +1,19 @@
 <template>
   <div class="header">
     <pageHeader border>
-      {{ $t('APPROVAL.APPROVAL_CENTER') }}
+      {{ language('审批中心') }}
       <div class="actions" slot="actions">
         <iTabBadge>
           <iTabBadgeItem
             :badge="applyNum"
             :active="active === 'application'"
-            :name="$t('APPROVAL.MY_APPLICATION')"
+            :name="language('我的申请')"
             @click="$emit('toggle', 'application')"
           />
           <iTabBadgeItem
             :badge="approvalNum"
             :active="active === 'approval'"
-            :name="$t('APPROVAL.MY_APPROVAL')"
+            :name="language('我的审批')"
             @click="$emit('toggle', 'approval')"
           />
         </iTabBadge>
@@ -34,18 +34,18 @@ export default {
   props: {
     active: {
       type: String,
-      default: 'application',
+      default: 'application'
     },
     applyNum: {
       type: Number,
-      default: 0,
+      default: 0
     },
     approvalNum: {
       type: Number,
-      default: 0,
-    },
+      default: 0
+    }
   },
-  components: { pageHeader, Icon, iTabBadge, iTabBadgeItem, logIcon },
+  components: { pageHeader, Icon, iTabBadge, iTabBadgeItem, logIcon }
 }
 </script>
 

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 14:07:46
+ * @LastEditTime: 2021-12-07 16:44:06
  * @FilePath: \front-portal-new\src\views\opcsSupervise\commonHeardNav\headerNav.vue
 -->
 
@@ -9,7 +9,7 @@
   <div>
     <div class="navBox">
       <p v-if="!isShow" class="font20 font-weight">
-        {{ language('YINGYONGMINGCHENG', '应⽤名称') }}-安亭⼯⼚
+        {{ language('YINGYONGMINGCHENG', '应⽤名称') }}-{{$route.query.nameZh}}
       </p>
       <iNavMvp
         v-if="isShow"

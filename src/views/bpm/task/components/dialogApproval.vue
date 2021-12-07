@@ -16,10 +16,10 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <iButton type="default" :loading="loading" size="small" @click="onClose">
-        {{ $t('APPROVAL.CANCEL') }}
+        {{ language('取消') }}
       </iButton>
       <iButton type="default" :loading="loading" size="small" @click="onSave">
-        {{ $t('APPROVAL.OK') }}
+        {{ language('确定') }}
       </iButton>
     </div>
   </iDialog>
@@ -54,15 +54,15 @@ export default {
   computed: {
     dialogTitle() {
       if (this.type === 2) {
-        return this.$t('APPROVAL.REFUSE')
+        return this.language('拒绝')
       }
       if (this.type === 3) {
         if (this.title) {
           return this.title
         }
-        return this.$t('APPROVAL.APPEND_DATA')
+        return this.language('补充材料')
       }
-      return this.$t('APPROVAL.APPROVEL')
+      return this.language('批准')
     }
   },
   data() {
@@ -123,17 +123,17 @@ export default {
         .then((res) => {
           this.loading = false
           if (res.result) {
-            iMessage.success(this.$t('APPROVAL.APPROVAL_SUCCESS'))
+            iMessage.success(this.language('审批成功'))
             // this.$router.resolve({})
             this.$emit('success')
           } else {
-            iMessage.error(this.$t('APPROVAL.APPROVAL_FAILED'))
+            iMessage.error(this.language('审批失败'))
           }
         })
         .catch((err) => {
           console.log('err', err)
           this.loading = false
-          iMessage.error(this.$t('APPROVAL.APPROVAL_FAILED'))
+          iMessage.error(this.language('审批失败'))
         })
     },
     onClose() {

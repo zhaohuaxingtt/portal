@@ -55,18 +55,18 @@ export default {
         }
         this.loading = true
         completeApproval(data)
-          .then(res => {
+          .then((res) => {
             this.loading = false
             if (res.result && res.data) {
-              iMessage.success(this.$t('APPROVAL.APPROVAL_SUCCESS'))
+              iMessage.success(this.language('审批成功'))
               if (queryTable) {
                 queryTable()
               }
             } else {
-              iMessage.error(res.desZh || this.$t('APPROVAL.APPROVAL_FAILED'))
+              iMessage.error(res.desZh || this.language('审批失败'))
             }
           })
-          .finally(err => {
+          .finally((err) => {
             this.loading = false
           })
       }

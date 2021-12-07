@@ -1,7 +1,7 @@
 <template>
   <div class="action-row">
     <iButton size="mini" @click="goDetail(row, 1)">
-      {{ $t('APPROVAL.DETAIL') }}
+      {{ language('详细') }}
     </iButton>
   </div>
 </template>
@@ -18,24 +18,24 @@ export default {
   props: {
     row: {
       type: Object,
-      require: true,
+      require: true
     },
     extraData: {
       type: Object,
-      require: true,
-    },
+      require: true
+    }
   },
   data() {
     return {
-      approvalTypeMap: MAP_APPROVAL_TYPE,
+      approvalTypeMap: MAP_APPROVAL_TYPE
     }
   },
   methods: {
     onApproval(row, type) {
       console.log('extraData', this.extraData)
       this.extraData.onComplete(row, type)
-    },
-  },
+    }
+  }
 }
 </script>
 

@@ -15,7 +15,7 @@
         </el-form-item>
         <el-form-item :label="language('RENWUZHUANGTAI', '任务状态')">
           <iSelect
-            :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+            :placeholder="language('请选择')"
             v-model="form.processingStatus"
           >
             <el-option
@@ -40,7 +40,7 @@
         </el-form-item>
       </el-form>
     </iSearch>
-    <iCard style="margin-top:20px" class="tableBox">
+    <iCard style="margin-top: 20px" class="tableBox">
       <div class="table-title">
         <iButton @click="handleExportCurrent">{{
           language('DAOCHU', '导出')
@@ -64,7 +64,7 @@
         </template>
       </table-list>
       <iPagination
-        style="margin-top:20px"
+        style="margin-top: 20px"
         v-update
         @size-change="handleSizeChange($event, sure)"
         @current-change="handleCurrentChange($event, fetchReportDetail)"
@@ -145,7 +145,7 @@ export default {
   },
   created() {
     console.log(this.supplierId)
-      this.form.processingStatus = this.$route.query.status
+    this.form.processingStatus = this.$route.query.status
 
     this.fetchReportDetail()
   },
@@ -156,7 +156,7 @@ export default {
       let params = {
         supplierId: this.supplierId
       }
-      listSupplierKeyTrackFollowUser(params).then(res => {
+      listSupplierKeyTrackFollowUser(params).then((res) => {
         if (res && res.code == 200) {
           this.followUsers = res.data
         }
@@ -166,7 +166,7 @@ export default {
       let params = {
         supplierType: this.tabVal
       }
-      categoryList(params).then(res => {
+      categoryList(params).then((res) => {
         if (res && res.code == 200) {
           this.categorydate = res.data
         }
@@ -189,7 +189,7 @@ export default {
         type: this.$route.query.type,
         ...this.form
       }
-      taskPage(params).then(res => {
+      taskPage(params).then((res) => {
         this.loading = false
         if (res && res.code == 200) {
           this.page.totalCount = res.total

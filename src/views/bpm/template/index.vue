@@ -115,7 +115,7 @@ export default {
       }
       this.tableLoading = true
       queryTemplates(data)
-        .then(res => {
+        .then((res) => {
           this.tableLoading = false
           const { data, pageNum, pageSize, total } = res.data
           this.page.currPage = pageNum
@@ -123,7 +123,7 @@ export default {
           this.page.totalCount = total
           this.tableData = data
         })
-        .catch(err => {
+        .catch((err) => {
           this.tableLoading = false
         })
     },
@@ -171,8 +171,10 @@ export default {
     },
     //导出
     exportTemplate() {
-      if (this.selectTableData.length == 0)
-        return iMessage.warn(this.$t('LK_QINGXUANZHEXUYAODAOCHUSHUJU'))
+      if (this.selectTableData.length == 0) {
+        return iMessage.warn(this.language('请选择需要导出数据'))
+      }
+
       excelExport(this.selectTableData, this.tableTitle)
     },
     //编辑
@@ -187,7 +189,7 @@ export default {
     //删除
     deleteRowTemplate(rows) {
       const ids = []
-      rows.forEach(e => ids.push(e.modelId))
+      rows.forEach((e) => ids.push(e.modelId))
       this.$confirm('此操作将永久删除该模板, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -195,7 +197,7 @@ export default {
       }).then(() => {
         this.tableLoading = true
         deleteTemplate(ids)
-          .then(res => {
+          .then((res) => {
             if (res.result) {
               this.$message.success('删除成功')
 
@@ -205,7 +207,7 @@ export default {
               this.$message.error('删除失败')
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.tableLoading = false
             this.$message.error('删除失败')
           })

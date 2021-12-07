@@ -1,6 +1,6 @@
 <template>
   <iPage class="approval-agent">
-    <pageHeader class="margin-bottom20" style="margin-left: -15px;">
+    <pageHeader class="margin-bottom20" style="margin-left: -15px">
       <actionHeader />
     </pageHeader>
     <searchForm :data="searchData" @search="search" @reset="reset" />
@@ -81,7 +81,7 @@ export default {
       )
     },
     cancelButtonDisable() {
-      return this.selectedRows.filter(e => e.status).length === 0
+      return this.selectedRows.filter((e) => e.status).length === 0
     }
   },
   data() {
@@ -141,16 +141,16 @@ export default {
       this.tableData = records
     },
     async batchInvalidAgent() {
-      const ids = this.selectedRows.map(e => e.id)
+      const ids = this.selectedRows.map((e) => e.id)
       this.tableLoading = true
       const res = await batchInvalidAgent(ids).finally(
         () => (this.tableLoading = false)
       )
       if (res && res.result) {
         this.query()
-        iMessage.success(this.$t('APPROVAL.OPERATION_SUCCESSFUL'))
+        iMessage.success(this.language('操作成功'))
       } else {
-        iMessage.error(res.desZh || this.$t('APPROVAL.OPERATION_FAILED'))
+        iMessage.error(res.desZh || this.language('操作失败'))
       }
     },
     exportData() {}

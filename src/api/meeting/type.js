@@ -74,13 +74,9 @@ export function uploadFile(data) {
     data
   })
 }
-//updateMettingType
 
+//从字典表获取审批流程列表
 export function getApprovalProcess() {
-  // return requst({
-  //   url: `/rise-mock/mockService/approval-processes`,
-  //   method: 'POST'
-  // })
   return requstDict({
     url: `/api/dict`,
     method: 'get',

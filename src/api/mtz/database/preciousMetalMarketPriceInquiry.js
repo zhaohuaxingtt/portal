@@ -7,6 +7,7 @@ import axiosDownload from '@/utils/axios.download'
 
 const request = axios(process.env.VUE_APP_MTZ + '/web/mtz')
 const requestDownload = axiosDownload(process.env.VUE_APP_MTZ + '/web/mtz')
+const requestDownFile = axios(process.env.VUE_APP_FILEAPI)
 
 //贵金属市场价分页查询
 export function getTableList(params) {
@@ -17,11 +18,23 @@ export function getTableList(params) {
   })
 }
 
-//下载模板
+
+//根据id下载模板
+export function fileudUdDown(params) {
+  return requestDownFile({
+    url: `/udDown?fileIds=${params}`,
+    method: 'POST',
+    // data: params,
+    responseType: 'blob',
+  })
+}
+
+
+//下载模板id
 export function getTemplateUrl() {
   return request({
     url: '/preciousMetalsPrice/templateUrl',
-    method: 'GET'
+    method: 'GET',
   })
 }
 

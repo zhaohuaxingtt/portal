@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-06 14:09:54
+ * @LastEditTime: 2021-12-07 15:05:02
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\manage\components\manageTable.vue
 -->
 <template>
@@ -34,7 +34,7 @@
                 :tableTitle="tableTitle"
                 :tableLoading="tableLoading"
                 @handleSelectionChange="handleSelectionChange"
-                :input-props="['nameZh', 'nameEn', 'ldapSchema']"
+                :input-props="inputProps"
                 :index="true"
                 ref="commonTable">
       <template #position="scope">
@@ -86,6 +86,7 @@ export default {
   },
   data() {
     return {
+      inputProps: [],
       edit: false,
       tableLoading: false,
       selectTableData: [],
@@ -98,19 +99,27 @@ export default {
   },
   methods: {
     editBtn() {
+      this.inputProps = ['nameZh', 'nameEn', 'ldapSchema']
       this.edit = true
     },
     cancelBtn() {
+      this.inputProps = []
       this.tableListData = []
       this.getTableData()
-      this.editMode = false
+      this.$refs.commonTable.$refs.commonTableForm.clearValidate()
       this.edit = false
     },
     save() {
       this.$refs.commonTable.$refs.commonTableForm.validate((valid) => {
         if (valid) {
-          addDetails(this.tableListData).then((res) => {
+          let req = {
+            opcsAppsList: this.tableListData,
+            opcsSupplierKeyId: this.$route.query.opcsSupplierId
+          }
+          addDetails(req).then((res) => {
             if (res && res.data == 200) {
+              this.getTableData()
+              this.editMode = false
               iMessage.success(res.desZh)
             }
           })
@@ -128,12 +137,12 @@ export default {
       this.tableListData.push({
         ...newItem
       })
-      this.editMode = true
     },
     //获取列表接口
     getTableData() {
       this.tableLoading = true
       const params = {
+        opcsSupplierId: this.$route.query.opcsSupplierId,
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         ...this.form
@@ -159,16 +168,12 @@ export default {
           cancelButtonText: this.language('FOU', '否')
         }
       ).then(async () => {
-        const req = {
-          id: this.selectTableData.map((x) => {
-            return x.id
+        this.tableListData.forEach((v) => {
+          this.selectTableData.forEach((j, i) => {
+            if (v === j) {
+              this.tableListData.splice(i, 1)
+            }
           })
-        }
-        deleteDetails(req).then((res) => {
-          if (res && res.code == 200) {
-            iMessage.success(res.desZh)
-            this.getTableData()
-          } else iMessage.error(res.desZh)
         })
       })
     },

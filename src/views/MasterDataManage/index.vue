@@ -3,7 +3,7 @@
     <div class="Master-menu">
       <iNavMvp :list="menus" :lev="1" router-page />
     </div>
-    <router-view style="height:100%"></router-view>
+    <router-view style="height: 100%"></router-view>
   </div>
 </template>
 
@@ -40,12 +40,12 @@ export default {
           key: '供应商主数据'
         },
         {
-          value:4,
-          name:'汇率管理',
-          message:0,
-          url:'/exchange-parities',
-          activePath:'/exchange-parities',
-          key:'汇率管理'
+          value: 4,
+          name: '汇率管理',
+          message: 0,
+          url: '/exchange-parities',
+          activePath: '/exchange-parities',
+          key: '汇率管理'
         }
       ]
     }
@@ -60,5 +60,7 @@ export default {
 }
 .Master-menu {
   margin: 20px 0 0px 30px;
+  position: relative;
+  z-index: 1;
 }
 </style>

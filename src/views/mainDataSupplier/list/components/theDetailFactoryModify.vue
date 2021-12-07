@@ -1,7 +1,7 @@
 <template>
   <iDialog
     :visible.sync="dialogVisible"
-    title="工厂信息"
+    :title="language('工厂信息')"
     width="50%"
     @closed="close"
   >
@@ -13,36 +13,45 @@
       ref="ruleForm"
       class="validate-required-form"
     >
-      <iFormItem :label="$t('工厂编号')" prop="factoryCode">
+      <iFormItem :label="language('工厂编号')" prop="factoryCode">
         <iInput
           v-model="detail.factoryCode"
-          :placeholder="$t('请输入')"
+          :placeholder="language('请输入')"
           disabled
         />
       </iFormItem>
-      <iFormItem :label="$t('工厂名称')" prop="factoryName">
-        <iInput v-model="detail.factoryName" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('工厂名称')" prop="factoryName">
+        <iInput
+          v-model="detail.factoryName"
+          :placeholder="language('请输入')"
+        />
       </iFormItem>
-      <iFormItem :label="$t('工厂简称')" prop="factoryAbbrName">
-        <iInput v-model="detail.factoryAbbrName" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('工厂简称')" prop="factoryAbbrName">
+        <iInput
+          v-model="detail.factoryAbbrName"
+          :placeholder="language('请输入')"
+        />
       </iFormItem>
-      <iFormItem :label="$t('是否定点')" prop="isNominate">
+      <iFormItem :label="language('是否定点')" prop="isNominate">
         <iSelect
           v-model="detail.isNominate"
-          :placeholder="$t('请选择')"
+          :placeholder="language('请选择')"
           filterable
         >
           <el-option :value="true" label="是" />
           <el-option :value="false" label="否" />
         </iSelect>
       </iFormItem>
-      <iFormItem :label="$t('供应商工厂DUNS')">
-        <iInput v-model="detail.dunsCode" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('供应商工厂DUNS')">
+        <iInput v-model="detail.dunsCode" :placeholder="language('请输入')" />
       </iFormItem>
-      <iFormItem :label="$t('VW号')" prop="materialGroupCode">
-        <iInput v-model="detail.vwCode" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('VW号')" prop="materialGroupCode">
+        <iInput v-model="detail.vwCode" :placeholder="language('请输入')" />
       </iFormItem>
-      <iFormItem :label="$t('国家-省份-城市')" prop="addressInfoVo.countryCode">
+      <iFormItem
+        :label="language('国家-省份-城市')"
+        prop="addressInfoVo.countryCode"
+      >
         <areaSelect
           v-if="
             detail.addressInfoVo && Object.keys(detail.addressInfoVo).length
@@ -53,18 +62,20 @@
           @change="areaChange"
         />
       </iFormItem>
-      <iFormItem :label="$t('地址')" prop="addressInfoVo.address">
+      <iFormItem :label="language('地址')" prop="addressInfoVo.address">
         <iInput
           v-if="
             detail.addressInfoVo && Object.keys(detail.addressInfoVo).length
           "
           v-model="detail.addressInfoVo.address"
-          :placeholder="$t('请输入')"
+          :placeholder="language('请输入')"
         />
       </iFormItem>
     </el-form>
     <div slot="footer">
-      <iButton :loading="loading" @click="handleSave">{{ $t('保存') }}</iButton>
+      <iButton :loading="loading" @click="handleSave">{{
+        language('保存')
+      }}</iButton>
     </div>
   </iDialog>
 </template>
@@ -83,7 +94,7 @@ export default {
     },
     detail: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     },
@@ -141,7 +152,7 @@ export default {
       this.$emit('update:visible', false)
     },
     handleSave() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.save()
         }
@@ -161,7 +172,7 @@ export default {
 
       this.loading = true
       updateFactory(params, data)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success(res.dscZh || '保存成功')
             this.$emit('save-success', data)
@@ -170,7 +181,7 @@ export default {
             iMessage.error(res.dscZh || '保存失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error(err.dscZh || '保存失败')
         })
         .finally(() => (this.loading = false))

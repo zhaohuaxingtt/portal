@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-29 14:22:03
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-06 15:13:54
+ * @LastEditTime: 2021-12-07 15:01:38
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\data.js
  */
 export const tableTitle=[
@@ -10,6 +10,7 @@ export const tableTitle=[
         name: '供应商编号',
         key: 'GOMGYINGSHANGBIANHAO',
         required: true,
+        width:120,
         rule: [{
             required: true,
             message: '请输入',
@@ -21,6 +22,7 @@ export const tableTitle=[
         name: '供应商名称',
         key: 'GONGYINGSHANGMINGCHENG',
         required: true,
+        width:120,
         rule: [{
             required: true,
             message: '请输入',
@@ -32,6 +34,7 @@ export const tableTitle=[
         name: '供应商地址',
         key: 'GONGYINGSHANGDIZHI',
         required: true,
+        width:120,
         rule: [{
             required: true,
             message: '请输入',
@@ -41,6 +44,7 @@ export const tableTitle=[
     {
         props: 'contactName',
         name: '联系人姓名',
+        width:120,
         key: 'LIANXIRENXINGMING',
         required: true,
         rule: [{
@@ -52,11 +56,13 @@ export const tableTitle=[
     {
         props: 'contactTel',
         name: '联系人电话',
+        width:120,
         key: 'LIANXIRENDIANHUA',
     },
     {
         props: 'contactMobile',
         name: '联系人手机',
+        width:120,
         key: 'LIANXIRENSHOUJI',
         required: true,
         rule: [{
@@ -68,6 +74,7 @@ export const tableTitle=[
     {
         props: 'contactEmail',
         name: '联系人邮箱',
+        width:120,
         key: 'LIANXIRENYOUXIANG',
         required: true,
         rule: [{
@@ -88,13 +95,14 @@ export const tableTitle=[
     },
     {
         props: 'markExpiration',
-        name: '是否过期',
-        key: 'SHIFOUGUOQI',
+        name: '是否超期',
+        key: 'SHIFOUCHAOQI',
     },
     {
         props: 'expirationTime',
-        name: '过期时间',
-        key: 'GUOQISHIJIAN',
+        name: '超期时间',
+        width:120,
+        key: 'CHAOQISHIJIAN',
     },
     {
         props: '应用关联',

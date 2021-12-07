@@ -1,7 +1,9 @@
 <template>
 <iPage class="main">
-	<div class="flex justify-between">
-		<div class="content-title">用户助手管理</div>
+	<!-- <div class="flex justify-between"> -->
+		<!-- <div class="content-title">用户助手管理</div> -->
+	<pageHeader class="title">
+		{{language('用户助手管理')}}
 		<div class="types" slot="actions">
 			<iTabBadge>
 				<iTabBadgeItem
@@ -13,7 +15,8 @@
 				/>
 			</iTabBadge>
 		</div>
-	</div>
+	</pageHeader>
+	<!-- </div> -->
 	<el-tabs class="nav" v-model="activeUser" @tab-click="typeChange">
         <el-tab-pane label="供应商用户" name="supplier">
         </el-tab-pane>
@@ -77,10 +80,11 @@
 <script>
 import { iPage, iInput, iSelect } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
+import pageHeader from '@/components/pageHeader'
 import CommonProblem from '../components/commonProblem'
 import Question from "./components/question"
 import UserManual from "./components/userManual"
-import { getModuleList, getUserDes, getProblemDetail, queryFaqListByPage } from '@/api/assistant'
+import { queryModuleBySource, getUserDes, getProblemDetail, queryFaqListByPage } from '@/api/assistant'
 export default {
 	components: {
 		iPage,
@@ -90,7 +94,8 @@ export default {
 		Question,
 		UserManual,
 		iInput,
-		iSelect
+		iSelect,
+		pageHeader
 	},
 	data() {
 		return {
@@ -147,13 +152,14 @@ export default {
 		async getProbleList() {
 			this.manualInfo.loading = true
 			try {
-				await getModuleList(this.activeUser).then((res) => {
+				await queryModuleBySource(this.activeUser).then((res) => {
 					if (res.code === '200') {
-						this.qsInfo.moduleList = res.data
 						this.manualInfo.list = res.data
 						this.manualInfo.id = res.data[0]?.id
-						this.manualInfo.activeInfo = res.data[0]
-						this.queryManualDetail()
+						if(this.manualInfo.id){
+							this.manualInfo.activeInfo = res.data[0]
+							this.queryManualDetail()
+						}
 					}
 				})
 			} finally {
@@ -174,6 +180,11 @@ export default {
 						}else{
 							if(this.qsInfo.params.pageNum == 1){
 								this.qsInfo.list = list
+								this.qsInfo.id = list[0]?.id
+								if(this.qsInfo.id){
+									this.qsInfo.activeInfo = list[0]
+									this.queryProblemDetail()
+								}
 							}else{
 								this.qsInfo.list.push(...list)
 							}
@@ -224,12 +235,19 @@ export default {
 		// 用户类型切换
 		typeChange(t){
 			this.activeUser = t.name
-			this.getProbleList()
 			if(this.activeMoudle == 'question'){
-				this.$nextTick(() => {
+				this.qsInfo.id = ""
+				this.$set(this.qsInfo,"activeInfo",{})
+				this.$set(this.qsInfo,"detail",{})
+				this.$nextTick(async () => {
 					this.refreshQs()
-					this.$refs.qs.getModuleList(t.name)
+					this.qsInfo.moduleList = await this.$refs.qs.getModuleList(t.name)
 				})
+			}else{
+				this.manualInfo.id = ""
+				this.$set(this.manualInfo,"activeInfo",{})
+				this.$set(this.manualInfo,"detail",{})
+				this.getProbleList()
 			}
 		},
 		// 查询用户手册详情
@@ -277,6 +295,8 @@ export default {
 		overflow: hidden;
 	}
 	.nav{
+		font-size: 14px;
+		font-weight: bold;
 		margin-top: 20px;
 	}
 	.content-title {

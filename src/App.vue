@@ -7,7 +7,7 @@
  * @FilePath: \rise\src\App.vue
 -->
 <template>
-  <div class="app">
+  <div class="app" id="app">
     <router-view id="appRouterView"></router-view>
   </div>
 </template>
