@@ -120,7 +120,7 @@ export default {
 		}
 		.title {
 			margin: 18px 0px 22px 0px;
-			font-size: 20px;
+			font-size: 16px;
 			font-weight: bold;
 			color: #000000;
 		}
