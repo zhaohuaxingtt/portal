@@ -2081,6 +2081,7 @@
     LK_GONGCHANGFENE	:'工厂份额',
     LK_ERCIJIAN	:'二次件',
     LK_FSHAO:'FS号',
+    LK_LJQSMZQ:'零件全生命周期',
     //会议中英文
     MT_HUIYIMINGCHENG: '会议名称',
     MT_HUIYIDIDIAN: '会议地点',

@@ -1999,6 +1999,7 @@
     LK_GONGCHANGFENE	:'Factory share',
     LK_ERCIJIAN	:'Secondary parts',
     LK_FSHAO:'FS Number',
+    LK_LJQSMZQ:'Part life cycle',
     MAIL: {
       NOTIFICATION: 'notification',
       MESSAGE: 'message',
