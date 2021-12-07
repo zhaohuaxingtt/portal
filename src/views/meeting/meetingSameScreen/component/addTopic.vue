@@ -245,10 +245,8 @@ import {
   addThemenAttachment,
   findTheThemenById
 } from '@/api/meeting/details'
-import { uploadFile, getUsers, getReceiverById } from '@/api/meeting/type'
-import { download, createAnchorLink } from '@/utils/downloadUtil'
-import { MOCK_FILE_URL } from '@/constants'
-import { getFileByIds } from '@/api/file/filedownload.js'
+import { uploadFile, getReceiverById } from '@/api/meeting/type'
+import { download } from '@/utils/downloadUtil'
 export default {
   components: {
     iDialog,
@@ -621,9 +619,9 @@ export default {
       uploadFile(formData)
         .then((res) => {
           let attachment = {
-            attachmentId: res[0].id,
-            attachmentUrl: res[0].path,
-            attachmentName: res[0].name
+            attachmentId: res.data[0].id,
+            attachmentUrl: res.data[0].path,
+            attachmentName: res.data[0].name
           }
           this.ruleForm.attachment.push(attachment)
           iMessage.success(this.$t('上传成功'))
@@ -639,7 +637,7 @@ export default {
       this.$emit('closeDialog', false)
       this.$emit('flushTable')
     },
-    clearDiolog(sub) {
+    clearDiolog() {
       this.$confirm('是否取消编辑?', '提示', {
         confirmButtonText: '是',
         cancelButtonText: '否',

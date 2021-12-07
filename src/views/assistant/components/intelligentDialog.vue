@@ -122,8 +122,7 @@ export default {
 				answerContent: [],
 				type: 'user'
 			})
-			let question = this.keywords
-			await getSmartContent(question).then((res) => {
+			await getSmartContent({question: this.keywords}).then((res) => {
 				if (res?.code === '200') {
 					this.chatList.push({
 						question: '',

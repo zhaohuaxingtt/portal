@@ -121,7 +121,7 @@ export default {
         {
           prop: 'fullCode',
           label: '编码',
-          i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_CODE',
+          i18n: '组织机构编码',
           minWidth: '240',
           align: 'left',
           headerAlign: 'left'
@@ -129,7 +129,7 @@ export default {
         {
           prop: 'nameZh',
           label: '名称',
-          i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_NAME',
+          i18n: '组织机构名称',
           type: 'expanded',
           align: 'left',
           headerAlign: 'left',
@@ -138,17 +138,17 @@ export default {
         {
           prop: 'shortCode',
           label: '简码',
-          i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_SHORT_CODE'
+          i18n: '组织机构简码'
         },
         {
           prop: 'shortName',
           label: '简称',
-          i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_SHORT_NAME'
+          i18n: '组织机构简称'
         },
         {
           prop: 'leadUserName',
           label: '负责人',
-          i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_OWNER'
+          i18n: '负责人'
         }
       ],
       treeExpand: { expandKey: 'nameZh', childrenKey: 'supDeptList' },

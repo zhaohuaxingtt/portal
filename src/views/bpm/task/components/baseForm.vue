@@ -7,14 +7,14 @@
       <div class="content">
         <div class="remark">
           <div class="multi-ellipsis">
-            {{ form.remark || '无' }}
+            {{ form.remark || '无审批备注' }}
           </div>
         </div>
         <div class="attachments">
           <div
             v-if="!form.procAttachments || form.procAttachments.length === 0"
           >
-            无
+            无审批附件
           </div>
           <div v-else class="attach-area">
             <attachmentList :data="attaches" icon />

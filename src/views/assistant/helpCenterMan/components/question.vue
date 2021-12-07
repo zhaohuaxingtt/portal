@@ -137,10 +137,12 @@
                 if(!this.form.answerContent) return this.$message.warning("请输入回答内容")
                 try {
                     this.loading = true
-                    await updateFaq(this.form.id, this.form)
-                    this.$message.success("保存成功")
-                    this.type = 'detail'
-                    this.$emit("editChange")
+                    let res = await updateFaq(this.form.id, this.form)
+                    if(res.code == 200){
+                        this.$message.success("保存成功")
+                        this.type = 'detail'
+                        this.$emit("editChange")
+                    }
                 } finally {
                     this.loading = false
                 }

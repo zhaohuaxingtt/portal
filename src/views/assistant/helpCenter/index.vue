@@ -314,12 +314,11 @@ export default {
 			if (name) this.currMoudleName = name
 		},
 		selectQues(list) {
-			console.log(list, '====')
 			this.$refs.questionDetail.getCurrQuesDetail(list || {})
 		},
 		//  改变点赞问题的状态
 		changeQuesStatus(quesId) {
-			this.$res.questionList.changeCurrQuesStatus(quesId)
+			this.$refs.questionList.changeCurrQuesStatus(quesId)
 		}
 	}
 }

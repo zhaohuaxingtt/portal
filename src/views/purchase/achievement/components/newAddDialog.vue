@@ -16,7 +16,7 @@
                     v-model="form.year"
                     style="width: 320px"
                     class="margin-top10"
-                    :placeholder="$t('LK_QINGXUANZE')"
+                    :placeholder="language('请选择')"
             >
                 <el-option :value="it" :label="it" v-for="it,i in yearList" :key="i"></el-option>
             </iSelect>
@@ -27,7 +27,7 @@
                     v-model="form.type"
                     style="width: 320px"
                     class="margin-top10"
-                    :placeholder="$t('LK_QINGXUANZE')"
+                    :placeholder="language('请选择')"
             >
 
                 <el-option :value="it.key" :label="`${ $i18n.locale === 'zh' ? it.value : it.enName }`"

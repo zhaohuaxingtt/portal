@@ -81,6 +81,14 @@
 			</div>
 		</div>
 
+		<el-dialog
+			title="查看图片"
+			:visible="dialogVisible"
+			@close="closeDialog"
+		>
+			<img :src="fileUrl" alt="">
+		</el-dialog>
+
 	</div>
 </template>
 
@@ -123,6 +131,8 @@ export default {
 	},
 	data() {
 		return {
+			dialogVisible: false,
+			fileUrl: '',
 			problemLoading: false,  //  问题列表loading
 			labelLoading: false,  //  查询标签loading
 			allModuleLabelLoading: false,  //  查询全部模板标签loading
@@ -184,6 +194,7 @@ export default {
 			this.currentFlag = 'detailPage'
 			this.problemText = item.questionTitle
 			this.problemLoading = true
+			this.favourQuestionId = item.id
 			await getProblemDetail({id:item.id}).then(res => {
 				if (res?.code === '200') {
 					const { data } = res
@@ -219,9 +230,11 @@ export default {
 			console.log(fileExtension, '23456')
 			if (fileTypeArr.includes(fileExtension)) {
 				console.log("=====")
-				window.location.href = file.fileUrl
+				// window.location.href = file.fileUrl
+				this.dialogVisible = true
+				this.fileUrl = file.fileUrl
 			} else {
-				getFileId(this.attach[0]?.bizId).then((res) => {
+				getFileId(file?.bizId).then((res) => {
 					console.log(res, '1111111111')
 				})
 			}
@@ -387,6 +400,9 @@ export default {
 			this.currMoudleName = currName
 			Object.assign(this.problemQuery, queryValue)
 			await this.getProblemList()
+		},
+		closeDialog() {
+			this.dialogVisible = false
 		}
 	}
 }

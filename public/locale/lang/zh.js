@@ -692,16 +692,7 @@
     LK_QINGXUANZEXUYAOHUIFUDEPINGFENBUMEN: '请选择需要恢复的评分部门', //请选择需要恢复的评分部门
     LK_QINGXUANZEWANSHUJUZAIZUOBAOCUN: '请选择完数据再做保存', //请选择完数据再做保存
     LK_WEIBUXITONGWENJIANWUFASHANCHU: '为外部系统文件，无法删除', // xxx 为外部系统文件, 无法删除
- 
-    POSITION: {
-      POSITION_NAME: '岗位名称',
-      POSITION_CODE: '岗位编码',
-      POSITION_USER: '岗位人员',
-      POSITION_RELATIVE: '相关岗位',
-      ORG_LEVEL: '组织级别',
-      QUERY: '查询',
-      RESET: '重置'
-    },
+
     LOG: {
       APPLICATION_NO: '申请单号',
       APPLICATION_NAME: '申请单名',
@@ -1911,8 +1902,8 @@
     LK_YIXIANGSHUBIANHAO: '意向书编号',
     LK_DINDDIANSHIJIAN: '定点时间',
     LK_RS_DANHAO: 'RS单号',
-    LK_AJIAN: 'A价',
-    LK_BJIAN: 'B价',
+    LK_AJIA: 'A价',
+    LK_BJIA: 'B价',
     LK_BNKJIAGE: 'BNK价格',
     LK_QIANDUANBAOZHUANGFEI: '前段包装费',
     LK_HOUDUANBAOZHUANGFEI: '后段包装费',
@@ -1946,7 +1937,8 @@
     LK_GONGYINGSHANGFENE: '供应商份额',
     LK_GONGCHANGFENE: '工厂份额',
     LK_ERCIJIAN: '二次件',
-
+    LK_FSHAO: 'FS号',
+    LK_LJQSMZQ: '零件全生命周期',
     //会议中英文
     MT_HUIYIMINGCHENG: '会议名称',
     MT_HUIYIDIDIAN: '会议地点',

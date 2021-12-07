@@ -181,7 +181,6 @@ import enclosure from '@/assets/images/enclosure.svg'
 import newFile from '@/assets/images/meeting-home/newFile.svg'
 // import { findThemenById } from "@/api/meeting/details";
 import newSummaryDialog from './newSummaryDialog.vue'
-import { MOCK_FILE_URL } from '@/constants'
 import { download } from '@/utils/downloadUtil'
 import dayjs from 'dayjs'
 
@@ -269,7 +268,7 @@ export default {
     // 下载附件
     downloadEnclosure(e) {
       download({
-        url: MOCK_FILE_URL + e.attachmentId,
+        fileIds: e.attachmentId,
         filename: e.attachmentName,
         callback: (e) => {
           if (!e) {

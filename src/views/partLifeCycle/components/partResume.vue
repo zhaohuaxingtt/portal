@@ -5,7 +5,7 @@
 <template>
     <iCard class="partResume">
         <div slot="header" class="head">
-            <h3>{{ '零件履历' }}</h3>
+            <h3> {{ language('LK_LINGJIANLVLI', '零件履历') }}</h3>
             <iButton @click="exportFile" v-loading="exportLoading">{{ language('LK_DAOCHU', '导出') }}</iButton>
         </div>
         <div class="partResume_main" v-loading="mainLoading">
@@ -66,319 +66,319 @@
                 <div class="partResume_right_content">
                     <!--          //Sourcing-->
                     <div class="divItem" v-show="currentType === 2">
-                        <span>首次询价时间：</span>
+                        <span>{{ language('LK_SHOUCIXUNJIASHIJIAN', '首次询价时间') }}：</span>
                         <span>{{ infoData.businessDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 2">
-                        <span>RFQ号：</span>
+                        <span>{{ language('LK_RFQBIANHAO', 'RFQ编号') }}：</span>
                         <span class="link" @click="toUrl(infoData,'RFQ')">{{ infoData.businessTitle }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 2">
-                        <span>RFQ类型：</span>
+                        <span>{{ language('LK_RFQLEIXING', 'RFQ类型') }}：</span>
                         <span>{{ infoData.rfqType }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 2">
-                        <span>询价类型：</span>
+                        <span>{{ language('LK_XUNJIALEIXING', '询价类型') }}：</span>
                         <span>{{ infoData.inquiryType }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 2">
-                        <span>零件采购项目类型：</span>
+                        <span>{{ language('LK_LINGJIANCAIGOUXIANGMULEIXING', '零件采购项目类型') }}：</span>
                         <span>{{ infoData.purchaseTypeName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 2">
-                        <span>工厂：</span>
+                        <span>{{ language('LK_GONGCHANG', '工厂') }}：</span>
                         <span>{{ infoData.purchaseFactorys }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 2">
-                        <span>车型项目：</span>
+                        <span>{{ language('LK_CHEXINGXIANGMU', '车型项目') }}：</span>
                         <span>{{ infoData.carTypeProCode }} - {{ infoData.carTypeProName }}</span>
                     </div>
 
                     <!--          //LOI（意向书）-->
                     <div class="divItem" v-show="currentType === 3">
-                        <span>时间：</span>
+                        <span>{{ language('LK_SHIJIAN', '时间') }}：</span>
                         <span>{{ infoData.businessDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 3">
-                        <span>供应商：</span>
+                        <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
                         <span>{{ infoData.loiSupplierCode }} - {{ infoData.loiSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 3">
-                        <span>意向书编号：</span>
+                        <span>{{ language('LK_YIXIANGSHUBIANHAO', '意向书编号') }}：</span>
                         <span>{{ infoData.loiIntentLetterCode }}</span>
                     </div>
 
                     <!--          //定点-->
                     <div class="divItem" v-show="currentType === 4">
-                        <span>定点时间：</span>
+                        <span>{{ language('LK_DINDDIANSHIJIAN', '定点时间') }}：</span>
                         <span>{{ infoData.businessDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>FS号：</span>
+                        <span>{{ language('LK_FSHAO', 'FS号') }}：</span>
                         <span class="link" @click="toUrl(infoData,'fsNum')">{{ infoData.fsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>RS单号：</span>
+                        <span>{{ language('LK_RS_DANHAO', 'RS单号') }}：</span>
                         <span class="link" @click="toUrl(infoData,'rsNum')">{{ infoData.rsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>A价：</span>
+                        <span>{{ language('LK_AJIA', 'A价') }}：</span>
                         <span>{{ infoData.pricePermission ? infoData.priceA : '-' }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>B价：</span>
+                        <span>{{ language('LK_BJIA', 'B价') }}：</span>
                         <span>{{ infoData.pricePermission ? infoData.priceB : '-' }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>BNK价格：</span>
+                        <span>{{ language('LK_BNKJIAGE', 'BNK价格') }}：</span>
                         <span>{{ infoData.pricePermission ? infoData.priceBnk : '-' }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>前段包装费：</span>
+                        <span>{{ language('LK_QIANDUANBAOZHUANGFEI', '前段包装费') }}：</span>
                         <span>{{ infoData.headerPartPackageFee }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>后段包装费：</span>
+                        <span>{{ language('LK_HOUDUANBAOZHUANGFEI', '后段包装费') }}：</span>
                         <span>{{ infoData.footerPartPackageFee }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>操作费：</span>
+                        <span>{{ language('LK_CUOZUOFEI', '操作费') }}：</span>
                         <span>{{ infoData.operationFee }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>运输费：</span>
+                        <span>{{ language('LK_YUNSHUFEI', '运输费') }}：</span>
                         <span>{{ infoData.carriageFee }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>投资费：</span>
+                        <span>{{ language('LK_TOUZIFEI', '投资费') }}：</span>
                         <span>{{ infoData.rsInvestmentFee }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>开发费：</span>
+                        <span>{{ language('LK_KAIFAFEI', '开发费') }}：</span>
                         <span>{{ infoData.rsDevelopmentFee }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>供应商：</span>
+                         <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
                         <span>{{ infoData.rsSupplierCode }} - {{ infoData.rsSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>物流服务商：</span>
+                        <span>{{ language('LK_WULIUFUWUSHANG', '物流服务商') }}：</span>
                         <span>{{ infoData.rsLogisticsSupplierCode }} - {{ infoData.rsLogisticsSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>车型项目：</span>
+                        <span>{{ language('LK_CHEXINGXIANGMU', '车型项目') }}：</span>
                         <span>{{ infoData.rsCarTypeProCode }} - {{ infoData.rsCarTypeProName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>询价产量：</span>
+                        <span>{{ language('LK_XUNJIACHANGLIANG', '询价产量') }}：</span>
                         <span>{{ infoData.rsInquiryQty }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>定点时产能：</span>
+                        <span>{{ language('LK_DINGDIANSHICHANNENG', '定点时产能') }}：</span>
                         <span>{{ infoData.rsProCapacity }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>是否做过零件成本分析：</span>
+                        <span>{{ language('LK_SHIFOUZUOGUOCHENGBENFENXI', '是否做过零件成本分析') }}：</span>
                         <span :class="infoData.isIngredientAnalyze?'link':''"  @click="toUrl(infoData,'isIngredientAnalyze')">{{ infoData.isIngredientAnalyze ? language('LK_SHI', '是') : language('LK_FOU', '否')
                             }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>MTZ RS单号：</span>
+                        <span>MTZ {{ language('LK_RS_DANHAO', 'RS单号') }}：</span>
                         <span class="link"  @click="toUrl(infoData,'mtzRsNum')">{{ infoData.mtzRsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
-                        <span>定点信编号：</span>
+                        <span>MTZ {{ language('LK_DINGDIANXINBIANHAO', '定点信编号') }}：</span>
                         <span class="link"  @click="toUrl(infoData,'rsNlNum')">{{ infoData.rsNlNum }}</span>
                     </div>
 
                     <!--          //Kick off-->
                     <div class="divItem" v-show="currentType === 1">
-                        <span>Kick off 会议编号：</span>
+                        <span>Kick off {{ language('LK_HUIYIBIANHAO', '会议编号') }}：</span>
                         <span>{{ infoData.businessTitle }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 1">
-                        <span>Kick off 时间：</span>
+                        <span>Kick off {{ language('LK_SHIJIAN', '时间') }}：</span>
                         <span>{{ infoData.businessDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 1">
-                        <span>FS号：</span>
+                         <span>{{ language('LK_FSHAO', 'FS号') }}：</span>
                         <span class="link" @click="toUrl(infoData,'fsNum')">{{ infoData.fsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 1">
-                        <span>SOP时间：</span>
+                        <span>SOP {{ language('LK_SHIJIAN', '时间') }}：</span>
                         <span>{{ infoData.kickOffSopDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 1">
-                        <span>供应商：</span>
+                         <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
                         <span>{{ infoData.kickOffSupplierCode }} - {{ infoData.kickOffSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 1">
-                        <span>1st tryout时间：</span>
+                        <span>1st tryout {{ language('LK_SHIJIAN', '时间') }}：</span>
                         <span>{{ infoData.fstTryoutDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 1">
-                        <span>OTS送样时间：</span>
+                        <span>OTS {{ language('LK_SONGYANGSHIJIAN', '送样时间') }}：</span> 
                         <span>{{ infoData.otsSendSamplesDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 1">
-                        <span>EM送样时间：</span>
+                        <span>EM {{ language('LK_SONGYANGSHIJIAN', '送样时间') }}：</span>
                         <span>{{ infoData.emSendSamplesDate }}</span>
                     </div>
 
                     <!--          //配件定点-->
                     <div class="divItem" v-show="currentType === 6">
-                        <span>定点时间：</span>
+                        <span>{{ language('LK_DINDDIANSHIJIAN', '定点时间') }}：</span>
                         <span>{{ infoData.businessDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
-                        <span>FS号：</span>
+                         <span>{{ language('LK_FSHAO', 'FS号') }}：</span>
                         <span class="link" @click="toUrl(infoData,'fsNum')">{{ infoData.fsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
-                        <span>RS单号：</span>
+                        <span>{{ language('LK_RS_DANHAO', 'RS单号') }}：</span>
                         <span class="link"  @click="toUrl(infoData,'rsNum')">{{ infoData.accessoriesRsNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
-                        <span>配件A价：</span>
+                        <span>{{ language('LK_PEIJIANAJIA', '配件A价') }}：</span>
                         <span>{{ infoData.pricePermission ? infoData.accessoriesPriceA : '-' }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
-                        <span>配件B价：</span>
+                        <span>{{ language('LK_PEIJIANBJIA', '配件B价') }}：</span>
                         <span>{{ infoData.pricePermission ? infoData.accessoriesPriceB : '-' }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
-                        <span>BNK价格：</span>
+                        <span>{{ language('LK_BNKJIAGE', 'BNK价格') }}：</span>
                         <span>{{ infoData.pricePermission ? infoData.accessoriesPriceBnk : '-' }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
-                        <span>前段包装费：</span>
+                        <span>{{ language('LK_QIANDUANBAOZHUANGFEI', '前段包装费') }}：</span>
                         <span>{{ infoData.headerPartPackageFee }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
-                        <span>后段包装费：</span>
+                        <span>{{ language('LK_HOUDUANBAOZHUANGFEI', '后段包装费') }}：</span>
                         <span>{{ infoData.footerPartPackageFee }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
-                        <span>操作费：</span>
+                        <span>{{ language('LK_CUOZUOFEI', '操作费') }}：</span>
                         <span>{{ infoData.operationFee }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
-                        <span>运输费：</span>
+                        <span>{{ language('LK_YUNSHUFEI', '运输费') }}：</span>
                         <span>{{ infoData.carriageFee }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
-                        <span>供应商：</span>
+                         <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
                         <span>{{ infoData.accessoriesSupplierCode }} - {{ infoData.accessoriesSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
-                        <span>车型项目：</span>
+                        <span>{{ language('LK_CHEXINGXIANGMU', '车型项目') }}：</span>
                         <span>{{ infoData.accessoriesCarTypeProCode }} - {{ infoData.accessoriesCarTypeProName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
-                        <span>定点信签署时间（NL）：</span>
+                        <span>{{ language('LK_DINGDIANXINGQIANSHUSHIJIAN', '定点信签署时间') }}(NL)：</span>
                         <span>{{ infoData.nlDate }}</span>
                     </div>
 
                     <!--          //SOP-->
                     <div class="divItem" v-show="currentType === 8">
-                        <span>首次SOP：</span>
+                        <span>{{ language('LK_SHOUCI', '首次') }}SOP：</span>
                         <span>{{ infoData.sopDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 8">
-                        <span>车型名称：</span>
+                        <span>{{ language('LK_CHEXINGMINGCHENG', '车型名称') }}：</span>
                         <span>{{ infoData.sopCarTypeProName }}</span>
                     </div>
 
                     <!--          //Aeko-->
                     <div class="divItem" v-show="currentType === 5">
-                        <span>AEKO号：</span>
+                        <span>{{ language('LK_AEKOHAO', 'AEKO号') }}：</span>
                         <span class="link" @click="toUrl(infoData,'aekoCode')">{{ infoData.aekoCode }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>原零件号：</span>
+                        <span>{{ language('LK_YUANLINGJIANHAO', '原零件号') }}：</span>
                         <span>{{ infoData.originalPartNum }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>采购工厂：</span>
+                        <span>{{ language('LK_CAIGOUGONGCHANG', '采购工厂') }}：</span>
                         <span>{{ infoData.aekoPurchaseFactorys }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>导入日期：</span>
+                        <span>{{ language('LK_DAORURIQI', '导入日期') }}：</span>
                         <span>{{ infoData.aekoImportDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>价格实施日期：</span>
+                        <span>{{ language('LK_JIAGESHISIRIQI', '价格实施日期') }}：</span>
                         <span>{{ infoData.aekoExecuteDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>ES投产日期：</span>
+                        <span>{{ language('LK_TOUCHANRIQI', '投产日期') }}：</span>
                         <span>{{ infoData.aekoEsProductDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>ES取消日期：</span>
+                        <span>ES{{ language('LK_QUXIAORIQI', '取消日期') }}：</span>
                         <span>{{ infoData.aekoEsCancelDate }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>供应商：</span>
+                         <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
                         <span>{{ infoData.aekoSupplierCode }} - {{ infoData.aekoSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>AEKO状态：</span>
+                        <span>AEKO{{ language('LK_ZHUANGTAI', '状态') }}：</span>
                         <span>{{ infoData.aekoSupplierStatus }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>实施价格：</span>
+                        <span>{{ language('LK_SHISIJIAGE', '实施价格') }}：</span>
                         <span>{{ infoData.pricePermission ? infoData.aekoCarryPrice : '-' }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>A价：</span>
+                        <span>{{ language('LK_AJIA', 'A价') }}：</span>
                         <span>{{ infoData.pricePermission ? infoData.aekoPriceA : '-' }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>ΔA价：</span>
+                        <span>Δ{{ language('LK_AJIA', 'A价') }}：</span>
                         <span>{{ infoData.aekoDeltaPriceA }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>Δ模具投资费用：</span>
+                        <span>Δ{{ language('LK_MOJUTOUZIFEIYONG', '模具投资费用') }}：</span>
                         <span>{{ infoData.aekoDeltaMouldInvestmentFee }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>Δ开发费：</span>
+                        <span>Δ{{ language('LK_KAIFAFEI', '开发费') }}：</span>
                         <span>{{ infoData.aekoDeltaDelevopmentFee }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
-                        <span>样件价格：</span>
+                        <span>{{ language('LK_YANGJIANJIAGE', '样件价格') }}：</span>
                         <span>{{ infoData.pricePermission ? infoData.aekoSimplePrice : '-' }}</span>
                     </div>
 
                     <!--   MTZ-->
                     <div v-for="(item, key) in infoData.mtzVos" :key="key" v-show="currentType === 7">
                         <div class="divItem">
-                            <span>MTZ规则编号{{ key + 1 }}：</span>
+                            <span>MTZ {{ language('LK_GUIZEBIANHAO', '规则编号') }}{{ key + 1 }}：</span>
                             <span>{{ item.mtzRuleCode }}</span>
                         </div>
                         <div class="divItem">
-                            <span>MTZ材料组：</span>
+                            <span>MTZ {{ language('LK_CAILIAOZU', '材料组')}}：</span>
                             <span>{{ item.mtzCategoryZh + '-' + item.mtzCategoryDe }}</span>
                         </div>
                         <div class="divItem">
-                            <span>原材料：</span>
+                            <span>{{ language('LK_YUANCAILIAO', '原材料')}}：</span>
                             <span>{{ item.mtzMaterialCode + '-' + item.mtzMaterialName }}</span>
                         </div>
                         <div class="divItem">
-                            <span>用量：</span>
+                            <span>{{ language('LK_YONGLIANG', '用量')}}：</span>
                             <span>{{ item.dosage }}{{ item.dosageMeasureUnit }}</span>
                         </div>
                         <div class="divItem">
-                            <span>基价：</span>
+                            <span>{{ language('LK_JIJIA', '基价')}}：</span>
                             <span>{{ item.price }}{{ item.tcCurrence }}</span>
                         </div>
                         <div class="divItem">
-                            <span>补差周期：</span>
+                            <span>{{ language('LK_BUCAIZHOUQI', '补差周期')}}：</span>
                             <span>{{ item.supplementCycle }}</span>
                         </div>
                         <div class="divItem">
-                            <span>市场价来源：</span>
+                            <span>{{ language('LK_SHICHANGJIALAIYUAN', '市场价来源')}}：</span>
                             <span>{{ item.priceSource }}</span>
                         </div>
                     </div>
@@ -444,7 +444,7 @@
         })
       },
       getRecordDetail(item, index) {
-        console.log(item,'iii')
+        console.log(item,'iii',this.checkedIndex3,index)
         if (this.checkedIndex3 === index) {
           return
         }

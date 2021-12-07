@@ -71,10 +71,10 @@
 
 		var ajaxUrlMap = {
 			'dev': '/taskNodeApi/',
-			'production': '/api/',
-			'sit': '/taskNodeApi/',
+			'production': '/approvalApi/',
+			'sit': '/approvalApi/',
 			'vmsit': '/taskNodeApi/',
-			'uat': '/taskNodeApi/',
+			'uat': '/approvalApi/',
 		}
 		var queryString = window.location.search
 		var nodeEnv = queryString.substring(queryString.lastIndexOf('env=') + 4, queryString.length)
