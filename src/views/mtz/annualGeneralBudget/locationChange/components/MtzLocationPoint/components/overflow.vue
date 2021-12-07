@@ -228,7 +228,7 @@ export default {
         pageSize: 10
       }).then(res => {
         if (res.code === "200" && res.result) {
-          if(res.data !== null){
+          if(res.data.length > 0){
             if (this.mtzObject.flowType == undefined && this.flowType == "" && this.submitType == "") {
             } else {
               this.flowType = this.mtzObject.flowType || this.flowType || this.submitType

@@ -14,7 +14,7 @@
                 justify='space-between'
                 align='middle'>
           <el-col :span="5">
-            <el-form-item :label="$t('SUPPLIER_VW_LINIE_KESHI')">
+            <el-form-item :label="language('LINIEKESHICSS3','LINIE科室/CSS-3')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_DEPT"
                        @change="handleUser"
                        :placeholder="$t('LK_QINGXUANZE')"
@@ -118,9 +118,11 @@ export default {
   },
   methods: {
     async handleUser (val) {
+
+      let obj = this.formGroup.deptList.find(item => item.id === val)
       this.formGroup.userList = []
       this.form.linieId = ''
-      const res = await getUserList(this.form.deptId)
+      const res = await getUserList({ id: val, deptNum: obj.deptNum })
       this.formGroup.userList = res.data
     },
     getReset () {

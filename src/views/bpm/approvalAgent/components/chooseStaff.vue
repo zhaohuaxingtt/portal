@@ -8,23 +8,14 @@
     <div class="choose-position">
       <div class="form-panel">
         <el-form inline label-position="top">
-          <iFormItem :label="$t('APPROVAL.STAFF_NO')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.staffNo"
-            />
+          <iFormItem :label="language('员工编号')">
+            <iInput :placeholder="language('请输入')" v-model="form.staffNo" />
           </iFormItem>
-          <iFormItem :label="$t('APPROVAL.STAFF_NAME')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.name"
-            />
+          <iFormItem :label="language('姓名')">
+            <iInput :placeholder="language('请输入')" v-model="form.name" />
           </iFormItem>
-          <iFormItem :label="$t('APPROVAL.STAFF_DEPARTMENT')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.dept"
-            />
+          <iFormItem :label="language('所属部门')">
+            <iInput :placeholder="language('请输入')" v-model="form.dept" />
           </iFormItem>
         </el-form>
         <div class="form-button">
@@ -50,7 +41,7 @@
           </div>
         </div>
         <div class="confirm-button">
-          <iButton @click="save">{{ $t('APPROVAL.OK') }}</iButton>
+          <iButton @click="save">{{ language('确定') }}</iButton>
         </div>
       </div>
 
@@ -86,7 +77,7 @@ import { iDialog, iButton, iInput, iFormItem, iPagination } from 'rise'
 import {
   CHOOSE_STAFF_COLUMNS,
   TEST_STAFF_DATA,
-  CHOOSE_STAFF_SEARCH_FORM,
+  CHOOSE_STAFF_SEARCH_FORM
 } from './data'
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
@@ -99,13 +90,13 @@ export default {
     iInput,
     iFormItem,
     iTableCustom,
-    iPagination,
+    iPagination
   },
   props: {
     visible: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data() {
     return {
@@ -114,13 +105,13 @@ export default {
       tableColumns: CHOOSE_STAFF_COLUMNS,
       selectedTableData: [],
       loading: false,
-      tableData: TEST_STAFF_DATA,
+      tableData: TEST_STAFF_DATA
     }
   },
   watch: {
     visible() {
       this.dialogFormVisible = this.visible
-    },
+    }
   },
   created() {
     this.dialogFormVisible = this.visible
@@ -153,8 +144,8 @@ export default {
       this.$refs.positionTable.toggleRowSelection(item, false)
       this.selectedTableData.splice(index, 1)
     },
-    async query() {},
-  },
+    async query() {}
+  }
 }
 </script>
 

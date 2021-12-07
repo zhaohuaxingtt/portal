@@ -2,25 +2,25 @@
   <iDialog :visible="visible" width="80%" @close="close">
     <div class="choose-org">
       <pageHeader class="margin-bottom20">
-        {{ $t('APPROVAL.TRANSFER_PERSON') }}
+        {{ language('转派对象') }}
       </pageHeader>
       <div class="search-panel">
         <el-form inline @submit.native.prevent @keyup.enter.native="search">
-          <iFormItem :label="$t('APPROVAL.STAFF_NO')">
+          <iFormItem :label="language('员工编号')">
             <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               v-model="formData.userNum"
             />
           </iFormItem>
-          <iFormItem :label="$t('APPROVAL.STAFF_NAME')">
+          <iFormItem :label="language('姓名')">
             <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               v-model="formData.nameZh"
             />
           </iFormItem>
-          <iFormItem :label="$t('APPROVAL.STAFF_DEPARTMENT')">
+          <iFormItem :label="language('所属部门')">
             <iSelect
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               :filter-method="deptId"
               filterable
               :loading="loading"
@@ -60,7 +60,7 @@
           :loading="tansferLoading"
           @click="save"
         >
-          {{ $t('APPROVAL.OK') }}
+          {{ language('确定') }}
         </iButton>
       </div>
       <i-table-custom
@@ -144,7 +144,7 @@ export default {
       this.query()
     },
     getDeptDropDownList() {
-      getDeptDropDownList({}).then(res => {
+      getDeptDropDownList({}).then((res) => {
         if (res.code === '200') {
           this.options = res.data
         }

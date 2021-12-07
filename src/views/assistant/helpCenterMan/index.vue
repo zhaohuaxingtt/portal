@@ -154,7 +154,6 @@ export default {
 			try {
 				await queryModuleBySource(this.activeUser).then((res) => {
 					if (res.code === '200') {
-						this.qsInfo.moduleList = res.data
 						this.manualInfo.list = res.data
 						this.manualInfo.id = res.data[0]?.id
 						if(this.manualInfo.id){
@@ -181,6 +180,11 @@ export default {
 						}else{
 							if(this.qsInfo.params.pageNum == 1){
 								this.qsInfo.list = list
+								this.qsInfo.id = list[0]?.id
+								if(this.qsInfo.id){
+									this.qsInfo.activeInfo = list[0]
+									this.queryProblemDetail()
+								}
 							}else{
 								this.qsInfo.list.push(...list)
 							}
@@ -232,9 +236,12 @@ export default {
 		typeChange(t){
 			this.activeUser = t.name
 			if(this.activeMoudle == 'question'){
-				this.$nextTick(() => {
+				this.qsInfo.id = ""
+				this.$set(this.qsInfo,"activeInfo",{})
+				this.$set(this.qsInfo,"detail",{})
+				this.$nextTick(async () => {
 					this.refreshQs()
-					this.$refs.qs.getModuleList(t.name)
+					this.qsInfo.moduleList = await this.$refs.qs.getModuleList(t.name)
 				})
 			}else{
 				this.manualInfo.id = ""

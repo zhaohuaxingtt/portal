@@ -6,17 +6,14 @@
     search-key="APPROVAL_AGENT"
   >
     <el-form>
-      <iFormItem :label="$t('APPROVAL.AUTH_USER_NAME')">
+      <iFormItem :label="language('授权人')">
         <userSearch v-model="data.assignee" />
       </iFormItem>
-      <iFormItem :label="$t('APPROVAL.AGENT_USER_NAME')">
+      <iFormItem :label="language('代理人')">
         <userSearch v-model="data.attorney" />
       </iFormItem>
-      <iFormItem :label="$t('APPROVAL.IS_EFFECTIVE')">
-        <iSelect
-          :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-          v-model="data.status"
-        >
+      <iFormItem :label="language('是否有效')">
+        <iSelect :placeholder="language('请选择')" v-model="data.status">
           <el-option
             v-for="(item, index) in agentStatuses"
             :key="index"

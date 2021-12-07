@@ -21,31 +21,35 @@
  -->
 <template>
   <div class="selector-demo">
-    <el-form :model="demoForm"
-             :rules="rules"
-             ref="demoForm"
-             label-width="100px"
-             class="demo-ruleForm">
-      <el-form-item label="选择器demo"
-                    prop="roles">
-        <iSelectorInput :tagLabel="'fullNameZh'"
-                        v-model="demoForm.roles"
-                        @click.native="handleClick"
-                        :disabled="disabled" />
+    <el-form
+      :model="demoForm"
+      :rules="rules"
+      ref="demoForm"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item label="选择器demo" prop="roles">
+        <iSelectorInput
+          :tagLabel="'fullNameZh'"
+          v-model="demoForm.roles"
+          @click.native="handleClick"
+          :disabled="disabled"
+        />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary"
-                   @click="submitForm()">提交</el-button>
+        <el-button type="primary" @click="submitForm()">提交</el-button>
       </el-form-item>
     </el-form>
-    <i-selector-dialog :show.sync="dialogRoleVisible"
-                       @change="handleCallback"
-                       v-model="demoForm.roles"
-                       :tableSetting="selectorTableSetting"
-                       :filter="selectorQuery"
-                       :title="'角色选择'"
-                       :search-method="handleSearch"
-                       :tag-label="'fullNameZh'"></i-selector-dialog>
+    <i-selector-dialog
+      :show.sync="dialogRoleVisible"
+      @change="handleCallback"
+      v-model="demoForm.roles"
+      :tableSetting="selectorTableSetting"
+      :filter="selectorQuery"
+      :title="'角色选择'"
+      :search-method="handleSearch"
+      :tag-label="'fullNameZh'"
+    ></i-selector-dialog>
   </div>
 </template>
 
@@ -58,7 +62,7 @@ export default {
     iSelectorInput,
     iSelectorDialog
   },
-  data () {
+  data() {
     return {
       rules: {
         roles: [{ required: true, message: '请选择', trigger: 'change' }]
@@ -206,13 +210,13 @@ export default {
       selectorQuery: [
         {
           value: 'code',
-          label: this.$t('ROLE.ROLE_CODE'),
+          label: this.language('角色代码'),
           type: 'input',
           initVal: ''
         },
         {
           value: 'fullNameZh',
-          label: this.$t('ROLE.ROLE_NAME'),
+          label: this.language('角色名称'),
           type: 'input',
           initVal: ''
         }
@@ -268,8 +272,8 @@ export default {
     }
   },
   methods: {
-    submitForm () {
-      this.$refs['demoForm'].validate(valid => {
+    submitForm() {
+      this.$refs['demoForm'].validate((valid) => {
         if (valid) {
           console.log('submit!')
         } else {
@@ -278,14 +282,14 @@ export default {
         }
       })
     },
-    handleClick () {
+    handleClick() {
       console.log('>><<此处用于唤起iSelectorDialog>><<')
       this.dialogRoleVisible = !this.disabled
     },
-    handleCallback () {
+    handleCallback() {
       console.log('callback', this.demoForm.roles)
     },
-    async handleSearch (val) {
+    async handleSearch(val) {
       const res = await fetchRoles(val)
       return res
     }
