@@ -46,13 +46,7 @@
         name="iconcaidanzhankai"
         :class="{ menu: true, hiddenMenu: menuVisible, delay: !menuVisible }"
         @click.native="menuVisible = !menuVisible"
-        v-if="
-          menus
-            .map((item) => {
-              return item.permissionKey
-            })
-            .includes(activeIndex)
-        "
+        v-if="menus.map((item) => item.permissionKey).includes(activeIndex)"
       />
       <div
         :class="{
