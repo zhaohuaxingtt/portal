@@ -110,8 +110,8 @@ export default {
     },
     changeStatus() {
       this.$confirm('是否确认失效此项', '注意', {
-        confirmButtonText: this.$t('APPROVAL.OK'),
-        cancelButtonText: this.$t('APPROVAL.CANCEL'),
+        confirmButtonText: this.language('确定'),
+        cancelButtonText: this.language('取消'),
         type: 'warning'
       }).then(() => {
         const reqData = []

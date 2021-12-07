@@ -8,15 +8,15 @@
       }"
     >
       <pageHeader class="margin-bottom20">
-        {{ $t('APPROVAL.TASK_MANAGER') }}
+        {{ language('任务管理') }}
       </pageHeader>
       <searchForm :data="searchData" @search="search" @reset="reset" />
       <iCard>
         <div class="flex-end-center margin-bottom20">
           <iButton :disabled="disabled" @click="transfer">
-            {{ $t('APPROVAL.TASK_TRANSFER') }}
+            {{ language('转派') }}
           </iButton>
-          <iButton @click="exportData">{{ $t('APPROVAL.EXPORT') }}</iButton>
+          <iButton @click="exportData">{{ language('导出') }}</iButton>
         </div>
         <i-table-custom
           :loading="tableLoading"
@@ -83,7 +83,7 @@ export default {
     }
   },
   watch: {
-    visible: function(val) {
+    visible: function (val) {
       !val && this.$refs.listRef.clearSelection()
     }
   },
@@ -92,7 +92,7 @@ export default {
       return this.$store.state.permission.userInfo.id
     },
     disabled() {
-      const bol = this.selectedRows.some(item => item.status === '已完成')
+      const bol = this.selectedRows.some((item) => item.status === '已完成')
       return this.selectedRows.length !== 1 || bol
     }
   },
@@ -101,7 +101,7 @@ export default {
     this.query(this.searchData)
   },
   mounted() {
-    this.tableData.forEach(item => {
+    this.tableData.forEach((item) => {
       item.status = item.status == 0 ? '进行中' : '已完成'
     })
   },
@@ -148,7 +148,7 @@ export default {
       this.page.pageSize = res.data.size
       this.page.totalCount = res.data.total
       const records = res.data.records
-      records.forEach(item => {
+      records.forEach((item) => {
         item.status = item.status == 0 ? '进行中' : '已完成'
       })
       this.tableData = records
@@ -156,7 +156,7 @@ export default {
     exportData() {
       if (!this.selectedRows.length)
         return iMessage.warn(this.$t('LK_QINGXUANZHEXUYAODAOCHUSHUJU'))
-      const tableColumns = this.tableColumns.map(item => ({
+      const tableColumns = this.tableColumns.map((item) => ({
         props: item.prop,
         name: item.label
       }))

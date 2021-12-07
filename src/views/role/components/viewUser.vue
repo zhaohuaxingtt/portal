@@ -2,7 +2,7 @@
   <iCard class="view-user">
     <div class="flex flex-end-center margin-bottom20">
       <iButton :loading="exportLoading" @click="exportUsers">
-        {{ $t('APPROVAL.EXPORT') }}
+        {{ language('导出') }}
       </iButton>
     </div>
     <div class="view-user-content">
@@ -92,7 +92,7 @@ export default {
         size: this.page.pageSize
       }
       usersListOfRole(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             //
             this.data = val.data

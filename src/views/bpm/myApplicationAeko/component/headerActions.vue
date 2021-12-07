@@ -4,12 +4,12 @@
       <iTabBadgeItem
         :badge="todoTotal"
         :active="!finished"
-        :name="$t('APPROVAL.APPROVAL_TODO')"
+        :name="language('待审批')"
         @click="$emit('toggle', false)"
       />
       <iTabBadgeItem
         :active="finished"
-        :name="$t('APPROVAL.APPROVED')"
+        :name="language('已审批')"
         @click="$emit('toggle', true)"
       />
     </iTabBadge>
@@ -24,13 +24,13 @@ export default {
   props: {
     todoTotal: {
       type: Number,
-      default: 0,
+      default: 0
     },
     finished: {
       type: Boolean,
-      default: false,
-    },
-  },
+      default: false
+    }
+  }
 }
 </script>
 

@@ -40,7 +40,7 @@
           </div>
         </div>
         <iButton :disabled="!selectButtonAble" @click="save">
-          {{ $t('APPROVAL.OK') }}
+          {{ language('确定') }}
         </iButton>
       </div>
 

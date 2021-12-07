@@ -28,11 +28,9 @@ export default {
   computed: {
     pageTitle() {
       if (this.$route.query.type === 'normal') {
-        return this.$t('APPROVAL.NEW') + this.$t('APPROVAL.APPROVAL_AGENT')
+        return this.language('新建') + this.language('审批代理')
       }
-      return (
-        this.$t('APPROVAL.NEW') + this.$t('APPROVAL.APPROVAL_AGENT_MEETING')
-      )
+      return this.language('新建') + this.language('会议审批代理')
     },
     agentType() {
       return this.$route.query.type === 'normal' ? 2 : 1
@@ -106,7 +104,7 @@ export default {
       addAgent(agentList)
         .then((res) => {
           if (res && res.result) {
-            iMessage.success(this.$t('APPROVAL.SAVE_SUCCESSFUL'))
+            iMessage.success(this.language('保存成功'))
             this.$router.go(-1)
           } else {
             iMessage.error(res.desZh || '保存失败')

@@ -6,65 +6,86 @@
   <div>
     <!-- <iDialog width="80%" title="测试" :visible.sync="dialogVisible"></iDialog> -->
 
-    <el-tabs class="tabsHeader"
-             type="card"
-             style="margin-left:20px;"
-             v-model="tabVal"
-             @tab-click="changeTab">
-            <el-tab-pane name="PP" :label="language('SHENGCHANGONGYINGSHANG', '生产供应商')"> </el-tab-pane>
-      <el-tab-pane name="GP" :label="language('YIBANGONGYINGSHANG', '一般供应商')"> </el-tab-pane>
+    <el-tabs
+      class="tabsHeader"
+      type="card"
+      style="margin-left: 20px"
+      v-model="tabVal"
+      @tab-click="changeTab"
+    >
+      <el-tab-pane
+        name="PP"
+        :label="language('SHENGCHANGONGYINGSHANG', '生产供应商')"
+      >
+      </el-tab-pane>
+      <el-tab-pane
+        name="GP"
+        :label="language('YIBANGONGYINGSHANG', '一般供应商')"
+      >
+      </el-tab-pane>
     </el-tabs>
-    <iSearch @reset="clickReset"
-             @sure="sure"
-             :icon="true">
-      <el-form label-width="120"
-               inline
-               label-position="top">
-        <el-form-item style="width:300px"
-                      :label="language('SAPORGONGYINGSHANGMINGCHENG', 'SAP号/供应商名称')">
-          <iSelect remote
-                   :remote-method="remoteGetSupplierList"
-                   collapse-tags
-                   multiple
-                   :value-key="supplierId"
-                   filterable
-                   v-model.trim="form.supplierIds"
-                   :placeholder="$t('APPROVAL.PLEASE_CHOOSE')">
-            <el-option v-for="item in supplierList"
-                       :key="item.supplierId"
-                       :label="item.sapCode + '-' + item.nameZh"
-                       :value="item.supplierId">
+    <iSearch @reset="clickReset" @sure="sure" :icon="true">
+      <el-form label-width="120" inline label-position="top">
+        <el-form-item
+          style="width: 300px"
+          :label="language('SAPORGONGYINGSHANGMINGCHENG', 'SAP号/供应商名称')"
+        >
+          <iSelect
+            remote
+            :remote-method="remoteGetSupplierList"
+            collapse-tags
+            multiple
+            :value-key="supplierId"
+            filterable
+            v-model.trim="form.supplierIds"
+            :placeholder="language('请选择')"
+          >
+            <el-option
+              v-for="item in supplierList"
+              :key="item.supplierId"
+              :label="item.sapCode + '-' + item.nameZh"
+              :value="item.supplierId"
+            >
             </el-option>
           </iSelect>
         </el-form-item>
-        <el-form-item style="width:220px"
-                      :label="language('SHIFOUCAIQUCUOSHU', '是否采取措施')">
-          <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                   v-model="form.isTakeSteps">
-            <el-option v-for="item in measureList"
-                       :key="item.key"
-                       :label="item.label"
-                       :value="item.value">
+        <el-form-item
+          style="width: 220px"
+          :label="language('SHIFOUCAIQUCUOSHU', '是否采取措施')"
+        >
+          <iSelect :placeholder="language('请选择')" v-model="form.isTakeSteps">
+            <el-option
+              v-for="item in measureList"
+              :key="item.key"
+              :label="item.label"
+              :value="item.value"
+            >
             </el-option>
           </iSelect>
         </el-form-item>
-        <el-form-item style="width:220px"
-                      :label="language('GENJINREN', '跟进人')">
-          <iSelect multiple
-                   collapse-tags
-                   filterable
-                   :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                   v-model="form.followUserIds">
-            <el-option v-for="item in followUsers"
-                       :key="item.followUserId"
-                       :label="item.followUserName"
-                       :value="item.followUserId">
+        <el-form-item
+          style="width: 220px"
+          :label="language('GENJINREN', '跟进人')"
+        >
+          <iSelect
+            multiple
+            collapse-tags
+            filterable
+            :placeholder="language('请选择')"
+            v-model="form.followUserIds"
+          >
+            <el-option
+              v-for="item in followUsers"
+              :key="item.followUserId"
+              :label="item.followUserName"
+              :value="item.followUserId"
+            >
             </el-option>
           </iSelect>
         </el-form-item>
       </el-form>
     </iSearch>
-    <iCard style="margin-top:20px">
+    <iCard style="margin-top: 20px">
       <!-- <div class="supplier-table-tittle">重点追踪供应商名单</div> -->
       <div class="table-title">
         <div>
@@ -76,9 +97,11 @@
               )
             }}
           </span>
-          <span style="margin-left:10px"
-                class="spanText"
-                v-if="tabledata.length == 0">
+          <span
+            style="margin-left: 10px"
+            class="spanText"
+            v-if="tabledata.length == 0"
+          >
             (
             {{
               language(
@@ -93,38 +116,45 @@
           language('DAOCHUQUANBU', '导出全部')
         }}</iButton>
       </div>
-      <tableList style="margin-top:30px"
-                 :tableData="tabledata"
-                 :tableTitle="PointCloum"
-                 :selection="false"
-                 :tableLoading="tableLoading"
-                 :index="true">
+      <tableList
+        style="margin-top: 30px"
+        :tableData="tabledata"
+        :tableTitle="PointCloum"
+        :selection="false"
+        :tableLoading="tableLoading"
+        :index="true"
+      >
         <template #halfYear="scope">
-          <i-button @click="handleTakeNotes(scope.row)"
-                    type="text">{{
+          <i-button @click="handleTakeNotes(scope.row)" type="text">{{
             language('CHAKAN', '查看')
           }}</i-button>
         </template>
       </tableList>
-      <iPagination style="margin-top:20px"
-                   v-update
-                   @size-change="handleSizeChange($event, sure)"
-                   @current-change="handleCurrentChange($event, getTableData)"
-                   background
-                   :page-sizes="page.pageSizes"
-                   :page-size="page.pageSize"
-                   :layout="page.layout"
-                   :current-page="page.currPage"
-                   :total="page.totalCount" />
+      <iPagination
+        style="margin-top: 20px"
+        v-update
+        @size-change="handleSizeChange($event, sure)"
+        @current-change="handleCurrentChange($event, getTableData)"
+        background
+        :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        :layout="page.layout"
+        :current-page="page.currPage"
+        :total="page.totalCount"
+      />
     </iCard>
-    <iDialog :title="nameZh"
-             :visible.sync="isShowTake"
-             width="85%"
-             @close="handleCloseTake"
-             @open="handleOpenTake">
-      <supplierTakeDilog v-if="isShowTake"
-                         ref="childTake"
-                         :supplierId="supplierId"></supplierTakeDilog>
+    <iDialog
+      :title="nameZh"
+      :visible.sync="isShowTake"
+      width="85%"
+      @close="handleCloseTake"
+      @open="handleOpenTake"
+    >
+      <supplierTakeDilog
+        v-if="isShowTake"
+        ref="childTake"
+        :supplierId="supplierId"
+      ></supplierTakeDilog>
     </iDialog>
   </div>
 </template>
