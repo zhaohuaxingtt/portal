@@ -87,6 +87,7 @@ import {
   uploadAttach,
   saveAndUpdate,
   uploadOrder,
+  fileudUdDown
 } from '@/api/mtz/database/preciousMetalMarketPriceInquiry';
 import { downloadFileByUrl } from '@/utils';
 
@@ -206,7 +207,19 @@ export default {
       try {
         this.downloadTemplateButtonLoading = true;
         res = await getTemplateUrl();
-        downloadFileByUrl(res.data);
+        fileudUdDown(res.data).then(e=>{
+          let blob = new Blob([e], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+          let objectUrl = URL.createObjectURL(blob);
+          let link = document.createElement("a");
+          link.href = objectUrl;
+          let fname = "点价单上传模板.xlsx";
+          link.setAttribute("download", fname);
+          document.body.appendChild(link);
+          link.click();
+          link.parentNode.removeChild(link);
+          iMessage.success("链接成功！")
+          // downloadFileByUrl(e);
+        })
       } catch {
         iMessage.error(res.desZh)
       } finally {

@@ -117,26 +117,25 @@
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <i-button @click="tagTab"
-                    v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{
+                    v-permission="Supplier_supplierlist_suppliertaglibrary">{{
             language('GONGYINGSHANGBIAOQIANKU', '供应商标签库')
           }}</i-button>
           <i-button @click="setTagBtn"
-                    v-permission="PORTAL_SUPPLIER_BIAOQIANSHEZHI">{{
+                    v-permission="Supplier_supplierlist_suppliertagsetup">{{
             language('BIAOQIANSHEZHI', '标签设置')
           }}</i-button>
           <i-button @click="lacklistBtn('join', language('JIARU', '加入'))"
-                    v-permission="PORTAL_SUPPLIER_JIARUHEIMINGDAN">{{
+                    v-permission="Supplier_supplierlist_addblacklist">{{
             $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN')
           }}</i-button>
           <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))"
-                    v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN">{{
+                    v-permission="Supplier_supplierlist_removeblacklist">{{
             $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN')
           }}</i-button>
-          <i-button @click="handleRating"
-                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{
+          <i-button @click="handleRating">{{
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
-          <i-button @click="handleRegister" v-permission="PORTAL_SUPPLIER_YAOQINGZHUCE">{{
+          <i-button @click="handleRegister">{{
             $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
           }}</i-button>
         </div>

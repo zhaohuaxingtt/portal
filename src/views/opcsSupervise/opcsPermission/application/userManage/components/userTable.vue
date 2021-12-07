@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-06 15:14:11
+ * @LastEditTime: 2021-12-07 15:09:39
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -54,9 +54,13 @@
                 :tableTitle="edit?tableTitleEdit:tableTitle"
                 :tableLoading="tableLoading"
                 @handleSelectionChange="handleSelectionChange"
-                :input-props="['supplierNum', 'supplierName', 'supplierAddress','contactName','contactMobile','contactEmail','contactTel']"
+                :input-props="inputProps"
                 :index="true"
                 ref="commonTable">
+      <template #markExpiration='scope'>
+        <span v-if="scope.row.markExpiration==1">是</span>
+        <span v-if="scope.row.markExpiration==0">否</span>
+      </template>
     </table-list>
     <iPagination style="margin-top: 20px"
                  v-update
@@ -75,7 +79,14 @@
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle, tableTitleEdit } from './data'
-import { iCard, iButton, iSelect, iMessage, iPagination } from 'rise'
+import {
+  iCard,
+  iButton,
+  iSelect,
+  iMessage,
+  iPagination,
+  iMessageBox
+} from 'rise'
 import {
   queryDetailUser,
   thawUser,
@@ -97,6 +108,7 @@ export default {
   },
   data() {
     return {
+      inputProps: [],
       edit: false,
       tableLoading: false,
       selectTableData: [],
@@ -112,7 +124,11 @@ export default {
     save() {
       this.$refs.commonTable.$refs.commonTableForm.validate((valid) => {
         if (valid) {
-          saveUser(this.tableListData).then((res) => {
+               let req = {
+            saveUserList: this.tableListData,
+            opcsSupplierKeyId: this.$route.query.opcsSupplierId
+          }
+          saveUser(req).then((res) => {
             if (res && res.data == 200) {
               iMessage.success(res.desZh)
             }
@@ -124,6 +140,7 @@ export default {
     getTableData() {
       this.tableLoading = true
       const params = {
+              opcsSupplierId: this.$route.query.opcsSupplierId,
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         ...this.form
@@ -137,9 +154,11 @@ export default {
       })
     },
     editBtn() {
+        this.inputProps=['supplierNum', 'supplierName', 'supplierAddress','contactName','contactMobile','contactEmail','contactTel']
       this.edit = true
     },
     cancelBtn() {
+        this.inputProps=[]
       this.tableListData = []
       this.getTableData()
       this.editMode = false
@@ -183,6 +202,28 @@ export default {
         ...newItem
       })
       this.editMode = true
+    },
+    remove() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      iMessageBox(
+        this.language('QUERENSHANCHUGAIYINGYONG', '确认删除该应用？'),
+        this.language('SHANCHU', '删除'),
+        {
+          confirmButtonText: this.language('SHI', '是'),
+          cancelButtonText: this.language('FOU', '否')
+        }
+      ).then(async () => {
+        this.tableListData.forEach((v) => {
+          this.selectTableData.forEach((j, i) => {
+            if (v === j) {
+              this.tableListData.splice(i, 1)
+            }
+          })
+        })
+      })
     },
     //修改表格改动列
     handleSelectionChange(val) {

@@ -13,7 +13,7 @@
       <div v-if="!editFlag">
         <iButton type="text"
                  class="margin-right20"
-                 @click="handleSync('')"
+                 @click="handleSyncClick('')"
                  v-show="!flag"
                  :disabled="disabled"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
@@ -419,6 +419,16 @@ export default {
       // row.approvalName = obj.id
     },
     handleSync (params) {
+      syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: params || "" }).then(res => {
+        if (res?.code === '200') {
+          this.getTableList()
+          // iMessage.success(res.desZh)
+        } else {
+          // iMessage.error(res.desZh)
+        }
+      })
+    },
+    handleSyncClick (params) {
       syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: params || "" }).then(res => {
         if (res?.code === '200') {
           this.getTableList()

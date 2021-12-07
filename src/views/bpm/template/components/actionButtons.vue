@@ -7,9 +7,9 @@
     <iButton @click="$emit('delete')" :disabled="selectedRows.length === 0">
       {{ $t('APPROVAL.DELETE') }}
     </iButton>
-    <iButton @click="$emit('export')">
+    <!-- <iButton @click="$emit('export')">
       {{ $t('APPROVAL.EXPORT') }}
-    </iButton>
+    </iButton> -->
   </div>
 </template>
 
@@ -21,11 +21,11 @@ export default {
   props: {
     selectedRows: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
-      },
-    },
-  },
+      }
+    }
+  }
 }
 </script>
 
