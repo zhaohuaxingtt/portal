@@ -81,7 +81,6 @@ export default {
         pageNum: 1,
         pageSize: 9999,
         meetingId: this.curMeetingId ? this.curMeetingId : this.meetingId,
-        // meetingTypeId: this.meetingTypeId,
         category: '02'
       }
       let res = await findMyThemens(params).catch(() => {
@@ -101,7 +100,6 @@ export default {
         presentItem: '03',
         pageNum: 1,
         pageSize: 9999,
-        // meetingTypeId: this.meetingTypeId,
         category: '02'
       }
       let res = await findMyThemens(params)
@@ -129,7 +127,6 @@ export default {
         presentItem: '04',
         pageNum: 1,
         pageSize: 9999,
-        // meetingTypeId: this.meetingTypeId
         category: '02'
       }
       let res = await findMyThemens(params)
@@ -153,7 +150,6 @@ export default {
         meetingId: this.meetingInfo.id,
         pageNum: 1,
         pageSize: 9999,
-        // meetingTypeId: this.meetingTypeId
         category: '02'
       }
       findMyThemens(params).then((res) => {

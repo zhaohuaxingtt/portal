@@ -31,14 +31,12 @@
               ${
                 result.endTime
                   ? Number(
-                      result.themens[result.themens.length - 1]
-                        .plusDayEndTime
+                      result.themens[result.themens.length - 1].plusDayEndTime
                     ) > 0
                     ? result.endTime.substring(0, 5) +
                       ' +' +
                       Number(
-                        result.themens[result.themens.length - 1]
-                          .plusDayEndTime
+                        result.themens[result.themens.length - 1].plusDayEndTime
                       )
                     : result.endTime.substring(0, 5)
                   : handleEndTime(result)
@@ -121,29 +119,6 @@
                 class="right-card"
               />
               <div v-else class="empty"></div>
-              <!-- <cardBoxNewVersion
-                    :themen="item[0]"
-                    :total="data.length"
-                    :num="index + 1"
-                    class="right-card"
-                  />
-
-                  <cardBoxNewVersion
-                    v-if="item.length >= 2"
-                    :themen="item[1]"
-                    :total="data.length"
-                    :num="index + 1"
-                    class="right-card"
-                  />
-                  <div v-else class="empty"></div>
-                  <cardBoxNewVersion
-                    v-if="item.length === 3"
-                    :themen="item[2]"
-                    :total="data.length"
-                    :num="index + 1"
-                    class="right-card"
-                  />
-                  <div v-else class="empty"></div> -->
             </div>
           </el-carousel-item>
         </el-carousel>
@@ -157,7 +132,7 @@ import cardBox from './cardBoxNew.vue'
 import { iButton, iMessage } from 'rise'
 import theLiveTable from './theLiveTable.vue'
 import { getMeetingDetail } from '@/api/meeting/home'
-// import { findMyThemens } from '@/api/meeting/myMeeting'
+import { findMyThemens } from '@/api/meeting/myMeeting'
 import { getMettingType } from '@/api/meeting/type'
 import timeClock from '@/assets/images/time-clock.svg'
 import positionMark from '@/assets/images/position-mark.svg'
@@ -265,17 +240,17 @@ export default {
     },
     // 获取详细信息
     async query(obj) {
-      // let param = {
-      //   meetingId: this.$route.query.id,
-      //   // category: '02',
-      //   presentItem: '02',
-      //   pageNum: 1,
-      //   pageSize: 999
-      // }
+      let param = {
+        meetingId: this.$route.query.id,
+        // category: '02',
+        presentItem: '02',
+        pageNum: 1,
+        pageSize: 999
+      }
       const res = await getMeetingDetail(this.$route.query)
       this.result = res
-      // const res2 = await findMyThemens(param)
-      this.data = [...res.themens];
+      const res2 = await findMyThemens(param)
+      this.data = [...res2.data]
       this.newTypeData = this.arrTrans(3, [...this.data])
       this.dataTable = this.data.slice(
         (this.pageNum - 1) * this.pageSize,
@@ -374,32 +349,6 @@ export default {
   margin-bottom: 20px;
   text-align: right;
 }
-/* ::v-deep .switch-block {
-  position: absolute;
-  right: 33px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #fff;
-  font-size: 16px;
-  .el-switch__core {
-    width: 100px !important;
-    height: 36px;
-    border-radius: 36px;
-  }
-  .el-switch__label {
-    position: absolute;
-    transform: translateX(35px);
-    z-index: 1;
-    color: #fff;
-    font-size: 16px;
-  }
-  .el-switch__core::after {
-    width: 30px;
-    height: 30px;
-    z-index: 10;
-    transform: translateY(1px);
-  }
-} */
 ::v-deep .is-checked {
   .el-switch__core::after {
     transform: translate(-13px, 1px);
