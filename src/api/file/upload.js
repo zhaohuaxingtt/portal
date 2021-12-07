@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-08-26 16:00:57
- * @LastEditTime: 2021-10-21 16:28:51
- * @LastEditors: zbin
+ * @LastEditTime: 2021-12-07 17:31:13
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\api\file\upload.js
  */

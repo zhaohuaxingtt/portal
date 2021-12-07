@@ -16,7 +16,7 @@
                          :picker-options="pickerOptionsEnd"
                          format="yyyy-MM-dd"
                          value-format="yyyy-MM-dd"
-                         :placeholder="$t('LK_QINGXUANZE')"/>
+                         :placeholder="language('请选择')"/>
 
             <div slot="footer" class="dialog-footer">
                 <iButton @click="handleSubmit">{{ $t('EKL_QUEREN') }}</iButton>

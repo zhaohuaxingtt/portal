@@ -7,7 +7,7 @@
             <iFormItem :label="$t('时间筛选')" style="margin-right: 0px">
               <iDatePicker
                 v-model="form.createDate_gt"
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                :placeholder="language('请选择')"
                 type="date"
                 format="yyyy-MM-dd"
                 value-format="yyyy-MM-dd"
@@ -18,7 +18,7 @@
             <iFormItem :label="$t('时间筛选')">
               <iDatePicker
                 v-model="form.createDate_le"
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                :placeholder="language('请选择')"
                 type="date"
                 format="yyyy-MM-dd"
                 value-format="yyyy-MM-dd"

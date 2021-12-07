@@ -7,17 +7,11 @@
     icon
   >
     <el-form @submit.native.prevent @keyup.enter.native="sure">
-      <iFormItem :label="$t('APPROVAL.TASK_NAME')">
-        <iInput
-          :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-          v-model="data.name"
-        />
+      <iFormItem :label="language('任务名称')">
+        <iInput :placeholder="language('请输入')" v-model="data.name" />
       </iFormItem>
-      <iFormItem :label="$t('APPROVAL.TASK_STATUS')">
-        <iSelect
-          :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-          v-model="data.status"
-        >
+      <iFormItem :label="language('任务状态')">
+        <iSelect :placeholder="language('请选择')" v-model="data.status">
           <el-option
             v-for="(item, index) in taskStatuses"
             :key="index"
@@ -27,11 +21,8 @@
           </el-option>
         </iSelect>
       </iFormItem>
-      <iFormItem :label="$t('APPROVAL.TASK_AGENT_TYPE')">
-        <iSelect
-          :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-          v-model="data.category"
-        >
+      <iFormItem :label="language('任务类型')">
+        <iSelect :placeholder="language('请选择')" v-model="data.category">
           <el-option
             v-for="(item, index) in taskTypes"
             :key="index"
@@ -41,7 +32,7 @@
           </el-option>
         </iSelect>
       </iFormItem>
-      <iFormItem :label="$t('APPROVAL.TASK_START_END_DATE')">
+      <iFormItem :label="language('任务起止时间')">
         <iDatePicker
           style="width: 300px"
           v-model="data.timeRanges"

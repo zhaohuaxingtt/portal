@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-06 10:11:38
+ * @LastEditTime: 2021-12-07 16:43:25
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -37,6 +37,9 @@
       <table-list :tableData="tableListData"
                   :tableTitle="tableTitle"
                   :tableLoading="tableLoading"
+                  :openPageProps="'nameZh'"
+                  @openPage="openPage"
+                  :openPageGetRowData="true"
                   @handleSelectionChange="handleSelectionChange"
                   :index="true">
       </table-list>
@@ -88,8 +91,6 @@ export default {
     }
   },
   created() {
-    console.log(this.tabledata)
-
     this.getTableData()
   },
   methods: {
@@ -97,6 +98,7 @@ export default {
     handleSelectionChange(val) {
       this.selectTableData = val
     },
+
     //获取列表接口
     getTableData() {
       this.tableLoading = true
@@ -108,7 +110,7 @@ export default {
       queryList(params).then((res) => {
         this.tableLoading = false
         if (res && res.code == 200) {
-          this.tabledata = res.data
+          this.tableListData = res.data
           this.page.totalCount = res.total
         } else iMessage.error(res.desZh)
       })
@@ -142,9 +144,25 @@ export default {
         })
       })
     },
+    openPage(row) {
+        console.log(row)
+      let routeData = this.$router.resolve({
+        path: '/opcs/application/manage',
+        query: {
+          opcsSupplierId: row.id || '',
+          nameZh:row.nameZh||''
+        }
+      })
+      window.open(routeData.href)
+    },
     //导出
     exportsTable() {
-      exportFile()
+      const params = {
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        ...this.form
+      }
+      exportFile(params)
     },
     // 点击重置
     clickReset() {

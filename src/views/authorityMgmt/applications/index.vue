@@ -33,7 +33,9 @@
             <iButton @click="deleteData" :disabled="selectedData.length === 0">
               {{ buttonTitles.delete }}
             </iButton>
-            <iButton @click="exportData">{{ buttonTitles.export }}</iButton>
+            <button-download :download-method="exportData">
+              {{ buttonTitles.export }}
+            </button-download>
             <create-sys-mgm
               v-if="dialogFormVisible"
               :visible="dialogFormVisible"
@@ -84,10 +86,10 @@ import iTableCustom from '@/components/iTableCustom'
 import { tableColumnSetting } from './data/data'
 import CreateSysMgm from './components/CreateSysMgm'
 import { pageMixins } from '@/utils/pageMixins'
-import { sysList, deleteSys, sysExport } from '@/api/provider/index'
 import {
   queryApplicationByPages,
-  deleteApplicationDetail
+  deleteApplicationDetail,
+  exportApplications
 } from '@/api/applications'
 import deleteMixin from '@/mixins/deleteMixin'
 export default {
@@ -183,6 +185,7 @@ export default {
         size: this.page.pageSize,
         current: this.page.currPage
       }
+      this.loading = true
       queryApplicationByPages(param)
         .then((val) => {
           if (val.code == 200) {
@@ -245,13 +248,7 @@ export default {
       })
     },
     exportData() {
-      //导出数据
-      let newFormData = _.cloneDeep(this.formData)
-      newFormData.supplierType = newFormData.supplierType.join(',')
-      let param = {
-        ...newFormData
-      }
-      sysExport(param)
+      return exportApplications({ ...this.formData, systemType: 3 })
     },
     defaultFormData() {
       return {

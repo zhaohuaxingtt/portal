@@ -232,13 +232,10 @@
       <iCard>
         <div class="preview">
           <p class="title">{{ this.ruleForm.title }}</p>
-          <div class="first">
-            <div>
+            <p class="first">
               <span class="author">{{ this.ruleForm.publisher }}</span>
               <span class="time">{{ this.ruleForm.publishDate }}</span>
-            </div>
             <p class="look el-icon-view"> {{ this.ruleForm.clicks }} </p>
-          </div>
           <p class="paragraph" v-html="this.ruleForm.content"></p>
           <el-divider></el-divider>
           <div class="attachmentList">
@@ -738,11 +735,11 @@ export default {
     color: #000000;
     text-align: center;
     font-weight: bold;
+    margin-top: 40px;
   }
   .first {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 60px;
+    text-align: center;
+    margin-top: 20px;
     .author {
       font-size: 12px;
       font-family: PingFangSC-Regular;
@@ -756,13 +753,16 @@ export default {
       line-height: 17px;
       color: #999999;
     }
+  }
     .look {
+      display: flex;
+      justify-content: end;
       font-size: 12px;
       font-family: PingFangSC-Regular;
       line-height: 17px;
       color: #999999;
+      margin: 30px 0;
     }
-  }
   .paragraph {
     font-size: 14px;
     font-family: PingFangSC-Regular;

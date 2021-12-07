@@ -10,21 +10,15 @@
         <el-form inline label-position="top">
           <iFormItem :label="$t('POSITION.POSITION_NAME')">
             <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               v-model="form.fullNameZh"
             />
           </iFormItem>
           <iFormItem :label="$t('POSITION.POSITION_CODE')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.code"
-            />
+            <iInput :placeholder="language('请输入')" v-model="form.code" />
           </iFormItem>
           <iFormItem :label="$t('POSITION.POSITION_USER')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.users"
-            />
+            <iInput :placeholder="language('请输入')" v-model="form.users" />
           </iFormItem>
         </el-form>
         <div class="form-button">
@@ -51,7 +45,7 @@
         </div>
         <div class="confirm-button">
           <iButton @click="save" :disabled="selectedTableData.length === 0">
-            {{ $t('APPROVAL.OK') }}
+            {{ language('确定') }}
           </iButton>
         </div>
       </div>

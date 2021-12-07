@@ -10,7 +10,7 @@
                 <el-form-item class="fw" :label="$t('EKL_JIAGEBIANHUA')">
                     <iSelect style="width: 140px;height: 30px; font-size: 12px;"
                              filterable
-                             :placeholder="$t('LK_QINGXUANZE')"
+                             :placeholder="language('请选择')"
                              v-model="gc_code">
                         <el-option
                                 :value="item.code"

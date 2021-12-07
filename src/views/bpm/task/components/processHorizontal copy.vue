@@ -19,7 +19,7 @@
           :class="{
             list: !isSingleApprover(value.assigneeList),
             acitve: isAssigneeListActive(key, value.assigneeList),
-            normal: !isSingleApprover(value.assigneeList),
+            normal: !isSingleApprover(value.assigneeList)
           }"
         >
           <ul v-if="!isSingleApprover(value.assigneeList)">
@@ -79,32 +79,32 @@ export default {
   props: {
     finishedNodeMap: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
-      },
+      }
     },
     currentNode: {
       type: Object,
-      default: function() {
+      default: function () {
         return {
-          taskDefinitionKey: 'start',
+          taskDefinitionKey: 'start'
         }
-      },
-    },
+      }
+    }
   },
   components: {
-    Icon,
+    Icon
   },
   data() {
     return {
       nodeTextmap: {
-        1: this.$t('APPROVAL.SUBMITTED'),
-        2: this.$t('APPROVAL.APPROVAL_TODO'),
-        3: this.$t('APPROVAL.APPROVED'),
-        4: this.$t('APPROVAL.APPROVAL_ING'),
+        1: this.language('已提交'),
+        2: this.language('待审批'),
+        3: this.language('已审批'),
+        4: this.language('审批中'),
         5: '执行过，可能还会执行',
-        6: this.$t('APPROVAL.APPROVAL_END'),
-      },
+        6: this.language('审批结束')
+      }
     }
   },
   computed: {
@@ -113,7 +113,7 @@ export default {
     },
     currentNodeIndex() {
       return this.finishedNodeKeys.indexOf(this.currentNode.taskDefinitionKey)
-    },
+    }
   },
   methods: {
     getIcon(nodeKey) {
@@ -202,8 +202,8 @@ export default {
         }
       })
       return approvers
-    },
-  },
+    }
+  }
 }
 </script>
 

@@ -27,9 +27,13 @@
             prop="meeting"
             :hideRequiredAsterisk="true"
           >
-            <iLabel :label="$t('MT_XUANZEHUIYI')" slot="label" required></iLabel>
+            <iLabel
+              :label="$t('MT_XUANZEHUIYI')"
+              slot="label"
+              required
+            ></iLabel>
             <iSelect
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="ruleForm.meeting"
               disabled
             >
@@ -79,9 +83,13 @@
             prop="meeting"
             :hideRequiredAsterisk="true"
           >
-            <iLabel :label="$t('MT_XUANZEHUIYI')" slot="label" required></iLabel>
+            <iLabel
+              :label="$t('MT_XUANZEHUIYI')"
+              slot="label"
+              required
+            ></iLabel>
             <iSelect
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="ruleForm.meeting"
             >
               <el-option
@@ -408,9 +416,8 @@
                     :loading="uploadLoading"
                     disabled
                   >
-                    {{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text"
-                      ><img :src="uploadIcon"
-                    /></span>
+                    {{ $t('MT_QINGXUANZEWENJIAN')
+                    }}<span class="upload-text"><img :src="uploadIcon" /></span>
                   </iButton>
                   <!-- <div slot="tip" class="el-upload__tip">
                     文件大小最大限制10M
@@ -430,16 +437,17 @@
                     class="upload-button"
                     :loading="uploadLoading"
                   >
-                    {{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text"
-                      ><img :src="uploadIcon"
-                    /></span>
+                    {{ $t('MT_QINGXUANZEWENJIAN')
+                    }}<span class="upload-text"><img :src="uploadIcon" /></span>
                   </iButton>
                   <!-- <div slot="tip" class="el-upload__tip">
                   文件大小最大限制10M
                 </div> -->
                 </el-upload>
               </iFormItem>
-              <div class="el-upload-text">{{$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}}30M</div>
+              <div class="el-upload-text">
+                {{ $t('MT_WENJIANDAXIAOZUIDAXIANZHI') }}30M
+              </div>
             </div>
             <ul class="file-list">
               <li v-for="(item, index) of attachments" :key="index">

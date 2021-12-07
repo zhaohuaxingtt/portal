@@ -64,14 +64,18 @@
                    :tableData="ruleTableListData"
                    :tableTitle="ruleTableTitle1_1"
                    :tableLoading="loading"
-                   v-if="uploadTableGz && !RsObject && ruleTableListData.length>0"
+                   v-if="!RsObject && ruleTableListData.length>0"
                    :index="true"
                    :selection="false"
                    >
+          <template slot-scope="scope"
+            slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+          </template>
         </tableList>
         <tableList class="margin-top20"
                    :tableData="ruleTableListData"
-                   v-if="uploadTableGz && !RsObject && ruleTableListData.length>0"
+                   v-if="!RsObject && ruleTableListData.length>0"
                    :tableTitle="ruleTableTitle1_2"
                    :tableLoading="loading"
                    :index="true"
@@ -81,13 +85,9 @@
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
-          <template slot-scope="scope"
-                    slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
         </tableList>
         <!-- 导出规则表格不是贵金属合金 -->
-        <tableList class="margin-top20"
+        <!-- <tableList class="margin-top20"
                    :tableData="ruleTableListData"
                    :tableTitle="ruleTableTitle2_1"
                    :tableLoading="loading"
@@ -112,7 +112,7 @@
                     slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
-        </tableList>
+        </tableList> -->
 
         <el-divider v-if="RsObject" />
         <el-divider class="margin-top20"
@@ -147,7 +147,7 @@
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_1"
                    :tableLoading="loading"
-                   v-if="uploadTableLj && !RsObject && partTableListData.length>0"
+                   v-if="!RsObject && partTableListData.length>0"
                    :index="true"
                    :selection="false"
                    >
@@ -160,7 +160,7 @@
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_2"
                    :tableLoading="loading"
-                   v-if="uploadTableLj && !RsObject && partTableListData.length>0"
+                   v-if="!RsObject && partTableListData.length>0"
                    :index="true"
                    :selection="false"
                    >
@@ -169,11 +169,11 @@
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
         </tableList>
-        <tableList class="margin-top20"
+        <!-- <tableList class="margin-top20"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_3"
                    :tableLoading="loading"
-                   v-if="uploadTableLj && !RsObject && partTableListData.length>0"
+                   v-if="!RsObject && partTableListData.length>0"
                    :index="true"
                    :selection="false"
                    >
@@ -181,13 +181,13 @@
                     slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
-        </tableList>
+        </tableList> -->
         <!-- 导出零件表格不是贵金属合金 -->
-        <tableList class="margin-top20"
+        <!-- <tableList class="margin-top20"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle2_1"
                    :tableLoading="loading"
-                   v-if="!uploadTableLj && !RsObject && partTableListData.length>0"
+                   v-if="!!RsObject && partTableListData.length>0"
                    :index="true"
                    :selection="false"
                    >
@@ -200,7 +200,7 @@
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle2_2"
                    :tableLoading="loading"
-                   v-if="!uploadTableLj && !RsObject && partTableListData.length>0"
+                   v-if="!!RsObject && partTableListData.length>0"
                    :index="true"
                    :selection="false"
                    >
@@ -212,7 +212,7 @@
                     slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
-        </tableList>
+        </tableList> -->
 
       </iCard>
       <iCard class="margin-top20">
@@ -264,7 +264,18 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1, ruleTableTitle1_1, ruleTableTitle1_2, partTableTitle1, partTableTitle1_1, partTableTitle1_2,partTableTitle1_3,ruleTableTitle2_2,ruleTableTitle2_1,partTableTitle2_2,partTableTitle2_1 } from './data'
+import { ruleTableTitle1,
+          ruleTableTitle1_1, 
+          ruleTableTitle1_2, 
+          partTableTitle1, 
+          partTableTitle1_1, 
+          partTableTitle1_2,
+          // partTableTitle1_3,
+          // ruleTableTitle2_2,
+          // ruleTableTitle2_1,
+          // partTableTitle2_2,
+          // partTableTitle2_1
+} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
@@ -289,14 +300,14 @@ export default {
       ruleTableTitle1: ruleTableTitle1,
       ruleTableTitle1_1,
       ruleTableTitle1_2,
-      ruleTableTitle2_1,
-      ruleTableTitle2_2,
+      // ruleTableTitle2_1,
+      // ruleTableTitle2_2,
       partTableTitle1: partTableTitle1,
       partTableTitle1_1,
       partTableTitle1_2,
-      partTableTitle1_3,
-      partTableTitle2_1,
-      partTableTitle2_2,
+      // partTableTitle1_3,
+      // partTableTitle2_1,
+      // partTableTitle2_2,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
@@ -315,8 +326,8 @@ export default {
       RsObject: true,
       moment: window.moment,
 
-      uploadTableLj:false,
-      uploadTableGz:false,
+      // uploadTableLj:false,
+      // uploadTableGz:false,
     }
   },
   watch: {
@@ -427,11 +438,11 @@ export default {
         if (res && res.code == 200) {
           this.ruleTableListData = res.data
       
-          res.data.forEach(e=>{//判断是否有贵金属合金
-            if(e.preciousMetalDosageUnit !== ""){
-              this.uploadTableGz = true;
-            }
-          })
+          // res.data.forEach(e=>{//判断是否有贵金属合金
+          //   if(e.preciousMetalDosageUnit !== ""){
+          //     this.uploadTableGz = true;
+          //   }
+          // })
 
           this.rulePageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
@@ -457,11 +468,11 @@ export default {
         if (res && res.code == 200) {
           this.partTableListData = res.data
 
-          res.data.forEach(e=>{//判断是否有贵金属合金
-            if(e.preciousMetalDosageUnit !== ""){
-              this.uploadTableLj = true;
-            }
-          })
+          // res.data.forEach(e=>{//判断是否有贵金属合金
+          //   if(e.preciousMetalDosageUnit !== ""){
+          //     this.uploadTableLj = true;
+          //   }
+          // })
 
           this.partPageParams.totalCount = res.total
         } else iMessage.error(res.desZh)

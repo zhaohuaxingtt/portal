@@ -9,14 +9,14 @@
     </template>
     <div>
       <div class="head">
-        <h3>{{ '演变进程' }}</h3>
+        <h3>{{ language('LK_YANBIANJINCHENG', '演变进程') }}</h3>
         <iButton @click="exportFile">{{ language('LK_DAOCHU', '导出') }}</iButton>
       </div>
       <div class="content">
         <div class="left">
           <h4>{{ 'Aeko /AeA' }}</h4>
           <div>
-            价格变化
+            {{ language('LK_JIAGEBIANHUA', '价格变化') }}
             <iSelect
               :placeholder="language('LK_QINGXUANZHE', '请选择')"
               filterable

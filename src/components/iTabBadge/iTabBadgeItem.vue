@@ -7,7 +7,7 @@
     <span class="badge" :class="{ large: badge > 99 }" v-if="badge > 0">
       {{ badge > 99 ? '99+' : badge }}
     </span>
-    <span class="name">{{ name }}</span>
+    <span :class='{"nameActive":active,"name":!active}' >{{ name }}</span>
   </div>
 </template>
 
@@ -40,8 +40,8 @@ export default {
   color: rgba(0, 0, 0, 0.42);
   position: relative;
   cursor: pointer;
-  padding: 0px 5px;
-  margin: 0px 20px;
+  // padding: 0px 5px;
+  margin: 0px 0px 0px 49px ;
   &::after {
     content: '';
     display: block;
@@ -81,8 +81,11 @@ export default {
       left: 0;
     }
   }
-  .name {
+  .nameActive {
     font-weight: bold;
+  }
+  .name{
+    font-weight:normal
   }
   .badge {
     min-width: 20px;

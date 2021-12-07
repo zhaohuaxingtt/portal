@@ -1,10 +1,10 @@
 <template>
   <div class="action-row">
     <iButton @click="extraData.editRow(row)">
-      {{ $t('APPROVAL.EDIT') }}
+      {{ language('编辑') }}
     </iButton>
     <iButton @click="extraData.deleteRow([row])">
-      {{ $t('APPROVAL.DELETE') }}
+      {{ language('删除') }}
     </iButton>
   </div>
 </template>
@@ -14,18 +14,18 @@ import { iButton } from 'rise'
 export default {
   name: 'actionRow',
   components: {
-    iButton,
+    iButton
   },
   props: {
     row: {
       type: Object,
-      require: true,
+      require: true
     },
     extraData: {
       typw: Object,
-      require: true,
-    },
-  },
+      require: true
+    }
+  }
 }
 </script>
 

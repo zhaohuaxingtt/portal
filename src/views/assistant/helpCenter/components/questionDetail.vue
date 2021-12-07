@@ -147,7 +147,7 @@ export default {
 		}
 		.title-des {
 			color: #000000;
-			font-size: 18px;
+			font-size: 16px;
 			font-weight: bold;
 			height: 40px;
 		}

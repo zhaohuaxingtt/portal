@@ -24,7 +24,7 @@
             :key="index"
           >
             <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               v-model="query[item.value]"
               v-if="item.type === 'input'"
             />
@@ -140,28 +140,28 @@ export default {
     searchMethod: Function,
     title: {
       type: String,
-      default: function() {
+      default: function () {
         return '选择器'
       },
       required: true
     },
     filter: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       },
       required: true
     },
     tableSetting: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       },
       required: true
     },
     value: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       },
       required: true
@@ -204,7 +204,7 @@ export default {
       listSelectedByPage = new Map()
     },
     handleConfirm() {
-      this.$refs['ruleForm'].validate(valid => {
+      this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           this.$emit('change', this.listSelected)
           this.isShow = false
@@ -228,11 +228,11 @@ export default {
     },
     handleTagClose(tag) {
       let listSelected = _.cloneDeep(this.listSelected)
-      listSelected = listSelected.filter(item => {
+      listSelected = listSelected.filter((item) => {
         return item.id !== tag.id
       })
       for (let [key, value] of listSelectedByPage.entries()) {
-        const arr = value.filter(v => {
+        const arr = value.filter((v) => {
           return v.id !== tag.id
         })
         listSelectedByPage.set(key, arr)
@@ -243,14 +243,14 @@ export default {
       this.toggleSelection()
     },
     toggleSelection() {
-      const ids = listSelectedByPage.get(this.page.currPage)?.map(item => {
+      const ids = listSelectedByPage.get(this.page.currPage)?.map((item) => {
         return item.id
       })
       const arr = []
       const arrUn = []
       const rows = arr
       const rowSUn = arrUn
-      this.tableData.forEach(data => {
+      this.tableData.forEach((data) => {
         if (ids?.includes(data.id)) {
           arr.push(data)
         } else {
@@ -259,7 +259,7 @@ export default {
       })
 
       if (rows && rows.length) {
-        rows.forEach(row => {
+        rows.forEach((row) => {
           this.$nextTick(() => {
             this.$refs.multipleTable.toggleRowSelection(row, true)
           })
@@ -269,7 +269,7 @@ export default {
       }
 
       if (rowSUn && rowSUn.length) {
-        rowSUn.forEach(row => {
+        rowSUn.forEach((row) => {
           this.$nextTick(() => {
             this.$refs.multipleTable.toggleRowSelection(row, false)
           })
@@ -286,10 +286,10 @@ export default {
         for (let value of listSelectedByPage.values()) {
           arr = arr.concat(value)
         }
-        const arrIds = arr.map(li => {
+        const arrIds = arr.map((li) => {
           return li.id
         })
-        listSelected.forEach(item => {
+        listSelected.forEach((item) => {
           if (!arrIds.includes(item.id)) {
             arr.push(item)
           }
@@ -302,7 +302,7 @@ export default {
     handleOpen() {
       this.listSelected = _.cloneDeep(this.value)
       const query = _.cloneDeep(this.query)
-      this.filter.forEach(item => {
+      this.filter.forEach((item) => {
         query[item.value] = item.initVal
       })
       this.query = _.cloneDeep(query)
@@ -314,18 +314,18 @@ export default {
       this.getList()
     },
     reset() {
-      this.filter.forEach(item => {
+      this.filter.forEach((item) => {
         this.query[item.value] = item.initVal
       })
       this.page.currPage = 1
       this.getList()
     },
     getListSelectedByPage() {
-      const ids = this.listSelected.map(li => {
+      const ids = this.listSelected.map((li) => {
         return li.id
       })
       const arr = []
-      this.tableData.find(t => {
+      this.tableData.find((t) => {
         if (ids.includes(t.id)) {
           arr.push(t)
         }

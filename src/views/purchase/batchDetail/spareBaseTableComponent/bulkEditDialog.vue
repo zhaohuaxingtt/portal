@@ -13,13 +13,13 @@
                     <div style="display: grid">
                         <div style="grid-row: 1/2">
                             <el-form-item :label="$t('EKL_GYS')">
-                                <iInput style="width: 320px" disabled :placeholder="$t('LK_QINGSHURU')"
+                                <iInput style="width: 320px" disabled :placeholder="language('请输入')"
                                         v-model="gysName"></iInput>
                             </el-form-item>
                         </div>
                         <div style="grid-row: 1/2;">
                             <el-form-item style="padding-left: 40px;" :label="$t('EKL_CGGC')">
-                                <iInput style="width: 320px;" disabled :placeholder="$t('LK_QINGSHURU')"
+                                <iInput style="width: 320px;" disabled :placeholder="language('请输入')"
                                         v-model="cggcName"></iInput>
                             </el-form-item>
                         </div>
@@ -31,7 +31,7 @@
                     <div style="display: grid">
                         <div style="grid-row: 1/2">
                             <el-form-item :label="$t('EKL_QRSL')">
-                                <iInput style="width: 320px" disabled :placeholder="$t('LK_QINGSHURU')"
+                                <iInput style="width: 320px" disabled :placeholder="language('请输入')"
                                         v-model="form.confirmQuantity"></iInput>
                             </el-form-item>
                         </div>
@@ -41,7 +41,7 @@
                                         oninput="value = value.replace(/[^\d.]/g,'').replace(/\.{2,}/g,'.')"
                                         @focus="onFocus(form.confirmPrice)"
                                         @blur="onBlur(form.confirmPrice)"
-                                        style="width: 320px;" :placeholder="$t('LK_QINGSHURU')"
+                                        style="width: 320px;" :placeholder="language('请输入')"
                                         v-model="form.confirmPrice"></iInput>
                             </el-form-item>
                         </div>
