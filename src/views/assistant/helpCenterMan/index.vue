@@ -213,30 +213,13 @@ export default {
 			this.changeReq()
 		},
 		changeReq(){
-			if(this.activeMoudle == 'manual'){
-				if(!this.manualInfo.id && this.manualInfo.list.length > 0){
-					this.manualInfo.id = this.manualInfo.list[0]?.id
-					this.manualInfo.activeInfo = this.manualInfo.list[0]
-					this.queryManualDetail()
-				}
-			}else{
-				if(!this.qsInfo.id && this.qsInfo.list.length > 0){
-					this.qsInfo.id = this.qsInfo.list[0]?.id
-					this.qsInfo.activeInfo = this.qsInfo.list[0]
-					this.queryProblemDetail()
-				}
-			}
-		},
-		// 用户类型切换
-		typeChange(t){
-			this.activeUser = t.name
 			if(this.activeMoudle == 'question'){
 				this.qsInfo.id = ""
 				this.$set(this.qsInfo,"activeInfo",{})
 				this.$set(this.qsInfo,"detail",{})
 				this.$nextTick(async () => {
 					this.refreshQs()
-					this.qsInfo.moduleList = await this.$refs.qs.getModuleList(t.name)
+					this.qsInfo.moduleList = await this.$refs.qs.getModuleList(this.activeUser)
 				})
 			}else{
 				this.manualInfo.id = ""
@@ -244,6 +227,13 @@ export default {
 				this.$set(this.manualInfo,"detail",{})
 				this.getProbleList()
 			}
+		},
+		// 用户类型切换
+		typeChange(t){
+			this.activeUser = t.name
+			this.$nextTick(() =>{
+				this.changeReq()
+			})
 		},
 		// 查询用户手册详情
 		async queryManualDetail(){
