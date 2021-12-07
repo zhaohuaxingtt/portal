@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="manage-box">
     <iPage>
       <div class="tab-list-box">
         <div class="title">{{language('NEWS_XINWENGUANLI', '新闻管理')}}</div>
@@ -34,6 +34,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.manage-box{
+  height: calc(100vh - 62px);
+}
 .tab-list-box {
   display: flex;
   justify-content: space-between;

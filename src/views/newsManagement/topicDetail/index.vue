@@ -65,7 +65,7 @@
             <div class="text">
               {{ item.summary }}
             </div>
-            <a :href="item.linkUrl" target="_blank" class="link">{{
+            <a :href="item.linkUrl" target="_blank" class="link" @click="goDetail(item,index)">{{
               item.linkUrl
             }}</a>
             <!-- <div class="link" @click="clickLink(item.linkUrl)">
@@ -89,7 +89,7 @@
 
 <script>
 import { iCard, iPage, iButton } from 'rise'
-import { findTopicDetailById, findNewsCards, topicLikes } from '@/api/news/news'
+import { findTopicDetailById, findNewsCards, topicLikes, increasePageViews } from '@/api/news/news'
 import likeGray from '@/assets/images/news/likeGray.svg'
 import likeRed from '@/assets/images/news/likeRed.svg'
 import share from '@/assets/images/news/share.svg'
@@ -128,6 +128,10 @@ export default {
     // clickLink(url) {
     //   window.open(url, '_blank')
     // },
+    goDetail(val,index){
+      increasePageViews({ id: val.id });
+      this.cardsRuleForm[index].pageviews+=1;
+    },
     handleLike() {
       const id = this.id
       topicLikes({ id }).then(() => {
