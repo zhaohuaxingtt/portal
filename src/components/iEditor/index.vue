@@ -72,9 +72,9 @@ export default {
   methods: {
     textChange() {
       this.editorContent = this.editorContent.replace(/<img*/g,`<img class="editor-img" `)
-          console.log(this.editorContent);
+        console.log(this.editorContent);
         this.$emit('input', this.editorContent)
-        this.$$forceUpdate()
+        this.$forceUpdate()
         this.$nextTick(async () => {
           let imgs = this.$refs.vueEditor ? this.$refs.vueEditor.$el.querySelectorAll('img') : ""
 

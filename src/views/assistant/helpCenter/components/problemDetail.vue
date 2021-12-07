@@ -234,7 +234,7 @@ export default {
 				this.dialogVisible = true
 				this.fileUrl = file.fileUrl
 			} else {
-				getFileId(this.attach[0]?.bizId).then((res) => {
+				getFileId(file?.bizId).then((res) => {
 					console.log(res, '1111111111')
 				})
 			}

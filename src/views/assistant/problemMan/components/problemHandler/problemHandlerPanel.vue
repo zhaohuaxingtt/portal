@@ -59,7 +59,7 @@
           <template v-if="cardSelectItem.questionStatus === 'unreply'">
             <template v-if="!isReplyStatus">
               <i-button @click="replyHandler">{{ language('答复') }}</i-button>
-              <i-button @click="dispatchHandler">{{ language('指派') }}</i-button>
+              <i-button @click="dispatchHandler">{{ language('转派') }}</i-button>
             </template>
             <template v-else>
               <i-button @click="sendMessageHandler">{{
@@ -259,7 +259,7 @@ export default {
 				console.log("=====")
 				window.location.href = file.fileUrl
 			} else {
-				getFileId(this.attach[0]?.bizId).then((res) => {
+				getFileId(file?.bizId).then((res) => {
 					console.log(res, '1111111111')
 				})
 			}
@@ -368,7 +368,19 @@ export default {
       if (response?.code === '200') {
         const { data } = response;
         this.questionDetail = data;
-        this.$refs.attachment.fileList = data.attachmentDTOList || []
+        // 获取当前问题的附件(用户上传及管理员回复的附件)
+        let currQuesFileList = []
+        if (data.attachmentDTOList.length > 0) {
+          currQuesFileList = data.attachmentDTOList || []
+        }
+        if (data.replyQuestionList.length > 0) {
+          data.replyQuestionList.map(item => {
+            if (item.attachmentList.length > 0) {
+              currQuesFileList = currQuesFileList.concat(item.attachmentList)
+            }
+          })
+        }
+        this.$refs.attachment.fileList = currQuesFileList || []
         this.editForm = {
           questionLableId: data?.questionLableId,
           questionModuleId: data?.questionModuleId,

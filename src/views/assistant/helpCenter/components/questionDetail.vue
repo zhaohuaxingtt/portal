@@ -1,5 +1,5 @@
 <template>
-  <div class="right-content ml20" v-loading="detailLoading">
+  <div class="right-content ml20 flex flex-column" v-loading="detailLoading">
 	<div class="search-box flex justify-end items-center">
 		<iButton @click="handleQuestion">{{ language('我要提问') }}</iButton>
 	</div>
@@ -15,6 +15,13 @@
 			</div>
 		</div>
 	</div>
+	<div class="mt20">
+		<AttachmentDownload 
+			ref="attachment"
+			v-show="showAttachFlag"
+			@loadAttach="loadAttach"
+		/>
+	</div>
 	<div class="solution-box" v-show="solutionFlag">
 		<div class="good-box flex flex-row items-center justify-center cursor" @click="good">
 			<img src="@/assets/images/good.png" alt="" class="icon-png">
@@ -25,18 +32,27 @@
 			<div class="bad-text">未解决</div>
 		</div>
 	</div>
-	
+	<el-dialog
+		title="查看图片"
+		:visible="dialogVisible"
+		@close="closeDialog"
+	>
+		<img :src="fileUrl" alt="">
+	</el-dialog>
   </div>
 </template>
 
 <script>
 import { iButton } from 'rise';
 import { queryDetailByIdApi, judgeFavour, updateFavour } from '@/api/assistant'
+import { getFileId } from "@/api/assistant/uploadFile.js"
+import AttachmentDownload from '../../components/attachmentDownload'
 import moment from 'moment'
 export default {
 	name: 'QuestionDetail',
 	components: {
-		iButton
+		iButton,
+		AttachmentDownload
 	},
 	props: {
 		moudleList: {
@@ -46,6 +62,8 @@ export default {
 	},
 	data() {
 		return {
+			dialogVisible: false,
+			fileUrl: '',
 			detailLoading: false,
 			solutionFlag: false,
 			title: '',
@@ -53,12 +71,43 @@ export default {
 			chatList: [],
 			currQuesFavourFlag: false,  //  当前问题是否点赞
 			currQuestionId: null,  //  当前问题id
-			currQuesInfo: null  //  当前问题的全部信息
+			currQuesInfo: null,  //  当前问题的全部信息
+			showAttachFlag: false
 		}
 	},
 	methods: {
+		closeDialog() {
+			this.dialogVisible = false
+		},
+		// 下载详情附件
+		loadAttach(file) {
+			let fileTypeArr = ['jpg',
+				'jpeg',
+				'gif',
+				'png',
+				'txt',
+				'doc',
+				'docx',
+				'xls',
+				'xlsx',
+				'ppt',
+				'pptx',
+				'pdf']
+			const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
+			console.log(fileExtension, '23456')
+			if (fileTypeArr.includes(fileExtension)) {
+				console.log("=====")
+				// window.location.href = file.fileUrl
+				this.dialogVisible = true
+				this.fileUrl = file.fileUrl
+			} else {
+				getFileId(file?.bizId).then((res) => {
+					console.log(res, '1111111111')
+				})
+			}
+		},
 		good() {
-			if (this.currQuesFavourFlag) return  // 已对该问题点赞
+			if (this.currQuesFavourFlag) return this.$message.warning("您已对该问题点赞, 请勿重复点击")  // 已对该问题点赞
 			updateFavour(this.currQuestionId).then((res) => {
 				if (res?.code === '200') {
 					this.$message.success("很开心该回答能帮助您...")
@@ -83,8 +132,8 @@ export default {
 					this.moudleName = item.menuName
 				}
 			})
+			await this.getQuesDetail(list.id)
 			await this.getJudgeFavour()
-			this.getQuesDetail(list.id)
 		},
 		async getQuesDetail(id) {
 			if (!id) return
@@ -92,9 +141,24 @@ export default {
 			await queryDetailByIdApi(id).then((res) => {
 				if (res?.code === '200') {
 					const { data } = res
+					// 获取当前问题的附件(用户上传及管理员回复的附件)
+					let currQuesFileList = []
+					if (data.attachmentDTOList.length > 0) {
+						this.showAttachFlag = true
+						currQuesFileList = data.attachmentDTOList || []
+					}
+					if (data.replyQuestionList.length > 0) {
+						data.replyQuestionList.map(item => {
+							if (item.attachmentList.length > 0) {
+								this.showAttachFlag = true
+								currQuesFileList = currQuesFileList.concat(item.attachmentList)
+							}
+						})
+					}
+					this.$refs.attachment.fileList = currQuesFileList || []
 					this.currQuesInfo = data
 					this.solutionFlag = this.currQuesInfo.questionStatus === 'reply' ? true : false
-					this.dealData(data?.replyQuestionList || [], data?.questionTitle, data?.createDate )
+					this.dealData(data?.replyQuestionList || [], data?.questionTitle, data?.createDate)
 					this.detailLoading = false
 				}
 			})
@@ -127,14 +191,14 @@ export default {
 <style lang="scss" scoped>
 	@import "../../comon.scss";
 	.right-content {
-		width: 100%;
+		width: 72%;
 		height: 100%;
 		background: #FFFFFF;
 		box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
 		opacity: 1;
 		border-radius: 5px;
 		padding: 30px 40px 20px 40px;
-		overflow: auto;
+		// overflow: auto;
 		.search-box {
 			height: 60px;
 		}
@@ -161,6 +225,7 @@ export default {
 			font-size: 14px;
 		}
 		.ques-box {
+			flex: 1;
 			margin-top: 40px;
 			height: 420px;
 			border: 1px solid #F2F2F2;
@@ -194,7 +259,7 @@ export default {
 		}
 	}
 	.solution-box {
-		margin-top: 80px;
+		margin-top: 20px;
 		display: flex;
 		align-items: center;
 		justify-content: center
