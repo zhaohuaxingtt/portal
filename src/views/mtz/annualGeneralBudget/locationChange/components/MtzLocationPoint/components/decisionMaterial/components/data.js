@@ -156,7 +156,7 @@ export const ruleTableTitle1_1 = [
   {
     props: 'supplierId',
     name: '供应商编号/简称',
-    key: 'GYSBHMC',
+    key: 'GYSBHJC',
     overlap:true,
     overlapbottom:"Supplier"
   },
@@ -326,7 +326,7 @@ export const ruleTableTitle2_2 = [
 export const partTableTitle1 = [
   { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO', width: 150 },
   { props: 'partName', name: '零件名称', key: 'LINGJIANMINGCHENG', width: 150 },
-  { props: 'supplierId', name: '供应商编号/简称', key: 'GYSBHMC', width: 150,tooltip: true },
+  { props: 'supplierId', name: '供应商编号/名称', key: 'GYSBHMC', width: 150,tooltip: true },
   { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO', width: 150 },
   { props: 'priceUnit', name: '每', key: 'MEI', width: 150 },
   {
@@ -419,7 +419,7 @@ export const partTableTitle1_1 = [
     overlap:true,
     overlapbottom:"Material "
   },
-  { props: 'supplierId', name: '供应商编号/名称', key: 'GYSBHMC',width:200,
+  { props: 'supplierId', name: '供应商编号/简称', key: 'GYSBHJC',width:200,
     overlap:true,
     overlapbottom:"Supplier"
   },
