@@ -11,7 +11,7 @@
             <el-form >
                 <el-row class="margin-bottom20">
                     <el-form-item  :label="$t('SUPPLIER_KESHI')">
-                        <iSelect :placeholder="$t('LK_QINGXUANZE')"
+                        <iSelect :placeholder="language('请选择')"
                                  v-model="form.ksId"
                                  @change="changeValue"
                         >
@@ -24,7 +24,7 @@
                         </iSelect>
                     </el-form-item>
                     <el-form-item  label="Linie">
-                        <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.linieId">
+                        <iSelect :placeholder="language('请选择')" v-model="form.linieId">
                             <!--<el-option value="" :label="$t('all')"></el-option>-->
                             <el-option
                                     :value="item.id"
