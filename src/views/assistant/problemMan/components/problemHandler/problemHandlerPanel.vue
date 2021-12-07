@@ -99,7 +99,9 @@
                   </el-col>
                   <el-col :span="8">
                     <iFormItem :label="$t('问题来源')">
-                      <iInput v-model="editForm.source" :disabled="isDisabledQuestion" />
+                      <iSelect v-model="editForm.source" :disabled="isDisabledQuestion">
+                        <el-option v-for="(v,k) in userTypes" :key="k" :label="v" :value="k"></el-option>
+                      </iSelect>
                     </iFormItem>
                   </el-col>
                 </el-row>
@@ -225,7 +227,11 @@ export default {
       },
 
       l_loading:false,
-      noMore:false
+      noMore:false,
+      userTypes:{
+        inner: "内部用户",
+        supplier:"供应商用户"
+      }
     }
   },
   async mounted () {
@@ -363,14 +369,10 @@ export default {
         const { data } = response;
         this.questionDetail = data;
         this.$refs.attachment.fileList = data.attachmentDTOList || []
-        let types = {
-          inner: "内部用户",
-          supplier:"供应商用户"
-        }
         this.editForm = {
           questionLableId: data?.questionLableId,
           questionModuleId: data?.questionModuleId,
-          source: types[data?.source] || ""
+          source: data?.source
         }
         // 查询标签列表
         this.queryLabelByModuleId(data?.questionModuleId);

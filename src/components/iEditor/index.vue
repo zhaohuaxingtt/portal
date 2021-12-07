@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-editor">
+  <div class="vue-editor" v-loading="loading">
     <div v-if="disabled" v-html="value"></div>
     <vue-editor
       v-else
@@ -11,11 +11,20 @@
       @selection-change="handleSelectionChange"
       ref="vueEditor"
     />
+    <el-dialog
+      title="提示"
+      :visible.sync="dialog"
+      width="500px"
+      append-to-body
+      center>
+      <img :src="imgUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 <script>
 import { VueEditor } from 'vue2-editor'
 import { uploadFileWithNOTokenTwo } from '@/api/file/upload'
+
 export default {
   name: 'Editor',
   props: {
@@ -50,7 +59,11 @@ export default {
   data() {
     return {
       editorContent: '',
-      blurCursorIndex: 0
+      blurCursorIndex: 0,
+
+      dialog:false,
+      imgUrl:"",
+      loading:false
     }
   },
   created() {
@@ -58,22 +71,77 @@ export default {
   },
   methods: {
     textChange() {
-      this.$emit('input', this.editorContent)
+      this.editorContent = this.editorContent.replace(/<img*/g,`<img class="editor-img" `)
+          console.log(this.editorContent);
+        this.$emit('input', this.editorContent)
+        this.$$forceUpdate()
+        this.$nextTick(async () => {
+          let imgs = this.$refs.vueEditor ? this.$refs.vueEditor.$el.querySelectorAll('img') : ""
+
+          if(imgs){
+            let img = Array.from(imgs).find(e => {
+              return e.src.includes("data:image/")
+              // 图片预览
+              // e.addEventListener("click",(el) => {
+              //   el.stopPropagation()
+              //   this.dialog = true
+              //   this.imgUrl = el.target.src
+              // })
+            })
+            console.log(img);
+            if(img){
+              let file = this.dataURLtoFile(img.src,'test.png')
+              // let path = await this.upload(file)
+              // console.log(path);
+
+              // this.handleImageAdded(file,this.$refs.vueEditor.quill,0,this.$refs.vueEditor.resetUploader)
+              // this.$refs.vueEditor.imageAdded(file)
+            }
+          }
+        })
+    },
+    dataURLtoFile(dataurl, filename) {
+      let arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, { type: mime });
     },
     async handleImageAdded(file, Editor, cursorLocation, resetUploader) {
-      const formData = new FormData()
-      formData.append('businessId', 1)
-      formData.append('type', 1)
-      formData.append('isTemp', 0)
-      formData.append('applicationName', 'rise')
-      formData.append('file', file)
-      formData.append(
-        'currentUser',
-        this.$store.state.permission.userInfo.userName
-      )
-      const { path } = await uploadFileWithNOTokenTwo(formData)
-      Editor.insertEmbed(cursorLocation, 'image', path)
-      resetUploader()
+      console.log(file,Editor, cursorLocation, resetUploader);
+      console.log(cursorLocation, resetUploader);
+      this.loading = true
+      try {
+        let path = await this.upload(file)
+        Editor.insertEmbed(cursorLocation, 'image', path)
+        resetUploader()
+      } finally {
+        this.loading = false
+      }
+    },
+    upload(file){
+      return new Promise(async (resolve,reject) => {
+        try {
+          const formData = new FormData()
+          formData.append('businessId', 1)
+          formData.append('type', 1)
+          formData.append('isTemp', 0)
+          formData.append('applicationName', 'rise')
+          formData.append('file', file)
+          formData.append(
+            'currentUser',
+            this.$store.state.permission.userInfo.userName
+          )
+          const { data } = await uploadFileWithNOTokenTwo(formData)
+          resolve(data.path)
+        } finally {
+          reject()
+        }
+      })
     },
     insertHTML(html) {
       const quill = this.$refs.vueEditor.quill
