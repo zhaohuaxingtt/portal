@@ -1998,7 +1998,7 @@
     LK_GONGYINGSHANGFENE	:'Supplier share',
     LK_GONGCHANGFENE	:'Factory share',
     LK_ERCIJIAN	:'Secondary parts',
-
+    LK_FSHAO:'FS Number',
     MAIL: {
       NOTIFICATION: 'notification',
       MESSAGE: 'message',
