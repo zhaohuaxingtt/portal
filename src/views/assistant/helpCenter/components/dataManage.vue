@@ -14,8 +14,8 @@
 		<div class="mt15 line"></div>
 		<div class="title">{{ currMoudleName ? language(`${currMoudleName}`) : '' }}</div>
 		<div class="line"></div>
-		<div class="editor-box" v-html="changeColor(currModuleDetailData)"></div>
-		<!-- <iEditor ref="iEditor" v-html="changeColor(currModuleDetailData)" disabled /> -->
+		<!-- <div class="editor-box" v-html="changeColor(currModuleDetailData)"></div> -->
+		<iEditor class="editor-box" ref="iEditor" v-html="changeColor(currModuleDetailData)" disabled />
 	</div>
 </template>
 
