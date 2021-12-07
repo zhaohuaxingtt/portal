@@ -99,6 +99,7 @@ export default {
 @import "../comon.scss";
 	.leftContent {
 		width: 28%;
+		min-width: 260px;
 		display: flex;
 		flex-direction: column;
 		min-height: 100%;
