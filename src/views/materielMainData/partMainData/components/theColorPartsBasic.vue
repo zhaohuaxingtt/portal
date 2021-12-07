@@ -1,6 +1,6 @@
 <template>
   <iCard :title="language('基本信息')" collapse>
-      <el-form label-position="left" label-width="170px">
+      <el-form label-position="left" label-width="160px">
           <el-row :gutter="24">
               <el-col span='10'>
                 <iFormItem :label='language("零件号")' class="form-label-partNum">
@@ -17,7 +17,7 @@
           <el-row :gutter="24">
               <el-col span="8">
                   <iFormItem :label='language("零件名称(中)")' class="form-label">
-                      <el-checkbox class="check-box" v-model="checkBoxs.partNameZh" slot="label"><span class="label-text">{{language("零件名称(中")}}</span></el-checkbox>
+                      <el-checkbox class="check-box" v-model="checkBoxs.partNameZh" slot="label"><span class="label-text">{{language("零件名称(中)")}}</span></el-checkbox>
                       <iInput :placeholder='language("请输入")' v-model="formContent.partNameZh" disabled></iInput>
                   </iFormItem>
               </el-col>
@@ -275,7 +275,7 @@ export default {
     }
 }
 .form-label{
-    margin-left: 20px;
+    margin-left: 26px;
     position: relative;
     // .check-box{
     //     position: absolute;
@@ -286,7 +286,7 @@ export default {
     // }
 }
 .form-label-partNum{
-    margin-left: 20px;
+    margin-left: 26px;
 }
 .label-text{
     color: black;

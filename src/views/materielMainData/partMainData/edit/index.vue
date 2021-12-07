@@ -1,18 +1,18 @@
 <template>
   <iPage >
-      <pageHeader v-if='this.$route.query.id'>{{pageTitle}}</pageHeader>
-      <pageHeader v-else>{{pageTitle}}</pageHeader>
+      <pageHeader v-if='this.$route.query.id'>{{language(pageTitle)}}</pageHeader>
+      <pageHeader v-else>{{language(pageTitle)}}</pageHeader>
       <div class="basicMessage">
-        <iCard :title="title.icardMessage" collapse>
+        <iCard :title="language(title.icardMessage)" collapse>
           <div class="btnList">
               <iButton style="margin-right:20px" @click="toColorStandardParts"  v-if="isEditColorPart">{{language('批量修改')}}</iButton>
               <div class="browse" v-if='isDisabled>0 ? true : false'>
-                  <iButton @click="edit">{{btnList.edit}}</iButton>
+                  <iButton @click="edit">{{language('编辑')}}</iButton>
               </div>
               <div class="edit" v-else>
                 <!-- <iButton @click="avtiveSta">{{btnList.avtiveSta}}</iButton> -->
-                <iButton @click="temporaryStorage" >{{btnList.temporaryStorage}}</iButton>
-                <iButton @click="cancel">{{btnList.cancel}}</iButton>
+                <iButton @click="temporaryStorage" >{{language('保存')}}</iButton>
+                <iButton @click="cancel">{{language('取消')}}</iButton>
               </div>
           </div>
           <div class="elForm">
@@ -24,8 +24,8 @@
                           </iFormItem>
                       </el-col>
                       <el-col :span='6' style="display:flex;justify-content: space-between;" v-else class="numbers">
-                          <iFormItem   v-model="itemContent.number"><div class="l" slot="label">{{itemLabel.number}}<span style="color:red">*</span></div></iFormItem>
-                          <div style="display:flex;justify-content: space-between;font-size:14px;flex-grow:2">
+                          <iFormItem   v-model="itemContent.number"><div class="l" slot="label">{{language('零件号')}}<span style="color:red">*</span></div></iFormItem>
+                          <div style="display:flex;justify-content: space-between;font-size:14px;flex-grow:2;align-content: center;">
                             <iFormItem label-width='0' prop='partNum1'>
                               <span class="red">*</span>  
                               <iInput  v-model="itemContent.partNum1" :disabled='editNumber' 
@@ -54,33 +54,33 @@
                             </iFormItem>
                           </div>
                       </el-col>
-                        <div class="repeateMa" v-if='repeateMa'>{{errorMessage.numberMessage}}</div>
-                        <div class="repeateMa" v-if='matirielFill'>{{errorMessage.inputMessage}}</div>
+                        <div class="repeateMa" v-if='repeateMa'>{{language('零件号重复')}}</div>
+                        <div class="repeateMa" v-if='matirielFill'>{{language('请输入零件号')}}</div>
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.nameCh' prop='partNameZh'>
-                              <iInput :placeholder='placeholderText' v-model="itemContent.partNameZh" :disabled='isDisabled>0?true:false'></iInput>
+                          <iFormItem :label='language("零件名称(中)")' prop='partNameZh'>
+                              <iInput :placeholder='language("请输入")' v-model="itemContent.partNameZh" :disabled='isDisabled>0?true:false'></iInput>
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.nameD' prop='partNameDe'>
-                              <iInput :placeholder='placeholderText' v-model="itemContent.partNameDe" :disabled='isDisabled>0?true:false'></iInput>
+                          <iFormItem :label='language("零件名称(德)")' prop='partNameDe'>
+                              <iInput :placeholder='language("请输入")' v-model="itemContent.partNameDe" :disabled='isDisabled>0?true:false'></iInput>
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.sourceDesc'>
+                          <iFormItem :label='language("零件来源")'>
                               <iInput disabled v-model="itemContent.sourceDesc" ></iInput>
                           </iFormItem>
                       </el-col>
                   </el-row>
                   <el-row gutter="24">
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.status'>
+                          <iFormItem :label='language("零件状态")'>
                               <iInput disabled v-model="itemContent.partStatusDesc"></iInput>
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.BMG' prop='bmgDesc'>
-                              <iSelect :placeholder='请选择' v-model="itemContent.bmgDesc" :disabled='isDisabled>0?true:false'>
+                          <iFormItem :label='language("BMG")' prop='bmgDesc'>
+                              <iSelect :placeholder='language("请选择")' v-model="itemContent.bmgDesc" :disabled='isDisabled>0?true:false'>
                                   <el-option
                                   v-for='item in BGMoptions'
                                   :key='item.value'
@@ -92,8 +92,8 @@
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.ZP' prop='zp'>
-                              <iSelect :placeholder='selectText' v-model="itemContent.zp" filterable :disabled='isDisabled>0?true:false'>
+                          <iFormItem :label='language("ZP")' prop='zp'>
+                              <iSelect :placeholder='language("请输入/请选择")' v-model="itemContent.zp" filterable :disabled='isDisabled>0?true:false'>
                                   <el-option
                                     v-for="item in ZPoptions"
                                     :key="item.value"
@@ -105,7 +105,7 @@
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.time' prop='drawingDate'>
+                          <iFormItem :label='language("图纸日期")' prop='drawingDate'>
                               <iDatePicker v-model="itemContent.drawingDate"  style="width:100%" v-if='datePickerStatus' type='date'></iDatePicker>
                               <iInput v-model="oldDrawingDate" disabled v-else></iInput>
                           </iFormItem>
@@ -113,17 +113,17 @@
                   </el-row>
                   <el-row gutter="24">
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.FOP'>
-                              <iInput :placeholder='  placeholderText' v-model="itemContent.fop" :disabled='isDisabled>0?true:false'></iInput>
+                          <iFormItem :label='language("FOP")'>
+                              <iInput :placeholder='language("请输入")' v-model="itemContent.fop" :disabled='isDisabled>0?true:false'></iInput>
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.technicalSection'>
-                              <iInput :placeholder='  placeholderText' v-model="itemContent.techDept" :disabled='isDisabled>0?true:false'></iInput>
+                          <iFormItem :label='language("技术部门")'>
+                              <iInput :placeholder='language("请输入")' v-model="itemContent.techDept" :disabled='isDisabled>0?true:false'></iInput>
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.materielGroup'>
+                          <iFormItem :label='language("零件材料组")'>
                               <iInput :disabled='chooseMaterielGroup'  v-model="itemContent.categoryDesc">
                                   <!-- <el-option
                                   v-for = 'item in materielGroupOptions'
@@ -136,7 +136,7 @@
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.commonSourcing'>
+                          <iFormItem :label='language("common sourcing")'>
                               <iSelect  v-model="itemContent.isCommonSourcingDesc" :disabled='isDisabled>0?true:false'>
                                   <el-option
                                     v-for='item in sourceOptions'
@@ -151,8 +151,8 @@
                   </el-row>
                   <el-row gutter="24">
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.ProfessionalGroup' prop='fgId'>
-                              <iSelect :placeholder='selectText' v-model="itemContent.fgId" filterable :disabled='isDisabled>0?true:false'>
+                          <iFormItem :label='language("专业组")' prop='fgId'>
+                              <iSelect :placeholder='language("请输入/请选择")' v-model="itemContent.fgId" filterable :disabled='isDisabled>0?true:false'>
                                   <el-option
                                     v-for = 'item in groupOption'
                                     :key='item.id'
@@ -164,12 +164,12 @@
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.SET'>
-                              <iInput :placeholder="placeholderText" v-model="itemContent.setCode" :disabled='isDisabled>0?true:false'></iInput>
+                          <iFormItem :label='language("SET号")'>
+                              <iInput :placeholder="language('请输入')" v-model="itemContent.setCode" :disabled='isDisabled>0?true:false'></iInput>
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
-                          <iFormItem :label='itemLabel.lasteTime'>
+                          <iFormItem :label='language("最近一次修改时间")'>
                               <iInput disabled v-model="itemContent.updateDate"></iInput>
                           </iFormItem>
                       </el-col>
@@ -179,22 +179,22 @@
         </iCard>
       </div>
       <div class="measurement" v-show='searchId'>
-        <iCard :title="title.icardMeasure"  collapse >
+        <iCard :title="language(title.icardMeasure)"  collapse >
         <div slot="header-control">
             <div v-if='editStatus'>
-                <iButton @click="measurementEdit">{{btnList.edit}}</iButton>
+                <iButton @click="measurementEdit">{{language('编辑')}}</iButton>
             </div>
             <div v-else>
-                <iButton @click="saveUnit">{{btnList.save}}</iButton>
-                <iButton @click="unitTabCancel">{{btnList.cancel}}</iButton>
+                <iButton @click="saveUnit">{{language('保存')}}</iButton>
+                <iButton @click="unitTabCancel">{{language('取消')}}</iButton>
             </div>
         </div>
         <div class="measureTable">
             <el-form label-position="left" label-width="120px" :rules="rules" :model='materielUnit' class="validate-required-form unit">
                 <el-row gutter="24">
                     <el-col :span='6'>
-                        <iFormItem label='基本计量单位' prop='materielUnit'>
-                            <iSelect placeholder='请选择' :disabled="editStatus" v-model="materielUnit" @change='changeMaterielUnit' class="select">
+                        <iFormItem :label='language("基本计量单位")' prop='materielUnit'>
+                            <iSelect :placeholder='language("请选择")' :disabled="editStatus" v-model="materielUnit" @change='changeMaterielUnit' class="select">
                                 <el-option
                                 v-for='item in unitoptions'
                                 :key='item.id'
@@ -209,11 +209,11 @@
             <el-divider class="divider"></el-divider>
             <div class="measure">
                 <div class="measuretitle">
-                    {{title.measuretitle}}
+                    {{language(title.measuretitle)}}
                 </div>
                 <div class="btn" v-if='!editStatus'>
-                    <iButton @click="add">{{btnList.add}}</iButton>
-                    <iButton @click="del" :disabled='selectedItem.length >0 ? false:true'>{{btnList.del}}</iButton>
+                    <iButton @click="add">{{language('新增')}}</iButton>
+                    <iButton @click="del" :disabled='selectedItem.length >0 ? false:true'>{{language('删除')}}</iButton>
                     <!-- <iButton @click="unitTabCancel">{{btnList.cancel}}</iButton> -->
                 </div>
             </div>
@@ -873,15 +873,6 @@ export default {
             measurementTable,
             pageTitle:'新增零件',
             isEdit:true,
-            btnList:{
-                edit:'编辑',
-                avtiveSta:'激活',
-                temporaryStorage:'保存',
-                cancel:'取消',
-                save:'保存',
-                add:'新增',
-                del:'删除',
-            },
             itemLabel,
             materielUnit:'',
             placeholderText:'请输入',
