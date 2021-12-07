@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-07 14:18:44
+ * @LastEditTime: 2021-12-07 16:43:25
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
@@ -149,7 +149,8 @@ export default {
       let routeData = this.$router.resolve({
         path: '/opcs/application/manage',
         query: {
-          opcsSupplierId: row.id || ''
+          opcsSupplierId: row.id || '',
+          nameZh:row.nameZh||''
         }
       })
       window.open(routeData.href)

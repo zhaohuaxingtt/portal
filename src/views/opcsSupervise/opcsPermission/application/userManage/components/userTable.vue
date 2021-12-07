@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-07 15:09:39
+ * @LastEditTime: 2021-12-07 16:01:49
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -124,14 +124,16 @@ export default {
     save() {
       this.$refs.commonTable.$refs.commonTableForm.validate((valid) => {
         if (valid) {
-               let req = {
+          let req = {
             saveUserList: this.tableListData,
             opcsSupplierKeyId: this.$route.query.opcsSupplierId
           }
           saveUser(req).then((res) => {
-            if (res && res.data == 200) {
+            if (res && res.code == 200) {
+              this.edit = false
+              this.getTableData()
               iMessage.success(res.desZh)
-            }
+            } else iMessage.error(res.desZh)
           })
         }
       })
@@ -140,7 +142,7 @@ export default {
     getTableData() {
       this.tableLoading = true
       const params = {
-              opcsSupplierId: this.$route.query.opcsSupplierId,
+        opcsSupplierId: this.$route.query.opcsSupplierId,
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         ...this.form
@@ -154,11 +156,19 @@ export default {
       })
     },
     editBtn() {
-        this.inputProps=['supplierNum', 'supplierName', 'supplierAddress','contactName','contactMobile','contactEmail','contactTel']
+      this.inputProps = [
+        'supplierNum',
+        'supplierName',
+        'supplierAddress',
+        'contactName',
+        'contactMobile',
+        'contactEmail',
+        'contactTel'
+      ]
       this.edit = true
     },
     cancelBtn() {
-        this.inputProps=[]
+      this.inputProps = []
       this.tableListData = []
       this.getTableData()
       this.editMode = false
@@ -166,7 +176,13 @@ export default {
     },
     //导出
     exportsTable() {
-      exportUser()
+      const params = {
+        opcsSupplierId: this.$route.query.opcsSupplierId,
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        ...this.form
+      }
+      exportUser(params)
     },
     //下载模板
     download() {
@@ -174,19 +190,35 @@ export default {
     },
     //解冻
     thawBtn() {
-      thawUser()
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      thawUser({ idList: this.selectTableData.map((res) => res.id) })
     },
     //激活
     activeBtn() {
-      activeUser()
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      activeUser({ idList: this.selectTableData.map((res) => res.id) })
     },
     //冻结
     freezeBtn() {
-      freezeUser()
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      freezeUser({ idList: this.selectTableData.map((res) => res.id) })
     },
     //续期
     renewalBtn() {
-      renewalUser()
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      renewalUser({ idList: this.selectTableData.map((res) => res.id) })
     },
 
     //新增
