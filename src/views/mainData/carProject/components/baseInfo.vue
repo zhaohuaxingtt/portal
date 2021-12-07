@@ -748,7 +748,7 @@ export default {
           { required: true, message: '请输入车型项目中文名称', trigger: 'blur' }
         ],
         cartypeProjectEn: [
-          { required: true, message: '请输入车型项目中文名称', trigger: 'blur' }
+          { required: true, message: '请输入车型项目英文名称', trigger: 'blur' }
         ],
         cartypeProType: [
           { required: true, message: '请选择车型项目类型', trigger: 'blur' }
@@ -788,7 +788,7 @@ export default {
           { required: true, message: '请选择关闭时间', trigger: 'blur' }
         ], */
         publishStatus: [
-          { required: true, message: '请选择生产工厂', trigger: 'blur' }
+          { required: true, message: '请选择发布状态', trigger: 'blur' }
         ],
         isValid: [
           { required: true, message: '请选择是否有效', trigger: 'blur' }
