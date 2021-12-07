@@ -154,9 +154,10 @@ export default {
 
 <style lang="scss" scoped>
 .start-time {
-  margin-right: 12px;
+  margin-right: 10px;
   font-weight: 500;
   font-family: 'PingFang SC';
+  font-size: 16px;
 }
 .meeting-card {
   margin-bottom: 8px;
