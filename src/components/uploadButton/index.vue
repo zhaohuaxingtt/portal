@@ -27,7 +27,7 @@
 </template>
 <script>
 import { iButton } from 'rise';
-import { uploadFileWithNoToken } from '@/api/file/upload';
+import { uploadFileWithNOTokenTwo } from '@/api/file/upload';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
 
 export default {
@@ -57,7 +57,7 @@ export default {
         const formData = new FormData();
         formData.append('file', content.file);
         formData.append('applicationName', 'rise');
-        const res = await uploadFileWithNoToken(formData);
+        const res = await uploadFileWithNOTokenTwo(formData);
         const resData = res.data;
         resData.fileSize = content.file.size;
         if (res.result) {
