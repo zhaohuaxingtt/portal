@@ -18,7 +18,7 @@
             isAuth(whiteBtnList, 'ACHIEVEMENT_DETAIL_PAGE_CONFIRM') &&
             !isForward
           "
-          >{{ language('查询) }}</iButton
+          >{{ language('查询') }}</iButton
         >
         <!--导出-->
         <iButton
