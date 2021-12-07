@@ -24,10 +24,13 @@ Vue.prototype.language = function (languageKey, name, params) {
       languageKey + '----' + name + '----' + this.$router.currentRoute.path
     )
   }
-  if (params) {
-    return this.$t(languageKey, params) || languageKey
+  if (params && this.$t(languageKey, params)) {
+    return this.$t(languageKey, params)
   }
-  return this.$t(languageKey) || languageKey
+  if (this.$t(languageKey) && this.$t(languageKey) !== 'undefined') {
+    return this.$t(languageKey)
+  }
+  return languageKey
 }
 
 // eslint-disable-next-line no-undef
