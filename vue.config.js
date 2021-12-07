@@ -155,7 +155,8 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_EKL]: {
-        target: `http://${BASE_IP}:8043/riseekl`,
+        target: `http://${BASE_IP}:8043`,
+        // target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_EKL]: ''
@@ -314,6 +315,13 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
+        }
+      },
+      "/fileCross": {
+        target: `http://${BASE_IP}:8034`,
+        changeOrigin: true,
+        pathRewrite: {
+          "/fileCross": ''
         }
       }
     }

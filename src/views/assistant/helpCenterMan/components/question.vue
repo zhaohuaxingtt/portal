@@ -16,6 +16,10 @@
 
         <div class="flex qs-p">
             <div class="flex flex-column qs-params">
+                <iLabel class="label" label="常见问题" slot="label"></iLabel>
+                <i-input class="input" type="text" :disabled="type == 'detail'" v-model="form.questionTitle" placeholder="请输入" />
+            </div>
+            <div class="flex flex-column qs-params">
                 <iLabel class="label" label="问题模块" slot="label"></iLabel>
                 <iSelect class="input" :disabled="type == 'detail'" v-model="form.questionModuleId" @change="moduleChange">
                     <el-option v-for="m in moduleList" :key="m.id" :value='m.id' :label='m.menuName'></el-option>
@@ -31,12 +35,8 @@
                 <iLabel class="label" label="创建人" slot="label"></iLabel>
                 <i-input class="input" type="text" disabled v-model="form.createByName" placeholder="请输入" />
             </div>
-            <div class="flex flex-column qs-params">
-                <iLabel class="label" label="问题描述" slot="label"></iLabel>
-                <i-input class="input" type="text" :disabled="type == 'detail'" v-model="form.questionTitle" placeholder="请输入" />
-            </div>
         </div>
-        <iEditor class="flex-1 qs-editor" :class="[type == 'detail' ? 'overflow-auto' : 'overflow-hidden']" :disabled="type == 'detail'" v-model="form.answerContent"></iEditor>
+        <iEditor class="flex-1 qs-editor" :class="[type == 'detail' ? 'overflow-auto color' : 'overflow-hidden']" :disabled="type == 'detail'" v-model="form.answerContent"></iEditor>
         <div class="flex" style="margin-top:20px;align-items: flex-start;">
             <div class="label">附件：</div>
             <iUpload ref="upload" :disabled="type == 'detail'" v-model="form.annexList" @onSuccess="uploadSucc" >
@@ -54,7 +54,6 @@
             :moduleList="moduleList" 
             :labelList="labelList" 
             :show.sync="dialog" 
-            @moduleChange="moduleChange"
             @refresh="$emit('addChange')"></CreateQuestion>
     </div>
 </template>
@@ -112,11 +111,15 @@
                 loading:false
             }
         },
-        async created(){
-            let { data } = await queryModuleBySource(this.userType)
-            this.moduleList = data
+        created(){
+            this.getModuleList()
         },
         methods: {
+            async getModuleList(){
+                let { data } = await queryModuleBySource(this.userType)
+                this.moduleList = data
+                return data
+            },
             moduleChange(v){
                 if(v){
                     getCurrLabelList(v).then(res => {
@@ -177,7 +180,11 @@
 
 .qs-editor{
     flex:1;
-
+    &.color{
+        padding: 10px;
+        background-color: #F8F8FA;
+        border-radius: 4px;
+    }
     ::v-deep .quillWrapper{
         height: 100%;
         display: flex;

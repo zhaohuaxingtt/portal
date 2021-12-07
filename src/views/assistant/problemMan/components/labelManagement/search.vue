@@ -18,7 +18,7 @@
             </el-col>
             <el-col :span="8">
               <iFormItem :label="language('创建人')">
-                <iInput v-model="searchForm.createBy" clearable placeholder="请输入" />
+                <iInput v-model="searchForm.createByName" clearable placeholder="请输入" />
               </iFormItem>
             </el-col>
           </el-row>
@@ -51,7 +51,7 @@ export default {
       searchForm: {
         moduleId: '',
         lableName:'',
-        createBy:''
+        createByName:''
       },
       options: [],
       startTimeOptions: {

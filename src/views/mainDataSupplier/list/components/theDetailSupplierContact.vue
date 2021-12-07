@@ -1,15 +1,15 @@
 <template>
-  <iCard :title="$t('供应商通讯录')" collapse>
+  <iCard :title="language('供应商通讯录')" collapse>
     <div class="actions" slot="header-control">
       <iButton @click="handleSave">
-        {{ $t('保存') }}
+        {{ language('保存') }}
       </iButton>
       <iButton
         :loading="delLoading"
         :disabled="!selectedRows.length"
         @click="handleDelete"
       >
-        {{ $t('删除') }}
+        {{ language('删除') }}
       </iButton>
     </div>
 
@@ -43,7 +43,7 @@ export default {
   props: {
     contacts: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -88,7 +88,7 @@ export default {
     },
     // 填充表格
     fillTable() {
-      const contactTypes = this.tableData.map(e => e.contactType)
+      const contactTypes = this.tableData.map((e) => e.contactType)
       const types = [
         '财务联系人',
         '物流联系人',
@@ -124,7 +124,7 @@ export default {
     },
     handleSave() {
       if (this.saveValidate()) {
-        const data = this.tableData.map(e => {
+        const data = this.tableData.map((e) => {
           const {
             contactType,
             dept,
@@ -149,7 +149,7 @@ export default {
           }
         })
         updateBantchSupplierContact({ supplierId: this.supplierId }, data)
-          .then(res => {
+          .then((res) => {
             if (res && res.result) {
               iMessage.success(res.dscZh || '保存成功')
               this.tableData = res.data
@@ -157,7 +157,7 @@ export default {
               iMessage.error(res.desZh || '保存失败')
             }
           })
-          .catch(err => {
+          .catch((err) => {
             console.log('save err', err)
             iMessage.error(err.dscZh || '保存失败')
           })
@@ -166,8 +166,8 @@ export default {
     },
     handleDelete() {
       this.onDelete().then(() => {
-        const hasIdItems = this.selectedRows.filter(e => e.id)
-        const ids = hasIdItems.map(e => e.id).join(',')
+        const hasIdItems = this.selectedRows.filter((e) => e.id)
+        const ids = hasIdItems.map((e) => e.id).join(',')
         const params = {
           supplierId: this.supplierId,
           contactIds: ids
@@ -175,16 +175,18 @@ export default {
         if (hasIdItems.length) {
           this.delLoading = true
           deleteSupplierContact(params)
-            .then(res => {
+            .then((res) => {
               if (res.result) {
                 iMessage.success(res.dscZh || '删除成功')
-                this.tableData = this.tableData.filter(e => !ids.includes(e.id))
+                this.tableData = this.tableData.filter(
+                  (e) => !ids.includes(e.id)
+                )
                 this.fillTable()
               } else {
                 iMessage.error(res.dscZh || '删除失败')
               }
             })
-            .catch(err => {
+            .catch((err) => {
               iMessage.error(err.dscZh || '删除失败')
             })
             .finally(() => (this.delLoading = false))
@@ -192,7 +194,7 @@ export default {
           iMessage.success('删除成功')
         }
 
-        this.selectedRows.forEach(e => {
+        this.selectedRows.forEach((e) => {
           e.dept = ''
           e.designation = ''
           e.email = ''

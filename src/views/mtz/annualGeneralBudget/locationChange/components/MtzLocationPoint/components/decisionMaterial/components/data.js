@@ -153,13 +153,8 @@ export const ruleTableTitle1_1 = [
   { props: 'carline', name: '车型', key: 'CHEXING' },
   {
     props: 'supplierId',
-    name: '供应商编号',
+    name: '供应商编号/名称',
     key: 'GONGYINGSHANGBIANHAO',
-  },
-  {
-    props: 'supplierName',
-    name: '供应商名称',
-    key: 'GONGYINGSHANGMINGCHENG',
   },
   {
     props: 'materialCode',
@@ -172,11 +167,13 @@ export const ruleTableTitle1_1 = [
     key: 'ZHONGLEIMINGCHENG',
   },
   { props: 'price', name: '基价', key: 'JIJIA'},
+]
+export const ruleTableTitle1_2 = [
+  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',width:150 },
   {
     props: 'priceMeasureUnit',
     name: '基价计量单位',
     key: 'JIJIAJILIANGDANWEI',
-    width:120
   },
   { props: 'tcCurrence', name: '货币', key: 'HUOBI'},
   { props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV'},
@@ -186,35 +183,36 @@ export const ruleTableTitle1_1 = [
     key: 'SHICHANGJIALAIYUAN',
   },
   {
-    props: 'compensationRatio',
-    name: '补差系数',
-    key: 'BUCHAXISHU',
-  },
-]
-export const ruleTableTitle1_2 = [
-  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',width:150 },
-  
-  {
     props: 'compensationPeriod',
     name: '补差周期',
     key: 'BUCHAZHOUQI',
   },
-  { props: 'threshold', name: '阈值', key: 'YUZHI'},
-  {
-    props: 'thresholdCompensationLogic',
-    name: '阈值补差逻辑',
-    key: 'YUZHIBUCHALUOJI',
-    width:120
-  },
-  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI',width:120 },
-  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI',width:120},
-  { props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA'},
-  { props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG'},
-  { props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA'},
-  { props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG'},
-  { props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA'},
-  { props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG'},
-  { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 180 },
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI'},
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI'},
+  // {
+  //   props: 'supplierName',
+  //   name: '供应商名称',
+  //   key: 'GONGYINGSHANGMINGCHENG',
+  // },
+  // {
+  //   props: 'compensationRatio',
+  //   name: '补差系数',
+  //   key: 'BUCHAXISHU',
+  // },
+  // { props: 'threshold', name: '阈值', key: 'YUZHI'},
+  // {
+  //   props: 'thresholdCompensationLogic',
+  //   name: '阈值补差逻辑',
+  //   key: 'YUZHIBUCHALUOJI',
+  //   width:120
+  // },
+  // { props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA'},
+  // { props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG'},
+  // { props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA'},
+  // { props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG'},
+  // { props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA'},
+  // { props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG'},
+  // { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 180 },
 ]
 
 export const ruleTableTitle2_1 = [
@@ -368,9 +366,24 @@ export const partTableTitle1 = [
 export const partTableTitle1_1 = [
   { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO', width: 150 },
   { props: 'partName', name: '零件名称', key: 'LINGJIANMINGCHENG'},
-  { props: 'supplierId', name: '供应商编号/名称', key: 'GYSBHMC',width:160},
   { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO' },
+  {
+    props: 'materialCode',
+    name: '原材料编号',
+    key: 'YUANCAILIAOBIANHAO',
+  },
+  { props: 'materialName', name: '原材料', key: 'YUANCAILIAO'},
+  { props: 'supplierId', name: '供应商编号/名称', key: 'GYSBHMC',width:200},
+  { props: 'price', name: '基价', key: 'JIJIA'},
+  {
+    props: 'priceMeasureUnit',
+    name: '基价计量单位',
+    key: 'JIJIAJILIANGDANWEI',
+  },
   { props: 'priceUnit', name: '每', key: 'MEI'},
+]
+export const partTableTitle1_2 = [
+  { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',width:150},
   {
     props: 'partUnit',
     name: '零件数量单位',
@@ -382,58 +395,48 @@ export const partTableTitle1_1 = [
     name: '用量计量单位',
     key: 'YONGLIANGJILIANGDANWEI',
   },
-  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI'},
-  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI'},
-]
-export const partTableTitle1_2 = [
-  { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',width:150},
-  { props: 'mark', name: '备注', key: 'BEIZHU',width:180},
-  {
-    props: 'materialCode',
-    name: '原材料编号',
-    key: 'YUANCAILIAOBIANHAO',
-  },
-  { props: 'materialName', name: '原材料', key: 'YUANCAILIAO'},
-  { props: 'price', name: '基价', key: 'JIJIA'},
-  {
-    props: 'priceMeasureUnit',
-    name: '基价计量单位',
-    key: 'JIJIAJILIANGDANWEI',
-  },
   {
     props: 'priceSource',
     name: '市场价来源',
     key: 'SHICHANGJIALAIYUAN',
   },
-  { props: 'tcCurrence', name: '货币', key: 'HUOBI',},
-  { props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV'},
   {
     props: 'compensationPeriod',
     name: '补差周期',
     key: 'BUCHAZHOUQI',
   },
+  { props: 'threshold', name: '阈值', key: 'YUZHI',},
   {
     props: 'compensationRatio',
     name: '补差系数',
     key: 'BUCHAXISHU',
   },
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI'},
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI'},
+  
+  
+
+  
+  
 ]
-export const partTableTitle1_3 = [
-  { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',width:150},
-  { props: 'threshold', name: '阈值', key: 'YUZHI',},
-  {
-    props: 'thresholdCompensationLogic',
-    name: '阈值补差逻辑',
-    key: 'YUZHIBUCHALUOJI',
-  },
-  { props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA'},
-  { props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG'},
-  { props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA'},
-  { props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG'},
-  { props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA'},
-  { props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG'},
-  { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 180 },
-]
+// export const partTableTitle1_3 = [
+//   // { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',width:150},
+//   // { props: 'tcCurrence', name: '货币', key: 'HUOBI',},
+//   // { props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV'},
+//   // { props: 'mark', name: '备注', key: 'BEIZHU',width:180},
+//   // {
+//   //   props: 'thresholdCompensationLogic',
+//   //   name: '阈值补差逻辑',
+//   //   key: 'YUZHIBUCHALUOJI',
+//   // },
+//   // { props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA'},
+//   // { props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG'},
+//   // { props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA'},
+//   // { props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG'},
+//   // { props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA'},
+//   // { props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG'},
+//   // { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 180 },
+// ]
 
 export const partTableTitle2_1 = [
   { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO', width: 150 },

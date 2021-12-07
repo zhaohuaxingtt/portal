@@ -1,5 +1,5 @@
 <template>
-  <iCard :title="$t('供应商用户')" collapse>
+  <iCard :title="language('供应商用户')" collapse>
     <div class="actions" slot="header-control">
       <!-- <iButton @click="query">
         ReQuery
@@ -9,27 +9,27 @@
         :disabled="!selectedRows.length"
         @click="handleUnFreeBatch()"
       >
-        {{ $t('解冻') }}
+        {{ language('解冻') }}
       </iButton>
       <iButton
         :loading="freeLoading"
         :disabled="!selectedRows.length"
         @click="handleFreeBatch()"
       >
-        {{ $t('冻结') }}
+        {{ language('冻结') }}
       </iButton>
-      <iButton @click="handleAdd">{{ $t('新增') }} </iButton>
+      <iButton @click="handleAdd">{{ language('新增') }} </iButton>
       <iButton
         :disabled="selectedRows.length !== 1"
         @click="handleUpdateMainContact"
       >
-        {{ $t('设为主用户') }}
+        {{ language('设为主用户') }}
       </iButton>
       <iButton :disabled="!selectedRows.length" @click="handleDelete">
-        {{ $t('删除') }}
+        {{ language('删除') }}
       </iButton>
       <iButton :disabled="selectedRows.length !== 1" @click="handleEdit">
-        {{ $t('编辑') }}
+        {{ language('编辑') }}
       </iButton>
     </div>
     <i-table-custom

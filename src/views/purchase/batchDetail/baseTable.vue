@@ -8,7 +8,7 @@
                     <div class="status-value blue"><span v-text="headBase&&headBase.divide"></span> </div>
                     <div class="status-text">
                        <span v-text="$t('EKL_DQZT') +':'"></span>
-                       <span v-text="headBase&&headBase.status? headBase.status:$t('EKL_WWC')"></span></div>
+                       <span v-text="headBase&&headBase.status == '未完成'?$t('EKL_WWC'): headBase&&headBase.status == '已完成'? $t('EKL_YWC'):''"></span></div>
                     <icon class="icon" symbol name="iconyejijichubiaozhuangtai" />
                 </div>
             </iCard>
