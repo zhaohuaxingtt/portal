@@ -223,7 +223,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 10001;
   padding-top: 11px;
   padding-bottom: 30px;
 
@@ -333,12 +333,13 @@ export default {
 }
 
 .menuLayout {
-  z-index: 998 !important;
+  z-index: 10000;
 
   .meunContent {
     position: absolute;
     left: 0px;
     top: 0px;
+    z-index: 10001;
     height: 100%;
     width: 386px;
     background: #eef2fb;

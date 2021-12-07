@@ -15,9 +15,7 @@
                 class="SearchOption"
               >
                 <i-input
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请输入')"
                   class=""
                   v-model="formData.deptNum"
                 ></i-input>
@@ -33,9 +31,7 @@
                 class="SearchOption"
               >
                 <i-input
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请输入')"
                   class=""
                   v-model="formData.nameZh"
                 ></i-input>
@@ -49,9 +45,7 @@
                 class="SearchOption"
               >
                 <i-input
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请输入')"
                   class=""
                   v-model="formData.leaderName"
                 ></i-input>
@@ -149,7 +143,7 @@ export default {
   props: {
     selectedDataList: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -197,7 +191,7 @@ export default {
       }
       this.tableLoading = true
       organizationMenu(null, param)
-        .then(value => {
+        .then((value) => {
           this.tableLoading = false
           if (value.code == 200) {
             this.tableListData = value.data

@@ -19,8 +19,8 @@
           </iFormItem>
         </el-form>
         <div class="form-button">
-          <iButton @click="search">{{ $t('POSITION.QUERY') }}</iButton>
-          <iButton @click="reset">{{ $t('POSITION.RESET') }}</iButton>
+          <iButton @click="search">{{ language('查询') }}</iButton>
+          <iButton @click="reset">{{ language('重置') }}</iButton>
         </div>
       </div>
       <div class="divider"></div>

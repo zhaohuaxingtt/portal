@@ -7,49 +7,35 @@
           <i-search @sure="sure" @reset="reset">
             <el-form>
               <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_CODE')"
+                :label="language('组织机构编码')"
                 class="SearchOption"
               >
                 <i-input
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请输入')"
                   class=""
                   v-model="formData.fullCode"
                 ></i-input>
               </el-form-item>
-              <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_OWNER')"
-                class="SearchOption"
-              >
+              <el-form-item :label="language('负责人')" class="SearchOption">
                 <i-input
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请输入')"
                   class=""
                   v-model="formData.leaderName"
                 ></i-input>
               </el-form-item>
               <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_NAME')"
+                :label="language('组织机构名')"
                 class="SearchOption"
               >
                 <i-input
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请输入')"
                   class=""
                   v-model="formData.nameZh"
                 ></i-input>
               </el-form-item>
-              <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_IS_SHOW')"
-                class="SearchOption"
-              >
+              <el-form-item :label="language('是否显示')" class="SearchOption">
                 <i-select
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请选择')"
                   v-model="formData.isVisible"
                 >
                   <el-option
@@ -62,15 +48,11 @@
                 </i-select>
               </el-form-item>
               <el-form-item
-                :label="
-                  $t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_IS_COMMODITY')
-                "
+                :label="language('是否为Commodity')"
                 class="SearchOption"
               >
                 <i-select
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请选择')"
                   v-model="formData.isCommodity"
                 >
                   <el-option
@@ -83,13 +65,11 @@
                 </i-select>
               </el-form-item>
               <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.IS_SYNC_SVCD')"
+                :label="language('是否同步svcd')"
                 class="LastSearchOption"
               >
                 <i-select
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请选择')"
                   v-model="formData.syncStatus"
                 >
                   <el-option
@@ -111,27 +91,19 @@
               <iButton
                 @click="enterCreateOrgPage"
                 :disabled="this.selectedTableData.length > 1"
-                >{{
-                  $t('ORGANIZATION_MANAGERMENT.ORG_LIST.CREATE_ORG_BTN')
-                }}</iButton
+                >{{ language('新建组织机构') }}</iButton
               >
               <iButton
                 @click="edit"
                 :disabled="this.selectedTableData.length !== 1"
-                >{{
-                  $t('ORGANIZATION_MANAGERMENT.ORG_LIST.EDIT_ORG_BTN')
-                }}</iButton
+                >{{ language('编辑') }}</iButton
               >
               <iButton
                 @click="deleteItem"
                 :disabled="!(this.selectedTableData.length > 0)"
-                >{{
-                  $t('ORGANIZATION_MANAGERMENT.ORG_LIST.DELETE_ORG_BTN')
-                }}</iButton
+                >{{ language('删除') }}</iButton
               >
-              <iButton @click="exportList">{{
-                $t('ORGANIZATION_MANAGERMENT.ORG_LIST.EXPORT_ORG_BTN')
-              }}</iButton>
+              <iButton @click="exportList">{{ language('导出') }}</iButton>
             </div>
             <div class="OrganizationTable" v-loading="tableLoading">
               <iTableCustom

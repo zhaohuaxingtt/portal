@@ -8,22 +8,22 @@
     <div class="choose-position">
       <div class="form-panel">
         <el-form inline label-position="top">
-          <iFormItem :label="$t('POSITION.POSITION_NAME')">
+          <iFormItem :label="language('岗位名称')">
             <iInput
               :placeholder="language('请输入')"
               v-model="form.fullNameZh"
             />
           </iFormItem>
-          <iFormItem :label="$t('POSITION.POSITION_CODE')">
+          <iFormItem :label="language('岗位编码')">
             <iInput :placeholder="language('请输入')" v-model="form.code" />
           </iFormItem>
-          <iFormItem :label="$t('POSITION.POSITION_USER')">
+          <iFormItem :label="language('岗位人员')">
             <iInput :placeholder="language('请输入')" v-model="form.users" />
           </iFormItem>
         </el-form>
         <div class="form-button">
-          <iButton @click="search">{{ $t('POSITION.QUERY') }}</iButton>
-          <iButton @click="reset">{{ $t('POSITION.RESET') }}</iButton>
+          <iButton @click="search">{{ language('查询') }}</iButton>
+          <iButton @click="reset">{{ language('重置') }}</iButton>
         </div>
       </div>
       <div class="divider"></div>

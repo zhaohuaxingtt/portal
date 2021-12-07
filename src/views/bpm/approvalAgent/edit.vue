@@ -104,7 +104,7 @@
           {{ language('保存') }}
         </iButton>
         <iButton v-show="editAble" @click="reset">
-          {{ $t('POSITION.RESET') }}
+          {{ language('重置') }}
         </iButton>
         <iButton v-show="editAble" @click="$router.go(-1)">
           {{ language('取消') }}
