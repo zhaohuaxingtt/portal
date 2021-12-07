@@ -18,7 +18,7 @@ let languageList = []
 Vue.use(i18n)
 
 Vue.prototype.language = function (languageKey, name, params) {
-  if (process.env.NODE_ENV == 'dev' || process.env.NODE_ENV == 'vmsit') {
+  if (['dev', 'vmsit'].includes(process.env.NODE_ENV)) {
     name = name || languageKey
     languageList.push(
       languageKey + '----' + name + '----' + this.$router.currentRoute.path
@@ -32,7 +32,10 @@ Vue.prototype.language = function (languageKey, name, params) {
 
 // eslint-disable-next-line no-undef
 router.afterEach(() => {
-  if (process.env.NODE_ENV == 'dev' && languageList.length !== 0) {
+  if (
+    ['dev', 'vmsit'].includes(process.env.NODE_ENV) &&
+    languageList.length !== 0
+  ) {
     let languageLists = Array.from(new Set(languageList))
     sendKey(languageLists)
       .then((res) => {
