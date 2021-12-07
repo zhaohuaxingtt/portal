@@ -1,13 +1,13 @@
 /*
  * @Date: 2021-12-06 09:54:08
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-06 14:19:57
+ * @LastEditTime: 2021-12-07 14:13:44
  * @FilePath: \front-portal-new\src\api\opcs\solPermission.js
  */
 import axios from '@/utils/axios'
 import axiosDownload from '@/utils/axios.download'
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
-const requestDownload = axiosDownload(process.env.VUE_APP_SUPPLIER)
+const requestDownload = axiosDownload(process.env.VUE_APP_SUPPLIER + '/web')
 
 //应用管理--授权列表--查询
 export function queryList(parmars) {

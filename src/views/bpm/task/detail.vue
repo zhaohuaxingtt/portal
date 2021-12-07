@@ -8,7 +8,7 @@
         <iButton
           v-if="!finished && (buttons.批准 || buttons.无异议)"
           :loading="loading"
-          @click="onComplete(mapApprovalType.AGREE, $t('APPROVAL.APPROVEL'))"
+          @click="onComplete(mapApprovalType.AGREE, language('批准'))"
         >
           {{ buttons.批准 ? language('批准') : language('无异议') }}
         </iButton>
@@ -16,9 +16,9 @@
         <iButton
           v-if="!finished && buttons.拒绝"
           :loading="loading"
-          @click="onComplete(mapApprovalType.REFUSE, $t('APPROVAL.REFUSE'))"
+          @click="onComplete(mapApprovalType.REFUSE, language('拒绝'))"
         >
-          {{ $t('APPROVAL.REFUSE') }}
+          {{ language('拒绝') }}
         </iButton>
         <!-- 补充材料 -->
         <iButton
@@ -54,7 +54,7 @@
     />
 
     <!-- <i-card
-      :title="$t('APPROVAL.FLOW_INFO')"
+      :title="language('审批流程')"
       header-control
       collapse
       class="margin-bottom20"
@@ -66,11 +66,7 @@
       />
     </i-card> -->
 
-    <i-card
-      :title="$t('APPROVAL.MORE_APPROVAL_HISTORY')"
-      header-control
-      collapse
-    >
+    <i-card :title="language('审批历史')" header-control collapse>
       <i-table-custom :data="form.histories" :columns="historyTableTitle" />
     </i-card>
 
@@ -338,7 +334,7 @@ export default {
           .then((res) => {
             this.loading = false
             if (res.result) {
-              this.$message.success(this.$t('APPROVAL.OPERATION_SUCCESSFUL'))
+              this.$message.success(this.language('操作成功'))
               /* setTimeout(() => {
                 window.close()
               }, 2000) */
@@ -348,16 +344,12 @@ export default {
               }
               this.replaceUrl()
             } else {
-              this.$message.error(
-                res.desZh || this.$t('APPROVAL.OPERATION_FAILED')
-              )
+              this.$message.error(res.desZh || this.language('操作失败'))
             }
           })
           .catch((err) => {
             this.loading = false
-            this.$message.error(
-              err.desZh || this.$t('APPROVAL.OPERATION_FAILED')
-            )
+            this.$message.error(err.desZh || this.language('操作失败'))
           })
       } else {
         this.dialogApprovalVisible = true

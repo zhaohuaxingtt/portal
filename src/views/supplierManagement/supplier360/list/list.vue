@@ -7,107 +7,144 @@
 -->
 <template>
   <div>
-    <iSearch class="margin-bottom20"
-             style="margin-top: 20px"
-             @sure="getLsitBtn"
-             @reset="handleSearchReset"
-             :resetKey="PARTSPROCURE_RESET"
-             :searchKey="PARTSPROCURE_CONFIRM">
+    <iSearch
+      class="margin-bottom20"
+      style="margin-top: 20px"
+      @sure="getLsitBtn"
+      @reset="handleSearchReset"
+      :resetKey="PARTSPROCURE_RESET"
+      :searchKey="PARTSPROCURE_CONFIRM"
+    >
       <el-form>
         <el-form-item :label="$t('SUPPLIER_SUPPLIERTYPE')">
-          <iSelect @change="changeSupplierType"
-                   :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                   v-model="form.supplierType">
-            <el-option v-for="(item, index) in fromGroup.supplierTypeList"
-                       :key="index"
-                       :value="item.code"
-                       :label="item.name"
-                       :disabled="userType != ''&&userType != 'PRE'">
+          <iSelect
+            @change="changeSupplierType"
+            :placeholder="language('请选择')"
+            v-model="form.supplierType"
+          >
+            <el-option
+              v-for="(item, index) in fromGroup.supplierTypeList"
+              :key="index"
+              :value="item.code"
+              :label="item.name"
+              :disabled="userType != '' && userType != 'PRE'"
+            >
             </el-option>
           </iSelect>
         </el-form-item>
         <el-form-item :label="$t('LK_GONGYINGSHANGMINGCHENG')">
-          <iInput :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-                  v-model="form.supplierName"></iInput>
+          <iInput
+            :placeholder="language('请输入')"
+            v-model="form.supplierName"
+          ></iInput>
         </el-form-item>
         <el-form-item :label="$t('UnifySocialCreditCode')">
-          <iInput :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-                  v-model="form.socialcreditNo"></iInput>
+          <iInput
+            :placeholder="language('请输入')"
+            v-model="form.socialcreditNo"
+          ></iInput>
         </el-form-item>
         <el-form-item :label="$t('SUPPLIER_CAILIAOZU_DUNSHAO')">
-          <iInput :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-                  v-model="form.dunsCode"></iInput>
+          <iInput
+            :placeholder="language('请输入')"
+            v-model="form.dunsCode"
+          ></iInput>
         </el-form-item>
         <el-form-item :label="$t('SUPPLIER_LINGSHIHAO')">
-          <iInput :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-                  v-model="form.svwTempCode"></iInput>
+          <iInput
+            :placeholder="language('请输入')"
+            v-model="form.svwTempCode"
+          ></iInput>
         </el-form-item>
-        <el-form-item v-if="form.supplierType === 'PP'"
-                      :label="$t('SUPPLIER_VWHAO')">
-          <iInput :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-                  v-model="form.vwCode">
+        <el-form-item
+          v-if="form.supplierType === 'PP'"
+          :label="$t('SUPPLIER_VWHAO')"
+        >
+          <iInput :placeholder="language('请输入')" v-model="form.vwCode">
           </iInput>
         </el-form-item>
         <el-form-item :label="$t('SUPPLIER_SAPHAO')">
-          <iInput :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-                  v-model="form.sapCode"></iInput>
+          <iInput
+            :placeholder="language('请输入')"
+            v-model="form.sapCode"
+          ></iInput>
         </el-form-item>
-        <el-form-item v-if="form.supplierType === 'PP'"
-                      :label="$t('SUPPLIER_SVWHAO')">
-          <iInput :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-                  v-model="form.svwCode"></iInput>
+        <el-form-item
+          v-if="form.supplierType === 'PP'"
+          :label="$t('SUPPLIER_SVWHAO')"
+        >
+          <iInput
+            :placeholder="language('请输入')"
+            v-model="form.svwCode"
+          ></iInput>
         </el-form-item>
         <el-form-item :label="$t('companyAddress')">
-          <iInput :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-                  v-model="form.address"></iInput>
+          <iInput
+            :placeholder="language('请输入')"
+            v-model="form.address"
+          ></iInput>
         </el-form-item>
         <!-- 材料组/工艺组编号 -->
         <el-form-item :label="$t('SUPPLIER_CAILIAOZU_GONGYIZUBIANHAO')">
-          <iInput :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-                  v-model="form.materialOrCraftCode"></iInput>
+          <iInput
+            :placeholder="language('请输入')"
+            v-model="form.materialOrCraftCode"
+          ></iInput>
         </el-form-item>
         <el-form-item :label="$t('GONGHUO')">
-          <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                   v-model="form.isActive">
-            <el-option v-for="(item, index) in fromGroup.supplierStatusList"
-                       :key="index"
-                       :value="item.code"
-                       :label="item.name">
+          <iSelect :placeholder="language('请选择')" v-model="form.isActive">
+            <el-option
+              v-for="(item, index) in fromGroup.supplierStatusList"
+              :key="index"
+              :value="item.code"
+              :label="item.name"
+            >
             </el-option>
           </iSelect>
         </el-form-item>
         <el-form-item :label="$t('SUPPLIER_CAILIAOZU_XIANGGUANKESHI')">
-          <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                   v-model="form.dept">
-            <el-option v-for="(item, index) in fromGroup.deptList"
-                       :key="index"
-                       :value="item.name"
-                       :label="item.name">
+          <iSelect :placeholder="language('请选择')" v-model="form.dept">
+            <el-option
+              v-for="(item, index) in fromGroup.deptList"
+              :key="index"
+              :value="item.name"
+              :label="item.name"
+            >
             </el-option>
           </iSelect>
         </el-form-item>
         <el-form-item :label="$t('SUPPLIER_CAILIAOZU_ISXIANGGUNA')">
-          <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                   @change="changTag"
-                   v-model="form.relatedToMe">
-            <el-option v-for="(item, index) in fromGroup.relatedToMeList"
-                       :key="index"
-                       :disabled="$store.state.permission.userInfo.userType==2&&!item.value"
-                       :value="item.value"
-                       :label="item.label">
+          <iSelect
+            :placeholder="language('请选择')"
+            @change="changTag"
+            v-model="form.relatedToMe"
+          >
+            <el-option
+              v-for="(item, index) in fromGroup.relatedToMeList"
+              :key="index"
+              :disabled="
+                $store.state.permission.userInfo.userType == 2 && !item.value
+              "
+              :value="item.value"
+              :label="item.label"
+            >
             </el-option>
           </iSelect>
         </el-form-item>
         <el-form-item :label="language('GONGYINGSHANGBIAOQIAN', '供应商标签')">
-          <iSelect multiple
-                   collapse-tags
-                   filterable
-                   :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                   v-model="form.tagNameList">
-            <el-option v-for="item in tagdropDownList"
-                       :key="item.code"
-                       :label="item.message"
-                       :value="item.code">
+          <iSelect
+            multiple
+            collapse-tags
+            filterable
+            :placeholder="language('请选择')"
+            v-model="form.tagNameList"
+          >
+            <el-option
+              v-for="item in tagdropDownList"
+              :key="item.code"
+              :label="item.message"
+              :value="item.code"
+            >
             </el-option>
           </iSelect>
         </el-form-item>
@@ -116,131 +153,169 @@
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
-          <i-button @click="tagTab"
-                    v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN">{{
-            language('GONGYINGSHANGBIAOQIANKU', '供应商标签库')
-          }}</i-button>
-          <i-button @click="setTagBtn"
-                    v-permission="PORTAL_SUPPLIER_BIAOQIANSHEZHI">{{
-            language('BIAOQIANSHEZHI', '标签设置')
-          }}</i-button>
-          <i-button @click="lacklistBtn('join', language('JIARU', '加入'))"
-                    v-permission="PORTAL_SUPPLIER_JIARUHEIMINGDAN">{{
-            $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN')
-          }}</i-button>
-          <i-button @click="lacklistBtn('remove', language('YICHU', '移除'))"
-                    v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN">{{
-            $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN')
-          }}</i-button>
-          <i-button @click="handleRating"
-                    v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{
+          <i-button
+            @click="tagTab"
+            v-permission="Supplier_supplierlist_suppliertaglibrary"
+            >{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button
+          >
+          <i-button
+            @click="setTagBtn"
+            v-permission="Supplier_supplierlist_suppliertagsetup"
+            >{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button
+          >
+          <i-button
+            @click="lacklistBtn('join', language('JIARU', '加入'))"
+            v-permission="Supplier_supplierlist_addblacklist"
+            >{{ $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN') }}</i-button
+          >
+          <i-button
+            @click="lacklistBtn('remove', language('YICHU', '移除'))"
+            v-permission="Supplier_supplierlist_removeblacklist"
+            >{{ $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN') }}</i-button
+          >
+          <i-button @click="handleRating">{{
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
-          <i-button @click="handleRegister" v-permission="PORTAL_SUPPLIER_YAOQINGZHUCE">{{
+          <i-button @click="handleRegister">{{
             $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
           }}</i-button>
         </div>
       </div>
-      <table-list :tableData="tableListData"
-                  :tableTitle="tableTitle"
-                  :tableLoading="tableLoading"
-                  @handleCurrentChange="handleClickRow"
-                  :highlightCurrentRow="true"
-                  @handleSelectionChange="handleSelectionChange"
-                  :openPageProps="'nameZh'"
-                  @openPage="openPage"
-                  :openPageGetRowData="true"
-                  :index="true">
+      <table-list
+        :tableData="tableListData"
+        :tableTitle="tableTitle"
+        :tableLoading="tableLoading"
+        @handleCurrentChange="handleClickRow"
+        :highlightCurrentRow="true"
+        @handleSelectionChange="handleSelectionChange"
+        :openPageProps="'nameZh'"
+        @openPage="openPage"
+        :openPageGetRowData="true"
+        :index="true"
+      >
         <template #supplierTagNameList="scope">
-          <i-button type="text"
-                    @click="handleTagsList(scope.row)">{{scope.row.supplierTagNameList}}</i-button>
+          <i-button type="text" @click="handleTagsList(scope.row)">{{
+            scope.row.supplierTagNameList
+          }}</i-button>
         </template>
 
         <template #supplierStatus="scope">
           <div v-if="form.supplierType == 'GP'">
-            <i-button v-if="scope.row.isGpBlackList != 1"
-                      type="text"
-                      @click="handleBlackList(scope.row)">{{ language('ZHENGCHANG', '正常') }}</i-button>
-            <i-button type="text"
-                      v-if="scope.row.isGpBlackList == 1"
-                      @click="handleBlackList(scope.row)">{{ language('SHOUKONG', '受控') }}</i-button>
+            <i-button
+              v-if="scope.row.isGpBlackList != 1"
+              type="text"
+              @click="handleBlackList(scope.row)"
+              >{{ language('ZHENGCHANG', '正常') }}</i-button
+            >
+            <i-button
+              type="text"
+              v-if="scope.row.isGpBlackList == 1"
+              @click="handleBlackList(scope.row)"
+              >{{ language('SHOUKONG', '受控') }}</i-button
+            >
           </div>
           <div v-if="form.supplierType == 'PP'">
-            <i-button v-if="scope.row.isPpBlackList != 1"
-                      type="text"
-                      @click="handleBlackList(scope.row)">{{ language('ZHENGCHANG', '正常') }}</i-button>
-            <i-button type="text"
-                      v-if="scope.row.isPpBlackList == 1"
-                      @click="handleBlackList(scope.row)">{{ language('SHOUKONG', '受控') }}</i-button>
+            <i-button
+              v-if="scope.row.isPpBlackList != 1"
+              type="text"
+              @click="handleBlackList(scope.row)"
+              >{{ language('ZHENGCHANG', '正常') }}</i-button
+            >
+            <i-button
+              type="text"
+              v-if="scope.row.isPpBlackList == 1"
+              @click="handleBlackList(scope.row)"
+              >{{ language('SHOUKONG', '受控') }}</i-button
+            >
           </div>
         </template>
       </table-list>
-      <iPagination v-update
-                   @size-change="handleSizeChange($event, getTableList)"
-                   @current-change="handleCurrentChange($event, getTableList)"
-                   background
-                   :page-sizes="page.pageSizes"
-                   :page-size="page.pageSize"
-                   :layout="page.layout"
-                   :current-page="page.currPage"
-                   :total="page.totalCount" />
+      <iPagination
+        v-update
+        @size-change="handleSizeChange($event, getTableList)"
+        @current-change="handleCurrentChange($event, getTableList)"
+        background
+        :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        :layout="page.layout"
+        :current-page="page.currPage"
+        :total="page.totalCount"
+      />
 
-      <listDialog @getTableList="getTableList"
-                  v-model="listDialog"></listDialog>
+      <listDialog
+        @getTableList="getTableList"
+        v-model="listDialog"
+      ></listDialog>
       <!-- 标签设置 -->
 
-      <setTagdilog @closeDiolog="closeDiolog"
-                   v-model="isSetTag"
-                   :selectTableData="selectTableData"
-                   v-if="isSetTag">
+      <setTagdilog
+        @closeDiolog="closeDiolog"
+        v-model="isSetTag"
+        :selectTableData="selectTableData"
+        v-if="isSetTag"
+      >
       </setTagdilog>
-      <setTagList @closeDiolog="closeDiolog"
-                  v-model="issetTagList"
-                  :rowList="rowList"
-                  v-if="issetTagList">
+      <setTagList
+        @closeDiolog="closeDiolog"
+        v-model="issetTagList"
+        :rowList="rowList"
+        v-if="issetTagList"
+      >
       </setTagList>
       <!-- 一般供应商加入黑名单 -->
-      <joinlacklistGp v-if="clickTableList.id != ''"
-                      :key="gpJoinParams.key + 1"
-                      @closeDiolog="closeDiolog"
-                      v-model="gpJoinParams.visible"
-                      :clickTableList="clickTableList">
+      <joinlacklistGp
+        v-if="clickTableList.id != ''"
+        :key="gpJoinParams.key + 1"
+        @closeDiolog="closeDiolog"
+        v-model="gpJoinParams.visible"
+        :clickTableList="clickTableList"
+      >
       </joinlacklistGp>
       <!-- 一般供应商移除黑名单 -->
-      <removelacklistGp v-if="clickTableList.id != ''"
-                        :key="gpRemoveParams.key + 2"
-                        v-model="gpRemoveParams.visible"
-                        @closeDiolog="closeDiolog"
-                        :clickTableList="clickTableList">
+      <removelacklistGp
+        v-if="clickTableList.id != ''"
+        :key="gpRemoveParams.key + 2"
+        v-model="gpRemoveParams.visible"
+        @closeDiolog="closeDiolog"
+        :clickTableList="clickTableList"
+      >
       </removelacklistGp>
       <!-- 一般供应商黑命单记录 -->
 
-      <blackListGp v-if="rowList.id != ''"
-                   :key="gpBlackParams.key + 3"
-                   v-model="gpBlackParams.visible"
-                   @closeDiolog="closeDiolog"
-                   :clickTableList="rowList">
+      <blackListGp
+        v-if="rowList.id != ''"
+        :key="gpBlackParams.key + 3"
+        v-model="gpBlackParams.visible"
+        @closeDiolog="closeDiolog"
+        :clickTableList="rowList"
+      >
       </blackListGp>
       <!-- 生产供应商加入黑名单 -->
-      <joinlacklistPP v-if="clickTableList.id != ''"
-                      :key="ppJoinParams.key + 4"
-                      v-model="ppJoinParams.visible"
-                      @closeDiolog="closeDiolog"
-                      :clickTableList="clickTableList">
+      <joinlacklistPP
+        v-if="clickTableList.id != ''"
+        :key="ppJoinParams.key + 4"
+        v-model="ppJoinParams.visible"
+        @closeDiolog="closeDiolog"
+        :clickTableList="clickTableList"
+      >
       </joinlacklistPP>
       <!-- 生产供应商移除黑名单 -->
-      <removelacklistPP v-if="clickTableList.id != ''"
-                        :key="ppremoveParams.key + 5"
-                        v-model="ppremoveParams.visible"
-                        @closeDiolog="closeDiolog"
-                        :clickTableList="clickTableList">
+      <removelacklistPP
+        v-if="clickTableList.id != ''"
+        :key="ppremoveParams.key + 5"
+        v-model="ppremoveParams.visible"
+        @closeDiolog="closeDiolog"
+        :clickTableList="clickTableList"
+      >
       </removelacklistPP>
       <!-- 生产供应商黑命单记录 -->
-      <blackListPp v-if="rowList.id != ''"
-                   :key="ppBlackParams.key + 6"
-                   v-model="ppBlackParams.visible"
-                   @closeDiolog="closeDiolog"
-                   :clickTableList="rowList">
+      <blackListPp
+        v-if="rowList.id != ''"
+        :key="ppBlackParams.key + 6"
+        v-model="ppBlackParams.visible"
+        @closeDiolog="closeDiolog"
+        :clickTableList="rowList"
+      >
       </blackListPp>
     </i-card>
   </div>

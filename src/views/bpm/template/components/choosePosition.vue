@@ -9,22 +9,13 @@
       <div class="form-panel">
         <el-form inline label-position="top">
           <iFormItem :label="$t('POSITION.POSITION_NAME')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.postCode"
-            />
+            <iInput :placeholder="language('请输入')" v-model="form.postCode" />
           </iFormItem>
           <iFormItem :label="$t('POSITION.POSITION_CODE')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.postName"
-            />
+            <iInput :placeholder="language('请输入')" v-model="form.postName" />
           </iFormItem>
           <iFormItem :label="$t('POSITION.POSITION_USER')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.postUser"
-            />
+            <iInput :placeholder="language('请输入')" v-model="form.postUser" />
           </iFormItem>
         </el-form>
         <div class="form-button">
@@ -37,19 +28,19 @@
         <el-form inline label-position="top">
           <iFormItem :label="$t('POSITION.POSITION_RELATIVE')">
             <iSelect
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="form.relationPost"
             />
           </iFormItem>
           <iFormItem :label="$t('POSITION.ORG_LEVEL')">
             <iSelect
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="form.choosePositionRelation"
             />
           </iFormItem>
         </el-form>
         <div class="form-button">
-          <iButton @click="save">{{ $t('APPROVAL.OK') }}</iButton>
+          <iButton @click="save">{{ language('确定') }}</iButton>
         </div>
       </div>
       <div class="selected-tags">

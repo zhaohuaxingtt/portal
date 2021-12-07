@@ -7,21 +7,21 @@
       <el-form label-width="110px" label-position="left">
         <el-row :gutter="30">
           <el-col :span="6" v-if="form.businessId">
-            <iFormItem :label="$t('APPROVAL.AGENT_NO')">
+            <iFormItem :label="language('代理号')">
               <iInput :value="form.businessId" disabled />
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="$t('APPROVAL.AUTH_USER_NAME')">
+            <iFormItem :label="language('授权人')">
               <iInput
-                :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+                :placeholder="language('请输入')"
                 :value="form.assigneeName"
                 disabled
               />
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="$t('APPROVAL.AGENT_USER_NAME')">
+            <iFormItem :label="language('代理人')">
               <userSearch
                 v-model="form.attorney"
                 :disabled="!editAble"
@@ -32,9 +32,9 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="$t('APPROVAL.AGENT_CONTENT')">
+            <iFormItem :label="language('代理内容')">
               <iSelect
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                :placeholder="language('请选择')"
                 v-model="form.category"
                 :disabled="!editAble"
               >
@@ -50,7 +50,7 @@
           <el-col :span="6">
             <iFormItem label="是否有效">
               <iSelect
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                :placeholder="language('请选择')"
                 v-model="form.status"
                 :disabled="!editAble"
               >
@@ -64,10 +64,10 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="$t('APPROVAL.AGENT_START_TIME')">
+            <iFormItem :label="language('代理开始时间')">
               <iDatePicker
                 v-model="form.startTime"
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                :placeholder="language('请选择')"
                 style="width: 100%"
                 type="date"
                 format="yyyy-MM-dd"
@@ -80,10 +80,10 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="$t('APPROVAL.AGENT_END_TIME')">
+            <iFormItem :label="language('代理结束时间')">
               <iDatePicker
                 v-model="form.endTime"
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                :placeholder="language('请选择')"
                 style="width: 100%"
                 type="date"
                 format="yyyy-MM-dd"
@@ -98,16 +98,16 @@
       </el-form>
       <div class="flex-end-center margin-bottom20" v-if="form.status">
         <iButton v-show="!editAble" @click="editAble = true">
-          {{ $t('APPROVAL.EDIT') }}
+          {{ language('编辑') }}
         </iButton>
         <iButton v-show="editAble" @click="save">
-          {{ $t('APPROVAL.SAVE') }}
+          {{ language('保存') }}
         </iButton>
         <iButton v-show="editAble" @click="reset">
           {{ $t('POSITION.RESET') }}
         </iButton>
         <iButton v-show="editAble" @click="$router.go(-1)">
-          {{ $t('APPROVAL.CANCEL') }}
+          {{ language('取消') }}
         </iButton>
       </div>
     </iCard>
@@ -146,11 +146,9 @@ export default {
   computed: {
     pageTitle() {
       if (this.$route.query.type === 'normal') {
-        return this.$t('APPROVAL.EDIT') + this.$t('APPROVAL.APPROVAL_AGENT')
+        return this.language('编辑') + this.language('审批代理')
       }
-      return (
-        this.$t('APPROVAL.EDIT') + this.$t('APPROVAL.APPROVAL_AGENT_MEETING')
-      )
+      return this.language('编辑') + this.language('会议审批代理')
     },
     agentType() {
       return this.$route.query.type === 'normal' ? 2 : 1
@@ -276,7 +274,7 @@ export default {
       updateAgent(submitData)
         .then((res) => {
           if (res.result) {
-            iMessage.success(this.$t('APPROVAL.SAVE_SUCCESSFUL'))
+            iMessage.success(this.language('保存成功'))
             this.$router.go(-1)
           } else {
             iMessage.error(res.desZh || '保存失败')

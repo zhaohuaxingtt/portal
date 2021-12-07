@@ -22,7 +22,11 @@
               )
             }}</span>
             <div>
-              <el-radio-group @change="handleisTake" :disabled="!isSubmitted" v-model="isTakeSteps">
+              <el-radio-group
+                @change="handleisTake"
+                :disabled="!isSubmitted"
+                v-model="isTakeSteps"
+              >
                 <iRadio :label="true">{{
                   language('CAIQUCUOSHI', '采取措施')
                 }}</iRadio>
@@ -38,11 +42,11 @@
           }}</iButton>
         </div>
       </iCard>
-      <iCard style="margin-top:20px" v-if="isTakeSteps">
+      <iCard style="margin-top: 20px" v-if="isTakeSteps">
         <div class="section-box">
           <span
             >{{ language('CHULIXIANGQING', '处理详情') }}
-            <span style="color:red">*</span></span
+            <span style="color: red">*</span></span
           >
           <iButton v-if="isSubmitted" @click="handleSave">{{
             language('TIJIAO', '提交')
@@ -51,18 +55,16 @@
         <div>
           <iInput
             v-if="isSubmitted"
-            style="margin-top:20px"
-            :placeholder="language('QINGSHURUCHULIXIANGQING', '请输入处理详情…')"
+            style="margin-top: 20px"
+            :placeholder="
+              language('QINGSHURUCHULIXIANGQING', '请输入处理详情…')
+            "
             type="textarea"
             v-model="takeStepsContent"
             maxlength="200"
             show-word-limit
           ></iInput>
-          <div
-          
-            class="sectionContent"
-            v-if="!isSubmitted"
-          >
+          <div class="sectionContent" v-if="!isSubmitted">
             {{ takeStepsContent }}
           </div>
         </div>
@@ -76,8 +78,8 @@
       >
         <div class="dialogBox">
           <iSelect
-            style="width:200px"
-            :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+            style="width: 200px"
+            :placeholder="language('请选择')"
             v-model="targetUserId"
             filterable
           >
@@ -148,7 +150,6 @@ export default {
     }
   },
   created() {
-     
     this.businessid = this.$route.query.id
     this.getList()
   },
@@ -157,9 +158,9 @@ export default {
     //获取转派人
     getUser() {
       getTransferee({
-          deptId:this.$store.state.permission.userInfo.deptDTO.id,
-          roleCode:'LINIE'
-      }).then(res => {
+        deptId: this.$store.state.permission.userInfo.deptDTO.id,
+        roleCode: 'LINIE'
+      }).then((res) => {
         if (res && res.code) {
           this.personList = res.data
         } else iMessage.error(res.desZh)
@@ -170,7 +171,7 @@ export default {
       const params = {
         id: this.businessid
       }
-      getKeyTrackSupplier(params).then(res => {
+      getKeyTrackSupplier(params).then((res) => {
         if (res && res.code == 200) {
           this.isTakeSteps = res.data.isTakeSteps
           this.takeStepsContent = res.data.takeStepsContent
@@ -188,7 +189,7 @@ export default {
     },
     //提交按钮
     handleSave() {
-      if (this.isTakeSteps==null) {
+      if (this.isTakeSteps == null) {
         this.$message({
           type: 'warning',
           message: this.language(
@@ -198,7 +199,7 @@ export default {
         })
       } else if (
         (this.takeStepsContent == '' || this.takeStepsContent == null) &&
-        (this.isTakeSteps||this.isTakeSteps==null)
+        (this.isTakeSteps || this.isTakeSteps == null)
       ) {
         this.$message({
           type: 'warning',
@@ -218,11 +219,11 @@ export default {
             id: this.businessid,
             takeStepsContent: this.takeStepsContent
           }
-          if(!this.isTakeSteps){
-              params.takeStepsContent=''
+          if (!this.isTakeSteps) {
+            params.takeStepsContent = ''
           }
           console.log(params)
-          keyTrackSupplierSub(params).then(res => {
+          keyTrackSupplierSub(params).then((res) => {
             if (res && res.code == 200) {
               iMessage.success(this.language('TIJIAOCHENGGONGLE', '提交成功'))
               this.getList()
@@ -237,13 +238,16 @@ export default {
         targetUserId: this.targetUserId,
         businessIds: [this.businessid],
         type: 'keyTrackTask',
-        targetUserName: this.personList.find(item => {
-          return item.id == this.targetUserId
-        }).userNum+' '+this.personList.find(item => {
-          return item.id == this.targetUserId
-        }).nameZh
+        targetUserName:
+          this.personList.find((item) => {
+            return item.id == this.targetUserId
+          }).userNum +
+          ' ' +
+          this.personList.find((item) => {
+            return item.id == this.targetUserId
+          }).nameZh
       }
-      taskTransfer(params).then(res => {
+      taskTransfer(params).then((res) => {
         if (res && res.code == 200) {
           iMessage.success(this.language('TIJIAOCHENGGONGLE', '提交成功'))
           this.isShow = false
@@ -320,7 +324,7 @@ h3 {
   height: 580px;
 }
 .sectionContent {
-      word-wrap: break-word;
+  word-wrap: break-word;
   word-break: break-all;
   background: #f8f8fa;
   border-radius: 6px;

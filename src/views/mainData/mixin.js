@@ -11,11 +11,11 @@ export default {
   methods: {
     onDelete() {
       return this.$confirm(
-        this.$t('APPROVAL.DELETE_TIPS_CONTENT'),
-        this.$t('APPROVAL.DELETE_TIPS_TITLE'),
+        this.language('此操作将永久删除, 是否继续?'),
+        this.language('提示'),
         {
-          confirmButtonText: this.$t('APPROVAL.OK'),
-          cancelButtonText: this.$t('APPROVAL.CANCEL'),
+          confirmButtonText: this.language('确定'),
+          cancelButtonText: this.language('取消'),
           type: 'warning'
         }
       )
@@ -46,7 +46,7 @@ export default {
     },
     generateAlert(message, title) {
       this.$alert(message, title, {
-        confirmButtonText: this.$t('APPROVAL.OK'),
+        confirmButtonText: this.language('确定'),
         type: 'warning',
         callback: () => {}
       })

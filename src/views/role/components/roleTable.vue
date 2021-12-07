@@ -2,10 +2,10 @@
   <iCard>
     <div class="flex-end-center margin-bottom20">
       <iButton :disabled="selectedRows.length !== 1" @click="goEditRole">
-        {{ $t('ROLE.ROLE_AUTH_PERMISSIONS') }}
+        {{ language('分配权限') }}
       </iButton>
       <iButton @click="exportRoles" :loading="exportLoading">
-        {{ $t('APPROVAL.EXPORT') }}
+        {{ language('导出') }}
       </iButton>
     </div>
 
@@ -44,7 +44,7 @@ export default {
   props: {
     filterForm: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
@@ -104,7 +104,6 @@ export default {
       // })
     },
     goEditRole() {
-      
       this.$router.push({
         name: 'RoleEdit',
         params: {

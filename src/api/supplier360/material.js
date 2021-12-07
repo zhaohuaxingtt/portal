@@ -128,7 +128,7 @@ export function getDeptList() {
 //
 export function getUserList(parmars) {
   return requst({
-    url: `/bdl/stuffMaterials/getUserList/${parmars}`,
+    url: `/bdl/stuffMaterials/getUserList/${parmars.id}/${parmars.deptNum}`,
     method: 'GET'
   })
 }

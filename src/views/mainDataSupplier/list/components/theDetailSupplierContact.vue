@@ -12,7 +12,6 @@
         {{ language('删除') }}
       </iButton>
     </div>
-
     <i-table-custom
       :loading="loading"
       :data="tableData"
@@ -83,6 +82,15 @@ export default {
   methods: {
     // 这里主要是为了补全5种类型联系人
     init() {
+      if(this.contacts){
+        this.contacts.forEach(item => {
+          this.dicts.forEach(e => {
+            if(e.code == item.contactType){
+              item.contactType = e.name
+            }
+          })
+        })
+      }
       this.tableData = _.cloneDeep(this.contacts)
       this.fillTable()
     },
@@ -108,7 +116,6 @@ export default {
       this.selectedRows = val
     },
     saveValidate() {
-      console.log(this.tableData)
       for (let i = 0; i < this.tableData.length; i++) {
         const element = this.tableData[i]
         if (element.contactType === '商务联系人' && !element.nameZh) {
@@ -125,34 +132,50 @@ export default {
     handleSave() {
       if (this.saveValidate()) {
         const data = this.tableData.map((e) => {
-          const {
-            contactType,
-            dept,
-            designation,
-            email,
-            id,
-            telephoneAreaCode,
-            nameZh,
-            phoneH,
-            remark
-          } = e
-          return {
-            contactType,
-            dept,
-            designation,
-            email,
-            id,
-            telephoneAreaCode,
-            nameZh,
-            phoneH,
-            remark
-          }
+          let type = ''
+          this.dicts.SUPPLIER_CODE_TYPE.forEach(item => {
+            if(e.contactType == item.name){
+              type  = item.code
+            }
+          })
+          const singleData = {
+            contactType:type,
+            dept:e.dept,
+            designation:e.designation,
+            email:e.email,
+            id:e.id,
+            telephoneAreaCode:e.telephoneAreaCode,
+            nameZh:e.nameZh,
+            phoneH:e.phoneH,
+            remark:e.remark
+          } 
+          return singleData
+
+          // return {
+          //   contactType,
+          //   dept,
+          //   designation,
+          //   email,
+          //   id,
+          //   telephoneAreaCode,
+          //   nameZh,
+          //   phoneH,
+          //   remark
+          // }
         })
         updateBantchSupplierContact({ supplierId: this.supplierId }, data)
           .then((res) => {
             if (res && res.result) {
               iMessage.success(res.dscZh || '保存成功')
-              this.tableData = res.data
+              let data = res.data
+              data.forEach(e => {
+                this.dicts.SUPPLIER_CODE_TYPE.forEach(item => {
+                  if(e.contactType == item.code){
+                    e.contactType = item.name
+                  }
+                })
+              })
+              this.tableData = data
             } else {
               iMessage.error(res.desZh || '保存失败')
             }

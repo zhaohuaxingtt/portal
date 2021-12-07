@@ -61,13 +61,13 @@ export default {
       selectorQuery: [
         {
           value: 'code',
-          label: this.$t('ROLE.ROLE_CODE'),
+          label: this.language('角色代码'),
           type: 'input',
           initVal: ''
         },
         {
           value: 'fullNameZh',
-          label: this.$t('ROLE.ROLE_NAME'),
+          label: this.language('角色名称'),
           type: 'input',
           initVal: ''
         }
