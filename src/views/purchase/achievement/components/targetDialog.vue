@@ -48,7 +48,7 @@
                     v-model="form.year"
                     class="text"
                     @change="initData(form.year)"
-                    :placeholder="$t('LK_QINGXUANZE')">
+                    :placeholder="language('请选择')">
                 <el-option :value="item" :label="item" v-for="item,index in yearList" :key="index"></el-option>
             </iSelect>
             <span class="label" style="padding-left: 55px;">{{orgName}} Total Target-Lasting</span>
@@ -56,7 +56,7 @@
                     v-model="form.totalTarget"
                     class="text"
                     :disabled="linie||!show"
-                    :placeholder="$t('LK_QINGSHURU')"
+                    :placeholder="language('请输入')"
                     oninput="value = value.replace(/[^\d.]/g,'').replace(/\.{2,}/g,'.')"
                     @change="InputValue($event,1)"
                     @focus="onFocus(form.totalTarget,'totalTarget')"
@@ -68,7 +68,7 @@
                     v-model="form.totalCommitment"
                     class="text"
                     :disabled="linie||!show"
-                    :placeholder="$t('LK_QINGSHURU')"
+                    :placeholder="language('请输入')"
                     oninput="value = value.replace(/[^\d.]/g,'').replace(/\.{2,}/g,'.')"
                     @change="InputValue($event,2)"
                     @focus="onFocus(form.totalCommitment,'totalCommitment')"
