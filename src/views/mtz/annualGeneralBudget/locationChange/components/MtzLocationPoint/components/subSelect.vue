@@ -64,21 +64,23 @@ export default {
             tableTitle:tableTitleCp,
             loading:false,
             changeList:[
+                // {
+                //     value:"CSC",
+                //     name:"Csc",
+                //     id:0
+                // },
                 {
-                    value:"CSC",
-                    name:"Csc",
-                    id:0
-                },{
                     value:"PRECSC",
                     name:"Precsc",
                     id:1
-                },{
-                    value:"NONE",
-                    name:"None",
-                    id:2
-                }
+                },
+                // {
+                //     value:"NONE",
+                //     name:"None",
+                //     id:2
+                // }
             ],
-            indexValue:0,
+            indexValue:1,
             changeValue:"CSC",
             selectData:[],
         }
@@ -125,7 +127,7 @@ export default {
                     }
                 })
             }else{
-                iMessage.warn("请选择会议")
+                iMessage.warn(this.language("QINGXUANZEHUIYI","请选择会议"))
             }
         },
         handleSelectionChange(val){
