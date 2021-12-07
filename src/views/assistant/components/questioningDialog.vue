@@ -28,9 +28,14 @@
 				resize="none"
       ></iInput>
 		</div>
-		<iEditor v-else ref="iEditor" v-model="askContent" />
+		<iEditor 
+			v-else 
+			ref="iEditor" 
+			v-model="askContent"
+		/>
 		<div class="attach-box flex flex-column">
 			<AttachmentDownload
+				ref="attachment"
 				load="up"
 				@getFilesList="getFilesList"
 			/>
@@ -90,6 +95,7 @@ export default {
 	},
 	methods: {
 		init() {
+			this.$refs.attachment.fileList = []
 			this.fileList = []
 			this.askContent = ''
 		},
@@ -192,8 +198,8 @@ export default {
 		height: 260px;
 	}
 	.attach-box {
-		height: 100px;
-		margin-top:16px
+		height: 150px;
+		margin-top:16px;
 	}
 	.btns {
 		height: 60px;
