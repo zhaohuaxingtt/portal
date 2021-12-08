@@ -9,7 +9,7 @@
     >
       <el-row :gutter="50">
         <el-col :span="8">
-          <iFormItem :label="$t('ROLE.ROLE_ID')" style="width: 100%">
+          <iFormItem :label="$t('角色ID')" style="width: 100%">
             <iInput
               :placeholder="language('请输入')"
               v-model="form.id"
@@ -53,19 +53,6 @@
             />
           </iFormItem>
         </el-col>
-        <!-- <el-col :span="24">
-          <iFormItem :label="$t('ROLE.ROLE_TAGS')">
-             <iInput
-            
-              :placeholder="language('请输入')"
-              v-model="form.status"
-              :disabled="!editable"
-            /> 
-         <span class="tag" size="medium" v-for="tag in form.tagDTOList" :key="tag">
-              {{ tag.name }}
-            </span>
-          </iFormItem>
-        </el-col> -->
       </el-row>
     </el-form>
   </iCard>

@@ -323,6 +323,13 @@ module.exports = {
         pathRewrite: {
           '/fileCross': ''
         }
+      },
+      [process.env.VUE_APP_AEKO]: {
+        target: `http://${BASE_IP}:8023/procurementrequirement`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_AEKO]: ''
+        }
       }
     }
   }
