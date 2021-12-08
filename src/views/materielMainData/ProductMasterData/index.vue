@@ -5,18 +5,18 @@
             <el-form>
                 <el-grow gutter='24'>
                     <el-col :span='8'> 
-                        <iFormItem :label='formTitle.productNum'>
-                            <iInput :placeholder="placeholderText" v-model="searchContent.productGroupCode"></iInput>
+                        <iFormItem :label='language("产品组编号")'>
+                            <iInput :placeholder="language('请输入')" v-model="searchContent.productGroupCode"></iInput>
                         </iFormItem>
                     </el-col>
                     <el-col :span='8'> 
-                        <iFormItem :label='formTitle.productCh'>
-                            <iInput :placeholder="placeholderText" v-model="searchContent.productGroupNameZh"></iInput>
+                        <iFormItem :label='language("产品组名称(中)")'>
+                            <iInput :placeholder="language('请输入')" v-model="searchContent.productGroupNameZh"></iInput>
                         </iFormItem>
                     </el-col>
                     <el-col :span='8'> 
-                        <iFormItem :label='formTitle.productDe'>
-                            <iInput :placeholder="placeholderText" v-model="searchContent.productGroupNameDe"></iInput>
+                        <iFormItem :label='language("产品组名称(德)")'>
+                            <iInput :placeholder="language('请输入')" v-model="searchContent.productGroupNameDe"></iInput>
                         </iFormItem>
                     </el-col>
                 </el-grow>
@@ -26,10 +26,10 @@
       <div class="tabelList">
           <iCard>
               <div class="btnList">
-                  <iButton @click='create'>{{btnTitle.create}}</iButton>
+                  <iButton @click='create'>{{language('新建')}}</iButton>
                   <!-- <iButton @click="edit" :disabled='this.selectedItem.length != 1'>{{btnTitle.edit}}</iButton> -->
-                  <iButton @click="loseAc" :disabled='this.selectedItem.length == 0'>{{btnTitle.loseAc}}</iButton>
-                  <buttonDownload   :download-method="exportExcel">{{btnTitle.exportExcel}}</buttonDownload>
+                  <iButton @click="loseAc" :disabled='this.selectedItem.length == 0'>{{language('删除')}}</iButton>
+                  <buttonDownload   :download-method="exportExcel">{{language('导出')}}</buttonDownload>
               </div>
               <div class="tabelContent">
                 <iTableCustom
@@ -82,18 +82,18 @@ export default {
             selectedItem:[],
             tabelList:[],
             loading:false,
-            btnTitle:{
-                create:'新建',
-                edit:'编辑',
-                loseAc:'删除',
-                exportExcel:'导出'
-            },
-            formTitle:{
-                productNum:'产品组编号',
-                productCh:'产品组名称(中)',
-                productDe:'产品组名称(德)'
-            },
-            placeholderText:'请输入',
+            // btnTitle:{
+            //     create:'新建',
+            //     edit:'编辑',
+            //     loseAc:'删除',
+            //     exportExcel:'导出'
+            // },
+            // formTitle:{
+            //     productNum:'产品组编号',
+            //     productCh:'产品组名称(中)',
+            //     productDe:'产品组名称(德)'
+            // },
+            // placeholderText:'请输入',
             searchContent:{
                 productGroupCode:'',
                 productGroupNameZh:'',
