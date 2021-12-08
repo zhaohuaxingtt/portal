@@ -52,7 +52,7 @@ export default [
         name: 'answer',
         meta: {
           title: '答题入口',
-          activeMenu: ['CF_NEWS', 'RISE_COMMON_FUNCTION']
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_NEWS']
         },
         component: () => import('@/views/surveyManagement/answer/index.vue')
       }

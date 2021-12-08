@@ -1,34 +1,26 @@
 /*
  * @Date: 2021-11-25 09:47:21
  * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 14:35:16
+ * @LastEditTime: 2021-12-08 18:10:58
  * @FilePath: \front-portal-new\src\router\RouterOpcs.js
  */
 export default [{
 
-    path: 'opcs',
+    path: '/opcs/list',
     name: 'opcs',
-    component: () => import('@/views/opcsSupervise/router.vue'),
-    redirect: 'opcs/solPermission',
+    component: () => import('@/views/opcsSupervise/opcsPermission/index'),
+}, {
+    path: 'opcs/list/application',
+    name: 'application',
+    component: () => import('@/views/opcsSupervise/opcsPermission/application/router'),
+    redirect: 'opcs/list/application/manage',
     children: [{
-            path: 'solPermission',
-            name: 'solPermission',
-            component: () => import('@/views/opcsSupervise/opcsPermission/index'),
-        }, {
-            path: 'application',
-            name: 'application',
-            component: () => import('@/views/opcsSupervise/opcsPermission/application/router'),
-            redirect: 'application/manage',
-            children: [{
-                path: 'manage',
-                name: 'manage',
-                component: () => import('@/views/opcsSupervise/opcsPermission/application/manage/index'),
-            },{
-                path: 'userManage',
-                name: 'userManage',
-                component: () => import('@/views/opcsSupervise/opcsPermission/application/userManage/index'),
-            },  ]
-        },
-
-    ]
-}, ]
+        path: 'manage',
+        name: 'manage',
+        component: () => import('@/views/opcsSupervise/opcsPermission/application/manage/index'),
+    }, {
+        path: 'userManage',
+        name: 'userManage',
+        component: () => import('@/views/opcsSupervise/opcsPermission/application/userManage/index'),
+    }, ]
+}]

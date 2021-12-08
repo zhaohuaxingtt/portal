@@ -262,8 +262,8 @@
         <el-form
             :model="ruleForm"
             label-width="9rem"
-            :rules="baseRules"
-            ref="ruleForm"
+            :rules="GYSRules"
+            ref="gysRuleForm"
             :hideRequiredAsterisk="true"
           >
             <div class="form">
@@ -503,7 +503,7 @@ import {
 import { uploadFile } from "@/api/news/uploadFile";
 import newsTextEdit from "./newsTextEdit.vue";
 import ImgCutter from "vue-img-cutter";
-import { newsClassify, baseRules } from "./data";
+import { newsClassify, baseRules, GYSRules } from "./data";
 import {
   findNewsPublishRange,
   findTagList,
@@ -563,6 +563,7 @@ export default {
       searchGroupInputVal: "",
       newsClassify,
       baseRules,
+      GYSRules,
       classify: "",
       disabled: false,
       uploadLoading: false,

@@ -5,7 +5,7 @@
         <el-col :span="8">
           <iFormItem :label="$t('问题模块')" prop="questionModuleId">
             <iSelect v-model="editForm.questionModuleId" filterable clearable="true" @change="changeModule"  @clear="clearModuleHandle">
-              <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
+              <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
             </iSelect>
           </iFormItem>
         </el-col>
@@ -18,7 +18,10 @@
         </el-col>
         <el-col :span="8">
           <iFormItem :label="$t('问题来源')">
-            <iInput v-model="editForm.source" disabled/>
+             <iSelect v-model="editForm.source" disabled>
+                <el-option label="供应商用户" value="supplier"></el-option>
+                <el-option label="内部用户" value="inner"></el-option>
+            </iSelect>
           </iFormItem>
         </el-col>
       </el-row>
@@ -26,7 +29,7 @@
       <div style="height:auto;">{{questionItem.questionTitle}}</div>
       <div class="content-title mt20 mb20">答复</div>
       <iFormItem prop="answerContent">
-        <iEditor ref="iEditor" v-model="editForm.answerContent" :toolbar="editToolbar" v-if="editable" />
+        <iEditor ref="iEditor" v-model="editForm.answerContent" v-if="editable" />
         <div v-else class="content" v-html="editForm.answerContent"></div>
       </iFormItem>
     </el-form>
@@ -36,6 +39,7 @@
       <a v-else href="javscript:void(0);" style="color: #2369f1"><i class="el-icon-link"></i>{{fileName}}</a>
       <iButton @click="uploadFileHandle" style="margin-left: 5px;">{{language('上传')}}</iButton> -->
       <attachmentDownload load="up" @getFilesList="getFilesList" />
+      <!-- <div v-if="attachFileList.length > 0"></div> -->
     </div>
     <div class="reset_style">
       <iButton @click="save">{{language('确认')}}</iButton>
@@ -46,7 +50,7 @@
 
 <script>
 import { iDialog, iButton, iFormItem, iInput, iSelect } from 'rise'
-import iEditor from '@/components/iEditor';
+import iEditor from '../../../components/iEditor';
 import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue'
 import {assistantFaqSaveFaqApi} from '@/api/assistant';
 export default {
@@ -101,9 +105,38 @@ export default {
       editable: true,
       fileName: '',
       uploadFileList: [],
+      attachFileList: []
     }
   },
+  mounted() {
+    this.initDialog()
+  },
   methods: {
+    initDialog() {
+      let questionItem = this.questionItem
+      console.log(questionItem, "questionItem")
+      this.editForm.questionModuleId = questionItem.questionModuleId
+      this.editForm.questionLableId = questionItem.questionLableId
+      // 获取该问题对话内容
+      if (questionItem.replyQuestionList.length > 0) {
+        questionItem.replyQuestionList.map(item => {
+          this.editForm.answerContent += `${item.content}<br />`
+        })
+      }
+      // 获取该问题的附件
+      let currQuesFileList = []
+      if (questionItem.attachmentDTOList.length > 0) {
+        currQuesFileList = questionItem.attachmentDTOList || []
+      }
+      if (questionItem.replyQuestionList.length > 0) {
+        questionItem.replyQuestionList.map(item => {
+          if (item.attachmentList.length > 0) {
+            currQuesFileList = currQuesFileList.concat(item.attachmentList)
+          }
+        })
+      }
+      this.attachFileList = currQuesFileList
+    },
     closeDiologBtn () {
       this.$emit('update:show', false)
     },
@@ -111,10 +144,10 @@ export default {
       this.closeDiologBtn();
     },
     save () {
-      if (!this.uploadFileList.length) {
-        this.$message.error('请上传附件');
-        return;
-      }
+      // if (!this.uploadFileList.length) {
+      //   this.$message.error('请上传附件');
+      //   return;
+      // }
       const attachmentList = this.uploadFileList.map(item => {
         return {
           fileName: item.name,
@@ -142,7 +175,6 @@ export default {
       })
     },
     getFilesList (fileList) {
-      console.log(fileList, '上传文件');
       this.uploadFileList = fileList;
     },
     clearModuleHandle() {
@@ -153,13 +185,6 @@ export default {
         questionLableId:'',
       })
       this.$emit('queryLabelByModuleId',val);
-    },
-  },
-  computed: {
-    computed: {
-      editToolbar () {
-        return []
-      },
     },
   },
   components: {

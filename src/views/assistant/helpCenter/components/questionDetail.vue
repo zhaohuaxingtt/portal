@@ -7,11 +7,17 @@
 	<div class="title-des flex items-center mt20">{{ title }}</div>
 	<div class="label mt20">{{ moudleName }}</div>
 	<div class="ques-box flex flex-column">
-		<div v-for="(ques, idx) in chatList" :key="idx" class="item-ques flex flex-row">
-			<div class="item-who"> {{ques.replyType==='reply'?'管理员':'我'}} </div>
-			<div class="desc-box">
-				<div class="desc" v-html="ques.content"></div>
-				<div class="date">{{ ques.createDate }}</div>
+		<div v-for="(ques, idx) in chatList" :key="idx" class="item-ques flex flex-column">
+			<!-- <div v-if="ques.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
+				<img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
+				<div>{{`管理员${ques.replyUserName}将任务转派给了管理员${ques.handlerToUserName}`}}</div>
+			</div> -->
+			<div class="flex flex-row">
+				<div class="item-who"> {{ques.replyType==='reply'?'管理员':'我'}} </div>
+				<div class="desc-box">
+					<div class="desc" v-html="ques.content"></div>
+					<div class="date">{{ ques.createDate }}</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -19,7 +25,6 @@
 		<AttachmentDownload 
 			ref="attachment"
 			v-show="showAttachFlag"
-			@loadAttach="loadAttach"
 		/>
 	</div>
 	<div class="solution-box" v-show="solutionFlag">
@@ -32,20 +37,12 @@
 			<div class="bad-text">未解决</div>
 		</div>
 	</div>
-	<el-dialog
-		title="查看图片"
-		:visible="dialogVisible"
-		@close="closeDialog"
-	>
-		<img :src="fileUrl" alt="">
-	</el-dialog>
   </div>
 </template>
 
 <script>
 import { iButton } from 'rise';
 import { queryDetailByIdApi, judgeFavour, updateFavour } from '@/api/assistant'
-import { getFileId } from "@/api/assistant/uploadFile.js"
 import AttachmentDownload from '../../components/attachmentDownload'
 import moment from 'moment'
 export default {
@@ -62,8 +59,6 @@ export default {
 	},
 	data() {
 		return {
-			dialogVisible: false,
-			fileUrl: '',
 			detailLoading: false,
 			solutionFlag: false,
 			title: '',
@@ -76,42 +71,14 @@ export default {
 		}
 	},
 	methods: {
-		closeDialog() {
-			this.dialogVisible = false
-		},
-		// 下载详情附件
-		loadAttach(file) {
-			let fileTypeArr = ['jpg',
-				'jpeg',
-				'gif',
-				'png',
-				'txt',
-				'doc',
-				'docx',
-				'xls',
-				'xlsx',
-				'ppt',
-				'pptx',
-				'pdf']
-			const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
-			console.log(fileExtension, '23456')
-			if (fileTypeArr.includes(fileExtension)) {
-				console.log("=====")
-				// window.location.href = file.fileUrl
-				this.dialogVisible = true
-				this.fileUrl = file.fileUrl
-			} else {
-				getFileId(file?.bizId).then((res) => {
-					console.log(res, '1111111111')
-				})
-			}
-		},
 		good() {
+			if (!this.currQuestionId) return
 			if (this.currQuesFavourFlag) return this.$message.warning("您已对该问题点赞, 请勿重复点击")  // 已对该问题点赞
 			updateFavour(this.currQuestionId).then((res) => {
 				if (res?.code === '200') {
 					this.$message.success("很开心该回答能帮助您...")
 					this.$emit('changeQuesStatus', this.currQuestionId)
+					this.getJudgeFavour(this.currQuestionId)
 				}
 			})
 		},
@@ -292,5 +259,14 @@ export default {
 	.icon-png {
 		width: 20px;
 		height: 20px;
+	}
+	.transfer-content {
+		width: 100%;
+		margin-bottom: 20px;
+	}
+	.horn-png {
+		width: 16px;
+		height: 16px;
+		margin-right: 10px;
 	}
 </style>

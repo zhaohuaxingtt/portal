@@ -1,5 +1,6 @@
 import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_APPROVAL)
+const requstAeko = axios(process.env.VUE_APP_AEKO)
 
 export function queryApprovalOverview(data) {
   return requst({
@@ -18,5 +19,13 @@ export function queryApplyOverview(data) {
     data,
     hideMessage: false,
     params: data
+  })
+}
+
+export function queryAekoTodoCount(data) {
+  return requstAeko({
+    url: `/web/aeko/approve/distribution/approvalPendingPage`,
+    method: 'POST',
+    data
   })
 }

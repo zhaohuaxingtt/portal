@@ -14,20 +14,17 @@
 		<div class="mt15 line"></div>
 		<div class="title">{{ currMoudleName ? language(`${currMoudleName}`) : '' }}</div>
 		<div class="line"></div>
-		<!-- <div class="editor-box" v-html="changeColor(currModuleDetailData)"></div> -->
-		<iEditor class="editor-box" ref="iEditor" v-html="changeColor(currModuleDetailData)" disabled />
+		<div class="editor-box" v-html="changeColor(currModuleDetailData)"></div>
 	</div>
 </template>
 
 <script>
 import { iInput, iButton } from 'rise';
-import iEditor from '@/components/iEditor'
 export default {
 	name: "DataManage",
 	components: {
 		iInput,
 		iButton,
-		iEditor
 	},
 	props: {
 		loading: {

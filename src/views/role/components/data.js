@@ -11,12 +11,12 @@ export const ROLE_COLUMNS = [
   {
     prop: 'id',
     label: '角色ID',
-    i18n: 'ROLE.ROLE_ID'
+    i18n: '角色ID'
   },
   {
     prop: '',
     label: '角色代码',
-    i18n: 'ROLE.ROLE_CODE',
+    i18n: '角色代码',
     emit: 'go-detail',
     tooltip: true,
     openNewPage: true,
@@ -27,17 +27,17 @@ export const ROLE_COLUMNS = [
   {
     prop: 'fullNameZh',
     label: '角色名称',
-    i18n: 'ROLE.ROLE_NAME'
+    i18n: '角色名称'
   },
   {
     prop: 'description',
     label: '描述',
-    i18n: 'ROLE.DESCRIPTION'
+    i18n: '描述'
   },
   {
     prop: 'status',
     label: '角色状态',
-    i18n: 'ROLE.ROLE_STATUS',
+    i18n: '角色状态',
     customRender: (h, scope) => {
       return scope.row.status ? '有效' : '失效'
     }
@@ -53,7 +53,7 @@ export const COLUMNS_DATA_MENU = [
   {
     prop: 'name',
     label: '名称',
-    i18n: 'ROLE.NAME',
+    i18n: '名称',
     type: 'expanded',
     align: 'left',
     emit: 'row-click'
@@ -116,7 +116,7 @@ export const COLUMNS_FUNCTION_RESOURCE = [
   {
     prop: 'permissionKey',
     label: '资源编码',
-    i18n: 'ROLE.RESOURCE_CODE',
+    i18n: '资源编码',
     minWidth: 300,
     align: 'left',
     headerAlign: 'left'
@@ -124,7 +124,7 @@ export const COLUMNS_FUNCTION_RESOURCE = [
   {
     prop: 'name',
     label: '资源名称',
-    i18n: 'ROLE.RESOURCE_NAME',
+    i18n: '资源名称',
     type: 'expanded',
     align: 'left',
     headerAlign: 'left',
@@ -133,18 +133,18 @@ export const COLUMNS_FUNCTION_RESOURCE = [
   {
     prop: 'nameEn',
     label: '资源名称(英)',
-    i18n: 'ROLE.RESOURCE_NAME_EN',
+    i18n: '资源名称(英)',
     minWidth: 200
   },
   {
     prop: 'remark',
     label: '类型',
-    i18n: 'ROLE.TYPE'
+    i18n: '类型'
   },
   {
     prop: 'remark',
     label: '备注',
-    i18n: 'ROLE.REMARK'
+    i18n: '备注'
   }
 ]
 // 功能权限菜单表头
@@ -157,7 +157,7 @@ export const COLUMNS_FUNCTION_MENU = [
   {
     prop: 'name',
     label: '资源名称',
-    i18n: 'ROLE.NAME',
+    i18n: '资源名称',
     type: 'expanded',
     minWidth: 200,
     align: 'left'
@@ -165,7 +165,7 @@ export const COLUMNS_FUNCTION_MENU = [
   {
     prop: 'permissionKey',
     label: '菜单编码',
-    i18n: 'ROLE.MENU_CODE',
+    i18n: '菜单编码',
     minWidth: 200,
     align: 'left'
   }

@@ -83,10 +83,19 @@
           </custom-select>
         </el-form-item>
         <el-form-item :label="language('GUANLIANDANHAO','关联单号')">
-          <input-custom v-model="searchForm.ttNominateAppId"
+          <!-- <input-custom v-model="searchForm.ttNominateAppId"
                         :editPlaceholder="language('QINGSHURU','请输入')"
                         :placeholder="language('QINGSHURU','请输入')">
-          </input-custom>
+          </input-custom> -->
+          <custom-select v-model="searchForm.ttNominateAppId"
+                         :user-options="ttNominateAppId"
+                         multiple
+                         clearable
+                         :placeholder="language('QINGXUANZE', '请选择')"
+                         display-member="message"
+                         value-member="code"
+                         value-key="code">
+          </custom-select>
         </el-form-item>
         <!-- <el-form-item label="RS单状态">
           <custom-select v-model="searchForm.rsFreezed"
@@ -118,6 +127,22 @@
                        end-placeholder="结束日期">
           </iDatePicker>
         </el-form-item>
+
+        <!-- 测试 -->
+        <!-- <el-form-item :label="language('DINGDIANSHIJIAN','定点时间')">
+          <iDatePicker style="width:220px"
+                       v-model="value1"
+                       @change="handleChange_ceshi"
+                       :picker-options="pickerOptions"
+                       format="yyyy-MM-dd"
+                       value-format="yyyy-MM-dd"
+                       unlink-panels
+                       type="daterange"
+                       range-separator="至"
+                       start-placeholder="开始日期"
+                       end-placeholder="结束日期">
+          </iDatePicker>
+        </el-form-item> -->
       </el-form>
     </iSearch>
 
@@ -201,7 +226,8 @@ import {
   mtzDel,
   getDeptLimitLevel,
   getMtzGenericAppId,
-  getCurrentUser
+  getCurrentUser,
+  getNominateAppIdList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   page,
@@ -223,6 +249,17 @@ export default {
   mixins: [pageMixins],
   data () {
     return {
+      // pickerOptions: {
+      //   shortcuts: [{
+      //     text: '现在到2999年',
+      //     onClick(picker) {
+      //       const end = new Date("2999-12-31");
+      //       const start = new Date();
+      //       picker.$emit('pick', [start, end]);
+      //     }
+      //   }]
+      // },
+
       mtzReasonShow: false,
       searchForm: {
         mtzAppId:[],
@@ -236,6 +273,7 @@ export default {
       },
       getFlowTypeList: [],
       getLocationApplyStatus: [],
+      ttNominateAppId:[],//关联申请单
       linieDeptId: [],//科室
       // value: "",
       value1: "",
@@ -251,10 +289,17 @@ export default {
   },
 
   created () {
+    // console.log(new Date("2999-12-31"));
     this.init()
   },
   methods: {
+    // handleChange_ceshi(val){
+    //   console.log(val);
+    // },
     init () {
+      getNominateAppIdList({}).then(res=>{
+        this.ttNominateAppId = res.data;
+      })
       getFlowTypeList({}).then(res => {
         this.getFlowTypeList = res.data;
       })

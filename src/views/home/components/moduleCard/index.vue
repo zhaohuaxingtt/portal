@@ -1,36 +1,52 @@
 <template>
   <el-card class="module-card">
-    <div
-      slot="header"
-      class="card-header"
-      :class="
-        !['EKL','EKLAffix'].includes(card.component)
+    <!-- :class="
+        !['EKL', 'EKLAffix'].includes(card.component)
           ? 'flex-between-center-center'
           : 'flex-end-center'
-      "
-    >
+      " -->
+    <div slot="header" class="card-header flex-between-center-center">
       <span
         class="title"
         @click="handleClickTitle(card)"
-        v-if="!['EKL','EKLAffix'].includes(card.component)"
+        v-if="!['EKL', 'EKLAffix'].includes(card.component)"
       >
         {{ newTitle }}
         <!-- {{ language(`${card.permissionKey}`) }} -->
         <!-- {{ $t('HOME_CARD.' + card.permissionKey) }} -->
       </span>
 
+      <eklHeader v-if="card.component === 'EKL'" @tab-click="handleEklClick" />
+      <eklAffixHeader
+        v-if="card.component === 'EKLAffix'"
+        @tab-click="handleEklAffixClick"
+      />
       <!-- 更多2 -->
       <div class="more">
         <span class="el-dropdown-link" @click.stop="show = !show">
           <i class="el-icon-more"></i>
         </span>
-        <div class="more-content" style="top:17px;" v-show="show">
-          <div class="more-item" v-if="card.component === 'Task' || card.component === 'Approve'" @click="handleMore">更多</div>
-          <div class="more-item" :class="[card.component != 'Task' && card.component != 'Approve' ? 'all' : 'bottom']" @click="handleDel">删除</div>
-          <i class="arrow" style="width:8px;height:8px; top:-4px;"></i>
+        <div class="more-content" style="top: 17px" v-show="show">
+          <div
+            v-if="['Task', 'Approve'].includes(card.component)"
+            class="more-item"
+            @click="handleMore"
+          >
+            更多
+          </div>
+          <div
+            class="more-item"
+            :class="
+              ['Task', 'Approve'].includes(card.component) ? 'bottom' : 'all'
+            "
+            @click="handleDel"
+          >
+            删除
+          </div>
+          <i class="arrow" style="width: 8px; height: 8px; top: -4px"></i>
         </div>
       </div>
-      
+
       <!-- 更多1 -->
       <!-- <el-dropdown trigger="click">
         <span class="el-dropdown-link">
@@ -46,10 +62,15 @@
           <el-dropdown-item @click.native="handleDel">删除</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown> -->
-
     </div>
     <div class="module-content">
-      <component :is="card.component" :data="card" ref="parent"></component>
+      <component
+        :is="card.component"
+        :data="card"
+        ref="parent"
+        :eklTabItem="eklTabItem"
+        :eklAffixTabItem="eklAffixTabItem"
+      ></component>
     </div>
     <moreDialog
       :show.sync="showDialog"
@@ -71,7 +92,9 @@ import Sourcing from '../Sourcing/index.vue'
 import Sponser from '../Sponser/index.vue'
 import Delivery from '../Delivery/index.vue'
 import EKL from '../EKL/index.vue'
+import eklHeader from '../EKL/header'
 import EKLAffix from '../EKLAffix/index.vue'
+import eklAffixHeader from '../EKLAffix/header'
 
 // import { updateModules } from '@/api/home'
 import { mapState } from 'vuex'
@@ -80,7 +103,9 @@ export default {
     return {
       showDialog: false,
       modalTitle: '',
-      show:false
+      show: false,
+      eklTabItem: null,
+      eklAffixTabItem: null
     }
   },
   components: {
@@ -94,7 +119,9 @@ export default {
     Sponser,
     Delivery,
     EKL,
-    EKLAffix
+    EKLAffix,
+    eklHeader,
+    eklAffixHeader
   },
   props: {
     card: {
@@ -114,15 +141,18 @@ export default {
     newTitle() {
       if (this.$i18n.locale === 'zh') {
         return this.$t('HOME_CARD.' + this.card.permissionKey)
-      } else if (this.$i18n.locale === 'en' && this.card.permissionKey === "HOME_MODULE_PROVIDER_RATE") {
+      } else if (
+        this.$i18n.locale === 'en' &&
+        this.card.permissionKey === 'HOME_MODULE_PROVIDER_RATE'
+      ) {
         return this.card.permissionKey
       } else {
         return this.$t('HOME_CARD.' + this.card.permissionKey)
       }
     }
   },
-  mounted(){
-    document.body.addEventListener("click",() => {
+  mounted() {
+    document.body.addEventListener('click', () => {
       this.show = false
     })
   },
@@ -137,7 +167,7 @@ export default {
         window.location.href = this.$refs.parent.url.uri
       } else if (card.component === 'News') {
         window.location.href = `/portal/news/#/news/news?id=${this.id}`
-      } else if (card.component === "Schedule") {
+      } else if (card.component === 'Schedule') {
         window.location.href = '/portal/#/meeting/hall'
       }
     },
@@ -158,6 +188,12 @@ export default {
         } */
         this.$emit('del', this.card)
       })
+    },
+    handleEklClick(item) {
+      this.eklTabItem = item
+    },
+    handleEklAffixClick(item) {
+      this.eklAffixTabItem = item
     }
   }
 }
@@ -182,7 +218,7 @@ export default {
     cursor: pointer;
   }
 
-  .card-header{
+  .card-header {
     position: relative;
     z-index: 10;
   }
@@ -190,74 +226,73 @@ export default {
     color: #4d4d4d;
   }
 }
-.more{
+.more {
   position: relative;
   margin-right: 10px;
 
-  &:hover .more-content{
-    display:block;
+  &:hover .more-content {
+    display: block;
   }
-  .el-dropdown-link{
+  .el-dropdown-link {
     cursor: pointer;
   }
-  .more-content{
+  .more-content {
     // display: none;
     width: 80px;
     position: absolute;
     // top: 25px;
     right: -20px;
     z-index: 900;
-    border: 1px solid #4B5C7D;
+    border: 1px solid #4b5c7d;
     background-color: #fff;
     border-radius: 8px;
-    transition: all .3s ease-in;
-     .arrow{
+    transition: all 0.3s ease-in;
+    .arrow {
       // content:"";
       position: absolute;
       // top: -17%;
       right: 24px;
       width: 8px;
       height: 8px;
-      border-left: 1px solid #4B5C7D;
-      border-top: 1px solid #4B5C7D;
+      border-left: 1px solid #4b5c7d;
+      border-top: 1px solid #4b5c7d;
       z-index: 901;
       background-color: #fff;
       transform: rotate(45deg);
     }
-    .more-item{
+    .more-item {
       position: relative;
       z-index: 902;
       padding: 5px 10px;
       cursor: pointer;
       text-align: center;
       font-size: 12px;
-      color: #4B5C7D;
+      color: #4b5c7d;
       // border-radius: 8px;
-        background-color: #fff;
-      &:hover{
-        color: #1660F1;
-        background-color: #F1F5FF;
+      background-color: #fff;
+      &:hover {
+        color: #1660f1;
+        background-color: #f1f5ff;
       }
-      &.all{
+      &.all {
         border-radius: 8px !important;
       }
-      &.bottom{
+      &.bottom {
         border-radius: 0 0 8px 8px !important;
       }
-
     }
-      .more-item:first-child{
-        border-radius: 8px 8px 0 0;
-      }
-      .more-item:last-child{
-        border-radius: 0 0 8px 8px;
-      }
+    .more-item:first-child {
+      border-radius: 8px 8px 0 0;
+    }
+    .more-item:last-child {
+      border-radius: 0 0 8px 8px;
+    }
   }
 }
 </style>
 <style lang="scss">
 .module-card {
-  margin-bottom: 20PX;
+  margin-bottom: 20px;
   .el-dropdown {
     z-index: 999;
   }
@@ -268,16 +303,16 @@ export default {
     height: 570px;
   }
 }
-.card-dropdown{
+.card-dropdown {
   margin: 0 !important;
   padding: 0 !important;
-  border: 1px solid #4B5C7D !important;
-  .el-dropdown-menu__item{
+  border: 1px solid #4b5c7d !important;
+  .el-dropdown-menu__item {
     padding-top: 5px;
     padding-bottom: 5px;
   }
-  .popper__arrow::after{
-    border-bottom-color: #4B5C7D !important;
+  .popper__arrow::after {
+    border-bottom-color: #4b5c7d !important;
   }
 }
 </style>

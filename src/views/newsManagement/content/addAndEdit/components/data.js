@@ -67,3 +67,17 @@ export const newsClassify = [
       { min: 1, max: 100, message: language('NEWS_ZUIDASHURUCHANGDU100',"最大输入长度100"), trigger: "blur" },
     ],
   };
+
+  export const GYSRules = {
+    title: [
+      { required: true, message: language('NEWS_BITIAN',"必填"), trigger: "blur" },
+      { min: 1, max: 80, message: language('NEWS_ZUIDASHURUCHANGDU80',"最大输入长度80"), trigger: "blur" },
+    ],
+    publishDate: [
+      { required: true, message: language('NEWS_BITIAN',"必填"), trigger: "blur" },
+    ],
+    summary: [
+      { required: true, message: language('NEWS_BITIAN',"必填"), trigger: "blur" },
+      { min: 1, max: 100, message: language('NEWS_ZUIDASHURUCHANGDU100',"最大输入长度100"), trigger: "blur" },
+    ],
+  };

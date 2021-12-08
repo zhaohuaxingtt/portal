@@ -155,7 +155,7 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_EKL]: {
-        target: `http://${BASE_IP}:8043`,
+        target: `http://${BASE_IP}:8043/riseekl`,
         // target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com`,
         changeOrigin: true,
         pathRewrite: {
@@ -194,7 +194,7 @@ module.exports = {
       },
       // ------------------ 上传 ----------------------------
       '/fileApi': {
-        target: `http://${BASE_IP}:8034/fileud`,
+        target: `http://${BASE_IP}:8034`,
         changeOrigin: true,
         pathRewrite: {
           '/fileApi': ''
@@ -317,11 +317,18 @@ module.exports = {
           ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
         }
       },
-      "/fileCross": {
+      '/fileCross': {
         target: `http://${BASE_IP}:8034`,
         changeOrigin: true,
         pathRewrite: {
-          "/fileCross": ''
+          '/fileCross': ''
+        }
+      },
+      [process.env.VUE_APP_AEKO]: {
+        target: `http://${BASE_IP}:8023/procurementrequirement`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_AEKO]: ''
         }
       }
     }
