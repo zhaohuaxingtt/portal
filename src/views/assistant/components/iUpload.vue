@@ -124,15 +124,14 @@
             async httpUpload(res){
                 let formData = new FormData();
                 formData.append("file",res.file);
-                let f = await uploadFile(formData);
-
+                let file = await uploadFile(formData);
                 let val = this.files;
                 val.push({
-                    fileName:f.name,
-                    fileUrl: f.path
+                    fileName:file.name,
+                    fileUrl: file.path
                 });
                 this.$emit("input",val);
-                this.$emit("onSuccess",f);
+                this.$emit("onSuccess",file);
             },
             beforeAvatarUpload(file){
                 const isLtSize = file.size / 1024 / 1024 < this.maxSize;

@@ -18,7 +18,10 @@
         </el-col>
         <el-col :span="8">
           <iFormItem :label="$t('问题来源')">
-            <iInput v-model="editForm.source" disabled/>
+             <iSelect v-model="editForm.source" disabled>
+                <el-option label="供应商用户" value="supplier"></el-option>
+                <el-option label="内部用户" value="inner"></el-option>
+            </iSelect>
           </iFormItem>
         </el-col>
       </el-row>

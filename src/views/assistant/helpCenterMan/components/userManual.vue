@@ -105,7 +105,7 @@
             },
             edit(){
                 this.type = 'edit'
-                this.content = JSON.parse(JSON.stringify(this.detail.manualContent))
+                this.content = this.detail.manualContent ? JSON.parse(JSON.stringify(this.detail.manualContent)) : ""
             },
             cancel(){
                 this.type = 'detail'

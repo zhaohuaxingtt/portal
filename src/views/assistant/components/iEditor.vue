@@ -38,7 +38,7 @@ import Editor from 'wangeditor'
         watch:{
             html(n){
                 if(n != this.editor.txt.html()){
-                    this.editor.txt.html(n || "") 
+                    this.editor.txt.html(n || "<p><br></p>") 
                 }
             },
             disabled(n){
@@ -61,7 +61,7 @@ import Editor from 'wangeditor'
                     })
                 }
                 this.editor.config.onchange = (newHtml) => {
-                   this.$emit("input",newHtml || "<p></p>")
+                   this.$emit("input",newHtml || "<p><br></p>")
                 };
 
                 if(this.disabled){
