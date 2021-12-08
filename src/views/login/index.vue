@@ -45,6 +45,7 @@
 import { iMessage } from 'rise'
 import { login } from '@/api/usercenter'
 import { setToken } from '@/utils'
+import { encryptPwd } from '@/utils/encrypt'
 export default {
   data() {
     return {
@@ -66,10 +67,10 @@ export default {
   methods: {
     login() {
       if (this.passWord === '' || this.userName === '') {
-        return iMessage.error(this.$t('LK_YONGHUMINGHUOMIMABUNENGWEIKONG'))
+        return iMessage.error(this.language('抱歉，用户名或密码不能为空！'))
       }
       this.loading = true
-      login({ userName: this.userName, passWord: this.passWord })
+      login({ userName: this.userName, passWord: encryptPwd(this.passWord) })
         .then(async (res) => {
           this.loading = false
           await setToken(res.data.token)
