@@ -48,7 +48,7 @@ export default {
       }
     },
     handleClick(item) {
-      this.$emit('tab-switch', item)
+      this.$emit('tab-click', item)
     }
   }
 }
@@ -59,13 +59,27 @@ export default {
   flex-grow: 1;
   margin-right: 20px;
 }
-.ekl-tabs {
-  ::v-deep .el-tabs__item {
-    line-height: 20px;
-    height: 24px;
-    padding-bottom: 4px;
-    font-size: 20px;
+::v-deep .ekl-tabs {
+  .el-tabs__item {
+    line-height: 22px;
+    height: 28px;
+    padding-bottom: 6px;
+    font-size: 22px;
     font-weight: bold;
+  }
+  .el-tabs__header {
+    margin-bottom: 0px;
+  }
+  .el-tabs__active-bar {
+    height: 3px;
+    bottom: -4px;
+  }
+  .el-tabs__nav-scroll,
+  .el-tabs__nav-wrap {
+    overflow: visible;
+  }
+  .el-tabs__nav-wrap::after {
+    background-color: transparent;
   }
 }
 </style>

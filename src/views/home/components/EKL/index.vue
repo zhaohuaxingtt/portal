@@ -20,19 +20,9 @@
     </div> -->
     <!-- <eklHeader @tab-switch="handleClick" /> -->
     <div class="ekl-content">
-      <div class="target flex-between-center-center margin-top20">
+      <div class="target flex-between-center-center">
         <div class="left">
-          <div
-            style="
-              font-family: Arial;
-              font-weight: bold;
-              color: #333;
-              font-size: 16px;
-              margin-bottom: 12px;
-            "
-          >
-            业绩目标
-          </div>
+          <div class="panel-title margin-bottom12">业绩目标</div>
           <el-select v-model="query.year" @change="handleCheckYear">
             <el-option
               v-for="item in options"
@@ -45,7 +35,7 @@
         </div>
         <div
           class="middle middle-m"
-          style="fontsize: 40px"
+          style="font-size: 40px"
           v-if="parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget"
         >
           {{
@@ -68,17 +58,7 @@
       </div>
       <div class="base flex-between-center-center">
         <div class="left">
-          <div
-            class="title"
-            style="
-              font-family: Arial;
-              font-weight: bold;
-              color: #333;
-              font-size: 16px;
-            "
-          >
-            业绩基础
-          </div>
+          <div class="title panel-title">业绩基础</div>
         </div>
         <div class="middle">
           {{
@@ -123,14 +103,18 @@
 import echarts from '@/utils/echarts'
 import { getEkl } from '@/api/home'
 import { mapState } from 'vuex'
-import eklHeader from './header'
 export default {
-  components: { eklHeader },
   props: {
     data: {
       type: Array,
       default: () => {
         return []
+      }
+    },
+    eklTabItem: {
+      type: Object,
+      default: function () {
+        return {}
       }
     }
   },
@@ -158,6 +142,11 @@ export default {
       leadTabList: (leadTabList) => leadTabList.permission.leadTabList
     })
   },
+  watch: {
+    eklTabItem() {
+      this.tabChange()
+    }
+  },
   mounted() {
     this.options = [this.query.year, this.query.year + 1]
     if (this.leadTabList.length > 0) {
@@ -171,8 +160,14 @@ export default {
     }
     this.getEkl(this.query)
     // log.js
+    this.tabChange()
   },
   methods: {
+    tabChange() {
+      if (this.eklTabItem) {
+        this.handleClick(this.eklTabItem)
+      }
+    },
     handleClick({ name }) {
       this.activeName = name
       this.eklTabList.forEach((item) => {
@@ -304,14 +299,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.panel-title {
+  font-family: Arial;
+  font-weight: bold;
+  color: #333;
+  font-size: 20px;
+}
 .ekl-container {
-  position: absolute;
+  /* position: absolute;
   top: 20px;
-  left: 0;
+  left: 0; */
   width: 100%;
   height: 100%;
-  padding: 8px 16px 16px 16px;
-
+  /* padding: 8px 16px 16px 16px; */
+  /* .ekl-content {
+    padding-top: 20px;
+  } */
+  .ekl-content {
+    overflow: hidden;
+  }
   .center-bar {
     position: absolute;
     bottom: 22%;
@@ -341,12 +347,6 @@ export default {
       > span {
         font-size: 32px;
       }
-    }
-  }
-  .ekl-tabs {
-    width: 66%;
-    ::v-deep .el-tabs__nav-scroll {
-      width: 100%;
     }
   }
   .unit {

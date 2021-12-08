@@ -29,7 +29,7 @@
         <div class="name f-family" :title="item.name">
           {{ item.name }}
         </div>
-        <div class="time" style="font-family: Arial">
+        <div class="time" style="Arial, 'PingFang SC'">
           {{ item.strStartTime }}
           {{ item.strStartTime && item.strEndTime ? `-` : '' }}
           {{ item.strEndTime }}
@@ -156,7 +156,7 @@ export default {
 .start-time {
   margin-right: 10px;
   font-weight: 500;
-  font-family: 'PingFang SC';
+  font-family: Arial, 'PingFang SC';
   font-size: 16px;
 }
 .meeting-card {
@@ -250,10 +250,7 @@ export default {
         white-space: nowrap;
       }
       .f-family {
-        font-family: 'VWTEXTOFFICE-REGULAR', 'VWHEADOFFICE-REGULAR',
-          'VWAGTHESANS-BOLD', 'VWHEADOFFICE-BOLD', 'VWHEADOFFICE-BOLDITALIC',
-          'VWHEADOFFICE-REGULARITALIC', 'VWTEXTOFFICE-BOLD',
-          'VWTEXTOFFICE-BOLDITALIC', 'VWTEXTOFFICE-REGULARITALIC';
+        font-family: Arial, 'PingFang SC';
         font-size: 14px;
       }
       .time {

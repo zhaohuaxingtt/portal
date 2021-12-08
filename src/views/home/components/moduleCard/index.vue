@@ -16,7 +16,7 @@
         <!-- {{ $t('HOME_CARD.' + card.permissionKey) }} -->
       </span>
 
-      <eklHeader v-if="card.component === 'EKL'" />
+      <eklHeader v-if="card.component === 'EKL'" @tab-click="handleEklClick" />
 
       <!-- 更多2 -->
       <div class="more">
@@ -25,19 +25,17 @@
         </span>
         <div class="more-content" style="top: 17px" v-show="show">
           <div
+            v-if="['Task', 'Approve'].includes(card.component)"
             class="more-item"
-            v-if="card.component === 'Task' || card.component === 'Approve'"
             @click="handleMore"
           >
             更多
           </div>
           <div
             class="more-item"
-            :class="[
-              card.component != 'Task' && card.component != 'Approve'
-                ? 'all'
-                : 'bottom'
-            ]"
+            :class="
+              ['Task', 'Approve'].includes(card.component) ? 'bottom' : 'all'
+            "
             @click="handleDel"
           >
             删除
@@ -63,7 +61,12 @@
       </el-dropdown> -->
     </div>
     <div class="module-content">
-      <component :is="card.component" :data="card" ref="parent"></component>
+      <component
+        :is="card.component"
+        :data="card"
+        ref="parent"
+        :ekl-tab="eklTabItem"
+      ></component>
     </div>
     <moreDialog
       :show.sync="showDialog"
@@ -95,7 +98,8 @@ export default {
     return {
       showDialog: false,
       modalTitle: '',
-      show: false
+      show: false,
+      eklTabItem: null
     }
   },
   components: {
@@ -177,6 +181,9 @@ export default {
         } */
         this.$emit('del', this.card)
       })
+    },
+    handleEklClick(item) {
+      this.eklTabItem = item
     }
   }
 }
