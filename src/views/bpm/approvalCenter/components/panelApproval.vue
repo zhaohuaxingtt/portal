@@ -17,6 +17,7 @@
           :data="subItem"
           :category-name="item.typeValue"
           type="APPROVAL"
+          :typeName="item.typeName"
           @open="openListPage"
         />
       </div>

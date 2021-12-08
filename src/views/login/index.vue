@@ -49,8 +49,8 @@ import { encryptPwd } from '@/utils/encrypt'
 export default {
   data() {
     return {
-      userName: '',
-      passWord: '',
+      userName: 'admin',
+      passWord: '1qaz@WSX',
       readonly: true,
       loading: false,
       ssoLogin: false
@@ -72,13 +72,19 @@ export default {
       this.loading = true
       login({ userName: this.userName, passWord: encryptPwd(this.passWord) })
         .then(async (res) => {
-          this.loading = false
-          await setToken(res.data.token)
-          this.$router
-            .replace({
-              path: '/index'
-            })
-            .catch((err) => console.log(err))
+          if (res && res.result) {
+            this.loading = false
+            await setToken(res.data.token)
+            this.$router
+              .replace({
+                path: '/index'
+              })
+              .catch((err) => console.log(err))
+          }
+        })
+        .catch((err) => {
+          console.log('err', err)
+          iMessage.error(err.desEn || this.language('登录失败'))
         })
         .finally(() => {
           this.loading = false

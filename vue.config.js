@@ -325,7 +325,7 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_AEKO]: {
-        target: 'http://BASE_IP:8023/procurementrequirement',
+        target: `http://${BASE_IP}:8023/procurementrequirement`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_AEKO]: ''
