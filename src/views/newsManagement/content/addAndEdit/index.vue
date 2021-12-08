@@ -191,7 +191,7 @@ export default {
         formData.publishDate = dayjs().format("YYYY-MM-DD HH:mm:ss");
         formData.status = 1;
       }
-      this.$refs["formComponent"].$refs["ruleForm"].validate((valid) => {
+      this.$refs["formComponent"].$refs[formData.category !== 2?"ruleForm":"gysRuleForm"].validate((valid) => {
         if (valid) {
           let text = formData.content
             .replace(/(\n)/g, "")
