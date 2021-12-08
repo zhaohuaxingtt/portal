@@ -18,8 +18,8 @@
                 <div class="img-box">
                   <img src="@/assets/images/time.svg" class="img" />
                 </div>
-                <!-- <span class="time"> {{ `${begin}~${end}` }}</span> -->
-                <span class="time">{{
+                <span class="time"> {{ `${begin}~${end}` }}</span>
+                <!-- <span class="time">{{
                   `${meetingInfo.startDate} ${meetingInfo.startTime.substring(
                     0,
                     5
@@ -37,7 +37,7 @@
                       )}`
                     : meetingInfo.endTime.substring(0, 5)
                 }`
-                }}</span>
+                }}</span> -->
               </div>
               <div class="address">
                 <!-- <i class="el-icon-location"></i> -->
@@ -318,9 +318,6 @@ export default {
     handleTurnMode() {
       this.value = !this.value
     },
-    setActiveItem(name) {
-      console.log(name)
-    },
     //取俩个数组的前6后6
     // assignArr(beforeArr, afterArr, isMy) {
     //   let arr = [];
@@ -435,26 +432,6 @@ export default {
         this.translateX(this.$refs.swiperRef, this.curIndex)
       }
     },
-    // getCurrentLiveIndex() {
-    //   let liveIndex = -10;
-    //   this.resThemeData.forEach((item, index) => {
-    //     if (item.state === "02") {
-    //       liveIndex = index;
-    //     }
-    //   });
-    //   if (liveIndex === 0) {
-    //     liveIndex = 1;
-    //   }
-    //   if (liveIndex === this.resThemeData.length - 1) {
-    //     liveIndex = this.resThemeData.length - 2;
-    //   }
-    //   this.isLiving = true;
-    //   if (liveIndex === -10) {
-    //     liveIndex = 1;
-    //     this.isLiving = false;
-    //   }
-    //   return liveIndex;
-    // },
 
     //判断当前 是否 有直播的议题
     isHaveLiveTheme() {
@@ -490,7 +467,20 @@ export default {
       this.begin = dayjs(new Date(`${startDate} ${startTime}`)).format(
         'YYYY/MM/DD HH:mm:ss'
       )
-      this.end = dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm:ss')
+      let end =
+        Number(
+          this.meetingInfo.themens
+            ? this.meetingInfo.themens[this.meetingInfo.themens.length - 1]
+                .plusDayEndTime
+            : 0
+        ) > 0
+          ? dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm:ss') +
+            ` +${Number(
+              this.meetingInfo.themens[this.meetingInfo.themens.length - 1]
+                .plusDayEndTime
+            )}`
+          : dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm:ss')
+      this.end = end
     },
     getMeetingTypeObject() {
       let param = {
@@ -526,12 +516,6 @@ export default {
       _this.meetingInfo = res
       return res
     }
-    //移动
-    // translateX(refDom, curIndex) {
-    //   if (refDom) {
-    //     refDom.style.transform = `translateX(${(1 - curIndex) * 35}rem)`;
-    //   }
-    // },
   },
   watch: {
     isLiving: {

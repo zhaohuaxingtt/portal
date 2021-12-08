@@ -17,7 +17,10 @@
       </span>
 
       <eklHeader v-if="card.component === 'EKL'" @tab-click="handleEklClick" />
-
+      <eklAffixHeader
+        v-if="card.component === 'EKLAffix'"
+        @tab-click="handleEklAffixClick"
+      />
       <!-- 更多2 -->
       <div class="more">
         <span class="el-dropdown-link" @click.stop="show = !show">
@@ -65,7 +68,8 @@
         :is="card.component"
         :data="card"
         ref="parent"
-        :ekl-tab="eklTabItem"
+        :eklTabItem="eklTabItem"
+        :eklAffixTabItem="eklAffixTabItem"
       ></component>
     </div>
     <moreDialog
@@ -90,6 +94,7 @@ import Delivery from '../Delivery/index.vue'
 import EKL from '../EKL/index.vue'
 import eklHeader from '../EKL/header'
 import EKLAffix from '../EKLAffix/index.vue'
+import eklAffixHeader from '../EKLAffix/header'
 
 // import { updateModules } from '@/api/home'
 import { mapState } from 'vuex'
@@ -99,7 +104,8 @@ export default {
       showDialog: false,
       modalTitle: '',
       show: false,
-      eklTabItem: null
+      eklTabItem: null,
+      eklAffixTabItem: null
     }
   },
   components: {
@@ -114,7 +120,8 @@ export default {
     Delivery,
     EKL,
     EKLAffix,
-    eklHeader
+    eklHeader,
+    eklAffixHeader
   },
   props: {
     card: {
@@ -184,6 +191,9 @@ export default {
     },
     handleEklClick(item) {
       this.eklTabItem = item
+    },
+    handleEklAffixClick(item) {
+      this.eklAffixTabItem = item
     }
   }
 }
