@@ -1,3 +1,9 @@
+/*
+ * @Date: 2021-11-08 11:47:59
+ * @LastEditors: caopeng
+ * @LastEditTime: 2021-12-08 16:13:50
+ * @FilePath: \front-portal-new\src\router\RouterProviderMgm.js
+ */
 //供应商用户管理
 export default [
   {
@@ -36,7 +42,8 @@ export default [
           activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
         },
         component: () => import('@/views/provider/sysMgm/index')
-      }
+      },
+   
     ]
   },
   {
