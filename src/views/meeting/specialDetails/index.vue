@@ -132,18 +132,17 @@
                 <span style="span-index">{{ scope.$index + 1 }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="14"></el-table-column>
+             <el-table-column align="center" width="4"></el-table-column>
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Time"
-              min-width="104"
+              min-width="134"
             >
               <template slot-scope="scope">
                 <span class="open-link-text">{{ scope.row.time }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="20"></el-table-column>
             <!-- <el-table-column
               show-overflow-tooltip
               align="center"
@@ -2470,7 +2469,7 @@ export default {
   width: 100% !important;
   min-width: initial !important;
   span {
-    display: block;
+    /* display: block; */
     width: 100%;
     text-align: center;
   }

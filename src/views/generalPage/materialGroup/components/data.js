@@ -64,7 +64,7 @@ export const materialTableTitle = [
     key: 'SUPPLIER_SHOUKONGZHUANGTAI',
     tooltip: true
   },
-  { props: 'isEffect', name: '状态', key: 'LK_ZHUANGTAI', tooltip: true },
+  // { props: 'isEffect', name: '状态', key: 'LK_ZHUANGTAI', tooltip: true },
   {
     props: 'controlledBegindate',
     name: '受控起始时间',

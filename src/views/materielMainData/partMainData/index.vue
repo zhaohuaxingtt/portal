@@ -5,26 +5,26 @@
         <el-form>
           <el-row gutter="24">
             <el-col :span="8">
-              <iFormItem :label="searchItemTitle.materielNum">
+              <iFormItem :label="language('零件号')">
                 <iInput
-                  :placeholder="placehoderText"
+                  :placeholder="language('请输入')"
                   v-model="searchContent.partNum"
                 ></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchItemTitle.materielName">
+              <iFormItem :label="language('零件名称')">
                 <iInput
-                  :placeholder="placehoderText"
+                  :placeholder="language('请输入')"
                   v-model="searchContent.partNameZh"
                 >
                 </iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchItemTitle.materielSource">
+              <iFormItem :label="language('零件来源')">
                 <iSelect
-                  :placeholder="selectText"
+                  :placeholder="language('请输入/请选择')"
                   v-model="searchContent.source"
                   filterable
                 >
@@ -39,7 +39,7 @@
               </iFormItem>
             </el-col>
           </el-row>
-          <iFormItem :label="searchItemTitle.partStatus">
+          <iFormItem :label="language('零件状态')">
             <iSelect v-model="searchContent.partStatus">
               <el-option
                 v-for="item in partStatusOptions"
@@ -56,16 +56,10 @@
     <div class="tabList" style="margin-top:20px">
       <iCard>
         <div class="btnList">
-          <iButton @click="createNew">{{ btnList.createNew }}</iButton>
-          <iButton @click="activeSta" :disabled="unActiveBtn">{{
-            btnList.activeSta
-          }}</iButton>
-          <iButton @click="del" :disabled="unLoseActiveBtn">{{
-            btnList.del
-          }}</iButton>
-          <buttonDownload  :download-method="exportExcel">{{
-            btnList.exports
-          }}</buttonDownload>
+          <iButton @click="createNew">{{ language('新建') }}</iButton>
+          <iButton @click="activeSta" :disabled="unActiveBtn">{{language('激活')}}</iButton>
+          <iButton @click="del" :disabled="unLoseActiveBtn">{{language('删除')}}</iButton>
+          <buttonDownload  :download-method="exportExcel">{{language('导出')}}</buttonDownload>
         </div>
         <div class="tableContent">
           <div class="tabel">

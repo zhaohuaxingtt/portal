@@ -1,7 +1,7 @@
 <template>
   <div>
     <iSelect
-      :placeholder="$t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')"
+      :placeholder="language('请选择')"
       v-model="row.leftSelect"
       @change="handleChange"
     >

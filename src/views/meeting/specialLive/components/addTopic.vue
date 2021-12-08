@@ -1240,9 +1240,9 @@ export default {
       formData.append('type', 1)
       await uploadFile(formData)
         .then((res) => {
-          this.attachment.attachmentId = res[0].id
-          this.attachment.attachmentUrl = res[0].path
-          this.attachment.attachmentName = res[0].name
+          this.attachment.attachmentId = res.data[0].id
+          this.attachment.attachmentUrl = res.data[0].path
+          this.attachment.attachmentName = res.data[0].name
           this.attachment.source = '04'
           this.attachments.push({ ...this.attachment })
           iMessage.success(this.$t('上传成功'))

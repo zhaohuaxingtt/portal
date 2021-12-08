@@ -2,8 +2,8 @@
 	<div>
 		<div class="attch-box flex flex-row items-center">
 			<div class="attach-text">附件：</div>
-			<img v-if="load==='down'" src="@/assets/images/fujian.png" alt="" class="fujian-png">
-			<div v-if="load==='down'" class="load-text cursor">{{ language('下载') }}</div>
+			<!-- <img v-if="load==='down'" src="@/assets/images/fujian.png" alt="" class="fujian-png">
+			<div v-if="load==='down'" class="load-text cursor">{{ language('下载') }}</div> -->
 			<el-upload
 				v-if="load==='up'"
 				:before-upload="beforeAttachUpload"
@@ -22,7 +22,7 @@
 			<div v-if="load==='up'" class="text-tip ml20">{{ attachText }}</div>
 		</div>
 		<div v-show="fileList.length > 0" class="file-list">
-			<div v-for="(file, idx) in fileList" :key="idx" class="flex cursor" @click="handleLoad(file)">
+			<div v-for="(file, idx) in fileList" :key="idx" class="flex cursor item-file" @click="handleLoad(file)">
 				<div>{{ load === 'down' ? file.fileName : file.name }}</div>
 				<i :class="load==='down' ? '' : 'el-icon-close close' " @click.stop="deleteFile(file)"></i>
 			</div>
@@ -136,20 +136,21 @@ export default {
 		}
 	}
 	.file-list{
-    padding: 10px 8px;
-    display: flex;
-		flex-direction: row;
-    // align-items: flex-end;
 		min-width: 100px;
-    margin: 10px 0;
-    justify-content: space-between;
     transition: all .3s ease;
     border-radius: 4px;
     color: #444;
-    &:hover{
+		height: 150px;
+		overflow: auto;
+		padding-bottom: 50px;
+		.item-file {
+			padding: 5px 8px;
+			margin: 6px 0;
+			&:hover{
         background-color: #f5f7fa;
         color: #2369f1;
-    }
+  }
+		}
 	}
 	.close{
     padding: 4px;

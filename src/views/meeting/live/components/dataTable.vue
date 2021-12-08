@@ -227,6 +227,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+::v-deep .cell {
+  padding: 0;
+}
 .doc-name {
   color: #1763f7;
   cursor: pointer;

@@ -111,7 +111,6 @@ export default {
   },
   data() {
     return {
-      meetingTypeId: '',
       restaurants: [],
       timeout: null,
       meetingTypeList: [],
@@ -169,9 +168,7 @@ export default {
     }
   },
   mounted() {
-    this.meetingTypeId = this.$route.query.id
     this.getAllSelectList()
-    // this.getUsersAll()
   },
   methods: {
     async querySearchAsync(queryString, cb) {
