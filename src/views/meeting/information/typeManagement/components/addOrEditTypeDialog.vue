@@ -42,10 +42,10 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="close" plain class="cancel">{{
-              $t("取消")
+              $t('取消')
             }}</iButton>
             <iButton @click="handleSubmit('ruleForm')" plain>{{
-              $t("保存")
+              $t('保存')
             }}</iButton>
           </el-form-item>
         </div>
@@ -55,14 +55,11 @@
 </template>
 
 <script>
-import { iDialog, iInput, iFormItem, iLabel, iButton, iSelect } from "rise";
-import iEditForm from "@/components/iEditForm";
-import uploadIcon from "@/assets/images/upload-icon.svg";
-import {
-  saveDocumentType,
-  updateDocumentType,
-} from "@/api/meeting/information";
-import { baseRules } from "./data";
+import { iDialog, iInput, iFormItem, iLabel, iButton, iSelect } from 'rise'
+import iEditForm from '@/components/iEditForm'
+import uploadIcon from '@/assets/images/upload-icon.svg'
+import { saveDocumentType, updateDocumentType } from '@/api/meeting/information'
+import { baseRules } from './data'
 export default {
   components: {
     iDialog,
@@ -71,115 +68,108 @@ export default {
     iLabel,
     iButton,
     iEditForm,
-    iSelect,
+    iSelect
   },
   props: {
     loading: { type: Boolean, default: false },
     openDialog: {
       type: Boolean,
       default: () => {
-        return true;
-      },
+        return true
+      }
     },
     editOrAdd: {
       type: String,
       default: () => {
-        return "add";
-      },
+        return 'add'
+      }
     },
     clickScope: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     meetingTypeAll: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     meetingType: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   data() {
     return {
       uploadIcon,
       rules: baseRules,
       ruleForm: {
-        name: "",
-        meetingTypes: "",
-      },
-    };
+        name: '',
+        meetingTypes: ''
+      }
+    }
   },
   mounted() {
-    if (this.editOrAdd === "edit") {
+    if (this.editOrAdd === 'edit') {
       // console.log("this.clickScope", this.clickScope);
-      this.ruleForm = { ...this.clickScope };
+      this.ruleForm = { ...this.clickScope }
       this.ruleForm.meetingTypes = this.clickScope.meetingTypes.map(
         (item) => item.name
-      );
+      )
     }
   },
   methods: {
     close() {
-      this.$emit("closeDialog", false);
+      this.$emit('closeDialog', false)
     },
     handleSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (this.editOrAdd === "edit") {
-            let nowMeetingType = [];
-            nowMeetingType = this.meetingTypeAll.filter((item) => {
-              return this.ruleForm.meetingTypes.some((i) => i == item.name);
-            });
-            this.ruleForm.meetingTypes = nowMeetingType;
-            const formData = this.ruleForm;
+          let formData = { ...this.ruleForm }
+          let nowMeetingType = []
+          nowMeetingType = this.meetingTypeAll.filter((item) => {
+            return this.ruleForm.meetingTypes.some((i) => i == item.name)
+          })
+          formData.meetingTypes = nowMeetingType
+          if (this.editOrAdd === 'edit') {
             updateDocumentType(formData)
               .then((data) => {
                 if (data) {
-                  this.close();
-                  this.$message.success("保存成功！");
-                  this.$emit("flushTable");
+                  this.close()
+                  this.$message.success('保存成功！')
+                  this.$emit('flushTable')
                 }
               })
               .catch((err) => {
-                console.log(err);
-              });
+                console.log(err)
+              })
           } else {
-            let nowMeetingType = [];
-            nowMeetingType = this.meetingTypeAll.filter((item) => {
-              return this.ruleForm.meetingTypes.some((i) => i == item.name);
-            });
-            this.ruleForm.meetingTypes = nowMeetingType;
-            // console.log("nowMeetingType", nowMeetingType);
-            const formData = this.ruleForm;
             saveDocumentType(formData)
               .then((data) => {
                 if (data) {
-                  this.close();
-                  this.$message.success("创建成功！");
-                  this.$emit("flushTable");
+                  this.close()
+                  this.$message.success('创建成功！')
+                  this.$emit('flushTable')
                 } else {
                   // this.$message.error(data.message);
-                  this.$emit("flushTable");
+                  this.$emit('flushTable')
                 }
               })
               .catch((err) => {
                 // this.$message.error("创建失败！");
-                console.log(err);
-                this.ruleForm.meetingTypes = [];
-              });
+                console.log(err)
+                this.ruleForm.meetingTypes = []
+              })
           }
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
