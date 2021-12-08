@@ -69,66 +69,13 @@ export default {
   },
   created() {
     this.editorContent = this.value
-    this.tempHtml = this.value
-  },
-  mounted() {
-    console.log(this.$refs.vueEditor)
   },
   methods: {
     async textChange() {
-            console.log(this.tempHtml);
-
       let html = this.editorContent
-      // html = html.replace(/<img*/g,`<img class="editor-img" `)      
-      // console.log(html);
-        let base_imgs = this.$refs.vueEditor ? this.$refs.vueEditor.$el.querySelectorAll('img') : ""
-
-        if(base_imgs){
-          let base_img = Array.from(base_imgs).find(e => {
-            return e.src.includes("data:image/")
-            // 图片预览
-            // e.addEventListener("click",(el) => {
-            //   el.stopPropagation()
-            //   this.dialog = true
-            //   this.imgUrl = el.target.src
-            // })
-            
-          })
-          if(base_img){
-            let file = this.dataURLtoFile(base_img.src,'test.png')
-            let path = await this.upload(file)
-            let img = document.createElement("img")
-            img.src = path
-            html += img.outerHTML
-            this.tempHtml = this.tempHtml + img.outerHTML
-            console.log(this.tempHtml);
-            html = html.replace(/<img.*?src="data:image.*?"*?\/?>/gi,"")
-            this.$nextTick( () => {
-              // setInterval(() => {
-                this.$emit('input', html)
-              // }, 1000);
-
-            })
-          }else{
-            this.$emit('input', html)
-          }
-        }
-
-    },
-    dataURLtoFile(dataurl, filename) {
-      let arr = dataurl.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      return new File([u8arr], filename, { type: mime });
+      this.$emit('input', html)
     },
     async handleImageAdded(file, Editor, cursorLocation, resetUploader) {
-      console.log(file,Editor, cursorLocation, resetUploader);
-      console.log(cursorLocation, resetUploader);
       this.loading = true
       try {
         let path = await this.upload(file)
@@ -180,7 +127,6 @@ export default {
   },
   watch: {
     value(newVal) {
-      console.log(newVal);
       this.editorContent = newVal
     }
   }

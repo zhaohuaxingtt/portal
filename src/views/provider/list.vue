@@ -1,7 +1,9 @@
 <template>
   <div class="ProcCs-container">
-    <div class="ProcCS-menu ">
-      <iNavMvp :list="menus" :lev="2" router-page />
+    <div class="ProcCS-menu">
+      <iNavMvp :list="menus"
+               :lev="2"
+               router-page />
     </div>
     <router-view />
   </div>
@@ -20,8 +22,8 @@ export default {
           value: 1,
           name: '供应商用户管理',
           message: 0,
-          url: '/provider/userMgm/list',
-          activePath: '/provider/userMgm/list',
+          url: '/provider/sysMgm/list',
+          activePath: '/provider/sysMgm/list',
           key: '供应商用户管理'
         },
         {
