@@ -38,8 +38,14 @@
           :tableLoading="loading"
           :index="true"
           :selection="false">
+          <template slot-scope="scope" slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
+          <template slot-scope="scope" slot="thresholdCompensationLogic">
+            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
         </tableList>
-        <tableList
+        <!-- <tableList
           class="margin-top20"
           :tableData="ruleTableListData"
           :tableTitle="ruleTableTitle1_2"
@@ -53,7 +59,7 @@
           <template slot-scope="scope" slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
-        </tableList>
+        </tableList> -->
 
         <el-divider class="margin-top20" v-if="partTableListData.length>0" />
         <p class="tableTitle" v-if="partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
@@ -66,11 +72,14 @@
           :index="true"
           :selection="false">
           <template slot-scope="scope"
-                  slot="supplierId">
-          <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
-        </template>
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+          </template>
+          <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+            </template>
         </tableList>
-        <tableList
+        <!-- <tableList
           class="margin-top20"
           :tableData="partTableListData"
           :tableTitle="partTableTitle1_2"
@@ -81,7 +90,7 @@
           <template slot-scope="scope" slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
-        </tableList>
+        </tableList> -->
       
       </iCard>
       <iCard class="margin-top20">

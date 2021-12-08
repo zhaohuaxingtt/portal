@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-06 14:47:15
+ * @LastEditTime: 2021-12-07 21:37:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -23,9 +23,7 @@
             <div class="opration"
                  v-if="!isView">
               <div v-show="!editFlag">
-                <iButton @click="handleChangeDate"
-                         class="margin-right20"
-                         :disabled="disabled"> {{language('BIANGENGYOUXIAOQI','变更有效期')}}</iButton>
+
                 <uploadButton ref="uploadButtonAttachment"
                               :buttonText="language('SHANGCHUANYUANCAILIAOYONGLIANGBIANGENG','上传原材料用量变更')"
                               :uploadByBusiness="true"
@@ -38,6 +36,9 @@
                          :disabled="disabled"> {{language('SHANCHU','删除')}}</iButton>
                 <iButton @click="add"
                          :disabled="disabled"> {{language('XINZENG','新增')}}</iButton>
+                <iButton @click="handleChangeDate"
+                         class="margin-right20"
+                         :disabled="disabled"> {{language('BIANGENGYOUXIAOQI','变更有效期')}}</iButton>
                 <iButton @click="edit"
                          :disabled="disabled"> {{language('BIANJI','编辑')}}</iButton>
               </div>
@@ -90,7 +91,7 @@
       </el-tab-pane>
     </iTabsList>
 
-    <iDialog title="提示"
+    <iDialog :title="language('BIANGENGYOUXIAOQI','变更有效期')"
              :visible.sync="visible"
              v-if="visible"
              append-to-body
@@ -298,13 +299,13 @@ export default {
     handleSelectionChange (val) {
       if (val.length > 1) {
         var duoxuans = val.pop();
-        this.muilteList = val.pop();
+        this.muliteList = val.pop();
         //清除所有选中
         this.$refs.paramsTable.clearSelection();
         //给最后一个加上选中
         this.$refs.paramsTable.toggleRowSelection(duoxuans);
       } else {
-        this.muilteList = val
+        this.muliteList = val
       }
     },
     handleSelectionChange1 (val) {

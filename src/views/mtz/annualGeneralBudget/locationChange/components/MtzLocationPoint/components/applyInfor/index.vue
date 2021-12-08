@@ -22,16 +22,16 @@
         </div>
         <div class="opration">
           <iButton @click="edit"
-                   v-show="disabled && appIdType && applyNumber=='' && (inforData.appStatus == '草稿' || inforData.appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
+                   v-show="disabled && appIdType && (inforData.appStatus == '草稿' || inforData.appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
           <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
           <iButton @click="save"
                    v-show="!disabled">{{ language('BAOCUN', '保存') }}</iButton>
           <iButton @click="relation"
-                   v-if="applyNumber===''&&showType">{{ language('GLLJDDSQ', '关联零件定点申请') }}</iButton>
+                   v-if="applyNumber===''&&showType&&disabled">{{ language('GLLJDDSQ', '关联零件定点申请') }}</iButton>
           <iButton @click="cancelRelation"
-                   v-if="applyNumber!==''&&showType">{{ language('QUXIAOGUANLIAN', '取消关联') }}</iButton>
+                   v-if="applyNumber!==''&&showType&&disabled">{{ language('QUXIAOGUANLIAN', '取消关联') }}</iButton>
         </div>
       </div>
       <div class="tabsBoxInfor">
@@ -49,8 +49,19 @@
                     v-model="inforData[item.prop]"></iInput>
           </el-tooltip>
           <iSelect style="width:68%;"
-                   v-else-if="item.type=='select'"
+                   v-else-if="item.type=='select'&&applyNumber==''"
                    :disabled="disabled"
+                   :value="inforData[item.prop]"
+                   :placeholder="language('QINGXUANZE','请选择')"
+                   @change="chioce($event,item.prop)">
+            <el-option :value="item.code"
+                       :label="item.message"
+                       v-for="item in getFlowTypeList"
+                       :key="item.code"></el-option>
+          </iSelect>
+          <iSelect style="width:68%;"
+                   v-else-if="item.type=='select'&&applyNumber!==''"
+                   :disabled="true"
                    :value="inforData[item.prop]"
                    :placeholder="language('QINGXUANZE','请选择')"
                    @change="chioce($event,item.prop)">
@@ -221,6 +232,7 @@ export default {
           this.applyNumber = res.data.ttNominateAppId;
           // this.getLjLocation();
         }
+        console.log(this.applyNumber);
         if (val !== "取消") {
           store.commit("submitBtnInfor", { ...res.data });
         }
