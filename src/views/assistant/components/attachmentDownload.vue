@@ -27,12 +27,21 @@
 				<i :class="load==='down' ? '' : 'el-icon-close close' " @click.stop="deleteFile(file)"></i>
 			</div>
 		</div>
+		<el-dialog
+			:visible="dialogVisible"
+			@close="closeDialog"
+			width="60%"
+		>
+			<div class="flex items-center justify-center ">
+				<img :src="fileUrl" alt="">
+			</div>
+		</el-dialog>
 	</div>
 </template>
 
 <script>
 import { iButton } from 'rise'
-import { uploadFile } from "@/api/assistant/uploadFile.js"
+import { uploadFile, getFileId } from "@/api/assistant/uploadFile.js"
 export default {
 	name: 'attachment-doenload',
 	components: { iButton },
@@ -68,15 +77,30 @@ export default {
 	},
 	data() {
 		return {
+			dialogVisible: false,
 			copyFile: '',
 			fileList: [],
+			fileUrl: '',
 			attachText: '只能上传不超过20MB的文件'
 		}
 	},
 	methods: {
 		handleLoad(file) {
 			if (this.load === 'up') return
-			this.$emit("loadAttach", file)
+			let fileTypeArr = ['jpg',
+				'jpeg',
+				'gif',
+				'png']
+			const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
+			if (fileTypeArr.includes(fileExtension)) {
+				console.log("=====")
+				this.dialogVisible = true
+				this.fileUrl = file.fileUrl
+			} else {
+				getFileId(file?.bizId).then((res) => {
+					console.log(res, '1111111111')
+				})
+			}
 		},
 		beforeAttachUpload(file) {
 			if (this.fileList.length > 5) return this.$message.error("上传文件不能超过5个")
@@ -105,6 +129,9 @@ export default {
 					this.fileList.splice(index, 1)
 				}
 			})
+		},
+		closeDialog() {
+			this.dialogVisible = false
 		}
 	}
 }

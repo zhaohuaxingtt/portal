@@ -114,7 +114,7 @@
                       class="LastSearchOption"
                     >
                       <iSelect
-                        :placeholder="$t('staffManagement.DEPARTMENT')"
+                        :placeholder="language('请选择岗位')"
                         v-model="positionListId"
                         clearable
                         @change="jobChange"

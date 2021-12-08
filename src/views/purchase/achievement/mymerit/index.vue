@@ -234,7 +234,7 @@
           url: '/achievement/baseData/mymerit',
           activePath: '/achievement/baseData/mymerit',
           permissionKey: 'ACHIEVEMENT',
-          key: 'EKL_WDYJ'
+          key: 'LK_WDYJ'
         }]
       }
     },
@@ -383,7 +383,7 @@
           var version_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_ekl_data_source",
+              table: "app_proc_LK_data_source",
               column: "data_version"
             },
             operator: "In",
@@ -393,7 +393,7 @@
           var year_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_ekl_data_source",
+              table: "app_proc_LK_data_source",
               column: "data_year"
             },
             operator: "In",

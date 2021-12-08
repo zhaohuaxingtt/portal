@@ -46,28 +46,190 @@ export const tableColumn = (c) => {
       }
     },
     {
-      prop: 'questionTitle',
+      // prop: 'questionTitle',
       label: '提问问题',
-      align: 'center'
-    },
-    {
-      prop: 'source',
-      label: '用户类型',
-      align: 'center'
+      align: 'center',
+      customRender: (h, scope) => {
+        const title = scope.row.questionTitle
+        return (
+          <div class="question-title" title={title}>{ title }</div>
+        )
+      }
     },
     {
       prop: 'createDate',
-      label: '创建时间',
+      label: '提问时间',
+      width: '200px',
+      align: 'center',
+      tooltip: true
+    },
+    {
+      prop: 'finishDate',
+      label: '完结时间',
       width: '180px',
       align: 'center',
       tooltip: true
     },
     {
       prop: 'createByUerName',
-      label: '创建人',
+      label: '提问者',
       align: 'center',
       tooltip: true
     },
+    {
+      // prop: 'source',
+      label: '用户类型',
+      align: 'center',
+      customRender: (h, scope) => {
+        const source = scope.row.source
+        return (
+          <div>{ source === 'inner' ? '内部用户' : '供应商用户' }</div>
+        )
+      }
+    },
+    {
+      // prop: 'handlerUserName',
+      label: '管理员',
+      align: 'center',
+      customRender: (h, scope) => {
+        const handlerUserName = scope.row.handlerUserName
+        return (
+          <div class="handlerUserName"  title={handlerUserName}>{ handlerUserName }</div>
+        )
+      }
+    },
+    {
+      prop: 'questionModuleName',
+      label: '问题模块',
+      align: 'center',
+      tooltip: true
+    },
+    {
+      prop: 'questionLableName',
+      label: '标签',
+      align: 'center'
+    }
+    // {
+    //   prop: 'favourCount',
+    //   label: '点赞量',
+    //   align: 'center'
+    // },
+    // {
+    //   prop: 'viewCount',
+    //   label: '浏览量',
+    //   align: 'center'
+    // }
+  ]
+}
+
+export const manualTableColumn = (c) => {
+  return [
+    {
+      label: '序号',
+      width: 80,
+      customRender: (h, scope) => {
+        const rowIndex = scope.$index + 1
+        if (c.page.currPage == 1) {
+          if (rowIndex === 1) {
+            return (
+              <span class="table-icon">
+                <div class="icon first"></div>
+                {rowIndex}
+              </span>
+            )
+          } else if (rowIndex === 2) {
+            return (
+              <span class="table-icon">
+                <div class="icon second"></div>
+                {rowIndex}
+              </span>
+            )
+          } else if (rowIndex === 3) {
+            return (
+              <span class="table-icon">
+                <div class="icon third"></div>
+                {rowIndex}
+              </span>
+            )
+          } else {
+            return (
+              <span class="table-icon">
+                <div class="icon"></div>
+                {rowIndex}
+              </span>
+            )
+          }
+        } else {
+          return (
+            <span class="table-icon">
+              <div class="icon"></div>
+              {rowIndex}
+            </span>
+          )
+        }
+      }
+    },
+    {
+      // prop: 'questionTitle',
+      label: '提问问题',
+      align: 'center',
+      customRender: (h, scope) => {
+        const title = scope.row.questionTitle
+        return (
+          <div class="question-title" title={title}>{ title }</div>
+        )
+      }
+    },
+    {
+      // prop: 'source',
+      label: '用户类型',
+      align: 'center',
+      customRender: (h, scope) => {
+        const source = scope.row.source
+        return (
+          <div>{ source === 'inner' ? '内部用户' : '供应商用户' }</div>
+        )
+      }
+    },
+    {
+      prop: 'createDate',
+      label: '创建时间',
+      width: '200px',
+      align: 'center',
+      tooltip: true
+    },
+    {
+      prop: 'handlerUserName',
+      label: '创建人',
+      width: '200px',
+      align: 'center',
+      tooltip: true
+    },
+    // {
+    //   prop: 'finishDate',
+    //   label: '完结时间',
+    //   width: '180px',
+    //   align: 'center',
+    //   tooltip: true
+    // },
+    // {
+    //   prop: 'createByUerName',
+    //   label: '提问者',
+    //   align: 'center',
+    //   tooltip: true
+    // },
+    
+    // {
+    //   prop: 'handlerUserName',
+    //   label: '管理员',
+    //   align: 'center',
+    //   customRender: (h, scope) => {
+    //     const handlerUserName = scope.row.handlerUserName
+    //     return (
+    //       <div class="handlerUserName"  title={handlerUserName}>{ handlerUserName }</div>
+    //     )
+    //   }
+    // },
     {
       prop: 'questionModuleName',
       label: '问题模块',

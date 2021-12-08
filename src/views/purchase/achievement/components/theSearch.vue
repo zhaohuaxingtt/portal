@@ -4,15 +4,13 @@
             <!--第一行-->
             <el-row class="margin-bottom20">
                 <!--描述-->
-                <!--<el-form-item :label="$t('EKL_MIAOSHU')">-->
                 <el-form-item :label="language('LK_MIAOSHU','描述')">
                     <iInput :placeholder="language('请输入')" v-model="form.title"></iInput>
                 </el-form-item>
                 <!--状态-->
-                <!--<el-form-item :label="$t('EKL_ZHUANGTAI')">-->
+
                 <el-form-item :label="language('LK_ZHUANGTAI','状态')">
                     <iSelect multiple filterable collapse-tags :placeholder="language('请选择')" v-model="form.status">
-                        <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
                                 :value="item.key"
                                 :label="$t($i18n.locale === 'zh' ? item.valueCN : item.valueEN) "
@@ -21,16 +19,12 @@
                     </iSelect>
                 </el-form-item>
                 <!--发起人-->
-                <el-form-item :label="$t('EKL_FAQIREN')">
-                <!--<el-form-item :label="language('LK_FAQIREN','发起人')">-->
-
+                <el-form-item :label="language('LK_FAQIREN','发起人')">
                     <iInput :placeholder="language('请输入')" v-model="form.createByName"></iInput>
                 </el-form-item>
                 <!--单据类型-->
-                <el-form-item :label="$t('EKL_DJLX')">
-                    <!--<el-form-item :label="language('LK_DANJULEIXING','单据类型')">-->
+                <el-form-item :label="language('LK_DANJULEIXING','单据类型')">
                     <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.billType">
-                        <!--            <el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
                                 :value="item.key"
                                 :label="$t($i18n.locale === 'zh' ? item.value : item.valueEN) "
@@ -39,9 +33,8 @@
                     </iSelect>
                 </el-form-item>
                 <!--业务类型-->
-                <el-form-item :label="$t('EKL_YWLX')">
+                <el-form-item :label="language('LK_YEWULEIXING','业务类型')">
                     <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.type">
-                        <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
                                 :value="item.key"
                                 :label="$t($i18n.locale === 'zh' ? item.value : item.valueEN) "
@@ -54,7 +47,7 @@
             <!--第二行-->
             <el-row>
                 <!--版本号-->
-                <el-form-item :label="$t('EKL_BANBENHAO')">
+                <el-form-item :label="language('LK_BANBENHAO','版本号')">
                     <iSelect :placeholder="language('请选择')" v-model="form.version">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -66,7 +59,7 @@
                 </el-form-item>
 
                 <!--来源-->
-                <el-form-item :label="$t('EKL_LY')">
+                <el-form-item :label="language('LK_LAIYUAN','来源')">
                     <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.source">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
@@ -78,13 +71,14 @@
                 </el-form-item>
 
                 <!--更新时间起-->
-                <el-form-item prop="updateDateStart" class="r_el-form-item" :label="$t('EKL_GENGXINRIQIQI')">
+                <el-form-item prop="updateDateStart" class="r_el-form-item"
+                              :label="language('LK_GENGXINRIQIQI','更新时间起')">
                     <iDatePicker clearable="false" v-model="form.updateDateStart" type="date"
                                  :picker-options="pickerOptionsStart" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
                                  :placeholder="language('请选择')"/>
                 </el-form-item>
                 <el-form-item prop="updateDateEnd" class="r_el-form-item el-form-itemnext"
-                              :label="$t('EKL_GENGXINRIQIZHI')">
+                              :label="language('LK_GENGXINRIQIZHI','更新时间止')">
                     <iDatePicker clearable="false" v-model="form.updateDateEnd" type="date"
                                  :picker-options="pickerOptionsEnd" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
                                  :placeholder="language('请选择')"/>
@@ -135,7 +129,7 @@
         pickerOptionsEnd: {
           disabledDate: (time) => {
             if (this.form.updateDateStart) {
-              return time.getTime() < new Date(this.form.updateDateStart).getTime()-3600*1000*24
+              return time.getTime() < new Date(this.form.updateDateStart).getTime() - 3600 * 1000 * 24
             }
           },
         },
@@ -171,7 +165,7 @@
     methods: {
       handleSearchReset() {
         this.form = {}
-        this.$set(this.form,'status',[0, 2, 3, 4, 11])
+        this.$set(this.form, 'status', [0, 2, 3, 4, 11])
         this.getTableList();
       },
       // get 状态
@@ -180,7 +174,8 @@
           if (res.result) {
             this.statusList = res.data
           }
-        }).catch(()=>{})
+        }).catch(() => {
+        })
       },
       getTableList() {
         const form = this.form;

@@ -5,7 +5,7 @@
         <el-form label-position="top" :model="searchForm" ref="searchForm">
           <el-row :gutter="20">
             <el-col :span="6">
-              <iFormItem :label="$t('用户类型')">
+              <iFormItem :label="language('用户类型')">
                 <!--  inner:内部用户 supplier:供应商用户 -->
                 <iSelect v-model="searchForm.source" filterable placeholder="请选择" clearable="true"  @clear="clearable('source')"  @change="sourceHandle">
                   <el-option label="内部用户" value="inner"></el-option>
@@ -14,26 +14,26 @@
               </iFormItem>
             </el-col>
             <el-col :span="6">
-              <iFormItem :label="$t('问题模块')">
+              <iFormItem :label="language('问题模块')">
                 <iSelect v-model="searchForm.questionModuleId" filterable placeholder="问题模块" :disabled="!searchForm.source"  clearable="true" @change="questionModuleHandle" @clear="clearable('questionModuleId')">
-                  <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
+                  <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
                 </iSelect>
               </iFormItem>
             </el-col>
             <el-col :span="6">
-              <iFormItem :label="$t('标签')">
+              <iFormItem :label="language('标签')">
                 <iSelect v-model="searchForm.questionLableId" filterable :disabled="!searchForm.questionModuleId"  clearable="true" @clear="clearable('questionLableId')">
                   <el-option v-for="item in labelList" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
                 </iSelect>
               </iFormItem>
             </el-col>
             <el-col :span="6">
-              <iFormItem :label="$t('创建人')">
+              <iFormItem :label="userType === 'supplier' ? language('管理员') : language('创建人')">
                 <iInput v-model="searchForm.createBy" placeholder="请输入" />
               </iFormItem>
             </el-col>
             <el-col :span="12">
-              <iFormItem :label="$t('时间')">
+              <iFormItem :label="language('时间')">
                 <iDatePicker style="width:100%;" v-model="searchForm.date" @change="changeDatePicker" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
                 </iDatePicker>
               </iFormItem>
@@ -42,8 +42,8 @@
         </el-form>
       </div>
       <div class="btn-box margin-top60">
-        <iButton @click="handleConfirm">{{ $t('LK_INQUIRE') }}</iButton>
-        <iButton @click="handleReset">{{ $t('LK_ZHONGZHI') }}</iButton>
+        <iButton @click="handleConfirm">{{ language('查询') }}</iButton>
+        <iButton @click="handleReset">{{ language('重置') }}</iButton>
       </div>
     </div>
   </el-card>
@@ -51,7 +51,7 @@
 
 <script>
 import { iInput, iButton, iFormItem, iSelect, iDatePicker } from 'rise';
-import { getModuleListByUserTypeApi,  getCurrLabelList,  } from '@/api/assistant';
+import { queryModuleBySource,  getCurrLabelList,  } from '@/api/assistant';
 
 export default {
   components: { iInput, iButton, iFormItem, iSelect, iDatePicker },
@@ -61,6 +61,10 @@ export default {
     },
     query: {
       type: Array
+    },
+    userType: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -87,7 +91,7 @@ export default {
   methods: {
     // 根据用户类型获取模块下拉框
     async getModuleListByUserType (userType) {
-      const response = await getModuleListByUserTypeApi(userType);
+      const response = await queryModuleBySource(userType);
       if (response?.code === '200') {
         this.problemModuleList = response.data;
       } else {

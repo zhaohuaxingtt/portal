@@ -98,8 +98,6 @@ export default {
       const response = await questionUnReplyCountApi(selfOnly);
       if (response?.code === '200') {
         this.problemHandlerCount = response.data;
-      } else {
-        console.error('获取未读数量失败');
       }
     },
     changeSelfHandle(val) {

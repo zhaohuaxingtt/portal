@@ -118,7 +118,7 @@ export default {
             })
         },
         handleSelectionChange(val){
-            
+            console.log(val,'=====');
             this.selectedItems = val
             // if(val.type == 0){
 

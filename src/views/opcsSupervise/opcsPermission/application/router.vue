@@ -1,39 +1,47 @@
 <!--
  * @Date: 2021-11-29 10:30:10
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-07 16:43:41
+ * @LastEditTime: 2021-12-08 18:14:35
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\router.vue
 -->
 
 
 <template>
-  <div class="box">
-    <!-- <iNavMvp :list="applicationRouterList" :lev='2' right routerPage class="nav" /> -->
-    <div :class="isCollapse?'menuor menu':'menu'">
-      <div class="btn"
-           @click="toggleCollapse ()">
-        <i :class="isCollapse?'el-icon-caret-right':'el-icon-caret-left'"></i>
+  <div class="page">
+    <div class="navBox">
+      <p class="font20 font-weight">
+        {{ language('YINGYONGMINGCHENG', '应⽤名称') }}-{{$route.query.nameZh}}
+      </p>
+      <div class="logButton">
+        <i-button @click="$router.push({path:'/opcs/list'})">{{ language('FANHUI', '返回') }}</i-button>
       </div>
-      <el-menu :collapse="isCollapse"
-               router
-               :default-active="$route.path"
-               class="el-menu-vertical-demo"
-               @open="handleOpen"
-               @close="handleClose">
-        <el-menu-item v-for="(item,index) in applicationRouterList"
-                      :index="item.url"
-                      :route="{ path: item.url, query: { opcsSupplierId: $route.query.opcsSupplierId ,nameZh:$route.query.nameZh} }"
-                      :key="index">
-          <i :class="item.icon"></i>
-          <span slot="title">{{language(item.key, item.name)}}</span>
-        </el-menu-item>
-      </el-menu>
-
     </div>
-    <div :class="isCollapse?'sectionor':'section'">
-      <router-view />
-
+    <div class="box">
+      <div :class="isCollapse?'menuor menu':'menu'">
+        <div class="btn"
+             @click="toggleCollapse ()">
+          <i :class="isCollapse?'el-icon-caret-right':'el-icon-caret-left'"></i>
+        </div>
+        <el-menu :collapse="isCollapse"
+                 router
+                 :default-active="$route.path"
+                 class="el-menu-vertical-demo"
+                 @open="handleOpen"
+                 @close="handleClose">
+          <el-menu-item v-for="(item,index) in applicationRouterList"
+                        :index="item.url"
+                        :route="{ path: item.url, query: { opcsSupplierId: $route.query.opcsSupplierId ,nameZh:$route.query.nameZh} }"
+                        :key="index">
+            <i :class="item.icon"></i>
+            <span slot="title">{{language(item.key, item.name)}}</span>
+          </el-menu-item>
+        </el-menu>
+      </div>
+      <div :class="isCollapse?'sectionor':'section'">
+        <router-view />
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -41,10 +49,14 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
 // import { iNavMvp } from 'rise'
+import {  iButton } from 'rise'
 import { applicationRouterList } from '../../commonHeardNav/navData.js'
 import { cloneDeep } from 'lodash'
 
 export default {
+     components: {
+    iButton,
+  },
   // import引入的组件需要注入到对象中才能使用
   //   components: { iNavMvp },
   data() {
@@ -82,8 +94,21 @@ export default {
     color: #1663f6;
   }
 }
-.box {
+.navBox {
+  display: flex;
+  padding: 0 10px;
+  justify-content: space-between;
+  align-items: center;
+  .logButton {
+  }
+}
+.page{
+     padding: 20px;
   width: 100%;
+
+}
+.box {
+      width: 100%;
   display: flex;
   justify-content: space-between;
   .menu {
@@ -101,7 +126,7 @@ export default {
   }
   .section {
     margin-left: 17%;
-    width: 84%;
+    width: 82%;
     transition: all 0.5s ease;
   }
   .sectionor {

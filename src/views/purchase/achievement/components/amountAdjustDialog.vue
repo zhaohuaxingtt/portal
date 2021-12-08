@@ -1,7 +1,7 @@
 <template>
     <!--业绩金额调整-->
     <iDialog
-            :title="$t('EKL_YEJIJINETIAOZHENG')"
+            :title="language('LK_YEJIJINETIAOZHENG','业绩金额调整')"
             :visible.sync="value"
             width="90%"
             @close="clearDiolog"
@@ -9,7 +9,7 @@
             class="dialog"
     >
         <div class="target-manage">
-            <span class="label">{{ $t('SUPPLIER_NIANFEN') }}</span>
+            <span class="label">{{ language('LK_NIANFEN','年份') }}</span>
             <iSelect
                     v-model="form.year"
                     class="text"
@@ -43,7 +43,7 @@
 
         <div slot="footer" class="dialog-footer">
             <span class="pr20">{{$i18n.locale === 'zh' ? '单位：百万元' : 'Unit: million yuan'}}</span>
-            <iButton v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT_CONFIRM')" @click="handleSubmit">{{ $t('EKL_QUEREN')
+            <iButton v-if="isAuth(whiteBtnList,'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT_CONFIRM')" @click="handleSubmit">{{ language('LK_QUEREN','确认')
                 }}
             </iButton>
         </div>

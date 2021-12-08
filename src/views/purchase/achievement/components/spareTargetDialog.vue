@@ -52,7 +52,7 @@
             </iInput>
         </div>
         <div slot="footer" class="dialog-footer">
-            <iButton @click="handleSubmit" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_SAVEDATA')">{{ $t('EKL_QUEREN') }}</iButton>
+            <iButton @click="handleSubmit" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_SAVEDATA')">{{ $t('LK_QUEREN') }}</iButton>
         </div>
     </iDialog>
 </template>

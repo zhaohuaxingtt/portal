@@ -115,12 +115,19 @@
           <div class="content-title mb20">{{ language('消息') }}</div>
           <!-- 正常状态 -->
           <template v-for="item of questionDetail.replyQuestionList">
-            <div class="content flex flex-row" :key="item.id">
-              <div class="name">{{item.replyUserName}}</div>
-              <div class="content-text">
-                <p class="html" v-html="item.content"></p>
-                <p class="time">{{item.createDate}}</p>
+            <div class="content flex flex-column" :key="item.id">
+              <div v-if="item.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
+                <img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
+                <div>{{`管理员${item.replyUserName}将任务转派给了管理员${item.handlerToUserName}`}}</div>
               </div>
+              <div v-else class="flex flex-row">
+                <div class="name">{{item.replyUserName}}</div>
+                <div class="content-text">
+                  <p class="html" v-html="item.content"></p>
+                  <p class="time">{{item.createDate}}</p>
+                </div>
+              </div>
+              
             </div>
           </template>
 
@@ -128,19 +135,19 @@
           <div v-if="isReplyStatus" class="reply-content mt20">
             <el-form>
               <iFormItem prop="replyContent">
-                <iEditor ref="iEditor" v-model="replyContent" :toolbar="editToolbar" v-if="editable" />
+                <iEditor ref="iEditor" v-model="replyContent" v-if="editable" />
                 <div v-else class="content" v-html="replyContent"></div>
               </iFormItem>
             </el-form>
           </div>
-          <div class="mt20 mb20">
-            <attachmentDownload :load="loadText" @loadAttach="loadAttach" ref="attachment" @getFilesList="getFilesList" />
+          <div class="mt20 mb20" v-show="attachShowFlag">
+            <attachmentDownload :load="loadText" ref="attachment" @getFilesList="getFilesList" />
           </div>
         </template>
       </div>
     </div>
     <dispatchDialog v-if="showDialog" :show.sync="showDialog" :questionId="cardSelectItem.id" @loadData="initData" />
-    <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" :problemModuleList="problemModuleList" :labelList="labelList" :source="userType" :questionItem="cardSelectItem" @loadData="initData" @queryLabelByModuleId="queryLabelByModuleId" />
+    <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" :problemModuleList="problemModuleList" :labelList="labelList" :source="userType" :questionItem="questionDetail" @loadData="initData" @queryLabelByModuleId="queryLabelByModuleId" />
   </div>
 </template>
 
@@ -148,8 +155,8 @@
 import { iInput, iSelect, iButton, iFormItem } from 'rise'
 import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
-import iEditor from '@/components/iEditor';
-import { getFileId } from "@/api/assistant/uploadFile.js"
+import iEditor from '../../../components/iEditor';
+// import { getFileId } from "@/api/assistant/uploadFile.js"
 import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
 import { queryModuleBySource, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi, closeQuestionApi, modifyModuleAndLabelApi } from '@/api/assistant';
 // 来源 inner:内部用户 supplier:供应商用户
@@ -228,10 +235,11 @@ export default {
 
       l_loading:false,
       noMore:false,
+      attachShowFlag: false,
       userTypes:{
         inner: "内部用户",
         supplier:"供应商用户"
-      }
+      },
     }
   },
   async mounted () {
@@ -239,31 +247,6 @@ export default {
     this.initData();
   },
   methods: {
-    // 下载详情附件
-		loadAttach(file) {
-			let fileTypeArr = ['jpg',
-				'jpeg',
-				'gif',
-				'png',
-				'txt',
-				'doc',
-				'docx',
-				'xls',
-				'xlsx',
-				'ppt',
-				'pptx',
-				'pdf']
-			const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
-			console.log(fileExtension, '23456')
-			if (fileTypeArr.includes(fileExtension)) {
-				console.log("=====")
-				window.location.href = file.fileUrl
-			} else {
-				getFileId(file?.bizId).then((res) => {
-					console.log(res, '1111111111')
-				})
-			}
-		},
     initData () {
       this.queryProblemList(this._queryForm({
         source: this.userType,
@@ -380,6 +363,7 @@ export default {
             }
           })
         }
+        this.attachShowFlag = currQuesFileList.length > 0 ? true : false
         this.$refs.attachment.fileList = currQuesFileList || []
         this.editForm = {
           questionLableId: data?.questionLableId,
@@ -435,10 +419,10 @@ export default {
           this.$message.success('关闭成功');
           this.initData();
         } else {
-          this.$message.error('关闭失败');
+          // this.$message.error('关闭失败');
         }
       }).catch(() => {
-        this.$message.error('关闭失败');
+        // this.$message.error('关闭失败');
       })
     },
     async answerQuestion (hasClosed) {
@@ -524,9 +508,6 @@ export default {
     }
   },
   computed: {
-    editToolbar () {
-      return []
-    },
     loadText () {
       if (this.isReplyStatus) {
         return 'up';
@@ -678,4 +659,12 @@ export default {
   color: #999;
   text-align: center;
 }
+.transfer-content {
+		width: 100%;
+	}
+	.horn-png {
+		width: 16px;
+		height: 16px;
+		margin-right: 10px;
+	}
 </style>

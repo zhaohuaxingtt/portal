@@ -1,10 +1,10 @@
 /*
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-02 15:06:12
+ * @LastEditors: caopeng
+ * @LastEditTime: 2021-12-08 16:42:23
  * @Description:
- * @FilePath: \front-portal\src\router\Router.js
+ * @FilePath: \front-portal-new\src\router\Router.js
  */
 import DefLayout from '../layout'
 import Login from '../views/login/index'

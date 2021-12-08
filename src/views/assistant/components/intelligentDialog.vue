@@ -183,7 +183,7 @@ export default {
 		color: #000000;
 	}
 	.moren-box {
-		height: 280px;
+		// height: 280px;
 		background: #FFFFFF;
 		opacity: 1;
 		border-radius: 4px;
