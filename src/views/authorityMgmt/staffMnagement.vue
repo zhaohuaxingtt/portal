@@ -116,6 +116,7 @@
                       <iSelect
                         :placeholder="$t('staffManagement.DEPARTMENT')"
                         v-model="positionListId"
+                        clearable
                         @change="jobChange"
                         :disabled="isEdit"
                       >
@@ -733,9 +734,9 @@ export default {
     getGroup(val) {
       getPosition(val).then((res) => {
         if (res.code == 200) {
-          this.formData.roleList = res.data.roleDTOList
-          this.formData.subUserList = res.data.subUserList
-          this.formData.supUserList = res.data.supUserList
+          this.formData.roleList = res.data?.roleDTOList || []
+          this.formData.subUserList = res.data?.subUserList || []
+          this.formData.supUserList = res.data?.supUserList || []
           if (!res.data.tempPurchaseGroup) return
           this.tableLoadingGroup = true
           if (res.data.tempPurchaseGroup) {

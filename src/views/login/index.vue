@@ -70,7 +70,11 @@ export default {
         return iMessage.error(this.language('抱歉，用户名或密码不能为空！'))
       }
       this.loading = true
-      login({ userName: this.userName, passWord: encryptPwd(this.passWord) })
+      const requestData = {
+        userName: this.userName,
+        passWord: encryptPwd(this.passWord)
+      }
+      login(requestData)
         .then(async (res) => {
           if (res && res.result) {
             this.loading = false
