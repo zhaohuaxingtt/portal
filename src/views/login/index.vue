@@ -49,8 +49,8 @@ import { encryptPwd } from '@/utils/encrypt'
 export default {
   data() {
     return {
-      userName: 'admin',
-      passWord: '1qaz@WSX',
+      userName: '',
+      passWord: '',
       readonly: true,
       loading: false,
       ssoLogin: false
