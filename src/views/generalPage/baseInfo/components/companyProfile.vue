@@ -309,7 +309,7 @@
                 '是否黑名单'
               )"
                 slot="label"></iLabel>
-        <iText>{{supplierData.supplierDTO.isBlacklist==1?language(
+        <iText>{{isBlacklist?language(
                 'SHI',
                 '是'
               ):language(
@@ -393,6 +393,7 @@ export default {
   },
   data() {
     return {
+        isBlacklist:'',
       baseInfoRules,
       listingAddress, //上市地点
       stockCode, //股票代码
@@ -445,8 +446,8 @@ export default {
   },
   created() {
     this.getIsSigned()
-
     this.getisBlack()
+
   },
   methods: {
     // 获取省份
@@ -486,11 +487,13 @@ export default {
     getisBlack() {
       isBlack({ supplierToken: this.$route.query.supplierToken }).then(
         (res) => {
+            this.isBlacklist=res.data
           let code = 0
           if (res.data) {
             code = 1
           } else code = 0
           this.$set(this.supplierData.supplierDTO, 'isBlacklist', code)
+            console.log(this.supplierData.supplierDTO)
         }
       )
     },
