@@ -118,6 +118,22 @@
                        end-placeholder="结束日期">
           </iDatePicker>
         </el-form-item>
+
+        <!-- 测试 -->
+        <!-- <el-form-item :label="language('DINGDIANSHIJIAN','定点时间')">
+          <iDatePicker style="width:220px"
+                       v-model="value1"
+                       @change="handleChange_ceshi"
+                       :picker-options="pickerOptions"
+                       format="yyyy-MM-dd"
+                       value-format="yyyy-MM-dd"
+                       unlink-panels
+                       type="daterange"
+                       range-separator="至"
+                       start-placeholder="开始日期"
+                       end-placeholder="结束日期">
+          </iDatePicker>
+        </el-form-item> -->
       </el-form>
     </iSearch>
 
@@ -223,6 +239,17 @@ export default {
   mixins: [pageMixins],
   data () {
     return {
+      // pickerOptions: {
+      //   shortcuts: [{
+      //     text: '现在到2999年',
+      //     onClick(picker) {
+      //       const end = new Date("2999-12-31");
+      //       const start = new Date();
+      //       picker.$emit('pick', [start, end]);
+      //     }
+      //   }]
+      // },
+
       mtzReasonShow: false,
       searchForm: {
         mtzAppId:[],
@@ -251,9 +278,13 @@ export default {
   },
 
   created () {
+    console.log(new Date("2999-12-31"));
     this.init()
   },
   methods: {
+    // handleChange_ceshi(val){
+    //   console.log(val);
+    // },
     init () {
       getFlowTypeList({}).then(res => {
         this.getFlowTypeList = res.data;

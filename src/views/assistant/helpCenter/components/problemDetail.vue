@@ -12,7 +12,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-else>
+		<div v-if="!currentMoudleId && !onlyShowQuestion">
 			<div class="detail-title flex flex-column items-start" v-loading="hotQuesLoading">
 				<div class="moudle-name">{{ language('热门问题') }}</div>
 				<div class="flex flex-row hot-ques">
@@ -35,6 +35,22 @@
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div class="list-content" v-if="onlyShowQuestion">
+			<div class="flex flex-column problem-box" v-loading="problemLoading" v-if="problemList.length > 0">
+				<div v-for="(item, idx) in problemList" :key="idx" class="item-problem flex flex-row items-center" @click="handleProblem(item, idx)">
+					<div class="blue-box"></div>
+					<div class="problem-text cursor">{{ `${item.questionTitle}` }}</div>
+				</div>
+			</div>
+			<div v-else>暂无该标签所属问题,您可提交您的疑问</div>
+			<el-pagination 
+				:total="totalCount" 
+				:current-page="problemQuery.pageNum" 
+				:page-size="problemQuery.pageSize"
+				@current-change="handleCurrentChange"
+			></el-pagination>
 		</div>
 
 		<div class="list-content" v-show="currentMoudleId  && currentFlag === 'listPage'">
@@ -147,7 +163,8 @@ export default {
 			formSource: null,
 			favourQuestionId: null,  // 点赞时的请求id
 			currQuesFavourFlag: false,  //  当前问题是否点赞
-			showAttachFlag: false  //  是否展示附件下载
+			showAttachFlag: false,  //  是否展示附件下载
+			onlyShowQuestion: false
 		}
 	},
 	methods: {
@@ -178,6 +195,26 @@ export default {
 		},
 		// 点击问题查询问题详情
 		async handleProblem(item, idx) {
+			console.log(item, "item")
+			this.onlyShowQuestion = false
+			if (!this.currentMoudleId) {
+				//  只输入标题查询时 还没定位到当前问题的模块标题 点击问题时 才能确定
+				console.log(item, "12345678")
+				let currName = ''
+				this.moudleList.map(mou => {
+					if (item.questionModuleId === mou.id) {
+						currName = mou.menuName
+					}
+				})
+				console.log(currName, "currName")
+				this.$emit("update:currentMoudleId", item.questionModuleId)
+				this.$emit("update:currMoudleName", currName)
+				this.labelIdx = item.questionLableId
+				this.$nextTick(() => {
+					this.getLabelList()
+				})
+				
+			}
 			this.currentFlag = 'detailPage'
 			this.problemText = item.questionTitle
 			this.problemLoading = true
@@ -277,6 +314,7 @@ export default {
 			this.showAttachFlag = (issue?.annexList || []).length > 0
 		},
 		async getLabelList(va) {
+			console.log(this.currentMoudleId, "this.currentMoudleId")
 			if (!this.currentMoudleId) return
 			this.labelLoading = true
 			await getCurrLabelList(this.currentMoudleId).then(res => {
@@ -342,24 +380,34 @@ export default {
 			this.problemQuery.pageNum = 1
 			this.formSource = 'query'
 			this.labelIdx = currLabelId
-			await this.getLabelList()
-			let currNameId = ''
-			let currName = ''
-			this.currentFlag = 'listPage'
-			this.labelList.map(item => {
-				if (item.id === currLabelId) {
-					currNameId = item.moduleId
-					this.labelText = item.lableName
-				}
-			})
-			this.moudleList.map(moudle => {
-				if (moudle.id === currNameId) {
-					currName = moudle.menuName
-				}
-			})
-			this.currMoudleName = currName
-			Object.assign(this.problemQuery, queryValue)
-			await this.getProblemList()
+			//  查询时有模块id
+			if (this.currentMoudleId) {
+				this.onlyShowQuestion = false
+				this.currentFlag = 'listPage'
+				await this.getLabelList()
+				let currNameId = ''
+				let currName = ''
+				this.labelList.map(item => {
+					if (item.id === currLabelId) {
+						currNameId = item.moduleId
+						this.labelText = item.lableName
+					}
+				})
+				this.moudleList.map(moudle => {
+					if (moudle.id === currNameId) {
+						currName = moudle.menuName
+					}
+				})
+				this.currMoudleName = currName
+				Object.assign(this.problemQuery, queryValue)
+				await this.getProblemList()
+			} else {
+				//  无模块id 需根据查询问题反推模块及标签
+				this.onlyShowQuestion = true
+				console.log("1111111")
+				Object.assign(this.problemQuery, queryValue)
+				await this.getProblemList()
+			}
 		}
 	}
 }

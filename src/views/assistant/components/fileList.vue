@@ -1,6 +1,6 @@
 <template>
-    <div class="file-list" :title="disabled ? '点击下载' : ''">
-        <div @click="down">{{file.fileName}}</div>
+    <div class="file-list">
+        <div @click="$emit('click')">{{file.fileName}}</div>
         <i class="close el-icon-close" v-if="!disabled" @click="$emit('del',file)"></i>
     </div>
 </template>
@@ -16,13 +16,6 @@
                 type: Boolean,
                 default: false
             }
-        },
-        methods: {
-            down(){
-                if(this.disabled && this.file.fileUrl){
-                    window.open(this.file.fileUrl)
-                }
-            }   
         }
     }
 </script>
