@@ -8,29 +8,26 @@
     searchKey="APPROVAL_TEMPLATE_CONFIRM"
   >
     <el-form>
-      <iFormItem :label="$t('APPROVAL.FLOW_NO')">
+      <iFormItem :label="language('流程序号')">
         <iInput
-          :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+          :placeholder="language('请输入')"
           v-model="form.serialNo"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="$t('APPROVAL.FLOW_NAME')">
+      <iFormItem :label="language('流程标题')">
         <iInput
-          :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+          :placeholder="language('请输入')"
           v-model="form.modelName"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="$t('APPROVAL.CREATE_BY')">
+      <iFormItem :label="language('创建者')">
         <iInput
-          :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+          :placeholder="language('请输入')"
           v-model="form.creater"
         ></iInput>
       </iFormItem>
-      <iFormItem :label="$t('APPROVAL.FLOW_STATUS')">
-        <iSelect
-          :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-          v-model="form.status"
-        >
+      <iFormItem :label="language('流程状态')">
+        <iSelect :placeholder="language('请选择')" v-model="form.status">
           <el-option
             v-for="(item, index) in templateStatus"
             :key="index"
@@ -52,12 +49,12 @@ export default {
     iSearch,
     iInput,
     iSelect,
-    iFormItem,
+    iFormItem
   },
   data() {
     return {
       templateStatus,
-      form: { ...searchForm },
+      form: { ...searchForm }
     }
   },
   methods: {
@@ -67,8 +64,8 @@ export default {
     reset() {
       this.form = { ...searchForm }
       this.$emit('search', this.form)
-    },
-  },
+    }
+  }
 }
 </script>
 

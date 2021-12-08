@@ -144,51 +144,131 @@ export const ruleTableTitle1 = [
   { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 180 },
 ]
 export const ruleTableTitle1_1 = [
-  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',width:150 },
+  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',
+    // width:150,
+    overlap:true,overlapbottom:"Rule No."
+  },
   {
     props: 'materialGroup',
     name: 'MTZ-材料组',
     key: 'MTZGANGCAILIAOZU',
+    overlap:true,
+    overlapbottom:"MTZ group"
   },
-  { props: 'carline', name: '车型', key: 'CHEXING' },
+  { props: 'carline', name: '车型', key: 'CHEXING',overlap:true,overlapbottom:"Carline" },
   {
     props: 'supplierId',
-    name: '供应商编号/名称',
-    key: 'GONGYINGSHANGBIANHAO',
+    name: '供应商编号/简称',
+    key: 'GYSBHJC',
+    width:110,
+    overlap:true,
+    overlapbottom:"Supplier"
   },
   {
     props: 'materialCode',
     name: '原材料编号',
     key: 'YUANCAILIAOBIANHAO',
+    overlap:true,
+    overlapbottom:"Material Code"
   },
   {
     props: 'materialName',
     name: '中类名称',
     key: 'ZHONGLEIMINGCHENG',
+    overlap:true,
+    overlapbottom:"Material Division"
   },
-  { props: 'price', name: '基价', key: 'JIJIA'},
-]
-export const ruleTableTitle1_2 = [
-  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',width:150 },
+  { props: 'price', name: '基价', key: 'JIJIA',
+    overlap:true,
+    overlapbottom:"Base price"
+  },
+
+
+
+
+
+
+
   {
     props: 'priceMeasureUnit',
     name: '基价计量单位',
     key: 'JIJIAJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Base price Unit"
   },
-  { props: 'tcCurrence', name: '货币', key: 'HUOBI'},
-  { props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV'},
+  { props: 'tcCurrence', name: '货币', key: 'HUOBI',
+    overlap:true,
+    overlapbottom:"Currency"
+  },
+  { props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV',
+    overlap:true,
+    overlapbottom:"Exchange Rate"
+  },
   {
     props: 'source',
     name: '市场价来源',
     key: 'SHICHANGJIALAIYUAN',
+    overlap:true,
+    overlapbottom:"Market"
   },
   {
     props: 'compensationPeriod',
     name: '补差周期',
     key: 'BUCHAZHOUQI',
+    overlap:true,
+    overlapbottom:"Period"
   },
-  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI'},
-  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI'},
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI',
+    overlap:true,
+    overlapbottom:"Valid From"
+  },
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI',
+    overlap:true,
+    overlapbottom:"Valid To"
+  },
+]
+export const ruleTableTitle1_2 = [
+  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',width:150,
+    overlap:true,
+    overlapbottom:"Rule No."
+  },
+  {
+    props: 'priceMeasureUnit',
+    name: '基价计量单位',
+    key: 'JIJIAJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Base price Unit"
+  },
+  { props: 'tcCurrence', name: '货币', key: 'HUOBI',
+    overlap:true,
+    overlapbottom:"Currency"
+  },
+  { props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV',
+    overlap:true,
+    overlapbottom:"Exchange Rate"
+  },
+  {
+    props: 'source',
+    name: '市场价来源',
+    key: 'SHICHANGJIALAIYUAN',
+    overlap:true,
+    overlapbottom:"Market"
+  },
+  {
+    props: 'compensationPeriod',
+    name: '补差周期',
+    key: 'BUCHAZHOUQI',
+    overlap:true,
+    overlapbottom:"Period"
+  },
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI',
+    overlap:true,
+    overlapbottom:"Valid From"
+  },
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI',
+    overlap:true,
+    overlapbottom:"Valid To"
+  },
   // {
   //   props: 'supplierName',
   //   name: '供应商名称',
@@ -225,8 +305,8 @@ export const ruleTableTitle2_1 = [
   { props: 'carline', name: '车型', key: 'CHEXING' },
   {
     props: 'supplierId',
-    name: '供应商编号',
-    key: 'GONGYINGSHANGBIANHAO',
+    name: '供应商编号/名称',
+    key: 'GYSBHMC',
   },
   {
     props: 'supplierName',
@@ -364,60 +444,168 @@ export const partTableTitle1 = [
   { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 180 },
 ]
 export const partTableTitle1_1 = [
-  { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO', width: 150 },
-  { props: 'partName', name: '零件名称', key: 'LINGJIANMINGCHENG'},
-  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO' },
+  { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',
+    // width: 150,
+    overlap:true,
+    overlapbottom:"Part No."
+  },
+  { props: 'partName', name: '零件名称', key: 'LINGJIANMINGCHENG',
+    overlap:true,
+    overlapbottom:"Part Name"
+  },
+  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',
+    overlap:true,
+    overlapbottom:"Rule No."
+  },
   {
     props: 'materialCode',
     name: '原材料编号',
     key: 'YUANCAILIAOBIANHAO',
+    overlap:true,
+    overlapbottom:"Material Code"
   },
-  { props: 'materialName', name: '原材料', key: 'YUANCAILIAO'},
-  { props: 'supplierId', name: '供应商编号/名称', key: 'GYSBHMC',width:200},
-  { props: 'price', name: '基价', key: 'JIJIA'},
+  { props: 'materialName', name: '原材料', key: 'YUANCAILIAO',
+    overlap:true,
+    overlapbottom:"Material "
+  },
+  { props: 'supplierId', name: '供应商编号/简称', key: 'GYSBHJC',
+    // width:200,
+    overlap:true,
+    overlapbottom:"Supplier"
+  },
+  { props: 'price', name: '基价', key: 'JIJIA',
+    overlap:true,
+    overlapbottom:"Base price"
+  },
   {
     props: 'priceMeasureUnit',
     name: '基价计量单位',
     key: 'JIJIAJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Base price Unit"
   },
-  { props: 'priceUnit', name: '每', key: 'MEI'},
-]
-export const partTableTitle1_2 = [
-  { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',width:150},
+  { props: 'priceUnit', name: '每', key: 'MEI',
+    overlap:true,
+    overlapbottom:"Per"
+  },
+
+
+
+
+
+
+
+
+
   {
     props: 'partUnit',
     name: '零件数量单位',
     key: 'LINGJIANSHULIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Part Unit"
   },
-  { props: 'dosage', name: '用量', key: 'YONGLIANG' },
+  { props: 'dosage', name: '用量', key: 'YONGLIANG',
+    overlap:true,
+    overlapbottom:"Dosage"
+  },
   {
     props: 'dosageMeasureUnit',
     name: '用量计量单位',
     key: 'YONGLIANGJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Dosage Unit"
   },
   {
     props: 'priceSource',
     name: '市场价来源',
     key: 'SHICHANGJIALAIYUAN',
+    overlap:true,
+    overlapbottom:"Market"
+  },
+  {
+    props: 'compensationRatio',
+    name: '补差系数',
+    key: 'BUCHAXISHU',
+    overlap:true,
+    overlapbottom:"Ratio"
+  },
+  { props: 'threshold', name: '阈值', key: 'YUZHI',
+    overlap:true,
+    overlapbottom:"Threhold"
   },
   {
     props: 'compensationPeriod',
     name: '补差周期',
     key: 'BUCHAZHOUQI',
+    overlap:true,
+    overlapbottom:"Period"
   },
-  { props: 'threshold', name: '阈值', key: 'YUZHI',},
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI',
+    overlap:true,
+    overlapbottom:"Valid From"
+  },
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI',
+    overlap:true,
+    overlapbottom:"Valid To"
+  },
+]
+export const partTableTitle1_2 = [
+  { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',
+    width:150,
+    overlap:true,
+    overlapbottom:"Part No."
+  },
+  {
+    props: 'partUnit',
+    name: '零件数量单位',
+    key: 'LINGJIANSHULIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Part Unit"
+  },
+  { props: 'dosage', name: '用量', key: 'YONGLIANG',
+    overlap:true,
+    overlapbottom:"Dosage"
+  },
+  {
+    props: 'dosageMeasureUnit',
+    name: '用量计量单位',
+    key: 'YONGLIANGJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Dosage Unit"
+  },
+  {
+    props: 'priceSource',
+    name: '市场价来源',
+    key: 'SHICHANGJIALAIYUAN',
+    overlap:true,
+    overlapbottom:"Market"
+  },
   {
     props: 'compensationRatio',
     name: '补差系数',
     key: 'BUCHAXISHU',
+    overlap:true,
+    overlapbottom:"Ratio"
   },
-  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI'},
-  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI'},
-  
-  
-
-  
-  
+  { props: 'threshold', name: '阈值', key: 'YUZHI',
+    overlap:true,
+    overlapbottom:"Threhold"
+  },
+  {
+    props: 'compensationPeriod',
+    name: '补差周期',
+    key: 'BUCHAZHOUQI',
+    overlap:true,
+    overlapbottom:"Period"
+  },
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI',
+    overlap:true,
+    overlapbottom:"Valid From"
+  },
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI',
+    overlap:true,
+    overlapbottom:"Valid To"
+  },
 ]
 // export const partTableTitle1_3 = [
 //   // { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',width:150},

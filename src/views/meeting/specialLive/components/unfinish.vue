@@ -232,7 +232,6 @@ export default {
       processUrlPortal: process.env.VUE_APP_POINT_PORTA,
       themenConclusion,
       stateObj,
-      meetingTypeId: '',
       editOrAdd: 'add',
       openAddTopic: false,
       disabledButton: true,
@@ -306,9 +305,6 @@ export default {
       },
       immediate: true
     }
-  },
-  mounted() {
-    this.meetingTypeId = this.$route.query.id
   },
   methods: {
     // 02 开放  03 锁定
@@ -562,9 +558,6 @@ export default {
     handleMore() {
       this.$router.push({
         path: '/meeting/live/special-more-themens'
-        // query: {
-        //   meetingTypeId: this.meetingTypeId
-        // }
       })
     }
   }

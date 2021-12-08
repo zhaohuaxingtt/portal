@@ -967,7 +967,7 @@ export default {
       formData.append('type', 1)
       uploadFile(formData)
         .then((res) => {
-          this.ruleForm.coverImage = res[0].path
+          this.ruleForm.coverImage = res.data[0].path
           this.$refs['ruleFormCoverImage'].$el.querySelector(
             '.el-form-item__error'
           ).style.display = 'none'

@@ -76,7 +76,7 @@
                   </span>
                 </div>
                 <iInput
-                  :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                  :placeholder="language('请选择')"
                   v-model="form.positionId"
                   readonly
                 >
@@ -95,14 +95,14 @@
                 <iInput
                   v-Int
                   v-model="form.durationDays"
-                  :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+                  :placeholder="language('请输入')"
                   :disabled="!canEdit"
                 />
                 <span class="date-divider">天</span>
                 <!-- <iDatePicker
                   v-model="form.endDate"
                   type="date"
-                  :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                  :placeholder="language('请选择')"
                   :picker-options="endDateOptions"
                 />
                 <div class="duration" v-show="duration">
@@ -114,7 +114,7 @@
           <!-- <el-col :span="12">
             <el-form-item label="申请理由" style="width: 100%">
               <iInput
-                :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+                :placeholder="language('请输入')"
                 v-model="form.description"
                 style="width: 100%"
               />

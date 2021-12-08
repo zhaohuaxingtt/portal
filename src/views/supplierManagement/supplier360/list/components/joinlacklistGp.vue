@@ -4,15 +4,12 @@
 -->
 <template>
   <!-- 生产供应商加入黑名单 -->
-  <iDialog
-  top="2%"
-    @close="closeDiolog()"
-    :visible.sync="value"
-    width="85%"
-  >
-     <div slot="title" class="headerTitle">
-      <span>{{language('JIARUHEIMINGDANYIBANCAIGOU', '加入黑名单 - ⼀般采购')}}</span>
-        <!-- <span>加入黑名单 - ⼀般采购</span> -->
+  <iDialog top="2%" @close="closeDiolog()" :visible.sync="value" width="85%">
+    <div slot="title" class="headerTitle">
+      <span>{{
+        language('JIARUHEIMINGDANYIBANCAIGOU', '加入黑名单 - ⼀般采购')
+      }}</span>
+      <!-- <span>加入黑名单 - ⼀般采购</span> -->
     </div>
     <div class="box">
       <el-form
@@ -27,12 +24,14 @@
           <el-form-item
             :label="language('GONGYINGSHANGMINGCHENG', '供应商名称')"
           >
-            <iText style="min-width:240px " class="text">{{
+            <iText style="min-width: 240px" class="text">{{
               clickTableList.nameZh
             }}</iText>
           </el-form-item>
           <el-form-item :label="language('SHOUKONGCUOSHI', '受控措施')">
-            <iText style="width:240px" class="text">{{language('LK_BUKEXUNJIABUKEDINGDIAN', '不可询价不可定点')}}</iText>
+            <iText style="width: 240px" class="text">{{
+              language('LK_BUKEXUNJIABUKEDINGDIAN', '不可询价不可定点')
+            }}</iText>
           </el-form-item>
           <el-form-item
             prop="types"
@@ -41,9 +40,9 @@
             <iSelect
               multiple
               collapse-tags
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="form.types"
-              style="width:240px"
+              style="width: 240px"
             >
               <el-option
                 v-for="item in typeList"
@@ -56,11 +55,11 @@
           </el-form-item>
           <el-form-item
             prop="daterange"
-       :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')">
-          
+            :label="language('SHOUKONGQIZHISHIJIAN', '受控起止时间')"
+          >
             <iDatePicker
               :picker-options="pickerOptions"
-              style="width:240px"
+              style="width: 240px"
               type="daterange"
               :range-separator="$t('SUPPLIER_ZHI')"
               :placeholder="''"
@@ -75,7 +74,7 @@
           <div class="section-box">
             <span
               >{{ language('JIARUYUANYINA', '加入原因') }}
-              <span style="color:red">*</span></span
+              <span style="color: red">*</span></span
             >
           </div>
           <div>
@@ -152,7 +151,7 @@ export default {
         },
         disabledDate(time) {
           // if (that.selectDate !== '') {
-            return time.getTime() < Date.now() - 8.64e7
+          return time.getTime() < Date.now() - 8.64e7
           // }
         }
       },
@@ -179,7 +178,7 @@ export default {
   },
   created() {
     // this.$nextTick(() => {
-      this.getTypeList()
+    this.getTypeList()
     // })
   },
   computed: {},
@@ -189,10 +188,10 @@ export default {
       let params = {
         supplierType: this.tabVal
       }
-      measuresTypeList(params).then(res => {
+      measuresTypeList(params).then((res) => {
         if (res && res.code == 200) {
           this.typeList = res.data
-          this.form.types = res.data.map(res => {
+          this.form.types = res.data.map((res) => {
             return res.code
           })
         }
@@ -214,7 +213,7 @@ export default {
           message: this.language('QINGSHURUBITIANXIANG', '请输入必填项')
         })
       } else {
-        this.$refs['form'].validate(valid => {
+        this.$refs['form'].validate((valid) => {
           if (valid) {
             this.value = false
             iMessageBox(
@@ -229,10 +228,10 @@ export default {
               }
             )
               .then(async () => {
-                gpSupplierBlackSave(params).then(res => {
+                gpSupplierBlackSave(params).then((res) => {
                   if (res && res.code == 200) {
                     iMessage.success(res.desZh)
-                      this.$emit('closeDiolog',1)
+                    this.$emit('closeDiolog', 1)
                   } else iMessage.error(res.desZh)
                 })
               })
@@ -259,10 +258,10 @@ export default {
 
 <style lang="scss" scoped>
 .headerTitle {
-font-size: 20px;
-font-family: Arial;
-font-weight: bold;
-color: #000000;
+  font-size: 20px;
+  font-family: Arial;
+  font-weight: bold;
+  color: #000000;
 }
 .footer {
   display: flex;

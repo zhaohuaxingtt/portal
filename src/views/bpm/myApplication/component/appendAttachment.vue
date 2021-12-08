@@ -2,17 +2,14 @@
   <iDialog :visible.sync="dialogVisible" width="40%" @close="onClose">
     <div slot="title" class="dialog-title">
       <span class="el-dialog__title"
-        >{{ $t('APPROVAL.APPEND_DATA') }} <span class="required">*</span></span
+        >{{ language('补充材料') }} <span class="required">*</span></span
       >
     </div>
 
     <div class="attach-info">
       <el-form>
-        <iFormItem :label="$t('APPROVAL.APPEND_DATA_NODE')">
-          <iSelect
-            :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-            v-model="form.node"
-          >
+        <iFormItem :label="language('补充材料节点')">
+          <iSelect :placeholder="language('请选择')" v-model="form.node">
             <el-option
               v-for="item of taskNodes"
               :label="
@@ -26,7 +23,7 @@
         <iFormItem>
           <div class="item comment">
             <iInput
-              :placeholder="$t('APPROVAL.APPEND_DATA_COMMENT')"
+              :placeholder="language('请输入补充材料留言内容')"
               v-model="form.comment"
               type="textarea"
               rows="5"
@@ -54,7 +51,7 @@
           class="btn-upload"
         >
           <span>
-            {{ $t('APPROVAL.UPLOAD_ATTACH') }}
+            {{ language('上传附件') }}
           </span>
         </iButton>
       </el-upload>
@@ -161,7 +158,7 @@ export default {
     },
     save() {
       if (!this.form.node) {
-        iMessage.error(this.$t('APPROVAL.NODE_REQUIRED'))
+        iMessage.error(this.language('补充材料节点必选'))
         return false
       }
 
@@ -179,15 +176,15 @@ export default {
       saveApprovalAttach(data)
         .then((res) => {
           if (res.result) {
-            iMessage.success(this.$t('APPROVAL.SAVE_SUCCESSFUL'))
+            iMessage.success(this.language('保存成功'))
             this.attachList.length = 0
             this.$emit('success')
           } else {
-            iMessage.error(res.desZh || this.$t('APPROVAL.SAVE_FAILED'))
+            iMessage.error(res.desZh || this.language('保存失败'))
           }
         })
         .catch((error) => {
-          iMessage.error(error.desZh || this.$t('APPROVAL.SAVE_FAILED'))
+          iMessage.error(error.desZh || this.language('保存失败'))
           this.uploadLoading = false
         })
     },

@@ -76,11 +76,11 @@ export default {
       form.append('applicationName','popupImage')
       // const result = await uploadFileWithNoToken(form)
       uploadFileWithNOTokenTwo(form).then((result)=>{
-        // if(result.code == '200'){
-          this.imageUrl = result.path
-        // }else{
-        //   this.$message.error(result.desZh)
-        // }
+        if(result.code == '200'){
+          this.imageUrl = result.data.path
+        }else{
+          this.$message.error(result.desZh)
+        }
       })
       
     },
@@ -107,6 +107,9 @@ export default {
     margin-top: 20px;
     color: #999999;
   }
+}
+.avatar-uploader{
+  z-index: 9999;
 }
 .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;

@@ -10,31 +10,29 @@
   <div>
     <carouselBox />
     <myTopics />
-    <dataDownload :meetingTypeId="meetingTypeId" />
+    <dataDownload/>
   </div>
 </template>
 
 <script>
-import carouselBox from "./components/carouselBox/index.vue";
-import myTopics from "./components/myTopics/index.vue";
-import dataDownload from "../live/components/dataDownload.vue";
+import carouselBox from './components/carouselBox/index.vue'
+import myTopics from './components/myTopics/index.vue'
+import dataDownload from '../specialLive/components/dataDownload.vue'
 
 export default {
   components: {
     carouselBox,
     myTopics,
-    dataDownload,
+    dataDownload
   },
   data() {
     return {
-      meetingTypeId: "",
-    };
+    }
   },
   created() {
-    this.meetingTypeId = this.$route.query.id;
   },
-  methods: {},
-};
+  methods: {}
+}
 </script>
 <style lang="scss" scoped>
 ::v-deep .routerpage {

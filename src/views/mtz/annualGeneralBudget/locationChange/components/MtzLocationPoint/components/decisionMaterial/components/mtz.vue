@@ -72,8 +72,12 @@
             slot="supplierId">
             <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
           </template>
+          <template slot-scope="scope"
+                    slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
         </tableList>
-        <tableList class="margin-top20"
+        <!-- <tableList class="margin-top20"
                    :tableData="ruleTableListData"
                    v-if="!RsObject && ruleTableListData.length>0"
                    :tableTitle="ruleTableTitle1_2"
@@ -85,7 +89,7 @@
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
-        </tableList>
+        </tableList> -->
         <!-- 导出规则表格不是贵金属合金 -->
         <!-- <tableList class="margin-top20"
                    :tableData="ruleTableListData"
@@ -155,8 +159,12 @@
                     slot="supplierId">
             <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
           </template>
+          <template slot-scope="scope"
+                    slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
         </tableList>
-        <tableList class="margin-top20"
+        <!-- <tableList class="margin-top20"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_2"
                    :tableLoading="loading"
@@ -168,7 +176,7 @@
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
-        </tableList>
+        </tableList> -->
         <!-- <tableList class="margin-top20"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_3"

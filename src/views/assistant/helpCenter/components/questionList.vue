@@ -101,7 +101,7 @@ export default {
 			}
 			this.queryParam.pageNum = 1
 			this.$nextTick(() => {
-				this.getQuesList()
+				this.getQuesList('query')
 			})
 		},
 		handleCurrentChange(curr) {
@@ -117,12 +117,14 @@ export default {
 			})
 			return currName
 		},	
-		async getQuesList() {
+		async getQuesList(va) {
 			this.listLoading = true
 			await getMineQuesList(this.queryParam).then((res) => {
-				console.log(res, "11122333")
 				if (res?.code === '200') {
 					this.totalCount = res?.data?.total
+					if (va === 'query') {
+						this.selectedCardId = res?.data?.records?.[0]?.id || ''
+					}
 					this.$emit('selectQues', res?.data?.records?.[0] || {})
 					this.questionList = res?.data?.records || []
 					this.questionList.map(item => {
@@ -141,7 +143,8 @@ export default {
 		changeCurrQuesStatus(id) {
 			this.questionList.map(item => {
 				if (item.id === id) {
-					item.questionStatus = 'reply'
+					item.questionStatus = 'finished'
+					this.$emit('selectQues', item)
 				}
 			})
 		}

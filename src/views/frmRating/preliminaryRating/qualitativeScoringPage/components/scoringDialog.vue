@@ -1,33 +1,35 @@
 <template>
   <!--打分-->
-  <iDialog :title="title"
-           :visible.sync="value"
-           width="90%"
-           @close="clearDiolog"
-           :close-on-click-modal="false">
+  <iDialog
+    :title="title"
+    :visible.sync="value"
+    width="90%"
+    @close="clearDiolog"
+    :close-on-click-modal="false"
+  >
     <div class="content">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <!--提交-->
-          <iButton v-if="showSubmitButton"
-                   @click="handleSubmit('submit')"
-                   :loading="submitLoading">{{
-              $t('LK_TIJIAO')
-            }}
+          <iButton
+            v-if="showSubmitButton"
+            @click="handleSubmit('submit')"
+            :loading="submitLoading"
+            >{{ $t('LK_TIJIAO') }}
           </iButton>
           <!--暂存-->
-          <iButton v-if="showTemporaryStorageButton"
-                   @click="handleSubmit('tempStore')"
-                   :loading="temporaryStorageLoading">{{
-              $t('SUPPLIER_ZANCUN')
-            }}
+          <iButton
+            v-if="showTemporaryStorageButton"
+            @click="handleSubmit('tempStore')"
+            :loading="temporaryStorageLoading"
+            >{{ $t('SUPPLIER_ZANCUN') }}
           </iButton>
           <!--沿用-->
-          <iButton v-if="showFollowButton"
-                   @click="handleFollow"
-                   :loading="followButtonLoading">{{
-              $t('SPR_FRM_CBPJ_YY')
-            }}
+          <iButton
+            v-if="showFollowButton"
+            @click="handleFollow"
+            :loading="followButtonLoading"
+            >{{ $t('SPR_FRM_CBPJ_YY') }}
           </iButton>
         </div>
       </div>
@@ -44,54 +46,67 @@
                  ref="commonTable">
 
       </tableList> -->
-      <el-table @selection-change="handleSelectionChange"
-                :data="tableListData">
-        <el-table-column type="selection"
-                         width="55">
+      <el-table @selection-change="handleSelectionChange" :data="tableListData">
+        <el-table-column type="selection" width="55"> </el-table-column>
+        <el-table-column
+          type="index"
+          width="50"
+          align="center"
+          label="#"
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          prop="nameZh"
+          label="供应商名称"
+          width="120"
+        >
         </el-table-column>
-        <el-table-column type='index'
-                         width='50'
-                         align='center'
-                         label='#'></el-table-column>
-        <el-table-column align="center"
-                         prop="nameZh"
-                         label="供应商名称"
-                         width="120">
+        <el-table-column
+          align="center"
+          prop="dept"
+          label="负责科室"
+          width="120"
+        >
         </el-table-column>
-        <el-table-column align="center"
-                         prop="dept"
-                         label="负责科室"
-                         width="120">
-        </el-table-column>
-        <template v-for="(item,index) in tableTitleData">
-          <el-table-column align="center"
-                           :key="item.itemCode"
-                           :prop="item.itemCode"
-                           :label="item.itemNameZh"
-                           width="150">
+        <template v-for="(item, index) in tableTitleData">
+          <el-table-column
+            align="center"
+            :key="item.itemCode"
+            :prop="item.itemCode"
+            :label="item.itemNameZh"
+            width="150"
+          >
             <template slot-scope="scope">
-              <iSelect v-model="scope.row.itemList[index]"
-                       :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                       value-key="itemScore">
+              <iSelect
+                v-model="scope.row.itemList[index]"
+                :placeholder="language('请选择')"
+                value-key="itemScore"
+              >
                 <!-- cloneList[scope.$index].itemList -->
-                <el-option v-for="item in selectData"
-                           :key="item.itemScore"
-                           :label="item.itemScore"
-                           :value="item">
+                <el-option
+                  v-for="item in selectData"
+                  :key="item.itemScore"
+                  :label="item.itemScore"
+                  :value="item"
+                >
                 </el-option>
               </iSelect>
             </template>
           </el-table-column>
         </template>
-        <el-table-column align="center"
-                         prop="updateDate"
-                         label="最近更新时间"
-                         width="150">
+        <el-table-column
+          align="center"
+          prop="updateDate"
+          label="最近更新时间"
+          width="150"
+        >
         </el-table-column>
-        <el-table-column align="center"
-                         prop="updateByName"
-                         label="最近更新人"
-                         width="150">
+        <el-table-column
+          align="center"
+          prop="updateByName"
+          label="最近更新人"
+          width="150"
+        >
         </el-table-column>
       </el-table>
     </div>
@@ -249,7 +264,7 @@ export default {
         }
         console.log(arr.itemList.length + '+' + this.tableTitleData.length)
         arr.itemList.forEach((code, index) => {
-          code.id = code.id||''
+          code.id = code.id || ''
           code.parentId = arr.id
           // this.tableTitleData.forEach((j, i) => {
 
@@ -259,11 +274,14 @@ export default {
           //   }
           // code.itemCode = this.tableTitleData[index].itemCode
           // })
-         
         })
-           arr.itemList= arr.itemList.map((item, i) => {
-            return { ...item, itemId:this.tableTitleData[i].id,itemCode:this.tableTitleData[i].itemCode, }
-          })
+        arr.itemList = arr.itemList.map((item, i) => {
+          return {
+            ...item,
+            itemId: this.tableTitleData[i].id,
+            itemCode: this.tableTitleData[i].itemCode
+          }
+        })
       })
       if (step === 'tempStore') {
         valid = true

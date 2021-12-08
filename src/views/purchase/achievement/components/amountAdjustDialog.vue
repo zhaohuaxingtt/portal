@@ -14,7 +14,7 @@
                     v-model="form.year"
                     class="text"
                     @change="initData(form.year)"
-                    :placeholder="$t('LK_QINGXUANZE')">
+                    :placeholder="language('请选择')">
                 <el-option :value="item" :label="item" v-for="item,index in yearList" :key="index"></el-option>
             </iSelect>
         </div>

@@ -214,7 +214,6 @@ export default {
       processUrlPortal: process.env.VUE_APP_POINT_PORTA,
       stateObj,
       themenConclusion,
-      meetingTypeId: '',
       openAddTopic: false,
       tableLoading: false,
       openDetail: false,
@@ -269,9 +268,6 @@ export default {
         return []
       }
     }
-  },
-  mounted() {
-    this.meetingTypeId = this.$route.query.id
   },
   watch: {
     finishedData: {
@@ -384,9 +380,6 @@ export default {
     handleMore() {
       this.$router.push({
         path: '/meeting/live/special-more-themens'
-        // query: {
-        //   meetingTypeId: this.meetingTypeId
-        // }
       })
     }
   }
@@ -401,7 +394,7 @@ export default {
   span {
     display: block;
     width: 100%;
-    text-align: center;
+    /* text-align: center; */
   }
   .el-checkbox {
     width: 100%;

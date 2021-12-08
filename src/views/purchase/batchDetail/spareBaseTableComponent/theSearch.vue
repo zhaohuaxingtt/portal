@@ -5,15 +5,15 @@
             <el-row class="margin-bottom10">
                 <!--零件号-->
                 <el-form-item :label="$t('EKL_LJHAO')">
-                    <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.partNum"></iInput>
+                    <iInput :placeholder="language('请输入')" v-model="form.partNum"></iInput>
                 </el-form-item>
                 <!--零件名称-->
                 <el-form-item :label="$t('EKL_PFJ_LJMC')">
-                    <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.partName"></iInput>
+                    <iInput :placeholder="language('请输入')" v-model="form.partName"></iInput>
                 </el-form-item>
                 <!--材料组-->
                 <el-form-item :label="$t('EKL_PFJ_CLZ')">
-                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.spMaterialGroup">
+                    <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.spMaterialGroup">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
                                 :value="item"
@@ -24,7 +24,7 @@
                 </el-form-item>
                 <!--品牌-->
                 <el-form-item :label="$t('EKL_PFJ_PP')">
-                    <iSelect multiple filterable collapse-tags  :placeholder="$t('LK_QINGXUANZE')" v-model="form.partBrand">
+                    <iSelect multiple filterable collapse-tags  :placeholder="language('请选择')" v-model="form.partBrand">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
                                 :value="item"
@@ -35,7 +35,7 @@
                 </el-form-item>
                 <!--属性-->
                 <el-form-item :label="$t('EKL_PFJ_SX')">
-                    <iSelect multiple filterable collapse-tags  :placeholder="$t('LK_QINGXUANZE')" v-model="form.partProperty">
+                    <iSelect multiple filterable collapse-tags  :placeholder="language('请选择')" v-model="form.partProperty">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
                                 :value="item.key"
@@ -51,7 +51,7 @@
             <el-row>
                 <!--科室-->
                 <el-form-item :label="$t('EKL_KESHI')">
-                    <iSelect multiple filterable collapse-tags :placeholder="$t('LK_QINGXUANZE')" v-model="form.dptKeCode">
+                    <iSelect multiple filterable collapse-tags :placeholder="language('请选择')" v-model="form.dptKeCode">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
                                 :value="item.fullCode"
@@ -63,7 +63,7 @@
 
                 <!--采购员-->
                 <el-form-item :label="$t('EKL_CGY')">
-                    <iSelect multiple filterable collapse-tags :placeholder="$t('LK_QINGXUANZE')" v-model="form.linieId">
+                    <iSelect multiple filterable collapse-tags :placeholder="language('请选择')" v-model="form.linieId">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
                                 :value="item.id"
@@ -74,15 +74,15 @@
                 </el-form-item>
                 <!--供应商-->
                 <el-form-item :label="$t('EKL_GYS')">
-                    <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.supplierName"></iInput>
+                    <iInput :placeholder="language('请输入')" v-model="form.supplierName"></iInput>
                 </el-form-item>
                 <!--备注-->
                 <el-form-item :label="$t('EKL_PFJ_BZ')">
-                    <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.memo"></iInput>
+                    <iInput :placeholder="language('请输入')" v-model="form.memo"></iInput>
                 </el-form-item>
                 <!--确认状态-->
                 <el-form-item :label="$t('EKL_QRZT')">
-                    <iSelect multiple filterable collapse-tags :placeholder="$t('LK_QINGXUANZE')" v-model="form.isConfirm">
+                    <iSelect multiple filterable collapse-tags :placeholder="language('请选择')" v-model="form.isConfirm">
                         <!--<el-option value="" :label="$t('all')"></el-option>-->
                         <el-option
                                 :value="item.key"

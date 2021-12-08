@@ -2,7 +2,7 @@
   <iCard class="supplyInfo" v-loading="pageLoading">
     <div class="head">
       <div class="h-l">
-        <div class="title">供应信息</div>
+        <div class="title">{{ language('LK_GONGYINGXINXI', '供应信息') }}</div>
       </div>
       <div class="h-r">
         <transition>
@@ -12,14 +12,14 @@
     </div>
 
     <div class="histogram">
-      <div class="title">供应商份额</div>
+      <div class="title">{{ language('LK_GONGYINGSHANGFENE', '供应商份额') }}</div>
       <div class="echarts-box" id="echarts-box">
 
       </div>
       
       <div class="factoryShare" v-show="isOpen">
         <div class="head">
-          <div class="title">工厂份额</div>
+          <div class="title">{{ language('LK_GONGCHANGFENE', '工厂份额') }}</div>
           <iSelect
               :placeholder="language('LK_QINGXUANZHE', '请选择')"
               filterable

@@ -16,7 +16,7 @@
                                              filterable
                                              clearable
                                              @change="changVal"
-                                             :placeholder="$t('LK_QINGXUANZE')"
+                                             :placeholder="language('请选择')"
                                              v-model="form.code">
                                         <el-option
                                                 :value="item.code"
