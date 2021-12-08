@@ -134,14 +134,28 @@
                 <span style="span-index">{{ scope.$index + 1 }}</span>
               </template>
             </el-table-column>
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
             <el-table-column align="center" width="4"></el-table-column>
+=======
+             <el-table-column align="center" width="4"></el-table-column>
+>>>>>>> Stashed changes
+=======
+             <el-table-column align="center" width="4"></el-table-column>
+>>>>>>> Stashed changes
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Time"
               min-width="134"
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
               prop="time"
               sortable
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
             >
               <template slot-scope="scope">
                 <span class="open-link-text">{{ scope.row.time }}</span>
