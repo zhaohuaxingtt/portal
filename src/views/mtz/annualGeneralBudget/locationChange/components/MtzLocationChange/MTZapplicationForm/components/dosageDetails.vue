@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-08 11:18:45
+ * @LastEditTime: 2021-12-08 16:30:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -479,10 +479,8 @@ export default {
         shortcuts: [{
           text: '至今直到2999年',
           onClick (picker) {
-            const end = new Date("2999/12/31")
-            const start = new Date(date.replace(/-/g, '/')).getTime()
-            start.setTime(start);
-            end.setTime(end.getTime());
+            const end = new Date("2999-12-31")
+            const start = date
             picker.$emit('pick', [start, end])
           }
         }]
