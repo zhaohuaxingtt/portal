@@ -12,13 +12,24 @@
             <slot></slot>
         </el-upload>
         <template v-if="showFile">    
-            <FileList v-for="(f,i) in files" :key="i" :disabled="disabled" :file="f" @del="removeFile(i)"></FileList>
+            <FileList v-for="(f,i) in files" :key="i" :disabled="disabled" @click="view(f)" :file="f" @del="removeFile(i)"></FileList>
         </template>
+
+        <el-dialog
+			:visible="dialogVisible"
+			width="60%"
+            append-to-body
+            @close="dialogVisible = false"
+		>
+			<div class="flex items-center justify-center ">
+               <img :src="fileUrl" alt="">
+            </div>
+		</el-dialog>
     </div>
 </template>
 
 <script>
-    import {uploadFile} from "@/api/assistant/uploadFile"
+    import {uploadFile,getFileId} from "@/api/assistant/uploadFile"
     import FileList from "./fileList.vue"
     export default {
         components:{
@@ -100,7 +111,8 @@
         },
         data() {
             return {
-                
+                dialogVisible:false,
+                fileUrl:""
             }
         },
         computed:{
@@ -139,11 +151,27 @@
                     val.splice(index,1);
                     this.$emit("input",val);
                 })
+            },
+            view(file){
+                if (!this.disabled) return
+                let fileTypeArr = ['jpg','jpeg','gif','png']
+                const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
+                if (fileTypeArr.includes(fileExtension)) {
+                    console.log("=====")
+                    this.dialogVisible = true
+                    this.fileUrl = file.fileUrl
+                } else {
+                    getFileId(file?.bizId).then((res) => {
+                        console.log(res, '1111111111')
+                    })
+                }
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+@import "./../comon.scss";
+
 
 </style>
