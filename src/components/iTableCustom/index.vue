@@ -9,28 +9,28 @@
     :style="{ minHeight: minHeight }"
   >
     <el-table
+      v-loading="loading"
+      ref="theCustomTable"
       tooltip-effect="light"
+      fit
       :height="height"
       :max-height="maxHeight"
       :data="virtualList ? virtualTableData : realTableData"
-      v-loading="loading"
       :row-key="rowKey || 'uniqueId'"
       :highlight-current-row="highlightCurrentRow"
-      :empty-text="language('LK_ZANWUSHUJU')"
-      ref="theCustomTable"
+      :empty-text="language('暂无数据')"
       :row-class-name="getRowClassNameDefault"
       :row-style="getRowStyle"
       :cell-class-name="getCellClassName"
+      :span-method="getSpanMethod"
+      :stripe="stripe"
+      :header-cell-class-name="handleHeaderCellClassName"
       @selection-change="handleSelectionChange"
       @select="handleSelect"
       @select-all="handleAllSelect"
       @current-change="handleCurrentChange"
       @cell-click="handleCellClick"
       @sort-change="handleSortChange"
-      fit
-      :span-method="getSpanMethod"
-      :stripe="stripe"
-      :header-cell-class-name="handleHeaderCellClassName"
       @row-click="rowClick"
     >
       <template v-for="(item, index) in tableVisibleColumns">
@@ -295,7 +295,7 @@ export default {
     },
     virtualList: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   computed: {

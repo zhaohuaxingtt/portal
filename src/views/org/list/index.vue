@@ -141,6 +141,7 @@
                 :tree-expand="exData"
                 height="450"
                 :custom-selection="true"
+                virtual-list
                 @handle-selection-change="handleSelectionChange"
               />
             </div>

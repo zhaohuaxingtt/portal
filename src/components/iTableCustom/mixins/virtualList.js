@@ -2,8 +2,6 @@ export default {
   computed: {
     virtualTableData() {
       const { start, end } = this.virtualListConfig
-      console.log('start', start)
-      console.log('end', end)
       return this.realTableData.slice(start, end)
     },
     totalCount() {
@@ -15,7 +13,7 @@ export default {
       virtualListConfig: {
         pageSize: 20,
         start: 0,
-        end: 0
+        end: 20
       },
       virtualPosMap: {}
     }
@@ -58,8 +56,6 @@ export default {
           const element = document.querySelector(
             `.i-table-custom .el-table__body .el-table__row.${rowClass}`
           )
-          let fragment = document.createDocumentFragment()
-          fragment.appendChild(element)
           if (element) {
             this.virtualPosMap[uniqueId] = element.clientHeight
           }
@@ -102,7 +98,7 @@ export default {
         scrollElement.addEventListener('scroll', this.getVirtualTableData)
       }
     },
-    getVirtualTableData: function () {
+    getVirtualTableData() {
       const scrollElement = document.querySelector(
         '.i-table-custom .el-table__body-wrapper'
       )
