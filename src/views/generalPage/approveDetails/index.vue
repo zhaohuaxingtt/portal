@@ -67,6 +67,7 @@
     <iCard>
       <table-list :tableData="tableListData"
                   :tableTitle="tableTitle"
+                  :selection="false"
                   :tableLoading="tableLoading" />
     </iCard>
   </div>
