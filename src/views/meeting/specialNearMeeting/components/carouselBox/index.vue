@@ -105,7 +105,6 @@ export default {
   },
   data() {
     return {
-      meetingTypeId: '',
       initIndex: 0,
       newTypeData: [[]],
       value: false,
@@ -128,7 +127,6 @@ export default {
     }
   },
   mounted() {
-    this.meetingTypeId = this.$route.query.id
     this.query()
   },
   methods: {
@@ -155,7 +153,6 @@ export default {
       let param = {
         ...this.form,
         name: this.form.name,
-        // meetingTypeId: this.meetingTypeId,
         category: '02',
         startDateBegin: this.form.startDateBegin,
         startDateEnd: this.form.startDateEnd,

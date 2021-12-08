@@ -120,7 +120,7 @@
                 :label="`${item.name ? item.name + ' ' : ''}${
                   item.jobNumber ? item.jobNumber + ' ' : ''
                 }${item.department ? item.department + ' ' : ''}${
-                  item.namePinyin ? item.namePinyin  : ''
+                  item.namePinyin ? item.namePinyin : ''
                 }`"
                 :value="item"
               >
@@ -191,7 +191,7 @@
                 :label="`${item.name ? item.name + ' ' : ''}${
                   item.jobNumber ? item.jobNumber + ' ' : ''
                 }${item.department ? item.department + ' ' : ''}${
-                  item.namePinyin ? item.namePinyin  : ''
+                  item.namePinyin ? item.namePinyin : ''
                 }`"
                 :value="item"
               >
@@ -382,9 +382,7 @@
                 </div> -->
                 </el-upload>
               </iFormItem>
-              <div class="el-upload-text">
-                文件大小最大限制30M
-              </div>
+              <div class="el-upload-text">文件大小最大限制30M</div>
             </div>
             <ul class="file-list">
               <li v-for="(item, index) of attachments" :key="index">
@@ -392,7 +390,7 @@
                   class="download"
                   @click="
                     () => {
-                      handleDownload(item);
+                      handleDownload(item)
                     }
                   "
                 >
@@ -435,34 +433,32 @@
         @click="clearDiolog"
         class="cancel"
         v-show="editOrAdd !== 'look'"
-        >{{ $t("LK_QUXIAO") }}</iButton
+        >{{ $t('LK_QUXIAO') }}</iButton
       >
       <iButton
-      :loading="loading"
+        :loading="loading"
         @click="handleSubmit"
         class="save"
         v-show="editOrAdd !== 'look'"
-        >{{ $t("LK_BAOCUN") }}</iButton
+        >{{ $t('LK_BAOCUN') }}</iButton
       >
     </div>
   </iDialog>
 </template>
 
 <script>
-import { iDialog, iInput, iFormItem, iLabel, iButton, iMessage } from "rise";
-import iEditForm from "@/components/iEditForm";
+import { iDialog, iInput, iFormItem, iLabel, iButton, iMessage } from 'rise'
+import iEditForm from '@/components/iEditForm'
 // import { baseRules } from "./data";
-import uploadIcon from "@/assets/images/upload-icon.svg";
+import uploadIcon from '@/assets/images/upload-icon.svg'
 import {
   saveThemen,
   updateThemen,
   addThemenAttachment,
-  findTheThemenById,
-} from "@/api/meeting/details";
-import { uploadFile, getUsers, getReceiverById } from "@/api/meeting/type";
-import { download, createAnchorLink } from "@/utils/downloadUtil";
-import { MOCK_FILE_URL } from "@/constants";
-import { getFileByIds } from "@/api/file/filedownload.js";
+  findTheThemenById
+} from '@/api/meeting/details'
+import { uploadFile, getReceiverById } from '@/api/meeting/type'
+import { download } from '@/utils/downloadUtil'
 export default {
   components: {
     iDialog,
@@ -470,105 +466,105 @@ export default {
     iInput,
     iLabel,
     iEditForm,
-    iButton,
+    iButton
   },
   props: {
     lookThemenObj: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     dialogStatusManageObj: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     meetingInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     selectedTableData: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     editOrAdd: {
       type: String,
       default: () => {
-        return "add";
-      },
-    },
+        return 'add'
+      }
+    }
   },
   data() {
     const validateSupporter = (rule, value, callback) => {
       if (
-        (value === "" || value.length === 0) &&
-        this.ruleForm.supporterNosys === ""
+        (value === '' || value.length === 0) &&
+        this.ruleForm.supporterNosys === ''
       ) {
-        callback(new Error("系统用户和非系统用户不能同时为空"));
+        callback(new Error('系统用户和非系统用户不能同时为空'))
       } else {
         if (value && value.length > 255) {
-          callback(new Error("最大不能超过255字符"));
+          callback(new Error('最大不能超过255字符'))
         }
-        callback();
+        callback()
       }
-    };
+    }
     const validateSupporterNosys = (rule, value, callback) => {
       if (
         !value.trim() &&
-        (this.ruleForm.supporter === "" || this.ruleForm.supporter.length === 0)
+        (this.ruleForm.supporter === '' || this.ruleForm.supporter.length === 0)
       ) {
-        callback(new Error("系统用户和非系统用户不能同时为空"));
+        callback(new Error('系统用户和非系统用户不能同时为空'))
       } else {
         if (value && value.length > 255) {
-          callback(new Error("最大不能超过255字符"));
+          callback(new Error('最大不能超过255字符'))
         }
-        callback();
+        callback()
       }
-    };
+    }
     const validatePresenter = (rule, value, callback) => {
       if (
-        (value === "" || value.length === 0) &&
-        this.ruleForm.presenterNosys === ""
+        (value === '' || value.length === 0) &&
+        this.ruleForm.presenterNosys === ''
       ) {
-        callback(new Error("系统用户和非系统用户不能同时为空"));
+        callback(new Error('系统用户和非系统用户不能同时为空'))
       } else {
         if (value && value.length > 255) {
-          callback(new Error("最大不能超过255字符"));
+          callback(new Error('最大不能超过255字符'))
         }
-        callback();
+        callback()
       }
-    };
+    }
     const validatePresenterNosys = (rule, value, callback) => {
       if (
         !value.trim() &&
-        (this.ruleForm.presenter === "" || this.ruleForm.presenter.length === 0)
+        (this.ruleForm.presenter === '' || this.ruleForm.presenter.length === 0)
       ) {
-        callback(new Error("系统用户和非系统用户不能同时为空"));
+        callback(new Error('系统用户和非系统用户不能同时为空'))
       } else {
         if (value && value.length > 255) {
-          callback(new Error("最大不能超过255字符"));
+          callback(new Error('最大不能超过255字符'))
         }
-        callback();
+        callback()
       }
-    };
+    }
     const validateTopic = (rule, value, callback) => {
       if (!value.trim()) {
-        callback(new Error("必填"));
+        callback(new Error('必填'))
       } else {
         if (value && value.length > 255) {
-          callback(new Error("最大不能超过255字符"));
+          callback(new Error('最大不能超过255字符'))
         }
-        callback();
+        callback()
       }
-    };
+    }
     return {
-      loading:false,
+      loading: false,
       uploadLoading: false,
       showWord: true,
       uploadIcon,
@@ -576,21 +572,21 @@ export default {
       presenterIdArr: [],
       selectUserArr: [],
       ruleForm: {
-        topic: "",
-        duration: "",
-        count: "",
+        topic: '',
+        duration: '',
+        count: '',
         presenter: [],
-        presenterDept: "",
-        presenterDeptNosys: "",
-        presenterNosys: "",
-        remark: "",
+        presenterDept: '',
+        presenterDeptNosys: '',
+        presenterNosys: '',
+        remark: '',
         supporter: [],
-        supporterDept: "",
-        supporterDeptNosys: "",
-        supporterNosys: "",
+        supporterDept: '',
+        supporterDeptNosys: '',
+        supporterNosys: ''
       },
-      presenterStr: "",
-      supporterStr: "",
+      presenterStr: '',
+      supporterStr: '',
       attachment: {},
       attachments: [],
       rules: {
@@ -600,223 +596,213 @@ export default {
         // ],
         topic: [
           {
-            trigger: "blur",
-            validator: validateTopic,
-          },
+            trigger: 'blur',
+            validator: validateTopic
+          }
         ],
-        remark: [{ max: 255, message: "最大长度 255 字符", trigger: "blur" }],
-        supporter: [{ validator: validateSupporter, trigger: "blur" }],
-        presenter: [{ validator: validatePresenter, trigger: "blur" }],
+        remark: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
+        supporter: [{ validator: validateSupporter, trigger: 'blur' }],
+        presenter: [{ validator: validatePresenter, trigger: 'blur' }],
         supporterDept: [
-          { max: 255, message: "最大长度 255 字符", trigger: "blur" },
+          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
         ],
         supporterDeptNosys: [
-          { max: 255, message: "最大长度 255 字符", trigger: "blur" },
+          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
         ],
         supporterNosys: [
           {
             // max: 255,
             // message: "最大长度 255 字符000",
-            trigger: "blur",
-            validator: validateSupporterNosys,
-          },
+            trigger: 'blur',
+            validator: validateSupporterNosys
+          }
         ],
         // presenter: [{ max: 255, message: "最大长度 255 字符", trigger: "blur" }],
         presenterDept: [
-          { max: 255, message: "最大长度 255 字符", trigger: "blur" },
+          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
         ],
         presenterDeptNosys: [
-          { max: 255, message: "最大长度 255 字符", trigger: "blur" },
+          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
         ],
         presenterNosys: [
           {
             // max: 255,
             // message: "最大长度 255 字符000",
-            trigger: "blur",
-            validator: validatePresenterNosys,
-          },
+            trigger: 'blur',
+            validator: validatePresenterNosys
+          }
         ],
         duration: [
-          { required: true, message: "必填", trigger: "blur" },
+          { required: true, message: '必填', trigger: 'blur' },
           {
-            type: "number",
-            message: "最大长度3位，单位（分钟），必须正整数",
-            trigger: "blur",
+            type: 'number',
+            message: '最大长度3位，单位（分钟），必须正整数',
+            trigger: 'blur',
             transform(value) {
-              if (value !== null && value !== "") {
+              if (value !== null && value !== '') {
                 if (
-                  String(value).trim() === "" ||
+                  String(value).trim() === '' ||
                   Number(value) <= 0 ||
                   Number(value) >= 1000
                 ) {
-                  return false;
+                  return false
                 } else if (
-                  String(value).indexOf(".") !== -1 ||
-                  String(value).indexOf("-") !== -1
+                  String(value).indexOf('.') !== -1 ||
+                  String(value).indexOf('-') !== -1
                 ) {
-                  return false;
+                  return false
                 } else {
-                  return Number(value);
+                  return Number(value)
                 }
               } else {
-                return null;
+                return null
               }
-            },
-          },
+            }
+          }
         ],
         count: [
           {
-            type: "number",
-            message: "最大长度3位",
-            trigger: "blur",
+            type: 'number',
+            message: '最大长度3位',
+            trigger: 'blur',
             transform(value) {
-              if (value !== null && value !== "") {
+              if (value !== null && value !== '') {
                 if (
-                  String(value).trim() === "" ||
+                  String(value).trim() === '' ||
                   Number(value) <= 0 ||
                   Number(value) >= 1000
                 ) {
-                  return false;
+                  return false
                 } else if (
-                  String(value).indexOf(".") !== -1 ||
-                  String(value).indexOf("-") !== -1
+                  String(value).indexOf('.') !== -1 ||
+                  String(value).indexOf('-') !== -1
                 ) {
-                  return false;
+                  return false
                 } else {
-                  return Number(value);
+                  return Number(value)
                 }
               } else {
-                return null;
+                return null
               }
-            },
-          },
-        ],
+            }
+          }
+        ]
       },
       userData: [],
       currentSearchUserData: [],
-      timeout: null,
-    };
+      timeout: null
+    }
   },
   mounted() {
-    let duration = 0;
-    if (this.editOrAdd === "edit") {
-      this.ruleForm = { ...this.selectedTableData[0] };
-      this.attachments = [...this.selectedTableData[0].attachments];
-      duration = this.selectedTableData[0].duration;
-      this.queryThemen();
-      this.getUsersByResponse();
+    let duration = 0
+    if (this.editOrAdd === 'edit') {
+      this.ruleForm = { ...this.selectedTableData[0] }
+      this.attachments = [...this.selectedTableData[0].attachments]
+      duration = this.selectedTableData[0].duration
+      this.queryThemen()
+      this.getUsersByResponse()
     }
-    if (this.editOrAdd === "add") {
-      duration = this.meetingInfo.duration;
-      this.getUsersByResponse();
+    if (this.editOrAdd === 'add') {
+      duration = this.meetingInfo.duration
+      this.getUsersByResponse()
     }
-    if (this.editOrAdd === "look") {
-      this.ruleForm = this.lookThemenObj;
-      this.attachments = [...this.lookThemenObj.attachments];
-      return;
+    if (this.editOrAdd === 'look') {
+      this.ruleForm = this.lookThemenObj
+      this.attachments = [...this.lookThemenObj.attachments]
+      return
     }
     this.ruleForm = {
       ...this.ruleForm,
-      duration,
-    };
+      duration
+    }
   },
   computed: {
     supporterIdArrAndCurrentSearchUserData() {
       return {
         currentSearchUserData: this.currentSearchUserData,
         supporterIdArr: this.supporterIdArr,
-        presenterIdArr: this.presenterIdArr,
-      };
-    },
+        presenterIdArr: this.presenterIdArr
+      }
+    }
   },
   watch: {
     supporterIdArrAndCurrentSearchUserData: {
       handler(newV) {
         this.ruleForm.supporter = newV.currentSearchUserData.filter((item) => {
           return newV.supporterIdArr.some((it) => {
-            return Number(item.id) === Number(it);
-          });
-        });
+            return Number(item.id) === Number(it)
+          })
+        })
         this.ruleForm.presenter = newV.currentSearchUserData.filter((item) => {
           return newV.presenterIdArr.some((it) => {
-            return Number(item.id) === Number(it);
-          });
-        });
+            return Number(item.id) === Number(it)
+          })
+        })
       },
-      deep: true,
+      deep: true
     },
-    presenterIdArr: {
-      handler(newV) {},
-    },
-    lookThemenObj: {
-      handler(newV) {
-        // console.log(newV);
-      },
-      immediate: true,
-      deep: true,
-    },
-    "ruleForm.count": {
+    'ruleForm.count': {
       handler(newV) {
         this.ruleForm = {
           ...this.ruleForm,
-          count: newV ? newV : null,
-        };
-      },
-    },
-    "ruleForm.presenter": {
-      handler: function(newV) {
-        let arr = newV.map((item) => {
-          return item.id;
-        });
-        let arrStr = arr.join(",");
-        if (typeof arrStr === "string") {
-          this.presenterStr = arrStr;
+          count: newV ? newV : null
         }
-        if (this.editOrAdd !== "look") {
+      }
+    },
+    'ruleForm.presenter': {
+      handler: function (newV) {
+        let arr = newV.map((item) => {
+          return item.id
+        })
+        let arrStr = arr.join(',')
+        if (typeof arrStr === 'string') {
+          this.presenterStr = arrStr
+        }
+        if (this.editOrAdd !== 'look') {
           this.ruleForm.presenterDept = Array.from(
             new Set(
               this.currentSearchUserData
                 .filter((item) => {
                   return arr.some((it) => {
-                    return it === item.id;
-                  });
+                    return it === item.id
+                  })
                 })
                 .map((item) => {
-                  return item.department;
+                  return item.department
                 })
             )
-          ).join(",");
+          ).join(',')
         }
       },
-      immediate: true,
+      immediate: true
     },
-    "ruleForm.supporter": {
-      handler: function(newV) {
+    'ruleForm.supporter': {
+      handler: function (newV) {
         let arr = newV.map((item) => {
-          return item.id;
-        });
-        let arrStr = arr.join(",");
-        if (typeof arrStr === "string") {
-          this.supporterStr = arrStr;
+          return item.id
+        })
+        let arrStr = arr.join(',')
+        if (typeof arrStr === 'string') {
+          this.supporterStr = arrStr
         }
-        if (this.editOrAdd !== "look") {
+        if (this.editOrAdd !== 'look') {
           this.ruleForm.supporterDept = Array.from(
             new Set(
               this.currentSearchUserData
                 .filter((item) => {
                   return arr.some((it) => {
-                    return it === item.id;
-                  });
+                    return it === item.id
+                  })
                 })
                 .map((item) => {
-                  return item.department;
+                  return item.department
                 })
             )
-          ).join(",");
+          ).join(',')
         }
       },
-      immediate: true,
-    },
+      immediate: true
+    }
     // supporterStr: {
     //   handler(v) {
     //     if (v) {
@@ -870,18 +856,18 @@ export default {
     handleDeleteFile(file) {
       // console.log(file);
       this.attachments = this.attachments.filter((item) => {
-        return item.attachmentId !== file.attachmentId;
-      });
+        return item.attachmentId !== file.attachmentId
+      })
     },
     queryThemen() {
       const data = {
         themenId: this.ruleForm.id,
-        meetingId: this.meetingInfo.id,
-      };
+        meetingId: this.meetingInfo.id
+      }
       findTheThemenById(data).then((res) => {
-        this.supporterIdArr = res.supporter.split(",");
-        this.presenterIdArr = res.presenter.split(",");
-      });
+        this.supporterIdArr = res.supporter.split(',')
+        this.presenterIdArr = res.presenter.split(',')
+      })
     },
     handleDownload(row) {
       download({
@@ -889,79 +875,79 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error('下载失败')
           }
-        },
-      });
+        }
+      })
     },
     handleFocus() {
-      this.remoteMethod();
+      this.remoteMethod()
     },
     remoteMethod(queryString) {
-      let currentSearchUserData = [];
+      let currentSearchUserData = []
       currentSearchUserData = queryString
         ? this.userData.filter(this.createStateFilter(queryString))
-        : this.userData;
-      this.selectUserArr = currentSearchUserData;
+        : this.userData
+      this.selectUserArr = currentSearchUserData
     },
 
     //编辑和添加时的文件上传
     handleUploadFile() {
       const sourceAttachments = this.selectedTableData[0]
         ? [...this.selectedTableData[0].attachments]
-        : [];
+        : []
       //需要上传的文件
       this.shouldUploadAttachments = this.attachments
         .filter((item) => {
           return !sourceAttachments.find((it) => {
-            return it.attachmentId === item.attachmentId;
-          });
+            return it.attachmentId === item.attachmentId
+          })
         })
         .map((item) => {
           return {
             ...item,
-            source: "04",
-          };
-        });
+            source: '04'
+          }
+        })
       // console.log(this.shouldUploadAttachments);
       // if (this.editOrAdd === "add") {
       //   return;
       // }
-      this.saveAllNewThemen(this.shouldUploadAttachments);
+      this.saveAllNewThemen(this.shouldUploadAttachments)
     },
     saveAllNewThemen(shouldUploadAttachments) {
-      this.loading = true;
-      let promiseArr = [];
+      this.loading = true
+      let promiseArr = []
       shouldUploadAttachments.forEach((item) => {
-        let data;
-        if (this.editOrAdd === "edit") {
+        let data
+        if (this.editOrAdd === 'edit') {
           data = {
             themenId: this.selectedTableData[0]
               ? this.selectedTableData[0].id
               : null,
             attachment: item,
-            meetingId: this.meetingInfo.id,
-          };
+            meetingId: this.meetingInfo.id
+          }
         } else {
           data = {
             attachment: item,
-            meetingId: this.meetingInfo.id,
-          };
+            meetingId: this.meetingInfo.id
+          }
         }
         const p = new Promise((resolve, reject) => {
           addThemenAttachment(data)
             .then((res) => {
-              resolve(res);
+              resolve(res)
             })
             .catch((err) => {
-              reject(err);
-            });
-        });
-        promiseArr.push(p);
-      });
+              reject(err)
+            })
+        })
+        promiseArr.push(p)
+      })
       Promise.all(promiseArr).catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+      })
     },
     //后端查询所有的presenter和supporter(获取用户信息)
     // getUsersByResponse() {
@@ -979,12 +965,12 @@ export default {
       const data = {
         // pageNum: 1,
         // pageSize: 1000,
-        id: this.meetingInfo.receiverId,
-      };
+        id: this.meetingInfo.receiverId
+      }
       getReceiverById(data).then((res) => {
-        this.userData = res.employeeDTOS;
-        this.currentSearchUserData = [...res.employeeDTOS];
-      });
+        this.userData = res.employeeDTOS
+        this.currentSearchUserData = [...res.employeeDTOS]
+      })
     },
     createStateFilter(queryString) {
       return (state) => {
@@ -1013,79 +999,79 @@ export default {
       }
     },
     handlePresenterSelect(val) {
-      this.hanldeSelect(val, "pre");
+      this.hanldeSelect(val, 'pre')
     },
     handleSupporterSelect(val) {
-      this.hanldeSelect(val, "sup");
+      this.hanldeSelect(val, 'sup')
     },
     hanldeSelect(val, str) {
-      if (str === "pre") {
+      if (str === 'pre') {
         this.ruleForm = {
           ...this.ruleForm,
-          presenterDept: this.handleSelectData(val),
-        };
+          presenterDept: this.handleSelectData(val)
+        }
         // this.ruleForm.presenterDept = this.handleSelectData(val);
       }
-      if (str === "sup") {
+      if (str === 'sup') {
         this.ruleForm = {
           ...this.ruleForm,
-          supporterDept: this.handleSelectData(val),
-        };
+          supporterDept: this.handleSelectData(val)
+        }
         // this.ruleForm.supporterDept = this.handleSelectData(val);
       }
     },
     handleSelectData(val) {
       return this.currentSearchUserData
         .filter((item) => {
-          return item.name === val;
+          return item.name === val
         })
         .map((item) => {
-          return item.dept;
+          return item.dept
         })
-        .join(";");
+        .join(';')
     },
     handleAvatarSuccess() {},
     beforeAvatarUpload(file) {
-      const isLt30M = file.size / 1024 / 1024 < 30;
+      const isLt30M = file.size / 1024 / 1024 < 30
       if (!isLt30M) {
-        this.$message.error("文件大小最大限制30M!");
+        this.$message.error('文件大小最大限制30M!')
       }
-      return isLt30M;
+      return isLt30M
     },
     async httpUpload(content) {
-      this.uploadLoading = true;
-      let formData = new FormData();
+      this.uploadLoading = true
+      let formData = new FormData()
       // formData.append("file", content.file);
-      formData.append("multifile", content.file);
-      formData.append("applicationName", 111);
-      formData.append("businessId", 8025);
-      formData.append("currentUserId", -1);
-      formData.append("type", 1);
-      const res = await uploadFile(formData);
+      formData.append('multifile', content.file)
+      formData.append('applicationName', 111)
+      formData.append('businessId', 8025)
+      formData.append('currentUserId', -1)
+      formData.append('type', 1)
+      const res = await uploadFile(formData)
       // const infoById = await getFileByIds([res[0].id]);
-      this.attachment.attachmentId = res[0].id;
+      this.attachment.attachmentId = res.data[0].id
       // this.attachment.attachmentUrl = res.url;
-      this.attachment.attachmentUrl = res[0].path;
-      this.attachment.attachmentName = res[0].name;
-      this.attachments.push({ ...this.attachment });
-      iMessage.success(this.$t("上传成功"));
-      this.uploadLoading = false;
+      this.attachment.attachmentUrl = res.data[0].path
+      this.attachment.attachmentName = res.data[0].name
+      this.attachments.push({ ...this.attachment })
+      iMessage.success(this.$t('上传成功'))
+      this.uploadLoading = false
     },
     close() {
-      this.$emit("input", false);
-      this.$emit("closeDialog", false);
-      this.$emit("flushTable");
+      this.$emit('input', false)
+      this.$emit('closeDialog', false)
+      this.$emit('flushTable')
     },
     clearDiolog(sub) {
-      if (sub === "submit") {
-        this.close();
+      if (sub === 'submit') {
+        this.close()
       } else {
         // this.$confirm("是否取消编辑?", "提示", {
         //   confirmButtonText: "是",
         //   cancelButtonText: "否",
         //   type: "warning",
         // }).then(() => {
-        this.close();
+        this.close()
         // });
       }
     },
@@ -1095,7 +1081,7 @@ export default {
       //   cancelButtonText: "否",
       //   type: "warning",
       // }).then(() => {
-      this.submitForm("ruleForm");
+      this.submitForm('ruleForm')
       // });
     },
     submitForm(formName) {
@@ -1103,84 +1089,84 @@ export default {
         if (valid) {
           let inputPresenterStr = this.ruleForm.presenter
             .map((item) => {
-              return item.id;
+              return item.id
             })
-            .join(",");
+            .join(',')
           let inputSupporterStr = this.ruleForm.supporter
             .map((item) => {
-              return item.id;
+              return item.id
             })
-            .join(",");
+            .join(',')
           //开始保存
-          if (this.editOrAdd === "edit") {
-            this.handleUploadFile();
+          if (this.editOrAdd === 'edit') {
+            this.handleUploadFile()
             const formData = {
               ...this.ruleForm,
               meetingId: this.meetingInfo.id,
               id: this.selectedTableData[0].id,
               presenter: inputPresenterStr,
               supporter: inputSupporterStr,
-              attachments: this.attachments,
-            };
-            console.log("formData", formData);
+              attachments: this.attachments
+            }
+            console.log('formData', formData)
             updateThemen(formData)
               .then((data) => {
                 if (data) {
-                  iMessage.success("修改成功");
+                  iMessage.success('修改成功')
                 } else {
-                  iMessage.error("error");
+                  iMessage.error('error')
                 }
-                this.close();
+                this.close()
               })
               .catch((err) => {
-                console.log("err", err);
-              });
+                console.log('err', err)
+              })
           } else {
             this.attachments = this.attachments.map((item) => {
               if (!item.source) {
                 return {
                   ...item,
-                  source: "04",
-                };
+                  source: '04'
+                }
               }
               return {
-                ...item,
-              };
-            });
+                ...item
+              }
+            })
             this.ruleForm = {
               ...this.ruleForm,
               attachments: this.attachments,
               presenter: inputPresenterStr,
-              supporter: inputSupporterStr,
-            };
+              supporter: inputSupporterStr
+            }
             const formData = {
               themen: {
                 ...this.ruleForm,
-                id: "",
+                id: '',
                 meetingId: this.meetingInfo.id,
-                isBreak: false,
-              },
-            };
+                isBreak: false
+              }
+            }
             saveThemen(formData)
               .then((data) => {
                 if (data) {
-                  iMessage.success("保存成功");
+                  iMessage.success('保存成功')
                 } else {
-                  iMessage.error("error");
+                  iMessage.error('error')
                 }
-                this.close();
+                this.close()
               })
               .catch((err) => {
-                console.log("err", err);
-              });
+                console.log('err', err)
+              })
           }
         } else {
-          return false;
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

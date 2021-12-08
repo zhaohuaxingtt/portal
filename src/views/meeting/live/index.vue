@@ -513,7 +513,6 @@ export default {
       return false
     },
     generateTime() {
-      console.log('this.meetingInfo', this.meetingInfo)
       const startDate = this.meetingInfo.startDate
       const startTime = this.meetingInfo.startTime
       const endDate = this.meetingInfo.endDate
@@ -552,7 +551,6 @@ export default {
       const data = {
         id
       }
-      console.log('data', data)
       const _this = this
       const res = await findThemenById(data)
       _this.meetingInfo = res

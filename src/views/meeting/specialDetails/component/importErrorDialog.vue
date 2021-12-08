@@ -8,7 +8,7 @@
     ><div class="box">
       <div class="text">请修改后重新执行导入操作！</div>
       <div class="content">
-        <ul v-for="item in this.errorList" :key="item">
+        <ul v-for="item in this.errorListCopy" :key="item">
           <li class="li" v-html="item"></li>
         </ul>
       </div>
@@ -39,21 +39,28 @@ export default {
   },
   data() {
     return {
+      errorListCopy: [],
       loading: false
     }
   },
-  created() {
-    this.errorList = this.errorList.map((item) => {
-      const num1 = item.indexOf('第')
-      const num2 = item.indexOf('行')
-      item =
-        item.substring(0, num1 + 1) +
-        '<span style="color:#E30D0D">' +
-        item.substring(num1 + 1, num2 + 1) +
-        '</span>' +
-        item.substring(num2 + 1)
-      return item
-    })
+  watch: {
+    errorList: {
+      handler(list) {
+        this.errorListCopy = list.map((item) => {
+          const num1 = item.indexOf('第')
+          const num2 = item.indexOf('行')
+          item =
+            item.substring(0, num1 + 1) +
+            '<span style="color:#E30D0D">' +
+            item.substring(num1 + 1, num2 + 1) +
+            '</span>' +
+            item.substring(num2 + 1)
+          return item
+        })
+      },
+      immediate: true,
+      deep: true
+    }
   },
   methods: {
     handleCloseError() {

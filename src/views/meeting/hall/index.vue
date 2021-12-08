@@ -59,12 +59,16 @@ export default {
             this.$router.push({
               path: '/meeting/specialLive',
               query: {
-                id: res.meetingTypeId,
                 meetingInfoId: res.id ? res.id : -1
               }
             })
           } else {
-            this.$router.push('/meeting/special-near-meeting')
+            this.$router.push({
+              path: '/meeting/special-near-meeting',
+              query: {
+                meetingInfoId: res.id ? res.id : -1
+              }
+            })
           }
         })
       } else {

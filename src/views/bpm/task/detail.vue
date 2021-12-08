@@ -334,10 +334,7 @@ export default {
           .then((res) => {
             this.loading = false
             if (res.result) {
-              this.$message.success(this.language('操作成功'))
-              /* setTimeout(() => {
-                window.close()
-              }, 2000) */
+              this.$message.success(res.desZh || this.language('操作成功'))
 
               if (window.opener) {
                 window.opener.location.reload()

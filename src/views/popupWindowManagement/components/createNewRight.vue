@@ -76,11 +76,11 @@ export default {
       form.append('applicationName','popupImage')
       // const result = await uploadFileWithNoToken(form)
       uploadFileWithNOTokenTwo(form).then((result)=>{
-        // if(result.code == '200'){
-          this.imageUrl = result.path
-        // }else{
-        //   this.$message.error(result.desZh)
-        // }
+        if(result.code == '200'){
+          this.imageUrl = result.data.path
+        }else{
+          this.$message.error(result.desZh)
+        }
       })
       
     },

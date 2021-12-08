@@ -258,7 +258,7 @@ export default {
       await uploadFile(formData)
         .then((res) => {
           return {
-            ...res[0],
+            ...res.data[0],
           };
         })
         .then((fileData) => {

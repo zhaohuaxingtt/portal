@@ -1,6 +1,6 @@
 <template>
   <iCard :title="language('计量单位')" collapse>
-      <el-form label-width="170px" label-position="left">
+      <el-form label-width="160px" label-position="left">
           <el-row :gutter="24" >
               <el-col span="8">
                   <iFormItem :label='language("基本计量单位")' class="unit-option">
@@ -109,7 +109,7 @@ export default {
 <style lang="scss" scoped>
 .unit-option{
     position: relative;
-    margin-left: 20px;
+    margin-left: 26px;
     .check-box{
         // position: absolute;
         //  left: -170px;

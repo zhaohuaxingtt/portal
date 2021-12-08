@@ -233,7 +233,6 @@ export default {
       themenConclusion,
       editOrAdd: '',
       openAddTopic: false,
-      meetingTypeId: '',
       tableLoading: false,
       openDetail: false,
       id: '',
@@ -270,7 +269,6 @@ export default {
     }
   },
   mounted() {
-    this.meetingTypeId = this.$route.query.id
     this.query()
   },
   methods: {

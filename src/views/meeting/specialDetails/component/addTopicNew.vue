@@ -149,7 +149,7 @@
                 :label="`${item.name ? item.name + ' ' : ''}${
                   item.jobNumber ? item.jobNumber + ' ' : ''
                 }${item.department ? item.department + ' ' : ''}${
-                  item.namePinyin ? item.namePinyin  : ''
+                  item.namePinyin ? item.namePinyin : ''
                 }`"
                 :value="item.id"
               >
@@ -181,7 +181,7 @@
                 :label="`${item.name ? item.name + ' ' : ''}${
                   item.jobNumber ? item.jobNumber + ' ' : ''
                 }${item.department ? item.department + ' ' : ''}${
-                  item.namePinyin ? item.namePinyin  : ''
+                  item.namePinyin ? item.namePinyin : ''
                 }`"
                 :value="item.id"
               >
@@ -683,9 +683,9 @@ export default {
         .then((res) => {
           let attachment = {
             source: '04',
-            attachmentId: res[0].id,
-            attachmentUrl: res[0].path,
-            attachmentName: res[0].name
+            attachmentId: res.data[0].id,
+            attachmentUrl: res.data[0].path,
+            attachmentName: res.data[0].name
           }
           this.ruleForm.attachments.push(attachment)
           iMessage.success(this.$t('上传成功'))

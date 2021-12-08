@@ -75,7 +75,7 @@
       <li class="info-row">
         <div class="left">Part Type</div>
         <div class="right">
-          {{ topicInfo.tnr }}
+          {{ topicInfo.partType }}
         </div>
       </li>
 
@@ -111,6 +111,7 @@ import dayjs from 'dayjs'
 import enclosure from '@/assets/images/enclosure.svg'
 import { download } from '@/utils/downloadUtil'
 import { findTheThemenById } from '@/api/meeting/details'
+import { getUsers } from '@/api/usercenter/receiver.js'
 export default {
   components: {
     iDialog
@@ -130,6 +131,7 @@ export default {
   },
   data() {
     return {
+      topicInfoCopy: {},
       enclosure: enclosure,
       status: {
         '01': '未进行',
@@ -186,20 +188,64 @@ export default {
         this.topicInfo.presenterDeptNosys
       )
     }
+    // computedPrensterAndSupporter() {
+    //   return {
+    //     supporter: this.topicInfo.presenter,
+    //     presenter: this.topicInfo.supporter
+    //   }
+    // }
   },
+  // watch: {
+  //   computedPrensterAndSupporter: {
+  //     handler(info) {
+  //       this.getUerNameById([info.presenter, info.supporter]).then((res) => {
+  //         if (!res.data) {
+  //           this.presenterName = ''
+  //           this.supporterName = ''
+  //           return
+  //         }
+  //         if (res.data.length === 1) {
+  //           this.presenterName = res.data[0].nameZh
+  //           this.supporterName = res.data[0].nameZh
+  //           return
+  //         }
+  //         this.presenterName = res.data[0].nameZh
+  //         this.supporterName = res.data[1].nameZh
+  //       })
+  //     },
+  //     immediate: true,
+  //     deep: true
+  //   }
+  // },
   mounted() {
-    console.log(this.topicInfo)
     if (this.isGetInfoById) {
+      const presenterName = this.topicInfo.presenter
+      const supporterName = this.topicInfo.supporter
       findTheThemenById({
         themenId: this.topicInfo.id,
         meetingId: this.topicInfo.meetingId
       }).then((res) => {
+        res.presenter = presenterName
+        res.supporter = supporterName
         this.topicInfo = res
         this.themenData = res
+        // this.getUerNameById([res.presenter, res.supporter]).then((res) => {
+        //   if (res.length === 1) {
+        //     this.presenterName = res[0].nameZh
+        //     this.supporterName = res[0].nameZh
+        //     return
+        //   }
+        //   this.presenterName = res[0].nameZh
+        //   this.supporterName = res[1].nameZh
+        // })
       })
     }
   },
   methods: {
+    async getUerNameById(ids) {
+      const res = await getUsers({ userIdList: [...ids] })
+      return res
+    },
     compuShouldShow(p, pNosys) {
       let s1 = p
       let s2 = pNosys ? (p ? ',' + pNosys : pNosys) : ''

@@ -319,7 +319,6 @@ export default {
       lookThemenObj: {},
       editOrAdd: '',
       openAddTopic: false,
-      meetingTypeId: '',
       tableLoading: false,
       openDetail: false,
       id: '',
@@ -418,16 +417,8 @@ export default {
   },
   mounted() {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
-    // this.meetingTypeId = this.$route.query.meetingTypeId
     this.query()
     this.getAllSelectList()
-  },
-  watch: {
-    tableData: {
-      handler(tableD) {
-        console.log('tableD', tableD)
-      }
-    }
   },
   methods: {
     getAllSelectList() {

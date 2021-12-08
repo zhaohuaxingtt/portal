@@ -30,14 +30,7 @@ export default {
     iCard,
     dataTable
   },
-  props: {
-    meetingTypeId: {
-      type: Number,
-      default: () => {
-        return ''
-      }
-    }
-  },
+
   data() {
     return {
       activeName: 'first0',
@@ -53,7 +46,6 @@ export default {
   methods: {
     query(param) {
       findByMeetingTypeId(param).then((res) => {
-        console.log('res', res)
         this.documentTypeList = [...res].slice(0, 8)
       })
     }
