@@ -124,9 +124,8 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-  min-height: 200px;
+  min-height: 250px;
   padding-bottom: 20px;
-
   width: 100%;
   padding: 10px;
 }
@@ -135,6 +134,6 @@ export default {
   align-items: center;
   justify-content: center;
   color: #666;
-  min-height: 200px;
+  min-height: 250px;
 }
 </style>

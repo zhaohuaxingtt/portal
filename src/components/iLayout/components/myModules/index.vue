@@ -78,7 +78,9 @@ export default {
         Sponser: require('../../assets/images/sponsor.png'),
         Sourcing: require('../../assets/images/sourcing.png'),
         EKL: require('../../assets/images/ekl.png'),
-        Delivery: require('../../assets/images/delivery.png')
+        Delivery: require('../../assets/images/delivery.png'),
+        Schedule: require('../../assets/images/schedule.png'),
+        News: require('../../assets/images/news.png')
       }
     }
   },
@@ -93,22 +95,22 @@ export default {
         animation: 150,
         ghostClass:
           'my-modules-drop-ghost,el-col-24,el-col-xs-24,el-col-sm-12,el-col-md-8,el-col-lg-6,el-col-xl-6',
-        onStart: event => this.handleDragStart(event),
-        onRemove: event => this.handleDragEnd(event)
+        onStart: (event) => this.handleDragStart(event),
+        onRemove: (event) => this.handleDragEnd(event)
       })
     })
   },
   computed: {
     // eslint-disable-next-line no-undef
     ...Vuex.mapState({
-      list: state => state.permission.cardList
+      list: (state) => state.permission.cardList
     }),
-    filterList: function() {
-      const arrList = this.list.filter(li => {
+    filterList: function () {
+      const arrList = this.list.filter((li) => {
         return li.value
       })
       const filterList = this.keyword
-        ? arrList.filter(card => {
+        ? arrList.filter((card) => {
             return card.name.includes(this.keyword)
           })
         : arrList
@@ -131,7 +133,7 @@ export default {
       const item = this.filterList[event.oldIndex]
       item.value = false
       const cards = _.cloneDeep(this.list)
-      const index = cards.findIndex(e => e.id === item.id)
+      const index = cards.findIndex((e) => e.id === item.id)
       cards.splice(index, 1)
       cards.splice(event.newIndex, 0, item)
       const newCards = cards.map((e, i) => {
@@ -174,12 +176,12 @@ export default {
       console.log(
         'keyword',
         this.keyword,
-        list.filter(card => {
+        list.filter((card) => {
           return card.name.includes(this.keyword)
         })
       )
       const filterList = this.keyword
-        ? list.filter(card => {
+        ? list.filter((card) => {
             return card.name.includes(this.keyword)
           })
         : _.cloneDeep(list)

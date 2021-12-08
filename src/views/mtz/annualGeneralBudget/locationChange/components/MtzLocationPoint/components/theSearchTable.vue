@@ -151,6 +151,13 @@
             {{scope.row.id}}
           </p>
         </template>
+        <template slot="ttNominateAppId"
+                  slot-scope="scope">
+          <p class="openPage"
+             @click="handleClickTtNominateAppId(scope.row)">
+            {{scope.row.ttNominateAppId}}
+          </p>
+        </template>
       </tableList>
       <iPagination @size-change="handleSizeChange($event, getTableList)"
                    @current-change="handleCurrentChange($event, getTableList)"
@@ -196,6 +203,9 @@ import {
   getMtzGenericAppId,
   getCurrentUser
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+import {
+  page,
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 export default {
   name: "theSearchTable",
   components: {
@@ -326,17 +336,38 @@ export default {
       this.page.pageSize = 10
       this.getTableList();
     },
+    handleClickTtNominateAppId(val){
+      page({
+        current: 1,
+        size: 9999,
+        nominateId: val.ttNominateAppId
+      }).then(res => {
+        if (res.code == 200 && res.result) {
+          var jumpData = res.data.records[0];
+          var partProjType = "";
+          if (jumpData.partProjType == null) {
+            partProjType = ""
+          } else {
+            partProjType = jumpData.partProjType
+          }
+          var path = "";
+          path = "designate/decisiondata/rs?desinateId=" + jumpData.id + "&designateType=" + jumpData.nominateProcessType + "&partProjType" + partProjType + "&applicationStatus=" + jumpData.applicationStatus
+          window.open(process.env.VUE_APP_SOURCING_URL + path)
+          
+        } else {
+          iMessage.error(this.language(res.desEn, res.desZh))
+        }
+      })
+    },
     handleClickFsupplierName (val) {
       let routeData = this.$router.resolve({
         path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow`,
         query: {
           currentStep: 1,
           mtzAppId: val.id,
-          // isView: (val.appStatus === 'NEW' || val.appStatus === 'NOTPASS') ? false : true
         }
       })
       window.open(routeData.href)
-      // window.open(routeData.href, '_blank')
     },
     // 选中table数据
     handleSelectionChange (val) {
