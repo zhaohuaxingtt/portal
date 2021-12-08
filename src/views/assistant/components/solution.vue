@@ -81,6 +81,5 @@ export default {
 		line-height: 40px;
 		text-align: center;
 		color: #666666;
-		margin-bottom: 20px;
 	}
 </style>
