@@ -59,7 +59,9 @@ export default {
   },
   watch: {
     contacts() {
-      this.init()
+      // if(this.dicts){
+        this.init()
+      // }
     }
   },
   data() {
@@ -84,7 +86,8 @@ export default {
     init() {
       if(this.contacts){
         this.contacts.forEach(item => {
-          this.dicts.forEach(e => {
+          // console.log(this.dicts.SUPPLIER_CODE_TYPE,'=======')
+          this.dicts.SUPPLIER_CODE_TYPE.forEach(e => {
             if(e.code == item.contactType){
               item.contactType = e.name
             }
