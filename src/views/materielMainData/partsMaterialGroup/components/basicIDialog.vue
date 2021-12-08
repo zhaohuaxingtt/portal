@@ -1,7 +1,7 @@
 <template>
   <iDialog 
     :visible.sync="dialogVisible"
-    :title="pageTitle"
+    :title="language(pageTitle)"
     @close="clearDialog"
     width="480px"
   >
@@ -12,24 +12,24 @@
       :model="formData"
       ref="formData"
       >
-        <iFormItem :label='formDataLabel.sixPartCode' prop="sixPartCode">
+        <iFormItem :label='language("零件6位号")' prop="sixPartCode">
           <iInput
-            :placeholder='formDataLabel.inputPlaceholder'
+            :placeholder='language("请输入")'
             v-model='formData.sixPartCode'
             :disabled='isDisabled'
             @input="getSixPartsName($event)"
           ></iInput>  
         </iFormItem>
-        <iFormItem :label='formDataLabel.partNameZh'>
+        <iFormItem :label='language("零件名称（中）")'>
           <iInput
-            :placeholder='formDataLabel.inputPlaceholder'
+            :placeholder='language("请输入")'
             v-model='formData.partNameZh'
             :disabled='isDisabled'
           ></iInput>  
         </iFormItem>
-        <iFormItem :label='formDataLabel.partNameDe'>
+        <iFormItem :label='language("零件名称（德）")'>
           <iInput
-            :placeholder='formDataLabel.inputPlaceholder'
+            :placeholder='language("请输入")'
             v-model='formData.partNameDe'
             :disabled='isDisabled'
           ></iInput>  
@@ -41,9 +41,9 @@
             :disabled='isDisabled'
           ></iInput>  
         </iFormItem> -->
-        <iFormItem :label='formDataLabel.isFixAsset' prop="isFixAsset">
+        <iFormItem :label='language("入账是否抽查")' prop="isFixAsset">
           <iSelect
-            :placeholder='formDataLabel.inputPlaceholder'
+            :placeholder='language("请输入")'
             v-model='formData.isFixAsset'
             :disabled='isDisabled || isCheckSta'
             class="selectEntry"
@@ -57,16 +57,14 @@
           </el-option>
           </iSelect>  
         </iFormItem>
-        <iFormItem :label='formDataLabel.Linie'>
+        <iFormItem :label='language("Linie")'>
           <iInput
-
             v-model='formData.linieNames'
             disabled='true'
           ></iInput>  
         </iFormItem>
-        <iFormItem :label='formDataLabel.LinieDepartment'>
+        <iFormItem :label='language("Linie科室")'>
           <iInput
-
             v-model='formData.deptCodes'
             disabled='true'
           ></iInput>  
@@ -74,10 +72,10 @@
       </el-form>
     </div>
     <div class="button-end" >
-        <iButton v-if=" readOnly ? false : isCheck" @click="edit">编辑</iButton>
-        <iButton v-if="readOnly ? false : !isCheck" @click="submit">保存</iButton>
-        <iButton v-if="readOnly ? false : !isCheck" @click="reset">重置</iButton>
-        <iButton @click="clearDialog">退出</iButton>
+        <iButton v-if=" readOnly ? false : isCheck" @click="edit">{{language('编辑')}}</iButton>
+        <iButton v-if="readOnly ? false : !isCheck" @click="submit">{{language('保存')}}</iButton>
+        <iButton v-if="readOnly ? false : !isCheck" @click="reset">{{language('重置')}}</iButton>
+        <iButton @click="clearDialog">{{language('退出')}}</iButton>
     </div>
   </iDialog>
 </template>
@@ -117,16 +115,16 @@ export default {
     return {
       checkStastus:false,
       isCheckSta:'',
-      formDataLabel: {
-        sixPartCode:'零件6位号',
-        partNameZh:'零件名称（中）',
-        partNameDe:'零件名称（德）',
-        partNameEn:'零件名称（英）',
-        Linie:'Linie',
-        LinieDepartment:'Linie科室',
-        isFixAsset:'入账是否抽查',
-        inputPlaceholder: '请输入'
-      },
+      // formDataLabel: {
+      //   sixPartCode:'零件6位号',
+      //   partNameZh:'零件名称（中）',
+      //   partNameDe:'零件名称（德）',
+      //   partNameEn:'零件名称（英）',
+      //   Linie:'Linie',
+      //   LinieDepartment:'Linie科室',
+      //   isFixAsset:'入账是否抽查',
+      //   inputPlaceholder: '请输入'
+      // },
       formData: {
         sixPartCode: '',
         partNameZh: '',
