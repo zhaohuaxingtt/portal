@@ -40,7 +40,7 @@
             </el-col>
           </el-row>
           <iFormItem :label="language('零件状态')">
-            <iSelect v-model="searchContent.partStatus">
+            <iSelect v-model="searchContent.partStatus" :placeholder="language('请选择')">
               <el-option
                 v-for="item in partStatusOptions"
                 :key="item.value"
