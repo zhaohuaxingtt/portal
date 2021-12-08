@@ -194,7 +194,7 @@ module.exports = {
       },
       // ------------------ 上传 ----------------------------
       '/fileApi': {
-        target: `http://${BASE_IP}:8034/fileud`,
+        target: `http://${BASE_IP}:8034`,
         changeOrigin: true,
         pathRewrite: {
           '/fileApi': ''
@@ -317,11 +317,11 @@ module.exports = {
           ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
         }
       },
-      "/fileCross": {
+      '/fileCross': {
         target: `http://${BASE_IP}:8034`,
         changeOrigin: true,
         pathRewrite: {
-          "/fileCross": ''
+          '/fileCross': ''
         }
       }
     }
