@@ -9,7 +9,7 @@ export const rawMaterielColumns=[
     },
     {
         prop:'generalCategoryCode',
-        label:'原材料编号大类',
+        i18n:'原材料编号大类',
         emit:'go-detail',
         minWidth:'50px',
         // openNewPage:true,
@@ -20,22 +20,22 @@ export const rawMaterielColumns=[
     },
     {
         prop:'generalCategoryNameZh',
-        label:'原材料名称(中文)',
+        i18n:'原材料名称(中文)',
         tooltip:true,
     },
     {
         prop:'generalCategoryNameEn',
-        label:'原材料名称(英文)',
+        i18n:'原材料名称(英文)',
         tooltip:true,
     },
     {
         prop:'generalShortName',
-        label:'大类元素简称',
+        i18n:'大类元素简称',
         tooltip:true,
     },
     {
         prop:'statusDesc',
-        label:'状态',
+        i18n:'状态',
         tooltip:true,
         customRender:(h,scope)=>{
             if(scope.row.statusDesc=='无效'){

@@ -31,7 +31,7 @@
         <tableList
           class="margin-top20"
           :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1"
+          :tableTitle="ruleTableTitle1_new"
           :tableLoading="loading"
           :index="true"
           :selection="false"
@@ -58,7 +58,7 @@
         <tableList
           class="margin-top20"
           :tableData="partTableListData"
-          :tableTitle="partTableTitle1"
+          :tableTitle="partTableTitle1_new"
           :tableLoading="loading"
           :index="true"
           :selection="false"
@@ -137,7 +137,7 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination,iDialog } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1, partTableTitle1} from './data'
+import { ruleTableTitle1, partTableTitle1,ruleTableTitle1_new,partTableTitle1_new} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import signPreview from "./signPreview";
@@ -162,6 +162,8 @@ export default {
       formList,
       ruleTableTitle1:ruleTableTitle1,
       partTableTitle1:partTableTitle1,
+      ruleTableTitle1_new,
+      partTableTitle1_new,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,

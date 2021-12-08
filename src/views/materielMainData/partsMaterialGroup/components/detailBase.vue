@@ -1,12 +1,12 @@
 <template>
-  <iCard title="基础信息" header-control collapse>
+  <iCard :title="language('基础信息')" header-control collapse>
     <div class="button-top margin-bottom20" v-if="!readOnly">
       <div v-if="editSta">
-        <iButton @click="edit">编辑</iButton>
+        <iButton @click="edit">{{language('编辑')}}</iButton>
       </div>
       <div v-else>
-        <iButton @click="save">保存</iButton>
-        <iButton @click="closeWindow">取消</iButton>
+        <iButton @click="save">{{language('保存')}}</iButton>
+        <iButton @click="closeWindow">{{language('取消')}}</iButton>
       </div>
     </div>
     <div class="form-item">
@@ -20,9 +20,9 @@
       >
         <el-row :gutter="20">
           <el-col :span="6">
-            <iFormItem :label="formDataLabel.categoryCode" prop="categoryCode">
+            <iFormItem :label="language('材料组编号')" prop="categoryCode">
               <iInput
-                :placeholder="formDataLabel.inputPlaceholder"
+                :placeholder="language('请输入')"
                 v-model="formData.categoryCode"
                 :disabled="this.$route.query.id"
               >
@@ -31,11 +31,11 @@
           </el-col>
           <el-col :span="6">
             <iFormItem
-              :label="formDataLabel.categoryNameZh"
+              :label="language('材料组名称')"
               prop="categoryNameZh"
             >
               <iInput
-                :placeholder="formDataLabel.inputPlaceholder"
+                :placeholder="language('请输入')"
                 v-model="formData.categoryNameZh"
                 :disabled="editSta"
               ></iInput>
@@ -43,29 +43,29 @@
           </el-col>
           <el-col :span="6">
             <iFormItem
-              :label="formDataLabel.categoryNameDe"
+              :label="language('材料组名称(德)')"
               prop="categoryNameDe"
             >
               <iInput
-                :placeholder="formDataLabel.inputPlaceholder"
+                :placeholder="language('请输入')"
                 v-model="formData.categoryNameDe"
                 :disabled="editSta"
               ></iInput>
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="formDataLabel.categoryMemo">
+            <iFormItem :label="language('材料组说明')">
               <iInput
-                :placeholder="formDataLabel.inputPlaceholder"
+                :placeholder="language('请输入')"
                 v-model="formData.categoryMemo"
                 :disabled="editSta"
               ></iInput>
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="formDataLabel.isFixAsset" prop="isFixAsset">
+            <iFormItem :label="language('入账是否抽查')" prop="isFixAsset">
               <iSelect
-                :placeholder="formDataLabel.iSelectPlaceholder"
+                :placeholder="language('请选择')"
                 v-model="formData.isFixAsset"
                 :disabled="editSta"
               >
@@ -80,18 +80,18 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="formDataLabel.LinieDepartment">
+            <iFormItem :label="language('Linie科室')">
               <iInput
-                :placeholder="formDataLabel.inputPlaceholder"
+                :placeholder="language('请输入')"
                 v-model="formData.deptCodes"
                 disabled="true"
               ></iInput>
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="formDataLabel.Linie">
+            <iFormItem :label="language('Linie')">
               <iInput
-                :placeholder="formDataLabel.inputPlaceholder"
+                :placeholder="language('请输入')"
                 v-model="formData.linieNames"
                 disabled="true"
               ></iInput>
@@ -99,11 +99,11 @@
           </el-col>
           <el-col :span="6">
             <iFormItem
-              :label="formDataLabel.masterLinieName"
+              :label="language('主采购员')"
               prop="masterLinieName"
             >
               <iSelect
-                :placeholder="formDataLabel.iSelectPlaceholder"
+                :placeholder="language('请选择')"
                 v-model="formData.masterLinieName"
                 :disabled="editSta"
               >
@@ -117,7 +117,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="formDataLabel.pjDeptName">
+            <iFormItem :label="language('配件采购科室')">
               <iInput
                 :placeholder="language('请输入')"
                 v-model="formData.pjDeptName"
@@ -133,7 +133,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="formDataLabel.pjLinieName">
+            <iFormItem :label="language('配件采购员')">
               <iInput
                 :placeholder="language('请输入')"
                 v-model="formData.pjLinieName"
@@ -150,11 +150,11 @@
           </el-col>
           <el-col :span="6">
             <iFormItem
-              :label="formDataLabel.moldProperties"
+              :label="language('模具预算属性')"
               prop="moldProperties"
             >
               <iSelect
-                :placeholder="formDataLabel.inputPlaceholder"
+                :placeholder="language('请选择')"
                 v-model="formData.moldProperties"
                 :disabled="editSta"
               >
@@ -176,19 +176,19 @@
       <div class="table-bottom margin=top20">
         <div class="iButton-end margin-bottom20">
           <el-form label-position="left" label-width="115px">
-            <iFormItem label="已关联零件6位号">
-              <iInput v-model="sixPartNum" placeholder="请输入"></iInput>
+            <iFormItem :label="language('已关联零件6位号')">
+              <iInput v-model="sixPartNum" :placeholder="language('请输入')"></iInput>
             </iFormItem>
           </el-form>
           <div style="display: flex; justify-content: flex-end">
-            <iButton @click="search">查询</iButton>
-            <iButton @click="reset">重置</iButton>
+            <iButton @click="search">{{language('查询')}}</iButton>
+            <iButton @click="reset">{{language('重置')}}</iButton>
             <div v-if="!readOnly" style="margin-left: 8px">
-              <iButton @click="newAdd">新增</iButton>
+              <iButton @click="newAdd">{{language('新增')}}</iButton>
               <iButton
                 @click="deleteSixParts"
                 :disabled="selectTableData.length == 0"
-                >删除</iButton
+                >{{language('删除')}}</iButton
               >
             </div>
           </div>

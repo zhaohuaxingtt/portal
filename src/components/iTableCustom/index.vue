@@ -607,10 +607,10 @@ export default {
       // console.log(row,column,'=====');
       if (!this.emitLabel.includes(column.label)) {
         if(this.isCustomSelection){
-          // console.log('QWQ');
-          this.handleToggleSelectedRow(true,row)
+          console.log('QWQ');
+          // this.handleToggleSelectedRow(true,row)
         }else{
-          // console.log('T-T');
+          console.log('T-T');
            this.$refs.theCustomTable.toggleRowSelection(row)
         }
       }
@@ -802,13 +802,21 @@ export default {
     ---------------------------------------下面是自定义级联复选框的------------------------------
     ------------------------------------------------------------------------------------------*/
     handleCheckedAll(val) {
-      this.tableData.forEach((e) => {
-        e.checked = val
-        e.isIndeterminate = false
+      this.tableData.forEach((e,index) => {
+        if(!e.disabledChecked){
+          Vue.set(this.tableData[index],'checked',val)
+          e.isIndeterminate = false
+        }
+        
       })
       this.indeterminateAll = false
+      const data = this.tableData.filter((item) => {
+        if(!item.disabledChecked){
+          return item
+        }
+      })
 
-      const returnData = val ? this.tableData : []
+      const returnData = val ? data : []
       this.$emit('handle-selection-change', returnData, {
         checked: val,
         checkedAll: val,

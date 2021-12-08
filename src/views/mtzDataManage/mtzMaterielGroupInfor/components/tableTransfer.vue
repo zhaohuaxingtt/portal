@@ -28,7 +28,7 @@
           <div class="t">
             <span>{{ subLeftTitle }}</span>
             <div class="mark">
-              表示已关联
+              {{language('表示已关联')}}
             </div>
           </div>
           <iTableCustom

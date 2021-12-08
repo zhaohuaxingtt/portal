@@ -6,28 +6,28 @@
             <iCard class="item">
                 <div class="status">
                     <div class="status-value blue"><span v-text="headBase&&headBase.calcDate"></span> </div>
-                    <div class="status-text"><span v-text="$t('EKL_SJJSJZSJ')"></span></div>
+                    <div class="status-text"><span v-text="$t('LK_SJJSJZSJ')"></span></div>
                     <icon class="icon" symbol name="iconyejijichubiaodaiquerenshuliang1" />
                 </div>
             </iCard>
             <iCard class="item">
                 <div class="status">
                     <div class="status-value success"> <span v-text="headBase&&headBase.totalNum"></span> </div>
-                    <div class="status-text"><span v-text="$t('EKL_GZLJZS')"></span></div>
+                    <div class="status-text"><span v-text="$t('LK_GZLJZS')"></span></div>
                     <icon class="icon" symbol name="iconyejijichubiaowanchengshijian" />
                 </div>
             </iCard>
             <iCard class="item">
                 <div class="status">
                     <div class="status-value blue"><span v-text="headBase&&headBase.addNum"></span></div>
-                    <div class="status-text"><span v-text="$t('EKL_XZLJZS')"></span> </div>
+                    <div class="status-text"><span v-text="$t('LK_XZLJZS')"></span> </div>
                     <icon class="icon" symbol name="iconyejigenzongbiaoxinzenglingjian" />
                 </div>
             </iCard>
             <iCard class="item">
                 <div class="status">
                     <div class="status-value grey"><span v-text="headBase&&headBase.delNum"></span> </div>
-                    <div class="status-text"><span v-text="$t('EKL_QXLJZS')"></span></div>
+                    <div class="status-text"><span v-text="$t('LK_QXLJZS')"></span></div>
                     <icon class="icon" symbol name="iconyejigenzongbiaoquxiaolingjian" />
                 </div>
             </iCard>

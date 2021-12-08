@@ -4,29 +4,29 @@ export const TABLE_COLUMNS = [
         width:50
     },
     {
-        label:'序号',
+      i18n:'序号',
         type:'index',
         width:100
     },
     {
-        label:'弹窗编码',
+      i18n:'弹窗编码',
         prop:'id',
         width:400
     },
     {
-        label:'弹窗标题',
+      i18n:'弹窗标题',
         prop:'popupName',
         // width:'400px',
         tooltip:true
     },
     {
-        label:'弹窗说明',
+      i18n:'弹窗说明',
         prop:'content',
         // width:'500px',
         tooltip:true,
     },
     {
-        label:'发送时间',
+        i18n:'发送时间',
         // prop:'publishTime',//publishPreTime
         customRender:(h,scope)=>{
           if(scope.row.publishTime){
@@ -119,14 +119,12 @@ export const SUPPLIER_TABLE_COLUMNS =[
   {
     type:'index',
     width:50,
-    label:'序号'
+    i18n:'序号'
   },
   {
     prop:"nameZh",
-    label:'供应商中文名',
+    i18n:'供应商中文名',
     tooltip:true,
-
-    i18n: ''
   },
   {
     prop:"nameEn",
@@ -137,26 +135,23 @@ export const SUPPLIER_TABLE_COLUMNS =[
   },
   {
     prop:"sapCode",
-    label:'SAP号',
+    i18n:'SAP号',
     tooltip:true,
-    i18n: ''
   },
   {
     prop:"svwCode",
     tooltip:true,
 
-    label:'SVW号',
-    i18n: ''
+    i18n:'SVW号',
   },
   {
     prop:"svwTempCode",
-    label:'临时号',
+    i18n:'临时号',
     tooltip:true,
-    i18n: ''
   },
   {
     prop:"supplierType",
-    label:'供应商类型',
+    i18n:'供应商类型',
     tooltip:true,
     customRender:(h,scope)=>{
       if(scope.row.supplierType){
@@ -174,13 +169,11 @@ export const SUPPLIER_TABLE_COLUMNS =[
       }
       
     },
-    i18n: ''
   },
   {
     prop:"formalStatus",
-    label:'供应商身份',
+    i18n:'供应商身份',
     tooltip:true,
-    i18n: '',
     customRender:(h,scope)=>{
       if(scope.row.formalStatus){
         if(scope.row.formalStatus == 0){
