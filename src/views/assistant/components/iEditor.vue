@@ -10,6 +10,10 @@ import Editor from 'wangeditor'
     export default {
         props:{
             value:{},
+            html:{  //最开始的html，有原始值必传
+                type:String,
+                default:"editor"
+            },
             disabled:{
                 type:Boolean,
                 default:false
@@ -32,6 +36,11 @@ import Editor from 'wangeditor'
             this.init()
         },
         watch:{
+            html(n){
+                if(n != this.editor.txt.html()){
+                    this.editor.txt.html(n || "") 
+                }
+            },
             disabled(n){
                 if(n){
                     this.editor && this.editor.disable()
@@ -76,7 +85,7 @@ import Editor from 'wangeditor'
                 this.editor.config.showLinkImg = false      //隐藏网络图片上传
                 this.editor.create()
             },
-             upload(file){
+            upload(file){
                 return new Promise(async (resolve,reject) => {
                     try {
                     const formData = new FormData()

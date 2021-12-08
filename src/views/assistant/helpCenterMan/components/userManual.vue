@@ -3,7 +3,7 @@
         <div class="manual-btns">
             <template v-if="type == 'detail'">
                 <iButton v-if="qs.id" @click="del">删除</iButton>
-                <iButton v-if="qs.id" @click="type = 'edit'">编辑</iButton>
+                <iButton v-if="qs.id" @click="edit">编辑</iButton>
             </template>
             <template v-if="type == 'edit'">
                 <template v-if="!preview">
@@ -21,7 +21,7 @@
         <template v-if="type == 'edit'">
             <div class="content" v-if="preview" v-html="content"></div>
             <template v-else>
-                <iEditor class="content manual-editor" v-model="content"></iEditor>
+                <iEditor class="content manual-editor" v-model="content" :html="content"></iEditor>
                 <iUpload ref="upload" v-model="files" :maxSize="20" >
                     <div class="upload flex" style="align-items: end;">
                         <iButton>添加附件</iButton>
@@ -102,6 +102,10 @@
                     this.$message.success("已删除")
                     this.$emit("refresh")
                 })
+            },
+            edit(){
+                this.type = 'edit'
+                this.content = JSON.parse(JSON.stringify(this.detail.manualContent))
             },
             cancel(){
                 this.type = 'detail'

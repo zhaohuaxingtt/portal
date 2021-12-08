@@ -4,7 +4,7 @@
             <template v-if="type == 'detail'">
                 <template v-if="detail.id">
                     <iButton @click="del">删除</iButton>
-                    <iButton @click="type = 'edit'">编辑</iButton>
+                    <iButton @click="edit">编辑</iButton>
                 </template>
                 <iButton @click="dialog = true">新建问题</iButton>
             </template>
@@ -36,7 +36,7 @@
                 <i-input class="input" type="text" disabled v-model="form.createByName" placeholder="请输入" />
             </div>
         </div>
-        <iEditor class="flex-1 qs-editor" :class="[type == 'detail' ? 'overflow-auto color' : 'overflow-hidden']" :disabled="type == 'detail'" v-if="form.answerContent" v-model="form.answerContent"></iEditor>
+        <iEditor class="flex-1 qs-editor" :class="[type == 'detail' ? 'overflow-auto color' : 'overflow-hidden']" :disabled="type == 'detail'" v-if="form.answerContent" v-model="form.answerContent" :html="form.answerContent"></iEditor>
         <div class="flex" style="margin-top:20px;align-items: flex-start;">
             <div class="label">附件：</div>
             <iUpload ref="upload" :disabled="type == 'detail'" v-model="form.annexList" @onSuccess="uploadSucc" >
@@ -92,7 +92,7 @@
         watch:{
             detail(n){
                 this.form = JSON.parse(JSON.stringify(n))
-                this.tempContent = JSON.parse(JSON.stringify(n.answerContent))
+                this.tempContent = n.answerContent ? JSON.parse(JSON.stringify(n.answerContent)) : ""
                 this.moduleChange(this.form.questionModuleId)
             }
         },
@@ -159,6 +159,9 @@
                     this.$message.success("已删除")
                     this.$emit("delChange")
                 })
+            },
+            edit(){
+                this.type = 'edit'
             },
             cancel(){
                 this.type = 'detail'
