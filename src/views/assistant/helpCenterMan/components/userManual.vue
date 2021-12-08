@@ -3,7 +3,7 @@
         <div class="manual-btns">
             <template v-if="type == 'detail'">
                 <iButton v-if="qs.id" @click="del">删除</iButton>
-                <iButton v-if="qs.id" @click="type = 'edit'">编辑</iButton>
+                <iButton v-if="qs.id" @click="edit">编辑</iButton>
             </template>
             <template v-if="type == 'edit'">
                 <template v-if="!preview">
@@ -16,13 +16,12 @@
         </div>
         <template v-if="type == 'detail'">
             <div class="manual-tlt" v-text="qs.menuName"></div>
-            <!-- <div class="content" v-if="detail.manualContent" v-html="detail.manualContent"></div> -->
-            <iEditor class="content" disabled v-model="detail.manualContent"></iEditor>
+            <div class="content" v-if="detail.manualContent" v-html="detail.manualContent"></div>
         </template>
         <template v-if="type == 'edit'">
-            <div v-if="preview" v-html="content"></div>
-            <template v-else>        
-                <iEditor class="content manual-editor" v-model="content"></iEditor>
+            <div class="content" v-if="preview" v-html="content"></div>
+            <template v-else>
+                <iEditor class="content manual-editor" v-model="content" :html="content"></iEditor>
                 <iUpload ref="upload" v-model="files" :maxSize="20" >
                     <div class="upload flex" style="align-items: end;">
                         <iButton>添加附件</iButton>
@@ -36,8 +35,9 @@
 
 <script>
     import { iButton } from "rise"
-    import iEditor from "@/components/iEditor"
+    // import iEditor from "@/components/iEditor"
     import iUpload from "./../../components/iUpload.vue"
+    import iEditor from "./../../components/iEditor.vue"
     import { delManual, insertNewManual } from "@/api/assistant"
     export default {
         props:{
@@ -103,6 +103,10 @@
                     this.$emit("refresh")
                 })
             },
+            edit(){
+                this.type = 'edit'
+                this.content = this.detail.manualContent ? JSON.parse(JSON.stringify(this.detail.manualContent)) : ""
+            },
             cancel(){
                 this.type = 'detail'
             }
@@ -130,6 +134,7 @@
 }
 .content{
     flex: 1;
+    margin-top: 20px;
     padding: 20px 10px;
     overflow: auto;
 }

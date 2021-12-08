@@ -52,8 +52,8 @@
 				/>
 				<ProblemDetail
 					ref="problemDetail"
-					:currentMoudleId="currentMoudleId"
-					:currMoudleName="currMoudleName"
+					:currentMoudleId.sync="currentMoudleId"
+					:currMoudleName.sync="currMoudleName"
 					:queryProblemList="queryProblemList"
 					:moudleList="moudleList"
 					@changeCurrValue="changeCurrValue"
@@ -304,7 +304,6 @@ export default {
 			this.currentMoudleId = questionModuleId
 			this.currLabelId = questionLableId
 			this.currMoudleName = this.getCurrModuleName(questionModuleId)
-			console.log(this.currMoudleName, "this.currMoudleName")
 			this.$nextTick(() => {
 				this.$refs.problemDetail.getQueryProblemList(questionLableId, queryValue)
 			})

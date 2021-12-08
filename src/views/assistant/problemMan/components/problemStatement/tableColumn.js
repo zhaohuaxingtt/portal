@@ -198,6 +198,13 @@ export const manualTableColumn = (c) => {
       align: 'center',
       tooltip: true
     },
+    {
+      prop: 'handlerUserName',
+      label: '创建人',
+      width: '200px',
+      align: 'center',
+      tooltip: true
+    },
     // {
     //   prop: 'finishDate',
     //   label: '完结时间',
