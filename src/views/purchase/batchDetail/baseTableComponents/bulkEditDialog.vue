@@ -1,7 +1,7 @@
 <template>
     <!--确认-->
     <iDialog
-            :title="$t('EKL_PLBJ')+': ' + ' ' + bulkEditData.partNumber"
+            :title="$t('LK_PLBJ')+': ' + ' ' + bulkEditData.partNumber"
             :visible.sync="value"
             width="742px"
             @close="clearDiolog"
@@ -12,13 +12,13 @@
                 <el-row class="margin-bottom20">
                     <div style="display: grid">
                         <div style="grid-row: 1/2">
-                            <el-form-item :label="$t('EKL_GYS')">
+                            <el-form-item :label="$t('LK_GONGYINGSHANG')">
                                 <iInput style="width: 320px" disabled :placeholder="language('请输入')"
                                         v-model="gysName"></iInput>
                             </el-form-item>
                         </div>
                         <div style="grid-row: 1/2;">
-                            <el-form-item style="padding-left: 40px;" :label="$t('EKL_CGGC')">
+                            <el-form-item style="padding-left: 40px;" :label="$t('LK_CAIGOUGONGCHANG')">
                                 <iInput style="width: 320px;" disabled :placeholder="language('请输入')"
                                         v-model="cggcName"></iInput>
                             </el-form-item>
@@ -30,13 +30,13 @@
                 <el-row class="margin-bottom20">
                     <div style="display: grid">
                         <div style="grid-row: 1/2">
-                            <el-form-item :label="$t('EKL_QRSL')">
+                            <el-form-item :label="$t('LK_QRSL')">
                                 <iInput style="width: 320px" disabled :placeholder="language('请输入')"
                                         v-model="form.confirmQuantity"></iInput>
                             </el-form-item>
                         </div>
                         <div style="grid-row: 1/2;">
-                            <el-form-item style="padding-left: 40px;" :label="$t('EKL_QRJG')">
+                            <el-form-item style="padding-left: 40px;" :label="$t('LK_QRJG')">
                                 <iInput
                                         oninput="value = value.replace(/[^\d.]/g,'').replace(/\.{2,}/g,'.')"
                                         @focus="onFocus"
@@ -49,7 +49,7 @@
                 </el-row>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <iButton @click="handleSubmit">{{ $t('EKL_QUEREN') }}</iButton>
+                <iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>
             </div>
         </div>
     </iDialog>

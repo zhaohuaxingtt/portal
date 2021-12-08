@@ -2,17 +2,17 @@
   <iPage class="addTechnology">
     <div class="page-header">
       <div>
-        <span class="font18 font-weight" v-if='!this.$route.query.stuffId' > 新增工艺组 </span>
-        <span class="font18 font-weight" v-else > {{this.formData.stuffCode}} {{this.formData.stuffName}} </span>
+        <span class="font18 font-weight" v-if='!this.$route.query.stuffId' > {{language('新增工艺组')}} </span>
+        <span class="font18 font-weight" v-else > {{language(formData.stuffCode)}} {{language(formData.stuffName)}} </span>
 
       </div>
       <div class="ibutton-end" v-if="!this.$route.query.readOnly">
         <div v-if='viewSta'>
-          <iButton @click="edit" >编辑</iButton>
+          <iButton @click="edit" >{{language('编辑')}}</iButton>
         </div>
         <div v-else>
-          <iButton @click="save('formData')">保存</iButton>
-          <iButton @click="closeWindow">取消</iButton>
+          <iButton @click="save('formData')">{{language('保存')}}</iButton>
+          <iButton @click="closeWindow">{{language('取消')}}</iButton>
         </div>
         
       </div>
@@ -29,11 +29,11 @@
         <el-row :gutter="20">
           <el-col :span="6">
             <iFormItem
-              :label="formDataLabel.stuffCode"
+              :label="language('工艺组编号')"
               prop="stuffCode"
             >
               <iInput
-                :placeholder="formDataLabel.inputPlaceholder"
+                :placeholder="language('请输入')"
                 v-model="formData.stuffCode"
                 :disabled='viewSta'
               ></iInput>
@@ -41,11 +41,11 @@
           </el-col>
           <el-col :span="6">
             <iFormItem
-              :label="formDataLabel.stuffName"
+              :label="language('工艺组名称')"
               prop="stuffName"
             >
               <iInput
-                :placeholder="formDataLabel.inputPlaceholder"
+                :placeholder="language('请输入')"
                 v-model="formData.stuffName"
                 :disabled='viewSta'
               ></iInput>
@@ -53,20 +53,20 @@
           </el-col>
           <el-col :span="6">
             <iFormItem
-              :label="formDataLabel.stuffNameDe"
+              :label="language('工艺组名称(德)')"
               prop="stuffNameDe"
             >
               <iInput
-                :placeholder="formDataLabel.inputPlaceholder"
+                :placeholder="language('请输入')"
                 v-model="formData.stuffNameDe"
                 :disabled='viewSta'
               ></iInput>
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="formDataLabel.stuffMemo">
+            <iFormItem :label="language('工艺组说明')">
               <iInput
-                :placeholder="formDataLabel.inputPlaceholder"
+                :placeholder="language('请输入')"
                 v-model="formData.stuffMemo"
                 :disabled='viewSta'
               ></iInput>
@@ -79,11 +79,11 @@
         <div style="display:flex;justify-content: flex-end">
         </div>
         <div class="iButton-end margin-bottom20"  v-if="!this.$route.query.readOnly">
-          <iButton @click="tabelEdit"  v-show="tabelSta">编辑</iButton>
-          <iButton @click="SaveNewSupplier" v-show='!tabelSta'>保存</iButton>
-          <iButton @click="addNew">新增</iButton>
-          <iButton @click="delrte" :disabled='selectTableData.length == 0'>删除</iButton>
-          <iButton @click="downLoadSupplier">下载供应商模版</iButton>
+          <iButton @click="tabelEdit"  v-show="tabelSta">{{language('编辑')}}</iButton>
+          <iButton @click="SaveNewSupplier" v-show='!tabelSta'>{{language('保存')}}</iButton>
+          <iButton @click="addNew">{{language('新增')}}</iButton>
+          <iButton @click="delrte" :disabled='selectTableData.length == 0'>{{language('删除')}}</iButton>
+          <iButton @click="downLoadSupplier">{{language('下载供应商模版')}}</iButton>
           <!-- <iButton @click="inportTechnology">导入</iButton> -->
           <el-upload
             action="1"
@@ -92,9 +92,9 @@
             :http-request="importData"
             accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           >
-            <iButton class="importSupplier">导入</iButton>
+            <iButton class="importSupplier">{{language('导入')}}</iButton>
           </el-upload>
-          <iButton @click="exportTechnology">导出</iButton>
+          <iButton @click="exportTechnology">{{language('导出')}}</iButton>
         </div>
         <iTableCustom
           :data="tableData"
@@ -118,7 +118,7 @@
         >
         </iPagination>
         <i-selector-dialog
-          :title="'供应商选择'"
+          :title="language('供应商选择')"
           :show.sync="newAddDialogVisible"
           @change="handleCallback"
           @closedia="handleClose"
@@ -172,14 +172,14 @@ export default {
       viewSta:true,
       //tabel控制按钮显示
       tabelSta:true,
-      formDataLabel: {
-        stuffCode: '工艺组编号',
-        stuffName: '工艺组名称',
-        stuffNameDe: '工艺组名称(德)',
-        stuffMemo: '工艺组说明',
-        inputPlaceholder: '请输入',
-        iSelectPlaceholder: '请选择'
-      },
+      // formDataLabel: {
+      //   stuffCode: '工艺组编号',
+      //   stuffName: '工艺组名称',
+      //   stuffNameDe: '工艺组名称(德)',
+      //   stuffMemo: '工艺组说明',
+      //   inputPlaceholder: '请输入',
+      //   iSelectPlaceholder: '请选择'
+      // },
       formData: {
         stuffCode: '',
         stuffName: '',
