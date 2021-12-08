@@ -6,7 +6,7 @@
     <div class="povper-content" v-show="contentShowFlag">
       <div v-for="(list, index) in popoverList" :key="index">
         <div class="item-content" @click="handleClick(list)">
-          <div><img src="../assets/images/partLifyCycle.svg" class="img" /></div>
+          <div><img :src="list.imageUrl" class="img" /></div>
           <div class="text">{{ list.name }}</div>
         </div>
       </div>
@@ -65,14 +65,10 @@ export default {
     box-shadow: 10px 10px 5px #e0e4ec;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     .item-content {
       display: flex;
       flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      padding: 20px;  
       cursor: pointer;
       .img {
         width: 40px;
@@ -82,6 +78,8 @@ export default {
         font-size: 16px;
         color: #5F6F8F;
         margin-left: 20px;
+        height: 40px;
+        line-height: 40px;
       }
     }
   }

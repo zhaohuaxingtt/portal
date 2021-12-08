@@ -8,11 +8,11 @@
 	<div class="label mt20">{{ moudleName }}</div>
 	<div class="ques-box flex flex-column">
 		<div v-for="(ques, idx) in chatList" :key="idx" class="item-ques flex flex-column">
-			<div v-if="ques.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
+			<!-- <div v-if="ques.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
 				<img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
 				<div>{{`管理员${ques.replyUserName}将任务转派给了管理员${ques.handlerToUserName}`}}</div>
-			</div>
-			<div v-else class="flex flex-row">
+			</div> -->
+			<div class="flex flex-row">
 				<div class="item-who"> {{ques.replyType==='reply'?'管理员':'我'}} </div>
 				<div class="desc-box">
 					<div class="desc" v-html="ques.content"></div>

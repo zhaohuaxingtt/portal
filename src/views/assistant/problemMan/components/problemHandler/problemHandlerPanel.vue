@@ -115,12 +115,19 @@
           <div class="content-title mb20">{{ language('消息') }}</div>
           <!-- 正常状态 -->
           <template v-for="item of questionDetail.replyQuestionList">
-            <div class="content flex flex-row" :key="item.id">
-              <div class="name">{{item.replyUserName}}</div>
-              <div class="content-text">
-                <p class="html" v-html="item.content"></p>
-                <p class="time">{{item.createDate}}</p>
+            <div class="content flex flex-column" :key="item.id">
+              <div v-if="item.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
+                <img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
+                <div>{{`管理员${item.replyUserName}将任务转派给了管理员${item.handlerToUserName}`}}</div>
               </div>
+              <div v-else class="flex flex-row">
+                <div class="name">{{item.replyUserName}}</div>
+                <div class="content-text">
+                  <p class="html" v-html="item.content"></p>
+                  <p class="time">{{item.createDate}}</p>
+                </div>
+              </div>
+              
             </div>
           </template>
 
@@ -654,4 +661,12 @@ export default {
   color: #999;
   text-align: center;
 }
+.transfer-content {
+		width: 100%;
+	}
+	.horn-png {
+		width: 16px;
+		height: 16px;
+		margin-right: 10px;
+	}
 </style>
