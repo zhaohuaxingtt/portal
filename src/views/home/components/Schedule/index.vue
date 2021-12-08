@@ -1,21 +1,25 @@
 <template>
   <div class="schedule-container">
-    <v-calendar
-      :attributes="attrs"
-      :mask="{
-        title: 'YYYY MMM',
-        weekdays: 'WWW'
-      }"
-      :disabledDates="holiday"
-      :firstDayOfWeek="2"
-      @handleDayClick="handleDayClick"
-      @dayfocusout="handleDayFocusOut"
-      @handleToPage="handleToPage"
-      ref="calendar"
-    ></v-calendar>
+    <div class="calendar">
+      <v-calendar
+        :attributes="attrs"
+        :mask="{
+          title: 'YYYY MMM',
+          weekdays: 'WWW'
+        }"
+        :disabledDates="holiday"
+        :firstDayOfWeek="2"
+        @handleDayClick="handleDayClick"
+        @dayfocusout="handleDayFocusOut"
+        @handleToPage="handleToPage"
+        ref="calendar"
+      />
+    </div>
     <!-- flex-center-center -->
     <div class="trangle"></div>
-    <div v-if="meetingList.length == 0" class="empty-meeting">无会议安排</div>
+    <div v-if="meetingList.length == 0" class="empty-meeting">
+      {{ language('今日无会议安排') }}
+    </div>
     <div class="meeting-container" v-if="meetingList.length > 0">
       <template>
         <div class="info_container">
@@ -248,6 +252,10 @@ export default {
 .schedule-container {
   text-align: center;
   position: relative;
+  .calendar {
+    margin-top: -17px;
+    padding-bottom: 12px;
+  }
   .trangle {
     position: absolute;
     z-index: 100;

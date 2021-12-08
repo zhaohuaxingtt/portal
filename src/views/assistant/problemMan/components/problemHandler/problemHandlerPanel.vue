@@ -133,14 +133,14 @@
               </iFormItem>
             </el-form>
           </div>
-          <div class="mt20 mb20">
-            <attachmentDownload :load="loadText" @loadAttach="loadAttach" ref="attachment" @getFilesList="getFilesList" />
+          <div class="mt20 mb20" v-show="attachShowFlag">
+            <attachmentDownload :load="loadText" ref="attachment" @getFilesList="getFilesList" />
           </div>
         </template>
       </div>
     </div>
     <dispatchDialog v-if="showDialog" :show.sync="showDialog" :questionId="cardSelectItem.id" @loadData="initData" />
-    <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" :problemModuleList="problemModuleList" :labelList="labelList" :source="userType" :questionItem="cardSelectItem" @loadData="initData" @queryLabelByModuleId="queryLabelByModuleId" />
+    <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" :problemModuleList="problemModuleList" :labelList="labelList" :source="userType" :questionItem="questionDetail" @loadData="initData" @queryLabelByModuleId="queryLabelByModuleId" />
   </div>
 </template>
 
@@ -149,7 +149,6 @@ import { iInput, iSelect, iButton, iFormItem } from 'rise'
 import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
 import iEditor from '@/components/iEditor';
-import { getFileId } from "@/api/assistant/uploadFile.js"
 import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
 import { queryModuleBySource, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi, closeQuestionApi, modifyModuleAndLabelApi } from '@/api/assistant';
 // 来源 inner:内部用户 supplier:供应商用户
@@ -228,10 +227,11 @@ export default {
 
       l_loading:false,
       noMore:false,
+      attachShowFlag: false,
       userTypes:{
         inner: "内部用户",
         supplier:"供应商用户"
-      }
+      },
     }
   },
   async mounted () {
@@ -239,31 +239,6 @@ export default {
     this.initData();
   },
   methods: {
-    // 下载详情附件
-		loadAttach(file) {
-			let fileTypeArr = ['jpg',
-				'jpeg',
-				'gif',
-				'png',
-				'txt',
-				'doc',
-				'docx',
-				'xls',
-				'xlsx',
-				'ppt',
-				'pptx',
-				'pdf']
-			const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
-			console.log(fileExtension, '23456')
-			if (fileTypeArr.includes(fileExtension)) {
-				console.log("=====")
-				window.location.href = file.fileUrl
-			} else {
-				getFileId(file?.bizId).then((res) => {
-					console.log(res, '1111111111')
-				})
-			}
-		},
     initData () {
       this.queryProblemList(this._queryForm({
         source: this.userType,
@@ -380,6 +355,7 @@ export default {
             }
           })
         }
+        this.attachShowFlag = currQuesFileList.length > 0 ? true : false
         this.$refs.attachment.fileList = currQuesFileList || []
         this.editForm = {
           questionLableId: data?.questionLableId,

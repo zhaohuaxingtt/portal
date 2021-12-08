@@ -14,7 +14,7 @@
               class="icon"
               name="iconyuangong"
             /> -->
-            <i class="el-icon-user-solid" style="color:#F1F5FF;"></i>
+            <i class="el-icon-user-solid" style="color: #f1f5ff"></i>
             {{ firstNews.publisher }}
           </div>
           <div class="news-time">
@@ -29,13 +29,13 @@
       :key="item.id"
       @click="goNewsDetail(item)"
     >
-      <div class="icon_title" style="width:6px;height:6px;"></div>
+      <div class="icon_title" style="width: 6px; height: 6px"></div>
       <div class="news-title multi-ellipsis">{{ item.title }}</div>
       <div class="news-abs multi-ellipsis">{{ item.summary }}</div>
       <div class="news-user-time">
         <div class="news-user">
           <!-- <icon symbol class="icon" name="iconyuangong" /> -->
-            <i class="el-icon-user-solid" style="color:#F1F5FF;"></i>
+          <i class="el-icon-user-solid" style="color: #f1f5ff"></i>
           {{ item.publisher }}
         </div>
         <div class="news-time">{{ item.publishDate }}</div>
@@ -45,18 +45,14 @@
 </template>
 
 <script>
-import { Icon } from 'rise'
 import { getNewsList } from '@/api/home'
 import { mapState } from 'vuex'
 export default {
-  components: {
-    Icon
-  },
   data() {
     return {
       firstNews: {},
       newsList: [],
-      middleListL:[],
+      middleListL: [],
       falg: true,
       page: undefined,
       query: {
@@ -74,7 +70,7 @@ export default {
     this.getNewsList()
   },
   methods: {
-    goNewsDetail (item) {
+    goNewsDetail(item) {
       if (item.linkUrl) {
         window.open(item.linkUrl, '_blank')
       } else {
@@ -124,19 +120,20 @@ export default {
 }
 .news-container {
   // padding-left: 20px;
-  padding-right: 4px;
+  padding-right: 10px;
   overflow-y: auto;
   overflow-x: hidden;
   height: 520px;
+  width: calc(100% + 10px);
   .news-card {
     margin-left: 20px;
     margin-bottom: 10px;
     padding-bottom: 15px;
     cursor: pointer;
     position: relative;
-    border-bottom: 1px solid #F8F9FA;
+    border-bottom: 1px solid #f8f9fa;
 
-    &:last-child{
+    &:last-child {
       border: none;
     }
     .icon_title {
@@ -185,7 +182,7 @@ export default {
     align-items: center;
     cursor: pointer;
     border-radius: 10px;
-    border: 1px solid #F8F9FA;
+    border: 1px solid #f8f9fa;
     .icon {
       font-size: 16px;
       margin-right: 5px;
