@@ -119,6 +119,7 @@ export default {
       this.selectedRows = val
     },
     saveValidate() {
+      const reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
       for (let i = 0; i < this.tableData.length; i++) {
         const element = this.tableData[i]
         if (element.contactType === '商务联系人' && !element.nameZh) {
@@ -127,6 +128,10 @@ export default {
         }
         if (element.nameZh && !element.phoneH) {
           iMessage.error(`【${element.contactType}】 联系人，联系电话必填`)
+          return false
+        }
+        if(element.email && !reg.test(element.email)){
+          iMessage.error(`【${element.contactType}】 联系人,邮箱格式不正确`)
           return false
         }
       }

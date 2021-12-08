@@ -5,15 +5,15 @@ export const UNIT_COLUMNS=[
     },
     {
         type:'index',
-        label:'序号',
+        il8n:'序号',
         width:200
     },
     {
-        label:'常用计量单位',
+        il8n:'常用计量单位',
         prop:'targetUnitNameZh'
     },
     {
-        label:'计量单位转换关系',
+        il8n:'计量单位转换关系',
         prop:'converseRate'
     }
 ]
@@ -23,15 +23,15 @@ export const COLOR_COLUMNS=[
         type:'selection'
     },
     {
-        label:"色标零件编号",
+        il8n:"色标零件编号",
         prop:'partNum'
     },
     {
-        label:'色标零件名称(中)',
+        il8n:'色标零件名称(中)',
         prop:'partNameZh'
     },
     {
-        label:'色标零件名称(德)',
+        il8n:'色标零件名称(德)',
         prop:'partNameDe'
     }
 ]
