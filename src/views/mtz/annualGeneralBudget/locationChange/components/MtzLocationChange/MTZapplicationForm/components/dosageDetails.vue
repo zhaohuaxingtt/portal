@@ -479,11 +479,11 @@ export default {
         shortcuts: [{
           text: '至今直到2999年',
           onClick (picker) {
-            // const end = new Date("2999/12/31").getTime()
-            // const start = new Date(date.replace(/-/g, '/')).getTime()
-            // console.log(end, start)
-            console.log(window.moment(date), "2222")
-            picker.$emit('pick', window.moment(date).add(1, 'y'))
+            const end = new Date("2999/12/31")
+            const start = new Date(date.replace(/-/g, '/')).getTime()
+            start.setTime(start);
+            end.setTime(end.getTime());
+            picker.$emit('pick', [start, end])
           }
         }]
       }

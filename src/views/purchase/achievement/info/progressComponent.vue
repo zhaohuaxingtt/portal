@@ -11,7 +11,7 @@
                         <div class="fw">Aeko /AeA</div>
                         <div style="margin-top: 100px;">
                             <el-form>
-                                <el-form-item class="fw" :label="$t('EKL_JIAGEBIANHUA')">
+                                <el-form-item class="fw" :label="$t('LK_JIAGEBIANHUA')">
                                     <iSelect style="width: 140px;height: 30px; font-size: 12px;"
                                              filterable
                                              clearable
