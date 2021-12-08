@@ -44,7 +44,7 @@
         <!-- :renderHeader="renderHeader" -->
         <tableList class="margin-top20"
                    :tableData="ruleTableListData"
-                   :tableTitle="ruleTableTitle1"
+                   :tableTitle="ruleTableTitle1_new"
                    :tableLoading="loading"
                    :index="true"
                    v-if="RsObject"
@@ -57,6 +57,10 @@
           <template slot-scope="scope"
                     slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
+          <template slot-scope="scope"
+            slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
           </template>
         </tableList>
         <!-- 导出规则表格 -->
@@ -127,7 +131,7 @@
            v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
         <tableList class="margin-top20"
                    :tableData="partTableListData"
-                   :tableTitle="partTableTitle1"
+                   :tableTitle="partTableTitle1_new"
                    :tableLoading="loading"
                    v-if="RsObject"
                    :index="true"
@@ -273,11 +277,14 @@ import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1,
+          ruleTableTitle1_new,
           ruleTableTitle1_1, 
           ruleTableTitle1_2, 
           partTableTitle1, 
+          partTableTitle1_new,
           partTableTitle1_1, 
           partTableTitle1_2,
+          
           // partTableTitle1_3,
           // ruleTableTitle2_2,
           // ruleTableTitle2_1,
@@ -308,9 +315,11 @@ export default {
       ruleTableTitle1: ruleTableTitle1,
       ruleTableTitle1_1,
       ruleTableTitle1_2,
+      ruleTableTitle1_new,
       // ruleTableTitle2_1,
       // ruleTableTitle2_2,
       partTableTitle1: partTableTitle1,
+      partTableTitle1_new,
       partTableTitle1_1,
       partTableTitle1_2,
       // partTableTitle1_3,
