@@ -22,11 +22,11 @@
 		</div>
 		<div class="editor-box" v-if="!zwFlag">
 			<iInput
-        type="textarea"
-        :rows="6"
-        v-model="askContent"
+				type="textarea"
+				:rows="6"
+				v-model="askContent"
 				resize="none"
-      ></iInput>
+			></iInput>
 		</div>
 		<iEditor 
 			v-else 
@@ -50,7 +50,7 @@
 <script>
 import { iDialog, iButton, iInput } from 'rise'
 import AttachmentDownload from './attachmentDownload'
-import iEditor from '@/components/iEditor'
+import iEditor from './iEditor'
 import { submitQuestion, submitAwContent } from "@/api/assistant"
 export default {
 	name: 'questioningDialog',

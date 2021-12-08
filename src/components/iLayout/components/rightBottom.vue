@@ -65,6 +65,8 @@ export default {
     box-shadow: 10px 10px 5px #e0e4ec;
     display: flex;
     flex-direction: column;
+    z-index: 999;
+
     .item-content {
       display: flex;
       flex-direction: row;
