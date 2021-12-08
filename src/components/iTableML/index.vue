@@ -69,7 +69,6 @@ export default {
     this.initialColumns = [...this.$slots.default]
     this.preColumns = this.$slots.default
       .filter((item) => {
-        // console.log('item', item)
         return item.componentOptions.propsData.label
       })
       .map((item) => {
@@ -108,7 +107,6 @@ export default {
       this.openHiddenColumn = true
     },
     callback(val) {
-      // console.log('this.$slots.default', this.$slots.default)
       this.$slots.default = [...this.initialColumns]
       this.$slots.default = this.$slots.default.filter((item) => {
         return !val.some((it) => {
@@ -117,7 +115,6 @@ export default {
           )
         })
       })
-      // console.log('this.$slots.default', this.$slots.default)
     },
     handleRowClick(row) {
       let bol = this.selectedArr.some((item) => {
