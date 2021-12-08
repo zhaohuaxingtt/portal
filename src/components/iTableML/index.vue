@@ -6,24 +6,37 @@
  * @Description: 通用表格
 -->
 <template>
-  <el-table
-    :height="height"
-    tooltip-effect="light"
-    :data="data"
-    :empty-text="$t('LK_ZANWUSHUJU')"
-    :row-class-name="rowClassName"
-    v-loading="tableLoading"
-    @selection-change="handleSelectionChange"
-    highlight-current-row
-    ref="tableML"
-    :border="border"
-    @row-click="handleRowClick"
-  >
-    <slot></slot>
-  </el-table>
+  <div>
+    <el-table
+      :height="height"
+      tooltip-effect="light"
+      :data="data"
+      :empty-text="$t('LK_ZANWUSHUJU')"
+      :row-class-name="rowClassName"
+      v-loading="tableLoading"
+      @selection-change="handleSelectionChange"
+      highlight-current-row
+      ref="tableML"
+      :border="border"
+      @row-click="handleRowClick"
+      :defaultSort="defaultSort"
+    >
+      <slot></slot>
+    </el-table>
+    <iTableHeaderSorter
+      v-if="openHiddenColumn"
+      :show.sync="openHiddenColumn"
+      :data="preColumns"
+      @callback="callback"
+    ></iTableHeaderSorter>
+  </div>
 </template>
 <script>
+import iTableHeaderSorter from '@/components/iTableHeaderSort'
 export default {
+  components: {
+    iTableHeaderSorter
+  },
   props: {
     data: { type: Array },
     tableLoading: { type: Boolean, default: false },
@@ -36,14 +49,32 @@ export default {
         return ''
       }
     },
-    border: { type: Boolean, default: false }
+    border: { type: Boolean, default: false },
+    defaultSort: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
   },
   data() {
     return {
-      selectedArr: []
+      initialColumns: [],
+      preColumns: [],
+      selectedArr: [],
+      openHiddenColumn: false
     }
   },
   mounted() {
+    this.initialColumns = [...this.$slots.default]
+    this.preColumns = this.$slots.default
+      .filter((item) => {
+        // console.log('item', item)
+        return item.componentOptions.propsData.label
+      })
+      .map((item) => {
+        return item.componentOptions.propsData
+      })
     this.handleCurrentRow(this.currentRow)
   },
   computed: {
@@ -65,6 +96,29 @@ export default {
     }
   },
   methods: {
+    handleOpenColumn() {
+      this.preColumns = this.preColumns.map((item) => {
+        return {
+          ...item,
+          isHidden: !this.$slots.default.some((it) => {
+            return it.componentOptions.propsData.label === item.label
+          })
+        }
+      })
+      this.openHiddenColumn = true
+    },
+    callback(val) {
+      // console.log('this.$slots.default', this.$slots.default)
+      this.$slots.default = [...this.initialColumns]
+      this.$slots.default = this.$slots.default.filter((item) => {
+        return !val.some((it) => {
+          return (
+            item.componentOptions.propsData.label === it.label && it.isHidden
+          )
+        })
+      })
+      // console.log('this.$slots.default', this.$slots.default)
+    },
     handleRowClick(row) {
       let bol = this.selectedArr.some((item) => {
         return item.id === row.id
@@ -80,21 +134,18 @@ export default {
       this.selectedArr = selectArr
       this.$emit('selectionChange', selectArr)
     },
-    handleSelectCheckBox(row,bol) {
+    handleSelectCheckBox(row, bol) {
       const index = this.$refs.tableML.data.findIndex((item) => {
         return item.id === row.id
       })
-      this.$refs.tableML.toggleRowSelection(
-        this.$refs.tableML.data[index],
-        bol
-      )
+      this.$refs.tableML.toggleRowSelection(this.$refs.tableML.data[index], bol)
     },
     handleCurrentRow(row) {
       if (this.isSingle) {
         this.$refs.tableML.clearSelection()
       }
       if (row) {
-        this.handleSelectCheckBox(row,true)
+        this.handleSelectCheckBox(row, true)
       }
     }
   }
@@ -109,5 +160,8 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+::v-deep .column-hidden {
+  display: none;
 }
 </style>
