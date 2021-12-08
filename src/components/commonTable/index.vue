@@ -123,6 +123,7 @@
         </el-table-column>
         <!--纯展示-->
         <el-table-column :width="items.width"
+                          :min-width="items.minWidth"
                          :show-overflow-tooltip='items.tooltip'
                          :key="index"
                          align='center'
