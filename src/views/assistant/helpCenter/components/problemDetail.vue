@@ -69,8 +69,6 @@
 			<AttachmentDownload 
 				ref="attachment"
 				v-if="showAttachFlag && attach.length > 0"
-				@loadAttach="loadAttach"
-
 			/>
 			<div class="bottom-zan">
 				<Solution
@@ -81,21 +79,12 @@
 			</div>
 		</div>
 
-		<el-dialog
-			title="查看图片"
-			:visible="dialogVisible"
-			@close="closeDialog"
-		>
-			<img :src="fileUrl" alt="">
-		</el-dialog>
-
 	</div>
 </template>
 
 <script>
 import AttachmentDownload from '../../components/attachmentDownload'
 import Solution from '../../components/solution'
-import { getFileId } from "@/api/assistant/uploadFile.js"
 import { updateFavour, getCurrLabelList, getProblemDetail, queryFaqByPage, queryHotFaq, getAllModuleLabel, judgeFavour } from '@/api/assistant'
 import {
 	iButton
@@ -131,8 +120,6 @@ export default {
 	},
 	data() {
 		return {
-			dialogVisible: false,
-			fileUrl: '',
 			problemLoading: false,  //  问题列表loading
 			labelLoading: false,  //  查询标签loading
 			allModuleLabelLoading: false,  //  查询全部模板标签loading
@@ -212,37 +199,9 @@ export default {
 				}
 			})
 		},
-		// 下载详情附件
-		loadAttach(file) {
-			let fileTypeArr = ['jpg',
-				'jpeg',
-				'gif',
-				'png',
-				'txt',
-				'doc',
-				'docx',
-				'xls',
-				'xlsx',
-				'ppt',
-				'pptx',
-				'pdf']
-			const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
-			console.log(fileExtension, '23456')
-			if (fileTypeArr.includes(fileExtension)) {
-				console.log("=====")
-				// window.location.href = file.fileUrl
-				this.dialogVisible = true
-				this.fileUrl = file.fileUrl
-			} else {
-				getFileId(file?.bizId).then((res) => {
-					console.log(res, '1111111111')
-				})
-			}
-		},
 		// 获取该用户是否给该问题点赞
 		async getJudgeFavour(questionId) {
 			await judgeFavour({ faqId: questionId }).then((res) => {
-				console.log(res, '+++++')
 				if (res?.code === '200') {
 					this.currQuesFavourFlag = res?.data
 				}
@@ -259,6 +218,7 @@ export default {
 			updateFavour(this.favourQuestionId).then((res) => {
 				if (res?.code === '200') {
 					this.$message.success("很开心该回答能帮助您...")
+					this.getJudgeFavour(this.favourQuestionId)
 				}
 			})
 		},
@@ -400,9 +360,6 @@ export default {
 			this.currMoudleName = currName
 			Object.assign(this.problemQuery, queryValue)
 			await this.getProblemList()
-		},
-		closeDialog() {
-			this.dialogVisible = false
 		}
 	}
 }
@@ -579,7 +536,7 @@ export default {
 				}
 			}
 			.bottom-zan {
-				margin-top: 30px;
+				margin-top: 20px;
 			}
 		}
 	}
