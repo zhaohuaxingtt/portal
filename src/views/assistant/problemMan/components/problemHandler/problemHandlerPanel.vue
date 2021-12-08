@@ -115,7 +115,7 @@
           <div class="content-title mb20">{{ language('消息') }}</div>
           <!-- 正常状态 -->
           <template v-for="item of questionDetail.replyQuestionList">
-            <div class="content flex flex-row" :key="item.id">
+            <div class="content flex flex-row" style="height:auto;" :key="item.id">
               <div class="name">{{item.replyUserName}}</div>
               <div class="content-text">
                 <p class="html" v-html="item.content"></p>
@@ -128,7 +128,7 @@
           <div v-if="isReplyStatus" class="reply-content mt20">
             <el-form>
               <iFormItem prop="replyContent">
-                <iEditor ref="iEditor" v-model="replyContent" :toolbar="editToolbar" v-if="editable" />
+                <iEditor ref="iEditor" v-model="replyContent" v-if="editable" />
                 <div v-else class="content" v-html="replyContent"></div>
               </iFormItem>
             </el-form>
@@ -148,7 +148,7 @@
 import { iInput, iSelect, iButton, iFormItem } from 'rise'
 import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
-import iEditor from '@/components/iEditor';
+import iEditor from '../../../components/iEditor';
 import { getFileId } from "@/api/assistant/uploadFile.js"
 import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
 import { queryModuleBySource, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi, closeQuestionApi, modifyModuleAndLabelApi } from '@/api/assistant';
@@ -435,10 +435,10 @@ export default {
           this.$message.success('关闭成功');
           this.initData();
         } else {
-          this.$message.error('关闭失败');
+          // this.$message.error('关闭失败');
         }
       }).catch(() => {
-        this.$message.error('关闭失败');
+        // this.$message.error('关闭失败');
       })
     },
     async answerQuestion (hasClosed) {
@@ -524,9 +524,6 @@ export default {
     }
   },
   computed: {
-    editToolbar () {
-      return []
-    },
     loadText () {
       if (this.isReplyStatus) {
         return 'up';

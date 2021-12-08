@@ -36,7 +36,7 @@
                 <i-input class="input" type="text" disabled v-model="form.createByName" placeholder="请输入" />
             </div>
         </div>
-        <iEditor class="flex-1 qs-editor" :class="[type == 'detail' ? 'overflow-auto color' : 'overflow-hidden']" :disabled="type == 'detail'" v-model="form.answerContent"></iEditor>
+        <iEditor class="flex-1 qs-editor" :class="[type == 'detail' ? 'overflow-auto color' : 'overflow-hidden']" :disabled="type == 'detail'" v-if="form.answerContent" v-model="form.answerContent"></iEditor>
         <div class="flex" style="margin-top:20px;align-items: flex-start;">
             <div class="label">附件：</div>
             <iUpload ref="upload" :disabled="type == 'detail'" v-model="form.annexList" @onSuccess="uploadSucc" >
@@ -61,7 +61,7 @@
 <script>
     import { iInput, iLabel, iButton, iSelect } from "rise"
     import CreateQuestion from "../components/createQuestion"
-    import iEditor from "@/components/iEditor"
+    import iEditor from "./../../components/iEditor.vue"
     import { queryModuleBySource, getCurrLabelList, delFaq,updateFaq } from "@/api/assistant"
     import iUpload from "./../../components/iUpload.vue"
 
@@ -92,6 +92,7 @@
         watch:{
             detail(n){
                 this.form = JSON.parse(JSON.stringify(n))
+                this.tempContent = JSON.parse(JSON.stringify(n.answerContent))
                 this.moduleChange(this.form.questionModuleId)
             }
         },
@@ -108,7 +109,8 @@
                 type: "detail",
                 moduleList:[],
                 labelList:[],
-                loading:false
+                loading:false,
+                tempContent:""
             }
         },
         created(){
@@ -160,6 +162,7 @@
             },
             cancel(){
                 this.type = 'detail'
+                this.form.answerContent = this.tempContent
             }
         }
     }

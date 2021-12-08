@@ -26,7 +26,7 @@
       <div style="height:auto;">{{questionItem.questionTitle}}</div>
       <div class="content-title mt20 mb20">答复</div>
       <iFormItem prop="answerContent">
-        <iEditor ref="iEditor" v-model="editForm.answerContent" :toolbar="editToolbar" v-if="editable" />
+        <iEditor ref="iEditor" v-model="editForm.answerContent" v-if="editable" />
         <div v-else class="content" v-html="editForm.answerContent"></div>
       </iFormItem>
     </el-form>
@@ -46,7 +46,7 @@
 
 <script>
 import { iDialog, iButton, iFormItem, iInput, iSelect } from 'rise'
-import iEditor from '@/components/iEditor';
+import iEditor from '../../../components/iEditor';
 import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue'
 import {assistantFaqSaveFaqApi} from '@/api/assistant';
 export default {
@@ -153,13 +153,6 @@ export default {
         questionLableId:'',
       })
       this.$emit('queryLabelByModuleId',val);
-    },
-  },
-  computed: {
-    computed: {
-      editToolbar () {
-        return []
-      },
     },
   },
   components: {

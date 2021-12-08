@@ -16,12 +16,11 @@
         </div>
         <template v-if="type == 'detail'">
             <div class="manual-tlt" v-text="qs.menuName"></div>
-            <!-- <div class="content" v-if="detail.manualContent" v-html="detail.manualContent"></div> -->
-            <iEditor class="content" disabled v-model="detail.manualContent"></iEditor>
+            <div class="content" v-if="detail.manualContent" v-html="detail.manualContent"></div>
         </template>
         <template v-if="type == 'edit'">
-            <div v-if="preview" v-html="content"></div>
-            <template v-else>        
+            <div class="content" v-if="preview" v-html="content"></div>
+            <template v-else>
                 <iEditor class="content manual-editor" v-model="content"></iEditor>
                 <iUpload ref="upload" v-model="files" :maxSize="20" >
                     <div class="upload flex" style="align-items: end;">
@@ -36,8 +35,9 @@
 
 <script>
     import { iButton } from "rise"
-    import iEditor from "@/components/iEditor"
+    // import iEditor from "@/components/iEditor"
     import iUpload from "./../../components/iUpload.vue"
+    import iEditor from "./../../components/iEditor.vue"
     import { delManual, insertNewManual } from "@/api/assistant"
     export default {
         props:{
@@ -130,6 +130,7 @@
 }
 .content{
     flex: 1;
+    margin-top: 20px;
     padding: 20px 10px;
     overflow: auto;
 }

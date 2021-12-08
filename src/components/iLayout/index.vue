@@ -261,6 +261,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 999;
     .item-content {
       display: flex;
       flex-direction: row;
