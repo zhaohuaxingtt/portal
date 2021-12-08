@@ -15,11 +15,10 @@ export const PART_MATERIAL_COLUMNS = [
   },
   {
     prop:"categoryCode",
-    label:'材料组编号',
+    i18n:'材料组编号',
     tooltip:true,
     minWidth:'50px',
     openNewPage: true,
-    i18n: '',
     emit: 'goDetail',
     customRender: (h, scope) =>{
       return (
@@ -31,32 +30,24 @@ export const PART_MATERIAL_COLUMNS = [
   },
   {
     prop:"categoryNameZh",
-    label:'材料组名称',
+    i18n:'材料组名称',
     tooltip:true,
-
-    i18n: '',
     
   },
   {
     prop:"categoryMemo",
-    label:'材料组说明',
+    i18n:'材料组说明',
     tooltip:true,
-
-    i18n: ''
   },
   {
     prop:"linieNames",
-    label:'Linie',
+    i18n:'Linie',
     tooltip:true,
-
-    i18n: ''
   },
   {
     prop:"deptCodes",
-    label:'Linie科室',
+    i18n:'Linie科室',
     tooltip:true,
-
-    i18n: ''
   },
 ]
 
@@ -68,15 +59,14 @@ export const TECHNOLOGY_COLUMNS = [
   {
     type:'index',
     width:50,
-    label:'序号'
+    i18n:'序号'
   },
   {
     prop:"stuffCode",
-    label:'工艺组编号',
+    i18n:'工艺组编号',
     tooltip:true,
     minWidth:'50px',
     openNewPage: true,
-    i18n: '',
     emit: 'goDetail',
     customRender: (h, scope) =>{
       return (
@@ -88,24 +78,18 @@ export const TECHNOLOGY_COLUMNS = [
   },
   {
     prop:"stuffName",
-    label:'工艺组名称',
+    i18n:'工艺组名称',
     tooltip:true,
-
-    i18n: '',
   },
   {
     prop:"stuffNameDe",
-    label:'工艺组名称(德)',
+    i18n:'工艺组名称(德)',
     tooltip:true,
-
-    i18n: ''
   },
   {
     prop:"stuffMemo",
-    label:'工艺组说明',
+    i18n:'工艺组说明',
     tooltip:true,
-
-    i18n: ''
   },
 ]
 export const SUPPLIER_TECHNOLOGY = [
@@ -116,34 +100,32 @@ export const SUPPLIER_TECHNOLOGY = [
   {
     type:'index',
     width:50,
-    label:'序号'
+    i18n:'序号'
   },
   {
     prop:"supplierName",
-    label:'供应商',
+    i18n:'供应商',
     tooltip:true,
-    i18n: ''
   },
   {
-    label:'SAP号',
+    i18n:'SAP号',
     prop:'sapCode',
     tooltip:true
   },
   {
-    label:'SVW号',
+    i18n:'SVW号',
     prop:'svwCode',
     tooltip:true
   },
   {
-    label:'临时号',
+    i18n:'临时号',
     prop:'svwTempCode',
     tooltip:true
   },
   {
     prop:"bdlType",
-    label:'BDL属性',
+    i18n:'BDL属性',
     tooltip:true,
-    i18n: '',
     customRender: (h, scope, column, extraData) => {
       if(extraData.tabelSta){
         return (
@@ -162,8 +144,7 @@ export const SUPPLIER_TECHNOLOGY = [
   },
   {
     prop:"cbdLevel",
-    label:'CBD要求',
-    i18n: '',
+    i18n:'CBD要求',
     tooltip:true,
     customRender: (h, scope, column, extraData) => {
       let level = ''
@@ -199,13 +180,12 @@ export const CBD_PRESET = [
   {
     type:'index',
     width:50,
-    label:'序号'
+    i18n:'序号'
   },
   {
     prop:"presetType",
-    label:'预设项类别',
+    i18n:'预设项类别',
     tooltip:true,
-    i18n: '',
     customRender: (h, scope, column, extraData) => {
       const {editTable, cbdPreseMap, cbdPreseOptions,restaurants} = extraData
       if( editTable) {
@@ -223,9 +203,8 @@ export const CBD_PRESET = [
   },
   {
     prop:"describe",
-    label:'描述',
+    i18n:'描述',
     tooltip:true,
-    i18n: '',
     customRender: (h, scope, column, extraData) => {
       if(extraData.editTable) {
         return(
@@ -242,10 +221,8 @@ export const CBD_PRESET = [
   },
   {
     prop:"unitCode",
-    label:'计量单位',
+    i18n:'计量单位',
     tooltip:true,
-
-    i18n: '',
     customRender: (h, scope, column, extraData) => {
       const { editTable,unitMap,unitOptions} = extraData
       if(editTable) {
@@ -270,44 +247,37 @@ export const SUPPLIER_CHOOSE = [
   {
     type:'index',
     width:50,
-    label:'序号'
+    i18n:'序号'
   },
   {
     prop:"nameZh",
-    label:'供应商中文名',
+    i18n:'供应商中文名',
     tooltip:true,
-
-    i18n: ''
   },
   {
     prop:"nameEn",
-    label:'供应商英文名',
+    i18n:'供应商英文名',
     tooltip:true,
-
-    i18n: ''
   },
   {
     prop:"sapCode",
-    label:'SAP号',
+    i18n:'SAP号',
     tooltip:true,
-    i18n: ''
   },
   {
     prop:"svwCode",
     tooltip:true,
 
-    label:'SVW号',
-    i18n: ''
+    i18n:'SVW号',
   },
   {
     prop:"svwTempCode",
-    label:'临时号',
+    i18n:'临时号',
     tooltip:true,
-    i18n: ''
   },
   {
     prop:"supplierType",
-    label:'供应商类型',
+    i18n:'供应商类型',
     tooltip:true,
     customRender:(h,scope)=>{
       if(scope.row.supplierType){
@@ -325,13 +295,11 @@ export const SUPPLIER_CHOOSE = [
       }
       
     },
-    i18n: ''
   },
   {
     prop:"formalStatus",
-    label:'供应商身份',
+    i18n:'供应商身份',
     tooltip:true,
-    i18n: '',
     customRender:(h,scope)=>{
       if(scope.row.formalStatus){
         if(scope.row.formalStatus == 0){

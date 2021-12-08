@@ -172,7 +172,7 @@ export default {
     
     },
     newCreate(){
-        window.open('portal/#/dialogMgmt/popup-window-management/create')
+        window.open('/portal/#/dialogMgmt/popup-window-management/create')
     },
     exportExcell(){
       let popupIds = []

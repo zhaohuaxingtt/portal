@@ -1,10 +1,10 @@
 <template>
-  <iCard title="CBD预设" class="margin-top20" header-control collapse>
+  <iCard :title="language('CBD预设')" class="margin-top20" header-control collapse>
     <div class="iButton-end margin-bottom20" v-if='!readOnly'>
-      <iButton @click="addCbd">新增</iButton>
-      <iButton v-if="!editTable" @click="editCbd(true)">编辑</iButton>
-      <iButton  @click="deleteCbd(false)" :disabled='selectTableData.length == 0'>删除</iButton>
-      <iButton v-if="editTable" @click="saveCbd">保存</iButton>
+      <iButton @click="addCbd">{{language('新增')}}</iButton>
+      <iButton v-if="!editTable" @click="editCbd(true)">{{language('编辑')}}</iButton>
+      <iButton  @click="deleteCbd(false)" :disabled='selectTableData.length == 0'>{{language('删除')}}</iButton>
+      <iButton v-if="editTable" @click="saveCbd">{{language('保存')}}</iButton>
     </div>
     <iTableCustom
       :loading='loading'

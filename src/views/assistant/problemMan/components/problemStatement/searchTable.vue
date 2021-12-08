@@ -10,7 +10,7 @@
 
 <script>
 import { iButton, iPagination, iTableCustom } from 'rise';
-import { tableColumn } from './tableColumn';
+import { tableColumn, manualTableColumn } from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins';
 
 export default {
@@ -24,12 +24,16 @@ export default {
       type:Number,
       default:0,
     },
+    userType: {
+      type: String,
+      default:() => '',
+    }
   },
   data () {
     return {
       tableLoading: false,
       exportLoading: false,
-      tableSetting: tableColumn(this),
+      tableSetting: this.userType === 'supplier' ? tableColumn(this): manualTableColumn(this)
     }
   },
   created() {
@@ -98,5 +102,16 @@ export default {
       background-image: url('~@/assets/images/icon/third.png');
     }
   }
+}
+.question-title {
+  color: #1660F1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.handlerUserName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

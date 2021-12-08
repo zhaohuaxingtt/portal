@@ -5,7 +5,7 @@
       :fetch-suggestions="querySearch" 
       :trigger-on-focus="false" 
       @select="handleSelect"
-      placeholder="请输入内容"
+      :placeholder="language('请输入内容')"
     ></el-autocomplete>
   </div>  
 </template>
