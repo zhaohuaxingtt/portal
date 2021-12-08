@@ -13,7 +13,7 @@ export const detailTabelList=[
     {
         prop:'sixPartCode',
         label:'零件6位号',
-        il8n:'零件6位号',
+        i18n:'零件6位号',
         emit:'open',
         tooltip:true,
         customRender:(h,scope)=>{
@@ -24,13 +24,13 @@ export const detailTabelList=[
         prop:'partNameZh',
         label:'零件名称(中)',
         tooltip:true,
-        il8n:'零件名称(中)'
+        i18n:'零件名称(中)'
     },
     {
         prop:'partNameDe',
         label:'零件名称(德)',
         tooltip:true,
-        il8n:'零件名称(德)'
+        i18n:'零件名称(德)'
     },
     // {
     //     prop:'partNameEn',
@@ -41,7 +41,7 @@ export const detailTabelList=[
     {
         prop:'linie',
         label:'Linie',
-        il8n:'Linie',
+        i18n:'Linie',
         tooltip:true,
         customRender:(h,scope)=>{
             if(scope.row.linie != null){
@@ -61,7 +61,7 @@ export const detailTabelList=[
     {
         prop:'deptCode',
         label:'Linie科室',
-        il8n:'Linie科室',
+        i18n:'Linie科室',
         tooltip:true,
         customRender:(h,scope)=>{
             if(scope.row.linie != null){

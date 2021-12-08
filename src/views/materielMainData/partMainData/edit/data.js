@@ -8,13 +8,13 @@ export const measurementTable = [
     {
         type:'index',
         label:'序号',
-        il8n:'序号'
+        i18n:'序号'
     },
     {
         prop:'nameZh',
         label:'常用计量单位',
         tooltip:true,
-        il8n:'常用计量单位',
+        i18n:'常用计量单位',
         customRender:(h, scope, column, extraData) => {
             return (
                 <showLeftText row={scope.row} selections={extraData.unitoptions}></showLeftText>
@@ -24,7 +24,7 @@ export const measurementTable = [
     {
         prop:'numeratorValue',
         tooltip:true,
-        il8n:'计量单位转换关系',
+        i18n:'计量单位转换关系',
         label:'计量单位转换关系',
         customRender:(h, scope, column, extraData) =>{
             return (
@@ -80,7 +80,7 @@ export const measureEdit = [
         prop:'numeratorValue',
         label:'计量单位转换关系',
         tooltip:true,
-        il8n:'计量单位转换关系',
+        i18n:'计量单位转换关系',
         customRender:(h, scope, column, extraData) => {
             return (
                 <rightInput row={scope.row} extraData={extraData}></rightInput>

@@ -5,7 +5,7 @@
         <el-form>
           <el-row gutter="24">
             <el-col :span="8">
-              <iFormItem :label="searchLabel.mtzRawMateriel">
+              <iFormItem :label="language(searchLabel.mtzRawMateriel)">
                 <iSelect
                   v-model="searchContent.generalCategoryCode"
                   :placeholder="language('请选择')"
@@ -20,7 +20,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.elementAbb">
+              <iFormItem :label="language(searchLabel.elementAbb)">
                 <iInput
                   v-model="searchContent.generalShortName"
                   :placeholder="language('请输入')"
@@ -28,7 +28,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.middleNumber">
+              <iFormItem :label="language(searchLabel.middleNumber)">
                 <iInput
                   v-model="searchContent.rawMaterialCode"
                   :placeholder="language('请输入')"
@@ -38,7 +38,7 @@
           </el-row>
           <el-row gutter="24">
             <el-col :span="8">
-              <iFormItem :label="searchLabel.middleName">
+              <iFormItem :label="language(searchLabel.middleName)">
                 <iInput
                   v-model="searchContent.rawMaterialName"
                   :placeholder="language('请输入')"
@@ -47,7 +47,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.middleUnit">
+              <iFormItem :label="language(searchLabel.middleUnit)">
                 <iInput
                   v-model="searchContent.rawMaterialCountUnit"
                   :placeholder="language('请输入')"
@@ -55,7 +55,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.smallBrandNumber">
+              <iFormItem :label="language(searchLabel.smallBrandNumber)">
                 <iInput
                   v-model="searchContent.mtzRawMaterialCode"
                   :placeholder="language('请输入')"
@@ -65,7 +65,7 @@
           </el-row>
           <el-row gutter="24">
             <el-col :span="8">
-              <iFormItem :label="searchLabel.smallBrandName">
+              <iFormItem :label="language(searchLabel.smallBrandName)">
                 <iInput
                   v-model="searchContent.mtzRawMaterialName"
                   :placeholder="language('请选择')"
@@ -74,7 +74,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.smallUnit">
+              <iFormItem :label="language(searchLabel.smallUnit)">
                 <iInput
                   v-model="searchContent.mtzRawMaterialCountUnit"
                   :placeholder="language('请输入')"
@@ -82,7 +82,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.status">
+              <iFormItem :label="language(searchLabel.status)">
                 <iSelect v-model="searchContent.status" :placeholder="language('请选择')">
                   <el-option
                     v-for="item in staOptions"
@@ -95,7 +95,7 @@
             </el-col>
             <el-col :span="8">
               <iFormItem :label="language('是否贵金属')">
-                <iSelect v-model="searchContent.isPreciousMetal">
+                <iSelect v-model="searchContent.isPreciousMetal" :placeholder='language("请选择")'>
                   <el-option label="是" :value="true" />
                   <el-option label="否" :value="false" />
                 </iSelect>

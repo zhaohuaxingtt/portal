@@ -26,7 +26,7 @@
             isAuth(whiteBtnList, 'ACHIEVEMENTMGT_LIST_YIEIDMANAGE') && !state
           "
         >
-          {{ $t('EKL_CLGL') }}
+          {{ $t('LK_CLGL') }}
         </iButton>
         <!--业绩金额调整-->
         <iButton
@@ -36,7 +36,7 @@
             isAuth(whiteBtnList, 'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT') && !state
           "
         >
-          {{ $t('EKL_YEJIJINETIAOZHENG') }}
+          {{ $t('LK_YEJIJINETIAOZHENG') }}
         </iButton>
         <!--年度目标管理-->
         <iButton
@@ -44,7 +44,7 @@
           @click="openTargetManDialog"
           v-if="bzzlorbzorkzzl"
         >
-          {{ $t('EKL_NDMBGL') }}
+          {{ $t('LK_NDMBGL') }}
         </iButton>
         <!--年度目标管理 配附件-->
         <iButton
@@ -55,7 +55,7 @@
               state) ||
             state
           "
-          >{{ $t('EKL_NDMBGL') }}
+          >{{ $t('LK_NDMBGL') }}
         </iButton>
         <!--基础表模板下载 配附件-->
         <iButton
@@ -65,7 +65,7 @@
             isAuth(whiteBtnList, 'ACHIEVEMENTMGT_TABLE_TEMPLATE_DOWN') || state
           "
         >
-          {{ $t('EKL_JCBMBXZ') }}
+          {{ $t('LK_JCBMBXZ') }}
         </iButton>
       </div>
     </div>

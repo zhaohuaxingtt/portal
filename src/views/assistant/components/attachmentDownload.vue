@@ -30,7 +30,7 @@
 		<el-dialog
 			:visible="dialogVisible"
 			@close="closeDialog"
-			width="100%"
+			width="60%"
 		>
 			<div class="flex items-center justify-center ">
 				<img :src="fileUrl" alt="">
@@ -90,15 +90,7 @@ export default {
 			let fileTypeArr = ['jpg',
 				'jpeg',
 				'gif',
-				'png',
-				'txt',
-				'doc',
-				'docx',
-				'xls',
-				'xlsx',
-				'ppt',
-				'pptx',
-				'pdf']
+				'png']
 			const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
 			if (fileTypeArr.includes(fileExtension)) {
 				console.log("=====")

@@ -26,7 +26,7 @@
                 <el-form-item label="管理员回复" prop="answerContent">
                     <!-- <div class="flex flex-column"> -->
                         <!-- <iLabel class="label" label="管理员回复" slot="label"></iLabel> -->
-                        <iEditor class="flex-1 editor" style="margin-top:30px" id="qs-add" v-model="form.answerContent"></iEditor>
+                        <iEditor class="flex-1 editor" style="margin-top:30px" id="qs-add" :zIndex="500" v-model="form.answerContent"></iEditor>
                     <!-- </div> -->
                 </el-form-item>
 
@@ -51,8 +51,8 @@
 
 <script>
     import { iDialog, iFormGroup, iInput, iButton,iSelect } from "rise"
-    import iEditor from "@/components/iEditor"
     import iUpload from "./../../components/iUpload.vue"
+    import iEditor from "./../../components/iEditor.vue"
     import { saveFaq,getCurrLabelList } from "@/api/assistant"
     export default {
         components:{
@@ -95,7 +95,7 @@
                     questionModuleId:{required:'true',message:"请选择问题模块",trigger:'cahnge'},
                     questionLableId:{required:'true',message:"请选择标签",trigger:'change'},
                     questionTitle:{required:'true',message:"请输入问题描述",trigger:'blur'},
-                    answerContent:{required:'true',message:"请输入回复内容",trigger:'blur'},
+                    answerContent:{required:'true',message:"请输入回复内容",trigger:'change'},
                 },
             }
         },

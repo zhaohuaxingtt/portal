@@ -11,7 +11,7 @@
               !isForward
             "
           >
-            {{ $t('EKL_PLBJ') }}
+            {{ $t('LK_PLBJ') }}
           </iButton>
           <!--编辑-->
           <iButton

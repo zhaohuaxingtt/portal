@@ -16,7 +16,7 @@
             <el-col :span="6">
               <iFormItem :label="language('问题模块')">
                 <iSelect v-model="searchForm.questionModuleId" filterable placeholder="问题模块" :disabled="!searchForm.source"  clearable="true" @change="questionModuleHandle" @clear="clearable('questionModuleId')">
-                  <el-option v-for="item in problemModuleList" :key="item.menuId" :label="item.menuName" :value="item.menuId"></el-option>
+                  <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
                 </iSelect>
               </iFormItem>
             </el-col>
@@ -42,8 +42,8 @@
         </el-form>
       </div>
       <div class="btn-box margin-top60">
-        <iButton @click="handleConfirm">{{ language('LK_INQUIRE') }}</iButton>
-        <iButton @click="handleReset">{{ language('LK_ZHONGZHI') }}</iButton>
+        <iButton @click="handleConfirm">{{ language('查询') }}</iButton>
+        <iButton @click="handleReset">{{ language('重置') }}</iButton>
       </div>
     </div>
   </el-card>
@@ -51,7 +51,7 @@
 
 <script>
 import { iInput, iButton, iFormItem, iSelect, iDatePicker } from 'rise';
-import { getModuleListByUserTypeApi,  getCurrLabelList,  } from '@/api/assistant';
+import { queryModuleBySource,  getCurrLabelList,  } from '@/api/assistant';
 
 export default {
   components: { iInput, iButton, iFormItem, iSelect, iDatePicker },
@@ -91,7 +91,7 @@ export default {
   methods: {
     // 根据用户类型获取模块下拉框
     async getModuleListByUserType (userType) {
-      const response = await getModuleListByUserTypeApi(userType);
+      const response = await queryModuleBySource(userType);
       if (response?.code === '200') {
         this.problemModuleList = response.data;
       } else {

@@ -1,7 +1,7 @@
 <template>
     <!--VWAG评级-->
     <iDialog
-            :title="$t('EKL_CJNDMBGL')"
+            :title="$t('LK_CJNDMBGL')"
             :visible.sync="value"
             width="90%"
             @close="clearDiolog"
@@ -22,7 +22,7 @@
                 <div :key="index" v-for="list,index in tableListData1">
                     <div class="mt20">
                         <div style="font-weight: bold;font-size: 22px;">
-                            {{ `${ $i18n.locale === 'zh' ? $t('EKL_' + list['brand']) : list['brand'] }`}}
+                            {{ `${ $i18n.locale === 'zh' ? $t('LK_' + list['brand']) : list['brand'] }`}}
                         </div>
                         <div style="margin-top: 10px;margin-bottom: 10px;" class="target-manage1">
 
@@ -77,10 +77,10 @@
             </iInput>
         </div>
         <div slot="footer" class="dialog-footer">
-            <!--<iButton @click="handleSubmit">{{ $t('EKL_QUEREN') }}</iButton>-->
-            <!--<iButton @click="sendDepartment(form.year)">{{ $t('EKL_TZKS') }}</iButton>-->
-            <iButton @click="handleSubmit" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_SAVEDATA')">{{ $t('EKL_QUEREN') }}</iButton>
-            <iButton @click="sendDepartment(form.year)" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_NOTICE')">{{ $t('EKL_TZKS') }}</iButton>
+            <!--<iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>-->
+            <!--<iButton @click="sendDepartment(form.year)">{{ $t('LK_TZKS') }}</iButton>-->
+            <iButton @click="handleSubmit" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_SAVEDATA')">{{ $t('LK_QUEREN') }}</iButton>
+            <iButton @click="sendDepartment(form.year)" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_NOTICE')">{{ $t('LK_TZKS') }}</iButton>
         </div>
     </iDialog>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <div class="navBox">
-      {{$t('EKL_PLJYSCLGL')}}
+      {{$t('LK_PLJYSCLGL')}}
     </div>
     <theTable ref="theTable"/>
 

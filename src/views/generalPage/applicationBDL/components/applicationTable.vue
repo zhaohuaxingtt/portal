@@ -68,7 +68,6 @@
                   :tableTitle="tableTitle"
                   :tableLoading="tableLoading"
                   :index="true"
-                  :selection="false"
                   @handleSelectionChange="handleSelectionChange" />
       <add-bdl-dialog :title="$t('LK_TIANJIA')"
                       @handleSelection='handleSelection'
@@ -214,7 +213,7 @@ export default {
             Vue.set(this.form, "linieId", "")
           }
           this.tableListData.push(item)
-          this.selectTableData = this.tableListData
+          // this.selectTableData = this.tableListData
         }
       })
     },
