@@ -44,7 +44,7 @@
         <!-- :renderHeader="renderHeader" -->
         <tableList class="margin-top20"
                    :tableData="ruleTableListData"
-                   :tableTitle="ruleTableTitle1_new"
+                   :tableTitle="ruleTableTitle1_1"
                    :tableLoading="loading"
                    :index="true"
                    v-if="RsObject"
@@ -131,7 +131,7 @@
            v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
         <tableList class="margin-top20"
                    :tableData="partTableListData"
-                   :tableTitle="partTableTitle1_new"
+                   :tableTitle="partTableTitle1_1"
                    :tableLoading="loading"
                    v-if="RsObject"
                    :index="true"
@@ -141,10 +141,10 @@
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
-          <template slot-scope="scope"
+          <!-- <template slot-scope="scope"
                     slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
+          </template> -->
           <template slot-scope="scope"
                     slot="supplierId">
             <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
@@ -642,5 +642,17 @@ $tabsInforHeight: 35px;
   background:url("~@/assets/images/icon/pass.png");
   z-index: 100000;
   opacity:0.07;
+}
+
+::v-deep .el-form{
+  .el-table{
+    .cell{
+      padding:0!important;
+
+      span{
+        margin-right:0px!important;
+      }
+    }
+  }
 }
 </style>
