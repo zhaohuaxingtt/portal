@@ -64,6 +64,7 @@ const menuPortal = [
     url: '/files',
     hidden: true
   },
+
   {
     title: '供应商用户管理',
     url: '/provider/userMgm/list'

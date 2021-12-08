@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-07 16:01:49
+ * @LastEditTime: 2021-12-08 15:46:46
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -34,7 +34,7 @@
                   @click="thawBtn">{{ language('JIEDONG', '解冻') }}
         </i-button>
         <i-button v-if="!edit"
-                  @click="editBtn">{{ language('LDAPTONGBU', '同步LDAP') }}
+                  @click="upload">{{ language('SHANGCHUAN', '上传') }}
         </i-button>
         <i-button v-if="!edit"
                   @click="activeBtn">{{ language('JIHUO', '激活') }}
@@ -46,7 +46,7 @@
                   @click="download">{{ language('XIAZAIMOBAN', '下载模板') }}
         </i-button>
         <i-button v-if="!edit"
-                  @click="exportsTable">{{ language('DAOCHU', '导出') }}
+                  @click="exportsTable">{{ language('DAORU', '导入') }}
         </i-button>
       </div>
     </div>
