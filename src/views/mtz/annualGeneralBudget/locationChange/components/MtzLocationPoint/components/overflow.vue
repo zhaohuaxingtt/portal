@@ -19,6 +19,7 @@
       <div class="opration">
         <!-- && ttNominateAppId !== '' -->
         <iButton @click="submit"
+                  v-show="locationNow==3"
                  :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
         <iButton @click="downRS">{{ language('DAOCHURS', '导出RS') }}</iButton>
       </div>
@@ -186,6 +187,7 @@ export default {
         setTimeout(() => {
           this.stepNum = arr[arr.length - 1];
           this.locationNow = this.stepNum;
+          // console.log(this.stepNum)
         }, 100);
       }
     })

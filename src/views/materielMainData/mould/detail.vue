@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <pageHeader class="margin-bottom20">
-      {{ $route.query.id ? '编辑' : '新增' }}模具材料组
+      {{ language($route.query.id ? '编辑' : '新增') }}{{language('模具材料组')}}
     </pageHeader>
     <theDetailBase />
     <div v-if="$route.query.id">
