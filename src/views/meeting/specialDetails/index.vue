@@ -76,6 +76,9 @@
         </div>
       </div>
       <iCard>
+        <iButton @click="handleClickColumn" class="display-column"
+          >列隐藏/显示</iButton
+        >
         <actionButtons
           :currentButtonList="tableButtonList"
           :showUpdateTopicButtonList="showUpdateTopicButtonList"
@@ -118,26 +121,29 @@
             :rowClassName="tableRowClassName"
             :currentRow="currentRow"
             :isSingle="isSingle"
+            :defaultSort="{ prop: 'time', order: 'descending' }"
+            ref="hiddenColumnTable"
           >
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               type="selection"
               align="center"
-              min-width="20"
-              width="20"
+              min-width="40"
             ></el-table-column>
-            <el-table-column align="center" width="10"></el-table-column>
-            <el-table-column align="center" label="#" width="16">
+            <!-- <el-table-column align="center" width="10"></el-table-column> -->
+            <el-table-column align="center" label="#" width="23">
               <template slot-scope="scope">
                 <span style="span-index">{{ scope.$index + 1 }}</span>
               </template>
             </el-table-column>
-             <el-table-column align="center" width="4"></el-table-column>
+            <!-- <el-table-column align="center" width="4"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Time"
-              min-width="134"
+              min-width="136"
+              prop="time"
+              sortable
             >
               <template slot-scope="scope">
                 <span class="open-link-text">{{ scope.row.time }}</span>
@@ -161,7 +167,7 @@
               show-overflow-tooltip
               align="center"
               label="Present Items"
-              min-width="191"
+              min-width="198"
             >
               <template slot-scope="scope">
                 <span
@@ -171,7 +177,7 @@
                 >
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="15"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -189,23 +195,23 @@
                 }}
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="15"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="State"
-              min-width="60"
+              min-width="75"
             >
               <template slot-scope="scope">
                 {{ stateObj[scope.row.state] }}
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="15"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Result"
-              min-width="44"
+              min-width="59"
             >
               <template slot-scope="scope">
                 <span>{{
@@ -215,48 +221,50 @@
                 }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="15"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="EP"
-              min-width="19"
+              min-width="65"
               prop="ep"
+              sortable
             >
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '/' : scope.row.ep }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="31"></el-table-column>
+            <!-- <el-table-column align="center" width="16"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Sourcing"
-              min-width="61"
+              min-width="115"
               prop="supporter"
+              sortable
             >
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '/' : scope.row.supporter }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="24"></el-table-column>
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Linie"
-              min-width="48"
+              min-width="82"
               prop="presenter"
+              sortable
             >
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '/' : scope.row.presenter }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="24"></el-table-column>
+            <!-- <el-table-column align="center" width="14"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Commodity"
-              min-width="79"
+              min-width="90"
               prop="presenterDept"
             >
               <template slot-scope="scope">
@@ -265,12 +273,12 @@
                 }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="20"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Duration"
-              min-width="61"
+              min-width="86"
               prop="duration"
             >
               <template slot-scope="scope">
@@ -286,12 +294,12 @@
                 }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Sourcing No."
-              min-width="89"
+              min-width="119"
               prop="sourcingNo"
             >
               <template slot-scope="scope">
@@ -300,48 +308,48 @@
                 }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="TNR"
-              min-width="30"
+              min-width="60"
               prop="tnr"
             >
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '/' : scope.row.tnr }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="BEN(CN)"
-              width="59"
+              width="89"
               prop="benCn"
             >
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '/' : scope.row.benCn }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="BEN(DE)"
-              width="58"
+              width="88"
               prop="benDe"
             >
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '/' : scope.row.benDe }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Status"
-              min-width="44"
+              min-width="74"
             >
               <template slot-scope="scope">
                 <span v-if="scope.row.isBreak">/</span>
@@ -352,25 +360,26 @@
                 >
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Carline"
-              min-width="49"
+              min-width="62"
               prop="carline"
             >
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '/' : scope.row.carline }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="26.5"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Part Type"
-              min-width="66"
+              min-width="110"
               prop="partType"
+              label-class-name="test-class"
             >
               <template slot-scope="scope">
                 <span v-if="scope.row.isBreak">/</span>
@@ -379,7 +388,7 @@
                 }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="26.5"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
           </iTableML>
           <div id="table-drag">
             <iTableML
@@ -391,42 +400,52 @@
               @go-detail="handleGoDetail"
               v-if="showUpdateTopicButtonList"
               :rowClassName="tableRowClassName"
+              :defaultSort="{ prop: 'time', order: 'descending' }"
             >
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 type="selection"
                 align="center"
-                min-width="20"
-                width="20"
+                min-width="40"
               ></el-table-column>
-              <el-table-column align="center" width="10"></el-table-column>
-              <el-table-column
-                show-overflow-tooltip
-                align="center"
-                label="#"
-                width="20"
-              >
+              <!-- <el-table-column align="center" width="10"></el-table-column> -->
+              <el-table-column align="center" label="#" width="23">
                 <template slot-scope="scope">
                   <span style="span-index">{{ scope.$index + 1 }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="24"></el-table-column>
+              <!-- <el-table-column align="center" width="4"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Time"
-                min-width="84"
+                min-width="136"
+                prop="time"
+                sortable
               >
                 <template slot-scope="scope">
                   <span class="open-link-text">{{ scope.row.time }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="Present Items"
+              min-width="191"
+            >
+              <template slot-scope="scope">
+                <span
+                  class="open-link-text look-themen-click"
+                  @click="lookThemen(scope.row)"
+                  >{{ scope.row.topic }}</span
+                >
+              </template>
+            </el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Present Items"
-                min-width="191"
+                min-width="198"
               >
                 <template slot-scope="scope">
                   <span
@@ -436,61 +455,71 @@
                   >
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="15"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Type"
-                min-width="33"
+                min-width="75"
                 prop="type"
               >
                 <template slot-scope="scope">
                   {{
-                    scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type
+                    scope.row.isBreak
+                      ? '/'
+                      : scope.row.type === 'MANUAL'
+                      ? '手工议题'
+                      : scope.row.type
                   }}
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="15"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="State"
-                min-width="42"
+                min-width="75"
               >
                 <template slot-scope="scope">
                   {{ stateObj[scope.row.state] }}
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="15"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Result"
-                min-width="44"
+                min-width="59"
               >
                 <template slot-scope="scope">
-                  <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
+                  <span>{{
+                    scope.row.isBreak
+                      ? '/'
+                      : themenConclusion[scope.row.conclusionCsc]
+                  }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="15"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="EP"
-                min-width="19"
+                min-width="65"
                 prop="ep"
+                sortable
               >
                 <template slot-scope="scope">
                   <span>{{ scope.row.isBreak ? '/' : scope.row.ep }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="31"></el-table-column>
+              <!-- <el-table-column align="center" width="16"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Sourcing"
-                min-width="61"
+                min-width="115"
                 prop="supporter"
+                sortable
               >
                 <template slot-scope="scope">
                   <span>{{
@@ -498,13 +527,13 @@
                   }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="24"></el-table-column>
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Linie"
-                min-width="48"
+                min-width="82"
                 prop="presenter"
+                sortable
               >
                 <template slot-scope="scope">
                   <span>{{
@@ -512,12 +541,12 @@
                   }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="24"></el-table-column>
+              <!-- <el-table-column align="center" width="14"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Commodity"
-                min-width="79"
+                min-width="90"
                 prop="presenterDept"
               >
                 <template slot-scope="scope">
@@ -526,21 +555,33 @@
                   }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="20"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Duration"
-                min-width="61"
+                min-width="86"
                 prop="duration"
               >
+                <template slot-scope="scope">
+                  <div
+                    class="open-link-text open-clink-back-text"
+                    @click="recallTheThemen(scope.row)"
+                    v-if="scope.row.state === '04'"
+                  >
+                    <div class="open-text-text-choice"></div>
+                  </div>
+                  <span class="open-link-text" v-else>{{
+                    scope.row.duration
+                  }}</span>
+                </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Sourcing No."
-                min-width="89"
+                min-width="119"
                 prop="sourcingNo"
               >
                 <template slot-scope="scope">
@@ -549,51 +590,51 @@
                   }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="TNR"
-                min-width="30"
+                min-width="60"
                 prop="tnr"
               >
                 <template slot-scope="scope">
                   <span>{{ scope.row.isBreak ? '/' : scope.row.tnr }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="BEN(CN)"
-                width="59"
+                width="89"
                 prop="benCn"
               >
                 <template slot-scope="scope">
                   <span>{{ scope.row.isBreak ? '/' : scope.row.benCn }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="BEN(DE)"
-                width="58"
+                width="88"
                 prop="benDe"
               >
                 <template slot-scope="scope">
                   <span>{{ scope.row.isBreak ? '/' : scope.row.benDe }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Status"
-                min-width="44"
+                min-width="74"
               >
                 <template slot-scope="scope">
-                  <span v-if="scope.row.isBreak"></span>
+                  <span v-if="scope.row.isBreak">/</span>
                   <span v-else
                     >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
                       scope.row.preCount ? scope.row.preCount : 0
@@ -601,25 +642,26 @@
                   >
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Carline"
-                min-width="49"
+                min-width="62"
                 prop="carline"
               >
                 <template slot-scope="scope">
                   <span>{{ scope.row.isBreak ? '/' : scope.row.carline }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="26.5"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Part Type"
-                min-width="66"
+                min-width="110"
                 prop="partType"
+                label-class-name="test-class"
               >
                 <template slot-scope="scope">
                   <span v-if="scope.row.isBreak">/</span>
@@ -628,7 +670,7 @@
                   }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="26.5"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
             </iTableML>
           </div>
         </div>
@@ -954,6 +996,9 @@ export default {
   //   }
   // },
   methods: {
+    handleClickColumn() {
+      this.$refs['hiddenColumnTable'].handleOpenColumn()
+    },
     handleEndTime(row) {
       let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
       let endTime =
@@ -2452,10 +2497,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.display-column {
+  transform: translateY(90px);
+}
 /* .table-container {
   max-height: 514px;
   overflow-y: auto;
 } */
+::v-deep th.is-sortable {
+  transform: translateY(2px);
+}
+::v-deep .caret-wrapper {
+  width: initial !important;
+}
 .inline {
   display: inline !important;
 }
