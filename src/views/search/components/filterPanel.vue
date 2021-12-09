@@ -7,86 +7,8 @@
  * @FilePath: \front-portal\src\views\search\components\filterPanel.vue
 -->
 <template>
-
-    <div class="filter-panel" v-if='showResult'>
-      <iCard >
+    <div class="filter-panel">
         <div class="filter-category">
-          <!-- <iSelect
-            v-model="searchForm.dataSourceList"
-            size="large"
-            class="search-category"
-          >
-            <el-option value="" label="全部" />
-            <el-option
-              v-for="item in categoryOptions"
-              :key="item.name"
-              :value="item.name"
-              :label="item.name"
-            />
-          </iSelect> -->
-          <iSelectCustom
-            v-model="searchForm.dataSourceList"
-            multiple
-            :data = 'categoryOptions'
-            value='name'
-            label='name'
-            sortVal='name'
-            :disabled="false"
-            :popoverClass="'popover-class'"
-            :inputClass="'input-class'"
-            class="search-category"
-          ></iSelectCustom>
-        </div>
-      </iCard>
-      <iCard >
-        <div class="filter-input">
-          <!-- <el-autocomplete
-            v-model="searchForm.words"
-            size="medium"
-            type="primary"
-            class="search-input"
-            v-on:keyup.enter.native="search"
-            :fetch-suggestions="getSuggestions"
-            :placeholder="$t('输入关键词以搜索')"
-            @select="handleSelect"
-          > -->
-          <iInput
-            class="search-input"
-            v-model="searchForm.words"
-            type="primary"
-            v-on:keyup.enter.native="search"
-            
-            @blur="handleSelect"
-            @input="getSuggestions"
-          >
-          <span slot="prefix" class="search-span">搜索</span>
-            <el-button
-              slot="suffix"
-              type="primary"
-              icon="el-icon-search"
-              class="search-button"
-              @click="search"
-            >
-            </el-button>
-          </iInput>
-          <div class="historyList">
-              <ul>
-                <li 
-                v-for="item in suggestions"
-                :key="item.id"
-                class="suggestionItem"
-                >
-                {{item.value}}
-                </li>
-              </ul>
-          </div>
-          <!-- </el-autocomplete> -->
-        </div>
-      </iCard>
-    </div>
-    <div class="filter-panel" v-else>
-        <div class="filter-category">
-         <!--  <theFilterPanelSelect :options='categoryOptions' :model='searchForm'/> -->
          <theFilterPanelLeftSelect
             @dataSource="dataSource"
             :data ='categoryOptions'
@@ -98,11 +20,12 @@
             class="search-input"
             v-model="searchForm.words"
             type="primary"
-            @change="showSuggestion = false"
+            @change="inputChange"
+            @focus="getSuggestions"
             v-on:keyup.enter.native="search"
             @input="getSuggestions"
           >
-          <span slot="prefix" class="search-span">搜索</span>
+          <span slot="prefix" class="search-span">{{language('搜索')}}</span>
             <el-button
               slot="suffix"
               type="primary"
@@ -112,7 +35,7 @@
             >
             </el-button>
           </iInput>
-          <div class="suaggestionContent" v-if="showSuggestion">
+          <div class="suaggestionContent" v-show="showSuggestion">
               <ul>
                 <li 
                 v-for="item in suggestions"
@@ -134,7 +57,6 @@
 <script>
 import { iCard,iInput } from 'rise'
 import theFilterPanelLeftSelect from './theFilterPanelLeftSelect'
-// import theFilterPanelSelect from './theFilterPanelSelect.vue'
 export default {
   name: 'FilterPanel',
   components: { theFilterPanelLeftSelect,iCard ,iInput},
@@ -167,7 +89,6 @@ export default {
   },
   methods: {
     dataSource(val){
-        console.log(val,'oooooo');
         this.searchForm.dataSourceList = val
     },
     search() {
@@ -195,10 +116,15 @@ export default {
       this.search()
     },
     selectedSugges(val){
+      console.log('pppp',val);
       this.searchForm.words = val.value
       this.search()
     },
-    searchMethod(){}
+    inputChange(){
+      // this.selectedSugges
+      this.showSuggestion = false
+
+    }
   }
 }
 </script>
@@ -230,7 +156,7 @@ $input-height: 48px;
   ::v-deep .el-input__inner {
     height: $input-height;
     background: #F8F8FA;
-    padding-left: 48px;
+    padding-left: 66px;
   }
 
   ::v-deep .el-input__suffix {
@@ -252,7 +178,7 @@ $input-height: 48px;
   }
   .search-span{
     padding-left: 8px;
-    line-height: 50px;
+    line-height:$input-height;
     margin-right: 20px;
     font-weight: bolder;
     color: #000000;

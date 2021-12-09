@@ -8,20 +8,19 @@
 -->
 <template>
   <div class="search-result">
-    <resultPanel
+    <result-item 
       v-for="item in resultList"
-      :key="item.type"
-      :type="item.type"
-      :list="item.list"
+      :key="item.title"
+      :item='item'
     />
   </div>
 </template>
 
 <script>
-import resultPanel from './resultPanel'
+import resultItem from './resultItem.vue'
 export default {
   name: 'searchResult',
-  components: { resultPanel },
+  components: { resultItem},
   props: {
     results: {
       type: Array,
@@ -32,19 +31,9 @@ export default {
   },
   computed: {
     resultList() {
-      const allType = this.results.map(e => e.type)
-      const typeList = [...new Set(allType)]
-      const res = []
-      typeList.forEach(type => {
-        const list = this.results.filter(e => e.type === type)
-        res.push({
-          type,
-          list
-        })
-      })
-      return res
+      return this.results
     }
-  }
+  },
 }
 </script>
 
