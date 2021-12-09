@@ -386,19 +386,21 @@ export default {
 				this.currentFlag = 'listPage'
 				await this.getLabelList()
 				let currNameId = ''
-				let currName = ''
 				this.labelList.map(item => {
 					if (item.id === currLabelId) {
 						currNameId = item.moduleId
 						this.labelText = item.lableName
 					}
 				})
-				this.moudleList.map(moudle => {
-					if (moudle.id === currNameId) {
-						currName = moudle.menuName
-					}
-				})
-				this.currMoudleName = currName
+				if (!this.currMoudleName) {
+					let currName = ''
+					this.moudleList.map(moudle => {
+						if (moudle.id === currNameId) {
+							currName = moudle.menuName
+						}
+					})
+					this.currMoudleName = currName
+				}
 				Object.assign(this.problemQuery, queryValue)
 				await this.getProblemList()
 			} else {

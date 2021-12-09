@@ -12,7 +12,7 @@
 				<img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
 				<div>{{`管理员${ques.replyUserName}将任务转派给了管理员${ques.handlerToUserName}`}}</div>
 			</div> -->
-			<div class="flex flex-row">
+			<div class="flex flex-row" v-if="ques.content">
 				<div class="item-who"> {{ques.replyType==='reply'?'管理员':'我'}} </div>
 				<div class="desc-box">
 					<div class="desc" v-html="ques.content"></div>
