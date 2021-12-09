@@ -18,16 +18,17 @@
       <div class="content_dialog" v-if="!RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
       <iCard>
         <div slot="header"
-             class="headBox">
+             class="headBox"
+             >
           <p class="headTitle">{{title}}</p>
           <span class="buttonBox"
-                v-if="!editMode">
+                v-if="!editMode&&meetingNumber == 0">
             <iButton v-if="RsObject && formData.flowTypeName == '流转'"
                      @click="handleToSignPreview">{{language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')}}</iButton>
           </span>
         </div>
 
-        <div class="tabsBoxInfor">
+        <div class="tabsBoxInfor" v-if="meetingNumber == 0">
           <div class="inforDiv"
                v-for="(item,index) in formList"
                :key="index">
@@ -35,7 +36,8 @@
             <span class="inforText">{{formData[item.prop]}}</span>
           </div>
         </div>
-        <el-divider v-if="RsObject" />
+        <p class="table_right" v-if="!RsObject && meetingNumber!==0">{{language('MTZSHENGQINGDAN', 'MTZ申请单')}}-{{formData.mtzAppId}}-{{formData.appName}}-{{formData.linieName}}-{{formData.linieDeptName}}</p>
+        <el-divider v-if="RsObject && meetingNumber == 0" />
         <el-divider v-if="!RsObject && ruleTableListData.length>0" />
         <p class="tableTitle"
            v-if="RsObject">{{language('GUIZEQINGDAN', '规则清单')}}</p>
@@ -232,7 +234,7 @@
              class="headBox">
           <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
           <span class="buttonBox">
-            <iButton v-if="RsObject && (formData.appStatus == '草稿' || formData.appStatus == '未通过')"
+            <iButton v-if="RsObject && (formData.appStatus == '草稿' || formData.appStatus == '未通过') && meetingNumber == 0"
                      @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
           </span>
         </div>
@@ -342,6 +344,7 @@ export default {
       applayDateData: [],
       RsObject: true,
       moment: window.moment,
+      meetingNumber:Number(this.$route.query.meeting) || 0,
 
       // uploadTableLj:false,
       // uploadTableGz:false,
@@ -544,6 +547,14 @@ $tabsInforHeight: 35px;
   color: #000000;
   opacity: 1;
   font-size: 18px;
+}
+.table_right {
+  display: inline-block;
+  font-family: Arial;
+  color: #000000;
+  font-size: 18px;
+  width:100%;
+  text-align: end;
 }
 .headBox {
   position: relative;
