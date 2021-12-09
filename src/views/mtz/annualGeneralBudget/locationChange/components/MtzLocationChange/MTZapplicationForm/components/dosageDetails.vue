@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-08 16:30:36
+ * @LastEditTime: 2021-12-08 21:09:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -95,13 +95,13 @@
              :visible.sync="visible"
              v-if="visible"
              append-to-body
-             width="30%"
+             width="50%"
              :before-close="handleClose">
       <div style="display:inline-block"
            class="margin-right10">
         <div v-for="item in dateList"
              :key="item.id"
-             class="margin-bottom10">
+             class="margin-bottom10 flex">
           <iDatePicker v-model="item.value"
                        type="daterange"
                        format="yyyy-MM-dd"
@@ -110,6 +110,15 @@
                        :pickerOptions="pickerOptions"
                        start-placeholder="开始月份"
                        end-placeholder="结束月份" />
+          <div class="margin-left20 dosage flex">
+            <label style="width:100px;line-height:36px">新用量：</label>
+            <iInput v-model="item.newDosage"></iInput>
+          </div>
+          <div class="margin-left20 dosage flex">
+            <label style="width:100px;line-height:36px">原用量：</label>
+            <iInput v-model="item.oldDosage"
+                    disabled></iInput>
+          </div>
         </div>
       </div>
       <el-button type="primary"
@@ -157,7 +166,8 @@ export default {
     uploadButton,
     iDialog,
     iDatePicker,
-    newMtzlocationChange
+    newMtzlocationChange,
+    iInput
   },
   mixins: [pageMixins],
   data () {
@@ -180,7 +190,9 @@ export default {
       visible: false,
       dateList: [{
         id: 1,
-        value: []
+        value: [],
+        newDosage: "",
+        oldDosage: ""
       }],
       maxDate: [],
       minDate: [],
@@ -385,7 +397,7 @@ export default {
       }
       let selectList = this.muliteList.map(item => {
         return {
-          dosage: item.newDosage || "",
+          // dosage: item.newDosage || "",
           id: item.id,
           endDate: this.dateList[this.dateList.length - 1].value[1],
           mtzBasePriceId: item.mtzBasePriceId || "",
@@ -393,7 +405,8 @@ export default {
           childBasePriceList: this.dateList.map(item => {
             return {
               startDate: item.value[0],
-              endDate: item.value[1]
+              endDate: item.value[1],
+              dosage: item.newDosage
             }
           })
         }
@@ -419,11 +432,14 @@ export default {
       }
       this.dateList[0].value[0] = this.muliteList[0].endDateAll
       this.dateList[0].value[1] = this.getNewDay(this.muliteList[0].endDateAll, 365)
+      this.dateList[0].newDosage = this.muliteList[0].newDosage
+      this.dateList[0].oldDosage = this.muliteList[0].oldDosage
       this.visible = true
     },
     getNewDay (dateTemp, days) {
       var dateTemp = dateTemp.split("-");
       var nDate = new Date(dateTemp[1] + '-' + dateTemp[2] + '-' + dateTemp[0]); //转换为MM-DD-YYYY格式  
+      console.log(nDate, Math.abs(nDate))
       var millSeconds = Math.abs(nDate) + (days * 24 * 60 * 60 * 1000);
       var rDate = new Date(millSeconds);
       var year = rDate.getFullYear();
@@ -461,11 +477,14 @@ export default {
     addDate () {
       this.dateList.push({
         id: this.dateList.length + 1,
-        value: []
+        value: [],
+        oldDosage: "",
+        newDosage: ""
       })
       let date = this.dateList[this.dateList.length - 2].value[1]
-      this.dateList[this.dateList.length - 1].value[0] = window.moment(new Date(date.replace(/-/g, '/')).getTime() + 86400000).format('YYYY-DD-MM')
+      this.dateList[this.dateList.length - 1].value[0] = window.moment(new Date(date.replace(/-/g, '/')).getTime() + 86400000).format('YYYY-MM-DD')
       this.dateList[this.dateList.length - 1].value[1] = this.getNewDay(this.dateList[this.dateList.length - 1].value[0], 365)
+
       // this.dataList[this.dataList.length - 1].value = new Date(date.replace(/-/g, '/')).getTime() + 86400000
       this.pickerOptions = {
         disabledDate: time => {
@@ -480,7 +499,7 @@ export default {
           text: '至今直到2999年',
           onClick (picker) {
             const end = new Date("2999-12-31")
-            const start = date
+            const start = new Date(new Date(date.replace(/-/g, '/')).getTime() + 86400000)
             picker.$emit('pick', [start, end])
           }
         }]
@@ -509,5 +528,9 @@ export default {
 <style lang="scss" scoped>
 .content {
   padding: 20px 10px;
+}
+.dosage {
+  width: 160px;
+  line-height: 36px;
 }
 </style>

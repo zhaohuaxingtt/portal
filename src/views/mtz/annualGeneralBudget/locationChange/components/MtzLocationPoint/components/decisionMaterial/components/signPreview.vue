@@ -531,4 +531,15 @@ $tabsInforHeight: 35px;
   z-index: 100000;
   opacity:0.07;
 }
+::v-deep .el-form{
+  .el-table{
+    .cell{
+      padding:0!important;
+
+      span{
+        margin-right:0px!important;
+      }
+    }
+  }
+}
 </style>
