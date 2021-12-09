@@ -31,7 +31,7 @@ import { iCard } from 'rise'
 import finished from './finished.vue'
 import unfinish from './unfinish.vue'
 import { findMyThemens } from '@/api/meeting/live'
-
+import { findFirstStartCSCMeeting } from '@/api/meeting/live'
 export default {
   components: {
     iCard,
@@ -72,10 +72,20 @@ export default {
     this.queryMeeting()
   },
   methods: {
+    async queryFlushMeeting() {
+      const res = await findFirstStartCSCMeeting()
+      return res
+    },
     findMyThemens() {
       this.query()
     },
     async queryMeeting() {
+      if (this.curMeetingId === -1) {
+        const res = await this.queryFlushMeeting()
+        if (res && res.id) {
+          this.curMeetingId = res.id
+        }
+      }
       const params = {
         presentItem: '02',
         pageNum: 1,

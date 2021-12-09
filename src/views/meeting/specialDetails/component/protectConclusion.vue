@@ -494,9 +494,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-::v-deep .cell {
-  text-indent: 41px;
-}
 ::v-deep .el-table__header {
   background-color: #fff;
   .el-table-column--selection {

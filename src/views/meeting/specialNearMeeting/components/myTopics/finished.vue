@@ -100,12 +100,12 @@
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
-      <el-table-column
+     <el-table-column
         show-overflow-tooltip
         align="center"
-        label="BEN(DE)"
+        label="BEN(CN)"
         min-width="58"
-        prop="benDe"
+        prop="benCn"
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -205,7 +205,6 @@ import { findMyThemens } from '@/api/meeting/myMeeting'
 import detailDialog from './detailDialog.vue'
 import addTopicNew from '@/views/meeting/show/components/topicLookDialog.vue'
 import { stateObj, themenConclusion } from '../carouselBox/data.js'
-
 export default {
   components: {
     // iInput,
@@ -314,7 +313,7 @@ export default {
     // 查看更多
     handleMore() {
       this.$router.push({
-        path: '/meeting/near-meeting/more-themens'
+        path: '/meeting/near-meeting/special-more-themens'
         // query: {
         //   meetingTypeId: this.meetingTypeId
         // }
