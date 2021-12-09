@@ -1,5 +1,5 @@
 <template>
-    <div :id="id">
+    <div :id="id" >
     </div>
 </template>
 
@@ -25,7 +25,7 @@ import Editor from 'wangeditor'
             zIndex:{
                 type: Number,
                 default: 333
-            }
+            },
         },
         data() {
             return {

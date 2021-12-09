@@ -1,45 +1,47 @@
 <template>
-  <iDialog title="问题归档" :visible.sync="show" v-if="show" width="70%" @close='closeDiologBtn' append-to-body>
-    <el-form label-position="left" label-width="100px" :model="editForm" :rules="editFormRules" ref="editForm">
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <iFormItem :label="$t('问题模块')" prop="questionModuleId">
-            <iSelect v-model="editForm.questionModuleId" filterable clearable="true" @change="changeModule"  @clear="clearModuleHandle">
-              <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
-            </iSelect>
-          </iFormItem>
-        </el-col>
-        <el-col :span="8">
-          <iFormItem :label="$t('问题标签')" prop="questionLableId">
-            <iSelect v-model="editForm.questionLableId" filterable :disabled="!editForm.questionModuleId">
-              <el-option v-for="item in labelList" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
-            </iSelect>
-          </iFormItem>
-        </el-col>
-        <el-col :span="8">
-          <iFormItem :label="$t('问题来源')">
-             <iSelect v-model="editForm.source" disabled>
-                <el-option label="供应商用户" value="supplier"></el-option>
-                <el-option label="内部用户" value="inner"></el-option>
-            </iSelect>
-          </iFormItem>
-        </el-col>
-      </el-row>
-      <div class="content-title mt20 mb20">问题</div>
-      <div style="height:auto;">{{questionItem.questionTitle}}</div>
-      <div class="content-title mt20 mb20">答复</div>
-      <iFormItem prop="answerContent">
-        <iEditor ref="iEditor" v-model="editForm.answerContent" v-if="editable" />
-        <div v-else class="content" v-html="editForm.answerContent"></div>
-      </iFormItem>
-    </el-form>
-    <div class="mt20 mb20">
-      <!-- <iUpload ref="upload" @callback="uploadFileHandelCallback" style="display:none;" />
-      <iButton @click="startUploadFile" v-if="!fileName">{{language('请选择文件')}}</iButton>
-      <a v-else href="javscript:void(0);" style="color: #2369f1"><i class="el-icon-link"></i>{{fileName}}</a>
-      <iButton @click="uploadFileHandle" style="margin-left: 5px;">{{language('上传')}}</iButton> -->
-      <attachmentDownload load="up" @getFilesList="getFilesList" />
-      <!-- <div v-if="attachFileList.length > 0"></div> -->
+  <iDialog title="问题归档" top="30px" :visible.sync="show" v-if="show" width="70%" class="qs-dialog" @close='closeDiologBtn' append-to-body>
+    <div class="content">
+      <el-form label-position="left" label-width="100px" :model="editForm" :rules="editFormRules" ref="editForm">
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <iFormItem :label="$t('问题模块')" prop="questionModuleId">
+              <iSelect v-model="editForm.questionModuleId" filterable clearable="true" @change="changeModule"  @clear="clearModuleHandle">
+                <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
+              </iSelect>
+            </iFormItem>
+          </el-col>
+          <el-col :span="8">
+            <iFormItem :label="$t('问题标签')" prop="questionLableId">
+              <iSelect v-model="editForm.questionLableId" filterable :disabled="!editForm.questionModuleId">
+                <el-option v-for="item in labelList" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
+              </iSelect>
+            </iFormItem>
+          </el-col>
+          <el-col :span="8">
+            <iFormItem :label="$t('问题来源')">
+              <iSelect v-model="editForm.source" disabled>
+                  <el-option label="供应商用户" value="supplier"></el-option>
+                  <el-option label="内部用户" value="inner"></el-option>
+              </iSelect>
+            </iFormItem>
+          </el-col>
+        </el-row>
+        <div class="content-title mt20 mb20">问题</div>
+        <div class="qs-tlt" style="height:auto;">{{questionItem.questionTitle}}</div>
+        <div class="content-title mt20 mb20">答复</div>
+        <iFormItem prop="answerContent">
+          <iEditor ref="iEditor" style="height:300px;" v-model="editForm.answerContent" v-if="editable" />
+          <div v-else class="content" v-html="editForm.answerContent"></div>
+        </iFormItem>
+      </el-form>
+      <div class="mt20 mb20">
+        <!-- <iUpload ref="upload" @callback="uploadFileHandelCallback" style="display:none;" />
+        <iButton @click="startUploadFile" v-if="!fileName">{{language('请选择文件')}}</iButton>
+        <a v-else href="javscript:void(0);" style="color: #2369f1"><i class="el-icon-link"></i>{{fileName}}</a>
+        <iButton @click="uploadFileHandle" style="margin-left: 5px;">{{language('上传')}}</iButton> -->
+        <attachmentDownload load="up" @getFilesList="getFilesList" />
+        <!-- <div v-if="attachFileList.length > 0"></div> -->
+      </div>
     </div>
     <div class="reset_style">
       <iButton @click="save">{{language('确认')}}</iButton>
@@ -212,9 +214,16 @@ export default {
   color: #000000;
   opacity: 1;
   font-size: 18px;
-  margin-bottom: 40px;
 }
 ::v-deep .el-form-item__content{
   margin-left: 0!important;
 }
+
+.qs-tlt{
+  padding: 20px;
+  margin-bottom: 30px;
+  border: 1px solid #D0D4D9;
+  border-radius: 6px;
+}
+
 </style>

@@ -114,22 +114,23 @@
           </div>
           <div class="content-title mb20">{{ language('消息') }}</div>
           <!-- 正常状态 -->
-          <template v-for="item of questionDetail.replyQuestionList">
-            <div class="content flex flex-column" :key="item.id">
-              <div v-if="item.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
-                <img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
-                <div>{{`管理员${item.replyUserName}将任务转派给了管理员${item.handlerToUserName}`}}</div>
-              </div>
-              <div v-else class="flex flex-row">
-                <div class="name">{{item.replyUserName}}</div>
-                <div class="content-text">
-                  <p class="html" v-html="item.content"></p>
-                  <p class="time">{{item.createDate}}</p>
+          <div class="msg-box">
+            <template v-for="item of questionDetail.replyQuestionList">
+              <div class="content flex flex-column" :key="item.id">
+                <div v-if="item.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
+                  <img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
+                  <div>{{`管理员${item.replyUserName}将任务转派给了管理员${item.handlerToUserName}`}}</div>
+                </div>
+                <div v-else class="flex flex-row">
+                  <div class="name">{{item.replyUserName}}</div>
+                  <div class="content-text">
+                    <p class="html" v-html="item.content"></p>
+                    <p class="time">{{item.createDate}}</p>
+                  </div>
                 </div>
               </div>
-              
-            </div>
-          </template>
+            </template>
+          </div>
 
           <!-- 答复状态 -->
           <div v-if="isReplyStatus" class="reply-content mt20">
@@ -557,7 +558,8 @@ export default {
     }
     .card-list {
       // height: calc(100vh - 350px);
-      flex: 1;
+      // flex: 1;
+      padding: 10px;
       overflow-y: auto;
     }
     .category-list {
@@ -572,14 +574,16 @@ export default {
         color: #1763f7;
         font-weight: 600;
         &::before {
+          content: '';
           position: absolute;
           left: 0;
-          bottom: 4px;
-          content: '';
+          top: 50%;
           display: block;
-          width: 3px;
-          height: 15px;
-          background: #1763f7;
+          transform: translateY(-50%);
+          // width: 3px;
+          height: 60%;
+          border-left: 3px solid #1763f7;
+          // background: #1763f7;
           border-radius: 5px;
         }
       }
@@ -652,6 +656,11 @@ export default {
       }
     }
   }
+}
+.msg-box{
+  padding: 10px;
+  border: 1px solid #F2F2F2;
+  border-radius: 6px;
 }
 .no-data{
   margin-top: 50px;

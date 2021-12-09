@@ -130,8 +130,7 @@ export default {
 		await this.getLabelList('init')
 		// 从首页进入 没有对应的模块id 查询热门问题 取前两个 查全部模块及标签
 		if (!this.currentMoudleId) {
-			await this.getHotQueTwo()
-			await this.getAllMoudleLabel()
+			this.init()
 		}
 	},
 	data() {
@@ -168,6 +167,10 @@ export default {
 		}
 	},
 	methods: {
+		async init(){
+			await this.getHotQueTwo()
+			await this.getAllMoudleLabel()
+		},
 		async handleLabel(item) {
 			//  重置查询参数
 			this.problemQuery.pageNum = 1

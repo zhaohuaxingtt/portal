@@ -43,6 +43,7 @@
 			<ProblemSearch 
 				:moudleList="moudleList"
 				@queryProblem="queryProblem"
+				@reset="resetQS"
 			/>
 			<div class="flex flex-row mt20 middle-content">
 				<CommonProblem 
@@ -277,6 +278,7 @@ export default {
 		moduleChange(moudle) {
 			this.currentMoudleId = moudle.id
 			this.currMoudleName = moudle.menuName
+			
 			if (this.helpMoudle === 'manual') {
 				this.getManauContent()
 			} else if (this.helpMoudle === 'problem') {
@@ -318,6 +320,11 @@ export default {
 		//  改变点赞问题的状态
 		changeQuesStatus(quesId) {
 			this.$refs.questionList.changeCurrQuesStatus(quesId)
+		},
+		//重置常见问题
+		resetQS(){
+			this.currentMoudleId = ""
+			this.$refs.problemDetail.init()
 		}
 	}
 }
