@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-06-16 14:10:10
- * @LastEditors: zbin
+ * @LastEditors: 水痕
  * @Descripttion: your project
 -->
 <template>
@@ -109,6 +109,7 @@ export default {
         sapCode: '',
         socialcreditNo: '',
       }
+      this.getTableList();
     },
     clearDiolog() {
       this.$emit('input', false);

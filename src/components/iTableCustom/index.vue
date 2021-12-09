@@ -1096,6 +1096,14 @@ export default {
     content: '*';
     color: #d00;
   }
+  .el-table__row{
+    .el-table_1_column_1{
+      .cell{
+       padding-right: 10px;
+      //  background: chartreuse;
+      }
+    }
+  }
 }
 ::v-deep.i-table-custom {
   .bgColor {
