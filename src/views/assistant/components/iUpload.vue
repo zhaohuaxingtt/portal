@@ -23,7 +23,7 @@
             class="file-dialog"
 		>
 			<div class="flex items-center justify-center ">
-               <img :src="fileUrl" alt="">
+               <img :src="fileUrl" alt="" class="img-style">
             </div>
 		</el-dialog>
     </div>
@@ -177,5 +177,8 @@
     ::v-deep .el-dialog{
         min-height: 120px;
     }
+}
+.img-style {
+	width: 100%;
 }
 </style>
