@@ -1,54 +1,10 @@
 <template>
     <div>
-        <!--演变进度-->
-        <!--<progressComponent @openModal="openModal"></progressComponent>-->
-        <!--&lt;!&ndash;基本信息&ndash;&gt;-->
-        <!--<div class="flex ">-->
-            <!--<div class="item">-->
-                <!--<div class="mt20 mb20"><info></info></div>-->
-                <!--<div class="mt20 mb20"><gysInfo></gysInfo></div>-->
-            <!--</div>-->
-            <!--<div class="item" style="width: 100%">-->
-                <!--<div class="mt20 ml20">-->
-                    <!--<resume></resume>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-
     </div>
 </template>
 
 <script>
-    import {iButton, icon, iSelect} from 'rise';
-    import info from './info/index.vue'
-    import gysInfo from './info/gysInfo.vue'
-    import resume from './info/resume.vue'
-    import progressComponent from './info/progressComponent.vue'
-//    import changePriceModal from './info/changePriceModal.vue'
 
-    export default {
-        components: {
-            iButton,
-            iSelect,
-            icon,
-            info,
-            gysInfo,
-            resume,
-            progressComponent,
-
-        },
-        data() {
-            return {
-                display: false,
-            };
-        },
-        methods: {
-            openModal() {
-                this.display = true
-            }
-
-        },
-    };
 </script>
 
 <style scoped lang="scss">
