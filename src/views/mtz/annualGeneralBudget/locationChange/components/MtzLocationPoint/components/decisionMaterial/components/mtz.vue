@@ -159,9 +159,9 @@
         <el-divider class="margin-top20"
                     v-if="!RsObject && partTableListData.length>0" />
         <p class="tableTitle"
-           v-if="RsObject">{{language('LJQD', '零件清单')}}-Part</p>
+           v-if="RsObject">{{language('LJQD', '零件清单')}}-Part List</p>
         <p class="tableTitle"
-           v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}-Part</p>
+           v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}-Part List</p>
         <tableList class="margin-top20 over_flow_y_ture"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_1"
