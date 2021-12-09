@@ -472,6 +472,12 @@ export default {
       }]
     },
     handleClose (done) {
+      this.dateList = [{
+        id: 1,
+        value: [],
+        newDosage: "",
+        oldDosage: ""
+      }]
       done()
     },
     addDate () {
