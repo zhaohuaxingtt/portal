@@ -10,7 +10,7 @@ import axios from '@/utils/axios'
 import axiosDownload from '@/utils/axios.download'
 const requestUser = axios(process.env.VUE_APP_USER_CENTER)
 const request = axios(process.env.VUE_APP_SUPPLIER + '/web')
-const requestDownload = axiosDownload(process.env.VUE_APP_SUPPLIER)
+const requestDownload = axiosDownload(process.env.VUE_APP_SUPPLIER+ '/web')
 //半年报回顾接口
 export function getFocusSupplierList(params) {
   return request({

@@ -532,3 +532,12 @@ export function downloadError(params) {//导出错误信息
     data: params
   })
 }
+
+
+export function getNominateAppIdList(parmars) {//关联单号下拉
+  return request({
+    url: '/mtzNomiList/getNominateAppIdList',
+    method: 'POST',
+    data: parmars
+  })
+}

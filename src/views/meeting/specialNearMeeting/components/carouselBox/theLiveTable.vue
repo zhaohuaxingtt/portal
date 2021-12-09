@@ -252,7 +252,7 @@ export default {
     },
     goToDetail(e) {
       this.$router.push({
-        path: '/meeting/near-meeting/detail',
+        path: '/meeting/special-near-meeting/specialDetail',
         query: {
           id: e
         }

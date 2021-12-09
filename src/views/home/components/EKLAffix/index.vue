@@ -1,101 +1,117 @@
 <template>
   <div class="ekl-container">
     <!-- tabs -->
-    <div class="flex-between">
-      <el-tabs v-model="activeName" class="ekl-tabs" @tab-click="handleClick" id="el-tabs-box">
-          <el-tab-pane
-            :label="item.name"
-            v-for="item in tabList"
-            :key="item.id"
-            :name="item.name"
-          >
-          </el-tab-pane>
+    <!-- <div class="flex-between">
+      <el-tabs
+        v-model="activeName"
+        class="ekl-tabs"
+        @tab-click="handleClick"
+        id="el-tabs-box"
+      >
+        <el-tab-pane
+          :label="item.name"
+          v-for="item in tabList"
+          :key="item.id"
+          :name="item.name"
+        >
+        </el-tab-pane>
       </el-tabs>
       <div class="unit">单位：百万元</div>
-    </div>
-        <div class="ekl-content">
-          <div class="target flex-between-center-center margin-top20">
-            <div class="left">
-              <div class="left-lab">
-                业绩目标
-              </div>
-              <el-select class="left-select" v-model="query.type" @change="handleCheckYear">
-                <el-option
-                  v-for="item in options"
-                  :key="item"
-                  :label="item.name"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </div>
-            <div
-              class="middle middle-m"
-              v-if="
-                parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget
-              "
+    </div> -->
+    <div class="ekl-content">
+      <div class="target flex-between-center-center margin-top20">
+        <div class="left">
+          <div class="left-lab panel-title margin-bottom12">业绩目标</div>
+          <el-select
+            class="left-select"
+            v-model="query.type"
+            @change="handleCheckYear"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item"
+              :label="item.name"
+              :value="item.value"
             >
-              {{
-                parseFloat(tabsData.totalTarget)
-                  ? parseFloat(tabsData.totalTarget).toFixed(2)
-                  : '0.00'
-              }}<span class="mid-num">%</span>
-            </div>
-            <div class="right">
-              <div class="right-lab">
-                目标值/承诺值
-              </div>
-              <div
-                v-if="tabsData.totalTarget && tabsData.totalCommitment"
-                class="target-val"
-                style="font-size: 14px;"
-              >
-                {{ tabsData.totalTarget }}/{{ tabsData.totalCommitment }}
-              </div>
-            </div>
+            </el-option>
+          </el-select>
+        </div>
+        <div
+          class="middle middle-m"
+          style="font-size: 40px"
+          v-if="parseFloat(tabsData.totalTarget) != 0 && tabsData.totalTarget"
+        >
+          {{
+            parseFloat(tabsData.totalTarget)
+              ? parseFloat(tabsData.totalTarget).toFixed(2)
+              : '0.00'
+          }}
+          <span class="mid-num">%</span>
+        </div>
+        <div class="right">
+          <div class="right-lab">目标值/承诺值</div>
+          <div
+            v-if="tabsData.totalTarget && tabsData.totalCommitment"
+            class="target-val"
+            style="font-size: 14px"
+          >
+            {{ tabsData.totalTarget }}/{{ tabsData.totalCommitment }}
           </div>
-          <div class="base flex-between-center-center">
-            <div class="left">
-              <div class="title right-lab">业绩基础</div>
-            </div>
-            <div class="middle">
-              {{
-                tabsData.sumAll ? (tabsData.sumAll + '').replace(
+        </div>
+      </div>
+      <div class="base flex-between-center-center">
+        <div class="left">
+          <div class="title right-lab panel-title">业绩基础</div>
+        </div>
+        <div class="middle">
+          {{
+            tabsData.sumAll
+              ? (tabsData.sumAll + '').replace(
                   /(\d{1,3})(?=(\d{3})+(?:$|\.))/g,
                   '$1,'
                 )
-                :
-                ""
-              }}
-            </div>
-            <div class="right"></div>
-          </div>
-          <div class="echart">
-            <div class="ekl-pie" ref="pie" style="height: 240px"></div>
-            <div class="tips">
-              <div class="title" style="color: #333333">当前完成率</div>
-              <div>
-                {{String(Number(tabsData.valEklType)/Number(tabsData.sumAll)) != 'NaN' ? ((Number(tabsData.valEklType)/Number(tabsData.sumAll))*100).toFixed(2)+"%" : '0.00%'}}
-              </div>
-            </div>
+              : ''
+          }}
+        </div>
+        <div class="right"></div>
+      </div>
+      <div class="echart">
+        <div class="ekl-pie" ref="pie" style="height: 240px"></div>
+        <div class="tips">
+          <div class="title" style="color: #333333">当前完成率</div>
+          <div>
+            {{
+              String(Number(tabsData.valEklType) / Number(tabsData.sumAll)) !=
+              'NaN'
+                ? (
+                    (Number(tabsData.valEklType) / Number(tabsData.sumAll)) *
+                    100
+                  ).toFixed(2) + '%'
+                : '0.00%'
+            }}
           </div>
         </div>
-     
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import echarts from '@/utils/echarts'
-import { Icon } from 'rise'
 import { getEklAffix } from '@/api/home'
 import { mapState } from 'vuex'
 export default {
-  components: { Icon },
   props: {
     data: {
       type: Array,
       default: () => {
         return []
+      }
+    },
+    eklAffixTabItem: {
+      type: Object,
+      default: function () {
+        return {}
       }
     }
   },
@@ -104,19 +120,19 @@ export default {
       activeName: 'CS(Spare)',
       num: 2400,
       options: [
-        {name:'配件',value:1},
-        {name:'附件',value:2}
+        { name: '配件', value: 1 },
+        { name: '附件', value: 2 }
       ],
       tabsData: {},
       value: '',
       query: {
         year: new Date().getFullYear(),
         type: 1,
-        dptCode: '',
+        dptCode: ''
       },
       tabList: [],
       listData: [],
-      chart:null
+      chart: null
     }
   },
   computed: {
@@ -125,6 +141,11 @@ export default {
       eklPfjTabList: (eklPfjTabList) => eklPfjTabList.permission.eklPfjTabList,
       leadTabList: (leadTabList) => leadTabList.permission.leadTabList
     })
+  },
+  watch: {
+    eklAffixTabItem() {
+      this.tabChange()
+    }
   },
   mounted() {
     if (this.leadTabList.length > 0) {
@@ -136,8 +157,14 @@ export default {
     }
     this.getEklAffix(this.query)
     // log.js
+    this.tabChange()
   },
   methods: {
+    tabChange() {
+      if (this.eklAffixTabItem) {
+        this.handleClick(this.eklAffixTabItem)
+      }
+    },
     handleClick({ name }) {
       this.activeName = name
       this.eklPfjTabList.forEach((item) => {
@@ -152,12 +179,20 @@ export default {
       const res = await getEklAffix(data)
       if (res && res.code == '200') {
         this.tabsData = res.data
-        let totalTarget = (parseFloat(this.tabsData.totalTarget ? this.tabsData.totalTarget:'0.00') / 100) * 1
+        let totalTarget =
+          (parseFloat(
+            this.tabsData.totalTarget ? this.tabsData.totalTarget : '0.00'
+          ) /
+            100) *
+          1
         this.tabsData.sumAll = (+this.tabsData.sumAll / 1000000).toFixed(2)
         this.tabsData.subtract = (+this.tabsData.subtract / 1000000).toFixed(2)
-        this.tabsData.valEklType = (+this.tabsData.valEklType / 1000000).toFixed(2)
+        this.tabsData.valEklType = (
+          +this.tabsData.valEklType / 1000000
+        ).toFixed(2)
         // 业绩目标*业绩基础
-        this.tabsData.curSum = ((this.tabsData.sumAll * 1) * totalTarget).toFixed(2) + ''
+        this.tabsData.curSum =
+          (this.tabsData.sumAll * 1 * totalTarget).toFixed(2) + ''
 
         this.$nextTick(() => {
           this.initPie()
@@ -165,17 +200,17 @@ export default {
       }
     },
     initPie() {
-      if(!this.chart){
+      if (!this.chart) {
         this.chart = echarts().init(this.$refs.pie)
       }
       this.setEcharts()
     },
-    setEcharts(){
+    setEcharts() {
       const option = {
         title: {
           text: '当前完成(持续)',
           left: '-4',
-          textStyle:{
+          textStyle: {
             fontSize: '12px'
           }
         },
@@ -193,7 +228,11 @@ export default {
           tooltip: {
             show: true,
             formatter: (data) => {
-              return `${data.name}金额：${data.name == "完成" ? this.tabsData.valEklType : this.tabsData.subtract}`
+              return `${data.name}金额：${
+                data.name == '完成'
+                  ? this.tabsData.valEklType
+                  : this.tabsData.subtract
+              }`
             }
           }
         },
@@ -209,11 +248,11 @@ export default {
               position: 'center',
               textStyle: {
                 fontSize: 16,
-                color: '#000',
+                color: '#000'
                 // color:"transparent"
               },
-              normal:{
-                show:true,
+              normal: {
+                show: true,
                 position: 'center',
                 color: '#000',
                 formatter: this.tabsData.curSum,
@@ -229,14 +268,14 @@ export default {
             },
             data: [
               {
-                value: (this.tabsData.valEklType),
+                value: this.tabsData.valEklType,
                 itemStyle: {
                   color: '#1AB5C7'
                 },
                 name: '完成'
               },
               {
-                value: (this.tabsData.subtract),
+                value: this.tabsData.subtract,
                 itemStyle: {
                   color: '#B9EBF2'
                 },
@@ -256,21 +295,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
+.panel-title {
+  font-family: Arial;
+  font-weight: bold;
+  color: #333;
+  font-size: 20px;
+}
 .ekl-container {
-  position: absolute;
+  /* position: absolute;
   top: 20px;
-  left: 0;
+  left: 0; */
   width: 100%;
   height: 100%;
-  padding: 8px 16px 16px 16px;
- 
- .ekl-tabs {
-    width: 66%;
-    ::v-deep .el-tabs__nav-scroll{
-      width: 100%;
-    }
+  /* padding: 8px 16px 16px 16px; */
+  /* .ekl-content {
+    padding-top: 20px;
+  } */
+  .ekl-content {
+    overflow: hidden;
   }
   .center-bar {
     position: absolute;
@@ -285,10 +327,7 @@ export default {
     font-family: Arial !important;
     font-weight: 700 !important;
   }
-.echart{
-  position: relative;
-}
-.tips {
+  .tips {
     position: absolute;
     bottom: 30%;
     right: 3%;
@@ -307,13 +346,13 @@ export default {
     }
   }
   .unit {
-    // position: absolute;
-    // top: 16px;
-    // right: 0;
     padding-top: 10px;
-    margin-left: 15px;
     color: #6d7b96;
     font-size: 12px;
+
+    // position: absolute;
+    // right: 32px;
+    // top: 20px;
   }
   .target,
   .base {
@@ -322,27 +361,9 @@ export default {
     > .left {
       margin-right: 10px;
       min-width: 96px;
-      .left-lab{
-        font-family: Arial;
-        font-weight: bold;
-        color: #333;
-        font-size: 16px;
-        margin-bottom: 12px;
-      }
-
     }
     > .right {
       min-width: 120px;
-    }
-    .right-lab{
-      font-family: Arial;
-      font-weight: bold; 
-      color: #343434
-    }
-    .target-val{
-      margin-top: 8px;
-      font-weight: bold;
-      color: #000000; 
     }
     > .left,
     > .right {
@@ -354,26 +375,21 @@ export default {
     }
     > .middle {
       color: #1763f7;
-      font-size: 40px;
+      font-size: 26px;
       min-width: 120px;
-      font-weight: bold;
-    }
-    .mid-num{
-      color: #1763f7; 
-      font-size: 24px;
     }
     > .middle-m {
       margin-top: -36px;
     }
   }
+
+  .echart {
+    position: relative;
+  }
 }
 </style>
 <style lang="scss">
 .ekl-container {
-  .flex-between{
-    display: flex;
-    justify-content: space-between;
-  }
   .el-tabs__nav-scroll {
     width: 250px;
   }
@@ -397,8 +413,5 @@ export default {
       }
     }
   }
-
-  
- 
 }
 </style>
