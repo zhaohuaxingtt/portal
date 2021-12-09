@@ -42,7 +42,7 @@
 
 <script>
 import { iButton } from 'rise';
-import { queryDetailByIdApi, judgeFavour, updateFavour } from '@/api/assistant'
+import { queryDetailByIdApi, closeQuestionApi } from '@/api/assistant'
 import AttachmentDownload from '../../components/attachmentDownload'
 import moment from 'moment'
 export default {
@@ -71,14 +71,16 @@ export default {
 		}
 	},
 	methods: {
+		//  我的问题 点击已解决关闭问题
 		good() {
 			if (!this.currQuestionId) return
-			if (this.currQuesFavourFlag) return this.$message.warning("您已对该问题点赞, 请勿重复点击")  // 已对该问题点赞
-			updateFavour(this.currQuestionId).then((res) => {
+			// if (this.currQuesFavourFlag) return this.$message.warning("您已对该问题点赞, 请勿重复点击")  // 已对该问题点赞
+			closeQuestionApi(this.currQuestionId).then((res) => {
 				if (res?.code === '200') {
 					this.$message.success("很开心该回答能帮助您...")
+					this.solutionFlag = false
 					this.$emit('changeQuesStatus', this.currQuestionId)
-					this.getJudgeFavour(this.currQuestionId)
+					// this.getJudgeFavour(this.currQuestionId)
 				}
 			})
 		},
@@ -100,7 +102,7 @@ export default {
 				}
 			})
 			await this.getQuesDetail(list.id)
-			await this.getJudgeFavour()
+			// await this.getJudgeFavour()
 		},
 		async getQuesDetail(id) {
 			if (!id) return
@@ -143,14 +145,14 @@ export default {
 			this.chatList = list
 		},
 		// 获取该用户是否给该问题点赞
-		async getJudgeFavour() {
-			if (!this.currQuestionId) return
-			await judgeFavour({ faqId: this.currQuestionId }).then((res) => {
-				if (res?.code === '200') {
-					this.currQuesFavourFlag = res?.data
-				}
-			})
-		},
+		// async getJudgeFavour() {
+		// 	if (!this.currQuestionId) return
+		// 	await judgeFavour({ faqId: this.currQuestionId }).then((res) => {
+		// 		if (res?.code === '200') {
+		// 			this.currQuesFavourFlag = res?.data
+		// 		}
+		// 	})
+		// },
 	}
 }
 </script>
