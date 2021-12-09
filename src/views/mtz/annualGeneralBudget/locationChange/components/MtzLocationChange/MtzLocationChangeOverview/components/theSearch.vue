@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-29 10:21:48
+ * @LastEditTime: 2021-12-09 11:21:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -171,7 +171,7 @@ export default {
     //申请单
     getLocationApplyFilter (key) {
       getLocationApplyFilter({
-        keyWords: key || ""
+        keyWords: key || "",
       }).then(res => {
         if (res.code === '200') {
           this.locationApplyFilters = res.data
