@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 10:20:21
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-07 14:34:11
+ * @LastEditTime: 2021-12-09 10:05:32
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\components\baseInfo.vue
 -->
 <template>
@@ -61,9 +61,9 @@
         <iSelect filterable
                  v-model="form.contactUserId"
                  v-if="edit">
-          <el-option :value="item.sapLocationCode"
-                     :label="item.cityNameCn"
-                     v-for="(item, index) in country"
+          <el-option :value="item.id"
+                     :label="item.contactName"
+                     v-for="(item, index) in userList"
                      :key="index"></el-option>
         </iSelect>
 
@@ -76,7 +76,7 @@
 <script>
 import { baseRules } from './data'
 
-import { baseEdit, queryBase } from '@/api/opcs/solPermission'
+import { baseEdit, queryBase,userUpdown } from '@/api/opcs/solPermission'
 import {
   iCard,
   iButton,
@@ -103,13 +103,20 @@ export default {
     return {
       edit: false,
       form: {},
-      baseRules: baseRules
+      baseRules: baseRules,
+      userList:[]
     }
   },
   created() {
     this.getInfo()
+    this.getUser()
   },
   methods: {
+      getUser(){
+          userUpdown({opcsSupplierId: this.$route.query.opcsSupplierId}).then(res=>[
+              this.userList=res.data||[]
+          ])
+      },
     getInfo() {
       let req = { opcsSupplierId: this.$route.query.opcsSupplierId }
       queryBase(req).then((res) => {

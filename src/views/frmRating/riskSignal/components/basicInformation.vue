@@ -5,6 +5,7 @@
  -->
 <template>
   <div class="home">
+    <h1>hello</h1>
     <iCard tabCard collapse :title="$t('SUPPLIER_JIBENXINXI')">
       <iFormGroup :rules='baseRules' :model="form" ref="baseRulesForm" row="3">
         <iFormItem prop='tsPpSupplierName'>
@@ -49,7 +50,7 @@
         </iFormItem>
         <iFormItem>
           <iLabel :label="$t('SPR_FRM_FXXH_CZFS')" slot="label"></iLabel>
-          <iSelect :disabled="disabled||$store.state.permission.userInfo.deptDTO.deptNum.indexOf('FRM') === -1" v-model="form.processType">
+          <iSelect :disabled="disabled||isFRM" v-model="form.processType">
             <el-option :value="item.code" :label="item.name" v-for="item of formGoup.processTypeList" :key="item.code"></el-option>
           </iSelect>
         </iFormItem>
@@ -193,8 +194,8 @@ export default {
   async created() {
     await this.dictByCode()
     if (this.$route.query.flag === 'creat') {
-      this.form.signalFrom = this.$store.state.permission.userInfo.nameZh
-      this.form.relativeDept = this.$store.state.permission.userInfo.deptDTO.nameZh
+      this.form.signalFrom = this.$store?.state?.permission?.userInfo?.nameZh
+      this.form.relativeDept = this.$store?.state?.permission?.userInfo?.deptDTO?.nameZh
     } else {
       this.formGoup.riskBigTypeList.forEach((item) => {
         if (item.code === this.form.riskBigType) {
@@ -234,6 +235,11 @@ export default {
     },
     basicInformationBack() {
       return this.form
+    }
+  },
+  computed: {
+    isFRM() {
+      return this.$store?.state?.permission?.userInfo?.deptDTO?.deptNum?.indexOf('FRM') === -1
     }
   }
 }

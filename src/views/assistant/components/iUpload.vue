@@ -23,7 +23,7 @@
             class="file-dialog"
 		>
 			<div class="flex items-center justify-center ">
-               <img :src="fileUrl" alt="">
+               <img :src="fileUrl" alt="" class="img-style">
             </div>
 		</el-dialog>
     </div>
@@ -126,6 +126,7 @@
                 let formData = new FormData();
                 formData.append("file",res.file);
                 let file = await uploadFile(formData);
+                this.$message.success("上传成功")
                 let val = this.files;
                 val.push({
                     fileName:file.name,
@@ -177,5 +178,8 @@
     ::v-deep .el-dialog{
         min-height: 120px;
     }
+}
+.img-style {
+	width: 100%;
 }
 </style>

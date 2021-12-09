@@ -168,6 +168,7 @@ export default {
 	},
 	methods: {
 		async init(){
+			this.onlyShowQuestion = false
 			await this.getHotQueTwo()
 			await this.getAllMoudleLabel()
 		},

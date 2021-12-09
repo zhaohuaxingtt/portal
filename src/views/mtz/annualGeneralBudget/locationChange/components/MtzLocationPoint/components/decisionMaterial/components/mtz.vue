@@ -16,33 +16,64 @@
          id="qrCodeDiv"
          style="padding-bottom:30px;position:relative;">
       <div class="content_dialog" v-if="!RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
-      <iCard>
+      <iCard :class="!RsObject?'upload_hr':''">
         <div slot="header"
              class="headBox"
              >
           <p class="headTitle">{{title}}</p>
           <span class="buttonBox"
-                v-if="!editMode&&meetingNumber == 0">
+                v-if="!editMode">
             <iButton v-if="RsObject && formData.flowTypeName == '流转'"
                      @click="handleToSignPreview">{{language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')}}</iButton>
           </span>
+          <div class="tabs_box_right" v-if="!RsObject">
+            <div class="big_text">
+              <!-- <span>{{language("SHENQINGDANHAOMINGCHENG","申请单号-名称")}}：</span> -->
+              <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
+            </div>
+            <!-- <div class="big_text">
+              <span>{{language("SHENQINGDANMING","申请单名")}}：</span>
+              <span class="samll_val">{{formData.appName}}</span>
+            </div> -->
+            <div class="small_text">
+              <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
+              <span class="samll_val">{{formData.createDate}}</span>
+            </div>
+            <div>
+              <span>{{language("KESHI","科室")}}：</span>
+              <span class="samll_val">{{formData.linieDeptName}}</span>
+            </div>
+            <div>
+              <span>{{language("CAIGOUYUAN","采购员")}}：</span>
+              <span class="samll_val">{{formData.linieName}}</span>
+            </div>
+          </div>
         </div>
 
-        <div class="tabsBoxInfor" v-if="meetingNumber == 0">
+        <!-- <div class="tabsBoxInfor" v-if="meetingNumber == 0">
           <div class="inforDiv"
                v-for="(item,index) in formList"
                :key="index">
             <span>{{language(item.key,item.label)}}</span>
             <span class="inforText">{{formData[item.prop]}}</span>
           </div>
+        </div> -->
+        
+        <!-- <p class="table_right" v-if="!RsObject && meetingNumber!==0">{{language('MTZSHENGQINGDAN', 'MTZ申请单')}}-{{formData.mtzAppId}}-{{formData.appName}}-{{formData.linieName}}-{{formData.linieDeptName}}</p> -->
+        <!-- <el-divider v-if="RsObject && meetingNumber == 0" /> -->
+        <el-divider class="hr_divider" />
+        
+        <div class="infor_futitle">
+          <span class="big_font">Regulation:</span>
+          <br />
+          <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material Weight*Settle accounts Quantity*Ratio</span>
+          <span class="big_small">When:effective price > base price *(1+threshold)</span>
         </div>
-        <p class="table_right" v-if="!RsObject && meetingNumber!==0">{{language('MTZSHENGQINGDAN', 'MTZ申请单')}}-{{formData.mtzAppId}}-{{formData.appName}}-{{formData.linieName}}-{{formData.linieDeptName}}</p>
-        <el-divider v-if="RsObject && meetingNumber == 0" />
-        <el-divider v-if="!RsObject && ruleTableListData.length>0" />
+
         <p class="tableTitle"
-           v-if="RsObject">{{language('GUIZEQINGDAN', '规则清单')}}</p>
+           v-if="RsObject">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
         <p class="tableTitle"
-           v-if="!RsObject && ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}</p>
+           v-if="!RsObject && ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
         <!-- :renderHeader="renderHeader" -->
         <tableList class="margin-top20"
                    :tableData="ruleTableListData"
@@ -128,10 +159,10 @@
         <el-divider class="margin-top20"
                     v-if="!RsObject && partTableListData.length>0" />
         <p class="tableTitle"
-           v-if="RsObject">{{language('LJQD', '零件清单')}}</p>
+           v-if="RsObject">{{language('LJQD', '零件清单')}}-Part</p>
         <p class="tableTitle"
-           v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
-        <tableList class="margin-top20"
+           v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}-Part</p>
+        <tableList class="margin-top20 over_flow_y_ture"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_1"
                    :tableLoading="loading"
@@ -232,7 +263,7 @@
       <iCard class="margin-top20">
         <div slot="header"
              class="headBox">
-          <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
+          <p class="headTitle">{{language('BEIZHU', '备注')}}-Remarks</p>
           <span class="buttonBox">
             <iButton v-if="RsObject && (formData.appStatus == '草稿' || formData.appStatus == '未通过') && meetingNumber == 0"
                      @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
@@ -540,6 +571,10 @@ export default {
 <style lang='scss' scoped>
 $tabsInforHeight: 35px;
 
+::v-deep .cardHeader{
+  padding:1.875rem 1.5625rem 0 1.5625rem!important;
+}
+
 .tableTitle {
   display: inline-block;
   font-weight: bold;
@@ -560,6 +595,7 @@ $tabsInforHeight: 35px;
   position: relative;
   justify-content: space-between;
   width: 100%;
+  display: flex;
   .headTitle {
     display: inline-block;
     font-weight: bold;
@@ -666,4 +702,59 @@ $tabsInforHeight: 35px;
     }
   }
 }
+.over_flow_y_ture{
+  ::v-deep .el-table__body-wrapper{
+    max-height: 300px;
+    overflow-y: auto;
+  }
+}
+
+
+.infor_futitle{
+  padding:0.5rem 0;
+  font-size:15px!important;
+  line-height:25px;
+  .big_font{
+    font-weight: bold;
+  }
+  .big_small{
+    padding-left:15px;
+  }
+}
+.hr_divider{
+  margin:0 1.5rem 0 0;
+}
+.tabs_box_right{
+  width:450px;
+  display: flex;
+  flex-wrap: wrap;
+  .samll_val{
+    flex: 1;
+  }
+  .samll_title{
+    width:80px;
+  }
+  div{
+    display: flex;
+    align-items: flex-start;
+    margin-right:20px;
+  }
+  span{
+    display: inline-block;
+    font-size: 15px!important;
+  }
+  .small_text{
+    width:170px;
+  }
+  .big_text{
+    width:450px;
+  }
+}
+
+.upload_hr{
+  ::v-deep .cardBody{
+    padding-top:0px!important;
+  }
+}
+
 </style>

@@ -128,6 +128,8 @@ export default {
     },
     async handleFileDownload (row) {
       console.log(row)
+
+      // eslint-disable-next-line no-undef
       await downloadUdFile(row.fileId);
     },
     async getAllSelectList () {
