@@ -1,6 +1,6 @@
 import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_APPROVAL)
-const requstUpload = axios(process.env.VUE_APP_FILEAPI)
+const requstUpload = axios(process.env.VUE_APP_FILEAPI+ '/fileud')
 
 export function queryHistoryTask(params) {
   return requst({

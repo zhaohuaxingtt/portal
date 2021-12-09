@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-08 21:09:00
+ * @LastEditTime: 2021-12-09 10:37:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -430,8 +430,8 @@ export default {
         iMessage.error('请选择数据')
         return
       }
-      this.dateList[0].value[0] = this.muliteList[0].endDateAll
-      this.dateList[0].value[1] = this.getNewDay(this.muliteList[0].endDateAll, 365)
+      this.dateList[0].value[0] = this.muliteList[0].startDate
+      this.dateList[0].value[1] = this.muliteList[0].endDate
       this.dateList[0].newDosage = this.muliteList[0].newDosage
       this.dateList[0].oldDosage = this.muliteList[0].oldDosage
       this.visible = true
@@ -478,13 +478,12 @@ export default {
       this.dateList.push({
         id: this.dateList.length + 1,
         value: [],
-        oldDosage: "",
-        newDosage: ""
+        oldDosage: this.dateList[0].oldDosage,
+        newDosage: this.dateList[0].newDosage
       })
       let date = this.dateList[this.dateList.length - 2].value[1]
       this.dateList[this.dateList.length - 1].value[0] = window.moment(new Date(date.replace(/-/g, '/')).getTime() + 86400000).format('YYYY-MM-DD')
       this.dateList[this.dateList.length - 1].value[1] = this.getNewDay(this.dateList[this.dateList.length - 1].value[0], 365)
-
       // this.dataList[this.dataList.length - 1].value = new Date(date.replace(/-/g, '/')).getTime() + 86400000
       this.pickerOptions = {
         disabledDate: time => {
@@ -496,7 +495,7 @@ export default {
           }
         },
         shortcuts: [{
-          text: '至今直到2999年',
+          text: '直到2999年',
           onClick (picker) {
             const end = new Date("2999-12-31")
             const start = new Date(new Date(date.replace(/-/g, '/')).getTime() + 86400000)

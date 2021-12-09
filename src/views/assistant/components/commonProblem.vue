@@ -76,7 +76,7 @@ export default {
 	},
 	watch:{
 		currentMoudleId(n){
-			document.querySelector(".item_"+n).scrollIntoViewIfNeeded()
+			document.querySelector(".item_"+n) && document.querySelector(".item_"+n).scrollIntoViewIfNeeded()
 		}
 	},
 	computed:{

@@ -22,9 +22,9 @@
 				<el-col :span="5" push="2">
           <el-form-item :label="formTitle.problemLabel" prop="questionLableId">
             <iSelect
-							:disabled=" labelList.length > 0 ? false : true "
-              :placeholder="formTitle.selectPlaceholder"
-              v-model="searchForm.questionLableId"
+				:disabled=" labelList.length > 0 ? false : true "
+				:placeholder="formTitle.selectPlaceholder"
+				v-model="searchForm.questionLableId"
             >
               <el-option
                 v-for="item in labelList"
@@ -95,13 +95,15 @@ export default {
 	},
 	methods: {
 		query() {
-			this.labelList = []
 			this.$emit('queryProblem', this.searchForm)
 		},
 		reset() {
+			this.labelList = []
 			this.$refs.searchForm.resetFields()
+			this.$emit('reset')
 		},
 		handleModuleChange() {
+			this.searchForm.questionLableId = ''
 			console.log(this.searchForm.questionModuleId, "questionModuleId")
 			if (!this.searchForm.questionModuleId) return
 			getCurrLabelList(this.searchForm.questionModuleId).then(res => {

@@ -106,7 +106,7 @@ export default {
 	},
   mounted() {
     console.log(store.state, 'store.state');
-    this.questionUnReplyCount(0);
+    this.questionUnReplyCount(1);
   },
   components: {
     iPage,

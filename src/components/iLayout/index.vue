@@ -287,6 +287,7 @@ export default {
     position: fixed;
     bottom: 40px;
     right: 50px;
+    z-index: 999;
 
     img {
       height: 60px;

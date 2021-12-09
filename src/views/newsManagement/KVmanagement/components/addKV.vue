@@ -151,7 +151,7 @@ export default {
       console.log("item",item);
       this.$refs.imgCutterModal.handleOpen({
         name: '000'+item.picUrl.substring(item.picUrl.lastIndexOf('/')+1),
-        src: item.picUrl.replace(process.env.VUE_APP_FILE_CROSS, `/fileCross`), // 前端跨域问题，将api地址替换为反向代理地址
+        src: item.picUrl // 前端跨域问题，将api地址替换为反向代理地址
       });
     },
     handleAvatarSuccessOne(res, file, fileList) {

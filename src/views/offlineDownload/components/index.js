@@ -6,28 +6,28 @@ export const TABLE_COLUMNS = [
         type:'selection'
     },
     {
-        label:'序号',
+        i18n:'序号',
         type:'index'
     },
     {
-        label:'任务编号',
+        i18n:'任务编号',
         prop:'taskCode'
     },
     {
-        label:'创建时间',
+        i18n:'创建时间',
         prop:'createDate'
     },
     {
-        label:'执行时间',
+        i18n:'执行时间',
         prop:'startTime'
 
     },
     {
-        label:'结束时间',
+        i18n:'结束时间',
         prop:'endTime'
     },
     {
-        label:'状态',
+        i18n:'状态',
         prop:'status',
         customRender:(h,scope)=>{
             if(scope.row.status == 'INPROCESS'){
@@ -42,7 +42,7 @@ export const TABLE_COLUMNS = [
         }
     },
     {
-        label:'操作人',
+        i18n:'操作人',
         prop:'userName'
     }
 ]
