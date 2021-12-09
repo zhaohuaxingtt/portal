@@ -18,12 +18,15 @@
           <!--新增-->
           <iButton @click="addTableItem">{{ $t('LK_XINZENG') }}</iButton>
           <!--删除-->
-          <el-popconfirm
+          <iButton @click="handleDeleteButtonClick">{{
+            $t('delete')
+          }}</iButton>
+          <!-- <el-popconfirm
               :title="$t('LK_SHIFOUQUERENSHANCHU')"
               @confirm="handleDeleteButtonClick"
           >
             <iButton slot="reference" class="margin-left10">{{ $t('delete') }}</iButton>
-          </el-popconfirm>
+          </el-popconfirm> -->
         </div>
       </div>
       <tableList
@@ -68,6 +71,7 @@ import {
   saveInitialCommentModel,
   deleteInitialCommentModel,
 } from '../../../../api/frmRating/frmIntegratedManagement';
+import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
 
 export default {
   mixins: [generalPageMixins],
@@ -162,44 +166,55 @@ export default {
       }
       this.saveButtonLoading = false;
     },
-    async handleDeleteButtonClick() {
+    handleDeleteButtonClick() {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
       }
-      try {
-        this.tableLoading = true;
-        let ids = [], times = [];
-        this.selectTableData.map(item => {
-          if (item.id) {
-            ids.push(item.id);
-          }
-          if (item.time) {
-            times.push(item.time);
-          }
-        });
-        if (times.length !== 0) {
-          this.tableListData = this.tableListData.filter(item => {
-            return !times.includes(item.time);
+
+      NewMessageBox({
+        title: this.language('LK_WENXINTISHI', '温馨提示'),
+        Tips: this.language('SHIFOUSHANCHU', '是否删除？'),
+        cancelButtonText: this.language('QUXIAO', '取消'),
+        confirmButtonText: this.language('QUEREN', '确认'),
+      }).then(() => {
+        try {
+          this.tableLoading = true;
+          let ids = [], times = [];
+          this.selectTableData.map(item => {
+            if (item.id) {
+              ids.push(item.id);
+            }
+            if (item.time) {
+              times.push(item.time);
+            }
           });
-          if (ids.length === 0) {
-            iMessage.success(this.$t('LK_CAOZUOCHENGGONG'));
-          }
-        }
-        if (ids.length !== 0) {
-          const req = {
-            ids: ids,
-          };
-          const res = await deleteInitialCommentModel(req);
-          this.resultMessage(res, () => {
+          if (times.length !== 0) {
             this.tableListData = this.tableListData.filter(item => {
-              return !ids.includes(item.id);
+              return !times.includes(item.time);
             });
-          });
+            if (ids.length === 0) {
+              iMessage.success(this.$t('LK_CAOZUOCHENGGONG'));
+            }
+          }
+          if (ids.length !== 0) {
+            const req = {
+              ids: ids,
+            };
+            deleteInitialCommentModel(req).then(res=>{
+              this.resultMessage(res, () => {
+                this.tableListData = this.tableListData.filter(item => {
+                  return !ids.includes(item.id);
+                });
+              });
+            });
+          }
+          this.tableLoading = false;
+        } catch {
+          this.tableLoading = false;
         }
-        this.tableLoading = false;
-      } catch {
-        this.tableLoading = false;
-      }
+      }).catch(() => {
+        
+      })
     },
     checkSelect() {
       if (this.selectTableData.length === 0) {
