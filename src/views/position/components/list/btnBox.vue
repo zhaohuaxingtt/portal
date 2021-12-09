@@ -1,6 +1,5 @@
 <template>
   <div class="btn-box flex-end-center margin-bottom30">
-    {{ queryParams }}
     <iButton
       :disabled="
         (item.value === 'add' && (selectedList.length || !orgSelected.id)) ||
