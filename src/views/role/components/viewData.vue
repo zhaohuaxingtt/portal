@@ -2,7 +2,7 @@
   <iCard>
     <div>
       <div class="panel-header margin-bottom20">行权限</div>
-      <dataPermissionRow :form="dataPermissionForm[selectedRow.id]" />
+      <dataPermissionRow :form="detail" />
     </div>
     <div class="panel-divider"></div>
     <div class="panel-header margin-bottom20">列权限</div>
