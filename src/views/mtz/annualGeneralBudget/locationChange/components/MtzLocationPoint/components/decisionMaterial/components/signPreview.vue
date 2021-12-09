@@ -13,12 +13,41 @@
     </span>
     <div id="content">
       <div class="content_dialog" v-if="m1&&(formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
-      <iCard>
+      <iCard class="upload_hr">
         <div slot="header" class="headBox">
           <p class="headTitle">{{title}}</p>
+          <div class="tabs_box_right">
+            <div class="big_text">
+              <!-- <span>{{language("SHENQINGDANHAOMINGCHENG","申请单号-名称")}}：</span> -->
+              <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
+            </div>
+            <!-- <div class="big_text">
+              <span>{{language("SHENQINGDANMING","申请单名")}}：</span>
+              <span class="samll_val">{{formData.appName}}</span>
+            </div> -->
+            <div class="small_text">
+              <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
+              <span class="samll_val">{{formData.createDate}}</span>
+            </div>
+            <div>
+              <span>{{language("KESHI","科室")}}：</span>
+              <span class="samll_val">{{formData.linieDeptName}}</span>
+            </div>
+            <div>
+              <span>{{language("CAIGOUYUAN","采购员")}}：</span>
+              <span class="samll_val">{{formData.linieName}}</span>
+            </div>
+          </div>
         </div>
         <!-- label -->
-        <div class="tabsBoxInfor">
+        <el-divider class="hr_divider" />
+        <div class="infor_futitle">
+          <span class="big_font">Regulation:</span>
+          <br />
+          <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material Weight*Settle accounts Quantity*Ratio</span>
+          <span class="big_small">When:effective price > base price *(1+threshold)</span>
+        </div>
+        <!-- <div class="tabsBoxInfor">
           <div class="inforDiv"
               v-for="(item,index) in formList"
               :key="index">
@@ -27,9 +56,9 @@
                   class="inforText"
                   >{{formData[item.prop]}}</span>
           </div>
-        </div>
+        </div> -->
         <el-divider v-if="ruleTableListData.length>0" />
-        <p class="tableTitle" v-if="ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}</p>
+        <p class="tableTitle" v-if="ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
         <tableList
           class="margin-top20"
           :tableData="ruleTableListData"
@@ -62,7 +91,7 @@
         </tableList> -->
 
         <el-divider class="margin-top20" v-if="partTableListData.length>0" />
-        <p class="tableTitle" v-if="partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
+        <p class="tableTitle" v-if="partTableListData.length>0">{{language('LJQD', '零件清单')}}-Part List</p>
         <tableList
           class="margin-top20"
           :tableData="partTableListData"
@@ -96,7 +125,7 @@
       <iCard class="margin-top20">
         <div slot="header"
             class="headBox">
-          <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
+          <p class="headTitle">{{language('BEIZHU', '备注')}}-Remarks</p>
         </div>
         <iInput v-model="formData.linieMeetingMemo"
                 class="margin-top10"
@@ -383,6 +412,8 @@ export default {
 
 <style lang='scss' scoped>
 $tabsInforHeight: 35px;
+
+
 .tableTitle {
   display: inline-block;
   font-weight: bold;
@@ -395,6 +426,7 @@ $tabsInforHeight: 35px;
   position: relative;
   justify-content: space-between;
   width: 100%;
+  display: flex;
   .headTitle {
     display: inline-block;
     font-weight: bold;
@@ -542,4 +574,63 @@ $tabsInforHeight: 35px;
     }
   }
 }
+
+
+
+
+
+.tabs_box_right{
+  width:450px;
+  display: flex;
+  flex-wrap: wrap;
+  .samll_val{
+    flex: 1;
+  }
+  .samll_title{
+    width:80px;
+  }
+  div{
+    display: flex;
+    align-items: flex-start;
+    margin-right:20px;
+  }
+  span{
+    display: inline-block;
+    font-size: 15px!important;
+  }
+  .small_text{
+    width:170px;
+  }
+  .big_text{
+    width:450px;
+  }
+}
+.hr_divider{
+  margin:0 1.5rem 0 0;
+}
+::v-deep .cardHeader{
+  padding:1.875rem 1.5625rem 0 1.5625rem!important;
+}
+.infor_futitle{
+  padding:0.5rem 0;
+  font-size:15px!important;
+  line-height:25px;
+  .big_font{
+    font-weight: bold;
+  }
+  .big_small{
+    padding-left:15px;
+  }
+}
+.upload_hr{
+  ::v-deep .cardBody{
+    padding-top:0px!important;
+  }
+}
+// .over_flow_y_ture{
+//   ::v-deep .el-table__body-wrapper{
+//     max-height: 300px;
+//     overflow-y: auto;
+//   }
+// }
 </style>
