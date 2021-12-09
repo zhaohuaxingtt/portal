@@ -67,7 +67,8 @@ export default {
     async queryOrgTreeList() {
       this.loading = true
       const { data } = await queryOrganizationStructure({
-        isVisible: true
+        isVisible: true,
+        queryTree: true
       }).finally(() => {
         this.loading = false
       })
