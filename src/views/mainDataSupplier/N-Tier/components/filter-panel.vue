@@ -3,25 +3,25 @@
       <el-form >
           <el-row :gutter='24'>
               <el-col span="8">
-                  <iFormItem :label='labelContent.supplierNameZh'>
-                      <iInput placeholder='请输入' v-model="searchContent.nameZh"></iInput>
+                  <iFormItem :label='language("供应商中文名称")'>
+                      <iInput :placeholder='language("请输入")' v-model="searchContent.nameZh"></iInput>
                   </iFormItem>
               </el-col>
               <el-col span="8">
-                  <iFormItem :label='labelContent.supplierNameEn'>
-                      <iInput placeholder='请输入' v-model="searchContent.nameEn"></iInput>
+                  <iFormItem :label='language("供应商英文名称")'>
+                      <iInput :placeholder='language("请输入")' v-model="searchContent.nameEn"></iInput>
                   </iFormItem>
               </el-col>
               <el-col span="8">
-                  <iFormItem :label='labelContent.DUNS'>
-                      <iInput placeholder='请输入' v-model="searchContent.dunsCode"></iInput>
+                  <iFormItem :label='language("DUNS")'>
+                      <iInput :placeholder='language("请输入")' v-model="searchContent.dunsCode"></iInput>
                   </iFormItem>
               </el-col>
           </el-row>
           <el-row :gutter="24">
               <el-col span="8">
-                  <iFormItem :label='labelContent.socialcreditNo'>
-                      <iInput placeholder='请输入' v-model="searchContent.socialcreditNo">
+                  <iFormItem :label='language("统一社会信用代码")'>
+                      <iInput :placeholder='language("请输入")' v-model="searchContent.socialcreditNo">
                       </iInput>
                   </iFormItem>
               </el-col>

@@ -177,6 +177,7 @@
    display: flex; 
    flex-direction: column;
    height: 100%;
+   overflow: auto;
 }
 .qs-btns{
     text-align: right;

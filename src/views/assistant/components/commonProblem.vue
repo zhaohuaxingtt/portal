@@ -10,7 +10,7 @@
 				infinite-scroll-distance="20"
 				infinite-scroll-disabled="disabled"
 				>
-				<div v-for="(menu, index) in moudleList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="currentMoudleId === menu[idKey] ? 'findBgc' : (index + 1) % 2 === 0 ? 'bluegc' : 'whgc'" @click="select(menu,index)">
+				<div v-for="(menu, index) in moudleList" :key="index" class="itemMenu flex flex-row items-center justify-start cursor" :class="[currentMoudleId === menu[idKey] ? 'findBgc' : '','item_'+menu[idKey]]" @click="select(menu,index)">
 					<div class="idx">{{ index + 1 }}</div>
 					<i v-if="showIcon" class="icon" :class="[rank[index] ? rank[index] : '']"></i>
 					<div class="flex-1">{{ menu[nameKey] }}</div>
@@ -74,17 +74,22 @@ export default {
 			}
 		}
 	},
+	watch:{
+		currentMoudleId(n){
+			document.querySelector(".item_"+n) && document.querySelector(".item_"+n).scrollIntoViewIfNeeded()
+		}
+	},
 	computed:{
 		disabled () {
 			return this.loading || this.noMore
 		}
 	},
 	mounted() {
-		// this.height = (parseFloat(this.$refs.loadList.offsetHeight)-20) + 'px'
+
 	},
 	methods: {
 		select(menu){
-			// this.$emit("update:currentMoudleId", menu.menuId)
+			// this.$emit("update:currentMoudleId", menu[this.idKey])
 			this.$emit("change", menu)
 		},
 		load(){
@@ -139,6 +144,15 @@ export default {
 					.idx {
 						width: 60px;
 					}
+					
+				}
+				.itemMenu:nth-child(even){
+					background: #F7FAFF;
+					color: #000000;
+				}
+				.itemMenu:nth-child(odd){
+					background: #FFFFFF;
+					color: #000000;
 				}
 			}
 		}
@@ -170,16 +184,9 @@ export default {
 		width: 1px;
 		margin-left: auto;
 	}
-	.bluegc {
-		background: #F7FAFF;
-		color: #000000;
-	}
-	.whgc {
-		background: #FFFFFF;
-		color: #000000;
-	}
+
 	.findBgc {
-		background: #1660F1;
-		color: #FFFFFF;
+		background: #1660F1 !important;
+		color: #FFFFFF !important;
 	}
 </style>

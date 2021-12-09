@@ -48,7 +48,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem label="PID" prop="productCode">
+          <iFormItem :label="language('PID')" prop="productCode">
             <iSelect
               v-model="baseForm.productCode"
               :disabled="!editable"

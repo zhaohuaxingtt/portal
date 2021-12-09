@@ -1,6 +1,6 @@
 <template>
     <iPage>
-        <pageHeader class="margin-bottom20">{{pageTitle}}</pageHeader>
+        <pageHeader class="margin-bottom20">{{language(pageTitle)}}</pageHeader>
         <basicN-Tier class="margin-bottom20"></basicN-Tier>
         <detailList />
     </iPage>
