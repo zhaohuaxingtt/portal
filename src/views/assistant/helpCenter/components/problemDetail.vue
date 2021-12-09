@@ -130,8 +130,7 @@ export default {
 		await this.getLabelList('init')
 		// 从首页进入 没有对应的模块id 查询热门问题 取前两个 查全部模块及标签
 		if (!this.currentMoudleId) {
-			await this.getHotQueTwo()
-			await this.getAllMoudleLabel()
+			this.init()
 		}
 	},
 	data() {
@@ -168,6 +167,11 @@ export default {
 		}
 	},
 	methods: {
+		async init(){
+			this.onlyShowQuestion = false
+			await this.getHotQueTwo()
+			await this.getAllMoudleLabel()
+		},
 		async handleLabel(item) {
 			//  重置查询参数
 			this.problemQuery.pageNum = 1
@@ -386,19 +390,21 @@ export default {
 				this.currentFlag = 'listPage'
 				await this.getLabelList()
 				let currNameId = ''
-				let currName = ''
 				this.labelList.map(item => {
 					if (item.id === currLabelId) {
 						currNameId = item.moduleId
 						this.labelText = item.lableName
 					}
 				})
-				this.moudleList.map(moudle => {
-					if (moudle.id === currNameId) {
-						currName = moudle.menuName
-					}
-				})
-				this.currMoudleName = currName
+				if (!this.currMoudleName) {
+					let currName = ''
+					this.moudleList.map(moudle => {
+						if (moudle.id === currNameId) {
+							currName = moudle.menuName
+						}
+					})
+					this.currMoudleName = currName
+				}
 				Object.assign(this.problemQuery, queryValue)
 				await this.getProblemList()
 			} else {

@@ -222,8 +222,8 @@ export default {
     },
     getFile() {
       getFileByIds([this.ruleForm.attachmentId]).then((data) => {
-        this.fileList[0].name = data[0].name
-        this.fileList[0].id = data[0].id
+        this.fileList[0].name = data.data[0].name
+        this.fileList[0].id = data.data[0].id
         this.nameList = [this.fileList[0]]
       })
     },

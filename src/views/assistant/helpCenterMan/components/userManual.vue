@@ -22,14 +22,17 @@
             <div class="content" v-if="preview" v-html="content"></div>
             <template v-else>
                 <iEditor class="content manual-editor" v-model="content" :html="content"></iEditor>
-                <iUpload ref="upload" v-model="files" :maxSize="20" >
-                    <div class="upload flex" style="align-items: end;">
-                        <iButton>添加附件</iButton>
-                        <span @click.stop=";">只能上传不超过20MB的文件</span>
-                    </div>
-                </iUpload>
             </template>
         </template>
+        <!-- <div class="flex" v-if="files.length > 0">
+            <div v-if="type == 'detail'">附件：</div>
+            <iUpload ref="upload" v-model="files" :disabled="type == 'detail'" :maxSize="20" >
+                <div class="upload flex" v-if="type == 'edit'" style="align-items: end;">
+                    <iButton>添加附件</iButton>
+                    <span @click.stop=";">只能上传不超过20MB的文件</span>
+                </div>
+            </iUpload>
+        </div> -->
     </div>
 </template>
 
@@ -71,6 +74,7 @@
         watch:{
             detail(n){
                 this.content = n && n.manualContent ? JSON.parse(JSON.stringify(n.manualContent)) : ""
+                this.files = n.attachmentList || []
             }
         },
         methods: {

@@ -16,7 +16,7 @@
         <el-row gutter="24">
           <el-col :span="6">
             <iFormItem
-              :label="labelContent.supplierNameZh"
+              :label="language('供应商中文名')"
               prop="supplierNameCn"
             >
               <iInput
@@ -28,7 +28,7 @@
           </el-col>
           <el-col :span="6">
             <iFormItem
-              :label="labelContent.supplierNameEn"
+              :label="language('供应商英文名')"
               prop="supplierNameEn"
             >
               <iInput
@@ -39,7 +39,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="labelContent.creditCode" prop="creditCode">
+            <iFormItem :label="language('统一社会信用代码')" prop="creditCode">
               <iInput
                 v-model="formContent.creditCode"
                 :placeholder="language('请输入')"
@@ -48,7 +48,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="labelContent.DUNS">
+            <iFormItem :label="language('DUNS')">
               <iInput
                 v-model="formContent.duns"
                 :placeholder="language('请输入')"
@@ -59,7 +59,7 @@
         <el-row :gutter="24">
           <el-col :span="6">
             <iFormItem
-              :label="labelContent.countryProvinceCity"
+              :label="language('国家-省份-城市')"
               prop="addressInfoUpdateVo"
             >
               <areaSelect
@@ -78,7 +78,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="labelContent.detailedAddress">
+            <iFormItem :label="language('详细地址')">
               <iInput
                 v-model="formContent.addressInfoUpdateVo.address"
                 :placeholder="language('请输入')"
@@ -86,7 +86,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="labelContent.zipCode">
+            <iFormItem :label="language('邮编号码')">
               <iInput
                 v-model="formContent.addressInfoUpdateVo.postCode"
                 :placeholder="language('请输入')"
@@ -94,7 +94,7 @@
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="labelContent.companyNatur">
+            <iFormItem :label="language('公司性质')">
               <iInput
                 v-model="formContent.enterpriseType"
                 :placeholder="language('请输入')"
@@ -104,29 +104,29 @@
         </el-row>
         <el-row :gutter="24">
           <el-col :span="6">
-            <iFormItem :label="labelContent.companySize" prop="companySize">
+            <iFormItem :label="language('公司规模')" prop="companySize">
               <iInput
                 v-model="formContent.companySize"
-                placeholder="请输入"
+                :placeholder="language('请输入')"
               ></iInput>
             </iFormItem>
           </el-col>
           <el-col :span="6">
             <iFormItem
-              :label="labelContent.registeredFund"
+              :label="language('注册资金')"
               prop="registeredCapital"
             >
               <iInput
                 v-model="formContent.registeredCapital"
-                placeholder="请输入"
+                :placeholder="language('请输入')"
               ></iInput>
             </iFormItem>
           </el-col>
           <el-col :span="6">
-            <iFormItem :label="labelContent.qualificationAndCertification">
+            <iFormItem :label="language('资格与认证')">
               <iInput
                 v-model="formContent.certification"
-                placeholder="请输入"
+                :placeholder="language('请输入')"
               ></iInput>
             </iFormItem>
           </el-col>
@@ -134,7 +134,7 @@
             <iFormItem :label="language('联系邮箱')">
               <iInput
                 v-model="formContent.email"
-                placeholder="请输入"
+                :placeholder="language('请输入')"
                 type="email"
               ></iInput>
             </iFormItem>
@@ -148,7 +148,7 @@
           <el-form label-position="left" label-width="150px">
             <el-row gutter="24">
               <el-col :span="6">
-                <iFormItem :label="labelContent.countryProvinceCity">
+                <iFormItem :label="language('国家-省份-城市')">
                   <areaSelect
                     v-if="
                       item.addressInfoUpdateVo &&
@@ -164,28 +164,28 @@
                 </iFormItem>
               </el-col>
               <el-col :span="6">
-                <iFormItem :label="labelContent.detailAddress">
+                <iFormItem :label="language('详细地址')">
                   <iInput
-                    placeholder="请选择"
+                    :placeholder="language('请选择')"
                     v-model="item.addressInfoUpdateVo.address"
                     disabled
                   ></iInput>
                 </iFormItem>
               </el-col>
               <el-col :span="6">
-                <iFormItem :label="labelContent.sizeCode">
+                <iFormItem :label="language('邮编号码')">
                   <iInput
-                    placeholder="请输入"
+                    :placeholder="language('请输入')"
                     v-model="item.addressInfoUpdateVo.postCode"
                     disabled
                   ></iInput>
                 </iFormItem>
               </el-col>
               <el-col :span="6">
-                <iFormItem :label="labelContent.fatoryArea">
+                <iFormItem :label="language(labelContent.fatoryArea)">
                   <span slot="label" v-html="labelContent.fatoryArea"></span>
                   <iInput
-                    placeholder="请输入"
+                   :placeholder="language('请输入')"
                     v-model="item.areaCovered"
                     disabled
                   ></iInput>
@@ -214,19 +214,19 @@ export default {
     return {
       pageTitle: '基本信息',
       labelContent: {
-        supplierNameZh: '供应商中文名',
-        supplierNameEn: '供应商英文名',
-        creditCode: '统一社会信用代码',
-        DUNS: 'DUNS',
-        countryProvinceCity: '国家-省份-城市',
-        detailedAddress: '详细地址',
-        zipCode: '邮编号码',
-        companyNatur: '公司性质',
-        companySize: '公司规模',
-        registeredFund: '注册资金',
-        qualificationAndCertification: '资格与认证',
-        detailAddress: '详细地址',
-        sizeCode: '邮编号码',
+        // supplierNameZh: '供应商中文名',
+        // supplierNameEn: '供应商英文名',
+        // creditCode: '统一社会信用代码',
+        // DUNS: 'DUNS',
+        // countryProvinceCity: '国家-省份-城市',
+        // detailedAddress: '详细地址',
+        // zipCode: '邮编号码',
+        // companyNatur: '公司性质',
+        // companySize: '公司规模',
+        // registeredFund: '注册资金',
+        // qualificationAndCertification: '资格与认证',
+        // detailAddress: '详细地址',
+        // sizeCode: '邮编号码',
         fatoryArea: `工厂占地面积${'2'.sup()}`
       },
       formContent: {

@@ -5,7 +5,8 @@
         <!--发起初步评级-->
         {{ $t('SPR_FRM_FRMGL_FQCBPJ') }}
       </span>
-      <div class="floatright">
+      <div class="floatright pj_div">
+        <iButton class="pj_right" @click="retFather">{{language("FANHUI","返回")}}</iButton>
         <logButton />
       </div>
     </div>
@@ -113,6 +114,12 @@ export default {
     this.getSelectModalList()
   },
   methods: {
+    retFather(){
+      this.$router.push({
+        path: "/supplier/frmrating/frmintegratedmanagement",
+        query: {}
+      })
+    },
     handleSelectionChange(val) {
       this.selectTableData = val
     },
@@ -222,5 +229,13 @@ export default {
 ::v-deep .el-form-item {
   margin-top: 0;
   margin-bottom: 0;
+}
+.pj_div{
+  display: flex;
+  align-items: center;
+}
+.pj_right{
+  display: inline-block;
+  margin-right: 20px;
 }
 </style>

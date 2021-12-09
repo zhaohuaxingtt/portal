@@ -16,6 +16,9 @@
 
 <script>
 import { iDialog,iButton } from "rise";
+// import store from '@/store'
+// import router from '@/router'
+
 export default {
     name:"dialogReset",
     components:{
@@ -35,7 +38,23 @@ export default {
             width:"",
         }
     },
+    // computed:{
+    //     router () {
+    //         return router;
+    //     },
+    // },
+    // watch:{
+    //     router:{
+    //         handler:function(val,oldVal){
+    //             console.log(111111111)
+    //             this.closeValue = false;
+    //         },
+    //         deep:true,
+    //     }
+    // },
     created(){
+        // console.log(store)
+        // console.log(router);
     },
     methods:{
         closeDiologBtn(){

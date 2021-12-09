@@ -19,14 +19,17 @@
           $t('SPR_FRM_FRMGL_TJZCP')
         }}</iButton>
         <!--删除-->
-        <el-popconfirm
+        <iButton @click="handleDelete">{{
+          $t('delete')
+        }}</iButton>
+        <!-- <el-popconfirm
           :title="$t('LK_SHIFOUQUERENSHANCHU')"
           @confirm="handleDelete"
         >
           <iButton slot="reference" class="margin-left10">{{
             $t('delete')
           }}</iButton>
-        </el-popconfirm>
+        </el-popconfirm> -->
       </div>
     </div>
     <tableList
@@ -56,6 +59,7 @@ import { iPagination, iButton, iMessage } from 'rise'
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
+import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
 import { tableTitle } from '../../data'
 import {
   importConfirmedListExcel,
@@ -133,13 +137,22 @@ export default {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
-      const idList = this.selectTableData.map(item => {
-        return item.id
+      NewMessageBox({
+        title: this.language('LK_WENXINTISHI', '温馨提示'),
+        Tips: this.language('SHIFOUSHANCHU', '是否删除？'),
+        cancelButtonText: this.language('QUXIAO', '取消'),
+        confirmButtonText: this.language('QUEREN', '确认'),
+      }).then(() => {
+        const idList = this.selectTableData.map(item => {
+          return item.id
+        })
+        this.tableListData = this.tableListData.filter(item => {
+          return !idList.includes(item.id)
+        })
+        iMessage.success(this.$t('LK_CAOZUOCHENGGONG'))
+      }).catch((err) => {
+        // console.log(err)
       })
-      this.tableListData = this.tableListData.filter(item => {
-        return !idList.includes(item.id)
-      })
-      iMessage.success(this.$t('LK_CAOZUOCHENGGONG'))
     },
     async addToPreliminaryReview() {
       if (this.selectTableData.length === 0) {

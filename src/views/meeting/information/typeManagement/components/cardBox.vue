@@ -39,7 +39,6 @@
 <script>
 import { iCard, iButton, iMessage } from 'rise'
 import { download } from '@/utils/downloadUtil'
-import { MOCK_FILE_URL } from '@/constants'
 import { getFileByIds } from '@/api/file/filedownload'
 export default {
   components: { iCard, iButton },
@@ -59,7 +58,7 @@ export default {
     // 附件下载
     downLoadFileInfo(i) {
       getFileByIds([i.id]).then((data) => {
-        const { name } = data[0]
+        const { name } = data.data[0]
         download({
           // url: MOCK_FILE_URL + i.id,
           // filename: name,
