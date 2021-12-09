@@ -317,13 +317,13 @@ module.exports = {
           ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
         }
       },
-      '/fileCross': {
-        target: `http://${BASE_IP}:8034`,
-        changeOrigin: true,
-        pathRewrite: {
-          '/fileCross': ''
-        }
-      },
+      // '/fileCross': {
+      //   target: `http://${BASE_IP}:8034`,
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '/fileCross': ''
+      //   }
+      // },
       [process.env.VUE_APP_AEKO]: {
         target: `http://${BASE_IP}:8023/procurementrequirement`,
         changeOrigin: true,
