@@ -5,7 +5,7 @@
 	</div>
 	<div class="line"></div>
 	<div class="title-des flex items-center mt20">{{ title }}</div>
-	<div class="label mt20">{{ moudleName }}</div>
+	<div class="mt20 label" title="moudleName">{{ moudleName }}</div>
 	<div class="ques-box flex flex-column">
 		<div v-for="(ques, idx) in chatList" :key="idx" class="item-ques flex flex-column">
 			<!-- <div v-if="ques.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
@@ -167,7 +167,6 @@ export default {
 		opacity: 1;
 		border-radius: 5px;
 		padding: 30px 40px 20px 40px;
-		// overflow: auto;
 		.search-box {
 			height: 60px;
 		}
@@ -185,13 +184,22 @@ export default {
 			height: 40px;
 		}
 		.label {
-			display: inline-block;
-			background: #EDEDED;
-			opacity: 1;
-			border-radius: 8px;
+			// display: inline-block;
+			// background: #EDEDED;
+			// opacity: 1;
+			// border-radius: 8px;
+			// padding: 10px;
+			// color: #4B5C7D;
+			// font-size: 14px;
+			max-width: 100px;
+			background: #ededed;
+			border-radius: 10px;
+			color: #4b5c7d;
 			padding: 10px;
-			color: #4B5C7D;
-			font-size: 14px;
+			text-align: center;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		.ques-box {
 			flex: 1;
