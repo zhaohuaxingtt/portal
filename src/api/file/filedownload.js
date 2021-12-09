@@ -1,5 +1,5 @@
 import axios from '@/utils/axios'
-const requstFile = axios(process.env.VUE_APP_FILEAPI)
+const requstFile = axios(process.env.VUE_APP_FILEAPI+'/fileud')
 const requstType = axios(process.env.VUE_APP_MEETING)
 // 通过文件id获取文件
 // export function getFileByIds(data) {

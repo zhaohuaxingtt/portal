@@ -3,7 +3,7 @@ import axios from '@/utils/axios'
 // 供应商管理网络请求模块
 const requst = axios(process.env.VUE_APP_USER_CENTER)
 const requstcg = axios(process.env.VUE_APP_BASE_INFO)
-const requestFile = axios(process.env.VUE_APP_FILEAPI)
+const requestFile = axios(process.env.VUE_APP_FILEAPI+'/fileud')
 /*
 供应商用户管理
 */
