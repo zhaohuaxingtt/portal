@@ -304,7 +304,7 @@ export default {
       editOrAdd: 'add',
       openAddTopic: false,
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+          processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       stateObj,
       themenConclusion,
       following: false,
