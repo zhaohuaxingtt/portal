@@ -24,7 +24,7 @@
                 <iEditor class="content manual-editor" v-model="content" :html="content"></iEditor>
             </template>
         </template>
-        <div class="flex">
+        <!-- <div class="flex" v-if="files.length > 0">
             <div v-if="type == 'detail'">附件：</div>
             <iUpload ref="upload" v-model="files" :disabled="type == 'detail'" :maxSize="20" >
                 <div class="upload flex" v-if="type == 'edit'" style="align-items: end;">
@@ -32,7 +32,7 @@
                     <span @click.stop=";">只能上传不超过20MB的文件</span>
                 </div>
             </iUpload>
-        </div>
+        </div> -->
     </div>
 </template>
 

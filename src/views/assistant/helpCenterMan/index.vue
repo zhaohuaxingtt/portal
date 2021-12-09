@@ -52,7 +52,7 @@
 			@onLoad="loadQs"
 		>
 			<div class="flex" slot="top">
-				<iInput class="flex-1" v-model="qsInfo.params.keyWord" @keydown.native.enter="refreshQs" placeholder="搜索.."></iInput>
+				<iInput class="flex-1" v-model="qsInfo.params.keyWord" @keydown.native.enter="refreshQs" @blur="refreshQs" placeholder="搜索.."></iInput>
 				<iSelect class="content-select" v-model="qsInfo.params.questionModuleId" filterable clearable @change="refreshQs">
 					<el-option v-for="m in qsInfo.moduleList" :key="m.id" :value='m.id' :label='m.menuName'></el-option>
 				</iSelect>
@@ -231,6 +231,8 @@ export default {
 		// 用户类型切换
 		typeChange(t){
 			this.activeUser = t.name
+			this.qsInfo.params.keyWord = ""
+			this.manualInfo.keyword = ""
 			this.$nextTick(() =>{
 				this.changeReq()
 			})

@@ -134,6 +134,11 @@ export default {
 			await this.getAllMoudleLabel()
 		}
 	},
+	watch:{
+		currMoudleName(n,o){
+			console.log(n,o);
+		}
+	},
 	data() {
 		return {
 			problemLoading: false,  //  问题列表loading

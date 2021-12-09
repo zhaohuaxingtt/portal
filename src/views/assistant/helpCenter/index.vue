@@ -272,6 +272,7 @@ export default {
 		moduleChange(moudle) {
 			this.currentMoudleId = moudle.id
 			this.currMoudleName = moudle.menuName
+			
 			if (this.helpMoudle === 'manual') {
 				this.getManauContent()
 			} else if (this.helpMoudle === 'problem') {
