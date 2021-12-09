@@ -609,7 +609,7 @@ export default {
     },
     handleDownload(file, name) {
       createAnchorLink(
-          file.url.replace(process.env.VUE_APP_FILE_CROSS, `/fileCross`), // 前端跨域问题，将api地址替换为反向代理地址
+          file, // 前端跨域问题，将api地址替换为反向代理地址
           name
       );
     },

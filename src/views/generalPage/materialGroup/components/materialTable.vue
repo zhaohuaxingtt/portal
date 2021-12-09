@@ -178,7 +178,7 @@ export default {
       }
       const pms = {
         stuffBdlId: this.selectTableData[0].id,
-        categoryName: this.selectTableData[0].categoryName,
+        categoryName: this.selectTableData[0].categoryNameZh,
         categoryCode: this.selectTableData[0].categoryCode,
         categoryId: this.selectTableData[0].categoryId
       }
@@ -194,7 +194,7 @@ export default {
       }
       const pms = {
         stuffBdlId: this.selectTableData[0].id,
-        categoryName: this.selectTableData[0].categoryName,
+        categoryName: this.selectTableData[0].categoryNameZh,
         categoryCode: this.selectTableData[0].categoryCode,
         categoryId: this.selectTableData[0].categoryId
       }
