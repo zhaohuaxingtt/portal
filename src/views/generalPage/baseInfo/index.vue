@@ -203,7 +203,7 @@ export default {
               }
               resolve(true)
             } else {
-              iMessage.error('保存失败')
+                iMessage.error(res.desZh)
             }
           })
         })
