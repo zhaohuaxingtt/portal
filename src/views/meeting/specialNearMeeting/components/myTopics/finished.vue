@@ -100,7 +100,7 @@
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
-     <el-table-column
+      <el-table-column
         show-overflow-tooltip
         align="center"
         label="BEN(CN)"
@@ -220,7 +220,7 @@ export default {
   data() {
     return {
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       stateObj,
       themenConclusion,
       editOrAdd: '',

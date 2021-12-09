@@ -316,6 +316,7 @@
               label="TNR"
               min-width="60"
               prop="tnr"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '-' : scope.row.tnr }}</span>
@@ -602,6 +603,7 @@
                 label="TNR"
                 min-width="60"
                 prop="tnr"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
                   <span>{{ scope.row.isBreak ? '-' : scope.row.tnr }}</span>

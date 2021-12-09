@@ -194,7 +194,7 @@ module.exports = {
       },
       // ------------------ 上传 ----------------------------
       '/fileApi': {
-        target: `http://${BASE_IP}:8034`,
+        target: `http://${BASE_IP}:8034/fileud`,
         changeOrigin: true,
         pathRewrite: {
           '/fileApi': ''
