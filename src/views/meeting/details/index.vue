@@ -134,7 +134,7 @@
           >
             <template slot-scope="scope">
               <span class="open-link-text">{{ scope.row.count }}</span>
-              <span v-if="scope.row.isBreak">/</span>
+              <span v-if="scope.row.isBreak">-</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -207,7 +207,7 @@
               <span class="open-link-text" v-else
                 >{{ scope.row.presenter }}{{ scope.row.presenterNosys }}</span
               >
-              <span v-if="scope.row.isBreak">/</span>
+              <span v-if="scope.row.isBreak">-</span>
             </template>
           </el-table-column>
 
@@ -228,7 +228,7 @@
                 >{{ scope.row.presenterDept
                 }}{{ scope.row.presenterDeptNosys }}</span
               >
-              <span v-if="scope.row.isBreak">/</span>
+              <span v-if="scope.row.isBreak">-</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -245,7 +245,7 @@
               <span class="open-link-text" v-else
                 >{{ scope.row.supporter }}{{ scope.row.supporterNosys }}</span
               >
-              <span v-if="scope.row.isBreak">/</span>
+              <span v-if="scope.row.isBreak">-</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -265,13 +265,13 @@
                 >{{ scope.row.supporterDept
                 }}{{ scope.row.supporterDeptNosys }}</span
               >
-              <span v-if="scope.row.isBreak">/</span>
+              <span v-if="scope.row.isBreak">-</span>
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip align="center" label="Remark">
             <template slot-scope="scope">
               <span class="open-link-text">{{ scope.row.remark }}</span>
-              <span v-if="scope.row.isBreak">/</span>
+              <span v-if="scope.row.isBreak">-</span>
             </template>
           </el-table-column>
         </iTableML>
@@ -350,7 +350,7 @@
               label="Presenter"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">/</span>
+                <span v-if="scope.row.isBreak">-</span>
                 <span class="open-link-text" v-else>{{
                   scope.row.presenter
                 }}</span>
@@ -363,7 +363,7 @@
               label="Presenter Dept."
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">/</span>
+                <span v-if="scope.row.isBreak">-</span>
                 <span class="open-link-text" v-else>{{
                   scope.row.presenterDept
                 }}</span>
@@ -375,7 +375,7 @@
               label="Supporter"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">/</span>
+                <span v-if="scope.row.isBreak">-</span>
                 <span class="open-link-text">{{ scope.row.supporter }}</span>
               </template>
             </el-table-column>
@@ -385,7 +385,7 @@
               label="Supporter Dept."
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">/</span>
+                <span v-if="scope.row.isBreak">-</span>
                 <span class="open-link-text" v-else>{{
                   scope.row.supporterDept
                 }}</span>
@@ -397,7 +397,7 @@
               label="Remark"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">/</span>
+                <span v-if="scope.row.isBreak">-</span>
                 <span class="open-link-text" v-else>{{
                   scope.row.remark
                 }}</span>
