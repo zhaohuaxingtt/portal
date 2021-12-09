@@ -1,10 +1,11 @@
 <template>
   <div class="btn-box flex-end-center margin-bottom30">
+    {{ queryParams }}
     <iButton
       :disabled="
         (item.value === 'add' && (selectedList.length || !orgSelected.id)) ||
-          (item.value === 'del' && !selectedList.length) ||
-          (item.value === 'edit' && selectedList.length !== 1)
+        (item.value === 'del' && !selectedList.length) ||
+        (item.value === 'edit' && selectedList.length !== 1)
       "
       @click="handleOperate(item.value)"
       v-for="item in operations"
@@ -17,7 +18,7 @@
 
 <script>
 import { iButton, iMessage } from 'rise'
-import { excelExport } from '@/utils/filedowLoad'
+import { exportExcel } from '@/api/position'
 import { openUrl } from '@/utils'
 export default {
   components: { iButton },
@@ -32,6 +33,9 @@ export default {
     },
     orgSelected() {
       return this.$store.state.position.org.itemSelected
+    },
+    queryParams() {
+      return this.$store.state.position.pos.query || []
     }
   },
   methods: {
@@ -71,18 +75,25 @@ export default {
     },
     //导出
     exportTemplate() {
-      if (this.$store.state.position.pos.listSelected.length == 0)
+      /* if (this.$store.state.position.pos.listSelected.length == 0)
         return iMessage.warn(this.$t('LK_QINGXUANZHEXUYAODAOCHUSHUJU'))
-      excelExport(this.$store.state.position.pos.listSelected, '')
+      excelExport(this.$store.state.position.pos.listSelected, '') */
+      const params = {
+        deptId: this.$store.state.position.org.itemSelected.id
+      }
+      for (let index in this.queryParams) {
+        params[this.queryParams[index].key] = this.queryParams[index].value
+      }
+      exportExcel(params)
     },
     //删除
     delPosition() {
       const len = this.$store.state.position.pos.listSelected.length
-      const temp = this.$store.state.position.pos.listSelected.find(item => {
+      const temp = this.$store.state.position.pos.listSelected.find((item) => {
         return item.userDTOList && item.userDTOList.length
       })
       const listDeling = this.$store.state.position.pos.listSelected.filter(
-        item => {
+        (item) => {
           return item.userDTOList && item.userDTOList.length
         }
       )
