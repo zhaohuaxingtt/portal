@@ -82,7 +82,7 @@
                          multiple
                          clearable
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
+                         display-member="codeMessage"
                          value-member="code"
                          value-key="code">
           </custom-select>

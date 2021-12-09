@@ -93,7 +93,7 @@ export default {
     // 下载附件
     downloadEnclosure(e) {
       getFileByIds([e.attachmentId]).then((data) => {
-        const { name } = data[0];
+        const { name } = data.data[0];
         download({
           url: MOCK_FILE_URL + e.attachmentId,
           filename: name,

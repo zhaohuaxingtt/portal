@@ -31,6 +31,7 @@
 			:visible="dialogVisible"
 			@close="closeDialog"
 			width="60%"
+			class="file-dialog"
 		>
 			<div class="flex items-center justify-center ">
 				<img :src="fileUrl" alt="">
@@ -190,5 +191,10 @@ export default {
     &:hover{
         opacity: .9;
     }
+	}
+	.file-dialog{
+		::v-deep .el-dialog{
+			min-height: 120px;
+		}
 	}
 </style>
