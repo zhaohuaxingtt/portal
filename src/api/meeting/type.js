@@ -1,6 +1,6 @@
 import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_MEETING)
-const requstFile = axios(process.env.VUE_APP_FILEAPI)
+const requstFile = axios(process.env.VUE_APP_FILEAPI+'/fileud')
 const requstDict = axios(process.env.VUE_APP_BASE_INFO)
 
 export function getMettingType(data) {
