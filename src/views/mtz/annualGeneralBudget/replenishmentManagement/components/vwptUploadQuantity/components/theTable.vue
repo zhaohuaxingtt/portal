@@ -119,6 +119,7 @@ export default {
       try {
         this.downloadTemplateButtonLoading = true;
         const res = await getTemplateUrl();
+        console.log(res);
         if(res.code == "200" && res.result){
           downloadUdFile(res.data);
         }

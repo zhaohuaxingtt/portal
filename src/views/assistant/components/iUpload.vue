@@ -126,6 +126,7 @@
                 let formData = new FormData();
                 formData.append("file",res.file);
                 let file = await uploadFile(formData);
+                this.$message.success("上传成功")
                 let val = this.files;
                 val.push({
                     fileName:file.name,
