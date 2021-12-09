@@ -9,6 +9,7 @@
 import router from './router'
 import store from '@/store'
 import { getToken, removeToken } from '@/utils'
+import { MessageBox } from 'element-ui'
 // eslint-disable-next-line no-unused-vars
 const whiteList = ['/login', '/ui', '/superLogin']
 router.beforeEach((to, from, next) => {
@@ -29,14 +30,30 @@ router.beforeEach((to, from, next) => {
               .then((res) => {
                 if (res.length == 0) {
                   removeToken()
-                  next('/login')
+                  console.log('zhixszhesl')
+                  const appLoading = document.getElementById('app-loading')
+                  if (appLoading) {
+                    appLoading.style.display = 'none'
+                  }
+                  MessageBox.alert(
+                    '该账号无任何权限，请授予权限或切换账号再登录!',
+                    '无权限',
+                    {
+                      confirmButtonText: '确定',
+                      type: 'warning ',
+                      callback: (action) => {
+                        console.groupEnd('action ', action)
+                        next('/login')
+                      }
+                    }
+                  )
                 } else {
                   store.dispatch('getModules')
-                  console.log('top', to.fullPath)
                   next()
                 }
               })
-              .catch(() => {
+              .catch((err) => {
+                console.log('err', err)
                 console.warn(
                   '警告：获取菜单或解析菜单错误！已为您重定向到登录界面.'
                 )

@@ -232,10 +232,6 @@ export default {
       })
     },
     resetStyle() {
-      console.log(
-        'document.getElementsByClassName',
-        document.getElementsByClassName('tag-wrapper')
-      )
       const domArray = document.getElementsByClassName('tag-wrapper')
       const length = domArray.length
       const el = document.getElementsByClassName('tag-wrapper')[length - 1]
@@ -260,13 +256,14 @@ export default {
         })
         listSelectedByPage.set(key, arr)
       }
-      this.listSelected = _.cloneDeep(listSelected)
+      this.listSelected = _.cloneDeep(listSelected || [])
       this.form.listSelected = this.listSelected?.join(',')
       this.resetStyle()
       this.toggleSelection()
     },
     toggleSelection() {
-      const ids = listSelectedByPage.get(this.page.currPage)?.map((item) => {
+      const currPageSelected = listSelectedByPage.get(this.page.currPage) || []
+      const ids = currPageSelected.map((item) => {
         return item[this.idKey]
       })
       const arr = []
@@ -303,17 +300,14 @@ export default {
     },
     handleSelectionChange(val) {
       if (val) {
-        const listSelected = _.cloneDeep(this.listSelected)
-        const listSelectedCurrentPage = listSelectedByPage.get(
-          this.page.currPage
-        )
-        const listSelectedCurrentPageIds = listSelectedCurrentPage?.map(
-          (it) => {
-            return it.id
-          }
-        )
+        const listSelected = _.cloneDeep(this.listSelected || [])
+        const listSelectedCurrentPage =
+          listSelectedByPage.get(this.page.currPage) || []
+        const listSelectedCurrentPageIds = listSelectedCurrentPage.map((it) => {
+          return it[this.idKey]
+        })
         listSelected.forEach((item) => {
-          if (listSelectedCurrentPageIds.includes(item.id)) {
+          if (listSelectedCurrentPageIds.includes(item[this.idKey])) {
             item.origin = true
           } else {
             item.origin = false
@@ -331,7 +325,7 @@ export default {
       }
     },
     handleOpen() {
-      this.listSelected = _.cloneDeep(this.value)
+      this.listSelected = _.cloneDeep(this.value || [])
       const query = _.cloneDeep(this.query)
       this.filter.forEach((item) => {
         query[item.value] = item.initVal
@@ -354,7 +348,8 @@ export default {
       this.getList()
     },
     getListSelectedByPage() {
-      const ids = this.listSelected?.map((li) => {
+      const listSelected = this.listSelected || []
+      const ids = listSelected.map((li) => {
         return li[this.idKey]
       })
       const arr = []

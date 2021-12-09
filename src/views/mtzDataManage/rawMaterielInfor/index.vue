@@ -5,7 +5,7 @@
         <el-form>
           <el-row gutter="24">
             <el-col :span="8">
-              <iFormItem :label="searchLabel.generalCategoryCode">
+              <iFormItem :label="language('原材料编号大类')">
                 <iInput
                   v-model="searchContent.generalCategoryCode"
                   :placeholder="language('请输入')"
@@ -13,7 +13,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.generalCategoryNameZh">
+              <iFormItem :label="language('原材料名称(中文)')">
                 <iInput
                   v-model="searchContent.generalCategoryNameZh"
                   :placeholder="language('请输入')"
@@ -21,7 +21,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.generalCategoryNameEn">
+              <iFormItem :label="language('原材料名称(英文)')">
                 <iInput
                   v-model="searchContent.generalCategoryNameEn"
                   :placeholder="language('请输入')"
@@ -31,7 +31,7 @@
           </el-row>
           <el-row gutter="24">
             <el-col :span="8">
-              <iFormItem :label="searchLabel.rawMaterielElement">
+              <iFormItem :label="language('大类元素简称')">
                 <iInput
                   v-model="searchContent.generalShortName"
                   :placeholder="language('请输入')"
@@ -39,8 +39,8 @@
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.status">
-                <iSelect v-model="searchContent.status">
+              <iFormItem :label="language('状态')">
+                <iSelect v-model="searchContent.status" :placeholder='language("请选择")'>
                   <el-option
                     v-for="item in statusOptions"
                     :key="item.id"

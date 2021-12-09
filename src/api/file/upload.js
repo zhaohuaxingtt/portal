@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-08-26 16:00:57
- * @LastEditTime: 2021-10-21 16:28:51
- * @LastEditors: zbin
+ * @LastEditTime: 2021-12-08 11:47:31
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\api\file\upload.js
  */
@@ -10,7 +10,7 @@ import axios from '@/utils/axios'
 import store from '@/store'
 
 const requst = axios(process.env.VUE_APP_COMMON)
-const filedud_requst = axios(process.env.VUE_APP_FILEAPI)
+const filedud_requst = axios(process.env.VUE_APP_FILEAPI + '/fileud')
 const fileRequst = axios(process.env.VUE_APP_NEW_COMMON)
 const requstUploads = axios(process.env.VUE_APP_AON)
 

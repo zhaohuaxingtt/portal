@@ -5,7 +5,7 @@
         type = 'number'
         v-model="row.numeratorValue"
         > 
-    <span slot='append' style='color:black'>{{extraData.materielUnit}}</span>
+    <span slot='append' style='color:black'>{{language(extraData.materielUnit)}}</span>
     </iInput>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-15 17:30:36
- * @LastEditTime: 2021-12-01 11:43:54
+ * @LastEditTime: 2021-12-07 16:21:30
  * @LastEditors: Please set LastEditors
  * @Description: 材料表格
 -->
@@ -62,13 +62,18 @@ export default {
     handleSelectionChange (e) {
       this.selectTableData = e
     },
-    async getTableList (form) {
+    async getTableList (form, flag = false) {
+      let formData = form || this.$parent.$parent.$refs.addBdlSearch.form
+      console.log(formData)
       this.tableLoading = true
       const pms = {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        ...form,
+        ...formData,
         supplierToken: this.$route.query.supplierToken
+      }
+      if (flag) {
+        pms.pageNo = 1
       }
       const res = await getPageStuffMaterialGroup(pms)
       this.page.currPage = res.pageNum

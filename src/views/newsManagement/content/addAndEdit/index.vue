@@ -191,7 +191,7 @@ export default {
         formData.publishDate = dayjs().format("YYYY-MM-DD HH:mm:ss");
         formData.status = 1;
       }
-      this.$refs["formComponent"].$refs["ruleForm"].validate((valid) => {
+      this.$refs["formComponent"].$refs[formData.category !== 2?"ruleForm":"gysRuleForm"].validate((valid) => {
         if (valid) {
           let text = formData.content
             .replace(/(\n)/g, "")
@@ -202,8 +202,10 @@ export default {
             .replace(/ /gi, " ")
             .replace(/(&nbsp;)/g, "");
           if (formData.picUrl === null || formData.picUrl === "") {
+            if(formData.category !== 2){
             this.$message.error(this.language('NEWS_XWFMWSC',"新闻封面未上传！"));
             return;
+            }
           } else if (
             formData.category === 0 &&
             formData.type === 0 &&
@@ -305,9 +307,12 @@ export default {
         }
         this.$refs["formComponent"].$refs["ruleForm"].validate((valid) => {
           if (valid) {
+            console.log("formData",formData)
             if (formData.picUrl === null || formData.picUrl === "") {
+              if(formData.category !== 2){
               this.$message.error(this.language('NEWS_XWFMWSC',"新闻封面未上传！"));
               return;
+              }
             } else if (
               formData.category === 0 &&
               formData.type === 0 &&

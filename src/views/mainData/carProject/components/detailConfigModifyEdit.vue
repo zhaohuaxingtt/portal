@@ -10,7 +10,7 @@
       <!-- <el-table-column type="selection" header-align="center" align="center" /> -->
       <el-table-column type="index" header-align="center" align="center" />
       <!-- <el-table-column
-        :label="$t('配置ID')"
+        :label="language('配置ID')"
         prop="id"
         header-align="center"
         align="center"
@@ -98,7 +98,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('配置比例') + '%'"
+        :label="language('配置比例') + '%'"
         prop="id"
         header-align="center"
         align="center"
@@ -118,7 +118,7 @@
           </el-form-item>
         </template>
       </el-table-column>
-      <el-table-column label="车型等级" header-align="center" align="center">
+      <el-table-column label="" header-align="center" align="center">
         <template slot-scope="scope">
           <span @click="removeRow(scope.$index)">
             <Icon symbol name="icondingdianshenqingyusheluoji-shanchu" />
@@ -141,19 +141,19 @@ export default {
     },
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     cartypeLevels: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     extraData: {
       type: Object,
-      default: function() {
+      default: function () {
         return {
           engineSelectOptions: [],
           boxSelectOptions: [],
@@ -188,7 +188,7 @@ export default {
     },
     validateForm() {
       let validResult = false
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         validResult = valid
       })
       return validResult

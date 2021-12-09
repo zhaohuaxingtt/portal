@@ -7,9 +7,10 @@
         ({{ form.stateMsg }})
       </div>
       <div class="operation-btn">
+        <viewFlow :detail="form" />
         <!-- 撤回 -->
         <iButton v-if="!finished" @click="dialogRecallVisible = true">
-          {{ $t('APPROVAL.RECALL') }}
+          {{ language('撤回') }}
         </iButton>
         <!-- 补充材料 -->
 
@@ -17,7 +18,7 @@
           v-if="!finished && form.stateCode === mapApprovalType.APPEND_DATA"
           @click="onAppendAttachment"
         >
-          {{ $t('APPROVAL.APPEND_DATA') }}
+          {{ language('补充材料') }}
         </iButton>
       </div>
     </div>
@@ -35,7 +36,7 @@
     />
 
     <i-card
-      :title="$t('APPROVAL.FLOW_INFO')"
+      :title="language('审批流程')"
       header-control
       collapse
       class="margin-bottom20"
@@ -47,11 +48,7 @@
       />
     </i-card>
 
-    <i-card
-      :title="$t('APPROVAL.MORE_APPROVAL_HISTORY')"
-      header-control
-      collapse
-    >
+    <i-card :title="language('审批历史')" header-control collapse>
       <i-table-custom :data="form.histories" :columns="historyTableTitle" />
     </i-card>
 
@@ -81,7 +78,8 @@ import {
   dialogRecall,
   detailProcessForm,
   attachmentList,
-  processNodeHorizontal
+  processNodeHorizontal,
+  viewFlow
 } from '../task/components'
 import { excelExport } from '@/utils/filedowLoad'
 import iTableCustom from '@/components/iTableCustom'
@@ -101,7 +99,8 @@ export default {
     appentAttachment,
     baseForm,
     lastNode,
-    processNodeHorizontal
+    processNodeHorizontal,
+    viewFlow
   },
   data() {
     return {

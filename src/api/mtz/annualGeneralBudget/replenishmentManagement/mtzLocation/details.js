@@ -515,3 +515,29 @@ export function approvalList(params) {
     data: params
   })
 }
+
+export function getPreciousMetalDosageUnit(params) {//贵金属单位下拉
+  return request({
+    url: '/mtzNomiList/getPreciousMetalDosageUnit',
+    method: 'POST',
+    data: params
+  })
+}
+
+export function downloadError(params) {//导出错误信息
+  return request({
+    url: '/mtzAppNomi/downloadError',
+    method: 'POST',
+    responseType: 'blob',
+    data: params
+  })
+}
+
+
+export function getNominateAppIdList(parmars) {//关联单号下拉
+  return request({
+    url: '/mtzNomiList/getNominateAppIdList',
+    method: 'POST',
+    data: parmars
+  })
+}

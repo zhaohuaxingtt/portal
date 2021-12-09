@@ -202,25 +202,25 @@ export const roleTableSetting = [
     prop: 'id',
     label: '角色ID',
     align: 'center',
-    i18n: 'ROLE.ROLE_ID'
+    i18n: '角色ID'
   },
   {
     prop: 'code',
     label: '角色代码',
     align: 'center',
-    i18n: 'ROLE.ROLE_CODE'
+    i18n: '角色代码'
   },
   {
     prop: 'fullNameZh',
     label: '角色名称',
     align: 'center',
-    i18n: 'ROLE.ROLE_NAME'
+    i18n: '角色名称'
   },
   {
     prop: 'description',
     label: '描述',
     align: 'center',
-    i18n: 'ROLE.DESCRIPTION'
+    i18n: '描述'
   }
 ]
 

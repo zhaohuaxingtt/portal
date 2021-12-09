@@ -54,9 +54,9 @@
                 lock: scope.row.state == '03',
                 begin: scope.row.state == '04',
                 end: scope.row.state == '05',
-                close: scope.row.state == '06',
+                close: scope.row.state == '06'
               },
-              'circle',
+              'circle'
             ]"
             >{{ statusObj[scope.row.state] }}</span
           >
@@ -71,26 +71,28 @@
         width="150"
         min-width="150"
       ></el-table-column>
-      <el-table-column width="81" align="center" label=""></el-table-column>
+      <el-table-column width="61" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="time"
         align="center"
         :label="$t('会议时间')"
-        min-width="200"
-        width="200"
+        min-width="240"
+        width="240"
       >
         <template slot-scope="scope">
-          <span v-if="scope.row.startDate">{{
-            scope.row.startDate + " " + scope.row.startTime.substring(0, 5)
-          }}</span>
-          <span v-if="scope.row.startDate && scope.row.endTime">~</span>
-          <span v-if="scope.row.endTime">{{
-            scope.row.endTime.substring(0, 5)
+          <span>{{
+            `${scope.row.startDate}
+              ${scope.row.startTime ? scope.row.startTime.substring(0, 5) : ''}~
+              ${
+                scope.row.endTime
+                  ? scope.row.endTime.substring(0, 5)
+                  : handleEndTime(scope.row)
+              }`
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column width="80" align="center" label=""></el-table-column>
+      <el-table-column width="60" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         prop="weekOfYear"
@@ -116,7 +118,7 @@
           <span class="attachments-box">
             <el-popover placement="right" trigger="click">
               <div class="enclosure-popover">
-                <p class="title">{{$t('附件')}}</p>
+                <p class="title">{{ $t('附件') }}</p>
                 <ul>
                   <li
                     v-for="item in scope.row.attachments"
@@ -125,7 +127,7 @@
                     @click="downloadEnclosure(item)"
                   >
                     <img :src="enclosure" alt="" srcset="" />
-                    <span style="color: #1763F7">{{
+                    <span style="color: #1763f7">{{
                       item.attachmentName
                     }}</span>
                   </li>
@@ -173,104 +175,120 @@
 </template>
 
 <script>
-import { iPagination, iMessage, iCard } from "rise";
-import iTableML from "@/components/iTableML";
-import enclosure from "@/assets/images/enclosure.svg";
-import newFile from "@/assets/images/meeting-home/newFile.svg";
+import { iPagination, iMessage, iCard } from 'rise'
+import iTableML from '@/components/iTableML'
+import enclosure from '@/assets/images/enclosure.svg'
+import newFile from '@/assets/images/meeting-home/newFile.svg'
 // import { findThemenById } from "@/api/meeting/details";
-import newSummaryDialog from "./newSummaryDialog.vue";
-import { MOCK_FILE_URL } from "@/constants";
-import { download } from "@/utils/downloadUtil";
+import newSummaryDialog from './newSummaryDialog.vue'
+import { download } from '@/utils/downloadUtil'
+import dayjs from 'dayjs'
 
 export default {
   components: {
     iPagination,
     iTableML,
     iCard,
-    newSummaryDialog,
+    newSummaryDialog
   },
   props: {
     data: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     total: {
       type: Number || String,
       default: () => {
-        return 0;
-      },
+        return 0
+      }
     },
     pageSize: {
       type: Number || String,
       default: () => {
-        return 1;
-      },
+        return 1
+      }
     },
     pageNum: {
       type: Number || String,
       default: () => {
-        return 1;
-      },
-    },
+        return 1
+      }
+    }
   },
   data() {
     return {
       enclosure,
       newFile,
       open: false,
-      id: "",
+      id: '',
       statusObj: {
-        "01": "草稿",
-        "02": "开放",
-        "03": "锁定",
-        "04": "开始",
-        "05": "结束",
-        "06": "关闭",
-      },
-    };
+        '01': '草稿',
+        '02': '开放',
+        '03': '锁定',
+        '04': '开始',
+        '05': '结束',
+        '06': '关闭'
+      }
+    }
   },
   mounted() {},
   methods: {
+    handleEndTime(row) {
+      // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return str + ' +1'
+      }
+      return str
+    },
+
     goToDetail(e) {
       this.$router.push({
-        path: "/meeting/near-meeting/detail",
+        path: '/meeting/near-meeting/detail',
         query: {
-          id: e,
-        },
-      });
+          id: e
+        }
+      })
     },
 
     // 切换分页
     handleCurrentChange(e) {
-      this.$emit("handleCurrentChange", e);
+      this.$emit('handleCurrentChange', e)
     },
 
     // 下载附件
     downloadEnclosure(e) {
       download({
-        url: MOCK_FILE_URL + e.attachmentId,
+        fileIds: e.attachmentId,
         filename: e.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error('下载失败')
           }
-        },
-      });
+        }
+      })
     },
 
     // 生成会议纪要
     newSummary(e) {
-      this.id = e;
-      this.open = true;
+      this.id = e
+      this.open = true
     },
 
     handleCancel() {
-      this.open = false;
-    },
-  },
-};
+      this.open = false
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

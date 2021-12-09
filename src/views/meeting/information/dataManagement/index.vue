@@ -32,21 +32,20 @@
 </template>
 
 <script>
-import iTableCustom from "@/components/iTableCustom";
-import { iPagination, iMessage } from "rise";
-import { actionButtons, addOrEditDataDialog } from "./components";
+import iTableCustom from '@/components/iTableCustom'
+import { iPagination, iMessage } from 'rise'
+import { actionButtons, addOrEditDataDialog } from './components'
 import {
   getDocumentServiceByPage,
-  deleteDocument,
-} from "@/api/meeting/information";
+  deleteDocument
+} from '@/api/meeting/information'
 import {
   getDocumentTypeServiceByPage,
-  updateDocument,
-} from "@/api/meeting/information";
-import { getFileByIds } from "@/api/file/filedownload";
-import { pageMixins } from "@/utils/pageMixins";
-import { MOCK_FILE_URL } from "@/constants";
-import { download } from "@/utils/downloadUtil";
+  updateDocument
+} from '@/api/meeting/information'
+import { getFileByIds } from '@/api/file/filedownload'
+import { pageMixins } from '@/utils/pageMixins'
+import { download } from '@/utils/downloadUtil'
 export default {
   mixins: [pageMixins],
   components: { iTableCustom, actionButtons, addOrEditDataDialog, iPagination },
@@ -54,38 +53,38 @@ export default {
     return {
       tableColumns: [
         {
-          type: "index",
-          i18n: "序号",
+          type: 'index',
+          i18n: '序号',
           width: 69,
-          align: "center",
-          tooltip: false,
+          align: 'center',
+          tooltip: false
         },
         {
           // prop: "name",
-          label: "资料名称",
-          i18n: "资料名称",
+          label: '资料名称',
+          i18n: '资料名称',
           // width: 400,
-          align: "left",
+          align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.name ? scope.row.name : ""
-            );
-          },
+              scope.row.name ? scope.row.name : ''
+            )
+          }
         },
         {
           // prop: "documentType",
-          label: "类型",
-          i18n: "类型",
-          align: "center",
+          label: '类型',
+          i18n: '类型',
+          align: 'center',
           width: 400,
           tooltip: true,
           // customRender: (h, scope) => {
@@ -93,244 +92,243 @@ export default {
           // },
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.documentType ? scope.row.documentType.name : ""
-            );
-          },
+              scope.row.documentType ? scope.row.documentType.name : ''
+            )
+          }
         },
         {
           // prop: "publisherName",
-          label: "发布者",
-          i18n: "发布者",
-          align: "center",
+          label: '发布者',
+          i18n: '发布者',
+          align: 'center',
           width: 140,
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.publisherName ? scope.row.publisherName : ""
-            );
-          },
+              scope.row.publisherName ? scope.row.publisherName : ''
+            )
+          }
         },
         {
           // prop: "publishDate",
-          label: "发布日期",
-          i18n: "发布日期",
-          align: "center",
+          label: '发布日期',
+          i18n: '发布日期',
+          align: 'center',
           width: 160,
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.publishDate ? scope.row.publishDate : ""
-            );
-          },
+              scope.row.publishDate ? scope.row.publishDate : ''
+            )
+          }
         },
         {
-          prop: "state",
-          label: "状态",
-          i18n: "状态",
+          prop: 'state',
+          label: '状态',
+          i18n: '状态',
           width: 140,
-          align: "center",
+          align: 'center',
           tooltip: false,
           customRender: (h, scope) => {
-            return h("div", [
-              h("el-switch", {
+            return h('div', [
+              h('el-switch', {
                 attrs: {
-                  activeText: "上架",
-                  inactiveText: "下架",
+                  activeText: '上架',
+                  inactiveText: '下架'
                 },
                 props: {
-                  value: scope.row.state === 1 ? true : false,
+                  value: scope.row.state === 1 ? true : false
                 },
                 on: {
                   change: (val) => {
-                    scope.row.state = val;
-                    this.switch(scope.row);
-                  },
-                },
-              }),
-            ]);
-          },
+                    scope.row.state = val
+                    this.switch(scope.row)
+                  }
+                }
+              })
+            ])
+          }
         },
         {
-          label: "操作",
+          label: '操作',
           width: 160,
           customRender: (h, scope) => {
             if (scope.row.state !== 1) {
-              return h("span", [
+              return h('span', [
                 h(
-                  "a",
+                  'a',
                   {
                     style: {
-                      marginRight: "5px",
-                      cursor: "pointer",
-                      color: "#1660f1",
+                      marginRight: '5px',
+                      cursor: 'pointer',
+                      color: '#1660f1'
                     },
-                    class: "open-link-text",
+                    class: 'open-link-text',
                     on: {
                       click: () => {
-                        this.editMeetingData(scope.row);
-                      },
-                    },
+                        this.editMeetingData(scope.row)
+                      }
+                    }
                   },
-                  "修改"
+                  '修改'
                 ),
                 h(
-                  "a",
+                  'a',
                   {
                     style: {
-                      marginRight: "5px",
-                      cursor: "pointer",
-                      color: "#1660f1",
+                      marginRight: '5px',
+                      cursor: 'pointer',
+                      color: '#1660f1'
                     },
-                    class: "open-link-text",
+                    class: 'open-link-text'
                   },
-                  "|"
+                  '|'
                 ),
                 h(
-                  "a",
+                  'a',
                   {
                     style: {
-                      marginRight: "5px",
-                      cursor: "pointer",
-                      color: "#1660f1",
+                      marginRight: '5px',
+                      cursor: 'pointer',
+                      color: '#1660f1'
                     },
-                    class: "open-link-text",
+                    class: 'open-link-text',
                     on: {
                       click: () => {
-                        this.deleteDocument(scope.row);
-                      },
-                    },
+                        this.deleteDocument(scope.row)
+                      }
+                    }
                   },
-                  "删除"
+                  '删除'
                 ),
                 h(
-                  "a",
+                  'a',
                   {
                     style: {
-                      marginRight: "5px",
-                      cursor: "pointer",
-                      color: "#1660f1",
+                      marginRight: '5px',
+                      cursor: 'pointer',
+                      color: '#1660f1'
                     },
-                    class: "open-link-text",
+                    class: 'open-link-text'
                   },
-                  "|"
+                  '|'
                 ),
                 h(
-                  "a",
+                  'a',
                   {
                     style: {
-                      cursor: "pointer",
-                      color: "#1660f1",
+                      cursor: 'pointer',
+                      color: '#1660f1'
                     },
-                    class: "open-link-text",
+                    class: 'open-link-text',
                     on: {
                       click: () => {
-                        this.downLoadFileInfo(scope.row);
-                      },
-                    },
+                        this.downLoadFileInfo(scope.row)
+                      }
+                    }
                   },
-                  "下载"
-                ),
-              ]);
+                  '下载'
+                )
+              ])
             } else {
-              return h("span", [
+              return h('span', [
                 h(
-                  "a",
+                  'a',
                   {
                     style: {
-                      cursor: "pointer",
-                      color: "#1660f1",
+                      cursor: 'pointer',
+                      color: '#1660f1'
                     },
-                    class: "open-link-text",
+                    class: 'open-link-text',
                     on: {
                       click: () => {
-                        this.downLoadFileInfo(scope.row);
-                      },
-                    },
+                        this.downLoadFileInfo(scope.row)
+                      }
+                    }
                   },
-                  "下载"
-                ),
-              ]);
+                  '下载'
+                )
+              ])
             }
-          },
-        },
+          }
+        }
       ],
       openDialog: false,
-      editOrAdd: "add",
+      editOrAdd: 'add',
       tableLoading: false,
       tableData: [],
-      dataType: "",
-      dataTypeAll: "",
-      clickScope: [],
-    };
+      dataType: '',
+      dataTypeAll: '',
+      clickScope: []
+    }
   },
   mounted() {
-    this.query();
+    this.query()
     getDocumentTypeServiceByPage({
       pageNum: 1,
-      pageSize: 100,
+      pageSize: 100
     }).then((res) => {
-      // console.log("res",res)
-      this.dataTypeAll = res.data;
+      this.dataTypeAll = res.data
       this.dataType = res.data.map((item) => {
-        return item.name;
-      });
-    });
+        return item.name
+      })
+    })
   },
   methods: {
     switch(val) {
       if (val.state == false) {
-        val.state = 2;
+        val.state = 2
       } else {
-        val.state = 1;
+        val.state = 1
       }
       updateDocument(val)
         .then((data) => {
           if (data) {
             // this.close();
             if (data.state == 2) {
-              this.$message.success("下架成功！");
+              this.$message.success('下架成功！')
             } else {
-              this.$message.success("上架成功！");
+              this.$message.success('上架成功！')
             }
 
-            this.flushTable();
+            this.flushTable()
           }
         })
         .catch((err) => {
-          console.log(err);
-          this.query();
-        });
+          console.log(err)
+          this.query()
+        })
       // console.log("val", val);
       // console.log("this.scope.state", val.state);
     },
     // 附件下载
     downLoadFileInfo(row) {
       getFileByIds([row.attachmentId]).then((data) => {
-        const { id, name } = data[0];
+        const { id, name } = data[0]
         download({
           // url: MOCK_FILE_URL + id,
           // filename: name,
@@ -338,75 +336,78 @@ export default {
           filename: name,
           callback: (e) => {
             if (!e) {
-              iMessage.error("下载失败66");
+              iMessage.error('下载失败66')
             }
-          },
-        });
-      });
+          }
+        })
+      })
     },
-    createAnchorLink(href, filename = "") {
-      const a = document.createElement("a");
-      a.download = filename;
-      a.setAttribute("crossOrigin", "anonymous");
-      a.href = href;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+    createAnchorLink(href, filename = '') {
+      const a = document.createElement('a')
+      a.download = filename
+      a.setAttribute('crossOrigin', 'anonymous')
+      a.href = href
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
     },
     deleteDocument(e) {
       // console.log(e);
-      this.$confirm("是否删除该会议资料？", "提示", {
-        confirmButtonText: "是",
-        cancelButtonText: "否",
-        type: "warning",
+      this.$confirm('是否删除该会议资料？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
       }).then(() => {
         deleteDocument({ id: e.id })
-          .then(() => {
-            this.$message.success("删除成功!");
-            this.query();
+          .then((res) => {
+            if (res.code === 200) {
+              this.$message.success('删除成功!')
+            }
+            this.query()
           })
-          .catch((err) => {
-            this.$message.error("删除失败!");
-          });
-      });
+          .catch(() => {
+            this.$message.error('删除失败!')
+          })
+      })
     },
     editMeetingData(scope) {
-      this.clickScope = scope;
-      this.openDialog = true;
-      this.editOrAdd = "edit";
+      console.log('scope', scope)
+      this.clickScope = scope
+      this.openDialog = true
+      this.editOrAdd = 'edit'
       // console.log("12121212", scope);
     },
     query() {
       const data = {
         pageNum: this.page.currPage,
-        pageSize: this.page.pageSize,
-      };
+        pageSize: this.page.pageSize
+      }
       getDocumentServiceByPage(data)
         .then((res) => {
           // console.log("DocumentService", res);
-          const { data, pageNum, pageSize, total, pages } = res;
-          this.page.currPage = pageNum;
-          this.page.pageSize = pageSize;
-          this.page.totalCount = total;
-          this.page.pages = pages;
-          this.tableData = data;
+          const { data, pageNum, pageSize, total, pages } = res
+          this.page.currPage = pageNum
+          this.page.pageSize = pageSize
+          this.page.totalCount = total
+          this.page.pages = pages
+          this.tableData = data
         })
-        .catch((err) => {
-          this.tableLoading = false;
-        });
+        .catch(() => {
+          this.tableLoading = false
+        })
     },
     add() {
-      this.openDialog = true;
-      this.editOrAdd = "add";
+      this.openDialog = true
+      this.editOrAdd = 'add'
     },
     closeDialog(bol) {
-      this.openDialog = bol;
+      this.openDialog = bol
     },
     flushTable() {
-      this.query();
-    },
-  },
-};
+      this.query()
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

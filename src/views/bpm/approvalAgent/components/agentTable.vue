@@ -2,13 +2,13 @@
   <div class="agent-table">
     <div class="flex-end-center margin-bottom20">
       <iButton @click="$emit('add')">
-        {{ $t('APPROVAL.ADD') }}
+        {{ language('新增') }}
       </iButton>
       <iButton @click="$emit('remove', selectedRows)">
-        {{ $t('APPROVAL.DELETE') }}
+        {{ language('删除') }}
       </iButton>
       <iButton @click="$emit('save')">
-        {{ $t('APPROVAL.SAVE') }}
+        {{ language('保存') }}
       </iButton>
       <iButton @click="$router.go(-1)">
         {{ language('返回') }}
@@ -21,11 +21,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column
-        :label="$t('APPROVAL.AUTH_USER_NAME')"
-        align="center"
-        width="220"
-      >
+      <el-table-column :label="language('授权人')" align="center" width="220">
         <template slot-scope="scope">
           <userSearch
             v-model="scope.row.assignee"
@@ -34,10 +30,10 @@
           />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('APPROVAL.AGENT_CONTENT')" align="center">
+      <el-table-column :label="language('代理内容')" align="center">
         <template slot-scope="scope">
           <iSelect
-            :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+            :placeholder="language('请选择')"
             v-model="scope.row.category"
           >
             <el-option
@@ -49,11 +45,7 @@
           </iSelect>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t('APPROVAL.AGENT_USER_NAME')"
-        align="center"
-        width="220"
-      >
+      <el-table-column :label="language('代理人')" align="center" width="220">
         <template slot-scope="scope">
           <userSearch
             v-model="scope.row.attorney"
@@ -61,13 +53,13 @@
           />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('APPROVAL.AGENT_DATE')" align="center">
+      <el-table-column :label="language('代理时间')" align="center">
         <template slot-scope="scope">
           <div class="agent-date">
             <iDatePicker
               type="date"
               v-model="scope.row.startTime"
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               :picker-options="startTimePickerOptions"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -79,7 +71,7 @@
               type="date"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               :picker-options="scope.row.endTimeOptions"
             />
           </div>

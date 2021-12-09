@@ -309,7 +309,7 @@
                 '是否黑名单'
               )"
                 slot="label"></iLabel>
-        <iText>{{supplierData.supplierDTO.isBlacklist?language(
+        <iText>{{isBlacklist?language(
                 'SHI',
                 '是'
               ):language(
@@ -330,7 +330,10 @@
                 '签订采购条款'
               )"
                 slot="label"></iLabel>
-        <iText> </iText>
+        <iText> {{language(
+                'WEIQIANSHU',
+                '未签署'
+              )}}</iText>
 
       </iFormItem>
     </iFormGroup>
@@ -390,6 +393,7 @@ export default {
   },
   data() {
     return {
+        isBlacklist:'',
       baseInfoRules,
       listingAddress, //上市地点
       stockCode, //股票代码
@@ -442,8 +446,8 @@ export default {
   },
   created() {
     this.getIsSigned()
-
     this.getisBlack()
+
   },
   methods: {
     // 获取省份
@@ -483,17 +487,19 @@ export default {
     getisBlack() {
       isBlack({ supplierToken: this.$route.query.supplierToken }).then(
         (res) => {
+            this.isBlacklist=res.data
           let code = 0
           if (res.data) {
             code = 1
           } else code = 0
           this.$set(this.supplierData.supplierDTO, 'isBlacklist', code)
+            console.log(this.supplierData.supplierDTO)
         }
       )
     },
     //是否签署
     getIsSigned() {
-      isSigned({}).then((res) => {})
+      //   isSigned({}).then((res) => {})
     },
     //是否国内外
     getisForeignCountry(val) {

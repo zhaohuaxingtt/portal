@@ -210,12 +210,10 @@ export default {
 					color: #666666;
 				}
 				.label {
-					width: 60%;
 					background: #ededed;
 					border-radius: 10px;
 					color: #4b5c7d;
-					padding: 5px 10px;
-					text-align: center;
+					padding: 10px;
 					white-space: nowrap;
 					overflow: hidden;
 					text-overflow: ellipsis;

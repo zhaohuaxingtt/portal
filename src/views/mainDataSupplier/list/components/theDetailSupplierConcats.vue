@@ -1,15 +1,15 @@
 <template>
-  <iCard :title="$t('供应商通讯录')" collapse>
+  <iCard :title="language('供应商通讯录')" collapse>
     <div class="actions" slot="header-control">
       <iButton
         :loading="delLoading"
         :disabled="!selectedRows.length"
         @click="handleDelete"
       >
-        {{ $t('删除') }}
+        {{ language('删除') }}
       </iButton>
       <iButton :disabled="!selectedRows.length" @click="handleEdit">
-        {{ $t('编辑') }}
+        {{ language('编辑') }}
       </iButton>
     </div>
     <i-table-custom
@@ -49,7 +49,7 @@ export default {
   props: {
     contacts: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -98,11 +98,11 @@ export default {
       this.onDelete().then(() => {
         const params = {
           supplierId: this.supplierId,
-          contactIds: this.selectedRows.map(e => e.id).join(',')
+          contactIds: this.selectedRows.map((e) => e.id).join(',')
         }
         this.delLoading = true
         deleteSupplierContact(params)
-          .then(res => {
+          .then((res) => {
             if (res.result) {
               iMessage.success(res.dscZh || '删除成功')
               this.$emit('delete-contact-success')
@@ -110,14 +110,14 @@ export default {
               iMessage.error(res.dscZh || '删除失败')
             }
           })
-          .catch(err => {
+          .catch((err) => {
             iMessage.error(err.dscZh || '删除失败')
           })
           .finally(() => (this.delLoading = false))
       })
     },
     saveSuccess(data) {
-      const items = this.contacts.filter(e => e.id === data.id)
+      const items = this.contacts.filter((e) => e.id === data.id)
       if (items.length > 0) {
         items[0].contactType = data.contactType
         items[0].dept = data.dept

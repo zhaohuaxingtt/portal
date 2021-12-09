@@ -1,7 +1,9 @@
 <template>
 <iPage class="main">
-	<div class="flex justify-between">
-		<div class="content-title">用户助手管理</div>
+	<!-- <div class="flex justify-between"> -->
+		<!-- <div class="content-title">用户助手管理</div> -->
+	<pageHeader class="title">
+		{{language('用户助手管理')}}
 		<div class="types" slot="actions">
 			<iTabBadge>
 				<iTabBadgeItem
@@ -13,7 +15,8 @@
 				/>
 			</iTabBadge>
 		</div>
-	</div>
+	</pageHeader>
+	<!-- </div> -->
 	<el-tabs class="nav" v-model="activeUser" @tab-click="typeChange">
         <el-tab-pane label="供应商用户" name="supplier">
         </el-tab-pane>
@@ -77,6 +80,7 @@
 <script>
 import { iPage, iInput, iSelect } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
+import pageHeader from '@/components/pageHeader'
 import CommonProblem from '../components/commonProblem'
 import Question from "./components/question"
 import UserManual from "./components/userManual"
@@ -90,7 +94,8 @@ export default {
 		Question,
 		UserManual,
 		iInput,
-		iSelect
+		iSelect,
+		pageHeader
 	},
 	data() {
 		return {
@@ -282,6 +287,8 @@ export default {
 		overflow: hidden;
 	}
 	.nav{
+		font-size: 14px;
+		font-weight: bold;
 		margin-top: 20px;
 	}
 	.content-title {

@@ -1,9 +1,15 @@
 <template>
-  <iCard :title="$t('基础信息')" collapse>
+  <iCard :title="language('基础信息')" collapse>
     <div class="actions" slot="header-control">
-      <iButton v-show="!editable" @click="editable = true">编辑</iButton>
-      <iButton v-show="editable" @click="save">保存</iButton>
-      <iButton v-show="editable" @click="cancel">取消</iButton>
+      <iButton v-show="!editable" @click="editable = true">
+        {{ language('编辑') }}
+      </iButton>
+      <iButton v-show="editable" @click="save">
+        {{ language('保存') }}
+      </iButton>
+      <iButton v-show="editable" @click="cancel">
+        {{ language('取消') }}
+      </iButton>
     </div>
     <el-form
       label-position="left"
@@ -15,28 +21,28 @@
     >
       <el-row :gutter="20">
         <el-col :span="8">
-          <iFormItem :label="$t('模具材料组编号')" prop="code">
+          <iFormItem :label="language('模具材料组编号')" prop="code">
             <iInput
               v-model="form.code"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
               :disabled="this.$route.query.id"
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('模具材料组名称(中)')" prop="nameZh">
+          <iFormItem :label="language('模具材料组名称(中)')" prop="nameZh">
             <iInput
               v-model="form.nameZh"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
               :disabled="!editable"
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('模具材料组名称(德)')" prop="nameDe">
+          <iFormItem :label="language('模具材料组名称(德)')" prop="nameDe">
             <iInput
               v-model="form.nameDe"
-              :placeholder="$t('请输入')"
+              :placeholder="language('请输入')"
               :disabled="!editable"
             />
           </iFormItem>
@@ -93,7 +99,7 @@ export default {
   methods: {
     queryMouldGroup() {
       queryMouldGroup({ id: this.$route.query.id })
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             this.form = res.data
             this.originalForm = _.cloneDeep(res.data)
@@ -101,15 +107,15 @@ export default {
             iMessage.error(res.desZh || '获取数据失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error(err.desZh || '获取数据失败')
         })
     },
     save() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           saveMould(this.form)
-            .then(res => {
+            .then((res) => {
               if (res.result) {
                 iMessage.success(res.desZh || '保存成功')
                 const { id, code } = res.data
@@ -118,11 +124,10 @@ export default {
                 iMessage.error(res.desZh || '保存失败')
               }
             })
-            .catch(err => {
+            .catch((err) => {
               iMessage.error(err.desZh || '保存失败')
-            }).finally(()=>[
-              this.editable =false
-            ])
+            })
+            .finally(() => [(this.editable = false)])
         }
       })
     },

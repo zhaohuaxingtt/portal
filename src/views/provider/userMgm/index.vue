@@ -88,26 +88,6 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.temNumber">
-                  <iInput
-                    :placeholder="searchOptionTitles.input"
-                    v-model="formData.temporaryNum"
-                  >
-                  </iInput>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row :gutter="formAppearance.gutter">
-              <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.sapNO">
-                  <iInput
-                    :placeholder="searchOptionTitles.input"
-                    v-model="formData.sapNum"
-                  >
-                  </iInput>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
                 <el-form-item :label="searchOptionTitles.status">
                   <i-select
                     :placeholder="searchOptionTitles.iselect"
@@ -123,6 +103,8 @@
                   </i-select>
                 </el-form-item>
               </el-col>
+            </el-row>
+            <el-row :gutter="formAppearance.gutter">
               <el-col :span="6">
                 <el-form-item :label="searchOptionTitles.isExpire">
                   <i-select
@@ -137,6 +119,33 @@
                     >
                     </el-option>
                   </i-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="searchOptionTitles.sapNO">
+                  <iInput
+                    :placeholder="searchOptionTitles.input"
+                    v-model="formData.sapNum"
+                  >
+                  </iInput>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="language('正式/SVW号')">
+                  <iInput
+                    :placeholder="searchOptionTitles.input"
+                    v-model="formData.svwCode"
+                  >
+                  </iInput>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item :label="searchOptionTitles.temNumber">
+                  <iInput
+                    :placeholder="searchOptionTitles.input"
+                    v-model="formData.temporaryNum"
+                  >
+                  </iInput>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -323,7 +332,7 @@ export default {
       pageTitle: '供应商用户管理',
       searchOptionTitles: {
         contactName: '联系人姓名',
-        providerName: '供应商中文名',
+        providerName: '供应商中/英文名',
         loginName: '用户登录名',
         isMainContact: '是否是主联系人',
         mail: '邮箱',
@@ -356,9 +365,9 @@ export default {
         telephoneO: '', //座机
         userName: '', //用户登录名
         sapNum: '', //SAP号
-        temporaryNum: '' //临时号
+        temporaryNum: '', //临时号
+        svwCode:''//svw号
       },
-      selectedData: [],
       falseTrueSelect: [
         {
           value: false,

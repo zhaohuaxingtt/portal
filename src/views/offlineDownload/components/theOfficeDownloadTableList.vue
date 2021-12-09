@@ -1,7 +1,7 @@
 <template>
   <i-card class="table">
     <div class="btn">
-        <i-button @click="download">{{language('下载')}}</i-button>
+        <i-button @click="download" :disabled='isDownload'>{{language('下载')}}</i-button>
     </div>
     <div class="tableList">
         <iTableCustom 
@@ -47,9 +47,10 @@ export default {
     data(){
         return{
             loading:false,
+            isDownload:true,
             tableColumns:TABLE_COLUMNS,
             searchForm:{
-                taskCode:'',
+                taskCode:null,
                 taskName:'',
                 userName:'',
                 status:'',
@@ -62,9 +63,18 @@ export default {
         this.getPage()
     },
     methods:{
+        handleSelectionChange(val){
+            this.selectedItems = val
+            if(val.length == 1){
+                val[0].downloadUrl ? this.isDownload = false : this.isDownload = true
+            }else{
+                this.isDownload = true
+            }
+        },
         download(){
-            const data = this.searchForm
-            downLoadXls(data)
+            const data = this.selectedItems[0].downloadUrl
+            window.open(data)
+            // downLoadXls(data)
         },
         search(val){
             this.page.currPage = 1

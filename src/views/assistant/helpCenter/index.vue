@@ -1,27 +1,30 @@
 <template>
 	<iPage>
-		<div class="flex justify-between">
-			<div class="content-title">用户助手</div>
+		<!-- <div class="flex justify-between"> -->
+			<!-- <div class="content-title">用户助手</div> -->
+		<pageHeader class="title">
+			{{language('用户助手')}}
 			<div class="types" slot="actions">
-				<iTabBadge>
-					<iTabBadgeItem
-						:active="helpMoudle === 'manual'"
-						:name="language('用户手册')"
-						@click="tabChange('manual')"
-					/>
-					<iTabBadgeItem
-						:active="helpMoudle === 'problem'"
-						:name="language('常见问题')"
-						@click="tabChange('problem')"
-					/>
-					<iTabBadgeItem
-						:active="helpMoudle === 'ask'"
-						:name="language('我的提问')"
-						@click="tabChange('ask')"
-					/>
-				</iTabBadge>
-			</div>
+			<iTabBadge>
+				<iTabBadgeItem
+					:active="helpMoudle === 'manual'"
+					:name="language('用户手册')"
+					@click="tabChange('manual')"
+				/>
+				<iTabBadgeItem
+					:active="helpMoudle === 'problem'"
+					:name="language('常见问题')"
+					@click="tabChange('problem')"
+				/>
+				<iTabBadgeItem
+					:active="helpMoudle === 'ask'"
+					:name="language('我的提问')"
+					@click="tabChange('ask')"
+				/>
+			</iTabBadge>
 		</div>
+		</pageHeader>
+		<!-- </div> -->
 		<div class="flex flex-row content mt20" v-if="helpMoudle === 'manual'">
 			<CommonProblem
 				:loading="listLoading"
@@ -104,6 +107,7 @@
 // import store from '@/store'
 import { iPage } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
+import pageHeader from '@/components/pageHeader'
 import CommonProblem from '../components/commonProblem'
 import DataManage from './components/dataManage'
 import ProblemSearch from './components/problemSearch'
@@ -147,7 +151,8 @@ export default {
 		IntelligentDialog,
 		QuestioningDialog,
 		QuestionList,
-		QuestionDetail
+		QuestionDetail,
+		pageHeader
 	},
 	created() {
 		// 获取当前路径

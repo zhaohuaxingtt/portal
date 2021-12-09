@@ -80,7 +80,7 @@ export function updateAssociated(parmars) {
 // 移除MBDL
 export function mbdlCancelAssociated(parmars) {
   return requst({
-    url: `/materials/mbdlCancelAssociated`,
+    url: `/materialGroup/materials/mbdlCancelAssociated`,
     method: 'POST',
     data: {
       ...parmars,
@@ -128,7 +128,7 @@ export function getDeptList() {
 //
 export function getUserList(parmars) {
   return requst({
-    url: `/bdl/stuffMaterials/getUserList/${parmars}`,
+    url: `/bdl/stuffMaterials/getUserList/${parmars.id}/${parmars.deptNum}`,
     method: 'GET'
   })
 }

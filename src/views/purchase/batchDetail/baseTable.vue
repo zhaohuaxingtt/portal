@@ -7,29 +7,29 @@
                 <div class="status">
                     <div class="status-value blue"><span v-text="headBase&&headBase.divide"></span> </div>
                     <div class="status-text">
-                       <span v-text="$t('EKL_DQZT') +':'"></span>
-                       <span v-text="headBase&&headBase.status? headBase.status:$t('EKL_WWC')"></span></div>
+                       <span v-text="$t('LK_DQZT') +':'"></span>
+                       <span v-text="headBase&&headBase.status == '未完成'?$t('LK_WWC'): headBase&&headBase.status == '已完成'? $t('LK_YWC'):''"></span></div>
                     <icon class="icon" symbol name="iconyejijichubiaozhuangtai" />
                 </div>
             </iCard>
             <iCard class="item">
                 <div class="status">
                     <div class="status-value blue"> <span v-text="headBase&&headBase.startingTime"></span> </div>
-                    <div class="status-text"><span v-text="$t('EKL_FQSJ')"></span></div>
+                    <div class="status-text"><span v-text="$t('LK_FQSJ')"></span></div>
                     <icon class="icon" symbol name="iconyejijichubiaofaqishijian" />
                 </div>
             </iCard>
             <iCard class="item">
                 <div class="status">
                     <div class="status-value blue"><span v-text="headBase&&headBase.completionTime"></span></div>
-                    <div class="status-text"> <span v-text="$t('EKL_WCSJ')"></span> </div>
+                    <div class="status-text"> <span v-text="$t('LK_WCSJ')"></span> </div>
                     <icon class="icon" symbol name="iconyejijichubiaowanchengshijian" />
                 </div>
             </iCard>
             <iCard class="item">
                 <div class="status">
                     <div class="status-value red"><span v-text="headBase&&headBase.isConfirmSize"></span> </div>
-                    <div class="status-text"><span v-text="$t('EKL_DQESL')"></span></div>
+                    <div class="status-text"><span v-text="$t('LK_DQESL')"></span></div>
                     <icon class="icon" symbol name="iconyejijichubiaodaiquerenshuliang1" />
                 </div>
             </iCard>

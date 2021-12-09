@@ -2,9 +2,9 @@
   <div class="partMaterialList">
     <iCard class="margin-top20">
       <div class="button-end">
-        <iButton @click="newMateriel">新建</iButton>
-        <iButton @click="deleteMateriel" :disabled='selectTableData.length==0'>删除</iButton>
-        <buttonDownload :download-method="exportMateriel">导出</buttonDownload>
+        <iButton @click="newMateriel">{{language('新建')}}</iButton>
+        <iButton @click="deleteMateriel" :disabled='selectTableData.length==0'>{{language('删除')}}</iButton>
+        <buttonDownload :download-method="exportMateriel">{{language('导出')}}</buttonDownload>
       </div>
       <div class="tableList margin-top20">
         <iTableCustom

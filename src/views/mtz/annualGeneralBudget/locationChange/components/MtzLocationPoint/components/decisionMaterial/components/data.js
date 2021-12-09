@@ -65,6 +65,105 @@ export const formList = [
 ]
 
 // MTZ-规则清单
+export const ruleTableTitle1_new = [
+  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',
+    overlap:true,overlapbottom:"Rule No.",
+    width: 150,
+  },
+  {
+    props: 'materialGroup',
+    name: 'MTZ-材料组',
+    key: 'MTZGANGCAILIAOZU',
+    overlap:true,
+    overlapbottom:"MTZ group",
+    width: 150,
+  },
+  { props: 'carline', name: '车型', key: 'CHEXING',
+    overlap:true,overlapbottom:"Carline",
+    width: 150,
+  },
+  {
+    props: 'supplierId',
+    name: '供应商编号/简称',
+    key: 'GYSBHJC',
+    // width:110,
+    overlap:true,
+    overlapbottom:"Supplier",
+    width: 150,
+  },
+  {
+    props: 'materialCode',
+    name: '原材料编号',
+    key: 'YUANCAILIAOBIANHAO',
+    overlap:true,
+    overlapbottom:"Material Code",
+    width: 150,
+  },
+  {
+    props: 'materialName',
+    name: '中类名称',
+    key: 'ZHONGLEIMINGCHENG',
+    overlap:true,
+    overlapbottom:"Material Division",
+    width: 150,
+  },
+  { props: 'price', name: '基价', key: 'JIJIA',
+    overlap:true,
+    overlapbottom:"Base price",
+    width: 150,
+  },
+
+
+
+
+
+
+
+  {
+    props: 'priceMeasureUnit',
+    name: '基价计量单位',
+    key: 'JIJIAJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Base price Unit",
+    width: 150,
+  },
+  { props: 'tcCurrence', name: '货币', key: 'HUOBI',
+    overlap:true,
+    overlapbottom:"Currency",
+    width: 150,
+  },
+  { props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV',
+    overlap:true,
+    overlapbottom:"Exchange Rate",
+    width: 150,
+  },
+  {
+    props: 'source',
+    name: '市场价来源',
+    key: 'SHICHANGJIALAIYUAN',
+    overlap:true,
+    overlapbottom:"Market",
+    width: 150,
+  },
+  {
+    props: 'compensationPeriod',
+    name: '补差周期',
+    key: 'BUCHAZHOUQI',
+    overlap:true,
+    overlapbottom:"Period",
+    width: 150,
+  },
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI',
+    overlap:true,
+    overlapbottom:"Valid From",
+    width: 150,
+  },
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI',
+    overlap:true,
+    overlapbottom:"Valid To",
+    width: 150,
+  },
+]
 export const ruleTableTitle1 = [
   { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO', width: 150 },
   {
@@ -133,9 +232,182 @@ export const ruleTableTitle1 = [
     width: 150
   },
   { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI', width: 150 },
-  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI', width: 150 }
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI', width: 150 },
+
+  { props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA', width: 150,icon:"iconxinxitishi",iconTextKey:"M01006002-Pt",iconText:"M01006002-Pt" },
+  { props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG', width: 150,icon:"iconxinxitishi",iconTextKey:"M01006002-Pt",iconText:"M01006002-Pt"},
+  { props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA', width: 150,icon:"iconxinxitishi",iconTextKey:"M01006001-Pd",iconText:"M01006001-Pd" },
+  { props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG', width: 150,icon:"iconxinxitishi",iconTextKey:"M01006002-Pd",iconText:"M01006001-Pd" },
+  { props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA', width: 150,icon:"iconxinxitishi",iconTextKey:"M01006002-Rh",iconText:"M01006002-Rh" },
+  { props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG', width: 150,icon:"iconxinxitishi",iconTextKey:"M01006002-Rh",iconText:"M01006002-Rh" },
+  { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 180 },
 ]
-export const ruleTableTitle1_1 = [
+export const ruleTableTitle1_1 = [//决策资料规则清单暂用
+  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',
+    overlap:true,overlapbottom:"Rule No.",
+    minWidth:102
+  },
+  {
+    props: 'materialGroup',
+    name: 'MTZ-材料组',
+    key: 'MTZGANGCAILIAOZU',
+    overlap:true,
+    overlapbottom:"MTZ group",
+    minWidth:80
+  },
+  { props: 'carline', name: '车型', key: 'CHEXING',overlap:true,overlapbottom:"Carline",
+    minWidth:50,
+  },
+  {
+    props: 'supplierId',
+    name: '供应商',
+    key: 'GONGYINGSHANG',
+    overlap:true,
+    overlapbottom:"Supplier",
+    minWidth:80,
+  },
+  {
+    props: 'materialCode',
+    name: '原材料编号',
+    key: 'YUANCAILIAOBIANHAO',
+    overlap:true,
+    overlapbottom:"Material Code",
+    minWidth:95,
+  },
+  {
+    props: 'materialName',
+    name: '中类名称',
+    key: 'ZHONGLEIMINGCHENG',
+    overlap:true,
+    overlapbottom:"Material Division",
+    minWidth:105,
+  },
+  { props: 'price', name: '基价', key: 'JIJIA',
+    overlap:true,
+    overlapbottom:"Base price",
+    minWidth:70,
+  },
+
+
+
+
+
+
+
+  {
+    props: 'priceMeasureUnit',
+    name: '基价计量单位',
+    key: 'JIJIAJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Base price Unit",
+    minWidth:115,
+  },
+  { props: 'tcCurrence', name: '货币', key: 'HUOBI',
+    overlap:true,
+    overlapbottom:"Currency",
+    minWidth:70,
+  },
+  { props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV',
+    overlap:true,
+    overlapbottom:"Exchange Rate",
+    minWidth:105,
+  },
+  {
+    props: 'source',
+    name: '市场价来源',
+    key: 'SHICHANGJIALAIYUAN',
+    overlap:true,
+    overlapbottom:"Market",
+    minWidth:95,
+  },
+  {
+    props: 'compensationPeriod',
+    name: '补差周期',
+    key: 'BUCHAZHOUQI',
+    overlap:true,
+    overlapbottom:"Period",
+    minWidth:80,
+  },
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI',
+    overlap:true,
+    overlapbottom:"Valid From",
+    minWidth:90,
+  },
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI',
+    overlap:true,
+    overlapbottom:"Valid To",
+    minWidth:90,
+  },
+]
+export const ruleTableTitle1_2 = [
+  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',width:150,
+    overlap:true,
+    overlapbottom:"Rule No."
+  },
+  {
+    props: 'priceMeasureUnit',
+    name: '基价计量单位',
+    key: 'JIJIAJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Base price Unit"
+  },
+  { props: 'tcCurrence', name: '货币', key: 'HUOBI',
+    overlap:true,
+    overlapbottom:"Currency"
+  },
+  { props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV',
+    overlap:true,
+    overlapbottom:"Exchange Rate"
+  },
+  {
+    props: 'source',
+    name: '市场价来源',
+    key: 'SHICHANGJIALAIYUAN',
+    overlap:true,
+    overlapbottom:"Market"
+  },
+  {
+    props: 'compensationPeriod',
+    name: '补差周期',
+    key: 'BUCHAZHOUQI',
+    overlap:true,
+    overlapbottom:"Period"
+  },
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI',
+    overlap:true,
+    overlapbottom:"Valid From"
+  },
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI',
+    overlap:true,
+    overlapbottom:"Valid To"
+  },
+  // {
+  //   props: 'supplierName',
+  //   name: '供应商名称',
+  //   key: 'GONGYINGSHANGMINGCHENG',
+  // },
+  // {
+  //   props: 'compensationRatio',
+  //   name: '补差系数',
+  //   key: 'BUCHAXISHU',
+  // },
+  // { props: 'threshold', name: '阈值', key: 'YUZHI'},
+  // {
+  //   props: 'thresholdCompensationLogic',
+  //   name: '阈值补差逻辑',
+  //   key: 'YUZHIBUCHALUOJI',
+  //   width:120
+  // },
+  // { props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA'},
+  // { props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG'},
+  // { props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA'},
+  // { props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG'},
+  // { props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA'},
+  // { props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG'},
+  // { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 180 },
+]
+
+export const ruleTableTitle2_1 = [
   { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',width:150 },
   {
     props: 'materialGroup',
@@ -145,8 +417,8 @@ export const ruleTableTitle1_1 = [
   { props: 'carline', name: '车型', key: 'CHEXING' },
   {
     props: 'supplierId',
-    name: '供应商编号',
-    key: 'GONGYINGSHANGBIANHAO',
+    name: '供应商编号/名称',
+    key: 'GYSBHMC',
   },
   {
     props: 'supplierName',
@@ -168,11 +440,11 @@ export const ruleTableTitle1_1 = [
     props: 'priceMeasureUnit',
     name: '基价计量单位',
     key: 'JIJIAJILIANGDANWEI',
+    width:120
   },
-  { props: 'tcCurrence', name: '货币', key: 'HUOBI'},
 ]
-export const ruleTableTitle1_2 = [
-  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',width:150 },
+export const ruleTableTitle2_2 = [
+  { props: 'tcCurrence', name: '货币', key: 'HUOBI'},
   { props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV'},
   {
     props: 'source',
@@ -184,6 +456,8 @@ export const ruleTableTitle1_2 = [
     name: '补差系数',
     key: 'BUCHAXISHU',
   },
+  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',width:150 },
+  
   {
     props: 'compensationPeriod',
     name: '补差周期',
@@ -194,16 +468,148 @@ export const ruleTableTitle1_2 = [
     props: 'thresholdCompensationLogic',
     name: '阈值补差逻辑',
     key: 'YUZHIBUCHALUOJI',
+    width:120
   },
-  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI' },
-  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI'}
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI',width:120 },
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI',width:120},
+  // { props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA'},
+  // { props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG'},
+  // { props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA'},
+  // { props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG'},
+  // { props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA'},
+  // { props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG'},
+  // { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 160 },
 ]
 
+
 // MTZ-零件清单
+export const partTableTitle1_new = [
+  { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',
+    width: 105,
+    overlap:true,
+    overlapbottom:"Part No."
+  },
+  { props: 'partName', name: '零件名称', key: 'LINGJIANMINGCHENG',
+    width: 150,
+    overlap:true,
+    overlapbottom:"Part Name"
+  },
+  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',
+    overlap:true,
+    overlapbottom:"Rule No.",
+    width: 150,
+  },
+  {
+    props: 'materialCode',
+    name: '原材料编号',
+    key: 'YUANCAILIAOBIANHAO',
+    overlap:true,
+    overlapbottom:"Material Code",
+    width: 150,
+  },
+  { props: 'materialName', name: '原材料', key: 'YUANCAILIAO',
+    overlap:true,
+    overlapbottom:"Material ",
+    width: 150,
+  },
+  { props: 'supplierId', name: '供应商编号/简称', key: 'GYSBHJC',
+    // width:200,
+    overlap:true,
+    overlapbottom:"Supplier",
+    width: 150,
+  },
+  { props: 'price', name: '基价', key: 'JIJIA',
+    overlap:true,
+    overlapbottom:"Base price",
+    width: 150,
+  },
+  {
+    props: 'priceMeasureUnit',
+    name: '基价计量单位',
+    key: 'JIJIAJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Base price Unit",
+    width: 150,
+  },
+  { props: 'priceUnit', name: '每', key: 'MEI',
+    overlap:true,
+    overlapbottom:"Per",
+    width: 150,
+  },
+
+
+
+
+
+
+
+
+
+  {
+    props: 'partUnit',
+    name: '零件数量单位',
+    key: 'LINGJIANSHULIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Part Unit",
+    width: 150,
+  },
+  { props: 'dosage', name: '用量', key: 'YONGLIANG',
+    overlap:true,
+    overlapbottom:"Dosage",
+    width: 150,
+  },
+  {
+    props: 'dosageMeasureUnit',
+    name: '用量计量单位',
+    key: 'YONGLIANGJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Dosage Unit",
+    width: 150,
+  },
+  {
+    props: 'priceSource',
+    name: '市场价来源',
+    key: 'SHICHANGJIALAIYUAN',
+    overlap:true,
+    overlapbottom:"Market",
+    width: 150,
+  },
+  {
+    props: 'compensationRatio',
+    name: '补差系数',
+    key: 'BUCHAXISHU',
+    overlap:true,
+    overlapbottom:"Ratio",
+    width: 150,
+  },
+  { props: 'threshold', name: '阈值', key: 'YUZHI',
+    overlap:true,
+    overlapbottom:"Threhold",
+    width: 150,
+  },
+  {
+    props: 'compensationPeriod',
+    name: '补差周期',
+    key: 'BUCHAZHOUQI',
+    overlap:true,
+    overlapbottom:"Period",
+    width: 150,
+  },
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI',
+    overlap:true,
+    overlapbottom:"Valid From",
+    width: 150,
+  },
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI',
+    overlap:true,
+    overlapbottom:"Valid To",
+    width: 150,
+  },
+]
 export const partTableTitle1 = [
   { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO', width: 150 },
   { props: 'partName', name: '零件名称', key: 'LINGJIANMINGCHENG', width: 150 },
-  { props: 'sapCode', name: '供应商编号/名称', key: 'GYSBHMC', width: 150 },
+  { props: 'supplierId', name: '供应商编号/名称', key: 'GYSBHMC', width: 150,tooltip: true },
   { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO', width: 150 },
   { props: 'priceUnit', name: '每', key: 'MEI', width: 150 },
   {
@@ -262,14 +668,221 @@ export const partTableTitle1 = [
     name: '阈值补差逻辑',
     key: 'YUZHIBUCHALUOJI',
     width: 150
-  }
+  },
+
+  { props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA', width: 150,icon:"iconxinxitishi",iconTextKey:"M01006002-Pt",iconText:"M01006002-Pt" },
+  { props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG', width: 150,icon:"iconxinxitishi",iconTextKey:"M01006002-Pt",iconText:"M01006002-Pt"},
+  { props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA', width: 150,icon:"iconxinxitishi",iconTextKey:"M01006002-Pd",iconText:"M01006001-Pd" },
+  { props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG', width: 150,icon:"iconxinxitishi",iconTextKey:"M01006002-Pd",iconText:"M01006001-Pd" },
+  { props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA', width: 150,icon:"iconxinxitishi",iconTextKey:"M01006002-Rh",iconText:"M01006002-Rh" },
+  { props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG', width: 150,icon:"iconxinxitishi",iconTextKey:"M01006002-Rh",iconText:"M01006002-Rh" },
+  { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 180 },
 ]
 export const partTableTitle1_1 = [
+  { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',
+    overlap:true,
+    overlapbottom:"Part No.",
+    minWidth: 90,
+  },
+  { props: 'partName', name: '零件名称', key: 'LINGJIANMINGCHENG',
+    overlap:true,
+    overlapbottom:"Part Name",
+    minWidth: 65,
+  },
+  { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO',
+    overlap:true,
+    overlapbottom:"Rule No.",
+    minWidth: 90,
+  },
+  {
+    props: 'materialCode',
+    name: '原材料编号',
+    key: 'YUANCAILIAOBIANHAO',
+    overlap:true,
+    overlapbottom:"Material Code",
+    minWidth: 95,
+  },
+  { props: 'materialName', name: '原材料', key: 'YUANCAILIAO',
+    overlap:true,
+    overlapbottom:"Material",
+    minWidth: 60,
+  },
+  { props: 'supplierId', name: '供应商', key: 'GONGYINGSHANG',
+    overlap:true,
+    overlapbottom:"Supplier",
+    minWidth: 80,
+  },
+  { props: 'price', name: '基价', key: 'JIJIA',
+    overlap:true,
+    overlapbottom:"Base price",
+    minWidth: 70,
+  },
+  {
+    props: 'priceMeasureUnit',
+    name: '基价计量单位',
+    key: 'JIJIAJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Base price Unit",
+    minWidth: 110,
+  },
+  { props: 'priceUnit', name: '每', key: 'MEI',
+    overlap:true,
+    overlapbottom:"Per",
+    minWidth: 30,
+  },
+
+
+
+
+
+
+
+
+
+  {
+    props: 'partUnit',
+    name: '零件数量单位',
+    key: 'LINGJIANSHULIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Part Unit",
+    minWidth: 95,
+  },
+  { props: 'dosage', name: '用量', key: 'YONGLIANG',
+    overlap:true,
+    overlapbottom:"Dosage",
+    minWidth: 50,
+  },
+  {
+    props: 'dosageMeasureUnit',
+    name: '用量计量单位',
+    key: 'YONGLIANGJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Dosage Unit",
+    minWidth: 90,
+  },
+  {
+    props: 'priceSource',
+    name: '市场价来源',
+    key: 'SHICHANGJIALAIYUAN',
+    overlap:true,
+    overlapbottom:"Market",
+    minWidth: 75,
+  },
+  {
+    props: 'compensationRatio',
+    name: '补差系数',
+    key: 'BUCHAXISHU',
+    overlap:true,
+    overlapbottom:"Ratio",
+    minWidth: 55,
+  },
+  { props: 'threshold', name: '阈值', key: 'YUZHI',
+    overlap:true,
+    overlapbottom:"Threhold",
+    minWidth: 60,
+  },
+  {
+    props: 'compensationPeriod',
+    name: '补差周期',
+    key: 'BUCHAZHOUQI',
+    overlap:true,
+    overlapbottom:"Period",
+    minWidth: 60,
+  },
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI',
+    overlap:true,
+    overlapbottom:"Valid From",
+    minWidth: 75,
+  },
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI',
+    overlap:true,
+    overlapbottom:"Valid To",
+    minWidth: 75,
+  },
+]
+export const partTableTitle1_2 = [
+  { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',
+    width:150,
+    overlap:true,
+    overlapbottom:"Part No."
+  },
+  {
+    props: 'partUnit',
+    name: '零件数量单位',
+    key: 'LINGJIANSHULIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Part Unit"
+  },
+  { props: 'dosage', name: '用量', key: 'YONGLIANG',
+    overlap:true,
+    overlapbottom:"Dosage"
+  },
+  {
+    props: 'dosageMeasureUnit',
+    name: '用量计量单位',
+    key: 'YONGLIANGJILIANGDANWEI',
+    overlap:true,
+    overlapbottom:"Dosage Unit"
+  },
+  {
+    props: 'priceSource',
+    name: '市场价来源',
+    key: 'SHICHANGJIALAIYUAN',
+    overlap:true,
+    overlapbottom:"Market"
+  },
+  {
+    props: 'compensationRatio',
+    name: '补差系数',
+    key: 'BUCHAXISHU',
+    overlap:true,
+    overlapbottom:"Ratio"
+  },
+  { props: 'threshold', name: '阈值', key: 'YUZHI',
+    overlap:true,
+    overlapbottom:"Threhold"
+  },
+  {
+    props: 'compensationPeriod',
+    name: '补差周期',
+    key: 'BUCHAZHOUQI',
+    overlap:true,
+    overlapbottom:"Period"
+  },
+  { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI',
+    overlap:true,
+    overlapbottom:"Valid From"
+  },
+  { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI',
+    overlap:true,
+    overlapbottom:"Valid To"
+  },
+]
+// export const partTableTitle1_3 = [
+//   // { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',width:150},
+//   // { props: 'tcCurrence', name: '货币', key: 'HUOBI',},
+//   // { props: 'tcExchangeRate', name: '汇率', key: 'MTZHUILV'},
+//   // { props: 'mark', name: '备注', key: 'BEIZHU',width:180},
+//   // {
+//   //   props: 'thresholdCompensationLogic',
+//   //   name: '阈值补差逻辑',
+//   //   key: 'YUZHIBUCHALUOJI',
+//   // },
+//   // { props: 'platinumPrice', name: '铂基价', key: 'BOJIJIA'},
+//   // { props: 'platinumDosage', name: '铂用量', key: 'BOYONGLIANG'},
+//   // { props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA'},
+//   // { props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG'},
+//   // { props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA'},
+//   // { props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG'},
+//   // { props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI', width: 180 },
+// ]
+
+export const partTableTitle2_1 = [
   { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO', width: 150 },
   { props: 'partName', name: '零件名称', key: 'LINGJIANMINGCHENG'},
-  { props: 'sapCode', name: '供应商编号/名称', key: 'GYSBHMC'},
+  { props: 'supplierId', name: '供应商编号/名称', key: 'GYSBHMC',width:160},
   { props: 'ruleNo', name: '规则编号', key: 'GUIZEBIANHAO' },
-  { props: 'priceUnit', name: '每', key: 'MEI' },
+  { props: 'priceUnit', name: '每', key: 'MEI',width:80},
   {
     props: 'partUnit',
     name: '零件数量单位',
@@ -283,9 +896,9 @@ export const partTableTitle1_1 = [
   },
   { props: 'startDate', name: '有效期起', key: 'YOUXIAOQIQI'},
   { props: 'endDate', name: '有效期止', key: 'YOUXIAOQIZHI'},
-  { props: 'mark', name: '备注', key: 'BEIZHU',width:180},
+  { props: 'mark', name: '备注', key: 'BEIZHU',width:160},
 ]
-export const partTableTitle1_2 = [
+export const partTableTitle2_2 = [
   { props: 'assemblyPartnum', name: '零件号', key: 'LINGJIANHAO',width:150},
   {
     props: 'materialCode',
@@ -321,7 +934,7 @@ export const partTableTitle1_2 = [
     props: 'thresholdCompensationLogic',
     name: '阈值补差逻辑',
     key: 'YUZHIBUCHALUOJI',
-  }
+  },
 ]
 
 // 附件上传

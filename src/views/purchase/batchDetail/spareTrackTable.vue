@@ -6,14 +6,14 @@
         <div class="card1">
             <iCard class="item">
                 <div class="status">
-                    <span class="status-text" v-text="$t('EKL_SJJSJZSJ')"></span>
+                    <span class="status-text" v-text="$t('LK_SJJSJZSJ')"></span>
                     <span class="status-value blue" v-text="headBase&&headBase.calcDate"></span>
                     <icon class="icon" symbol name="iconyejijichubiaodaiquerenshuliang1" />
                 </div>
             </iCard>
             <iCard class="item">
                 <div class="status">
-                    <span class="status-text" v-text="$t('EKL_GZLJZS')"></span>
+                    <span class="status-text" v-text="$t('LK_GZLJZS')"></span>
                     <span class="status-value success" v-text="headBase&&headBase.sumAll"></span>
                     <icon class="icon" symbol name="iconyejijichubiaowanchengshijian" />
                 </div>

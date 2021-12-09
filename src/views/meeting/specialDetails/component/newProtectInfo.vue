@@ -61,7 +61,6 @@ import {
   deleteThemenAttachment,
 } from "@/api/meeting/details";
 import { download } from "@/utils/downloadUtil";
-import { MOCK_FILE_URL } from '@/constants';
 
 export default {
   components: {
@@ -258,7 +257,7 @@ export default {
       await uploadFile(formData)
         .then((res) => {
           return {
-            ...res[0],
+            ...res.data[0],
           };
         })
         .then((fileData) => {

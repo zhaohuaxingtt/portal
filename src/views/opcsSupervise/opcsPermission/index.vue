@@ -1,26 +1,25 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 11:24:47
+ * @LastEditTime: 2021-12-08 18:06:49
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
 <template>
   <div>
-    <iSearch @reset="clickReset" @sure="sure" :icon="true">
-      <el-form inline label-position="top">
+    <iSearch @reset="clickReset"
+             @sure="sure"
+             :icon="true">
+      <el-form inline
+               label-position="top">
         <el-form-item :label="language('YINGYONGMINGCHENG', '应用名称')">
-          <iInput
-            :placeholder="language('QINGSHURU', '请输入')"
-            v-model="form.tagNameList"
-          >
+          <iInput :placeholder="language('QINGSHURU', '请输入')"
+                  v-model="form.nameZh">
           </iInput>
         </el-form-item>
         <el-form-item :label="language('YINGYONGFUZEREN', '应用负责人')">
-          <iInput
-            :placeholder="language('QINGSHURU', '请输入')"
-            v-model="form.tagType"
-          >
+          <iInput :placeholder="language('QINGSHURU', '请输入')"
+                  v-model="form.userName">
           </iInput>
         </el-form-item>
       </el-form>
@@ -35,26 +34,25 @@
           <i-button @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
         </div>
       </div>
-      <table-list
-        :tableData="tableListData"
-        :tableTitle="tableTitle"
-        :tableLoading="tableLoading"
-        @handleSelectionChange="handleSelectionChange"
-        :index="true"
-      >
+      <table-list :tableData="tableListData"
+                  :tableTitle="tableTitle"
+                  :tableLoading="tableLoading"
+                  :openPageProps="'nameZh'"
+                  @openPage="openPage"
+                  :openPageGetRowData="true"
+                  @handleSelectionChange="handleSelectionChange"
+                  :index="true">
       </table-list>
-      <iPagination
-        style="margin-top: 20px"
-        v-update
-        @size-change="handleSizeChange($event, sure)"
-        @current-change="handleCurrentChange($event, getTableData)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="page.pageSize"
-        :layout="page.layout"
-        :current-page="page.currPage"
-        :total="page.totalCount"
-      />
+      <iPagination style="margin-top: 20px"
+                   v-update
+                   @size-change="handleSizeChange($event, sure)"
+                   @current-change="handleCurrentChange($event, getTableData)"
+                   background
+                   :page-sizes="page.pageSizes"
+                   :page-size="page.pageSize"
+                   :layout="page.layout"
+                   :current-page="page.currPage"
+                   :total="page.totalCount" />
     </iCard>
   </div>
 </template>
@@ -72,6 +70,7 @@ import {
   iMessageBox
 } from 'rise'
 import { tableTitle } from './components/data'
+import { deleteList, queryList, exportFile } from '@/api/opcs/solPermission'
 export default {
   mixins: [pageMixins],
   components: {
@@ -92,63 +91,79 @@ export default {
     }
   },
   created() {
-      console.log(this.tabledata)
-      this.tableListData=[{ys:'111'},{ys:'222'},]
-    // this.getTableData()
+    this.getTableData()
   },
   methods: {
-         //修改表格改动列
+    //修改表格改动列
     handleSelectionChange(val) {
       this.selectTableData = val
     },
-    // //获取列表接口
-    // getTableData() {
-    //   this.tableLoading = true
-    //   const params = {
-    //     pageNo: this.page.currPage,
-    //     pageSize: this.page.pageSize,
-    //     ...this.form
-    //   }
-    //   getTagPage(params).then((res) => {
-    //     this.tableLoading = false
-    //     if (res && res.code == 200) {
-    //       this.tabledata = res.data
-    //       this.page.totalCount = res.total
-    //     } else iMessage.error(res.desZh)
-    //   })
-    // },
-    handleDelect() {
-        console.log(this.selectTableData)
-    //   if (this.selectTableData.length == 0) {
-    //     iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
-    //     return false
-    //   }
-    //   iMessageBox(
-    //     this.language(
-    //       'QUERENSHANCHUGAIBIAOQIANDESUOYOUGONGYINGSHANGPEIZHI?',
-    //       '确认删除该标签的所有供应商配置？'
-    //     ),
-    //     this.language('SHANCHU', '删除'),
-    //     {
-    //       confirmButtonText: this.language('SHI', '是'),
-    //       cancelButtonText: this.language('FOU', '否')
-    //     }
-    //   ).then(async () => {
-    //     const req = {
-    //       ids: this.selectTableData.map((x) => {
-    //         return x.tagId
-    //       })
-    //     }
-    //     console.log(this.selectTableData)
-    //     delBatchDel(req).then((res) => {
-    //       if (res && res.code == 200) {
-    //         iMessage.success(res.desZh)
-    //         this.getTableData()
-    //       } else iMessage.error(res.desZh)
-    //     })
-    //   })
-    },
 
+    //获取列表接口
+    getTableData() {
+      this.tableLoading = true
+      const params = {
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        ...this.form
+      }
+      queryList(params).then((res) => {
+        this.tableLoading = false
+        if (res && res.code == 200) {
+          this.tableListData = res.data
+          this.page.totalCount = res.total
+        } else iMessage.error(res.desZh)
+      })
+    },
+    handleDelect() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      iMessageBox(
+        this.language(
+          'QUERENSHANCHUGAIYINGYONGSHOUQUAN',
+          '确认删除该应用授权？'
+        ),
+        this.language('SHANCHU', '删除'),
+        {
+          confirmButtonText: this.language('SHI', '是'),
+          cancelButtonText: this.language('FOU', '否')
+        }
+      ).then(async () => {
+        const req = {
+          id: this.selectTableData.map((x) => {
+            return x.id
+          })
+        }
+        deleteList(req).then((res) => {
+          if (res && res.code == 200) {
+            iMessage.success(res.desZh)
+            this.getTableData()
+          } else iMessage.error(res.desZh)
+        })
+      })
+    },
+    openPage(row) {
+        console.log(row)
+      let routeData = this.$router.resolve({
+        path: '/opcs/list/application',
+        query: {
+          opcsSupplierId: row.id || '',
+          nameZh:row.nameZh||''
+        }
+      })
+      window.open(routeData.href)
+    },
+    //导出
+    exportsTable() {
+      const params = {
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
+        ...this.form
+      }
+      exportFile(params)
+    },
     // 点击重置
     clickReset() {
       this.form = {}

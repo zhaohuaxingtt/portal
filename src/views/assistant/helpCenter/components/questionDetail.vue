@@ -5,14 +5,14 @@
 	</div>
 	<div class="line"></div>
 	<div class="title-des flex items-center mt20">{{ title }}</div>
-	<div class="label mt20">{{ moudleName }}</div>
+	<div class="mt20 label" title="moudleName">{{ moudleName }}</div>
 	<div class="ques-box flex flex-column">
 		<div v-for="(ques, idx) in chatList" :key="idx" class="item-ques flex flex-column">
 			<!-- <div v-if="ques.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
 				<img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
 				<div>{{`管理员${ques.replyUserName}将任务转派给了管理员${ques.handlerToUserName}`}}</div>
 			</div> -->
-			<div class="flex flex-row">
+			<div class="flex flex-row" v-if="ques.content">
 				<div class="item-who"> {{ques.replyType==='reply'?'管理员':'我'}} </div>
 				<div class="desc-box">
 					<div class="desc" v-html="ques.content"></div>
@@ -42,7 +42,7 @@
 
 <script>
 import { iButton } from 'rise';
-import { queryDetailByIdApi, judgeFavour, updateFavour } from '@/api/assistant'
+import { queryDetailByIdApi, closeQuestionApi } from '@/api/assistant'
 import AttachmentDownload from '../../components/attachmentDownload'
 import moment from 'moment'
 export default {
@@ -71,14 +71,16 @@ export default {
 		}
 	},
 	methods: {
+		//  我的问题 点击已解决关闭问题
 		good() {
 			if (!this.currQuestionId) return
-			if (this.currQuesFavourFlag) return this.$message.warning("您已对该问题点赞, 请勿重复点击")  // 已对该问题点赞
-			updateFavour(this.currQuestionId).then((res) => {
+			// if (this.currQuesFavourFlag) return this.$message.warning("您已对该问题点赞, 请勿重复点击")  // 已对该问题点赞
+			closeQuestionApi(this.currQuestionId).then((res) => {
 				if (res?.code === '200') {
 					this.$message.success("很开心该回答能帮助您...")
+					this.solutionFlag = false
 					this.$emit('changeQuesStatus', this.currQuestionId)
-					this.getJudgeFavour(this.currQuestionId)
+					// this.getJudgeFavour(this.currQuestionId)
 				}
 			})
 		},
@@ -100,7 +102,7 @@ export default {
 				}
 			})
 			await this.getQuesDetail(list.id)
-			await this.getJudgeFavour()
+			// await this.getJudgeFavour()
 		},
 		async getQuesDetail(id) {
 			if (!id) return
@@ -143,14 +145,14 @@ export default {
 			this.chatList = list
 		},
 		// 获取该用户是否给该问题点赞
-		async getJudgeFavour() {
-			if (!this.currQuestionId) return
-			await judgeFavour({ faqId: this.currQuestionId }).then((res) => {
-				if (res?.code === '200') {
-					this.currQuesFavourFlag = res?.data
-				}
-			})
-		},
+		// async getJudgeFavour() {
+		// 	if (!this.currQuestionId) return
+		// 	await judgeFavour({ faqId: this.currQuestionId }).then((res) => {
+		// 		if (res?.code === '200') {
+		// 			this.currQuesFavourFlag = res?.data
+		// 		}
+		// 	})
+		// },
 	}
 }
 </script>
@@ -165,7 +167,6 @@ export default {
 		opacity: 1;
 		border-radius: 5px;
 		padding: 30px 40px 20px 40px;
-		// overflow: auto;
 		.search-box {
 			height: 60px;
 		}
@@ -178,18 +179,27 @@ export default {
 		}
 		.title-des {
 			color: #000000;
-			font-size: 18px;
+			font-size: 16px;
 			font-weight: bold;
 			height: 40px;
 		}
 		.label {
-			display: inline-block;
-			background: #EDEDED;
-			opacity: 1;
-			border-radius: 8px;
+			// display: inline-block;
+			// background: #EDEDED;
+			// opacity: 1;
+			// border-radius: 8px;
+			// padding: 10px;
+			// color: #4B5C7D;
+			// font-size: 14px;
+			max-width: 100px;
+			background: #ededed;
+			border-radius: 10px;
+			color: #4b5c7d;
 			padding: 10px;
-			color: #4B5C7D;
-			font-size: 14px;
+			text-align: center;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		.ques-box {
 			flex: 1;

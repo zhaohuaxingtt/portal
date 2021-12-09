@@ -19,256 +19,261 @@
       v-loading="loadingiSearch"
     >
       <el-form>
-        <el-form-item :label="language('LK_LINGJIANHAO', '零件号')">
-          <iInput v-model.trim="partsNum" :placeholder="$i18n.locale === 'zh' ?'可批量查询':'batch Search'" clearable></iInput>
-        </el-form-item>
-        <el-form-item :label="language('LK_LINGJIANMINGCHENG', '零件名称')">
-          <iInput v-model="partsName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
-        </el-form-item>
-        <el-form-item :label="language('LK_AEKOHAO', 'Aeko号')">
-          <!-- <iSelect
-            class="multipleSelect"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')"
-            filterable
-            clearable
-            collapse-tags
-            multiple
-            :filter-method="remoteMethod"
-            :loading="AekoLoading"
-            v-model="aekoNum"
-          >
-            <el-option
-              :value="item"
-              :label="item"
-              v-for="(item, index) in AekoPullDown"
-              :key="index"
-            ></el-option>
-          </iSelect> -->
-          <el-select
-            v-model="aekoNum"
-            class="multipleSelect new_multipleSelect"
-            :filter-method="remoteMethod"
-            multiple
-            filterable
-            allow-create
-            clearable
-            default-first-option
-            :loading="AekoLoading"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')"
-          >
-            <el-option
-              :value="item"
-              :label="item"
-              v-for="(item, index) in AekoPullDown"
-              :key="index"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="language('LK_GONGYINGSHANG', '供应商')">
-          <iInput v-model="supplierName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
-        </el-form-item>
-        <el-form-item :label="language('LK_CAILIAOZU', '材料组')">
-          <iSelect
-            class="multipleSelect"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')"
-            filterable
-            clearable
-            collapse-tags
-            multiple
-            v-model="categoryCode"
-          >
-            <el-option
-              :value="item.categoryCode"
-              :label="item.categoryShowName"
-              v-for="(item, index) in CategoryPullDown"
-              :key="index"
-            ></el-option>
-          </iSelect>
-        </el-form-item>
-        <el-form-item :label="language('LK_KESHI', '科室')">
-          <iSelect
-            class="multipleSelect"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')"
-            filterable
-            clearable
-            collapse-tags
-            multiple
-            v-model="deptId"
-            @change="getCategoryPullDown"
-          >
-            <el-option
-              :value="item.deptId"
-              :label="item.commodity"
-              v-for="(item, index) in DepartmentPullDown"
-              :key="index"
-            ></el-option>
-          </iSelect>
-        </el-form-item>
-        <el-form-item :label="language('LK_CAIGOUYUAN', '采购员')">
-          <iSelect
-            class="multipleSelect"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')"
-            filterable
-            clearable
-            collapse-tags
-            multiple
-            v-model="purchaserId"
-          >
-            <el-option
-              :value="item.linieNum"
-              :label="item.purchaserShowName"
-              v-for="(item, index) in PurchaserPullDown"
-              :key="index"
-            ></el-option>
-          </iSelect>
-        </el-form-item>
-        <!--        <el-form-item :label="language('LK_CAIGOUZU', '采购组')">-->
-        <!--          <iInput v-model="procurementGroupId" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>-->
-        <!--        </el-form-item>-->
-        <el-form-item :label="language('LK_CAIGOUGONGCHANG', '采购工厂')">
-          <iSelect
-            class="multipleSelect"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')"
-            filterable
-            clearable
-            collapse-tags
-            multiple
-            v-model="factoryCode"
-          >
-            <el-option
-              :value="item.factoryShowName"
-              :label="item.factoryShowName"
-              v-for="(item, index) in FactoryPullDown"
-              :key="index"
-            ></el-option>
-          </iSelect>
-        </el-form-item>
-        <el-form-item :label="language('LK_EOPZHUANGTAI', 'EOP状态')">
-          <iSelect
-            class="multipleSelect"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')"
-            filterable
-            clearable
-            v-model="eop"
-          >
-            <el-option
-              :value="item.code"
-              :label="item.eop"
-              v-for="(item, index) in EopPullDown"
-              :key="index"
-            ></el-option>
-          </iSelect>
-        </el-form-item>
-        <el-form-item :label="language('LK_DINGDIANZHUANGTAI', '定点状态')">
-          <iSelect
-            class="multipleSelect"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')"
-            filterable
-            clearable
-            v-model="fixedPoint"
-          >
-            <el-option
-              :value="item.code"
-              :label="item.fixedPoint"
-              v-for="(item, index) in FixedPointPullDown"
-              :key="index"
-            ></el-option>
-          </iSelect>
-        </el-form-item>
-        <el-form-item :label="language('LK_DINGDIANRIQIQI', '定点日期起')">
-          <el-date-picker
-            v-model="businessDateStart"
-            type="date"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item :label="language('LK_DINGDIANRIQIZHI', '定点日期止')">
-          <el-date-picker
-            v-model="businessDateEnd"
-            type="date"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item :label="language('LK_SAPHETONGHAO', 'SAP合同号')">
-          <iInput v-model="contractSapCode" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
-        </el-form-item>
-        <el-form-item :label="language('LK_RISEHETONGHAO', 'RiSE合同号')">
-          <iInput v-model="contractCode" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
-        </el-form-item>
-        <el-form-item :label="language('LK_PINGPAI', '品牌')">
-          <iSelect
-            class="multipleSelect"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')"
-            filterable
-            clearable
-            collapse-tags
-            multiple
-            v-model="brandName"
-            @change="getCarTypeDown"
-          >
-            <el-option
-              :value="item.brandCode"
-              :label="item.brandNameZh"
-              v-for="(item, index) in BrandPullDown"
-              :key="index"
-            ></el-option>
-          </iSelect>
-        </el-form-item>
-        <el-form-item :label="language('LK_CHEXING', '车型')">
-          <iSelect
-            class="multipleSelect"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')"
-            filterable
-            clearable
-            collapse-tags
-            multiple
-            v-model="modelNameZh"
-          >
-            <el-option
-              :value="item.id"
-              :label="item.modelNameShowZh"
-              v-for="(item, index) in CarTypeDown"
-              :key="index"
-            ></el-option>
-          </iSelect>
-        </el-form-item>
-        <el-form-item :label="language('LK_CHEXINGXIANGMU', '车型项目')">
-          <iSelect
-            class="multipleSelect"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')"
-            filterable
-            clearable
-            collapse-tags
-            multiple
-            v-model="carTypeProjectName"
-          >
-            <el-option
-              :value="item.id"
-              :label="item.carTypeProjectShowName"
-              v-for="(item, index) in CarTypePullDown"
-              :key="index"
-            ></el-option>
-          </iSelect>
-        </el-form-item>
-        <el-form-item :label="$t('LK_FS_GS_SP')">
-          <iInput v-model="fsNum" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
-        </el-form-item>
-        <el-form-item :label="language('LK_DANGNIANZAIGONG', '当年在供')">
-          <iSelect
-            class="multipleSelect"
-            :placeholder="language('LK_QINGXUANZHE', '请选择')"
-            filterable
-            clearable
-            v-model="isSupply"
-          >
-            <el-option
-              :value="item.code"
-              :label="item.isSupply"
-              v-for="(item, index) in IsSupplyPullDown"
-              :key="index"
-            ></el-option>
-          </iSelect>
-        </el-form-item>
+        <el-row>
+          <el-form-item :label="language('LK_LINGJIANHAO', '零件号')">
+            <iInput v-model.trim="partsNum" :placeholder="$i18n.locale === 'zh' ?'可批量查询':'batch Search'" clearable></iInput>
+          </el-form-item>
+          <el-form-item :label="language('LK_LINGJIANMINGCHENG', '零件名称')">
+            <iInput v-model="partsName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          </el-form-item>
+          <el-form-item :label="language('LK_AEKOHAO', 'Aeko号')">
+            <!-- <iSelect
+              class="multipleSelect"
+              :placeholder="language('LK_QINGXUANZHE', '请选择')"
+              filterable
+              clearable
+              collapse-tags
+              multiple
+              :filter-method="remoteMethod"
+              :loading="AekoLoading"
+              v-model="aekoNum"
+            >
+              <el-option
+                :value="item"
+                :label="item"
+                v-for="(item, index) in AekoPullDown"
+                :key="index"
+              ></el-option>
+            </iSelect> -->
+            <el-select
+                    v-model="aekoNum"
+                    class="multipleSelect new_multipleSelect"
+                    multiple
+                    filterable
+                    collapse-tags
+                    clearable
+                    :loading="AekoLoading"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')"
+            >
+              <el-option
+                      :value="item"
+                      :label="item"
+                      v-for="(item, index) in AekoPullDown"
+                      :key="index"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="language('LK_GONGYINGSHANG', '供应商')">
+            <iInput v-model="supplierName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          </el-form-item>
+          <el-form-item :label="language('LK_CAILIAOZU', '材料组')">
+            <iSelect
+                    class="multipleSelect"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')"
+                    filterable
+                    clearable
+                    collapse-tags
+                    multiple
+                    v-model="categoryCode"
+            >
+              <el-option
+                      :value="item.categoryCode"
+                      :label="item.categoryShowName"
+                      v-for="(item, index) in CategoryPullDown"
+                      :key="index"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-form-item :label="language('LK_KESHI', '科室')">
+            <iSelect
+                    class="multipleSelect"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')"
+                    filterable
+                    clearable
+                    collapse-tags
+                    multiple
+                    v-model="deptId"
+                    @change="getCategoryPullDown"
+            >
+              <el-option
+                      :value="item.deptId"
+                      :label="item.commodity"
+                      v-for="(item, index) in DepartmentPullDown"
+                      :key="index"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+          <el-form-item :label="language('LK_CAIGOUYUAN', '采购员')">
+            <iSelect
+                    class="multipleSelect"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')"
+                    filterable
+                    clearable
+                    collapse-tags
+                    multiple
+                    v-model="purchaserId"
+            >
+              <el-option
+                      :value="item.linieNum"
+                      :label="item.purchaserShowName"
+                      v-for="(item, index) in PurchaserPullDown"
+                      :key="index"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+          <el-form-item :label="language('LK_CAIGOUGONGCHANG', '采购工厂')">
+            <iSelect
+                    class="multipleSelect"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')"
+                    filterable
+                    clearable
+                    collapse-tags
+                    multiple
+                    v-model="factoryCode"
+            >
+              <el-option
+                      :value="item.factoryShowName"
+                      :label="item.factoryShowName"
+                      v-for="(item, index) in FactoryPullDown"
+                      :key="index"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+          <el-form-item :label="language('LK_EOPZHUANGTAI', 'EOP状态')">
+            <iSelect
+                    class="multipleSelect"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')"
+                    filterable
+                    clearable
+                    v-model="eop"
+            >
+              <el-option
+                      :value="item.code"
+                      :label="item.eop"
+                      v-for="(item, index) in EopPullDown"
+                      :key="index"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+          <el-form-item :label="language('LK_DINGDIANZHUANGTAI', '定点状态')">
+            <iSelect
+                    class="multipleSelect"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')"
+                    filterable
+                    clearable
+                    v-model="fixedPoint"
+            >
+              <el-option
+                      :value="item.code"
+                      :label="item.fixedPoint"
+                      v-for="(item, index) in FixedPointPullDown"
+                      :key="index"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-form-item :label="language('LK_DINGDIANRIQIQI', '定点日期起')">
+            <el-date-picker
+                    v-model="businessDateStart"
+                    type="date"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item :label="language('LK_DINGDIANRIQIZHI', '定点日期止')">
+            <el-date-picker
+                    v-model="businessDateEnd"
+                    type="date"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item :label="language('LK_SAPHETONGHAO', 'SAP合同号')">
+            <iInput v-model="contractSapCode" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          </el-form-item>
+          <el-form-item :label="language('LK_RISEHETONGHAO', 'RiSE合同号')">
+            <iInput v-model="contractCode" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          </el-form-item>
+          <el-form-item :label="language('LK_PINGPAI', '品牌')">
+            <iSelect
+                    class="multipleSelect"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')"
+                    filterable
+                    clearable
+                    collapse-tags
+                    multiple
+                    v-model="brandName"
+                    @change="getCarTypeDown"
+            >
+              <el-option
+                      :value="item.brandCode"
+                      :label="item.brandNameZh"
+                      v-for="(item, index) in BrandPullDown"
+                      :key="index"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+        </el-row>
+
+        <el-row>
+          <el-form-item :label="language('LK_CHEXING', '车型')">
+            <iSelect
+                    class="multipleSelect"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')"
+                    filterable
+                    clearable
+                    collapse-tags
+                    multiple
+                    v-model="modelNameZh"
+            >
+              <el-option
+                      :value="item.id"
+                      :label="item.modelNameShowZh"
+                      v-for="(item, index) in CarTypeDown"
+                      :key="index"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+          <el-form-item :label="language('LK_CHEXINGXIANGMU', '车型项目')">
+            <iSelect
+                    class="multipleSelect"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')"
+                    filterable
+                    clearable
+                    collapse-tags
+                    multiple
+                    v-model="carTypeProjectName"
+            >
+              <el-option
+                      :value="item.id"
+                      :label="item.carTypeProjectShowName"
+                      v-for="(item, index) in CarTypePullDown"
+                      :key="index"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+          <el-form-item :label="$t('LK_FS_GS_SP')">
+            <iInput v-model="fsNum" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
+          </el-form-item>
+          <el-form-item :label="language('LK_DANGNIANZAIGONG', '当年在供')">
+            <iSelect
+                    class="multipleSelect"
+                    :placeholder="language('LK_QINGXUANZHE', '请选择')"
+                    filterable
+                    clearable
+                    v-model="isSupply"
+            >
+              <el-option
+                      :value="item.code"
+                      :label="item.isSupply"
+                      v-for="(item, index) in IsSupplyPullDown"
+                      :key="index"
+              ></el-option>
+            </iSelect>
+          </el-form-item>
+        </el-row>
+
       </el-form>
     </iSearch>
     <div class="partLifeCycleStar_main">
@@ -445,7 +450,7 @@ export default {
       IsSupplyPullDown: [],
       PurchaserPullDown: [],
       current: 1,
-      size: 9,
+      size: 27,
       isButn: true,
       defaultPartsTotal: 0,
     }
@@ -454,7 +459,7 @@ export default {
     this.getSeletes()
     this.defaultParts()
     if(this.$refs.partLifeCycleStar)
-    this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.scrollGetData); //this.setHeadPosition方法名
+    this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.debounce(this.scrollGetData,500)); //this.setHeadPosition方法名
   },
   destroyed() {
     if(this.$refs.partLifeCycleStar)
@@ -470,67 +475,80 @@ export default {
         this.defaultParts()
       }
     },
-    remoteMethod(val){
-      this.AekoPullDown = this.AekoPullDownClone.filter(item => {
-        if(item.includes(val)){
-          return item
-        }
-      }).slice(0, 40)
-    },
+//    remoteMethod(val){
+//      this.AekoPullDown = this.AekoPullDownClone.filter(item => {
+//        return item.indexOf(val)>-1
+//      })
+//    },
     scrollGetData(e){
+//      clearTimeout(this.time)
       const { scrollTop, clientHeight, scrollHeight } = e.target
-      // console.log('~~(scrollTop + clientHeight)', Math.ceil(scrollTop + clientHeight), scrollHeight)
-      if(Math.ceil(scrollTop + clientHeight) >= scrollHeight){
-        this.leftLoading = true
-        this.showLoading()
-        this.current++
-        getPartsCollect({
-          partsNum: this.partsNum,
-          partsName: this.partsName,
-          aekoNum: this.aekoNum,
-          supplierName: this.supplierName,
-          categoryCode: this.categoryCode,
-          categoryShowName: this.categoryShowName,
-          deptId: this.deptId,
-          purchaserId: this.purchaserId,
-          purchaserShowName: this.purchaserShowName,
-          // procurementGroupId: this.procurementGroupId,
-          factoryCode: this.factoryCode,
-          factoryShowName: this.factoryShowName,
-          eop: this.eop,
-          fixedPoint: this.fixedPoint,
-          businessDateStart: this.businessDateStart,
-          businessDateEnd: this.businessDateEnd,
-          contractSapCode: this.contractSapCode,
-          contractCode: this.contractCode,
-          brandName: this.brandName,
-          modelNameZh: this.modelNameZh,
-          carTypeProjectName: this.carTypeProjectName,
-          fsNum: this.fsNum,
-          isSupply: this.isSupply,
-          current : this.current ,
-          size: this.size,
-        }).then(res => {
-          const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
-          if (Number(res.code) === 200) {
-            if(res.data.length < 9){
-              this.isScroll = true
+      if(Math.ceil(Number(scrollTop) + Number(clientHeight)) >= scrollHeight){
+//        this.time = setTimeout(() => {
+          this.leftLoading = true
+          this.showLoading()
+          this.current++
+          getPartsCollect({
+            partsNum: this.partsNum,
+            partsName: this.partsName,
+            aekoNum: this.aekoNum,
+            supplierName: this.supplierName,
+            categoryCode: this.categoryCode,
+            categoryShowName: this.categoryShowName,
+            deptId: this.deptId,
+            purchaserId: this.purchaserId,
+            purchaserShowName: this.purchaserShowName,
+            // procurementGroupId: this.procurementGroupId,
+            factoryCode: this.factoryCode,
+            factoryShowName: this.factoryShowName,
+            eop: this.eop,
+            fixedPoint: this.fixedPoint,
+            businessDateStart: this.businessDateStart,
+            businessDateEnd: this.businessDateEnd,
+            contractSapCode: this.contractSapCode,
+            contractCode: this.contractCode,
+            brandName: this.brandName,
+            modelNameZh: this.modelNameZh,
+            carTypeProjectName: this.carTypeProjectName,
+            fsNum: this.fsNum,
+            isSupply: this.isSupply,
+            current : this.current ,
+            size: this.size,
+          }).then(res => {
+            const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+            if (Number(res.code) === 200) {
+              if(res.data.length < 27){
+                this.isScroll = true
+              }
+              let data = res.data.map(item => {
+                item.isClaim = false
+                return item
+              })
+              this.defaultPartsTotal = res.total;
+              this.defaultPartsList = this.defaultPartsList.concat(data)
+            } else {
+              iMessage.error(result)
             }
-            let data = res.data.map(item => {
-              item.isClaim = false
-              return item
-            })
-            this.defaultPartsTotal = res.total;
-            this.defaultPartsList = this.defaultPartsList.concat(data)
-          } else {
-            iMessage.error(result)
-          }
-          this.leftLoading = false
-          this.hideLoading()
-        }).catch(() => {
-          this.leftLoading = false
-          this.hideLoading()
-        })
+            this.leftLoading = false
+            this.hideLoading()
+          }).catch(() => {
+            this.leftLoading = false
+            this.hideLoading()
+          })
+//        },500)
+      }
+    },
+    debounce(func, wait) {
+      let timer;
+      return function() {
+        let context = this; // 注意 this 指向
+        let args = arguments; // arguments中存着e
+
+        if (timer) clearTimeout(timer);
+
+        timer = setTimeout(() => {
+          func.apply(this, args)
+        }, wait)
       }
     },
     reset(){

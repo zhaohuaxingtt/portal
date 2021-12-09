@@ -3,37 +3,46 @@
  * @Date: 2021-11-5
 -->
 <template>
-  <iDialog @close="closeDiolog()"
-           :title="language('GONGYINGSHANGBIAOQIAN', '供应商标签')"
-           :visible.sync="value"
-           width="30%">
+  <iDialog
+    @close="closeDiolog()"
+    :title="language('GONGYINGSHANGBIAOQIAN', '供应商标签')"
+    :visible.sync="value"
+    width="30%"
+  >
     <el-form label-position="top">
       <el-form-item :label="language('CAOZUOLEIXING', '操作类型')">
-        <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                 v-model="form.operationType">
-          <el-option v-for="item in tagTypeList"
-                     :key="item.value"
-                     :label="item.label"
-                     :value="item.value">
+        <iSelect :placeholder="language('请选择')" v-model="form.operationType">
+          <el-option
+            v-for="item in tagTypeList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
           </el-option>
         </iSelect>
       </el-form-item>
       <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
-        <iSelect multiple
-                 collapse-tags
-                 filterable
-                 :placeholder="language('QINGSHURUXUANZE', '请输入/选择')"
-                 v-model="form.tagIds">
-          <el-option v-for="item in tagList"
-                     :key="item.tagId"
-                     :label="item.tagName"
-                     :value="item.tagId">
+        <iSelect
+          multiple
+          collapse-tags
+          filterable
+          :placeholder="language('QINGSHURUXUANZE', '请输入/选择')"
+          v-model="form.tagIds"
+        >
+          <el-option
+            v-for="item in tagList"
+            :key="item.tagId"
+            :label="item.tagName"
+            :value="item.tagId"
+          >
           </el-option>
         </iSelect>
       </el-form-item>
     </el-form>
     <div class="bottom">
-      <i-button @click="handleBtn()">{{ language('QUEDING', '确定') }}</i-button>
+      <i-button @click="handleBtn()">{{
+        language('QUEDING', '确定')
+      }}</i-button>
     </div>
   </iDialog>
 </template>

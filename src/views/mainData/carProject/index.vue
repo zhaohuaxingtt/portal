@@ -11,9 +11,8 @@ export default {
   name: 'carProject',
   methods: {
     getFilterFormData(data) {
-
-      console.log("Data ===",data)
-      this.filterForm = {...data}
+      console.log('Data ===', data)
+      this.filterForm = { ...data }
     }
   },
   data() {

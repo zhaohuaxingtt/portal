@@ -1,7 +1,7 @@
 <template>
   <div>
     <iCard :title="language('NEWS_JICHUXINXI', '基础信息')" collapse>
-      <div class="card--form">
+      <div v-if="ruleForm.category!==2" class="card--form">
         <div class="form-base">
           <el-form
             :model="ruleForm"
@@ -174,8 +174,115 @@
           </div>
         </div>
       </div>
+      <div v-if="ruleForm.category==2" style="height: 49rem">
+        <div class="form-base">
+        <el-form
+            :model="ruleForm"
+            label-width="9rem"
+            :rules="baseRules"
+            ref="ruleForm"
+            :hideRequiredAsterisk="true"
+          >
+            <div class="form">
+              <div class="input-box">
+                <div class="form-row" style="margin-top: 0px">
+                  <iFormItem
+                    :label="language('NEWS_XINWENFENLEI', '新闻分类')"
+                    prop="category"
+                    :hideRequiredAsterisk="true"
+                  >
+                    <iLabel
+                      :label="language('NEWS_XINWENFENLEI', '新闻分类')"
+                      slot="label"
+                      required
+                    ></iLabel>
+                    <p class="el-p">{{ category[ruleForm.category] }}</p>
+                  </iFormItem>
+                  <iFormItem :label="language('NEWS_XINWENBIAOTI', '新闻标题')" prop="title">
+                    <iLabel
+                      :label="language('NEWS_XINWENBIAOTI', '新闻标题')"
+                      slot="label"
+                      required
+                    ></iLabel>
+                    <p class="el-p" :title="ruleForm.title">{{ ruleForm.title }}</p>
+                  </iFormItem>
+                  <iFormItem
+                    :label="language('NEWS_FABUFANWEI', '发布范围')"
+                    prop="publishRange"
+                    :hideRequiredAsterisk="true"
+                  >
+                    <iLabel
+                      :label="language('NEWS_FABUFANWEI', '发布范围')"
+                      slot="label"
+                      required
+                    ></iLabel>
+                    <p
+                      class="el-p"
+                      :title="
+                        ruleForm.publishRange!=null && ruleForm.publishRange.code === 15
+                          ? userGroup
+                          : ruleForm.publishRange!=null?ruleForm.publishRange.name:''
+                      "
+                    >
+                      {{
+                        ruleForm.publishRange!=null && ruleForm.publishRange.code === 15
+                          ? userGroup
+                          : ruleForm.publishRange!=null?ruleForm.publishRange.name:''
+                      }}
+                    </p>
+                  </iFormItem>
+                </div>
+                <div class="form-two">
+                  <iFormItem :label="language('NEWS_FABURIQI', '发布日期')" prop="publishDate">
+                    <iLabel
+                      :label="language('NEWS_FABURIQI', '发布日期')"
+                      slot="label"
+                      required
+                    ></iLabel>
+                    <div class="form-item-one"> <p class="el-p">
+                      {{ ruleForm.publishDate.substring(0, 10) }}
+                    </p></div>
+                  </iFormItem>
+                  <iFormItem class="form-item-two" :label="language('NEWS_XINWENBIAOQIAN', '新闻标签')"  :hideRequiredAsterisk="true">
+                    <iLabel :label="language('NEWS_XINWENBIAOQIAN', '新闻标签')" slot="label"></iLabel>
+                    <p class="el-p" :title="tags">{{ tags }}</p>
+                  </iFormItem>
+                </div>
+                <div class="form-row">
+                  <iFormItem :label="language('NEWS_SHIFOUZHIDING', '是否置顶')" prop="isTop">
+                    <iLabel
+                      :label="language('NEWS_SHIFOUZHIDING', '是否置顶')"
+                      slot="label"
+                      required
+                    ></iLabel>
+                    <p class="el-p">{{ ruleForm.isTop === 1 ? language('TERMS_SHI', '是') : language('TERMS_FOU', '否') }}</p>
+                  </iFormItem>
+                  <iFormItem :label="language('NEWS_GONGYINGSHANGMINGCHENG', '供应商简称')">
+                    <iLabel :label="language('NEWS_GONGYINGSHANGMINGCHENG', '供应商简称')" slot="label"></iLabel>
+                    <p class="el-p" :title="ruleForm.providerName">{{ ruleForm.providerName }}</p>
+                  </iFormItem>
+                  <iFormItem :label="language('NEWS_YUANWENLIANJIE', '原文链接')">
+                    <iLabel :label="language('NEWS_YUANWENLIANJIE', '原文链接')" slot="label"></iLabel>
+                    <p class="el-p" :title="ruleForm.linkUrl">{{ ruleForm.linkUrl }}</p>
+                  </iFormItem>
+                </div>
+                <div class="form-summary">
+                  <iFormItem :label="language('NEWS_XINWENGAIYAO', '新闻概要')" prop="summary">
+                    <iLabel
+                      :label="language('NEWS_XINWENGAIYAO', '新闻概要')"
+                      slot="label"
+                      required
+                    ></iLabel>
+                    <p class="el-p" :title="ruleForm.summary">{{ ruleForm.summary }}</p>
+                  </iFormItem>
+                </div>
+              </div>
+            </div>
+          </el-form>
+          </div>
+      </div>
     </iCard>
-    <iCard :title="language('NEWS_ZHENGWEN','正文')" collapse class="margin-top20">
+    <iCard v-show="ruleForm.category!==2" :title="language('NEWS_ZHENGWEN','正文')" collapse class="margin-top20">
       <el-form
         :model="ruleForm"
         label-width="7rem"
@@ -507,6 +614,94 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    .form-two{
+      width: 100%;
+      margin-top: 1.5rem;
+      height: 2.5rem !important;
+      display: flex;
+      .form-item-one{
+        width: 22.7rem !important;
+        margin-right: 80px;
+          .el-p {
+            position: relative;
+            font-size: 0.875rem;
+            display: inline-block;
+            width: 100%;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            background-color: #f8f8fa;
+            border-radius: 4px;
+            color: $color-black;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0 10px;
+          }
+      }
+      .form-item-two{
+        flex: 1;
+        .el-form-item__content {
+          .el-p {
+            position: relative;
+            font-size: 0.875rem;
+            display: inline-block;
+            width: 100%;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            background-color: #f8f8fa;
+            border-radius: 4px;
+            color: $color-black;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0 10px;
+          }
+        }
+      }
+    }
+    .form-summary{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      .form--item {
+        width: 30% !important;
+      }
+      .form--item--video {
+        min-width: 308px;
+        min-height: 200px;
+      }
+      .el-form-item {
+        width: 100%;
+        min-width: 0;
+        margin-bottom: 0rem;
+        height: 40px;
+        .el-form-item__content {
+          width: 100%;
+          .video-tip {
+            font-size: 12px;
+            color: #ccc;
+            text-align: left;
+          }
+          .el-p {
+            position: relative;
+            font-size: 0.875rem;
+            display: inline-block;
+            width: 100%;
+            height: 230px;
+            background-color: #f8f8fa;
+            border-radius: 4px;
+            color: $color-black;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0 10px;
+          }
+        }
+      }
+    }
     .form-row {
       width: 100%;
       display: flex;

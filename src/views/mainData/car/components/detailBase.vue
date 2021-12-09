@@ -7,7 +7,7 @@
       <iButton @click="save" v-show="editable">
         {{ language('确认') }}
       </iButton>
-      <iButton @click="cancel" v-show="editable && baseForm.id">
+      <iButton @click="cancel" v-show="editable">
         {{ language('取消') }}
       </iButton>
     </div>
@@ -208,10 +208,6 @@ export default {
   name: 'carDetailBase',
   components: { iCard, iFormItem, iSelect, iInput, iButton },
   props: {
-    /* editable: {
-      type: Boolean,
-      default: true
-    }, */
     productFactoryOptions: {
       type: Array,
       default: function () {
@@ -258,6 +254,9 @@ export default {
       if (this.baseForm.id) {
         this.queryCalCarTypeConfig()
       }
+    },
+    baseForm() {
+      this.orginalBaseForm = _.cloneDeep(this.baseForm)
     }
   },
   data() {
@@ -302,6 +301,7 @@ export default {
     }
   },
   created() {
+    this.orginalBaseForm = _.cloneDeep(this.baseForm)
     this.querySelectDicts()
     this.queryBrandSelect()
     if (this.baseForm.id) {
@@ -344,6 +344,9 @@ export default {
       this.editstate = true
     },
     cancel() {
+      if (!this.isEditPage) {
+        window.close()
+      }
       if (_.isEqual(this.orginalBaseForm, this.baseForm)) {
         this.$emit('reset', this.orginalBaseForm)
         this.editstate = false
@@ -357,8 +360,8 @@ export default {
             this.save()
           })
           .catch(() => {
-            this.$emit('reset', this.orginalBaseForm)
             this.editstate = false
+            this.$emit('reset', this.orginalBaseForm)
           })
       }
     },

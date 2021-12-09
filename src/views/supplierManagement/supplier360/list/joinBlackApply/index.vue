@@ -6,7 +6,7 @@
   <div>
     <div :class="ifSelf?'page':''">
       <div v-if="ifSelf" class="headerTitle">
-        <p>加入黑名单申请 - 生产采购</p>
+        <p>{{ language('JIARUHEIMINGDANSHENQINGSHENGCHANCAIGOU', '加入黑名单申请 - 生产采购') }}</p>
         <div>
           <iButton @click="handleBtn(2)">{{
             language('PIZHUN', '批准')
@@ -19,7 +19,9 @@
           }}</iButton> -->
         </div>
       </div>
-      <iCard :style="ifSelf?'margin-top:20px':''">
+ <div :class="ifSelf?'cardBox':''" :style="ifSelf?'margin-top:20px':''">
+
+      <iCard >
         <el-form inline label-position="left" label-width="120px">
           <div class="formTitle">
             <el-form-item
@@ -41,7 +43,7 @@
           </div>
 
           <div>
-            <p>加入黑名单原因</p>
+            <p>   {{ language('JIARUHEIMINGDANYUANYIN', '加入黑名单原因') }}</p>
             <div class="remark">
               {{data.reason}}
             </div>
@@ -49,7 +51,7 @@
         </el-form>
       </iCard>
       <iCard style="margin-top:20px">
-        <p class="tableTitle">详情列表</p>
+        <p class="tableTitle">   {{ language('XIANGQINGLIEBIAO', '详情列表') }}</p>
         <table-list
           style="margin-top:20px"
           :tableData="tableListData"
@@ -65,8 +67,8 @@
         </table-list>
         <iPagination
           v-update
-          @size-change="handleSizeChange($event, getListData)"
-          @current-change="handleCurrentChange($event, getListData)"
+          @size-change="handleSizeChange($event, getListArr)"
+          @current-change="handleCurrentChange($event, getListArr)"
           background
           :page-sizes="page.pageSizes"
           :page-size="page.pageSize"
@@ -75,6 +77,8 @@
           :total="page.totalCount"
         />
       </iCard>
+ </div>
+
     </div>
   </div>
 </template>
@@ -107,10 +111,14 @@ export default {
       ifSelf: true
     }
   },
-  created() {
-          var tbody = document.body
+   updated() {
+       var tbody = window.document.getElementById('appRouterView')
         var height = tbody.clientHeight
+        console.log(height)
         window.parent.postMessage({ key: 'setFormHeight', value: height+'px'},'*')
+   },
+  created() {
+   
     if (window.top === window.self) {
       this.ifSelf = true
     } else {
@@ -177,8 +185,14 @@ export default {
 ::v-deep .el-form--inline .el-form-item {
   // margin-right: 50px;
 }
+.cardBox{
+  height: 88vh;
+  overflow-y: auto;
+  padding-bottom: 20px;
+}
 .page {
   padding: 30px 40px 30px 40px;
+
 }
 .remark {
   word-wrap: break-word;

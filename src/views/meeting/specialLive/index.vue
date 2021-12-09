@@ -19,6 +19,25 @@
                   <img src="@/assets/images/time.svg" class="img" />
                 </div>
                 <span class="time"> {{ `${begin}~${end}` }}</span>
+                <!-- <span class="time">{{
+                  `${meetingInfo.startDate} ${meetingInfo.startTime.substring(
+                    0,
+                    5
+                  )}
+                ~
+                ${
+                  Number(
+                    meetingInfo.themens[meetingInfo.themens.length - 1]
+                      .plusDayEndTime
+                  ) > 0
+                    ? meetingInfo.endTime.substring(0, 5) +
+                      ` +${Number(
+                        meetingInfo.themens[meetingInfo.themens.length - 1]
+                          .plusDayEndTime
+                      )}`
+                    : meetingInfo.endTime.substring(0, 5)
+                }`
+                }}</span> -->
               </div>
               <div class="address">
                 <!-- <i class="el-icon-location"></i> -->
@@ -72,7 +91,7 @@
               indicator-position="outside"
               :autoplay="false"
               trigger="click"
-              height="23.75rem"
+              height="27.5rem"
               :initial-index="myLiveIndex"
               ref="carouselMy"
             >
@@ -114,12 +133,15 @@
             </el-carousel>
           </div>
           <div class="card-list-line" v-if="myThemenData.length > 0"></div>
-          <div class="card-list-container" v-if="myThemenData.length > 0">
+          <div
+            class="card-list-container card-list-container-margin"
+            v-if="myThemenData.length > 0"
+          >
             <el-carousel
               indicator-position="outside"
               :autoplay="false"
               trigger="click"
-              height="23.75rem"
+              height="27.5rem"
               :initial-index="noMyLiveIndex"
               ref="carouselNoMy"
             >
@@ -186,7 +208,7 @@
               indicator-position="outside"
               :autoplay="false"
               trigger="click"
-              height="23.75rem"
+              height="27.5rem"
               :initial-index="noMyLiveIndex"
               ref="carouselNoMy"
             >
@@ -225,9 +247,11 @@
           <div class="white"></div>
         </div>
       </div>
-      <div class="bootom notice">{{$t('MT_HUIYIZHIBOMEIWUMIAOSHUAXIN')}}</div>
+      <div class="bootom notice">
+        {{ $t('MT_HUIYIZHIBOMEIWUMIAOSHUAXIN') }}
+      </div>
     </div>
-    <div v-else class="no-live">{{$t('MT_ZANWUZHIBOHUIYI')}}</div>
+    <div v-else class="no-live">{{ $t('MT_ZANWUZHIBOHUIYI') }}</div>
     <my-topics
       ref="childTopic"
       :meetingInfo="meetingInfo"
@@ -235,27 +259,27 @@
       @getMyTopics="getMyTopics"
       :curMeetingId="curMeetingId"
     ></my-topics>
-    <dataDownload :meetingTypeId="meetingTypeId"></dataDownload>
+    <dataDownload></dataDownload>
   </div>
 </template>
 
 <script>
-import cardBoxNewVersion from './cardBoxNewVersion.vue'
-import theLiveTable from './theLiveTable.vue'
+import cardBoxNewVersion from './components/cardBoxNewVersion.vue'
+import theLiveTable from './components/theLiveTable.vue'
 import { findThemenById } from '@/api/meeting/details'
 import { getMettingType } from '@/api/meeting/type'
 import { iMessage } from 'rise'
 import dayjs from 'dayjs'
 // import myTopics from "../../nearMeeting/components/myTopics/index.vue";
-import myTopics from './mytopic.vue'
-import dataDownload from './dataDownload.vue'
+import myTopics from './components/mytopic.vue'
+import dataDownload from './components/dataDownload.vue'
 import positionMark from '@/assets/images/position-mark.svg'
 export default {
   components: {
     cardBoxNewVersion,
     theLiveTable,
     myTopics,
-    dataDownload,
+    dataDownload
     // swiper,
   },
   data() {
@@ -278,22 +302,12 @@ export default {
       // refresh: false,
       myThemenData: [],
       noMyThemenData: [],
-      meetingTypeId: '',
       total: 0,
       begin: '',
       end: '',
       noMyTotal: 0
     }
   },
-  // watch: {
-  //   myThemenData: {
-  //     handler(v) {
-  //       console.log("哈哈哈哈啊哈哈哈",v);
-  //     },
-  //     immediate: true,
-  //     deep: true,
-  //   },
-  // },
   mounted() {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
     this.getMeetingTypeObject()
@@ -303,9 +317,6 @@ export default {
   methods: {
     handleTurnMode() {
       this.value = !this.value
-    },
-    setActiveItem(name) {
-      console.log(name)
     },
     //取俩个数组的前6后6
     // assignArr(beforeArr, afterArr, isMy) {
@@ -392,38 +403,18 @@ export default {
         const liveItem = this.isHaveLiveTheme()
 
         if (liveItem) {
-          // this.$route.push({
-          //   path: "/meeting/live",
-          //   query: {
-          //     id: this.meetingTypeId,
-          //     meetingInfoId: liveItem.meetingId,
-          //   },
-          // });
           this.queryMeetingInfoById(liveItem.meetingId)
           this.curMeetingId = liveItem.meetingId
         }
       } else {
         const liveItem = this.isHaveLiveTheme()
         if (!liveItem) {
-          // this.$route.push({f
-          //   path: "/meeting/live",
-          //   query: {
-          //     id: this.meetingTypeId,
-          //     meetingInfoId: -1,
-          //   },
-          // });
           this.curMeetingId = -1
           this.queryMeetingInfoById(-1)
         } else {
           this.queryMeetingInfoById(liveItem.meetingId)
         }
       }
-      // let curIndex = this.getCurrentLiveIndex();
-      // let refDom = this.$refs.swiperRef;
-      // if (this.resThemeData.length > 2) {
-      //   this.translateX(refDom, curIndex);
-      // }
-      // this.curIndex = curIndex;
     },
     handlePreClick() {
       if (this.curIndex > 1) {
@@ -441,26 +432,6 @@ export default {
         this.translateX(this.$refs.swiperRef, this.curIndex)
       }
     },
-    // getCurrentLiveIndex() {
-    //   let liveIndex = -10;
-    //   this.resThemeData.forEach((item, index) => {
-    //     if (item.state === "02") {
-    //       liveIndex = index;
-    //     }
-    //   });
-    //   if (liveIndex === 0) {
-    //     liveIndex = 1;
-    //   }
-    //   if (liveIndex === this.resThemeData.length - 1) {
-    //     liveIndex = this.resThemeData.length - 2;
-    //   }
-    //   this.isLiving = true;
-    //   if (liveIndex === -10) {
-    //     liveIndex = 1;
-    //     this.isLiving = false;
-    //   }
-    //   return liveIndex;
-    // },
 
     //判断当前 是否 有直播的议题
     isHaveLiveTheme() {
@@ -489,7 +460,6 @@ export default {
       return false
     },
     generateTime() {
-      console.log('this.meetingInfo', this.meetingInfo)
       const startDate = this.meetingInfo.startDate
       const startTime = this.meetingInfo.startTime
       const endDate = this.meetingInfo.endDate
@@ -497,7 +467,20 @@ export default {
       this.begin = dayjs(new Date(`${startDate} ${startTime}`)).format(
         'YYYY/MM/DD HH:mm:ss'
       )
-      this.end = dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm:ss')
+      let end =
+        Number(
+          this.meetingInfo.themens
+            ? this.meetingInfo.themens[this.meetingInfo.themens.length - 1]
+                .plusDayEndTime
+            : 0
+        ) > 0
+          ? dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm:ss') +
+            ` +${Number(
+              this.meetingInfo.themens[this.meetingInfo.themens.length - 1]
+                .plusDayEndTime
+            )}`
+          : dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm:ss')
+      this.end = end
     },
     getMeetingTypeObject() {
       let param = {
@@ -528,18 +511,11 @@ export default {
       const data = {
         id
       }
-      console.log('data', data)
       const _this = this
       const res = await findThemenById(data)
       _this.meetingInfo = res
       return res
     }
-    //移动
-    // translateX(refDom, curIndex) {
-    //   if (refDom) {
-    //     refDom.style.transform = `translateX(${(1 - curIndex) * 35}rem)`;
-    //   }
-    // },
   },
   watch: {
     isLiving: {
@@ -742,6 +718,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .routerpage {
+  overflow-y: auto;
+}
+
 .table-container {
   background-color: #fff;
   width: 1740px;
@@ -965,7 +945,7 @@ export default {
     } */
     .white {
       background-color: #fff;
-      height: 380px;
+      height: 440px;
       width: 40px;
     }
     .card-list-left {
@@ -1013,7 +993,7 @@ export default {
 
     .card-list-line {
       width: 0;
-      height: 374px;
+      height: 434px;
       border: 1px solid #d0d4d9;
       margin-top: 3px;
       background-color: #d0d4d9;
@@ -1025,7 +1005,7 @@ export default {
       overflow: hidden;
       width: 1160px;
       /* height: 420px; */
-      margin-left: 20px;
+      /* margin-left: 20px; */
       .show-double-card {
         display: flex;
         .right-card:nth-child(1) {
@@ -1048,6 +1028,9 @@ export default {
     }
     .card-list-container-no {
       width: 100%;
+    }
+    .card-list-container-margin {
+      margin-left: 20px;
     }
   }
   .bootom {

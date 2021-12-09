@@ -2,7 +2,7 @@
 
     <iDialog
     :visible.sync="showSta"
-    :title="papgeTitle"
+    :title="language(papgeTitle)"
     @close="closeDialog"
     width="480px"
     >
@@ -10,22 +10,22 @@
       <el-form label-position="left" label-width="160px" :rules="rules" :model="formContent" class="validate-required-form" ref='ruleForm'>
         <el-row>
           <el-col>
-            <iFormItem :label='labelTitle.partNum' prop='sixPartCode'>
-              <iInput :placeholder='placeholderText' v-model="formContent.sixPartCode" :disabled='inputSta' @input="searchlinieBySix"></iInput>
+            <iFormItem :label='language("零件六位号")' prop='sixPartCode'>
+              <iInput :placeholder='language("请输入")' v-model="formContent.sixPartCode" :disabled='inputSta' @input="searchlinieBySix"></iInput>
             </iFormItem>
           </el-col>
         </el-row>
         <el-row >
           <el-col>
-            <iFormItem :label='labelTitle.partNameZh' >
-              <iInput :placeholder='placeholderText' v-model="formContent.partNameZh" :disabled='inputSta'></iInput>
+            <iFormItem :label='language("零件名称(中)")' >
+              <iInput :placeholder='language("请输入")' v-model="formContent.partNameZh" :disabled='inputSta'></iInput>
             </iFormItem>
           </el-col>
         </el-row>
         <el-row>
           <el-col>
-            <iFormItem :label='labelTitle.partNameDe' >
-              <iInput :placeholder='placeholderText' v-model="formContent.partNameDe" :disabled='inputSta'></iInput>
+            <iFormItem :label='language("零件名称(德)")' >
+              <iInput :placeholder='language("请输入")' v-model="formContent.partNameDe" :disabled='inputSta'></iInput>
             </iFormItem>
           </el-col>
         </el-row>
@@ -53,14 +53,14 @@
         </el-row> -->
         <el-row>
           <el-col>
-            <iFormItem :label='labelTitle.Linie' >
+            <iFormItem :label='language("Linie")' >
               <iInput  v-model="formContent.linie[0].linie" disabled></iInput>
             </iFormItem>
           </el-col>
         </el-row>
         <el-row>
           <el-col>
-            <iFormItem :label='labelTitle.LiniePartment' >
+            <iFormItem :label='language("Linie科室")' >
               <iInput  v-model="formContent.linie[0].dept" disabled></iInput>
             </iFormItem>
           </el-col>
@@ -69,14 +69,14 @@
     </div>
     <div class="btnList" style="padding-bottom:20px">
       <div v-show='readOnly'>
-          <iButton @click="edit">编辑</iButton>
+          <iButton @click="edit">{{language('编辑')}}</iButton>
       </div>
       <div v-show="!readOnly">
-        <iButton @click="save('ruleForm')">保存</iButton>
-        <iButton @click="reset">重置</iButton>
+        <iButton @click="save('ruleForm')">{{language('保存')}}</iButton>
+        <iButton @click="reset">{{language('重置')}}</iButton>
       </div>
       <div style="margin-left:10px">
-        <iButton @click="closeDialog">退出</iButton>
+        <iButton @click="closeDialog">{{language('退出')}}</iButton>
       </div>
       
     </div>

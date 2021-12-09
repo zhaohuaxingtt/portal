@@ -95,6 +95,7 @@
                 :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
                 class="selectWidth"
                 :disabled="isDept"
+                clearable
                 @change="selectPositionChange"
                 v-model="formData.positionListVal"
                 style="width: 100%"

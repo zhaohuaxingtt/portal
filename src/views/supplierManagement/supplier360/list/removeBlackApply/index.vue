@@ -6,7 +6,7 @@
   <div>
     <div :class="ifSelf?'page':''">
       <div class="headerTitle" v-if="ifSelf">
-        <p>移除黑名单申请 - 生产采购</p>
+               <p>{{ language('YICHUHEIMINGDANSHENQINGSHENGCHANCAIGOU', '移除黑名单申请 - 生产采购') }}</p>
         <div>
           <iButton @click="handleBtn(2)">{{
             language('PIZHUN', '批准')
@@ -37,8 +37,8 @@
         </table-list>
         <iPagination
           v-update
-          @size-change="handleSizeChange($event, getTableList)"
-          @current-change="handleCurrentChange($event, getTableList)"
+          @size-change="handleSizeChange($event, getListArr)"
+          @current-change="handleCurrentChange($event, getListArr)"
           background
           :page-sizes="page.pageSizes"
           :page-size="page.pageSize"
@@ -79,10 +79,16 @@ export default {
 
     }
   },
-  created() {
-         var tbody = document.body
+     updated() {
+       var tbody = window.document.getElementById('appRouterView')
         var height = tbody.clientHeight
+        console.log(height)
         window.parent.postMessage({ key: 'setFormHeight', value: height+'px'},'*')
+   },
+  created() {
+        //  var tbody = document.body
+        // var height = tbody.clientHeight
+        // window.parent.postMessage({ key: 'setFormHeight', value: height+'px'},'*')
         if (window.top === window.self) {
       this.ifSelf = true
     } else {
