@@ -318,7 +318,7 @@ export default {
     return {
       meetingTypeList: [],
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       disabledButton: true,
       stateObj,
       themenConclusion,

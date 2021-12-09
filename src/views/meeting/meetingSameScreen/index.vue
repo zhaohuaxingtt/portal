@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">{{$t('MT_HUIYITONGPING')}}</div>
+    <div class="header">{{ $t('MT_HUIYITONGPING') }}</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <div class="info-line-1">
@@ -11,7 +11,11 @@
           <span class="date-time-start">
             <img :src="timeClock" alt="" srcset="" />
             <span>{{
-              result.startDate + ' ' + result.startTime + '~' + result.endTime
+              result.startDate +
+              ' ' +
+              result.startTime.substring(0, 5) +
+              '~' +
+              result.endTime.substring(0, 5)
             }}</span>
           </span>
           <span class="date-time-end">
@@ -574,7 +578,7 @@ export default {
             .right-right {
               // color: #8f8f90;
               /* font-size: 26px; */
-                font-size: 16px;
+              font-size: 16px;
             }
           }
         }

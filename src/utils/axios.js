@@ -7,9 +7,7 @@
  * @FilePath: \rise\src\utils\axios.js
  */
 import { iMessage } from 'rise'
-import { getToken, removeToken, setToken, setRefreshToken } from '@/utils'
-import store from '@/store'
-/* import i18n from 'i18n' */
+import { getToken } from '@/utils'
 
 export default function httpRequest(baseUrl = '', timeOut = 600000) {
   // eslint-disable-next-line no-undef
@@ -35,25 +33,14 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
             }
           }
         }
-        if (Object.keys(newParams).length > 0) {
-          config.params = newParams
-        }
+        config.params = newParams
       }
 
       // IE上的同一个url请求会走cache
-      const random = parseInt(Math.random() * 10000000000)
-      if (config.method === 'post' || config.method === 'POST') {
-        config.url =
-          config.url.indexOf('?') > -1
-            ? config.url + '&t=' + random
-            : config.url + '?t=' + random
-      } else if (config.method === 'get' || config.method === 'GET') {
-        config.params = {
-          t: random,
-          ...config.params
-        }
+      config.params = {
+        t: parseInt(Math.random() * 10000000000),
+        ...config.params
       }
-
       // 定义请求得数据结构是json
       config.headers['json-wrapper'] = '1'
       return config
