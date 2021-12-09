@@ -436,8 +436,11 @@ export default {
 .form {
   display: flex;
   justify-content: space-between;
-  width: 1660px;
+  width: 100%;
   // position: absolute;
+  .margin-bottom20 {
+    width: 100%;
+  }
   .form-row {
     margin: 20px 15px 0 10px;
     .center {
