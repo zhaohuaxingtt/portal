@@ -19,12 +19,12 @@
       <div class="opration">
         <!-- && ttNominateAppId !== '' -->
         <iButton @click="submit"
-                  v-show="locationNow==3"
+                  v-show="locationNow==3&&meetingNumber == 0"
                  :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
         <iButton @click="downRS">{{ language('DAOCHURS', '导出RS') }}</iButton>
       </div>
     </div>
-    <div class="stepBoxMap">
+    <div class="stepBoxMap" v-if="meetingNumber == 0">
       <div class="stepBox">
         <div class="stepBox_div"
              v-for="(item,index) in topImgList"
@@ -119,7 +119,8 @@ export default {
       appStatus: "",
       stepNum: 1,
       ttNominateAppId: "",
-      NumberCESHI:0
+      NumberCESHI:0,
+      meetingNumber:Number(this.$route.query.meeting) || 0,
     }
   },
   computed: {
@@ -153,6 +154,7 @@ export default {
     }
   },
   created () {
+    console.log(this.meetingNumber)
     if (JSON.parse(sessionStorage.getItem('MtzLIst')) == null) {
       sessionStorage.setItem('MtzLIst', JSON.stringify({ mtzAppId: undefined }))
     }

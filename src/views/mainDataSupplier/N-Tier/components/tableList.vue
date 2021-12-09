@@ -2,12 +2,12 @@
   <iCard>
     <div class="btnList">
       <iButton @click="del" :disabled="this.selectedItems.length == 0"
-        >删除</iButton
+        >{{language('删除')}}</iButton
       >
       <iButton @click="edit" :disabled="this.selectedItems.length != 1"
-        >编辑</iButton
+        >{{language('编辑')}}</iButton
       >
-      <buttonDownload :download-method="exportExcel">导出</buttonDownload>
+      <buttonDownload :download-method="exportExcel">{{language('导出')}}</buttonDownload>
     </div>
     <div class="tabelList">
       <iTabelCustom

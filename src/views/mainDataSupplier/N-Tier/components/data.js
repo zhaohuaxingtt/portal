@@ -4,10 +4,10 @@ export const N_ITER_COLUMNS = [
   },
   {
     type: 'index',
-    label: '序号'
+    i18n: '序号'
   },
   {
-    label: '供应商中文名称',
+    i18n: '供应商中文名称',
     prop: 'nameZh',
     minWidth: '130px',
     tooltip: true,
@@ -18,28 +18,28 @@ export const N_ITER_COLUMNS = [
     }
   },
   {
-    label: '供应商英文名称',
+    i18n: '供应商英文名称',
     prop: 'nameEn',
     minWidth: '130px',
     tooltip: true
   },
   {
-    label: '统一社会信用代码',
+    i18n: '统一社会信用代码',
     prop: 'socialcreditNo',
     minWidth: '130px',
     tooltip: true
   },
   {
-    label: 'DUNS',
+    i18n: 'DUNS',
     prop: 'dunsCode'
   },
   {
-    label: '国家',
+    i18n: '国家',
     prop: 'country',
     tooltip: true
   },
   {
-    label: '修改时间',
+    i18n: '修改时间',
     prop: 'updateDate',
     tooltip: true
   }
@@ -50,11 +50,11 @@ export const N_ITER_DETAIL_LIST = [
     type: 'selection'
   },
   {
-    label: '序号',
+    i18n: '序号',
     type: 'index'
   },
   {
-    label: '联系人姓名',
+    i18n: '联系人姓名',
     tooltip: true,
     prop: 'nameZh',
     emit: 'go-detail',
@@ -74,32 +74,32 @@ export const N_ITER_DETAIL_LIST = [
   },
   {
     prop: 'userName',
-    label: '用户登录名',
+    i18n: '用户登录名',
     tooltip: true
   },
   {
     prop: 'position',
-    label: '职务',
+    i18n: '职务',
     tooltip: true
   },
   {
     prop: 'dept',
-    label: '部门',
+    i18n: '部门',
     tooltip: true
   },
   {
     prop: 'telephoneAreaCode',
-    label: '区号',
+    i18n: '区号',
     tooltip: true
   },
   {
     prop: 'telephoneO',
-    label: '联系电话',
+    i18n: '联系电话',
     tooltip: true
   },
   {
     prop: 'isMainContact',
-    label: '是否为主用户',
+    i18n: '是否为主用户',
     tooltip: true,
     customRender: (h, scope) => {
       return scope.row.isMainContact ? '是' : '否'
@@ -119,7 +119,7 @@ export const N_ITER_DETAIL_LIST = [
   },
   {
     prop: 'email',
-    label: '电子邮箱',
+    i18n: '电子邮箱',
     tooltip: true
   }
 ]

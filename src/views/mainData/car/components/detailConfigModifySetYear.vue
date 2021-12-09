@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    title="应用年份"
+    :title="language('应用年份')"
     :visible.sync="dialogVisible"
     width="30%"
     @close="handleClose"
@@ -8,19 +8,19 @@
     <iSelect
       v-model="useYear"
       multiple
-      placeholder="请选择"
+      :placeholder="language('请选择')"
       class="select-height-auto-important"
     >
       <el-option
         v-for="item in yearOptions"
         :key="item"
-        :label="item + '年'"
+        :label="item + language('年')"
         :value="item"
       />
     </iSelect>
     <span slot="footer" class="dialog-footer">
-      <iButton :loading="loading" @click="save">保存</iButton>
-      <iButton :loading="loading" @click="handleClose">退出</iButton>
+      <iButton :loading="loading" @click="save">{{language('保存')}}</iButton>
+      <iButton :loading="loading" @click="handleClose">{{language('退出')}}</iButton>
     </span>
   </iDialog>
 </template>
