@@ -10,7 +10,7 @@
   <div class="search-result">
     <result-item 
       v-for="item in resultList"
-      :key="item.title"
+      :key="item.url"
       :item='item'
     />
   </div>

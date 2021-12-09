@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\search\components\filterPanel.vue
 -->
 <template>
-    <div class="filter-panel">
+    <div class="filter-panel" ref="filter">
         <div class="filter-category">
          <theFilterPanelLeftSelect
             @dataSource="dataSource"
@@ -15,7 +15,7 @@
             class="search-category"
           ></theFilterPanelLeftSelect>
         </div>
-        <div class="filter-input">
+        <div class="filter-input" @blur="loseFocus" tabindex="-1">
           <iInput
             class="search-input"
             v-model="searchForm.words"
@@ -37,7 +37,7 @@
           </iInput>
           <div class="suaggestionContent" v-show="showSuggestion">
               <ul>
-                <li 
+                <li
                 v-for="item in suggestions"
                 :key="item"
                 class="suggestionItem"
@@ -50,7 +50,6 @@
           </div>
           <!-- </el-autocomplete> -->
         </div>
-        
     </div>
 </template>
 
@@ -86,6 +85,9 @@ export default {
       suggestions:[],
       showSuggestion:false
     }
+  },
+  mounted(){
+    
   },
   methods: {
     dataSource(val){
@@ -124,6 +126,10 @@ export default {
       // this.selectedSugges
       this.showSuggestion = false
 
+    },
+    loseFocus(){
+      console.log('失去焦点');
+      this.showSuggestion = false
     }
   }
 }
