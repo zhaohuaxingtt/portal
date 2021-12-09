@@ -383,12 +383,13 @@ export default {
             this.saveDisabled = true;
             saveGroup(param)
                 .then((res) => {
-                  // console.log(res);
-                  this.getTableList();
-                  this.$message.success(this.language('NEWS_BAOCUNCHENGGONG', "保存成功"));
-                  this.$router.push({
-                    name: "newsUserManagement",
-                  });
+                  if(res.id){
+                    this.getTableList();
+                    this.$message.success(this.language('NEWS_BAOCUNCHENGGONG', "保存成功"));
+                    this.$router.push({
+                      name: "newsUserManagement",
+                    });
+                  }
                 })
                 .catch((err) => {
                   this.saveDisabled = false;
@@ -397,12 +398,14 @@ export default {
             this.saveDisabled = true;
             updateGroup(param)
                 .then((res) => {
-                  // console.log(res);
-                  this.getTableList();
-                  this.$message.success(this.language('NEWS_BAOCUNCHENGGONG', "保存成功"));
-                  this.$router.push({
-                    name: "newsUserManagement",
+                  if(res.id){
+                    // console.log(res);
+                    this.getTableList();
+                    this.$message.success(this.language('NEWS_BAOCUNCHENGGONG', "保存成功"));
+                    this.$router.push({
+                      name: "newsUserManagement",
                   });
+                  }
                 })
                 .catch((err) => {
                   this.saveDisabled = false;

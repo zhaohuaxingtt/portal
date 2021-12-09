@@ -4,7 +4,7 @@ import { MOCK_FILE_URL } from '@/constants/index'
 
 const request = axios()
 
-const requestFile = axios(process.env.VUE_APP_FILEAPI)
+const requestFile = axios(process.env.VUE_APP_FILEAPI+'/fileud')
 
 const createAnchorLink = (href, filename = '') => {
   const a = document.createElement('a')

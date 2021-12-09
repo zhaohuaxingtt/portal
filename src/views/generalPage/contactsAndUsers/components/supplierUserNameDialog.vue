@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-18 09:48:38
- * @LastEditors: zbin
+ * @LastEditors: caopeng
  * @Descripttion: your project
 -->
 <template>
@@ -90,6 +90,9 @@
             :tableLoading="tableLoadingDel"
             :index="true"
           >
+          <template #systemType="scope">
+              {{ scope.row.systemType == 1 ? '系统' : 'SCENARIO' }}
+            </template>
           </tableList>
         </div>
       </div>
