@@ -9,7 +9,7 @@ export const tableSetting = [
   {
     prop: 'bussinessAreaName',
     label: '组织机构名称（中）',
-    i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_CNNAME',
+    i18n: '组织机构名称(中)',
     align: 'left',
     headerAlign: 'left',
     type: 'expanded',
@@ -21,7 +21,7 @@ export const tableSetting = [
   {
     prop: 'nameEn',
     label: '组织机构名称（英）',
-    i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_ENNAME',
+    i18n: '组织机构名称(英)',
     align: 'center',
     headerAlign: 'center'
     // customRender: (h, scope) => {
@@ -33,7 +33,7 @@ export const tableSetting = [
     label: '组织机构编码',
     align: 'center',
     headerAlign: 'center',
-    i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_CODE'
+    i18n: '组织机构编码'
   },
   {
     prop: 'level',
@@ -41,39 +41,39 @@ export const tableSetting = [
     align: 'center',
     headerAlign: 'center',
     width: '100px',
-    i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_LEVEL'
+    i18n: '组织级别'
   },
   // {
   //   prop: 'shortCode',
   //   label: '组织结构简码',
   //   align: 'left',
   //   headerAlign: 'left',
-  //   i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_SHORT_CODE'
+  //   i18n: '组织机构简码'
   // },
   // {
   //   prop: 'shortName',
   //   label: '组织机构简称',
   //   align: 'left',
   //   headerAlign: 'left',
-  //   i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_SHORT_NAME'
+  //   i18n: '组织机构简称'
   // },
   {
     prop: 'leadUserName',
     label: '负责人',
     align: 'center',
     headerAlign: 'center',
-    i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_OWNER',
+    i18n: '负责人',
     customRender: (h, scope) => {
-      let leaders = scope.row.positionList.filter(val => {
+      let leaders = scope.row.positionList.filter((val) => {
         return val.isDeptLead
       })
       let leaderStr = ''
       let userNames = []
       if (leaders) {
-        leaders.forEach(val => {
+        leaders.forEach((val) => {
           let users = val.userDTOList
           if (users) {
-            let nameList = users.map(element => {
+            let nameList = users.map((element) => {
               return element.nameZh
             })
             userNames.push(...nameList)
@@ -89,7 +89,7 @@ export const tableSetting = [
     label: '备注',
     align: 'center',
     headerAlign: 'center',
-    i18n: 'ORGANIZATION_MANAGERMENT.ORG_LIST.TABLE_ORG_DESC'
+    i18n: '备注'
   }
 ]
 

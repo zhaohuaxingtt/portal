@@ -1,12 +1,12 @@
 <template>
   <ul class="attachs">
-    <li v-for="(item, index) in data" :key="index">
+    <li v-for="(item, index) in attachData" :key="index">
       <span v-if="icon" class="icon">
         <icon symbol class="icon" name="iconshenpi-fujian" />
       </span>
-      <a :href="item.path" class="open-link-text" target="_blank">{{
-        item.name
-      }}</a>
+      <a :href="item.path" class="open-link-text" target="_blank">
+        {{ item.name }}
+      </a>
     </li>
   </ul>
 </template>
@@ -19,13 +19,18 @@ export default {
   props: {
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     icon: {
       type: Boolean,
       default: false
+    }
+  },
+  computed: {
+    attachData() {
+      return this.data || []
     }
   },
   methods: {
@@ -47,5 +52,15 @@ export default {
 .icon {
   font-size: 16px;
   margin-right: 5px;
+}
+.attachs {
+  li {
+    display: flex;
+    align-items: center;
+
+    a {
+      font-size: 1rem;
+    }
+  }
 }
 </style>

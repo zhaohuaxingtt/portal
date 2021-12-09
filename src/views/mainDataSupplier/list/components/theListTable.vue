@@ -2,10 +2,10 @@
   <iCard class="margin-top20">
     <div class="flex-end-center margin-bottom20">
       <iButton :disabled="selectedRows.length !== 1" @click="edit">
-        {{ $t('编辑') }}
+        {{ language('编辑') }}
       </iButton>
       <iButton :disabled="!selectedRows.length" @click="handleDelete">
-        {{ $t('删除') }}
+        {{ language('删除') }}
       </iButton>
       <button-download :download-method="handleExport" />
     </div>
@@ -77,7 +77,7 @@ export default {
       this.onDelete().then(() => {
         const data = this.selectedRows
         deleteSupplier(data[0])
-          .then(res => {
+          .then((res) => {
             if (res.result) {
               iMessage.success(res.dscZh || '删除成功')
               this.query()
@@ -85,7 +85,7 @@ export default {
               iMessage.error(res.dscZh || '删除失败')
             }
           })
-          .catch(err => {
+          .catch((err) => {
             iMessage.error(err.dscZh || '删除失败')
           })
       })

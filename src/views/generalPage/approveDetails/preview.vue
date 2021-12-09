@@ -74,6 +74,7 @@
     <iCard>
       <table-list :tableData="tableListData"
                   :tableTitle="tableTitle"
+                  :selection="false"
                   :tableLoading="tableLoading" />
     </iCard>
   </iPage>
@@ -113,6 +114,11 @@ export default {
       selectTableData: [],
       buttonLoad: false
     }
+  },
+  updated () {
+    var tbody = window.document.getElementById('appRouterView')
+    var height = tbody.clientHeight
+    window.parent.postMessage({ key: 'setFormHeight', value: height + 'px' }, '*')
   },
   methods: {
     async getTaskDetails () {

@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditTime: 2021-04-13 17:30:36
+ * @LastEditTime: 2021-12-06 20:56:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
@@ -9,8 +9,10 @@
 <template>
   <div>
     <base-info-card v-if="this.supplierType > 3" />
-    <supplier-directory-table class="margin-top20" ref="supplierDirectoryTable"/>
-    <supplier-user-name-table class="margin-top20" ref="supplierUserNameTable" />
+    <supplier-directory-table class="margin-top20"
+                              ref="supplierDirectoryTable" />
+    <supplier-user-name-table class="margin-top20"
+                              ref="supplierUserNameTable" />
   </div>
 </template>
 
@@ -29,13 +31,13 @@ export default {
     supplierUserNameTable
   },
   methods: {
-    async saveInfos(step) {
+    async saveInfos (step) {
       await Promise.all([
         this.$refs.supplierDirectoryTable.saveInfos(step),
         this.$refs.supplierUserNameTable.saveInfos(step)
       ])
     },
-    async handleNextStep() {
+    async handleNextStep () {
       let flag = false
       const res = await Promise.all([
         this.$refs.supplierDirectoryTable.handleNextStep(),

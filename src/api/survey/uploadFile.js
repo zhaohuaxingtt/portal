@@ -26,7 +26,7 @@ export function uploadFile(data, options) {
     timeout: 600000,
     ...options
   }).then(async (res) => {
-    return res[0]
+    return res.data[0]
   })
 }
 

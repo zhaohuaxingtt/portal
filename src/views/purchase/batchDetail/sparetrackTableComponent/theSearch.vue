@@ -4,17 +4,16 @@
             <!--第一行-->
             <el-row class="margin-bottom10">
                 <!--零件号-->
-                <el-form-item :label="$t('EKL_YJGL_LJHAO')">
-                    <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.partNum"></iInput>
+                <el-form-item :label="language('LK_LINGJIANHAO','零件号')">
+                    <iInput :placeholder="language('请输入')" v-model="form.partNum"></iInput>
                 </el-form-item>
                 <!--零件名称-->
-                <el-form-item :label="$t('EKL_PFJ_LJMC')">
-                    <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.partName"></iInput>
+                <el-form-item :label="language('LK_PFJ_LJMC','零件名称')">
+                    <iInput :placeholder="language('请输入')" v-model="form.partName"></iInput>
                 </el-form-item>
                 <!--材料组-->
-                <el-form-item :label="$t('EKL_PFJ_CLZ')">
-                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.spMaterialGroup">
-                        <!--<el-option value="" :label="$t('all')"></el-option>-->
+                <el-form-item :label="language('LK_PFJ_CLZ','配附件材料组')">
+                    <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.spMaterialGroup">
                         <el-option
                                 :value="item"
                                 :label="item"
@@ -23,9 +22,8 @@
                     </iSelect>
                 </el-form-item>
                 <!--品牌-->
-                <el-form-item :label="$t('EKL_PFJ_PP')">
-                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.partBrand">
-                        <!--<el-option value="" :label="$t('all')"></el-option>-->
+                <el-form-item :label="language('LK_PFJ_PP','品牌')">
+                    <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.partBrand">
                         <el-option
                                 :value="item"
                                 :label="$i18n.locale === 'zh'  ? item : item"
@@ -34,9 +32,8 @@
                     </iSelect>
                 </el-form-item>
                 <!--属性-->
-                <el-form-item :label="$t('EKL_PFJ_SX')">
-                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.partProperty">
-                        <!--<el-option value="" :label="$t('all')"></el-option>-->
+                <el-form-item :label="language('LK_PFJ_SX','属性')">
+                    <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.partProperty">
                         <el-option
                                 :value="item.key"
                                 :label="$i18n.locale === 'zh'  ? item.value : item.enValue"
@@ -52,9 +49,8 @@
             <!--二行-->
             <el-row>
                 <!--科室-->
-                <el-form-item :label="$t('EKL_KESHI')">
-                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.dptKeCode">
-                        <!--<el-option value="" :label="$t('all')"></el-option>-->
+                <el-form-item :label="language('LK_KESHI','科室')">
+                    <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.dptKeCode">
                         <el-option
                                 :value="item.fullCode"
                                 :label="item.fullCode"
@@ -64,9 +60,8 @@
                 </el-form-item>
 
                 <!--采购员-->
-                <el-form-item :label="$t('EKL_YJGL_CGY')">
-                    <iSelect multiple filterable :placeholder="$t('LK_QINGXUANZE')" v-model="form.linieId">
-                        <!--<el-option value="" :label="$t('all')"></el-option>-->
+                <el-form-item :label="language('LK_CGY','采购员')">
+                    <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.linieId">
                         <el-option
                                 :value="item.id"
                                 :label="$i18n.locale === 'zh'  ? item.nameZh : item.nameEn"
@@ -75,12 +70,12 @@
                     </iSelect>
                 </el-form-item>
                 <!--供应商-->
-                <el-form-item :label="$t('EKL_YJGL_GYS')">
-                    <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.supplierCode"></iInput>
+                <el-form-item :label="language('LK_GONGYINGSHANG','供应商')">
+                    <iInput :placeholder="language('请输入')" v-model="form.supplierCode"></iInput>
                 </el-form-item>
                 <!--备注-->
-                <el-form-item :label="$t('EKL_PFJ_BZ')">
-                    <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.memo"></iInput>
+                <el-form-item :label="language('LK_PFJ_BZ','备注')">
+                    <iInput :placeholder="language('请输入')" v-model="form.memo"></iInput>
                 </el-form-item>
 
             </el-row>

@@ -1,6 +1,6 @@
 <template>
   <iSelect
-    :placeholder="$t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')"
+    :placeholder="language('请选择')"
     multiple
     v-model="row.rightSelect"
     @change="handleSelected"
@@ -23,7 +23,7 @@ export default {
   props: {
     dimensionRightMenu: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },

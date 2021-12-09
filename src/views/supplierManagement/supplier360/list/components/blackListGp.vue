@@ -3,64 +3,81 @@
  * @Date: 2021-010-18 
 -->
 <template>
-  <iDialog @close="closeDiolog()"
-           :visible.sync="value"
-            top="5%"
-           :title="'供应商⿊名单记录 - ⼀般采购  -'+ clickTableList.nameZh"
-           width="85%">
-            <div slot="title" class="headerTitle">
-      <span>{{'供应商黑名单记录 - ⼀般采购  -'+ clickTableList.nameZh}}</span>
+  <iDialog
+    @close="closeDiolog()"
+    :visible.sync="value"
+    top="2%"
+    :title="'供应商⿊名单记录 - ⼀般采购  -' + clickTableList.nameZh"
+    width="85%"
+  >
+    <div slot="title" class="headerTitle">
+      <span>{{
+        '供应商黑名单记录 - ⼀般采购  -' + clickTableList.nameZh
+      }}</span>
     </div>
     <div class="box">
-      <el-tabs class="tabsHeader"
-               type="card"
-               style="margin-left:20px;"
-               v-model="tabVal"
-               @tab-click="changeTab">
-        <el-tab-pane name="1"
-                     :label="
+      <el-tabs
+        class="tabsHeader"
+        type="card"
+        style="margin-left: 20px"
+        v-model="tabVal"
+        @tab-click="changeTab"
+      >
+        <el-tab-pane
+          name="1"
+          :label="
             language('GONGYINGSHANGHEIMINGDANZHUANGTAI', '供应商黑名单状态')
-          ">
+          "
+        >
         </el-tab-pane>
-        <el-tab-pane name="2"
-                     :label="language('GONGYINGSHANGHEIMINGDANJILU', '供应商黑名单记录')">
+        <el-tab-pane
+          name="2"
+          :label="language('GONGYINGSHANGHEIMINGDANJILU', '供应商黑名单记录')"
+        >
         </el-tab-pane>
       </el-tabs>
-      <div class="dilogHeader"
-           v-if="tabVal == 2">
-        <el-form inline
-                 label-position="top">
-          <el-form-item style="width:240px"
-                        :label="language('SHOUKONGYEWULEIXING', '受控业务类型')">
-            <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                     v-model="form.type">
-              <el-option v-for="item in typeList"
-                         :key="item.code"
-                         :label="item.message"
-                         :value="item.code">
+      <div class="dilogHeader" v-if="tabVal == 2">
+        <el-form inline label-position="top">
+          <el-form-item
+            style="width: 240px"
+            :label="language('SHOUKONGYEWULEIXING', '受控业务类型')"
+          >
+            <iSelect :placeholder="language('请选择')" v-model="form.type">
+              <el-option
+                v-for="item in typeList"
+                :key="item.code"
+                :label="item.message"
+                :value="item.code"
+              >
               </el-option>
             </iSelect>
           </el-form-item>
-          <el-form-item :label="language('SHOUKONGKAISHISHIJIAN', '受控开始时间')">
-            <iDatePicker style="width:220px"
-                         type="daterange"
-                         :range-separator="$t('SUPPLIER_ZHI')"
-                         :placeholder="''"
-                         v-model="daterange"
-                         value-format="yyyy-MM-dd"
-                         clearable />
+          <el-form-item
+            :label="language('SHOUKONGKAISHISHIJIAN', '受控开始时间')"
+          >
+            <iDatePicker
+              style="width: 220px"
+              type="daterange"
+              :range-separator="$t('SUPPLIER_ZHI')"
+              :placeholder="''"
+              v-model="daterange"
+              value-format="yyyy-MM-dd"
+              clearable
+            />
           </el-form-item>
           <el-form-item :label="language('SHOUKONGJIESHUJIAN', '受控结束时间')">
-            <iDatePicker style="width:220px"
-                         type="daterange"
-                         :range-separator="$t('SUPPLIER_ZHI')"
-                         :placeholder="''"
-                         v-model="daterange2"
-                         value-format="yyyy-MM-dd"
-                         clearable />
+            <iDatePicker
+              style="width: 220px"
+              type="daterange"
+              :range-separator="$t('SUPPLIER_ZHI')"
+              :placeholder="''"
+              v-model="daterange2"
+              value-format="yyyy-MM-dd"
+              clearable
+            />
           </el-form-item>
         </el-form>
-        <div style="margin-bottom:10px">
+        <div style="margin-bottom: 10px">
           <iButton @click="sure">{{ language('CHAXUN', '查询') }}</iButton>
           <iButton @click="clickReset">{{
             language('CHONGZHI', '重置')
@@ -68,37 +85,43 @@
         </div>
       </div>
       <p class="tableTitle">
-        详情列表
+        {{ language('XIANGQINGLIEBIAO', '详情列表') }}
       </p>
-       <div class="tableBox">
-      <table-list v-if="tabVal == 1"
-                  style="margin-top:20px"
-                  :tableData="tableListData"
-                  :tableTitle="tableTitleGpBlackList"
-                  :tableLoading="tableLoading"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-      <table-list v-if="tabVal == 2"
-                  style="margin-top:20px"
-                  :tableData="tableListDataRecord"
-                  :tableTitle="tableTitleGpBlackListRecord"
-                  :tableLoading="tableLoadingRecord"
-                  :index="true"
-                  :selection="false">
-      </table-list>
-       </div>
-      <iPagination style="margin-top:20px"
-                   v-if="tabVal == 2"
-                   v-update
-                   @size-change="handleSizeChange($event, sure)"
-                   @current-change="handleCurrentChange($event, getListRecord)"
-                   background
-                   :page-sizes="page.pageSizes"
-                   :page-size="page.pageSize"
-                   :layout="page.layout"
-                   :current-page="page.currPage"
-                   :total="page.totalCount" />
+      <div class="tableBox">
+        <table-list
+          v-if="tabVal == 1"
+          style="margin-top: 20px"
+          :tableData="tableListData"
+          :tableTitle="tableTitleGpBlackList"
+          :tableLoading="tableLoading"
+          :index="true"
+          :selection="false"
+        >
+        </table-list>
+        <table-list
+          v-if="tabVal == 2"
+          style="margin-top: 20px"
+          :tableData="tableListDataRecord"
+          :tableTitle="tableTitleGpBlackListRecord"
+          :tableLoading="tableLoadingRecord"
+          :index="true"
+          :selection="false"
+        >
+        </table-list>
+      </div>
+      <iPagination
+        style="margin-top: 20px"
+        v-if="tabVal == 2"
+        v-update
+        @size-change="handleSizeChange($event, sure)"
+        @current-change="handleCurrentChange($event, getListRecord)"
+        background
+        :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        :layout="page.layout"
+        :current-page="page.currPage"
+        :total="page.totalCount"
+      />
     </div>
   </iDialog>
 </template>
@@ -189,7 +212,7 @@ export default {
       this.tableLoadingRecord = true
       const params = {
         supplierId: this.clickTableList.subSupplierId,
-     pageNo: this.page.currPage,
+        pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
         endTime: this.daterange[1],
         startTime: this.daterange[0],
@@ -235,14 +258,14 @@ export default {
 
 <style lang="scss" scoped>
 .headerTitle {
-font-size: 20px;
-font-family: Arial;
-font-weight: bold;
-color: #000000;
+  font-size: 20px;
+  font-family: Arial;
+  font-weight: bold;
+  color: #000000;
 }
-.tableBox{
-//   max-height: 600px;
-//   overflow-y: scroll;
+.tableBox {
+  //   max-height: 600px;
+  //   overflow-y: scroll;
 }
 .box {
   padding-bottom: 20px;
@@ -283,7 +306,7 @@ color: #000000;
     border-radius: 0px 10px 10px 0px;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.08);
     font-size: 16px;
-     min-width: 200px;
+    min-width: 200px;
     height: 35px;
     line-height: 35px;
   }

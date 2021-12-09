@@ -48,7 +48,10 @@
                 :inputProps="['remark']"
                 @handleSelectionChange="handleSelectionChange">
       <template #isEffect="scope">
-        <span>{{scope.row.isEffect?$t('SUPPLIER_SPWC'):$t('SUPPLIER_SPZ')}}</span>
+        <span>{{scope.row.isEffect?language('SHENPITONGGUO','审批通过'):language('SHENPIZHONG','审批中')}}</span>
+      </template>
+      <template #bdlType="scope">
+        <span>{{scope.row.bdlType==='2'?language('SHI','是'):language('FOU','否')}}</span>
       </template>
     </table-list>
   </i-card>
@@ -169,8 +172,15 @@ export default {
         iMessage.warn('只能提交一条数据')
         return
       }
+      if (!this.selectTableData[0].isEffect) {
+        iMessage.warn('审批中不能申请移除BDL')
+        return
+      }
       const pms = {
-        stuffBdlId: this.selectTableData[0].id
+        stuffBdlId: this.selectTableData[0].id,
+        categoryName: this.selectTableData[0].categoryName,
+        categoryCode: this.selectTableData[0].categoryCode,
+        categoryId: this.selectTableData[0].categoryId
       }
       const res = await updateAssociated(pms)
       this.resultMessage(res, () => {
@@ -183,7 +193,10 @@ export default {
         return
       }
       const pms = {
-        stuffBdlId: this.selectTableData[0].id
+        stuffBdlId: this.selectTableData[0].id,
+        categoryName: this.selectTableData[0].categoryName,
+        categoryCode: this.selectTableData[0].categoryCode,
+        categoryId: this.selectTableData[0].categoryId
       }
       const res = await mbdlCancelAssociated(pms)
       this.resultMessage(res, () => {

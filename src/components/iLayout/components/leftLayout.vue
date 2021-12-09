@@ -46,13 +46,7 @@
         name="iconcaidanzhankai"
         :class="{ menu: true, hiddenMenu: menuVisible, delay: !menuVisible }"
         @click.native="menuVisible = !menuVisible"
-        v-if="
-          menus
-            .map((item) => {
-              return item.permissionKey
-            })
-            .includes(activeIndex)
-        "
+        v-if="menus.map((item) => item.permissionKey).includes(activeIndex)"
       />
       <div
         :class="{
@@ -137,27 +131,34 @@ export default {
       return this.$route.meta.top || 'RISE_WORKBENCH'
     },
     clickListener(e) {
-      const leftLayoutRect = document
-        .getElementsByClassName('leftLayout')[0]
-        .getBoundingClientRect()
-      const sideRect = document
-        .getElementsByClassName('menuLayout')[0]
-        .getBoundingClientRect()
-      const xt = 0
-      const xb = leftLayoutRect.width + sideRect.width
-      const yt = 0
-      const yb = leftLayoutRect.height
-      if (
-        e.clientY < yt ||
-        e.clientY > yb ||
-        e.clientX < xt ||
-        e.clientX > xb
-      ) {
-        this.menuVisible = false
+      const leftLayout = document.getElementsByClassName('leftLayout')
+      const side = document.getElementsByClassName('menuLayout')
+      if (leftLayout && leftLayout.length && side && side.length) {
+        const leftLayoutRect = leftLayout[0].getBoundingClientRect()
+        const sideRect = side[0].getBoundingClientRect()
+        const xt = 0
+        const xb = leftLayoutRect.width + sideRect.width
+        const yt = 0
+        const yb = leftLayoutRect.height
+        if (
+          e.clientY < yt ||
+          e.clientY > yb ||
+          e.clientX < xt ||
+          e.clientX > xb
+        ) {
+          this.menuVisible = false
+        }
       }
     },
     toggleSubMenu(item) {
-      if (item.permissionKey === 'RISE_HOME') {
+      const href = window.location.href
+      const origin = window.location.origin
+      const path = href.replace(origin, '')
+      if (
+        item.permissionKey === 'RISE_HOME' &&
+        path.indexOf('/portal') === 0 &&
+        path.indexOf('#/index') > -1
+      ) {
         this.activeIndex = 'RISE_HOME'
         this.$emit('toggle-active', 'RISE_HOME')
         this.showSideMenu()
@@ -183,9 +184,6 @@ export default {
                 ? window.open(activeMenu.url)
                 : (location.href = activeMenu.url)
             }
-            // if (this.$route.path !== activeMenu.url) {
-            //   this.$router.push({ path: activeMenu.url })
-            // }
             this.hideSideMenu()
           }
           this.activeIndex = item.permissionKey
@@ -225,7 +223,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 1001;
   padding-top: 11px;
   padding-bottom: 30px;
 
@@ -335,12 +333,13 @@ export default {
 }
 
 .menuLayout {
-  z-index: 998 !important;
+  z-index: 1000;
 
   .meunContent {
     position: absolute;
     left: 0px;
     top: 0px;
+    z-index: 1001;
     height: 100%;
     width: 386px;
     background: #eef2fb;

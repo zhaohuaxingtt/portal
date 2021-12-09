@@ -64,7 +64,7 @@ export default {
                 localStorage.getItem('my_meeting__info_id')),
           activePath: '/meeting/near-meeting',
           key: '近期会议'
-        }
+        },
       ],
       tabRouterList,
       meetingButtonList

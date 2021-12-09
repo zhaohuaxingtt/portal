@@ -1,5 +1,5 @@
 <template>
-  <div class="horizontal-panel">
+  <div class="horizontal-panel" :id="panelId">
     <horizontal :data="nodeData" id="hrizontalNode" class="hrizontalNode" />
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -33,6 +33,15 @@ export default {
       default: function () {
         return []
       }
+    },
+    instanceId: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    panelId() {
+      return 'hp' + this.instanceId
     }
   },
   data() {
@@ -66,7 +75,9 @@ export default {
         : 'dashed'
     },
     drawLine() {
-      const elementIcons = document.querySelectorAll('.node-icon')
+      const elementIcons = document.querySelectorAll(
+        `#${this.panelId} .node-icon`
+      )
       const data = []
       const topIndent = 8
       const horizontalSpace = 0 // 线条直接的间隔距离

@@ -3,13 +3,13 @@
                 style="margin-top:20vh"
                 :visible.sync="closeValue"
                 v-if="closeValue"
-                width="22%"
+                :width="width==undefined?'22%':width"
                 @close='closeDiologBtn'
                 append-to-body>
         <span style="display:block">{{Tips}}</span>
         <div class="reset_style">
-            <iButton @click="close">{{cancelButtonText}}</iButton>
-            <iButton @click="save">{{confirmButtonText}}</iButton>
+            <iButton @click="close" v-if="cancelButtonText !== undefined">{{cancelButtonText}}</iButton>
+            <iButton @click="save" v-if="confirmButtonText !== undefined">{{confirmButtonText}}</iButton>
         </div>
     </iDialog>
 </template>
@@ -32,10 +32,10 @@ export default {
             Tips:"",
             cancelButtonText:"",
             confirmButtonText:"",
+            width:"",
         }
     },
     created(){
-
     },
     methods:{
         closeDiologBtn(){

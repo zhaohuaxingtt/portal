@@ -1,5 +1,14 @@
 import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_MEETING)
+
+//查询生产采购CSC会议
+export function findFirstStartCSCMeeting(data) {
+  return requst({
+    url: `/meetingService/findFirstStartCSCMeeting`,
+    method: 'POST',
+    data
+  })
+}
 //关注
 export function follow(data) {
   return requst({
@@ -25,7 +34,7 @@ export function unfollow(data) {
     method: 'POST',
     data
   })
-}
+} 
 
 //分页查询当前用户会议议题
 export function findMyThemens(data) {

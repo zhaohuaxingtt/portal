@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <pageHeader>
-      {{ $route.query.id ? '编辑' : '新增' }}MTZ材料组信息
+      {{ language($route.query.id ? '编辑' : '新增') }}{{language('MTZ材料组信息')}}
     </pageHeader>
 
     <theDetailBase class="margin-top20" />

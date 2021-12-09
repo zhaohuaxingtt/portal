@@ -21,7 +21,7 @@
 
 <script>
 import ImgCutter from 'vue-img-cutter'
-import {uploadFileWithNoToken} from '@/api/file/upload';
+import {uploadFileWithNOTokenTwo} from '@/api/file/upload';
 export default {
   name:'createNewRight',
   components:{ImgCutter},
@@ -75,9 +75,9 @@ export default {
       form.append('file',content.file)
       form.append('applicationName','popupImage')
       // const result = await uploadFileWithNoToken(form)
-      uploadFileWithNoToken(form).then((result)=>{
+      uploadFileWithNOTokenTwo(form).then((result)=>{
         if(result.code == '200'){
-          this.imageUrl = result.data.filePath
+          this.imageUrl = result.data.path
         }else{
           this.$message.error(result.desZh)
         }
@@ -107,6 +107,9 @@ export default {
     margin-top: 20px;
     color: #999999;
   }
+}
+.avatar-uploader{
+  z-index: 9999;
 }
 .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;

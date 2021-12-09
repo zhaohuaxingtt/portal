@@ -11,10 +11,10 @@
         type="index"
         header-align="center"
         align="center"
-        :label="$t('序号')"
+        :label="language('序号')"
       />
       <el-table-column
-        :label="$t('配置ID')"
+        :label="language('配置ID')"
         prop="id"
         header-align="center"
         align="center"
@@ -24,7 +24,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('车型编号')"
+        :label="language('车型编号')"
         prop="cartypeCode"
         header-align="center"
         align="center"
@@ -34,7 +34,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('发动机类型')"
+        :label="language('发动机类型')"
         prop="engineType"
         header-align="center"
         align="center"
@@ -51,7 +51,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('变速箱型号')"
+        :label="language('变速箱型号')"
         prop="gearboxName"
         header-align="center"
         align="center"
@@ -68,7 +68,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('电池容量')"
+        :label="language('电池容量')"
         prop="batteryCapacity"
         header-align="center"
         align="center"
@@ -85,7 +85,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('其它配置')"
+        :label="language('其它配置')"
         prop="otherConf"
         header-align="center"
         align="center"
@@ -95,7 +95,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('车型等级')"
+        :label="language('车型等级')"
         prop="cartypeLevel"
         header-align="center"
         align="center"
@@ -112,7 +112,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('配置比例') + '%'"
+        :label="language('配置比例') + '%'"
         prop="id"
         header-align="center"
         align="center"
@@ -132,11 +132,7 @@
           </el-form-item>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t('车型等级')"
-        header-align="center"
-        align="center"
-      >
+      <el-table-column header-align="center" align="center">
         <template slot-scope="scope">
           <span @click="removeRow(scope.$index)">
             <Icon symbol name="icondingdianshenqingyusheluoji-shanchu" />
@@ -159,19 +155,19 @@ export default {
     },
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     cartypeLevels: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     extraData: {
       type: Object,
-      default: function() {
+      default: function () {
         return {
           engineSelectOptions: [],
           boxSelectOptions: [],
@@ -206,7 +202,7 @@ export default {
     },
     validateForm() {
       let validRes = false
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         console.log('valid', valid)
         validRes = valid
       })

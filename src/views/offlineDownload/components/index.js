@@ -6,7 +6,8 @@ export const TABLE_COLUMNS = [
         type:'selection'
     },
     {
-        label:'序号'
+        label:'序号',
+        type:'index'
     },
     {
         label:'任务编号',

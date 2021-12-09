@@ -19,6 +19,7 @@
       <div class="opration">
         <!-- && ttNominateAppId !== '' -->
         <iButton @click="submit"
+                  v-show="locationNow==3"
                  :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
         <iButton @click="downRS">{{ language('DAOCHURS', '导出RS') }}</iButton>
       </div>
@@ -85,7 +86,7 @@ import {
   getMtzAppCheckVO,//获取
   fetchAppNomiDecisionDataPage,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
-
+import { pageApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
 import { deepClone } from "./applyInfor/util"
 export default {
@@ -186,9 +187,12 @@ export default {
         setTimeout(() => {
           this.stepNum = arr[arr.length - 1];
           this.locationNow = this.stepNum;
+          // console.log(this.stepNum)
         }, 100);
       }
     })
+
+    // submitDataList
   },
   methods: {
     getType () {
@@ -218,30 +222,47 @@ export default {
         iMessage.warn(this.language("MTZGZBNWK", "MTZ规则不能为空"))
         return false;
       }
-      if (this.mtzObject.flowType == undefined && this.flowType == "" && this.submitType == "") {
 
-      } else {
-        this.flowType = this.mtzObject.flowType || this.flowType || this.submitType
-        if (this.flowType === "MEETING") {//上会
-          this.mtzAddShow = true;
-        } else if(this.flowType === "SIGN"){//流转
-          this.submitRequest();
-        }else if(this.flowType === "FILING"){//备案
-          fetchAppNomiDecisionDataPage({
-            pageNo: 1,
-            pageSize: 10,
-            mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-          }).then(res => {
-            if(res && res.code == 200) {
-              if(res.data.length<1){
-                return iMessage.error(this.language('SQDLXWBASTJSSPFJBNWK', '申请单类型为备案时，提交时审批附件不能为空'))
-              }else{
+      pageApprove({
+        isDeptLead: true,
+        mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        pageNo: 1,
+        pageSize: 10
+      }).then(res => {
+        if (res.code === "200" && res.result) {
+          if(res.data.length > 0){
+            if (this.mtzObject.flowType == undefined && this.flowType == "" && this.submitType == "") {
+            } else {
+              this.flowType = this.mtzObject.flowType || this.flowType || this.submitType
+              if (this.flowType === "MEETING") {//上会
+                this.mtzAddShow = true;
+              } else if(this.flowType === "SIGN"){//流转
                 this.submitRequest();
+              }else if(this.flowType === "FILING"){//备案
+                fetchAppNomiDecisionDataPage({
+                  pageNo: 1,
+                  pageSize: 10,
+                  mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+                }).then(res => {
+                  if(res && res.code == 200) {
+                    if(res.data.length<1){
+                      return iMessage.error(this.language('SQDLXWBASTJSJCZLZDJCFJBNWK', '申请单类型为备案时，提交时决策资料中的附件不能为空！'))
+                    }else{
+                      this.submitRequest();
+                    }
+                  } else iMessage.error(res.desZh)
+                })
               }
-            } else iMessage.error(res.desZh)
-          })
+            }
+          }else{
+            iMessage.error(this.language("ZANWUSHENPIRENXINXI","暂无审批人信息！"))
+          }
+        }else{
+          iMessage.error(res.desZh)
         }
-      }
+        
+      })
+      
     },
     submitRequest(){
       NewMessageBox({

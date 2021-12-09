@@ -1,14 +1,14 @@
 <template>
     <!--VWAG评级-->
     <iDialog
-            :title="$t('EKL_YJGL_FQQR')"
+            :title="$t('LK_FQQR')"
             :visible.sync="value"
             width="381px"
             @close="clearDiolog"
             :close-on-click-modal="false"
     >
         <div class="content">
-            <div style="margin-bottom: 10px;font-weight: 500">{{$t('EKL_YJGL_RWJZRQ')}}</div>
+            <div style="margin-bottom: 10px;font-weight: 500">{{$t('LK_RWJZRQ')}}</div>
 
             <iDatePicker
                          v-model="form.endTime"
@@ -16,7 +16,7 @@
                          :picker-options="pickerOptionsEnd"
                          format="yyyy-MM-dd"
                          value-format="yyyy-MM-dd"
-                         :placeholder="$t('LK_QINGXUANZE')"/>
+                         :placeholder="language('请选择')"/>
 
             <div slot="footer" class="dialog-footer">
                 <iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>

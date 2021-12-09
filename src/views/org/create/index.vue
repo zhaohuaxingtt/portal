@@ -53,9 +53,7 @@
                       class="Col-OneItem"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.parentName"
                         disabled="true"
                       ></iInput>
@@ -71,9 +69,7 @@
                       prop="fullCode"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.fullCode"
                       ></iInput>
                     </iFormItem>
@@ -88,9 +84,7 @@
                       prop="nameZh"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.nameZh"
                       ></iInput>
                     </iFormItem>
@@ -105,9 +99,7 @@
                       prop="nameEn"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.nameEn"
                       ></iInput>
                     </iFormItem>
@@ -128,9 +120,7 @@
                       prop="level"
                     >
                       <i-select
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请选择')"
                         v-model="formCommitData.level"
                       >
                         <el-option
@@ -152,9 +142,7 @@
                       :label-width="appearance.labelWidthThree"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.svcdCode"
                         disabled
                       ></iInput>
@@ -169,9 +157,7 @@
                       class="Col-ThreeItem"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.description"
                       ></iInput>
                     </iFormItem>
@@ -193,9 +179,7 @@
                           v-if="formCommitData.tagList.length == 0"
                           style="position: absolute; left: 12px"
                         >
-                          {{
-                            $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                          }}
+                          {{ language('请选择') }}
                         </span>
                         <div class="chooseOrgTagList">
                           <el-tag
@@ -236,9 +220,7 @@
                       prop="isVisible"
                     >
                       <i-select
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请选择')"
                         v-model="formCommitData.isVisible"
                       >
                         <el-option
@@ -261,9 +243,7 @@
                       prop="isCommodity"
                     >
                       <i-select
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.isCommodity"
                       >
                         <el-option
@@ -291,9 +271,7 @@
                       class="Col-OneItem"
                     >
                       <i-select
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请选择')"
                         disabled
                         v-model="formCommitData.syncStatus"
                       >
@@ -330,7 +308,7 @@
                             >{{ fileExist }}</span
                           >
                           <span style="width: 95%" v-else>{{
-                            $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
+                            language('请选择')
                           }}</span>
                           <input
                             type="file"
@@ -376,9 +354,7 @@
                       class="Col-FourItem"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.remark"
                       ></iInput>
                     </iFormItem>
@@ -451,9 +427,7 @@
                           <span
                             v-if="formCommitData.supDeptList.length == 0"
                             style="position: absolute; left: 12px"
-                            >{{
-                              $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                            }}</span
+                            >{{ language('请选择') }}</span
                           >
 
                           <el-tag
@@ -489,9 +463,7 @@
                       class="Col-ThreeItem"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.costCenterId"
                       ></iInput>
                     </iFormItem>
@@ -581,7 +553,7 @@ export default {
     trueBtnClick() {
       this.$refs.orgForm.validate((valid) => {
         if (valid) {
-          if (this.isEdit) {
+          if (this.$route.params.id) {
             //编辑组织
             this.editOrg()
           } else {
@@ -711,16 +683,29 @@ export default {
           this.loading = false
           if (value.code == 200) {
             //创建成功
-            this.$router.go(-1)
+            iMessage.success(value.desZh || '创建成功')
+            /* setTimeout(() => {
+              window.close()
+            }, 2000) */
+            this.isEdit = true
+            const { data } = value
+            this.$router.replace({
+              params: {
+                id: data.id,
+                type: 'editOrg',
+                upLevelID: data.parentId,
+                upLevelName: data.parentName
+              }
+            })
           } else {
             //创建失败
             iMessage.error(value.desZh || '创建失败')
           }
         })
-        .catch(() => {
+        .catch((err) => {
           //异常处理
           this.loading = false
-          iMessage.error('创建失败')
+          iMessage.error(err.desZh || '创建失败')
         })
     },
     async editOrg() {
@@ -770,16 +755,16 @@ export default {
           this.loading = false
           if (value.code == 200) {
             //编辑成功
-            this.$router.go(-1)
+            iMessage.success(value.desZh || '创建成功')
           } else {
             //编辑失败
             iMessage.error(value.desZh || '编辑失败')
           }
         })
-        .catch(() => {
+        .catch((err) => {
           //异常处理
           this.loading = false
-          iMessage.error('编辑失败')
+          iMessage.error(err.desZh || '编辑失败')
         })
     },
     resetOrg() {

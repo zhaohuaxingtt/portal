@@ -1,7 +1,7 @@
 <template>
     <!--上传产量-->
     <iDialog
-            :title="$t('EKL_YJGL_SCCL')"
+            :title="$t('LK_SCCL')"
             :visible.sync="value"
             width="381px"
             @close="clearDiolog"
@@ -15,7 +15,7 @@
                     v-model="form.year"
                     style="width: 320px"
                     class="margin-top10"
-                    :placeholder="$t('LK_QINGXUANZE')"
+                    :placeholder="language('请选择')"
             >
                 <el-option :value="item" :label="item" v-for="item in yearList" :key="item"></el-option>
             </iSelect>
@@ -29,11 +29,11 @@
             </div>
             <div class="margin-top10 tip" v-else>
                 <icon class="icon" symbol name="iconzengjiacailiaochengben_lan"></icon>
-                <span style="padding-left: 8px;">{{ $t('EKL_YJGL_XZYJFJTIP')}}</span>
+                <span style="padding-left: 8px;">{{ $t('LK_XZYJFJTIP')}}</span>
             </div>
 
             <div slot="footer" class="dialog-footer">
-                <!--<iButton @click="handleSubmit">{{ $t('EKL_YJGL_XZWJ') }}</iButton>-->
+                <!--<iButton @click="handleSubmit">{{ $t('LK_XZWJ') }}</iButton>-->
                 <el-upload
                         class="uploadBtn"
                         multiple
@@ -46,7 +46,7 @@
                         :before-upload="beforeUpload"
                         :on-change="fileChange"
                         accept=".pdf,.xlsx,.xls,.docx,.cvs">
-                    <iButton :loading="uploadLoading">{{ $t('EKL_YJGL_XZWJ') }}</iButton>
+                    <iButton :loading="uploadLoading">{{ $t('LK_XZWJ') }}</iButton>
                 </el-upload>
                 <iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>
             </div>

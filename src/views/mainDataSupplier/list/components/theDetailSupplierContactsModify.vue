@@ -14,13 +14,13 @@
       class="validate-required-form"
       v-loading="loading"
     >
-      <iFormItem :label="$t('联系人姓名')" prop="nameZh">
-        <iInput v-model="detail.nameZh" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('联系人姓名')" prop="nameZh">
+        <iInput v-model="detail.nameZh" :placeholder="language('请输入')" />
       </iFormItem>
-      <iFormItem :label="$t('联系人类型')" prop="contactType">
+      <iFormItem :label="language('联系人类型')" prop="contactType">
         <iSelect
           v-model="detail.contactType"
-          :placeholder="$t('请选择')"
+          :placeholder="language('请选择')"
           filterable
         >
           <el-option
@@ -31,25 +31,30 @@
           />
         </iSelect>
       </iFormItem>
-      <iFormItem :label="$t('部门')" prop="dept">
-        <iInput v-model="detail.dept" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('部门')" prop="dept">
+        <iInput v-model="detail.dept" :placeholder="language('请输入')" />
       </iFormItem>
-      <iFormItem :label="$t('职位')" prop="designation">
-        <iInput v-model="detail.designation" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('职位')" prop="designation">
+        <iInput
+          v-model="detail.designation"
+          :placeholder="language('请输入')"
+        />
       </iFormItem>
-      <iFormItem :label="$t('邮箱')" prop="email">
-        <iInput v-model="detail.email" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('邮箱')" prop="email">
+        <iInput v-model="detail.email" :placeholder="language('请输入')" />
       </iFormItem>
-      <iFormItem :label="$t('联系电话')" prop="phoneH">
-        <iInput v-model="detail.phoneH" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('联系电话')" prop="phoneH">
+        <iInput v-model="detail.phoneH" :placeholder="language('请输入')" />
       </iFormItem>
-      <iFormItem :label="$t('备注')" prop="remark">
-        <iInput v-model="detail.remark" :placeholder="$t('请输入')" />
+      <iFormItem :label="language('备注')" prop="remark">
+        <iInput v-model="detail.remark" :placeholder="language('请输入')" />
       </iFormItem>
     </el-form>
     <div slot="footer">
-      <iButton :loading="loading" @click="handleSave">{{ $t('保存') }}</iButton>
-      <iButton @click="close">{{ $t('取消') }}</iButton>
+      <iButton :loading="loading" @click="handleSave">{{
+        language('保存')
+      }}</iButton>
+      <iButton @click="close">{{ language('取消') }}</iButton>
     </div>
   </iDialog>
 </template>
@@ -67,7 +72,7 @@ export default {
     },
     detail: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     },
@@ -111,7 +116,7 @@ export default {
       this.$emit('update:visible', false)
     },
     handleSave() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.save()
         }
@@ -139,7 +144,7 @@ export default {
       }
       this.loading = true
       updateSupplierContact(params, data)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success(res.dscZh || '保存成功')
             this.$emit('save-success', { id: this.detail.id, ...data })
@@ -148,7 +153,7 @@ export default {
             iMessage.error(res.dscZh || '保存失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error(err.dscZh || '保存失败')
         })
         .finally(() => (this.loading = false))

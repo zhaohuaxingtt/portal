@@ -1,18 +1,17 @@
 <template>
-  <iCard :title="$t('供应商通讯录')" collapse>
+  <iCard :title="language('供应商通讯录')" collapse>
     <div class="actions" slot="header-control">
       <iButton @click="handleSave">
-        {{ $t('保存') }}
+        {{ language('保存') }}
       </iButton>
       <iButton
         :loading="delLoading"
         :disabled="!selectedRows.length"
         @click="handleDelete"
       >
-        {{ $t('删除') }}
+        {{ language('删除') }}
       </iButton>
     </div>
-
     <i-table-custom
       :loading="loading"
       :data="tableData"
@@ -43,7 +42,7 @@ export default {
   props: {
     contacts: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -60,7 +59,9 @@ export default {
   },
   watch: {
     contacts() {
-      this.init()
+      // if(this.dicts){
+        this.init()
+      // }
     }
   },
   data() {
@@ -83,12 +84,22 @@ export default {
   methods: {
     // 这里主要是为了补全5种类型联系人
     init() {
+      if(this.contacts){
+        this.contacts.forEach(item => {
+          // console.log(this.dicts.SUPPLIER_CODE_TYPE,'=======')
+          this.dicts.SUPPLIER_CODE_TYPE.forEach(e => {
+            if(e.code == item.contactType){
+              item.contactType = e.name
+            }
+          })
+        })
+      }
       this.tableData = _.cloneDeep(this.contacts)
       this.fillTable()
     },
     // 填充表格
     fillTable() {
-      const contactTypes = this.tableData.map(e => e.contactType)
+      const contactTypes = this.tableData.map((e) => e.contactType)
       const types = [
         '财务联系人',
         '物流联系人',
@@ -108,7 +119,7 @@ export default {
       this.selectedRows = val
     },
     saveValidate() {
-      console.log(this.tableData)
+      const reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
       for (let i = 0; i < this.tableData.length; i++) {
         const element = this.tableData[i]
         if (element.contactType === '商务联系人' && !element.nameZh) {
@@ -119,45 +130,65 @@ export default {
           iMessage.error(`【${element.contactType}】 联系人，联系电话必填`)
           return false
         }
+        if(element.email && !reg.test(element.email)){
+          iMessage.error(`【${element.contactType}】 联系人,邮箱格式不正确`)
+          return false
+        }
       }
       return true
     },
     handleSave() {
       if (this.saveValidate()) {
-        const data = this.tableData.map(e => {
-          const {
-            contactType,
-            dept,
-            designation,
-            email,
-            id,
-            telephoneAreaCode,
-            nameZh,
-            phoneH,
-            remark
-          } = e
-          return {
-            contactType,
-            dept,
-            designation,
-            email,
-            id,
-            telephoneAreaCode,
-            nameZh,
-            phoneH,
-            remark
-          }
+        const data = this.tableData.map((e) => {
+          let type = ''
+          this.dicts.SUPPLIER_CODE_TYPE.forEach(item => {
+            if(e.contactType == item.name){
+              type  = item.code
+            }
+          })
+          const singleData = {
+            contactType:type,
+            dept:e.dept,
+            designation:e.designation,
+            email:e.email,
+            id:e.id,
+            telephoneAreaCode:e.telephoneAreaCode,
+            nameZh:e.nameZh,
+            phoneH:e.phoneH,
+            remark:e.remark
+          } 
+          return singleData
+
+          // return {
+          //   contactType,
+          //   dept,
+          //   designation,
+          //   email,
+          //   id,
+          //   telephoneAreaCode,
+          //   nameZh,
+          //   phoneH,
+          //   remark
+          // }
         })
         updateBantchSupplierContact({ supplierId: this.supplierId }, data)
-          .then(res => {
+          .then((res) => {
             if (res && res.result) {
               iMessage.success(res.dscZh || '保存成功')
-              this.tableData = res.data
+              let data = res.data
+              data.forEach(e => {
+                this.dicts.SUPPLIER_CODE_TYPE.forEach(item => {
+                  if(e.contactType == item.code){
+                    e.contactType = item.name
+                  }
+                })
+              })
+              this.tableData = data
             } else {
               iMessage.error(res.desZh || '保存失败')
             }
           })
-          .catch(err => {
+          .catch((err) => {
             console.log('save err', err)
             iMessage.error(err.dscZh || '保存失败')
           })
@@ -166,8 +197,8 @@ export default {
     },
     handleDelete() {
       this.onDelete().then(() => {
-        const hasIdItems = this.selectedRows.filter(e => e.id)
-        const ids = hasIdItems.map(e => e.id).join(',')
+        const hasIdItems = this.selectedRows.filter((e) => e.id)
+        const ids = hasIdItems.map((e) => e.id).join(',')
         const params = {
           supplierId: this.supplierId,
           contactIds: ids
@@ -175,16 +206,18 @@ export default {
         if (hasIdItems.length) {
           this.delLoading = true
           deleteSupplierContact(params)
-            .then(res => {
+            .then((res) => {
               if (res.result) {
                 iMessage.success(res.dscZh || '删除成功')
-                this.tableData = this.tableData.filter(e => !ids.includes(e.id))
+                this.tableData = this.tableData.filter(
+                  (e) => !ids.includes(e.id)
+                )
                 this.fillTable()
               } else {
                 iMessage.error(res.dscZh || '删除失败')
               }
             })
-            .catch(err => {
+            .catch((err) => {
               iMessage.error(err.dscZh || '删除失败')
             })
             .finally(() => (this.delLoading = false))
@@ -192,7 +225,7 @@ export default {
           iMessage.success('删除成功')
         }
 
-        this.selectedRows.forEach(e => {
+        this.selectedRows.forEach((e) => {
           e.dept = ''
           e.designation = ''
           e.email = ''

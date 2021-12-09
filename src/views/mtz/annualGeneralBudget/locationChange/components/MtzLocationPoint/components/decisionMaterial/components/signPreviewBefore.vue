@@ -7,6 +7,10 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
 -->
 <template>
+<div class="tabsBoxWrap">
+  <span class="download_btn">
+    <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton>
+  </span>
   <div ref="qrCodeDiv" class="sign_swap" style="padding-bottom:30px;">
     <iCard>
       <div slot="header" class="headBox">
@@ -27,7 +31,7 @@
         <tableList
           class="margin-top20"
           :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1"
+          :tableTitle="ruleTableTitle1_1"
           :tableLoading="loading"
           :index="true"
           :selection="false"
@@ -38,8 +42,12 @@
           <template slot-scope="scope" slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
+          <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+          </template>
         </tableList>
-        <iPagination
+        <!-- <iPagination
         v-update
         @size-change="handleSizeChange($event, getPageAppRule)"
         @current-change="handleCurrentChange($event, getPageAppRule)"
@@ -48,13 +56,13 @@
         :page-size="rulePageParams.pageSize"
         :layout="page.layout"
         :current-page='rulePageParams.currPage'
-        :total="rulePageParams.totalCount"/>
+        :total="rulePageParams.totalCount"/> -->
       <el-divider class="margin-top20"/>
       <p class="tableTitle">{{language('LJQD', '零件清单')}}</p>
         <tableList
           class="margin-top20"
           :tableData="partTableListData"
-          :tableTitle="partTableTitle1"
+          :tableTitle="partTableTitle1_1"
           :tableLoading="loading"
           :index="true"
           :selection="false"
@@ -65,8 +73,12 @@
           <template slot-scope="scope" slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
+          <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+          </template>
         </tableList>
-        <iPagination
+        <!-- <iPagination
         v-update
         @size-change="handleSizeChange($event, getPagePartMasterData)"
         @current-change="handleCurrentChange($event, getPagePartMasterData)"
@@ -75,7 +87,7 @@
         :page-size="partPageParams.pageSize"
         :layout="page.layout"
         :current-page='partPageParams.currPage'
-        :total="partPageParams.totalCount"/>
+        :total="partPageParams.totalCount"/> -->
     </iCard>
     <iCard class="margin-top20">
       <div slot="header"
@@ -114,15 +126,25 @@
         </div>
       </iCard>
   </div>
+  <iDialog :title="language('DAOCHU', '导出')"
+            :visible.sync="signPreviewType"
+            v-if="signPreviewType"
+            append-to-body
+            width="99%"
+            @close='closeRS'>
+    <signPreview :mtzAppId="formData.mtzAppId" :m1="true"></signPreview>
+  </iDialog>
+</div>
 </template>
 
 <script>
-import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
+import { iCard, icon, iInput, iButton, iMessage, iPagination,iDialog } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1, partTableTitle1} from './data'
+import { ruleTableTitle1, partTableTitle1,ruleTableTitle1_new,partTableTitle1_new,ruleTableTitle1_1,partTableTitle1_1} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
+import signPreview from "./signPreview";
 export default {
   mixins: [pageMixins],
   components: {
@@ -131,7 +153,9 @@ export default {
     iInput,
     iButton,
     iPagination,
-    tableList
+    tableList,
+    iDialog,
+    signPreview
   },
   props:{
     RsType:{type:Boolean}
@@ -142,6 +166,10 @@ export default {
       formList,
       ruleTableTitle1:ruleTableTitle1,
       partTableTitle1:partTableTitle1,
+      ruleTableTitle1_new,
+      ruleTableTitle1_1,
+      partTableTitle1_new,
+      partTableTitle1_1,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
@@ -157,7 +185,8 @@ export default {
         layout: 'sizes, prev, pager, next, jumper',
       },
       applayDateData: [],
-      moment: window.moment
+      moment: window.moment,
+      signPreviewType:false,
     }
   },
   watch: {
@@ -200,6 +229,12 @@ export default {
     }
   },
   methods: {
+    closeRS(){
+      this.signPreviewType = false;
+    },
+    handleClickExport(){
+      this.signPreviewType = true;
+    },
     initApplayDateData () {
       approvalList({ mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId }).then(res => {
         if (res?.code === '200') {
@@ -226,8 +261,8 @@ export default {
       var list = {};
       list = {
         mtzAppId:this.$route.query.mtzAppId,
-        pageNo: this.rulePageParams.currPage,
-        pageSize: this.rulePageParams.pageSize,
+        pageNo: 1,
+        pageSize: 99999,
       }
       
       pageAppRule(list).then(res => {
@@ -242,8 +277,8 @@ export default {
       var list = {};
       list = {
         mtzAppId:this.$route.query.mtzAppId,
-        pageNo: this.partPageParams.currPage,
-        pageSize: this.partPageParams.pageSize,
+        pageNo: 1,
+        pageSize: 99999,
       }
 
       pagePartMasterData(list).then(res => {
@@ -260,7 +295,7 @@ export default {
 <style lang='scss' scoped>
 $tabsInforHeight: 35px;
 
-.sign_swap{
+.tabsBoxWrap{
   position:fixed!important;
   left:0;
   right:0;
@@ -271,6 +306,10 @@ $tabsInforHeight: 35px;
   z-index:2000;
   overflow-y:auto;
   background:white!important;
+}
+.sign_swap{
+  width:100%;
+  height:100%;
 }
 .tableTitle {
   display: inline-block;
@@ -349,6 +388,27 @@ $tabsInforHeight: 35px;
       height:auto;
       background: #f8f8fa;
       text-align: center;
+    }
+  }
+}
+
+.download_btn{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-top:20px;
+  padding-bottom:20px;
+  padding-right:20px;
+}
+
+::v-deep .el-form{
+  .el-table{
+    .cell{
+      padding:0!important;
+
+      span{
+        margin-right:0px!important;
+      }
     }
   }
 }

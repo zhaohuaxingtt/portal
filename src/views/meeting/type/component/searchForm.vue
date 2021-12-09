@@ -10,20 +10,17 @@
   >
     <el-form>
       <iFormItem :label="$t('类型名称')">
-        <iInput
-          :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-          v-model="form.name"
-        ></iInput>
+        <iInput :placeholder="language('请输入')" v-model="form.name"></iInput>
       </iFormItem>
       <iFormItem :label="$t('会议信息描述')">
         <iInput
-          :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+          :placeholder="language('请输入')"
           v-model="form.meetingInfoDesc"
         ></iInput>
       </iFormItem>
       <iFormItem :label="$t('是否触发审批流')">
         <iSelect
-          :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+          :placeholder="language('请选择')"
           v-model="form.isTriggerApproval"
         >
           <el-option
@@ -39,31 +36,30 @@
   </iSearch>
 </template>
 <script>
-import { iSearch, iInput, iSelect, iFormItem } from "rise";
-import { triggerApproval, searchForm } from "./data";
+import { iSearch, iInput, iSelect, iFormItem } from 'rise'
+import { triggerApproval, searchForm } from './data'
 export default {
   components: {
     iSearch,
     iInput,
     iSelect,
-    iFormItem,
+    iFormItem
   },
   data() {
     return {
       triggerApproval,
-      form: { ...searchForm },
-    };
+      form: { ...searchForm }
+    }
   },
   methods: {
-      sure() {
-          this.$emit('search', this.form)
-      },
-      reset() {
-          this.form = {...searchForm}
-          this.$emit('search', this.form)
-      }
-  },
-};
+    sure() {
+      this.$emit('search', this.form)
+    },
+    reset() {
+      this.form = { ...searchForm }
+      this.$emit('search', this.form)
+    }
+  }
+}
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

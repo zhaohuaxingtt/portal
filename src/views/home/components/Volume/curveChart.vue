@@ -1,5 +1,5 @@
 <template>
-    <div class="curve" ref="curve" :style="{ height: chartHeight }" />
+  <div class="curve" ref="curve" :style="{ height: chartHeight }"></div>
 </template>
 
 <script>
@@ -47,6 +47,20 @@ export default {
       }
     }
   },
+  computed: {
+    lang() {
+      return this.$i18n.locale
+    }
+  },
+  watch: {
+    lang(val) {
+      console.log('lang', val)
+      this.initEcharts()
+    },
+    newestScatterData() {
+      this.initEcharts()
+    }
+  },
   mounted() {
     this.initEcharts()
   },
@@ -86,18 +100,16 @@ export default {
       const option = {
         // ['最新定点单价', '目标单价']
         legend: {
-          data: [
-            this.$t('TPZS.ZUIXINDINGDIANDANJIA'),
-            this.$t('TPZS.MUBIAODANJIA')
-          ],
+          data: [this.language('最新定点单价'), this.language('目标单价')],
           right: 10,
-          itemWidth: 10
+          itemWidth: 10,
+          selectedMode: false
         },
         xAxis: {
           // 产量（辆）
           // max: xMax,
           type: 'value',
-          name: this.$t('TPZS.CHANLIANGLIANG'),
+          name: this.language('产量(件)'),
           // name:'666666',
           splitLine: {
             lineStyle: {
@@ -113,7 +125,7 @@ export default {
               return value + 'k'
             },
             show: false,
-            rotate:-30
+            rotate: -30
           },
           axisLine: {
             lineStyle: {
@@ -124,7 +136,7 @@ export default {
         yAxis: {
           type: 'value',
           // 单价\n' + '（元/件）
-          name: this.$t('TPZS.DANJIA') + '\n' + this.$t('TPZS.YUANJIAN'),
+          name: this.language('单价') + '\n' + this.language('(元/件)'),
           nameTextStyle: {
             align: 'center',
             padding: [0, 0, 0, -50]
@@ -145,7 +157,7 @@ export default {
           },
           axisLabel: {
             show: false,
-            rotate:-30
+            rotate: -30
           }
         },
         /* visualMap: {
@@ -188,7 +200,7 @@ export default {
           },
           {
             //最新定点单价
-            name: this.$t('TPZS.ZUIXINDINGDIANDANJIA'),
+            name: this.language('最新定点单价'),
             type: 'scatter',
             data: this.newestScatterData,
             color: '#0059FF',
@@ -203,22 +215,22 @@ export default {
               position: 'top',
               formatter: () => {
                 if (proGrowthRate > 0) {
-                  return `{bg|${this.language(
-                    'TPZS.CHANLIANG',
-                    '产量'
-                  )}+${toFixedNumber(proGrowthRate, 2)}%}`
+                  return `{bg|${this.language('产量', '产量')}+${toFixedNumber(
+                    proGrowthRate,
+                    2
+                  )}%}`
                 } else {
-                  return `bg|${this.language(
-                    'TPZS.CHANLIANG',
-                    '产量'
-                  )}${toFixedNumber(proGrowthRate, 2)}%`
+                  return `bg|${this.language('产量', '产量')}${toFixedNumber(
+                    proGrowthRate,
+                    2
+                  )}%`
                 }
               }
             }
           },
           {
             //目标单价
-            name: this.$t('TPZS.MUBIAODANJIA'),
+            name: this.language('目标单价'),
             type: 'scatter',
             data: this.targetScatterData,
             color: '#70AD47',
@@ -236,13 +248,13 @@ export default {
                 const bgGrowthPlus = proGrowthRate > 0 ? '+' : ''
                 const bgReductionPlus = reductionPotential > 0 ? '+' : ''
                 return `{bgGrowth|${this.language(
-                  'TPZS.CHANLIANG',
+                  '产量',
                   '产量'
                 )}${bgGrowthPlus}${toFixedNumber(
                   proGrowthRate,
                   2
                 )}%}\n\n{bgReduction|${this.language(
-                  'TPZS.DANJIA',
+                  '单价',
                   '单价'
                 )}${bgReductionPlus}${toFixedNumber(reductionPotential, 2)}%} `
               }
@@ -257,7 +269,7 @@ export default {
         grid: {
           top: 94,
           left: 60,
-          right:66
+          right: 66
         }
       }
       chart.setOption(option)
@@ -278,8 +290,8 @@ export default {
               formatter() {
                 return zeroData + 'K'
               },
-              rotate:35,
-              fontSize:10
+              rotate: 35,
+              fontSize: 10
             }
           }
         ],
@@ -305,8 +317,8 @@ export default {
               formatter() {
                 return zeroData
               },
-              rotate:35,
-              fontSize:10
+              rotate: 35,
+              fontSize: 10
             }
           }
         ],
@@ -315,11 +327,6 @@ export default {
           color: '#b6b6b6'
         }
       }
-    }
-  },
-  watch: {
-    newestScatterData() {
-      this.initEcharts()
     }
   }
 }

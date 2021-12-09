@@ -1,27 +1,19 @@
 <template>
-  <iCard collapse :title="language('色标零件清单')">
-      <el-form label-position="left" label-width="150px">
+  <iCard collapse :title="language('请选择需要批量维护的色标零件')">
+      <el-form label-position="left" label-width="160px">
         <el-row :gutter="24">
           <el-col span="8">
-            <iFormItem :label='language("编号")' class="color-list-search">
-              <!-- <iSelect v-model="colorStandardCode" multiple >
-                <el-option
-                  v-for="item in partNumOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-
-                </el-option>
-              </iSelect> -->
+            <iFormItem :label='language("色标零件号")' class="color-list-search">
               <iInput v-model="colorStandardCode"></iInput>
-              <iButton style="margin-left:20px" @click="search">{{language('查询')}}</iButton>
+            </iFormItem>
+          </el-col>
+          <el-col span="8">
+            <iFormItem>
+              <iButton style="margin-left:20px" @click="search" slot="label">{{language('查询')}}</iButton>
             </iFormItem>
           </el-col>
         </el-row>
       </el-form>
-      <el-divider class="divider" ></el-divider>
-      <h4 style="margin:0 0 20px 20px">{{language('色标件清单')}}</h4>
       <iTableCustom 
         ref="colorListTable"
         :loading='loading'
@@ -123,7 +115,7 @@ export default {
   
 }
 ::v-deep .el-form-item__label{
-  margin-left: 20px;
+  margin-left: 26px;
 }
 ::v-deep .el-form-item__content{
   display: flex;

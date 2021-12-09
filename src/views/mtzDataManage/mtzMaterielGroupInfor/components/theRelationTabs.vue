@@ -6,14 +6,14 @@
         :class="{ active: actived === 'group' }"
         @click="actived = 'group'"
       >
-        MTZ材料组&零件材料组
+        {{ language('MTZ材料组&零件材料组') }}
       </div>
       <div
         class="c-tabs-item"
         :class="{ active: actived === 'six' }"
         @click="actived = 'six'"
       >
-        MTZ材料组&零件六位号
+        {{ language('MTZ材料组&零件六位号') }}
       </div>
     </div>
     <div class="margin-top20">

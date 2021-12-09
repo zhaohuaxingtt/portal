@@ -71,7 +71,7 @@
 
 <script>
 import { iInput, iSelect } from "rise";
-import { getMettingType, getReceiver } from "@/api/meeting/type";
+import { getMettingType } from "@/api/meeting/type";
 import { getUsers } from "@/api/meeting/type";
 import iDateRangePicker from "@/components/iDateRangePicker/index.vue";
 import iSearch from "@/components/iSearch/index.vue";

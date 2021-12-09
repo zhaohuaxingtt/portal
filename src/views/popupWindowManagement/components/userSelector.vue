@@ -42,31 +42,31 @@ export default {
         {
           prop: '',
           type: 'index',
-          label: '编号'
+          i18n: '编号'
         },
         {
           prop: 'userNum',
-          label: '员工号'
+          i18n: '员工号'
         },
         {
           prop: 'nameZh',
-          label: '姓名'
+          i18n: '姓名'
         },
         {
           prop: 'deptNameZh',
-          label: '所属部门'
+          i18n: '所属部门'
         },
         {
           prop: 'email',
-          label: '邮箱'
+          i18n: '邮箱'
         },
         {
           prop: 'mobile',
-          label: '手机'
+          i18n: '手机'
         },
         {
           prop: 'phone',
-          label: '电话'
+          i18n: '电话'
         }
       ],
       userFilters: [

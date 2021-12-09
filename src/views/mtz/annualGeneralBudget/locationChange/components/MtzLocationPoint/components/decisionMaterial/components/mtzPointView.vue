@@ -6,6 +6,7 @@
  * @Description: mtz
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
 -->
+<!-- 这个文件没用，但是路由中存在，暂时保留，不删 -->
 <template>
   <div ref="qrCodeDiv" class="sign_swap" style="padding-bottom:30px;">
     <iCard>
@@ -65,6 +66,10 @@
           </template>
           <template slot-scope="scope" slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
+          <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
           </template>
         </tableList>
         <iPagination

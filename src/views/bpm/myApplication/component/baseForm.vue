@@ -1,6 +1,6 @@
 <template>
   <iCard
-    :title="$t('申请备注')"
+    :title="language('申请备注')"
     header-control
     collapse
     class="margin-bottom20"
@@ -8,19 +8,19 @@
     <el-form label-position="left" label-width="100px">
       <el-row :gutter="20">
         <el-col :span="12">
-          <iFormItem :label="$t('审批备注')">
+          <iFormItem :label="language('审批备注')">
             <div class="text-area">
               {{ form.remark }}
             </div>
           </iFormItem>
-          <iFormItem :label="$t('审批事项')">
+          <iFormItem :label="language('审批事项')">
             <div class="text-area">
               {{ form.itemEvent }}
             </div>
           </iFormItem>
         </el-col>
         <el-col :span="12">
-          <iFormItem :label="$t('附件')">
+          <iFormItem :label="language('附件')">
             <div class="attach-area">
               <attachmentList :data="form.procAttachments || []" icon />
             </div>
@@ -40,7 +40,7 @@ export default {
   props: {
     form: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }

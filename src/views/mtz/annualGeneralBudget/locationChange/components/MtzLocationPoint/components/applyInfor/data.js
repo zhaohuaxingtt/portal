@@ -171,7 +171,9 @@ export const continueBox = [
   { width: 150, props: 'palladiumPrice', name: '钯基价', key: 'BAJIJIA' ,icon:"iconxinxitishi",iconTextKey:"M01006001-Pd",iconText:"M01006001-Pd"},
   { width: 150, props: 'palladiumDosage', name: '钯用量', key: 'BAYONGLIANG' ,icon:"iconxinxitishi",iconTextKey:"M01006001-Pd",iconText:"M01006001-Pd"},
   { width: 150, props: 'rhodiumPrice', name: '铑基价', key: 'LAOJIJIA' ,icon:"iconxinxitishi",iconTextKey:"M01006003-Rh",iconText:"M01006003-Rh"},
-  { width: 150, props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG' ,icon:"iconxinxitishi",iconTextKey:"M01006003-Rh",iconText:"M01006003-Rh"}
+  { width: 150, props: 'rhodiumDosage', name: '铑用量', key: 'LAOYONGLIANG' ,icon:"iconxinxitishi",iconTextKey:"M01006003-Rh",iconText:"M01006003-Rh"},
+  { width: 200, props: 'preciousMetalDosageUnit', name: '贵金属用量&基价单位', key: 'GUIJINSHUYONGLIANGJIJIADANWEI' },
+
 ]
 
 export const tableLeftTitle = [
@@ -365,7 +367,7 @@ export const formRulesLJ = {
   priceUnit:[{required: true, message: '请选择', trigger: 'blur'}],//每
   dosage:[{required: true, message: '请选择', trigger: 'blur'}],//用量
   dosageMeasureUnit:[{required: true, message: '请选择', trigger: 'blur'}],//用量计量单位
-  mark:[{required: true, message: '请选择', trigger: 'blur'}],//备注
+  // mark:[{required: true, message: '请选择', trigger: 'blur'}],//备注
 
   // materialGroup:[{required: true, message: '请选择', trigger: 'blur'}],//MTZ-材料组
   // carline:[{required: true, message: '请选择', trigger: 'blur'}],//车型

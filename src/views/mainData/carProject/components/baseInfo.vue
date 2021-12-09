@@ -3,9 +3,7 @@
     <div class="top-buttons margin-bottom20">
       <iButton v-if="isEditPage && !editable" @click="edit"> 编辑 </iButton>
       <iButton v-show="editable" @click="save">保存</iButton>
-      <iButton v-show="editable && $route.query.id" @click="cancel">
-        取消
-      </iButton>
+      <iButton v-show="editable" @click="cancel"> 取消 </iButton>
     </div>
     <div class="filter-form" v-loading="saveLoading">
       <el-form
@@ -270,6 +268,7 @@
           </el-col>
         </el-row>
       </el-form>
+
       <!-- 项目采购员 -->
       <i-selector-dialog
         :show.sync="dialogPurchaseVisible"
@@ -280,7 +279,7 @@
         :title="'项目采购员'"
         :search-method="handlePurchaseSearch"
         :tag-label="'nameZh'"
-      ></i-selector-dialog>
+      />
 
       <!-- 区域控制员 -->
       <i-selector-dialog
@@ -292,7 +291,7 @@
         :title="'区域控制员'"
         :search-method="handleAreaControllerSearch"
         :tag-label="'nameZh'"
-      ></i-selector-dialog>
+      />
 
       <!-- 产品经理 -->
       <i-selector-dialog
@@ -304,7 +303,7 @@
         :title="'产品经理'"
         :search-method="handleProjectManagerSearch"
         :tag-label="'nameZh'"
-      ></i-selector-dialog>
+      />
     </div>
   </iCard>
 </template>
@@ -370,8 +369,9 @@ export default {
       this.formData.cartypeId = parma
     },
     dialogUserList(param) {
-      let params = param
-      return getPageListByParams(params)
+      console.log('params', param)
+      // let params = param
+      return getPageListByParams({ ...param, current: param.pageNo })
     },
     searchUser(param) {
       // 人员配置
@@ -440,6 +440,9 @@ export default {
       })
     },
     cancel() {
+      if (!this.$route.query.id) {
+        window.close()
+      }
       if (_.isEqual(this.originalBaseForm, this.formData)) {
         this.$emit('reset', this.originalBaseForm)
         this.editstate = false
@@ -745,7 +748,7 @@ export default {
           { required: true, message: '请输入车型项目中文名称', trigger: 'blur' }
         ],
         cartypeProjectEn: [
-          { required: true, message: '请输入车型项目中文名称', trigger: 'blur' }
+          { required: true, message: '请输入车型项目英文名称', trigger: 'blur' }
         ],
         cartypeProType: [
           { required: true, message: '请选择车型项目类型', trigger: 'blur' }
@@ -785,7 +788,7 @@ export default {
           { required: true, message: '请选择关闭时间', trigger: 'blur' }
         ], */
         publishStatus: [
-          { required: true, message: '请选择生产工厂', trigger: 'blur' }
+          { required: true, message: '请选择发布状态', trigger: 'blur' }
         ],
         isValid: [
           { required: true, message: '请选择是否有效', trigger: 'blur' }

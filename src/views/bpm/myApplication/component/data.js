@@ -1,7 +1,4 @@
 //todo key 中英文显示。
-import { ElPopover } from 'element-ui'
-import { processNodeVertical } from '../../task/components'
-
 //流程模块管理列表入参
 export const searchForm = {
   itemName: '', //审批名称
@@ -64,22 +61,34 @@ export const tableTitle = [
     prop: 'businessId',
     label: '申请号',
     i18n: '单据编号',
-    width: 130,
-    tooltip: true
+    width: 120,
+    tooltip: true,
+    emit: 'go-detail',
+    customRender: (h, scope, column, extraData) => {
+      return (
+        <span
+          class="open-link-text process-node-popover-reference"
+          onMouseenter={(event) => extraData.mouseenter(event, scope.row)}
+          onMouseleave={extraData.mouseleave}
+        >
+          {scope.row.businessId}
+        </span>
+      )
+    }
   },
   {
     prop: 'itemType',
     label: '单据类型',
     i18n: '单据类型',
     tooltip: true,
-    width: 140
+    width: 100
   },
   {
     prop: 'applyDate',
     label: '申请时间',
     i18n: '申请时间',
     tooltip: true,
-    width: 160,
+    width: 100,
     customRender: (h, scope) => {
       if (scope.row.applyDate) {
         // eslint-disable-next-line no-undef
@@ -94,41 +103,22 @@ export const tableTitle = [
     label: '审批名称',
     i18n: '任务名称',
     tooltip: true,
-    minWidth: 200,
-    customRender: (h, scope, column, extraData) => {
-      return (
-        <span
-          class="open-link-text process-node-popover-reference"
-          onMouseenter={(event) => extraData.mouseenter(event, scope.row)}
-          onMouseleave={extraData.mouseleave}
-        >
-          {scope.row.processDefinitionName}
-        </span>
-      )
-      /* return (
-        <ElPopover trigger="hover">
-          <processNodeVertical instanceId={scope.row.instanceId} />
-          <span class="open-link-text" slot="reference">
-            {scope.row.processDefinitionName}
-          </span>
-        </ElPopover>
-      ) */
-    },
-    emit: 'go-detail'
+    minWidth: 200
   },
   {
     prop: 'itemEvent',
     label: '审批事项',
     i18n: 'APPROVAL.APPROVAL_ITEMS',
-    minWidth: 200,
+    minWidth: 300,
     tooltip: true
   },
   {
     prop: 'currentNode',
     label: '审批进度',
     i18n: 'APPROVAL.APPROVAL_PROGRESS',
-    minWidth: 300,
+    minWidth: 150,
     tooltip: true,
+    align: 'left',
     customRender: (h, scope) => {
       if (['同意', '拒绝'].indexOf(scope.row.procStatusMsg) > -1) {
         return scope.row.procStatusMsg

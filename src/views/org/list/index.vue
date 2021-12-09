@@ -7,49 +7,35 @@
           <i-search @sure="sure" @reset="reset">
             <el-form>
               <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_CODE')"
+                :label="language('组织机构编码')"
                 class="SearchOption"
               >
                 <i-input
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请输入')"
                   class=""
                   v-model="formData.fullCode"
                 ></i-input>
               </el-form-item>
-              <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_OWNER')"
-                class="SearchOption"
-              >
+              <el-form-item :label="language('负责人')" class="SearchOption">
                 <i-input
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请输入')"
                   class=""
                   v-model="formData.leaderName"
                 ></i-input>
               </el-form-item>
               <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_NAME')"
+                :label="language('组织机构名')"
                 class="SearchOption"
               >
                 <i-input
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请输入')"
                   class=""
                   v-model="formData.nameZh"
                 ></i-input>
               </el-form-item>
-              <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_IS_SHOW')"
-                class="SearchOption"
-              >
+              <el-form-item :label="language('是否显示')" class="SearchOption">
                 <i-select
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请选择')"
                   v-model="formData.isVisible"
                 >
                   <el-option
@@ -62,15 +48,11 @@
                 </i-select>
               </el-form-item>
               <el-form-item
-                :label="
-                  $t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_IS_COMMODITY')
-                "
+                :label="language('是否为Commodity')"
                 class="SearchOption"
               >
                 <i-select
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请选择')"
                   v-model="formData.isCommodity"
                 >
                   <el-option
@@ -83,13 +65,11 @@
                 </i-select>
               </el-form-item>
               <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.IS_SYNC_SVCD')"
+                :label="language('是否同步svcd')"
                 class="LastSearchOption"
               >
                 <i-select
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请选择')"
                   v-model="formData.syncStatus"
                 >
                   <el-option
@@ -111,27 +91,19 @@
               <iButton
                 @click="enterCreateOrgPage"
                 :disabled="this.selectedTableData.length > 1"
-                >{{
-                  $t('ORGANIZATION_MANAGERMENT.ORG_LIST.CREATE_ORG_BTN')
-                }}</iButton
+                >{{ language('新建组织机构') }}</iButton
               >
               <iButton
                 @click="edit"
                 :disabled="this.selectedTableData.length !== 1"
-                >{{
-                  $t('ORGANIZATION_MANAGERMENT.ORG_LIST.EDIT_ORG_BTN')
-                }}</iButton
+                >{{ language('编辑') }}</iButton
               >
               <iButton
                 @click="deleteItem"
                 :disabled="!(this.selectedTableData.length > 0)"
-                >{{
-                  $t('ORGANIZATION_MANAGERMENT.ORG_LIST.DELETE_ORG_BTN')
-                }}</iButton
+                >{{ language('删除') }}</iButton
               >
-              <iButton @click="exportList">{{
-                $t('ORGANIZATION_MANAGERMENT.ORG_LIST.EXPORT_ORG_BTN')
-              }}</iButton>
+              <iButton @click="exportList">{{ language('导出') }}</iButton>
             </div>
             <div class="OrganizationTable" v-loading="tableLoading">
               <iTableCustom
@@ -176,7 +148,7 @@ import {
 import iTableCustom from '@/components/iTableCustom'
 import { tableSetting, exportTableSetting } from './data.js'
 import { pageMixins } from '@/utils/pageMixins'
-import {openUrl} from '@/utils'
+import { openUrl } from '@/utils'
 import {
   getOrganizationList,
   deleteOrganization,
@@ -294,7 +266,7 @@ export default {
       //得到数据
       this.tableLoading = true
       getOrganizationList(null, data)
-        .then(value => {
+        .then((value) => {
           this.tableLoading = false
           if (value.code == 200) {
             this.alltableListData = _.cloneDeep(value.data)
@@ -305,7 +277,7 @@ export default {
             )
           }
         })
-        .catch(error => {
+        .catch((error) => {
           //错误处理
           this.tableLoading = false
           return console.log(error)
@@ -338,14 +310,14 @@ export default {
             if (action === 'confirm') {
               this.tableLoading = true
               deleteOrganization(null, data)
-                .then(value => {
+                .then((value) => {
                   this.tableLoading = false
                   if (value.code == 200) {
                     this.sendQuest()
                     this.tableListData = value
                   }
                 })
-                .catch(error => {
+                .catch((error) => {
                   this.tableLoading = false
                   console.log('删除错误', error)
                 })
@@ -354,7 +326,7 @@ export default {
               done()
             }
           }
-        }).then(action => {})
+        }).then((action) => {})
       }
     },
     //搜索(模糊查询)
@@ -377,17 +349,20 @@ export default {
     },
     filterTable(keys, filterData) {
       const res = []
-      this.flatTableData.forEach(e => {
+      this.flatTableData.forEach((e) => {
         let isOk = true
-        keys.forEach(key => {
+        keys.forEach((key) => {
           if (key === 'fullCode' && !e.fullCode.includes(filterData.fullCode)) {
             isOk = false
           }
           if (
             key === 'leaderName' &&
             e.userDTOList &&
-            e.userDTOList.filter(user => user.nameZh === filterData.leaderName)
-              .length === 0
+            e.userDTOList.filter((user) =>
+              user.nameZh
+                .toLowerCase()
+                .includes(filterData.leaderName.toLowerCase())
+            ).length === 0
           ) {
             isOk = false
           }

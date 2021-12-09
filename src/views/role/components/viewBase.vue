@@ -9,63 +9,50 @@
     >
       <el-row :gutter="50">
         <el-col :span="8">
-          <iFormItem :label="$t('ROLE.ROLE_ID')" style="width: 100%;">
+          <iFormItem :label="$t('角色ID')" style="width: 100%">
             <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               v-model="form.id"
               disabled
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('ROLE.ROLE_CODE')">
+          <iFormItem :label="language('角色代码')">
             <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               v-model="form.code"
               :disabled="!editable"
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('ROLE.ROLE_NAME')">
+          <iFormItem :label="language('角色名称')">
             <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               v-model="form.fullNameZh"
               :disabled="!editable"
             />
           </iFormItem>
         </el-col>
         <el-col :span="16">
-          <iFormItem :label="$t('ROLE.DESCRIPTION')">
+          <iFormItem :label="language('描述')">
             <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               v-model="form.description"
               :disabled="!editable"
             />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('ROLE.ROLE_STATUS')">
+          <iFormItem :label="language('角色状态')">
             <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               v-model="form.status"
               :disabled="!editable"
             />
           </iFormItem>
         </el-col>
-        <!-- <el-col :span="24">
-          <iFormItem :label="$t('ROLE.ROLE_TAGS')">
-             <iInput
-            
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.status"
-              :disabled="!editable"
-            /> 
-         <span class="tag" size="medium" v-for="tag in form.tagDTOList" :key="tag">
-              {{ tag.name }}
-            </span>
-          </iFormItem>
-        </el-col> -->
       </el-row>
     </el-form>
   </iCard>

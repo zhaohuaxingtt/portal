@@ -1,47 +1,90 @@
 /*
  * @Date: 2021-11-29 14:22:03
  * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 15:25:50
+ * @LastEditTime: 2021-12-07 15:01:38
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\data.js
  */
 export const tableTitle=[
     {
-        props: 'position',
+        props: 'supplierNum',
         name: '供应商编号',
         key: 'GOMGYINGSHANGBIANHAO',
+        required: true,
+        width:120,
+        rule: [{
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+        }]
     },
     {
-        props: 'position',
+        props: 'supplierName',
         name: '供应商名称',
         key: 'GONGYINGSHANGMINGCHENG',
+        required: true,
+        width:120,
+        rule: [{
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+        }]
     },
     {
-        props: 'position',
+        props: 'supplierAddress',
         name: '供应商地址',
         key: 'GONGYINGSHANGDIZHI',
+        required: true,
+        width:120,
+        rule: [{
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+        }]
     },
     {
-        props: 'position',
+        props: 'contactName',
         name: '联系人姓名',
+        width:120,
         key: 'LIANXIRENXINGMING',
+        required: true,
+        rule: [{
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+        }]
     },
     {
-        props: 'position',
+        props: 'contactTel',
         name: '联系人电话',
+        width:120,
         key: 'LIANXIRENDIANHUA',
     },
     {
-        props: 'position',
+        props: 'contactMobile',
         name: '联系人手机',
+        width:120,
         key: 'LIANXIRENSHOUJI',
+        required: true,
+        rule: [{
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+        }]
     },
     {
-        props: 'position',
+        props: 'contactEmail',
         name: '联系人邮箱',
+        width:120,
         key: 'LIANXIRENYOUXIANG',
+        required: true,
+        rule: [{
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+        }]
     },
     {
-        props: 'position',
+        props: 'userName',
         name: '用户名',
         key: 'YONGHUMING',
     },
@@ -51,61 +94,94 @@ export const tableTitle=[
         key: 'SHIFOUJIHUO',
     },
     {
-        props: 'position',
-        name: '是否过期',
-        key: 'SHIFOUGUOQI',
+        props: 'markExpiration',
+        name: '是否超期',
+        key: 'SHIFOUCHAOQI',
     },
     {
-        props: 'position',
-        name: '过期时间',
-        key: 'GUOQISHIJIAN',
+        props: 'expirationTime',
+        name: '超期时间',
+        width:120,
+        key: 'CHAOQISHIJIAN',
     },
     {
-        props: 'position',
-        name: 'Apps Ass',
-        key: 'Apps Ass',
+        props: '应用关联',
+        name: '应用关联',
+        key: 'AppsAss',
     },
 ]
 export const tableTitleEdit=[
     {
-        props: 'position',
+        props: 'supplierNum',
         name: '供应商编号',
         key: 'GOMGYINGSHANGBIANHAO',
+        required: true,
+        rule: [{
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+        }]
     },
     {
-        props: 'position',
+        props: 'supplierName',
         name: '供应商名称',
         key: 'GONGYINGSHANGMINGCHENG',
+        required: true,
+        rule: [{
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+        }]
     },
     {
-        props: 'position',
+        props: 'supplierAddress',
         name: '供应商地址',
         key: 'GONGYINGSHANGDIZHI',
+        required: true,
+        rule: [{
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+        }]
     },
     {
-        props: 'position',
+        props: 'contactName',
         name: '联系人姓名',
         key: 'LIANXIRENXINGMING',
+        required: true,
+        rule: [{
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+        }]
     },
     {
-        props: 'position',
+        props: 'contactTel',
         name: '联系人电话',
         key: 'LIANXIRENDIANHUA',
     },
     {
-        props: 'position',
+        props: 'contactMobile',
         name: '联系人手机',
         key: 'LIANXIRENSHOUJI',
+        required: true,
+        rule: [{
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+        }]
     },
     {
-        props: 'position',
+        props: 'contactEmail',
         name: '联系人邮箱',
         key: 'LIANXIRENYOUXIANG',
+        required: true,
+        rule: [{
+            required: true,
+            message: '请输入',
+            trigger: 'blur'
+        }]
     },
-    {
-        props: 'position',
-        name: '用户名',
-        key: 'YONGHUMING',
-    },
+
     
 ]

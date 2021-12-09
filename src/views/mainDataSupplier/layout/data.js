@@ -13,8 +13,8 @@ export const COLUMNS = [
   },
   {
     prop: 'title',
-    label: '主数据管理',
-    i18n: 'ROLE.RESOURCE_NAME',
+    label: '资源名称',
+    i18n: '资源名称',
     type: 'expanded',
     align: 'left',
     headerAlign: 'left',

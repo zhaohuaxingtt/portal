@@ -103,12 +103,12 @@
         :label="$t('MT_HUIYIDIDIAN')"
         prop="meetingPlace"
       ></el-table-column>
-      <el-table-column width="54" align="center" label=""></el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         align="center"
-        width="200"
-        min-width="200"
+        width="220"
+        min-width="220"
         :label="$t('MT_HUIYISHIJIAN')"
       >
         <template slot-scope="scope">
@@ -119,10 +119,11 @@
             <span v-if="scope.row.endTime">{{
               '~' + scope.row.endTime.substring(0, 5)
             }}</span>
+            <span v-else>~{{ handleEndTime(scope.row) }}</span>
           </span>
         </template>
       </el-table-column>
-      <el-table-column width="54" align="center" label=""></el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         align="center"
@@ -428,7 +429,7 @@
                 @click="actionObj('newFile')(scope.row)"
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
-                <span>{{ $t('生成会议纪要') }}</span>
+                <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -436,7 +437,7 @@
                 @click="actionObj('uploadFile')(scope.row.id)"
               >
                 <!-- <img class="upload-file" :src="uploadFile" alt="" srcset="" /> -->
-                <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
+                <span>{{ $t('MT_SHANGCHUANHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
             </div>
@@ -733,6 +734,7 @@ import newSummaryDialog from './newSummaryDialog.vue'
 // import { MOCK_FILE_URL } from '@/constants'
 // import { debounce } from '@/utils/utils.js'
 import newSummaryDialogNew from './newSummaryDialogNew.vue'
+import dayjs from 'dayjs'
 export default {
   components: {
     iCard,
@@ -862,6 +864,21 @@ export default {
     }
   },
   methods: {
+    handleEndTime(row) {
+      // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return str + ' +1'
+      }
+      return str
+    },
     getUplodFiles(nameList) {
       this.nameList = nameList
     },

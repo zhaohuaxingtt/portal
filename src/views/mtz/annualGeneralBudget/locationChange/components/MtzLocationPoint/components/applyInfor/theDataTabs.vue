@@ -23,6 +23,7 @@
             <el-tooltip
                 :content="language('WENJIANDAXIAOBUCHAOGUO20MB','文件大小不超过20MB')"
                 placement="top"
+                effect="light"
             >
                 <iButton>{{language('SHANGCHUANFUJIAN', '上传附件')}}</iButton>
             </el-tooltip>
@@ -387,6 +388,7 @@
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
         </el-table-column>
+
         <el-table-column prop="platinumPrice"
                          align="center"
                          width="150"
@@ -519,6 +521,18 @@
             <span>{{scope.row.rhodiumDosage}}</span>
           </template>
         </el-table-column>
+        <el-table-column prop="preciousMetalDosageUnit"
+                         align="center"
+                         width="200"
+                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
+                         >
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
+                          :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
+              <span>{{scope.row.preciousMetalDosageUnit}}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
       </el-table>
     </el-form>
     <iPagination @size-change="handleSizeChange($event, getTableList)"
@@ -566,6 +580,18 @@
                   @historyDialog="historyDialogList"></historyBox>
     </iDialog>
 
+    <iDialog
+      :title="language('SCFJYZBTG', '上传附件验证不通过')"
+      class="title_color"
+      :visible.sync="cancelNo"
+      v-if="cancelNo"
+      width="90%"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      @close="cancelClose"
+    >
+      <cancelReqestNo :errorList="errorList"></cancelReqestNo>
+    </iDialog>
   </iCard>
 </template>
 
@@ -575,6 +601,7 @@ import { pageMixins } from "@/utils/pageMixins"
 import rfqDialog from "./rfqDialog";
 import quoteData from "./quoteData";
 import addData from "./addData";
+import cancelReqestNo from "./cancelReqestNo";
 import historyBox from "./historyBox";
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
@@ -595,6 +622,8 @@ import {
 import { deepClone } from "./util"
 import { formRulesLJ } from "./data";
 
+import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
+
 export default {
   name: "Search",
   componentName: "theDataTabs",
@@ -609,6 +638,7 @@ export default {
     iDialog,
     addData,
     quoteData,
+    cancelReqestNo,
     historyBox
   },
   watch: {
@@ -645,6 +675,8 @@ export default {
         dialogEditType:false,
         dataCloseAllRequest:false,//判断是否为选择维护mtz零件主数据
         listData:[],
+        cancelNo:false,
+        errorList:[],
     }
   },
   computed: {
@@ -708,11 +740,19 @@ export default {
         })
       })
     },
+    cancelClose(){
+      this.cancelNo = false;
+    },
     uploadSuccess(res, file){
       if(res.code == 200 && res.result){
         this.getTableList()
       }else{
-        iMessage.error(res.desZh);
+        if(res.data == null){
+          iMessage.error(res.desZh);
+        }else{
+          this.errorList = res.data;
+          this.cancelNo = true;
+        }
       }
     },
     beforeUpload(file){
@@ -777,7 +817,7 @@ export default {
           if (e.id == val) {
             e.id = arr.row.id;
             delete e.mark;
-            arr.row.sapCode = e.supplierId.toString() || e.sapCode.toString();
+            arr.row.supplierId = e.supplierId.toString() || e.sapCode.toString();
             arr.row.priceSource = e.source || e.priceSource;
             arr.row = (Object.assign(arr.row, e));
             throw new Error("EndIterative");
@@ -996,8 +1036,17 @@ export default {
             supplierIdStr: this.$route.query.supplierId,
           }).then(res => {
             this.loading = false;
-            this.tableData = res.data;
-            this.newDataList = res.data;
+            var dataListCopy = res.data;
+            dataListCopy.forEach(e=>{
+              if(e.priceUnit == null){
+                this.$set(e,"priceUnit",1)
+              }
+              if(e.dosageMeasureUnit == null){
+                this.$set(e,"dosageMeasureUnit","KG")
+              }
+            })
+            this.tableData = dataListCopy;
+            this.newDataList = dataListCopy;
             this.editType = true;
 
             var changeArrayList = [];
@@ -1048,7 +1097,8 @@ export default {
           list[index].id = "";
           list[index].partName = item.partNameZh;
           list[index].partUnit = item.unit;
-          list[index].dosageMeasureUnit = "kg";
+          list[index].priceUnit = 1;//每
+          list[index].dosageMeasureUnit = "KG";
         }
       })
       this.newDataList = list;
@@ -1076,10 +1126,11 @@ export default {
           list[index].assemblyPartnum = item.partNum;
           list[index].id = "";
           list[index].supplierName = item.supplierName;
-          list[index].sapCode = item.sapNum;
+          list[index].supplierId = item.sapNum;
           list[index].partName = item.partNameCn;
           list[index].partUnit = item.unit;
-          list[index].dosageMeasureUnit = "kg";
+          list[index].priceUnit = 1;//每
+          list[index].dosageMeasureUnit = "KG";
         }
       })
       this.newDataList = list;
@@ -1106,14 +1157,33 @@ export default {
           list[index].assemblyPartnum = item.assemblyPartnum;
           list[index].id = "";
           list[index].supplierName = item.assemblySupplierName;
-          list[index].sapCode = item.assemblySupplierSap;
+          list[index].supplierId = item.assemblySupplierSap;
           list[index].ruleNo = item.ruleNo;
           list[index].materialCode = item.materialCode;
           list[index].materialName = item.material;
           list[index].priceUnit = item.priceUnit;
           list[index].partName = item.assemblyPartName;
           list[index].partUnit = item.countUnit;
-          list[index].dosageMeasureUnit = "kg";
+          list[index].dosageMeasureUnit = item.dosageMeasureUnit;
+          list[index].preciousMetalDosageUnit = item.preciousMetalDosageUnit;
+          list[index].rhodiumDosage = item.rhodiumDosage;
+          list[index].rhodiumPrice = item.rhodiumPrice;
+          list[index].palladiumDosage = item.palladiumDosage;
+          list[index].palladiumPrice = item.palladiumPrice;
+          list[index].platinumDosage = item.platinumDosage;
+          list[index].platinumPrice = item.platinumPrice;
+          list[index].thresholdCompensationLogic = item.thresholdCompensationLogic;
+          list[index].threshold = item.threshold;
+          list[index].compensationPeriod = item.compensationPeriod;
+          list[index].compensationRatio = item.compensationRatio;
+          list[index].priceSource = item.marketSource;
+          list[index].tcExchangeRate = item.tcExchangeRate;
+          list[index].tcCurrence = item.tcCurrence;
+          list[index].priceMeasureUnit = item.priceCountUnit;
+          list[index].price = item.price;
+          list[index].endDate = item.endDate;
+          list[index].startDate = item.startDate;
+          list[index].dosage = item.dosage;
         }
       })
       // console.log(list);
@@ -1144,5 +1214,10 @@ export default {
 .formStyle ::v-deep .el-form-item {
   margin-top: 0;
   margin-bottom: 0;
+}
+.title_color{
+  ::v-deep .el-dialog__title{
+    color:red;
+  }
 }
 </style>

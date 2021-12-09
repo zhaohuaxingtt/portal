@@ -3,94 +3,103 @@
  * @Date: 2021-11-5
 -->
 <template>
-  <i-dialog :visible.sync="value"
-            width="90%"
-            top="2%"
-            @close="clearDiolog"
-            :title="rowList.nameZh">
-
+  <i-dialog
+    :visible.sync="value"
+    width="90%"
+    top="2%"
+    @close="clearDiolog"
+    :title="rowList.nameZh"
+  >
     <div class="box">
       <div class="header">
-        <el-form inline
-                 label-position="top">
+        <el-form inline label-position="top">
           <el-form-item :label="language('BIAOQIANMINGCHENG', '标签名称')">
-            <iSelect multiple
-                     collapse-tags
-                     filterable
-                     :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                     v-model="form.tagNameList">
-              <el-option v-for="item in tagdropDownList"
-                         :key="item.code"
-                         :label="item.message"
-                         :value="item.code">
+            <iSelect
+              multiple
+              collapse-tags
+              filterable
+              :placeholder="language('请选择')"
+              v-model="form.tagNameList"
+            >
+              <el-option
+                v-for="item in tagdropDownList"
+                :key="item.code"
+                :label="item.message"
+                :value="item.code"
+              >
               </el-option>
             </iSelect>
           </el-form-item>
           <el-form-item :label="language('BIAOQIANLEIXING', '标签类型')">
-            <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                     v-model="form.tagType">
-              <el-option v-for="item in tagTypeList"
-                         :key="item.value"
-                         :label="item.label"
-                         :value="item.value">
+            <iSelect :placeholder="language('请选择')" v-model="form.tagType">
+              <el-option
+                v-for="item in tagTypeList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
               </el-option>
             </iSelect>
           </el-form-item>
         </el-form>
         <div>
-          <iButton @click="sure">{{
-          language('CHAXUN', '查询')
-        }}</iButton>
+          <iButton @click="sure">{{ language('CHAXUN', '查询') }}</iButton>
           <iButton @click="clickReset">{{
-          language('CHONGZHI', '重置')
-        }}</iButton>
+            language('CHONGZHI', '重置')
+          }}</iButton>
         </div>
       </div>
-    
-        <div style="margin-top:30px" class="sectionTitle">
-          <span class="ptext">
-            {{
-              language(
-                'XIANGQINGLIEBIAO',
-                '详情列表'
-              )
-            }}
-          </span>
-          <iButton @click="clickBtn">{{
-          language('BAOCUN', '保存')
-        }}</iButton>
-        </div>
-          <div class="section"
-            style="margin-top:30px"
-           >
-        <el-table :data="tabledata"
-                  v-loading="tableLoading"
-                  ref="mulitipleTable"
-                  @selection-change="handleSelectionChange"
-                
-                  :tableTitle="setTagCloum">
-          <el-table-column type="selection"
-                           width="50"
-                           align="center"
-                           :selectable="selectable"></el-table-column>
-          <el-table-column key="BIAOQIANMINGCHENG"
-                           width="150"
-                           align="center"
-                           prop="tagName"
-                           label="标签名称"> </el-table-column>
-          <el-table-column key="BIAOQIANLEIXING"
-                           width="150"
-                           align="center"
-                           prop="tagTypeVale"
-                           label="标签类型"> </el-table-column>
-          <el-table-column key="XITONGPANDUANBIAOZHUN"
-                           width=""
-                           align="center"
-                           prop="tagDesc"
-                           label="系统判断标准"> <template slot-scope="scope">
-              <span v-if="scope.row.tagTypeVale=='手工维护'">无</span>
-                  <span v-else >{{scope.row.tagDesc}}</span>
-            </template> </el-table-column>
+
+      <div style="margin-top: 30px" class="sectionTitle">
+        <span class="ptext">
+          {{ language('XIANGQINGLIEBIAO', '详情列表') }}
+        </span>
+        <iButton @click="clickBtn">{{ language('BAOCUN', '保存') }}</iButton>
+      </div>
+      <div class="section" style="margin-top: 30px">
+        <el-table
+          :data="tabledata"
+          v-loading="tableLoading"
+          ref="mulitipleTable"
+          @selection-change="handleSelectionChange"
+          :tableTitle="setTagCloum"
+        >
+          <el-table-column
+            type="selection"
+            width="50"
+            align="center"
+            :selectable="selectable"
+          ></el-table-column>
+          <el-table-column
+            key="BIAOQIANMINGCHENG"
+            width="150"
+            align="center"
+            prop="tagName"
+            label="标签名称"
+          >
+          </el-table-column>
+          <el-table-column
+            key="BIAOQIANLEIXING"
+            width="150"
+            align="center"
+            prop="tagTypeVale"
+            label="标签类型"
+          >
+          </el-table-column>
+          <el-table-column
+            key="XITONGPANDUANBIAOZHUN"
+            width=""
+            align="center"
+            prop="tagDesc"
+            label="系统判断标准"
+          >
+            <template slot-scope="scope">
+              <span v-if="scope.row.tagTypeVale == '手工维护'">{{
+                language('WU', '保存')
+              }}</span>
+              <span v-else>{{ scope.row.tagDesc }}</span>
+            </template>
+          </el-table-column>
           <!-- <el-table-column width="150"
                            align="center"
                            prop="isShow"
@@ -138,7 +147,7 @@
 </template>
 
 <script>
-import { iDialog, iButton, iSelect, iMessage,  } from 'rise'
+import { iDialog, iButton, iSelect, iMessage } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { setTagCloum } from './data'
 import {
@@ -152,8 +161,7 @@ export default {
   components: {
     iDialog,
     iButton,
-    iSelect,
-
+    iSelect
   },
   props: {
     value: { type: Boolean },
@@ -169,7 +177,7 @@ export default {
       form: {},
       tagdropDownList: [],
       tagTypeList: [
-           { label: this.language('QUANBU', '全部'), value: '' },
+        { label: this.language('QUANBU', '全部'), value: '' },
         { label: this.language('XITONGPANDING', '系统判定'), value: 1 },
         { label: this.language('SHOUGONG', '手工'), value: 2 }
       ]
@@ -288,13 +296,12 @@ export default {
   .section {
     max-height: 700px;
     overflow-y: auto;
-  
   }
-    .sectionTitle {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  .sectionTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .ptext {
     font-size: 18px;
     font-family: Arial;

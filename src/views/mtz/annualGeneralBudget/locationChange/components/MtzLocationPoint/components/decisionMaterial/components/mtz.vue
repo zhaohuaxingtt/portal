@@ -44,12 +44,12 @@
         <!-- :renderHeader="renderHeader" -->
         <tableList class="margin-top20"
                    :tableData="ruleTableListData"
-                   :tableTitle="ruleTableTitle1"
+                   :tableTitle="ruleTableTitle1_1"
                    :tableLoading="loading"
                    :index="true"
                    v-if="RsObject"
                    :selection="false"
-                   @handleSelectionChange="handleSelectionChange">
+                   >
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
@@ -58,7 +58,12 @@
                     slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
+          <template slot-scope="scope"
+            slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+          </template>
         </tableList>
+        <!-- 导出规则表格 -->
         <tableList class="margin-top20"
                    :tableData="ruleTableListData"
                    :tableTitle="ruleTableTitle1_1"
@@ -66,24 +71,47 @@
                    v-if="!RsObject && ruleTableListData.length>0"
                    :index="true"
                    :selection="false"
-                   @handleSelectionChange="handleSelectionChange">
+                   >
+          <template slot-scope="scope"
+            slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+          </template>
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
-          <template slot-scope="scope"
-                    slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
         </tableList>
-        <tableList class="margin-top20"
+        <!-- <tableList class="margin-top20"
                    :tableData="ruleTableListData"
                    v-if="!RsObject && ruleTableListData.length>0"
                    :tableTitle="ruleTableTitle1_2"
                    :tableLoading="loading"
                    :index="true"
                    :selection="false"
-                   @handleSelectionChange="handleSelectionChange">
+                   >
+          <template slot-scope="scope"
+                    slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
+        </tableList> -->
+        <!-- 导出规则表格不是贵金属合金 -->
+        <!-- <tableList class="margin-top20"
+                   :tableData="ruleTableListData"
+                   :tableTitle="ruleTableTitle2_1"
+                   :tableLoading="loading"
+                   v-if="!uploadTableGz && !RsObject && ruleTableListData.length>0"
+                   :index="true"
+                   :selection="false"
+                   >
+        </tableList>
+        <tableList class="margin-top20"
+                   :tableData="ruleTableListData"
+                   v-if="!uploadTableGz && !RsObject && ruleTableListData.length>0"
+                   :tableTitle="ruleTableTitle2_2"
+                   :tableLoading="loading"
+                   :index="true"
+                   :selection="false"
+                   >
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
@@ -92,7 +120,8 @@
                     slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
-        </tableList>
+        </tableList> -->
+
         <el-divider v-if="RsObject" />
         <el-divider class="margin-top20"
                     v-if="!RsObject && partTableListData.length>0" />
@@ -102,21 +131,26 @@
            v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
         <tableList class="margin-top20"
                    :tableData="partTableListData"
-                   :tableTitle="partTableTitle1"
+                   :tableTitle="partTableTitle1_1"
                    :tableLoading="loading"
                    v-if="RsObject"
                    :index="true"
                    :selection="false"
-                   @handleSelectionChange="handleSelectionChange">
+                   >
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
-          <template slot-scope="scope"
+          <!-- <template slot-scope="scope"
                     slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template> -->
+          <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
           </template>
         </tableList>
+        <!-- 导出零件表格 -->
         <tableList class="margin-top20"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_1"
@@ -124,24 +158,64 @@
                    v-if="!RsObject && partTableListData.length>0"
                    :index="true"
                    :selection="false"
-                   @handleSelectionChange="handleSelectionChange">
+                   >
+          <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+          </template>
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
-          <template slot-scope="scope"
-                    slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
         </tableList>
-        <tableList class="margin-top20"
+        <!-- <tableList class="margin-top20"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_2"
                    :tableLoading="loading"
                    v-if="!RsObject && partTableListData.length>0"
                    :index="true"
                    :selection="false"
-                   @handleSelectionChange="handleSelectionChange">
+                   >
+          <template slot-scope="scope"
+                    slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
+        </tableList> -->
+        <!-- <tableList class="margin-top20"
+                   :tableData="partTableListData"
+                   :tableTitle="partTableTitle1_3"
+                   :tableLoading="loading"
+                   v-if="!RsObject && partTableListData.length>0"
+                   :index="true"
+                   :selection="false"
+                   >
+          <template slot-scope="scope"
+                    slot="thresholdCompensationLogic">
+            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
+        </tableList> -->
+        <!-- 导出零件表格不是贵金属合金 -->
+        <!-- <tableList class="margin-top20"
+                   :tableData="partTableListData"
+                   :tableTitle="partTableTitle2_1"
+                   :tableLoading="loading"
+                   v-if="!!RsObject && partTableListData.length>0"
+                   :index="true"
+                   :selection="false"
+                   >
+          <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+          </template>
+        </tableList>
+        <tableList class="margin-top20"
+                   :tableData="partTableListData"
+                   :tableTitle="partTableTitle2_2"
+                   :tableLoading="loading"
+                   v-if="!!RsObject && partTableListData.length>0"
+                   :index="true"
+                   :selection="false"
+                   >
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
@@ -150,7 +224,8 @@
                     slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
-        </tableList>
+        </tableList> -->
+
       </iCard>
       <iCard class="margin-top20">
         <div slot="header"
@@ -162,6 +237,7 @@
           </span>
         </div>
         <iInput v-model="formData.linieMeetingMemo"
+                :disabled="!RsObject"
                 class="margin-top10"
                 :rows="8"
                 type="textarea" />
@@ -200,7 +276,21 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1, ruleTableTitle1_1, ruleTableTitle1_2, partTableTitle1, partTableTitle1_1, partTableTitle1_2 } from './data'
+import { ruleTableTitle1,
+          ruleTableTitle1_new,
+          ruleTableTitle1_1, 
+          ruleTableTitle1_2, 
+          partTableTitle1, 
+          partTableTitle1_new,
+          partTableTitle1_1, 
+          partTableTitle1_2,
+          
+          // partTableTitle1_3,
+          // ruleTableTitle2_2,
+          // ruleTableTitle2_1,
+          // partTableTitle2_2,
+          // partTableTitle2_1
+} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
@@ -225,9 +315,16 @@ export default {
       ruleTableTitle1: ruleTableTitle1,
       ruleTableTitle1_1,
       ruleTableTitle1_2,
+      ruleTableTitle1_new,
+      // ruleTableTitle2_1,
+      // ruleTableTitle2_2,
       partTableTitle1: partTableTitle1,
+      partTableTitle1_new,
       partTableTitle1_1,
       partTableTitle1_2,
+      // partTableTitle1_3,
+      // partTableTitle2_1,
+      // partTableTitle2_2,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
@@ -244,7 +341,10 @@ export default {
       },
       applayDateData: [],
       RsObject: true,
-      moment: window.moment
+      moment: window.moment,
+
+      // uploadTableLj:false,
+      // uploadTableGz:false,
     }
   },
   watch: {
@@ -354,6 +454,13 @@ export default {
       pageAppRule(list).then(res => {
         if (res && res.code == 200) {
           this.ruleTableListData = res.data
+      
+          // res.data.forEach(e=>{//判断是否有贵金属合金
+          //   if(e.preciousMetalDosageUnit !== ""){
+          //     this.uploadTableGz = true;
+          //   }
+          // })
+
           this.rulePageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
       })
@@ -377,6 +484,13 @@ export default {
       pagePartMasterData(list).then(res => {
         if (res && res.code == 200) {
           this.partTableListData = res.data
+
+          // res.data.forEach(e=>{//判断是否有贵金属合金
+          //   if(e.preciousMetalDosageUnit !== ""){
+          //     this.uploadTableLj = true;
+          //   }
+          // })
+
           this.partPageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
       })
@@ -528,5 +642,17 @@ $tabsInforHeight: 35px;
   background:url("~@/assets/images/icon/pass.png");
   z-index: 100000;
   opacity:0.07;
+}
+
+::v-deep .el-form{
+  .el-table{
+    .cell{
+      padding:0!important;
+
+      span{
+        margin-right:0px!important;
+      }
+    }
+  }
 }
 </style>
