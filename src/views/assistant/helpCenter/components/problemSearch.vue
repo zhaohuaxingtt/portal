@@ -95,14 +95,15 @@ export default {
 	},
 	methods: {
 		query() {
-			this.labelList = []
 			this.$emit('queryProblem', this.searchForm)
 		},
 		reset() {
+			this.labelList = []
 			this.$refs.searchForm.resetFields()
 			this.$emit('reset')
 		},
 		handleModuleChange() {
+			this.searchForm.questionLableId = ''
 			console.log(this.searchForm.questionModuleId, "questionModuleId")
 			if (!this.searchForm.questionModuleId) return
 			getCurrLabelList(this.searchForm.questionModuleId).then(res => {
