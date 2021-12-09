@@ -1,9 +1,10 @@
 // 岗位管理网络请求模块
 import axios from '@/utils/axios'
-
+import axiosDownload from '@/utils/axios.download'
 const request = axios(process.env.VUE_APP_USER_CENTER)
 const requestOrg = axios(process.env.VUE_APP_USER_CENTER)
 const requstBaseInfo = axios(process.env.VUE_APP_BASE_INFO)
+const requestDownload = axiosDownload(process.env.VUE_APP_USER_CENTER)
 
 //通过deptId，positionCode， fullNameZh查找岗位列表
 export function GetOrgList(data) {
@@ -163,5 +164,13 @@ export function queryPurchasegroup(params) {
   return requstBaseInfo({
     url: `/web/purchaseGroup`,
     params
+  })
+}
+
+export function exportExcel(data) {
+  return requestDownload({
+    url: '/web/position/exportExcel',
+    method: 'post',
+    data
   })
 }

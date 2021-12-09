@@ -239,14 +239,15 @@ export default {
     },
     reset() {
       this.formData = {
-        orCode: '',
-        name: '',
-        orName: '',
-        show: '',
-        commodity: '',
-        svcd: ''
+        fullCode: '',
+        leaderName: '',
+        nameZh: '',
+        isVisible: '',
+        isCommodity: '',
+        syncStatus: ''
       }
-      this.tableListData = _.cloneDeep(this.alltableListData)
+      this.sendQuest()
+      // this.tableListData = _.cloneDeep(this.alltableListData)
       // this.sendQuest()
       // this.tableListData = this.alltableListData
     },
@@ -255,13 +256,12 @@ export default {
       console.log('sendQuest')
       //获取表格数据
       const data = {
-        fullCode: this.formData.orCode,
-        leadUserId: this.formData.orName,
-        svcdCode: this.formData.svcd,
-        isVisible: this.formData.show,
-        isCommodity: this.formData.commodity,
-        //组织机构名称
-        orName: this.formData.orName
+        fullCode: this.formData.fullCode,
+        leaderName: this.formData.leaderName,
+        nameZh: this.formData.nameZh,
+        isVisible: this.formData.isVisible,
+        isCommodity: this.formData.isCommodity,
+        syncStatus: this.formData.syncStatus
       }
       //得到数据
       this.tableLoading = true
@@ -269,12 +269,14 @@ export default {
         .then((value) => {
           this.tableLoading = false
           if (value.code == 200) {
-            this.alltableListData = _.cloneDeep(value.data)
+            console.log('value.code')
+            this.tableListData = value.data
+            /* this.alltableListData = _.cloneDeep(value.data)
             this.tableListData = value.data
             this.flatTableData = treeToArray(
               this.alltableListData,
               'supDeptList'
-            )
+            ) */
           }
         })
         .catch((error) => {
@@ -331,7 +333,8 @@ export default {
     },
     //搜索(模糊查询)
     sure() {
-      const filterData = filterEmptyValue(this.formData)
+      this.sendQuest()
+      /* const filterData = filterEmptyValue(this.formData)
 
       const keys = Object.keys(filterData)
       if (keys.length === 0) {
@@ -345,7 +348,7 @@ export default {
         setTimeout(() => {
           this.tableLoading = false
         }, 500)
-      }
+      } */
     },
     filterTable(keys, filterData) {
       const res = []
@@ -440,11 +443,7 @@ export default {
     },
     //导出
     exportList() {
-      // if (this.tableListData && this.tableListData.length > 0) {
-      //   //导出文件
-      //   excelExport(this.tableListData, exportTableSetting)
-      // }
-      let param = { ...this.formData }
+      const param = { ...this.formData }
       exportOrganization(param)
     }
   }

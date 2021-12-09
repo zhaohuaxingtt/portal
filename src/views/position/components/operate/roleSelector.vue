@@ -311,6 +311,7 @@ export default {
     },
     sure() {
       this.page.currPage = 1
+
       this.getList()
     },
     reset() {
@@ -334,7 +335,7 @@ export default {
     },
     async getList() {
       this.tableLoading = true
-      this.query.current = this.page.currPage
+      this.query.current = this.page.pageNo
       const res =
         typeof this.searchMethod === 'function'
           ? await this.searchMethod(this.query)

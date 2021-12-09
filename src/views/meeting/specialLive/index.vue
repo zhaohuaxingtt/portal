@@ -401,7 +401,6 @@ export default {
       }
       if (Number(this.meetingId) === -1) {
         const liveItem = this.isHaveLiveTheme()
-
         if (liveItem) {
           this.queryMeetingInfoById(liveItem.meetingId)
           this.curMeetingId = liveItem.meetingId
@@ -412,6 +411,7 @@ export default {
           this.curMeetingId = -1
           this.queryMeetingInfoById(-1)
         } else {
+          this.curMeetingId = liveItem.meetingId
           this.queryMeetingInfoById(liveItem.meetingId)
         }
       }
