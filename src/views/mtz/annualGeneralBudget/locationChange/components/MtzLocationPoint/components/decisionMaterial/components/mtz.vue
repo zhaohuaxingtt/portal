@@ -18,16 +18,17 @@
       <div class="content_dialog" v-if="!RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
       <iCard>
         <div slot="header"
-             class="headBox">
+             class="headBox"
+             >
           <p class="headTitle">{{title}}</p>
           <span class="buttonBox"
-                v-if="!editMode">
+                v-if="!editMode&&meetingNumber == 0">
             <iButton v-if="RsObject && formData.flowTypeName == '流转'"
                      @click="handleToSignPreview">{{language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')}}</iButton>
           </span>
         </div>
 
-        <div class="tabsBoxInfor">
+        <div class="tabsBoxInfor" v-if="meetingNumber == 0">
           <div class="inforDiv"
                v-for="(item,index) in formList"
                :key="index">
@@ -35,7 +36,8 @@
             <span class="inforText">{{formData[item.prop]}}</span>
           </div>
         </div>
-        <el-divider v-if="RsObject" />
+        <p class="table_right" v-if="!RsObject && meetingNumber!==0">{{language('MTZSHENGQINGDAN', 'MTZ申请单')}}-{{formData.mtzAppId}}-{{formData.appName}}-{{formData.linieName}}-{{formData.linieDeptName}}</p>
+        <el-divider v-if="RsObject && meetingNumber == 0" />
         <el-divider v-if="!RsObject && ruleTableListData.length>0" />
         <p class="tableTitle"
            v-if="RsObject">{{language('GUIZEQINGDAN', '规则清单')}}</p>
@@ -44,7 +46,7 @@
         <!-- :renderHeader="renderHeader" -->
         <tableList class="margin-top20"
                    :tableData="ruleTableListData"
-                   :tableTitle="ruleTableTitle1_new"
+                   :tableTitle="ruleTableTitle1_1"
                    :tableLoading="loading"
                    :index="true"
                    v-if="RsObject"
@@ -131,7 +133,7 @@
            v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
         <tableList class="margin-top20"
                    :tableData="partTableListData"
-                   :tableTitle="partTableTitle1_new"
+                   :tableTitle="partTableTitle1_1"
                    :tableLoading="loading"
                    v-if="RsObject"
                    :index="true"
@@ -141,10 +143,10 @@
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
-          <template slot-scope="scope"
+          <!-- <template slot-scope="scope"
                     slot="thresholdCompensationLogic">
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
+          </template> -->
           <template slot-scope="scope"
                     slot="supplierId">
             <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
@@ -232,7 +234,7 @@
              class="headBox">
           <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
           <span class="buttonBox">
-            <iButton v-if="RsObject && (formData.appStatus == '草稿' || formData.appStatus == '未通过')"
+            <iButton v-if="RsObject && (formData.appStatus == '草稿' || formData.appStatus == '未通过') && meetingNumber == 0"
                      @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
           </span>
         </div>
@@ -342,6 +344,7 @@ export default {
       applayDateData: [],
       RsObject: true,
       moment: window.moment,
+      meetingNumber:Number(this.$route.query.meeting) || 0,
 
       // uploadTableLj:false,
       // uploadTableGz:false,
@@ -545,6 +548,14 @@ $tabsInforHeight: 35px;
   opacity: 1;
   font-size: 18px;
 }
+.table_right {
+  display: inline-block;
+  font-family: Arial;
+  color: #000000;
+  font-size: 18px;
+  width:100%;
+  text-align: end;
+}
 .headBox {
   position: relative;
   justify-content: space-between;
@@ -642,5 +653,17 @@ $tabsInforHeight: 35px;
   background:url("~@/assets/images/icon/pass.png");
   z-index: 100000;
   opacity:0.07;
+}
+
+::v-deep .el-form{
+  .el-table{
+    .cell{
+      padding:0!important;
+
+      span{
+        margin-right:0px!important;
+      }
+    }
+  }
 }
 </style>

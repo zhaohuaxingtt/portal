@@ -31,34 +31,7 @@
         <tableList
           class="margin-top20"
           :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1_new"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false"
-          @handleSelectionChange="handleSelectionChange">
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-          <template slot-scope="scope" slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-        </tableList>
-        <iPagination
-        v-update
-        @size-change="handleSizeChange($event, getPageAppRule)"
-        @current-change="handleCurrentChange($event, getPageAppRule)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="rulePageParams.pageSize"
-        :layout="page.layout"
-        :current-page='rulePageParams.currPage'
-        :total="rulePageParams.totalCount"/>
-      <el-divider class="margin-top20"/>
-      <p class="tableTitle">{{language('LJQD', '零件清单')}}</p>
-        <tableList
-          class="margin-top20"
-          :tableData="partTableListData"
-          :tableTitle="partTableTitle1_new"
+          :tableTitle="ruleTableTitle1_1"
           :tableLoading="loading"
           :index="true"
           :selection="false"
@@ -74,7 +47,38 @@
             <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
           </template>
         </tableList>
-        <iPagination
+        <!-- <iPagination
+        v-update
+        @size-change="handleSizeChange($event, getPageAppRule)"
+        @current-change="handleCurrentChange($event, getPageAppRule)"
+        background
+        :page-sizes="page.pageSizes"
+        :page-size="rulePageParams.pageSize"
+        :layout="page.layout"
+        :current-page='rulePageParams.currPage'
+        :total="rulePageParams.totalCount"/> -->
+      <el-divider class="margin-top20"/>
+      <p class="tableTitle">{{language('LJQD', '零件清单')}}</p>
+        <tableList
+          class="margin-top20"
+          :tableData="partTableListData"
+          :tableTitle="partTableTitle1_1"
+          :tableLoading="loading"
+          :index="true"
+          :selection="false"
+          @handleSelectionChange="handleSelectionChange">
+          <template slot-scope="scope" slot="compensationPeriod">
+            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+          </template>
+          <template slot-scope="scope" slot="thresholdCompensationLogic">
+            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+          </template>
+          <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+          </template>
+        </tableList>
+        <!-- <iPagination
         v-update
         @size-change="handleSizeChange($event, getPagePartMasterData)"
         @current-change="handleCurrentChange($event, getPagePartMasterData)"
@@ -83,7 +87,7 @@
         :page-size="partPageParams.pageSize"
         :layout="page.layout"
         :current-page='partPageParams.currPage'
-        :total="partPageParams.totalCount"/>
+        :total="partPageParams.totalCount"/> -->
     </iCard>
     <iCard class="margin-top20">
       <div slot="header"
@@ -137,7 +141,7 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination,iDialog } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1, partTableTitle1,ruleTableTitle1_new,partTableTitle1_new} from './data'
+import { ruleTableTitle1, partTableTitle1,ruleTableTitle1_new,partTableTitle1_new,ruleTableTitle1_1,partTableTitle1_1} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import signPreview from "./signPreview";
@@ -163,7 +167,9 @@ export default {
       ruleTableTitle1:ruleTableTitle1,
       partTableTitle1:partTableTitle1,
       ruleTableTitle1_new,
+      ruleTableTitle1_1,
       partTableTitle1_new,
+      partTableTitle1_1,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
@@ -255,8 +261,8 @@ export default {
       var list = {};
       list = {
         mtzAppId:this.$route.query.mtzAppId,
-        pageNo: this.rulePageParams.currPage,
-        pageSize: this.rulePageParams.pageSize,
+        pageNo: 1,
+        pageSize: 99999,
       }
       
       pageAppRule(list).then(res => {
@@ -271,8 +277,8 @@ export default {
       var list = {};
       list = {
         mtzAppId:this.$route.query.mtzAppId,
-        pageNo: this.partPageParams.currPage,
-        pageSize: this.partPageParams.pageSize,
+        pageNo: 1,
+        pageSize: 99999,
       }
 
       pagePartMasterData(list).then(res => {
@@ -297,7 +303,7 @@ $tabsInforHeight: 35px;
   right:0;
   width:100%;
   height:100%;
-  z-index:1000;
+  z-index:2000;
   overflow-y:auto;
   background:white!important;
 }
@@ -393,5 +399,17 @@ $tabsInforHeight: 35px;
   padding-top:20px;
   padding-bottom:20px;
   padding-right:20px;
+}
+
+::v-deep .el-form{
+  .el-table{
+    .cell{
+      padding:0!important;
+
+      span{
+        margin-right:0px!important;
+      }
+    }
+  }
 }
 </style>

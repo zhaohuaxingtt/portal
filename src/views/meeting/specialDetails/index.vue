@@ -1254,7 +1254,7 @@ export default {
             )
           } else if (themen.type === 'MTZ') {
             window.open(
-              `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${themen.fixedPointApplyId}`,
+              `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?meeting=1&currentStep=3&mtzAppId=${themen.fixedPointApplyId}`,
               '_blank'
             )
           } else {

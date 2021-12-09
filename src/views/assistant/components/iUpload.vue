@@ -20,6 +20,7 @@
 			width="60%"
             append-to-body
             @close="dialogVisible = false"
+            class="file-dialog"
 		>
 			<div class="flex items-center justify-center ">
                <img :src="fileUrl" alt="">
@@ -172,5 +173,9 @@
 <style lang="scss" scoped>
 @import "./../comon.scss";
 
-
+.file-dialog{
+    ::v-deep .el-dialog{
+        min-height: 120px;
+    }
+}
 </style>
