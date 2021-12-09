@@ -194,6 +194,7 @@ export default {
       agreeType: 1, // 审批结果 1同意；2拒绝；3补充材料
       taskDetail: {},
       flowFormUrl: '',
+      processUrlPortal:process.env.VUE_APP_POINT_PORTAL,
       attachColumns: [
         {
           type: 'selection',
@@ -289,7 +290,12 @@ export default {
                 })
               }
               this.form.histories = histories
-              this.flowFormUrl = data.formUrl
+              // this.flowFormUrl = data.formUrl
+              
+              // this.flowFormUrl = `http://localhost:8080/portal/#/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/signPreviewBefore?currentStep=3&mtzAppId=${data.businessId}`
+              this.flowFormUrl = `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/signPreviewBefore?currentStep=3&mtzAppId=${data.businessId}`
+              // http://10.122.17.38/portal/#/mtzPointView?mtzAppId=157802
+              // console.log( this.flowFormUrl)
             } else {
               iMessage.error(res.desZh || '获取数据失败')
             }
