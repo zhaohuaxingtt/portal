@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-08 15:46:46
+ * @LastEditTime: 2021-12-09 10:10:34
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -188,38 +188,6 @@ export default {
     download() {
       downloadUser()
     },
-    //解冻
-    thawBtn() {
-      if (this.selectTableData.length == 0) {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
-        return false
-      }
-      thawUser({ idList: this.selectTableData.map((res) => res.id) })
-    },
-    //激活
-    activeBtn() {
-      if (this.selectTableData.length == 0) {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
-        return false
-      }
-      activeUser({ idList: this.selectTableData.map((res) => res.id) })
-    },
-    //冻结
-    freezeBtn() {
-      if (this.selectTableData.length == 0) {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
-        return false
-      }
-      freezeUser({ idList: this.selectTableData.map((res) => res.id) })
-    },
-    //续期
-    renewalBtn() {
-      if (this.selectTableData.length == 0) {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
-        return false
-      }
-      renewalUser({ idList: this.selectTableData.map((res) => res.id) })
-    },
 
     //新增
     add() {
@@ -260,6 +228,62 @@ export default {
     //修改表格改动列
     handleSelectionChange(val) {
       this.selectTableData = val
+    },
+    //解冻
+    thawBtn() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      thawUser({ idList: this.selectTableData.map((res) => res.id) }).then(
+        (res) => {
+          if (res && res.code == 200) {
+            iMessage.success(res.desZh)
+          } else iMessage.error(res.desZh)
+        }
+      )
+    },
+    //激活
+    activeBtn() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      activeUser({ idList: this.selectTableData.map((res) => res.id) }).then(
+        (res) => {
+          if (res && res.code == 200) {
+            iMessage.success(res.desZh)
+          } else iMessage.error(res.desZh)
+        }
+      )
+    },
+    //冻结
+    freezeBtn() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      freezeUser({ idList: this.selectTableData.map((res) => res.id) }).then(
+        (res) => {
+          if (res && res.code == 200) {
+            iMessage.success(res.desZh)
+          } else iMessage.error(res.desZh)
+        }
+      )
+    },
+    //续期
+    renewalBtn() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      renewalUser({ idList: this.selectTableData.map((res) => res.id) }).then(
+        (res) => {
+          if (res && res.code == 200) {
+            iMessage.success(res.desZh)
+          } else iMessage.error(res.desZh)
+        }
+      )
     }
   }
 }

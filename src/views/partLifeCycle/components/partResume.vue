@@ -51,7 +51,7 @@
                             </div>
                         </Popover>
                     </div>
-                    <div class="version" v-if="Number(item.type) === 5"> — {{ item.title }}</div>
+                    <div class="version" :title="item.title" v-if="Number(item.type) === 5"> — {{ item.title }}</div>
                     <icon class="icon label1" v-if="Number(item.type) === 2" symbol
                           name="iconlingjianlvlibiaoqian"></icon>
                     <icon class="icon label2" v-if="item.label" symbol name="iconlingjianlvliAekoyishishibiaoji"></icon>
@@ -601,13 +601,12 @@
                 font-weight: bold;
                 color: #000000;
                 width: 110px;
-                margin-right: 80px;
-
+                margin-right: 50px;
                 > div {
                     padding-bottom: 30px;
                     text-align: right;
                     border-right: 2px solid #E7E7E7;
-
+                    padding-right: 22px;
                     .itemChild {
                         overflow: hidden;
                         transition: all 0.3s ease;
@@ -685,7 +684,7 @@
                     .child {
                         font-family: Arial;
                         font-size: 12px;
-                        font-weight: 400;
+                        font-weight: 420;
                         color: #000000;
                         min-width: 85px;
                         max-width: 85px;
@@ -704,7 +703,7 @@
                 width: 35%;
                 max-height: 800px;
                 overflow-y: auto;
-
+                min-width: 400px;
                 .item {
                     display: flex;
                     line-height: 28px;
@@ -726,9 +725,11 @@
                         font-size: 14px;
                         font-weight: 400;
                         color: #000000;
-                        margin-left: 6px;
                         margin-left: 10px;
-
+                        width: 100px;
+                        overflow: hidden;
+                        text-overflow:ellipsis;
+                        white-space: nowrap;
                         &.type7 {
                             color: #41434A;
                             margin-left: 0;

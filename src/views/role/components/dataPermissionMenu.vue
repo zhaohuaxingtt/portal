@@ -18,6 +18,7 @@
       :max-height="tableHeight"
       :tree-expand="tableExpanded"
       child-num-visible
+      highlight-current-row
       @handle-selection-change="handleSelectionChange"
       @row-click="rowClick"
     />
@@ -101,5 +102,10 @@ export default {
   border: 1px solid #d9dee5;
   padding: 10px;
   box-sizing: border-box;
+}
+.data-permission-menu {
+  ::v-deep .el-table__body tr.current-row > td:first-child {
+    border-left: 3px solid #1660f1;
+  }
 }
 </style>

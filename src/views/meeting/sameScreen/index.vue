@@ -11,7 +11,11 @@
           <span class="date-time-start">
             <img :src="timeClock" alt="" srcset="" />
             <span>{{
-              result.startDate + ' ' + result.startTime + '~' + result.endTime
+              result.startDate +
+              ' ' +
+              result.startTime.substring(0, 5) +
+              '~' +
+              result.endTime.substring(0, 5)
             }}</span>
           </span>
           <span class="date-time-end">

@@ -386,8 +386,10 @@ export default {
     supplierData() {},
     country(val) {
       if (val.length > 0) {
+             if(this.$route.path=='/supplier/register'){
         console.log(val)
         this.getisForeignCountry(val)
+             }
       }
     }
   },
@@ -457,7 +459,11 @@ export default {
       }
       getCityInfo(data).then((res) => {
         if (res.data) {
+                  if(this.$route.path=='/supplier/register'){
           this.getisForeignCountry(res.data)
+                  }else{
+                     console.log(this.supplierData.supplierDTO.isForeignManufacture)
+                  }
           let req = {
             parentCityId: res.data[0].cityIdStr
           }

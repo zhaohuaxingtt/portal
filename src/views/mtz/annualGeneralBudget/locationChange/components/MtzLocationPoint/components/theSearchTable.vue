@@ -12,7 +12,7 @@
                          multiple
                          clearable
                          :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="code"
+                         display-member="codeMessage"
                          value-member="code"
                          value-key="code">
           </custom-select>

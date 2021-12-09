@@ -70,7 +70,7 @@ export default {
     },
     download(id) {
       const xhr = new XMLHttpRequest()
-      xhr.open('POST', `/fileudApi/udDown?fileIds=${id}`, true)
+      xhr.open('POST', `/fileud/udDown?fileIds=${id}`, true)
       xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
       xhr.responseType = 'blob'
       xhr.onreadystatechange = () => {
