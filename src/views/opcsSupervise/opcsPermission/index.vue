@@ -1,12 +1,12 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-08 18:06:49
+ * @LastEditTime: 2021-12-09 09:15:55
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\index.vue
 -->
 
 <template>
-  <div>
+  <iPage>
     <iSearch @reset="clickReset"
              @sure="sure"
              :icon="true">
@@ -54,7 +54,7 @@
                    :current-page="page.currPage"
                    :total="page.totalCount" />
     </iCard>
-  </div>
+  </iPage>
 </template>
 
 <script>
@@ -67,7 +67,8 @@ import {
   iPagination,
   iMessage,
   iInput,
-  iMessageBox
+  iMessageBox,
+  iPage
 } from 'rise'
 import { tableTitle } from './components/data'
 import { deleteList, queryList, exportFile } from '@/api/opcs/solPermission'
@@ -79,7 +80,8 @@ export default {
     iCard,
     iPagination,
     iInput,
-    tableList
+    tableList,
+    iPage
   },
   data() {
     return {
