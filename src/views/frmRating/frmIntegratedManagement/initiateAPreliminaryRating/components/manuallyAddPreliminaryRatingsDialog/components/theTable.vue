@@ -3,17 +3,12 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!-- 导出供应商模板-->
-        <iButton
-          @click="exportSupplierTemplate"
-          :loading="exportButtonLoading"
-          >{{ $t('SPR_FRM_FRMGL_DCGYSMB') }}</iButton
-        >
+        <iButton @click="exportSupplierTemplate"
+                 :loading="exportButtonLoading">{{ $t('SPR_FRM_FRMGL_DCGYSMB') }}</iButton>
         <!-- 导入供应商-->
-        <importButton
-          buttonText="SPR_FRM_FRMGL_DRGYS"
-          @uploadedCallback="importConfirmedListExcel"
-          class="margin-right10 margin-left10"
-        />
+        <importButton buttonText="SPR_FRM_FRMGL_DRGYS"
+                      @uploadedCallback="importConfirmedListExcel"
+                      class="margin-right10 margin-left10" />
         <!--添加至初评-->
         <iButton @click="addToPreliminaryReview">{{
           $t('SPR_FRM_FRMGL_TJZCP')
@@ -32,25 +27,21 @@
         </el-popconfirm> -->
       </div>
     </div>
-    <tableList
-      :tableData="tableListData"
-      :tableTitle="tableTitle"
-      :tableLoading="tableLoading"
-      :index="true"
-      @handleSelectionChange="handleSelectionChange"
-    />
-    <iPagination
-      v-if="showPagination"
-      v-update
-      @size-change="handleSizeChange($event, getTableList)"
-      @current-change="handleCurrentChange($event, getTableList)"
-      background
-      :page-sizes="page.pageSizes"
-      :page-size="page.pageSize"
-      :layout="page.layout"
-      :current-page="page.currPage"
-      :total="page.totalCount"
-    />
+    <tableList :tableData="tableListData"
+               :tableTitle="tableTitle"
+               :tableLoading="tableLoading"
+               :index="true"
+               @handleSelectionChange="handleSelectionChange" />
+    <iPagination v-if="showPagination"
+                 v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page="page.currPage"
+                 :total="page.totalCount" />
   </div>
 </template>
 
@@ -67,7 +58,7 @@ import {
   exportInitialCommentConfirmedList
 } from '@/api/frmRating/frmIntegratedManagement'
 import importButton from './importButton'
-import { downloadFile } from '@/api/file'
+import { downloadUdFile } from '@/api/file'
 
 export default {
   mixins: [pageMixins, resultMessageMixin],
@@ -77,7 +68,7 @@ export default {
     iButton,
     importButton
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       selectTableData: [],
@@ -87,18 +78,18 @@ export default {
       exportButtonLoading: false
     }
   },
-  created() {
+  created () {
     this.getTableList()
   },
   methods: {
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectTableData = val
     },
-    handleSearch() {
+    handleSearch () {
       this.page.currPage = 1
       this.getTableList()
     },
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true
       const searchItem = this.$parent.$children.filter(item => {
         return item.$attrs.name === 'theSearch'
@@ -125,7 +116,7 @@ export default {
         this.showPagination = false
       }
     },
-    async importConfirmedListExcel(content) {
+    async importConfirmedListExcel (content) {
       const formData = new FormData()
       formData.append('file', content.file)
       const res = await importConfirmedListExcel(formData)
@@ -133,7 +124,7 @@ export default {
       this.showPagination = false
       this.resultMessage(res)
     },
-    handleDelete() {
+    handleDelete () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -154,7 +145,7 @@ export default {
         // console.log(err)
       })
     },
-    async addToPreliminaryReview() {
+    async addToPreliminaryReview () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
@@ -170,16 +161,12 @@ export default {
       this.$store.dispatch('setAddToPreliminaryReviewList', newSupplierIdList)
       iMessage.success(this.$t('LK_CAOZUOCHENGGONG'))
     },
-    async exportSupplierTemplate() {
+    async exportSupplierTemplate () {
       try {
         this.exportButtonLoading = true
         const res = await exportInitialCommentConfirmedList({})
         const name = res.data.modelUrl
-        const req = {
-          applicationName: 'rise',
-          fileList: [name]
-        }
-        await downloadFile(req)
+        await downloadUdFile(name)
         this.exportButtonLoading = false
       } catch {
         this.exportButtonLoading = false

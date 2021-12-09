@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-09 10:37:07
+ * @LastEditTime: 2021-12-09 15:51:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -40,7 +40,7 @@
                          class="margin-right20"
                          :disabled="disabled"> {{language('BIANGENGYOUXIAOQI','变更有效期')}}</iButton>
                 <iButton @click="edit"
-                         :disabled="disabled"> {{language('BIANJI','编辑')}}</iButton>
+                         :disabled="disabled"> {{language('BIANGENGYONGLIANG','变更用量')}}</iButton>
               </div>
               <div v-show="editFlag">
                 <iButton @click="cancel"
@@ -485,7 +485,7 @@ export default {
         id: this.dateList.length + 1,
         value: [],
         oldDosage: this.dateList[0].oldDosage,
-        newDosage: this.dateList[0].newDosage
+        newDosage: ""
       })
       let date = this.dateList[this.dateList.length - 2].value[1]
       this.dateList[this.dateList.length - 1].value[0] = window.moment(new Date(date.replace(/-/g, '/')).getTime() + 86400000).format('YYYY-MM-DD')
