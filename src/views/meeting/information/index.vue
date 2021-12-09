@@ -7,7 +7,7 @@
       <el-tab-pane class="margin-bottom3" :label="$t('会议类型管理')" name="tab3"
         ><typeManagement :key="timer2"></typeManagement
       ></el-tab-pane>
-      <el-tab-pane class="margin-bottom3" :label="$t('会议资料管理')" name="tab2"
+      <el-tab-pane class="margin-bottom3" :label="$t('')" name="tab2"
         ><dataManagement :key="timer"></dataManagement
       ></el-tab-pane>
     </iTabs>

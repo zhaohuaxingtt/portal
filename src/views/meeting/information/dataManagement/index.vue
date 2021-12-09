@@ -328,7 +328,7 @@ export default {
     // 附件下载
     downLoadFileInfo(row) {
       getFileByIds([row.attachmentId]).then((data) => {
-        const { id, name } = data.data[0]
+        const { id, name } = data[0]
         download({
           // url: MOCK_FILE_URL + id,
           // filename: name,

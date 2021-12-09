@@ -686,10 +686,10 @@ export default {
         upperLimitMoney: ''
       },
       isApprovalOption: [
-        {
-          label: '是',
-          value: true
-        },
+        // {
+        //   label: '是',
+        //   value: true
+        // },
         {
           label: '否',
           value: false
@@ -796,10 +796,6 @@ export default {
   },
   mounted() {
     if (this.editOrAdd === 'edit') {
-      console.log(
-        'this.selectedTableData[0].incidenceRelation',
-        this.selectedTableData[0].incidenceRelation
-      )
       this.selectedTableData[0].incidenceRelation = this.selectedTableData[0]
         .incidenceRelation
         ? typeof this.selectedTableData[0].incidenceRelation === 'object'
@@ -817,14 +813,14 @@ export default {
           ? this.selectedTableData[0].userIds
           : this.selectedTableData[0].userIds.split(',')
         : []
-      // this.handleFocus().then(() => {
-      //   console.log(this.selectUserArr);
-      // });
       this.queryEdit(userIdsArr).then((currentSearchUserData) => {
         this.initSelectArr = [...currentSearchUserData]
         this.ruleForm = {
           ...this.selectedTableData[0],
-          userIds: currentSearchUserData
+          userIds: currentSearchUserData,
+          //设置触发审批全部为否
+          isTriggerApproval: false,
+          approvalProcessName: ''
         }
         this.handleLoad()
       })
@@ -850,7 +846,6 @@ export default {
   watch: {
     'ruleForm.isTriggerApproval': {
       handler(v) {
-        // console.log(v);
         if (!v) {
           this.ruleForm = {
             ...this.ruleForm,

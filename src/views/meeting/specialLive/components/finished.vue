@@ -98,9 +98,9 @@
       <el-table-column
         show-overflow-tooltip
         align="center"
-        label="BEN(DE)"
+        label="BEN(CN)"
         min-width="58"
-        prop="benDe"
+        prop="benCn"
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>

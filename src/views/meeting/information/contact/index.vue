@@ -436,7 +436,6 @@ export default {
 .form {
   display: flex;
   justify-content: space-between;
-  width: 100%;
   // position: absolute;
   .margin-bottom20 {
     width: 100%;
