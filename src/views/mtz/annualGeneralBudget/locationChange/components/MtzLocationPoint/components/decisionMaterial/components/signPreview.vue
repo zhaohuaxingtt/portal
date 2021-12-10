@@ -67,6 +67,11 @@
           :tableLoading="loading"
           :index="true"
           :selection="false">
+          <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
+          </template>
           <template slot-scope="scope" slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
@@ -102,7 +107,8 @@
           :selection="false">
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope" slot="compensationPeriod">
               <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
@@ -129,6 +135,7 @@
         </div>
         <iInput v-model="formData.linieMeetingMemo"
                 class="margin-top10"
+                :disabled="true"
                 :rows="8"
                 type="textarea" />
       </iCard>
@@ -633,4 +640,7 @@ $tabsInforHeight: 35px;
 //     overflow-y: auto;
 //   }
 // }
+::v-deep .el-form-item__content{
+  line-height: 20px!important;
+}
 </style>

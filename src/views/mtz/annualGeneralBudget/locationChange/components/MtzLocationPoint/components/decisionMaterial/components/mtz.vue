@@ -83,7 +83,8 @@
           </template>
           <template slot-scope="scope"
             slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
         </tableList>
         <!-- 导出规则表格 -->
@@ -97,7 +98,8 @@
                    >
           <template slot-scope="scope"
             slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope"
                     slot="compensationPeriod">
@@ -130,7 +132,8 @@
           </template> -->
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
         </tableList>
         <!-- 导出零件表格 -->
@@ -144,7 +147,8 @@
                    >
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope"
                     slot="compensationPeriod">
@@ -162,7 +166,7 @@
           </span>
         </div>
         <iInput v-model="formData.linieMeetingMemo"
-                :disabled="!RsObject"
+                :disabled="!(formData.appStatus == '草稿' || formData.appStatus == '未通过') && !RsObject && meetingNumber == 0"
                 class="margin-top10"
                 :rows="8"
                 type="textarea" />
@@ -257,15 +261,6 @@ export default {
     if (this.RsType) {
       this.RsObject = false;
     }
-    if(this.meetingNumber !== 0){
-      this.meetingType = true;
-    }else{
-      if(this.RsObject){
-        this.meetingType = false;
-      }else{
-        this.meetingType = true;
-      }
-    }
     this.initApplayDateData()
     this.getAppFormInfo()
     this.getPageAppRule()
@@ -342,6 +337,20 @@ export default {
       }).then(res => {
         if (res && res.code == 200) {
           this.formData = res.data
+
+          if(this.formData.flowType == "SIGN"){
+            if(this.meetingNumber == 0){
+              if(this.RsObject){
+                this.meetingType = false;
+              }else{
+                this.meetingType = true;
+              }
+            }else{
+              this.meetingType = true;
+            }
+          }else{
+            this.meetingType = true;
+          }
         } else iMessage.error(res.desZh)
       })
     },
@@ -598,4 +607,7 @@ $tabsInforHeight: 35px;
   }
 }
 
+::v-deep .el-form-item__content{
+  line-height: 20px!important;
+}
 </style>
