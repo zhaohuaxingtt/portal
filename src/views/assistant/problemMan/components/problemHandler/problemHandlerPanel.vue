@@ -114,7 +114,7 @@
           </div>
           <div class="content-title mb20">{{ language('消息') }}</div>
           <!-- 正常状态 -->
-          <div class="msg-box">
+          <div class="msg-box" v-if="questionDetail.replyQuestionList.length > 0">
             <template v-for="item of questionDetail.replyQuestionList">
               <div class="content flex flex-column" :key="item.id">
                 <div v-if="item.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
