@@ -81,7 +81,7 @@
                 prop="meetingNameSuffix"
                 :rules="
                   ruleForm.category == '01'
-                    ? ''
+                    ? rules.meetingNameSuffix
                     : rules.meetingNameSuffixNoRequired
                 "
               >
@@ -194,14 +194,8 @@
             <div class="form-row" v-if="ruleForm.category != '01'">
               <iFormItem
                 label="会议结论配置"
-                prop="conclusionConfig"
                 :hideRequiredAsterisk="true"
                 class="item conclusion-config"
-                :rules="
-                  ruleForm.category != '01'
-                    ? conclusionConfigRule
-                    : conclusionConfigRuleNoRequired
-                "
               >
                 <iLabel
                   :label="$t('会议结论配置')"
@@ -298,7 +292,9 @@
                   value-key="id"
                 >
                   <el-option
-                    v-for="item in incidenceRelationList"
+                    v-for="item in ruleForm.category === '03'
+                      ? incidenceRelationList
+                      : []"
                     :key="item.id"
                     :label="item.name"
                     :value="item.id"
@@ -323,7 +319,7 @@
                     v-model.number="ruleForm.duration"
                     type="number"
                   ></iInput>
-                  <span>分钟</span>
+                  <span class="margin-left8">分钟</span>
                 </div>
               </iFormItem>
             </div>
@@ -380,7 +376,9 @@
                   value-key="id"
                 >
                   <el-option
-                    v-for="item in incidenceRelationList"
+                    v-for="item in ruleForm.category === '03'
+                      ? incidenceRelationList
+                      : []"
                     :key="item.id"
                     :label="item.name"
                     :value="item.id"
@@ -402,7 +400,7 @@
                       v-model.number="ruleForm.duration"
                       type="number"
                     ></iInput>
-                    <span>分钟</span>
+                    <span class="margin-left8">分钟</span>
                   </div>
                 </iFormItem>
               </div>
@@ -450,6 +448,52 @@
                 </iFormItem>
               </div>
             </div>
+            <div class="form-select form-else-select" v-else>
+              <div class="form-time-len">
+                <iFormItem label="是否触发审批" prop="isTriggerApproval">
+                  <iLabel
+                    :label="$t('是否触发审批')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <iSelect
+                    v-model="ruleForm.isTriggerApproval"
+                    placeholder="请选择"
+                    :disabled="ruleForm.category === '02'"
+                  >
+                    <el-option
+                      v-for="item in isApprovalOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </iSelect>
+                </iFormItem>
+              </div>
+              <div class="form-time-len" ref="selectProcess">
+                <iFormItem label="审批流程" prop="approvalProcessId">
+                  <iLabel
+                    :label="$t('审批流程')"
+                    slot="label"
+                    required
+                  ></iLabel>
+                  <iSelect
+                    v-model="ruleForm.approvalProcessName"
+                    placeholder="请选择"
+                    :disabled="!ruleForm.isTriggerApproval"
+                  >
+                    <el-option
+                      v-for="(item, index) in approvalProcess"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.name"
+                    >
+                    </el-option>
+                  </iSelect>
+                </iFormItem>
+              </div>
+            </div>
           </div>
         </div>
         <!-- <div class="word" v-show="showWord">
@@ -463,7 +507,7 @@
             <iButton @click="handleSubmit">{{ $t('LK_BAOCUN') }}</iButton>
           </el-form-item>
         </div>
-        <div class="error-node" :show="false">
+        <div class="error-node" v-show="false">
           <div class="el-form-item__error padding-left14">必选</div>
         </div>
       </el-form>
@@ -614,22 +658,6 @@ export default {
         callback('必填')
       }
     }
-    const validateConclusionConfig = (rule, value, callback) => {
-      console.log('value', value)
-      if (!value) {
-        callback(new Error('必选'))
-        return
-      }
-      if (typeof value === 'object' && value.length === 0) {
-        callback(new Error('必选'))
-        return
-      }
-      callback()
-    }
-    const validateConclusionConfigNoRequired = (rule, value, callback) => {
-      console.log('value', value)
-      callback()
-    }
     const validateIncidenceRelation = (rule, value, callback) => {
       console.log('value', value)
       if (!value) {
@@ -664,15 +692,6 @@ export default {
       incidenceRelationRuleNoRequired: [
         {
           validator: validateIncidenceRelationNoRequired,
-          trigger: ['blur', 'change']
-        }
-      ],
-      conclusionConfigRule: [
-        { validator: validateConclusionConfig, trigger: ['blur', 'change'] }
-      ],
-      conclusionConfigRuleNoRequired: [
-        {
-          validator: validateConclusionConfigNoRequired,
           trigger: ['blur', 'change']
         }
       ],
@@ -904,12 +923,16 @@ export default {
       })
       findMeetingTypesByProperties({ id: this.selectedTableData[0].id }).then(
         (res) => {
-          this.incidenceRelationList = res
+          this.incidenceRelationList = res.filter((item) => {
+            return item.category === '03'
+          })
         }
       )
     } else {
       findMeetingTypesByProperties({ id: '' }).then((res) => {
-        this.incidenceRelationList = res
+        this.incidenceRelationList = res.filter((item) => {
+          return item.category === '03'
+        })
       })
     }
   },
@@ -970,7 +993,6 @@ export default {
             (item) => Number(item.id) === Number(v)
           ).id
         }
-        console.log(name, id)
 
         this.ruleForm = {
           ...this.ruleForm,
@@ -1084,6 +1106,7 @@ export default {
       }
     },
     handleSubmit() {
+      this.$refs['ruleForm'].validate()
       if (this.ruleForm.category !== '01') {
         if (
           !this.ruleForm.conclusionConfig ||
@@ -1410,7 +1433,16 @@ export default {
     }
   }
 }
-
+.form-else-select {
+  display: flex;
+  width: 100%;
+  .form-time-len {
+    flex: 1;
+  }
+  .form-time-len + .form-time-len {
+    margin-left: 40px;
+  }
+}
 /* ::v-deep .is-required {
   .flex-align-center {
     position: relative;
