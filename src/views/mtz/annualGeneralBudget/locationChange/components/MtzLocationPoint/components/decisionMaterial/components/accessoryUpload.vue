@@ -12,16 +12,36 @@
       <div slot="header" class="headBox">
         <p class="headTitle">{{language('FUJIANXIANGQING', '附件详情')}}</p>
         <span class="buttonBox">
-          <uploadButton
+          <!-- <uploadButton
           style="marginLeft: 10px;"
           ref="uploadButton"
           :buttonText="language('SHANGCHUAN', '上传')"
           :uploadByBusiness="true"
           :hideButton="true"
           :accept="'.xlsx'"
-          @uploadedCallback="handleUpload($event)"/>
+          @uploadedCallback="handleUpload($event)"/> -->
           <iButton @click="handleClickDel" v-if="appStatus == '草稿' || appStatus == '未通过'" >{{language('SHANCHU', '删除')}}</iButton>
-          <iButton @click="handleClickUpload" v-if="appStatus == '草稿' || appStatus == '未通过'" >{{language('SHANGCHUAN', '上传')}}</iButton>
+          <!-- <iButton @click="handleClickUpload" v-if="appStatus == '草稿' || appStatus == '未通过'" >{{language('SHANGCHUAN', '上传')}}</iButton> -->
+          <el-upload
+              v-if="appStatus == '草稿' || appStatus == '未通过'"
+              class="upload-demo "
+              style="margin-left:10px;"
+              multiple
+              :action="uploadUrl"
+              :show-file-list="false"
+              :on-success="uploadSuccess"
+              :on-progress="uploadProgress"
+              :data="uploadData"
+              :before-upload="beforeUpload"
+              :on-exceed="handleExceed"
+              >
+              <el-tooltip
+                  content="文件大小不超过20MB"
+                  placement="bottom"
+              >
+                  <iButton>{{language('SHANGCHUAN', '上传')}}</iButton>
+              </el-tooltip>
+          </el-upload>
         </span>
       </div>
       <tableList
@@ -55,7 +75,7 @@ import { uploadTableTitle } from './data'
 import { fetchAppNomiDecisionDataPage, fetchAppNomiDecisionDataSave, fetchAppNomiDecisionDataDel } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import uploadButton from '@/components/uploadButton';
-import { uploads } from '@/api/file/upload'
+import { uploads,uploadAttach } from '@/api/file/upload'
 export default {
   mixins: [pageMixins],
   components: {
@@ -70,7 +90,13 @@ export default {
       tableListData: [],
       uploadTableTitle,
       loading: false,
-      selection: []
+      selection: [],
+      uploadUrl:process.env.VUE_APP_MTZ + "/web/mtz/mtzBasePriceChange/uploadAttach",
+      uploadData:{
+        mtzAppId:"",
+        userId:"",
+        userName:""
+      },
     }
   },
   computed:{
@@ -84,11 +110,48 @@ export default {
     }
   },
   created() {
+    this.uploadData = {
+      mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+      userId:JSON.parse(window.sessionStorage.getItem("userInfo")).id,
+      userName:JSON.parse(window.sessionStorage.getItem("userInfo")).userName
+    },
     this.$nextTick(e=>{
       this.getTableData()
     })
   },
   methods: {
+    uploadSuccess(data){
+      if(data.code == "200" && data.result){
+        fetchAppNomiDecisionDataSave({
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          fileId: data.data.fileId,
+          fileName: data.data.fileName,
+          fileUrl: data.data.fileUrl
+        }).then(res => {
+          if(res && res.code == 200){
+            iMessage.success(res.desZh)
+            this.handleSubmitSearch()
+          } else iMessage.error(res.desZh)
+        })
+      }else return iMessage.error(res.desZh)
+    },
+    uploadProgress(res){
+      console.log(res);
+    },
+    beforeUpload(file){
+        const isLt2M = file.size / 1024 / 1024 < 20;
+        if (!isLt2M) {
+            this.$message.error("上传文件大小不能超过 20MB!");
+        }
+        return isLt2M;
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+          `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+          files.length + fileList.length
+          } 个文件`
+      );
+    },
     // 获取数据
     getTableData() {
       this.loading = true;
@@ -125,31 +188,34 @@ export default {
       })
     },
     // 点击上传
-    handleClickUpload() {
-      this.$refs.uploadButton.$refs.upload.$refs['upload-inner'].handleClick();
-    },
+    // handleClickUpload() {
+    //   this.$refs.uploadButton.$refs.upload.$refs['upload-inner'].handleClick();
+    // },
     // 上传文件
-    handleUpload(content) {
-      uploads({
-        multifile: content.file
-      }).then(res => {
-        if(res && res.code == 200) {
-          const data = res.data[0]
-          fetchAppNomiDecisionDataSave({
-            mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-            fileId: data.id,
-            fileName: data.name,
-            fileSize: data.size,
-            fileUrl: data.path
-          }).then(res => {
-            if(res && res.code == 200){
-              iMessage.success(res.desZh)
-              this.handleSubmitSearch()
-            } else iMessage.error(res.desZh)
-          })
-        } else iMessage.error(res.desZh)
-      })
-    },
+    // handleUpload(content) {
+      // uploadAttach({multifile: content.file}).then(res=>{
+      //   console.log(res);
+      // })
+      // uploads({
+      //   multifile: content.file
+      // }).then(res => {
+      //   if(res && res.code == 200) {
+      //     const data = res.data[0]
+      //     fetchAppNomiDecisionDataSave({
+      //       mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+      //       fileId: data.id,
+      //       fileName: data.name,
+      //       fileSize: data.size,
+      //       fileUrl: data.path
+      //     }).then(res => {
+      //       if(res && res.code == 200){
+      //         iMessage.success(res.desZh)
+      //         this.handleSubmitSearch()
+      //       } else iMessage.error(res.desZh)
+      //     })
+      //   } else iMessage.error(res.desZh)
+      // })
+    // },
   }
 }
 </script>
@@ -169,6 +235,7 @@ export default {
   .buttonBox {
     position: absolute;
     right: 0;
+    display: flex;
   }
 }
  

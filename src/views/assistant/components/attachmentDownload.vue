@@ -131,6 +131,9 @@ export default {
 				}
 			})
 		},
+		setFileList(l){
+			this.fileList = l
+		},
 		closeDialog() {
 			this.dialogVisible = false
 		}
@@ -199,5 +202,6 @@ export default {
 	}
 	.img-style {
 		width: 100%;
+    	padding: 10px;
 	}
 </style>
