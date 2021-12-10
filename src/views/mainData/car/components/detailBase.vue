@@ -189,6 +189,38 @@
             </iSelect>
           </iFormItem>
         </el-col>
+        <el-col :span="6">
+          <iFormItem :label="language('EPL车型名称')">
+            <iSelect
+              v-model="baseForm.eplModelCode"
+              :disabled="!editable"
+              filterable
+            >
+              <el-option
+                v-for="item in EPLOptions"
+                :key="item.id"
+                :value="item.code"
+                :label="item.name"
+              />
+            </iSelect>
+          </iFormItem>
+        </el-col>
+        <el-col :span="6">
+          <iFormItem :label="language('BKM车型编号')">
+            <iSelect
+              v-model="baseForm.bkmModelCode"
+              :disabled="!editable"
+              filterable
+            >
+              <el-option
+                v-for="item in BKMOptions"
+                :key="item.id"
+                :value="item.code"
+                :label="item.code"
+              />
+            </iSelect>
+          </iFormItem>
+        </el-col>
       </el-row>
     </el-form>
   </iCard>
@@ -201,7 +233,8 @@ import {
   fetchCalCarTypeConfig,
   fetchProductfamilySelectData,
   saveCartype,
-  updateCarType
+  updateCarType,
+  queryCarModelMappingResource
 } from '@/api/mainData/car'
 import { fetchSelectDicts } from '@/api/baseInfo'
 export default {
@@ -233,7 +266,9 @@ export default {
           sourceType: '',
           type: '',
           vwModelCode: '',
-          isModify: false
+          isModify: false,
+          eplModelCode: '',
+          bkmModelCode: ''
         }
       }
     }
@@ -297,7 +332,9 @@ export default {
       calCarTypeConfigOptions: [],
       sourceTypeOptions: [],
       productFamilyOptions: [],
-      orginalBaseForm: {}
+      orginalBaseForm: {},
+      EPLOptions: [],
+      BKMOptions: []
     }
   },
   created() {
@@ -308,8 +345,18 @@ export default {
       this.queryCalCarTypeConfig()
     }
     this.fetchProductfamilySelectData()
+    this.queryEPLOptions()
+    this.queryBKMOptions()
   },
   methods: {
+    async queryEPLOptions() {
+      const { data } = await queryCarModelMappingResource({ type: 1 })
+      this.EPLOptions = data
+    },
+    async queryBKMOptions() {
+      const { data } = await queryCarModelMappingResource({ type: 2 })
+      this.BKMOptions = data
+    },
     async querySelectDicts() {
       const req = [
         'CAR_PLATFORM_CODE',

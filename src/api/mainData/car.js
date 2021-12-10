@@ -52,7 +52,6 @@ export function batchUpdate(data) {
 export function fetchCarDetail(params) {
   return request({
     url: '/web/cartypeById',
-    method: 'post',
     params
   })
 }
@@ -248,5 +247,18 @@ export function updCartypeOutputPlanVersion(data) {
     url: '/web/updCartypeOutputPlanVersion',
     method: 'post',
     data
+  })
+}
+
+/**
+ * 下拉查询数据源选择接口
+ * type 1:EPL,2:BKM
+ * @param {*} data
+ * @returns
+ */
+export function queryCarModelMappingResource(params) {
+  return request({
+    url: '/web/queryCarModelMappingResource',
+    params
   })
 }
