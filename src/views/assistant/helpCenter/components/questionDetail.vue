@@ -5,7 +5,7 @@
 	</div>
 	<div class="line"></div>
 	<div class="title-des flex items-center mt20">{{ title }}</div>
-	<div class="mt20 label" title="moudleName">{{ moudleName }}</div>
+	<div class="mt20 label" v-if="getCurrModuleName(questionModuleId)">{{ getCurrModuleName(questionModuleId) }}</div>
 	<div class="ques-box flex flex-column">
 		<div v-for="(ques, idx) in chatList" :key="idx" class="item-ques flex flex-column">
 			<div v-if="ques.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
@@ -67,7 +67,8 @@ export default {
 			currQuesFavourFlag: false,  //  当前问题是否点赞
 			currQuestionId: null,  //  当前问题id
 			currQuesInfo: null,  //  当前问题的全部信息
-			showAttachFlag: false
+			showAttachFlag: false,
+			questionModuleId:""
 		}
 	},
 	methods: {
@@ -93,14 +94,9 @@ export default {
 			this.$emit('handleQuestion')
 		},
 		async getCurrQuesDetail(list) {
+			this.questionModuleId = list.questionModuleId
 			this.currQuestionId = list.id
 			this.title = list.questionTitle
-			this.moudleList.map(item => {
-				if (item.id === list.questionModuleId) {
-					console.log(item.menuName, "item.menuName")
-					this.moudleName = item.menuName
-				}
-			})
 			await this.getQuesDetail(list.id)
 			// await this.getJudgeFavour()
 		},
@@ -144,6 +140,10 @@ export default {
 			if (replyList.length > 0) list = [...list, ...replyList]
 			this.chatList = list
 		},
+		getCurrModuleName(id) {
+			let f = this.moudleList.find(item => item.id === id)
+			return f ? f.menuName : ""
+		},	
 		// 获取该用户是否给该问题点赞
 		// async getJudgeFavour() {
 		// 	if (!this.currQuestionId) return

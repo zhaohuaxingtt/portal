@@ -114,7 +114,7 @@
           </div>
           <div class="content-title mb20">{{ language('消息') }}</div>
           <!-- 正常状态 -->
-          <div class="msg-box" v-if="questionDetail.replyQuestionList.length > 0">
+          <div class="msg-box" v-if="questionDetail.replyQuestionList && questionDetail.replyQuestionList.length > 0">
             <template v-for="item of questionDetail.replyQuestionList">
               <div class="content flex flex-column" :key="item.id">
                 <div v-if="item.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
@@ -351,7 +351,7 @@ export default {
       const response = await queryDetailByIdApi(questionId);
       if (response?.code === '200') {
         const { data } = response;
-        this.questionDetail = data;
+        this.questionDetail = data || {};
         // 获取当前问题的附件(用户上传及管理员回复的附件)
         let currQuesFileList = []
         if (data.attachmentDTOList.length > 0) {
@@ -408,7 +408,7 @@ export default {
     },
     replyHandler () {
       this.isReplyStatus = true
-      this.$refs.attachment.fileList = []
+      this.$refs.attachment.setFileList([])
     },
     // 指派
     dispatchHandler () {
