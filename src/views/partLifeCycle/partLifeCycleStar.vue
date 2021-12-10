@@ -27,24 +27,6 @@
             <iInput v-model="partsName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
           </el-form-item>
           <el-form-item :label="language('LK_AEKOHAO', 'Aeko号')">
-            <!-- <iSelect
-              class="multipleSelect"
-              :placeholder="language('LK_QINGXUANZHE', '请选择')"
-              filterable
-              clearable
-              collapse-tags
-              multiple
-              :filter-method="remoteMethod"
-              :loading="AekoLoading"
-              v-model="aekoNum"
-            >
-              <el-option
-                :value="item"
-                :label="item"
-                v-for="(item, index) in AekoPullDown"
-                :key="index"
-              ></el-option>
-            </iSelect> -->
             <el-select
                     v-model="aekoNum"
                     class="multipleSelect new_multipleSelect"
