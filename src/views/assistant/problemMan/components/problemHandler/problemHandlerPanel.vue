@@ -114,22 +114,32 @@
           </div>
           <div class="content-title mb20">{{ language('消息') }}</div>
           <!-- 正常状态 -->
-          <div class="msg-box" v-if="questionDetail.replyQuestionList && questionDetail.replyQuestionList.length > 0">
-            <template v-for="item of questionDetail.replyQuestionList">
-              <div class="content flex flex-column" :key="item.id">
-                <div v-if="item.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
-                  <img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
-                  <div>{{`管理员${item.replyUserName}将任务转派给了管理员${item.handlerToUserName}`}}</div>
-                </div>
-                <div v-else class="flex flex-row">
-                  <div class="name">{{item.replyUserName}}</div>
-                  <div class="content-text">
-                    <p class="html" v-html="item.content"></p>
-                    <p class="time">{{item.createDate}}</p>
+          
+          <div class="msg-box" >
+            <div class="flex flex-row mt20 ml20">
+              <div class="name">{{questionDetail.createByUerName}}</div>
+              <div class="content-text">
+                <p class="html" v-html="questionDetail.questionTitle"></p>
+								<p class="time">{{questionDetail.createDate}}</p>
+              </div>
+            </div>
+            <div v-if="questionDetail.replyQuestionList && questionDetail.replyQuestionList.length > 0">
+              <template v-for="item of questionDetail.replyQuestionList">
+                <div class="content flex flex-column" :key="item.id">
+                  <div v-if="item.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
+                    <img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
+                    <div>{{`管理员${item.replyUserName}将任务转派给了管理员${item.handlerToUserName}`}}</div>
+                  </div>
+                  <div v-else class="flex flex-row">
+                    <div class="name">{{item.replyUserName}}</div>
+                    <div class="content-text">
+                      <p class="html" v-html="item.content"></p>
+                      <p class="time">{{item.createDate}}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </template>
+              </template>
+            </div>
           </div>
 
           <!-- 答复状态 -->
@@ -641,11 +651,11 @@ export default {
       font-size: 18px;
       margin-bottom: 40px;
     }
-    .content {
+		.content {
       // border: 1px solid #f2f2f2;
       width: 100%;
       height: auto;
-      padding: 30px;
+      padding: 20px;
       box-sizing: border-box;
       .name {
         width: 100px;
@@ -692,4 +702,21 @@ export default {
 	background: #F8F9FA;
 	border: 1px solid #E5E5E5;
 }
+	.name {
+        width: 100px;
+      }
+      .content-text {
+        background: #f8f8fa;
+        padding: 10px 30px 10px;
+        box-sizing: border-box;
+				margin-bottom: 20px;
+				margin-left: 20px;
+        .html {
+          color: #000;
+        }
+        .time {
+          margin-top: 20px;
+          color: #888888;
+        }
+      }
 </style>
