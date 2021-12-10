@@ -10,8 +10,7 @@ import axios from '@/utils/axios.download'
 import { serialize } from '@/utils'
 
 const requst = axios(process.env.VUE_APP_COMMON)
-const fileRequst = axios(process.env.VUE_APP_FILEAPI)
-// const fileRequst = axios(process.env.VUE_APP_FILEAPI + '/fileud')
+const fileRequst = axios(process.env.VUE_APP_FILEAPI + '/fileud')
 
 export function downloadFile(parmars) {
   return requst({
