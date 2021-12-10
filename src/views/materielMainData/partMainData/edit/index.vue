@@ -114,12 +114,19 @@
                   <el-row gutter="24">
                       <el-col :span='6'>
                           <iFormItem :label='language("FOP")'>
-                              <iInput :placeholder='language("请输入")' v-model="itemContent.fop" :disabled='isDisabled>0?true:false'></iInput>
+                              <!-- <iInput :placeholder='language("请输入")' v-model="itemContent.fop" :disabled='isDisabled>0?true:false'></iInput> -->
+                            <iSelectorInput
+                                v-model="fop"
+                                @click.native="dialogFopVisible = true" 
+                                :disabled='isDisabled>0'
+                                :placeholder='language("请选择")'
+                                tagLabel="nameZh"
+                            />
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
                           <iFormItem :label='language("技术部门")'>
-                              <iInput :placeholder='language("请输入")' v-model="itemContent.techDept" :disabled='isDisabled>0?true:false'></iInput>
+                              <iInput :placeholder='language("请输入")' v-model="itemContent.techDept" disabled></iInput>
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
@@ -242,6 +249,18 @@
         </div>
         </iCard>
       </div>
+      <i-selector-dialog 
+            :show.sync="dialogFopVisible"
+            @change="handleProjectManagerCallback"
+            v-model="fop"
+            :tableSetting="MATERIEL_SELECTOR_TableSetting"
+            :filter="selectorQuery"
+            :title="'FOP'"
+            singleSelect
+            sizeType = 'size'
+            :search-method="handleFopSearch"
+            tagLabel='nameZh'
+        />
   </iPage>
 </template>
 
@@ -249,16 +268,24 @@
 import {iPage,iCard,iButton,iFormItem,iInput,iSelect,iDatePicker,iMessage} from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
+import iSelectorDialog from '@/components/iSelector/iSelectorDialog.vue'
+import iSelectorInput from '@/components/iSelector/iSelectorInput.vue'
 import { openUrl } from '@/utils'
-import {measurementTable,itemLabel,measureEdit} from './data.js'
+import {
+  getPageListByParams
+} from '@/api/authorityMgmt/index'
+import {measurementTable,itemLabel,measureEdit,MATERIEL_SELECTOR_TableSetting} from './data.js'
 import {getMaterielById,saveMateriel,getProGroupOptions,searchOptions,materielGroup,materielUnit,saveActive,upDateMateriel,
         getMaterielGroup,getUnitList,saveUnitList
 } from '@/api/materiel/materielMainData.js'
 
 
 export default {
-    components:{iPage,pageHeader,iCard,iButton,iFormItem,iInput,iSelect,iDatePicker,iTableCustom},
+    components:{iPage,pageHeader,iCard,iButton,iFormItem,iInput,iSelect,iDatePicker,iTableCustom,iSelectorDialog,iSelectorInput},
     methods:{
+        handleFopSearch(param){
+            return getPageListByParams({...param})
+        },
         topartNum2(val){
             if(val.length == 3){
                 document.getElementById('partNum2').focus()
@@ -399,7 +426,7 @@ export default {
             }else{
                 this.itemContent.partStatus = 'DRAFT'
                 let params = {
-                ...this.itemContent
+                ...this.itemContent,
                 } 
                 if(this.itemContent.updateDate ==''){
                     this.$confirm('是否直接激活此零件','提示',{
@@ -586,6 +613,7 @@ export default {
                     val.data.fgId=val.data.fgId ? val.data.fgId.toString() : null
                     val.data.categoryId=val.data.categoryId ? val.data.categoryId.toString() : null
                     this.itemContent =  val.data 
+                    this.fop = this.itemContent.fop
                     this.pageTitle = `${this.itemContent.partNum} ${this.itemContent.partNameZh}`
                     this.materielGroupOptions.forEach((element)=>{
                         if(element.id == this.itemContent.categoryId){
@@ -744,8 +772,19 @@ export default {
         }
     },
     computed:{
+        techDept(){
+            return this.fop[0]?.department
+        }
     },
     watch:{
+        fop:{
+            handler(newVal){
+                this.itemContent.techDept = newVal[0]?.department || ''
+                this.itemContent.fop = newVal[0]?.id || ''
+            },
+            deep:true,
+            immediate:true
+        },
         searchId(val){
             // this.getUnitTableList()
             this.materielUnit = '59'
@@ -769,7 +808,30 @@ export default {
                 }
         }
         return {
+            MATERIEL_SELECTOR_TableSetting,
             isEditColorPart:true,
+            dialogFopVisible:false,
+            fop:[],
+            selectorQuery: [
+                {
+                value: 'userNum', //v-model
+                label: '工号',
+                type: 'input',
+                initVal: ''
+                },
+                {
+                value: 'nameZh',
+                label: '姓名',
+                type: 'input',
+                initVal: ''
+                },
+                {
+                value: 'deptList',
+                label: '所属部门',
+                type: 'input',
+                initVal: ''
+                }
+            ],
             rules:{
                 partNameZh:[
                     { required: true, message: '请输入零件中文名称', trigger: 'blur' },

@@ -298,6 +298,7 @@
         :show.sync="dialogProjectManagerVisible"
         @change="handleProjectManagerCallback"
         v-model="formData.projectManager"
+        sizeType = 'size'
         :tableSetting="CAR_PROJECT_SELECTOR_TableSetting"
         :filter="selectorQuery"
         :title="'产品经理'"
