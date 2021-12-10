@@ -88,3 +88,38 @@ export const measureEdit = [
         }
     },
 ]
+export const MATERIEL_SELECTOR_TableSetting = [
+    {
+      type: 'selection',
+      width: 50
+    },
+    {
+      prop: '',
+      type: 'index',
+      label: '编号'
+    },
+    {
+      prop: 'userNum',
+      label: '员工号'
+    },
+    {
+      prop: 'nameZh',
+      label: '姓名'
+    },
+    {
+      prop: 'deptList',
+      label: '所属部门'
+    },
+    {
+      prop: 'email',
+      label: '邮箱'
+    },
+    {
+      prop: 'mobile',
+      label: '手机'
+    },
+    {
+      prop: 'phone',
+      label: '电话'
+    }
+  ]

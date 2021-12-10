@@ -1969,6 +1969,8 @@
     MT_CAOZUO: '操作',
     MT_CHEHUI: '撤回',
     MT_SHANCHU: '删除',
+    MT_BIANJI: '编辑',
+    MT_DAOCHU: '导出',
     MT_CHUANGJIAN: '创建',
     MT_PILIANGCHUANGJIAN: '批量创建',
     MT_CAOGAO: '草稿',
