@@ -365,7 +365,9 @@ export default {
           })
         }
         this.attachShowFlag = currQuesFileList.length > 0 ? true : false
-        this.$refs.attachment.fileList = currQuesFileList || []
+        if (this.$refs.attachment) {
+          this.$refs.attachment.fileList = currQuesFileList || []
+        }
         this.editForm = {
           questionLableId: data?.questionLableId,
           questionModuleId: data?.questionModuleId,

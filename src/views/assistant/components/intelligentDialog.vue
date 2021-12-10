@@ -41,8 +41,7 @@
 							</div>
 							<div v-else-if="typeof(item.answerContent) === 'string'">
 								<div class="flex flex-row issue-box items-center">
-									<div class="blue-box"></div>
-									<div class="issue-text">{{ item.answerContent }}</div>
+									<div>{{ item.answerContent }}</div>
 								</div>
 							</div>
 							<div v-else>

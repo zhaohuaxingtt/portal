@@ -49,10 +49,11 @@ export const tableColumn = (c) => {
       // prop: 'questionTitle',
       label: '提问问题',
       align: 'center',
+      emit: 'mauDetail',
       customRender: (h, scope) => {
         const title = scope.row.questionTitle
         return (
-          <div class="question-title" title={title}>{ title }</div>
+          <div class="question-title cursor" title={title}>{ title }</div>
         )
       }
     },
@@ -172,11 +173,12 @@ export const manualTableColumn = (c) => {
     {
       // prop: 'questionTitle',
       label: '提问问题',
+      emit: 'quesDetail',
       align: 'center',
       customRender: (h, scope) => {
         const title = scope.row.questionTitle
         return (
-          <div class="question-title" title={title}>{ title }</div>
+          <div class="question-title cursor" title={title}>{ title }</div>
         )
       }
     },

@@ -29,12 +29,12 @@
 	</div>
 	<div class="solution-box" v-show="solutionFlag">
 		<div class="good-box flex flex-row items-center justify-center cursor" @click="good">
-			<img src="@/assets/images/good.png" alt="" class="icon-png">
+			<i class="icon good"></i>
 			<div class="good-text">已解决</div>
 		</div>
-		<div class="bad-box flex flex-row items-center justify-center cursor" @click="bad">
-			<img src="@/assets/images/bad.png" alt="" class="icon-png">
-			<div class="bad-text">未解决</div>
+		<div class="good-box flex flex-row items-center justify-center cursor" @click="bad">
+			<i class="icon bad"></i>
+			<div class="good-text">未解决</div>
 		</div>
 	</div>
   </div>
@@ -248,6 +248,23 @@ export default {
 		opacity: 1;
 		border-radius: 16px;
 		margin-right: 20px;
+		&:hover{
+			background: #1962F1;
+			.good-text {
+				color: #fff;
+			}
+
+			.icon {
+				&.good{
+					background-image: url("~@/assets/images/assistant/zan.jpg");
+				}
+				&.bad{
+					width: 18px;
+					height: 18px;
+					background-image: url("~@/assets/images/assistant/nozan.jpg");
+				}
+			}
+		}
 		.good-text {
 			color: #4B5C7D;
 			font-size: 14px;
@@ -278,5 +295,19 @@ export default {
 		width: 16px;
 		height: 16px;
 		margin-right: 10px;
+	}
+	.icon {
+		width: 20px;
+		height: 20px;
+		background-repeat: no-repeat;
+		background-size: contain;
+		&.good{
+			background-image: url("~@/assets/images/assistant/zan_active.jpg");
+		}
+		&.bad{
+			width: 18px;
+			height: 18px;
+			background-image: url("~@/assets/images/assistant/nozan_active.jpg");
+		}
 	}
 </style>
