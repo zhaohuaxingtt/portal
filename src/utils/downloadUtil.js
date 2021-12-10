@@ -1,17 +1,18 @@
-import axios from '@/utils/axios'
+// import axios from '@/utils/axios'
 // import { callbackify } from "util";
 
-const request = axios()
+// const request = axios()
 
-const requestFile = axios(process.env.VUE_APP_FILEAPI + '/fileud')
+// const requestFile = axios(process.env.VUE_APP_FILEAPI + '/fileud')
 
 const createAnchorLink = (href, filename = '') => {
-    const a = document.createElement('a')
-    a.download = filename
-    a.href = href
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
+  // console.log('href', href)
+  const a = document.createElement('a')
+  a.download = filename
+  a.href = href
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
 }
 
 const download = ({
@@ -25,4 +26,4 @@ const download = ({
     createAnchorLink(process.env.VUE_APP_FILEAPI + '/fileud/getFileByFileId?isDown=true&fileId=' + fileIds, filename);
 }
 
-export {download, createAnchorLink}
+export { download, createAnchorLink }
