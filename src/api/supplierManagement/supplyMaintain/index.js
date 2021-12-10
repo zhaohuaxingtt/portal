@@ -19,9 +19,9 @@ export function cardChain(parmars) {
   })
 }
 // 查询--供应商名称
-export function queryByParamsWithAuth(parmars) {
+export function queryByParamsDropDownWithAuth(parmars) {
   return requst({
-    url: '/ntierSupplier/queryByParamsWithAuth',
+    url: '/ntierSupplier/queryByParamsDropDownWithAuth',
     method: 'POST',
     data: parmars
   })
