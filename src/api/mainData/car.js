@@ -51,7 +51,7 @@ export function batchUpdate(data) {
 //车型查详情
 export function fetchCarDetail(params) {
   return request({
-    url: '/web/findSingleCarTypeByCondition',
+    url: '/web/cartypeById',
     method: 'post',
     params
   })
