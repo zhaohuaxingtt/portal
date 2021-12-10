@@ -628,9 +628,10 @@ export default {
       })
       const res = await addInitial(pms)
       this.resultMessage(res, () => {
-        this.$router.push({
-          path: '/supplier/frmrating/frmintegratedmanagement'
-        })
+        this.getTableList()
+        // this.$router.push({
+        //   path: '/supplier/frmrating/frmintegratedmanagement'
+        // })
       })
     },
     handleRegister() {
