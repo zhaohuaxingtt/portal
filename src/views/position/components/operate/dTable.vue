@@ -104,7 +104,8 @@ export default {
                     },
                     props: {
                       value: scope.row.dimension, //文字框的内容取决于这个value，如果value不存在，会报错
-                      placeholder: '请选择'
+                      placeholder: '请选择',
+                      filterable: true
                     }
                   },
                   [
@@ -146,7 +147,8 @@ export default {
                     props: {
                       value: scope.row.content, //文字框的内容取决于这个value，如果value不存在，会报错
                       placeholder: '请选择',
-                      multiple: true
+                      multiple: true,
+                      filterable: true
                     }
                   },
                   [
@@ -206,7 +208,8 @@ export default {
                     },
                     props: {
                       value: scope.row.dimension, //文字框的内容取决于这个value，如果value不存在，会报错
-                      placeholder: '请选择'
+                      placeholder: '请选择',
+                      filterable: true
                     }
                   },
                   [
@@ -247,7 +250,8 @@ export default {
                     props: {
                       value: scope.row.content, //文字框的内容取决于这个value，如果value不存在，会报错
                       placeholder: '请选择',
-                      multiple: true
+                      multiple: true,
+                      filterable: true
                     }
                   },
                   [

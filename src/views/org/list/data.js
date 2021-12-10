@@ -3,7 +3,7 @@
 //orgId  orgName  orgShortName  orgShortShortNickName  orgOwner orgMark
 export const tableSetting = [
   {
-    type: 'selection',
+    type: 'customSelection',
     width: 50
   },
   {

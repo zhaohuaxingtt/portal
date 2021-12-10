@@ -12,6 +12,8 @@
 				:placeholder="language('请选择...')"
 				v-model="questionModuleId"
 				@change="searchQuestion"
+				filterable
+				clearable
 			>
 				<el-option
 					v-for="(item) in moudleList"
@@ -32,7 +34,7 @@
 						</div>
 					</div>
 					<div class="flex flex-row mt20 justify-between gray-color">
-						<div class="label" :title="list.moudleName">{{ list.moudleName }}</div>
+						<div class="label" :title="getCurrModuleName(list.questionModuleId)">{{getCurrModuleName(list.questionModuleId)}}</div>
 						<div class="time">{{ list.timeDate }}</div>
 					</div>
 				</div>
@@ -87,6 +89,11 @@ export default {
 			totalCount: 0
 		}
 	},
+	watch:{
+		moudleList(n){
+			console.log(n);
+		}
+	},
 	mounted() {
 		this.initMyQuesList()
 	},
@@ -109,13 +116,8 @@ export default {
 			this.getQuesList()
 		},
 		getCurrModuleName(id) {
-			let currName = null
-			this.moudleList.map(item => {
-				if (item.id === id) {
-					currName = item.menuName
-				}
-			})
-			return currName
+			let f = this.moudleList.find(item => item.id === id)
+			return f ? f.menuName : ""
 		},	
 		async getQuesList(va) {
 			this.listLoading = true
@@ -129,7 +131,6 @@ export default {
 					this.questionList = res?.data?.records || []
 					this.questionList.map(item => {
 						item.timeDate = moment(item.updateDate).format('YYYY-MM-DD')
-						item.moudleName = this.getCurrModuleName(item.questionModuleId)
 					})
 					this.listLoading = false
 				}

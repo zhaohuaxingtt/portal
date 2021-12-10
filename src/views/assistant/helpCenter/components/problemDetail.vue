@@ -114,8 +114,8 @@ export default {
 	},
 	props: {
 		currentMoudleId: {
-			type: Number,
-			default: 0
+			type: String,
+			default: ''
 		},
 		currMoudleName: {
 			type: String,
@@ -130,6 +130,7 @@ export default {
 		await this.getLabelList('init')
 		// 从首页进入 没有对应的模块id 查询热门问题 取前两个 查全部模块及标签
 		if (!this.currentMoudleId) {
+			console.log('8900890')
 			this.init()
 		}
 	},
@@ -163,10 +164,36 @@ export default {
 			favourQuestionId: null,  // 点赞时的请求id
 			currQuesFavourFlag: false,  //  当前问题是否点赞
 			showAttachFlag: false,  //  是否展示附件下载
-			onlyShowQuestion: false
+			onlyShowQuestion: false,
+			onlyShowDetail: false
 		}
 	},
 	methods: {
+		async turnPageInit(query) {
+			console.log(query, query.id, "query")
+			this.onlyShowDetail= true
+			this.currentFlag = 'detailPage'
+			this.onlyShowQuestion = false
+			this.labelIdx = query.labelIdx
+			await this.getLabelList(this.labelIdx)
+			this.labelLoading = false
+			await getProblemDetail({id: query.id}).then(res => {
+				if (res?.code === '200') {
+					const { data } = res
+					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
+					this.problemText = data.questionTitle
+					this.showAttachFlag = data?.annexList.length > 0
+					this.attach = data?.annexList
+					this.$nextTick(() => {
+						if (this.showAttachFlag) {
+							console.log(this.$refs.attachment, "111111")
+							this.$refs.attachment.fileList = data?.annexList
+						}
+					})
+					this.getJudgeFavour(query.id)
+				}
+			})
+		},
 		async init(){
 			this.onlyShowQuestion = false
 			await this.getHotQueTwo()
@@ -318,11 +345,11 @@ export default {
 			this.showAttachFlag = (issue?.annexList || []).length > 0
 		},
 		async getLabelList(va) {
-			console.log(this.currentMoudleId, "this.currentMoudleId")
 			if (!this.currentMoudleId) return
 			this.labelLoading = true
 			await getCurrLabelList(this.currentMoudleId).then(res => {
 				if (res?.code === '200') {
+					console.log(res, "23456")
 					this.labelList = res?.data || []
 					this.labelList.unshift({
 						lableName: "全部",
@@ -339,6 +366,7 @@ export default {
 					}
 					// 查询标签结束后 会查询该标签下的问题
 					if (this.formSource === 'query') return this.labelLoading = false
+					if (this.onlyShowDetail) return
 					this.problemList = []
 					this.labelLoading = false
 					this.getProblemList()
