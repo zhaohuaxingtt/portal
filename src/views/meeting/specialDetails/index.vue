@@ -188,7 +188,7 @@
               <template slot-scope="scope">
                 {{
                   scope.row.isBreak
-                    ? '/'
+                    ? '-'
                     : scope.row.type === 'MANUAL'
                     ? '手工议题'
                     : scope.row.type
@@ -216,7 +216,7 @@
               <template slot-scope="scope">
                 <span>{{
                   scope.row.isBreak
-                    ? '/'
+                    ? '-'
                     : themenConclusion[scope.row.conclusionCsc]
                 }}</span>
               </template>
@@ -231,7 +231,7 @@
               sortable
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.ep }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.ep }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="16"></el-table-column> -->
@@ -244,7 +244,7 @@
               sortable
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.supporter }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.supporter }}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -256,7 +256,7 @@
               sortable
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.presenter }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.presenter }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="14"></el-table-column> -->
@@ -269,7 +269,7 @@
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.isBreak ? '/' : scope.row.presenterDept
+                  scope.row.isBreak ? '-' : scope.row.presenterDept
                 }}</span>
               </template>
             </el-table-column>
@@ -301,10 +301,11 @@
               label="Sourcing No."
               min-width="119"
               prop="sourcingNo"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.isBreak ? '/' : scope.row.sourcingNo
+                  scope.row.isBreak ? '-' : scope.row.sourcingNo
                 }}</span>
               </template>
             </el-table-column>
@@ -315,9 +316,10 @@
               label="TNR"
               min-width="60"
               prop="tnr"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.tnr }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.tnr }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -327,9 +329,10 @@
               label="BEN(CN)"
               width="89"
               prop="benCn"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.benCn }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.benCn }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -339,9 +342,10 @@
               label="BEN(DE)"
               width="88"
               prop="benDe"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.benDe }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.benDe }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -352,7 +356,7 @@
               min-width="74"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">/</span>
+                <span v-if="scope.row.isBreak">-</span>
                 <span v-else
                   >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
                     scope.row.preCount ? scope.row.preCount : 0
@@ -367,9 +371,10 @@
               label="Carline"
               min-width="62"
               prop="carline"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.carline }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.carline }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="26.5"></el-table-column> -->
@@ -379,10 +384,10 @@
               label="Part Type"
               min-width="110"
               prop="partType"
-              label-class-name="test-class"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">/</span>
+                <span v-if="scope.row.isBreak">-</span>
                 <span class="open-link-text" v-else>{{
                   scope.row.partType
                 }}</span>
@@ -466,7 +471,7 @@
                 <template slot-scope="scope">
                   {{
                     scope.row.isBreak
-                      ? '/'
+                      ? '-'
                       : scope.row.type === 'MANUAL'
                       ? '手工议题'
                       : scope.row.type
@@ -494,7 +499,7 @@
                 <template slot-scope="scope">
                   <span>{{
                     scope.row.isBreak
-                      ? '/'
+                      ? '-'
                       : themenConclusion[scope.row.conclusionCsc]
                   }}</span>
                 </template>
@@ -509,7 +514,7 @@
                 sortable
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.isBreak ? '/' : scope.row.ep }}</span>
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.ep }}</span>
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="16"></el-table-column> -->
@@ -523,7 +528,7 @@
               >
                 <template slot-scope="scope">
                   <span>{{
-                    scope.row.isBreak ? '/' : scope.row.supporter
+                    scope.row.isBreak ? '-' : scope.row.supporter
                   }}</span>
                 </template>
               </el-table-column>
@@ -537,7 +542,7 @@
               >
                 <template slot-scope="scope">
                   <span>{{
-                    scope.row.isBreak ? '/' : scope.row.presenter
+                    scope.row.isBreak ? '-' : scope.row.presenter
                   }}</span>
                 </template>
               </el-table-column>
@@ -551,7 +556,7 @@
               >
                 <template slot-scope="scope">
                   <span>{{
-                    scope.row.isBreak ? '/' : scope.row.presenterDept
+                    scope.row.isBreak ? '-' : scope.row.presenterDept
                   }}</span>
                 </template>
               </el-table-column>
@@ -583,10 +588,11 @@
                 label="Sourcing No."
                 min-width="119"
                 prop="sourcingNo"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
                   <span>{{
-                    scope.row.isBreak ? '/' : scope.row.sourcingNo
+                    scope.row.isBreak ? '-' : scope.row.sourcingNo
                   }}</span>
                 </template>
               </el-table-column>
@@ -597,9 +603,10 @@
                 label="TNR"
                 min-width="60"
                 prop="tnr"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.isBreak ? '/' : scope.row.tnr }}</span>
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.tnr }}</span>
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -609,9 +616,10 @@
                 label="BEN(CN)"
                 width="89"
                 prop="benCn"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.isBreak ? '/' : scope.row.benCn }}</span>
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.benCn }}</span>
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -621,9 +629,10 @@
                 label="BEN(DE)"
                 width="88"
                 prop="benDe"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.isBreak ? '/' : scope.row.benDe }}</span>
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.benDe }}</span>
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -634,7 +643,7 @@
                 min-width="74"
               >
                 <template slot-scope="scope">
-                  <span v-if="scope.row.isBreak">/</span>
+                  <span v-if="scope.row.isBreak">-</span>
                   <span v-else
                     >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
                       scope.row.preCount ? scope.row.preCount : 0
@@ -649,9 +658,10 @@
                 label="Carline"
                 min-width="62"
                 prop="carline"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.isBreak ? '/' : scope.row.carline }}</span>
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.carline }}</span>
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="26.5"></el-table-column> -->
@@ -661,10 +671,10 @@
                 label="Part Type"
                 min-width="110"
                 prop="partType"
-                label-class-name="test-class"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
-                  <span v-if="scope.row.isBreak">/</span>
+                  <span v-if="scope.row.isBreak">-</span>
                   <span class="open-link-text" v-else>{{
                     scope.row.partType
                   }}</span>

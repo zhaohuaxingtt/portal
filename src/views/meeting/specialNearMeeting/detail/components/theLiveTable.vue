@@ -196,19 +196,19 @@
       <el-table-column
         show-overflow-tooltip
         align="center"
-        label="Status"
+        label="State"
         min-width="100"
       >
         <template slot-scope="scope">
           {{ stateObj[scope.row.state] }}
         </template>
       </el-table-column>
-      <el-table-column width="24" align="center" label=""></el-table-column>
+      <el-table-column width="4" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         align="center"
         label="Time"
-        min-width="120"
+        min-width="140"
       >
         <template slot-scope="scope">
           <div v-if="scope.row.startTime">
@@ -304,7 +304,7 @@ export default {
       editOrAdd: 'add',
       openAddTopic: false,
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+          processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       stateObj,
       themenConclusion,
       following: false,

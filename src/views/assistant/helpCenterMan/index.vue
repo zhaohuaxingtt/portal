@@ -136,6 +136,7 @@ export default {
 		}
 	},
 	created() {
+		this.activeMoudle = this.$route.query.module || "manual"
 		this.getProbleList()
 		this.queryFaqListByPage()
 	},
@@ -213,6 +214,7 @@ export default {
 		},
 		// tabs切换
 		tabChange(val) {
+			this.$router.replace({path:this.$route.path,query:{module:val}})
 			this.activeMoudle = val
 			this.activeUser = "supplier"
 			this.changeReq()

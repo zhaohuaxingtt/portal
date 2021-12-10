@@ -31,6 +31,7 @@
 				:moudleList="moudleList"
 				:currentMoudleId="currentMoudleId ? currentMoudleId : this.$store.state.baseInfo.originalModuleId"
 				@change="moduleChange"
+				title="用户手册"
 			/>
 			<DataManage
 				:loading="listLoading"
@@ -50,6 +51,7 @@
 					:moudleList="moudleList"
 					:currentMoudleId.sync="currentMoudleId"
 					@change="moduleChange"
+					title="全部问题"
 				/>
 				<ProblemDetail
 					ref="problemDetail"
@@ -157,6 +159,7 @@ export default {
 	},
 	created() {
 		// 获取当前路径
+		this.helpMoudle = this.$route.query.module || "manual"
 		let params  = this.$route.params
 		this.currentMenu = params.currentMenu
 	},
@@ -216,6 +219,7 @@ export default {
 		},
 		// 右上方分类点击事件
 		tabChange(val) {
+			this.$router.replace({path:this.$route.path,query:{module:val}})
 			this.helpMoudle = val
 			this.moudleList.map(item => {
 				if(item.id === this.currentMoudleId) {
@@ -285,7 +289,7 @@ export default {
 				this.$nextTick(() => {
 					this.$refs.problemDetail.currentFlag = 'listPage'
 					this.$refs.problemDetail.labelText = null
-					this.$refs.problemDetail.labelIdx = 0
+					this.$refs.problemDetail.labelIdx = ''
 					this.$refs.problemDetail.problemDetail = []
 					this.$refs.problemDetail.problemQuery.pageNum = 1
 					this.$refs.problemDetail.getLabelList('init')

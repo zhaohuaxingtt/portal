@@ -122,7 +122,9 @@ export default {
       // 获取该问题对话内容
       if (questionItem.replyQuestionList.length > 0) {
         questionItem.replyQuestionList.map(item => {
-          this.editForm.answerContent += `${item.content}<br />`
+          if (item.replyType !== 'transfer') {
+            this.editForm.answerContent += `${item.content}<br />`
+          }
         })
       }
       // 获取该问题的附件

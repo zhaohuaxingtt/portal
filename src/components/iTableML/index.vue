@@ -69,7 +69,10 @@ export default {
     this.initialColumns = [...this.$slots.default]
     this.preColumns = this.$slots.default
       .filter((item) => {
-        return item.componentOptions.propsData.label
+        return (
+          item.componentOptions.propsData.label &&
+          item.componentOptions.propsData.labelClassName === 'can-hideen'
+        )
       })
       .map((item) => {
         return item.componentOptions.propsData

@@ -363,6 +363,7 @@ export default {
     async getList() {
       this.tableLoading = true
       this.query.pageNo = this.page.currPage
+      this.query.current = this.page.currPage
       if (this.sizeType == 'size') {
         this.query.size = this.page.pageSize
         this.query.current = this.page.currPage
