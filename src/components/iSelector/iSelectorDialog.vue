@@ -138,6 +138,10 @@ export default {
     event: 'change'
   },
   props: {
+    singleSelect:{
+      type:Boolean,
+      default:false
+    },
     tagLabel: {
       type: String,
       default: function () {
@@ -187,14 +191,25 @@ export default {
     }
   },
   data() {
+    var singleSelectValidate = (rule, value, callback)=>{
+      if(this.listSelected.length == 0 ){
+        return callback('最少且只能选择一项')
+      }else if(this.listSelected.length > 1){
+        return callback('最多选择一项')
+      }else{
+        callback()
+      }
+    }
     return {
       form: {
         listSelected: null
       },
       rules: {
-        listSelected: [
-          { required: true, message: '请至少选择一项', trigger: 'blur' }
-        ]
+        listSelected: 
+            this.singleSelect 
+            ?  [{validator:singleSelectValidate,trigger:'blur'}]
+            :  [{ required: true, message: '请至少选择一项', trigger: 'blur' }]
+        
       },
       query: {
         current: 1,
@@ -204,6 +219,9 @@ export default {
       tableData: [],
       listSelected: []
     }
+  },
+  created(){
+    
   },
   computed: {
     isShow: {
@@ -281,6 +299,7 @@ export default {
       if (rows && rows.length) {
         rows.forEach((row) => {
           this.$nextTick(() => {
+            console.log('===-----------');
             this.$refs.multipleTable.toggleRowSelection(row, true)
           })
         })

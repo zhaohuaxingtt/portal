@@ -114,13 +114,13 @@
             @click="handleDelete"
             :disabled="this.selectedItems.length == 0"
           >
-            删除
+            {{language('删除')}}
           </iButton>
           <iButton
             @click="handleEdit"
             :disabled="this.selectedItems.length !== 1"
           >
-            编辑
+            {{language('编辑')}}
           </iButton>
           <button-download :download-method="handleExportExcel" />
         </div>
