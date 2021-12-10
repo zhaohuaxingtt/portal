@@ -166,7 +166,9 @@
                 :hideRequiredAsterisk="true"
                 class="item"
                 :rules="
-                  ruleForm.category == '03' ? '' : meetingAttributeNoRequired
+                  ruleForm.category != '03'
+                    ? rules.meetingAttributeNoRequired
+                    : ''
                 "
               >
                 <iLabel
@@ -712,7 +714,7 @@ export default {
           { required: true, message: '必选', trigger: ['blur', 'change'] }
         ],
         meetingAttributeNoRequired: [
-          { required: false, message: '必选', trigger: ['blur', 'change'] }
+          // { required: false, message: '必选', trigger: ['blur', 'change'] }
         ],
         duration: [
           { required: true, message: '必填', trigger: ['blur', 'change'] },
@@ -1082,14 +1084,38 @@ export default {
       }
     },
     handleSubmit() {
-      let errorNode = document.querySelector('.error-node>.el-form-item__error')
-      document
-        .querySelector('.conclusion-config>.el-form-item__content')
-        .appendChild(errorNode)
-      document.querySelector(
-        '.conclusion-config .el-input__inner'
-      ).style.borderColor = '#EF3737'
-      console.log('this.ruleForm', this.ruleForm)
+      if (this.ruleForm.category !== '01') {
+        if (
+          !this.ruleForm.conclusionConfig ||
+          this.ruleForm.conclusionConfig.length === 0
+        ) {
+          let curErrorNode = document.querySelector(
+            '.conclusion-config>.el-form-item__content>.el-form-item__error'
+          )
+          if (!curErrorNode) {
+            let errorNode = document
+              .querySelector('.error-node>.el-form-item__error')
+              .cloneNode(true)
+            document
+              .querySelector('.conclusion-config>.el-form-item__content')
+              .appendChild(errorNode)
+            document.querySelector(
+              '.conclusion-config .el-input__inner'
+            ).style.borderColor = '#EF3737'
+          }
+          return
+        } else {
+          let errorNode = document.querySelector(
+            '.conclusion-config>.el-form-item__content>.el-form-item__error'
+          )
+          if (errorNode) {
+            errorNode.remove()
+          }
+          document.querySelector(
+            '.conclusion-config .el-input__inner'
+          ).style.borderColor = 'transparent'
+        }
+      }
       // this.$confirm("是否保存该 会议类型?", "提示", {
       //   confirmButtonText: "是",
       //   cancelButtonText: "否",
