@@ -157,6 +157,7 @@ export default {
 	},
 	created() {
 		// 获取当前路径
+		this.helpMoudle = this.$route.query.module || "manual"
 		let params  = this.$route.params
 		this.currentMenu = params.currentMenu
 	},
@@ -216,6 +217,7 @@ export default {
 		},
 		// 右上方分类点击事件
 		tabChange(val) {
+			this.$router.replace({path:this.$route.path,query:{module:val}})
 			this.helpMoudle = val
 			this.moudleList.map(item => {
 				if(item.id === this.currentMoudleId) {

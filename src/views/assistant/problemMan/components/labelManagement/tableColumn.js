@@ -25,7 +25,7 @@ export const tableColumn = (list) => {
     {
       prop: 'createByName',
       label: '添加人',
-      width: '100px',
+      // width: '100px',
       align: 'center',
       tooltip: true
     },

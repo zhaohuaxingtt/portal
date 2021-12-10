@@ -3,53 +3,57 @@
 		<el-form :model="searchForm" ref="searchForm" class="search">
 			<el-row :gutter="20">
 				<el-col :span="4">
-          <el-form-item :label="formTitle.problemModule" prop="questionModuleId">
-            <iSelect
-              :placeholder="formTitle.selectPlaceholder"
-              v-model="searchForm.questionModuleId"
+					<el-form-item :label="formTitle.problemModule" prop="questionModuleId">
+						<iSelect
+							:placeholder="formTitle.selectPlaceholder"
+							v-model="searchForm.questionModuleId"
 							@change="handleModuleChange"
-            >
-              <el-option
-                v-for="item in moudleList"
-                :key="item.id"
-                :label="item.menuName"
-                :value="item.id"
-              >
-              </el-option>
-            </iSelect>
-          </el-form-item>
-        </el-col>
+							filterable
+							clearable
+						>
+						<el-option
+							v-for="item in moudleList"
+							:key="item.id"
+							:label="item.menuName"
+							:value="item.id"
+						>
+						</el-option>
+						</iSelect>
+					</el-form-item>
+				</el-col>
 				<el-col :span="5" push="2">
-          <el-form-item :label="formTitle.problemLabel" prop="questionLableId">
-            <iSelect
-				:disabled=" labelList.length > 0 ? false : true "
-				:placeholder="formTitle.selectPlaceholder"
-				v-model="searchForm.questionLableId"
-            >
-              <el-option
-                v-for="item in labelList"
-                :key="item.id"
-                :label="item.lableName"
-                :value="item.id"
-              >
-              </el-option>
-            </iSelect>
-          </el-form-item>
-        </el-col>
-				<el-col :span="4" push="3">
-          <el-form-item :label="formTitle.problemTitle" prop="questionTitle">
-            <iInput
-              :placeholder="formTitle.inputPlaceholder"
-              v-model="searchForm.questionTitle"
-            />
-          </el-form-item>
-        </el-col>
-		<el-col :span="6" push="4" class="btn">
-          <el-form-item>
-            <iButton @click="query">{{ language('查询') }}</iButton>
-			<iButton @click="reset">{{ language('重置') }}</iButton>
-          </el-form-item>
-        </el-col>
+					<el-form-item :label="formTitle.problemLabel" prop="questionLableId">
+						<iSelect
+							:disabled=" labelList.length > 0 ? false : true "
+							:placeholder="formTitle.selectPlaceholder"
+							v-model="searchForm.questionLableId"
+							filterable
+							clearable
+						>
+						<el-option
+							v-for="item in labelList"
+							:key="item.id"
+							:label="item.lableName"
+							:value="item.id"
+						>
+						</el-option>
+						</iSelect>
+					</el-form-item>
+					</el-col>
+							<el-col :span="4" push="3">
+					<el-form-item :label="formTitle.problemTitle" prop="questionTitle">
+						<iInput
+						:placeholder="formTitle.inputPlaceholder"
+						v-model="searchForm.questionTitle"
+						/>
+					</el-form-item>
+					</el-col>
+					<el-col :span="6" push="4" class="btn">
+					<el-form-item>
+						<iButton @click="query">{{ language('查询') }}</iButton>
+						<iButton @click="reset">{{ language('重置') }}</iButton>
+					</el-form-item>
+        		</el-col>
 			</el-row>
 		</el-form>	
 	</div>
