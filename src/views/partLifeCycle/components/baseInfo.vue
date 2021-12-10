@@ -302,13 +302,12 @@ export default {
     }
 
     .content-box{
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 14px;
+      width: calc(100% - 100px);
     }
 
     .title{
-      min-width: 70px;
-      max-width: 100px;
+      width: 100px;
       overflow:hidden;
       text-overflow:ellipsis;
       white-space:nowrap;
