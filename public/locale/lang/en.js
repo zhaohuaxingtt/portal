@@ -2323,7 +2323,7 @@
   xmlHttp.onreadystatechange = function () {
     if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
       const data = JSON.parse(xmlHttp.responseText)
-      i18n.mergeLocaleMessage('en', Object.assign(oldLanguage, data.data.cn))
+      i18n.setLocaleMessage('en', Object.assign(oldLanguage, data.data.cn))
     }
   }
   xmlHttp.open(

@@ -2298,7 +2298,7 @@
   xmlHttp.onreadystatechange = function () {
     if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
       const data = JSON.parse(xmlHttp.responseText)
-      i18n.mergeLocaleMessage('zh', Object.assign(oldLanguage, data.data.zh))
+      i18n.setLocaleMessage('zh', Object.assign(oldLanguage, data.data.zh))
     }
   }
   xmlHttp.open(
