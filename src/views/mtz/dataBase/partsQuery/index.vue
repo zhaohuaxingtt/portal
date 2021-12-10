@@ -357,7 +357,7 @@ export default {
           mtzAppId: val.sourceCode
         }
       } else if (val.source === '2') {
-        path = "aeko/mtz/details?aekoNum=" + val.sourceCode
+        path = "aeko/mtz/details?aekoNum=" + val.sourceCode + '&objectAekoPartId=' + val.objectAekoPartId + '&status=VIEW'
         window.open(process.env.VUE_APP_SOURCING_URL + path)
         return
       }
