@@ -27,24 +27,6 @@
             <iInput v-model="partsName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
           </el-form-item>
           <el-form-item :label="language('LK_AEKOHAO', 'Aeko号')">
-            <!-- <iSelect
-              class="multipleSelect"
-              :placeholder="language('LK_QINGXUANZHE', '请选择')"
-              filterable
-              clearable
-              collapse-tags
-              multiple
-              :filter-method="remoteMethod"
-              :loading="AekoLoading"
-              v-model="aekoNum"
-            >
-              <el-option
-                :value="item"
-                :label="item"
-                v-for="(item, index) in AekoPullDown"
-                :key="index"
-              ></el-option>
-            </iSelect> -->
             <el-select
                     v-model="aekoNum"
                     class="multipleSelect new_multipleSelect"
@@ -293,7 +275,7 @@
           <div v-for="(item, index) in defaultPartsList" :key="index" :class="{ isExpand: expandRelevantPart }"
                @click="currentDefaultPart = item.partsNum;getRelationParts()">
             <div class="title">
-              <span class="link" @click.stop="toPartLifeCycle(item)">{{ item.partsNum }}</span>
+              <span class="link" @click.stop="toPartLifeCycle(item.partsNum)">{{ item.partsNum }}</span>
               <span>{{ item.deptName }}</span>
               <icon v-show="!isEdit" symbol @click.native.stop.prevent="cancelOrCollect(item)"
                     :name="Number(item.isDefaultFolder) === 1 ? 'iconyishoucanglingjian' : 'iconweishoucanglingjian'"></icon>
@@ -332,7 +314,7 @@
                   <p>{{ item.partsNum }}</p>
                   <p>{{ item.partsNumNameZh }}</p>
                 </div>
-                <icon symbol @click.native="toPartLifeCycle(item)" name="iconxiangguanlingjian-gengduo"></icon>
+                <icon symbol @click.native="toPartLifeCycle(item.partsNum)" name="iconxiangguanlingjian-gengduo"></icon>
               </div>
             </div>
           </iCard>
@@ -615,6 +597,10 @@ export default {
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
+          if(this.partsNum) {
+            let partsNum = this.partsNum
+            this.toPartLifeCycle(partsNum)
+          }
           this.defaultPartsList = res.data.map(item => {
             item.isClaim = false
             return item
@@ -796,10 +782,10 @@ export default {
         iMessage.warn(this.language('LK_QINGGOUXUANHOUZAIQUERENRENLING', '请勾选后再确认认领'))
       }
     },
-    toPartLifeCycle(item) {
+    toPartLifeCycle(partsNum) {
       let routeData = this.$router.resolve({
         path: '/partLifeCycle',
-        query: { partsNum: item.partsNum}
+        query: { partsNum }
       })
       window.open(routeData.href)
     },

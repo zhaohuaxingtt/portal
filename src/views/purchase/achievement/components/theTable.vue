@@ -194,7 +194,7 @@ export default {
     bzzlorbzorkzzl() {
       return this.$store.state.permission.userInfo.roleList.some(
         (item) =>
-          item.code == 'BZZL' || item.code == 'CGBZ' || item.code == 'ZYCGKSXTY'
+          item.code == 'BZZL' || item.code == 'CGBZ' || item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY'
       )
     }
   },

@@ -25,34 +25,39 @@ export const tabRouterList2 = [
     name: 'MTZ零件查询',
     url: '/mtz/dataBase/partsQuery',
     activePath: '/mtz/dataBase/partsQuery',
-    key: 'MTZ零件查询',
+    key: 'MTZLINGJIANCHAXUN',
+    permissionKey:"PORTAL_MTZ_SEARCH_MTZLINGJIANCHAXUN"
   },
   {
     value: 2,
     name: 'MTZ规则查询',
     url: '/mtz/dataBase/rulesQuery',
     activePath: '/mtz/dataBase/rulesQuery',
-    key: 'MTZ规则查询',
+    key: 'MTZGUIZECHAXUN',
+    permissionKey:"PORTAL_MTZ_SEARCH_MTZGUIZECHAXUN"
   },
   {
     value: 3,
     name: 'MTZ市场价来源',
     url: '/mtz/dataBase/sourceMarketPrice',
     activePath: '/mtz/dataBase/sourceMarketPrice',
-    key: 'MTZ市场价来源',
+    key: 'MTZSHICHANGJIALAIYUAN',
+    permissionKey:"PORTAL_MTZ_SEARCH_MTZSHICHANGJIALAIYUAN"
   },
   {
     value: 4,
     name: 'MTZ市场价查询',
     url: '/mtz/dataBase/marketPriceEnquiry',
     activePath: '/mtz/dataBase/marketPriceEnquiry',
-    key: 'MTZ市场价查询',
+    key: 'MTZSHICHANGJIACHAXUN',
+    permissionKey:"PORTAL_MTZ_SEARCH_MTZSHICHANGJIACHAXUN"
   },
   {
     value: 5,
     name: '贵金属市场价查询',
     url: '/mtz/dataBase/preciousMetalMarketPriceInquiry',
     activePath: '/mtz/dataBase/preciousMetalMarketPriceInquiry',
-    key: '贵金属市场价查询',
+    key: 'GUIJINSHUSHICHANGJIACHAXUN',
+    permissionKey:"PORTAL_MTZ_SEARCH_GUIJINSHUSHICHANGJIACHAXUN"
   }
 ];

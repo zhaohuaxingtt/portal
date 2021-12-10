@@ -222,7 +222,7 @@ export default {
   data() {
     return {
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       lookThemenObj: {},
       stateObj,
       tableLoading: false,
@@ -526,6 +526,15 @@ export default {
   cursor: pointer;
   margin-left: 16px;
 }
+::v-deep .active-row {
+  background-color: #1660f1 !important;
+  .cell {
+    .open-link-text {
+      color: #fff !important;
+    }
+  }
+}
+
 ::v-deep .el-table--enable-row-hover .el-table__body .active-row:hover > td {
   background: #1660f1;
   color: #fff;

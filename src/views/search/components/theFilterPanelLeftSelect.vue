@@ -150,7 +150,7 @@ export default {
       this.loading = false
     },
     selectedOptions(newValue){
-      console.log(newValue,'newValuenewValue');
+      // console.log(newValue,'newValuenewValue');
       this.$emit('dataSource',newValue)
     }
   },

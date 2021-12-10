@@ -61,24 +61,24 @@ export default {
       b.fullCode = b.fullCode || '0'
       return a.fullCode.toLowerCase() > b.fullCode.toLowerCase() ? 1 : -1
     },
-    logBtnClick: function() {
+    logBtnClick: function () {
       this.$router.push('/organizationManagement/orglist')
     },
     async queryOrgTreeList() {
       this.loading = true
       const { data } = await queryOrganizationStructure({
-        isVisible: true
+        isVisible: true,
+        queryTree: true
       }).finally(() => {
         this.loading = false
       })
 
       if (data) {
-        const newData = data.map(e => {
+        const newData = data.map((e) => {
           return { ...e, parentId: 0 }
         })
 
         const children = this.generateOrgList(newData)
-        console.log('children', children)
         this.setChildrenProperties(children)
 
         this.orgTreeList = {
@@ -88,7 +88,7 @@ export default {
         this.orginalOrgTreeList = _.cloneDeep(this.orgTreeList)
 
         this.orgUserMap = this.getOrgUserMap(this.orgTreeList.children, {})
-        console.log('orgUserMap', this.orgUserMap)
+
         const orgSearchSources = this.getOrgSearchSources(
           this.orgTreeList.children
         )
@@ -115,7 +115,7 @@ export default {
         for (let i = 0; i < nodeData.positionList.length; i++) {
           const position = nodeData.positionList[i]
           if (position.isDeptLead && position.userDTOList) {
-            position.userDTOList.forEach(user => {
+            position.userDTOList.forEach((user) => {
               /* const name = (user.nameZh || '') + '&nbsp;' + (user.nameEn || '')
               orgLeaders.push(name) */
               orgLeaders.push({
@@ -145,22 +145,26 @@ export default {
       const leaders = this.getNodeLeaders(nodeData)
       leaders.sort((a, b) => a.property - b.property)
       const leaderElement = []
-      leaders.forEach(e => {
+      leaders.forEach((e) => {
         leaderElement.push(`<div class="leader-user">
           <span class="leader-zh">${e.nameZh || ''}</span>
           <span class="leader-en">${e.nameEn || ''}</span>
         </div>`)
       })
-      return `<div class="org-node-item" id="org-node-item--${nodeData.id}">
+      return `<div class="org-node-item" id="org-node-item--${
+        nodeData.id
+      }" level="${nodeData.nodeLevel}">
         <div class="org-node-name" title="${nodeData.fullCode || ''}">
           ${nodeData.fullCode || ''}
         </div>
         <div class="org-node-content">
           <div class="org-node-description">
-            <div class="org-name title="${nodeData.nameZh ||
-              ''}">${nodeData.nameZh || ''}</div>
-            <div class="org-name" title="${nodeData.nameEn ||
-              ''}">${nodeData.nameEn || ''}</div>
+            <div class="org-name title="${nodeData.nameZh || ''}">${
+        nodeData.nameZh || ''
+      }</div>
+            <div class="org-name" title="${nodeData.nameEn || ''}">${
+        nodeData.nameEn || ''
+      }</div>
           </div>
           <div class="org-node-users">
             ${leaderElement.join('')}
@@ -180,6 +184,7 @@ export default {
         // 刚进来时，只显示3层
         element.expanded = element.uniqueId.split('@@').length < 3 // true
         element.visible = element.uniqueId.split('@@').length <= 3 // true
+        element.nodeLevel = element.uniqueId.split('@@').length
         element.hideParent = false
         if (element.children && element.children.length > 0) {
           element.childNum = element.children.length
@@ -199,7 +204,7 @@ export default {
       for (let i = 0; i < data.length; i++) {
         const element = data[i]
         if (element.positionList) {
-          element.positionList.forEach(e => {
+          element.positionList.forEach((e) => {
             e.orgFullCode = element.fullCode
             e.deptLogo = element.deptLogo
           })
@@ -216,9 +221,9 @@ export default {
       const users = []
       if (this.orgUserMap[orgId]) {
         const positionList = this.orgUserMap[orgId]
-        positionList.forEach(position => {
+        positionList.forEach((position) => {
           if (position.userDTOList) {
-            position.userDTOList.forEach(userDTO => {
+            position.userDTOList.forEach((userDTO) => {
               if (userDTO.status !== false) {
                 const user = {
                   id: userDTO.id,
@@ -294,7 +299,7 @@ export default {
       for (let i = 0; i < data.length; i++) {
         const item = data[i]
         if (item.positionList) {
-          item.positionList.forEach(position => {
+          item.positionList.forEach((position) => {
             const positionItem = {
               nameZh: position.fullNameZh,
               nameEn: position.fullNameEn,
@@ -310,7 +315,7 @@ export default {
             this.searchSourcesMap['POSITION_' + position.id] = positionItem
             this.treeMap['POSITION_' + item.id] = positionItem
             if (position.userDTOList) {
-              position.userDTOList.forEach(user => {
+              position.userDTOList.forEach((user) => {
                 const userItem = {
                   nameZh: user.nameZh,
                   nameEn: user.nameEn,
@@ -348,7 +353,6 @@ export default {
     },
     onSearch(item) {
       this.searchItem = item
-      console.log('search item', item)
 
       const uniqueIdArr = item.uniqueId.split('@@')
       const orgId = uniqueIdArr[uniqueIdArr.length - 1]
@@ -362,11 +366,7 @@ export default {
         const nodeSide = $('#org_node_id_' + id).find('.rightEdge')
         const node = $('#org_node_id_' + id)
 
-        console.log('#org_node_id_' + id, node.hasClass('focused'))
-        const slibingNodes = node
-          .closest('tr.nodes')
-          .find('>td')
-          .not('.hidden')
+        const slibingNodes = node.closest('tr.nodes').find('>td').not('.hidden')
         if (slibingNodes.length > 1) {
           nodeSide.trigger('click')
         }
@@ -377,7 +377,7 @@ export default {
     },
     generateSearchData(data, searchItem) {
       if (data) {
-        data.forEach(e => {
+        data.forEach((e) => {
           const uniqueId = searchItem.uniqueId
           e.visible =
             e.uniqueId.length <= uniqueId.length &&

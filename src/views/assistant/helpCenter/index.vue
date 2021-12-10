@@ -31,6 +31,7 @@
 				:moudleList="moudleList"
 				:currentMoudleId="currentMoudleId ? currentMoudleId : this.$store.state.baseInfo.originalModuleId"
 				@change="moduleChange"
+				title="用户手册"
 			/>
 			<DataManage
 				:loading="listLoading"
@@ -50,6 +51,7 @@
 					:moudleList="moudleList"
 					:currentMoudleId.sync="currentMoudleId"
 					@change="moduleChange"
+					title="全部问题"
 				/>
 				<ProblemDetail
 					ref="problemDetail"
@@ -157,10 +159,17 @@ export default {
 	},
 	created() {
 		// 获取当前路径
+		this.helpMoudle = this.$route.query.module || "manual"
+		this.currentMoudleId = this.$route.query.currentMoudleId || ''
 		let params  = this.$route.params
 		this.currentMenu = params.currentMenu
 	},
 	async mounted() {
+		let currMoudleName = this.$route.query.currMoudleName
+		if (currMoudleName) {
+			this.currMoudleName = currMoudleName
+			this.$refs.problemDetail.turnPageInit(this.$route.query)
+		}
 		await this.getMoudleList()
 		await this.getCurrentModule()
 	},
@@ -188,10 +197,15 @@ export default {
 				}
 			})
 			if (!currFlag) {
-				this.currentMoudleId = ''
-				this.originalMoudleName = this.moudleList[0].menuName
-				this.$store.dispatch('setOriginalModuleId', this.moudleList[0].id)
-				this.$store.dispatch('setCurrPageFlag', false)
+				if (this.$route.query.currentMoudleId) {
+					this.currentMoudleId = this.$route.query.currentMoudleId
+				} else {
+					this.currentMoudleId = ''
+					this.originalMoudleName = this.moudleList[0].menuName
+					this.$store.dispatch('setOriginalModuleId', this.moudleList[0].id)
+					this.$store.dispatch('setCurrPageFlag', false)
+				}
+				
 			}
 			this.getManauContent()
 		},
@@ -216,6 +230,7 @@ export default {
 		},
 		// 右上方分类点击事件
 		tabChange(val) {
+			this.$router.replace({path:this.$route.path,query:{module:val}})
 			this.helpMoudle = val
 			this.moudleList.map(item => {
 				if(item.id === this.currentMoudleId) {
@@ -285,7 +300,7 @@ export default {
 				this.$nextTick(() => {
 					this.$refs.problemDetail.currentFlag = 'listPage'
 					this.$refs.problemDetail.labelText = null
-					this.$refs.problemDetail.labelIdx = 0
+					this.$refs.problemDetail.labelIdx = ''
 					this.$refs.problemDetail.problemDetail = []
 					this.$refs.problemDetail.problemQuery.pageNum = 1
 					this.$refs.problemDetail.getLabelList('init')

@@ -5,14 +5,14 @@
 	</div>
 	<div class="line"></div>
 	<div class="title-des flex items-center mt20">{{ title }}</div>
-	<div class="mt20 label" title="moudleName">{{ moudleName }}</div>
+	<div class="mt20 label" v-if="getCurrModuleName(questionModuleId)">{{ getCurrModuleName(questionModuleId) }}</div>
 	<div class="ques-box flex flex-column">
 		<div v-for="(ques, idx) in chatList" :key="idx" class="item-ques flex flex-column">
-			<!-- <div v-if="ques.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
+			<div v-if="ques.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
 				<img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
 				<div>{{`管理员${ques.replyUserName}将任务转派给了管理员${ques.handlerToUserName}`}}</div>
-			</div> -->
-			<div class="flex flex-row" v-if="ques.content">
+			</div>
+			<div v-else class="flex flex-row">
 				<div class="item-who"> {{ques.replyType==='reply'?'管理员':'我'}} </div>
 				<div class="desc-box">
 					<div class="desc" v-html="ques.content"></div>
@@ -29,12 +29,12 @@
 	</div>
 	<div class="solution-box" v-show="solutionFlag">
 		<div class="good-box flex flex-row items-center justify-center cursor" @click="good">
-			<img src="@/assets/images/good.png" alt="" class="icon-png">
+			<i class="icon good"></i>
 			<div class="good-text">已解决</div>
 		</div>
-		<div class="bad-box flex flex-row items-center justify-center cursor" @click="bad">
-			<img src="@/assets/images/bad.png" alt="" class="icon-png">
-			<div class="bad-text">未解决</div>
+		<div class="good-box flex flex-row items-center justify-center cursor" @click="bad">
+			<i class="icon bad"></i>
+			<div class="good-text">未解决</div>
 		</div>
 	</div>
   </div>
@@ -67,7 +67,8 @@ export default {
 			currQuesFavourFlag: false,  //  当前问题是否点赞
 			currQuestionId: null,  //  当前问题id
 			currQuesInfo: null,  //  当前问题的全部信息
-			showAttachFlag: false
+			showAttachFlag: false,
+			questionModuleId:""
 		}
 	},
 	methods: {
@@ -93,14 +94,9 @@ export default {
 			this.$emit('handleQuestion')
 		},
 		async getCurrQuesDetail(list) {
+			this.questionModuleId = list.questionModuleId
 			this.currQuestionId = list.id
 			this.title = list.questionTitle
-			this.moudleList.map(item => {
-				if (item.id === list.questionModuleId) {
-					console.log(item.menuName, "item.menuName")
-					this.moudleName = item.menuName
-				}
-			})
 			await this.getQuesDetail(list.id)
 			// await this.getJudgeFavour()
 		},
@@ -144,6 +140,10 @@ export default {
 			if (replyList.length > 0) list = [...list, ...replyList]
 			this.chatList = list
 		},
+		getCurrModuleName(id) {
+			let f = this.moudleList.find(item => item.id === id)
+			return f ? f.menuName : ""
+		},	
 		// 获取该用户是否给该问题点赞
 		// async getJudgeFavour() {
 		// 	if (!this.currQuestionId) return
@@ -248,6 +248,23 @@ export default {
 		opacity: 1;
 		border-radius: 16px;
 		margin-right: 20px;
+		&:hover{
+			background: #1962F1;
+			.good-text {
+				color: #fff;
+			}
+
+			.icon {
+				&.good{
+					background-image: url("~@/assets/images/assistant/zan.jpg");
+				}
+				&.bad{
+					width: 18px;
+					height: 18px;
+					background-image: url("~@/assets/images/assistant/nozan.jpg");
+				}
+			}
+		}
 		.good-text {
 			color: #4B5C7D;
 			font-size: 14px;
@@ -278,5 +295,19 @@ export default {
 		width: 16px;
 		height: 16px;
 		margin-right: 10px;
+	}
+	.icon {
+		width: 20px;
+		height: 20px;
+		background-repeat: no-repeat;
+		background-size: contain;
+		&.good{
+			background-image: url("~@/assets/images/assistant/zan_active.jpg");
+		}
+		&.bad{
+			width: 18px;
+			height: 18px;
+			background-image: url("~@/assets/images/assistant/nozan_active.jpg");
+		}
 	}
 </style>

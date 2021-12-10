@@ -3,12 +3,14 @@
 		<div class="tip" v-if="showTipsFlag">{{ text }}</div>
 		<div class="flex flex-row justify-center">
 			<div class="good-box flex flex-row items-center justify-center cursor" @click="good">
-				<img src="@/assets/images/good.png" alt="" class="icon-png">
+				<!-- <img src="@/assets/images/good.png" alt="" class="icon-png"> -->
+				<i class="icon good"></i>
 				<div class="good-text">已解决</div>
 			</div>
-			<div class="bad-box flex flex-row items-center justify-center cursor" @click="bad">
-				<img src="@/assets/images/bad.png" alt="" class="icon-png">
-				<div class="bad-text">未解决</div>
+			<div class="good-box flex flex-row items-center justify-center cursor" @click="bad">
+				<!-- <img src="@/assets/images/bad.png" alt="" class="icon-png"> -->
+				<i class="icon bad"></i>
+				<div class="good-text">未解决</div>
 			</div>
 		</div>
 	</div>
@@ -44,6 +46,7 @@ export default {
 @import "../comon.scss";
 .content {
 	width: 100%;
+	margin-bottom: 20px;
 	.good-box {
 		width: 100px;
 		height: 30px;
@@ -51,6 +54,23 @@ export default {
 		opacity: 1;
 		border-radius: 16px;
 		margin-right: 20px;
+		&:hover{
+			background: #1962F1;
+			.good-text {
+				color: #fff;
+			}
+
+			.icon {
+				&.good{
+					background-image: url("~@/assets/images/assistant/zan.jpg");
+				}
+				&.bad{
+					width: 18px;
+					height: 18px;
+					background-image: url("~@/assets/images/assistant/nozan.jpg");
+				}
+			}
+		}
 		.good-text {
 			color: #4B5C7D;
 			font-size: 14px;
@@ -60,7 +80,7 @@ export default {
 	.bad-box {
 		width: 100px;
 		height: 30px;
-		background: #1962F1;;
+		// background: #1962F1;
 		opacity: 1;
 		border-radius: 16px;
 		.bad-text {
@@ -68,11 +88,24 @@ export default {
 			font-size: 14px;
 			margin-left: 6px;
 		}
+		&:hover{
+			background: #1962F1;
+		}
 	}
 }	
-	.icon-png {
+	.icon {
 		width: 20px;
 		height: 20px;
+		background-repeat: no-repeat;
+		background-size: contain;
+		&.good{
+			background-image: url("~@/assets/images/assistant/zan_active.jpg");
+		}
+		&.bad{
+			width: 18px;
+			height: 18px;
+			background-image: url("~@/assets/images/assistant/nozan_active.jpg");
+		}
 	}
 	.tip {
 		width: 100%;

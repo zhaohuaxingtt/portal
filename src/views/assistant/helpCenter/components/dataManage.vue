@@ -6,6 +6,7 @@
 				type="text" 
 				placeholder="搜索..."
 				@keyup.enter.native="search"
+				@blur="search"
 				v-model="searchKey"
 			/>
 			<img src="~@/assets/images/search.png" alt="" class="search-icon" @click="search" />
@@ -14,7 +15,8 @@
 		<div class="mt15 line"></div>
 		<div class="title">{{ currMoudleName ? language(`${currMoudleName}`) : '' }}</div>
 		<div class="line"></div>
-		<div class="editor-box" v-html="changeColor(currModuleDetailData)"></div>
+		<div v-show="false" ref="tempHtml" v-html="currModuleDetailData"></div>
+		<div class="editor-box" v-html="content"></div>
 	</div>
 </template>
 
@@ -24,7 +26,7 @@ export default {
 	name: "DataManage",
 	components: {
 		iInput,
-		iButton,
+		iButton
 	},
 	props: {
 		loading: {
@@ -43,32 +45,41 @@ export default {
 	data() {
 		return {
 			searchKey: "",
-			searchHead: 0
+			searchHead: 0,
+			content:""
 		}
+	},
+	watch:{
+		currModuleDetailData(){
+			this.content = this.changeColor()
+		},
 	},
 	methods: {
 		handleQuestion() {
 			this.$emit('handleQuestion')
 		},
 		search() {
-			console.log(this.searchKey)
-			document.querySelectorAll('.searchActive')[0].scrollIntoViewIfNeeded()
-			// let num = document.getElementsByTagName('a').length;
-			// if (num !== 0) {
-			// 	document.getElementsByTagName('a')[this.searchHead].scrollIntoView()
-			// 	if (this.searchHead < (num - 1)) {
-			// 		this.searchHead += 1
-			// 	} else if (this.searchHead == (num - 1)) {
-			// 		this.searchHead = 0
-			// 	} else return false
-			// }
+			this.content = this.changeColor()
+			this.$nextTick(() => {
+				document.querySelectorAll('.searchActive')[0] && document.querySelectorAll('.searchActive')[0].scrollIntoViewIfNeeded()
+			})
 		},
-		changeColor(item) {
-			let searchKey = this.searchKey
-			if (searchKey !== '') {
-				return item.replace(new RegExp(searchKey, 'g'), '<a id="seach" class="searchActive" style="color:red">' + searchKey + '</a>');
-			} else {
-				return item;
+		changeColor() {
+			if(this.searchKey){
+				let temp = document.createElement('div')
+				temp.innerHTML = this.currModuleDetailData
+				let el = document.createElement('div')
+				el.innerHTML = ""
+				Array.from(temp.childNodes).forEach(e => {
+					let innerText = e.innerText
+					if(innerText.includes(this.searchKey)){
+						e.innerHTML = innerText.replace(new RegExp(this.searchKey, 'g'),'<a id="seach" class="searchActive" style="color:red">' + this.searchKey + '</a>')
+					}
+					el.appendChild(e)
+				})
+				return el.innerHTML
+			}else{
+				return this.currModuleDetailData
 			}
 		}
 	}
