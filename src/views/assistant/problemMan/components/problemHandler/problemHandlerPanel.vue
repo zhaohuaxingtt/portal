@@ -254,16 +254,22 @@ export default {
     }
   },
   async mounted () {
+    let params = this.$route.query
+    if(params.questionStatus){
+      this.currentCategoryItem = params.questionStatus || "unreply"
+      this.keyWord = params.questionTitle
+    }
     await this.getModuleListByUserType(this.userType);
     this.initData();
   },
   methods: {
     initData () {
       this.queryProblemList(this._queryForm({
+        keyWord:this.keyWord,
         source: this.userType,
         pageNum: this.pageNum,
         pageSize: this.pageSize,
-        questionStatus: this.currentCategoryItem,
+        questionStatus: this.currentCategoryItem == "all" ? "" : this.currentCategoryItem,
         selfOnly: this.selfOnly ? 1 : 0,
       }));
     },
