@@ -8,22 +8,17 @@
 -->
 <template>
 <div class="tabsBoxWrap">
-  <span class="download_btn">
+  <span class="download_btn" v-if="approve">
     <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton>
   </span>
   <div ref="qrCodeDiv" class="sign_swap" style="padding-bottom:30px;">
     <iCard class="upload_hr">
       <div slot="header" class="headBox">
         <p class="headTitle">{{title}}</p>
-        <div class="tabs_box_right">
+        <div class="tabs_box_right" v-if="approve">
           <div class="big_text">
-            <!-- <span>{{language("SHENQINGDANHAOMINGCHENG","申请单号-名称")}}：</span> -->
             <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
           </div>
-          <!-- <div class="big_text">
-            <span>{{language("SHENQINGDANMING","申请单名")}}：</span>
-            <span class="samll_val">{{formData.appName}}</span>
-          </div> -->
           <div class="small_text">
             <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
             <span class="samll_val">{{formData.createDate}}</span>
@@ -38,16 +33,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="tabsBoxInfor">
-        <div class="inforDiv"
-            v-for="(item,index) in formList"
-            :key="index">
-          <span>{{language(item.key,item.label)}}</span>
-          <span
-                class="inforText"
-                >{{formData[item.prop]}}</span>
-        </div>
-      </div> -->
       <el-divider class="hr_divider" />
       <div class="infor_futitle">
         <span class="big_font">Regulation:</span>
@@ -76,16 +61,6 @@
             <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
           </template>
         </tableList>
-        <!-- <iPagination
-        v-update
-        @size-change="handleSizeChange($event, getPageAppRule)"
-        @current-change="handleCurrentChange($event, getPageAppRule)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="rulePageParams.pageSize"
-        :layout="page.layout"
-        :current-page='rulePageParams.currPage'
-        :total="rulePageParams.totalCount"/> -->
       <el-divider class="margin-top20"/>
       <p class="tableTitle">{{language('LJQD', '零件清单')}}-Part List</p>
         <tableList
@@ -107,16 +82,6 @@
             <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
           </template>
         </tableList>
-        <!-- <iPagination
-        v-update
-        @size-change="handleSizeChange($event, getPagePartMasterData)"
-        @current-change="handleCurrentChange($event, getPagePartMasterData)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="partPageParams.pageSize"
-        :layout="page.layout"
-        :current-page='partPageParams.currPage'
-        :total="partPageParams.totalCount"/> -->
     </iCard>
     <iCard class="margin-top20">
       <div slot="header"
@@ -216,6 +181,7 @@ export default {
       applayDateData: [],
       moment: window.moment,
       signPreviewType:false,
+      approve:true,
     }
   },
   watch: {
@@ -282,6 +248,12 @@ export default {
       }).then(res => {
         if(res && res.code == 200) {
           this.formData = res.data
+
+          if(Number(this.$route.query.approve) == 1){
+            if(res.data.appStatus == "流转中" || res.data.appStatus == "复核中"){
+              this.approve = false;
+            }
+          }
         } else iMessage.error(res.desZh)
       })
     },
