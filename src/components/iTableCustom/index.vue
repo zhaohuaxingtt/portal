@@ -16,7 +16,7 @@
       v-loading="loading"
       :row-key="rowKey || 'uniqueId'"
       :highlight-current-row="highlightCurrentRow"
-      :empty-text="$t('LK_ZANWUSHUJU')"
+      :empty-text="language('LK_ZANWUSHUJU')"
       ref="theCustomTable"
       :row-class-name="getRowClassNameDefault"
       :row-style="getRowStyle"
@@ -420,7 +420,7 @@ export default {
       tooltipContent: '',
       settingId: '',
       emitLabel: [],
-      isCustomSelection:false
+      isCustomSelection: false
     }
   },
   watch: {
@@ -440,14 +440,13 @@ export default {
     this.getTableData()
   },
   mounted() {
-    if(this.tableVisibleColumns[0].type == 'customSelection'){
+    if (this.tableVisibleColumns[0].type == 'customSelection') {
       this.isCustomSelection = true
-      const customSelectionLabel = this.tableVisibleColumns.map((item)=>{
+      const customSelectionLabel = this.tableVisibleColumns.map((item) => {
         return item.label
       })
-      this.emitLabel = [...customSelectionLabel,...this.emitLabel]
-    }
-    else{
+      this.emitLabel = [...customSelectionLabel, ...this.emitLabel]
+    } else {
       this.emitLabel = this.tableVisibleColumns.map((ele) => {
         if (ele.emit) {
           return ele.label
@@ -606,12 +605,12 @@ export default {
     handleCellClick(row, column) {
       // console.log(row,column,'=====');
       if (!this.emitLabel.includes(column.label)) {
-        if(this.isCustomSelection){
-          console.log('QWQ');
+        if (this.isCustomSelection) {
+          console.log('QWQ')
           // this.handleToggleSelectedRow(true,row)
-        }else{
-          console.log('T-T');
-           this.$refs.theCustomTable.toggleRowSelection(row)
+        } else {
+          console.log('T-T')
+          this.$refs.theCustomTable.toggleRowSelection(row)
         }
       }
       if (this.treeExpand) {
@@ -802,16 +801,15 @@ export default {
     ---------------------------------------下面是自定义级联复选框的------------------------------
     ------------------------------------------------------------------------------------------*/
     handleCheckedAll(val) {
-      this.tableData.forEach((e,index) => {
-        if(!e.disabledChecked){
-          Vue.set(this.tableData[index],'checked',val)
+      this.tableData.forEach((e, index) => {
+        if (!e.disabledChecked) {
+          Vue.set(this.tableData[index], 'checked', val)
           e.isIndeterminate = false
         }
-        
       })
       this.indeterminateAll = false
       const data = this.tableData.filter((item) => {
-        if(!item.disabledChecked){
+        if (!item.disabledChecked) {
           return item
         }
       })
@@ -1096,11 +1094,11 @@ export default {
     content: '*';
     color: #d00;
   }
-  .el-table__row{
-    .el-table_1_column_1{
-      .cell{
-       padding-right: 10px;
-      //  background: chartreuse;
+  .el-table__row {
+    .el-table_1_column_1 {
+      .cell {
+        padding-right: 10px;
+        //  background: chartreuse;
       }
     }
   }
@@ -1186,12 +1184,11 @@ export default {
 
 .i-table-custom {
   ::v-deep .el-table--border th {
-    border-right: 1px solid #FFFFFF !important;
+    border-right: 1px solid #ffffff !important;
   }
 
   ::v-deep .el-table--border td {
     border-right: 0 !important;
   }
 }
-
 </style>
