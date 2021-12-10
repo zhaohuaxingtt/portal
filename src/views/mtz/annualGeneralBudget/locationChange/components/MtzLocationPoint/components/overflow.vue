@@ -21,7 +21,7 @@
         <iButton @click="submit"
                   v-show="locationNow==3&&meetingNumber == 0"
                  :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || ttNominateAppId !== ''">{{ language('TIJIAO', '提交') }}</iButton>
-        <iButton @click="downRS">{{ language('DAOCHURS', '导出RS') }}</iButton>
+        <iButton @click="downRS">{{ language('YULAN', '预览') }}</iButton>
       </div>
     </div>
     <div class="stepBoxMap" v-if="meetingNumber == 0">

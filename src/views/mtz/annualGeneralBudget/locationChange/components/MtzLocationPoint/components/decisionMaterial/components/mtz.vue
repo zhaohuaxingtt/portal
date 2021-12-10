@@ -16,17 +16,20 @@
          id="qrCodeDiv"
          style="padding-bottom:30px;position:relative;">
       <div class="content_dialog" v-if="!RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
-      <iCard :class="!RsObject?'upload_hr':''">
+      <iCard class='upload_hr'>
+      <!-- <iCard :class="!RsObject?'upload_hr':''"> -->
         <div slot="header"
              class="headBox"
              >
           <p class="headTitle">{{title}}</p>
           <span class="buttonBox"
+                style="margin-top:-10px;"
                 v-if="!editMode">
             <iButton v-if="RsObject && formData.flowTypeName == '流转'"
                      @click="handleToSignPreview">{{language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')}}</iButton>
           </span>
-          <div class="tabs_box_right" v-if="!RsObject">
+          <!-- <div class="tabs_box_right"> -->
+          <div class="tabs_box_right" v-if="meetingType">
             <div class="big_text">
               <!-- <span>{{language("SHENQINGDANHAOMINGCHENG","申请单号-名称")}}：</span> -->
               <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
@@ -242,6 +245,7 @@ export default {
       RsObject: true,
       moment: window.moment,
       meetingNumber:Number(this.$route.query.meeting) || 0,
+      meetingType:false,
     }
   },
   watch: {
@@ -252,6 +256,15 @@ export default {
   created () {
     if (this.RsType) {
       this.RsObject = false;
+    }
+    if(this.meetingNumber !== 0){
+      this.meetingType = true;
+    }else{
+      if(this.RsObject){
+        this.meetingType = false;
+      }else{
+        this.meetingType = true;
+      }
     }
     this.initApplayDateData()
     this.getAppFormInfo()
