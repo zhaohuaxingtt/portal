@@ -49,6 +49,7 @@ export const tableColumn = (c) => {
       // prop: 'questionTitle',
       label: '提问问题',
       align: 'center',
+      tooltip:true,
       customRender: (h, scope) => {
         const title = scope.row.questionTitle
         return (
