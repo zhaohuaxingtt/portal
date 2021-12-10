@@ -2,17 +2,17 @@
   <div class="flex flex-row content" v-loading="loading">
     <div class="left-content" >
       <el-row :gutter="20">
-        <el-col span="14">
-          <iInput v-model="keyWord" placeholder="搜索.." @keydown.native.enter="keyWordBlurHandle" />
+        <el-col span="12">
+          <iInput v-model="keyWord" placeholder="搜索..." @keydown.native.enter="keyWordBlurHandle" />
         </el-col>
-        <el-col span="10">
-          <iSelect v-model="questionModuleId" filterable placeholder="问题模块" clearable="true" @change="questionModuleHandle" @clear="clearModuleHandle">
+        <el-col span="12">
+          <iSelect v-model="questionModuleId" filterable placeholder="全部模块" clearable="true" @change="questionModuleHandle" @clear="clearModuleHandle">
             <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
           </iSelect>
         </el-col>
       </el-row>
       <el-row class="mt20 mb20" :gutter="10">
-        <el-col span="16">
+        <el-col span="14">
           <ul class="flex flex-row justify-between category-list">
             <li v-for="item of catgoryList" :key="item.value" :class="{
                 active: currentCategoryItem === item.value
@@ -21,7 +21,7 @@
             </li>
           </ul>
         </el-col>
-        <el-col span="8">
+        <el-col span="8" push="4">
           <el-switch v-model="selfOnly" active-text="仅看自己" @change="changeSelfHandle"></el-switch>
         </el-col>
       </el-row>
@@ -223,7 +223,7 @@ export default {
       questionDetail: {},
       labelList: [],
       uploadFileList: [],
-      editFormRules: {
+      testEditFormRules: {
         questionModuleId: [
           { required: true, trigger: 'change', message: '请选择模块' },
           { required: true, trigger: 'blur', message: '请选择模块' }
@@ -233,7 +233,7 @@ export default {
           { required: true, trigger: 'blur', message: '请选择标签' }
         ]
       },
-
+      editFormRules: null,
       l_loading:false,
       noMore:false,
       attachShowFlag: false,
@@ -373,6 +373,7 @@ export default {
         }
         // 查询标签列表
         this.queryLabelByModuleId(data?.questionModuleId);
+        this.$props
       } else {
         console.error('根据id获取问题详情失败');
       }
@@ -471,6 +472,7 @@ export default {
     },
     // 点击编辑按钮
     editHandler () {
+      this.editFormRules = this.testEditFormRules
       if (Object.is(this.currentCategoryItem, 'finished')) {
         this.isDisabledModule = false;
         this.isDisabledQuestion = false;
@@ -676,4 +678,10 @@ export default {
 		height: 16px;
 		margin-right: 10px;
 	}
+::v-deep .card.is-always-shadow {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16);
+	border-radius: 2px;
+	background: #F8F9FA;
+	border: 1px solid #E5E5E5;
+}
 </style>

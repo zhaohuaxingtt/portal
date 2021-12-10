@@ -152,7 +152,7 @@ export default {
 			hotProblemList: [],
 			moudleLabelList: [],
 			attach: [],
-			labelIdx: 0,
+			labelIdx: '',
 			labelText: null,
 			currentFlag: 'listPage',
 			problemText: '',

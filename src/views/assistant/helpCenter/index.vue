@@ -31,6 +31,7 @@
 				:moudleList="moudleList"
 				:currentMoudleId="currentMoudleId ? currentMoudleId : this.$store.state.baseInfo.originalModuleId"
 				@change="moduleChange"
+				title="用户手册"
 			/>
 			<DataManage
 				:loading="listLoading"
@@ -50,6 +51,7 @@
 					:moudleList="moudleList"
 					:currentMoudleId.sync="currentMoudleId"
 					@change="moduleChange"
+					title="全部问题"
 				/>
 				<ProblemDetail
 					ref="problemDetail"
@@ -285,7 +287,7 @@ export default {
 				this.$nextTick(() => {
 					this.$refs.problemDetail.currentFlag = 'listPage'
 					this.$refs.problemDetail.labelText = null
-					this.$refs.problemDetail.labelIdx = 0
+					this.$refs.problemDetail.labelIdx = ''
 					this.$refs.problemDetail.problemDetail = []
 					this.$refs.problemDetail.problemQuery.pageNum = 1
 					this.$refs.problemDetail.getLabelList('init')

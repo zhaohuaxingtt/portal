@@ -33,7 +33,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="12">
-              <iFormItem :label="language('时间')">
+              <iFormItem :label="userType === 'supplier' ? language('完结时间') : language('创建时间')">
                 <iDatePicker style="width:100%;" v-model="searchForm.date" @change="changeDatePicker" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
                 </iDatePicker>
               </iFormItem>

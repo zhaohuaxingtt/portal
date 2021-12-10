@@ -88,8 +88,8 @@ export default {
   flex-direction: row;
   .icon {
     margin-right: 20px;
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     background-size: contain;
     background-repeat: no-repeat;
     &.first {
