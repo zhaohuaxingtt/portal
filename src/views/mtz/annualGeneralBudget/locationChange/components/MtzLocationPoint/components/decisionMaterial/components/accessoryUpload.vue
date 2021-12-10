@@ -27,6 +27,7 @@
               class="upload-demo "
               style="margin-left:10px;"
               multiple
+              accept=".xlsx"
               :action="uploadUrl"
               :show-file-list="false"
               :on-success="uploadSuccess"
@@ -37,7 +38,8 @@
               >
               <el-tooltip
                   content="文件大小不超过20MB"
-                  placement="bottom"
+                  placement="top"
+                  effect="light"
               >
                   <iButton>{{language('SHANGCHUAN', '上传')}}</iButton>
               </el-tooltip>
@@ -122,18 +124,20 @@ export default {
   methods: {
     uploadSuccess(data){
       if(data.code == "200" && data.result){
-        fetchAppNomiDecisionDataSave({
-          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-          fileId: data.data.fileId,
-          fileName: data.data.fileName,
-          fileUrl: data.data.fileUrl
-        }).then(res => {
-          if(res && res.code == 200){
-            iMessage.success(res.desZh)
-            this.handleSubmitSearch()
-          } else iMessage.error(res.desZh)
-        })
-      }else return iMessage.error(res.desZh)
+        iMessage.success(data.desZh)
+        this.handleSubmitSearch()
+        // fetchAppNomiDecisionDataSave({
+        //   mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+        //   fileId: data.data.fileId,
+        //   fileName: data.data.fileName,
+        //   fileUrl: data.data.fileUrl
+        // }).then(res => {
+        //   if(res && res.code == 200){
+        //     iMessage.success(res.desZh)
+        //     this.handleSubmitSearch()
+        //   } else iMessage.error(res.desZh)
+        // })
+      }else return iMessage.error(data.desZh)
     },
     uploadProgress(res){
       console.log(res);
