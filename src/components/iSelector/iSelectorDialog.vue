@@ -221,7 +221,7 @@ export default {
     }
   },
   created(){
-    // this.rules.listSelected = 
+    
   },
   computed: {
     isShow: {
@@ -299,6 +299,7 @@ export default {
       if (rows && rows.length) {
         rows.forEach((row) => {
           this.$nextTick(() => {
+            console.log('===-----------');
             this.$refs.multipleTable.toggleRowSelection(row, true)
           })
         })

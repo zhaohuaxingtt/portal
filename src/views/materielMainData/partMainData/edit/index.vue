@@ -117,7 +117,10 @@
                               <!-- <iInput :placeholder='language("请输入")' v-model="itemContent.fop" :disabled='isDisabled>0?true:false'></iInput> -->
                             <iSelectorInput
                                 v-model="fop"
+                                singleSelect
                                 @click.native="dialogFopVisible = true" 
+                                @value-change='valueChange'
+                                :value="fop"
                                 :disabled='isDisabled>0'
                                 :placeholder='language("请选择")'
                                 tagLabel="nameZh"
@@ -253,6 +256,7 @@
             :show.sync="dialogFopVisible"
             @change="handleProjectManagerCallback"
             v-model="fop"
+            :value="fop"
             :tableSetting="MATERIEL_SELECTOR_TableSetting"
             :filter="selectorQuery"
             :title="'FOP'"
@@ -283,6 +287,12 @@ import {getMaterielById,saveMateriel,getProGroupOptions,searchOptions,materielGr
 export default {
     components:{iPage,pageHeader,iCard,iButton,iFormItem,iInput,iSelect,iDatePicker,iTableCustom,iSelectorDialog,iSelectorInput},
     methods:{
+        valueChange(val){
+            console.log(val,'======');
+            this.itemContent.techDept = val[0]?.department || ''
+            this.itemContent.fop = val[0]?.nameZh || ''
+            this.itemContent.fopUserId = val[0]?.id || ''
+        },
         handleFopSearch(param){
             return getPageListByParams({...param})
         },
@@ -613,7 +623,7 @@ export default {
                     val.data.fgId=val.data.fgId ? val.data.fgId.toString() : null
                     val.data.categoryId=val.data.categoryId ? val.data.categoryId.toString() : null
                     this.itemContent =  val.data 
-                    this.fop = this.itemContent.fop
+                    this.fop = [{'nameZh':this.itemContent.fop,'department':this.itemContent.techDept,'id':Number(this.itemContent.fopUserId)}]
                     this.pageTitle = `${this.itemContent.partNum} ${this.itemContent.partNameZh}`
                     this.materielGroupOptions.forEach((element)=>{
                         if(element.id == this.itemContent.categoryId){
@@ -772,21 +782,9 @@ export default {
         }
     },
     computed:{
-        techDept(){
-            return this.fop[0]?.department
-        }
     },
     watch:{
-        fop:{
-            handler(newVal){
-                this.itemContent.techDept = newVal[0]?.department || ''
-                this.itemContent.fop = newVal[0]?.id || ''
-            },
-            deep:true,
-            immediate:true
-        },
         searchId(val){
-            // this.getUnitTableList()
             this.materielUnit = '59'
         },
     },
@@ -882,7 +880,9 @@ export default {
                 zp:'',
                 drawingDate:'',
                 fop:'',
+                fopUserId:'',
                 techDept:'',
+                techDeptId:'',
                 categoryId:'',
                 categoryDesc:'',
                 isCommonSourcingDesc:'',
