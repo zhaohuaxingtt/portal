@@ -76,7 +76,10 @@
         </div>
       </div>
       <iCard>
-        <iButton @click="handleClickColumn" class="display-column"
+        <iButton
+          @click="handleClickColumn"
+          class="display-column"
+          :disabled="showUpdateTopicButtonList"
           >列隐藏/显示</iButton
         >
         <actionButtons
@@ -121,7 +124,6 @@
             :rowClassName="tableRowClassName"
             :currentRow="currentRow"
             :isSingle="isSingle"
-            :defaultSort="{ prop: 'time', order: 'descending' }"
             ref="hiddenColumnTable"
           >
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -405,7 +407,6 @@
               @go-detail="handleGoDetail"
               v-if="showUpdateTopicButtonList"
               :rowClassName="tableRowClassName"
-              :defaultSort="{ prop: 'time', order: 'descending' }"
             >
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
@@ -426,7 +427,6 @@
                 label="Time"
                 min-width="136"
                 prop="time"
-                sortable
               >
                 <template slot-scope="scope">
                   <span class="open-link-text">{{ scope.row.time }}</span>
@@ -511,7 +511,6 @@
                 label="EP"
                 min-width="65"
                 prop="ep"
-                sortable
               >
                 <template slot-scope="scope">
                   <span>{{ scope.row.isBreak ? '-' : scope.row.ep }}</span>
@@ -524,7 +523,6 @@
                 label="Sourcing"
                 min-width="115"
                 prop="supporter"
-                sortable
               >
                 <template slot-scope="scope">
                   <span>{{
@@ -538,7 +536,6 @@
                 label="Linie"
                 min-width="82"
                 prop="presenter"
-                sortable
               >
                 <template slot-scope="scope">
                   <span>{{
