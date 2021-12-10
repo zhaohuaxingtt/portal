@@ -131,6 +131,9 @@ export default {
 				}
 			})
 		},
+		setFileList(l){
+			this.fileList = l
+		},
 		closeDialog() {
 			this.dialogVisible = false
 		}
