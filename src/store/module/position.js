@@ -10,6 +10,7 @@ import {
   GetPositionDetail,
   UpdatePosition
 } from '@/api/position'
+import { getOrganizationList } from '@/api/organization'
 const tree2Array = (data) => {
   const result = []
   data.forEach((item) => {
@@ -265,8 +266,7 @@ const position = {
     },
 
     SET_ORG_ARRAYLIST_QUERY: (state) => {
-      state.org.loading = true
-      const query = state.org.query
+      /* const query = state.org.query
       const list = tree2Array(_.cloneDeep(state.org.list))
       const fullCode = query[0].value
       const nameZh = query[1].value
@@ -280,9 +280,23 @@ const position = {
           return nameZh
             ? item.nameZh?.toLowerCase().includes(nameZh.toLowerCase())
             : item
+        }) */
+      state.org.loading = true
+      const query = state.org.query
+      const requestData = {
+        fullCode: query[0].value,
+        nameZh: query[1].value
+      }
+      getOrganizationList(null, requestData)
+        .then((res) => {
+          if (res.code == 200) {
+            state.org.arrayList = res.data
+          }
         })
-      state.org.arrayList = array
-      state.org.loading = false
+        .finally(() => {
+          state.org.loading = false
+        })
+      // state.org.arrayList = array
     },
 
     /** 组织/岗位列表*/
