@@ -68,10 +68,6 @@ export function changeStateMeeting(data) {
 
 // 获取审批流程
 export function getApprovalProcessList() {
-  // return requst({
-  //   url: `/rise-mock/mockService/approval-processes`,
-  //   method: 'POST',
-  //   data: deleteString(data)
   return requstDict({
     url: `/api/dict`,
     method: 'get',
@@ -81,7 +77,17 @@ export function getApprovalProcessList() {
   })
   // })
 }
-
+// 获取 会议属性
+export function getMeetingPropertyList() {
+  return requstDict({
+    url: `/api/dict`,
+    method: 'get',
+    params: {
+      code: 'Meeting_Property'
+    }
+  })
+  // })
+}
 // 获取会议详情
 export function getMeetingById(data) {
   return requst({
@@ -180,4 +186,3 @@ export function batchChangeState(data) {
     data: deleteString(data)
   })
 }
-

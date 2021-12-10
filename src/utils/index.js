@@ -9,7 +9,6 @@
 
 import store from '../store'
 import localStoreage from './localstorage'
-import jsencrypt from 'jsencrypt'
 export function setCookie(cookieName, cookieData) {
   // eslint-disable-next-line no-undef
   return Cookies.set(
@@ -93,13 +92,6 @@ export const math = window.math.create(window.math.all, {
 
 export function _getMathNumber(lamda) {
   return Number(math.format(math.evaluate(lamda), 14))
-}
-export function password(str, publicKey) {
-  const mathRsa = new jsencrypt()
-  mathRsa.setPublicKey(
-    '-----BEGIN PUBLIC KEY-----' + publicKey + '-----END PUBLIC KEY-----'
-  )
-  return mathRsa.encrypt(str)
 }
 
 export function closeCliantClearStoreage() {

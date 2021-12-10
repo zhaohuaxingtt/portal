@@ -34,5 +34,12 @@ export const tabRouterList = [
     url: '/mtz/annualGeneralBudget/replenishmentManagement',
     activePath: '/mtz/annualGeneralBudget/replenishmentManagement',
     key: '补差管理',
+  },
+  {
+    value: 5,
+    name: '数据库',
+    url: '/mtz/dataBase',
+    activePath: '/mtz/dataBase',
+    key: 'SHUJUKU',
   }
 ];
