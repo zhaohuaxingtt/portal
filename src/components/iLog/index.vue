@@ -37,6 +37,7 @@
         :data="tableData"
         style="width: 100%"
         class="log-table"
+        default-expand-all
         v-loading="loading"
       >
         <el-table-column type="expand">
