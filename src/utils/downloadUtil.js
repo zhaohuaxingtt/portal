@@ -1,6 +1,5 @@
 import axios from '@/utils/axios'
 // import { callbackify } from "util";
-import {MOCK_FILE_URL} from '@/constants/index'
 
 const request = axios()
 
@@ -23,7 +22,7 @@ const download = ({
                       type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                       noFileUd = false
                   }) => {
-    createAnchorLink(MOCK_FILE_URL + '?isDown=true&fileId=' + fileIds, filename);
+    createAnchorLink(process.env.VUE_APP_FILEAPI + '/fileud/getFileByFileId?isDown=true&fileId=' + fileIds, filename);
 }
 
 export {download, createAnchorLink}
