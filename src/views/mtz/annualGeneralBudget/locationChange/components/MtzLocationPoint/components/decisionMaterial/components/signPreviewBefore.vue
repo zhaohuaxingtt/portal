@@ -58,7 +58,8 @@
           </template>
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
         </tableList>
       <el-divider class="margin-top20"/>
@@ -79,7 +80,8 @@
           </template>
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
         </tableList>
     </iCard>
@@ -92,6 +94,7 @@
               v-model="formData.linieMeetingMemo"
               class="margin-top10"
               :rows="8"
+              :disabled="true"
               type="textarea" />
     </iCard>
     <iCard v-if="isMeeting && applayDateData.length>0" class="margin-top20">
@@ -470,5 +473,9 @@ $tabsInforHeight: 35px;
     max-height: 300px;
     overflow-y: auto;
   }
+}
+
+::v-deep .el-form-item__content{
+  line-height: 20px!important;
 }
 </style>
