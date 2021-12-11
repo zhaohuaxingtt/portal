@@ -182,7 +182,7 @@ import { ruleTableTitle1_1,ruleTableTitle1_2, partTableTitle1_1,partTableTitle1_
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 // import { downloadPdfMixins } from '@/utils/pdf';
-import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
+import { downloadPDF, dataURLtoFile,transverseDownloadPDF } from "@/utils/pdf";
 import { downloadFileByUrl} from '@/utils';
 export default {
   mixins: [pageMixins],
@@ -389,7 +389,7 @@ export default {
       } else {
         name = this.title;
       }
-      downloadPDF({
+      transverseDownloadPDF({
         idEle: 'content',
         pdfName: name,
         exportPdf: true,

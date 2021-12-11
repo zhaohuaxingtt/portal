@@ -163,8 +163,8 @@ export default {
       .cardBody {
         /* width: 450px; */
         /* width: calc(1350px / 3); */
-        width: 450px;
-        height: 450px;
+        width: 27.5rem;
+        height: 27.5rem;
         padding: 0 !important;
         border-radius: 0.375rem;
         .form-bottom-row1 {
