@@ -166,7 +166,7 @@
           </span>
         </div>
         <iInput v-model="formData.linieMeetingMemo"
-                :disabled="!(formData.appStatus == '草稿' || formData.appStatus == '未通过') && !RsObject && meetingNumber == 0"
+                :disabled="!((formData.appStatus == '草稿' || formData.appStatus == '未通过') && RsObject && meetingNumber == 0)"
                 class="margin-top10"
                 :rows="8"
                 type="textarea" />
@@ -211,7 +211,7 @@ import {
 } from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
+import { downloadPDF, dataURLtoFile,transverseDownloadPDF } from "@/utils/pdf";
 export default {
   mixins: [pageMixins],
   components: {
@@ -296,18 +296,19 @@ export default {
   },
   methods: {
     downPdf () {
-      // console.log(this.title)
       var name = "";
       if (this.title == "") {
         name = "RS导出"
       } else {
         name = this.title;
       }
-      downloadPDF({
+      transverseDownloadPDF({
+      // downloadPDF({
         idEle: 'qrCodeDiv',
         pdfName: name,
         exportPdf: true,
         waterMark: true,
+        direction:"flat",//hight
         callback: async (pdf, pdfName) => {
           try {
             const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
@@ -337,6 +338,8 @@ export default {
       }).then(res => {
         if (res && res.code == 200) {
           this.formData = res.data
+
+
 
           if(this.formData.flowType == "SIGN"){
             if(this.meetingNumber == 0){
