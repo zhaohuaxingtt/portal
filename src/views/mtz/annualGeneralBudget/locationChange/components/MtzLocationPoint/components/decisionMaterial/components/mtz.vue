@@ -166,7 +166,7 @@
           </span>
         </div>
         <iInput v-model="formData.linieMeetingMemo"
-                :disabled="!(formData.appStatus == '草稿' || formData.appStatus == '未通过') && !RsObject && meetingNumber == 0"
+                :disabled="!((formData.appStatus == '草稿' || formData.appStatus == '未通过') && RsObject && meetingNumber == 0)"
                 class="margin-top10"
                 :rows="8"
                 type="textarea" />
@@ -308,6 +308,7 @@ export default {
         pdfName: name,
         exportPdf: true,
         waterMark: true,
+        direction:"flat",//hight
         callback: async (pdf, pdfName) => {
           try {
             const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
@@ -337,6 +338,8 @@ export default {
       }).then(res => {
         if (res && res.code == 200) {
           this.formData = res.data
+
+
 
           if(this.formData.flowType == "SIGN"){
             if(this.meetingNumber == 0){
