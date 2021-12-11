@@ -2046,6 +2046,8 @@
     MT_CHEHUI: 'Recall',
     MT_SHANCHU: 'Delete',
     MT_CHUANGJIAN: 'Create',
+    MT_BIANJI: 'Edit',
+    MT_DAOCHU: 'Export',
     MT_PILIANGCHUANGJIAN: 'Batch Create',
     MT_CAOGAO: 'Draw',
     MT_KAIFANG: 'Open',
