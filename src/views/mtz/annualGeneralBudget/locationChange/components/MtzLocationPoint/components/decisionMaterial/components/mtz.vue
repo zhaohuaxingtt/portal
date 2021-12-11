@@ -211,7 +211,7 @@ import {
 } from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
+import { downloadPDF, dataURLtoFile,transverseDownloadPDF } from "@/utils/pdf";
 export default {
   mixins: [pageMixins],
   components: {
@@ -296,14 +296,14 @@ export default {
   },
   methods: {
     downPdf () {
-      // console.log(this.title)
       var name = "";
       if (this.title == "") {
         name = "RS导出"
       } else {
         name = this.title;
       }
-      downloadPDF({
+      transverseDownloadPDF({
+      // downloadPDF({
         idEle: 'qrCodeDiv',
         pdfName: name,
         exportPdf: true,
