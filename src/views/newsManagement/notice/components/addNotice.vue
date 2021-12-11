@@ -533,7 +533,20 @@ export default {
     },
     // 重置
     handleReset() {
-      this.ruleForm = {};
+      this.ruleForm = {
+        status: "",
+        title: "",
+        type: "",
+        publishDate: new Date(+new Date() + 8 * 3600 * 1000)
+        .toJSON()
+        .substr(0, 19)
+        .replace("T", " "),
+        isTop: 0,
+        publishRange: "",
+        content: "",
+        attachments: [],
+        userGroup: [],
+      },
       this.editor.txt.html("");
     },
     // 返回
