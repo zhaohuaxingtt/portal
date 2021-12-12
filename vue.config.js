@@ -273,6 +273,13 @@ module.exports = {
           ['^' + process.env.VUE_APP_RFQ]: ''
         }
       },
+      [process.env.VUE_APP_SOURCING]: {
+        target: `http://${BASE_IP}:8025/sourcing/web`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_SOURCING]: ''
+        }
+      },
       [process.env.VUE_APP_MEETING]: {
         target: `http://${BASE_IP}:8051/rise-meeting`,
         changeOrigin: true,
