@@ -591,6 +591,14 @@ export default {
       }else{
         this.ruleForm.source = ''
       }
+      this.page.currPage = 1;
+      this.page.pageSize = 10;
+      if (this.ruleForm.id != '') {
+        this.topicNewsPageReset()
+      }else{
+        this.ruleForm.newsIds =[];
+        this.newsCheckList = [];
+      }
     },
     handleChange(file) {
       this.$nextTick(() => {
