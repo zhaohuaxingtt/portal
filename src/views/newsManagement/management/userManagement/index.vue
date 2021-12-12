@@ -143,7 +143,7 @@ export default {
     handleExport(scope) {
       const data = scope.row;
       downloadAll({
-        url: `/newsApi/groupService/exportExcel?userId=`+store.state.permission.userInfo.id,
+        url: process.env.VUE_APP_NEWS+`/groupService/exportExcel?userId=`+store.state.permission.userInfo.id,
         filename: "用户组设置",
         type: "application/vnd.ms-excel",
         data,
