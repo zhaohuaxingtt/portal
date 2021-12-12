@@ -52,9 +52,14 @@
         :tableTitle="uploadTableTitle"
         :tableLoading="loading"
         :index="true"
-        @handleSelectionChange="handleSelectionChange"
-        openPageProps="fileName" 
-        @openPage="openPage">
+        @handleSelectionChange="handleSelectionChange">
+        <template slot="fileName"
+                  slot-scope="scope">
+          <p class="openPage"
+             @click="openPage(scope.row)">
+            {{scope.row.fileName}}
+          </p>
+        </template>
       </tableList>
       <iPagination
       v-update
@@ -71,7 +76,7 @@
 </template>
 
 <script>
-import { iCard, iButton, iMessage } from 'rise'
+import { iCard, iButton, iMessage, iMessageBox } from 'rise'
 import tableList from '@/components/commonTable/index.vue'
 import { uploadTableTitle } from './data'
 import { fetchAppNomiDecisionDataPage, fetchAppNomiDecisionDataSave, fetchAppNomiDecisionDataDel } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
@@ -115,13 +120,23 @@ export default {
     this.uploadData = {
       mtzAppId:this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
       userId:JSON.parse(window.sessionStorage.getItem("userInfo")).id,
-      userName:JSON.parse(window.sessionStorage.getItem("userInfo")).userName
+      userName:JSON.parse(window.sessionStorage.getItem("userInfo")).nameZh
     },
     this.$nextTick(e=>{
       this.getTableData()
     })
   },
   methods: {
+    openPage(val){
+      let link = document.createElement("a");
+      link.href = val.fileUrl;
+      let fname = val.fileName;
+      link.setAttribute("download", fname);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      iMessage.success("下载成功！")
+    },
     uploadSuccess(data){
       if(data.code == "200" && data.result){
         iMessage.success(data.desZh)
@@ -182,13 +197,21 @@ export default {
     },
     // 点击删除
     handleClickDel() {
-      fetchAppNomiDecisionDataDel({
-        idList: this.selection.map(item => item.id)
+      if(this.selection.length < 1){
+        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      }
+      iMessageBox(this.language('SHIFOUSHANCHU', '是否删除？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+        confirmButtonText: this.language('QUEREN', '确认'),
+        cancelButtonText: this.language('QUXIAO', '取消')
       }).then(res => {
-         if(res && res.code == 200) {
-          iMessage.success(res.desZh)
-          this.getTableData()
-        } else iMessage.error(res.desZh)
+        fetchAppNomiDecisionDataDel({
+          idList: this.selection.map(item => item.id)
+        }).then(res => {
+          if(res && res.code == 200) {
+            iMessage.success(res.desZh)
+            this.getTableData()
+          } else iMessage.error(res.desZh)
+        })
       })
     },
     // 点击上传
@@ -242,5 +265,10 @@ export default {
     display: flex;
   }
 }
- 
+.openPage {
+  position: relative;
+  color: $color-blue;
+  font-size: 14px;
+  cursor: pointer;
+}
 </style>
