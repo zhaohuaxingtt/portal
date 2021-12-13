@@ -5,7 +5,8 @@
         <!--分派-->
         <iButton @click="handleOpenAssign">{{ $t('SPR_FRM_CBPJ_FP') }}</iButton>
         <!--重新打分-->
-        <iButton @click="handleReScoring" :loading="reScoreButtonLoading">{{
+        <iButton @click="handleReScoring"
+                 :loading="reScoreButtonLoading">{{
           $t('SPR_FRM_CBPJ_CXDF')
         }}</iButton>
         <!--定性打分-->
@@ -22,75 +23,62 @@
         <iButton @click="handleView">{{ $t('LK_CHAKAN') }}</iButton>
       </div>
     </div>
-    <tableList
-      :tableData="tableListData"
-      :tableTitle="tableTitle"
-      :tableLoading="tableLoading"
-      :index="true"
-      @handleSelectionChange="handleSelectionChange"
-      openPageProps="view"
-      @openPage="handleOpenPage"
-      :openPageGetRowData="true"
-      :customOpenPageWord="$t('LK_CHAKAN')"
-    />
-    <iPagination
-      v-update
-      @size-change="handleSizeChange($event, getTableList)"
-      @current-change="handleCurrentChange($event, getTableList)"
-      background
-      :page-sizes="page.pageSizes"
-      :page-size="page.pageSize"
-      :layout="page.layout"
-      :current-page="page.currPage"
-      :total="page.totalCount"
-    />
+    <tableList :tableData="tableListData"
+               :tableTitle="tableTitle"
+               :tableLoading="tableLoading"
+               :index="true"
+               @handleSelectionChange="handleSelectionChange"
+               openPageProps="view"
+               @openPage="handleOpenPage"
+               :openPageGetRowData="true"
+               :customOpenPageWord="$t('LK_CHAKAN')" />
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page="page.currPage"
+                 :total="page.totalCount" />
 
     <!--分派-->
-    <assignDialog
-      v-model="assignDialog"
-      :selectOptionsList="assignQualitativeScoreList"
-      :loading="assignQualitativeScoreLoading"
-      @handleSubmit="handleAssignQualitativeScoreSubmit"
-      :initialId="assignDialogSelectId"
-    />
+    <assignDialog v-model="assignDialog"
+                  :selectOptionsList="assignQualitativeScoreList"
+                  :loading="assignQualitativeScoreLoading"
+                  @handleSubmit="handleAssignQualitativeScoreSubmit"
+                  :initialId="assignDialogSelectId" />
     <!--退回-->
-    <returnDialog @handleSubmit="handleReturnSubmit" v-model="returnDialog" />
+    <returnDialog @handleSubmit="handleReturnSubmit"
+                  v-model="returnDialog" />
     <!--转派-->
-    <transferDialog
-      v-model="transferDialog"
-      :selectOptionsList="transferQualitativeScoreList"
-      :loading="transferQualitativeScoreLoading"
-      @handleSubmit="handleTransferQualitativeScoreSubmit"
-    />
+    <transferDialog v-model="transferDialog"
+                    :selectOptionsList="transferQualitativeScoreList"
+                    :loading="transferQualitativeScoreLoading"
+                    @handleSubmit="handleTransferQualitativeScoreSubmit" />
     <!--定性打分-->
-    <scoringDialog
-      :title="$t('SPR_FRM_FRMGL_DXDAF')"
-      v-model="qualitativeScoringDialog"
-      :outerSelectTableData="selectTableData"
-      :selectProps="scoreDiloagSelectProps"
-      @handleSubmitCallback="handleScoreDialogSubmitCallcak"
-    />
+    <scoringDialog :title="$t('SPR_FRM_FRMGL_DXDAF')"
+                   v-model="qualitativeScoringDialog"
+                   :outerSelectTableData="selectTableData"
+                   :selectProps="scoreDiloagSelectProps"
+                   @handleSubmitCallback="handleScoreDialogSubmitCallcak" />
     <!--重新打分-->
-    <scoringDialog
-      :title="$t('SPR_FRM_CBPJ_CXDF')"
-      :showFollowButton="false"
-      v-model="reScoringDialog"
-      :outerSelectTableData="selectTableData"
-      :selectProps="scoreDiloagSelectProps"
-      @handleSubmitCallback="handleScoreDialogSubmitCallcak"
-    />
+    <scoringDialog :title="$t('SPR_FRM_CBPJ_CXDF')"
+                   :showFollowButton="false"
+                   v-model="reScoringDialog"
+                   :outerSelectTableData="selectTableData"
+                   :selectProps="scoreDiloagSelectProps"
+                   @handleSubmitCallback="handleScoreDialogSubmitCallcak" />
     <!--查看-->
-    <scoringDialog
-      :title="$t('LK_CHAKAN')"
-      :showFollowButton="false"
-      :showSubmitButton="false"
-      :showTemporaryStorageButton="false"
-      v-model="viewDialog"
-      :outerSelectTableData="selectTableData"
-      :selectProps="[]"
-      action="view"
-      :selection="false"
-    />
+    <scoringDialog :title="$t('LK_CHAKAN')"
+                   :showFollowButton="false"
+                   :showSubmitButton="false"
+                   :showTemporaryStorageButton="false"
+                   v-model="viewDialog"
+                   :outerSelectTableData="selectTableData"
+                   :selectProps="[]"
+                   action="view"
+                   :selection="false" />
   </iCard>
 </template>
 
@@ -124,12 +112,12 @@ export default {
     transferDialog,
     scoringDialog
   },
-  created() {
+  created () {
     this.checkRolePermission()
     this.getTableList()
     this.defaultOpenScroingDialog()
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle,
@@ -164,14 +152,14 @@ export default {
     }
   },
   methods: {
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectTableData = val
     },
-    handleSearch() {
+    handleSearch () {
       this.page.currPage = 1
       this.getTableList()
     },
-    async getTableList() {
+    async getTableList () {
       const searchItem = this.$parent.$children.filter((item) => {
         return item.$attrs.name === 'theSearch'
       })
@@ -199,7 +187,7 @@ export default {
         this.tableLoading = false
       }
     },
-    handleOpenAssign() {
+    handleOpenAssign () {
       if (!this.gzOperationCheck()) {
         return false
       }
@@ -215,7 +203,7 @@ export default {
       const status = this.checkButtonStatus('分派')
       status && (this.assignDialog = true)
     },
-    handleReturn() {
+    handleReturn () {
       if (!this.gzOperationCheck()) {
         return false
       }
@@ -228,7 +216,7 @@ export default {
       const status = this.checkButtonStatus('退回')
       status && (this.returnDialog = true)
     },
-    handleTransfer() {
+    handleTransfer () {
       if (!this.gzOperationCheck()) {
         return false
       }
@@ -244,7 +232,7 @@ export default {
       const status = this.checkButtonStatus('转派')
       status && (this.transferDialog = true)
     },
-    handleCancel() {
+    handleCancel () {
       if (!this.gzOperationCheck()) {
         return false
       }
@@ -270,7 +258,7 @@ export default {
           })
         })
     },
-    handleQualitativeScoring() {
+    handleQualitativeScoring () {
       if (!this.gzOperationCheck()) {
         return false
       }
@@ -293,7 +281,7 @@ export default {
         iMessage.error(this.$t('SPR_FRM_CBPJ_ZYZTWCGCNJXDXDF'))
       }
     },
-    async handleReScoring() {
+    async handleReScoring () {
       if (!this.gzOperationCheck()) {
         return false
       }
@@ -318,13 +306,13 @@ export default {
         this.reScoreButtonLoading = false
       }
     },
-    handleView() {
+    handleView () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
       this.viewDialog = true
     },
-    handleOpenPage(row) {
+    handleOpenPage (row) {
       this.$router.push({
         path: '/supplier/frmrating/preliminaryrating/operationrecord',
         query: {
@@ -332,7 +320,7 @@ export default {
         }
       })
     },
-    async handleAssignQualitativeScoreSubmit(reqParams) {
+    async handleAssignQualitativeScoreSubmit (reqParams) {
       try {
         this.assignQualitativeScoreLoading = true
         const initialIds = this.selectTableData.map((item) => {
@@ -352,7 +340,7 @@ export default {
         this.assignQualitativeScoreLoading = false
       }
     },
-    async handleTransferQualitativeScoreSubmit(reqParams) {
+    async handleTransferQualitativeScoreSubmit (reqParams) {
       try {
         this.transferQualitativeScoreLoading = true
         const initialIds = this.selectTableData.map((item) => {
@@ -372,12 +360,12 @@ export default {
         this.transferQualitativeScoreLoading = false
       }
     },
-    handleScoreDialogSubmitCallcak() {
+    handleScoreDialogSubmitCallcak () {
       //this.qualitativeScoringDialog = false;
       //this.reScoringDialog = false;
       this.getTableList()
     },
-    async handleReturnSubmit(form) {
+    async handleReturnSubmit (form) {
       const ids = this.selectTableData.map((item) => {
         return item.id
       })
@@ -392,7 +380,7 @@ export default {
         this.returnDialog = false
       })
     },
-    checkButtonStatus(status) {
+    checkButtonStatus (status) {
       let flag = true
       this.selectTableData.some((item) => {
         if (item.operateContent === status) {
@@ -403,7 +391,7 @@ export default {
       !flag && iMessage.error(this.$t('SPR_FRM_CBPJ_SXZTYWQCXQZ'))
       return flag
     },
-    checkRolePermission() {
+    checkRolePermission () {
       this.isFRM = false
       this.isGZ = false
       const positionList = this.$store.state.permission.userInfo.positionList
@@ -420,7 +408,7 @@ export default {
         })
       }
     },
-    gzOperationCheck() {
+    gzOperationCheck () {
       let flag = true
       this.selectTableData.some((item) => {
         if (item.qualitativeScoreStatus === '退回' && this.isGZ) {
@@ -431,7 +419,7 @@ export default {
       })
       return flag
     },
-    frmOperationCheck() {
+    frmOperationCheck () {
       let flag = true
       this.selectTableData.some((item) => {
         if (item.qualitativeScoreStatus === '退回' && this.isFRM) {
@@ -442,7 +430,7 @@ export default {
       })
       return flag
     },
-    defaultOpenScroingDialog() {
+    defaultOpenScroingDialog () {
       const scoring = this.$route.query.scoring
       if (scoring) {
         const ids = this.$route.query.ids.split(',')
