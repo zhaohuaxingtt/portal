@@ -260,7 +260,6 @@ export default {
         partsNum: this.partsNum
       }).then(res => {
         this.pageData = res.data;
-        console.log(this.pageData,'PAGEDATA')
         this.$emit('getHeaderTitle', `${this.partsNum}-${this.pageData.partsNumNameZh} ${this.pageData.partsNumNameDe||''}`)
         this.pageLoading = false;
       }).catch(() => {

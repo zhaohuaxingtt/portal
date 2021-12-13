@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-12-13 16:08:09
+ * @LastEditTime: 2021-12-13 16:59:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -677,6 +677,17 @@ export default {
           balanceCalcuLate(params).then(res => {
             if (res.code === '200') {
               this.tableData = res.data
+              if (this.tableData.length !== 0) {
+                this.tableData.forEach(item => {
+                  this.actAmtList.push(item.actAmt)
+                })
+                this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
+                this.trueCompMoney = this.waitCompDocMoney
+              } else {
+                this.waitCompDocMoney = 0
+                this.trueCompMoney = this.waitCompDocMoney
+              }
+
               iMessage.success(res.desZh)
             } else {
               iMessage.error(res.desZh)
