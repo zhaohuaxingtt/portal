@@ -29,6 +29,7 @@
           <custom-select 
           v-model="selectValue"
           :user-options="demandList"
+          @change="handleChangeDemand"
           :placeholder="language('QINGXUANZE', '请选择')"
           display-member="keyId"
           value-member="keyId"
