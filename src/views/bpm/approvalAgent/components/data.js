@@ -10,7 +10,7 @@ export const TABLE_COLUMNS = [
   {
     prop: 'agentId',
     label: '代理号',
-    i18n: 'APPROVAL.AGENT_NO',
+    i18n: '代理号',
     width: '200',
     customRender: (h, scope) => {
       return <span class="open-link-text">{scope.row.businessId}</span>
@@ -20,7 +20,7 @@ export const TABLE_COLUMNS = [
   {
     prop: 'assigneeName',
     label: '授权人',
-    i18n: 'APPROVAL.AUTH_USER_NAME',
+    i18n: '授权人',
     customRender: (h, scope) => {
       const res = []
       if (scope.row.assigneeEmpNo) {
@@ -35,7 +35,7 @@ export const TABLE_COLUMNS = [
   {
     prop: 'attorneyName',
     label: '代理人',
-    i18n: 'APPROVAL.AGENT_USER_NAME',
+    i18n: '代理人',
     customRender: (h, scope) => {
       const res = []
       if (scope.row.attorneyEmpNo) {
@@ -50,7 +50,7 @@ export const TABLE_COLUMNS = [
   {
     prop: 'startTime',
     label: '代理开始时间',
-    i18n: 'APPROVAL.AGENT_START_TIME',
+    i18n: '代理开始时间',
     customRender: (h, scope) => {
       if (scope.row.startTime) {
         return moment(scope.row.startTime).format('YYYY-MM-DD')
@@ -61,7 +61,7 @@ export const TABLE_COLUMNS = [
   {
     prop: 'endTime',
     label: '代理结束时间',
-    i18n: 'APPROVAL.AGENT_END_TIME',
+    i18n: '代理结束时间',
     customRender: (h, scope) => {
       if (scope.row.endTime) {
         return moment(scope.row.endTime).format('YYYY-MM-DD')
@@ -72,7 +72,7 @@ export const TABLE_COLUMNS = [
   {
     prop: 'status',
     label: '是否有效',
-    i18n: 'APPROVAL.IS_EFFECTIVE',
+    i18n: '是否有效',
     customRender: (h, scope) => {
       const { status } = scope.row
       return status ? '是' : '否'
@@ -81,7 +81,7 @@ export const TABLE_COLUMNS = [
   {
     prop: 'cancelTime',
     label: '取消代理时间',
-    i18n: 'APPROVAL.AGENT_CANCEL_TIME',
+    i18n: '取消代理时间',
     customRender: (h, scope) => {
       if (scope.row.cancelTime) {
         return moment(scope.row.cancelTime).format('YYYY-MM-DD')
@@ -127,27 +127,27 @@ export const CHOOSE_STAFF_COLUMNS = [
   {
     prop: 'staffNo',
     label: '员工号',
-    i18n: 'APPROVAL.STAFF_NO'
+    i18n: '员工号'
   },
   {
     prop: 'name',
     label: '姓名',
-    i18n: 'APPROVAL.STAFF_NAME'
+    i18n: '姓名'
   },
   {
     prop: 'dept',
     label: '所属部门',
-    i18n: 'APPROVAL.STAFF_DEPARTMENT'
+    i18n: '所属部门'
   },
   {
     prop: 'mobile',
     label: '手机',
-    i18n: 'APPROVAL.STAFF_MOBILE'
+    i18n: '手机'
   },
   {
     prop: 'tel',
     label: '电话',
-    i18n: 'APPROVAL.STAFF_TEL'
+    i18n: '电话'
   }
 ]
 

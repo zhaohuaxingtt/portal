@@ -33,6 +33,10 @@ export default {
     event: 'change'
   },
   props: {
+    singleSelect:{
+      type:Boolean,
+      default:false
+    },
     disabled: {
       type: Boolean,
       default: function() {
@@ -67,6 +71,15 @@ export default {
             return it.id
           })
           .join(',')
+          if(this.singleSelect){
+            this.valueChange(newValue)
+          }
+          
+    }
+  },
+  methods:{
+    valueChange(val){
+     this.$emit('value-change',val);
     }
   }
 }

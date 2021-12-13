@@ -3,7 +3,7 @@
     <div class="flex flex-row justify-end mt20 mb20">
       <iButton @click="exportExcelHandler">{{ language('导出') }}</iButton>
     </div>
-    <iTableCustom ref="testTable" :loading="tableLoading" :data="tableListData" :columns="tableSetting" />
+    <iTableCustom ref="testTable" :loading="tableLoading" :data="tableListData" :columns="tableSetting" @quesDetail="quesDetail" @mauDetail="mauDetail" />
     <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :current-page="page.currPage" :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :total="page.totalCount" />
   </el-card>
 </template>
@@ -12,6 +12,7 @@
 import { iButton, iPagination, iTableCustom } from 'rise';
 import { tableColumn, manualTableColumn } from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins';
+import { openUrl } from '@/utils'
 
 export default {
   mixins: [pageMixins],
@@ -65,9 +66,15 @@ export default {
     exportExcelHandler() {
       this.$emit('exportHandler');
     },
-  },
-  mounted() {
-    
+    // 点击去问题详情
+    quesDetail(val) {
+      console.log(val, "000")
+      openUrl(`/assistant/helpCenter?module=problem&currentMoudleId=${val.questionModuleId}&currMoudleName=${val.questionModuleName}&labelIdx=${val.questionLableId}&id=${val.id}`)
+    },
+    mauDetail(val) {
+      console.log(val, "000")
+      openUrl(`/assistant/problemMan?module=problemHandler&questionStatus=${val.questionStatus}&questionTitle=${val.questionTitle}&source=${val.source}`)
+    }
   },
   components: {
     iButton,
@@ -88,8 +95,8 @@ export default {
   flex-direction: row;
   .icon {
     margin-right: 20px;
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     background-size: contain;
     background-repeat: no-repeat;
     &.first {

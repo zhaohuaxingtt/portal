@@ -146,7 +146,7 @@ export default {
       reset(){
         this.formContent = {
           popupName:'',
-          linkUrl:'',
+          linkUrl:null,
           wordAlign:'0',
           publishRange:0,
           deletePreTime:'',

@@ -16,34 +16,55 @@
          id="qrCodeDiv"
          style="padding-bottom:30px;position:relative;">
       <div class="content_dialog" v-if="!RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
-      <iCard>
+      <iCard class='upload_hr'>
+      <!-- <iCard :class="!RsObject?'upload_hr':''"> -->
         <div slot="header"
              class="headBox"
              >
           <p class="headTitle">{{title}}</p>
           <span class="buttonBox"
-                v-if="!editMode&&meetingNumber == 0">
+                style="margin-top:-10px;"
+                v-if="!editMode">
             <iButton v-if="RsObject && formData.flowTypeName == '流转'"
                      @click="handleToSignPreview">{{language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')}}</iButton>
           </span>
-        </div>
-
-        <div class="tabsBoxInfor" v-if="meetingNumber == 0">
-          <div class="inforDiv"
-               v-for="(item,index) in formList"
-               :key="index">
-            <span>{{language(item.key,item.label)}}</span>
-            <span class="inforText">{{formData[item.prop]}}</span>
+          <!-- <div class="tabs_box_right"> -->
+          <div class="tabs_box_right" v-if="meetingType">
+            <div class="big_text">
+              <!-- <span>{{language("SHENQINGDANHAOMINGCHENG","申请单号-名称")}}：</span> -->
+              <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
+            </div>
+            <!-- <div class="big_text">
+              <span>{{language("SHENQINGDANMING","申请单名")}}：</span>
+              <span class="samll_val">{{formData.appName}}</span>
+            </div> -->
+            <div class="small_text">
+              <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
+              <span class="samll_val">{{formData.createDate}}</span>
+            </div>
+            <div>
+              <span>{{language("KESHI","科室")}}：</span>
+              <span class="samll_val">{{formData.linieDeptName}}</span>
+            </div>
+            <div>
+              <span>{{language("CAIGOUYUAN","采购员")}}：</span>
+              <span class="samll_val">{{formData.linieName}}</span>
+            </div>
           </div>
         </div>
-        <p class="table_right" v-if="!RsObject && meetingNumber!==0">{{language('MTZSHENGQINGDAN', 'MTZ申请单')}}-{{formData.mtzAppId}}-{{formData.appName}}-{{formData.linieName}}-{{formData.linieDeptName}}</p>
-        <el-divider v-if="RsObject && meetingNumber == 0" />
-        <el-divider v-if="!RsObject && ruleTableListData.length>0" />
+        <el-divider class="hr_divider" />
+        
+        <div class="infor_futitle">
+          <span class="big_font">Regulation:</span>
+          <br />
+          <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material Weight*Settle accounts Quantity*Ratio</span>
+          <span class="big_small">When:effective price > base price *(1+threshold)</span>
+        </div>
+
         <p class="tableTitle"
-           v-if="RsObject">{{language('GUIZEQINGDAN', '规则清单')}}</p>
+           v-if="RsObject">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
         <p class="tableTitle"
-           v-if="!RsObject && ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}</p>
-        <!-- :renderHeader="renderHeader" -->
+           v-if="!RsObject && ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
         <tableList class="margin-top20"
                    :tableData="ruleTableListData"
                    :tableTitle="ruleTableTitle1_1"
@@ -62,7 +83,8 @@
           </template>
           <template slot-scope="scope"
             slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
         </tableList>
         <!-- 导出规则表格 -->
@@ -76,62 +98,23 @@
                    >
           <template slot-scope="scope"
             slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
         </tableList>
-        <!-- <tableList class="margin-top20"
-                   :tableData="ruleTableListData"
-                   v-if="!RsObject && ruleTableListData.length>0"
-                   :tableTitle="ruleTableTitle1_2"
-                   :tableLoading="loading"
-                   :index="true"
-                   :selection="false"
-                   >
-          <template slot-scope="scope"
-                    slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-        </tableList> -->
-        <!-- 导出规则表格不是贵金属合金 -->
-        <!-- <tableList class="margin-top20"
-                   :tableData="ruleTableListData"
-                   :tableTitle="ruleTableTitle2_1"
-                   :tableLoading="loading"
-                   v-if="!uploadTableGz && !RsObject && ruleTableListData.length>0"
-                   :index="true"
-                   :selection="false"
-                   >
-        </tableList>
-        <tableList class="margin-top20"
-                   :tableData="ruleTableListData"
-                   v-if="!uploadTableGz && !RsObject && ruleTableListData.length>0"
-                   :tableTitle="ruleTableTitle2_2"
-                   :tableLoading="loading"
-                   :index="true"
-                   :selection="false"
-                   >
-          <template slot-scope="scope"
-                    slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-          <template slot-scope="scope"
-                    slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-        </tableList> -->
 
         <el-divider v-if="RsObject" />
         <el-divider class="margin-top20"
                     v-if="!RsObject && partTableListData.length>0" />
         <p class="tableTitle"
-           v-if="RsObject">{{language('LJQD', '零件清单')}}</p>
+           v-if="RsObject">{{language('LJQD', '零件清单')}}-Part List</p>
         <p class="tableTitle"
-           v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
-        <tableList class="margin-top20"
+           v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}-Part List</p>
+        <tableList class="margin-top20 over_flow_y_ture"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_1"
                    :tableLoading="loading"
@@ -149,7 +132,8 @@
           </template> -->
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
         </tableList>
         <!-- 导出零件表格 -->
@@ -163,83 +147,26 @@
                    >
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
         </tableList>
-        <!-- <tableList class="margin-top20"
-                   :tableData="partTableListData"
-                   :tableTitle="partTableTitle1_2"
-                   :tableLoading="loading"
-                   v-if="!RsObject && partTableListData.length>0"
-                   :index="true"
-                   :selection="false"
-                   >
-          <template slot-scope="scope"
-                    slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-        </tableList> -->
-        <!-- <tableList class="margin-top20"
-                   :tableData="partTableListData"
-                   :tableTitle="partTableTitle1_3"
-                   :tableLoading="loading"
-                   v-if="!RsObject && partTableListData.length>0"
-                   :index="true"
-                   :selection="false"
-                   >
-          <template slot-scope="scope"
-                    slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-        </tableList> -->
-        <!-- 导出零件表格不是贵金属合金 -->
-        <!-- <tableList class="margin-top20"
-                   :tableData="partTableListData"
-                   :tableTitle="partTableTitle2_1"
-                   :tableLoading="loading"
-                   v-if="!!RsObject && partTableListData.length>0"
-                   :index="true"
-                   :selection="false"
-                   >
-          <template slot-scope="scope"
-                    slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
-          </template>
-        </tableList>
-        <tableList class="margin-top20"
-                   :tableData="partTableListData"
-                   :tableTitle="partTableTitle2_2"
-                   :tableLoading="loading"
-                   v-if="!!RsObject && partTableListData.length>0"
-                   :index="true"
-                   :selection="false"
-                   >
-          <template slot-scope="scope"
-                    slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-          <template slot-scope="scope"
-                    slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-        </tableList> -->
-
       </iCard>
       <iCard class="margin-top20">
         <div slot="header"
              class="headBox">
-          <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
+          <p class="headTitle">{{language('BEIZHU', '备注')}}-Remarks</p>
           <span class="buttonBox">
             <iButton v-if="RsObject && (formData.appStatus == '草稿' || formData.appStatus == '未通过') && meetingNumber == 0"
                      @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
           </span>
         </div>
         <iInput v-model="formData.linieMeetingMemo"
-                :disabled="!RsObject"
+                :disabled="!((formData.appStatus == '草稿' || formData.appStatus == '未通过') && RsObject && meetingNumber == 0)"
                 class="margin-top10"
                 :rows="8"
                 type="textarea" />
@@ -278,25 +205,13 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1,
-          ruleTableTitle1_new,
-          ruleTableTitle1_1, 
-          ruleTableTitle1_2, 
-          partTableTitle1, 
-          partTableTitle1_new,
-          partTableTitle1_1, 
-          partTableTitle1_2,
-          
-          // partTableTitle1_3,
-          // ruleTableTitle2_2,
-          // ruleTableTitle2_1,
-          // partTableTitle2_2,
-          // partTableTitle2_1
+import {
+    ruleTableTitle1_1, 
+    partTableTitle1_1, 
 } from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
-// import { uploadUdFile } from "@/api/file/upload";
+import { downloadPDF, dataURLtoFile,transverseDownloadPDF } from "@/utils/pdf";
 export default {
   mixins: [pageMixins],
   components: {
@@ -314,19 +229,8 @@ export default {
     return {
       formData: {},
       formList,
-      ruleTableTitle1: ruleTableTitle1,
       ruleTableTitle1_1,
-      ruleTableTitle1_2,
-      ruleTableTitle1_new,
-      // ruleTableTitle2_1,
-      // ruleTableTitle2_2,
-      partTableTitle1: partTableTitle1,
-      partTableTitle1_new,
       partTableTitle1_1,
-      partTableTitle1_2,
-      // partTableTitle1_3,
-      // partTableTitle2_1,
-      // partTableTitle2_2,
       ruleTableListData: [],
       rulePageParams: {
         totalCount: 0,
@@ -345,9 +249,7 @@ export default {
       RsObject: true,
       moment: window.moment,
       meetingNumber:Number(this.$route.query.meeting) || 0,
-
-      // uploadTableLj:false,
-      // uploadTableGz:false,
+      meetingType:false,
     }
   },
   watch: {
@@ -394,18 +296,19 @@ export default {
   },
   methods: {
     downPdf () {
-      // console.log(this.title)
       var name = "";
       if (this.title == "") {
         name = "RS导出"
       } else {
         name = this.title;
       }
-      downloadPDF({
+      transverseDownloadPDF({
+      // downloadPDF({
         idEle: 'qrCodeDiv',
         pdfName: name,
         exportPdf: true,
         waterMark: true,
+        direction:"flat",//hight
         callback: async (pdf, pdfName) => {
           try {
             const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
@@ -435,19 +338,29 @@ export default {
       }).then(res => {
         if (res && res.code == 200) {
           this.formData = res.data
+
+
+
+          if(this.formData.flowType == "SIGN"){
+            if(this.meetingNumber == 0){
+              if(this.RsObject){
+                this.meetingType = false;
+              }else{
+                this.meetingType = true;
+              }
+            }else{
+              this.meetingType = true;
+            }
+          }else{
+            this.meetingType = true;
+          }
         } else iMessage.error(res.desZh)
       })
     },
     // 获取规则清单表格数据
     getPageAppRule () {
       var list = {};
-      // if (this.RsObject) {
-      // list = {
-      //   mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-      //   pageNo: this.rulePageParams.currPage,
-      //   pageSize: this.rulePageParams.pageSize,
-      // }
-      // } else {
+      
       list = {
         mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         pageNo: 1,
@@ -457,12 +370,6 @@ export default {
       pageAppRule(list).then(res => {
         if (res && res.code == 200) {
           this.ruleTableListData = res.data
-      
-          // res.data.forEach(e=>{//判断是否有贵金属合金
-          //   if(e.preciousMetalDosageUnit !== ""){
-          //     this.uploadTableGz = true;
-          //   }
-          // })
 
           this.rulePageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
@@ -471,13 +378,7 @@ export default {
     // 获取零件清单表格数据
     getPagePartMasterData () {
       var list = {};
-      // if (this.RsObject) {
-      //   list = {
-      //     mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-      //     pageNo: this.partPageParams.currPage,
-      //     pageSize: this.partPageParams.pageSize,
-      //   }
-      // } else {
+      
       list = {
         mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         pageNo: 1,
@@ -488,12 +389,6 @@ export default {
         if (res && res.code == 200) {
           this.partTableListData = res.data
 
-          // res.data.forEach(e=>{//判断是否有贵金属合金
-          //   if(e.preciousMetalDosageUnit !== ""){
-          //     this.uploadTableLj = true;
-          //   }
-          // })
-
           this.partPageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
       })
@@ -501,18 +396,10 @@ export default {
     // 点击保存
     handleClickSave () {
       let params = {}
-      // if (this.isMeeting) {
       params = {
         mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         linieMeetingMemo: this.formData.linieMeetingMemo
       }
-      // }
-      //  else if (this.isFinite) {
-      //   params = {
-      //     mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-      //     cs1MeetingMemo: this.formData.cs1MeetingMemo
-      //   }
-      // }
       fetchSaveCs1Remark(params).then(res => {
         if (res && res.code == 200) {
           this.getAppFormInfo()
@@ -530,15 +417,16 @@ export default {
       })
       window.open(href, '_blank')
     },
-    // renderHeader (h, { column, $index }) {
-    //   console.log(h, column)
-    // }
   }
 }
 </script>
 
 <style lang='scss' scoped>
 $tabsInforHeight: 35px;
+
+::v-deep .cardHeader{
+  padding:1.875rem 1.5625rem 0 1.5625rem!important;
+}
 
 .tableTitle {
   display: inline-block;
@@ -560,6 +448,7 @@ $tabsInforHeight: 35px;
   position: relative;
   justify-content: space-between;
   width: 100%;
+  display: flex;
   .headTitle {
     display: inline-block;
     font-weight: bold;
@@ -665,5 +554,63 @@ $tabsInforHeight: 35px;
       }
     }
   }
+}
+.over_flow_y_ture{
+  ::v-deep .el-table__body-wrapper{
+    max-height: 300px;
+    overflow-y: auto;
+  }
+}
+
+
+.infor_futitle{
+  padding:0.5rem 0;
+  font-size:15px!important;
+  line-height:25px;
+  .big_font{
+    font-weight: bold;
+  }
+  .big_small{
+    padding-left:15px;
+  }
+}
+.hr_divider{
+  margin:0 1.5rem 0 0;
+}
+.tabs_box_right{
+  width:450px;
+  display: flex;
+  flex-wrap: wrap;
+  .samll_val{
+    flex: 1;
+  }
+  .samll_title{
+    width:80px;
+  }
+  div{
+    display: flex;
+    align-items: flex-start;
+    margin-right:20px;
+  }
+  span{
+    display: inline-block;
+    font-size: 15px!important;
+  }
+  .small_text{
+    width:170px;
+  }
+  .big_text{
+    width:450px;
+  }
+}
+
+.upload_hr{
+  ::v-deep .cardBody{
+    padding-top:0px!important;
+  }
+}
+
+::v-deep .el-form-item__content{
+  line-height: 20px!important;
 }
 </style>

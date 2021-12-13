@@ -214,7 +214,8 @@ export default {
 
     .left {
       flex-grow: 1;
-      margin-right: 20px
+      margin-right: 20px;
+      width: 460px;
     }
 
     .right {

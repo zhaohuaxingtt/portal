@@ -91,6 +91,7 @@ export default {
   },
   methods: {
 		tabChange(val) {
+			this.$router.replace({path:this.$route.path,query:{module:val}})
 			this.helpMoudle = val
 		},
     // 获取未读问题数量
@@ -104,6 +105,9 @@ export default {
       this.questionUnReplyCount(val);
     }
 	},
+  created(){
+		this.helpMoudle = this.$route.query.module || "problemHandler"
+  },
   mounted() {
     console.log(store.state, 'store.state');
     this.questionUnReplyCount(1);

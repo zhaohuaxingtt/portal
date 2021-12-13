@@ -1,38 +1,38 @@
 <template>
   <div class="operation-btn">
-    <iButton @click="$emit('add')">{{ $t("创建") }}</iButton>
+    <iButton @click="$emit('add')">{{ $t('MT_CHUANGJIAN') }}</iButton>
     <iButton @click="$emit('edit')" :disabled="selectedRow.length !== 1">
-      {{ $t("APPROVAL.EDIT") }}
+      {{ $t('MT_BIANJI') }}
     </iButton>
     <iButton @click="$emit('delete')" :disabled="!canDelete">
-      {{ $t("APPROVAL.DELETE") }}
+      {{ $t('MT_SHANCHU') }}
     </iButton>
     <iButton @click="$emit('export')">
-      {{ $t("APPROVAL.EXPORT") }}
+      {{ $t('MT_DAOCHU') }}
     </iButton>
   </div>
 </template>
 
 <script>
-import { iButton } from "rise";
+import { iButton } from 'rise'
 export default {
-  name: "activonButton",
+  name: 'activonButton',
   components: { iButton },
   props: {
     selectedRow: {
       type: Array,
-      default: function() {
-        return [];
-      },
+      default: function () {
+        return []
+      }
     },
     canDelete: {
       type: Boolean,
-      default: function() {
-        return true;
-      },
-    },
-  },
-};
+      default: function () {
+        return true
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

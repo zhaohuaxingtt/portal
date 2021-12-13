@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-12-09 11:21:09
+ * @LastEditTime: 2021-12-09 15:10:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -19,7 +19,7 @@
                          multiple
                          clearable
                          :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
-                         display-member="message"
+                         display-member="codeMessage"
                          value-member="code"
                          value-key="code">
           </custom-select>
@@ -65,10 +65,11 @@
         </el-form-item>
         <el-form-item label="审批完成时间"
                       class="searchFormItem">
-          <iDatePicker v-model="searchForm.resolutionPassTime"
+          <iDatePicker v-model="resolutionPassTime"
                        @change="handleChangeDate"
                        :placeholder="language('QINGXUANZESHIJIAN', '请选择时间')"
-                       type="date"
+                       type="daterange"
+                       range-separator="至"
                        style="width:100%"
                        format="yyyy-MM-dd"
                        value-format="yyyy-MM-dd">
@@ -118,12 +119,16 @@ export default {
   },
   data () {
     return {
-      searchForm: {},
+      searchForm: {
+        startDate: "",
+        endDate: ""
+      },
       deptList: [],
       statusList: [],
       RawMaterialNos: [],
       locationApplyFilters: [],
-      locationApplyFilterLinie: []
+      locationApplyFilterLinie: [],
+      resolutionPassTime: []
     }
   },
   created () {
@@ -146,6 +151,11 @@ export default {
           iMessage.error(res.desZh)
         }
       })
+    },
+    handleChangeDate (val) {
+      console.log(val)
+      this.searchForm.startDate = val[0]
+      this.searchForm.endDate = val[1]
     },
     // 获取部门数据
     // 获取部门数据
@@ -217,7 +227,7 @@ export default {
 // ::v-deep .el-form-item__content {
 //   width: 100%;
 // }
-::v-deep .el-form-item__content {
-  line-height: 2.5rem !important;
-}
+// ::v-deep .el-form-item__content {
+//   line-height: 2.5rem !important;
+// }
 </style>

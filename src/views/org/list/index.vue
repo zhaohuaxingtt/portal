@@ -111,20 +111,11 @@
                 :data="tableListData"
                 :columns="tableSetting"
                 :tree-expand="exData"
+                height="450"
+                :custom-selection="true"
+                virtual-list
                 @handle-selection-change="handleSelectionChange"
               />
-              <!-- 分页标签 -->
-              <!-- <iPagination
-                v-update
-                background
-                @size-change="handleSizeChange($event, getTableList)"
-                @current-change="handleCurrentChange($event, getTableList)"
-                :current-page="page.currPage"
-                :page-sizes="page.pageSizes"
-                :page-size="page.pageSize"
-                :layout="page.layout"
-              >
-              </iPagination> -->
             </div>
           </iCard>
         </div>
@@ -134,17 +125,7 @@
 </template>
 
 <script>
-// import SearchBar from './components/SearchView/SearchBar'
-import {
-  iSearch,
-  iInput,
-  iSelect,
-  iPage,
-  iCard,
-  iButton
-
-  // iPagination,
-} from 'rise'
+import { iSearch, iInput, iSelect, iPage, iCard, iButton } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { tableSetting, exportTableSetting } from './data.js'
 import { pageMixins } from '@/utils/pageMixins'
@@ -155,8 +136,7 @@ import {
   exportOrganization
 } from '@/api/organization/index.js'
 import { filterEmptyValue, treeToArray } from '@/utils'
-// import searchSelector from './components/searchSelector'
-// import searchInput from './components/searchInput';
+
 export default {
   mixins: [pageMixins],
   components: {
@@ -239,31 +219,31 @@ export default {
     },
     reset() {
       this.formData = {
-        orCode: '',
-        name: '',
-        orName: '',
-        show: '',
-        commodity: '',
-        svcd: ''
+        fullCode: '',
+        leaderName: '',
+        nameZh: '',
+        isVisible: '',
+        isCommodity: '',
+        syncStatus: ''
       }
-      this.tableListData = _.cloneDeep(this.alltableListData)
+      this.sendQuest()
+      // this.tableListData = _.cloneDeep(this.alltableListData)
       // this.sendQuest()
       // this.tableListData = this.alltableListData
     },
     //发送请求得到表格数据
     sendQuest() {
-      console.log('sendQuest')
       //获取表格数据
       const data = {
-        fullCode: this.formData.orCode,
-        leadUserId: this.formData.orName,
-        svcdCode: this.formData.svcd,
-        isVisible: this.formData.show,
-        isCommodity: this.formData.commodity,
-        //组织机构名称
-        orName: this.formData.orName
+        fullCode: this.formData.fullCode,
+        leaderName: this.formData.leaderName,
+        nameZh: this.formData.nameZh,
+        isVisible: this.formData.isVisible,
+        isCommodity: this.formData.isCommodity,
+        syncStatus: this.formData.syncStatus
       }
       //得到数据
+
       this.tableLoading = true
       getOrganizationList(null, data)
         .then((value) => {
@@ -331,7 +311,8 @@ export default {
     },
     //搜索(模糊查询)
     sure() {
-      const filterData = filterEmptyValue(this.formData)
+      this.sendQuest()
+      /* const filterData = filterEmptyValue(this.formData)
 
       const keys = Object.keys(filterData)
       if (keys.length === 0) {
@@ -345,7 +326,7 @@ export default {
         setTimeout(() => {
           this.tableLoading = false
         }, 500)
-      }
+      } */
     },
     filterTable(keys, filterData) {
       const res = []
@@ -440,11 +421,7 @@ export default {
     },
     //导出
     exportList() {
-      // if (this.tableListData && this.tableListData.length > 0) {
-      //   //导出文件
-      //   excelExport(this.tableListData, exportTableSetting)
-      // }
-      let param = { ...this.formData }
+      const param = { ...this.formData }
       exportOrganization(param)
     }
   }

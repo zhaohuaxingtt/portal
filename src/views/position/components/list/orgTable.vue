@@ -6,6 +6,7 @@
       :columns="tableSetting"
       :height="tableHeight"
       highlight-current-row
+      virtual-list
       @handle-current-change="handleCurrentChange"
       :tree-expand="
         queryFlag ? {} : { expandKey: 'nameZh', childrenKey: 'supDeptList' }
@@ -74,7 +75,11 @@ export default {
           key: '',
           tooltip: false,
           customRender: (h, scope) => {
-            return <span>{scope.row.positionList.length}</span>
+            return (
+              <span>
+                {(scope.row.positionList && scope.row.positionList.length) || 0}
+              </span>
+            )
           }
         },
         {

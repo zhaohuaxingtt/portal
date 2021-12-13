@@ -541,3 +541,11 @@ export function getNominateAppIdList(parmars) {//关联单号下拉
     data: parmars
   })
 }
+
+export function getMtzNomiRuleBuyer(parmars) {//mtz沿用规则采购员下拉
+  return request({
+    url: '/mtzNomiList/getMtzNomiRuleBuyer',
+    method: 'POST',
+    data: parmars
+  })
+}

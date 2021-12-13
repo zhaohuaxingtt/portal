@@ -195,6 +195,7 @@ export default {
       }
     },
     handlePreview() {
+      console.log(198,this.ruleForm,this.id);
       let { href } = this.$router.resolve({
         name: this.ruleForm.category==2 ? "topicDetail" : "newsProjectDetails",
       });
@@ -235,6 +236,7 @@ export default {
               saveTopic(formData).then((res) => {
                 this.saveFlag = false;
                 this.id = res.id;
+                this.ruleForm.id = res.id;
                 window.open(href + `?id=${res.id}`, "_blank");
               });
             }

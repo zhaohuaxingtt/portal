@@ -8,37 +8,43 @@
 		:title="questioningTitle"
 		@close="clearDialog"
 		width="60%"
+		class="qs-dialog"
+		top="30px"
 	>
-		<div v-if="zwFlag">
-			<div class="zw-box">
-				<!-- <div class="ques">
-					{{ questioningTitle }}
-				</div> -->
-				<div class="ask" v-for="(item) in questionAnswerContent.replyQuestionList" :key="item.id">
-					<div v-html="item.content"></div>
+		<div class="content">
+			<div v-if="zwFlag">
+				<div class="zw-box flex-1">
+					<!-- <div class="ques">
+						{{ questioningTitle }}
+					</div> -->
+					<div class="ask" v-for="(item) in questionAnswerContent.replyQuestionList" :key="item.id">
+						<div v-html="item.content"></div>
+					</div>
 				</div>
+				<div class="te-text">{{ language('提问') }}</div>
 			</div>
-			<div class="te-text">{{ language('提问') }}</div>
-		</div>
-		<div class="editor-box" v-if="!zwFlag">
-			<iInput
-				type="textarea"
-				:rows="6"
+			<div class="editor-box" v-if="!zwFlag">
+				<iInput
+					type="textarea"
+					:rows="6"
+					v-model="askContent"
+					resize="none"
+				></iInput>
+			</div>
+			<iEditor 
+				v-else 
+				ref="iEditor" 
 				v-model="askContent"
-				resize="none"
-			></iInput>
-		</div>
-		<iEditor 
-			v-else 
-			ref="iEditor" 
-			v-model="askContent"
-		/>
-		<div class="attach-box flex flex-column">
-			<AttachmentDownload
-				ref="attachment"
-				load="up"
-				@getFilesList="getFilesList"
+				id="qs-editor"
+				style=""
 			/>
+			<div class="attach-box flex flex-column">
+				<AttachmentDownload
+					ref="attachment"
+					load="up"
+					@getFilesList="getFilesList"
+				/>
+			</div>
 		</div>
 		<div class="flex flex-row mt20 justify-end items-center btns">
 			<iButton @click="clearDialog">{{ language('退出') }}</iButton>
@@ -77,8 +83,8 @@ export default {
 			default: 0
 		},
 		currLabelId: {
-			type: Number,
-			default: 0
+			type: String,
+			default: ''
 		}
 	},
 	data() {
@@ -163,7 +169,7 @@ export default {
 @import "../comon.scss";
 	.zw-box {
 		width: 100%;
-		height: 150px;
+		// height: 150px;
 		border: 1px solid #F2F2F2;
 		opacity: 1;
 		border-radius: 2px;

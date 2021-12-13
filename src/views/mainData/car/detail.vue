@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <pageHeader class="margin-bottom20">
-      {{ $route.query.id ? '编辑' : '新增' }}车型主数据
+      {{ $route.query.id ? '编辑' : '新增' }}{{ language('车型主数据') }}
     </pageHeader>
 
     <detailBase
@@ -69,7 +69,9 @@ export default {
         sourceType: '',
         type: '',
         vwModelCode: '',
-        isModify: false
+        isModify: false,
+        eplModelCode: '',
+        bkmModelCode: ''
       },
       productFactoryOptions: [], // 投产工厂
       baseSaveLoading: false

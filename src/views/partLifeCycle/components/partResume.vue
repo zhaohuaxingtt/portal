@@ -101,7 +101,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 3">
                         <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
-                        <span>{{ infoData.loiSupplierCode }} - {{ infoData.loiSupplierName }}</span>
+                        <span :title="infoData.loiSupplierCode + '-' + infoData.loiSupplierName">{{ infoData.loiSupplierCode }} - {{ infoData.loiSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 3">
                         <span>{{ language('LK_YIXIANGSHUBIANHAO', '意向书编号') }}：</span>
@@ -159,7 +159,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 4">
                          <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
-                        <span>{{ infoData.rsSupplierCode }} - {{ infoData.rsSupplierName }}</span>
+                        <span :title="infoData.rsSupplierCode + '-' + infoData.rsSupplierName">{{ infoData.rsSupplierCode }} - {{ infoData.rsSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
                         <span>{{ language('LK_WULIUFUWUSHANG', '物流服务商') }}：</span>
@@ -194,7 +194,7 @@
                     <!--          //Kick off-->
                     <div class="divItem" v-show="currentType === 1">
                         <span>Kick off {{ language('LK_HUIYIBIANHAO', '会议编号') }}：</span>
-                        <span>{{ infoData.businessTitle }}</span>
+                        <span :title="infoData.businessTitle">{{ infoData.businessTitle }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 1">
                         <span>Kick off {{ language('LK_SHIJIAN', '时间') }}：</span>
@@ -210,7 +210,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 1">
                          <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
-                        <span>{{ infoData.kickOffSupplierCode }} - {{ infoData.kickOffSupplierName }}</span>
+                        <span :title="infoData.kickOffSupplierCode + '-' + infoData.kickOffSupplierName">{{ infoData.kickOffSupplierCode }} - {{ infoData.kickOffSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 1">
                         <span>1st tryout {{ language('LK_SHIJIAN', '时间') }}：</span>
@@ -268,7 +268,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 6">
                          <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
-                        <span>{{ infoData.accessoriesSupplierCode }} - {{ infoData.accessoriesSupplierName }}</span>
+                        <span :title="infoData.accessoriesSupplierCode + '-' + infoData.accessoriesSupplierName">{{ infoData.accessoriesSupplierCode }} - {{ infoData.accessoriesSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
                         <span>{{ language('LK_CHEXINGXIANGMU', '车型项目') }}：</span>
@@ -300,7 +300,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 5">
                         <span>{{ language('LK_CAIGOUGONGCHANG', '采购工厂') }}：</span>
-                        <span>{{ infoData.aekoPurchaseFactorys }}</span>
+                        <span :title="infoData.aekoPurchaseFactorys">{{ infoData.aekoPurchaseFactorys }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
                         <span>{{ language('LK_DAORURIQI', '导入日期') }}：</span>
@@ -320,7 +320,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 5">
                          <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
-                        <span>{{ infoData.aekoSupplierCode }} - {{ infoData.aekoSupplierName }}</span>
+                        <span :title="infoData.aekoSupplierCode + '-' + infoData.aekoSupplierName">{{ infoData.aekoSupplierCode }} - {{ infoData.aekoSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
                         <span>AEKO{{ language('LK_ZHUANGTAI', '状态') }}：</span>
@@ -893,7 +893,7 @@
                     .divItem {
                         margin-left: 16px;
                         margin-bottom: 30px;
-
+                        font-size: 14px;
                         span {
                             display: inline-block;
                             width: 40%;

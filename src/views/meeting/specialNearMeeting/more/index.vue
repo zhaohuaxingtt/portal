@@ -184,9 +184,9 @@
       <el-table-column
         show-overflow-tooltip
         align="center"
-        label="BEN(DE)"
+        label="BEN(CN)"
         min-width="58"
-        prop="benDe"
+        prop="benCn"
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -229,11 +229,15 @@
       <el-table-column
         show-overflow-tooltip
         align="center"
-        label="State"
+        label="Status"
         min-width="45"
       >
         <template slot-scope="scope">
-          {{ stateObj[scope.row.state] }}
+          <span
+            >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
+              scope.row.preCount ? scope.row.preCount : 0
+            }}</span
+          >
         </template>
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -294,6 +298,10 @@ import { follow, unfollow } from '@/api/meeting/myMeeting'
 import { stateObj, themenConclusion } from './data'
 import { recallThemen } from '@/api/meeting/details'
 import { getMettingType } from '@/api/meeting/type'
+import {
+  getDeptListByParam // 科室
+} from '@/api/achievement'
+
 export default {
   components: {
     iCard,
@@ -310,7 +318,7 @@ export default {
     return {
       meetingTypeList: [],
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       disabledButton: true,
       stateObj,
       themenConclusion,
@@ -323,7 +331,7 @@ export default {
       openDetail: false,
       id: '',
       form: {
-        presentItem: '02',
+        presentItem: '01',
         meetingTypeId: '',
         commodity: '',
         result: '',
@@ -419,8 +427,18 @@ export default {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
     this.query()
     this.getAllSelectList()
+    // this.getCommidityList()
   },
   methods: {
+    getCommidityList() {
+      let param = {
+        isCommodity: true
+        // grade: DeptGrade.R2.getValue()
+      }
+      getDeptListByParam(param).then((res) => {
+        console.log('res', res)
+      })
+    },
     getAllSelectList() {
       let param = {
         pageSize: 1000,
