@@ -73,7 +73,7 @@ export default {
     },
     mauDetail(val) {
       console.log(val, "000")
-      openUrl(`/assistant/problemMan?module=problemHandler&questionStatus=${val.questionStatus}&questionTitle=${val.questionTitle}&source=${val.source}`)
+      openUrl(`/assistant/problemMan?module=problemHandler&questionStatus=${val.questionStatus}&questionTitle=${val.questionTitle}&source=${val.source}&id=${val.id}`)
     }
   },
   components: {
