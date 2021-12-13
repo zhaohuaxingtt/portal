@@ -589,12 +589,11 @@ export default {
             // this.isEdit = false
             this.isDisabled = 0
             this.editNumber = true   
-            this.datePickerStatus = true        
+            this.datePickerStatus = true   
+            console.log('---===',JSON.stringify(this.itemContent))     
         },
         cancel(){
             if(this.searchId && JSON.stringify(this.itemContent) != JSON.stringify(this.initialItemContent)){
-                console.log(JSON.stringify(this.itemContent),'------');
-                console.log(JSON.stringify(this.initialItemContent),'========');
                 this.$confirm('数据有改动，是否取消此次的改动','提示',{
                     confirmButtonText:'确定',
                     cancelButtonText:'取消',
@@ -629,7 +628,12 @@ export default {
                     this.itemContent =  val.data 
                     if(this.itemContent.fop){
                         this.fop = [{'nameZh':this.itemContent.fop,'department':this.itemContent.techDept,'id':Number(this.itemContent.fopUserId)}]
+                        this.itemContent.fopUserId = Number(this.itemContent.fopUserId)
+                    }else{
+                        this.fop = []
+                        this.itemContent.fopUserId = ""
                     }
+                    
                     this.pageTitle = `${this.itemContent.partNum} ${this.itemContent.partNameZh}`
                     this.materielGroupOptions.forEach((element)=>{
                         if(element.id == this.itemContent.categoryId){
@@ -637,8 +641,9 @@ export default {
                         }
                     })
                     this.oldDrawingDate = data.drawingDate ? data.drawingDate.slice(0,10) : data.drawingDate
-                    this.initialItemContent = JSON.parse(JSON.stringify(val.data))
+                    this.initialItemContent = JSON.parse(JSON.stringify(this.itemContent))
                     this.isEditColorPart = data.isEditColorPart
+                    console.log('-------',JSON.stringify(this.itemContent));
                 }
             }).catch((err) => {
                 iMessage.error('获取数据失败')
