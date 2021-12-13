@@ -2,7 +2,7 @@ export const tabsInforList = [
   { name: '申请单号',key:'SHENQINGDANHAO',prop: 'mtzAppId' },
   { name: '申请单名',key:'SHENQINGDANMING', prop: 'appName' },
   { name: 'Linie',key:'LINIE', prop: 'linieName' },
-  { name: '申请单类型',key:'SHENQINGDANLEIXING', prop: 'flowType', type: 'select' },
+  // { name: '申请单类型',key:'SHENQINGDANLEIXING', prop: 'flowType', type: 'select' },
   { name: '申请状态',key:'SHENQINGZHUANGTAI', prop: 'appStatus' },
   { name: '会议名称',key:'HUIYIMINGCHENG', prop: 'meetingName',type:"tooltip"}
 ]
