@@ -119,7 +119,8 @@ export default {
     retry() {
       const data = this.selectedRows.map((e) => e.instanceId)
       this.retryLoading = true
-      retryAssign(data)
+      retryAssign(data).finally(() => (this.retryLoading = false))
+      /* retryAssign(data)
         .then((res) => {
           if (res.result) {
             iMessage.success(res.desZh || this.language('已重试'))
@@ -131,7 +132,7 @@ export default {
         .catch((err) => {
           iMessage.error(err.desZh || this.language('重试失败'))
         })
-        .finally(() => (this.retryLoading = false))
+        .finally(() => (this.retryLoading = false)) */
     }
   }
 }
