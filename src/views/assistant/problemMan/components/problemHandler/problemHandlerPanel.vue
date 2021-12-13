@@ -3,7 +3,7 @@
     <div class="left-content" >
       <el-row :gutter="20">
         <el-col span="12">
-          <iInput v-model="keyWord" placeholder="搜索..." @keydown.native.enter="keyWordBlurHandle" />
+          <iInput v-model="queryForm.keyWord" placeholder="搜索..." @keydown.native.enter="keyWordBlurHandle" />
         </el-col>
         <el-col span="12">
           <iSelect v-model="questionModuleId" filterable placeholder="全部模块" clearable="true" @change="questionModuleHandle" @clear="clearModuleHandle">
@@ -25,7 +25,6 @@
           <el-switch v-model="selfOnly" active-text="仅看自己" @change="changeSelfHandle"></el-switch>
         </el-col>
       </el-row>
-        <!-- <div class="card-list" @scroll="scrollHandle($event)" v-loading="l_loading"> -->
         <div class="card-list" 
           v-infinite-scroll="loadmore"
           infinite-scroll-distance="20"
@@ -46,7 +45,7 @@
             </div>
             <div class="flex flex-row justify-between items-center gray-color">
               <div class="label">{{ item.currModuleName }}</div>
-              <div>{{ item.createDate }}</div>
+              <div>{{ item.updateDate }}</div>
             </div>
           </el-card>
           <p class="no-data" v-if="categoryCardList.length == 0 && !l_loading">暂无数据</p>
@@ -182,8 +181,6 @@ export default {
     return {
       // 问题模块下拉框
       problemModuleList: [],
-      // 搜索关键词
-      keyWord: '',
       questionModuleId: '',
       selfOnly: true,
       showDialog: false,
@@ -195,7 +192,7 @@ export default {
         id: null,
       },
       replyContent: '',
-      pageNum: 1,
+      pageNum: 0,
       pageSize: 10,
       catgoryList: [
         {
@@ -225,6 +222,7 @@ export default {
       loading: false,
       queryForm: {
         source: this.userType,
+        keyWord: '',
         pageNum: 1,
         pageSize: 10,
         questionStatus: this.currentCategoryItem,
@@ -255,17 +253,19 @@ export default {
   },
   async mounted () {
     let params = this.$route.query
-    if(params.questionStatus){
+    if(params.id && params.source == this.userType){
       this.currentCategoryItem = params.questionStatus || "unreply"
-      this.keyWord = params.questionTitle
+      this.queryForm.keyWord = params.questionTitle
+      this.queryForm.id = params.id
+      this.selfOnly = false
+      console.log(params.id);
     }
     await this.getModuleListByUserType(this.userType);
-    this.initData();
+    // this.initData();
   },
   methods: {
     initData () {
       this.queryProblemList(this._queryForm({
-        keyWord:this.keyWord,
         source: this.userType,
         pageNum: this.pageNum,
         pageSize: this.pageSize,
@@ -288,6 +288,7 @@ export default {
     },
     // 获取问题列表
     async queryProblemList (queryForm) {
+      console.log(queryForm);
       this.l_loading = true
       try {
         const response = await queryProblemListApi(queryForm);
@@ -320,7 +321,9 @@ export default {
         } else {
           console.error('获取问题列表失败');
         }
-      } finally {
+      } catch(err){ 
+				this.noMore = true    
+      }finally {
         this.l_loading = false
       }
     },
@@ -332,12 +335,22 @@ export default {
     // 监听左侧滚动条
     loadmore(){
       if(this.noMore) return
-      this.queryProblemList(this._queryForm({ pageNum: this.pageNum + 1}));
+      this.pageNum++
+      this.queryProblemList(this._queryForm({
+        source: this.userType,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        questionStatus: this.currentCategoryItem == "all" ? "" : this.currentCategoryItem,
+        selfOnly: this.selfOnly ? 1 : 0,
+      }));
     },
     // 点击导航
     changeCategoryItem (item) {
       this.isReplyStatus = false
       this.currentCategoryItem = item.value;
+			this.categoryCardList = []
+      this.noMore = false
+      this.queryForm.id = ""
       // 重新请求数据
       this.queryProblemList(this._queryForm({
         questionStatus: item.value == 'all' ? '' : item.value,
@@ -349,17 +362,29 @@ export default {
       this.editFormBtn = false;
     },
     changeSelfHandle (val) {
+      this.categoryCardList = []
+      this.noMore = false
+      this.queryForm.id = ""
       this.queryProblemList(this._queryForm({ selfOnly: val ? 1 : 0, pageNum: 1 }));
       this.$emit('changeSelfHandle', val ? 1 : 0);
     },
     keyWordBlurHandle () {
-      this.queryProblemList(this._queryForm({ keyWord: this.keyWord, pageNum: 1 }));
+      this.categoryCardList = []
+      this.noMore = false
+      this.queryForm.id = ""
+      this.queryProblemList(this._queryForm({ pageNum: 1 }));
     },
     questionModuleHandle (val) {
+      this.categoryCardList = []
+      this.noMore = false
+      this.queryForm.id = ""
       this.queryProblemList(this._queryForm({ questionModuleId: val, pageNum: 1 }));
     },
     clearModuleHandle () {
       this.questionModuleId = '';
+      this.categoryCardList = []
+      this.noMore = false
+      this.queryForm.id = ""
       this.queryProblemList(this._queryForm({ questionModuleId: '', pageNum: 1 }));
     },
     // 根据问题id查询问题详情
@@ -537,7 +562,7 @@ export default {
       }
     },
     disabled(){
-      return this.noMore || this.loadmore
+      return this.noMore || this.l_loading
     }
   },
   components: {
@@ -579,6 +604,7 @@ export default {
     .card-list {
       // height: calc(100vh - 350px);
       // flex: 1;
+      min-height: 50px;
       padding: 10px;
       overflow-y: auto;
     }
