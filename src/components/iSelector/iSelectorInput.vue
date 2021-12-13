@@ -1,5 +1,5 @@
 <template>
-  <div class="i-selector-input">
+  <div  class="i-selector-input"  @click="handleClick">
     <div class="input-wrapper">
       <i-input
         v-model="valueString"
@@ -80,6 +80,12 @@ export default {
   methods:{
     valueChange(val){
      this.$emit('value-change',val);
+    },
+    handleClick(){
+      if(!this.disabled){
+        this.$emit('handle-click')
+      }
+      
     }
   }
 }
