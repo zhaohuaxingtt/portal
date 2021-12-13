@@ -27,7 +27,8 @@
           </el-col>
         </el-row>
         <div class="content-title mt20 mb20">问题</div>
-        <div class="qs-tlt" style="height:auto;">{{questionItem.questionTitle}}</div>
+        <el-input v-model="questionItem.questionTitle" class="mb20" rows="3" type="textarea" placeholder="" ></el-input>
+        <!-- <div class="qs-tlt" style="height:auto;">{{questionItem.questionTitle}}</div> -->
         <div class="content-title mt20 mb20">答复</div>
         <iFormItem prop="answerContent">
           <iEditor ref="iEditor" style="height:300px;" v-model="editForm.answerContent" v-if="editable" />
