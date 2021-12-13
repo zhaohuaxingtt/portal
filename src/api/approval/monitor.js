@@ -26,3 +26,11 @@ export function exportProcessHistorics(data) {
     data
   })
 }
+
+export function retryAssign(data) {
+  return request({
+    url: `/retryAssign`,
+    method: 'POST',
+    data
+  })
+}
