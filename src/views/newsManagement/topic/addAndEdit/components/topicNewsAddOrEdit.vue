@@ -430,6 +430,7 @@ export default {
     value: {
       immediate: true,
       handler(val) {
+      console.log(433,val);
         this.ruleForm = val;
         if (this.ruleForm.id !== '') {
           this.topicNewsPageReset();
@@ -568,7 +569,9 @@ export default {
         }
       } else {
         this.newsCheckList = val;
-        this.ruleForm.newsIds = val;
+        this.page.currPage = 1;
+        this.page.pageSize = 10;
+        this.ruleForm.newsIds = val.slice(0,this.page.currPage*this.page.pageSize);
         this.page.total = val?.length;
       }
     },
@@ -587,6 +590,14 @@ export default {
         this.ruleForm.source = 'FRM_财务风险管理'
       }else{
         this.ruleForm.source = ''
+      }
+      this.page.currPage = 1;
+      this.page.pageSize = 10;
+      if (this.ruleForm.id != '') {
+        this.topicNewsPageReset()
+      }else{
+        this.ruleForm.newsIds =[];
+        this.newsCheckList = [];
       }
     },
     handleChange(file) {
@@ -619,21 +630,29 @@ export default {
     },
     handleCurrentChange(val) {
       this.page.currPage = val;
-      let param = {
-        pageNum: this.page.currPage,
-        pageSize: this.page.pageSize,
-      };
-      this.topicNewsPageReset(param);
+      if (this.ruleForm.id != '') {
+        let param = {
+          pageNum: this.page.currPage,
+          pageSize: this.page.pageSize,
+        };
+        this.topicNewsPageReset(param);
+      }else{
+         this.ruleForm.newsIds = this.newsCheckList.slice((this.page.currPage-1)*this.page.pageSize,this.page.currPage*this.page.pageSize);
+      }
     },
     handleSizeChange(val) {
       this.page.currPage = 1;
       this.page.pageSize = val;
-      let param = {
-        ...this.form,
-        pageNum: this.page.currPage,
-        pageSize: this.page.pageSize,
-      };
-      this.topicNewsPageReset(param);
+      if (this.ruleForm.id != '') {
+        let param = {
+          ...this.form,
+          pageNum: this.page.currPage,
+          pageSize: this.page.pageSize,
+        };
+        this.topicNewsPageReset(param);
+      }else{
+         this.ruleForm.newsIds = this.newsCheckList.slice(0,this.page.pageSize);
+      }
     },
     topicNewsPageReset(obj) {
       let param = {topicId: this.ruleForm.id, pageNum: 1, pageSize: 10, ...obj};
@@ -642,7 +661,7 @@ export default {
     topicNewsPage(e) {
       findTopicNewsPage(e).then((res) => {
         this.$set(this.ruleForm, "newsIds", res.data);
-        this.page.total = res.data?.length;
+        this.page.total = res?.total;
       });
     },
     beforeAvatarUpload(file) {
