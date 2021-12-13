@@ -1,5 +1,8 @@
 <template>
   <iPage>
+    <pageHeader class="margin-bottom20">
+      <span>{{ this.form.id ? '编辑' : '新增' }}岗位代理</span>
+    </pageHeader>
     <iCard>
       <iSteps :active="active" align-center>
         <iStep title="发起岗位代理申请" status="finish">
@@ -133,7 +136,7 @@ import {
   positionAgentDetail,
   positionAgentSave
 } from '@/api/position/agent'
-
+import pageHeader from '@/components/pageHeader'
 export default {
   name: 'PositionAgentApply',
   components: {
@@ -146,7 +149,8 @@ export default {
     iInput,
     iButton,
     choosePosition,
-    iDatePicker
+    iDatePicker,
+    pageHeader
   },
   data() {
     return {

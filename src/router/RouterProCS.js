@@ -1,4 +1,8 @@
-import RouterPosition, { CFPosition } from './RouterPosition'
+import RouterPosition, {
+  CFPosition,
+  CFPositionAgentDetails,
+  CFPositionTransferDetails
+} from './RouterPosition'
 import RouterUsercenter, { CfOrgChart } from './RouterUsercenter'
 import RouterAuthorityMgmt from './RouterAuthorityMgmt'
 // import RouterStaffMgmt from './RouterStaffMgmt'
@@ -56,5 +60,7 @@ export const cfProCS = [
       },
       ...CFPosition
     ]
-  }
+  },
+  ...CFPositionAgentDetails,
+  ...CFPositionTransferDetails
 ]
