@@ -114,6 +114,7 @@
                 height="450"
                 :custom-selection="true"
                 virtual-list
+                :custom-selection-option="{ checkStrictly: true }"
                 @handle-selection-change="handleSelectionChange"
               />
             </div>
