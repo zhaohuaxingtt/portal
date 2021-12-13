@@ -32,7 +32,7 @@
               <el-form-item class="elFormItems" :label="formLable.supChina">
                 <iInput
                   v-model="formData.opcsCompanyNameZh"
-                  :disabled="isEdit"
+                  :disabled="true"
                 ></iInput>
               </el-form-item>
             </el-col>
