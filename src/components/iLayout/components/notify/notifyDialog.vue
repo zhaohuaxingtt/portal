@@ -5,8 +5,8 @@
     @close="closeDialog"
     :loading='loading'
     :show-close='false'
-    width="851px"
-    height='440px'
+    :width="dialogWidth"
+    :height='dialogHeight'
     :class="{'black-style':detail.popupStyle == '2'}"
   >
       <div class="" :class="{'center-style':detail.popupStyle == '1','main':detail.popupStyle == '0','right-style':detail.popupStyle == '2'}">
@@ -53,7 +53,9 @@ export default {
     },
     data(){
         return{
-            loading:false
+            loading:false,
+            dialogHeight:'440px',
+            dialogWidth:400*(16/9)+'px'
         }
     },
     created(){
