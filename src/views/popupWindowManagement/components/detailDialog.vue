@@ -4,8 +4,8 @@
     :title="papgeTitle"
     @close="closeDialog"
     :show-close='false'
-    width="851px"
-    height='440px'
+    :width="dialogWidth"
+    :height='dialogHeight'
     :class="{'black-style':detail.popupStyle == '2'}"
   >
       <div  :class="{'center-style':detail.popupStyle == '1','main':detail.popupStyle == '0','right-style':detail.popupStyle == '2',} ">
@@ -52,7 +52,8 @@ export default {
     },
     data(){
         return{
-            
+            dialogHeight:'440px',
+            dialogWidth:400*(16/9)+'px'
         }
     },
     methods:{
@@ -69,7 +70,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+::v-deep .el-dialog__body{
+    padding: 0 50px !important;
+}
 
 ::v-deep .el-dialog__header{
     position: relative;
@@ -125,10 +128,13 @@ export default {
                 font-size: 16px;
             }
         }
+        >h2{
+            width: 110%;
+        }
         .content{
             position: absolute;
             top: 70px;
-            width: 104%;
+            width: 110%;
             line-height: 24px;
             max-height: 280px;
             overflow: auto;
@@ -231,10 +237,13 @@ export default {
                 font-size: 16px;
             }
         }
+        >h2{
+            width: 110%;
+        }
         .content{
             position: absolute;
             top: 70px;
-            width: 104%;
+            width: 110%;
             color: #888888;
             line-height: 24px;
             max-height: 280px;

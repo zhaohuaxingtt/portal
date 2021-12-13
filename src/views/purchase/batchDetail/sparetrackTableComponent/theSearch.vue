@@ -60,7 +60,7 @@
                 </el-form-item>
 
                 <!--采购员-->
-                <el-form-item :label="language('LK_CGY','采购员')">
+                <el-form-item :label="language('LK_CAIGOUYUAN','采购员')">
                     <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.linieId">
                         <el-option
                                 :value="item.id"

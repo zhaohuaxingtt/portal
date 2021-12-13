@@ -9,7 +9,7 @@
 			/>
 			<iSelect
 				class="select-style"
-				:placeholder="language('请选择...')"
+				:placeholder="language('全部模块')"
 				v-model="questionModuleId"
 				@change="searchQuestion"
 				filterable
@@ -72,6 +72,10 @@ export default {
 		moudleList: {
 			type: Array,
 			default: () => []
+		},
+		turnId: {
+			type: String,
+			default: ''
 		}
 	},
 	data() {
@@ -81,6 +85,7 @@ export default {
 				questionModuleId: '',
 				pageNum: 1,
 				pageSize: 10,
+				id: ''
 			},
 			// unreply:未答复 reply:已答复 finished:已完成
 			questionList: [],
@@ -120,6 +125,9 @@ export default {
 			return f ? f.menuName : ""
 		},	
 		async getQuesList(va) {
+			// if (this.turnId) {
+			// 	this.queryParam.id = this.turnId
+			// }
 			this.listLoading = true
 			await getMineQuesList(this.queryParam).then((res) => {
 				if (res?.code === '200') {
@@ -230,9 +238,9 @@ export default {
 		}
 	}
 	.selected {
-		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16);
+		box-shadow: 0px 4px 4px rgba(209, 230, 245, 0.16);
 		border-radius: 2px;
-		background: #F8F9FA;
+		background: rgb(209, 230, 245);
 		border: 1px solid #E5E5E5;
 	}
 	.el-pagination__rightwrapper {

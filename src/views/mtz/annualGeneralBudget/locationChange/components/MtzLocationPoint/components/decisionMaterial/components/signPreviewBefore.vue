@@ -23,7 +23,7 @@
             <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
             <span class="samll_val">{{formData.createDate}}</span>
           </div>
-          <div>
+          <div class="small_text">
             <span>{{language("KESHI","科室")}}：</span>
             <span class="samll_val">{{formData.linieDeptName}}</span>
           </div>
@@ -113,7 +113,7 @@
                   name="iconrs-quxiao"></icon>
             <div class="applayDateContentItem">
               <span>部门：</span>
-              <span class="applayDateDeptTitle">{{item.deptNameZh}}</span>
+              <span class="applayDateDeptTitle">{{item.deptFullCode}}</span>
             </div>
             <div class="applayDateContentItem">
               <span>日期：</span>
@@ -138,7 +138,7 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination,iDialog } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1, partTableTitle1,ruleTableTitle1_new,partTableTitle1_new,ruleTableTitle1_1,partTableTitle1_1} from './data'
+import { ruleTableTitle1_1,partTableTitle1_1} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import signPreview from "./signPreview";
@@ -161,11 +161,7 @@ export default {
     return {
       formData: {},
       formList,
-      ruleTableTitle1:ruleTableTitle1,
-      partTableTitle1:partTableTitle1,
-      ruleTableTitle1_new,
       ruleTableTitle1_1,
-      partTableTitle1_new,
       partTableTitle1_1,
       ruleTableListData: [],
       rulePageParams: {
@@ -421,14 +417,14 @@ $tabsInforHeight: 35px;
 
 
 .tabs_box_right{
-  width:450px;
-  display: flex;
-  flex-wrap: wrap;
   .samll_val{
-    flex: 1;
+
   }
   .samll_title{
     width:80px;
+  }
+  .small_text{
+    float:left;
   }
   div{
     display: flex;
@@ -438,12 +434,6 @@ $tabsInforHeight: 35px;
   span{
     display: inline-block;
     font-size: 15px!important;
-  }
-  .small_text{
-    width:170px;
-  }
-  .big_text{
-    width:450px;
   }
 }
 .hr_divider{

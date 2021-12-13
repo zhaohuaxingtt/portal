@@ -118,7 +118,7 @@
                             <iSelectorInput
                                 v-model="fop"
                                 singleSelect
-                                @click.native="dialogFopVisible = true" 
+                                @handle-click="handleClick" 
                                 @value-change='valueChange'
                                 :value="fop"
                                 :disabled='isDisabled>0'
@@ -129,7 +129,7 @@
                       </el-col>
                       <el-col :span='6'>
                           <iFormItem :label='language("技术部门")'>
-                              <iInput :placeholder='language("请输入")' v-model="itemContent.techDept" disabled></iInput>
+                              <iInput  v-model="itemContent.techDept" disabled></iInput>
                           </iFormItem>
                       </el-col>
                       <el-col :span='6'>
@@ -287,8 +287,10 @@ import {getMaterielById,saveMateriel,getProGroupOptions,searchOptions,materielGr
 export default {
     components:{iPage,pageHeader,iCard,iButton,iFormItem,iInput,iSelect,iDatePicker,iTableCustom,iSelectorDialog,iSelectorInput},
     methods:{
+        handleClick(){
+            this.dialogFopVisible = true
+        },
         valueChange(val){
-            console.log(val,'======');
             this.itemContent.techDept = val[0]?.department || ''
             this.itemContent.fop = val[0]?.nameZh || ''
             this.itemContent.fopUserId = val[0]?.id || ''
@@ -587,7 +589,8 @@ export default {
             // this.isEdit = false
             this.isDisabled = 0
             this.editNumber = true   
-            this.datePickerStatus = true        
+            this.datePickerStatus = true   
+            console.log('---===',JSON.stringify(this.itemContent))     
         },
         cancel(){
             if(this.searchId && JSON.stringify(this.itemContent) != JSON.stringify(this.initialItemContent)){
@@ -623,7 +626,16 @@ export default {
                     val.data.fgId=val.data.fgId ? val.data.fgId.toString() : null
                     val.data.categoryId=val.data.categoryId ? val.data.categoryId.toString() : null
                     this.itemContent =  val.data 
-                    this.fop = [{'nameZh':this.itemContent.fop,'department':this.itemContent.techDept,'id':Number(this.itemContent.fopUserId)}]
+                    if(this.itemContent.fop){
+                        this.fop = [{'nameZh':this.itemContent.fop,'department':this.itemContent.techDept,'id':Number(this.itemContent.fopUserId)}]
+                        this.itemContent.fopUserId = Number(this.itemContent.fopUserId)
+                    }else{
+                        this.fop = []
+                        this.itemContent.fopUserId = ""
+                        this.itemContent.fop = ""
+                        this.itemContent.techDept = ""
+                    }
+                    
                     this.pageTitle = `${this.itemContent.partNum} ${this.itemContent.partNameZh}`
                     this.materielGroupOptions.forEach((element)=>{
                         if(element.id == this.itemContent.categoryId){
@@ -631,9 +643,9 @@ export default {
                         }
                     })
                     this.oldDrawingDate = data.drawingDate ? data.drawingDate.slice(0,10) : data.drawingDate
-                    this.initialItemContent = JSON.parse(JSON.stringify(val.data))
+                    this.initialItemContent = JSON.parse(JSON.stringify(this.itemContent))
                     this.isEditColorPart = data.isEditColorPart
-                    // this.isEditColorPart = true
+                    console.log('-------',JSON.stringify(this.itemContent));
                 }
             }).catch((err) => {
                 iMessage.error('获取数据失败')

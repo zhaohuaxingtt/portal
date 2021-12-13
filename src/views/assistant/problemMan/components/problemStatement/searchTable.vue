@@ -73,7 +73,7 @@ export default {
     },
     mauDetail(val) {
       console.log(val, "000")
-      openUrl(`/assistant/problemMan?module=problemHandler&questionStatus=${val.questionStatus}&questionTitle=${val.questionTitle}&source=${val.source}`)
+      openUrl(`/assistant/problemMan?module=problemHandler&questionStatus=${val.questionStatus}&questionTitle=${val.questionTitle}&source=${val.source}&id=${val.id}`)
     }
   },
   components: {
@@ -103,6 +103,8 @@ export default {
       background-image: url('~@/assets/images/icon/first.png');
     }
     &.second {
+      width: 38px;
+      height: 38px;
       background-image: url('~@/assets/images/icon/second.png');
     }
     &.third {

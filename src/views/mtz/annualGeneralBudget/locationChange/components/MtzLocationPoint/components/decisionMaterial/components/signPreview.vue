@@ -18,18 +18,13 @@
           <p class="headTitle">{{title}}</p>
           <div class="tabs_box_right">
             <div class="big_text">
-              <!-- <span>{{language("SHENQINGDANHAOMINGCHENG","申请单号-名称")}}：</span> -->
               <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
             </div>
-            <!-- <div class="big_text">
-              <span>{{language("SHENQINGDANMING","申请单名")}}：</span>
-              <span class="samll_val">{{formData.appName}}</span>
-            </div> -->
             <div class="small_text">
               <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
               <span class="samll_val">{{formData.createDate}}</span>
             </div>
-            <div>
+            <div class="small_text">
               <span>{{language("KESHI","科室")}}：</span>
               <span class="samll_val">{{formData.linieDeptName}}</span>
             </div>
@@ -155,7 +150,7 @@
                   name="iconrs-quxiao"></icon>
             <div class="applayDateContentItem">
               <span>部门：</span>
-              <span class="applayDateDeptTitle">{{item.deptNameZh}}</span>
+              <span class="applayDateDeptTitle">{{item.deptFullCode}}</span>
             </div>
             <div class="applayDateContentItem">
               <span>日期：</span>
@@ -178,7 +173,7 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1_1,ruleTableTitle1_2, partTableTitle1_1,partTableTitle1_2,ruleTableTitle2_1,ruleTableTitle2_2,partTableTitle2_1,partTableTitle2_2} from './data'
+import { ruleTableTitle1_1, partTableTitle1_1} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 // import { downloadPdfMixins } from '@/utils/pdf';
@@ -200,10 +195,8 @@ export default {
       formData: {},
       formList,
       ruleTableTitle1_1,
-      ruleTableTitle1_2,
 
       partTableTitle1_1,
-      partTableTitle1_2,
 
       ruleTableListData: [],
       rulePageParams: {
@@ -587,11 +580,7 @@ $tabsInforHeight: 35px;
 
 
 .tabs_box_right{
-  width:450px;
-  display: flex;
-  flex-wrap: wrap;
   .samll_val{
-    flex: 1;
   }
   .samll_title{
     width:80px;
@@ -606,10 +595,9 @@ $tabsInforHeight: 35px;
     font-size: 15px!important;
   }
   .small_text{
-    width:170px;
+    float:left;
   }
   .big_text{
-    width:450px;
   }
 }
 .hr_divider{

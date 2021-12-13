@@ -55,11 +55,12 @@
 		</div>
 		<div class="input-ask">
 			<iInput
-              v-model="keywords"
-              type="textarea"
-              resize="none"
-              rows="4"
-            />
+        v-model="keywords"
+        type="textarea"
+        resize="none"
+        rows="4"
+				@keyup.enter.native="sendMessage"
+      />
 			<div class="flex felx-row mt20 justify-end ">
 				<iButton @click="clearDialog">{{ language('退出') }}</iButton>
 				<iButton @click.native="sendMessage">{{ language('发送') }}</iButton>

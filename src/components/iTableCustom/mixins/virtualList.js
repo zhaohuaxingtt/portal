@@ -149,8 +149,11 @@ export default {
     }
   },
   destroyed() {
-    document
-      .querySelector('.i-table-custom .el-table__body-wrapper')
-      .removeEventListener('scroll', this.getVirtualTableData)
+    const scrollElement = document.querySelector(
+      '.i-table-custom .el-table__body-wrapper'
+    )
+    if (scrollElement) {
+      scrollElement.removeEventListener('scroll', this.getVirtualTableData)
+    }
   }
 }

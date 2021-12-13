@@ -143,17 +143,17 @@ export default {
         funcInstruction: ''
       },
       tableItemTitle: {
-        chName: '中文名称',
-        enName: '英文名称',
-        userGroup: '门户用户组',
-        DAP: '安全中心LADP属性',
-        funcType: '功能类型',
-        funcInstruction: '系统功能说明'
+        chName: this.language('中文名称'),
+        enName: this.language('英文名称'),
+        userGroup: this.language('门户用户组'),
+        DAP: this.language('安全中心LADP属性'),
+        funcType: this.language('功能类型'),
+        funcInstruction: this.language('系统功能说明')
       },
       iButtons: {
-        edit: '编辑',
-        sure: '确认',
-        reset: '重置'
+        edit: this.language('编辑'),
+        sure: this.language('确认'),
+        reset: this.language('重置')
       }
     }
   }
