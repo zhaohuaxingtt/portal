@@ -632,6 +632,8 @@ export default {
                     }else{
                         this.fop = []
                         this.itemContent.fopUserId = ""
+                        this.itemContent.fop = ""
+                        this.itemContent.techDept = ""
                     }
                     
                     this.pageTitle = `${this.itemContent.partNum} ${this.itemContent.partNameZh}`
