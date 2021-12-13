@@ -142,12 +142,12 @@ export default {
           if (val.code == 200) {
             this.authUser = val.data
           } else {
-            iMessage.error(val.desZh || '获取数据失败')
+            iMessage.error(val.desZh || this.language('获取数据失败'))
           }
         })
-        .catch(() => {
+        .catch((error) => {
           this.tableUserLoading = false
-          iMessage.error('获取数据失败')
+          iMessage.error(error.desZh || this.language('获取数据失败'))
         })
     },
     getSysList() {
@@ -160,12 +160,12 @@ export default {
             this.page.totalCount = val.total */
             this.getauthList(val)
           } else {
-            iMessage.error(val.desZh || '获取数据失败')
+            iMessage.error(val.desZh || this.language('获取数据失败'))
           }
         })
-        .catch(() => {
+        .catch((error) => {
           this.tableLoading = false
-          iMessage.error('获取数据失败')
+          iMessage.error(error.desZh || this.language('获取数据失败'))
         })
     },
     getauthList(sysResult) {
@@ -272,15 +272,15 @@ export default {
       auth(param)
         .then((val) => {
           if (val.code == 200) {
-            iMessage.success(val.desZh || '授权成功')
+            iMessage.success(val.desZh || this.language('授权成功'))
             this.isVisible = false
             this.$emit('getTableData')
           } else {
-            iMessage.error(val.desZh || '授权失败')
+            iMessage.error(val.desZh || this.language('授权失败'))
           }
         })
-        .catch(() => {
-          iMessage.error('授权失败')
+        .catch((error) => {
+          iMessage.error(error.desZh || '授权失败')
         })
         .finally(() => (this.sureLoading = false))
     },
@@ -299,10 +299,10 @@ export default {
           if (val.code == 200) {
             this.iMessageBox = false
             this.isVisible = false
-            iMessage.success(val.desZh || '取消授权成功')
+            iMessage.success(val.desZh || this.language('取消授权成功'))
             this.$emit('getTableData')
           } else {
-            iMessage.error(val.desZh || '取消授权失败')
+            iMessage.error(val.desZh || this.language('取消授权失败'))
           }
         })
         .catch(() => {
@@ -348,13 +348,13 @@ export default {
       authUser: [],
       authSelectedList: [],
       iButtons: {
-        sure: '确认',
-        reset: '重置',
-        search: '查询'
+        sure: this.language('确认'),
+        reset: this.language('重置'),
+        search: this.language('查询')
       },
       searchOptionTitles: {
-        name: '中文名称',
-        sysTag: '系统标签'
+        name: this.language('中文名称'),
+        sysTag: this.language('系统标签')
       },
       formData: {
         appNameCn: '',
@@ -370,17 +370,17 @@ export default {
         },
         {
           id: '1',
-          label: '生产采购'
+          label: this.language('生产采购')
         },
         {
           id: '2',
-          label: '一般采购'
+          label: this.language('一般采购')
         }
       ],
       systemOptions: [
         {
           id: '1',
-          label: '系统'
+          label: this.language('系统')
         },
         {
           id: '2',

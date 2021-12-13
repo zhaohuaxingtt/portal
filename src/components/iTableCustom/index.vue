@@ -87,6 +87,7 @@
               :indeterminate="scope.row.isIndeterminate"
               :disabled="scope.row.disabledChecked"
               @change="(val) => handleCheckedRow(val, scope.row)"
+              class="custom-checkbox"
             >
             </el-checkbox>
           </template>

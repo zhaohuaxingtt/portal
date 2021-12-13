@@ -193,18 +193,18 @@ export default {
         }
       ]
       updateProvider(param)
-        .then(value => {
+        .then((value) => {
           if (value.code == 200) {
             this.$router.push({
               name: 'authMgm'
             })
           } else {
-            iMessage.error(value.desZh || '获取数据失败')
+            iMessage.error(value.desZh || this.language('获取数据失败'))
           }
         })
-        .catch(error => {
+        .catch((error) => {
           // console.log(error)
-          iMessage.error('获取数据失败')
+          iMessage.error(error.desZh || this.language('获取数据失败'))
         })
     },
     getTableData() {
@@ -230,18 +230,18 @@ export default {
       }
       // console.log('====== ', this.params)
       authList(param)
-        .then(value => {
+        .then((value) => {
           this.tableloading = false
           if (value.code == 200) {
             this.tableList = value.data
             this.page.totalCount = value.total
           } else {
-            iMessage.error(value.desZh || '获取数据失败')
+            iMessage.error(value.desZh || this.language('获取数据失败'))
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.tableloading = false
-          iMessage.error(error.desZh || '获取数据失败')
+          iMessage.error(error.desZh || this.language('获取数据失败'))
         })
     },
     editAuthStatus(val) {
@@ -261,7 +261,7 @@ export default {
       // console.log("999999", this.selectedAuthList);
       if (this.selectedAuthList && this.selectedAuthList.length > 0) {
         let userIds = this.$route.params.id
-        let applicationIds = this.selectedAuthList.map(item => {
+        let applicationIds = this.selectedAuthList.map((item) => {
           return item.id
         })
         let param = {
@@ -269,22 +269,26 @@ export default {
           applicationIds: applicationIds
         }
 
-        this.$confirm('是否取消主联系人授权', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
+        this.$confirm(
+          this.language('是否取消主联系人授权'),
+          this.language('提示'),
+          {
+            confirmButtonText: this.language('确定'),
+            cancelButtonText: this.language('取消'),
+            type: 'warning'
+          }
+        )
           .then(() => {
             cancelAuth(param)
-              .then(result => {
+              .then((result) => {
                 if (result.code == 200) {
                   this.getTableData()
                 } else {
-                  iMessage.error(result.desZh || '取消授权失败')
+                  iMessage.error(result.desZh || this.language('取消授权失败'))
                 }
               })
-              .catch(() => {
-                iMessage.error('取消授权失败')
+              .catch((error) => {
+                iMessage.error(error.desZh || this.language('取消授权失败'))
               })
           })
           .catch(() => {})
@@ -302,16 +306,16 @@ export default {
       let data = this.$route.params.id
       let param = { id: data }
       providerDetail(param)
-        .then(value => {
+        .then((value) => {
           if (value.code == 200) {
             this.formData = value.data
             this.title = value.data.userName
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log('error', error)
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error)
         })
     }
@@ -337,21 +341,21 @@ export default {
       tableList: [],
       selectedAuthList: [],
       searchOptionTitles: {
-        basicMessage: '基本信息',
-        tableTile: '已授权系统列表'
+        basicMessage: this.language('基本信息'),
+        tableTile: this.language('已授权系统列表')
       },
       formLable: {
-        contactName: '联系人姓名',
-        userLoginName: '用户登录名',
-        supChina: '供应商中文名',
-        temporaryNumber: '临时号',
-        position: '职位',
-        department: '部门',
-        areaCode: '区号',
-        Landline: '座机',
-        phoneCode: '手机',
-        contactPhone: '联系电话',
-        email: '邮箱'
+        contactName: this.language('联系人姓名'),
+        userLoginName: this.language('用户登录名'),
+        supChina: this.language('供应商中文名'),
+        temporaryNumber: this.language('临时号'),
+        position: this.language('职位'),
+        department: this.language('部门'),
+        areaCode: this.language('区号'),
+        Landline: this.language('座机'),
+        phoneCode: this.language('手机'),
+        contactPhone: this.language('联系电话'),
+        email: this.language('邮箱')
       },
       formData: {
         nameZh: '',
@@ -366,10 +370,10 @@ export default {
         email: ''
       },
       iButtons: {
-        edit: '编辑',
-        sure: '确认',
-        reset: '重置',
-        cancelAuth: '取消授权'
+        edit: this.language('编辑'),
+        sure: this.language('确认'),
+        reset: this.language('重置'),
+        cancelAuth: this.language('取消授权')
       }
     }
   }
