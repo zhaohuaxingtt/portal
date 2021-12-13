@@ -53,7 +53,6 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
   instance.interceptors.response.use(
     (response) => {
       const responseData = response.data
-      // console.log('responseData', responseData)
       if (responseData) {
         // 自动提示错误或成功
         const responseDataMessage = response.data.desZh || response.data.desEn

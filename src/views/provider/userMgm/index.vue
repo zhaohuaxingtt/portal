@@ -231,19 +231,19 @@ export default {
         current: this.page.currPage
       }
       providerList(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             // console.log('value', val)
             this.tableLoading = false
             this.tableListData = val.data
             this.page.totalCount = val.total
           } else {
-            iMessage.error(val.desZh || '获取数据失败')
+            iMessage.error(val.desZh || this.language('获取数据失败'))
           }
         })
-        .catch(error => {
+        .catch((error) => {
           // console.log('error', error)
-          iMessage.error('获取数据失败')
+          iMessage.error(error.desZh || this.language('获取数据失败'))
         })
     },
     search() {
@@ -259,40 +259,40 @@ export default {
     },
     lockAccount() {
       //冻结账户
-      let newArray = this.selectedData.map(val => {
+      let newArray = this.selectedData.map((val) => {
         return { id: val.id }
       })
       let param = newArray
       lockAccount(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             this.getTableList()
           } else {
-            iMessage.error(val.desZh || '冻结账号失败')
+            iMessage.error(val.desZh || this.language('冻结账号失败'))
           }
         })
-        .catch(val => {
-          iMessage.error(val.desZh || '冻结账号失败')
+        .catch((val) => {
+          iMessage.error(val.desZh || this.language('冻结账号失败'))
         })
     },
     delockAccount() {
       //解封账户
-      let newArray = this.selectedData.map(val => {
+      let newArray = this.selectedData.map((val) => {
         return { id: val.id }
       })
       let param = newArray
       this.tableLoading = true
       delockAccount(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             this.getTableList()
             this.tableLoading = false
           } else {
-            iMessage.error(val.desZh || '解冻账号失败')
+            iMessage.error(val.desZh || this.language('解冻账号失败'))
           }
         })
-        .catch(val => {
-          iMessage.error(val.desZh || '解冻账号失败')
+        .catch((val) => {
+          iMessage.error(val.desZh || this.language('解冻账号失败'))
         })
     },
     exportData() {
@@ -329,29 +329,29 @@ export default {
       formAppearance: {
         gutter: 24
       },
-      pageTitle: '供应商用户管理',
+      pageTitle: this.language('供应商用户管理'),
       searchOptionTitles: {
-        contactName: '联系人姓名',
-        providerName: '供应商中/英文名',
-        loginName: '用户登录名',
-        isMainContact: '是否是主联系人',
-        mail: '邮箱',
-        telPhone: '联系电话',
-        phone: '手机',
-        rencentDate: '最近登录',
-        temNumber: '临时号',
-        sapNO: 'SAP号',
-        status: '是否有效',
-        isExpire: '是否过期',
-        input: '请输入',
-        iselect: '请选择'
+        contactName: this.language('联系人姓名'),
+        providerName: this.language('供应商中/英文名'),
+        loginName: this.language('用户登录名'),
+        isMainContact: this.language('是否是主联系人'),
+        mail: this.language('邮箱'),
+        telPhone: this.language('联系电话'),
+        phone: this.language('手机'),
+        rencentDate: this.language('最近登录'),
+        temNumber: this.language('临时号'),
+        sapNO: this.language('SAP号'),
+        status: this.language('是否有效'),
+        isExpire: this.language('是否过期'),
+        input: this.language('请输入'),
+        iselect: this.language('请选择')
       },
       buttonTitles: {
-        search: '查询',
-        reset: '重置',
-        block: '冻结账号',
-        deblock: '解冻账号',
-        export: '导出'
+        search: this.language('查询'),
+        reset: this.language('重置'),
+        block: this.language('冻结账号'),
+        deblock: this.language('解冻账号'),
+        export: this.language('导出')
       },
       formData: {
         email: '', //邮箱
@@ -366,41 +366,41 @@ export default {
         userName: '', //用户登录名
         sapNum: '', //SAP号
         temporaryNum: '', //临时号
-        svwCode:''//svw号
+        svwCode: '' //svw号
       },
       falseTrueSelect: [
         {
           value: false,
-          label: '是',
+          label: this.language('是'),
           id: '1'
         },
         {
           value: true,
-          label: '否',
+          label: this.language('否'),
           id: '2'
         }
       ],
       trueFalseSelect: [
         {
           value: true,
-          label: '是',
+          label: this.language('是'),
           id: '1'
         },
         {
           value: false,
-          label: '否',
+          label: this.language('否'),
           id: '2'
         }
       ],
       statusSelect: [
         {
           value: 1,
-          label: '是',
+          label: this.language('是'),
           id: '1'
         },
         {
           value: 2,
-          label: '否',
+          label: this.language('否'),
           id: '2'
         }
       ]

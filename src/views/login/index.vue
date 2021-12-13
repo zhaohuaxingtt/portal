@@ -2,7 +2,7 @@
   <Login />
 </template>
 <script>
-import Login from '@/components/login'
+import Login from 'rise/web/login'
 export default {
   components: { Login }
 }

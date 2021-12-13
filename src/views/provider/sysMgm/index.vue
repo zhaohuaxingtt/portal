@@ -179,9 +179,9 @@ export default {
             iMessage.error(val.desZh || '获取数据失败')
           }
         })
-        .catch(() => {
+        .catch((err) => {
           this.loading = false
-          iMessage.error('获取数据失败')
+          iMessage.error(err.desZh || '获取数据失败')
         })
     },
     enterDetail(val) {
@@ -200,11 +200,15 @@ export default {
     },
     deleteData() {
       //删除选中数据
-      this.$confirm('此操作将永久删除该模板, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
+      this.$confirm(
+        this.language('此操作将永久删除该模板, 是否继续?'),
+        this.language('提示'),
+        {
+          confirmButtonText: this.language('确定'),
+          cancelButtonText: this.language('取消'),
+          type: 'warning'
+        }
+      ).then(() => {
         let param = this.selectedData.map((item) => {
           return item.id
         })
@@ -217,13 +221,13 @@ export default {
               this.loading = false
               this.getTableList()
             } else {
-              iMessage.error(val.desZh || '删除失败')
+              iMessage.error(val.desZh || this.language('删除失败'))
             }
           })
           .catch(() => {
             //
             this.loading = false
-            iMessage.error('删除失败')
+            iMessage.error(this.language('删除失败'))
           })
       })
     },
@@ -277,30 +281,30 @@ export default {
         systemType: ''
       },
       searchOptionTitles: {
-        name: '中文名称',
-        nameEN: '英文名称',
+        name: this.language('中文名称'),
+        nameEN: this.language('英文名称'),
         // ldap: "安全中心LDAP属性",
         // type: "功能类型",
-        sysDesc: '系统功能说明',
-        sysType: '系统类型',
-        sysTag: '系统标签',
+        sysDesc: this.language('系统功能说明'),
+        sysType: this.language('系统类型'),
+        sysTag: this.language('系统标签'),
         buttons: {
-          search: '查询',
-          reset: '重置'
+          search: this.language('查询'),
+          reset: this.language('重置')
         },
-        input: '请输入',
-        iselect: '请选择'
+        input: this.language('请输入'),
+        iselect: this.language('请选择')
       },
-      title: '供应商系统/SCENARIO管理',
+      title: this.language('供应商系统/SCENARIO管理'),
       buttonTitles: {
-        create: '新建',
-        delete: '删除',
-        export: '导出'
+        create: this.language('新建'),
+        delete: this.language('删除'),
+        export: this.language('导出')
       },
       systemOptions: [
         {
           id: '1',
-          label: '系统'
+          label: this.language('系统')
         },
         {
           id: '2',
@@ -314,11 +318,11 @@ export default {
         },
         {
           id: '1',
-          label: '生产采购'
+          label: this.language('生产采购')
         },
         {
           id: '2',
-          label: '一般采购'
+          label: this.language('一般采购')
         }
       ]
     }

@@ -1,8 +1,15 @@
 <template>
   <iCard>
     <div class="flex-end-center margin-bottom20">
+      <iButton
+        :disabled="selectedRows.length === 0"
+        :loading="retryLoading"
+        @click="retry"
+      >
+        {{ language('重试') }}
+      </iButton>
       <button-download :download-method="exportProcess">
-        {{ $t('导出审批流程') }}
+        {{ language('导出审批流程') }}
       </button-download>
       <button-download :download-method="exportExcel" />
     </div>
@@ -11,6 +18,7 @@
       :data="tableData"
       :columns="tableColumns"
       min-height="328px"
+      custom-selection
       @go-detail="openPage"
       @go-template="openTemplage"
       @handle-selection-change="handleSelectionChange"
@@ -33,18 +41,20 @@
 <script>
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
-import { iCard, iPagination } from 'rise'
+import { iCard, iPagination, iButton } from 'rise'
 import { TABLE_COLUMS } from './data'
 import {
   fetchMonitors,
   exportMonitors,
-  exportProcessHistorics
+  exportProcessHistorics,
+  retryAssign
 } from '@/api/approval/monitor'
 import { filterEmptyValue } from '@/utils'
+import { iMessage } from 'rise'
 export default {
   name: 'TheBizLogTable',
   mixins: [pageMixins],
-  components: { iTableCustom, iCard, iPagination },
+  components: { iTableCustom, iCard, iPagination, iButton },
   data() {
     return {
       searchData: {},
@@ -52,8 +62,7 @@ export default {
       tableData: [],
       tableColumns: TABLE_COLUMS,
       selectedRows: [],
-      exportLoading: false,
-      exportProcessLoading: false
+      retryLoading: false
     }
   },
   created() {
@@ -98,11 +107,33 @@ export default {
       const { data } = await fetchMonitors(requestData).finally(
         () => (this.tableLoading = false)
       )
-      this.tableData = data.records || []
+      const tableData = data.records || []
+      this.tableData = tableData.map((e) => {
+        return { ...e, checked: false, disabledChecked: e.procStatus !== 30 }
+      })
       this.page.totalCount = data.total
     },
     handleSelectionChange(val) {
       this.selectedRows = val
+    },
+    retry() {
+      const data = this.selectedRows.map((e) => e.instanceId)
+      this.retryLoading = true
+      retryAssign(data)
+        .then((res) => {
+          if (res.result) {
+            iMessage.success(
+              res.desZh || this.language('重新分配任务审批人成功')
+            )
+            this.query()
+          } else {
+            iMessage.error(res.desZh || this.language('重新分配任务审批人失败'))
+          }
+        })
+        .catch((err) => {
+          iMessage.error(err.desZh || this.language('重新分配任务审批人失败'))
+        })
+        .finally(() => (this.retryLoading = false))
     }
   }
 }
