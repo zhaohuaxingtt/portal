@@ -34,12 +34,21 @@ export function unfollow(data) {
     method: 'POST',
     data
   })
-} 
+}
 
 //分页查询当前用户会议议题
 export function findMyThemens(data) {
   return requst({
     url: `/meetingService/findMyThemens`,
+    method: 'POST',
+    data
+  })
+}
+
+// 获取Commidty部门列表
+export function queryDeptList(data) {
+  return requst({
+    url: `/meetingService/queryDeptList`,
     method: 'POST',
     data
   })
