@@ -150,7 +150,10 @@ export const levelSetting = [
     prop: 'position',
     label: '岗位',
     align: 'center',
-    i18n: 'staffManagement.JOBS'
+    i18n: 'staffManagement.JOBS',
+    customRender: (h, scope) => {
+      return scope.row?.SapUserDTO?.positionDTO?.full_name_zh || ''
+    }
   },
   {
     prop: 'status',
