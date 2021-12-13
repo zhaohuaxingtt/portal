@@ -223,7 +223,6 @@
             data = this.removeEmptyField(data)
             this.allSelectObject = data
             let {engine, transmission, position, purchaseFactoryVo, kslPriceSource, categoryLinieVoList} = data
-            console.log(categoryLinieVoList,'categoryLinieVoList')
             let $engine = []
             let $transmission = []
             let $position = []

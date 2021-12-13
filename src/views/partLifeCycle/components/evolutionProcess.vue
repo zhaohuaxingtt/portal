@@ -152,7 +152,6 @@ export default {
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
-          console.log('导出成功')
         } else {
           iMessage.error(result)
         }

@@ -283,10 +283,8 @@ export default {
           ...searchForm
         }
         const res = await querySeriesbaseDetail(req)
-        console.log(res, 999)
         if (res.result) {
           this.tableListData = res.data.records
-          console.log(this.tableListData, 222)
           this.tableListData.map((item) => {
             if (!item.partType) {
               item.partType = 'P'
