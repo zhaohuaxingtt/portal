@@ -325,7 +325,7 @@ export default {
           label: this.language('一般采购')
         },
         {
-          id: '3',
+          id: '4',
           label: this.language('物流应用')
         }
       ],
