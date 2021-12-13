@@ -36,7 +36,7 @@
                     <iSelect :placeholder="language('请选择')" v-model="form.isConfirm">
                         <el-option
                                 :value="item.key"
-                                :label="$t($i18n.locale === 'zh' ? item.value : item.valueEN)"
+                                :label="$i18n.locale === 'zh' ? item.value : item.valueEN"
                                 v-for="item,index in allSelectObject.allStatus"
                                 :key="index"></el-option>
                     </iSelect>
@@ -223,6 +223,7 @@
             data = this.removeEmptyField(data)
             this.allSelectObject = data
             let {engine, transmission, position, purchaseFactoryVo, kslPriceSource, categoryLinieVoList} = data
+            console.log(categoryLinieVoList,'categoryLinieVoList')
             let $engine = []
             let $transmission = []
             let $position = []
@@ -248,19 +249,21 @@
             $engine = $engine.sort((a,b) => {
               return a.substring(0,3) - b.substring(0,3)
             })
-            let $categoryLinieVoList = JSON.parse(JSON.stringify(categoryLinieVoList))
-            $categoryLinieVoList.map(item => {
-              item.name = item.name.substring(0,item.name.lastIndexOf('-'))
-            })
-            $categoryLinieVoList.sort((a,b)=> {
-              return Number(a.code) -Number(b.code)
-            })
+            let $categoryLinieVoList = categoryLinieVoList?JSON.parse(JSON.stringify(categoryLinieVoList)):[]
+            if($categoryLinieVoList&&$categoryLinieVoList.length) {
+              $categoryLinieVoList.map(item => {
+                item.name = item.name.substring(0,item.name.lastIndexOf('-'))
+              })
+              $categoryLinieVoList.sort((a,b)=> {
+                return Number(a.code) -Number(b.code)
+              })
+            }
             this.allSelectObject.engine = $engine
             this.allSelectObject.position = $position
             this.allSelectObject.transmission = $transmission
             this.allSelectObject.purchaseFactoryVo = $purchaseFactoryVo
             this.allSelectObject.kslPriceSource = $kslPriceSource
-            this.allSelectObject.categoryLinieVoList = $categoryLinieVoList
+            this.allSelectObject.categoryLinieVoList = $categoryLinieVoList || []
             this.allSelectObject.allStatus = [
               {key: '0', value: '待确认', valueEN: 'to be confirmed'},
               {key: '1', value: '已确认', valueEN: 'confirmed'}
