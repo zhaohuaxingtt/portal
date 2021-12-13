@@ -3,10 +3,25 @@
     :placeholder="language('请选择')"
     multiple
     v-model="row.rightSelect"
-    @change="handleSelected"
     filterable
     style="width: 100%"
   >
+    <!-- <el-option value="">
+      <el-Button
+        size="mini"
+        plain
+        @click.native="(event) => checkAll(true, event)"
+      >
+        全选
+      </el-Button>
+      <el-Button
+        size="mini"
+        plain
+        @click.native="(event) => checkAll(false, event)"
+      >
+        全不选
+      </el-Button>
+    </el-option> -->
     <el-option
       v-for="item in options"
       :key="item.valueId"
@@ -54,12 +69,15 @@ export default {
     }
   },
   methods: {
-    // rightSelectValues
-    // handleSelected(value){
-    //   this.row.rightSelectValues = this.row.optionsSelect.filter((val) =>{
-    //     return value.indexOf(val) > 0;
-    //   });
-    // }
+    checkAll(val, event) {
+      console.log(val, event)
+      if (val) {
+        this.row.rightSelect = this.options.map((e) => e.valueId)
+      } else {
+        this.row.rightSelect = []
+      }
+      event.stopPropagation()
+    }
   }
 }
 </script>

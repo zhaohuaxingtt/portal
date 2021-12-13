@@ -241,7 +241,8 @@ export default {
         nameZh: this.formData.nameZh,
         isVisible: this.formData.isVisible,
         isCommodity: this.formData.isCommodity,
-        syncStatus: this.formData.syncStatus
+        syncStatus: this.formData.syncStatus,
+        queryTree: Object.keys(filterEmptyValue(this.formData)).length === 0
       }
       //得到数据
 
@@ -252,10 +253,10 @@ export default {
           if (value.code == 200) {
             this.alltableListData = _.cloneDeep(value.data)
             this.tableListData = value.data
-            this.flatTableData = treeToArray(
+            /* this.flatTableData = treeToArray(
               this.alltableListData,
               'supDeptList'
-            )
+            ) */
           }
         })
         .catch((error) => {
