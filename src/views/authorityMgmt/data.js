@@ -152,7 +152,20 @@ export const levelSetting = [
     align: 'center',
     i18n: 'staffManagement.JOBS',
     customRender: (h, scope) => {
-      return scope.row?.SapUserDTO?.positionDTO?.full_name_zh || ''
+      return scope.row?.positionDTO?.fullNameZh || ''
+      /* const res = []
+      console.log('111111111111', scope.row)
+      if (scope.row.subUserList) {
+        console.log('22222222222222222222')
+        scope.row.subUserList.forEach((subUser) => {
+          console.log('333333')
+          if (subUser.positionDTO && subUser.positionDTO.fullNameZh) {
+            console.log('55555555555555555')
+            res.push(subUser.positionDTO.fullNameZh)
+          }
+        })
+      }
+      return res.join(',') */
     }
   },
   {
