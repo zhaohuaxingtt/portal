@@ -1,10 +1,11 @@
 <template>
-  <div style="height:100%; padding-bottom:40px">
+  <div style="height: 100%; padding-bottom: 40px">
     <div class="ProApproval-menu">
       <iNavMvp :list="menus" :lev="1" router-page />
+      <!-- <iNavMvp :list="subMenus" :lev="2" router-page /> -->
     </div>
 
-    <router-view style="height:100%"></router-view>
+    <router-view style="height: 100%"></router-view>
   </div>
 </template>
 
@@ -58,16 +59,28 @@ export default {
             },
             {
               value: 5,
-              name: '审批代理',
+              name: '会议审批代理',
               message: 0,
               url: '/approval/agent?type=meeting',
               activePath: '/approval/agent',
-              key: '审批代理'
+              key: '会议审批代理'
             }
           ]
         }
       ],
       childrenMenus: []
+    }
+  },
+  computed: {
+    subMenus() {
+      const path = this.$route.path
+      console.log('path', path)
+      const items = this.menus.filter((e) => e.url === path)
+      console.log(items)
+      if (items && items.length && items[0].children) {
+        return items[0].children
+      }
+      return []
     }
   }
 }
@@ -75,6 +88,8 @@ export default {
 
 <style lang="scss" scoped>
 .ProApproval-menu {
-  margin: 20px 0px 0px 30px;
+  margin: 20px 60px 0px 30px;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

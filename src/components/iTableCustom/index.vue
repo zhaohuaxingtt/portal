@@ -282,6 +282,14 @@ export default {
       type: Boolean,
       default: false
     },
+    customSelectionOption: {
+      type: Object,
+      default: function () {
+        return {
+          checkStrictly: false // 在显示复选框的情况下，是否严格的遵循父子不互相关联的做法，默认为 false, false: 关联，true: 不关联
+        }
+      }
+    },
     // 使用自定义选择框, 是否要回传半选状态记录
     emitHalfSelection: {
       type: Boolean,
