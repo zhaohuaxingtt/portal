@@ -46,7 +46,7 @@
             </div>
             <div class="flex flex-row justify-between items-center gray-color">
               <div class="label">{{ item.currModuleName }}</div>
-              <div>{{ item.createDate }}</div>
+              <div>{{ item.updateDate }}</div>
             </div>
           </el-card>
           <p class="no-data" v-if="categoryCardList.length == 0 && !l_loading">暂无数据</p>
@@ -195,7 +195,7 @@ export default {
         id: null,
       },
       replyContent: '',
-      pageNum: 1,
+      pageNum: 0,
       pageSize: 10,
       catgoryList: [
         {
@@ -260,7 +260,7 @@ export default {
       this.keyWord = params.questionTitle
     }
     await this.getModuleListByUserType(this.userType);
-    this.initData();
+    // this.initData();
   },
   methods: {
     initData () {
@@ -288,6 +288,7 @@ export default {
     },
     // 获取问题列表
     async queryProblemList (queryForm) {
+      console.log(queryForm);
       this.l_loading = true
       try {
         const response = await queryProblemListApi(queryForm);
@@ -332,12 +333,22 @@ export default {
     // 监听左侧滚动条
     loadmore(){
       if(this.noMore) return
-      this.queryProblemList(this._queryForm({ pageNum: this.pageNum + 1}));
+      this.pageNum++
+      this.queryProblemList(this._queryForm({
+        keyWord:this.keyWord,
+        source: this.userType,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        questionStatus: this.currentCategoryItem == "all" ? "" : this.currentCategoryItem,
+        selfOnly: this.selfOnly ? 1 : 0,
+      }));
     },
     // 点击导航
     changeCategoryItem (item) {
       this.isReplyStatus = false
       this.currentCategoryItem = item.value;
+			this.categoryCardList = []
+      this.noMore = false
       // 重新请求数据
       this.queryProblemList(this._queryForm({
         questionStatus: item.value == 'all' ? '' : item.value,
@@ -349,17 +360,25 @@ export default {
       this.editFormBtn = false;
     },
     changeSelfHandle (val) {
+      this.categoryCardList = []
+      this.noMore = false
       this.queryProblemList(this._queryForm({ selfOnly: val ? 1 : 0, pageNum: 1 }));
       this.$emit('changeSelfHandle', val ? 1 : 0);
     },
     keyWordBlurHandle () {
+      this.categoryCardList = []
+      this.noMore = false
       this.queryProblemList(this._queryForm({ keyWord: this.keyWord, pageNum: 1 }));
     },
     questionModuleHandle (val) {
+      this.categoryCardList = []
+      this.noMore = false
       this.queryProblemList(this._queryForm({ questionModuleId: val, pageNum: 1 }));
     },
     clearModuleHandle () {
       this.questionModuleId = '';
+      this.categoryCardList = []
+      this.noMore = false
       this.queryProblemList(this._queryForm({ questionModuleId: '', pageNum: 1 }));
     },
     // 根据问题id查询问题详情
@@ -537,7 +556,7 @@ export default {
       }
     },
     disabled(){
-      return this.noMore || this.loadmore
+      return this.noMore || this.l_loading
     }
   },
   components: {
@@ -561,6 +580,7 @@ export default {
   .left-content {
     width: 30%;
     height: 100%;
+    min-height: 50px;
     display: flex;
     flex-direction: column;
     background: #ffffff;

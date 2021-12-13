@@ -12,15 +12,13 @@ export const tableColumn = (list) => {
     {
       prop: 'lableName',
       label: '标签内容',
-      align: 'center',
-      width: 200
+      align: 'center'
     },
     {
       // prop: 'moduleId',
       label: '问题模块',
       i18n: '问题模块',
       align: 'center',
-      width: 200,
       customRender: (h, scope) => {
         return list[scope.row.moduleId] ? list[scope.row.moduleId].menuName : "";
       }
@@ -28,7 +26,6 @@ export const tableColumn = (list) => {
     {
       prop: 'createByName',
       label: '添加人',
-      width: '200px',
       align: 'center',
       tooltip: true
     },

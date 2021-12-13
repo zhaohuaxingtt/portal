@@ -103,6 +103,8 @@ export default {
       background-image: url('~@/assets/images/icon/first.png');
     }
     &.second {
+      width: 38px;
+      height: 38px;
       background-image: url('~@/assets/images/icon/second.png');
     }
     &.third {
