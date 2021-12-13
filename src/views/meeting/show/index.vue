@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">会议展示</div>
+    <div class="header">会议展示 Meeting Live</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <p class="info-line-1">
@@ -102,11 +102,11 @@
         <el-table-column
           prop="benCn"
           align="center"
-          label="BEN(CN)"
+          label="BEN(DE)"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.benCn">{{ scope.row.benCn }}</span>
+            <span v-if="scope.row.benCn">{{ scope.row.benDe }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
@@ -126,26 +126,26 @@
 
         <!-- 支持者 -->
         <el-table-column
-          prop="supporter"
+          prop="supporterEn"
           align="center"
           label="Sourcing"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.supporter">{{ scope.row.supporter }}</span>
+            <span v-if="scope.row.supporterEn">{{ scope.row.supporterEn }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
 
         <!-- 演讲人 -->
         <el-table-column
-          prop="presenter"
+          prop="presenterEn"
           align="center"
           label="Linie"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.presenter">{{ scope.row.presenter }}</span>
+            <span v-if="scope.row.presenterEn">{{ scope.row.presenterEn }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>

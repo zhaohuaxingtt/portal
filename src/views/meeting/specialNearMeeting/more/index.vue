@@ -36,10 +36,10 @@
                 v-model="form.commodity"
               >
                 <el-option
-                  :value="item.label"
-                  :label="item.label"
+                  :value="item.fullCode"
+                  :label="item.fullCode"
                   v-for="item of commodityList"
-                  :key="item.label"
+                  :key="item.fullCode"
                 ></el-option>
               </iSelect>
             </el-form-item>
@@ -298,9 +298,7 @@ import { follow, unfollow } from '@/api/meeting/myMeeting'
 import { stateObj, themenConclusion } from './data'
 import { recallThemen } from '@/api/meeting/details'
 import { getMettingType } from '@/api/meeting/type'
-import {
-  getDeptListByParam // 科室
-} from '@/api/achievement'
+import { queryDeptList } from '@/api/meeting/live'
 
 export default {
   components: {
@@ -353,26 +351,7 @@ export default {
           label: 'CSC'
         }
       ],
-      commodityList: [
-        {
-          label: 'CSE'
-        },
-        {
-          label: 'CSM'
-        },
-        {
-          label: 'CSE'
-        },
-        {
-          label: 'CSI'
-        },
-        {
-          label: 'CSX'
-        },
-        {
-          label: 'CSP'
-        }
-      ],
+      commodityList: [],
       resultList: [
         {
           conclusionCsc: '01',
@@ -427,16 +406,12 @@ export default {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
     this.query()
     this.getAllSelectList()
-    // this.getCommidityList()
+    this.getCommidityList()
   },
   methods: {
     getCommidityList() {
-      let param = {
-        isCommodity: true
-        // grade: DeptGrade.R2.getValue()
-      }
-      getDeptListByParam(param).then((res) => {
-        console.log('res', res)
+      queryDeptList().then((res) => {
+        this.commodityList = res
       })
     },
     getAllSelectList() {
