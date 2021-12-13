@@ -176,7 +176,7 @@ export default {
       let hashArr = window.location.hash.split('/')
       hashArr.pop()
       let param = {
-        id: this.id,
+        id: id ? id : this.id,
         approvalProcessId: this.rowState.approvalProcessId,
         isTriggerApproval:
           this.rowState.isTriggerApproval == 'true' ? true : false,
