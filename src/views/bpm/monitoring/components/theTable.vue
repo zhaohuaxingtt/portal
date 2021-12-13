@@ -122,16 +122,14 @@ export default {
       retryAssign(data)
         .then((res) => {
           if (res.result) {
-            iMessage.success(
-              res.desZh || this.language('重新分配任务审批人成功')
-            )
+            iMessage.success(res.desZh || this.language('已重试'))
             this.query()
           } else {
-            iMessage.error(res.desZh || this.language('重新分配任务审批人失败'))
+            iMessage.error(res.desZh || this.language('重试失败'))
           }
         })
         .catch((err) => {
-          iMessage.error(err.desZh || this.language('重新分配任务审批人失败'))
+          iMessage.error(err.desZh || this.language('重试失败'))
         })
         .finally(() => (this.retryLoading = false))
     }
