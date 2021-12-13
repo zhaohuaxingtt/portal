@@ -129,7 +129,6 @@ export default {
       })
     },
     deleteItem(item){
-      console.log(item,'ddd')
       let _this = this
       this.$confirm('是否确认删除', '提示', {
         confirmButtonText: '确定',

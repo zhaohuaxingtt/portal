@@ -123,7 +123,7 @@
             v-if="!showUpdateTopicButtonList"
             :rowClassName="tableRowClassName"
             :currentRow="currentRow"
-            :isSingle="isSingle"
+            :isSingle="true"
             ref="hiddenColumnTable"
           >
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -894,8 +894,6 @@ export default {
       openError: false,
       errorList: [],
       autoOpenProtectConclusionObj: '',
-      isSingle: false,
-      // closeLoading: false,
       curState: '',
       processUrl: process.env.VUE_APP_POINT,
       processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
@@ -2312,19 +2310,26 @@ export default {
     // },
     // 表格选中值集
     handleSelectionChange(val) {
-      if (this.curState === '05') {
-        val = [val[val.length - 1]]
-        this.currentRow = val[0]
+      this.goState(
+        this.meetingInfo.state,
+        this.meetingInfo.isCSC,
+        this.meetingInfo.isPreCSC
+      )
+      val = [val[val.length - 1]]
+      // if (this.curState === '05') {
+      //   val = [val[val.length - 1]]
+      //   this.currentRow = val[0]
 
-        this.isSingle = true
-      } else {
-        this.isSingle = false
-      }
+      //   this.isSingle = true
+      // } else {
+      //   this.isSingle = false
+      // }
       if (!val[0]) {
         return
       }
+      this.currentRow = val[0]
       this.selectedTableData = val
-      const handleDisabledButtonName = this.handleDisabledButtonName
+      let handleDisabledButtonName = this.handleDisabledButtonName
       if (val.length === 1) {
         if (this.haveThemenIsStarting()) {
           this.handleButtonDisabled(['overTopic'], false)
@@ -2428,6 +2433,7 @@ export default {
           this.handleButtonDisabled(['protectResult'], true)
           this.handleButtonDisabled(['overTopic'], false)
         } else {
+          // console.log("")
           if (val[0].isBreak) {
             this.handleButtonDisabled(['deleteTopAll'], false)
             if (
