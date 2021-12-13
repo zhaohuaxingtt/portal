@@ -2,7 +2,7 @@
 	<div class="leftContent" v-loading="loading">
 		<slot name="top"></slot>
 		<div class="list">
-			<div class="listTitle" v-text="title"></div>
+			<div class="listTitle cursor" v-text="title" @click.stop="turnAll"></div>
 			<div 
 				class="listContent"
 				ref="loadList"
@@ -95,6 +95,10 @@ export default {
 		load(){
 			if(!this.loadmore) return
 			this.$emit("onLoad")
+		},
+		turnAll() {
+			console.log('23456')
+			this.$emit("turnAll")
 		}
 	},
 }

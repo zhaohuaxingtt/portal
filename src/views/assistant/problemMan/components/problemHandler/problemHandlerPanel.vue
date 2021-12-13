@@ -717,10 +717,10 @@ export default {
 		margin-right: 10px;
 	}
 ::v-deep .card.is-always-shadow {
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 4px 4px rgba(209, 230, 245, 0.16);
 	border-radius: 2px;
-	background: #F8F9FA;
-	border: 1px solid #E5E5E5;
+	background: rgb(209, 230, 245);
+border: 1px solid #E5E5E5;
 }
 	.name {
         width: 100px;

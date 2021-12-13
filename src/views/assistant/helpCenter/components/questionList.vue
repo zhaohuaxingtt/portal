@@ -9,7 +9,7 @@
 			/>
 			<iSelect
 				class="select-style"
-				:placeholder="language('请选择...')"
+				:placeholder="language('全部模块')"
 				v-model="questionModuleId"
 				@change="searchQuestion"
 				filterable
@@ -230,9 +230,9 @@ export default {
 		}
 	}
 	.selected {
-		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16);
+		box-shadow: 0px 4px 4px rgba(209, 230, 245, 0.16);
 		border-radius: 2px;
-		background: #F8F9FA;
+		background: rgb(209, 230, 245);
 		border: 1px solid #E5E5E5;
 	}
 	.el-pagination__rightwrapper {

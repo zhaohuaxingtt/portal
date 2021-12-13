@@ -51,6 +51,7 @@
 					:moudleList="moudleList"
 					:currentMoudleId.sync="currentMoudleId"
 					@change="moduleChange"
+					@turnAll="turnAll"
 					title="全部问题"
 				/>
 				<ProblemDetail
@@ -174,6 +175,9 @@ export default {
 		await this.getCurrentModule()
 	},
 	methods: {
+		turnAll() {
+			this.currentMoudleId = ''
+		},
 		async getMoudleList() {
 			this.listLoading = true
 			await getModuleList().then((res) => {

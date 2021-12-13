@@ -7,6 +7,8 @@
 			<el-upload
 				v-if="load==='up'"
 				:before-upload="beforeAttachUpload"
+				:limit="5"
+				multiple
 				:show-file-list="false"
 				:accept="
 					fileTypes
@@ -79,7 +81,7 @@ export default {
 	data() {
 		return {
 			dialogVisible: false,
-			copyFile: '',
+			copyFile: [],
 			fileList: [],
 			fileUrl: '',
 			attachText: '只能上传不超过20MB的文件'
@@ -105,23 +107,26 @@ export default {
 		},
 		beforeAttachUpload(file) {
 			if (this.fileList.length > 5) return this.$message.error("上传文件不能超过5个")
-			console.log(file, "file")
-			const fileName = file.name
-			this.copyFile = new File([file], fileName);
-			const isLt20M = file.size / 1024 / 1024 < 20
-			if (!isLt20M) return this.$message.error("上传文件大小不能超过 20MB!")
+			if (file) {
+				const fileName = file.name
+				this.copyFile = new File([file], fileName);
+				const isLt20M = file.size / 1024 / 1024 < 20
+				if (!isLt20M) return this.$message.error("上传文件大小不能超过 20MB!")
+			}
 		},
 		async httpUpload() {
-			let formData = new FormData()
-			formData.append("file", this.copyFile);
-			await uploadFile(formData).then((res) => {
-				this.fileList.push({
-					name: res.name,
-					id: res.id,
-					path: res.path
+			if (this.copyFile) {
+				let formData = new FormData()
+				formData.append("file", this.copyFile);
+				await uploadFile(formData).then((res) => {
+					this.fileList.push({
+						name: res.name,
+						id: res.id,
+						path: res.path
+					})
+					this.$emit("getFilesList", this.fileList || [])
 				})
-				this.$emit("getFilesList", this.fileList || [])
-			})
+			}
 		},
 		deleteFile(file) {
 			if (this.load === 'down') return
@@ -136,6 +141,7 @@ export default {
 		},
 		closeDialog() {
 			this.dialogVisible = false
+			this.fileList = []
 		}
 	}
 }
