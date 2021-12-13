@@ -16,12 +16,13 @@
             class="search-category"
           ></theFilterPanelLeftSelect>
         </div>
-        <div class="filter-input" @onblur="loseFocus" tabindex="-1">
+        <div class="filter-input">
           <iInput
             class="search-input"
             v-model="searchForm.words"
             type="primary"
             @focus="getSuggestions"
+            @blur="handleHideSuggestion"
             v-on:keyup.enter.native="search"
             @input="getSuggestions"
           >
@@ -36,13 +37,7 @@
             </el-button>
           </iInput>
           <div class="suaggestionContent" v-show="showSuggestion">
-            <div 
-              v-for="(item, idx) in suggestions"
-              :key="idx"
-              class="suggestionItem"
-              @click="selectedSugges(item)"
-            >{{item.value}}</div>
-              <!-- <ul>
+              <ul>
                 <li
                   v-for="(item, idx) in suggestions"
                   :key="idx"
@@ -51,10 +46,9 @@
                 >
                 {{item.value}}
                 </li>
-              </ul> -->
+              </ul>
               <div style='height:20px'></div>
           </div>
-          <!-- </el-autocomplete> -->
         </div>
     </div>
 </template>
@@ -133,9 +127,10 @@ export default {
       this.showSuggestion = false
 
     },
-    loseFocus(){
-      console.log('失去焦点');
-      this.showSuggestion = false
+    handleHideSuggestion(){
+      window.setTimeout(()=>{
+        this.showSuggestion = false
+      },500)
     }
   }
 }
@@ -197,8 +192,8 @@ $input-height: 48px;
   }
 }
 .suaggestionContent{
-  // top: 160px;
-  // position:absolute;
+  top: 160px;
+  position:absolute;
   background: #fff;
   box-shadow:0 0  5px #dcdcdc;
   z-index: 99;
