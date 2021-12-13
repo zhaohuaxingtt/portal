@@ -230,9 +230,12 @@ export default {
         for (let item of this.authUser) {
           if (item.isMainContact == true) {
             this.iMessageBox = true
+            /* const msg = this.formData.isMainContact
+          ? '该操作将一并取消对应子联系人的权限，是否确认取消主联系人授权'
+          : '是否取消当前联系人授权' */
             this.$confirm(
               this.language(
-                '该操作将一并取消对应子联系人的权限，是否确认取消主联系人授权？'
+                '该操作将一并取消对应子联系人的权限，是否确认取消主联系人授权'
               ),
               this.language('提示'),
               {
