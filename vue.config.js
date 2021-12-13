@@ -274,7 +274,7 @@ module.exports = {
         }
       },
       [process.env.VUE_APP_SOURCING]: {
-        target: `http://${BASE_IP}:8025/sourcing/web`,
+        target: `http://${BASE_IP}:8025/sourcing`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_SOURCING]: ''
