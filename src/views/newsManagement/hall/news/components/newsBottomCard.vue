@@ -46,7 +46,7 @@
       >
         <iCard class="form-bottom-icard-item">
           <div class="form-bottom-row1">
-            <el-image :src="item.picUrl" lazy class="form-bottom-icard-img" />
+            <el-image v-if="item.picUrl!== undefined" :src="item.picUrl" lazy class="form-bottom-icard-img" />
             <div v-if="item.topicId !== null" class="form-bottom-row1-topic">
               <span>{{ language('NEWS_ZHUANTI', '专题') }}</span>
             </div>

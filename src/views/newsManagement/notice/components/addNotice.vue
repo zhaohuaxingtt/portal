@@ -338,7 +338,7 @@ export default {
         type: "",
         publishDate: "",
         isTop: 0,
-        publishRange: "",
+        publishRange: 0,
         content: "",
         attachments: [],
         userGroup: [],
@@ -542,7 +542,7 @@ export default {
         .substr(0, 19)
         .replace("T", " "),
         isTop: 0,
-        publishRange: "",
+        publishRange: 0,
         content: "",
         attachments: [],
         userGroup: [],

@@ -1,7 +1,7 @@
 <template>
   <div class="form-right-cont">
     <div class="from-right-content-img">
-      <el-image :src="url" class="form-right-img" lazy />
+      <el-image :src="url" v-if="url!== undefined" class="form-right-img" lazy />
     </div>
     <div class="from-right-li-content">
       <div class="from-right-li-content-lable" :title="title">
