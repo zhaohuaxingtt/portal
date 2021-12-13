@@ -5,6 +5,7 @@
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\search\components\filterPanel.vue
+ @change="inputChange"  这个事件 把 showSuggestion 置为false了  我点第二次了 就聚焦了  就为true 然后就点上了 
 -->
 <template>
     <div class="filter-panel" ref="filter">
@@ -15,12 +16,11 @@
             class="search-category"
           ></theFilterPanelLeftSelect>
         </div>
-        <div class="filter-input" @blur="loseFocus" tabindex="-1">
+        <div class="filter-input" @onblur="loseFocus" tabindex="-1">
           <iInput
             class="search-input"
             v-model="searchForm.words"
             type="primary"
-            @change="inputChange"
             @focus="getSuggestions"
             v-on:keyup.enter.native="search"
             @input="getSuggestions"
@@ -36,16 +36,22 @@
             </el-button>
           </iInput>
           <div class="suaggestionContent" v-show="showSuggestion">
-              <ul>
+            <div 
+              v-for="(item, idx) in suggestions"
+              :key="idx"
+              class="suggestionItem"
+              @click="selectedSugges(item)"
+            >{{item.value}}</div>
+              <!-- <ul>
                 <li
-                v-for="item in suggestions"
-                :key="item"
-                class="suggestionItem"
-                @click="selectedSugges(item)"
+                  v-for="(item, idx) in suggestions"
+                  :key="idx"
+                  class="suggestionItem"
+                  @click="selectedSugges(item)"
                 >
                 {{item.value}}
                 </li>
-              </ul>
+              </ul> -->
               <div style='height:20px'></div>
           </div>
           <!-- </el-autocomplete> -->
@@ -191,10 +197,11 @@ $input-height: 48px;
   }
 }
 .suaggestionContent{
-  top: 160px;
-  position:absolute;
+  // top: 160px;
+  // position:absolute;
   background: #fff;
   box-shadow:0 0  5px #dcdcdc;
+  z-index: 99;
   .suggestionItem{
   width: 600px;
   font-weight: bolder;
