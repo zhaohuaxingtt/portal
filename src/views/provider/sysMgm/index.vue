@@ -92,7 +92,10 @@
             <iButton @click="deleteData" :disabled="selectedData.length == 0">{{
               buttonTitles.delete
             }}</iButton>
-            <iButton @click="exportData">{{ buttonTitles.export }}</iButton>
+            <button-download :download-method="exportData" />
+            <!-- <iButton @click="exportData">
+              {{ buttonTitles.export }}
+            </iButton> -->
             <create-sys-mgm
               v-if="dialogFormVisible"
               :visible="dialogFormVisible"
@@ -232,13 +235,14 @@ export default {
       })
     },
     exportData() {
+      return sysExport(this.formData)
       //导出数据
-      let newFormData = _.cloneDeep(this.formData)
+      /* let newFormData = _.cloneDeep(this.formData)
       newFormData.supplierType = newFormData.supplierType.join(',')
       let param = {
         ...newFormData
       }
-      sysExport(param)
+      sysExport(param) */
     },
     defaultFormData() {
       return {
