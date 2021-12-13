@@ -155,6 +155,7 @@ export function transverseDownloadPDF({//html横向导出pdf
   canvas.height = eleH * 2
 
   var context = canvas.getContext('2d')
+
   context.scale(2, 2)
   context.translate(-eleOffsetLeft - abs, -eleOffsetTop)
 

@@ -138,7 +138,7 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination,iDialog } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1, partTableTitle1,ruleTableTitle1_new,partTableTitle1_new,ruleTableTitle1_1,partTableTitle1_1} from './data'
+import { ruleTableTitle1_1,partTableTitle1_1} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import signPreview from "./signPreview";
@@ -161,11 +161,7 @@ export default {
     return {
       formData: {},
       formList,
-      ruleTableTitle1:ruleTableTitle1,
-      partTableTitle1:partTableTitle1,
-      ruleTableTitle1_new,
       ruleTableTitle1_1,
-      partTableTitle1_new,
       partTableTitle1_1,
       ruleTableListData: [],
       rulePageParams: {
