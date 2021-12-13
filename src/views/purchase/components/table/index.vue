@@ -13,7 +13,7 @@
                   :span-method="handleMerge"
                   tooltip-effect='light'
                   :data='tableData'
-                  :empty-text="$t('LK_ZANWUSHUJU')"
+                  :empty-text="$i18n.locale === 'zh'?'暂无数据':'No Data'"
                   v-loading='tableLoading'
                   @selection-change="handleSelectionChange"
                   :row-class-name="handleTableRow">

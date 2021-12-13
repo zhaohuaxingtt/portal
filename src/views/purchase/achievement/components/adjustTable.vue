@@ -6,7 +6,7 @@
                   :data='tableData'
                   :span-method="handleMerge"
                   :header-cell-style="headerStyle"
-                  :empty-text="$t('LK_ZANWUSHUJU')"
+                  :empty-text="$i18n.locale === 'zh'?'暂无数据':'No Data'"
 
         >
 

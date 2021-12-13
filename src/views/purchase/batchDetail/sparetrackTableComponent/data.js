@@ -5,7 +5,7 @@ export const tableTitle = [
     {props: 'partBrand', name: '品牌', key: 'LK_PFJ_PP', width: 120, tooltip: true},
     {props: '_partProperty', name: '属性', key: 'LK_PFJ_SX', width: 120, tooltip: true},
     {props: 'dptKeCode', name: '科室', key: 'LK_KESHI', width: 100, tooltip: true,},
-    {props: 'linieName', name: '采购员', key: 'LK_CGY', width: 120, tooltip: true,},
+    {props: 'linieName', name: '采购员', key: 'LK_CAIGOUYUAN', width: 120, tooltip: true,},
     {props: '_supplierName', name: '供应商', key: 'LK_GONGYINGSHANG', tooltip: true, width: 200},
     {props: '_supplierPercent', name: '份额', key: 'LK_PFJ_FE', tooltip: true, width: 120},
     {props: 'preYearPrice', name: '上年采购价格', key: 'LK_PFJ_CGJG', width: 150, tooltip: true,},
