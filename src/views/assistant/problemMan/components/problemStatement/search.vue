@@ -1,7 +1,7 @@
 <template>
   <el-card>
     <div class="search-box flex-between-center-center margin-bottom2">
-      <div class="input-box flex-align-center margin-right30">
+      <div class="input-box flex-align-center margin-right30 flex-1">
         <el-form label-position="top" :model="searchForm" ref="searchForm">
           <el-row :gutter="20">
             <el-col :span="6">
@@ -32,10 +32,16 @@
                 <iInput v-model="searchForm.createBy" placeholder="请输入" />
               </iFormItem>
             </el-col>
-            <el-col :span="12">
-              <iFormItem :label="userType === 'supplier' ? language('完结时间') : language('创建时间')">
-                <iDatePicker style="width:100%;" v-model="searchForm.date" @change="changeDatePicker" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-                </iDatePicker>
+            <el-col :span="12" v-if="userType === 'supplier'">
+              <iFormItem :label="language('完结时间')">
+                <el-date-picker style="width:100%;" value-format="yyyy-MM-dd HH:mm:ss" v-model="finishDate" clearable @change="changeDatePickerFinish" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                </el-date-picker>
+              </iFormItem>
+            </el-col>
+            <el-col :span="12" >
+              <iFormItem :label="userType === 'supplier' ? language('提问时间') : language('创建时间')">
+                <el-date-picker style="width:100%;" value-format="yyyy-MM-dd HH:mm:ss" clearable v-model="createDate" @change="changeDatePickerCreate" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                </el-date-picker>
               </iFormItem>
             </el-col>
           </el-row>
@@ -50,11 +56,11 @@
 </template>
 
 <script>
-import { iInput, iButton, iFormItem, iSelect, iDatePicker } from 'rise';
+import { iInput, iButton, iFormItem, iSelect } from 'rise';
 import { queryModuleBySource,  getCurrLabelList,  } from '@/api/assistant';
 
 export default {
-  components: { iInput, iButton, iFormItem, iSelect, iDatePicker },
+  components: { iInput, iButton, iFormItem, iSelect },
   props: {
     type: {
       type: String
@@ -74,8 +80,13 @@ export default {
         questionLableId: '',
         createBy: '',
         source: '',
-        date: '',
+        finishedDateStart:"",
+        finishedDateEnd:"",
+        createDateStart:"",
+        createDateEnd:"",
       },
+      finishDate:null,
+      createDate:null,
       problemModuleList: [],
       labelList: [],
       startTimeOptions: {
@@ -126,14 +137,13 @@ export default {
         this.searchForm = Object.assign(this.searchForm, {[type]:''});
       }
     },
-    changeDatePicker (val) {
-      if (val.length < 1) {
-        this.searchForm.createDate = "";
-        this.searchForm.createDateShut = "";
-        return false;
-      }
-      this.searchForm.createDate = val[0];
-      this.searchForm.createDateShut = val[1];
+    changeDatePickerCreate (val) {
+      this.searchForm.createDateStart = val ? val[0] : "";
+      this.searchForm.createDateEnd = val ? val[1] : "";
+    },
+    changeDatePickerFinish (val) {
+      this.searchForm.finishedDateStart = val ? val[0] : "";
+      this.searchForm.finishedDateEnd = val ? val[1] : "";
     },
     handleConfirm () {
       delete this.searchForm.date;
@@ -145,8 +155,13 @@ export default {
         questionLableId: '',
         createBy: '',
         source: '',
-        date: '',
+        finishedDateStart:"",
+        finishedDateEnd:"",
+        createDateStart:"",
+        createDateEnd:"",
       };
+      this.finishDate = ""
+      this.createDate = ""
       this.$emit('confirmSearch', this.searchForm);
     }
   },
@@ -155,6 +170,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import "./../../../comon.scss";
 .labelfont {
   font-size: 14px;
   margin-bottom: 6px;

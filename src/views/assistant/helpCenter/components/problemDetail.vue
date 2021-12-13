@@ -16,9 +16,9 @@
 			<div class="detail-title flex flex-column items-start" v-loading="hotQuesLoading">
 				<div class="moudle-name">{{ language('热门问题') }}</div>
 				<div class="flex flex-row hot-ques">
-					<div v-for="(question, index) in hotProblemList" :key="index" :class="index===hotIdx?'first-hotQues':''" class="item-hotQues flex items-center cursor" @click="handleHotQues(question, index)">
+					<div v-for="(question, index) in hotProblemList" :key="index" class="item-hotQues flex items-center cursor" @click="handleHotQues(question, index)">
 						<div class="blue-box"></div>
-						<div class="ml20">{{ `【热门】${question. questionTitle}` }}</div>
+						<div class="ml20 hot-tlt">{{ `【热门】${question. questionTitle}` }}</div>
 					</div>
 				</div>
 			</div>
@@ -483,7 +483,7 @@ export default {
 					height: 30px;
 					font-weight: bold;
 				}
-				.first-hotQues {
+				.hot-tlt:hover {
 					color: #1660F1;
 					text-decoration: underline;
 				}
@@ -503,6 +503,7 @@ export default {
 						border-radius: 5px;
 					}
 				}
+				
 				:hover {
 					color: #1660F1;
 					text-decoration: underline;
