@@ -31,18 +31,13 @@
           <!-- <div class="tabs_box_right"> -->
           <div class="tabs_box_right" v-if="meetingType">
             <div class="big_text">
-              <!-- <span>{{language("SHENQINGDANHAOMINGCHENG","申请单号-名称")}}：</span> -->
               <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
             </div>
-            <!-- <div class="big_text">
-              <span>{{language("SHENQINGDANMING","申请单名")}}：</span>
-              <span class="samll_val">{{formData.appName}}</span>
-            </div> -->
             <div class="small_text">
               <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
               <span class="samll_val">{{formData.createDate}}</span>
             </div>
-            <div>
+            <div class="small_text">
               <span>{{language("KESHI","科室")}}：</span>
               <span class="samll_val">{{formData.linieDeptName}}</span>
             </div>
@@ -188,7 +183,7 @@
                   name="iconrs-quxiao"></icon>
             <div class="applayDateContentItem">
               <span>部门：</span>
-              <span class="applayDateDeptTitle">{{item.deptNameZh}}</span>
+              <span class="applayDateDeptTitle">{{item.deptFullCode}}</span>
             </div>
             <div class="applayDateContentItem">
               <span>日期：</span>
@@ -578,11 +573,7 @@ $tabsInforHeight: 35px;
   margin:0 1.5rem 0 0;
 }
 .tabs_box_right{
-  width:450px;
-  display: flex;
-  flex-wrap: wrap;
   .samll_val{
-    flex: 1;
   }
   .samll_title{
     width:80px;
@@ -597,10 +588,9 @@ $tabsInforHeight: 35px;
     font-size: 15px!important;
   }
   .small_text{
-    width:170px;
+    float:left;
   }
   .big_text{
-    width:450px;
   }
 }
 
