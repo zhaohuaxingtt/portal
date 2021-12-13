@@ -159,16 +159,17 @@ export default {
       this.id = null //重置数据
       this.loading = true
       let newFormData = _.cloneDeep(this.formData)
+      /* console.log('newFormData', newFormData)
       newFormData.supplierType = newFormData.supplierType
         ? newFormData.supplierType.join(',')
-        : ''
+        : '' */
       let param = {
         ...newFormData,
         size: this.page.pageSize,
         current: this.page.currPage
       }
       sysList(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             //
             this.loading = false
@@ -204,12 +205,12 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        let param = this.selectedData.map(item => {
+        let param = this.selectedData.map((item) => {
           return item.id
         })
         this.loading = true
         deleteSys(param)
-          .then(val => {
+          .then((val) => {
             //批量删除系统
             if (val.code == 200) {
               //删除成功
