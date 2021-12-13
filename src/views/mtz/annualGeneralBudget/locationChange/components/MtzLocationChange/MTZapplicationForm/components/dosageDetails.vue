@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:29:09
- * @LastEditTime: 2021-12-09 15:51:48
+ * @LastEditTime: 2021-12-13 15:24:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\components\dosageDetails.vue
@@ -107,7 +107,8 @@
                        format="yyyy-MM-dd"
                        value-format="yyyy-MM-dd"
                        range-separator="至"
-                       :pickerOptions="pickerOptions"
+                       @change="changeDate"
+                       :pickerOptions="item.pickerOptions"
                        start-placeholder="开始月份"
                        end-placeholder="结束月份" />
           <div class="margin-left20 dosage flex">
@@ -192,7 +193,8 @@ export default {
         id: 1,
         value: [],
         newDosage: "",
-        oldDosage: ""
+        oldDosage: "",
+        pickerOptions: {}
       }],
       maxDate: [],
       minDate: [],
@@ -485,30 +487,36 @@ export default {
         id: this.dateList.length + 1,
         value: [],
         oldDosage: this.dateList[0].oldDosage,
-        newDosage: ""
+        newDosage: "",
+        pickerOptions: {}
       })
       let date = this.dateList[this.dateList.length - 2].value[1]
       this.dateList[this.dateList.length - 1].value[0] = window.moment(new Date(date.replace(/-/g, '/')).getTime() + 86400000).format('YYYY-MM-DD')
       this.dateList[this.dateList.length - 1].value[1] = this.getNewDay(this.dateList[this.dateList.length - 1].value[0], 365)
       // this.dataList[this.dataList.length - 1].value = new Date(date.replace(/-/g, '/')).getTime() + 86400000
-      this.pickerOptions = {
-        disabledDate: time => {
-          if (this.dateList.length === 1) {
-            return
-          }
-          if (date) {
-            return time < new Date(date.replace(/-/g, '/')).getTime() + 86400000
-          }
-        },
-        shortcuts: [{
-          text: '直到2999年',
-          onClick (picker) {
-            const end = new Date("2999-12-31")
-            const start = new Date(new Date(date.replace(/-/g, '/')).getTime() + 86400000)
-            picker.$emit('pick', [start, end])
-          }
-        }]
-      }
+      this.dateList.forEach((item, index) => {
+        item.pickerOptions = {
+          onPick: ({ maxDate, minDate }) => {
+            console.log(maxDate, minDate)
+          },
+          disabledDate: time => {
+            if (item.id !== 1) {
+              if (this.dateList.length === 1) {
+                return
+              }
+              return time < new Date(this.dateList[index - 1].value[1].replace(/-/g, '/')).getTime() + 86400000
+            }
+          },
+          shortcuts: [{
+            text: '直到2999年',
+            onClick (picker) {
+              const end = new Date("2999-12-31")
+              const start = new Date(new Date(this.dateList[index - 1].value[1].replace(/-/g, '/')).getTime() + 86400000)
+              picker.$emit('pick', [start, end])
+            }
+          }]
+        }
+      })
     },
     delDate () {
       if (this.dateList.length === 1) {
