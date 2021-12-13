@@ -67,6 +67,11 @@
           :tableLoading="loading"
           :index="true"
           :selection="false">
+          <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
+          </template>
           <template slot-scope="scope" slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
@@ -102,7 +107,8 @@
           :selection="false">
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope" slot="compensationPeriod">
               <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
@@ -129,6 +135,7 @@
         </div>
         <iInput v-model="formData.linieMeetingMemo"
                 class="margin-top10"
+                :disabled="true"
                 :rows="8"
                 type="textarea" />
       </iCard>
@@ -175,7 +182,7 @@ import { ruleTableTitle1_1,ruleTableTitle1_2, partTableTitle1_1,partTableTitle1_
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 // import { downloadPdfMixins } from '@/utils/pdf';
-import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
+import { downloadPDF, dataURLtoFile,transverseDownloadPDF } from "@/utils/pdf";
 import { downloadFileByUrl} from '@/utils';
 export default {
   mixins: [pageMixins],
@@ -382,7 +389,7 @@ export default {
       } else {
         name = this.title;
       }
-      downloadPDF({
+      transverseDownloadPDF({
         idEle: 'content',
         pdfName: name,
         exportPdf: true,
@@ -633,4 +640,7 @@ $tabsInforHeight: 35px;
 //     overflow-y: auto;
 //   }
 // }
+::v-deep .el-form-item__content{
+  line-height: 20px!important;
+}
 </style>

@@ -88,6 +88,7 @@ export default {
       for(const key in this.searchForm) {
         this.searchForm[key] = null
       }
+      this.level = null;
       this.$set(this.searchForm , 'status', 'FORMAL')
     },
     // 获取用量版本

@@ -271,7 +271,7 @@
         </div>
       </div>
       <div class="partLifeCycleStar_main_content">
-        <div class="left">
+        <div class="left" :style="expandRelevantPart?'width:75%':'width:100%'">
           <div v-for="(item, index) in defaultPartsList" :key="index" :class="{ isExpand: expandRelevantPart }"
                @click="currentDefaultPart = item.partsNum;getRelationParts()">
             <div class="title">
@@ -303,7 +303,7 @@
           </div>
         </div>
         <transition name="bounce">
-          <iCard class="right" v-if="expandRelevantPart" v-loading="rightLoading">
+          <iCard class="right" v-show="expandRelevantPart" v-loading="rightLoading">
             <div slot="header" class="right_header">
               <span>{{ language('LK_XIANGGUANLINGJIAN', '相关零件') }}</span>
               <icon @click.native="expandRelevantPart = false" symbol name="iconxiangguanlingjianguanbi"></icon>
@@ -981,13 +981,12 @@ export default {
       display: flex;
       justify-content: space-between;
       min-height: 530px;
-
+      margin-top: 15px;
       .left {
         display: flex;
         flex-wrap: wrap;
         align-content: flex-start;
         transition: all 0.5s;
-        width: 100%;
         > div {
           width: calc(25% - 30px);
           height: 263px;
@@ -1064,7 +1063,7 @@ export default {
       }
 
       .right {
-        width: calc(25% - 30px);
+        width: 25%;
         flex-shrink: 0;
 
         ::v-deep .cardHeader {

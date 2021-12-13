@@ -232,7 +232,7 @@ export default {
     this.loginUserInfo.positionList.map(item => {
       item.roleDTOList.map(roleItem => this.userRoles.push(roleItem.code))
     })
-    this.test()
+    // this.test()
   },
   mounted() {
     this.$nextTick(_ => {
@@ -315,6 +315,7 @@ export default {
     },
     // 点击确定查询
     handleSubmitSearch(data) {
+      console.log(data);
       this.page.currPage = 1
       this.$set(this, 'searchForm', data)
       // this.searchForm = data

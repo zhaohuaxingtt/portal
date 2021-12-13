@@ -224,6 +224,7 @@ export default {
             .then((res) => {
               if (res.code === 200) {
                 this.$message.success(this.language('NEWS_XIAJIACHENGGONG', "下架成功！"));
+                this.$emit("flushTable");
               }
             })
             .catch((err) => {

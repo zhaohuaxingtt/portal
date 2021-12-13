@@ -1,5 +1,7 @@
 <template>
-  <div ref="charMap" id="container" class="amap-wrapper">
+  <div ref="charMap"
+       id="container"
+       class="amap-wrapper">
   </div>
 </template>
 
@@ -29,7 +31,7 @@ export default {
     },
     eventDetail: { type: Object, default: {} }
   },
-  data() {
+  data () {
     return {
       temporaryMarker: [],//临时点
       // 圆
@@ -92,7 +94,7 @@ export default {
   },
   watch: {
     tableListData: {
-      async handler(data) {
+      async handler (data) {
         this.marker = []
         this.temporaryMarker = []
         let datacopy = _.cloneDeep(data)
@@ -105,14 +107,14 @@ export default {
       }
     }
   },
-  created() {
+  created () {
   },
-  mounted() {
+  mounted () {
     this.showCityInfo()
   },
   methods: {
     // 大众工厂
-    async querySvwFactory() {
+    async querySvwFactory () {
       this.svwList = []
       const res = await querySvwFactory()
       res.data && res.data.forEach(item => {
@@ -126,7 +128,7 @@ export default {
         }
       })
     },
-    showCityInfo() {
+    showCityInfo () {
       this.map = new AMap.Map('container', {
         WebGLParams: {
           preserveDrawingBuffer: true
@@ -148,7 +150,7 @@ export default {
       Object.keys(this.eventDetail).length && this.handleCircle()
     },
     // 圆
-    handleCircle() {
+    handleCircle () {
       var overlays = this.map.getAllOverlays();
 
       if (!overlays.some((overlay) => {
@@ -172,7 +174,7 @@ export default {
       }
       this.getCenter(parseFloat(this.eventDetail.influenceSize) / 2, this.eventDetail.longitude, this.eventDetail.latitude)
     },
-    getCenter(influenceSize, lon, lat) {
+    getCenter (influenceSize, lon, lat) {
       console.log(influenceSize, lon, lat);
       let index = 18;
       let i = 0;
@@ -203,7 +205,7 @@ export default {
       this.map.setCenter(new AMap.LngLat((parseFloat(lon) + parseFloat(influenceSize) / 35), parseFloat(lat)))
     },
     // 点
-    handleMarker() {
+    handleMarker () {
       // svw
       this.svwList.map((item, index) => {
         if (item.procureFactory == '1000') {
@@ -278,7 +280,7 @@ export default {
       })
     },
     // 弹框信息
-    async getChainPart(data, item) {
+    async getChainPart (data, item) {
       const pms = {
         supplierId: data.supplierId,
         type: 1,
@@ -298,7 +300,7 @@ export default {
           components: {
             tipTable: tipTable
           },
-          data() {
+          data () {
             return {
               tableDataList: res.data,
               rate: rate.data
@@ -311,7 +313,7 @@ export default {
       }
     },
     // 生成贝塞尔曲线
-    handleRecursion(data, viewType) {
+    handleRecursion (data, viewType) {
       data.forEach((item, index) => {
         this.marker.forEach((val, i) => {
           if (item.address.lon == val._opts.extData.lon && item.address.lat == val._opts.extData.lat && item.chainLevel == 1) {
@@ -444,7 +446,7 @@ export default {
         }
       })
     },
-    handleRemoveLine() {
+    handleRemoveLine () {
       this.map.clearInfoWindow()
       this.p = 0
       this.circle = []
@@ -461,7 +463,7 @@ export default {
       this.bezierCurve = []
     },
     // 显示链路
-    async handleCurrentChange(row, viewType) {
+    async handleCurrentChange (row, viewType) {
       const pms = {
         list: row,
         isRelation: true,

@@ -16,17 +16,20 @@
          id="qrCodeDiv"
          style="padding-bottom:30px;position:relative;">
       <div class="content_dialog" v-if="!RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
-      <iCard :class="!RsObject?'upload_hr':''">
+      <iCard class='upload_hr'>
+      <!-- <iCard :class="!RsObject?'upload_hr':''"> -->
         <div slot="header"
              class="headBox"
              >
           <p class="headTitle">{{title}}</p>
           <span class="buttonBox"
+                style="margin-top:-10px;"
                 v-if="!editMode">
             <iButton v-if="RsObject && formData.flowTypeName == '流转'"
                      @click="handleToSignPreview">{{language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')}}</iButton>
           </span>
-          <div class="tabs_box_right" v-if="!RsObject">
+          <!-- <div class="tabs_box_right"> -->
+          <div class="tabs_box_right" v-if="meetingType">
             <div class="big_text">
               <!-- <span>{{language("SHENQINGDANHAOMINGCHENG","申请单号-名称")}}：</span> -->
               <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
@@ -80,7 +83,8 @@
           </template>
           <template slot-scope="scope"
             slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
         </tableList>
         <!-- 导出规则表格 -->
@@ -94,7 +98,8 @@
                    >
           <template slot-scope="scope"
             slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope"
                     slot="compensationPeriod">
@@ -127,7 +132,8 @@
           </template> -->
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
         </tableList>
         <!-- 导出零件表格 -->
@@ -141,7 +147,8 @@
                    >
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope"
                     slot="compensationPeriod">
@@ -159,7 +166,7 @@
           </span>
         </div>
         <iInput v-model="formData.linieMeetingMemo"
-                :disabled="!RsObject"
+                :disabled="!((formData.appStatus == '草稿' || formData.appStatus == '未通过') && RsObject && meetingNumber == 0)"
                 class="margin-top10"
                 :rows="8"
                 type="textarea" />
@@ -204,7 +211,7 @@ import {
 } from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
+import { downloadPDF, dataURLtoFile,transverseDownloadPDF } from "@/utils/pdf";
 export default {
   mixins: [pageMixins],
   components: {
@@ -242,6 +249,7 @@ export default {
       RsObject: true,
       moment: window.moment,
       meetingNumber:Number(this.$route.query.meeting) || 0,
+      meetingType:false,
     }
   },
   watch: {
@@ -288,18 +296,19 @@ export default {
   },
   methods: {
     downPdf () {
-      // console.log(this.title)
       var name = "";
       if (this.title == "") {
         name = "RS导出"
       } else {
         name = this.title;
       }
-      downloadPDF({
+      transverseDownloadPDF({
+      // downloadPDF({
         idEle: 'qrCodeDiv',
         pdfName: name,
         exportPdf: true,
         waterMark: true,
+        direction:"flat",//hight
         callback: async (pdf, pdfName) => {
           try {
             const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
@@ -329,6 +338,22 @@ export default {
       }).then(res => {
         if (res && res.code == 200) {
           this.formData = res.data
+
+
+
+          if(this.formData.flowType == "SIGN"){
+            if(this.meetingNumber == 0){
+              if(this.RsObject){
+                this.meetingType = false;
+              }else{
+                this.meetingType = true;
+              }
+            }else{
+              this.meetingType = true;
+            }
+          }else{
+            this.meetingType = true;
+          }
         } else iMessage.error(res.desZh)
       })
     },
@@ -585,4 +610,7 @@ $tabsInforHeight: 35px;
   }
 }
 
+::v-deep .el-form-item__content{
+  line-height: 20px!important;
+}
 </style>
