@@ -42,8 +42,7 @@ import { getAttendee, getReceiver } from '@/api/meeting/type'
 import { pageMixins } from '@/utils/pageMixins'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
 import { tableListColumns } from './components/data'
-// import {deleteString} from '@/utils/utils.js';
-
+import { datestring } from '@/utils/utils.js'
 export default {
   mixins: [pageMixins, resultMessageMixin],
   components: {
@@ -73,7 +72,13 @@ export default {
         receiverId: '',
         attendeeId: '',
         attendee: '',
-        weekOfYears: []
+        weekOfYears: [],
+        startDateBegin: datestring(
+          new Date(new Date().valueOf()) - 24 * 60 * 60 * 1000 * 7
+        )
+        // startDateEnd: datestring(
+        //   Number(new Date(new Date().valueOf())) + 24 * 60 * 60 * 1000 * 6
+        // )
       },
       meetingTypeList: [],
       attendeeList: [],
@@ -96,12 +101,22 @@ export default {
   // },
   methods: {
     getTableList() {
-      let param = {
-        ...this.form,
-        meetingTypeId: this.form.meetingType ? this.form.meetingType.id : '',
-        pageNum: this.page.currPage,
-        pageSize: 10,
-        states: this.form.states ? [this.form.states] : []
+      let param = {}
+      if (!this.form) {
+        param = {
+          meetingTypeId: '',
+          pageNum: this.page.currPage,
+          pageSize: 10,
+          states: []
+        }
+      } else {
+        param = {
+          ...this.form,
+          meetingTypeId: this.form.meetingType ? this.form.meetingType.id : '',
+          pageNum: this.page.currPage,
+          pageSize: 10,
+          states: this.form.states ? [this.form.states] : []
+        }
       }
       Reflect.deleteProperty(param, 'meetingType')
       this.query(param)
@@ -123,7 +138,10 @@ export default {
       this.form = {
         weekOfYears: [],
         startDate: '',
-        startTime: ''
+        startTime: '',
+        startDateBegin: datestring(
+          new Date(new Date().valueOf()) - 24 * 60 * 60 * 1000 * 7
+        )
       }
       this.page.currPage = 1
       this.getTableList()

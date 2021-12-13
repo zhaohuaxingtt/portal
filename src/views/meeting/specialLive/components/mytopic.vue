@@ -80,7 +80,7 @@ export default {
       this.query()
     },
     async queryMeeting() {
-      if (this.curMeetingId === -1) {
+      if (!this.curMeetingId || this.curMeetingId === -1) {
         const res = await this.queryFlushMeeting()
         if (res && res.id) {
           this.curMeetingId = res.id
