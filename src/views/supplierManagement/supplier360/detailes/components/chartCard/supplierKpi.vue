@@ -12,8 +12,8 @@
         <div>
           {{ info.currentScore }}
           <div>
-              <i v-if="info.upDown > 0" class="el-icon-top"></i>
-                   <i v-if="info.upDown < 0" class="el-icon-bottom"></i>
+              <i v-if="info.upDown > 0" class="el-icon-top green"></i>
+                   <i v-if="info.upDown < 0" class="el-icon-bottom orgin"></i>
             <!-- <icon
               v-if="info.upDown > 0"
               symbol
