@@ -72,6 +72,7 @@
 				ref="questionList"
 				:currentMoudleId="currentMoudleId ? currentMoudleId : this.$store.state.baseInfo.originalModuleId"
 				:moudleList="moudleList"
+				:turnId="turnId"
 				@selectQues="selectQues"
 			/>
 			<QuestionDetail
@@ -141,7 +142,8 @@ export default {
 			currentMenu: [],  // 当前的二级模块菜单
 			originalMoudleName: '',  // 无模块id展示的模块名称
 			currLabelId: null,  // 当前标签的id(常见问题筛查查询时才有)
-			queryProblemList: []  // 常见问题模块查询时的问题列表
+			queryProblemList: [],  // 常见问题模块查询时的问题列表
+			turnId: ''
 		}
 	},
 	components: {
@@ -161,6 +163,8 @@ export default {
 	created() {
 		// 获取当前路径
 		this.helpMoudle = this.$route.query.module || "manual"
+		// 站内信跳转 获取问题id
+		this.turnId = this.$route.query.id || ""
 		this.currentMoudleId = this.$route.query.currentMoudleId || ''
 		let params  = this.$route.params
 		this.currentMenu = params.currentMenu

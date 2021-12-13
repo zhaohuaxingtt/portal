@@ -72,6 +72,10 @@ export default {
 		moudleList: {
 			type: Array,
 			default: () => []
+		},
+		turnId: {
+			type: String,
+			default: ''
 		}
 	},
 	data() {
@@ -81,6 +85,7 @@ export default {
 				questionModuleId: '',
 				pageNum: 1,
 				pageSize: 10,
+				id: ''
 			},
 			// unreply:未答复 reply:已答复 finished:已完成
 			questionList: [],
@@ -120,6 +125,9 @@ export default {
 			return f ? f.menuName : ""
 		},	
 		async getQuesList(va) {
+			// if (this.turnId) {
+			// 	this.queryParam.id = this.turnId
+			// }
 			this.listLoading = true
 			await getMineQuesList(this.queryParam).then((res) => {
 				if (res?.code === '200') {
