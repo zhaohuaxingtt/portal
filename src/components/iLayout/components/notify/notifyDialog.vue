@@ -76,6 +76,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .el-dialog__body{
+    padding: 0 50px !important;
+}
 .text-left{
     text-align: left;
 }
@@ -139,10 +142,13 @@ export default {
                 font-size: 16px;
             }
         }
+        >h2{
+            width: 110%;
+        }
         .content{
             position: absolute;
             top: 70px;
-            width: 104%;
+            width: 110%;
             line-height: 24px;
             max-height: 280px;
             overflow: auto;
@@ -245,10 +251,13 @@ export default {
                 font-size: 16px;
             }
         }
+        >h2{
+            width: 110%;
+        }
         .content{
             position: absolute;
             top: 70px;
-            width: 104%;
+            width: 110%;
             color: #888888;
             line-height: 24px;
             max-height: 280px;
