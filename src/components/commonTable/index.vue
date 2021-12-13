@@ -153,7 +153,7 @@
               <span style="margin-right: 10px;"
                   v-html="items.key ? language(items.key,items.name) : items.name "></span>
               <br/>
-              <span style="margin-right: 10px;font-weight:initial!important;">{{items.overlapbottom}}</span>
+              <span style="margin-right: 10px;font-weight:initial;">{{items.overlapbottom}}</span>
             </div>
           </template>
           <template v-if="$scopedSlots[items.props] || $slots[items.props]"
