@@ -1,18 +1,21 @@
 <template>
-    <div class="views" v-if="showView" @click="showView = false">
-        <i class="el-icon-close close" @click.stop="showView = false"></i>
-        <i class="el-icon-arrow-left arrow prev" @click.stop="prev"></i>
-        <div class="img-view">
-            <img @click.stop=";" :style="{transform:`scale(${imgStyle.scale}) rotate(${imgStyle.rotate}deg)`}" :src="url" alt="">
+    <transition name="el-fade-in-linear">
+        <div class="views" v-if="showView" @click="showView = false">
+            <i class="el-icon-close close" @click.stop="showView = false"></i>
+            <i class="el-icon-arrow-left arrow prev" @click.stop="prev"></i>
+            <div class="img-view">
+                <img @click.stop=";" :style="{transform:`scale(${imgStyle.scale}) rotate(${imgStyle.rotate}deg)`}" :src="url" alt="">
+            </div>
+            <i class="el-icon-arrow-right arrow next" @click.stop="next"></i>
+            <div class="actions" @click.stop=";">
+                <i class="icon el-icon-zoom-in" @click.stop="zoom('plus')"></i>
+                <i class="icon el-icon-zoom-out" @click.stop="zoom('small')"></i>
+                <i class="icon el-icon-refresh-right" @click.stop="rotate('right')"></i>
+                <i class="icon el-icon-refresh-left" @click.stop="rotate('left')"></i>
+            </div>
         </div>
-        <i class="el-icon-arrow-right arrow next" @click.stop="next"></i>
-        <div class="actions" @click.stop=";">
-            <i class="icon el-icon-zoom-in" @click.stop="zoom('plus')"></i>
-            <i class="icon el-icon-zoom-out" @click.stop="zoom('small')"></i>
-            <i class="icon el-icon-refresh-right" @click.stop="rotate('right')"></i>
-            <i class="icon el-icon-refresh-left" @click.stop="rotate('left')"></i>
-        </div>
-    </div>
+    </transition>
+
 </template>
 
 <script>

@@ -28,6 +28,14 @@ export function getModuleList() {
   })
 }
 
+// 获取我的提问对应的模块
+export function getAskModuleList() {
+  return assistantRequest({
+    url: '/assistantModuleEntity/queryCurrentUserAllModuleList',
+    method: 'GET'
+  })
+}
+
 // 根据模块id 获取用户手册
 export function getUserDes(data) {
   return assistantRequest({

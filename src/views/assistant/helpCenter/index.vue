@@ -71,7 +71,7 @@
 			<QuestionList 
 				ref="questionList"
 				:currentMoudleId="currentMoudleId ? currentMoudleId : this.$store.state.baseInfo.originalModuleId"
-				:moudleList="moudleList"
+				:moudleList="askMoudleList"
 				:turnId="turnId"
 				@selectQues="selectQues"
 			/>
@@ -121,7 +121,7 @@ import IntelligentDialog from '../components/intelligentDialog'
 import QuestioningDialog from '../components/questioningDialog'
 import QuestionList from './components/questionList'
 import QuestionDetail from './components/questionDetail'
-import { getHotFiveQues, getUserDes, getModuleList } from '@/api/assistant'
+import { getHotFiveQues, getUserDes, getModuleList, getAskModuleList } from '@/api/assistant'
 
 export default {
 	data() {
@@ -129,6 +129,7 @@ export default {
 			text: '用户助手',
 			helpMoudle: "manual",  // manual 用户手册 problem 常见问题 ask 我的提问
 			moudleList: [],
+			askMoudleList: [],
 			currentMoudleId: null,  // 当前模块id
 			currMoudleName: null,   // 当前模块名称	
 			currModuleDetailData: null,  // 当前模块内容
@@ -176,6 +177,7 @@ export default {
 			this.$refs.problemDetail.turnPageInit(this.$route.query)
 		}
 		await this.getMoudleList()
+		await this.getAskModuleList()
 		await this.getCurrentModule()
 	},
 	methods: {
@@ -188,6 +190,13 @@ export default {
 				if (res.code === '200') {
 					this.listLoading = false
 					this.moudleList = res?.data || []
+				}
+			})
+		},
+		async getAskModuleList() {
+			await getAskModuleList().then((res) => {
+				if (res.code === '200') {
+					this.askMoudleList = res?.data || []
 				}
 			})
 		},
