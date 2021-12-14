@@ -12,7 +12,11 @@
           slot="label"
           required
         ></iLabel>
-        <iSelect @change="changeFact" v-model="supplierData.isAbroad">
+        <iSelect
+          @change="changeFact"
+          v-model="supplierData.isAbroad"
+          :disabled="!editable"
+        >
           <el-option
             :value="item.code"
             :label="item.name"
@@ -28,6 +32,7 @@
           :required="!supplierData.isAbroad"
         ></iLabel>
         <iInput
+          :disabled="!editable"
           :placeholder="$t('LK_QINGSHURU') + $t('UnifySocialCreditCode')"
           @change="getInfosByCode"
           v-model="supplierData.creditCode"
@@ -36,6 +41,7 @@
       <iFormItem prop="supplierNameCn">
         <iLabel :label="$t('SupplierZh')" required slot="label"></iLabel>
         <iInput
+          :disabled="!editable"
           :placeholder="$t('LK_QINGSHURU') + $t('SupplierZh')"
           v-model="supplierData.supplierNameCn"
         ></iInput>
@@ -49,6 +55,7 @@
           :tip="$t('SUPPLIER_GONGYINGSHANGJIANCHENZHTIPS')"
         ></iLabel>
         <iInput
+          :disabled="!editable"
           :placeholder="$t('LK_QINGSHURU') + $t('SupplierAbbreviationZh')"
           v-model="supplierData.supplierShortNameCn"
         ></iInput>
@@ -57,6 +64,7 @@
       <iFormItem prop="supplierNameEn">
         <iLabel :label="$t('SupplierEn')" slot="label" required></iLabel>
         <iInput
+          :disabled="!editable"
           :placeholder="$t('LK_QINGSHURU') + $t('SupplierEn')"
           v-model="supplierData.supplierNameEn"
         ></iInput>
@@ -70,6 +78,7 @@
           :tip="$t('SUPPLIER_GONGYINGSHANGJIANCHENGENTIPS')"
         ></iLabel>
         <iInput
+          :disabled="!editable"
           :placeholder="$t('LK_QINGSHURU') + $t('SupplierAbbreviationEn')"
           v-model="supplierData.supplierShortNameEn"
         ></iInput>
@@ -83,11 +92,23 @@
         >
         </iLabel>
         <div class="duns flex-align-center">
-          <iInput v-model="dunsCode.one" maxlength="2"></iInput>
+          <iInput
+            v-model="dunsCode.one"
+            maxlength="2"
+            :disabled="!editable"
+          ></iInput>
           <span></span>
-          <iInput v-model="dunsCode.two" maxlength="3"></iInput>
+          <iInput
+            v-model="dunsCode.two"
+            maxlength="3"
+            :disabled="!editable"
+          ></iInput>
           <span></span>
-          <iInput v-model="dunsCode.three" maxlength="4"></iInput>
+          <iInput
+            v-model="dunsCode.three"
+            maxlength="4"
+            :disabled="!editable"
+          />
         </div>
       </iFormItem>
     </iFormGroup>
@@ -119,6 +140,14 @@ export default {
     supplierData: {
       type: Object,
       default: () => {}
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    editable: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

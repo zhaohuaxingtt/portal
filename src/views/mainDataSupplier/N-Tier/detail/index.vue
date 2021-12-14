@@ -6,31 +6,49 @@
 -->
 <template>
   <iPage>
-    <pageHeader>N-Tier供应商信息</pageHeader>
-    <div class="save margin-bottom20">
+    <pageHeader class="margin-bottom20">
+      N-Tier供应商信息
+      <div slot="actions">
+        <iButton v-loading="isloading" @click="saveInfos()">
+          {{ language('BAOCUN', '保存') }}
+        </iButton>
+      </div>
+    </pageHeader>
+    <!-- <div class="save margin-bottom20">
       <iButton v-loading="isloading" @click="saveInfos()">
         {{ language('BAOCUN', '保存') }}
       </iButton>
+    </div> -->
+    <div class="page-main">
+      <baseInfo
+        :supplierData="supplierData"
+        ref="Baseinfo"
+        :loading="isloading"
+        :editable="editable"
+        class="margin-bottom20"
+      />
+      <companyProfile
+        ref="companyProfile"
+        :country="country"
+        :supplierData="supplierData"
+        :fromGroup="fromGroup"
+        :editable="editable"
+        class="margin-bottom20"
+      />
+      <factory
+        :countryList="country"
+        :tableListData="supplierDirectoryTable"
+        :editable="editable"
+        ref="factory"
+        class="margin-bottom20"
+      />
+      <supplierDirectoryTable
+        :tableListData="contactUser"
+        :editable="editable"
+        ref="userTable"
+        class="margin-bottom20"
+      />
     </div>
-    <baseInfo :supplierData="supplierData" ref="Baseinfo"></baseInfo>
-    <companyProfile
-      style="margin-top: 20px"
-      ref="companyProfile"
-      :country="country"
-      :supplierData="supplierData"
-      :fromGroup="fromGroup"
-    ></companyProfile>
-    <factory
-      :countryList="country"
-      :tableListData="supplierDirectoryTable"
-      ref="factory"
-      style="margin-top: 20px"
-    ></factory>
-    <supplierDirectoryTable
-      :tableListData="contactUser"
-      ref="userTable"
-      style="margin-top: 20px"
-    ></supplierDirectoryTable>
   </iPage>
 </template>
 
@@ -115,26 +133,29 @@ export default {
     },
     supplierDetail(val) {
       // 1464129746521894912
-      getNtierSupplier(val).then((res) => {
-        if (res && res.code == 200) {
-          this.supplierData = res.data
-          this.isEdit = true
-          this.$nextTick(() => {
-            if (this.supplierData.address.provinceCode)
-              this.$refs.companyProfile.getProvince()
-            if (this.supplierData.address.countryCode)
-              this.$refs.companyProfile.getCity()
-            // this.contactUser = this.supplierData.contactUser
-            this.$set(this.contactUser, 0, this.supplierData.contactUser)
-            this.supplierDirectoryTable = this.supplierData.plantList.map(
-              (item) => {
-                item.countryList = this.country
-                return item
-              }
-            )
-          })
-        } else iMessage.error(res.desZh)
-      })
+      this.isloading = true
+      getNtierSupplier(val)
+        .then((res) => {
+          if (res && res.code == 200) {
+            this.supplierData = res.data
+            this.isEdit = true
+            this.$nextTick(() => {
+              if (this.supplierData.address.provinceCode)
+                this.$refs.companyProfile.getProvince()
+              if (this.supplierData.address.countryCode)
+                this.$refs.companyProfile.getCity()
+              // this.contactUser = this.supplierData.contactUser
+              this.$set(this.contactUser, 0, this.supplierData.contactUser)
+              this.supplierDirectoryTable = this.supplierData.plantList.map(
+                (item) => {
+                  item.countryList = this.country
+                  return item
+                }
+              )
+            })
+          } else iMessage.error(res.desZh)
+        })
+        .finally(() => (this.isloading = false))
     },
     //获取国家
     getCityInfo() {
@@ -294,7 +315,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.save {
-  text-align: right;
-}
+/* .page-main{
+  hei
+} */
 </style>
