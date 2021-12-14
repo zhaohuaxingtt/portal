@@ -1,7 +1,7 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2021-12-14 14:31:48
+ * @LastEditTime: 2021-12-14 16:22:08
  * @LastEditors: Please set LastEditors
  * @Description: 首页
  * @FilePath: \front-portal\front-portal\src\views\meeting\myMeeting.vue
@@ -20,7 +20,7 @@
             />
           </div>
           <!-- 右边 -->
-          <div v-if="isShowRight">
+          <div v-show="isShowRight">
             <iNavMvp
               :list="meetingRightList"
               class="margin-bottom20"
@@ -105,7 +105,8 @@ export default {
   },
   created () {
     //根据路由来判断 右边tab显示隐藏
-     if(this.$route.name=='managementHall'){
+    console.log(this.$route)
+     if(this.$route.name=='managementHall' || this.$route.name=='meetingListAttendees'|| this.$route.name=='meetingInformation' ||this.$route.name== 'meetingListCurrent'){
       this.isShowRight=true
     }else{
       this.isShowRight=false

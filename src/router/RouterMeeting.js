@@ -219,7 +219,36 @@ export default [
         meta: {
           title: '管理大厅'
         },
-        component: () => import(`@/views/meeting/managementHall/index.vue`)
+        component: () => import(`@/views/meeting/managementHall/index.vue`),
+        redirect:'/meeting/managementHall/meetingListCurrent',
+        children:[
+          //会议右边路由
+          {
+            path: '/meeting/managementHall/meetingListCurrent',
+            name: 'meetingListCurrent',
+            meta: {
+              title: '会议列表'
+            },
+            component: () => import(`@/views/meeting/managementHall/meetingList/index.vue`)
+          },
+          {
+            path: '/meeting/managementHall/meetingListAttendees',
+            name: 'meetingListAttendees',
+            meta: {
+              title: '与会人列表'
+            },
+            component: () => import(`@/views/meeting/managementHall/meetingListAttendees/index.vue`)
+          },
+          {
+            path: '/meeting/managementHall/meetingInformation',
+            name: 'meetingInformation',
+            meta: {
+              title: '会议信息'
+            },
+            component: () => import(`@/views/meeting/managementHall/meetingInformation/index.vue`)
+          },
+
+        ]
       },
       {
         path: '/meeting/near-meeting',
@@ -319,5 +348,6 @@ export default [
     },
     component: () => import(`@/views/meeting/show/index.vue`)
   },
+  
   
 ]

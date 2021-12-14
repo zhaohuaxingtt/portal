@@ -3,7 +3,7 @@
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-14 13:49:57
+ * @LastEditTime: 2021-12-14 16:33:14
  * @Descripttion: your project
  */
 export const tabRouterList = [
@@ -61,22 +61,22 @@ export const meetingRightList = [
   {
     value: 1,
     name: '会议列表',
-    // url:'/meeting/home',
-    // activePath: '/meeting/home',
+    url:'/meeting/managementHall/meetingListCurrent',
+    activePath: '/meeting/managementHall/meetingListCurrent',
     key: '会议列表',
   },
   {
     value: 2,
     name: '与会人列表',
-    // url:'/meeting/participants',
-    // activePath: '/meeting/participants',
+    url:'/meeting/managementHall/meetingListAttendees',
+    activePath: '/meeting/managementHall/meetingListAttendees',
     key: '与会人列表',
   },
   {
     value: 3,
     name: '会议信息',
-    // url: '/meeting/information',
-    // activePath: '/meeting/information',
+    url: '/meeting/managementHall/meetingInformation',
+    activePath: '/meeting/managementHall/meetingInformation',
     key: '会议信息',
   },
 ];
