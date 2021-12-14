@@ -182,6 +182,9 @@ export default {
           //   name: "newsTopic",
           // });
           window.close()
+          if (window.opener) {
+                  window.opener.location.reload()
+                }
         });
       } else {
         //新增
