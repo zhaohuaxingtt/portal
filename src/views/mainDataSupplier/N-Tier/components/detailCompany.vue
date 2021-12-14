@@ -51,7 +51,7 @@
         <iLabel :label="$t('SUPPLIER_GUOJIA')" required slot="label"></iLabel>
         <iSelect
           filterable
-          v-model="supplierData.address.countryCode"
+          v-model="supplierData.addressInfoUpdateVo.countryCode"
           @change="changeCountry()"
         >
           <el-option
@@ -66,7 +66,7 @@
         <iLabel :label="$t('SUPPLIER_SHENGFEN')" required slot="label"></iLabel>
         <iSelect
           filterable
-          v-model="supplierData.address.provinceCode"
+          v-model="supplierData.addressInfoUpdateVo.provinceCode"
           @change="changeProvince()"
         >
           <el-option
@@ -81,7 +81,7 @@
         <iLabel :label="$t('SUPPLIER_CHENGSHI')" required slot="label"></iLabel>
         <iSelect
           filterable
-          v-model="supplierData.address.cityCode"
+          v-model="supplierData.addressInfoUpdateVo.cityCode"
           @change="changeCity()"
         >
           <el-option
@@ -96,14 +96,14 @@
       <iFormItem prop="address.address">
         <iLabel :label="$t('companyAddress')" required slot="label"></iLabel>
         <iInput
-          v-model="supplierData.address.address"
+          v-model="supplierData.addressInfoUpdateVo.address"
           :placeholder="$t('LK_QINGSHURU') + $t('companyAddress')"
         ></iInput>
       </iFormItem>
       <iFormItem prop="address.postCode">
         <iLabel :label="$t('ZHUCEDIZHIYOUBIAN')" required slot="label"></iLabel>
         <iInput
-          v-model="supplierData.address.postCode"
+          v-model="supplierData.addressInfoUpdateVo.postCode"
           :placeholder="$t('LK_QINGSHURU') + $t('ZHUCEDIZHIYOUBIAN')"
         ></iInput>
       </iFormItem>
@@ -261,11 +261,13 @@ export default {
     //获取城市
     getCity() {
       let data = {
-        sapLocationCode: this.supplierData.address.provinceCode
+        sapLocationCode: this.supplierData.addressInfoUpdateVo.provinceCode
       }
       if (this.province.length > 0) {
-        this.supplierData.address.province = this.province.find(
-          (res) => this.supplierData.address.provinceCode == res.sapLocationCode
+        this.supplierData.addressInfoUpdateVo.province = this.province.find(
+          (res) =>
+            this.supplierData.addressInfoUpdateVo.provinceCode ==
+            res.sapLocationCode
         ).cityNameCn
       }
 
@@ -282,31 +284,33 @@ export default {
     },
     // 省市切换 获取市级信息
     changeProvince() {
-      this.supplierData.address.cityCode = ''
+      this.supplierData.addressInfoUpdateVo.cityCode = ''
       this.city = []
 
       this.getCity()
     },
     // 国家切换 获取省信息
     changeCountry() {
-      this.supplierData.address.provinceCode = ''
-      this.supplierData.address.cityCode = ''
+      this.supplierData.addressInfoUpdateVo.provinceCode = ''
+      this.supplierData.addressInfoUpdateVo.cityCode = ''
       this.province = []
       this.city = []
-      this.supplierData.address.country = this.country.find(
-        (res) => this.supplierData.address.countryCode == res.sapLocationCode
+      this.supplierData.addressInfoUpdateVo.country = this.country.find(
+        (res) =>
+          this.supplierData.addressInfoUpdateVo.countryCode ==
+          res.sapLocationCode
       ).cityNameCn
       this.getProvince()
     },
     changeCity() {
-      this.supplierData.address.city = this.city.find(
-        (res) => this.supplierData.address.cityCode == res.cityIdStr
+      this.supplierData.addressInfoUpdateVo.city = this.city.find(
+        (res) => this.supplierData.addressInfoUpdateVo.cityCode == res.cityIdStr
       ).cityNameCn
     },
     // 获取省份
     getProvince() {
       let data = {
-        sapLocationCode: this.supplierData.address.countryCode
+        sapLocationCode: this.supplierData.addressInfoUpdateVo.countryCode
       }
       getCityInfo(data).then((res) => {
         if (res.data) {
