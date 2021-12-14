@@ -15,26 +15,18 @@
             <FileList v-for="(f,i) in files" :key="i" :disabled="disabled" @click="view(f)" :file="f" @del="removeFile(i)"></FileList>
         </template>
 
-        <el-dialog
-			:visible="dialogVisible"
-			width="60%"
-            append-to-body
-            @close="dialogVisible = false"
-            class="file-dialog"
-		>
-			<div class="flex items-center justify-center ">
-               <img :src="fileUrl" alt="" class="img-style">
-            </div>
-		</el-dialog>
+        <imgViews ref="img" :list="imgList"></imgViews>
     </div>
 </template>
 
 <script>
     import {uploadFile,getFileId} from "@/api/assistant/uploadFile"
     import FileList from "./fileList.vue"
+    import imgViews from "./imgViews.vue"
     export default {
         components:{
-            FileList
+            FileList,
+            imgViews
         },
         props:{
             value:{},
@@ -113,12 +105,24 @@
         data() {
             return {
                 dialogVisible:false,
-                fileUrl:""
+                fileUrl:"",
+                imgFmt:['jpg','jpeg','gif','png']
             }
         },
         computed:{
             files(){
                 return this.value || []
+            },
+            imgList(){
+                let arr = []
+                let l = this.files
+                l.forEach(e => {
+                    let fmt = e.fileName.split(".")[e.fileName.split(".").length - 1]
+                    if(this.imgFmt.includes(fmt)){
+                        arr.push(e.fileUrl)
+                    }
+                })
+                return arr
             }
         },
         methods: {
@@ -155,13 +159,10 @@
             },
             view(file){
                 if (!this.disabled) return
-                let fileTypeArr = ['jpg','jpeg','gif','png']
                 const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
-                if (fileTypeArr.includes(fileExtension)) {
-                    console.log("=====")
-                    this.dialogVisible = true
-                    this.fileUrl = file.fileUrl
-                } else {
+                if (this.imgFmt.includes(fileExtension)) {
+                    this.$refs.img.show(file.fileUrl)
+                }else{
                     getFileId(file?.bizId).then((res) => {
                         console.log(res, '1111111111')
                     })

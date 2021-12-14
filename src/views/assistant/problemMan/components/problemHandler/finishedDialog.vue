@@ -35,14 +35,24 @@
           <div v-else class="content" v-html="editForm.answerContent"></div>
         </iFormItem>
       </el-form>
-      <div class="mt20 mb20">
+      <div class="flex mt20 mb20">
         <!-- <iUpload ref="upload" @callback="uploadFileHandelCallback" style="display:none;" />
         <iButton @click="startUploadFile" v-if="!fileName">{{language('请选择文件')}}</iButton>
         <a v-else href="javscript:void(0);" style="color: #2369f1"><i class="el-icon-link"></i>{{fileName}}</a>
         <iButton @click="uploadFileHandle" style="margin-left: 5px;">{{language('上传')}}</iButton> -->
-        <attachmentDownload load="up" @getFilesList="getFilesList" />
+
+          <div>附件：</div>
+          <iUpload
+            ref="attachment"
+            v-model="uploadFileList"
+          >
+            <div class="upload-txt flex" style="align-items: end;">
+              <iButton>添加附件</iButton>
+              <span class="upload-txt" @click.stop=";">只能上传不超过20MB的文件</span>
+            </div>
+          </iUpload>
+        </div>
         <!-- <div v-if="attachFileList.length > 0"></div> -->
-      </div>
     </div>
     <div class="reset_style">
       <iButton @click="save">{{language('确认')}}</iButton>
@@ -54,7 +64,7 @@
 <script>
 import { iDialog, iButton, iFormItem, iInput, iSelect } from 'rise'
 import iEditor from '../../../components/iEditor';
-import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue'
+import iUpload from '@/views/assistant/components/iUpload.vue'
 import {assistantFaqSaveFaqApi} from '@/api/assistant';
 export default {
   name: 'finishedDialog',
@@ -199,7 +209,7 @@ export default {
     iInput,
     iSelect,
     iEditor,
-    AttachmentDownload,
+    iUpload,
   }
 }
 </script>
