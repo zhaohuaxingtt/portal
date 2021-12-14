@@ -121,6 +121,7 @@ export default [
       }
     ]
   },
+  
   {
     path: '/meeting/hall',
     name: 'meetingHall',
@@ -213,6 +214,14 @@ export default [
     component: () => import(`@/views/meeting/myMeeting.vue`),
     children: [
       {
+        path: '/meeting/managementHall',
+        name: 'managementHall',
+        meta: {
+          title: '管理大厅'
+        },
+        component: () => import(`@/views/meeting/managementHall/index.vue`)
+      },
+      {
         path: '/meeting/near-meeting',
         name: 'nearMeeting',
         meta: {
@@ -235,7 +244,7 @@ export default [
           title: '直播会议'
         },
         component: () => import(`@/views/meeting/live/index.vue`)
-      },
+      }
     ]
   },
   {
@@ -309,5 +318,6 @@ export default [
       title: '会议展示'
     },
     component: () => import(`@/views/meeting/show/index.vue`)
-  }
+  },
+  
 ]

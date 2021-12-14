@@ -1,14 +1,15 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2021-02-19 18:01:14
+ * @LastEditTime: 2021-12-13 16:13:40
  * @LastEditors: Please set LastEditors
  * @Description: 首页
- * @FilePath: \rise\src\views\home\index.vue
+ * @FilePath: \front-portal\front-portal\src\views\meeting\mySpecialMeeting.vue
 -->
 <template>
   <div style="flex: 1">
     <iPage>
+      生产
       <div class="tab-list-box">
         <iNavMvp
           :list="myMeetongTabRouterList"
