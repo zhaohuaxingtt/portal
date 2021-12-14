@@ -328,7 +328,7 @@ export default {
         return user
       })
       let arr = arrObj.map((item) => {
-        return item ? item.nameZh : ''
+        return item ? item.nameEn : ''
       })
       this.userNameArr = this.arrTrans(2, [...arr])
       // return res.data
