@@ -192,9 +192,10 @@ export default {
           this.tableListData = []
         }
         this.tableLoading = false
-      } catch {
+      } catch(e){
         this.tableListData = []
         this.tableLoading = false
+        console.log(e,'错误信息')
       }
     },
     // 转派

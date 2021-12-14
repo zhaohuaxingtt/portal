@@ -281,12 +281,14 @@ export default {
             } else {
               this.$set(item, '_isConfirm', '已确认')
             }
-            this.selectData.purchaseFactoryVo.map((items) => {
-              if (item.factoryCode == items.procureFactory) {
-                // 采购工厂
-                this.$set(item, 'factoryName', items.factoryName)
-              }
-            })
+            if(this.selectData&&this.selectData.purchaseFactoryVo) {
+              this.selectData.purchaseFactoryVo.map((items) => {
+                if (item.factoryCode == items.procureFactory) {
+                  // 采购工厂
+                  this.$set(item, 'factoryName', items.factoryName)
+                }
+              })
+            }
           })
           this.page.currPage = res.data.current
           this.page.pageSize = res.data.size
@@ -296,9 +298,10 @@ export default {
           this.tableListData = []
         }
         this.tableLoading = false
-      } catch {
+      } catch(e) {
         this.tableListData = []
         this.tableLoading = false
+        console.log(e,'错误信息',this.selectData.purchaseFactoryVo)
       }
     },
     // 编辑
