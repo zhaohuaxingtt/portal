@@ -271,16 +271,17 @@ export function exportSeriesbaseDetail(data) {
         url: `/eklApi/seriesbaseDetailEntity/exportSeriesbaseDetail`,
         method: 'POST',
         data,
-        responseType: "blob"
-    }).then(res => {
-        let url = window.URL.createObjectURL(res)
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download', `批量件.zip`)
-        document.body.appendChild(link)
-        link.click()
+        // responseType: "blob"
     })
+    //   .then(res => {
+    //     let url = window.URL.createObjectURL(res)
+    //     let link = document.createElement('a')
+    //     link.style.display = 'none'
+    //     link.href = url
+    //     link.setAttribute('download', `批量件.zip`)
+    //     document.body.appendChild(link)
+    //     link.click()
+    // })
 }
 
 // 获取批量件业绩头部数据
@@ -440,16 +441,17 @@ export function exportMonthPartlistDetail(data) {
         url: `/eklApi/monthPartlistDetailEntity/exportMonthPartlistDetail`,
         method: 'POST',
         data,
-        responseType: "blob"
-    }).then(res => {
-        let url = window.URL.createObjectURL(res)
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download', `${data.downName}`)
-        document.body.appendChild(link)
-        link.click()
+        // responseType: "blob"
     })
+    //   .then(res => {
+    //     let url = window.URL.createObjectURL(res)
+    //     let link = document.createElement('a')
+    //     link.style.display = 'none'
+    //     link.href = url
+    //     link.setAttribute('download', `${data.downName}`)
+    //     document.body.appendChild(link)
+    //     link.click()
+    // })
 }
 
 // 获取零件跟踪类型
@@ -524,22 +526,23 @@ export function affirmSpbaseDetail(data) {
     })
 }
 
-// 批量件导出功能
+// 批量件配附件导出功能
 export function exportSpbaseDetail(data) {
     return requst({
         url: `/eklApi/spBasedetailEntity/exportSpbaseDetail`,
         method: 'POST',
         data,
-        responseType: "blob"
-    }).then(res => {
-        let url = window.URL.createObjectURL(res)
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download', `批量件附件.xlsx`)
-        document.body.appendChild(link)
-        link.click()
+        // responseType: "blob"
     })
+    //   .then(res => {
+    //     let url = window.URL.createObjectURL(res)
+    //     let link = document.createElement('a')
+    //     link.style.display = 'none'
+    //     link.href = url
+    //     link.setAttribute('download', `批量件附件.xlsx`)
+    //     document.body.appendChild(link)
+    //     link.click()
+    // })
 }
 
 // 获取配附件业绩头部数据
@@ -612,16 +615,17 @@ export function exportSpTrackDetail(data) {
         url: `/eklApi/spTrackDetailEntity/exportSpbaseDetail`,
         method: 'POST',
         data,
-        responseType: "blob"
-    }).then(res => {
-        let url = window.URL.createObjectURL(res)
-        let link = document.createElement('a')
-        link.style.display = 'none'
-        link.href = url
-        link.setAttribute('download', `配附件业绩进度跟踪.xlsx`)
-        document.body.appendChild(link)
-        link.click()
+        // responseType: "blob"
     })
+    //   .then(res => {
+    //     let url = window.URL.createObjectURL(res)
+    //     let link = document.createElement('a')
+    //     link.style.display = 'none'
+    //     link.href = url
+    //     link.setAttribute('download', `配附件业绩进度跟踪.xlsx`)
+    //     document.body.appendChild(link)
+    //     link.click()
+    // })
 }
 
 // 查询配附件业绩基础明细表

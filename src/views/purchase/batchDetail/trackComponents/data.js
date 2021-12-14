@@ -1,5 +1,5 @@
 export const tableTitle = [
-    {props: 'partNumber', name: '零件号', key: 'LK_LINGJIANHAO', tooltip: true, width: 150, required: true},
+    {props: 'partNum', name: '零件号', key: 'LK_LINGJIANHAO', tooltip: true, width: 150, required: true},
     {props: 'partName', name: '零件名称', key: 'LK_PFJ_LJMC', width: 200, tooltip: true,},
     {props: 'carFamily', name: '产品家族', key: 'LK_CHANGPINJIAZHU', width: 120, tooltip: true},
     {props: 'carconfigSixcode', name: '车型代码', key: 'LK_CHEXINGDAIMA',width: 120, tooltip: true,},
