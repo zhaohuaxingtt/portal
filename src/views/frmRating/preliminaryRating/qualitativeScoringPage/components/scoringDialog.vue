@@ -198,6 +198,15 @@ export default {
         const res = await getQualitativeScoreDialogList(req)
         if (res.result) {
           this.tableListData = res.data
+           this.tableListData.forEach((res) => {
+            if (res.itemList) {
+              if (res.itemList == null || res.itemList == '') {
+                res.itemList = []
+              }
+            }else{
+                res.itemList=[]
+            }
+          })
         }
         this.tableLoading = false
       } catch {
@@ -358,10 +367,20 @@ export default {
         }
         const titleData = await getQualitativeMappingList()
         this.tableTitleData = titleData.data
+        
         const res = await getQualitativeScoreDialogList(req)
         //const res = await getScoreViewList(req)
         if (res.result) {
           this.tableListData = res.data
+           this.tableListData.forEach((res) => {
+            if (res.itemList) {
+              if (res.itemList == null || res.itemList == '') {
+                res.itemList = []
+              }
+            }else{
+                res.itemList=[]
+            }
+          })
           this.cloneList = _.cloneDeep(this.tableListData)
 
           // this.qualiativeTable = []
