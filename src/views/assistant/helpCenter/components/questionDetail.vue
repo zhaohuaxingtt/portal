@@ -103,6 +103,7 @@ export default {
 		async getQuesDetail(id) {
 			if (!id) return
 			this.detailLoading = true
+			this.showAttachFlag = false
 			await queryDetailByIdApi(id).then((res) => {
 				if (res?.code === '200') {
 					const { data } = res
