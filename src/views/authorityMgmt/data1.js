@@ -43,10 +43,10 @@ export const tableSetting = [
     i18n: 'staffManagement.SEX',
     tooltip: true,
     customRender: (h, scope) => {
-      if (scope.row.gender === '1') {
+      if (['male', '1'].includes(scope.row.gender)) {
         return '男'
       }
-      if (scope.row.gender === '2') {
+      if (['female', '2'].includes(scope.row.gender)) {
         return '女'
       }
       return scope.row.gender

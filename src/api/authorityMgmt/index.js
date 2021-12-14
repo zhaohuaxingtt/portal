@@ -1,9 +1,10 @@
 import axios from '@/utils/axios'
-
+import axiosDownload from '@/utils/axios.download'
 // 供应商管理网络请求模块
 const requst = axios(process.env.VUE_APP_USER_CENTER)
 const requstcg = axios(process.env.VUE_APP_BASE_INFO)
-const requestFile = axios(process.env.VUE_APP_FILEAPI+'/fileud')
+const requestFile = axios(process.env.VUE_APP_FILEAPI + '/fileud')
+const requestDownload = axiosDownload(process.env.VUE_APP_USER_CENTER)
 /*
 供应商用户管理
 */
@@ -48,6 +49,15 @@ export function getUserSelectPageList(data) {
     data
   })
 }
+// 导出用户
+export function exportExcel(data) {
+  return requestDownload({
+    url: `/web/sapUser/exportExcel`,
+    method: 'post',
+    data
+  })
+}
+
 export function getUserListByIDs(data) {
   return requst({
     url: '/web/sapUser/getListByParam',
