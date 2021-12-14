@@ -1859,7 +1859,7 @@
     LK_QRJG: 'confirmed price',
     LK_JGLY: 'price source',
     LK_QRJGLY: 'confirmed price source',
-    LK_QNCL: 'annual output',
+    LK_QNCL: 'Year output',
     LK_SYH: 'index number',
     LK_SHUL: 'quantity',
     LK_JAGE: 'price',
