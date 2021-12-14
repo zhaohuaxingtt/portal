@@ -130,7 +130,7 @@ export default {
     handleHideSuggestion(){
       window.setTimeout(()=>{
         this.showSuggestion = false
-      },500)
+      },200)
     }
   }
 }
