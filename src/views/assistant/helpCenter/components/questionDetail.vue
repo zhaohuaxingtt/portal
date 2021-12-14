@@ -25,6 +25,7 @@
 		<div>附件：</div>
 		<iUpload 
 			ref="attachment"
+			disabled
 			v-model="fileList"
 		/>
 	</div>
