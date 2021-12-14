@@ -41,6 +41,14 @@ export function getPageListByParams(data) {
     data: data
   })
 }
+
+export function getSapUserDropdownList(data) {
+  return requst({
+    url: '/web/sapUser/dropDownList',
+    method: 'post',
+    data: data
+  })
+}
 //
 export function getUserSelectPageList(data) {
   return requst({

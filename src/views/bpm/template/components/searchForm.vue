@@ -21,10 +21,11 @@
         ></iInput>
       </iFormItem>
       <iFormItem :label="language('创建者')">
-        <iInput
+        <!-- <iInput
           :placeholder="language('请输入')"
           v-model="form.creater"
-        ></iInput>
+        ></iInput> -->
+        <userSelect v-model="form.creater" />
       </iFormItem>
       <iFormItem :label="language('流程状态')">
         <iSelect :placeholder="language('请选择')" v-model="form.status">
@@ -44,12 +45,14 @@
 <script>
 import { iSearch, iInput, iSelect, iFormItem } from 'rise'
 import { templateStatus, searchForm } from './data'
+import userSelect from '@/components/remoteSelect/user'
 export default {
   components: {
     iSearch,
     iInput,
     iSelect,
-    iFormItem
+    iFormItem,
+    userSelect
   },
   data() {
     return {

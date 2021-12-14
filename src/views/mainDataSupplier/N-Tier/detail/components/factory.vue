@@ -7,13 +7,34 @@
 
 <template>
   <div>
-    <i-card>
-      <div class="margin-bottom20 clearFloat">
+    <i-card
+      tabCard
+      collapse
+      :title="language('SHENGCAHNGONGCHANGXINXI', '生产工厂信息')"
+    >
+      <div slot="header-control">
+        <iButton
+          v-show="editable"
+          @click="() => addTableItem({ countryList: this.countryList })"
+        >
+          {{ language('新增') }}
+        </iButton>
+        <iButton
+          v-show="editable"
+          :disabled="selectTableData.length === 0"
+          @click="deleteCl()"
+        >
+          {{ $t('删除') }}
+        </iButton>
+      </div>
+      <!-- <div class="margin-bottom20 clearFloat">
         <span class="font18 font-weight">{{
-        language('SHENGCAHNGONGCHANGXINXI', '生产工厂信息')
-      }}</span>
+          language('SHENGCAHNGONGCHANGXINXI', '生产工厂信息')
+        }}</span>
         <div class="floatright">
-          <i-button @click="()=>addTableItem({countryList: this.countryList })">{{ $t('LK_XINZENG') }}
+          <i-button
+            @click="() => addTableItem({ countryList: this.countryList })"
+            >{{ $t('LK_XINZENG') }}
           </i-button>
           <i-button @click="deleteCl()">
             {{ $t('delete') }}
@@ -22,47 +43,58 @@
             {{ $t('LK_DAOCHU') }}
           </i-button>
         </div>
-      </div>
-      <table-list :tableData="tableListData"
-                  :tableTitle="tableTitle"
-                  :tableLoading="tableLoading"
-                  @handleSelectionChange="handleSelectionChange"
-                  :input-props="['factoryName', 'postCode', 'areaCovered','address']"
-                  :index="true"
-                  ref="commonTable">
+      </div> -->
+      <table-list
+        :tableData="tableListData"
+        :tableTitle="tableTitle"
+        :tableLoading="tableLoading"
+        @handleSelectionChange="handleSelectionChange"
+        :input-props="['factoryName', 'postCode', 'areaCovered', 'address']"
+        :index="true"
+        ref="commonTable"
+      >
         <template #country="scope">
-          <iSelect v-model="scope.row.country"
-                   filterable
-                   @change="handleLocationChange($event,scope.row, 'country')"
-                   value-key="cityId">
-            <el-option v-for="item of getSelectList('country',scope.row)"
-                       :key="item.cityId"
-                       :label="item.cityNameCn"
-                       :value="item" />
+          <iSelect
+            v-model="scope.row.country"
+            filterable
+            @change="handleLocationChange($event, scope.row, 'country')"
+            value-key="cityId"
+          >
+            <el-option
+              v-for="item of getSelectList('country', scope.row)"
+              :key="item.cityId"
+              :label="item.cityNameCn"
+              :value="item"
+            />
           </iSelect>
         </template>
         <template #province="scope">
-          <iSelect v-model="scope.row.province"
-                   filterable
-                   @change="handleLocationChange($event,scope.row, 'province',scope.$index)"
-                   value-key="cityId">
-            <el-option v-for="item of getSelectList('province',scope.row)"
-                       :key="item.cityId"
-                       :label="item.cityNameCn"
-                       :value="item" />
+          <iSelect
+            v-model="scope.row.province"
+            filterable
+            @change="
+              handleLocationChange($event, scope.row, 'province', scope.$index)
+            "
+            value-key="cityId"
+          >
+            <el-option
+              v-for="item of getSelectList('province', scope.row)"
+              :key="item.cityId"
+              :label="item.cityNameCn"
+              :value="item"
+            />
           </iSelect>
         </template>
         <template #city="scope">
-          <iSelect v-model="scope.row.city"
-                   filterable
-                   value-key="cityId">
-            <el-option v-for="item of getSelectList('city',scope.row)"
-                       :key="item.cityId"
-                       :label="item.cityNameCn"
-                       :value="item" />
+          <iSelect v-model="scope.row.city" filterable value-key="cityId">
+            <el-option
+              v-for="item of getSelectList('city', scope.row)"
+              :key="item.cityId"
+              :label="item.cityNameCn"
+              :value="item"
+            />
           </iSelect>
         </template>
-
       </table-list>
     </i-card>
   </div>
@@ -85,6 +117,10 @@ export default {
     countryList: {
       type: Array,
       default: () => []
+    },
+    editable: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -112,13 +148,16 @@ export default {
           cancelButtonText: this.$t('LK_QUXIAO')
         }
       ).then(async () => {
-        this.selectTableData.map((v) => {
+        this.tableListData = this.tableListData.filter(
+          (e) => this.selectTableData.indexOf(e) === -1
+        )
+        /* this.selectTableData.map((v) => {
           this.tableListData.map((val, index) => {
             if (val == v) {
               this.tableListData.splice(index, 1)
             }
           })
-        })
+        }) */
       })
     },
     getSelectList(params, row) {
@@ -239,5 +278,4 @@ export default {
   }
 }
 </script>
-<style scoped>
-</style>
+<style scoped></style>

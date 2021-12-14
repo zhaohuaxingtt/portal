@@ -415,9 +415,9 @@
                             ]
                         )
                     ])
-                } else if (column.label == this.label) {
+                } else if (column.label == this.label || column.label == 'Year output') {
                     return this.fn(column, h, $index)
-                } else if (column.label == '12月') {
+                } else if (column.label == '12月' || column.label =='december') {
                     return this.cb(column, h, $index)
                 } else {
                     return h("span", column.label + "  ", {  //这是左边的

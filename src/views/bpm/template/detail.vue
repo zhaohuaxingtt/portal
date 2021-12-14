@@ -218,6 +218,7 @@ export default {
         formData.append('modelId', this.form.modelId)
         formData.append('modelName', this.form.modelName)
         formData.append('description', this.form.description)
+        formData.append('status', this.form.status)
         // formData.append('url', this.form.url)
         this.saveLoading = true
         updateTemplate(formData)
