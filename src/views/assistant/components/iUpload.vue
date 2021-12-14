@@ -164,7 +164,8 @@
                 if (this.imgFmt.includes(fileExtension)) {
                     this.$refs.img.show(file.fileUrl)
                 }else{
-                    getFileId(file?.id).then((res) => {
+                    let id = file.fileUrl.split('=')[1] || ''
+                    getFileId(id).then((res) => {
                         console.log(res, '1111111111')
                     })
                 }
