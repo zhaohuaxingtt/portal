@@ -40,9 +40,8 @@
              :key="index">
           <span>{{language(item.key,item.name)}}</span>
           <el-tooltip class="item"
-                      effect="dark"
+                      effect="light"
                       :content="inforData[item.prop]"
-                      placement="top-start"
                       v-if="item.type=='tooltip'&&inforData[item.prop]!==null">
             <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
                     class="inforText"
@@ -458,7 +457,6 @@ $tabsInforHeight: 35px;
   margin-bottom: 10px;
   display: flex;
   flex-flow: wrap;
-  justify-content: space-between;
   .inforDiv {
     width: 29%;
     height: $tabsInforHeight;
@@ -467,6 +465,7 @@ $tabsInforHeight: 35px;
     justify-content: space-between;
     margin-top: 0;
     margin-bottom: 20px;
+    margin-left:6.5%;
     span {
       font-size: 15px;
     }
@@ -478,6 +477,9 @@ $tabsInforHeight: 35px;
       height: $tabsInforHeight;
       line-height: $tabsInforHeight;
     }
+  }
+  .inforDiv:nth-child(3n-2){
+    margin-left:0!important;
   }
 }
 .number_color {
