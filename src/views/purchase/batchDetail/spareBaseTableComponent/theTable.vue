@@ -272,13 +272,13 @@ export default {
       this.formData.baseId = this.baseId
       this.formData.currentPage = 1
       this.formData.downName = this.title
-      this.tableLoading = true
       exportSpbaseDetail(this.formData)
         .then((res) => {
-          this.tableLoading = false
-        })
-        .catch((err) => {
-          this.tableLoading = false
+          if(res.result) {
+            let remark = res.data.remark
+            iMessage.success(remark)
+          }
+        }).catch((err) => {
         })
     }
   }

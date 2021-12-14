@@ -371,15 +371,13 @@ export default {
       this.formData.baseId = this.baseId
       this.formData.currentPage = 1
       this.formData.downName = this.title
-      this.tableLoading = true
-      exportMonthPartlistDetail(this.formData)
-        .then((res) => {
-          this.tableLoading = false
-        })
-        .catch(() => {
-          this.tableLoading = false
-          //                    iMessage.success(this.language('操作失败'))
-        })
+      exportMonthPartlistDetail(this.formData).then((res) => {
+        if(res.result) {
+          let remark = res.data.remark
+          iMessage.success(remark)
+        }
+      }).catch(() => {
+      })
     }
   }
 }
