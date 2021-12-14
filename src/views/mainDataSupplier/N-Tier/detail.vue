@@ -1,20 +1,23 @@
 <template>
   <iPage>
     <detailBase :supplierData="detail" />
+    <detailCompany :supplierData="detail" />
   </iPage>
 </template>
 
 <script>
 import { iPage, iMessage } from 'rise'
-import { detailBase } from './components'
+import { detailBase, detailCompany } from './components'
 import { getBasicDetailById } from '@/api/mainDataSupplier/N-Tier'
 
 export default {
   name: 'detail',
-  components: { detailBase, iPage },
+  components: { detailBase, detailCompany, iPage },
   data() {
     return {
-      detail: {}
+      detail: {
+        address: {}
+      }
     }
   },
   created() {

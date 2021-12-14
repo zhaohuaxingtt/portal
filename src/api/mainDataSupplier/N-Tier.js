@@ -47,29 +47,18 @@ export function saveBasicDetail(data) {
   })
 }
 
-//获取详情列表信息
-export function getDetailTableList(data) {
+// 获取供应商工厂信息
+export function queryFactoryById(params) {
   return request({
-    url: '',
-    method: '',
-    data
+    url: `/web/ntier/ntierPlant/getBySupplierId/${params.supplierId}`
   })
 }
 
-//删除详情列表Item
-export function delDetailListItem(data) {
+// 报错供应商工厂信息
+export function saveFactoryById(data) {
   return request({
-    url: '',
-    method: '',
-    data
-  })
-}
-
-//详情页根据ID查询Dialog信息
-export function getDetailDialogById(data) {
-  return request({
-    url: '',
-    method: '',
+    url: `/web/ntier/ntierPlant/save`,
+    method: 'post',
     data
   })
 }
