@@ -1,22 +1,27 @@
 <template>
   <iPage>
-    <detailBase :supplierData="detail" />
-    <detailCompany :supplierData="detail" />
+    <detailBase :supplierData="detail" class="margin-bottom20" />
+    <detailCompany :supplierData="detail" class="margin-bottom20" />
+    <detailFactory
+      :factoryList="detail.ntierSupplierPlantResVos"
+      class="margin-bottom20"
+    />
   </iPage>
 </template>
 
 <script>
 import { iPage, iMessage } from 'rise'
-import { detailBase, detailCompany } from './components'
+import { detailBase, detailCompany, detailFactory } from './components'
 import { getBasicDetailById } from '@/api/mainDataSupplier/N-Tier'
 
 export default {
   name: 'detail',
-  components: { detailBase, detailCompany, iPage },
+  components: { detailBase, detailCompany, iPage, detailFactory },
   data() {
     return {
       detail: {
-        address: {}
+        addressInfoUpdateVo: {},
+        ntierSupplierPlantResVos: []
       }
     }
   },

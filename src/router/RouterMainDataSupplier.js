@@ -62,6 +62,6 @@ export const RouterDetailSupplier = [
       title: 'N-Tier详情页面',
       activeMenu: ['RISE_ADMIN', 'ADMIN_MAIN_DATA']
     },
-    component: () => import('@/views/mainDataSupplier/N-Tier/detail')
+    component: () => import('@/views/mainDataSupplier/N-Tier/detail/index')
   }
 ]

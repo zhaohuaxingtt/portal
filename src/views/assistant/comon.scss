@@ -124,3 +124,19 @@
     overflow-x: hidden;
   }
 }
+
+.upload-btn{
+  align-items: baseline;
+  color: #2369f1;
+  cursor: pointer;
+  span{
+      text-decoration: underline;
+  }
+}
+
+
+.upload-txt{
+  margin-left: 20px;
+	color: #999;
+}
+

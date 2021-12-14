@@ -21,10 +21,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="mt20">
-		<AttachmentDownload 
+	<div class="flex mt20" v-show="fileList.length > 0">
+		<div>附件：</div>
+		<iUpload 
 			ref="attachment"
-			v-show="showAttachFlag"
+			disabled
+			v-model="fileList"
 		/>
 	</div>
 	<div class="solution-box" v-show="solutionFlag">
@@ -43,13 +45,13 @@
 <script>
 import { iButton } from 'rise';
 import { queryDetailByIdApi, closeQuestionApi } from '@/api/assistant'
-import AttachmentDownload from '../../components/attachmentDownload'
+import iUpload from '../../components/iUpload.vue'
 import moment from 'moment'
 export default {
 	name: 'QuestionDetail',
 	components: {
 		iButton,
-		AttachmentDownload
+		iUpload
 	},
 	props: {
 		moudleList: {
@@ -64,6 +66,7 @@ export default {
 			title: '',
 			moudleName: null,
 			chatList: [],
+			fileList:[],
 			currQuesFavourFlag: false,  //  当前问题是否点赞
 			currQuestionId: null,  //  当前问题id
 			currQuesInfo: null,  //  当前问题的全部信息
@@ -103,6 +106,7 @@ export default {
 		async getQuesDetail(id) {
 			if (!id) return
 			this.detailLoading = true
+			this.showAttachFlag = false
 			await queryDetailByIdApi(id).then((res) => {
 				if (res?.code === '200') {
 					const { data } = res
@@ -120,7 +124,7 @@ export default {
 							}
 						})
 					}
-					this.$refs.attachment.fileList = currQuesFileList || []
+					this.fileList = currQuesFileList || []
 					this.currQuesInfo = data
 					this.solutionFlag = this.currQuesInfo.questionStatus === 'reply' ? true : false
 					this.dealData(data?.replyQuestionList || [], data?.questionTitle, data?.createDate)

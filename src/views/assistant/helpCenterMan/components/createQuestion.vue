@@ -148,14 +148,6 @@
     width: 100%;
 }
 
-.upload-btn{
-    align-items: baseline;
-    color: #2369f1;
-    cursor: pointer;
-    span{
-        text-decoration: underline;
-    }
-}
 
 .label{
     margin-bottom: 10px;

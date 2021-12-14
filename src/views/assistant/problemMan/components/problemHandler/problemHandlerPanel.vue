@@ -150,8 +150,12 @@
               </iFormItem>
             </el-form>
           </div>
-          <div class="mt20 mb20" v-show="attachShowFlag">
-            <attachmentDownload :load="loadText" ref="attachment" @getFilesList="getFilesList" />
+          <div class="mt20 mb20 flex">
+            <div>附件：</div>
+            <iUpload :disabled="loadText" ref="attachment" v-model="uploadFileList"  >
+              <iButton>{{ language('添加附件') }}</iButton>
+            </iUpload>
+            <div v-if="loadText && uploadFileList.length == 0">无</div>
           </div>
         </template>
       </div>
@@ -167,7 +171,7 @@ import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
 import iEditor from '../../../components/iEditor';
 // import { getFileId } from "@/api/assistant/uploadFile.js"
-import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
+import iUpload from '@/views/assistant/components/iUpload.vue';
 import { queryModuleBySource, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi, closeQuestionApi, modifyModuleAndLabelApi } from '@/api/assistant';
 // 来源 inner:内部用户 supplier:供应商用户
 export default {
@@ -406,9 +410,8 @@ export default {
           })
         }
         this.attachShowFlag = currQuesFileList.length > 0 ? true : false
-        if (this.$refs.attachment) {
-          this.$refs.attachment.fileList = currQuesFileList || []
-        }
+        this.uploadFileList = currQuesFileList || []
+    
         this.editForm = {
           questionLableId: data?.questionLableId,
           questionModuleId: data?.questionModuleId,
@@ -442,14 +445,9 @@ export default {
       this.isDisabledLabel = true;
       this.queryDetailById(item.id);
     },
-    // 上传文件回调
-    getFilesList (fileList) {
-      console.log(fileList, '上传文件');
-      this.uploadFileList = fileList;
-    },
     replyHandler () {
       this.isReplyStatus = true
-      this.$refs.attachment.setFileList([])
+      this.uploadFileList = []
     },
     // 指派
     dispatchHandler () {
@@ -478,14 +476,8 @@ export default {
       if (!this.replyContent) {
         return this.$message.error('请填写回复内容');
       }
-      const attachmentList = this.uploadFileList.map(item => {
-        return {
-          fileName: item.name,
-          fileUrl: item.path,
-        };
-      });
       const data = {
-        attachmentList,
+        attachmentList:this.uploadFileList,
         content: this.replyContent,
         // 是否关闭 0：否 1：是
         hasClosed,
@@ -556,9 +548,9 @@ export default {
   computed: {
     loadText () {
       if (this.isReplyStatus) {
-        return 'up';
+        return false;
       } else {
-        return 'down';
+        return true;
       }
     },
     disabled(){
@@ -573,7 +565,7 @@ export default {
     iFormItem,
     iEditor,
     FinishedDialog,
-    AttachmentDownload,
+    iUpload,
   }
 }
 </script>

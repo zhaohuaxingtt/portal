@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-12-13 16:59:45
+ * @LastEditTime: 2021-12-14 16:26:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -146,7 +146,7 @@
                            type="monthrange"
                            style="width:100%"
                            format="yyyy-MM"
-                           value-format="yyyy-MM"
+                           value-format="yyyy-MM-dd"
                            range-separator="至"
                            start-placeholder="开始日期"
                            end-placeholder="结束日期">
@@ -289,7 +289,6 @@ export default {
   },
   watch: {
     minDate (val) {
-      console.log(this.differenceTime, val, val.getTime())
       this.pickerOptions = {
         onPick: ({ minDate }) => {
           this.minDate = minDate
@@ -477,8 +476,6 @@ export default {
       this.searchForm.compTimeEnd = val[1]
     },
     handleChangeDate (val) {
-      let time = this.differenceTime
-      console.log(time)
       this.searchForm.effPriceFrom = val[0]
       this.searchForm.effPriceTo = val[1]
     },
