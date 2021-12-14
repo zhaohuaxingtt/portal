@@ -1,27 +1,38 @@
 <template>
-    <iPage>
-        <pageHeader class="margin-bottom20">{{language(pageTitle)}}</pageHeader>
-        <basicN-Tier class="margin-bottom20"></basicN-Tier>
-        <detailList />
-    </iPage>
+  <iPage>
+    <detailBase :supplierData="detail" />
+  </iPage>
 </template>
 
 <script>
-import {iPage,} from 'rise'
-import basicNTier from './components/basicN-Tier'
-import detailList from  './components/detailList'
-import pageHeader from '@/components/pageHeader'
+import { iPage, iMessage } from 'rise'
+import { detailBase } from './components'
+import { getBasicDetailById } from '@/api/mainDataSupplier/N-Tier'
+
 export default {
-    name:'detail',
-    components:{basicNTier,iPage,pageHeader,detailList},
-    data(){
-        return {
-            pageTitle:'基本信息'
-        }
+  name: 'detail',
+  components: { detailBase, iPage },
+  data() {
+    return {
+      detail: {}
     }
+  },
+  created() {
+    this.queryDetail()
+  },
+  methods: {
+    queryDetail() {
+      const id = this.$route.query.id
+      getBasicDetailById(id).then((val) => {
+        if (val.code == 200) {
+          this.detail = val.data
+        } else if (val.code == 1) {
+          iMessage.error(val.desZh)
+        }
+      })
+    }
+  }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
