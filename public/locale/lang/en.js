@@ -1871,7 +1871,7 @@
     LK_CAIGOUY: 'buyer',
     LK_CGCKJ: 'purchase reference price',
     LK_JIJIA: 'base price',
-    LK_GZJD: 'Track progress',
+    LK_GZJD: 'Track',
     LK_LY: 'sorce',
     LK_CAOZ: 'operation',
     // LK_BANBENHAO:'Version No',
@@ -1889,7 +1889,6 @@
     OCTOBER: 'october',
     NOVEMBER: 'november',
     DECEMBER: 'december',
-
     LK_KESHI: 'department',
     PINJUN: 'average',
     CHIXU: 'continued',
