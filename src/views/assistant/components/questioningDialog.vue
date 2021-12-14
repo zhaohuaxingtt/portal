@@ -52,7 +52,6 @@
 			</div>
 		</div>
 		<div class="flex flex-row mt20 justify-end items-center btns">
-			<div @click="askContent = ''">qc</div>
 			<iButton @click="clearDialog">{{ language('退出') }}</iButton>
 			<iButton @click="sendMessage">{{ language('发送') }}</iButton>
 		</div>
