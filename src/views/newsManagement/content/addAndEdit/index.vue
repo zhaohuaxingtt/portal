@@ -265,6 +265,9 @@ export default {
           //   name: "newsContent",
           // });
           window.close()
+          if (window.opener) {
+                  window.opener.location.reload()
+                }
         });
       } else {
         //新增
