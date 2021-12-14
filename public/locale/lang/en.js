@@ -1850,7 +1850,7 @@
     LK_QUERENZHUANGT: 'Confirm status',
     LK_FDJDCB: 'engine - battery pack',
     LK_BIANSUXIANG: 'transmission case',
-    LK_PEIZHI: 'configure',
+    LK_PEIZHI: 'Configure',
     LK_CHEXINGDAIMA: 'model code',
     LK_CHANGPINJIAZHU: 'product family',
     // LK_LINGJIANHAO: 'part number',
