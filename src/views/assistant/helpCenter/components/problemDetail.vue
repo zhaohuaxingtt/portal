@@ -82,10 +82,15 @@
 				<div class="des-title">{{ problemText }}</div>
 				<div v-html="desDetail" class="des-detail"></div>
 			</div>
-			<AttachmentDownload 
-				ref="attachment"
-				v-if="showAttachFlag && attach.length > 0"
-			/>
+			<div class="flex mt20" >
+				<div>附件：</div>
+				<iUpload 
+					ref="attachment"
+					v-model="attach"
+					disabled
+				/>
+				<div v-if="attach.length == 0">无</div>
+			</div>
 			<div class="bottom-zan">
 				<Solution
 					:showTipsFlag="showTipsFlag"
@@ -99,7 +104,7 @@
 </template>
 
 <script>
-import AttachmentDownload from '../../components/attachmentDownload'
+import iUpload from '../../components/iUpload.vue'
 import Solution from '../../components/solution'
 import { updateFavour, getCurrLabelList, getProblemDetail, queryFaqByPage, queryHotFaq, getAllModuleLabel, judgeFavour } from '@/api/assistant'
 import {
@@ -109,7 +114,7 @@ export default {
   name: 'ProblemDetail',
 	components: {
 		iButton,
-		AttachmentDownload,
+		iUpload,
 		Solution
 	},
 	props: {
@@ -183,13 +188,7 @@ export default {
 					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
 					this.problemText = data.questionTitle
 					this.showAttachFlag = data?.annexList.length > 0
-					this.attach = data?.annexList
-					this.$nextTick(() => {
-						if (this.showAttachFlag) {
-							console.log(this.$refs.attachment, "111111")
-							this.$refs.attachment.fileList = data?.annexList
-						}
-					})
+					this.attach = data.annexList || []
 					this.getJudgeFavour(query.id)
 				}
 			})
@@ -256,13 +255,7 @@ export default {
 					this.problemLoading = false
 					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
 					this.showAttachFlag = data?.annexList.length > 0
-					this.attach = data?.annexList
-					this.$nextTick(() => {
-						if (this.showAttachFlag) {
-							console.log(this.$refs.attachment, "111111")
-							this.$refs.attachment.fileList = data?.annexList
-						}
-					})
+					this.attach = data.annexList || []
 					this.getJudgeFavour(item.questionId || item.id)
 				}
 			})

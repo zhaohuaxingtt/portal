@@ -21,6 +21,7 @@
     />
 
     <theDetailFactoryModify
+      v-if="dialogVisible"
       :visible.sync="dialogVisible"
       :detail="detail"
       :supplierId="supplierId"
