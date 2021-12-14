@@ -32,7 +32,7 @@
               <el-form-item class="elFormItems" :label="formLable.supChina">
                 <iInput
                   v-model="formData.opcsCompanyNameZh"
-                  :disabled="isEdit"
+                  :disabled="true"
                 ></iInput>
               </el-form-item>
             </el-col>
@@ -107,14 +107,14 @@
         class="tableList"
       >
         <div class="tableButton">
-          <iButton v-if="isEditAuth" @click="authEditStatus">{{
-            iButtons.edit
-          }}</iButton>
-          <iButton v-else @click="cancelAuthBtnClick">{{
-            iButtons.cancelAuth
-          }}</iButton>
+          <iButton v-if="isEditAuth" @click="authEditStatus">
+            {{ iButtons.edit }}
+          </iButton>
+          <iButton v-else @click="cancelAuthBtnClick">
+            {{ iButtons.cancelAuth }}
+          </iButton>
         </div>
-        <div class="table">
+        <div class="table margin-top20">
           <iTableCustom
             v-show="isEditAuth"
             :loading="tableloading"
@@ -268,16 +268,14 @@ export default {
           userIds: [userIds],
           applicationIds: applicationIds
         }
-
-        this.$confirm(
-          this.language('是否取消主联系人授权'),
-          this.language('提示'),
-          {
-            confirmButtonText: this.language('确定'),
-            cancelButtonText: this.language('取消'),
-            type: 'warning'
-          }
-        )
+        const msg = this.formData.isMainContact
+          ? '该操作将一并取消对应子联系人的权限，是否确认取消主联系人授权'
+          : '是否取消当前联系人授权'
+        this.$confirm(this.language(msg), this.language('提示'), {
+          confirmButtonText: this.language('确定'),
+          cancelButtonText: this.language('取消'),
+          type: 'warning'
+        })
           .then(() => {
             cancelAuth(param)
               .then((result) => {
@@ -401,11 +399,11 @@ export default {
       justify-content: flex-end;
     }
 
-    .table {
+    /* .table {
       margin-top: 20px;
       height: 200px;
       overflow: auto;
-    }
+    } */
   }
 }
 </style>

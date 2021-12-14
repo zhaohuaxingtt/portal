@@ -7,7 +7,7 @@
       <div class="Main">
         <!-- 搜索条件 -->
         <div class="SearchMenu">
-          <div class="SearchOptions margin-bottom20">
+          <div class="SearchOptions margin-bottom20" :loading="saveLoading">
             <!-- hiddenRight -->
             <Fold
               :btnList="btnList"
@@ -385,6 +385,7 @@ export default {
       positionListDrpList: [],
       foldName: '基本信息',
       btnList: [{ name: '编辑', type: 'edit' }],
+      saveLoading: false,
       isEdit: true,
       organizationMenu: [],
       status: [
@@ -662,10 +663,13 @@ export default {
       }
     },
     handleSave() {
+      this.saveLoading = true
       update(this.formData)
         .then((res) => {
           if (res.code == 200) {
             // this.go(-1)
+            this.isEdit = true
+            this.btnList = [{ name: '编辑', type: 'edit' }]
             iMessage.success(res.desZh || '更新成功')
           } else {
             iMessage.error(res.desZh || '更新失败')
@@ -673,6 +677,9 @@ export default {
         })
         .catch((err) => {
           iMessage.error(err.desZh || '更新失败')
+        })
+        .finally(() => {
+          this.saveLoading = false
         })
     },
     handleChangeDept(id, options) {

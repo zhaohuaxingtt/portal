@@ -1,5 +1,8 @@
 <template>
   <iPage>
+    <pageHeader class="margin-bottom20"
+      >{{ this.form.id ? '编辑' : '新增' }}轮岗申请</pageHeader
+    >
     <iCard>
       <iSteps :active="active" align-center>
         <iStep title="发起轮岗申请" status="finish">
@@ -157,7 +160,7 @@ import {
 import iSteps from '@/components/iSteps'
 import iStep from '@/components/iStep'
 import choosePosition from './components/choosePosition'
-
+import pageHeader from '@/components/pageHeader'
 import {
   positionAgentDetail,
   transferPositionApply,
@@ -175,7 +178,8 @@ export default {
     iInput,
     iButton,
     choosePosition,
-    iSelect
+    iSelect,
+    pageHeader
   },
   data() {
     return {

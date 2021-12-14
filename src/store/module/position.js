@@ -285,7 +285,8 @@ const position = {
       const query = state.org.query
       const requestData = {
         fullCode: query[0].value,
-        nameZh: query[1].value
+        nameZh: query[1].value,
+        queryTree: !query[0].value && !query[1].value
       }
       getOrganizationList(null, requestData)
         .then((res) => {

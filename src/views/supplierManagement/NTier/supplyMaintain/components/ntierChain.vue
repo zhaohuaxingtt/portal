@@ -290,7 +290,7 @@ export default {
       this.onDataLoading = true
       const pms = {
         supplierId: this.$route.query.supId,
-        tlk: this.$route.query.tlk
+        tlk: encodeURIComponent(this.$route.query.tlk)
       }
       // this.supplierId = pms.supplierId
       this.onDataLoading = true;

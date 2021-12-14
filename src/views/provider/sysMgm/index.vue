@@ -92,7 +92,10 @@
             <iButton @click="deleteData" :disabled="selectedData.length == 0">{{
               buttonTitles.delete
             }}</iButton>
-            <iButton @click="exportData">{{ buttonTitles.export }}</iButton>
+            <button-download :download-method="exportData" />
+            <!-- <iButton @click="exportData">
+              {{ buttonTitles.export }}
+            </iButton> -->
             <create-sys-mgm
               v-if="dialogFormVisible"
               :visible="dialogFormVisible"
@@ -201,7 +204,7 @@ export default {
     deleteData() {
       //删除选中数据
       this.$confirm(
-        this.language('此操作将永久删除该模板, 是否继续?'),
+        this.language('删除应用/Scenario时, 所绑定的用户授权将一并删除。'),
         this.language('提示'),
         {
           confirmButtonText: this.language('确定'),
@@ -232,13 +235,14 @@ export default {
       })
     },
     exportData() {
+      return sysExport(this.formData)
       //导出数据
-      let newFormData = _.cloneDeep(this.formData)
+      /* let newFormData = _.cloneDeep(this.formData)
       newFormData.supplierType = newFormData.supplierType.join(',')
       let param = {
         ...newFormData
       }
-      sysExport(param)
+      sysExport(param) */
     },
     defaultFormData() {
       return {

@@ -417,9 +417,6 @@ $tabsInforHeight: 35px;
 
 
 .tabs_box_right{
-  .samll_val{
-
-  }
   .samll_title{
     width:80px;
   }

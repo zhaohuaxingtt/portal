@@ -5,7 +5,7 @@
       <div class="basicMessage">
         <iCard :title="language(title.icardMessage)" collapse>
           <div class="btnList">
-              <iButton style="margin-right:20px" @click="toColorStandardParts"  v-if="isEditColorPart">{{language('批量修改')}}</iButton>
+              <iButton style="margin-right:20px" @click="toColorStandardParts"  v-if="isEditColorPart && isDisabled">{{language('批量修改')}}</iButton>
               <div class="browse" v-if='isDisabled>0 ? true : false'>
                   <iButton @click="edit">{{language('编辑')}}</iButton>
               </div>
