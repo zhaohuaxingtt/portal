@@ -164,10 +164,10 @@
                 if (this.imgFmt.includes(fileExtension)) {
                     this.$refs.img.show(file.fileUrl)
                 }else{
-                    let id = file.fileUrl.split('=')[1] || ''
-                    getFileId(id).then((res) => {
-                        console.log(res, '1111111111')
-                    })
+                    let a = document.createElement('a')
+                    a.href = `${file.fileUrl}&isDown=true`
+                    a.download = file.fileName
+                    a.click()
                 }
             }
         }
