@@ -1148,7 +1148,6 @@ export default {
             num++;
           }
         })
-        console.log(num)
         this.$emit("isNomiNumber", num);
         this.loading = false;
         if (res.total < 1) {

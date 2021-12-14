@@ -338,8 +338,8 @@ export default {
         iMessage.error(this.language("QXZYTSJJXGL","请选择一条数据进行关联！"))
         return false;
       }
-      if(this.numIsNomi!==0 && this.handleSelectArr[0].nominateProcessType !== "MEETING"){
-          return iMessage.error(this.language('WHMTZYCLGZCZXGZGLSQDWFXZLZBALX', '维护MTZ原材料规则存在新规则，关联申请单无法选择流转/备案类型'))
+      if(this.numIsNomi!==0 && this.handleSelectArr[0].nominateProcessType == "TRANFORM"){
+          return iMessage.error(this.language('WHMTZYCLGZCZXGZGLSQDWFXZLZLX', '维护MTZ原材料规则存在新规则，关联申请单无法选择流转类型'))
       }else{
         relation({
           mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,

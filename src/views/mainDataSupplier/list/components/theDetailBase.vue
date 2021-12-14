@@ -11,7 +11,6 @@
         {{ language('保存') }}
       </iButton>
     </div>
-    <pre></pre>
     <el-form
       label-position="left"
       label-width="130px"

@@ -181,9 +181,13 @@
                   class="margin-left5 applayDateIcon"
                   symbol
                   name="iconrs-quxiao"></icon>
-            <div class="applayDateContentItem">
+            <div class="applayDateContentItem first_one">
               <span>部门：</span>
               <span class="applayDateDeptTitle">{{item.deptFullCode}}</span>
+            </div>
+            <div class="applayDateContentItem">
+              <span>审批人：</span>
+              <span>{{item.nameZh}}</span>
             </div>
             <div class="applayDateContentItem">
               <span>日期：</span>
@@ -476,12 +480,15 @@ $tabsInforHeight: 35px;
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-top: 12px;
   padding: 0 20px;
   font-size: 16px;
   .applayDateDeptTitle {
     font-weight: bold;
   }
+}
+.first_one{
+  margin-top: 30px!important;
 }
 .applayDateContent {
   display: inline-block;
@@ -573,8 +580,7 @@ $tabsInforHeight: 35px;
   margin:0 1.5rem 0 0;
 }
 .tabs_box_right{
-  .samll_val{
-  }
+
   .samll_title{
     width:80px;
   }
@@ -590,8 +596,7 @@ $tabsInforHeight: 35px;
   .small_text{
     float:left;
   }
-  .big_text{
-  }
+
 }
 
 .upload_hr{

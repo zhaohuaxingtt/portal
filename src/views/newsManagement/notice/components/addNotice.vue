@@ -214,7 +214,7 @@
         <div class="preview">
           <p class="title">{{ this.ruleForm.title }}</p>
           <p class="first">
-              <!-- <span class="author">{{ this.list.publisher }}</span> -->
+              <span class="author">{{this.publisher}}</span>
               <span class="time">{{ this.ruleForm.publishDate }}</span>
             <!-- <p class="look el-icon-view">{{ this.list.clicks }}</p> -->
           </p>
@@ -264,6 +264,7 @@ import {
   getNoticeType,
   findGroupList,
 } from "@/api/news/notice.js";
+import store from '@/store'
 import { isTopOption } from "./data";
 import { createAnchorLink } from "@/utils/downloadUtil";
 
@@ -281,6 +282,7 @@ export default {
   },
   props: {},
   mounted() {
+    this.publisher = store.state.permission?.userInfo?.nameZh || 'admin'
     this.ruleForm.publishDate = this.timeDefault;
     findNewsPublishRange().then((res) => {
       this.newsPublishRange = res;
@@ -332,6 +334,7 @@ export default {
       newsPublishRange: [],
       timeDefaultShow: "",
       saveFlag:false,
+      publisher:'',
       ruleForm: {
         status: "",
         title: "",

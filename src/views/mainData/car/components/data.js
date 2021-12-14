@@ -30,7 +30,7 @@ export const CAR_COLUMNS = [
     emit: 'go-detail',
     i18n: '车型编号',
     minWidth: 100,
-    openNewPage:true,
+    openNewPage: true,
     tooltip: true,
     customRender: (h, scope) => {
       return <span class="open-link-text">{scope.row.vwModelCode}</span>
@@ -77,6 +77,16 @@ export const CAR_COLUMNS = [
     customRender: (h, scope) => {
       return scope.row.isValid ? '是' : '否'
     }
+  },
+  {
+    prop: 'eplModelCode',
+    i18n: 'EPL车型名称',
+    minWidth: 140
+  },
+  {
+    prop: 'bkmModelCode',
+    i18n: 'BKM车型编号',
+    minWidth: 140
   }
 ]
 /**
@@ -144,7 +154,7 @@ export const CAR_PLAN_COLUMNS = [
         return (
           <iSelect
             value={scope.row.isValid}
-            onChange={val => {
+            onChange={(val) => {
               scope.row.isValid = val
               validChange(scope.row)
             }}
@@ -176,7 +186,7 @@ export const CAR_PLAN_COLUMNS = [
         return (
           <iInput
             value={scope.row.remark}
-            onInput={val => (scope.row.remark = val)}
+            onInput={(val) => (scope.row.remark = val)}
           />
         )
       }
@@ -198,12 +208,12 @@ export const CAR_PLAN_DETAIL_ADD_COLUMNS = [
         return (
           <iSelect
             value={scope.row.years}
-            onChange={val => {
+            onChange={(val) => {
               scope.row.years = val
               extraData.handleYearChange(scope)
             }}
           >
-            {extraData.yearOptions.map(e => (
+            {extraData.yearOptions.map((e) => (
               <ElOption value={e} label={e} />
             ))}
           </iSelect>
@@ -253,12 +263,12 @@ export const CAR_PLAN_DETAIL_EDIT_COLUMNS = [
         return (
           <iSelect
             value={scope.row.years}
-            onChange={val => {
+            onChange={(val) => {
               scope.row.years = val
               extraData.handleYearChange(scope)
             }}
           >
-            {extraData.yearOptions.map(e => (
+            {extraData.yearOptions.map((e) => (
               <ElOption value={e} label={e} />
             ))}
           </iSelect>
@@ -337,7 +347,7 @@ export const CAR_CONFIG_COLUMNS = [
         return (
           <iSelect
             value={scope.row.isValid}
-            onChange={val => {
+            onChange={(val) => {
               scope.row.isValid = val
               isValidChange(scope.row)
             }}

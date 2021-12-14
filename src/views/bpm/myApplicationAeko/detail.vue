@@ -30,6 +30,9 @@
         v-if="form.panorama"
         :panorama="form.panorama"
         :state-code="form.stateCode"
+        :detail="form"
+        :isEnd="form.stateCode !== 3 && form.stateCode !== 4"
+        :instance-id="$route.params.instanceId"
       />
     </i-card>
 

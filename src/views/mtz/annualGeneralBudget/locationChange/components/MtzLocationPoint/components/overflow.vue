@@ -15,6 +15,20 @@
       <div>
         <span class="title_name">{{ commonTitle }}-{{locationId}}</span>
         <span class="title_name">-{{mtzAppName}}-{{user}}-{{dept}}</span>
+        <div class="title_type">
+          <div class="title_block">
+            <span>申请单类型：</span>
+            <iSelect :disabled="(appStatus !== '草稿' && appStatus !== '未通过') || formInfor.ttNominateAppId !== ''"
+                    :value="formInfor.flowType"
+                    :placeholder="language('QINGXUANZE','请选择')"
+                    @change="chioce($event)">
+              <el-option :value="item.code"
+                        :label="item.message"
+                        v-for="item in getFlowTypeList"
+                        :key="item.code"></el-option>
+            </iSelect>
+          </div>
+        </div>
       </div>
       <div class="opration">
         <!-- && ttNominateAppId !== '' -->
@@ -73,7 +87,7 @@
 </template>
 
 <script>
-import { iButton, iDialog, iMessage, iMessageBox } from "rise"
+import { iButton, iDialog, iMessage, iMessageBox,iSelect } from "rise"
 import { topImgList } from './data'
 import subSelect from './subSelect'
 import RsPdf from './decisionMaterial/index'
@@ -85,6 +99,9 @@ import {
   setMtzAppCheckVO,//设置
   getMtzAppCheckVO,//获取
   fetchAppNomiDecisionDataPage,
+  getFlowTypeList,
+  modifyAppFormInfo,
+  pageAppRule
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { pageApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
@@ -95,7 +112,8 @@ export default {
     iDialog,
     subSelect,
     RsPdf,
-    MtzAdd
+    MtzAdd,
+    iSelect
   },
   props: {
     params: {
@@ -121,6 +139,11 @@ export default {
       ttNominateAppId: "",
       NumberCESHI:0,
       meetingNumber:Number(this.$route.query.meeting) || 0,
+      getFlowTypeList: [],
+      formInfor:{
+        flowType:"",
+        flowTypeName:"",
+      },
     }
   },
   computed: {
@@ -141,6 +164,7 @@ export default {
 
   watch: {
     submitInfor(newValue, oldValue){
+      this.formInfor = newValue;
       this.ttNominateAppId = newValue.ttNominateAppId;
       this.flowType = newValue.flowType;
       this.mtzAppName = newValue.appName;
@@ -194,11 +218,52 @@ export default {
       }
     })
 
-    // submitDataList
+    getFlowTypeList({}).then(res => {
+      this.getFlowTypeList = res.data;
+    })
   },
   methods: {
+    chioce(data, name){
+      console.log(data)
+      pageAppRule({
+        pageNo: 1,
+        pageSize: 99999,
+        mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+      }).then(res => {
+        this.tableData = res.data;
+        var num = 0;
+        res.data.forEach(e => {
+          if (e.formalFlag == "N") {
+            num++;
+          }
+        })
+        if(num !== 0 && data == "SIGN"){
+          this.formInfor.flowType = this.flowType;
+          return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZ', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转'))
+        }else{
+          this.saveEdit(data);
+        }
+      })
+    },
+    saveEdit(val){
+      iMessageBox(this.language('QUERENBAOCUN', '确认保存？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+        confirmButtonText: this.language('QUEREN', '确认'),
+        cancelButtonText: this.language('QUXIAO', '取消')
+      }).then(res => {
+        modifyAppFormInfo({
+          ...this.formInfor,
+          flowType:val
+        }).then(res => {
+          iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功！'))
+          this.getType();
+        })
+      }).catch(res => {
+
+      })
+    },
     getType () {
       getAppFormInfo({ mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId }).then(res => {
+        this.formInfor = res.data;
         this.flowType = res.data.flowType;
         this.appStatus = res.data.appStatus;
         this.ttNominateAppId = res.data.ttNominateAppId;
@@ -427,6 +492,21 @@ export default {
 .tttttt {
   ::v-deep .el-dialog__headerbtn {
     display: none;
+  }
+}
+
+
+.title_type{
+  margin-left:50px;
+  display: inline-block;
+  
+  .title_block{
+    display: flex;
+    align-items: center;
+  }
+
+  .el-select{
+    width:auto!important;
   }
 }
 </style>
