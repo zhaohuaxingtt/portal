@@ -1439,9 +1439,9 @@ export default {
         : [...this.resThemeData]
       this.moveInArray(this.changedArr, sourceIndex, targetIndex)
     },
-    getTableData() {
+    async getTableData() {
       const meetingId = this.$route.query.id
-      this.queryMeetingInfoById(meetingId)
+      return await this.queryMeetingInfoById(meetingId)
     },
     handlePage(data = []) {
       // this.page.totalCount = data.length;
@@ -1538,25 +1538,20 @@ export default {
           break
       }
     },
-    queryMeetingInfoById(id) {
+    async queryMeetingInfoById(id) {
       const data = {
         id
       }
       const _this = this
-      findThemenById(data)
-        .then((res) => {
-          this.meetingType = res.state
-          _this.meetingInfo = res
-          // console.log(res);
-          _this.goState(res.state, res.isCSC, res.isPreCSC)
-          _this.resThemeData = [...res.themens]
-          _this.handlePage(res.themens)
-          _this.generateTime()
-        })
-        .catch((err) => {
-          // console.log("this.meetingInfo", this.meetingInfo);
-          console.log(err)
-        })
+      const res = await findThemenById(data)
+      this.meetingType = res.state
+      _this.meetingInfo = res
+      // console.log(res);
+      _this.goState(res.state, res.isCSC, res.isPreCSC)
+      _this.resThemeData = [...res.themens]
+      _this.handlePage(res.themens)
+      _this.generateTime()
+      return res
     },
     query() {
       const _this = this
@@ -1775,14 +1770,18 @@ export default {
       const bol = this.isOverTime(choiceThemen)
       if (bol) {
         endThemen(param)
-          .then(() => {
-            iMessage.success('结束议题成功!')
-            if (!choiceThemen.isBreak) {
-              this.autoOpenProtectConclusionObj = choiceThemen
-            }
-            this.flushTable()
-            if (!choiceThemen.isBreak) {
-              this.openDialog('openProtectConclusion')
+          .then((info) => {
+            if (info.code === 200) {
+              iMessage.success('结束议题成功!')
+              this.flushTable().then((res) => {
+                if (!choiceThemen.isBreak) {
+                  let obj = res.themens.find((item) => {
+                    return item.id === choiceThemen.id
+                  })
+                  this.autoOpenProtectConclusionObj = obj
+                  this.openDialog('openProtectConclusion')
+                }
+              })
             }
           })
           .catch(() => {
@@ -2119,9 +2118,9 @@ export default {
       this.openDialog('openUpdate')
     },
     //刷新表格
-    flushTable() {
+    async flushTable() {
       this.page.currPage = 1
-      this.getTableData()
+      return await this.getTableData()
     },
     closeDetailDialog(bol) {
       this.openDetailDialog = bol

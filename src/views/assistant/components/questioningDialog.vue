@@ -35,15 +35,20 @@
 				v-else 
 				ref="iEditor" 
 				v-model="askContent"
+				:html="askContent"
 				id="qs-editor"
-				style=""
 			/>
-			<div class="attach-box flex flex-column">
-				<AttachmentDownload
+			<div class="attach-box flex">
+				<div>附件：</div>
+				<iUpload
 					ref="attachment"
-					load="up"
-					@getFilesList="getFilesList"
-				/>
+					v-model="fileList"
+				>
+					<div class="upload-txt flex" style="align-items: end;">
+						<iButton>添加附件</iButton>
+						<span class="upload-txt" @click.stop=";">只能上传不超过20MB的文件</span>
+					</div>
+				</iUpload>
 			</div>
 		</div>
 		<div class="flex flex-row mt20 justify-end items-center btns">
@@ -55,12 +60,12 @@
 
 <script>
 import { iDialog, iButton, iInput } from 'rise'
-import AttachmentDownload from './attachmentDownload'
+import iUpload from './iUpload.vue'
 import iEditor from './iEditor'
 import { submitQuestion, submitAwContent } from "@/api/assistant"
 export default {
 	name: 'questioningDialog',
-	components:{ iDialog, AttachmentDownload, iButton, iEditor, iInput },
+	components:{ iDialog, iUpload, iButton, iEditor, iInput },
 	props: {
 		questioningVisible: {
 			type: Boolean,
@@ -101,36 +106,28 @@ export default {
 	},
 	methods: {
 		init() {
-			this.$refs.attachment.fileList = []
 			this.fileList = []
 			this.askContent = ''
+			this.assistantQuestionDTO = {
+				attachmentDTOList: [],
+				questionLableId: '',
+				questionModuleId: '',
+				questionTitle: ''
+			}
 		},
 		clearDialog() {
 			this.init()
 			this.$emit('closeQuesDialog', false)
 		},
-		getFilesList(fileList) {
-			this.fileList = fileList
-		},
 		sendMessage() {
+			if(!this.askContent) return this.$message.warning("请输入内容")
 			if (this.zwFlag) {
 				// 追问提交问题
 				console.log(this.questionAnswerContent, "====")
-				let list = []
-				if (this.fileList.length > 0) {
-					this.fileList.map(item => {
-						list.push({
-							fileName: item.name,
-							fileUrl: item.path
-							// bizType: '',
-							// bizId: 0
-						})
-					})
-				}
 				let params = {
 					replyContent: this.askContent,
 					questionId: this.questionAnswerContent.id,
-					attachmentList: list
+					attachmentList: this.fileList
 				}
 				submitAwContent(params).then((res) => {
 					console.log(res, "111122233")
@@ -144,14 +141,7 @@ export default {
 				this.assistantQuestionDTO.questionLableId = this.currLabelId 
 				this.assistantQuestionDTO.questionModuleId = this.currentMoudleId
 				this.assistantQuestionDTO.questionTitle = this.askContent
-				this.fileList.map(item => {
-					this.assistantQuestionDTO.attachmentDTOList.push({
-						fileName: item.name,
-						fileUrl: item.path,
-						bizType: '',
-						bizId: 0
-					})
-				})
+				this.assistantQuestionDTO.attachmentDTOList = this.fileList
 				submitQuestion(this.assistantQuestionDTO).then((res) => {
 					console.log(res, '000000')
 					if (res?.code === '200') {
@@ -191,7 +181,7 @@ export default {
 	.editor-box {
 		margin-top: 30px;
 		width: 100%;
-		height: 160px;
+		// height: 160px;
 		// border: 1px solid #D0D4D9;
 		// opacity: 1;
 		// border-radius: 2px;

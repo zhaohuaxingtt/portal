@@ -123,3 +123,72 @@ export const N_ITER_DETAIL_LIST = [
     tooltip: true
   }
 ]
+
+export const N_TIER_DETAIL_FACTORY_COLUMNS = [
+  {
+    type: 'selection',
+    width: '50px'
+  },
+  {
+    label: '序号',
+    type: 'index',
+    width: '50px'
+  },
+  {
+    prop: 'factoryName',
+    i18n: '工厂名称',
+    minWidth: '150',
+    required: true,
+    emit: 'go-detail',
+    customRender: (h, scope) => {
+      return <span class="link-text">{scope.row.factoryName}</span>
+    }
+  },
+  {
+    prop: 'country',
+    i18n: '国家',
+    minWidth: '150',
+    required: true,
+    customRender: (h, scope) => {
+      return scope?.row?.addressInfoUpdateVo?.country
+    }
+  },
+  {
+    prop: 'province',
+    i18n: '省份',
+    minWidth: '150',
+    required: true,
+    customRender: (h, scope) => {
+      return scope?.row?.addressInfoUpdateVo?.province
+    }
+  },
+  {
+    prop: 'city',
+    i18n: '城市',
+    minWidth: '150',
+    required: true,
+    customRender: (h, scope) => {
+      return scope?.row?.addressInfoUpdateVo?.city
+    }
+  },
+  {
+    prop: 'factoryAbbrName',
+    i18n: '详细地址',
+    minWidth: '150',
+    required: true,
+    customRender: (h, scope) => {
+      return scope?.row?.addressInfoUpdateVo?.address
+    }
+  },
+  {
+    prop: '邮编',
+    i18n: '邮编',
+    customRender: (h, scope) => {
+      return scope?.row?.addressInfoUpdateVo?.postCode
+    }
+  },
+  {
+    prop: 'areaCovered',
+    i18n: '工厂占地面积'
+  }
+]

@@ -192,9 +192,10 @@ export default {
           this.tableListData = []
         }
         this.tableLoading = false
-      } catch {
+      } catch(e){
         this.tableListData = []
         this.tableLoading = false
+        console.log(e,'错误信息')
       }
     },
     // 转派
@@ -272,13 +273,13 @@ export default {
       this.formData.baseId = this.baseId
       this.formData.currentPage = 1
       this.formData.downName = this.title
-      this.tableLoading = true
       exportSpbaseDetail(this.formData)
         .then((res) => {
-          this.tableLoading = false
-        })
-        .catch((err) => {
-          this.tableLoading = false
+          if(res.result) {
+            let remark = res.data.remark
+            iMessage.success(remark)
+          }
+        }).catch((err) => {
         })
     }
   }

@@ -5,7 +5,7 @@
             <el-row class="margin-bottom10">
                 <!--零件号-->
                 <el-form-item :label="language('LK_LINGJIANHAO','零件号')">
-                    <iInput :placeholder="language('请输入')" v-model="form.partNumber"></iInput>
+                    <iInput :placeholder="language('请输入')" v-model="form.partNum"></iInput>
                 </el-form-item>
                 <!--材料组-->
                 <el-form-item :label="language('LK_CAILIAOZU','材料组')">
@@ -149,7 +149,7 @@
     data() {
       return {
         form: {
-          partNumber: '', // 零件号
+          partNum: '', // 零件号
           csGroup: '',   // 材料组
           supplierName: '',// 供应商
           factoryCode: '', // 采购工厂
