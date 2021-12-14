@@ -1,7 +1,7 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2021-12-14 12:13:31
+ * @LastEditTime: 2021-12-14 14:31:48
  * @LastEditors: Please set LastEditors
  * @Description: 首页
  * @FilePath: \front-portal\front-portal\src\views\meeting\myMeeting.vue
@@ -9,33 +9,34 @@
 <template>
   <div style="flex: 1">
     <iPage>
-      一般
-      <!-- 左边 -->
-      <div class="tab-list-box">
-        <iNavMvp
-          :list="myMeetongTabRouterList"
-          class="margin-bottom20"
-          routerPage
-          :lev="1"
-        />
+      <div class="tab-top">
+          <!-- 左边 -->
+          <div class="tab-list-box">
+            <iNavMvp
+              :list="myMeetongTabRouterList"
+              class="margin-bottom20"
+              routerPage
+              :lev="1"
+            />
+          </div>
           <!-- 右边 -->
-      <!-- <span>
-        <iNavMvp
-          :list="meetingButtonList"
-          class="margin-bottom20"
-          routerPage
-          :lev="2"
-        />
-      </span> -->
+          <div v-if="isShowRight">
+            <iNavMvp
+              :list="meetingRightList"
+              class="margin-bottom20"
+              routerPage
+              :lev="2"
+            />
+          </div>
       </div>
       <router-view></router-view>
-    </iPage>
+    </iPage>    
   </div>
 </template>
 
 <script>
 import { iNavMvp, iPage } from 'rise'
-// import { tabRouterList, meetingButtonList } from './data'
+import { tabRouterList, meetingButtonList , meetingRightList} from './data'
 
 export default {
   components: {
@@ -44,7 +45,9 @@ export default {
   },
   data() {
     return {
+      isShowRight:true,
       myMeetongTabRouterList: [
+        //添加路由大厅
         {
           value: 1,
           name: '管理大厅',
@@ -95,8 +98,17 @@ export default {
         },
         
       ],
-      // tabRouterList,
-      // meetingButtonList,
+      tabRouterList,
+      meetingButtonList,
+      meetingRightList,
+    }
+  },
+  created () {
+    //根据路由来判断 右边tab显示隐藏
+     if(this.$route.name=='managementHall'){
+      this.isShowRight=true
+    }else{
+      this.isShowRight=false
     }
   },
   mounted() {
@@ -120,5 +132,10 @@ export default {
   ::v-deep .lev1 .name::after {
     transition: 0s;
   }
+}
+.tab-top{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e3e3e3;
 }
 </style>
