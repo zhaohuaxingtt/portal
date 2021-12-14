@@ -1,7 +1,7 @@
 <template>
     <!--确认-->
     <iDialog
-            :title="$t('LK_PLBJ')+': ' + ' ' + bulkEditData.partNumber"
+            :title="$t('LK_PLBJ')+': ' + ' ' + bulkEditData.partNum"
             :visible.sync="value"
             width="742px"
             @close="clearDiolog"
@@ -109,7 +109,7 @@
                     supplierId: this.bulkEditData.supplierId,
                     factoryCode: this.bulkEditData.factoryCode,
                     confirmPrice: this.form.confirmPrice ? delcommafy(this.form.confirmPrice) : 0,
-                    partNumber: this.bulkEditData.partNumber,
+                    partNum: this.bulkEditData.partNum,
                 }
                 this.$alert('请注意！此操作将确认全部数据，且确认后将无法修改，是否继续？', '提示', {
                     confirmButtonText: '确定',
