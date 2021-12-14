@@ -250,7 +250,7 @@ export default {
         appNameEn: '',
         description: '',
         systemType: '',
-        supplierType: []
+        supplierType: ''
       }
     }
   },
