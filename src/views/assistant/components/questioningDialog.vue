@@ -38,12 +38,17 @@
 				id="qs-editor"
 				style=""
 			/>
-			<div class="attach-box flex flex-column">
-				<AttachmentDownload
+			<div class="attach-box flex">
+				<div>附件：</div>
+				<iUpload
 					ref="attachment"
-					load="up"
-					@getFilesList="getFilesList"
-				/>
+					v-model="fileList"
+				>
+					<div class="upload-txt flex" style="align-items: end;">
+						<iButton>添加附件</iButton>
+						<span class="upload-txt" @click.stop=";">只能上传不超过20MB的文件</span>
+					</div>
+				</iUpload>
 			</div>
 		</div>
 		<div class="flex flex-row mt20 justify-end items-center btns">
@@ -55,12 +60,12 @@
 
 <script>
 import { iDialog, iButton, iInput } from 'rise'
-import AttachmentDownload from './attachmentDownload'
+import iUpload from './iUpload.vue'
 import iEditor from './iEditor'
 import { submitQuestion, submitAwContent } from "@/api/assistant"
 export default {
 	name: 'questioningDialog',
-	components:{ iDialog, AttachmentDownload, iButton, iEditor, iInput },
+	components:{ iDialog, iUpload, iButton, iEditor, iInput },
 	props: {
 		questioningVisible: {
 			type: Boolean,
@@ -101,7 +106,6 @@ export default {
 	},
 	methods: {
 		init() {
-			this.$refs.attachment.fileList = []
 			this.fileList = []
 			this.askContent = ''
 		},
