@@ -377,9 +377,9 @@
                             ]
                         )
                     ])
-                } else if (column.label == this.label) {
+                } else if (column.label == this.label || column.label == 'Track') {
                     return this.fn(column, h, $index)
-                } else if (column.label == '配置' && this.tableTitle.length > 23) {
+                } else if ((column.label == '配置'||column.label == 'Configure') && this.tableTitle.length > 23) {
                     return this.cb(column, h, $index)
                 } else {
                     return h("span", column.label + "  ", {  //这是左边的
