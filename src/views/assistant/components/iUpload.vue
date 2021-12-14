@@ -111,6 +111,7 @@
         },
         computed:{
             files(){
+                console.log(this.value);
                 return this.value || []
             },
             imgList(){
@@ -163,7 +164,7 @@
                 if (this.imgFmt.includes(fileExtension)) {
                     this.$refs.img.show(file.fileUrl)
                 }else{
-                    getFileId(file?.bizId).then((res) => {
+                    getFileId(file?.id).then((res) => {
                         console.log(res, '1111111111')
                     })
                 }

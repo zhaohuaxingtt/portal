@@ -476,14 +476,8 @@ export default {
       if (!this.replyContent) {
         return this.$message.error('请填写回复内容');
       }
-      const attachmentList = this.uploadFileList.map(item => {
-        return {
-          fileName: item.name,
-          fileUrl: item.path,
-        };
-      });
       const data = {
-        attachmentList,
+        attachmentList:this.uploadFileList,
         content: this.replyContent,
         // 是否关闭 0：否 1：是
         hasClosed,

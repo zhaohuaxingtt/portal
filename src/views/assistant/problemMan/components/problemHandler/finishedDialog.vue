@@ -163,12 +163,6 @@ export default {
       //   this.$message.error('请上传附件');
       //   return;
       // }
-      const attachmentList = this.uploadFileList.map(item => {
-        return {
-          fileName: item.name,
-          fileUrl: item.path,
-        };
-      });
       console.log(this.editForm, '===',this.questionItem, this.uploadFileList);
       this.$refs.editForm.validate(async (valid) => {
         if (valid) {
@@ -176,7 +170,7 @@ export default {
             ...this.editForm,
             questionTitle: this.questionItem.questionTitle,
             questionId:this.questionItem.id,
-            attachmentList,
+            attachmentList:this.uploadFileList,
           };
           const reponse = await assistantFaqSaveFaqApi(data);
           if (reponse?.code === '200') {
@@ -188,9 +182,6 @@ export default {
           }
         }
       })
-    },
-    getFilesList (fileList) {
-      this.uploadFileList = fileList;
     },
     clearModuleHandle() {
       this.editForm = Object.assign(this.editForm, {questionModuleId:'',questionLableId:''});
