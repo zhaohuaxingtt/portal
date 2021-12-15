@@ -1,3 +1,7 @@
+<!--
+ * @Author: HS 会议中心 http://localhost:8080/portal/#/meeting/hall
+ * @FilePath: \front-portal\front-portal\src\views\meeting\hall\index.vue
+-->
 <template>
   <div style="flex: 1">
     <iPage>
@@ -53,6 +57,7 @@ export default {
       return res
     },
     handleChange(e) {
+      // console.log(e);
       if (e.value === 2) {
         this.query().then((res) => {
           if (res && res.id) {
