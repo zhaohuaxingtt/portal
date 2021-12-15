@@ -1,4 +1,5 @@
 <template>
+<div class="container">
   <iCard class="my-topics-box">
     <div class="iSearch-content">
       <div class="serch" :style="`margin-right:${stypeWidth}px;`">
@@ -282,6 +283,7 @@
     >
     </addTopicNew>
   </iCard>
+</div>
 </template>
 
 <script>
@@ -734,6 +736,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.container {
+  padding:30px 40px;
+}
 ::v-deep .el-row {
   margin-bottom: 0;
 }

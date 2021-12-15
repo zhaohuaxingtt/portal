@@ -51,7 +51,7 @@
       <li class="info-row">
         <div class="left">Sourcing Buyer</div>
         <div class="right">
-          {{ topicInfo.supporter }}
+          {{ topicInfo.supporterEn }}
         </div>
       </li>
 
@@ -59,7 +59,7 @@
       <li class="info-row">
         <div class="left">Linie Buyer</div>
         <div class="right">
-          {{ topicInfo.presenter }}
+          {{ topicInfo.presenterEn }}
         </div>
       </li>
 

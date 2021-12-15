@@ -28,8 +28,8 @@
       </el-table-column>
       <el-table-column
         prop="name"
-        align="center"
-        :label="$t('MT_XAIZAIMINGCHENG')"
+        align="left"
+        :label="$t('资料名称')"
         width="756"
       >
         <template slot-scope="scope">
@@ -42,7 +42,7 @@
         show-overflow-tooltip
         prop="createUserName"
         align="center"
-        :label="$t('MT_SHANGCHUANFUJIANREN')"
+        :label="$t('资料上传人')"
         width="402"
       >
       </el-table-column>
@@ -144,7 +144,8 @@ export default {
             .map((it) => {
               return {
                 ...it,
-                updateDate: dayjs(it.createDate).format('YYYY-MM-DD HH:mm')
+                updateDate: dayjs(it.createDate).format('YYYY-MM-DD HH:mm'),
+                createDate: dayjs(it.createDate).format('YYYY-MM-DD')
               }
             })
           this.tableData = dArr.slice(0, 1 * this.page.pageSize)
