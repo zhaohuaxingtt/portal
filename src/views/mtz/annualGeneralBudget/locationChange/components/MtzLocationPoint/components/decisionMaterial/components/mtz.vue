@@ -12,9 +12,12 @@
       <iButton v-if="!RsObject"
                @click="downPdf">{{language('DAOCHUPDF','导出PDF')}}</iButton>
     </div>
+    <!-- RsObject?mtz决策资料:导出 -->
     <div ref="qrCodeDiv"
          id="qrCodeDiv"
-         style="padding-bottom:30px;position:relative;">
+         style="padding-bottom:30px;position:relative;"
+        >
+         <!-- @click="rulesClick()" -->
       <div class="content_dialog" v-if="!RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
       <iCard class='upload_hr'>
       <!-- <iCard :class="!RsObject?'upload_hr':''"> -->
@@ -60,9 +63,11 @@
            v-if="RsObject">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
         <p class="tableTitle"
            v-if="!RsObject && ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
+        <!-- highlight-current-row -->
         <tableList class="margin-top20"
                    :tableData="ruleTableListData"
                    :tableTitle="ruleTableTitle1_1"
+                   @handleCurrentChange="handleCurrentChangeTable()"
                    :tableLoading="loading"
                    :index="true"
                    v-if="RsObject"
@@ -84,6 +89,7 @@
         </tableList>
         <!-- 导出规则表格 -->
         <tableList class="margin-top20"
+                    ref="moviesTable"
                    :tableData="ruleTableListData"
                    :tableTitle="ruleTableTitle1_1"
                    :tableLoading="loading"
@@ -157,7 +163,7 @@
           <p class="headTitle">{{language('BEIZHU', '备注')}}-Remarks</p>
           <span class="buttonBox">
             <iButton v-if="RsObject && (formData.appStatus == '草稿' || formData.appStatus == '未通过') && meetingNumber == 0"
-                     @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
+                    @click="handleClickSave($event)">{{language('BAOCUN', '保存')}}</iButton>
           </span>
         </div>
         <iInput v-model="formData.linieMeetingMemo"
@@ -226,7 +232,9 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: {
+
+      },
       formList,
       ruleTableTitle1_1,
       partTableTitle1_1,
@@ -249,6 +257,7 @@ export default {
       moment: window.moment,
       meetingNumber:Number(this.$route.query.meeting) || 0,
       meetingType:false,
+      clickRulesNumber:0,
     }
   },
   watch: {
@@ -294,6 +303,21 @@ export default {
     },
   },
   methods: {
+    // handleCurrentChangeTable(){
+    //   this.clickRulesNumber = 1;
+    //   // console.log(val)
+    //   iMessage.success("点击了某条规则")
+
+    //   setTimeout(() => {
+    //     this.clickRulesNumber = 0;
+    //     this.$refs.moviesTable.$children[0].$children[0].clearSelection();
+    //   }, 200);
+    // },
+    // rulesClick(){
+    //   if(this.clickRulesNumber == 0){
+    //     iMessage.success("选择了全部规则")
+    //   }
+    // },
     downPdf () {
       var name = "";
       if (this.title == "") {
@@ -393,11 +417,13 @@ export default {
       })
     },
     // 点击保存
-    handleClickSave () {
+    handleClickSave (el) {
+      // console.log(el)
+      el.cancelBubble=true
       let params = {}
       params = {
         mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        linieMeetingMemo: this.formData.linieMeetingMemo
+        linieMeetingMemo: this.formData.linieMeetingMemo?this.formData.linieMeetingMemo:""
       }
       fetchSaveCs1Remark(params).then(res => {
         if (res && res.code == 200) {

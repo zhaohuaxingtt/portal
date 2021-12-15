@@ -2,10 +2,10 @@
   <div class="flex flex-row content" v-loading="loading">
     <div class="left-content" >
       <el-row :gutter="20">
-        <el-col span="12">
+        <el-col span="13">
           <iInput v-model="queryForm.keyWord" placeholder="搜索..." @keydown.native.enter="keyWordBlurHandle" />
         </el-col>
-        <el-col span="12">
+        <el-col span="11">
           <iSelect v-model="questionModuleId" filterable placeholder="全部模块" clearable="true" @change="questionModuleHandle" @clear="clearModuleHandle">
             <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
           </iSelect>

@@ -171,6 +171,7 @@ export default {
       this.$emit('handleClose')
     },
     handleSubmit() {
+            console.log("222222222222222222")
       // this.$refs['ruleFormCloseMeeting'].validate((valid) => {
       // if (valid) {
       let hashArr = window.location.hash.split('/')

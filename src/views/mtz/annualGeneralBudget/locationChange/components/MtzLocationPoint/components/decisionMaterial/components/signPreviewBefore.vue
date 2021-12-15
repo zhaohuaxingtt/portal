@@ -8,121 +8,124 @@
 -->
 <template>
 <div class="tabsBoxWrap">
-  <span class="download_btn" v-if="approve">
-    <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton>
-  </span>
-  <div ref="qrCodeDiv" class="sign_swap" style="padding-bottom:30px;">
-    <iCard class="upload_hr">
-      <div slot="header" class="headBox">
-        <p class="headTitle">{{title}}</p>
-        <div class="tabs_box_right" v-if="approve">
-          <div class="big_text">
-            <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
-          </div>
-          <div class="small_text">
-            <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
-            <span class="samll_val">{{formData.createDate}}</span>
-          </div>
-          <div class="small_text">
-            <span>{{language("KESHI","科室")}}：</span>
-            <span class="samll_val">{{formData.linieDeptName}}</span>
-          </div>
-          <div>
-            <span>{{language("CAIGOUYUAN","采购员")}}：</span>
-            <span class="samll_val">{{formData.linieName}}</span>
+  <div id="tabsBoxWrap">
+    <span class="download_btn" v-if="approve">
+      <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton>
+    </span>
+    <div ref="qrCodeDiv" class="sign_swap" style="padding-bottom:30px;">
+      <iCard class="upload_hr">
+        <div slot="header" class="headBox">
+          <p class="headTitle">{{title}}</p>
+          <div class="tabs_box_right" v-if="approve">
+            <div class="big_text">
+              <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
+            </div>
+            <div class="small_text">
+              <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
+              <span class="samll_val">{{formData.createDate}}</span>
+            </div>
+            <div class="small_text">
+              <span>{{language("KESHI","科室")}}：</span>
+              <span class="samll_val">{{formData.linieDeptName}}</span>
+            </div>
+            <div>
+              <span>{{language("CAIGOUYUAN","采购员")}}：</span>
+              <span class="samll_val">{{formData.linieName}}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <el-divider class="hr_divider" />
-      <div class="infor_futitle">
-        <span class="big_font">Regulation:</span>
-        <br />
-        <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material Weight*Settle accounts Quantity*Ratio</span>
-        <span class="big_small">When:effective price > base price *(1+threshold)</span>
-      </div>
+        <el-divider class="hr_divider" />
+        <div class="infor_futitle">
+          <span class="big_font">Regulation:</span>
+          <br />
+          <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material Weight*Settle accounts Quantity*Ratio</span>
+          <span class="big_small">When:effective price > base price *(1+threshold)</span>
+        </div>
 
-      <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
-        <tableList
-          class="margin-top20"
-          :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1_1"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false"
-          @handleSelectionChange="handleSelectionChange">
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-          <template slot-scope="scope" slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-          <template slot-scope="scope"
-                    slot="supplierId">
-            <span>{{scope.row.supplierId}}</span><br/>
-            <span>{{scope.row.supplierName}}</span>
-          </template>
-        </tableList>
-      <el-divider class="margin-top20"/>
-      <p class="tableTitle">{{language('LJQD', '零件清单')}}-Part List</p>
-        <tableList
-          class="margin-top20 over_flow_y_ture"
-          :tableData="partTableListData"
-          :tableTitle="partTableTitle1_1"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false"
-          @handleSelectionChange="handleSelectionChange">
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-          <template slot-scope="scope" slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-          <template slot-scope="scope"
-                    slot="supplierId">
-            <span>{{scope.row.supplierId}}</span><br/>
-            <span>{{scope.row.supplierName}}</span>
-          </template>
-        </tableList>
-    </iCard>
-    <iCard class="margin-top20">
-      <div slot="header"
-          class="headBox">
-        <p class="headTitle">{{language('BEIZHU', '备注')}}-Remarks</p>
-      </div>
-      <iInput
-              v-model="formData.linieMeetingMemo"
-              class="margin-top10"
-              :rows="8"
-              :disabled="true"
-              type="textarea" />
-    </iCard>
-    <iCard v-if="isMeeting && applayDateData.length>0" class="margin-top20">
-        <p>{{language('SHENQINGRIQI','申请日期')}}:{{moment(new Date()).format('YYYY-MM-DD')}}</p>
-        <div class="applayDateBox1">
-          <div class="applayDateContent"
-               v-for="(item, index) in applayDateData"
-               :key="index">
-            <icon v-if="item.taskStatus==='同意'"
-                  class="margin-left5 applayDateIcon"
-                  symbol
-                  name="iconrs-wancheng"></icon>
-            <icon v-else
-                  class="margin-left5 applayDateIcon"
-                  symbol
-                  name="iconrs-quxiao"></icon>
-            <div class="applayDateContentItem">
-              <span>部门：</span>
-              <span class="applayDateDeptTitle">{{item.deptFullCode}}</span>
-            </div>
-            <div class="applayDateContentItem">
-              <span>日期：</span>
-              <span>{{item.endTime}}</span>
+        <p class="tableTitle">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
+          <tableList
+            class="margin-top20"
+            :tableData="ruleTableListData"
+            :tableTitle="ruleTableTitle1_1"
+            :tableLoading="loading"
+            :index="true"
+            :selection="false"
+            @handleSelectionChange="handleSelectionChange">
+            <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+            </template>
+            <template slot-scope="scope"
+                      slot="supplierId">
+              <span>{{scope.row.supplierId}}</span><br/>
+              <span>{{scope.row.supplierName}}</span>
+            </template>
+          </tableList>
+        <el-divider class="margin-top20"/>
+        <p class="tableTitle">{{language('LJQD', '零件清单')}}-Part List</p>
+          <tableList
+            class="margin-top20 over_flow_y_ture"
+            :tableData="partTableListData"
+            :tableTitle="partTableTitle1_1"
+            :tableLoading="loading"
+            :index="true"
+            :selection="false"
+            @handleSelectionChange="handleSelectionChange">
+            <template slot-scope="scope" slot="compensationPeriod">
+              <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
+            </template>
+            <template slot-scope="scope" slot="thresholdCompensationLogic">
+              <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
+            </template>
+            <template slot-scope="scope"
+                      slot="supplierId">
+              <span>{{scope.row.supplierId}}</span><br/>
+              <span>{{scope.row.supplierName}}</span>
+            </template>
+          </tableList>
+      </iCard>
+      <iCard class="margin-top20">
+        <div slot="header"
+            class="headBox">
+          <p class="headTitle">{{language('BEIZHU', '备注')}}-Remarks</p>
+        </div>
+        <iInput
+                v-model="formData.linieMeetingMemo"
+                class="margin-top10"
+                :rows="8"
+                :disabled="true"
+                type="textarea" />
+      </iCard>
+      <iCard v-if="isMeeting && applayDateData.length>0" class="margin-top20">
+          <p>{{language('SHENQINGRIQI','申请日期')}}:{{moment(new Date()).format('YYYY-MM-DD')}}</p>
+          <div class="applayDateBox1">
+            <div class="applayDateContent"
+                v-for="(item, index) in applayDateData"
+                :key="index">
+              <icon v-if="item.taskStatus==='同意'"
+                    class="margin-left5 applayDateIcon"
+                    symbol
+                    name="iconrs-wancheng"></icon>
+              <icon v-else
+                    class="margin-left5 applayDateIcon"
+                    symbol
+                    name="iconrs-quxiao"></icon>
+              <div class="applayDateContentItem">
+                <span>部门：</span>
+                <span class="applayDateDeptTitle">{{item.deptFullCode}}</span>
+              </div>
+              <div class="applayDateContentItem">
+                <span>日期：</span>
+                <span>{{item.endTime}}</span>
+              </div>
             </div>
           </div>
-        </div>
-      </iCard>
+        </iCard>
+    </div>
   </div>
+  
   <iDialog :title="language('DAOCHU', '导出')"
             :visible.sync="signPreviewType"
             v-if="signPreviewType"

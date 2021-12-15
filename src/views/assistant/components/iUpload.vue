@@ -1,12 +1,15 @@
 <template>
-    <div>
+    <div v-loading="uploading">
         <el-upload
             action
             :accept="accept.map(type => `.${type}`).join(',')"
             :before-upload="beforeAvatarUpload"
             :show-file-list="false"
+            :multiple="multiple"
             :http-request="httpUpload"
             :disabled="disabled || (files.length >= limit)"
+            :limit="limit"
+            :on-exceed="handleExceed"
             v-if="!disabled"
             >
             <slot></slot>
@@ -20,7 +23,7 @@
 </template>
 
 <script>
-    import {uploadFile,getFileId} from "@/api/assistant/uploadFile"
+    import {uploadFile} from "@/api/assistant/uploadFile"
     import FileList from "./fileList.vue"
     import imgViews from "./imgViews.vue"
     export default {
@@ -33,6 +36,10 @@
             disabled:{
                 type:Boolean,
                 default: false
+            },
+            multiple:{
+                type:Boolean,
+                default: true
             },
             accept:{
                 type: Array,
@@ -87,18 +94,18 @@
             // 文件大小 M
             maxSize:{
                 type: Number,
-                default:10
+                default:20
             },
             // 尺寸 w,h
             px:{
                 default:() => {}
             },
             limit:{
-                type:[Number,String],
-                default:5
+                type: Number,
+                default: 5
             },
             showFile:{
-                type:Boolean,
+                type: Boolean,
                 default: true
             }
         },
@@ -106,12 +113,12 @@
             return {
                 dialogVisible:false,
                 fileUrl:"",
+                uploading: false,
                 imgFmt:['jpg','jpeg','gif','png']
             }
         },
         computed:{
             files(){
-                console.log(this.value);
                 return this.value || []
             },
             imgList(){
@@ -128,9 +135,11 @@
         },
         methods: {
             async httpUpload(res){
+                this.uploading = true
                 let formData = new FormData();
                 formData.append("file",res.file);
                 let file = await uploadFile(formData);
+                this.uploading = false
                 this.$message.success("上传成功")
                 let val = this.files;
                 val.push({
@@ -169,6 +178,9 @@
                     a.download = file.fileName
                     a.click()
                 }
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`您好，上传附件只能上传5个文件,本次选择了 ${files.length} 个文件,共选择了 ${files.length + fileList.length} 个文件`)
             }
         }
     }

@@ -15,7 +15,11 @@
               <img v-show="!detail.picUrl" src="../../assets/images/popupPic.png" alt="" class="left-image" />
           </div>
           <div class="right">
-              <h2 :class="{'link-text':detail.linkUrl}" @click="toNewPage">{{detail.title}}</h2>
+              <div class="right-title" :class="{'link-text':detail.linkUrl}" @click="toNewPage">
+                  <!-- <h2 > -->
+                      {{detail.title}}
+                <!-- </h2> -->
+              </div>
               <div class="content" :class="{'text-left':detail.wordAlign == 0,'text-center':detail.wordAlign==1,'text-right':detail.wordAlign == 2}">
                   <el-input type="textarea" v-model="detail.content" disabled></el-input>
               </div>
@@ -144,7 +148,9 @@ export default {
                 font-size: 16px;
             }
         }
-        >h2{
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
             width: 110%;
         }
         .content{
@@ -253,7 +259,9 @@ export default {
                 font-size: 16px;
             }
         }
-        >h2{
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
             width: 110%;
         }
         .content{

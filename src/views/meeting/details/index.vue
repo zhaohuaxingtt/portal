@@ -854,6 +854,7 @@ export default {
     // 上传议题错误提示框关闭
     handleCloseError() {
       this.openError = false
+      this.closeDialog();
     },
     // 导入议题取消
     handleCancelTopics() {
