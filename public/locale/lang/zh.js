@@ -1227,7 +1227,7 @@
     SUPPLIER_GONGYINGSHANGJIANCHENGENTIPS:
       '英文简称规则：地区的首字母缩写+名称+业务 </br>例：（Shanghai Friendly Plastic Co., Ltd.—Sh Friendly Plastic）', //英文简称规则：地区的首字母缩写+名称+业务 例：（Shanghai Friendly Plastic Co., Ltd.—SH Friendly Plastic）
     SUPPLIER_DUNSTIPS:
-      '邓白氏号申请事宜请联系</br>上海华夏邓白氏商业信息咨询有限公司或其他地区邓白氏公司机构。', //邓白氏号申请事宜请联系上海华夏 邓白氏商业信息咨询有限公司或其 他地区邓白氏公司机构。 具体信息可登录 http://www.dnbchina.com/conta ct/index.html进行咨询
+      '邓白氏号申请事宜请联系</br>上海华夏邓白氏商业信息咨询有限公司或其他地区邓白氏公司机构。具体信息可登录http://www.dnbchina.com/contact/index.html进行咨询', //邓白氏号申请事宜请联系上海华夏 邓白氏商业信息咨询有限公司或其 他地区邓白氏公司机构。 具体信息可登录 http://www.dnbchina.com/conta ct/index.html进行咨询
     SUPPLIER_ZHUYAOFENGONGFANGMING: '主要分供方名称', //主要分供方名称
     SUPPLIER_FUKUANQINGKUANG: '付款状况', //付款状况
     SUPPLIER_XUANZENIANFEN: '选择年份', //选择年份
