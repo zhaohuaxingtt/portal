@@ -166,6 +166,7 @@ import { questionReportDetail } from "@/api/survey/surveyData.js";
 import { download } from "@/utils/downloadUtil";
 import iEditForm from "@/components/iEditForm";
 import { exportFile } from "@/utils/exportFileUtil";
+import store from '@/store'
 export default {
   components: {
     iDialog,
@@ -274,17 +275,18 @@ export default {
     },
     exportReport() {
       exportFile({
-        url: "/surveyApi/surveyService/exportQuestionReport",
+        url: process.env.VUE_APP_SURVEY+`/surveyService/exportQuestionReport?userId=`+store.state.permission.userInfo.id,
+        // url: "/surveyApi/surveyService/exportQuestionReport",
         data: {
           questionId: this.fileDetails.id,
           surveyId: this.surveyId,
           userType: this.ruleForm.userType,
         },
-        callback: (e) => {
-          if (!e) {
-            iMessage.error("导出失败");
-          }
-        },
+        // callback: (e) => {
+        //   if (!e) {
+        //     iMessage.error("导出失败");
+        //   }
+        // },
       });
     },
     domnloadAllFiles() {   
