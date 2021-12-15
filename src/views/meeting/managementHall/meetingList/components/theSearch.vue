@@ -1,4 +1,5 @@
-<template>
+ <!--会议列表 主页查询区-->
+ <template>
   <iSearch @reset="handleSearchReset" @sure="searchTableList" :icon="false">
     <el-form>
       <!--第一行-->
@@ -49,7 +50,7 @@
             ></el-option>
           </iSelect>
         </el-form-item>
-        <!-- <iDateRangePicker
+        <iDateRangePicker
           class="LastSearchOption"
           :startDateProps="form.startDateBegin"
           :endDateProps="form.startDateEnd"
@@ -58,15 +59,6 @@
           :pickerOptionsStartProps="datePickerOptionsStart"
           :pickerOptionsEndProps="datePickerOptionsEnd"
           :pickerOptionsEndFun="pickerOptionsEndFun"
-          ref="iDateRangePicker"
-          :label="$t('MT_HUIYIRIQI')"
-        /> -->
-        <iDateRangePicker
-          class="LastSearchOption"
-          :startDateProps="form.startDateBegin"
-          :endDateProps="form.startDateEnd"
-          @change-start="changeStart"
-          @change-end="changeEnd"
           ref="iDateRangePicker"
           :label="$t('MT_HUIYIRIQI')"
         />
@@ -124,28 +116,28 @@ export default {
       startWeek: 0,
       endWeek: dayjs(dayjs().year()).isoWeeksInYear(),
       weekListInit,
-      weekList: weekListInit
-      // datePickerOptionsStart: {
-      //   // 日期选择
-      //   disabledDate: (date) => {
-      //     let newDate = new Date().valueOf()
-      //     return (
-      //       date.valueOf() < newDate - 24 * 60 * 60 * 1000 * 14 ||
-      //       date.valueOf() > newDate + 24 * 60 * 60 * 1000 * 6
-      //     )
-      //   }
-      // },
-      // datePickerOptionsEnd: {
-      //   // 日期选择
-      //   disabledDate: (date) => {
-      //     let newDate = new Date().valueOf()
-      //     return (
-      //       date.valueOf() < newDate - 24 * 60 * 60 * 1000 * 14 ||
-      //       date > newDate + 24 * 60 * 60 * 1000 * 6
-      //     )
-      //   }
-      // },
-      // pickerOptionsEndFun: new Date().valueOf() + 24 * 60 * 60 * 1000 * 6
+      weekList: weekListInit,
+      datePickerOptionsStart: {
+        // 日期选择
+        disabledDate: (date) => {
+          let newDate = new Date().valueOf()
+          return (
+            date.valueOf() < newDate - 24 * 60 * 60 * 1000 * 14 ||
+            date.valueOf() > newDate + 24 * 60 * 60 * 1000 * 6
+          )
+        }
+      },
+      datePickerOptionsEnd: {
+        // 日期选择
+        disabledDate: (date) => {
+          let newDate = new Date().valueOf()
+          return (
+            date.valueOf() < newDate - 24 * 60 * 60 * 1000 * 14 ||
+            date > newDate + 24 * 60 * 60 * 1000 * 6
+          )
+        }
+      },
+      pickerOptionsEndFun: new Date().valueOf() + 24 * 60 * 60 * 1000 * 6
     }
   },
   mounted() {
@@ -273,9 +265,7 @@ export default {
 ::v-deep .iSearch-content {
   justify-content: space-between;
 }
-::v-deep .cardBody {
-  padding: 1.875rem 1.5rem !important;
-}
+
 .meeting-name-item {
   width: 538px !important;
 }

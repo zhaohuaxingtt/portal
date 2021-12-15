@@ -271,11 +271,11 @@
                 label="关联关系"
                 prop="incidenceRelation"
                 :hideRequiredAsterisk="true"
-                class="item"
+                class="item incidate-relation"
                 :rules="
                   ruleForm.category == '03'
-                    ? incidenceRelationRule
-                    : incidenceRelationRuleNoRequired
+                    ? rules.incidenceRelationRule
+                    : rules.incidenceRelationRuleNoRequired
                 "
               >
                 <iLabel
@@ -353,13 +353,14 @@
                 </el-col>
               </iFormItem>
               <iFormItem
+                prop="incidenceRelation"
                 label="关联关系"
                 :hideRequiredAsterisk="true"
                 class="item"
                 :rules="
                   ruleForm.category == '03'
-                    ? incidenceRelationRule
-                    : incidenceRelationRuleNoRequired
+                    ? rules.incidenceRelationRule
+                    : rules.incidenceRelationRuleNoRequired
                 "
               >
                 <iLabel
@@ -686,16 +687,17 @@ export default {
       limitMoneyRequired: [
         { validator: validateLimitiMoneyRequired, trigger: ['blur', 'change'] }
       ],
-      incidenceRelationRule: [
-        { validator: validateIncidenceRelation, trigger: ['blur', 'change'] }
-      ],
-      incidenceRelationRuleNoRequired: [
-        {
-          validator: validateIncidenceRelationNoRequired,
-          trigger: ['blur', 'change']
-        }
-      ],
+
       rules: {
+        incidenceRelationRule: [
+          { validator: validateIncidenceRelation, trigger: ['blur', 'change'] }
+        ],
+        incidenceRelationRuleNoRequired: [
+          {
+            validator: validateIncidenceRelationNoRequired,
+            trigger: ['blur', 'change']
+          }
+        ],
         name: [
           { required: true, message: '必填', trigger: ['blur', 'change'] },
           {
@@ -1024,6 +1026,8 @@ export default {
     },
     selectChanged() {
       this.ruleForm.conclusionConfig = ''
+      this.ruleForm.incidenceRelation = ''
+      this.hiddenErrorCss('incidate-relation')
     },
     async queryEdit(userIdsArr) {
       const res = await getUsers({ userIdList: [...userIdsArr] })
@@ -1108,36 +1112,50 @@ export default {
     handleSubmit() {
       this.$refs['ruleForm'].validate()
       if (this.ruleForm.category !== '01') {
-        if (
-          !this.ruleForm.conclusionConfig ||
-          this.ruleForm.conclusionConfig.length === 0
-        ) {
-          let curErrorNode = document.querySelector(
-            '.conclusion-config>.el-form-item__content>.el-form-item__error'
+        let bol2 = true
+        let bol1 = this.validateSelect(
+          'conclusion-config',
+          this.ruleForm.conclusionConfig
+        )
+        if (this.ruleForm.category === '03') {
+          bol2 = this.validateSelect(
+            'incidate-relation',
+            this.ruleForm.incidenceRelation
           )
-          if (!curErrorNode) {
-            let errorNode = document
-              .querySelector('.error-node>.el-form-item__error')
-              .cloneNode(true)
-            document
-              .querySelector('.conclusion-config>.el-form-item__content')
-              .appendChild(errorNode)
-            document.querySelector(
-              '.conclusion-config .el-input__inner'
-            ).style.borderColor = '#EF3737'
-          }
-          return
-        } else {
-          let errorNode = document.querySelector(
-            '.conclusion-config>.el-form-item__content>.el-form-item__error'
-          )
-          if (errorNode) {
-            errorNode.remove()
-          }
-          document.querySelector(
-            '.conclusion-config .el-input__inner'
-          ).style.borderColor = 'transparent'
         }
+        if (!bol1 || !bol2) {
+          return
+        }
+        // if
+        //   !this.ruleForm.conclusionConfig ||
+        //   this.ruleForm.conclusionConfig.length === 0
+        // ) {
+        //   let curErrorNode = document.querySelector(
+        //     '.conclusion-config>.el-form-item__content>.el-form-item__error'
+        //   )
+        //   if (!curErrorNode) {
+        //     let errorNode = document
+        //       .querySelector('.error-node>.el-form-item__error')
+        //       .cloneNode(true)
+        //     document
+        //       .querySelector('.conclusion-config>.el-form-item__content')
+        //       .appendChild(errorNode)
+        //     document.querySelector(
+        //       '.conclusion-config .el-input__inner'
+        //     ).style.borderColor = '#EF3737'
+        //   }
+        //   return
+        // } else {
+        //   let errorNode = document.querySelector(
+        //     '.conclusion-config>.el-form-item__content>.el-form-item__error'
+        //   )
+        //   if (errorNode) {
+        //     errorNode.remove()
+        //   }
+        //   document.querySelector(
+        //     '.conclusion-config .el-input__inner'
+        //   ).style.borderColor = 'transparent'
+        // }
       }
       // this.$confirm("是否保存该 会议类型?", "提示", {
       //   confirmButtonText: "是",
@@ -1150,6 +1168,47 @@ export default {
         this.submitForm('ruleForm')
       }
       //});
+    },
+    hiddenErrorCss(className) {
+      let errorNode = document.querySelector(
+        `.${className}>.el-form-item__content>.el-form-item__error`
+      )
+      if (errorNode) {
+        errorNode.remove()
+      }
+      document.querySelector(
+        `.${className} .el-input__inner`
+      ).style.borderColor = 'transparent'
+    },
+    validateSelect(className, value) {
+      if (!value || value.length === 0) {
+        let curErrorNode = document.querySelector(
+          `.${className}>.el-form-item__content>.el-form-item__error`
+        )
+        if (!curErrorNode) {
+          let errorNode = document
+            .querySelector('.error-node>.el-form-item__error')
+            .cloneNode(true)
+          document
+            .querySelector(`.${className}>.el-form-item__content`)
+            .appendChild(errorNode)
+          document.querySelector(
+            `.${className} .el-input__inner`
+          ).style.borderColor = '#EF3737'
+        }
+        return false
+      } else {
+        let errorNode = document.querySelector(
+          `.${className}>.el-form-item__content>.el-form-item__error`
+        )
+        if (errorNode) {
+          errorNode.remove()
+        }
+        document.querySelector(
+          `.${className} .el-input__inner`
+        ).style.borderColor = 'transparent'
+        return true
+      }
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {

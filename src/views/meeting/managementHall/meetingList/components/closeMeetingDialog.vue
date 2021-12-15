@@ -170,14 +170,13 @@ export default {
     handleClose() {
       this.$emit('handleClose')
     },
-    handleSubmit(id) {
-      const strId = id ? (typeof id === 'object' ? this.id : id) : this.id
+    handleSubmit() {
       // this.$refs['ruleFormCloseMeeting'].validate((valid) => {
       // if (valid) {
       let hashArr = window.location.hash.split('/')
       hashArr.pop()
       let param = {
-        id: strId,
+        id: this.id,
         approvalProcessId: this.rowState.approvalProcessId,
         isTriggerApproval:
           this.rowState.isTriggerApproval == 'true' ? true : false,
@@ -186,7 +185,7 @@ export default {
           window.location.pathname +
           hashArr.join('/') +
           '/details?id=' +
-          strId
+          this.id
       }
       if (this.attachment.id) {
         param.attachment = {
@@ -199,8 +198,8 @@ export default {
       closeMeeting(param)
         .then((res) => {
           if (res) {
-            // iMessage.success('关闭成功')
-            this.$emit('handleOK', 'close')
+            iMessage.success('关闭成功')
+            this.$emit('handleOK')
             this.handleClose()
           } else {
             // iMessage.success('关闭失败')
