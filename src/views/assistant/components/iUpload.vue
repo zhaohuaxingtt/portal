@@ -5,6 +5,7 @@
             :accept="accept.map(type => `.${type}`).join(',')"
             :before-upload="beforeAvatarUpload"
             :show-file-list="false"
+            :multiple="multiple"
             :http-request="httpUpload"
             :disabled="disabled || (files.length >= limit)"
             v-if="!disabled"
@@ -20,7 +21,7 @@
 </template>
 
 <script>
-    import {uploadFile,getFileId} from "@/api/assistant/uploadFile"
+    import {uploadFile} from "@/api/assistant/uploadFile"
     import FileList from "./fileList.vue"
     import imgViews from "./imgViews.vue"
     export default {
@@ -33,6 +34,10 @@
             disabled:{
                 type:Boolean,
                 default: false
+            },
+            multiple:{
+                type:Boolean,
+                default: true
             },
             accept:{
                 type: Array,
@@ -111,7 +116,6 @@
         },
         computed:{
             files(){
-                console.log(this.value);
                 return this.value || []
             },
             imgList(){

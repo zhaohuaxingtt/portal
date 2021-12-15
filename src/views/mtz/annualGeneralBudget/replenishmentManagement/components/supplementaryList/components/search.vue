@@ -135,12 +135,14 @@
         </iTabsList>
         <tabs1
                :searchFormList="seachWather"
+               :mtzDocId="mtzDocId"
                :dataObject="detailObj"
                v-if="tabsValue == 1 && btnShow1"
                @componentHidden="btnHidden1"
                v-on:closeDiolog1="closeDiolog"></tabs1>
         <tabs2
                :searchFormList="seachWather"
+               :mtzDocId="mtzDocId"
                :dataObject="detailObj"
                v-show="tabsValue == 2 && btnShow2"
                @componentHidden="btnHidden2"
@@ -148,6 +150,7 @@
         <tabs3
                :searchFormList="seachWather"
                :dataObject="detailObj"
+               :mtzDocId="mtzDocId"
                v-show="tabsValue == 3 && btnShow3"
                @componentHidden="btnHidden3"
                v-on:closeDiolog3="closeDiolog"></tabs3>

@@ -51,6 +51,7 @@
     <detailProcessForm
       :flow-form-url="flowFormUrl"
       :form-height="form.formHeight"
+      :form="form"
     />
 
     <!-- <i-card

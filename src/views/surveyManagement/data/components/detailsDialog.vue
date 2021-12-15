@@ -274,7 +274,7 @@ export default {
     },
     exportReport() {
       exportFile({
-        url: "/rise-survey/surveyService/exportQuestionReport",
+        url: "/surveyApi/surveyService/exportQuestionReport",
         data: {
           questionId: this.fileDetails.id,
           surveyId: this.surveyId,
