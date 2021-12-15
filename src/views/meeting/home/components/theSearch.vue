@@ -273,7 +273,9 @@ export default {
 ::v-deep .iSearch-content {
   justify-content: space-between;
 }
-
+::v-deep .cardBody {
+  padding: 1.875rem 1.5rem !important;
+}
 .meeting-name-item {
   width: 538px !important;
 }

@@ -16,7 +16,7 @@
     </div> -->
     <div slot="footer"
          class="dialog-footer">
-      <iButton @click="handleSubmit">{{language('QUEREN', '确认')}}</iButton>
+      <iButton @click="handleSubmit" :disabled="loading" v-loading="loading">{{language('QUEREN', '确认')}}</iButton>
       <!-- <iButton @click="closeDiolog">{{language('QUXIAO', "取消")}}</iButton> -->
     </div>
   </div>
@@ -43,6 +43,7 @@ export default {
       form: {
 
       },
+      loading:false,
     }
   },
   created () {
@@ -53,8 +54,10 @@ export default {
       this.$emit("close", "")
     },
     handleSubmit () {
+      this.loading = true;
       if (!this.form.name || this.form.name == "") {
         iMessage.error("请填写MTZ申请单名！")
+        this.loading = false;
         return false;
       } else {
         if (this.$route.query.appId) {
@@ -66,6 +69,7 @@ export default {
             if (res.code == 200 && res.data) {
               if(res.data.length > 0){
                 var tishi = this.language("BNCFGLTYGDDID","不能重复关联同一个定点id:")
+                this.loading = false;
                 iMessage.error(tishi+this.$route.query.appId)
               }else{
                 mtzConfirm({
@@ -87,6 +91,7 @@ export default {
                     } else {
                       iMessage.error(prame.desZh)
                     }
+                    this.loading = false;
                   })
                 });
               }
@@ -103,6 +108,7 @@ export default {
             store.commit("routerMtzData", data);
             sessionStorage.setItem("MtzLIst", JSON.stringify(data))
             this.$emit("close", "")
+            this.loading = false;
           });
         }
 

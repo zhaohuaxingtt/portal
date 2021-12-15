@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-29 14:22:03
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-07 15:01:38
+ * @LastEditTime: 2021-12-15 18:06:34
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\data.js
  */
 export const tableTitle=[
@@ -104,11 +104,11 @@ export const tableTitle=[
         width:120,
         key: 'CHAOQISHIJIAN',
     },
-    {
-        props: '应用关联',
-        name: '应用关联',
-        key: 'AppsAss',
-    },
+    // {
+    //     props: '应用关联',
+    //     name: '应用关联',
+    //     key: 'AppsAss',
+    // },
 ]
 export const tableTitleEdit=[
     {
@@ -118,7 +118,8 @@ export const tableTitleEdit=[
         required: true,
         rule: [{
             required: true,
-            message: '请输入',
+            pattern:/^[0-9]\d{4,4}$/,
+           message: '供应商编号为五位数字',
             trigger: 'blur'
         }]
     },
@@ -178,7 +179,9 @@ export const tableTitleEdit=[
         required: true,
         rule: [{
             required: true,
-            message: '请输入',
+            pattern:
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+          message: '请输入正确的电子邮件',
             trigger: 'blur'
         }]
     },

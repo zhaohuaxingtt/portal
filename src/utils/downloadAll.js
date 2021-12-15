@@ -27,7 +27,7 @@ const downloadAll = ({
     data,
   })
     .then((response) => {
-      let blob = new Blob([response.data], { type });
+      let blob = new Blob([response], { type });
       const blobUrl = window.URL.createObjectURL(blob);
       // 获取响应中的filename
       // const contentDisposition = response.headers.get('Content-Disposition');

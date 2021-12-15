@@ -116,7 +116,7 @@ export default {
     return {
       loading: false,
       ruleForm: {
-        topic: '休息',
+        topic: '休息 Break',
         duration: 10
       },
       rules: baseRules

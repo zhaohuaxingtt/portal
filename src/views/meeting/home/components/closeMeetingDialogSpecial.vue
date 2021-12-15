@@ -171,12 +171,13 @@ export default {
       this.$emit('handleClose')
     },
     handleSubmit(id) {
+      const strId = id ? (typeof id === 'object' ? this.id : id) : this.id
       // this.$refs['ruleFormCloseMeeting'].validate((valid) => {
       // if (valid) {
       let hashArr = window.location.hash.split('/')
       hashArr.pop()
       let param = {
-        id: id ? id : this.id,
+        id: strId,
         approvalProcessId: this.rowState.approvalProcessId,
         isTriggerApproval:
           this.rowState.isTriggerApproval == 'true' ? true : false,
@@ -185,7 +186,7 @@ export default {
           window.location.pathname +
           hashArr.join('/') +
           '/details?id=' +
-          id
+          strId
       }
       if (this.attachment.id) {
         param.attachment = {
