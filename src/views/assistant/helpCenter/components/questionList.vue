@@ -179,7 +179,7 @@ export default {
 				width: 100%;
 			}
 			.select-style {
-				margin-left: 10px;
+				margin-left: 30px;
 			}
 		}
 		.search-list {
