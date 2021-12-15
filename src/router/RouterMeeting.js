@@ -237,7 +237,9 @@ export default [
             meta: {
               title: '与会人列表'
             },
-            component: () => import(`@/views/meeting/managementHall/meetingListAttendees/index.vue`)
+            // component: () => import(`@/views/meeting/managementHall/meetingListAttendees/index.vue`)
+            //与会人列表 链接原来的管理大厅页面
+            component: () => import(`@/views/meeting/participants/index.vue`)
           },
           {
             path: '/meeting/managementHall/meetingInformation',
@@ -245,7 +247,9 @@ export default [
             meta: {
               title: '会议信息'
             },
-            component: () => import(`@/views/meeting/managementHall/meetingInformation/index.vue`)
+            // component: () => import(`@/views/meeting/managementHall/meetingInformation/index.vue`)
+            //会议信息 链接原来的管理大厅页面
+            component: () => import(`@/views/meeting/information/index.vue`)
           },
 
         ]

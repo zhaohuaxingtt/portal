@@ -3,7 +3,7 @@
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-14 16:33:14
+ * @LastEditTime: 2021-12-15 10:41:28
  * @Descripttion: your project
  */
 export const tabRouterList = [
@@ -56,7 +56,8 @@ export const meetingButtonList = [
     activePath: '/meeting/information',
     key: '会议信息',
   },
-];
+]
+// 新添加管理大厅
 export const meetingRightList = [
   {
     value: 1,
