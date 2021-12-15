@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 14:38:15
- * @LastEditors: zbin
+ * @LastEditors: caopeng
  * @Descripttion: your project
 -->
 <template>
@@ -252,7 +252,7 @@ export default {
       },
       rulesPlant: {
         area: [
-          { required: true, message: '请输入活动名称', trigger: ['change', 'blur'] },
+          { required: true, message: '请选择国家-省份-城市', trigger: ['change', 'blur'] },
         ],
         factoryName: [
           { required: true, message: '请输入工厂名称', trigger: ['change', 'blur'] },
@@ -323,6 +323,7 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         this.$refs.ruleFormPlant.validate((validPlant) => {
           if (valid && validPlant) {
+             
             this.submit()
           } else {
             iMessage.warn(this.language('QINGTIANXIEBITIANXIANG', '请填写必填项'))
@@ -336,6 +337,17 @@ export default {
         this.$refs.ruleFormPartType.validate((validPartType) => {
           this.$refs.ruleFormPlant.validate((validPlant) => {
             if (valid && validPartType && validPlant) {
+               var iscity=  this.supplier.area.some(v=>{
+                   return v&&v!=''
+                 })
+                   var iscity2=  this.plant.area.some(v=>{
+                   return v&&v!=''
+                 })
+                 if(!iscity||!iscity2){
+                     iMessage.warn(this.language('QINGXUANZEGUOJIASHENGFENCHENGSHI', '请选择国家-省份-城市'))
+                     return false
+                 }
+           
               this.submit()
             } else {
               iMessage.warn(this.language('QINGTIANXIEBITIANXIANG', '请填写必填项'))
@@ -404,7 +416,7 @@ export default {
         this.supplier['three'] = this.supplier.duns.slice(5, 9)
       }
       this.supplier.registeredCapital = this.supplier.registeredCapital && String(this.supplier.registeredCapital).replace(/\B(?=(\d{3})+(?!\d))/g, ',') || ''
-      this.supplier.area = [this.supplier.country, this.supplier.province, this.supplier.city]
+      this.supplier.area = [this.supplier.country||'', this.supplier.province||'', this.supplier.city||'']
       this.disabledSupplier = _.cloneDeep(this.supplier)
       // 零件
       this.partType.partType = []
@@ -414,7 +426,7 @@ export default {
       this.tableListData.map(item => item.isEdit = false)
       // 工厂
       this.plant = res.data.plant
-      this.plant.area = [this.plant.country, this.plant.province, this.plant.city]
+      this.plant.area = [this.plant.country||'', this.plant.province||'', this.plant.city||'']
       this.disabledPlant = _.cloneDeep(this.plant)
       this.plant.areaCovered = this.plant.areaCovered && String(this.plant.areaCovered).replace(/\B(?=(\d{3})+(?!\d))/g, ',') || ''
     },
