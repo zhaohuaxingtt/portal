@@ -16,7 +16,7 @@
       />
     </div>
     <!-- flex-center-center -->
-    <div class="trangle"></div>
+    <!-- <div class="trangle"></div> -->
     <div v-if="meetingList.length == 0" class="empty-meeting">
       {{ language('今日无会议安排') }}
     </div>
@@ -255,6 +255,24 @@ export default {
   .calendar {
     margin-top: -17px;
     padding-bottom: 12px;
+
+    .vc-title{
+      position: relative;
+      
+      &::after{
+        content: "";
+        position: absolute;
+        z-index: 100;
+        right: -40px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #343434;
+      }
+    }
   }
   .trangle {
     position: absolute;
