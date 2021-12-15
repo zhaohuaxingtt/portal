@@ -260,7 +260,20 @@ export default {
         partsNum: this.partsNum
       }).then(res => {
         this.pageData = res.data;
-        this.$emit('getHeaderTitle', `${this.partsNum}-${this.pageData.partsNumNameZh} ${this.pageData.partsNumNameDe||''}`)
+        let title = ''
+        if(this.pageData.partsNumNameZh && this.pageData.partsNumNameDe){
+          title = this.partsNum + '-' + this.pageData.partsNumNameZh + this.pageData.partsNumNameDe
+        }
+        if(this.pageData.partsNumNameZh && !this.pageData.partsNumNameDe){
+          title = this.partsNum + '-' + this.pageData.partsNumNameZh
+        }
+        if(!this.pageData.partsNumNameZh && this.pageData.partsNumNameDe){
+          title = this.partsNum + '-' + this.pageData.partsNumNameDe
+        }
+        if(!this.pageData.partsNumNameZh && !this.pageData.partsNumNameDe){
+          title = this.partsNum
+        }
+        this.$emit('getHeaderTitle', title)
         this.pageLoading = false;
       }).catch(() => {
         this.pageLoading = false;
