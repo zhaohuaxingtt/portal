@@ -720,7 +720,7 @@ export default {
     exportReport() {
       console.log("导出报告");
       exportFile({
-        url: "/rise-survey/surveyService/exportSurveyReport",
+        url: "/surveyApi/surveyService/exportSurveyReport",
         data: {
           // questionId: "",
           id: this.surveyId,
@@ -734,7 +734,7 @@ export default {
     },
     exportAllDetails() {
       exportFile({
-        url: "/rise-survey/surveyService/exportDetailReport",
+        url: "/surveyApi/surveyService/exportDetailReport",
         data: {
           // questionId: "",
           id: this.surveyId,
