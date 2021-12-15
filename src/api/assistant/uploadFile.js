@@ -38,7 +38,7 @@ export function uploadFile(data, options) {
 //通过文件 ID 下载文件, 返回字节流
 export function getFileId(fileId) {
 	return requstFile({
-		url: `/udDown/${fileId}`,
+		url: `/udDown?fileIds=${fileId}`,
 		method: 'GET',
 		responseType: 'blob'
 	})

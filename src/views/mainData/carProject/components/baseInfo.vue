@@ -298,7 +298,7 @@
         :show.sync="dialogProjectManagerVisible"
         @change="handleProjectManagerCallback"
         v-model="formData.projectManager"
-        sizeType = 'size'
+        sizeType="size"
         :tableSetting="CAR_PROJECT_SELECTOR_TableSetting"
         :filter="selectorQuery"
         :title="'产品经理'"
@@ -355,7 +355,8 @@ export default {
     },
     handlePurchaseSearch(param) {
       //采购人员
-      return this.dialogUserList(param)
+      // CRCF-3132 车型项目页面，人员选择器修改
+      return this.dialogUserList({ ...param, roleCode: 'XMCGY' })
     },
     handleAreaControllerSearch(param) {
       //区域控制员
@@ -373,6 +374,7 @@ export default {
       console.log('params', param)
       // let params = param
       return getPageListByParams({ ...param, current: param.pageNo })
+      // return getSapUserDropdownList({ ...param, current: param.pageNo })
     },
     searchUser(param) {
       // 人员配置

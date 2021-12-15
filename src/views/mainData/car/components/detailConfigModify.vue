@@ -265,7 +265,7 @@ export default {
 
       const detailDtos = this.tableData.map((e) => {
         const cartypeLevelRate = e.cartypeLevelRate
-          ? parseFloat((e.cartypeLevelRate / 100).toFixed(4))
+          ? parseFloat((e.cartypeLevelRate / 100).toFixed(6))
           : 0
         return { ...e, cartypeLevelRate: cartypeLevelRate }
       })
@@ -366,7 +366,7 @@ export default {
         // 转化为百分比
         this.tableData.forEach((e) => {
           if (e.cartypeLevelRate) {
-            e.cartypeLevelRate = parseFloat(e.cartypeLevelRate * 100).toFixed(2)
+            e.cartypeLevelRate = parseFloat(e.cartypeLevelRate * 100).toFixed(6)
           }
         })
 
