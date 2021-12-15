@@ -18,39 +18,31 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import carType from "./carType.vue";
-import region from "./region.vue";
-import supplier from "./supplier.vue";
-import part from "./part.vue";
-import materials from "./materials.vue";
+import carType from './carType.vue'
+import region from './region.vue'
+import supplier from './supplier.vue'
+import part from './part.vue'
+import materials from './materials.vue'
 export default {
   // import引入的组件需要注入到对象中才能使用
   components: { carType, region, supplier, part, materials },
   data() {
     // 这里存放数据
-    return {
-
-    }
+    return {}
   },
   // 监听属性 类似于data概念
   computed: {},
   // 监控data中的数据变化
   watch: {},
   // 方法集合
-  methods: {
-
-  },
+  methods: {},
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
-
-  },
+  created() {},
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
-
-  },
+  mounted() {}
 }
 </script>
-<style lang='scss'>
+<style lang="scss">
 // @import url(); 引入公共css类
 .right {
   .icon {
@@ -69,9 +61,9 @@ export default {
   justify-content: flex-start;
   align-items: flex-start;
 }
-.card .cardBody {
+/* .card .cardBody {
   padding: 15px 25px !important;
-}
+} */
 .margin-top5 {
   margin-top: 5px;
 }

@@ -176,9 +176,10 @@ export default {
           this.tableListData = []
         }
         this.tableLoading = false
-      } catch {
+      } catch(e) {
         this.tableListData = []
         this.tableLoading = false
+        console.log(e,'错误信息')
       }
     },
 
@@ -187,14 +188,13 @@ export default {
       this.formData.trackId = this.trackId
       this.formData.currentPage = 1
       this.formData.downName = this.title
-      this.tableLoading = true
-      exportSpTrackDetail(this.formData)
-        .then((res) => {
-          this.tableLoading = false
-        })
-        .catch(() => {
-          this.tableLoading = false
-        })
+      exportSpTrackDetail(this.formData).then((res) => {
+        if(res.result) {
+          let remark = res.data.remark
+          iMessage.success(remark)
+        }
+      }).catch(() => {
+      })
     }
   }
 }

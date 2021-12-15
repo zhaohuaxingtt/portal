@@ -1,5 +1,5 @@
 export const tableTitle = [
-    {props: 'partNumber', name: '零件号', key: 'LK_LINGJIANHAO', tooltip: true, width: 150, required: true},
+    {props: 'partNum', name: '零件号', key: 'LK_LINGJIANHAO', tooltip: true, width: 150, required: true},
     {props: 'partName', name: '零件名称', key: 'LK_PFJ_LJMC', width: 120, tooltip: true,},
     {props: 'carFamily', name: '产品家族', key: 'LK_CHANGPINJIAZHU', width: 120, tooltip: true},
     {props: 'carconfigSixcode', name: '车型代码', key: 'LK_CHEXINGDAIMA', tooltip: true,},
@@ -15,7 +15,7 @@ export const tableTitle = [
     {props: '_isConfirm', name: '确认状态', key: 'LK_QUERENZHUANGT', width: 100, tooltip: true,},
     {props: 'procAmount', name: '采购金额', key: 'LK_CAIGOUJINE', width: 150, tooltip: true,},
     {props: 'carconfigSixcodeVolumn', name: '全年产量', key: 'LK_QNCL', width: 100, tooltip: true,},
-    {props: 'configName', name: '配置', key: 'LK_PEIZ', width: 120, tooltip: true,},
+    {props: 'configName', name: '配置', key: 'LK_PEIZHI', width: 120, tooltip: true,},
     {props: 'csGroupName', name: '材料组', key: 'LK_CAILIAOZU', width: 120, tooltip: true,},
     {props: 'partType', name: '零件类型', key: 'LK_LINGJIANLEIXING', width: 120, tooltip: true,},
     {props: 'deptCode', name: '科室', key: 'LK_KESHI', width: 80, tooltip: true,},

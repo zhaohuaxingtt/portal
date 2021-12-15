@@ -1,5 +1,5 @@
 export const tableTitle = [
-    {props: 'partNumber', name: '零件号', key: 'LK_LINGJIANHAO', tooltip: true, width: 150, required: true},
+    {props: 'partNum', name: '零件号', key: 'LK_LINGJIANHAO', tooltip: true, width: 150, required: true},
     {props: 'partName', name: '零件名称', key: 'LK_PFJ_LJMC', width: 200, tooltip: true,},
     {props: 'carFamily', name: '产品家族', key: 'LK_CHANGPINJIAZHU', width: 120, tooltip: true},
     {props: 'carconfigSixcode', name: '车型代码', key: 'LK_CHEXINGDAIMA',width: 120, tooltip: true,},
@@ -13,8 +13,8 @@ export const tableTitle = [
     {props: 'confirmQuantity', name: '数量', key: 'LK_SHUL', width: 80, tooltip: true,},
     {props: 'carconfigSixcodeVolumn', name: '全年产量', key: 'LK_QNCL', width: 150, tooltip: true,},
     {props: 'procAmount', name: '采购金额', key: 'LK_CAIGOUJINE', width: 100, tooltip: true,},
-    {props: 'lasting', name: 'Lasting', key: '', width: 150, tooltip: true,},
-    {props: 'average', name: 'Average', key: '', width: 150, tooltip: true,},
+    {props: 'lasting', name: 'Lasting', key: 'Lasting', width: 150, tooltip: true,},
+    {props: 'average', name: 'Average', key: 'Average', width: 150, tooltip: true,},
     {props: '', name: '跟踪进度', key: 'LK_GZJD', width: 100, tooltip: true,},
     {props: 'configName', name: '配置', key: 'LK_PEIZHI', width: 200, tooltip: true,},
     {props: 'csGroupName', name: '材料组', key: 'LK_CAILIAOZU', width: 150, tooltip: true,},
