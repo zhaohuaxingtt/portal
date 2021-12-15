@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-09 10:10:34
+ * @LastEditTime: 2021-12-15 16:55:56
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -33,9 +33,9 @@
         <i-button v-if="!edit"
                   @click="thawBtn">{{ language('JIEDONG', '解冻') }}
         </i-button>
-        <i-button v-if="!edit"
+        <!-- <i-button v-if="!edit"
                   @click="upload">{{ language('SHANGCHUAN', '上传') }}
-        </i-button>
+        </i-button> -->
         <i-button v-if="!edit"
                   @click="activeBtn">{{ language('JIHUO', '激活') }}
         </i-button>
@@ -130,7 +130,9 @@ export default {
           }
           saveUser(req).then((res) => {
             if (res && res.code == 200) {
+                   this.inputProps = []
               this.edit = false
+              
               this.getTableData()
               iMessage.success(res.desZh)
             } else iMessage.error(res.desZh)
@@ -216,8 +218,8 @@ export default {
           cancelButtonText: this.language('FOU', '否')
         }
       ).then(async () => {
-        this.tableListData.forEach((v) => {
-          this.selectTableData.forEach((j, i) => {
+          this.selectTableData.map((v) => {
+        this.tableListData.map((j, i) => {
             if (v === j) {
               this.tableListData.splice(i, 1)
             }
