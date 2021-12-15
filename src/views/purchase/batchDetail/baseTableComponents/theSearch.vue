@@ -110,7 +110,7 @@
                 </el-form-item>
 
                 <!--产品家族-->
-                <el-form-item :label="language('LK_CHANGPINJIAZHU','产品家族')">
+                <el-form-item :label="language('LK_CHANGPINJIAZU','产品家族')">
                     <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.carFamily">
                         <el-option
                                 :value="item.code"
@@ -120,7 +120,7 @@
                     </iSelect>
                 </el-form-item>
                 <!--KLS来源价格-->
-                <el-form-item :label="language('LK_KSLLAIYUANJIAGE','KLS来源价格')">
+                <el-form-item :label="language('LK_LAIYUANJIAGE','KLS来源价格')">
                     <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.kslPriceSource">
                         <el-option
                                 :value="item.key"
