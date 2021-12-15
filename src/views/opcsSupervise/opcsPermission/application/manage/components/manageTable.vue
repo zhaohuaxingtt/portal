@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-07 15:05:02
+ * @LastEditTime: 2021-12-15 16:55:21
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\manage\components\manageTable.vue
 -->
 <template>
@@ -101,6 +101,7 @@ export default {
     editBtn() {
       this.inputProps = ['nameZh', 'nameEn', 'ldapSchema']
       this.edit = true
+    
     },
     cancelBtn() {
       this.inputProps = []
@@ -117,9 +118,10 @@ export default {
             opcsSupplierKeyId: this.$route.query.opcsSupplierId
           }
           addDetails(req).then((res) => {
-            if (res && res.data == 200) {
+            if (res && res.code == 200) {
               this.getTableData()
-              this.editMode = false
+              this.edit = false
+              this.inputProps = []
               iMessage.success(res.desZh)
             }
           })
@@ -168,8 +170,8 @@ export default {
           cancelButtonText: this.language('FOU', '否')
         }
       ).then(async () => {
-        this.tableListData.forEach((v) => {
-          this.selectTableData.forEach((j, i) => {
+        this.tableListData.map((j, i) => {
+          this.selectTableData.map((v) => {
             if (v === j) {
               this.tableListData.splice(i, 1)
             }

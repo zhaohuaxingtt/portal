@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 10:20:21
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-09 10:05:32
+ * @LastEditTime: 2021-12-15 16:43:48
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\components\baseInfo.vue
 -->
 <template>
@@ -108,20 +108,23 @@ export default {
     }
   },
   created() {
-    this.getInfo()
     this.getUser()
   },
   methods: {
       getUser(){
-          userUpdown({opcsSupplierId: this.$route.query.opcsSupplierId}).then(res=>[
-              this.userList=res.data||[]
-          ])
+          userUpdown({opcsSupplierId: this.$route.query.opcsSupplierId}).then(res=>{
+               if(res&&res.code==200){
+               this.userList=res.data||[]
+               this.getInfo()
+              }
+          })
       },
     getInfo() {
       let req = { opcsSupplierId: this.$route.query.opcsSupplierId }
       queryBase(req).then((res) => {
         if (res && res.code == 200) {
           this.form = res.data
+           this.form.contactUserName=this.userList.find(v=>v.id==this.form.contactUserId).contactName
         }
       })
     },
@@ -142,6 +145,7 @@ export default {
     save() {
       this.$refs.baseRules.validate((valid) => {
         if (valid) {
+            this.form.contactUserName=this.userList.find(v=>v.id==this.form.contactUserId).contactName
           let req = {
             opcsSupplierId: this.$route.query.opcsSupplierId,
             ...this.form
@@ -149,7 +153,7 @@ export default {
           baseEdit(req).then((res) => {
             if (res && res.code == 200) {
                 this.edit=false
-                this.queryBase()
+                this.getInfo()
               iMessage.success(res.desZh)
             }else{
                 iMessage.error(res.desZh)
