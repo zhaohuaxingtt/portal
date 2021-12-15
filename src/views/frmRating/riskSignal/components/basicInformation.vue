@@ -5,7 +5,6 @@
  -->
 <template>
   <div class="home">
-    <h1>hello</h1>
     <iCard tabCard
            collapse
            :title="$t('SUPPLIER_JIBENXINXI')">

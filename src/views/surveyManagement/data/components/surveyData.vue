@@ -260,6 +260,7 @@ import grayList3 from "@/assets/images/survey/gray-list3.svg";
 import iEchartsML from "@/components/iEchartsML/index.vue";
 import { exportFile } from "@/utils/exportFileUtil";
 import borderTitleVue from "../../manage/survey/create/components/topicComponents/borderTitle.vue";
+import store from '@/store'
 
 export default {
   components: {
@@ -720,30 +721,32 @@ export default {
     exportReport() {
       console.log("导出报告");
       exportFile({
-        url: "/surveyApi/surveyService/exportSurveyReport",
+        url: process.env.VUE_APP_SURVEY+`/surveyService/exportSurveyReport?userId=`+store.state.permission.userInfo.id,
+        // url: "/surveyApi/surveyService/exportSurveyReport",
         data: {
           // questionId: "",
           id: this.surveyId,
         },
-        callback: (e) => {
-          if (!e) {
-            iMessage.error("导出失败");
-          }
-        },
+        // callback: (e) => {
+        //   if (!e) {
+        //     iMessage.error("导出失败");
+        //   }
+        // },
       });
     },
     exportAllDetails() {
       exportFile({
-        url: "/surveyApi/surveyService/exportDetailReport",
+        url: process.env.VUE_APP_SURVEY+`/surveyService/exportDetailReport?userId=`+store.state.permission.userInfo.id,
+        // url: "/surveyApi/surveyService/exportDetailReport",
         data: {
           // questionId: "",
           id: this.surveyId,
         },
-        callback: (e) => {
-          if (!e) {
-            iMessage.error("导出失败");
-          }
-        },
+        // callback: (e) => {
+        //   if (!e) {
+        //     iMessage.error("导出失败");
+        //   }
+        // },
       });
     },
   },

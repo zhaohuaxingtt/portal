@@ -37,11 +37,15 @@
       <div class="container" v-if="!themen.isBreak">
         <div class="ul-li">
           <div class="left">Duration</div>
-          <div class="right" :title="themen.Duration">{{ themen.Duration }}</div>
+          <div class="right" :title="themen.duration">
+            {{ themen.duration }}
+          </div>
         </div>
         <div class="ul-li">
           <div class="left">Sourcing</div>
-          <div class="right" :title="themen.supporter">{{ themen.supporter }}</div>
+          <div class="right" :title="themen.supporter">
+            {{ themen.supporter }}
+          </div>
         </div>
         <div class="ul-li">
           <div class="left">Linie</div>
@@ -88,10 +92,10 @@
         <div class="time">
           <div class="time-left">Time</div>
           <div class="time-right-live" v-if="themen.state === '02'">
-            {{ themen.startTime }}/Live!
+            {{ getTime(themen) }}/Live!
           </div>
           <div class="time-right" v-else>
-            {{ themen.startTime }}/
+            {{ getTime(themen) }}/
             {{ themen.state === '01' ? 'Next' : 'Finished' }}
           </div>
         </div>
@@ -164,6 +168,11 @@ export default {
     }
   },
   methods: {
+    getTime(themen) {
+      return dayjs(new Date(`${themen.startDate} ${themen.startTime}`)).format(
+        'HH:mm'
+      )
+    },
     getNowTime() {
       return dayjs(new Date()).format('HH:mm:ss')
     }

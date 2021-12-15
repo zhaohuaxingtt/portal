@@ -191,6 +191,7 @@ export default {
       this.$emit('handleClose')
     },
     handleSubmit() {
+      console.log("6666666666666",this.id)
       this.$refs['ruleFormCloseMeeting'].validate((valid) => {
         if (valid) {
           this.loading = true

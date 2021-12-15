@@ -141,6 +141,9 @@ export default {
   },
   updated() {
     this.$nextTick(() => {
+      console.log(this.$refs.iframe)
+      console.log(this.url)
+      console.log(this.url.indexOf(window.location.origin) > -1)
       if (
         this.$refs.iframe &&
         this.url &&
@@ -172,11 +175,13 @@ export default {
         const iframeAppDom = iframe.contentWindow.document.querySelector('#app') // sourcing vue根DOM
         if (iframeAppDom) {
           const appDomObserver = new MutationObserver(() => {
-            const iframeAppContentDom =
-              iframeAppDom.querySelector('#appRouterView') // sourcing vue根一级router-view
-            this.autoFrameHeight = iframeAppContentDom
-              ? iframeAppContentDom.clientHeight || 0
-              : 0
+            const tabsBoxWrap = iframeAppDom.querySelector('#tabsBoxWrap')
+            if(tabsBoxWrap){
+              this.autoFrameHeight = tabsBoxWrap ? tabsBoxWrap.clientHeight || 0 : 0
+            }else{
+              const iframeAppContentDom = iframeAppDom.querySelector('#appRouterView') // sourcing vue根一级router-view
+              this.autoFrameHeight = iframeAppContentDom ? iframeAppContentDom.clientHeight || 0 : 0
+            }
           })
           appDomObserver.observe(iframeAppDom, {
             childList: true,

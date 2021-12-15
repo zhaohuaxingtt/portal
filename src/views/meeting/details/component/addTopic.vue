@@ -511,7 +511,8 @@ export default {
     }
     const validateSupporterNosys = (rule, value, callback) => {
       if (
-        !value.trim() &&
+        !value &&
+        !(typeof value === 'string' ? value.trim() : false) &&
         (this.ruleForm.supporter === '' || this.ruleForm.supporter.length === 0)
       ) {
         callback(new Error('系统用户和非系统用户不能同时为空'))
@@ -537,7 +538,8 @@ export default {
     }
     const validatePresenterNosys = (rule, value, callback) => {
       if (
-        !value.trim() &&
+        !value &&
+        !(typeof value === 'string' ? value.trim() : false) &&
         (this.ruleForm.presenter === '' || this.ruleForm.presenter.length === 0)
       ) {
         callback(new Error('系统用户和非系统用户不能同时为空'))
@@ -549,7 +551,7 @@ export default {
       }
     }
     const validateTopic = (rule, value, callback) => {
-      if (!value.trim()) {
+      if (!value && !(typeof value === 'string' ? value.trim() : false)) {
         callback(new Error('必填'))
       } else {
         if (value && value.length > 255) {
@@ -756,6 +758,9 @@ export default {
     },
     'ruleForm.presenter': {
       handler: function (newV) {
+        if (typeof newV === 'string') {
+          return
+        }
         let arr = newV.map((item) => {
           return item.id
         })
@@ -783,6 +788,9 @@ export default {
     },
     'ruleForm.supporter': {
       handler: function (newV) {
+        if (typeof newV === 'string') {
+          return
+        }
         let arr = newV.map((item) => {
           return item.id
         })
@@ -1113,7 +1121,6 @@ export default {
               supporter: inputSupporterStr,
               attachments: this.attachments
             }
-            console.log('formData', formData)
             updateThemen(formData)
               .then((data) => {
                 this.loading = false

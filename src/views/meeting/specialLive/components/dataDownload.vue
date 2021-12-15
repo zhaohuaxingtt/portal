@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="header">{{ $t('资料下载') }}</div>
+    <div class="header">{{ $t('会议资料') }}</div>
     <div v-if="documentTypeList.length > 0">
       <el-tabs v-model="activeName">
         <el-tab-pane
