@@ -1,5 +1,7 @@
+<!--会议列表 列表区-->
 <template>
   <iCard class="margin-top20">
+    <!-- 按钮 -->
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <iButton @click="handleRecall" :disabled="!isCanRecall">{{
@@ -34,6 +36,7 @@
         min-width="20"
       ></el-table-column>
       <el-table-column width="48" align="center" label=""></el-table-column>
+      <!-- 序号 -->
       <el-table-column
         type="index"
         width="40"
@@ -42,6 +45,7 @@
         :label="$t('MT_XUHAO')"
       ></el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
+      <!-- 会议名称 -->
       <el-table-column
         show-overflow-tooltip
         align="center"
@@ -58,6 +62,7 @@
         </template>
       </el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
+      <!-- 会议类型 -->
       <el-table-column
         show-overflow-tooltip
         align="center"
@@ -70,6 +75,7 @@
         </template>
       </el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
+      <!-- 会议状态 -->
       <el-table-column
         show-overflow-tooltip
         align="center"
@@ -95,6 +101,7 @@
         </template>
       </el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
+      <!-- 会议地点 -->
       <el-table-column
         show-overflow-tooltip
         align="center"
@@ -104,6 +111,7 @@
         prop="meetingPlace"
       ></el-table-column>
       <el-table-column width="44" align="center" label=""></el-table-column>
+      <!-- 会议时间 -->
       <el-table-column
         show-overflow-tooltip
         align="center"
@@ -124,6 +132,7 @@
         </template>
       </el-table-column>
       <el-table-column width="44" align="center" label=""></el-table-column>
+      <!-- 附件 -->
       <el-table-column
         show-overflow-tooltip
         align="center"
@@ -161,6 +170,7 @@
         </template>
       </el-table-column>
       <el-table-column width="34" align="center" label=""></el-table-column>
+      <!-- 操作 -->
       <el-table-column
         show-overflow-tooltip
         align="center"
@@ -549,6 +559,7 @@
         </template>
       </el-table-column>
       <el-table-column width="34" align="center" label=""></el-table-column>
+      <!-- 周次 -->
       <el-table-column
         show-overflow-tooltip
         align="center"
@@ -563,6 +574,7 @@
       </el-table-column>
       <el-table-column width="20" align="center" label=""></el-table-column>
     </iTableML>
+    <!-- 分页 -->
     <iPagination
       v-update
       @current-change="handleCurrentChange($event)"
@@ -1086,6 +1098,7 @@ export default {
         })
       })
     },
+    //当前行
     handleChoose(e) {
       this.selectedRow = e
     },
@@ -1416,6 +1429,10 @@ export default {
     },
     // 跳转详情页
     goDetail(e, b) {
+      //b是状态
+      console.log(e,b);
+      console.log(e.isCSC,e.isPreCSC);
+      // return
       if (b == '01') {
         return
       }
@@ -1433,6 +1450,31 @@ export default {
           }
         })
       } else {
+        //不是通用会议  也不知道是什么会议
+        debugger
+        this.$router.push({
+          path: '/meeting/details',
+          query: {
+            id: e.id
+          }
+        })
+      }
+return
+      //会议分别跳转路由
+      if ( e.isPreCSC) {
+        this.$router.push({
+          path: '/meeting/specialDetails',
+          query: {
+            id: e.id
+            // type: e.meetingTypeName
+          }
+        })
+      } else if(e.isCSC){
+       //走我改的
+      }else if(e.MDBl){
+        //走我我写
+      }else{
+        //通用会议
         this.$router.push({
           path: '/meeting/details',
           query: {
