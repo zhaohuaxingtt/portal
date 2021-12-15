@@ -465,7 +465,7 @@ export default {
       const endDate = this.meetingInfo.endDate
       const endTime = this.meetingInfo.endTime
       this.begin = dayjs(new Date(`${startDate} ${startTime}`)).format(
-        'YYYY/MM/DD HH:mm:ss'
+        'YYYY/MM/DD HH:mm'
       )
       let end =
         Number(
@@ -474,12 +474,12 @@ export default {
                 .plusDayEndTime
             : 0
         ) > 0
-          ? dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm:ss') +
+          ? dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm') +
             ` +${Number(
               this.meetingInfo.themens[this.meetingInfo.themens.length - 1]
                 .plusDayEndTime
             )}`
-          : dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm:ss')
+          : dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm')
       this.end = end
     },
     getMeetingTypeObject() {

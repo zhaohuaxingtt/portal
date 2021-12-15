@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-escape */
-import axios from "@/utils/axios";
+import axios from "@/utils/axios.download";
 import { callbackify } from "util";
 
 const request = axios();
