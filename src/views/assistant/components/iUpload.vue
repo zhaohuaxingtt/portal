@@ -111,7 +111,6 @@
         },
         computed:{
             files(){
-                console.log(this.value);
                 return this.value || []
             },
             imgList(){
