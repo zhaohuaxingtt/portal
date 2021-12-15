@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-15 16:55:56
+ * @LastEditTime: 2021-12-15 17:54:55
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -45,9 +45,19 @@
         <i-button v-if="!edit"
                   @click="download">{{ language('XIAZAIMOBAN', '下载模板') }}
         </i-button>
-        <i-button v-if="!edit"
-                  @click="exportsTable">{{ language('DAORU', '导入') }}
-        </i-button>
+        <el-upload v-if="!edit"
+                   action="1"
+                   :accept="accept"
+                   :before-upload="beforeAvatarUpload"
+                   :show-file-list="false"
+                   :http-request="httpUpload"
+                   :disabled="uploadLoading">
+          <div>
+            <i-button @click="importTable">{{ language('DAORU', '导入') }}
+            </i-button>
+          </div>
+        </el-upload>
+
       </div>
     </div>
     <table-list :tableData="tableListData"
@@ -79,30 +89,23 @@
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import { tableTitle, tableTitleEdit } from './data'
-import {
-  iCard,
-  iButton,
-  iSelect,
-  iMessage,
-  iPagination,
-  iMessageBox
-} from 'rise'
+import store from '@/store'
+import { iCard, iButton, iMessage, iPagination, iMessageBox } from 'rise'
 import {
   queryDetailUser,
   thawUser,
   saveUser,
   renewalUser,
   freezeUser,
-  exportUser,
   downloadUser,
-  activeUser
+  activeUser,
+  imports
 } from '@/api/opcs/solPermission'
 export default {
   mixins: [pageMixins],
   components: {
     iCard,
     iButton,
-    iSelect,
     tableList,
     iPagination
   },
@@ -124,15 +127,16 @@ export default {
     save() {
       this.$refs.commonTable.$refs.commonTableForm.validate((valid) => {
         if (valid) {
-          let req = {
+          let parmars = {
             saveUserList: this.tableListData,
             opcsSupplierKeyId: this.$route.query.opcsSupplierId
           }
-          saveUser(req).then((res) => {
+            console.log(parmars)
+          saveUser(parmars).then((res) => {
             if (res && res.code == 200) {
-                   this.inputProps = []
+              this.inputProps = []
               this.edit = false
-              
+
               this.getTableData()
               iMessage.success(res.desZh)
             } else iMessage.error(res.desZh)
@@ -176,19 +180,39 @@ export default {
       this.editMode = false
       this.edit = false
     },
-    //导出
-    exportsTable() {
-      const params = {
-        opcsSupplierId: this.$route.query.opcsSupplierId,
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
-        ...this.form
-      }
-      exportUser(params)
+    //导入
+    async httpUpload(info) {
+      let formData = new FormData()
+      formData.append('file', info.file)
+      formData.append('opcsSupplierId ', this.$route.query.opcsSupplierId)
+      formData.append('userId ', store.state.permission.userInfo.id)
+      await imports(formData)
+        .then((res) => {})
+        .catch((err) => {
+          iMessage.error('上传失败')
+        })
     },
+      // 上传前校验
+    beforeAvatarUpload(file) {
+      const isLt10M = file.size / 1024 / 1024 < 10;
+      if (!isLt10M) {
+        this.$message.error(`上传文件大小不能超过10MB!`);
+      }
+      return isLt10M;
+    },
+    // //导出
+    // exportsTable() {
+    //   const params = {
+    //     opcsSupplierId: this.$route.query.opcsSupplierId,
+    //     pageNo: this.page.currPage,
+    //     pageSize: this.page.pageSize,
+    //     ...this.form
+    //   }
+    //   exportUser(params)
+    // },
     //下载模板
     download() {
-      downloadUser()
+      downloadUser({ pageNo: this.page.currPage, pageSize: this.page.pageSize })
     },
 
     //新增
@@ -218,8 +242,8 @@ export default {
           cancelButtonText: this.language('FOU', '否')
         }
       ).then(async () => {
-          this.selectTableData.map((v) => {
-        this.tableListData.map((j, i) => {
+        this.selectTableData.map((v) => {
+          this.tableListData.map((j, i) => {
             if (v === j) {
               this.tableListData.splice(i, 1)
             }
@@ -237,13 +261,14 @@ export default {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
       }
-      thawUser({ idList: this.selectTableData.map((res) => res.id) }).then(
-        (res) => {
-          if (res && res.code == 200) {
-            iMessage.success(res.desZh)
-          } else iMessage.error(res.desZh)
-        }
-      )
+      thawUser({
+        opcsSupplierId: this.$route.query.opcsSupplierId,
+        idList: this.selectTableData.map((res) => res.id)
+      }).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+        } else iMessage.error(res.desZh)
+      })
     },
     //激活
     activeBtn() {
@@ -251,13 +276,14 @@ export default {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
       }
-      activeUser({ idList: this.selectTableData.map((res) => res.id) }).then(
-        (res) => {
-          if (res && res.code == 200) {
-            iMessage.success(res.desZh)
-          } else iMessage.error(res.desZh)
-        }
-      )
+      activeUser({
+        opcsSupplierId: this.$route.query.opcsSupplierId,
+        idList: this.selectTableData.map((res) => res.id)
+      }).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+        } else iMessage.error(res.desZh)
+      })
     },
     //冻结
     freezeBtn() {
@@ -265,13 +291,14 @@ export default {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
       }
-      freezeUser({ idList: this.selectTableData.map((res) => res.id) }).then(
-        (res) => {
-          if (res && res.code == 200) {
-            iMessage.success(res.desZh)
-          } else iMessage.error(res.desZh)
-        }
-      )
+      freezeUser({
+        opcsSupplierId: this.$route.query.opcsSupplierId,
+        idList: this.selectTableData.map((res) => res.id)
+      }).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+        } else iMessage.error(res.desZh)
+      })
     },
     //续期
     renewalBtn() {
@@ -279,13 +306,14 @@ export default {
         iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
         return false
       }
-      renewalUser({ idList: this.selectTableData.map((res) => res.id) }).then(
-        (res) => {
-          if (res && res.code == 200) {
-            iMessage.success(res.desZh)
-          } else iMessage.error(res.desZh)
-        }
-      )
+      renewalUser({
+        opcsSupplierId: this.$route.query.opcsSupplierId,
+        idList: this.selectTableData.map((res) => res.id)
+      }).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+        } else iMessage.error(res.desZh)
+      })
     }
   }
 }
@@ -294,5 +322,8 @@ export default {
 <style  lang="scss" scope>
 .el-table .el-table__row .el-input {
   width: 100% !important;
+}
+.floatright{
+    display: flex;
 }
 </style>
