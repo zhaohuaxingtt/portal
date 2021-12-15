@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 09:52:17
- * @LastEditors: Please set LastEditors
+ * @LastEditors: caopeng
  * @Descripttion: your project
 -->
 <template>
@@ -316,6 +316,7 @@ export default {
         nodeList[ntierChain.id] = ntierChain;
       });
       this.$set(this.chainNodeDatas, "nodeList", nodeList);
+      console.log(this.chainNodeDatas)
       this.$set(this.chainNodeDatas, "edges", edges);
       this.$nextTick(() => {
         this.onDataLoading = false;
