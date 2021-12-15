@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-loading="uploading">
         <el-upload
             action
             :accept="accept.map(type => `.${type}`).join(',')"
@@ -8,6 +8,8 @@
             :multiple="multiple"
             :http-request="httpUpload"
             :disabled="disabled || (files.length >= limit)"
+            :limit="limit"
+            :on-exceed="handleExceed"
             v-if="!disabled"
             >
             <slot></slot>
@@ -92,18 +94,18 @@
             // 文件大小 M
             maxSize:{
                 type: Number,
-                default:10
+                default:20
             },
             // 尺寸 w,h
             px:{
                 default:() => {}
             },
             limit:{
-                type:[Number,String],
-                default:5
+                type: Number,
+                default: 5
             },
             showFile:{
-                type:Boolean,
+                type: Boolean,
                 default: true
             }
         },
@@ -111,6 +113,7 @@
             return {
                 dialogVisible:false,
                 fileUrl:"",
+                uploading: false,
                 imgFmt:['jpg','jpeg','gif','png']
             }
         },
@@ -132,9 +135,11 @@
         },
         methods: {
             async httpUpload(res){
+                this.uploading = true
                 let formData = new FormData();
                 formData.append("file",res.file);
                 let file = await uploadFile(formData);
+                this.uploading = false
                 this.$message.success("上传成功")
                 let val = this.files;
                 val.push({
@@ -173,6 +178,9 @@
                     a.download = file.fileName
                     a.click()
                 }
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`您好，上传附件只能上传5个文件,本次选择了 ${files.length} 个文件,共选择了 ${files.length + fileList.length} 个文件`)
             }
         }
     }
