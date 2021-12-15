@@ -66,7 +66,11 @@
         </iSelect>
       </iFormItem>
       <iFormItem prop="address.provinceCode">
-        <iLabel :label="$t('SUPPLIER_SHENGFEN')" required slot="label"></iLabel>
+        <iLabel
+          :label="$t('SUPPLIER_SHENGFEN')"
+          :required="supplierData.address.countryCode === 'CN'"
+          slot="label"
+        ></iLabel>
         <iSelect
           filterable
           v-model="supplierData.address.provinceCode"
@@ -82,7 +86,11 @@
         </iSelect>
       </iFormItem>
       <iFormItem prop="address.cityCode">
-        <iLabel :label="$t('SUPPLIER_CHENGSHI')" required slot="label"></iLabel>
+        <iLabel
+          :label="$t('SUPPLIER_CHENGSHI')"
+          :required="supplierData.address.countryCode === 'CN'"
+          slot="label"
+        ></iLabel>
         <iSelect
           filterable
           v-model="supplierData.address.cityCode"
@@ -132,7 +140,6 @@
 <script>
 import { iCard, iFormGroup, iFormItem, iInput, iLabel, iSelect } from 'rise'
 import { getCityInfo } from '@/api/dictionary'
-import { companyProfileRules } from './data'
 
 export default {
   components: {
@@ -168,8 +175,113 @@ export default {
     }
   },
   data() {
+    const checkProvince = (rule, value, callback) => {
+      if (this.supplierData.address.countryCode === 'CN' && !value) {
+        return callback(new Error('请选择省份'))
+      }
+      callback()
+    }
+    const checkCity = (rule, value, callback) => {
+      if (this.supplierData.address.countryCode === 'CN' && !value) {
+        return callback(new Error('请选择城市'))
+      }
+      callback()
+    }
     return {
-      companyProfileRules,
+      companyProfileRules: {
+        legalRepresentative: [
+          {
+            required: true,
+            message: '请输入法定代表人',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 30,
+            message: '长度在 1 到 30个字符',
+            trigger: 'blur'
+          }
+        ],
+        companySize: [
+          {
+            required: true,
+            message: '请选择企业规模',
+            trigger: 'change'
+          }
+        ],
+        enterpriseType: [
+          {
+            required: true,
+            message: '请选择企业性质（大类）',
+            trigger: 'change'
+          }
+        ],
+        certification: [
+          {
+            required: true,
+            message: '请选择企业资质与认证',
+            trigger: 'change'
+          }
+        ],
+        registeredCapital: [
+          {
+            required: true,
+            message: '请输入注册资本',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 100,
+            message: '长度在 1 到 100个字符',
+            trigger: 'blur'
+          }
+        ],
+        'address.countryCode': [
+          {
+            required: true,
+            message: '请选择国家',
+            trigger: 'change'
+          }
+        ],
+        'address.provinceCode': [
+          {
+            validator: checkProvince,
+            trigger: 'change'
+          }
+        ],
+        'address.cityCode': [
+          {
+            validator: checkCity,
+            trigger: 'change'
+          }
+        ],
+        'address.address': [
+          {
+            required: true,
+            message: '请输入注册地址',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 200,
+            message: '长度在 1 到 200个字符',
+            trigger: 'blur'
+          }
+        ],
+        'address.postCode': [
+          {
+            required: true,
+            message: '请输入注册地址邮编',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 200,
+            message: '长度在 1 到 30个字符',
+            trigger: 'blur'
+          }
+        ]
+      },
       parentCityId: [],
       province: [],
       city: []
