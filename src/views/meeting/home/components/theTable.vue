@@ -1007,6 +1007,7 @@ export default {
     // 上传议题错误提示框关闭
     handleCloseError() {
       this.openError = false
+      this.handleCancelTopics()
     },
     // 生成会议纪要取消
     handleNewSummaryCancel() {
