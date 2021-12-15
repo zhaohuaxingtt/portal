@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
 -->
 <template>
-<div class="tabsBoxWrap">
+<div class="tabsBoxWrap" id="tabsBoxWrap">
   <span class="download_btn" v-if="approve">
     <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton>
   </span>
@@ -301,8 +301,8 @@ $tabsInforHeight: 35px;
   right:0;
   top:0;
   right:0;
-  width:100%;
-  height:100%;
+  // width:100%;
+  // height:100%;
   z-index:2000;
   overflow-y:auto;
   background:white!important;
