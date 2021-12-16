@@ -77,7 +77,7 @@
                                      @focus="onFocus(scope.row[items.props],scope.$index,items.props)"
                                      @blur="onBlur(scope.row[items.props],scope.$index,items.props)"
                                      @change="changeInput(scope.row[items.props],scope.$index,items.props)"
-                                     v-if="state || (!state && !scope.row.isConfirm && (scope.row['kslPriceSource']=='M'||!scope.row['price']))"
+                                     v-if=" (!scope.row.isConfirm && (scope.row['kslPriceSource']=='M'||!scope.row['price']))"
                                      :type="inputType"
                                      :maxlength="items.maxlength ? items.maxlength : 300">
                             </i-input>
@@ -113,7 +113,7 @@
                         <el-form-item :prop="'tableData.' + scope.$index + '.' + items.props"
                                       :rules="items.rule ? items.rule : ''">
                             <i-select filterable v-model="scope.row[items.props]"
-                                      v-if="(state || (!state && !scope.row.isConfirm)) && items.props=='supplierName'"
+                                      v-if="!scope.row.isConfirm && items.props=='supplierName'"
                                       remote
                                       reserve-keyword
                                       :remote-method="remoteMethod"
@@ -124,7 +124,7 @@
                                            :label="items.supplierName"/>
                             </i-select>
                             <i-select filterable v-model="scope.row[items.props]"
-                                      v-else-if="(state || (!state && !scope.row.isConfirm)) && items.props=='partType'"
+                                      v-else-if="!scope.row.isConfirm && items.props=='partType'"
                                       @change="changeValue(scope.row[items.props],scope.$index,selectPropsOptionsObject[items.props],items.props)">
                                 <el-option v-for="items,index in selectPropsOptionsObject[items.props]"
                                            :key='index'

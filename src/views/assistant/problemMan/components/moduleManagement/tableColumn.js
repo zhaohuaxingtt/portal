@@ -9,6 +9,11 @@ export const tableColumn = [
     label: '序号'
   },
   {
+    prop: 'parentName',
+    label: '父级菜单',
+    align: 'center'
+  },
+  {
     prop: 'menuName',
     label: '负责模块',
     align: 'center'
