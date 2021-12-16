@@ -963,10 +963,6 @@ export default {
     }
   },
   watch: {
-    isAdmin: {
-      handler() {},
-      immediate: true
-    },
     resThemeData: {
       handler(data) {
         const row = data.find((item) => item.state === '02')

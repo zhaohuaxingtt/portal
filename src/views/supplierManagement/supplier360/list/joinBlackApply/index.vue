@@ -118,7 +118,6 @@ export default {
         window.parent.postMessage({ key: 'setFormHeight', value: height+'px'},'*')
    },
   created() {
-   
     if (window.top === window.self) {
       this.ifSelf = true
     } else {

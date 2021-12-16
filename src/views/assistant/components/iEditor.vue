@@ -63,6 +63,7 @@ import Editor from 'wangeditor'
                 this.editor.config.onchange = (newHtml) => {
                    this.$emit("input",newHtml || "<p><br></p>")
                 };
+                this.editor.config.uploadImgMaxLength = 10
 
                 if(this.disabled){
                     setTimeout(() => {
