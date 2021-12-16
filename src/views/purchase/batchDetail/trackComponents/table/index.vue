@@ -102,7 +102,7 @@
                         <el-form-item :prop="'tableData.' + scope.$index + '.' + items.props"
                                       :rules="items.rule ? items.rule : ''">
                             <i-select filterable v-model="scope.row[items.props]"
-                                      v-if="state || (!state && !scope.row.isConfirm)"
+                                      v-if="!scope.row.isConfirm"
                                       @change="changeValue(scope.row[items.props],scope.$index,selectPropsOptionsObject[items.props],items.props)">
                                 <el-option v-for="items in selectPropsOptionsObject[items.props]"
                                            :key='items.code'
