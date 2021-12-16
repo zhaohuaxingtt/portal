@@ -1436,29 +1436,39 @@ export default {
       if (b == '01') {
         return
       }
+      this.$router.push({
+          path: '/meeting/managementHall/mbdlMeeting',
+          query: {
+            id: e.id
+          }
+      })
+
+
+
+
       // if (
       //   e.meetingTypeName === 'CSC' ||
       //   e.meetingTypeName === 'Pre CSC' ||
       //   e.meetingTypeName === 'PRECSC'
       // ) {
-      if (e.isCSC || e.isPreCSC) {
-        this.$router.push({
-          path: '/meeting/specialDetails',
-          query: {
-            id: e.id
-            // type: e.meetingTypeName
-          }
-        })
-      } else {
-        //不是通用会议  也不知道是什么会议
-        debugger
-        this.$router.push({
-          path: '/meeting/details',
-          query: {
-            id: e.id
-          }
-        })
-      }
+      // if (e.isCSC || e.isPreCSC) {
+      //   this.$router.push({
+      //     path: '/meeting/specialDetails',
+      //     query: {
+      //       id: e.id
+      //       // type: e.meetingTypeName
+      //     }
+      //   })
+      // } else {
+      //   //不是通用会议  也不知道是什么会议
+      //   debugger
+      //   this.$router.push({
+      //     path: '/meeting/details',
+      //     query: {
+      //       id: e.id
+      //     }
+      //   })
+      // }
 return
       //会议分别跳转路由
       if ( e.isPreCSC) {
