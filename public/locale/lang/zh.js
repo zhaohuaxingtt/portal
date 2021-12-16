@@ -2186,6 +2186,7 @@
       RFQRESET: '重置'
     }
   }
+  i18n.setLocaleMessage('zh', oldLanguage)
   var xmlHttp = ''
   if (window.XMLHttpRequest) {
     xmlHttp = new XMLHttpRequest()
@@ -2196,7 +2197,8 @@
   xmlHttp.onreadystatechange = function () {
     if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
       const data = JSON.parse(xmlHttp.responseText)
-      i18n.setLocaleMessage('zh', Object.assign(oldLanguage, data.data.zh))
+      i18n.mergeLocaleMessage('zh', data.data.zh)
+      i18n.mergeLocaleMessage('en', data.data.cn)
     }
   }
   xmlHttp.open(
