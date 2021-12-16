@@ -135,14 +135,15 @@
                       :label="$t('staffManagement.OTHERJOBS')"
                       class="LastSearchOption"
                     >
-                      <iSelect
+                      <iInput :value="otherPositionId" disabled />
+                      <!-- <iSelect
                         :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
                         class="selectWidth"
                         multiple
                         collapse-tags
                         :disabled="isDeptOther"
                         @change="selectPositionChange"
-                        v-model="formData.otherPositionList"
+                        v-model="otherPositionId"
                       >
                         <el-option
                           v-for="item in allPositionList"
@@ -151,7 +152,7 @@
                           :value="item.id"
                         >
                         </el-option>
-                      </iSelect>
+                      </iSelect> -->
                     </iFormItem>
                   </el-col>
                   <el-col :span="6">
@@ -421,7 +422,8 @@ export default {
       rules: {
         nameZh: [{ required: true, message: '请输入中文名', trigger: 'blur' }]
       },
-      defaultDeptOptions: []
+      defaultDeptOptions: [],
+      otherPositionId: ''
     }
   },
   created() {
@@ -507,7 +509,19 @@ export default {
           res.data.positionList.length > 0
         ) {
           //回填岗位
-          this.positionListId = res.data.positionList[0].id
+          const selfPosition = res.data.positionList.filter((e) => e.type === 1)
+          const otherPosition = res.data.positionList.filter(
+            (e) => e.type !== 1
+          )
+          if (selfPosition.length > 0) {
+            this.positionListId = selfPosition[0].id
+          }
+          if (otherPosition.length > 0) {
+            this.otherPositionId = otherPosition
+              .map((e) => e.fullNameZh)
+              .join(',')
+          }
+          //this.positionListId = res.data.positionList[0].id
           // res.data.positionList.map(x=>{return this.positionList.push(x.id)})
         }
         this.formData = { ...res.data }
@@ -765,7 +779,7 @@ export default {
         this.formData.tagList.splice(index, 1)
       }
     },
-    getSpanMethod({ row, column, rowIndex, columnIndex }) {
+    getSpanMethod({ row, columnIndex }) {
       if (columnIndex === 0) {
         return {
           rowspan: row.rowspan,
