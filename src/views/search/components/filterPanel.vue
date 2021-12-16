@@ -47,7 +47,7 @@
                 {{item.value}}
                 </li>
               </ul>
-              <div style='height:20px'></div>
+              <div style='height:10px'></div>
           </div>
         </div>
     </div>
@@ -192,7 +192,7 @@ $input-height: 48px;
   }
 }
 .suaggestionContent{
-  top: 160px;
+  top: 176px;
   position:absolute;
   background: #fff;
   box-shadow:0 0  5px #dcdcdc;

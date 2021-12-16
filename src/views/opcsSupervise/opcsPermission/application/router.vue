@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 10:30:10
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-15 16:49:48
+ * @LastEditTime: 2021-12-16 17:53:54
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\router.vue
 -->
 
@@ -128,13 +128,13 @@ export default {
     margin-left: 17%;
     width: 82%;
     height: 88vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     transition: all 0.5s ease;
   }
   .sectionor {
     width: 95%;
         height: 88vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     margin-left: 6%;
     transition: all 0.5s ease;
   }
