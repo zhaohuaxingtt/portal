@@ -5,7 +5,6 @@
     @close="closeDialog"
     :show-close='false'
     :width="dialogWidth"
-    :height='dialogHeight'
     :class="{'black-style':detail.popupStyle == '2'}"
   >
       <div  :class="{'center-style':detail.popupStyle == '1','main':detail.popupStyle == '0','right-style':detail.popupStyle == '2',} ">
@@ -56,8 +55,7 @@ export default {
     },
     data(){
         return{
-            dialogHeight:'440px',
-            dialogWidth:400*(16/9)+'px'
+            dialogWidth: 400*(16/9)+'px'
         }
     },
     methods:{
@@ -97,7 +95,7 @@ export default {
     width: 100%;
     justify-content:space-between;
     .left{
-        width: 360px;
+        width: 36%;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -112,14 +110,25 @@ export default {
         position: relative;
         // display: flex;
         // flex-direction: column;
-        width: 400px;
+        width: 60%;
         height: 100%;
-        margin-left: 360px;
+        margin-left: 40%;
         top: -40px;
-        .content,
-        .btn{
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 110%;
+        }
+        .content{
             position: absolute;
-            bottom: 0px;
+            top: 70px;
+            width: 106%;
+            line-height: 24px;
+            max-height: 280px;
+            overflow: auto;
+            ::v-deep .el-textarea__inner{
+                padding: 0;
+            }
         }
         .publishTime{
             position: absolute;
@@ -132,21 +141,9 @@ export default {
                 font-size: 16px;
             }
         }
-        .right-title{
-            font-size: 20px;
-            font-weight: bold;
-            width: 110%;
-        }
-        .content{
+        .btn{
             position: absolute;
-            top: 70px;
-            width: 110%;
-            line-height: 24px;
-            max-height: 280px;
-            overflow: auto;
-            ::v-deep .el-textarea__inner{
-                padding: 0;
-            }
+            bottom: 0px;
         }
     }
 }
