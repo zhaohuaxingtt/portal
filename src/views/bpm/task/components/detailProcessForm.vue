@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-09 15:26:22
- * @LastEditTime: 2021-12-16 11:03:03
- * @LastEditors: caopeng
+ * @LastEditTime: 2021-12-06 12:00:33
+ * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: \front-portal-new\src\views\bpm\task\components\detailProcessForm.vue
+ * @FilePath: \front-portal\src\views\bpm\task\components\detailProcessForm.vue
 -->
 <template>
   <div ref="iframe" v-if="url" class="margin-bottom20">
@@ -13,8 +13,6 @@
         <el-tab-pane :name="2" label="MTZ Rules&Parts"></el-tab-pane>
     </iTabsList> -->
     <!-- v-show="tabsValue == 1" -->
-    <!-- src='http://localhost:8080/portal/#/changeOrder?mtzAppId=157821' -->
-
     <iframe
       :src="url"
       id="flowForm"
@@ -135,10 +133,8 @@ export default {
     if (this.formHeight) {
       this.frameHeight = this.formHeight
     }
-    let i=0
-    window.addEventListener('message', this.setHeight)
-         console.log( i=this.autoFrameHeight ? 111  : 222)
 
+    window.addEventListener('message', this.setHeight)
   },
   destroyed() {
     window.removeEventListener('message', this.setHeight)
@@ -167,7 +163,6 @@ export default {
           const data = e.data
           if (data.value && data.key === 'setFormHeight') {
             this.frameHeight = data.value
-             console.log(data)
           }
         } catch (error) {
           console.log('error', error)
@@ -193,7 +188,6 @@ export default {
             attributes: true,
             subtree: true
           })
-          console.log(this.autoFrameHeight)
         }
       })
     }

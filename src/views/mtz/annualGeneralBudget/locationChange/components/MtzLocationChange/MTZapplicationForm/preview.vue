@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:18:05
- * @LastEditTime: 2021-12-16 10:57:39
+ * @LastEditTime: 2021-12-16 11:25:54
  * @LastEditors: caopeng
  * @Description: In User Settings Edit
  * @FilePath: \front-portal-new\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\preview.vue
@@ -132,12 +132,7 @@ export default {
     iPagination,
     iTableCustom
   },
-   updated () {
-    var tbody = window.document.getElementById('appRouterView')
-    var height = tbody.clientHeight
-    console.log(height)
-    window.parent.postMessage({ key: 'setFormHeight', value: height + 'px' }, '*')
-  },
+
   created () {
     this.init()
      if (window.top === window.self) {
@@ -146,7 +141,11 @@ export default {
       this.ifSelf = false
     }
   },
- 
+    updated () {
+    var tbody = window.document.getElementById('appRouterView')
+    var height = tbody.clientHeight
+    window.parent.postMessage({ key: 'setFormHeight', value: height + 'px' }, '*')
+  },
   methods: {
     init () {
       this.formInline.mtzAppId = this.$route.query.mtzAppId
