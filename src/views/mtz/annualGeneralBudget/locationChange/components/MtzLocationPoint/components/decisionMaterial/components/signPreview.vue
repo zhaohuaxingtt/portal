@@ -141,7 +141,7 @@ import { ruleTableTitle1_1, partTableTitle1_1} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
 import { dataURLtoFile,transverseDownloadPDF } from "@/utils/pdf";
-import { exportAsPDF } from '@/utils/PDFExport';
+// import { exportAsPDF } from '@/utils/PDFExport';
 export default {
   mixins: [pageMixins],
   props:["m1"],
