@@ -53,7 +53,7 @@
 						<iButton @click="query">{{ language('查询') }}</iButton>
 						<iButton @click="reset">{{ language('重置') }}</iButton>
 					</el-form-item>
-        		</el-col>
+        </el-col>
 			</el-row>
 		</el-form>	
 	</div>
