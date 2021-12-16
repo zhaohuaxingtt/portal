@@ -787,7 +787,7 @@ export default {
         }
       }
     },
-    getSpanMethodRole({ row, column, rowIndex, columnIndex }) {
+    getSpanMethodRole({ row, columnIndex }) {
       if (columnIndex === 0) {
         return {
           rowspan: row.rowspan,
