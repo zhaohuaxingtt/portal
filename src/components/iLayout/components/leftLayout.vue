@@ -180,9 +180,10 @@ export default {
               activeMenu.url.indexOf('http') !== -1 ||
               activeMenu.url.indexOf('https') !== -1
             ) {
-              activeMenu.target
+              location.href = activeMenu.url
+              /* activeMenu.target
                 ? window.open(activeMenu.url)
-                : (location.href = activeMenu.url)
+                : (location.href = activeMenu.url) */
             }
             this.hideSideMenu()
           }
