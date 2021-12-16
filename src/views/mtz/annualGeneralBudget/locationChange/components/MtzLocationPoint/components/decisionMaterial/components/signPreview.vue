@@ -5,6 +5,8 @@
  * @LastEditors: Please set LastEditors
  * @Description: 会外流转单pdf预览
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signPreview.vue
+  tabsBoxWrap打印div
+  tabsBoxTitle打印页眉
 -->
 <template>
   <div style="padding-bottom:30px;">
@@ -13,7 +15,7 @@
     </span>
     <div id="content">
       <div class="content_dialog" v-if="m1&&(formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
-      <iCard class="upload_hr">
+      <iCard class="upload_hr" id="tabsBoxTitle">
         <div slot="header" class="headBox">
           <p class="headTitle">{{title}}</p>
           <div class="tabs_box_right">
@@ -34,7 +36,6 @@
             </div>
           </div>
         </div>
-        <!-- label -->
         <el-divider class="hr_divider" />
         <div class="infor_futitle">
           <span class="big_font">Regulation:</span>
@@ -42,16 +43,6 @@
           <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material Weight*Settle accounts Quantity*Ratio</span>
           <span class="big_small">When:effective price > base price *(1+threshold)</span>
         </div>
-        <!-- <div class="tabsBoxInfor">
-          <div class="inforDiv"
-              v-for="(item,index) in formList"
-              :key="index">
-            <span>{{language(item.key,item.label)}}</span>
-            <span
-                  class="inforText"
-                  >{{formData[item.prop]}}</span>
-          </div>
-        </div> -->
         <el-divider v-if="ruleTableListData.length>0" />
         <p class="tableTitle" v-if="ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
         <tableList
@@ -74,21 +65,6 @@
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
         </tableList>
-        <!-- <tableList
-          class="margin-top20"
-          :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1_2"
-          v-if="ruleTableListData.length>0"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-          <template slot-scope="scope" slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-        </tableList> -->
 
         <el-divider class="margin-top20" v-if="partTableListData.length>0" />
         <p class="tableTitle" v-if="partTableListData.length>0">{{language('LJQD', '零件清单')}}-Part List</p>
@@ -109,18 +85,6 @@
               <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
             </template>
         </tableList>
-        <!-- <tableList
-          class="margin-top20"
-          :tableData="partTableListData"
-          :tableTitle="partTableTitle1_2"
-          v-if="partTableListData.length>0"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-        </tableList> -->
       
       </iCard>
       <iCard class="margin-top20">
@@ -176,9 +140,8 @@ import tableList from '@/components/commonTable/index.vue'
 import { ruleTableTitle1_1, partTableTitle1_1} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-// import { downloadPdfMixins } from '@/utils/pdf';
-import { downloadPDF, dataURLtoFile,transverseDownloadPDF } from "@/utils/pdf";
-import { downloadFileByUrl} from '@/utils';
+import { dataURLtoFile,transverseDownloadPDF } from "@/utils/pdf";
+import { exportAsPDF } from '@/utils/PDFExport';
 export default {
   mixins: [pageMixins],
   props:["m1"],
@@ -382,8 +345,11 @@ export default {
       } else {
         name = this.title;
       }
+      // let container = this.$el.querySelector('#content');
+      // exportAsPDF(container, 'demo');
       transverseDownloadPDF({
         idEle: 'content',
+        title:['#tabsBoxTitle','.cardHeader'],
         pdfName: name,
         exportPdf: true,
         waterMark: true,
