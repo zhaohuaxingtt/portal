@@ -239,6 +239,7 @@
       :openAddTopic="openAddTopic"
       @closeDialog="closeDialog"
       :topicInfo="topicInfo"
+      :isMeetingShow="true"
     />
   </iPage>
 </template>
