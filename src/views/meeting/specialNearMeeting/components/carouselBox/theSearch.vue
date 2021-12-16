@@ -17,7 +17,7 @@
             ></iInput>
           </el-form-item>
           <!--会议类型-->
-          <el-form-item :label="'会议类型'">
+          <el-form-item :label="$t('会议类型')">
             <iSelect
               :placeholder="$t('LK_QINGXUANZE')"
               v-model="form.meetingTypeId"

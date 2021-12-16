@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 09:52:17
- * @LastEditors: caopeng
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
@@ -121,6 +121,7 @@
     <addSupplierDialog :areaList="formGroup.areaList"
                        @creatSupplier="creatSupplier"
                        v-model="addNodeDialog"
+                       :niterFlag="niterFlag"
                        :node="node" />
     <!-- 双击-- 编辑供应商信息 -->
     <supplierInfoDialog @modifyNode="modifyNode"
@@ -241,7 +242,8 @@ export default {
           { required: true, message: '请选择', trigger: 'blur' },
         ],
       },
-      outboxHeight: 0
+      outboxHeight: 0,
+      niterFlag: false
     }
   },
   mounted () {
@@ -344,6 +346,7 @@ export default {
     },
 
     addNode (node) {
+      this.niterFlag = true
       this.node = node
       this.addNodeDialog = true;
     },
@@ -363,10 +366,12 @@ export default {
     levelChanged (sourceId, level) {
     },
     deleteNode (node) {
+      this.niterFlag = true
       this.node = node
       this.showDeleteDialog = true;
     },
     doRemoveNode () {
+
       this.$refs.delete.validate(async (valid) => {
         if (valid) {
           const pms = {
@@ -376,7 +381,12 @@ export default {
           const res = await deleteNode(pms)
           this.resultMessage(res, () => {
             this.showDeleteDialog = false;
-            this.$parent.$children[0].getTableList()
+            if (this.niterFlag) {
+              this.getCardChain()
+            } else {
+              this.$parent.$children[0].getTableList()
+            }
+
           })
         }
       })

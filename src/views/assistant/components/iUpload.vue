@@ -180,7 +180,7 @@
                 }
             },
             handleExceed(files, fileList) {
-                this.$message.warning(`您好，上传附件只能上传5个文件,本次选择了 ${files.length} 个文件,共选择了 ${files.length + fileList.length} 个文件`)
+                this.$message.warning(`您好，上传附件只能上传${this.limit}个文件,本次选择了 ${files.length} 个文件,共选择了 ${files.length + fileList.length} 个文件`)
             }
         }
     }

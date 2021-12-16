@@ -202,7 +202,7 @@ export default {
     background: #151316;
     justify-content:space-between;
     .left{
-        width: 360px;
+        width: 36%;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -217,12 +217,14 @@ export default {
         position: relative;
         // display: flex;
         // flex-direction: column;
-        width: 400px;
+        width: 60%;
         top: -40px;
         height: 100%;
-        margin-left: 360px;
-        >h2{
-            color: #FFFFFF;
+        margin-left: 40%;
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 110%;
         }
         .content,
         .btn{
@@ -248,7 +250,7 @@ export default {
         .content{
             position: absolute;
             top: 70px;
-            width: 110%;
+            width: 106%;
             color: #888888;
             line-height: 24px;
             max-height: 280px;

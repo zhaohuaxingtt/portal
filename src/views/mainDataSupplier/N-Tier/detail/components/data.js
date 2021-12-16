@@ -56,6 +56,34 @@ export const supplierDirectoryTableTitle = [
         trigger: 'blur'
       }
     ]
+  },
+  {
+    props: 'userName',
+    name: '用户登录名'
+  },
+  {
+    props: 'status',
+    name: '是否有效',
+    customRender: (j, scope) => {
+      return scope.row.status ? '是' : '否'
+    }
+  },
+  {
+    props: 'isExpired',
+    name: '是否超期',
+    customRender: (j, scope) => {
+      return scope.row.isExpired ? '是' : '否'
+    }
+  },
+  {
+    props: 'expireDate',
+    name: '超期时间',
+    width: 150
+  },
+  {
+    props: 'lastLoginDate',
+    name: '登录RiSE系统时间',
+    width: 160
   }
 ]
 export const tableTitle = [
@@ -225,6 +253,35 @@ export const CONTACTS_VIEW_SETTINGS = [
   },
   {
     prop: 'email',
-    i18n: '电子邮件'
+    i18n: '电子邮件',
+    minWidth: 150
+  },
+  {
+    prop: 'userName',
+    i18n: '用户登录名'
+  },
+  {
+    prop: 'status',
+    i18n: '是否有效',
+    customRender: (j, scope) => {
+      return scope.row.status ? '是' : '否'
+    }
+  },
+  {
+    prop: 'isExpired',
+    i18n: '是否超期',
+    customRender: (j, scope) => {
+      return scope.row.isExpired ? '是' : '否'
+    }
+  },
+  {
+    prop: 'expireDate',
+    i18n: '超期时间',
+    width: 140
+  },
+  {
+    prop: 'expireDate',
+    i18n: '登录RiSE系统时间',
+    width: 160
   }
 ]

@@ -13,33 +13,33 @@
           <div>
             <img :src="data.coverImage" alt="" class="cover-image" />
             <div class="left-descript-box">
-              <p class="desc-title">会议信息描述</p>
+              <p class="desc-title">{{$t('会议信息描述')}}</p>
               <p class="desc">{{ data.meetingInfoDesc }}</p>
             </div>
           </div>
           <div class="meeting-name">
-            <p>类型名称</p>
+            <p>{{$t('类型名称')}}</p>
             <p>{{ data.name }}</p>
-            <p>会议名称后缀</p>
+            <p>{{$t('会议名称后缀')}}</p>
             <p>{{ data.meetingNameSuffix }}</p>
-            <p>所属分类</p>
+            <p>{{$t('所属分类')}}</p>
             <p>{{ categoryObj[data.category] }}</p>
-            <p>会议管理员</p>
+            <p>{{$t('会议管理员')}}</p>
             <p>{{ data.userNames }}</p>
           </div>
         </div>
       </div>
       <div class="right-msg">
-        <p>议题时长</p>
+        <p>{{$t('议题时长')}}</p>
         <p>
           <span>{{ data.duration }}</span
-          >分钟
+          >{{$t('分钟')}}
         </p>
         <div class="msg-box">
-          <span>是否触发审批</span>
+          <span>{{$t('是否触发审批')}}</span>
           <p>{{ data.isTriggerApproval ? "是" : "否" }}</p>
         </div>
-        <p>审批流程</p>
+        <p>{{$t('审批流程')}}</p>
         <p>{{ approvalProcessName }}</p>
       </div>
     </div>

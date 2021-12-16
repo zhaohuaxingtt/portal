@@ -586,7 +586,8 @@ import {
   importThemen
 } from '@/api/meeting/home'
 import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
-import { download } from '@/utils/downloadUtil'
+// import { download } from '@/utils/downloadUtil'
+import { downloadStaticFile } from '@/utils/downloadStaticFileUtil'
 import enclosure from '@/assets/images/enclosure.svg'
 
 export default {
@@ -709,7 +710,7 @@ export default {
     },
     // 下载模版
     downDemo() {
-      download({
+      downloadStaticFile({
         url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
         filename: '议题模版',
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
