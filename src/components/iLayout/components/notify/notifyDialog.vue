@@ -113,7 +113,7 @@ export default {
     width: 100%;
     justify-content:space-between;
     .left{
-        width: 360px;
+        width:36%;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -128,11 +128,10 @@ export default {
         position: relative;
         // display: flex;
         // flex-direction: column;
-        width:400px;
+        width:60%;
         height: 100%;
-        margin-left: 360px;
+        margin-left:40%x;
         top: -40px;
-        .content,
         .btn{
             position: absolute;
             bottom: 0;
@@ -156,7 +155,7 @@ export default {
         .content{
             position: absolute;
             top: 70px;
-            width: 110%;
+            width: 106%;
             line-height: 24px;
             max-height: 280px;
             overflow: auto;
