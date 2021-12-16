@@ -201,7 +201,7 @@ export default {
           ...this.searchForm,
           pageNo:this.page.currPage,
           pageSize:this.page.pageSize,
-          mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+          // mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
       }).then(res=>{
         if(res.code == 200){
           this.tableData = res.data;

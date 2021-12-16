@@ -721,6 +721,7 @@ import {
 } from '@/api/meeting/home'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
 import { download } from '@/utils/downloadUtil'
+import { downloadStaticFile } from '@/utils/downloadStaticFileUtil'
 import enclosure from '@/assets/images/enclosure.svg'
 import beginVedio from '@/assets/images/meeting-home/beginVedio.svg'
 import closeVedio from '@/assets/images/meeting-home/close-vedio.svg'
@@ -1134,7 +1135,7 @@ export default {
     },
     // 下载模版
     downDemo() {
-      download({
+      downloadStaticFile({
         noFileUd: true,
         url: '/meetingApi/meetingService/downloadThemenImportTemplate',
         filename: '议题模版',

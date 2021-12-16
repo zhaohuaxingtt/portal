@@ -1,7 +1,7 @@
 <template>
-  <iPage>
+  <div>
     <pageHeader class="margin-bottom20">
-      <span>{{ this.form.id ? '编辑' : '新增' }}岗位代理</span>
+      <span>岗位代理明细</span>
     </pageHeader>
     <iCard>
       <iSteps :active="active" align-center>
@@ -47,7 +47,7 @@
                     </span>
                   </span>
                 </div>
-                <iInput placeholder="" v-model="form.positionId" readonly>
+                <iInput placeholder="" v-model="form.positionId" disabled>
                   <template slot="suffix">
                     <span @click="handleOpenChoosePositionDialog" disabled>
                       <icon symbol name="icontianjia" />
@@ -94,12 +94,6 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <div style="text-align: right">
-              <iButton @click="handleSubmit" :disabled="!canEdit">提交</iButton>
-              <iButton @click="saveSubmit" :disabled="!canEdit">保存</iButton>
-            </div>
-          </el-col>
         </el-row>
       </el-form>
     </iCard>
@@ -113,20 +107,11 @@
       @success="handleChoosePositionSuccess"
       @close="dialogChoosePositionVisible = false"
     />
-  </iPage>
+  </div>
 </template>
 
 <script>
-import {
-  iButton,
-  iCard,
-  Icon,
-  iDatePicker,
-  iFormItem,
-  iInput,
-  iPage,
-  iMessage
-} from 'rise'
+import { iCard, Icon, iDatePicker, iFormItem, iInput, iMessage } from 'rise'
 // import { addPositionAgent } from "@/views/position/agent/apply";
 import iSteps from '@/components/iSteps'
 import iStep from '@/components/iStep'
@@ -141,13 +126,11 @@ export default {
   name: 'PositionAgentApply',
   components: {
     iCard,
-    iPage,
     Icon,
     iSteps,
     iStep,
     iFormItem,
     iInput,
-    iButton,
     choosePosition,
     iDatePicker,
     pageHeader
@@ -281,8 +264,7 @@ export default {
           }
           let param = {
             ...this.form,
-            type: 3,
-            sourceId: this.$store.state.permission.userInfo.positionDTO.id
+            type: 3
           }
           if (param.positionList && param.positionList.length > 0) {
             param.positionId = param.positionList[0].positionId
@@ -330,8 +312,7 @@ export default {
       }
       let param = {
         ...this.form,
-        type: 3,
-        sourceId: this.$store.state.permission.userInfo.positionDTO.id
+        type: 3
       }
       this.loading = true
       applyPositionAgent(param)

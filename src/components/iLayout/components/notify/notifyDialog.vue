@@ -130,7 +130,7 @@ export default {
         // flex-direction: column;
         width:60%;
         height: 100%;
-        margin-left:40%x;
+        margin-left:40%;
         top: -40px;
         .btn{
             position: absolute;
@@ -220,7 +220,7 @@ export default {
     background: #151316;
     justify-content:space-between;
     .left{
-        width: 360px;
+        width: 36%;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -235,12 +235,14 @@ export default {
         position: relative;
         // display: flex;
         // flex-direction: column;
-        width: 400px;
+        width: 60%;
         height: 100%;
-        margin-left: 360px;
+        margin-left: 40%;
         top: -40px;
-        >h2{
-            color: #FFFFFF;
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 110%;
         }
         .content,
         .btn{

@@ -54,7 +54,7 @@
           Sourcing Buyer
         </div>
         <div class="right">
-          {{ topicInfo.supporterEn }}
+          {{ topicInfo.supporter }}
         </div>
       </li>
 
@@ -62,7 +62,7 @@
       <li class="info-row">
         <div class="left">Linie Buyer</div>
         <div class="right">
-          {{ topicInfo.presenterEn }}
+          {{ topicInfo.presenter }}
         </div>
       </li>
       

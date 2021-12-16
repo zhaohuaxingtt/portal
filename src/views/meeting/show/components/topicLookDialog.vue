@@ -51,7 +51,7 @@
       <li class="info-row">
         <div class="left">Sourcing Buyer</div>
         <div class="right">
-          {{ topicInfo.supporterEn }}
+          {{ isMeetingShow?topicInfo.supporterEn:topicInfo.supporter }}
         </div>
       </li>
 
@@ -59,7 +59,7 @@
       <li class="info-row">
         <div class="left">Linie Buyer</div>
         <div class="right">
-          {{ topicInfo.presenterEn }}
+          {{ isMeetingShow?topicInfo.presenterEn:topicInfo.presenter }}
         </div>
       </li>
 
@@ -126,6 +126,10 @@ export default {
     },
     isGetInfoById: {
       type: Boolean,
+      default: false
+    },
+    isMeetingShow:{
+       type: Boolean,
       default: false
     }
   },
@@ -218,6 +222,7 @@ export default {
   //   }
   // },
   mounted() {
+    console.log("")
     if (this.isGetInfoById) {
       const presenterName = this.topicInfo.presenter
       const supporterName = this.topicInfo.supporter
