@@ -248,7 +248,6 @@ export default {
       })
     },
     rulesClick(){
-      if(!this.RsObject) return false;
       if(this.clickRulesNumber == 0){
         this.loadingPart = true;
         var list = {
