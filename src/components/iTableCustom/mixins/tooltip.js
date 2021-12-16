@@ -4,20 +4,30 @@ export default {
 
     customMouseenter($event) {
       const ele = $event.toElement
-
       const clientWidth = ele.clientWidth
       const scrollWidth = ele.scrollWidth
       if (clientWidth < scrollWidth) {
         this.tooltipContent = ele.innerText || ele.textContent
-        const tooltip = this.$refs.customTableTooltip
-        tooltip.referenceElm = ele
-        tooltip.show()
+        if (this.tooltipContent) {
+          this.$nextTick(() => {
+            const tooltip = this.$refs.customTableTooltip
+            tooltip.referenceElm = ele
+
+            if (tooltip.referenceElm === ele) {
+              tooltip.handleFocus()
+            }
+          })
+        }
       }
     },
     customMouseleave() {
+      this.hideTooltip()
+    },
+    hideTooltip() {
       const tooltip = this.$refs.customTableTooltip
       if (tooltip) {
-        tooltip.hide()
+        this.tooltipContent = ''
+        tooltip.handleBlur()
       }
     }
     /******************气泡框 end****************** */
