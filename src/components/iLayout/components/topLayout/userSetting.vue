@@ -164,12 +164,14 @@ export default {
       if (!menu.url) {
         iMessage.success('coming soon')
       } else if (menu?.url.indexOf('http') !== -1) {
-        if (menu.target !== '_blank') {
+        this.$emit('click-menu')
+        location.href = menu.url
+        /* if (menu.target !== '_blank') {
           this.$emit('click-menu')
           location.href = menu.url
         } else {
           window.open(menu.url)
-        }
+        } */
       } else {
         if (this.$route.path !== menu.url) {
           this.$emit('click-menu')
