@@ -168,7 +168,7 @@
                 :rules="
                   ruleForm.category != '03'
                     ? rules.meetingAttributeNoRequired
-                    : ''
+                    : rules.meetingAttribute
                 "
               >
                 <iLabel
@@ -196,11 +196,12 @@
                 label="会议结论配置"
                 :hideRequiredAsterisk="true"
                 class="item conclusion-config"
+                prop="conclusionConfig"
               >
                 <iLabel
                   :label="$t('会议结论配置')"
                   slot="label"
-                  :required="ruleForm.category != '01'"
+                  required
                 ></iLabel>
                 <iSelect
                   class="autoSearch"
@@ -266,7 +267,7 @@
                 </el-col>
               </iFormItem>
             </div>
-            <div class="form-row" v-if="ruleForm.category != '01'">
+            <div class="form-row" v-show="ruleForm.category != '01'">
               <iFormItem
                 label="关联关系"
                 prop="incidenceRelation"
@@ -323,7 +324,7 @@
                 </div>
               </iFormItem>
             </div>
-            <div class="form-row" v-if="ruleForm.category == '01'">
+            <div class="form-row" v-show="ruleForm.category == '01'">
               <iFormItem
                 label="会议上下限金额"
                 :hideRequiredAsterisk="true"
@@ -357,17 +358,9 @@
                 label="关联关系"
                 :hideRequiredAsterisk="true"
                 class="item"
-                :rules="
-                  ruleForm.category == '03'
-                    ? rules.incidenceRelationRule
-                    : rules.incidenceRelationRuleNoRequired
-                "
+                :rules="rules.incidenceRelationRuleNoRequired"
               >
-                <iLabel
-                  :label="$t('关联关系')"
-                  slot="label"
-                  :required="ruleForm.category == '03'"
-                ></iLabel>
+                <iLabel :label="$t('关联关系')" slot="label"></iLabel>
                 <iSelect
                   class="autoSearch"
                   v-model="ruleForm.incidenceRelation"
@@ -661,17 +654,20 @@ export default {
     }
     const validateIncidenceRelation = (rule, value, callback) => {
       console.log('value', value)
-      if (!value) {
-        callback(new Error('必选'))
-        return
-      }
-      if (typeof value === 'object' && value.length === 0) {
+      if (value.length === 0) {
         callback(new Error('必选'))
         return
       }
       callback()
     }
     const validateIncidenceRelationNoRequired = (rule, value, callback) => {
+      callback()
+    }
+    const validateConclusionConfig = (rule, value, callback) => {
+      if (value.length === 0) {
+        callback(new Error('必选'))
+        return
+      }
       callback()
     }
     return {
@@ -689,6 +685,12 @@ export default {
       ],
 
       rules: {
+        conclusionConfig: [
+          {
+            validator: validateConclusionConfig,
+            trigger: ['blur', 'change']
+          }
+        ],
         incidenceRelationRule: [
           { validator: validateIncidenceRelation, trigger: ['blur', 'change'] }
         ],
@@ -734,9 +736,7 @@ export default {
         meetingAttribute: [
           { required: true, message: '必选', trigger: ['blur', 'change'] }
         ],
-        meetingAttributeNoRequired: [
-          // { required: false, message: '必选', trigger: ['blur', 'change'] }
-        ],
+        meetingAttributeNoRequired: [{}],
         duration: [
           { required: true, message: '必填', trigger: ['blur', 'change'] },
           {
@@ -784,7 +784,9 @@ export default {
         isTriggerApproval: [
           { required: true, message: '必选', trigger: ['blur', 'change'] }
         ],
-        userIds: [{ required: true, message: '必选', trigger: ['blur'] }],
+        userIds: [
+          { required: true, message: '必选', trigger: ['blur', 'change'] }
+        ],
         category: [
           { required: true, message: '必选', trigger: ['blur', 'change'] }
         ]
@@ -801,9 +803,9 @@ export default {
         approvalProcessName: '',
         category: '01',
         meetingAttribute: '',
-        incidenceRelation: '',
-        conclusionConfig: '',
-        userIds: '',
+        incidenceRelation: [],
+        conclusionConfig: [],
+        userIds: [],
         lowerLimitMoney: '',
         upperLimitMoney: ''
       },
@@ -1025,9 +1027,18 @@ export default {
       })
     },
     selectChanged() {
-      this.ruleForm.conclusionConfig = ''
-      this.ruleForm.incidenceRelation = ''
-      this.hiddenErrorCss('incidate-relation')
+      this.ruleForm.conclusionConfig = []
+      this.ruleForm.incidenceRelation = []
+      this.$nextTick(() => {
+        this.$refs['ruleForm'].validate()
+      })
+      // this.$nextTick(() => {
+      //   this.validateSelect('conclusion-config', this.ruleForm.conclusionConfig)
+      //   this.validateSelect(
+      //     'incidate-relation',
+      //     this.ruleForm.incidenceRelation
+      //   )
+      // })
     },
     async queryEdit(userIdsArr) {
       const res = await getUsers({ userIdList: [...userIdsArr] })
@@ -1110,53 +1121,53 @@ export default {
       }
     },
     handleSubmit() {
-      this.$refs['ruleForm'].validate()
-      if (this.ruleForm.category !== '01') {
-        let bol2 = true
-        let bol1 = this.validateSelect(
-          'conclusion-config',
-          this.ruleForm.conclusionConfig
-        )
-        if (this.ruleForm.category === '03') {
-          bol2 = this.validateSelect(
-            'incidate-relation',
-            this.ruleForm.incidenceRelation
-          )
-        }
-        if (!bol1 || !bol2) {
-          return
-        }
-        // if
-        //   !this.ruleForm.conclusionConfig ||
-        //   this.ruleForm.conclusionConfig.length === 0
-        // ) {
-        //   let curErrorNode = document.querySelector(
-        //     '.conclusion-config>.el-form-item__content>.el-form-item__error'
-        //   )
-        //   if (!curErrorNode) {
-        //     let errorNode = document
-        //       .querySelector('.error-node>.el-form-item__error')
-        //       .cloneNode(true)
-        //     document
-        //       .querySelector('.conclusion-config>.el-form-item__content')
-        //       .appendChild(errorNode)
-        //     document.querySelector(
-        //       '.conclusion-config .el-input__inner'
-        //     ).style.borderColor = '#EF3737'
-        //   }
-        //   return
-        // } else {
-        //   let errorNode = document.querySelector(
-        //     '.conclusion-config>.el-form-item__content>.el-form-item__error'
-        //   )
-        //   if (errorNode) {
-        //     errorNode.remove()
-        //   }
-        //   document.querySelector(
-        //     '.conclusion-config .el-input__inner'
-        //   ).style.borderColor = 'transparent'
-        // }
-      }
+      // this.$refs['ruleForm'].validate()
+      // if (this.ruleForm.category !== '01') {
+      //   let bol2 = true
+      //   let bol1 = this.validateSelect(
+      //     'conclusion-config',
+      //     this.ruleForm.conclusionConfig
+      //   )
+      //   if (this.ruleForm.category === '03') {
+      //     bol2 = this.validateSelect(
+      //       'incidate-relation',
+      //       this.ruleForm.incidenceRelation
+      //     )
+      //   }
+      //   if (!bol1 || !bol2) {
+      //     return
+      //   }
+      // if
+      //   !this.ruleForm.conclusionConfig ||
+      //   this.ruleForm.conclusionConfig.length === 0
+      // ) {
+      //   let curErrorNode = document.querySelector(
+      //     '.conclusion-config>.el-form-item__content>.el-form-item__error'
+      //   )
+      //   if (!curErrorNode) {
+      //     let errorNode = document
+      //       .querySelector('.error-node>.el-form-item__error')
+      //       .cloneNode(true)
+      //     document
+      //       .querySelector('.conclusion-config>.el-form-item__content')
+      //       .appendChild(errorNode)
+      //     document.querySelector(
+      //       '.conclusion-config .el-input__inner'
+      //     ).style.borderColor = '#EF3737'
+      //   }
+      //   return
+      // } else {
+      //   let errorNode = document.querySelector(
+      //     '.conclusion-config>.el-form-item__content>.el-form-item__error'
+      //   )
+      //   if (errorNode) {
+      //     errorNode.remove()
+      //   }
+      //   document.querySelector(
+      //     '.conclusion-config .el-input__inner'
+      //   ).style.borderColor = 'transparent'
+      // }
+      //}
       // this.$confirm("是否保存该 会议类型?", "提示", {
       //   confirmButtonText: "是",
       //   cancelButtonText: "否",
