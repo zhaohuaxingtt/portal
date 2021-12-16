@@ -24,6 +24,21 @@
         ]"
         :index="true"
       >
+        <template #userName="scope">
+          {{ scope.row.userName }}
+        </template>
+        <template #status="scope">
+          {{ scope.row.status ? '是' : '否' }}
+        </template>
+        <template #isExpired="scope">
+          {{ scope.row.isExpired ? '是' : '否' }}
+        </template>
+        <template #expireDate="scope">
+          {{ scope.row.expireDate }}
+        </template>
+        <template #lastLoginDate="scope">
+          {{ scope.row.lastLoginDate }}
+        </template>
       </table-list>
     </div>
 
