@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">会议类型管理</div>
+    <div class="header">{{ $t('会议类型管理') }}</div>
     <searchForm @search="search" />
     <iCard>
       <actionButtons
@@ -25,9 +25,12 @@
           type="index"
           width="68"
           align="center"
-          label="序号"
+          :label="$t('序号')"
         ></el-table-column>
-        <el-table-column show-overflow-tooltip align="left" label="类型名称"
+        <el-table-column
+          show-overflow-tooltip
+          align="left"
+          :label="$t('类型名称')"
           ><template slot-scope="scope">
             <span
               :class="'open-link-text cursor'"
@@ -36,7 +39,11 @@
             >
           </template></el-table-column
         >
-        <el-table-column show-overflow-tooltip align="left" label="会议管理员">
+        <el-table-column
+          show-overflow-tooltip
+          align="left"
+          :label="$t('会议管理员')"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.userNames }}</span>
           </template>
@@ -44,7 +51,7 @@
         <el-table-column
           show-overflow-tooltip
           align="left"
-          label="会议信息描述"
+          :label="$t('会议信息描述')"
         >
           <template slot-scope="scope">
             <span>{{ scope.row.meetingInfoDesc }}</span>
@@ -53,18 +60,25 @@
         <el-table-column
           show-overflow-tooltip
           align="left"
-          label="生成会议名称后缀"
+          :label="$t('生成会议名称后缀')"
         >
           <template slot-scope="scope">
             <span>{{ scope.row.meetingNameSuffix }}</span>
           </template>
         </el-table-column>
-        <el-table-column show-overflow-tooltip align="left" label="所属分类">
+        <el-table-column
+          show-overflow-tooltip
+          align="left"
+          :label="$t('所属分类')"
+        >
           <template slot-scope="scope">
             <span>{{ categoryObj[scope.row.category] }}</span>
           </template>
         </el-table-column>
-        <el-table-column show-overflow-tooltip width="163" label="默认议题时长"
+        <el-table-column
+          show-overflow-tooltip
+          width="163"
+          :label="$t('默认议题时长')"
           ><template slot-scope="scope">
             <span>{{ scope.row.duration }}</span>
           </template></el-table-column
@@ -72,7 +86,7 @@
         <el-table-column
           show-overflow-tooltip
           width="163"
-          label="是否触发审批流"
+          :label="$t('是否触发审批流')"
           ><template slot-scope="scope">
             <span>{{ scope.row.isTriggerApproval ? '是' : '否' }}</span>
           </template></el-table-column
@@ -86,8 +100,8 @@
         :current-page="page.currPage"
         :page-size="page.pageSize"
         layout="prev, pager, next, jumper"
-        prev-text="上一页"
-        next-text="下一页"
+        :prev-text="$t('上一页')"
+        :next-text="$t('下一页')"
         :total="page.totalCount"
       />
     </iCard>

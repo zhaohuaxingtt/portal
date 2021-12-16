@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-09 16:07:07
+ * @LastEditTime: 2021-12-16 16:23:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -285,18 +285,6 @@ export default {
       this.tableData.push(obj)
       this.$refs.approveTable.toggleRowSelection(this.tableData[this.tableData.length - 1], true)
     },
-    // selectDept () {
-    //   selectDept({}).then((res) => {
-    //     if (res?.code === '200') {
-    //       this.selectDeptList = res.data
-    //     }
-    //   })
-    // },
-    // selectSection (id) {
-    //   selectSection({ deptId: id }).then((res) => {
-    //     this.selectSectionList = res.data
-    //   })
-    // },
     getAppFormInfo () {
       getAppFormInfo({
         isDeptLead: true,

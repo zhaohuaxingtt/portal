@@ -79,7 +79,7 @@
         </div>
         <div class="row-choice" v-show="editOrAdd !== 'look'">
           <iFormItem
-            label="选择会议"
+            :label="$t('选择会议')"
             prop="meeting"
             :hideRequiredAsterisk="true"
           >

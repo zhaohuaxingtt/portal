@@ -15,9 +15,9 @@
     <!-- RsObject?mtz决策资料:导出 -->
     <div ref="qrCodeDiv"
          id="qrCodeDiv"
+           @click="rulesClick()"
          style="padding-bottom:30px;position:relative;"
         >
-         <!-- @click="rulesClick()" -->
       <div class="content_dialog" v-if="!RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
       <iCard class='upload_hr'>
       <!-- <iCard :class="!RsObject?'upload_hr':''"> -->
@@ -65,10 +65,11 @@
            v-if="!RsObject && ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
         <!-- highlight-current-row -->
         <tableList class="margin-top20"
+                    ref="moviesTable"
                    :tableData="ruleTableListData"
                    :tableTitle="ruleTableTitle1_1"
-                   @handleCurrentChange="handleCurrentChangeTable()"
-                   :tableLoading="loading"
+                   @handleClickRow="handleCurrentChangeTable"
+                   :tableLoading="loadingRule"
                    :index="true"
                    v-if="RsObject"
                    :selection="false"
@@ -89,10 +90,9 @@
         </tableList>
         <!-- 导出规则表格 -->
         <tableList class="margin-top20"
-                    ref="moviesTable"
                    :tableData="ruleTableListData"
                    :tableTitle="ruleTableTitle1_1"
-                   :tableLoading="loading"
+                   :tableLoading="loadingRule"
                    v-if="!RsObject && ruleTableListData.length>0"
                    :index="true"
                    :selection="false"
@@ -118,7 +118,7 @@
         <tableList class="margin-top20 over_flow_y_ture"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_1"
-                   :tableLoading="loading"
+                   :tableLoading="loadingPart"
                    v-if="RsObject"
                    :index="true"
                    :selection="false"
@@ -141,7 +141,7 @@
         <tableList class="margin-top20"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_1"
-                   :tableLoading="loading"
+                   :tableLoading="loadingPart"
                    v-if="!RsObject && partTableListData.length>0"
                    :index="true"
                    :selection="false"
@@ -239,19 +239,9 @@ export default {
       ruleTableTitle1_1,
       partTableTitle1_1,
       ruleTableListData: [],
-      rulePageParams: {
-        totalCount: 0,
-        currPage: 1,
-        pageSizes: 10,
-        layout: 'sizes, prev, pager, next, jumper',
-      },
       partTableListData: [],
-      partPageParams: {
-        totalCount: 0,
-        currPage: 1,
-        pageSizes: 10,
-        layout: 'sizes, prev, pager, next, jumper',
-      },
+      loadingRule:false,
+      loadingPart:false,
       applayDateData: [],
       RsObject: true,
       moment: window.moment,
@@ -303,21 +293,40 @@ export default {
     },
   },
   methods: {
-    // handleCurrentChangeTable(){
-    //   this.clickRulesNumber = 1;
-    //   // console.log(val)
-    //   iMessage.success("点击了某条规则")
-
-    //   setTimeout(() => {
-    //     this.clickRulesNumber = 0;
-    //     this.$refs.moviesTable.$children[0].$children[0].clearSelection();
-    //   }, 200);
-    // },
-    // rulesClick(){
-    //   if(this.clickRulesNumber == 0){
-    //     iMessage.success("选择了全部规则")
-    //   }
-    // },
+    handleCurrentChangeTable(e){
+      this.clickRulesNumber = 1;
+      this.loadingPart = true;
+      var list = {
+        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+        pageNo: 1,
+        pageSize: 99999,
+        ruleNo:e.ruleNo,
+      }
+      pagePartMasterData(list).then(res => {
+        if (res && res.code == 200) {
+          this.partTableListData = res.data
+          this.clickRulesNumber = 0;
+          this.loadingPart = false;
+        } else iMessage.error(res.desZh)
+      })
+    },
+    rulesClick(){
+      if(!this.RsObject) return false;
+      if(this.clickRulesNumber == 0){
+        this.loadingPart = true;
+        var list = {
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          pageNo: 1,
+          pageSize: 99999,
+        }
+        pagePartMasterData(list).then(res => {
+          if (res && res.code == 200) {
+            this.partTableListData = res.data
+            this.loadingPart = false;
+          } else iMessage.error(res.desZh)
+        })
+      }
+    },
     downPdf () {
       var name = "";
       if (this.title == "") {
@@ -362,8 +371,6 @@ export default {
         if (res && res.code == 200) {
           this.formData = res.data
 
-
-
           if(this.formData.flowType == "SIGN"){
             if(this.meetingNumber == 0){
               if(this.RsObject){
@@ -393,8 +400,6 @@ export default {
       pageAppRule(list).then(res => {
         if (res && res.code == 200) {
           this.ruleTableListData = res.data
-
-          this.rulePageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
       })
     },
@@ -411,8 +416,6 @@ export default {
       pagePartMasterData(list).then(res => {
         if (res && res.code == 200) {
           this.partTableListData = res.data
-
-          this.partPageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
       })
     },

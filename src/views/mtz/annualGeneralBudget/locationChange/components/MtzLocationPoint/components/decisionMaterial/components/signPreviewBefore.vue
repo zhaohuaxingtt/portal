@@ -12,7 +12,7 @@
     <span class="download_btn" v-if="approve">
       <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton>
     </span>
-    <div ref="qrCodeDiv" class="sign_swap" style="padding-bottom:30px;">
+    <div ref="qrCodeDiv" class="sign_swap" @click="rulesClick">
       <iCard class="upload_hr">
         <div slot="header" class="headBox">
           <p class="headTitle">{{title}}</p>
@@ -47,7 +47,8 @@
             class="margin-top20"
             :tableData="ruleTableListData"
             :tableTitle="ruleTableTitle1_1"
-            :tableLoading="loading"
+            @handleClickRow="handleCurrentChangeTable"
+            :tableLoading="loadingRule"
             :index="true"
             :selection="false"
             @handleSelectionChange="handleSelectionChange">
@@ -69,7 +70,7 @@
             class="margin-top20 over_flow_y_ture"
             :tableData="partTableListData"
             :tableTitle="partTableTitle1_1"
-            :tableLoading="loading"
+            :tableLoading="loadingPart"
             :index="true"
             :selection="false"
             @handleSelectionChange="handleSelectionChange">
@@ -180,10 +181,13 @@ export default {
         pageSizes: 10,
         layout: 'sizes, prev, pager, next, jumper',
       },
+      loadingRule:false,
+      loadingPart:false,
       applayDateData: [],
       moment: window.moment,
       signPreviewType:false,
       approve:true,
+      clickRulesNumber:0,
     }
   },
   watch: {
@@ -226,6 +230,39 @@ export default {
     }
   },
   methods: {
+    handleCurrentChangeTable(e){
+      this.clickRulesNumber = 1;
+      this.loadingPart = true;
+      var list = {
+        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+        pageNo: 1,
+        pageSize: 99999,
+        ruleNo:e.ruleNo,
+      }
+      pagePartMasterData(list).then(res => {
+        if (res && res.code == 200) {
+          this.partTableListData = res.data
+          this.clickRulesNumber = 0;
+          this.loadingPart = false;
+        } else iMessage.error(res.desZh)
+      })
+    },
+    rulesClick(){
+      if(this.clickRulesNumber == 0){
+        this.loadingPart = true;
+        var list = {
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          pageNo: 1,
+          pageSize: 99999,
+        }
+        pagePartMasterData(list).then(res => {
+          if (res && res.code == 200) {
+            this.partTableListData = res.data
+            this.loadingPart = false;
+          } else iMessage.error(res.desZh)
+        })
+      }
+    },
     closeRS(){
       this.signPreviewType = false;
     },

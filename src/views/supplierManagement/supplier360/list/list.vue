@@ -173,7 +173,7 @@
             v-permission="Supplier_supplierlist_removeblacklist"
             >{{ $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN') }}</i-button
           >
-          <i-button @click="handleRating">{{
+          <i-button @click="handleRating" v-permission="Supplier_supplierlist_faqichupingqingdan">{{
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
           <i-button @click="handleRegister">{{
