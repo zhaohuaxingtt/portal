@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-15 17:54:55
+ * @LastEditTime: 2021-12-16 10:10:13
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -45,7 +45,7 @@
         <i-button v-if="!edit"
                   @click="download">{{ language('XIAZAIMOBAN', '下载模板') }}
         </i-button>
-        <el-upload v-if="!edit"
+        <el-upload style="margin-left:10px" v-if="!edit"
                    action="1"
                    :accept="accept"
                    :before-upload="beforeAvatarUpload"
@@ -53,7 +53,7 @@
                    :http-request="httpUpload"
                    :disabled="uploadLoading">
           <div>
-            <i-button @click="importTable">{{ language('DAORU', '导入') }}
+            <i-button   >{{ language('DAORU', '导入') }}
             </i-button>
           </div>
         </el-upload>

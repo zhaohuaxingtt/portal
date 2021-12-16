@@ -5,12 +5,18 @@
  * @FilePath: \德勤项目\front-site\src\views\register\ntier\index.vue
 -->
 <template>
-  <iPage>
-    <pageHeader class="margin-bottom20">
+  <iPage class="ntier-header">
+    <pageHeader class="margin-bottom20 ntier-detail-header">
       N-Tier供应商信息
       <div slot="actions">
-        <iButton v-loading="isloading" @click="saveInfos()">
+        <iButton v-show="!editable && supplierData.id" @click="editable = true">
+          {{ language('编辑') }}
+        </iButton>
+        <iButton v-show="editable" :loading="isloading" @click="saveInfos()">
           {{ language('BAOCUN', '保存') }}
+        </iButton>
+        <iButton v-show="editable" @click="editable = false">
+          {{ language('取消') }}
         </iButton>
       </div>
     </pageHeader>
@@ -19,7 +25,7 @@
         {{ language('BAOCUN', '保存') }}
       </iButton>
     </div> -->
-    <div class="page-main">
+    <div class="page-main" v-loading="isloading">
       <baseInfo
         :supplierData="supplierData"
         ref="Baseinfo"
@@ -41,6 +47,7 @@
         :editable="editable"
         ref="factory"
         class="margin-bottom20"
+        @add="handleAddFactory"
       />
       <supplierDirectoryTable
         :tableListData="contactUser"
@@ -57,11 +64,7 @@ import { iPage, iButton, iMessage } from 'rise'
 import factory from './components/factory'
 import baseInfo from './components/baseinfo'
 import { selectDictByKeys, getCityInfo } from '@/api/dictionary'
-import {
-  saveNtierSupplier,
-  getNtierSupplier,
-  updateBatch
-} from '@/api/mainDataSupplier/ntier'
+import { getNtierSupplier, updateBatch } from '@/api/mainDataSupplier/ntier'
 import supplierDirectoryTable from './components/supplierDirectoryTable'
 import companyProfile from './components/companyProfile'
 import { cloneDeep } from 'lodash'
@@ -82,18 +85,21 @@ export default {
       isloading: false,
       supplierData: {
         address: {
+          countryCode: '',
+          country: '',
           provinceCode: '',
           province: '',
           cityCode: '',
           city: ''
         },
-        plantList: []
+        plantList: [],
+        contactUser: []
       },
       contactUser: [],
       supplierDirectoryTable: [],
       country: [],
       fromGroup: {},
-      isEdit: false
+      editable: false
     }
   },
   created() {
@@ -123,7 +129,6 @@ export default {
       ]
       let url = 'keys='
       url = url + data.join('&keys=')
-      console.log(url, 'url')
       selectDictByKeys(url).then((res) => {
         if (res.data) {
           this.fromGroup = res.data
@@ -137,23 +142,36 @@ export default {
       getNtierSupplier(val)
         .then((res) => {
           if (res && res.code == 200) {
-            this.supplierData = res.data
-            this.isEdit = true
-            this.$nextTick(() => {
-              if (this.supplierData.address.provinceCode)
-                this.$refs.companyProfile.getProvince()
-              if (this.supplierData.address.countryCode)
-                this.$refs.companyProfile.getCity()
-              // this.contactUser = this.supplierData.contactUser
-              this.$set(this.contactUser, 0, this.supplierData.contactUser)
-              this.supplierDirectoryTable = this.supplierData.plantList.map(
-                (item) => {
-                  item.countryList = this.country
-                  return item
-                }
-              )
-            })
-          } else iMessage.error(res.desZh)
+            this.supplierData = {
+              ...res.data,
+              address: res.data.address || {
+                countryCode: '',
+                country: '',
+                provinceCode: '',
+                province: '',
+                cityCode: '',
+                city: ''
+              },
+              plantList: res.data.plantList || []
+            }
+            this.supplierDirectoryTable = this.supplierData.plantList
+            this.contactUser = res.data.contactUser
+              ? [res.data.contactUser]
+              : [
+                  {
+                    dept: '',
+                    email: '',
+                    id: 0,
+                    name: '',
+                    position: '',
+                    telephoneAreaCode: '',
+                    telephoneM: '',
+                    userName: ''
+                  }
+                ]
+          } else {
+            iMessage.error(res.desZh)
+          }
         })
         .finally(() => (this.isloading = false))
     },
@@ -170,99 +188,113 @@ export default {
       })
     },
     // 保存基本信息
-    saveInfos(step = '') {
+    saveInfos() {
       if (this.supplierDirectoryTable.length === 0) {
-        iMessage.warn(
-          this.language(
-            'QINGTIANXIESHENGCHANGONGCHANGXINXI',
-            '请填写生产工厂信息'
-          )
-        )
+        iMessage.warn(this.language('请填写生产工厂信息'))
         return false
       }
       if (this.contactUser.length === 0) {
-        iMessage.warn(
-          this.language('QINGTIANXIELIANXIRENXINXI', '请填写联系人信息')
-        )
+        iMessage.warn(this.language('请填写联系人信息'))
         return false
       }
-      return new Promise((resolve, reject) => {
-        Promise.all([
-          this.isUserfoRules(),
 
-          this.isBaseInfoRules(),
-          this.isCompanyRules(),
-          this.isFactoryRules()
-        ]).then((res) => {
-          let dunsCode = this.$refs.Baseinfo.getDunsCode()
-          if (dunsCode === 1) {
-            return false
-          }
-          this.isloading = true
-          this.supplierData.duns = dunsCode
-          const reqTableList = cloneDeep(this.supplierDirectoryTable)
-          reqTableList.map((item) => {
-            item['countryCode'] = item.country.cityId
-              ? item.country.cityId
-              : item.countryId
-            item['provinceCode'] = item.province.cityId
-              ? item.province.cityId
-              : item.provinceId
-            item['cityCode'] = item.city.cityId ? item.city.cityId : item.cityId
-            item['country'] = item.country.cityNameCn
-              ? item.country.cityNameCn
-              : item.country
-            item['province'] = item.province.cityNameCn
-              ? item.province.cityNameCn
-              : item.province
-            item['city'] = item.city.cityNameCn
-              ? item.city.cityNameCn
-              : item.city
-            return item
-          })
-          this.supplierData.contactUser = this.contactUser[0]
-          this.supplierData.plantList = reqTableList
-          console.log(this.isEdit)
-          if (this.isEdit == true) {
-            let id = this.supplierData.id
-            updateBatch([this.supplierData]).then((res) => {
-              if (res && res.code == 200) {
-                this.isloading = false
-                iMessage.success(this.language('GENGXINCHENGGONG', '更新成功'))
-                this.supplierDetail(id)
-              } else {
-                this.isloading = false
-                iMessage.error(res.desZh)
-              }
-            })
-          } else {
-            saveNtierSupplier(this.supplierData).then((res) => {
-              if (res && res.code == 200) {
-                this.isloading = false
-                iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功'))
-                this.supplierDetail(res.data)
-              } else {
-                this.isloading = false
-                iMessage.error(res.desZh)
-              }
-            })
+      Promise.all([
+        this.isBaseInfoRules(),
+        this.isCompanyRules(),
+        this.isFactoryRules(),
+        this.isUserfoRules()
+      ])
+        .then(() => {
+          this.updateSupplier()
+        })
+        .catch((err) => {
+          console.log('validate err', err)
+          if (err) {
+            const keys = Object.keys(err)
+            if (keys.length > 0) {
+              console.log('err', keys[0], err[keys[0]])
+              iMessage.warn(err[keys[0]][0].message)
+            }
           }
         })
-        //   .catch(() => {
-        //     iMessage.warn(
-        //       this.language('QINGTIANXIEBITIANXIANG', '请填写必填项')
-        //     )
-        //   })
+    },
+    updateSupplier() {
+      const dunsCode = this.$refs.Baseinfo.getDunsCode()
+      if (dunsCode === 1) {
+        return false
+      }
+      this.isloading = true
+      this.supplierData.duns = dunsCode
+      const reqTableList = cloneDeep(this.supplierDirectoryTable)
+      const plantList = reqTableList.map((e) => {
+        const item = {
+          address: e.address,
+          areaCovered: e.areaCovered,
+          city: e.city,
+          cityCode: e.cityCode,
+          country: e.country,
+          countryCode: e.countryCode,
+          factoryName: e.factoryName,
+          postCode: e.postCode,
+          province: e.province,
+          provinceCode: e.provinceCode
+        }
+        if (e.id) {
+          item.id = e.id
+        }
+        if (e.addressId) {
+          item.addressId = e.addressId
+        }
+        return item
+      })
+      const requestData = {
+        ...this.supplierData,
+        contactUser: this.contactUser[0],
+        plantList
+      }
+      /* this.supplierData.contactUser = this.contactUser[0]
+      this.supplierData.plantList = reqTableList.map((e) => {
+        const item = {
+          address: e.address,
+          areaCovered: e.areaCovered,
+          city: e.city,
+          cityCode: e.cityCode,
+          country: e.country,
+          countryCode: e.countryCode,
+          factoryName: e.factoryName,
+          postCode: e.postCode,
+          province: e.province,
+          provinceCode: e.provinceCode
+        }
+        if (e.id) {
+          item.id = e.id
+        }
+        if (e.addressId) {
+          item.addressId = e.addressId
+        }
+        return item
+      }) */
+      console.log('this.supplierData---this.supplierData:', this.supplierData)
+
+      updateBatch([requestData]).then((res) => {
+        if (res && res.code == 200) {
+          this.isloading = false
+          this.editable = false
+          iMessage.success(res.desZh || this.language('更新成功'))
+        } else {
+          this.isloading = false
+          iMessage.error(res.desZh || this.language('更新失败'))
+        }
       })
     },
     // 基础信息校验
     isBaseInfoRules() {
       return new Promise((resolve, reject) => {
-        this.$refs.Baseinfo.$refs.baseRules.validate((valid) => {
+        this.$refs.Baseinfo.$refs.baseRules.validate((valid, message) => {
           if (valid) {
             resolve(valid)
           } else {
-            return false
+            reject(message)
           }
         })
       })
@@ -271,12 +303,12 @@ export default {
     isUserfoRules() {
       return new Promise((resolve, reject) => {
         this.$refs.userTable.$refs.commonTable.$refs.commonTableForm.validate(
-          (valid) => {
+          (valid, message) => {
             if (valid) {
               console.log(valid)
               resolve(valid)
             } else {
-              return false
+              reject(message)
             }
           }
         )
@@ -285,29 +317,60 @@ export default {
     // 工厂信息
     isFactoryRules() {
       return new Promise((resolve, reject) => {
-        this.$refs.factory.$refs.commonTable.$refs.commonTableForm.validate(
-          (valid) => {
-            if (valid) {
-              resolve(valid)
-            } else {
-              return false
-            }
+        this.$refs.factory.$refs.ruleForm.validate((valid, message) => {
+          console.log('isFactoryRules message', message)
+          if (valid) {
+            resolve(valid)
+          } else {
+            reject(message)
           }
-        )
+        })
       })
     },
     // 企业信息
     isCompanyRules() {
       return new Promise((resolve, reject) => {
         this.$refs.companyProfile.$refs.companyProfileRules.validate(
-          (valid) => {
+          (valid, message) => {
             if (valid) {
               resolve(valid)
             } else {
-              return false
+              reject(message)
             }
           }
         )
+      })
+    },
+    handleAddFactory() {
+      console.log('add factory')
+      /* Vue.set(this.supplierData, 'platList', [
+        ...this.supplierData.plantList,
+        {
+          address: '',
+          areaCovered: 0,
+          city: '',
+          cityCode: '',
+          country: '',
+          countryCode: '',
+          factoryName: '',
+          postCode: '',
+          province: '',
+          provinceCode: ''
+        }
+      ]) */
+      this.supplierDirectoryTable.push({
+        address: '',
+        areaCovered: '',
+        city: '',
+        cityCode: '',
+        country: '',
+        countryCode: '',
+        factoryName: '',
+        postCode: '',
+        province: '',
+        provinceCode: '',
+        cityOptions: [],
+        provinceOptions: []
       })
     }
   }
@@ -315,7 +378,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* .page-main{
-  hei
-} */
+.ntier-header {
+  padding-top: 80px;
+}
+.ntier-detail-header {
+  position: fixed;
+  width: calc(100% - 160px);
+  top: 60px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: $color-background;
+  padding-right: 30px;
+  z-index: 9;
+}
 </style>
