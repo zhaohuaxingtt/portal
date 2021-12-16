@@ -530,3 +530,33 @@ a {
     left: 0;
   }
 }
+
+/* 表格里的input框100% */
+.full-table-form {
+  .el-form-item {
+    margin-bottom: 0;
+    .el-form-item__content {
+      line-height: auto;
+    }
+    margin-top: 0;
+  }
+  .el-table .el-table__row .el-input {
+    width: 100% !important;
+  }
+   .el-table .el-table__row .el-autocomplete {
+    width: 100% !important;
+  }
+   .el-table .el-table__row .el-input {
+    width: 100% !important;
+  }
+   .el-input__suffix {
+    display: flex;
+    align-items: center;
+  }
+   .el-select .el-input__icon {
+    line-height: 100% !important;
+  }
+  .el-input__validateIcon {
+    display: none;
+  }
+}

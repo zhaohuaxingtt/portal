@@ -24,7 +24,7 @@
           </span>
         </p>
       </div>
-      <ul class="content-box">
+      <ul class="content-box" v-if="result.state==='04'">
         <li v-for="(item, index) in data" :key="index" class="content-item">
           <div class="title" v-if="item.state == '02'">
             <div class="live">
@@ -52,6 +52,91 @@
               ><span class="right">
                 <span class="right-left">{{
                   activeIndex + index + 1 - finishSecond
+                }}</span
+                ><span class="itrial">/</span
+                ><span class="right-right">{{ result.themens.length }}</span>
+              </span>
+            </div>
+          </div>
+          <ul class="table-box" v-if="!item.isBreak">
+            <li class="prop-list">
+              <span>Duration</span>
+              <span class="prop-list-right" :title="item.duration">{{
+                item.duration
+              }}</span>
+            </li>
+            <li class="prop-list">
+              <span>Sourcing</span>
+              <span class="prop-list-right" :title="item.supporter">
+                {{ item.supporter }}
+              </span>
+            </li>
+            <li class="prop-list">
+              <span>Linie</span>
+              <span class="prop-list-right" :title="item.presenter">
+                {{ item.presenter }}
+              </span>
+            </li>
+            <li class="prop-list">
+              <span>Commodity</span>
+              <span class="prop-list-right" :title="item.presenterDept">
+                {{ item.presenterDept }}
+              </span>
+            </li>
+            <li class="prop-list">
+              <span>Carline</span>
+              <span class="prop-list-right" :title="item.carline">
+                {{ item.carline }}
+              </span>
+            </li>
+            <li class="prop-list">
+              <span>Time</span>
+              <span v-if="item.state === '02'" class="live-span-time"
+                >{{ start(item) }} / Live!</span
+              >
+              <span v-if="item.state === '03'" class="no-live-span-time"
+                >{{ start(item) }}/Finish</span
+              >
+              <span v-if="item.state === '01'" class="no-live-span-time"
+                >{{ start(item) }}/Next</span
+              >
+            </li>
+          </ul>
+          <div v-else class="break-container">
+            <div class="img-box">
+              <img :src="rest" />
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul class="content-box" v-else>
+        <li v-for="(item, index) in data" :key="index" class="content-item">
+          <div class="title" v-if="item.state == '02'">
+            <div class="live">
+              <div class="small"></div>
+              <div class="middle"></div>
+              <div class="big"></div>
+              <div class="live-word">LIVE !</div>
+            </div>
+            <div class="model">
+              <span class="left">{{ item.topic }}</span
+              ><span class="right">
+                <span class="right-left">{{ activeIndex + 1 }}</span
+                ><span class="itrial">/</span
+                ><span class="right-right">{{ result.themens.length }}</span>
+              </span>
+            </div>
+          </div>
+          <div class="no-live-title" v-else>
+            <div class="no-live">
+              <div v-if="item.state === '01'" class="live-word">NEXT</div>
+              <div v-if="item.state === '03'" class="live-word">FINISH</div>
+            </div>
+            <div class="model">
+              <span class="left">{{ item.topic }}</span
+              ><span class="right">
+                <span class="right-left">{{
+                  index+1
                 }}</span
                 ><span class="itrial">/</span
                 ><span class="right-right">{{ result.themens.length }}</span>

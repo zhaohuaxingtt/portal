@@ -86,10 +86,11 @@
         min-width="120"
       >
         <template slot-scope="scope">
-          <span v-if="scope.row.isBreak">{{ scope.row.topic }}</span>
+          <span>{{ scope.row.topic }}</span>
+          <!-- <span v-if="scope.row.isBreak">{{ scope.row.topic }}</span>
           <span class="open-link-text" @click="lookOrEdit(scope.row)" v-else>{{
             scope.row.topic
-          }}</span>
+          }}</span> -->
         </template>
       </el-table-column>
       <el-table-column width="44" align="center" label=""></el-table-column>
@@ -304,7 +305,7 @@ export default {
       editOrAdd: 'add',
       openAddTopic: false,
       processUrl: process.env.VUE_APP_POINT,
-          processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       stateObj,
       themenConclusion,
       following: false,

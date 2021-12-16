@@ -126,7 +126,6 @@ import {
   iMessage,
   iSelect
 } from 'rise'
-import { baseRules } from './data'
 export default {
   components: {
     iCard,
@@ -151,13 +150,84 @@ export default {
     }
   },
   data() {
+    const creditCode = (rule, value, callback) => {
+      if (this.supplierData.isAbroad === 0 && !value) {
+        return callback(new Error('请输入统一社会信用代码'))
+      }
+      callback()
+    }
     return {
       dunsCode: {
         one: '',
         two: '',
         three: ''
       },
-      baseRules: baseRules,
+      baseRules: {
+        supplierNameCn: [
+          {
+            required: true,
+            message: '请输入供应商中文名',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 200,
+            message: '长度在 1 到 200个字符',
+            trigger: 'blur'
+          }
+        ],
+        supplierShortNameCn: [
+          {
+            required: true,
+            message: '请输入供应商简称(中)',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 200,
+            message: '长度在 1 到 200个字符',
+            trigger: 'blur'
+          }
+        ],
+        creditCode: [
+          {
+            validator: creditCode,
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 18,
+            message: '长度在 1 到 18个字符',
+            trigger: 'blur'
+          }
+        ],
+        supplierNameEn: [
+          {
+            required: true,
+            message: '请输入供应商英文名',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 200,
+            message: '长度在 1 到 200个字符',
+            trigger: 'blur'
+          }
+        ],
+        supplierShortNameEn: [
+          {
+            required: true,
+            message: '请输入供应商简称(英)',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 20,
+            message: '长度在 1 到 20个字符',
+            trigger: 'blur'
+          }
+        ]
+      },
       isForeignCountryList: [
         { name: this.language('SHI', '是'), code: 1 },
         { name: this.language('FOU', '否'), code: 0 }

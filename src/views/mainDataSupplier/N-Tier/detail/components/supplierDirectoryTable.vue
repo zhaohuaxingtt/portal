@@ -7,36 +7,46 @@
 -->
 <template>
   <i-card collapse :title="language('LIANXIREN', '联系人')">
-    <table-list
-      ref="commonTable"
-      :tableData="tableListData"
-      :tableTitle="tableTitle"
-      :tableLoading="tableLoading"
-      @handleSelectionChange="handleSelectionChange"
-      :input-props="[
-        'name',
-        'position',
-        'dept',
-        'telephoneAreaCode',
-        'telephoneM',
-        'email'
-      ]"
-      :index="true"
-    >
-    </table-list>
+    <div v-if="editable" class="full-table-form">
+      <table-list
+        ref="commonTable"
+        :tableData="tableListData"
+        :tableTitle="tableTitle"
+        :tableLoading="tableLoading"
+        @handleSelectionChange="handleSelectionChange"
+        :input-props="[
+          'name',
+          'position',
+          'dept',
+          'telephoneAreaCode',
+          'telephoneM',
+          'email'
+        ]"
+        :index="true"
+      >
+      </table-list>
+    </div>
+
+    <iTableCustom
+      v-else
+      :data="tableListData"
+      :columns="contactsViewSettings"
+    />
   </i-card>
 </template>
 
 <script>
-import { iCard, iButton } from 'rise'
+import { iCard } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
-import { supplierDirectoryTableTitle } from './data'
+import { supplierDirectoryTableTitle, CONTACTS_VIEW_SETTINGS } from './data'
+import iTableCustom from '@/components/iTableCustom'
 export default {
   mixins: [generalPageMixins],
   components: {
     iCard,
-    tableList
+    tableList,
+    iTableCustom
   },
   props: {
     tableListData: {
@@ -52,7 +62,8 @@ export default {
     return {
       tableTitle: supplierDirectoryTableTitle,
       tableLoading: false,
-      selectTableData: []
+      selectTableData: [],
+      contactsViewSettings: CONTACTS_VIEW_SETTINGS
     }
   }
 }

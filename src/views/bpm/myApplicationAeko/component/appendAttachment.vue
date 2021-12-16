@@ -59,8 +59,8 @@
     </div>
 
     <div slot="footer" class="dialog-footer">
-      <iButton @click="save">确定</iButton>
-      <iButton @click="onClose">取消</iButton>
+      <iButton @click="save">{{ language('确定') }}</iButton>
+      <iButton @click="onClose">{{ language('取消') }}</iButton>
     </div>
   </iDialog>
 </template>
@@ -142,11 +142,15 @@ export default {
       formData.append('currentUserId', this.$store.state.permission.userInfo.id)
       await uploadApprovalAttach(formData)
         .then((res) => {
-          this.attachList.push(res)
+          if (res && res.result) {
+            this.attachList.push(res)
+          } else {
+            iMessage.error(res.desZh || this.language('上传失败'))
+          }
         })
         .catch((err) => {
           console.log(err)
-          iMessage.error(this.$t('LK_SHANGCHUANSHIBAI'))
+          iMessage.error(err.desZh || this.language('上传失败'))
         })
 
       this.uploadLoading = false

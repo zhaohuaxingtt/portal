@@ -24,7 +24,7 @@
     </div>
 
     <div style="text-align: center" v-show="activeData.length === 0">
-      {{ $t('LK_ZANWUSHUJU') }}
+      {{ $t('LK_ZANWUSHUJU', '暂无数据') }}
     </div>
   </div>
 </template>

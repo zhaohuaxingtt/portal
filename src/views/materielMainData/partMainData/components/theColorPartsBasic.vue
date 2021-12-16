@@ -235,13 +235,15 @@ export default {
             }
             if(this.checkBoxs.fop){
                 data.fop = this.formContent.fop
+                data.fopUserId = this.formContent.fopUserId
             }else{
                 data.fop = ''
+                data.fopUserId = ''
             }
             if(this.checkBoxs.techDept){
-                data.techDeptId = this.formContent.techDept
+                data.techDept = this.formContent.techDept
             }else{
-                 data.techDeptId = ''
+                 data.techDept = ''
             }
             if(this.checkBoxs.isCommonSourcing){
                 data.isCommonSourcing = this.formContent.isCommonSourcing || false
