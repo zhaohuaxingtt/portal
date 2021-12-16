@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row content" v-loading="loading">
     <div class="left-content" >
-      <el-row :gutter="20">
+      <!-- <el-row :gutter="20">
         <el-col span="13">
           <iInput v-model="queryForm.keyWord" placeholder="搜索..." @keydown.native.enter="keyWordBlurHandle" />
         </el-col>
@@ -10,7 +10,32 @@
             <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
           </iSelect>
         </el-col>
-      </el-row>
+      </el-row> -->
+      <div class="search-box flex flex-row">
+        <iInput 
+          class="input-style"
+          :placeholder="language('搜索...')"
+          @keyup.enter.native="keyWordBlurHandle"
+          v-model="queryForm.keyWord"
+        />
+        <iSelect
+          class="select-style"
+          :placeholder="language('全部模块')"
+          v-model="questionModuleId"
+          filterable
+          clearable
+          @change="questionModuleHandle"
+          @clear="clearModuleHandle"
+        >
+          <el-option
+            v-for="(item) in problemModuleList"
+            :key="item.id"
+            :value="item.id"
+            :label="item.menuName"
+          >
+          </el-option>
+        </iSelect>
+      </div>
       <el-row class="mt20 mb20" :gutter="10">
         <el-col span="14">
           <ul class="flex flex-row justify-between category-list">
@@ -593,6 +618,17 @@ export default {
       margin-left: 5px;
       color: #999999;
     }
+    .search-box {
+			width: 100%;
+			height: 40px;
+			margin-bottom: 20px;
+			.input-style {
+				width: 100%;
+			}
+			.select-style {
+				margin-left: 30px;
+			}
+		}
     .card-list {
       // height: calc(100vh - 350px);
       // flex: 1;
