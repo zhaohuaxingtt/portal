@@ -7,7 +7,13 @@
  * @FilePath: \rise\src\utils\filedowLoad.js
  */
 
-export function excelExport(data,title,fileName= new Date().getTime()){
+export function excelExport(data,title,name){
+  var fileName;
+  if(name){
+    fileName= name
+  }else{
+    fileName= new Date().getTime()
+  }
   try {
     // eslint-disable-next-line no-undef
     if (!data&&!title) return console.warn(Vue.$t('LK_MEIYOUKEYIXIAZHAIDEXINXI'))
