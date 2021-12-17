@@ -4,8 +4,8 @@
     :title="papgeTitle"
     @close="closeDialog"
     :show-close='false'
-    width="851px"
-    height='440px'
+    :width="dialogWidth"
+    :height='dialogHeight'
     :class="{'black-style':detail.popupStyle == '2'}"
   >
       <div  :class="{'center-style':detail.popupStyle == '1','main':detail.popupStyle == '0','right-style':detail.popupStyle == '2',} ">
@@ -14,7 +14,11 @@
               <img v-else src="../../../assets/images/popupPic.png" alt="" class="left-image" />
           </div>
           <div class="right">
-              <h2 :class="{'link-text':detail.linkUrl}" @click="toNewPage">{{detail.title}}</h2>
+              <div class="right-title" :class="{'link-text':detail.linkUrl}" @click="toNewPage">
+                  <!-- <h2 > -->
+                      {{detail.title}}
+                <!-- </h2> -->
+              </div>
               <div class="content" :class="{'text-left':detail.wordAlign == 0,'text-center':detail.wordAlign==1,'text-right':detail.wordAlign == 2}">
                   <el-input type="textarea" v-model="detail.content" disabled></el-input>
               </div>
@@ -52,7 +56,8 @@ export default {
     },
     data(){
         return{
-            
+            dialogHeight:'440px',
+            dialogWidth:400*(16/9)+'px'
         }
     },
     methods:{
@@ -69,7 +74,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+::v-deep .el-dialog__body{
+    padding: 0 50px !important;
+}
 
 ::v-deep .el-dialog__header{
     position: relative;
@@ -125,10 +132,15 @@ export default {
                 font-size: 16px;
             }
         }
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 110%;
+        }
         .content{
             position: absolute;
             top: 70px;
-            width: 104%;
+            width: 110%;
             line-height: 24px;
             max-height: 280px;
             overflow: auto;
@@ -231,10 +243,15 @@ export default {
                 font-size: 16px;
             }
         }
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 110%;
+        }
         .content{
             position: absolute;
             top: 70px;
-            width: 104%;
+            width: 110%;
             color: #888888;
             line-height: 24px;
             max-height: 280px;
