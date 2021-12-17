@@ -232,11 +232,8 @@ export const buttonList = [
         { title: "修改议题", methodName: "editTopic", disabled: true },
         { title: "维护资料", methodName: "protectInfo", disabled: true },
         { title: "删除", methodName: "deleteTop", disabled: true },
-        {
-          title: "结束议题",
-          methodName: "overTopic",
-          disabled: true,
-        },
+        { title: "改期", methodName: "updateDate", disabled: true },
+        { title: "结束议题", methodName: "overTopic", disabled: true, },
       ],
     ],
   },
