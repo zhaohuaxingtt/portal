@@ -136,5 +136,24 @@ export default [
       title: '会议展示'
     },
     component: () => import('@/views/meeting/meetingShow/index.vue')
+  },
+  // gp-sprint17
+  {
+    //mbdl会议
+    path: '/meeting/managementHall/mbdlMeeting',
+    name: 'mbdlMeeting',
+    meta: {
+      title: '会议详情管理'
+    },
+    component: () => import('@/views//meeting/managementHall/mbdlMeeting/index.vue')
+  },
+  {
+    //gpcsc会议
+    path: '/meeting/managementHall/gpcscMeeting',
+    name: 'gpcscMeeting',
+    meta: {
+      title: '会议详情管理'
+    },
+    component: () => import('@/views//meeting/managementHall/gpcscMeeting/index.vue')
   }
 ]

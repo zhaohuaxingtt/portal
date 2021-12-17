@@ -1426,7 +1426,30 @@ export default {
       //   e.meetingTypeName === 'Pre CSC' ||
       //   e.meetingTypeName === 'PRECSC'
       // ) {
+// --------------------------------------------//        
+        // 原meeting代码先注释
+      // if (e.isCSC || e.isPreCSC) {
+      //   this.$router.push({
+      //     path: '/meeting/specialDetails',
+      //     query: {
+      //       id: e.id
+      //       // type: e.meetingTypeName
+      //     }
+      //   })
+      // } else {
+      //   this.$router.push({
+      //     path: '/meeting/details',
+      //     query: {
+      //       id: e.id
+      //     }
+      //   })
+      // }
+// --------------------------------------------//  
+      // gpMBDL会议  /meeting/managementHall/mbdlMeeting
+      //gpCSC会议   /meeting/managementHall/gpcscMeeting
+      // 因为目前没有正确数据  假数据跳转 meetingNameSuffix  sprint17开发中  测试中会调整该代码
       if (e.isCSC || e.isPreCSC) {
+        debugger
         this.$router.push({
           path: '/meeting/specialDetails',
           query: {
@@ -1434,7 +1457,24 @@ export default {
             // type: e.meetingTypeName
           }
         })
-      } else {
+      } else if (e.meetingNameSuffix == "csc") {
+        debugger
+        this.$router.push({
+          path: '/meeting/managementHall/gpcscMeeting',
+          query: {
+            id: e.id
+          }
+        })
+      } else if (e.meetingNameSuffix == "gp123") {
+        debugger
+        this.$router.push({
+          path: '/meeting/managementHall/mbdlMeeting',
+          query: {
+            id: e.id
+          }
+        })
+      }else {
+        debugger
         this.$router.push({
           path: '/meeting/details',
           query: {

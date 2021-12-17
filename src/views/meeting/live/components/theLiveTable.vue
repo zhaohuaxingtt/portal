@@ -238,11 +238,11 @@
           ></div> -->
             <span>{{
               scope.row.state === '01'
-                ? '未进行'
+                ? $t('未进行')
                 : scope.row.state === '02'
-                ? '进行中'
+                ? $t('进行中')
                 : scope.row.state === '03'
-                ? '已结束'
+                ? $t('已结束')
                 : ''
             }}</span>
           </template>

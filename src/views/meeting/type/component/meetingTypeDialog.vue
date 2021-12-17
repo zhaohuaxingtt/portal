@@ -272,17 +272,9 @@
                 prop="incidenceRelation"
                 :hideRequiredAsterisk="true"
                 class="item incidate-relation"
-                :rules="
-                  ruleForm.category == '03'
-                    ? rules.incidenceRelationRule
-                    : rules.incidenceRelationRuleNoRequired
-                "
+                :rules="rules.incidenceRelationRuleNoRequired"
               >
-                <iLabel
-                  :label="$t('关联关系')"
-                  slot="label"
-                  :required="ruleForm.category == '03'"
-                ></iLabel>
+                <iLabel :label="$t('关联关系')" slot="label"></iLabel>
                 <iSelect
                   class="autoSearch"
                   v-model="ruleForm.incidenceRelation"

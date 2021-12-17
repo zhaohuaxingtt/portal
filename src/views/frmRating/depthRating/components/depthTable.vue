@@ -501,7 +501,7 @@ export default {
     // 导出
     exportsTable() {
       // if (this.isSelect()) return
-      excelExport(this.tableListData, this.tableTitle)
+      excelExport(this.tableListData, this.tableTitle,"深入评级供应商列表")
     },
     // 预计完成时间
     openOverTime() {

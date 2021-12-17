@@ -3,12 +3,18 @@ export default [
     path: '/mtz',
     name: 'mtz',
     redirect: 'mtz/annualGeneralBudget',
+    meta: {
+      activeMenu: ['RISE_WORKBENCH', 'WORKBENCH_MTZ'] // 一级菜单,二级菜单
+    },
     component: () => import('@/views/mtz/router.vue'),
     children: [
       {
         path: 'annualGeneralBudget',
         name: 'annualGeneralBudget',
         component: () => import('@/views/mtz/annualGeneralBudget/index.vue'),
+        meta: {
+          activeMenu: ['RISE_WORKBENCH', 'WORKBENCH_MTZ'] // 一级菜单,二级菜单
+        },
         redirect: 'annualGeneralBudget/annualBudget',
         children: [
           {
@@ -35,7 +41,8 @@ export default [
             path: 'locationChange',
             name: 'locationChange',
             meta: {
-              title: '定点与变更'
+              title: '定点与变更',
+              activeMenu: ['RISE_WORKBENCH', 'WORKBENCH_MTZ'] // 一级菜单,二级菜单
             },
             component: () =>
               import(
@@ -48,7 +55,8 @@ export default [
                 name: 'MtzLocationPoint',
                 meta: {
                   title: 'MTZ定点',
-                  showFooter: true //隐藏
+                  showFooter: true, //隐藏
+                  activeMenu: ['RISE_WORKBENCH', 'WORKBENCH_MTZ'] // 一级菜单,二级菜单
                 },
                 component: () =>
                   import(
@@ -117,7 +125,8 @@ export default [
                       import(
                         '@/views/mtz/annualGeneralBudget/locationChange/components/MtzLocationPoint/components/decisionMaterial/components/signPreview'
                       )
-                  },{
+                  },
+                  {
                     path: 'signPreviewBefore',
                     name: 'signPreviewBefore',
                     meta: {

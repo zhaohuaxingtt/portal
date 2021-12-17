@@ -34,10 +34,9 @@ export default {
   computed:{
     imgCutterRate(){
       if(this.cutterRate == 1){
-        console.log('ppppp');
-        return '16:3.5'
+        return '711:152'
       }else{
-        return '18:25'
+        return '17:20'
       }
     }
   },
@@ -78,6 +77,7 @@ export default {
       uploadFileWithNOTokenTwo(form).then((result)=>{
         if(result.code == '200'){
           this.imageUrl = result.data.path
+          this.$emit('imgUrl',this.imageUrl)
         }else{
           this.$message.error(result.desZh)
         }
