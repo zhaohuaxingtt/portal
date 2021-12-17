@@ -1,6 +1,6 @@
 <template>
   <iSearch @sure="sure" @reset="reset">
-    <el-form ref="searchForm" class="search-form">
+    <el-form ref="searchForm">
       <el-row :gutter="24">
         <el-col :span="8">
           <iFormItem :label="formTitles.carTypeProName">
@@ -114,7 +114,7 @@ export default {
   methods: {
     querySearchCarTypeAsync(keyword) {
       let param = { param: keyword }
-      carProjectcarTypeList(param).then(val => {
+      carProjectcarTypeList(param).then((val) => {
         if (val.code == 200) {
           this.carTypes = val.data
         }
@@ -122,7 +122,7 @@ export default {
     },
     querySearchCarTypeNameAsync(keyword) {
       let param = { param: keyword }
-      carProjectNameList(param).then(val => {
+      carProjectNameList(param).then((val) => {
         if (val.code == 200) {
           this.carTypeNames = val.data
         }
@@ -130,7 +130,7 @@ export default {
     },
     getReleaseStatusList() {
       let param = {}
-      carProjectStatusList(param).then(val => {
+      carProjectStatusList(param).then((val) => {
         if (val.code == 200) {
           this.releaseStatusOptions = val.data.cartype_pro_public_state
         }

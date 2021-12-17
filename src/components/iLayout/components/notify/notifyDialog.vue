@@ -113,7 +113,7 @@ export default {
     width: 100%;
     justify-content:space-between;
     .left{
-        width:36%;
+        width:48%;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -128,9 +128,9 @@ export default {
         position: relative;
         // display: flex;
         // flex-direction: column;
-        width:60%;
+        width:48%;
         height: 100%;
-        margin-left:40%;
+        margin-left:52%;
         top: -40px;
         .btn{
             position: absolute;
@@ -150,7 +150,7 @@ export default {
         .right-title{
             font-size: 20px;
             font-weight: bold;
-            width: 110%;
+            width: 106%;
         }
         .content{
             position: absolute;
@@ -173,22 +173,28 @@ export default {
     .left{
         width:100%;
         position: absolute;
+        height: 38%;
         top: 0;
         left: 0;
         .left-image{
             width: 100%;
-            height: 160px;
+            height: 100%;
             border-radius: 10px 10px 0 0 ;
         }
     }
     .right{
-        margin-top:120px ;
+        margin-top:20%;
         text-align: center;
-        height: 100%;
+        height: 60%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        >h2,
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 110%;
+            margin-bottom: 20px;
+        }
         .content,
         .publishTime,
         .btn
@@ -220,7 +226,7 @@ export default {
     background: #151316;
     justify-content:space-between;
     .left{
-        width: 36%;
+        width: 48%;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -235,14 +241,14 @@ export default {
         position: relative;
         // display: flex;
         // flex-direction: column;
-        width: 60%;
+        width: 48%;
         height: 100%;
-        margin-left: 40%;
+        margin-left: 52%;
         top: -40px;
         .right-title{
             font-size: 20px;
             font-weight: bold;
-            width: 110%;
+            width: 106%;
         }
         .content,
         .btn{
@@ -259,11 +265,6 @@ export default {
                 margin-left: 20px;
                 font-size: 16px;
             }
-        }
-        .right-title{
-            font-size: 20px;
-            font-weight: bold;
-            width: 110%;
         }
         .content{
             position: absolute;

@@ -1,13 +1,14 @@
 <!--
  * @Date: 2021-12-16 17:21:59
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-16 18:09:48
+ * @LastEditTime: 2021-12-17 10:05:54
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\Systemdetail.vue
 -->
 <template>
   <iDialog :visible.sync="value"
            width="90%"
            top="2%"
+           v-if="value"
            @close="clearDiolog"
            :title="language('GUANLIANYINGYONG', '关联应用')">
     <div class="btnbox">
@@ -26,7 +27,7 @@
                 ref="commonTable">
 
     </table-list>
-      <systeamDetailAdd v-model="isdialog" :rowList="rowList"></systeamDetailAdd>
+      <systeamDetailAdd @closeDiolog="closeDiolog"   v-model="isdialog" :rowList="rowList"></systeamDetailAdd>
   </iDialog>
 </template>
 
@@ -45,12 +46,10 @@ export default {
   },
   props: {
     value: { type: Boolean },
-    rowList: { type: Object }
   },
   watch:{
       rowList(val){
           if(val){
-
           this.getTableData()
           }
       }
@@ -77,7 +76,7 @@ export default {
       operationQuery(params).then((res) => {
         this.tableLoading = false
         if (res && res.code == 200) {
-          this.page.totalCount = res.total
+            this.tableListData=res.data
         } else iMessage.error(res.desZh)
       })
     },
@@ -101,7 +100,10 @@ export default {
       this.selectTableData = val
     },
     clearDiolog() {
-      this.value = false
+      this.$emit('closeDiolog')
+    },
+    closeDiolog(){
+            this.isdialog=false
     }
   }
 }
