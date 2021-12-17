@@ -77,6 +77,7 @@ export default {
       uploadFileWithNOTokenTwo(form).then((result)=>{
         if(result.code == '200'){
           this.imageUrl = result.data.path
+          this.$emit('imgUrl',this.imageUrl)
         }else{
           this.$message.error(result.desZh)
         }
