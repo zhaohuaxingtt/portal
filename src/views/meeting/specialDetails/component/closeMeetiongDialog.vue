@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="关闭会议"
+    :title="$t('关闭会议')"
     :visible.sync="openCloseMeeting"
     width="23.75rem"
     :close-on-click-modal="false"
@@ -58,7 +58,7 @@
           </div>
         </el-row> -->
         <el-row class="form-row form-upload">
-          <iFormItem label="上传附件" prop="uploadFile">
+          <iFormItem :label="$t('上传附件')" prop="uploadFile">
             <iLabel :label="$t('上传附件')" slot="label"></iLabel>
             <el-upload
               action="1"
@@ -73,20 +73,22 @@
                 class="upload-button"
                 :uploadLoading="uploadLoading"
               >
-                请选择文件
+                {{ $t('请选择文件') }}
                 <span class="upload-text"><img :src="uploadIcon" /></span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">文件大小最大限制10MB</div>
+              <div slot="tip" class="el-upload__tip">
+                {{ $t('文件大小最大限制10MB') }}
+              </div>
             </el-upload>
           </iFormItem>
         </el-row>
         <div class="button-list">
           <el-form-item>
             <iButton @click="handleClose" plain class="cancel">{{
-              '取消'
+              $t('取消')
             }}</iButton>
             <iButton @click="handleSubmit" plain :loading="loading">{{
-              '确认'
+              $t('确认')
             }}</iButton>
           </el-form-item>
         </div>
@@ -221,7 +223,7 @@ export default {
         .then((res) => {
           if (res.code === 200) {
             // iMessage.success('关闭成功')
-            this.$emit('handleOK',"close")
+            this.$emit('handleOK', 'close')
             this.handleClose()
           } else {
             this.loading = false

@@ -3,10 +3,10 @@
   <iDialog
     :title="
       editOrAdd === 'add'
-        ? '新增议题'
+        ? $t('新增议题')
         : editOrAdd === 'look'
-        ? '查看议题'
-        : '修改议题'
+        ? $t('查看议题')
+        : $t('修改议题')
     "
     :visible.sync="dialogStatusManageObj.openAddTopicDialog"
     width="58.25rem"
@@ -349,7 +349,7 @@
                     :loading="uploadLoading"
                     disabled
                   >
-                    请选择文件<span class="upload-text"
+                    {{$t('请选择文件')}}<span class="upload-text"
                       ><img :src="uploadIcon"
                     /></span>
                   </iButton>
@@ -373,7 +373,7 @@
                     :loading="uploadLoading"
                     :disabled="ruleForm.state === '02'"
                   >
-                    请选择文件<span class="upload-text"
+                    {{$t('请选择文件')}}<span class="upload-text"
                       ><img :src="uploadIcon"
                     /></span>
                   </iButton>
@@ -382,7 +382,7 @@
                 </div> -->
                 </el-upload>
               </iFormItem>
-              <div class="el-upload-text">文件大小最大限制30M</div>
+              <div class="el-upload-text">{{$t('文件大小最大限制30M')}}</div>
             </div>
             <ul class="file-list">
               <li v-for="(item, index) of attachments" :key="index">

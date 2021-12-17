@@ -6,7 +6,7 @@
     @close="close"
   >
     <iEditForm class="content">
-      <div class="delete-info">确认拆分该议题吗?</div>
+      <div class="delete-info">{{$t('确认拆分该议题吗?')}}</div>
       <div class="button-list">
         <iButton @click="clearDiolog" class="cancel">{{
           $t('LK_QUXIAO')

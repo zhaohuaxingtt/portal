@@ -3,10 +3,10 @@
   <iDialog
     :title="
       editOrAdd === 'add'
-        ? '新增手工议题'
+        ? $t('新增手工议题')
         : editOrAdd === 'look'
-        ? '查看手工议题'
-        : '修改手工议题'
+        ? $t('查看手工议题')
+        : $t('修改手工议题')
     "
     :visible.sync="dialogStatusManageObj.openAddTopicNewDialog"
     width="58.25rem"
@@ -22,7 +22,7 @@
         class="form"
       >
         <div class="row-box">
-          <iFormItem label="议题类型" :hideRequiredAsterisk="true" class="item">
+          <iFormItem :label="$t('议题类型')" :hideRequiredAsterisk="true" class="item">
             <iLabel :label="$t('议题类型')" slot="label"></iLabel>
             <iInput class="disabledAll" value="手工议题" disabled></iInput>
           </iFormItem>
@@ -216,9 +216,9 @@
                 :disabled="editOrAdd === 'look'"
               >
                 <span class="upload-text"><img :src="uploadIcon" /></span>
-                <span class="upload-text-content">选择文件</span>
+                <span class="upload-text-content">{{$t('选择文件')}}</span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">文件大小最大限制30M</div>
+              <div slot="tip" class="el-upload__tip">{{$t('文件大小最大限制30M')}}</div>
             </el-upload>
             <ul class="file-list">
               <li v-for="(item, index) of ruleForm.attachments" :key="index">
