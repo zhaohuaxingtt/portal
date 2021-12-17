@@ -119,8 +119,8 @@
                                 :key="item.id"></el-option>
                     </iSelect>
                 </el-form-item>
-                <!--KLS来源价格-->
-                <el-form-item :label="language('LK_LAIYUANJIAGE','KLS来源价格')">
+                <!--KSL来源价格-->
+                <el-form-item :label="language('LK_KSLJIALAIYUAN','KSL价来源')">
                     <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.kslPriceSource">
                         <el-option
                                 :value="item.key"

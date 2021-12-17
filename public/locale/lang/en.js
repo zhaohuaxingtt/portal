@@ -1865,7 +1865,7 @@
     LK_JAGE: 'price',
     LK_KSLJ: 'ksl price',
     LK_KSLJIALAIYUAN: 'ksl price source',
-    LK_LAIYUANJIAGE: 'ksl price source',
+    LK_KSLLAIYUANJIAGE: 'ksl price source',
     LK_CKJG: 'reference price',
     LK_CKJGLY: 'reference price source',
     LK_CAIGOUY: 'buyer',
