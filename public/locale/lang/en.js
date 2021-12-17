@@ -1853,6 +1853,7 @@
     LK_PEIZHI: 'Configure',
     LK_CHEXINGDAIMA: 'model code',
     LK_CHANGPINJIAZU: 'Product family',
+    LK_CPJZ: 'Product family',
     // LK_LINGJIANHAO: 'part number',
     LK_PLBJ: 'bulk edit',
     LK_QRSL: 'confirmed quantity',
@@ -1909,7 +1910,8 @@
     LK_GZLJZS: 'track total number of parts',
     LK_XZLJZS: 'total number of new parts',
     LK_QXLJZS: 'total number of cancelled parts',
-    LK_LINGJIAGENZONGLEIXING: 'Part tracking type',
+    LK_LINGJIANGENZONGLEIXING: 'Part tracking type',
+    LK_LJGZLX: 'Part tracking type',
     //SP15
     LK_JCBMBXZ: 'table template down',
     LK_PFJ_LJMC: 'PartName',
