@@ -163,7 +163,9 @@ export default {
         ...this.serchList
       }).then(res => {
         if (res.data.length < 1) {
-          this.$emit("componentHidden", "")
+          this.$emit("componentHidden", false)
+        }else{
+          this.$emit("componentHidden", true)
         }
         this.tableListData = res.data;
         this.page.totalCount = res.total;
