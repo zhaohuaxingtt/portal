@@ -192,16 +192,17 @@ export default {
     upload () {
       iMessageBox(`是否导出？`).then(() => {
         mtzCompDetailOverviewExport({}).then(res => {
-          let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
-          let objectUrl = URL.createObjectURL(blob);
-          let link = document.createElement("a");
-          link.href = objectUrl;
-          let fname = "MTZ补差单汇总" + getNowFormatDate() + ".xlsx";
-          link.setAttribute("download", fname);
-          document.body.appendChild(link);
-          link.click();
-          link.parentNode.removeChild(link);
-          iMessage.success("链接成功！")
+          console.log(res)
+          // let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+          // let objectUrl = URL.createObjectURL(blob);
+          // let link = document.createElement("a");
+          // link.href = objectUrl;
+          // let fname = "MTZ补差单汇总" + getNowFormatDate() + ".xlsx";
+          // link.setAttribute("download", fname);
+          // document.body.appendChild(link);
+          // link.click();
+          // link.parentNode.removeChild(link);
+          // iMessage.success("链接成功！")
         })
       }).catch((err) => {
         console.log(err)

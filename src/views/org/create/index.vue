@@ -631,7 +631,8 @@ export default {
         leftSelect: null,
         rightSelect: null,
         optionsSelect: null,
-        rightSelectValues: []
+        rightSelectValues: [],
+        originValueList: []
       }
       this.table.tableListData.push(row)
     },
@@ -890,7 +891,8 @@ export default {
                   leftSelect: item.id,
                   rightSelect: idList,
                   url: null,
-                  optionsSelect: null
+                  optionsSelect: null,
+                  originValueList: item.valueList
                 }
                 newDimension.push(obj)
               }

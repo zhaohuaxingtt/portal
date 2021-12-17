@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-16 10:10:13
+ * @LastEditTime: 2021-12-17 10:00:10
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -45,7 +45,8 @@
         <i-button v-if="!edit"
                   @click="download">{{ language('XIAZAIMOBAN', '下载模板') }}
         </i-button>
-        <el-upload style="margin-left:10px" v-if="!edit"
+        <el-upload style="margin-left:10px"
+                   v-if="!edit"
                    action="1"
                    :accept="accept"
                    :before-upload="beforeAvatarUpload"
@@ -53,7 +54,7 @@
                    :http-request="httpUpload"
                    :disabled="uploadLoading">
           <div>
-            <i-button   >{{ language('DAORU', '导入') }}
+            <i-button>{{ language('DAORU', '导入') }}
             </i-button>
           </div>
         </el-upload>
@@ -67,9 +68,14 @@
                 :input-props="inputProps"
                 :index="true"
                 ref="commonTable">
+
       <template #markExpiration='scope'>
         <span v-if="scope.row.markExpiration==1">是</span>
         <span v-if="scope.row.markExpiration==0">否</span>
+      </template>
+      <template #system='scope'>
+        <iButton  @click="openDialog(scope.row)" type="text">{{ language('CAOZUO', '操作') }}
+        </iButton>
       </template>
     </table-list>
     <iPagination style="margin-top: 20px"
@@ -82,12 +88,16 @@
                  :layout="page.layout"
                  :current-page="page.currPage"
                  :total="page.totalCount" />
+  <systemDetail  @closeDiolog="closeDiolog"    v-model="isdialog" :rowList="rowList"></systemDetail>
+    
+ 
   </iCard>
 </template>
 
 <script>
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
+import  systemDetail  from './systemDetail'
 import { tableTitle, tableTitleEdit } from './data'
 import store from '@/store'
 import { iCard, iButton, iMessage, iPagination, iMessageBox } from 'rise'
@@ -107,10 +117,13 @@ export default {
     iCard,
     iButton,
     tableList,
-    iPagination
+    iPagination,
+    systemDetail
   },
   data() {
     return {
+        isdialog:false,
+        rowList:{},
       inputProps: [],
       edit: false,
       tableLoading: false,
@@ -131,7 +144,7 @@ export default {
             saveUserList: this.tableListData,
             opcsSupplierKeyId: this.$route.query.opcsSupplierId
           }
-            console.log(parmars)
+          console.log(parmars)
           saveUser(parmars).then((res) => {
             if (res && res.code == 200) {
               this.inputProps = []
@@ -192,24 +205,23 @@ export default {
           iMessage.error('上传失败')
         })
     },
-      // 上传前校验
+    // 上传前校验
     beforeAvatarUpload(file) {
-      const isLt10M = file.size / 1024 / 1024 < 10;
+      const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error(`上传文件大小不能超过10MB!`);
+        this.$message.error(`上传文件大小不能超过10MB!`)
       }
-      return isLt10M;
+      return isLt10M
     },
-    // //导出
-    // exportsTable() {
-    //   const params = {
-    //     opcsSupplierId: this.$route.query.opcsSupplierId,
-    //     pageNo: this.page.currPage,
-    //     pageSize: this.page.pageSize,
-    //     ...this.form
-    //   }
-    //   exportUser(params)
-    // },
+    closeDiolog(){
+        this.isdialog=false
+    },
+    //应用关联弹窗
+    openDialog(v) {
+        console.log(111)
+        this.isdialog=true
+        this.rowList=v
+    },
     //下载模板
     download() {
       downloadUser({ pageNo: this.page.currPage, pageSize: this.page.pageSize })
@@ -323,7 +335,7 @@ export default {
 .el-table .el-table__row .el-input {
   width: 100% !important;
 }
-.floatright{
-    display: flex;
+.floatright {
+  display: flex;
 }
 </style>

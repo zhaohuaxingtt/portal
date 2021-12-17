@@ -84,7 +84,7 @@ export default {
     iDialog,
     negative
   },
-  props:["mtzDocId","searchFormList","dataObject"],
+  props: ["mtzDocId", "searchFormList", "dataObject"],
   data () {
     return {
       loading: false,
@@ -208,16 +208,17 @@ export default {
           ...this.serchList,
           mtzDocId: this.mtzDocId
         }).then(res => {
-          let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
-          let objectUrl = URL.createObjectURL(blob);
-          let link = document.createElement("a");
-          link.href = objectUrl;
-          let fname = "MTZ补差单汇总-" + this.dataObject.bizNo + ".xlsx";
-          link.setAttribute("download", fname);
-          document.body.appendChild(link);
-          link.click();
-          link.parentNode.removeChild(link);
-          iMessage.success("链接成功！")
+          console.log(res)
+          // let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+          // let objectUrl = URL.createObjectURL(blob);
+          // let link = document.createElement("a");
+          // link.href = objectUrl;
+          // let fname = "MTZ补差单汇总-" + this.dataObject.bizNo + ".xlsx";
+          // link.setAttribute("download", fname);
+          // document.body.appendChild(link);
+          // link.click();
+          // link.parentNode.removeChild(link);
+          // iMessage.success("链接成功！")
         })
       }).catch((err) => {
         console.log(err)

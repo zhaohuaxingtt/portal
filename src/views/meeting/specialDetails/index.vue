@@ -1162,7 +1162,7 @@ export default {
     },
     // 下载模版
     downDemo() {
-      downloadStaticFile ({
+      downloadStaticFile({
         url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
         filename: '议题模版',
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
@@ -2331,6 +2331,7 @@ export default {
           this.handleButtonDisabled(['overTopic'], false)
         }
         if (val[0].state === '03') {
+          this.handleButtonDisabled(['overTopic'], true)
           if (!val[0].isBreak) {
             this.handleButtonDisabled(['protectResult'], false)
             // if (!val[0].conclusionCsc || val[0].conclusionCsc === '01') {
@@ -2429,6 +2430,7 @@ export default {
           this.handleButtonDisabled(['protectResult'], true)
           this.handleButtonDisabled(['overTopic'], false)
         } else {
+          this.handleButtonDisabled(['overTopic'], true)
           // console.log("")
           if (val[0].isBreak) {
             this.handleButtonDisabled(['deleteTopAll'], false)
