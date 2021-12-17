@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-12-16 18:06:53
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-17 10:05:58
+ * @LastEditTime: 2021-12-17 18:00:50
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\systeamDetailAdd.vue
 -->
 
@@ -32,7 +32,7 @@
 import tableList from '@/components/commonTable'
 import { iDialog, iButton, iMessage } from 'rise'
 import { tableTitleDetailAdd } from './data'
-import {  operationQuery } from '@/api/opcs/system'
+import {  relateQuery } from '@/api/opcs/system'
 export default {
   components: {
     iDialog,
@@ -44,20 +44,18 @@ export default {
     rowList: { type: Object }
   },
   watch:{
-      rowList(val){
-          if(val){
-
-          this.getTableData()
-          }
-      }
   },
   data() {
     return {
+        
       tableLoading: false,
       tableTitle: tableTitleDetailAdd,
       selectTableData: [],
       tableListData: []
     }
+  },
+  created() {
+      this.getTableData()
   },
   methods: {
     //获取列表接口
@@ -69,17 +67,22 @@ export default {
         pageSize: 99999,
         opcsUserId: this.rowList.id
       }
-      operationQuery(params).then((res) => {
+      relateQuery(params).then((res) => {
         this.tableLoading = false
         if (res && res.code == 200) {
           this.tableListData = res.data
         } else iMessage.error(res.desZh)
       })
     },
-  
+  add(){
+      this.$emit('selectTableDataDetail',this.selectTableData)
+      this.closeDiolog()
+        iMessage.success(this.language('CAOZUOCHENGGONG', '操作成功'))
+  },
     //修改表格改动列
     handleSelectionChange(val) {
       this.selectTableData = val
+
     },
     closeDiolog() {
         this.$emit('closeDiolog')

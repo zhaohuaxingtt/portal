@@ -1,14 +1,13 @@
 <!--
  * @Date: 2021-12-16 17:21:59
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-17 10:05:54
+ * @LastEditTime: 2021-12-17 17:56:36
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\Systemdetail.vue
 -->
 <template>
   <iDialog :visible.sync="value"
            width="90%"
            top="2%"
-           v-if="value"
            @close="clearDiolog"
            :title="language('GUANLIANYINGYONG', '关联应用')">
     <div class="btnbox">
@@ -27,7 +26,7 @@
                 ref="commonTable">
 
     </table-list>
-      <systeamDetailAdd @closeDiolog="closeDiolog"   v-model="isdialog" :rowList="rowList"></systeamDetailAdd>
+      <systeamDetailAdd @closeDiolog="closeDiolog" @selectTableDataDetail="selectTableDataDetail"   v-model="isdialog" :rowList="rowList"></systeamDetailAdd>
   </iDialog>
 </template>
 
@@ -46,9 +45,11 @@ export default {
   },
   props: {
     value: { type: Boolean },
+    rowList:{type:Object}
   },
   watch:{
       rowList(val){
+          console.log(val)
           if(val){
           this.getTableData()
           }
@@ -62,6 +63,9 @@ export default {
       selectTableData: [],
       tableListData: []
     }
+  },
+  created(){
+      console.log(this.rowList)
   },
   methods: {
     //获取列表接口
@@ -94,6 +98,12 @@ export default {
     },
     add(){
         this.isdialog=true
+    },
+    selectTableDataDetail(val){
+        console.log(val)
+        val.forEach(v => {
+            this.tableListData.push(v)
+        });
     },
     //修改表格改动列
     handleSelectionChange(val) {
