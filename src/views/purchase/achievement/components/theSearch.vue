@@ -23,7 +23,7 @@
                     <iInput :placeholder="language('请输入')" v-model="form.createByName"></iInput>
                 </el-form-item>
                 <!--单据类型-->
-                <el-form-item :label="language('LK_DANJULEIXING','单据类型')">
+                <el-form-item :label="language('LK_DANJULEIX','单据类型')">
                     <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.billType">
                         <el-option
                                 :value="item.key"

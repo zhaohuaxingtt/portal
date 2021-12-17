@@ -1759,7 +1759,7 @@
     LK_MIAOSHU: '描述',
     // LK_ZHUANGTAI: '状态',
     LK_FAQIREN: '发起人',
-    LK_DJLX: '单据类型',
+    LK_DANJULEIX: '单据类型',
     LK_YEWULEIXING: '业务类型',
     LK_CJRQ: '创建日期',
     LK_GXRQ: '更新日期',
