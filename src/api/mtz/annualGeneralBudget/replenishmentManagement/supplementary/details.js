@@ -1,6 +1,8 @@
 import axios from '@/utils/axios'
+import axiosDownLoad from '@/utils/axios.download'
 
 const requst = axios(process.env.VUE_APP_MTZ + '/web/mtz')
+const requstDownLoad = axiosDownLoad(process.env.VUE_APP_MTZ + '/web/mtz')
 
 export function getDetailed(parmars) {
   //补差单明细分页查询
@@ -66,10 +68,9 @@ export function getDifferenceInfor(parmars) {
 
 export function mtzCompDetailOverviewExport(parmars) {
   //MTZ补差单号详情-导出-补差单汇总
-  return requst({
+  return requstDownLoad({
     url: '/mtzBalanceDetails/mtzCompDetailOverviewExport',
     method: 'POST',
-    responseType: 'blob',
     data: parmars
   })
 }

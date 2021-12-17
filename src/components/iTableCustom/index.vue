@@ -113,7 +113,6 @@
           :type="item.type"
           :align="item.align || 'center'"
           :header-align="item.headerAlign"
-          :show-overflow-tooltip="item.tooltip"
           :prop="item.prop"
           :label="item.i18n ? language(item.i18n) : item.label"
           :sortable="item.sortable"
@@ -133,7 +132,6 @@
                 :type="subItem.type"
                 :align="subItem.align || 'center'"
                 :header-align="subItem.headerAlign"
-                :show-overflow-tooltip="subItem.tooltip"
                 :prop="subItem.prop"
                 :label="subItem.i18n ? language(subItem.i18n) : subItem.label"
                 :width="subItem.width ? subItem.width.toString() : ''"
@@ -192,11 +190,11 @@
       @reset="handleResetSetting"
     />
     <el-tooltip
-      open-delay="3000"
       effect="light"
       placement="top"
       ref="customTableTooltip"
       popper-class="custom-table-popper"
+      v-if="tooltipContent"
     >
       <div
         slot="content"

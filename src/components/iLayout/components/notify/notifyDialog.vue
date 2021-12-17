@@ -188,7 +188,12 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-        >h2,
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 110%;
+            margin-bottom: 20px;
+        }
         .content,
         .publishTime,
         .btn
