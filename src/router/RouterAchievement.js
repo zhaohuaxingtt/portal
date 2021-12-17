@@ -8,26 +8,41 @@ import OutputManagement from '../views/purchase/outputManagement/index'; // 产�
 import BatchDetail from '../views/purchase/batchDetail/index'; // 批量件详情
 
 
-
 export default [
-    {
-        path: '/achievement/baseData/mymerit',
-        name: 'Mymerit',
-        component: Mymerit
+  {
+    path: '/achievement/baseData/mymerit',
+    name: 'Mymerit',
+    component: Mymerit,
+    meta: {
+      title: '采购业绩',
+      activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
     },
-    {
-        path: '/achievement/baseData/list',
-        name: 'Achievement',
-        component: Achievement
+  },
+  {
+    path: '/achievement/baseData/list',
+    name: 'Achievement',
+    component: Achievement,
+    meta: {
+      title: '采购业绩',
+      activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
     },
-    {
-        path: '/achievement/baseData/outputManagement',
-        name: 'OutputManagement',
-        component: OutputManagement
+  },
+  {
+    path: '/achievement/baseData/outputManagement',
+    name: 'OutputManagement',
+    component: OutputManagement,
+    meta: {
+      title: '采购业绩',
+      activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
     },
-    {
-        path: '/achievement/baseData/targetManage',
-        name: 'BatchDetail',
-        component: BatchDetail
+  },
+  {
+    path: '/achievement/baseData/targetManage',
+    name: 'BatchDetail',
+    component: BatchDetail,
+    meta: {
+      title: '采购业绩',
+      activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
     },
+  },
 ]
