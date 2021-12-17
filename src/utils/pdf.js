@@ -161,7 +161,7 @@ export function transverseDownloadPDF({//html横向导出pdf
   var context = canvasFragment.getContext('2d')
   context.scale(2, 2)
   html2canvas(el, {
-    dpi: 120, //分辨率
+    dpi: 96, //分辨率
     scale: 2, //设置缩放
     useCORS: true, //允许canvas画布内 可以跨域请求外部链接图片, 允许跨域请求。,
     bgcolor: '#ffffff', //应该这样写
