@@ -72,7 +72,7 @@ export default {
         {
           prop: 'code',
           label: '岗位编码',
-          tooltip: false,
+          tooltip: false
           // align: 'left',
           // width:'200px'
         },
@@ -82,7 +82,7 @@ export default {
           tooltip: true,
           // align: 'left',
           emit: 'go-detail',
-          openNewPage:true,
+          openNewPage: true,
           customRender: (h, scope) => {
             return <span class="open-link-text">{scope.row.fullNameZh}</span>
           }
@@ -158,7 +158,8 @@ export default {
       this.$store.dispatch('GetPositionList', params)
     },
     handleGoDetail(val) {
-      openUrl(`/position/operate/detail?id=${val.id}&deptId=${this.orgSelected.id}`)
+      const deptId = this.orgSelected.id || val.deptId
+      openUrl(`/position/operate/detail?id=${val.id}&deptId=${deptId}`)
       // this.$router.push({
       //   path: '/position/operate/detail',
       //   query: {
