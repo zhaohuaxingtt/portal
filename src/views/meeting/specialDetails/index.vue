@@ -4,7 +4,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">{{$t('会议名称')}}</div>
+            <div class="name">{{ $t('会议名称') }}</div>
             <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
@@ -34,13 +34,13 @@
         <div class="row">
           <div class="list">
             <div class="show">
-              <div class="title">{{$t('会议类型')}}</div>
+              <div class="title">{{ $t('会议类型') }}</div>
               <div class="content">
                 {{ typeObject[meetingInfo.meetingTypeId] }}
               </div>
             </div>
             <div class="show">
-              <div class="title">{{$t('会议地点')}}</div>
+              <div class="title">{{ $t('会议地点') }}</div>
               <div
                 class="content content-address"
                 :title="meetingInfo.meetingPlace"
@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="show">
-              <div class="title">{{$t('会议时间')}}</div>
+              <div class="title">{{ $t('会议时间') }}</div>
               <div class="content">
                 {{
                   `${begin}${
@@ -80,7 +80,7 @@
           @click="handleClickColumn"
           class="display-column"
           :disabled="showUpdateTopicButtonList"
-          >{{$t('列隐藏/显示')}}</iButton
+          >{{ $t('列隐藏/显示') }}</iButton
         >
         <actionButtons
           :currentButtonList="tableButtonList"
@@ -2378,8 +2378,21 @@ export default {
               // !this.meetingInfo.isCSC &&
               val[0].type === 'MANUAL'
             ) {
+              // this.handleButtonDisabled(
+              //   ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
+              //   false
+              // )
               this.handleButtonDisabled(
-                ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
+                [
+                  'bePending',
+                  'fixedPoint',
+                  'nextPreCSC',
+                  'senLol',
+                  'translateTer',
+                  'closeResult',
+                  // 'translateCSC'
+                  // "lookResult",
+                ],
                 false
               )
             }
@@ -2389,8 +2402,21 @@ export default {
               // !this.meetingInfo.isPreCSC &&
               val[0].type === 'MANUAL'
             ) {
+              // this.handleButtonDisabled(
+              //   ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
+              //   false
+              // )
               this.handleButtonDisabled(
-                ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
+                [
+                  'bePending',
+                  'fixedPoint',
+                  'nextPreCSC',
+                  'senLol',
+                  'translateTer',
+                  'closeResult',
+                  'translateCSC'
+                  // "lookResult",
+                ],
                 false
               )
             }
