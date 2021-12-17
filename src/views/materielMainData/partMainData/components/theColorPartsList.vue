@@ -93,7 +93,7 @@ export default {
       let searchedData = []
       this.iniTableData.forEach((ele)=>{
         input.forEach((item)=>{
-          if( ele.partNameZh.toLowerCase().includes(item.toLowerCase()) || ele.partNum5.toLowerCase().includes(item.toLowerCase())){
+          if( ele.partNameZh.toLowerCase().includes(item.toLowerCase()) || ele.partNum.toLowerCase().includes(item.toLowerCase())){
             searchedData.push(ele)
           }
         })

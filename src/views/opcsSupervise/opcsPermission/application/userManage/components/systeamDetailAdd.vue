@@ -1,15 +1,17 @@
 <!--
  * @Date: 2021-12-16 18:06:53
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-16 18:10:53
+ * @LastEditTime: 2021-12-17 10:05:58
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\systeamDetailAdd.vue
 -->
 
 <template>
   <iDialog :visible.sync="value"
            width="90%"
+           v-if="value"
            top="2%"
-           @close="clearDiolog"
+           append-to-body
+           @close="closeDiolog"
            :title="language('GUANLIANYINGYONG', '关联应用')">
     <div class="btnbox">
       <i-button @click="add">{{ language('TIANJIA', '添加') }}
@@ -70,7 +72,7 @@ export default {
       operationQuery(params).then((res) => {
         this.tableLoading = false
         if (res && res.code == 200) {
-          this.page.totalCount = res.total
+          this.tableListData = res.data
         } else iMessage.error(res.desZh)
       })
     },
@@ -79,8 +81,8 @@ export default {
     handleSelectionChange(val) {
       this.selectTableData = val
     },
-    clearDiolog() {
-      this.value = false
+    closeDiolog() {
+        this.$emit('closeDiolog')
     }
   }
 }
