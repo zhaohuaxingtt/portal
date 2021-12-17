@@ -99,10 +99,10 @@
       </el-form>
     </iEditForm>
     <div class="button-list">
-      <iButton class="sure" @click="handleSure" :loading="loading"
-        >{{$t('确定')}}</iButton
-      >
-      <iButton class="cancel" @click="handleCancel">{{$t('取消')}}</iButton>
+      <iButton class="sure" @click="handleSure" :loading="loading">{{
+        $t('确定')
+      }}</iButton>
+      <iButton class="cancel" @click="handleCancel">{{ $t('取消') }}</iButton>
     </div>
   </iDialog>
 </template>
@@ -308,30 +308,54 @@ export default {
     //     }
     //   ]
     // }
-    // if (
-    //   // this.meetingInfo.meetingTypeName === 'CSC' &&
-    //   this.meetingInfo.isCSC &&
-    //   curObj.type === 'MANUAL'
-    // ) {
-    //   this.themenConclusionArrObj = [
-    //     {
-    //       conclusionCsc: '01',
-    //       conclusionName: '待定'
-    //     },
-    //     {
-    //       conclusionCsc: '05',
-    //       conclusionName: '下次Pre CSC'
-    //     },
-    //     {
-    //       conclusionCsc: '06',
-    //       conclusionName: '转CSC'
-    //     },
-    //     {
-    //       conclusionCsc: '07',
-    //       conclusionName: '关闭'
-    //     }
-    //   ]
-    // }
+    if (
+      // this.meetingInfo.meetingTypeName === 'CSC' &&
+      this.meetingInfo.isCSC &&
+      curObj.type === 'MANUAL'
+    ) {
+      this.themenConclusionArrObj = [
+        // {
+        //   conclusionCsc: '01',
+        //   conclusionName: '待定'
+        // },
+        // {
+        //   conclusionCsc: '05',
+        //   conclusionName: '下次Pre CSC'
+        // },
+        // {
+        //   conclusionCsc: '06',
+        //   conclusionName: '转CSC'
+        // },
+        // {
+        //   conclusionCsc: '07',
+        //   conclusionName: '关闭'
+        // }
+        {
+          conclusionCsc: '01',
+          conclusionName: '待定'
+        },
+        {
+          conclusionCsc: '02',
+          conclusionName: '定点'
+        },
+        {
+          conclusionCsc: '03',
+          conclusionName: '发LOI'
+        },
+        {
+          conclusionCsc: '04',
+          conclusionName: '转TER/TOP-TER'
+        },
+        {
+          conclusionCsc: '05',
+          conclusionName: '下次Pre CSC'
+        },
+        {
+          conclusionCsc: '07',
+          conclusionName: '关闭'
+        }
+      ]
+    }
     if (curObj.conclusionCsc === '05') {
       this.getUpdateDateTableList('Pre CSC', 'init')
     }
