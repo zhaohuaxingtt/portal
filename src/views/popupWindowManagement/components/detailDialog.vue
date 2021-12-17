@@ -174,6 +174,7 @@ export default {
             font-size: 20px;
             font-weight: bold;
             width: 110%;
+            margin-bottom: 20px;
         }
         .content,
         .publishTime,
