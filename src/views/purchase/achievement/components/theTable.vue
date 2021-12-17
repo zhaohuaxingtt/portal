@@ -36,7 +36,7 @@
             isAuth(whiteBtnList, 'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT') && !state
           "
         >
-          {{ $t('LK_YEJIJINETIAOZHENG') }}
+          {{ language('LK_YJJETZ','业绩金额调整') }}
         </iButton>
         <!--年度目标管理-->
         <iButton

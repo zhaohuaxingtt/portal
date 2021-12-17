@@ -1843,7 +1843,7 @@
     LK_WCSJ: '完成时间',
     LK_DQESL: '待确认数量',
     // LK_JIAGEBIANHUA: '价格变化',
-    LK_YEJIJINETIAOZHENG: '业绩金额调整',
+    LK_YJJETZ: '业绩金额调整',
     LK_SJJSJZSJ: '数据计算截止时间',
     LK_GZLJZS: '跟踪零件总数（项）',
     LK_XZLJZS: '新增零件总数（项）',

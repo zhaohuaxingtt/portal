@@ -1904,7 +1904,7 @@
     LK_DQESL: 'confirmed quantity',
     LK_JIAGEBIANHUA: 'Price change',
     //SP14
-    LK_YEJIJINETIAOZHENG: 'amount adjustment',
+    LK_YJJETZ: 'Amount adjustment',
     LK_SJJSJZSJ: 'data calculation deadline',
     LK_GZLJZS: 'track total number of parts',
     LK_XZLJZS: 'total number of new parts',
