@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-16 17:55:03
+ * @LastEditTime: 2021-12-17 10:00:10
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -88,7 +88,9 @@
                  :layout="page.layout"
                  :current-page="page.currPage"
                  :total="page.totalCount" />
-  <systemDetail v-model="isdialog" :rowList="rowList"></systemDetail>
+  <systemDetail  @closeDiolog="closeDiolog"    v-model="isdialog" :rowList="rowList"></systemDetail>
+    
+ 
   </iCard>
 </template>
 
@@ -210,6 +212,9 @@ export default {
         this.$message.error(`上传文件大小不能超过10MB!`)
       }
       return isLt10M
+    },
+    closeDiolog(){
+        this.isdialog=false
     },
     //应用关联弹窗
     openDialog(v) {
