@@ -238,9 +238,10 @@ export default {
       if (e.state == '04') {
         url = '/meeting/live'
       }
-      if (e.state == '04') {
-        url = '/meeting/managementHall'
-      }
+      //gp管理大厅
+      // if (e.state == '04') {
+      //   url = '/meeting/managementHall'
+      // }
       this.$router.push({
         path: url,
         query: {

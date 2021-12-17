@@ -213,47 +213,47 @@ export default [
     name: 'nearMeetingBox',
     component: () => import(`@/views/meeting/myMeeting.vue`),
     children: [
-      {
-        path: '/meeting/managementHall',
-        name: 'managementHall',
-        meta: {
-          title: '管理大厅'
-        },
-        component: () => import(`@/views/meeting/managementHall/index.vue`),
-        redirect:'/meeting/managementHall/meetingListCurrent',
-        children:[
-          //会议右边路由
-          {
-            path: '/meeting/managementHall/meetingListCurrent',
-            name: 'meetingListCurrent',
-            meta: {
-              title: '会议列表'
-            },
-            component: () => import(`@/views/meeting/managementHall/meetingList/index.vue`)
-          },
-          {
-            path: '/meeting/managementHall/meetingListAttendees',
-            name: 'meetingListAttendees',
-            meta: {
-              title: '与会人列表'
-            },
-            // component: () => import(`@/views/meeting/managementHall/meetingListAttendees/index.vue`)
-            //与会人列表 链接原来的管理大厅页面
-            component: () => import(`@/views/meeting/participants/index.vue`)
-          },
-          {
-            path: '/meeting/managementHall/meetingInformation',
-            name: 'meetingInformation',
-            meta: {
-              title: '会议信息'
-            },
-            // component: () => import(`@/views/meeting/managementHall/meetingInformation/index.vue`)
-            //会议信息 链接原来的管理大厅页面
-            component: () => import(`@/views/meeting/information/index.vue`)
-          },
+      // {
+      //   path: '/meeting/managementHall',
+      //   name: 'managementHall',
+      //   meta: {
+      //     title: '管理大厅'
+      //   },
+      //   component: () => import(`@/views/meeting/managementHall/index.vue`),
+      //   redirect:'/meeting/managementHall/meetingListCurrent',
+      //   children:[
+      //     //会议右边路由
+      //     {
+      //       path: '/meeting/managementHall/meetingListCurrent',
+      //       name: 'meetingListCurrent',
+      //       meta: {
+      //         title: '会议列表'
+      //       },
+      //       component: () => import(`@/views/meeting/managementHall/meetingList/index.vue`)
+      //     },
+      //     {
+      //       path: '/meeting/managementHall/meetingListAttendees',
+      //       name: 'meetingListAttendees',
+      //       meta: {
+      //         title: '与会人列表'
+      //       },
+      //       // component: () => import(`@/views/meeting/managementHall/meetingListAttendees/index.vue`)
+      //       //与会人列表 链接原来的管理大厅页面
+      //       component: () => import(`@/views/meeting/participants/index.vue`)
+      //     },
+      //     {
+      //       path: '/meeting/managementHall/meetingInformation',
+      //       name: 'meetingInformation',
+      //       meta: {
+      //         title: '会议信息'
+      //       },
+      //       // component: () => import(`@/views/meeting/managementHall/meetingInformation/index.vue`)
+      //       //会议信息 链接原来的管理大厅页面
+      //       component: () => import(`@/views/meeting/information/index.vue`)
+      //     },
 
-        ]
-      },
+      //   ]
+      // },
       {
         path: '/meeting/near-meeting',
         name: 'nearMeeting',
