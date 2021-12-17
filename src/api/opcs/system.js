@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-12-16 17:27:41
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-16 18:03:45
+ * @LastEditTime: 2021-12-17 17:46:52
  * @FilePath: \front-portal-new\src\api\opcs\system.js
  */
 import axios from '@/utils/axios'
@@ -21,6 +21,14 @@ export function operationAdd(parmars) {
 export function operationQuery(parmars) {
     return requst({
         url: '/opcsUser/operationQuery',
+        method: 'POST',
+        data: parmars
+    })
+}
+//应用管理--授权列表--关联应用
+export function relateQuery(parmars) {
+    return requst({
+        url: '/opcsSupplier/relateQuery',
         method: 'POST',
         data: parmars
     })

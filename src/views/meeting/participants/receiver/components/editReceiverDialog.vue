@@ -353,7 +353,7 @@ export default {
           });
           return this.editReceiverData;
         })
-        .catch((err) => {
+        .catch(() => {
           this.tableLoading = false;
         });
     },

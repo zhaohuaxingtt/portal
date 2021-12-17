@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">会议同屏</div>
+    <div class="header">{{$t('会议同屏')}}</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <p class="info-line-1">

@@ -1,15 +1,15 @@
 <template>
   <iDialog
-    :title="'选择收件人'"
+    :title="$t('选择收件人')"
     :visible.sync="openReceiverDialog"
     width="54.875rem"
     :close-on-click-modal="false"
     @close="close"
   >
-    <div class="searchReceiver">搜索收件人</div>
+    <div class="searchReceiver">{{ $t('搜索收件人') }}</div>
     <iInput suffix-icon="el-icon-search" v-model="search" @change="change">
     </iInput>
-    <div class="receiver">收件人</div>
+    <div class="receiver">{{ $t('收件人') }}</div>
     <i-table-custom
       @editReceiver="editReceiver"
       :data="tableData"
@@ -27,28 +27,28 @@
       :total="page.totalCount"
       pager-count="3"
       background
-      prev-text="上一页"
-      next-text="下一页"
+      :prev-text="$t('上一页')"
+      :next-text="$t('下一页')"
     />
     <div class="button-list">
-      <iButton @click="close" plain class="cancel">{{ $t("取消") }}</iButton>
+      <iButton @click="close" plain class="cancel">{{ $t('取消') }}</iButton>
       <iButton
         @click="$emit('handleChooseReceiver', selectedTableData)"
         plain
         :disabled="selectedTableData.length == 0"
-        >{{ $t("确认") }}</iButton
+        >{{ $t('确认') }}</iButton
       >
     </div>
   </iDialog>
 </template>
 
 <script>
-import { iDialog, iPagination, iButton, iInput } from "rise";
+import { iDialog, iPagination, iButton, iInput } from 'rise'
 // import { getUsers } from "@/api/meeting/type";
-import { getPageListByParam } from "@/api/usercenter/receiver.js";
-import { chooseReceiverTableColumns } from "./data";
-import { pageMixins } from "@/utils/pageMixins";
-import iTableCustom from "@/components/iTableCustom";
+import { getPageListByParam } from '@/api/usercenter/receiver.js'
+import { chooseReceiverTableColumns } from './data'
+import { pageMixins } from '@/utils/pageMixins'
+import iTableCustom from '@/components/iTableCustom'
 export default {
   mixins: [pageMixins],
   components: {
@@ -56,82 +56,82 @@ export default {
     iPagination,
     iButton,
     iTableCustom,
-    iInput,
+    iInput
   },
   props: {
     loading: { type: Boolean, default: false },
     openReceiverDialog: {
       type: Boolean,
       default: () => {
-        return false;
-      },
-    },
+        return false
+      }
+    }
   },
   data() {
     return {
       chooseReceiverTableColumns,
-      search: "",
+      search: '',
       selectedTableData: [],
       // data: this.tableData,
-      tableData: "",
-      tableDataAll: "",
-    };
+      tableData: '',
+      tableDataAll: ''
+    }
   },
   mounted() {
-    this.query();
+    this.query()
   },
   methods: {
     handleSizeChange(e, q) {
-      console.log(e, q);
+      console.log(e, q)
     },
     handleCurrentChange(e) {
-      this.page.currPage = e;
-      this.query(this.search);
+      this.page.currPage = e
+      this.query(this.search)
     },
     change(val) {
-      this.search = val;
-      this.page.currPage = 1;
-      this.query(val);
+      this.search = val
+      this.page.currPage = 1
+      this.query(val)
     },
 
     close() {
-      this.$emit("closeChooseDialog", false);
+      this.$emit('closeChooseDialog', false)
     },
     // 表格选中值集
     handleSelectionChange(val) {
-      this.selectedTableData = val;
+      this.selectedTableData = val
     },
     query(val) {
-      let data = {};
+      let data = {}
       if (val) {
         data = {
           current: this.page.currPage,
           size: this.page.pageSize,
-          nameZh: val,
-        };
+          nameZh: val
+        }
       } else {
         data = {
           current: this.page.currPage,
-          size: this.page.pageSize,
-        };
+          size: this.page.pageSize
+        }
       }
 
       getPageListByParam(data)
         .then((res) => {
-          const { data, pageNum, pageSize, total, pages } = res;
-          this.page.currPage = pageNum;
-          this.page.pageSize = pageSize;
-          this.page.totalCount = total;
-          this.page.pages = pages;
-          this.tableData = [...data];
-          this.tableDataAll = [...data];
+          const { data, pageNum, pageSize, total, pages } = res
+          this.page.currPage = pageNum
+          this.page.pageSize = pageSize
+          this.page.totalCount = total
+          this.page.pages = pages
+          this.tableData = [...data]
+          this.tableDataAll = [...data]
         })
         .catch(() => {
-          this.tableLoading = false;
-        });
-    },
-  },
-};
+          this.tableLoading = false
+        })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

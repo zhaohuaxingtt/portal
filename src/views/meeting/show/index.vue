@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">会议展示 Meeting Live</div>
+    <div class="header">{{$t('会议展示 Meeting Live')}}</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <p class="info-line-1">
@@ -24,9 +24,9 @@
                     result.themens[result.themens.length - 1].plusDayEndTime
                   ) > 0
                     ? result.endTime.substring(0, 5) +
-                      ` +${
-                        Number(result.themens[result.themens.length - 1].plusDayEndTime)
-                      }`
+                      ` +${Number(
+                        result.themens[result.themens.length - 1].plusDayEndTime
+                      )}`
                     : result.endTime.substring(0, 5)
                 }`
             }}</span>
@@ -132,7 +132,9 @@
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.supporterEn">{{ scope.row.supporterEn }}</span>
+            <span v-if="scope.row.supporterEn">{{
+              scope.row.supporterEn
+            }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
@@ -145,7 +147,9 @@
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.presenterEn">{{ scope.row.presenterEn }}</span>
+            <span v-if="scope.row.presenterEn">{{
+              scope.row.presenterEn
+            }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
@@ -227,8 +231,8 @@
         background
         :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
-        prev-text="上一页"
-        next-text="下一页"
+        :prev-text="$t('上一页')"
+        :next-text="$t('下一页')"
         :layout="page.layout"
         :current-page="page.currPage"
         :total="page.total"

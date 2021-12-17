@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="导入议题"
+    :title="$t('导入议题')"
     :visible.sync="dialogStatusManageObj.openImportTopicDialog"
     width="39rem"
     :close-on-click-modal="false"
@@ -19,11 +19,11 @@
             :accept="accept"
           >
             <iButton type="button" class="upload-button">
-              请选择文件<span class="upload-text"
+              {{$t('请选择文件')}}<span class="upload-text"
                 ><img :src="uploadIcon"
               /></span>
             </iButton>
-            <div slot="tip" class="el-upload__tip">文件大小最大限制10M</div>
+            <div slot="tip" class="el-upload__tip">{{$t('文件大小最大限制10M')}}</div>
           </el-upload>
         </iFormItem>
         <div class="button-list">
