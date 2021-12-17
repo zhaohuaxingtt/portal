@@ -1805,7 +1805,7 @@
     LK_JAGE: '价格',
     LK_KSLJ: 'KSL价',
     LK_KSLJIALAIYUAN: 'KSL价来源',
-    LK_LAIYUANJIAGE: 'KSL来源价格',
+    LK_KSLLAIYUANJIAGE: 'KSL来源价格',
     LK_CKJG: '参考价格',
     LK_CKJGLY: '参考价格来源',
     LK_CAIGOUY: '采购员',

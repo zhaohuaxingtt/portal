@@ -7,7 +7,7 @@ export const tableTitle = [
     {props: 'supplierName', name: '供应商', key: 'LK_GONGYINGSHANG', tooltip: true, width: 240},
     {props: 'unit', name: '单位', key: 'LK_DANWEI', width: 80, tooltip: true,},
     {props: 'price', name: 'KSL价', key: 'LK_KSLJ', width: 120, tooltip: true,},
-    {props: 'kslPriceSource', name: 'KSL来源价格', key: 'LK_LAIYUANJIAGE', width: 120, tooltip: true,iconText: 'C:正式订单价 D:定点价格 T:目标价 F:上期正式订单价 M:手工', iconTextKey: 'LK_QRJG',icon:'iconxinxitishi'},
+    {props: 'kslPriceSource', name: 'KSL来源价格', key: 'LK_KSLJIALAIYUAN', width: 120, tooltip: true,iconText: 'C:正式订单价 D:定点价格 T:目标价 F:上期正式订单价 M:手工', iconTextKey: 'LK_QRJG',icon:'iconxinxitishi'},
     // {props: 'quantity', name: '确认数量', key: 'LK_QRSL', tooltip: true},
     {props: 'priceConfirm', name: '确认价格', key: 'LK_QRJG', width: 150, tooltip: true, iconText: '确认价格', iconTextKey: 'LK_QRJG', required: true},
     {props: 'confirmPrice', name: '参考价格', key: 'LK_CKJG', width: 150, tooltip: true, iconText: '参考价格', iconTextKey: 'LK_CKJG', required: true},
