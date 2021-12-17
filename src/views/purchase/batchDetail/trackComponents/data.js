@@ -1,7 +1,7 @@
 export const tableTitle = [
     {props: 'partNum', name: '零件号', key: 'LK_LINGJIANHAO', tooltip: true, width: 150, required: true},
     {props: 'partName', name: '零件名称', key: 'LK_PFJ_LJMC', width: 200, tooltip: true,},
-    {props: 'carFamily', name: '产品家族', key: 'LK_CHANGPINJIAZU', width: 120, tooltip: true},
+    {props: 'carFamily', name: '产品家族', key: 'LK_CPJZ', width: 120, tooltip: true},
     {props: 'carconfigSixcode', name: '车型代码', key: 'LK_CHEXINGDAIMA',width: 120, tooltip: true,},
     {props: 'factoryCode', name: '采购工厂', key: 'LK_CAIGOUGONGCHANG', width: 120,tooltip: true,},
     {props: 'supplierName', name: '供应商', key: 'LK_GONGYINGSHANG', tooltip: true, width: 280},

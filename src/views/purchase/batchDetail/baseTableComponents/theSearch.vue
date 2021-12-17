@@ -110,7 +110,7 @@
                 </el-form-item>
 
                 <!--产品家族-->
-                <el-form-item :label="language('LK_CHANGPINJIAZU','产品家族')">
+                <el-form-item :label="language('LK_CPJZ','产品家族')">
                     <iSelect multiple filterable :placeholder="language('请选择')" v-model="form.carFamily">
                         <el-option
                                 :value="item.code"
