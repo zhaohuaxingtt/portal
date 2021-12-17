@@ -34,10 +34,9 @@ export default {
   computed:{
     imgCutterRate(){
       if(this.cutterRate == 1){
-        console.log('ppppp');
-        return '16:3.5'
+        return '711:152'
       }else{
-        return '18:25'
+        return '17:20'
       }
     }
   },
