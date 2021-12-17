@@ -349,10 +349,10 @@ export default {
       // exportAsPDF(container, 'demo');
       transverseDownloadPDF({
         idEle: 'content',
-        // title:['#tabsBoxTitle','.cardHeader'],
         pdfName: name,
         exportPdf: true,
         waterMark: true,
+        title:['#tabsBoxTitle','.cardHeader'],
         callback: async (pdf, pdfName) => {
           try {
             const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
