@@ -11,7 +11,7 @@
       :height="height"
       tooltip-effect="light"
       :data="data"
-      :empty-text="$t('LK_ZANWUSHUJU')"
+      :empty-text="$i18n.locale === 'zh'?'暂无数据':'No Data'"
       :row-class-name="rowClassName"
       v-loading="tableLoading"
       @selection-change="handleSelectionChange"

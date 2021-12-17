@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="议题信息"
+    :title="$t('议题信息')"
     :visible.sync="openAddTopic"
     width="55rem"
     @close="clearDiolog"

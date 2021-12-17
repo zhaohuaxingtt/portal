@@ -1,12 +1,12 @@
 <template>
   <iDialog
-    title="导入异常"
+    :title="$t('导入异常')"
     :visible.sync="openError"
     width="42rem"
     :close-on-click-modal="false"
     @close="handleCloseError"
     ><div class="box">
-      <div class="text">请修改后重新执行导入操作！</div>
+      <div class="text">{{$t('请修改后重新执行导入操作！')}}</div>
       <div class="content">
         <ul v-for="item in this.errorListCopy" :key="item">
           <li class="li" v-html="item"></li>

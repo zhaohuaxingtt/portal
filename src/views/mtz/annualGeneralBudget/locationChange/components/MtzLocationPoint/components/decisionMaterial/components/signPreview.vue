@@ -349,7 +349,7 @@ export default {
       // exportAsPDF(container, 'demo');
       transverseDownloadPDF({
         idEle: 'content',
-        title:['#tabsBoxTitle','.cardHeader'],
+        // title:['#tabsBoxTitle','.cardHeader'],
         pdfName: name,
         exportPdf: true,
         waterMark: true,

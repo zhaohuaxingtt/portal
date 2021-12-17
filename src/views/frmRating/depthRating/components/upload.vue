@@ -32,7 +32,7 @@
 </template>
 
 <script>
-	import {iDialog,iButton,iPagination} from 'rise';
+	import {iDialog,iButton,iPagination,iMessage} from 'rise';
 	import tableList from '@/components/commonTable';
 	import {pageMixins} from '@/utils/pageMixins';
 	import {uploadTitle} from './data';
@@ -101,6 +101,9 @@
 			},
 			// 删除
 			depAttachmentDel(){
+				if(this.currentSelect.length<1){
+					return iMessage.warn(this.language("QZSXZYTSJ","请至少选中一条数据"));
+				}
 				let ids=[]
 				this.currentSelect.map(res=>{
 					ids.push(res.id)
@@ -135,5 +138,8 @@
 		color: $color-blue;
 		text-decoration: underline;
 		cursor: pointer;
+	}
+	.margin-right10{
+		margin-right:10px;
 	}
 </style>

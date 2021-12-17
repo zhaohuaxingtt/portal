@@ -4,7 +4,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">会议名称</div>
+            <div class="name">{{$t('会议名称')}}</div>
             <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
@@ -34,13 +34,13 @@
         <div class="row">
           <div class="list">
             <div class="show">
-              <div class="title">会议类型</div>
+              <div class="title">{{$t('会议类型')}}</div>
               <div class="content">
                 {{ typeObject[meetingInfo.meetingTypeId] }}
               </div>
             </div>
             <div class="show">
-              <div class="title">会议地点</div>
+              <div class="title">{{$t('会议地点')}}</div>
               <div
                 class="content content-address"
                 :title="meetingInfo.meetingPlace"
@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="show">
-              <div class="title">会议时间</div>
+              <div class="title">{{$t('会议时间')}}</div>
               <div class="content">
                 {{
                   `${begin}${
@@ -80,7 +80,7 @@
           @click="handleClickColumn"
           class="display-column"
           :disabled="showUpdateTopicButtonList"
-          >列隐藏/显示</iButton
+          >{{$t('列隐藏/显示')}}</iButton
         >
         <actionButtons
           :currentButtonList="tableButtonList"
@@ -192,7 +192,7 @@
                   scope.row.isBreak
                     ? '-'
                     : scope.row.type === 'MANUAL'
-                    ? '手工议题'
+                    ? $t('手工议题')
                     : scope.row.type
                 }}
               </template>
@@ -473,7 +473,7 @@
                     scope.row.isBreak
                       ? '-'
                       : scope.row.type === 'MANUAL'
-                      ? '手工议题'
+                      ? $t('手工议题')
                       : scope.row.type
                   }}
                 </template>
@@ -1162,7 +1162,7 @@ export default {
     },
     // 下载模版
     downDemo() {
-      downloadStaticFile ({
+      downloadStaticFile({
         url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
         filename: '议题模版',
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
@@ -2331,6 +2331,7 @@ export default {
           this.handleButtonDisabled(['overTopic'], false)
         }
         if (val[0].state === '03') {
+          this.handleButtonDisabled(['overTopic'], true)
           if (!val[0].isBreak) {
             this.handleButtonDisabled(['protectResult'], false)
             // if (!val[0].conclusionCsc || val[0].conclusionCsc === '01') {
@@ -2429,6 +2430,7 @@ export default {
           this.handleButtonDisabled(['protectResult'], true)
           this.handleButtonDisabled(['overTopic'], false)
         } else {
+          this.handleButtonDisabled(['overTopic'], true)
           // console.log("")
           if (val[0].isBreak) {
             this.handleButtonDisabled(['deleteTopAll'], false)

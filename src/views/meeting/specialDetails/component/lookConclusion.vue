@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    title="查看结论"
+    :title="$t('查看结论')"
     :visible.sync="open"
     width="54.875rem"
     height="28.75rem"
@@ -9,7 +9,7 @@
   >
     <div class="content">
       <div class="conclusion-box">
-        <span class="conclusion-title"><span>结论:</span></span>
+        <span class="conclusion-title"><span>{{$t('结论')}}:</span></span>
         <div class="conclusion-content">
           {{ themenConclusion[selectedTableData[0].conclusionCsc] }}
         </div>
@@ -21,7 +21,7 @@
             selectedTableData[0].conclusionCsc === '06'
         "
       >
-        <span class="conclusion-title"><span>会议:</span></span>
+        <span class="conclusion-title"><span>{{$t('会议')}}:</span></span>
         <div class="conclusion-content">
           {{ selectedTableData[0].toDoMeetingName }}
         </div>
@@ -31,14 +31,14 @@
         v-if="selectedTableData[0].conclusionCsc === '02'"
       >
         <span class="conclusion-title" style="white-space:nowrap"
-          ><span>是否冻结:</span></span
+          ><span>{{$t('是否冻结')}}:</span></span
         >
         <div class="conclusion-content">
-          {{ selectedTableData[0].isFrozenRs ? "是" : "否" }}
+          {{ selectedTableData[0].isFrozenRs ? $t('是') : $t('否') }}
         </div>
       </div>
       <div class="conclusion-box">
-        <span class="conclusion-title">任务:</span>
+        <span class="conclusion-title">{{$t('任务')}}:</span>
         <div class="conclusion-content">
           {{ selectedTableData[0].conclusion }}
         </div>
