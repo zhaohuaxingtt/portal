@@ -6,12 +6,13 @@ export const tableColumn = (list) => {
     },
     {
       type:'index',
-      label:'序号'
+      label:'序号',
+      width: 100
     },
     {
       prop: 'lableName',
       label: '标签内容',
-      align: 'center',
+      align: 'center'
     },
     {
       // prop: 'moduleId',
@@ -25,7 +26,6 @@ export const tableColumn = (list) => {
     {
       prop: 'createByName',
       label: '添加人',
-      width: '100px',
       align: 'center',
       tooltip: true
     },

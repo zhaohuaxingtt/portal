@@ -1,11 +1,11 @@
 <template>
-  <iCard title="N-Tier供应商用户" collapse>
+  <iCard :title="language('N-Tier供应商用户')" collapse>
     <div slot="header-control">
       <iButton :disabled="!selectedRows.length" @click="handleDelete">
-        删除
+        {{language('删除')}}
       </iButton>
       <iButton :disabled="this.selectedRows.length !== 1" @click="handleEdit">
-        编辑
+        {{language('编辑')}}
       </iButton>
     </div>
     <div class="N-TierList">

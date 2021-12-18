@@ -511,7 +511,8 @@ export default {
     }
     const validateSupporterNosys = (rule, value, callback) => {
       if (
-        !value.trim() &&
+        !value &&
+        !(typeof value === 'string' ? value.trim() : false) &&
         (this.ruleForm.supporter === '' || this.ruleForm.supporter.length === 0)
       ) {
         callback(new Error('系统用户和非系统用户不能同时为空'))
@@ -537,7 +538,8 @@ export default {
     }
     const validatePresenterNosys = (rule, value, callback) => {
       if (
-        !value.trim() &&
+        !value &&
+        !(typeof value === 'string' ? value.trim() : false) &&
         (this.ruleForm.presenter === '' || this.ruleForm.presenter.length === 0)
       ) {
         callback(new Error('系统用户和非系统用户不能同时为空'))
@@ -549,7 +551,7 @@ export default {
       }
     }
     const validateTopic = (rule, value, callback) => {
-      if (!value.trim()) {
+      if (!value && !(typeof value === 'string' ? value.trim() : false)) {
         callback(new Error('必填'))
       } else {
         if (value && value.length > 255) {
@@ -756,6 +758,9 @@ export default {
     },
     'ruleForm.presenter': {
       handler: function (newV) {
+        if (typeof newV === 'string') {
+          return
+        }
         let arr = newV.map((item) => {
           return item.id
         })
@@ -776,13 +781,20 @@ export default {
                   return item.department
                 })
             )
-          ).join(',')
+          )
+            .filter((item) => {
+              return item
+            })
+            .join(',')
         }
       },
       immediate: true
     },
     'ruleForm.supporter': {
       handler: function (newV) {
+        if (typeof newV === 'string') {
+          return
+        }
         let arr = newV.map((item) => {
           return item.id
         })
@@ -803,7 +815,11 @@ export default {
                   return item.department
                 })
             )
-          ).join(',')
+          )
+            .filter((item) => {
+              return item
+            })
+            .join(',')
         }
       },
       immediate: true
@@ -1053,10 +1069,10 @@ export default {
       formData.append('type', 1)
       const res = await uploadFile(formData)
       // const infoById = await getFileByIds([res[0].id]);
-      this.attachment.attachmentId = res[0].id
+      this.attachment.attachmentId = res.data[0].id
       // this.attachment.attachmentUrl = res.url;
-      this.attachment.attachmentUrl = res[0].path
-      this.attachment.attachmentName = res[0].name
+      this.attachment.attachmentUrl = res.data[0].path
+      this.attachment.attachmentName = res.data[0].name
       this.attachments.push({ ...this.attachment })
       iMessage.success(this.$t('上传成功'))
       this.uploadLoading = false
@@ -1113,7 +1129,6 @@ export default {
               supporter: inputSupporterStr,
               attachments: this.attachments
             }
-            console.log('formData', formData)
             updateThemen(formData)
               .then((data) => {
                 this.loading = false

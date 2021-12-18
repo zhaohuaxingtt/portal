@@ -8,28 +8,22 @@
     <div class="choose-position">
       <div class="form-panel">
         <el-form inline label-position="top">
-          <iFormItem :label="$t('POSITION.POSITION_NAME')">
+          <iFormItem :label="language('岗位名称')">
             <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+              :placeholder="language('请输入')"
               v-model="form.fullNameZh"
             />
           </iFormItem>
-          <iFormItem :label="$t('POSITION.POSITION_CODE')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.code"
-            />
+          <iFormItem :label="language('岗位编码')">
+            <iInput :placeholder="language('请输入')" v-model="form.code" />
           </iFormItem>
-          <iFormItem :label="$t('POSITION.POSITION_USER')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.users"
-            />
+          <iFormItem :label="language('岗位人员')">
+            <iInput :placeholder="language('请输入')" v-model="form.users" />
           </iFormItem>
         </el-form>
         <div class="form-button">
-          <iButton @click="search">{{ $t('POSITION.QUERY') }}</iButton>
-          <iButton @click="reset">{{ $t('POSITION.RESET') }}</iButton>
+          <iButton @click="search">{{ language('查询') }}</iButton>
+          <iButton @click="reset">{{ language('重置') }}</iButton>
         </div>
       </div>
       <div class="divider"></div>
@@ -50,7 +44,7 @@
           </div>
         </div>
         <div class="confirm-button">
-          <iButton @click="save">{{ $t('APPROVAL.OK') }}</iButton>
+          <iButton @click="save">{{ language('确定') }}</iButton>
         </div>
       </div> -->
 
@@ -96,13 +90,13 @@ export default {
     iInput,
     iFormItem,
     iTableCustom,
-    iPagination,
+    iPagination
   },
   props: {
     visible: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data() {
     return {
@@ -111,13 +105,13 @@ export default {
       choosePositionColumns,
       selectedTableData: [],
       loading: false,
-      tableData: [],
+      tableData: []
     }
   },
   watch: {
     visible() {
       this.dialogFormVisible = this.visible
-    },
+    }
   },
   created() {
     this.dialogFormVisible = this.visible
@@ -129,13 +123,13 @@ export default {
     },
     reset() {
       this.form = { ...choosePositionForm }
-      this.page.currPage = 1;
-      this.query();
+      this.page.currPage = 1
+      this.query()
     },
     search() {
-      console.log("===","搜索");
-      this.page.currPage = 1;
-      this.query();
+      console.log('===', '搜索')
+      this.page.currPage = 1
+      this.query()
     },
     handleSelectedRow(row) {
       console.log('handleSelectedRow', row)
@@ -153,12 +147,12 @@ export default {
       this.selectedTableData.splice(index, 1)
     },
     async query() {
-      console.log("Form Data===",this.form);
+      console.log('Form Data===', this.form)
       this.loading = true
       const reqData = {
         ...this.form,
         current: this.page.currPage,
-        size: this.page.pageSize,
+        size: this.page.pageSize
       }
       const res = await fetchPositionDropdownList(reqData).finally(() => {
         this.loading = false
@@ -166,8 +160,8 @@ export default {
       const { data, total } = res
       this.page.totalCount = total
       this.tableData = data
-    },
-  },
+    }
+  }
 }
 </script>
 

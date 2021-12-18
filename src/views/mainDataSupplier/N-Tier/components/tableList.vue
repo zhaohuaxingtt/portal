@@ -1,13 +1,15 @@
 <template>
   <iCard>
     <div class="btnList">
-      <iButton @click="del" :disabled="this.selectedItems.length == 0"
-        >删除</iButton
-      >
-      <iButton @click="edit" :disabled="this.selectedItems.length != 1"
-        >编辑</iButton
-      >
-      <buttonDownload :download-method="exportExcel">导出</buttonDownload>
+      <iButton @click="del" :disabled="this.selectedItems.length == 0">
+        {{ language('删除') }}
+      </iButton>
+      <iButton @click="edit" :disabled="this.selectedItems.length != 1">
+        {{ language('编辑') }}
+      </iButton>
+      <buttonDownload :download-method="exportExcel">
+        {{ language('导出') }}
+      </buttonDownload>
     </div>
     <div class="tabelList">
       <iTabelCustom
@@ -74,12 +76,12 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          let supplierIds = this.selectedItems.map(item => {
+          let supplierIds = this.selectedItems.map((item) => {
             return item.supplierId
           })
           supplierIds = supplierIds.join(',')
           delNTierItems(supplierIds)
-            .then(val => {
+            .then((val) => {
               if (val.code == 200) {
                 this.$message.success('删除成功')
               } else if (val.code == 2) {
@@ -120,8 +122,9 @@ export default {
         current: this.page.currPage,
         size: this.page.pageSize
       }
+      this.loading = true
       getTablePage(data)
-        .then(result => {
+        .then((result) => {
           if (result.code == 200) {
             this.tabelListData = result.data.records
             this.page.totalCount = result.data.total
@@ -129,7 +132,7 @@ export default {
             this.$message.error(result.desZh)
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$message.error(err)
         })
         .finally(() => {

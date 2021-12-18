@@ -12,8 +12,10 @@ export default {}
 .tab-badge {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   ::v-deep .tab:last-child::after {
     background: transparent;
+
   }
 }
 </style>

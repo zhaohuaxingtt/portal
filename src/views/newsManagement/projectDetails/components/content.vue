@@ -316,11 +316,11 @@ export default {
 .form-bottom-cards {
   display: flex;
   flex-wrap: wrap-reverse;
-  margin-left: -28px;
-  width: 120%;
-  /* .form-bottom-content {
-    flex: 0.32;
-  } */
+  // margin-left: -28px;
+  width: 100%;
+  // .form-bottom-content {
+  //   flex: 0.32;
+  // }
 }
 
 /* 预览 */

@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">会议同屏</div>
+    <div class="header">{{$t('会议同屏')}}</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <p class="info-line-1">
@@ -11,7 +11,11 @@
           <span class="date-time-start">
             <img :src="timeClock" alt="" srcset="" />
             <span>{{
-              result.startDate + " " + result.startTime + "~" + result.endTime
+              result.startDate +
+              ' ' +
+              result.startTime.substring(0, 5) +
+              '~' +
+              result.endTime.substring(0, 5)
             }}</span>
           </span>
           <span class="date-time-end">
@@ -28,7 +32,7 @@
             'right-item': index === 1,
             'normal-item': !isActive,
             'content-item': true,
-            'center-item': index === 2,
+            'center-item': index === 2
           }"
         >
           <span class="right-num">
@@ -38,49 +42,49 @@
           </span>
           <div class="meeting-name">
             {{
-              item.state == "02"
-                ? "LIVE!"
-                : item.state == "01"
-                ? "NEXT"
-                : "FINISHED"
+              item.state == '02'
+                ? 'LIVE!'
+                : item.state == '01'
+                ? 'NEXT'
+                : 'FINISHED'
             }}
           </div>
           <div class="meeting-content">{{ item.topic }}</div>
           <ul class="table-box">
             <li class="table-item">
-              <span>时长</span>
-              <span>{{ item.duration }}分钟</span>
+              <span>{{$t('时长')}}</span>
+              <span>{{ item.duration }}{{$t('分钟')}}</span>
             </li>
             <li class="table-item double-item">
-              <span>演讲人</span>
+              <span>{{$t('演讲人')}}</span>
               <span
                 >{{ item.presenter
                 }}{{
                   item.presenterNosys
                     ? item.presenter
-                      ? "," + item.presenterNosys
+                      ? ',' + item.presenterNosys
                       : item.presenterNosys
-                    : ""
+                    : ''
                 }}</span
               >
             </li>
             <li class="table-item">
-              <span>演讲人部门</span>
+              <span>{{$t('演讲人部门')}}</span>
               <span
                 >{{ item.presenterDept
                 }}{{
                   item.presenterDeptNosys
                     ? item.presenterDept
-                      ? "," + item.presenterDeptNosys
+                      ? ',' + item.presenterDeptNosys
                       : item.presenterDeptNosys
-                    : ""
+                    : ''
                 }}</span
               >
             </li>
             <li class="table-item double-item">
-              <span>时间</span>
-              <span style="color: #1660F1">{{
-                item.startTime ? item.startTime.substring(0, 5) : ""
+              <span>{{$t('时间')}}</span>
+              <span style="color: #1660f1">{{
+                item.startTime ? item.startTime.substring(0, 5) : ''
               }}</span>
             </li>
           </ul>
@@ -90,16 +94,16 @@
   </iPage>
 </template>
 <script>
-import { iPage, iCard } from "rise";
-import { getMeetingDetail } from "@/api/meeting/home";
-import { getMettingType } from "@/api/meeting/type";
-import timeClock from "@/assets/images/time-clock.svg";
-import positionMark from "@/assets/images/position-mark.svg";
-import percentLine from "@/assets/images/percent-line.svg";
+import { iPage, iCard } from 'rise'
+import { getMeetingDetail } from '@/api/meeting/home'
+import { getMettingType } from '@/api/meeting/type'
+import timeClock from '@/assets/images/time-clock.svg'
+import positionMark from '@/assets/images/position-mark.svg'
+import percentLine from '@/assets/images/percent-line.svg'
 export default {
   components: {
     iPage,
-    iCard,
+    iCard
   },
   data() {
     return {
@@ -110,70 +114,70 @@ export default {
       result: {},
       typeObj: {},
       activeIndex: 0,
-      timer: "",
-      isActive: true, // 判断有无正在进行中的议题
-    };
+      timer: '',
+      isActive: true // 判断有无正在进行中的议题
+    }
   },
   watch: {
     data: {
       handler(v) {
-        console.log("v", v);
-      },
-    },
+        console.log('v', v)
+      }
+    }
   },
   methods: {
     getTypeList() {
       let param = {
         pageSize: 1000,
-        pageNum: 1,
-      };
-      let obj = {};
+        pageNum: 1
+      }
+      let obj = {}
       getMettingType(param).then((res) => {
         res.data.forEach((item) => {
-          obj[item.id] = item.name;
-        });
-        this.typeObj = obj;
-      });
+          obj[item.id] = item.name
+        })
+        this.typeObj = obj
+      })
     },
     query() {
       getMeetingDetail(this.$route.query).then((res) => {
-        this.result = res;
+        this.result = res
         // let themensUnuse = res.themens.filter((item)=>{
         //   return item.state != '03';
         // })
         // let themensUnuse = res.themens;
-        let active = false;
+        let active = false
         // console.log('themensUnuse', themensUnuse)
         for (let index = 0; index < res.themens.length; index++) {
-          let item = res.themens[index];
-          if (item.state == "02") {
-            active = true;
-            this.data = res.themens.slice(index, index + 3);
-            this.activeIndex = index;
-            break;
+          let item = res.themens[index]
+          if (item.state == '02') {
+            active = true
+            this.data = res.themens.slice(index, index + 3)
+            this.activeIndex = index
+            break
           }
         }
         if (!active) {
-          this.isActive = false;
-          this.activeIndex = 0;
+          this.isActive = false
+          this.activeIndex = 0
           // this.data = themensUnuse.slice(0,2);
-          this.data = res.themens.slice(0, 2);
+          this.data = res.themens.slice(0, 2)
         }
-        console.log(this.data);
-      });
-    },
+        console.log(this.data)
+      })
+    }
   },
   mounted() {
-    this.getTypeList();
-    this.query();
+    this.getTypeList()
+    this.query()
     this.timer = setInterval(() => {
-      this.query();
-    }, 10000);
+      this.query()
+    }, 10000)
   },
   beforeDestroy() {
-    clearInterval(this.timer);
-  },
-};
+    clearInterval(this.timer)
+  }
+}
 </script>
 <style lang="scss" scoped>
 .header {

@@ -112,7 +112,7 @@ export default {
     findKVs().then((res) => {
       this.KVImgs = res;
     });
-    this.queryLatesAndHot();
+    // this.queryLatesAndHot();
     this.handleRearch();
   },
   methods: {
@@ -123,6 +123,7 @@ export default {
         ...e,
       };
       this.query(param);
+      this.queryLatesAndHot()
     },
     async handleSearchByTagId(e) {
       this.loadingCard = true;
@@ -140,10 +141,16 @@ export default {
       this.tagActiveIndex = "";
       this.activeIndex = e;
       this.handleRearch();
-     
+    
     },
     handleOpenNewsDetail(val) {
-      let { href } = this.$router.resolve({
+      if(val.category==2){
+        let { href } = this.$router.resolve({
+        name:  "topicDetail",
+      });
+        window.open(href + `?id=${val.topicId}`, "_self");
+      }else{
+        let { href } = this.$router.resolve({
         name: val.topicId ? "newsProjectDetails" : "newsDetails",
       });
       if (val.topicId) {
@@ -156,8 +163,15 @@ export default {
           window.open(href + `?id=${val.id}`, "_blank");
         }
       }
+      }
     },
     handleOpenNewsDetails(val) {
+      if(val.category==2){
+        let { href } = this.$router.resolve({
+        name: "topicDetail",
+      });
+      window.open(href + `?id=${val.topicId}`, "_self");
+      }else{
       let { href } = this.$router.resolve({
         name: "newsDetails",
       });
@@ -166,6 +180,7 @@ export default {
         window.open(val.linkUrl, "_blank");
       } else {
         window.open(href + `?id=${val.id}`, "_blank");
+      }
       }
     },
     async query(e) {
@@ -186,11 +201,11 @@ export default {
             return;
           }
           this.moreFlag = this.$refs.newsBottomCard.$refs.tagsBox.offsetHeight > 30;
-     });
+    });
     },
     async queryLatesAndHot() {
-      this.hotNews = await findHotNews();
-      this.latestNews = await findLatestNews();;
+      this.hotNews = await findHotNews(this.activeIndex!=2?false:true);
+      this.latestNews = await findLatestNews(this.activeIndex!=2?false:true);
       this.latestNews = this.latestNews?.map((item) => {
         return {
           ...item,

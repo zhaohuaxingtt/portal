@@ -11,7 +11,7 @@
               :class="'radio' + scope.row.id"
               @click="
                 () => {
-                  handleRadio(scope.row, 'radio' + scope.row.id);
+                  handleRadio(scope.row, 'radio' + scope.row.id)
                 }
               "
             >
@@ -20,24 +20,29 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column show-overflow-tooltip align="center" label="#" width="15">
+      <el-table-column
+        show-overflow-tooltip
+        align="center"
+        label="#"
+        width="15"
+      >
         <template slot-scope="scope">
           <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column show-overflow-tooltip align="center" label="会议名称">
+      <el-table-column show-overflow-tooltip align="center" :label="$t('会议名称')">
         <template slot-scope="scope">
           <span class="open-link-text">{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column show-overflow-tooltip align="center" label="会议类型">
+      <el-table-column show-overflow-tooltip align="center" :label="$t('会议类型')">
         <template slot-scope="scope">
           <span class="open-link-text">{{
             typeObject[scope.row.meetingTypeId]
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column show-overflow-tooltip align="center" label="会议状态">
+      <el-table-column show-overflow-tooltip align="center" :label="$t('会议状态')">
         <template slot-scope="scope">
           <span class="circle circle1" v-if="scope.row.state === '02'">{{
             statusObj[scope.row.state]
@@ -53,12 +58,16 @@
         label="会议地点"
         prop="meetingPlace"
       ></el-table-column>
-      <el-table-column show-overflow-tooltip align="center" label="会议时间">
+      <el-table-column show-overflow-tooltip align="center" :label="$t('会议时间')">
         <template slot-scope="scope">
           <span>{{
             `${scope.row.startDate}
-              ${scope.row.startTime ? scope.row.startTime.substring(0, 5) : ""}~
-              ${scope.row.endTime ? scope.row.endTime.substring(0, 5) : ""}`
+              ${scope.row.startTime ? scope.row.startTime.substring(0, 5) : ''}~
+              ${
+                scope.row.endTime
+                  ? scope.row.endTime.substring(0, 5)
+                  : handleEndTime(scope.row)
+              }`
           }}</span>
         </template>
       </el-table-column>
@@ -70,8 +79,8 @@
       background
       :page-sizes="page.pages"
       :page-size="page.pageSize"
-      prev-text="上一页"
-      next-text="下一页"
+      :prev-text="$t('上一页')"
+      :next-text="$t('下一页')"
       layout="prev, pager, next, jumper"
       :current-page="page.currPage"
       :total="page.total"
@@ -80,54 +89,54 @@
 </template>
 
 <script>
-import { iPagination } from "rise";
-import iTableML from "@/components/iTableML";
-import { statusObj } from "./data";
-import resultMessageMixin from "@/mixins/resultMessageMixin";
-import enclosure from "@/assets/images/enclosure.svg";
-import beginVedio from "@/assets/images/meeting-home/beginVedio.svg";
-import closeVedio from "@/assets/images/meeting-home/close-vedio.svg";
-import change from "@/assets/images/meeting-home/change.svg";
-import doubleScreen from "@/assets/images/meeting-home/doubleScreen.svg";
-import endVedio from "@/assets/images/meeting-home/endVedio.svg";
-import importFile from "@/assets/images/meeting-home/import.svg";
-import newAgenda from "@/assets/images/meeting-home/newAgenda.svg";
-import newFile from "@/assets/images/meeting-home/newFile.svg";
-import openLock from "@/assets/images/meeting-home/openLock.svg";
-import lock from "@/assets/images/meeting-home/lock.svg";
-import screen from "@/assets/images/meeting-home/screen.svg";
-import uploadFile from "@/assets/images/meeting-home/uploadFile.svg";
-import upload from "@/assets/images/meeting-home/upload.svg";
-
+import { iPagination } from 'rise'
+import iTableML from '@/components/iTableML'
+import { statusObj } from './data'
+import resultMessageMixin from '@/mixins/resultMessageMixin'
+import enclosure from '@/assets/images/enclosure.svg'
+import beginVedio from '@/assets/images/meeting-home/beginVedio.svg'
+import closeVedio from '@/assets/images/meeting-home/close-vedio.svg'
+import change from '@/assets/images/meeting-home/change.svg'
+import doubleScreen from '@/assets/images/meeting-home/doubleScreen.svg'
+import endVedio from '@/assets/images/meeting-home/endVedio.svg'
+import importFile from '@/assets/images/meeting-home/import.svg'
+import newAgenda from '@/assets/images/meeting-home/newAgenda.svg'
+import newFile from '@/assets/images/meeting-home/newFile.svg'
+import openLock from '@/assets/images/meeting-home/openLock.svg'
+import lock from '@/assets/images/meeting-home/lock.svg'
+import screen from '@/assets/images/meeting-home/screen.svg'
+import uploadFile from '@/assets/images/meeting-home/uploadFile.svg'
+import upload from '@/assets/images/meeting-home/upload.svg'
+import dayjs from 'dayjs'
 export default {
   components: {
     iTableML,
-    iPagination,
+    iPagination
   },
   mixins: [resultMessageMixin],
   props: {
     tableListData: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     typeObject: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     page: {
       type: Object,
       default: () => {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   data() {
     return {
-      radio: "",
+      radio: '',
       beginVedio,
       closeVedio,
       change,
@@ -156,30 +165,45 @@ export default {
       assignQualitativeScoreLoading: false,
       transferQualitativeScoreLoading: false,
       selectedRow: [],
-      openAddSingle: false,
-    };
+      openAddSingle: false
+    }
   },
   methods: {
+    handleEndTime(row) {
+      // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return '~' + str + ' +1'
+      }
+      return '~' + str
+    },
     handleRadio(row, str) {
-      this.selectedRow = row;
+      this.selectedRow = row
       for (let key in this.$refs) {
         if (!this.$refs[key]) {
-          continue;
+          continue
         }
-        this.$refs[key].classList.remove("radioed");
+        this.$refs[key].classList.remove('radioed')
       }
-      this.$refs[str].classList.toggle("radioed");
-      this.$emit("handleSelected", [row]);
+      this.$refs[str].classList.toggle('radioed')
+      this.$emit('handleSelected', [row])
     },
     // handleChoose(e) {
     //   this.selectedRow = e;
     //   this.$emit("handleSelected", e);
     // },
     handleCurrentChange(e) {
-      this.$emit("handleChangePage", e);
-    },
-  },
-};
+      this.$emit('handleChangePage', e)
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -190,7 +214,7 @@ export default {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  div[name="radio"] {
+  div[name='radio'] {
     /* flex-grow: 1;
     flex-shrink: 0; */
     width: 14px;

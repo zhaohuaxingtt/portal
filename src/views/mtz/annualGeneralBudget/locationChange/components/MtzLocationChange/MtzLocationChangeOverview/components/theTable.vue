@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-24 10:52:41
+ * @LastEditTime: 2021-12-06 14:45:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -170,16 +170,8 @@ export default {
       window.open(routerPath.href, '_blank')
     },
     handleSelectionChange (val) {
-      if (val.length > 1) {
-        var duoxuans = val.pop();
-        this.muilteList = val.pop();
-        //清除所有选中
-        this.$refs.moviesTable.clearSelection();
-        //给最后一个加上选中
-        this.$refs.moviesTable.toggleRowSelection(duoxuans);
-      } else {
-        this.muilteList = val
-      }
+      this.muilteList = val
+
     },
     del () {
       if (this.muilteList.length === 0) {

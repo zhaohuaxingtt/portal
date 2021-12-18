@@ -110,7 +110,7 @@
           const Linie = this.roleList.some(item => item.code == 'LINIE')
           const zycgkzORkzzl = this.roleList.some(item => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ' || item.code == 'ZYCGKSXTY')
           const zycgkz = this.roleList.some(item => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ')
-          const kzzl = this.roleList.some(item => item.code == 'ZYCGKSXTY')
+          const kzzl = this.roleList.some(item => item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY')
           const zycgbzORbzzl = this.roleList.some(item => item.code == 'BZZL' || item.code == 'CGBZ')
           const zycgbz = this.roleList.some(item => item.code == 'CGBZ')
           const bzzl = this.roleList.some(item => item.code == 'BZZL')
@@ -155,7 +155,7 @@
         } else {
           const Linie = this.roleList.some(item => item.code == 'LINIE') // 采购员
           const KZ = this.roleList.some(item => item.code == 'ZYCGKZ' || item.code == 'WS2ZYCGKZ') // 科长
-          const KZZL = this.roleList.some(item => item.code == 'ZYCGKSXTY') // 科长助理
+          const KZZL = this.roleList.some(item => item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY') // 科长助理
           const BZ = this.roleList.some(item => item.code == 'CGBZ')      // 部长
           const BZZL = this.roleList.some(item => item.code == 'BZZL')    // 部长助理
           const GZ = this.roleList.some(item => item.code == 'WS2ZYCGGZ' || item.code == 'ZYCGGZ') // 股长
@@ -234,7 +234,7 @@
           url: '/achievement/baseData/mymerit',
           activePath: '/achievement/baseData/mymerit',
           permissionKey: 'ACHIEVEMENT',
-          key: 'EKL_YJGL_WDYJ'
+          key: 'LK_WDYJ'
         }]
       }
     },
@@ -383,7 +383,7 @@
           var version_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_ekl_data_source",
+              table: "app_proc_LK_data_source",
               column: "data_version"
             },
             operator: "In",
@@ -393,7 +393,7 @@
           var year_parameter = {
             $schema: "http://powerbi.com/product/schema#basic",
             target: {
-              table: "app_proc_ekl_data_source",
+              table: "app_proc_LK_data_source",
               column: "data_year"
             },
             operator: "In",

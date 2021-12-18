@@ -1,18 +1,43 @@
 <template>
   <div class="flex flex-row content" v-loading="loading">
-    <div class="left-content">
-      <el-row :gutter="20">
-        <el-col span="14">
-          <iInput v-model="keyWord" placeholder="搜索.." @blur="keyWordBlurHandle" />
+    <div class="left-content" >
+      <!-- <el-row :gutter="20">
+        <el-col span="13">
+          <iInput v-model="queryForm.keyWord" placeholder="搜索..." @keydown.native.enter="keyWordBlurHandle" />
         </el-col>
-        <el-col span="10">
-          <iSelect v-model="questionModuleId" filterable placeholder="问题模块" clearable="true" @change="questionModuleHandle" @clear="clearModuleHandle">
+        <el-col span="11">
+          <iSelect v-model="questionModuleId" filterable placeholder="全部模块" clearable="true" @change="questionModuleHandle" @clear="clearModuleHandle">
             <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
           </iSelect>
         </el-col>
-      </el-row>
+      </el-row> -->
+      <div class="search-box flex flex-row">
+        <iInput 
+          class="input-style"
+          :placeholder="language('搜索...')"
+          @keyup.enter.native="keyWordBlurHandle"
+          v-model="queryForm.keyWord"
+        />
+        <iSelect
+          class="select-style"
+          :placeholder="language('全部模块')"
+          v-model="questionModuleId"
+          filterable
+          clearable
+          @change="questionModuleHandle"
+          @clear="clearModuleHandle"
+        >
+          <el-option
+            v-for="(item) in problemModuleList"
+            :key="item.id"
+            :value="item.id"
+            :label="item.menuName"
+          >
+          </el-option>
+        </iSelect>
+      </div>
       <el-row class="mt20 mb20" :gutter="10">
-        <el-col span="16">
+        <el-col span="14">
           <ul class="flex flex-row justify-between category-list">
             <li v-for="item of catgoryList" :key="item.value" :class="{
                 active: currentCategoryItem === item.value
@@ -21,15 +46,18 @@
             </li>
           </ul>
         </el-col>
-        <el-col span="8">
+        <el-col span="8" push="4">
           <el-switch v-model="selfOnly" active-text="仅看自己" @change="changeSelfHandle"></el-switch>
         </el-col>
       </el-row>
-      <template v-if="categoryCardList.length">
-        <div class="card-list" @scroll="scrollHandle($event)">
+        <div class="card-list" 
+          v-infinite-scroll="loadmore"
+          infinite-scroll-distance="20"
+          infinite-scroll-disabled="disabled"
+          v-loading="l_loading">
           <el-card class="card mb20 cursor" v-for="item of categoryCardList" :key="item.id" @click.native="cardSelectHandler(item)" :shadow="cardSelectItem.id === item.id ? 'always' : 'never'">
             <div class="flex flex-row justify-between">
-              <div class="title">{{ item.questionTitle }}</div>
+              <div class="title ellipsis">{{ item.questionTitle }}</div>
               <div class="status">
                 <template v-if="item.questionStatus === 'unreply'"><span style="color: #e30d0d; font-weight: bold;">未处理</span></template>
                 <template v-else-if="item.questionStatus === 'reply'"><span style="color:#FF8E00; font-weight: bold;">已处理</span></template>
@@ -41,20 +69,21 @@
               <div>管理员:{{ item.handlerUserName }}</div>
             </div>
             <div class="flex flex-row justify-between items-center gray-color">
-              <div class="label">{{ item.questionDescription }}</div>
-              <div>{{ item.createDate }}</div>
+              <div class="label">{{ item.currModuleName }}</div>
+              <div>{{ item.updateDate }}</div>
             </div>
           </el-card>
+          <p class="no-data" v-if="categoryCardList.length == 0 && !l_loading">暂无数据</p>
+          <p class="no-data" style="margin-top:20px" v-if="noMore && !l_loading && categoryCardList.length">没有更多了</p>
         </div>
-      </template>
-    </div>
+      </div>
     <div class="right-content ml20">
       <div class="content">
         <div class="flex flex-row justify-end">
           <template v-if="cardSelectItem.questionStatus === 'unreply'">
             <template v-if="!isReplyStatus">
               <i-button @click="replyHandler">{{ language('答复') }}</i-button>
-              <i-button @click="dispatchHandler">{{ language('指派') }}</i-button>
+              <i-button @click="dispatchHandler">{{ language('转派') }}</i-button>
             </template>
             <template v-else>
               <i-button @click="sendMessageHandler">{{
@@ -94,7 +123,9 @@
                   </el-col>
                   <el-col :span="8">
                     <iFormItem :label="$t('问题来源')">
-                      <iInput v-model="editForm.source" :disabled="isDisabledQuestion" />
+                      <iSelect v-model="editForm.source" :disabled="isDisabledQuestion">
+                        <el-option v-for="(v,k) in userTypes" :key="k" :label="v" :value="k"></el-option>
+                      </iSelect>
                     </iFormItem>
                   </el-col>
                 </el-row>
@@ -107,33 +138,55 @@
           </div>
           <div class="content-title mb20">{{ language('消息') }}</div>
           <!-- 正常状态 -->
-          <template v-for="item of questionDetail.replyQuestionList">
-            <div class="content flex flex-row" :key="item.id">
-              <div class="name">{{item.replyUserName}}</div>
+          
+          <div class="msg-box" >
+            <div class="flex flex-row mt20 ml20">
+              <div class="name">{{questionDetail.createByUerName}}</div>
               <div class="content-text">
-                <p class="html" v-html="item.content"></p>
-                <p class="time">{{item.createDate}}</p>
+                <p class="html" v-html="questionDetail.questionTitle"></p>
+								<p class="time">{{questionDetail.createDate}}</p>
               </div>
             </div>
-          </template>
+            <div v-if="questionDetail.replyQuestionList && questionDetail.replyQuestionList.length > 0">
+              <template v-for="item of questionDetail.replyQuestionList">
+                <div class="content flex flex-column" :key="item.id">
+                  <div v-if="item.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
+                    <img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
+                    <div>{{`管理员${item.replyUserName}将任务转派给了管理员${item.handlerToUserName}`}}</div>
+                  </div>
+                  <div v-else class="flex flex-row">
+                    <div class="name">{{item.replyUserName}}</div>
+                    <div class="content-text">
+                      <p class="html" v-html="item.content"></p>
+                      <p class="time">{{item.createDate}}</p>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
 
           <!-- 答复状态 -->
           <div v-if="isReplyStatus" class="reply-content mt20">
             <el-form>
               <iFormItem prop="replyContent">
-                <iEditor ref="iEditor" v-model="replyContent" :toolbar="editToolbar" v-if="editable" />
+                <iEditor ref="iEditor" v-model="replyContent" v-if="editable" />
                 <div v-else class="content" v-html="replyContent"></div>
               </iFormItem>
             </el-form>
           </div>
-          <div class="mt20 mb20">
-            <attachmentDownload :load="loadText" @getFilesList="getFilesList" />
+          <div class="mt20 mb20 flex">
+            <div>附件：</div>
+            <iUpload :disabled="loadText" ref="attachment" v-model="uploadFileList"  >
+              <iButton>{{ language('添加附件') }}</iButton>
+            </iUpload>
+            <div v-if="loadText && uploadFileList.length == 0">无</div>
           </div>
         </template>
       </div>
     </div>
     <dispatchDialog v-if="showDialog" :show.sync="showDialog" :questionId="cardSelectItem.id" @loadData="initData" />
-    <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" :problemModuleList="problemModuleList" :labelList="labelList" :source="userType" :questionItem="cardSelectItem" @loadData="initData" @queryLabelByModuleId="queryLabelByModuleId" />
+    <finishedDialog v-if="finishedDialog" :show.sync="finishedDialog" :problemModuleList="problemModuleList" :labelList="labelList" :source="userType" :questionItem="questionDetail" @loadData="initData" @queryLabelByModuleId="queryLabelByModuleId" />
   </div>
 </template>
 
@@ -141,9 +194,10 @@
 import { iInput, iSelect, iButton, iFormItem } from 'rise'
 import DispatchDialog from './dispatchDialog';
 import FinishedDialog from './finishedDialog';
-import iEditor from '@/components/iEditor';
-import AttachmentDownload from '@/views/assistant/components/attachmentDownload.vue';
-import { getModuleListByUserTypeApi, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi, closeQuestionApi, modifyModuleAndLabelApi } from '@/api/assistant';
+import iEditor from '../../../components/iEditor';
+// import { getFileId } from "@/api/assistant/uploadFile.js"
+import iUpload from '@/views/assistant/components/iUpload.vue';
+import { queryModuleBySource, queryProblemListApi, queryDetailByIdApi, getCurrLabelList, answerQuestionApi, closeQuestionApi, modifyModuleAndLabelApi } from '@/api/assistant';
 // 来源 inner:内部用户 supplier:供应商用户
 export default {
   props: {
@@ -156,10 +210,8 @@ export default {
     return {
       // 问题模块下拉框
       problemModuleList: [],
-      // 搜索关键词
-      keyWord: '',
       questionModuleId: '',
-      selfOnly: false,
+      selfOnly: true,
       showDialog: false,
       isReplyStatus: false,
       editable: true,
@@ -169,7 +221,7 @@ export default {
         id: null,
       },
       replyContent: '',
-      pageNum: 1,
+      pageNum: 0,
       pageSize: 10,
       catgoryList: [
         {
@@ -190,16 +242,16 @@ export default {
         },
       ],
       categoryCardList: [],
-      flag: false,
       editForm: {},
       editFormBtn: false,
       isDisabledModule: true,
       isDisabledLabel: true,
       isDisabledQuestion: true,
       finishedDialog: false,
-      loading: true,
+      loading: false,
       queryForm: {
         source: this.userType,
+        keyWord: '',
         pageNum: 1,
         pageSize: 10,
         questionStatus: this.currentCategoryItem,
@@ -208,8 +260,7 @@ export default {
       questionDetail: {},
       labelList: [],
       uploadFileList: [],
-      total: 0,
-      editFormRules: {
+      testEditFormRules: {
         questionModuleId: [
           { required: true, trigger: 'change', message: '请选择模块' },
           { required: true, trigger: 'blur', message: '请选择模块' }
@@ -219,15 +270,27 @@ export default {
           { required: true, trigger: 'blur', message: '请选择标签' }
         ]
       },
+      editFormRules: null,
+      l_loading:false,
+      noMore:false,
+      attachShowFlag: false,
+      userTypes:{
+        inner: "内部用户",
+        supplier:"供应商用户"
+      },
     }
   },
-  mounted () {
-
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
-    this.getModuleListByUserType(this.userType);
-    this.initData();
+  async mounted () {
+    let params = this.$route.query
+    if(params.id && params.source == this.userType){
+      this.currentCategoryItem = params.questionStatus || "unreply"
+      this.queryForm.keyWord = params.questionTitle
+      this.queryForm.id = params.id
+      this.selfOnly = false
+      console.log(params.id);
+    }
+    await this.getModuleListByUserType(this.userType);
+    // this.initData();
   },
   methods: {
     initData () {
@@ -235,69 +298,88 @@ export default {
         source: this.userType,
         pageNum: this.pageNum,
         pageSize: this.pageSize,
-        questionStatus: this.currentCategoryItem,
+        questionStatus: this.currentCategoryItem == "all" ? "" : this.currentCategoryItem,
         selfOnly: this.selfOnly ? 1 : 0,
       }));
     },
     // 根据用户类型获取模块下拉框
     async getModuleListByUserType (userType) {
-      const response = await getModuleListByUserTypeApi(userType);
-      if (response?.code === '200') {
-        this.problemModuleList = response.data;
-      } else {
-        console.error('获取模块接口失败');
-      }
+      return new Promise(async (resolve,reject) => {
+        const response = await queryModuleBySource(userType);
+        if (response?.code === '200') {
+          this.problemModuleList = response.data;
+          resolve()
+        } else {
+          console.error('获取模块接口失败');
+          reject()
+        }
+      })
     },
     // 获取问题列表
     async queryProblemList (queryForm) {
-      const response = await queryProblemListApi(queryForm);
-      if (response?.code === '200') {
-        const { data } = response;
-        if (data.records.length) {
-          if (this.flag) {
-            this.categoryCardList = this.categoryCardList.concat(data.records);
-          } else {
-            this.categoryCardList = data.records;
-          }
-          // 默认选中第一个
-          this.cardSelectItem = this.categoryCardList[0];
-          // 查询问题详情
-          this.queryDetailById(this.cardSelectItem.id);
-          this.total = data.total;
-          // 拉取数据完成
-          if (this.records.length < this.pageSize) {
-            this.flag = true;
-          }
+      console.log(queryForm);
+      this.l_loading = true
+      try {
+        const response = await queryProblemListApi(queryForm);
+        if (response?.code === '200') {
+          const { data } = response;
+            let list = data.records || []
+            list.map(item => {
+              item.currModuleName = this.getCurrModuleName(item.questionModuleId)
+            })
+            if(queryForm.pageNum == 1 && data.total == 0) {
+							this.noMore = true
+							this.categoryCardList = []
+						}else{
+							if(queryForm.pageNum == 1){
+								this.categoryCardList = list
+							}else{
+								this.categoryCardList.push(...list)
+							}
+							if(queryForm.pageNum >= data.pages) {
+								this.noMore = true
+							}
+						}
+            // 默认选中第一个
+            this.cardSelectItem = this.categoryCardList[0] || {};
+            if(this.cardSelectItem.id){
+              // 查询问题详情
+              this.queryDetailById(this.cardSelectItem.id);
+            }
+            
         } else {
-          if (!this.flag) {
-            this.cardSelectItem = {
-              questionStatus: '',
-              id: null,
-            };
-            this.categoryCardList = [];
-          }
+          console.error('获取问题列表失败');
         }
-        console.log(this.categoryCardList, '======>>>>');
-        this.flag = false;
-      } else {
-        console.error('获取问题列表失败');
+      } catch(err){ 
+				this.noMore = true    
+      }finally {
+        this.l_loading = false
       }
     },
+    // 根据模块id获取模块名称
+    getCurrModuleName(id) {
+      let m = this.problemModuleList.find(pm => pm.id === id)
+      return m ? m.menuName : ""
+    },
     // 监听左侧滚动条
-    scrollHandle (e) {
-      let Scroll = e.target
-      let scrollHeight = Scroll.scrollHeight - Scroll.clientHeight
-      if (scrollHeight - Scroll.scrollTop < 100 && !this.flag) {
-        this.flag = true
-        const pageNum = this.pageNum + 1;
-        console.log(pageNum, '当前页面');
-        this.queryProblemList(this._queryForm({ pageNum }));
-      }
+    loadmore(){
+      if(this.noMore) return
+      this.pageNum++
+      this.queryProblemList(this._queryForm({
+        source: this.userType,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        questionStatus: this.currentCategoryItem == "all" ? "" : this.currentCategoryItem,
+        selfOnly: this.selfOnly ? 1 : 0,
+      }));
     },
     // 点击导航
     changeCategoryItem (item) {
       this.isReplyStatus = false
       this.currentCategoryItem = item.value;
+			this.categoryCardList = []
+      this.noMore = false
+      this.queryForm.id = ""
       // 重新请求数据
       this.queryProblemList(this._queryForm({
         questionStatus: item.value == 'all' ? '' : item.value,
@@ -309,17 +391,29 @@ export default {
       this.editFormBtn = false;
     },
     changeSelfHandle (val) {
+      this.categoryCardList = []
+      this.noMore = false
+      this.queryForm.id = ""
       this.queryProblemList(this._queryForm({ selfOnly: val ? 1 : 0, pageNum: 1 }));
       this.$emit('changeSelfHandle', val ? 1 : 0);
     },
     keyWordBlurHandle () {
-      this.queryProblemList(this._queryForm({ keyWord: this.keyWord, pageNum: 1 }));
+      this.categoryCardList = []
+      this.noMore = false
+      this.queryForm.id = ""
+      this.queryProblemList(this._queryForm({ pageNum: 1 }));
     },
     questionModuleHandle (val) {
+      this.categoryCardList = []
+      this.noMore = false
+      this.queryForm.id = ""
       this.queryProblemList(this._queryForm({ questionModuleId: val, pageNum: 1 }));
     },
     clearModuleHandle () {
       this.questionModuleId = '';
+      this.categoryCardList = []
+      this.noMore = false
+      this.queryForm.id = ""
       this.queryProblemList(this._queryForm({ questionModuleId: '', pageNum: 1 }));
     },
     // 根据问题id查询问题详情
@@ -327,15 +421,30 @@ export default {
       const response = await queryDetailByIdApi(questionId);
       if (response?.code === '200') {
         const { data } = response;
-        this.questionDetail = data;
-        console.log(data, '11213456')
+        this.questionDetail = data || {};
+        // 获取当前问题的附件(用户上传及管理员回复的附件)
+        let currQuesFileList = []
+        if (data.attachmentDTOList.length > 0) {
+          currQuesFileList = data.attachmentDTOList || []
+        }
+        if (data.replyQuestionList.length > 0) {
+          data.replyQuestionList.map(item => {
+            if (item.attachmentList.length > 0) {
+              currQuesFileList = currQuesFileList.concat(item.attachmentList)
+            }
+          })
+        }
+        this.attachShowFlag = currQuesFileList.length > 0 ? true : false
+        this.uploadFileList = currQuesFileList || []
+    
         this.editForm = {
           questionLableId: data?.questionLableId,
           questionModuleId: data?.questionModuleId,
-          source: data?.source,
+          source: data?.source
         }
         // 查询标签列表
         this.queryLabelByModuleId(data?.questionModuleId);
+        this.$props
       } else {
         console.error('根据id获取问题详情失败');
       }
@@ -361,13 +470,9 @@ export default {
       this.isDisabledLabel = true;
       this.queryDetailById(item.id);
     },
-    // 上传文件回调
-    getFilesList (fileList) {
-      console.log(fileList, '上传文件');
-      this.uploadFileList = fileList;
-    },
     replyHandler () {
       this.isReplyStatus = true
+      this.uploadFileList = []
     },
     // 指派
     dispatchHandler () {
@@ -382,28 +487,22 @@ export default {
           this.$message.success('关闭成功');
           this.initData();
         } else {
-          this.$message.error('关闭失败');
+          // this.$message.error('关闭失败');
         }
       }).catch(() => {
-        this.$message.error('关闭失败');
+        // this.$message.error('关闭失败');
       })
     },
     async answerQuestion (hasClosed) {
       console.log(this.uploadFileList);
-      if (!this.uploadFileList.length) {
-        this.$message.error('请上传附件');
-      }
+      // if (!this.uploadFileList.length) {
+      //  return this.$message.error('请上传附件');
+      // }
       if (!this.replyContent) {
-        this.$message.error('请填写回复内容');
+        return this.$message.error('请填写回复内容');
       }
-      const attachmentList = this.uploadFileList.map(item => {
-        return {
-          fileName: item.name,
-          fileUrl: item.path,
-        };
-      });
       const data = {
-        attachmentList,
+        attachmentList:this.uploadFileList,
         content: this.replyContent,
         // 是否关闭 0：否 1：是
         hasClosed,
@@ -414,6 +513,10 @@ export default {
       if (response?.code === '200') {
         this.$message.success(response.desZh);
         this.isReplyStatus = false;
+        this.replyContent = ""
+        this.categoryCardList = []
+        this.noMore = false
+        this.queryProblemList(this._queryForm({ pageNum:1 }));
       } else {
         this.$message.error('保存失败');
       }
@@ -429,6 +532,7 @@ export default {
     },
     // 点击编辑按钮
     editHandler () {
+      this.editFormRules = this.testEditFormRules
       if (Object.is(this.currentCategoryItem, 'finished')) {
         this.isDisabledModule = false;
         this.isDisabledQuestion = false;
@@ -467,16 +571,16 @@ export default {
     }
   },
   computed: {
-    editToolbar () {
-      return []
-    },
     loadText () {
       if (this.isReplyStatus) {
-        return 'up';
+        return false;
       } else {
-        return 'down';
+        return true;
       }
     },
+    disabled(){
+      return this.noMore || this.l_loading
+    }
   },
   components: {
     iInput,
@@ -486,7 +590,7 @@ export default {
     iFormItem,
     iEditor,
     FinishedDialog,
-    AttachmentDownload,
+    iUpload,
   }
 }
 </script>
@@ -497,14 +601,15 @@ export default {
   width: 100%;
   height: 94%;
   .left-content {
-    width: 35%;
-    min-height: 100%;
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
     opacity: 1;
     border-radius: 5px;
     padding: 15px 20px 0px 20px;
-    overflow-y: auto;
     ::v-deep .el-switch__core {
       width: 40px !important;
     }
@@ -513,8 +618,22 @@ export default {
       margin-left: 5px;
       color: #999999;
     }
+    .search-box {
+			width: 100%;
+			height: 40px;
+			margin-bottom: 20px;
+			.input-style {
+				width: 100%;
+			}
+			.select-style {
+				margin-left: 30px;
+			}
+		}
     .card-list {
-      height: calc(100vh - 350px);
+      // height: calc(100vh - 350px);
+      // flex: 1;
+      min-height: 50px;
+      padding: 10px;
       overflow-y: auto;
     }
     .category-list {
@@ -529,14 +648,16 @@ export default {
         color: #1763f7;
         font-weight: 600;
         &::before {
+          content: '';
           position: absolute;
           left: 0;
-          bottom: 4px;
-          content: '';
+          top: 50%;
           display: block;
-          width: 3px;
-          height: 15px;
-          background: #1763f7;
+          transform: translateY(-50%);
+          // width: 3px;
+          height: 60%;
+          border-left: 3px solid #1763f7;
+          // background: #1763f7;
           border-radius: 5px;
         }
       }
@@ -546,15 +667,20 @@ export default {
         color: #666666;
       }
       .label {
+        padding: 5px 10px;
+        margin-right: 10px;
         background: #ededed;
         border-radius: 10px;
         color: #4b5c7d;
-        padding: 5px 10px;
+      }
+
+      .title{
+        width: 70%;
       }
     }
   }
   .right-content {
-    width: 100%;
+    width: 70%;
     height: 100%;
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(27, 29, 33, 0.08);
@@ -579,18 +705,18 @@ export default {
       font-size: 18px;
       margin-bottom: 40px;
     }
-    .content {
-      border: 1px solid #f2f2f2;
+		.content {
+      // border: 1px solid #f2f2f2;
       width: 100%;
       height: auto;
-      padding: 30px;
+      padding: 20px;
       box-sizing: border-box;
       .name {
         width: 100px;
       }
       .content-text {
         background: #f8f8fa;
-        margin-left: 30px;
+        margin-left: 20px;
         width: 700px;
         padding: 10px 30px 10px;
         box-sizing: border-box;
@@ -605,4 +731,46 @@ export default {
     }
   }
 }
+.msg-box{
+  padding: 10px;
+  border: 1px solid #F2F2F2;
+  border-radius: 6px;
+}
+.no-data{
+  margin-top: 50px;
+  margin-bottom: 20px;
+  color: #999;
+  text-align: center;
+}
+.transfer-content {
+		width: 100%;
+	}
+	.horn-png {
+		width: 16px;
+		height: 16px;
+		margin-right: 10px;
+	}
+::v-deep .card.is-always-shadow {
+  box-shadow: 0px 4px 4px rgba(209, 230, 245, 0.16);
+	border-radius: 2px;
+	background: rgb(209, 230, 245);
+border: 1px solid #E5E5E5;
+}
+	.name {
+        width: 100px;
+      }
+      .content-text {
+        background: #f8f8fa;
+        padding: 10px 30px 10px;
+        box-sizing: border-box;
+				margin-bottom: 20px;
+				margin-left: 20px;
+        .html {
+          color: #000;
+        }
+        .time {
+          margin-top: 20px;
+          color: #888888;
+        }
+      }
 </style>

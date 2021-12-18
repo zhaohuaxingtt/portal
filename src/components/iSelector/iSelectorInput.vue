@@ -1,5 +1,5 @@
 <template>
-  <div class="i-selector-input">
+  <div  class="i-selector-input"  @click="handleClick">
     <div class="input-wrapper">
       <i-input
         v-model="valueString"
@@ -33,6 +33,10 @@ export default {
     event: 'change'
   },
   props: {
+    singleSelect:{
+      type:Boolean,
+      default:false
+    },
     disabled: {
       type: Boolean,
       default: function() {
@@ -67,6 +71,21 @@ export default {
             return it.id
           })
           .join(',')
+          if(this.singleSelect){
+            this.valueChange(newValue)
+          }
+          
+    }
+  },
+  methods:{
+    valueChange(val){
+     this.$emit('value-change',val);
+    },
+    handleClick(){
+      if(!this.disabled){
+        this.$emit('handle-click')
+      }
+      
     }
   }
 }

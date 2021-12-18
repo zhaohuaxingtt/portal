@@ -169,7 +169,7 @@ export default {
     },
     // eslint-disable-next-line no-undef
     ...Vuex.mapState({
-      userInfo: state => state.permission.userInfo
+      userInfo: (state) => state.permission.userInfo
     })
   },
   data() {
@@ -192,7 +192,7 @@ export default {
         {
           prop: 'name',
           label: '名称',
-          i18n: 'ROLE.NAME',
+          i18n: '名称',
           type: 'expanded',
           align: 'left'
         }
@@ -229,7 +229,7 @@ export default {
       this.contractForm = _.cloneDeep(val)
       const array = treeToArray(this.originData, 'subDictResultVo')
       this.parent =
-        array.find(item => {
+        array.find((item) => {
           if (item.id === val.parentId) {
             return item
           }
@@ -278,13 +278,13 @@ export default {
           }
         }
       })
-        .then(action => {})
-        .catch(err => {
+        .then((action) => {})
+        .catch((err) => {
           console.log(err)
         })
     },
     handleSave() {
-      this.$refs['contractForm'].validate(async valid => {
+      this.$refs['contractForm'].validate(async (valid) => {
         if (valid) {
           const result = await updateDict(this.contractForm)
           if (result.code === '200') {

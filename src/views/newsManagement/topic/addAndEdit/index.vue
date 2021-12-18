@@ -182,6 +182,9 @@ export default {
           //   name: "newsTopic",
           // });
           window.close()
+          if (window.opener) {
+                  window.opener.location.reload()
+                }
         });
       } else {
         //新增
@@ -195,8 +198,9 @@ export default {
       }
     },
     handlePreview() {
+      console.log(198,this.ruleForm,this.id);
       let { href } = this.$router.resolve({
-        name: "newsProjectDetails",
+        name: this.ruleForm.category==2 ? "topicDetail" : "newsProjectDetails",
       });
       if (this.showButton) {
         const formData = {
@@ -235,6 +239,7 @@ export default {
               saveTopic(formData).then((res) => {
                 this.saveFlag = false;
                 this.id = res.id;
+                this.ruleForm.id = res.id;
                 window.open(href + `?id=${res.id}`, "_blank");
               });
             }

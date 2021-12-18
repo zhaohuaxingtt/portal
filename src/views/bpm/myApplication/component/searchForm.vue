@@ -9,15 +9,17 @@
     <el-form>
       <el-row :gutter="20">
         <el-col :span="6">
-          <iFormItem :label="$t('单据编号')">
-            <iInput :placeholder="$t('请输入')" v-model="form.businessId" />
+          <iFormItem :label="language('单据编号')">
+            <iInput
+              :placeholder="language('请输入')"
+              v-model="form.businessId"
+            />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('单据类型')">
-            <!-- <iInput :placeholder="$t('请输入')" v-model="form.itemType" /> -->
+          <iFormItem :label="language('单据类型')">
             <iSelect
-              :placeholder="$t('请选择')"
+              :placeholder="language('请选择')"
               multiple
               collapse-tags
               v-model="form.itemType"
@@ -33,9 +35,9 @@
           </iFormItem>
         </el-col>
         <el-col :span="12">
-          <iFormItem :label="$t('任务名称')" style="width: 80%">
+          <iFormItem :label="language('任务名称')" style="width: 80%">
             <iSelect
-              :placeholder="$t('请选择')"
+              :placeholder="language('请选择')"
               v-model="form.categoryList"
               multiple
               collapse-tags
@@ -52,11 +54,7 @@
         </el-col>
 
         <el-col :span="12">
-          <!-- <iFormItem :label="$t('任务名称')">
-        <iInput :placeholder="$t('请输入')" v-model="form.itemName" />
-      </iFormItem> -->
-
-          <iFormItem :label="$t('任务起止日期')" class="form-item-date">
+          <iFormItem :label="language('任务起止日期')" class="form-item-date">
             <iDatePicker
               v-model="date"
               type="daterange"
@@ -69,9 +67,9 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('APPROVAL.APPROVAL_PROGRESS')">
+          <iFormItem :label="language('审批进度')">
             <iSelect
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="form.procProgress"
               multiple
               collapse-tags

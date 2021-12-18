@@ -206,8 +206,8 @@ export const orderInfoTableTitle = [
   },
   {
     props: 'partNumber',
-    name: '零件数',
-    key: 'LINGJIANSHU',
+    name: '批次数量',
+    key: 'PICISHULIANG',
     tooltip: true,
     width: 120
   },
@@ -220,29 +220,29 @@ export const orderInfoTableTitle = [
   },
   {
     props: 'price',
-    name: '购买价',
-    key: 'GOUMAIJIA',
+    name: '市场价',
+    key: 'SHICHANGJIA',
     tooltip: true,
     width: 120
   },
   {
     props: 'currency',
-    name: '币种',
-    key: 'BIZHONG',
+    name: '货币',
+    key: 'HUOBI',
     tooltip: true,
     width: 120
   },
   {
     props: 'priceUnit',
-    name: '定价单位',
-    key: 'DINGJIADANWEI',
+    name: '每',
+    key: 'GUIJINSHU.MEI',
     tooltip: true,
     width: 120
   },
   {
     props: 'condUnit',
-    name: '定价计量单位',
-    key: 'DINGJIAJILIANGDANWEI',
+    name: '计量单位',
+    key: 'JILIANGDANWEI',
     tooltip: true,
     width: 120
   },

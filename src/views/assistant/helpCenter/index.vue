@@ -1,33 +1,37 @@
 <template>
 	<iPage>
-		<div class="flex justify-between">
-			<div class="content-title">用户助手</div>
+		<!-- <div class="flex justify-between"> -->
+			<!-- <div class="content-title">用户助手</div> -->
+		<pageHeader class="title">
+			{{language('用户助手')}}
 			<div class="types" slot="actions">
-				<iTabBadge>
-					<iTabBadgeItem
-						:active="helpMoudle === 'manual'"
-						:name="language('用户手册')"
-						@click="tabChange('manual')"
-					/>
-					<iTabBadgeItem
-						:active="helpMoudle === 'problem'"
-						:name="language('常见问题')"
-						@click="tabChange('problem')"
-					/>
-					<iTabBadgeItem
-						:active="helpMoudle === 'ask'"
-						:name="language('我的提问')"
-						@click="tabChange('ask')"
-					/>
-				</iTabBadge>
-			</div>
+			<iTabBadge>
+				<iTabBadgeItem
+					:active="helpMoudle === 'manual'"
+					:name="language('用户手册')"
+					@click="tabChange('manual')"
+				/>
+				<iTabBadgeItem
+					:active="helpMoudle === 'problem'"
+					:name="language('常见问题')"
+					@click="tabChange('problem')"
+				/>
+				<iTabBadgeItem
+					:active="helpMoudle === 'ask'"
+					:name="language('我的提问')"
+					@click="tabChange('ask')"
+				/>
+			</iTabBadge>
 		</div>
+		</pageHeader>
+		<!-- </div> -->
 		<div class="flex flex-row content mt20" v-if="helpMoudle === 'manual'">
 			<CommonProblem
 				:loading="listLoading"
 				:moudleList="moudleList"
 				:currentMoudleId="currentMoudleId ? currentMoudleId : this.$store.state.baseInfo.originalModuleId"
 				@change="moduleChange"
+				title="用户手册"
 			/>
 			<DataManage
 				:loading="listLoading"
@@ -40,17 +44,20 @@
 			<ProblemSearch 
 				:moudleList="moudleList"
 				@queryProblem="queryProblem"
+				@reset="resetQS"
 			/>
 			<div class="flex flex-row mt20 middle-content">
 				<CommonProblem 
 					:moudleList="moudleList"
 					:currentMoudleId.sync="currentMoudleId"
 					@change="moduleChange"
+					@turnAll="turnAll"
+					title="全部问题"
 				/>
 				<ProblemDetail
 					ref="problemDetail"
-					:currentMoudleId="currentMoudleId"
-					:currMoudleName="currMoudleName"
+					:currentMoudleId.sync="currentMoudleId"
+					:currMoudleName.sync="currMoudleName"
 					:queryProblemList="queryProblemList"
 					:moudleList="moudleList"
 					@changeCurrValue="changeCurrValue"
@@ -62,8 +69,10 @@
 		</div>
 		<div class="flex flex-row content mt20" v-else>
 			<QuestionList 
+				ref="questionList"
 				:currentMoudleId="currentMoudleId ? currentMoudleId : this.$store.state.baseInfo.originalModuleId"
-				:moudleList="moudleList"
+				:moudleList="askMoudleList"
+				:turnId="turnId"
 				@selectQues="selectQues"
 			/>
 			<QuestionDetail
@@ -71,6 +80,7 @@
 				:moudleList="moudleList"
 				@handleZwQues="handleZwQues"
 				@handleQuestion="handleQuestion"
+				@changeQuesStatus="changeQuesStatus"
 			/>
 		</div>
 		<IntelligentDialog
@@ -102,6 +112,7 @@
 // import store from '@/store'
 import { iPage } from 'rise'
 import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
+import pageHeader from '@/components/pageHeader'
 import CommonProblem from '../components/commonProblem'
 import DataManage from './components/dataManage'
 import ProblemSearch from './components/problemSearch'
@@ -110,7 +121,7 @@ import IntelligentDialog from '../components/intelligentDialog'
 import QuestioningDialog from '../components/questioningDialog'
 import QuestionList from './components/questionList'
 import QuestionDetail from './components/questionDetail'
-import { getHotFiveQues, getUserDes, getQueryProblemList, getModuleList } from '@/api/assistant'
+import { getHotFiveQues, getUserDes, getModuleList, getAskModuleList } from '@/api/assistant'
 
 export default {
 	data() {
@@ -118,6 +129,7 @@ export default {
 			text: '用户助手',
 			helpMoudle: "manual",  // manual 用户手册 problem 常见问题 ask 我的提问
 			moudleList: [],
+			askMoudleList: [],
 			currentMoudleId: null,  // 当前模块id
 			currMoudleName: null,   // 当前模块名称	
 			currModuleDetailData: null,  // 当前模块内容
@@ -131,7 +143,8 @@ export default {
 			currentMenu: [],  // 当前的二级模块菜单
 			originalMoudleName: '',  // 无模块id展示的模块名称
 			currLabelId: null,  // 当前标签的id(常见问题筛查查询时才有)
-			queryProblemList: []  // 常见问题模块查询时的问题列表
+			queryProblemList: [],  // 常见问题模块查询时的问题列表
+			turnId: ''
 		}
 	},
 	components: {
@@ -145,24 +158,45 @@ export default {
 		IntelligentDialog,
 		QuestioningDialog,
 		QuestionList,
-		QuestionDetail
+		QuestionDetail,
+		pageHeader
 	},
 	created() {
 		// 获取当前路径
+		this.helpMoudle = this.$route.query.module || "manual"
+		// 站内信跳转 获取问题id
+		this.turnId = this.$route.query.id || ""
+		this.currentMoudleId = this.$route.query.currentMoudleId || ''
 		let params  = this.$route.params
 		this.currentMenu = params.currentMenu
 	},
 	async mounted() {
+		let currMoudleName = this.$route.query.currMoudleName
+		if (currMoudleName) {
+			this.currMoudleName = currMoudleName
+			this.$refs.problemDetail.turnPageInit(this.$route.query)
+		}
 		await this.getMoudleList()
+		await this.getAskModuleList()
 		await this.getCurrentModule()
 	},
 	methods: {
+		turnAll() {
+			this.currentMoudleId = ''
+		},
 		async getMoudleList() {
 			this.listLoading = true
 			await getModuleList().then((res) => {
 				if (res.code === '200') {
 					this.listLoading = false
 					this.moudleList = res?.data || []
+				}
+			})
+		},
+		async getAskModuleList() {
+			await getAskModuleList().then((res) => {
+				if (res.code === '200') {
+					this.askMoudleList = res?.data || []
 				}
 			})
 		},
@@ -180,10 +214,15 @@ export default {
 				}
 			})
 			if (!currFlag) {
-				this.currentMoudleId = ''
-				this.originalMoudleName = this.moudleList[0].menuName
-				this.$store.dispatch('setOriginalModuleId', this.moudleList[0].id)
-				this.$store.dispatch('setCurrPageFlag', false)
+				if (this.$route.query.currentMoudleId) {
+					this.currentMoudleId = this.$route.query.currentMoudleId
+				} else {
+					this.currentMoudleId = ''
+					this.originalMoudleName = this.moudleList[0].menuName
+					this.$store.dispatch('setOriginalModuleId', this.moudleList[0].id)
+					this.$store.dispatch('setCurrPageFlag', false)
+				}
+				
 			}
 			this.getManauContent()
 		},
@@ -208,6 +247,7 @@ export default {
 		},
 		// 右上方分类点击事件
 		tabChange(val) {
+			this.$router.replace({path:this.$route.path,query:{module:val}})
 			this.helpMoudle = val
 			this.moudleList.map(item => {
 				if(item.id === this.currentMoudleId) {
@@ -270,13 +310,14 @@ export default {
 		moduleChange(moudle) {
 			this.currentMoudleId = moudle.id
 			this.currMoudleName = moudle.menuName
+			
 			if (this.helpMoudle === 'manual') {
 				this.getManauContent()
 			} else if (this.helpMoudle === 'problem') {
 				this.$nextTick(() => {
 					this.$refs.problemDetail.currentFlag = 'listPage'
 					this.$refs.problemDetail.labelText = null
-					this.$refs.problemDetail.labelIdx = 0
+					this.$refs.problemDetail.labelIdx = ''
 					this.$refs.problemDetail.problemDetail = []
 					this.$refs.problemDetail.problemQuery.pageNum = 1
 					this.$refs.problemDetail.getLabelList('init')
@@ -286,36 +327,36 @@ export default {
 			}
 			
 		},
+		// 根据模块id获取模块名称
+		getCurrModuleName(id) {
+			let m = this.moudleList.find(pm => pm.id == id)
+			return m ? m.menuName : ""
+		},
 		// 根据常见问题查询条件筛查数据
 		queryProblem(queryValue) {
 			const { questionLableId, questionModuleId } = queryValue
 			this.currentMoudleId = questionModuleId
 			this.currLabelId = questionLableId
-			this.moudleList.map(item => {
-				if (item.id === questionModuleId) {
-					this.currMoudleName = item.menuName
-				}
-			})
-			console.log(queryValue, "queryValue")
+			this.currMoudleName = this.getCurrModuleName(questionModuleId)
 			this.$nextTick(() => {
 				this.$refs.problemDetail.getQueryProblemList(questionLableId, queryValue)
 			})
-			// await getQueryProblemList(queryValue).then((res) => {
-			// 	if (res?.code === '200') {
-			// 		const { data } = res
-			// 		this.$nextTick(() => {
-			// 			this.$refs.problemDetail.getQueryProblemList(data, this.currLabelId)
-			// 		})
-			// 	}
-			// })
 		},
 		changeCurrValue(id, name) {
 			this.currentMoudleId = id
 			if (name) this.currMoudleName = name
 		},
 		selectQues(list) {
-			console.log(list, '====')
 			this.$refs.questionDetail.getCurrQuesDetail(list || {})
+		},
+		//  改变点赞问题的状态
+		changeQuesStatus(quesId) {
+			this.$refs.questionList.changeCurrQuesStatus(quesId)
+		},
+		//重置常见问题
+		resetQS(){
+			this.currentMoudleId = ""
+			this.$refs.problemDetail.init()
 		}
 	}
 }

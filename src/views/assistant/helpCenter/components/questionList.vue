@@ -9,9 +9,11 @@
 			/>
 			<iSelect
 				class="select-style"
-				:placeholder="language('请选择...')"
+				:placeholder="language('全部模块')"
 				v-model="questionModuleId"
 				@change="searchQuestion"
+				filterable
+				clearable
 			>
 				<el-option
 					v-for="(item) in moudleList"
@@ -23,17 +25,22 @@
 			</iSelect>
 		</div>
 		<div class="search-list" v-loading="listLoading">
-			<div class="card mb20 cursor" v-for="(list, idx) in questionList" :key="idx" @click="handleQuestion(list, idx)" :class="selectedCardId === idx ? 'selected' : ''">
-				<div class="flex flex-row justify-between list-top">
-          <div class="title" v-html="list.questionTitle" :title="list.questionTitle"></div>
-          <div class="status" :class="list.questionStatus === 'unreply' ? 'unreply-text' : list.questionStatus === 'reply' ? 'reply-text' : 'finish-text'">
-            {{ list.questionStatus === 'unreply' ? '未答复' : list.questionStatus === 'reply' ? '已答复' : '已完成' }}
-          </div>
-        </div>
-        <div class="flex flex-row mt20 justify-between gray-color">
-          <div class="label" :title="list.moudleName">{{ list.moudleName }}</div>
-          <div>{{ list.timeDate }}</div>
-        </div>
+			<div v-if="questionList.length > 0">
+				<div class="card mb20 cursor" v-for="(list, idx) in questionList" :key="idx" @click="handleQuestion(list, idx)" :class="selectedCardId === idx ? 'selected' : ''">
+					<div class="flex flex-row justify-between list-top">
+						<div class="title" v-html="list.questionTitle" :title="list.questionTitle"></div>
+						<div class="status" :class="list.questionStatus === 'unreply' ? 'unreply-text' : list.questionStatus === 'reply' ? 'reply-text' : 'finish-text'">
+							{{ list.questionStatus === 'unreply' ? '未答复' : list.questionStatus === 'reply' ? '已答复' : '已完成' }}
+						</div>
+					</div>
+					<div class="flex flex-row mt20 justify-between gray-color">
+						<div class="label" :title="getCurrModuleName(list.questionModuleId)">{{getCurrModuleName(list.questionModuleId)}}</div>
+						<div class="time">{{ list.timeDate }}</div>
+					</div>
+				</div>
+			</div>
+			<div v-else>
+				暂无数据
 			</div>
 		</div>
 		<div class="iPagination flex items-center justify-center">
@@ -65,6 +72,10 @@ export default {
 		moudleList: {
 			type: Array,
 			default: () => []
+		},
+		turnId: {
+			type: String,
+			default: ''
 		}
 	},
 	data() {
@@ -74,12 +85,18 @@ export default {
 				questionModuleId: '',
 				pageNum: 1,
 				pageSize: 10,
+				id: ''
 			},
 			// unreply:未答复 reply:已答复 finished:已完成
 			questionList: [],
 			selectedCardId: 0,
 			listLoading: false,
 			totalCount: 0
+		}
+	},
+	watch:{
+		moudleList(n){
+			console.log(n);
 		}
 	},
 	mounted() {
@@ -96,7 +113,7 @@ export default {
 			}
 			this.queryParam.pageNum = 1
 			this.$nextTick(() => {
-				this.getQuesList()
+				this.getQuesList('query')
 			})
 		},
 		handleCurrentChange(curr) {
@@ -104,25 +121,24 @@ export default {
 			this.getQuesList()
 		},
 		getCurrModuleName(id) {
-			let currName = null
-			this.moudleList.map(item => {
-				if (item.id === id) {
-					currName = item.menuName
-				}
-			})
-			return currName
+			let f = this.moudleList.find(item => item.id === id)
+			return f ? f.menuName : ""
 		},	
-		async getQuesList() {
+		async getQuesList(va) {
+			// if (this.turnId) {
+			// 	this.queryParam.id = this.turnId
+			// }
 			this.listLoading = true
 			await getMineQuesList(this.queryParam).then((res) => {
-				console.log(res, "11122333")
 				if (res?.code === '200') {
 					this.totalCount = res?.data?.total
+					if (va === 'query') {
+						this.selectedCardId = res?.data?.records?.[0]?.id || ''
+					}
 					this.$emit('selectQues', res?.data?.records?.[0] || {})
 					this.questionList = res?.data?.records || []
 					this.questionList.map(item => {
 						item.timeDate = moment(item.updateDate).format('YYYY-MM-DD')
-						item.moudleName = this.getCurrModuleName(item.questionModuleId)
 					})
 					this.listLoading = false
 				}
@@ -132,6 +148,14 @@ export default {
 			console.log(list, idx)
 			this.selectedCardId = idx
 			this.$emit('selectQues', list)
+		},
+		changeCurrQuesStatus(id) {
+			this.questionList.map(item => {
+				if (item.id === id) {
+					item.questionStatus = 'finished'
+					this.$emit('selectQues', item)
+				}
+			})
 		}
 	}
 }
@@ -155,7 +179,7 @@ export default {
 				width: 100%;
 			}
 			.select-style {
-				margin-left: 10px;
+				margin-left: 30px;
 			}
 		}
 		.search-list {
@@ -195,15 +219,16 @@ export default {
 					color: #666666;
 				}
 				.label {
-					width: 60%;
 					background: #ededed;
 					border-radius: 10px;
 					color: #4b5c7d;
-					padding: 5px 10px;
-					text-align: center;
+					padding: 10px;
 					white-space: nowrap;
 					overflow: hidden;
 					text-overflow: ellipsis;
+				}
+				.time {
+					padding: 5px 0px;
 				}
 			}
 		}
@@ -213,9 +238,9 @@ export default {
 		}
 	}
 	.selected {
-		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16);
+		box-shadow: 0px 4px 4px rgba(209, 230, 245, 0.16);
 		border-radius: 2px;
-		background: #F8F9FA;
+		background: rgb(209, 230, 245);
 		border: 1px solid #E5E5E5;
 	}
 	.el-pagination__rightwrapper {

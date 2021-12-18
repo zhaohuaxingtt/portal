@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: 风险信号
 -->
 <template>
@@ -10,14 +10,27 @@
     <div class="margin-bottom20 clearFloat">
       <span class="font18 font-weight">{{$route.query.flag==='creat'?$t('SPR_FRM_FXXH_SDFQFXXH'):$t('SPR_FRM_FXXH_XTFQXH')}}</span>
       <div class="floatright">
-        <i-button v-if="$route.query.flag==='creat'" @click="handleRegister">{{ $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE') }}</i-button>
-        <i-button :disabled="effectiveTimeDisabled" @click="saveInfos('submit')">{{ $t('LK_TIJIAO') }}</i-button>
-        <i-button :disabled="effectiveTimeDisabled" @click="saveInfos('tempStore')">{{ $t('SUPPLIER_ZANCUN') }}</i-button>
+        <i-button v-if="$route.query.flag==='creat'"
+                  @click="handleRegister">{{language('NTIERYAOQINGZHUCE','N-tier邀请注册') }}</i-button>
+        <i-button :disabled="effectiveTimeDisabled"
+                  @click="saveInfos('submit')">{{ $t('LK_TIJIAO') }}</i-button>
+        <i-button :disabled="effectiveTimeDisabled"
+                  @click="saveInfos('tempStore')">{{ $t('SUPPLIER_ZANCUN') }}</i-button>
       </div>
     </div>
-    <basicInformation :preliminaryAssessmentDisabled="preliminaryAssessmentDisabled" :disabled="disabled" :effectiveTimeDisabled="effectiveTimeDisabled" ref="basicInformation" :tableListData='tableListData' class="margin-bottom20 clearFloat" />
-    <signalThat :disabled="disabled" ref="signalThat" :tableListData='tableListData' class="margin-bottom20 clearFloat" />
-    <evolve :disabled="disabled" ref="evolve" :tableListData='tableListData' />
+    <basicInformation :preliminaryAssessmentDisabled="preliminaryAssessmentDisabled"
+                      :disabled="disabled"
+                      :effectiveTimeDisabled="effectiveTimeDisabled"
+                      ref="basicInformation"
+                      :tableListData='tableListData'
+                      class="margin-bottom20 clearFloat" />
+    <signalThat :disabled="disabled"
+                ref="signalThat"
+                :tableListData='tableListData'
+                class="margin-bottom20 clearFloat" />
+    <evolve :disabled="disabled"
+            ref="evolve"
+            :tableListData='tableListData' />
     <listDialog v-model="listDialog" />
   </iPage>
 </template>
@@ -28,7 +41,7 @@ import basicInformation from "./components/basicInformation.vue";
 import signalThat from "./components/signalThat.vue";
 import evolve from "./components/evolve.vue";
 import { getDetail, temporaryStorage, submit } from "@/api/frmRating/riskSignal/riskSignal.js";
-import listDialog from "@/views/supplierManagement/supplier360/list/listDialog.vue";
+import listDialog from "./components/registerDialog";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 
 export default {
@@ -41,7 +54,7 @@ export default {
     evolve,
     listDialog,
   },
-  data() {
+  data () {
     return {
       tableListData: {},
       listDialog: false,
@@ -52,16 +65,16 @@ export default {
     };
 
   },
-  created() {
+  created () {
     if (this.$route.query.flag !== 'creat') {
       this.getTableList()
     }
   },
   methods: {
-    handleRegister() {
+    handleRegister () {
       this.listDialog = true
     },
-    async getTableList() {
+    async getTableList () {
       const pms = {
         id: this.$route.query.id
       }
@@ -74,11 +87,11 @@ export default {
       if (this.tableListData.versionNum === 0) {
         return
       }
-      if ((this.tableListData.status === 'MANAGEMENT' || (this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('FRM') === -1)) && this.$route.query.flag !== 'creat') {
+      if ((this.tableListData.status === 'MANAGEMENT' || (this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('CSSS-2') === -1)) && this.$route.query.flag !== 'creat') {
         this.disabled = true
         this.preliminaryAssessmentDisabled = true
       }
-      if ((this.tableListData.status === 'MANAGEMENT' || (this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('FRM') === -1)) && this.$route.query.flag === 'view') {
+      if ((this.tableListData.status === 'MANAGEMENT' || (this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('CSSS-2') === -1)) && this.$route.query.flag === 'view') {
         this.effectiveTimeDisabled = true
       }
       // 查看/复制进来信号来源是初评 风险信号大类合小类不可编辑
@@ -90,7 +103,7 @@ export default {
         this.disabled = false
       }
     },
-    saveInfos(step) {
+    saveInfos (step) {
       this.$refs.basicInformation.$refs.baseRulesForm.validate(async (valid) => {
         if (valid) {
           this.loading = true
@@ -112,7 +125,7 @@ export default {
               }
             }
             iMessageBox(
-              pms.processType === '' && this.$route.query.flag !== 'creat' ? this.$t('SPR_FRM_FXXH_QXZCZFSHZJXTJ') : this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('FRM') !== -1 && pms.processType === '' && pms.status === '' ? this.$t('SPR_FRM_FXXH_QQRSFTJ') : this.$t('SPR_FRM_FXXH_SFQRTJ'), // 暂时处理
+              pms.processType === '' && this.$route.query.flag !== 'creat' ? this.$t('SPR_FRM_FXXH_QXZCZFSHZJXTJ') : this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('CSSS-2') !== -1 && pms.processType === '' && pms.status === '' ? this.$t('SPR_FRM_FXXH_QQRSFTJ') : this.$t('SPR_FRM_FXXH_SFQRTJ'), // 暂时处理
               this.$t('LK_WENXINTISHI'),
               { confirmButtonText: this.$t('LK_QUEDING'), cancelButtonText: this.$t('LK_QUXIAO') }
             ).then(async () => {

@@ -4,30 +4,24 @@
       <el-form>
         <el-row :gutter="20">
           <el-col :span="4">
-            <iFormItem :label="$t('APPROVAL.FLOW_NAME')" style="width:100%;">
+            <iFormItem :label="language('流程标题')" style="width: 100%">
               <iInput
-                :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+                :placeholder="language('请输入')"
                 v-model="form.modelName"
               />
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem
-              :label="$t('APPROVAL.FLOW_DESCRIPTION')"
-              style="width:100%;"
-            >
+            <iFormItem :label="language('流程说明')" style="width: 100%">
               <iInput
-                :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+                :placeholder="language('请输入')"
                 v-model="form.description"
               />
             </iFormItem>
           </el-col>
           <el-col :span="4">
-            <iFormItem :label="$t('APPROVAL.FLOW_STATUS')" style="width:100%;">
-              <iSelect
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                v-model="form.status"
-              >
+            <iFormItem :label="language('流程状态')" style="width: 100%">
+              <iSelect :placeholder="language('请选择')" v-model="form.status">
                 <el-option
                   v-for="(item, index) in templateFormStatus"
                   :key="index"
@@ -39,16 +33,16 @@
           </el-col>
           <!-- <el-col :span="8">
             <iFormItem
-              :label="$t('APPROVAL.FLOW_FORM_URLS')"
+              :label="language('流程表单地址')"
               style="width:100%;"
             >
               <iInput
-                :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+                :placeholder="language('请输入')"
                 v-model="form.url"
               />
              <div @click="$emit('choose-form-url')">
               <iInput
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                :placeholder="language('请选择')"
                 v-model="form.url"
                 suffix-icon="iconfont icontianjia"
                 readonly

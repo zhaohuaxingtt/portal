@@ -134,7 +134,7 @@ const mutations = {
           id: data.length,
           type: 1
         })
-      } else if (item.code === 'ZYCGKSXTY' || item.code === 'WS2ZYCGKZ') {
+      } else if (item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY' || item.code == 'WS2ZYCGKZ') {
         state.eklTabList.push({
           name: `EKL-${item.fullNameZh}`,
           id: index,

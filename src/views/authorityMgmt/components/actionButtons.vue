@@ -1,14 +1,14 @@
 <template>
   <div class="operation-btn">
-    <!-- <iButton @click="$emit('add')">{{ $t('APPROVAL.CREATE_FLOW') }}</iButton> -->
+    <!-- <iButton @click="$emit('add')">{{ language('新建流程') }}</iButton> -->
     <!-- <iButton @click="$emit('edit')" :disabled="selectedRows.length !== 1">
-      {{ $t('APPROVAL.EDIT') }}
+      {{ language('编辑') }}
     </iButton> -->
     <!-- <iButton @click="$emit('delete')" :disabled="selectedRows.length === 0">
-      {{ $t('APPROVAL.DELETE') }}
+      {{ language('删除') }}
     </iButton> -->
-    <iButton @click="$emit('add')">{{$t('staffManagement.CONFIRM')}}</iButton>
-    <iButton @click="$emit('reset')">{{$t('staffManagement.RESET')}}</iButton>
+    <iButton @click="$emit('add')">{{ $t('staffManagement.CONFIRM') }}</iButton>
+    <iButton @click="$emit('reset')">{{ $t('staffManagement.RESET') }}</iButton>
   </div>
 </template>
 
@@ -20,11 +20,11 @@ export default {
   props: {
     selectedRows: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
-      },
-    },
-  },
+      }
+    }
+  }
 }
 </script>
 

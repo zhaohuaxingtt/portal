@@ -7,7 +7,7 @@
       <div class="Main">
         <!-- 搜索条件 -->
         <div class="SearchMenu">
-          <div class="SearchOptions margin-bottom20">
+          <div class="SearchOptions margin-bottom20" :loading="saveLoading">
             <!-- hiddenRight -->
             <Fold
               :btnList="btnList"
@@ -114,8 +114,9 @@
                       class="LastSearchOption"
                     >
                       <iSelect
-                        :placeholder="$t('staffManagement.DEPARTMENT')"
+                        :placeholder="language('请选择岗位')"
                         v-model="positionListId"
+                        clearable
                         @change="jobChange"
                         :disabled="isEdit"
                       >
@@ -134,14 +135,15 @@
                       :label="$t('staffManagement.OTHERJOBS')"
                       class="LastSearchOption"
                     >
-                      <iSelect
+                      <iInput :value="otherPositionId" disabled />
+                      <!-- <iSelect
                         :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
                         class="selectWidth"
                         multiple
                         collapse-tags
                         :disabled="isDeptOther"
                         @change="selectPositionChange"
-                        v-model="formData.otherPositionList"
+                        v-model="otherPositionId"
                       >
                         <el-option
                           v-for="item in allPositionList"
@@ -150,7 +152,7 @@
                           :value="item.id"
                         >
                         </el-option>
-                      </iSelect>
+                      </iSelect> -->
                     </iFormItem>
                   </el-col>
                   <el-col :span="6">
@@ -384,6 +386,7 @@ export default {
       positionListDrpList: [],
       foldName: '基本信息',
       btnList: [{ name: '编辑', type: 'edit' }],
+      saveLoading: false,
       isEdit: true,
       organizationMenu: [],
       status: [
@@ -419,7 +422,8 @@ export default {
       rules: {
         nameZh: [{ required: true, message: '请输入中文名', trigger: 'blur' }]
       },
-      defaultDeptOptions: []
+      defaultDeptOptions: [],
+      otherPositionId: ''
     }
   },
   created() {
@@ -505,7 +509,19 @@ export default {
           res.data.positionList.length > 0
         ) {
           //回填岗位
-          this.positionListId = res.data.positionList[0].id
+          const selfPosition = res.data.positionList.filter((e) => e.type === 1)
+          const otherPosition = res.data.positionList.filter(
+            (e) => e.type !== 1
+          )
+          if (selfPosition.length > 0) {
+            this.positionListId = selfPosition[0].id
+          }
+          if (otherPosition.length > 0) {
+            this.otherPositionId = otherPosition
+              .map((e) => e.fullNameZh)
+              .join(',')
+          }
+          //this.positionListId = res.data.positionList[0].id
           // res.data.positionList.map(x=>{return this.positionList.push(x.id)})
         }
         this.formData = { ...res.data }
@@ -661,10 +677,13 @@ export default {
       }
     },
     handleSave() {
+      this.saveLoading = true
       update(this.formData)
         .then((res) => {
           if (res.code == 200) {
             // this.go(-1)
+            this.isEdit = true
+            this.btnList = [{ name: '编辑', type: 'edit' }]
             iMessage.success(res.desZh || '更新成功')
           } else {
             iMessage.error(res.desZh || '更新失败')
@@ -672,6 +691,9 @@ export default {
         })
         .catch((err) => {
           iMessage.error(err.desZh || '更新失败')
+        })
+        .finally(() => {
+          this.saveLoading = false
         })
     },
     handleChangeDept(id, options) {
@@ -733,9 +755,9 @@ export default {
     getGroup(val) {
       getPosition(val).then((res) => {
         if (res.code == 200) {
-          this.formData.roleList = res.data.roleDTOList
-          this.formData.subUserList = res.data.subUserList
-          this.formData.supUserList = res.data.supUserList
+          this.formData.roleList = res.data?.roleDTOList || []
+          this.formData.subUserList = res.data?.subUserList || []
+          this.formData.supUserList = res.data?.supUserList || []
           if (!res.data.tempPurchaseGroup) return
           this.tableLoadingGroup = true
           if (res.data.tempPurchaseGroup) {
@@ -757,7 +779,7 @@ export default {
         this.formData.tagList.splice(index, 1)
       }
     },
-    getSpanMethod({ row, column, rowIndex, columnIndex }) {
+    getSpanMethod({ row, columnIndex }) {
       if (columnIndex === 0) {
         return {
           rowspan: row.rowspan,
@@ -765,7 +787,7 @@ export default {
         }
       }
     },
-    getSpanMethodRole({ row, column, rowIndex, columnIndex }) {
+    getSpanMethodRole({ row, columnIndex }) {
       if (columnIndex === 0) {
         return {
           rowspan: row.rowspan,

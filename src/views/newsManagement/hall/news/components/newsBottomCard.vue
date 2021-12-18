@@ -34,7 +34,7 @@
         </div>
       </div>
       <iButton @click="handlerMoreFlag" class="tags-button" v-if="moreFlag">{{
-        language("NEWS_MORE", "MORE")
+        language('NEWS_MORE', 'MORE')
       }}</iButton>
     </div>
     <div v-loading="loading" class="bottom-card">
@@ -46,27 +46,27 @@
       >
         <iCard class="form-bottom-icard-item">
           <div class="form-bottom-row1">
-            <el-image :src="item.picUrl" lazy class="form-bottom-icard-img" />
+            <el-image v-if="item.picUrl!== undefined" :src="item.picUrl" lazy class="form-bottom-icard-img" />
             <div v-if="item.topicId !== null" class="form-bottom-row1-topic">
-              <span>{{ language("NEWS_ZHUANTI", "专题") }}</span>
+              <span>{{ language('NEWS_ZHUANTI', '专题') }}</span>
             </div>
           </div>
           <div class="form-bottom-item form-bottom-row2">
             <span :title="item.title">{{
               item.title
                 ? item.title.length > 20
-                  ? item.title.substring(0, 20) + "..."
+                  ? item.title.substring(0, 20) + '...'
                   : item.title
-                : ""
+                : ''
             }}</span>
           </div>
           <div class="form-bottom-item form-bottom-row3">
             <span :title="item.summary">{{
               item.summary
                 ? item.summary.length > 22
-                  ? item.summary.substring(0, 22) + "..."
+                  ? item.summary.substring(0, 22) + '...'
                   : item.summary
-                : ""
+                : ''
             }}</span>
           </div>
           <div class="form-bottom-item form-bottom-row4">
@@ -83,9 +83,9 @@
                 {{
                   tag.content
                     ? tag.content.length > 5
-                      ? tag.content.substring(0, 5) + "..."
+                      ? tag.content.substring(0, 5) + '...'
                       : tag.content
-                    : ""
+                    : ''
                 }}
               </div>
             </div>
@@ -96,9 +96,9 @@
               {{
                 item.source
                   ? item.source.length > 11
-                    ? item.source.substring(0, 11) + "..."
+                    ? item.source.substring(0, 11) + '...'
                     : item.source
-                  : ""
+                  : ''
               }}
             </div>
             <div class="content" :title="item.publishDate">
@@ -122,54 +122,54 @@
 </template>
 
 <script>
-import { iCard, iButton } from "rise";
+import { iCard, iButton } from 'rise'
 
 export default {
-  name: "newBottom",
+  name: 'newBottom',
   components: {
     iCard,
-    iButton,
+    iButton
   },
   props: {
     ruleForm: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
 
     tagActiveIndex: {
       type: Number,
-      default: () => "",
+      default: () => ''
     },
     loading: {
       type: Boolean,
-      default: false,
+      default: false
     },
     moreFlag: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data() {
     return {
-      boxFlag: false,
-    };
+      boxFlag: false
+    }
   },
   computed: {},
   mounted() {},
   methods: {
     handlerMoreFlag() {
-      this.boxFlag = this.boxFlag ^ 1;
+      this.boxFlag = this.boxFlag ^ 1
     },
     changeIndex(val) {
       if (this.tagActiveIndex === val) {
-        this.tagActiveIndex = "";
+        this.tagActiveIndex = ''
       } else {
-        this.tagActiveIndex = val;
+        this.tagActiveIndex = val
       }
-      this.$emit("handleRearch", this.tagActiveIndex);
-    },
-  },
-};
+      this.$emit('handleRearch', this.tagActiveIndex)
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .news-card {

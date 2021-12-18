@@ -1,8 +1,9 @@
 <template>
   <iPage>
-    <div class="flex justify-between">
-      <div class="content-title">{{ language('问题管理') }}</div>
-      <div class="types" slot="actions">
+    <!-- <div class="flex justify-between"> -->
+      <pageHeader class="title">
+        {{language('问题管理')}}
+         <div class="types" slot="actions">
         <iTabBadge>
           <iTabBadgeItem
             :active="helpMoudle === 'problemHandler'"
@@ -32,7 +33,10 @@
           />
         </iTabBadge>
       </div>
-    </div>
+        </pageHeader>
+      <!-- <div class="content-title">{{ language('问题管理') }}</div> -->
+     
+    <!-- </div> -->
     <div
       class="flex flex-row content mt20"
       v-if="helpMoudle === 'problemHandler'"
@@ -75,6 +79,7 @@ import ModuleManagement from './components/moduleManagement/index'
 import ProblemStatement from './components/problemStatement/index'
 import KeyWordsManagement from './components/keyWordsManagement'
 import { questionUnReplyCountApi} from '@/api/assistant';
+import pageHeader from '@/components/pageHeader'
 import store from '@/store'
 export default {
   data() {
@@ -86,6 +91,7 @@ export default {
   },
   methods: {
 		tabChange(val) {
+			this.$router.replace({path:this.$route.path,query:{module:val}})
 			this.helpMoudle = val
 		},
     // 获取未读问题数量
@@ -93,17 +99,18 @@ export default {
       const response = await questionUnReplyCountApi(selfOnly);
       if (response?.code === '200') {
         this.problemHandlerCount = response.data;
-      } else {
-        console.error('获取未读数量失败');
       }
     },
     changeSelfHandle(val) {
       this.questionUnReplyCount(val);
     }
 	},
+  created(){
+		this.helpMoudle = this.$route.query.module || "problemHandler"
+  },
   mounted() {
     console.log(store.state, 'store.state');
-    this.questionUnReplyCount(0);
+    this.questionUnReplyCount(1);
   },
   components: {
     iPage,
@@ -113,13 +120,17 @@ export default {
     LabelManagement,
     ModuleManagement,
     ProblemStatement,
-    KeyWordsManagement
+    KeyWordsManagement,
+    pageHeader
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '../comon.scss';
+.content{
+  height: 100%;
+}
 .content-title {
   font-weight: bold;
   color: #000000;

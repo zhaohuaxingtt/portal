@@ -1,16 +1,16 @@
 <template>
   <div class="action-row">
     <iButton size="mini" @click="goDetail(row, 0)">
-      {{ $t('APPROVAL.DETAIL') }}
+      {{ language('详细') }}
     </iButton>
     <iButton size="mini" @click="onApproval(row, approvalTypeMap.AGREE)">
-      {{ $t('APPROVAL.APPROVEL') }}
+      {{ language('批准') }}
     </iButton>
     <iButton size="mini" @click="onApproval(row, approvalTypeMap.REFUSE)">
-      {{ $t('APPROVAL.REFUSE') }}
+      {{ language('拒绝') }}
     </iButton>
     <iButton size="mini" @click="onApproval(row, approvalTypeMap.APPREND_DATA)">
-      {{ $t('APPROVAL.APPEND_DATA') }}
+      {{ language('补充材料') }}
     </iButton>
   </div>
 </template>
@@ -27,24 +27,24 @@ export default {
   props: {
     row: {
       type: Object,
-      require: true,
+      require: true
     },
     extraData: {
       type: Object,
-      require: true,
-    },
+      require: true
+    }
   },
   data() {
     return {
-      approvalTypeMap: MAP_APPROVAL_TYPE,
+      approvalTypeMap: MAP_APPROVAL_TYPE
     }
   },
   methods: {
     onApproval(row, type) {
       console.log('extraData', this.extraData)
       this.extraData.onComplete(row, type)
-    },
-  },
+    }
+  }
 }
 </script>
 

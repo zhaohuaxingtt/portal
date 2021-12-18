@@ -31,12 +31,17 @@
 							<div class="goon-put cursor" @click="handleTw">向管理员继续提问</div>
 						</div> -->
 						<div v-else class="ask-box moren-box">
-							<div v-if="item.answerContent.length > 0">
+							<div v-if="Array.isArray(item.answerContent) && item.answerContent.length > 0">
 								<div v-for="(content, index) in item.answerContent" :key="index">
 									<div class="flex flex-row issue-box items-center" @click="handleIssue(content)" >
 										<div class="blue-box"></div>
 										<div class="issue-text cursor">{{ content.questionTitle }}</div>
 									</div>
+								</div>
+							</div>
+							<div v-else-if="typeof(item.answerContent) === 'string'">
+								<div class="flex flex-row issue-box items-center">
+									<div>{{ item.answerContent }}</div>
 								</div>
 							</div>
 							<div v-else>
@@ -50,11 +55,12 @@
 		</div>
 		<div class="input-ask">
 			<iInput
-              v-model="keywords"
-              type="textarea"
-              resize="none"
-              rows="4"
-            />
+        v-model="keywords"
+        type="textarea"
+        resize="none"
+        rows="4"
+				@keyup.enter.native="sendMessage"
+      />
 			<div class="flex felx-row mt20 justify-end ">
 				<iButton @click="clearDialog">{{ language('退出') }}</iButton>
 				<iButton @click.native="sendMessage">{{ language('发送') }}</iButton>
@@ -122,8 +128,7 @@ export default {
 				answerContent: [],
 				type: 'user'
 			})
-			let question = this.keywords
-			await getSmartContent(question).then((res) => {
+			await getSmartContent({question: this.keywords}).then((res) => {
 				if (res?.code === '200') {
 					this.chatList.push({
 						question: '',
@@ -135,8 +140,14 @@ export default {
 			})
 		},
 		handleIssue(issue) {
-			// 点击问题 跳转常见问题详情页面
-			this.$emit('gotoProblemDeatil', issue, this.fromPage)
+			// 点击问题 跳转常见问题详情页面  修改为不跳转 显示该问题答案
+			// this.$emit('gotoProblemDeatil', issue, this.fromPage)
+			console.log(issue, "issue")
+			this.chatList.push({
+				question: '',
+				answerContent: issue.answerContent.replace(/<[^>]+>/g, '') || '',
+				type: 'admin'
+			})
 		},
 		handleTw() {
 			this.$emit('putAdminTw')
@@ -184,7 +195,7 @@ export default {
 		color: #000000;
 	}
 	.moren-box {
-		height: 280px;
+		// height: 280px;
 		background: #FFFFFF;
 		opacity: 1;
 		border-radius: 4px;

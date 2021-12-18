@@ -15,7 +15,7 @@
             class="icon"
             :name="
               type2Icon[tab]['title'][parseInt(item.subType)] ||
-                'iconmorenxiaoxi'
+              'iconmorenxiaoxi'
             "
           ></icon>
           <div class="single-ellipsis">{{ item.title }}</div>
@@ -66,16 +66,13 @@
         ></icon>
         <span class="multi-ellipsis">{{ item.sponsor }}</span>
       </div>
-      <div
-        class="content"
-        :class="{ expanded }"
-        v-if="
+      <div class="content" :class="{ expanded }">
+        <!-- v-if="
           tab ||
             (!tab && item.subType === '2') ||
             (!tab && item.subType === '0') ||
             (!tab && item.subType === null)
-        "
-      >
+        " -->
         <!-- <span class="multi-ellipsis" v-html="item.content"></span> -->
         <div class="multi-ellipsis" v-html="item.content"></div>
 
@@ -98,7 +95,7 @@
       <span
         v-if="
           !item.state &&
-            ((item.tipBegin > 0 && item.tipBegin < 15) || item.tipBegin === 15)
+          ((item.tipBegin > 0 && item.tipBegin < 15) || item.tipBegin === 15)
         "
       >
         还有{{ item.tipBegin }}分钟开始
@@ -120,25 +117,25 @@ export default {
   props: {
     tab: {
       type: String,
-      default: function() {
+      default: function () {
         return 'notification'
       }
     },
     item: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     },
     mapping: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }
   },
   filters: {
-    filterTime: function(item) {
+    filterTime: function (item) {
       const bDate = item.beginDate.split(' ')[0] || ''
       const bTime = item.beginDate.split(' ')[1] || ''
       const eDate = item.endDate.split(' ')[0] || ''
@@ -147,7 +144,7 @@ export default {
         ? `${bDate} ${bTime}-${eTime}`
         : `${item.beginDate}-${item.endDate}`
     },
-    removeTag: function(text) {
+    removeTag: function (text) {
       text = text || ''
       const regex = /(<([^>]+)>)/gi
       return text.replace(regex, '')
@@ -242,8 +239,8 @@ export default {
       div.style.lineHeight = '16px'
       div.style.fontSize = '12px'
       div.innerHTML = this.item.content || ''
-      div.style.whiteSpace='pre-wrap';
-      div.style.wordBreak='break-all'
+      div.style.whiteSpace = 'pre-wrap'
+      div.style.wordBreak = 'break-all'
       document.body.append(div)
       const divRows = div.clientHeight / 16
       this.rows = divRows

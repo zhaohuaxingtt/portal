@@ -226,6 +226,12 @@ export const tableSetting = [
     tooltip: true,
     width: 100,
     headerRender: (h, { column }) => renderIcon(h, column, 3)
+  },{
+    prop: 'preciousMetalDosageUnit',
+    label: '贵金属用量&基价单位',
+    align: 'center',
+    i18n: '贵金属用量&基价单位',
+    width: 200
   }
 ]
 

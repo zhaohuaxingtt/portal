@@ -53,9 +53,7 @@
                       class="Col-OneItem"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.parentName"
                         disabled="true"
                       ></iInput>
@@ -71,9 +69,7 @@
                       prop="fullCode"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.fullCode"
                       ></iInput>
                     </iFormItem>
@@ -88,9 +84,7 @@
                       prop="nameZh"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.nameZh"
                       ></iInput>
                     </iFormItem>
@@ -105,9 +99,7 @@
                       prop="nameEn"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.nameEn"
                       ></iInput>
                     </iFormItem>
@@ -128,9 +120,7 @@
                       prop="level"
                     >
                       <i-select
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请选择')"
                         v-model="formCommitData.level"
                       >
                         <el-option
@@ -152,9 +142,7 @@
                       :label-width="appearance.labelWidthThree"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.svcdCode"
                         disabled
                       ></iInput>
@@ -169,9 +157,7 @@
                       class="Col-ThreeItem"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.description"
                       ></iInput>
                     </iFormItem>
@@ -193,9 +179,7 @@
                           v-if="formCommitData.tagList.length == 0"
                           style="position: absolute; left: 12px"
                         >
-                          {{
-                            $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                          }}
+                          {{ language('请选择') }}
                         </span>
                         <div class="chooseOrgTagList">
                           <el-tag
@@ -236,9 +220,7 @@
                       prop="isVisible"
                     >
                       <i-select
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请选择')"
                         v-model="formCommitData.isVisible"
                       >
                         <el-option
@@ -261,9 +243,7 @@
                       prop="isCommodity"
                     >
                       <i-select
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.isCommodity"
                       >
                         <el-option
@@ -291,9 +271,7 @@
                       class="Col-OneItem"
                     >
                       <i-select
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请选择')"
                         disabled
                         v-model="formCommitData.syncStatus"
                       >
@@ -330,7 +308,7 @@
                             >{{ fileExist }}</span
                           >
                           <span style="width: 95%" v-else>{{
-                            $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
+                            language('请选择')
                           }}</span>
                           <input
                             type="file"
@@ -376,9 +354,7 @@
                       class="Col-FourItem"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.remark"
                       ></iInput>
                     </iFormItem>
@@ -451,9 +427,7 @@
                           <span
                             v-if="formCommitData.supDeptList.length == 0"
                             style="position: absolute; left: 12px"
-                            >{{
-                              $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                            }}</span
+                            >{{ language('请选择') }}</span
                           >
 
                           <el-tag
@@ -489,9 +463,7 @@
                       class="Col-ThreeItem"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.costCenterId"
                       ></iInput>
                     </iFormItem>
@@ -620,26 +592,29 @@ export default {
       data.append('file', this.fileLoge)
       data.append('currentUserId', this.$store.state.permission.userInfo.id)
       data.append('currentUser', this.$store.state.permission.userInfo.userName)
-      return uploadFileWithNOTokenTwo(data)
-        .then((val) => {
-          if (val) {
-            let commitData = { ...this.formCommitData }
-            commitData.logoName = val.name
-            commitData.filePath = val.path
-            commitData.fileId = val.id
-            this.$store.commit('SET_ORG_INFO', commitData)
-            console.log('commitData ==', commitData)
-            console.log('FormcommitData ==', this.formCommitData)
-            return true
-          } else {
-            // console.log('上传文件失败')
-            return false
-          }
-        })
-        .catch((error) => {
-          iMessage.error('上传文件失败', error)
-          return false
-        })
+      return new Promise((reslove, reject) => {
+        uploadFileWithNOTokenTwo(data)
+          .then((val) => {
+            if (val) {
+              const data = val.data
+              let commitData = { ...this.formCommitData }
+              commitData.logoName = data.name
+              commitData.filePath = data.path
+              commitData.fileId = data.id
+              this.$store.commit('SET_ORG_INFO', commitData)
+              console.log('commitData ==', commitData)
+              console.log('FormcommitData ==', this.formCommitData)
+              reslove(data)
+            } else {
+              // console.log('上传文件失败')
+              reject(false)
+            }
+          })
+          .catch((error) => {
+            iMessage.error('上传文件失败', error)
+            reject(false)
+          })
+      })
     },
     enterOrgTagPage() {
       // console.log("TagList === ", this.formCommitData.tagList);
@@ -656,7 +631,8 @@ export default {
         leftSelect: null,
         rightSelect: null,
         optionsSelect: null,
-        rightSelectValues: []
+        rightSelectValues: [],
+        originValueList: []
       }
       this.table.tableListData.push(row)
     },
@@ -698,9 +674,9 @@ export default {
       let result = false
       if (this.fileLoge) {
         result = await this.uploadFileLogo()
-        param['logoName'] = this.formCommitData.logoName
-        param['filePath'] = this.formCommitData.path
-        param['fileId'] = this.formCommitData.fileId
+        param['logoName'] = result.name
+        param['filePath'] = result.path
+        param['fileId'] = result.id
       }
       if (this.fileLoge && !result) {
         return
@@ -769,9 +745,12 @@ export default {
       // console.log("===8888",this.formCommitData.logoName);
       if (this.fileLoge) {
         result = await this.uploadFileLogo()
-        param['logoName'] = this.formCommitData.logoName
+        /* param['logoName'] = this.formCommitData.logoName
         param['filePath'] = this.formCommitData.path
-        param['fileId'] = this.formCommitData.fileId
+        param['fileId'] = this.formCommitData.fileId */
+        param['logoName'] = result.name
+        param['filePath'] = result.path
+        param['fileId'] = result.id
       }
       if (this.fileLoge && !result) {
         return
@@ -912,7 +891,8 @@ export default {
                   leftSelect: item.id,
                   rightSelect: idList,
                   url: null,
-                  optionsSelect: null
+                  optionsSelect: null,
+                  originValueList: item.valueList
                 }
                 newDimension.push(obj)
               }

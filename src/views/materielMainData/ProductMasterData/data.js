@@ -12,6 +12,7 @@ export const productTabelList = [
     {
         prop:'code',
         label:'产品组编号',
+        i18n:'产品组编号',
         tooltip:true,
         width:'120px',
         openNewPage: true,
@@ -23,12 +24,13 @@ export const productTabelList = [
     {
         prop:'pgNameZh',
         label:'产品组名称(中)',
+        i18n:'产品组名称(中)',
         tooltip:true,    
     },
     {
         prop:'pgNameDe',
         tooltip:true,
-
+        i18n:'产品组名称(德)',
         label:'产品组名称(德)',
     }
 ]

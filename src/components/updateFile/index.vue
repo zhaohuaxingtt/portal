@@ -155,9 +155,9 @@ export default {
             this.nameList.shift();
             this.list.shift();
           }
-          this.urlList.push(res[0].path);
-          this.nameList.push(res[0].name);
-          this.list.push(res[0]);
+          this.urlList.push(res.data[0].path);
+          this.nameList.push(res.data[0].name);
+          this.list.push(res.data[0]);
           this.$emit("getUplodFiles", this.nameList);
         })
         .catch(() => {

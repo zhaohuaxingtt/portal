@@ -177,7 +177,10 @@ export default {
         return
       }
       const pms = {
-        stuffBdlId: this.selectTableData[0].id
+        stuffBdlId: this.selectTableData[0].id,
+        categoryName: this.selectTableData[0].categoryNameZh,
+        categoryCode: this.selectTableData[0].categoryCode,
+        categoryId: this.selectTableData[0].categoryId
       }
       const res = await updateAssociated(pms)
       this.resultMessage(res, () => {
@@ -190,7 +193,10 @@ export default {
         return
       }
       const pms = {
-        stuffBdlId: this.selectTableData[0].id
+        stuffBdlId: this.selectTableData[0].id,
+        categoryName: this.selectTableData[0].categoryNameZh,
+        categoryCode: this.selectTableData[0].categoryCode,
+        categoryId: this.selectTableData[0].categoryId
       }
       const res = await mbdlCancelAssociated(pms)
       this.resultMessage(res, () => {

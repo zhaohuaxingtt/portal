@@ -6,21 +6,24 @@
         <viewFlow :detail="form" />
         <!-- 批准 -->
         <iButton
-          v-if="(!finished && buttons.批准) || buttons.无异议"
-          @click="onComplete(mapApprovalType.AGREE, $t('APPROVAL.APPROVEL'))"
+          v-if="!finished && (buttons.批准 || buttons.无异议)"
+          :loading="loading"
+          @click="onComplete(mapApprovalType.AGREE, language('批准'))"
         >
           {{ buttons.批准 ? language('批准') : language('无异议') }}
         </iButton>
         <!-- 拒绝 -->
         <iButton
           v-if="!finished && buttons.拒绝"
-          @click="onComplete(mapApprovalType.REFUSE, $t('APPROVAL.REFUSE'))"
+          :loading="loading"
+          @click="onComplete(mapApprovalType.REFUSE, language('拒绝'))"
         >
-          {{ $t('APPROVAL.REFUSE') }}
+          {{ language('拒绝') }}
         </iButton>
         <!-- 补充材料 -->
         <iButton
           v-if="!finished && (buttons.补充材料 || buttons.有异议)"
+          :loading="loading"
           @click="
             onComplete(
               mapApprovalType.APPEND_DATA,
@@ -48,10 +51,11 @@
     <detailProcessForm
       :flow-form-url="flowFormUrl"
       :form-height="form.formHeight"
+      :form="form"
     />
 
     <!-- <i-card
-      :title="$t('APPROVAL.FLOW_INFO')"
+      :title="language('审批流程')"
       header-control
       collapse
       class="margin-bottom20"
@@ -63,11 +67,7 @@
       />
     </i-card> -->
 
-    <i-card
-      :title="$t('APPROVAL.MORE_APPROVAL_HISTORY')"
-      header-control
-      collapse
-    >
+    <i-card :title="language('审批历史')" header-control collapse>
       <i-table-custom :data="form.histories" :columns="historyTableTitle" />
     </i-card>
 
@@ -98,7 +98,7 @@ import { iPage, iCard, iMessage, iButton } from 'rise'
 import {
   dialogApproval,
   dialogAppendAttachment,
-  attachmentList as AttachmentList,
+  attachmentList,
   detailProcessForm,
   lastNode,
   baseForm,
@@ -168,12 +168,19 @@ export default {
           tooltip: false
         },
         {
-          prop: 'attachmentEntityList',
           label: '附件',
           i18n: 'APPROVAL.ATTACH',
           tooltip: false,
           customRender: (h, scope) => {
-            return <AttachmentList data={scope.row.taskAttachments} />
+            if (scope.row.taskAttachments) {
+              return (
+                <attachmentList
+                  key={scope.row.id}
+                  data={scope.row.taskAttachments}
+                />
+              )
+            }
+            return ''
           }
         },
         {
@@ -188,6 +195,7 @@ export default {
       agreeType: 1, // 审批结果 1同意；2拒绝；3补充材料
       taskDetail: {},
       flowFormUrl: '',
+      processUrlPortal:process.env.VUE_APP_POINT_PORTAL,
       attachColumns: [
         {
           type: 'selection',
@@ -244,6 +252,17 @@ export default {
     }
   },
   methods: {
+    replaceUrl() {
+      const { instanceId, taskId } = this.$route.params
+      this.$router.replace({
+        name: 'bpmTaskFinishDetail',
+        params: {
+          instanceId,
+          taskId,
+          finished: 'yes'
+        }
+      })
+    },
     getDetail() {
       const { instanceId } = this.$route.params
       const params = {
@@ -272,7 +291,9 @@ export default {
                 })
               }
               this.form.histories = histories
+
               this.flowFormUrl = data.formUrl
+ 
             } else {
               iMessage.error(res.desZh || '获取数据失败')
             }
@@ -317,24 +338,19 @@ export default {
           .then((res) => {
             this.loading = false
             if (res.result) {
-              this.$message.success(this.$t('APPROVAL.OPERATION_SUCCESSFUL'))
-              setTimeout(() => {
-                window.close()
-              }, 3000)
+              this.$message.success(res.desZh || this.language('操作成功'))
+
               if (window.opener) {
                 window.opener.location.reload()
               }
+              this.replaceUrl()
             } else {
-              this.$message.error(
-                res.desZh || this.$t('APPROVAL.OPERATION_FAILED')
-              )
+              this.$message.error(res.desZh || this.language('操作失败'))
             }
           })
           .catch((err) => {
             this.loading = false
-            this.$message.error(
-              err.desZh || this.$t('APPROVAL.OPERATION_FAILED')
-            )
+            this.$message.error(err.desZh || this.language('操作失败'))
           })
       } else {
         this.dialogApprovalVisible = true

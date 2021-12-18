@@ -1,10 +1,10 @@
 <template>
   <iCard :title="language('计量单位')" collapse>
-      <el-form label-width="150px" label-position="left">
+      <el-form label-width="160px" label-position="left">
           <el-row :gutter="24" >
               <el-col span="8">
                   <iFormItem :label='language("基本计量单位")' class="unit-option">
-                        <el-checkbox class="check-box" v-model="unitCheckbox"></el-checkbox>
+                        <el-checkbox v-model="unitCheckbox" slot="label"><span class="label-text">{{language("基本计量单位")}}</span></el-checkbox>
                         <iSelect v-model="unit" disabled>
                             <el-option
                                 v-for="item in unitOptions"
@@ -109,16 +109,19 @@ export default {
 <style lang="scss" scoped>
 .unit-option{
     position: relative;
-    margin-left: 40px;
+    margin-left: 26px;
     .check-box{
-        position: absolute;
-        left: -210px;
-        ::v-deep .el-checkbox__inner{
-            border-radius: 4px;
-        }
+        // position: absolute;
+        //  left: -170px;
+        // ::v-deep .el-checkbox__inner{
+        //     border-radius: 4px;
+        // }
     }
 }
 .divider{
     margin:0 0  20px 0;
+}
+.label-text{
+    color: black;
 }
 </style>

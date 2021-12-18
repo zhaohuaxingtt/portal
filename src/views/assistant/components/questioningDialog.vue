@@ -8,32 +8,48 @@
 		:title="questioningTitle"
 		@close="clearDialog"
 		width="60%"
+		class="qs-dialog"
+		top="30px"
 	>
-		<div v-if="zwFlag">
-			<div class="zw-box">
-				<!-- <div class="ques">
-					{{ questioningTitle }}
-				</div> -->
-				<div class="ask" v-for="(item) in questionAnswerContent.replyQuestionList" :key="item.id">
-					<div v-html="item.content"></div>
+		<div class="content">
+			<div v-if="zwFlag">
+				<div class="zw-box flex-1">
+					<!-- <div class="ques">
+						{{ questioningTitle }}
+					</div> -->
+					<div class="ask" v-for="(item) in questionAnswerContent.replyQuestionList" :key="item.id">
+						<div v-html="item.content"></div>
+					</div>
 				</div>
+				<div class="te-text">{{ language('提问') }}</div>
 			</div>
-			<div class="te-text">{{ language('提问') }}</div>
-		</div>
-		<div class="editor-box" v-if="!zwFlag">
-			<iInput
-        type="textarea"
-        :rows="6"
-        v-model="askContent"
-				resize="none"
-      ></iInput>
-		</div>
-		<iEditor v-else ref="iEditor" v-model="askContent" />
-		<div class="attach-box flex flex-column">
-			<AttachmentDownload
-				load="up"
-				@getFilesList="getFilesList"
+			<div class="editor-box" v-if="!zwFlag">
+				<iInput
+					type="textarea"
+					:rows="6"
+					v-model="askContent"
+					resize="none"
+				></iInput>
+			</div>
+			<iEditor 
+				v-else 
+				ref="iEditor" 
+				v-model="askContent"
+				:html="askContent"
+				id="qs-editor"
 			/>
+			<div class="attach-box flex">
+				<div>附件：</div>
+				<iUpload
+					ref="attachment"
+					v-model="fileList"
+				>
+					<div class="upload-txt flex" style="align-items: end;">
+						<iButton>添加附件</iButton>
+						<span class="upload-txt" @click.stop=";">只能上传不超过20MB的文件</span>
+					</div>
+				</iUpload>
+			</div>
 		</div>
 		<div class="flex flex-row mt20 justify-end items-center btns">
 			<iButton @click="clearDialog">{{ language('退出') }}</iButton>
@@ -44,12 +60,12 @@
 
 <script>
 import { iDialog, iButton, iInput } from 'rise'
-import AttachmentDownload from './attachmentDownload'
-import iEditor from '@/components/iEditor'
+import iUpload from './iUpload.vue'
+import iEditor from './iEditor'
 import { submitQuestion, submitAwContent } from "@/api/assistant"
 export default {
 	name: 'questioningDialog',
-	components:{ iDialog, AttachmentDownload, iButton, iEditor, iInput },
+	components:{ iDialog, iUpload, iButton, iEditor, iInput },
 	props: {
 		questioningVisible: {
 			type: Boolean,
@@ -72,8 +88,8 @@ export default {
 			default: 0
 		},
 		currLabelId: {
-			type: Number,
-			default: 0
+			type: String,
+			default: ''
 		}
 	},
 	data() {
@@ -92,34 +108,26 @@ export default {
 		init() {
 			this.fileList = []
 			this.askContent = ''
+			this.assistantQuestionDTO = {
+				attachmentDTOList: [],
+				questionLableId: '',
+				questionModuleId: '',
+				questionTitle: ''
+			}
 		},
 		clearDialog() {
 			this.init()
 			this.$emit('closeQuesDialog', false)
 		},
-		getFilesList(fileList) {
-			console.log(fileList, "11111")
-			this.fileList = fileList
-		},
 		sendMessage() {
+			if(!this.askContent) return this.$message.warning("请输入内容")
 			if (this.zwFlag) {
 				// 追问提交问题
 				console.log(this.questionAnswerContent, "====")
-				let list = []
-				if (this.fileList.length > 0) {
-					this.fileList.map(item => {
-						list.push({
-							fileName: item.name,
-							fileUrl: item.path,
-							bizType: '',
-							bizId: 0
-						})
-					})
-				}
 				let params = {
 					replyContent: this.askContent,
 					questionId: this.questionAnswerContent.id,
-					list
+					attachmentList: this.fileList
 				}
 				submitAwContent(params).then((res) => {
 					console.log(res, "111122233")
@@ -133,14 +141,7 @@ export default {
 				this.assistantQuestionDTO.questionLableId = this.currLabelId 
 				this.assistantQuestionDTO.questionModuleId = this.currentMoudleId
 				this.assistantQuestionDTO.questionTitle = this.askContent
-				this.fileList.map(item => {
-					this.assistantQuestionDTO.attachmentDTOList.push({
-						fileName: item.name,
-						fileUrl: item.path,
-						bizType: '',
-						bizId: 0
-					})
-				})
+				this.assistantQuestionDTO.attachmentDTOList = this.fileList
 				submitQuestion(this.assistantQuestionDTO).then((res) => {
 					console.log(res, '000000')
 					if (res?.code === '200') {
@@ -158,7 +159,7 @@ export default {
 @import "../comon.scss";
 	.zw-box {
 		width: 100%;
-		height: 150px;
+		// height: 150px;
 		border: 1px solid #F2F2F2;
 		opacity: 1;
 		border-radius: 2px;
@@ -180,7 +181,7 @@ export default {
 	.editor-box {
 		margin-top: 30px;
 		width: 100%;
-		height: 160px;
+		// height: 160px;
 		// border: 1px solid #D0D4D9;
 		// opacity: 1;
 		// border-radius: 2px;
@@ -193,8 +194,8 @@ export default {
 		height: 260px;
 	}
 	.attach-box {
-		height: 100px;
-		margin-top:16px
+		height: 150px;
+		margin-top:16px;
 	}
 	.btns {
 		height: 60px;

@@ -13,7 +13,7 @@
                   :span-method="handleMerge"
                   tooltip-effect='light'
                   :data='tableData'
-                  :empty-text="$t('LK_ZANWUSHUJU')"
+                  :empty-text="$i18n.locale === 'zh'?'暂无数据':'No Data'"
                   v-loading='tableLoading'
                   @selection-change="handleSelectionChange"
                   :row-class-name="handleTableRow">
@@ -24,7 +24,7 @@
                 <!-- 点击事件-->
                 <el-table-column :key="index" align='center' :width="items.width" :show-overflow-tooltip='items.tooltip'
                                  v-if="openPageProps.indexOf(items.props)>-1" :prop="items.props"
-                                 :label="items.key ? language(items.key, items.name) : items.name" :fixed="items.fixed">
+                                 :label="items.key ? $t(items.key) : items.name" :fixed="items.fixed">
                     <template slot-scope="scope">
                         <el-form-item>
                              <span class="openLinkText cursor linkEllipsis text"
@@ -77,7 +77,7 @@
                                      @focus="onFocus(scope.row[items.props],scope.$index,items.props)"
                                      @blur="onBlur(scope.row[items.props],scope.$index,items.props)"
                                      @change="changeInput(scope.row[items.props],scope.$index,items.props)"
-                                     v-if="state || (!state && !scope.row.isConfirm && (scope.row['kslPriceSource']=='M'||!scope.row['price']))"
+                                     v-if=" (!scope.row.isConfirm && (scope.row['kslPriceSource']=='M'||!scope.row['price']))"
                                      :type="inputType"
                                      :maxlength="items.maxlength ? items.maxlength : 300">
                             </i-input>
@@ -113,7 +113,7 @@
                         <el-form-item :prop="'tableData.' + scope.$index + '.' + items.props"
                                       :rules="items.rule ? items.rule : ''">
                             <i-select filterable v-model="scope.row[items.props]"
-                                      v-if="(state || (!state && !scope.row.isConfirm)) && items.props=='supplierName'"
+                                      v-if="!scope.row.isConfirm && items.props=='supplierName'"
                                       remote
                                       reserve-keyword
                                       :remote-method="remoteMethod"
@@ -124,7 +124,7 @@
                                            :label="items.supplierName"/>
                             </i-select>
                             <i-select filterable v-model="scope.row[items.props]"
-                                      v-else-if="(state || (!state && !scope.row.isConfirm)) && items.props=='partType'"
+                                      v-else-if="!scope.row.isConfirm && items.props=='partType'"
                                       @change="changeValue(scope.row[items.props],scope.$index,selectPropsOptionsObject[items.props],items.props)">
                                 <el-option v-for="items,index in selectPropsOptionsObject[items.props]"
                                            :key='index'
@@ -415,9 +415,9 @@
                             ]
                         )
                     ])
-                } else if (column.label == this.label) {
+                } else if (column.label == this.label || column.label == 'Year output') {
                     return this.fn(column, h, $index)
-                } else if (column.label == '12月') {
+                } else if (column.label == '12月' || column.label =='december') {
                     return this.cb(column, h, $index)
                 } else {
                     return h("span", column.label + "  ", {  //这是左边的

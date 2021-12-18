@@ -1,9 +1,7 @@
 <template>
   <iDialog :visible.sync="dialogVisible" width="80%" @close="onClose">
     <div slot="title" class="dialog-title">
-      <span class="el-dialog__title"
-        >{{ $t('APPROVAL.APPEND_DATA') }}12121</span
-      >
+      <span class="el-dialog__title">{{ language('补充材料') }}</span>
       <div class="text-right btns">
         <el-upload
           action="1"
@@ -24,7 +22,7 @@ image/png,application/pdf,application/vnd.ms-powerpoint,application/vnd.ms-excel
             class="btn-upload"
           >
             <span>
-              {{ $t('APPROVAL.UPLOAD_ATTACH') }}
+              {{ language('上传附件') }}
             </span>
           </iButton>
         </el-upload>
@@ -34,7 +32,7 @@ image/png,application/pdf,application/vnd.ms-powerpoint,application/vnd.ms-excel
           size="small"
           @click="del"
         >
-          {{ $t('APPROVAL.REMOVE_ATTACH') }}
+          {{ language('删除附件') }}
         </iButton>
         <iButton
           type="default"
@@ -42,18 +40,15 @@ image/png,application/pdf,application/vnd.ms-powerpoint,application/vnd.ms-excel
           size="small"
           @click="save"
         >
-          {{ $t('APPROVAL.SAVE') }}
+          {{ language('保存') }}
         </iButton>
       </div>
     </div>
 
     <div class="attach-info">
-      <div class="name">{{ $t('APPROVAL.APPEND_DATA_NODE') }}</div>
+      <div class="name">{{ language('补充材料节点') }}</div>
       <div class="item node">
-        <iSelect
-          :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-          v-model="form.node"
-        >
+        <iSelect :placeholder="language('请选择')" v-model="form.node">
           <el-option
             v-for="item of taskNodes"
             :label="
@@ -66,7 +61,7 @@ image/png,application/pdf,application/vnd.ms-powerpoint,application/vnd.ms-excel
       </div>
       <div class="item comment">
         <iInput
-          :placeholder="$t('APPROVAL.APPEND_DATA_COMMENT')"
+          :placeholder="language('请输入补充材料留言内容')"
           v-model="form.comment"
         />
       </div>
@@ -195,18 +190,23 @@ export default {
       )
       await uploadApprovalAttach(formData)
         .then((res) => {
-          this.attachList.push(res)
+          console.log('res', res)
+          if (res && res.result) {
+            this.attachList.push(res.data)
+          } else {
+            iMessage.error(res.desZh || this.language('上传失败'))
+          }
         })
         .catch((err) => {
           console.log('uploadApprovalAttach err', err)
-          iMessage.error(this.$t('LK_SHANGCHUANSHIBAI'))
+          iMessage.error(err.desZh || this.language('上传失败'))
         })
 
       this.uploadLoading = false
     },
     save() {
       if (!this.form.node) {
-        iMessage.error(this.$t('APPROVAL.NODE_REQUIRED'))
+        iMessage.error(this.language('补充材料节点必选'))
         return false
       }
       /* if (this.attachList.length === 0) {
@@ -224,11 +224,12 @@ export default {
         taskFiles,
         taskId: this.form.node
       }
+
       this.uploadLoading = true
       saveApprovalAttach(data)
         .then((res) => {
           if (res.result) {
-            iMessage.success(this.$t('APPROVAL.SAVE_SUCCESSFUL'))
+            iMessage.success(this.language('保存成功'))
             this.attachList.length = 0
             this.$emit('success')
             if (window.opener) {
@@ -237,7 +238,7 @@ export default {
           }
         })
         .catch(() => {
-          iMessage.error(this.$t('APPROVAL.SAVE_FAILED'))
+          iMessage.error(this.language('保存失败'))
           this.uploadLoading = false
         })
     },

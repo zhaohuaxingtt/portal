@@ -121,6 +121,7 @@
     <addSupplierDialog :areaList="formGroup.areaList"
                        @creatSupplier="creatSupplier"
                        v-model="addNodeDialog"
+                       :niterFlag="niterFlag"
                        :node="node" />
     <!-- 双击-- 编辑供应商信息 -->
     <supplierInfoDialog @modifyNode="modifyNode"
@@ -241,7 +242,8 @@ export default {
           { required: true, message: '请选择', trigger: 'blur' },
         ],
       },
-      outboxHeight: 0
+      outboxHeight: 0,
+      niterFlag: false
     }
   },
   mounted () {
@@ -290,7 +292,7 @@ export default {
       this.onDataLoading = true
       const pms = {
         supplierId: this.$route.query.supId,
-        tlk: this.$route.query.tlk
+        tlk: encodeURIComponent(this.$route.query.tlk)
       }
       // this.supplierId = pms.supplierId
       this.onDataLoading = true;
@@ -316,6 +318,7 @@ export default {
         nodeList[ntierChain.id] = ntierChain;
       });
       this.$set(this.chainNodeDatas, "nodeList", nodeList);
+      console.log(this.chainNodeDatas)
       this.$set(this.chainNodeDatas, "edges", edges);
       this.$nextTick(() => {
         this.onDataLoading = false;
@@ -343,6 +346,7 @@ export default {
     },
 
     addNode (node) {
+      this.niterFlag = true
       this.node = node
       this.addNodeDialog = true;
     },
@@ -362,10 +366,12 @@ export default {
     levelChanged (sourceId, level) {
     },
     deleteNode (node) {
+      this.niterFlag = true
       this.node = node
       this.showDeleteDialog = true;
     },
     doRemoveNode () {
+
       this.$refs.delete.validate(async (valid) => {
         if (valid) {
           const pms = {
@@ -375,7 +381,12 @@ export default {
           const res = await deleteNode(pms)
           this.resultMessage(res, () => {
             this.showDeleteDialog = false;
-            this.$parent.$children[0].getTableList()
+            if (this.niterFlag) {
+              this.getCardChain()
+            } else {
+              this.$parent.$children[0].getTableList()
+            }
+
           })
         }
       })

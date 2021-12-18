@@ -1,7 +1,7 @@
 <template>
     <!--转派-->
     <iDialog
-            :title="$t('EKL_YJGL_ZP')"
+            :title="$t('LK_ZP')"
             :visible.sync="value"
             width="382px"
             @close="clearDiolog"
@@ -11,7 +11,7 @@
             <el-form >
                 <el-row class="margin-bottom20">
                     <el-form-item  :label="$t('SUPPLIER_KESHI')">
-                        <iSelect :placeholder="$t('LK_QINGXUANZE')"
+                        <iSelect :placeholder="language('请选择')"
                                  v-model="form.ksId"
                                  @change="changeValue"
                         >
@@ -24,7 +24,7 @@
                         </iSelect>
                     </el-form-item>
                     <el-form-item  label="Linie">
-                        <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.linieId">
+                        <iSelect :placeholder="language('请选择')" v-model="form.linieId">
                             <!--<el-option value="" :label="$t('all')"></el-option>-->
                             <el-option
                                     :value="item.id"
@@ -36,7 +36,7 @@
                 </el-row>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <iButton :disabled="isForward" @click="giveMyself">{{ $t('EKL_YJGL_ZGZJ') }}</iButton>
+                <iButton :disabled="isForward" @click="giveMyself">{{ $t('LK_ZGZJ') }}</iButton>
                 <iButton :disabled="isForward" @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>
             </div>
         </div>

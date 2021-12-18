@@ -21,7 +21,7 @@
     />
 
     <i-card
-      :title="$t('APPROVAL.FLOW_INFO')"
+      :title="language('审批流程')"
       header-control
       collapse
       class="margin-bottom20"
@@ -30,14 +30,13 @@
         v-if="form.panorama"
         :panorama="form.panorama"
         :state-code="form.stateCode"
+        :detail="form"
+        :isEnd="form.stateCode !== 3 && form.stateCode !== 4"
+        :instance-id="$route.params.instanceId"
       />
     </i-card>
 
-    <i-card
-      :title="$t('APPROVAL.MORE_APPROVAL_HISTORY')"
-      header-control
-      collapse
-    >
+    <i-card :title="language('审批历史')" header-control collapse>
       <i-table-custom :data="form.histories" :columns="historyTableTitle" />
     </i-card>
   </iPage>

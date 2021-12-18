@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading || loadPage">
-    <search @confirmSearch="confirmSearch" />
+    <search @confirmSearch="confirmSearch" :userType="userType" />
     <searchTable :tableListData="tableListData" :total="total" :userType="userType" v-if="!loading" @changePage="changePage" @exportHandler="exportHandler" />
   </div>
 </template>

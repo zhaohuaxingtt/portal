@@ -10,22 +10,21 @@
            @reset="handleSearchReset"
            :resetKey="PARTSPROCURE_RESET"
            :searchKey="PARTSPROCURE_CONFIRM"
-           class="margin-bottom20  box "
-           style="margin-top: 20px ">
-
+           class="margin-bottom20 box"
+           style="margin-top: 20px">
     <el-form inline>
-      <el-form-item :label="language('DIQU','地区')">
+      <el-form-item :label="language('DIQU', '地区')">
         <el-cascader @change="queryByParamsWithAuth"
                      v-model="form.areaArray"
-                     :placeholder="language('QINGXUANZHE','请选择')"
+                     :placeholder="language('QINGXUANZHE', '请选择')"
                      :options="formGroup.areaList"
-                     :props="{multiple:true}"
+                     :props="{ multiple: true }"
                      :clearable="true"
                      collapse-tags></el-cascader>
       </el-form-item>
-      <el-form-item :label="language('GONGYINGSHANGMINGCHEN','供应商名称')">
+      <el-form-item :label="language('GONGYINGSHANGMINGCHEN', '供应商名称')">
         <iSelect filterable
-                 :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                 :placeholder="language('请选择')"
                  v-model="form.supplierId">
           <el-option v-for="(item, index) in formGroup.supplierNameList"
                      :key="index"
@@ -34,51 +33,36 @@
           </el-option>
         </iSelect>
       </el-form-item>
-      <el-form-item :label="language('ZONGCHENLINGJIAN','总成零件')">
+      <el-form-item :label="language('ZONGCHENLINGJIAN', '总成零件')">
         <iSelect filterable
-                 :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                 :placeholder="language('请选择')"
                  v-model="form.partNum"
                  @change="hanldeChange">
           <el-option v-for="(item, index) in formGroup.partNumList"
                      :key="index"
                      :value="item.partNum"
-                     :label="item.partName+'/'+item.partNum">
+                     :label="item.partName + '/' + item.partNum">
           </el-option>
         </iSelect>
       </el-form-item>
     </el-form>
-
   </iSearch>
-
 </template>
 
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import {
-  iCard,
-  iSelect,
-  iSearch,
-  iInput,
-  iButton,
-  iDialog,
-  iFormItem,
-  iMessage,
-  iFormGroup,
-  iLabel
-} from 'rise'
-import { baseRules } from './data.js'
+import { iSelect, iSearch, iMessage } from 'rise'
 import { getCity } from '@/api/supplierManagement/supplyChainOverall/index.js'
 import {
-  queryByParamsWithAuth,
-  queryPart,
-  invitation
+  queryByParamsDropDownWithAuth,
+  queryPart
 } from '@/api/supplierManagement/supplyMaintain/index.js'
 export default {
   // import引入的组件需要注入到对象中才能使用
   components: {
     iSelect,
-    iSearch,
+    iSearch
   },
   data () {
     // 这里存放数据
@@ -105,8 +89,8 @@ export default {
       const res = await getCity()
       this.formGroup.areaList = res
     },
-    async queryByParamsWithAuth (val) {
-      const res = await queryByParamsWithAuth({ areaArray: val })
+    async queryByParamsDropDownWithAuth (val) {
+      const res = await queryByParamsDropDownWithAuth({ areaArray: val })
       this.formGroup.supplierNameList = res.data
     },
     async queryPart () {
@@ -120,7 +104,12 @@ export default {
     },
     async getTableList () {
       if (!this.form.supplierId && !this.form.partNum) {
-        iMessage.error(this.language('QINGXUANZEGONGYINSHANGMINGCHENGHUOZHEZONGCHENGLINGJIAN', '请选择供应商名称或者总成零件'))
+        iMessage.error(
+          this.language(
+            'QINGXUANZEGONGYINSHANGMINGCHENGHUOZHEZONGCHENGLINGJIAN',
+            '请选择供应商名称或者总成零件'
+          )
+        )
         return
       }
       await this.$parent.$refs.view.getCardChain(this.form)
@@ -146,14 +135,13 @@ export default {
     await this.queryPart()
     this.getTableList()
     this.getSelect()
-    this.queryByParamsWithAuth([])
-
+    this.queryByParamsDropDownWithAuth([])
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () { }
 }
 </script>
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 // @import url(); 引入公共css类
 ::v-deep .custom-select-input > input {
   height: 2.1875rem;

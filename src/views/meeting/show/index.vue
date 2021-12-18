@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">会议展示</div>
+    <div class="header">{{$t('会议展示 Meeting Live')}}</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <p class="info-line-1">
@@ -17,7 +17,18 @@
           <span class="date-time-start">
             <img :src="timeClock" alt="" srcset="" />
             <span>{{
-              result.startDate + ' ' + result.startTime + '~' + result.endTime
+              `${result.startDate} ${result.startTime.substring(0, 5)}
+                ~
+                ${
+                  Number(
+                    result.themens[result.themens.length - 1].plusDayEndTime
+                  ) > 0
+                    ? result.endTime.substring(0, 5) +
+                      ` +${Number(
+                        result.themens[result.themens.length - 1].plusDayEndTime
+                      )}`
+                    : result.endTime.substring(0, 5)
+                }`
             }}</span>
           </span>
           <span class="date-time-end">
@@ -91,11 +102,11 @@
         <el-table-column
           prop="benCn"
           align="center"
-          label="BEN(CN)"
+          label="BEN(DE)"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.benCn">{{ scope.row.benCn }}</span>
+            <span v-if="scope.row.benCn">{{ scope.row.benDe }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
@@ -115,26 +126,30 @@
 
         <!-- 支持者 -->
         <el-table-column
-          prop="supporter"
+          prop="supporterEn"
           align="center"
           label="Sourcing"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.supporter">{{ scope.row.supporter }}</span>
+            <span v-if="scope.row.supporterEn">{{
+              scope.row.supporterEn
+            }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
 
         <!-- 演讲人 -->
         <el-table-column
-          prop="presenter"
+          prop="presenterEn"
           align="center"
           label="Linie"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.presenter">{{ scope.row.presenter }}</span>
+            <span v-if="scope.row.presenterEn">{{
+              scope.row.presenterEn
+            }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
@@ -189,10 +204,20 @@
         >
           <template slot-scope="scope">
             <div v-if="scope.row.startTime">
-              <span>{{ scope.row.startTime.substring(0, 5) }}</span
+              <span>{{
+                Number(scope.row.plusDayStartTime) > 0
+                  ? scope.row.startTime.substring(0, 5) +
+                    ' +' +
+                    Number(scope.row.plusDayStartTime)
+                  : scope.row.startTime.substring(0, 5)
+              }}</span
               ><span>~</span>
               <span v-if="scope.row.endTime">{{
-                scope.row.endTime.substring(0, 5)
+                Number(scope.row.plusDayEndTime) > 0
+                  ? scope.row.endTime.substring(0, 5) +
+                    ' +' +
+                    Number(scope.row.plusDayEndTime)
+                  : scope.row.endTime.substring(0, 5)
               }}</span>
             </div>
             <span v-else>-</span>
@@ -206,8 +231,8 @@
         background
         :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
-        prev-text="上一页"
-        next-text="下一页"
+        :prev-text="$t('上一页')"
+        :next-text="$t('下一页')"
         :layout="page.layout"
         :current-page="page.currPage"
         :total="page.total"
@@ -218,6 +243,7 @@
       :openAddTopic="openAddTopic"
       @closeDialog="closeDialog"
       :topicInfo="topicInfo"
+      :isMeetingShow="true"
     />
   </iPage>
 </template>
@@ -229,7 +255,7 @@ import timeClock from '@/assets/images/time-clock.svg'
 import positionMark from '@/assets/images/position-mark.svg'
 import topicLookDialog from './components/topicLookDialog.vue'
 import { pageMixins } from '@/utils/pageMixins'
-
+import dayjs from 'dayjs'
 export default {
   mixins: [pageMixins],
   components: {
@@ -242,7 +268,7 @@ export default {
   data() {
     return {
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal:process.env.VUE_APP_POINT_PORTA,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       timeClock,
       positionMark,
       data: [],
@@ -281,6 +307,21 @@ export default {
     }
   },
   methods: {
+    handleEndTime(row) {
+      // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return '~' + str + ' +1'
+      }
+      return '~' + str
+    },
     lookOrEdit(row) {
       console.log('row', row)
       if (row.source === '04') {

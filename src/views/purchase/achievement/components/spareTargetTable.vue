@@ -6,7 +6,7 @@
                   tooltip-effect='light'
                   :data='tableData'
                   :span-method="handleMerge"
-                  :empty-text="$t('LK_ZANWUSHUJU')"
+                  :empty-text="$i18n.locale === 'zh'?'暂无数据':'No Data'"
 
         >
 

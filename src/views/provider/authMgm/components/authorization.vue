@@ -13,8 +13,7 @@
           :data="authUser"
           :columns="userMessage"
           style="height: 380px; overflow: auto"
-        >
-        </iTableCustom>
+        />
       </div>
       <div class="contentRight">
         <el-form>
@@ -72,10 +71,10 @@
           :loading="tableLoading"
           :data="authListData"
           :columns="authList"
+          rowKey="id"
           @handle-selection-change="handleSelectionChange"
           ref="authorization"
-        >
-        </iTableCustom>
+        />
         <!-- <iPagination
           v-update
           @size-change="handleSizeChange($event, getTableData)"
@@ -143,12 +142,12 @@ export default {
           if (val.code == 200) {
             this.authUser = val.data
           } else {
-            iMessage.error(val.desZh || '获取数据失败')
+            iMessage.error(val.desZh || this.language('获取数据失败'))
           }
         })
-        .catch(() => {
+        .catch((error) => {
           this.tableUserLoading = false
-          iMessage.error('获取数据失败')
+          iMessage.error(error.desZh || this.language('获取数据失败'))
         })
     },
     getSysList() {
@@ -161,12 +160,12 @@ export default {
             this.page.totalCount = val.total */
             this.getauthList(val)
           } else {
-            iMessage.error(val.desZh || '获取数据失败')
+            iMessage.error(val.desZh || this.language('获取数据失败'))
           }
         })
-        .catch(() => {
+        .catch((error) => {
           this.tableLoading = false
-          iMessage.error('获取数据失败')
+          iMessage.error(error.desZh || this.language('获取数据失败'))
         })
     },
     getauthList(sysResult) {
@@ -176,62 +175,31 @@ export default {
         })
           .then((res) => {
             const { data } = res
-            if (data) {
+            if (data && data.length) {
               // TMD,居然要根据选择排序
               const authedIds = data.map((e) => e.id)
               const sysData = sysResult.data
+
+              // 勾选的排在前面
               const inData = sysData.filter((e) => authedIds.includes(e.id))
               const notInData = sysData.filter((e) => !authedIds.includes(e.id))
-              this.authListData = inData.concat(notInData)
+              const authListData = inData.concat(notInData)
+
               this.page.totalCount = sysResult.total
-              // this.$nextTick(() => {
-                const ids = data.map((ele)=>{
-                  return ele.id
+
+              const ids = data.map((e) => e.id)
+              if (this.operationType === 'auth') {
+                authListData.forEach((item) => {
+                  const isInclude = ids.includes(item.id)
+                  item.checked = isInclude
+                  item.disabledChecked = isInclude
                 })
-                if(this.operationType == 'auth'){
-                  this.authListData.forEach(item => {
-                    data.forEach(e => {
-                      if(item.id == e.id){
-                          item.disabledChecked = true
-                      }
-                    })
-                  })
-                }else{
-                  this.authListData.forEach(item => {
-                    if(!ids.includes(item.id)){
-                      item.disabledChecked = true
-                    }
-                  })
-                }
-                // data.forEach((e) => {
-                  // const items = this.authListData.filter(
-                  //   (sys) => sys.id === e.id
-                  // )
-                  // if(this.operationType == 'auth'){
-                  //   this.authListData.forEach((item)=>{
-                  //     if(item.id === e.id){
-                  //       console.log('========w',e.id);
-                  //       item.disabledChecked = true
-                  //     }else{
-                  //       item.disabledChecked = false
-                  //     }
-                  //   })
-                  // }else if(this.operationType == 'cancelAuth'){
-                  //   console.log('-----');
-                  //   this.authListData.forEach((item)=>{
-                  //     if(item.id != e.id){
-                  //       console.log('------q');
-                  //       item.disabledChecked = true
-                  //     }else{
-                  //       item.disabledChecked = false
-                  //     }
-                  //   })
-                  // }
-                  // if (items.length > 0) {
-                  //   // this.$refs.authorization.toggleRowSelection(items[0], true)
-                  // }
-                // })
-              // })
+              } else {
+                authListData.forEach((item) => {
+                  item.disabledChecked = !ids.includes(item.id)
+                })
+              }
+              this.authListData = authListData
             } else {
               this.authListData = sysResult.data
               this.page.totalCount = sysResult.total
@@ -262,11 +230,20 @@ export default {
         for (let item of this.authUser) {
           if (item.isMainContact == true) {
             this.iMessageBox = true
-            this.$confirm('是否取消主联系人授权', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            })
+            /* const msg = this.formData.isMainContact
+          ? '该操作将一并取消对应子联系人的权限，是否确认取消主联系人授权'
+          : '是否取消当前联系人授权' */
+            this.$confirm(
+              this.language(
+                '该操作将一并取消对应子联系人的权限，是否确认取消主联系人授权'
+              ),
+              this.language('提示'),
+              {
+                confirmButtonText: this.language('确定'),
+                cancelButtonText: this.language('取消'),
+                type: 'warning'
+              }
+            )
               .then(() => {
                 this.cancelAuthApplication()
               })
@@ -298,15 +275,15 @@ export default {
       auth(param)
         .then((val) => {
           if (val.code == 200) {
-            iMessage.success(val.desZh || '授权成功')
+            iMessage.success(val.desZh || this.language('授权成功'))
             this.isVisible = false
             this.$emit('getTableData')
           } else {
-            iMessage.error(val.desZh || '授权失败')
+            iMessage.error(val.desZh || this.language('授权失败'))
           }
         })
-        .catch(() => {
-          iMessage.error('授权失败')
+        .catch((error) => {
+          iMessage.error(error.desZh || '授权失败')
         })
         .finally(() => (this.sureLoading = false))
     },
@@ -325,10 +302,10 @@ export default {
           if (val.code == 200) {
             this.iMessageBox = false
             this.isVisible = false
-            iMessage.success(val.desZh || '取消授权成功')
+            iMessage.success(val.desZh || this.language('取消授权成功'))
             this.$emit('getTableData')
           } else {
-            iMessage.error(val.desZh || '取消授权失败')
+            iMessage.error(val.desZh || this.language('取消授权失败'))
           }
         })
         .catch(() => {
@@ -374,13 +351,13 @@ export default {
       authUser: [],
       authSelectedList: [],
       iButtons: {
-        sure: '确认',
-        reset: '重置',
-        search: '查询'
+        sure: this.language('确认'),
+        reset: this.language('重置'),
+        search: this.language('查询')
       },
       searchOptionTitles: {
-        name: '中文名称',
-        sysTag: '系统标签'
+        name: this.language('中文名称'),
+        sysTag: this.language('系统标签')
       },
       formData: {
         appNameCn: '',
@@ -396,17 +373,17 @@ export default {
         },
         {
           id: '1',
-          label: '生产采购'
+          label: this.language('生产采购')
         },
         {
           id: '2',
-          label: '一般采购'
+          label: this.language('一般采购')
         }
       ],
       systemOptions: [
         {
           id: '1',
-          label: '系统'
+          label: this.language('系统')
         },
         {
           id: '2',

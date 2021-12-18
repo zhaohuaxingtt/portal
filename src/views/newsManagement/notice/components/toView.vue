@@ -232,13 +232,10 @@
       <iCard>
         <div class="preview">
           <p class="title">{{ this.ruleForm.title }}</p>
-          <div class="first">
-            <div>
+            <p class="first">
               <span class="author">{{ this.ruleForm.publisher }}</span>
               <span class="time">{{ this.ruleForm.publishDate }}</span>
-            </div>
             <p class="look el-icon-view"> {{ this.ruleForm.clicks }} </p>
-          </div>
           <p class="paragraph" v-html="this.ruleForm.content"></p>
           <el-divider></el-divider>
           <div class="attachmentList">
@@ -359,7 +356,7 @@ export default {
         type: "",
         publishDate: "",
         isTop: "",
-        publishRange: "",
+        publishRange: 0,
         content: "",
         attachments: [],
         userGroup: [],
@@ -502,7 +499,7 @@ export default {
     },
     handleDownloadFile(url, name) {
       createAnchorLink(
-        url.replace(process.env.VUE_APP_FILE_CROSS, `/fileCross`), // 前端跨域问题，将api地址替换为反向代理地址
+        url, // 前端跨域问题，将api地址替换为反向代理地址
         name
       );
     },
@@ -563,7 +560,20 @@ export default {
     },
     // 重置
     handleReset() {
-      this.ruleForm = {};
+      this.ruleForm = {
+        status: "",
+        title: "",
+        type: "",
+        publishDate: new Date(+new Date() + 8 * 3600 * 1000)
+        .toJSON()
+        .substr(0, 19)
+        .replace("T", " "),
+        isTop: 0,
+        publishRange: 0,
+        content: "",
+        attachments: [],
+        userGroup: [],
+      },
       this.editor.txt.html("");
     },
     // 返回
@@ -738,11 +748,11 @@ export default {
     color: #000000;
     text-align: center;
     font-weight: bold;
+    margin-top: 40px;
   }
   .first {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 60px;
+    text-align: center;
+    margin-top: 20px;
     .author {
       font-size: 12px;
       font-family: PingFangSC-Regular;
@@ -756,13 +766,16 @@ export default {
       line-height: 17px;
       color: #999999;
     }
+  }
     .look {
+      display: flex;
+      justify-content: flex-end;
       font-size: 12px;
       font-family: PingFangSC-Regular;
       line-height: 17px;
       color: #999999;
+      margin: 30px 0;
     }
-  }
   .paragraph {
     font-size: 14px;
     font-family: PingFangSC-Regular;

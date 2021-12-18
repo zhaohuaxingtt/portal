@@ -9,6 +9,11 @@ export const tableColumn = [
     label: '序号'
   },
   {
+    prop: 'parentName',
+    label: '父级菜单',
+    align: 'center'
+  },
+  {
     prop: 'menuName',
     label: '负责模块',
     align: 'center'
@@ -45,7 +50,7 @@ export const tableColumn = [
     }
   },
   {
-    prop: 'createDate',
+    prop: 'updateDate',
     label: '添加日期',
     align: 'center',
     tooltip: true

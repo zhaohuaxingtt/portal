@@ -86,7 +86,7 @@
               :label="language('SHOUKONGCUOSHI', '受控措施')"
             >
               <iSelect
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                :placeholder="language('请选择')"
                 v-model="form.measures"
               >
                 <el-option
@@ -127,7 +127,7 @@
         }}</i-button>
       </div>
       <table-list
-        style="margin-top:20px"
+        style="margin-top: 20px"
         :tableData="tableListData"
         :tableTitle="tableTitlePp"
         :tableLoading="tableLoading"
@@ -171,7 +171,6 @@ import {
   iDialog,
   iMessageBox,
   iMessage,
-
   iPagination
 } from 'rise'
 export default {
@@ -236,7 +235,7 @@ export default {
         endTime: this.daterange[1],
         startTime: this.daterange[0]
       }
-      ppSupplerBlackListPage(params).then(res => {
+      ppSupplerBlackListPage(params).then((res) => {
         if (res && res.code == 200) {
           this.tableLoading = false
           this.tableListData = res.data
@@ -246,7 +245,7 @@ export default {
     },
     //移除
     handleRemove() {
-      let ids = this.selectTableData.map(x => {
+      let ids = this.selectTableData.map((x) => {
         return x.id
       })
       const params = {
@@ -264,7 +263,7 @@ export default {
       } else {
         this.value = false
         iMessageBox(
-          this.language('SHIFOUQUERENYICHUHEIMINGDAN', '是否确认移除黑名单'),
+          this.language('SHIFOUQUERENYICHUHEIMINGDAN?', '是否确认移除黑名单'),
           this.language('TIJIAO', '提交'),
           {
             confirmButtonText: this.language('QUEREN', '确认'),
@@ -272,7 +271,7 @@ export default {
           }
         )
           .then(async () => {
-            ppSupplierBlackRemove(params).then(res => {
+            ppSupplierBlackRemove(params).then((res) => {
               if (res && res.code == 200) {
                 iMessage.success(res.desZh)
                 // this.$emit('closeDiolog', 1)
@@ -291,7 +290,7 @@ export default {
           keyword: query,
           supplierId: this.clickTableList.subSupplierId
         }
-        purchaseListSearch(params).then(res => {
+        purchaseListSearch(params).then((res) => {
           if (res && res.code == 200) {
             this.purchaseList = res.data
           } else iMessage.error(res.desZh)
@@ -310,7 +309,7 @@ export default {
           keyword: query,
           supplierId: this.clickTableList.subSupplierId
         }
-        categoryListSearch(params).then(res => {
+        categoryListSearch(params).then((res) => {
           if (res && res.code == 200) {
             this.categoryList = res.data
           } else iMessage.error(res.desZh)
@@ -325,7 +324,7 @@ export default {
           supplierId: this.clickTableList.subSupplierId,
           categoryCodes: this.form.categoryCodes
         }
-        stuffListSearch(params).then(res => {
+        stuffListSearch(params).then((res) => {
           if (res && res.code == 200) {
             this.stuffList = res.data
           } else iMessage.error(res.desZh)

@@ -72,11 +72,9 @@ export default {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
           this.defaultPartsList = res.data
-          console.log(this.defaultPartsList,'this.defaultPartsList')
           this.defaultPartsList.forEach(item => {
             if(item.partsNum==partsNum) {
               this.currentData = item
-              console.log(this.currentData,'current')
             }
           })
         } else {
@@ -214,7 +212,8 @@ export default {
 
     .left {
       flex-grow: 1;
-      margin-right: 20px
+      margin-right: 20px;
+      width: 460px;
     }
 
     .right {

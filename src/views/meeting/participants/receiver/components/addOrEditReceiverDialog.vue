@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="'创建收件人'"
+    :title="$t('创建收件人')"
     :visible.sync="openDialog"
     width="54.875rem"
     :close-on-click-modal="false"
@@ -24,7 +24,7 @@
             <iLabel :label="$t('会议类型')" slot="label" required></iLabel>
             <iSelect
               v-model="ruleForm.meetingType"
-              placeholder="请选择"
+              :placeholder="$t('请选择')"
               value-key="id"
             >
               <el-option
@@ -43,10 +43,10 @@
             >添加收件人</iButton
           > -->
         <div class="receiverLine">
-          <div class="receiver">收件人</div>
-          <iButton @click="$emit('addReceiverData')" class="add-receiver"
-            >添加收件人</iButton
-          >
+          <div class="receiver">{{ $t('收件人') }}</div>
+          <iButton @click="$emit('addReceiverData')" class="add-receiver">{{
+            $t('添加收件人')
+          }}</iButton>
         </div>
         <i-table-custom
           @removeReceiverDataList="removeReceiverDataList"
@@ -60,8 +60,8 @@
           :page-size="pageSize"
           layout="prev, pager, next, jumper"
           :total="total"
-          prev-text="上一页"
-          next-text="下一页"
+          :prev-text="$t('上一页')"
+          :next-text="$t('下一页')"
         >
         </el-pagination>
         <!--  </iFormItem> -->
@@ -69,10 +69,10 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="close" plain class="cancel">{{
-              $t("关闭")
+              $t('关闭')
             }}</iButton>
             <iButton @click="handleSubmit('ruleForm')" plain>{{
-              $t("保存")
+              $t('保存')
             }}</iButton>
           </el-form-item>
         </div>
@@ -82,11 +82,11 @@
 </template>
 
 <script>
-import { iDialog, iInput, iFormItem, iLabel, iButton, iSelect } from "rise";
-import iEditForm from "@/components/iEditForm";
-import { saveReceiver, getMettingType } from "@/api/meeting/type";
-import { baseRules } from "./data";
-import iTableCustom from "@/components/iTableCustom";
+import { iDialog, iInput, iFormItem, iLabel, iButton, iSelect } from 'rise'
+import iEditForm from '@/components/iEditForm'
+import { saveReceiver, getMettingType } from '@/api/meeting/type'
+import { baseRules } from './data'
+import iTableCustom from '@/components/iTableCustom'
 export default {
   components: {
     iDialog,
@@ -96,187 +96,187 @@ export default {
     iButton,
     iEditForm,
     iTableCustom,
-    iSelect,
+    iSelect
   },
   props: {
     loading: { type: Boolean, default: false },
     openDialog: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     editOrAdd: {
       type: String,
       default: () => {
-        return "add";
-      },
+        return 'add'
+      }
     },
     clickScope: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     selectedTableData: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   data() {
     return {
       meetingTypeList: [],
       receiverTableColumns: [
         {
-          type: "index",
-          label: "序号",
-          i18n: "序号",
+          type: 'index',
+          label: '序号',
+          i18n: '序号',
           width: 68,
-          tooltip: false,
+          tooltip: false
         },
         {
           // prop: "nameZh",
-          label: "姓名",
-          i18n: "姓名",
+          label: '姓名',
+          i18n: '姓名',
           // width: 70,
-          align: "left",
+          align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.nameZh ? scope.row.nameZh : ""
-            );
-          },
+              scope.row.nameZh ? scope.row.nameZh : ''
+            )
+          }
         },
         {
           // prop: "email",
-          label: "电子邮箱",
-          i18n: "电子邮箱",
-          align: "left",
+          label: '电子邮箱',
+          i18n: '电子邮箱',
+          align: 'left',
           width: 200,
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.email ? scope.row.email : ""
-            );
-          },
+              scope.row.email ? scope.row.email : ''
+            )
+          }
         },
         {
           // prop: "userNum",
-          label: "工号",
-          i18n: "工号",
+          label: '工号',
+          i18n: '工号',
           width: 90,
-          align: "left",
+          align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.userNum ? scope.row.userNum : ""
-            );
-          },
+              scope.row.userNum ? scope.row.userNum : ''
+            )
+          }
         },
         {
           // prop: "deptList",
-          label: "所属部门",
-          i18n: "所属部门",
-          align: "left",
+          label: '所属部门',
+          i18n: '所属部门',
+          align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.deptList ? scope.row.deptList : ""
-            );
-          },
+              scope.row.deptList ? scope.row.deptList : ''
+            )
+          }
         },
         {
-          label: "操作",
+          label: '操作',
           width: 80,
           customRender: (h, scope) => {
-            return h("span", [
+            return h('span', [
               h(
-                "a",
+                'a',
                 {
-                  class: "open-link-text",
+                  class: 'open-link-text',
                   style: {
-                     cursor: "pointer",
-                    color: "#1660f1",
+                    cursor: 'pointer',
+                    color: '#1660f1'
                   },
                   on: {
                     click: () => {
-                      this.removeReceiverDataList(scope.row);
-                    },
-                  },
+                      this.removeReceiverDataList(scope.row)
+                    }
+                  }
                 },
-                "移除"
-              ),
-            ]);
-          },
-        },
+                '移除'
+              )
+            ])
+          }
+        }
       ],
       rules: baseRules,
       ruleForm: {
-        groupName: "",
-        meetingType: "",
+        groupName: '',
+        meetingType: ''
       },
       currentPage: 1,
       pageSize: 10,
       total: 0,
       currentPageData: [],
-      selectedFilterData: [],
-    };
+      selectedFilterData: []
+    }
   },
   watch: {
     selectedTableData(val) {
       // console.log("val", val);
-      this.total = this.currentPageData.length;
+      this.total = this.currentPageData.length
       if (this.total === 0) {
-        this.currentPageData = val;
-        this.selectedFilterData = val;
-        return;
+        this.currentPageData = val
+        this.selectedFilterData = val
+        return
       }
-      let selectList = [];
+      let selectList = []
       this.currentPageData.forEach((item) => {
-        selectList.push(item.id);
-      });
+        selectList.push(item.id)
+      })
       for (let i = 0; i < val.length; i++) {
         if (!selectList.includes(val[i].id)) {
-          this.currentPageData.push(val[i]);
-          this.total = this.currentPageData.length;
+          this.currentPageData.push(val[i])
+          this.total = this.currentPageData.length
         }
       }
-      this.currentChangePage(this.currentPageData, this.currentPage);
-    },
+      this.currentChangePage(this.currentPageData, this.currentPage)
+    }
   },
   mounted() {
     // if (this.editOrAdd === "edit") {
@@ -291,77 +291,77 @@ export default {
     // } else {
     //   this.getAllSelectList();
     // }
-    this.getAllSelectList();
+    this.getAllSelectList()
   },
   methods: {
     async getAllSelectList() {
       let param = {
         pageSize: 1000,
         pageNum: 1,
-        isCurrentUser: true,
-      };
-      const res = await getMettingType(param);
-      this.meetingTypeList = res.data;
+        isCurrentUser: true
+      }
+      const res = await getMettingType(param)
+      this.meetingTypeList = res.data
     },
     removeReceiverDataList(scope) {
       for (let i = 0; i < this.selectedFilterData.length; i++) {
         if (this.selectedFilterData[i].id == scope.id) {
-          this.selectedFilterData.splice(i, 1);
+          this.selectedFilterData.splice(i, 1)
         }
       }
       for (let j = 0; j < this.currentPageData.length; j++) {
         if (this.currentPageData[j].id == scope.id) {
-          this.currentPageData.splice(j, 1);
+          this.currentPageData.splice(j, 1)
         }
       }
     },
-    handleCurrentChange: function(currentPage) {
+    handleCurrentChange: function (currentPage) {
       // 页码切换
-      this.currentPage = currentPage;
-      this.currentChangePage(this.currentPageData, this.currentPage);
+      this.currentPage = currentPage
+      this.currentChangePage(this.currentPageData, this.currentPage)
     },
     // 分页方法
     currentChangePage(currentPageData, currentPage) {
-      let from = (currentPage - 1) * this.pageSize;
-      let to = currentPage * this.pageSize;
-      this.selectedFilterData = currentPageData.slice(from, to);
+      let from = (currentPage - 1) * this.pageSize
+      let to = currentPage * this.pageSize
+      this.selectedFilterData = currentPageData.slice(from, to)
     },
     close() {
-      this.$emit("closeDialog", false);
+      this.$emit('closeDialog', false)
     },
     handleSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const formData = {
             ...this.ruleForm,
-            meetingTypeId: this.ruleForm.meetingType.id,
-          };
+            meetingTypeId: this.ruleForm.meetingType.id
+          }
           let res = this.currentPageData.map(
             ({ id, userName, deptList, email, userNum }) => ({
               department: deptList,
               email: email,
               jobNumber: userNum,
               id: id,
-              name: userName,
+              name: userName
             })
-          );
-          formData.employeeDTOS = res;
+          )
+          formData.employeeDTOS = res
           saveReceiver(formData)
             .then((data) => {
               if (data) {
-                this.close();
-                this.$message.success("创建成功！");
-                this.$emit("flushTable");
+                this.close()
+                this.$message.success('创建成功！')
+                this.$emit('flushTable')
               }
             })
             .catch((err) => {
-              console.log(err);
-            });
+              console.log(err)
+            })
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

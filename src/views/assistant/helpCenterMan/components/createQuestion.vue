@@ -4,7 +4,8 @@
       title="新建问题"
       @close="closeDialog"
       width="800px"
-      min-height="400px"
+      class="qs-dialog"
+      top="30px"
     >
         <div class="content">
             <iFormGroup :model="form" ref="form" :inline="false" :rules="formRules">
@@ -20,19 +21,16 @@
                         </iSelect>
                     </el-form-item>
                 </div>
-                <el-form-item label="问题描述" prop="questionTitle">
+                <el-form-item label="常见问题" prop="questionTitle">
                     <i-input class="textarea" rows="5" type="textarea" v-model="form.questionTitle" placeholder="请输入" />
                 </el-form-item>
                 <el-form-item label="管理员回复" prop="answerContent">
-                    <!-- <div class="flex flex-column"> -->
-                        <!-- <iLabel class="label" label="管理员回复" slot="label"></iLabel> -->
-                        <iEditor class="flex-1 editor" style="margin-top:30px" id="qs-add" v-model="form.answerContent"></iEditor>
-                    <!-- </div> -->
+                    <iEditor class="editor" :height="300" style="margin-top:30px" id="qs-add" :zIndex="500" v-model="form.answerContent" :html="form.answerContent"></iEditor>
                 </el-form-item>
 
             </iFormGroup>
 
-            <div class="flex" style="margin-top:20px;align-items: flex-start;">
+            <div class="flex" style="align-items: flex-start;">
                 <div class="label">附件：</div>
                 <iUpload ref="upload" v-model="form.annexList" @onSuccess="uploadSucc" >
                     <div class="upload-btn flex">
@@ -43,7 +41,6 @@
             </div>
         </div>
         <div slot="footer">
-            <!-- <iButton>上 传</iButton> -->
             <iButton @click="save">确 认</iButton>
         </div>
     </iDialog>
@@ -51,9 +48,9 @@
 
 <script>
     import { iDialog, iFormGroup, iInput, iButton,iSelect } from "rise"
-    import iEditor from "@/components/iEditor"
     import iUpload from "./../../components/iUpload.vue"
-    import { saveFaq } from "@/api/assistant"
+    import iEditor from "./../../components/iEditor.vue"
+    import { saveFaq,getCurrLabelList } from "@/api/assistant"
     export default {
         components:{
             iDialog,
@@ -70,10 +67,6 @@
                 default:false
             },
             moduleList:{
-                type: Array,
-                default:() => []
-            },
-            labelList:{
                 type: Array,
                 default:() => []
             },
@@ -94,19 +87,24 @@
                     answerContent:"",
                     annexList:[]
                 },
-
+                labelList:[],
                 formRules: {
                     questionModuleId:{required:'true',message:"请选择问题模块",trigger:'cahnge'},
                     questionLableId:{required:'true',message:"请选择标签",trigger:'change'},
                     questionTitle:{required:'true',message:"请输入问题描述",trigger:'blur'},
-                    answerContent:{required:'true',message:"请输入回复内容",trigger:'blur'},
+                    answerContent:{required:'true',message:"请输入回复内容",trigger:'change'},
                 },
             }
         },
         methods: {
             change(id){
-                this.$emit('moduleChange',id)
                 this.form.questionLableId = ""
+                if(id){
+                    getCurrLabelList(id).then(res => {
+                        this.labelList = res.data
+                        this.$forceUpdate()
+                    })
+                }
             },
             closeDialog(){
                 this.form = {
@@ -118,6 +116,7 @@
                 }
                 this.$refs.form.resetFields()
                 this.$emit("update:show",false)
+                this.labelList = []
             },
             save(){
                 this.$refs.form.validate(async v => {
@@ -139,6 +138,8 @@
 @import "../../comon.scss";
 .content{
     margin: 20px 0;
+    display: flex;
+    flex-direction: column;
 }
 .input{
     width: 320px;
@@ -147,14 +148,6 @@
     width: 100%;
 }
 
-.upload-btn{
-    align-items: baseline;
-    color: #2369f1;
-    cursor: pointer;
-    span{
-        text-decoration: underline;
-    }
-}
 
 .label{
     margin-bottom: 10px;

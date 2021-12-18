@@ -4,12 +4,12 @@
       <iTabBadgeItem
         :badge="$store.state.approval.todoNum"
         :active="taskType === 0"
-        :name="$t('APPROVAL.APPROVAL_TODO')"
+        :name="language('待审批')"
         @click="tabChange('/bpm/todoList')"
       />
       <iTabBadgeItem
         :active="taskType === 1"
-        :name="$t('APPROVAL.APPROVED')"
+        :name="language('已审批')"
         @click="tabChange('/bpm/finishList')"
       />
     </iTabBadge>

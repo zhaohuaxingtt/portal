@@ -8,7 +8,7 @@
 -->
 <template>
   <iCard
-    :title="$t('车型配置')"
+    :title="language('车型配置')"
     header-control
     collapse
     class="detail-config-list"

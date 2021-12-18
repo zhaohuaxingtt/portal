@@ -8,12 +8,13 @@ export const measurementTable = [
     {
         type:'index',
         label:'序号',
+        i18n:'序号'
     },
     {
         prop:'nameZh',
         label:'常用计量单位',
         tooltip:true,
-
+        i18n:'常用计量单位',
         customRender:(h, scope, column, extraData) => {
             return (
                 <showLeftText row={scope.row} selections={extraData.unitoptions}></showLeftText>
@@ -23,7 +24,7 @@ export const measurementTable = [
     {
         prop:'numeratorValue',
         tooltip:true,
-
+        i18n:'计量单位转换关系',
         label:'计量单位转换关系',
         customRender:(h, scope, column, extraData) =>{
             return (
@@ -59,7 +60,7 @@ export const measureEdit = [
         label:'序号',
         width:'50',
         tooltip:true,
-
+        i18n:'序号',
         customRender:(h,scope) =>{
             return scope.row.index
         }
@@ -68,7 +69,7 @@ export const measureEdit = [
         prop:'denominatorUnitId',
         label:'常用计量单位',
         tooltip:true,
-
+        i18n:'常用计量单位',
         customRender:(h, scope, column, extraData) =>{
             return (
                 <lefSelect row={scope.row} selections={extraData.unitoptions}></lefSelect>
@@ -79,7 +80,7 @@ export const measureEdit = [
         prop:'numeratorValue',
         label:'计量单位转换关系',
         tooltip:true,
-
+        i18n:'计量单位转换关系',
         customRender:(h, scope, column, extraData) => {
             return (
                 <rightInput row={scope.row} extraData={extraData}></rightInput>
@@ -87,3 +88,38 @@ export const measureEdit = [
         }
     },
 ]
+export const MATERIEL_SELECTOR_TableSetting = [
+    {
+      type: 'selection',
+      width: 50
+    },
+    {
+      prop: '',
+      type: 'index',
+      label: '编号'
+    },
+    {
+      prop: 'userNum',
+      label: '员工号'
+    },
+    {
+      prop: 'nameZh',
+      label: '姓名'
+    },
+    {
+      prop: 'deptList',
+      label: '所属部门'
+    },
+    {
+      prop: 'email',
+      label: '邮箱'
+    },
+    {
+      prop: 'mobile',
+      label: '手机'
+    },
+    {
+      prop: 'phone',
+      label: '电话'
+    }
+  ]

@@ -1,7 +1,7 @@
 import axios from "@/utils/axios";
 import store from '@/store'
 
-const requstFile = axios(process.env.VUE_APP_FILEAPI)
+const requstFile = axios(process.env.VUE_APP_FILEAPI+ '/fileud')
 requstFile.interceptors.request.use(function (config) {
   config.params = {
     userId: store.state.permission.userInfo.id,
@@ -29,14 +29,16 @@ export function uploadFile(data, options) {
     timeout: 600000,
 		...options
 	}).then(async (res) => {
-		return res[0]
+		if(res.code == 200){
+			return res.data[0]
+		}
 	})
 }
 
 //通过文件 ID 下载文件, 返回字节流
 export function getFileId(fileId) {
 	return requstFile({
-		url: `/udDown/${fileId}`,
+		url: `/udDown?fileIds=${fileId}`,
 		method: 'GET',
 		responseType: 'blob'
 	})

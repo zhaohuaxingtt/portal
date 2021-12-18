@@ -1,6 +1,6 @@
 <template>
   <iCard
-    :title="$t('补充材料')"
+    :title="language('补充材料')"
     header-control
     collapse
     class="margin-bottom20"
@@ -8,17 +8,17 @@
     <el-form label-position="left" label-width="100px">
       <el-row :gutter="20">
         <el-col :span="6">
-          <iFormItem :label="$t('审批人')">
+          <iFormItem :label="language('审批人')">
             <iInput v-model="nodeItem.assigneeName" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('处理时间')">
+          <iFormItem :label="language('处理时间')">
             <iInput v-model="opDate" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="24">
-          <iFormItem :label="$t('审批意见')">
+          <iFormItem :label="language('审批意见')">
             <iInput
               v-model="nodeItem.comment"
               disabled
@@ -40,7 +40,7 @@ export default {
   props: {
     form: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }

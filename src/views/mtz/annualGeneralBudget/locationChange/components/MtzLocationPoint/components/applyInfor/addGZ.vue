@@ -297,7 +297,7 @@
         </div>
         <span slot="footer" class="dialog-footer">
             <!-- <span class="time_color" v-if="timeShow">重叠时间段为：{{startTime}}&nbsp;&nbsp;~&nbsp;&nbsp;{{endTime}}</span> -->
-            <i-button @click="handleSave">保存</i-button>
+            <i-button @click="handleSave" :disabled="saveLoading">保存</i-button>
             <i-button @click="handleReset">重置</i-button>
             <i-button @click="handleCancel">取消</i-button>
         </span>
@@ -457,7 +457,7 @@ export default {components: {
             rhodiumPrice:'',
             rhodiumDosage:'',
             palladiumPrice:"",
-            preciousMetalDosageUnit:""
+            preciousMetalDosageUnit:"OZ"
         },
         carlineNumber:[],
         rules: {
@@ -531,6 +531,7 @@ export default {components: {
         timeShow:false,//重叠时间显示
         startTime:"",
         endTime:"",
+        saveLoading:false,
     }
   },
   created(){
@@ -641,7 +642,7 @@ export default {components: {
         }).then(res=>{
             this.metalType = res.data;
             if(res.data){
-                this.contractForm.preciousMetalDosageUnit = "G";
+                this.contractForm.preciousMetalDosageUnit = "OZ";
             }else{
                 this.contractForm.preciousMetalDosageUnit = "";
             }
@@ -687,8 +688,8 @@ export default {components: {
         try{
             this.supplierList.forEach(e => {
                 if(e.message == value){
-                    console.log(e.code,2222222)
-                    console.log(value,2222222)
+                    // console.log(e.code,2222222)
+                    // console.log(value,2222222)
                     this.contractForm.supplierName = value;
                     this.contractForm.supplierId = e.code;
                     setTimeout(() => {
@@ -702,42 +703,55 @@ export default {components: {
         }
     },
     handleSave() {
+        this.saveLoading = true;
         this.contractForm.carline = this.carlineNumber.toString();
         this.$refs['contractForm'].validate(async valid => {
             if (valid) {
-                console.log("验证成功")
-                // var num = 0; 
-                // this.dataObject.forEach(e=>{
-                //     if(e.supplierId.toString() == this.contractForm.supplierId && e.materialCode == this.contractForm.materialCode && Number(e.price) == Number(this.contractForm.price) && timeCoincide(e.startDate,e.endDate,this.contractForm.startDate,this.contractForm.endDate)){
-                //         this.startTime = e.startDate;
-                //         this.endTime = e.endDate;
-                //         this.timeShow = true;
-                //         num++;
-                //     }
-                // })
-                // if(num !== 0){
-                //     iMessage.error(this.language("CZXTZJBNJXXZCZ","存在相同主键时，所有时间段均不能重叠"))
-                //     return false;
-                // }
-                // this.timeShow = false;
+                // console.log("验证成功")
                 addAppRule({
                     ...this.contractForm,
                     ttMtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
                 }).then(res=>{
                     if(res.code == 200 && res.result){
                         iMessage.success(this.language(res.desEn,res.desZh))
+                        this.saveLoading = false;
                         this.$emit("addDialogGZ","")
                     }else{
                         iMessage.error(this.language(res.desEn,res.desZh))
+                        this.saveLoading = false;
                     }
                 })
             } else {
+                setTimeout(() => {
+                    this.saveLoading = false;
+                }, 500);
                 return false
             }
         })
     },
     handleReset() {
-      this.contractForm = {}
+      this.contractForm = {
+        thresholdCompensationLogic:"A",
+        effectFlag:0,
+        tcExchangeRate:1,
+        compensationRatio:1,
+        materialName:'',
+        threshold:0,
+        endDate:"2999-12-31",
+        source:"",
+        price:"",
+        carline:"",
+        priceMeasureUnit:"",
+        platinumPrice:'',
+        platinumDosage:'',
+        palladiumDosage:'',
+        rhodiumPrice:'',
+        rhodiumDosage:'',
+        palladiumPrice:"",
+        preciousMetalDosageUnit:""
+      }
+      this.carlineNumber = []
+      this.metalType = false;
     },
     handleCancel(){
         this.$emit("close","")

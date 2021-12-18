@@ -49,10 +49,19 @@ export default {
         nodeElement: 'nodeElement',
         handleNodeClick: this.handleNodeClick
       })
+
+      // 暴力 默认显示3层
+      this.$nextTick(() => {
+        $('.org-node-item').each(function () {
+          if ($(this).attr('level') && $(this).attr('level') === '3') {
+            $(this).siblings('.bottomEdge').trigger('click')
+          }
+        })
+      })
     },
     handleNodeClick(nodeData) {
       const id = nodeData.id
-      document.querySelectorAll('.org-node-item').forEach(element => {
+      document.querySelectorAll('.org-node-item').forEach((element) => {
         element.classList.remove('active')
       })
       document.querySelector('#org-node-item--' + id).classList.add('active')

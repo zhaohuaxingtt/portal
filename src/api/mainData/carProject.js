@@ -165,11 +165,10 @@ export function carTypeFuelSelectOptions(data) {
 }
 
 //生产工厂
-export function procureFactorySelectOptions(data) {
+export function procureFactorySelectOptions(params) {
   return requstOrgLevel({
-    url: `/web/procureFactorySelectVo`,
-    method: 'POST',
-    data: data
+    url: `/web/queryProductionFactorySelectVo`,
+    params
   })
 }
 

@@ -90,7 +90,7 @@
                     <el-table-column
                       prop="date"
                       align="center"
-                      label="零件名/Partname"
+                      label="零件名/Part Name"
                       :render-header="renderHeader"
                     >
                     </el-table-column>
@@ -111,7 +111,7 @@
                     <el-table-column
                       prop="address"
                       align="center"
-                      label="定点供应商/NomlSupplier"
+                      label="定点供应商/Nomi Suppier"
                       :render-header="renderHeader"
                     >
                     </el-table-column>

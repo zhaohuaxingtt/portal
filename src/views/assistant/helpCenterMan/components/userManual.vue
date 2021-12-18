@@ -3,7 +3,7 @@
         <div class="manual-btns">
             <template v-if="type == 'detail'">
                 <iButton v-if="qs.id" @click="del">删除</iButton>
-                <iButton v-if="qs.id" @click="type = 'edit'">编辑</iButton>
+                <iButton v-if="qs.id" @click="edit">编辑</iButton>
             </template>
             <template v-if="type == 'edit'">
                 <template v-if="!preview">
@@ -16,28 +16,31 @@
         </div>
         <template v-if="type == 'detail'">
             <div class="manual-tlt" v-text="qs.menuName"></div>
-            <!-- <div class="content" v-if="detail.manualContent" v-html="detail.manualContent"></div> -->
-            <iEditor class="content" disabled v-model="detail.manualContent"></iEditor>
+            <div class="content" v-if="detail.manualContent" v-html="detail.manualContent"></div>
         </template>
         <template v-if="type == 'edit'">
-            <div v-if="preview" v-html="content"></div>
-            <template v-else>        
-                <iEditor class="content manual-editor" v-model="content"></iEditor>
-                <iUpload ref="upload" v-model="files" :maxSize="20" >
-                    <div class="upload flex" style="align-items: end;">
-                        <iButton>添加附件</iButton>
-                        <span @click.stop=";">只能上传不超过20MB的文件</span>
-                    </div>
-                </iUpload>
+            <div class="content" v-if="preview" v-html="content"></div>
+            <template v-else>
+                <iEditor class="content manual-editor" v-model="content" :html="content"></iEditor>
             </template>
         </template>
+        <!-- <div class="flex" v-if="files.length > 0">
+            <div v-if="type == 'detail'">附件：</div>
+            <iUpload ref="upload" v-model="files" :disabled="type == 'detail'" :maxSize="20" >
+                <div class="upload flex" v-if="type == 'edit'" style="align-items: end;">
+                    <iButton>添加附件</iButton>
+                    <span @click.stop=";">只能上传不超过20MB的文件</span>
+                </div>
+            </iUpload>
+        </div> -->
     </div>
 </template>
 
 <script>
     import { iButton } from "rise"
-    import iEditor from "@/components/iEditor"
+    // import iEditor from "@/components/iEditor"
     import iUpload from "./../../components/iUpload.vue"
+    import iEditor from "./../../components/iEditor.vue"
     import { delManual, insertNewManual } from "@/api/assistant"
     export default {
         props:{
@@ -71,6 +74,7 @@
         watch:{
             detail(n){
                 this.content = n && n.manualContent ? JSON.parse(JSON.stringify(n.manualContent)) : ""
+                this.files = n.attachmentList || []
             }
         },
         methods: {
@@ -103,6 +107,10 @@
                     this.$emit("refresh")
                 })
             },
+            edit(){
+                this.type = 'edit'
+                this.content = this.detail.manualContent ? JSON.parse(JSON.stringify(this.detail.manualContent)) : ""
+            },
             cancel(){
                 this.type = 'detail'
             }
@@ -130,6 +138,7 @@
 }
 .content{
     flex: 1;
+    margin-top: 20px;
     padding: 20px 10px;
     overflow: auto;
 }

@@ -1,10 +1,10 @@
 <template>
   <iPage>
     <pageHeader class="margin-bottom20" v-if='!this.$route.query.id'>
-        新增材料组
+        {{language('新增材料组')}}
     </pageHeader>
     <pageHeader class="margin-bottom20" v-else>
-      {{code}} {{nameZh}} &nbsp;
+      {{code}} {{language(nameZh)}} &nbsp;
     </pageHeader>
     <detail-base @saveSuccess="isvisible" @code-nameZh='iniPageHeader' :readOnly='readOnly'></detail-base>
     <technology-group v-if="saveId!=''" :savecaId='saveId' :readOnly='readOnly'></technology-group>

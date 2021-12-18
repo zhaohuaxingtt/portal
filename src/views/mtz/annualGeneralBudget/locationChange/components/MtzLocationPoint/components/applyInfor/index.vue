@@ -22,16 +22,16 @@
         </div>
         <div class="opration">
           <iButton @click="edit"
-                   v-show="disabled && appIdType && applyNumber=='' && (inforData.appStatus == '草稿' || inforData.appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
+                   v-show="disabled && appIdType && (inforData.appStatus == '草稿' || inforData.appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
           <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
           <iButton @click="save"
                    v-show="!disabled">{{ language('BAOCUN', '保存') }}</iButton>
           <iButton @click="relation"
-                   v-if="applyNumber===''&&showType">{{ language('GLLJDDSQ', '关联零件定点申请') }}</iButton>
+                   v-if="applyNumber===''&&showType&&disabled">{{ language('GLLJDDSQ', '关联零件定点申请') }}</iButton>
           <iButton @click="cancelRelation"
-                   v-if="applyNumber!==''&&showType">{{ language('QUXIAOGUANLIAN', '取消关联') }}</iButton>
+                   v-if="applyNumber!==''&&showType&&disabled">{{ language('QUXIAOGUANLIAN', '取消关联') }}</iButton>
         </div>
       </div>
       <div class="tabsBoxInfor">
@@ -40,17 +40,27 @@
              :key="index">
           <span>{{language(item.key,item.name)}}</span>
           <el-tooltip class="item"
-                      effect="dark"
+                      effect="light"
                       :content="inforData[item.prop]"
-                      placement="top-start"
                       v-if="item.type=='tooltip'&&inforData[item.prop]!==null">
             <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
                     class="inforText"
                     v-model="inforData[item.prop]"></iInput>
           </el-tooltip>
           <iSelect style="width:68%;"
-                   v-else-if="item.type=='select'"
+                   v-else-if="item.type=='select'&&applyNumber==''"
                    :disabled="disabled"
+                   :value="inforData[item.prop]"
+                   :placeholder="language('QINGXUANZE','请选择')"
+                   @change="chioce($event,item.prop)">
+            <el-option :value="item.code"
+                       :label="item.message"
+                       v-for="item in getFlowTypeList"
+                       :key="item.code"></el-option>
+          </iSelect>
+          <iSelect style="width:68%;"
+                   v-else-if="item.type=='select'&&applyNumber!==''"
+                   :disabled="true"
                    :value="inforData[item.prop]"
                    :placeholder="language('QINGXUANZE','请选择')"
                    @change="chioce($event,item.prop)">
@@ -221,6 +231,7 @@ export default {
           this.applyNumber = res.data.ttNominateAppId;
           // this.getLjLocation();
         }
+        console.log(this.applyNumber);
         if (val !== "取消") {
           store.commit("submitBtnInfor", { ...res.data });
         }
@@ -446,7 +457,6 @@ $tabsInforHeight: 35px;
   margin-bottom: 10px;
   display: flex;
   flex-flow: wrap;
-  justify-content: space-between;
   .inforDiv {
     width: 29%;
     height: $tabsInforHeight;
@@ -455,6 +465,7 @@ $tabsInforHeight: 35px;
     justify-content: space-between;
     margin-top: 0;
     margin-bottom: 20px;
+    margin-left:6.5%;
     span {
       font-size: 15px;
     }
@@ -466,6 +477,9 @@ $tabsInforHeight: 35px;
       height: $tabsInforHeight;
       line-height: $tabsInforHeight;
     }
+  }
+  .inforDiv:nth-child(3n-2){
+    margin-left:0!important;
   }
 }
 .number_color {

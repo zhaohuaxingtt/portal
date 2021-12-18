@@ -82,7 +82,7 @@ import commonTable from "@/components/commonTable";
 import { downloadAll } from "@/utils/downloadAll";
 import { userTableTitle } from "./data";
 import { findGroupPage, deleteGroup,findAdminPermission } from "@/api/news/news";
-
+import store from '@/store';
 export default {
   mixins: [pageMixins],
   components: {
@@ -143,7 +143,7 @@ export default {
     handleExport(scope) {
       const data = scope.row;
       downloadAll({
-        url: `/news/groupService/exportExcel`,
+        url: process.env.VUE_APP_NEWS+`/groupService/exportExcel?userId=`+store.state.permission.userInfo.id,
         filename: "用户组设置",
         type: "application/vnd.ms-excel",
         data,

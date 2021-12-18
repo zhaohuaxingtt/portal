@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="$t('APPROVAL.RECALL_REASON')"
+    :title="language('撤回理由')"
     :visible.sync="dialogFormVisible"
     @close="onClose"
   >
@@ -9,10 +9,10 @@
     </div>
     <div slot="footer" class="dialog-footer">
       <iButton type="info" :loading="loading" @click="onClose">
-        {{ $t('APPROVAL.CANCEL') }}
+        {{ language('取消') }}
       </iButton>
       <iButton type="primary" :loading="loading" @click="recall">
-        {{ $t('APPROVAL.OK') }}
+        {{ language('确定') }}
       </iButton>
     </div>
   </iDialog>
@@ -27,19 +27,19 @@ export default {
   props: {
     instanceId: {
       type: String,
-      require: true,
+      require: true
     },
     visible: {
       type: Boolean,
       default: false,
-      require: true,
-    },
+      require: true
+    }
   },
   data() {
     return {
       reason: '',
       dialogFormVisible: false,
-      loading: false,
+      loading: false
     }
   },
   created() {
@@ -49,17 +49,17 @@ export default {
     recall() {
       const data = {
         processInstanceId: this.instanceId,
-        deleteReason: this.reason,
+        deleteReason: this.reason
       }
       this.loading = true
 
       recall(data)
         .then((res) => {
           if (res.result) {
-            this.$message.success(this.$t('APPROVAL.RECALL_SUCCESSFUL'))
+            this.$message.success(this.language('撤回成功'))
             this.$emit('success')
           } else {
-            this.$message.error(res.desZh || this.$t('APPROVAL.RECALL_FAILED'))
+            this.$message.error(res.desZh || this.language('撤回失败'))
           }
           this.loading = false
         })
@@ -70,13 +70,13 @@ export default {
     },
     onClose() {
       this.$emit('close')
-    },
+    }
   },
   watch: {
     visible(val) {
       this.dialogFormVisible = val
-    },
-  },
+    }
+  }
 }
 </script>
 

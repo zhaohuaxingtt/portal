@@ -171,6 +171,7 @@ export default {
       this.$emit('handleClose')
     },
     handleSubmit() {
+            console.log("222222222222222222")
       // this.$refs['ruleFormCloseMeeting'].validate((valid) => {
       // if (valid) {
       let hashArr = window.location.hash.split('/')
@@ -237,7 +238,7 @@ export default {
       formData.append('type', 1)
       await uploadFile(formData)
         .then((res) => {
-          this.attachment = res
+          this.attachment = res.data[0]
           iMessage.success(this.$t('上传成功'))
           this.$refs.ruleFormCloseMeeting.clearValidate('uploadFile')
         })

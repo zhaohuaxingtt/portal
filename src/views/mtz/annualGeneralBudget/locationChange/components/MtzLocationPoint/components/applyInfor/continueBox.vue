@@ -36,9 +36,14 @@
             </el-form-item>
 
             <el-form-item style="marginRight:68px;width:180px" :label="language('CAIGOUYUAN','采购员')" class="formItem">
-                <iInput v-model="searchForm.buyer"
-                                :placeholder="language('QINGSHURU','请输入')">
-                </iInput>
+                <custom-select v-model="searchForm.buyer"
+                                :user-options="buyer"
+                                clearable
+                                :placeholder="language('QINGXUANZE', '请选择')"
+                                display-member="message"
+                                value-member="code"
+                                value-key="code">
+                </custom-select>
             </el-form-item>
 
             <el-form-item style="marginRight:68px;width:180px" :label="language('KESHI','科室')">
@@ -120,7 +125,8 @@ import inputCustom from '@/components/inputCustom'
 import tableList from '@/components/commonTable/index.vue';
 import {
   pageAppRuleHistory,
-  getMtzMarketSourceList
+  getMtzMarketSourceList,
+  getMtzNomiRuleBuyer
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { getDeptData } from '@/api/kpiChart/index'
 
@@ -163,7 +169,8 @@ export default {
             message:"季度"
           },
         ],
-        linieDeptId:[]
+        linieDeptId:[],
+        buyer:[],
     }
   },
   created() {
@@ -182,6 +189,9 @@ export default {
         getMtzMarketSourceList({}).then(res=>{
           this.sourceList = res.data;
         })
+        getMtzNomiRuleBuyer({}).then(res=>{
+          this.buyer = res.data;
+        })
 
         this.getTableList();
     },
@@ -191,7 +201,7 @@ export default {
           ...this.searchForm,
           pageNo:this.page.currPage,
           pageSize:this.page.pageSize,
-          mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+          // mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
       }).then(res=>{
         if(res.code == 200){
           this.tableData = res.data;

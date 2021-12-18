@@ -1,5 +1,10 @@
 <template>
-  <iCard :title="language('基本信息')" header-control collapse>
+  <iCard
+    :title="language('基本信息')"
+    header-control
+    collapse
+    v-loading="baseSaveLoading"
+  >
     <div class="flex-end-center margin-bottom20">
       <iButton v-if="isEditPage && !editable" @click="edit">
         {{ language('编辑') }}
@@ -48,7 +53,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem label="PID" prop="productCode">
+          <iFormItem :label="language('PID')" prop="productCode">
             <iSelect
               v-model="baseForm.productCode"
               :disabled="!editable"
@@ -101,11 +106,11 @@
           </iFormItem>
         </el-col>
         <el-col :span="12">
-          <iFormItem :label="language('投产工厂')" prop="productFactory">
+          <iFormItem :label="language('投产工厂')">
             <iSelect
               v-model="baseForm.productFactory"
               filterable
-              :disabled="!editable"
+              disabled
               multiple
             >
               <el-option
@@ -189,6 +194,39 @@
             </iSelect>
           </iFormItem>
         </el-col>
+        <el-col :span="6">
+          <iFormItem :label="language('EPL车型名称')">
+            <iSelect
+              v-model="baseForm.eplModelCode"
+              :disabled="!editable"
+              filterable
+            >
+              <el-option
+                v-for="item in EPLOptions"
+                :key="item.id"
+                :value="item.code"
+                :label="item.name"
+              />
+            </iSelect>
+          </iFormItem>
+        </el-col>
+        <el-col :span="6">
+          <iFormItem :label="language('BKM车型编号')">
+            <iInput :value="baseForm.bkmModelCode" disabled />
+            <!-- <iSelect
+              v-model="baseForm.bkmModelCode"
+              :disabled="!editable"
+              filterable
+            >
+              <el-option
+                v-for="item in BKMOptions"
+                :key="item.id"
+                :value="item.code"
+                :label="item.code"
+              />
+            </iSelect> -->
+          </iFormItem>
+        </el-col>
       </el-row>
     </el-form>
   </iCard>
@@ -201,7 +239,8 @@ import {
   fetchCalCarTypeConfig,
   fetchProductfamilySelectData,
   saveCartype,
-  updateCarType
+  updateCarType,
+  queryCarModelMappingResource
 } from '@/api/mainData/car'
 import { fetchSelectDicts } from '@/api/baseInfo'
 export default {
@@ -233,7 +272,9 @@ export default {
           sourceType: '',
           type: '',
           vwModelCode: '',
-          isModify: false
+          isModify: false,
+          eplModelCode: '',
+          bkmModelCode: ''
         }
       }
     }
@@ -297,7 +338,10 @@ export default {
       calCarTypeConfigOptions: [],
       sourceTypeOptions: [],
       productFamilyOptions: [],
-      orginalBaseForm: {}
+      orginalBaseForm: {},
+      EPLOptions: [],
+      BKMOptions: [],
+      baseSaveLoading: false
     }
   },
   created() {
@@ -308,8 +352,18 @@ export default {
       this.queryCalCarTypeConfig()
     }
     this.fetchProductfamilySelectData()
+    this.queryEPLOptions()
+    this.queryBKMOptions()
   },
   methods: {
+    async queryEPLOptions() {
+      const { data } = await queryCarModelMappingResource({ type: 1 })
+      this.EPLOptions = data
+    },
+    async queryBKMOptions() {
+      const { data } = await queryCarModelMappingResource({ type: 2 })
+      this.BKMOptions = data
+    },
     async querySelectDicts() {
       const req = [
         'CAR_PLATFORM_CODE',
@@ -378,7 +432,9 @@ export default {
     async saveBaseForm() {
       const reqData = {
         ...this.baseForm,
-        productFactory: this.baseForm.productFactory.join(',')
+        productFactory: this.baseForm.productFactory
+          ? this.baseForm.productFactory.join(',')
+          : ''
       }
       this.baseSaveLoading = true
       const isEdit = !!this.baseForm.id

@@ -2,14 +2,14 @@
   <div>
     <iCard v-loading="cardLoading">
       <div class="margin-bottom20">
-        <span class="font18 font-weight">{{language('补差详情', '补差详情')}}</span>
+        <span class="font18 font-weight">{{language('BUCHAXIANGQING', '补差详情')}}</span>
         <div class="floatright">
           <iButton @click="handleDownloadTemplate" :loading="downloadTemplateButtonLoading">
-            {{ language('下载模板', '下载模板')}}
+            {{ language('XIAZAIMOBAN', '下载模板')}}
           </iButton>
           <uploadButton
               ref="uploadButtonAttachment"
-              :buttonText="language('上传', '上传')"
+              :buttonText="language('SHANGCHUAN', '上传')"
               :uploadByBusiness="true"
               @uploadedCallback="handleUpload($event)"
               class="margin-left10"
@@ -46,6 +46,7 @@ import tableList from '@/components/commonTable';
 import uploadButton from '@/components/uploadButton';
 import {tableTitle} from './data';
 import {downloadFileByUrl} from '@/utils';
+import {downloadUdFile} from '@/api/file';
 import {
   getTableList,
   getTemplateUrl,
@@ -118,10 +119,14 @@ export default {
       try {
         this.downloadTemplateButtonLoading = true;
         const res = await getTemplateUrl();
-        downloadFileByUrl(res.data);
+        console.log(res);
+        if(res.code == "200" && res.result){
+          downloadUdFile(res.data);
+        }
       } finally {
         this.downloadTemplateButtonLoading = false;
       }
+
     },
     async handleUpload(content) {
       try {

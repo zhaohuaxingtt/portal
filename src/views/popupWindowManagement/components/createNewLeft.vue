@@ -87,14 +87,14 @@
 </template>
 
 <script>
-import {iFormItem,iDatePicker,iInput,iSelect,iButton} from 'rise'
+import {iFormItem,iDatePicker,iInput,iSelect} from 'rise'
 import {PUBLISH_SCOPE_OPTIONS} from './data.js'
 import userSelector from './userSelector.vue'
 import supplierSelect from './supplierSelect.vue'
 import popupStyle from './popupStyle.vue'
 export default {
     name:'newLeft',
-    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,supplierSelect,popupStyle,iButton},
+    components:{iFormItem,iDatePicker,iInput,iSelect,userSelector,supplierSelect,popupStyle},
     props:{},
     data(){
       return{
@@ -103,7 +103,7 @@ export default {
         publishRangeOptions:PUBLISH_SCOPE_OPTIONS,
         formContent:{
           popupName:'',
-          linkUrl:'',
+          linkUrl:null,
           wordAlign:'0',
           publishRange:0,
           deletePreTime:'',
@@ -146,7 +146,7 @@ export default {
       reset(){
         this.formContent = {
           popupName:'',
-          linkUrl:'',
+          linkUrl:null,
           wordAlign:'0',
           publishRange:0,
           deletePreTime:'',

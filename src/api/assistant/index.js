@@ -28,6 +28,14 @@ export function getModuleList() {
   })
 }
 
+// 获取我的提问对应的模块
+export function getAskModuleList() {
+  return assistantRequest({
+    url: '/assistantModuleEntity/queryCurrentUserAllModuleList',
+    method: 'GET'
+  })
+}
+
 // 根据模块id 获取用户手册
 export function getUserDes(data) {
   return assistantRequest({
@@ -314,7 +322,7 @@ export const closeQuestionApi = (questionId) => {
 //  新增追问内容
 export const submitAwContent = (data) => {
   return assistantRequest({
-    url: '/assistantQuestionReplyEntity/newQuestionAsk',
+    url: '/assistantQuestion/additionQuestion',
     method: 'POST',
     data
   })

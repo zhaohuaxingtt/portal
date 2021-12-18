@@ -19,9 +19,9 @@ export function cardChain(parmars) {
   })
 }
 // 查询--供应商名称
-export function queryByParamsWithAuth(parmars) {
+export function queryByParamsDropDownWithAuth(parmars) {
   return requst({
-    url: '/ntierSupplier/queryByParamsWithAuth',
+    url: '/ntierSupplier/queryByParamsDropDownWithAuth',
     method: 'POST',
     data: parmars
   })
@@ -117,6 +117,7 @@ export function invitation(parmars) {
 
 // --供应商注册邀请
 export function chain(parmars) {
+  console.log(`bkm/chain/` + parmars.supplierId + '/' + parmars.tlk)
   return request({
     url: `bkm/chain/` + parmars.supplierId + '/' + parmars.tlk,
     method: 'GET'

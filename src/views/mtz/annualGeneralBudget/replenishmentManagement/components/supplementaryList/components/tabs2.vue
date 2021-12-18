@@ -132,7 +132,8 @@ export default {
           let objectUrl = URL.createObjectURL(blob);
           let link = document.createElement("a");
           link.href = objectUrl;
-          let fname = "补差单明细-" + this.detailObj.bizNo + ".xlsx";
+          
+          let fname = "补差单明细-" + this.dataObject.bizNo + ".xlsx";
           // let fname = "MTZ补差单明细" + getNowFormatDate() + ".xlsx";
           link.setAttribute("download", fname);
           document.body.appendChild(link);
@@ -178,7 +179,9 @@ export default {
         ...this.serchList
       }).then(res => {
         if (res.data.length < 1) {
-          this.$emit("componentHidden", "")
+          this.$emit("componentHidden", false)
+        }else{
+          this.$emit("componentHidden", true)
         }
         this.tableListData = res.data;
         this.page.totalCount = res.total;

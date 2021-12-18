@@ -26,9 +26,10 @@
                 <div
                   v-show="
                     currentUserId !== Number(scope.row.createBy) &&
-                      scope.row.state !== '03' &&
-                      !Boolean(scope.row.isBreak) &&
-                      Boolean(scope.row.follow)&& !isThemenHavaMy(scope.row)
+                    scope.row.state !== '03' &&
+                    !Boolean(scope.row.isBreak) &&
+                    Boolean(scope.row.follow) &&
+                    !isThemenHavaMy(scope.row)
                   "
                   @click="handleCancelFollow(scope.row, following)"
                   class="add-follow"
@@ -38,9 +39,10 @@
                 <div
                   v-show="
                     currentUserId !== Number(scope.row.createBy) &&
-                      scope.row.state === '03' &&
-                      !Boolean(scope.row.isBreak) &&
-                      Boolean(scope.row.follow)&& !isThemenHavaMy(scope.row)
+                    scope.row.state === '03' &&
+                    !Boolean(scope.row.isBreak) &&
+                    Boolean(scope.row.follow) &&
+                    !isThemenHavaMy(scope.row)
                   "
                   class="add-follow"
                 >
@@ -49,9 +51,10 @@
                 <div
                   v-show="
                     currentUserId !== Number(scope.row.createBy) &&
-                      scope.row.state !== '03' &&
-                      !Boolean(scope.row.isBreak) &&
-                      !Boolean(scope.row.follow)&& !isThemenHavaMy(scope.row)
+                    scope.row.state !== '03' &&
+                    !Boolean(scope.row.isBreak) &&
+                    !Boolean(scope.row.follow) &&
+                    !isThemenHavaMy(scope.row)
                   "
                   @click="handleFollow(scope.row, following)"
                   class="add-follow"
@@ -61,9 +64,10 @@
                 <div
                   v-show="
                     currentUserId !== Number(scope.row.createBy) &&
-                      scope.row.state === '03' &&
-                      !Boolean(scope.row.isBreak) &&
-                      !Boolean(scope.row.follow) && !isThemenHavaMy(scope.row)
+                    scope.row.state === '03' &&
+                    !Boolean(scope.row.isBreak) &&
+                    !Boolean(scope.row.follow) &&
+                    !isThemenHavaMy(scope.row)
                   "
                   class="add-follow"
                 >
@@ -73,7 +77,7 @@
                   v-show="
                     (currentUserId === Number(scope.row.createBy) &&
                       !Boolean(scope.row.isBreak)) ||
-                      (isThemenHavaMy(scope.row) && !Boolean(scope.row.isBreak))
+                    (isThemenHavaMy(scope.row) && !Boolean(scope.row.isBreak))
                   "
                   class="add-follow"
                 >
@@ -123,7 +127,8 @@
           label="Time"
           width="100"
           min-width="100"
-        ></el-table-column>
+        >
+        </el-table-column>
         <el-table-column width="33" align="center" label=""></el-table-column>
         <el-table-column
           show-overflow-tooltip
@@ -143,7 +148,7 @@
             <span v-else
               >{{ scope.row.presenter }}{{ scope.row.presenterNosys }}</span
             >
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="33" align="center" label=""></el-table-column>
@@ -168,7 +173,7 @@
               >{{ scope.row.presenterDept
               }}{{ scope.row.presenterDeptNosys }}</span
             >
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="33" align="center" label=""></el-table-column>
@@ -190,7 +195,7 @@
             <span v-else
               >{{ scope.row.supporter }}{{ scope.row.supporterNosys }}</span
             >
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="33" align="center" label=""></el-table-column>
@@ -215,7 +220,7 @@
               >{{ scope.row.supporterDept
               }}{{ scope.row.supporterDeptNosys }}</span
             >
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="33" align="center" label=""></el-table-column>
@@ -232,13 +237,13 @@
             v-show="scope.row.state === '03' || Boolean(scope.row.isBreak)"
           ></div> -->
             <span>{{
-              scope.row.state === "01"
-                ? "未进行"
-                : scope.row.state === "02"
-                ? "进行中"
-                : scope.row.state === "03"
-                ? "已结束"
-                : ""
+              scope.row.state === '01'
+                ? $t('未进行')
+                : scope.row.state === '02'
+                ? $t('进行中')
+                : scope.row.state === '03'
+                ? $t('已结束')
+                : ''
             }}</span>
           </template>
         </el-table-column>
@@ -253,7 +258,7 @@
         >
           <template slot-scope="scope">
             <span>{{ scope.row.remark }}</span>
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="24" align="center" label=""></el-table-column>
@@ -279,75 +284,75 @@
 <script>
 // import { iPagination } from "rise";
 // import tableListColumns from "./data.js";
-import iTableML from "@/components/iTableML";
-import { pageMixins } from "@/utils/pageMixins";
-import { follow, unfollow } from "@/api/meeting/live";
-import dayjs from "dayjs";
+import iTableML from '@/components/iTableML'
+import { pageMixins } from '@/utils/pageMixins'
+import { follow, unfollow } from '@/api/meeting/live'
+import dayjs from 'dayjs'
 
 export default {
   mixins: [pageMixins],
   components: {
     // iPagination,
-    iTableML,
+    iTableML
   },
   data() {
     return {
       tableLoading: false,
       tableData: [],
       // resThemeData: [],
-      currentUserId: "",
-      following: false,
-    };
+      currentUserId: '',
+      following: false
+    }
   },
   props: {
     meetingInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     resThemeData: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   watch: {
     resThemeData: {
       handler(newV) {
-        let tabData = this.handleTime(newV);
+        let tabData = this.handleTime(newV)
         // this.tableData = [
         //   ...tabData.slice(
         //     (this.page.currPage - 1) * 10,
         //     this.page.currPage * 10
         //   ),
         // ];
-        this.tableData = tabData;
+        this.tableData = tabData
       },
       immediate: true,
-      deep: true,
-    },
+      deep: true
+    }
   },
   mounted() {
-    this.currentUserId = Number(sessionStorage.getItem("userId"));
-    this.queryMeetingInfoById();
+    this.currentUserId = Number(sessionStorage.getItem('userId'))
+    this.queryMeetingInfoById()
   },
   methods: {
     isThemenHavaMy(item) {
-      const presenterId = item.presenterId ? item.presenterId.split(",") : [];
-      const supporterId = item.supporterId ? item.supporterId.split(",") : [];
-      const currentUserIdStr = this.currentUserId.toString();
+      const presenterId = item.presenterId ? item.presenterId.split(',') : []
+      const supporterId = item.supporterId ? item.supporterId.split(',') : []
+      const currentUserIdStr = this.currentUserId.toString()
       if (
         presenterId.includes(currentUserIdStr) ||
         supporterId.includes(currentUserIdStr)
       ) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     handleCancelFollow(row, bol) {
-      this.following = true;
+      this.following = true
       if (!bol) {
         // this.$confirm("是否取消关注该议题？", "提示", {
         //   confirmButtonText: "是",
@@ -356,21 +361,21 @@ export default {
         // }).then(() => {
         const params = {
           meetingId: this.meetingInfo.id,
-          themenId: row.id,
-        };
+          themenId: row.id
+        }
         unfollow(params)
           .then(() => {
-            this.$emit("refreshList", true, this);
+            this.$emit('refreshList', true, this)
           })
           .catch((err) => {
-            console.log("请求异常", err);
-            this.following = false;
-          });
+            console.log('请求异常', err)
+            this.following = false
+          })
         // });
       }
     },
     handleFollow(row, bol) {
-      this.following = true;
+      this.following = true
       if (!bol) {
         // this.$confirm("是否确定关注该议题？", "提示", {
         //   confirmButtonText: "是",
@@ -379,56 +384,64 @@ export default {
         // }).then(() => {
         const params = {
           meetingId: this.meetingInfo.id,
-          themenId: row.id,
-        };
+          themenId: row.id
+        }
         follow(params)
           .then(() => {
-            this.$emit("refreshList", false, this);
+            this.$emit('refreshList', false, this)
             // this.following = false;
           })
           .catch((err) => {
-            console.log("请求异常", err);
-            this.following = false;
-          });
+            console.log('请求异常', err)
+            this.following = false
+          })
       }
       // });
     },
     query() {
-      const _this = this;
+      const _this = this
       return {
         that: _this,
         tableData: _this.tableData,
         resThemeData: _this.resThemeData,
-        page: _this.page,
-      };
+        page: _this.page
+      }
     },
     handleSizeChange: () => {},
     handleTime(tableData) {
       return tableData.map((item) => {
-        const startTime = dayjs(`2020-6-30 ${item.startTime}`).format("HH:mm");
-        const endTime = dayjs(`2020-6-30 ${item.endTime}`).format("HH:mm");
+        const startTime = dayjs(`2020-6-30 ${item.startTime}`).format('HH:mm')
+        const endTime = dayjs(`2020-6-30 ${item.endTime}`).format('HH:mm')
         return {
           ...item,
-          time: `${startTime}~${endTime}`,
-        };
-      });
+          time: `${
+            Number(item.plusDayStartTime) > 0
+              ? startTime + ' +' + Number(item.plusDayStartTime)
+              : startTime
+          }~${
+            Number(item.plusDayEndTime) > 0
+              ? endTime + ' +' + Number(item.plusDayEndTime)
+              : endTime
+          }`
+        }
+      })
     },
     //选择页数
     handleCurrentChange: (curPage, query) => {
-      const _this = query();
+      const _this = query()
       //分页并累加总时长
-      _this.page.currPage = curPage;
+      _this.page.currPage = curPage
       _this.tableData = _this.resThemeData.filter((item, index) => {
         if (
           index >= (_this.page.currPage - 1) * _this.page.pageSize &&
           index < _this.page.currPage * _this.page.pageSize
         ) {
-          return true;
+          return true
         }
-        return false;
-      });
+        return false
+      })
       // console.log(_this.that);
-      _this.that.$data.tableData = _this.that.handleTime(_this.tableData);
+      _this.that.$data.tableData = _this.that.handleTime(_this.tableData)
 
       //发送
       // _this.that.$data.tableData = _this.tableData.map((item) => {
@@ -445,12 +458,12 @@ export default {
       //   `${this.meetingInfo.startDate} ${this.meetingInfo.startTime}`
       // ).getTime();
       // let endTime;
-      this.page.totalCount = data.length;
-      this.page.pageSize = 10;
+      this.page.totalCount = data.length
+      this.page.pageSize = 10
       this.tableData = data.filter((item, index) => {
-        return index < 10;
-      });
-      this.tableData = this.handleTime(this.tableData);
+        return index < 10
+      })
+      this.tableData = this.handleTime(this.tableData)
       // this.tableData = this.tableData.map((item) => {
       //   // startTime = endTime ? endTime + 60 * 1000 : startTime;
       //   // endTime = startTime + item.duration * 60 * 1000;
@@ -464,19 +477,19 @@ export default {
     },
     queryMeetingInfoById() {
       // this.resThemeData = [...this.meetingInfo.themens];
-      this.handlePage(this.resThemeData);
+      this.handlePage(this.resThemeData)
     },
     // 行高亮
     tableRowClassName(row) {
-      if (row.row.state === "03") {
-        return "unuse-row";
-      } else if (row.row.state === "02") {
-        return "active-row";
+      if (row.row.state === '03') {
+        return 'unuse-row'
+      } else if (row.row.state === '02') {
+        return 'active-row'
       }
-      return "narmal-row";
-    },
-  },
-};
+      return 'narmal-row'
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

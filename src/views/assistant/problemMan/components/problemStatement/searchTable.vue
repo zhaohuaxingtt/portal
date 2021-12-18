@@ -3,15 +3,16 @@
     <div class="flex flex-row justify-end mt20 mb20">
       <iButton @click="exportExcelHandler">{{ language('导出') }}</iButton>
     </div>
-    <iTableCustom ref="testTable" :loading="tableLoading" :data="tableListData" :columns="tableSetting" />
+    <iTableCustom ref="testTable" :loading="tableLoading" :data="tableListData" :columns="tableSetting" @quesDetail="quesDetail" @mauDetail="mauDetail" />
     <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :current-page="page.currPage" :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :total="page.totalCount" />
   </el-card>
 </template>
 
 <script>
 import { iButton, iPagination, iTableCustom } from 'rise';
-import { tableColumn } from './tableColumn';
+import { tableColumn, manualTableColumn } from './tableColumn';
 import { pageMixins } from '@/utils/pageMixins';
+import { openUrl } from '@/utils'
 
 export default {
   mixins: [pageMixins],
@@ -24,12 +25,16 @@ export default {
       type:Number,
       default:0,
     },
+    userType: {
+      type: String,
+      default:() => '',
+    }
   },
   data () {
     return {
       tableLoading: false,
       exportLoading: false,
-      tableSetting: tableColumn(this),
+      tableSetting: this.userType === 'supplier' ? tableColumn(this): manualTableColumn(this)
     }
   },
   created() {
@@ -61,9 +66,15 @@ export default {
     exportExcelHandler() {
       this.$emit('exportHandler');
     },
-  },
-  mounted() {
-    
+    // 点击去问题详情
+    quesDetail(val) {
+      console.log(val, "000")
+      openUrl(`/assistant/helpCenter?module=problem&currentMoudleId=${val.questionModuleId}&currMoudleName=${val.questionModuleName}&labelIdx=${val.questionLableId}&id=${val.id}`)
+    },
+    mauDetail(val) {
+      console.log(val, "000")
+      openUrl(`/assistant/problemMan?module=problemHandler&questionStatus=${val.questionStatus}&questionTitle=${val.questionTitle}&source=${val.source}&id=${val.id}`)
+    }
   },
   components: {
     iButton,
@@ -84,19 +95,32 @@ export default {
   flex-direction: row;
   .icon {
     margin-right: 20px;
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     background-size: contain;
     background-repeat: no-repeat;
     &.first {
       background-image: url('~@/assets/images/icon/first.png');
     }
     &.second {
+      width: 38px;
+      height: 38px;
       background-image: url('~@/assets/images/icon/second.png');
     }
     &.third {
       background-image: url('~@/assets/images/icon/third.png');
     }
   }
+}
+.question-title {
+  color: #1660F1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.handlerUserName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

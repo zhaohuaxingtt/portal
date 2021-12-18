@@ -58,6 +58,7 @@ import {
   stageCompleteApproval
 } from '@/api/approval/myApproval'
 import { filterEmptyValue } from '@/utils'
+
 export default {
   mixins: [pageMixins, filters, taskMixin],
   components: {
@@ -303,7 +304,7 @@ export default {
                 this.loading = false
               })
           if (!(res.result && res.data)) {
-            const errorMsg = res.desZh || this.$t('APPROVAL.OPERATION_FAILED')
+            const errorMsg = res.desZh || this.language('操作失败')
             errorMsgs.push(
               `● ${element.itemName}${this.$t(
                 'APPROVAL.APPROVAL_FAILED'
@@ -320,7 +321,7 @@ export default {
             showClose: true
           })
         } else {
-          iMessage.success(this.$t('APPROVAL.APPROVAL_SUCCESS'))
+          iMessage.success(this.language('审批成功'))
         }
         this.getTableList()
 

@@ -148,9 +148,10 @@ export default {
     },
     pic(item) {
       this.clickPic = item;
+      console.log("item",item);
       this.$refs.imgCutterModal.handleOpen({
         name: '000'+item.picUrl.substring(item.picUrl.lastIndexOf('/')+1),
-        src: item.picUrl.replace(process.env.VUE_APP_FILE_CROSS, `/fileCross`), // 前端跨域问题，将api地址替换为反向代理地址
+        src: item.picUrl // 前端跨域问题，将api地址替换为反向代理地址
       });
     },
     handleAvatarSuccessOne(res, file, fileList) {
@@ -164,11 +165,11 @@ export default {
       const isLtM = file.size / 1024 / 1024 < 10;
 
       if (!isJPG) {
-         this.kvFilesLength=this.kvFilesLength-1;
+        this.kvFilesLength=this.kvFilesLength-1;
         this.$message.error(this.language('NEWS_SCTPZNSJPGHZPNGGS', "上传图片只能是 JPG 或者 PNG 格式!"));
       }
       if (!isLtM) {
-         this.kvFilesLength=this.kvFilesLength-1;
+        this.kvFilesLength=this.kvFilesLength-1;
         this.$message.error(this.language('NEWS_SCTPDXBNCG10MB', "上传图片大小不能超过 10MB!"));
       }
       return isJPG && isLtM;
@@ -224,6 +225,7 @@ export default {
     },
     // 上传图片
     async httpUpload(content) {
+      console.log("content",content)
       this.uploadLoading = true;
       let formData = new FormData();
       formData.append("file", content.file);
@@ -245,10 +247,24 @@ export default {
           iMessage.error(this.language('NEWS_SHANGCHUANSHIBAI', '上传失败'));
         });
     },
+    // 将base64转换为file
+      dataURLtoBlob: function(dataurl, name) {
+        var arr = dataurl.split(','),
+          mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]),
+          n = bstr.length,
+          u8arr = new Uint8Array(n)
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n)
+        }
+        return new File([u8arr], name, { type: mime })
+      },
     // 裁剪完毕
     async cutDown(res) {
+      let imgGs = res.dataURL.split(';')[0].split('/')[1]
+      let file = this.dataURLtoBlob(res.dataURL, '裁剪图片.' + imgGs)
       let formData = new FormData();
-      formData.append("file", res.file);
+      formData.append("file", file);
       await uploadFile(formData)
         .then((res) => {
           this.clickPic.picUrl = res.path;

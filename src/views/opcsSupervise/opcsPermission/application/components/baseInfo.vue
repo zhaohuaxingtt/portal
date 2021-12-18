@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 10:20:21
  * @LastEditors: caopeng
- * @LastEditTime: 2021-11-29 17:23:46
+ * @LastEditTime: 2021-12-15 16:43:48
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\components\baseInfo.vue
 -->
 <template>
@@ -27,53 +27,56 @@
                 :rules="baseRules"
                 :model="form"
                 ref="baseRules">
-      <iFormItem prop="supplierNameCn">
+      <iFormItem prop="nameZh">
         <iLabel :label="language('YINGYONGMINGCHENG', '应用名称')"
                 required
                 slot="label"></iLabel>
         <iInput v-if="edit"
                 :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.supplierNameCn"></iInput>
-        <iText v-else></iText>
+                v-model="form.nameZh"></iInput>
+        <iText v-else>{{form.nameZh}}</iText>
       </iFormItem>
-      <iFormItem prop="supplierNameCn">
+      <iFormItem prop="nameEn">
         <iLabel :label="language('YINGYONGYINGWENMING', '应用英文名')"
                 required
                 slot="label"></iLabel>
         <iInput v-if="edit"
                 :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.supplierNameCn"></iInput>
-        <iText v-else></iText>
+                v-model="form.nameEn"></iInput>
+        <iText v-else>{{form.nameEn}}</iText>
       </iFormItem>
-      <iFormItem prop="supplierNameCn">
+      <iFormItem prop="shortName">
         <iLabel :label="language('YINGYONGJIANCHENG', '应⽤简称')"
                 required
                 slot="label"></iLabel>
         <iInput v-if="edit"
                 :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.supplierNameCn"></iInput>
-        <iText v-else></iText>
+                v-model="form.shortName"></iInput>
+        <iText v-else>{{form.shortName}}</iText>
       </iFormItem>
-      <iFormItem prop="supplierNameCn">
+      <iFormItem prop="contactUserId">
         <iLabel :label="language('YINGYONGFUZEREN', '应用负责人')"
                 required
                 slot="label"></iLabel>
         <iSelect filterable
-                 v-model="form.address"
+                 v-model="form.contactUserId"
                  v-if="edit">
-          <el-option :value="item.sapLocationCode"
-                     :label="item.cityNameCn"
-                     v-for="(item, index) in country"
+          <el-option :value="item.id"
+                     :label="item.contactName"
+                     v-for="(item, index) in userList"
                      :key="index"></el-option>
         </iSelect>
 
-        <iText v-else></iText>
+        <iText v-else>{{form.contactUserName}}</iText>
       </iFormItem>
     </iFormGroup>
   </iCard>
 </template>
 
 <script>
+import { baseRules } from './data'
+
+import { baseEdit, queryBase,userUpdown } from '@/api/opcs/solPermission'
 import {
   iCard,
   iButton,
@@ -82,7 +85,8 @@ import {
   iLabel,
   iFormItem,
   iInput,
-  iText
+  iText,
+  iMessage
 } from 'rise'
 export default {
   components: {
@@ -98,15 +102,65 @@ export default {
   data() {
     return {
       edit: false,
-      form: {}
+      form: {},
+      baseRules: baseRules,
+      userList:[]
     }
   },
+  created() {
+    this.getUser()
+  },
   methods: {
+      getUser(){
+          userUpdown({opcsSupplierId: this.$route.query.opcsSupplierId}).then(res=>{
+               if(res&&res.code==200){
+               this.userList=res.data||[]
+               this.getInfo()
+              }
+          })
+      },
+    getInfo() {
+      let req = { opcsSupplierId: this.$route.query.opcsSupplierId }
+      queryBase(req).then((res) => {
+        if (res && res.code == 200) {
+          this.form = res.data
+           this.form.contactUserName=this.userList.find(v=>v.id==this.form.contactUserId).contactName
+        }
+      })
+    },
     cancel() {
+      this.form = {
+          nameZh:'',
+          nameEn:'',
+          shortName:'',
+          contactUserId:''
+      }
+      this.$refs.baseRules.clearValidate();
+      this.getInfo()
       this.edit = false
     },
     editBtn() {
       this.edit = true
+    },
+    save() {
+      this.$refs.baseRules.validate((valid) => {
+        if (valid) {
+            this.form.contactUserName=this.userList.find(v=>v.id==this.form.contactUserId).contactName
+          let req = {
+            opcsSupplierId: this.$route.query.opcsSupplierId,
+            ...this.form
+          }
+          baseEdit(req).then((res) => {
+            if (res && res.code == 200) {
+                this.edit=false
+                this.getInfo()
+              iMessage.success(res.desZh)
+            }else{
+                iMessage.error(res.desZh)
+            }
+          })
+        }
+      })
     }
   }
 }

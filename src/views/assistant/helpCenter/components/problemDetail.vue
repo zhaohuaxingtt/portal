@@ -6,18 +6,19 @@
 		<div v-if="currentMoudleId" class="detail-title flex flex-column items-start">
 			<div class="moudle-name">{{ language(`${currMoudleName}`) }}</div>
 			<div class="flex flex-wrap label-box" v-loading="labelLoading">
-				<div v-for="(item, idx) in labelList" :key="idx" class="item-label cursor" :class="labelIdx===item.id ? 'activeIdx' : 'idx'" @click="handleLabel(item, idx)">
-					{{ item.lableName }}
+				<div v-for="(item, idx) in labelList" :key="idx" class="flex flex-row item-label cursor" :class="labelIdx===item.id ? 'activeIdx' : 'idx'" @click="handleLabel(item, idx)">
+					<div :class="labelIdx===item.id ? 'blue-line' : ''"></div>
+					<div>{{ item.lableName }}</div>
 				</div>
 			</div>
 		</div>
-		<div v-else>
+		<div v-if="!currentMoudleId && !onlyShowQuestion">
 			<div class="detail-title flex flex-column items-start" v-loading="hotQuesLoading">
 				<div class="moudle-name">{{ language('热门问题') }}</div>
 				<div class="flex flex-row hot-ques">
-					<div v-for="(question, index) in hotProblemList" :key="index" :class="index===hotIdx?'first-hotQues':''" class="item-hotQues flex items-center cursor" @click="handleHotQues(question, index)">
+					<div v-for="(question, index) in hotProblemList" :key="index" class="item-hotQues flex items-center cursor" @click="handleHotQues(question, index)">
 						<div class="blue-box"></div>
-						<div class="ml20">{{ `【热门】${question. questionTitle}` }}</div>
+						<div class="ml20 hot-tlt">{{ `【热门】${question. questionTitle}` }}</div>
 					</div>
 				</div>
 			</div>
@@ -36,17 +37,34 @@
 			</div>
 		</div>
 
-		<div class="list-content" v-show="currentMoudleId  && currentFlag === 'listPage'">
-			<div class="flex flex-row label-title items-center">
-				<div class="blue-box"></div>
-				<div class="label-text">{{ labelText }}</div>
-			</div>
-			<div class="flex flex-column problem-box" v-loading="problemLoading">
+		<div class="list-content" v-if="onlyShowQuestion">
+			<div class="flex flex-column problem-box" v-loading="problemLoading" v-if="problemList.length > 0">
 				<div v-for="(item, idx) in problemList" :key="idx" class="item-problem flex flex-row items-center" @click="handleProblem(item, idx)">
 					<div class="blue-box"></div>
-					<div class="problem-text cursor">{{ `【热门】${item.questionTitle}` }}</div>
+					<div class="problem-text cursor">{{ `${item.questionTitle}` }}</div>
 				</div>
 			</div>
+			<div v-else>暂无该标签所属问题,您可提交您的疑问</div>
+			<el-pagination 
+				:total="totalCount" 
+				:current-page="problemQuery.pageNum" 
+				:page-size="problemQuery.pageSize"
+				@current-change="handleCurrentChange"
+			></el-pagination>
+		</div>
+
+		<div class="list-content" v-show="currentMoudleId  && currentFlag === 'listPage'">
+			<!-- <div class="flex flex-row label-title items-center">
+				<div class="blue-box"></div>
+				<div class="label-text">{{ labelText }}</div>
+			</div> -->
+			<div class="flex flex-column problem-box" v-loading="problemLoading" v-if="problemList.length > 0">
+				<div v-for="(item, idx) in problemList" :key="idx" class="item-problem flex flex-row items-center" @click="handleProblem(item, idx)">
+					<div class="blue-box"></div>
+					<div class="problem-text cursor">{{ `${item.questionTitle}` }}</div>
+				</div>
+			</div>
+			<div v-else>暂无该标签所属问题,您可提交您的疑问</div>
 			<el-pagination 
 				:total="totalCount" 
 				:current-page="problemQuery.pageNum" 
@@ -64,12 +82,15 @@
 				<div class="des-title">{{ problemText }}</div>
 				<div v-html="desDetail" class="des-detail"></div>
 			</div>
-			<AttachmentDownload 
-				ref="attachment"
-				v-if="showAttachFlag && attach.length > 0"
-				@loadAttach="loadAttach"
-
-			/>
+			<div class="flex mt20" >
+				<div>附件：</div>
+				<iUpload 
+					ref="attachment"
+					v-model="attach"
+					disabled
+				/>
+				<div v-if="attach.length == 0">无</div>
+			</div>
 			<div class="bottom-zan">
 				<Solution
 					:showTipsFlag="showTipsFlag"
@@ -83,10 +104,9 @@
 </template>
 
 <script>
-import AttachmentDownload from '../../components/attachmentDownload'
+import iUpload from '../../components/iUpload.vue'
 import Solution from '../../components/solution'
-import { getFileId } from "@/api/assistant/uploadFile.js"
-import { updateFavour, getCurrLabelList, getProblemDetail, queryFaqByPage, queryHotFaq, getAllModuleLabel, judgeFavour, queryFaqListByPage } from '@/api/assistant'
+import { updateFavour, getCurrLabelList, getProblemDetail, queryFaqByPage, queryHotFaq, getAllModuleLabel, judgeFavour } from '@/api/assistant'
 import {
 	iButton
 } from 'rise'
@@ -94,13 +114,13 @@ export default {
   name: 'ProblemDetail',
 	components: {
 		iButton,
-		AttachmentDownload,
+		iUpload,
 		Solution
 	},
 	props: {
 		currentMoudleId: {
-			type: Number,
-			default: 0
+			type: String,
+			default: ''
 		},
 		currMoudleName: {
 			type: String,
@@ -115,8 +135,8 @@ export default {
 		await this.getLabelList('init')
 		// 从首页进入 没有对应的模块id 查询热门问题 取前两个 查全部模块及标签
 		if (!this.currentMoudleId) {
-			await this.getHotQueTwo()
-			await this.getAllMoudleLabel()
+			console.log('8900890')
+			this.init()
 		}
 	},
 	data() {
@@ -129,7 +149,7 @@ export default {
 			problemList: [],
 			problemQuery: {
 				pageNum: 1,
-				pageSize: 3,
+				pageSize: 5,
 				questionLableId: null,
 				questionModuleId: null,
 				questionTitle: null
@@ -138,7 +158,7 @@ export default {
 			hotProblemList: [],
 			moudleLabelList: [],
 			attach: [],
-			labelIdx: 0,
+			labelIdx: '',
 			labelText: null,
 			currentFlag: 'listPage',
 			problemText: '',
@@ -148,10 +168,36 @@ export default {
 			formSource: null,
 			favourQuestionId: null,  // 点赞时的请求id
 			currQuesFavourFlag: false,  //  当前问题是否点赞
-			showAttachFlag: false  //  是否展示附件下载
+			showAttachFlag: false,  //  是否展示附件下载
+			onlyShowQuestion: false,
+			onlyShowDetail: false
 		}
 	},
 	methods: {
+		async turnPageInit(query) {
+			console.log(query, query.id, "query")
+			this.onlyShowDetail= true
+			this.currentFlag = 'detailPage'
+			this.onlyShowQuestion = false
+			this.labelIdx = query.labelIdx
+			await this.getLabelList(this.labelIdx)
+			this.labelLoading = false
+			await getProblemDetail({id: query.id}).then(res => {
+				if (res?.code === '200') {
+					const { data } = res
+					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
+					this.problemText = data.questionTitle
+					this.showAttachFlag = data?.annexList.length > 0
+					this.attach = data.annexList || []
+					this.getJudgeFavour(query.id)
+				}
+			})
+		},
+		async init(){
+			this.onlyShowQuestion = false
+			await this.getHotQueTwo()
+			await this.getAllMoudleLabel()
+		},
 		async handleLabel(item) {
 			//  重置查询参数
 			this.problemQuery.pageNum = 1
@@ -179,55 +225,44 @@ export default {
 		},
 		// 点击问题查询问题详情
 		async handleProblem(item, idx) {
+			console.log(item, "item")
+			this.onlyShowQuestion = false
+			if (!this.currentMoudleId) {
+				//  只输入标题查询时 还没定位到当前问题的模块标题 点击问题时 才能确定
+				console.log(item, "12345678")
+				let currName = ''
+				this.moudleList.map(mou => {
+					if (item.questionModuleId === mou.id) {
+						currName = mou.menuName
+					}
+				})
+				console.log(currName, "currName")
+				this.$emit("update:currentMoudleId", item.questionModuleId)
+				this.$emit("update:currMoudleName", currName)
+				this.labelIdx = item.questionLableId
+				this.$nextTick(() => {
+					this.getLabelList()
+				})
+				
+			}
 			this.currentFlag = 'detailPage'
 			this.problemText = item.questionTitle
 			this.problemLoading = true
+			this.favourQuestionId = item.id
 			await getProblemDetail({id:item.id}).then(res => {
 				if (res?.code === '200') {
 					const { data } = res
 					this.problemLoading = false
 					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
 					this.showAttachFlag = data?.annexList.length > 0
-					this.attach = data?.annexList
-					this.$nextTick(() => {
-						if (this.showAttachFlag) {
-							console.log(this.$refs.attachment, "111111")
-							this.$refs.attachment.fileList = data?.annexList
-						}
-					})
+					this.attach = data.annexList || []
 					this.getJudgeFavour(item.questionId || item.id)
 				}
 			})
 		},
-		// 下载详情附件
-		loadAttach(file) {
-			let fileTypeArr = ['jpg',
-				'jpeg',
-				'gif',
-				'png',
-				'txt',
-				'doc',
-				'docx',
-				'xls',
-				'xlsx',
-				'ppt',
-				'pptx',
-				'pdf']
-			const fileExtension = file.fileName.substring(file.fileName.lastIndexOf('.') + 1);
-			console.log(fileExtension, '23456')
-			if (fileTypeArr.includes(fileExtension)) {
-				console.log("=====")
-				window.location.href = file.fileUrl
-			} else {
-				getFileId(this.attach[0]?.bizId).then((res) => {
-					console.log(res, '1111111111')
-				})
-			}
-		},
 		// 获取该用户是否给该问题点赞
 		async getJudgeFavour(questionId) {
 			await judgeFavour({ faqId: questionId }).then((res) => {
-				console.log(res, '+++++')
 				if (res?.code === '200') {
 					this.currQuesFavourFlag = res?.data
 				}
@@ -244,6 +279,7 @@ export default {
 			updateFavour(this.favourQuestionId).then((res) => {
 				if (res?.code === '200') {
 					this.$message.success("很开心该回答能帮助您...")
+					this.getJudgeFavour(this.favourQuestionId)
 				}
 			})
 		},
@@ -306,15 +342,24 @@ export default {
 			this.labelLoading = true
 			await getCurrLabelList(this.currentMoudleId).then(res => {
 				if (res?.code === '200') {
+					console.log(res, "23456")
 					this.labelList = res?.data || []
+					this.labelList.unshift({
+						lableName: "全部",
+						id: '',
+						moduleId: this.labelList[0]?.moduleId
+					})
 					this.labelIdx = this.labelIdx ? this.labelIdx : res?.data[0]?.id
-					this.labelText = this.labelText ? this.labelText : res?.data[0]?.lableName
+					// this.labelText = this.labelText ? this.labelText : res?.data[0]?.lableName
 					if (va === 'init') {
 						// 如第一次查询 标签id是第一个
 						this.problemQuery.questionLableId = res?.data[0]?.id
+					} else {
+						this.problemQuery.questionLableId = this.labelIdx
 					}
 					// 查询标签结束后 会查询该标签下的问题
 					if (this.formSource === 'query') return this.labelLoading = false
+					if (this.onlyShowDetail) return
 					this.problemList = []
 					this.labelLoading = false
 					this.getProblemList()
@@ -360,24 +405,36 @@ export default {
 			this.problemQuery.pageNum = 1
 			this.formSource = 'query'
 			this.labelIdx = currLabelId
-			await this.getLabelList()
-			let currNameId = ''
-			let currName = ''
-			this.currentFlag = 'listPage'
-			this.labelList.map(item => {
-				if (item.id === currLabelId) {
-					currNameId = item.moduleId
-					this.labelText = item.lableName
+			//  查询时有模块id
+			if (this.currentMoudleId) {
+				this.onlyShowQuestion = false
+				this.currentFlag = 'listPage'
+				await this.getLabelList()
+				let currNameId = ''
+				this.labelList.map(item => {
+					if (item.id === currLabelId) {
+						currNameId = item.moduleId
+						this.labelText = item.lableName
+					}
+				})
+				if (!this.currMoudleName) {
+					let currName = ''
+					this.moudleList.map(moudle => {
+						if (moudle.id === currNameId) {
+							currName = moudle.menuName
+						}
+					})
+					this.currMoudleName = currName
 				}
-			})
-			this.moudleList.map(moudle => {
-				if (moudle.id === currNameId) {
-					currName = moudle.menuName
-				}
-			})
-			this.currMoudleName = currName
-			Object.assign(this.problemQuery, queryValue)
-			await this.getProblemList()
+				Object.assign(this.problemQuery, queryValue)
+				await this.getProblemList()
+			} else {
+				//  无模块id 需根据查询问题反推模块及标签
+				this.onlyShowQuestion = true
+				console.log("1111111")
+				Object.assign(this.problemQuery, queryValue)
+				await this.getProblemList()
+			}
 		}
 	}
 }
@@ -406,7 +463,7 @@ export default {
 			border-bottom: 1px dotted rgba(112, 112, 112, 0.14901960784313725);;
 			.moudle-name {
 				margin-top: 24px;
-				font-size: 20px;
+				font-size: 16px;
 				font-weight: bold;
 				line-height: 26px;
 				color: #000000;
@@ -419,7 +476,7 @@ export default {
 					height: 30px;
 					font-weight: bold;
 				}
-				.first-hotQues {
+				.hot-tlt:hover {
 					color: #1660F1;
 					text-decoration: underline;
 				}
@@ -431,6 +488,18 @@ export default {
 					line-height: 20px;
 					margin-right: 30px;
 					margin-bottom: 10px;
+					.blue-line {
+						width: 4px;
+						height: 20px;
+						background: #1763F7;
+						margin-right: 10px;
+						border-radius: 5px;
+					}
+				}
+				
+				:hover {
+					color: #1660F1;
+					text-decoration: underline;
 				}
 				.activeIdx {
 					color: #1763F7;
@@ -459,7 +528,7 @@ export default {
 					}
 					.item-top-moudle {
 						margin-left: 20px;
-						font-size: 18px;
+						font-size: 16px;
 						font-weight: bold;
 					}
 				}
@@ -476,6 +545,9 @@ export default {
 							color: #666666;
 							font-weight: bold;
 							margin-top: 20px;
+						}
+						:hover {
+							color: #1763F7;
 						}
 					}
 				}
@@ -500,6 +572,10 @@ export default {
 							font-size: 16px;
 							font-weight: bold;
 							color: #222222;
+						}
+						:hover {
+							color: #1660F1;
+							text-decoration: underline;
 						}
 					}
 				}
@@ -536,7 +612,7 @@ export default {
 				}
 			}
 			.bottom-zan {
-				margin-top: 30px;
+				margin-top: 20px;
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 <template>
     <!--VWAG评级-->
     <iDialog
-            :title="$t('EKL_YJGL_CJNDMBGL')"
+            :title="$t('LK_CJNDMBGL')"
             :visible.sync="value"
             width="90%"
             @close="clearDiolog"
@@ -22,7 +22,7 @@
                 <div :key="index" v-for="list,index in tableListData1">
                     <div class="mt20">
                         <div style="font-weight: bold;font-size: 22px;">
-                            {{ `${ $i18n.locale === 'zh' ? $t('EKL_' + list['brand']) : list['brand'] }`}}
+                            {{ `${ $i18n.locale === 'zh' ? $t('LK_' + list['brand']) : list['brand'] }`}}
                         </div>
                         <div style="margin-top: 10px;margin-bottom: 10px;" class="target-manage1">
 
@@ -48,7 +48,7 @@
                     v-model="form.year"
                     class="text"
                     @change="initData(form.year)"
-                    :placeholder="$t('LK_QINGXUANZE')">
+                    :placeholder="language('请选择')">
                 <el-option :value="item" :label="item" v-for="item,index in yearList" :key="index"></el-option>
             </iSelect>
             <span class="label" style="padding-left: 55px;">{{orgName}} Total Target-Lasting</span>
@@ -56,7 +56,7 @@
                     v-model="form.totalTarget"
                     class="text"
                     :disabled="linie||!show"
-                    :placeholder="$t('LK_QINGSHURU')"
+                    :placeholder="language('请输入')"
                     oninput="value = value.replace(/[^\d.]/g,'').replace(/\.{2,}/g,'.')"
                     @change="InputValue($event,1)"
                     @focus="onFocus(form.totalTarget,'totalTarget')"
@@ -68,7 +68,7 @@
                     v-model="form.totalCommitment"
                     class="text"
                     :disabled="linie||!show"
-                    :placeholder="$t('LK_QINGSHURU')"
+                    :placeholder="language('请输入')"
                     oninput="value = value.replace(/[^\d.]/g,'').replace(/\.{2,}/g,'.')"
                     @change="InputValue($event,2)"
                     @focus="onFocus(form.totalCommitment,'totalCommitment')"
@@ -78,9 +78,9 @@
         </div>
         <div slot="footer" class="dialog-footer">
             <!--<iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>-->
-            <!--<iButton @click="sendDepartment(form.year)">{{ $t('EKL_YJGL_TZKS') }}</iButton>-->
+            <!--<iButton @click="sendDepartment(form.year)">{{ $t('LK_TZKS') }}</iButton>-->
             <iButton @click="handleSubmit" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_SAVEDATA')">{{ $t('LK_QUEREN') }}</iButton>
-            <iButton @click="sendDepartment(form.year)" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_NOTICE')">{{ $t('EKL_YJGL_TZKS') }}</iButton>
+            <iButton @click="sendDepartment(form.year)" v-if="isAuth(whiteBtnList,'ANNUALTARGET_PAGE_NOTICE')">{{ $t('LK_TZKS') }}</iButton>
         </div>
     </iDialog>
 </template>

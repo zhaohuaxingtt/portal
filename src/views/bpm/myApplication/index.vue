@@ -18,7 +18,7 @@
           @click="recallDialogVisible = true"
           :disabled="selectTableData.length !== 1"
         >
-          {{ $t('APPROVAL.RECALL') }}
+          {{ language('撤回') }}
         </iButton>
       </div>
       <i-table-custom

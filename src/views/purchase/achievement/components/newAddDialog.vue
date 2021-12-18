@@ -1,7 +1,7 @@
 <template>
     <!--VWAG评级-->
     <iDialog
-            :title="$t('EKL_YJGL_XZYJJC')"
+            :title="$t('LK_XZYJJC')"
             :visible.sync="value"
             width="381px"
             @close="clearDiolog"
@@ -9,25 +9,25 @@
     >
         <div class="content">
             <!-- 年份-->
-            <div>{{$t('EKL_YJGL_XZYJJCTIP')}}</div>
+            <div>{{$t('LK_XZYJJCTIP')}}</div>
             <div class="row1">{{ $t('SUPPLIER_NIANFEN') }}</div>
 
             <iSelect
                     v-model="form.year"
                     style="width: 320px"
                     class="margin-top10"
-                    :placeholder="$t('LK_QINGXUANZE')"
+                    :placeholder="language('请选择')"
             >
                 <el-option :value="it" :label="it" v-for="it,i in yearList" :key="i"></el-option>
             </iSelect>
 
-            <div class="row1">{{ $t('EKL_YJGL_YWLX') }}</div>
+            <div class="row1">{{ $t('LK_YEWULEIXING') }}</div>
             <!---->
             <iSelect
                     v-model="form.type"
                     style="width: 320px"
                     class="margin-top10"
-                    :placeholder="$t('LK_QINGXUANZE')"
+                    :placeholder="language('请选择')"
             >
 
                 <el-option :value="it.key" :label="`${ $i18n.locale === 'zh' ? it.value : it.enName }`"
@@ -42,7 +42,7 @@
             </div>
             <div class="margin-top10 tip" v-if="!form.fileName&&form.type==2">
                 <icon symbol name="iconzengjiacailiaochengben_lan"></icon>
-                <span style="padding-left: 8px;">{{ $t('EKL_YJGL_XZYJFJTIP')}}</span>
+                <span style="padding-left: 8px;">{{ $t('LK_XZYJFJTIP')}}</span>
             </div>
             <div slot="footer" class="dialog-footer">
                 <el-upload
@@ -57,7 +57,7 @@
                         :on-change="fileChange"
                         :on-remove="revomefileList"
                         accept=".pdf,.xlsx,.xls,.docx,.cvs">
-                    <iButton v-if="form.type==2" :loading="uploadLoading">{{ $t('EKL_YJGL_XZWJ') }}</iButton>
+                    <iButton v-if="form.type==2" :loading="uploadLoading">{{ $t('LK_XZWJ') }}</iButton>
                 </el-upload>
                 <iButton @click="handleSubmit">{{ $t('LK_QUEREN') }}</iButton>
             </div>
@@ -174,7 +174,6 @@
                 }
             },
             uploadError(err, file) {
-              console.log(err,'err')
                 this.uploadLoading = false
                 iMessage.error(`${ file.name } ${ this.$t('LK_SHANGCHUANSHIBAI') }`)
             },

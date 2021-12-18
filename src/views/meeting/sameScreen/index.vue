@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">会议同屏</div>
+    <div class="header">{{$t('会议同屏')}}</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <p class="info-line-1">
@@ -11,7 +11,11 @@
           <span class="date-time-start">
             <img :src="timeClock" alt="" srcset="" />
             <span>{{
-              result.startDate + ' ' + result.startTime + '~' + result.endTime
+              result.startDate +
+              ' ' +
+              result.startTime.substring(0, 5) +
+              '~' +
+              result.endTime.substring(0, 5)
             }}</span>
           </span>
           <span class="date-time-end">

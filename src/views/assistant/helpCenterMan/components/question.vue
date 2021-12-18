@@ -4,7 +4,7 @@
             <template v-if="type == 'detail'">
                 <template v-if="detail.id">
                     <iButton @click="del">删除</iButton>
-                    <iButton @click="type = 'edit'">编辑</iButton>
+                    <iButton @click="edit">编辑</iButton>
                 </template>
                 <iButton @click="dialog = true">新建问题</iButton>
             </template>
@@ -15,6 +15,10 @@
         </div>
 
         <div class="flex qs-p">
+            <div class="flex flex-column qs-params">
+                <iLabel class="label" label="常见问题" slot="label"></iLabel>
+                <i-input class="input" type="text" :disabled="type == 'detail'" v-model="form.questionTitle" placeholder="请输入" />
+            </div>
             <div class="flex flex-column qs-params">
                 <iLabel class="label" label="问题模块" slot="label"></iLabel>
                 <iSelect class="input" :disabled="type == 'detail'" v-model="form.questionModuleId" @change="moduleChange">
@@ -31,12 +35,8 @@
                 <iLabel class="label" label="创建人" slot="label"></iLabel>
                 <i-input class="input" type="text" disabled v-model="form.createByName" placeholder="请输入" />
             </div>
-            <div class="flex flex-column qs-params">
-                <iLabel class="label" label="问题描述" slot="label"></iLabel>
-                <i-input class="input" type="text" :disabled="type == 'detail'" v-model="form.questionTitle" placeholder="请输入" />
-            </div>
         </div>
-        <iEditor class="flex-1 qs-editor" :class="[type == 'detail' ? 'overflow-auto' : 'overflow-hidden']" :disabled="type == 'detail'" v-model="form.answerContent"></iEditor>
+        <iEditor class="flex-1 qs-editor" :class="[type == 'detail' ? 'overflow-auto' : 'overflow-hidden']" :disabled="type == 'detail'" v-if="form.answerContent" v-model="form.answerContent" :html="form.answerContent"></iEditor>
         <div class="flex" style="margin-top:20px;align-items: flex-start;">
             <div class="label">附件：</div>
             <iUpload ref="upload" :disabled="type == 'detail'" v-model="form.annexList" @onSuccess="uploadSucc" >
@@ -54,7 +54,6 @@
             :moduleList="moduleList" 
             :labelList="labelList" 
             :show.sync="dialog" 
-            @moduleChange="moduleChange"
             @refresh="$emit('addChange')"></CreateQuestion>
     </div>
 </template>
@@ -62,7 +61,7 @@
 <script>
     import { iInput, iLabel, iButton, iSelect } from "rise"
     import CreateQuestion from "../components/createQuestion"
-    import iEditor from "@/components/iEditor"
+    import iEditor from "./../../components/iEditor.vue"
     import { queryModuleBySource, getCurrLabelList, delFaq,updateFaq } from "@/api/assistant"
     import iUpload from "./../../components/iUpload.vue"
 
@@ -93,6 +92,7 @@
         watch:{
             detail(n){
                 this.form = JSON.parse(JSON.stringify(n))
+                this.tempContent = n.answerContent ? JSON.parse(JSON.stringify(n.answerContent)) : ""
                 this.moduleChange(this.form.questionModuleId)
             }
         },
@@ -109,14 +109,19 @@
                 type: "detail",
                 moduleList:[],
                 labelList:[],
-                loading:false
+                loading:false,
+                tempContent:""
             }
         },
-        async created(){
-            let { data } = await queryModuleBySource(this.userType)
-            this.moduleList = data
+        created(){
+            this.getModuleList()
         },
         methods: {
+            async getModuleList(){
+                let { data } = await queryModuleBySource(this.userType)
+                this.moduleList = data
+                return data
+            },
             moduleChange(v){
                 if(v){
                     getCurrLabelList(v).then(res => {
@@ -134,10 +139,12 @@
                 if(!this.form.answerContent) return this.$message.warning("请输入回答内容")
                 try {
                     this.loading = true
-                    await updateFaq(this.form.id, this.form)
-                    this.$message.success("保存成功")
-                    this.type = 'detail'
-                    this.$emit("editChange")
+                    let res = await updateFaq(this.form.id, this.form)
+                    if(res.code == 200){
+                        this.$message.success("保存成功")
+                        this.type = 'detail'
+                        this.$emit("editChange")
+                    }
                 } finally {
                     this.loading = false
                 }
@@ -153,8 +160,12 @@
                     this.$emit("delChange")
                 })
             },
+            edit(){
+                this.type = 'edit'
+            },
             cancel(){
                 this.type = 'detail'
+                this.form.answerContent = this.tempContent
             }
         }
     }
@@ -166,6 +177,7 @@
    display: flex; 
    flex-direction: column;
    height: 100%;
+   overflow: auto;
 }
 .qs-btns{
     text-align: right;

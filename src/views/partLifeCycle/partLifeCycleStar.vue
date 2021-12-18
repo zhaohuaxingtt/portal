@@ -27,33 +27,13 @@
             <iInput v-model="partsName" :placeholder="language('LK_QINGSHURU', '请输入')" clearable></iInput>
           </el-form-item>
           <el-form-item :label="language('LK_AEKOHAO', 'Aeko号')">
-            <!-- <iSelect
-              class="multipleSelect"
-              :placeholder="language('LK_QINGXUANZHE', '请选择')"
-              filterable
-              clearable
-              collapse-tags
-              multiple
-              :filter-method="remoteMethod"
-              :loading="AekoLoading"
-              v-model="aekoNum"
-            >
-              <el-option
-                :value="item"
-                :label="item"
-                v-for="(item, index) in AekoPullDown"
-                :key="index"
-              ></el-option>
-            </iSelect> -->
             <el-select
                     v-model="aekoNum"
                     class="multipleSelect new_multipleSelect"
-                    :filter-method="remoteMethod"
                     multiple
                     filterable
-                    allow-create
+                    collapse-tags
                     clearable
-                    default-first-option
                     :loading="AekoLoading"
                     :placeholder="language('LK_QINGXUANZHE', '请选择')"
             >
@@ -291,11 +271,11 @@
         </div>
       </div>
       <div class="partLifeCycleStar_main_content">
-        <div class="left">
+        <div class="left" :style="expandRelevantPart?'width:75%':'width:100%'">
           <div v-for="(item, index) in defaultPartsList" :key="index" :class="{ isExpand: expandRelevantPart }"
                @click="currentDefaultPart = item.partsNum;getRelationParts()">
             <div class="title">
-              <span class="link" @click.stop="toPartLifeCycle(item)">{{ item.partsNum }}</span>
+              <span class="link" @click.stop="toPartLifeCycle(item.partsNum)">{{ item.partsNum }}</span>
               <span>{{ item.deptName }}</span>
               <icon v-show="!isEdit" symbol @click.native.stop.prevent="cancelOrCollect(item)"
                     :name="Number(item.isDefaultFolder) === 1 ? 'iconyishoucanglingjian' : 'iconweishoucanglingjian'"></icon>
@@ -323,7 +303,7 @@
           </div>
         </div>
         <transition name="bounce">
-          <iCard class="right" v-if="expandRelevantPart" v-loading="rightLoading">
+          <iCard class="right" v-show="expandRelevantPart" v-loading="rightLoading">
             <div slot="header" class="right_header">
               <span>{{ language('LK_XIANGGUANLINGJIAN', '相关零件') }}</span>
               <icon @click.native="expandRelevantPart = false" symbol name="iconxiangguanlingjianguanbi"></icon>
@@ -334,7 +314,7 @@
                   <p>{{ item.partsNum }}</p>
                   <p>{{ item.partsNumNameZh }}</p>
                 </div>
-                <icon symbol @click.native="toPartLifeCycle(item)" name="iconxiangguanlingjian-gengduo"></icon>
+                <icon symbol @click.native="toPartLifeCycle(item.partsNum)" name="iconxiangguanlingjian-gengduo"></icon>
               </div>
             </div>
           </iCard>
@@ -452,7 +432,7 @@ export default {
       IsSupplyPullDown: [],
       PurchaserPullDown: [],
       current: 1,
-      size: 9,
+      size: 27,
       isButn: true,
       defaultPartsTotal: 0,
     }
@@ -460,9 +440,8 @@ export default {
   mounted() {
     this.getSeletes()
     this.defaultParts()
-    console.log('this.$refs.partLifeCycleStar', this.$refs.partLifeCycleStar);
     if(this.$refs.partLifeCycleStar)
-    this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.scrollGetData); //this.setHeadPosition方法名
+    this.$refs.partLifeCycleStar.$el.addEventListener("scroll", this.debounce(this.scrollGetData,500)); //this.setHeadPosition方法名
   },
   destroyed() {
     if(this.$refs.partLifeCycleStar)
@@ -478,67 +457,80 @@ export default {
         this.defaultParts()
       }
     },
-    remoteMethod(val){
-      this.AekoPullDown = this.AekoPullDownClone.filter(item => {
-        if(item.includes(val)){
-          return item
-        }
-      }).slice(0, 40)
-    },
+//    remoteMethod(val){
+//      this.AekoPullDown = this.AekoPullDownClone.filter(item => {
+//        return item.indexOf(val)>-1
+//      })
+//    },
     scrollGetData(e){
+//      clearTimeout(this.time)
       const { scrollTop, clientHeight, scrollHeight } = e.target
-      // console.log('~~(scrollTop + clientHeight)', Math.ceil(scrollTop + clientHeight), scrollHeight)
-      if(Math.ceil(scrollTop + clientHeight) >= scrollHeight){
-        this.leftLoading = true
-        this.showLoading()
-        this.current++
-        getPartsCollect({
-          partsNum: this.partsNum,
-          partsName: this.partsName,
-          aekoNum: this.aekoNum,
-          supplierName: this.supplierName,
-          categoryCode: this.categoryCode,
-          categoryShowName: this.categoryShowName,
-          deptId: this.deptId,
-          purchaserId: this.purchaserId,
-          purchaserShowName: this.purchaserShowName,
-          // procurementGroupId: this.procurementGroupId,
-          factoryCode: this.factoryCode,
-          factoryShowName: this.factoryShowName,
-          eop: this.eop,
-          fixedPoint: this.fixedPoint,
-          businessDateStart: this.businessDateStart,
-          businessDateEnd: this.businessDateEnd,
-          contractSapCode: this.contractSapCode,
-          contractCode: this.contractCode,
-          brandName: this.brandName,
-          modelNameZh: this.modelNameZh,
-          carTypeProjectName: this.carTypeProjectName,
-          fsNum: this.fsNum,
-          isSupply: this.isSupply,
-          current : this.current ,
-          size: this.size,
-        }).then(res => {
-          const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
-          if (Number(res.code) === 200) {
-            if(res.data.length < 9){
-              this.isScroll = true
+      if(Math.ceil(Number(scrollTop) + Number(clientHeight)) >= scrollHeight){
+//        this.time = setTimeout(() => {
+          this.leftLoading = true
+          this.showLoading()
+          this.current++
+          getPartsCollect({
+            partsNum: this.partsNum,
+            partsName: this.partsName,
+            aekoNum: this.aekoNum,
+            supplierName: this.supplierName,
+            categoryCode: this.categoryCode,
+            categoryShowName: this.categoryShowName,
+            deptId: this.deptId,
+            purchaserId: this.purchaserId,
+            purchaserShowName: this.purchaserShowName,
+            // procurementGroupId: this.procurementGroupId,
+            factoryCode: this.factoryCode,
+            factoryShowName: this.factoryShowName,
+            eop: this.eop,
+            fixedPoint: this.fixedPoint,
+            businessDateStart: this.businessDateStart,
+            businessDateEnd: this.businessDateEnd,
+            contractSapCode: this.contractSapCode,
+            contractCode: this.contractCode,
+            brandName: this.brandName,
+            modelNameZh: this.modelNameZh,
+            carTypeProjectName: this.carTypeProjectName,
+            fsNum: this.fsNum,
+            isSupply: this.isSupply,
+            current : this.current ,
+            size: this.size,
+          }).then(res => {
+            const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
+            if (Number(res.code) === 200) {
+              if(res.data.length < 27){
+                this.isScroll = true
+              }
+              let data = res.data.map(item => {
+                item.isClaim = false
+                return item
+              })
+              this.defaultPartsTotal = res.total;
+              this.defaultPartsList = this.defaultPartsList.concat(data)
+            } else {
+              iMessage.error(result)
             }
-            let data = res.data.map(item => {
-              item.isClaim = false
-              return item
-            })
-            this.defaultPartsTotal = res.total;
-            this.defaultPartsList = this.defaultPartsList.concat(data)
-          } else {
-            iMessage.error(result)
-          }
-          this.leftLoading = false
-          this.hideLoading()
-        }).catch(() => {
-          this.leftLoading = false
-          this.hideLoading()
-        })
+            this.leftLoading = false
+            this.hideLoading()
+          }).catch(() => {
+            this.leftLoading = false
+            this.hideLoading()
+          })
+//        },500)
+      }
+    },
+    debounce(func, wait) {
+      let timer;
+      return function() {
+        let context = this; // 注意 this 指向
+        let args = arguments; // arguments中存着e
+
+        if (timer) clearTimeout(timer);
+
+        timer = setTimeout(() => {
+          func.apply(this, args)
+        }, wait)
       }
     },
     reset(){
@@ -605,6 +597,10 @@ export default {
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
+          if(this.partsNum) {
+            let partsNum = this.partsNum
+            this.toPartLifeCycle(partsNum)
+          }
           this.defaultPartsList = res.data.map(item => {
             item.isClaim = false
             return item
@@ -786,10 +782,10 @@ export default {
         iMessage.warn(this.language('LK_QINGGOUXUANHOUZAIQUERENRENLING', '请勾选后再确认认领'))
       }
     },
-    toPartLifeCycle(item) {
+    toPartLifeCycle(partsNum) {
       let routeData = this.$router.resolve({
         path: '/partLifeCycle',
-        query: { partsNum: item.partsNum}
+        query: { partsNum }
       })
       window.open(routeData.href)
     },
@@ -985,13 +981,12 @@ export default {
       display: flex;
       justify-content: space-between;
       min-height: 530px;
-
+      margin-top: 15px;
       .left {
         display: flex;
         flex-wrap: wrap;
         align-content: flex-start;
         transition: all 0.5s;
-        width: 100%;
         > div {
           width: calc(25% - 30px);
           height: 263px;
@@ -1068,7 +1063,7 @@ export default {
       }
 
       .right {
-        width: calc(25% - 30px);
+        width: 25%;
         flex-shrink: 0;
 
         ::v-deep .cardHeader {

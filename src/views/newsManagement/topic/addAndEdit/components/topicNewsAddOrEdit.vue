@@ -103,6 +103,7 @@
                         :value="ruleForm.category"
                         @input="handleCategoryIntercept"
                         :disabled="ruleForm.id !== ''"
+                        @change="selectChanged"
                     >
                       <el-option
                           v-for="item in userNewsClassify"
@@ -133,7 +134,7 @@
                         slot="label"
                         required
                     ></iLabel>
-                    <iInput v-model.trim="ruleForm.source"></iInput>
+                    <iInput :disabled="ruleForm.category==2" v-model.trim="ruleForm.source"></iInput>
                   </iFormItem>
                   <iFormItem :label="language('NEWS_FABURIQI', '发布日期')" prop="publishDate">
                     <iLabel
@@ -429,6 +430,7 @@ export default {
     value: {
       immediate: true,
       handler(val) {
+      console.log(433,val);
         this.ruleForm = val;
         if (this.ruleForm.id !== '') {
           this.topicNewsPageReset();
@@ -567,7 +569,9 @@ export default {
         }
       } else {
         this.newsCheckList = val;
-        this.ruleForm.newsIds = val;
+        this.page.currPage = 1;
+        this.page.pageSize = 10;
+        this.ruleForm.newsIds = val.slice(0,this.page.currPage*this.page.pageSize);
         this.page.total = val?.length;
       }
     },
@@ -580,6 +584,21 @@ export default {
       findTagList({category: this.ruleForm.category}).then((res) => {
         this.tagList = res;
       });
+    },
+    selectChanged(value){
+      if(value===2){
+        this.ruleForm.source = 'FRM_财务风险管理'
+      }else{
+        this.ruleForm.source = ''
+      }
+      this.page.currPage = 1;
+      this.page.pageSize = 10;
+      if (this.ruleForm.id != '') {
+        this.topicNewsPageReset()
+      }else{
+        this.ruleForm.newsIds =[];
+        this.newsCheckList = [];
+      }
     },
     handleChange(file) {
       this.$nextTick(() => {
@@ -601,7 +620,7 @@ export default {
     },
     handleDownload(file, name) {
       createAnchorLink(
-          file.url.replace(process.env.VUE_APP_FILE_CROSS, `/fileCross`), // 前端跨域问题，将api地址替换为反向代理地址
+          file.url, // 前端跨域问题，将api地址替换为反向代理地址
           name
       );
     },
@@ -611,21 +630,29 @@ export default {
     },
     handleCurrentChange(val) {
       this.page.currPage = val;
-      let param = {
-        pageNum: this.page.currPage,
-        pageSize: this.page.pageSize,
-      };
-      this.topicNewsPageReset(param);
+      if (this.ruleForm.id != '') {
+        let param = {
+          pageNum: this.page.currPage,
+          pageSize: this.page.pageSize,
+        };
+        this.topicNewsPageReset(param);
+      }else{
+         this.ruleForm.newsIds = this.newsCheckList.slice((this.page.currPage-1)*this.page.pageSize,this.page.currPage*this.page.pageSize);
+      }
     },
     handleSizeChange(val) {
       this.page.currPage = 1;
       this.page.pageSize = val;
-      let param = {
-        ...this.form,
-        pageNum: this.page.currPage,
-        pageSize: this.page.pageSize,
-      };
-      this.topicNewsPageReset(param);
+      if (this.ruleForm.id != '') {
+        let param = {
+          ...this.form,
+          pageNum: this.page.currPage,
+          pageSize: this.page.pageSize,
+        };
+        this.topicNewsPageReset(param);
+      }else{
+         this.ruleForm.newsIds = this.newsCheckList.slice(0,this.page.pageSize);
+      }
     },
     topicNewsPageReset(obj) {
       let param = {topicId: this.ruleForm.id, pageNum: 1, pageSize: 10, ...obj};
@@ -634,7 +661,7 @@ export default {
     topicNewsPage(e) {
       findTopicNewsPage(e).then((res) => {
         this.$set(this.ruleForm, "newsIds", res.data);
-        this.page.total = res.data?.length;
+        this.page.total = res?.total;
       });
     },
     beforeAvatarUpload(file) {

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-03 18:29:08
+ * @LastEditTime: 2021-12-16 16:23:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -13,7 +13,7 @@
       <div v-if="!editFlag">
         <iButton type="text"
                  class="margin-right20"
-                 @click="handleSync('')"
+                 @click="handleSyncClick('')"
                  v-show="!flag"
                  :disabled="disabled"
                  icon="el-icon-refresh">{{language('TONGBU', '同步') }}</iButton>
@@ -32,92 +32,109 @@
                  :loading="loading">{{language('BAOCUN', '保存') }}</iButton>
       </div>
     </template>
-    <el-table :data="tableData"
-              v-loading="tableLoading"
-              ref="approveTable"
-              tooltip-effect="light"
-              @selection-change="handleSelectionChange">
-      <el-table-column type="selection"
-                       width="60">
-      </el-table-column>
-      <el-table-column type="index"
-                       label="#"
-                       width="60">
-      </el-table-column>
-      <el-table-column label="审批部门"
-                       width="240">
-        <template slot-scope="scope">
-          <iSelect v-if="scope.row.editRow"
-                   v-model="scope.row.approvalDepartment"
-                   filterable
-                   remote
-                   placeholder="输入关键词搜索"
-                   @change="function(changedVal) {handleChangeDepartment(changedVal, scope.row)}">
-            <el-option v-for="item in scope.row.selectDeptList"
-                       :key="item.id"
-                       :label="item.nameEn"
-                       :value="item.nameEn">
-            </el-option>
-          </iSelect>
-          <span v-else>{{scope.row.approvalDepartment}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="审批科室"
-                       width="240">
-        <template slot-scope="scope">
-          <div v-if="scope.row.editRow">
-            <iSelect v-model="scope.row.approvalSection"
-                     filterable
-                     remote
-                     placeholder="输入关键词搜索"
-                     @change="function(changedVal) {handleChangeApprovalSection(changedVal, scope.row)}">
-              <el-option v-for="item in scope.row.selectSectionList"
-                         :key="item.id"
-                         :label="item.nameEn"
-                         :value="item.nameEn">
-              </el-option>
-            </iSelect>
-          </div>
-          <span v-else> {{ scope.row.approvalSection }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="审批人">
-        <template slot-scope="scope">
-          <iSelect v-if="scope.row.editRow"
-                   v-model="scope.row.approvalName"
-                   filterable
-                   remote
-                   placeholder="输入关键词搜索"
-                   :remote-method="queryOptions"
-                   @change="function(changedVal) {handleChangeApprovalName(changedVal, scope.row)}">
-            <el-option v-for="item in scope.row.userList"
-                       :key="item.id"
-                       :label="item.nameZh"
-                       :value="item.nameZh">
-            </el-option>
-          </iSelect>
-          <span v-else> {{ scope.row.approvalName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="生成时间">
-        <template slot-scope="scope">
-          <iDatePicker v-model="scope.row.startDate"
-                       v-if="scope.row.editRow"
-                       valueFormat="yyyy-MM-dd"
-                       type="date"></iDatePicker>
-          <span v-else> {{ scope.row.startDate }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="截止时间">
-        <template slot-scope="scope">
-          <iDatePicker v-model="scope.row.endDate"
-                       v-if="scope.row.editRow"
-                       valueFormat="yyyy-MM-dd"
-                       type="date"></iDatePicker>
-          <span v-else> {{ scope.row.endDate }}</span>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-form :rules="rules"
+             ref="tableForm"
+             :model="{tableData}">
+      <el-table :data="tableData"
+                v-loading="tableLoading"
+                ref="approveTable"
+                tooltip-effect="light"
+                @selection-change="handleSelectionChange">
+        <el-table-column type="selection"
+                         width="60">
+        </el-table-column>
+        <el-table-column type="index"
+                         label="#"
+                         width="60">
+        </el-table-column>
+        <el-table-column label="审批部门"
+                         width="240">
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.'+scope.$index+'.'+'approvalDepartment'"
+                          :rules="rules['approvalDepartment']">
+              <iSelect v-if="scope.row.editRow"
+                       v-model="scope.row.approvalDepartment"
+                       filterable
+                       remote
+                       placeholder="输入关键词搜索"
+                       @change="function(changedVal) {handleChangeDepartment(changedVal, scope.row)}">
+                <el-option v-for="item in scope.row.selectDeptList"
+                           :key="item.id"
+                           :label="item.nameEn"
+                           :value="item.nameEn">
+                </el-option>
+              </iSelect>
+              <span v-else>{{scope.row.approvalDepartment}}</span>
+            </el-form-item>
+
+          </template>
+        </el-table-column>
+
+        <el-table-column label="审批科室"
+                         width="240">
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.'+scope.$index+'.'+'approvalSection'"
+                          :rules="rules['approvalSection']">
+              <div v-if="scope.row.editRow">
+                <iSelect v-model="scope.row.approvalSection"
+                         filterable
+                         remote
+                         placeholder="输入关键词搜索"
+                         @change="function(changedVal) {handleChangeApprovalSection(changedVal, scope.row)}">
+                  <el-option v-for="item in scope.row.selectSectionList"
+                             :key="item.id"
+                             :label="item.nameEn"
+                             :value="item.nameEn">
+                  </el-option>
+                </iSelect>
+              </div>
+              <span v-else> {{ scope.row.approvalSection }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="审批人">
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.'+scope.$index+'.'+'approvalName'"
+                          :rules="rules['approvalName']">
+              <iSelect v-if="scope.row.editRow"
+                       v-model="scope.row.approvalName"
+                       filterable
+                       remote
+                       placeholder="输入关键词搜索"
+                       :remote-method="queryOptions"
+                       @change="function(changedVal) {handleChangeApprovalName(changedVal, scope.row)}">
+                <el-option v-for="item in scope.row.userList"
+                           :key="item.id"
+                           :label="item.nameZh"
+                           :value="item.nameZh">
+                </el-option>
+              </iSelect>
+              <span v-else> {{ scope.row.approvalName }}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="生成时间">
+          <template slot-scope="scope">
+            <iDatePicker v-model="scope.row.startDate"
+                         v-if="scope.row.editRow"
+                         valueFormat="yyyy-MM-dd"
+                         type="date"></iDatePicker>
+            <span v-else> {{ scope.row.startDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="截止时间">
+          <template slot-scope="scope">
+            <iDatePicker v-model="scope.row.endDate"
+                         v-if="scope.row.editRow"
+                         valueFormat="yyyy-MM-dd"
+                         type="date"></iDatePicker>
+            <span v-else> {{ scope.row.endDate }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-form>
+
     <iPagination v-update
                  @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
@@ -159,7 +176,19 @@ export default {
       selectDeptList: [],
       selectSectionList: [],
       flag: false,
-      disabled: false
+      disabled: false,
+      rules: {
+        approvalDepartment: [
+          { required: true, message: '请输入活动名称', trigger: 'change' },
+        ],
+        approvalSection: [
+          { required: true, message: '请选择活动区域', trigger: 'change' }
+        ],
+        approvalName: [
+          { required: true, message: '请选择活动区域', trigger: 'change' }
+        ],
+
+      }
     }
   },
   components: {
@@ -256,18 +285,6 @@ export default {
       this.tableData.push(obj)
       this.$refs.approveTable.toggleRowSelection(this.tableData[this.tableData.length - 1], true)
     },
-    // selectDept () {
-    //   selectDept({}).then((res) => {
-    //     if (res?.code === '200') {
-    //       this.selectDeptList = res.data
-    //     }
-    //   })
-    // },
-    // selectSection (id) {
-    //   selectSection({ deptId: id }).then((res) => {
-    //     this.selectSectionList = res.data
-    //   })
-    // },
     getAppFormInfo () {
       getAppFormInfo({
         isDeptLead: true,
@@ -284,7 +301,6 @@ export default {
             return
           }
           this.riseId = res.data.riseId
-          console.log(this.riseId, "22222222222")
           if (res.data.ttNominateAppId) {
             this.disabled = true
             this.handleSync('')
@@ -315,28 +331,37 @@ export default {
       this.getTableList()
     },
     save () {
-      this.muilteList.forEach(item => {
-        delete item.selectDeptList
-        delete item.selectSectionList
-        delete item.userList
-      })
-      this.loading = true
-      modifyApprove({
-        mtzAppId: this.mtzAppId || '5107001',
-        dataList: this.muilteList
-      }).then(res => {
-        if (res?.code === '200') {
-          this.editFlag = false
-          this.loading = false
-          this.tableData.forEach(item => {
-            item.editRow = false
+      this.$refs['tableForm'].validate((valid) => {
+        if (valid) {
+          this.muilteList.forEach(item => {
+            delete item.selectDeptList
+            delete item.selectSectionList
+            delete item.userList
           })
-          iMessage.success(res.desZh)
-          this.getTableList()
+          this.loading = true
+          modifyApprove({
+            mtzAppId: this.mtzAppId || '5107001',
+            dataList: this.muilteList
+          }).then(res => {
+            if (res?.code === '200') {
+              this.editFlag = false
+              this.loading = false
+              this.tableData.forEach(item => {
+                item.editRow = false
+              })
+              iMessage.success(res.desZh)
+              this.getTableList()
+            } else {
+              iMessage.error(res.desZh)
+            }
+          })
         } else {
-          iMessage.error(res.desZh)
+          iMessage.error('请填写完整')
+          return false;
         }
-      })
+      });
+      return
+
     },
     del () {
       if (this.muilteList.length === 0) {
@@ -362,6 +387,7 @@ export default {
       row.approvalDepartmentName = obj.nameZh
       row.approvalSectionName = ""
       row.approvalSection = ""
+      row.approvalName = ""
       row.approvalBy = ""
       selectSection({ lineDeptId: obj.id }).then(res => {
         this.$set(row, 'selectSectionList', res.data);
@@ -370,6 +396,7 @@ export default {
     handleChangeApprovalSection (val, row) {
       let obj = row.selectSectionList.find(item => item.nameEn === val)
       row.approvalSectionName = obj.nameZh
+      row.approvalName = ""
       row.approvalBy = ""
       this.$set(row, 'userList', obj.userDTOList);
     },
@@ -379,6 +406,16 @@ export default {
       // row.approvalName = obj.id
     },
     handleSync (params) {
+      syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: params || "" }).then(res => {
+        if (res?.code === '200') {
+          this.getTableList()
+          // iMessage.success(res.desZh)
+        } else {
+          // iMessage.error(res.desZh)
+        }
+      })
+    },
+    handleSyncClick (params) {
       syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: params || "" }).then(res => {
         if (res?.code === '200') {
           this.getTableList()
@@ -395,5 +432,8 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .el-table .el-table__row .el-input {
   width: 200px !important;
+}
+::v-deep .el-form-item {
+  margin-bottom: 0;
 }
 </style>

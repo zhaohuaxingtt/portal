@@ -84,8 +84,7 @@ export default {
     iDialog,
     negative
   },
-  // props:["mtzDocId","searchFormList","dataObject"],
-
+  props: ["mtzDocId", "searchFormList", "dataObject"],
   data () {
     return {
       loading: false,
@@ -125,6 +124,14 @@ export default {
   mounted () {
   },
   methods: {
+    getData () {
+      compdocMetalDetailSum({ mtzDocId: this.mtzDocId }).then(res => {
+        this.inforData = deepClone(res.data);
+        this.textarea = res.data.remark;
+      }).then(red => {
+        this.BoxLoading = false;
+      })
+    },
     tranNumber (val, type) {
       if (type) {
         return val.substring(0, 6)
@@ -148,41 +155,17 @@ export default {
         // console.log(err)
       })
     },
-    props:["searchFormList","dataObject"],
-
-    data(){
-        return{
-            loading:false,
-            tabsInforList:tabsInforList,
-            tableTitle,
-            textarea:"",
-            tableListData: [],
-            inforData:{},
-            BoxLoading:true,
-            page:{
-                currPage:1,
-                pageSize:10,
-                pageSizes:[10,20,50,100],
-                layout:"sizes, prev, pager, next, jumper",
-                totalCount:0
-            },
-            serchList:{},
-            closeValue:false,
-            mtzDocId:''
-        }
-    },
-    created(){
-        this.getData();
-    },
     getList () {
       compdocMetalDetailSumItem({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        mtzDocId: this.dataObject.id,
+        mtzDocId: this.mtzDocId,
         ...this.serchList
       }).then(res => {
         if (res.data.length < 1) {
-          this.$emit("componentHidden", "")
+          this.$emit("componentHidden", false)
+        }else{
+          this.$emit("componentHidden", true)
         }
         this.tableListData = res.data;
         this.page.totalCount = res.total;
@@ -194,7 +177,7 @@ export default {
     save () {
       saveRemark({
         remark: this.textarea,
-        mtzDocId: this.dataObject.id
+        mtzDocId: this.mtzDocId
       }).then(res => {
         iMessage.success(res.data)
       }).catch(res => {
@@ -225,19 +208,19 @@ export default {
       }).then(() => {
         mtzCompDetailOverviewExport({
           ...this.serchList,
-          mtzDocId: this.dataObject.id
+          mtzDocId: this.mtzDocId
         }).then(res => {
-          let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
-          let objectUrl = URL.createObjectURL(blob);
-          let link = document.createElement("a");
-          link.href = objectUrl;
-          // let fname = "补差单汇总" + getNowFormatDate() + ".xlsx";
-          let fname = "补差单汇总-" + this.detailObj.bizNo + ".xlsx";
-          link.setAttribute("download", fname);
-          document.body.appendChild(link);
-          link.click();
-          link.parentNode.removeChild(link);
-          iMessage.success("链接成功！")
+          console.log(res)
+          // let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+          // let objectUrl = URL.createObjectURL(blob);
+          // let link = document.createElement("a");
+          // link.href = objectUrl;
+          // let fname = "MTZ补差单汇总-" + this.dataObject.bizNo + ".xlsx";
+          // link.setAttribute("download", fname);
+          // document.body.appendChild(link);
+          // link.click();
+          // link.parentNode.removeChild(link);
+          // iMessage.success("链接成功！")
         })
       }).catch((err) => {
         console.log(err)
@@ -251,13 +234,13 @@ export default {
         confirmButtonText: this.language('QUEREN', '确认'),
       }).then(() => {
         mtzBalanceDetailsExport({
-          mtzDocId: this.dataObject.id
+          mtzDocId: this.mtzDocId
         }).then(res => {
           let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
           let objectUrl = URL.createObjectURL(blob);
           let link = document.createElement("a");
           link.href = objectUrl;
-          let fname = "MTZ补差单汇总凭证" + getNowFormatDate() + ".pdf";
+          let fname = "MTZ补差单汇总凭证" + this.dataObject.bizNo + ".pdf";
           link.setAttribute("download", fname);
           document.body.appendChild(link);
           link.click();

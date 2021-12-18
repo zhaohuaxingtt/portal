@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    title="维护结论"
+    :title="$t('维护结论')"
     :visible.sync="open"
     width="54.875rem"
     :close-on-click-modal="false"
@@ -16,12 +16,12 @@
         <iFormItem prop="conclusionCsc">
           <div class="operate">
             <div class="operate-title">
-              <span class="conclusion">结论</span>
+              <span class="conclusion">{{ $t('结论') }}</span>
               <span class="required-icon">*</span>
             </div>
             <iSelect
               v-model="ruleForm.conclusion"
-              placeholder="结论"
+              :placeholder="$t('结论')"
               @change="changeConclusion($event)"
               class="operate-select"
               value-key="conclusionCsc"
@@ -39,7 +39,7 @@
         <iFormItem prop="conclusionCsc" v-show="isShowTable">
           <div class="next-meeting">
             <div class="operate-title">
-              <span class="conclusion">下次会议</span>
+              <span class="conclusion">{{ $t('下次会议') }}</span>
               <span class="required-icon">*</span>
             </div>
             <iTableML
@@ -60,7 +60,7 @@
               <el-table-column
                 show-overflow-tooltip
                 align="left"
-                label="会议名称"
+                :label="$t('会议名称')"
                 prop="name"
               >
               </el-table-column>
@@ -72,18 +72,18 @@
           v-show="ruleForm.conclusion.conclusionCsc === '02'"
         >
           <div class="switch-content">
-            <div class="freeze">冻结RS单</div>
+            <div class="freeze">{{ $t('冻结RS单') }}</div>
             <div class="swicth">
               <div class="text" v-if="ruleForm.isFrozenRs" ref="sliderText">
-                是
+                {{ $t('是') }}
               </div>
-              <div class="text" v-else ref="sliderText">否</div>
+              <div class="text" v-else ref="sliderText">{{ $t('否') }}</div>
               <div class="circle" @click="handleSwitch" ref="slider"></div>
             </div>
           </div>
         </iFormItem>
         <iFormItem
-          label="任务"
+          :label="$t('任务')"
           prop="taskCsc"
           :hideRequiredAsterisk="true"
           class="task"
@@ -93,16 +93,16 @@
             type="textarea"
             v-model="ruleForm.taskCsc"
             class="task-input"
-            placeholder="请输入任务"
+            :placeholder="$t('请输入任务')"
           ></iInput>
         </iFormItem>
       </el-form>
     </iEditForm>
     <div class="button-list">
-      <iButton class="sure" @click="handleSure" :loading="loading"
-        >确定</iButton
-      >
-      <iButton class="cancel" @click="handleCancel">取消</iButton>
+      <iButton class="sure" @click="handleSure" :loading="loading">{{
+        $t('确定')
+      }}</iButton>
+      <iButton class="cancel" @click="handleCancel">{{ $t('取消') }}</iButton>
     </div>
   </iDialog>
 </template>
@@ -284,47 +284,71 @@ export default {
         }
       ]
     }
-    if (
-      // this.meetingInfo.meetingTypeName === 'Pre CSC' &&
-      this.meetingInfo.isPreCSC &&
-      curObj.type === 'MANUAL'
-    ) {
-      this.themenConclusionArrObj = [
-        {
-          conclusionCsc: '01',
-          conclusionName: '待定'
-        },
-        {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
-        },
-        {
-          conclusionCsc: '06',
-          conclusionName: '转CSC'
-        },
-        {
-          conclusionCsc: '07',
-          conclusionName: '关闭'
-        }
-      ]
-    }
+    // if (
+    //   // this.meetingInfo.meetingTypeName === 'Pre CSC' &&
+    //   this.meetingInfo.isPreCSC &&
+    //   curObj.type === 'MANUAL'
+    // ) {
+    //   this.themenConclusionArrObj = [
+    //     {
+    //       conclusionCsc: '01',
+    //       conclusionName: '待定'
+    //     },
+    //     {
+    //       conclusionCsc: '05',
+    //       conclusionName: '下次Pre CSC'
+    //     },
+    //     {
+    //       conclusionCsc: '06',
+    //       conclusionName: '转CSC'
+    //     },
+    //     {
+    //       conclusionCsc: '07',
+    //       conclusionName: '关闭'
+    //     }
+    //   ]
+    // }
     if (
       // this.meetingInfo.meetingTypeName === 'CSC' &&
       this.meetingInfo.isCSC &&
       curObj.type === 'MANUAL'
     ) {
       this.themenConclusionArrObj = [
+        // {
+        //   conclusionCsc: '01',
+        //   conclusionName: '待定'
+        // },
+        // {
+        //   conclusionCsc: '05',
+        //   conclusionName: '下次Pre CSC'
+        // },
+        // {
+        //   conclusionCsc: '06',
+        //   conclusionName: '转CSC'
+        // },
+        // {
+        //   conclusionCsc: '07',
+        //   conclusionName: '关闭'
+        // }
         {
           conclusionCsc: '01',
           conclusionName: '待定'
         },
         {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
+          conclusionCsc: '02',
+          conclusionName: '定点'
         },
         {
-          conclusionCsc: '06',
-          conclusionName: '转CSC'
+          conclusionCsc: '03',
+          conclusionName: '发LOI'
+        },
+        {
+          conclusionCsc: '04',
+          conclusionName: '转TER/TOP-TER'
+        },
+        {
+          conclusionCsc: '05',
+          conclusionName: '下次Pre CSC'
         },
         {
           conclusionCsc: '07',
@@ -494,9 +518,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-::v-deep .cell {
-  text-indent: 41px;
-}
 ::v-deep .el-table__header {
   background-color: #fff;
   .el-table-column--selection {

@@ -103,12 +103,12 @@
         :label="$t('MT_HUIYIDIDIAN')"
         prop="meetingPlace"
       ></el-table-column>
-      <el-table-column width="54" align="center" label=""></el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         align="center"
-        width="200"
-        min-width="200"
+        width="220"
+        min-width="220"
         :label="$t('MT_HUIYISHIJIAN')"
       >
         <template slot-scope="scope">
@@ -119,10 +119,11 @@
             <span v-if="scope.row.endTime">{{
               '~' + scope.row.endTime.substring(0, 5)
             }}</span>
+            <span v-else>~{{ handleEndTime(scope.row) }}</span>
           </span>
         </template>
       </el-table-column>
-      <el-table-column width="54" align="center" label=""></el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         align="center"
@@ -428,7 +429,7 @@
                 @click="actionObj('newFile')(scope.row)"
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
-                <span>{{ $t('生成会议纪要') }}</span>
+                <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -436,7 +437,7 @@
                 @click="actionObj('uploadFile')(scope.row.id)"
               >
                 <!-- <img class="upload-file" :src="uploadFile" alt="" srcset="" /> -->
-                <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
+                <span>{{ $t('MT_SHANGCHUANHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
             </div>
@@ -708,6 +709,7 @@ import {
 } from '@/api/meeting/home'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
 import { download } from '@/utils/downloadUtil'
+import { downloadStaticFile } from '@/utils/downloadStaticFileUtil'
 import enclosure from '@/assets/images/enclosure.svg'
 import beginVedio from '@/assets/images/meeting-home/beginVedio.svg'
 import closeVedio from '@/assets/images/meeting-home/close-vedio.svg'
@@ -733,6 +735,7 @@ import newSummaryDialog from './newSummaryDialog.vue'
 // import { MOCK_FILE_URL } from '@/constants'
 // import { debounce } from '@/utils/utils.js'
 import newSummaryDialogNew from './newSummaryDialogNew.vue'
+import dayjs from 'dayjs'
 export default {
   components: {
     iCard,
@@ -862,6 +865,21 @@ export default {
     }
   },
   methods: {
+    handleEndTime(row) {
+      // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return str + ' +1'
+      }
+      return str
+    },
     getUplodFiles(nameList) {
       this.nameList = nameList
     },
@@ -990,6 +1008,7 @@ export default {
     // 上传议题错误提示框关闭
     handleCloseError() {
       this.openError = false
+      this.handleCancelTopics()
     },
     // 生成会议纪要取消
     handleNewSummaryCancel() {
@@ -1104,7 +1123,7 @@ export default {
     },
     // 下载模版
     downDemo() {
-      download({
+      downloadStaticFile({
         noFileUd: true,
         url: '/meetingApi/meetingService/downloadThemenImportTemplate',
         filename: '议题模版',
@@ -1407,7 +1426,30 @@ export default {
       //   e.meetingTypeName === 'Pre CSC' ||
       //   e.meetingTypeName === 'PRECSC'
       // ) {
+// --------------------------------------------//        
+        // 原meeting代码先注释
+      // if (e.isCSC || e.isPreCSC) {
+      //   this.$router.push({
+      //     path: '/meeting/specialDetails',
+      //     query: {
+      //       id: e.id
+      //       // type: e.meetingTypeName
+      //     }
+      //   })
+      // } else {
+      //   this.$router.push({
+      //     path: '/meeting/details',
+      //     query: {
+      //       id: e.id
+      //     }
+      //   })
+      // }
+// --------------------------------------------//  
+      // gpMBDL会议  /meeting/managementHall/mbdlMeeting
+      //gpCSC会议   /meeting/managementHall/gpcscMeeting
+      // 因为目前没有正确数据  假数据跳转 meetingNameSuffix  sprint17开发中  测试中会调整该代码
       if (e.isCSC || e.isPreCSC) {
+        debugger
         this.$router.push({
           path: '/meeting/specialDetails',
           query: {
@@ -1415,7 +1457,24 @@ export default {
             // type: e.meetingTypeName
           }
         })
-      } else {
+      } else if (e.meetingNameSuffix == "csc") {
+        debugger
+        this.$router.push({
+          path: '/meeting/managementHall/gpcscMeeting',
+          query: {
+            id: e.id
+          }
+        })
+      } else if (e.meetingNameSuffix == "gp123") {
+        debugger
+        this.$router.push({
+          path: '/meeting/managementHall/mbdlMeeting',
+          query: {
+            id: e.id
+          }
+        })
+      }else {
+        debugger
         this.$router.push({
           path: '/meeting/details',
           query: {
