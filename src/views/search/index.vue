@@ -101,13 +101,14 @@ export default {
       let types = this.searchForm.dataSourceList.map((item) => {
         return item.value
       })
+      const userId = JSON.parse(sessionStorage.getItem('userInfo')).id
       const requestData = {
         keyword: this.searchForm.words,
         types,
         pageNo: this.page.currPage - 1,
         supplierId:'',
         terminal:'1',
-        userId:'1',
+        userId,
         pageSize: 100 // this.page.pageSize
       }
       this.loading = true
