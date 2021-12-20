@@ -129,7 +129,7 @@ export default {
       } else if (getStrLength(value) <= this.maxLength) {
         callback();
       } else {
-        return callback(new Error(`最大长度 ${this.maxLength / 2} 字符`));
+        return callback(new Error(`最大长度中文 ${this.maxLength / 2} 字符，英文 ${this.maxLength} 字符`));
       }
     };
 
