@@ -1456,14 +1456,14 @@ export default {
             // type: e.meetingTypeName
           }
         })
-      } else if (e.meetingNameSuffix == "csc") {
+      } else if (e.meetingNameSuffix == "gpCSC") {
         this.$router.push({
           path: '/meeting/managementHall/gpcscMeeting',
           query: {
             id: e.id
           }
         })
-      } else if (e.meetingNameSuffix == "gp123") {
+      } else if (e.meetingNameSuffix == "MBDL") {
         this.$router.push({
           path: '/meeting/managementHall/mbdlMeeting',
           query: {
