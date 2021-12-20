@@ -5,7 +5,7 @@
       :disabled="selectedRow.length === 0"
       @click="mock"
     >
-      {{ language('模拟') }}
+      {{ language('EKL模拟') }}
     </iButton>
     <iButton
       v-show="taskType === 0"
@@ -91,8 +91,8 @@ export default {
   },
   methods: {
     mock() {
-      const { businessId, instanceId } = this.selectedRow[0]
-      const url = `/order/#/pricingManagement/ekl/view?id=${instanceId}&code=${businessId}`
+      const { businessId } = this.selectedRow[0]
+      const url = `/order/#/pricingManagement/ekl/view?type=approval&businessId=${businessId}`
       window.open(url)
     }
   }
