@@ -477,7 +477,7 @@ $tabsInforHeight: 35px;
   margin:0 1.5rem 0 0;
 }
 ::v-deep .cardHeader{
-  padding:1.875rem 1.5625rem 0 1.5625rem!important;
+  padding:1.875rem 1.5625rem 0 2.4rem!important;
 }
 .infor_futitle{
   padding:0.5rem 0;
