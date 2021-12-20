@@ -69,10 +69,10 @@ import {
 } from '@/api/mainData/car'
 import {
   saveOrupdCarTypeProConfig,
-  fetchCartypeProConfigList
+  fetchCartypeProConfigList,
+  fetchCarTypeLevelSelect
 } from '@/api/mainData/carProject'
 import { arrayToMap } from '@/utils'
-import { fetchSelectDicts } from '@/api/baseInfo'
 import { getYearOptions } from '@/views/mainData/util'
 import mixin from '@/views/mainData/mixin'
 export default {
@@ -305,16 +305,17 @@ export default {
     },
     // 数据字典下拉，车型等级
     async querySelectDicts() {
-      const req = ['cartype_config_level']
+      /* const req = ['cartype_config_level']
       const { data } = await fetchSelectDicts(req)
-      const { cartype_config_level } = data
+      const { cartype_config_level } = data */
+      const { data } = await fetchCarTypeLevelSelect()
       Object.assign(
         this.extraData,
         {
-          cartypeConfigLevelOptions: cartype_config_level
+          cartypeConfigLevelOptions: data
         },
         {
-          cartypeConfigLevelMap: arrayToMap(cartype_config_level, 'id', 'name')
+          cartypeConfigLevelMap: arrayToMap(data, 'id', 'name')
         }
       )
     },
