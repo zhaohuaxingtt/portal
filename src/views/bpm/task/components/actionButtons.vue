@@ -2,7 +2,7 @@
   <div class="operation-btn">
     <iButton
       v-show="categoryList === 'officialPricing'"
-      :disabled="selectedRow.length === 0"
+      :disabled="selectedRow.length !== 1"
       @click="mock"
     >
       {{ language('EKL模拟') }}
