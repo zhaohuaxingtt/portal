@@ -85,10 +85,8 @@ export default {
           activePath
         )
         this.menusLevel3 = this.generateMenuData(parentMenus, 3)
-        console.log('menusLevel3', this.menusLevel3)
 
         this.menusLevel4 = this.generateMenuData(pathMenus, 4)
-        console.log('menusLevel4', this.menusLevel4)
         // 找不到本级菜单，可能url所在菜单未赋权限
         if (!pathMenus) {
           const childMenus = parentMenus.filter((e) => e.url === parentPath)

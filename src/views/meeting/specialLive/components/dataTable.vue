@@ -29,7 +29,7 @@
       <el-table-column
         prop="name"
         align="left"
-        :label="$t('资料名称')"
+        :label="$t('MT_ZILIAOMINGCHENG')"
         width="756"
       >
         <template slot-scope="scope">
@@ -42,7 +42,7 @@
         show-overflow-tooltip
         prop="createUserName"
         align="center"
-        :label="$t('资料上传人')"
+        :label="$t('MT_ZILIAOSHANGCHUANREN')"
         width="402"
       >
       </el-table-column>

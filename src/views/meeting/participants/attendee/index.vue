@@ -16,8 +16,8 @@
       :layout="page.layout"
       :total="page.totalCount"
       background
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
     />
     <addOrEditGroupDialog
       :openDialog="openDialog"
@@ -204,7 +204,7 @@ export default {
             this.$message.success('删除成功!')
             this.query()
           })
-          .catch((err) => {
+          .catch(() => {
             this.$message.error('删除失败!')
           })
       })
@@ -233,7 +233,7 @@ export default {
           this.page.pages = pages
           this.tableData = data
         })
-        .catch((err) => {
+        .catch(() => {
           this.tableLoading = false
         })
     },

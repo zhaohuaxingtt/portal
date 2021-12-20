@@ -382,10 +382,9 @@ export default {
       return getUserListByIDs(params)
     },
     getCarTypeSelectOptions() {
-      let param = {}
-      carTypeSelectOptions(param).then((val) => {
+      carTypeSelectOptions().then((val) => {
         if (val.code == 200) {
-          this.carTypeSelectList = val.data.TYPE_VEHICLE_PROJECT
+          this.carTypeSelectList = val.data
         }
       })
     },

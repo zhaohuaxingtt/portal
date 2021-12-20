@@ -37,10 +37,10 @@
       <div class="operation" v-if="!hiddenRight">
         <slot name="button">
           <iButton @click="query('search')" :v-permission="searchKey">{{
-            $t('搜索')
+            $t('MT_SOUSUO')
           }}</iButton>
           <iButton @click="goBack" :v-permission="resetKey">{{
-            $t('返回')
+            $t('MT_FANHUI')
           }}</iButton>
         </slot>
       </div>
@@ -267,8 +267,8 @@
       :current-page="page.pageNum"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
     <detailDialog

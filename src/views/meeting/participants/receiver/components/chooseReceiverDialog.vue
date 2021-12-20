@@ -1,15 +1,15 @@
 <template>
   <iDialog
-    :title="$t('选择收件人')"
+    :title="$t('MT_XUANZESHOUJIANREN')"
     :visible.sync="openReceiverDialog"
     width="54.875rem"
     :close-on-click-modal="false"
     @close="close"
   >
-    <div class="searchReceiver">{{ $t('搜索收件人') }}</div>
+    <div class="searchReceiver">{{ $t('MT_SOUSUOSHOUJIANREN') }}</div>
     <iInput suffix-icon="el-icon-search" v-model="search" @change="change">
     </iInput>
-    <div class="receiver">{{ $t('收件人') }}</div>
+    <div class="receiver">{{ $t('MT_SHOUJIANREN') }}</div>
     <i-table-custom
       @editReceiver="editReceiver"
       :data="tableData"
@@ -27,16 +27,16 @@
       :total="page.totalCount"
       pager-count="3"
       background
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
     />
     <div class="button-list">
-      <iButton @click="close" plain class="cancel">{{ $t('取消') }}</iButton>
+      <iButton @click="close" plain class="cancel">{{ $t('MT_QUXIAO') }}</iButton>
       <iButton
         @click="$emit('handleChooseReceiver', selectedTableData)"
         plain
         :disabled="selectedTableData.length == 0"
-        >{{ $t('确认') }}</iButton
+        >{{ $t('MT_QUEREN') }}</iButton
       >
     </div>
   </iDialog>

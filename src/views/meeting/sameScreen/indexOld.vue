@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">{{$t('会议同屏')}}</div>
+    <div class="header">{{$t('MT_HUIYITONGPING')}}</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <p class="info-line-1">
@@ -52,11 +52,11 @@
           <div class="meeting-content">{{ item.topic }}</div>
           <ul class="table-box">
             <li class="table-item">
-              <span>{{$t('时长')}}</span>
-              <span>{{ item.duration }}{{$t('分钟')}}</span>
+              <span>{{$t('MT_SHICHANG')}}</span>
+              <span>{{ item.duration }}{{$t('MT_FENZHONG')}}</span>
             </li>
             <li class="table-item double-item">
-              <span>{{$t('演讲人')}}</span>
+              <span>{{$t('MT_YANJIANGREN')}}</span>
               <span
                 >{{ item.presenter
                 }}{{
@@ -69,7 +69,7 @@
               >
             </li>
             <li class="table-item">
-              <span>{{$t('演讲人部门')}}</span>
+              <span>{{$t('MT_YANJIANGRENBUMEN')}}</span>
               <span
                 >{{ item.presenterDept
                 }}{{
@@ -82,7 +82,7 @@
               >
             </li>
             <li class="table-item double-item">
-              <span>{{$t('时间')}}</span>
+              <span>{{$t('MT_SHIJIAN')}}</span>
               <span style="color: #1660f1">{{
                 item.startTime ? item.startTime.substring(0, 5) : ''
               }}</span>

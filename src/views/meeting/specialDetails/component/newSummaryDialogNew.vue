@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="会议纪要"
+    :title="$t('MT_HUIYIJIYAO')"
     :visible.sync="open"
     width="50rem"
     :close-on-click-modal="false"
@@ -72,7 +72,7 @@
               <div class="agenda-item-content">
                 <p class="task">Task</p>
                 <div class="task-title">
-                  <div>部门：<span>暂无</span></div>
+                  <div>{{$t('MT_BUMEN')}}:<span>{{$t('MT_ZANWU')}}</span></div>
                   <div>Xiao Hua / Xiao Li</div>
                 </div>
                 <iFormItem prop="conclusion" class="meet-desc">
@@ -84,7 +84,7 @@
                     :disabled="!edit"
                   />
                 </iFormItem>
-                <p class="task">Result：定点</p>
+                <p class="task">Result：{{$t('MT_DINGDIAN')}}</p>
                 <iFormItem class="meet-desc">
                   <el-table :data="tableData" border style="width: 100%">
                     <el-table-column
@@ -134,7 +134,7 @@
               $t('LK_QUXIAO')
             }}</iButton>
             <iButton @click="handleOK" plain :loading="loadingCreate" :disabled="loadingCreate">{{
-              '创建'
+             $t('MT_CHUANGJIAN')
             }}</iButton>
           </el-form-item>
         </div>
