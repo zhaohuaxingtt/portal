@@ -414,8 +414,8 @@
           :page-sizes="page.pages"
           :page-size="page.pageSize"
           layout="prev, pager, next"
-          :prev-text="$t('上一页')"
-          :next-text="$t('下一页')"
+          :prev-text="$t('MT_SHANGYIYE')"
+          :next-text="$t('MT_XIAYIYE')"
           :total="page.totalCount"
         />
       </iCard>
@@ -715,10 +715,11 @@ export default {
         filename: '议题模版',
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
         callback: (e) => {
+          console.log('eeeeeeeeeee', e)
           if (e) {
             iMessage.success('下载模版成功')
           } else {
-            iMessage.error('下载模版成功')
+            iMessage.error('下载模版失败')
           }
         },
         noFileUd: true
@@ -855,7 +856,7 @@ export default {
     // 上传议题错误提示框关闭
     handleCloseError() {
       this.openError = false
-      this.closeDialog();
+      this.closeDialog()
     },
     // 导入议题取消
     handleCancelTopics() {
