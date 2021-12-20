@@ -60,13 +60,34 @@
 
 export default [
   {
-    path: '/authorityMgmt/index',
-    name: 'authorityMgmtIndex',
+    path: '/authorityMgmt',
+    name: 'authorityMgmt',
     meta: {
       title: '员工管理',
       activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
-    component: () => import('@/views/authorityMgmt/index')
+    component: () => import('@/layout/empty.vue'),
+    redirect: '/authorityMgmt/index',
+    children: [
+      {
+        path: '/authorityMgmt/index',
+        name: 'authorityMgmtUser',
+        meta: {
+          title: '员工用户管理',
+          activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
+        },
+        component: () => import('@/views/authorityMgmt/index')
+      },
+      {
+        path: '/authorityMgmt/applications',
+        name: 'authorityMgmtSystems',
+        meta: {
+          title: '系统管理',
+          activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
+        },
+        component: () => import('@/views/authorityMgmt/applications/index')
+      }
+    ]
   },
   {
     path: '/authorityMgmt/detail',
@@ -94,8 +115,8 @@ export default [
       activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
     component: () => import('@/views/authorityMgmt/components/addLabel')
-  },
-  {
+  }
+  /* {
     path: '/authorityMgmt/applications',
     name: 'StaffSystem',
     meta: {
@@ -103,5 +124,5 @@ export default [
       activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
     },
     component: () => import('@/views/authorityMgmt/applications/index.vue')
-  }
+  } */
 ]
