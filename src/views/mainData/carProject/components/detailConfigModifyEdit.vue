@@ -92,7 +92,7 @@
               v-for="e in extraData.cartypeConfigLevelOptions"
               :value="e.name"
               :label="e.name"
-              :key="e.id"
+              :key="e.code"
             />
           </iSelect>
         </template>
