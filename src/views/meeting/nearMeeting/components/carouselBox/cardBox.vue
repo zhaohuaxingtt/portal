@@ -36,17 +36,17 @@
           ><span></span>
         </li>
         <li class="content-item">
-          <span>{{$t('会议时间')}}</span
+          <span>{{$t('MT_HUIYISHIJIAN')}}</span
           ><span>{{
             `${themen.startDate} ${themen.startTime}`
           }}</span>
         </li>
         <li class="content-item">
-          <span>{{$t('会议地点')}}</span
+          <span>{{$t('MT_HUIYIDIDIAN')}}</span
           ><span>{{ themen.meetingPlace }}</span>
         </li>
         <li class="content-item">
-          <span>{{$t('部门')}}</span><span>{{ themen.dept }}</span>
+          <span>{{$t('MT_BUMEN')}}</span><span>{{ themen.dept }}</span>
         </li>
         <li class="content-item">
           <span></span
@@ -61,7 +61,7 @@
 <script>
 import { iCard, iButton } from "rise";
 import dayjs from "dayjs";
-import webStorage from '@/utils/storageManager';
+// import webStorage from '@/utils/storageManager';
 export default {
   components: { iCard, iButton },
   props: {

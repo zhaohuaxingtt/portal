@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <p class="go-back">
-      <iButton @click="goBack">{{ $t('返回') }}</iButton>
+      <iButton @click="goBack">{{ $t('MT_FANHUI') }}</iButton>
     </p>
     <div class="title-info">
       <div class="header-content">

@@ -4,7 +4,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">{{ $t('会议名称') }}</div>
+            <div class="name">{{ $t('MT_HUIYIMINGCHENG') }}</div>
             <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
@@ -34,13 +34,13 @@
         <div class="row">
           <div class="list">
             <div class="show">
-              <div class="title">{{ $t('会议类型') }}</div>
+              <div class="title">{{ $t('MT_HUIYILEIXING') }}</div>
               <div class="content">
                 {{ typeObject[meetingInfo.meetingTypeId] }}
               </div>
             </div>
             <div class="show">
-              <div class="title">{{ $t('会议地点') }}</div>
+              <div class="title">{{ $t('MT_HUIYIDIDIAN') }}</div>
               <div
                 class="content content-address"
                 :title="meetingInfo.meetingPlace"
@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="show">
-              <div class="title">{{ $t('会议时间') }}</div>
+              <div class="title">{{ $t('MT_HUIYISHIJIAN') }}</div>
               <div class="content">
                 {{
                   `${begin}${
@@ -80,7 +80,7 @@
           @click="handleClickColumn"
           class="display-column"
           :disabled="showUpdateTopicButtonList"
-          >{{ $t('列隐藏/显示') }}</iButton
+          >{{ $t('MT_LIEYINCANGHUOXIANSHI') }}</iButton
         >
         <actionButtons
           :currentButtonList="tableButtonList"
@@ -473,7 +473,7 @@
                     scope.row.isBreak
                       ? '-'
                       : scope.row.type === 'MANUAL'
-                      ? $t('手工议题')
+                      ? $t('MT_SHOUGONGYITI')
                       : scope.row.type
                   }}
                 </template>

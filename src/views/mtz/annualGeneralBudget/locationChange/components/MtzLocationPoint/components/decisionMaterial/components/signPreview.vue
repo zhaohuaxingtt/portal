@@ -11,7 +11,7 @@
 <template>
   <div style="padding-bottom:30px;">
     <span class="download_btn" v-if="!editMode">
-      <iButton @click="handleClickExport" :loading="exportButtonLoading">{{language('DAOCHU', '导出')}}</iButton>
+      <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton>
     </span>
     <div id="content">
       <div class="content_dialog" v-if="m1&&(formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
@@ -177,7 +177,6 @@ export default {
       },
       applayDateData: [],
       deptData: [],
-      exportButtonLoading: false,
       moment: window.moment,
 
       // uploadTableLj:false,
@@ -338,23 +337,27 @@ export default {
     // },
     // 导出：导出当前为pdf
     handleClickExport() {
-      // console.log(this.title)
       var name = "";
       if (this.title == "") {
         name = "MTZ申请单"+this.$route.query.mtzAppId +"流转导出";
       } else {
         name = this.title;
       }
-      // let container = this.$el.querySelector('#content');
-      // exportAsPDF(container, 'demo');
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       transverseDownloadPDF({
         idEle: 'content',
         pdfName: name,
         exportPdf: true,
         waterMark: true,
-        title:['#tabsBoxTitle','.cardHeader'],
+        title:['#tabsBoxTitle .cardHeader'],//顶部页眉dom节点
         callback: async (pdf, pdfName) => {
           try {
+            loading.close();
             const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
             const pdfFile = pdf.output("datauristring");
             const blob = dataURLtoFile(pdfFile, filename);
@@ -363,14 +366,6 @@ export default {
           }
         },
       })
-      // this.exportButtonLoading = true
-      // this.createPdf().then(res => {
-      //   this.exportButtonLoading = false
-      //   if(res) {
-      //     downloadFileByUrl(res.downloadUrl)
-      //     iMessage.success(this.language('CAOZUOCHENGGONG', '操作成功'))
-      //   } else iMessage.error(this.language('CAOZUOSHIBAI', '操作失败'))
-      // })
     }
   }
 }
@@ -570,7 +565,7 @@ $tabsInforHeight: 35px;
   margin:0 1.5rem 0 0;
 }
 ::v-deep .cardHeader{
-  padding:1.875rem 1.5625rem 0 1.5625rem!important;
+  padding:1.875rem 1.5625rem 0 2.4rem!important;
 }
 .infor_futitle{
   padding:0.5rem 0;

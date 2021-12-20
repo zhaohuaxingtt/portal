@@ -265,7 +265,7 @@ export default {
           this.tableData = data
           console.log(data)
         })
-        .catch((err) => {
+        .catch(() => {
           this.tableLoading = false
         })
     },

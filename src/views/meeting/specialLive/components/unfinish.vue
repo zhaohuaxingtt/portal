@@ -42,7 +42,7 @@
         class="revort-topic"
         :disabled="disabledButton"
         @click="handleRevokeTopic"
-        >{{ $t('撤回议题') }}</iButton
+        >{{ $t('MT_CHEHUIYITI') }}</iButton
       >
       <iButton @click="handleMore">{{ 'MORE' }}</iButton>
     </el-row>

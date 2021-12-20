@@ -17,7 +17,7 @@
       </div>
       <div class="table">
         <div v-if="item.word == null || item.word == 0" class="table noData">
-          {{ $t('暂无数据') }}
+          {{ $t('MT_ZANWUSHUJU') }}
         </div>
         <div
           v-else
@@ -30,7 +30,7 @@
         </div>
       </div>
       <iButton class="button" @click="$emit('editMeetingType', item)"
-        >{{$t('修改会议类型信息')}}</iButton
+        >{{$t('MT_XIUGAIHUIYILEIXINGXINXI')}}</iButton
       >
     </iCard>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="editOrAdd === 'add' ? $t('添加资料类型') : $t('修改资料类型')"
+    :title="editOrAdd === 'add' ? $t('MT_TIANJIAZILIAOLEIXING') : $t('MT_XIUGAIZILIAOLEIXING')"
     :visible.sync="openDialog"
     width="24rem"
     :close-on-click-modal="false"
@@ -14,20 +14,20 @@
         :hideRequiredAsterisk="true"
       >
         <iFormItem label="资料类型名称" prop="name">
-          <iLabel :label="$t('资料类型名称')" slot="label" required></iLabel>
+          <iLabel :label="$t('MT_ZILIAOLEIXINGMINGCHENG')" slot="label" required></iLabel>
           <div class="form-row">
             <iInput v-model="ruleForm.name"></iInput>
           </div>
         </iFormItem>
 
         <iFormItem label="所属会议" prop="meetingTypes">
-          <iLabel :label="$t('所属会议')" slot="label" required></iLabel>
+          <iLabel :label="$t('MT_SUOSHUHUIYI')" slot="label" required></iLabel>
           <iSelect
             class="autoSearch"
             v-model="ruleForm.meetingTypes"
             multiple
             collapse-tags
-            :placeholder="$t('请选择会议类型')"
+            :placeholder="$t('MT_QINGXUANZEHUIYILEIXNG')"
           >
             <el-option
               v-for="item in meetingType"
@@ -42,10 +42,10 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="close" plain class="cancel">{{
-              $t('取消')
+              $t('MT_QUXIAO')
             }}</iButton>
             <iButton @click="handleSubmit('ruleForm')" plain>{{
-              $t('保存')
+              $t('MT_BAOCUN')
             }}</iButton>
           </el-form-item>
         </div>

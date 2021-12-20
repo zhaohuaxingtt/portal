@@ -229,8 +229,8 @@
       :current-page="pageNum"
       :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      prev-text="上一页"
-      next-text="下一页"
+      prev-text="MT_SHANGYIYE"
+      next-text="MT_XIAYIYE"
       :total="total"
     />
   </div>
