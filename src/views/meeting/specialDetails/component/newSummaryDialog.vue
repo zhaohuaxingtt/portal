@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-   :title="$t('会议纪要')"
+   :title="$t('MT_HUIYIJIYAO')"
     :visible.sync="open"
     width="50rem"
     :close-on-click-modal="false"
@@ -163,7 +163,7 @@
               plain
               :loading="loadingCreate"
               :disabled="loadingCreate"
-              >{{$t('创建')}}</iButton
+              >{{$t('MT_CHUANGJIAN')}}</iButton
             >
           </el-form-item>
         </div>

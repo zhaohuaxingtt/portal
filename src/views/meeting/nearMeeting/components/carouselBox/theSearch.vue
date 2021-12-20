@@ -10,7 +10,7 @@
         <!--第一行-->
         <el-row>
           <!--会议名称-->
-          <el-form-item :label="$t('会议名称')" style="width: 538px">
+          <el-form-item :label="$t('MT_HUIYIMINGCHENG')" style="width: 538px">
             <iInput
               :placeholder="$t('LK_QINGSHURU')"
               v-model="form.name"
@@ -52,14 +52,14 @@
             :pickerOptionsEndProps="datePickerOptionsEnd"
             :pickerOptionsEndFun="pickerOptionsEndFun"
             ref="iDateRangePicker"
-            :label="$t('会议日期')"
+            :label="$t('MT_HUIYIRIQI')"
           />
           <!-- 周次 -->
-          <el-form-item :label="$t('收件人')">
+          <el-form-item :label="$t('MT_SHOUJIANREN')">
             <el-autocomplete
               v-model="form.receiver"
               :fetch-suggestions="querySearchAsync"
-              :placeholder="$t('请输入')"
+              :placeholder="$t('MT_QINGSHURU')"
               @select="handleSelect"
             ></el-autocomplete>
           </el-form-item>

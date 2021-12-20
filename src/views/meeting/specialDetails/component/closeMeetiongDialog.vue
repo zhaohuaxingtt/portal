@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="$t('关闭会议')"
+    :title="$t('MT_GUANBIHUIYI')"
     :visible.sync="openCloseMeeting"
     width="23.75rem"
     :close-on-click-modal="false"
@@ -59,7 +59,7 @@
         </el-row> -->
         <el-row class="form-row form-upload">
           <iFormItem :label="$t('上传附件')" prop="uploadFile">
-            <iLabel :label="$t('上传附件')" slot="label"></iLabel>
+            <iLabel :label="$t('MT_SHANGCHUANFUJIAN')" slot="label"></iLabel>
             <el-upload
               action="1"
               :limit="1"
@@ -73,11 +73,11 @@
                 class="upload-button"
                 :uploadLoading="uploadLoading"
               >
-                {{ $t('请选择文件') }}
+                {{ $t('MT_QINGXUANZEWENJIAN') }}
                 <span class="upload-text"><img :src="uploadIcon" /></span>
               </iButton>
               <div slot="tip" class="el-upload__tip">
-                {{ $t('文件大小最大限制10MB') }}
+                {{ $t('MT_WENJIANDAXIAOZUIDAXIANZHI') }}10MB
               </div>
             </el-upload>
           </iFormItem>
@@ -85,10 +85,10 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="handleClose" plain class="cancel">{{
-              $t('取消')
+              $t('MT_QUXIAO')
             }}</iButton>
             <iButton @click="handleSubmit" plain :loading="loading">{{
-              $t('确认')
+              $t('MT_QUEREN')
             }}</iButton>
           </el-form-item>
         </div>

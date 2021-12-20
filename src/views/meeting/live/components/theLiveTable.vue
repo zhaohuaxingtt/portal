@@ -238,11 +238,11 @@
           ></div> -->
             <span>{{
               scope.row.state === '01'
-                ? $t('未进行')
+                ? $t('MT_WEIJINXING')
                 : scope.row.state === '02'
-                ? $t('进行中')
+                ? $t('MT_JINXINGZHONG')
                 : scope.row.state === '03'
-                ? $t('已结束')
+                ? $t('MT_YIJIESHU')
                 : ''
             }}</span>
           </template>
