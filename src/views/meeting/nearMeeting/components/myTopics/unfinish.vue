@@ -123,13 +123,23 @@
         label="Time"
       >
         <template slot-scope="scope">
-          <span v-if="scope.row.startTime">{{
-            scope.row.startTime && scope.row.startTime.substring(0, 5)
-          }}</span>
-          <span v-if="scope.row.startTime && scope.row.endTime">~</span>
-          <span v-if="scope.row.endTime">{{
-            scope.row.endTime && scope.row.endTime.substring(0, 5)
-          }}</span>
+            <div v-if="scope.row.startTime">
+            <span>{{
+              Number(scope.row.plusDayStartTime) > 0
+                ? scope.row.startTime.substring(0, 5) +
+                  ' +' +
+                  Number(scope.row.plusDayStartTime)
+                : scope.row.startTime.substring(0, 5)
+            }}</span
+            ><span>~</span>
+            <span v-if="scope.row.endTime">{{
+              Number(scope.row.plusDayEndTime) > 0
+                ? scope.row.endTime.substring(0, 5) +
+                  ' +' +
+                  Number(scope.row.plusDayEndTime)
+                : scope.row.endTime.substring(0, 5)
+            }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column width="15" align="center" label=""></el-table-column>
@@ -430,8 +440,8 @@ export default {
   }
 }
 
-.my-topics-box {
-  /* ::v-deep .circle:before {
+/*.my-topics-box {
+  ::v-deep .circle:before {
     content: "";
     display: inline-block;
     border-radius: 50%;
@@ -463,8 +473,8 @@ export default {
   ::v-deep .el-pagination {
     margin-top: 30px !important;
     margin-bottom: 1px;
-  } */
-}
+  } 
+}*/
 
 ::v-deep .card .cardBody {
   padding: 0;

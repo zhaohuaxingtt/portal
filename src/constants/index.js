@@ -5,6 +5,7 @@ export const MAP_APPROVAL_TYPE = {
 }
 
 export const MOCK_FILE_URL = '/udDown'
+// export const MOCK_FILE_URL = '/getFileByFileId'
 
 //EventBus 名字
 export const EventBusName = {

@@ -8,7 +8,8 @@
  */
 import axios from '@/utils/axios'
 const requstPart = axios(process.env.VUE_APP_MATERIEL)//零件车型
-const requst = axios(process.env.VUE_APP_RFQ +'/web')
+// const requst = axios(process.env.VUE_APP_RFQ +'/web')
+const requst = axios(process.env.VUE_APP_SOURCING)
 const requstDict = axios(process.env.VUE_APP_BASE_INFO)
 
 export function page(parmars) {

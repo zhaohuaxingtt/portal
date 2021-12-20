@@ -25,6 +25,7 @@ import Supplier360 from '@/views/supplierManagement/supplier360/list/list.vue'
 import supplierManagement from '@/views/supplierManagement/index.vue'
 import NTierMap from '@/views/supplierManagement/NTier/supplyChainMap/index.vue'
 import NTierRouter from '@/views/supplierManagement/NTier/router.vue'
+import PublicOpinionDetection from '@/views/supplierManagement/yuqingjiance'
 
 export default [
   {
@@ -61,6 +62,11 @@ export default [
     path: '/supplier/frmrating/depthRating',
     name: 'supplierFrmDepthRating',
     component: SupplierFrmDepthRating
+  },
+  {
+    path: '/supplier/frmrating/publicOpinion',
+    name: 'PublicOpinionDetection',
+    component: PublicOpinionDetection
   },
   {
     path: '/supplier/frmrating/depthRating/interView',
@@ -210,11 +216,19 @@ export default [
   {
     path: '/supplier',
     name: 'supplierManagement',
+    meta: {
+      title: '供应商管理',
+      activeMenu: ['RISE_WORKBENCH', 'SUPPLIER_SUPPLIERLIST'] // 一级菜单,二级菜单
+    },
     component: supplierManagement,
     children: [
       {
         path: 'supplierList',
         name: 'supplierList',
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_WORKBENCH', 'SUPPLIER_SUPPLIERLIST'] // 一级菜单,二级菜单
+        },
         component: Supplier360
       },
       {

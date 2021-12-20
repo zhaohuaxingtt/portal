@@ -13,7 +13,7 @@
       filterable
       remote
       reserve-keyword
-      :placeholder="$t('输入关键词以搜索')"
+      :placeholder="language('输入关键词以搜索')"
       :remote-method="queryData"
       :loading="loading"
       :disabled="disabled"

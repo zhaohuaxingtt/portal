@@ -6,6 +6,7 @@
       :columns="tableSetting"
       :height="tableHeight"
       highlight-current-row
+      virtual-list
       @handle-current-change="handleCurrentChange"
       :tree-expand="
         queryFlag ? {} : { expandKey: 'nameZh', childrenKey: 'supDeptList' }
@@ -74,36 +75,20 @@ export default {
           key: '',
           tooltip: false,
           customRender: (h, scope) => {
-            return <span>{scope.row.positionList.length}</span>
+            return (
+              <span>
+                {(scope.row.positionList && scope.row.positionList.length) || 0}
+              </span>
+            )
           }
         },
         {
-          prop: 'memberCount',
+          prop: 'userCount',
           label: '用户数量',
           align: 'center',
           width: 80,
           key: '',
-          tooltip: false,
-          customRender: (h, scope) => {
-            let sum = 0
-            for (let i = 0; i < scope.row.positionList.length; i++) {
-              if (
-                scope.row.positionList[i].userDTOList &&
-                scope.row.positionList[i].userDTOList.length
-              ) {
-                for (
-                  let j = 0;
-                  j < scope.row.positionList[i].userDTOList.length;
-                  j++
-                ) {
-                  sum++
-                }
-              } else {
-                break
-              }
-            }
-            return <span>{sum}</span>
-          }
+          tooltip: false
         }
       ]
     }

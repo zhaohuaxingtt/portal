@@ -12,7 +12,9 @@
         <div>
           {{ info.currentScore }}
           <div>
-            <icon
+              <i v-if="info.upDown > 0" class="el-icon-top green"></i>
+                   <i v-if="info.upDown < 0" class="el-icon-bottom orgin"></i>
+            <!-- <icon
               v-if="info.upDown > 0"
               symbol
               class="green"
@@ -23,9 +25,9 @@
               v-if="info.upDown < 0"
               symbol
               class="orgin"
-              name="iconpaixu-xiangxia"
+              name="iconxiajiang-VP"
             >
-            </icon>
+            </icon> -->
             <span v-if="info.upDown > 0" class="green"
               >{{ info.percent ? parseInt(info.percent).toString() : '' }}%
             </span>

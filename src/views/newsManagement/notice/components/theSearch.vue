@@ -110,6 +110,7 @@ export default {
   methods: {
     handleSearchReset() {
       this.form = {};
+      this.$emit('searchTableList')
     },
     enterKey(event) {
       const code = event.keyCode

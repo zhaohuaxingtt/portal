@@ -2,12 +2,13 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-09 10:18:42
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
  */
 import axios from '@/utils/axios'
 
 const requst = axios(process.env.VUE_APP_NTIER + '/web/ntier')
+const request = axios(process.env.VUE_APP_NTIER + '/api/ntier')
 
 // 查询-供应链路维护(card)批量查询
 export function cardChain(parmars) {
@@ -18,9 +19,9 @@ export function cardChain(parmars) {
   })
 }
 // 查询--供应商名称
-export function queryByParamsWithAuth(parmars) {
+export function queryByParamsDropDownWithAuth(parmars) {
   return requst({
-    url: '/ntierSupplier/queryByParamsWithAuth',
+    url: '/ntierSupplier/queryByParamsDropDownWithAuth',
     method: 'POST',
     data: parmars
   })
@@ -107,10 +108,18 @@ export function deletePart(parmars) {
 }
 // --供应商注册邀请
 export function invitation(parmars) {
-    return requst({
-      url: `/ntierSupplier/invitation`,
-      method: 'POST',
-      data: parmars
-    })
-  }
-  
+  return requst({
+    url: `/ntierSupplier/invitation`,
+    method: 'POST',
+    data: parmars
+  })
+}
+
+// --供应商注册邀请
+export function chain(parmars) {
+  console.log(`bkm/chain/` + parmars.supplierId + '/' + parmars.tlk)
+  return request({
+    url: `bkm/chain/` + parmars.supplierId + '/' + parmars.tlk,
+    method: 'GET'
+  })
+}

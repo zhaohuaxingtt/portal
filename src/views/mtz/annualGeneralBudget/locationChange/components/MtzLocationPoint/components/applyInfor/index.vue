@@ -22,16 +22,16 @@
         </div>
         <div class="opration">
           <iButton @click="edit"
-                   v-show="disabled && appIdType && inforData.appStatus == '草稿'">{{ language('BIANJI', '编辑') }}</iButton>
+                   v-show="disabled && appIdType && (inforData.appStatus == '草稿' || inforData.appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
           <!-- v-show="disabled && appIdType && inforData.appStatus!=='草稿'">{{ language('BIANJI', '编辑') }}</iButton> -->
           <iButton @click="cancel"
                    v-show="!disabled">{{ language('QUXIAO', '取消') }}</iButton>
           <iButton @click="save"
                    v-show="!disabled">{{ language('BAOCUN', '保存') }}</iButton>
           <iButton @click="relation"
-                   v-if="applyNumber===''&&showType">{{ language('GLLJDDSQ', '关联零件定点申请') }}</iButton>
+                   v-if="applyNumber===''&&showType&&disabled">{{ language('GLLJDDSQ', '关联零件定点申请') }}</iButton>
           <iButton @click="cancelRelation"
-                   v-if="applyNumber!==''&&showType">{{ language('QUXIAOGUANLIAN', '取消关联') }}</iButton>
+                   v-if="applyNumber!==''&&showType&&disabled">{{ language('QUXIAOGUANLIAN', '取消关联') }}</iButton>
         </div>
       </div>
       <div class="tabsBoxInfor">
@@ -40,17 +40,27 @@
              :key="index">
           <span>{{language(item.key,item.name)}}</span>
           <el-tooltip class="item"
-                      effect="dark"
+                      effect="light"
                       :content="inforData[item.prop]"
-                      placement="top-start"
                       v-if="item.type=='tooltip'&&inforData[item.prop]!==null">
             <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
                     class="inforText"
                     v-model="inforData[item.prop]"></iInput>
           </el-tooltip>
           <iSelect style="width:68%;"
-                   v-else-if="item.type=='select'"
+                   v-else-if="item.type=='select'&&applyNumber==''"
                    :disabled="disabled"
+                   :value="inforData[item.prop]"
+                   :placeholder="language('QINGXUANZE','请选择')"
+                   @change="chioce($event,item.prop)">
+            <el-option :value="item.code"
+                       :label="item.message"
+                       v-for="item in getFlowTypeList"
+                       :key="item.code"></el-option>
+          </iSelect>
+          <iSelect style="width:68%;"
+                   v-else-if="item.type=='select'&&applyNumber!==''"
+                   :disabled="true"
                    :value="inforData[item.prop]"
                    :placeholder="language('QINGXUANZE','请选择')"
                    @change="chioce($event,item.prop)">
@@ -75,14 +85,17 @@
     <theTabs ref="theTabs"
              @isNomiNumber="isNomiNum"
              @handleReset="handleReset"
-             v-if="!beforReturn"
+             v-if="beforReturn"
              :appStatus='inforData.appStatus'
              :flowType="inforData.flowType">
     </theTabs>
     <theDataTabs ref="theDataTabs"
-                 v-if="!beforReturn"
+                 v-if="beforReturn"
                  :appStatus='inforData.appStatus'
-                 :flowType="inforData.flowType">
+                 :flowType="inforData.flowType"
+                 :inforData="inforData"
+                 :applyNumber="applyNumber"
+                 >
     </theDataTabs>
     <iDialog :title="language('LINGJIANDINGDIANSHENQING', '零件定点申请')"
              :visible.sync="mtzAddShow"
@@ -110,7 +123,8 @@ import {
   getAppFormInfo,
   modifyAppFormInfo,
   getFlowTypeList,
-  disassociate
+  disassociate,
+  fetchAppNomiDecisionDataPage
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { syncAuther } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
 export default {
@@ -128,6 +142,7 @@ export default {
   },
   data () {
     return {
+      beforReturn:false,
       getFlowTypeList: [],
       mtzAddShow: false,
       disabled: true,
@@ -196,7 +211,7 @@ export default {
     }
     this.getListData()
     if (this.$route.query.appId) {
-      this.appIdType = true;
+      this.appIdType = false;
     }
   },
   methods: {
@@ -216,6 +231,7 @@ export default {
           this.applyNumber = res.data.ttNominateAppId;
           // this.getLjLocation();
         }
+        console.log(this.applyNumber);
         if (val !== "取消") {
           store.commit("submitBtnInfor", { ...res.data });
         }
@@ -228,6 +244,9 @@ export default {
 
         this.inforData.appName = res.data.appName
         this.inforData.flowType = res.data.flowType
+
+      }).then(res=>{
+        this.beforReturn = true;
       })
     },
     getsyncAuther () {
@@ -270,9 +289,29 @@ export default {
       this.disabled = false;
     },
     save () {
-      if (this.inforData.flowType !== "MEETING" && this.numIsNomi !== 0) {
-        return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZBA', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转/备案'))
+      if (this.inforData.flowType == "SIGN" && this.numIsNomi !== 0) {//流转
+        return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZ', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转'))
+      }else{
+        // if (this.inforData.flowType == "FILING") {//备案
+          // fetchAppNomiDecisionDataPage({
+          //   pageNo: 1,
+          //   pageSize: 10,
+          //   mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+          // }).then(res => {
+          //   if(res && res.code == 200) {
+          //     if(res.data.length<1){
+          //       return iMessage.error(this.language('SQDLXWBASSPFJBNWK', '申请单类型为备案时，审批附件不能为空'))
+          //     }else{
+          //       this.saveEdit();
+          //     }
+          //   } else iMessage.error(res.desZh)
+          // })
+        // }else{
+          this.saveEdit();
+        // }
       }
+    },
+    saveEdit(){
       iMessageBox(this.language('QUERENBAOCUN', '确认保存？'), this.language('LK_WENXINTISHI', '温馨提示'), {
         confirmButtonText: this.language('QUEREN', '确认'),
         cancelButtonText: this.language('QUXIAO', '取消')
@@ -382,17 +421,10 @@ export default {
           } else {
             partProjType = jumpData.partProjType
           }
-          window.open("http://" + window.location.host + "/sourcing/#/designate/decisiondata/rs?desinateId=" + jumpData.id + "&designateType=" + jumpData.nominateProcessType + "&partProjType" + partProjType + "&applicationStatus=" + jumpData.applicationStatus)
-
-          // this.$router.push({
-          //   path: "/designate/decisiondata/rs",
-          //   query: {
-          //     desinateId:jumpData.id,
-          //     designateType:jumpData.nominateProcessType,
-          //     partProjType:jumpData.partProjType,
-          //     applicationStatus:jumpData.applicationStatus,
-          //   }
-          // })
+          var path = "";
+          path = "designate/decisiondata/rs?desinateId=" + jumpData.id + "&designateType=" + jumpData.nominateProcessType + "&partProjType" + partProjType + "&applicationStatus=" + jumpData.applicationStatus
+          window.open(process.env.VUE_APP_SOURCING_URL + path)
+          
         } else {
           iMessage.error(this.language(res.desEn, res.desZh))
         }
@@ -425,7 +457,6 @@ $tabsInforHeight: 35px;
   margin-bottom: 10px;
   display: flex;
   flex-flow: wrap;
-  justify-content: space-between;
   .inforDiv {
     width: 29%;
     height: $tabsInforHeight;
@@ -434,6 +465,7 @@ $tabsInforHeight: 35px;
     justify-content: space-between;
     margin-top: 0;
     margin-bottom: 20px;
+    margin-left:6.5%;
     span {
       font-size: 15px;
     }
@@ -445,6 +477,9 @@ $tabsInforHeight: 35px;
       height: $tabsInforHeight;
       line-height: $tabsInforHeight;
     }
+  }
+  .inforDiv:nth-child(3n-2){
+    margin-left:0!important;
   }
 }
 .number_color {

@@ -2,34 +2,43 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-18 09:48:38
- * @LastEditors: zbin
+ * @LastEditors: caopeng
  * @Descripttion: your project
 -->
 <template>
-  <i-dialog :visible.sync="value"
-            width="90%"
-            top="2%"
-            @close="clearDiolog"
-            :title="rowList.nameZh + '-' + rowList.dept + '-' + rowList.designation">
+  <i-dialog
+    :visible.sync="value"
+    width="90%"
+    top="2%"
+    @close="clearDiolog"
+    :title="rowList.nameZh + '-' + rowList.dept + '-' + rowList.designation"
+  >
     <div class="box">
       <div class="header">
-        <el-form inline
-                 label-position="top">
+        <el-form inline label-position="top">
           <el-form-item :label="language('YINGYONGZHONGWENMING', '应用中文名')">
-            <iInput v-model="form.appNameCn"
-                    :placeholder="language('QINGSHURU', '请输入')"></iInput>
+            <iInput
+              v-model="form.appNameCn"
+              :placeholder="language('QINGSHURU', '请输入')"
+            ></iInput>
           </el-form-item>
           <el-form-item :label="language('YINGYONGYINGWENMING', '应用英文名')">
-            <iInput v-model="form.appNameEn"
-                    :placeholder="language('QINGSHURU', '请输入')"></iInput>
+            <iInput
+              v-model="form.appNameEn"
+              :placeholder="language('QINGSHURU', '请输入')"
+            ></iInput>
           </el-form-item>
           <el-form-item :label="language('YINGYONGLEIXING', '应用类型')">
-            <iSelect :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
-                     v-model="form.systemType">
-              <el-option v-for="item in systemLsit"
-                         :key="item.value"
-                         :label="item.label"
-                         :value="item.value">
+            <iSelect
+              :placeholder="language('请选择')"
+              v-model="form.systemType"
+            >
+              <el-option
+                v-for="item in systemLsit"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
               </el-option>
             </iSelect>
           </el-form-item>
@@ -41,24 +50,24 @@
           }}</iButton>
         </div>
       </div>
-      <div class="section"
-           style="margin-top: 30px">
+      <div class="section" style="margin-top: 30px">
         <div>
           <div class="sectionTitle">
             <span class="ptext">
               {{ language('KETIANJIAYINGYONGQUANXIAN', '可添加应用权限') }}
             </span>
-            <iButton :disabled="selectAddArr.length == 0"
-                     @click="clickadd">{{
+            <iButton :disabled="selectAddArr.length == 0" @click="clickadd">{{
               language('TIANJIA', '添加')
             }}</iButton>
           </div>
-          <tableList style="margin-top: 30px"
-                     :tableData="tabledataAdd"
-                     @handleSelectionChange="handleSelectionChangeAdd"
-                     :tableTitle="CloumAdd"
-                     :tableLoading="tableLoadingAdd"
-                     :index="true">
+          <tableList
+            style="margin-top: 30px"
+            :tableData="tabledataAdd"
+            @handleSelectionChange="handleSelectionChangeAdd"
+            :tableTitle="CloumAdd"
+            :tableLoading="tableLoadingAdd"
+            :index="true"
+          >
             <template #systemType="scope">
               {{ scope.row.systemType == 1 ? '系统' : 'SCENARIO' }}
             </template>
@@ -69,17 +78,21 @@
             <span class="ptext">
               {{ language('YIYOUYINGYONGQUANXIAN', '已有应用权限') }}
             </span>
-            <iButton :disabled="selectDelArr.length == 0"
-                     @click="clickDel">{{
+            <iButton :disabled="selectDelArr.length == 0" @click="clickDel">{{
               language('SHANCHU', '删除')
             }}</iButton>
           </div>
-          <tableList style="margin-top: 30px"
-                     :tableData="tabledataDel"
-                     @handleSelectionChange="handleSelectionChangeDel"
-                     :tableTitle="CloumDel"
-                     :tableLoading="tableLoadingDel"
-                     :index="true">
+          <tableList
+            style="margin-top: 30px"
+            :tableData="tabledataDel"
+            @handleSelectionChange="handleSelectionChangeDel"
+            :tableTitle="CloumDel"
+            :tableLoading="tableLoadingDel"
+            :index="true"
+          >
+          <template #systemType="scope">
+              {{ scope.row.systemType == 1 ? '系统' : 'SCENARIO' }}
+            </template>
           </tableList>
         </div>
       </div>
@@ -150,16 +163,16 @@ export default {
     this.getAddList()
   },
   methods: {
-      //需求来的太快，来不及重构
+    //需求来的太快，来不及重构
     getAddList() {
       this.tableLoadingAdd = true
-     let userId= this.tabledata.find(v=>{
-          if(v.isDefault){
-              return v.id
-          }
+      let userId = this.tabledata.find((v) => {
+        if (v.isDefault) {
+          return v.id
+        }
       }).id
-    console.log(userId)
-    //供应商用户进入时的数据
+      console.log(userId)
+      //供应商用户进入时的数据
       if (this.userType == 2 && this.isMainContact) {
         const params1 = {
           current: 1,
@@ -188,8 +201,10 @@ export default {
             })
           } else iMessage.error(res.desZh)
         })
-      } else {//内部用户进入时
-        if (this.rowList.isDefault) {//内部主用户
+      } else {
+        //内部用户进入时
+        if (this.rowList.isDefault) {
+          //内部主用户
           const req = {
             supplierType: this.supplierType,
             ...this.form,
@@ -218,9 +233,10 @@ export default {
               })
             } else iMessage.error(res.desZh)
           })
-        } else {//内部子用户
+        } else {
+          //内部子用户
           const req = {
-           supplierUserId: userId,
+            supplierUserId: userId,
             ...this.form,
             current: 1,
             size: 9999

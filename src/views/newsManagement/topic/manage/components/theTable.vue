@@ -217,6 +217,7 @@ export default {
             .then((res) => {
               if (res.code === 200) {
                 this.$message.success("下架成功！");
+                this.$emit("flushTable");
               }
             })
             .catch((err) => {

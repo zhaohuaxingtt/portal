@@ -8,16 +8,19 @@
 -->
 <template>
   <div class="height100">
-    <navigation-bar @changeCurrent="changeCurrent"
-                    :current="current"
-                    :list="supplierTabList"
-                    class="margin-bottom20" />
+    <navigation-bar
+      @changeCurrent="changeCurrent"
+      :current="current"
+      :list="supplierTabList"
+      class="margin-bottom20"
+    />
     <div class="height100 mainContent pb">
-      <div v-for="item of supplierTabList"
-           :key="item.current">
-        <component v-if="current == item.current"
-                   :is="item.component"
-                   :ref="item.ref" />
+      <div v-for="item of supplierTabList" :key="item.current">
+        <component
+          v-if="current == item.current"
+          :is="item.component"
+          :ref="item.ref"
+        />
       </div>
     </div>
   </div>

@@ -135,12 +135,14 @@
         </iTabsList>
         <tabs1
                :searchFormList="seachWather"
+               :mtzDocId="mtzDocId"
                :dataObject="detailObj"
                v-if="tabsValue == 1 && btnShow1"
                @componentHidden="btnHidden1"
                v-on:closeDiolog1="closeDiolog"></tabs1>
         <tabs2
                :searchFormList="seachWather"
+               :mtzDocId="mtzDocId"
                :dataObject="detailObj"
                v-show="tabsValue == 2 && btnShow2"
                @componentHidden="btnHidden2"
@@ -148,6 +150,7 @@
         <tabs3
                :searchFormList="seachWather"
                :dataObject="detailObj"
+               :mtzDocId="mtzDocId"
                v-show="tabsValue == 3 && btnShow3"
                @componentHidden="btnHidden3"
                v-on:closeDiolog3="closeDiolog"></tabs3>
@@ -322,14 +325,14 @@ export default {
         }
       }
     },
-    btnHidden1(){
-      this.btnShow1 = false;
+    btnHidden1(val){
+      this.btnShow1 = val;
     },
-    btnHidden2(){
-      this.btnShow2 = false;
+    btnHidden2(val){
+      this.btnShow2 = val;
     },
-    btnHidden3(){
-      this.btnShow3 = false;
+    btnHidden3(val){
+      this.btnShow3 = val;
     },
     closeDiolog(){
       this.$emit('dialogShowFun', '');

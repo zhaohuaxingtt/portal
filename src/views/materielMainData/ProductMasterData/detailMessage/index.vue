@@ -1,18 +1,18 @@
 <template>
   <iPage>
     <div class="title">
-      <pageHeader v-if="this.$route.query.id">{{this.formContent.code}} {{this.formContent.pgNameZh}}</pageHeader>
-      <pageHeader v-else>{{pageTitle}}</pageHeader>
+      <pageHeader v-if="this.$route.query.id">{{this.formContent.code}} {{language(formContent.pgNameZh) }}</pageHeader>
+      <pageHeader v-else>{{language(pageTitle)}}</pageHeader>
     </div>
     <div class="content">
-      <iCard title="基础信息"  collapse>
+      <iCard :title="language('基础信息')"  collapse>
         <div slot="header-control">
           <div v-if='editSta'>
-            <iButton @click="edit">{{btnTitle.edit}}</iButton>
+            <iButton @click="edit">{{language('编辑')}}</iButton>
           </div>
           <div v-else>
-            <iButton @click="save('ruleForm')">{{btnTitle.save}}</iButton>
-            <iButton @click="cancel">{{btnTitle.cancel}}</iButton>
+            <iButton @click="save('ruleForm')">{{language('保存')}}</iButton>
+            <iButton @click="cancel">{{language('取消')}}</iButton>
           </div>
         </div>
         <div class="foemItem">
@@ -26,48 +26,48 @@
           >
             <el-row gutter='24'>
               <el-col :span='6'>
-                <iFormItem :label='labelTitle.productNum' prop='code'>
-                  <iInput :placeholder='placeholderText' :disabled='readOnly || this.$route.query.id' v-model="formContent.code"></iInput>
+                <iFormItem :label='language("产品组编号")' prop='code'>
+                  <iInput :placeholder='language("请输入")' :disabled='readOnly || this.$route.query.id' v-model="formContent.code"></iInput>
                 </iFormItem>
               </el-col>
               <el-col :span='6'>
-                <iFormItem :label="labelTitle.productCh" prop='pgNameZh'>
-                  <iInput :placeholder='placeholderText' :disabled='readOnly' v-model="formContent.pgNameZh"></iInput>
+                <iFormItem :label="language('产品组名称(中)')" prop='pgNameZh'>
+                  <iInput :placeholder='language("请输入")' :disabled='readOnly' v-model="formContent.pgNameZh"></iInput>
                 </iFormItem>
               </el-col>
               <el-col :span='6'>
-                <iFormItem :label='labelTitle.productDe' prop='pgNameDe'>
-                  <iInput :placeholder='placeholderText' :disabled='readOnly' v-model="formContent.pgNameDe"></iInput>
+                <iFormItem :label='language("产品组名称(德)")' prop='pgNameDe'>
+                  <iInput :placeholder='language("请输入")' :disabled='readOnly' v-model="formContent.pgNameDe"></iInput>
                 </iFormItem>
               </el-col>
               <el-col :span='6'>
-                <iFormItem :label='labelTitle.releaseDate' prop='releaseNomiWeek'>
-                  <iInput :placeholder='placeholderText' :disabled='readOnly' v-model.number="formContent.releaseNomiWeek"></iInput>
+                <iFormItem :label='language("释放--定点日期的周数")' prop='releaseNomiWeek'>
+                  <iInput :placeholder='language("请输入")' :disabled='readOnly' v-model.number="formContent.releaseNomiWeek"></iInput>
                 </iFormItem>
               </el-col>
             </el-row>
             <el-row gutter='24'>
               <el-col :span='6'>
-                <iFormItem :label='labelTitle.BFDate' prop='nomiToBffWeek'>
-                  <iInput :placeholder='placeholderText' :disabled='readOnly' v-model.number="formContent.nomiToBffWeek"></iInput>
+                <iFormItem :label='language("定点--BF的周数")' prop='nomiToBffWeek'>
+                  <iInput :placeholder='language("请输入")' :disabled='readOnly' v-model.number="formContent.nomiToBffWeek"></iInput>
                 </iFormItem>
               </el-col>
               <el-col :span='6'>
                 <iFormItem :label='labelTitle.BFtryoutDate' prop='bfFirstTryoutWeek'>
                 <span slot="label" v-html="labelTitle.BFtryoutDate"></span>
-                  <iInput :placeholder='placeholderText' :disabled='readOnly'  v-model.number="formContent.bfFirstTryoutWeek"></iInput>
+                  <iInput :placeholder='language("请输入")' :disabled='readOnly'  v-model.number="formContent.bfFirstTryoutWeek"></iInput>
                 </iFormItem>
               </el-col>
               <el-col :span='6'>
                 <iFormItem :label='labelTitle.tryoutOTS' prop='firstTryOtsWeek'>
                 <span slot="label" v-html="labelTitle.tryoutOTS"></span>
-                  <iInput :placeholder='placeholderText' :disabled='readOnly' v-model.number="formContent.firstTryOtsWeek"></iInput>
+                  <iInput :placeholder='language("请输入")' :disabled='readOnly' v-model.number="formContent.firstTryOtsWeek"></iInput>
                 </iFormItem>
               </el-col>
               <el-col :span='6'>
                 <iFormItem :label='labelTitle.tryoutEM' prop='firstTryEmWeek'>
                 <span slot="label" v-html="labelTitle.tryoutEM"></span>
-                  <iInput :placeholder='placeholderText' :disabled='readOnly' v-model.number="formContent.firstTryEmWeek"></iInput>
+                  <iInput :placeholder='language("请输入")' :disabled='readOnly' v-model.number="formContent.firstTryEmWeek"></iInput>
                 </iFormItem>
               </el-col>
             </el-row>
@@ -77,8 +77,8 @@
         <div class="tabelList" v-if='showList'>
           <el-divider></el-divider>
           <div class="tabelBtn">
-            <iButton @click="add">{{btnTitle.add}}</iButton>
-            <iButton @click="del" :disabled='selectedItem.length == 0'>{{btnTitle.del}}</iButton>
+            <iButton @click="add">{{language('新增')}}</iButton>
+            <iButton @click="del" :disabled='selectedItem.length == 0'>{{language('删除')}}</iButton>
           </div>
           <div class="tabelConten">
             <iTableCustom
@@ -175,13 +175,13 @@ export default {
         firstTryOtsWeek:'',
         firstTryEmWeek:''
       },
-      btnTitle:{
-        edit:'编辑',
-        save:'保存',
-        cancel:'取消',
-        add:'新增',
-        del:'删除'
-      },
+      // btnTitle:{
+      //   edit:'编辑',
+      //   save:'保存',
+      //   cancel:'取消',
+      //   add:'新增',
+      //   del:'删除'
+      // },
       placeholderText:'请输入',
       rules:{
         code:[{required:true,message: '请输入产品组编号', trigger: 'blur'}],

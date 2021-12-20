@@ -1,13 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-27 19:18:05
- * @LastEditTime: 2021-11-17 15:19:40
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-12-16 11:25:54
+ * @LastEditors: caopeng
  * @Description: In User Settings Edit
- * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\index.vue
+ * @FilePath: \front-portal-new\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationChange\MTZapplicationForm\preview.vue
 -->
 <template>
-  <iPage>
+  <div :class="ifSelf?'page':''">
     <iCard class="margin-bottom20">
       <el-form :inline="true"
                ref="baseInfoForm"
@@ -94,7 +94,7 @@
       </el-tab-pane>
     </iTabsList>
 
-  </iPage>
+  </div>
 </template>
 
 <script>
@@ -119,7 +119,9 @@ export default {
         appName: "",
         appStatus: "",
         appType: ""
-      }
+      },
+      ifSelf:true
+
     }
   },
   mixins: [pageMixins],
@@ -130,8 +132,19 @@ export default {
     iPagination,
     iTableCustom
   },
+
   created () {
     this.init()
+     if (window.top === window.self) {
+      this.ifSelf = true
+    } else {
+      this.ifSelf = false
+    }
+  },
+    updated () {
+    var tbody = window.document.getElementById('appRouterView')
+    var height = tbody.clientHeight
+    window.parent.postMessage({ key: 'setFormHeight', value: height + 'px' }, '*')
   },
   methods: {
     init () {
@@ -202,6 +215,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page {
+  padding: 30px 40px 30px 40px;
+
+}
 .header {
   justify-content: space-between;
   margin-bottom: 20px;

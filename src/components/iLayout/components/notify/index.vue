@@ -61,7 +61,7 @@ export default {
           const d = data.publishTime.slice(8,10)
           const h = data.publishTime.slice(11,13)
           const m = data.publishTime.slice(14,16)
-          let time = `${y}年   ${M}月${d}日${h}时${m}分`
+          let time = `${y}年${M}月${d}日 ${h}时${m}分`
           this.detail = {
             title: data.popupName,
             content: data.content,

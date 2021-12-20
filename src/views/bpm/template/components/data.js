@@ -33,7 +33,7 @@ export const tableColumns = [
     emit: 'go-detail'
   },
   {
-    prop: 'createBy',
+    prop: 'createUser',
     label: '创建者',
     i18n: 'APPROVAL.CREATE_BY',
     tooltip: false
@@ -214,7 +214,7 @@ export const formUrlColumns = [
     tooltip: false,
     emit: 'handle-select-url',
     width: '70',
-    customRender: h => {
+    customRender: (h) => {
       return <span class="open-link-text">选择</span>
     }
   }

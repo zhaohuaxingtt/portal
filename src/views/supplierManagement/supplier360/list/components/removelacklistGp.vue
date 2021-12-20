@@ -3,26 +3,23 @@
  * @Date: 2021-010-21
 -->
 <template>
-  <iDialog
-    @close="closeDiolog()"
+  <iDialog @close="closeDiolog()"
            :title="'移除⿊名单 - 一般采购 -'+ clickTableList.nameZh"
-    :visible.sync="value"
-    width="85%"
-  >
+           :visible.sync="value"
+           top="2%"
+           width="85%">
     <div class="box">
       <div class="header">
         <i-button @click="handleRemove">{{
           language('YICHU', '移除')
         }}</i-button>
       </div>
-      <table-list
-        style="margin-top:20px"
-        :tableData="tableListData"
-        :tableTitle="tableTitleGp"
-        :tableLoading="tableLoading"
-        @handleSelectionChange="handleSelectionChange"
-        :index="true"
-      >
+      <table-list style="margin-top:20px"
+                  :tableData="tableListData"
+                  :tableTitle="tableTitleGp"
+                  :tableLoading="tableLoading"
+                  @handleSelectionChange="handleSelectionChange"
+                  :index="true">
       </table-list>
     </div>
   </iDialog>
@@ -63,7 +60,7 @@ export default {
   },
   created() {
     // this.$nextTick(() => {
-      this.getList()
+    this.getList()
     // })
   },
   methods: {
@@ -72,7 +69,7 @@ export default {
       const params = {
         supplierId: this.clickTableList.subSupplierId
       }
-      gpSupplierBlackList(params).then(res => {
+      gpSupplierBlackList(params).then((res) => {
         if (res && res.code == 200) {
           this.tableLoading = false
           this.tableListData = res.data
@@ -81,7 +78,7 @@ export default {
     },
     //移除
     handleRemove() {
-      let ids = this.selectTableData.map(x => {
+      let ids = this.selectTableData.map((x) => {
         return x.id
       })
       const params = {
@@ -91,12 +88,12 @@ export default {
         this.$message({
           type: 'warning',
           message: this.language(
-            'QINGXUANZEXUYAOYICHUDESHOUKONGYEWULEIXING!',
+            'QINGXUANZEXUYAOYICHUDESHOUKONGYEWULEIXING',
             '请选择需要移除的受控业务类型！'
           )
         })
       } else {
-                  this.value = false
+        this.value = false
         iMessageBox(
           this.language('SHIFOUQUERENYICHUHEIMINGDAN?', '是否确认移除黑名单'),
           this.language('TIJIAO', '提交'),
@@ -106,15 +103,15 @@ export default {
           }
         )
           .then(async () => {
-            gpSupplierBlackRemove(params).then(res => {
+            gpSupplierBlackRemove(params).then((res) => {
               if (res && res.code == 200) {
                 iMessage.success(res.desZh)
-                  this.$emit('closeDiolog',1)
+                this.$emit('closeDiolog', 1)
               } else iMessage.error(res.desZh)
             })
           })
           .catch(() => {
-                this.value = true
+            this.value = true
           })
       }
     },

@@ -2,12 +2,12 @@
   <iCard title=" " collapse style="margin-top:20px">
       <div class="btnList" slot="header-control">
           <div v-if="editSta">
-              <iButton @click='edit'>{{$t('编辑')}}</iButton>
+              <iButton @click='edit'>{{language('编辑')}}</iButton>
           </div>
           <div v-else>
-              <iButton @click="addNewItem">{{$t('新增')}}</iButton>
-              <iButton @click="del" :disabled='this.selectedItems.length == 0'>{{$t('删除')}}</iButton>
-              <iButton @click="save">{{$t('保存')}}</iButton>
+              <iButton @click="addNewItem">{{language('新增')}}</iButton>
+              <iButton @click="del" :disabled='this.selectedItems.length == 0'>{{language('删除')}}</iButton>
+              <iButton @click="save">{{language('保存')}}</iButton>
           </div>
       </div>
       <div class="listTabel">
@@ -118,7 +118,7 @@ export default {
             })
         },
         handleSelectionChange(val){
-            
+            console.log(val,'=====');
             this.selectedItems = val
             // if(val.type == 0){
 

@@ -7,49 +7,35 @@
           <i-search @sure="sure" @reset="reset">
             <el-form>
               <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_CODE')"
+                :label="language('组织机构编码')"
                 class="SearchOption"
               >
                 <i-input
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请输入')"
                   class=""
                   v-model="formData.fullCode"
                 ></i-input>
               </el-form-item>
-              <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_OWNER')"
-                class="SearchOption"
-              >
+              <el-form-item :label="language('负责人')" class="SearchOption">
                 <i-input
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请输入')"
                   class=""
                   v-model="formData.leaderName"
                 ></i-input>
               </el-form-item>
               <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_NAME')"
+                :label="language('组织机构名')"
                 class="SearchOption"
               >
                 <i-input
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请输入')"
                   class=""
                   v-model="formData.nameZh"
                 ></i-input>
               </el-form-item>
-              <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_IS_SHOW')"
-                class="SearchOption"
-              >
+              <el-form-item :label="language('是否显示')" class="SearchOption">
                 <i-select
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请选择')"
                   v-model="formData.isVisible"
                 >
                   <el-option
@@ -62,15 +48,11 @@
                 </i-select>
               </el-form-item>
               <el-form-item
-                :label="
-                  $t('ORGANIZATION_MANAGERMENT.ORG_LIST.ORG_IS_COMMODITY')
-                "
+                :label="language('是否为Commodity')"
                 class="SearchOption"
               >
                 <i-select
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请选择')"
                   v-model="formData.isCommodity"
                 >
                   <el-option
@@ -83,13 +65,11 @@
                 </i-select>
               </el-form-item>
               <el-form-item
-                :label="$t('ORGANIZATION_MANAGERMENT.ORG_LIST.IS_SYNC_SVCD')"
+                :label="language('是否同步svcd')"
                 class="LastSearchOption"
               >
                 <i-select
-                  :placeholder="
-                    $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                  "
+                  :placeholder="language('请选择')"
                   v-model="formData.syncStatus"
                 >
                   <el-option
@@ -111,27 +91,19 @@
               <iButton
                 @click="enterCreateOrgPage"
                 :disabled="this.selectedTableData.length > 1"
-                >{{
-                  $t('ORGANIZATION_MANAGERMENT.ORG_LIST.CREATE_ORG_BTN')
-                }}</iButton
+                >{{ language('新建组织机构') }}</iButton
               >
               <iButton
                 @click="edit"
                 :disabled="this.selectedTableData.length !== 1"
-                >{{
-                  $t('ORGANIZATION_MANAGERMENT.ORG_LIST.EDIT_ORG_BTN')
-                }}</iButton
+                >{{ language('编辑') }}</iButton
               >
               <iButton
                 @click="deleteItem"
                 :disabled="!(this.selectedTableData.length > 0)"
-                >{{
-                  $t('ORGANIZATION_MANAGERMENT.ORG_LIST.DELETE_ORG_BTN')
-                }}</iButton
+                >{{ language('删除') }}</iButton
               >
-              <iButton @click="exportList">{{
-                $t('ORGANIZATION_MANAGERMENT.ORG_LIST.EXPORT_ORG_BTN')
-              }}</iButton>
+              <iButton @click="exportList">{{ language('导出') }}</iButton>
             </div>
             <div class="OrganizationTable" v-loading="tableLoading">
               <iTableCustom
@@ -139,20 +111,12 @@
                 :data="tableListData"
                 :columns="tableSetting"
                 :tree-expand="exData"
+                height="450"
+                :custom-selection="true"
+                virtual-list
+                :custom-selection-option="{ checkStrictly: true }"
                 @handle-selection-change="handleSelectionChange"
               />
-              <!-- 分页标签 -->
-              <!-- <iPagination
-                v-update
-                background
-                @size-change="handleSizeChange($event, getTableList)"
-                @current-change="handleCurrentChange($event, getTableList)"
-                :current-page="page.currPage"
-                :page-sizes="page.pageSizes"
-                :page-size="page.pageSize"
-                :layout="page.layout"
-              >
-              </iPagination> -->
             </div>
           </iCard>
         </div>
@@ -162,29 +126,18 @@
 </template>
 
 <script>
-// import SearchBar from './components/SearchView/SearchBar'
-import {
-  iSearch,
-  iInput,
-  iSelect,
-  iPage,
-  iCard,
-  iButton
-
-  // iPagination,
-} from 'rise'
+import { iSearch, iInput, iSelect, iPage, iCard, iButton } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { tableSetting, exportTableSetting } from './data.js'
 import { pageMixins } from '@/utils/pageMixins'
-import {openUrl} from '@/utils'
+import { openUrl } from '@/utils'
 import {
   getOrganizationList,
   deleteOrganization,
   exportOrganization
 } from '@/api/organization/index.js'
 import { filterEmptyValue, treeToArray } from '@/utils'
-// import searchSelector from './components/searchSelector'
-// import searchInput from './components/searchInput';
+
 export default {
   mixins: [pageMixins],
   components: {
@@ -267,45 +220,46 @@ export default {
     },
     reset() {
       this.formData = {
-        orCode: '',
-        name: '',
-        orName: '',
-        show: '',
-        commodity: '',
-        svcd: ''
+        fullCode: '',
+        leaderName: '',
+        nameZh: '',
+        isVisible: '',
+        isCommodity: '',
+        syncStatus: ''
       }
-      this.tableListData = _.cloneDeep(this.alltableListData)
+      this.sendQuest()
+      // this.tableListData = _.cloneDeep(this.alltableListData)
       // this.sendQuest()
       // this.tableListData = this.alltableListData
     },
     //发送请求得到表格数据
     sendQuest() {
-      console.log('sendQuest')
       //获取表格数据
       const data = {
-        fullCode: this.formData.orCode,
-        leadUserId: this.formData.orName,
-        svcdCode: this.formData.svcd,
-        isVisible: this.formData.show,
-        isCommodity: this.formData.commodity,
-        //组织机构名称
-        orName: this.formData.orName
+        fullCode: this.formData.fullCode,
+        leaderName: this.formData.leaderName,
+        nameZh: this.formData.nameZh,
+        isVisible: this.formData.isVisible,
+        isCommodity: this.formData.isCommodity,
+        syncStatus: this.formData.syncStatus,
+        queryTree: Object.keys(filterEmptyValue(this.formData)).length === 0
       }
       //得到数据
+
       this.tableLoading = true
       getOrganizationList(null, data)
-        .then(value => {
+        .then((value) => {
           this.tableLoading = false
           if (value.code == 200) {
             this.alltableListData = _.cloneDeep(value.data)
             this.tableListData = value.data
-            this.flatTableData = treeToArray(
+            /* this.flatTableData = treeToArray(
               this.alltableListData,
               'supDeptList'
-            )
+            ) */
           }
         })
-        .catch(error => {
+        .catch((error) => {
           //错误处理
           this.tableLoading = false
           return console.log(error)
@@ -338,14 +292,14 @@ export default {
             if (action === 'confirm') {
               this.tableLoading = true
               deleteOrganization(null, data)
-                .then(value => {
+                .then((value) => {
                   this.tableLoading = false
                   if (value.code == 200) {
                     this.sendQuest()
                     this.tableListData = value
                   }
                 })
-                .catch(error => {
+                .catch((error) => {
                   this.tableLoading = false
                   console.log('删除错误', error)
                 })
@@ -354,12 +308,13 @@ export default {
               done()
             }
           }
-        }).then(action => {})
+        }).then((action) => {})
       }
     },
     //搜索(模糊查询)
     sure() {
-      const filterData = filterEmptyValue(this.formData)
+      this.sendQuest()
+      /* const filterData = filterEmptyValue(this.formData)
 
       const keys = Object.keys(filterData)
       if (keys.length === 0) {
@@ -373,21 +328,24 @@ export default {
         setTimeout(() => {
           this.tableLoading = false
         }, 500)
-      }
+      } */
     },
     filterTable(keys, filterData) {
       const res = []
-      this.flatTableData.forEach(e => {
+      this.flatTableData.forEach((e) => {
         let isOk = true
-        keys.forEach(key => {
+        keys.forEach((key) => {
           if (key === 'fullCode' && !e.fullCode.includes(filterData.fullCode)) {
             isOk = false
           }
           if (
             key === 'leaderName' &&
             e.userDTOList &&
-            e.userDTOList.filter(user => user.nameZh === filterData.leaderName)
-              .length === 0
+            e.userDTOList.filter((user) =>
+              user.nameZh
+                .toLowerCase()
+                .includes(filterData.leaderName.toLowerCase())
+            ).length === 0
           ) {
             isOk = false
           }
@@ -465,11 +423,7 @@ export default {
     },
     //导出
     exportList() {
-      // if (this.tableListData && this.tableListData.length > 0) {
-      //   //导出文件
-      //   excelExport(this.tableListData, exportTableSetting)
-      // }
-      let param = { ...this.formData }
+      const param = { ...this.formData }
       exportOrganization(param)
     }
   }

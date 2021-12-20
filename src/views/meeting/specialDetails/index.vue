@@ -4,7 +4,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">会议名称</div>
+            <div class="name">{{ $t('会议名称') }}</div>
             <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
@@ -34,13 +34,13 @@
         <div class="row">
           <div class="list">
             <div class="show">
-              <div class="title">会议类型</div>
+              <div class="title">{{ $t('会议类型') }}</div>
               <div class="content">
                 {{ typeObject[meetingInfo.meetingTypeId] }}
               </div>
             </div>
             <div class="show">
-              <div class="title">会议地点</div>
+              <div class="title">{{ $t('会议地点') }}</div>
               <div
                 class="content content-address"
                 :title="meetingInfo.meetingPlace"
@@ -49,15 +49,39 @@
               </div>
             </div>
             <div class="show">
-              <div class="title">会议时间</div>
+              <div class="title">{{ $t('会议时间') }}</div>
               <div class="content">
-                {{ `${begin}${end.includes(':') ? end : ''}` }}
+                {{
+                  `${begin}${
+                    end
+                      ? end.includes(':')
+                        ? Number(
+                            meetingInfo.themens[meetingInfo.themens.length - 1]
+                              .plusDayEndTime
+                          ) > 0
+                          ? end +
+                            ` +${Number(
+                              meetingInfo.themens[
+                                meetingInfo.themens.length - 1
+                              ].plusDayEndTime
+                            )}`
+                          : end
+                        : handleEndTime(meetingInfo)
+                      : handleEndTime(meetingInfo)
+                  }`
+                }}
               </div>
             </div>
           </div>
         </div>
       </div>
       <iCard>
+        <iButton
+          @click="handleClickColumn"
+          class="display-column"
+          :disabled="showUpdateTopicButtonList"
+          >{{ $t('列隐藏/显示') }}</iButton
+        >
         <actionButtons
           :currentButtonList="tableButtonList"
           :showUpdateTopicButtonList="showUpdateTopicButtonList"
@@ -99,35 +123,34 @@
             v-if="!showUpdateTopicButtonList"
             :rowClassName="tableRowClassName"
             :currentRow="currentRow"
-            :isSingle="isSingle"
+            :isSingle="true"
+            ref="hiddenColumnTable"
           >
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               type="selection"
               align="center"
-              min-width="20"
-              width="20"
+              min-width="40"
             ></el-table-column>
-            <el-table-column align="center" width="10"></el-table-column>
-            <el-table-column align="center" label="#" width="16">
+            <!-- <el-table-column align="center" width="10"></el-table-column> -->
+            <el-table-column align="center" label="#" width="23">
               <template slot-scope="scope">
                 <span style="span-index">{{ scope.$index + 1 }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="24"></el-table-column>
+            <!-- <el-table-column align="center" width="4"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Time"
-              min-width="84"
+              min-width="136"
+              prop="time"
+              sortable
             >
               <template slot-scope="scope">
-                <span class="open-link-text">{{
-                  scope.row.time.split('~').join('-')
-                }}</span>
+                <span class="open-link-text">{{ scope.row.time }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
             <!-- <el-table-column
               show-overflow-tooltip
               align="center"
@@ -146,7 +169,7 @@
               show-overflow-tooltip
               align="center"
               label="Present Items"
-              min-width="191"
+              min-width="198"
             >
               <template slot-scope="scope">
                 <span
@@ -156,7 +179,7 @@
                 >
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="15"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -166,74 +189,98 @@
             >
               <template slot-scope="scope">
                 {{
-                  scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type
+                  scope.row.isBreak
+                    ? '-'
+                    : scope.row.type === 'MANUAL'
+                    ? $t('手工议题')
+                    : scope.row.type
                 }}
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="15"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="State"
-              min-width="60"
+              min-width="75"
             >
               <template slot-scope="scope">
                 {{ stateObj[scope.row.state] }}
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="15"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Result"
-              min-width="44"
+              min-width="59"
             >
               <template slot-scope="scope">
-                <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
+                <span>{{
+                  scope.row.isBreak
+                    ? '-'
+                    : themenConclusion[scope.row.conclusionCsc]
+                }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="15"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="EP"
-              min-width="19"
+              min-width="65"
               prop="ep"
+              sortable
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '-' : scope.row.ep }}</span>
+              </template>
             </el-table-column>
-            <el-table-column align="center" width="31"></el-table-column>
+            <!-- <el-table-column align="center" width="16"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Sourcing"
-              min-width="61"
+              min-width="115"
               prop="supporter"
+              sortable
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '-' : scope.row.supporter }}</span>
+              </template>
             </el-table-column>
-            <el-table-column align="center" width="24"></el-table-column>
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Linie"
-              min-width="48"
+              min-width="82"
               prop="presenter"
+              sortable
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '-' : scope.row.presenter }}</span>
+              </template>
             </el-table-column>
-            <el-table-column align="center" width="24"></el-table-column>
+            <!-- <el-table-column align="center" width="14"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Commodity"
-              min-width="79"
+              min-width="90"
               prop="presenterDept"
             >
+              <template slot-scope="scope">
+                <span>{{
+                  scope.row.isBreak ? '-' : scope.row.presenterDept
+                }}</span>
+              </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="20"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Duration"
-              min-width="61"
+              min-width="86"
               prop="duration"
             >
               <template slot-scope="scope">
@@ -249,80 +296,106 @@
                 }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Sourcing No."
-              min-width="89"
+              min-width="119"
               prop="sourcingNo"
+              label-class-name="can-hideen"
             >
+              <template slot-scope="scope">
+                <span>{{
+                  scope.row.isBreak ? '-' : scope.row.sourcingNo
+                }}</span>
+              </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="TNR"
-              min-width="30"
+              min-width="60"
               prop="tnr"
+              label-class-name="can-hideen"
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '-' : scope.row.tnr }}</span>
+              </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="BEN(CN)"
-              width="59"
+              width="89"
               prop="benCn"
+              label-class-name="can-hideen"
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '-' : scope.row.benCn }}</span>
+              </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="BEN(DE)"
-              width="58"
+              width="88"
               prop="benDe"
+              label-class-name="can-hideen"
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '-' : scope.row.benDe }}</span>
+              </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Status"
-              min-width="44"
+              min-width="74"
             >
               <template slot-scope="scope">
-                <span
+                <span v-if="scope.row.isBreak">-</span>
+                <span v-else
                   >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
                     scope.row.preCount ? scope.row.preCount : 0
                   }}</span
                 >
               </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Carline"
-              min-width="49"
+              min-width="62"
               prop="carline"
+              label-class-name="can-hideen"
             >
+              <template slot-scope="scope">
+                <span>{{ scope.row.isBreak ? '-' : scope.row.carline }}</span>
+              </template>
             </el-table-column>
-            <el-table-column align="center" width="30"></el-table-column>
+            <!-- <el-table-column align="center" width="26.5"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="Part Type"
-              min-width="66"
+              min-width="110"
               prop="partType"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
-                <span class="open-link-text">{{ scope.row.remark }}</span>
-                <span v-if="scope.row.isBreak">/</span>
+                <span v-if="scope.row.isBreak">-</span>
+                <span class="open-link-text" v-else>{{
+                  scope.row.partType
+                }}</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" width="26.5"></el-table-column>
+            <!-- <el-table-column align="center" width="30"></el-table-column> -->
           </iTableML>
           <div id="table-drag">
             <iTableML
@@ -335,43 +408,49 @@
               v-if="showUpdateTopicButtonList"
               :rowClassName="tableRowClassName"
             >
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 type="selection"
                 align="center"
-                min-width="20"
-                width="20"
+                min-width="40"
               ></el-table-column>
-              <el-table-column align="center" width="10"></el-table-column>
-              <el-table-column
-                show-overflow-tooltip
-                align="center"
-                label="#"
-                width="20"
-              >
+              <!-- <el-table-column align="center" width="10"></el-table-column> -->
+              <el-table-column align="center" label="#" width="23">
                 <template slot-scope="scope">
                   <span style="span-index">{{ scope.$index + 1 }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="24"></el-table-column>
+              <!-- <el-table-column align="center" width="4"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Time"
-                min-width="84"
+                min-width="136"
+                prop="time"
               >
                 <template slot-scope="scope">
-                  <span class="open-link-text">{{
-                    scope.row.time.split('~').join('-')
-                  }}</span>
+                  <span class="open-link-text">{{ scope.row.time }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="Present Items"
+              min-width="191"
+            >
+              <template slot-scope="scope">
+                <span
+                  class="open-link-text look-themen-click"
+                  @click="lookThemen(scope.row)"
+                  >{{ scope.row.topic }}</span
+                >
+              </template>
+            </el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Present Items"
-                min-width="191"
+                min-width="198"
               >
                 <template slot-scope="scope">
                   <span
@@ -381,161 +460,224 @@
                   >
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="15"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Type"
-                min-width="33"
+                min-width="75"
                 prop="type"
               >
                 <template slot-scope="scope">
                   {{
-                    scope.row.type === 'MANUAL' ? '手工议题' : scope.row.type
+                    scope.row.isBreak
+                      ? '-'
+                      : scope.row.type === 'MANUAL'
+                      ? $t('手工议题')
+                      : scope.row.type
                   }}
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="15"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="State"
-                min-width="42"
+                min-width="75"
               >
                 <template slot-scope="scope">
                   {{ stateObj[scope.row.state] }}
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="15"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Result"
-                min-width="44"
+                min-width="59"
               >
                 <template slot-scope="scope">
-                  <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
+                  <span>{{
+                    scope.row.isBreak
+                      ? '-'
+                      : themenConclusion[scope.row.conclusionCsc]
+                  }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="15"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="EP"
-                min-width="19"
+                min-width="65"
                 prop="ep"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.ep }}</span>
+                </template>
               </el-table-column>
-              <el-table-column align="center" width="31"></el-table-column>
+              <!-- <el-table-column align="center" width="16"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Sourcing"
-                min-width="61"
+                min-width="115"
                 prop="supporter"
               >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.isBreak ? '-' : scope.row.supporter
+                  }}</span>
+                </template>
               </el-table-column>
-              <el-table-column align="center" width="24"></el-table-column>
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Linie"
-                min-width="48"
+                min-width="82"
                 prop="presenter"
               >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.isBreak ? '-' : scope.row.presenter
+                  }}</span>
+                </template>
               </el-table-column>
-              <el-table-column align="center" width="24"></el-table-column>
+              <!-- <el-table-column align="center" width="14"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Commodity"
-                min-width="79"
+                min-width="90"
                 prop="presenterDept"
               >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.isBreak ? '-' : scope.row.presenterDept
+                  }}</span>
+                </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="20"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Duration"
-                min-width="61"
+                min-width="86"
                 prop="duration"
               >
+                <template slot-scope="scope">
+                  <div
+                    class="open-link-text open-clink-back-text"
+                    @click="recallTheThemen(scope.row)"
+                    v-if="scope.row.state === '04'"
+                  >
+                    <div class="open-text-text-choice"></div>
+                  </div>
+                  <span class="open-link-text" v-else>{{
+                    scope.row.duration
+                  }}</span>
+                </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Sourcing No."
-                min-width="89"
+                min-width="119"
                 prop="sourcingNo"
+                label-class-name="can-hideen"
               >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.isBreak ? '-' : scope.row.sourcingNo
+                  }}</span>
+                </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="TNR"
-                min-width="30"
+                min-width="60"
                 prop="tnr"
+                label-class-name="can-hideen"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.tnr }}</span>
+                </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="BEN(CN)"
-                width="59"
+                width="89"
                 prop="benCn"
+                label-class-name="can-hideen"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.benCn }}</span>
+                </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="BEN(DE)"
-                width="58"
+                width="88"
                 prop="benDe"
+                label-class-name="can-hideen"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.benDe }}</span>
+                </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Status"
-                min-width="44"
+                min-width="74"
               >
                 <template slot-scope="scope">
-                  <span
+                  <span v-if="scope.row.isBreak">-</span>
+                  <span v-else
                     >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
                       scope.row.preCount ? scope.row.preCount : 0
                     }}</span
                   >
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Carline"
-                min-width="49"
+                min-width="62"
                 prop="carline"
+                label-class-name="can-hideen"
               >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.carline }}</span>
+                </template>
               </el-table-column>
-              <el-table-column align="center" width="30"></el-table-column>
+              <!-- <el-table-column align="center" width="26.5"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="Part Type"
-                min-width="66"
+                min-width="110"
                 prop="partType"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
-                  <span class="open-link-text">{{ scope.row.remark }}</span>
-                  <span v-if="scope.row.isBreak">/</span>
+                  <span v-if="scope.row.isBreak">-</span>
+                  <span class="open-link-text" v-else>{{
+                    scope.row.partType
+                  }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" width="26.5"></el-table-column>
+              <!-- <el-table-column align="center" width="30"></el-table-column> -->
             </iTableML>
           </div>
         </div>
@@ -713,9 +855,14 @@ import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
 import updateMeetingDialog from '../home/components/updateMeetingDialog.vue'
 import newSummaryDialog from './component/newSummaryDialog.vue'
-import { batchRecallMeeting, changeStateMeeting, importThemen } from '@/api/meeting/home'
+import {
+  batchRecallMeeting,
+  changeStateMeeting,
+  importThemen
+} from '@/api/meeting/home'
 import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
-import { download } from '@/utils/downloadUtil'
+// import { download } from '@/utils/downloadUtil'
+import { downloadStaticFile } from '@/utils/downloadStaticFileUtil'
 import enclosure from '@/assets/images/enclosure.svg'
 import newSummaryDialogNew from '@/views/meeting/home/components/newSummaryDialogNew.vue'
 
@@ -748,10 +895,9 @@ export default {
       openError: false,
       errorList: [],
       autoOpenProtectConclusionObj: '',
-      isSingle: false,
-      // closeLoading: false,
       curState: '',
       processUrl: process.env.VUE_APP_POINT,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       buttonList,
       receiverId: '',
       selectedTableData: [],
@@ -818,10 +964,6 @@ export default {
     }
   },
   watch: {
-    isAdmin: {
-      handler() {},
-      immediate: true
-    },
     resThemeData: {
       handler(data) {
         const row = data.find((item) => item.state === '02')
@@ -856,6 +998,24 @@ export default {
   //   }
   // },
   methods: {
+    handleClickColumn() {
+      this.$refs['hiddenColumnTable'].handleOpenColumn()
+    },
+    handleEndTime(row) {
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return '~' + str + ' +1'
+      }
+      return '~' + str
+    },
     //待定
     bePending() {
       this.isOther = true
@@ -1002,10 +1162,10 @@ export default {
     },
     // 下载模版
     downDemo() {
-      download({
+      downloadStaticFile({
         url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
         filename: '议题模版',
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
+        // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
         callback: (e) => {
           if (e) {
             iMessage.success('下载模版成功')
@@ -1089,10 +1249,22 @@ export default {
         this.editOrAdd = 'look'
         this.lookThemenObj = themen
         if (themen.source === '04') {
-          window.open(
-            `${this.processUrl}/designate/decisiondata/mtz?desinateId=${themen.fixedPointApplyId}&isPreview=1`,
-            '_blank'
-          )
+          if (themen.type === 'FS+MTZ') {
+            window.open(
+              `${this.processUrl}/designate/decisiondata/mtz?desinateId=${themen.fixedPointApplyId}&isPreview=1`,
+              '_blank'
+            )
+          } else if (themen.type === 'MTZ') {
+            window.open(
+              `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?meeting=1&currentStep=3&mtzAppId=${themen.fixedPointApplyId}`,
+              '_blank'
+            )
+          } else {
+            window.open(
+              `${this.processUrl}/designate/decisiondata/title?desinateId=${themen.fixedPointApplyId}&isPreview=1`,
+              '_blank'
+            )
+          }
         } else {
           this.openDialog('openAddTopicNewDialog')
         }
@@ -1264,9 +1436,9 @@ export default {
         : [...this.resThemeData]
       this.moveInArray(this.changedArr, sourceIndex, targetIndex)
     },
-    getTableData() {
+    async getTableData() {
       const meetingId = this.$route.query.id
-      this.queryMeetingInfoById(meetingId)
+      return await this.queryMeetingInfoById(meetingId)
     },
     handlePage(data = []) {
       // this.page.totalCount = data.length;
@@ -1280,7 +1452,15 @@ export default {
         const endTime = dayjs(`2020-6-30 ${item.endTime}`).format('HH:mm')
         return {
           ...item,
-          time: `${startTime}~${endTime}`
+          time: `${
+            Number(item.plusDayStartTime) > 0
+              ? startTime + ' +' + Number(item.plusDayStartTime)
+              : startTime
+          }~${
+            Number(item.plusDayEndTime) > 0
+              ? endTime + ' +' + Number(item.plusDayEndTime)
+              : endTime
+          }`
         }
       })
     },
@@ -1308,7 +1488,7 @@ export default {
           if (isCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
-                { title: "撤回", methodName: "recall", disabled: true},
+                { title: '撤回', methodName: 'recall', disabled: true },
                 { title: '锁定', methodName: 'lock' },
                 { title: '开始', methodName: 'start' },
                 { title: '修改', methodName: 'edit' },
@@ -1320,7 +1500,7 @@ export default {
           if (isPreCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
-                { title: "撤回", methodName: "recall", disabled: true},
+                { title: '撤回', methodName: 'recall', disabled: true },
                 { title: '锁定', methodName: 'lock' },
                 { title: '开始', methodName: 'start' },
                 { title: '修改', methodName: 'edit' },
@@ -1355,25 +1535,20 @@ export default {
           break
       }
     },
-    queryMeetingInfoById(id) {
+    async queryMeetingInfoById(id) {
       const data = {
         id
       }
       const _this = this
-      findThemenById(data)
-        .then((res) => {
-          this.meetingType = res.state
-          _this.meetingInfo = res
-          // console.log(res);
-          _this.goState(res.state, res.isCSC, res.isPreCSC)
-          _this.resThemeData = [...res.themens]
-          _this.handlePage(res.themens)
-          _this.generateTime()
-        })
-        .catch((err) => {
-          // console.log("this.meetingInfo", this.meetingInfo);
-          console.log(err)
-        })
+      const res = await findThemenById(data)
+      this.meetingType = res.state
+      _this.meetingInfo = res
+      // console.log(res);
+      _this.goState(res.state, res.isCSC, res.isPreCSC)
+      _this.resThemeData = [...res.themens]
+      _this.handlePage(res.themens)
+      _this.generateTime()
+      return res
     },
     query() {
       const _this = this
@@ -1592,14 +1767,18 @@ export default {
       const bol = this.isOverTime(choiceThemen)
       if (bol) {
         endThemen(param)
-          .then(() => {
-            iMessage.success('结束议题成功!')
-            if (!choiceThemen.isBreak) {
-              this.autoOpenProtectConclusionObj = choiceThemen
-            }
-            this.flushTable()
-            if (!choiceThemen.isBreak) {
-              this.openDialog('openProtectConclusion')
+          .then((info) => {
+            if (info.code === 200) {
+              iMessage.success('结束议题成功!')
+              this.flushTable().then((res) => {
+                if (!choiceThemen.isBreak) {
+                  let obj = res.themens.find((item) => {
+                    return item.id === choiceThemen.id
+                  })
+                  this.autoOpenProtectConclusionObj = obj
+                  this.openDialog('openProtectConclusion')
+                }
+              })
             }
           })
           .catch(() => {
@@ -1657,7 +1836,7 @@ export default {
         })
       // });
     },
-    recall(){
+    recall() {
       let ids = []
       ids.push(this.$route.query.id)
       this.$confirm('是否撤回该会议 ？', '提示', {
@@ -1665,7 +1844,7 @@ export default {
         cancelButtonText: '否',
         type: 'warning'
       }).then(() => {
-        batchRecallMeeting( {ids} ).then((res) => {
+        batchRecallMeeting({ ids }).then((res) => {
           if (res.code == 200) {
             this.$message.success('撤回成功!')
             this.$router.go(-1)
@@ -1936,9 +2115,9 @@ export default {
       this.openDialog('openUpdate')
     },
     //刷新表格
-    flushTable() {
+    async flushTable() {
       this.page.currPage = 1
-      this.getTableData()
+      return await this.getTableData()
     },
     closeDetailDialog(bol) {
       this.openDetailDialog = bol
@@ -2127,24 +2306,32 @@ export default {
     // },
     // 表格选中值集
     handleSelectionChange(val) {
-      if (this.curState === '05') {
-        val = [val[val.length - 1]]
-        this.currentRow = val[0]
+      this.goState(
+        this.meetingInfo.state,
+        this.meetingInfo.isCSC,
+        this.meetingInfo.isPreCSC
+      )
+      val = [val[val.length - 1]]
+      // if (this.curState === '05') {
+      //   val = [val[val.length - 1]]
+      //   this.currentRow = val[0]
 
-        this.isSingle = true
-      } else {
-        this.isSingle = false
-      }
+      //   this.isSingle = true
+      // } else {
+      //   this.isSingle = false
+      // }
       if (!val[0]) {
         return
       }
+      this.currentRow = val[0]
       this.selectedTableData = val
-      const handleDisabledButtonName = this.handleDisabledButtonName
+      let handleDisabledButtonName = this.handleDisabledButtonName
       if (val.length === 1) {
         if (this.haveThemenIsStarting()) {
           this.handleButtonDisabled(['overTopic'], false)
         }
         if (val[0].state === '03') {
+          this.handleButtonDisabled(['overTopic'], true)
           if (!val[0].isBreak) {
             this.handleButtonDisabled(['protectResult'], false)
             // if (!val[0].conclusionCsc || val[0].conclusionCsc === '01') {
@@ -2191,8 +2378,21 @@ export default {
               // !this.meetingInfo.isCSC &&
               val[0].type === 'MANUAL'
             ) {
+              // this.handleButtonDisabled(
+              //   ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
+              //   false
+              // )
               this.handleButtonDisabled(
-                ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
+                [
+                  'bePending',
+                  'fixedPoint',
+                  'nextPreCSC',
+                  'senLol',
+                  'translateTer',
+                  'closeResult',
+                  // 'translateCSC'
+                  // "lookResult",
+                ],
                 false
               )
             }
@@ -2202,8 +2402,21 @@ export default {
               // !this.meetingInfo.isPreCSC &&
               val[0].type === 'MANUAL'
             ) {
+              // this.handleButtonDisabled(
+              //   ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
+              //   false
+              // )
               this.handleButtonDisabled(
-                ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
+                [
+                  'bePending',
+                  'fixedPoint',
+                  'nextPreCSC',
+                  'senLol',
+                  'translateTer',
+                  'closeResult',
+                  'translateCSC'
+                  // "lookResult",
+                ],
                 false
               )
             }
@@ -2243,6 +2456,8 @@ export default {
           this.handleButtonDisabled(['protectResult'], true)
           this.handleButtonDisabled(['overTopic'], false)
         } else {
+          this.handleButtonDisabled(['overTopic'], true)
+          // console.log("")
           if (val[0].isBreak) {
             this.handleButtonDisabled(['deleteTopAll'], false)
             if (
@@ -2319,10 +2534,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.display-column {
+  transform: translateY(90px);
+}
 /* .table-container {
   max-height: 514px;
   overflow-y: auto;
 } */
+::v-deep th.is-sortable {
+  transform: translateY(2px);
+}
+::v-deep .caret-wrapper {
+  width: initial !important;
+}
 .inline {
   display: inline !important;
 }
@@ -2336,7 +2560,7 @@ export default {
   width: 100% !important;
   min-width: initial !important;
   span {
-    display: block;
+    /* display: block; */
     width: 100%;
     text-align: center;
   }

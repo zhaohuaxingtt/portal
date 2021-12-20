@@ -1,9 +1,9 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: caopeng
  * @Description: In User Settings Edit
- * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
+ * @FilePath: \front-portal-new\src\views\generalPage\contactsAndUsers\components\supplierDirectoryTable.vue
 -->
 <template>
   <i-card>
@@ -38,12 +38,16 @@
 </template>
 
 <script>
-import { iCard, iButton, iMessage, iMessageBox } from "rise";
+import { iCard, iButton, iMessage, iMessageBox } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import { supplierDirectoryTableTitle } from './data'
-import { selectContacts, deleteContacts, saveContacts } from "../../../../api/register/contactsAndUsers";
-import { getDictByCode } from "../../../../api/dictionary/index";
+import {
+  selectContacts,
+  deleteContacts,
+  saveContacts
+} from '../../../../api/register/contactsAndUsers'
+import { getDictByCode } from '../../../../api/dictionary/index'
 export default {
   mixins: [generalPageMixins],
   components: {
@@ -51,7 +55,7 @@ export default {
     iButton,
     tableList
   },
-  data () {
+  data() {
     return {
       tableListData: [],
       tableTitle: supplierDirectoryTableTitle,
@@ -59,63 +63,67 @@ export default {
       selectTableData: []
     }
   },
-  async created () {
+  async created() {
     await this.getDictByCode()
     await this.getTableList()
   },
   methods: {
-    async getDictByCode () {
+    async getDictByCode() {
       const res = await getDictByCode('SUPPLIER_CODE_TYPE')
       res.data[0].subDictResultVo.forEach((item) => {
         this.tableListData.push({
-          nameType: item.name
+          nameType: item.name,
+          contactType: item.code
         })
       })
     },
-    async getTableList () {
+    async getTableList() {
       this.tableLoading = true
       const pms = {
-        "step": "register",
+        step: 'register',
         pageNo: 1,
         pageSize: 999
       }
-      //  根据token 
+      //  根据token
       if (this.supplierType > 3) {
         pms.step = 'submit'
       }
       const res = await selectContacts(pms, this.supplierType)
       this.tableLoading = false
-
       let cust = [...this.tableListData]
       res.data.forEach((item, x) => {
         this.tableListData.map((val, index) => {
           if (item.contactType === val.contactType) {
-            cust.splice(index, 1, item)
+            cust[index] = { ...item, ...val }
           }
         })
       })
       this.tableListData = cust
+      console.log(this.tableListData)
     },
-    handleSelectionChange (e) {
+    handleSelectionChange(e) {
       this.selectTableData = e
     },
-    deleteItem (idName, fun) {
+    deleteItem(idName, fun) {
       if (this.selectTableData.length === 0) {
-        return iMessage.warn(this.$t("LK_NINDANGQIANHAIWEIXUANZE"));
+        return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'))
       }
       iMessageBox(
         this.$t('LK_SHIFOUQUERENSHANCHU'),
         this.$t('LK_WENXINTISHI'),
-        { confirmButtonText: this.$t('LK_QUEDING'), cancelButtonText: this.$t('LK_QUXIAO') }
+        {
+          confirmButtonText: this.$t('LK_QUEDING'),
+          cancelButtonText: this.$t('LK_QUXIAO')
+        }
       ).then(async () => {
         this.tableLoading = true
         let ids = []
-        this.selectTableData.map(item => {
+        this.selectTableData.map((item) => {
           if (item.id && item.id !== 'null') {
             ids.push(item.id)
           }
           if (item.id === 'null') {
-            this.tableListData = this.tableListData.filter(val => {
+            this.tableListData = this.tableListData.filter((val) => {
               if (item.contactType !== val.contactType) {
                 return item
               }
@@ -141,11 +149,11 @@ export default {
         this.tableLoading = false
       })
     },
-    async saveInfos (step = '') {
-
+    async saveInfos(step = '') {
       let p = 0
       this.tableListData.map(item => {
-        if (item.contactType === '商务联系人') {
+
+        if (item.nameType === '商务联系人') {
           if (!(item.nameZh && item.telephone && item.email)) {
             iMessage.warn(this.$t('SUPPLIER_SWLXRLXRXMLXRDHBT'))
             p = 1
@@ -156,18 +164,49 @@ export default {
       if (p) {
         return false
       }
+      let v = 0
+      this.tableListData.some((item) => {
+        console.log(Object.keys(item))
+        if (Object.getOwnPropertyNames(item).length > 3) {
+          if (
+            item.nameZh ||
+            item.designation ||
+            item.dept ||
+            item.telephoneAreaCode ||
+            item.telephone ||
+            item.remark ||
+            item.phoneF ||
+            item.email
+          ) {
+            if (!(item.nameZh && item.telephone && item.email)) {
+              iMessage.warn(
+                this.language(
+                  'LIANXIRENDEXINGMINGDIANHUADIANZIYOUJIANBITIAN',
+                  '联系人的姓名，电话，电子邮件必填！'
+                )
+              )
+              v = 1
+              return
+            }
+          }
+        }
+      })
+      if (v) {
+        return false
+      }
+
       return new Promise((resolve, reject) => {
         this.$refs.commonTable.$refs.commonTableForm.validate(async (vaild) => {
           if (vaild) {
             this.tableLoading = true
-            this.tableListData.some(res => {
+            this.tableListData.some((res) => {
               if (res.email == '') {
                 return false
               }
             })
             const pms = {
               list: this.tableListData,
-              "step": "register"
+              step: 'register'
             }
             if (this.supplierType > 3) {
               pms.step = 'submit'
@@ -177,21 +216,25 @@ export default {
             }
             const res = await saveContacts(pms, this.supplierType)
             res.moduleName = this.$t('SUPPLIER_GONGYINGSHANGTONGXUNLU')
-            this.resultMessage(res, async () => {
-              this.nextStep = true
-              this.tableListData = []
-              await this.getDictByCode()
-              await this.getTableList()
-              resolve(true)
-            }, () => {
-              this.tableLoading = false
-              reject(false)
-            })
+            this.resultMessage(
+              res,
+              async () => {
+                this.nextStep = true
+                this.tableListData = []
+                await this.getDictByCode()
+                await this.getTableList()
+                resolve(true)
+              },
+              () => {
+                this.tableLoading = false
+                reject(false)
+              }
+            )
           }
         })
       })
     },
-    async handleNextStep () {
+    async handleNextStep() {
       await this.saveInfos()
       return this.nextStep
     },

@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 19:08:23
- * @LastEditors: zbin
+ * @LastEditors: caopeng
  * @Descripttion: your project
  */
 import {
@@ -69,6 +69,12 @@ export const baseRules = {
             message: '请输入供应商中文名',
             trigger: 'blur'
         },
+        {
+            min: 1,
+            max: 100,
+            message: '长度在 1 到100个字符',
+            trigger: 'blur'
+        },
 
     ],
     contactName: [{
@@ -76,7 +82,12 @@ export const baseRules = {
             message: '请输入联系人姓名',
             trigger: 'blur'
         },
-
+        {
+            min: 1,
+            max: 50,
+            message: '长度在 1 到50个字符',
+            trigger: 'blur'
+        },
 
     ],
     contactEmail: [{

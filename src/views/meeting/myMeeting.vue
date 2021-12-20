@@ -1,30 +1,42 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2021-02-19 18:01:14
+ * @LastEditTime: 2021-12-17 10:30:07
  * @LastEditors: Please set LastEditors
  * @Description: 首页
- * @FilePath: \rise\src\views\home\index.vue
+ * @FilePath: \front-portal\front-portal\src\views\meeting\myMeeting.vue
 -->
 <template>
   <div style="flex: 1">
     <iPage>
-      <div class="tab-list-box">
-        <iNavMvp
-          :list="myMeetongTabRouterList"
-          class="margin-bottom20"
-          routerPage
-          :lev="1"
-        />
+      <div class="tab-top">
+          <!-- 左边 -->
+          <div class="tab-list-box">
+            <iNavMvp
+              :list="myMeetongTabRouterList"
+              class="margin-bottom20"
+              routerPage
+              :lev="1"
+            />
+          </div>
+          <!-- 右边 -->
+          <!-- <div v-show="isShowRight">
+            <iNavMvp
+              :list="meetingRightList"
+              class="margin-bottom20"
+              routerPage
+              :lev="2"
+            />
+          </div> -->
       </div>
       <router-view></router-view>
-    </iPage>
+    </iPage>    
   </div>
 </template>
 
 <script>
 import { iNavMvp, iPage } from 'rise'
-import { tabRouterList, meetingButtonList } from './data'
+import { tabRouterList, meetingButtonList , meetingRightList} from './data'
 
 export default {
   components: {
@@ -33,7 +45,26 @@ export default {
   },
   data() {
     return {
+      isShowRight:true,
       myMeetongTabRouterList: [
+        //添加路由大厅
+        // {
+        //   value: 1,
+        //   name: '管理大厅',
+        //   url:'/meeting/managementHall',
+        //   // url:'/meeting/home',//会议大厅
+        //   // url:
+        //   //   '/meeting/live?id=' +
+        //   //   (this.$route.query.meetingInfoId
+        //   //     ? this.$route.query.id +
+        //   //       '&meetingInfoId=' +
+        //   //       this.$route.query.meetingInfoId
+        //   //     : localStorage.getItem('my_meeting_id') +
+        //   //       '&meetingInfoId=' +
+        //   //       localStorage.getItem('my_meeting__info_id')),
+        //   activePath: '/meeting/managementHall/index.vue',
+        //   key: '管理大厅'
+        // },
         {
           value: 1,
           name: '会议直播',
@@ -64,19 +95,27 @@ export default {
                 localStorage.getItem('my_meeting__info_id')),
           activePath: '/meeting/near-meeting',
           key: '近期会议'
-        }
+        },
+        
       ],
       tabRouterList,
-      meetingButtonList
+      meetingButtonList,
+      // meetingRightList,
     }
+  },
+  created () {
+    //根据路由来判断 右边tab显示隐藏
+    // console.log(this.$route)
+    //  if(this.$route.name=='managementHall' || this.$route.name=='meetingListAttendees'|| this.$route.name=='meetingInformation' ||this.$route.name== 'meetingListCurrent'){
+    //   this.isShowRight=true
+    // }else{
+    //   this.isShowRight=false
+    // }
   },
   mounted() {
     if (this.$route.query.meetingInfoId) {
       localStorage.setItem('my_meeting_id', this.$route.query.id)
-      localStorage.setItem(
-        'my_meeting__info_id',
-        this.$route.query.meetingInfoId
-      )
+      localStorage.setItem('my_meeting__info_id', this.$route.query.meetingInfoId )
     }
   },
   methods: {}
@@ -94,5 +133,10 @@ export default {
   ::v-deep .lev1 .name::after {
     transition: 0s;
   }
+}
+.tab-top{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e3e3e3;
 }
 </style>

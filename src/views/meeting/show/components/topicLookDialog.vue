@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="议题信息"
+   :title="$t('议题信息')"
     :visible.sync="openAddTopic"
     width="55rem"
     @close="clearDiolog"
@@ -9,12 +9,11 @@
   >
     <ul class="content-top">
       <li class="info-row">
-        <div class="left">{{topicInfo.topic}}</div>
+        <div class="left">{{ topicInfo.topic }}</div>
         <div class="right">
           {{ start }}~{{ end
-          }}<span style="margin-left:5px">{{ status[topicInfo.state] }}</span>
+          }}<span style="margin-left: 5px">{{ status[topicInfo.state] }}</span>
         </div>
-        
       </li>
       <!-- 议题寻源号 -->
       <li class="info-row">
@@ -50,11 +49,9 @@
 
       <!-- 支持者 -->
       <li class="info-row">
-        <div class="left">
-          Sourcing Buyer
-        </div>
+        <div class="left">Sourcing Buyer</div>
         <div class="right">
-          {{ topicInfo.supporter }}
+          {{ isMeetingShow?topicInfo.supporterEn:topicInfo.supporter }}
         </div>
       </li>
 
@@ -62,10 +59,10 @@
       <li class="info-row">
         <div class="left">Linie Buyer</div>
         <div class="right">
-          {{ topicInfo.presenter }}
+          {{ isMeetingShow?topicInfo.presenterEn:topicInfo.presenter }}
         </div>
       </li>
-      
+
       <!-- EP -->
       <li class="info-row">
         <div class="left">EP</div>
@@ -78,7 +75,7 @@
       <li class="info-row">
         <div class="left">Part Type</div>
         <div class="right">
-          {{ topicInfo.tnr }}
+          {{ topicInfo.partType }}
         </div>
       </li>
 
@@ -86,7 +83,9 @@
       <li class="info-row">
         <div class="left">Status</div>
         <div class="right">
-          <span >{{ (topicInfo.cscCount || 0) +'/' + (topicInfo.preCount || 0)}}</span>
+          <span>{{
+            (topicInfo.cscCount || 0) + '/' + (topicInfo.preCount || 0)
+          }}</span>
         </div>
       </li>
     </ul>
@@ -107,91 +106,169 @@
 </template>
 
 <script>
-import { iDialog, iMessage } from "rise";
-import dayjs from "dayjs";
-import enclosure from "@/assets/images/enclosure.svg";
-import { download } from "@/utils/downloadUtil";
+import { iDialog, iMessage } from 'rise'
+import dayjs from 'dayjs'
+import enclosure from '@/assets/images/enclosure.svg'
+import { download } from '@/utils/downloadUtil'
+import { findTheThemenById } from '@/api/meeting/details'
+import { getUsers } from '@/api/usercenter/receiver.js'
 export default {
   components: {
-    iDialog,
+    iDialog
   },
   props: {
     openAddTopic: { type: Boolean, default: false },
     topicInfo: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
+    isGetInfoById: {
+      type: Boolean,
+      default: false
+    },
+    isMeetingShow:{
+       type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
+      topicInfoCopy: {},
       enclosure: enclosure,
       status: {
-        "01": "未进行",
-        "02": "进行中",
-        "03": "已结束",
+        '01': '未进行',
+        '02': '进行中',
+        '03': '已结束'
       },
-    };
+      themenData: ''
+    }
   },
   computed: {
     start() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.topicInfo = this.themenData ? this.themenData : this.topicInfo
       return dayjs(new Date(`2021-9-23 ${this.topicInfo.startTime}`)).format(
-        "HH:mm"
-      );
+        'HH:mm'
+      )
     },
     end() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.topicInfo = this.themenData ? this.themenData : this.topicInfo
       return dayjs(new Date(`2021-9-23 ${this.topicInfo.endTime}`)).format(
-        "HH:mm"
-      );
+        'HH:mm'
+      )
     },
     compuSupporter() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.topicInfo = this.themenData ? this.themenData : this.topicInfo
       return this.compuShouldShow(
         this.topicInfo.supporter,
         this.topicInfo.supporterDept
-      );
+      )
     },
     compuSupporDept() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.topicInfo = this.themenData ? this.themenData : this.topicInfo
       return this.compuShouldShow(
         this.topicInfo.supporterDept,
         this.topicInfo.supporterDeptNosys
-      );
+      )
     },
     compuPresenter() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.topicInfo = this.themenData ? this.themenData : this.topicInfo
       return this.compuShouldShow(
         this.topicInfo.presenter,
         this.topicInfo.presenterNosys
-      );
+      )
     },
     compuPresenterDept() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.topicInfo = this.themenData ? this.themenData : this.topicInfo
       return this.compuShouldShow(
         this.topicInfo.presenterDept,
         this.topicInfo.presenterDeptNosys
-      );
-    },
+      )
+    }
+    // computedPrensterAndSupporter() {
+    //   return {
+    //     supporter: this.topicInfo.presenter,
+    //     presenter: this.topicInfo.supporter
+    //   }
+    // }
   },
-  mounted(){
-    console.log(this.topicInfo)
+  // watch: {
+  //   computedPrensterAndSupporter: {
+  //     handler(info) {
+  //       this.getUerNameById([info.presenter, info.supporter]).then((res) => {
+  //         if (!res.data) {
+  //           this.presenterName = ''
+  //           this.supporterName = ''
+  //           return
+  //         }
+  //         if (res.data.length === 1) {
+  //           this.presenterName = res.data[0].nameZh
+  //           this.supporterName = res.data[0].nameZh
+  //           return
+  //         }
+  //         this.presenterName = res.data[0].nameZh
+  //         this.supporterName = res.data[1].nameZh
+  //       })
+  //     },
+  //     immediate: true,
+  //     deep: true
+  //   }
+  // },
+  mounted() {
+    console.log("")
+    if (this.isGetInfoById) {
+      const presenterName = this.topicInfo.presenter
+      const supporterName = this.topicInfo.supporter
+      findTheThemenById({
+        themenId: this.topicInfo.id,
+        meetingId: this.topicInfo.meetingId
+      }).then((res) => {
+        res.presenter = presenterName
+        res.supporter = supporterName
+        this.topicInfo = res
+        this.themenData = res
+        // this.getUerNameById([res.presenter, res.supporter]).then((res) => {
+        //   if (res.length === 1) {
+        //     this.presenterName = res[0].nameZh
+        //     this.supporterName = res[0].nameZh
+        //     return
+        //   }
+        //   this.presenterName = res[0].nameZh
+        //   this.supporterName = res[1].nameZh
+        // })
+      })
+    }
   },
   methods: {
+    async getUerNameById(ids) {
+      const res = await getUsers({ userIdList: [...ids] })
+      return res
+    },
     compuShouldShow(p, pNosys) {
-      let s1 = p;
-      let s2 = pNosys ? (p ? "," + pNosys : pNosys) : "";
-      let s3 = s1 + s2;
-      const arrs = s3 ? s3.split(",") : [];
+      let s1 = p
+      let s2 = pNosys ? (p ? ',' + pNosys : pNosys) : ''
+      let s3 = s1 + s2
+      const arrs = s3 ? s3.split(',') : []
       if (arrs.length > 3) {
         return {
           hiddenS: s3,
-          showS: arrs.slice(0, 3).join(","),
-        };
+          showS: arrs.slice(0, 3).join(',')
+        }
       }
       return {
-        hiddenS: "",
-        showS: s3,
-      };
+        hiddenS: '',
+        showS: s3
+      }
     },
     clearDiolog() {
-      this.$emit("closeDialog");
+      this.$emit('closeDialog')
     },
     // 下载附件
     handleDownLoad(e) {
@@ -201,20 +278,20 @@ export default {
         filename: e.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error('下载失败')
           }
-        },
-      });
-    },
-  },
-};
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
-::v-deep .el-dialog{
+::v-deep .el-dialog {
   margin-top: 12vh !important;
 }
-.form-item-att{
+.form-item-att {
   margin-top: 1.5rem;
   font-weight: 400;
   line-height: 17px;

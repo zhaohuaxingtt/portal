@@ -2,7 +2,7 @@
   <iCard class="supplyInfo" v-loading="pageLoading">
     <div class="head">
       <div class="h-l">
-        <div class="title">供应信息</div>
+        <div class="title">{{ language('LK_GONGYINGXINXI', '供应信息') }}</div>
       </div>
       <div class="h-r">
         <transition>
@@ -12,14 +12,14 @@
     </div>
 
     <div class="histogram">
-      <div class="title">供应商份额</div>
+      <div class="title">{{ language('LK_GONGYINGSHANGFENE', '供应商份额') }}</div>
       <div class="echarts-box" id="echarts-box">
 
       </div>
       
       <div class="factoryShare" v-show="isOpen">
         <div class="head">
-          <div class="title">工厂份额</div>
+          <div class="title">{{ language('LK_GONGCHANGFENE', '工厂份额') }}</div>
           <iSelect
               :placeholder="language('LK_QINGXUANZHE', '请选择')"
               filterable
@@ -79,14 +79,13 @@ export default {
       let random = Math.random();
       return (start + differ + random).toFixed(fixed);
     },
-
+    // 工厂份额
     findPartsFactory(){
       findPartsFactory({
         partsNum: this.partsNum,
         year: this.yaer,
       }).then(res => {
         const list = res.data;
-
         this.$nextTick(() => {
           const chart1 = echarts().init(document.getElementById('echarts-share'));
           const colors = ['#1964F3', '#72A1FA', '#AEC9FF', '#66C8D5', '#8DD9E2', '#BAEBF1', '#77CCFF', '#C3E8FF', '#1660F2'];
@@ -98,23 +97,23 @@ export default {
                 type: 'pie',
                 radius: ['20%', '40%'],
                 avoidLabelOverlap: false,
-                label: {
-                  formatter: '{xx|}{aa|}{b}\n {d}%\n {c}',
-                  rich: {
-                    aa: {
-                      width: 10,
-                    },
-                    xx: {
-                      width: 10,
-                      height: 10,
-                      backgroundColor: 'red',
-                      borderRadius: 10,
-                    },
-                  }
-                },
-                labelLine: {
-                  show: false
-                },
+//                label: {
+//                  formatter: '{xx|}{aa|}{b}\n {d}%\n {c}',
+//                  rich: {
+//                    aa: {
+//                      width: 10,
+//                    },
+//                    xx: {
+//                      width: 10,
+//                      height: 10,
+//                      backgroundColor: 'red',
+//                      borderRadius: 10,
+//                    },
+//                  }
+//                },
+//                labelLine: {
+//                  show: true
+//                },
                 data: list.map((item, index) => ({
                   value: item.factoryUse,
                   name: item.factoryName,
@@ -122,7 +121,7 @@ export default {
                     color: colors[index > list.length - 1 ? index - list.length : index]
                   },
                   label: {
-                  formatter: `{xx|}{aa|}{b}\n {d}%\n {c}`,
+                  formatter: `{xx|}{aa|}{b}\n ${Math.ceil(item.yearFactoryProportion*100)}% \n {c}`,
                   rich: {
                     aa: {
                       width: 10,
@@ -155,14 +154,14 @@ export default {
         setTimeout(this.findPartsFactory(), 1000)
       })
     },
-
+    // 供应商份额
     findSupplyList(){
       this.pageLoading = true;
       findSupplyList({
         partsNum: this.partsNum
       }).then(res => {
         const list = res.data.filter(item => item.isPermission);  //  过滤权限
-        
+        console.log(res.data,list,'list')
         this.$nextTick(() => {
           const chart1 = echarts().init(document.getElementById('echarts-box'))
 

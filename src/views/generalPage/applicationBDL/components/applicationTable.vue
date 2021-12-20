@@ -14,11 +14,12 @@
                 justify='space-between'
                 align='middle'>
           <el-col :span="5">
-            <el-form-item :label="$t('SUPPLIER_VW_LINIE_KESHI')">
+            <el-form-item :label="language('LINIEKESHICSS3','LINIE科室')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_DEPT"
                        @change="handleUser"
                        :placeholder="$t('LK_QINGXUANZE')"
-                       v-model="form.deptId">
+                       v-model="form.deptId"
+                       :disabled="isAcc">
                 <el-option :value="item.id"
                            :label="item.nameZh"
                            v-for="(item, index) in formGroup.deptList"
@@ -28,11 +29,12 @@
           </el-col>
           <el-col :span="5">
             <el-form-item prop="linieId"
-                          :rules="[{required: true, message: '请选择',}]"
+                          :rules="isAcc ? [] : [{required: true, message: '请选择',}]"
                           :label="$t('SUPPLIER_VW_LINIE_CAIGOUYUAN')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_SOURCER"
                        :placeholder="$t('LK_QINGSHURU')"
-                       v-model="form.linieId">
+                       v-model="form.linieId"
+                       :disabled="isAcc">
                 <el-option :value="item.id"
                            :label="item.nameZh"
                            v-for="(item, index) in formGroup.userList"
@@ -108,18 +110,22 @@ export default {
         userList: [],
         deptList: []
       },
-      index: null
+      index: null,
+      isAcc: false
     }
   },
   created () {
+
     this.getDeptList()
     // this.getTableList()
   },
   methods: {
     async handleUser (val) {
+
+      let obj = this.formGroup.deptList.find(item => item.id === val)
       this.formGroup.userList = []
       this.form.linieId = ''
-      const res = await getUserList(this.form.deptId)
+      const res = await getUserList({ id: val, deptNum: obj.deptNum })
       this.formGroup.userList = res.data
     },
     getReset () {
@@ -153,14 +159,14 @@ export default {
         supplierToken: this.$route.query.supplierToken,
         taskId: this.$route.query.id,
         "bdlSaveList": [],
-        bdlType: 1
       }
       this.selectTableData.forEach((item) => {
         pms.bdlSaveList.push({
           stuffId: item.id,
           categoryId: item.categoryId,
           categoryCode: item.categoryCode,
-          categoryNameZh: item.categoryNameZh
+          categoryNameZh: item.categoryNameZh,
+          bdlType: this.$route.query.mbdl ? 2 : 1
         })
       })
       const res = await submitBdl(pms)
@@ -201,7 +207,13 @@ export default {
           ids.push(item.id)
         })
         if (!ids.includes(item.id)) {
+          if (item.categoryCode == "9999") {
+            this.isAcc = true;
+            Vue.set(this.form, "deptId", "")
+            Vue.set(this.form, "linieId", "")
+          }
           this.tableListData.push(item)
+          // this.selectTableData = this.tableListData
         }
       })
     },

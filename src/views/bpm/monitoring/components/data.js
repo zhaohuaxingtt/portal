@@ -29,9 +29,9 @@ export const STATUS_OPTIONS = [
 ]
 
 export const TABLE_COLUMS = [
-  /* {
-    type: 'selection'
-  }, */
+  {
+    type: 'customSelection'
+  },
   {
     i18n: '流程序号',
     prop: 'instanceId',

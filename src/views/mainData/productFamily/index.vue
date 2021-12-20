@@ -4,10 +4,11 @@
 
     <div class="main">
       <div class="top">
-        <iCard>
+        <!-- <iCard></iCard> -->
+        <iSearch @sure="searchBtnClick" @reset="resetBtnClick">
           <el-form>
             <el-row :gutter="20">
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item :label="formTitle.pName">
                   <iInput
                     :placeholder="formTitle.inputPlaceholder"
@@ -15,7 +16,7 @@
                   />
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item :label="formTitle.tName">
                   <iSelect
                     :placeholder="formTitle.inputPlaceholder"
@@ -35,7 +36,7 @@
                   </iSelect>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item :label="formTitle.pType">
                   <iSelect
                     :placeholder="formTitle.iSelectPlaceholder"
@@ -51,19 +52,9 @@
                   </iSelect>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <div class="buttons">
-                  <iButton @click="searchBtnClick">
-                    {{ formTitle.search }}
-                  </iButton>
-                  <iButton @click="resetBtnClick">
-                    {{ formTitle.reset }}
-                  </iButton>
-                </div>
-              </el-col>
             </el-row>
             <el-row :gutter="20">
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item :label="formTitle.PID">
                   <iInput
                     :placeholder="formTitle.inputPlaceholder"
@@ -71,7 +62,7 @@
                   />
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item :label="formTitle.cCarTypeYear">
                   <iInput
                     :placeholder="formTitle.inputPlaceholder"
@@ -79,7 +70,7 @@
                   />
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item :label="formTitle.isValid">
                   <iSelect
                     :placeholder="formTitle.iSelectPlaceholder"
@@ -97,7 +88,7 @@
               </el-col>
             </el-row>
           </el-form>
-        </iCard>
+        </iSearch>
       </div>
       <div class="content">
         <iCard>
@@ -142,10 +133,10 @@ import {
   iCard,
   iSelect,
   iInput,
-  iButton,
   iPagination,
   iDialog,
-  iMessage
+  iMessage,
+  iSearch
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from '@/utils/pageMixins'
@@ -160,7 +151,7 @@ import carTypeDetail from './carTypeDetail'
 export default {
   methods: {
     getProductTypeList() {
-      productTypeList().then(val => {
+      productTypeList().then((val) => {
         if (val.code == 200) {
           this.productTypeList = val.data.product_family_product_type
         }
@@ -174,13 +165,13 @@ export default {
         current: this.page.currPage
       }
       familyList(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             this.tableListData = val.data
             this.page.totalCount = val.total
           }
         })
-        .catch(error => {
+        .catch((error) => {
           iMessage.error(error.desZh || '获取数据失败')
         })
     },
@@ -280,11 +271,11 @@ export default {
     iCard,
     iSelect,
     iInput,
-    iButton,
     iTableCustom,
     iPagination,
     iDialog,
-    carTypeDetail
+    carTypeDetail,
+    iSearch
   },
   mixins: [pageMixins]
 }

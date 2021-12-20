@@ -14,15 +14,15 @@
 </template>
 
 <script>
-import { iNavMvp, iPage } from "rise";
-import { tabRouterList } from "./data";
-import { getNewAmount, getUnReadNoticeAmount } from "@/api/survey/survey";
-import { total } from "@/api/survey/answer";
+import { iNavMvp, iPage } from 'rise'
+import { tabRouterList } from './data'
+import { getNewAmount, getUnReadNoticeAmount } from '@/api/survey/survey'
+import { total } from '@/api/survey/answer'
 
 export default {
   components: {
     iNavMvp,
-    iPage,
+    iPage
   },
   data() {
     return {
@@ -30,33 +30,33 @@ export default {
       amount: 0,
       noticeAmount: 0,
       surveyAmount: 0,
-      id:''
-    };
+      id: ''
+    }
   },
   computed: {
     NavMvp() {
       return tabRouterList.map((item) => {
-        if (item.value == 1) item.message = this.amount;
-        if (item.value == 2) item.message = this.noticeAmount;
-        if (item.value == 3) item.message = this.surveyAmount;
-        return item;
-      });
-    },
+        if (item.value == 1) item.message = this.amount
+        if (item.value == 2) item.message = this.noticeAmount
+        if (item.value == 3) item.message = this.surveyAmount
+        return item
+      })
+    }
   },
-  created(){
+  created() {
     // this.id = this.$route.query.userId || this.$store.state.permission.userInfo.id
     // sessionStorage.setItem("userId",this.id)
   },
   mounted() {
     getNewAmount().then((res) => {
-      this.amount = res?.amount || 0;
-    });
+      this.amount = res?.amount || 0
+    })
     getUnReadNoticeAmount().then((res) => {
-      this.noticeAmount = res?.amount || 0;
-    });
+      this.noticeAmount = res?.amount || 0
+    })
     total().then((res) => {
-      this.surveyAmount = res || 0;
-    });
+      this.surveyAmount = res || 0
+    })
   },
   methods: {
     // handleNavChange(evt) {
@@ -66,17 +66,24 @@ export default {
     //     window.location.href = process.env.VUE_APP_NOTICE + `?userId=${this.id}`;
     //   }
     // },
-  },
-};
-</script>
-<style lang="scss" scoped>
-::v-deep .nav div .badge {
-  right: 1.2rem !important;
-  .el-badge__content {
-    line-height: 1rem !important;
   }
 }
-::v-deep .lev1 .name {
-  margin-right: 0;
+</script>
+<style lang="scss" scoped>
+.tab-list-box {
+  ::v-deep .nav > div {
+    position: relative;
+    margin-right: 30px;
+  }
+  ::v-deep .nav div .badge {
+    right: -20px !important;
+    position: absolute;
+    .el-badge__content {
+      line-height: 1rem !important;
+    }
+  }
+  ::v-deep .nav.lev1 .name {
+    margin-right: 0px;
+  }
 }
 </style>

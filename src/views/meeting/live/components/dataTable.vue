@@ -126,7 +126,7 @@ export default {
         for (let item of docs) {
           let a = new Promise((resolve) => {
             getFileByIds([item.attachmentId]).then((data) => {
-              resolve(data[0]);
+              resolve(data.data[0]);
             });
           });
           d.push(a);
@@ -227,6 +227,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+::v-deep .cell {
+  padding: 0;
+}
 .doc-name {
   color: #1763f7;
   cursor: pointer;

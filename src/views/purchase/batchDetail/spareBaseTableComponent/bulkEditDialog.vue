@@ -1,7 +1,7 @@
 <template>
     <!--确认-->
     <iDialog
-            :title="$t('EKL_YJGL_PLBJ')+': ' + ' ' + bulkEditData.partNumber"
+            :title="$t('LK_PLBJ')+': ' + ' ' + bulkEditData.partNum"
             :visible.sync="value"
             width="742px"
             @close="clearDiolog"
@@ -12,14 +12,14 @@
                 <el-row class="margin-bottom20">
                     <div style="display: grid">
                         <div style="grid-row: 1/2">
-                            <el-form-item :label="$t('EKL_YJGL_GYS')">
-                                <iInput style="width: 320px" disabled :placeholder="$t('LK_QINGSHURU')"
+                            <el-form-item :label="$t('LK_GONGYINGSHANG')">
+                                <iInput style="width: 320px" disabled :placeholder="language('请输入')"
                                         v-model="gysName"></iInput>
                             </el-form-item>
                         </div>
                         <div style="grid-row: 1/2;">
-                            <el-form-item style="padding-left: 40px;" :label="$t('EKL_YJGL_CGGC')">
-                                <iInput style="width: 320px;" disabled :placeholder="$t('LK_QINGSHURU')"
+                            <el-form-item style="padding-left: 40px;" :label="$t('LK_CAIGOUGONGCHANG')">
+                                <iInput style="width: 320px;" disabled :placeholder="language('请输入')"
                                         v-model="cggcName"></iInput>
                             </el-form-item>
                         </div>
@@ -30,18 +30,18 @@
                 <el-row class="margin-bottom20">
                     <div style="display: grid">
                         <div style="grid-row: 1/2">
-                            <el-form-item :label="$t('EKL_YJGL_QRSL')">
-                                <iInput style="width: 320px" disabled :placeholder="$t('LK_QINGSHURU')"
+                            <el-form-item :label="$t('LK_QRSL')">
+                                <iInput style="width: 320px" disabled :placeholder="language('请输入')"
                                         v-model="form.confirmQuantity"></iInput>
                             </el-form-item>
                         </div>
                         <div style="grid-row: 1/2;">
-                            <el-form-item style="padding-left: 40px;" :label="$t('EKL_YJGL_QRJG')">
+                            <el-form-item style="padding-left: 40px;" :label="$t('LK_QRJG')">
                                 <iInput
                                         oninput="value = value.replace(/[^\d.]/g,'').replace(/\.{2,}/g,'.')"
                                         @focus="onFocus(form.confirmPrice)"
                                         @blur="onBlur(form.confirmPrice)"
-                                        style="width: 320px;" :placeholder="$t('LK_QINGSHURU')"
+                                        style="width: 320px;" :placeholder="language('请输入')"
                                         v-model="form.confirmPrice"></iInput>
                             </el-form-item>
                         </div>
@@ -109,7 +109,7 @@
                     supplierId: this.bulkEditData.supplierId,
                     factoryCode: this.bulkEditData.factoryCode,
                     confirmPrice: this.form.confirmPrice ? delcommafy(this.form.confirmPrice) : 0,
-                    partNumber: this.bulkEditData.partNumber,
+                    partNum: this.bulkEditData.partNum,
                 }
                 this.$alert('请注意！此操作将确认全部数据，且确认后将无法修改，是否继续？', '提示', {
                     confirmButtonText: '确定',

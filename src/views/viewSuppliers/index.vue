@@ -1,8 +1,12 @@
 <template>
   <div class="viewSuppliers">
-    <supplierViewTab class="margin-bottom20" @handleClick="handleTabClick" :current="current"/>
-    <log-button class="logButton"/>
-    <supplier360-page v-if="current === 1"/>
+    <supplierViewTab
+      class="margin-bottom20"
+      @handleClick="handleTabClick"
+      :current="current"
+    />
+    <log-button class="logButton" />
+    <supplier360-page v-if="current === 1" />
   </div>
 </template>
 
@@ -23,7 +27,7 @@ export default {
       current: 1
     }
   },
-  methods:{
+  methods: {
     handleTabClick(index) {
       this.current = index
     }
@@ -37,7 +41,7 @@ export default {
   padding: 30px 40px 30px 40px;
   height: 100%;
 
-  .logButton{
+  .logButton {
     position: absolute;
     top: 30px;
     right: 40px;

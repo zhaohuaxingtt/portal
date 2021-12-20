@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">会议展示</div>
+    <div class="header">{{$t('会议展示 Meeting Live')}}</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <p class="info-line-1">
@@ -15,27 +15,38 @@
         </p>
         <p class="info-line-2">
           <span class="date-time-start">
-            <img :src="timeClock" alt="" srcset=""/>
+            <img :src="timeClock" alt="" srcset="" />
             <span>{{
-                result.startDate + " " + result.startTime + "~" + result.endTime
-              }}</span>
+              `${result.startDate} ${result.startTime.substring(0, 5)}
+                ~
+                ${
+                  Number(
+                    result.themens[result.themens.length - 1].plusDayEndTime
+                  ) > 0
+                    ? result.endTime.substring(0, 5) +
+                      ` +${Number(
+                        result.themens[result.themens.length - 1].plusDayEndTime
+                      )}`
+                    : result.endTime.substring(0, 5)
+                }`
+            }}</span>
           </span>
           <span class="date-time-end">
-            <img :src="positionMark" alt="" srcset=""/>
+            <img :src="positionMark" alt="" srcset="" />
             <span>{{ result.meetingPlace }}</span>
           </span>
         </p>
       </div>
       <iTableML
-          tooltip-effect="light"
-          :data="dataList"
-          :rowClassName="tableRowClassName"
+        tooltip-effect="light"
+        :data="dataList"
+        :rowClassName="tableRowClassName"
       >
         <el-table-column
-            label="#"
-            align="center"
-            width="100"
-            show-overflow-tooltip
+          label="#"
+          align="center"
+          width="100"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
             <span class="table-index">{{ scope.$index + 1 }}</span>
@@ -44,42 +55,42 @@
 
         <!-- 议题主题 -->
         <el-table-column
-            prop="topic"
-            align="center"
-            label="Present Items"
-            show-overflow-tooltip
+          prop="topic"
+          align="center"
+          label="Present Items"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
             <span v-if="scope.row.isBreak">{{ scope.row.topic }}</span>
             <span
-                class="open-link-text"
-                @click="lookOrEdit(scope.row)"
-                v-else
-            >{{ scope.row.topic }}</span
+              class="open-link-text"
+              @click="lookOrEdit(scope.row)"
+              v-else
+              >{{ scope.row.topic }}</span
             >
           </template>
         </el-table-column>
 
         <el-table-column
-            prop="cscCount"
-            align="center"
-            label="Record"
-            show-overflow-tooltip
+          prop="cscCount"
+          align="center"
+          label="Record"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
             <span v-if="scope.row.isBreak">-</span>
             <span v-else>{{
-                (scope.row.cscCount || 0) + "/" + (scope.row.preCount || 0)
-              }}</span>
+              (scope.row.cscCount || 0) + '/' + (scope.row.preCount || 0)
+            }}</span>
           </template>
         </el-table-column>
         <!-- <el-table-column align="center" label=""></el-table-column> -->
         <!-- 零件号 -->
         <el-table-column
-            prop="tnr"
-            align="center"
-            label="Part No."
-            show-overflow-tooltip
+          prop="tnr"
+          align="center"
+          label="Part No."
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
             <span v-if="scope.row.tnr">{{ scope.row.tnr }}</span>
@@ -89,23 +100,23 @@
 
         <!-- 零件中文名 -->
         <el-table-column
-            prop="benCn"
-            align="center"
-            label="BEN(CN)"
-            show-overflow-tooltip
+          prop="benCn"
+          align="center"
+          label="BEN(DE)"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.benCn">{{ scope.row.benCn }}</span>
+            <span v-if="scope.row.benCn">{{ scope.row.benDe }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
 
         <!-- 车型 -->
         <el-table-column
-            prop="carline"
-            align="center"
-            label="Carline"
-            show-overflow-tooltip
+          prop="carline"
+          align="center"
+          label="Carline"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
             <span v-if="scope.row.carline">{{ scope.row.carline }}</span>
@@ -115,51 +126,55 @@
 
         <!-- 支持者 -->
         <el-table-column
-            prop="supporter"
-            align="center"
-            label="Sourcing"
-            show-overflow-tooltip
+          prop="supporterEn"
+          align="center"
+          label="Sourcing"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.supporter">{{ scope.row.supporter }}</span>
+            <span v-if="scope.row.supporterEn">{{
+              scope.row.supporterEn
+            }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
 
         <!-- 演讲人 -->
         <el-table-column
-            prop="presenter"
-            align="center"
-            label="Linie"
-            show-overflow-tooltip
+          prop="presenterEn"
+          align="center"
+          label="Linie"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.presenter">{{ scope.row.presenter }}</span>
+            <span v-if="scope.row.presenterEn">{{
+              scope.row.presenterEn
+            }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
 
         <!-- 演讲人部门 -->
         <el-table-column
-            prop="presenterDept"
-            align="center"
-            label="Commodity"
-            show-overflow-tooltip
+          prop="presenterDept"
+          align="center"
+          label="Commodity"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
             <span v-if="scope.row.presenterDept">{{
-                scope.row.presenterDept
-              }}</span>
+              scope.row.presenterDept
+            }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
 
         <!-- EP -->
         <el-table-column
-            prop="ep"
-            align="center"
-            label="EP"
-            show-overflow-tooltip
+          prop="ep"
+          align="center"
+          label="EP"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
             <span v-if="scope.row.ep">{{ scope.row.ep }}</span>
@@ -169,10 +184,10 @@
 
         <!-- 状态 -->
         <el-table-column
-            prop="status"
-            align="center"
-            label="Status"
-            show-overflow-tooltip
+          prop="status"
+          align="center"
+          label="Status"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
             <span v-if="scope.row.state">{{ statusObj[scope.row.state] }}</span>
@@ -182,54 +197,65 @@
 
         <!-- 时间 -->
         <el-table-column
-            prop="startTime"
-            align="center"
-            label="Time"
-            show-overflow-tooltip
+          prop="startTime"
+          align="center"
+          label="Time"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
             <div v-if="scope.row.startTime">
-              <span>{{ scope.row.startTime.substring(0, 5) }}</span
+              <span>{{
+                Number(scope.row.plusDayStartTime) > 0
+                  ? scope.row.startTime.substring(0, 5) +
+                    ' +' +
+                    Number(scope.row.plusDayStartTime)
+                  : scope.row.startTime.substring(0, 5)
+              }}</span
               ><span>~</span>
               <span v-if="scope.row.endTime">{{
-                  scope.row.endTime.substring(0, 5)
-                }}</span>
+                Number(scope.row.plusDayEndTime) > 0
+                  ? scope.row.endTime.substring(0, 5) +
+                    ' +' +
+                    Number(scope.row.plusDayEndTime)
+                  : scope.row.endTime.substring(0, 5)
+              }}</span>
             </div>
             <span v-else>-</span>
           </template>
         </el-table-column>
       </iTableML>
       <iPagination
-          v-update
-          @current-change="handleCurrentChange"
-          @size-change="handleSizeChange"
-          background
-          :page-sizes="page.pageSizes"
-          :page-size="page.pageSize"
-          prev-text="上一页"
-          next-text="下一页"
-          :layout="page.layout"
-          :current-page="page.currPage"
-          :total="page.total"
+        v-update
+        @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
+        background
+        :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        :prev-text="$t('上一页')"
+        :next-text="$t('下一页')"
+        :layout="page.layout"
+        :current-page="page.currPage"
+        :total="page.total"
       />
     </iCard>
     <topicLookDialog
-        v-if="openAddTopic"
-        :openAddTopic="openAddTopic"
-        @closeDialog="closeDialog"
-        :topicInfo="topicInfo"
+      v-if="openAddTopic"
+      :openAddTopic="openAddTopic"
+      @closeDialog="closeDialog"
+      :topicInfo="topicInfo"
+      :isMeetingShow="true"
     />
   </iPage>
 </template>
 <script>
-import {iCard, iPage, iPagination} from "rise";
-import iTableML from "@/components/iTableML";
-import {getMeetingDetail} from "@/api/meeting/home";
-import timeClock from "@/assets/images/time-clock.svg";
-import positionMark from "@/assets/images/position-mark.svg";
-import topicLookDialog from "./components/topicLookDialog.vue";
-import {pageMixins} from "@/utils/pageMixins";
-
+import { iCard, iPage, iPagination } from 'rise'
+import iTableML from '@/components/iTableML'
+import { getMeetingDetail } from '@/api/meeting/home'
+import timeClock from '@/assets/images/time-clock.svg'
+import positionMark from '@/assets/images/position-mark.svg'
+import topicLookDialog from './components/topicLookDialog.vue'
+import { pageMixins } from '@/utils/pageMixins'
+import dayjs from 'dayjs'
 export default {
   mixins: [pageMixins],
   components: {
@@ -237,11 +263,12 @@ export default {
     iCard,
     iTableML,
     iPagination,
-    topicLookDialog,
+    topicLookDialog
   },
   data() {
     return {
       processUrl: process.env.VUE_APP_POINT,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       timeClock,
       positionMark,
       data: [],
@@ -249,51 +276,82 @@ export default {
       result: {},
       typeObj: {},
       statusObj: {
-        "01": "未进行",
-        "02": "进行中",
-        "03": "已结束",
+        '01': '未进行',
+        '02': '进行中',
+        '03': '已结束'
       },
-      timer: "",
+      timer: '',
       openAddTopic: false,
       topicInfo: {},
-      id: "",
-    };
+      id: ''
+    }
   },
   created() {
-    this.id = this.$route.query.id;
-    console.log(215, this.$route);
+    this.id = this.$route.query.id
+    console.log(215, this.$route)
   },
   mounted() {
     // this.getTypeList();
-    this.query();
+    this.query()
     this.timer = setInterval(() => {
-      this.query();
-    }, 10000);
+      this.query()
+    }, 10000)
   },
   beforeDestroy() {
-    clearInterval(this.timer);
+    clearInterval(this.timer)
   },
   computed: {
     dataList() {
-      const {currPage, pageSize} = this.page;
-      return this.data?.slice((currPage - 1) * pageSize, pageSize * currPage);
-    },
+      const { currPage, pageSize } = this.page
+      return this.data?.slice((currPage - 1) * pageSize, pageSize * currPage)
+    }
   },
   methods: {
+    handleEndTime(row) {
+      // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return '~' + str + ' +1'
+      }
+      return '~' + str
+    },
     lookOrEdit(row) {
-      console.log("row", row);
-      if (row.source === "04") {
-        window.open(
+      console.log('row', row)
+      if (row.source === '04') {
+        // window.open(
+        //     `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
+        //     "_blank"
+        // );
+        if (row.type === 'FS+MTZ') {
+          window.open(
             `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
-            "_blank"
-        );
+            '_blank'
+          )
+        } else if (row.type === 'MTZ') {
+          window.open(
+            `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${row.fixedPointApplyId}`,
+            '_blank'
+          )
+        } else {
+          window.open(
+            `${this.processUrl}/designate/decisiondata/title?desinateId=${row.fixedPointApplyId}&isPreview=1`,
+            '_blank'
+          )
+        }
       } else {
-        this.topicInfo = row;
-        this.openAddTopic = true;
+        this.topicInfo = row
+        this.openAddTopic = true
       }
     },
     closeDialog() {
-      this.openAddTopic = false;
+      this.openAddTopic = false
     },
     // getTypeList() {
     //   let param = {
@@ -310,32 +368,32 @@ export default {
     //   });
     // },
     query() {
-      const param = {id: this.id};
+      const param = { id: this.id }
       getMeetingDetail(param).then((res) => {
-        this.result = res;
-        this.data = res.themens;
-        this.page.total = this.data.length;
-      });
+        this.result = res
+        this.data = res.themens
+        this.page.total = this.data.length
+      })
     },
     handleCurrentChange(val) {
-      this.page.currPage = val;
+      this.page.currPage = val
     },
     handleSizeChange(val) {
-      this.page.currPage = 1;
-      this.page.pageSize = val;
+      this.page.currPage = 1
+      this.page.pageSize = val
     },
 
     // 行高亮
     tableRowClassName(row) {
-      if (row.row.state === "03") {
-        return "unuse-row";
-      } else if (row.row.state === "02") {
-        return "active-row";
+      if (row.row.state === '03') {
+        return 'unuse-row'
+      } else if (row.row.state === '02') {
+        return 'active-row'
       }
-      return "narmal-row";
-    },
-  },
-};
+      return 'narmal-row'
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 ::v-deep .el-table_1_column_2 {

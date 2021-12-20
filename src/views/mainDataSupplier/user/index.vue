@@ -6,7 +6,7 @@
           <el-col :span="8">
             <iFormItem :label="searchLabel.contactName">
               <iInput
-                placeholder="请输入"
+                :placeholder="language('请输入')"
                 v-model="searchContent.nameZh"
               ></iInput>
             </iFormItem>
@@ -14,58 +14,79 @@
           <el-col :span="8">
             <iFormItem :label="searchLabel.supplierNameZh">
               <iInput
-                placeholder="请输入"
+                :placeholder="language('请输入')"
                 v-model="searchContent.opcsCompanyNameZh"
               ></iInput>
             </iFormItem>
           </el-col>
           <el-col :span="8">
             <iFormItem :label="searchLabel.staff">
-              <iInput placeholder="请输入" v-model="searchContent.position" />
-            </iFormItem>
-          </el-col>
-          <el-col :span="8">
-            <iFormItem :label="searchLabel.department">
-              <iInput placeholder="请输入" v-model="searchContent.department" />
-            </iFormItem>
-          </el-col>
-          <el-col :span="8">
-            <iFormItem :label="$t('SAP号')">
-              <iInput placeholder="请输入" v-model="searchContent.sapNum" />
-            </iFormItem>
-          </el-col>
-          <el-col :span="8">
-            <iFormItem :label="$t('SVW')">
-              <iInput placeholder="请输入" v-model="searchContent.svwCode" />
-            </iFormItem>
-          </el-col>
-          <el-col :span="8">
-            <iFormItem :label="$t('临时号')">
               <iInput
-                placeholder="请输入"
+                :placeholder="language('请输入')"
+                v-model="searchContent.position"
+              />
+            </iFormItem>
+          </el-col>
+          <el-col :span="8">
+            <iFormItem :label="language('临时号')">
+              <iInput
+                :placeholder="language('请输入')"
                 v-model="searchContent.temporaryNum"
               />
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="$t('登录名')">
-              <iInput placeholder="请输入" v-model="searchContent.userName" />
+            <iFormItem :label="language('正式/SVW号')">
+              <iInput
+                :placeholder="language('请输入')"
+                v-model="searchContent.svwCode"
+              />
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="$t('邮箱')">
-              <iInput placeholder="请输入" v-model="searchContent.email" />
+            <iFormItem :label="language('SAP号')">
+              <iInput
+                :placeholder="language('请输入')"
+                v-model="searchContent.sapNum"
+              />
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="$t('电话')">
-              <iInput placeholder="请输入" v-model="searchContent.telephoneO" />
+            <iFormItem :label="searchLabel.department">
+              <iInput
+                :placeholder="language('请输入')"
+                v-model="searchContent.department"
+              />
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="$t('起始时间')">
+            <iFormItem :label="language('登录名')">
+              <iInput
+                :placeholder="language('请输入')"
+                v-model="searchContent.userName"
+              />
+            </iFormItem>
+          </el-col>
+          <el-col :span="8">
+            <iFormItem :label="language('邮箱')">
+              <iInput
+                :placeholder="language('请输入')"
+                v-model="searchContent.email"
+              />
+            </iFormItem>
+          </el-col>
+          <el-col :span="8">
+            <iFormItem :label="language('电话')">
+              <iInput
+                :placeholder="language('请输入')"
+                v-model="searchContent.telephoneO"
+              />
+            </iFormItem>
+          </el-col>
+          <el-col :span="8">
+            <iFormItem :label="language('起始时间')">
               <iDatePicker
-                placeholder="请选择"
+                :placeholder="language('请选择')"
                 v-model="searchContent.startDate"
                 style="width: 100%"
                 value-format="yyyy-MM-dd"
@@ -73,9 +94,9 @@
             </iFormItem>
           </el-col>
           <el-col :span="8">
-            <iFormItem :label="$t('截止时间')">
+            <iFormItem :label="language('截止时间')">
               <iDatePicker
-                placeholder="请选择"
+                :placeholder="language('请选择')"
                 v-model="searchContent.endDate"
                 style="width: 100%"
                 value-format="yyyy-MM-dd"
@@ -93,13 +114,13 @@
             @click="handleDelete"
             :disabled="this.selectedItems.length == 0"
           >
-            删除
+            {{language('删除')}}
           </iButton>
           <iButton
             @click="handleEdit"
             :disabled="this.selectedItems.length !== 1"
           >
-            编辑
+            {{language('编辑')}}
           </iButton>
           <button-download :download-method="handleExportExcel" />
         </div>

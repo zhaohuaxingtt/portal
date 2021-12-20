@@ -2,7 +2,10 @@
   <div class="detail-config-modify">
     <pageHeader>
       <el-form inline>
-        <el-form-item :label="$t('版本号')" v-if="configVersions.length > 0">
+        <el-form-item
+          :label="language('版本号')"
+          v-if="configVersions.length > 0"
+        >
           <iSelect
             v-model="searchData.riseVersionCode"
             @change="configVersionChange"
@@ -15,7 +18,10 @@
             />
           </iSelect>
         </el-form-item>
-        <el-form-item :label="$t('年份')" v-if="configVersions.length > 0">
+        <el-form-item
+          :label="language('年份')"
+          v-if="configVersions.length > 0"
+        >
           <iSelect v-model="searchData.year" @change="yearChange">
             <el-option
               v-for="item in yearOptions"
@@ -30,23 +36,23 @@
       <div slot="actions" ref="detailPanel" id="detailPanel">
         <div class="flex-end-center margin-bottom20">
           <iButton v-show="editable" :disabled="loading" @click="add">
-            {{ $t('新增配置') }}
+            {{ language('新增配置') }}
           </iButton>
           <iButton
             v-show="isEditPage && !editable"
             :disabled="loading"
             @click="setYearVisible = true"
           >
-            {{ $t('应用年份') }}
+            {{ language('应用年份') }}
           </iButton>
           <iButton v-show="!editable" :disabled="loading" @click="edit">
-            {{ $t('编辑') }}
+            {{ language('编辑') }}
           </iButton>
           <iButton v-show="editable" :disabled="loading" @click="save">
-            {{ $t('保存') }}
+            {{ language('保存') }}
           </iButton>
           <iButton v-show="editable" :disabled="loading" @click="cancel">
-            {{ $t('取消') }}
+            {{ language('取消') }}
           </iButton>
         </div>
       </div>
@@ -111,13 +117,13 @@ export default {
   props: {
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     configVersions: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -151,7 +157,7 @@ export default {
     },
     allSelectedYears() {
       const res = []
-      this.tableData.forEach(e => {
+      this.tableData.forEach((e) => {
         if (e.years) {
           res.push(e.years)
         }
@@ -193,7 +199,7 @@ export default {
   methods: {
     getSearchRiseVersionCode() {
       if (this.configVersions.length > 0) {
-        const effectVersion = this.configVersions.filter(e => e.isValid)
+        const effectVersion = this.configVersions.filter((e) => e.isValid)
         this.searchData.riseVersionCode =
           effectVersion.length > 0
             ? effectVersion[0].riseVersionCode
@@ -248,7 +254,7 @@ export default {
       }
       // 检查是不是超出100%
       let totalRate = 0
-      this.tableData.forEach(e => {
+      this.tableData.forEach((e) => {
         totalRate += parseFloat(e.cartypeLevelRate)
       })
 
@@ -257,9 +263,9 @@ export default {
         return
       }
 
-      const detailDtos = this.tableData.map(e => {
+      const detailDtos = this.tableData.map((e) => {
         const cartypeLevelRate = e.cartypeLevelRate
-          ? parseFloat((e.cartypeLevelRate / 100).toFixed(4))
+          ? parseFloat((e.cartypeLevelRate / 100).toFixed(6))
           : 0
         return { ...e, cartypeLevelRate: cartypeLevelRate }
       })
@@ -273,7 +279,7 @@ export default {
         riseVersionCode: this.searchData.riseVersionCode
       }
       await saveOrUpdCartypeConfig(reqData)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success('保存成功')
             this.$store.dispatch('setMainDataConfigEditMode', '')
@@ -283,7 +289,7 @@ export default {
             iMessage.error(res.desZh || '保存失败')
           }
         })
-        .catch(error => {
+        .catch((error) => {
           iMessage.error(error.desZh)
         })
         .finally(() => (this.loading = false))
@@ -358,14 +364,14 @@ export default {
         this.tableData = data || []
 
         // 转化为百分比
-        this.tableData.forEach(e => {
+        this.tableData.forEach((e) => {
           if (e.cartypeLevelRate) {
-            e.cartypeLevelRate = parseFloat(e.cartypeLevelRate * 100).toFixed(2)
+            e.cartypeLevelRate = parseFloat(e.cartypeLevelRate * 100).toFixed(6)
           }
         })
 
         const cartypeLevels = []
-        this.tableData.forEach(e => {
+        this.tableData.forEach((e) => {
           if (e.cartypeLevel) {
             cartypeLevels.push(e.cartypeLevel)
           }
@@ -380,7 +386,7 @@ export default {
       if (val.fixRatioRiseVersionCode) {
         this.searchData.riseVersionCode = val.fixRatioRiseVersionCode
       } else {
-        const validVersion = this.configVersions.filter(e => e.isValid)
+        const validVersion = this.configVersions.filter((e) => e.isValid)
         if (validVersion.length > 0) {
           this.searchData.riseVersionCode = validVersion[0].riseVersionCode
         }

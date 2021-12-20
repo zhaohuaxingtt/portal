@@ -3,19 +3,22 @@
                 style="margin-top:20vh"
                 :visible.sync="closeValue"
                 v-if="closeValue"
-                width="22%"
+                :width="width==undefined?'22%':width"
                 @close='closeDiologBtn'
                 append-to-body>
         <span style="display:block">{{Tips}}</span>
         <div class="reset_style">
-            <iButton @click="close">{{cancelButtonText}}</iButton>
-            <iButton @click="save">{{confirmButtonText}}</iButton>
+            <iButton @click="close" v-if="cancelButtonText !== undefined">{{cancelButtonText}}</iButton>
+            <iButton @click="save" v-if="confirmButtonText !== undefined">{{confirmButtonText}}</iButton>
         </div>
     </iDialog>
 </template>
 
 <script>
 import { iDialog,iButton } from "rise";
+// import store from '@/store'
+// import router from '@/router'
+
 export default {
     name:"dialogReset",
     components:{
@@ -32,10 +35,26 @@ export default {
             Tips:"",
             cancelButtonText:"",
             confirmButtonText:"",
+            width:"",
         }
     },
+    // computed:{
+    //     router () {
+    //         return router;
+    //     },
+    // },
+    // watch:{
+    //     router:{
+    //         handler:function(val,oldVal){
+    //             console.log(111111111)
+    //             this.closeValue = false;
+    //         },
+    //         deep:true,
+    //     }
+    // },
     created(){
-
+        // console.log(store)
+        // console.log(router);
     },
     methods:{
         closeDiologBtn(){

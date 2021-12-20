@@ -13,7 +13,7 @@
                   :span-method="handleMerge"
                   tooltip-effect='light'
                   :data='tableData'
-                  :empty-text="$t('LK_ZANWUSHUJU')"
+                  :empty-text="$i18n.locale === 'zh'?'暂无数据':'No Data'"
                   v-loading='tableLoading'
                   @selection-change="handleSelectionChange"
                   :row-class-name="handleTableRow">
@@ -23,7 +23,7 @@
             <template v-for="(items,index) in tableTitle">
                 <el-table-column :width="items.width" :show-overflow-tooltip='items.tooltip' :key="items.name"
                                  align='center'
-                                 :label="items.key ? $t(items.key) : items.name"
+                                 :label="$i18n.locale === 'zh'?items.name:$t(items.key)"
                                  :prop="items.props" :fixed="items.fixed" :render-header="renderHeader">
                     <template slot-scope="scope">
                         <div v-if="items.props=='partName'">
@@ -155,9 +155,9 @@
             },
             renderHeader(h, {column, $index}) {
                 // h 是一个渲染函数       column 是一个对象表示当前列      $index 第几列
-                if (column.label == this.label) {
+                if (column.label == this.label || column.label == 'Track') {
                     return this.fn(column, h, $index)
-                } else if (column.label == '备注' && this.tableTitle.length > 16) {
+                } else if ((column.label == '备注'||column.label=='Remark') && this.tableTitle.length > 16) {
                     return this.cb(column, h, $index)
                 } else {
                     return h("span", column.label + "  ", {  //这是左边的
@@ -167,7 +167,7 @@
             },
             cb(column, h, $index) {
                 let vm = this
-                let style = 'color:#1663f6;font-size:24px;cursor: pointer;position: relative; top:2px;left:-70px'
+                let style = 'color:#1663f6;font-size:24px;cursor: pointer;position: relative; top:2px;left:-80px'
                 if (vm.show) {
                     return h('div', null, [
                         h("span", column.label + "  ", {  //这是左边的

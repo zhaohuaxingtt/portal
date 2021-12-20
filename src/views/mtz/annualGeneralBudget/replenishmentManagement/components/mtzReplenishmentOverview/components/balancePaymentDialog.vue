@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-11-15 13:55:47
+ * @LastEditTime: 2021-12-14 16:26:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -146,7 +146,7 @@
                            type="monthrange"
                            style="width:100%"
                            format="yyyy-MM"
-                           value-format="yyyy-MM"
+                           value-format="yyyy-MM-dd"
                            range-separator="至"
                            start-placeholder="开始日期"
                            end-placeholder="结束日期">
@@ -154,16 +154,15 @@
             </el-form-item>
             <el-form-item label="是否取市场价均值"
                           class="searchFormItem">
-              <custom-select v-model="searchForm.isEffAvg"
-                             clearable
-                             :user-options="isEffAvgList"
-                             @change="handleMaterialCode"
-                             display-member="label"
-                             value-member="value"
-                             value-key="value"
-                             :placeholder="language('QINGXUANZESHURU', '请选择/输入')">
-              </custom-select>
-
+              <iSelect v-model="searchForm.isEffAvg"
+                       :placeholder="language('QINGXUANZESHURU', '请选择/输入')"
+                       @change="handleMaterialCode"
+                       class="operate-select">
+                <el-option :value="item.value"
+                           :label="item.label"
+                           v-for="(item, index) in isEffAvgList"
+                           :key="index"></el-option>
+              </iSelect>
             </el-form-item>
           </el-col>
           <el-col v-if="flag"
@@ -248,7 +247,7 @@
 </template>
 
 <script>
-import { iCard, iButton, iMessage, iDialog, iSelectCustom, iInput, iDatePicker } from 'rise'
+import { iCard, iButton, iMessage, iDialog, iSelectCustom, iInput, iDatePicker, iSelect } from 'rise'
 import comboBox from './comboBox'
 import iTableCustom from '@/components/iTableCustom'
 import { pageMixins } from "@/utils/pageMixins"
@@ -266,7 +265,8 @@ export default {
     iSelectCustom,
     iInput,
     comboBox,
-    iDatePicker
+    iDatePicker,
+    iSelect
   },
   props: {
     dialogVisible: {
@@ -289,7 +289,6 @@ export default {
   },
   watch: {
     minDate (val) {
-      console.log(this.differenceTime, val, val.getTime())
       this.pickerOptions = {
         onPick: ({ minDate }) => {
           this.minDate = minDate
@@ -477,8 +476,6 @@ export default {
       this.searchForm.compTimeEnd = val[1]
     },
     handleChangeDate (val) {
-      let time = this.differenceTime
-      console.log(time)
       this.searchForm.effPriceFrom = val[0]
       this.searchForm.effPriceTo = val[1]
     },
@@ -677,6 +674,17 @@ export default {
           balanceCalcuLate(params).then(res => {
             if (res.code === '200') {
               this.tableData = res.data
+              if (this.tableData.length !== 0) {
+                this.tableData.forEach(item => {
+                  this.actAmtList.push(item.actAmt)
+                })
+                this.waitCompDocMoney = _.sum(this.actAmtList.map(parseFloat))
+                this.trueCompMoney = this.waitCompDocMoney
+              } else {
+                this.waitCompDocMoney = 0
+                this.trueCompMoney = this.waitCompDocMoney
+              }
+
               iMessage.success(res.desZh)
             } else {
               iMessage.error(res.desZh)

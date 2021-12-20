@@ -1,5 +1,4 @@
 import axios from "@/utils/axios";
-import { callbackify } from "util";
 
 const request = axios();
 
@@ -28,7 +27,7 @@ const downloadAll = ({
     data,
   })
     .then((response) => {
-      let blob = new Blob([response.data], { type });
+      let blob = new Blob([response], { type });
       const blobUrl = window.URL.createObjectURL(blob);
       // 获取响应中的filename
       // const contentDisposition = response.headers.get('Content-Disposition');
@@ -40,7 +39,7 @@ const downloadAll = ({
       window.URL.revokeObjectURL(blobUrl);
       callback && callback(true);
     })
-    .catch((err) => {
+    .catch(() => {
       callback && callback(false);
     });
 };
@@ -50,7 +49,7 @@ const downloadAllExport = ({
   filename,
   callback,
   // type = "application/pdf",
-  type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel",
+  // type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel",
   data,
 }) => {
   request({
@@ -72,7 +71,7 @@ const downloadAllExport = ({
       window.URL.revokeObjectURL(blobUrl);
       callback && callback(true);
     })
-    .catch((err) => {
+    .catch(() => {
       callback && callback(false);
     });
 };

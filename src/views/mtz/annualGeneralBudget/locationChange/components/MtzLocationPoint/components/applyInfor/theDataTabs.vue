@@ -7,22 +7,45 @@
         {{language('WHMTZLLZSJ','维护MTZ零件主数据')}}
       </span>
       <div>
+        <el-upload
+            class="upload-demo"
+            style="display:inline-block;margin-right:10px;"
+            multiple
+            :action="uploadUrl"
+            :show-file-list="false"
+            :on-success="uploadSuccess"
+            :on-progress="uploadProgress"
+            :data="uploadData"
+            :before-upload="beforeUpload"
+            :on-exceed="handleExceed"
+            v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')"
+            >
+            <el-tooltip
+                :content="language('WENJIANDAXIAOBUCHAOGUO20MB','文件大小不超过20MB')"
+                placement="top"
+                effect="light"
+            >
+                <iButton>{{language('SHANGCHUANFUJIAN', '上传附件')}}</iButton>
+            </el-tooltip>
+        </el-upload>
+        <iButton @click="download"
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('XIAZAIMUBAN', '下载模板') }}</iButton>
         <iButton @click="cancel"
-                 v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('QUXIAO', '取消') }}</iButton>
+                 v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('QUXIAO', '取消') }}</iButton>
         <iButton @click="rfqClick"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('YYRFQZLJ', '引用RFQ中零件') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('YYRFQZLJ', '引用RFQ中零件') }}</iButton>
         <iButton @click="locationClick"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('YYDDSQDLJ', '引用定点申请单零件') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('YYDDSQDLJ', '引用定点申请单零件') }}</iButton>
         <iButton @click="historyClick"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('ZJLSMTZLJZSJ', '增加历史MTZ零件主数据') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('ZJLSMTZLJZSJ', '增加历史MTZ零件主数据') }}</iButton>
         <iButton @click="add"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('XINZENG', '新增') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('XINZENG', '新增') }}</iButton>
         <iButton @click="edit"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BIANJI', '编辑') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
         <iButton @click="delecte"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('SHANCHU', '删除') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('SHANCHU', '删除') }}</iButton>
         <iButton @click="save"
-                 v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BAOCUN', '保存') }}</iButton>
+                 v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BAOCUN', '保存') }}</iButton>
       </div>
     </template>
     <el-form :rules="formRules"
@@ -72,17 +95,24 @@
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
                           :rules="formRules.ruleNo ? formRules.ruleNo : ''">
-              <el-select v-model="scope.row.ruleNo"
+              
+              <el-tooltip effect="light"
+                          v-if="editId.indexOf(scope.row.id)!==-1"
+                          placement="right">
+                <div slot="content">
+                  <p>{{language("GZBHBXCZYSMYCLGZBGZ","规则编号必须存在于上面原材料规则表格中")}}</p>
+                </div>
+                <el-select v-model="scope.row.ruleNo"
                          clearable
                          :placeholder="language('QINGSHURU', '请输入')"
-                         v-if="editId.indexOf(scope.row.id)!==-1"
                          @change="choiseGZ(scope,$event)">
-                <el-option v-for="item in ruleNo"
-                           :key="item.id"
-                           :label="item.ruleNo"
-                           :value="item.id">
-                </el-option>
-              </el-select>
+                    <el-option v-for="item in ruleNo"
+                              :key="item.id"
+                              :label="item.ruleNo"
+                              :value="item.id">
+                    </el-option>
+                  </el-select>
+              </el-tooltip>
               <span v-else>{{scope.row.ruleNo}}</span>
             </el-form-item>
           </template>
@@ -365,6 +395,7 @@
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
         </el-table-column>
+
         <el-table-column prop="platinumPrice"
                          align="center"
                          width="150"
@@ -497,6 +528,18 @@
             <span>{{scope.row.rhodiumDosage}}</span>
           </template>
         </el-table-column>
+        <el-table-column prop="preciousMetalDosageUnit"
+                         align="center"
+                         width="200"
+                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
+                         >
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
+                          :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
+              <span>{{scope.row.preciousMetalDosageUnit}}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
       </el-table>
     </el-form>
     <iPagination @size-change="handleSizeChange($event, getTableList)"
@@ -517,22 +560,22 @@
                  @addRfq="addRfqData"></rfqDialog>
     </iDialog>
 
-        <iDialog
-            :title="language('XINZENGMTZLINGJIANZHUSHUJU', '新增MTZ零件主数据')"
-            :visible.sync="addDialog"
-            v-if="addDialog"
-            width="70%"
-            @close="saveGzDialog"
-            >
-            <addData @close="saveGzClose" :listData="listData"></addData>
-        </iDialog>
+    <iDialog
+        :title="language('XINZENGMTZLINGJIANZHUSHUJU', '新增MTZ零件主数据')"
+        :visible.sync="addDialog"
+        v-if="addDialog"
+        width="70%"
+        @close="saveGzDialog"
+        >
+        <addData @close="saveGzClose" :listData="listData"></addData>
+    </iDialog>
 
     <iDialog :title="language('YINGYONGDINGDIANSHENQINGDANLINGJIAN', '引用定点申请单零件')"
              :visible.sync="quoteDialog"
              v-if="quoteDialog"
              width="90%"
              @close="quoteType">
-      <quoteData @quoteDialog="quoteDialogList"></quoteData>
+      <quoteData @quoteDialog="quoteDialogList" :applyNumber="applyNumber"></quoteData>
     </iDialog>
 
     <iDialog :title="language('LSMTZLJZSJ', '历史MTZ零件主数据')"
@@ -544,6 +587,18 @@
                   @historyDialog="historyDialogList"></historyBox>
     </iDialog>
 
+    <iDialog
+      :title="language('SCFJYZBTG', '上传附件验证不通过')"
+      class="title_color"
+      :visible.sync="cancelNo"
+      v-if="cancelNo"
+      width="90%"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      @close="cancelClose"
+    >
+      <cancelReqestNo :errorList="errorList"></cancelReqestNo>
+    </iDialog>
   </iCard>
 </template>
 
@@ -553,6 +608,7 @@ import { pageMixins } from "@/utils/pageMixins"
 import rfqDialog from "./rfqDialog";
 import quoteData from "./quoteData";
 import addData from "./addData";
+import cancelReqestNo from "./cancelReqestNo";
 import historyBox from "./historyBox";
 import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
@@ -564,18 +620,18 @@ import {
   pageAppRule,
   removePartMasterData,//清空维护mtz零件主数据
   getDosageUnitList,
+  downloadFile,//下载
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   getMtzSupplierList,//获取原材料牌号
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 
 import { deepClone } from "./util"
-import { formRulesLJ } from "./data";
 
 export default {
   name: "Search",
   componentName: "theDataTabs",
-  props: ["appStatus"],
+  props: ["appStatus","inforData","applyNumber"],
   components: {
     iCard,
     iButton,
@@ -586,14 +642,40 @@ export default {
     iDialog,
     addData,
     quoteData,
+    cancelReqestNo,
     historyBox
   },
   watch: {
   },
   mixins: [pageMixins],
   data () {
+    var validatePass = (rule, value, callback) => {//规则编号
+        var number = 0;
+        this.ruleNo.forEach(e=>{
+          if(e.ruleNo == value){
+            number++;
+          }
+        })
+        if(number == 0){
+          callback(new Error(this.language("","当前MTZ申请单中规则编号不存在！")));
+        }else{
+          callback();
+        }
+    }
     return {
-        formRules:formRulesLJ,
+        formRules:{
+          assemblyPartnum:[{required: true, message: '请选择', trigger: 'blur'}],//零件号
+          ruleNo:[
+            {required: true, message: '请选择', trigger: 'blur'},
+            { validator:validatePass, trigger: 'blur' }
+          ],//规则编号
+          supplierId:[{required: true, message: '请选择', trigger: 'blur'}],//供应商编号
+          priceUnit:[{required: true, message: '请选择', trigger: 'blur'}],//每
+          dosage:[{required: true, message: '请选择', trigger: 'blur'}],//用量
+          dosageMeasureUnit:[{required: true, message: '请选择', trigger: 'blur'}],//用量计量单位
+        },
+        uploadUrl:process.env.VUE_APP_MTZ + "/web/mtz/mtzAppNomi/uploadData",
+        uploadData:{},
         supplierList:[],//供应商编号
         ruleNo:[],//规则编号
         tableData: [],
@@ -620,6 +702,8 @@ export default {
         dialogEditType:false,
         dataCloseAllRequest:false,//判断是否为选择维护mtz零件主数据
         listData:[],
+        cancelNo:false,
+        errorList:[],
     }
   },
   computed: {
@@ -635,6 +719,10 @@ export default {
     },
   },
   created () {
+    this.uploadData = {
+      mtzAppId:this.inforData.mtzAppId,
+      userId:JSON.parse(sessionStorage.getItem('userInfo')).id
+    };
     this.pageAppRequest();
     getMtzSupplierList({}).then(res => {
       this.supplierList = res.data;
@@ -657,11 +745,65 @@ export default {
         this.materialCode = res.data;
       })
     },
+    download(){
+      iMessageBox(this.language('SHIFOUDAOCHUMUBAN', '是否导出模板？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+        confirmButtonText: this.language('QUEREN', '确认'),
+        cancelButtonText: this.language('QUXIAO', '取消')
+      }).then(res => {
+        downloadFile({
+          mtzAppId: this.inforData.mtzAppId
+        }).then(res=>{
+          let blob = new Blob([res], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+          let objectUrl = URL.createObjectURL(blob);
+          let link = document.createElement("a");
+          link.href = objectUrl;
+          // let fname = "补差单汇总" + getNowFormatDate() + ".xlsx";
+          let fname = "MTZ零件主数据-" + this.inforData.mtzAppId + "-" + this.inforData.appName + ".xlsx";
+          link.setAttribute("download", fname);
+          document.body.appendChild(link);
+          link.click();
+          link.parentNode.removeChild(link);
+          iMessage.success("链接成功！")
+        })
+      })
+    },
+    cancelClose(){
+      this.cancelNo = false;
+    },
+    uploadSuccess(res, file){
+      if(res.code == 200 && res.result){
+        this.getTableList()
+      }else{
+        if(res.data == null){
+          iMessage.error(res.desZh);
+        }else{
+          this.errorList = res.data;
+          this.cancelNo = true;
+        }
+      }
+    },
+    beforeUpload(file){
+        const isLt2M = file.size / 1024 / 1024 < 20;
+        if (!isLt2M) {
+            iMessage.error("上传文件大小不能超过 20MB!");
+        }
+        return isLt2M;
+    },
+    handleExceed(files, fileList) {
+        iMessage.warn(
+            `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+            files.length + fileList.length
+            } 个文件`
+        );
+    },
+
+
+
     pageAppRequest () {
       pageAppRule({
         pageNo: 1,
         pageSize: 99999,
-        mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        mtzAppId: this.inforData.mtzAppId,
       }).then(res => {
         this.ruleNo = res.data;
       })
@@ -702,7 +844,7 @@ export default {
           if (e.id == val) {
             e.id = arr.row.id;
             delete e.mark;
-            arr.row.sapCode = e.supplierId.toString() || e.sapCode.toString();
+            arr.row.supplierId = e.supplierId.toString() || e.sapCode.toString();
             arr.row.priceSource = e.source || e.priceSource;
             arr.row = (Object.assign(arr.row, e));
             throw new Error("EndIterative");
@@ -714,7 +856,7 @@ export default {
     },
     removePartMasterData () {//清空
       removePartMasterData({
-        mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        mtzAppId: this.inforData.mtzAppId,
       }).then(res => {
         this.getTableList();
       })
@@ -732,11 +874,11 @@ export default {
             }).then(res => {
               if (this.dataCloseAllRequest) {
                 removePartMasterData({
-                  mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                  mtzAppId: this.inforData.mtzAppId,
                 }).then(res => {
                   if (res.code == 200 && res.result) {
                     addBatchPartMasterData({
-                      mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                      mtzAppId: this.inforData.mtzAppId,
                       mtzAppNomiPartMasterDataList: this.newDataList
                     }).then(res => {
                       if (res.code == 200) {
@@ -758,7 +900,7 @@ export default {
                 })
               } else {
                 addBatchPartMasterData({
-                  mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                  mtzAppId: this.inforData.mtzAppId,
                   mtzAppNomiPartMasterDataList: this.newDataList
                 }).then(res => {
                   if (res.code == 200) {
@@ -794,7 +936,7 @@ export default {
               cancelButtonText: this.language('QUXIAO', '取消')
             }).then(res => {
               modifyPartMasterData({
-                mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+                mtzAppId: this.inforData.mtzAppId,
                 mtzAppNomiPartMasterDataList: this.selectList
               }).then(res => {
                 if (res.code == 200) {
@@ -865,6 +1007,9 @@ export default {
       })
     },
     locationClick () {
+      if(this.applyNumber == ""){
+        return iMessage.error(this.language('YYDDSQDLJXXGLLJDDSQ', '引用定点申请单零件需先关联零件定点申请！'))
+      }
       iMessageBox(this.language('CCZJSCNYWHDSYLJZSJSFJX', '此操作将删除您已维护的所有零件主数据，是否继续？'), this.language('LK_WENXINTISHI', '温馨提示'), {
         confirmButtonText: this.language('QUEREN', '确认'),
         cancelButtonText: this.language('QUXIAO', '取消')
@@ -895,7 +1040,7 @@ export default {
         pagePartMasterData({
             pageNo: 1,
             pageSize: 99999,
-            mtzAppId:this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+            mtzAppId:this.inforData.mtzAppId,
         }).then(res=>{
             this.tableData = res.data;
             // this.page.currPage = res.pageNum
@@ -909,7 +1054,7 @@ export default {
       pagePartMasterData({
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
+        mtzAppId: this.inforData.mtzAppId,
       }).then(res => {
         if (res.data === null) return false;
         if (res.data.length < 1) {
@@ -918,8 +1063,17 @@ export default {
             supplierIdStr: this.$route.query.supplierId,
           }).then(res => {
             this.loading = false;
-            this.tableData = res.data;
-            this.newDataList = res.data;
+            var dataListCopy = res.data;
+            dataListCopy.forEach(e=>{
+              if(e.priceUnit == null){
+                this.$set(e,"priceUnit",1)
+              }
+              if(e.dosageMeasureUnit == null){
+                this.$set(e,"dosageMeasureUnit","KG")
+              }
+            })
+            this.tableData = dataListCopy;
+            this.newDataList = dataListCopy;
             this.editType = true;
 
             var changeArrayList = [];
@@ -970,7 +1124,8 @@ export default {
           list[index].id = "";
           list[index].partName = item.partNameZh;
           list[index].partUnit = item.unit;
-          list[index].dosageMeasureUnit = "kg";
+          list[index].priceUnit = 1;//每
+          list[index].dosageMeasureUnit = "KG";
         }
       })
       this.newDataList = list;
@@ -998,10 +1153,11 @@ export default {
           list[index].assemblyPartnum = item.partNum;
           list[index].id = "";
           list[index].supplierName = item.supplierName;
-          list[index].sapCode = item.sapNum;
+          list[index].supplierId = item.sapNum;
           list[index].partName = item.partNameCn;
           list[index].partUnit = item.unit;
-          list[index].dosageMeasureUnit = "kg";
+          list[index].priceUnit = 1;//每
+          list[index].dosageMeasureUnit = "KG";
         }
       })
       this.newDataList = list;
@@ -1028,14 +1184,33 @@ export default {
           list[index].assemblyPartnum = item.assemblyPartnum;
           list[index].id = "";
           list[index].supplierName = item.assemblySupplierName;
-          list[index].sapCode = item.assemblySupplierSap;
+          list[index].supplierId = item.assemblySupplierSap;
           list[index].ruleNo = item.ruleNo;
           list[index].materialCode = item.materialCode;
           list[index].materialName = item.material;
           list[index].priceUnit = item.priceUnit;
           list[index].partName = item.assemblyPartName;
           list[index].partUnit = item.countUnit;
-          list[index].dosageMeasureUnit = "kg";
+          list[index].dosageMeasureUnit = item.dosageMeasureUnit;
+          list[index].preciousMetalDosageUnit = item.preciousMetalDosageUnit;
+          list[index].rhodiumDosage = item.rhodiumDosage;
+          list[index].rhodiumPrice = item.rhodiumPrice;
+          list[index].palladiumDosage = item.palladiumDosage;
+          list[index].palladiumPrice = item.palladiumPrice;
+          list[index].platinumDosage = item.platinumDosage;
+          list[index].platinumPrice = item.platinumPrice;
+          list[index].thresholdCompensationLogic = item.thresholdCompensationLogic;
+          list[index].threshold = item.threshold;
+          list[index].compensationPeriod = item.compensationPeriod;
+          list[index].compensationRatio = item.compensationRatio;
+          list[index].priceSource = item.marketSource;
+          list[index].tcExchangeRate = item.tcExchangeRate;
+          list[index].tcCurrence = item.tcCurrence;
+          list[index].priceMeasureUnit = item.priceCountUnit;
+          list[index].price = item.price;
+          list[index].endDate = item.endDate;
+          list[index].startDate = item.startDate;
+          list[index].dosage = item.dosage;
         }
       })
       // console.log(list);
@@ -1066,5 +1241,10 @@ export default {
 .formStyle ::v-deep .el-form-item {
   margin-top: 0;
   margin-bottom: 0;
+}
+.title_color{
+  ::v-deep .el-dialog__title{
+    color:red;
+  }
 }
 </style>

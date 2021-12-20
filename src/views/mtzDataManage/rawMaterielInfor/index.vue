@@ -5,42 +5,42 @@
         <el-form>
           <el-row gutter="24">
             <el-col :span="8">
-              <iFormItem :label="searchLabel.generalCategoryCode">
+              <iFormItem :label="language('原材料编号大类')">
                 <iInput
                   v-model="searchContent.generalCategoryCode"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.generalCategoryNameZh">
+              <iFormItem :label="language('原材料名称(中文)')">
                 <iInput
                   v-model="searchContent.generalCategoryNameZh"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.generalCategoryNameEn">
+              <iFormItem :label="language('原材料名称(英文)')">
                 <iInput
                   v-model="searchContent.generalCategoryNameEn"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
           </el-row>
           <el-row gutter="24">
             <el-col :span="8">
-              <iFormItem :label="searchLabel.rawMaterielElement">
+              <iFormItem :label="language('大类元素简称')">
                 <iInput
                   v-model="searchContent.generalShortName"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.status">
-                <iSelect v-model="searchContent.status">
+              <iFormItem :label="language('状态')">
+                <iSelect v-model="searchContent.status" :placeholder='language("请选择")'>
                   <el-option
                     v-for="item in statusOptions"
                     :key="item.id"
@@ -58,15 +58,15 @@
     <div class="tabelList">
       <iCard>
         <div class="btnList">
-          <iButton @click="add">新建</iButton>
-          <iButton @click="active" :disabled="activeBtnDis">生效</iButton>
+          <iButton @click="add">{{language('新建')}}</iButton>
+          <iButton @click="active" :disabled="activeBtnDis">{{language('生效')}}</iButton>
           <iButton @click="loseActive" :disabled="loseActiveBtnDis"
-            >失效</iButton
+            >{{language('失效')}}</iButton
           >
           <iButton @click="del" :disabled="this.selectedItem.length == 0"
-            >删除</iButton
+            >{{language('删除')}}</iButton
           >
-          <buttonDownload :download-method="exportExcel">导出</buttonDownload>
+          <buttonDownload :download-method="exportExcel">{{language('导出')}}</buttonDownload>
         </div>
         <div class="tabelContent">
           <iTabelCustom

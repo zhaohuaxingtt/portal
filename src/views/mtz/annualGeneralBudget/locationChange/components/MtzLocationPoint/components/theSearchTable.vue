@@ -12,7 +12,7 @@
                          multiple
                          clearable
                          :placeholder="language('QINGXUANZE', '请选择')"
-                         display-member="code"
+                         display-member="codeMessage"
                          value-member="code"
                          value-key="code">
           </custom-select>
@@ -83,10 +83,19 @@
           </custom-select>
         </el-form-item>
         <el-form-item :label="language('GUANLIANDANHAO','关联单号')">
-          <input-custom v-model="searchForm.ttNominateAppId"
+          <!-- <input-custom v-model="searchForm.ttNominateAppId"
                         :editPlaceholder="language('QINGSHURU','请输入')"
                         :placeholder="language('QINGSHURU','请输入')">
-          </input-custom>
+          </input-custom> -->
+          <custom-select v-model="searchForm.ttNominateAppId"
+                         :user-options="ttNominateAppId"
+                         multiple
+                         clearable
+                         :placeholder="language('QINGXUANZE', '请选择')"
+                         display-member="message"
+                         value-member="code"
+                         value-key="code">
+          </custom-select>
         </el-form-item>
         <!-- <el-form-item label="RS单状态">
           <custom-select v-model="searchForm.rsFreezed"
@@ -118,6 +127,22 @@
                        end-placeholder="结束日期">
           </iDatePicker>
         </el-form-item>
+
+        <!-- 测试 -->
+        <!-- <el-form-item :label="language('DINGDIANSHIJIAN','定点时间')">
+          <iDatePicker style="width:220px"
+                       v-model="value1"
+                       @change="handleChange_ceshi"
+                       :picker-options="pickerOptions"
+                       format="yyyy-MM-dd"
+                       value-format="yyyy-MM-dd"
+                       unlink-panels
+                       type="daterange"
+                       range-separator="至"
+                       start-placeholder="开始日期"
+                       end-placeholder="结束日期">
+          </iDatePicker>
+        </el-form-item> -->
       </el-form>
     </iSearch>
 
@@ -127,14 +152,15 @@
            style="width:100%">
         <span>详情列表</span>
         <div class="opration">
-          <iButton @click="handleClickMtzFreeze">{{ language('DONGJIE', '冻结') }}</iButton>
-          <iButton @click="handleClickMtzUnfreeze">{{ language('JIEDONG', '解冻') }}</iButton>
-          <iButton @click="handleClickMtzNomi">{{ language('DINGDIAN', '定点') }}</iButton>
-          <iButton @click="handleClickCancelMtzNomi">{{ language('QUXIAODINGDIAN', '取消定点') }}</iButton>
-          <iButton @click="handleClickOutFlow">{{ language('HUIWAILIUZHUAN', '会外流转') }}</iButton>
-          <iButton @click="addMtz">{{ language('XINJIANMTZDINGDIANSHENQING', '新建MTZ定点申请') }}</iButton>
-          <iButton @click="handleClickMtzRecall">{{ language('CHEHUI', '撤回') }}</iButton>
-          <iButton @click="mtzDel">{{ language('SHANCHU', '删除') }}</iButton>
+          <iButton @click="handleClickMtzFreeze" v-permission="PORTAL_MTZ_POINT_DONGJIE">{{ language('DONGJIE', '冻结') }}</iButton>
+          <iButton @click="handleClickMtzUnfreeze" v-permission="PORTAL_MTZ_POINT_JIEDONG">{{ language('JIEDONG', '解冻') }}</iButton>
+          <iButton @click="handleClickMtzNomi" v-permission="PORTAL_MTZ_POINT_DINGDIAN">{{ language('DINGDIAN', '定点') }}</iButton>
+          <iButton @click="handleClickCancelMtzNomi" v-permission="PORTAL_MTZ_POINT_QUXIAODINGDIAN">{{ language('QUXIAODINGDIAN', '取消定点') }}</iButton>
+          <iButton @click="handleClickOutFlow" v-permission="PORTAL_MTZ_POINT_HUIWAILIUZHUAN">{{ language('HUIWAILIUZHUAN', '会外流转') }}</iButton>
+          <iButton @click="addMtz" v-permission="PORTAL_MTZ_POINT_XINJIANMTZDINGDIANSHENQING">{{ language('XINJIANMTZDINGDIANSHENQING', '新建MTZ定点申请') }}</iButton>
+          <!-- <iButton @click="handleClickMtzRecall" v-permission="PORTAL_MTZ_POINT_CHEHUI">{{ language('CHEHUI', '撤回') }}</iButton> -->
+          <iButton @click="handleClickMtzRecallPointAdmin" v-permission="PORTAL_MTZ_POINT_CHEHUIPOINTADMIN">{{ language('CHEHUI', '撤回') }}</iButton>
+          <iButton @click="mtzDel" v-permission="PORTAL_MTZ_POINT_SHANCHU">{{ language('SHANCHU', '删除') }}</iButton>
         </div>
       </div>
       <tableList class="margin-top20"
@@ -148,6 +174,13 @@
           <p class="openPage"
              @click="handleClickFsupplierName(scope.row)">
             {{scope.row.id}}
+          </p>
+        </template>
+        <template slot="ttNominateAppId"
+                  slot-scope="scope">
+          <p class="openPage"
+             @click="handleClickTtNominateAppId(scope.row)">
+            {{scope.row.ttNominateAppId}}
           </p>
         </template>
       </tableList>
@@ -193,8 +226,12 @@ import {
   mtzDel,
   getDeptLimitLevel,
   getMtzGenericAppId,
-  getCurrentUser
+  getCurrentUser,
+  getNominateAppIdList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+import {
+  page,
+} from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
 export default {
   name: "theSearchTable",
   components: {
@@ -212,6 +249,17 @@ export default {
   mixins: [pageMixins],
   data () {
     return {
+      // pickerOptions: {
+      //   shortcuts: [{
+      //     text: '现在到2999年',
+      //     onClick(picker) {
+      //       const end = new Date("2999-12-31");
+      //       const start = new Date();
+      //       picker.$emit('pick', [start, end]);
+      //     }
+      //   }]
+      // },
+
       mtzReasonShow: false,
       searchForm: {
         mtzAppId:[],
@@ -225,6 +273,7 @@ export default {
       },
       getFlowTypeList: [],
       getLocationApplyStatus: [],
+      ttNominateAppId:[],//关联申请单
       linieDeptId: [],//科室
       // value: "",
       value1: "",
@@ -240,10 +289,17 @@ export default {
   },
 
   created () {
+    // console.log(new Date("2999-12-31"));
     this.init()
   },
   methods: {
+    // handleChange_ceshi(val){
+    //   console.log(val);
+    // },
     init () {
+      getNominateAppIdList({}).then(res=>{
+        this.ttNominateAppId = res.data;
+      })
       getFlowTypeList({}).then(res => {
         this.getFlowTypeList = res.data;
       })
@@ -300,8 +356,8 @@ export default {
         this.searchForm.nominateEndDate = "";
         return false;
       }
-      this.searchForm.nominateStartDate = val[0];
-      this.searchForm.nominateEndDate = val[1];
+      this.searchForm.nominateStartDate = val[0].split(" ")[0] + " 00:00:00";
+      this.searchForm.nominateEndDate = val[1].split(" ")[0] + " 23:59:59";
     },
     sure () {
       this.page.currPage = 1
@@ -325,16 +381,38 @@ export default {
       this.page.pageSize = 10
       this.getTableList();
     },
+    handleClickTtNominateAppId(val){
+      page({
+        current: 1,
+        size: 9999,
+        nominateId: val.ttNominateAppId
+      }).then(res => {
+        if (res.code == 200 && res.result) {
+          var jumpData = res.data.records[0];
+          var partProjType = "";
+          if (jumpData.partProjType == null) {
+            partProjType = ""
+          } else {
+            partProjType = jumpData.partProjType
+          }
+          var path = "";
+          path = "designate/decisiondata/rs?desinateId=" + jumpData.id + "&designateType=" + jumpData.nominateProcessType + "&partProjType" + partProjType + "&applicationStatus=" + jumpData.applicationStatus
+          window.open(process.env.VUE_APP_SOURCING_URL + path)
+          
+        } else {
+          iMessage.error(this.language(res.desEn, res.desZh))
+        }
+      })
+    },
     handleClickFsupplierName (val) {
       let routeData = this.$router.resolve({
         path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow`,
         query: {
           currentStep: 1,
           mtzAppId: val.id,
-          isView: (val.appStatus === 'NEW' || val.appStatus === 'NOTPASS') ? false : true
         }
       })
-      window.open(routeData.href, '_blank')
+      window.open(routeData.href)
     },
     // 选中table数据
     handleSelectionChange (val) {
@@ -543,14 +621,49 @@ export default {
 
     addMtz () {
       let routeData = this.$router.resolve({
-        path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor`
+        path: `/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow`
       })
       window.open(routeData.href, '_blank')
     },
     reasonClose () {
       this.mtzReasonShow = false;
     },
+    handleClickMtzRecallPointAdmin(){
+      if (this.selection && this.selection.length == 0) {
+        return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
+      }
 
+      var num = 0;
+      try{
+        this.selection.forEach(e=>{
+          if(e.ttNominateAppId !== "" && e.ttNominateAppId !== null && e.ttNominateAppId !== "null"){
+            num++;
+            iMessage.warn(this.language('YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ', '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'))
+            throw new Error("EndIterative");
+          }
+          if (e.flowType == "MEETING") {
+            if (e.appStatus == "SUBMIT" || e.appStatus == "NOTPASS" || e.appStatus == "CHECK_INPROCESS" || e.appStatus == "CHECK_FAIL") {////////////////////////////////////////////
+            }else{
+              num++;
+              iMessage.warn(this.language('SHLXQZTWTJHWTGHFHZCKYCH', '上会类型且状态为提交（会议未锁定）、未通过或复核中才可以撤回'))
+              throw new Error("EndIterative");
+            }
+          } else {
+            if (e.appStatus == "SUBMIT" || e.appStatus == "FREERE") {
+            } else {
+              num++;
+              iMessage.warn(this.language('LZBALXZYTJHDJZTCKYCH', '流转/备案类型只有提交或冻结状态才可以撤回'))
+              throw new Error("EndIterative");
+            }
+          }
+        })
+      }catch(e){
+          if(e.message != "EndIterative") throw e;
+      }
+      if(num==0){
+        this.mtzReasonShow = true;
+      }
+    },
     // 点击撤回
     handleClickMtzRecall () {
       if (this.selection && this.selection.length == 0) {
@@ -566,7 +679,7 @@ export default {
             throw new Error("EndIterative");
           }
           if (e.flowType == "MEETING") {
-            if (e.appStatus == "SUBMIT" || e.appStatus == "NOTPASS") {
+            if (e.appStatus == "SUBMIT" || e.appStatus == "NOTPASS") {////////////////////////////////////////////
             }else{
               num++;
               iMessage.warn(this.language('SHLXQZTWTJHWTGCKYCH', '上会类型且状态为提交（会议未锁定）或未通过才可以撤回'))

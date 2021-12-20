@@ -120,7 +120,7 @@ export default {
     // 预览页-下载附件
     downloadEnclosure(url, name) {
       createAnchorLink(
-        url.replace(process.env.VUE_APP_FILE_CROSS, `/fileCross`), // 前端跨域问题，将api地址替换为反向代理地址
+        url, // 前端跨域问题，将api地址替换为反向代理地址
         name
       );
     },

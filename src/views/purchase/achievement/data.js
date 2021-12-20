@@ -13,21 +13,21 @@ export const tabRouterList = [
         url: '/achievement/baseData/mymerit',
         activePath: '/achievement/baseData/mymerit',
         permissionKey:'ACHIEVEMENT',
-        key: 'EKL_YJGL_WDYJ',
+        key: 'LK_WDYJ',
     },
     {
         value: 2,
         name: '业绩基础',
         url: '/achievement/baseData/list',
         activePath: '/achievement/baseData/list',
-        key: 'EKL_YJGL_YJJC',
+        key: 'LK_YJJC',
         permissionKey:'ACHIEVEMENT',
     },
 ]
 export const btnsgroup1 = [
-    { value: 0, name: "年度业绩基础", message: 0, url: '',active:true, activePath: "", key: "EKL_YJGL_NDYJJC" },
-    { value: 1, name: "总成散件基础表", message: 0, url: '', activePath: "", key: "EKL_YJGL_ZCSJJCB" },
-    { value: 2, name: "其它", message: 0, url: '', activePath: "", key: "EKL_YJGL_QT" },
+    { value: 0, name: "年度业绩基础", message: 0, url: '',active:true, activePath: "", key: "LK_NIANDUYEJIJICHU" },
+    { value: 1, name: "总成散件基础表", message: 0, url: '', activePath: "", key: "LK_ZONGCHENCHENGSANJIANJICHUBIAO" },
+    { value: 2, name: "其它", message: 0, url: '', activePath: "", key: "LK_QITA" },
 ];
 export const getNowFormatDate = () => {
     var date = new Date();

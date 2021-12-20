@@ -1,30 +1,57 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-15 17:30:36
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Description: 材料表格
 -->
 <template>
   <i-card>
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <el-dropdown v-permission="SUPPLIER_MATERIALGROUP_LIST_CONTORL" split-button trigger="click" size="small" type="primary" @command="materialGroup" class="meterial">
+        <el-dropdown v-permission="SUPPLIER_MATERIALGROUP_LIST_CONTORL"
+                     split-button
+                     trigger="click"
+                     size="small"
+                     type="primary"
+                     @command="materialGroup"
+                     class="meterial">
           材料组受控
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-for="(item,index) in controlListData" :key="index" :command="item.controlledState">{{item.name}}</el-dropdown-item>
+            <el-dropdown-item v-for="(item,index) in controlListData"
+                              :key="index"
+                              :command="item.controlledState">{{item.name}}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_EXPORT" @click="handleSave">{{$t('LK_BAOCUN')}}</i-button>
-        <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL" @click="toApplicationBDL">{{$t('SUPPLIER_SHENQINGBDL')}}</i-button>
-        <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_CANCLE" @click="getUncontrol">{{$t('SUPPLIER_QUXIAOSHOUKONG')}}</i-button>
-        <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_CANCELBDL_RELATION" @click="handleAssociated">{{$t('SUPPLIER_QUXIAOCAILIAOZUGUANLIAN')}}</i-button>
-        <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_EXPORTALL" @click="exportsAllTable">{{$t('SUPPLIER_DAOCHUQUANBU')}}</i-button>
+        <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_EXPORT"
+                  @click="handleSave">{{$t('LK_BAOCUN')}}</i-button>
+        <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
+                  @click="toApplicationMBDL">{{language('SHENQINGMBDL','申请MBDL')}}</i-button>
+        <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_BDL"
+                  @click="toApplicationBDL">{{$t('SUPPLIER_SHENQINGBDL')}}</i-button>
+        <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_CANCLE"
+                  @click="getUncontrol">{{$t('SUPPLIER_QUXIAOSHOUKONG')}}</i-button>
+        <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_CANCELBDL_RELATION"
+                  @click="handleMbdlCance">{{language('YICHUMDBL','移除MBDL')}}</i-button>
+        <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_CANCELBDL_RELATION"
+                  @click="handleAssociated">{{language('YIICHUBDL','移除BDL')}}</i-button>
+
+        <i-button v-permission="SUPPLIER_MATERIALGROUP_LIST_EXPORTALL"
+                  @click="exportsAllTable">{{$t('SUPPLIER_DAOCHUQUANBU')}}</i-button>
         <i-button @click="exportsTable">{{ $t('LK_DAOCHU') }}</i-button>
       </div>
     </div>
-    <table-list v-permission="SUPPLIER_MATERIALGROUP_LIST" :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" :index="true" :inputProps="['remark']" @handleSelectionChange="handleSelectionChange">
+    <table-list v-permission="SUPPLIER_MATERIALGROUP_LIST"
+                :tableData="tableListData"
+                :tableTitle="tableTitle"
+                :tableLoading="tableLoading"
+                :index="true"
+                :inputProps="['remark']"
+                @handleSelectionChange="handleSelectionChange">
       <template #isEffect="scope">
-        <span>{{scope.row.isEffect?$t('SUPPLIER_SPWC'):$t('SUPPLIER_SPZ')}}</span>
+        <span>{{scope.row.isEffect?language('SHENPITONGGUO','审批通过'):language('SHENPIZHONG','审批中')}}</span>
+      </template>
+      <template #bdlType="scope">
+        <span>{{scope.row.bdlType==='2'?language('SHI','是'):language('FOU','否')}}</span>
       </template>
     </table-list>
   </i-card>
@@ -35,7 +62,7 @@ import { iCard, iButton, iMessage } from "rise";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import { materialTableTitle } from './data'
-import { addControl, getPageMaterialGroup, updateUncontrol, updateAssociated, updateControl } from "../../../../api/supplier360/material";
+import { addControl, getPageMaterialGroup, updateUncontrol, updateAssociated, updateControl, mbdlCancelAssociated } from "../../../../api/supplier360/material";
 import { getDictByCode } from "../../../../api/dictionary/index";
 
 export default {
@@ -45,7 +72,7 @@ export default {
     iButton,
     tableList
   },
-  data() {
+  data () {
     return {
       inputProps: [],
       tableListData: [],
@@ -56,12 +83,12 @@ export default {
       total: 0
     }
   },
-  created() {
+  created () {
     this.getTableList()
     this.getControl()
   },
   methods: {
-    async getControl() {
+    async getControl () {
       const res = await getDictByCode('STU_CONTROLLED_STATE')
       this.controlListData = res.data[0].subDictResultVo
       this.controlListData.map((item) => {
@@ -72,7 +99,7 @@ export default {
         }
       })
     },
-    async getTableList(form) {
+    async getTableList (form) {
       this.tableLoading = true
       const pms = {
         pageNo: 1,
@@ -84,10 +111,10 @@ export default {
       this.total = res.total
       this.tableLoading = false
     },
-    handleSelectionChange(e) {
+    handleSelectionChange (e) {
       this.selectTableData = e
     },
-    async getUncontrol() {
+    async getUncontrol () {
       if (this.selectTableData.length === 1) {
         const res = await updateUncontrol({ controlledId: this.selectTableData[0].controlledId })
         this.resultMessage(res, () => {
@@ -99,7 +126,7 @@ export default {
         })
       }
     },
-    async materialGroup(e) {
+    async materialGroup (e) {
       if (this.selectTableData.length) {
         const pms = {
           stuControlledRecordSaveList: []
@@ -122,7 +149,7 @@ export default {
         this.iMessage.warn("请选择一条数据")
       }
     },
-    async handleSave() {
+    async handleSave () {
       if (this.selectTableData.length !== 1) {
         iMessage.warn('只能选择一条数据')
         return
@@ -140,23 +167,49 @@ export default {
         this.getTableList()
       })
     },
-    async handleAssociated() {
+    async handleAssociated () {
       if (this.selectTableData.length !== 1) {
         iMessage.warn('只能提交一条数据')
         return
       }
+      if (!this.selectTableData[0].isEffect) {
+        iMessage.warn('审批中不能申请移除BDL')
+        return
+      }
       const pms = {
-        stuffBdlId: this.selectTableData[0].id
+        stuffBdlId: this.selectTableData[0].id,
+        categoryName: this.selectTableData[0].categoryNameZh,
+        categoryCode: this.selectTableData[0].categoryCode,
+        categoryId: this.selectTableData[0].categoryId
       }
       const res = await updateAssociated(pms)
       this.resultMessage(res, () => {
         this.getTableList()
       })
     },
-    toApplicationBDL() {
+    async handleMbdlCance () {
+      if (this.selectTableData.length !== 1) {
+        iMessage.warn('只能提交一条数据')
+        return
+      }
+      const pms = {
+        stuffBdlId: this.selectTableData[0].id,
+        categoryName: this.selectTableData[0].categoryNameZh,
+        categoryCode: this.selectTableData[0].categoryCode,
+        categoryId: this.selectTableData[0].categoryId
+      }
+      const res = await mbdlCancelAssociated(pms)
+      this.resultMessage(res, () => {
+        this.getTableList()
+      })
+    },
+    toApplicationBDL () {
       this.$router.push({ path: '/supplier/application-BDL', query: { supplierToken: this.$route.query.supplierToken } })
     },
-    async exportsAllTable() {
+    toApplicationMBDL () {
+      this.$router.push({ path: '/supplier/application-BDL', query: { supplierToken: this.$route.query.supplierToken, mbdl: true } })
+    },
+    async exportsAllTable () {
       const pms = {
         pageNo: 1,
         pageSize: this.total

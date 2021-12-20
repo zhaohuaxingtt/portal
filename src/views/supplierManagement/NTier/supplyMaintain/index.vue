@@ -2,13 +2,13 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-06 11:13:02
- * @LastEditors: Please set LastEditors
+ * @LastEditors: caopeng
  * @Descripttion: your project
 -->
 <template>
   <div>
-    <theSearch />
-    <router-view></router-view>
+    <theSearch @form="getForm" />
+    <router-view ref="view"></router-view>
     <!-- <theNodeChain class="margin-top20"/> -->
   </div>
 </template>
@@ -16,15 +16,14 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import theNodeChain from "./components/theNodeChain.vue";
+// import theNodeChain from "./components/theNodeChain.vue";
 import theSearch from "./components/theSearch.vue";
 export default {
   // import引入的组件需要注入到对象中才能使用
-  components: { theNodeChain, theSearch },
+  components: { theSearch },
   data () {
     // 这里存放数据
     return {
-
     }
   },
   // 监听属性 类似于data概念

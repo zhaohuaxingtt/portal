@@ -6,7 +6,7 @@
  * @Descripttion: 舆情监测
 -->
 <template>
-  <iCard :title="$t('SPR_FRM_XGYSPJ_YQQK')">
+  <iCard :title="$t('SPR_FRM_XGYSPJ_YQQK')" >
 
     <!-- <div class="center1 height">
       <img :src="soon" width="70%" height="70%" alt="">
@@ -15,7 +15,7 @@
 		<img style="width: 60%;" src="./soon.png" >
 	</div> -->
     <div ref="chart"
-         class="chartStyle"> </div>
+         class="chartStyle" @click='openPBI()'> </div>
   </iCard>
 </template>
 
@@ -141,6 +141,11 @@ export default {
       ]
     }
     myChart.setOption(option)
+  },
+  methods:{
+    openPBI(){
+      console.log('.......打开报表')
+    }
   }
 }
 </script>

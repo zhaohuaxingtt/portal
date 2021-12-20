@@ -233,10 +233,15 @@ export default {
     },
 
     goNearFuture(e) {
+      // console.log(e,'这里是一般采购里卡片的点击事件');
       let url = '/meeting/near-meeting'
       if (e.state == '04') {
         url = '/meeting/live'
       }
+      //gp管理大厅
+      // if (e.state == '04') {
+      //   url = '/meeting/managementHall'
+      // }
       this.$router.push({
         path: url,
         query: {

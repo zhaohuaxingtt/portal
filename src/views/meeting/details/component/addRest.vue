@@ -116,7 +116,7 @@ export default {
     return {
       loading: false,
       ruleForm: {
-        topic: '休息',
+        topic: '休息 Break',
         duration: 10
       },
       rules: baseRules
@@ -202,9 +202,9 @@ export default {
               // itemNo: this.meetingInfo.themens.length + 1,
               meetingId: this.meetingInfo.id,
               isBreak: true,
-              themenId: this.selectedTableData[0]
-                ? this.selectedTableData[0].id
-                : null
+              // themenId: this.selectedTableData[0]
+              //   ? this.selectedTableData[0].id
+              //   : null
               // state: "04",
             }
             //开始保存

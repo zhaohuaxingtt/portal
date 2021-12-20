@@ -85,7 +85,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            !scope.row.count && scope.row.isBreak ? '/' : scope.row.count
+            !scope.row.count && scope.row.isBreak ? '-' : scope.row.count
           }}</span>
         </template>
       </el-table-column>
@@ -98,7 +98,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            !scope.row.topic && scope.row.isBreak ? '/' : scope.row.topic
+            !scope.row.topic && scope.row.isBreak ? '-' : scope.row.topic
           }}</span>
         </template>
       </el-table-column>
@@ -111,7 +111,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            !scope.row.duration && scope.row.isBreak ? '/' : scope.row.duration
+            !scope.row.duration && scope.row.isBreak ? '-' : scope.row.duration
           }}</span>
         </template>
       </el-table-column>
@@ -122,13 +122,23 @@
         label="Time"
       >
         <template slot-scope="scope">
-          <span v-if="scope.row.startTime">{{
-            scope.row.startTime && scope.row.startTime.substring(0, 5)
-          }}</span>
-          <span v-if="scope.row.startTime && scope.row.endTime">~</span>
-          <span v-if="scope.row.endTime">{{
-            scope.row.endTime && scope.row.endTime.substring(0, 5)
-          }}</span>
+          <div v-if="scope.row.startTime">
+            <span>{{
+              Number(scope.row.plusDayStartTime) > 0
+                ? scope.row.startTime.substring(0, 5) +
+                  ' +' +
+                  Number(scope.row.plusDayStartTime)
+                : scope.row.startTime.substring(0, 5)
+            }}</span
+            ><span>~</span>
+            <span v-if="scope.row.endTime">{{
+              Number(scope.row.plusDayEndTime) > 0
+                ? scope.row.endTime.substring(0, 5) +
+                  ' +' +
+                  Number(scope.row.plusDayEndTime)
+                : scope.row.endTime.substring(0, 5)
+            }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column
@@ -139,13 +149,8 @@
       >
         <template slot-scope="scope">
           <span>{{ scope.row.presenter }}</span>
-          <span
-            v-if="
-              (scope.row.presenter && scope.row.presenterNosys) ||
-              scope.row.isBreak
-            "
-            >/</span
-          >
+          <span v-if="scope.row.presenter && scope.row.presenterNosys">/</span>
+          <span v-if="scope.row.isBreak">-</span>
           <span>{{ scope.row.presenterNosys }}</span>
         </template>
       </el-table-column>
@@ -157,13 +162,10 @@
       >
         <template slot-scope="scope">
           <span>{{ scope.row.presenterDept }}</span>
-          <span
-            v-if="
-              (scope.row.presenterDept && scope.row.presenterDeptNosys) ||
-              scope.row.isBreak
-            "
+          <span v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
             >/</span
           >
+          <span v-if="scope.row.isBreak">-</span>
           <span>{{ scope.row.presenterDeptNosys }}</span>
         </template>
       </el-table-column>
@@ -175,13 +177,8 @@
       >
         <template slot-scope="scope">
           <span>{{ scope.row.supporter }}</span>
-          <span
-            v-if="
-              (scope.row.supporter && scope.row.supporterNosys) ||
-              scope.row.isBreak
-            "
-            >/</span
-          >
+          <span v-if="scope.row.supporter && scope.row.supporterNosys">/</span>
+          <span v-if="scope.row.isBreak">-</span>
           <span>{{ scope.row.supporterNosys }}</span>
         </template>
       </el-table-column>
@@ -193,13 +190,10 @@
       >
         <template slot-scope="scope">
           <span>{{ scope.row.supporterDept }}</span>
-          <span
-            v-if="
-              (scope.row.supporterDept && scope.row.supporterDeptNosys) ||
-              scope.row.isBreak
-            "
+          <span v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
             >/</span
           >
+          <span v-if="scope.row.isBreak">-</span>
           <span>{{ scope.row.supporterDeptNosys }}</span>
         </template>
       </el-table-column>
@@ -223,7 +217,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            !scope.row.remark && scope.row.isBreak ? '/' : scope.row.remark
+            !scope.row.remark && scope.row.isBreak ? '-' : scope.row.remark
           }}</span>
         </template>
       </el-table-column>
@@ -365,16 +359,15 @@ export default {
         //   cancelButtonText: "否",
         //   type: "warning",
         // }).then(() => {
-        follow(param)
-          .then((res) => {
-            if (res.code === 200) {
-              iMessage.success('关注成功')
-            }
-            this.$emit('query', this)
-          })
-          // .catch((err) => {
-          //   iMessage.error('关注失败')
-          // })
+        follow(param).then((res) => {
+          if (res.code === 200) {
+            iMessage.success('关注成功')
+          }
+          this.$emit('query', this)
+        })
+        // .catch((err) => {
+        //   iMessage.error('关注失败')
+        // })
         // });
       }
     }

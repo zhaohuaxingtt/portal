@@ -482,6 +482,15 @@ export function removePartMasterData(params) {
   })
 }
 
+export function downloadFile(params) {//下载
+  return request({
+    url: '/mtzAppNomi/downloadFile',
+    method: 'POST',
+    data: params,
+    responseType: 'blob',
+  })
+}
+
 export function getDosageUnitList(params) {
   //用量单位下拉
   return request({
@@ -504,5 +513,39 @@ export function approvalList(params) {
     url: '/mtzAppNomiDecisionData/approvalList',
     method: 'POST',
     data: params
+  })
+}
+
+export function getPreciousMetalDosageUnit(params) {//贵金属单位下拉
+  return request({
+    url: '/mtzNomiList/getPreciousMetalDosageUnit',
+    method: 'POST',
+    data: params
+  })
+}
+
+export function downloadError(params) {//导出错误信息
+  return request({
+    url: '/mtzAppNomi/downloadError',
+    method: 'POST',
+    responseType: 'blob',
+    data: params
+  })
+}
+
+
+export function getNominateAppIdList(parmars) {//关联单号下拉
+  return request({
+    url: '/mtzNomiList/getNominateAppIdList',
+    method: 'POST',
+    data: parmars
+  })
+}
+
+export function getMtzNomiRuleBuyer(parmars) {//mtz沿用规则采购员下拉
+  return request({
+    url: '/mtzNomiList/getMtzNomiRuleBuyer',
+    method: 'POST',
+    data: parmars
   })
 }

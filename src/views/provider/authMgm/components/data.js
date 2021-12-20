@@ -62,12 +62,16 @@ export const userMessage = [
 
 export const authList = [
   {
-    type: 'selection',
+    type: 'customSelection',
     width: 50
   },
   {
     type: 'index',
     width: 50
+  },
+  {
+    label: 'Id',
+    prop: 'id'
   },
   {
     prop: 'appNameCn',
@@ -126,7 +130,7 @@ export const authList = [
       let array = type ? type.split(',') : []
       let strArray = []
       if (array.length > 0) {
-        sysTags.forEach(val => {
+        sysTags.forEach((val) => {
           if (array.indexOf(val.id) >= 0) {
             strArray.push(val.label)
           }

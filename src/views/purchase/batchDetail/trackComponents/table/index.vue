@@ -13,7 +13,7 @@
                   :span-method="handleMerge"
                   tooltip-effect='light'
                   :data='tableData'
-                  :empty-text="$t('LK_ZANWUSHUJU')"
+                  :empty-text="$i18n.locale === 'zh'?'暂无数据':'No Data'"
                   v-loading='tableLoading'
                   @selection-change="handleSelectionChange"
                   :row-class-name="handleTableRow">
@@ -102,7 +102,7 @@
                         <el-form-item :prop="'tableData.' + scope.$index + '.' + items.props"
                                       :rules="items.rule ? items.rule : ''">
                             <i-select filterable v-model="scope.row[items.props]"
-                                      v-if="state || (!state && !scope.row.isConfirm)"
+                                      v-if="!scope.row.isConfirm"
                                       @change="changeValue(scope.row[items.props],scope.$index,selectPropsOptionsObject[items.props],items.props)">
                                 <el-option v-for="items in selectPropsOptionsObject[items.props]"
                                            :key='items.code'
@@ -377,9 +377,9 @@
                             ]
                         )
                     ])
-                } else if (column.label == this.label) {
+                } else if (column.label == this.label || column.label == 'Track') {
                     return this.fn(column, h, $index)
-                } else if (column.label == '配置' && this.tableTitle.length > 23) {
+                } else if ((column.label == '配置'||column.label == 'Configure') && this.tableTitle.length > 23) {
                     return this.cb(column, h, $index)
                 } else {
                     return h("span", column.label + "  ", {  //这是左边的

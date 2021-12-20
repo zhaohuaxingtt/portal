@@ -33,9 +33,10 @@
             <iSelect
               multiple
               collapse-tags
+              :loading="isloading"
               filterable
               @change="getStuffFitel"
-              style="width:240px"
+              style="width: 240px"
               :placeholder="
                 language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')
               "
@@ -81,7 +82,7 @@
               collapse-tags
               filterable
               value-key="stuffCode"
-              style="width:240px"
+              style="width: 240px"
               :placeholder="
                 language('QINGSHURUBIANHAOHUOMINGCHENG', '请输入编号或名称')
               "
@@ -139,7 +140,7 @@
               style="width: 240px"
               filterable
               @change="changeData($event, 'keshi')"
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="form.preDeptId"
             >
               <el-option
@@ -160,7 +161,7 @@
               style="width: 240px"
               filterable
               @change="changeData($event, 'liniekeshi')"
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="form.linieDeptId"
             >
               <el-option
@@ -179,7 +180,7 @@
           >
             <iSelect
               style="width: 240px"
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               filterable
               @change="changeData($event, 'cgy')"
               v-model="form.purchaserId"
@@ -202,7 +203,7 @@
               style="width: 240px"
               filterable
               @change="changeData($event, 'liniecgy')"
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="form.liniePurchaserId"
             >
               <el-option
@@ -220,7 +221,7 @@
           >
             <iSelect
               style="width: 240px"
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="form.measures"
             >
               <el-option
@@ -265,6 +266,7 @@
 
 <script>
 // let that
+import _ from 'lodash'
 import {
   iSelect,
   iMessage,
@@ -304,6 +306,7 @@ export default {
 
   data() {
     return {
+      isloading: false,
       userType: '',
       form: {
         reason: '',
@@ -400,22 +403,13 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    // that = this
-  },
-  watch: {
-    categoryLength(val) {
-      console.log(val)
-      //   if(val.length==0){
-      //       this.stuffByArr=[]
-      //   }
-    }
-  },
+  beforeCreate() {},
+  watch: {},
 
   created() {
     let pramas = {}
     this.$nextTick(() => {
-      getBuyerType(pramas).then(res => {
+      getBuyerType(pramas).then((res) => {
         if (res && res.code == 200) {
           this.userType = res.data
           if (res.data == 'LINIE') {
@@ -437,7 +431,7 @@ export default {
           this.form.purchaserId = ''
           //科室名称
           this.form.deptName = this.prePurchaseDeptArr.find(
-            res => res.deptId == type
+            (res) => res.deptId == type
           ).deptName
           this.getprePurchase()
           break
@@ -445,26 +439,25 @@ export default {
           this.form.liniePurchaserId = ''
           //linie科室名称
           this.form.linieDeptName = this.liniePurchaseDeptArr.find(
-            res => res.linieDeptId == type
+            (res) => res.linieDeptId == type
           ).linieDeptName
           this.getliniePurchase()
           break
         case 'cgy':
           //采购员名称
           this.form.purchaserName = this.prePurchaseArr.find(
-            res => res.purchaserId == type
+            (res) => res.purchaserId == type
           ).purchaserName
           break
         case 'liniecgy':
           //linie采购员名称
           this.form.liniePurchaserName = this.liniePurchaseArr.find(
-            res => res.liniePurchaserId == type
+            (res) => res.liniePurchaserId == type
           ).liniePurchaserName
           break
         default:
           break
       }
-      console.log(this.form)
     },
     // //前期采购员科室
     // getprePurchaseDept() {
@@ -480,7 +473,7 @@ export default {
     getliniePurchaseDept() {
       liniePurchaseDeptList({
         supplierId: this.clickTableList.subSupplierId
-      }).then(res => {
+      }).then((res) => {
         if (res && res.code == 200) {
           this.liniePurchaseDeptArr = res.data
         }
@@ -491,7 +484,7 @@ export default {
       prePurchaseList({
         supplierId: this.clickTableList.subSupplierId
         // purchaserDeptId: this.form.preDeptId
-      }).then(res => {
+      }).then((res) => {
         if (res && res.code == 200) {
           this.prePurchaseArr = res.data
           if (this.prePurchaseArr.length != 0) {
@@ -500,7 +493,7 @@ export default {
             this.form.preDeptId = this.prePurchaseArr[0].deptId
             this.form.deptName = this.prePurchaseArr[0].deptName
           }
-          this.prePurchaseArr.forEach(res => {
+          this.prePurchaseArr.forEach((res) => {
             this.prePurchaseDeptArr.push({
               deptId: res.deptId,
               deptName: res.deptName
@@ -514,7 +507,7 @@ export default {
       liniePurchaseList({
         supplierId: this.clickTableList.subSupplierId,
         purchaserDeptId: this.form.linieDeptId
-      }).then(res => {
+      }).then((res) => {
         if (res && res.code == 200) {
           this.liniePurchaseArr = res.data
         }
@@ -526,25 +519,30 @@ export default {
         listStuffByCategory({
           supplierId: this.clickTableList.subSupplierId,
           categoryCodes: this.form.categoryCodes
-        }).then(res => {
+        }).then((res) => {
           if (res && res.code == 200) {
+            this.isloading = false
             this.stuffByArr = res.data
             this.categoryLength = this.form.categoryCodes.length
             this.form.ppStuffSaveDTOList = res.data
             // .map(res => {
             //   return res.stuffCode
             // })
+          } else {
+            this.isloading = false
           }
         })
+      } else {
+        this.isloading = false
       }
     },
     //材料组
     getLinieList() {
       categoryList({ supplierId: this.clickTableList.subSupplierId }).then(
-        res => {
+        (res) => {
           if (res && res.code == 200) {
             this.categoryArr = res.data
-            this.form.categoryCodes = res.data.map(res => {
+            this.form.categoryCodes = res.data.map((res) => {
               return res.categoryCode
             })
 
@@ -554,11 +552,16 @@ export default {
       )
     },
     getStuffFitel() {
-      console.log(this.stuffByArr)
+      this.isloading = true
       this.form.ppStuffSaveDTOList = []
-      this.$set(this.stuffByArr, [])
+      this.$nextTick(() => {
+        this.stuffByArr = []
+      })
       //   this.stuffByArr = []
+      // if(this.form.categoryCodes.length>0){
       this.getStuffByList()
+
+      // }
     },
     //提交
     handleSub() {
@@ -574,7 +577,7 @@ export default {
           message: this.language('QINGSHURUBITIANXIANG', '请输入必填项')
         })
       } else {
-        this.$refs['form'].validate(valid => {
+        this.$refs['form'].validate((valid) => {
           if (valid) {
             this.value = false
             iMessageBox(
@@ -596,7 +599,7 @@ export default {
                 //     return v == i.stuffCode
                 //   })
                 // })
-                ppSupplerBlackSave(params).then(res => {
+                ppSupplerBlackSave(params).then((res) => {
                   if (res && res.code == 200) {
                     // this.$emit('closeDiolog',1)
                     iMessage.success(res.desZh)
@@ -624,16 +627,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.box{
-::v-deep.el-select__tags-text {
-  display: inline-block;
-  max-width: 140px;
-  vertical-align: middle;
-  overflow: hidden;
-//   align-items: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+.box {
+  ::v-deep.el-select__tags-text {
+    display: inline-block;
+    max-width: 140px;
+    vertical-align: middle;
+    overflow: hidden;
+    //   align-items: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .headerTitle {

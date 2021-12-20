@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 09:52:17
- * @LastEditors: Please set LastEditors
+ * @LastEditors: caopeng
  * @Descripttion: your project
 -->
 <template>
@@ -285,12 +285,13 @@ export default {
     },
     // 查询 卡片信息
     async getCardChain (par) {
+           console.log(this.$parent)
       this.onDataLoading = true
       const pms = {
         ...par
       }
       this.supplierId = pms.supplierId
-      // this.onDataLoading = true;
+      this.onDataLoading = true;
       this.ntierChains = []
       const res = await cardChain(pms)
       this.flat(res.data)
@@ -313,6 +314,7 @@ export default {
         nodeList[ntierChain.id] = ntierChain;
       });
       this.$set(this.chainNodeDatas, "nodeList", nodeList);
+      console.log(this.chainNodeDatas)
       this.$set(this.chainNodeDatas, "edges", edges);
       this.$nextTick(() => {
         this.onDataLoading = false;

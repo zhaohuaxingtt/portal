@@ -10,13 +10,13 @@
   <div class="detail-plan-list">
     <div class="flex-end-center margin-bottom20" v-show="data.length > 0">
       <iButton v-if="!editable" @click="edit">
-        {{ $t('编辑') }}
+        {{ language('编辑') }}
       </iButton>
       <iButton v-if="editable" :loading="saveLoading" @click="save">
-        {{ $t('保存') }}
+        {{ language('保存') }}
       </iButton>
       <iButton v-if="editable" @click="cancel">
-        {{ $t('取消') }}
+        {{ language('取消') }}
       </iButton>
     </div>
     <i-table-custom

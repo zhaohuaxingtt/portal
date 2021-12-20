@@ -3,10 +3,10 @@
   <iDialog
     :title="
       editOrAdd === 'add'
-        ? '新增休息'
+        ? $t('新增休息')
         : editOrAdd === 'look'
-        ? '查看休息'
-        : '编辑休息'
+        ? $t('查看休息')
+        : $t('编辑休息')
     "
     :visible.sync="dialogStatusManageObj.openAddRestDialog"
     width="20.625rem"
@@ -21,10 +21,10 @@
         :hideRequiredAsterisk="true"
       >
         <div class="meeting">
-          <div class="meeting-type">议题类型</div>
+          <div class="meeting-type">{{$t('议题类型')}}</div>
           <div class="meeting-rest">
             <!-- {{ typeObject[meetingInfo.meetingTypeId] }} -->
-            会议休息
+            {{$t('会议休息')}}
           </div>
         </div>
         <iFormItem label="议题名称" prop="topic" :hideRequiredAsterisk="true">
@@ -42,7 +42,7 @@
               type="number"
               :disabled="Boolean(editOrAdd === 'look')"
             ></iInput>
-            <span>分钟</span>
+            <span>{{$t('分钟')}}</span>
           </div>
         </iFormItem>
         <div class="button-list" v-if="editOrAdd !== 'look'">
@@ -116,7 +116,7 @@ export default {
     return {
       loading: false,
       ruleForm: {
-        topic: '休息',
+        topic: '休息 Break',
         duration: 10
       },
       rules: baseRules

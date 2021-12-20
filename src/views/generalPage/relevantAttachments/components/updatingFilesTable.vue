@@ -8,51 +8,58 @@
 <template>
   <i-card>
     <div class="margin-bottom20 clearFloat">
-      <span class="font18 font-weight">{{ $t('SUPPLIER_FUJIANSHANGCHUAN') }}</span>
+      <span class="font18 font-weight">{{
+        $t('SUPPLIER_FUJIANSHANGCHUAN')
+      }}</span>
       <div class="floatright">
-        <i-button @click="saveInfos('')"  v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT">
+        <i-button
+          @click="saveInfos('')"
+          v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT"
+        >
           {{ $t('LK_BAOCUN') }}
         </i-button>
-        <i-button @click="exportsTable"
-                  v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT">{{ $t('LK_DAOCHU') }}
+        <i-button
+          @click="exportsTable"
+          v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS_EXPORT"
+          >{{ $t('LK_DAOCHU') }}
         </i-button>
       </div>
     </div>
     <table-list
-        :tableData="tableListData"
-        :tableTitle="tableTitle"
-        :tableLoading="tableLoading"
-        @handleSelectionChange="handleSelectionChange"
-        @handleViewAttachment="handleViewAttachment"
-        @handleUploadedCallback="handleUploadedCallback"
-        @handleFileDownload="handleFileDownload"
-        @handleExampleDownload="handleExampleDownload"
-        :index="true"
-        v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS"
+      :tableData="tableListData"
+      :tableTitle="tableTitle"
+      :tableLoading="tableLoading"
+      @handleSelectionChange="handleSelectionChange"
+      @handleViewAttachment="handleViewAttachment"
+      @handleUploadedCallback="handleUploadedCallback"
+      @handleFileDownload="handleFileDownload"
+      @handleExampleDownload="handleExampleDownload"
+      :index="true"
+      v-permission="SUPPLIER_RELATEDACCESSORY_UPLOADATTACHMENTS"
     />
     <attachment-dialog
-        @handleSignature="handleSignature"
-        :detail="attachmentDetail"
-        :loading="attachmentLoading"
-        v-model="attachmentDialog"
+      @handleSignature="handleSignature"
+      :detail="attachmentDetail"
+      :loading="attachmentLoading"
+      v-model="attachmentDialog"
     />
   </i-card>
 </template>
 
 <script>
-import {iCard, iButton, iMessage} from "rise";
-import {generalPageMixins} from '@/views/generalPage/commonFunMixins'
+import { iCard, iButton, iMessage } from 'rise'
+import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from './updatingFilesTableList'
-import {upadtingFilesTableTitle} from './data'
+import { upadtingFilesTableTitle } from './data'
 import {
   getTemplateList,
   getAttachmentCommitment,
   signatureAttachment,
   saveAttachment
-} from "../../../../api/register/relevantAttachments";
+} from '../../../../api/register/relevantAttachments'
 import attachmentDialog from './attachmentDialog'
-import {downloadFile} from "@/api/file";
-import {cloneDeep} from 'lodash'
+import { downloadFile } from '@/api/file'
+import { cloneDeep } from 'lodash'
 
 export default {
   mixins: [generalPageMixins],
@@ -124,9 +131,13 @@ export default {
         list: [
           {
             file: {
-              fileName: evnet.fileName,
-              filePath: evnet.filePath,
-              fileSize: evnet.fileSize
+              // fileName: evnet.fileName,
+              // filePath: evnet.filePath,
+              // fileSize: evnet.fileSize
+              // TODO上传返回的字段临时修改
+              fileName: evnet.name,
+              filePath: evnet.path,
+              fileSize: evnet.size
             },
             ...row
           }
@@ -142,7 +153,7 @@ export default {
     },
     async saveInfos(step = '', nextStep = false, hideMessage = false) {
       let newTableList = cloneDeep(this.tableListData)
-      newTableList = newTableList.filter(item => {
+      newTableList = newTableList.filter((item) => {
         return !item.isCommitment
       })
       this.tableLoading = true
@@ -165,13 +176,17 @@ export default {
           this.tableLoading = false
         }
       } else {
-        this.resultMessage(res, () => {
-          this.getTableList()
-          this.nextStep = true
-        }, () => {
-          this.tableLoading = false
-          this.nextStep = false
-        })
+        this.resultMessage(
+          res,
+          () => {
+            this.getTableList()
+            this.nextStep = true
+          },
+          () => {
+            this.tableLoading = false
+            this.nextStep = false
+          }
+        )
       }
     },
     async handleFileDownload(row) {
@@ -205,6 +220,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

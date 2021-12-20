@@ -1,7 +1,7 @@
 <template>
   <div>
     <iCard :title="language('NEWS_JICHUXINXI', '基础信息')" collapse class="margin-bottom20">
-      <div class="card--form">
+      <div v-show="ruleForm.category!==2" class="card--form">
         <div class="form-base">
           <el-form
             :model="ruleForm"
@@ -257,6 +257,163 @@
           </div>
         </div>
       </div>
+      <div v-show="ruleForm.category==2" style="height: 49rem">
+        <div class="form-base">
+        <el-form
+            :model="ruleForm"
+            label-width="9rem"
+            :rules="GYSRules"
+            ref="gysRuleForm"
+            :hideRequiredAsterisk="true"
+          >
+            <div class="form">
+              <div class="input-box">
+                <div class="form-row" style="margin-top: 0px">
+                  <iFormItem
+                    :label="language('NEWS_XINWENFENLEI', '新闻分类')"
+                    prop="category"
+                    :hideRequiredAsterisk="true"
+                  >
+                    <iLabel
+                      :label="language('NEWS_XINWENFENLEI', '新闻分类')"
+                      slot="label"
+                      required
+                    ></iLabel>
+                    <iSelect
+                      :value="ruleForm.category"
+                      @input="handleCategoryIntercept"
+                      :disabled="ruleForm.id !== ''"
+                    >
+                      <el-option
+                        v-for="item in userNewsClassify"
+                        :key="item.code"
+                        :label="item.name"
+                        :value="item.code"
+                      >
+                      </el-option>
+                    </iSelect>
+                  </iFormItem>
+                  <iFormItem :label="language('NEWS_XINWENBIAOTI', '新闻标题')" prop="title">
+                    <iLabel
+                      :label="language('NEWS_XINWENBIAOTI', '新闻标题')"
+                      slot="label"
+                      required
+                    ></iLabel>
+                    <iInput v-model.trim="ruleForm.title" maxlength="80"></iInput>
+                  </iFormItem>
+                  <iFormItem
+                    :label="language('NEWS_FABUFANWEI', '发布范围')"
+                    prop="publishRange"
+                    :hideRequiredAsterisk="true"
+                  >
+                    <iLabel
+                      :label="language('NEWS_FABUFANWEI', '发布范围')"
+                      slot="label"
+                      required
+                    ></iLabel>
+                    <div
+                      class="item--input"
+                      v-if=" ruleForm.userGroup!=null && ruleForm.userGroup.length > 0"
+                      @click="handleClickUserGroup"
+                    >
+                      <iInput :title="userGroup" disabled v-model="userGroup">
+                      </iInput>
+                    </div>
+                    <iSelect
+                      v-else
+                      :placeholder="language('LK_QINGXUANZE', '请选择')"
+                      value-key="code"
+                      :value="ruleForm.publishRange"
+                      @input="handleChangePublishRange"
+                    >
+                      <el-option
+                        v-for="item in newsPublishRange"
+                        :key="item.code"
+                        :label="item.name"
+                        :value="item"
+                      >
+                      </el-option>
+                    </iSelect>
+                  </iFormItem>
+                </div>
+                <div class="form-two">
+                  <iFormItem :label="language('NEWS_FABURIQI', '发布日期')" prop="publishDate">
+                    <iLabel
+                      :label="language('NEWS_FABURIQI', '发布日期')"
+                      slot="label"
+                      required
+                    ></iLabel>
+                    <iDatePicker
+                      class="form-item-one"
+                      value-format="yyyy-MM-dd"
+                      type="date"
+                      v-model="ruleForm.publishDate"
+                      :picker-options="pickerOptions"
+                    />
+                  </iFormItem>
+                  <iFormItem class="form-item-two" :label="language('NEWS_XINWENBIAOQIAN', '新闻标签')"  :hideRequiredAsterisk="true">
+                    <iLabel :label="language('NEWS_XINWENBIAOQIAN', '新闻标签')" slot="label"></iLabel>
+                    <iSelect
+                      ref="tags"
+                      v-model="ruleForm.tags"
+                      :placeholder="language('LK_QINGXUANZE', '请选择')"
+                      value-key="id"
+                      multiple
+                    >
+                      <el-option
+                        v-for="item in tagList"
+                        :key="item.id"
+                        :label="item.content"
+                        :value="item"
+                      >
+                      </el-option>
+                    </iSelect>
+                  </iFormItem>
+                </div>
+                <div class="form-row">
+                  <iFormItem :label="language('NEWS_SHIFOUZHIDING', '是否置顶')" prop="isTop">
+                    <iLabel
+                      :label="language('NEWS_SHIFOUZHIDING', '是否置顶')"
+                      slot="label"
+                      required
+                    ></iLabel>
+                    <iSelect
+                      v-model="ruleForm.isTop"
+                      :placeholder="language('LK_QINGXUANZE', '请选择')"
+                    >
+                      <el-option
+                        v-for="item in isApprovalOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </iSelect>
+                  </iFormItem>
+                  <iFormItem :label="language('NEWS_GONGYINGSHANGMINGCHENG', '供应商简称')">
+                    <iLabel :label="language('NEWS_GONGYINGSHANGMINGCHENG', '供应商简称')" slot="label"></iLabel>
+                    <iInput v-model="ruleForm.providerName"></iInput>
+                  </iFormItem>
+                  <iFormItem :label="language('NEWS_YUANWENLIANJIE', '原文链接')">
+                    <iLabel :label="language('NEWS_YUANWENLIANJIE', '原文链接')" slot="label"></iLabel>
+                    <iInput v-model="ruleForm.linkUrl"></iInput>
+                  </iFormItem>
+                </div>
+                <div class="form-row">
+                  <iFormItem :label="language('NEWS_XINWENGAIYAO', '新闻概要')" prop="summary">
+                    <iLabel
+                      :label="language('NEWS_XINWENGAIYAO', '新闻概要')"
+                      slot="label"
+                      required
+                    ></iLabel>
+                    <iInput type="textarea" :rows="9" v-model.trim="ruleForm.summary"></iInput>
+                  </iFormItem>
+                </div>
+              </div>
+            </div>
+          </el-form>
+          </div>
+      </div>
       <iDialog
         :title="language('NEWS_ZDYYHZXZ','自定义-用户组选择')"
         :visible.sync="customDialogVisible"
@@ -327,7 +484,7 @@
       <button hidden slot="open">Select image</button>
     </ImgCutter>
 
-    <newsTextEdit ref="newsTextEdit" v-model="ruleForm" />
+    <newsTextEdit v-show="ruleForm.category!==2" ref="newsTextEdit" v-model="ruleForm" />
   </div>
 </template>
 
@@ -346,7 +503,7 @@ import {
 import { uploadFile } from "@/api/news/uploadFile";
 import newsTextEdit from "./newsTextEdit.vue";
 import ImgCutter from "vue-img-cutter";
-import { newsClassify, baseRules } from "./data";
+import { newsClassify, baseRules, GYSRules } from "./data";
 import {
   findNewsPublishRange,
   findTagList,
@@ -406,6 +563,7 @@ export default {
       searchGroupInputVal: "",
       newsClassify,
       baseRules,
+      GYSRules,
       classify: "",
       disabled: false,
       uploadLoading: false,
@@ -592,7 +750,7 @@ export default {
     },
     handleDownload(file, name) {
       createAnchorLink(
-        file.url.replace(process.env.VUE_APP_FILE_CROSS, `/fileCross`), // 前端跨域问题，将api地址替换为反向代理地址
+        file.url, // 前端跨域问题，将api地址替换为反向代理地址
         name
       );
     },
@@ -796,8 +954,25 @@ export default {
         margin-left: 80px;
       }
     }
+    .form-two{
+      width: 100%;
+      margin-top: 1.5rem;
+      height: 2.5rem !important;
+      display: flex;
+      .form-item-one{
+        width: 22.7rem !important;
+        margin-right: 80px;
+      }
+      .form-item-two{
+        flex: 1;
+      }
+    }
   }
 }
+::v-deep .el-input__inner {
+  height: 35px !important
+}
+
 .custom--dialog {
   min-height: 300px;
   ::v-deep .el-input {

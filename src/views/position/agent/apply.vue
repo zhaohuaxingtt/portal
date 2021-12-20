@@ -1,5 +1,8 @@
 <template>
   <iPage>
+    <pageHeader class="margin-bottom20">
+      <span>{{ this.form.id ? '编辑' : '新增' }}岗位代理</span>
+    </pageHeader>
     <iCard>
       <iSteps :active="active" align-center>
         <iStep title="发起岗位代理申请" status="finish">
@@ -60,7 +63,7 @@
                 <iDatePicker
                   v-model="form.startDate"
                   type="date"
-                  :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                  :placeholder="language('请选择')"
                   :disabled="!canEdit"
                   value-format="yyyy-MM-dd"
                   :picker-options="startDateOptions"
@@ -70,7 +73,7 @@
                 <iDatePicker
                   v-model="form.endDate"
                   type="date"
-                  :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                  :placeholder="language('请选择')"
                   :picker-options="endDateOptions"
                   :disabled="!canEdit"
                   value-format="yyyy-MM-dd"
@@ -84,7 +87,7 @@
           <el-col :span="12">
             <el-form-item label="代理原因" style="width: 100%">
               <iInput
-                :placeholder="$t('APPROVAL.PLEASE_INPUT')"
+                :placeholder="language('请输入')"
                 v-model="form.description"
                 style="width: 100%"
                 :disabled="!canEdit"
@@ -133,7 +136,7 @@ import {
   positionAgentDetail,
   positionAgentSave
 } from '@/api/position/agent'
-
+import pageHeader from '@/components/pageHeader'
 export default {
   name: 'PositionAgentApply',
   components: {
@@ -146,7 +149,8 @@ export default {
     iInput,
     iButton,
     choosePosition,
-    iDatePicker
+    iDatePicker,
+    pageHeader
   },
   data() {
     return {
@@ -277,7 +281,8 @@ export default {
           }
           let param = {
             ...this.form,
-            type: 3
+            type: 3,
+            sourceId: this.$store.state.permission.userInfo.positionDTO.id
           }
           if (param.positionList && param.positionList.length > 0) {
             param.positionId = param.positionList[0].positionId
@@ -325,7 +330,8 @@ export default {
       }
       let param = {
         ...this.form,
-        type: 3
+        type: 3,
+        sourceId: this.$store.state.permission.userInfo.positionDTO.id
       }
       this.loading = true
       applyPositionAgent(param)

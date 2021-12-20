@@ -9,8 +9,8 @@
         <el-form label-width="80" inline label-position="top">
           <el-form-item :label="language('SHIFOUCAIQUCUOSHI', '是否采取措施')">
             <iSelect
-              style="width:220px"
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              style="width: 220px"
+              :placeholder="language('请选择')"
               v-model="form.isTakeSteps"
             >
               <el-option
@@ -24,11 +24,11 @@
           </el-form-item>
           <el-form-item :label="language('GENJINREN', '跟进人')">
             <iSelect
-              style="width:220px"
+              style="width: 220px"
               multiple
               collapse-tags
               filterable
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="form.followUserIds"
             >
               <el-option
@@ -43,10 +43,10 @@
           <el-form-item :label="language('JIARUYUANYIN', '加入原因')">
             <iSelect
               multiple
-              style="width:220px"
+              style="width: 220px"
               collapse-tags
               v-model="form.categoryCodes"
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
             >
               <el-option
                 v-for="item in categorydate"
@@ -81,7 +81,7 @@
         >
         </table-list>
         <iPagination
-          style="margin-top:20px"
+          style="margin-top: 20px"
           v-update
           @size-change="handleSizeChange($event, sure)"
           @current-change="handleCurrentChange($event, fetchReportDetail)"
@@ -134,7 +134,7 @@ export default {
         isTakeSteps: ''
       },
       measureList: [
-          { label: this.language('QUANBU', '全部'), value: null },
+        { label: this.language('QUANBU', '全部'), value: null },
         { label: this.language('KONG', '空'), value: 2 },
         { label: this.language('YES', '是'), value: 1 },
         { label: this.language('NO', '否'), value: 0 }
@@ -154,7 +154,7 @@ export default {
       let params = {
         supplierId: this.supplierId
       }
-      listSupplierKeyTrackFollowUser(params).then(res => {
+      listSupplierKeyTrackFollowUser(params).then((res) => {
         if (res && res.code == 200) {
           this.followUsers = res.data
         }
@@ -164,7 +164,7 @@ export default {
       let params = {
         supplierType: this.tabVal
       }
-      categoryList(params).then(res => {
+      categoryList(params).then((res) => {
         if (res && res.code == 200) {
           this.categorydate = res.data
         }
@@ -181,7 +181,7 @@ export default {
         pageSize: this.page.pageSize,
         ...this.form
       }
-      keyTrackRecordPage(params).then(res => {
+      keyTrackRecordPage(params).then((res) => {
         this.loading = false
         if (res && res.code == 200) {
           this.page.totalCount = res.total
@@ -216,7 +216,7 @@ export default {
     //点击查询
     sure() {
       this.page.currPage = 1
-       this.page.pageSize = 10
+      this.page.pageSize = 10
       this.fetchReportDetail()
     }
   }

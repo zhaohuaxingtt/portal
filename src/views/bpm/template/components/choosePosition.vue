@@ -8,48 +8,39 @@
     <div class="choose-position">
       <div class="form-panel">
         <el-form inline label-position="top">
-          <iFormItem :label="$t('POSITION.POSITION_NAME')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.postCode"
-            />
+          <iFormItem :label="language('岗位名称')">
+            <iInput :placeholder="language('请输入')" v-model="form.postCode" />
           </iFormItem>
-          <iFormItem :label="$t('POSITION.POSITION_CODE')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.postName"
-            />
+          <iFormItem :label="language('岗位编码')">
+            <iInput :placeholder="language('请输入')" v-model="form.postName" />
           </iFormItem>
-          <iFormItem :label="$t('POSITION.POSITION_USER')">
-            <iInput
-              :placeholder="$t('APPROVAL.PLEASE_INPUT')"
-              v-model="form.postUser"
-            />
+          <iFormItem :label="language('岗位人员')">
+            <iInput :placeholder="language('请输入')" v-model="form.postUser" />
           </iFormItem>
         </el-form>
         <div class="form-button">
-          <iButton @click="search">{{ $t('POSITION.QUERY') }}</iButton>
-          <iButton @click="reset">{{ $t('POSITION.RESET') }}</iButton>
+          <iButton @click="search">{{ language('查询') }}</iButton>
+          <iButton @click="reset">{{ language('重置') }}</iButton>
         </div>
       </div>
       <div class="divider"></div>
       <div class="form-panel">
         <el-form inline label-position="top">
-          <iFormItem :label="$t('POSITION.POSITION_RELATIVE')">
+          <iFormItem :label="language('相关岗位')">
             <iSelect
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="form.relationPost"
             />
           </iFormItem>
-          <iFormItem :label="$t('POSITION.ORG_LEVEL')">
+          <iFormItem :label="language('组织级别')">
             <iSelect
-              :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+              :placeholder="language('请选择')"
               v-model="form.choosePositionRelation"
             />
           </iFormItem>
         </el-form>
         <div class="form-button">
-          <iButton @click="save">{{ $t('APPROVAL.OK') }}</iButton>
+          <iButton @click="save">{{ language('确定') }}</iButton>
         </div>
       </div>
       <div class="selected-tags">

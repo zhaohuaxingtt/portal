@@ -1,14 +1,15 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:06
- * @LastEditTime: 2021-08-17 10:58:23
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-12-16 11:03:37
+ * @LastEditors: caopeng
  * @Description: 项目中登录时候获取整个项目的权限以及token.
- * @FilePath: \rise\src\permission.js
+ * @FilePath: \front-portal-new\src\permission.js
  */
 import router from './router'
 import store from '@/store'
 import { getToken, removeToken } from '@/utils'
+import { MessageBox } from 'element-ui'
 // eslint-disable-next-line no-unused-vars
 const whiteList = ['/login', '/ui', '/superLogin']
 router.beforeEach((to, from, next) => {
@@ -29,14 +30,30 @@ router.beforeEach((to, from, next) => {
               .then((res) => {
                 if (res.length == 0) {
                   removeToken()
-                  next('/login')
+                  console.log('zhixszhesl')
+                  const appLoading = document.getElementById('app-loading')
+                  if (appLoading) {
+                    appLoading.style.display = 'none'
+                  }
+                  MessageBox.alert(
+                    '该账号无任何权限，请授予权限或切换账号再登录!',
+                    '无权限',
+                    {
+                      confirmButtonText: '确定',
+                      type: 'warning ',
+                      callback: (action) => {
+                        console.groupEnd('action ', action)
+                        next('/login')
+                      }
+                    }
+                  )
                 } else {
                   store.dispatch('getModules')
-                  console.log('top', to.fullPath)
                   next()
                 }
               })
-              .catch(() => {
+              .catch((err) => {
+                console.log('err', err)
                 console.warn(
                   '警告：获取菜单或解析菜单错误！已为您重定向到登录界面.'
                 )

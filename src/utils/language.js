@@ -17,19 +17,28 @@ let languageList = []
 // eslint-disable-next-line no-undef
 Vue.use(i18n)
 
-Vue.prototype.language = function (languageKey, name) {
-  if (process.env.NODE_ENV == 'dev') {
+Vue.prototype.language = function (languageKey, name, params) {
+  if (['dev', 'vmsit'].includes(process.env.NODE_ENV)) {
     name = name || languageKey
     languageList.push(
       languageKey + '----' + name + '----' + this.$router.currentRoute.path
     )
   }
-  return this.$t(languageKey) || languageKey
+  if (params && this.$t(languageKey, params)) {
+    return this.$t(languageKey, params)
+  }
+  if (this.$t(languageKey) && this.$t(languageKey) !== 'undefined') {
+    return this.$t(languageKey)
+  }
+  return languageKey
 }
 
 // eslint-disable-next-line no-undef
 router.afterEach(() => {
-  if (process.env.NODE_ENV == 'dev' && languageList.length !== 0) {
+  if (
+    ['dev', 'vmsit'].includes(process.env.NODE_ENV) &&
+    languageList.length !== 0
+  ) {
     let languageLists = Array.from(new Set(languageList))
     sendKey(languageLists)
       .then((res) => {
@@ -45,5 +54,5 @@ router.afterEach(() => {
 
 export default function (languageKey, name) {
   // eslint-disable-next-line no-undef
-  return i18n.t(languageKey)
+  return i18n.t(languageKey) || languageKey
 }

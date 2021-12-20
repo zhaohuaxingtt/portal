@@ -87,6 +87,33 @@
                     </iSelect>
                   </el-form-item>
                 </el-col>
+                <el-col :span="4">
+                  <el-form-item :label="language('SAP号')">
+                    <iInput
+                      :placeholder="searchOptionTitles.input"
+                      v-model="searchCondition.sapNum"
+                    >
+                    </iInput>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="4">
+                  <el-form-item :label="language('正式/SVW号')">
+                    <iInput
+                      :placeholder="searchOptionTitles.input"
+                      v-model="searchCondition.svwCode"
+                    >
+                    </iInput>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="4">
+                  <el-form-item :label="language('临时号')">
+                    <iInput
+                      :placeholder="searchOptionTitles.input"
+                      v-model="searchCondition.temporaryNum"
+                    >
+                    </iInput>
+                  </el-form-item>
+                </el-col>
               </el-row>
             </el-form>
           </div>
@@ -122,8 +149,7 @@
               @goEdit="goEdit"
               @handle-selection-change="handleSelectionChange"
               ref="authList"
-            >
-            </iTableCustom>
+            />
             <iPagination
               v-update
               @size-change="handleSizeChange($event, getTableData)"
@@ -146,6 +172,7 @@
       :selectedUsers="selectedUsers"
       @getTableData="getTableData"
       :operationType="operation"
+      v-if="isVisible"
     ></authorization>
   </iPage>
 </template>
@@ -203,20 +230,20 @@ export default {
         current: this.page.currPage
       }
       providerList(data)
-        .then(value => {
+        .then((value) => {
           if (value.code == 200) {
             this.tableLoading = false
             this.tableData = value.data
             this.page.totalCount = value.total
             // alert("正确啦");
           } else {
-            iMessage.error(value.desZh || '获取数据失败')
+            iMessage.error(value.desZh || this.language('获取数据失败'))
           }
         })
-        .catch(error => {
+        .catch((error) => {
           //   alert(`报错啦${error}`);
           this.tableLoading = false
-          iMessage.error('获取数据失败')
+          iMessage.error(error.desZh || this.language('获取数据失败'))
         })
     },
     //勾选item操作
@@ -277,37 +304,38 @@ export default {
       options: [
         {
           value: 'true',
-          lable: '是'
+          lable: this.language('是')
         },
         {
           value: 'false',
-          lable: '否'
+          lable: this.language('否')
         }
       ],
       tableData: [],
       searchOptionTitles: {
-        pageTitle: '供应商用户授权管理',
-        contactName: '联系人姓名',
-        supChina: '供应商中文名',
-        position: '职位',
-        department: '部门',
-        Landline: '联系电话',
-        phoneCode: '手机',
-        isPrimaryContact: '是否是主联系人',
+        sapNO: this.language('SAP号'),
+        pageTitle: this.language('供应商用户授权管理'),
+        contactName: this.language('联系人姓名'),
+        supChina: this.language('供应商中/英文名'),
+        position: this.language('职位'),
+        department: this.language('部门'),
+        Landline: this.language('联系电话'),
+        phoneCode: this.language('手机'),
+        isPrimaryContact: this.language('是否是主联系人'),
         buttons: {
-          search: '查询',
-          reset: '重置'
+          search: this.language('查询'),
+          reset: this.language('重置')
         },
-        input: '请输入',
-        iselect: '请选择'
+        input: this.language('请输入'),
+        iselect: this.language('请选择')
       },
       tableButtons: {
-        auth: '授权',
-        unauth: '取消授权',
-        export: '导出'
+        auth: this.language('授权'),
+        unauth: this.language('取消授权'),
+        export: this.language('导出')
       },
       iDialogTitle: {
-        title: '重置密码'
+        title: this.language('重置密码')
       },
       searchCondition: {
         isMainContact: null, //是否主联系人 false：否，true：是
@@ -316,7 +344,10 @@ export default {
         telephoneM: '', //手机
         telephoneO: '', //座机
         position: '',
-        department: ''
+        department: '',
+        sapNum: '', //sap
+        svwCode: '', //svw
+        temporaryNum: '' //临时号
       }
     }
   }

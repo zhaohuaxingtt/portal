@@ -1,8 +1,8 @@
 <template>
   <iCard :title="language('基本信息')" collapse>
-      <el-form label-position="left" label-width="150px">
+      <el-form label-position="left" label-width="160px">
           <el-row :gutter="24">
-              <el-col span='8'>
+              <el-col span='10'>
                 <iFormItem :label='language("零件号")' class="form-label-partNum">
                     <div class="sixNumber">
                         <iInput disabled v-model="formContent.partNum1"></iInput>
@@ -17,19 +17,19 @@
           <el-row :gutter="24">
               <el-col span="8">
                   <iFormItem :label='language("零件名称(中)")' class="form-label">
-                      <el-checkbox class="check-box" v-model="checkBoxs.partNameZh"></el-checkbox>
+                      <el-checkbox class="check-box" v-model="checkBoxs.partNameZh" slot="label"><span class="label-text">{{language("零件名称(中)")}}</span></el-checkbox>
                       <iInput :placeholder='language("请输入")' v-model="formContent.partNameZh" disabled></iInput>
                   </iFormItem>
               </el-col>
               <el-col span="8">
                   <iFormItem :label='language("零件名称(德)")' class="form-label">
-                      <el-checkbox class="check-box" v-model="checkBoxs.partNameDe"></el-checkbox>
+                      <el-checkbox class="check-box" v-model="checkBoxs.partNameDe" slot="label"><span class="label-text">{{language("零件名称(德)")}}</span></el-checkbox>
                       <iInput :placeholder='language("请输入")'  v-model="formContent.partNameDe" disabled></iInput>
                   </iFormItem>
               </el-col>
               <el-col span="8">
                   <iFormItem :label='language("BMG")' class="form-label">
-                      <el-checkbox class="check-box" v-model="checkBoxs.bmg"></el-checkbox>
+                      <el-checkbox class="check-box" v-model="checkBoxs.bmg" slot="label"><span class="label-text">{{language("BMG")}}</span></el-checkbox>
                       <iSelect :placeholder='language("请选择")'  v-model="formContent.bmg" disabled>
                           <el-option
                             v-for="item in BMGoptions"
@@ -45,7 +45,7 @@
           <el-row :gutter="24">
               <el-col span="8">
                   <iFormItem :label='language("ZP")' class="form-label">
-                      <el-checkbox class="check-box" v-model="checkBoxs.zp"></el-checkbox>
+                      <el-checkbox class="check-box" v-model="checkBoxs.zp" slot="label"><span class="label-text">{{language("ZP")}}</span></el-checkbox>
                       <iSelect :placeholder='language("请选择")' v-model="formContent.zp" disabled>
                           <el-option
                             v-for="item in ZPoptions"
@@ -59,13 +59,13 @@
               </el-col>
               <el-col span="8">
                   <iFormItem :label='language("FOP")' class="form-label">
-                      <el-checkbox class="check-box" v-model="checkBoxs.fop"></el-checkbox>
+                      <el-checkbox class="check-box" v-model="checkBoxs.fop" slot="label"><span class="label-text">{{language("FOP")}}</span></el-checkbox>
                       <iInput :placeholder='language("请输入")' v-model="formContent.fop" disabled></iInput>
                   </iFormItem>
               </el-col>
               <el-col span="8">
                   <iFormItem :label='language("技术部门")' class="form-label">
-                      <el-checkbox class="check-box" v-model="checkBoxs.techDept"></el-checkbox>
+                      <el-checkbox class="check-box" v-model="checkBoxs.techDept" slot="label"><span class="label-text">{{language("技术部门")}}</span></el-checkbox>
                       <iInput :placeholder='language("请输入")' v-model="formContent.techDept" disabled>
                       </iInput>
                   </iFormItem>
@@ -74,7 +74,7 @@
           <el-row :gutter="24">
               <el-col span="8">
                   <iFormItem :label='language("Common Sourcing")' class="form-label">
-                      <el-checkbox class="check-box" v-model="checkBoxs.isCommonSourcing"></el-checkbox>
+                      <el-checkbox class="check-box" v-model="checkBoxs.isCommonSourcing" slot="label"><span class="label-text">{{language("Common Sourcing")}}</span></el-checkbox>
                       <iSelect :placeholder='language("请选择")' v-model="formContent.isCommonSourcing" disabled>
                           <el-option
                             v-for="item in commonOptions"
@@ -88,7 +88,7 @@
               </el-col>
               <el-col span="8">
                   <iFormItem :label='language("专业组")' class="form-label">
-                      <el-checkbox class="check-box" v-model="checkBoxs.fgId"></el-checkbox>
+                      <el-checkbox class="check-box" v-model="checkBoxs.fgId" slot="label"><span class="label-text">{{language("专业组")}}</span></el-checkbox>
                       <iSelect :placeholder='language("请选择")' v-model="formContent.fgId" disabled>
                           <el-option
                             v-for="item in profationalOptions"
@@ -103,7 +103,7 @@
               </el-col>
               <el-col span="8">
                   <iFormItem :label='language("SET")' class="form-label">
-                      <el-checkbox class="check-box" v-model="checkBoxs.setCode"></el-checkbox>
+                      <el-checkbox class="check-box" v-model="checkBoxs.setCode" slot="label"><span class="label-text">{{language("SET")}}</span></el-checkbox>
                       <iInput :placeholder='language("请输入")' v-model="formContent.setCode" disabled>
                       </iInput>
                   </iFormItem>
@@ -235,13 +235,15 @@ export default {
             }
             if(this.checkBoxs.fop){
                 data.fop = this.formContent.fop
+                data.fopUserId = this.formContent.fopUserId
             }else{
                 data.fop = ''
+                data.fopUserId = ''
             }
             if(this.checkBoxs.techDept){
-                data.techDeptId = this.formContent.techDept
+                data.techDept = this.formContent.techDept
             }else{
-                 data.techDeptId = ''
+                 data.techDept = ''
             }
             if(this.checkBoxs.isCommonSourcing){
                 data.isCommonSourcing = this.formContent.isCommonSourcing || false
@@ -253,8 +255,8 @@ export default {
             }else{
                 data.fgId = ''
             }
-            if(this.checkBoxs.set){
-                data.setCode = this.formContent.set
+            if(this.checkBoxs.setCode){
+                data.setCode = this.formContent.setCode
             }else{
                  data.setCode = ''
             }
@@ -275,17 +277,20 @@ export default {
     }
 }
 .form-label{
-    margin-left: 40px;
+    margin-left: 26px;
     position: relative;
-    .check-box{
-        position: absolute;
-        left: -210px;
-        ::v-deep .el-checkbox__inner{
-            border-radius: 4px;
-        }
-    }
+    // .check-box{
+    //     position: absolute;
+    //     left: -170px;
+    //     ::v-deep .el-checkbox__inner{
+    //         border-radius: 4px;
+    //     }
+    // }
 }
 .form-label-partNum{
-    margin-left: 20px;
+    margin-left: 26px;
+}
+.label-text{
+    color: black;
 }
 </style>

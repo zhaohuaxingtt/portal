@@ -3,23 +3,23 @@
     <el-form label-width="100px" label-position="left" label-suffix=":">
       <el-row :gutter="50">
         <el-col :span="6">
-          <iFormItem :label="$t('APPROVAL.APPLICATION_NO')">
+          <iFormItem :label="language('申请号')">
             <iInput v-model="form.businessId" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('APPROVAL.APPROVAL_NAME')">
+          <iFormItem :label="language('审批名称')">
             <iInput v-model="form.itemName" disabled />
           </iFormItem>
         </el-col>
         <el-col :span="12">
-          <iFormItem :label="$t('APPROVAL.APPROVAL_ITEMS')">
+          <iFormItem :label="language('审批事项')">
             <iInput v-model="form.itemEvent" disabled />
           </iFormItem>
         </el-col>
       </el-row>
 
-      <iFormItem :label="$t('APPROVAL.APPROVAL_CONTENT')">
+      <iFormItem :label="language('审批信息')">
         <iInput
           v-model="form.itemContent"
           disabled
@@ -28,7 +28,7 @@
         />
       </iFormItem>
       <iFormItem
-        :label="$t('APPROVAL.ATTACH')"
+        :label="language('附件')"
         v-if="form.procAttachments && form.procAttachments.length > 0"
       >
         <attachmentList :data="form.procAttachments || []" icon />
@@ -45,7 +45,7 @@ export default {
   props: {
     form: {
       type: Object,
-      default: function() {
+      default: function () {
         return {}
       }
     }

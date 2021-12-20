@@ -213,13 +213,11 @@
       <iCard>
         <div class="preview">
           <p class="title">{{ this.ruleForm.title }}</p>
-          <div class="first">
-            <div>
-              <!-- <span class="author">{{ this.list.publisher }}</span> -->
+          <p class="first">
+              <span class="author">{{this.publisher}}</span>
               <span class="time">{{ this.ruleForm.publishDate }}</span>
-            </div>
             <!-- <p class="look el-icon-view">{{ this.list.clicks }}</p> -->
-          </div>
+          </p>
           <p class="paragraph" v-html="this.ruleForm.content"></p>
           <el-divider></el-divider>
           <div class="attachmentList">
@@ -266,6 +264,7 @@ import {
   getNoticeType,
   findGroupList,
 } from "@/api/news/notice.js";
+import store from '@/store'
 import { isTopOption } from "./data";
 import { createAnchorLink } from "@/utils/downloadUtil";
 
@@ -283,6 +282,7 @@ export default {
   },
   props: {},
   mounted() {
+    this.publisher = store.state.permission?.userInfo?.nameZh || 'admin'
     this.ruleForm.publishDate = this.timeDefault;
     findNewsPublishRange().then((res) => {
       this.newsPublishRange = res;
@@ -334,13 +334,14 @@ export default {
       newsPublishRange: [],
       timeDefaultShow: "",
       saveFlag:false,
+      publisher:'',
       ruleForm: {
         status: "",
         title: "",
         type: "",
         publishDate: "",
         isTop: 0,
-        publishRange: "",
+        publishRange: 0,
         content: "",
         attachments: [],
         userGroup: [],
@@ -488,7 +489,7 @@ export default {
     },
     handleDownloadFile(url, name) {
       createAnchorLink(
-        url.replace(process.env.VUE_APP_FILE_CROSS, `/fileCross`), // 前端跨域问题，将api地址替换为反向代理地址
+        url, // 前端跨域问题，将api地址替换为反向代理地址
         name
       );
     },
@@ -535,7 +536,20 @@ export default {
     },
     // 重置
     handleReset() {
-      this.ruleForm = {};
+      this.ruleForm = {
+        status: "",
+        title: "",
+        type: "",
+        publishDate: new Date(+new Date() + 8 * 3600 * 1000)
+        .toJSON()
+        .substr(0, 19)
+        .replace("T", " "),
+        isTop: 0,
+        publishRange: 0,
+        content: "",
+        attachments: [],
+        userGroup: [],
+      },
       this.editor.txt.html("");
     },
     // 返回
@@ -704,11 +718,11 @@ export default {
     color: #000000;
     text-align: center;
     font-weight: bold;
+    margin-top: 40px;
   }
   .first {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 60px;
+    text-align: center;
+    margin-top: 20px;
     .author {
       font-size: 12px;
       font-family: PingFangSC-Regular;

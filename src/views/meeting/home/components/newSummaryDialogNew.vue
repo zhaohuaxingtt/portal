@@ -75,7 +75,7 @@
                 <p class="task">Task</p>
                 <div class="task-title">
                   <div>
-                    {{$t('MT_BUMEN')}}：<span>{{
+                    {{ $t('MT_BUMEN') }}：<span>{{
                       taskDeptResult(item, 'supporterDept', 'presenterDept')
                     }}</span>
                   </div>
@@ -85,7 +85,7 @@
                         ? userNameArr[index][0]
                         : ''
                     }}
-                    {{
+                    <!-- {{
                       userNameArr.length === resultData.themens.length
                         ? userNameArr[index][0] && userNameArr[index][1] && '/'
                         : ''
@@ -94,7 +94,7 @@
                       userNameArr.length === resultData.themens.length
                         ? userNameArr[index][1]
                         : ''
-                    }}
+                    }} -->
                   </div>
                 </div>
                 <iFormItem prop="conclusion" class="meet-desc">
@@ -124,7 +124,7 @@
                     <el-table-column
                       prop="partNameZh"
                       align="center"
-                      label="零件名/Partname"
+                      label="零件名/Part Name"
                       :render-header="renderHeader"
                     >
                     </el-table-column>
@@ -145,7 +145,7 @@
                     <el-table-column
                       prop="supplierName"
                       align="center"
-                      label="定点供应商/NomlSupplier"
+                      label="定点供应商/Nomi Suppier"
                       :render-header="renderHeader"
                     >
                     </el-table-column>
@@ -328,32 +328,38 @@ export default {
         return user
       })
       let arr = arrObj.map((item) => {
-        return item ? item.nameZh : ''
+        return item ? item.nameEn : ''
       })
       this.userNameArr = this.arrTrans(2, [...arr])
       // return res.data
     },
-    taskDeptResult(item, field, field1) {
-      if (
-        item[field]
-          ? item[field].toString().trim()
-          : '' && item[field1]
-          ? item[field1].toString().trim()
-          : '' && item[field]
-          ? item[field].toString().trim()
-          : '' === item[field1]
-          ? item[field1].toString().trim()
-          : ''
-      ) {
+    // taskDeptResult(item, field, field1) {
+    //   if (
+    //     item[field]
+    //       ? item[field].toString().trim()
+    //       : '' && item[field1]
+    //       ? item[field1].toString().trim()
+    //       : '' && item[field]
+    //       ? item[field].toString().trim()
+    //       : '' === item[field1]
+    //       ? item[field1].toString().trim()
+    //       : ''
+    //   ) {
+    //     return item[field]
+    //   } else if (
+    //     !(item[field] ? item[field].toString().trim() : '') &&
+    //     !(item[field1] ? item[field1].toString().trim() : '')
+    //   ) {
+    //     return '暂无'
+    //   } else {
+    //     return item[field1] + '/' + item[field]
+    //   }
+    // },
+    taskDeptResult(item, field) {
+      if (item[field]) {
         return item[field]
-      } else if (
-        !(item[field] ? item[field].toString().trim() : '') &&
-        !(item[field1] ? item[field1].toString().trim() : '')
-      ) {
-        return '暂无'
-      } else {
-        return item[field1] + '/' + item[field]
       }
+      return '暂无'
     },
     // taskUserResult(item, index) {
     //   this.queryUserInfo([item.supporter, item.presenter]).then((res) => {
@@ -385,11 +391,10 @@ export default {
         id: this.id
       }
       getMeetingSummary(param).then((res) => {
-        console.log(242, res)
         this.resultData = res
         res.themens.forEach((item) => {
-          this.userIdsArr.push(item.presenter)
           this.userIdsArr.push(item.supporter)
+          this.userIdsArr.push(item.presenter)
         })
         this.queryUserInfo(this.userIdsArr)
         // this.$set(this.resultData.name, res.name)

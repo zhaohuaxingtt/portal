@@ -1,7 +1,7 @@
 <template>
   <iPage class="relation">
     <pageHeader>
-      Mtz材料组关联关系列表
+      {{language('Mtz材料组关联关系列表')}}
     </pageHeader>
 
     <theRelationFilter class="margin-top20" @search="search" />

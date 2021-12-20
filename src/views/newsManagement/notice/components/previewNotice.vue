@@ -1,28 +1,32 @@
 <template>
   <iPage>
     <div class="returnButton">
-      <iButton @click="handleClosePre">{{ language('NEWS_FANHUI', '返回') }}</iButton>
+      <iButton @click="handleClosePre">{{
+        language('NEWS_FANHUI', '返回')
+      }}</iButton>
     </div>
     <iCard>
       <div class="preview">
         <p class="title">{{ this.list.title }}</p>
-        <div class="first">
-          <div>
-            <span class="author">{{ this.list.publisher }}</span>
-            <span class="time">{{ this.list.publishDate }}</span>
-          </div>
-          <p class="look el-icon-view"> {{ this.list.clicks }}</p>
-        </div>
+        <p class="first">
+          <span class="author">{{ this.list.publisher }}</span>
+          <span class="time">{{ this.list.publishDate }}</span>
+        </p>
+        <p class="look el-icon-view">{{ this.list.clicks }}</p>
         <p class="paragraph" v-html="this.list.content"></p>
         <el-divider></el-divider>
         <div class="attachmentList" v-if="isAttachments">
-          <span class="attachment">{{language('NEWS_FUJIAN', '附件')}}：</span>
+          <span class="attachment"
+            >{{ language('NEWS_FUJIAN', '附件') }}：</span
+          >
           <ul>
             <li
               v-for="item in this.list.attachments"
               :key="item.id"
               class="open-link-text enclosure-item margin-bottom20"
-              @click="downloadEnclosure(item.attachmentUrl, item.attachmentTitle)"
+              @click="
+                downloadEnclosure(item.attachmentUrl, item.attachmentTitle)
+              "
             >
               <img :src="enclosure" alt="" srcset="" class="img" />
               <span class="attachmentLink">{{ item.attachmentTitle }}</span>
@@ -35,58 +39,58 @@
 </template>
 
 <script>
-import { iCard, iPage, iButton } from "rise";
-import { getNoticeById } from "@/api/news/notice.js";
-import enclosure from "@/assets/images/enclosure.svg";
-import { createAnchorLink } from "@/utils/downloadUtil";
+import { iCard, iPage, iButton } from 'rise'
+import { getNoticeById } from '@/api/news/notice.js'
+import enclosure from '@/assets/images/enclosure.svg'
+import { createAnchorLink } from '@/utils/downloadUtil'
 
 export default {
   components: {
     iPage,
     iCard,
-    iButton,
+    iButton
   },
   props: {},
   mounted() {
-    this.query();
+    this.query()
   },
   data() {
     return {
       enclosure,
-      list: {},
-    };
+      list: {}
+    }
   },
-  computed:{
-    isAttachments(){
+  computed: {
+    isAttachments() {
       return this.list.attachments?.length
     }
   },
   methods: {
     // 查询
     query() {
-      const id = this.$route.query.id;
-      this.getNotice(id);
+      const id = this.$route.query.id
+      this.getNotice(id)
     },
     getNotice(id) {
-      const data = { id };
+      const data = { id }
       getNoticeById(data).then((res) => {
-        console.log("res", res);
-        this.list = res;
-        this.list = {...this.list}
-      });
+        console.log('res', res)
+        this.list = res
+        this.list = { ...this.list }
+      })
     },
     handleClosePre() {
-      this.$router.go(-1);
+      this.$router.go(-1)
     },
     // 预览页-下载附件
     downloadEnclosure(url, name) {
       createAnchorLink(
-        url.replace(process.env.VUE_APP_FILE_CROSS, `/fileCross`), // 前端跨域问题，将api地址替换为反向代理地址
+        url, // 前端跨域问题，将api地址替换为反向代理地址
         name
-      );
-    },
-  },
-};
+      )
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -103,11 +107,11 @@ export default {
     color: #000000;
     text-align: center;
     font-weight: bold;
+    margin-top: 40px;
   }
   .first {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 60px;
+    text-align: center;
+    margin-top: 20px;
     .author {
       font-size: 12px;
       font-family: PingFangSC-Regular;
@@ -119,14 +123,17 @@ export default {
       font-size: 12px;
       font-family: PingFangSC-Regular;
       line-height: 17px;
-      color: #999999;
+      color: #999999; 
     }
-    .look {
-      font-size: 12px;
-      font-family: PingFangSC-Regular;
-      line-height: 17px;
-      color: #999999;
-    }
+  }
+  .look {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+    font-family: PingFangSC-Regular;
+    line-height: 17px;
+    color: #999999;
+    margin: 30px 0;
   }
   .paragraph {
     font-size: 14px;
@@ -156,7 +163,7 @@ export default {
       font-family: Hiragino Sans GB;
       font-weight: normal;
       // line-height: 27px;
-      color: #1660F1;
+      color: #1660f1;
       text-decoration: underline;
       cursor: pointer;
     }

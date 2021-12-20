@@ -11,8 +11,9 @@
       :columns="tableColumns"
       :tree-expand="tableExpanded"
       :default-selected-rows="defaultSelectedRows"
+      highlight-current-row
       @handle-selection-change="handleSelectionChange"
-      @row-click="rowClick"
+      @row-click="handleRowClick"
     />
   </div>
 </template>
@@ -31,13 +32,13 @@ export default {
     },
     defaultSelectedRows: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
     fullMenu: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -107,11 +108,8 @@ export default {
         this.$emit('set-resource-parent', this.tableData[0])
       }
     },
-    setResourceParent(row) {
+    handleRowClick(row) {
       this.$emit('set-resource-parent', row)
-    },
-    rowClick(row) {
-      this.setResourceParent(row)
     },
     handleToggleSelectedRow(val, row) {
       this.$refs.functionMenu.handleToggleSelectedRow(val, row)
@@ -126,5 +124,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.view-function-menu-content {
+  ::v-deep .el-table__body tr.current-row > td:first-child {
+    border-left: 3px solid #1660f1;
+  }
 }
 </style>

@@ -21,7 +21,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('申请单号')">
+          <iFormItem :label="language('申请单号')">
             <iInput
               v-model="form.businessId"
               :placeholder="language('请输入')"
@@ -29,7 +29,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('申请人')">
+          <iFormItem :label="language('申请人')">
             <userSelect
               v-model="form.applyUserId"
               :placeholder="language('输入姓名和工号搜索')"
@@ -37,7 +37,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="6">
-          <iFormItem :label="$t('当前状态')">
+          <iFormItem :label="language('当前状态')">
             <!-- multiple collapse-tags -->
             <iSelect
               v-model="form.procStatus"

@@ -13,7 +13,7 @@
         <iCard style="margin-top:20px">
             <div class="content">
                 <new-left ref="newLeft" :formData='formData' @cutterRateSty='cutterRateSty' />
-                <new-right ref="newRight" :cutterRate='cutterRate' />
+                <new-right ref="newRight" :cutterRate='cutterRate' @imgUrl='imgUrl'/>
             </div>
         </iCard>
         <detailDialog :show.sync='show' :detail='detail' />
@@ -33,6 +33,7 @@ export default {
         return{
             formData:{},
             show:false,
+            imageUrl:null,
             detail:{
                 title:'',
                 content:'',
@@ -97,6 +98,7 @@ export default {
                         },1000)
                     }
                 }else{
+                    this.isClicked = false
                     this.$message.error(res.desZh || '发布失败')
                 }
             })
@@ -123,7 +125,7 @@ export default {
                 const d = date.getDate()
                 const h = date.getHours()
                 const m = date.getMinutes()
-                time = `${y}年   ${M}月${d}日${h}时${m}分`
+                time = `${y}年${M}月${d}日 ${h}时${m}分`
             }else{
                 console.log(this.formData.publishPreTime);
                 const y = this.formData.publishPreTime.slice(0,4)
@@ -131,7 +133,7 @@ export default {
                 const d = this.formData.publishPreTime.slice(8,10)
                 const h = this.formData.publishPreTime.slice(11,13)
                 const m = this.formData.publishPreTime.slice(14,16)
-                time = `${y}年   ${M}月${d}日${h}时${m}分`
+                time = `${y}年${M}月${d}日 ${h}时${m}分`
             }
             this.show = true
             this.detail = {
@@ -145,8 +147,13 @@ export default {
             }
         },
         cutterRateSty(val){
-            console.log('====');
             this.cutterRate = val
+            if(this.imageUrl){
+                this.$message('布局已更改，请重新选择图片')
+            }
+        },
+        imgUrl(val){
+            this.imageUrl = val
         }
     }
 }

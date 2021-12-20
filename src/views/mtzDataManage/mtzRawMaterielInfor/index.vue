@@ -5,10 +5,10 @@
         <el-form>
           <el-row gutter="24">
             <el-col :span="8">
-              <iFormItem :label="searchLabel.mtzRawMateriel">
+              <iFormItem :label="language('原材料大类')">
                 <iSelect
                   v-model="searchContent.generalCategoryCode"
-                  placeholder="请选择"
+                  :placeholder="language('请选择')"
                 >
                   <el-option
                     v-for="item in mtzRawCodeOptions"
@@ -20,70 +20,70 @@
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.elementAbb">
+              <iFormItem :label="language('大类元素简称')">
                 <iInput
                   v-model="searchContent.generalShortName"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.middleNumber">
+              <iFormItem :label="language('材料中类')">
                 <iInput
                   v-model="searchContent.rawMaterialCode"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
           </el-row>
           <el-row gutter="24">
             <el-col :span="8">
-              <iFormItem :label="searchLabel.middleName">
+              <iFormItem :label="language('中类描述')">
                 <iInput
                   v-model="searchContent.rawMaterialName"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 >
                 </iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.middleUnit">
+              <iFormItem :label="language('中类计量单位')">
                 <iInput
                   v-model="searchContent.rawMaterialCountUnit"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.smallBrandNumber">
+              <iFormItem :label="language('原材料牌号')">
                 <iInput
                   v-model="searchContent.mtzRawMaterialCode"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
           </el-row>
           <el-row gutter="24">
             <el-col :span="8">
-              <iFormItem :label="searchLabel.smallBrandName">
+              <iFormItem :label="language('原材料名称')">
                 <iInput
                   v-model="searchContent.mtzRawMaterialName"
-                  placeholder="请选择"
+                  :placeholder="language('请选择')"
                 >
                 </iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.smallUnit">
+              <iFormItem :label="language('原材料计量单位')">
                 <iInput
                   v-model="searchContent.mtzRawMaterialCountUnit"
-                  placeholder="请输入"
+                  :placeholder="language('请输入')"
                 ></iInput>
               </iFormItem>
             </el-col>
             <el-col :span="8">
-              <iFormItem :label="searchLabel.status">
-                <iSelect v-model="searchContent.status" placeholder="请选择">
+              <iFormItem :label="language('状态')">
+                <iSelect v-model="searchContent.status" :placeholder="language('请选择')">
                   <el-option
                     v-for="item in staOptions"
                     :key="item.value"
@@ -95,7 +95,7 @@
             </el-col>
             <el-col :span="8">
               <iFormItem :label="language('是否贵金属')">
-                <iSelect v-model="searchContent.isPreciousMetal">
+                <iSelect v-model="searchContent.isPreciousMetal" :placeholder='language("请选择")'>
                   <el-option label="是" :value="true" />
                   <el-option label="否" :value="false" />
                 </iSelect>
@@ -108,13 +108,11 @@
     <div class="rawMaterielList">
       <iCard>
         <div class="btnList">
-          <iButton @click="add">新建</iButton>
-          <iButton @click="active" :disabled="disAtiveBtn">生效</iButton>
-          <iButton @click="loseActive" :disabled="disLOActiveBtn">失效</iButton>
-          <iButton @click="del" :disabled="this.selectedItem.length == 0"
-            >删除</iButton
-          >
-          <button-download :download-method="exportExcel">导出</button-download>
+          <iButton @click="add">{{language('新建')}}</iButton>
+          <iButton @click="active" :disabled="disAtiveBtn">{{language('生效')}}</iButton>
+          <iButton @click="loseActive" :disabled="disLOActiveBtn">{{language('失效')}}</iButton>
+          <iButton @click="del" :disabled="this.selectedItem.length == 0">{{language('删除')}}</iButton>
+          <button-download :download-method="exportExcel">{{language('导出')}}</button-download>
         </div>
         <div class="rawMaterielTabel">
           <iTabelCustom
@@ -195,17 +193,17 @@ export default {
       mtzMaterielColumns,
       editMessage: {},
       loading: false,
-      searchLabel: {
-        mtzRawMateriel: '原材料大类',
-        elementAbb: '大类元素简称',
-        middleNumber: '材料中类',
-        middleName: '中类描述',
-        middleUnit: '中类计量单位',
-        smallBrandNumber: '原材料牌号',
-        smallBrandName: '原材料名称',
-        smallUnit: '原材料计量单位',
-        status: '状态'
-      },
+      // searchLabel: {
+      //   mtzRawMateriel: '原材料大类',
+      //   elementAbb: '大类元素简称',
+      //   middleNumber: '材料中类',
+      //   middleName: '中类描述',
+      //   middleUnit: '中类计量单位',
+      //   smallBrandNumber: '原材料牌号',
+      //   smallBrandName: '原材料名称',
+      //   smallUnit: '原材料计量单位',
+      //   status: '状态'
+      // },
       searchContent: {
         generalCategoryCode: '',
         mtzRawMaterialCode: '',

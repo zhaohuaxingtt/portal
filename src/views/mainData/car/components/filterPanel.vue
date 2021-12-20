@@ -3,17 +3,17 @@
     <el-form ref="searchForm" class="search-form">
       <el-row>
         <el-col :span="8">
-          <iFormItem :label="$t('车型编号')">
+          <iFormItem :label="language('车型编号')">
             <carSelect v-model="formData.vwModelCode" valueKey="vwModelCode" />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('车型名称')">
+          <iFormItem :label="language('车型名称')">
             <carSelect v-model="formData.modelNameZh" valueKey="modelNameZh" />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('所属品牌')">
+          <iFormItem :label="language('所属品牌')">
             <iSelect v-model="formData.brandCode" filterable>
               <el-option
                 v-for="item in brandSelectOptions"
@@ -25,7 +25,7 @@
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('平台属性')">
+          <iFormItem :label="language('平台属性')">
             <iSelect v-model="formData.carPlatformCode" filterable>
               <el-option
                 v-for="item in platformCodeOptions"
@@ -37,12 +37,12 @@
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('车型项目')">
+          <iFormItem :label="language('车型项目')">
             <iInput v-model="formData.carTypeProjectCode" />
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('投产工厂')">
+          <iFormItem :label="language('投产工厂')">
             <iSelect v-model="formData.productFactory" filterable>
               <el-option
                 v-for="item in productFactoryOptions"
@@ -54,11 +54,11 @@
           </iFormItem>
         </el-col>
         <el-col :span="8">
-          <iFormItem :label="$t('是否有效')">
+          <iFormItem :label="language('是否有效')">
             <iSelect v-model="formData.isValid" filterable>
-              <el-option value="" :label="$t('全部')" />
-              <el-option :value="true" :label="$t('是')" />
-              <el-option :value="false" :label="$t('否')" />
+              <el-option value="" :label="language('全部')" />
+              <el-option :value="true" :label="language('是')" />
+              <el-option :value="false" :label="language('否')" />
             </iSelect>
           </iFormItem>
         </el-col>

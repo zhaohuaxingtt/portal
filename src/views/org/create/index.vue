@@ -53,9 +53,7 @@
                       class="Col-OneItem"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.parentName"
                         disabled="true"
                       ></iInput>
@@ -71,9 +69,7 @@
                       prop="fullCode"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.fullCode"
                       ></iInput>
                     </iFormItem>
@@ -88,9 +84,7 @@
                       prop="nameZh"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.nameZh"
                       ></iInput>
                     </iFormItem>
@@ -105,9 +99,7 @@
                       prop="nameEn"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.nameEn"
                       ></iInput>
                     </iFormItem>
@@ -128,9 +120,7 @@
                       prop="level"
                     >
                       <i-select
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请选择')"
                         v-model="formCommitData.level"
                       >
                         <el-option
@@ -152,9 +142,7 @@
                       :label-width="appearance.labelWidthThree"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.svcdCode"
                         disabled
                       ></iInput>
@@ -169,9 +157,7 @@
                       class="Col-ThreeItem"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.description"
                       ></iInput>
                     </iFormItem>
@@ -193,9 +179,7 @@
                           v-if="formCommitData.tagList.length == 0"
                           style="position: absolute; left: 12px"
                         >
-                          {{
-                            $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                          }}
+                          {{ language('请选择') }}
                         </span>
                         <div class="chooseOrgTagList">
                           <el-tag
@@ -236,9 +220,7 @@
                       prop="isVisible"
                     >
                       <i-select
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请选择')"
                         v-model="formCommitData.isVisible"
                       >
                         <el-option
@@ -261,9 +243,7 @@
                       prop="isCommodity"
                     >
                       <i-select
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.isCommodity"
                       >
                         <el-option
@@ -291,9 +271,7 @@
                       class="Col-OneItem"
                     >
                       <i-select
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请选择')"
                         disabled
                         v-model="formCommitData.syncStatus"
                       >
@@ -330,7 +308,7 @@
                             >{{ fileExist }}</span
                           >
                           <span style="width: 95%" v-else>{{
-                            $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
+                            language('请选择')
                           }}</span>
                           <input
                             type="file"
@@ -354,14 +332,10 @@
                     </iFormItem>
                   </el-col>
                   <el-col :span="6" class="Col-Three">
-                    <p
-                      style="
-                            white-space: nowrap; 
-                          "
-                    >
+                    <p style="white-space: nowrap">
                       <span
                         class="DepartmentLogoTipSuffix"
-                        style="zoom: 0.85; line-height: 28px; color: red;"
+                        style="zoom: 0.85; line-height: 28px; color: red"
                       >
                         {{
                           $t(
@@ -380,9 +354,7 @@
                       class="Col-FourItem"
                     >
                       <iInput
-                        :placeholder="
-                          $t('ORGANIZATION_MANAGERMENT.INPUT_PLACEHOLDER')
-                        "
+                        :placeholder="language('请输入')"
                         v-model="formCommitData.remark"
                       ></iInput>
                     </iFormItem>
@@ -391,9 +363,8 @@
                 <el-row
                   class="OrgOptionFromFive"
                   :gutter="appearance.itemSpace"
-                  v-if="isEdit"
                 >
-                  <el-col :span="12" class="Col-One">
+                  <el-col :span="12" class="Col-One" v-if="isEdit">
                     <el-popover
                       ref="hover"
                       placement="right"
@@ -456,9 +427,7 @@
                           <span
                             v-if="formCommitData.supDeptList.length == 0"
                             style="position: absolute; left: 12px"
-                            >{{
-                              $t('ORGANIZATION_MANAGERMENT.SELECT_PLACEHOLDER')
-                            }}</span
+                            >{{ language('请选择') }}</span
                           >
 
                           <el-tag
@@ -487,6 +456,18 @@
                       </iFormItem>
                     </el-popover>
                   </el-col>
+                  <el-col :span="6" class="Col-Three">
+                    <iFormItem
+                      :label="language('成本中心')"
+                      :label-width="appearance.labelWidth"
+                      class="Col-ThreeItem"
+                    >
+                      <iInput
+                        :placeholder="language('请输入')"
+                        v-model="formCommitData.costCenterId"
+                      ></iInput>
+                    </iFormItem>
+                  </el-col>
                 </el-row>
               </el-form>
             </div>
@@ -496,7 +477,7 @@
                   @click="incrementDimension"
                   :disabled="
                     table.extraData.dimensionLeftMenu == null ||
-                      table.extraData.dimensionLeftMenu.length == 0
+                    table.extraData.dimensionLeftMenu.length == 0
                   "
                 >
                   {{ $t('ORGANIZATION_MANAGERMENT.ORG_CREATE.INCREMENT_BTN') }}
@@ -570,9 +551,9 @@ export default {
   },
   methods: {
     trueBtnClick() {
-      this.$refs.orgForm.validate(valid => {
+      this.$refs.orgForm.validate((valid) => {
         if (valid) {
-          if (this.isEdit) {
+          if (this.$route.params.id) {
             //编辑组织
             this.editOrg()
           } else {
@@ -611,26 +592,29 @@ export default {
       data.append('file', this.fileLoge)
       data.append('currentUserId', this.$store.state.permission.userInfo.id)
       data.append('currentUser', this.$store.state.permission.userInfo.userName)
-      return uploadFileWithNOTokenTwo(data)
-        .then(val => {
-          if (val) {
-            let commitData = { ...this.formCommitData }
-            commitData.logoName = val.name
-            commitData.filePath = val.path
-            commitData.fileId = val.id
-            this.$store.commit('SET_ORG_INFO', commitData)
-            console.log('commitData ==', commitData)
-            console.log('FormcommitData ==', this.formCommitData)
-            return true
-          } else {
-            // console.log('上传文件失败')
-            return false
-          }
-        })
-        .catch(error => {
-          iMessage.error('上传文件失败', error)
-          return false
-        })
+      return new Promise((reslove, reject) => {
+        uploadFileWithNOTokenTwo(data)
+          .then((val) => {
+            if (val) {
+              const data = val.data
+              let commitData = { ...this.formCommitData }
+              commitData.logoName = data.name
+              commitData.filePath = data.path
+              commitData.fileId = data.id
+              this.$store.commit('SET_ORG_INFO', commitData)
+              console.log('commitData ==', commitData)
+              console.log('FormcommitData ==', this.formCommitData)
+              reslove(data)
+            } else {
+              // console.log('上传文件失败')
+              reject(false)
+            }
+          })
+          .catch((error) => {
+            iMessage.error('上传文件失败', error)
+            reject(false)
+          })
+      })
     },
     enterOrgTagPage() {
       // console.log("TagList === ", this.formCommitData.tagList);
@@ -647,20 +631,21 @@ export default {
         leftSelect: null,
         rightSelect: null,
         optionsSelect: null,
-        rightSelectValues: []
+        rightSelectValues: [],
+        originValueList: []
       }
       this.table.tableListData.push(row)
     },
     decrementDimension() {
       //删除维度
       if (this.isEdit) {
-        this.table.tableListData = this.table.tableListData.filter(value => {
+        this.table.tableListData = this.table.tableListData.filter((value) => {
           return this.selectDimensionRows.indexOf(value) < 0
         })
       } else {
         //删除维度
         // console.log(this.table.tableListData);
-        this.table.tableListData = this.table.tableListData.filter(value => {
+        this.table.tableListData = this.table.tableListData.filter((value) => {
           return this.selectDimensionRows.indexOf(value) < 0
         })
       }
@@ -670,13 +655,13 @@ export default {
       let param = this.formCommitData
       let dimensions = []
       for (let item of this.table.tableListData) {
-        let newSelects = item.optionsSelect.filter(val => {
+        let newSelects = item.optionsSelect.filter((val) => {
           return item.rightSelect.indexOf(val.valueId) > -1
         })
         /* newSelects = newSelects.map(val => {
           return { valueId: parseInt(val.valueId), value: val.value }
         }) */
-        newSelects = newSelects.map(val => {
+        newSelects = newSelects.map((val) => {
           return { valueId: val.valueId, value: val.value }
         })
         let obj = { id: item.leftSelect, valueList: newSelects }
@@ -689,29 +674,42 @@ export default {
       let result = false
       if (this.fileLoge) {
         result = await this.uploadFileLogo()
-        param['logoName'] = this.formCommitData.logoName
-        param['filePath'] = this.formCommitData.path
-        param['fileId'] = this.formCommitData.fileId
+        param['logoName'] = result.name
+        param['filePath'] = result.path
+        param['fileId'] = result.id
       }
       if (this.fileLoge && !result) {
         return
       }
       this.loading = true
       createOrganization(null, param)
-        .then(value => {
+        .then((value) => {
           this.loading = false
           if (value.code == 200) {
             //创建成功
-            this.$router.go(-1)
+            iMessage.success(value.desZh || '创建成功')
+            /* setTimeout(() => {
+              window.close()
+            }, 2000) */
+            this.isEdit = true
+            const { data } = value
+            this.$router.replace({
+              params: {
+                id: data.id,
+                type: 'editOrg',
+                upLevelID: data.parentId,
+                upLevelName: data.parentName
+              }
+            })
           } else {
             //创建失败
             iMessage.error(value.desZh || '创建失败')
           }
         })
-        .catch(() => {
+        .catch((err) => {
           //异常处理
           this.loading = false
-          iMessage.error('创建失败')
+          iMessage.error(err.desZh || '创建失败')
         })
     },
     async editOrg() {
@@ -726,13 +724,13 @@ export default {
       let dimensions = []
       for (let item of this.table.tableListData) {
         if (item.optionsSelect && item.optionsSelect.length > 0) {
-          let newSelects = item.optionsSelect.filter(val => {
+          let newSelects = item.optionsSelect.filter((val) => {
             return item.rightSelect.indexOf(val.valueId) > -1
           })
           /* newSelects = newSelects.map(val => {
             return { valueId: parseInt(val.valueId), value: val.value }
           }) */
-          newSelects = newSelects.map(val => {
+          newSelects = newSelects.map((val) => {
             return { valueId: val.valueId, value: val.value }
           })
           let obj = { id: item.leftSelect, valueList: newSelects }
@@ -747,9 +745,12 @@ export default {
       // console.log("===8888",this.formCommitData.logoName);
       if (this.fileLoge) {
         result = await this.uploadFileLogo()
-        param['logoName'] = this.formCommitData.logoName
+        /* param['logoName'] = this.formCommitData.logoName
         param['filePath'] = this.formCommitData.path
-        param['fileId'] = this.formCommitData.fileId
+        param['fileId'] = this.formCommitData.fileId */
+        param['logoName'] = result.name
+        param['filePath'] = result.path
+        param['fileId'] = result.id
       }
       if (this.fileLoge && !result) {
         return
@@ -757,20 +758,20 @@ export default {
       param.id = this.$route.params.id //调试使用
       this.loading = true
       editOrganization(null, param)
-        .then(value => {
+        .then((value) => {
           this.loading = false
           if (value.code == 200) {
             //编辑成功
-            this.$router.go(-1)
+            iMessage.success(value.desZh || '创建成功')
           } else {
             //编辑失败
             iMessage.error(value.desZh || '编辑失败')
           }
         })
-        .catch(() => {
+        .catch((err) => {
           //异常处理
           this.loading = false
-          iMessage.error('编辑失败')
+          iMessage.error(err.desZh || '编辑失败')
         })
     },
     resetOrg() {
@@ -806,7 +807,7 @@ export default {
       } else {
         let param = { keys: 'ORG_LEVEL' }
         orgLevelListData(param, null)
-          .then(value => {
+          .then((value) => {
             // orgLevelList
             if (value.code == 200) {
               Vue.set(this, 'orgLevelList', value.data.ORG_LEVEL)
@@ -823,7 +824,7 @@ export default {
       if (parentID != null && parentID != '0') {
         let param = { parentId: parentID }
         parentOrgDimensionList(param)
-          .then(value => {
+          .then((value) => {
             if (value.code == 200) {
               Vue.set(this.table.extraData, 'dimensionLeftMenu', value.data)
               // console.log("=====", this.table.extraData.dimensionLeftMenu);
@@ -833,7 +834,7 @@ export default {
           .catch(() => {})
       } else {
         orgDimensionList(null, {})
-          .then(value => {
+          .then((value) => {
             if (value.code == 200) {
               Vue.set(this.table.extraData, 'dimensionLeftMenu', value.data)
               // console.log("=====", this.table.extraData.dimensionLeftMenu);
@@ -848,11 +849,12 @@ export default {
       // let value = null
       let param = { id: this.$route.params.id }
       searchOrganizationByID(param, null)
-        .then(value => {
+        .then((value) => {
           this.loading = false //关闭提示状态
           if (value.code == 200) {
             let obj = value.data
             let commitData = {}
+            commitData.costCenterId = obj.costCenterId
             commitData.superDeptId = obj.superDeptId
             commitData.subDeptId = obj.subDeptId
             commitData.fullCode = obj.fullCode
@@ -882,14 +884,15 @@ export default {
             if (obj.permissionDTOList.length > 0) {
               let newDimension = []
               for (let item of obj.permissionDTOList) {
-                let idList = item.valueList.map(value => {
+                let idList = item.valueList.map((value) => {
                   return value.valueId.toString()
                 })
                 let obj = {
                   leftSelect: item.id,
                   rightSelect: idList,
                   url: null,
-                  optionsSelect: null
+                  optionsSelect: null,
+                  originValueList: item.valueList
                 }
                 newDimension.push(obj)
               }
@@ -962,11 +965,11 @@ export default {
         this.formCommitData.parentId == null ||
         this.formCommitData.parentId == '0'
       ) {
-        return this.orgLevelList.filter(val => {
+        return this.orgLevelList.filter((val) => {
           return val.name == 'K0'
         })
       } else {
-        return this.orgLevelList.filter(val => {
+        return this.orgLevelList.filter((val) => {
           return val.name != 'K0'
         })
       }
@@ -974,7 +977,7 @@ export default {
   },
   created() {},
   beforeRouteEnter(to, from, next) {
-    next(vm => {
+    next((vm) => {
       //初始化路由数据
       vm.pageInit()
 

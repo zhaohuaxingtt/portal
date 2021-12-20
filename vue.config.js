@@ -156,6 +156,7 @@ module.exports = {
       },
       [process.env.VUE_APP_EKL]: {
         target: `http://${BASE_IP}:8043/riseekl`,
+        // target: `http://rise-nginx-internal.apps.vmocp-test.csvw.com`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_EKL]: ''
@@ -193,7 +194,7 @@ module.exports = {
       },
       // ------------------ 上传 ----------------------------
       '/fileApi': {
-        target: `http://${BASE_IP}:8034/fileud`,
+        target: `http://${BASE_IP}:8034/`,
         changeOrigin: true,
         pathRewrite: {
           '/fileApi': ''
@@ -272,6 +273,13 @@ module.exports = {
           ['^' + process.env.VUE_APP_RFQ]: ''
         }
       },
+      [process.env.VUE_APP_SOURCING]: {
+        target: `http://${BASE_IP}:8025/sourcing/web`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_SOURCING]: ''
+        }
+      },
       [process.env.VUE_APP_MEETING]: {
         target: `http://${BASE_IP}:8051/rise-meeting`,
         changeOrigin: true,
@@ -306,6 +314,28 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_PARTLIFECYCLEAPI]: ''
+        }
+      },
+      // 用户助手中心
+      [process.env.VUE_APP_USER_ASSISTANT]: {
+        target: `http://${BASE_IP}:8059/riseassistant`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
+        }
+      },
+      // '/fileCross': {
+      //   target: `http://${BASE_IP}:8034`,
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '/fileCross': ''
+      //   }
+      // },
+      [process.env.VUE_APP_AEKO]: {
+        target: `http://${BASE_IP}:8023/procurementrequirement`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_AEKO]: ''
         }
       }
     }

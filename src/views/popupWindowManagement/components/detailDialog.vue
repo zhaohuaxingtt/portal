@@ -4,8 +4,7 @@
     :title="papgeTitle"
     @close="closeDialog"
     :show-close='false'
-    width="851px"
-    height='440px'
+    :width="dialogWidth"
     :class="{'black-style':detail.popupStyle == '2'}"
   >
       <div  :class="{'center-style':detail.popupStyle == '1','main':detail.popupStyle == '0','right-style':detail.popupStyle == '2',} ">
@@ -14,7 +13,11 @@
               <img v-else src="../../../assets/images/popupPic.png" alt="" class="left-image" />
           </div>
           <div class="right">
-              <h2 :class="{'link-text':detail.linkUrl}" @click="toNewPage">{{detail.title}}</h2>
+              <div class="right-title" :class="{'link-text':detail.linkUrl}" @click="toNewPage">
+                  <!-- <h2 > -->
+                      {{detail.title}}
+                <!-- </h2> -->
+              </div>
               <div class="content" :class="{'text-left':detail.wordAlign == 0,'text-center':detail.wordAlign==1,'text-right':detail.wordAlign == 2}">
                   <el-input type="textarea" v-model="detail.content" disabled></el-input>
               </div>
@@ -52,7 +55,7 @@ export default {
     },
     data(){
         return{
-            
+            dialogWidth: 400*(16/9)+'px'
         }
     },
     methods:{
@@ -69,7 +72,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+::v-deep .el-dialog__body{
+    padding: 0 50px !important;
+}
 
 ::v-deep .el-dialog__header{
     position: relative;
@@ -90,7 +95,7 @@ export default {
     width: 100%;
     justify-content:space-between;
     .left{
-        width: 360px;
+        width: 48%;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -105,18 +110,30 @@ export default {
         position: relative;
         // display: flex;
         // flex-direction: column;
-        width: 400px;
+        width: 48%;
         height: 100%;
-        margin-left: 360px;
-        .content,
-        .btn{
+        margin-left: 52%;
+        top: -40px;
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 106%;
+        }
+        .content{
             position: absolute;
-            bottom: 40px;
+            top: 70px;
+            width: 106%;
+            line-height: 24px;
+            max-height: 280px;
+            overflow: auto;
+            ::v-deep .el-textarea__inner{
+                padding: 0;
+            }
         }
         .publishTime{
             position: absolute;
             display: inline-block;
-            bottom: 100px;
+            bottom: 60px;
             color: #1660F1;
             .publishTime-content{
                 color: #666666;
@@ -124,13 +141,9 @@ export default {
                 font-size: 16px;
             }
         }
-        .content{
+        .btn{
             position: absolute;
-            top: 70px;
-            width: 100%;
-            line-height: 24px;
-            max-height: 240px;
-            overflow: auto;
+            bottom: 0px;
         }
     }
 }
@@ -142,22 +155,28 @@ export default {
     .left{
         width:100%;
         position: absolute;
+        height: 38%;
         top: 0;
         left: 0;
         .left-image{
             width: 100%;
-            height: 160px;
+            height: 100%;
             border-radius: 10px 10px 0 0 ;
         }
     }
     .right{
-        margin-top:120px ;
+        margin-top:20% ;
         text-align: center;
-        height: 100%;
+        height: 60%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        >h2,
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 110%;
+            margin-bottom: 20px;
+        }
         .content,
         .publishTime,
         .btn
@@ -174,7 +193,7 @@ export default {
             width: 250px;
             padding: 5px;
             color: #1660F1;
-            border: solid rgb(229, 229, 229) 1px;
+            // border: solid rgb(229, 229, 229) 1px;
             .publishTime-content{
                 margin-left: 20px;
                 color: #1B1D21;
@@ -189,7 +208,7 @@ export default {
     background: #151316;
     justify-content:space-between;
     .left{
-        width: 360px;
+        width: 48%;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -204,21 +223,24 @@ export default {
         position: relative;
         // display: flex;
         // flex-direction: column;
-        width: 400px;
+        width: 48%;
+        top: -40px;
         height: 100%;
-        margin-left: 360px;
-        >h2{
-            color: #FFFFFF;
+        margin-left: 52%;
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 106%;
         }
         .content,
         .btn{
             position: absolute;
-            bottom: 40px;
+            bottom: 0px;
         }
         .publishTime{
             position: absolute;
             display: inline-block;
-            bottom: 100px;
+            bottom: 60px;
             color: #1660F1;
             .publishTime-content{
                 color: #FFFFFF;
@@ -226,14 +248,22 @@ export default {
                 font-size: 16px;
             }
         }
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 106%;
+        }
         .content{
             position: absolute;
             top: 70px;
-            width: 100%;
+            width: 106%;
             color: #888888;
             line-height: 24px;
-            max-height: 240px;
+            max-height: 280px;
             overflow: auto;
+            ::v-deep .el-textarea__inner{
+                padding: 0;
+            }
         }
     }
 }

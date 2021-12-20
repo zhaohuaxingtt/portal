@@ -7,7 +7,7 @@
         </div>
         <div class="operation-btn">
           <iButton :loading="saveLoading" @click="save">
-            {{ $t('APPROVAL.SAVE') }}
+            {{ language('保存') }}
           </iButton>
         </div>
       </div>
@@ -157,9 +157,9 @@ export default {
       createTemplate(data)
         .then((res) => {
           if (!res.result) {
-            this.$message.error(this.$t('APPROVAL.SAVE_FAILED'))
+            this.$message.error(this.language('保存失败'))
           } else {
-            this.$message.success(this.$t('APPROVAL.SAVE_SUCCESSFUL'))
+            this.$message.success(this.language('保存成功'))
             this.$router.replace({
               params: {
                 id: res.data.id
@@ -218,20 +218,21 @@ export default {
         formData.append('modelId', this.form.modelId)
         formData.append('modelName', this.form.modelName)
         formData.append('description', this.form.description)
+        formData.append('status', this.form.status)
         // formData.append('url', this.form.url)
         this.saveLoading = true
         updateTemplate(formData)
           .then((res) => {
             if (!res.result) {
-              this.$message.error(this.$t('APPROVAL.SAVE_FAILED'))
+              this.$message.error(this.language('保存失败'))
             } else {
-              this.$message.success(this.$t('APPROVAL.SAVE_SUCCESSFUL'))
+              this.$message.success(this.language('保存成功'))
               // this.$router.go(-1)
             }
             this.saveLoading = false
           })
           .catch(() => {
-            this.$message.error(this.$t('APPROVAL.SAVE_FAILED'))
+            this.$message.error(this.language('保存失败'))
             this.saveLoading = false
           })
       }

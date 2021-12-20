@@ -1,48 +1,41 @@
 <template>
   <iPage>
     <div class="main">
-      <div class="searchOptions">
-        <iCard>
-          <el-form>
-            <el-row :gutter="20">
-              <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.name">
-                  <iInput
-                    :placeholder="searchOptionTitles.input"
-                    v-model="formData.appNameCn"
-                  ></iInput>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item :label="searchOptionTitles.nameEN">
-                  <iInput
-                    :placeholder="searchOptionTitles.input"
-                    v-model="formData.appNameEn"
-                  ></iInput>
-                </el-form-item>
-              </el-col>
-              <el-col :span="24">
-                <div class="searchButtons">
-                  <iButton @click="search">
-                    {{ searchOptionTitles.buttons.search }}
-                  </iButton>
-                  <iButton @click="reset">
-                    {{ searchOptionTitles.buttons.reset }}
-                  </iButton>
-                </div>
-              </el-col>
-            </el-row>
-          </el-form>
-        </iCard>
-      </div>
+      <iSearch @sure="search" @reset="reset" class="margin-bottom20">
+        <el-form>
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <iFormItem :label="searchOptionTitles.name">
+                <iInput
+                  :placeholder="searchOptionTitles.input"
+                  v-model="formData.appNameCn"
+                />
+              </iFormItem>
+            </el-col>
+            <el-col :span="6">
+              <iFormItem :label="searchOptionTitles.nameEN">
+                <iInput
+                  :placeholder="searchOptionTitles.input"
+                  v-model="formData.appNameEn"
+                />
+              </iFormItem>
+            </el-col>
+          </el-row>
+        </el-form>
+      </iSearch>
       <div class="tableList">
         <iCard>
           <div class="tableButtons">
             <iButton @click="create">{{ buttonTitles.create }}</iButton>
-            <iButton @click="deleteData" :disabled="selectedData.length == 0">
+            <iButton @click="edit" :disabled="selectedData.length !== 1">
+              {{ language('编辑') }}
+            </iButton>
+            <iButton @click="deleteData" :disabled="selectedData.length === 0">
               {{ buttonTitles.delete }}
             </iButton>
-            <iButton @click="exportData">{{ buttonTitles.export }}</iButton>
+            <button-download :download-method="exportData">
+              {{ buttonTitles.export }}
+            </button-download>
             <create-sys-mgm
               v-if="dialogFormVisible"
               :visible="dialogFormVisible"
@@ -83,134 +76,41 @@ import {
   iPage,
   iCard,
   iInput,
-  iSelect,
   iButton,
   iPagination,
-  iMessage
+  iMessage,
+  iSearch,
+  iFormItem
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
 import { tableColumnSetting } from './data/data'
 import CreateSysMgm from './components/CreateSysMgm'
 import { pageMixins } from '@/utils/pageMixins'
-import { sysList, deleteSys, sysExport } from '@/api/provider/index'
+import {
+  queryApplicationByPages,
+  deleteApplicationDetail,
+  exportApplications
+} from '@/api/applications'
+import deleteMixin from '@/mixins/deleteMixin'
 export default {
   name: 'UserApplicationDetail',
-  methods: {
-    search() {
-      this.page.currPage = 1
-      this.getTableList()
-    },
-    reset() {
-      this.page.currPage = 1
-      this.formData = this.defaultFormData()
-      this.getTableList()
-    },
-    getTableList() {
-      //获取系统列表数据
-      this.id = null //重置数据
-      this.loading = true
-      let newFormData = _.cloneDeep(this.formData)
-      newFormData.supplierType = newFormData.supplierType
-        ? newFormData.supplierType.join(',')
-        : ''
-      let param = {
-        ...newFormData,
-        size: this.page.pageSize,
-        current: this.page.currPage
-      }
-      sysList(param)
-        .then((val) => {
-          if (val.code == 200) {
-            //
-            this.loading = false
-            this.tableData = val.data
-            this.page.totalCount = val.total
-          } else {
-            iMessage.error(val.desZh || '获取数据失败')
-          }
-        })
-        .catch(() => {
-          this.loading = false
-          iMessage.error('获取数据失败')
-        })
-    },
-    enterDetail(val) {
-      this.isRead = true
-      this.id = val.id
-      this.dialogFormVisible = true
-    },
-    create() {
-      //创建
-      this.isRead = false
-      this.dialogFormVisible = true
-    },
-    handleSelectionChange(val) {
-      //选中处理
-      this.selectedData = val
-    },
-    deleteData() {
-      //删除选中数据
-      this.$confirm('此操作将永久删除该模板, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let param = this.selectedData.map((item) => {
-          return item.id
-        })
-        this.loading = true
-        deleteSys(param)
-          .then((val) => {
-            //批量删除系统
-            if (val.code == 200) {
-              //删除成功
-              this.loading = false
-              this.getTableList()
-            } else {
-              iMessage.error(val.desZh || '删除失败')
-            }
-          })
-          .catch(() => {
-            //
-            this.loading = false
-            iMessage.error('删除失败')
-          })
-      })
-    },
-    exportData() {
-      //导出数据
-      let newFormData = _.cloneDeep(this.formData)
-      newFormData.supplierType = newFormData.supplierType.join(',')
-      let param = {
-        ...newFormData
-      }
-      sysExport(param)
-    },
-    defaultFormData() {
-      return {
-        appNameCn: '',
-        appNameEn: '',
-        description: '',
-        systemType: '',
-        supplierType: []
-      }
-    }
-  },
-  created() {
-    //获取列表数据
-    this.getTableList()
-  },
   components: {
     iPage,
     iCard,
     iInput,
-    iSelect,
     iButton,
     iPagination,
     iTableCustom,
-    CreateSysMgm
+    CreateSysMgm,
+    iSearch,
+    iFormItem
   },
-  mixins: [pageMixins],
+  mixins: [pageMixins, deleteMixin],
+  created() {
+    //获取列表数据
+    this.getTableList()
+  },
+
   data() {
     return {
       loading: false,
@@ -266,6 +166,98 @@ export default {
           label: '一般采购'
         }
       ]
+    }
+  },
+  methods: {
+    search() {
+      this.page.currPage = 1
+      this.getTableList()
+    },
+    reset() {
+      this.page.currPage = 1
+      this.formData = this.defaultFormData()
+      this.getTableList()
+    },
+    getTableList() {
+      //获取系统列表数据
+      let param = {
+        ...this.formData,
+        size: this.page.pageSize,
+        current: this.page.currPage
+      }
+      this.loading = true
+      queryApplicationByPages(param)
+        .then((val) => {
+          if (val.code == 200) {
+            //
+            this.loading = false
+            this.tableData = val.data
+            this.page.totalCount = val.total
+          } else {
+            iMessage.error(val.desZh || '获取数据失败')
+          }
+        })
+        .catch(() => {
+          this.loading = false
+          iMessage.error('获取数据失败')
+        })
+    },
+    enterDetail(val) {
+      this.isRead = true
+      this.id = val.id
+      this.dialogFormVisible = true
+    },
+    create() {
+      //创建
+      this.id = ''
+      this.isRead = false
+      this.dialogFormVisible = true
+    },
+    handleSelectionChange(val) {
+      //选中处理
+      this.selectedData = val
+    },
+    edit() {
+      this.isRead = true
+      this.id = this.selectedData[0].id
+      this.dialogFormVisible = true
+    },
+    deleteData() {
+      //删除选中数据
+      this.onDelete().then(() => {
+        const params = this.selectedData.map((item) => {
+          return item.id
+        })
+        this.loading = true
+        deleteApplicationDetail(params)
+          .then((val) => {
+            this.loading = false
+            //批量删除系统
+            if (val.code == 200) {
+              //删除成功
+              iMessage.success(val.desZh || '删除成功')
+              this.getTableList()
+            } else {
+              iMessage.error(val.desZh || '删除失败')
+            }
+          })
+          .catch((err) => {
+            this.loading = false
+            iMessage.error(err.desZh || '删除失败')
+          })
+      })
+    },
+    exportData() {
+      return exportApplications({ ...this.formData, systemType: 3 })
+    },
+    defaultFormData() {
+      return {
+        appNameCn: '',
+        appNameEn: '',
+        description: '',
+        systemType: '',
+        supplierType: []
+      }
     }
   }
 }

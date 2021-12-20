@@ -12,7 +12,7 @@ export const tabRouterList = [
         name: '批量件预算产量管理',
         // url: '/supplier/frmrating/supplieroverview',
         // activePath: '/supplier/frmrating/supplieroverview',
-        key: 'EKL_YJGL_PLJYSCLGL'
+        key: 'LK_PLJYSCLGL'
     },
 ]
 export const tableTitle = [

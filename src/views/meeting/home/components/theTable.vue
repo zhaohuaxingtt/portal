@@ -3,11 +3,15 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <iButton @click="handleRecall" :disabled="!isCanRecall">{{
-          $t("MT_CHEHUI")
+          $t('MT_CHEHUI')
         }}</iButton>
-        <iButton @click="handleOpen" :disabled="!isCanOpen">{{ $t('MT_KAIFANG') }}</iButton>
+        <iButton @click="handleOpen" :disabled="!isCanOpen">{{
+          $t('MT_KAIFANG')
+        }}</iButton>
         <!--批量创建-->
-        <iButton @click="handleAddMultiple">{{ $t('MT_PILIANGCHUANGJIAN') }}</iButton>
+        <iButton @click="handleAddMultiple">{{
+          $t('MT_PILIANGCHUANGJIAN')
+        }}</iButton>
         <!--创建-->
         <iButton @click="handleAddSingle">{{ $t('MT_CHUANGJIAN') }}</iButton>
         <!--删除-->
@@ -99,12 +103,12 @@
         :label="$t('MT_HUIYIDIDIAN')"
         prop="meetingPlace"
       ></el-table-column>
-      <el-table-column width="54" align="center" label=""></el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         align="center"
-        width="200"
-        min-width="200"
+        width="220"
+        min-width="220"
         :label="$t('MT_HUIYISHIJIAN')"
       >
         <template slot-scope="scope">
@@ -115,10 +119,11 @@
             <span v-if="scope.row.endTime">{{
               '~' + scope.row.endTime.substring(0, 5)
             }}</span>
+            <span v-else>~{{ handleEndTime(scope.row) }}</span>
           </span>
         </template>
       </el-table-column>
-      <el-table-column width="54" align="center" label=""></el-table-column>
+      <el-table-column width="44" align="center" label=""></el-table-column>
       <el-table-column
         show-overflow-tooltip
         align="center"
@@ -130,7 +135,7 @@
           <span class="attachments-box">
             <el-popover placement="right" trigger="click">
               <div class="enclosure-popover">
-                <p class="title">{{$t('MT_FUJIAN')}}</p>
+                <p class="title">{{ $t('MT_FUJIAN') }}</p>
                 <ul>
                   <li
                     v-for="item in scope.row.attachments"
@@ -181,7 +186,7 @@
                 @click="actionObj('begin')(scope.row.id)"
               >
                 <!-- <img class="begin-vedio" :src="beginVedio" alt="" srcset="" /> -->
-                <span>{{$t('MT_KAISHI')}}</span>
+                <span>{{ $t('MT_KAISHI') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -189,7 +194,7 @@
                 @click="actionObj('lock')(scope.row.id)"
               >
                 <!-- <img class="lock" :src="openLock" alt="" srcset="" /> -->
-                <span> {{$t('MT_SUODING')}} </span>
+                <span> {{ $t('MT_SUODING') }} </span>
                 <span class="line">|</span>
               </p>
               <p
@@ -197,7 +202,7 @@
                 @click="actionObj('openLock')(scope.row.id)"
               >
                 <!-- <img class="open-lock" :src="openLock" alt="" srcset="" /> -->
-                <span>{{$t('MT_JIESUO')}}</span>
+                <span>{{ $t('MT_JIESUO') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -209,7 +214,7 @@
                 @click="actionObj('change')(scope.row.id)"
               >
                 <!-- <img class="change" :src="change" alt="" srcset="" /> -->
-                <span> {{$t('MT_XIUGAI')}} </span>
+                <span> {{ $t('MT_XIUGAI') }} </span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02' || scope.row.state == '01'">
                 |</span
@@ -220,7 +225,7 @@
                 @click="actionObj('open')(scope.row.id)"
               >
                 <!-- <img class="open-lock" :src="openLock" alt="" srcset="" /> -->
-                <span> {{$t('MT_KAIFANG')}}</span>
+                <span> {{ $t('MT_KAIFANG') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -228,7 +233,7 @@
                 @click="actionObj('uploadA')(scope.row.id)"
               >
                 <!-- <img class="upload" :src="upload" alt="" srcset="" /> -->
-                <span> {{$t('LK_SHANGCHUAN')}}Agenda</span>
+                <span> {{ $t('LK_SHANGCHUAN') }}Agenda</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '03'"> |</span> -->
               </p>
@@ -240,7 +245,7 @@
                 @click="actionObj('newA')(scope.row.id)"
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span>  {{$t('MT_SHENGCHENG')}}Agenda</span>
+                <span> {{ $t('MT_SHENGCHENG') }}Agenda</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -251,7 +256,7 @@
                 "
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-         <span>  {{$t('MT_SHENGCHENG')}}Agenda</span>
+                <span> {{ $t('MT_SHENGCHENG') }}Agenda</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -260,7 +265,7 @@
                 @click="actionObj('importFile')(scope.row.id)"
               >
                 <!-- <img class="import-file" :src="importFile" alt="" srcset="" /> -->
-                <span>  {{$t('MT_DAORUYITI')}}</span>
+                <span> {{ $t('MT_DAORUYITI') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -268,7 +273,7 @@
                 @click="actionObj('endVedio')(scope.row)"
               >
                 <!-- <img class="end-vedio" :src="endVedio" alt="" srcset="" /> -->
-                <span> {{$t('MT_JIESHU')}}</span>
+                <span> {{ $t('MT_JIESHU') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -276,7 +281,7 @@
                 @click="actionObj('doubleScreen')(scope.row)"
               >
                 <!-- <img class="double-screen" :src="doubleScreen" alt="" srcset="" /> -->
-                <span> {{$t('MT_TONGPING')}}</span>
+                <span> {{ $t('MT_TONGPING') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -284,7 +289,7 @@
                 @click="actionObj('screen')(scope.row)"
               >
                 <!-- <img class="screen" :src="screen" alt="" srcset="" /> -->
-                <span>{{$t('MT_ZHANSHI')}}</span>
+                <span>{{ $t('MT_ZHANSHI') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -292,7 +297,7 @@
                 @click="actionObj('closeVedio')(scope.row)"
               >
                 <!-- <img class="close-vedio" :src="closeVedio" alt="" srcset="" /> -->
-                <span>{{$t('MT_GUANBI')}}</span>
+                <span>{{ $t('MT_GUANBI') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -300,7 +305,7 @@
                 @click="actionObj('newFile')(scope.row)"
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
-                <span>{{$t('MT_SHENGCHENGHUIYIJIYAO')}}</span>
+                <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -308,7 +313,7 @@
                 @click="actionObj('uploadFile')(scope.row.id)"
               >
                 <!-- <img class="upload-file" :src="uploadFile" alt="" srcset="" /> -->
-                <span>{{$t('MT_SHANGCHUANHUIYIJIYAO')}}</span>
+                <span>{{ $t('MT_SHANGCHUANHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
             </div>
@@ -322,7 +327,7 @@
                 @click="actionObj('begin')(scope.row.id)"
               >
                 <!-- <img class="begin-vedio" :src="beginVedio" alt="" srcset="" /> -->
-                <span>>{{$t('MT_KAISHI')}}</span>
+                <span>{{ $t('MT_KAISHI') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -330,7 +335,7 @@
                 @click="actionObj('lock')(scope.row.id)"
               >
                 <!-- <img class="lock" :src="openLock" alt="" srcset="" /> -->
-                <span>>{{$t('MT_SUODING')}}</span>
+                <span>{{ $t('MT_SUODING') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -338,7 +343,7 @@
                 @click="actionObj('openLock')(scope.row.id)"
               >
                 <!-- <img class="open-lock" :src="openLock" alt="" srcset="" /> -->
-                <span>{{$t('MT_JIESUO')}}</span>
+                <span>{{ $t('MT_JIESUO') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -350,7 +355,7 @@
                 @click="actionObj('change')(scope.row.id)"
               >
                 <!-- <img class="change" :src="change" alt="" srcset="" /> -->
-                <span>{{$t('MT_XIUGAI')}}</span>
+                <span>{{ $t('MT_XIUGAI') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02' || scope.row.state == '01'">
                 |</span
@@ -361,7 +366,7 @@
                 @click="actionObj('open')(scope.row.id)"
               >
                 <!-- <img class="open-lock" :src="openLock" alt="" srcset="" /> -->
-                <span>{{$t('MT_KAIFANG')}}</span>
+                <span>{{ $t('MT_KAIFANG') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -372,7 +377,7 @@
                 @click="actionObj('newA')(scope.row.id)"
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span> {{$t('生成Agenda')}}</span>
+                <span> {{ $t('生成Agenda') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -383,7 +388,7 @@
                 "
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span>  {{$t('生成Agenda')}}</span>
+                <span> {{ $t('生成Agenda') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -392,7 +397,7 @@
                 @click="actionObj('endVedio')(scope.row)"
               >
                 <!-- <img class="end-vedio" :src="endVedio" alt="" srcset="" /> -->
-                <span> {{$t('MT_JIESHU')}}</span>
+                <span> {{ $t('MT_JIESHU') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -400,7 +405,7 @@
                 @click="actionObj('doubleScreen')(scope.row)"
               >
                 <!-- <img class="double-screen" :src="doubleScreen" alt="" srcset="" /> -->
-                <span>{{$t('MT_TONGPING')}}</span>
+                <span>{{ $t('MT_TONGPING') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -408,7 +413,7 @@
                 @click="actionObj('screen')(scope.row)"
               >
                 <!-- <img class="screen" :src="screen" alt="" srcset="" /> -->
-                <span>{{$t('MT_ZHANSHI')}}</span>
+                <span>{{ $t('MT_ZHANSHI') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -416,7 +421,7 @@
                 @click="actionObj('closeVedio')(scope.row)"
               >
                 <!-- <img class="close-vedio" :src="closeVedio" alt="" srcset="" /> -->
-                <span>{{$t('MT_GUANBI')}}</span>
+                <span>{{ $t('MT_GUANBI') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -424,7 +429,7 @@
                 @click="actionObj('newFile')(scope.row)"
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
-                <span>{{$t('生成会议纪要')}}</span>
+                <span>{{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -432,7 +437,7 @@
                 @click="actionObj('uploadFile')(scope.row.id)"
               >
                 <!-- <img class="upload-file" :src="uploadFile" alt="" srcset="" /> -->
-                <span>{{$t('MT_SHENGCHENGHUIYIJIYAO')}}</span>
+                <span>{{ $t('MT_SHANGCHUANHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
             </div>
@@ -446,7 +451,7 @@
                 @click="actionObj('begin')(scope.row.id)"
               >
                 <!-- <img class="begin-vedio" :src="beginVedio" alt="" srcset="" /> -->
-                <span>{{$t('MT_KAISHI')}}</span>
+                <span>{{ $t('MT_KAISHI') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -454,7 +459,7 @@
                 @click="actionObj('openLock')(scope.row.id)"
               >
                 <!-- <img class="open-lock" :src="openLock" alt="" srcset="" /> -->
-                <span>{{$t('MT_JIESUO')}}</span>
+                <span>{{ $t('MT_JIESUO') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -462,7 +467,7 @@
                 @click="actionObj('change')(scope.row.id)"
               >
                 <!-- <img class="change" :src="change" alt="" srcset="" /> -->
-                <span>{{$t('MT_XIUGAI')}}</span>
+                <span>{{ $t('MT_XIUGAI') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02' || scope.row.state == '01'">
                 |</span
@@ -473,7 +478,7 @@
                 @click="actionObj('open')(scope.row.id)"
               >
                 <!-- <img class="open-lock" :src="openLock" alt="" srcset="" /> -->
-                <span>{{$t('MT_KAIFANG')}}</span>
+                <span>{{ $t('MT_KAIFANG') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -481,13 +486,13 @@
                 @click="actionObj('newA')(scope.row.id)"
               >
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span>{{$t('生成Agenda')}}</span>
+                <span>{{ $t('生成Agenda') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
               <p v-if="scope.row.state == '02' && isGenerating">
                 <!-- <img class="new-agenda" :src="newAgenda" alt="" srcset="" /> -->
-                <span>{{$t('生成Agenda')}}</span>
+                <span>{{ $t('生成Agenda') }}</span>
                 <span class="line">|</span>
                 <!-- <span v-if="scope.row.state == '02'">|</span> -->
               </p>
@@ -496,7 +501,7 @@
                 @click="actionObj('endVedio')(scope.row)"
               >
                 <!-- <img class="end-vedio" :src="endVedio" alt="" srcset="" /> -->
-                <span>{{$t('MT_JIESHU')}}</span>
+                <span>{{ $t('MT_JIESHU') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -504,7 +509,7 @@
                 @click="actionObj('doubleScreen')(scope.row)"
               >
                 <!-- <img class="double-screen" :src="doubleScreen" alt="" srcset="" /> -->
-                <span>{{$t('MT_TONGPING')}}</span>
+                <span>{{ $t('MT_TONGPING') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -512,7 +517,7 @@
                 @click="actionObj('screen')(scope.row)"
               >
                 <!-- <img class="screen" :src="screen" alt="" srcset="" /> -->
-                <span> {{$t('MT_ZHANSHI')}}</span>
+                <span> {{ $t('MT_ZHANSHI') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -520,7 +525,7 @@
                 @click="actionObj('closeVedio')(scope.row)"
               >
                 <!-- <img class="close-vedio" :src="closeVedio" alt="" srcset="" /> -->
-                <span> {{$t('MT_GUANBI')}}</span>
+                <span> {{ $t('MT_GUANBI') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -528,7 +533,7 @@
                 @click="actionObj('newFile')(scope.row)"
               >
                 <!-- <img class="new-file" :src="newFile" alt="" srcset="" /> -->
-                <span> {{$t('MT_SHENGCHENGHUIYIJIYAO')}}</span>
+                <span> {{ $t('MT_SHENGCHENGHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
               <p
@@ -536,7 +541,7 @@
                 @click="actionObj('uploadFile')(scope.row.id)"
               >
                 <!-- <img class="upload-file" :src="uploadFile" alt="" srcset="" /> -->
-                <span>{{$t('MT_SHANGCHUANHUIYIJIYAO')}}</span>
+                <span>{{ $t('MT_SHANGCHUANHUIYIJIYAO') }}</span>
                 <span class="line">|</span>
               </p>
             </div>
@@ -620,7 +625,7 @@
 
     <!-- 上传Agenda -->
     <updateFile
-      :title="$t('MT_SHANGCHUAN')+'Agenda'"
+      :title="$t('MT_SHANGCHUAN') + 'Agenda'"
       :warnText="$t('MT_QINGSHANGCHUANFUJIAN')"
       :maxSize="10"
       :fileNum="1"
@@ -645,13 +650,13 @@
     >
       <div class="title-down-demo" @click="downDemo">
         <img :src="enclosure" alt="" srcset="" />
-        <span>{{$t('MT_XIAZAIMUBAN')}}</span>
+        <span>{{ $t('MT_XIAZAIMUBAN') }}</span>
       </div>
     </updateFile>
     <!-- 上传会议纪要 -->
     <updateFile
       :title="$t('MT_SHANGCHUANHUIYIJIYAO')"
-      :warnText="$t('MT_QINGSHANGCHUANFUJIAN')+'!'"
+      :warnText="$t('MT_QINGSHANGCHUANFUJIAN') + '!'"
       :descText="$t('MT_WENJIANDAXIAOXIANZHIORZHIZHICHIPDFWENJIAN')"
       :maxSize="10"
       :fileNum="1"
@@ -704,6 +709,7 @@ import {
 } from '@/api/meeting/home'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
 import { download } from '@/utils/downloadUtil'
+import { downloadStaticFile } from '@/utils/downloadStaticFileUtil'
 import enclosure from '@/assets/images/enclosure.svg'
 import beginVedio from '@/assets/images/meeting-home/beginVedio.svg'
 import closeVedio from '@/assets/images/meeting-home/close-vedio.svg'
@@ -729,6 +735,7 @@ import newSummaryDialog from './newSummaryDialog.vue'
 // import { MOCK_FILE_URL } from '@/constants'
 // import { debounce } from '@/utils/utils.js'
 import newSummaryDialogNew from './newSummaryDialogNew.vue'
+import dayjs from 'dayjs'
 export default {
   components: {
     iCard,
@@ -844,21 +851,12 @@ export default {
         this.isCanOpen = false
         if (rows.length > 0) {
           this.isCanRecall = rows.every((item) => {
-            // return (
-            //   (item.state === '02' && item.meetingTypeName === 'Pre CSC') ||
-            //   (item.state === '02' && item.meetingTypeName === 'CSC')
-            // )
-            return (
-              (item.state === '02' && item.isPreCSC) ||
-              (item.state === '02' && item.isCSC)
-            )
+            return item.state === '02'
           })
         }
         if (rows.length > 0) {
           this.isCanOpen = rows.every((item) => {
-            return (
-              item.state === '01' 
-            )
+            return item.state === '01'
           })
         }
       },
@@ -867,6 +865,21 @@ export default {
     }
   },
   methods: {
+    handleEndTime(row) {
+      // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return str + ' +1'
+      }
+      return str
+    },
     getUplodFiles(nameList) {
       this.nameList = nameList
     },
@@ -884,8 +897,8 @@ export default {
     },
     // 确认提交审批流
     handleCloseOK(info) {
-      if(info ==="close") {
-        iMessage.success("关闭成功");
+      if (info === 'close') {
+        iMessage.success('关闭成功')
       }
       this.openCloseMeeting = false
       this.refreshTable()
@@ -995,6 +1008,7 @@ export default {
     // 上传议题错误提示框关闭
     handleCloseError() {
       this.openError = false
+      this.handleCancelTopics()
     },
     // 生成会议纪要取消
     handleNewSummaryCancel() {
@@ -1057,13 +1071,16 @@ export default {
       })
     },
     // 批量开放
-    handleOpen(){
+    handleOpen() {
       this.$confirm('是否开放该会议 ？', '提示', {
         confirmButtonText: '是',
         cancelButtonText: '否',
         type: 'warning'
       }).then(() => {
-        batchChangeState(this.selectedRow).then((res) => {
+        let changeState = this.selectedRow.map((item) => {
+          return { id: item.id, state: '02' }
+        })
+        batchChangeState(changeState).then((res) => {
           if (res.code == 200) {
             this.$message.success('会议已成功开放!')
             this.$emit('getTableList')
@@ -1106,12 +1123,12 @@ export default {
     },
     // 下载模版
     downDemo() {
-      download({
+      downloadStaticFile({
         noFileUd: true,
-        url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
+        url: '/meetingApi/meetingService/downloadThemenImportTemplate',
         filename: '议题模版',
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
-        type: 'application/vnd.ms-excel',
+        // type: 'application/vnd.ms-excel',
         callback: (e) => {
           if (e) {
             iMessage.success('下载模版成功')
@@ -1409,7 +1426,30 @@ export default {
       //   e.meetingTypeName === 'Pre CSC' ||
       //   e.meetingTypeName === 'PRECSC'
       // ) {
+// --------------------------------------------//        
+        // 原meeting代码先注释
+      // if (e.isCSC || e.isPreCSC) {
+      //   this.$router.push({
+      //     path: '/meeting/specialDetails',
+      //     query: {
+      //       id: e.id
+      //       // type: e.meetingTypeName
+      //     }
+      //   })
+      // } else {
+      //   this.$router.push({
+      //     path: '/meeting/details',
+      //     query: {
+      //       id: e.id
+      //     }
+      //   })
+      // }
+// --------------------------------------------//  
+      // gpMBDL会议  /meeting/managementHall/mbdlMeeting
+      //gpCSC会议   /meeting/managementHall/gpcscMeeting
+      // 因为目前没有正确数据  假数据跳转 meetingNameSuffix  sprint17开发中  测试中会调整该代码
       if (e.isCSC || e.isPreCSC) {
+        debugger
         this.$router.push({
           path: '/meeting/specialDetails',
           query: {
@@ -1417,7 +1457,24 @@ export default {
             // type: e.meetingTypeName
           }
         })
-      } else {
+      } else if (e.meetingNameSuffix == "csc") {
+        debugger
+        this.$router.push({
+          path: '/meeting/managementHall/gpcscMeeting',
+          query: {
+            id: e.id
+          }
+        })
+      } else if (e.meetingNameSuffix == "gp123") {
+        debugger
+        this.$router.push({
+          path: '/meeting/managementHall/mbdlMeeting',
+          query: {
+            id: e.id
+          }
+        })
+      }else {
+        debugger
         this.$router.push({
           path: '/meeting/details',
           query: {

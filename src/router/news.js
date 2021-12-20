@@ -137,6 +137,15 @@ export default [
     },
     component: () => import('@/views/newsManagement/projectDetails/index.vue')
   },
+  {
+    path: '/news/topicDetail',
+    name: 'topicDetail',
+    meta: {
+      title: '供应商新闻详情',
+    },
+    component: () =>
+      import('@/views/newsManagement/topicDetail/index.vue')
+  },
   // {
   //   path: "/news",
   //   name: "news",

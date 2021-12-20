@@ -1,10 +1,10 @@
 /*
  * @Author: Luoshuang
  * @Date: 2021-07-27 17:14:19
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-11-29 16:03:00
+ * @LastEditors: caopeng
+ * @LastEditTime: 2021-12-08 16:42:23
  * @Description:
- * @FilePath: \front-portal\src\router\Router.js
+ * @FilePath: \front-portal-new\src\router\Router.js
  */
 import DefLayout from '../layout'
 import Login from '../views/login/index'
@@ -41,6 +41,12 @@ import RouterColorParts from './RouterColorParts'
 
 import RouterApplications from './applications'
 import ApproveDetails from '@/views/generalPage/approveDetails/preview'
+import MaintenanceSupplier from '../views/supplierManagement/yuqingjiance/maintenanceSupplier'
+
+import RouterOfflineDownload from './RouterOfflineDownload'
+
+// 嵌入表单的组件路由
+import RouterView from './RouterView'
 
 export default {
   routes: [
@@ -116,6 +122,14 @@ export default {
         import('@/views/supplierManagement/NTier/supplyChainMap/index.vue')
     },
     {
+      path: '/nTierBKL',
+      name: 'nTierBKL',
+      component: () =>
+        import(
+          '@/views/supplierManagement/NTier/supplyMaintain/components/ntierChain'
+        )
+    },
+    {
       path: '/mtzPointView',
       name: 'mtzPointView',
       meta: {
@@ -153,6 +167,11 @@ export default {
           name: 'approve',
           component: ApproveDetails
         },
+        {
+          path: '/supplier/maintenancesupplier',
+          name: 'MaintenanceSupplier',
+          component: MaintenanceSupplier
+        },
         ...RouterOpcs,
         ...RouterSupplier,
         ...RouterDemo,
@@ -178,10 +197,11 @@ export default {
         ...RouterNews,
         ...RouterSurvey,
         ...RouterColorParts,
-        ...RouterApplications
+        ...RouterApplications,
+        ...RouterOfflineDownload
       ]
     },
-
+    ...RouterView,
     { path: '*', name: 'notFound', component: NotFound }
   ],
 

@@ -1,35 +1,39 @@
 <template>
   <div class="i-table-custom">
-    <iPage class="template"
-           :class="{
+    <iPage
+      class="template"
+      :class="{
         'single-choise': true,
         'disable-children-selection': true
-      }">
+      }"
+    >
       <pageHeader class="margin-bottom20">
-        {{ $t('APPROVAL.TASK_MANAGER') }}
+        {{ language('任务管理') }}
       </pageHeader>
-      <searchForm :data="searchData"
-                  @search="search"
-                  @reset="reset" />
+      <searchForm :data="searchData" @search="search" @reset="reset" />
       <iCard>
         <div class="flex-end-center margin-bottom20">
-          <iButton @click="exportData">{{ $t('APPROVAL.EXPORT') }}</iButton>
+          <iButton @click="exportData">{{ language('导出') }}</iButton>
         </div>
-        <i-table-custom :loading="tableLoading"
-                        :data="tableData"
-                        :columns="tableColumns"
-                        ref="listRef"
-                        @go-detail="openPage"
-                        @handle-selection-change="handleSelectionChange" />
-        <iPagination v-update
-                     @size-change="handleSizeChange($event, query)"
-                     @current-change="handleCurrentChange($event, query)"
-                     background
-                     :current-page="page.currPage"
-                     :page-sizes="page.pageSizes"
-                     :page-size="page.pageSize"
-                     :layout="page.layout"
-                     :total="page.totalCount" />
+        <i-table-custom
+          :loading="tableLoading"
+          :data="tableData"
+          :columns="tableColumns"
+          ref="listRef"
+          @go-detail="openPage"
+          @handle-selection-change="handleSelectionChange"
+        />
+        <iPagination
+          v-update
+          @size-change="handleSizeChange($event, query)"
+          @current-change="handleCurrentChange($event, query)"
+          background
+          :current-page="page.currPage"
+          :page-sizes="page.pageSizes"
+          :page-size="page.pageSize"
+          :layout="page.layout"
+          :total="page.totalCount"
+        />
       </iCard>
     </iPage>
   </div>
@@ -43,7 +47,7 @@ import { iPage, iButton, iCard, iPagination, iMessage } from 'rise'
 import searchForm from './components/searchForm'
 import pageHeader from '@/components/pageHeader'
 import iTableCustom from '@/components/iTableCustom'
-import { taskInfoEntity } from "@/api/supplierManagement/supplyChainRisk/index.js";
+import { taskInfoEntity } from '@/api/supplierManagement/supplyChainRisk/index.js'
 export default {
   name: 'TaskList',
   mixins: [pageMixins],
@@ -54,53 +58,52 @@ export default {
     iButton,
     pageHeader,
     searchForm,
-    iTableCustom,
+    iTableCustom
   },
-  data () {
+  data() {
     return {
       tableLoading: false,
       tableColumns: TABLE_COLUMNS,
       tableData: [],
       selectedRows: [],
-      searchData: { ...SEARCH_DATA },
+      searchData: { ...SEARCH_DATA }
     }
   },
-  watch: {
-  },
-  computed: {
-  },
-  created () {
-    this.searchData.processingStatus = Number(this.$route.query.processingStatus)
+  watch: {},
+  computed: {},
+  created() {
+    this.searchData.processingStatus = Number(
+      this.$route.query.processingStatus
+    )
     if (this.$route.query.type) {
       this.searchData.type = this.$route.query.type
     }
     this.query(this.searchData)
   },
-  mounted () {
-  },
+  mounted() {},
   methods: {
-    search (data) {
+    search(data) {
       this.page.currPage = 1
       this.query(data)
     },
-    reset () {
+    reset() {
       this.page.currPage = 1
       this.searchData = { ...SEARCH_DATA }
       this.query(this.searchData)
     },
-    handleSelectionChange (val) {
+    handleSelectionChange(val) {
       this.selectedRows = val
     },
-    openPage (val) {
+    openPage(val) {
       window.open(val.url)
       // this.$router.push({ path: val.url, query: { id: val.businessId } })
     },
-    async query (data) {
+    async query(data) {
       this.tableLoading = true
       let params = {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
-        ...data,
+        ...data
       }
       const res = await taskInfoEntity(params).finally(() => {
         this.tableLoading = false
@@ -110,10 +113,10 @@ export default {
       this.page.totalCount = res.total
       this.tableData = res.data
     },
-    exportData () {
+    exportData() {
       if (!this.selectedRows.length)
         return iMessage.warn(this.$t('LK_QINGXUANZHEXUYAODAOCHUSHUJU'))
-      const tableColumns = this.tableColumns.map(item => ({
+      const tableColumns = this.tableColumns.map((item) => ({
         props: item.prop,
         name: item.label
       }))

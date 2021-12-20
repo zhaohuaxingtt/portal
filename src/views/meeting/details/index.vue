@@ -4,7 +4,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">{{$t('会议名称')}}</div>
+            <div class="name">{{ $t('会议名称') }}</div>
             <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
@@ -34,13 +34,13 @@
         <div class="row">
           <div class="list">
             <div class="show">
-              <div class="title">{{$t('会议类型')}}</div>
+              <div class="title">{{ $t('会议类型') }}</div>
               <div class="content">
                 {{ typeObject[meetingInfo.meetingTypeId] }}
               </div>
             </div>
             <div class="show">
-              <div class="title">{{$t('会议地点')}}</div>
+              <div class="title">{{ $t('会议地点') }}</div>
               <div
                 class="content content-address"
                 :title="meetingInfo.meetingPlace"
@@ -49,9 +49,27 @@
               </div>
             </div>
             <div class="show">
-              <div class="title">{{$t('会议时间')}}</div>
+              <div class="title">{{ $t('会议时间') }}</div>
               <div class="content">
-                {{ `${begin}${end.includes(':') ? end : ''}` }}
+                {{
+                  `${begin}${
+                    end
+                      ? end.includes(':')
+                        ? Number(
+                            meetingInfo.themens[meetingInfo.themens.length - 1]
+                              .plusDayEndTime
+                          ) > 0
+                          ? end +
+                            ` +${Number(
+                              meetingInfo.themens[
+                                meetingInfo.themens.length - 1
+                              ].plusDayEndTime
+                            )}`
+                          : end
+                        : handleEndTime(meetingInfo)
+                      : handleEndTime(meetingInfo)
+                  }`
+                }}
               </div>
             </div>
           </div>
@@ -116,7 +134,7 @@
           >
             <template slot-scope="scope">
               <span class="open-link-text">{{ scope.row.count }}</span>
-              <span v-if="scope.row.isBreak">/</span>
+              <span v-if="scope.row.isBreak">-</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -189,7 +207,7 @@
               <span class="open-link-text" v-else
                 >{{ scope.row.presenter }}{{ scope.row.presenterNosys }}</span
               >
-              <span v-if="scope.row.isBreak">/</span>
+              <span v-if="scope.row.isBreak">-</span>
             </template>
           </el-table-column>
 
@@ -210,7 +228,7 @@
                 >{{ scope.row.presenterDept
                 }}{{ scope.row.presenterDeptNosys }}</span
               >
-              <span v-if="scope.row.isBreak">/</span>
+              <span v-if="scope.row.isBreak">-</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -227,7 +245,7 @@
               <span class="open-link-text" v-else
                 >{{ scope.row.supporter }}{{ scope.row.supporterNosys }}</span
               >
-              <span v-if="scope.row.isBreak">/</span>
+              <span v-if="scope.row.isBreak">-</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -247,13 +265,13 @@
                 >{{ scope.row.supporterDept
                 }}{{ scope.row.supporterDeptNosys }}</span
               >
-              <span v-if="scope.row.isBreak">/</span>
+              <span v-if="scope.row.isBreak">-</span>
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip align="center" label="Remark">
             <template slot-scope="scope">
               <span class="open-link-text">{{ scope.row.remark }}</span>
-              <span v-if="scope.row.isBreak">/</span>
+              <span v-if="scope.row.isBreak">-</span>
             </template>
           </el-table-column>
         </iTableML>
@@ -332,7 +350,10 @@
               label="Presenter"
             >
               <template slot-scope="scope">
-                <span class="open-link-text">{{ scope.row.presenter }}</span>
+                <span v-if="scope.row.isBreak">-</span>
+                <span class="open-link-text" v-else>{{
+                  scope.row.presenter
+                }}</span>
               </template>
             </el-table-column>
 
@@ -342,7 +363,8 @@
               label="Presenter Dept."
             >
               <template slot-scope="scope">
-                <span class="open-link-text">{{
+                <span v-if="scope.row.isBreak">-</span>
+                <span class="open-link-text" v-else>{{
                   scope.row.presenterDept
                 }}</span>
               </template>
@@ -353,6 +375,7 @@
               label="Supporter"
             >
               <template slot-scope="scope">
+                <span v-if="scope.row.isBreak">-</span>
                 <span class="open-link-text">{{ scope.row.supporter }}</span>
               </template>
             </el-table-column>
@@ -362,7 +385,8 @@
               label="Supporter Dept."
             >
               <template slot-scope="scope">
-                <span class="open-link-text">{{
+                <span v-if="scope.row.isBreak">-</span>
+                <span class="open-link-text" v-else>{{
                   scope.row.supporterDept
                 }}</span>
               </template>
@@ -373,7 +397,10 @@
               label="Remark"
             >
               <template slot-scope="scope">
-                <span class="open-link-text">{{ scope.row.remark }}</span>
+                <span v-if="scope.row.isBreak">-</span>
+                <span class="open-link-text" v-else>{{
+                  scope.row.remark
+                }}</span>
               </template>
             </el-table-column>
           </iTableML>
@@ -482,7 +509,7 @@
     >
       <div class="title-down-demo" @click="downDemo">
         <img :src="enclosure" alt="" srcset="" />
-        <span>{{$t('下载模版')}}</span>
+        <span>{{ $t('下载模版') }}</span>
       </div>
     </updateFile>
     <updateMeetingDialog
@@ -553,9 +580,14 @@ import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
 import updateMeetingDialog from '../home/components/updateMeetingDialog.vue'
 import newSummaryDialog from './component/newSummaryDialog.vue'
-import { batchRecallMeeting, changeStateMeeting, importThemen } from '@/api/meeting/home'
+import {
+  batchRecallMeeting,
+  changeStateMeeting,
+  importThemen
+} from '@/api/meeting/home'
 import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
-import { download } from '@/utils/downloadUtil'
+// import { download } from '@/utils/downloadUtil'
+import { downloadStaticFile } from '@/utils/downloadStaticFileUtil'
 import enclosure from '@/assets/images/enclosure.svg'
 
 export default {
@@ -584,6 +616,7 @@ export default {
   },
   data() {
     return {
+      curEndTime: '',
       openError: false,
       errorList: [],
       isSingle: false,
@@ -645,27 +678,42 @@ export default {
     },
     resThemeData: {
       handler(data) {
-        console.log('data', data)
         const row = data.find((item) => item.state === '02')
         this.currentRow = { ...row }
       }
     }
   },
+  computed: {},
   mounted() {
     // this.isAdmin = localStorage.getItem("isMA") === "false" ? false : true;
     this.getMeetingTypeObject()
     this.getTableData()
   },
   methods: {
+    handleEndTime(row) {
+      let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
+      let endTime =
+        new Date(`${row.startDate} ${row.startTime}`).getTime() +
+        3600 * 8 * 1000
+      let endTimeDate = new Date(endTime)
+      let str = dayjs(endTime).format('HH:mm')
+
+      let startHour = startTimeDate.getHours()
+      let endHour = endTimeDate.getHours()
+      if (endHour < startHour) {
+        return '~' + str + ' +1'
+      }
+      return '~' + str
+    },
     getUplodFiles(nameList) {
       this.nameList = nameList
     },
     // 下载模版
     downDemo() {
-      download({
+      downloadStaticFile({
         url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
         filename: '议题模版',
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
+        // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
         callback: (e) => {
           if (e) {
             iMessage.success('下载模版成功')
@@ -795,6 +843,7 @@ export default {
             this.disabledImportThemenButton = false
             this.openError = true
             this.errorList = res
+            this.flushTable()
           }
         })
         .catch(() => {
@@ -806,6 +855,7 @@ export default {
     // 上传议题错误提示框关闭
     handleCloseError() {
       this.openError = false
+      this.closeDialog();
     },
     // 导入议题取消
     handleCancelTopics() {
@@ -1019,7 +1069,15 @@ export default {
         const endTime = dayjs(`2020-6-30 ${item.endTime}`).format('HH:mm')
         return {
           ...item,
-          time: `${startTime}~${endTime}`
+          time: `${
+            Number(item.plusDayStartTime) > 0
+              ? startTime + ' +' + Number(item.plusDayStartTime)
+              : startTime
+          }~${
+            Number(item.plusDayEndTime) > 0
+              ? endTime + ' +' + Number(item.plusDayEndTime)
+              : endTime
+          }`
         }
       })
     },
@@ -1465,7 +1523,7 @@ export default {
         })
       // });
     },
-    recall(){
+    recall() {
       let ids = []
       ids.push(this.$route.query.id)
       this.$confirm('是否撤回该会议 ？', '提示', {
@@ -1473,7 +1531,7 @@ export default {
         cancelButtonText: '否',
         type: 'warning'
       }).then(() => {
-        batchRecallMeeting( {ids} ).then((res) => {
+        batchRecallMeeting({ ids }).then((res) => {
           if (res.code == 200) {
             this.$message.success('撤回成功!')
             this.$router.go(-1)
@@ -1514,15 +1572,16 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteThemen(data)
-          .then(() => {
+        deleteThemen(data).then((res) => {
+          if (res.code === 200) {
             iMessage.success('删除成功')
-            this.flushTable()
-          })
-          .catch(() => {
-            iMessage.error('删除失败')
-            this.flushTable()
-          })
+          }
+          this.flushTable()
+        })
+        // .catch(() => {
+        //   iMessage.error('删除失败')
+        //   this.flushTable()
+        // })
       })
     },
     protectInfo() {

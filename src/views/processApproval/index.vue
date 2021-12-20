@@ -1,18 +1,30 @@
 <template>
-  <div style="height:100%; padding-bottom:40px">
+  <div style="height: 100%; padding-bottom: 40px">
     <div class="ProApproval-menu">
       <iNavMvp :list="menus" :lev="1" router-page />
+
+      <iTabBadge>
+        <iTabBadgeItem
+          v-for="item in subMenus"
+          :name="item.name"
+          :key="item.value"
+          :active="item.type === queryType"
+          :activeBorder="false"
+          @click="changeSubMenu(item)"
+        />
+      </iTabBadge>
     </div>
 
-    <router-view style="height:100%"></router-view>
+    <router-view style="height: 100%"></router-view>
   </div>
 </template>
 
 <script>
+import { iTabBadge, iTabBadgeItem } from '@/components/iTabBadge'
 import { iNavMvp } from 'rise'
 export default {
   name: 'processApproval',
-  components: { iNavMvp },
+  components: { iNavMvp, iTabBadge, iTabBadgeItem },
   data() {
     return {
       menus: [
@@ -54,20 +66,43 @@ export default {
               message: 0,
               url: '/approval/agent?type=normal',
               activePath: '/approval/agent',
-              key: '审批代理'
+              key: '审批代理',
+              type: 'normal'
             },
             {
-              value: 5,
-              name: '审批代理',
+              value: 6,
+              name: '会议审批代理',
               message: 0,
               url: '/approval/agent?type=meeting',
               activePath: '/approval/agent',
-              key: '审批代理'
+              key: '会议审批代理',
+              type: 'meeting'
             }
           ]
         }
-      ],
-      childrenMenus: []
+      ]
+    }
+  },
+  computed: {
+    subMenus() {
+      const path = this.$route.path
+      const items = this.menus.filter((e) => e.url === path)
+      if (items && items.length && items[0].children) {
+        return items[0].children
+      }
+      return []
+    },
+    queryType() {
+      if (!this.$route.query || Object.keys(this.$route.query).length === 0) {
+        return 'normal'
+      }
+      return this.$route.query.type || ''
+    }
+  },
+  methods: {
+    changeSubMenu(item) {
+      this.activeSubMenuName = item.name
+      this.$router.replace({ path: item.url })
     }
   }
 }
@@ -75,6 +110,8 @@ export default {
 
 <style lang="scss" scoped>
 .ProApproval-menu {
-  margin: 20px 0px 0px 30px;
+  margin: 20px 60px 0px 30px;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

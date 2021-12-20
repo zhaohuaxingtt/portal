@@ -1,6 +1,6 @@
 import axios from '@/utils/axios'
 const requst = axios(process.env.VUE_APP_MEETING)
-const requstFile = axios(process.env.VUE_APP_FILEAPI)
+const requstFile = axios(process.env.VUE_APP_FILEAPI+'/fileud')
 const requstDict = axios(process.env.VUE_APP_BASE_INFO)
 
 export function getMettingType(data) {
@@ -74,13 +74,9 @@ export function uploadFile(data) {
     data
   })
 }
-//updateMettingType
 
+//从字典表获取审批流程列表
 export function getApprovalProcess() {
-  // return requst({
-  //   url: `/rise-mock/mockService/approval-processes`,
-  //   method: 'POST'
-  // })
   return requstDict({
     url: `/api/dict`,
     method: 'get',

@@ -303,7 +303,7 @@ export default {
       this.effectFlagDropDown = [
         { code: "", message: '全部' },
         { code: "1", message: '生效' },
-        { code: "2", message: '失效' }
+        { code: "0", message: '失效' }
       ]
       this.$set(this.formData, 'endDate', currDate)
       this.$set(this.formData, 'effectFlag', '1')
@@ -345,21 +345,28 @@ export default {
     },
     handleSource (val) {
       let path = ""
+      let query = {}
       if (val.source === '0') {
         path = "/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/applyInfor"
+        query = {
+          mtzAppId: val.sourceCode
+        }
       } else if (val.source === '1') {
         path = "/mtz/annualGeneralBudget/MTZapplicationForm"
+        query = {
+          mtzAppId: val.sourceCode
+        }
       } else if (val.source === '2') {
-        path = "/mtz/annualGeneralBudget/MTZapplicationForm"
+        path = "aeko/mtz/details?aekoNum=" + val.sourceCode + '&objectAekoPartId=' + val.objectAekoPartId + '&status=VIEW'
+        window.open(process.env.VUE_APP_SOURCING_URL + path)
+        return
       }
       let routerPath = this.$router.resolve({
         path,
-        query: {
-          mtzAppId: val.sourceCode
-        }
+        query
       })
-      window.open(routerPath.herf)
-      // this.isShowSource = true
+      window.open(routerPath.href)
+      this.isShowSource = true
     },
     // 获取初始化列表
     mtzBasePricePage () {

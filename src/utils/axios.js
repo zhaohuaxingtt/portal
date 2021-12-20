@@ -7,9 +7,7 @@
  * @FilePath: \rise\src\utils\axios.js
  */
 import { iMessage } from 'rise'
-import { getToken, removeToken, setToken, setRefreshToken } from '@/utils'
-import store from '@/store'
-/* import i18n from 'i18n' */
+import { getToken } from '@/utils'
 
 export default function httpRequest(baseUrl = '', timeOut = 600000) {
   // eslint-disable-next-line no-undef
@@ -19,19 +17,10 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
   })
   instance.interceptors.request.use(
     function (config) {
-      /* if (Object.prototype.toString.call(config.data) === '[object FormData]') {
-        config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-      }
-      console.log('axios config', config.headers) */
-      // 拿到本地token，给到后台。
-      if (
-        getToken() &&
-        getToken() !== 'undefined' &&
-        config.url.indexOf('refreshToken') === -1 &&
-        config.url.indexOf('loginOut') === -1
-      ) {
+      if (getToken()) {
         config.headers['token'] = getToken() || ''
       }
+      config.headers['language'] = window.localStorage.getItem('lang') || 'zh'
 
       // 查询参数自动清除null，'' 值
       if (config.clearEmptyParams && config.params) {
@@ -44,24 +33,14 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
             }
           }
         }
-        if (Object.keys(newParams).length > 0) {
-          config.params = newParams
-        }
+        config.params = newParams
       }
 
       // IE上的同一个url请求会走cache
-      if (config.method === 'post' || config.method === 'POST') {
-        config.url =
-          config.url.indexOf('?') > -1
-            ? config.url + '&t=' + parseInt(Math.random() * 10000000000)
-            : config.url + '?t=' + parseInt(Math.random() * 10000000000)
-      } else if (config.method === 'get' || config.method === 'GET') {
-        config.params = {
-          t: parseInt(Math.random() * 10000000000),
-          ...config.params
-        }
+      config.params = {
+        t: parseInt(Math.random() * 10000000000),
+        ...config.params
       }
-
       // 定义请求得数据结构是json
       config.headers['json-wrapper'] = '1'
       return config
@@ -72,67 +51,47 @@ export default function httpRequest(baseUrl = '', timeOut = 600000) {
   )
 
   instance.interceptors.response.use(
-    function (response) {
-      if (response.data) {
+    (response) => {
+      const responseData = response.data
+      if (responseData) {
         // 自动提示错误或成功
-        /* const { request } = response
-        console.log('request', request)
-        console.log('i18n', i18n.locale)
-        const { data } = response
-        const message = i18n.locale === 'zh' ? data.desZh : data.dscEn
-        if (!request.hideMessage) {
-          if (data.result) {
-            iMessage.success(message)
-          } else {
-            iMessage.error(message)
-          }
-        } */
-        return Promise.resolve(response.data)
+        const responseDataMessage = response.data.desZh || response.data.desEn
+        switch (responseData.code) {
+          case '400':
+            iMessage.error(responseDataMessage || '请求失败')
+            return Promise.reject(responseData)
+          case '401':
+            iMessage.error(responseDataMessage || '鉴权失败')
+            return Promise.reject(responseData)
+          case '403':
+            iMessage.error(responseDataMessage || '禁止访问')
+            return Promise.reject(responseData)
+          case '404':
+            iMessage.error(responseDataMessage || '无法访问')
+            return Promise.reject(responseData)
+          case '500':
+            iMessage.error(responseDataMessage || '服务处理失败')
+            return Promise.reject(responseData)
+          default:
+            break
+        }
+        return Promise.resolve(responseData)
       } else {
-        // iMessage.error(response?.data?.desZh || '请求失败')
         return Promise.reject(response.data)
       }
     },
     (error) => {
-      switch (error.response.status) {
-        //需要定位到登录界面的状态。（401 || 40x || ...）
-        case 401:
-          store
-            .dispatch('refreshToken')
-            .then((res) => {
-              if (res.code === 200) {
-                setToken(res.data.access_token)
-                setRefreshToken(res.data.refresh_token)
-                return instance(error.config)
-              }
-            })
-            .catch(() => {
-              removeToken()
-              window.location.replace('/login')
-            })
-          break
-        default: {
-          //防止多次提示,多个请求同时失败！上一个提示还存在时候，先不做提示。
-          let msg = error?.response?.data
-          if (msg && (msg.desEn || msg.desZh)) {
-            iMessage.error(msg.desEn || msg.desZh)
-          }
-          let errorMessage = error.message || ''
-          if (
-            error &&
-            error.response &&
-            error.response.data &&
-            error.response.data.message
-          ) {
-            errorMessage = error.response.data.message
-          }
-          if (
-            document.getElementsByClassName('el-message').length === 0 &&
-            errorMessage.length > 0
-          ) {
-            iMessage.error(errorMessage)
-          }
-          break
+      if (error && error.response && error.response.status) {
+        const errorResponseData = error?.response?.data
+        let message = error.message
+        if (errorResponseData && errorResponseData.message) {
+          message = errorResponseData.message
+        }
+        if (
+          document.getElementsByClassName('el-message').length === 0 &&
+          message.length
+        ) {
+          iMessage.error(message)
         }
       }
     }

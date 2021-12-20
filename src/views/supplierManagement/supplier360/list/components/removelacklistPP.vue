@@ -7,7 +7,8 @@
     @close="closeDiolog()"
     :title="'移除⿊名单 - ⽣产采购 -' + clickTableList.nameZh"
     :visible.sync="value"
-    width="70%"
+    top="2%"
+    width="85%"
   >
     <div class="box">
       <el-form inline label-position="top">
@@ -85,7 +86,7 @@
               :label="language('SHOUKONGCUOSHI', '受控措施')"
             >
               <iSelect
-                :placeholder="$t('APPROVAL.PLEASE_CHOOSE')"
+                :placeholder="language('请选择')"
                 v-model="form.measures"
               >
                 <el-option
@@ -126,7 +127,7 @@
         }}</i-button>
       </div>
       <table-list
-        style="margin-top:20px"
+        style="margin-top: 20px"
         :tableData="tableListData"
         :tableTitle="tableTitlePp"
         :tableLoading="tableLoading"
@@ -169,7 +170,8 @@ import {
   iDatePicker,
   iDialog,
   iMessageBox,
-  iMessage
+  iMessage,
+  iPagination
 } from 'rise'
 export default {
   mixins: [pageMixins],
@@ -185,7 +187,8 @@ export default {
     tableList,
     iSelect,
     iDatePicker,
-    iDialog
+    iDialog,
+    iPagination
   },
 
   data() {
@@ -232,7 +235,7 @@ export default {
         endTime: this.daterange[1],
         startTime: this.daterange[0]
       }
-      ppSupplerBlackListPage(params).then(res => {
+      ppSupplerBlackListPage(params).then((res) => {
         if (res && res.code == 200) {
           this.tableLoading = false
           this.tableListData = res.data
@@ -242,7 +245,7 @@ export default {
     },
     //移除
     handleRemove() {
-      let ids = this.selectTableData.map(x => {
+      let ids = this.selectTableData.map((x) => {
         return x.id
       })
       const params = {
@@ -253,7 +256,7 @@ export default {
         this.$message({
           type: 'warning',
           message: this.language(
-            'QINGXUANZEXUYAOYICHUDECAILIAOZUYUGONGYIZU!',
+            'QINGXUANZEXUYAOYICHUDECAILIAOZUYUGONGYIZU',
             '请选择需要移除的材料组与工艺组！'
           )
         })
@@ -268,7 +271,7 @@ export default {
           }
         )
           .then(async () => {
-            ppSupplierBlackRemove(params).then(res => {
+            ppSupplierBlackRemove(params).then((res) => {
               if (res && res.code == 200) {
                 iMessage.success(res.desZh)
                 // this.$emit('closeDiolog', 1)
@@ -287,7 +290,7 @@ export default {
           keyword: query,
           supplierId: this.clickTableList.subSupplierId
         }
-        purchaseListSearch(params).then(res => {
+        purchaseListSearch(params).then((res) => {
           if (res && res.code == 200) {
             this.purchaseList = res.data
           } else iMessage.error(res.desZh)
@@ -306,7 +309,7 @@ export default {
           keyword: query,
           supplierId: this.clickTableList.subSupplierId
         }
-        categoryListSearch(params).then(res => {
+        categoryListSearch(params).then((res) => {
           if (res && res.code == 200) {
             this.categoryList = res.data
           } else iMessage.error(res.desZh)
@@ -321,7 +324,7 @@ export default {
           supplierId: this.clickTableList.subSupplierId,
           categoryCodes: this.form.categoryCodes
         }
-        stuffListSearch(params).then(res => {
+        stuffListSearch(params).then((res) => {
           if (res && res.code == 200) {
             this.stuffList = res.data
           } else iMessage.error(res.desZh)

@@ -52,21 +52,21 @@
 </template>
 
 <script>
-import { iPagination } from "rise";
-import iTableCustom from "@/components/iTableCustom";
+import { iPagination } from 'rise'
+import iTableCustom from '@/components/iTableCustom'
 import {
   getDocumentTypeServiceByPage,
   deleteDocumentType,
-  findMeetingDocuments,
-} from "@/api/meeting/information";
-import { getMettingType } from "@/api/meeting/type";
+  findMeetingDocuments
+} from '@/api/meeting/information'
+import { getMettingType } from '@/api/meeting/type'
 import {
   actionButtons,
   addOrEditTypeDialog,
   editMeetingInformationDialog,
-  cardBox,
-} from "./components";
-import { pageMixins } from "@/utils/pageMixins";
+  cardBox
+} from './components'
+import { pageMixins } from '@/utils/pageMixins'
 export default {
   mixins: [pageMixins],
   components: {
@@ -75,143 +75,143 @@ export default {
     actionButtons,
     addOrEditTypeDialog,
     editMeetingInformationDialog,
-    cardBox,
+    cardBox
   },
   data() {
     return {
       tableColumns: [
         {
-          type: "index",
-          label: "序号",
-          i18n: "序号",
+          type: 'index',
+          label: '序号',
+          i18n: '序号',
           width: 69,
-          tooltip: false,
+          tooltip: false
         },
         {
-          prop: "name",
-          label: "资料类型",
-          i18n: "资料类型",
-          align: "left",
+          prop: 'name',
+          label: '资料类型',
+          i18n: '资料类型',
+          align: 'left',
           width: 399,
-          tooltip: true,
+          tooltip: true
         },
         {
-          prop: "meetingTypes",
-          label: "所属会议",
-          i18n: "所属会议",
-          align: "left",
+          prop: 'meetingTypes',
+          label: '所属会议',
+          i18n: '所属会议',
+          align: 'left',
           customRender: (h, scope) => {
-            let fh = "，";
+            let fh = '，'
             return scope.row.meetingTypes
-              .map(function(obj, index) {
+              .map(function (obj) {
                 if (obj != null) {
                   if (obj.name != null) {
-                    return obj.name;
+                    return obj.name
                   } else {
-                    fh = "";
+                    fh = ''
                   }
                 } else {
-                  fh = "";
+                  fh = ''
                 }
               })
-              .join(fh);
+              .join(fh)
             // return scope.row.meetingTypes && scope.row.meetingTypes[0] && scope.row.meetingTypes[0].name
           },
-          tooltip: true,
+          tooltip: true
         },
         {
-          label: "操作",
-          i18n: "操作",
+          label: '操作',
+          i18n: '操作',
           width: 154,
           tooltip: false,
           customRender: (h, scope) => {
-            return h("span", [
+            return h('span', [
               h(
-                "a",
+                'a',
                 {
                   style: {
-                    marginRight: "5px",
-                    cursor: "pointer",
-                    color: "#1660f1",
+                    marginRight: '5px',
+                    cursor: 'pointer',
+                    color: '#1660f1'
                   },
-                  class: "el-icon-edit-outline open-link-text",
+                  class: 'el-icon-edit-outline open-link-text',
                   on: {
                     click: () => {
-                      this.editType(scope.row);
-                    },
-                  },
+                      this.editType(scope.row)
+                    }
+                  }
                 },
-                "修改"
+                '修改'
               ),
               h(
-                "a",
+                'a',
                 {
                   style: {
-                    marginRight: "5px",
-                    cursor: "pointer",
-                    color: "#1660f1",
+                    marginRight: '5px',
+                    cursor: 'pointer',
+                    color: '#1660f1'
                   },
-                  class: "open-link-text",
+                  class: 'open-link-text'
                 },
-                "|"
+                '|'
               ),
               h(
-                "a",
+                'a',
                 {
                   style: {
-                    cursor: "pointer",
-                    color: "#1660f1",
+                    cursor: 'pointer',
+                    color: '#1660f1'
                   },
-                  class: "el-icon-delete open-link-text",
+                  class: 'el-icon-delete open-link-text',
                   on: {
                     click: () => {
-                      this.deleteDocumentType(scope.row);
-                    },
-                  },
+                      this.deleteDocumentType(scope.row)
+                    }
+                  }
                 },
-                "删除"
-              ),
-            ]);
-          },
-        },
+                '删除'
+              )
+            ])
+          }
+        }
       ],
       tableData: [],
       openDialog: false,
-      editOrAdd: "add",
+      editOrAdd: 'add',
       tableLoading: false,
       openEditMeetingDialog: false,
-      meetingType: "",
+      meetingType: '',
       meetingTypeAll: [],
       clickScope: [],
       meetingTypeA: [],
       clickMeetingTypeScope: [],
-      curIndex: 1,
-    };
+      curIndex: 1
+    }
   },
   mounted() {
-    this.query();
-    this.getMetting();
+    this.query()
+    this.getMetting()
   },
 
   methods: {
     handlePreClick() {
       if (this.curIndex > 1) {
-        this.curIndex--;
+        this.curIndex--
       }
-      this.translateX(this.$refs.swiperRef, this.curIndex);
+      this.translateX(this.$refs.swiperRef, this.curIndex)
       // console.log("this.cur", this.curIndex);
     },
     handleNextClick() {
       if (this.curIndex < this.meetingTypeAll.length - 2) {
-        this.curIndex++;
+        this.curIndex++
       }
-      this.translateX(this.$refs.swiperRef, this.curIndex);
+      this.translateX(this.$refs.swiperRef, this.curIndex)
       // console.log("this.cur", this.curIndex);
     },
     //移动
     translateX(refDom, curIndex) {
       if (refDom) {
-        refDom.style.transform = `translateX(${(1 - curIndex) * 32.125}rem)`;
+        refDom.style.transform = `translateX(${(1 - curIndex) * 32.125}rem)`
       }
     },
 
@@ -220,8 +220,8 @@ export default {
       const data = {
         pageNum: 1,
         pageSize: 100,
-        isCurrentUser: true,
-      };
+        isCurrentUser: true
+      }
       // getMettingType(data)
       //   .then((res) => {
       //     this.meetingTypeAll = [];
@@ -235,97 +235,99 @@ export default {
       //   .catch((err) => {
       //     this.tableLoading = false;
       //   });
-      const res = await getMettingType(data);
-      this.meetingTypeAll = [];
-      this.meetingTypeAll = res.data;
+      const res = await getMettingType(data)
+      this.meetingTypeAll = []
+      this.meetingTypeAll = res.data
       // console.log("this", this.meetingTypeAll);
       this.meetingType = this.meetingTypeAll.map((item) => {
         // console.log("item", item.name);
-        return item.name;
-      });
+        return item.name
+      })
       if (type) {
-        this.meetingTypeA = [];
+        this.meetingTypeA = []
       }
       findMeetingDocuments({}).then((res) => {
         this.meetingTypeA = this.meetingTypeAll.filter((i) => {
           return res.map((item) => {
             if (item.meetingType.name == i.name) {
               i.word = item.documents.map((node) => {
-                return { name: node.name, id: node.attachmentId };
-              });
+                return { name: node.name, id: node.attachmentId }
+              })
               // console.log("1", i);
             }
-          });
-        });
-      });
+          })
+        })
+      })
     },
 
     editMeetingType(type) {
-      this.clickMeetingTypeScope = type;
-      this.openEditMeetingDialog = true;
+      this.clickMeetingTypeScope = type
+      this.openEditMeetingDialog = true
       // console.log("type", type);
     },
 
     editType(scope) {
-      this.clickScope = scope;
-      this.openDialog = true;
-      this.editOrAdd = "edit";
+      this.clickScope = scope
+      this.openDialog = true
+      this.editOrAdd = 'edit'
       // console.log(scope);
     },
     deleteDocumentType(e) {
       // console.log(e);
-      this.$confirm("请确认是否要删除该资料?", "提示", {
-        confirmButtonText: "是",
-        cancelButtonText: "否",
-        type: "warning",
+      this.$confirm('请确认是否要删除该资料?', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning'
       }).then(() => {
         deleteDocumentType({ id: e.id })
-          .then(() => {
-            this.$message.success("删除成功!");
-            this.query();
+          .then((res) => {
+            if (res.code === 200) {
+              this.$message.success('删除成功!')
+            }
+            this.query()
           })
-          .catch((err) => {
+          .catch(() => {
             //  this.$message.error("删除失败!");
-          });
-      });
+          })
+      })
     },
     query() {
       const data = {
         pageNum: this.page.currPage,
-        pageSize: this.page.pageSize,
-      };
+        pageSize: this.page.pageSize
+      }
       getDocumentTypeServiceByPage(data)
         .then((res) => {
           // console.log(res);
-          const { data, pageNum, pageSize, total, pages } = res;
-          this.page.currPage = pageNum;
-          this.page.pageSize = pageSize;
-          this.page.totalCount = total;
-          this.page.pages = pages;
-          this.tableData = data;
+          const { data, pageNum, pageSize, total, pages } = res
+          this.page.currPage = pageNum
+          this.page.pageSize = pageSize
+          this.page.totalCount = total
+          this.page.pages = pages
+          this.tableData = data
         })
-        .catch((err) => {
-          this.tableLoading = false;
-        });
+        .catch(() => {
+          this.tableLoading = false
+        })
     },
     add() {
-      this.openDialog = true;
-      this.editOrAdd = "add";
+      this.openDialog = true
+      this.editOrAdd = 'add'
     },
     flushTable() {
-      this.query();
+      this.query()
     },
     flushCard() {
-      this.getMetting("data");
+      this.getMetting('data')
     },
     closeDialog(bol) {
-      this.openDialog = bol;
+      this.openDialog = bol
     },
     closeEditMeetingDialog(bol) {
-      this.openEditMeetingDialog = bol;
-    },
-  },
-};
+      this.openEditMeetingDialog = bol
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

@@ -4,7 +4,6 @@
       :locale="lang"
       :masks="mask"
       :attributes="attributes"
-      is-expanded
       v-model="value"
       :disabled-dates="weekDays"
       :firstDayOfWeek="firstDayOfWeek"
@@ -195,8 +194,11 @@ export default {
     border: none;
   }
   .vc-day-content {
-    font-family: 'PingFang SC';
+    font-family: Arial, 'PingFang SC';
     font-weight: 500;
+  }
+  .vc-weekday {
+    font-family: Arial, 'PingFang SC';
   }
   .vc-header {
     margin-bottom: 6px;
@@ -212,8 +214,8 @@ export default {
     opacity: 1 !important;
     color: #cbd5e0 !important;
   }
-  .vc-nav-item:focus{
-    border-color:transparent !important;
+  .vc-nav-item:focus {
+    border-color: transparent !important;
   }
 }
 </style>

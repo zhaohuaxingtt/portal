@@ -9,7 +9,7 @@ export const materirelList=[
     },
     {
         prop:'partNum',
-        label:'零件号',
+        i18n:'零件号',
         emit:'goDetail',
         tooltip: true,
         width:'170px',
@@ -20,31 +20,31 @@ export const materirelList=[
     },
     {
         prop:'partNameZh',
-        label:'零件中文名称',
+        i18n:'零件中文名称',
         tooltip:true,
         // openNewPage:true,
     },
     {
         prop:'partNameDe',
-        label:'零件德文名称',
+        i18n:'零件德文名称',
         tooltip:true,
 
     },
     {
         prop:'sourceDesc',
-        label:'零件来源',
+        i18n:'零件来源',
         tooltip:true,
 
     },
     {
         prop:'partStatusDesc',
-        label:'零件状态',
+        i18n:'零件状态',
         tooltip:true,
 
     },
     {
         prop:'updateDate',
-        label:'最后一次修改时间',
+        i18n:'最后一次修改时间',
         tooltip:true,
     }
 ]

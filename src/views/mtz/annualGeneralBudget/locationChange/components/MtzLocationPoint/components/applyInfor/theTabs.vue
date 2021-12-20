@@ -10,17 +10,17 @@
       </span>
       <div>
         <iButton @click="cancel"
-                 v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('QUXIAO', '取消') }}</iButton>
+                 v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('QUXIAO', '取消') }}</iButton>
         <iButton @click="add"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('XINZENG', '新增') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('XINZENG', '新增') }}</iButton>
         <iButton @click="edit"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BIANJI', '编辑') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BIANJI', '编辑') }}</iButton>
         <iButton @click="continueBtn"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('YANYONG', '沿用') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('YANYONG', '沿用') }}</iButton>
         <iButton @click="delecte"
-                 v-if="!editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('SHANCHU', '删除') }}</iButton>
+                 v-if="!editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('SHANCHU', '删除') }}</iButton>
         <iButton @click="save"
-                 v-if="editType && appStatus == '草稿' || appStatus == '未通过'">{{ language('BAOCUN', '保存') }}</iButton>
+                 v-if="editType && (appStatus == '草稿' || appStatus == '未通过')">{{ language('BAOCUN', '保存') }}</iButton>
       </div>
     </template>
     <el-form :rules="formRules"
@@ -54,16 +54,16 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="isNomi"
+        <el-table-column prop="formalFlag"
                          align="center"
                          show-overflow-tooltip
                          width="150"
                          :label="language('SHIFOUWEIXINGUIZE','是否为新规则')">
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'isNomi'"
-                          :rules="formRules.isNomi ? formRules.isNomi : ''">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'formalFlag'"
+                          :rules="formRules.formalFlag ? formRules.formalFlag : ''">
               <!-- <iInput v-model="scope.row.ruleNo" v-if="editId.indexOf(scope.row.id)!==-1"></iInput> -->
-              <span>{{scope.row.isNomi?"否":"是"}}</span>
+              <span>{{scope.row.formalFlag=="Y"?"否":"是"}}</span>
             </el-form-item>
           </template>
         </el-table-column>
@@ -317,8 +317,30 @@
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'source'"
                           :rules="formRules.source ? formRules.source : ''">
-              <iInput v-model="scope.row.source"
-                      v-if="editId.indexOf(scope.row.id)!==-1"></iInput>
+
+              <!-- <el-select v-model="scope.row.tcCurrence"
+                         clearable
+                         :placeholder="language('QINGSHURU', '请输入')"
+                         v-if="editId.indexOf(scope.row.id)!==-1">
+                <el-option v-for="item in tcCurrence"
+                           :key="item.code"
+                           :label="item.code"
+                           :value="item.code">
+                </el-option>
+              </el-select> -->
+
+              <i-select v-model="scope.row.source"
+                        clearable
+                        @change="sourceChange(scope.row,$event)"
+                        :placeholder="language('QINGSHURU', '请输入')"
+                        v-if="editId.indexOf(scope.row.id)!==-1">
+                <el-option v-for="item in getMtzMarketSourceList"
+                           :key="item.code"
+                           :label="item.code"
+                           :value="item.code">
+                </el-option>
+              </i-select>
+
               <span v-else>{{scope.row.source}}</span>
             </el-form-item>
           </template>
@@ -446,10 +468,11 @@
             </el-form-item>
           </template>
         </el-table-column>
+
         <el-table-column prop="platinumPrice"
                          align="center"
                          width="150"
-                         show-overflow-tooltip>
+                         >
           <template slot="header">
             <div>
               <span>{{language('BOJIJIA','铂基价')}}</span>
@@ -481,7 +504,7 @@
         <el-table-column prop="platinumDosage"
                          align="center"
                          width="150"
-                         show-overflow-tooltip>
+                         >
           <template slot="header">
             <div>
               <span>{{language('BOYONGLIANG','铂用量')}}</span>
@@ -512,7 +535,7 @@
         <el-table-column prop="palladiumPrice"
                          align="center"
                          width="150"
-                         show-overflow-tooltip>
+                         >
           <template slot="header">
             <div>
               <span>{{language('BAJIJIA','钯基价')}}</span>
@@ -543,7 +566,7 @@
         <el-table-column prop="palladiumDosage"
                          align="center"
                          width="150"
-                         show-overflow-tooltip>
+                         >
           <template slot="header">
             <div>
               <span>{{language('BAYONGLIANG','钯用量')}}</span>
@@ -573,7 +596,7 @@
         <el-table-column prop="rhodiumPrice"
                          align="center"
                          width="150"
-                         show-overflow-tooltip>
+                         >
           <template slot="header">
             <div>
               <span>{{language('LAOJIJIA','铑基价')}}</span>
@@ -604,7 +627,7 @@
         <el-table-column prop="rhodiumDosage"
                          align="center"
                          width="150"
-                         show-overflow-tooltip>
+                         >
           <template slot="header">
             <div>
               <span>{{language('LAOYONGLIANG','铑用量')}}</span>
@@ -632,6 +655,19 @@
             </el-form-item>
           </template>
         </el-table-column>
+        
+        <el-table-column prop="preciousMetalDosageUnit"
+                         align="center"
+                         width="200"
+                         :label="language('GUIJINSHUYONGLIANGJIJIADANWEI','贵金属用量&基价单位')"
+                         >
+          <template slot-scope="scope">
+            <el-form-item :prop="'tableData.' + scope.$index + '.' + 'preciousMetalDosageUnit'"
+                          :rules="formRules.preciousMetalDosageUnit ? formRules.preciousMetalDosageUnit : ''">
+              <span>{{scope.row.preciousMetalDosageUnit}}</span>
+            </el-form-item>
+          </template>
+        </el-table-column>
       </el-table>
     </el-form>
     <!-- <iPagination @size-change="handleSizeChange($event, getTableList)"
@@ -656,8 +692,8 @@
              v-if="addDialog"
              width="70%"
              @close="saveGzDialog">
-      <addGZ :dataObject="dataObject"
-             :resetType="resetType"
+             <!-- :dataObject="dataObject" -->
+      <addGZ :resetType="resetType"
              @close="saveGzClose"
              @addDialogGZ="addDialogGZList">
       </addGZ>
@@ -682,8 +718,8 @@ import {
   addBatchAppRule,//维护MTZ原材料规则-批量新增
   deleteAppRule,//列表删除,
   modifyAppRule,
-  checkPreciousMetal,
-  getAppFormInfo
+  // checkPreciousMetal,
+  getMtzMarketSourceList
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import {
   cartypePaged,//车型
@@ -716,7 +752,7 @@ export default {
     return {
       tcCurrence: [],
       formRules: formRulesGZ,
-      dataObject: [],
+      // dataObject: [],
       supplierList: [],
       newDataList: [],//传过来的列表数据
       editType: false,
@@ -757,6 +793,7 @@ export default {
           message: "KG"
         }
       ],
+      getMtzMarketSourceList:[],//市场价来源
       materialGroup: [],
       materialCode: [],
       mtzAddShow: false,
@@ -795,57 +832,76 @@ export default {
     currencyDict().then(res => {
       this.tcCurrence = res.data;
     })
+    getMtzMarketSourceList({}).then(res=>{
+      this.getMtzMarketSourceList = res.data;
+    })
   },
   methods: {
     init () {
       this.getTableList();
       this.getMtzCailiao();
     },
+    sourceChange(e,val){
+      this.$set(e,'source',val);
+    },
     add () {//新增
-      if (this.flowType == "MEETING") {
+      if (this.flowType !== "SIGN") {
         this.addDialog = true;
-        var list = [];
-        this.tableData.forEach(e => {
-          list.push({
-            supplierId: e.supplierId || "",
-            materialCode: e.materialCode || "",
-            price: e.price || "",
-            startDate: e.startDate || "",
-            endDate: e.endDate || ""
-          })
-        })
-        this.dataObject = list;
+        // var list = [];
+        // this.tableData.forEach(e => {
+        //   list.push({
+        //     supplierId: e.supplierId || "",
+        //     materialCode: e.materialCode || "",
+        //     price: e.price || "",
+        //     startDate: e.startDate || "",
+        //     endDate: e.endDate || ""
+        //   })
+        // })
+        // this.dataObject = list;
       } else {
-        iMessageBox(this.language('XZMTZYCLGZSSQDLXBNWLZBAJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ', '新增MTZ原材料规则时，申请单类型不能为流转/备案，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'), this.language('LK_WENXINTISHI', '温馨提示'), {
+        iMessageBox(this.language('XZMTZYCLGZSSQDLXBNWLZJXTJHCZSQDLXBQXYGLDLJDDSQDSFQRTJ', '新增MTZ原材料规则时，申请单类型不能为流转，继续添加会重置申请单类型，并取消已关联的零件定点申请单，是否确认添加？'), this.language('LK_WENXINTISHI', '温馨提示'), {
           confirmButtonText: this.language('QUEREN', '确认'),
           cancelButtonText: this.language('QUXIAO', '取消')
         }).then(res => {
           // iMessage.success(this.language("KAIFAZHONG","开发中"))
           this.addDialog = true;
-          var list = [];
-          this.tableData.forEach(e => {
-            list.push({
-              supplierId: e.supplierId || "",
-              materialCode: e.materialCode || "",
-              price: e.price || "",
-              startDate: e.startDate || "",
-              endDate: e.endDate || "",
-            })
-          })
-          this.dataObject = list;
-          this.resetNum = true;
+          // var list = [];
+          // this.tableData.forEach(e => {
+          //   list.push({
+          //     supplierId: e.supplierId || "",
+          //     materialCode: e.materialCode || "",
+          //     price: e.price || "",
+          //     startDate: e.startDate || "",
+          //     endDate: e.endDate || "",
+          //   })
+          // })
+          // this.dataObject = list;
+          this.resetNum = true;//流转
         })
       }
     },
     addDialogGZList () {//mtz申请单类型或已关联申请单类型为流转备案/新增原材料规则
-      if (this.resetNum) {
+      // console.log(this.resetNum);
+      if (this.resetNum) {//流转
         this.$emit("handleReset", "")
         this.$parent.$refs.theDataTabs.removePartMasterData()
         this.resetNum = false;
+        setTimeout(() => {
+          this.$parent.$refs.theDataTabs.pageAppRequest()
+          if(!this.$parent.$refs.theDataTabs.editType){
+            this.$parent.$refs.theDataTabs.getTableList()
+          }
+        }, 500);
+        
+      }else{//上会、备案
+        setTimeout(() => {
+          this.$parent.$refs.theDataTabs.pageAppRequest()
+          if(!this.$parent.$refs.theDataTabs.editType){
+            this.$parent.$refs.theDataTabs.getTableList()
+          }
+        }, 500);
       }
       this.saveGzDialog();
-      // this.page.currPage = 1;
-      // this.page.pageSize = 99999;
       this.getTableList();
     },
     edit () {//编辑
@@ -891,6 +947,9 @@ export default {
                   // this.page.pageSize = 10;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
+                    if(!this.$parent.$refs.theDataTabs.editType){
+                      this.$parent.$refs.theDataTabs.getTableList()
+                    }
                   }, 500);
 
                   this.getTableList();
@@ -933,6 +992,9 @@ export default {
                   this.editType = false;
                   setTimeout(() => {
                     this.$parent.$refs.theDataTabs.pageAppRequest()
+                    if(!this.$parent.$refs.theDataTabs.editType){
+                      this.$parent.$refs.theDataTabs.getTableList()
+                    }
                   }, 500);
 
                   this.getTableList();
@@ -983,8 +1045,14 @@ export default {
       this.mtzAddShow = true;
     },
     addDialogDataList (val) {//沿用
-      this.newDataList = deepClone(val);
-      this.newDataList.forEach(item => {
+      val.forEach(item => {
+        // item.source = item.sourceType;
+        this.$set(item,"source",item.sourceType)
+        // if(item.preciousMetalDosageUnit == ""){
+        //   this.$set(item,"preciousMetalDosageUnit","OZ")
+        // }
+        item.formalFlag = "Y";
+        delete item.sourceType;
         delete item.id;
         if(item.carline == null){
           item.carlineList = []
@@ -993,9 +1061,9 @@ export default {
           item.carlineList = item.carline.split(",")
         }
         // checkPreciousMetal({code:item.materialCode}).then(res=>{
-        //     this.$set(item,"metalType",res.data)
         // })
       })
+      this.newDataList = val;
       this.closeDiolog();
       this.tableData.unshift(...this.newDataList);
       this.editType = true;
@@ -1025,6 +1093,9 @@ export default {
             iMessage.success(res.desZh)
             setTimeout(() => {
               this.$parent.$refs.theDataTabs.pageAppRequest()
+              if(!this.$parent.$refs.theDataTabs.editType){
+                this.$parent.$refs.theDataTabs.getTableList()
+              }
             }, 500);
 
             this.getTableList();
@@ -1072,7 +1143,8 @@ export default {
         // this.page.totalCount = res.total
         var num = 0;
         res.data.forEach(e => {
-          if (!e.isNomi) {
+          // if (!e.formalFlag) {
+          if (e.formalFlag == "N") {
             num++;
           }
         })
