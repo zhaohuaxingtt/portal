@@ -156,6 +156,7 @@ export const numToLetter = {
   "26": "Z",
 };
 export const buttonList = [
+  //开放
   {
     title: "开放",
     methodName: "open",
@@ -181,6 +182,7 @@ export const buttonList = [
       ],
     ],
   },
+  //锁定
   {
     title: "锁定",
     methodName: "lock",
@@ -206,6 +208,7 @@ export const buttonList = [
       ],
     ],
   },
+  //开始
   {
     title: "开始",
     methodName: "start",
@@ -223,12 +226,7 @@ export const buttonList = [
         // { title: "导入议题", methodName: "importTopic" },
       ],
       [
-        // {
-        //   title: "开始议题",
-        //   methodName: "startTopic",
-        //   // disabled: true,
-        //   triggerDisabled: true,
-        // },
+        // { //   title: "开始议题", //   methodName: "startTopic", //   // disabled: true, //   triggerDisabled: true, // },
         { title: "修改议题", methodName: "editTopic", disabled: true },
         { title: "维护资料", methodName: "protectInfo", disabled: true },
         { title: "删除", methodName: "deleteTop", disabled: true },
@@ -237,6 +235,7 @@ export const buttonList = [
       ],
     ],
   },
+  //结束
   {
     title: "结束",
     methodName: "end",
@@ -255,6 +254,7 @@ export const buttonList = [
       [],
     ],
   },
+  //关闭
   {
     title: "关闭",
     methodName: "close",
@@ -271,6 +271,7 @@ export const buttonList = [
       [],
     ],
   },
+  //草稿
   {
     title: "草稿",
     methodName: "draw",

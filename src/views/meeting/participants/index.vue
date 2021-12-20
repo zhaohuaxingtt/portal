@@ -2,10 +2,10 @@
   <div class="width">
     <iCard>
       <iTabs>
-        <el-tab-pane class="margin-bottom3" :label="$t('与会人')">
+        <el-tab-pane class="margin-bottom3" :label="$t('MT_YUHUIREN')">
           <attendee></attendee>
         </el-tab-pane>
-        <el-tab-pane class="margin-bottom3" :label="$t('收件人')">
+        <el-tab-pane class="margin-bottom3" :label="$t('MT_SHOUJIANREN')">
           <receiver></receiver>
         </el-tab-pane>
       </iTabs>

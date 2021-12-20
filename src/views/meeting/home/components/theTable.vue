@@ -1449,7 +1449,6 @@ export default {
       //gpCSC会议   /meeting/managementHall/gpcscMeeting
       // 因为目前没有正确数据  假数据跳转 meetingNameSuffix  sprint17开发中  测试中会调整该代码
       if (e.isCSC || e.isPreCSC) {
-        debugger
         this.$router.push({
           path: '/meeting/specialDetails',
           query: {
@@ -1457,16 +1456,14 @@ export default {
             // type: e.meetingTypeName
           }
         })
-      } else if (e.meetingNameSuffix == "csc") {
-        debugger
+      } else if (e.meetingNameSuffix == "gpCSC") {
         this.$router.push({
           path: '/meeting/managementHall/gpcscMeeting',
           query: {
             id: e.id
           }
         })
-      } else if (e.meetingNameSuffix == "gp123") {
-        debugger
+      } else if (e.meetingNameSuffix == "MBDL") {
         this.$router.push({
           path: '/meeting/managementHall/mbdlMeeting',
           query: {
@@ -1474,7 +1471,6 @@ export default {
           }
         })
       }else {
-        debugger
         this.$router.push({
           path: '/meeting/details',
           query: {

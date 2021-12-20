@@ -4,7 +4,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">{{ $t('会议名称') }}</div>
+            <div class="name">{{ $t('MT_HUIYIMINGCHENG') }}</div>
             <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
@@ -34,13 +34,13 @@
         <div class="row">
           <div class="list">
             <div class="show">
-              <div class="title">{{ $t('会议类型') }}</div>
+              <div class="title">{{ $t('MT_HUIYILEIXING') }}</div>
               <div class="content">
                 {{ typeObject[meetingInfo.meetingTypeId] }}
               </div>
             </div>
             <div class="show">
-              <div class="title">{{ $t('会议地点') }}</div>
+              <div class="title">{{ $t('MT_HUIYIDIDIAN') }}</div>
               <div
                 class="content content-address"
                 :title="meetingInfo.meetingPlace"
@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="show">
-              <div class="title">{{ $t('会议时间') }}</div>
+              <div class="title">{{ $t('MT_HUIYISHIJIAN') }}</div>
               <div class="content">
                 {{
                   `${begin}${
@@ -414,8 +414,8 @@
           :page-sizes="page.pages"
           :page-size="page.pageSize"
           layout="prev, pager, next"
-          :prev-text="$t('上一页')"
-          :next-text="$t('下一页')"
+          :prev-text="$t('MT_SHANGYIYE')"
+          :next-text="$t('MT_XIAYIYE')"
           :total="page.totalCount"
         />
       </iCard>
@@ -495,7 +495,7 @@
       </div>
     </importThemens> -->
     <updateFile
-      :title="$t('导入议题')"
+      :title="$t('MT_DAORUYITI')"
       :maxSize="10"
       :fileNum="1"
       :open="dialogStatusManageObj.openImportTopicDialog"
@@ -509,7 +509,7 @@
     >
       <div class="title-down-demo" @click="downDemo">
         <img :src="enclosure" alt="" srcset="" />
-        <span>{{ $t('下载模版') }}</span>
+        <span>{{ $t('MT_XIAZAIMUBAN') }}</span>
       </div>
     </updateFile>
     <updateMeetingDialog
@@ -715,10 +715,11 @@ export default {
         filename: '议题模版',
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
         callback: (e) => {
+          console.log('eeeeeeeeeee', e)
           if (e) {
             iMessage.success('下载模版成功')
           } else {
-            iMessage.error('下载模版成功')
+            iMessage.error('下载模版失败')
           }
         },
         noFileUd: true
@@ -855,7 +856,7 @@ export default {
     // 上传议题错误提示框关闭
     handleCloseError() {
       this.openError = false
-      this.closeDialog();
+      this.closeDialog()
     },
     // 导入议题取消
     handleCancelTopics() {

@@ -9,18 +9,18 @@
     :icon="true"
   >
     <el-form>
-      <iFormItem :label="$t('类型名称')">
-        <iInput :placeholder="language('请输入')" v-model="form.name"></iInput>
+      <iFormItem :label="$t('MT_LEIXINGMINGCHENG')">
+        <iInput :placeholder="language('请输入','MT_QINGSHURU')" v-model="form.name"></iInput>
       </iFormItem>
       <iFormItem :label="$t('会议信息描述')">
         <iInput
-          :placeholder="language('请输入')"
+          :placeholder="language('请输入','MT_QINGSHURU')"
           v-model="form.meetingInfoDesc"
         ></iInput>
       </iFormItem>
       <iFormItem :label="$t('是否触发审批流')">
         <iSelect
-          :placeholder="language('请选择')"
+          :placeholder="language('请选择','MT_QINGXUANZE')"
           v-model="form.isTriggerApproval"
         >
           <el-option

@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="$t('维护资料')"
+    :title="$t('MT_WEIHUZILIAO')"
     :visible.sync="dialogStatusManageObj.openProtectInfoDialog"
     width="43rem"
     :close-on-click-modal="false"
@@ -29,12 +29,12 @@
               class="upload-button1"
               :loading="uploadLoading"
             >
-              {{$t('请选择文件')}}<span class="upload-text1"
+              {{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text1"
                 ><img :src="uploadIcon" class="img1"
               /></span>
             </iButton>
             <div slot="tip" class="el-upload__tip">
-              {{$t(' 文件大小最大限制10M')}}
+              {{$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}}10M
             </div>
           </el-upload>
         </iFormItem>
