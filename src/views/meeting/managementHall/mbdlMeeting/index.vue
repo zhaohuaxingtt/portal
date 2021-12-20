@@ -1,6 +1,6 @@
 <!--
  * @Author: HS   MBDL会议
- * @FilePath: \front-portal\front-portal\src\views\meeting\managementHall\mbdlMeeting\index.vue
+ * @FilePath: \front-portal\src\views\meeting\managementHall\mbdlMeeting\index.vue
 -->
 <template>
   <iPage>
@@ -579,6 +579,7 @@
       :meetingInfo="meetingInfo"
       :selectedTableData="selectedTableData"
     ></confirmSplit>
+    <!-- 会议改期 -->
     <updateDate
       @closeDialog="closeDialog"
       :dialogStatusManageObj="dialogStatusManageObj"
@@ -1245,7 +1246,9 @@ export default {
         .then((res) => {
           console.log(res);
           _this.meetingInfo = res
-          // console.log(res);
+          debugger
+          console.log(res);
+          //拿到状态state
           _this.goState(res.state)
           _this.resThemeData = [...res.themens]
           _this.handlePage(res.themens)
@@ -1658,6 +1661,7 @@ export default {
       })
     },
     updateDate() {
+      console.log(this.selectedTableData);//当前行数据
       // alert("updateDate");
       if (this.selectedTableData[0] && this.selectedTableData[0].isBreak) {
         iMessage.warn('休息议题不能进行改期')
