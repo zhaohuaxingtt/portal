@@ -373,7 +373,7 @@ export default {
     }
   },
   mounted() {
-    let duration = 0
+    // let duration = 0
     if (this.editOrAdd === 'edit') {
       this.ruleForm = { ...this.selectedTableData[0] }
       // duration = this.selectedTableData[0].duration;

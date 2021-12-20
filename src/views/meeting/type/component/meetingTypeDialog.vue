@@ -1,7 +1,11 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="editOrAdd === 'add' ? $t('创建会议类型') : $t('编辑会议类型')"
+    :title="
+      editOrAdd === 'add'
+        ? $t('MT_CHUANGJIANHUIYILEIXING')
+        : $t('MT_BIANJIHUIYILEIXING')
+    "
     :visible.sync="openDialog"
     width="65.5rem"
     :close-on-click-modal="false"
@@ -26,12 +30,12 @@
             />
             <div class="form-upload">
               <iFormItem
-                :label="$t('上传封面图片')"
+                :label="$t('MT_SHANGCHUANFENGMIANTUPIAN')"
                 prop="coverImage"
                 ref="ruleFormCoverImage"
               >
                 <iLabel
-                  :label="$t('上传封面图片')"
+                  :label="$t('MT_SHANGCHUANFENGMIANTUPIAN')"
                   slot="label"
                   required
                 ></iLabel>
@@ -47,11 +51,11 @@
                     class="upload-button"
                     :loading="uploadLoading"
                   >
-                    {{ $t('请选择文件')
+                    {{ $t('MT_QINGXUANZEWENJIAN')
                     }}<span class="upload-text"><img :src="uploadIcon" /></span>
                   </iButton>
                   <div slot="tip" class="el-upload__tip">
-                    {{ $t(' 建议使用16:9比例，图片最大15M') }}
+                    {{ $t('MT_JIANYISHIYONGBILI') }}
                   </div>
                 </el-upload>
               </iFormItem>
@@ -60,11 +64,11 @@
           <div class="input-box">
             <div class="form-row">
               <iFormItem
-                :label="$t('类型名称')"
+                :label="$t('MT_LEIXINGMINGCHENG')"
                 prop="name"
                 :hideRequiredAsterisk="true"
               >
-                <iLabel :label="$t('类型名称')" slot="label" required></iLabel>
+                <iLabel :label="$t('MT_LEIXINGMINGCHENG')" slot="label" required></iLabel>
                 <iInput
                   v-model="ruleForm.name"
                   :disabled="
@@ -76,7 +80,7 @@
                 ></iInput>
               </iFormItem>
               <iFormItem
-                :label="$t('生成会议名称后缀')"
+                :label="$t('MT_SHENGCHENGHUIYIMINGCHENGHOUZHUI')"
                 prop="meetingNameSuffix"
                 :rules="
                   ruleForm.category == '01'
@@ -85,7 +89,7 @@
                 "
               >
                 <iLabel
-                  :label="$t('生成会议名称后缀')"
+                  :label="$t('MT_SHENGCHENGHUIYIMINGCHENGHOUZHUI')"
                   slot="label"
                   :required="ruleForm.category == '01'"
                 ></iLabel>
@@ -101,15 +105,15 @@
               </iFormItem>
             </div>
             <div class="form-row">
-              <iFormItem :label="$t('会议信息描述')" prop="meetingInfoDesc">
-                <iLabel :label="$t('会议信息描述')" slot="label"></iLabel>
+              <iFormItem :label="$t('MT_HUIYIXINXIMIAOSHU')" prop="meetingInfoDesc">
+                <iLabel :label="$t('MT_HUIYIXINXIMIAOSHU')" slot="label"></iLabel>
                 <iInput v-model="ruleForm.meetingInfoDesc"></iInput>
               </iFormItem>
-              <iFormItem :label="$t('所属分类')" prop="category">
-                <iLabel :label="$t('所属分类')" slot="label" required></iLabel>
+              <iFormItem :label="$t('MT_SUOSHUFENLEI')" prop="category">
+                <iLabel :label="$t('MT_SUOSHUFENLEI')" slot="label" required></iLabel>
                 <iSelect
                   v-model="ruleForm.category"
-                  :placeholder="$t('请选择')"
+                  :placeholder="$t('MT_QINGXUANZE')"
                   value-key="id"
                   @change="selectChanged"
                   :disabled="
@@ -131,13 +135,13 @@
             </div>
             <div class="form-row">
               <iFormItem
-                :label="$t('会议管理员')"
+                :label="$t('MT_HUIYIGUANLIYUAN')"
                 prop="userIds"
                 :hideRequiredAsterisk="true"
                 class="item"
               >
                 <iLabel
-                  :label="$t('会议管理员')"
+                  :label="$t('MT_HUIYIGUANLIYUAN')"
                   slot="label"
                   required
                 ></iLabel>
@@ -160,7 +164,7 @@
                 </iSelect>
               </iFormItem>
               <iFormItem
-                :label="$t('会议属性')"
+                :label="$t('MT_HUIYISHUXING')"
                 prop="meetingAttribute"
                 :hideRequiredAsterisk="true"
                 class="item"
@@ -171,7 +175,7 @@
                 "
               >
                 <iLabel
-                  :label="$t('会议属性')"
+                  :label="$t('MT_HUIYISHUXING')"
                   slot="label"
                   :required="ruleForm.category == '03'"
                 ></iLabel>
@@ -192,13 +196,13 @@
             </div>
             <div class="form-row" v-if="ruleForm.category != '01'">
               <iFormItem
-                :label="$t('会议结论配置')"
+                :label="$t('MT_HUIYIJIELUNPEIZHI')"
                 :hideRequiredAsterisk="true"
                 class="item conclusion-config"
                 prop="conclusionConfig"
               >
                 <iLabel
-                  :label="$t('会议结论配置')"
+                  :label="$t('MT_HUIYIJIELUNPEIZHI')"
                   slot="label"
                   required
                 ></iLabel>
@@ -220,12 +224,12 @@
                 </iSelect>
               </iFormItem>
               <iFormItem
-                :label="$t('会议上下限金额')"
+                :label="$t('MT_HUIYISHANGXIAXIANJINE')"
                 :hideRequiredAsterisk="true"
                 class="itemLimit"
               >
                 <iLabel
-                  :label="$t('会议上下限金额')"
+                  :label="$t('MT_HUIYISHANGXIAXIANJINE')"
                   slot="label"
                   :required="ruleForm.category == '03'"
                 ></iLabel>
@@ -240,7 +244,7 @@
                   >
                     <iInput
                       class="limitMoney"
-                      :placeholder="$t('下限')"
+                      :placeholder="$t('MT_XIAXIAN')"
                       v-model.number="ruleForm.lowerLimitMoney"
                       type="number"
                     ></iInput>
@@ -258,7 +262,7 @@
                   >
                     <iInput
                       class="limitMoney"
-                      :placeholder="$t('上限')"
+                      :placeholder="$t('MT_SHANGXIAN')"
                       v-model.number="ruleForm.upperLimitMoney"
                       type="number"
                     ></iInput>
@@ -268,13 +272,13 @@
             </div>
             <div class="form-row" v-show="ruleForm.category != '01'">
               <iFormItem
-                :label="$t('关联关系')"
+                :label="$t('MT_GUANLIANGUANXI')"
                 prop="incidenceRelation"
                 :hideRequiredAsterisk="true"
                 class="item incidate-relation"
                 :rules="rules.incidenceRelationRuleNoRequired"
               >
-                <iLabel :label="$t('关联关系')" slot="label"></iLabel>
+                <iLabel :label="$t('MT_GUANLIANGUANXI')" slot="label"></iLabel>
                 <iSelect
                   class="autoSearch"
                   v-model="ruleForm.incidenceRelation"
@@ -295,13 +299,13 @@
                 </iSelect>
               </iFormItem>
               <iFormItem
-                :label="$t('默认议题时长')"
+                :label="$t('MT_MORENYITISHICHANG')"
                 :hideRequiredAsterisk="true"
                 class="time"
                 prop="duration"
               >
                 <iLabel
-                  :label="$t('默认议题时长')"
+                  :label="$t('MT_MORENYITISHICHANG')"
                   slot="label"
                   required
                 ></iLabel>
@@ -311,22 +315,22 @@
                     v-model.number="ruleForm.duration"
                     type="number"
                   ></iInput>
-                  <span class="margin-left8">{{ $t('分钟') }}</span>
+                  <span class="margin-left8">{{ $t('MT_FENZHONG') }}</span>
                 </div>
               </iFormItem>
             </div>
             <div class="form-row" v-show="ruleForm.category == '01'">
               <iFormItem
-                :label="$t('会议上下限金额')"
+                :label="$t('MT_HUIYISHANGXIAXIANJINE')"
                 :hideRequiredAsterisk="true"
                 class="itemLimit"
               >
-                <iLabel :label="$t('会议上下限金额')" slot="label"></iLabel>
+                <iLabel :label="$t('MT_HUIYISHANGXIAXIANJINE')" slot="label"></iLabel>
                 <el-col :span="12">
                   <iFormItem prop="lowerLimitMoney" :rules="limitMoney">
                     <iInput
                       class="limitMoney"
-                      :placeholder="$t('下限')"
+                      :placeholder="$t('MT_XIAXIAN')"
                       v-model.number="ruleForm.lowerLimitMoney"
                       type="number"
                     ></iInput>
@@ -337,7 +341,7 @@
                   <iFormItem prop="upperLimitMoney" :rules="limitMoney">
                     <iInput
                       class="limitMoney"
-                      :placeholder="$t('上限')"
+                      :placeholder="$t('MT_SHANGXIAN')"
                       v-model.number="ruleForm.upperLimitMoney"
                       type="number"
                     ></iInput>
@@ -346,12 +350,12 @@
               </iFormItem>
               <iFormItem
                 prop="incidenceRelation"
-                :label="$t('关联关系')"
+                :label="$t('MT_GUANLIANGUANXI')"
                 :hideRequiredAsterisk="true"
                 class="item"
                 :rules="rules.incidenceRelationRuleNoRequired"
               >
-                <iLabel :label="$t('关联关系')" slot="label"></iLabel>
+                <iLabel :label="$t('MT_GUANLIANGUANXI')" slot="label"></iLabel>
                 <iSelect
                   class="autoSearch"
                   v-model="ruleForm.incidenceRelation"
@@ -376,7 +380,7 @@
               <div class="form-time-len">
                 <iFormItem label="默认议题时长" class="time" prop="duration">
                   <iLabel
-                    :label="$t('默认议题时长')"
+                    :label="$t('MT_MORENYITISHICHANG')"
                     slot="label"
                     required
                   ></iLabel>
@@ -385,20 +389,20 @@
                       v-model.number="ruleForm.duration"
                       type="number"
                     ></iInput>
-                    <span class="margin-left8">分钟</span>
+                    <span class="margin-left8">{{$t("MT_FENZHONG")}}</span>
                   </div>
                 </iFormItem>
               </div>
               <div class="form-time-len">
                 <iFormItem :label="$t('是否触发审批')" prop="isTriggerApproval">
                   <iLabel
-                    :label="$t('是否触发审批')"
+                    :label="$t('MT_SHIFOUCHUFASHENPI')"
                     slot="label"
                     required
                   ></iLabel>
                   <iSelect
                     v-model="ruleForm.isTriggerApproval"
-                    :placeholder="$t('请选择')"
+                    :placeholder="$t('MT_QINGXUANZE')"
                   >
                     <el-option
                       v-for="item in isApprovalOption"
@@ -413,13 +417,13 @@
               <div class="form-time-len" ref="selectProcess">
                 <iFormItem :label="$t('审批流程')" prop="approvalProcessId">
                   <iLabel
-                    :label="$t('审批流程')"
+                    :label="$t('MT_SHENPILIUCHENG')"
                     slot="label"
                     required
                   ></iLabel>
                   <iSelect
                     v-model="ruleForm.approvalProcessName"
-                    :placeholder="$t('请选择')"
+                    :placeholder="$t('MT_QINGXUANZE')"
                     :disabled="!ruleForm.isTriggerApproval"
                   >
                     <el-option
@@ -437,13 +441,13 @@
               <div class="form-time-len">
                 <iFormItem :label="$t('是否触发审批')" prop="isTriggerApproval">
                   <iLabel
-                    :label="$t('是否触发审批')"
+                    :label="$t('MT_SHIFOUCHUFASHENPI')"
                     slot="label"
                     required
                   ></iLabel>
                   <iSelect
                     v-model="ruleForm.isTriggerApproval"
-                    :placeholder="$t('请选择')"
+                    :placeholder="$t('MT_QINGXUANZE')"
                     :disabled="ruleForm.category === '02'"
                   >
                     <el-option
@@ -459,13 +463,13 @@
               <div class="form-time-len" ref="selectProcess">
                 <iFormItem :label="$t('审批流程')" prop="approvalProcessId">
                   <iLabel
-                    :label="$t('审批流程')"
+                    :label="$t('MT_SHENPILIUCHENG')"
                     slot="label"
                     required
                   ></iLabel>
                   <iSelect
                     v-model="ruleForm.approvalProcessName"
-                    :placeholder="$t('请选择')"
+                    :placeholder="$t('MT_QINGXUANZE')"
                     :disabled="!ruleForm.isTriggerApproval"
                   >
                     <el-option
@@ -493,7 +497,7 @@
           </el-form-item>
         </div>
         <div class="error-node" v-show="false">
-          <div class="el-form-item__error padding-left14">{{ $t('必选') }}</div>
+          <div class="el-form-item__error padding-left14">{{ $t('MT_BIXUAN') }}</div>
         </div>
       </el-form>
     </iEditForm>

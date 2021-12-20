@@ -29,12 +29,12 @@
               class="upload-button1"
               :loading="uploadLoading"
             >
-              {{$t('请选择文件')}}<span class="upload-text1"
+              {{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text1"
                 ><img :src="uploadIcon" class="img1"
               /></span>
             </iButton>
             <div slot="tip" class="el-upload__tip">
-              {{$t('文件大小最大限制')}}10M
+              {{$t('MT_WENJIANDAXIAOXIANZHI')}}10M
             </div>
           </el-upload>
         </iFormItem>
