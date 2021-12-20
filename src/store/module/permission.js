@@ -58,7 +58,7 @@ const state = {
   roleList: '',
   code: [],
   eklTabList: [],
-  eklPfjTabList:[],
+  eklPfjTabList: [],
   leadTabList: [],
   whiteBtnList: [],
   userInfo: {},
@@ -109,21 +109,30 @@ const mutations = {
           id: index,
           type: 1
         })
-      }else if(item.code === 'ADMIN'){
+      } else if (item.code === 'ADMIN') {
         //ekl
         state.eklTabList.push({
           name: 'EKL-CS',
           id: index,
           type: 1
         })
-      }else if(["PFJYJGLY", "CGKZKZ", "PJCGGZ","FJCGGZ","CSXTGLY","CIXTGLY"].includes(item.code)){
+      } else if (
+        [
+          'PFJYJGLY',
+          'CGKZKZ',
+          'PJCGGZ',
+          'FJCGGZ',
+          'CSXTGLY',
+          'CIXTGLY'
+        ].includes(item.code)
+      ) {
         //ekl配附件
         state.eklPfjTabList.push({
           name: 'CS(Spare)',
           id: index,
           type: 1
         })
-      }else if (item.code === 'CWEKLGLY') {
+      } else if (item.code === 'CWEKLGLY') {
         state.eklTabList.push({
           name: 'EKL-CFPM',
           id: index,
@@ -134,7 +143,11 @@ const mutations = {
           id: data.length,
           type: 1
         })
-      } else if (item.code == 'ZYCGKSXTY' || item.code == 'ZYCGKSXTDY' || item.code == 'WS2ZYCGKZ') {
+      } else if (
+        item.code == 'ZYCGKSXTY' ||
+        item.code == 'ZYCGKSXTDY' ||
+        item.code == 'WS2ZYCGKZ'
+      ) {
         state.eklTabList.push({
           name: `EKL-${item.fullNameZh}`,
           id: index,

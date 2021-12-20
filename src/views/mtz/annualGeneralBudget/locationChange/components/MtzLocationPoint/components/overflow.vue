@@ -224,7 +224,7 @@ export default {
   },
   methods: {
     chioce(data, name){
-      console.log(data)
+      // console.log(data)
       pageAppRule({
         pageNo: 1,
         pageSize: 99999,
@@ -255,6 +255,10 @@ export default {
           flowType:val
         }).then(res => {
           iMessage.success(this.language('BAOCUNCHENGGONG', '保存成功！'))
+          var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
+          data.refresh = true;
+          store.commit("routerMtzData", data);
+          sessionStorage.setItem("MtzLIst", JSON.stringify(data))
           this.getType();
         })
       }).catch(res => {
@@ -327,9 +331,7 @@ export default {
         }else{
           iMessage.error(res.desZh)
         }
-        
       })
-      
     },
     submitRequest(){
       NewMessageBox({
