@@ -352,6 +352,15 @@ export default [
     },
     component: () => import(`@/views/meeting/show/index.vue`)
   },
+  //mbdl展示 如果有误改麻请联系gp
+  {
+    path: '/meeting/mbdlMeetingShow',
+    name: 'meetingShow',
+    meta: {
+      title: '会议展示'
+    },
+    component: () => import(`@/views/meeting/managementHall/mbdlMeetingShow/index.vue`)
+  },
   
   
-]
+] 
