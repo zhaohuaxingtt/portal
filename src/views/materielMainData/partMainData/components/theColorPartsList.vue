@@ -4,7 +4,12 @@
         <el-row :gutter="24">
           <el-col span="8">
             <iFormItem :label='language("色标零件号")' class="color-list-search">
-              <iInput v-model="colorStandardCode"></iInput>
+              <!-- <iInput v-model="colorStandardCode"></iInput> -->
+              <iMultiLineInput 
+                :placeholder='language("请输入零件号,多个逗号分隔")'
+                :title="language('零件号')"
+                v-model="colorStandardCode"
+              />
             </iFormItem>
           </el-col>
           <el-col span="8">
@@ -29,15 +34,15 @@ import {
   iCard,
   iFormItem,
   iButton,
-  iSelect,
-  iInput
+  // iMultiLineInput
 } from 'rise'
 import iTableCustom from '@/components/iTableCustom'
+import iMultiLineInput from '@/components/iMultiLineInput'
 import {COLOR_COLUMNS} from './data.js'
 import { getColorListById} from '@/api/colorStandardParts'
 export default {
   name:'colorStandardList',
-  components:{iCard,iFormItem,iButton,iTableCustom,iSelect,iInput},
+  components:{iCard,iFormItem,iButton,iTableCustom,iMultiLineInput},
   props:{
     partNum:{
       type:String,
@@ -51,7 +56,6 @@ export default {
       columns:COLOR_COLUMNS,
       colorStandardCode:[],
       selectedItems:[],
-      partNumOptions:[],
       iniTableData:[]
     }
   },
@@ -67,9 +71,6 @@ export default {
             this.colorListData = data
             this.iniTableData = data
             this.$refs.colorListTable.toggleAllSelection()
-            this.partNumOptions= data.map((ele)=>{
-              return {'label':ele.partNum5,'value':ele.partNum5}
-            })
           }
           
         }else{
@@ -93,6 +94,7 @@ export default {
       let searchedData = []
       this.iniTableData.forEach((ele)=>{
         input.forEach((item)=>{
+          console.log(ele.partNum.toLowerCase(),item.toLowerCase(),'ppppppp');
           if( ele.partNameZh.toLowerCase().includes(item.toLowerCase()) || ele.partNum.toLowerCase().includes(item.toLowerCase())){
             searchedData.push(ele)
           }
@@ -127,5 +129,8 @@ export default {
 }
 .divider{
     margin:0 0  20px 0;
+}
+::v-deep .iMultiLineInput{
+  width:100%;
 }
 </style>
