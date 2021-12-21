@@ -382,10 +382,20 @@ export default {
     },
     // 失效
     invalid() {
-      let id, status
+      let id, status, billType,type, obj = {}
       if (this.selectTableData.length == 1) {
         id = this.selectTableData[0].id
         status = this.selectTableData[0].status
+        billType = this.selectTableData[0].billType // 1 基础 2 跟踪
+        type = this.selectTableData[0].billType // 1 批量件 2 配附件
+        obj.id = id
+        if(billType==1) {
+          obj.identification = 1
+        } else if(billType==2 && type==1) {
+          obj.identification = 2
+        } else if (billType==2 && type==2) {
+          obj.identification = 3
+        }
       }
       if (id) {
         if (status == 3 || status == 11) {
@@ -399,7 +409,7 @@ export default {
             }
           )
             .then(() => {
-              invalid({ id }).then((res) => {
+              invalid(obj).then((res) => {
                 if (res.result) {
                   this.getTableList()
                   iMessage.success(
@@ -415,7 +425,7 @@ export default {
               })
             })
         } else {
-          invalid({ id }).then((res) => {
+          invalid(obj).then((res) => {
             if (res.result) {
               this.getTableList()
               iMessage.success(
