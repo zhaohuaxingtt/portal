@@ -68,7 +68,8 @@ export default {
       this.loading = true
       const { data } = await queryOrganizationStructure({
         isVisible: true,
-        queryTree: true
+        queryTree: true,
+        nativeOnly: true
       }).finally(() => {
         this.loading = false
       })
