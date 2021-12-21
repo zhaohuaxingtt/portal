@@ -62,7 +62,7 @@
           </iFormItem>
         </el-col>
 
-        <el-col :span="6">
+        <!-- <el-col :span="6">
           <iFormItem :label="language('公司代码?')">
             <iInput
               v-model="form.rawMaterialCodes"
@@ -70,7 +70,7 @@
               :placeholder="language('请输入')"
             />
           </iFormItem>
-        </el-col>
+        </el-col> -->
       </el-row>
     </el-form>
   </iCard>
