@@ -943,4 +943,7 @@ export default {
     border-right: 0 !important;
   }
 }
+::v-deep .cell{
+  white-space: pre !important;
+}
 </style>

@@ -267,7 +267,7 @@ export default {
         filename: item.name,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('下载失败'))
           }
         }
       })
@@ -299,7 +299,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.close()
-                  this.$message.success('保存成功！')
+                  this.$message.success(this.$t('保存成功！'))
                   this.$emit('flushTable')
                 }
               })
@@ -318,7 +318,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.close()
-                  this.$message.success('创建成功！')
+                  this.$message.success(this.$t('创建成功！'))
                   this.$emit('flushTable')
                 }
               })
@@ -332,12 +332,12 @@ export default {
     beforeFileUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error('文件大小最大限制10MB！')
+        this.$message.error(this.$t('文件大小最大限制10MB！'))
       }
       return isLt10M
     },
     handleExceed() {
-      this.$message.error('仅可添加一个文件！')
+      this.$message.error(this.$t('仅可添加一个文件！'))
     }
   }
 }

@@ -188,8 +188,8 @@ export default {
     },
     compuSupporter() {
       return this.compuShouldShow(
-        this.topicInfo.supporter
-        // this.topicInfo.supporterDept
+        this.topicInfo.supporter,
+        this.topicInfo.supporterDept
       );
     },
     compuSupporDept() {
@@ -239,7 +239,7 @@ export default {
         filename: e.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error(this.$t("下载失败"));
+            iMessage.error("下载失败");
           }
         },
       });

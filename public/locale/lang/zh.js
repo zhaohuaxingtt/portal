@@ -1462,7 +1462,7 @@
     SPR_FRM_DEP_CHECKSPSTATUS: '请确认发起深评清单的供应商状态为“草稿”',
     SPR_FRM_DEP_COMMET: '只能选择未加入集团的供应商数据',
     SPR_FRM_DEP_STOPMSG:
-      '只能终止状态为草稿、信息收集、财务经营与分析、访谈与调查、报告完成的供应商数据',
+      '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回的供应商数据',
     SPR_FRM_DEP_JTGDSJKZ:
       '集团、股东、实际控制人对公司的支持：资金、技术、管理等…',
     SPR_FRM_DEP_INPUTERROR: '行业名称不能为空',
@@ -2032,6 +2032,12 @@
 
     MT_XIAZAIMUBAN: '下载模板',
 
+    MT_YITIMUBAN: '议题模板',
+
+    MT_XIAZAIMUBANCHENGGONG: '下载模板成功',
+
+    MT_XIAZAIMUBANSHIBAI: '下载模板失败',
+
     MT_GUANBI: '关闭',
 
     MT_JIESHU: '结束',
@@ -2328,6 +2334,10 @@
     MT_BIXUAN: '必选',
 
     MT_SHIFOUCHUFASHENPILIU: '是否触发审批流',
+
+    MT_SHANGCHUANWENJIANDAXIAOBUNENGCHAOGUO: '上传文件大小不能超过',
+
+    MT_SHANGCHUANSHIBAI: '上传失败',
     APPROVAL: {
       ADD: '新增',
       SAVE: '保存',

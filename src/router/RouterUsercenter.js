@@ -20,10 +20,11 @@ export default [
     name: 'orgList',
     meta: {
       title: '组织管理',
-      top: 'admin' // 一级菜单 选中与否 flag
+      top: 'admin', // 一级菜单 选中与否 flag
+      activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS'] // 一级菜单,二级菜单
+
     },
     component: OrgList,
-    activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS'] // 一级菜单,二级菜单
   },
   {
     path: '/org/create/:id?/:type?/:upLevelID?/:upLevelName?',

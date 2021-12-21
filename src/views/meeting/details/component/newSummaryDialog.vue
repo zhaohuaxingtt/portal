@@ -273,7 +273,7 @@ export default {
             .then((res) => {
               if (Number(res.code) === 200) {
                 this.loadingSummary = false
-                iMessage.success('保存成功')
+                iMessage.success(this.$t('保存成功'))
                 this.$emit('handleOK')
               }
             })
