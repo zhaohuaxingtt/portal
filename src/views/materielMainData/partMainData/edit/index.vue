@@ -633,9 +633,8 @@ export default {
                         this.fop = []
                         this.itemContent.fopUserId = ""
                         this.itemContent.fop = ""
-                        this.itemContent.techDept = ""
+                        this.itemContent.techDept = this.itemContent.techDept ?? ""
                     }
-                    
                     this.pageTitle = `${this.itemContent.partNum} ${this.itemContent.partNameZh}`
                     this.materielGroupOptions.forEach((element)=>{
                         if(element.id == this.itemContent.categoryId){
@@ -645,7 +644,7 @@ export default {
                     this.oldDrawingDate = data.drawingDate ? data.drawingDate.slice(0,10) : data.drawingDate
                     this.initialItemContent = JSON.parse(JSON.stringify(this.itemContent))
                     this.isEditColorPart = data.isEditColorPart
-                    console.log('-------',JSON.stringify(this.itemContent));
+                    // console.log('-------',JSON.stringify(this.itemContent));
                 }
             }).catch((err) => {
                 iMessage.error('获取数据失败')
