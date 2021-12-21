@@ -2,31 +2,64 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 19:29:09
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
-  <iDialog :title="language('FZGYLLQXZSGLDXYGYS','复制供应链路 - 请选择所关联的下游供应商')" width="90%" :visible.sync="value" show-close @close="clearDiolog">
+  <iDialog :title="language('FZGYLLQXZSGLDXYGYS','复制供应链路 - 请选择所关联的下游供应商')"
+           width="90%"
+           :visible.sync="value"
+           show-close
+           @close="clearDiolog">
     <el-row :gutter="40">
       <el-form>
         <el-col :span="4">
           <el-form-item :label="language('QUYU','区域')">
-            <el-cascader v-model="form.areaArray" :placeholder="language('GUOJIA_SHENGFEN_DIQU','国家-省份-地区')" :options="areaList" :props="{multiple:true}" :clearable="true" collapse-tags></el-cascader>
+            <el-cascader v-model="form.areaArray"
+                         :placeholder="language('GUOJIA_SHENGFEN_DIQU','国家-省份-地区')"
+                         :options="areaList"
+                         :props="{multiple:true}"
+                         :clearable="true"
+                         collapse-tags></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item :label="language('GONGYINGSHANGMINGCHEN_SAPHAO','供应商名称/SAP号')">
-            <iInput v-model="form.supplierName" :placeholder="language('QINGSHURU','请输入')" />
+            <!-- <iInput v-model="form.supplierName"
+                    :placeholder="language('QINGSHURU','请输入')" /> -->
+            <iSelect filterable
+                     :placeholder="language('QINGXUANZEXIAYOUGONGYINGSHANG','请选择下游供应商')"
+                     @change="selectChange"
+                     v-model="supplierName"
+                     value-key="id">
+              <el-option v-for="(item) in formGroup.supplierNameList"
+                         :key="item.id"
+                         :value="item"
+                         :label="item.supplierNameCn">
+              </el-option>
+            </iSelect>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item :label="language('LINGJIANLEIXING','零件类型')">
-            <el-cascader filterable :props="{multiple: true}" :placeholder="language('QINGSHURU_XUANZE','请输入/选择')" v-model="form.partTypeList" :options="partList" clearable collapse-tags></el-cascader>
+            <el-cascader filterable
+                         :props="{multiple: true}"
+                         :placeholder="language('QINGSHURU_XUANZE','请输入/选择')"
+                         v-model="form.partTypeList"
+                         :options="partList"
+                         clearable
+                         collapse-tags></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item :label="language('LINGJIANHAO/MINGCHEN','零件号/名称')">
-            <el-cascader filterable :props="{multiple: true}" :placeholder="language('QINGSHURU_XUANZE','请输入/选择')" v-model="form.partNums" :options="formGroup.partNumberList" clearable collapse-tags></el-cascader>
+            <el-cascader filterable
+                         :props="{multiple: true}"
+                         :placeholder="language('QINGSHURU_XUANZE','请输入/选择')"
+                         v-model="form.partNums"
+                         :options="formGroup.partNumberList"
+                         clearable
+                         collapse-tags></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :span="4">
@@ -50,34 +83,72 @@
         <i-button @click="handleCopy">{{language('QUERENFUZHI','确认复制')}}</i-button>
       </div>
     </div>
-    <el-table tooltip-effect='light' v-loading="tableLoading" @selection-change="handleSelectionChange" height="400px" class="margin-top20" :data="tableListData" stripe style="width: 100%">
-      <el-table-column type='selection' width="50" align='center'>
+    <el-table tooltip-effect='light'
+              v-loading="tableLoading"
+              @selection-change="handleSelectionChange"
+              height="400px"
+              class="margin-top20"
+              :data="tableListData"
+              stripe
+              style="width: 100%">
+      <el-table-column type='selection'
+                       width="50"
+                       align='center'>
       </el-table-column>
-      <el-table-column type='index' width='50' align='center' label='#'>
+      <el-table-column type='index'
+                       width='50'
+                       align='center'
+                       label='#'>
       </el-table-column>
-      <el-table-column width="100" :show-overflow-tooltip="true" align='center' prop="sapCode" :label="language('GONGYINGSHANGBIANHAO','供应商编号')"></el-table-column>
-      <el-table-column :show-overflow-tooltip="true" align='center' prop="supplierName" :label="language('GONGYINGSHANGMINGCHEN','供应商名称')"></el-table-column>
-      <el-table-column :show-overflow-tooltip="true" align='center' prop="partType" :label="language('LINGJIANLEIXING','零件类型')">
+      <el-table-column width="100"
+                       :show-overflow-tooltip="true"
+                       align='center'
+                       prop="sapCode"
+                       :label="language('GONGYINGSHANGBIANHAO','供应商编号')"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true"
+                       align='center'
+                       prop="supplierName"
+                       :label="language('GONGYINGSHANGMINGCHEN','供应商名称')"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true"
+                       align='center'
+                       prop="partType"
+                       :label="language('LINGJIANLEIXING','零件类型')">
         <template slot-scope="scope">
-          <el-popover :disabled="scope.row.partType.length<2" width="427px" trigger="hover" placement="top">
-            <div v-for="(item,i) in scope.row.partType" :key="i">
+          <el-popover :disabled="scope.row.partType.length<2"
+                      width="427px"
+                      trigger="hover"
+                      placement="top">
+            <div v-for="(item,i) in scope.row.partType"
+                 :key="i">
               <div>{{item.parentType}}-{{item.partType}}</div>
             </div>
-            <div v-if="scope.row.partType.length" slot="reference">{{scope.row.partType.length&&scope.row.partType[0].parentType}}-{{scope.row.partType.length&&scope.row.partType[0].partType}}</div>
+            <div v-if="scope.row.partType.length"
+                 slot="reference">{{scope.row.partType.length&&scope.row.partType[0].parentType}}-{{scope.row.partType.length&&scope.row.partType[0].partType}}</div>
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column :show-overflow-tooltip="true" align='center' prop="part" :label="language('LINGJIANHAO_MINGCHEN','零件号-名称')">
+      <el-table-column :show-overflow-tooltip="true"
+                       align='center'
+                       prop="part"
+                       :label="language('LINGJIANHAO_MINGCHEN','零件号-名称')">
         <template slot-scope="scope">
-          <el-popover :disabled="scope.row.part.length<2" width="427px" trigger="hover" placement="top">
-            <div v-for="(item,i) in scope.row.part" :key="i">
+          <el-popover :disabled="scope.row.part.length<2"
+                      width="427px"
+                      trigger="hover"
+                      placement="top">
+            <div v-for="(item,i) in scope.row.part"
+                 :key="i">
               <div>{{item.partNum}}-{{item.partName}}</div>
             </div>
-            <div v-if="scope.row.part.length" slot="reference">{{scope.row.part.length&&scope.row.part[0].partNum}}-{{scope.row.part.length&&scope.row.part[0].partName}}</div>
+            <div v-if="scope.row.part.length"
+                 slot="reference">{{scope.row.part.length&&scope.row.part[0].partNum}}-{{scope.row.part.length&&scope.row.part[0].partName}}</div>
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column :show-overflow-tooltip="true" align='center' prop="address" :label="language('QUYU','区域')">
+      <el-table-column :show-overflow-tooltip="true"
+                       align='center'
+                       prop="address"
+                       :label="language('QUYU','区域')">
         <template slot-scope="scope">
           <div>
             <span>{{scope.row.address.country}}</span>
@@ -86,7 +157,10 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column :show-overflow-tooltip="true" align='center' prop="address" :label="language('XIANGXIDIZHI','详细地址')">
+      <el-table-column :show-overflow-tooltip="true"
+                       align='center'
+                       prop="address"
+                       :label="language('XIANGXIDIZHI','详细地址')">
         <template slot-scope="scope">
           <div>
             {{scope.row.address.address}}
@@ -94,8 +168,17 @@
         </template>
       </el-table-column>
     </el-table>
-    <iPagination v-update @size-change="handleSizeChange($event, queryUpDown)" @current-change="handleCurrentChange($event, queryUpDown)" background :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :current-page="page.currPage" :total="page.totalCount" />
-    <span slot="footer" class="dialog-footer">
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, queryUpDown)"
+                 @current-change="handleCurrentChange($event, queryUpDown)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page="page.currPage"
+                 :total="page.totalCount" />
+    <span slot="footer"
+          class="dialog-footer">
     </span>
   </iDialog>
 </template>
@@ -103,18 +186,18 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import { iDialog, iButton, iInput, icon, iPagination, iMessage } from 'rise'
+import { iDialog, iButton, iInput, icon, iPagination, iMessage, iSelect } from 'rise'
 import { dictByCode } from './data.js'
 import tableList from '@/components/commonTable'
 import { tableTitle } from './data'
 import { generalPageMixins } from "@/views/generalPage/commonFunMixins";
 import { pageMixins } from "@/utils/pageMixins";
-import { queryUpDown, queryPartNumber, copyNode } from "@/api/supplierManagement/supplyMaintain/index.js";
+import { queryUpDown, queryPartNumber, copyNode, queryByParamsDropDownWithAuth } from "@/api/supplierManagement/supplyMaintain/index.js";
 import resultMessageMixin from "@/mixins/resultMessageMixin.js";
 
 export default {
   // import引入的组件需要注入到对象中才能使用
-  components: { iDialog, iButton, iInput, icon, tableList, iPagination },
+  components: { iDialog, iButton, iInput, icon, tableList, iPagination, iSelect },
   mixins: [generalPageMixins, pageMixins, resultMessageMixin],
   props: {
     value: { type: Boolean },
@@ -123,22 +206,24 @@ export default {
     partList: { type: Array },
     copyOption: { type: String, default: '' },
   },
-  data() {
+  data () {
     // 这里存放数据
     return {
       tableListData: [],
       tableTitle,
       tableLoading: false,
+      supplierNameList: [],
       selectTableData: [],
+      supplierName: {},
       form: {
-        supplierName: '',
+        // supplierName: '',
         partTypeList: [],
         areaArray: [],
         partNums: [],
       },
       formGroup: {
-        partNumberList: []
-
+        partNumberList: [],
+        supplierNameList: []
       }
     }
   },
@@ -147,26 +232,38 @@ export default {
   // 监控data中的数据变化
   watch: {
     value: {
-      handler(val) {
+      handler (val) {
         if (val) {
           this.dictByCode()
           this.queryPartNumber()
-          this.handleInitTable()
+          // this.handleInitTable()
         }
       }
+    },
+    'form.areaArray': {
+      handler (val) {
+        console.log(val, "222")
+        this.queryByParamsDropDownWithAuth(val)
+      },
+      deep: true,
+      immediate: true
     }
   },
   // 方法集合
   methods: {
-    handleInitTable() {
+    handleInitTable () {
+      if (JSON.stringify(this.supplierName) === '{}') {
+        iMessage.error(this.language('QINGXUANZEXIAYOUGONGYINGSHANG', '请选择下游供应商'))
+        return
+      }
       this.page.currPage = 1
       this.page.pageSize = 10
       this.queryUpDown()
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectTableData = val
     },
-    async handleCopy() {
+    async handleCopy () {
       if (this.selectTableData.length === 0) {
         iMessage.warn(this.language('QINGXUANZHEYITIAOSHUJU', '请选择一条数据'))
       } else if (this.selectTableData.length > 1) {
@@ -186,11 +283,15 @@ export default {
         })
       }
     },
-    handleBack() {
+    async queryByParamsDropDownWithAuth (val) {
+      const res = await queryByParamsDropDownWithAuth({ areaArray: val })
+      this.formGroup.supplierNameList = res.data
+    },
+    handleBack () {
       this.clearDiolog()
       this.$parent.$parent.showCopyDialog = true
     },
-    async queryPartNumber() {
+    async queryPartNumber () {
       const res = await queryPartNumber({})
       res.data.map(item => {
         item.label = item.partNum + '/' + item.partName
@@ -198,7 +299,7 @@ export default {
       })
       this.formGroup.partNumberList = res.data
     },
-    async queryUpDown() {
+    async queryUpDown () {
       const pms = {
         pageNo: this.page.currPage,
         pageSize: this.page.pageSize,
@@ -208,7 +309,8 @@ export default {
         isUp: false,
         partTypes: [],
         partNums: this.form.partNums.flat(Infinity),
-        sapCode: this.form.supplierName,
+        supplierId: this.supplierName.id,
+        sapCode: this.supplierName.sapCode,
       }
       pms.partTypeList.forEach(item => {
         pms.partTypes.push(item[1])
@@ -221,25 +323,25 @@ export default {
       this.page.currPage = res.data.current
       this.tableLoading = false
     },
-    reset() {
+
+    reset () {
       this.form = {
-        supplierName: '',
         partTypeList: [],
         areaArray: [],
         partNums: []
       }
-      this.handleInitTable()
+      this.supplierName = {}
+      this.tableListData = []
+      this.page.totalCount = 0
+      this.page.pageSize = 10
+      this.page.currPage = 1
+      // this.handleInitTable()
     },
-    clearDiolog() {
-      this.form = {
-        supplierName: '',
-        partTypeList: [],
-        areaArray: [],
-        partNums: [],
-      }
+    clearDiolog () {
+      this.reset()
       this.$emit("input", false);
     },
-    async dictByCode() {
+    async dictByCode () {
       const res = await dictByCode('NTIER_CHAIN_PART_TYPE')
       res.map(item => {
         item.label = item.name
@@ -254,11 +356,11 @@ export default {
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
+  created () {
 
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
+  mounted () {
 
   },
 }
