@@ -24,7 +24,7 @@ export default [
         component: Mymerit,
         meta: {
           title: '我的业绩',
-          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
+          activeMenu: ['RISE_COMMON_FUNCTION', 'ACHIEVEMENT'] // 一级菜单,二级菜单
         },
       },
       {
@@ -33,7 +33,7 @@ export default [
         component: Achievement,
         meta: {
           title: '业绩基础',
-          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
+          activeMenu: ['RISE_COMMON_FUNCTION', 'ACHIEVEMENT'] // 一级菜单,二级菜单
         },
       },
       {
@@ -42,7 +42,7 @@ export default [
         component: OutputManagement,
         meta: {
           title: '产量管理',
-          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
+          activeMenu: ['RISE_COMMON_FUNCTION', 'ACHIEVEMENT'] // 一级菜单,二级菜单
         },
       },
       {
@@ -51,7 +51,7 @@ export default [
         component: BatchDetail,
         meta: {
           title: '业绩基础详情',
-          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_APPROVAL'] // 一级菜单,二级菜单
+          activeMenu: ['RISE_COMMON_FUNCTION', 'ACHIEVEMENT'] // 一级菜单,二级菜单
         },
       },
     ]

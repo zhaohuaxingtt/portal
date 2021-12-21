@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-16 16:23:08
+ * @LastEditTime: 2021-12-21 16:34:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -170,6 +170,7 @@ export default {
       tableLoading: false,
       editFlag: false,
       muilteList: [],
+      ttNominateFlag: false,
       loading: false,
       dialogVisible: false,
       riseId: "",
@@ -246,15 +247,17 @@ export default {
     handleSelectionChange (val) {
       this.muilteList = val
       this.muilteList.forEach(item => {
-        selectDept({}).then((res) => {
+        selectDept({
+          appId: this.ttNominateFlag ? this.mtzAppId : ""
+        }).then((res) => {
           if (res?.code === '200') {
             this.$set(item, 'selectDeptList', res.data);
-            console.log(res.data)
             let deptList = item.selectDeptList.find(i => item.approvalDepartment === i.nameEn)
             if (deptList) {
               item.approvalDepartmentName = deptList.nameZh || ''
               selectSection({
-                lineDeptId: deptList.id
+                lineDeptId: deptList.id,
+                appId: this.ttNominateFlag ? this.mtzAppId : ""
               }).then((res) => {
                 console.log(res.data)
                 this.$set(item, 'selectSectionList', res.data);
@@ -277,7 +280,9 @@ export default {
         endDate: "",
         editRow: true
       }
-      selectDept({}).then((res) => {
+      selectDept({
+        appId: this.ttNominateFlag ? this.mtzAppId : ""
+      }).then((res) => {
         if (res?.code === '200') {
           this.$set(obj, 'selectDeptList', res.data);
         }
@@ -288,7 +293,7 @@ export default {
     getAppFormInfo () {
       getAppFormInfo({
         isDeptLead: true,
-        mtzAppId: this.mtzAppId || '5107001'
+        mtzAppId: this.mtzAppId || ''
       }).then(res => {
         if (res?.code === '200') {
           if (res.data.appStatus === '草稿' || res.data.appStatus === '未通过') {
@@ -302,9 +307,9 @@ export default {
           }
           this.riseId = res.data.riseId
           if (res.data.ttNominateAppId) {
-            this.disabled = true
-            this.handleSync('')
-            return
+            this.ttNominateFlag = true
+            // this.ttNominateAppId = res.data.ttNominateAppId
+            // this.disabled = true
           }
           this.handleSync('1')
         }
@@ -340,7 +345,7 @@ export default {
           })
           this.loading = true
           modifyApprove({
-            mtzAppId: this.mtzAppId || '5107001',
+            mtzAppId: this.mtzAppId || '',
             dataList: this.muilteList
           }).then(res => {
             if (res?.code === '200') {
@@ -389,7 +394,7 @@ export default {
       row.approvalSection = ""
       row.approvalName = ""
       row.approvalBy = ""
-      selectSection({ lineDeptId: obj.id }).then(res => {
+      selectSection({ lineDeptId: obj.id, appId: this.ttNominateFlag ? this.mtzAppId : "" }).then(res => {
         this.$set(row, 'selectSectionList', res.data);
       })
     },
@@ -406,7 +411,7 @@ export default {
       // row.approvalName = obj.id
     },
     handleSync (params) {
-      syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: params || "" }).then(res => {
+      syncAuther({ mtzAppId: this.mtzAppId || '', tag: params || "" }).then(res => {
         if (res?.code === '200') {
           this.getTableList()
           // iMessage.success(res.desZh)
@@ -416,7 +421,7 @@ export default {
       })
     },
     handleSyncClick (params) {
-      syncAuther({ mtzAppId: this.mtzAppId || '5107001', tag: params || "" }).then(res => {
+      syncAuther({ mtzAppId: this.mtzAppId || '', tag: params || "" }).then(res => {
         if (res?.code === '200') {
           this.getTableList()
           iMessage.success(res.desZh)

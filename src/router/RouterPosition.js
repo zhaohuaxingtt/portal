@@ -33,7 +33,8 @@ export default [
         name: 'positionList',
         meta: {
           title: '岗位列表',
-          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+          // activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+          activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
         },
         component: () => import('@/views/position/list')
       },
@@ -42,7 +43,8 @@ export default [
         name: 'positionTag',
         meta: {
           title: '岗位标签',
-          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+          // activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+          activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
         },
         component: () => import('@/views/position/tag')
       },
@@ -51,7 +53,8 @@ export default [
         name: 'subPositionList',
         meta: {
           title: '下属岗位分配',
-          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+          // activeMenu: ['RISE_COMMON_FUNCTION', 'CF_PRO_CS']
+          activeMenu: ['RISE_ADMIN', 'ADMIN_PRO_CS']
         },
         component: () => import('@/views/position/subPositionList')
       }
