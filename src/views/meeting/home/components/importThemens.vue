@@ -101,8 +101,8 @@ export default {
     },
     descText: {
       type: String,
-      default: () => {
-        return "文件大小最大限制10MB";
+      default: function(){
+        return this.$t("文件大小最大限制10MB");
       },
     },
   },
@@ -130,10 +130,10 @@ export default {
       importThemen(param)
         .then((data) => {
           if (data) {
-            iMessage.success("导入成功");
+            iMessage.success(this.$t("导入成功"));
             this.$emit("handleOK");
           } else {
-            iMessage.error("导入失败");
+            iMessage.error(this.$t("导入失败"));
             this.$emit("handleCancel");
           }
         })

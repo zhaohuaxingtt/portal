@@ -111,6 +111,7 @@ export default {
       })
     },
     async getTableList (form) {
+      console.log(this.$store.state, "2222")
       this.tableLoading = true
       const pms = {
         pageNo: this.page.currPage,

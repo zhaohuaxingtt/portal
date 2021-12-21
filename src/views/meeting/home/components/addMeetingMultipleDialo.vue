@@ -402,7 +402,7 @@ export default {
           addMeeting(formData)
             .then((res) => {
               if (res.code === 200) {
-                iMessage.success('保存成功')
+                iMessage.success(this.$t('保存成功'))
               }
               this.$emit('refreshTable')
               this.clearDiolog('submit')
