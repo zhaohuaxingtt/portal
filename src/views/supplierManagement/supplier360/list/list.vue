@@ -176,7 +176,7 @@
           <i-button @click="handleRating" v-permission="SUPPLIER_SUPPLIERLIST_FAQICHUPINGQINGDAN">{{
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
-          <i-button @click="handleRegister">{{
+          <i-button @click="handleRegister" v-permission="SUPPLIER_SUPPLIERLIST_YAOQINGZHUCE">{{
             $t('SUPPLIER_CAILIAOZU_YAOQINGZHUCE')
           }}</i-button>
         </div>
