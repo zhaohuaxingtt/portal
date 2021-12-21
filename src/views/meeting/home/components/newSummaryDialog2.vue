@@ -238,7 +238,7 @@ export default {
         if (valid) {
           saveMeetingMinutes(this.resultData).then((res) => {
             if (Number(res.code) === 200) {
-              iMessage.success('保存成功')
+              iMessage.success(this.$t('保存成功'))
               this.$emit('handleOK')
             }
           })

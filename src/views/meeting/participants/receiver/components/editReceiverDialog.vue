@@ -392,7 +392,7 @@ export default {
             .then((data) => {
               if (data) {
                 this.close();
-                this.$message.success("修改成功！");
+                this.$message.success(this.$t("修改成功！"));
                 this.$emit("flushTable");
               }
             })

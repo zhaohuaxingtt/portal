@@ -204,7 +204,6 @@ export default {
       this.$emit('handleClose')
     },
     handleSubmit() {
-      console.log('6666666666666', this.id)
       this.$refs['ruleFormCloseMeeting'].validate((valid) => {
         if (valid) {
           this.loading = true
@@ -234,7 +233,7 @@ export default {
             .then((res) => {
               this.loading = false
               if (res.code === 200) {
-                iMessage.success('关闭成功')
+                iMessage.success(this.$t('关闭成功'))
                 this.$emit('handleOK')
                 this.handleClose()
               } else {
@@ -274,14 +273,14 @@ export default {
           this.$refs.ruleFormCloseMeeting.clearValidate('uploadFile')
         })
         .catch(() => {
-          iMessage.error('上传失败')
+          iMessage.error(this.$t('上传失败'))
         })
       this.uploadLoading = false
     },
     beforeAvatarUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error('上传头像图片大小不能超过10MB!')
+        this.$message.error(this.$t('上传头像图片大小不能超过10MB'))
       }
       return isLt10M
     },

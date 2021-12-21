@@ -319,7 +319,8 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="状态" width="110" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.state }}</span>
+              <span class="open-link-text">{{ statusObj[scope.row.state] }}</span>
+              
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
@@ -734,6 +735,11 @@ export default {
   },
   data() {
     return {
+      statusObj: {
+        '01': '未进行',
+        '02': '进行中',
+        '03': '已结束'
+      },
       curEndTime: '',
       openError: false,
       errorList: [],
@@ -1246,7 +1252,6 @@ export default {
         .then((res) => {
           console.log(res);
           _this.meetingInfo = res
-          debugger
           console.log(res);
           //拿到状态state
           _this.goState(res.state)
@@ -1828,6 +1833,7 @@ export default {
       })
       window.open(routeUrl.href, '_blank')
     },
+    //展示跳转
     displayShow() {
       // alert("展示");
       // 展示
@@ -1837,12 +1843,20 @@ export default {
       //     id: this.meetingInfo.id,
       //   },
       // });
+      // let routeUrl = this.$router.resolve({
+      //   // path: this.meetingInfo.meetingTypeName == 'Pre CSC' || this.meetingInfo.meetingTypeName == 'CSC'
+      //   path:
+      //     this.meetingInfo.isPreCSC || this.meetingInfo.isCSC
+      //       ? '/meeting/meetingShow' //新页面
+      //       : '/meeting/meeting-show', //旧页面
+      //   query: {
+      //     id: this.meetingInfo.id
+      //   }
+      // })
+      // /meeting/mbdlMeetingShow
       let routeUrl = this.$router.resolve({
         // path: this.meetingInfo.meetingTypeName == 'Pre CSC' || this.meetingInfo.meetingTypeName == 'CSC'
-        path:
-          this.meetingInfo.isPreCSC || this.meetingInfo.isCSC
-            ? '/meeting/meetingShow' //新页面
-            : '/meeting/meeting-show', //旧页面
+        path:'/meeting/mbdlMeetingShow',
         query: {
           id: this.meetingInfo.id
         }
