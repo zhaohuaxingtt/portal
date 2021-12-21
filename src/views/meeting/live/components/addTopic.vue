@@ -1041,7 +1041,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('下载失败'))
           }
         }
       })
@@ -1225,7 +1225,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt30M = file.size / 1024 / 1024 < 30
       if (!isLt30M) {
-        this.$message.error('文件大小最大限制30M!')
+        this.$message.error(this.$t('文件大小最大限制30M!'))
       }
       return isLt30M
     },
@@ -1315,10 +1315,10 @@ export default {
               .then((data) => {
                 if (data) {
                   this.handleUploadFile().then(() => {
-                    iMessage.success('更新成功')
+                    iMessage.success(this.$t('更新成功'))
                   })
                 } else {
-                  iMessage.error('更新失败')
+                  iMessage.error(this.$t('更新失败'))
                 }
                 this.clearDiolog('submit', 'upd')
               })
@@ -1346,7 +1346,7 @@ export default {
               .then((data) => {
                 if (data) {
                   // this.handleUploadFile();
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('保存成功'))
                 } else {
                   iMessage.error('error')
                 }

@@ -38,13 +38,13 @@
     </el-row> -->
     <el-row class="row-el">
       <iButton class="add-topic" @click="handleAddTopic">{{
-        $t('添加议题')
+        $t('MT_TIANJIAYITI')
       }}</iButton>
       <iButton
         class="revort-topic"
         :disabled="disabledButton"
         @click="handleRevokeTopic"
-        >{{ $t('撤回议题') }}</iButton
+        >{{ $t('MT_CHEHUIYITI') }}</iButton
       >
       <iButton @click="handleMore">{{ 'MORE' }}</iButton>
     </el-row>
@@ -503,9 +503,9 @@ export default {
         this.selectedData[0].meetingStatus === '02' ||
         this.selectedData[0].meetingStatus === '03'
       ) {
-        this.$confirm(warn, '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
+        this.$confirm(warn, this.$t('提示'), {
+          confirmButtonText: this.$t('是'),
+          cancelButtonText: this.$t('否'),
           type: 'warning'
         }).then(() => {
           let promiseArr = []
@@ -529,7 +529,7 @@ export default {
             .then((res) => {
               const message = res[0].code === 200 ? res[0].message : ''
               if (bol) {
-                iMessage.success('已发送会议撤回申请给管理员。')
+                iMessage.success(this.$t('已发送会议撤回申请给管理员。'))
               } else {
                 iMessage.success(message)
               }
@@ -564,7 +564,7 @@ export default {
           //   });
         })
       } else {
-        iMessage.warn('只有开放和锁定状态才可以撤回!')
+        iMessage.warn(this.$t('只有开放和锁定状态才可以撤回!'))
       }
       // this.$confirm("请确认是否要撤回该议题?", "提示", {
       //   confirmButtonText: "是",

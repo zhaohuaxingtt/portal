@@ -221,7 +221,7 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           saveMeetingMinutes(this.resultData).then(() => {
-            iMessage.success('保存成功');
+            iMessage.success(this.$t('保存成功'));
             this.$emit('handleOK');
           })
         }

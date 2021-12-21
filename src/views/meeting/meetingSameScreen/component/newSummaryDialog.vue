@@ -294,7 +294,7 @@ export default {
       return item.toDoMeetingName?.substring(0, 9)
     },
     //表头汉子两行展示
-    renderHeader(h, { column, $index }) {
+    renderHeader(h, { column }) {
       return h('span', {}, [
         h('span', {}, column.label.split('/')[0]),
         h('br'),
@@ -319,10 +319,10 @@ export default {
       })
     },
     handleOK() {
-      this.$refs.ruleForm.validate((valid, obj) => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          saveMeetingMinutes(this.resultData).then((res) => {
-            iMessage.success('保存成功')
+          saveMeetingMinutes(this.resultData).then(() => {
+            iMessage.success(this.$t('保存成功'))
             this.$emit('handleOK')
           })
         }

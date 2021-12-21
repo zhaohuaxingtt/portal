@@ -1156,7 +1156,7 @@ export default {
           }
           changeStateMeeting(param).then((res) => {
             if (res.code == 200) {
-              iMessage.success('开始会议成功！')
+              iMessage.success(this.$t('开始会议成功！'))
             }
             this.refreshTable()
           })
@@ -1175,7 +1175,7 @@ export default {
           }
           changeStateMeeting(param).then((res) => {
             if (res.code === 200) {
-              iMessage.success('锁定会议成功！')
+              iMessage.success(this.$t('锁定会议成功！'))
             }
             this.refreshTable()
           })
@@ -1197,7 +1197,7 @@ export default {
           }
           changeStateMeeting(param).then((res) => {
             if (res.code === 200) {
-              iMessage.success('解锁会议成功！')
+              iMessage.success(this.$t('解锁会议成功！'))
             }
 
             this.refreshTable()
@@ -1225,7 +1225,7 @@ export default {
           }
           changeStateMeeting(param).then((res) => {
             if (res.code === 200) {
-              iMessage.success('开放会议成功！')
+              iMessage.success(this.$t('开放会议成功！'))
             }
             this.refreshTable()
           })
@@ -1252,7 +1252,7 @@ export default {
           generateAgenda({ id: e })
             .then((res) => {
               if (res.code === 200) {
-                iMessage.success('生成Agenda成功')
+                iMessage.success(this.$t('生成Agenda成功'))
               }
               this.isGenerating = false
               this.refreshTable()
@@ -1288,7 +1288,7 @@ export default {
           changeStateMeeting(param)
             .then((res) => {
               if (res.code == 200) {
-                iMessage.success('结束会议成功！')
+                iMessage.success(this.$t('结束会议成功！'))
               }
               this.refreshTable()
             })
@@ -1368,9 +1368,9 @@ export default {
           //   iMessage.error("尚未生成会议纪要，现在不能关闭会议。");
           // }
           if (attachments && attachments.length <= 0) {
-            this.$confirm('尚未生成会议纪要，前往生成会议纪要？', '提示', {
-              confirmButtonText: '前往',
-              cancelButtonText: '取消',
+            this.$confirm(this.$t('尚未生成会议纪要，前往生成会议纪要？'), this.$t('提示'), {
+              confirmButtonText: this.$t('前往'),
+              cancelButtonText: this.$t('取消'),
               type: 'warning'
             }).then(() => {
               // this.openCloseMeeting = true
@@ -1380,9 +1380,9 @@ export default {
               this.actionObj('newFile')(e)
             })
           } else {
-            this.$confirm('请确认是否需要关闭会议？', '提示', {
-              confirmButtonText: '是',
-              cancelButtonText: '否',
+            this.$confirm(this.$t('请确认是否需要关闭会议？'), this.$t('提示'), {
+              confirmButtonText: this.$t('是'),
+              cancelButtonText: this.$t('否'),
               type: 'warning'
             }).then(() => {
               console.log('e', e)

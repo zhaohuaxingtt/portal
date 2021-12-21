@@ -26,8 +26,8 @@
       :page-size="page.pageSize"
       :page-sizes="page.pages"
       layout="prev, pager, next, jumper"
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="page.totalCount"
     />
 
@@ -274,15 +274,15 @@ export default {
     },
     deleteDocumentType(e) {
       // console.log(e);
-      this.$confirm('请确认是否要删除该资料?', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('请确认是否要删除该资料?'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         deleteDocumentType({ id: e.id })
           .then((res) => {
             if (res.code === 200) {
-              this.$message.success('删除成功!')
+              this.$message.success(this.$t('删除成功!'))
             }
             this.query()
           })
