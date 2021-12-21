@@ -29,7 +29,6 @@
                     :placeholder="language('QINGSHURU','请输入')" /> -->
             <iSelect filterable
                      :placeholder="language('QINGXUANZEXIAYOUGONGYINGSHANG','请选择下游供应商')"
-                     @change="selectChange"
                      v-model="supplierName"
                      value-key="id">
               <el-option v-for="(item) in formGroup.supplierNameList"
@@ -38,6 +37,7 @@
                          :label="item.supplierNameCn">
               </el-option>
             </iSelect>
+
           </el-form-item>
         </el-col>
         <el-col :span="4">
@@ -216,7 +216,6 @@ export default {
       selectTableData: [],
       supplierName: {},
       form: {
-        // supplierName: '',
         partTypeList: [],
         areaArray: [],
         partNums: [],
@@ -242,7 +241,7 @@ export default {
     },
     'form.areaArray': {
       handler (val) {
-        console.log(val, "222")
+
         this.queryByParamsDropDownWithAuth(val)
       },
       deep: true,
@@ -276,11 +275,14 @@ export default {
         }
         const res = await copyNode(pms)
         this.resultMessage(res, async () => {
+          console.log(this.supplierName, "this")
           this.clearDiolog()
+          this.$emit('copyData', _.cloneDeep(this.supplierName))
           await this.$parent.$parent.$parent.$children[0].getTableList()
           // pathname:nodeChain.vue
           this.$parent.$parent.$children[0].$children[0].handleScroll(res.data)
         })
+
       }
     },
     async queryByParamsDropDownWithAuth (val) {

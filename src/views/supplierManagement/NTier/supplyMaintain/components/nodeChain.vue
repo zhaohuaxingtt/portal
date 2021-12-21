@@ -424,7 +424,7 @@ export default {
     handleSelectedChange(node) {
       this.isSelected = node.id
       this.node = node
-      console.log(node)
+   
     },
     initNodeChains: function () {
       var self = this
@@ -906,7 +906,7 @@ export default {
       return newPosition
     },
     copyNode: function () {
-        console.log(this.node)
+      
         if(this.node.id!=undefined){
       this.$emit('copy-node', this.node)
 
@@ -1020,7 +1020,7 @@ export default {
     },
 
     optimizeLevel: function () {
-          console.log(2222)
+        
       var self = this
       self.onDataLoading = true
       self.$nextTick(function () {
@@ -1105,7 +1105,7 @@ export default {
   watch: {
     nodeDatas: {
       handler: function (val) {
-        console.log(val, 'val')
+       
         if (JSON.stringify(val) !== '{}') {
           var self = this
           this.onDataLoading = true
