@@ -241,7 +241,7 @@ export default {
                   description: position.bussinessAreaName,
                   positionZh: position.fullNameZh,
                   positionEn: position.fullNameEn,
-                  categoryNameZh: position.categoryNameZh,
+                  categoryNameZh: userDTO.categoryNameZh,
                   orgFullCode: position.orgFullCode,
                   deptLogo: position.deptLogo
                 }

@@ -177,6 +177,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #f8f9fa;
+  padding-bottom: 10px;
 }
 .menusLevel4 {
   margin-right: 8px;

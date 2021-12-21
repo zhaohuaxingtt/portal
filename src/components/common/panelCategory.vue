@@ -6,7 +6,7 @@
         :class="{ active: -1 === activeIndex }"
         @click="toggleActive(-1)"
       >
-        全部
+        {{ language('全部') }}
       </div>
 
       <!-- <div class="divider">
