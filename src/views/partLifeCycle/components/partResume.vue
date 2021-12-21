@@ -453,12 +453,10 @@
             items.children.map(it => {
               if(item.id == it.id) {
                 items.index = index
-                console.log(index,'inde')
               }
             })
           }
         })
-        console.log(this.checkedIndex3,'checkedIndex3',this.bookmarkNodes,item)
         this.currentItem = item
         this.currentType = item.type
         if (Number(item.type) === 10 || Number(item.type) === 9) {
@@ -526,7 +524,6 @@
         }
       },
       clickItemB(a, b, index) {
-        console.log(a,b,index)
         if (a.index === index) {
           return
         }
@@ -542,7 +539,6 @@
         this.bookmarkNodes = [...this.bookmarkNodes]
       },
       toUrl(item,typeName) {
-        console.log(item,'')
         let {type,id,title,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,accessoriesRsNum,rsNum,businessType,aekoCode} = item
         let path = ''
         if(type==1) path = ''                        // 会议
