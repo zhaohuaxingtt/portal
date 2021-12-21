@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-08 09:52:17
- * @LastEditors: caopeng
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
@@ -182,6 +182,7 @@
                         :partList="formGroup.partList"
                         :areaList="formGroup.areaList"
                         v-model="copySupplierDialog"
+                        @copyData="copyData"
                         :node="node" />
   </iCard>
 </template>
@@ -285,7 +286,7 @@ export default {
     },
     // 查询 卡片信息
     async getCardChain (par) {
-           console.log(this.$parent)
+
       this.onDataLoading = true
       const pms = {
         ...par
@@ -314,7 +315,7 @@ export default {
         nodeList[ntierChain.id] = ntierChain;
       });
       this.$set(this.chainNodeDatas, "nodeList", nodeList);
-      console.log(this.chainNodeDatas)
+
       this.$set(this.chainNodeDatas, "edges", edges);
       this.$nextTick(() => {
         this.onDataLoading = false;
@@ -407,7 +408,8 @@ export default {
     },
     posChanged (id, left, top) {
     },
-    nodeDatas (chainNodeList, edgeList) {
+    copyData (val) {
+      console.log(this.$parent, val)
     }
   }
 }

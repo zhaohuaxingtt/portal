@@ -318,7 +318,7 @@ export default {
         nodeList[ntierChain.id] = ntierChain;
       });
       this.$set(this.chainNodeDatas, "nodeList", nodeList);
-      console.log(this.chainNodeDatas)
+
       this.$set(this.chainNodeDatas, "edges", edges);
       this.$nextTick(() => {
         this.onDataLoading = false;
