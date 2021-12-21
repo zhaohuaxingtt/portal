@@ -130,6 +130,7 @@ export default {
       importThemen(param)
         .then((data) => {
           if (data) {
+            console.log("eeee",this.$t("MT_DAORUCHENGGONG"))
             iMessage.success("导入成功");
             this.$emit("handleOK");
           } else {
