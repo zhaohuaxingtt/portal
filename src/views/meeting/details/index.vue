@@ -712,14 +712,13 @@ export default {
     downDemo() {
       downloadStaticFile({
         url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
-        filename: '议题模版',
+        filename: this.$t('议题模版'),
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
         callback: (e) => {
-          console.log('eeeeeeeeeee', e)
           if (e) {
-            iMessage.success('下载模版成功')
+            iMessage.success(this.$t('下载模版成功'))
           } else {
-            iMessage.error('下载模版失败')
+            iMessage.error(this.$t('下载模版失败'))
           }
         },
         noFileUd: true
@@ -733,9 +732,9 @@ export default {
         meetingId: this.meetingInfo.id,
         themenId: themen.id
       }
-      this.$confirm('是否同意撤回该议题？', '提示', {
-        confirmButtonText: '同意',
-        cancelButtonText: '拒绝',
+      this.$confirm(this.$t('是否同意撤回该议题？'), this.$t('提示'), {
+        confirmButtonText: this.$t('同意'),
+        cancelButtonText: this.$t('拒绝'),
         distinguishCancelAndClose: true,
         type: 'warning'
       })
@@ -745,7 +744,7 @@ export default {
               if (res.code === 200) {
                 this.flushTable()
                 // iMessage.success(res.message);
-                iMessage.success('审批通过')
+                iMessage.success(this.$t('审批通过'))
                 return
               }
               iMessage.error(res.message)
@@ -763,7 +762,7 @@ export default {
               .then((res) => {
                 if (res.code === 200) {
                   this.flushTable()
-                  iMessage.success('拒绝成功!')
+                  iMessage.success(this.$t('拒绝成功!'))
                   // iMessage.success(res.message);
                   return
                 }
@@ -807,7 +806,7 @@ export default {
     // 导入议题保存
     handleOKImportTopic(a, b) {
       if (this.nameList.length <= 0) {
-        iMessage.warn('请导入议题后再保存')
+        iMessage.warn(this.$t('请导入议题后再保存'))
         return
       }
       this.disabledImportThemenButton = true
@@ -832,7 +831,7 @@ export default {
           //   this.nameList = []
           // }
           if (res.length == 0) {
-            iMessage.success('导入议题成功')
+            iMessage.success(this.$t('导入议题成功'))
             this.openTopics = false
             this.disabledImportThemenButton = false
             // this.refreshTable()
@@ -906,14 +905,14 @@ export default {
       this.tableObject = new Sortable(tbody, {
         filter: '.dragable-row',
         onFilter() {
-          iMessage.warn('已结束或进行中的议题不可以被调整!')
+          iMessage.warn(this.$t('已结束或进行中的议题不可以被调整!'))
         },
         onMove(evt) {
           const classStr = evt.related.getAttribute('class')
           if (classStr.includes('dragable-row')) {
             if (!_this.timer) {
               _this.timer = true
-              iMessage.warn('不可以把议题拖拽到已结束或者进行中的议题之前!')
+              iMessage.warn(this.$t('不可以把议题拖拽到已结束或者进行中的议题之前!'))
               let timers = setTimeout(() => {
                 _this.timer = null
                 clearTimeout(timers)
@@ -1282,9 +1281,9 @@ export default {
       resortThemen(formData)
         .then((data) => {
           if (data) {
-            iMessage.success('保存成功')
+            iMessage.success(this.$t('保存成功'))
           } else {
-            iMessage.error('保存失败')
+            iMessage.error(this.$t('保存失败'))
           }
           this.changedArr = ''
           this.flushTable()
@@ -1320,9 +1319,9 @@ export default {
       // }
 
       if (this.meetingInfo.attachments.length <= 0) {
-        this.$confirm('尚未生成会议纪要，前往生成会议纪要？', '提示', {
-          confirmButtonText: '前往',
-          cancelButtonText: '取消',
+        this.$confirm(this.$t('尚未生成会议纪要，前往生成会议纪要？'), this.$t('提示'), {
+          confirmButtonText: this.$t('前往'),
+          cancelButtonText: this.$t('取消'),
           type: 'warning'
         }).then(() => {
           //在这里判断是不是已经生成会议纪要了
@@ -1330,9 +1329,9 @@ export default {
           this.generateMeetingMinutes()
         })
       } else {
-        this.$confirm('请确认是否需要关闭会议?', '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
+        this.$confirm(this.$t('请确认是否需要关闭会议?'), this.$t('提示'), {
+          confirmButtonText: this.$t('是'),
+          cancelButtonText: this.$t('否'),
           type: 'warning'
         }).then(() => {
           //在这里判断是不是已经生成会议纪要了
@@ -1391,7 +1390,7 @@ export default {
       // alert("startTopic");
       // console.log(this.haveThemenIsStarting());
       if (this.haveThemenIsStarting()) {
-        iMessage.warn('已有进行中的议题！')
+        iMessage.warn(this.$t('已有进行中的议题！'))
         return
       }
       if (
@@ -1399,11 +1398,11 @@ export default {
         this.selectedTableData.length >= 1 &&
         this.haveThemenNotStart().itemNo !== this.selectedTableData[0].itemNo
       ) {
-        iMessage.warn('请按议题顺序开始议题！')
+        iMessage.warn(this.$t('请按议题顺序开始议题！'))
         return
       }
       if (this.isThemenOverAll()) {
-        iMessage.warn('该议题列表已全部结束！')
+        iMessage.warn(this.$t('该议题列表已全部结束！'))
         return
       }
       // this.$confirm("请确认是否需要开始该议题？", "提示", {
@@ -1417,12 +1416,12 @@ export default {
       }
       startThemen(param)
         .then(() => {
-          iMessage.success('开始议题成功！')
+          iMessage.success(this.$t('开始议题成功！'))
           // this.refreshTable();
           this.flushTable()
         })
         .catch(() => {
-          iMessage.error('开始议题失败！')
+          iMessage.error(this.$t('开始议题失败！'))
         })
       // });
     },
@@ -1444,7 +1443,7 @@ export default {
         themenId: choiceThemen && choiceThemen.id
       }
       if (choiceThemen && choiceThemen.state !== '02') {
-        iMessage.warn('该议题未进行中，不能结束操作！')
+        iMessage.warn(this.$t('该议题未进行中，不能结束操作！'))
         return
       }
       const bol = this.isOverTime(choiceThemen)
@@ -1456,7 +1455,7 @@ export default {
         // }).then(() => {
         endThemen(param)
           .then(() => {
-            iMessage.success('结束议题成功！')
+            iMessage.success(this.$t('结束议题成功！'))
             // this.refreshTable();
             this.flushTable()
           })
@@ -1468,7 +1467,7 @@ export default {
       } else {
         endThemen(param)
           .then(() => {
-            iMessage.success('结束议题成功！')
+            iMessage.success(this.$t('结束议题成功！'))
             // this.refreshTable();
             this.flushTable()
           })
@@ -1491,11 +1490,11 @@ export default {
       // }).then(() => {
       spiltThemen(data)
         .then(() => {
-          iMessage.success('拆分成功')
+          iMessage.success(this.$t('拆分成功'))
           this.flushTable()
         })
         .catch(() => {
-          iMessage.error('拆分失败')
+          iMessage.error(this.$t('拆分失败'))
           this.flushTable()
         })
       // });
@@ -1515,7 +1514,7 @@ export default {
       changeStateMeeting(param)
         .then((res) => {
           if (res) {
-            iMessage.success('开始议题成功！')
+            iMessage.success(this.$t('开始议题成功！'))
             this.flushTable()
           }
         })
@@ -1527,14 +1526,14 @@ export default {
     recall() {
       let ids = []
       ids.push(this.$route.query.id)
-      this.$confirm('是否撤回该会议 ？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('是否撤回该会议?'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         batchRecallMeeting({ ids }).then((res) => {
           if (res.code == 200) {
-            this.$message.success('撤回成功!')
+            this.$message.success(this.$t('撤回成功'))
             this.$router.go(-1)
           }
         })
@@ -1543,7 +1542,7 @@ export default {
     updateDate() {
       // alert("updateDate");
       if (this.selectedTableData[0] && this.selectedTableData[0].isBreak) {
-        iMessage.warn('休息议题不能进行改期')
+        iMessage.warn(this.$t('休息议题不能进行改期'))
         return
       }
       this.openDialog('openUpdateDateDialog')
@@ -1554,28 +1553,28 @@ export default {
         this.selectedTableData[0].state !== '01' &&
         this.selectedTableData[0].state !== '04'
       ) {
-        iMessage.warn('只能删除未进行的议题')
+        iMessage.warn(this.$t('只能删除未进行的议题'))
         return
       }
       if (
         this.selectedTableData[0] &&
         this.selectedTableData[0].state === '04'
       ) {
-        iMessage.warn('不能删除撤回中的议题')
+        iMessage.warn(this.$t('不能删除撤回中的议题'))
         return
       }
       const data = {
         meetingId: this.meetingInfo.id,
         id: this.selectedTableData[0].id
       }
-      this.$confirm('确认删除该议题吗?', '提示', {
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('确认删除该议题吗?'), this.$t('提示'), {
+        confirmButtonText: this.$t('确认'),
+        cancelButtonText: this.$t('取消'),
         type: 'warning'
       }).then(() => {
         deleteThemen(data).then((res) => {
           if (res.code === 200) {
-            iMessage.success('删除成功')
+            iMessage.success(this.$t('删除成功'))
           }
           this.flushTable()
         })
@@ -1591,7 +1590,7 @@ export default {
           ? this.selectedTableData[0].state === '02'
           : ''
       ) {
-        iMessage.warn('进行中的议题不能进行会议资料维护')
+        iMessage.warn(this.$t('进行中的议题不能进行会议资料维护'))
         return
       }
       if (
@@ -1599,18 +1598,18 @@ export default {
           ? this.selectedTableData[0].state === '03'
           : ''
       ) {
-        iMessage.warn('已完成的议题不能进行会议资料维护')
+        iMessage.warn(this.$t('已完成的议题不能进行会议资料维护'))
         return
       }
       if (this.selectedTableData[0] ? this.selectedTableData[0].isBreak : '') {
-        iMessage.warn('休息议题不可维护资料')
+        iMessage.warn(this.$t('休息议题不可维护资料'))
         return
       }
       this.openDialog('openProtectInfoDialog')
     },
     editTopic() {
       if (this.selectedTableData[0].state === '03') {
-        iMessage.warn('已结束的议题不能进行修改议题')
+        iMessage.warn(this.$t('已结束的议题不能进行修改议题'))
         return
       }
       this.editOrAdd = 'edit'
@@ -1653,7 +1652,7 @@ export default {
       }
       changeStateMeeting(param).then((res) => {
         if (res.code === 200) {
-          iMessage.success('开放会议成功！')
+          iMessage.success(this.$t('开放会议成功！'))
         }
         // this.refreshTable();
         this.flushTable()
@@ -1686,7 +1685,7 @@ export default {
       changeStateMeeting(param)
         .then((res) => {
           if (res.code === 200) {
-            iMessage.success('结束会议成功！')
+            iMessage.success(this.$t('结束会议成功！'))
             this.flushTable()
             this.getMeetingTypeObject()
           }
@@ -1733,9 +1732,9 @@ export default {
       // console.log(this.meetingInfo);
       // this.currentButtonList = buttonList[1];
       // 锁定
-      this.$confirm('请确认是否需要锁定会议？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('请确认是否需要锁定会议？'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         let param = {
@@ -1744,13 +1743,13 @@ export default {
         }
         changeStateMeeting(param)
           .then(() => {
-            iMessage.success('锁定会议成功！')
+            iMessage.success(this.$t('锁定会议成功！'))
             // this.refreshTable();
             this.getMeetingTypeObject()
             this.flushTable()
           })
           .catch(() => {
-            iMessage.error('锁定会议失败！')
+            iMessage.error(this.$t('锁定会议失败！'))
           })
       })
     },
@@ -1769,12 +1768,12 @@ export default {
       }
       changeStateMeeting(param)
         .then(() => {
-          iMessage.success('解锁会议成功！')
+          iMessage.success(this.$t('解锁会议成功！'))
           this.getMeetingTypeObject()
           this.flushTable()
         })
         .catch(() => {
-          iMessage.error('解锁会议失败！')
+          iMessage.error(this.$t('解锁会议失败！'))
         })
       // });
     },

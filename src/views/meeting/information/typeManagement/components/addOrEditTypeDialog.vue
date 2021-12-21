@@ -140,7 +140,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.close()
-                  this.$message.success('保存成功！')
+                  this.$message.success(this.$t('保存成功！'))
                   this.$emit('flushTable')
                 }
               })
@@ -152,7 +152,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.close()
-                  this.$message.success('创建成功！')
+                  this.$message.success(this.$t('创建成功！'))
                   this.$emit('flushTable')
                 } else {
                   // this.$message.error(data.message);

@@ -160,7 +160,7 @@ export default {
             .then((data) => {
               if (data) {
                 this.close();
-                this.$message.success("保存成功！");
+                this.$message.success(this.$t("保存成功！"));
                 this.$emit("flushCard");
               }
             })
@@ -174,10 +174,10 @@ export default {
       const isJPG = file.type === "image/jpeg" || file.type === "image/png";
       const isLt15M = file.size / 1024 / 1024 < 15;
       if (!isJPG) {
-        this.$message.error("仅支持图片格式!");
+        this.$message.error(this.$t("仅支持图片格式!"));
       }
       if (!isLt15M) {
-        this.$message.error("上传图片大小不能超过15MB!");
+        this.$message.error(this.$t("上传图片大小不能超过15MB!"));
       }
       return isJPG && isLt15M;
     },

@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="$t('会议创建')"
+    :title="$t('MT_HUIYICHUANGJIAN')"
     :visible.sync="openAddSingle"
     width="38.625rem"
     :close-on-click-modal="false"
@@ -328,10 +328,10 @@ export default {
             .then((res) => {
               if (res) {
                 this.clearDiolog('submit')
-                iMessage.success('保存成功')
+                iMessage.success(this.$t('保存成功'))
                 this.$emit('refreshTable')
               } else {
-                iMessage.success('保存失败')
+                iMessage.success(this.$t('保存失败'))
                 this.clearDiolog('submit')
               }
             })
