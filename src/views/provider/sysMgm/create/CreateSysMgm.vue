@@ -68,7 +68,7 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8" v-if="formData.systemType === '2'">
+            <el-col :span="8">
               <iFormItem :label="$t('Url')">
                 <iInput v-model="formData.url" :disabled="isRead"></iInput>
               </iFormItem>
@@ -90,7 +90,7 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" v-if="formData.systemType === '1'">
               <iFormItem label="App Code">
                 <iInput v-model="formData.appCode" :disabled="isRead"></iInput>
               </iFormItem>
