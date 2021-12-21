@@ -7,7 +7,7 @@ export default [
       label: '序号'
     },
     {
-      prop: 'createBy',
+      prop: 'category',
       i18n: '分类'
     },
     {
@@ -48,7 +48,9 @@ export default [
     },
     {
       prop: 'content',
-      i18n: '操作内容'
+      i18n: '操作内容',
+      minWidth: 200,
+      tooltip: true
     },
     {
       prop: 'success',
@@ -59,7 +61,9 @@ export default [
     },
     {
       prop: 'exceptionMsg',
-      i18n: '异常信息'
+      i18n: '异常信息',
+      minWidth: 150,
+      tooltip: true
     },
     {
       prop: 'userPosition',
@@ -68,7 +72,7 @@ export default [
     {
       i18n: '操作',
       customRender: (h, scope,col,extraData) => {
-        return <iButton type="text" on-click={ () => extraData.detail(scope.row)}>查看详情</iButton>
+        return <iButton type="text" on-click={ () => extraData.msgDetail(scope.row)}>查看详情</iButton>
       }
     },
 ]

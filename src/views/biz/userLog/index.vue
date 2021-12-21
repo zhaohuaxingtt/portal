@@ -5,7 +5,7 @@
 			<el-form :model="form" ref="form" class="search-form" :inline="true" size="normal">	
 				<div class="form-item">
 					<iLabel class="label" :label="language('操作类型')" slot="label"></iLabel>
-					<iSelect v-model="form.adminType" class="w-220" filterable clearable>
+					<iSelect v-model="form.type" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in operationTypes"
 							:label="item.label"
@@ -16,12 +16,12 @@
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('操作人')" slot="label"></iLabel>
-					<iInput v-model="form.name" class="w-220" :placeholder="language('请输入')" />
+					<iInput v-model="form.creator" class="w-220" :placeholder="language('请输入')" />
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('时间筛选')" slot="label"></iLabel>
 					<iDatePicker
-						v-model="form.createDate_gt"
+						v-model="date"
 						:start-placeholder="language('开始日期')"
 						:end-placeholder="language('结束日期')"
 						type="daterange"
@@ -30,38 +30,40 @@
 						value-format="yyyy-MM-dd"
 						style="width:320px"
 						clearable
+						@change="dateChange"
 					/>
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('业务编号')" slot="label"></iLabel>
-					<iInput v-model="form.no" class="w-220" :placeholder="$t('请输入')" />
+					<iInput v-model="form.bizId" class="w-220" :placeholder="language('请输入')" />
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('操作内容')" slot="label"></iLabel>
-					<iInput v-model="form.content" class="w-220" :placeholder="$t('请输入')" />
+					<iInput v-model="form.content_like" class="w-220" :placeholder="language('请输入')" />
 				</div>
-				<div class="form-item">
+				<!-- <div class="form-item">
 					<iLabel class="label" :label="language('日志编号')" slot="label"></iLabel>
-					<iInput v-model="form.no" class="w-220" :placeholder="$t('请输入')" />
-				</div>
+					<iInput v-model="form.no" class="w-220" :placeholder="language('请输入')" />
+				</div> -->
 			</el-form>
 		</iSearch>
 		<iCard class="mar-t20">
 			<div class="log-btns">
-				<iButton>{{language('导出')}}</iButton>
+                <button-download :download-method="exportExcel" />
 			</div>
-			<CommonTable ref="table" :tableColumns="tableColumns" :params="form"></CommonTable>
+			<CommonTable ref="table" :tableColumns="tableColumns" :extraData="extraData" :params="form"></CommonTable>
 		</iCard>
+		<MsgDialog :show.sync="show" :content.sync="msg"></MsgDialog>
   </iPage>
 </template>
 
 <script>
 import pageHeader from '@/components/pageHeader'
-import { iPage,iSearch, iInput, iDatePicker, iSelect,iCard, iLabel, iButton } from 'rise'
-import { OPERA_TYPES } from './../utils/constants';
+import { iPage,iSearch, iInput, iDatePicker, iSelect,iCard, iLabel } from 'rise'
 import CommonTable from './../components/CommonTable.vue';
+import MsgDialog from './../components/MsgDialog.vue';
 import tableColumns from './table';
-import {listOperation} from '@/api/biz/log';
+import {listOperation,exportBizLog} from '@/api/biz/log';
 
 export default {
 	components: { 
@@ -73,15 +75,20 @@ export default {
 		iSelect,
 		iCard,
 		iLabel,
-		iButton,
-		CommonTable
+		CommonTable,
+		MsgDialog
 	},
 	data() {
 		return {
 			form:{},
-			typeOptions:OPERA_TYPES,
 			tableColumns,
-			operationTypes:[]
+			operationTypes:[],
+			date:"",
+			extraData:{
+                msgDetail:this.msgDetail
+            },
+			show:false,
+			msg:""
 		}
 	},
 	created(){
@@ -98,21 +105,38 @@ export default {
             this.operationTypes = operRes.data || []
         },
 		restForm(){
-			this.form = {
-				adminType:"",
-				name:"",
-				createDate_gt:"",
-				no:"",
-				content:""
-			}	
+			return new Promise((resolve) => {
+				this.form = {
+					type:"",
+					creator:"",
+					bizId:"",
+					content_like:"",
+					createDate_gt:"",
+					createDate_le:"",
+				}	
+				this.date = ""
+				resolve()
+			})
 		},
-		reset() {
-            this.restForm()
+		exportExcel(){
+            return exportBizLog({ extendFields: this.form })
+        },
+		async reset() {
+            await this.restForm()
 			this.search()
 		},
 		search() {
             this.$refs.table.query()
 		},
+		dateChange(date){
+            this.form.createDate_gt = date ? date[0] : ""
+            this.form.createDate_le = date ? date[1] : ""
+        },
+		// 报文详情
+		msgDetail(row){
+			this.msg = row.result
+			this.show = true
+		}
 	}
 }
 </script>

@@ -7,7 +7,7 @@
 					<iLabel class="label" :label="language('模块菜单')" slot="label"></iLabel>
 					<iSelect v-model="form.module" class="w-220" filterable clearable>
 						<el-option
-							v-for="item in typeOptions"
+							v-for="item in moduleMenu"
 							:label="item.label"
 							:value="item.value"
 							:key="item.value"
@@ -75,11 +75,11 @@
 				</div>
                 <div class="form-item">
 					<iLabel class="label" :label="language('业务编号')" slot="label"></iLabel>
-					<iInput v-model="form.claEntity" class="w-220" :placeholder="language('请输入')" />
+					<iInput v-model="form.bizId" class="w-220" :placeholder="language('请输入')" />
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('操作内容')" slot="label"></iLabel>
-					<iInput v-model="form.content" class="w-220" :placeholder="$t('请输入')" />
+					<iInput v-model="form.content_like" class="w-220" :placeholder="$t('请输入')" />
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('岗位')" slot="label"></iLabel>
@@ -103,26 +103,28 @@
 				</div> -->
 				<div class="form-item">
 					<iLabel class="label" label="" slot="label"></iLabel>
-                    <el-checkbox v-model="form.success" label="" :indeterminate="false" @change="statusChange">是否成功</el-checkbox>
+                    <el-checkbox v-model="form.success" style="margin-top:6px" label="" :indeterminate="false" @change="statusChange">是否成功</el-checkbox>
 				</div>
 			</el-form>
 		</iSearch>
 		<iCard class="mar-t20">
 			<div class="log-btns">
-				<iButton>{{language('导出')}}</iButton>
+                <button-download :download-method="exportExcel" />
 			</div>
 			<CommonTable ref="table" :extraData="extraData" :tableColumns="tableColumns" :params="form"></CommonTable>
 		</iCard>
+		<MsgDialog :show.sync="show" :content.sync="msg"></MsgDialog>
+
   </iPage>
 </template>
 
 <script>
 import pageHeader from '@/components/pageHeader'
-import { iPage,iSearch, iInput, iDatePicker, iSelect, iCard, iLabel, iButton} from 'rise'
-import { OPERA_TYPES } from './../utils/constants';
+import { iPage,iSearch, iInput, iDatePicker, iSelect, iCard, iLabel} from 'rise'
 import CommonTable from './../components/CommonTable.vue';
+import MsgDialog from './../components/MsgDialog.vue';
 import tableColumns from './table';
-import {listCategory,listOperation,listInterfaceSystem,listTriggerType} from '@/api/biz/log';
+import {listCategory,listOperation,listInterfaceSystem,listTriggerType,exportBizLog} from '@/api/biz/log';
 export default {
 	components: { 
 		iPage,
@@ -133,30 +135,32 @@ export default {
 		iSelect,
 		iCard,
 		iLabel,
-		iButton,
-		CommonTable
+		CommonTable,
+        MsgDialog
 	},
 	data() {
 		return {
 			form:{},
-			typeOptions:OPERA_TYPES,
 			tableColumns,
             extraData:{
-                detail:this.detail
+                msgDetail:this.msgDetail
             },
             date:"",
             logTypes:[],
             operationTypes:[],
             interfaceSystemList:[],
-            triggerTypes:[]
+            triggerTypes:[],
+            moduleMenu:[],
+            show:false,
+            msg:""
 		}
 	},
     created(){
         this.restForm()
+        this.init()
         this.$nextTick(() => {
             this.search()
         })
-        this.init()
     },
 	methods: {
         async init(){
@@ -174,39 +178,41 @@ export default {
             this.triggerTypes = triRes.data || []
         },
 		restForm(){
-			this.form = {
-				module:"",
-                type:"",
-                category:"",
-                triggerType:"",
-                interfaceSystem:"",
-                claEntity:"",
-                content:"",
-                userPosition:"",
-                interfaceName:"",
-                userRole:"",
-                interfaceSerial:"",
-                createDate_gt:"",
-                createDate_le:"",
-                success:false
-			}	
+			return new Promise((resolve) => {
+                this.form = {
+                    module:"",
+                    type:"",
+                    category:"",
+                    triggerType:"",
+                    interfaceSystem:"",
+                    bizId:"",
+                    content_like:"",
+                    userPosition:"",
+                    interfaceName:"",
+                    userRole:"",
+                    interfaceSerial:"",
+                    createDate_gt:"",
+                    createDate_le:"",
+                    success:true
+                }	
+                this.date = ""
+                resolve()
+            })
 		},
-		reset() {
-            this.restForm()
+		async reset() {
+            await this.restForm()
 			this.search()
 		},
 		search() {
             this.$refs.table.query()
 		},
-		query(page){
-			console.log(page);
-            this.loading = true
-            setTimeout(() => {
-                this.loading = false
-            }, 1000);
-		},
-        detail(v){
-            console.log(v);
+        exportExcel(){
+            return exportBizLog({ extendFields: this.form })
+        },
+		// 报文详情
+        msgDetail(row){
+            this.msg = row.result
+			this.show = true
         },
         dateChange(date){
             this.form.createDate_gt = date ? date[0] : ""
