@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-21 15:37:57
+ * @LastEditTime: 2021-12-21 16:34:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -170,7 +170,7 @@ export default {
       tableLoading: false,
       editFlag: false,
       muilteList: [],
-      ttNominateAppId: "",
+      ttNominateFlag: false,
       loading: false,
       dialogVisible: false,
       riseId: "",
@@ -248,17 +248,16 @@ export default {
       this.muilteList = val
       this.muilteList.forEach(item => {
         selectDept({
-          appId: this.ttNominateAppId || ""
+          appId: this.ttNominateFlag ? this.mtzAppId : ""
         }).then((res) => {
           if (res?.code === '200') {
             this.$set(item, 'selectDeptList', res.data);
-            console.log(res.data)
             let deptList = item.selectDeptList.find(i => item.approvalDepartment === i.nameEn)
             if (deptList) {
               item.approvalDepartmentName = deptList.nameZh || ''
               selectSection({
                 lineDeptId: deptList.id,
-                appId: this.ttNominateAppId || ""
+                appId: this.ttNominateFlag ? this.mtzAppId : ""
               }).then((res) => {
                 console.log(res.data)
                 this.$set(item, 'selectSectionList', res.data);
@@ -282,7 +281,7 @@ export default {
         editRow: true
       }
       selectDept({
-        appId: this.ttNominateAppId || ""
+        appId: this.ttNominateFlag ? this.mtzAppId : ""
       }).then((res) => {
         if (res?.code === '200') {
           this.$set(obj, 'selectDeptList', res.data);
@@ -308,10 +307,9 @@ export default {
           }
           this.riseId = res.data.riseId
           if (res.data.ttNominateAppId) {
-            this.ttNominateAppId = res.data.ttNominateAppId
+            this.ttNominateFlag = true
+            // this.ttNominateAppId = res.data.ttNominateAppId
             // this.disabled = true
-            this.handleSync('')
-            return
           }
           this.handleSync('1')
         }
@@ -396,7 +394,7 @@ export default {
       row.approvalSection = ""
       row.approvalName = ""
       row.approvalBy = ""
-      selectSection({ lineDeptId: obj.id, appId: this.ttNominateAppId || "" }).then(res => {
+      selectSection({ lineDeptId: obj.id, appId: this.ttNominateFlag ? this.mtzAppId : "" }).then(res => {
         this.$set(row, 'selectSectionList', res.data);
       })
     },
