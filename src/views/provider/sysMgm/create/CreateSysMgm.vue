@@ -90,7 +90,7 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8" v-if="formData.systemType === '1'">
+            <el-col :span="8">
               <iFormItem label="App Code">
                 <iInput v-model="formData.appCode" :disabled="isRead"></iInput>
               </iFormItem>
@@ -291,7 +291,7 @@ export default {
         sysTag: this.language('系统标签'),
         description: this.language('系统功能说明'),
         createTitle: this.language('新建/编辑页面'),
-        editTitle: this.language('Infomess应用'),
+        editTitle: this.language('新建/编辑页面'),
         input: this.language('请输入'),
         iselect: this.language('请选择'),
         appCode: this.language('App Code')
