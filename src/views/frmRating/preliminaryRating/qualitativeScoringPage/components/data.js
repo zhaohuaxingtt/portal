@@ -32,7 +32,7 @@ export const tableTitle = [
     key: 'SPR_FRM_CBPJ_PFFHSJ',
     tooltip: true
   },
-  { props: 'sectionName', name: '负责科室', key: 'FUZEKESHI', tooltip: true },
+  { props: 'sectionName', name: '负责科股', key: 'FUZEKEGU', tooltip: true },
   {
     props: 'operateContent',
     name: '最新操作',

@@ -69,10 +69,10 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="close" plain class="cancel">{{
-              $t('关闭')
+              $t('MT_GUANBI')
             }}</iButton>
             <iButton @click="handleSubmit('ruleForm')" plain>{{
-              $t('保存')
+              $t('MT_BAOCUN')
             }}</iButton>
           </el-form-item>
         </div>
@@ -350,7 +350,7 @@ export default {
             .then((data) => {
               if (data) {
                 this.close()
-                this.$message.success('创建成功！')
+                this.$message.success(this.$t('创建成功！'))
                 this.$emit('flushTable')
               }
             })

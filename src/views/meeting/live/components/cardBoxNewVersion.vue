@@ -155,13 +155,6 @@ export default {
   beforeDestroy() {
     clearInterval(this.timer);
   },
-  watch: {
-    themen: {
-      handler(data) {
-        // console.log(data);
-      },
-    },
-  },
   computed: {
     dom: function() {
       console.log(this.$refs.boxTopic.$el);
