@@ -4,7 +4,7 @@ export default [
         name:'offlineDownload',
         meta:{
             title:'离线下载',
-            activeMenu: ['RISE_ADMIN', 'ADMIN_MESSAGE']
+            activeMenu: ['RISE_COMMON_FUNCTION', 'CF_DOWNLOAD']
         },
         component:()=>import('@/views/offlineDownload')
     }
