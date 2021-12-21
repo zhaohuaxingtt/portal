@@ -17,7 +17,7 @@ export const tableTitle = [
   {props: 'versionNum', name: '版本', key: 'SPR_FRM_CBPJ_BB', tooltip: true},
   {props: 'createDate', name: '评分发出时间', key: 'SPR_FRM_CBPJ_PFFCSJ', tooltip: true},
   {props: 'qualitativeReturnDate', name: '评分返回时间', key: 'SPR_FRM_CBPJ_PFFHSJ', tooltip: true},
-  {props: 'sectionName', name: '负责科室', key: 'FUZEKESHI', tooltip: true},
+  {props: 'sectionName', name: '负责科股', key: 'FUZEKEGU', tooltip: true},
   {props: 'operateContent', name: '最新操作', key: 'SPR_FRM_CBPJ_ZXCZ', tooltip: true},
   {props: 'view', name: '操作记录', key: 'SPR_FRM_CBPJ_CZJL', tooltip: true},
   {props: 'nr', name: 'Nr.', width: 50, tooltip: true},

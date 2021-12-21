@@ -14,7 +14,7 @@ const requstDIC = axios(process.env.VUE_APP_BASE_INFO)
 
 export function kpiDetail(params) {
   return requst({
-    url: '/web/kpi/totalScore/template/detail',
+    url: '/kpi/totalScore/template/detail',
     method: 'GET',
     params: params
   })
@@ -22,7 +22,7 @@ export function kpiDetail(params) {
 
 export function slelectkpiList(params) {
   return requst({
-    url: '/web/kpi/template/list',
+    url: '/kpi/template/list',
     method: 'GET',
     params: params
   })
@@ -31,7 +31,7 @@ export function slelectkpiList(params) {
 // kpi 下载
 export function dowbloadAPI(data) {
   return requst({
-    url: '/web/kpi/template/download',
+    url: '/kpi/template/download',
     method: 'POST',
     responseType: 'blob',
     data: data
@@ -49,7 +49,7 @@ export function getPowerBiKpi() {
 // 查询供应商api
 export function getPowerBiSupplier(data) {
   return requst({
-    url: '/web/supplierInfo/queryByParam',
+    url: '/supplierInfo/queryByParam',
     method: 'POST',
     data: data
   })
@@ -68,7 +68,7 @@ export function getMaterialGroupByUserIds(data) {
 
 export function getLine(data) {
   return requst({
-    url: '/web/spi/spiTotalScore/getSpiIndexDistribute',
+    url: '/spi/spiTotalScore/getSpiIndexDistribute',
     method: 'POST',
     data: data
   })
@@ -76,7 +76,7 @@ export function getLine(data) {
 // 获取供应商列表
 export function spiTotalScore(data) {
   return requst({
-    url: '/web/spi/spiTotalScore/info',
+    url: '/spi/spiTotalScore/info',
     method: 'POST',
     data: data
   })
@@ -85,7 +85,7 @@ export function spiTotalScore(data) {
 // 科股
 export function getRelationship(data) {
   return requst({
-    url: '/web/shareRelationship/getRelationship',
+    url: '/shareRelationship/getRelationship',
     method: 'POST',
     data: data
   })
@@ -93,7 +93,7 @@ export function getRelationship(data) {
 // 工艺组
 export function getStuffByCategory(data) {
   return requst({
-    url: '/web/spi/spiTotalScore/getStuffByCategory',
+    url: '/spi/spiTotalScore/getStuffByCategory',
     method: 'POST',
     data: data
   })
@@ -127,7 +127,7 @@ export function getDeptData(data) {
 // 查询模板kpi
 export function templateDetail(params) {
   return requst({
-    url: '/web/kpi/template/detail',
+    url: '/kpi/template/detail',
     method: 'GET',
     params: params
   })
@@ -135,7 +135,7 @@ export function templateDetail(params) {
 // 保存模板
 export function saveTemplateDetail(data) {
   return requst({
-    url: '/web/kpi/template',
+    url: '/kpi/template',
     method: 'POST',
     data: data
   })
@@ -144,7 +144,7 @@ export function saveTemplateDetail(data) {
 // 删除模板
 export function deleteTemplate(data) {
   return requst({
-    url: '/web/kpi/template/remove',
+    url: '/kpi/template/remove',
     method: 'POST',
     data: data
   })
@@ -153,7 +153,7 @@ export function deleteTemplate(data) {
 // 下载模板
 export function downloadTemplate(data) {
   return requst({
-    url: '/web/kpi/template/download',
+    url: '/kpi/template/download',
     method: 'POST',
     responseType: 'blob',
     data: data
@@ -163,7 +163,7 @@ export function downloadTemplate(data) {
 // 上传模板
 export function uploadTemplate(data) {
   return requst({
-    url: '/web/kpi/template/upload',
+    url: '/kpi/template/upload',
     method: 'POST',
     data: data
   })
@@ -172,7 +172,7 @@ export function uploadTemplate(data) {
 // 获取TO量级
 export function getTO(data) {
   return requst({
-    url: '/web/supplierToData/yearByAmount',
+    url: '/supplierToData/yearByAmount',
     method: 'POST',
     data: data
   })

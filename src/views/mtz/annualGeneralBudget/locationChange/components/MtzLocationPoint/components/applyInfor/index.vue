@@ -289,6 +289,9 @@ export default {
       this.disabled = false;
     },
     save () {
+      if(this.inforData.appName == ""){
+        return iMessage.error(this.language('SHENQINGDANMINGBUNENGWEIKONG', '申请单名不能为空'))
+      };
       if (this.inforData.flowType == "SIGN" && this.numIsNomi !== 0) {//流转
         return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZ', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转'))
       }else{
