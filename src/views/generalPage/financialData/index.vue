@@ -201,7 +201,7 @@ import {
   selectFinance,
   getRatingList
 } from '../../../api/register/financialData'
-import { downloadFile } from '@/api/file'
+import { downloadUdFile } from '@/api/file'
 import fetchExternalRatingsDialog from './components/fetchExternalRatingsDialog.vue'
 import { exportFinanceReport } from '@/api/frmRating/frmIntegratedManagement.js'
 
@@ -288,12 +288,13 @@ export default {
       this.dataComparisonDialog = true
     },
     async handleExampleDownload(row) {
-      const req = {
-        applicationName: 'rise',
-        fileList: [row.fileName]
-      }
-      await downloadFile(req)
+      // const req = {
+      //   applicationName: 'rise',
+      //   fileList: [row.id]
+      // }
+      await downloadUdFile(row.filePath)
     },
+    // 上传接口
     async handleUploadedCallback(evnet, row) {
       delete evnet.uploadTime
       const req = {
@@ -305,22 +306,52 @@ export default {
             if (!item.attachList) {
               item.attachList = []
             }
-            return item.attachList.push({
-              ...evnet,
-              financeId: row.id,
-              step: req.step
+            return Object.assign(item, {
+              dataTime: evnet.createDate,
+              attachList: [
+                ...item.attachList,
+                {
+                  ...evnet,
+                  financeId: row.id,
+                  filePath: evnet.id,
+                  fileName: evnet.name,
+                  fileSize: evnet.size,
+                  step: req.step
+                }
+              ]
             })
+            // return item.attachList.push({
+            //   ...evnet,
+            //   financeId: row.id,
+            //   step: req.step
+            // })
           }
         })
       }
       if (row.id || row.id === null) {
-        this.tableListData.map((item, index) => {
+        this.tableListData.map((item) => {
+          console.log(item.id, '==111=', row.id)
           if (item.id === row.id) {
-            return item.attachList.push({
-              ...evnet,
-              financeId: row.id,
-              step: req.step
+            return Object.assign(item, {
+              dataTime: evnet.createDate,
+              attachList: [
+                ...item.attachList,
+                {
+                  ...evnet,
+                  financeId: row.id,
+                  filePath: evnet.id,
+                  fileName: evnet.name,
+                  fileSize: evnet.size,
+                  step: req.step
+                }
+              ]
             })
+            // return item.attachList.push({
+            //   ...evnet,
+            //   financeId: row.id,f
+            //   filePath: evnet.id,
+            //   step: req.step
+            // })
           }
         })
       }
@@ -364,7 +395,9 @@ export default {
     async saveInfos(step = '') {
       this.$refs.commonTable.$refs.commonTableForm.validate(async (vaild) => {
         if (vaild) {
+          console.log(this.tableListData, '?!111')
           this.tableListData.forEach((item) => {
+            console.log(item.attachList, '保存')
             item.attachList &&
               item.attachList.forEach((val) => {
                 delete val.uploadTime
