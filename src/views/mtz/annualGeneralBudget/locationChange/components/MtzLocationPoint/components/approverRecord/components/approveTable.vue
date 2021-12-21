@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-11-02 15:34:30
- * @LastEditTime: 2021-12-21 16:30:55
+ * @LastEditTime: 2021-12-21 16:34:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\approverRecord\components\theTable.vue
@@ -252,7 +252,6 @@ export default {
         }).then((res) => {
           if (res?.code === '200') {
             this.$set(item, 'selectDeptList', res.data);
-            console.log(res.data)
             let deptList = item.selectDeptList.find(i => item.approvalDepartment === i.nameEn)
             if (deptList) {
               item.approvalDepartmentName = deptList.nameZh || ''
