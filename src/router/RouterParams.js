@@ -22,7 +22,7 @@ export default [
     name: 'contract',
     meta: {
       title: '合同管理',
-      activeMenu: ['RISE_ADMIN', 'ADMIN_PARAMS']
+      activeMenu: ['RISE_ADMIN', 'ADMIN_CONTRACT']
     },
     component: () => import('@/views/params/contract')
   }
