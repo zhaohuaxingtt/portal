@@ -20,11 +20,17 @@
           <div class="form-item">
             <iFormItem label="是否触发审批" prop="approvalProcessBoolean">
               <iLabel :label="$t('MT_SHIFOUCHUFASHENPI')" slot="label"></iLabel>
-              <iSelect
+              <!-- <iSelect
                 v-model="isOrNot"
                 :placeholder="$t('MT_QINGXUANZE')"
                 @change="changeTriggerApproval"
                 :disabled="row.isTriggerApproval === 'false'"
+              > -->
+              <iSelect
+                v-model="isOrNot"
+                :placeholder="$t('MT_QINGXUANZE')"
+                @change="changeTriggerApproval"
+                disabled
               >
                 <el-option
                   v-for="(item, index) in approvalBoolean"
@@ -41,10 +47,15 @@
           <div class="form-item">
             <iFormItem label="审批流程" prop="approvalProcessId">
               <iLabel :label="$t('MT_SHENPILIUCHENG')" slot="label"></iLabel>
-              <iSelect
+              <!-- <iSelect
                 v-model="rowState.approvalProcessId"
                 :placeholder="$t('MT_QINGXUANZE')"
                 :disabled="isOrNot === 'false'"
+              > -->
+              <iSelect
+                v-model="rowState.approvalProcessId"
+                :placeholder="$t('MT_QINGXUANZE')"
+                disabled
               >
                 <el-option
                   v-for="item in approvalProcessList"
@@ -76,7 +87,9 @@
                 {{ $t('MT_QINGXUANZEWENJIAN') }}
                 <span class="upload-text"><img :src="uploadIcon" /></span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">{{$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}}10MB</div>
+              <div slot="tip" class="el-upload__tip">
+                {{ $t('MT_WENJIANDAXIAOZUIDAXIANZHI') }}10MB
+              </div>
             </el-upload>
           </iFormItem>
         </el-row>
@@ -191,7 +204,6 @@ export default {
       this.$emit('handleClose')
     },
     handleSubmit() {
-      console.log("6666666666666",this.id)
       this.$refs['ruleFormCloseMeeting'].validate((valid) => {
         if (valid) {
           this.loading = true
@@ -221,7 +233,7 @@ export default {
             .then((res) => {
               this.loading = false
               if (res.code === 200) {
-                iMessage.success('关闭成功')
+                iMessage.success(this.$t('关闭成功'))
                 this.$emit('handleOK')
                 this.handleClose()
               } else {
@@ -261,14 +273,14 @@ export default {
           this.$refs.ruleFormCloseMeeting.clearValidate('uploadFile')
         })
         .catch(() => {
-          iMessage.error('上传失败')
+          iMessage.error(this.$t('上传失败'))
         })
       this.uploadLoading = false
     },
     beforeAvatarUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error('上传头像图片大小不能超过10MB!')
+        this.$message.error(this.$t('上传头像图片大小不能超过10MB'))
       }
       return isLt10M
     },

@@ -50,7 +50,7 @@
                                 </iInput>
                             </iFormItem>
                             <iFormItem  label-width='0'>
-                                <iInput  v-model="itemContent.partNum5" :disabled='editNumber' style="width:30px" id="partNum5"></iInput>
+                                <iInput  v-model="itemContent.partNum5" :disabled='editNumber' style="width:30px" id="partNum5" maxlength='3'></iInput>
                             </iFormItem>
                           </div>
                       </el-col>

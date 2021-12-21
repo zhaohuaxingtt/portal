@@ -88,7 +88,11 @@
           :hideRequiredAsterisk="true"
           class="task"
         >
-          <iLabel :label="$t('MT_RENWU')" slot="label" class="task-title"></iLabel>
+          <iLabel
+            :label="$t('MT_RENWU')"
+            slot="label"
+            class="task-title"
+          ></iLabel>
           <iInput
             type="textarea"
             v-model="ruleForm.taskCsc"
@@ -102,7 +106,9 @@
       <iButton class="sure" @click="handleSure" :loading="loading">{{
         $t('MT_QUEDING')
       }}</iButton>
-      <iButton class="cancel" @click="handleCancel">{{ $t('MT_QUXIAO') }}</iButton>
+      <iButton class="cancel" @click="handleCancel">{{
+        $t('MT_QUXIAO')
+      }}</iButton>
     </div>
   </iDialog>
 </template>
@@ -259,8 +265,8 @@ export default {
     if (this.meetingInfo.isCSC) {
       this.themenConclusionArrObj = [
         {
-          conclusionCsc: '01',
-          conclusionName: '待定'
+          conclusionCsc: '05',
+          conclusionName: '下次Pre CSC'
         },
         {
           conclusionCsc: '02',
@@ -275,8 +281,8 @@ export default {
           conclusionName: '转TER/TOP-TER'
         },
         {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
+          conclusionCsc: '01',
+          conclusionName: '待定'
         },
         {
           conclusionCsc: '07',
@@ -331,8 +337,8 @@ export default {
         //   conclusionName: '关闭'
         // }
         {
-          conclusionCsc: '01',
-          conclusionName: '待定'
+          conclusionCsc: '05',
+          conclusionName: '下次Pre CSC'
         },
         {
           conclusionCsc: '02',
@@ -347,8 +353,8 @@ export default {
           conclusionName: '转TER/TOP-TER'
         },
         {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
+          conclusionCsc: '01',
+          conclusionName: '待定'
         },
         {
           conclusionCsc: '07',

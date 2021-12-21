@@ -54,23 +54,34 @@
         <span>{{scope.row.bdlType==='2'?language('SHI','是'):language('FOU','否')}}</span>
       </template>
     </table-list>
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :current-page="page.currPage"
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :total="page.totalCount" />
   </i-card>
 </template>
 
 <script>
-import { iCard, iButton, iMessage } from "rise";
+import { iCard, iButton, iMessage, iPagination } from "rise";
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
+import { pageMixins } from '@/utils/pageMixins'
 import tableList from '@/components/commonTable'
 import { materialTableTitle } from './data'
 import { addControl, getPageMaterialGroup, updateUncontrol, updateAssociated, updateControl, mbdlCancelAssociated } from "../../../../api/supplier360/material";
 import { getDictByCode } from "../../../../api/dictionary/index";
 
 export default {
-  mixins: [generalPageMixins],
+  mixins: [generalPageMixins, pageMixins],
   components: {
     iCard,
     iButton,
-    tableList
+    tableList,
+    iPagination
   },
   data () {
     return {
@@ -80,7 +91,7 @@ export default {
       tableLoading: false,
       selectTableData: [],
       controlListData: [],
-      total: 0
+      // total: 0
     }
   },
   created () {
@@ -100,15 +111,18 @@ export default {
       })
     },
     async getTableList (form) {
+      console.log(this.$store.state, "2222")
       this.tableLoading = true
       const pms = {
-        pageNo: 1,
-        pageSize: 10,
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
         ...form
       }
       const res = await getPageMaterialGroup(pms)
       this.tableListData = res.data
-      this.total = res.total
+      this.page.currPage = res.pageNum
+      this.page.pageSize = res.pageSize
+      this.page.totalCount = res.total
       this.tableLoading = false
     },
     handleSelectionChange (e) {
@@ -211,8 +225,8 @@ export default {
     },
     async exportsAllTable () {
       const pms = {
-        pageNo: 1,
-        pageSize: this.total
+        pageNo: this.page.currPage,
+        pageSize: this.page.pageSize,
       }
       const res = await getPageMaterialGroup(pms)
       this.selectTableData = res.data

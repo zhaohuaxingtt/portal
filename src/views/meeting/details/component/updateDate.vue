@@ -105,9 +105,11 @@ export default {
       }
       this.loading = true
       rescheduleThemen(data)
-        .then(() => {
+        .then((res) => {
+          if (res.code === 200) {
+            iMessage.success(this.$t('改期成功'))
+          }
           this.loading = false
-          iMessage.success('改期成功')
           this.$emit('flushTable')
           this.close()
         })
@@ -136,7 +138,8 @@ export default {
         pageSize: 10,
         states: ['02', '03'],
         meetingId: this.meetingInfo.id,
-        themenId: this.selectedTableData[0].id
+        themenId: this.selectedTableData[0].id,
+        meetingTypeNames: ['COMMON']
       }
       this.queryMettingList(param)
     },

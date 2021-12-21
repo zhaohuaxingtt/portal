@@ -21,7 +21,7 @@
         </iSelect>
       </el-form-item>
       <!--负责科室-->
-      <el-form-item :label="$t('FUZEKESHI')">
+      <el-form-item :label="language('FUZEKEGU','负责科股')">
         <iInput :placeholder="$t('LK_QINGSHURU')" v-model="form.sectionName"></iInput>
       </el-form-item>
       <!--发出时间起止-->

@@ -60,7 +60,7 @@ export default {
         .then((res) => {
           this.loading = false
           if (res.code === 200) {
-            iMessage.success('删除成功')
+            iMessage.success(this.$t('删除成功'))
           }
 
           this.$emit('flushTable')

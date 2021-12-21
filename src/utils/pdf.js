@@ -180,7 +180,7 @@ export function transverseDownloadPDF({//html横向导出pdf
     var imgWidth = 841.89
     var imgHeight = (841.89 / contentWidth) * contentHeight
     let pageData = canvas.toDataURL('image/jpeg', 1.0)
-    var pdf = new JsPDF('l', 'pt', 'a4',true)//l横向打印，p纵向打印
+    var pdf = new JsPDF('l', 'pt', 'a4',true)//l横向打印，p纵向打印 true=>开启压缩
 
     if (leftHeight < pageHeight) {//
       pdf.addImage(pageData,"JPEG",0, position, imgWidth, imgHeight);

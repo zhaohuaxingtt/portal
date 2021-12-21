@@ -182,7 +182,7 @@ export default {
                 if (data) {
                   this.loading = false
                   this.clearDiolog('submit')
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('保存成功'))
                   this.$emit('flushTable')
                 } else {
                   this.loading = false
@@ -213,7 +213,7 @@ export default {
                 if (data) {
                   this.loading = false
                   this.clearDiolog('submit')
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('保存成功'))
                   this.$emit('flushTable')
                 } else {
                   this.loading = false
