@@ -2032,6 +2032,12 @@
 
     MT_XIAZAIMUBAN: '下载模板',
 
+    MT_YITIMUBAN: '议题模板',
+
+    MT_XIAZAIMUBANCHENGGONG: '下载模板成功',
+
+    MT_XIAZAIMUBANSHIBAI: '下载模板失败',
+
     MT_GUANBI: '关闭',
 
     MT_JIESHU: '结束',
@@ -2328,6 +2334,10 @@
     MT_BIXUAN: '必选',
 
     MT_SHIFOUCHUFASHENPILIU: '是否触发审批流',
+
+    MT_SHANGCHUANWENJIANDAXIAOBUNENGCHAOGUO: '上传文件大小不能超过',
+
+    MT_SHANGCHUANSHIBAI: '上传失败',
     APPROVAL: {
       ADD: '新增',
       SAVE: '保存',

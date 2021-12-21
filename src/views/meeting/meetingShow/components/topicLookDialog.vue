@@ -188,8 +188,8 @@ export default {
     },
     compuSupporter() {
       return this.compuShouldShow(
-        this.topicInfo.supporter,
-        this.topicInfo.supporterDept
+        this.topicInfo.supporter
+        // this.topicInfo.supporterDept
       );
     },
     compuSupporDept() {
