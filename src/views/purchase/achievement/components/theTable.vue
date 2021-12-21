@@ -392,9 +392,9 @@ export default {
         if(billType==1) {
           obj.identification = 1
         } else if(billType==2 && type==1) {
-          obj.identification = 2
-        } else if (billType==2 && type==2) {
           obj.identification = 3
+        } else if (billType==2 && type==2) {
+          obj.identification = 2
         }
       }
       if (id) {
