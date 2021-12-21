@@ -1462,7 +1462,7 @@
     SPR_FRM_DEP_CHECKSPSTATUS: '请确认发起深评清单的供应商状态为“草稿”',
     SPR_FRM_DEP_COMMET: '只能选择未加入集团的供应商数据',
     SPR_FRM_DEP_STOPMSG:
-      '只能终止状态为草稿、信息收集、财务经营与分析、访谈与调查、报告完成的供应商数据',
+      '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回的供应商数据',
     SPR_FRM_DEP_JTGDSJKZ:
       '集团、股东、实际控制人对公司的支持：资金、技术、管理等…',
     SPR_FRM_DEP_INPUTERROR: '行业名称不能为空',
@@ -1945,106 +1945,399 @@
     LK_FADONGJIDIANCIBAO: '发动机电池包',
     //会议中英文
     MT_HUIYIMINGCHENG: '会议名称',
+
     MT_HUIYIDIDIAN: '会议地点',
+
     MT_HUIYILEIXING: '会议类型',
+
     MT_HUIYIZHUANGTAI: '会议状态',
+
     MT_HUIYITONGPING: '会议同屏',
+
     MT_HUIYIZHANSHI: '会议展示',
+
     MT_XINZENGYITI: '新增议题',
+
     MT_CHAKANYITI: '查看议题',
+
     MT_XIUGAIYITI: '修改议题',
+
     MT_XINZENGXIUXI: '新增休息',
+
     MT_CHAKANXIUXI: '查看休息',
+
     MT_BIANJIXIUXI: '编辑休息',
+
     MT_YITILEIXING: '议题类型',
+
+    MT_HUIYIGAIQI: '会议改期',
+
+    MT_YITIMINGCHENG: '议题名称',
+
     MT_HUIYIXIUXI: '会议休息',
+
+    MT_YONGSHI: '用时',
+
     MT_FENZHONG: '分钟',
+
     MT_YITIZILIAO: '议题资料',
+
     MT_XUANZEHUIYI: '选择会议',
+
     MT_ZHUANGTAI: '状态',
+
     MT_HUIYIRIQI: '会议日期',
+
     MT_ZHOUCI_: '周次',
+
     MT_ZHOUCI: '周/次',
+
     MT_SHANGCHUAN: '上传',
+
     MT_QUXIAO: '取消',
+
     MT_QUEREN: '确认',
+
     MT_CHONGZHI: '重置',
+
     MT_XUHAO: '序号',
+
     MT_CAOZUO: '操作',
+
     MT_CHEHUI: '撤回',
+
     MT_SHANCHU: '删除',
+
     MT_BIANJI: '编辑',
+
     MT_DAOCHU: '导出',
+
     MT_CHUANGJIAN: '创建',
+
     MT_PILIANGCHUANGJIAN: '批量创建',
+
     MT_CAOGAO: '草稿',
+
     MT_KAIFANG: '开放',
+
     MT_KAISHI: '开始',
+
     MT_SUODING: '锁定',
+
     MT_JIESUO: '解锁',
+
     MT_XIUGAI: '修改',
+
     MT_DAORUYITI: '导入议题',
-    MT_GUANBI: '关闭',
-    MT_JIESHU: '结束',
-    MT_TONGPING: '同屏',
-    MT_ZHANSHI: '展示',
-    MT_SHENGCHENGHUIYIJIYAO: '生成会议纪要',
-    MT_SHANGCHUANHUIYIJIYAO: '上传会议纪要',
-    MT_HUIYISHIJIAN: '会议时间',
-    MT_FUJIAN: '附件',
-    MT_QINGSHURU: '请输入',
-    MT_QINGXUANZE: '请选择',
-    MT_TO: '至',
-    MT_PILIANGHUIYICHUANGJIAN: '批量会议创建',
-    MT_QINGXUANZEHUIYILEIXNG: '请选择会议类型',
-    MT_HUIYIJIANGE: '会议间隔',
+
     MT_XIAZAIMUBAN: '下载模板',
+
+    MT_YITIMUBAN: '议题模板',
+
+    MT_XIAZAIMUBANCHENGGONG: '下载模板成功',
+
+    MT_XIAZAIMUBANSHIBAI: '下载模板失败',
+
+    MT_GUANBI: '关闭',
+
+    MT_JIESHU: '结束',
+
+    MT_TONGPING: '同屏',
+
+    MT_ZHANSHI: '展示',
+
+    MT_SHENGCHENGHUIYIJIYAO: '生成会议纪要',
+
+    MT_SHANGCHUANHUIYIJIYAO: '上传会议纪要',
+
+    MT_HUIYISHIJIAN: '会议时间',
+
+    MT_FUJIAN: '附件',
+
+    MT_QINGSHURU: '请输入',
+
+    MT_QINGXUANZE: '请选择',
+
+    MT_TO: '至',
+
+    MT_PILIANGHUIYICHUANGJIAN: '批量会议创建',
+
+    MT_QINGXUANZEHUIYILEIXNG: '请选择会议类型',
+
+    MT_HUIYIJIANGE: '会议间隔',
+
+    MT_XIAZAIMUBAN: '下载模板',
+
     MT_QINGXUANZEHUIYIJIANGE: '请选择会议间隔',
+
     MT_QINGXUANZEKAISHISHIJIAN: '请选择开始时间',
+
     MT_QINGXUANZEJIESHURIQI: '请选择结束日期',
+
     MT_HUIYIZHOUQI: '会议周期',
+
     MT_QINGXUANZEHUIYIZHOUQI: '请选择会议周期',
+
     MT_KAISHISHIJIAN: '开始时间',
+
     MT_QINGXUANZEHUIYIKAISHIJIAN: '请选择会议开始时间',
+
     MT_QINGXUANZEHUIYIKAISHIRIQI: '请选择会议开始日期',
+
     MT_HUIYIDIZHI: '会议地址',
+
     MT_SHOUJIANREN: '收件人',
+
     MT_QINGXUANZESHOUJIANREN: '请选择收件人',
+
+    MT_XUANZESHOUJIANREN: '选择收件人',
+
+    MT_SOUSUOSHOUJIANREN: '搜索收件人',
+
     MT_YUHUIREN: '与会人',
+
     MT_QINGXUANZEYUHUIREN: '请选择与会人',
+
     MT_HUIYICHUANGJIAN: '会议创建',
+
     MT_GUANBIHUIYI: '关闭会议',
+
     MT_SHIFOUCHUFASHENPI: '是否触发审批',
+
     MT_SHENPILIUCHENG: '审批流程',
+
     MT_SHANGCHUANFUJIAN: '上传附件',
+
     MT_QINGXUANZEWENJIAN: '请选择文件',
+
     MT_XUANZEWENJIAN: '选择文件',
+
     MT_WENJIANDAXIAOXIANZHI: '文件大小限制',
+
     MT_WENJIANDAXIAOZUIDAXIANZHI: '文件大小最大限制',
+
     MT_DAORUYICHANG: '导入异常',
+
     MT_QINGXIUGAIHOUCHONGXINZHIXINGDAORUCAOZUO: '请修改后重新执行导入操作！',
+
     MT_HUIYIXIUGAI: '会议修改',
+
     MT_HUIYIJIYAO: '会议纪要',
+
     MT_BUMEN: '部门',
+
     MT_SHENGCHENG: '生成',
+
     MT_SHANGYIYE: '上一页',
+
     MT_XIAYIYE: '下一页',
+
     MT_QINGSHANGCHUANFUJIAN: '请上传附件',
+
     MT_WENJIANDAXIAOXIANZHIORZHIZHICHIPDFWENJIAN:
       '文件大小最大限制10MB | 只支持pdf文件',
+
     MT_ZILIAOXIAZAI: '资料下载',
+
     MT_ZANWUXIAZAIZILIAO: '暂无下载资料',
+
     MT_XIAZAI: '下载',
+
     MT_XAIZAIMINGCHENG: '下载名称',
+
     MT_SHANGCHUANFUJIANREN: '上传附件人',
+
     MT_SHANGCHUANFUJIANSHIJIAN: '上传附件时间',
+
     MT_HUIYIZHIBOMEIWUMIAOSHUAXIN: '会议直播进程将每5秒自动刷新，请耐心等待。',
+
     MT_ZANWUZHIBOHUIYI: '暂无直播会议',
+
     MT_WODEYITI: '我的议题',
+
     MT_WEIWANCHENG: '未完成',
+
     MT_YIWANCHENG: '已完成',
+
     MT_XINZENGSHOUGONGYITI: '新增手工议题',
+
+    MT_CHAKANSHOUGONGYITI: '查看手工议题',
+
     MT_XIUGAISHOUGONGYITI: '修改手工议题',
+
+    MT_SHOUGONGYITI: '手工议题',
+
+    MT_NINSHANGWUHUIYICHAKANQUANXIAN: '您尚无该类型会议的查看权限',
+
+    MT_ZANWUHUIYI: '暂无会议',
+
+    MT_XINZENG: '新增',
+
+    MT_BAOCUN: '保存',
+
+    MT_BANGONGSHI: '办公室',
+
+    MT_DIANHUA: '电话',
+
+    MT_YOUJIAN: '邮件',
+
+    MT_TIANJIAZILIAO: '添加资料',
+
+    MT_TIANJIAZILIAOLEIXING: '添加资料类型',
+
+    MT_XIUGAIZILIAO: '修改资料',
+
+    MT_XIUGAIZILIAOLEIXING: '修改资料类型',
+
+    MT_ZILIAOLEIXING: '资料类型',
+
+    MT_ZILIAOLEIXINGMINGCHENG: '资料类型名称',
+
+    MT_LEIXINGMINGCHENG: '类型名称',
+
+    MT_ZILIAOBIAOTI: '资料标题',
+
+    MT_TIANJIAFUJIAN: '添加附件',
+
+    MT_SUOSHUHUIYI: '所属会议',
+
+    MT_XIUGAIHUIYILEIXINGXINXI: '修改会议类型信息',
+
+    MT_ZANWUSHUJU: '暂无数据',
+
+    MT_HUIYIJIANJIE: '会议简介',
+
+    MT_XIUGAIFENGMIANTU: '修改封面图',
+
+    MT_HUIYILIANXIREN: '会议联系人',
+
+    MT_HUIYILEIXINGGUANLI: '会议类型管理',
+
+    MT_HUIYIZILIAOGUANLI: '会议资料管理',
+
+    MT_HUIYIZILIAO: '会议资料',
+
+    MT_WEIJINXING: '未进行',
+
+    MT_JINXINGZHONG: '进行中',
+
+    MT_YIJIESHU: '已结束',
+
+    MT_LIANXIRENXINXI: '联系人信息',
+
+    MT_GANGWEI: '岗位',
+
+    MT_YOUXIANG: '邮箱',
+
+    MT_FANHUI: '返回',
+
+    MT_SOUSUO: '搜索',
+
+    MT_CHUANGJIANYUHUIRENFENZU: '创建与会人分组',
+
+    MT_XIUGAIYUHUIRENFENZU: '修改与会人分组',
+
+    MT_ZUMING: '组名',
+
+    MT_CHUANGJIANSHOUJIANREN: '创建收件人',
+
+    MT_TIANJIASHOUJIANREN: '添加收件人',
+
+    MT_XIUGAISHOUJIANREN: '修改收件人',
+
+    MT_SHICHANG: '时长',
+
+    MT_YANJIANGREN: '演讲人',
+
+    MT_YANJIANGRENBUMEN: '演讲人部门',
+
+    MT_SHIJIAN: '时间',
+
+    MT_YITIXINXI: '议题信息',
+
+    MT_CHAKANJIELUN: '查看结论',
+
+    MT_JIELUN: '结论',
+
+    MT_HUIYI: '会议',
+
+    MT_SHIFOUDONGJIE: '是否冻结',
+
+    MT_SHI: '是',
+
+    MT_FOU: '否',
+
+    MT_RENWU: '任务',
+
+    MT_WEIHUZILIAO: '维护资料',
+
+    MT_ZANWU: '暂无',
+
+    MT_DINGDIAN: '定点',
+
+    MT_WEIHUJIELUN: '维护结论',
+
+    MT_XIACIHUIYI: '下次会议',
+
+    MT_DONGJIERSDAN: '冻结RS单',
+
+    MT_QINGSHURURENWU: '请输入任务',
+
+    MT_QUEDING: '确定',
+
+    MT_LIEYINCANGHUOXIANSHI: '列隐藏/显示',
+
+    MT_ZILIAOMINGCHENG: '资料名称',
+
+    MT_ZILIAOSHANGCHUANREN: '资料上传人',
+
+    MT_CHEHUIYITI: '撤回议题',
+
+    MT_JULIHUIYIHAIYOU: '距离会议还有',
+
+    MT_TIAN: '天',
+
+    MT_HUIYIXINXIMIAOSHU: '会议信息描述',
+
+    MT_HUIYIMINGCHENGHOUZHUI: '会议名称后缀',
+
+    MT_SUOSHUFENLEI: '所属分类',
+
+    MT_HUIYIGUANLIYUAN: '会议管理员',
+
+    MT_YITISHICHANG: '议题时长',
+
+    MT_CHUANGJIANHUIYILEIXING: '创建会议类型',
+
+    MT_BIANJIHUIYILEIXING: '编辑会议类型',
+
+    MT_SHANGCHUANFENGMIANTUPIAN: '上传封面图片',
+
+    MT_JIANYISHIYONGBILI: '建议使用16:9比例，图片最大15M',
+
+    MT_SHENGCHENGHUIYIMINGCHENGHOUZHUI: '生成会议名称后缀',
+
+    MT_HUIYISHUXING: '会议属性',
+
+    MT_HUIYIJIELUNPEIZHI: '会议结论配置',
+
+    MT_HUIYISHANGXIAXIANJINE: '会议上下限金额',
+
+    MT_XIAXIAN: '下限',
+
+    MT_SHANGXIAN: '上限',
+
+    MT_GUANLIANGUANXI: '关联关系',
+
+    MT_MORENYITISHICHANG: '默认议题时长',
+
+    MT_BIXUAN: '必选',
+
+    MT_SHIFOUCHUFASHENPILIU: '是否触发审批流',
+
+    MT_SHANGCHUANWENJIANDAXIAOBUNENGCHAOGUO: '上传文件大小不能超过',
+
+    MT_SHANGCHUANSHIBAI: '上传失败',
     APPROVAL: {
       ADD: '新增',
       SAVE: '保存',

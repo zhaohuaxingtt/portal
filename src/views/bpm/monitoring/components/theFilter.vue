@@ -9,6 +9,8 @@
               v-model="form.processDefinitionKeys"
               multiple
               filterable
+              collpase-tags
+              clearable
             >
               <el-option
                 v-for="(item, index) in templates"
@@ -91,7 +93,6 @@ export default {
       }
       const res = await queryModelTemplate(data)
       const list = res?.data?.records || []
-      list.unshift({ name: '', value: '全部' })
       this.templates = list
     }
   }

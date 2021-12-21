@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">{{ $t('会议类型管理') }}</div>
+    <div class="header">{{ $t('MT_HUIYILEIXINGGUANLI') }}</div>
     <searchForm @search="search" />
     <iCard>
       <actionButtons
@@ -25,12 +25,12 @@
           type="index"
           width="68"
           align="center"
-          :label="$t('序号')"
+          :label="$t('MT_XUHAO')"
         ></el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="left"
-          :label="$t('类型名称')"
+          :label="$t('MT_LEIXINGMINGCHENG')"
           ><template slot-scope="scope">
             <span
               :class="'open-link-text cursor'"
@@ -42,7 +42,7 @@
         <el-table-column
           show-overflow-tooltip
           align="left"
-          :label="$t('会议管理员')"
+          :label="$t('MT_HUIYIGUANLIYUAN')"
         >
           <template slot-scope="scope">
             <span>{{ scope.row.userNames }}</span>
@@ -51,7 +51,7 @@
         <el-table-column
           show-overflow-tooltip
           align="left"
-          :label="$t('会议信息描述')"
+          :label="$t('MT_HUIYIXINXIMIAOSHU')"
         >
           <template slot-scope="scope">
             <span>{{ scope.row.meetingInfoDesc }}</span>
@@ -60,7 +60,7 @@
         <el-table-column
           show-overflow-tooltip
           align="left"
-          :label="$t('生成会议名称后缀')"
+          :label="$t('MT_SHENGCHENGHUIYIMINGCHENGHOUZHUI')"
         >
           <template slot-scope="scope">
             <span>{{ scope.row.meetingNameSuffix }}</span>
@@ -69,7 +69,7 @@
         <el-table-column
           show-overflow-tooltip
           align="left"
-          :label="$t('所属分类')"
+          :label="$t('MT_SUOSHUFENLEI')"
         >
           <template slot-scope="scope">
             <span>{{ categoryObj[scope.row.category] }}</span>
@@ -78,7 +78,7 @@
         <el-table-column
           show-overflow-tooltip
           width="163"
-          :label="$t('默认议题时长')"
+          :label="$t('MT_MORENYITISHICHANG')"
           ><template slot-scope="scope">
             <span>{{ scope.row.duration }}</span>
           </template></el-table-column
@@ -86,9 +86,9 @@
         <el-table-column
           show-overflow-tooltip
           width="163"
-          :label="$t('是否触发审批流')"
+          :label="$t('MT_SHIFOUCHUFASHENPILIU')"
           ><template slot-scope="scope">
-            <span>{{ scope.row.isTriggerApproval ? '是' : '否' }}</span>
+            <span>{{ scope.row.isTriggerApproval ? $t('是') : $t('否') }}</span>
           </template></el-table-column
         >
       </iTableML>
@@ -100,8 +100,8 @@
         :current-page="page.currPage"
         :page-size="page.pageSize"
         layout="prev, pager, next, jumper"
-        :prev-text="$t('上一页')"
-        :next-text="$t('下一页')"
+        :prev-text="$t('MT_SHANGYIYE')"
+        :next-text="$t('MT_XIAYIYE')"
         :total="page.totalCount"
       />
     </iCard>

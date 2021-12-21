@@ -16,8 +16,8 @@
       :layout="page.layout"
       :total="page.totalCount"
       background
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
     />
     <addOrEditGroupDialog
       :openDialog="openDialog"
@@ -194,18 +194,18 @@ export default {
   },
   methods: {
     deleteGroup(e) {
-      this.$confirm('请确认是否要删除该群组？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('请确认是否要删除该群组？'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         deleteGroup({ id: e.id })
           .then(() => {
-            this.$message.success('删除成功!')
+            this.$message.success(this.$t('删除成功!'))
             this.query()
           })
-          .catch((err) => {
-            this.$message.error('删除失败!')
+          .catch(() => {
+            this.$message.error(this.$t('删除失败!'))
           })
       })
     },
@@ -233,7 +233,7 @@ export default {
           this.page.pages = pages
           this.tableData = data
         })
-        .catch((err) => {
+        .catch(() => {
           this.tableLoading = false
         })
     },

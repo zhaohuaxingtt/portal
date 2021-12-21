@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="editOrAdd === 'add' ? $t('添加资料') : $t('修改资料')"
+    :title="editOrAdd === 'add' ? $t('MT_TIANJIAZILIAO') : $t('MT_XIUGAIZILIAO')"
     :visible.sync="openDialog"
     width="24rem"
     :close-on-click-modal="false"
@@ -14,8 +14,8 @@
         :hideRequiredAsterisk="true"
       >
         <iFormItem label="资料类型" prop="type">
-          <iLabel :label="$t('资料类型')" slot="label" required></iLabel>
-          <iSelect v-model="ruleForm.type" :placeholder="$t('请选择')">
+          <iLabel :label="$t('MT_ZILIAOLEIXING')" slot="label" required></iLabel>
+          <iSelect v-model="ruleForm.type" :placeholder="$t('MT_QINGXUANZE')">
             <el-option
               v-for="(item, index) in dataType"
               :key="index"
@@ -27,7 +27,7 @@
         </iFormItem>
 
         <iFormItem label="资料标题" prop="name">
-          <iLabel :label="$t('资料标题')" slot="label" required></iLabel>
+          <iLabel :label="$t('MT_ZILIAOBIAOTI')" slot="label" required></iLabel>
           <div class="form-row">
             <iInput v-model="ruleForm.name"></iInput>
           </div>
@@ -35,7 +35,7 @@
 
         <div class="form-upload">
           <iFormItem label="添加附件" ref="image" prop="attachmentId">
-            <iLabel :label="$t('添加附件')" slot="label" required></iLabel>
+            <iLabel :label="$t('MT_TIANJIAFUJIAN')" slot="label" required></iLabel>
             <!-- <el-upload
               action="1"
               :on-success="handleFileSuccess"
@@ -75,7 +75,7 @@
                       :disabled="uploadLoading"
                       :loading="uploadLoading"
                     >
-                      {{ $t('请选择文件')
+                      {{ $t('MT_QINGXUANZEWENJIAN')
                       }}<span class="upload-text"
                         ><img :src="uploadIcon"
                       /></span>
@@ -108,10 +108,10 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="close" plain class="cancel">{{
-              $t('取消')
+              $t('MT_QUXIAO')
             }}</iButton>
             <iButton @click="handleSubmit('ruleForm')" plain>{{
-              $t('保存')
+              $t('MT_BAOCUN')
             }}</iButton>
           </el-form-item>
         </div>
@@ -267,7 +267,7 @@ export default {
         filename: item.name,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('下载失败'))
           }
         }
       })
@@ -299,7 +299,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.close()
-                  this.$message.success('保存成功！')
+                  this.$message.success(this.$t('保存成功！'))
                   this.$emit('flushTable')
                 }
               })
@@ -318,7 +318,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.close()
-                  this.$message.success('创建成功！')
+                  this.$message.success(this.$t('创建成功！'))
                   this.$emit('flushTable')
                 }
               })
@@ -332,12 +332,12 @@ export default {
     beforeFileUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error('文件大小最大限制10MB！')
+        this.$message.error(this.$t('文件大小最大限制10MB！'))
       }
       return isLt10M
     },
     handleExceed() {
-      this.$message.error('仅可添加一个文件！')
+      this.$message.error(this.$t('仅可添加一个文件！'))
     }
   }
 }

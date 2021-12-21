@@ -40,6 +40,7 @@
           value-format="yyyy-MM-dd HH:mm:ss"
           style="width: 100%"
           :disabled="!startTimeEditable"
+          :picker-options="dateOptions"
         />
       </iFormItem>
       <iFormItem :label="$t('结束时间')" prop="endTime">
@@ -50,6 +51,7 @@
           value-format="yyyy-MM-dd HH:mm:ss"
           style="width: 100%"
           :disabled="!endTimeEditable"
+          :picker-options="dateOptions"
         />
       </iFormItem>
       <iFormItem :label="$t('地址')" prop="address">
@@ -73,6 +75,7 @@
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
             style="width: 100%"
+            :picker-options="dateOptions"
           />
         </div>
       </iFormItem>
@@ -192,7 +195,15 @@ export default {
         endTime: [{ validator: validateEndTime, trigger: 'blur' }]
       },
       loading: false,
-      parameterMap: arrayToMap(PARAMETER_OPTIONS, 'label', 'value')
+      parameterMap: arrayToMap(PARAMETER_OPTIONS, 'label', 'value'),
+      dateOptions: {
+        disabledDate(time) {
+          return (
+            moment(time).format('YYYY-MM-DD') <
+            moment(new Date()).format('YYYY-MM-DD')
+          )
+        }
+      }
     }
   },
   created() {

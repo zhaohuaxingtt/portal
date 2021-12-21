@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">{{$t('会议展示 Meeting Live')}}</div>
+    <div class="header">{{$t('MT_HUIYIZHANSHI')}} Meeting Live</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <p class="info-line-1">
@@ -231,8 +231,8 @@
         background
         :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
-        :prev-text="$t('上一页')"
-        :next-text="$t('下一页')"
+        :prev-text="$t('MT_SHANGYIYE')"
+        :next-text="$t('MT_XIAYIYE')"
         :layout="page.layout"
         :current-page="page.currPage"
         :total="page.total"

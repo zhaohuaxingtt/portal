@@ -3,10 +3,10 @@
   <iDialog
     :title="
       editOrAdd === 'add'
-        ? $t('新增议题')
+        ? $t('MT_XINZENGYITI')
         : editOrAdd === 'look'
-        ? $t('查看议题')
-        : $t('修改议题')
+        ? $t('MT_CHAKANYITI')
+        : $t('MT_XIUGAIYITI')
     "
     :visible.sync="dialogStatusManageObj.openAddTopicDialog"
     width="58.25rem"
@@ -349,7 +349,7 @@
                     :loading="uploadLoading"
                     disabled
                   >
-                    {{$t('请选择文件')}}<span class="upload-text"
+                    {{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text"
                       ><img :src="uploadIcon"
                     /></span>
                   </iButton>
@@ -373,7 +373,7 @@
                     :loading="uploadLoading"
                     :disabled="ruleForm.state === '02'"
                   >
-                    {{$t('请选择文件')}}<span class="upload-text"
+                    {{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text"
                       ><img :src="uploadIcon"
                     /></span>
                   </iButton>
@@ -382,7 +382,7 @@
                 </div> -->
                 </el-upload>
               </iFormItem>
-              <div class="el-upload-text">{{$t('文件大小最大限制30M')}}</div>
+              <div class="el-upload-text">{{$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}}30M</div>
             </div>
             <ul class="file-list">
               <li v-for="(item, index) of attachments" :key="index">
@@ -506,10 +506,10 @@ export default {
         (value === '' || value.length === 0) &&
         this.ruleForm.supporterNosys === ''
       ) {
-        callback(new Error('系统用户和非系统用户不能同时为空'))
+        callback(new Error(this.$t('系统用户和非系统用户不能同时为空')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('最大不能超过255字符')))
         }
         callback()
       }
@@ -519,10 +519,10 @@ export default {
         !value.trim() &&
         (this.ruleForm.supporter === '' || this.ruleForm.supporter.length === 0)
       ) {
-        callback(new Error('系统用户和非系统用户不能同时为空'))
+        callback(new Error(this.$t('系统用户和非系统用户不能同时为空')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('最大不能超过255字符')))
         }
         callback()
       }
@@ -532,10 +532,10 @@ export default {
         (value === '' || value.length === 0) &&
         this.ruleForm.presenterNosys === ''
       ) {
-        callback(new Error('系统用户和非系统用户不能同时为空'))
+        callback(new Error(this.$t('系统用户和非系统用户不能同时为空')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('最大不能超过255字符')))
         }
         callback()
       }
@@ -545,20 +545,20 @@ export default {
         !value.trim() &&
         (this.ruleForm.presenter === '' || this.ruleForm.presenter.length === 0)
       ) {
-        callback(new Error('系统用户和非系统用户不能同时为空'))
+        callback(new Error(this.$t('系统用户和非系统用户不能同时为空')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('最大不能超过255字符')))
         }
         callback()
       }
     }
     const validateTopic = (rule, value, callback) => {
       if (!value.trim()) {
-        callback(new Error('必填'))
+        callback(new Error(this.$t('必填')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('最大不能超过255字符')))
         }
         callback()
       }
@@ -875,7 +875,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('下载失败'))
           }
         }
       })
@@ -1034,7 +1034,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt30M = file.size / 1024 / 1024 < 30
       if (!isLt30M) {
-        this.$message.error('文件大小最大限制30M!')
+        this.$message.error(this.$t('文件大小最大限制30M!'))
       }
       return isLt30M
     },
@@ -1112,7 +1112,7 @@ export default {
             updateThemen(formData)
               .then((data) => {
                 if (data) {
-                  iMessage.success('修改成功')
+                  iMessage.success(this.$t('修改成功'))
                 } else {
                   iMessage.error('error')
                 }
@@ -1150,7 +1150,7 @@ export default {
             saveThemen(formData)
               .then((data) => {
                 if (data) {
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('保存成功'))
                 } else {
                   iMessage.error('error')
                 }

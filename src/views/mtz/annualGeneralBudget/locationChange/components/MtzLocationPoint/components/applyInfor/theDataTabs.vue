@@ -542,14 +542,14 @@
         </el-table-column>
       </el-table>
     </el-form>
-    <iPagination @size-change="handleSizeChange($event, getTableList)"
+    <!-- <iPagination @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
                  :page-sizes="page.pageSizes"
                  :page-size="page.pageSize"
                  :current-page="page.currPage"
                  :total="page.totalCount"
                  :layout="page.layout">
-    </iPagination>
+    </iPagination> -->
 
     <iDialog :title="language('YINYONGRFQZHONGLINGJIAN', '引用RFQ中零件')"
              :visible.sync="rfqShowType"

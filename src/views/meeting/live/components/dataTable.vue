@@ -169,7 +169,7 @@ export default {
             callback: (e) => {
               if (!e) {
                 reject(e);
-                iMessage.error("下载失败");
+                iMessage.error(this.$t("下载失败"));
               }
               resolve(e);
             },

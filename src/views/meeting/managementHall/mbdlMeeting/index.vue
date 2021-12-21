@@ -1,6 +1,6 @@
 <!--
  * @Author: HS   MBDL会议
- * @FilePath: \front-portal\front-portal\src\views\meeting\managementHall\mbdlMeeting\index.vue
+ * @FilePath: \front-portal\src\views\meeting\managementHall\mbdlMeeting\index.vue
 -->
 <template>
   <iPage>
@@ -319,7 +319,8 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="状态" width="110" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.state }}</span>
+              <span class="open-link-text">{{ statusObj[scope.row.state] }}</span>
+              
             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
@@ -579,6 +580,7 @@
       :meetingInfo="meetingInfo"
       :selectedTableData="selectedTableData"
     ></confirmSplit>
+    <!-- 会议改期 -->
     <updateDate
       @closeDialog="closeDialog"
       :dialogStatusManageObj="dialogStatusManageObj"
@@ -733,6 +735,11 @@ export default {
   },
   data() {
     return {
+      statusObj: {
+        '01': '未进行',
+        '02': '进行中',
+        '03': '已结束'
+      },
       curEndTime: '',
       openError: false,
       errorList: [],
@@ -1245,7 +1252,8 @@ export default {
         .then((res) => {
           console.log(res);
           _this.meetingInfo = res
-          // console.log(res);
+          console.log(res);
+          //拿到状态state
           _this.goState(res.state)
           _this.resThemeData = [...res.themens]
           _this.handlePage(res.themens)
@@ -1658,6 +1666,7 @@ export default {
       })
     },
     updateDate() {
+      console.log(this.selectedTableData);//当前行数据
       // alert("updateDate");
       if (this.selectedTableData[0] && this.selectedTableData[0].isBreak) {
         iMessage.warn('休息议题不能进行改期')
@@ -1824,6 +1833,7 @@ export default {
       })
       window.open(routeUrl.href, '_blank')
     },
+    //展示跳转
     displayShow() {
       // alert("展示");
       // 展示
@@ -1833,12 +1843,20 @@ export default {
       //     id: this.meetingInfo.id,
       //   },
       // });
+      // let routeUrl = this.$router.resolve({
+      //   // path: this.meetingInfo.meetingTypeName == 'Pre CSC' || this.meetingInfo.meetingTypeName == 'CSC'
+      //   path:
+      //     this.meetingInfo.isPreCSC || this.meetingInfo.isCSC
+      //       ? '/meeting/meetingShow' //新页面
+      //       : '/meeting/meeting-show', //旧页面
+      //   query: {
+      //     id: this.meetingInfo.id
+      //   }
+      // })
+      // /meeting/mbdlMeetingShow
       let routeUrl = this.$router.resolve({
         // path: this.meetingInfo.meetingTypeName == 'Pre CSC' || this.meetingInfo.meetingTypeName == 'CSC'
-        path:
-          this.meetingInfo.isPreCSC || this.meetingInfo.isCSC
-            ? '/meeting/meetingShow' //新页面
-            : '/meeting/meeting-show', //旧页面
+        path:'/meeting/mbdlMeetingShow',
         query: {
           id: this.meetingInfo.id
         }

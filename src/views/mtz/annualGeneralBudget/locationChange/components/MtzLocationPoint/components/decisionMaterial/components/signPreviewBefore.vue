@@ -105,14 +105,9 @@
             <div class="applayDateContent"
                 v-for="(item, index) in applayDateData"
                 :key="index">
-              <icon v-if="item.taskStatus==='同意'"
-                    class="margin-left5 applayDateIcon"
-                    symbol
-                    name="iconrs-wancheng"></icon>
-              <icon v-else
-                    class="margin-left5 applayDateIcon"
-                    symbol
-                    name="iconrs-quxiao"></icon>
+              <img class="margin-left5 applayDateIcon"
+               :src="item.taskStatus==='同意'?require('@/assets/images/icon/yes.png'):require('@/assets/images/icon/no.png')"
+               :fit="fit" />
               <div class="applayDateContentItem">
                 <span>部门：</span>
                 <span class="applayDateDeptTitle">{{item.deptFullCode}}</span>
@@ -384,7 +379,8 @@ $tabsInforHeight: 35px;
 }
 .applayDateIcon {
   margin-top: 10px;
-  font-size: 30px;
+  width:33px;
+  height:33px;
 }
 .applayDateContentItem {
   width: 100%;
@@ -477,7 +473,7 @@ $tabsInforHeight: 35px;
   margin:0 1.5rem 0 0;
 }
 ::v-deep .cardHeader{
-  padding:1.875rem 1.5625rem 0 1.5625rem!important;
+  padding:1.875rem 1.5625rem 0 2.4rem!important;
 }
 .infor_futitle{
   padding:0.5rem 0;

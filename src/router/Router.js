@@ -47,6 +47,7 @@ import RouterOfflineDownload from './RouterOfflineDownload'
 
 // 嵌入表单的组件路由
 import RouterView from './RouterView'
+import RouterElectronicSignature from '@/router/RouterElectronicSignature'
 
 export default {
   routes: [
@@ -198,7 +199,8 @@ export default {
         ...RouterSurvey,
         ...RouterColorParts,
         ...RouterApplications,
-        ...RouterOfflineDownload
+        ...RouterOfflineDownload,
+        ...RouterElectronicSignature
       ]
     },
     ...RouterView,

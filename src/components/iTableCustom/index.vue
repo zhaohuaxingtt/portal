@@ -280,6 +280,7 @@ export default {
       type: Boolean,
       default: false
     },
+    // 使用自定义选择框选项
     customSelectionOption: {
       type: Object,
       default: function () {
@@ -307,6 +308,7 @@ export default {
       type: Boolean,
       defalut: false
     },
+    // 默认选择的行数据
     defaultSelectedRows: {
       type: Array
     },
@@ -315,6 +317,7 @@ export default {
       type: Boolean,
       defalut: false
     },
+    // 列合并方法
     spanMethod: {
       type: Function
     },
@@ -322,23 +325,27 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否是导航
     isNavMenu: {
       type: Boolean,
       default: false
     },
+    // 提示框宽度
     tooltipWidth: {
       type: String,
       default: '100%'
     },
+    // 运行环境，如dev,sit,vmsit,uat等，一般传process.env.NODE_ENV
     env: {
-      // 运行环境，如dev,sit,vmsit,uat等，一般传process.env.NODE_ENV
       type: String,
       default: ''
     },
+    // 是否支持虚拟列表，大数据量使用
     virtualList: {
       type: Boolean,
       default: false
     },
+    // 显示边框
     border: {
       type: Boolean,
       default: true
@@ -935,5 +942,8 @@ export default {
   ::v-deep .el-table--border td {
     border-right: 0 !important;
   }
+}
+::v-deep .cell{
+  white-space: pre !important;
 }
 </style>

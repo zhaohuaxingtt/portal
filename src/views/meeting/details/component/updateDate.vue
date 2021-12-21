@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="$t('会议改期')"
+    :title="$t('MT_HUIYIGAIQI')"
     :visible.sync="dialogStatusManageObj.openUpdateDateDialog"
     width="67.5rem"
     :close-on-click-modal="false"
@@ -105,9 +105,11 @@ export default {
       }
       this.loading = true
       rescheduleThemen(data)
-        .then(() => {
+        .then((res) => {
+          if (res.code === 200) {
+            iMessage.success(this.$t('改期成功'))
+          }
           this.loading = false
-          iMessage.success('改期成功')
           this.$emit('flushTable')
           this.close()
         })
@@ -136,7 +138,8 @@ export default {
         pageSize: 10,
         states: ['02', '03'],
         meetingId: this.meetingInfo.id,
-        themenId: this.selectedTableData[0].id
+        themenId: this.selectedTableData[0].id,
+        meetingTypeNames: ['COMMON']
       }
       this.queryMettingList(param)
     },

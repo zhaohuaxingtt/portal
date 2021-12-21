@@ -16,8 +16,8 @@
       :layout="page.layout"
       :total="page.totalCount"
       background
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
     />
     <addOrEditReceiverDialog
       :openDialog="openDialog"
@@ -225,14 +225,14 @@ export default {
       this.openReceiverDialog = true
     },
     deleteReceiver(e) {
-      this.$confirm('请确认是否要删除该群组?', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('请确认是否要删除该群组?'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         deleteReceiver({ id: e.id }).then((res) => {
           if (res.code === 200) {
-            this.$message.success('删除成功!')
+            this.$message.success(this.$t('删除成功!'))
             this.query()
           }
         })
@@ -265,7 +265,7 @@ export default {
           this.tableData = data
           console.log(data)
         })
-        .catch((err) => {
+        .catch(() => {
           this.tableLoading = false
         })
     },

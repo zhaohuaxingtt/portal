@@ -54,7 +54,7 @@
                     <div class="version" :title="item.title" v-if="Number(item.type) === 5"> — {{ item.title }}</div>
                     <icon class="icon label1" v-if="Number(item.type) === 2" symbol
                           name="iconlingjianlvlibiaoqian"></icon>
-                    <icon class="icon label2" v-if="item.label" symbol name="iconlingjianlvliAekoyishishibiaoji"></icon>
+                    <icon class="icon label2" v-if="item.label && item.type!=2" symbol name="iconlingjianlvliAekoyishishibiaoji"></icon>
                 </div>
             </div>
             <div class="right" v-loading="rightLoading">
@@ -447,6 +447,16 @@
           return
         }
         this.checkedIndex3 = index
+
+        this.bookmarkNodes.map(items => {
+          if(items.children && items.children.length) {
+            items.children.map(it => {
+              if(item.id == it.id) {
+                items.index = index
+              }
+            })
+          }
+        })
         this.currentItem = item
         this.currentType = item.type
         if (Number(item.type) === 10 || Number(item.type) === 9) {
@@ -466,12 +476,14 @@
         })
       },
       getPartsRecordNodes() {
+        let sort = (a, b) => { return new Date(a.date).getTime() -new Date(b.date).getTime() }
         this.mainLoading = true
         getPartsRecordNodes({partsNum: this.$route.query.partsNum}).then(res => {
           const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
           if (Number(res.code) === 200) {
             this.bookmarkNodes = res.data.bookmarkNodes
             // 初始选中第一条
+            this.bookmarkNodes.sort(sort)
             if (this.bookmarkNodes && this.bookmarkNodes[0]) {
               if (this.bookmarkNodes[0].children && this.bookmarkNodes[0].children[0]) {
                 this.getRecordDetail(this.bookmarkNodes[0].children[0], 0)
@@ -527,7 +539,6 @@
         this.bookmarkNodes = [...this.bookmarkNodes]
       },
       toUrl(item,typeName) {
-        console.log(item,'')
         let {type,id,title,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,accessoriesRsNum,rsNum,businessType,aekoCode} = item
         let path = ''
         if(type==1) path = ''                        // 会议

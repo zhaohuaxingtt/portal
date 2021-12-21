@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="editOrAdd === 'add' ? $t('创建与会人分组') : $t('修改与会人分组')"
+    :title="editOrAdd === 'add' ? $t('MT_CHUANGJIANYUHUIRENFENZU') : $t('MT_XIUGAIYUHUIRENFENZU')"
     :visible.sync="openDialog"
     width="39rem"
     :close-on-click-modal="false"
@@ -14,10 +14,10 @@
         :hideRequiredAsterisk="true"
       >
         <iFormItem label="会议类型" class="name" prop="meetingType">
-          <iLabel :label="$t('会议类型')" slot="label" required></iLabel>
+          <iLabel :label="$t('MT_HUIYILEIXING')" slot="label" required></iLabel>
           <iSelect
             v-model="ruleForm.meetingType"
-     :placeholder="$t('请选择')"
+     :placeholder="$t('MT_QINGXUANZE')"
             value-key="id"
           >
             <el-option
@@ -30,14 +30,14 @@
           </iSelect>
         </iFormItem>
         <iFormItem label="组名" class="name" prop="groupName">
-          <iLabel :label="$t('组名')" slot="label" required></iLabel>
+          <iLabel :label="$t('MT_ZUMING')" slot="label" required></iLabel>
           <div class="form-row">
             <iInput v-model="ruleForm.groupName"></iInput>
           </div>
         </iFormItem>
 
         <iFormItem label="与会人" class="attendee" prop="attendeeName">
-          <iLabel :label="$t('与会人')" slot="label" required></iLabel>
+          <iLabel :label="$t('MT_YUHUIREN')" slot="label" required></iLabel>
           <div class="form-row">
             <iInput
               type="textarea"
@@ -50,10 +50,10 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="close" plain class="cancel">{{
-              $t("关闭")
+              $t("MT_GUANBI")
             }}</iButton>
             <iButton @click="handleSubmit('ruleForm')" plain>{{
-              $t("保存")
+              $t("MT_BAOCUN")
             }}</iButton>
           </el-form-item>
         </div>
@@ -150,7 +150,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.close();
-                  this.$message.success("保存成功！");
+                  this.$message.success(this.$t("保存成功！"));
                   this.$emit("flushTable");
                 }
               })
@@ -162,7 +162,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.close();
-                  this.$message.success("创建成功！");
+                  this.$message.success(this.$t("创建成功！"));
                   this.$emit("flushTable");
                 } else {
                   // this.$message.error(data.message);

@@ -144,8 +144,12 @@ export const themenConclusion = {
 };
 export const themenConclusionArrObj = [
   {
-    conclusionCsc: "01",
-    conclusionName: "待定",
+    conclusionCsc: "05",
+    conclusionName: "下次Pre CSC",
+  },
+  {
+    conclusionCsc: "06",
+    conclusionName: "转CSC",
   },
   {
     conclusionCsc: "02",
@@ -160,12 +164,8 @@ export const themenConclusionArrObj = [
     conclusionName: "转TER/TOP-TER",
   },
   {
-    conclusionCsc: "05",
-    conclusionName: "下次Pre CSC",
-  },
-  {
-    conclusionCsc: "06",
-    conclusionName: "转CSC",
+    conclusionCsc: "01",
+    conclusionName: "待定",
   },
   {
     conclusionCsc: "07",

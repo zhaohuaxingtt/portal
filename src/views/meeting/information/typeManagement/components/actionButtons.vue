@@ -1,6 +1,6 @@
 <template>
   <div class="operation-btn">
-    <iButton @click="$emit('add')">{{ $t("添加资料类型") }}</iButton>
+    <iButton @click="$emit('add')">{{ $t("MT_TIANJIAZILIAOLEIXING") }}</iButton>
   </div>
 </template>
 

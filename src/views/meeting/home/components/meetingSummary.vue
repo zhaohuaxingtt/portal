@@ -189,10 +189,10 @@ export default {
             .then((res) => {
               if (res) {
                 this.clearDiolog("submit");
-                iMessage.success("保存成功");
+                iMessage.success(this.$t('保存成功'));
                 this.$emit("refreshTable");
               } else {
-                iMessage.success("保存失败");
+                iMessage.success(this.$t("保存失败"));
                 this.clearDiolog("submit");
               }
             })

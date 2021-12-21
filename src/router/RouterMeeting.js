@@ -107,7 +107,8 @@ export default [
         path: '/meeting/participants',
         name: 'meetingParticipants',
         meta: {
-          title: '参会人列表'
+          title: '参会人列表',
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MEETING_HOME']
         },
         component: () => import(`@/views/meeting/participants/index.vue`)
       },
@@ -115,7 +116,8 @@ export default [
         path: '/meeting/information',
         name: 'meetingHome',
         meta: {
-          title: '会议信息'
+          title: '会议信息',
+          activeMenu: ['RISE_ADMIN', 'ADMIN_MEETING_HOME']
         },
         component: () => import(`@/views/meeting/information/index.vue`)
       }
@@ -126,7 +128,8 @@ export default [
     path: '/meeting/hall',
     name: 'meetingHall',
     meta: {
-      title: '会议大厅'
+      title: '会议大厅',
+      activeMenu:['RISE_COMMON_FUNCTION','CF_MEETING']
     },
     component: () => import(`@/views/meeting/hall/index.vue`),
     beforeEnter: (to, from, next) => {
@@ -289,7 +292,8 @@ export default [
         path: '/meeting/special-near-meeting',
         name: 'nearMeeting',
         meta: {
-          title: '近期会议'
+          title: '近期会议',
+          activeMenu:['RISE_COMMON_FUNCTION','CF_MEETING']
         },
         component: () => import(`@/views/meeting/specialNearMeeting/index.vue`)
       },
@@ -297,7 +301,8 @@ export default [
         path: '/meeting/special-near-meeting/specialDetail',
         name: 'nearMeetingDetail',
         meta: {
-          title: '近期会议详情'
+          title: '近期会议详情',
+          activeMenu:['RISE_COMMON_FUNCTION','CF_MEETING']
         },
         component: () =>
           import(`@/views/meeting/specialNearMeeting/detail/index.vue`)
@@ -306,7 +311,8 @@ export default [
         path: '/meeting/specialLive',
         name: 'liveMeeting',
         meta: {
-          title: '直播会议'
+          title: '直播会议',
+          activeMenu:['RISE_COMMON_FUNCTION','CF_MEETING']
         },
         component: () => import(`@/views/meeting/specialLive/index.vue`)
       }
@@ -352,6 +358,15 @@ export default [
     },
     component: () => import(`@/views/meeting/show/index.vue`)
   },
+  //mbdl展示 如果有误改麻请联系gp
+  {
+    path: '/meeting/mbdlMeetingShow',
+    name: 'meetingShow',
+    meta: {
+      title: '会议展示'
+    },
+    component: () => import(`@/views/meeting/managementHall/mbdlMeetingShow/index.vue`)
+  },
   
   
-]
+] 

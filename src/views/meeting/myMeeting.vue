@@ -36,7 +36,7 @@
 
 <script>
 import { iNavMvp, iPage } from 'rise'
-import { tabRouterList, meetingButtonList , meetingRightList} from './data'
+import { tabRouterList, meetingButtonList} from './data'
 
 export default {
   components: {
