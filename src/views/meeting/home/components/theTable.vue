@@ -1126,14 +1126,14 @@ export default {
       downloadStaticFile({
         noFileUd: true,
         url: '/meetingApi/meetingService/downloadThemenImportTemplate',
-        filename: '议题模版',
+        filename: this.$t('MT_YITIMUBAN'),
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
         // type: 'application/vnd.ms-excel',
         callback: (e) => {
           if (e) {
-            iMessage.success('下载模版成功')
+            iMessage.success(this.$t('MT_XIAZAIMUBANCHENGGONG'))
           } else {
-            iMessage.error('下载模版失败')
+            iMessage.error(this.$t('MT_XIAZAIMUBANSHIBAI'))
           }
         }
       })
