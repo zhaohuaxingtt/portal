@@ -367,7 +367,7 @@ export default {
       // 判断是否满足终止条件
       let result = this.currentSelect.every(
         (item) =>
-          // item.status == '草稿' ||
+          item.status == '报告驳回' ||
           item.status == '信息收集' ||
           item.status == '财务经营与分析' ||
           item.status == '访谈与调查' ||
@@ -382,7 +382,7 @@ export default {
           this.endDisabled = true
           this.endRating = true
           let statusList = [
-            // '草稿',
+            '报告驳回',
             '信息收集',
             '财务经营与分析',
             '访谈与调查',
