@@ -448,6 +448,17 @@
         }
         this.checkedIndex3 = index
 
+        this.bookmarkNodes.map(items => {
+          if(items.children && items.children.length) {
+            items.children.map(it => {
+              if(item.id == it.id) {
+                items.index = index
+                console.log(index,'inde')
+              }
+            })
+          }
+        })
+        console.log(this.checkedIndex3,'checkedIndex3',this.bookmarkNodes,item)
         this.currentItem = item
         this.currentType = item.type
         if (Number(item.type) === 10 || Number(item.type) === 9) {
@@ -515,6 +526,7 @@
         }
       },
       clickItemB(a, b, index) {
+        console.log(a,b,index)
         if (a.index === index) {
           return
         }
