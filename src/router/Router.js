@@ -44,6 +44,7 @@ import ApproveDetails from '@/views/generalPage/approveDetails/preview'
 import MaintenanceSupplier from '../views/supplierManagement/yuqingjiance/maintenanceSupplier'
 
 import RouterOfflineDownload from './RouterOfflineDownload'
+import RouterAdminProCSMgm from './RouterAdminProCSMgm'
 
 // 嵌入表单的组件路由
 import RouterView from './RouterView'
@@ -198,7 +199,8 @@ export default {
         ...RouterSurvey,
         ...RouterColorParts,
         ...RouterApplications,
-        ...RouterOfflineDownload
+        ...RouterOfflineDownload,
+        ...RouterAdminProCSMgm
       ]
     },
     ...RouterView,

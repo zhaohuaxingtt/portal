@@ -139,8 +139,14 @@ export default {
       this.contentShowFlag = !va
     },
     handleSelect (list) {
-      console.log(list, 'llll')
       let activeMenu = this.$route.meta?.activeMenu || []
+      if (list.name === 'adminProCS') {
+        console.log(list, "234565")
+        this.$router.push({
+          name: list.key
+        })
+        return
+      }
       this.$router.push({ name: list.key, params: { currentMenu: activeMenu } })
     },
     getMenus () {
