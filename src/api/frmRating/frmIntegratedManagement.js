@@ -7,7 +7,7 @@ import axios from '@/utils/axios'
 import axiosDownload from '@/utils/axios.download'
 
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
-const requstDownload = axiosDownload(process.env.VUE_APP_SUPPLIER)
+const requstDownload = axiosDownload(process.env.VUE_APP_SUPPLIER + '/web')
 
 //FRM综合分页查询
 export function getFrmList(params) {
