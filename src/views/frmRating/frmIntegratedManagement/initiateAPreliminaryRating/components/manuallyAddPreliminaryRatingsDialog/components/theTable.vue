@@ -50,7 +50,7 @@ import { iPagination, iButton, iMessage } from 'rise'
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
-import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
+import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 import { tableTitle } from '../../data'
 import {
   importConfirmedListExcel,
@@ -172,6 +172,9 @@ export default {
         this.exportButtonLoading = false
       }
     }
+  },
+  destroyed () {
+    NewMessageBoxClose();
   }
 }
 </script>
