@@ -453,11 +453,11 @@ export default {
     // 提交清单审批
     openEndRating () {
       if (this.isSelect()) return
-      let result = this.currentSelect.every((item) => item.status == '草稿')
+      let result = this.currentSelect.every((item) => item.status == '草稿' || item.status == '清单审批驳回')
       if (result) {
         this.endDisabled = false
         this.endRating = true
-        let statusList = ['草稿']
+        let statusList = ['草稿', '清单审批驳回']
         this.$refs.endRating.getTableList(this.getIds(), statusList)
       } else {
         iMessage.error(this.$t('SPR_FRM_DEP_CHECKSPSTATUS'))

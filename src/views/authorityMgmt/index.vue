@@ -46,9 +46,10 @@
                   :placeholder="$t('staffManagement.SELECT_PLACEHOLDER')"
                   filterable
                   v-model="formData.deptId"
+                  :filter-method="orgFilter"
                 >
                   <el-option
-                    v-for="item in organizationMenu"
+                    v-for="item in orgOptions"
                     :key="item.id"
                     :label="item.nameZh"
                     :value="item.id"
@@ -187,7 +188,8 @@ export default {
         }
       ],
       tableLoading: false,
-      exportLoading: false
+      exportLoading: false,
+      orgOptions: []
     }
   },
   created() {
@@ -201,12 +203,29 @@ export default {
         },
         ...res.data
       ]
+      this.orgOptions = this.organizationMenu.slice(0, 200)
     })
   },
   mounted() {
     // this.tableHeight=document.body.clientHeight-430
   },
   methods: {
+    orgFilter(query = '') {
+      if (!query) {
+        return (this.orgOptions = this.organizationMenu.slice(0, 100))
+      }
+      const filterLists = this.organizationMenu.filter((e) => {
+        const nameZh = e.nameZh || ''
+        /* const nameEn = e.nameEn || ''
+        const code = e.fullCode || '' */
+        const q = query.toLowerCase()
+        return nameZh.toLowerCase().includes(q)
+      })
+      if (filterLists.length > 100) {
+        this.orgOptions = filterLists.slice(0, 200)
+      }
+      this.orgOptions = filterLists
+    },
     sure() {
       this.page.currPage = 1
       this.getList()
