@@ -7,7 +7,7 @@
  * @FilePath: \front-portal\src\views\mainData\layout\index.vue
 -->
 <template>
-  <iPage style="padding-top: 0px;">
+  <iPage style="padding-top: 0px">
     <div class="main-data">
       <div class="main-data-body margin-top20">
         <iCard class="main-data-side-menu">
@@ -62,6 +62,7 @@ export default {
   },
   methods: {
     handleClickMenu(row) {
+      console.log('handleClickMenu', row)
       const { fullPath } = this.$route
       if (row.isLeaf && fullPath !== row.url) {
         this.$router.push(row.url)
