@@ -220,7 +220,7 @@ export default {
       this.selectedData = val
     },
     edit() {
-      this.isRead = true
+      this.isRead = false
       this.id = this.selectedData[0].id
       this.dialogFormVisible = true
     },
