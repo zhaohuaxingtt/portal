@@ -41,6 +41,7 @@
                 :total="page.totalCount"
                 />
         </iCard>
+        <processDetail></processDetail>
 
         <addProcess :show.sync="dialog"></addProcess>
     </iPage>
@@ -52,6 +53,7 @@ import Search from '../components/search.vue';
 import { pageMixins } from '@/utils/pageMixins'
 import addProcess from './addProcess.vue';
 import tableCol from './table';
+import processDetail from "./processDetail/index.vue";
 export default {
     mixins:[pageMixins],
     components: {
@@ -60,7 +62,8 @@ export default {
         iCard,
         iPagination,
         iButton,
-        addProcess
+        addProcess,
+        processDetail
     },
     data() {
         return {
@@ -70,7 +73,6 @@ export default {
                 {id:1, state:false,send:true},
                 {id:2, state:false,send:true},
                 ],
-            tableSetting:tableCol,
             selectList:[],
             dialog:false,
             disabled:false
