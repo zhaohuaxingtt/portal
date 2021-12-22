@@ -98,7 +98,7 @@ export default {
         this.exportAllButtonLoading = false;
       } catch {
         this.allTableData = [];
-        excelExport(this.allTableData, this.tableTitle);
+        excelExport(this.allTableData, this.tableTitle, '得分详情');
         this.exportAllButtonLoading = false;
       }
     },
