@@ -174,6 +174,7 @@ export default {
           initialIds
         }
         const res = await getQualitativeScoreDialogList(req)
+        console.log(res)
         if (res.result) {
           this.tableListData = res.data
           this.tableListData.forEach((res) => {
