@@ -104,7 +104,7 @@ import {
   pageAppRule
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { pageApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
-import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
+import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 import { deepClone } from "./applyInfor/util"
 export default {
   components: {
@@ -435,6 +435,7 @@ export default {
   destroyed () {
     sessionStorage.setItem("MtzLIst", JSON.stringify({}))
     store.commit("routerMtzData", {});
+    NewMessageBoxClose();
   }
 }
 </script>
