@@ -61,7 +61,7 @@
                 <div class="title" v-if="currentItem&&currentItem.typeName">
                     <i></i>
                     <span style="text-decoration: none">{{ currentItem.typeName }}</span>
-                    <span style="text-decoration: none" v-if="currentItem.title" @click="toUrl(currentItem)"> - {{ currentItem.title }}</span>
+                    <span style="text-decoration: none" v-if="infoData" @click="toUrl(infoData)"> - {{ infoData.businessTitle }}</span>
                 </div>
                 <div class="partResume_right_content">
                     <!--          //Sourcing-->

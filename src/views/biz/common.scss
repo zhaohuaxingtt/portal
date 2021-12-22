@@ -1,0 +1,28 @@
+.search-form{
+    display: flex;
+    flex-wrap: wrap;
+
+    .form-item{
+        margin-left: 5px;
+        margin-right: 40px;
+        margin-bottom: 20px;
+        .label{
+            color: #666;
+            margin-bottom: 10px;
+        }
+    }
+}
+.w-220{
+    width: 220px !important;
+}
+.flex{
+    display: flex;
+}
+.mar-t20{
+    margin-top: 20px;
+}
+.log-btns{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}

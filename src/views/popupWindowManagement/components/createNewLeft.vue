@@ -171,6 +171,9 @@ export default {
         return isValidate
       },
       formData(){
+        if(this.formContent.linkUrl!= null && this.formContent.linkUrl.length == 0){
+          this.formContent.linkUrl = null
+        }
         return this.formContent
       }
     },
