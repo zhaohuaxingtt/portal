@@ -68,7 +68,7 @@ import {
   saveInitialCommentModel,
   deleteInitialCommentModel,
 } from '../../../../api/frmRating/frmIntegratedManagement';
-import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
+import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 
 export default {
   mixins: [generalPageMixins],
@@ -226,6 +226,9 @@ export default {
       }
     },
   },
+  destroyed () {
+    NewMessageBoxClose();
+  }
 };
 </script>
 
