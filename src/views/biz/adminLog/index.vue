@@ -8,9 +8,9 @@
 					<iSelect v-model="form.module" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in moduleMenu"
-							:label="item.label"
-							:value="item.value"
-							:key="item.value"
+							:label="item.value"
+							:value="item.code"
+							:key="item.code"
 						/>
 					</iSelect>
 				</div>
@@ -124,7 +124,7 @@ import { iPage,iSearch, iInput, iDatePicker, iSelect, iCard, iLabel} from 'rise'
 import CommonTable from './../components/CommonTable.vue';
 import MsgDialog from './../components/MsgDialog.vue';
 import tableColumns from './table';
-import {listCategory,listOperation,listInterfaceSystem,listTriggerType,exportBizLog} from '@/api/biz/log';
+import {listCategory,listOperation,listInterfaceSystem,listTriggerType,exportBizLog,listMenu} from '@/api/biz/log';
 export default {
 	components: { 
 		iPage,
@@ -176,6 +176,9 @@ export default {
             // 触发类型
             let triRes = await listTriggerType()
             this.triggerTypes = triRes.data || []
+            // 模块菜单
+            let menuRes = await listMenu()
+            this.moduleMenu = menuRes.data || []
         },
 		restForm(){
 			return new Promise((resolve) => {

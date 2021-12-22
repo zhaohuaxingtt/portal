@@ -21,7 +21,8 @@ export default [
     },
     {
       prop: 'respTime',
-      i18n: '响应时间'
+      i18n: '响应时间',
+      width: "150px"
     },
     {
       prop: 'exceptionMsg',

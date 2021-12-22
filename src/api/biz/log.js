@@ -57,3 +57,10 @@ export function listTriggerType() {
     method: 'post'
   })
 }
+// 模块菜单列表
+export function listMenu() {
+  return request({
+    url: '/operationLog/listMenu',
+    method: 'post'
+  })
+}

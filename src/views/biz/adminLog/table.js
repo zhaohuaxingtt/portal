@@ -28,7 +28,8 @@ export default [
     },
     {
       prop: 'createDate',
-      i18n: '日志时间'
+      i18n: '日志时间',
+      width: "150px"
     },
     {
       prop: 'rqTime',
@@ -70,7 +71,7 @@ export default [
       i18n: '用户岗位'
     },
     {
-      i18n: '操作',
+      i18n: '报文详情',
       customRender: (h, scope,col,extraData) => {
         return <iButton type="text" on-click={ () => extraData.msgDetail(scope.row)}>查看详情</iButton>
       }
