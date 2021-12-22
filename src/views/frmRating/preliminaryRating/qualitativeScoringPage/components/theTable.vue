@@ -190,7 +190,7 @@ export default {
         this.tableLoading = false
       }
     },
-    handleOpenAssign () {
+    handleOpenAssign () {//分派
       if (!this.gzOperationCheck()) {
         return false
       }
@@ -200,6 +200,10 @@ export default {
       if (this.selectTableData.length > 1) {
         return iMessage.warn(this.$t('SPR_FRM_ZNXZYTSJ'))
       }
+      if(this.selectTableData[0].qualitativeScoreStatus == "草稿" || this.selectTableData[0].qualitativeScoreStatus == "退回"){}else{
+        return iMessage.error(this.language("ZYTHHCGZTCNFP","只有退回和草稿状态才能分派"))
+      }
+
       this.selectTableData.map((item) => {
         this.assignDialogSelectId = item.id
       })
@@ -219,7 +223,7 @@ export default {
       const status = this.checkButtonStatus('退回')
       status && (this.returnDialog = true)
     },
-    handleTransfer () {
+    handleTransfer () {//转派
       if (!this.gzOperationCheck()) {
         return false
       }
@@ -231,6 +235,9 @@ export default {
       }
       if (this.selectTableData.length > 1) {
         return iMessage.warn(this.$t('SPR_FRM_ZNXZYTSJ'))
+      }
+      if(this.selectTableData[0].qualitativeScoreStatus == "草稿" || this.selectTableData[0].qualitativeScoreStatus == "退回"){}else{
+        return iMessage.error(this.language("ZYTHHCGZTCNZP","只有退回和草稿状态才能转派"))
       }
       const status = this.checkButtonStatus('转派')
       status && (this.transferDialog = true)
