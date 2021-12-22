@@ -73,8 +73,9 @@ export default {
     itemUrl() {
       if (this.item.url) {
         if (
-          this.item.url.replace(process.env.VUE_APP_HOST, '') ===
-          '/bkm/login.do'
+          ['/bkm/login.do', '/bkmApi/login.do'].includes(
+            this.item.url.replace(process.env.VUE_APP_HOST, '')
+          )
         ) {
           return this.item.url + '?userno=' + getToken()
         }

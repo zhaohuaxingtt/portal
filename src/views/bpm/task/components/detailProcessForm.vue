@@ -127,6 +127,10 @@ export default {
       if (this.formHeight) {
         this.frameHeight = this.formHeight
       }
+    },
+    url(val) {
+      if (!val) return
+      this.$nextTick(() => this.initIframeDomObserver())
     }
   },
   created() {

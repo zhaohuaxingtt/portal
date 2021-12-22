@@ -30,7 +30,8 @@ export default {
     }
   },
   render(h, context) {
-    const { props } = context
+    console.log('context', context)
+    const { props, listeners } = context
     const { scope, customRender, column, extraData, prop, childNumVisible } =
       props
     if (column.type && column.type === 'expanded') {
@@ -62,10 +63,12 @@ export default {
     }
     if (column.openNewPage) {
       return (
-        <div class="custom-render ">
-          {customRender
-            ? customRender(h, scope, column, extraData)
-            : scope.row[prop]}
+        <div class="custom-render">
+          <span onClick={listeners.click}>
+            {customRender
+              ? customRender(h, scope, column, extraData)
+              : scope.row[prop]}
+          </span>
           <div class="showIcon">
             <Icon symbol class="show " name="icontiaozhuananniu" />
             <Icon
@@ -78,7 +81,7 @@ export default {
       )
     }
     return (
-      <span class="render">
+      <span class="render" onClick={listeners.click}>
         {customRender
           ? customRender(h, scope, column, extraData)
           : scope.row[prop]}
