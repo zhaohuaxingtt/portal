@@ -5,7 +5,7 @@
     @close="onClose"
     lock-scroll="false"
     destroy-on-close="true"
-    :title="!isRead && !isEdit ? formTitles.createTitle : formTitles.editTitle"
+    :title="isRead ? formTitles.createTitle : formTitles.editTitle"
   >
     <div class="main" v-loading="loading">
       <div class="content">
@@ -120,7 +120,7 @@ export default {
         sysType: '系统类型',
         sysTag: '系统标签',
         description: '系统功能说明',
-        createTitle: '新建/编辑页面',
+        createTitle: '新建/浏览页面',
         editTitle: '新建/编辑页面',
         input: '请输入',
         iselect: '请选择',

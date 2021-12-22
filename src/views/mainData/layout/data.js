@@ -15,11 +15,13 @@ export const COLUMNS = [
     prop: 'title',
     label: '资源名称',
     i18n: '资源名称',
-    type: 'expanded',
     align: 'left',
     headerAlign: 'left',
     minWidth: 160,
-    emit: 'click-menu'
+    emit: 'click-menu',
+    customRender: (h, scope) => {
+      return <span class="cursor-pointer">{scope.row.title}</span>
+    }
   }
 ]
 
