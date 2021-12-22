@@ -51,7 +51,7 @@ export const tableListColumns = [
   {
     prop: "positionUser",
     label: "操作",
-    customRender: (h, scope) => {
+    customRender: () => {
       return (
         <span>
           <a href='javascript:void(0)'>生成会议纪要</a>｜

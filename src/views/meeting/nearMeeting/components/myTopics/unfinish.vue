@@ -227,7 +227,7 @@
               },
               'circle'
             ]"
-            >{{ statusObj[scope.row.meetingStatus] }}</span
+            >{{ $t(statusObj[scope.row.meetingStatus]) }}</span
           >
         </template>
       </el-table-column>
@@ -322,12 +322,12 @@ export default {
         }
       ],
       statusObj: {
-        '01': '草稿',
-        '02': '开放',
-        '03': '锁定',
-        '04': '开始',
-        '05': '结束',
-        '06': '关闭'
+        '01': 'MT_CAOGAO',
+        '02': 'MT_KAIFANG',
+        '03': 'MT_SUODING',
+        '04': 'MT_KAISHI',
+        '05': 'MT_JIESHU',
+        '06': 'MT_GUANBI'
       }
     }
   },

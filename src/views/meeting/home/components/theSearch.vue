@@ -43,7 +43,7 @@
             <el-option value="" :label="$t('all')"></el-option>
             <el-option
               :value="item.value"
-              :label="item.label"
+              :label="$t(item.label)"
               v-for="item of statusList"
               :key="item.value"
             ></el-option>

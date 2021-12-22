@@ -425,11 +425,11 @@ export default {
         this.ruleForm.conclusion.conclusionCsc === '06'
       ) {
         if (this.curChooseArr.length === 0) {
-          iMessage.error('请选择一个下次会议')
+          iMessage.error(this.$t('请选择一个下次会议'))
           return
         }
         if (this.curChooseArr.length > 1) {
-          iMessage.error('下次会议只能选择一个!')
+          iMessage.error(this.$t('下次会议只能选择一个!'))
           return
         }
         param.toDoMeeting = this.curChooseArr[0].id
@@ -453,7 +453,7 @@ export default {
       this.loading = true
       updateThemen(param).then((res) => {
         if (res.code === 200) {
-          iMessage.success('维护成功!')
+          iMessage.success(this.$t('维护成功!'))
         }
         this.loading = false
         this.close()

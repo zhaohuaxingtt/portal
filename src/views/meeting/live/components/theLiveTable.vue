@@ -98,7 +98,7 @@
         >
           <template slot-scope="scope">
             <span>{{ scope.row.count }}</span>
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="34" align="center" label=""></el-table-column>

@@ -456,15 +456,15 @@ export default {
     handleRevokeTopic() {
       const bol = this.findLockStatus(this.selectedData)
       const warn = bol
-        ? '请确认是否发送议题撤回申请至会议管理员?'
-        : '是否确认撤回该议题?'
+        ? this.$t('请确认是否发送议题撤回申请至会议管理员?')
+        : this.$t('是否确认撤回该议题?')
       if (
         this.selectedData[0].meetingStatus === '02' ||
         this.selectedData[0].meetingStatus === '03'
       ) {
-        this.$confirm(warn, '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
+        this.$confirm(warn, this.$t('提示'), {
+          confirmButtonText: this.$t('是'),
+          cancelButtonText: this.$t('否'),
           type: 'warning'
         }).then(() => {
           let promiseArr = []
@@ -488,7 +488,7 @@ export default {
             .then((res) => {
               const message = res[0].code === 200 ? res[0].message : ''
               if (bol) {
-                iMessage.success('已发送会议撤回申请给管理员。')
+                iMessage.success(this.$t('已发送会议撤回申请给管理员。'))
               } else {
                 iMessage.success(message)
               }
@@ -523,7 +523,7 @@ export default {
           //   });
         })
       } else {
-        iMessage.warn('只有开放和锁定状态才可以撤回!')
+        iMessage.warn(this.$t('只有开放和锁定状态才可以撤回!'))
       }
       // this.$confirm("请确认是否要撤回该议题?", "提示", {
       //   confirmButtonText: "是",
@@ -557,7 +557,7 @@ export default {
     // 取消关注
     handleUnfollow(e) {
       if (e.state === '03') {
-        iMessage.warn('已经结束的议题不可以取消关注!')
+        iMessage.warn(this.$t('已经结束的议题不可以取消关注!'))
         return
       }
       if (!this.following) {
@@ -574,7 +574,7 @@ export default {
         unfollow(param)
           .then((res) => {
             if (res.code === 200) {
-              iMessage.success('取消关注成功!')
+              iMessage.success(this.$t('取消关注成功!'))
             }
             this.query().then(() => {
               this.following = false
@@ -590,7 +590,7 @@ export default {
     // 添加关注
     handleFollow(e, bol) {
       if (e.state === '03') {
-        iMessage.warn('已经结束的议题不可以添加关注!')
+        iMessage.warn(this.$t('已经结束的议题不可以添加关注!'))
         return
       }
       this.following = true
@@ -607,7 +607,7 @@ export default {
         follow(param)
           .then((res) => {
             if (res.code === 200) {
-              iMessage.success('关注成功')
+              iMessage.success(this.$t('关注成功'))
             }
             this.query().then(() => {
               this.following = false

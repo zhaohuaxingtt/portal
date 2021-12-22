@@ -249,7 +249,7 @@ export default {
           this.loadingCreate = true
           saveMeetingMinutes(this.resultData).then(() => {
             this.loadingCreate = false
-            iMessage.success('保存成功')
+            iMessage.success(this.$t('保存成功'))
             this.$emit('handleOK')
           })
         }

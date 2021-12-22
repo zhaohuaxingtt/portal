@@ -204,7 +204,7 @@ export default {
       },
       rules: {
         attendees: [
-          { required: true, message: '请输入议题结论！', trigger: 'blur' }
+          { required: true, message: this.$t('请输入议题结论！'), trigger: 'blur' }
         ]
         // conclusion0: [
         //   { required: true, message: "请输入议题结论！", trigger: "blur" },

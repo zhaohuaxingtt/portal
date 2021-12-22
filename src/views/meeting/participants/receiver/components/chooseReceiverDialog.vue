@@ -31,7 +31,9 @@
       :next-text="$t('MT_XIAYIYE')"
     />
     <div class="button-list">
-      <iButton @click="close" plain class="cancel">{{ $t('MT_QUXIAO') }}</iButton>
+      <iButton @click="close" plain class="cancel">{{
+        $t('MT_QUXIAO')
+      }}</iButton>
       <iButton
         @click="$emit('handleChooseReceiver', selectedTableData)"
         plain
@@ -119,6 +121,8 @@ export default {
       getPageListByParam(data)
         .then((res) => {
           const { data, pageNum, pageSize, total, pages } = res
+          console.log('pageSize', pageSize)
+          console.log('pages', pages)
           this.page.currPage = pageNum
           this.page.pageSize = pageSize
           this.page.totalCount = total
