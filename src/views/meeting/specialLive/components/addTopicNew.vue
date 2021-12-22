@@ -331,10 +331,10 @@ export default {
   data() {
     const validateTopic = (rule, value, callback) => {
       if (!value.trim()) {
-        callback(new Error('必填'))
+        callback(new Error(this.$t('必填')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('最大不能超过255字符')))
         }
         callback()
       }
@@ -554,7 +554,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('下载失败'))
           }
         }
       })
@@ -673,7 +673,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt30M = file.size / 1024 / 1024 < 30
       if (!isLt30M) {
-        this.$message.error('文件大小最大限制30M!')
+        this.$message.error(this.$t('文件大小最大限制30M!'))
       }
       return isLt30M
     },
@@ -708,18 +708,18 @@ export default {
       this.$emit('flushTable')
     },
     clearDiolog() {
-      this.$confirm('是否取消编辑?', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('是否取消编辑?'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         this.close()
       })
     },
     handleSubmit() {
-      this.$confirm('是否保存议题？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('是否保存议题？'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         this.submitForm('ruleForm')
@@ -752,7 +752,7 @@ export default {
             updateThemen(formData)
               .then((data) => {
                 if (data) {
-                  iMessage.success('修改成功')
+                  iMessage.success(this.$t('修改成功'))
                 } else {
                   iMessage.error('error')
                 }
@@ -787,7 +787,7 @@ export default {
             saveThemen(formData)
               .then((data) => {
                 if (data) {
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('保存成功'))
                 } else {
                   iMessage.error('error')
                 }

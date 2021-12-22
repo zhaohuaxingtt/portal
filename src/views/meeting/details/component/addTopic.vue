@@ -600,14 +600,14 @@ export default {
             validator: validateTopic
           }
         ],
-        remark: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
+        remark: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }],
         supporter: [{ validator: validateSupporter, trigger: 'blur' }],
         presenter: [{ validator: validatePresenter, trigger: 'blur' }],
         supporterDept: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
         ],
         supporterDeptNosys: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
         ],
         supporterNosys: [
           {
@@ -619,10 +619,10 @@ export default {
         ],
         // presenter: [{ max: 255, message: "最大长度 255 字符", trigger: "blur" }],
         presenterDept: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
         ],
         presenterDeptNosys: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
         ],
         presenterNosys: [
           {
@@ -633,10 +633,10 @@ export default {
           }
         ],
         duration: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message:  this.$t('MT_BITIAN'), trigger: 'blur' },
           {
             type: 'number',
-            message: '最大长度3位，单位（分钟），必须正整数',
+            message: this.$t('最大长度3位，单位（分钟），必须正整数'),
             trigger: 'blur',
             transform(value) {
               if (value !== null && value !== '') {
@@ -663,7 +663,7 @@ export default {
         count: [
           {
             type: 'number',
-            message: '最大长度3位',
+            message: this.$t('最大长度3位'),
             trigger: 'blur',
             transform(value) {
               if (value !== null && value !== '') {
@@ -899,7 +899,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('下载失败'))
           }
         }
       })
@@ -1057,7 +1057,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt30M = file.size / 1024 / 1024 < 30
       if (!isLt30M) {
-        this.$message.error('文件大小最大限制30M!')
+        this.$message.error(this.$t('文件大小最大限制30M!'))
       }
       return isLt30M
     },
@@ -1136,7 +1136,7 @@ export default {
               .then((data) => {
                 this.loading = false
                 if (data) {
-                  iMessage.success('修改成功')
+                  iMessage.success(this.$t('修改成功'))
                 } else {
                   iMessage.error('error')
                 }
@@ -1176,7 +1176,7 @@ export default {
               .then((data) => {
                 this.loading = false
                 if (data) {
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('保存成功'))
                 } else {
                   iMessage.error('error')
                 }

@@ -935,7 +935,7 @@ export default {
     // 导入议题保存
     handleOKTopics(a, b) {
       if (this.nameList.length <= 0) {
-        iMessage.warn('请导入议题后再保存')
+        iMessage.warn(this.$t('请导入议题后再保存'))
         return
       }
       let param = {
@@ -950,7 +950,7 @@ export default {
       importThemen(param)
         .then((res) => {
           if (res.length == 0) {
-            iMessage.success('导入议题成功')
+            iMessage.success(this.$t('导入议题成功'))
             this.openTopics = false
             this.refreshTable()
             this.nameList = []
@@ -978,7 +978,7 @@ export default {
       }
       uploadAttachment(param).then((res) => {
         if (res.id) {
-          iMessage.success('保存成功')
+          iMessage.success(this.$t('保存成功'))
           this.openSummary = false
           this.refreshTable()
         }
@@ -1031,22 +1031,22 @@ export default {
         }
       })
       if (draft) {
-        return this.$message.error('只能删除草稿状态的会议!')
+        return this.$message.error(this.$t('只能删除草稿状态的会议!'))
       }
-      this.$confirm('是否删除该会议 ？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('是否删除该会议 ？'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         deleteMeeting({ ids: listUnuse })
           .then((res) => {
             if (res.code == 200) {
-              this.$message.success(' 删除成功!')
+              this.$message.success(this.$t(' 删除成功!'))
               this.$emit('getTableList')
             }
           })
           .catch(() => {
-            this.$message.error('删除失败!')
+            this.$message.error(this.$t('删除失败!'))
           })
       })
     },
@@ -1057,14 +1057,14 @@ export default {
       let idArr = this.selectedRow.map((item) => {
         return item.id
       })
-      this.$confirm('是否撤回该会议 ？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('是否撤回该会议 ？'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         batchRecallMeeting({ ids: idArr }).then((res) => {
           if (res.code == 200) {
-            this.$message.success(' 撤回成功!')
+            this.$message.success(this.$t(' 撤回成功!'))
             this.$emit('getTableList')
           }
         })
@@ -1072,9 +1072,9 @@ export default {
     },
     // 批量开放
     handleOpen() {
-      this.$confirm('是否开放该会议 ？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('是否开放该会议 ？'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         let changeState = this.selectedRow.map((item) => {
@@ -1082,7 +1082,7 @@ export default {
         })
         batchChangeState(changeState).then((res) => {
           if (res.code == 200) {
-            this.$message.success('会议已成功开放!')
+            this.$message.success(this.$t('会议已成功开放!'))
             this.$emit('getTableList')
           }
         })
@@ -1116,7 +1116,7 @@ export default {
         filename: e.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('下载失败'))
           }
         }
       })

@@ -82,12 +82,12 @@ export default {
     },
     beforeAvatarUpload(file) {
       if (file.type !== this.accept) {
-        this.$message.error(`上传文件类型错误`)
+        this.$message.error(this.$t(`上传文件类型错误`))
         return false
       }
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error('文件大小最大限制10M!')
+        this.$message.error(this.$t('文件大小最大限制10M!'))
       }
       return isLt10M
     },
@@ -150,13 +150,13 @@ export default {
         .then(() => {
           this.loading = false
           this.clearDiolog('submit')
-          iMessage.success('导入成功')
+          iMessage.success(this.$t('导入成功'))
           this.$emit('flushTable')
         })
         .catch(() => {
           this.loading = false
           this.clearDiolog('submit')
-          iMessage.error('导入失败')
+          iMessage.error(this.$t('导入失败'))
           this.$emit('flushTable')
         })
     },

@@ -30,7 +30,7 @@ export default {
     }
   },
   render(h, context) {
-    console.log('context', context)
+    // console.log('context', context)
     const { props, listeners } = context
     const { scope, customRender, column, extraData, prop, childNumVisible } =
       props
