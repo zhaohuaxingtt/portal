@@ -275,9 +275,8 @@ export default {
         }
         const res = await copyNode(pms)
         this.resultMessage(res, async () => {
-          console.log(this.supplierName, "this")
+          this.$emit('copyData', this.supplierName)
           this.clearDiolog()
-          this.$emit('copyData', _.cloneDeep(this.supplierName))
           await this.$parent.$parent.$parent.$children[0].getTableList()
           // pathname:nodeChain.vue
           this.$parent.$parent.$children[0].$children[0].handleScroll(res.data)

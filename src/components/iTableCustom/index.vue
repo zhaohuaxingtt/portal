@@ -160,7 +160,6 @@
               :class="{ 'custom-cell-tooltip': item.tooltip }"
               @mouseenter="customMouseenter"
               @mouseleave="customMouseleave"
-              @click="handleEmit(item, scope.row)"
             >
               <i-table-column
                 v-if="item.customRender || item.type === 'expanded'"
@@ -170,8 +169,9 @@
                 :extra-data="extraData"
                 :prop="item.prop"
                 :child-num-visible="childNumVisible"
+                @click="handleEmit(item, scope.row)"
               />
-              <span v-else>
+              <span v-else @click="handleEmit(item, scope.row)">
                 {{ scope.row[item.prop] }}
               </span>
             </div>
@@ -943,7 +943,7 @@ export default {
     border-right: 0 !important;
   }
 }
-::v-deep .cell{
+::v-deep .cell {
   white-space: pre !important;
 }
 </style>

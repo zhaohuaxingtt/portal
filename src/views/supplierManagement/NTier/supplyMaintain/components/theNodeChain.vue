@@ -409,7 +409,9 @@ export default {
     posChanged (id, left, top) {
     },
     copyData (val) {
-      console.log(this.$parent, val)
+      this.$parent.$refs.theSearch.form.supplierId = val.id
+      this.$parent.$refs.theSearch.form.partNum = ""
+      this.$parent.$refs.theSearch.getTableList()
     }
   }
 }
