@@ -4,34 +4,55 @@
             :loading="tableLoading"
             :data="tableListData"
             :columns="tableSetting"
-            @handle-selection-change="handleSelectionChange"
+            :extraData="extraData"
             />
 
         <iPagination
-        v-update
-        @size-change="handleSizeChange($event, getTableList)"
-        @current-change="handleCurrentChange($event, getTableList)"
-        background
-        :current-page="page.currPage"
-        :page-sizes="page.pageSizes"
-        :page-size="page.pageSize"
-        :layout="page.layout"
-        :total="page.totalCount"
-        />
+            v-update
+            @size-change="handleSizeChange($event, query)"
+            @current-change="handleCurrentChange($event, query)"
+            background
+            :current-page="page.currPage"
+            :page-sizes="page.pageSizes"
+            :page-size="page.pageSize"
+            :layout="page.layout"
+            :total="page.totalCount"
+            />
     </div>
 </template>
 
 <script>
-import {iPagination, iTableCustom, iButton} from 'rise';
+import {iPagination, iTableCustom} from 'rise';
+import { pageMixins } from '@/utils/pageMixins'
+
 export default {
+    components:{
+        iPagination,
+        iTableCustom
+    },
+    mixins:[pageMixins],
     props:{
         tableSetting:{
-            
+            type: Array,
+            default:()=>[]
+        },
+        extraData:{
+            type: Object,
+            default:()=>{}
         }
     },
     data() {
         return {
-            tableLoading:false
+            tableLoading:false,
+            tableListData:[{}]
+        }
+    },
+    methods: {
+        query(){
+            this.tableLoading = true
+            setTimeout(() => {
+                this.tableLoading = false
+            }, 1000);
         }
     },
 }
