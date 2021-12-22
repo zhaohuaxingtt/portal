@@ -8,6 +8,7 @@
             />
 
         <iPagination
+            v-if="showPage"
             v-update
             @size-change="handleSizeChange($event, query)"
             @current-change="handleCurrentChange($event, query)"
@@ -39,6 +40,10 @@ export default {
         extraData:{
             type: Object,
             default:()=>{}
+        },
+        showPage:{
+            type: Boolean,
+            default: true
         }
     },
     data() {

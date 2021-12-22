@@ -12,7 +12,7 @@
 			label-width="90px" 
 			ref="form"
 			inline
-			class="typeForm"
+			class="validate-required-form"
 		>
 			<iFormItem :label="language('流程标题')" prop='name'>
 				<iInput v-model="form.name" class="w-250" placeholder="请输入流程标题"></iInput>

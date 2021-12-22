@@ -12,6 +12,10 @@
             :on-exceed="handleExceed"
             v-if="!disabled"
             >
+            <div v-if="!isSlot">
+                <iButton>{{btnTxt}}</iButton>
+                <span class="tip" v-text="tipTxt"></span>
+            </div>
             <slot></slot>
         </el-upload>
         <template v-if="showFile">    
@@ -23,13 +27,15 @@
 </template>
 
 <script>
+    import {iButton} from 'rise';
     import {uploadFile} from "@/api/assistant/uploadFile"
     import FileList from "./fileList.vue"
     import imgViews from "./imgViews.vue"
     export default {
         components:{
             FileList,
-            imgViews
+            imgViews,
+            iButton
         },
         props:{
             value:{},
@@ -107,6 +113,14 @@
             showFile:{
                 type: Boolean,
                 default: true
+            },
+            btnTxt:{
+                type: String,
+                default:"选择图片"
+            },
+            tipTxt:{
+                type: String,
+                default:""
             }
         },
         data() {
@@ -114,11 +128,13 @@
                 dialogVisible:false,
                 fileUrl:"",
                 uploading: false,
-                imgFmt:['jpg','jpeg','gif','png']
+                imgFmt:['jpg','jpeg','gif','png'],
+                isSlot:false
             }
         },
         computed:{
             files(){
+                console.log(this.$slots.default);
                 return this.value || []
             },
             imgList(){
@@ -132,6 +148,9 @@
                 })
                 return arr
             }
+        },
+        mounted() {
+            this.isSlot = this.$slots.default
         },
         methods: {
             async httpUpload(res){
@@ -197,5 +216,9 @@
 .img-style {
 	width: 100%;
     padding: 10px;
+}
+.tip{
+    margin-left: 20px;
+	color: #999;
 }
 </style>
