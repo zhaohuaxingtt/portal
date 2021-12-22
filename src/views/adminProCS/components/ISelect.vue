@@ -29,7 +29,6 @@
         },
         data() {
             return {
-                value:"",
                 loading:false,
                 options:[]
             }
@@ -38,6 +37,7 @@
             remoteMethod(query) {
                 if (query !== '') {
                 this.loading = true;
+                // api
                 setTimeout(() => {
                     this.loading = false;
                     this.options = [{label:1,value:2}]

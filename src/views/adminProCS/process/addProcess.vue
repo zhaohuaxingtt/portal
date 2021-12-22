@@ -2,7 +2,7 @@
 	<iDialog
 		:title="dialogTitle"
 		:visible.sync="show" 
-		width="60%" 
+		width="700px" 
 		@close='closeDialogBtn' 
 		append-to-body
 	>
@@ -10,15 +10,19 @@
 			label-position="left" 
 			:model="form" 
 			:rules="rules" 
-			label-width="100px" 
+			label-width="90px" 
+			ref="form"
+			inline
 			class="typeForm"
 		>
+		<el-row>
 			<iFormItem :label="language('流程标题')" prop='name'>
 				<iInput v-model="form.name" placeholder="请输入流程标题"></iInput>
 			</iFormItem>
 			<iFormItem :label="language('首字母')" prop='firstLetter'>
 				<iInput v-model="form.firstLetter" placeholder="请输入标题首字母"></iInput>
 			</iFormItem>
+		</el-row>
 			<iFormItem :label="language('英文标题')" prop='nameEn'>
 				<iInput v-model="form.nameEn" placeholder="请输入英文标题"></iInput>
 			</iFormItem>
@@ -34,6 +38,7 @@
 					value-format="yyyy-MM-dd"
 					type="date"
 					v-model="form.updateDt"
+					style="width:100%"
 					:placeholder="language('请选择')"
 					/>
 			</iFormItem>
@@ -44,7 +49,7 @@
 				<ISelect v-model="form.organizations" placeholder="请至少输入2个字符进行搜索"></ISelect>
 			</iFormItem>
 		</el-form>
-		<div class="flex felx-row mt20 justify-end ">
+		<div class="flex felx-row mt20 pb20 justify-end ">
 			<iButton @click="closeDialogBtn">{{ language('取消') }}</iButton>
 			<iButton @click.native="save">{{ language('保存') }}</iButton>
 		</div>
@@ -77,7 +82,7 @@ export default {
 	data() {
 		let firstLetter_valid = (rule, value, callback) =>{
 			if(!value){
-				callback(new Error("请输入标题"));
+				callback(new Error("请输入标题首字母"));
 				return;
 			}
 			if(value.length > 1) return callback(new Error("只能填写一个字母"));
@@ -107,29 +112,32 @@ export default {
 					{ required:true,message:"请输入流程标题",trigger:'blur' },
                     {max:50,message:'流程标题长度不能超过50个字符！'},
 				],
-				firstLetter: { required:true, validator: firstLetter_valid, message:"请输入标题首字母",trigger:'blur' },
+				firstLetter: { required:true, validator: firstLetter_valid,trigger:'blur' },
 				nameEn: [
 					{ required:true,message:"请输入英文标题",trigger:'blur' },
                     {max:100,message:'英文标题长度不能超过100个字符！'},
 				],
-				firstLetterEn: { required:true, validator: firstLetter_valid, message:"请输入英文标题首字母",trigger:'blur' },
+				firstLetterEn: {required:true, validator: firstLetter_valid,trigger:'blur' },
 				version:[
 					{ required:true, message:"请输入版本号",trigger:'blur' },
 					{ max: 20, message: '版本号长度不能超过20个字符！', trigger: 'blur' }
 				],
 				updateDt: { required:true,message:"请选择更新时间",trigger:'change' },
-				exports: { required:true,message:"请输入用户名、邮箱进行搜索",trigger:'change' },
-				organizations: { required:true,message:"请至少输入2个字符进行搜索",trigger:'change' },
+				exports: { required:true,message:"请输入用户名、邮箱进行搜索",trigger:'blur' },
+				organizations: { required:true,message:"请至少输入2个字符进行搜索",trigger:'blur' },
 			},
 		}
 	},
 	methods: {
-		
 		closeDialogBtn () {
 			this.$emit('update:show', false)
 		},
 		save(){
-
+			this.$refs.form.validate(v => {
+				if(v){
+					// 保存
+				}
+			})
 		}
 	},
 	computed: {

@@ -4,15 +4,15 @@
         <iCard class="margin-top20">
             <div class="margin-bottom20 flex justify-between">
                 <div>
-                    <iButton>添加流程</iButton>
+                    <iButton @click="dialog = true">添加流程</iButton>
                     <iButton>主流程图</iButton>
                 </div>
                 <div>
-                    <iButton>修改</iButton>
-                    <iButton>删除</iButton>
+                    <iButton :disabled="disabled" @click="edit">修改</iButton>
+                    <iButton :disabled="disabled" @del="del">删除</iButton>
                 </div>
             </div>
-            <el-table :data="tableListData" class="single-choise" borderstyle="width: 100%" @selection-change="handleSelectionChange">
+            <el-table :data="tableListData" ref="table" class="single-choise" borderstyle="width: 100%" @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="50" align="center" :selectable="handleSelectable"></el-table-column>
                 <el-table-column type="index" label="序号" width="55" align="center"></el-table-column>
                 <el-table-column prop="name" label="标题" align="center"></el-table-column>
@@ -72,8 +72,18 @@ export default {
                 ],
             tableSetting:tableCol,
             selectList:[],
-            dialog:true
+            dialog:false,
+            disabled:false
         }
+    },
+    watch:{
+       selectList(n){
+           if(n[0] && n[0].state){
+               this.disabled = true
+           }else{
+               this.disabled = false
+           }
+       } 
     },
     methods: {
         query(){
@@ -81,14 +91,26 @@ export default {
         },
         search(){},
         reset(){},
+        edit(){
+            if(this.selectList.length == 0) return this.$message.warning("请选择一条数据")
+        },
+        del(){
+            if(this.selectList.length == 0) return this.$message.warning("请选择一条数据")
+        },
         updateState(v,index){
             // this.$set(this.extraData.tableListData[index],"state",!v)
+            let row = this.tableListData[index]
+            if(this.selectList[0] && this.selectList[0].id == row.id && row.state){
+               this.disabled = true
+            }else{
+                this.disabled = false
+            }
         },
+        // 是否发生消息
         updateMsg(v,index){
             // this.$set(this.extraData.tableListData[index],"send",!v)
         },
         handleSelectionChange(v){
-            console.log(v);
             this.selectList = v
         },
         handleSelectable(row){
@@ -96,7 +118,6 @@ export default {
                 if (this.selectList[0].id == row.id) {
                     return true
                 } else{
-                    console.log(row);
                     return false
                 }
             }
