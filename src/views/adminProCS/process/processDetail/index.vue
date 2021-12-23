@@ -25,7 +25,7 @@
     import doc from './doc/index.vue';
     import guide from './guide/index.vue';
     import processPage from './processPage/index.vue';
-    import question from './question.vue';
+    import question from './question/question.vue'
     export default {
         components: {
             attachment,

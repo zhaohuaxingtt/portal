@@ -17,7 +17,7 @@
 
 <script>
 import {iInput, iCard, iButton } from 'rise';
-import ITable from './../../components/iTable';
+import ITable from './../../components/ITable';
 import {DOC} from '../tables';
 import addGuide from './addGuide.vue';
 export default {
