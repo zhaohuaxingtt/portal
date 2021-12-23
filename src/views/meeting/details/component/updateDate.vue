@@ -106,7 +106,7 @@ export default {
       this.loading = true
       rescheduleThemen(data)
         .then((res) => {
-          if (res.code === 200) {
+          if (Number(res.code) === 200) {
             iMessage.success(this.$t('改期成功'))
           }
           this.loading = false

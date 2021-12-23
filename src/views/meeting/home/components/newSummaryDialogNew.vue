@@ -107,11 +107,13 @@
                 </iFormItem>
                 <p class="task">
                   Result：{{
-                    item.conclusionCsc === '01'
-                      ? conclusionCscList[item.conclusionCsc]
-                      : item.conclusionCsc === '02'
-                      ? conclusionCscList[item.conclusionCsc]
-                      : ''
+                    $t(
+                      item.conclusionCsc === '01'
+                        ? conclusionCscList[item.conclusionCsc]
+                        : item.conclusionCsc === '02'
+                        ? conclusionCscList[item.conclusionCsc]
+                        : ''
+                    )
                   }}
                 </p>
                 <iFormItem class="meet-desc">
@@ -277,11 +279,25 @@ export default {
       },
       rules: {
         attendees: [
-          { required: true, message: '请输入议题结论！', trigger: 'blur' },
-          { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('请输入议题结论！'),
+            trigger: 'blur'
+          },
+          {
+            min: 0,
+            max: 2048,
+            message: this.$t('最大长度2048字符'),
+            trigger: 'blur'
+          }
         ],
         conclusion: [
-          { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
+          {
+            min: 0,
+            max: 2048,
+            message: this.$t('最大长度2048字符'),
+            trigger: 'blur'
+          }
         ]
       },
       employeeDTOS: [],

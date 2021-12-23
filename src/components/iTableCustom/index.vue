@@ -586,10 +586,10 @@ export default {
       // console.log(row,column,'=====');
       if (!this.emitLabel.includes(column.label)) {
         if (this.isCustomSelection) {
-          console.log('QWQ')
+          // console.log('QWQ')
           // this.handleToggleSelectedRow(true,row)
         } else {
-          console.log('T-T')
+          // console.log('T-T')
           this.$refs.theCustomTable.toggleRowSelection(row)
         }
       }

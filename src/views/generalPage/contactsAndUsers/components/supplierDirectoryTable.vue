@@ -8,30 +8,54 @@
 <template>
   <i-card>
     <div class="margin-bottom20 clearFloat">
-      <span class="font18 font-weight">{{$t('SUPPLIER_GONGYINGSHANGTONGXUNLU')}}</span>
+      <span class="font18 font-weight">{{
+        $t('SUPPLIER_GONGYINGSHANGTONGXUNLU')
+      }}</span>
       <div class="floatright">
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_SAVE"
-                  v-if="this.supplierType === 4"
-                  @click="saveInfos('submit')">{{$t('LK_BAOCUN')}}</i-button>
+        <i-button
+          v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_SAVE"
+          v-if="this.supplierType === 4"
+          @click="saveInfos('submit')"
+          >{{ $t('LK_BAOCUN') }}</i-button
+        >
         <!-- <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_ADD" @click="addTableItem">新增</i-button> -->
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_DELETE"
-                  @click="deleteItem('ids',deleteContacts)">{{$t('LK_SHANCHU')}}</i-button>
-        <i-button v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_EXPORT"
-                  @click="exportsTable"
-                  v-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
+        <i-button
+          v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_DELETE"
+          @click="deleteItem('ids', deleteContacts)"
+          >{{ $t('LK_SHANCHU') }}</i-button
+        >
+        <i-button
+          v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST_EXPORT"
+          @click="exportsTable"
+          v-if="showExportsButton"
+          >{{ $t('LK_DAOCHU') }}</i-button
+        >
       </div>
     </div>
-    <table-list v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST"
-                ref="commonTable"
-                :tableData="tableListData"
-                :tableTitle="tableTitle"
-                :tableLoading="tableLoading"
-                @handleSelectionChange="handleSelectionChange"
-                :input-props="['nameZh','designation', 'dept','telephoneAreaCode', 'telephone', 'phoneF','email','remark']"
-                :index="true">
+    <table-list
+      v-permission="SUPPLIER_SUPPLIERCONTACT_MAILLIST"
+      ref="commonTable"
+      :tableData="tableListData"
+      :tableTitle="tableTitle"
+      :tableLoading="tableLoading"
+      @handleSelectionChange="handleSelectionChange"
+      :input-props="[
+        'nameZh',
+        'designation',
+        'dept',
+        'telephoneAreaCode',
+        'telephone',
+        'phoneF',
+        'email',
+        'remark'
+      ]"
+      :index="true"
+    >
       <template #contactType="scope">
-        <div v-if="scope.row.contactType==='商务联系人'">{{scope.row.contactType}} <span style="color:red">*</span></div>
-        <div v-else>{{scope.row.contactType}}</div>
+        <div v-if="scope.row.contactType === '商务联系人'">
+          {{ scope.row.contactType }} <span style="color: red">*</span>
+        </div>
+        <div v-else>{{ scope.row.contactType }}</div>
       </template>
     </table-list>
   </i-card>
@@ -151,8 +175,7 @@ export default {
     },
     async saveInfos(step = '') {
       let p = 0
-      this.tableListData.map(item => {
-
+      this.tableListData.map((item) => {
         if (item.nameType === '商务联系人') {
           if (!(item.nameZh && item.telephone && item.email)) {
             iMessage.warn(this.$t('SUPPLIER_SWLXRLXRXMLXRDHBT'))
@@ -243,5 +266,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

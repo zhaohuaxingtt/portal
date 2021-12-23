@@ -90,9 +90,9 @@ export default {
             if (value.code == 200) {
               const data = value.data || []
               if (this.row.originValueList && this.row.originValueList.length) {
-                const dataIds = data.map((e) => e.id)
+                const dataIds = data.map((e) => e.valueId)
                 const notInData = this.row.originValueList.filter(
-                  (e) => !dataIds.includes(e.id)
+                  (e) => !dataIds.includes(e.valueId)
                 )
                 data.push(...notInData)
               }
@@ -106,9 +106,9 @@ export default {
             if (value.code == 200) {
               const data = value.data || []
               if (this.row.originValueList && this.row.originValueList.length) {
-                const dataIds = data.map((e) => e.id)
+                const dataIds = data.map((e) => e.valueId)
                 const notInData = this.row.originValueList.filter(
-                  (e) => !dataIds.includes(e.id)
+                  (e) => !dataIds.includes(e.valueId)
                 )
                 data.push(...notInData)
               }

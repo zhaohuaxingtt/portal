@@ -309,18 +309,6 @@ export default {
       finishSecond: 0
     }
   },
-  watch: {
-    data: {
-      handler(v) {
-        console.log('v', v)
-      }
-    },
-    result: {
-      handler(v) {
-        console.log('v', v)
-      }
-    }
-  },
   mounted() {
     this.getTypeList()
     this.query()
