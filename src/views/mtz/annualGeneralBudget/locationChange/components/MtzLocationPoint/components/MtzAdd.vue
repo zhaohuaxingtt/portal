@@ -75,24 +75,30 @@ export default {
                 mtzConfirm({
                   appName: this.form.name
                 }).then(res => {
-                  var data = deepClone(this.$route.query);
-                  data.mtzAppId = res.data;
-                  data.appId = this.$route.query.appId;
+                  if(res.result && res.code == "200"){
+                    var data = deepClone(this.$route.query);
+                    data.mtzAppId = res.data;
+                    data.appId = this.$route.query.appId;
 
-                  relation({
-                    mtzAppId: res.data,
-                    ttNominateAppId: this.$route.query.appId
-                  }).then(prame => {
-                    store.commit("routerMtzData", data);
-                    sessionStorage.setItem("MtzLIst", JSON.stringify(data))
-                    if (prame.code == 200) {
-                      iMessage.success(prame.desZh)
-                      this.$emit("close", "")
-                    } else {
-                      iMessage.error(prame.desZh)
-                    }
+                    relation({
+                      mtzAppId: res.data,
+                      ttNominateAppId: this.$route.query.appId
+                    }).then(prame => {
+                      store.commit("routerMtzData", data);
+                      sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+                      if (prame.code == 200) {
+                        iMessage.success(prame.desZh)
+                        this.$emit("close", "")
+                      } else {
+                        iMessage.error(prame.desZh)
+                      }
+                      this.loading = false;
+                    })
+                  }else{
+                    iMessage.error(res.desZh)
                     this.loading = false;
-                  })
+                    return false;
+                  }
                 });
               }
             } else {
@@ -103,12 +109,18 @@ export default {
           mtzConfirm({
             appName: this.form.name
           }).then(res => {
-            var data = deepClone(this.$route.query);
-            data.mtzAppId = res.data;
-            store.commit("routerMtzData", data);
-            sessionStorage.setItem("MtzLIst", JSON.stringify(data))
-            this.$emit("close", "")
-            this.loading = false;
+            if(res.result && res.code == "200"){
+              var data = deepClone(this.$route.query);
+              data.mtzAppId = res.data;
+              store.commit("routerMtzData", data);
+              sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+              this.$emit("close", "")
+              this.loading = false;
+            }else{
+              iMessage.error(res.desZh)
+              this.loading = false;
+              return false;
+            }
           });
         }
 
