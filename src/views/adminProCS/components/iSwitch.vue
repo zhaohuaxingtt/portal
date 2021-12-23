@@ -29,9 +29,9 @@ export default {
 		}
 	},
 	methods: {
-		handlePublishChange() {
-			console.log(this.currItem, '1234')
-			
+		handlePublishChange(e) {
+			console.log(this.currItem, '1234',e)
+			this.$emit("input",e)
 		}
 	}
 }

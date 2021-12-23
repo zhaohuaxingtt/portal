@@ -17,7 +17,7 @@
 
 <script>
 import {iInput, iCard, iButton } from 'rise';
-import ITable from './../../components/iTable';
+import ITable from './../../components/ITable';
 import {DOC} from '../tables';
 import addGuide from './addGuide.vue';
 export default {
@@ -60,7 +60,7 @@ export default {
 
         },
         del(row){
-            this.$confirm('确定删除此文档吗?', '提示', {
+            this.$confirm('确定删除此流程指导书吗?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'

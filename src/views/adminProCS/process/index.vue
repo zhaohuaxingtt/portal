@@ -29,6 +29,15 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <!-- <iTableCustom
+                :loading="tableLoading"
+                :data="tableListData"
+                :columns="tableSetting"
+                @stateChange="updateState"
+                @sendChange="updateMsg"
+                singleChoice
+                /> -->
+
             <iPagination
                 v-update
                 @size-change="handleSizeChange($event, query)"
@@ -48,11 +57,12 @@
 </template>
 
 <script>
-import { iPage, iCard, iPagination, iButton } from 'rise'
+import { iPage, iCard, iPagination, iButton, iTableCustom } from 'rise'
 import Search from '../components/search.vue';
 import { pageMixins } from '@/utils/pageMixins'
 import addProcess from './addProcess.vue';
 import processDetail from "./processDetail/index.vue";
+import tableSetting from './table';
 export default {
     mixins:[pageMixins],
     components: {
@@ -62,7 +72,8 @@ export default {
         iPagination,
         iButton,
         addProcess,
-        processDetail
+        processDetail,
+        iTableCustom
     },
     data() {
         return {
@@ -72,6 +83,7 @@ export default {
                 {id:1, state:false,send:true},
                 {id:2, state:false,send:true},
                 ],
+            tableSetting,
             selectList:[],
             dialog:false,
             disabled:false

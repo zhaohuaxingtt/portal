@@ -37,7 +37,7 @@
 
 <script>
 import {iInput, iCard, iButton,iDialog } from 'rise';
-import ITable from './../../components/iTable';
+import ITable from './../../components/ITable';
 import {DOC} from '../tables';
 
 export default {

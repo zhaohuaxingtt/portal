@@ -24,7 +24,7 @@
 <script>
 import {iDialog,iButton,iInput} from 'rise';
 import {QS_SETTING} from './tables';
-import ITable from './../../components/iTable.vue';
+import ITable from './../../components/ITable.vue';
 export default {
     components: {
         iDialog,

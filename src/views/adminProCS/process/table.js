@@ -1,3 +1,4 @@
+import ISwitch from './../components/iSwitch';
 export default [
     {
 		type: 'selection',
@@ -24,13 +25,23 @@ export default [
 		align: 'center'
 	},
 	{
-		prop:'state',
 		label:'状态',
 		align: 'center',
+		emit:'stateChange',
+		customRender: (h, scope) => {
+			return (		
+				<ISwitch currVal={ scope.row.state } currItem={ scope.row } active-text="上架" inactive-text="下架" />
+			)
+		}
 	},
 	{
-		prop:'send',
 		label:'是否发送消息',
-		align: 'center'
+		align: 'center',
+		emit:'sendChange',
+		customRender: (h, scope) => {
+			return (		
+				<ISwitch currVal={ scope.row.send } currItem={ scope.row } active-text="是" inactive-text="否" />
+			)
+		}
 	},
 ]

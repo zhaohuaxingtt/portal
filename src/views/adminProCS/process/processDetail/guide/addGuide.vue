@@ -68,7 +68,7 @@ export default {
             rules:{
                 name:[
                     { required: true, message: '请输入附件标题!', trigger:'blur'},
-                    {max:50,message:'附件标题长度不能超过50个字符！'}
+                    { max:50, message:'附件标题长度不能超过50个字符!'}
                 ],
                 publishDate: { required: true, message: '请选择发布日期!',trigger:'change' },
                 file:{ required: true, message: '请上传附件!',trigger:'change' }
