@@ -57,7 +57,6 @@
       return {
         title: '',
         ids: [],
-        cloneIds:[],
         folderName: '',
         resData: [],
         saveLoading: false,
@@ -114,7 +113,6 @@
                 this.ids.push(item.id)
               }
             })
-            this.cloneIds = JSON.parse(JSON.stringify(this.ids))
           } else {
             iMessage.error(result)
           }
