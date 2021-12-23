@@ -395,9 +395,17 @@ export default {
     async saveInfos(step = '') {
       this.$refs.commonTable.$refs.commonTableForm.validate(async (vaild) => {
         if (vaild) {
+          let flag = false
           console.log(this.tableListData, '?!111')
           this.tableListData.forEach((item) => {
-            console.log(item.attachList, '保存')
+            const startAccountCycle = item.startAccountCycle.replace(/-/g, '')
+            const endAccountCycle = item.endAccountCycle.replace(/-/g, '')
+            if (startAccountCycle > endAccountCycle) {
+              this.$message.error('开始时间不能大于结束时间')
+              flag = true
+              return false
+            }
+            // 校验开始时间要小于结束时间
             item.attachList &&
               item.attachList.forEach((val) => {
                 delete val.uploadTime
@@ -412,19 +420,20 @@ export default {
           if (step !== '') {
             pms.step = step
           }
-
-          const res = await saveFinance(pms, this.supplierType)
-          this.resultMessage(
-            res,
-            () => {
-              this.getTableList()
-              this.nextStep = true
-            },
-            () => {
-              this.tableLoading = false
-              this.nextStep = false
-            }
-          )
+          if (!flag) {
+            const res = await saveFinance(pms, this.supplierType)
+            this.resultMessage(
+              res,
+              () => {
+                this.getTableList()
+                this.nextStep = true
+              },
+              () => {
+                this.tableLoading = false
+                this.nextStep = false
+              }
+            )
+          }
         }
       })
     },

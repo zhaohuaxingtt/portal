@@ -39,7 +39,7 @@
         width="40"
         min-width="40"
         align="center"
-        :label="$t('MT_XUHAO')"
+        :label="$t('MT_XUHAO2')"
       ></el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
       <el-table-column
@@ -166,7 +166,7 @@
         align="center"
         width="260"
         min-width="260"
-        :label="$t('MT_CAOZUO')"
+        :label="$t('MT_CAOZUO2')"
       >
         <template slot-scope="scope">
           <!-- <div
@@ -794,6 +794,7 @@ export default {
   },
   data() {
     return {
+      riseIcon: process.env.VUE_EMAIL_ICON,
       isGenerating: false,
       isCanRecall: false,
       isCanOpen: false,
@@ -895,10 +896,33 @@ export default {
     handleUpdateSubmit() {
       this.openUpdate = true
     },
+    createAnchorLink(href) {
+      // console.log('href', href)
+      const a = document.createElement('a')
+      a.href = href
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+    },
+    handleSendEmail(list, row) {
+      const subject = row.name
+      const send = list ? list.join(';') : ''
+      // let minuteSrc = 'aaa'
+      const attachments = row.attachments.find((item) => {
+        return item.source === '02'
+      })
+      const minuteSrc = attachments ? attachments.attachmentUrl : ''
+      let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'>`
+      let href = `mailto:${send}?subject=${subject}&body=${body}`
+      this.createAnchorLink(href)
+    },
     // 确认提交审批流
-    handleCloseOK(info) {
+    handleCloseOK(info, list, row) {
       if (info === 'close') {
         iMessage.success('关闭成功')
+        if (list) {
+          this.handleSendEmail(list, row)
+        }
       }
       this.openCloseMeeting = false
       this.refreshTable()
@@ -1052,8 +1076,6 @@ export default {
     },
     // 批量撤回
     handleRecall() {
-      console.log('this.selectedRow', this.selectedRow)
-      console.log('this.selectedRow', typeof batchRecallMeeting)
       let idArr = this.selectedRow.map((item) => {
         return item.id
       })
@@ -1368,11 +1390,15 @@ export default {
           //   iMessage.error("尚未生成会议纪要，现在不能关闭会议。");
           // }
           if (attachments && attachments.length <= 0) {
-            this.$confirm(this.$t('尚未生成会议纪要，前往生成会议纪要？'), this.$t('提示'), {
-              confirmButtonText: this.$t('前往'),
-              cancelButtonText: this.$t('取消'),
-              type: 'warning'
-            }).then(() => {
+            this.$confirm(
+              this.$t('尚未生成会议纪要，前往生成会议纪要？'),
+              this.$t('提示'),
+              {
+                confirmButtonText: this.$t('前往'),
+                cancelButtonText: this.$t('取消'),
+                type: 'warning'
+              }
+            ).then(() => {
               // this.openCloseMeeting = true
               // this.id = e.id
               // this.editRow.approvalProcessId = e.approvalProcessId
@@ -1380,14 +1406,17 @@ export default {
               this.actionObj('newFile')(e)
             })
           } else {
-            this.$confirm(this.$t('请确认是否需要关闭会议？'), this.$t('提示'), {
-              confirmButtonText: this.$t('是'),
-              cancelButtonText: this.$t('否'),
-              type: 'warning'
-            }).then(() => {
-              console.log('e', e)
+            this.$confirm(
+              this.$t('请确认是否需要关闭会议？'),
+              this.$t('提示'),
+              {
+                confirmButtonText: this.$t('是'),
+                cancelButtonText: this.$t('否'),
+                type: 'warning'
+              }
+            ).then(() => {
               if (e.isPreCSC || e.isCSC) {
-                this.$refs['closeDialog'].handleSubmit(e.id)
+                this.$refs['closeDialog'].handleSubmit(e.id, 'isSpecial',e)
               } else {
                 this.openCloseMeeting = true
               }
@@ -1426,8 +1455,8 @@ export default {
       //   e.meetingTypeName === 'Pre CSC' ||
       //   e.meetingTypeName === 'PRECSC'
       // ) {
-// --------------------------------------------//        
-        // 原meeting代码先注释
+      // --------------------------------------------//
+      // 原meeting代码先注释
       // if (e.isCSC || e.isPreCSC) {
       //   this.$router.push({
       //     path: '/meeting/specialDetails',
@@ -1444,7 +1473,7 @@ export default {
       //     }
       //   })
       // }
-// --------------------------------------------//  
+      // --------------------------------------------//
       // gpMBDL会议  /meeting/managementHall/mbdlMeeting
       //gpCSC会议   /meeting/managementHall/gpcscMeeting
       // 因为目前没有正确数据  假数据跳转 meetingNameSuffix  sprint17开发中  测试中会调整该代码
@@ -1456,21 +1485,21 @@ export default {
             // type: e.meetingTypeName
           }
         })
-      } else if (e.meetingNameSuffix == "gpCSC") {
+      } else if (e.meetingNameSuffix == 'gpCSC') {
         this.$router.push({
           path: '/meeting/managementHall/gpcscMeeting',
           query: {
             id: e.id
           }
         })
-      } else if (e.meetingNameSuffix == "MBDL") {
+      } else if (e.meetingNameSuffix == 'MBDL') {
         this.$router.push({
           path: '/meeting/managementHall/mbdlMeeting',
           query: {
             id: e.id
           }
         })
-      }else {
+      } else {
         this.$router.push({
           path: '/meeting/details',
           query: {

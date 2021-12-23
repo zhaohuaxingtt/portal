@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Description: 财务大数
 -->
 <template>
@@ -10,15 +10,31 @@
     <i-card class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
-          <i-button v-if="isSupplierDetail" @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
-          <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_ADD" v-else @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
-          <i-button v-if="isSupplierDetail" @click="deleteItem('ids',deleteFinancialBig)">{{$t('LK_SHANCHU')}}</i-button>
-          <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_DELETE" v-else @click="deleteItem('ids',deleteFinancialBig)">{{$t('LK_SHANCHU')}}</i-button>
-          <i-button @click="exportsTable" v-if="showExportsButton && isSupplierDetail">{{ $t('LK_DAOCHU') }}</i-button>
-          <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_EXPORT" @click="exportsTable" v-else-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
+          <i-button v-if="isSupplierDetail"
+                    @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
+          <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_ADD"
+                    v-else
+                    @click="addTableItem">{{$t('LK_XINZENG')}}</i-button>
+          <i-button v-if="isSupplierDetail"
+                    @click="deleteItem('ids',deleteFinancialBig)">{{$t('LK_SHANCHU')}}</i-button>
+          <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_DELETE"
+                    v-else
+                    @click="deleteItem('ids',deleteFinancialBig)">{{$t('LK_SHANCHU')}}</i-button>
+          <i-button @click="exportsTable"
+                    v-if="showExportsButton && isSupplierDetail">{{ $t('LK_DAOCHU') }}</i-button>
+          <i-button v-permission="SUPPLIER_KEYFINANCIALFIGURE_TABLE_EXPORT"
+                    @click="exportsTable"
+                    v-else-if="showExportsButton">{{ $t('LK_DAOCHU') }}</i-button>
+          <i-button @click="saveTable">{{language('BAOCUN','保存')}}</i-button>
         </div>
       </div>
-      <table-list :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" @handleSelectionChange="handleSelectionChange" :row-class-name="handleTableRow" :input-props="['year','currency','receivables','inventory','advancePayment','otherReceivables','rollingAssetsTotal','totalCurrentLab','totalLab','paidInCapital','totalOwnersEquity','assetsTotal','taking','cost','totalProfit','retainedProfits','debtRatio']" :index="true" />
+      <table-list :tableData="tableListData"
+                  :tableTitle="tableTitle"
+                  :tableLoading="tableLoading"
+                  @handleSelectionChange="handleSelectionChange"
+                  :row-class-name="handleTableRow"
+                  :input-props="['year','currency','receivables','inventory','advancePayment','otherReceivables','rollingAssetsTotal','totalCurrentLab','totalLab','paidInCapital','totalOwnersEquity','assetsTotal','taking','cost','totalProfit','retainedProfits','debtRatio']"
+                  :index="true" />
     </i-card>
   </div>
 </template>
@@ -40,7 +56,7 @@ export default {
     tableList,
     baseInfoCard
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle: tableTitle,
@@ -48,11 +64,11 @@ export default {
       selectTableData: []
     }
   },
-  created() {
+  created () {
     this.getTableList()
   },
   methods: {
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true
       const pms = {
         "step": "register",
@@ -66,7 +82,7 @@ export default {
       this.tableListData = res.data && res.data.list
       this.tableLoading = false
     },
-    async saveInfos(step = '') {
+    async saveInfos (step = '') {
       if (!this.tableListData.length) {
         return
       }
@@ -92,7 +108,7 @@ export default {
         })
       }
     },
-    resultMessage(res, successCallback, errorCallback) {
+    resultMessage (res, successCallback, errorCallback) {
       const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
       if (res.result) {
         if (res.code === '200' && res.data !== 'WARNING') {
@@ -113,12 +129,16 @@ export default {
         }
       }
     },
-    async handleNextStep() {
+    async handleNextStep () {
       await this.saveInfos()
       return this.nextStep
     },
-    handleTableRow(row) {
+    handleTableRow (row) {
       row.row.index = row.rowIndex
+    },
+    saveTable () {
+
+      this.saveInfos()
     },
     deleteFinancialBig
   }
