@@ -134,6 +134,9 @@ export default {
 		},
 		sure() {
 			console.log(this.newTypeForm, "98989")
+		},
+		initModify(currVa) {
+			this.newTypeForm = currVa
 		}
 	},
 	computed: {

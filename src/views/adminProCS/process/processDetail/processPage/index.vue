@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import ITable from './../../components/iTable';
+import ITable from '../../components/iTable';
 import {iInput, iCard, iButton } from 'rise';
 import {PROCESS_PAGE} from '../tables';
 import Edit from './edit.vue';

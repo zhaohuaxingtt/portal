@@ -49,7 +49,7 @@
     border-radius: 50%;
     background-color: #ccc;
     opacity: .5;
-
+    margin-bottom: 8px;
     &:hover{
         opacity: .9;
     }

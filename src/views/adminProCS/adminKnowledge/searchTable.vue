@@ -10,6 +10,9 @@
       :loading="tableLoading"
       :data="tableListData"
       :columns="tableSetting"
+			@publishChang='publishChang'
+			@stateChang="stateChang"
+			@sendChang="sendChang"
 			singleChoice=true
       @handle-selection-change="handleSelectionChange"
     />
@@ -32,6 +35,13 @@
 			:typeShow.sync="showTypeDialog"
 			:operateType="operateType"
 		/>
+
+		<AddKnowledgeContent
+			ref="addKnowledgeContent"
+			v-show="showContentDialog"
+			:contentShow.sync="showContentDialog"
+			:operateType="operateType"
+		/>
 	</el-card>
 </template>
 
@@ -40,12 +50,14 @@ import {iPagination, iTableCustom, iButton} from 'rise';
 import { pageMixins } from '@/utils/pageMixins'
 import { contentColumn, typeColumn } from './tableColumn'
 import AddKnowledgeType from './addKnowledgeType.vue'
+import AddKnowledgeContent from './addKnowledgeContent'
 export default {
 	components: {
 		iButton,
 		iPagination,
 		iTableCustom,
-		AddKnowledgeType
+		AddKnowledgeType,
+		AddKnowledgeContent
 	},
 	props: {
 		manageType: {
@@ -61,16 +73,35 @@ export default {
 			tableLoading: false,
 			tableListData: [],
 			operateType: 'add',  // 知识类型的操作类型
-			showTypeDialog: false  // 知识类型的的展示flag
+			showTypeDialog: false,  // 知识类型的的展示flag
+			showContentDialog: false,  // 知识内容展示flag
+			typeContent: [
+				{name: '知识类型', enName: 'asde', createdAt: '2021-12-11', published: true}
+			],
+			contentData: [
+				{name:'测试小分类', title: '测试标题', speaker: '测试主讲人', openingDate: '2020-12-20', section: '测试课程', department: '测试部门一', state: true, send: true, summary: '测试内容概要'}
+			]
 		}
 	},
 	created() {
-    this.tableSetting = this.manageType === 'content' ? contentColumn : typeColumn
+    this.tableSetting = this.manageType === 'content' ? contentColumn(this) : typeColumn(this)
+		this.tableListData = this.manageType === 'content' ? this.contentData : this.typeContent
   },
 	mounted() {
+		this.selectedItems = []
 		this.getTableList()
 	},
 	methods: {
+		publishChang(row){
+			// 更改当前类型管理的发布状态
+			console.log(row,'----=====')
+		},
+		stateChang(row) {
+			console.log(row, 'stateChang')
+		},
+		sendChang(row) {
+			console.log(row, 'sendChang')
+		},
 		getTableList(va) {
 			this.tableLoading = true
 			let params = {
@@ -85,6 +116,8 @@ export default {
 		addGlossary() {
 			if (this.manageType === 'content') {
 				console.log('内容')
+				this.showContentDialog = true
+				this.operateType = 'add'
 			} else {
 				this.showTypeDialog = true
 				this.operateType = 'add'
@@ -95,10 +128,14 @@ export default {
 		modifyHandler() {
 			if (this.manageType === 'content') {
 				console.log('内容')
+				this.showContentDialog = true
+				this.operateType = 'edit'
+				this.$refs.addKnowledgeContent.initModify(this.selectedItems[0])
 			} else {
 				this.showTypeDialog = true
 				this.operateType = 'edit'
 				console.log('1111')
+				this.$refs.addKnowledgeType.initModify(this.selectedItems[0])
 			}
 		},
 		delHandler() {

@@ -8,7 +8,6 @@
             :multiple="multiple"
             :http-request="httpUpload"
             :disabled="disabled || (files.length >= limit)"
-            :limit="limit"
             :on-exceed="handleExceed"
             v-if="!disabled"
             >
