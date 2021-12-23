@@ -921,7 +921,7 @@ export default {
       if (info === 'close') {
         iMessage.success('关闭成功')
         if (list) {
-          this.handleSendEmail(list, row)
+          // this.handleSendEmail(list, row)
         }
       }
       this.openCloseMeeting = false
