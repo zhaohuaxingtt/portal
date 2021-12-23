@@ -1,22 +1,13 @@
 <template>
     <div v-loading="uploading">
-        <el-upload
-            action
-            :accept="accept.map(type => `.${type}`).join(',')"
-            :before-upload="beforeAvatarUpload"
-            :show-file-list="false"
-            :multiple="multiple"
-            :http-request="httpUpload"
-            :disabled="disabled || (files.length >= limit)"
-            :on-exceed="handleExceed"
-            v-if="!disabled"
-            >
+        <div class="ui-upload-btn" @click="click">
             <div v-if="!isSlot">
                 <iButton>{{btnTxt}}</iButton>
-                <span class="tip" v-text="tipTxt"></span>
+                <span class="tip" @click.stop=";" v-text="tipTxt"></span>
             </div>
             <slot></slot>
-        </el-upload>
+            <input class="ui-upload" ref="upload" :disabled="disabled" :accept="accept" :multiple="multiple" @change="change" type="file">
+        </div>
         <template v-if="showFile">    
             <FileList v-for="(f,i) in files" :key="i" :disabled="disabled" @click="view(f)" :file="f" @del="removeFile(i)"></FileList>
         </template>
@@ -133,7 +124,6 @@
         },
         computed:{
             files(){
-                console.log(this.$slots.default);
                 return this.value || []
             },
             imgList(){
@@ -152,27 +142,50 @@
             this.isSlot = this.$slots.default
         },
         methods: {
-            async httpUpload(res){
-                this.uploading = true
-                let formData = new FormData();
-                formData.append("file",res.file);
-                let file = await uploadFile(formData);
-                this.uploading = false
-                this.$message.success("上传成功")
-                let val = this.files;
-                val.push({
-                    fileName:file.name,
-                    fileUrl: file.path
-                });
-                this.$emit("input",val);
-                this.$emit("onSuccess",file);
+            async httpUpload(file){
+                return new Promise(async (resolve,reject) => {
+                    try {
+                        this.uploading = true
+                        let formData = new FormData();
+                        formData.append("file",file);
+                        let res = await uploadFile(formData);
+                        this.uploading = false
+                        this.$message.success("上传成功")
+                        resolve({
+                            fileName:res.name,
+                            fileUrl: res.path
+                        })
+                    } catch {
+                        this.$message.error("上传失败")
+                        reject()
+                    }
+                })
             },
-            beforeAvatarUpload(file){
-                const isLtSize = file.size / 1024 / 1024 < this.maxSize;
-                if (!isLtSize) {
-                    this.$message.error(`上传文件大小不能超过 ${this.maxSize}MB!`);
+            click(){
+                this.$refs.upload.click()
+            },
+            async change(e){
+                let files = e.target.files
+                let fileList = []
+                let num = this.files.length
+                for (let i = 0; i < files.length; i++) {
+                    num += 1
+                    const isLtSize = files[i].size / 1024 / 1024 < this.maxSize;
+                    if (!isLtSize) {
+                        this.$message.error(`${files[i].name}上传文件大小不能超过 ${this.maxSize}MB!`);
+                        continue
+                    }
+                    if(num > this.limit){
+                        this.$message.warning(`限制上传${this.limit}个文件`)
+                        break
+                    }
+                    let res = await this.httpUpload(files[i])
+                    fileList.push(res)
                 }
-                return isLtSize;
+                let val = this.files;
+                val.push(...fileList);
+                this.$emit("input",val);
+                this.$emit("onSuccess",fileList);
             },
             removeFile(index){
                  this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
@@ -197,9 +210,6 @@
                     a.click()
                 }
             },
-            handleExceed(files, fileList) {
-                this.$message.warning(`您好，上传附件只能上传${this.limit}个文件,本次选择了 ${files.length} 个文件,共选择了 ${files.length + fileList.length} 个文件`)
-            }
         }
     }
 </script>
@@ -219,5 +229,8 @@
 .tip{
     margin-left: 20px;
 	color: #999;
+}
+.ui-upload{
+   display: none;
 }
 </style>

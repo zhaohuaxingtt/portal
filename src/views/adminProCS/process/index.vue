@@ -8,8 +8,8 @@
                     <iButton>主流程图</iButton>
                 </div>
                 <div>
-                    <iButton :disabled="disabled" @click="edit">修改</iButton>
-                    <iButton :disabled="disabled" @del="del">删除</iButton>
+                    <iButton :disabled="disabled || selectList.length == 0" @click="edit">修改</iButton>
+                    <iButton :disabled="disabled || selectList.length == 0" @del="del">删除</iButton>
                 </div>
             </div>
             <el-table :data="tableListData" ref="table" class="single-choise" borderstyle="width: 100%" @selection-change="handleSelectionChange">
@@ -52,7 +52,6 @@ import { iPage, iCard, iPagination, iButton } from 'rise'
 import Search from '../components/search.vue';
 import { pageMixins } from '@/utils/pageMixins'
 import addProcess from './addProcess.vue';
-import tableCol from './table';
 import processDetail from "./processDetail/index.vue";
 export default {
     mixins:[pageMixins],
@@ -94,10 +93,10 @@ export default {
         search(){},
         reset(){},
         edit(){
-            if(this.selectList.length == 0) return this.$message.warning("请选择一条数据")
+
         },
         del(){
-            if(this.selectList.length == 0) return this.$message.warning("请选择一条数据")
+
         },
         updateState(v,index){
             // this.$set(this.extraData.tableListData[index],"state",!v)
@@ -108,7 +107,7 @@ export default {
                 this.disabled = false
             }
         },
-        // 是否发生消息
+        // 是否发送消息
         updateMsg(v,index){
             // this.$set(this.extraData.tableListData[index],"send",!v)
         },

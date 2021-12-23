@@ -31,7 +31,29 @@ const PROCESS_PAGE = [
         }
     },
 ]
+const DOC = [
+    {
+        type:'index',
+        label:'序号',
+        width: 100
+    },
+    {
+        prop:'title',
+        label:'文档名称'
+    },
+    {
+        prop:'publishTime',
+        label:'发布日期'
+    },
+    {
+        label:'操作',
+        customRender:(h,{row},col,{del}) => {
+            return <iButton type="text" on-click={() => del(row)}>删除</iButton>
+        }
+    },
+]
 
 export {
-    PROCESS_PAGE
+    PROCESS_PAGE,
+    DOC
 }

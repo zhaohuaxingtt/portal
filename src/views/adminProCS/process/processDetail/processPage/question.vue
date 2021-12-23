@@ -5,13 +5,14 @@
         width="600px" 
         @close='close' 
         append-to-body
+        class="process-dialog"
     >
         <div class="content">
             <div class="flex margin-bottom20">
                 <iInput style="width:220px" :placeholder="language('请输入')" v-model="keyWord" />
                 <iButton style="margin-left:10px">搜索</iButton>
             </div>
-            <ITable :showPage="false" :tableSetting='tableSetting'></ITable>
+            <ITable :tableSetting='tableSetting'></ITable>
         </div>
         <div class="flex felx-row mt20 pb20 justify-end ">
             <iButton @click="close">{{ language('取消') }}</iButton>
@@ -21,12 +22,15 @@
 </template>
 
 <script>
-import {iDialog,iButton} from 'rise';
+import {iDialog,iButton,iInput} from 'rise';
 import {QS_SETTING} from './tables';
+import ITable from './../../components/iTable.vue';
 export default {
     components: {
         iDialog,
-        iButton
+        iButton,
+        iInput,
+        ITable
     },
     props:{
         show:{
