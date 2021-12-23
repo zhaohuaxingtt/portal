@@ -128,10 +128,10 @@ export default {
             this.selectData = [];
             this.handleData = val;
             this.handleValue = val.id;
-            this.loadingRight = true;
             this.getRight();
         },
         getRight(){
+            this.loadingRight = true;
             getRfqPartList({
                 current:this.page2.currPage,
                 size:this.page2.pageSize,
@@ -144,7 +144,7 @@ export default {
                 this.loadingRight = false;
             })
         },
-        handleSizeChange1(){
+        handleSizeChange1(val){
             this.page1.currPage = 1;
             this.page1.pageSize = val;
             this.getRfqListsByRfqId();
@@ -153,12 +153,12 @@ export default {
             this.page1.currPage = val;
             this.getRfqListsByRfqId();
         },
-        handleSizeChange2(){
+        handleSizeChange2(val){
             this.page2.currPage = 1;
             this.page2.pageSize = val;
             this.getRight();
         },
-        handleCurrentChange2(){
+        handleCurrentChange2(val){
             this.page2.currPage = val;
             this.getRight();
         },
@@ -182,5 +182,10 @@ export default {
 }
 ::v-deep .el-pagination__total{
     margin-top:2px;
+}
+
+::v-deep .el-table__body-wrapper{
+    height:26rem;
+    overflow-y: auto;
 }
 </style>
