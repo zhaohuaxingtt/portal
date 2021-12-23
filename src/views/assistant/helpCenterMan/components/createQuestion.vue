@@ -25,7 +25,7 @@
                     <i-input class="textarea" rows="5" type="textarea" v-model="form.questionTitle" placeholder="请输入" />
                 </el-form-item>
                 <el-form-item label="管理员回复" prop="answerContent">
-                    <iEditor class="editor" :height="300" style="margin-top:30px" id="qs-add" :zIndex="500" v-model="form.answerContent" :html="form.answerContent"></iEditor>
+                    <iEditor class="editor" :height="300" style="margin-top:40px" id="qs-add" :zIndex="500" v-model="form.answerContent" :html="form.answerContent"></iEditor>
                 </el-form-item>
 
             </iFormGroup>

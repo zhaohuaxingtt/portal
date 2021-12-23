@@ -794,6 +794,7 @@ export default {
   },
   data() {
     return {
+      riseIcon: process.env.VUE_EMAIL_ICON,
       isGenerating: false,
       isCanRecall: false,
       isCanOpen: false,
@@ -895,10 +896,33 @@ export default {
     handleUpdateSubmit() {
       this.openUpdate = true
     },
+    createAnchorLink(href) {
+      // console.log('href', href)
+      const a = document.createElement('a')
+      a.href = href
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+    },
+    handleSendEmail(list, row) {
+      const subject = row.name
+      const send = list ? list.join(';') : ''
+      // let minuteSrc = 'aaa'
+      const attachments = row.attachments.find((item) => {
+        return item.source === '02'
+      })
+      const minuteSrc = attachments ? attachments.attachmentUrl : ''
+      let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'>`
+      let href = `mailto:${send}?subject=${subject}&body=${body}`
+      this.createAnchorLink(href)
+    },
     // 确认提交审批流
-    handleCloseOK(info) {
+    handleCloseOK(info, list, row) {
       if (info === 'close') {
         iMessage.success('关闭成功')
+        if (list) {
+          this.handleSendEmail(list, row)
+        }
       }
       this.openCloseMeeting = false
       this.refreshTable()
@@ -1052,8 +1076,6 @@ export default {
     },
     // 批量撤回
     handleRecall() {
-      console.log('this.selectedRow', this.selectedRow)
-      console.log('this.selectedRow', typeof batchRecallMeeting)
       let idArr = this.selectedRow.map((item) => {
         return item.id
       })
@@ -1393,9 +1415,8 @@ export default {
                 type: 'warning'
               }
             ).then(() => {
-              console.log('e', e)
               if (e.isPreCSC || e.isCSC) {
-                this.$refs['closeDialog'].handleSubmit(e.id)
+                this.$refs['closeDialog'].handleSubmit(e.id, 'isSpecial',e)
               } else {
                 this.openCloseMeeting = true
               }

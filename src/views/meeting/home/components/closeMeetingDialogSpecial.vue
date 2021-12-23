@@ -148,7 +148,11 @@ export default {
       closeMeetingRules: {
         uploadFile: [
           // { required: this.row.isTriggerApproval == 'true' ? true : false, message: "请选择上传附件", trigger: "blur" },
-          { required: false, message: this.$t('请选择上传附件'), trigger: 'blur' }
+          {
+            required: false,
+            message: this.$t('请选择上传附件'),
+            trigger: 'blur'
+          }
         ]
       },
       approvalProcessList: []
@@ -170,7 +174,7 @@ export default {
     handleClose() {
       this.$emit('handleClose')
     },
-    handleSubmit(id) {
+    handleSubmit(id, str, row) {
       const strId = id ? (typeof id === 'object' ? this.id : id) : this.id
       // this.$refs['ruleFormCloseMeeting'].validate((valid) => {
       // if (valid) {
@@ -200,7 +204,12 @@ export default {
         .then((res) => {
           if (res) {
             // iMessage.success('关闭成功')
-            this.$emit('handleOK', 'close')
+            this.$emit(
+              'handleOK',
+              'close',
+              str === 'isSpecial' ? res.data : '',
+              row
+            )
             this.handleClose()
           } else {
             // iMessage.success('关闭失败')
