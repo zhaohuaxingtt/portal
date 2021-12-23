@@ -28,11 +28,11 @@ export function getFolderPartsList(params) {
 }
 
 // 新建标签
-export function insert(params) {
+export function insert(data) {
   return VUE_APP_PARTSFOLDER({
     url: '/insert',
-    method: 'GET',
-    params
+    method: 'POST',
+    data
   })
 }
 
@@ -267,5 +267,13 @@ export function getTagList(params) {
     url: '/getFolderCombo',
     method: 'GET',
     params: params
+  })
+}
+// 获取tagName
+export function getTagName(params) {
+  return VUE_APP_PARTSFOLDER({
+    url: '/getFolderAll',
+    method: 'GET',
+    params
   })
 }
