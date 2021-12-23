@@ -125,7 +125,7 @@ module.exports = {
   css: {
     //是否开起css分离
     extract: false,
-    sourceMap: process.env.NODE_ENV === 'production',
+    sourceMap: process.env.NODE_ENV !== 'production',
     requireModuleExtension: true,
     loaderOptions: {
       sass: {
