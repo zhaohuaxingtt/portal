@@ -1990,6 +1990,8 @@
 
     MT_ZHUANGTAI: '状态',
 
+    MT_ZHUANGTAI2: '状态',
+    
     MT_HUIYIRIQI: '会议日期',
 
     MT_ZHOUCI_: '周次',
@@ -2003,11 +2005,10 @@
     MT_QUEREN: '确认',
 
     MT_CHONGZHI: '重置',
-
     MT_XUHAO: '序号',
-
+    MT_XUHAO2: '序号',
     MT_CAOZUO: '操作',
-
+    MT_CAOZUO2: '操作',
     MT_CHEHUI: '撤回',
 
     MT_SHANCHU: '删除',
