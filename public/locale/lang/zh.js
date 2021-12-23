@@ -1734,7 +1734,7 @@
       HOME_MODULE_SOURCING: '寻源概览',
       MY_APPLICATION: '我的申请',
       MY_APPROVAL: '我的审批',
-      OVERDUE: '逾期代办',
+      OVERDUE: '逾期待办',
       IN_PROGRESS: '今日待办',
       HOME_MODULE_SPONSER: '供应商财务风险评级',
       HOME_MODULE_SCHEDULE: 'Schedule',
