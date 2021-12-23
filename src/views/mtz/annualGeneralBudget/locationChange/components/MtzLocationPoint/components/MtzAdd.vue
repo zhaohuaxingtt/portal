@@ -73,7 +73,8 @@ export default {
                 iMessage.error(tishi+this.$route.query.appId)
               }else{
                 mtzConfirm({
-                  appName: this.form.name
+                  appName: this.form.name,
+                  partProjectId:this.$route.query.partProjectId
                 }).then(res => {
                   if(res.result && res.code == "200"){
                     var data = deepClone(this.$route.query);
