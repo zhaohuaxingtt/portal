@@ -53,7 +53,35 @@ const DOC = [
     },
 ]
 
+const QUESTION = [
+    {
+		type: 'selection',
+		width: 50
+	},
+    {
+        type:'index',
+        label:'序号',
+        width: 100
+    },
+    {
+        prop:'firstLetter',
+        label:'首字母',
+        align: 'center'
+    },
+    {
+        prop:'name',
+        label:'问题描述',
+        align: 'center'
+    },
+    {
+        prop:'updatedAt',
+        label:'最后更新',
+        align: 'center'
+    }
+]
+
 export {
     PROCESS_PAGE,
-    DOC
+    DOC,
+    QUESTION
 }
