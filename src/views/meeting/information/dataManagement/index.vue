@@ -54,7 +54,7 @@ export default {
       tableColumns: [
         {
           type: 'index',
-          i18n: '序号',
+          i18n: 'MT_XUHAO',
           width: 69,
           align: 'center',
           tooltip: false
@@ -62,7 +62,7 @@ export default {
         {
           // prop: "name",
           label: '资料名称',
-          i18n: '资料名称',
+          i18n: 'MT_ZILIAOMINGCHENG',
           // width: 400,
           align: 'left',
           tooltip: true,
@@ -83,7 +83,7 @@ export default {
         {
           // prop: "documentType",
           label: '类型',
-          i18n: '类型',
+          i18n: 'MT_LEIXING',
           align: 'center',
           width: 400,
           tooltip: true,
@@ -107,7 +107,7 @@ export default {
         {
           // prop: "publisherName",
           label: '发布者',
-          i18n: '发布者',
+          i18n: 'MT_FABUZHE',
           align: 'center',
           width: 140,
           tooltip: true,
@@ -128,7 +128,7 @@ export default {
         {
           // prop: "publishDate",
           label: '发布日期',
-          i18n: '发布日期',
+          i18n: 'MT_FABURIQI',
           align: 'center',
           width: 160,
           tooltip: true,
@@ -149,7 +149,7 @@ export default {
         {
           prop: 'state',
           label: '状态',
-          i18n: '状态',
+          i18n: 'MT_ZHUANGTAI',
           width: 140,
           align: 'center',
           tooltip: false,
@@ -175,6 +175,7 @@ export default {
         },
         {
           label: '操作',
+          i18n:'MT_CAOZUO',
           width: 160,
           customRender: (h, scope) => {
             if (scope.row.state !== 1) {

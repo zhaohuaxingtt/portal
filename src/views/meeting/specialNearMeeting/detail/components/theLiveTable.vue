@@ -374,7 +374,7 @@ export default {
     // 取消关注
     handleUnfollow(e, bol) {
       if (e.state === '03') {
-        iMessage.warn('已经结束的议题不可以添加关注!')
+        iMessage.warn(this.$t('已经结束的议题不可以添加关注!'))
         return
       }
       this.following = true
@@ -390,7 +390,7 @@ export default {
         // }).then(() => {
         unfollow(param).then((res) => {
           if (res.code === 200) {
-            iMessage.success('取消关注成功!')
+            iMessage.success(this.$t('取消关注成功!'))
           }
           this.$emit('query', this)
         })
@@ -403,7 +403,7 @@ export default {
     // 添加关注
     handleFollow(e, bol) {
       if (e.state === '03') {
-        iMessage.warn('已经结束的议题不可以取消关注!')
+        iMessage.warn(this.$t('已经结束的议题不可以取消关注!'))
         return
       }
       this.following = true
@@ -419,7 +419,7 @@ export default {
         // }).then(() => {
         follow(param).then((res) => {
           if (res.code === 200) {
-            iMessage.success('关注成功')
+            iMessage.success(this.$t('关注成功'))
           }
           this.$emit('query', this)
         })

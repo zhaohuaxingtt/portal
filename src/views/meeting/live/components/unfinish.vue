@@ -314,7 +314,7 @@
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
       :prev-text="$t('MT_SHANGYIYE')"
-      :next-text="$t(' MT_XIAYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
     <!-- <detailDialog
@@ -390,12 +390,12 @@ export default {
         }
       ],
       statusObj: {
-        '01': '草稿',
-        '02': '开放',
-        '03': '锁定',
-        '04': '开始',
-        '05': '结束',
-        '06': '关闭'
+        '01': 'MT_CAOGAO',
+        '02': 'MT_KAIFANG',
+        '03': 'MT_SUODING',
+        '04': 'MT_KAISHI',
+        '05': 'MT_JIESHU',
+        '06': 'MT_GUANBI'
       }
     }
   },
@@ -497,8 +497,8 @@ export default {
     handleRevokeTopic() {
       const bol = this.findLockStatus(this.selectedData)
       const warn = bol
-        ? '请确认是否发送议题撤回申请至会议管理员?'
-        : '是否确认撤回该议题?'
+        ? this.$t('请确认是否发送议题撤回申请至会议管理员?')
+        : this.$t('是否确认撤回该议题?')
       if (
         this.selectedData[0].meetingStatus === '02' ||
         this.selectedData[0].meetingStatus === '03'

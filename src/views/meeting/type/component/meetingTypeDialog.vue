@@ -602,7 +602,7 @@ export default {
 
       if (approvalProcessId === '' && this.ruleForm.isTriggerApproval) {
         // console.log(11111);
-        callback(new Error('必选'))
+        callback(new Error(this.$t('必选')))
       }
       callback()
       // if (!this.ruleForm.isTriggerApproval) {
@@ -611,19 +611,19 @@ export default {
     }
     const validateApprovalCoverImage = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('必填'))
+        callback(new Error(this.$t('必填')))
       }
       callback()
     }
     const validateLimitiMoney = (rule, value, callback) => {
       if (value !== null && value !== '') {
         if (String(value).trim() === '' || Number(value) <= 0) {
-          callback(new Error('必须正整数'))
+          callback(new Error(this.$t('必须正整数')))
         } else if (
           String(value).indexOf('.') !== -1 ||
           String(value).indexOf('-') !== -1
         ) {
-          callback(new Error('必须正整数'))
+          callback(new Error(this.$t('必须正整数')))
         } else {
           callback()
         }
@@ -634,12 +634,12 @@ export default {
     const validateLimitiMoneyRequired = (rule, value, callback) => {
       if (value !== null && value !== '') {
         if (String(value).trim() === '' || Number(value) <= 0) {
-          callback(new Error('必须正整数'))
+          callback(new Error(this.$t('必须正整数')))
         } else if (
           String(value).indexOf('.') !== -1 ||
           String(value).indexOf('-') !== -1
         ) {
-          callback(new Error('必须正整数'))
+          callback(new Error(this.$t('必须正整数')))
         } else {
           callback()
         }
@@ -650,7 +650,7 @@ export default {
     const validateIncidenceRelation = (rule, value, callback) => {
       console.log('value', value)
       if (value.length === 0) {
-        callback(new Error('必选'))
+        callback(new Error(this.$t('必选')))
         return
       }
       callback()
@@ -660,7 +660,7 @@ export default {
     }
     const validateConclusionConfig = (rule, value, callback) => {
       if (value.length === 0) {
-        callback(new Error('必选'))
+        callback(new Error(this.$t('必选')))
         return
       }
       callback()
@@ -1169,7 +1169,7 @@ export default {
       //   type: "warning",
       // }).then(() => {
       if (this.ruleForm.lowerLimitMoney > this.ruleForm.upperLimitMoney) {
-        iMessage.error('下限金额不能大于上限金额！')
+        iMessage.error(this.$t('下限金额不能大于上限金额！'))
       } else {
         this.submitForm('ruleForm')
       }
@@ -1245,16 +1245,16 @@ export default {
             conclusionConfig: conclusionConfigStr
           }
           if (this.ruleForm.isTriggerApproval) {
-            let approvalProcessId = this.ruleForm.approvalProcessId
-              ? this.approvalProcess.find((item) => {
-                  return item.id === this.ruleForm.approvalProcessId
-                }).id
-              : this.approvalProcess.find((item) => {
-                  return item.name === this.ruleForm.approvalProcessName
-                }).id
+            // let approvalProcessId = this.ruleForm.approvalProcessId
+            //   ? this.approvalProcess.find((item) => {
+            //       return item.id === this.ruleForm.approvalProcessId
+            //     }).id
+            //   : this.approvalProcess.find((item) => {
+            //       return item.name === this.ruleForm.approvalProcessName
+            //     }).id
             formData = {
               ...this.ruleForm,
-              approvalProcessId,
+              approvalProcessId:"",
               userIds: userIdsStr,
               incidenceRelation: incidenceRelationStr,
               conclusionConfig: conclusionConfigStr
@@ -1266,7 +1266,7 @@ export default {
                 // console.log("data", data);
                 if (data) {
                   this.clearDiolog('submit')
-                  iMessage.success('更新成功')
+                  iMessage.success(this.$t('更新成功'))
                   this.$emit('flushTable')
                 } else {
                   this.clearDiolog('submit')
@@ -1282,7 +1282,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.clearDiolog('submit')
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('保存成功'))
                   this.$emit('flushTable')
                 } else {
                   this.clearDiolog('submit')
@@ -1307,12 +1307,12 @@ export default {
     handleAvatarSuccess() {},
     beforeAvatarUpload(file) {
       if (!file.type.includes('image/')) {
-        this.$message.error('请上传图片文件')
+        this.$message.error(this.$t('请上传图片文件'))
         return false
       }
       const isLt15M = file.size / 1024 / 1024 < 15
       if (!isLt15M) {
-        this.$message.error('上传头像图片大小不能超过 15MB!')
+        this.$message.error(this.$t('上传头像图片大小不能超过 15MB!'))
       }
       return isLt15M
     }

@@ -1972,6 +1972,8 @@
 
     MT_HUIYIGAIQI: '会议改期',
 
+    MT_GAIQI: '改期',
+
     MT_YITIMINGCHENG: '议题名称',
 
     MT_HUIYIXIUXI: '会议休息',
@@ -1983,6 +1985,8 @@
     MT_YITIZILIAO: '议题资料',
 
     MT_XUANZEHUIYI: '选择会议',
+
+    MT_CHAKANHUIYIJIYAO: '查看会议纪要',
 
     MT_ZHUANGTAI: '状态',
 
@@ -2028,6 +2032,12 @@
 
     MT_XIUGAI: '修改',
 
+    MT_LEIXING: '类型',
+
+    MT_FABUZHE: '发布者',
+
+    MT_FABURIQI: '发布日期',
+
     MT_DAORUYITI: '导入议题',
 
     MT_XIAZAIMUBAN: '下载模板',
@@ -2045,6 +2055,10 @@
     MT_TONGPING: '同屏',
 
     MT_ZHANSHI: '展示',
+
+    MT_YITITIAOZHENG: '议题调整',
+
+    MT_JIESHUYITI: '结束议题',
 
     MT_SHENGCHENGHUIYIJIYAO: '生成会议纪要',
 
@@ -2154,6 +2168,8 @@
     MT_ZANWUZHIBOHUIYI: '暂无直播会议',
 
     MT_WODEYITI: '我的议题',
+
+    MT_CHAIFEN: '拆分',
 
     MT_WEIWANCHENG: '未完成',
 
@@ -2273,7 +2289,19 @@
 
     MT_ZANWU: '暂无',
 
+    MT_DAIDING: '待定',
+
     MT_DINGDIAN: '定点',
+
+    MT_FALOI: '发LOI',
+
+    MT_ZHUANTER: '转TER/TOP-TER',
+
+    MT_XIACIPRE: '下次Pre CSC',
+
+    MT_ZHUANCSC: '转CSC',
+
+    MT_GUANBI: '关闭',
 
     MT_WEIHUJIELUN: '维护结论',
 
@@ -2292,6 +2320,8 @@
     MT_ZILIAOSHANGCHUANREN: '资料上传人',
 
     MT_CHEHUIYITI: '撤回议题',
+
+    MT_TIANJIAYITI: '添加议题',
 
     MT_JULIHUIYIHAIYOU: '距离会议还有',
 
@@ -2338,6 +2368,13 @@
     MT_SHANGCHUANWENJIANDAXIAOBUNENGCHAOGUO: '上传文件大小不能超过',
 
     MT_SHANGCHUANSHIBAI: '上传失败',
+
+    MT_BITIAN: '必填',
+
+    MT_TIAOZHENGWANCHENG: '调整完成',
+
+    MT_QUXIAOTIAOZHENG: '取消调整',
+
     APPROVAL: {
       ADD: '新增',
       SAVE: '保存',

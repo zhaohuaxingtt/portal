@@ -146,7 +146,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < this.maxSize;
       if (!isLt10M) {
-        this.$message.error(`上传文件大小不能超过 ${this.maxSize}MB!`);
+        this.$message.error(`${this.$t('上传文件大小不能超过')} ${this.maxSize}MB!`);
       }
       return isLt10M;
     },

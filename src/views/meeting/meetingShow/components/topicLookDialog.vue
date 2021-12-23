@@ -20,7 +20,7 @@
         <div class="left">{{ topicInfo.topic }}</div>
         <div class="right">
           {{ start }}~{{ end
-          }}<span style="margin-left:4px">{{ status[topicInfo.state] }}</span>
+          }}<span style="margin-left:4px">{{ $t(status[topicInfo.state]) }}</span>
         </div>
       </li>
       <li class="info-row">
@@ -169,9 +169,9 @@ export default {
     return {
       enclosure: enclosure,
       status: {
-        "01": "未进行",
-        "02": "进行中",
-        "03": "已结束",
+        "01": "MT_WEIJINXING",
+        "02": "MT_JINXINGZHONG",
+        "03": "MT_YIJIESHU",
       },
     };
   },
