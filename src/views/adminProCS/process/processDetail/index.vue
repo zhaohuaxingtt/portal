@@ -22,8 +22,8 @@
 
 <script>
     import attachment from './attachment.vue';
-    import doc from './doc.vue';
-    import guide from './guide.vue';
+    import doc from './doc/index.vue';
+    import guide from './guide/index.vue';
     import processPage from './processPage/index.vue';
     import question from './question.vue';
     export default {

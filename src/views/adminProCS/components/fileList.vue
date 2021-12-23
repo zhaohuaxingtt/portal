@@ -24,7 +24,7 @@
 .file-list{
     padding: 2px 8px;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     margin: 10px 0;
     max-width: 500px;
     min-width: 200px;
