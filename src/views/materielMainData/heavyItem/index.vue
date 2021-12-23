@@ -98,15 +98,15 @@
       </iSearch>
     </div>
     <div class="heavyItemTabel">
-        <iCard title="Heavy Item材料组">
+        <iCard :title="language('Heavy Item材料组')">
             <div class="btnList" slot="header-control">
                 <div v-if="viewSta">
                     <iButton @click="edit">{{language('编辑')}}</iButton>
                     <buttonDownload :download-method="exportExcel">{{language('导出')}}</buttonDownload>
                 </div>
                 <div v-else>
-                    <iButton @click="save">保存</iButton>
-                    <iButton @click="cancel">取消</iButton>
+                    <iButton @click="save">{{language('保存')}}</iButton>
+                    <iButton @click="cancel">{{language('取消')}}</iButton>
                 </div>
             </div>
             <div class="tabelList">

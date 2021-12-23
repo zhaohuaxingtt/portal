@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { iCard, iButton, iSelect } from 'rise'
+import { iCard, iButton, iSelect, iMessage } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import { subSupplierTableTitle } from './data'
@@ -143,6 +143,15 @@ export default {
               item['city'] = item.city.cityNameCn ? item.city.cityNameCn : item.city
               return item
             })
+            for (const iten of reqTableList) {
+              if (iten.country === '中国') {
+                if (!iten.province || !iten.city) {
+                  iMessage.error(this.language('SHENGFENCHENGSHIBUNENGWEIKONG', '省份、城市不能为空！'))
+                  this.tableLoading = false
+                  return
+                }
+              }
+            }
             const req = {
               saveSubSupplierDTOList: reqTableList,
               step: 'submit'

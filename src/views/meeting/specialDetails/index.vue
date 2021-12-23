@@ -1301,7 +1301,7 @@ export default {
     handleOKTopics(info, list) {
       if (info === 'close') {
         iMessage.success('关闭成功')
-        this.handleSendEmail(list)
+        // this.handleSendEmail(list)
       }
       this.closeDialog()
       this.flushTable()

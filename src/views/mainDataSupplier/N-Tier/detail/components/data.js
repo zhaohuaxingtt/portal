@@ -117,28 +117,28 @@ export const tableTitle = [
   {
     props: 'province',
     name: '省份',
-    key: 'SHENGFEN',
-    required: true,
-    rule: [
-      {
-        required: true,
-        message: '请选择省份',
-        trigger: 'change'
-      }
-    ]
+    key: 'SHENGFEN'
+    // required: true,
+    // rule: [
+    //   {
+    //     required: true,
+    //     message: '请选择省份',
+    //     trigger: 'change'
+    //   }
+    // ]
   },
   {
     props: 'city',
     name: '城市',
-    key: 'SUPPLIER_CHENGSHI',
-    required: true,
-    rule: [
-      {
-        required: true,
-        message: '请选择城市',
-        trigger: 'change'
-      }
-    ]
+    key: 'SUPPLIER_CHENGSHI'
+    // required: true,
+    // rule: [
+    //   {
+    //     required: true,
+    //     message: '请选择城市',
+    //     trigger: 'change'
+    //   }
+    // ]
   },
   {
     props: 'address',
