@@ -4,7 +4,7 @@
      <span>left</span>
    </div>
    <div class='right'>
-
+     right
    </div>
 </i-card>
 </template>
@@ -24,20 +24,23 @@ export default {
 ::v-deep .cardBody{
   display: flex;
   flex-flow: row;
-
+  height: calc(100vh - 240px) !important; // 父级没有定义高度
   .left{
     flex: 50% 0 0;
-    background: #00a378;
-    &:after{
-      content: '1222';
-      width: 1px;
-      color: red;
-      height: 100%;
-    }
+    overflow: auto;
   }
   .right {
     flex: 50% 0 0;
-    background: #0EBADD;
+    overflow: auto;
+    &::before{
+      content: ' ';
+      width: 2px;
+      height: 100%;
+      background: red;
+      margin-right: 5px;
+      display: inline-block;
+      vertical-align: top;
+    }
   };
 
 }
