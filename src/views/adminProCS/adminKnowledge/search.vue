@@ -1,5 +1,5 @@
 <template>
-  <iCard>
+	<iCard>
 		<div>
 			<el-form>
 				<el-row :gutter="20">

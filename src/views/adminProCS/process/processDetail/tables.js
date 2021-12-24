@@ -80,8 +80,36 @@ const QUESTION = [
     }
 ]
 
+const AttachColumn = [
+    {
+		type: 'selection',
+		width: 50
+	},
+    {
+        type:'index',
+        label:'序号',
+        width: 100
+    },
+    {
+        prop:'name',
+        label:'文档名称',
+        align: 'center'
+    },
+    {
+        prop:'version',
+        label:'版本号',
+        align: 'center'
+    },
+    {
+        prop:'publishDate',
+        label:'发布日期',
+        align: 'center'
+    }
+]
+
 export {
     PROCESS_PAGE,
     DOC,
-    QUESTION
+    QUESTION,
+    AttachColumn
 }

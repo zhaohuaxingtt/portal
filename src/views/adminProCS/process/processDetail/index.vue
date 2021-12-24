@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import attachment from './attachment.vue';
+    import attachment from './attachment/attachment.vue';
     import doc from './doc/index.vue';
     import guide from './guide/index.vue';
     import processPage from './processPage/index.vue';

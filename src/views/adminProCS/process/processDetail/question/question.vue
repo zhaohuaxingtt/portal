@@ -5,11 +5,11 @@
                 <iInput style="width:220px" :placeholder="language('请输入')" v-model="keyWord" />
             </div>
             <div>
-                <iButton style="margin-left:10px">搜索</iButton>
+                <iButton @click="search">搜索</iButton>
                 <iButton @click="addQuestionFun">添加常见问题</iButton>
                 <iButton @click="modifyQuestionFun" :disabled='selectedItems.length == 0'>修改</iButton>
-                <iButton :disabled='selectedItems.length == 0'>删除</iButton>
-                <iButton :disabled='selectedItems.length == 0'>问题回答</iButton>
+                <iButton @click="delQuestionFun" :disabled='selectedItems.length == 0'>删除</iButton>
+                <iButton @click="handleQuestionAnswer" :disabled='selectedItems.length == 0'>问题回答</iButton>
             </div>
         </div>
 
@@ -39,6 +39,11 @@
             :show.sync="addQuestionDialog" 
             :type="type"
         />
+		<questionAnswer
+			ref="questionAnswerDialog"
+			v-show="questionAnswerShow" 
+            :show.sync="questionAnswerShow" 
+		/>
     </iCard>
 </template>
 
@@ -47,6 +52,7 @@ import { iCard, iInput, iButton, iPagination, iTableCustom} from 'rise';
 import { pageMixins } from '@/utils/pageMixins'
 import { QUESTION } from '../tables.js'
 import addQuestion from './addQuestion.vue'
+import questionAnswer from './questionAnswer'
 export default {
     name: 'question',
     components: {
@@ -55,7 +61,8 @@ export default {
         iInput,
         iPagination,
         iTableCustom,
-        addQuestion
+        addQuestion,
+		questionAnswer
     },
     mixins: [pageMixins],
     data() {
@@ -63,16 +70,18 @@ export default {
             tableLoading: false,
             tableSetting: QUESTION,
             tableListData: [
-                {firstLetter: 'a', name: '测试问题藐视', updatedAt: '2020-11-20'}
+                { firstLetter: 'a', name: '测试问题藐视', updatedAt: '2020-11-20' },
+				{ firstLetter: 'b', name: '测试问题视', updatedAt: '2020-11-21' }
             ],
             selectedItems: [],
             type: 'add',
-            addQuestionDialog: false
+            addQuestionDialog: false,
+            keyWord: '',
+			questionAnswerShow: false
         }
     },
     methods: {
         handleSelectionChange(val) {
-            console.log(val, '2345')
             this.selectedItems = val
         },
         addQuestionFun() {
@@ -83,7 +92,30 @@ export default {
             this.type = 'edit'
             this.addQuestionDialog = true
             this.$refs.questionDialog.initModifyQuestion(this.selectedItems)
-        }
+        },
+        search() {
+            console.log(this.keyWord, "keyWord")
+        },
+        delQuestionFun() {
+            this.$confirm('是否删除已选中选项','提示',{
+				confirmButtonText:'确认',
+				cancelButtonText:"取消",
+				type:'warning'
+			}).then(async ()=>{
+				this.tableListData.map((item, idx) => {
+				if (item.id === this.selectedItems[0]?.id) {
+					this.tableListData.splice(idx, 1)
+				}
+			})
+			}).catch(()=>{
+				this.$refs.testTable.clearSelection()
+			})
+        },
+		handleQuestionAnswer() {
+			console.log(this.selectedItems[0], '2222')
+			this.questionAnswerShow = true
+			this.$refs.questionAnswerDialog.initDialog(this.selectedItems[0])
+		}
     }
 }
 </script>
