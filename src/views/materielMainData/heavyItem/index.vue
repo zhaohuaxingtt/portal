@@ -229,10 +229,16 @@ export default {
         if(judgeBOrP){
           return this.$message.error('选择BUC或者PRA后请选择零件成本分析员')
         }
-
         this.viewSta = true
         this.heavyExtraData.edit = true
         const data = this.tabelData.map((val) => {
+            console.log(val,'=======');
+            if(!val.heavyItemList.includes('BUC') && !val.heavyItemList.includes('PRA')){
+              val.partsUserIds = []
+            }
+            if(!val.heavyItemList.includes('TIA')){
+              val.moldUserIds = []
+            }
             return {
                 categoryId:val.categoryId,
                 employName:val.employName,
