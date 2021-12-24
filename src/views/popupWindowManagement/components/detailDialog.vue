@@ -190,7 +190,7 @@ export default {
             overflow: auto;
         }
         .publishTime{
-            width: 250px;
+            // width: 250px;
             padding: 5px;
             color: #1660F1;
             // border: solid rgb(229, 229, 229) 1px;
