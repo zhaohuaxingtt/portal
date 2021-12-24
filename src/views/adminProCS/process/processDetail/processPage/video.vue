@@ -9,9 +9,9 @@
         <div class="content">
            <div class="flex content-item">
                <span>操作视频：</span>
-               <iUpload v-model="form.operatorImage" btnTxt="选择视频" tipTxt="文件大小最大限制10MB!" :maxSize="10" :limit="1"></iUpload>
+               <iUpload v-model="form.operatorImage" accept="video/*" btnTxt="选择视频" tipTxt="文件大小最大限制10MB!" :maxSize="10" :limit="1"></iUpload>
            </div>
-           <video class="video" controls src="http://cnsvwshvm1416.csvw.com/upload/2018/07/30/Attachment_56604_path.mp4?t=0.33881052792501865"></video>
+           <video ref="video" class="video" controls src="http://cnsvwshvm1416.csvw.com/upload/2018/07/30/Attachment_56604_path.mp4?t=0.33881052792501865"></video>
         </div>
         <div class="flex felx-row mt20 pb20 justify-end ">
             <iButton @click="close">{{ language('取消') }}</iButton>
@@ -44,9 +44,10 @@ export default {
     },
     methods: {
         close(){
+            this.$refs.video && this.$refs.video.pause()
             this.$emit("update:show",false)
         }
-    },
+    }
 }
 </script>
 

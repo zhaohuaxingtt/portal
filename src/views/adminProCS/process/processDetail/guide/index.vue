@@ -30,6 +30,7 @@ export default {
     },
     data() {
         return {
+            keyWord:"",
             tableSetting: DOC,
             docSetting:[
                  {

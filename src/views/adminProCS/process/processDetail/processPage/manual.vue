@@ -9,7 +9,7 @@
         <div class="content">
            <div class="flex content-item">
                <span>操作手册封面：</span>
-               <iUpload v-model="form.operatorImage" :accept="['jpg','jpeg','gif','png']" tipTxt="文件大小最大限制10MB!" :maxSize="10" :limit="1"></iUpload>
+               <iUpload v-model="form.operatorImage" accept="image/*" tipTxt="文件大小最大限制10MB!" :maxSize="10" :limit="1"></iUpload>
            </div>
            <div class="flex content-item">
                <span>操作手册：</span>

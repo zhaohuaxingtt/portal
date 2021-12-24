@@ -77,7 +77,7 @@ export default {
 				termsContent: { required:'true',message:"请输入词条内容",trigger:'blur' }
 			},
 			fileList: [],
-			acceptPicType: ['jpg', 'jpeg', 'png', 'gif'],
+			acceptPicType: "image/*",
 			maxSize: 10
 		}
 	},

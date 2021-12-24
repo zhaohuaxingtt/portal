@@ -47,7 +47,7 @@ import addAttach from './addAttach.vue'
 export default {
     data () {
 		return {
-			keyword: '',
+			keyWord: '',
 			tableLoading: false,
 			tableListData: [
 				{name: '2222', version: '1.2.3', publishDate: '2020-12-21'}

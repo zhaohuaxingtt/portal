@@ -28,7 +28,7 @@
                         />
                 </iFormItem>
                 <iFormItem :label="language('添加附件')" prop='file'>
-                    <i-upload v-model="form.file" :maxSize="10" tipTxt="文件大小最大限制10MB!"></i-upload>
+                    <i-upload v-model="form.file" btnTxt="选择文件" :maxSize="10" tipTxt="文件大小最大限制10MB!"></i-upload>
                 </iFormItem>
             </el-form>
         </div>

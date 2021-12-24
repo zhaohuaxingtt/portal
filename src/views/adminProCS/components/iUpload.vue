@@ -38,54 +38,7 @@
                 default: true
             },
             accept:{
-                type: Array,
-                default: function() {
-                    return [
-                    'mpg',
-                    'mp4',
-                    'rmvb',
-                    'rm',
-                    'mpeg',
-                    'avi',
-                    'wmv',
-                    'mov',
-                    'flv',
-                    'jpg',
-                    'jpeg',
-                    'gif',
-                    'png',
-                    'bmp',
-                    'mp3',
-                    'wma',
-                    'wav',
-                    'txt',
-                    'doc',
-                    'docx',
-                    'xls',
-                    'xlsx',
-                    'ppt',
-                    'pptx',
-                    'swf',
-                    'pdf',
-                    'tiff',
-                    'tif',
-                    'ai',
-                    'psd',
-                    'fla',
-                    'wmp',
-                    'zip',
-                    'rar',
-                    'tar',
-                    'gz',
-                    'z',
-                    'iso',
-                    'cab',
-                    'jar',
-                    'ceb',
-                    'wps',
-                    'ttf'
-                    ]
-                }
+                default:""
             },
             // 文件大小 M
             maxSize:{

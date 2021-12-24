@@ -149,7 +149,7 @@ export default {
 				knowledgeCategory: { required:'true',message:"请选择知识分类",trigger:'select' },
 				organizations: { required:'true',message:"请选择所属科室",trigger:'select' }
 			},
-			acceptPicType: ['jpg', 'jpeg', 'png', 'gif'],
+			acceptPicType: "image/*",
 			// 调取接口
 			knowledgeSectionList: [
 				{ id: '0', label: '月报' }, 
