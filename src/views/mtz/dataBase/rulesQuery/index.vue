@@ -263,7 +263,13 @@ export default {
       reset(){
         this.page.currPage = 1
         this.page.pageSize = 10
-        this.formData={effectFlag: '1'}
+        this.formData={
+          effectFlag: '1',
+          buyerDeptId:[],
+          marketSource:[],
+          compensationPeriod:[],
+          effectFlag:[],
+        }
         this.getList()
       },
       handleExportAll(){
