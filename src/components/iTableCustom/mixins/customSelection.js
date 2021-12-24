@@ -18,23 +18,19 @@ export default {
       })
     },
     handleCheckedRow(val, row) {
-      const { checkStrictly } = this.customSelectionOption
-      if (!checkStrictly) {
-        const childs = this.getChildRows(row)
-        if (childs.length > 0) {
-          childs.forEach((e) => {
-            e.checked = val
-            e.isIndeterminate = false
-          })
-        }
+      console.log('自定义选择')
+      const childs = this.getChildRows(row)
+      if (childs.length > 0) {
+        childs.forEach((e) => {
+          e.checked = val
+          e.isIndeterminate = false
+        })
       }
       if (!val) {
         row.isIndeterminate = false
       }
       // 如果是取消选中
-      if (!checkStrictly) {
-        this.setParentChecked(row.parentUniqueId)
-      }
+      this.setParentChecked(row.parentUniqueId)
 
       // 头部全选反选
       const checkedData = this.tableData.filter((e) => e.checked)
