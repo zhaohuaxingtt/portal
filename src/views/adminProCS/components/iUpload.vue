@@ -2,7 +2,7 @@
     <div v-loading="uploading">
         <div class="ui-upload-btn" @click="click">
             <div v-if="!isSlot">
-                <iButton>{{btnTxt}}</iButton>
+                <iButton :disabled="disabled">{{btnTxt}}</iButton>
                 <span class="tip" @click.stop=";" v-text="tipTxt"></span>
             </div>
             <slot></slot>

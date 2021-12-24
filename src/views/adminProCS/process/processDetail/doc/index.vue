@@ -9,7 +9,7 @@
                 <iButton @click="dialog.show = true">添加ProD文档</iButton>
             </div>
         </div>
-        <ITable :tableSetting='tableSetting' :extraData="extraData"></ITable>
+        <ITable :tableSetting='tableSetting' :query="query" :extraData="extraData"></ITable>
         
         <iDialog
             title="新增ProD文档"
@@ -78,6 +78,9 @@ export default {
     methods: {
         confirm(){
 
+        },
+        query(page){
+            console.log(page);
         },
         del(row){
             this.$confirm('确定删除此文档吗?', '提示', {
