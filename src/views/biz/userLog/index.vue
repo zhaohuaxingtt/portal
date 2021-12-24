@@ -41,10 +41,10 @@
 					<iLabel class="label" :label="language('操作内容')" slot="label"></iLabel>
 					<iInput v-model="form.content_like" class="w-220" :placeholder="language('请输入')" />
 				</div>
-				<!-- <div class="form-item">
+				<div class="form-item">
 					<iLabel class="label" :label="language('日志编号')" slot="label"></iLabel>
-					<iInput v-model="form.no" class="w-220" :placeholder="language('请输入')" />
-				</div> -->
+					<iInput v-model="form.id" class="w-220" :placeholder="language('请输入')" />
+				</div>
 			</el-form>
 		</iSearch>
 		<iCard class="mar-t20">
@@ -53,7 +53,6 @@
 			</div>
 			<CommonTable ref="table" :tableColumns="tableColumns" :extraData="extraData" :params="form"></CommonTable>
 		</iCard>
-		<MsgDialog :show.sync="show" :content.sync="msg"></MsgDialog>
   </iPage>
 </template>
 
@@ -61,7 +60,6 @@
 import pageHeader from '@/components/pageHeader'
 import { iPage,iSearch, iInput, iDatePicker, iSelect,iCard, iLabel } from 'rise'
 import CommonTable from './../components/CommonTable.vue';
-import MsgDialog from './../components/MsgDialog.vue';
 import tableColumns from './table';
 import {listOperation,exportBizLog} from '@/api/biz/log';
 
@@ -75,8 +73,7 @@ export default {
 		iSelect,
 		iCard,
 		iLabel,
-		CommonTable,
-		MsgDialog
+		CommonTable
 	},
 	data() {
 		return {
@@ -86,9 +83,7 @@ export default {
 			date:"",
 			extraData:{
                 msgDetail:this.msgDetail
-            },
-			show:false,
-			msg:""
+            }
 		}
 	},
 	created(){
@@ -113,6 +108,7 @@ export default {
 					content_like:"",
 					createDate_gt:"",
 					createDate_le:"",
+					id:""
 				}	
 				this.date = ""
 				resolve()
@@ -131,12 +127,7 @@ export default {
 		dateChange(date){
             this.form.createDate_gt = date ? date[0] : ""
             this.form.createDate_le = date ? date[1] : ""
-        },
-		// 报文详情
-		msgDetail(row){
-			this.msg = row.result
-			this.show = true
-		}
+        }
 	}
 }
 </script>
