@@ -7,25 +7,55 @@
        </div>
        <div  class='right-box'>
          <show-me-components/>
-
-         <year-change-components/>
+         <year-change-components class='margin-left20'/>
        </div>
-
-
      </div>
+    <i-table-custom class='margin-top20' :columns="brandMTZTitle"
+                    :data="brandMTZList"></i-table-custom>
   </i-card>
 </template>
 
 <script>
-import {iCard,iSelect} from 'rise'
+import {iCard} from 'rise'
 import ShowMeComponents from '@/views/mtz/annualGeneralBudget/reportsShow/components/comm/ShowMeComponents'
 import YearChangeComponents from '@/views/mtz/annualGeneralBudget/reportsShow/components/comm/YearChangeComponents'
+import iTableCustom from '@/components/iTableCustom'
 export default {
   name: 'index',
   components:{
+    iTableCustom,
     YearChangeComponents,
     ShowMeComponents,
     iCard,
+  },
+  data(){
+    return {
+      brandMTZList:[{brandName:'大众',yearMtzMoney:400,nextYearMtzMoney:300}],
+      brandMTZTitle:[
+        {
+          prop: "brandName",
+          label: "品牌",
+          i18n: "LK_PINGPAI",
+          headerAlign: "center",
+          align: "center",
+          tooltip: true,
+        },
+        {
+          prop: "yearMtzMoney",
+          label: "2021MTZ预算(百万)",
+          headerAlign: "center",
+          align: "center",
+          tooltip: true,
+        },
+        {
+          prop: "nextYearMtzMoney",
+          label: "2020MTZ预算(百万)",
+          headerAlign: "center",
+          align: "center",
+          tooltip: true,
+        },
+      ]
+    }
   }
 }
 </script>

@@ -19,7 +19,6 @@ export default {
 .year-change{
   display: flex;
   align-items: center;
-  margin-left: 20px;
   span {
     font-size: 20px;
     color: #000000;
