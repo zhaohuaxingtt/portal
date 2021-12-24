@@ -57,7 +57,7 @@
 						format="yyyy-MM-dd"
 						range-separator="至"
 						value-format="yyyy-MM-dd"
-						style="width:320px"
+						class="p-date"
                         @change="dateChange"
 						clearable
 					/>
@@ -79,28 +79,28 @@
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('操作内容')" slot="label"></iLabel>
-					<iInput v-model="form.content_like" class="w-220" :placeholder="$t('请输入')" />
+					<iInput v-model="form.content_like" class="w-220" :placeholder="language('请输入')" />
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('岗位')" slot="label"></iLabel>
-					<iInput v-model="form.userPosition" class="w-220" :placeholder="$t('请输入')" />
+					<iInput v-model="form.userPosition" class="w-220" :placeholder="language('请输入')" />
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('接口名称')" slot="label"></iLabel>
-					<iInput v-model="form.interfaceName" class="w-220" :placeholder="$t('请输入')" />
+					<iInput v-model="form.interfaceName" class="w-220" :placeholder="language('请输入')" />
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('用户')" slot="label"></iLabel>
-					<iInput v-model="form.userRole" class="w-220" :placeholder="$t('请输入')" />
+					<iInput v-model="form.userRole" class="w-220" :placeholder="language('请输入')" />
 				</div>
 				<div class="form-item">
 					<iLabel class="label" :label="language('接口流水号')" slot="label"></iLabel>
-					<iInput v-model="form.interfaceSerial" class="w-220" :placeholder="$t('请输入')" />
+					<iInput v-model="form.interfaceSerial" class="w-220" :placeholder="language('请输入')" />
 				</div>
-				<!-- <div class="form-item">
+				<div class="form-item">
 					<iLabel class="label" :label="language('日志编号')" slot="label"></iLabel>
-					<iInput v-model="form.no" class="w-220" :placeholder="$t('请输入')" />
-				</div> -->
+					<iInput v-model="form.id" class="w-220" :placeholder="language('请输入')" />
+				</div>
 				<div class="form-item">
 					<iLabel class="label" label="" slot="label"></iLabel>
                     <el-checkbox v-model="form.success" style="margin-top:6px" label="" :indeterminate="false" @change="statusChange">是否成功</el-checkbox>
@@ -113,8 +113,8 @@
 			</div>
 			<CommonTable ref="table" :extraData="extraData" :tableColumns="tableColumns" :params="form"></CommonTable>
 		</iCard>
-		<MsgDialog :show.sync="show" :content.sync="msg"></MsgDialog>
 
+		<detail ref="detail" :show.sync="show" :parmas="parmas"></detail>
   </iPage>
 </template>
 
@@ -122,9 +122,9 @@
 import pageHeader from '@/components/pageHeader'
 import { iPage,iSearch, iInput, iDatePicker, iSelect, iCard, iLabel} from 'rise'
 import CommonTable from './../components/CommonTable.vue';
-import MsgDialog from './../components/MsgDialog.vue';
-import tableColumns from './table';
+import {TABLE} from './table';
 import {listCategory,listOperation,listInterfaceSystem,listTriggerType,exportBizLog,listMenu} from '@/api/biz/log';
+import detail from './detail.vue';
 export default {
 	components: { 
 		iPage,
@@ -136,12 +136,12 @@ export default {
 		iCard,
 		iLabel,
 		CommonTable,
-        MsgDialog
+		detail
 	},
 	data() {
 		return {
 			form:{},
-			tableColumns,
+			tableColumns:TABLE,
             extraData:{
                 msgDetail:this.msgDetail
             },
@@ -152,7 +152,7 @@ export default {
             triggerTypes:[],
             moduleMenu:[],
             show:false,
-            msg:""
+			parmas:{}
 		}
 	},
     created(){
@@ -196,7 +196,8 @@ export default {
                     interfaceSerial:"",
                     createDate_gt:"",
                     createDate_le:"",
-                    success:true
+                    success:true,
+					id:""
                 }	
                 this.date = ""
                 resolve()
@@ -212,10 +213,23 @@ export default {
         exportExcel(){
             return exportBizLog({ extendFields: this.form })
         },
-		// 报文详情
+		// 查看详情
         msgDetail(row){
-            this.msg = row.result
+			if(row.category == 1){
+				// 操作日志 	流水号查
+				this.parmas = {
+					id_in:row.interfaceSerial ? row.interfaceSerial.split(",") : []
+				}
+			} else {
+				// 接口日志		id查
+				this.parmas = {
+					id:row.id
+				}
+			}
 			this.show = true
+			this.$nextTick(() => {
+				this.$refs.detail.query()
+			})
         },
         dateChange(date){
             this.form.createDate_gt = date ? date[0] : ""
@@ -230,4 +244,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "./../common.scss";
+.p-date{
+	width: 485px !important;
+}
 </style>

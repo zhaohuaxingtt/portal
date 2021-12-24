@@ -92,22 +92,33 @@
           <!-- 外部市场价来源 -->
           <template #externalMarketPriceSource="scope">
             <iSelect v-if="editMode"
+                     filterable
                      v-model="scope.row.externalMarketPriceSource"
                      :placeholder="language('QINGXUANZE', '请选择')">
-              <el-option v-for="(item, index) in dropDownData['dropDownExternalMarketPriceSourceData']"
-                         :key="index"
-                         :value="item"
-                         :label="item">
+              <el-option v-for="item in externalMaterialSelectList"
+                         :key="item.externalMarketPriceSource"
+                         :value="item.externalMarketPriceSource"
+                         :label="item.externalMarketPriceSource">
               </el-option>
             </iSelect>
             <p v-if="!editMode">{{scope.row.externalMaterialCode}}</p>
           </template>
           <!-- 外部来源对应牌号 -->
           <template #externalMaterialCode="scope">
-            <iInput v-if="editMode"
+            <!-- <iInput v-if="editMode"
                     v-model="scope.row.externalMaterialCode"
                     :placeholder="language('QINGSHURU', '请输入')" />
-            <p v-if="!editMode">{{scope.row.externalMaterialCode}}</p>
+            <p v-if="!editMode">{{scope.row.externalMaterialCode}}</p> -->
+            <iSelect v-if="editMode"
+                     filterable
+                     v-model="scope.row.externalMaterialCode"
+                     :placeholder="language('QINGXUANZE', '请选择')">
+              <el-option v-for="item in externalMaterialSelectList"
+                         :key="item.externalMaterialCode"
+                         :value="item.externalMaterialCode"
+                         :label="item.externalMaterialCode">
+              </el-option>
+            </iSelect>
           </template>
           <!-- 取价规则 -->
           <!-- <template #prPriceSourceTypeValue="scope">
@@ -166,7 +177,8 @@ import {
   fetchExport,
   fetchUpload,
   fetchEdit,
-  fetchPriceRule
+  fetchPriceRule,
+  externalMaterialSelect
 } from '@/api/mtz/database/sourceMarketPrice'
 export default {
   components: {
@@ -181,15 +193,16 @@ export default {
     uploadButton
   },
   mixins: [pageMixins],
-  created() {
+  created () {
     this.initDropDown()
+    this.externalMaterialSelect()
     this.initSearchData()
     this.getPriceRule()
     this.$nextTick(() => {
       this.getTableData()
     })
   },
-  data() {
+  data () {
     return {
       searchForm: {}, //表单数据
       dropDownData: {},
@@ -199,25 +212,26 @@ export default {
       loading: false,
       editMode: false,
       backupData: [],
-      priceRuleDropDownData: []
+      priceRuleDropDownData: [],
+      externalMaterialSelectList: []
     }
   },
   methods: {
     // 初始化下拉
-    initDropDown() {
+    initDropDown () {
       this.queryFormData.map((item) => {
         this.$set(this.dropDownData, item['dropDownTitle'], [])
       })
       this.getDropDownData()
     },
     // 初始化检索条件
-    initSearchData() {
+    initSearchData () {
       for (const key in this.searchForm) {
         this.searchForm[key] = []
       }
     },
     // 获取列表数据
-    getTableData() {
+    getTableData () {
       this.loading = true
       fetchTableData({
         pageNo: this.page.currPage,
@@ -232,7 +246,7 @@ export default {
       })
     },
     // 获取筛选项数据
-    getDropDownData() {
+    getDropDownData () {
       this.dropDownData.dropDownMarketPriceSourceTypeData = [
         { message: '手工上传', code: 1 },
         { message: '系统自动', code: 2 }
@@ -312,18 +326,18 @@ export default {
       })
     },
     // 点击确定查询
-    handleSubmitSearch(val) {
+    handleSubmitSearch (val) {
       this.page.currPage = 1
       this.getTableData()
     },
     // 点击重置查询
-    handleSearchReset() {
+    handleSearchReset () {
       this.page.pageSize = 10
       this.initSearchData()
       this.handleSubmitSearch()
     },
     // 手工同步数据
-    handleManualSync() {
+    handleManualSync () {
       fetchManualSync().then((res) => {
         if (res && res.code) {
           iMessage.success(res.desZh)
@@ -332,11 +346,11 @@ export default {
       })
     },
     // 点击上传
-    handleClickUpload() {
+    handleClickUpload () {
       this.$refs.uploadButton.$refs.upload.$refs['upload-inner'].handleClick()
     },
     // 上传文件
-    handleUpload(content) {
+    handleUpload (content) {
       let formdata = new FormData()
       formdata.append('file', content.file)
       formdata.append('userId', this.$store.state.permission.userInfo.id)
@@ -348,12 +362,12 @@ export default {
       })
     },
     // 编辑
-    handleEdit() {
+    handleEdit () {
       this.editMode = true
       this.backupData = window._.cloneDeep(this.tableListData)
     },
     // 保存编辑
-    handleSave() {
+    handleSave () {
       if (
         this.tableListData.find(
           (item) =>
@@ -374,12 +388,12 @@ export default {
       })
     },
     // 取消
-    handleCancel() {
+    handleCancel () {
       this.editMode = false
       this.tableListData = window._.cloneDeep(this.backupData)
     },
     // 导出
-    handleExport() {
+    handleExport () {
       fetchExport(this.searchForm).then((res) => {
         if (res && res.code != 200) {
           iMessage.error(res.desZh)
@@ -387,7 +401,7 @@ export default {
       })
     },
     // 取价规则
-    getPriceRule() {
+    getPriceRule () {
       fetchPriceRule().then((res) => {
         if (res && res.code == 200) {
           this.priceRuleDropDownData = res.data
@@ -395,11 +409,16 @@ export default {
       })
     },
     // 编辑状态-改变市场价事件
-    handleChangePriceSource(val, row) {
+    handleChangePriceSource (val, row) {
       if (val == '手工上传') {
         this.$set(row, 'externalMarketPriceSource', null)
         // row.externalMarketPriceSource
       }
+    },
+    externalMaterialSelect () {
+      externalMaterialSelect().then(res => {
+        this.externalMaterialSelectList = res.data
+      })
     }
   }
 }
