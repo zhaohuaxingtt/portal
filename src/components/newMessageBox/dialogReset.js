@@ -38,7 +38,9 @@ export function NewMessageBox(obj){
 
 export function NewMessageBoxClose(){
     Vue.nextTick(() => {
-        instance.closeValue = false
+        if(instance){
+            instance.closeValue = false
+        }
     })
 }
 
