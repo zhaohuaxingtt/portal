@@ -35,7 +35,119 @@ export default [
               showFooter: true
             },
             component: () =>
-              import('@/views/mtz/annualGeneralBudget/reportsShow/index.vue')
+              import('@/views/mtz/annualGeneralBudget/reportsShow/index.vue'),
+            redirect: 'reportsShow/mtzAnnualBudget',
+            children: [
+              {
+                path: 'mtzAnnualBudget',
+                name: 'mtzAnnualBudget',
+                meta: {
+                  title: '年度预算',
+                  showFooter: true
+                },
+                component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/index.vue' ),
+                redirect: 'mtzAnnualBudget/materialGroup',
+                children: [
+                  {
+                    path: 'materialGroup',
+                    name: 'materialGroup',
+                    meta: {
+                      title: '材料组',
+                      showFooter: true
+                    },
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/materialgroup/index' ),
+                  },
+                  {
+                    path: 'classMaterial',
+                    name: 'classMaterial',
+                    meta: {
+                      title: '材料中类',
+                      showFooter: true
+                    },
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/classmaterial/index' ),
+                  },
+                  {
+                    path: 'department',
+                    name: 'department',
+                    meta: {
+                      title: '科室',
+                      showFooter: true
+                    },
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/department/index' ),
+                  },
+                  {
+                    path: 'brand',
+                    name: 'brand',
+                    meta: {
+                      title: '品牌',
+                      showFooter: true
+                    },
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/brand/index' ),
+                  },
+                  {
+                    path: 'model',
+                    name: 'model',
+                    meta: {
+                      title: '车型',
+                      showFooter: true
+                    },
+                    component: () => import('@/views/mtz/annualGeneralBudget/reportsShow/components/annualbudget/model/index' ),
+                  }
+                ]
+              },
+              {
+                path: 'monthlyTracking',
+                name: 'monthlyTracking',
+                meta: {
+                  title: '月度跟踪',
+                  showFooter: true
+                },
+                component: () =>import( '@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/index.vue' ),
+                redirect: 'monthlyTracking/monthlyBudgetTracking',
+                children:[
+                  {
+                    path: 'monthlyBudgetTracking',
+                    name: 'monthlyBudgetTracking',
+                    meta: {
+                      title: '预算月度跟踪',
+                      showFooter: true
+                    },
+                    component: () =>import( '@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/monthlybudgettracking/index' ),
+
+                  },
+                  {
+                    path: 'causeAnalysisDifference',
+                    name: 'causeAnalysisDifference',
+                    meta: {
+                      title: '差异原因分析',
+                      showFooter: true
+                    },
+                    component: () =>import( '@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/causeanalysisdifference/index' ),
+
+                  },
+                  {
+                    path: 'monthlyTrackingPayment',
+                    name: 'monthlyTrackingPayment',
+                    meta: {
+                      title: '支付金额月度跟踪',
+                      showFooter: true
+                    },
+                    component: () =>import( '@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/monthlytrackingpayment/index' ),
+
+                  },
+                  {
+                    path: 'modelMonthlyBudgetTracking',
+                    name: 'modelMonthlyBudgetTracking',
+                    meta: {
+                      title: '车型月度预算跟踪',
+                      showFooter: true
+                    },
+                    component: () =>import( '@/views/mtz/annualGeneralBudget/reportsShow/components/monthlytracking/modelmonthlybudgettracking/index' ),
+
+                  }
+                ]
+              },
+            ]
           },
           {
             path: 'locationChange',
