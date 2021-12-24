@@ -101,7 +101,7 @@
                          :label="item.externalMarketPriceSource">
               </el-option>
             </iSelect>
-            <p v-if="!editMode">{{scope.row.externalMaterialCode}}</p>
+            <p v-if="!editMode">{{scope.row.externalMarketPriceSource}}</p>
           </template>
           <!-- 外部来源对应牌号 -->
           <template #externalMaterialCode="scope">
@@ -119,6 +119,7 @@
                          :label="item.externalMaterialCode">
               </el-option>
             </iSelect>
+            <p v-if="!editMode">{{scope.row.externalMaterialCode}}</p>
           </template>
           <!-- 取价规则 -->
           <!-- <template #prPriceSourceTypeValue="scope">
@@ -413,6 +414,8 @@ export default {
       if (val == '手工上传') {
         this.$set(row, 'externalMarketPriceSource', null)
         // row.externalMarketPriceSource
+      } else {
+        this.$set(row, 'marketPriceSourceType', 2)
       }
     },
     externalMaterialSelect () {
