@@ -114,7 +114,7 @@
 			<CommonTable ref="table" :extraData="extraData" :tableColumns="tableColumns" :params="form"></CommonTable>
 		</iCard>
 
-		<detail :show.sync="show"></detail>
+		<detail ref="detail" :show.sync="show" :parmas="parmas"></detail>
   </iPage>
 </template>
 
@@ -151,7 +151,8 @@ export default {
             interfaceSystemList:[],
             triggerTypes:[],
             moduleMenu:[],
-            show:false
+            show:false,
+			parmas:{}
 		}
 	},
     created(){
@@ -212,9 +213,23 @@ export default {
         exportExcel(){
             return exportBizLog({ extendFields: this.form })
         },
-		// 报文详情
+		// 查看详情
         msgDetail(row){
+			if(row.category == 1){
+				// 操作日志 	流水号查
+				this.parmas = {
+					id_in:row.interfaceSerial ? row.interfaceSerial.split(",") : []
+				}
+			} else {
+				// 接口日志		id查
+				this.parmas = {
+					id:row.id
+				}
+			}
 			this.show = true
+			this.$nextTick(() => {
+				this.$refs.detail.query()
+			})
         },
         dateChange(date){
             this.form.createDate_gt = date ? date[0] : ""

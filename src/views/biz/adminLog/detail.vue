@@ -4,6 +4,7 @@
         title="关联日志报文详情"
         @close="closeDialog"
         width="80%"
+        top="40px"
         class="dialog"
     >
         <div class="content">
@@ -33,6 +34,8 @@ import {iPagination} from 'rise';
 import { pageMixins } from '@/utils/pageMixins'
 import iTableCustom from '@/components/iTableCustom'
 import {TABLE_DETAIL} from './table';
+import {findRecordLogs} from '@/api/biz/log';
+
 export default {
     components: {
         iDialog,
@@ -44,6 +47,10 @@ export default {
         show:{
             type:Boolean,
             default:false
+        },
+        params:{
+            type:Object,
+            default:() => {}
         }
     },
     data() {
@@ -54,8 +61,20 @@ export default {
         }
     },
     methods: {
-        query(){
-
+        async query(){
+             try {
+                let data = {
+                    current: this.page.currPage - 1,
+                    size: this.page.pageSize,
+                    extendFields: this.params
+                }
+                this.loading = true
+                let res = await findRecordLogs(data)
+                this.list = res.data?.content || []
+                this.page.totalCount = res.data.total
+            } finally {
+                this.loading = false
+            }
         },
         closeDialog(){
             this.$emit("update:show",false)

@@ -1,7 +1,8 @@
 export default [
     {
       i18n: '日志编号',
-      prop: 'id'
+      prop: 'id',
+      width: "150px"
     },
     {
       prop: 'typeName',
