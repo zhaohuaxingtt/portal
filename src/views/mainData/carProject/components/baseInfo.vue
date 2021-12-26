@@ -560,7 +560,10 @@ export default {
         let projectManagerIDs = val.data.projectManager
 
         //通过绑定员工ID获取员工数组信息
-        const werk = val.data.werk ? val.data.werk.split(',') : []
+        let werk = []
+        if (typeof val.data.werk === 'string' && val.data.werk) {
+          werk = val.data.werk.split(',')
+        }
         let newFormData = { ...val.data, werk }
         if (purchaseIDs) {
           let purchaseIDList = purchaseIDs.split(',')
