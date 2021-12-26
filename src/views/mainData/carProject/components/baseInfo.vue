@@ -138,6 +138,7 @@
                 v-model="formData.werk"
                 :disabled="!editable"
                 filterable
+                multiple
               >
                 <el-option
                   v-for="item in procureFactorySelectList"
@@ -479,12 +480,13 @@ export default {
           return val.id
         })
         .join(',')
-
+      const werk = this.formData.werk ? this.formData.werk.join(',') : []
       let param = {
         ...this.formData,
         projectPurchaser: projectPurchaserId,
         areaController: areaControllerId,
-        projectManager: projectManagerId
+        projectManager: projectManagerId,
+        werk
       }
       this.saveLoading = true
       let val = await carProjectCreateBaseInfo(param).finally(() => {
@@ -522,13 +524,14 @@ export default {
           return val.id
         })
         .join(',')
-
+      const werk = this.formData.werk ? this.formData.join(',') : []
       let param = {
         ...this.formData,
         projectPurchaser: projectPurchaserId,
         areaController: areaControllerId,
         projectManager: projectManagerId,
-        id: carProjectID
+        id: carProjectID,
+        werk
       }
 
       this.saveLoading = true
@@ -557,7 +560,11 @@ export default {
         let projectManagerIDs = val.data.projectManager
 
         //通过绑定员工ID获取员工数组信息
-        let newFormData = { ...val.data }
+        let werk = []
+        if (typeof val.data.werk === 'string' && val.data.werk) {
+          werk = val.data.werk.split(',')
+        }
+        let newFormData = { ...val.data, werk }
         if (purchaseIDs) {
           let purchaseIDList = purchaseIDs.split(',')
           let purchaseIDNumList = purchaseIDList.map((item) => {
