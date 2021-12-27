@@ -80,7 +80,7 @@ export default {
     },
     async getNewsList() {
       const res = await getNewsList(this.query, this.id)
-      if (res.data.length > 0 && res) {
+      if (res && res.data && res.data.length > 0) {
         res.data.forEach((item) => {
           item.publishDate = item.publishDate.split(/\s+/)[0]
         })
