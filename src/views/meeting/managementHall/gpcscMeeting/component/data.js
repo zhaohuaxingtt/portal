@@ -365,212 +365,33 @@ export const buttonList = [
   },
 ];
 
-// tableColumns: [
-//   {
-//     type: "selection",
-//     width: 40,
-//   },
-//   {
-//     prop: "itemNo",
-//     label: "NO.",
-//     i18n: "NO.",
-//     width: 50,
-//     tooltip: false,
-//     align: "center",
-//   },
-//   {
-//     prop: "count",
-//     label: "Count",
-//     i18n: "Count",
-//     align: "center",
-//     emit: "go-detail",
-//     width: 70,
-//     // customRender: (h, scope) => {
-//     //   return <span class="open-link-text">{scope.row.name}</span>;
-//     // },
-//     tooltip: false,
-//   },
-//   {
-//     prop: "topic",
-//     label: "Topic",
-//     i18n: "Topic",
-//     align: "center",
-//     // width: 130,
-//     tooltip: false,
-//     customRender: (h, scope) => {
-//       if (scope.row.state === "01")
-//         return h("span", [
-//           h(
-//             "a",
-//             {
-//               style: {
-//                 marginRight: "5px",
-//               },
-//               class: "open-link-text open-link-text-black",
-//               on: {
-//                 click: () => {
-//                   this.lookThemen(scope.row);
-//                 },
-//               },
-//             },
-//             scope.row.topic
-//           ),
-//         ]);
-//       if (scope.row.state === "03")
-//         return h("span", [
-//           h(
-//             "a",
-//             {
-//               style: {
-//                 marginRight: "5px",
-//               },
-//               class: "open-link-text open-link-text-grey",
-//               on: {
-//                 click: () => {
-//                   this.lookThemen(scope.row);
-//                 },
-//               },
-//             },
-//             scope.row.topic
-//           ),
-//         ]);
-//       return h("span", [
-//         h(
-//           "a",
-//           {
-//             style: {
-//               marginRight: "5px",
-//             },
-//             class: "open-link-text open-link-text-blue",
-//             on: {
-//               click: () => {
-//                 this.lookThemen(scope.row);
-//               },
-//             },
-//           },
-//           scope.row.topic
-//         ),
-//       ]);
-//     },
-//   },
-//   {
-//     prop: "duration",
-//     label: "Duration(min)",
-//     i18n: "Duration(min)",
-//     align: "center",
-//     // width: 90,
-//     tooltip: false,
-//     customRender: (h, scope) => {
-//       if (
-//         Number(this.$route.query.userId) === 2 &&
-//         this.meetingInfo.state === "03" &&
-//         scope.row.state === "04"
-//       ) {
-//         return h("div", { class: "open-clink-back-text" }, [
-//           h("div", {
-//             class: "open-text-text-choice",
-//             on: {
-//               click: () => {
-//                 this.recallTheThemen(scope.row);
-//               },
-//             },
-//           }),
-//           // h(
-//           //   "div",
-//           //   {
-//           //     class: "open-clink-back ",
-//           //   },
-//           //   scope.row.duration
-//           // ),
-//         ]);
-//         // if (
-//         //   this.selectedTableData &&
-//         //   this.selectedTableData.find((item) => {
-//         //     return item.id === scope.row.id;
-//         //   })
-//         // ) {
-//         //   return h("div", { class: "open-clink-back-text" }, [
-//         //     h("div", {
-//         //       class: "open-text-text-choice",
-//         //       on: {
-//         //         click: () => {
-//         //           this.recallTheThemen(scope.row);
-//         //         },
-//         //       },
-//         //     }),
-//         //     // h(
-//         //     //   "div",
-//         //     //   {
-//         //     //     class: "open-clink-back ",
-//         //     //   },
-//         //     //   scope.row.duration
-//         //     // ),
-//         //   ]);
-//         // }
-//         // return h("div", { class: "open-clink-back-text" }, [
-//         //   h("div", {
-//         //     class: "open-text-text",
-//         //     on: {
-//         //       click: () => {
-//         //         this.recallTheThemen(scope.row);
-//         //       },
-//         //     },
-//         //   }),
-//         //   h(
-//         //     "div",
-//         //     {
-//         //       class: "open-clink-back ",
-//         //     },
-//         //     scope.row.duration
-//         //   ),
-//         // ]);
-//       }
-//       return h("span", [h("span", scope.row.duration)]);
-//     },
-//   },
-//   {
-//     prop: "time",
-//     label: "Time",
-//     i18n: "Time",
-//     tooltip: false,
-//     // width: 110,
-//   },
-//   {
-//     prop: "presenter",
-//     label: "Presenter",
-//     i18n: "Presenter",
-//     // width: 100,
-//     tooltip: false,
-//   },
-//   {
-//     prop: "presenterDept",
-//     label: "Presenter Department",
-//     i18n: "Presenter Department",
-//     align: "center",
-//     emit: "go-detail",
-//     // width: 110,
-//     tooltip: false,
-//   },
-//   {
-//     prop: "supporter",
-//     label: "Supporter",
-//     i18n: "Supporter",
-//     align: "center",
-//     tooltip: false,
-//     // width: 100,
-//   },
-//   {
-//     prop: "supporterDept",
-//     label: "Supporter Department",
-//     i18n: "Supporter Department",
-//     tooltip: false,
-//     // width: 110,
-//   },
-//   {
-//     prop: "remark",
-//     label: "Remark",
-//     i18n: "Remark",
-//     tooltip: false,
-//     // width: 120,
-//   },
-// ],
+
+//列表
+export const TABLE_COLUMNS_DEFAULT = [
+  // {
+  //   type: 'index',
+  //   label: '#',
+  //   i18n: '',
+  //   width: 50
+  // },
+  {
+    props: '',
+    name: '货币类型',
+    key: ''
+  },
+  {
+    props: '',
+    name: '目标价',
+    key: ''
+  },
+  {
+    props: '',
+    name: '最终成交价',
+    key: ''
+  },
+  {
+    props: '',
+    name: '供应商',
+    key: ''
+  },
+]
