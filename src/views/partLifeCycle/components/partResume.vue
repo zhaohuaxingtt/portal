@@ -539,23 +539,22 @@
         this.bookmarkNodes = [...this.bookmarkNodes]
       },
       toUrl(item,typeName) {
-        let {type,id,title,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,accessoriesRsNum,rsNum,businessType,aekoCode} = item
+        let {type,desinateId, designateType, projectId, rfqId,id,letterId,aekoId,loiId,title,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,accessoriesRsNum,rsNum,businessType,aekoCode} = item
         let path = ''
         if(type==1) path = ''                        // 会议
         if(type==2) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editorInfo?id=${title}` // 寻源 ok
         if(type==3) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/loidetail?id=${title}` // LOI
-        if(type==4) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${id}&businessKey=${type}` // 定点
+        if(type==4) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=${businessType}` // 定点
         if(type==5) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${title}` // Aeko
         if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/accessorypartdetail?spNum=${title}` // 配件定点
-        if(type==7) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${id}` // mtz定点
+        if(type==7) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${desinateId}` // mtz定点
         if(typeName == 'aekoCode' && aekoCode) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoCode}` // 定点信编号
         if(typeName == 'rsNlNum' && rsNlNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/letterdetail?id=${rsNlNum}` // 定点信编号
-        if(typeName == 'mtzRsNum' && mtzRsNum) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${id}` // mtz rs编号
-        if(typeName == 'isIngredientAnalyze' && isIngredientAnalyze && rfqType ==2 && businessTitle) path = `/sourcing/#/targetpriceandscore/costanalysismanage/costanalysis?rfqId=${businessTitle}` // 成本分析
+        if(typeName == 'mtzRsNum' && mtzRsNum) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${desinateId}` // mtz rs编号
+        if(typeName == 'isIngredientAnalyze' && isIngredientAnalyze && rfqType ==2 && businessTitle) path = `/sourcing/#/targetpriceandscore/costanalysismanage/costanalysis?rfqId=${rfqId}` // 成本分析
         if(typeName == 'RFQ' && businessTitle) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editordetail?id=${businessTitle}` // rfq编号
-        if(typeName == 'fsNum' && fsNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${id}&businessKey=${businessType}` // fs编号
-//        if(typeName == 'accessoriesRsNum' && accessoriesRsNum) path = `/sourcing/#/sourcing/designate/rsSingleMaintenance?${id}&designateType=${businessType}` // RS单号
-        if(typeName == 'rsNum' && rsNum) path = `/sourcing/#/sourcing/designate/rsSingleMaintenance?desinateId=${id}&designateType=${businessType}` // RS单号
+        if(typeName == 'fsNum' && fsNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=${businessType}` // fs编号
+        if(typeName == 'rsNum' && rsNum) path = `/sourcing/#/sourcing/designate/rsSingleMaintenance?desinateId=${desinateId}&designateType=${designateType}` // RS单号
         if(path){
           window.open(this.baseUrl + path, '_blank');
         }

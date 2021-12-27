@@ -608,8 +608,8 @@ export default {
           this.defaultPartsTotal = res.total;
           if (this.defaultPartsList.length > 0) {
             this.currentDefaultPart = this.defaultPartsList[0].partsNum
+            if(this.currentDefaultPart) this.getRelationParts()
           }
-          this.getRelationParts()
         } else {
           iMessage.error(result)
         }
@@ -838,8 +838,8 @@ export default {
           })
           if (this.defaultPartsList.length > 0) {
             this.currentDefaultPart = this.defaultPartsList[0].partsNum
+            if(this.currentDefaultPart) this.getRelationParts()
           }
-          this.getRelationParts()
         } else {
           iMessage.error(result)
         }
