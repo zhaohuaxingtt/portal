@@ -14,7 +14,7 @@
                 justify='space-between'
                 align='middle'>
           <el-col :span="5">
-            <el-form-item :label="language('LINIEKESHICSS3','LINIE科室')">
+            <el-form-item :label="mbdl?language('QIANQICAIGOUKESHI','前期采购科室'):language('LINIEKESHICSS3','LINIE科室')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_DEPT"
                        @change="handleUser"
                        :placeholder="$t('LK_QINGXUANZE')"
@@ -30,7 +30,7 @@
           <el-col :span="5">
             <el-form-item prop="linieId"
                           :rules="isAcc ? [] : [{required: true, message: '请选择',}]"
-                          :label="$t('SUPPLIER_VW_LINIE_CAIGOUYUAN')">
+                          :label="mbdl?language('QIANQICAIGOUYUAN','前期采购员'):language('LINICAIGOUYUAN','LINIE采购员')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_SOURCER"
                        :placeholder="$t('LK_QINGSHURU')"
                        v-model="form.linieId"
@@ -111,22 +111,28 @@ export default {
         deptList: []
       },
       index: null,
-      isAcc: false
+      isAcc: false,
+      mbdl: false
     }
   },
   created () {
-
+    this.mbdl = this.$route.query.mbdl
     this.getDeptList()
     // this.getTableList()
   },
   methods: {
     async handleUser (val) {
-
       let obj = this.formGroup.deptList.find(item => item.id === val)
       this.formGroup.userList = []
       this.form.linieId = ''
-      const res = await getUserList({ id: val, deptNum: obj.deptNum })
-      this.formGroup.userList = res.data
+      if (this.mbdl) {
+        const res = await getPreUserList({ supplierToken: this.$route.query.supplierToken, deptNum: obj.deptNum })
+        this.formGroup.userList = res.data
+      } else {
+        const res = await getUserList({ id: val, deptNum: obj.deptNum })
+        this.formGroup.userList = res.data
+      }
+
     },
     getReset () {
       this.form = {
