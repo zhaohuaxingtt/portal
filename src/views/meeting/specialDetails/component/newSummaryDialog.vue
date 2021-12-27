@@ -240,7 +240,7 @@ export default {
       },
       rules: {
         attendees: [
-          { required: true, message: '请输入议题结论！', trigger: 'blur' }
+          { required: true, message: this.$t('请输入议题结论！'), trigger: 'blur' }
         ]
         // conclusion0: [
         //   { required: true, message: "请输入议题结论！", trigger: "blur" },
@@ -248,7 +248,7 @@ export default {
         // ],
       },
       rule: [
-        { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
+        { min: 0, max: 2048, message: this.$t('最大长度2048字符'), trigger: 'blur' }
       ]
     }
   },

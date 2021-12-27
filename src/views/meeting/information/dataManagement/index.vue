@@ -54,7 +54,7 @@ export default {
       tableColumns: [
         {
           type: 'index',
-          i18n: 'MT_XUHAO',
+          i18n: 'MT_XUHAO2',
           width: 69,
           align: 'center',
           tooltip: false
@@ -175,7 +175,7 @@ export default {
         },
         {
           label: '操作',
-          i18n:'MT_CAOZUO',
+          i18n:'MT_CAOZUO2',
           width: 160,
           customRender: (h, scope) => {
             if (scope.row.state !== 1) {
@@ -195,7 +195,7 @@ export default {
                       }
                     }
                   },
-                  '修改'
+                  this.$t('MT_XIUGAI')
                 ),
                 h(
                   'a',
@@ -224,7 +224,7 @@ export default {
                       }
                     }
                   },
-                  '删除'
+                  this.$t('MT_SHANCHU')
                 ),
                 h(
                   'a',
@@ -252,7 +252,7 @@ export default {
                       }
                     }
                   },
-                  '下载'
+                  this.$t("MT_XIAZAI")
                 )
               ])
             } else {
@@ -271,7 +271,7 @@ export default {
                       }
                     }
                   },
-                  '下载'
+           this.$t("MT_XIAZAI")
                 )
               ])
             }
@@ -311,9 +311,9 @@ export default {
           if (data) {
             // this.close();
             if (data.state == 2) {
-              this.$message.success(this.$t('下架成功！'))
+              this.$message.success(this.$t('MT_XIAJIACHENGGONG'))
             } else {
-              this.$message.success(this.$t('上架成功！'))
+              this.$message.success(this.$t('MT_SHANGJIACHENGGONG'))
             }
 
             this.flushTable()
@@ -337,7 +337,7 @@ export default {
           filename: name,
           callback: (e) => {
             if (!e) {
-              iMessage.error(this.$t('下载失败'))
+              iMessage.error(this.$t('MT_XIAZAISHIBAI'))
             }
           }
         })
@@ -354,20 +354,20 @@ export default {
     },
     deleteDocument(e) {
       // console.log(e);
-      this.$confirm(this.$t('是否删除该会议资料？'), this.$t('提示'), {
-        confirmButtonText: this.$t('是'),
-        cancelButtonText: this.$t('否'),
+      this.$confirm(this.$t('是否删除该会议资料？'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_SHI'),
+        cancelButtonText: this.$t('MT_FOU'),
         type: 'warning'
       }).then(() => {
         deleteDocument({ id: e.id })
           .then((res) => {
             if (res.code === 200) {
-              this.$message.success(this.$t('删除成功!'))
+              this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))
             }
             this.query()
           })
           .catch(() => {
-            this.$message.error(this.$t('删除失败!'))
+            this.$message.error(this.$t('MT_SHANCHUSHIBAI'))
           })
       })
     },

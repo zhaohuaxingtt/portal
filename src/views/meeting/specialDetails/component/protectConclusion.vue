@@ -211,7 +211,9 @@ export default {
             ? this.autoOpenProtectConclusionObj.conclusion
             : '',
           isFrozenRs:
-            this.beforeResult === '02'
+            this.autoOpenProtectConclusionObj.type === 'MTZ'
+              ? false
+              : this.beforeResult === '02'
               ? this.autoOpenProtectConclusionObj.isFrozenRs
               : true
         },
@@ -249,7 +251,9 @@ export default {
             ? this.selectedTableData[0].conclusion
             : '',
           isFrozenRs:
-            this.beforeResult === '02'
+            this.selectedTableData[0].type === 'MTZ'
+              ? false
+              : this.beforeResult === '02'
               ? this.selectedTableData[0].isFrozenRs
               : true
         },
@@ -463,11 +467,14 @@ export default {
       this.close()
     },
     changeConclusion(e) {
+      const curObj = this.autoOpenProtectConclusionObj
+        ? this.autoOpenProtectConclusionObj
+        : this.selectedTableData[0]
       this.isShowTable = false
       this.isShowSwitch = false
       if (e.conclusionCsc === '02') {
         this.isShowSwitch = true
-        this.ruleForm.isFrozenRs = true
+        this.ruleForm.isFrozenRs = curObj.type === 'MTZ' ? false : true
       }
       if (e.conclusionCsc === '05' || e.conclusionCsc === '06') {
         this.isShowTable = true
@@ -518,6 +525,12 @@ export default {
       this.$emit('flushTable')
     },
     handleSwitch() {
+      const curObj = this.autoOpenProtectConclusionObj
+        ? this.autoOpenProtectConclusionObj
+        : this.selectedTableData[0]
+      if (curObj.type === 'MTZ') {
+        return
+      }
       this.ruleForm.isFrozenRs = !this.ruleForm.isFrozenRs
     }
   }

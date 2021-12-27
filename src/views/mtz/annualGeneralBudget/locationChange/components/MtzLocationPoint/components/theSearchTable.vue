@@ -170,11 +170,15 @@
                  :index="true"
                  @handleSelectionChange="handleSelectionChange">
         <template slot="id"
-                  slot-scope="scope">
+                  slot-scope="scope"
+                  >
           <p class="openPage"
-             @click="handleClickFsupplierName(scope.row)">
+             @click="handleClickFsupplierName(scope.row)"
+             v-if="scope.row.viewDetailsFlag"
+             >
             {{scope.row.id}}
           </p>
+          <p v-else style="width:90%;">{{scope.row.id}}</p>
         </template>
         <template slot="ttNominateAppId"
                   slot-scope="scope">
@@ -503,38 +507,38 @@ export default {
       if (this.selection && this.selection.length == 0) {
         return iMessage.warn(this.language('QZSXZYTSJ', '请至少选中一条数据'))
       }
-      var num = 0;
-      try{
-        this.selection.forEach(e=>{
-          if(e.ttNominateAppId !== "" && e.ttNominateAppId !== null && e.ttNominateAppId !== "null"){
-            num++;
-            iMessage.warn(this.language('YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ', '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'))
-            throw new Error("EndIterative");
-          }
-          if(e.flowType == "FILING"){
-            if(e.appStatus !== "FREERE"){
-              num++;
-              iMessage.warn(this.language('BALXQZTWDJCKYDD', '备案类型且状态为冻结才可以定点'))
-              throw new Error("EndIterative");
-            }
-          } else if (e.flowType == "SIGN") {
-            if(e.appStatus !== "FLOWED"){
-              num++;
-              iMessage.warn(this.language('LZLXQZTWLZWCCKYDD', '流转类型且状态为流转完成才可以定点'))
-              throw new Error("EndIterative");
-            }
-          }else if(e.flowType == "MEETING"){
-            num++;
-            iMessage.warn(this.language('SHLXBNJXDD', '上会类型不能进行定点'))
-            throw new Error("EndIterative");
-          }
-        })
-      }catch(e){
-          if(e.message != "EndIterative") throw e;
-      }
-      if(num==0){
+      // var num = 0;
+      // try{
+      //   this.selection.forEach(e=>{
+      //     if(e.ttNominateAppId !== "" && e.ttNominateAppId !== null && e.ttNominateAppId !== "null"){
+      //       num++;
+      //       iMessage.warn(this.language('YGLSQDHBNJXDJJDDDQXDDHWLZCHSCCZ', '已关联申请单号不能进行冻结、解冻、定点、取消定点、会外流转、撤回、删除操作！'))
+      //       throw new Error("EndIterative");
+      //     }
+      //     if(e.flowType == "FILING"){
+      //       if(e.appStatus !== "FREERE"){
+      //         num++;
+      //         iMessage.warn(this.language('BALXQZTWDJCKYDD', '备案类型且状态为冻结才可以定点'))
+      //         throw new Error("EndIterative");
+      //       }
+      //     } else if (e.flowType == "SIGN") {
+      //       if(e.appStatus !== "FLOWED"){
+      //         num++;
+      //         iMessage.warn(this.language('LZLXQZTWLZWCCKYDD', '流转类型且状态为流转完成才可以定点'))
+      //         throw new Error("EndIterative");
+      //       }
+      //     }else if(e.flowType == "MEETING"){
+      //       num++;
+      //       iMessage.warn(this.language('SHLXBNJXDD', '上会类型不能进行定点'))
+      //       throw new Error("EndIterative");
+      //     }
+      //   })
+      // }catch(e){
+      //     if(e.message != "EndIterative") throw e;
+      // }
+      // if(num==0){
         this.getNomi();
-      }
+      // }
     },
     getNomi () {
       mtzNomi({
@@ -706,6 +710,7 @@ export default {
     handleSubmitRecall (val) {
       mtzRecall({
         ids: this.selection.map(item => item.id),
+        withdrawReason:val,
       }).then(res => {
         if (res && res.code == 200) {
           iMessage.success(res.desZh)

@@ -272,7 +272,7 @@ export default {
         filename: e.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
           }
         }
       })

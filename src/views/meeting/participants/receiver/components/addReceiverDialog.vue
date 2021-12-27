@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="$t('MT_CHUANGJIANSHOUJIANREN')"
+    :title="$t('MT_TIANJIASHOUJIANREN')"
     :visible.sync="openDialog"
     width="54.875rem"
     :close-on-click-modal="false"
@@ -21,7 +21,11 @@
             </div>
           </iFormItem>
           <iFormItem label="会议类型" class="name" prop="meetingType">
-            <iLabel :label="$t('MT_HUIYILEIXING')" slot="label" required></iLabel>
+            <iLabel
+              :label="$t('MT_HUIYILEIXING')"
+              slot="label"
+              required
+            ></iLabel>
             <iSelect
               v-model="ruleForm.meetingType"
               :placeholder="$t('MT_QINGXUANZE')"
@@ -44,7 +48,7 @@
           > -->
         <div class="receiverLine">
           <div class="receiver">{{ $t('MT_SHOUJIANREN') }}</div>
-          <iButton @click="$emit('addReceiverData')" class="add-receiver">{{
+          <iButton @click="$emit('addReceiverData','add')" class="add-receiver">{{
             $t('MT_TIANJIASHOUJIANREN')
           }}</iButton>
         </div>
@@ -132,14 +136,14 @@ export default {
         {
           type: 'index',
           label: '序号',
-          i18n: '序号',
+          i18n: 'MT_XUHAO2',
           width: 68,
           tooltip: false
         },
         {
           // prop: "nameZh",
           label: '姓名',
-          i18n: '姓名',
+          i18n: 'MT_XINGMING',
           // width: 70,
           align: 'left',
           tooltip: true,
@@ -160,7 +164,7 @@ export default {
         {
           // prop: "email",
           label: '电子邮箱',
-          i18n: '电子邮箱',
+          i18n: 'MT_DIANZIYOUXIANG',
           align: 'left',
           width: 200,
           tooltip: true,
@@ -181,7 +185,7 @@ export default {
         {
           // prop: "userNum",
           label: '工号',
-          i18n: '工号',
+          i18n: 'MT_GONGHAO',
           width: 90,
           align: 'left',
           tooltip: true,
@@ -202,7 +206,7 @@ export default {
         {
           // prop: "deptList",
           label: '所属部门',
-          i18n: '所属部门',
+          i18n: 'MT_SUOSHUBUMEN',
           align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
@@ -221,6 +225,7 @@ export default {
         },
         {
           label: '操作',
+          i18n: 'MT_CAOZUO2',
           width: 80,
           customRender: (h, scope) => {
             return h('span', [
@@ -238,7 +243,7 @@ export default {
                     }
                   }
                 },
-                '移除'
+                this.$t('MT_YICHU')
               )
             ])
           }
@@ -327,7 +332,7 @@ export default {
       this.selectedFilterData = currentPageData.slice(from, to)
     },
     close() {
-      this.$emit('closeDialog', false)
+      this.$emit('closeDialog', false,'add')
     },
     handleSubmit(formName) {
       this.$refs[formName].validate((valid) => {
@@ -336,6 +341,7 @@ export default {
             ...this.ruleForm,
             meetingTypeId: this.ruleForm.meetingType.id
           }
+          console.log('formData', formData)
           let res = this.currentPageData.map(
             ({ id, userName, deptList, email, userNum }) => ({
               department: deptList,
@@ -350,7 +356,7 @@ export default {
             .then((data) => {
               if (data) {
                 this.close()
-                this.$message.success(this.$t('创建成功！'))
+                this.$message.success(this.$t('MT_CHUANGJIANCHENGGONG'))
                 this.$emit('flushTable')
               }
             })

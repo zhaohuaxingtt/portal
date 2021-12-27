@@ -149,10 +149,10 @@ export default {
 			this.selectedCardId = idx
 			this.$emit('selectQues', list)
 		},
-		changeCurrQuesStatus(id) {
+		changeCurrQuesStatus(id, operate) {
 			this.questionList.map(item => {
 				if (item.id === id) {
-					item.questionStatus = 'finished'
+					item.questionStatus = operate === 'bad' ? 'unreply' : 'finished'
 					this.$emit('selectQues', item)
 				}
 			})

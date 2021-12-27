@@ -42,7 +42,7 @@
         width="40"
         min-width="40"
         align="center"
-        :label="$t('MT_XUHAO')"
+        :label="$t('MT_XUHAO2')"
       ></el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
       <!-- 会议名称 -->
@@ -176,7 +176,7 @@
         align="center"
         width="260"
         min-width="260"
-        :label="$t('MT_CAOZUO')"
+        :label="$t('MT_CAOZUO2')"
       >
         <template slot-scope="scope">
           <!-- <div

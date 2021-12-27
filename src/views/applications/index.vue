@@ -1,38 +1,21 @@
 <template>
-  <iPage class="" v-loading="loading">
-    <div class="main">
+  <iPage>
+    <div class="applications-container" v-loading="loading">
       <pageHeader> {{ language('应用中心') }} </pageHeader>
       <div class="header">
         <panelCategory
           :data="titles"
           @toggle-active="toggleActive"
           :active-index.sync="activeIndex"
-          v-show="!isEn"
-        />
-
-        <panelCategory
-          :data="titlesEn"
-          @toggle-active="toggleActiveEn"
-          :active-index.sync="activeIndexEn"
-          v-show="isEn"
         />
       </div>
       <div class="content">
         <iCard>
           <applicationList
-            v-show="!isEn"
             v-for="(value, name, index) in applications"
             :key="index"
             :applications="value"
             :title="name"
-          />
-
-          <applicationList
-            v-for="(value, name, index) in applicationsEn"
-            :key="index"
-            :applications="value"
-            :title="name"
-            v-show="isEn"
           />
         </iCard>
       </div>
@@ -56,11 +39,20 @@ export default {
   },
   computed: {
     isEn() {
-      return this.$i18n.locale === 'en'
+      return this.locale === 'en'
+    },
+    locale() {
+      return this.$i18n.locale
+    }
+  },
+  watch: {
+    locale() {
+      this.getApplications()
     }
   },
   data() {
     return {
+      loading: false,
       dialogFormVisible: false,
       isRead: true,
       detailID: '',
@@ -68,61 +60,39 @@ export default {
       applications: {},
       titles: [],
       activeIndex: -1,
-      // en
-      titlesEn: [],
-      activeIndexEn: -1,
-      applicationsEn: [],
-      originapplicationsEn: {}
+
+      applicationCache: {}
     }
   },
   created() {
-    const requestData = { systemType: 3 }
-    userApplicationList(requestData).then((val) => {
-      if (val.code == 200) {
-        this.originapplications = val.data
-
-        this.titles = Object.keys(this.originapplications)
-          .sort((a, b) => {
-            return a > b ? 1 : -1
-          })
-          .map((item) => {
-            return {
-              typeValue: item
-            }
-          })
-        this.filterData('')
-
-        this.getApplicationsEn(val.data || [])
-      }
-    })
+    this.getApplications()
   },
   methods: {
-    getApplicationsEn(data) {
-      console.log('data', data)
-      const allApplicaions = []
-      let titleEn = []
-      for (const key in data) {
-        if (Object.hasOwnProperty.call(data, key)) {
-          const element = data[key]
-          if (element) {
-            allApplicaions.push(...element)
-          }
+    getApplications() {
+      this.activeIndex = -1
+      if (this.applicationCache[this.locale]) {
+        this.initData(this.applicationCache[this.locale])
+      } else {
+        const requestData = {
+          systemType: 3,
+          sortType: this.locale == 'zh' ? 1 : 2
         }
+        this.loading = true
+        userApplicationList(requestData)
+          .then((val) => {
+            if (val.code == 200) {
+              this.applicationCache[this.locale] = _.cloneDeep(val.data)
+              this.initData(val.data)
+            }
+          })
+          .finally(() => {
+            this.loading = false
+          })
       }
-      console.log('allApplicaions', allApplicaions)
-
-      const applicationsEn = {}
-      allApplicaions.forEach((e) => {
-        if (e && e.appNameEn && e.appNameEn.length > 1) {
-          const key = e.appNameEn.substring(0, 1).toUpperCase()
-          console.log('key', key)
-          if (!titleEn.includes(key)) {
-            titleEn.push(key)
-          }
-        }
-      })
-
-      titleEn = titleEn
+    },
+    initData(data) {
+      this.originapplications = _.cloneDeep(data)
+      this.titles = Object.keys(this.originapplications)
         .sort((a, b) => {
           return a > b ? 1 : -1
         })
@@ -131,24 +101,7 @@ export default {
             typeValue: item
           }
         })
-      console.log('titleEn', titleEn)
-      titleEn.forEach((e) => (applicationsEn[e.typeValue] = []))
-
-      for (const key in applicationsEn) {
-        if (Object.hasOwnProperty.call(applicationsEn, key)) {
-          const element = applicationsEn[key]
-          const apps = allApplicaions.filter(
-            (e) => e.appNameEn.toUpperCase().indexOf(key) === 0
-          )
-          element.push(...apps)
-        }
-      }
-
-      this.titlesEn = titleEn
-
-      this.applicationsEn = applicationsEn
-
-      this.originapplicationsEn = _.cloneDeep(applicationsEn)
+      this.filterData('')
     },
     toggleActive(index) {
       this.activeIndex = index
@@ -161,7 +114,6 @@ export default {
           ? { ...this.originapplications }
           : { [key]: this.originapplications[key] }
     },
-
     toggleActiveEn(index) {
       this.activeIndexEn = index
       let key = index > -1 ? this.titlesEn[index]['typeValue'] : ''
@@ -177,4 +129,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.applications-container {
+  min-height: 500px;
+}
+</style>
