@@ -69,17 +69,21 @@ export default {
       values: []
     }
   },
-	computed:{
-			...Vuex.mapState({
-					userInfo: state => state.permission.userInfo,
-			})
-		},
+  computed: {
+    ...Vuex.mapState({
+      userInfo: (state) => state.permission.userInfo
+    })
+  },
   created() {
-		this.filter.values = [new Date().getFullYear()]
+    this.filter.values = [new Date().getFullYear()]
     this.getSelectOptions()
     this.powerBiUrl()
   },
   methods: {
+    exportReport() {
+      console.log(this.report)
+      this.report.print()
+    },
     search() {
       this.powerBiUrl()
     },
