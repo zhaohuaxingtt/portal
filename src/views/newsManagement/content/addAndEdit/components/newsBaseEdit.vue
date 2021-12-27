@@ -551,10 +551,15 @@ export default {
     ruleForm(val) {
       this.$emit("input", val);
     },
-    userNewsClassify(val) {
-      findTagList({ category: val[0].code }).then((res) => {
-        this.tagList = res;
-      });
+    "ruleForm.category": {
+      immediate: true,
+      handler(val) {
+        if(val !== ''){
+          findTagList({ category: this.ruleForm.category }).then((res) => {
+              this.tagList = res;
+          });
+        }
+      },
     },
   },
   data() {
@@ -632,9 +637,7 @@ export default {
     findNewsPublishRange().then((res) => {
       this.newsPublishRange = res;
     });
-    findTagList({ category: this.ruleForm.category }).then((res) => {
-      this.tagList = res;
-    });
+    
   },
   methods: {
     handleClickUserGroup() {
@@ -692,6 +695,7 @@ export default {
       }
       this.categoryIntercept(val, () => {
         this.ruleForm.tags = [];
+        this.tagList=[];
         if (this.ruleForm.publishRange?.code === 15) {
           this.ruleForm.publishRange = null;
           this.ruleForm.userGroup = [];
@@ -718,9 +722,6 @@ export default {
             this.ruleForm.providerType = "";
             break;
         }
-        findTagList({ category: this.ruleForm.category }).then((res) => {
-          this.tagList = res;
-        });
       });
     },
     handleBlur() {

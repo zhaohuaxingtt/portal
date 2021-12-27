@@ -2855,9 +2855,12 @@
     TERMS_QIANSHUZHUANGTAI: '签署状态', //签署状态
     TERMS_TIAOKUANYOUXIAOQI: '条款有效期', //条款有效期
     TERMS_CHAKANDINGZHITIAOKUAN: '查看定制条款', //查看定制条款
-    TERMS_BIAOZHUANTIAOKUANLIEBIAO: '标准条款列表' //标准条款列表
+    TERMS_BIAOZHUANTIAOKUANLIEBIAO: '标准条款列表', //标准条款列表
 
     // -------------------------------条款 end---------------------------------------------
+    MTZ: {
+      LK_MTZCAILIAOZU: 'MTZ材料组'
+    }
   }
   i18n.setLocaleMessage('zh', oldLanguage)
   var xmlHttp = ''

@@ -70,17 +70,20 @@ export default {
       values: []
     }
   },
-	computed:{
-			...Vuex.mapState({
-					userInfo: state => state.permission.userInfo,
-			})
-		},
+  computed: {
+    ...Vuex.mapState({
+      userInfo: (state) => state.permission.userInfo
+    })
+  },
   created() {
-    console.log(this)
+    this.filter.values = [new Date().getFullYear()]
     this.getSelectOptions()
     this.powerBiUrl()
   },
   methods: {
+    exportReport() {
+      this.report.print()
+    },
     search() {
       this.powerBiUrl()
     },
@@ -92,14 +95,13 @@ export default {
     // 获取财报iframeurl
     powerBiUrl() {
       let params = {
-        workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
-        reportId: '2a830470-3ae3-4778-85d8-118f3db9ef35',
-        datasets: ['01141c8d-7886-4eb6-8d86-0ea2fa68e1ea'],
+        workspaceId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
+        reportId: '3ce8a5ad-1c94-41dc-b844-f5baf9441ecc',
+        datasets: ['93fa7924-a4c1-4c91-a763-55b68b996c47'],
         username: this.userInfo.id,
         roles: ['role'] // 固定参数，报表端自己判断角色权限
       }
       statement(params).then((res) => {
-        console.log(res)
         if (res.data) {
           this.url = res.data
           this.renderBi()
@@ -185,14 +187,9 @@ export default {
 #powerBiReport {
   width: 100%;
   height: 100%;
-  iframe {
+  ::v-deep iframe {
     border: 0px !important;
     overflow: auto;
   }
-}
-</style>
-<style>
-iframe {
-  border: 0px !important;
 }
 </style>

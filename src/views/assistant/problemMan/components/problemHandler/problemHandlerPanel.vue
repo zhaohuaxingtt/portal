@@ -78,7 +78,7 @@
         </div>
       </div>
     <div class="right-content ml20">
-      <div class="content">
+      <div class="content r-c-box">
         <div class="flex flex-row justify-end">
           <template v-if="cardSelectItem.questionStatus === 'unreply'">
             <template v-if="!isReplyStatus">
@@ -103,26 +103,26 @@
           </template>
         </div>
         <template v-if="cardSelectItem.questionStatus">
-          <div class="search-box flex-between-center-center mt20 mb20 border">
+          <div class="search-box flex-between-center-center mt20 mb20 border" style="align-items: normal;">
             <div class="input-box flex-align-center margin-right30">
-              <el-form label-position="top" :model="editForm" :rules="editFormRules" ref="editForm">
+              <el-form :model="editForm" inline :rules="editFormRules" ref="editForm">
                 <el-row :gutter="20">
                   <el-col :span="8">
-                    <iFormItem :label="$t('问题模块')" prop="questionModuleId">
+                    <iFormItem :label="language('模块')" prop="questionModuleId">
                       <iSelect v-model="editForm.questionModuleId" filterable :disabled="isDisabledModule" @change="changeModuleHandle">
                         <el-option v-for="item in problemModuleList" :key="item.id" :label="item.menuName" :value="item.id"></el-option>
                       </iSelect>
                     </iFormItem>
                   </el-col>
                   <el-col :span="8">
-                    <iFormItem :label="$t('标签')" prop="questionLableId">
+                    <iFormItem :label="language('标签')" prop="questionLableId">
                       <iSelect v-model="editForm.questionLableId" filterable :disabled="isDisabledModule">
                         <el-option v-for="item in labelList" :key="item.id" :label="item.lableName" :value="item.id"></el-option>
                       </iSelect>
                     </iFormItem>
                   </el-col>
                   <el-col :span="8">
-                    <iFormItem :label="$t('问题来源')">
+                    <iFormItem :label="language('来源')">
                       <iSelect v-model="editForm.source" :disabled="isDisabledQuestion">
                         <el-option v-for="(v,k) in userTypes" :key="k" :label="v" :value="k"></el-option>
                       </iSelect>
@@ -131,56 +131,58 @@
                 </el-row>
               </el-form>
             </div>
-            <div class="btn-box margin-top25">
+            <div class="btn-box">
               <i-button v-if="!editFormBtn" class="edit-btn" @click="editHandler">{{ language('编辑') }}</i-button>
               <i-button v-else class="edit-btn" @click="saveHandler">{{ language('保存') }}</i-button>
             </div>
           </div>
-          <div class="content-title mb20">{{ language('消息') }}</div>
-          <!-- 正常状态 -->
-          
-          <div class="msg-box" >
-            <div class="flex flex-row mt20 ml20">
-              <div class="name">{{questionDetail.createByUerName}}</div>
-              <div class="content-text">
-                <p class="html" v-html="questionDetail.questionTitle"></p>
-								<p class="time">{{questionDetail.createDate}}</p>
+          <div class="msg-c">
+            <div class=" r-c-box-title mb20">{{ language('消息') }}</div>
+            <!-- 正常状态 -->
+            
+            <div class="msg-box" >
+              <div class="flex flex-row mt20 ml20">
+                <div class="name">{{questionDetail.createByUerName}}</div>
+                <div class=" r-c-box-text">
+                  <p class="html" v-html="questionDetail.questionTitle"></p>
+                  <p class="time">{{questionDetail.createDate}}</p>
+                </div>
               </div>
-            </div>
-            <div v-if="questionDetail.replyQuestionList && questionDetail.replyQuestionList.length > 0">
-              <template v-for="item of questionDetail.replyQuestionList">
-                <div class="content flex flex-column" :key="item.id">
-                  <div v-if="item.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
-                    <img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
-                    <div>{{`管理员${item.replyUserName}将任务转派给了管理员${item.handlerToUserName}`}}</div>
-                  </div>
-                  <div v-else class="flex flex-row">
-                    <div class="name">{{item.replyUserName}}</div>
-                    <div class="content-text">
-                      <p class="html" v-html="item.content"></p>
-                      <p class="time">{{item.createDate}}</p>
+              <div v-if="questionDetail.replyQuestionList && questionDetail.replyQuestionList.length > 0">
+                <template v-for="item of questionDetail.replyQuestionList">
+                  <div class=" r-c-box flex flex-column" :key="item.id">
+                    <div v-if="item.replyType === 'transfer'" class="transfer- r-c-box flex flex-row items-center justify-center">
+                      <img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
+                      <div>{{`管理员${item.replyUserName}将任务转派给了管理员${item.handlerToUserName}`}}</div>
+                    </div>
+                    <div v-else class="flex flex-row">
+                      <div class="name">{{item.replyUserName}}</div>
+                      <div class=" r-c-box-text">
+                        <p class="html" v-html="item.content"></p>
+                        <p class="time">{{item.createDate}}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </template>
+                </template>
+              </div>
             </div>
-          </div>
 
-          <!-- 答复状态 -->
-          <div v-if="isReplyStatus" class="reply-content mt20">
-            <el-form>
-              <iFormItem prop="replyContent">
-                <iEditor ref="iEditor" v-model="replyContent" v-if="editable" />
-                <div v-else class="content" v-html="replyContent"></div>
-              </iFormItem>
-            </el-form>
-          </div>
-          <div class="mt20 mb20 flex">
-            <div>附件：</div>
-            <iUpload :disabled="loadText" ref="attachment" v-model="uploadFileList"  >
-              <iButton>{{ language('添加附件') }}</iButton>
-            </iUpload>
-            <div v-if="loadText && uploadFileList.length == 0">无</div>
+            <!-- 答复状态 -->
+            <div v-if="isReplyStatus" class="reply-content mt20">
+              <el-form>
+                <iFormItem prop="replyContent">
+                  <iEditor ref="iEditor" v-model="replyContent" v-if="editable" />
+                  <div v-else class="content" v-html="replyContent"></div>
+                </iFormItem>
+              </el-form>
+            </div>
+            <div class="mt20 mb20 flex">
+              <div>附件：</div>
+              <iUpload :disabled="loadText" ref="attachment" v-model="uploadFileList"  >
+                <iButton>{{ language('添加附件') }}</iButton>
+              </iUpload>
+              <div v-if="loadText && uploadFileList.length == 0">无</div>
+            </div>
           </div>
         </template>
       </div>
@@ -688,8 +690,17 @@ export default {
     border-radius: 5px;
     padding: 30px 40px 20px 40px;
     .content{
-      overflow-y: auto;
-      max-height: calc(100vh - 350px);
+      // overflow-y: auto;
+      // max-height: calc(100vh - 350px);
+    }
+    .r-c-box{
+      display: flex;
+      flex-direction: column;
+      height: 100% !important;
+    }
+    .msg-c{
+      flex: 1;
+      overflow: auto;
     }
     .border {
       border-bottom: 1px solid #707070;

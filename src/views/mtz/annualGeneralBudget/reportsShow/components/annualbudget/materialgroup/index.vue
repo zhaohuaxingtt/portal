@@ -69,17 +69,21 @@ export default {
       values: []
     }
   },
-	computed:{
-			...Vuex.mapState({
-					userInfo: state => state.permission.userInfo,
-			})
-		},
+  computed: {
+    ...Vuex.mapState({
+      userInfo: (state) => state.permission.userInfo
+    })
+  },
   created() {
-		this.filter.values = [new Date().getFullYear()]
+    this.filter.values = [new Date().getFullYear()]
     this.getSelectOptions()
     this.powerBiUrl()
   },
   methods: {
+    exportReport() {
+      console.log(this.report)
+      this.report.print()
+    },
     search() {
       this.powerBiUrl()
     },
@@ -177,14 +181,9 @@ export default {
 #powerBiReport {
   width: 100%;
   height: 100%;
-  iframe {
+  ::v-deep iframe {
     border: 0px !important;
     overflow: auto;
   }
-}
-</style>
-<style>
-iframe {
-  border: 0px !important;
 }
 </style>
