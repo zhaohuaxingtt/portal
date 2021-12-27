@@ -68,7 +68,11 @@
                 prop="name"
                 :hideRequiredAsterisk="true"
               >
-                <iLabel :label="$t('MT_LEIXINGMINGCHENG')" slot="label" required></iLabel>
+                <iLabel
+                  :label="$t('MT_LEIXINGMINGCHENG')"
+                  slot="label"
+                  required
+                ></iLabel>
                 <iInput
                   v-model="ruleForm.name"
                   :disabled="
@@ -105,12 +109,22 @@
               </iFormItem>
             </div>
             <div class="form-row">
-              <iFormItem :label="$t('MT_HUIYIXINXIMIAOSHU')" prop="meetingInfoDesc">
-                <iLabel :label="$t('MT_HUIYIXINXIMIAOSHU')" slot="label"></iLabel>
+              <iFormItem
+                :label="$t('MT_HUIYIXINXIMIAOSHU')"
+                prop="meetingInfoDesc"
+              >
+                <iLabel
+                  :label="$t('MT_HUIYIXINXIMIAOSHU')"
+                  slot="label"
+                ></iLabel>
                 <iInput v-model="ruleForm.meetingInfoDesc"></iInput>
               </iFormItem>
               <iFormItem :label="$t('MT_SUOSHUFENLEI')" prop="category">
-                <iLabel :label="$t('MT_SUOSHUFENLEI')" slot="label" required></iLabel>
+                <iLabel
+                  :label="$t('MT_SUOSHUFENLEI')"
+                  slot="label"
+                  required
+                ></iLabel>
                 <iSelect
                   v-model="ruleForm.category"
                   :placeholder="$t('MT_QINGXUANZE')"
@@ -325,7 +339,10 @@
                 :hideRequiredAsterisk="true"
                 class="itemLimit"
               >
-                <iLabel :label="$t('MT_HUIYISHANGXIAXIANJINE')" slot="label"></iLabel>
+                <iLabel
+                  :label="$t('MT_HUIYISHANGXIAXIANJINE')"
+                  slot="label"
+                ></iLabel>
                 <el-col :span="12">
                   <iFormItem prop="lowerLimitMoney" :rules="limitMoney">
                     <iInput
@@ -389,7 +406,7 @@
                       v-model.number="ruleForm.duration"
                       type="number"
                     ></iInput>
-                    <span class="margin-left8">{{$t("MT_FENZHONG")}}</span>
+                    <span class="margin-left8">{{ $t('MT_FENZHONG') }}</span>
                   </div>
                 </iFormItem>
               </div>
@@ -497,7 +514,9 @@
           </el-form-item>
         </div>
         <div class="error-node" v-show="false">
-          <div class="el-form-item__error padding-left14">{{ $t('MT_BIXUAN') }}</div>
+          <div class="el-form-item__error padding-left14">
+            {{ $t('MT_BIXUAN') }}
+          </div>
         </div>
       </el-form>
     </iEditForm>
@@ -1018,7 +1037,7 @@ export default {
   methods: {
     quertMeetingPropertyList() {
       getMeetingPropertyList().then((res) => {
-        this.meetingAttributeList = res.data
+        this.meetingAttributeList = res.data[0].subDictResultVo
       })
     },
     selectChanged() {
@@ -1254,7 +1273,7 @@ export default {
             //     }).id
             formData = {
               ...this.ruleForm,
-              approvalProcessId:"",
+              approvalProcessId: '',
               userIds: userIdsStr,
               incidenceRelation: incidenceRelationStr,
               conclusionConfig: conclusionConfigStr

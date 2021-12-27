@@ -16,45 +16,47 @@
                   v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE_DELETE">
           {{ $t('delete') }}
         </i-button>
-        <i-button @click="exportsTable" v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE_EXPORT">
+        <i-button @click="exportsTable"
+                  v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE_EXPORT">
           {{ $t('LK_DAOCHU') }}
         </i-button>
       </div>
     </div>
-    <table-list
-        :tableData="tableListData"
-        :tableTitle="tableTitle"
-        :tableLoading="tableLoading"
-        @handleSelectionChange="handleSelectionChange"
-        :input-props="inputProps"
-        :index="true"
-        ref="commonTable"
-        v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE"
-    >
+    <table-list :tableData="tableListData"
+                :tableTitle="tableTitle"
+                :tableLoading="tableLoading"
+                @handleSelectionChange="handleSelectionChange"
+                :input-props="inputProps"
+                :index="true"
+                ref="commonTable"
+                v-permission="SUPPLIER_SUBSUPPLIERANDPRODUCT_SUBSUPPLIERNAME_TABLE">
       <template #country="scope">
-        <iSelect v-model="scope.row.country" @change="handleLocationChange($event,scope.row, 'country')"
+        <iSelect v-model="scope.row.country"
+                 @change="handleLocationChange($event,scope.row, 'country')"
                  value-key="cityId">
           <el-option v-for="item of getSelectList('country',scope.row)"
                      :key="item.cityId"
                      :label="item.cityNameCn"
-                     :value="item"/>
+                     :value="item" />
         </iSelect>
       </template>
       <template #province="scope">
-        <iSelect v-model="scope.row.province" @change="handleLocationChange($event,scope.row, 'province')"
+        <iSelect v-model="scope.row.province"
+                 @change="handleLocationChange($event,scope.row, 'province')"
                  value-key="cityId">
           <el-option v-for="item of getSelectList('province',scope.row)"
                      :key="item.cityId"
                      :label="item.cityNameCn"
-                     :value="item"/>
+                     :value="item" />
         </iSelect>
       </template>
       <template #city="scope">
-        <iSelect v-model="scope.row.city" value-key="cityId">
+        <iSelect v-model="scope.row.city"
+                 value-key="cityId">
           <el-option v-for="item of getSelectList('city',scope.row)"
                      :key="item.cityId"
                      :label="item.cityNameCn"
-                     :value="item"/>
+                     :value="item" />
         </iSelect>
       </template>
     </table-list>
@@ -62,7 +64,7 @@
 </template>
 
 <script>
-import { iCard, iButton, iSelect } from 'rise'
+import { iCard, iButton, iSelect, iMessage } from 'rise'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import { subSupplierTableTitle } from './data'
@@ -141,6 +143,15 @@ export default {
               item['city'] = item.city.cityNameCn ? item.city.cityNameCn : item.city
               return item
             })
+            for (const iten of reqTableList) {
+              if (iten.country === '中国') {
+                if (!iten.province || !iten.city) {
+                  iMessage.error(this.language('SHENGFENCHENGSHIBUNENGWEIKONG', '省份、城市不能为空！'))
+                  this.tableLoading = false
+                  return
+                }
+              }
+            }
             const req = {
               saveSubSupplierDTOList: reqTableList,
               step: 'submit'
@@ -177,6 +188,20 @@ export default {
     handleLocationChange (data, row, location) {
       switch (location) {
         case 'country':
+          this.tableTitle.forEach((item) => {
+            if (item.props === 'province' || item.props === 'city' || item.props === 'socialcreditNo') {
+              if (data.sapLocationCode !== 'CN') {
+                this.$set(item, 'required', false)
+                this.$set(item, 'rule', [])
+                this.$refs.commonTable.$refs.commonTableForm.clearValidate(['socialcreditNo'])
+              } else {
+                this.$set(item, 'required', true)
+                this.$set(item, 'rule', [
+                  { required: true, message: '请选择', trigger: 'change' }
+                ])
+              }
+            }
+          })
           this.getLocationInfo(data.cityId, row.id, row.time, 'provinceList')
           this.setLocationEmpty(row.id, row.time, 'province')
           this.setLocationEmpty(row.id, row.time, 'city')
@@ -289,5 +314,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

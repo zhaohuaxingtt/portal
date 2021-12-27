@@ -541,7 +541,6 @@
               align="center"
               label="是否冻结"
               width="89"
-              prop="benCn"
               label-class-name="can-hideen"
             >
               <!-- <template slot-scope="scope">
@@ -2315,6 +2314,7 @@ export default {
       this.openDialog('openProtectInfoDialog')
     },
     editTopic() {
+      debugger
       if (this.selectedTableData[0].state === '03') {
         iMessage.warn('已结束的议题不能进行修改议题')
         return
@@ -2328,11 +2328,12 @@ export default {
       //   this.meetingInfo.meetingTypeName === 'Pre CSC' ||
       //   this.meetingInfo.meetingTypeName === 'CSC'
       // ) {
-      if (this.meetingInfo.isPreCSC || this.meetingInfo.isCSC) {
-        this.openDialog('openAddTopicNewDialog')
-      } else {
-        this.openDialog('openAddTopicDialog')
-      }
+      // if (this.meetingInfo.isPreCSC || this.meetingInfo.isCSC) {
+      //   this.openDialog('openAddTopicNewDialog')
+      // } else {
+      //   this.openDialog('openAddTopicDialog')
+      // }
+      this.openDialog('openAddTopicNewDialog')//议题
     },
     //新增议题
     addTopic() {

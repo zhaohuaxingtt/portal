@@ -9,29 +9,103 @@
 
 
 export const tableTitle = [
-  { props: 'name', name: '供应商名称', key: 'SPR_FRM_DEP_SUPNAME', width: 100, tooltip: true },
+  {
+    props: 'name',
+    name: '供应商名称',
+    key: 'SPR_FRM_DEP_SUPNAME',
+    width: 100,
+    tooltip: true
+  },
   { props: 'sap', name: 'SAP号', key: 'SUPPLIER_SAPHAO' },
-  { props: 'deepCommentSupplierName', name: '集团名称', key: 'SPR_FRM_DEP_GROUPPACK' },
-  { props: 'status', name: '状态', key: 'SPR_FRM_DEP_STATE', tooltip: true, width: 150 },
+  {
+    props: 'deepCommentSupplierName',
+    name: '集团名称',
+    key: 'SPR_FRM_DEP_GROUPPACK'
+  },
+  {
+    props: 'status',
+    name: '状态',
+    key: 'SPR_FRM_DEP_STATE',
+    tooltip: true,
+    width: 150
+  },
   { props: 'progress', name: '进度', key: 'SPR_FRM_DEP_SPEEDPROGRESS' },
   { props: 'upload', name: '附件', key: 'SPR_FRM_DEP_ENCLOSUER' },
   { props: 'interView', name: '访谈内容', key: 'SPR_FRM_DEP_INTERVIEWCON' },
   { props: 'depthReport', name: '深评报告', key: 'SPR_FRM_DEP_DEPREPORT' },
   { props: 'financialAnalysis', name: '财报分析', key: 'SPR_FRM_DEP_FINANA' },
-  { props: 'deepCommentResult', name: '深评结果', key: 'SPR_FRM_DEP_DEPRESULT' },
-  { props: 'ratingTime', name: '深评时间', key: 'SPR_FRM_DEP_DEPTIME', width: 120 },
+  {
+    props: 'deepCommentResult',
+    name: '深评结果',
+    key: 'SPR_FRM_DEP_DEPRESULT'
+  },
+  {
+    props: 'ratingTime',
+    name: '深评时间',
+    key: 'SPR_FRM_DEP_DEPTIME',
+    width: 120
+  },
   { props: 'grade', name: '初评结果', key: 'SPR_FRM_DEP_PREASRESULT' },
-  { props: 'externalEvaluationLevel', name: '外评', key: 'SPR_FRM_DEP_OUTRATING' },
-  { props: 'trackingFrequency', name: '跟踪频率（月）', key: 'SPR_FRM_DEP_TRACKFRE',width: 100},
-  { props: 'nextRatingTime', name: '下次评级时间', key: 'SPR_FRM_DEP_NEXTRATIME', width: 100 },
-  { props: 'relevantDept', name: '相关科室', key: 'SPR_FRM_DEP_REKADEP' },
+  {
+    props: 'externalEvaluationLevel',
+    name: '外评',
+    key: 'SPR_FRM_DEP_OUTRATING'
+  },
+  {
+    props: 'trackingFrequency',
+    name: '跟踪频率（月）',
+    key: 'SPR_FRM_DEP_TRACKFRE',
+    width: 130
+  },
+  {
+    props: 'nextRatingTime',
+    name: '下次评级时间',
+    key: 'SPR_FRM_DEP_NEXTRATIME',
+    width: 180
+  },
+  {
+    props: 'relevantDept',
+    name: '相关科室',
+    key: 'SPR_FRM_DEP_REKADEP',
+    width: 150
+  },
   { props: 'remarks', name: '备注', key: 'SPR_FRM_DEP_REMARKS' },
-  { props: 'distributionObjects', name: '已分发对象', key: 'SPR_FRM_DEP_DISOBJ', width: 100 },
-  { props: 'gradeStartMonth', name: '评级开始月份', key: 'SPR_FRM_DEP_RATSTARTIME', width: 100 },
-  { props: 'gradeEndMonth', name: '评级结束月份', key: 'SPR_FRM_DEP_RATENDTIME', width: 100 },
-  { props: 'estimateCompleteMonth', name: '预计完成月份', key: 'SPR_FRM_DEP_ESTIMATE', width: 100 },
-  { props: 'updateUserName', name: '深入分析负责人', key: 'SPR_FRM_DEP_PICOIDA', width: 120 },
-  { props: 'deepCommentReasons', name: '深评原因', key: 'SPR_FRM_DEP_DEPREASON' },
+  {
+    props: 'distributionObjects',
+    name: '已分发对象',
+    key: 'SPR_FRM_DEP_DISOBJ',
+    width: 150
+  },
+  {
+    props: 'gradeStartMonth',
+    name: '评级开始月份',
+    key: 'SPR_FRM_DEP_RATSTARTIME',
+    width: 150
+  },
+  {
+    props: 'gradeEndMonth',
+    name: '评级结束月份',
+    key: 'SPR_FRM_DEP_RATENDTIME',
+    width: 150
+  },
+  {
+    props: 'estimateCompleteMonth',
+    name: '预计完成月份',
+    key: 'SPR_FRM_DEP_ESTIMATE',
+    width: 150
+  },
+  {
+    props: 'updateUserName',
+    name: '深入分析负责人',
+    key: 'SPR_FRM_DEP_PICOIDA',
+    width: 150
+  },
+  {
+    props: 'deepCommentReasons',
+    name: '深评原因',
+    key: 'SPR_FRM_DEP_DEPREASON',
+    width: 150
+  }
 ]
 
 export const joinGroupTitle = [

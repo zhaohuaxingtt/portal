@@ -152,6 +152,10 @@ export default {
         })
         this.activeMenu = parentMeta
       }
+
+      if (!this.activeIndex && this.activeMenu && this.activeMenu.length) {
+        this.activeIndex = this.activeMenu[0]
+      }
     },
     handleShow(va) {
       this.contentShowFlag = !va

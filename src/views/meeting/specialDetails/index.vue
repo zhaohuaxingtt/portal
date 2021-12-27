@@ -865,7 +865,6 @@ import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
 import { downloadStaticFile } from '@/utils/downloadStaticFileUtil'
 import enclosure from '@/assets/images/enclosure.svg'
 import newSummaryDialogNew from '@/views/meeting/home/components/newSummaryDialogNew.vue'
-
 export default {
   mixins: [pageMixins],
   components: {
@@ -892,6 +891,7 @@ export default {
   },
   data() {
     return {
+      riseIcon: process.env.VUE_EMAIL_ICON,
       openError: false,
       errorList: [],
       autoOpenProtectConclusionObj: '',
@@ -998,6 +998,26 @@ export default {
   //   }
   // },
   methods: {
+    createAnchorLink(href) {
+      // console.log('href', href)
+      const a = document.createElement('a')
+      a.href = href
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+    },
+    handleSendEmail(list) {
+      const subject = this.meetingInfo.name
+      const send = list ? list.join(';') : ''
+      // let minuteSrc = 'aaa'
+      const attachments = this.meetingInfo.attachments.find((item) => {
+        return item.source === '02'
+      })
+      const minuteSrc = attachments ? attachments.attachmentUrl : ''
+      let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'>`
+      let href = `mailto:${send}?subject=${subject}&body=${body}`
+      this.createAnchorLink(href)
+    },
     handleClickColumn() {
       this.$refs['hiddenColumnTable'].handleOpenColumn()
     },
@@ -1277,10 +1297,11 @@ export default {
     closeDialogTopic() {
       this.openAddTopic = false
     },
-    // 导入议题保存
-    handleOKTopics(info) {
+
+    handleOKTopics(info, list) {
       if (info === 'close') {
         iMessage.success('关闭成功')
+        // this.handleSendEmail(list)
       }
       this.closeDialog()
       this.flushTable()
@@ -1392,7 +1413,9 @@ export default {
           if (classStr.includes('dragable-row')) {
             if (!_this.timer) {
               _this.timer = true
-              iMessage.warn(this.$t('不可以把议题拖拽到已结束或者进行中的议题之前!'))
+              iMessage.warn(
+                this.$t('不可以把议题拖拽到已结束或者进行中的议题之前!')
+              )
               let timers = setTimeout(() => {
                 _this.timer = null
                 clearTimeout(timers)
@@ -1670,11 +1693,15 @@ export default {
     },
     close() {
       if (this.meetingInfo.attachments.length <= 0) {
-        this.$confirm(this.$t('尚未生成会议纪要，前往生成会议纪要？'), this.$t('提示'), {
-          confirmButtonText: this.$t('前往'),
-          cancelButtonText: this.$t('取消'),
-          type: 'warning'
-        }).then(() => {
+        this.$confirm(
+          this.$t('尚未生成会议纪要，前往生成会议纪要？'),
+          this.$t('提示'),
+          {
+            confirmButtonText: this.$t('前往'),
+            cancelButtonText: this.$t('取消'),
+            type: 'warning'
+          }
+        ).then(() => {
           //在这里判断是不是已经生成会议纪要了
           // this.openDialog('openCloseMeetiongDialog')
           this.generateMeetingMinutes()
@@ -2389,7 +2416,7 @@ export default {
                   'nextPreCSC',
                   'senLol',
                   'translateTer',
-                  'closeResult',
+                  'closeResult'
                   // 'translateCSC'
                   // "lookResult",
                 ],
