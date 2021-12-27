@@ -15,22 +15,22 @@
     <el-col :span="8" v-permission="Card_Related_Group">
       <iCard :title="$t('SUPPLIER_JTGX')" class="groupRelations">
         <iText class="margin-bottom20">
-          <span class="text">{{$t('JITUANGONGSIQUANCHEN')}}</span>:{{groupTableListData.name||''}}
+          <span class="text">{{$t('JITUANGONGSIQUANCHEN')}}</span>:{{groupTableListData.name}}
         </iText>
         <iText class="margin-bottom20">
-          <span class="text">{{$t('SUPPLIER_SJKZRXM')}}</span>:{{groupTableListData.realityControlName||''}}
+          <span class="text">{{$t('SUPPLIER_SJKZRXM')}}</span>:{{groupTableListData.realityControlName}}
         </iText>
         <iText class="margin-bottom20">
-          <span class="text">{{$t('ZHUYAOCHANPIN')}}</span>:{{groupTableListData.productName||''}}
+          <span class="text">{{$t('ZHUYAOCHANPIN')}}</span>:{{groupTableListData.productName}}
         </iText>
         <iText class="margin-bottom20">
-          <span class="text">{{$t('SUPPLIER_ZYPTKH')}}</span>:{{groupTableListData.oemCustomer||''}}
+          <span class="text">{{$t('SUPPLIER_ZYPTKH')}}</span>:{{groupTableListData.oemCustomer}}
         </iText>
         <iText class="margin-bottom20">
-          <span class="text">{{$t('SUPPLIER_ZYPTZJC')}}</span>:{{groupTableListData.oemName||''}}
+          <span class="text">{{$t('SUPPLIER_ZYPTZJC')}}</span>:{{groupTableListData.oemName}}
         </iText>
         <iText class="margin-bottom20">
-          <span class="text">{{$t('KAISHIGONGHUSHIJIAN')}}</span>:{{groupTableListData.deliveryStartDate||''}}
+          <span class="text">{{$t('KAISHIGONGHUSHIJIAN')}}</span>:{{groupTableListData.deliveryStartDate}}
         </iText>
       </iCard>
     </el-col>
@@ -73,7 +73,19 @@ export default {
       }
     },
     groupRelationsVO(data) {
-      this.groupTableListData = data
+        if(data){
+            this.groupTableListData = data
+        }else{
+            this.groupTableListData={
+                name:"",
+                realityControlName:"",
+                productName:'',
+                oemCustomer:'',
+                oemName:'',
+                deliveryStartDate:''
+            }
+        }
+
     }
   },
   mounted() {
