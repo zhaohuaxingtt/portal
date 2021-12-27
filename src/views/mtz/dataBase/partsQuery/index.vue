@@ -396,7 +396,7 @@ export default {
     },
     handleExportCurrent () {
       partTemplateUrl().then(res => {
-        if (res.result) {
+        if (res.data) {
           downloadUdFile(res.data)
         }
       })
