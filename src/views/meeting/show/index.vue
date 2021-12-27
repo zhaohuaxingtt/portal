@@ -191,7 +191,7 @@
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.state">{{ statusObj[scope.row.state] }}</span>
+            <span v-if="scope.row.state">{{ $t(statusObj[scope.row.state]) }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
@@ -277,9 +277,9 @@ export default {
       result: {},
       typeObj: {},
       statusObj: {
-        '01': '未进行',
-        '02': '进行中',
-        '03': '已结束'
+        '01': 'MT_WEIJINXING',
+        '02': 'MT_JINXINGZHONG',
+        '03': 'MT_YIJIESHU'
       },
       timer: '',
       openAddTopic: false,

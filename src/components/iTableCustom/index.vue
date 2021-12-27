@@ -18,7 +18,7 @@
       :data="virtualList ? virtualTableData : realTableData"
       :row-key="rowKey || 'uniqueId'"
       :highlight-current-row="highlightCurrentRow"
-      :empty-text="language('ZANWUSHUJU','暂无数据')"
+      :empty-text="language('ZANWUSHUJU', '暂无数据')"
       :row-class-name="getRowClassNameDefault"
       :row-style="getRowStyle"
       :cell-class-name="getCellClassName"
@@ -135,7 +135,11 @@
                 :header-align="subItem.headerAlign"
                 :show-overflow-tooltip="subItem.tooltip"
                 :prop="subItem.prop"
-                :label="subItem.i18n ? language(subItem.i18n,subItem.label) : subItem.label"
+                :label="
+                  subItem.i18n
+                    ? language(subItem.i18n, subItem.label)
+                    : subItem.label
+                "
                 :width="subItem.width ? subItem.width.toString() : ''"
                 :min-width="subItem.minWidth ? subItem.minWidth.toString() : ''"
                 :sortable="subItem.sortable"
@@ -469,7 +473,7 @@ export default {
         } */
         /******************* end *********************/
       } else {
-        this.tableData = this.data
+        this.tableData = this.data ? this.data : []
         this.tableData.forEach((e, index) => {
           e.uniqueId = index + ''
           e.visible = true

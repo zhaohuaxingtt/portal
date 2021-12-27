@@ -101,20 +101,21 @@ export default {
         {
           prop: "fileId",
           label: "序号",
-          i18n: "序号",
+          i18n: "MT_XUHAO2",
           // width: 68,
           tooltip: false,
         },
         {
           prop: "attachmentName",
           label: "文件名称",
-          i18n: "文件名称",
+          i18n: "MT_WENJIANMINGCHENG",
           align: "left",
           // width: 300,
           tooltip: false,
         },
         {
           label: "操作",
+          i18n:"MT_CAOZUO2",
           customRender: (h, scope) => {
             return h("span", [
               h(
@@ -133,7 +134,7 @@ export default {
                     },
                   },
                 },
-                "删除"
+                this.$t("MT_SHANCHU")
               ),
               h(
                 "a",
@@ -161,7 +162,7 @@ export default {
                     },
                   },
                 },
-                "下载"
+                this.$t("MT_XIAZAI")
               ),
             ]);
           },
