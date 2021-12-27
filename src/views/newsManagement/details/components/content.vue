@@ -13,7 +13,7 @@
             class="form-bottom-row2-right-list"
           >
             <div class="form-content-row4-content">
-              <div class="form-content-row4-div">{{ item.content }}</div>
+              <div class="form-content-row4-div" :title="item.content">{{ item.content }}</div>
             </div>
           </div>
         </div>
@@ -305,24 +305,34 @@ export default {
   display: flex;
   justify-content: space-between;
   .form-bottom-row2 {
-    height: 28px;
+    max-width: 70%;
     font-size: 20px;
     line-height: 30px;
     font-weight: bold;
   }
   .form-bottom-row2-right {
+    min-width:10%;
+    max-width: 40%;
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-end;
     margin-right: 3px;
+    margin-top: 2px;
+    height: 100%;
     .form-bottom-row2-right-list {
       margin-left: 20px;
-      margin-bottom: 2px;
+      margin-bottom: 5px;
+      height: 20px;
       .form-content-row4-content {
         background-color: rgba(248, 248, 250);
         border-radius: 16px;
         line-height: 20px;
         height: 20px;
         .form-content-row4-div {
+          max-width: 300px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           text-align: center;
           color: #988d8d;
           padding: 0 23px;
