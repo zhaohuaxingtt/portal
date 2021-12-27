@@ -1,3 +1,4 @@
+<!-- 结束结论 -->
 <template>
   <iDialog
     title="维护结论"
@@ -6,6 +7,9 @@
     :close-on-click-modal="false"
     @close="close"
   >
+  <!-- 分段定点  待定 只有下拉框和任务 -->
+  <!-- Last Call  有下拉框和任务rfq发送对象 -->
+  <!-- 不通过  提交  任务 文本框 -->
     <iEditForm>
       <el-form
         :model="ruleForm"
@@ -36,40 +40,7 @@
             </iSelect>
           </div>
         </iFormItem>
-        <iFormItem prop="conclusionCsc" v-show="isShowTable">
-          <div class="next-meeting">
-            <div class="operate-title">
-              <span class="conclusion">下次会议</span>
-              <span class="required-icon">*</span>
-            </div>
-            <iTableML
-              tooltip-effect="light"
-              :data="tableListData"
-              :border="true"
-              @selectionChange="handleSelectionChange"
-              :currentRow="currentRow"
-              :isSingle="true"
-            >
-              <el-table-column
-                align="center"
-                label=""
-                width="57"
-                type="selection"
-              >
-              </el-table-column>
-              <el-table-column
-                show-overflow-tooltip
-                align="left"
-                label="会议名称"
-                prop="name"
-              >
-              </el-table-column>
-            </iTableML>
-          </div>
-        </iFormItem>
-        <iFormItem
-          prop="isFrozenRs"
-          v-show="ruleForm.conclusion.conclusionCsc === '02'"
+        <iFormItem prop="isFrozenRs" 
         >
           <div class="switch-content">
             <div class="freeze">冻结RS单</div>
@@ -98,6 +69,95 @@
         </iFormItem>
       </el-form>
     </iEditForm>
+    <!-- 列表 -->
+    <div>
+      <div class="commonTablediv">RFQ发送对象</div>
+          <commonTable
+          class="commonTablediv"
+            v-update
+            :selection="true"
+            @handle-selection-change="handleSelectionChange"
+            :customClass="true"
+            :tableLoading="loading"
+            :tableData="tableData"
+            :tableTitle="tableColumns"
+            />
+    </div>
+    <!-- 输入框 -->
+    <div>
+      <el-form
+        :model="formData"
+        ref="ruleForm"
+        :hideRequiredAsterisk="true"
+      >
+      <el-row :gutter="24">
+          <el-col :span="12" >
+            <el-form-item :label="language('股别', '股别')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+         <el-col :span="12" >
+            <el-form-item :label="language('项目', '项目')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+      </el-row>
+      <el-row :gutter="24">
+          <el-col :span="12" >
+            <el-form-item :label="language('上会次数', '上会次数')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+         <el-col :span="12" >
+            <el-form-item :label="language('CSC编号', 'CSC编号')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+      </el-row>
+      <el-row :gutter="24">
+          <el-col :span="12" >
+            <el-form-item :label="language('申请部门', '申请部门')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+         <el-col :span="12" >
+            <el-form-item :label="language('申请人', '申请人')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+      </el-row>
+      <el-row :gutter="24">
+          <el-col :span="12" >
+            <el-form-item :label="language('采购员', '采购员')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+         <el-col :span="12" >
+            <el-form-item :label="language('定点金额(不含可抵扣税)', '定点金额(不含可抵扣税)')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+      </el-row>
+          
+      </el-form>
+    </div>
+   
     <div class="button-list">
       <iButton class="sure" @click="handleSure" :loading="loading"
         >确定</iButton
@@ -107,6 +167,7 @@
   </iDialog>
 </template>
 <script>
+import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
 import {
@@ -116,9 +177,9 @@ import {
   iLabel,
   iInput,
   iButton,
-  iMessage
+  iMessage,
 } from 'rise'
-import { themenConclusionArrObj, themenConclusion } from './data'
+import { themenConclusionArrObj, themenConclusion , TABLE_COLUMNS_DEFAULT} from './data'
 import { getMettingList } from '@/api/meeting/home'
 import { updateThemen } from '@/api/meeting/details'
 import dayjs from 'dayjs'
@@ -132,7 +193,8 @@ export default {
     iLabel,
     iInput,
     iButton,
-    iTableML
+    iTableML,
+    commonTable
   },
   props: {
     autoOpenProtectConclusionObj: {
@@ -175,6 +237,8 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        formData:{},
+        tableColumns: [...TABLE_COLUMNS_DEFAULT],
         loading: false,
         themenConclusion,
         curChooseArr: [],
@@ -213,6 +277,8 @@ export default {
       }
     } else {
       return {
+        formData:{},
+        tableColumns: [...TABLE_COLUMNS_DEFAULT],
         loading: false,
         themenConclusion,
         curChooseArr: [],
@@ -259,29 +325,25 @@ export default {
     if (this.meetingInfo.isCSC) {
       this.themenConclusionArrObj = [
         {
-          conclusionCsc: '01',
-          conclusionName: '待定'
+          conclusionCsc: "01",
+          conclusionName: "待定",
         },
         {
-          conclusionCsc: '02',
-          conclusionName: '定点'
+          conclusionCsc: "02",
+          conclusionName: "通过",
         },
         {
-          conclusionCsc: '03',
-          conclusionName: '发LOI'
+          conclusionCsc: "03",
+          conclusionName: "不通过",
         },
         {
-          conclusionCsc: '04',
-          conclusionName: '转TER/TOP-TER'
+          conclusionCsc: "04",
+          conclusionName: "Last Call",
         },
         {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
+          conclusionCsc: "05",
+          conclusionName: "分段定点",
         },
-        {
-          conclusionCsc: '07',
-          conclusionName: '关闭'
-        }
       ]
     }
     if (
@@ -433,9 +495,11 @@ export default {
       this.close()
     },
     changeConclusion(e) {
+      console.log(e);
       this.isShowTable = false
       this.isShowSwitch = false
       if (e.conclusionCsc === '02') {
+        debugger
         this.isShowSwitch = true
         this.ruleForm.isFrozenRs = true
       }
@@ -494,8 +558,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.commonTablediv{
+  margin-bottom: 20px;
+}
 ::v-deep .el-table__header {
-  background-color: #fff;
+  // background-color: #fff;
   .el-table-column--selection {
     .el-checkbox__inner {
       display: none;

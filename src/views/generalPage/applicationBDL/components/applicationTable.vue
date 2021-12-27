@@ -83,7 +83,7 @@ import tableList from '@/components/commonTable'
 import { pageMixins } from "@/utils/pageMixins";
 import { applicationBDLTableTitle } from './data'
 import addBdlDialog from './addBdlDialog'
-import { getStuffMaterials, submitBdl, getUserList, getDeptList } from "../../../../api/supplier360/material";
+import { getStuffMaterials, submitBdl, getUserList, getDeptList, getPreDeptList, getPreUserList } from "../../../../api/supplier360/material";
 
 
 export default {
@@ -177,8 +177,13 @@ export default {
       })
     },
     async getDeptList () {
-      const dept = await getDeptList()
-      this.formGroup.deptList = dept.data
+      if (this.$route.query.mbdl) {
+        const dept = await getPreDeptList({ supplierToken: this.$route.query.supplierToken })
+        this.formGroup.deptList = dept.data
+      } else {
+        const dept = await getDeptList()
+        this.formGroup.deptList = dept.data
+      }
     },
     // async getTableList() {
     //   this.tableLoading = true
