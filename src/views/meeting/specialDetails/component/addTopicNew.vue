@@ -375,13 +375,13 @@ export default {
             validator: validateTopic
           }
         ],
-        supporter: [{ required: true, message: '必选', trigger: 'blur' }],
+        supporter: [{ required: true, message: this.$t('必选'), trigger: 'blur' }],
         // presenter: [{ required: true, message: '必选', trigger: 'blur' }],
         duration: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message: this.$t('必填'), trigger: 'blur' },
           {
             type: 'number',
-            message: '最大长度3位，单位（分钟），必须正整数',
+            message: this.$t('最大长度3位，单位（分钟），必须正整数'),
             trigger: 'blur',
             transform(value) {
               if (value !== null && value !== '') {
@@ -406,16 +406,16 @@ export default {
           }
         ],
         benCn: [
-          { required: true, message: '必填', trigger: 'blur' },
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { required: true, message: this.$t('必填'), trigger: 'blur' },
+          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
         ],
         sourcingNo: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
         ],
-        tnr: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
-        benDe: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
-        carline: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
-        ep: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }]
+        tnr: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }],
+        benDe: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }],
+        carline: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }],
+        ep: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }]
       },
       subButtonFlag: false
     }
@@ -667,7 +667,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt30M = file.size / 1024 / 1024 < 30
       if (!isLt30M) {
-        this.$message.error('文件大小最大限制30M!')
+        this.$message.error(this.$t('文件大小最大限制30M!'))
       }
       return isLt30M
     },

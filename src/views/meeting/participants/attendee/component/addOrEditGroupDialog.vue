@@ -150,7 +150,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.close();
-                  this.$message.success(this.$t("保存成功！"));
+                  this.$message.success(this.$t("MT_BAOCUNCHENGGONG"));
                   this.$emit("flushTable");
                 }
               })
@@ -162,7 +162,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.close();
-                  this.$message.success(this.$t("创建成功！"));
+                  this.$message.success(this.$t("MT_CHUANGJIANCHENGGONG"));
                   this.$emit("flushTable");
                 } else {
                   // this.$message.error(data.message);

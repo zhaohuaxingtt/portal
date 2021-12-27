@@ -183,7 +183,7 @@ export default {
   methods: {
     handleDownLoadMinutes(themen) {
       if (!themen.attachments) {
-        iMessage.error(this.$t("没有要下载的附件!"));
+        iMessage.error(this.$t("MT_MEIYOUYAOXIAZAIDEFUJIAN"));
         return;
       }
       const file = themen.attachments.find((item) => {
@@ -196,7 +196,7 @@ export default {
           filename: file.attachmentName,
           callback: (e) => {
             if (!e) {
-              iMessage.error(this.$t("下载失败"));
+              iMessage.error(this.$t("MT_XIAZAISHIBAI"));
             }
           },
         });
@@ -259,7 +259,7 @@ export default {
     },
     handleDownLoad(themen) {
       if (!themen.attachments) {
-        iMessage.error(this.$t("没有要下载的附件!"));
+        iMessage.error(this.$t("MT_MEIYOUYAOXIAZAIDEFUJIAN"));
         return;
       }
       const file = themen.attachments.find((item) => {
@@ -273,7 +273,7 @@ export default {
           filename: file.attachmentName,
           callback: (e) => {
             if (!e) {
-              iMessage.error(this.$t("下载失败"));
+              iMessage.error(this.$t("MT_XIAZAISHIBAI"));
             }
           },
         });

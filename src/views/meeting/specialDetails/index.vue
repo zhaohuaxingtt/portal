@@ -12,7 +12,7 @@
               class="button"
               @click="currentButtonList.methodName"
               disabled
-              >{{ $t(currentButtonList.title) }}</iButton
+              >{{ $t(currentButtonList.i18n) }}</iButton
             >
           </div>
           <div class="button-list">
@@ -27,7 +27,7 @@
               "
               :disabled="item.disabled == true && tableData.length !== 0"
             >
-              {{ $t(item.title) }}</iButton
+              {{ $t(item.i18n) }}</iButton
             >
           </div>
         </div>
@@ -169,7 +169,7 @@
               show-overflow-tooltip
               align="center"
               label="Present Items"
-              :width="setColumnWidth(tableData,198)"
+              :width="setColumnWidth(tableData, 198)"
             >
               <template slot-scope="scope">
                 <span
@@ -450,7 +450,7 @@
                 show-overflow-tooltip
                 align="center"
                 label="Present Items"
-                :width="setColumnWidth(tableData,198)"
+                :width="setColumnWidth(tableData, 198)"
               >
                 <template slot-scope="scope">
                   <span
@@ -821,6 +821,12 @@
       :errorList="errorList"
       @handleCloseError="handleCloseError"
     />
+    <sortDialog
+      v-if="openSortDialog"
+      @closeDialog="handleCloseSortDialog"
+      :openSortDialog="openSortDialog"
+    ></sortDialog>
+    <!-- <iButton @click="handleSortDialog">点击</iButton> -->
   </iPage>
 </template>
 <script>
@@ -838,6 +844,7 @@ import protectConclusion from './component/protectConclusion.vue'
 import addTopicNew from './component/addTopicNew.vue'
 import lookConclusion from './component/lookConclusion.vue'
 import importErrorDialog from './component/importErrorDialog.vue'
+import sortDialog from './component/sortDialog.vue'
 
 import {
   findThemenById,
@@ -887,10 +894,12 @@ export default {
     iTableML,
     newSummaryDialogNew,
     addTopicNew,
-    importErrorDialog
+    importErrorDialog,
+    sortDialog
   },
   data() {
     return {
+      openSortDialog: false,
       riseIcon: process.env.VUE_EMAIL_ICON,
       openError: false,
       errorList: [],
@@ -972,6 +981,7 @@ export default {
     }
   },
   mounted() {
+    console.log("",this.currentButtonList)
     // this.type = this.$route.query.type
     // this.isAdmin = localStorage.getItem("isMA") === "false" ? false : true;
     this.getMeetingTypeObject()
@@ -998,6 +1008,12 @@ export default {
   //   }
   // },
   methods: {
+    handleCloseSortDialog() {
+      this.openSortDialog = false
+    },
+    handleSortDialog() {
+      this.openSortDialog = true
+    },
     createAnchorLink(href) {
       // console.log('href', href)
       const a = document.createElement('a')
@@ -1184,13 +1200,13 @@ export default {
     downDemo() {
       downloadStaticFile({
         url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
-        filename: '议题模版',
+        filename: this.$t('议题模版'),
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
         callback: (e) => {
           if (e) {
-            iMessage.success('下载模版成功')
+            iMessage.success(this.$t('下载模版成功'))
           } else {
-            iMessage.error('下载模版成功')
+            iMessage.error(this.$t('下载模版成功'))
           }
         },
         noFileUd: true
@@ -1204,9 +1220,9 @@ export default {
         meetingId: this.meetingInfo.id,
         themenId: themen.id
       }
-      this.$confirm('是否同意撤回该议题？', '提示', {
-        confirmButtonText: '同意',
-        cancelButtonText: '拒绝',
+      this.$confirm(this.$t('是否同意撤回该议题？'), this.$t('提示'), {
+        confirmButtonText: this.$t('同意'),
+        cancelButtonText: this.$t('拒绝'),
         distinguishCancelAndClose: true,
         type: 'warning'
       })
@@ -1216,7 +1232,7 @@ export default {
               if (res.code === 200) {
                 this.flushTable()
                 // iMessage.success(res.message);
-                iMessage.success('审批通过')
+                iMessage.success(this.$t('审批通过'))
                 return
               }
               iMessage.error(res.message)
@@ -1234,7 +1250,7 @@ export default {
               .then((res) => {
                 if (res.code === 200) {
                   this.flushTable()
-                  iMessage.success('拒绝成功!')
+                  iMessage.success(this.$t('拒绝成功!'))
                   // iMessage.success(res.message);
                   return
                 }
@@ -1300,8 +1316,8 @@ export default {
 
     handleOKTopics(info, list) {
       if (info === 'close') {
-        iMessage.success('关闭成功')
-        // this.handleSendEmail(list)
+        iMessage.success(this.$t('关闭成功'))
+        this.handleSendEmail(list)
       }
       this.closeDialog()
       this.flushTable()
@@ -1309,7 +1325,7 @@ export default {
     // 导入议题保存
     handleOKImportTopic(a, b) {
       if (this.nameList.length <= 0) {
-        iMessage.warn('请导入议题后再保存')
+        iMessage.warn(this.$t('请导入议题后再保存'))
         return
       }
       this.disabledImportThemenButton = true
@@ -1334,7 +1350,7 @@ export default {
           //   this.nameList = []
           // }
           if (res.length == 0) {
-            iMessage.success('导入议题成功')
+            iMessage.success(this.$t('导入议题成功'))
             this.openTopics = false
             this.disabledImportThemenButton = false
             // this.refreshTable()
@@ -1511,11 +1527,11 @@ export default {
           if (isCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
-                { title: '撤回', methodName: 'recall', disabled: true },
-                { title: '锁定', methodName: 'lock' },
-                { title: '开始', methodName: 'start' },
-                { title: '修改', methodName: 'edit' },
-                { title: '返回', methodName: 'back' }
+                { title: '撤回', methodName: 'recall', disabled: true,i18n:"MT_CHEHUI" },
+                { title: '锁定', methodName: 'lock',i18n:"MT_SUODING" },
+                { title: '开始', methodName: 'start' ,i18n:"MT_KAISHI"},
+                { title: '修改', methodName: 'edit' ,i18n:"MT_XIUGAI"},
+                { title: '返回', methodName: 'back' ,i18n:"MT_FANHUI"}
               ],
               '锁定'
             )
@@ -1523,11 +1539,11 @@ export default {
           if (isPreCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
-                { title: '撤回', methodName: 'recall', disabled: true },
-                { title: '锁定', methodName: 'lock' },
-                { title: '开始', methodName: 'start' },
-                { title: '修改', methodName: 'edit' },
-                { title: '返回', methodName: 'back' }
+                { title: '撤回', methodName: 'recall', disabled: true ,i18n:"MT_CHEHUI"},
+                { title: '锁定', methodName: 'lock' ,i18n:"MT_SUODING"},
+                { title: '开始', methodName: 'start' ,i18n:"MT_KAISHI"},
+                { title: '修改', methodName: 'edit' ,i18n:"MT_XIUGAI"},
+                { title: '返回', methodName: 'back',i18n:"MT_FANHUI" }
               ],
               '开始'
             )
@@ -2476,6 +2492,9 @@ export default {
             if (val[0].fixedPointApplyType == 20) {
               this.handleButtonDisabled(['senLol', 'translateTer'], true)
             }
+            if (val[0].type === 'MTZ') {
+              this.handleButtonDisabled(['freezeRsBill'], true)
+            }
           }
         } else if (val[0].state === '02') {
           this.handleButtonDisabled(handleDisabledButtonName, true)
@@ -2558,42 +2577,44 @@ export default {
       return 'narmal-row'
     },
     //表格列字符限制
-    setColumnWidth(data,min){
-      console.log(data,'data');
-      let index=0
-      let maxStr=''
-      for(let i=0; i<data.length;i++){
-        if(data[i].topic===null){
+    setColumnWidth(data, min) {
+      if (!data || data.length === 0) {
+        return
+      }
+      let index = 0
+      let maxStr = ''
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].topic === null) {
           return
         }
-        const nowline=data[i].topic+''
-        const maxline=data[index].topic+''
-        if(nowline.length>maxline.length){
-          index=i
+        const nowline = data[i].topic + ''
+        const maxline = data[index].topic + ''
+        if (nowline.length > maxline.length) {
+          index = i
         }
       }
-      maxStr=data[index].topic
-      let columnWidth=0;
-       for (let char of maxStr) {
-          if ((char >= 'A' && char <= 'Z') ) {
-            columnWidth += 8
-          }else if( char >= 'a' && char <= 'z'){
-            columnWidth += 6
-          } else if (char >= '\u4e00' && char <= '\u9fa5') {
-            columnWidth += 13
-          } else {
-            columnWidth += 7
-          }
+      maxStr = data[index].topic
+      let columnWidth = 0
+      for (let char of maxStr) {
+        if (char >= 'A' && char <= 'Z') {
+          columnWidth += 8
+        } else if (char >= 'a' && char <= 'z') {
+          columnWidth += 6
+        } else if (char >= '\u4e00' && char <= '\u9fa5') {
+          columnWidth += 13
+        } else {
+          columnWidth += 7
         }
-        if (columnWidth < min) {
-          // 设置最小宽度
-          columnWidth = min
-        }
-        if(columnWidth > 306){
-          columnWidth = 306
-        }
-        return columnWidth + 'px'
-      },
+      }
+      if (columnWidth < min) {
+        // 设置最小宽度
+        columnWidth = min
+      }
+      if (columnWidth > 306) {
+        columnWidth = 306
+      }
+      return columnWidth + 'px'
+    }
   }
 }
 </script>

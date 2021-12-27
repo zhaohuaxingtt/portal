@@ -90,26 +90,32 @@ export const statusList = [
   {
     label: '草稿',
     value: '01',
+    i18n: 'MT_CAOGAO'
   },
   {
     label: '开放',
     value: '02',
+    i18n: 'MT_KAIFANG'
   },
   {
     label: '锁定',
     value: '03',
+    i18n: 'MT_SUODING'
   },
   {
     label: '开始',
     value: '04',
+    i18n: 'MT_KAISHI'
   },
   {
     label: '结束',
     value: '05',
+    i18n: 'MT_JIESHU'
   },
   {
     label: '关闭',
     value: '06',
+    i18n: 'MT_GUANBI'
   },
 ];
 export const cycleList = [
