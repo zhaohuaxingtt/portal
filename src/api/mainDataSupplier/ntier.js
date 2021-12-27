@@ -12,10 +12,11 @@ export function saveNtierSupplier(parmars) {
   })
 }
 //获取供应商基本信息
-export function getNtierSupplier(parmars) {
+export function getNtierSupplier(parmas) {
   return requst({
-    url: '/ntierSupplier/get/' + parmars,
-    method: 'get'
+    url: '/ntierSupplier/get',
+    method: 'get',
+    parmas
   })
 }
 //更新供应商基本信息

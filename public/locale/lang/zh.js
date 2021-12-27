@@ -2728,7 +2728,136 @@
     rfq: {
       RFQINQUIRE: '搜索',
       RFQRESET: '重置'
-    }
+    },
+    // -------------------------------条款 start---------------------------------------------
+    TERMS_TIAOKUANGUANLI: '条款管理', //条款管理
+    TERMS_BIAOZHUNTIAOKUAN: '标准条款', //标准条款
+    TERMS_DINGZHITIAOKUAN: '定制条款', //定制条款
+    TERMS_TIAOKUANCHAXUN: '条款查询', //条款查询
+    TERMS_TIAOKUANMINGCHENG: '条款名称', //条款名称
+    TERMS_TIAOKUANFUZEREN: '条款负责人', //条款负责人
+    TERMS_TIAOKUANZHUANGTAI: '条款状态', //条款状态
+    TERMS_QIANSHUJIEDIAN: '签署节点', //签署节点
+    TERMS_GONGYINGSHANGFANWEI: '供应商范围', //供应商范围
+    TERMS_BIAOZHUNTIAOKUANLIEBIAO: '标准条款列表', //标准条款列表
+    TERMS_XUHAO: '序号', //序号
+    TERMS_TIAOKUANBIANMA: '条款编码', //条款编码
+    TERMS_FABUSHIJIAN: '发布时间', //发布时间
+    TERMS_TIAKUANYOUXIAOQI: '条款有效期', //条款有效期
+    TERMS_QIANSHUQINGKAUNG: '签署情况', //签署情况
+    TERMS_SHIFOUCHONGFU: '是否重复', //是否重复
+    TERMS_SHIFOUXUYAOQIANZHANG: '是否需要签章', //是否需要签章
+    TERMS_SHIFOUGERENTIAOKUAN: '是否个人条款', //是否个人条款
+    TERMS_XINJIAN: '新建', //新建
+    TERMS_SHIXIAO: '失效', //失效
+    TERMS_SOUSUO: '搜索', //搜索
+    TERMS_CHONGZHI: '重置', //重置
+    TERMS_TUICHU: '退出', //退出
+    TERMS_FABU: '发布', //发布
+    TERMS_QUEDING: '确定', //确定
+    TERMS_CAOZUO: '操作', //操作
+    TERMS_SHANCHU: '删除', //删除
+    TERMS_XIAZAI: '下载', //下载
+    TERMS_BIANJI: '编辑', //编辑
+    TERMS_WEIFABU: '未发布', //未发布
+    TERMS_YIFABU: '已发布', //已发布
+    TERMS_YIGUOQU: '已过期', //已过期
+    TERMS_YISHIXIAO: '已失效', //已失效
+    TERMS_XINJIANTIAOKUAN: '新建条款', //新建条款
+    TERMS_BIANJITIAOKUAN: '编辑条款', //编辑条款
+    TERMS_GONGYINGSHANGLIWAI: '供应商(例外)', //供应商(例外)
+    TERMS_TIAOKUANZHENGWEN: '条款正文', //条款正文
+    TERMS_SHANGCHUANFUJIAN: '上传附件', //上传附件
+    TERMS_WENJIANMINGCHENG: '文件名称', //文件名称
+    TERMS_QINGXUANZEWENJIAN: '请选择文件', //请选择文件
+    TERMS_WENJIANDAXIAOZUIDAXIANZHI: '文件大小最大限制50MB', //文件大小最大限制50MB
+    TERMS_SHANGCHUANCHENGGONG: '上传成功', //上传成功
+    TERMS_SHANGCHUANSHIBAI: '上传失败', //上传失败
+    TERMS_BAOZUNCHENGGONG: '保存成功', //保存成功
+    TERMS_BAOCUNSHIBAI: '保存失败', //保存失败
+    TERMS_GENGXINCHENGGONG: '更新成功', //更新成功
+    TERMS_GENGXINSHIBAI: '更新失败', //更新失败
+    TERMS_YIXUANZEGONGYINGSHANGLIWAI: '已选择供应商(例外)', //已选择供应商(例外)
+    TERMS_YIXUANZEGONGYINGSHANGFANWEI: '已选择供应商范围', //已选择供应商范围
+    TERMS_SFQXBJ: '是否取消编辑？', //是否取消编辑？
+    TERMS_SFBCTKMBSJ: '是否保存该条款模板数据？', //是否保存该条款模板数据？
+    TERMS_SHI: '是', //是
+    TERMS_FOU: '否', //否
+    TERMS_TISHI: '提示', //提示
+    TERMS_CHAKANTIAOKUAN: '查看条款', //查看条款
+    TERMS_ZHANSHIBANBEN: '展示版本', //展示版本
+    TERMS_DUIBIBANBEN: '对比版本', //对比版本
+    TERMS_QIANSHUQINGKUANG: '签署情况', //签署情况
+    TERMS_GONGYINGSHANGZHONGWENMING: '供应商中文名', //供应商中文名
+    TERMS_DIQU: '地区', //地区
+    TERMS_CAILIAOZU: '材料组', //材料组
+    TERMS_GONGHUOJIBIE: '供货级别', //供货级别
+    TERMS_SHIFOUQIANSHU: '是否签署', //是否签署
+    TERMS_LIANXIRENXINGMING: '联系人姓名', //联系人姓名
+    TERMS_YONGHUDENGRUMING: '用户登入名', //用户登入名
+    TERMS_YOUXIANG: '邮箱', //邮箱
+    TERMS_SHOUJI: '手机', //手机
+    TERMS_DIANHUA: '电话', //电话
+    TERMS_QIANSHUZHAUNGTAI: '签署状态', //签署状态
+    TERMS_QIANSHUSHIJIAN: '签署时间', //签署时间
+    TERMS_WEIQINSHU: '未签署', //未签署
+    TERMS_YIQIANSHU: '已签署', //已签署
+    TERMS_LIWAI: '例外', //例外
+    TERMS_BIAOJILIWAI: '标记例外', //标记例外
+    TERMS_SPAHAO: 'SPA号', //SPA号
+    TERMS_QXZDZTKSJ: '请选择定制条款数据', //请选择定制条款数据
+    TERMS_SFJDZTKSWSX: '是否将定制条款设为失效？', //是否将定制条款设为失效？
+    TERMS_TIAKUANSHENGXIAOSHIJIAN: '条款生效时间', //条款生效时间
+    TERMS_GONGYINGSHANGMINGCHENG: '供应商名称', //供应商名称
+    TERMS_GONGYINGSHANGXIUGAITIAOKUANSHENHE: '供应商修改条款审核', //供应商修改条款审核
+    TERMS_ZHENGSHIDINGZHITIAOKUAN: '正式定制条款', //正式定制条款
+    TERMS_DIJIAORIQI: '递交日期', //递交日期
+    TERMS_LISHIXIUDING: '历史修订', //历史修订
+    TERMS_TISHIBIAOQIAN: '提示标签', //提示标签
+    TERMS_TISHIJIEDIAN: '提示节点', //提示节点
+    TERMS_GONGYINGSHANGXIUGAITIAOKUAN: '供应商修改条款', //供应商修改条款
+    TERMS_SHANGQIXIUGAITIAOKUAN: '上汽修改条款', //上汽修改条款
+    TERMS_HONGSE: '红色', //红色
+    TERMS_WEIGONGYINGSHANGXIUGAITIAOKUAN: '为供应商修改条款', //为供应商修改条款
+    TERMS_LVSE: '绿色', //绿色
+    TERMS_WEISVWXIUGAITIAOKUAN: '为SVW修改条款', //为SVW修改条款
+    TERMS_BITIAN: '必填', //必填
+    TERMS_ZUIDACHANGDU: '最大长度', //最大长度
+    TERMS_ZIFU: '字符', //字符
+    TERMS_BIXUAN: '必选', //必选
+
+    // -----------------------条款 start ------------------
+    TERMS_ZHUCE: '注册', //注册
+    TERMS_BIAOJI: '编辑', //编辑
+    TERMS_DENGLU: '登录', //登录
+    TERMS_QIANYUE: '签约', //签约
+    TERMS_BANBEN1: '版本1', //版本1
+    TERMS_XIAYIYE: '下一页', //下一页
+    TERMS_SHANGYIYE: '上一页', //上一页
+    TERMS_QINGSHURU: '请输入', //请输入
+    TERMS_WEIQIANSHU: '未签署', //未签署
+    TERMS_QINGXUANZE: '请选择', //请选择
+    TERMS_FANKUIRIQI: '反馈日期', //反馈日期
+    TERMS_BUSHURIQI: '部署日期', //部署日期
+    TERMS_QIANSHURIQI: '签署日期', //签署日期
+    TERMS_BUSHUJIEDIAN: '部署节点', //部署节点
+    TERMS_WSVMXGTK: '为SVW修改条款', //为SVW修改条款
+    TERMS_WGYSXGTK: '为供应商修改条款', //为供应商修改条款
+    TERMS_SFBCGTKMBSJ: '是否保存该条款模板数据', //是否保存该条款模板数据
+    TERMS_SFQXBJTKMBSJ: '是否取消编辑条款模板数据', //是否取消编辑条款模板数据
+    TERMS_BUSHUZHUANGTAI: '部署状态', //部署状态
+    TERMS_SHENQINGXIUGAI: '申请修改', //申请修改
+    TERMS_XIUGAITIAOKUAN: '修改条款', //修改条款
+    TERMS_TIAOKUANCHAXUAN: '条款查询', //条款查询
+    TERMS_TISHIBIAOQIAN1: '提示标签1', //提示标签1
+    TERMS_TIAOKUANGBIANMA: '条款编码', //条款编码
+    TERMS_BAOCUNCHENGGONG: '保存成功', //保存成功
+    TERMS_QIANSHUZHUANGTAI: '签署状态', //签署状态
+    TERMS_TIAOKUANYOUXIAOQI: '条款有效期', //条款有效期
+    TERMS_CHAKANDINGZHITIAOKUAN: '查看定制条款', //查看定制条款
+    TERMS_BIAOZHUANTIAOKUANLIEBIAO: '标准条款列表' //标准条款列表
+
+    // -------------------------------条款 end---------------------------------------------
   }
   i18n.setLocaleMessage('zh', oldLanguage)
   var xmlHttp = ''
@@ -2748,7 +2877,7 @@
   xmlHttp.open(
     'GET',
     'http://10.122.18.136:8088/i18n/getTranslationMap?from=protal',
-    false
+    true
   )
   xmlHttp.setRequestHeader('Content-type', 'application/json')
   xmlHttp.setRequestHeader('Accept', '*/*')
