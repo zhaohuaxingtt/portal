@@ -256,11 +256,11 @@ export default {
     margin-top: -17px;
     padding-bottom: 12px;
 
-    .vc-title{
+    .vc-title {
       position: relative;
-      
-      &::after{
-        content: "";
+
+      &::after {
+        content: '';
         position: absolute;
         z-index: 100;
         right: -40px;
@@ -310,7 +310,6 @@ export default {
     left: 0;
     height: 180px;
     text-align: center;
-    padding-right: 14px;
     width: 100%;
     box-sizing: border-box;
     background-color: #fff;

@@ -82,12 +82,10 @@ export default {
       return endDate + ' ' + endTime
     },
     progressBarVisible() {
-      /* if (!this.visible) {
-        return false
-      } */
-      const { state } = this.item
+      /* const { state } = this.item
       const now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-      return state === '04' && now >= this.start && now <= this.end
+      return state === '04' && now >= this.start && now <= this.end */
+      return true
     },
     totalSeconds() {
       return moment(this.end).valueOf() - moment(this.start).valueOf()
@@ -154,17 +152,17 @@ export default {
 
 <style lang="scss" scoped>
 .start-time {
-  margin-right: 10px;
   font-weight: 500;
   font-family: Arial, 'PingFang SC';
   font-size: 16px;
 }
 .meeting-card {
   margin-bottom: 8px;
-  margin-left: 20px;
+  /* margin-left: 20px; */
   display: flex;
   cursor: pointer;
   width: 100%;
+  overflow: hidden;
   .fs-color {
     color: #afb0b3;
   }
@@ -182,55 +180,41 @@ export default {
       border-radius: 50%;
     }
     .twim_item {
-      width: 16px;
+      width: 8px;
       height: 2px;
       background: #05bb8b;
     }
   }
   .meeting_info {
+    width: calc(100% - 70px);
     display: flex;
     flex: 1;
     padding: 2px;
+    border-right: solid #fff 10px;
     align-items: center;
     &.pass {
       border-left: 3px solid #afb0b3;
       color: #afb0b3;
-      // background: #fff;
-      background: linear-gradient(
+      background-image: linear-gradient(
         135deg,
-        #ffffff 15%,
-        #e0e4ec 0,
-        #e0e4ec 25%,
-        #ffffff 0,
-        #ffffff 40%,
-        #e0e4ec 0,
-        #e0e4ec 50%,
-        #ffffff 0,
-        #ffffff 65%,
-        #e0e4ec 0,
-        #e0e4ec 75%,
-        #ffffff 0,
-        #ffffff 90%,
-        #e0e4ec 0,
-        #e0e4ec 100%,
-        #ffffff 0
+        #fff 25%,
+        #f1f2f4 0,
+        #f1f2f4 50%,
+        #fff 0,
+        #fff 75%,
+        #f1f2f4 0
       );
-      border-right: 14px solid #fff;
-      width: 220px !important;
+      background-size: 60px 60px;
     }
     &.ongoing {
       border-left: 3px solid #05bb8b;
       color: #05bb8b;
       background: #e0f7f1;
-      border-right: 14px solid #fff;
-      width: 220px !important;
     }
     &.future {
       border-left: 3px solid #1763f7;
       color: #1763f7;
       background: #f2f8ff;
-      border-right: 14px solid #fff;
-      width: 220px !important;
     }
     .avatar {
       padding: 0 10px;
@@ -248,6 +232,7 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        width: 100%;
       }
       .f-family {
         font-family: Arial, 'PingFang SC';
@@ -264,6 +249,7 @@ export default {
 }
 .meeting-card-head {
   position: relative;
+  padding: 0px 20px 0px 10px;
   .progress-bar-container {
     margin: 2px 0px 2px 0;
     position: absolute;

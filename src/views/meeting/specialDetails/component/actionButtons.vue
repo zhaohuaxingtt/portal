@@ -7,7 +7,7 @@
         @click="$emit(item.methodName)"
         v-show="!showUpdateTopicButtonList"
         :disabled="item.disabled"
-        >{{ $t(item.title) }}</iButton
+        >{{ $t(item.i18n) }}</iButton
       >
       <iButton
         v-for="(item, index) of UpdateTopicButtonList"
@@ -15,7 +15,7 @@
         @click="$emit(item.methodName)"
         v-show="showUpdateTopicButtonList"
         :disabled="item.disabled"
-        >{{ $t(item.title) }}
+        >{{ $t(item.i18n) }}
       </iButton>
     </div>
     <div class="operation-btn">
@@ -29,7 +29,7 @@
             : item.triggerDisabled
         "
         v-show="!showUpdateTopicButtonList"
-        >{{ $t(item.title) }}</iButton
+        >{{ $t(item.i18n) }}</iButton
       >
       <iButton
         v-for="(item, index) of currentButtonList[1]"
@@ -37,7 +37,7 @@
         @click="$emit(item.methodName)"
         v-show="showUpdateTopicButtonList"
         :disabled="true"
-        >{{ $t(item.title) }}</iButton
+        >{{ $t(item.i18n) }}</iButton
       >
     </div>
   </div>

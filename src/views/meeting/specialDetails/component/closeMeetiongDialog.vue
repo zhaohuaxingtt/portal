@@ -152,7 +152,7 @@ export default {
       closeMeetingRules: {
         uploadFile: [
           // { required: this.row.isTriggerApproval == 'true' ? true : false, message: "请选择上传附件", trigger: "blur" },
-          { required: false, message: '请选择上传附件', trigger: 'blur' }
+          { required: false, message: this.$t('请选择上传附件'), trigger: 'blur' }
         ]
       },
       approvalProcessList: []
