@@ -111,10 +111,13 @@ export default {
             }, 3000);
         },
         preview(){
-            const formData = this.$refs.newLeft.formData()
-            this.formData = formData
-            this.picUrl = this.$refs.newRight.linkUrl()
-            this.openDialog()
+             let newLeftSave = this.$refs.newLeft.save()
+             if(newLeftSave){
+                const formData = this.$refs.newLeft.formData()
+                this.formData = formData
+                this.picUrl = this.$refs.newRight.linkUrl()
+                this.openDialog()
+             }
         },
         openDialog(){
             let time = ''
