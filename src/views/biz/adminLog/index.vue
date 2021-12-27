@@ -64,9 +64,20 @@
 				</div>
                 <div class="form-item">
 					<iLabel class="label" :label="language('对接外部系统')" slot="label"></iLabel>
-					<iSelect v-model="form.interfaceSystem" class="w-220" filterable clearable>
+					<iSelect v-model="form.interfaceSystem" @change="sysChange" class="w-220" filterable clearable>
 						<el-option
 							v-for="item in interfaceSystemList"
+							:label="item.value"
+							:value="item.code"
+							:key="item.code"
+						/>
+					</iSelect>
+				</div>
+                <div class="form-item">
+					<iLabel class="label" :label="language('接口名称')" slot="label"></iLabel>
+					<iSelect v-model="form.interfaceName" class="w-220" filterable clearable>
+						<el-option
+							v-for="item in apiList"
 							:label="item.value"
 							:value="item.code"
 							:key="item.code"
@@ -85,10 +96,7 @@
 					<iLabel class="label" :label="language('岗位')" slot="label"></iLabel>
 					<iInput v-model="form.userPosition" class="w-220" :placeholder="language('请输入')" />
 				</div>
-				<div class="form-item">
-					<iLabel class="label" :label="language('接口名称')" slot="label"></iLabel>
-					<iInput v-model="form.interfaceName" class="w-220" :placeholder="language('请输入')" />
-				</div>
+				
 				<div class="form-item">
 					<iLabel class="label" :label="language('用户')" slot="label"></iLabel>
 					<iInput v-model="form.userRole" class="w-220" :placeholder="language('请输入')" />
@@ -123,7 +131,7 @@ import pageHeader from '@/components/pageHeader'
 import { iPage,iSearch, iInput, iDatePicker, iSelect, iCard, iLabel} from 'rise'
 import CommonTable from './../components/CommonTable.vue';
 import {TABLE} from './table';
-import {listCategory,listOperation,listInterfaceSystem,listTriggerType,exportBizLog,listMenu} from '@/api/biz/log';
+import {listCategory,listOperation,listInterfaceSystem,listTriggerType,exportBizLog,listMenu,listInterface} from '@/api/biz/log';
 import detail from './detail.vue';
 export default {
 	components: { 
@@ -151,6 +159,7 @@ export default {
             interfaceSystemList:[],
             triggerTypes:[],
             moduleMenu:[],
+			apiList:[],
             show:false,
 			parmas:{}
 		}
@@ -237,7 +246,13 @@ export default {
         },
         statusChange(){
             this.search()
-        }
+        },
+		async sysChange(v){
+			// 获取接口名称
+			this.form.interfaceName = ""
+			let res = await listInterface(v)
+			this.apiList = res.data
+		}
 	}
 }
 </script>
