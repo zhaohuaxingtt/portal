@@ -169,7 +169,7 @@
               show-overflow-tooltip
               align="center"
               label="Present Items"
-              min-width="198"
+              :width="setColumnWidth(tableData,198)"
             >
               <template slot-scope="scope">
                 <span
@@ -325,7 +325,7 @@
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
-            <el-table-column
+            <!-- <el-table-column
               show-overflow-tooltip
               align="center"
               label="BEN(CN)"
@@ -336,9 +336,9 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '-' : scope.row.benCn }}</span>
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
-            <el-table-column
+            <!-- <el-table-column
               show-overflow-tooltip
               align="center"
               label="BEN(DE)"
@@ -349,7 +349,7 @@
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '-' : scope.row.benDe }}</span>
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <el-table-column
               show-overflow-tooltip
@@ -450,7 +450,7 @@
                 show-overflow-tooltip
                 align="center"
                 label="Present Items"
-                min-width="198"
+                :width="setColumnWidth(tableData,198)"
               >
                 <template slot-scope="scope">
                   <span
@@ -607,7 +607,7 @@
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
-              <el-table-column
+              <!-- <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="BEN(CN)"
@@ -618,9 +618,9 @@
                 <template slot-scope="scope">
                   <span>{{ scope.row.isBreak ? '-' : scope.row.benCn }}</span>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
-              <el-table-column
+              <!-- <el-table-column
                 show-overflow-tooltip
                 align="center"
                 label="BEN(DE)"
@@ -631,7 +631,7 @@
                 <template slot-scope="scope">
                   <span>{{ scope.row.isBreak ? '-' : scope.row.benDe }}</span>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
                 show-overflow-tooltip
@@ -2556,7 +2556,44 @@ export default {
         return 'active-row dragable-row'
       }
       return 'narmal-row'
-    }
+    },
+    //表格列字符限制
+    setColumnWidth(data,min){
+      console.log(data,'data');
+      let index=0
+      let maxStr=''
+      for(let i=0; i<data.length;i++){
+        if(data[i].topic===null){
+          return
+        }
+        const nowline=data[i].topic+''
+        const maxline=data[index].topic+''
+        if(nowline.length>maxline.length){
+          index=i
+        }
+      }
+      maxStr=data[index].topic
+      let columnWidth=0;
+       for (let char of maxStr) {
+          if ((char >= 'A' && char <= 'Z') ) {
+            columnWidth += 8
+          }else if( char >= 'a' && char <= 'z'){
+            columnWidth += 6
+          } else if (char >= '\u4e00' && char <= '\u9fa5') {
+            columnWidth += 13
+          } else {
+            columnWidth += 7
+          }
+        }
+        if (columnWidth < min) {
+          // 设置最小宽度
+          columnWidth = min
+        }
+        if(columnWidth > 306){
+          columnWidth = 306
+        }
+        return columnWidth + 'px'
+      },
   }
 }
 </script>

@@ -29,7 +29,7 @@ export default [
           // const roleList = store.state.permission.userInfo.roleList;
           // console.log(roleList);
           // const userId = store.state.permission.userInfo.id;
-          const roleList = userInfo.roleList
+          const roleList = userInfo.roleList || []
           const userId = userInfo.id
           localStorage.setItem('isAdmin', false)
           localStorage.setItem('isMA', false)
@@ -123,13 +123,13 @@ export default [
       }
     ]
   },
-  
+
   {
     path: '/meeting/hall',
     name: 'meetingHall',
     meta: {
       title: '会议大厅',
-      activeMenu:['RISE_COMMON_FUNCTION','CF_MEETING']
+      activeMenu: ['RISE_COMMON_FUNCTION', 'CF_MEETING']
     },
     component: () => import(`@/views/meeting/hall/index.vue`),
     beforeEnter: (to, from, next) => {
@@ -293,7 +293,7 @@ export default [
         name: 'nearMeeting',
         meta: {
           title: '近期会议',
-          activeMenu:['RISE_COMMON_FUNCTION','CF_MEETING']
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_MEETING']
         },
         component: () => import(`@/views/meeting/specialNearMeeting/index.vue`)
       },
@@ -302,7 +302,7 @@ export default [
         name: 'nearMeetingDetail',
         meta: {
           title: '近期会议详情',
-          activeMenu:['RISE_COMMON_FUNCTION','CF_MEETING']
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_MEETING']
         },
         component: () =>
           import(`@/views/meeting/specialNearMeeting/detail/index.vue`)
@@ -312,7 +312,7 @@ export default [
         name: 'liveMeeting',
         meta: {
           title: '直播会议',
-          activeMenu:['RISE_COMMON_FUNCTION','CF_MEETING']
+          activeMenu: ['RISE_COMMON_FUNCTION', 'CF_MEETING']
         },
         component: () => import(`@/views/meeting/specialLive/index.vue`)
       }
@@ -365,8 +365,7 @@ export default [
     meta: {
       title: '会议展示'
     },
-    component: () => import(`@/views/meeting/managementHall/mbdlMeetingShow/index.vue`)
-  },
-  
-  
-] 
+    component: () =>
+      import(`@/views/meeting/managementHall/mbdlMeetingShow/index.vue`)
+  }
+]

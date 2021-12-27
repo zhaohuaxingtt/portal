@@ -7,33 +7,31 @@
           :data="titles"
           @toggle-active="toggleActive"
           :active-index.sync="activeIndex"
-          v-show="!isEn"
         />
 
-        <panelCategory
+        <!--  <panelCategory
           :data="titlesEn"
           @toggle-active="toggleActiveEn"
           :active-index.sync="activeIndexEn"
           v-show="isEn"
-        />
+        /> -->
       </div>
       <div class="content">
         <iCard>
           <applicationList
-            v-show="!isEn"
             v-for="(value, name, index) in applications"
             :key="index"
             :applications="value"
             :title="name"
           />
 
-          <applicationList
+          <!-- <applicationList
             v-for="(value, name, index) in applicationsEn"
             :key="index"
             :applications="value"
             :title="name"
             v-show="isEn"
-          />
+          /> -->
         </iCard>
       </div>
     </div>
@@ -92,7 +90,7 @@ export default {
           })
         this.filterData('')
 
-        this.getApplicationsEn(val.data || [])
+        // this.getApplicationsEn(val.data || [])
       }
     })
   },
