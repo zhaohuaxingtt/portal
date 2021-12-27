@@ -43,7 +43,6 @@ import {operationRecordTableTitle} from './data';
 import {
   getRecordList,
 } from '../../../../../api/frmRating/preliminaryRating/qualitativeScoringPage';
-
 export default {
   mixins: [pageMixins, resultMessageMixin],
   components: {
@@ -74,9 +73,10 @@ export default {
       });
     },
     exportTable() {
-      if (this.selectTableData.length === 0)
+      if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_QINGXUANZHEXUYAODAOCHUSHUJU'));
-      excelExport(this.selectTableData, this.tableTitle);
+      }
+      excelExport(this.selectTableData, this.tableTitle, '操作记录');
     },
     async getTableList() {
       this.tableLoading = true;
