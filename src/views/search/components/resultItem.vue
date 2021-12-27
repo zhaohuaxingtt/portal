@@ -13,14 +13,11 @@
         :href="item.url"
         target="_blank"
         v-if="item.url"
-        v-html="item.title"
-      ></a>
-      <a v-else href="javascript:void(0);" v-html="item.title"></a>
+      >{{item.title}}</a>
+      <a v-else href="javascript:void(0);">{{item.title}}</a>
     </div>
     <p class="description">
-      <span v-for="item in description" :key="item.key" class="item">
-        {{ item.label }}: <span v-html="item.value"></span>
-      </span>
+        <span v-html="item.content"></span>
     </p>
     <p class="url">{{ item.url }}</p>
   </div>
@@ -38,30 +35,6 @@ export default {
     }
   },
   computed: {
-    description() {
-      const res = []
-      const content = this.item.content ? JSON.parse(this.item.content) : {}
-      for (const key in content) {
-        if (Object.hasOwnProperty.call(content, key)) {
-          const element = content[key]
-          if (element) {
-            res.push({
-              label: this.fieldsName[key],
-              value: element,
-              key
-            })
-          }
-        }
-      }
-      res.sort((a, b) => {
-        if (this.sorts.indexOf(a.key) > this.sorts.indexOf(b.key)) {
-          return 1
-        } else {
-          return -1
-        }
-      })
-      return res
-    }
   },
   data() {
     return {

@@ -356,7 +356,7 @@ export default {
         type: "",
         publishDate: "",
         isTop: "",
-        publishRange: "",
+        publishRange: 0,
         content: "",
         attachments: [],
         userGroup: [],
@@ -499,7 +499,7 @@ export default {
     },
     handleDownloadFile(url, name) {
       createAnchorLink(
-        url.replace(process.env.VUE_APP_FILE_CROSS, `/fileCross`), // 前端跨域问题，将api地址替换为反向代理地址
+        url, // 前端跨域问题，将api地址替换为反向代理地址
         name
       );
     },
@@ -560,7 +560,20 @@ export default {
     },
     // 重置
     handleReset() {
-      this.ruleForm = {};
+      this.ruleForm = {
+        status: "",
+        title: "",
+        type: "",
+        publishDate: new Date(+new Date() + 8 * 3600 * 1000)
+        .toJSON()
+        .substr(0, 19)
+        .replace("T", " "),
+        isTop: 0,
+        publishRange: 0,
+        content: "",
+        attachments: [],
+        userGroup: [],
+      },
       this.editor.txt.html("");
     },
     // 返回
@@ -756,7 +769,7 @@ export default {
   }
     .look {
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
       font-size: 12px;
       font-family: PingFangSC-Regular;
       line-height: 17px;

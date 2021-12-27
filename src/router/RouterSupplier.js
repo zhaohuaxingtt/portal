@@ -216,11 +216,19 @@ export default [
   {
     path: '/supplier',
     name: 'supplierManagement',
+    meta: {
+      title: '供应商管理',
+      activeMenu: ['RISE_WORKBENCH', 'SUPPLIER_SUPPLIERLIST'] // 一级菜单,二级菜单
+    },
     component: supplierManagement,
     children: [
       {
         path: 'supplierList',
         name: 'supplierList',
+        meta: {
+          title: '供应商管理',
+          activeMenu: ['RISE_WORKBENCH', 'SUPPLIER_SUPPLIERLIST'] // 一级菜单,二级菜单
+        },
         component: Supplier360
       },
       {

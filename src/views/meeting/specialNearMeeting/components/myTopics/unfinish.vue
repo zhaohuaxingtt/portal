@@ -36,7 +36,7 @@
           class="revort-topic"
           :disabled="disabledButton"
           @click="handleRevokeTopic"
-          >{{ $t('撤回议题') }}</iButton
+          >{{ $t('MT_CHEHUIYITI') }}</iButton
         >
         <iButton @click="handleMore">{{ 'MORE' }}</iButton>
       </div>
@@ -104,12 +104,12 @@
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
-      <el-table-column
+     <el-table-column
         show-overflow-tooltip
         align="center"
-        label="BEN(DE)"
+        label="BEN(CN)"
         min-width="58"
-        prop="benDe"
+        prop="benCn"
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -180,8 +180,8 @@
       :current-page="page.pageNum"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
     <detailDialog
@@ -422,8 +422,8 @@ export default {
   }
 }
 
-.my-topics-box {
-  /* ::v-deep .circle:before {
+/*.my-topics-box {
+   ::v-deep .circle:before {
     content: "";
     display: inline-block;
     border-radius: 50%;
@@ -455,8 +455,8 @@ export default {
   ::v-deep .el-pagination {
     margin-top: 30px !important;
     margin-bottom: 1px;
-  } */
-}
+  } 
+}*/
 
 ::v-deep .card .cardBody {
   padding: 0;

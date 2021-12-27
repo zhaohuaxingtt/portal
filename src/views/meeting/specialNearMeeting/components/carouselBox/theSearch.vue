@@ -10,14 +10,14 @@
         <!--第一行-->
         <el-row>
           <!--会议名称-->
-          <el-form-item :label="$t('会议名称')" style="width: 538px">
+          <el-form-item :label="$t('MT_HUIYIMINGCHENG')" style="width: 538px">
             <iInput
               :placeholder="$t('LK_QINGSHURU')"
               v-model="form.name"
             ></iInput>
           </el-form-item>
           <!--会议类型-->
-          <el-form-item :label="'会议类型'">
+          <el-form-item :label="$t('MT_HUIYILEIXING')">
             <iSelect
               :placeholder="$t('LK_QINGXUANZE')"
               v-model="form.meetingTypeId"
@@ -32,7 +32,7 @@
             </iSelect>
           </el-form-item>
           <!--状态-->
-          <el-form-item :label="$t('状态')">
+          <el-form-item :label="$t('MT_ZHUANGTAI')">
             <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.states">
               <el-option value="" :label="$t('all')"></el-option>
               <el-option
@@ -52,13 +52,13 @@
             :pickerOptionsEndProps="datePickerOptionsEnd"
             :pickerOptionsEndFun="pickerOptionsEndFun"
             ref="iDateRangePicker"
-            :label="$t('会议日期')"
+            :label="$t('MT_HUIYIRIQI')"
           />
-          <el-form-item :label="$t('收件人')">
+          <el-form-item :label="$t('MT_SHOUJIANREN')">
             <el-autocomplete
               v-model="form.receiver"
               :fetch-suggestions="querySearchAsync"
-              :placeholder="$t('请输入')"
+              :placeholder="$t('MT_QINGSHURU')"
               @select="handleSelect"
             ></el-autocomplete>
           </el-form-item>

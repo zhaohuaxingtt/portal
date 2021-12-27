@@ -100,7 +100,7 @@ import {
   saveOrUpdCartypeConfig
 } from '@/api/mainData/car'
 import { arrayToMap } from '@/utils'
-import { fetchSelectDicts } from '@/api/baseInfo'
+import { fetchCarTypeLevelSelect } from '@/api/mainData/carProject'
 import { getYearOptions } from '@/views/mainData/util'
 import mixin from '@/views/mainData/mixin'
 export default {
@@ -265,7 +265,7 @@ export default {
 
       const detailDtos = this.tableData.map((e) => {
         const cartypeLevelRate = e.cartypeLevelRate
-          ? parseFloat((e.cartypeLevelRate / 100).toFixed(4))
+          ? parseFloat((e.cartypeLevelRate / 100).toFixed(6))
           : 0
         return { ...e, cartypeLevelRate: cartypeLevelRate }
       })
@@ -334,16 +334,14 @@ export default {
     },
     // 数据字典下拉，车型等级
     async querySelectDicts() {
-      const req = ['cartype_config_level']
-      const { data } = await fetchSelectDicts(req)
-      const { cartype_config_level } = data
+      const { data } = await fetchCarTypeLevelSelect()
       Object.assign(
         this.extraData,
         {
-          cartypeConfigLevelOptions: cartype_config_level
+          cartypeConfigLevelOptions: data
         },
         {
-          cartypeConfigLevelMap: arrayToMap(cartype_config_level, 'id', 'name')
+          cartypeConfigLevelMap: arrayToMap(data, 'id', 'name')
         }
       )
     },
@@ -366,7 +364,7 @@ export default {
         // 转化为百分比
         this.tableData.forEach((e) => {
           if (e.cartypeLevelRate) {
-            e.cartypeLevelRate = parseFloat(e.cartypeLevelRate * 100).toFixed(2)
+            e.cartypeLevelRate = parseFloat(e.cartypeLevelRate * 100).toFixed(6)
           }
         })
 

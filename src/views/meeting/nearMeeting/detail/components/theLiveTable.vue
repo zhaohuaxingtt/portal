@@ -85,7 +85,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            !scope.row.count && scope.row.isBreak ? '/' : scope.row.count
+            !scope.row.count && scope.row.isBreak ? '-' : scope.row.count
           }}</span>
         </template>
       </el-table-column>
@@ -98,7 +98,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            !scope.row.topic && scope.row.isBreak ? '/' : scope.row.topic
+            !scope.row.topic && scope.row.isBreak ? '-' : scope.row.topic
           }}</span>
         </template>
       </el-table-column>
@@ -111,7 +111,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            !scope.row.duration && scope.row.isBreak ? '/' : scope.row.duration
+            !scope.row.duration && scope.row.isBreak ? '-' : scope.row.duration
           }}</span>
         </template>
       </el-table-column>
@@ -149,13 +149,8 @@
       >
         <template slot-scope="scope">
           <span>{{ scope.row.presenter }}</span>
-          <span
-            v-if="
-              (scope.row.presenter && scope.row.presenterNosys) ||
-              scope.row.isBreak
-            "
-            >/</span
-          >
+          <span v-if="scope.row.presenter && scope.row.presenterNosys">/</span>
+          <span v-if="scope.row.isBreak">-</span>
           <span>{{ scope.row.presenterNosys }}</span>
         </template>
       </el-table-column>
@@ -167,13 +162,10 @@
       >
         <template slot-scope="scope">
           <span>{{ scope.row.presenterDept }}</span>
-          <span
-            v-if="
-              (scope.row.presenterDept && scope.row.presenterDeptNosys) ||
-              scope.row.isBreak
-            "
+          <span v-if="scope.row.presenterDept && scope.row.presenterDeptNosys"
             >/</span
           >
+          <span v-if="scope.row.isBreak">-</span>
           <span>{{ scope.row.presenterDeptNosys }}</span>
         </template>
       </el-table-column>
@@ -185,13 +177,8 @@
       >
         <template slot-scope="scope">
           <span>{{ scope.row.supporter }}</span>
-          <span
-            v-if="
-              (scope.row.supporter && scope.row.supporterNosys) ||
-              scope.row.isBreak
-            "
-            >/</span
-          >
+          <span v-if="scope.row.supporter && scope.row.supporterNosys">/</span>
+          <span v-if="scope.row.isBreak">-</span>
           <span>{{ scope.row.supporterNosys }}</span>
         </template>
       </el-table-column>
@@ -203,13 +190,10 @@
       >
         <template slot-scope="scope">
           <span>{{ scope.row.supporterDept }}</span>
-          <span
-            v-if="
-              (scope.row.supporterDept && scope.row.supporterDeptNosys) ||
-              scope.row.isBreak
-            "
+          <span v-if="scope.row.supporterDept && scope.row.supporterDeptNosys"
             >/</span
           >
+          <span v-if="scope.row.isBreak">-</span>
           <span>{{ scope.row.supporterDeptNosys }}</span>
         </template>
       </el-table-column>
@@ -222,7 +206,7 @@
         label="Status"
       >
         <template slot-scope="scope">
-          {{ statusObj[scope.row.state] }}
+          {{ $t(statusObj[scope.row.state]) }}
         </template>
       </el-table-column>
       <el-table-column
@@ -233,7 +217,7 @@
       >
         <template slot-scope="scope">
           <span>{{
-            !scope.row.remark && scope.row.isBreak ? '/' : scope.row.remark
+            !scope.row.remark && scope.row.isBreak ? '-' : scope.row.remark
           }}</span>
         </template>
       </el-table-column>
@@ -245,8 +229,8 @@
       :current-page="pageNum"
       :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      prev-text="上一页"
-      next-text="下一页"
+      prev-text="MT_SHANGYIYE"
+      next-text="MT_XIAYIYE"
       :total="total"
     />
   </div>
@@ -292,9 +276,9 @@ export default {
     return {
       following: false,
       statusObj: {
-        '01': '未进行',
-        '02': '进行中',
-        '03': '已结束'
+        '01': 'MT_WEIJINXING',
+        '02': 'MT_JINXINGZHONG',
+        '03': 'MT_YIJIESHU'
       }
     }
   },

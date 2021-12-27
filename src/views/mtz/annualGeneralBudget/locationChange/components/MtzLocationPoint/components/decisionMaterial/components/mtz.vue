@@ -7,45 +7,69 @@
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\mtz.vue
 -->
 <template>
-  <div>
+  <div style="padding-bottom:30px;">
     <div class="download_btn">
       <iButton v-if="!RsObject"
                @click="downPdf">{{language('DAOCHUPDF','导出PDF')}}</iButton>
     </div>
+    <!-- RsObject?mtz决策资料:导出 -->
     <div ref="qrCodeDiv"
          id="qrCodeDiv"
-         style="padding-bottom:30px;position:relative;">
+           @click="rulesClick()"
+         style="position:relative;"
+        >
       <div class="content_dialog" v-if="!RsObject && (formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
-      <iCard>
+      <iCard class='upload_hr' id="tabsBoxTitle">
+      <!-- <iCard :class="!RsObject?'upload_hr':''"> -->
         <div slot="header"
-             class="headBox">
+             class="headBox"
+             >
           <p class="headTitle">{{title}}</p>
           <span class="buttonBox"
+                style="margin-top:-10px;"
                 v-if="!editMode">
             <iButton v-if="RsObject && formData.flowTypeName == '流转'"
                      @click="handleToSignPreview">{{language('DAOCHUHUIWAILIUZHUANDAN', '导出会外流转单')}}</iButton>
           </span>
-        </div>
-
-        <div class="tabsBoxInfor">
-          <div class="inforDiv"
-               v-for="(item,index) in formList"
-               :key="index">
-            <span>{{language(item.key,item.label)}}</span>
-            <span class="inforText">{{formData[item.prop]}}</span>
+          <!-- <div class="tabs_box_right"> -->
+          <div class="tabs_box_right" v-if="meetingType">
+            <div class="big_text">
+              <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
+            </div>
+            <div class="small_text">
+              <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
+              <span class="samll_val">{{formData.createDate}}</span>
+            </div>
+            <div class="small_text">
+              <span>{{language("KESHI","科室")}}：</span>
+              <span class="samll_val">{{formData.linieDeptName}}</span>
+            </div>
+            <div>
+              <span>{{language("CAIGOUYUAN","采购员")}}：</span>
+              <span class="samll_val">{{formData.linieName}}</span>
+            </div>
           </div>
         </div>
-        <el-divider v-if="RsObject" />
-        <el-divider v-if="!RsObject && ruleTableListData.length>0" />
+        <el-divider class="hr_divider" />
+        
+        <div class="infor_futitle">
+          <span class="big_font">Regulation:</span>
+          <br />
+          <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material Weight*Settle accounts Quantity*Ratio</span>
+          <span class="big_small">When:effective price > base price *(1+threshold)</span>
+        </div>
+
         <p class="tableTitle"
-           v-if="RsObject">{{language('GUIZEQINGDAN', '规则清单')}}</p>
+           v-if="RsObject">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
         <p class="tableTitle"
-           v-if="!RsObject && ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}</p>
-        <!-- :renderHeader="renderHeader" -->
+           v-if="!RsObject && ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
+        <!-- highlight-current-row -->
         <tableList class="margin-top20"
+                    ref="moviesTable"
                    :tableData="ruleTableListData"
                    :tableTitle="ruleTableTitle1_1"
-                   :tableLoading="loading"
+                   @handleClickRow="handleCurrentChangeTable"
+                   :tableLoading="loadingRule"
                    :index="true"
                    v-if="RsObject"
                    :selection="false"
@@ -60,79 +84,41 @@
           </template>
           <template slot-scope="scope"
             slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
         </tableList>
         <!-- 导出规则表格 -->
         <tableList class="margin-top20"
                    :tableData="ruleTableListData"
                    :tableTitle="ruleTableTitle1_1"
-                   :tableLoading="loading"
+                   :tableLoading="loadingRule"
                    v-if="!RsObject && ruleTableListData.length>0"
                    :index="true"
                    :selection="false"
                    >
           <template slot-scope="scope"
             slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
         </tableList>
-        <!-- <tableList class="margin-top20"
-                   :tableData="ruleTableListData"
-                   v-if="!RsObject && ruleTableListData.length>0"
-                   :tableTitle="ruleTableTitle1_2"
-                   :tableLoading="loading"
-                   :index="true"
-                   :selection="false"
-                   >
-          <template slot-scope="scope"
-                    slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-        </tableList> -->
-        <!-- 导出规则表格不是贵金属合金 -->
-        <!-- <tableList class="margin-top20"
-                   :tableData="ruleTableListData"
-                   :tableTitle="ruleTableTitle2_1"
-                   :tableLoading="loading"
-                   v-if="!uploadTableGz && !RsObject && ruleTableListData.length>0"
-                   :index="true"
-                   :selection="false"
-                   >
-        </tableList>
-        <tableList class="margin-top20"
-                   :tableData="ruleTableListData"
-                   v-if="!uploadTableGz && !RsObject && ruleTableListData.length>0"
-                   :tableTitle="ruleTableTitle2_2"
-                   :tableLoading="loading"
-                   :index="true"
-                   :selection="false"
-                   >
-          <template slot-scope="scope"
-                    slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-          <template slot-scope="scope"
-                    slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-        </tableList> -->
 
         <el-divider v-if="RsObject" />
         <el-divider class="margin-top20"
                     v-if="!RsObject && partTableListData.length>0" />
         <p class="tableTitle"
-           v-if="RsObject">{{language('LJQD', '零件清单')}}</p>
+           v-if="RsObject">{{language('LJQD', '零件清单')}}-Part List</p>
         <p class="tableTitle"
-           v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
-        <tableList class="margin-top20"
+           v-if="!RsObject && partTableListData.length>0">{{language('LJQD', '零件清单')}}-Part List</p>
+        <tableList class="margin-top20 over_flow_y_ture"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_1"
-                   :tableLoading="loading"
+                   :tableLoading="loadingPart"
                    v-if="RsObject"
                    :index="true"
                    :selection="false"
@@ -147,97 +133,41 @@
           </template> -->
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
         </tableList>
         <!-- 导出零件表格 -->
         <tableList class="margin-top20"
                    :tableData="partTableListData"
                    :tableTitle="partTableTitle1_1"
-                   :tableLoading="loading"
+                   :tableLoading="loadingPart"
                    v-if="!RsObject && partTableListData.length>0"
                    :index="true"
                    :selection="false"
                    >
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope"
                     slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
         </tableList>
-        <!-- <tableList class="margin-top20"
-                   :tableData="partTableListData"
-                   :tableTitle="partTableTitle1_2"
-                   :tableLoading="loading"
-                   v-if="!RsObject && partTableListData.length>0"
-                   :index="true"
-                   :selection="false"
-                   >
-          <template slot-scope="scope"
-                    slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-        </tableList> -->
-        <!-- <tableList class="margin-top20"
-                   :tableData="partTableListData"
-                   :tableTitle="partTableTitle1_3"
-                   :tableLoading="loading"
-                   v-if="!RsObject && partTableListData.length>0"
-                   :index="true"
-                   :selection="false"
-                   >
-          <template slot-scope="scope"
-                    slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-        </tableList> -->
-        <!-- 导出零件表格不是贵金属合金 -->
-        <!-- <tableList class="margin-top20"
-                   :tableData="partTableListData"
-                   :tableTitle="partTableTitle2_1"
-                   :tableLoading="loading"
-                   v-if="!!RsObject && partTableListData.length>0"
-                   :index="true"
-                   :selection="false"
-                   >
-          <template slot-scope="scope"
-                    slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
-          </template>
-        </tableList>
-        <tableList class="margin-top20"
-                   :tableData="partTableListData"
-                   :tableTitle="partTableTitle2_2"
-                   :tableLoading="loading"
-                   v-if="!!RsObject && partTableListData.length>0"
-                   :index="true"
-                   :selection="false"
-                   >
-          <template slot-scope="scope"
-                    slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-          <template slot-scope="scope"
-                    slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-        </tableList> -->
-
       </iCard>
       <iCard class="margin-top20">
         <div slot="header"
              class="headBox">
-          <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
+          <p class="headTitle">{{language('BEIZHU', '备注')}}-Remarks</p>
           <span class="buttonBox">
-            <iButton v-if="RsObject && (formData.appStatus == '草稿' || formData.appStatus == '未通过')"
-                     @click="handleClickSave">{{language('BAOCUN', '保存')}}</iButton>
+            <iButton v-if="RsObject && (formData.appStatus == '草稿' || formData.appStatus == '未通过') && meetingNumber == 0"
+                    @click="handleClickSave($event)">{{language('BAOCUN', '保存')}}</iButton>
           </span>
         </div>
         <iInput v-model="formData.linieMeetingMemo"
-                :disabled="!RsObject"
+                :disabled="!((formData.appStatus == '草稿' || formData.appStatus == '未通过') && RsObject && meetingNumber == 0)"
                 class="margin-top10"
                 :rows="8"
                 type="textarea" />
@@ -249,17 +179,16 @@
           <div class="applayDateContent"
                v-for="(item, index) in applayDateData"
                :key="index">
-            <icon v-if="item.taskStatus==='同意'"
-                  class="margin-left5 applayDateIcon"
-                  symbol
-                  name="iconrs-wancheng"></icon>
-            <icon v-else
-                  class="margin-left5 applayDateIcon"
-                  symbol
-                  name="iconrs-quxiao"></icon>
-            <div class="applayDateContentItem">
+            <img class="margin-left5 applayDateIcon"
+               :src="item.taskStatus==='同意'?require('@/assets/images/icon/yes.png'):require('@/assets/images/icon/no.png')"
+               :fit="fit" />
+            <div class="applayDateContentItem first_one">
               <span>部门：</span>
-              <span class="applayDateDeptTitle">{{item.deptNameZh}}</span>
+              <span class="applayDateDeptTitle">{{item.deptFullCode}}</span>
+            </div>
+            <div class="applayDateContentItem">
+              <span>审批人：</span>
+              <span>{{item.nameZh}}</span>
             </div>
             <div class="applayDateContentItem">
               <span>日期：</span>
@@ -276,25 +205,13 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1,
-          ruleTableTitle1_new,
-          ruleTableTitle1_1, 
-          ruleTableTitle1_2, 
-          partTableTitle1, 
-          partTableTitle1_new,
-          partTableTitle1_1, 
-          partTableTitle1_2,
-          
-          // partTableTitle1_3,
-          // ruleTableTitle2_2,
-          // ruleTableTitle2_1,
-          // partTableTitle2_2,
-          // partTableTitle2_1
+import {
+    ruleTableTitle1_1, 
+    partTableTitle1_1, 
 } from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
-// import { uploadUdFile } from "@/api/file/upload";
+import { downloadPDF, dataURLtoFile,transverseDownloadPDF } from "@/utils/pdf";
 export default {
   mixins: [pageMixins],
   components: {
@@ -310,41 +227,22 @@ export default {
   },
   data () {
     return {
-      formData: {},
+      formData: {
+
+      },
       formList,
-      ruleTableTitle1: ruleTableTitle1,
       ruleTableTitle1_1,
-      ruleTableTitle1_2,
-      ruleTableTitle1_new,
-      // ruleTableTitle2_1,
-      // ruleTableTitle2_2,
-      partTableTitle1: partTableTitle1,
-      partTableTitle1_new,
       partTableTitle1_1,
-      partTableTitle1_2,
-      // partTableTitle1_3,
-      // partTableTitle2_1,
-      // partTableTitle2_2,
       ruleTableListData: [],
-      rulePageParams: {
-        totalCount: 0,
-        currPage: 1,
-        pageSizes: 10,
-        layout: 'sizes, prev, pager, next, jumper',
-      },
       partTableListData: [],
-      partPageParams: {
-        totalCount: 0,
-        currPage: 1,
-        pageSizes: 10,
-        layout: 'sizes, prev, pager, next, jumper',
-      },
+      loadingRule:false,
+      loadingPart:false,
       applayDateData: [],
       RsObject: true,
       moment: window.moment,
-
-      // uploadTableLj:false,
-      // uploadTableGz:false,
+      meetingNumber:Number(this.$route.query.meeting) || 0,
+      meetingType:false,
+      clickRulesNumber:0,
     }
   },
   watch: {
@@ -390,21 +288,62 @@ export default {
     },
   },
   methods: {
+    handleCurrentChangeTable(e){
+      this.clickRulesNumber = 1;
+      this.loadingPart = true;
+      var list = {
+        mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+        pageNo: 1,
+        pageSize: 99999,
+        ruleNo:e.ruleNo,
+      }
+      pagePartMasterData(list).then(res => {
+        if (res && res.code == 200) {
+          this.partTableListData = res.data
+          this.clickRulesNumber = 0;
+          this.loadingPart = false;
+        } else iMessage.error(res.desZh)
+      })
+    },
+    rulesClick(){
+      if(!this.RsObject) return false;
+      if(this.clickRulesNumber == 0){
+        this.loadingPart = true;
+        var list = {
+          mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
+          pageNo: 1,
+          pageSize: 99999,
+        }
+        pagePartMasterData(list).then(res => {
+          if (res && res.code == 200) {
+            this.partTableListData = res.data
+            this.loadingPart = false;
+          } else iMessage.error(res.desZh)
+        })
+      }
+    },
     downPdf () {
-      // console.log(this.title)
       var name = "";
       if (this.title == "") {
         name = "RS导出"
       } else {
         name = this.title;
       }
-      downloadPDF({
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      transverseDownloadPDF({
         idEle: 'qrCodeDiv',
         pdfName: name,
         exportPdf: true,
         waterMark: true,
+        title:['#tabsBoxTitle .cardHeader'],//顶部页眉dom节点
         callback: async (pdf, pdfName) => {
           try {
+            loading.close();
             const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
             const pdfFile = pdf.output("datauristring");
             const blob = dataURLtoFile(pdfFile, filename);
@@ -432,19 +371,27 @@ export default {
       }).then(res => {
         if (res && res.code == 200) {
           this.formData = res.data
+
+          if(this.formData.flowType == "SIGN"){
+            if(this.meetingNumber == 0){
+              if(this.RsObject){
+                this.meetingType = false;
+              }else{
+                this.meetingType = true;
+              }
+            }else{
+              this.meetingType = true;
+            }
+          }else{
+            this.meetingType = true;
+          }
         } else iMessage.error(res.desZh)
       })
     },
     // 获取规则清单表格数据
     getPageAppRule () {
       var list = {};
-      // if (this.RsObject) {
-      // list = {
-      //   mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-      //   pageNo: this.rulePageParams.currPage,
-      //   pageSize: this.rulePageParams.pageSize,
-      // }
-      // } else {
+      
       list = {
         mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         pageNo: 1,
@@ -454,27 +401,13 @@ export default {
       pageAppRule(list).then(res => {
         if (res && res.code == 200) {
           this.ruleTableListData = res.data
-      
-          // res.data.forEach(e=>{//判断是否有贵金属合金
-          //   if(e.preciousMetalDosageUnit !== ""){
-          //     this.uploadTableGz = true;
-          //   }
-          // })
-
-          this.rulePageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
       })
     },
     // 获取零件清单表格数据
     getPagePartMasterData () {
       var list = {};
-      // if (this.RsObject) {
-      //   list = {
-      //     mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-      //     pageNo: this.partPageParams.currPage,
-      //     pageSize: this.partPageParams.pageSize,
-      //   }
-      // } else {
+      
       list = {
         mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
         pageNo: 1,
@@ -484,32 +417,18 @@ export default {
       pagePartMasterData(list).then(res => {
         if (res && res.code == 200) {
           this.partTableListData = res.data
-
-          // res.data.forEach(e=>{//判断是否有贵金属合金
-          //   if(e.preciousMetalDosageUnit !== ""){
-          //     this.uploadTableLj = true;
-          //   }
-          // })
-
-          this.partPageParams.totalCount = res.total
         } else iMessage.error(res.desZh)
       })
     },
     // 点击保存
-    handleClickSave () {
+    handleClickSave (el) {
+      // console.log(el)
+      el.cancelBubble=true
       let params = {}
-      // if (this.isMeeting) {
       params = {
         mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-        linieMeetingMemo: this.formData.linieMeetingMemo
+        linieMeetingMemo: this.formData.linieMeetingMemo?this.formData.linieMeetingMemo:""
       }
-      // }
-      //  else if (this.isFinite) {
-      //   params = {
-      //     mtzAppId: this.mtzObject.mtzAppId || this.$route.query.mtzAppId,
-      //     cs1MeetingMemo: this.formData.cs1MeetingMemo
-      //   }
-      // }
       fetchSaveCs1Remark(params).then(res => {
         if (res && res.code == 200) {
           this.getAppFormInfo()
@@ -527,15 +446,16 @@ export default {
       })
       window.open(href, '_blank')
     },
-    // renderHeader (h, { column, $index }) {
-    //   console.log(h, column)
-    // }
   }
 }
 </script>
 
 <style lang='scss' scoped>
 $tabsInforHeight: 35px;
+
+::v-deep .cardHeader{
+  padding:1.875rem 1.5625rem 0 2.4rem!important;
+}
 
 .tableTitle {
   display: inline-block;
@@ -545,10 +465,19 @@ $tabsInforHeight: 35px;
   opacity: 1;
   font-size: 18px;
 }
+.table_right {
+  display: inline-block;
+  font-family: Arial;
+  color: #000000;
+  font-size: 18px;
+  width:100%;
+  text-align: end;
+}
 .headBox {
   position: relative;
   justify-content: space-between;
   width: 100%;
+  display: flex;
   .headTitle {
     display: inline-block;
     font-weight: bold;
@@ -574,19 +503,23 @@ $tabsInforHeight: 35px;
   white-space: nowrap;
 }
 .applayDateIcon {
+  width:33px;
+  height:33px;
   margin-top: 10px;
-  font-size: 30px;
 }
 .applayDateContentItem {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-top: 12px;
   padding: 0 20px;
   font-size: 16px;
   .applayDateDeptTitle {
     font-weight: bold;
   }
+}
+.first_one{
+  margin-top: 30px!important;
 }
 .applayDateContent {
   display: inline-block;
@@ -654,5 +587,56 @@ $tabsInforHeight: 35px;
       }
     }
   }
+}
+.over_flow_y_ture{
+  ::v-deep .el-table__body-wrapper{
+    max-height: 300px;
+    overflow-y: auto;
+  }
+}
+
+
+.infor_futitle{
+  padding:0.5rem 0;
+  font-size:15px!important;
+  line-height:25px;
+  .big_font{
+    font-weight: bold;
+  }
+  .big_small{
+    padding-left:15px;
+  }
+}
+.hr_divider{
+  margin:0 1.5rem 0 0;
+}
+.tabs_box_right{
+
+  .samll_title{
+    width:80px;
+  }
+  div{
+    display: flex;
+    align-items: flex-start;
+    margin-right:20px;
+  }
+  span{
+    display: inline-block;
+    font-size: 15px!important;
+  }
+  .small_text{
+    float:left;
+  }
+
+}
+
+.upload_hr{
+  ::v-deep .cardBody{
+    padding-top:0px!important;
+  }
+}
+
+::v-deep .el-form-item__content{
+  line-height: 20px!important;
 }
 </style>

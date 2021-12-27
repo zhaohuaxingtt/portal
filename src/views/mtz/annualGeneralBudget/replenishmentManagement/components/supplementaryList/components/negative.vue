@@ -77,7 +77,7 @@ export default {
         this.uploadData = {
             mtzDocId:this.mtzDocId,
             userId:JSON.parse(window.sessionStorage.getItem("userInfo")).id,
-            userName:JSON.parse(window.sessionStorage.getItem("userInfo")).userName
+            userName:JSON.parse(window.sessionStorage.getItem("userInfo")).nameZh
         }
         this.getData();
     },

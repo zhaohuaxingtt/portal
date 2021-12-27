@@ -182,6 +182,7 @@
                         :partList="formGroup.partList"
                         :areaList="formGroup.areaList"
                         v-model="copySupplierDialog"
+                        @copyData="copyData"
                         :node="node" />
   </iCard>
 </template>
@@ -285,6 +286,7 @@ export default {
     },
     // 查询 卡片信息
     async getCardChain (par) {
+
       this.onDataLoading = true
       const pms = {
         ...par
@@ -313,6 +315,7 @@ export default {
         nodeList[ntierChain.id] = ntierChain;
       });
       this.$set(this.chainNodeDatas, "nodeList", nodeList);
+
       this.$set(this.chainNodeDatas, "edges", edges);
       this.$nextTick(() => {
         this.onDataLoading = false;
@@ -405,7 +408,10 @@ export default {
     },
     posChanged (id, left, top) {
     },
-    nodeDatas (chainNodeList, edgeList) {
+    copyData (val) {
+      this.$parent.$refs.theSearch.form.supplierId = val.id
+      this.$parent.$refs.theSearch.form.partNum = ""
+      this.$parent.$refs.theSearch.getTableList()
     }
   }
 }

@@ -126,7 +126,7 @@ export default {
         for (let item of docs) {
           let a = new Promise((resolve) => {
             getFileByIds([item.attachmentId]).then((data) => {
-              resolve(data[0]);
+              resolve(data.data[0]);
             });
           });
           d.push(a);
@@ -169,7 +169,7 @@ export default {
             callback: (e) => {
               if (!e) {
                 reject(e);
-                iMessage.error("下载失败");
+                iMessage.error(this.$t("下载失败"));
               }
               resolve(e);
             },

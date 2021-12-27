@@ -87,11 +87,11 @@ export default {
       if (this.tableListData.versionNum === 0) {
         return
       }
-      if ((this.tableListData.status === 'MANAGEMENT' || (this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('FRM') === -1)) && this.$route.query.flag !== 'creat') {
+      if ((this.tableListData.status === 'MANAGEMENT' || (this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('CSSS-2') === -1)) && this.$route.query.flag !== 'creat') {
         this.disabled = true
         this.preliminaryAssessmentDisabled = true
       }
-      if ((this.tableListData.status === 'MANAGEMENT' || (this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('FRM') === -1)) && this.$route.query.flag === 'view') {
+      if ((this.tableListData.status === 'MANAGEMENT' || (this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('CSSS-2') === -1)) && this.$route.query.flag === 'view') {
         this.effectiveTimeDisabled = true
       }
       // 查看/复制进来信号来源是初评 风险信号大类合小类不可编辑
@@ -125,7 +125,7 @@ export default {
               }
             }
             iMessageBox(
-              pms.processType === '' && this.$route.query.flag !== 'creat' ? this.$t('SPR_FRM_FXXH_QXZCZFSHZJXTJ') : this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('FRM') !== -1 && pms.processType === '' && pms.status === '' ? this.$t('SPR_FRM_FXXH_QQRSFTJ') : this.$t('SPR_FRM_FXXH_SFQRTJ'), // 暂时处理
+              pms.processType === '' && this.$route.query.flag !== 'creat' ? this.$t('SPR_FRM_FXXH_QXZCZFSHZJXTJ') : this.$store.state.permission.userInfo.deptDTO.deptNum.indexOf('CSSS-2') !== -1 && pms.processType === '' && pms.status === '' ? this.$t('SPR_FRM_FXXH_QQRSFTJ') : this.$t('SPR_FRM_FXXH_SFQRTJ'), // 暂时处理
               this.$t('LK_WENXINTISHI'),
               { confirmButtonText: this.$t('LK_QUEDING'), cancelButtonText: this.$t('LK_QUXIAO') }
             ).then(async () => {

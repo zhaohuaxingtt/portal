@@ -42,7 +42,7 @@
         class="revort-topic"
         :disabled="disabledButton"
         @click="handleRevokeTopic"
-        >{{ $t('撤回议题') }}</iButton
+        >{{ $t('MT_CHEHUIYITI') }}</iButton
       >
       <iButton @click="handleMore">{{ 'MORE' }}</iButton>
     </el-row>
@@ -109,12 +109,12 @@
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
-      <el-table-column
+       <el-table-column
         show-overflow-tooltip
         align="center"
-        label="BEN(DE)"
+        label="BEN(CN)"
         min-width="58"
-        prop="benDe"
+        prop="benCn"
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -229,7 +229,7 @@ export default {
   data() {
     return {
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       themenConclusion,
       stateObj,
       editOrAdd: 'add',
@@ -379,15 +379,15 @@ export default {
     handleRevokeTopic() {
       const bol = this.findLockStatus(this.selectedData)
       const warn = bol
-        ? '请确认是否发送议题撤回申请至会议管理员?'
-        : '是否确认撤回该议题?'
+        ?this.$t( '请确认是否发送议题撤回申请至会议管理员?')
+        : this.$t('是否确认撤回该议题?')
       if (
         this.selectedData[0].meetingStatus === '02' ||
         this.selectedData[0].meetingStatus === '03'
       ) {
-        this.$confirm(warn, '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
+        this.$confirm(warn, this.$t('提示'), {
+          confirmButtonText: this.$t('是'),
+          cancelButtonText: this.$t('否'),
           type: 'warning'
         }).then(() => {
           let promiseArr = []
@@ -411,7 +411,7 @@ export default {
             .then((res) => {
               const message = res[0].code === 200 ? res[0].message : ''
               if (bol) {
-                iMessage.success('已发送会议撤回申请给管理员。')
+                iMessage.success(this.$t('已发送会议撤回申请给管理员。'))
               } else {
                 iMessage.success(message)
               }
@@ -446,7 +446,7 @@ export default {
           //   });
         })
       } else {
-        iMessage.warn('只有开放和锁定状态才可以撤回!')
+        iMessage.warn(this.$t('只有开放和锁定状态才可以撤回!'))
       }
       // this.$confirm("请确认是否要撤回该议题?", "提示", {
       //   confirmButtonText: "是",

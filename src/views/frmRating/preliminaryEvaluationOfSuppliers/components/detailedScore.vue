@@ -6,16 +6,15 @@
         {{ $t('SPR_FRM_CBPJ_DFQX') }}
       </span>
       <div class="floatright">
-        <iButton @click="exportAll" :loading="exportAllButtonLoading">{{ $t('SUPPLIER_DAOCHUQUANBU') }}</iButton>
+        <iButton @click="exportAll"
+                 :loading="exportAllButtonLoading">{{ $t('SUPPLIER_DAOCHUQUANBU') }}</iButton>
       </div>
     </div>
-    <tableList
-        :tableData="tableListData"
-        :tableTitle="tableTitle"
-        :tableLoading="tableLoading"
-        :index="true"
-        :selection="false"
-    >
+    <tableList :tableData="tableListData"
+               :tableTitle="tableTitle"
+               :tableLoading="tableLoading"
+               :index="true"
+               :selection="false">
       <template #isFill="scope">
         {{ scope.row.isFill === 1 ? $t('SUPPLIER_SHI') : $t('SUPPLIER_FOU') }}
       </template>
@@ -23,27 +22,26 @@
         {{ scope.row.isCautiousScore === 1 ? $t('SUPPLIER_SHI') : $t('SUPPLIER_FOU') }}
       </template>
     </tableList>
-    <iPagination
-        v-update
-        @size-change="handleSizeChange($event, getTableList)"
-        @current-change="handleCurrentChange($event, getTableList)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="page.pageSize"
-        :layout="page.layout"
-        :current-page='page.currPage'
-        :total="page.totalCount"/>
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page='page.currPage'
+                 :total="page.totalCount" />
   </iCard>
 </template>
 
 <script>
-import {iCard, iButton, iPagination} from 'rise';
+import { iCard, iButton, iPagination } from 'rise';
 import tableList from '@/components/commonTable';
-import {pageMixins} from '@/utils/pageMixins';
+import { pageMixins } from '@/utils/pageMixins';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
-import {detailedScoreTableTitle} from './data';
-import {getResultDetail} from '../../../../api/frmRating/preliminaryEvaluationOfSuppliers';
-import {excelExport} from '@/utils/filedowLoad';
+import { detailedScoreTableTitle } from './data';
+import { getResultDetail } from '../../../../api/frmRating/preliminaryEvaluationOfSuppliers';
+import { excelExport } from '@/utils/filedowLoad';
 
 export default {
   mixins: [pageMixins, resultMessageMixin],
@@ -53,7 +51,7 @@ export default {
     tableList,
     iPagination,
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle: detailedScoreTableTitle,
@@ -63,11 +61,11 @@ export default {
       exportAllButtonLoading: false,
     };
   },
-  created() {
+  created () {
     this.getTableList();
   },
   methods: {
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true;
       try {
         const req = {
@@ -86,7 +84,7 @@ export default {
         this.tableLoading = false;
       }
     },
-    async exportAll() {
+    async exportAll () {
       try {
         this.exportAllButtonLoading = true;
         const req = {
@@ -96,11 +94,11 @@ export default {
         };
         const res = await getResultDetail(req);
         this.allTableData = res.data;
-        excelExport(this.allTableData, this.tableTitle);
+        excelExport(this.allTableData, this.tableTitle, '得分详情');
         this.exportAllButtonLoading = false;
       } catch {
         this.allTableData = [];
-        excelExport(this.allTableData, this.tableTitle);
+        excelExport(this.allTableData, this.tableTitle, '得分详情');
         this.exportAllButtonLoading = false;
       }
     },

@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">会议展示</div>
+    <div class="header">{{$t('MT_HUIYIZHANSHI')}} Meeting Live</div>
     <iCard class="card-same-screen-box">
       <div class="title-info">
         <p class="info-line-1">
@@ -24,9 +24,9 @@
                     result.themens[result.themens.length - 1].plusDayEndTime
                   ) > 0
                     ? result.endTime.substring(0, 5) +
-                      ` +${
-                        Number(result.themens[result.themens.length - 1].plusDayEndTime)
-                      }`
+                      ` +${Number(
+                        result.themens[result.themens.length - 1].plusDayEndTime
+                      )}`
                     : result.endTime.substring(0, 5)
                 }`
             }}</span>
@@ -102,11 +102,11 @@
         <el-table-column
           prop="benCn"
           align="center"
-          label="BEN(CN)"
+          label="BEN(DE)"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.benCn">{{ scope.row.benCn }}</span>
+            <span v-if="scope.row.benCn">{{ scope.row.benDe }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
@@ -126,26 +126,30 @@
 
         <!-- 支持者 -->
         <el-table-column
-          prop="supporter"
+          prop="supporterEn"
           align="center"
           label="Sourcing"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.supporter">{{ scope.row.supporter }}</span>
+            <span v-if="scope.row.supporterEn">{{
+              scope.row.supporterEn
+            }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
 
         <!-- 演讲人 -->
         <el-table-column
-          prop="presenter"
+          prop="presenterEn"
           align="center"
           label="Linie"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.presenter">{{ scope.row.presenter }}</span>
+            <span v-if="scope.row.presenterEn">{{
+              scope.row.presenterEn
+            }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
@@ -227,8 +231,8 @@
         background
         :page-sizes="page.pageSizes"
         :page-size="page.pageSize"
-        prev-text="上一页"
-        next-text="下一页"
+        :prev-text="$t('MT_SHANGYIYE')"
+        :next-text="$t('MT_XIAYIYE')"
         :layout="page.layout"
         :current-page="page.currPage"
         :total="page.total"
@@ -239,6 +243,7 @@
       :openAddTopic="openAddTopic"
       @closeDialog="closeDialog"
       :topicInfo="topicInfo"
+      :isMeetingShow="true"
     />
   </iPage>
 </template>
@@ -263,7 +268,7 @@ export default {
   data() {
     return {
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       timeClock,
       positionMark,
       data: [],

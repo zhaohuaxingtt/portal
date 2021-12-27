@@ -5,6 +5,7 @@ export const MAP_APPROVAL_TYPE = {
 }
 
 export const MOCK_FILE_URL = '/udDown'
+// export const MOCK_FILE_URL = '/getFileByFileId'
 
 //EventBus 名字
 export const EventBusName = {
@@ -17,7 +18,8 @@ export const AEKO_CATEGORY_LIST = ['aeko_mp', 'aeko_aea', 'aeko_content']
 // 审批列表只能单选的类型
 export const BPM_SINGL_CATEGORY_LIST = [
   'meeting_rs_recheck',
-  'meeting_recheck_m_sign'
+  'meeting_recheck_m_sign',
+  'officialPricing'
 ]
 // 'officialPricing'
 // 审批有异议、无异议判断

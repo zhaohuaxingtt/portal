@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="会议纪要"
+   :title="$t('MT_HUIYIJIYAO')"
     :visible.sync="open"
     width="50rem"
     :close-on-click-modal="false"
@@ -163,7 +163,7 @@
               plain
               :loading="loadingCreate"
               :disabled="loadingCreate"
-              >{{ '创建' }}</iButton
+              >{{$t('MT_CHUANGJIAN')}}</iButton
             >
           </el-form-item>
         </div>
@@ -279,7 +279,7 @@ export default {
           saveMeetingMinutes(this.resultData).then((res) => {
             this.loadingCreate = false
             if (res.code == 200) {
-              iMessage.success('保存成功')
+              iMessage.success(this.$t('保存成功'))
               this.$emit('handleOK')
             }
           })

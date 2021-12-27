@@ -69,10 +69,10 @@
               >{{ nowTime }} / Live!</span
             >
             <span v-if="themen.state === '03'" class="no-live-span-time">
-              `{{ `${endDate} ${themen.endTime}` }}/Finish</span
+              `{{ getTime(themen, themen.endTime) }}/Finish</span
             >
             <span v-if="themen.state === '01'" class="no-live-span-time"
-              >{{ `${startDate} ${themen.startTime}` }}/Next</span
+              >{{ getTime(themen, themen.startTime) }}/Next</span
             >
           </li>
         </ul>
@@ -124,7 +124,7 @@ export default {
   data() {
     return {
       rest,
-      nowTime: dayjs(new Date()).format('HH:mm:ss'),
+      nowTime: dayjs(new Date()).format('HH:mm'),
       timer: ''
     }
   },
@@ -137,7 +137,10 @@ export default {
   },
   methods: {
     getNowTime() {
-      return dayjs(new Date()).format('HH:mm:ss')
+      return dayjs(new Date()).format('HH:mm')
+    },
+    getTime(themen, time) {
+      return dayjs(new Date(`${themen.startDate} ${time}`)).format('HH:mm')
     }
   },
   beforeDestroy() {

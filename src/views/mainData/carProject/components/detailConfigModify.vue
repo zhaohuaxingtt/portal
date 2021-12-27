@@ -69,10 +69,10 @@ import {
 } from '@/api/mainData/car'
 import {
   saveOrupdCarTypeProConfig,
-  fetchCartypeProConfigList
+  fetchCartypeProConfigList,
+  fetchCarTypeLevelSelect
 } from '@/api/mainData/carProject'
 import { arrayToMap } from '@/utils'
-import { fetchSelectDicts } from '@/api/baseInfo'
 import { getYearOptions } from '@/views/mainData/util'
 import mixin from '@/views/mainData/mixin'
 export default {
@@ -88,7 +88,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -98,7 +98,7 @@ export default {
     },
     configVersions: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     }
@@ -122,7 +122,7 @@ export default {
   watch: {
     configVersions(val) {
       if (val.length > 0) {
-        let validArray = val.filter(item => {
+        let validArray = val.filter((item) => {
           return item.isValid
         })
         this.searchData.riseVersionCode = validArray[0].riseVersionCode //val[0].riseVersionCode
@@ -138,7 +138,7 @@ export default {
     },
     allSelectedYears() {
       const res = []
-      this.tableData.forEach(e => {
+      this.tableData.forEach((e) => {
         if (e.years) {
           res.push(e.years)
         }
@@ -226,7 +226,7 @@ export default {
       }
       // 检查是不是超出100%
       let totalRate = 0
-      this.tableData.forEach(e => {
+      this.tableData.forEach((e) => {
         totalRate += parseFloat(e.cartypeLevelRate)
       })
 
@@ -235,9 +235,9 @@ export default {
         return
       }
 
-      const detailDtos = this.tableData.map(e => {
+      const detailDtos = this.tableData.map((e) => {
         const cartypeLevelRate = e.cartypeLevelRate
-          ? parseFloat((e.cartypeLevelRate / 100).toFixed(4))
+          ? parseFloat((e.cartypeLevelRate / 100).toFixed(6))
           : 0
         return { ...e, cartypeLevelRate: cartypeLevelRate }
       })
@@ -251,7 +251,7 @@ export default {
         riseVersionCode: this.searchData.riseVersionCode
       }
       await saveOrupdCarTypeProConfig(reqData)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success('保存成功')
             this.cancelAction()
@@ -260,7 +260,7 @@ export default {
             iMessage.error(res.desZh || '保存失败')
           }
         })
-        .catch(error => {
+        .catch((error) => {
           iMessage.error(error.desZh)
         })
         .finally(() => (this.loading = false))
@@ -305,16 +305,17 @@ export default {
     },
     // 数据字典下拉，车型等级
     async querySelectDicts() {
-      const req = ['cartype_config_level']
+      /* const req = ['cartype_config_level']
       const { data } = await fetchSelectDicts(req)
-      const { cartype_config_level } = data
+      const { cartype_config_level } = data */
+      const { data } = await fetchCarTypeLevelSelect()
       Object.assign(
         this.extraData,
         {
-          cartypeConfigLevelOptions: cartype_config_level
+          cartypeConfigLevelOptions: data
         },
         {
-          cartypeConfigLevelMap: arrayToMap(cartype_config_level, 'id', 'name')
+          cartypeConfigLevelMap: arrayToMap(data, 'id', 'name')
         }
       )
     },
@@ -332,14 +333,14 @@ export default {
         this.tableData = data || []
 
         // 转化为百分比
-        this.tableData.forEach(e => {
+        this.tableData.forEach((e) => {
           if (e.cartypeLevelRate) {
-            e.cartypeLevelRate = parseFloat(e.cartypeLevelRate * 100).toFixed(2)
+            e.cartypeLevelRate = parseFloat(e.cartypeLevelRate * 100).toFixed(6)
           }
         })
 
         const cartypeLevels = []
-        this.tableData.forEach(e => {
+        this.tableData.forEach((e) => {
           if (e.cartypeLevel) {
             cartypeLevels.push(e.cartypeLevel)
           }
@@ -351,7 +352,7 @@ export default {
     },
     // 产量计划点击详情过来
     handleViewConfigDetail(val) {
-      const validVersion = this.configVersions.filter(e => e.isValid)
+      const validVersion = this.configVersions.filter((e) => e.isValid)
       if (validVersion.length > 0) {
         this.searchData.riseVersionCode = validVersion[0].riseVersionCode
       }

@@ -138,6 +138,7 @@
                 v-model="formData.werk"
                 :disabled="!editable"
                 filterable
+                multiple
               >
                 <el-option
                   v-for="item in procureFactorySelectList"
@@ -298,6 +299,7 @@
         :show.sync="dialogProjectManagerVisible"
         @change="handleProjectManagerCallback"
         v-model="formData.projectManager"
+        sizeType="size"
         :tableSetting="CAR_PROJECT_SELECTOR_TableSetting"
         :filter="selectorQuery"
         :title="'产品经理'"
@@ -354,7 +356,8 @@ export default {
     },
     handlePurchaseSearch(param) {
       //采购人员
-      return this.dialogUserList(param)
+      // CRCF-3132 车型项目页面，人员选择器修改
+      return this.dialogUserList({ ...param, roleCode: 'XMCGY' })
     },
     handleAreaControllerSearch(param) {
       //区域控制员
@@ -372,6 +375,7 @@ export default {
       console.log('params', param)
       // let params = param
       return getPageListByParams({ ...param, current: param.pageNo })
+      // return getSapUserDropdownList({ ...param, current: param.pageNo })
     },
     searchUser(param) {
       // 人员配置
@@ -379,10 +383,9 @@ export default {
       return getUserListByIDs(params)
     },
     getCarTypeSelectOptions() {
-      let param = {}
-      carTypeSelectOptions(param).then((val) => {
+      carTypeSelectOptions().then((val) => {
         if (val.code == 200) {
-          this.carTypeSelectList = val.data.TYPE_VEHICLE_PROJECT
+          this.carTypeSelectList = val.data
         }
       })
     },
@@ -477,12 +480,13 @@ export default {
           return val.id
         })
         .join(',')
-
+      const werk = this.formData.werk ? this.formData.werk.join(',') : []
       let param = {
         ...this.formData,
         projectPurchaser: projectPurchaserId,
         areaController: areaControllerId,
-        projectManager: projectManagerId
+        projectManager: projectManagerId,
+        werk
       }
       this.saveLoading = true
       let val = await carProjectCreateBaseInfo(param).finally(() => {
@@ -520,13 +524,14 @@ export default {
           return val.id
         })
         .join(',')
-
+      const werk = this.formData.werk ? this.formData.join(',') : []
       let param = {
         ...this.formData,
         projectPurchaser: projectPurchaserId,
         areaController: areaControllerId,
         projectManager: projectManagerId,
-        id: carProjectID
+        id: carProjectID,
+        werk
       }
 
       this.saveLoading = true
@@ -555,7 +560,11 @@ export default {
         let projectManagerIDs = val.data.projectManager
 
         //通过绑定员工ID获取员工数组信息
-        let newFormData = { ...val.data }
+        let werk = []
+        if (typeof val.data.werk === 'string' && val.data.werk) {
+          werk = val.data.werk.split(',')
+        }
+        let newFormData = { ...val.data, werk }
         if (purchaseIDs) {
           let purchaseIDList = purchaseIDs.split(',')
           let purchaseIDNumList = purchaseIDList.map((item) => {

@@ -1,10 +1,10 @@
 /*
  * @Author: yuszhou
  * @Date: 2021-02-19 14:29:06
- * @LastEditTime: 2021-08-17 10:58:23
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-12-16 11:03:37
+ * @LastEditors: caopeng
  * @Description: 项目中登录时候获取整个项目的权限以及token.
- * @FilePath: \rise\src\permission.js
+ * @FilePath: \front-portal-new\src\permission.js
  */
 import router from './router'
 import store from '@/store'

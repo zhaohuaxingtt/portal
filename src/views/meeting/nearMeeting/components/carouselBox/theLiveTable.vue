@@ -17,7 +17,7 @@
       <el-table-column
         show-overflow-tooltip
         align="center"
-        :label="$t('会议名称')"
+        :label="$t('MT_HUIYIMINGCHENG')"
         width="340"
         min-width="340"
       >
@@ -32,7 +32,7 @@
         show-overflow-tooltip
         prop="meetingTypeName"
         align="center"
-        :label="$t('会议类型')"
+        :label="$t('MT_HUIYILEIXING')"
         min-width="90"
         width="90"
       ></el-table-column>
@@ -41,7 +41,7 @@
         show-overflow-tooltip
         prop="state"
         align="center"
-        :label="$t('会议状态')"
+        :label="$t('MT_HUIYIZHUANGTAI')"
         min-width="70"
         width="70"
       >
@@ -58,7 +58,7 @@
               },
               'circle'
             ]"
-            >{{ statusObj[scope.row.state] }}</span
+            >{{ $t(statusObj[scope.row.state]) }}</span
           >
         </template>
       </el-table-column>
@@ -67,7 +67,7 @@
         show-overflow-tooltip
         prop="meetingPlace"
         align="center"
-        :label="$t('会议地点')"
+        :label="$t('MT_HUIYIDIDIAN')"
         width="150"
         min-width="150"
       ></el-table-column>
@@ -76,7 +76,7 @@
         show-overflow-tooltip
         prop="time"
         align="center"
-        :label="$t('会议时间')"
+        :label="$t('MT_HUIYISHIJIAN')"
         min-width="240"
         width="240"
       >
@@ -97,7 +97,7 @@
         show-overflow-tooltip
         prop="weekOfYear"
         align="center"
-        :label="$t('周次')"
+        :label="$t('MT_ZHOUCI_')"
         min-width="90"
         width="90"
       >
@@ -110,7 +110,7 @@
         show-overflow-tooltip
         prop="presenterDept"
         align="center"
-        :label="$t('附件')"
+        :label="$t('MT_FUJIAN')"
         min-width="60"
         width="60"
       >
@@ -118,7 +118,7 @@
           <span class="attachments-box">
             <el-popover placement="right" trigger="click">
               <div class="enclosure-popover">
-                <p class="title">{{ $t('附件') }}</p>
+                <p class="title">{{ $t('MT_FUJIAN') }}</p>
                 <ul>
                   <li
                     v-for="item in scope.row.attachments"
@@ -160,8 +160,8 @@
       :current-page="pageNum"
       :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
     <!-- 生成会议纪要 -->
@@ -224,12 +224,12 @@ export default {
       open: false,
       id: '',
       statusObj: {
-        '01': '草稿',
-        '02': '开放',
-        '03': '锁定',
-        '04': '开始',
-        '05': '结束',
-        '06': '关闭'
+        '01': 'MT_CAOGAO',
+        '02': 'MT_KAIFANG',
+        '03': 'MT_SUODING',
+        '04': 'MT_KAISHI',
+        '05': 'MT_JIESHU',
+        '06': 'MT_GUANBI'
       }
     }
   },

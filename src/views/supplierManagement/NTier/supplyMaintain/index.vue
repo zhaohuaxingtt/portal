@@ -7,7 +7,8 @@
 -->
 <template>
   <div>
-    <theSearch @form="getForm" />
+    <theSearch @form="getForm"
+               ref="theSearch" />
     <router-view ref="view"></router-view>
     <!-- <theNodeChain class="margin-top20"/> -->
   </div>

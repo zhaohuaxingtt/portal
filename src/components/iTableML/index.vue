@@ -11,7 +11,7 @@
       :height="height"
       tooltip-effect="light"
       :data="data"
-      :empty-text="$t('LK_ZANWUSHUJU')"
+      :empty-text="$i18n.locale === 'zh'?'暂无数据':'No Data'"
       :row-class-name="rowClassName"
       v-loading="tableLoading"
       @selection-change="handleSelectionChange"
@@ -69,7 +69,10 @@ export default {
     this.initialColumns = [...this.$slots.default]
     this.preColumns = this.$slots.default
       .filter((item) => {
-        return item.componentOptions.propsData.label
+        return (
+          item.componentOptions.propsData.label &&
+          item.componentOptions.propsData.labelClassName === 'can-hideen'
+        )
       })
       .map((item) => {
         return item.componentOptions.propsData

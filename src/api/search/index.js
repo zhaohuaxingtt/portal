@@ -17,3 +17,21 @@ export function elasticSearch(data) {
     data
   })
 }
+
+//搜索下拉
+export function selectionSearch(data){
+  return requst({
+    url:'/searchService/listSearchType',
+    method:'POST',
+    data
+  })
+}
+
+//全文检索
+export function fullTextSearch(data){
+  return requst({
+    url:'/searchService/search',
+    method:'POST',
+    data
+  })
+}

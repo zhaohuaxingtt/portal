@@ -152,7 +152,6 @@ export default {
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
-          console.log('导出成功')
         } else {
           iMessage.error(result)
         }
@@ -176,7 +175,6 @@ export default {
               if (a.aekoNum === b.aekoNum) {
                 temp.nodePartsAekoSurAmount = b.nodePartsAekoSurAmount
                 temp.nodePartsAekoVariableAmount = b.nodePartsAekoVariableAmount
-
                 temp.aekoOriginalPartsNum = b.aekoOriginalPartsNum
                 temp.nodePartsAekoCarryAmount = b.nodePartsAekoCarryAmount
                 temp.variableInvestmentAmount = b.variableInvestmentAmount
@@ -214,11 +212,13 @@ export default {
             return item
           })
           this.partsAxleDataClone = _.cloneDeep(this.partsAxleData)
-          this.getAmountAxle()
+          if(this.partsAxleData&&this.partsAxleData.length) {
+            this.getAmountAxle()
+          }
         } else {
-          this.evolutionProcessLoading = false
           iMessage.error(result)
         }
+        this.evolutionProcessLoading = false
       }).catch(() => {
         this.evolutionProcessLoading = false
       })

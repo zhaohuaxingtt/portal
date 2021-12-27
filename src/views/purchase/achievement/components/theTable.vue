@@ -36,7 +36,7 @@
             isAuth(whiteBtnList, 'ACHIEVEMENTMGT_AMOUNT_ADJUSTMENT') && !state
           "
         >
-          {{ $t('LK_YEJIJINETIAOZHENG') }}
+          {{ language('LK_YJJETZ','业绩金额调整') }}
         </iButton>
         <!--年度目标管理-->
         <iButton
@@ -194,7 +194,10 @@ export default {
     bzzlorbzorkzzl() {
       return this.$store.state.permission.userInfo.roleList.some(
         (item) =>
-          item.code == 'BZZL' || item.code == 'CGBZ' || item.code == 'ZYCGKSXTY'
+          item.code == 'BZZL' ||
+          item.code == 'CGBZ' ||
+          item.code == 'ZYCGKSXTY' ||
+          item.code == 'ZYCGKSXTDY'
       )
     }
   },
@@ -379,10 +382,20 @@ export default {
     },
     // 失效
     invalid() {
-      let id, status
+      let id, status, billType,type, obj = {}
       if (this.selectTableData.length == 1) {
         id = this.selectTableData[0].id
         status = this.selectTableData[0].status
+        billType = this.selectTableData[0].billType // 1 基础 2 跟踪
+        type = this.selectTableData[0].billType // 1 批量件 2 配附件
+        obj.id = id
+        if(billType==1) {
+          obj.identification = 1
+        } else if(billType==2 && type==1) {
+          obj.identification = 3
+        } else if (billType==2 && type==2) {
+          obj.identification = 2
+        }
       }
       if (id) {
         if (status == 3 || status == 11) {
@@ -396,7 +409,7 @@ export default {
             }
           )
             .then(() => {
-              invalid({ id }).then((res) => {
+              invalid(obj).then((res) => {
                 if (res.result) {
                   this.getTableList()
                   iMessage.success(
@@ -412,7 +425,7 @@ export default {
               })
             })
         } else {
-          invalid({ id }).then((res) => {
+          invalid(obj).then((res) => {
             if (res.result) {
               this.getTableList()
               iMessage.success(

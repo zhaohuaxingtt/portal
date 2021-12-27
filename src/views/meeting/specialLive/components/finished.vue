@@ -98,9 +98,9 @@
       <el-table-column
         show-overflow-tooltip
         align="center"
-        label="BEN(DE)"
+        label="BEN(CN)"
         min-width="58"
-        prop="benDe"
+        prop="benCn"
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -171,8 +171,8 @@
       :current-page="page.pageNum"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
     <!-- <detailDialog :openDialog="openDetail" v-if="openDetail" :id="id" /> -->
@@ -211,7 +211,7 @@ export default {
   data() {
     return {
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       stateObj,
       themenConclusion,
       openAddTopic: false,

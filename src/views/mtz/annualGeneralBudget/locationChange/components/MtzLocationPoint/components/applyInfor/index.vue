@@ -40,9 +40,8 @@
              :key="index">
           <span>{{language(item.key,item.name)}}</span>
           <el-tooltip class="item"
-                      effect="dark"
+                      effect="light"
                       :content="inforData[item.prop]"
-                      placement="top-start"
                       v-if="item.type=='tooltip'&&inforData[item.prop]!==null">
             <iInput :disabled="item.prop == 'mtzAppId'||item.prop == 'linieName'||item.prop == 'appStatus'||item.prop == 'meetingName'?true:disabled"
                     class="inforText"
@@ -119,7 +118,6 @@ import store from "@/store";
 import {
   page,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
-// import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
 import {
   getAppFormInfo,
   modifyAppFormInfo,
@@ -290,6 +288,9 @@ export default {
       this.disabled = false;
     },
     save () {
+      if(this.inforData.appName == ""){
+        return iMessage.error(this.language('SHENQINGDANMINGBUNENGWEIKONG', '申请单名不能为空'))
+      };
       if (this.inforData.flowType == "SIGN" && this.numIsNomi !== 0) {//流转
         return iMessage.error(this.language('WHMTZYCLGZCZXGZSQDLXWFXZLZ', '维护MTZ原材料规则存在新规则，申请单类型无法选择流转'))
       }else{
@@ -458,7 +459,6 @@ $tabsInforHeight: 35px;
   margin-bottom: 10px;
   display: flex;
   flex-flow: wrap;
-  justify-content: space-between;
   .inforDiv {
     width: 29%;
     height: $tabsInforHeight;
@@ -467,6 +467,7 @@ $tabsInforHeight: 35px;
     justify-content: space-between;
     margin-top: 0;
     margin-bottom: 20px;
+    margin-left:6.5%;
     span {
       font-size: 15px;
     }
@@ -478,6 +479,9 @@ $tabsInforHeight: 35px;
       height: $tabsInforHeight;
       line-height: $tabsInforHeight;
     }
+  }
+  .inforDiv:nth-child(3n-2){
+    margin-left:0!important;
   }
 }
 .number_color {

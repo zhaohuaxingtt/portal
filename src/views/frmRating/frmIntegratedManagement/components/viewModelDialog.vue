@@ -1,51 +1,51 @@
 <template>
   <!--查看模型-->
-  <iDialog
-      :title="$t('SPR_FRM_FRMGL_CKMX')"
-      :visible.sync="value"
-      width="90%"
-      @close="clearDiolog"
-      :close-on-click-modal="false"
-  >
+  <iDialog :title="$t('SPR_FRM_FRMGL_CKMX')"
+           :visible.sync="value"
+           width="90%"
+           @close="clearDiolog"
+           :close-on-click-modal="false">
     <div class="content">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
           <!--保存-->
-          <iButton @click="saveInitialCommentModel(true, true)" :loading="saveButtonLoading">{{
+          <iButton @click="saveInitialCommentModel(true, true)"
+                   :loading="saveButtonLoading">{{
               $t('LK_BAOCUN')
             }}
           </iButton>
           <!--新增-->
           <iButton @click="addTableItem">{{ $t('LK_XINZENG') }}</iButton>
           <!--删除-->
-          <el-popconfirm
+          <iButton @click="handleDeleteButtonClick">{{
+            $t('delete')
+          }}</iButton>
+          <!-- <el-popconfirm
               :title="$t('LK_SHIFOUQUERENSHANCHU')"
               @confirm="handleDeleteButtonClick"
           >
             <iButton slot="reference" class="margin-left10">{{ $t('delete') }}</iButton>
-          </el-popconfirm>
+          </el-popconfirm> -->
         </div>
       </div>
-      <tableList
-          :tableData="tableListData"
-          :tableTitle="tableTitle"
-          :tableLoading="tableLoading"
-          :index="true"
-          @handleSelectionChange="handleSelectionChange"
-          :selectProps="['supplierType', 'modelType']"
-          :inputProps="['modelName']"
-          customSelectValueKey="name"
-          :selectPropsOptionsObject="selectPropsOptionsObject"
-      >
+      <tableList :tableData="tableListData"
+                 :tableTitle="tableTitle"
+                 :tableLoading="tableLoading"
+                 :index="true"
+                 @handleSelectionChange="handleSelectionChange"
+                 :selectProps="['supplierType', 'modelType']"
+                 :inputProps="['modelName']"
+                 customSelectValueKey="name"
+                 :selectPropsOptionsObject="selectPropsOptionsObject">
         <template #upload="scope">
-          <uploadButton
-              v-if="scope.row.id"
-              @uploadedCallback="handleUploadedCallback($event,scope.row)"
-              button-text="LK_SHANGCHUAN"
-          />
+          <uploadButton v-if="scope.row.id"
+                        @uploadedCallback="handleUploadedCallback($event,scope.row)"
+                        button-text="LK_SHANGCHUAN" />
         </template>
         <template #download="scope">
-          <div class="link" @click="handleFileDownload(scope.row)" v-if="scope.row.id">
+          <div class="link"
+               @click="handleFileDownload(scope.row)"
+               v-if="scope.row.id">
             {{ $t('LK_XIAZAI') }}
           </div>
         </template>
@@ -55,19 +55,20 @@
 </template>
 
 <script>
-import {iDialog, iButton, iMessage} from 'rise';
+import { iDialog, iButton, iMessage } from 'rise';
 import tableList from '@/components/commonTable';
-import {viewModelTableTitle} from './data';
-import {generalPageMixins} from '@/views/generalPage/commonFunMixins';
+import { viewModelTableTitle } from './data';
+import { generalPageMixins } from '@/views/generalPage/commonFunMixins';
 import uploadButton from './viewModelUploadButton';
-import {downloadFile} from '@/api/file';
-import {getInitialCommentModelList} from '../../../../api/frmRating/frmIntegratedManagement';
-import {selectDictByKeys} from '@/api/dictionary';
+import { downloadFile, downloadUdFile } from '@/api/file';
+import { getInitialCommentModelList } from '../../../../api/frmRating/frmIntegratedManagement';
+import { selectDictByKeys } from '@/api/dictionary';
 import {
   uploadInitialCommentModelExcel,
   saveInitialCommentModel,
   deleteInitialCommentModel,
 } from '../../../../api/frmRating/frmIntegratedManagement';
+import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 
 export default {
   mixins: [generalPageMixins],
@@ -78,9 +79,9 @@ export default {
     uploadButton,
   },
   props: {
-    value: {type: Boolean},
+    value: { type: Boolean },
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle: viewModelTableTitle,
@@ -91,13 +92,13 @@ export default {
     };
   },
   methods: {
-    clearDiolog() {
+    clearDiolog () {
       this.$emit('input', false);
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectTableData = val;
     },
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true;
       this.tableListData = [];
       try {
@@ -115,7 +116,7 @@ export default {
         this.tableLoading = false;
       }
     },
-    async handleUploadedCallback(content, row) {
+    async handleUploadedCallback (content, row) {
       const formData = new FormData();
       formData.append('file', content.file);
       formData.append('id', row.id);
@@ -125,14 +126,13 @@ export default {
         this.saveInitialCommentModel();
       });
     },
-    async handleFileDownload(row) {
-      const req = {
-        applicationName: 'rise',
-        fileList: [row.fileUrl],
-      };
-      await downloadFile(req);
+    async handleFileDownload (row) {
+      console.log(row)
+
+      // eslint-disable-next-line no-undef
+      await downloadUdFile(row.fileId);
     },
-    async getAllSelectList() {
+    async getAllSelectList () {
       const data = [
         'purchase_supplier_type',
         'model_type',
@@ -145,7 +145,7 @@ export default {
         'modelType': res.data.model_type,
       };
     },
-    async saveInitialCommentModel(showMesaage = false, showButtonLoading = false) {
+    async saveInitialCommentModel (showMesaage = false, showButtonLoading = false) {
       if (showButtonLoading) {
         this.saveButtonLoading = true;
       }
@@ -162,59 +162,73 @@ export default {
       }
       this.saveButtonLoading = false;
     },
-    async handleDeleteButtonClick() {
+    handleDeleteButtonClick () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
       }
-      try {
-        this.tableLoading = true;
-        let ids = [], times = [];
-        this.selectTableData.map(item => {
-          if (item.id) {
-            ids.push(item.id);
-          }
-          if (item.time) {
-            times.push(item.time);
-          }
-        });
-        if (times.length !== 0) {
-          this.tableListData = this.tableListData.filter(item => {
-            return !times.includes(item.time);
+
+      NewMessageBox({
+        title: this.language('LK_WENXINTISHI', '温馨提示'),
+        Tips: this.language('SHIFOUSHANCHU', '是否删除？'),
+        cancelButtonText: this.language('QUXIAO', '取消'),
+        confirmButtonText: this.language('QUEREN', '确认'),
+      }).then(() => {
+        try {
+          this.tableLoading = true;
+          let ids = [], times = [];
+          this.selectTableData.map(item => {
+            if (item.id) {
+              ids.push(item.id);
+            }
+            if (item.time) {
+              times.push(item.time);
+            }
           });
-          if (ids.length === 0) {
-            iMessage.success(this.$t('LK_CAOZUOCHENGGONG'));
-          }
-        }
-        if (ids.length !== 0) {
-          const req = {
-            ids: ids,
-          };
-          const res = await deleteInitialCommentModel(req);
-          this.resultMessage(res, () => {
+          if (times.length !== 0) {
             this.tableListData = this.tableListData.filter(item => {
-              return !ids.includes(item.id);
+              return !times.includes(item.time);
             });
-          });
+            if (ids.length === 0) {
+              iMessage.success(this.$t('LK_CAOZUOCHENGGONG'));
+            }
+          }
+          if (ids.length !== 0) {
+            const req = {
+              ids: ids,
+            };
+            deleteInitialCommentModel(req).then(res => {
+              this.resultMessage(res, () => {
+                this.tableListData = this.tableListData.filter(item => {
+                  return !ids.includes(item.id);
+                });
+              });
+            });
+          }
+          this.tableLoading = false;
+        } catch {
+          this.tableLoading = false;
         }
-        this.tableLoading = false;
-      } catch {
-        this.tableLoading = false;
-      }
+      }).catch(() => {
+
+      })
     },
-    checkSelect() {
+    checkSelect () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
       }
     },
   },
   watch: {
-    value(val) {
+    value (val) {
       if (val) {
         this.getAllSelectList();
         this.getTableList();
       }
     },
   },
+  destroyed () {
+    NewMessageBoxClose();
+  }
 };
 </script>
 

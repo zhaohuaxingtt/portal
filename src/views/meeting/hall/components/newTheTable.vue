@@ -43,7 +43,7 @@
           <div class="footer">{{ item.name }}</div>
         </li>
       </ul>
-      <p v-else class="no-data">{{$t('您尚无该类型会议的查看权限')}}</p>
+      <p v-else class="no-data">{{$t('MT_NINSHANGWUHUIYICHAKANQUANXIAN')}}</p>
     </div>
   </div>
 </template>
@@ -233,10 +233,15 @@ export default {
     },
 
     goNearFuture(e) {
+      // console.log(e,'这里是一般采购里卡片的点击事件');
       let url = '/meeting/near-meeting'
       if (e.state == '04') {
         url = '/meeting/live'
       }
+      //gp管理大厅
+      // if (e.state == '04') {
+      //   url = '/meeting/managementHall'
+      // }
       this.$router.push({
         path: url,
         query: {

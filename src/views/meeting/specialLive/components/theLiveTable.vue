@@ -25,13 +25,14 @@
           min-width="120"
         >
           <template slot-scope="scope">
-            <span v-if="scope.row.isBreak">{{ scope.row.topic }}</span>
-            <span
+            <span>{{ scope.row.topic }}</span>
+            <!-- <span v-if="scope.row.isBreak">{{ scope.row.topic }}</span> -->
+            <!-- <span
               class="open-link-text"
               @click="lookOrEdit(scope.row)"
               v-else
               >{{ scope.row.topic }}</span
-            >
+            > -->
           </template>
         </el-table-column>
         <el-table-column width="44" align="center" label=""></el-table-column>
@@ -222,7 +223,7 @@ export default {
   data() {
     return {
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       lookThemenObj: {},
       stateObj,
       tableLoading: false,
@@ -273,32 +274,32 @@ export default {
       this.openAddTopic = false
     },
     lookOrEdit(row) {
-      if (row.source === '04') {
-        // window.open(
-        //     `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
-        //     "_blank"
-        // );
-        if (row.type === 'FS+MTZ') {
-          window.open(
-            `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
-            '_blank'
-          )
-        } else if (row.type === 'MTZ') {
-          window.open(
-            `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${row.fixedPointApplyId}`,
-            '_blank'
-          )
-        } else {
-          window.open(
-            `${this.processUrl}/designate/decisiondata/title?desinateId=${row.fixedPointApplyId}&isPreview=1`,
-            '_blank'
-          )
-        }
-      } else {
-        this.lookThemenObj = { ...row }
-        this.editOrAdd = 'look'
-        this.openAddTopic = true
-      }
+      // if (row.source === '04') {
+      //   // window.open(
+      //   //     `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
+      //   //     "_blank"
+      //   // );
+      //   if (row.type === 'FS+MTZ') {
+      //     window.open(
+      //       `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
+      //       '_blank'
+      //     )
+      //   } else if (row.type === 'MTZ') {
+      //     window.open(
+      //       `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${row.fixedPointApplyId}`,
+      //       '_blank'
+      //     )
+      //   } else {
+      //     window.open(
+      //       `${this.processUrl}/designate/decisiondata/title?desinateId=${row.fixedPointApplyId}&isPreview=1`,
+      //       '_blank'
+      //     )
+      //   }
+      // } else {
+      this.lookThemenObj = { ...row }
+      this.editOrAdd = 'look'
+      this.openAddTopic = true
+      // }
     },
     isThemenHavaMy(item) {
       const presenterId = item.presenterId ? item.presenterId.split(',') : []
@@ -526,6 +527,15 @@ export default {
   cursor: pointer;
   margin-left: 16px;
 }
+::v-deep .active-row {
+  background-color: #1660f1 !important;
+  .cell {
+    .open-link-text {
+      color: #fff !important;
+    }
+  }
+}
+
 ::v-deep .el-table--enable-row-hover .el-table__body .active-row:hover > td {
   background: #1660f1;
   color: #fff;

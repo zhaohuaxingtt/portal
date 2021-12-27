@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">会议类型管理</div>
+    <div class="header">{{ $t('MT_HUIYILEIXINGGUANLI') }}</div>
     <searchForm @search="search" />
     <iCard>
       <actionButtons
@@ -25,9 +25,12 @@
           type="index"
           width="68"
           align="center"
-          label="序号"
+          :label="$t('MT_XUHAO')"
         ></el-table-column>
-        <el-table-column show-overflow-tooltip align="left" label="类型名称"
+        <el-table-column
+          show-overflow-tooltip
+          align="left"
+          :label="$t('MT_LEIXINGMINGCHENG')"
           ><template slot-scope="scope">
             <span
               :class="'open-link-text cursor'"
@@ -36,7 +39,11 @@
             >
           </template></el-table-column
         >
-        <el-table-column show-overflow-tooltip align="left" label="会议管理员">
+        <el-table-column
+          show-overflow-tooltip
+          align="left"
+          :label="$t('MT_HUIYIGUANLIYUAN')"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.userNames }}</span>
           </template>
@@ -44,7 +51,7 @@
         <el-table-column
           show-overflow-tooltip
           align="left"
-          label="会议信息描述"
+          :label="$t('MT_HUIYIXINXIMIAOSHU')"
         >
           <template slot-scope="scope">
             <span>{{ scope.row.meetingInfoDesc }}</span>
@@ -53,18 +60,25 @@
         <el-table-column
           show-overflow-tooltip
           align="left"
-          label="生成会议名称后缀"
+          :label="$t('MT_SHENGCHENGHUIYIMINGCHENGHOUZHUI')"
         >
           <template slot-scope="scope">
             <span>{{ scope.row.meetingNameSuffix }}</span>
           </template>
         </el-table-column>
-        <el-table-column show-overflow-tooltip align="left" label="所属分类">
+        <el-table-column
+          show-overflow-tooltip
+          align="left"
+          :label="$t('MT_SUOSHUFENLEI')"
+        >
           <template slot-scope="scope">
             <span>{{ categoryObj[scope.row.category] }}</span>
           </template>
         </el-table-column>
-        <el-table-column show-overflow-tooltip width="163" label="默认议题时长"
+        <el-table-column
+          show-overflow-tooltip
+          width="163"
+          :label="$t('MT_MORENYITISHICHANG')"
           ><template slot-scope="scope">
             <span>{{ scope.row.duration }}</span>
           </template></el-table-column
@@ -72,9 +86,9 @@
         <el-table-column
           show-overflow-tooltip
           width="163"
-          label="是否触发审批流"
+          :label="$t('MT_SHIFOUCHUFASHENPILIU')"
           ><template slot-scope="scope">
-            <span>{{ scope.row.isTriggerApproval ? '是' : '否' }}</span>
+            <span>{{ scope.row.isTriggerApproval ? $t('是') : $t('否') }}</span>
           </template></el-table-column
         >
       </iTableML>
@@ -86,8 +100,8 @@
         :current-page="page.currPage"
         :page-size="page.pageSize"
         layout="prev, pager, next, jumper"
-        prev-text="上一页"
-        next-text="下一页"
+        :prev-text="$t('MT_SHANGYIYE')"
+        :next-text="$t('MT_XIAYIYE')"
         :total="page.totalCount"
       />
     </iCard>
@@ -113,6 +127,7 @@
 import { iPage, iCard, iPagination, iMessage } from 'rise'
 import iTableML from '@/components/iTableML'
 import { downloadAllExport } from '@/utils/downloadAll'
+
 // import axios from '@/utils/axios.download'
 import {
   getMettingType,
@@ -225,16 +240,16 @@ export default {
       const ids = []
       this.selectedTableData.forEach((e) => ids.push(e.id))
       if (ids.length == 0) {
-        this.$message.error('请选择需要删除的会议类型!')
+        this.$message.error(this.$t('请选择需要删除的会议类型!'))
       } else {
-        this.$confirm('是否删除该会议类型？', '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
+        this.$confirm(this.$t('是否删除该会议类型？'), this.$t('提示'), {
+          confirmButtonText: this.$t('是'),
+          cancelButtonText: this.$t('否'),
           type: 'warning'
         }).then(() => {
           batchDeleteMeeting({ ids: ids })
             .then(() => {
-              this.$message.success('删除成功!')
+              this.$message.success(this.$t('删除成功!'))
               this.query()
             })
             .catch(() => {
@@ -256,16 +271,16 @@ export default {
       downloadAllExport({
         // url: '/rise-meeting/meetingTypeService/exportMeetingType',
         url: '/meetingApi/meetingTypeService/exportMeetingType',
-        filename: '会议类型列表',
+        filename: this.$t('会议类型列表'),
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         // type: "application/x-xls",
         // type: 'application/vnd.ms-excel',
         data,
         callback: (e) => {
           if (e) {
-            iMessage.success('导出成功')
+            iMessage.success(this.$t('导出成功'))
           } else {
-            iMessage.error('导出失败')
+            iMessage.error(this.$t('导出失败'))
           }
         }
       })

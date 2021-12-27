@@ -80,6 +80,7 @@ export default {
       }
     },
     getOrgChildrenDimesionList(url) {
+      console.log('this.row', this.row)
       //获取组织子维度
       // console.log("==== getOrgChildrenDimesionList1");
       // console.log("==== getOrgChildrenDimesionList2");
@@ -87,7 +88,15 @@ export default {
         orgChildrenDimensionList(url, null, null)
           .then((value) => {
             if (value.code == 200) {
-              Vue.set(this.row, 'optionsSelect', value.data)
+              const data = value.data || []
+              if (this.row.originValueList && this.row.originValueList.length) {
+                const dataIds = data.map((e) => e.valueId)
+                const notInData = this.row.originValueList.filter(
+                  (e) => !dataIds.includes(e.valueId)
+                )
+                data.push(...notInData)
+              }
+              Vue.set(this.row, 'optionsSelect', data)
             }
           })
           .catch(() => {})
@@ -95,7 +104,15 @@ export default {
         queryParts(url)
           .then((value) => {
             if (value.code == 200) {
-              Vue.set(this.row, 'optionsSelect', value.data)
+              const data = value.data || []
+              if (this.row.originValueList && this.row.originValueList.length) {
+                const dataIds = data.map((e) => e.valueId)
+                const notInData = this.row.originValueList.filter(
+                  (e) => !dataIds.includes(e.valueId)
+                )
+                data.push(...notInData)
+              }
+              Vue.set(this.row, 'optionsSelect', data)
             }
           })
           .catch(() => {})

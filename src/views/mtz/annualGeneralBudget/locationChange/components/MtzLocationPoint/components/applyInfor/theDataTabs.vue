@@ -95,17 +95,24 @@
           <template slot-scope="scope">
             <el-form-item :prop="'tableData.' + scope.$index + '.' + 'ruleNo'"
                           :rules="formRules.ruleNo ? formRules.ruleNo : ''">
-              <el-select v-model="scope.row.ruleNo"
+              
+              <el-tooltip effect="light"
+                          v-if="editId.indexOf(scope.row.id)!==-1"
+                          placement="right">
+                <div slot="content">
+                  <p>{{language("GZBHBXCZYSMYCLGZBGZ","规则编号必须存在于上面原材料规则表格中")}}</p>
+                </div>
+                <el-select v-model="scope.row.ruleNo"
                          clearable
                          :placeholder="language('QINGSHURU', '请输入')"
-                         v-if="editId.indexOf(scope.row.id)!==-1"
                          @change="choiseGZ(scope,$event)">
-                <el-option v-for="item in ruleNo"
-                           :key="item.id"
-                           :label="item.ruleNo"
-                           :value="item.id">
-                </el-option>
-              </el-select>
+                    <el-option v-for="item in ruleNo"
+                              :key="item.id"
+                              :label="item.ruleNo"
+                              :value="item.id">
+                    </el-option>
+                  </el-select>
+              </el-tooltip>
               <span v-else>{{scope.row.ruleNo}}</span>
             </el-form-item>
           </template>
@@ -535,14 +542,14 @@
         </el-table-column>
       </el-table>
     </el-form>
-    <iPagination @size-change="handleSizeChange($event, getTableList)"
+    <!-- <iPagination @size-change="handleSizeChange($event, getTableList)"
                  @current-change="handleCurrentChange($event, getTableList)"
                  :page-sizes="page.pageSizes"
                  :page-size="page.pageSize"
                  :current-page="page.currPage"
                  :total="page.totalCount"
                  :layout="page.layout">
-    </iPagination>
+    </iPagination> -->
 
     <iDialog :title="language('YINYONGRFQZHONGLINGJIAN', '引用RFQ中零件')"
              :visible.sync="rfqShowType"
@@ -620,9 +627,6 @@ import {
 } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 
 import { deepClone } from "./util"
-import { formRulesLJ } from "./data";
-
-import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
 
 export default {
   name: "Search",
@@ -645,10 +649,33 @@ export default {
   },
   mixins: [pageMixins],
   data () {
+    var validatePass = (rule, value, callback) => {//规则编号
+        var number = 0;
+        this.ruleNo.forEach(e=>{
+          if(e.ruleNo == value){
+            number++;
+          }
+        })
+        if(number == 0){
+          callback(new Error(this.language("","当前MTZ申请单中规则编号不存在！")));
+        }else{
+          callback();
+        }
+    }
     return {
+        formRules:{
+          assemblyPartnum:[{required: true, message: '请选择', trigger: 'blur'}],//零件号
+          ruleNo:[
+            {required: true, message: '请选择', trigger: 'blur'},
+            { validator:validatePass, trigger: 'blur' }
+          ],//规则编号
+          supplierId:[{required: true, message: '请选择', trigger: 'blur'}],//供应商编号
+          priceUnit:[{required: true, message: '请选择', trigger: 'blur'}],//每
+          dosage:[{required: true, message: '请选择', trigger: 'blur'}],//用量
+          dosageMeasureUnit:[{required: true, message: '请选择', trigger: 'blur'}],//用量计量单位
+        },
         uploadUrl:process.env.VUE_APP_MTZ + "/web/mtz/mtzAppNomi/uploadData",
         uploadData:{},
-        formRules:formRulesLJ,
         supplierList:[],//供应商编号
         ruleNo:[],//规则编号
         tableData: [],

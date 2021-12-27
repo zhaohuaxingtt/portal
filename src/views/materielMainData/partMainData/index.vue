@@ -7,6 +7,7 @@
             <el-col :span="8">
               <iFormItem :label="language('零件号')">
                 <iInput
+                  style="white-space:pre !important"
                   :placeholder="language('请输入')"
                   v-model="searchContent.partNum"
                 ></iInput>

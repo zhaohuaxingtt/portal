@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="议题信息"
+    :title="$t('MT_YITIXINXI')"
     :visible.sync="openAddTopic"
     width="55rem"
     @close="clearDiolog"
@@ -202,7 +202,7 @@ export default {
         filename: e.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error(this.$t("下载失败"));
           }
         },
       });

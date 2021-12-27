@@ -14,7 +14,7 @@ const request = axios(process.env.VUE_APP_BASE_INFO)
  * @param {[string]} codes
  */
 export function fetchSelectDicts(codes) {
-  const data = codes.map(e => {
+  const data = codes.map((e) => {
     return { code: e, parentId: -1 }
   })
   return request({
@@ -29,8 +29,7 @@ export function fetchSelectDicts(codes) {
  */
 export function fetchProcureFactorySelectVo(params) {
   return request({
-    url: '/web/procureFactorySelectVo',
-    method: 'post',
+    url: '/web/queryProductionFactorySelectVo',
     params
   })
 }

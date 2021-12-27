@@ -31,9 +31,8 @@
                 :disabled="uploadLoading"
                 :loading="uploadLoading"
               >
-                请选择文件<span class="upload-text"
-                  ><img :src="uploadIcon"
-                /></span>
+                {{ $t('MT_QINGXUANZEWENJIAN')
+                }}<span class="upload-text"><img :src="uploadIcon" /></span>
               </iButton>
             </div>
           </el-upload>
@@ -56,75 +55,75 @@
     </div>
     <div class="button-list">
       <iButton @click="handleCancel" plain class="cancel">{{
-        $t("LK_QUXIAO")
+        $t('LK_QUXIAO')
       }}</iButton>
       <iButton @click="handleOK" plain :disabled="disabledImportThemenButton">{{
-        $t("LK_BAOCUN")
+        $t('LK_BAOCUN')
       }}</iButton>
     </div>
   </iDialog>
 </template>
 
 <script>
-import { iDialog, iButton, iMessage } from "rise";
-import uploadIcon from "@/assets/images/upload-icon.svg";
-import uploadGreyIcon from "@/assets/images/upload-grey-icon.svg";
-import clearDesc from "../../assets/images/clear-desc.svg";
-import { uploadFile } from "@/api/meeting/type";
+import { iDialog, iButton, iMessage } from 'rise'
+import uploadIcon from '@/assets/images/upload-icon.svg'
+import uploadGreyIcon from '@/assets/images/upload-grey-icon.svg'
+import clearDesc from '../../assets/images/clear-desc.svg'
+import { uploadFile } from '@/api/meeting/type'
 export default {
   components: {
     iDialog,
-    iButton,
+    iButton
   },
   props: {
     open: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     accept: {
       type: String,
       default: () => {
-        return "application/pdf";
-      },
+        return 'application/pdf'
+      }
     },
     maxSize: {
       type: Number,
       default: () => {
-        return 10;
-      },
+        return 10
+      }
     },
     fileNum: {
       type: Number,
       default: () => {
-        return 1;
-      },
+        return 1
+      }
     },
     title: {
       type: String,
       default: () => {
-        return "";
-      },
+        return ''
+      }
     },
     warnText: {
       type: String,
       default: () => {
-        return "";
-      },
+        return ''
+      }
     },
     descText: {
       type: String,
-      default: () => {
-        return "文件大小最大限制10MB";
-      },
+      default: function () {
+        return `${this.$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}10MB`
+      }
     },
     disabledImportThemenButton: {
       type: Boolean,
       default: () => {
-        return false;
-      },
-    },
+        return false
+      }
+    }
   },
   data() {
     return {
@@ -134,58 +133,62 @@ export default {
       uploadLoading: false,
       urlList: [],
       nameList: [],
-      list: [],
-    };
+      list: []
+    }
   },
   methods: {
     // 上传过程
     async httpUpload(content) {
-      this.uploadLoading = true;
-      let formData = new FormData();
+      this.uploadLoading = true
+      let formData = new FormData()
       // formData.append("file", content.file);
-      formData.append("multifile", content.file);
-      formData.append("applicationName", 111);
-      formData.append("businessId", 8025);
-      formData.append("currentUserId", -1);
-      formData.append("type", 1);
+      formData.append('multifile', content.file)
+      formData.append('applicationName', 111)
+      formData.append('businessId', 8025)
+      formData.append('currentUserId', -1)
+      formData.append('type', 1)
       await uploadFile(formData)
         .then((res) => {
           if (this.urlList.length == this.fileNum) {
-            this.urlList.shift();
-            this.nameList.shift();
-            this.list.shift();
+            this.urlList.shift()
+            this.nameList.shift()
+            this.list.shift()
           }
-          this.urlList.push(res.data[0].path);
-          this.nameList.push(res.data[0].name);
-          this.list.push(res.data[0]);
-          this.$emit("getUplodFiles", this.nameList);
+          this.urlList.push(res.data[0].path)
+          this.nameList.push(res.data[0].name)
+          this.list.push(res.data[0])
+          this.$emit('getUplodFiles', this.nameList)
         })
         .catch(() => {
-          iMessage.error("上传失败");
-        });
-      this.uploadLoading = false;
+          iMessage.error(this.$t('MT_SHANGCHUANSHIBAI'))
+        })
+      this.uploadLoading = false
     },
     // 上传前校验
     beforeAvatarUpload(file) {
-      const isLt10M = file.size / 1024 / 1024 < this.maxSize;
+      const isLt10M = file.size / 1024 / 1024 < this.maxSize
       if (!isLt10M) {
-        this.$message.error(`上传文件大小不能超过 ${this.maxSize}MB!`);
+        this.$message.error(
+          `${this.$t('MT_SHANGCHUANWENJIANDAXIAOBUNENGCHAOGUO')} ${
+            this.maxSize
+          }MB!`
+        )
       }
-      return isLt10M;
+      return isLt10M
     },
     handleOK() {
-      this.$emit("handleOK", this.urlList, this.list);
+      this.$emit('handleOK', this.urlList, this.list)
     },
     handleCancel() {
-      this.$emit("handleCancel");
+      this.$emit('handleCancel')
     },
     deleteItem(e) {
-      this.urlList.splice(e, 1);
-      this.nameList.splice(e, 1);
-      this.list.splice(e, 1);
-    },
-  },
-};
+      this.urlList.splice(e, 1)
+      this.nameList.splice(e, 1)
+      this.list.splice(e, 1)
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

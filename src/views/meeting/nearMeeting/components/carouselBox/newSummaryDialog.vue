@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="$t('会议纪要')"
+    :title="$t('MT_HUIYIJIYAO')"
     :visible.sync="open"
     width="50rem"
     :close-on-click-modal="false"
@@ -108,7 +108,7 @@ import {
   iInput,
   iFormItem,
   iLabel,
-  iButton,
+  // iButton,
   iSelect,
   iMessage,
 } from "rise";
@@ -188,7 +188,7 @@ export default {
       },
       rules: {
         attendees: [
-          { required: true, message: "请输入议题结论！", trigger: "blur" },
+          { required: true, message: this.$t("请输入议题结论！"), trigger: "blur" },
         ],
         // conclusion0: [
         //   { required: true, message: "请输入议题结论！", trigger: "blur" },
@@ -218,10 +218,10 @@ export default {
       });
     },
     handleOK() {
-      this.$refs.ruleForm.validate((valid, obj) => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          saveMeetingMinutes(this.resultData).then((res) => {
-            iMessage.success('保存成功');
+          saveMeetingMinutes(this.resultData).then(() => {
+            iMessage.success(this.$t('保存成功'));
             this.$emit('handleOK');
           })
         }

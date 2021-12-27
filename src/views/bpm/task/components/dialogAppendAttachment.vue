@@ -1,7 +1,7 @@
 <template>
   <iDialog :visible.sync="dialogVisible" width="80%" @close="onClose">
     <div slot="title" class="dialog-title">
-      <span class="el-dialog__title">{{ language('补充材料') }}12121</span>
+      <span class="el-dialog__title">{{ language('补充材料') }}</span>
       <div class="text-right btns">
         <el-upload
           action="1"
@@ -190,11 +190,16 @@ export default {
       )
       await uploadApprovalAttach(formData)
         .then((res) => {
-          this.attachList.push(res)
+          console.log('res', res)
+          if (res && res.result) {
+            this.attachList.push(res.data)
+          } else {
+            iMessage.error(res.desZh || this.language('上传失败'))
+          }
         })
         .catch((err) => {
           console.log('uploadApprovalAttach err', err)
-          iMessage.error(this.$t('LK_SHANGCHUANSHIBAI'))
+          iMessage.error(err.desZh || this.language('上传失败'))
         })
 
       this.uploadLoading = false
@@ -219,6 +224,7 @@ export default {
         taskFiles,
         taskId: this.form.node
       }
+
       this.uploadLoading = true
       saveApprovalAttach(data)
         .then((res) => {

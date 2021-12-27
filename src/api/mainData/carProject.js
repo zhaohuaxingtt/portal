@@ -147,11 +147,11 @@ export function carProjectUpdateBaseInfo(data) {
 }
 
 //车型项目类型下拉 keys=TYPE_VEHICLE_PROJECT&parentId=-1
-export function carTypeSelectOptions(data) {
-  return requstOrgLevel({
-    url: `/web/selectDictByKeys?keys=TYPE_VEHICLE_PROJECT`,
+export function carTypeSelectOptions(params) {
+  return requst({
+    url: `/web/carProjectTypeSelect`,
     method: 'GET',
-    params: data
+    params
   })
 }
 
@@ -165,11 +165,10 @@ export function carTypeFuelSelectOptions(data) {
 }
 
 //生产工厂
-export function procureFactorySelectOptions(data) {
+export function procureFactorySelectOptions(params) {
   return requstOrgLevel({
-    url: `/web/procureFactorySelectVo`,
-    method: 'POST',
-    data: data
+    url: `/web/queryProductionFactorySelectVo`,
+    params
   })
 }
 
@@ -326,5 +325,11 @@ export function savePepDateNode(data) {
     url: `/web/saveOrUpdatePepNode`,
     method: 'post',
     data
+  })
+}
+// 查询车型项目等级下拉
+export function fetchCarTypeLevelSelect() {
+  return requst({
+    url: `/web/configLevelSelect`
   })
 }

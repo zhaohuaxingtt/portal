@@ -24,8 +24,8 @@
       :current-page="page.currPage"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="page.totalCount"
     />
   </div>
@@ -54,7 +54,7 @@ export default {
       tableColumns: [
         {
           type: 'index',
-          i18n: '序号',
+          i18n: 'MT_XUHAO',
           width: 69,
           align: 'center',
           tooltip: false
@@ -62,7 +62,7 @@ export default {
         {
           // prop: "name",
           label: '资料名称',
-          i18n: '资料名称',
+          i18n: 'MT_ZILIAOMINGCHENG',
           // width: 400,
           align: 'left',
           tooltip: true,
@@ -83,7 +83,7 @@ export default {
         {
           // prop: "documentType",
           label: '类型',
-          i18n: '类型',
+          i18n: 'MT_LEIXING',
           align: 'center',
           width: 400,
           tooltip: true,
@@ -107,7 +107,7 @@ export default {
         {
           // prop: "publisherName",
           label: '发布者',
-          i18n: '发布者',
+          i18n: 'MT_FABUZHE',
           align: 'center',
           width: 140,
           tooltip: true,
@@ -128,7 +128,7 @@ export default {
         {
           // prop: "publishDate",
           label: '发布日期',
-          i18n: '发布日期',
+          i18n: 'MT_FABURIQI',
           align: 'center',
           width: 160,
           tooltip: true,
@@ -149,7 +149,7 @@ export default {
         {
           prop: 'state',
           label: '状态',
-          i18n: '状态',
+          i18n: 'MT_ZHUANGTAI',
           width: 140,
           align: 'center',
           tooltip: false,
@@ -175,6 +175,7 @@ export default {
         },
         {
           label: '操作',
+          i18n:'MT_CAOZUO',
           width: 160,
           customRender: (h, scope) => {
             if (scope.row.state !== 1) {
@@ -310,9 +311,9 @@ export default {
           if (data) {
             // this.close();
             if (data.state == 2) {
-              this.$message.success('下架成功！')
+              this.$message.success(this.$t('下架成功！'))
             } else {
-              this.$message.success('上架成功！')
+              this.$message.success(this.$t('上架成功！'))
             }
 
             this.flushTable()
@@ -328,7 +329,7 @@ export default {
     // 附件下载
     downLoadFileInfo(row) {
       getFileByIds([row.attachmentId]).then((data) => {
-        const { id, name } = data[0]
+        const { id, name } = data.data[0]
         download({
           // url: MOCK_FILE_URL + id,
           // filename: name,
@@ -336,7 +337,7 @@ export default {
           filename: name,
           callback: (e) => {
             if (!e) {
-              iMessage.error('下载失败66')
+              iMessage.error(this.$t('下载失败'))
             }
           }
         })
@@ -353,20 +354,20 @@ export default {
     },
     deleteDocument(e) {
       // console.log(e);
-      this.$confirm('是否删除该会议资料？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('是否删除该会议资料？'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         deleteDocument({ id: e.id })
           .then((res) => {
             if (res.code === 200) {
-              this.$message.success('删除成功!')
+              this.$message.success(this.$t('删除成功!'))
             }
             this.query()
           })
           .catch(() => {
-            this.$message.error('删除失败!')
+            this.$message.error(this.$t('删除失败!'))
           })
       })
     },

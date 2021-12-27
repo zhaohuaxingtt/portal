@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-12-06 09:54:08
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-07 14:13:44
+ * @LastEditTime: 2021-12-15 17:17:15
  * @FilePath: \front-portal-new\src\api\opcs\solPermission.js
  */
 import axios from '@/utils/axios'
@@ -125,9 +125,17 @@ export function exportUser(parmars) {
         data: parmars
     })
 }
+//联系人与用户管理--详情列表--导入
+export function imports(parmars) {
+    return requestDownload({
+        url: '/opcsUser/imports',
+        method: 'POST',
+        data: parmars
+    })
+}
 //联系人与用户管理--详情列表--下载模板
 export function downloadUser(parmars) {
-    return requst({
+    return requestDownload({
         url: '/opcsUser/download',
         method: 'POST',
         data: parmars
@@ -147,6 +155,15 @@ export function addLineUser(parmars) {
 export function activeUser(parmars) {
     return requst({
         url: '/opcsUser/active',
+        method: 'POST',
+        data: parmars
+    })
+}
+
+//用户下拉
+export function userUpdown(parmars) {
+    return requst({
+        url: '/opcsUser/userUpdown',
         method: 'POST',
         data: parmars
     })

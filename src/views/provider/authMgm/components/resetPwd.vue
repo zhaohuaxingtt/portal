@@ -27,55 +27,55 @@
 </template>
 
 <script>
-import { iInput, iButton, iDialog } from "rise";
+import { iInput, iButton } from 'rise'
 export default {
   methods: {
     trueBtnClick() {
       //确认
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.$emit("close", this.form.mail);
-          this.form.mail = "";
+          this.$emit('close', this.form.mail)
+          this.form.mail = ''
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     exitBtnClick() {
       //退出
-      this.form.mail = "";
-      this.$emit("close");
-    },
+      this.form.mail = ''
+      this.$emit('close')
+    }
   },
   components: {
     iInput,
-    iButton,
+    iButton
     // iDialog,
   },
   data() {
     return {
       form: {
-        mail: "",
+        mail: ''
       },
       internationalTitles: {
-        tip: "新密码接收邮箱",
-        trueBtn: "确认",
-        exitBtn: "退出",
-        mailPlaceholder: "请输入邮箱",
+        tip: this.language('新密码接收邮箱'),
+        trueBtn: this.language('确认'),
+        exitBtn: this.language('退出'),
+        mailPlaceholder: this.language('请输入邮箱')
       },
       rules: {
         mail: [
           {
             min: 1,
             required: true,
-            message: "请输入邮箱",
-            trigger: "blur",
-          },
-        ],
-      },
-    };
-  },
-};
+            message: this.language('请输入邮箱'),
+            trigger: 'blur'
+          }
+        ]
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

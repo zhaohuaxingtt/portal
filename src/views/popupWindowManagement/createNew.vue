@@ -13,7 +13,7 @@
         <iCard style="margin-top:20px">
             <div class="content">
                 <new-left ref="newLeft" :formData='formData' @cutterRateSty='cutterRateSty' />
-                <new-right ref="newRight" :cutterRate='cutterRate' />
+                <new-right ref="newRight" :cutterRate='cutterRate' @imgUrl='imgUrl'/>
             </div>
         </iCard>
         <detailDialog :show.sync='show' :detail='detail' />
@@ -33,6 +33,7 @@ export default {
         return{
             formData:{},
             show:false,
+            imageUrl:null,
             detail:{
                 title:'',
                 content:'',
@@ -147,6 +148,12 @@ export default {
         },
         cutterRateSty(val){
             this.cutterRate = val
+            if(this.imageUrl){
+                this.$message('布局已更改，请重新选择图片')
+            }
+        },
+        imgUrl(val){
+            this.imageUrl = val
         }
     }
 }

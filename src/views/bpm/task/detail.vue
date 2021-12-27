@@ -51,6 +51,7 @@
     <detailProcessForm
       :flow-form-url="flowFormUrl"
       :form-height="form.formHeight"
+      :form="form"
     />
 
     <!-- <i-card
@@ -194,6 +195,7 @@ export default {
       agreeType: 1, // 审批结果 1同意；2拒绝；3补充材料
       taskDetail: {},
       flowFormUrl: '',
+      processUrlPortal:process.env.VUE_APP_POINT_PORTAL,
       attachColumns: [
         {
           type: 'selection',
@@ -289,7 +291,9 @@ export default {
                 })
               }
               this.form.histories = histories
+
               this.flowFormUrl = data.formUrl
+ 
             } else {
               iMessage.error(res.desZh || '获取数据失败')
             }

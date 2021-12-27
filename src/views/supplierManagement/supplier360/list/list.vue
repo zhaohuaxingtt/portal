@@ -155,25 +155,25 @@
         <div class="floatright">
           <i-button
             @click="tagTab"
-            v-permission="Supplier_supplierlist_suppliertaglibrary"
+            v-permission="PORTAL_SUPPLIER_GONGYINGSHANGBIAOQIAN"
             >{{ language('GONGYINGSHANGBIAOQIANKU', '供应商标签库') }}</i-button
           >
           <i-button
             @click="setTagBtn"
-            v-permission="Supplier_supplierlist_suppliertagsetup"
+            v-permission="PORTAL_SUPPLIER_BIAOQIANSHEZHI"
             >{{ language('BIAOQIANSHEZHI', '标签设置') }}</i-button
           >
           <i-button
             @click="lacklistBtn('join', language('JIARU', '加入'))"
-            v-permission="Supplier_supplierlist_addblacklist"
+            v-permission="PORTAL_SUPPLIER_JIARUHEIMINGDAN"
             >{{ $t('SUPPLIER_CAILIAOZU_JIARUHEIMINGDAN') }}</i-button
           >
           <i-button
             @click="lacklistBtn('remove', language('YICHU', '移除'))"
-            v-permission="Supplier_supplierlist_removeblacklist"
+            v-permission="PORTAL_SUPPLIER_YICHUHEIMINGDAN"
             >{{ $t('SUPPLIER_CAILIAOZU_YICHUHEIMINGDAN') }}</i-button
           >
-          <i-button @click="handleRating">{{
+          <i-button @click="handleRating" v-permission="PORTAL_SUPPLIER_FAQICHUPINGQINGDAN">{{
             $t('SUPPLIER_CAILIAOZU_FAQICHUPINGQINGDAN')
           }}</i-button>
           <i-button @click="handleRegister">{{
@@ -628,9 +628,10 @@ export default {
       })
       const res = await addInitial(pms)
       this.resultMessage(res, () => {
-        this.$router.push({
-          path: '/supplier/frmrating/frmintegratedmanagement'
-        })
+        this.getTableList()
+        // this.$router.push({
+        //   path: '/supplier/frmrating/frmintegratedmanagement'
+        // })
       })
     },
     handleRegister() {

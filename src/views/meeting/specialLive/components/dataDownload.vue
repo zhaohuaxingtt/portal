@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="header">{{ $t('资料下载') }}</div>
+    <div class="header">{{ $t('MT_HUIYIZILIAO') }}</div>
     <div v-if="documentTypeList.length > 0">
       <el-tabs v-model="activeName">
         <el-tab-pane
@@ -17,7 +17,7 @@
       </el-tabs>
     </div>
     <div v-else class="no-doc">
-      {{ $t('暂无下载资料') }}
+      {{ $t('MT_ZANWUXIAZAIZILIAO') }}
     </div>
   </div>
 </template>

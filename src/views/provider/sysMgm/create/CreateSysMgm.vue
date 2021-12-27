@@ -56,7 +56,7 @@
               </iFormItem>
             </el-col>
             <el-col :span="8" v-if="formData.systemType === '2'">
-              <iFormItem :label="$t('父级菜单')">
+              <iFormItem :label="language('父级菜单')">
                 <iSelect v-model="formData.parentResourceId" :disabled="isRead">
                   <el-option
                     v-for="item in rootMenus"
@@ -68,7 +68,7 @@
                 </iSelect>
               </iFormItem>
             </el-col>
-            <el-col :span="8" v-if="formData.systemType === '2'">
+            <el-col :span="8">
               <iFormItem :label="$t('Url')">
                 <iInput v-model="formData.url" :disabled="isRead"></iInput>
               </iFormItem>
@@ -138,7 +138,7 @@ export default {
       this.loading = true
       let param = { id: this.id }
       sysDetail(param)
-        .then(val => {
+        .then((val) => {
           if (val.code == 200) {
             this.loading = false
             let {
@@ -165,13 +165,13 @@ export default {
               appCode
             }
           } else {
-            iMessage.error(val.desZh || '获取数据失败')
+            iMessage.error(val.desZh || this.language('获取数据失败'))
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.loading = false
           console.log('-----error ==', error)
-          iMessage.error('获取数据失败')
+          iMessage.error(error.desZh || '获取数据失败')
         })
     },
     comfirm() {
@@ -183,19 +183,19 @@ export default {
         newFormData.supplierType = newFormData.supplierType.join(',')
         let param = { ...newFormData, id: this.id }
         editSys(param)
-          .then(val => {
+          .then((val) => {
             if (val.code == 200) {
               //编辑成功
               this.loading = false
               this.dialogFormVisible = false
               this.$emit('update')
             } else {
-              iMessage.error(val.desZh || '编辑失败')
+              iMessage.error(val.desZh || this.language('编辑失败'))
             }
           })
-          .catch(() => {
+          .catch((error) => {
             this.loading = false
-            iMessage.error('编辑失败')
+            iMessage.error(error.desZh || this.language('编辑失败'))
           })
       } else {
         //创建系统
@@ -204,19 +204,19 @@ export default {
         newFormData.supplierType = newFormData.supplierType.join(',')
         let param = { ...newFormData, id: this.id }
         createSys(param)
-          .then(val => {
+          .then((val) => {
             if (val.code == 200) {
               //创建成功
               this.loading = false
               this.dialogFormVisible = false
               this.$emit('update')
             } else {
-              iMessage.error(val.desZh || '创建失败')
+              iMessage.error(val.desZh || this.language('创建失败'))
             }
           })
-          .catch(() => {
+          .catch((error) => {
             this.loading = false
-            iMessage.error('创建失败')
+            iMessage.error(error.desZh || this.language('创建失败'))
           })
       }
     },
@@ -239,7 +239,7 @@ export default {
     if (this.isRead) {
       this.getDetail()
     }
-    fetchSupplierRootMenu().then(res => {
+    fetchSupplierRootMenu().then((res) => {
       this.rootMenus = res.data
     })
   },
@@ -282,29 +282,29 @@ export default {
         appCode: ''
       },
       formTitles: {
-        name: '中文名称',
-        nameEN: '英文名称',
-        group: '门户用户组',
-        ldap: 'LDAP属性',
-        type: '功能类型',
-        sysType: '系统类型',
-        sysTag: '系统标签',
-        description: '系统功能说明',
-        createTitle: '新建/编辑页面',
-        editTitle: 'Infomess应用',
-        input: '请输入',
-        iselect: '请选择',
-        appCode: 'App Code'
+        name: this.language('中文名称'),
+        nameEN: this.language('英文名称'),
+        group: this.language('门户用户组'),
+        ldap: this.language('LDAP属性'),
+        type: this.language('功能类型'),
+        sysType: this.language('系统类型'),
+        sysTag: this.language('系统标签'),
+        description: this.language('系统功能说明'),
+        createTitle: this.language('新建/编辑页面'),
+        editTitle: this.language('新建/编辑页面'),
+        input: this.language('请输入'),
+        iselect: this.language('请选择'),
+        appCode: this.language('App Code')
       },
       buttonTitles: {
-        edit: '编辑',
-        true: '确认',
-        reset: '重置'
+        edit: this.language('编辑'),
+        true: this.language('确认'),
+        reset: this.language('重置')
       },
       systemOptions: [
         {
           id: '1',
-          label: '系统'
+          label: this.language('系统')
         },
         {
           id: '2',
@@ -318,15 +318,15 @@ export default {
         },
         {
           id: '1',
-          label: '生产采购'
+          label: this.language('生产采购')
         },
         {
           id: '2',
-          label: '一般采购'
+          label: this.language('一般采购')
         },
         {
-          id:'3',
-          label:'物流应用'
+          id: '4',
+          label: this.language('物流应用')
         }
       ],
       rootMenus: []

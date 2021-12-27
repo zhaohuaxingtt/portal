@@ -3,10 +3,10 @@
   <iDialog
     :title="
       editOrAdd === 'add'
-        ? $t('新增议题')
+        ? $t('MT_XINZENGYITI')
         : editOrAdd === 'look'
-        ? $t('查看议题')
-        : $t('修改议题')
+        ? $t('MT_CHAKANYITI')
+        : $t('MT_XIUGAIYITI')
     "
     :visible.sync="dialogStatusManageObj.openAddTopicDialog"
     width="58.25rem"
@@ -349,7 +349,7 @@
                     :loading="uploadLoading"
                     disabled
                   >
-                    {{ $t('请选择文件')
+                    {{ $t('MT_QINGXUANZEWENJIAN')
                     }}<span class="upload-text"><img :src="uploadIcon" /></span>
                   </iButton>
                   <!-- <div slot="tip" class="el-upload__tip">
@@ -372,7 +372,7 @@
                     :loading="uploadLoading"
                     :disabled="ruleForm.state === '02'"
                   >
-                    {{ $t('请选择文件')
+                    {{ $t('MT_QINGXUANZEWENJIAN')
                     }}<span class="upload-text"><img :src="uploadIcon" /></span>
                   </iButton>
                   <!-- <div slot="tip" class="el-upload__tip">
@@ -380,7 +380,9 @@
                 </div> -->
                 </el-upload>
               </iFormItem>
-              <div class="el-upload-text">{{ $t('文件大小最大限制') }}30M</div>
+              <div class="el-upload-text">
+                {{ $t('MT_WENJIANDAXIAOZUIDAXIANZHI') }}30M
+              </div>
             </div>
             <ul class="file-list">
               <li v-for="(item, index) of attachments" :key="index">
@@ -501,23 +503,24 @@ export default {
         (value === '' || value.length === 0) &&
         this.ruleForm.supporterNosys === ''
       ) {
-        callback(new Error('系统用户和非系统用户不能同时为空'))
+        callback(new Error(this.$t('系统用户和非系统用户不能同时为空')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('最大不能超过255字符')))
         }
         callback()
       }
     }
     const validateSupporterNosys = (rule, value, callback) => {
       if (
-        !value.trim() &&
+        !value &&
+        !(typeof value === 'string' ? value.trim() : false) &&
         (this.ruleForm.supporter === '' || this.ruleForm.supporter.length === 0)
       ) {
-        callback(new Error('系统用户和非系统用户不能同时为空'))
+        callback(new Error(this.$t('系统用户和非系统用户不能同时为空')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('最大不能超过255字符')))
         }
         callback()
       }
@@ -527,33 +530,35 @@ export default {
         (value === '' || value.length === 0) &&
         this.ruleForm.presenterNosys === ''
       ) {
-        callback(new Error('系统用户和非系统用户不能同时为空'))
+        callback(new Error(this.$t('系统用户和非系统用户不能同时为空')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('最大不能超过255字符')))
         }
         callback()
       }
     }
     const validatePresenterNosys = (rule, value, callback) => {
       if (
-        !value.trim() &&
+        !value &&
+        !(typeof value === 'string' ? value.trim() : false) &&
         (this.ruleForm.presenter === '' || this.ruleForm.presenter.length === 0)
       ) {
-        callback(new Error('系统用户和非系统用户不能同时为空'))
+        callback(new Error(this.$t('系统用户和非系统用户不能同时为空')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('最大不能超过255字符')))
         }
         callback()
       }
     }
     const validateTopic = (rule, value, callback) => {
-      if (!value.trim()) {
-        callback(new Error('必填'))
+      if (!value && !(typeof value === 'string' ? value.trim() : false)) {
+        callback(new Error(this.$t('必填')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('最大不能超过255字符')
+))
         }
         callback()
       }
@@ -595,14 +600,14 @@ export default {
             validator: validateTopic
           }
         ],
-        remark: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
+        remark: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }],
         supporter: [{ validator: validateSupporter, trigger: 'blur' }],
         presenter: [{ validator: validatePresenter, trigger: 'blur' }],
         supporterDept: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
         ],
         supporterDeptNosys: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
         ],
         supporterNosys: [
           {
@@ -614,10 +619,10 @@ export default {
         ],
         // presenter: [{ max: 255, message: "最大长度 255 字符", trigger: "blur" }],
         presenterDept: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
         ],
         presenterDeptNosys: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
         ],
         presenterNosys: [
           {
@@ -628,10 +633,10 @@ export default {
           }
         ],
         duration: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message:  this.$t('MT_BITIAN'), trigger: 'blur' },
           {
             type: 'number',
-            message: '最大长度3位，单位（分钟），必须正整数',
+            message: this.$t('最大长度3位，单位（分钟），必须正整数'),
             trigger: 'blur',
             transform(value) {
               if (value !== null && value !== '') {
@@ -658,7 +663,7 @@ export default {
         count: [
           {
             type: 'number',
-            message: '最大长度3位',
+            message: this.$t('最大长度3位'),
             trigger: 'blur',
             transform(value) {
               if (value !== null && value !== '') {
@@ -756,6 +761,9 @@ export default {
     },
     'ruleForm.presenter': {
       handler: function (newV) {
+        if (typeof newV === 'string') {
+          return
+        }
         let arr = newV.map((item) => {
           return item.id
         })
@@ -776,13 +784,20 @@ export default {
                   return item.department
                 })
             )
-          ).join(',')
+          )
+            .filter((item) => {
+              return item
+            })
+            .join(',')
         }
       },
       immediate: true
     },
     'ruleForm.supporter': {
       handler: function (newV) {
+        if (typeof newV === 'string') {
+          return
+        }
         let arr = newV.map((item) => {
           return item.id
         })
@@ -803,7 +818,11 @@ export default {
                   return item.department
                 })
             )
-          ).join(',')
+          )
+            .filter((item) => {
+              return item
+            })
+            .join(',')
         }
       },
       immediate: true
@@ -880,7 +899,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('下载失败'))
           }
         }
       })
@@ -1038,7 +1057,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt30M = file.size / 1024 / 1024 < 30
       if (!isLt30M) {
-        this.$message.error('文件大小最大限制30M!')
+        this.$message.error(this.$t('文件大小最大限制30M!'))
       }
       return isLt30M
     },
@@ -1113,12 +1132,11 @@ export default {
               supporter: inputSupporterStr,
               attachments: this.attachments
             }
-            console.log('formData', formData)
             updateThemen(formData)
               .then((data) => {
                 this.loading = false
                 if (data) {
-                  iMessage.success('修改成功')
+                  iMessage.success(this.$t('修改成功'))
                 } else {
                   iMessage.error('error')
                 }
@@ -1158,7 +1176,7 @@ export default {
               .then((data) => {
                 this.loading = false
                 if (data) {
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('保存成功'))
                 } else {
                   iMessage.error('error')
                 }

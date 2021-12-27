@@ -160,7 +160,8 @@ export default {
       this.page.currPage = 1;
       this.page.pageSize = e;
       let param = {
-        ...this.form,
+        category: this.category,
+        title: this.title,
         pageNum: this.page.currPage,
         pageSize: this.page.pageSize,
       };

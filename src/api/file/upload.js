@@ -13,6 +13,7 @@ const requst = axios(process.env.VUE_APP_COMMON)
 const filedud_requst = axios(process.env.VUE_APP_FILEAPI + '/fileud')
 const fileRequst = axios(process.env.VUE_APP_NEW_COMMON)
 const requstUploads = axios(process.env.VUE_APP_AON)
+const requestMtz = axios(process.env.VUE_APP_MTZ + '/web/mtz')
 
 export function uploadFile(parmars) {
   return requst({
@@ -53,6 +54,14 @@ export function uploads(params) {
     data: formData
   })
 }
+
+// export function uploadAttach(params){
+//   return requestMtz({
+//     url: `/mtzBasePriceChange/uploadAttach`,
+//     method: 'POST',
+//     data: params
+//   })
+// }
 // 上传 统一使用该接口
 export function uploadUdFile(params) {
   const formData = new FormData()

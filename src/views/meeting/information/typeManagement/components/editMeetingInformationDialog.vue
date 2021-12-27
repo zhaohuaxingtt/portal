@@ -1,6 +1,6 @@
 <template>
   <iDialog
-    :title="$t('修改会议类型信息')"
+    :title="$t('MT_XIUGAIHUIYILEIXINGXINXI')"
     :visible.sync="openEditMeetingDialog"
     width="30rem"
     :close-on-click-modal="false"
@@ -16,13 +16,13 @@
         <iFormItem prop="name">
           <!-- <iLabel :label="$t('会议类型')" slot="label"></iLabel> -->
           <div>
-            <p>{{$t('会议类型')}}</p>
+            <p>{{$t('MT_HUIYILEIXING')}}</p>
             <p class="name">{{ ruleForm.name }}</p>
           </div>
         </iFormItem>
 
         <iFormItem label="会议简介" prop="meetingInfoDesc">
-          <iLabel :label="$t('会议简介')" slot="label"></iLabel>
+          <iLabel :label="$t('MT_HUIYIJIANJIE')" slot="label"></iLabel>
           <div class="form-row">
             <iInput type="textarea" v-model="ruleForm.meetingInfoDesc"></iInput>
           </div>
@@ -52,9 +52,9 @@
                 class="upload-button"
                 :uploadLoading="uploadLoading"
               >
-                {{$t('修改封面图')}}<span class="upload-text"></span>
+                {{$t('MT_XIUGAIFENGMIANTU')}}<span class="upload-text"></span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">{{$t('文件大小最大限制')}}15MB</div>
+              <div slot="tip" class="el-upload__tip">{{$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}}15MB</div>
             </el-upload>
           </iFormItem>
         </div>
@@ -62,10 +62,10 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="close" plain class="cancel">{{
-              $t("取消")
+              $t("MT_QUXIAO")
             }}</iButton>
             <iButton @click="handleSubmit('ruleForm')" plain>{{
-              $t("保存")
+              $t("MT_BAOCUN")
             }}</iButton>
           </el-form-item>
         </div>
@@ -77,7 +77,7 @@
 <script>
 import { iDialog, iInput, iFormItem, iLabel, iButton, iMessage } from "rise";
 import iEditForm from "@/components/iEditForm";
-import { MOCK_FILE_URL } from "@/constants";
+// import { MOCK_FILE_URL } from "@/constants";
 import { updateMettingType, uploadFile } from "@/api/meeting/type";
 import { MeetingTypeRules } from "./data";
 export default {
@@ -136,10 +136,10 @@ export default {
       await uploadFile(formData)
         .then((res) => {
           // this.ruleForm.coverImage = res.url;
-          this.ruleForm.coverImage = res[0].path;
+          this.ruleForm.coverImage = res.data[0].path;
           iMessage.success(this.$t("上传成功"));
         })
-        .catch((err) => {});
+        .catch(() => {});
       this.uploadLoading = false;
     },
     handleAvatarSuccess() {},
@@ -160,7 +160,7 @@ export default {
             .then((data) => {
               if (data) {
                 this.close();
-                this.$message.success("保存成功！");
+                this.$message.success(this.$t("保存成功！"));
                 this.$emit("flushCard");
               }
             })
@@ -174,10 +174,10 @@ export default {
       const isJPG = file.type === "image/jpeg" || file.type === "image/png";
       const isLt15M = file.size / 1024 / 1024 < 15;
       if (!isJPG) {
-        this.$message.error("仅支持图片格式!");
+        this.$message.error(this.$t("仅支持图片格式!"));
       }
       if (!isLt15M) {
-        this.$message.error("上传图片大小不能超过15MB!");
+        this.$message.error(this.$t("上传图片大小不能超过15MB!"));
       }
       return isJPG && isLt15M;
     },

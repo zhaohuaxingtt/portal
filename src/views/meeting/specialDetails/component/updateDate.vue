@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="会议改期"
+    :title="$t('MT_HUIYIGAIQI')"
     :visible.sync="dialogStatusManageObj.openUpdateDateDialog"
     width="67.5rem"
     :close-on-click-modal="false"
@@ -118,7 +118,7 @@ export default {
       rescheduleThemen(data)
         .then(() => {
           this.loading = false
-          iMessage.success('改期成功')
+          iMessage.success(this.$t('改期成功'))
           this.$emit('flushTable')
           this.close()
         })

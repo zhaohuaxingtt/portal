@@ -169,11 +169,11 @@ export default {
       },
       rules: {
         attendees: [
-          { required: true, message: '请输入议题结论！', trigger: 'blur' }
+          { required: true, message: this.$t('请输入议题结论！'), trigger: 'blur' }
         ]
       },
       rule: [
-        { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
+        { min: 0, max: 2048, message: this.$t('最大长度2048字符'), trigger: 'blur' }
       ]
     }
   },
@@ -203,7 +203,7 @@ export default {
           this.loadingCreate = true
           saveMeetingMinutes(this.resultData).then((res) => {
             if (Number(res.code) === 200) {
-              iMessage.success('保存成功')
+              iMessage.success(this.$t('保存成功'))
               this.$emit('handleOK')
             }
             this.loadingCreate = false

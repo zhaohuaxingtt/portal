@@ -16,7 +16,7 @@
     </div> -->
     <div slot="footer"
          class="dialog-footer">
-      <iButton @click="handleSubmit">{{language('QUEREN', '确认')}}</iButton>
+      <iButton @click="handleSubmit" :disabled="loading" v-loading="loading">{{language('QUEREN', '确认')}}</iButton>
       <!-- <iButton @click="closeDiolog">{{language('QUXIAO', "取消")}}</iButton> -->
     </div>
   </div>
@@ -28,7 +28,7 @@ import { getNowFormatDate } from "@/views/mtz/debounce";
 import { deepClone } from "./applyInfor/util"
 import store from "@/store";
 
-import { mtzConfirm, relation } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
+import { mtzConfirm, relation,pageMtzNomi } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 
 import { iButton, iInput, iMessage } from "rise";
 export default {
@@ -43,6 +43,7 @@ export default {
       form: {
 
       },
+      loading:false,
     }
   },
   created () {
@@ -53,36 +54,80 @@ export default {
       this.$emit("close", "")
     },
     handleSubmit () {
+      this.loading = true;
       if (!this.form.name || this.form.name == "") {
         iMessage.error("请填写MTZ申请单名！")
+        this.loading = false;
         return false;
       } else {
-        mtzConfirm({
-          appName: this.form.name
-        }).then(res => {
-          var data = deepClone(this.$route.query);
-          data.mtzAppId = res.data;
-          if (this.$route.query.appId) {
-            data.appId = this.$route.query.appId;
-            relation({
-              mtzAppId: res.data,
-              ttNominateAppId: this.$route.query.appId
-            }).then(prame => {
+        if (this.$route.query.appId) {
+          pageMtzNomi({
+            pageNo: 1,
+            pageSize: 10,
+            ttNominateAppId:[this.$route.query.appId.toString()],
+          }).then(res => {
+            if (res.code == 200 && res.data) {
+              if(res.data.length > 0){
+                var tishi = this.language("BNCFGLTYGDDID","不能重复关联同一个定点id:")
+                this.loading = false;
+                iMessage.error(tishi+this.$route.query.appId)
+              }else{
+                mtzConfirm({
+                  appName: this.form.name,
+                  partProjectId:this.$route.query.partProjectId
+                }).then(res => {
+                  if(res.result && res.code == "200"){
+                    var data = deepClone(this.$route.query);
+                    data.mtzAppId = res.data;
+                    data.appId = this.$route.query.appId;
+
+                    relation({
+                      mtzAppId: res.data,
+                      ttNominateAppId: this.$route.query.appId
+                    }).then(prame => {
+                      store.commit("routerMtzData", data);
+                      sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+                      if (prame.code == 200) {
+                        iMessage.success(prame.desZh)
+                        this.$emit("close", "")
+                      } else {
+                        iMessage.error(prame.desZh)
+                      }
+                      this.loading = false;
+                    })
+                  }else{
+                    iMessage.error(res.desZh)
+                    this.loading = false;
+                    return false;
+                  }
+                });
+              }
+            } else {
+              // iMessage.error(res.desZh)
+            }
+          })
+        }else{
+          mtzConfirm({
+            appName: this.form.name
+          }).then(res => {
+            if(res.result && res.code == "200"){
+              var data = deepClone(this.$route.query);
+              data.mtzAppId = res.data;
               store.commit("routerMtzData", data);
               sessionStorage.setItem("MtzLIst", JSON.stringify(data))
-              if (prame.code == 200) {
-                iMessage.success(prame.desZh)
-                this.$emit("close", "")
-              } else {
-                iMessage.error(prame.desZh)
-              }
-            })
-          } else {
-            store.commit("routerMtzData", data);
-            sessionStorage.setItem("MtzLIst", JSON.stringify(data))
-            this.$emit("close", "")
-          }
-        });
+              this.$emit("close", "")
+              this.loading = false;
+            }else{
+              iMessage.error(res.desZh)
+              this.loading = false;
+              return false;
+            }
+          });
+        }
+
+
+
+        
       }
     }
   }

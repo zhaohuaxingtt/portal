@@ -45,7 +45,7 @@ import pageHeader from '@/components/pageHeader'
 import { actionButtons } from './components'
 import { fetchPositionList, deletePosition } from '@/api/position/agent'
 import deleteMixin from '@/mixins/deleteMixin'
-import { openUrl } from '@/utils'
+
 export default {
   name: 'PositionAgent',
   components: {

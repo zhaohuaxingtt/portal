@@ -383,14 +383,14 @@ export default {
       this.$refs.childTopic
         .queryMeeting()
         .then(() => {
-          iMessage.success(bol ? '取消成功' : '关注成功')
+          iMessage.success(bol ? this.$t('取消成功') : this.$t('关注成功'))
           this.$refs.childTopic.query().then(() => {
             obj.following = false
           })
         })
         .catch(() => {
           obj.following = false
-          iMessage.err(bol ? '取消成功' : '关注成功')
+          iMessage.err(bol ? this.$t('取消成功') : this.$t('关注成功'))
         })
     },
     getMyTopics(themens) {
@@ -401,7 +401,6 @@ export default {
       }
       if (Number(this.meetingId) === -1) {
         const liveItem = this.isHaveLiveTheme()
-
         if (liveItem) {
           this.queryMeetingInfoById(liveItem.meetingId)
           this.curMeetingId = liveItem.meetingId
@@ -412,6 +411,7 @@ export default {
           this.curMeetingId = -1
           this.queryMeetingInfoById(-1)
         } else {
+          this.curMeetingId = liveItem.meetingId
           this.queryMeetingInfoById(liveItem.meetingId)
         }
       }
@@ -465,7 +465,7 @@ export default {
       const endDate = this.meetingInfo.endDate
       const endTime = this.meetingInfo.endTime
       this.begin = dayjs(new Date(`${startDate} ${startTime}`)).format(
-        'YYYY/MM/DD HH:mm:ss'
+        'YYYY/MM/DD HH:mm'
       )
       let end =
         Number(
@@ -474,12 +474,12 @@ export default {
                 .plusDayEndTime
             : 0
         ) > 0
-          ? dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm:ss') +
+          ? dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm') +
             ` +${Number(
               this.meetingInfo.themens[this.meetingInfo.themens.length - 1]
                 .plusDayEndTime
             )}`
-          : dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm:ss')
+          : dayjs(new Date(`${endDate} ${endTime}`)).format('HH:mm')
       this.end = end
     },
     getMeetingTypeObject() {

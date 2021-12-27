@@ -144,11 +144,17 @@ export default {
     
     },
     handleOpenNewsDetail(val) {
-      let { href } = this.$router.resolve({
-        name: val.topicId ? "topicDetail" : "newsDetails",
+      if(val.category==2){
+        let { href } = this.$router.resolve({
+        name:  "topicDetail",
+      });
+        window.open(href + `?id=${val.topicId}`, "_self");
+      }else{
+        let { href } = this.$router.resolve({
+        name: val.topicId ? "newsProjectDetails" : "newsDetails",
       });
       if (val.topicId) {
-        window.open(href + `?id=${val.topicId}`, "_self");
+        window.open(href + `?id=${val.topicId}`, "_blank");
       } else {
         if (val.category === 0 && val.linkUrl) {
           increasePageViews({ id: val.id });
@@ -157,21 +163,25 @@ export default {
           window.open(href + `?id=${val.id}`, "_blank");
         }
       }
+      }
     },
     handleOpenNewsDetails(val) {
-      let { href } = this.$router.resolve({
-        name: val.topicId ? "topicDetail" : "newsDetails",
+      if(val.category==2){
+        let { href } = this.$router.resolve({
+        name: "topicDetail",
       });
-      if(val.topicId) {
-        window.open(href + `?id=${val.topicId}`, "_self");
-      }else {
-        if (val.category === 0 && val.linkUrl) {
-            increasePageViews({ id: val.id });
-            window.open(val.linkUrl, "_blank");
-        } else {
-          window.open(href + `?id=${val.id}`, "_blank");
+      window.open(href + `?id=${val.topicId}`, "_self");
+      }else{
+      let { href } = this.$router.resolve({
+        name: "newsDetails",
+      });
+      if (val.category === 0 && val.linkUrl) {
+        increasePageViews({ id: val.id });
+        window.open(val.linkUrl, "_blank");
+      } else {
+        window.open(href + `?id=${val.id}`, "_blank");
       }
-    }
+      }
     },
     async query(e) {
       this.loading = true;

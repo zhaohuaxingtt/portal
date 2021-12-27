@@ -260,8 +260,20 @@ export default {
         partsNum: this.partsNum
       }).then(res => {
         this.pageData = res.data;
-        console.log(this.pageData,'PAGEDATA')
-        this.$emit('getHeaderTitle', `${this.partsNum}-${this.pageData.partsNumNameZh} ${this.pageData.partsNumNameDe||''}`)
+        let title = ''
+        if(this.pageData.partsNumNameZh && this.pageData.partsNumNameDe){
+          title = this.partsNum + '-' + this.pageData.partsNumNameZh + this.pageData.partsNumNameDe
+        }
+        if(this.pageData.partsNumNameZh && !this.pageData.partsNumNameDe){
+          title = this.partsNum + '-' + this.pageData.partsNumNameZh
+        }
+        if(!this.pageData.partsNumNameZh && this.pageData.partsNumNameDe){
+          title = this.partsNum + '-' + this.pageData.partsNumNameDe
+        }
+        if(!this.pageData.partsNumNameZh && !this.pageData.partsNumNameDe){
+          title = this.partsNum
+        }
+        this.$emit('getHeaderTitle', title)
         this.pageLoading = false;
       }).catch(() => {
         this.pageLoading = false;
@@ -302,13 +314,12 @@ export default {
     }
 
     .content-box{
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 14px;
+      width: calc(100% - 100px);
     }
 
     .title{
-      min-width: 70px;
-      max-width: 100px;
+      width: 100px;
       overflow:hidden;
       text-overflow:ellipsis;
       white-space:nowrap;

@@ -44,47 +44,47 @@
 </template>
 
 <script>
-import { iButton } from "rise";
+import { iButton } from 'rise'
 export default {
-  name: "activonButton",
+  name: 'activonButton',
   components: { iButton },
   props: {
     selectedRow: {
       type: Array,
-      default: function() {
-        return [];
-      },
+      default: function () {
+        return []
+      }
     },
     currentButtonList: {
       type: Array,
-      default: function() {
-        return [];
-      },
+      default: function () {
+        return []
+      }
     },
     showUpdateTopicButtonList: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data() {
     return {
       UpdateTopicButtonList: [
-        { title: "调整完成", methodName: "overUpdateTopic" },
-        { title: "取消调整", methodName: "cancelUpdateTopic" },
-      ],
-    };
+        { title: '调整完成', methodName: 'overUpdateTopic' },
+        { title: '取消调整', methodName: 'cancelUpdateTopic' }
+      ]
+    }
   },
 
   watch: {
     currentButtonList: {
-      handler() {
-        // console.log(v);
+      handler(v) {
+        console.log('currentButtonList', v)
       },
       deep: true,
-      immediate: true,
-    },
-  },
-};
+      immediate: true
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

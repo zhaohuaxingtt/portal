@@ -1227,7 +1227,7 @@
     SUPPLIER_GONGYINGSHANGJIANCHENGENTIPS:
       '英文简称规则：地区的首字母缩写+名称+业务 </br>例：（Shanghai Friendly Plastic Co., Ltd.—Sh Friendly Plastic）', //英文简称规则：地区的首字母缩写+名称+业务 例：（Shanghai Friendly Plastic Co., Ltd.—SH Friendly Plastic）
     SUPPLIER_DUNSTIPS:
-      '邓白氏号申请事宜请联系</br>上海华夏邓白氏商业信息咨询有限公司或其他地区邓白氏公司机构。', //邓白氏号申请事宜请联系上海华夏 邓白氏商业信息咨询有限公司或其 他地区邓白氏公司机构。 具体信息可登录 http://www.dnbchina.com/conta ct/index.html进行咨询
+      '邓白氏号申请事宜请联系</br>上海华夏邓白氏商业信息咨询有限公司或其他地区邓白氏公司机构。具体信息可登录http://www.dnbchina.com/contact/index.html进行咨询', //邓白氏号申请事宜请联系上海华夏 邓白氏商业信息咨询有限公司或其 他地区邓白氏公司机构。 具体信息可登录 http://www.dnbchina.com/conta ct/index.html进行咨询
     SUPPLIER_ZHUYAOFENGONGFANGMING: '主要分供方名称', //主要分供方名称
     SUPPLIER_FUKUANQINGKUANG: '付款状况', //付款状况
     SUPPLIER_XUANZENIANFEN: '选择年份', //选择年份
@@ -1462,7 +1462,7 @@
     SPR_FRM_DEP_CHECKSPSTATUS: '请确认发起深评清单的供应商状态为“草稿”',
     SPR_FRM_DEP_COMMET: '只能选择未加入集团的供应商数据',
     SPR_FRM_DEP_STOPMSG:
-      '只能终止状态为草稿、信息收集、财务经营与分析、访谈与调查、报告完成的供应商数据',
+      '只能终止状态为信息收集、财务经营与分析、访谈与调查、报告完成、报告驳回的供应商数据',
     SPR_FRM_DEP_JTGDSJKZ:
       '集团、股东、实际控制人对公司的支持：资金、技术、管理等…',
     SPR_FRM_DEP_INPUTERROR: '行业名称不能为空',
@@ -1734,7 +1734,7 @@
       HOME_MODULE_SOURCING: '寻源概览',
       MY_APPLICATION: '我的申请',
       MY_APPROVAL: '我的审批',
-      OVERDUE: '逾期代办',
+      OVERDUE: '逾期待办',
       IN_PROGRESS: '今日待办',
       HOME_MODULE_SPONSER: '供应商财务风险评级',
       HOME_MODULE_SCHEDULE: 'Schedule',
@@ -1759,7 +1759,7 @@
     LK_MIAOSHU: '描述',
     // LK_ZHUANGTAI: '状态',
     LK_FAQIREN: '发起人',
-    LK_DJLX: '单据类型',
+    LK_DANJULEIX: '单据类型',
     LK_YEWULEIXING: '业务类型',
     LK_CJRQ: '创建日期',
     LK_GXRQ: '更新日期',
@@ -1785,11 +1785,12 @@
     LK_RWJZRQ: '任务截止日期',
     LK_GONGYINGSHANG: '供应商',
     // LK_CAIGOUGONGCHANG: '采购工厂',
-    LK_QUERENZHUANGTAI: '确认状态',
+    LK_QUERENZHUANGT: '确认状态',
     LK_FDJDCB: '发动机-电池包',
-    LK_BSX: '变速箱',
-    LK_PEIZ: '配置',
-    LK_CXDM: '车型代码',
+    LK_BIANSUXIANG: '变速箱',
+    LK_PEIZHI: '配置',
+    LK_CHEXINGDAIMA: '车型代码',
+    LK_CHANGPINJIAZU: '产品家族',
     LK_CPJZ: '产品家族',
     // LK_LINGJIANHAO: '零件号',
     LK_PLBJ: '批量编辑',
@@ -1804,10 +1805,11 @@
     LK_SHUL: '数量',
     LK_JAGE: '价格',
     LK_KSLJ: 'KSL价',
-    LK_KSLJLY: 'KSL价来源',
+    LK_KSLJIALAIYUAN: 'KSL价来源',
+    LK_KSLLAIYUANJIAGE: 'KSL来源价格',
     LK_CKJG: '参考价格',
     LK_CKJGLY: '参考价格来源',
-    LK_CGY: '采购员',
+    LK_CAIGOUY: '采购员',
     LK_CAIGOUJINE: '采购金额', //采购金额
     LK_CGCKJ: '采购参考价',
     LK_JIJIA: '基价',
@@ -1842,11 +1844,12 @@
     LK_WCSJ: '完成时间',
     LK_DQESL: '待确认数量',
     // LK_JIAGEBIANHUA: '价格变化',
-    LK_YEJIJINETIAOZHENG: '业绩金额调整',
+    LK_YJJETZ: '业绩金额调整',
     LK_SJJSJZSJ: '数据计算截止时间',
     LK_GZLJZS: '跟踪零件总数（项）',
     LK_XZLJZS: '新增零件总数（项）',
     LK_QXLJZS: '取消零件总数（项）',
+    LK_LINGJIANGENZONGLEIXING: '零件跟踪类型',
     LK_LJGZLX: '零件跟踪类型',
     LK_JCBMBXZ: '基础表模板下载',
     LK_PFJ_LJMC: '零件名称',
@@ -1939,110 +1942,584 @@
     LK_ERCIJIAN: '二次件',
     LK_FSHAO: 'FS号',
     LK_LJQSMZQ: '零件全生命周期',
+    LK_FADONGJIDIANCIBAO: '发动机电池包',
     //会议中英文
     MT_HUIYIMINGCHENG: '会议名称',
+
     MT_HUIYIDIDIAN: '会议地点',
+
     MT_HUIYILEIXING: '会议类型',
+
     MT_HUIYIZHUANGTAI: '会议状态',
+
     MT_HUIYITONGPING: '会议同屏',
+
     MT_HUIYIZHANSHI: '会议展示',
+
     MT_XINZENGYITI: '新增议题',
+
     MT_CHAKANYITI: '查看议题',
+
     MT_XIUGAIYITI: '修改议题',
+
     MT_XINZENGXIUXI: '新增休息',
+
     MT_CHAKANXIUXI: '查看休息',
+
     MT_BIANJIXIUXI: '编辑休息',
+
     MT_YITILEIXING: '议题类型',
+
+    MT_HUIYIGAIQI: '会议改期',
+
+    MT_GAIQI: '改期',
+
+    MT_YITIMINGCHENG: '议题名称',
+
     MT_HUIYIXIUXI: '会议休息',
+
+    MT_YONGSHI: '用时',
+
     MT_FENZHONG: '分钟',
+
     MT_YITIZILIAO: '议题资料',
+
     MT_XUANZEHUIYI: '选择会议',
+
+    MT_CHAKANHUIYIJIYAO: '查看会议纪要',
+
     MT_ZHUANGTAI: '状态',
+
+    MT_ZHUANGTAI2: '状态',
+    
     MT_HUIYIRIQI: '会议日期',
+
     MT_ZHOUCI_: '周次',
+
     MT_ZHOUCI: '周/次',
+
     MT_SHANGCHUAN: '上传',
+
     MT_QUXIAO: '取消',
+
     MT_QUEREN: '确认',
+
     MT_CHONGZHI: '重置',
     MT_XUHAO: '序号',
+    MT_XUHAO2: '序号',
     MT_CAOZUO: '操作',
+    MT_CAOZUO2: '操作',
     MT_CHEHUI: '撤回',
+
     MT_SHANCHU: '删除',
+
+    MT_BIANJI: '编辑',
+
+    MT_DAOCHU: '导出',
+
     MT_CHUANGJIAN: '创建',
+
     MT_PILIANGCHUANGJIAN: '批量创建',
+
     MT_CAOGAO: '草稿',
+
     MT_KAIFANG: '开放',
+
     MT_KAISHI: '开始',
+
     MT_SUODING: '锁定',
+
     MT_JIESUO: '解锁',
+
     MT_XIUGAI: '修改',
+
+    MT_LEIXING: '类型',
+
+    MT_FABUZHE: '发布者',
+
+    MT_FABURIQI: '发布日期',
+
     MT_DAORUYITI: '导入议题',
-    MT_GUANBI: '关闭',
-    MT_JIESHU: '结束',
-    MT_KAISHI: '开始',
-    MT_TONGPING: '同屏',
-    MT_ZHANSHI: '展示',
-    MT_SHENGCHENGHUIYIJIYAO: '生成会议纪要',
-    MT_SHANGCHUANHUIYIJIYAO: '上传会议纪要',
-    MT_HUIYISHIJIAN: '会议时间',
-    MT_FUJIAN: '附件',
-    MT_QINGSHURU: '请输入',
-    MT_QINGXUANZE: '请选择',
-    MT_TO: '至',
-    MT_PILIANGHUIYICHUANGJIAN: '批量会议创建',
-    MT_QINGXUANZEHUIYILEIXNG: '请选择会议类型',
-    MT_HUIYIJIANGE: '会议间隔',
+
     MT_XIAZAIMUBAN: '下载模板',
+
+    MT_YITIMUBAN: '议题模板',
+
+    MT_XIAZAIMUBANCHENGGONG: '下载模板成功',
+
+    MT_XIAZAIMUBANSHIBAI: '下载模板失败',
+
+    MT_GUANBI: '关闭',
+
+    MT_JIESHU: '结束',
+
+    MT_TONGPING: '同屏',
+
+    MT_ZHANSHI: '展示',
+
+    MT_YITITIAOZHENG: '议题调整',
+
+    MT_JIESHUYITI: '结束议题',
+
+    MT_SHENGCHENGHUIYIJIYAO: '生成会议纪要',
+
+    MT_SHANGCHUANHUIYIJIYAO: '上传会议纪要',
+
+    MT_HUIYISHIJIAN: '会议时间',
+
+    MT_FUJIAN: '附件',
+
+    MT_QINGSHURU: '请输入',
+
+    MT_QINGXUANZE: '请选择',
+
+    MT_TO: '至',
+
+    MT_PILIANGHUIYICHUANGJIAN: '批量会议创建',
+
+    MT_QINGXUANZEHUIYILEIXNG: '请选择会议类型',
+
+    MT_HUIYIJIANGE: '会议间隔',
+
+    MT_XIAZAIMUBAN: '下载模板',
+
     MT_QINGXUANZEHUIYIJIANGE: '请选择会议间隔',
-    MT_HUIYIRIQI: '会议日期',
+
     MT_QINGXUANZEKAISHISHIJIAN: '请选择开始时间',
+
     MT_QINGXUANZEJIESHURIQI: '请选择结束日期',
+
     MT_HUIYIZHOUQI: '会议周期',
+
     MT_QINGXUANZEHUIYIZHOUQI: '请选择会议周期',
+
     MT_KAISHISHIJIAN: '开始时间',
+
     MT_QINGXUANZEHUIYIKAISHIJIAN: '请选择会议开始时间',
+
     MT_QINGXUANZEHUIYIKAISHIRIQI: '请选择会议开始日期',
+
     MT_HUIYIDIZHI: '会议地址',
+
     MT_SHOUJIANREN: '收件人',
+
     MT_QINGXUANZESHOUJIANREN: '请选择收件人',
+
+    MT_XUANZESHOUJIANREN: '选择收件人',
+
+    MT_SOUSUOSHOUJIANREN: '搜索收件人',
+
     MT_YUHUIREN: '与会人',
+
     MT_QINGXUANZEYUHUIREN: '请选择与会人',
+
     MT_HUIYICHUANGJIAN: '会议创建',
+
     MT_GUANBIHUIYI: '关闭会议',
+
     MT_SHIFOUCHUFASHENPI: '是否触发审批',
+
     MT_SHENPILIUCHENG: '审批流程',
+
     MT_SHANGCHUANFUJIAN: '上传附件',
+
     MT_QINGXUANZEWENJIAN: '请选择文件',
+
     MT_XUANZEWENJIAN: '选择文件',
+
     MT_WENJIANDAXIAOXIANZHI: '文件大小限制',
+
     MT_WENJIANDAXIAOZUIDAXIANZHI: '文件大小最大限制',
+
     MT_DAORUYICHANG: '导入异常',
+
     MT_QINGXIUGAIHOUCHONGXINZHIXINGDAORUCAOZUO: '请修改后重新执行导入操作！',
+
     MT_HUIYIXIUGAI: '会议修改',
+
     MT_HUIYIJIYAO: '会议纪要',
+
     MT_BUMEN: '部门',
+
     MT_SHENGCHENG: '生成',
+
     MT_SHANGYIYE: '上一页',
+
     MT_XIAYIYE: '下一页',
+
     MT_QINGSHANGCHUANFUJIAN: '请上传附件',
+
     MT_WENJIANDAXIAOXIANZHIORZHIZHICHIPDFWENJIAN:
       '文件大小最大限制10MB | 只支持pdf文件',
+
     MT_ZILIAOXIAZAI: '资料下载',
+
     MT_ZANWUXIAZAIZILIAO: '暂无下载资料',
+
     MT_XIAZAI: '下载',
+
     MT_XAIZAIMINGCHENG: '下载名称',
+
     MT_SHANGCHUANFUJIANREN: '上传附件人',
+
     MT_SHANGCHUANFUJIANSHIJIAN: '上传附件时间',
+
     MT_HUIYIZHIBOMEIWUMIAOSHUAXIN: '会议直播进程将每5秒自动刷新，请耐心等待。',
+
     MT_ZANWUZHIBOHUIYI: '暂无直播会议',
+
     MT_WODEYITI: '我的议题',
+
+    MT_CHAIFEN: '拆分',
+
     MT_WEIWANCHENG: '未完成',
+
     MT_YIWANCHENG: '已完成',
+
     MT_XINZENGSHOUGONGYITI: '新增手工议题',
+
+    MT_CHAKANSHOUGONGYITI: '查看手工议题',
+
     MT_XIUGAISHOUGONGYITI: '修改手工议题',
-    MT_HUIYIJIYAO: '会议纪要'
+
+    MT_SHOUGONGYITI: '手工议题',
+
+    MT_NINSHANGWUHUIYICHAKANQUANXIAN: '您尚无该类型会议的查看权限',
+
+    MT_ZANWUHUIYI: '暂无会议',
+
+    MT_XINZENG: '新增',
+
+    MT_BAOCUN: '保存',
+
+    MT_BANGONGSHI: '办公室',
+
+    MT_DIANHUA: '电话',
+
+    MT_YOUJIAN: '邮件',
+
+    MT_TIANJIAZILIAO: '添加资料',
+
+    MT_TIANJIAZILIAOLEIXING: '添加资料类型',
+
+    MT_XIUGAIZILIAO: '修改资料',
+
+    MT_XIUGAIZILIAOLEIXING: '修改资料类型',
+
+    MT_ZILIAOLEIXING: '资料类型',
+
+    MT_ZILIAOLEIXINGMINGCHENG: '资料类型名称',
+
+    MT_LEIXINGMINGCHENG: '类型名称',
+
+    MT_ZILIAOBIAOTI: '资料标题',
+
+    MT_TIANJIAFUJIAN: '添加附件',
+
+    MT_SUOSHUHUIYI: '所属会议',
+
+    MT_XIUGAIHUIYILEIXINGXINXI: '修改会议类型信息',
+
+    MT_ZANWUSHUJU: '暂无数据',
+
+    MT_HUIYIJIANJIE: '会议简介',
+
+    MT_XIUGAIFENGMIANTU: '修改封面图',
+
+    MT_HUIYILIANXIREN: '会议联系人',
+
+    MT_HUIYILEIXINGGUANLI: '会议类型管理',
+
+    MT_HUIYIZILIAOGUANLI: '会议资料管理',
+
+    MT_HUIYIZILIAO: '会议资料',
+
+    MT_WEIJINXING: '未进行',
+
+    MT_JINXINGZHONG: '进行中',
+
+    MT_YIJIESHU: '已结束',
+
+    MT_LIANXIRENXINXI: '联系人信息',
+
+    MT_GANGWEI: '岗位',
+
+    MT_YOUXIANG: '邮箱',
+
+    MT_FANHUI: '返回',
+
+    MT_SOUSUO: '搜索',
+
+    MT_CHUANGJIANYUHUIRENFENZU: '创建与会人分组',
+
+    MT_XIUGAIYUHUIRENFENZU: '修改与会人分组',
+
+    MT_ZUMING: '组名',
+
+    MT_CHUANGJIANSHOUJIANREN: '创建收件人',
+
+    MT_TIANJIASHOUJIANREN: '添加收件人',
+
+    MT_XIUGAISHOUJIANREN: '修改收件人',
+
+    MT_SHICHANG: '时长',
+
+    MT_YANJIANGREN: '演讲人',
+
+    MT_YANJIANGRENBUMEN: '演讲人部门',
+
+    MT_SHIJIAN: '时间',
+
+    MT_YITIXINXI: '议题信息',
+
+    MT_CHAKANJIELUN: '查看结论',
+
+    MT_JIELUN: '结论',
+
+    MT_HUIYI: '会议',
+
+    MT_SHIFOUDONGJIE: '是否冻结',
+
+    MT_SHI: '是',
+
+    MT_FOU: '否',
+
+    MT_RENWU: '任务',
+
+    MT_WEIHUZILIAO: '维护资料',
+
+    MT_ZANWU: '暂无',
+
+    MT_DAIDING: '待定',
+
+    MT_DINGDIAN: '定点',
+
+    MT_FALOI: '发LOI',
+
+    MT_ZHUANTER: '转TER/TOP-TER',
+
+    MT_XIACIPRE: '下次Pre CSC',
+
+    MT_ZHUANCSC: '转CSC',
+
+    MT_GUANBI: '关闭',
+
+    MT_WEIHUJIELUN: '维护结论',
+
+    MT_XIACIHUIYI: '下次会议',
+
+    MT_DONGJIERSDAN: '冻结RS单',
+
+    MT_QINGSHURURENWU: '请输入任务',
+
+    MT_QUEDING: '确定',
+
+    MT_LIEYINCANGHUOXIANSHI: '列隐藏/显示',
+
+    MT_ZILIAOMINGCHENG: '资料名称',
+
+    MT_ZILIAOSHANGCHUANREN: '资料上传人',
+
+    MT_CHEHUIYITI: '撤回议题',
+
+    MT_TIANJIAYITI: '添加议题',
+
+    MT_JULIHUIYIHAIYOU: '距离会议还有',
+
+    MT_TIAN: '天',
+
+    MT_HUIYIXINXIMIAOSHU: '会议信息描述',
+
+    MT_HUIYIMINGCHENGHOUZHUI: '会议名称后缀',
+
+    MT_SUOSHUFENLEI: '所属分类',
+
+    MT_HUIYIGUANLIYUAN: '会议管理员',
+
+    MT_YITISHICHANG: '议题时长',
+
+    MT_CHUANGJIANHUIYILEIXING: '创建会议类型',
+
+    MT_BIANJIHUIYILEIXING: '编辑会议类型',
+
+    MT_SHANGCHUANFENGMIANTUPIAN: '上传封面图片',
+
+    MT_JIANYISHIYONGBILI: '建议使用16:9比例，图片最大15M',
+
+    MT_SHENGCHENGHUIYIMINGCHENGHOUZHUI: '生成会议名称后缀',
+
+    MT_HUIYISHUXING: '会议属性',
+
+    MT_HUIYIJIELUNPEIZHI: '会议结论配置',
+
+    MT_HUIYISHANGXIAXIANJINE: '会议上下限金额',
+
+    MT_XIAXIAN: '下限',
+
+    MT_SHANGXIAN: '上限',
+
+    MT_GUANLIANGUANXI: '关联关系',
+
+    MT_MORENYITISHICHANG: '默认议题时长',
+
+    MT_BIXUAN: '必选',
+
+    MT_SHIFOUCHUFASHENPILIU: '是否触发审批流',
+
+    MT_SHANGCHUANWENJIANDAXIAOBUNENGCHAOGUO: '上传文件大小不能超过',
+
+    MT_SHANGCHUANSHIBAI: '上传失败',
+
+    MT_BITIAN: '必填',
+
+    MT_TIAOZHENGWANCHENG: '调整完成',
+
+    MT_QUXIAOTIAOZHENG: '取消调整',
+
+    APPROVAL: {
+      ADD: '新增',
+      SAVE: '保存',
+      OK: '确定',
+      CANCEL: '取消',
+      EXPORT: '导出',
+      RECALL: '撤回',
+      EDIT: '编辑',
+      DELETE: '删除',
+      SUBMIT: '提交',
+      UPLOAD_ATTACH: '上传附件',
+      REMOVE_ATTACH: '删除附件',
+      APPEND_DATA_NODE: '补充材料节点',
+      APPEND_DATA: '补充材料',
+      PLEASE_CHOOSE: '请选择',
+      PLEASE_INPUT: '请输入',
+      APPEND_DATA_COMMENT: '请输入补充材料留言内容',
+      APPROVAL_COMMENTS: '审批意见',
+      APPROVAL_COMMENTS_REQUIRED: '请输入审批意见',
+      OPERATION_SUCCESSFUL: '操作成功',
+      OPERATION_FAILED: '操作失败',
+      RECALL_REASON: '撤回理由',
+      RECALL_SUCCESSFUL: '撤回成功',
+      RECALL_FAILED: '撤回失败',
+      SUBMITTED: '已提交',
+      APPROVAL_NOT: '未审批',
+      APPROVED: '已审批',
+      APPROVAL_ING: '审批中',
+      APPROVAL_END: '审批结束',
+      APPROVAL_TODO: '待审批',
+      APPROVAL_NAME: '审批名称',
+      APPLICATION_USER: '申请人',
+      APPROVAL_TICKIT_TYPE: '审批单据类型',
+      APPROVAL_PROGRESS: '审批进度',
+      APPROVAL_CONTENT: '审批信息',
+      APPLICATION_NO: '申请号',
+      APPROVAL_ITEMS: '审批事项',
+      CREATE_TIME: '创建时间',
+      DEADLINE_TIME: '截止时间',
+      TIME: '时间',
+      NODE_NAME: '节点名称',
+      OPRATION_USER: '操作人',
+      OPRATION: '操作',
+      OPRATION_TIME: '操作时长',
+      COMMENT_CONTENT: '回复内容',
+      NO: '编号',
+      ATTACH: '附件',
+      APPROVEL: '批准',
+      REFUSE: '拒绝',
+      PART_NO: '零件号',
+      FORM_INFO: '表单信息',
+      FLOW_INFO: '审批流程',
+      MORE_APPROVAL_HISTORY: '审批历史',
+      DEPARTMENT: '所属部门',
+      CREATE_FLOW: '新建流程',
+      FLOW_MODEL_MANAGE: '流程模块管理',
+      FLOW_NO: '流程序号',
+      FLOW_NAME: '流程标题',
+      CREATE_BY: '创建者',
+      FLOW_STATUS: '流程状态',
+      FLOW_DESCRIPTION: '流程说明',
+      FLOW_FORM_URLS: '流程表单地址',
+      SAVE_SUCCESSFUL: '保存成功',
+      SAVE_FAILED: '保存失败',
+      DELETE_TIPS_CONTENT: '此操作将永久删除, 是否继续?',
+      DELETE_TIPS_TITLE: '提示',
+      DELETE_SUCCESSFUL: '删除成功',
+      DELETE_FAILED: '删除失败',
+      APPROVAL_CENTER: '审批中心',
+      LOG: '日志',
+      MY_APPLICATION: '我的申请',
+      MY_APPROVAL: '我的审批',
+      DETAIL: '详细',
+      TASK_AGENT_TYPE: '任务类型',
+      FLOW_TEMPLATE_MANAGE: '流程模板管理',
+      FLOW_CATEGORY: '流程分类',
+      APPROVAL_AGENT: '审批代理',
+      AGENT_NO: '代理号',
+      AUTH_USER_NAME: '授权人',
+      AGENT_USER_NAME: '代理人',
+      AGENT_TYPE: '代理类型',
+      AGENT_START_TIME: '代理开始时间',
+      AGENT_END_TIME: '代理结束时间',
+      AGENT_DATE: '代理时间',
+      AGENT_CONTENT: '代理内容',
+      AGENT_CANCEL_TIME: '取消代理时间',
+      IS_EFFECTIVE: '是否有效',
+      INVALIDATION: '失效',
+      STAFF_NO: '员工编号',
+      STAFF_NAME: '姓名',
+      STAFF_DEPARTMENT: '所属部门',
+      STAFF_MOBILE: '手机',
+      STAFF_TEL: '电话',
+      TASK_MANAGER: '任务管理',
+      TASK_NAME: '任务名称',
+      TASK_DESC: '任务描述',
+      THE_START_TIME: '发起时间',
+      TASK_STATUS: '任务状态',
+      COMPLETE_TIME: '完成时间',
+      TASK_START_END_DATE: '任务起止时间',
+      TASK_TRANSFER: '转派',
+      TRANSFER_PERSON: '转派对象',
+      APPROVAL_SUCCESS: '审批成功',
+      APPROVAL_FAILED: '审批失败',
+      APPROVAL_AGENT_MEETING: '会议审批代理',
+      NEW: '新建',
+      NODE_REQUIRED: '补充材料节点必选'
+    },
+    ROLE: {
+      ROLE_NAME: '角色名称',
+      ROLE_CODE: '角色代码',
+      ROLE_ID: '角色ID',
+      DESCRIPTION: '描述',
+      ROLE_STATUS: '角色状态',
+      ROLE_AUTH_PERMISSIONS: '分配权限',
+      NAME: '名称',
+      NAME_EN: '名称(英)',
+      TYPE: '类型',
+      ADDRESS: '地址',
+      REMARK: '备注',
+      PERMISSION: '权限',
+      DESIGNATED_DEPARTMENT: '指定部门',
+      USE_FOLLOW_PROP_FILTER: '按以下属性筛选',
+      SET_FOLLOW_COL_DISVISIBLE: '设置以下属性不可见',
+      RESOURCE_NAME: '资源名称',
+      RESOURCE_NAME_EN: '资源名称(英)',
+      RESOURCE_CODE: '资源编码',
+      MENU_CODE: '菜单编码'
+    },
+    POSITION: {
+      POSITION_NAME: '岗位名称',
+      POSITION_CODE: '岗位编码',
+      POSITION_USER: '岗位人员',
+      POSITION_RELATIVE: '相关岗位',
+      ORG_LEVEL: '组织级别',
+      QUERY: '查询',
+      RESET: '重置'
+    },
+    rfq: {
+      RFQINQUIRE: '搜索',
+      RFQRESET: '重置'
+    }
   }
+  i18n.setLocaleMessage('zh', oldLanguage)
   var xmlHttp = ''
   if (window.XMLHttpRequest) {
     xmlHttp = new XMLHttpRequest()
@@ -2053,7 +2530,8 @@
   xmlHttp.onreadystatechange = function () {
     if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
       const data = JSON.parse(xmlHttp.responseText)
-      i18n.setLocaleMessage('zh', Object.assign(oldLanguage, data.data.zh))
+      i18n.mergeLocaleMessage('zh', data.data.zh)
+      i18n.mergeLocaleMessage('en', data.data.cn)
     }
   }
   xmlHttp.open(

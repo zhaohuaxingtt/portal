@@ -125,7 +125,7 @@ module.exports = {
   css: {
     //是否开起css分离
     extract: false,
-    sourceMap: process.env.NODE_ENV === 'production',
+    sourceMap: process.env.NODE_ENV !== 'production',
     requireModuleExtension: true,
     loaderOptions: {
       sass: {
@@ -194,7 +194,7 @@ module.exports = {
       },
       // ------------------ 上传 ----------------------------
       '/fileApi': {
-        target: `http://${BASE_IP}:8034`,
+        target: `http://${BASE_IP}:8034/`,
         changeOrigin: true,
         pathRewrite: {
           '/fileApi': ''
@@ -273,6 +273,13 @@ module.exports = {
           ['^' + process.env.VUE_APP_RFQ]: ''
         }
       },
+      [process.env.VUE_APP_SOURCING]: {
+        target: `http://${BASE_IP}:8025/sourcing/web`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_SOURCING]: ''
+        }
+      },
       [process.env.VUE_APP_MEETING]: {
         target: `http://${BASE_IP}:8051/rise-meeting`,
         changeOrigin: true,
@@ -317,13 +324,13 @@ module.exports = {
           ['^' + process.env.VUE_APP_USER_ASSISTANT]: ''
         }
       },
-      '/fileCross': {
-        target: `http://${BASE_IP}:8034`,
-        changeOrigin: true,
-        pathRewrite: {
-          '/fileCross': ''
-        }
-      },
+      // '/fileCross': {
+      //   target: `http://${BASE_IP}:8034`,
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '/fileCross': ''
+      //   }
+      // },
       [process.env.VUE_APP_AEKO]: {
         target: `http://${BASE_IP}:8023/procurementrequirement`,
         changeOrigin: true,

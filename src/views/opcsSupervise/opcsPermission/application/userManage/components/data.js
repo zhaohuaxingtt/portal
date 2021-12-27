@@ -1,16 +1,15 @@
 /*
  * @Date: 2021-11-29 14:22:03
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-07 15:01:38
+ * @LastEditTime: 2021-12-16 18:07:46
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\data.js
  */
-export const tableTitle=[
-    {
+export const tableTitle = [{
         props: 'supplierNum',
         name: '供应商编号',
         key: 'GOMGYINGSHANGBIANHAO',
         required: true,
-        width:120,
+        width: 120,
         rule: [{
             required: true,
             message: '请输入',
@@ -22,7 +21,7 @@ export const tableTitle=[
         name: '供应商名称',
         key: 'GONGYINGSHANGMINGCHENG',
         required: true,
-        width:120,
+        width: 120,
         rule: [{
             required: true,
             message: '请输入',
@@ -34,7 +33,7 @@ export const tableTitle=[
         name: '供应商地址',
         key: 'GONGYINGSHANGDIZHI',
         required: true,
-        width:120,
+        width: 120,
         rule: [{
             required: true,
             message: '请输入',
@@ -44,7 +43,7 @@ export const tableTitle=[
     {
         props: 'contactName',
         name: '联系人姓名',
-        width:120,
+        width: 120,
         key: 'LIANXIRENXINGMING',
         required: true,
         rule: [{
@@ -56,13 +55,13 @@ export const tableTitle=[
     {
         props: 'contactTel',
         name: '联系人电话',
-        width:120,
+        width: 120,
         key: 'LIANXIRENDIANHUA',
     },
     {
         props: 'contactMobile',
         name: '联系人手机',
-        width:120,
+        width: 120,
         key: 'LIANXIRENSHOUJI',
         required: true,
         rule: [{
@@ -74,7 +73,7 @@ export const tableTitle=[
     {
         props: 'contactEmail',
         name: '联系人邮箱',
-        width:120,
+        width: 120,
         key: 'LIANXIRENYOUXIANG',
         required: true,
         rule: [{
@@ -101,24 +100,24 @@ export const tableTitle=[
     {
         props: 'expirationTime',
         name: '超期时间',
-        width:120,
+        width: 120,
         key: 'CHAOQISHIJIAN',
     },
     {
-        props: '应用关联',
+        props: 'system',
         name: '应用关联',
-        key: 'AppsAss',
+        key: 'YINGYONGGUANLIAN',
     },
 ]
-export const tableTitleEdit=[
-    {
+export const tableTitleEdit = [{
         props: 'supplierNum',
         name: '供应商编号',
         key: 'GOMGYINGSHANGBIANHAO',
         required: true,
         rule: [{
             required: true,
-            message: '请输入',
+            pattern: /^[0-9]\d{4,4}$/,
+            message: '供应商编号为五位数字',
             trigger: 'blur'
         }]
     },
@@ -178,10 +177,48 @@ export const tableTitleEdit=[
         required: true,
         rule: [{
             required: true,
-            message: '请输入',
+            pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            message: '请输入正确的电子邮件',
             trigger: 'blur'
         }]
     },
+]
 
-    
+export const tableTitleDetail = [{
+    props: 'nameZh',
+    name: '应⽤中⽂名',
+    key: 'YINGYONGZHONGWENMING',
+}, {
+    props: 'nameEn',
+    name: '应⽤英⽂名',
+    key: 'YINGYONGYINGWENMING',
+}, {
+    props: 'shortName',
+    name: '应⽤简称',
+    key: 'YINGYONGJIANCHENG',
+},
+{
+    props: 'ldapSchema',
+    name: '安全中心LDAP属性',
+    key: 'ANQUANZHONGXINLDAPSHUXING',
+},
+]
+export const tableTitleDetailAdd = [{
+    props: 'nameZh',
+    name: '应⽤中⽂名',
+    key: 'YINGYONGZHONGWENMING',
+}, {
+    props: 'nameEn',
+    name: '应⽤英⽂名',
+    key: 'YINGYONGYINGWENMING',
+}, {
+    props: 'shortName',
+    name: '应⽤简称',
+    key: 'YINGYONGJIANCHENG',
+},
+{
+    props: 'ldapSchema',
+    name: '安全中心LDAP属性',
+    key: 'ANQUANZHONGXINLDAPSHUXING',
+},
 ]

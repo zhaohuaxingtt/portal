@@ -11,7 +11,6 @@
         {{ language('保存') }}
       </iButton>
     </div>
-    <pre></pre>
     <el-form
       label-position="left"
       label-width="130px"
@@ -215,14 +214,15 @@
           <iFormItem
             :label="language('QIANDINGCAIGOUTIAOKUAN', '签订采购条款')"
           >
-            <iSelect :disabled="!editable">
+            <!-- <iSelect :disabled="!editable" >
               <el-option
                 v-for="item in supplierStatus"
                 :key="item.value"
                 :value="item.value"
                 :label="item.label"
               />
-            </iSelect>
+            </iSelect> -->
+            <iInput disabled v-model="detail.purchaseTerm"></iInput>
           </iFormItem>
         </el-col>
 

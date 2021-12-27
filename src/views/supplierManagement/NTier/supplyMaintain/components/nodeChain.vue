@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-06 11:13:02
- * @LastEditors: Please set LastEditors
+ * @LastEditors: caopeng
  * @Descripttion: your project
 -->
 <template>
@@ -54,7 +54,7 @@
         @click="emitDatas"
         title="提交数据"
       ></div>
-      <iButton v-if="toolbar.indexOf('opt-node') >= 0" @click="optimizeNodes">{{
+      <iButton v-if="toolbar.indexOf('opt-node') >= 0" @click="optimizeNodes('reast')">{{
         language('CHONGZHICENGJI', '重置层级')
       }}</iButton>
       <iButton v-if="toolbar.indexOf('copy') >= 0" @click="copyNode">{{
@@ -424,6 +424,7 @@ export default {
     handleSelectedChange(node) {
       this.isSelected = node.id
       this.node = node
+   
     },
     initNodeChains: function () {
       var self = this
@@ -484,7 +485,11 @@ export default {
     },
     closeDiolog() {
       this.isDilog = false
-      this.formModel = {}
+      this.formModel = {
+          supplierName:'',
+            contactName:"",
+            contactEmail:''
+      }
     },
     fintRootId: function (nodeId) {
       var self = this
@@ -901,7 +906,13 @@ export default {
       return newPosition
     },
     copyNode: function () {
+      
+        if(this.node.id!=undefined){
       this.$emit('copy-node', this.node)
+
+        }else{
+              iMessage.warn(this.language('QINGXUANZEGUANLIANDEXIAYOUGONGYINGSHANGTANKUANG', '请选择所关联的下游供应商弹框'))
+        }
     },
 
     //设置缩放比例
@@ -954,22 +965,27 @@ export default {
       )
     },
 
-    optimizeNodes: function () {
-      var self = this
-      self.onDataLoading = true
-      self.$nextTick(function () {
-        var startNodeIds = self.findAllStartNodes()
-        self.optimizeChildNodes(
-          startNodeIds,
-          -self.nodeWidth,
-          self.nextElOffset
-        )
+  
+    //上下同时修改，上面用于watch监听，下面用于点击重置
+    optimizeNodes: function (v) {
+        var self = this
+        if(v){
+            this.$parent.$parent.$parent.$children[0].getTableList()
+        }
+        self.onDataLoading = true
         self.$nextTick(function () {
-          self.initNodeChains()
+            var startNodeIds = self.findAllStartNodes()
+            self.optimizeChildNodes(
+            startNodeIds,
+            -self.nodeWidth,
+            self.nextElOffset
+            )
+            self.$nextTick(function () {
+            self.initNodeChains()
+            })
         })
-      })
-    },
-
+            
+        },
     findChildIds: function (parentId) {
       var childIds = []
       this.edgeList.forEach(function (edge) {
@@ -1004,6 +1020,7 @@ export default {
     },
 
     optimizeLevel: function () {
+        
       var self = this
       self.onDataLoading = true
       self.$nextTick(function () {
@@ -1088,7 +1105,7 @@ export default {
   watch: {
     nodeDatas: {
       handler: function (val) {
-        console.log(val, 'val')
+       
         if (JSON.stringify(val) !== '{}') {
           var self = this
           this.onDataLoading = true

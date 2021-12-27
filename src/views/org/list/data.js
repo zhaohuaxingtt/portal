@@ -3,7 +3,7 @@
 //orgId  orgName  orgShortName  orgShortShortNickName  orgOwner orgMark
 export const tableSetting = [
   {
-    type: 'selection',
+    type: 'customSelection',
     width: 50
   },
   {
@@ -64,7 +64,8 @@ export const tableSetting = [
     headerAlign: 'center',
     i18n: '负责人',
     customRender: (h, scope) => {
-      let leaders = scope.row.positionList.filter((val) => {
+      const positions = scope.row.positionList || []
+      let leaders = positions.filter((val) => {
         return val.isDeptLead
       })
       let leaderStr = ''

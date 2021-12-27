@@ -27,7 +27,7 @@
       <el-table-column align="center" :label="language('NEWS_TUPIANYULAN','图片预览')">
         <template slot-scope="scope">
           <span class="content">
-            <el-image :src="scope.row.picUrl" class="image"></el-image>
+            <el-image v-if="scope.row.picUrl!== undefined" :src="scope.row.picUrl" class="image"></el-image>
           </span>
         </template>
       </el-table-column>

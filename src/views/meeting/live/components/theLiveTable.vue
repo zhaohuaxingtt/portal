@@ -98,7 +98,7 @@
         >
           <template slot-scope="scope">
             <span>{{ scope.row.count }}</span>
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="34" align="center" label=""></el-table-column>
@@ -148,7 +148,7 @@
             <span v-else
               >{{ scope.row.presenter }}{{ scope.row.presenterNosys }}</span
             >
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="33" align="center" label=""></el-table-column>
@@ -173,7 +173,7 @@
               >{{ scope.row.presenterDept
               }}{{ scope.row.presenterDeptNosys }}</span
             >
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="33" align="center" label=""></el-table-column>
@@ -195,7 +195,7 @@
             <span v-else
               >{{ scope.row.supporter }}{{ scope.row.supporterNosys }}</span
             >
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="33" align="center" label=""></el-table-column>
@@ -220,7 +220,7 @@
               >{{ scope.row.supporterDept
               }}{{ scope.row.supporterDeptNosys }}</span
             >
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="33" align="center" label=""></el-table-column>
@@ -238,11 +238,11 @@
           ></div> -->
             <span>{{
               scope.row.state === '01'
-                ? '未进行'
+                ? $t('MT_WEIJINXING')
                 : scope.row.state === '02'
-                ? '进行中'
+                ? $t('MT_JINXINGZHONG')
                 : scope.row.state === '03'
-                ? '已结束'
+                ? $t('MT_YIJIESHU')
                 : ''
             }}</span>
           </template>
@@ -258,7 +258,7 @@
         >
           <template slot-scope="scope">
             <span>{{ scope.row.remark }}</span>
-            <span v-if="scope.row.isBreak">/</span>
+            <span v-if="scope.row.isBreak">-</span>
           </template>
         </el-table-column>
         <el-table-column width="24" align="center" label=""></el-table-column>

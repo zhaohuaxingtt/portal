@@ -148,7 +148,7 @@ export default {
       closeMeetingRules: {
         uploadFile: [
           // { required: this.row.isTriggerApproval == 'true' ? true : false, message: "请选择上传附件", trigger: "blur" },
-          { required: false, message: '请选择上传附件', trigger: 'blur' }
+          { required: false, message: this.$t('请选择上传附件'), trigger: 'blur' }
         ]
       },
       approvalProcessList: []
@@ -198,7 +198,7 @@ export default {
       closeMeeting(param)
         .then((res) => {
           if (res) {
-            iMessage.success('关闭成功')
+            iMessage.success(this.$t('关闭成功'))
             this.$emit('handleOK')
             this.handleClose()
           } else {
@@ -242,14 +242,14 @@ export default {
           this.$refs.ruleFormCloseMeeting.clearValidate('uploadFile')
         })
         .catch(() => {
-          iMessage.error('上传失败')
+          iMessage.error(this.$t('上传失败'))
         })
       this.uploadLoading = false
     },
     beforeAvatarUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error('上传头像图片大小不能超过10MB!')
+        this.$message.error(this.$t('上传头像图片大小不能超过10MB!'))
       }
       return isLt10M
     },

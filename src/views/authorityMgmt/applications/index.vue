@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <div class="main">
-      <iSearch @sure="search" @reset="reset" class="margin-bottom20">
+      <iSearch class="margin-bottom20">
         <el-form>
           <el-row :gutter="20">
             <el-col :span="6">
@@ -22,6 +22,10 @@
             </el-col>
           </el-row>
         </el-form>
+        <div slot="button">
+          <iButton @click="search">{{ $t('LK_INQUIRE') }}</iButton>
+          <iButton @click="reset">{{ $t('rfq.RFQRESET') }}</iButton>
+        </div>
       </iSearch>
       <div class="tableList">
         <iCard>
@@ -122,9 +126,7 @@ export default {
       tableData: [],
       formData: {
         appNameCn: '',
-        appNameEn: '',
-        description: '',
-        systemType: ''
+        appNameEn: ''
       },
       searchOptionTitles: {
         name: '中文名称',
@@ -218,7 +220,7 @@ export default {
       this.selectedData = val
     },
     edit() {
-      this.isRead = true
+      this.isRead = false
       this.id = this.selectedData[0].id
       this.dialogFormVisible = true
     },
@@ -248,15 +250,16 @@ export default {
       })
     },
     exportData() {
-      return exportApplications({ ...this.formData, systemType: 3 })
+      const params = this.selectedData
+      if (this.selectedData.length > 0) {
+        params.applicationIdList = this.selectedData.map((e) => e.id)
+      }
+      return exportApplications({ ...params, systemType: 3 })
     },
     defaultFormData() {
       return {
         appNameCn: '',
-        appNameEn: '',
-        description: '',
-        systemType: '',
-        supplierType: []
+        appNameEn: ''
       }
     }
   }

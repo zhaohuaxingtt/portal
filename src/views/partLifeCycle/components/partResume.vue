@@ -51,17 +51,17 @@
                             </div>
                         </Popover>
                     </div>
-                    <div class="version" v-if="Number(item.type) === 5"> — {{ item.title }}</div>
+                    <div class="version" :title="item.title" v-if="Number(item.type) === 5"> — {{ item.title }}</div>
                     <icon class="icon label1" v-if="Number(item.type) === 2" symbol
                           name="iconlingjianlvlibiaoqian"></icon>
-                    <icon class="icon label2" v-if="item.label" symbol name="iconlingjianlvliAekoyishishibiaoji"></icon>
+                    <icon class="icon label2" v-if="item.label && item.type!=2" symbol name="iconlingjianlvliAekoyishishibiaoji"></icon>
                 </div>
             </div>
             <div class="right" v-loading="rightLoading">
                 <div class="title" v-if="currentItem&&currentItem.typeName">
                     <i></i>
                     <span style="text-decoration: none">{{ currentItem.typeName }}</span>
-                    <span style="text-decoration: none" v-if="currentItem.title" @click="toUrl(currentItem)"> - {{ currentItem.title }}</span>
+                    <span style="text-decoration: none" v-if="infoData" @click="toUrl(infoData)"> - {{ infoData.businessTitle }}</span>
                 </div>
                 <div class="partResume_right_content">
                     <!--          //Sourcing-->
@@ -101,7 +101,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 3">
                         <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
-                        <span>{{ infoData.loiSupplierCode }} - {{ infoData.loiSupplierName }}</span>
+                        <span :title="infoData.loiSupplierCode + '-' + infoData.loiSupplierName">{{ infoData.loiSupplierCode }} - {{ infoData.loiSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 3">
                         <span>{{ language('LK_YIXIANGSHUBIANHAO', '意向书编号') }}：</span>
@@ -159,7 +159,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 4">
                          <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
-                        <span>{{ infoData.rsSupplierCode }} - {{ infoData.rsSupplierName }}</span>
+                        <span :title="infoData.rsSupplierCode + '-' + infoData.rsSupplierName">{{ infoData.rsSupplierCode }} - {{ infoData.rsSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 4">
                         <span>{{ language('LK_WULIUFUWUSHANG', '物流服务商') }}：</span>
@@ -194,7 +194,7 @@
                     <!--          //Kick off-->
                     <div class="divItem" v-show="currentType === 1">
                         <span>Kick off {{ language('LK_HUIYIBIANHAO', '会议编号') }}：</span>
-                        <span>{{ infoData.businessTitle }}</span>
+                        <span :title="infoData.businessTitle">{{ infoData.businessTitle }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 1">
                         <span>Kick off {{ language('LK_SHIJIAN', '时间') }}：</span>
@@ -210,7 +210,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 1">
                          <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
-                        <span>{{ infoData.kickOffSupplierCode }} - {{ infoData.kickOffSupplierName }}</span>
+                        <span :title="infoData.kickOffSupplierCode + '-' + infoData.kickOffSupplierName">{{ infoData.kickOffSupplierCode }} - {{ infoData.kickOffSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 1">
                         <span>1st tryout {{ language('LK_SHIJIAN', '时间') }}：</span>
@@ -268,7 +268,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 6">
                          <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
-                        <span>{{ infoData.accessoriesSupplierCode }} - {{ infoData.accessoriesSupplierName }}</span>
+                        <span :title="infoData.accessoriesSupplierCode + '-' + infoData.accessoriesSupplierName">{{ infoData.accessoriesSupplierCode }} - {{ infoData.accessoriesSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 6">
                         <span>{{ language('LK_CHEXINGXIANGMU', '车型项目') }}：</span>
@@ -300,7 +300,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 5">
                         <span>{{ language('LK_CAIGOUGONGCHANG', '采购工厂') }}：</span>
-                        <span>{{ infoData.aekoPurchaseFactorys }}</span>
+                        <span :title="infoData.aekoPurchaseFactorys">{{ infoData.aekoPurchaseFactorys }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
                         <span>{{ language('LK_DAORURIQI', '导入日期') }}：</span>
@@ -320,7 +320,7 @@
                     </div>
                     <div class="divItem" v-show="currentType === 5">
                          <span>{{ language('LK_GONGYINGSHANG', '供应商') }}：</span>
-                        <span>{{ infoData.aekoSupplierCode }} - {{ infoData.aekoSupplierName }}</span>
+                        <span :title="infoData.aekoSupplierCode + '-' + infoData.aekoSupplierName">{{ infoData.aekoSupplierCode }} - {{ infoData.aekoSupplierName }}</span>
                     </div>
                     <div class="divItem" v-show="currentType === 5">
                         <span>AEKO{{ language('LK_ZHUANGTAI', '状态') }}：</span>
@@ -434,7 +434,6 @@
         exportFile({partsNum: this.$route.query.partsNum}).then(res => {
           const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
           if (Number(res.code) === 200) {
-            console.log('导出成功')
           } else {
             iMessage.error(result)
           }
@@ -444,11 +443,20 @@
         })
       },
       getRecordDetail(item, index) {
-        console.log(item,'iii',this.checkedIndex3,index)
         if (this.checkedIndex3 === index) {
           return
         }
         this.checkedIndex3 = index
+
+        this.bookmarkNodes.map(items => {
+          if(items.children && items.children.length) {
+            items.children.map(it => {
+              if(item.id == it.id) {
+                items.index = index
+              }
+            })
+          }
+        })
         this.currentItem = item
         this.currentType = item.type
         if (Number(item.type) === 10 || Number(item.type) === 9) {
@@ -468,12 +476,14 @@
         })
       },
       getPartsRecordNodes() {
+        let sort = (a, b) => { return new Date(a.date).getTime() -new Date(b.date).getTime() }
         this.mainLoading = true
         getPartsRecordNodes({partsNum: this.$route.query.partsNum}).then(res => {
           const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
           if (Number(res.code) === 200) {
             this.bookmarkNodes = res.data.bookmarkNodes
             // 初始选中第一条
+            this.bookmarkNodes.sort(sort)
             if (this.bookmarkNodes && this.bookmarkNodes[0]) {
               if (this.bookmarkNodes[0].children && this.bookmarkNodes[0].children[0]) {
                 this.getRecordDetail(this.bookmarkNodes[0].children[0], 0)
@@ -529,24 +539,22 @@
         this.bookmarkNodes = [...this.bookmarkNodes]
       },
       toUrl(item,typeName) {
-        console.log(item,'')
-        let {type,id,title,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,accessoriesRsNum,rsNum,businessType,aekoCode} = item
+        let {type,desinateId, designateType, projectId, rfqId,id,letterId,aekoId,loiId,title,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,accessoriesRsNum,rsNum,businessType,aekoCode} = item
         let path = ''
         if(type==1) path = ''                        // 会议
         if(type==2) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editorInfo?id=${title}` // 寻源 ok
         if(type==3) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/loidetail?id=${title}` // LOI
-        if(type==4) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${id}&businessKey=${type}` // 定点
+        if(type==4) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=${businessType}` // 定点
         if(type==5) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${title}` // Aeko
         if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/accessorypartdetail?spNum=${title}` // 配件定点
-        if(type==7) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${id}` // mtz定点
+        if(type==7) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${desinateId}` // mtz定点
         if(typeName == 'aekoCode' && aekoCode) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoCode}` // 定点信编号
         if(typeName == 'rsNlNum' && rsNlNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/letterdetail?id=${rsNlNum}` // 定点信编号
-        if(typeName == 'mtzRsNum' && mtzRsNum) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${id}` // mtz rs编号
-        if(typeName == 'isIngredientAnalyze' && isIngredientAnalyze && rfqType ==2 && businessTitle) path = `/sourcing/#/targetpriceandscore/costanalysismanage/costanalysis?rfqId=${businessTitle}` // 成本分析
+        if(typeName == 'mtzRsNum' && mtzRsNum) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${desinateId}` // mtz rs编号
+        if(typeName == 'isIngredientAnalyze' && isIngredientAnalyze && rfqType ==2 && businessTitle) path = `/sourcing/#/targetpriceandscore/costanalysismanage/costanalysis?rfqId=${rfqId}` // 成本分析
         if(typeName == 'RFQ' && businessTitle) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editordetail?id=${businessTitle}` // rfq编号
-        if(typeName == 'fsNum' && fsNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${id}&businessKey=${businessType}` // fs编号
-//        if(typeName == 'accessoriesRsNum' && accessoriesRsNum) path = `/sourcing/#/sourcing/designate/rsSingleMaintenance?${id}&designateType=${businessType}` // RS单号
-        if(typeName == 'rsNum' && rsNum) path = `/sourcing/#/sourcing/designate/rsSingleMaintenance?desinateId=${id}&designateType=${businessType}` // RS单号
+        if(typeName == 'fsNum' && fsNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=${businessType}` // fs编号
+        if(typeName == 'rsNum' && rsNum) path = `/sourcing/#/sourcing/designate/rsSingleMaintenance?desinateId=${desinateId}&designateType=${designateType}` // RS单号
         if(path){
           window.open(this.baseUrl + path, '_blank');
         }
@@ -601,13 +609,12 @@
                 font-weight: bold;
                 color: #000000;
                 width: 110px;
-                margin-right: 80px;
-
+                margin-right: 50px;
                 > div {
                     padding-bottom: 30px;
                     text-align: right;
                     border-right: 2px solid #E7E7E7;
-
+                    padding-right: 22px;
                     .itemChild {
                         overflow: hidden;
                         transition: all 0.3s ease;
@@ -685,7 +692,7 @@
                     .child {
                         font-family: Arial;
                         font-size: 12px;
-                        font-weight: 400;
+                        font-weight: 420;
                         color: #000000;
                         min-width: 85px;
                         max-width: 85px;
@@ -704,7 +711,7 @@
                 width: 35%;
                 max-height: 800px;
                 overflow-y: auto;
-
+                min-width: 400px;
                 .item {
                     display: flex;
                     line-height: 28px;
@@ -726,9 +733,11 @@
                         font-size: 14px;
                         font-weight: 400;
                         color: #000000;
-                        margin-left: 6px;
                         margin-left: 10px;
-
+                        width: 100px;
+                        overflow: hidden;
+                        text-overflow:ellipsis;
+                        white-space: nowrap;
                         &.type7 {
                             color: #41434A;
                             margin-left: 0;
@@ -892,7 +901,7 @@
                     .divItem {
                         margin-left: 16px;
                         margin-bottom: 30px;
-
+                        font-size: 14px;
                         span {
                             display: inline-block;
                             width: 40%;

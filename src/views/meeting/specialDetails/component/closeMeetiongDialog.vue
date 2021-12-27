@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    title="关闭会议"
+    :title="$t('MT_GUANBIHUIYI')"
     :visible.sync="openCloseMeeting"
     width="23.75rem"
     :close-on-click-modal="false"
@@ -58,8 +58,8 @@
           </div>
         </el-row> -->
         <el-row class="form-row form-upload">
-          <iFormItem label="上传附件" prop="uploadFile">
-            <iLabel :label="$t('上传附件')" slot="label"></iLabel>
+          <iFormItem :label="$t('上传附件')" prop="uploadFile">
+            <iLabel :label="$t('MT_SHANGCHUANFUJIAN')" slot="label"></iLabel>
             <el-upload
               action="1"
               :limit="1"
@@ -73,20 +73,22 @@
                 class="upload-button"
                 :uploadLoading="uploadLoading"
               >
-                请选择文件
+                {{ $t('MT_QINGXUANZEWENJIAN') }}
                 <span class="upload-text"><img :src="uploadIcon" /></span>
               </iButton>
-              <div slot="tip" class="el-upload__tip">文件大小最大限制10MB</div>
+              <div slot="tip" class="el-upload__tip">
+                {{ $t('MT_WENJIANDAXIAOZUIDAXIANZHI') }}10MB
+              </div>
             </el-upload>
           </iFormItem>
         </el-row>
         <div class="button-list">
           <el-form-item>
             <iButton @click="handleClose" plain class="cancel">{{
-              '取消'
+              $t('MT_QUXIAO')
             }}</iButton>
             <iButton @click="handleSubmit" plain :loading="loading">{{
-              '确认'
+              $t('MT_QUEREN')
             }}</iButton>
           </el-form-item>
         </div>
@@ -172,9 +174,9 @@ export default {
     'rowState.isTriggerApproval': {
       handler(v) {
         if (v) {
-          this.isOrNot = '是'
+          this.isOrNot = this.$t('是')
         } else {
-          this.isOrNot = '否'
+          this.isOrNot = this.$t('否')
         }
       },
       immediate: true
@@ -221,7 +223,7 @@ export default {
         .then((res) => {
           if (res.code === 200) {
             // iMessage.success('关闭成功')
-            this.$emit('handleOK',"close")
+            this.$emit('handleOK', 'close',res.data)
             this.handleClose()
           } else {
             this.loading = false
@@ -260,14 +262,14 @@ export default {
           this.$refs.ruleFormCloseMeeting.clearValidate('uploadFile')
         })
         .catch(() => {
-          iMessage.error('上传失败')
+          iMessage.error(this.$t('上传失败'))
         })
       this.uploadLoading = false
     },
     beforeAvatarUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error('上传头像图片大小不能超过10MB!')
+        this.$message.error(this.$t('上传头像图片大小不能超过10MB!'))
       }
       return isLt10M
     },

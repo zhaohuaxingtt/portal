@@ -364,8 +364,9 @@ export default {
       this.muiltSelectList = val
     },
     recall () {
-      if (this.muiltSelectList.length === 0) {
-        iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
+      // console.log(this.muiltSelectList.length)
+      if (this.muiltSelectList.length < 1) {
+        return iMessage.error(this.language('QINGXUANESHUJU', '请选择数据'))
       }
       this.actAmtList = []
       this.muiltSelectList.forEach((val) => {

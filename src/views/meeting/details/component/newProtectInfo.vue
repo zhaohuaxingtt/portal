@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="$t('维护资料')"
+    :title="$t('MT_WEIHUZILIAO')"
     :visible.sync="dialogStatusManageObj.openProtectInfoDialog"
     width="43rem"
     :close-on-click-modal="false"
@@ -29,12 +29,12 @@
               class="upload-button1"
               :loading="uploadLoading"
             >
-              {{$t('请选择文件')}}<span class="upload-text1"
+              {{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text1"
                 ><img :src="uploadIcon" class="img1"
               /></span>
             </iButton>
             <div slot="tip" class="el-upload__tip">
-              {{$t('文件大小最大限制')}}10M
+              {{$t('MT_WENJIANDAXIAOXIANZHI')}}10M
             </div>
           </el-upload>
         </iFormItem>
@@ -90,6 +90,11 @@ export default {
         return [];
       },
     },
+    fun:{
+      default:function(){
+        
+      }
+    }
   },
   data() {
     return {
@@ -102,7 +107,7 @@ export default {
         {
           prop: "fileId",
           label: "序号",
-          i18n: "序号",
+          i18n: "MT_XUHAO",
           // width: 68,
           tooltip: false,
         },
@@ -180,7 +185,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10;
       if (!isLt10M) {
-        this.$message.error("文件大小最大限制10M!");
+        this.$message.error(this.$t('文件大小最大限制10M!'));
       }
       return isLt10M;
     },
@@ -225,7 +230,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error(this.$t('下载失败'));
           }
         },
       });
@@ -275,7 +280,7 @@ export default {
           addThemenAttachment(data).then((res) => {
             this.tableData = [...res.attachments];
             this.generateTableNum();
-            iMessage.success("上传成功");
+            iMessage.success(this.$t('上传成功'));
           });
         })
         .catch((err) => {

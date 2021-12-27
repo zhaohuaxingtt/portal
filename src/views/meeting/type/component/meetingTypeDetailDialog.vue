@@ -13,33 +13,33 @@
           <div>
             <img :src="data.coverImage" alt="" class="cover-image" />
             <div class="left-descript-box">
-              <p class="desc-title">会议信息描述</p>
+              <p class="desc-title">{{$t('MT_HUIYIXINXIMIAOSHU')}}</p>
               <p class="desc">{{ data.meetingInfoDesc }}</p>
             </div>
           </div>
           <div class="meeting-name">
-            <p>类型名称</p>
+            <p>{{$t('MT_LEIXINGMINGCHENG')}}</p>
             <p>{{ data.name }}</p>
-            <p>会议名称后缀</p>
+            <p>{{$t('MT_HUIYIMINGCHENGHOUZHUI')}}</p>
             <p>{{ data.meetingNameSuffix }}</p>
-            <p>所属分类</p>
+            <p>{{$t('MT_SUOSHUFENLEI')}}</p>
             <p>{{ categoryObj[data.category] }}</p>
-            <p>会议管理员</p>
+            <p>{{$t('MT_HUIYIGUANLIYUAN')}}</p>
             <p>{{ data.userNames }}</p>
           </div>
         </div>
       </div>
       <div class="right-msg">
-        <p>议题时长</p>
+        <p>{{$t('MT_YITISHICHANG')}}</p>
         <p>
           <span>{{ data.duration }}</span
-          >分钟
+          >{{$t('MT_FENZHONG')}}
         </p>
         <div class="msg-box">
-          <span>是否触发审批</span>
-          <p>{{ data.isTriggerApproval ? "是" : "否" }}</p>
+          <span>{{$t('MT_SHIFOUCHUFASHENPI')}}</span>
+          <p>{{ data.isTriggerApproval ? $t('MT_SHI') : $t('MT_FOU') }}</p>
         </div>
-        <p>审批流程</p>
+        <p>{{$t('MT_SHENPILIUCHENG')}}</p>
         <p>{{ approvalProcessName }}</p>
       </div>
     </div>

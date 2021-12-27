@@ -5,31 +5,46 @@
  * @LastEditors: Please set LastEditors
  * @Description: 会外流转单pdf预览
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\locationChange\components\MtzLocationPoint\components\decisionMaterial\components\signPreview.vue
+  tabsBoxWrap打印div
+  tabsBoxTitle打印页眉
 -->
 <template>
   <div style="padding-bottom:30px;">
     <span class="download_btn" v-if="!editMode">
-      <iButton @click="handleClickExport" :loading="exportButtonLoading">{{language('DAOCHU', '导出')}}</iButton>
+      <iButton @click="handleClickExport">{{language('DAOCHU', '导出')}}</iButton>
     </span>
     <div id="content">
       <div class="content_dialog" v-if="m1&&(formData.appStatus == '流转完成' || formData.appStatus == '定点')"></div>
-      <iCard>
+      <iCard class="upload_hr" id="tabsBoxTitle">
         <div slot="header" class="headBox">
           <p class="headTitle">{{title}}</p>
-        </div>
-        <!-- label -->
-        <div class="tabsBoxInfor">
-          <div class="inforDiv"
-              v-for="(item,index) in formList"
-              :key="index">
-            <span>{{language(item.key,item.label)}}</span>
-            <span
-                  class="inforText"
-                  >{{formData[item.prop]}}</span>
+          <div class="tabs_box_right">
+            <div class="big_text">
+              <span class="samll_val">{{formData.mtzAppId}}-{{formData.appName}}</span>
+            </div>
+            <div class="small_text">
+              <span>{{language("SHENQINGRIQI","申请日期")}}：</span>
+              <span class="samll_val">{{formData.createDate}}</span>
+            </div>
+            <div class="small_text">
+              <span>{{language("KESHI","科室")}}：</span>
+              <span class="samll_val">{{formData.linieDeptName}}</span>
+            </div>
+            <div>
+              <span>{{language("CAIGOUYUAN","采购员")}}：</span>
+              <span class="samll_val">{{formData.linieName}}</span>
+            </div>
           </div>
         </div>
+        <el-divider class="hr_divider" />
+        <div class="infor_futitle">
+          <span class="big_font">Regulation:</span>
+          <br />
+          <span class="big_font">MTZ Payment=(Effective Price-Base Price)*Raw Material Weight*Settle accounts Quantity*Ratio</span>
+          <span class="big_small">When:effective price > base price *(1+threshold)</span>
+        </div>
         <el-divider v-if="ruleTableListData.length>0" />
-        <p class="tableTitle" v-if="ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}</p>
+        <p class="tableTitle" v-if="ruleTableListData.length>0">{{language('GUIZEQINGDAN', '规则清单')}}-Regulation</p>
         <tableList
           class="margin-top20"
           :tableData="ruleTableListData"
@@ -38,6 +53,11 @@
           :tableLoading="loading"
           :index="true"
           :selection="false">
+          <template slot-scope="scope"
+                    slot="supplierId">
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
+          </template>
           <template slot-scope="scope" slot="compensationPeriod">
             <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
           </template>
@@ -45,24 +65,9 @@
             <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
           </template>
         </tableList>
-        <!-- <tableList
-          class="margin-top20"
-          :tableData="ruleTableListData"
-          :tableTitle="ruleTableTitle1_2"
-          v-if="ruleTableListData.length>0"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-          <template slot-scope="scope" slot="thresholdCompensationLogic">
-            <span>{{scope.row.thresholdCompensationLogic == "A"?"全额补差":scope.row.thresholdCompensationLogic == "B"?"超额补差":""}}</span>
-          </template>
-        </tableList> -->
 
         <el-divider class="margin-top20" v-if="partTableListData.length>0" />
-        <p class="tableTitle" v-if="partTableListData.length>0">{{language('LJQD', '零件清单')}}</p>
+        <p class="tableTitle" v-if="partTableListData.length>0">{{language('LJQD', '零件清单')}}-Part List</p>
         <tableList
           class="margin-top20"
           :tableData="partTableListData"
@@ -73,33 +78,23 @@
           :selection="false">
           <template slot-scope="scope"
                     slot="supplierId">
-            <span>{{scope.row.supplierId}}/{{scope.row.supplierName}}</span>
+            <span>{{scope.row.supplierId}}</span><br/>
+            <span>{{scope.row.supplierName}}</span>
           </template>
           <template slot-scope="scope" slot="compensationPeriod">
               <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
             </template>
         </tableList>
-        <!-- <tableList
-          class="margin-top20"
-          :tableData="partTableListData"
-          :tableTitle="partTableTitle1_2"
-          v-if="partTableListData.length>0"
-          :tableLoading="loading"
-          :index="true"
-          :selection="false">
-          <template slot-scope="scope" slot="compensationPeriod">
-            <span>{{scope.row.compensationPeriod == "A"?"年度":scope.row.compensationPeriod == "H"?"半年度":scope.row.compensationPeriod == "Q"?"季度":scope.row.compensationPeriod == "M"?"月度":""}}</span>
-          </template>
-        </tableList> -->
       
       </iCard>
       <iCard class="margin-top20">
         <div slot="header"
             class="headBox">
-          <p class="headTitle">{{language('BEIZHU', '备注')}}</p>
+          <p class="headTitle">{{language('BEIZHU', '备注')}}-Remarks</p>
         </div>
         <iInput v-model="formData.linieMeetingMemo"
                 class="margin-top10"
+                :disabled="true"
                 :rows="8"
                 type="textarea" />
       </iCard>
@@ -109,17 +104,12 @@
           <div class="applayDateContent"
                v-for="(item, index) in applayDateData"
                :key="index">
-            <icon v-if="item.taskStatus==='同意'"
-                  class="margin-left5 applayDateIcon"
-                  symbol
-                  name="iconrs-wancheng"></icon>
-            <icon v-else
-                  class="margin-left5 applayDateIcon"
-                  symbol
-                  name="iconrs-quxiao"></icon>
+            <img class="margin-left5 applayDateIcon"
+               :src="item.taskStatus==='同意'?require('@/assets/images/icon/yes.png'):require('@/assets/images/icon/no.png')"
+               :fit="fit" />
             <div class="applayDateContentItem">
               <span>部门：</span>
-              <span class="applayDateDeptTitle">{{item.deptNameZh}}</span>
+              <span class="applayDateDeptTitle">{{item.deptFullCode}}</span>
             </div>
             <div class="applayDateContentItem">
               <span>日期：</span>
@@ -142,12 +132,11 @@
 import { iCard, icon, iInput, iButton, iMessage, iPagination } from 'rise'
 import { formList } from './data'
 import tableList from '@/components/commonTable/index.vue'
-import { ruleTableTitle1_1,ruleTableTitle1_2, partTableTitle1_1,partTableTitle1_2,ruleTableTitle2_1,ruleTableTitle2_2,partTableTitle2_1,partTableTitle2_2} from './data'
+import { ruleTableTitle1_1, partTableTitle1_1} from './data'
 import { getAppFormInfo, pageAppRule, pagePartMasterData, fetchSaveCs1Remark, fetchSignPreviewDept,approvalList } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details'
 import { pageMixins } from '@/utils/pageMixins'
-// import { downloadPdfMixins } from '@/utils/pdf';
-import { downloadPDF, dataURLtoFile } from "@/utils/pdf";
-import { downloadFileByUrl} from '@/utils';
+import { dataURLtoFile,transverseDownloadPDF } from "@/utils/pdf";
+// import { exportAsPDF } from '@/utils/PDFExport';
 export default {
   mixins: [pageMixins],
   props:["m1"],
@@ -164,10 +153,8 @@ export default {
       formData: {},
       formList,
       ruleTableTitle1_1,
-      ruleTableTitle1_2,
 
       partTableTitle1_1,
-      partTableTitle1_2,
 
       ruleTableListData: [],
       rulePageParams: {
@@ -185,7 +172,6 @@ export default {
       },
       applayDateData: [],
       deptData: [],
-      exportButtonLoading: false,
       moment: window.moment,
 
       // uploadTableLj:false,
@@ -346,20 +332,27 @@ export default {
     // },
     // 导出：导出当前为pdf
     handleClickExport() {
-      // console.log(this.title)
       var name = "";
       if (this.title == "") {
         name = "MTZ申请单"+this.$route.query.mtzAppId +"流转导出";
       } else {
         name = this.title;
       }
-      downloadPDF({
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      transverseDownloadPDF({
         idEle: 'content',
         pdfName: name,
         exportPdf: true,
         waterMark: true,
+        title:['#tabsBoxTitle .cardHeader'],//顶部页眉dom节点
         callback: async (pdf, pdfName) => {
           try {
+            loading.close();
             const filename = pdfName.replaceAll(/\./g, '_') + ".pdf";
             const pdfFile = pdf.output("datauristring");
             const blob = dataURLtoFile(pdfFile, filename);
@@ -368,14 +361,6 @@ export default {
           }
         },
       })
-      // this.exportButtonLoading = true
-      // this.createPdf().then(res => {
-      //   this.exportButtonLoading = false
-      //   if(res) {
-      //     downloadFileByUrl(res.downloadUrl)
-      //     iMessage.success(this.language('CAOZUOCHENGGONG', '操作成功'))
-      //   } else iMessage.error(this.language('CAOZUOSHIBAI', '操作失败'))
-      // })
     }
   }
 }
@@ -383,6 +368,8 @@ export default {
 
 <style lang='scss' scoped>
 $tabsInforHeight: 35px;
+
+
 .tableTitle {
   display: inline-block;
   font-weight: bold;
@@ -395,6 +382,7 @@ $tabsInforHeight: 35px;
   position: relative;
   justify-content: space-between;
   width: 100%;
+  display: flex;
   .headTitle {
     display: inline-block;
     font-weight: bold;
@@ -416,7 +404,8 @@ $tabsInforHeight: 35px;
 }
 .applayDateIcon {
   margin-top: 10px;
-  font-size: 30px;
+  width:33px;
+  height:33px;
 }
 .applayDateContentItem {
   width: 100%;
@@ -541,5 +530,62 @@ $tabsInforHeight: 35px;
       }
     }
   }
+}
+
+
+
+
+
+.tabs_box_right{
+  .samll_val{
+  }
+  .samll_title{
+    width:80px;
+  }
+  div{
+    display: flex;
+    align-items: flex-start;
+    margin-right:20px;
+  }
+  span{
+    display: inline-block;
+    font-size: 15px!important;
+  }
+  .small_text{
+    float:left;
+  }
+  .big_text{
+  }
+}
+.hr_divider{
+  margin:0 1.5rem 0 0;
+}
+::v-deep .cardHeader{
+  padding:1.875rem 1.5625rem 0 2.4rem!important;
+}
+.infor_futitle{
+  padding:0.5rem 0;
+  font-size:15px!important;
+  line-height:25px;
+  .big_font{
+    font-weight: bold;
+  }
+  .big_small{
+    padding-left:15px;
+  }
+}
+.upload_hr{
+  ::v-deep .cardBody{
+    padding-top:0px!important;
+  }
+}
+// .over_flow_y_ture{
+//   ::v-deep .el-table__body-wrapper{
+//     max-height: 300px;
+//     overflow-y: auto;
+//   }
+// }
+::v-deep .el-form-item__content{
+  line-height: 20px!important;
 }
 </style>

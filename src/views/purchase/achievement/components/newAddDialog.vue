@@ -174,7 +174,6 @@
                 }
             },
             uploadError(err, file) {
-              console.log(err,'err')
                 this.uploadLoading = false
                 iMessage.error(`${ file.name } ${ this.$t('LK_SHANGCHUANSHIBAI') }`)
             },

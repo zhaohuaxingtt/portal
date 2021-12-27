@@ -58,7 +58,7 @@
                 </el-form-item>
 
                 <!--采购员-->
-                <el-form-item :label="language('LK_CGY','采购员')">
+                <el-form-item :label="language('LK_CAIGOUYUAN','采购员')">
                     <iSelect multiple filterable collapse-tags :placeholder="language('请选择')" v-model="form.linieId">
                         <el-option
                                 :value="item.id"
@@ -76,7 +76,7 @@
                     <iInput :placeholder="language('请输入')" v-model="form.memo"></iInput>
                 </el-form-item>
                 <!--确认状态-->
-                <el-form-item :label="language('LK_QUERENZHUANGTAI','确认状态')">
+                <el-form-item :label="language('LK_QUERENZHUANGT','确认状态')">
                     <iSelect multiple filterable collapse-tags :placeholder="language('请选择')" v-model="form.isConfirm">
                         <el-option
                                 :value="item.key"

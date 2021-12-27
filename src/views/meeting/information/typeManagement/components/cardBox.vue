@@ -17,7 +17,7 @@
       </div>
       <div class="table">
         <div v-if="item.word == null || item.word == 0" class="table noData">
-          {{ $t('暂无数据') }}
+          {{ $t('MT_ZANWUSHUJU') }}
         </div>
         <div
           v-else
@@ -30,7 +30,7 @@
         </div>
       </div>
       <iButton class="button" @click="$emit('editMeetingType', item)"
-        >{{$t('修改会议类型信息')}}</iButton
+        >{{$t('MT_XIUGAIHUIYILEIXINGXINXI')}}</iButton
       >
     </iCard>
   </div>
@@ -39,7 +39,6 @@
 <script>
 import { iCard, iButton, iMessage } from 'rise'
 import { download } from '@/utils/downloadUtil'
-import { MOCK_FILE_URL } from '@/constants'
 import { getFileByIds } from '@/api/file/filedownload'
 export default {
   components: { iCard, iButton },
@@ -59,7 +58,7 @@ export default {
     // 附件下载
     downLoadFileInfo(i) {
       getFileByIds([i.id]).then((data) => {
-        const { name } = data[0]
+        const { name } = data.data[0]
         download({
           // url: MOCK_FILE_URL + i.id,
           // filename: name,
@@ -67,7 +66,7 @@ export default {
           filename: name,
           callback: (e) => {
             if (!e) {
-              iMessage.error('下载失败')
+              iMessage.error(this.$t('下载失败'))
             }
           }
         })

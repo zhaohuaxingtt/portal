@@ -5,8 +5,8 @@
     @close="closeDialog"
     :loading='loading'
     :show-close='false'
-    width="851px"
-    height='440px'
+    :width="dialogWidth"
+    :height='dialogHeight'
     :class="{'black-style':detail.popupStyle == '2'}"
   >
       <div class="" :class="{'center-style':detail.popupStyle == '1','main':detail.popupStyle == '0','right-style':detail.popupStyle == '2'}">
@@ -15,12 +15,16 @@
               <img v-show="!detail.picUrl" src="../../assets/images/popupPic.png" alt="" class="left-image" />
           </div>
           <div class="right">
-              <h2 :class="{'link-text':detail.linkUrl}" @click="toNewPage">{{detail.title}}</h2>
+              <div class="right-title" :class="{'link-text':detail.linkUrl}" @click="toNewPage">
+                  <!-- <h2 > -->
+                      {{detail.title}}
+                <!-- </h2> -->
+              </div>
               <div class="content" :class="{'text-left':detail.wordAlign == 0,'text-center':detail.wordAlign==1,'text-right':detail.wordAlign == 2}">
                   <el-input type="textarea" v-model="detail.content" disabled></el-input>
               </div>
               <div class="publishTime"><i class="el-icon-time"><span class="publishTime-content">{{detail.publishTime}}</span></i></div>
-              <iButton @click="closeDialog" class="btn">{{language('确认')}}</iButton>
+              <iButton @click="sureMessage" class="btn">{{language('确认')}}</iButton>
           </div>
       </div>
   </iDialog>
@@ -28,6 +32,7 @@
 
 <script>
 import {iDialog,iButton} from 'rise'
+import {changeCheckedSta} from '../../api'
 export default {
     name:'detailDialog',
     components:{iDialog,iButton},
@@ -42,7 +47,8 @@ export default {
                     linkUrl:'',
                     publishTime:'',
                     popupStyle:'',
-                    wordAlign:'0'
+                    wordAlign:'0',
+                    popupId:''
                 }
             }
         },
@@ -53,7 +59,9 @@ export default {
     },
     data(){
         return{
-            loading:false
+            loading:false,
+            dialogHeight:'440px',
+            dialogWidth:400*(16/9)+'px'
         }
     },
     created(){
@@ -70,12 +78,34 @@ export default {
         },
         closeDialog(){
             this.$emit('update:show',false)
+            this.$emit('is-sure',false)
+        },
+        sureMessage(){
+            const data = {
+                userId:JSON.parse(sessionStorage.getItem('userInfo')).accountId,
+                popupId:this.detail.popupId
+            }
+            changeCheckedSta(data).then(res=>{
+                if(res.code == 200){
+                    this.$emit('update:show',false)
+                    this.$emit('is-sure',true)
+                }else{
+                    this.$message.error(res.desZh)
+                     this.$emit('update:show',false)
+                    this.$emit('is-sure',false)
+                }
+            })
+            
         }
+
     }
 }
 </script>
 
 <style lang="scss" scoped>
+::v-deep .el-dialog__body{
+    padding: 0 50px !important;
+}
 .text-left{
     text-align: left;
 }
@@ -104,7 +134,7 @@ export default {
     width: 100%;
     justify-content:space-between;
     .left{
-        width: 360px;
+        width:48%;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -119,11 +149,10 @@ export default {
         position: relative;
         // display: flex;
         // flex-direction: column;
-        width:400px;
+        width:48%;
         height: 100%;
-        margin-left: 360px;
+        margin-left:52%;
         top: -40px;
-        .content,
         .btn{
             position: absolute;
             bottom: 0;
@@ -139,10 +168,15 @@ export default {
                 font-size: 16px;
             }
         }
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 106%;
+        }
         .content{
             position: absolute;
             top: 70px;
-            width: 104%;
+            width: 106%;
             line-height: 24px;
             max-height: 280px;
             overflow: auto;
@@ -160,22 +194,28 @@ export default {
     .left{
         width:100%;
         position: absolute;
+        height: 38%;
         top: 0;
         left: 0;
         .left-image{
             width: 100%;
-            height: 160px;
+            height: 100%;
             border-radius: 10px 10px 0 0 ;
         }
     }
     .right{
-        margin-top:120px ;
+        margin-top:20%;
         text-align: center;
-        height: 100%;
+        height: 60%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        >h2,
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 110%;
+            margin-bottom: 20px;
+        }
         .content,
         .publishTime,
         .btn
@@ -189,7 +229,7 @@ export default {
             overflow: auto;
         }
         .publishTime{
-            width: 250px;
+            // width: 250px;
             padding: 5px;
             color: #1660F1;
             // border: solid rgb(229, 229, 229) 1px;
@@ -207,7 +247,7 @@ export default {
     background: #151316;
     justify-content:space-between;
     .left{
-        width: 360px;
+        width: 48%;
         height: 100%;
         position: absolute;
         top: 0px;
@@ -222,12 +262,14 @@ export default {
         position: relative;
         // display: flex;
         // flex-direction: column;
-        width: 400px;
+        width: 48%;
         height: 100%;
-        margin-left: 360px;
+        margin-left: 52%;
         top: -40px;
-        >h2{
-            color: #FFFFFF;
+        .right-title{
+            font-size: 20px;
+            font-weight: bold;
+            width: 106%;
         }
         .content,
         .btn{
@@ -248,7 +290,7 @@ export default {
         .content{
             position: absolute;
             top: 70px;
-            width: 104%;
+            width: 110%;
             color: #888888;
             line-height: 24px;
             max-height: 280px;

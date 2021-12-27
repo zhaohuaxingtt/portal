@@ -87,14 +87,14 @@
                   />
                 </iFormItem>
                 <p class="task">
-                  Result：{{
+                  Result：{{$t(
                     item.conclusionCsc === '01'
                       ? conclusionCscList[item.conclusionCsc]
                       : item.conclusionCsc === '02'
                       ? conclusionCscList[item.conclusionCsc]
                       : item.conclusionCsc === '07'
                       ? conclusionCscList[item.conclusionCsc]
-                      : ''
+                      : '')
                   }}
                 </p>
                 <iFormItem class="meet-desc">
@@ -239,22 +239,22 @@ export default {
       },
       rules: {
         attendees: [
-          { required: true, message: '请输入议题结论！', trigger: 'blur' },
-          { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
+          { required: true, message: this.$t('请输入议题结论！'), trigger: 'blur' },
+          { min: 0, max: 2048, message: this.$t('最大长度2048字符'), trigger: 'blur' }
         ],
         conclusion: [
-          { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
+          { min: 0, max: 2048, message: this.$t('最大长度2048字符'), trigger: 'blur' }
         ]
       },
       employeeDTOS: [],
       conclusionCscList: {
-        '01': '待定',
-        '02': '定点',
-        '03': '发LOI',
-        '04': '转TER/TOP-TER',
-        '05': '下次Pre CSC',
-        '06': '转CSC',
-        '07': '关闭'
+        '01': 'MT_DAIDING',
+        '02': 'MT_DINGDIAN',
+        '03': 'MT_FALOI',
+        '04': 'MT_ZHUANTER',
+        '05': 'MT_XIACIPRE',
+        '06': 'MT_ZHUANCSC',
+        '07': 'MT_GUANBI'
       },
       employeeStr: ''
     }
@@ -294,7 +294,7 @@ export default {
       return item.toDoMeetingName?.substring(0, 9)
     },
     //表头汉子两行展示
-    renderHeader(h, { column, $index }) {
+    renderHeader(h, { column }) {
       return h('span', {}, [
         h('span', {}, column.label.split('/')[0]),
         h('br'),
@@ -319,10 +319,10 @@ export default {
       })
     },
     handleOK() {
-      this.$refs.ruleForm.validate((valid, obj) => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          saveMeetingMinutes(this.resultData).then((res) => {
-            iMessage.success('保存成功')
+          saveMeetingMinutes(this.resultData).then(() => {
+            iMessage.success(this.$t('保存成功'))
             this.$emit('handleOK')
           })
         }

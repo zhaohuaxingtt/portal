@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-29 14:47:24
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-08 15:46:46
+ * @LastEditTime: 2021-12-17 17:49:40
  * @FilePath: \front-portal-new\src\views\opcsSupervise\opcsPermission\application\userManage\components\userTable.vue
 -->
 <template>
@@ -33,9 +33,9 @@
         <i-button v-if="!edit"
                   @click="thawBtn">{{ language('JIEDONG', '解冻') }}
         </i-button>
-        <i-button v-if="!edit"
+        <!-- <i-button v-if="!edit"
                   @click="upload">{{ language('SHANGCHUAN', '上传') }}
-        </i-button>
+        </i-button> -->
         <i-button v-if="!edit"
                   @click="activeBtn">{{ language('JIHUO', '激活') }}
         </i-button>
@@ -45,9 +45,20 @@
         <i-button v-if="!edit"
                   @click="download">{{ language('XIAZAIMOBAN', '下载模板') }}
         </i-button>
-        <i-button v-if="!edit"
-                  @click="exportsTable">{{ language('DAORU', '导入') }}
-        </i-button>
+        <el-upload style="margin-left:10px"
+                   v-if="!edit"
+                   action="1"
+                   :accept="accept"
+                   :before-upload="beforeAvatarUpload"
+                   :show-file-list="false"
+                   :http-request="httpUpload"
+                   :disabled="uploadLoading">
+          <div>
+            <i-button>{{ language('DAORU', '导入') }}
+            </i-button>
+          </div>
+        </el-upload>
+
       </div>
     </div>
     <table-list :tableData="tableListData"
@@ -57,9 +68,14 @@
                 :input-props="inputProps"
                 :index="true"
                 ref="commonTable">
+
       <template #markExpiration='scope'>
         <span v-if="scope.row.markExpiration==1">是</span>
         <span v-if="scope.row.markExpiration==0">否</span>
+      </template>
+      <template #system='scope'>
+        <iButton  @click="openDialog(scope.row)" type="text">{{ language('CAOZUO', '操作') }}
+        </iButton>
       </template>
     </table-list>
     <iPagination style="margin-top: 20px"
@@ -72,42 +88,42 @@
                  :layout="page.layout"
                  :current-page="page.currPage"
                  :total="page.totalCount" />
+  <systemDetail  @closeDiolog="closeDiolog"    v-model="isdialog" :rowList="rowList"></systemDetail>
+    
+ 
   </iCard>
 </template>
 
 <script>
 import tableList from '@/components/commonTable'
 import { pageMixins } from '@/utils/pageMixins'
+import  systemDetail  from './systemDetail'
 import { tableTitle, tableTitleEdit } from './data'
-import {
-  iCard,
-  iButton,
-  iSelect,
-  iMessage,
-  iPagination,
-  iMessageBox
-} from 'rise'
+import store from '@/store'
+import { iCard, iButton, iMessage, iPagination, iMessageBox } from 'rise'
 import {
   queryDetailUser,
   thawUser,
   saveUser,
   renewalUser,
   freezeUser,
-  exportUser,
   downloadUser,
-  activeUser
+  activeUser,
+  imports
 } from '@/api/opcs/solPermission'
 export default {
   mixins: [pageMixins],
   components: {
     iCard,
     iButton,
-    iSelect,
     tableList,
-    iPagination
+    iPagination,
+    systemDetail
   },
   data() {
     return {
+        isdialog:false,
+        rowList:{},
       inputProps: [],
       edit: false,
       tableLoading: false,
@@ -124,13 +140,16 @@ export default {
     save() {
       this.$refs.commonTable.$refs.commonTableForm.validate((valid) => {
         if (valid) {
-          let req = {
+          let parmars = {
             saveUserList: this.tableListData,
             opcsSupplierKeyId: this.$route.query.opcsSupplierId
           }
-          saveUser(req).then((res) => {
+          console.log(parmars)
+          saveUser(parmars).then((res) => {
             if (res && res.code == 200) {
+              this.inputProps = []
               this.edit = false
+
               this.getTableData()
               iMessage.success(res.desZh)
             } else iMessage.error(res.desZh)
@@ -174,51 +193,37 @@ export default {
       this.editMode = false
       this.edit = false
     },
-    //导出
-    exportsTable() {
-      const params = {
-        opcsSupplierId: this.$route.query.opcsSupplierId,
-        pageNo: this.page.currPage,
-        pageSize: this.page.pageSize,
-        ...this.form
+    //导入
+    async httpUpload(info) {
+      let formData = new FormData()
+      formData.append('file', info.file)
+      formData.append('opcsSupplierId ', this.$route.query.opcsSupplierId)
+      formData.append('userId ', store.state.permission.userInfo.id)
+      await imports(formData)
+        .then((res) => {})
+        .catch((err) => {
+          iMessage.error('上传失败')
+        })
+    },
+    // 上传前校验
+    beforeAvatarUpload(file) {
+      const isLt10M = file.size / 1024 / 1024 < 10
+      if (!isLt10M) {
+        this.$message.error(`上传文件大小不能超过10MB!`)
       }
-      exportUser(params)
+      return isLt10M
+    },
+    closeDiolog(){
+        this.isdialog=false
+    },
+    //应用关联弹窗
+    openDialog(v) {
+        this.isdialog=true
+        this.rowList=v
     },
     //下载模板
     download() {
-      downloadUser()
-    },
-    //解冻
-    thawBtn() {
-      if (this.selectTableData.length == 0) {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
-        return false
-      }
-      thawUser({ idList: this.selectTableData.map((res) => res.id) })
-    },
-    //激活
-    activeBtn() {
-      if (this.selectTableData.length == 0) {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
-        return false
-      }
-      activeUser({ idList: this.selectTableData.map((res) => res.id) })
-    },
-    //冻结
-    freezeBtn() {
-      if (this.selectTableData.length == 0) {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
-        return false
-      }
-      freezeUser({ idList: this.selectTableData.map((res) => res.id) })
-    },
-    //续期
-    renewalBtn() {
-      if (this.selectTableData.length == 0) {
-        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
-        return false
-      }
-      renewalUser({ idList: this.selectTableData.map((res) => res.id) })
+      downloadUser({ pageNo: this.page.currPage, pageSize: this.page.pageSize })
     },
 
     //新增
@@ -248,8 +253,8 @@ export default {
           cancelButtonText: this.language('FOU', '否')
         }
       ).then(async () => {
-        this.tableListData.forEach((v) => {
-          this.selectTableData.forEach((j, i) => {
+        this.selectTableData.map((v) => {
+          this.tableListData.map((j, i) => {
             if (v === j) {
               this.tableListData.splice(i, 1)
             }
@@ -260,6 +265,66 @@ export default {
     //修改表格改动列
     handleSelectionChange(val) {
       this.selectTableData = val
+    },
+    //解冻
+    thawBtn() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      thawUser({
+        opcsSupplierId: this.$route.query.opcsSupplierId,
+        idList: this.selectTableData.map((res) => res.id)
+      }).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+        } else iMessage.error(res.desZh)
+      })
+    },
+    //激活
+    activeBtn() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      activeUser({
+        opcsSupplierId: this.$route.query.opcsSupplierId,
+        idList: this.selectTableData.map((res) => res.id)
+      }).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+        } else iMessage.error(res.desZh)
+      })
+    },
+    //冻结
+    freezeBtn() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      freezeUser({
+        opcsSupplierId: this.$route.query.opcsSupplierId,
+        idList: this.selectTableData.map((res) => res.id)
+      }).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+        } else iMessage.error(res.desZh)
+      })
+    },
+    //续期
+    renewalBtn() {
+      if (this.selectTableData.length == 0) {
+        iMessage.warn(this.$t('SUPPLIER_ZHISHAOXUANZHEYITIAOJILU'))
+        return false
+      }
+      renewalUser({
+        opcsSupplierId: this.$route.query.opcsSupplierId,
+        idList: this.selectTableData.map((res) => res.id)
+      }).then((res) => {
+        if (res && res.code == 200) {
+          iMessage.success(res.desZh)
+        } else iMessage.error(res.desZh)
+      })
     }
   }
 }
@@ -268,5 +333,8 @@ export default {
 <style  lang="scss" scope>
 .el-table .el-table__row .el-input {
   width: 100% !important;
+}
+.floatright {
+  display: flex;
 }
 </style>

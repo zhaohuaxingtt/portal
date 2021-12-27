@@ -49,7 +49,7 @@
 import { iPage, iCard } from 'rise'
 import { filterPanel, result } from './components'
 import { pageMixins } from '@/utils/pageMixins'
-import { elasticSearch } from '@/api/search'
+import { fullTextSearch ,selectionSearch} from '@/api/search'
 import { fetchDict } from '@/api/baseInfo'
 export default {
   name: 'Search',
@@ -91,34 +91,35 @@ export default {
       this.query()
     },
     async queryCategorys() {
-      const { data } = await fetchDict([{ code: '##ESEntity', parentId: -1 }])
-      const names = data['##ESEntity']
-      // this.showResult = true
-      this.categoryOptions = names.map((item) => {
-        return { value: item.name, label: item.name, id: item.id }
+      
+      const { data } = await selectionSearch({terminal:'1'})
+      this.categoryOptions = data.map((item) => {
+        return { value: item.code, label: item.name ,id:item.code}
       })
     },
     async query() {
-      //if (this.searchForm.words.trim().length > 0) {
-      let dataSource = this.searchForm.dataSourceList.map((item) => {
+      let types = this.searchForm.dataSourceList.map((item) => {
         return item.value
       })
+      const userId = JSON.parse(sessionStorage.getItem('userInfo')).id
       const requestData = {
-        words: this.searchForm.words,
-        dataSource,
+        keyword: this.searchForm.words,
+        types,
         pageNo: this.page.currPage - 1,
+        supplierId:'',
+        terminal:'1',
+        userId,
         pageSize: 100 // this.page.pageSize
       }
       this.loading = true
-      const res = await elasticSearch(requestData).finally(() => {
-        this.loading = false
-        this.showResult = true
+      const res = await fullTextSearch(requestData).finally(()=>{
+          this.loading = false
+          this.showResult = true
       })
       this.results = res?.data || []
       this.page.totalCount = res?.total || 0
       this.page.pageSize = res?.pageSize || 10
       this.setSearchHistory(this.searchForm.words)
-      //}
     },
     setSearchHistory(keyword) {
       let histories = []

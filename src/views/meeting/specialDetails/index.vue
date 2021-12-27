@@ -4,7 +4,7 @@
       <div class="header">
         <div class="row">
           <div class="meeting-type">
-            <div class="name">会议名称</div>
+            <div class="name">{{ $t('MT_HUIYIMINGCHENG') }}</div>
             <div class="name-content" :title="meetingInfo.name">
               {{ meetingInfo.name }}
             </div>
@@ -34,13 +34,13 @@
         <div class="row">
           <div class="list">
             <div class="show">
-              <div class="title">会议类型</div>
+              <div class="title">{{ $t('MT_HUIYILEIXING') }}</div>
               <div class="content">
                 {{ typeObject[meetingInfo.meetingTypeId] }}
               </div>
             </div>
             <div class="show">
-              <div class="title">会议地点</div>
+              <div class="title">{{ $t('MT_HUIYIDIDIAN') }}</div>
               <div
                 class="content content-address"
                 :title="meetingInfo.meetingPlace"
@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="show">
-              <div class="title">会议时间</div>
+              <div class="title">{{ $t('MT_HUIYISHIJIAN') }}</div>
               <div class="content">
                 {{
                   `${begin}${
@@ -76,8 +76,11 @@
         </div>
       </div>
       <iCard>
-        <iButton @click="handleClickColumn" class="display-column"
-          >列隐藏/显示</iButton
+        <iButton
+          @click="handleClickColumn"
+          class="display-column"
+          :disabled="showUpdateTopicButtonList"
+          >{{ $t('MT_LIEYINCANGHUOXIANSHI') }}</iButton
         >
         <actionButtons
           :currentButtonList="tableButtonList"
@@ -120,8 +123,7 @@
             v-if="!showUpdateTopicButtonList"
             :rowClassName="tableRowClassName"
             :currentRow="currentRow"
-            :isSingle="isSingle"
-            :defaultSort="{ prop: 'time', order: 'descending' }"
+            :isSingle="true"
             ref="hiddenColumnTable"
           >
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -188,9 +190,9 @@
               <template slot-scope="scope">
                 {{
                   scope.row.isBreak
-                    ? '/'
+                    ? '-'
                     : scope.row.type === 'MANUAL'
-                    ? '手工议题'
+                    ? $t('手工议题')
                     : scope.row.type
                 }}
               </template>
@@ -216,7 +218,7 @@
               <template slot-scope="scope">
                 <span>{{
                   scope.row.isBreak
-                    ? '/'
+                    ? '-'
                     : themenConclusion[scope.row.conclusionCsc]
                 }}</span>
               </template>
@@ -231,7 +233,7 @@
               sortable
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.ep }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.ep }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="16"></el-table-column> -->
@@ -244,7 +246,7 @@
               sortable
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.supporter }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.supporter }}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -256,7 +258,7 @@
               sortable
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.presenter }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.presenter }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="14"></el-table-column> -->
@@ -269,7 +271,7 @@
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.isBreak ? '/' : scope.row.presenterDept
+                  scope.row.isBreak ? '-' : scope.row.presenterDept
                 }}</span>
               </template>
             </el-table-column>
@@ -301,10 +303,11 @@
               label="Sourcing No."
               min-width="119"
               prop="sourcingNo"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.isBreak ? '/' : scope.row.sourcingNo
+                  scope.row.isBreak ? '-' : scope.row.sourcingNo
                 }}</span>
               </template>
             </el-table-column>
@@ -315,9 +318,10 @@
               label="TNR"
               min-width="60"
               prop="tnr"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.tnr }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.tnr }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -327,9 +331,10 @@
               label="BEN(CN)"
               width="89"
               prop="benCn"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.benCn }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.benCn }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -339,9 +344,10 @@
               label="BEN(DE)"
               width="88"
               prop="benDe"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.benDe }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.benDe }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -352,7 +358,7 @@
               min-width="74"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">/</span>
+                <span v-if="scope.row.isBreak">-</span>
                 <span v-else
                   >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
                     scope.row.preCount ? scope.row.preCount : 0
@@ -367,9 +373,10 @@
               label="Carline"
               min-width="62"
               prop="carline"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.isBreak ? '/' : scope.row.carline }}</span>
+                <span>{{ scope.row.isBreak ? '-' : scope.row.carline }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="26.5"></el-table-column> -->
@@ -379,10 +386,10 @@
               label="Part Type"
               min-width="110"
               prop="partType"
-              label-class-name="test-class"
+              label-class-name="can-hideen"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.isBreak">/</span>
+                <span v-if="scope.row.isBreak">-</span>
                 <span class="open-link-text" v-else>{{
                   scope.row.partType
                 }}</span>
@@ -400,7 +407,6 @@
               @go-detail="handleGoDetail"
               v-if="showUpdateTopicButtonList"
               :rowClassName="tableRowClassName"
-              :defaultSort="{ prop: 'time', order: 'descending' }"
             >
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
               <el-table-column
@@ -421,7 +427,6 @@
                 label="Time"
                 min-width="136"
                 prop="time"
-                sortable
               >
                 <template slot-scope="scope">
                   <span class="open-link-text">{{ scope.row.time }}</span>
@@ -466,9 +471,9 @@
                 <template slot-scope="scope">
                   {{
                     scope.row.isBreak
-                      ? '/'
+                      ? '-'
                       : scope.row.type === 'MANUAL'
-                      ? '手工议题'
+                      ? $t('MT_SHOUGONGYITI')
                       : scope.row.type
                   }}
                 </template>
@@ -494,7 +499,7 @@
                 <template slot-scope="scope">
                   <span>{{
                     scope.row.isBreak
-                      ? '/'
+                      ? '-'
                       : themenConclusion[scope.row.conclusionCsc]
                   }}</span>
                 </template>
@@ -506,10 +511,9 @@
                 label="EP"
                 min-width="65"
                 prop="ep"
-                sortable
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.isBreak ? '/' : scope.row.ep }}</span>
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.ep }}</span>
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="16"></el-table-column> -->
@@ -519,11 +523,10 @@
                 label="Sourcing"
                 min-width="115"
                 prop="supporter"
-                sortable
               >
                 <template slot-scope="scope">
                   <span>{{
-                    scope.row.isBreak ? '/' : scope.row.supporter
+                    scope.row.isBreak ? '-' : scope.row.supporter
                   }}</span>
                 </template>
               </el-table-column>
@@ -533,11 +536,10 @@
                 label="Linie"
                 min-width="82"
                 prop="presenter"
-                sortable
               >
                 <template slot-scope="scope">
                   <span>{{
-                    scope.row.isBreak ? '/' : scope.row.presenter
+                    scope.row.isBreak ? '-' : scope.row.presenter
                   }}</span>
                 </template>
               </el-table-column>
@@ -551,7 +553,7 @@
               >
                 <template slot-scope="scope">
                   <span>{{
-                    scope.row.isBreak ? '/' : scope.row.presenterDept
+                    scope.row.isBreak ? '-' : scope.row.presenterDept
                   }}</span>
                 </template>
               </el-table-column>
@@ -583,10 +585,11 @@
                 label="Sourcing No."
                 min-width="119"
                 prop="sourcingNo"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
                   <span>{{
-                    scope.row.isBreak ? '/' : scope.row.sourcingNo
+                    scope.row.isBreak ? '-' : scope.row.sourcingNo
                   }}</span>
                 </template>
               </el-table-column>
@@ -597,9 +600,10 @@
                 label="TNR"
                 min-width="60"
                 prop="tnr"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.isBreak ? '/' : scope.row.tnr }}</span>
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.tnr }}</span>
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -609,9 +613,10 @@
                 label="BEN(CN)"
                 width="89"
                 prop="benCn"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.isBreak ? '/' : scope.row.benCn }}</span>
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.benCn }}</span>
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -621,9 +626,10 @@
                 label="BEN(DE)"
                 width="88"
                 prop="benDe"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.isBreak ? '/' : scope.row.benDe }}</span>
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.benDe }}</span>
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="30"></el-table-column> -->
@@ -634,7 +640,7 @@
                 min-width="74"
               >
                 <template slot-scope="scope">
-                  <span v-if="scope.row.isBreak">/</span>
+                  <span v-if="scope.row.isBreak">-</span>
                   <span v-else
                     >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
                       scope.row.preCount ? scope.row.preCount : 0
@@ -649,9 +655,10 @@
                 label="Carline"
                 min-width="62"
                 prop="carline"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
-                  <span>{{ scope.row.isBreak ? '/' : scope.row.carline }}</span>
+                  <span>{{ scope.row.isBreak ? '-' : scope.row.carline }}</span>
                 </template>
               </el-table-column>
               <!-- <el-table-column align="center" width="26.5"></el-table-column> -->
@@ -661,10 +668,10 @@
                 label="Part Type"
                 min-width="110"
                 prop="partType"
-                label-class-name="test-class"
+                label-class-name="can-hideen"
               >
                 <template slot-scope="scope">
-                  <span v-if="scope.row.isBreak">/</span>
+                  <span v-if="scope.row.isBreak">-</span>
                   <span class="open-link-text" v-else>{{
                     scope.row.partType
                   }}</span>
@@ -854,10 +861,10 @@ import {
   importThemen
 } from '@/api/meeting/home'
 import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
-import { download } from '@/utils/downloadUtil'
+// import { download } from '@/utils/downloadUtil'
+import { downloadStaticFile } from '@/utils/downloadStaticFileUtil'
 import enclosure from '@/assets/images/enclosure.svg'
 import newSummaryDialogNew from '@/views/meeting/home/components/newSummaryDialogNew.vue'
-
 export default {
   mixins: [pageMixins],
   components: {
@@ -884,11 +891,10 @@ export default {
   },
   data() {
     return {
+      riseIcon: process.env.VUE_EMAIL_ICON,
       openError: false,
       errorList: [],
       autoOpenProtectConclusionObj: '',
-      isSingle: false,
-      // closeLoading: false,
       curState: '',
       processUrl: process.env.VUE_APP_POINT,
       processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
@@ -958,10 +964,6 @@ export default {
     }
   },
   watch: {
-    isAdmin: {
-      handler() {},
-      immediate: true
-    },
     resThemeData: {
       handler(data) {
         const row = data.find((item) => item.state === '02')
@@ -996,6 +998,26 @@ export default {
   //   }
   // },
   methods: {
+    createAnchorLink(href) {
+      // console.log('href', href)
+      const a = document.createElement('a')
+      a.href = href
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+    },
+    handleSendEmail(list) {
+      const subject = this.meetingInfo.name
+      const send = list ? list.join(';') : ''
+      // let minuteSrc = 'aaa'
+      const attachments = this.meetingInfo.attachments.find((item) => {
+        return item.source === '02'
+      })
+      const minuteSrc = attachments ? attachments.attachmentUrl : ''
+      let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'>`
+      let href = `mailto:${send}?subject=${subject}&body=${body}`
+      this.createAnchorLink(href)
+    },
     handleClickColumn() {
       this.$refs['hiddenColumnTable'].handleOpenColumn()
     },
@@ -1160,7 +1182,7 @@ export default {
     },
     // 下载模版
     downDemo() {
-      download({
+      downloadStaticFile({
         url: '/rise-meeting/meetingService/downloadThemenImportTemplate',
         filename: '议题模版',
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
@@ -1254,7 +1276,7 @@ export default {
             )
           } else if (themen.type === 'MTZ') {
             window.open(
-              `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?currentStep=3&mtzAppId=${themen.fixedPointApplyId}`,
+              `${this.processUrlPortal}/mtz/annualGeneralBudget/locationChange/MtzLocationPoint/overflow/decisionMaterial?meeting=1&currentStep=3&mtzAppId=${themen.fixedPointApplyId}`,
               '_blank'
             )
           } else {
@@ -1275,10 +1297,11 @@ export default {
     closeDialogTopic() {
       this.openAddTopic = false
     },
-    // 导入议题保存
-    handleOKTopics(info) {
+
+    handleOKTopics(info, list) {
       if (info === 'close') {
         iMessage.success('关闭成功')
+        // this.handleSendEmail(list)
       }
       this.closeDialog()
       this.flushTable()
@@ -1383,14 +1406,16 @@ export default {
       this.tableObject = new Sortable(tbody, {
         filter: '.dragable-row',
         onFilter() {
-          iMessage.warn('已结束或进行中的议题不可以被调整!')
+          iMessage.warn(this.$t('已结束或进行中的议题不可以被调整!'))
         },
         onMove(evt) {
           const classStr = evt.related.getAttribute('class')
           if (classStr.includes('dragable-row')) {
             if (!_this.timer) {
               _this.timer = true
-              iMessage.warn('不可以把议题拖拽到已结束或者进行中的议题之前!')
+              iMessage.warn(
+                this.$t('不可以把议题拖拽到已结束或者进行中的议题之前!')
+              )
               let timers = setTimeout(() => {
                 _this.timer = null
                 clearTimeout(timers)
@@ -1434,9 +1459,9 @@ export default {
         : [...this.resThemeData]
       this.moveInArray(this.changedArr, sourceIndex, targetIndex)
     },
-    getTableData() {
+    async getTableData() {
       const meetingId = this.$route.query.id
-      this.queryMeetingInfoById(meetingId)
+      return await this.queryMeetingInfoById(meetingId)
     },
     handlePage(data = []) {
       // this.page.totalCount = data.length;
@@ -1533,25 +1558,20 @@ export default {
           break
       }
     },
-    queryMeetingInfoById(id) {
+    async queryMeetingInfoById(id) {
       const data = {
         id
       }
       const _this = this
-      findThemenById(data)
-        .then((res) => {
-          this.meetingType = res.state
-          _this.meetingInfo = res
-          // console.log(res);
-          _this.goState(res.state, res.isCSC, res.isPreCSC)
-          _this.resThemeData = [...res.themens]
-          _this.handlePage(res.themens)
-          _this.generateTime()
-        })
-        .catch((err) => {
-          // console.log("this.meetingInfo", this.meetingInfo);
-          console.log(err)
-        })
+      const res = await findThemenById(data)
+      this.meetingType = res.state
+      _this.meetingInfo = res
+      // console.log(res);
+      _this.goState(res.state, res.isCSC, res.isPreCSC)
+      _this.resThemeData = [...res.themens]
+      _this.handlePage(res.themens)
+      _this.generateTime()
+      return res
     },
     query() {
       const _this = this
@@ -1659,9 +1679,9 @@ export default {
       resortThemen(formData)
         .then((data) => {
           if (data) {
-            iMessage.success('保存成功')
+            iMessage.success(this.$t('保存成功'))
           } else {
-            iMessage.error('保存失败')
+            iMessage.error(this.$t('保存失败'))
           }
           this.changedArr = ''
           this.flushTable()
@@ -1673,19 +1693,23 @@ export default {
     },
     close() {
       if (this.meetingInfo.attachments.length <= 0) {
-        this.$confirm('尚未生成会议纪要，前往生成会议纪要？', '提示', {
-          confirmButtonText: '前往',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
+        this.$confirm(
+          this.$t('尚未生成会议纪要，前往生成会议纪要？'),
+          this.$t('提示'),
+          {
+            confirmButtonText: this.$t('前往'),
+            cancelButtonText: this.$t('取消'),
+            type: 'warning'
+          }
+        ).then(() => {
           //在这里判断是不是已经生成会议纪要了
           // this.openDialog('openCloseMeetiongDialog')
           this.generateMeetingMinutes()
         })
       } else {
-        this.$confirm('请确认是否需要关闭会议?', '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
+        this.$confirm(this.$t('请确认是否需要关闭会议?'), this.$t('提示'), {
+          confirmButtonText: this.$t('是'),
+          cancelButtonText: this.$t('否'),
           type: 'warning'
         }).then(() => {
           //在这里判断是不是已经生成会议纪要了
@@ -1716,7 +1740,7 @@ export default {
     },
     startTopic() {
       if (this.haveThemenIsStarting()) {
-        iMessage.warn('已有进行中的议题！')
+        iMessage.warn(this.$t('已有进行中的议题！'))
         return
       }
       if (
@@ -1724,11 +1748,11 @@ export default {
         this.selectedTableData.length >= 1 &&
         this.haveThemenNotStart().itemNo !== this.selectedTableData[0].itemNo
       ) {
-        iMessage.warn('请按议题顺序开始议题！')
+        iMessage.warn(this.$t('请按议题顺序开始议题！'))
         return
       }
       if (this.isThemenOverAll()) {
-        iMessage.warn('该议题列表已全部结束！')
+        iMessage.warn(this.$t('该议题列表已全部结束！'))
         return
       }
       const param = {
@@ -1737,7 +1761,7 @@ export default {
       }
       startThemen(param)
         .then(() => {
-          iMessage.success('开始议题成功！')
+          iMessage.success(this.$t('开始议题成功！'))
           // this.refreshTable();
           this.flushTable()
         })
@@ -1764,20 +1788,24 @@ export default {
         themenId: choiceThemen && choiceThemen.id
       }
       if (choiceThemen && choiceThemen.state !== '02') {
-        iMessage.warn('该议题未进行中，不能结束操作！')
+        iMessage.warn(this.$t('该议题未进行中，不能结束操作！'))
         return
       }
       const bol = this.isOverTime(choiceThemen)
       if (bol) {
         endThemen(param)
-          .then(() => {
-            iMessage.success('结束议题成功!')
-            if (!choiceThemen.isBreak) {
-              this.autoOpenProtectConclusionObj = choiceThemen
-            }
-            this.flushTable()
-            if (!choiceThemen.isBreak) {
-              this.openDialog('openProtectConclusion')
+          .then((info) => {
+            if (info.code === 200) {
+              iMessage.success(this.$t('结束议题成功!'))
+              this.flushTable().then((res) => {
+                if (!choiceThemen.isBreak) {
+                  let obj = res.themens.find((item) => {
+                    return item.id === choiceThemen.id
+                  })
+                  this.autoOpenProtectConclusionObj = obj
+                  this.openDialog('openProtectConclusion')
+                }
+              })
             }
           })
           .catch(() => {
@@ -1788,7 +1816,7 @@ export default {
       } else {
         endThemen(param)
           .then(() => {
-            iMessage.success('结束议题成功！')
+            iMessage.success(this.$t('结束议题成功！'))
             // this.refreshTable();
             this.flushTable()
           })
@@ -1798,9 +1826,9 @@ export default {
       }
     },
     split() {
-      this.$confirm('确认拆分该议题么?', '提示', {
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('确认拆分该议题么?'), this.$t('提示'), {
+        confirmButtonText: this.$t('确认'),
+        cancelButtonText: this.$t('取消'),
         type: 'warning'
       }).then(() => {
         const data = {
@@ -1809,7 +1837,7 @@ export default {
         }
         spiltThemen(data)
           .then(() => {
-            iMessage.success('拆分成功!')
+            iMessage.success(this.$t('拆分成功!'))
             this.flushTable()
           })
           .catch((err) => {
@@ -1826,7 +1854,7 @@ export default {
       changeStateMeeting(param)
         .then((res) => {
           if (res) {
-            iMessage.success('开始议题成功！')
+            iMessage.success(this.$t('开始议题成功！'))
             this.flushTable()
           }
         })
@@ -1838,14 +1866,14 @@ export default {
     recall() {
       let ids = []
       ids.push(this.$route.query.id)
-      this.$confirm('是否撤回该会议 ？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('是否撤回该会议 ？'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         batchRecallMeeting({ ids }).then((res) => {
           if (res.code == 200) {
-            this.$message.success('撤回成功!')
+            this.$message.success(this.$t('撤回成功!'))
             this.$router.go(-1)
           }
         })
@@ -1854,7 +1882,7 @@ export default {
     updateDate() {
       // alert("updateDate");
       if (this.selectedTableData[0] && this.selectedTableData[0].isBreak) {
-        iMessage.warn('休息议题不能进行改期')
+        iMessage.warn(this.$t('休息议题不能进行改期'))
         return
       }
       this.openDialog('openUpdateDateDialog')
@@ -1897,9 +1925,9 @@ export default {
     // },
     //批量删除
     deleteTopAll() {
-      this.$confirm('确认删除该议题么?', '提示', {
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('确认删除该议题么?'), this.$t('提示'), {
+        confirmButtonText: this.$t('确认'),
+        cancelButtonText: this.$t('取消'),
         type: 'warning'
       }).then(() => {
         let pArr = []
@@ -1921,11 +1949,11 @@ export default {
         })
         Promise.all(pArr)
           .then(() => {
-            iMessage.success('删除成功!')
+            iMessage.success(this.$t('删除成功!'))
             this.flushTable()
           })
           .catch(() => {
-            iMessage.error('删除失败!')
+            iMessage.error(this.$t('删除失败!'))
           })
       })
     },
@@ -1935,7 +1963,7 @@ export default {
           ? this.selectedTableData[0].state === '02'
           : ''
       ) {
-        iMessage.warn('进行中的议题不能进行会议资料维护')
+        iMessage.warn(this.$t('进行中的议题不能进行会议资料维护'))
         return
       }
       if (
@@ -1943,18 +1971,18 @@ export default {
           ? this.selectedTableData[0].state === '03'
           : ''
       ) {
-        iMessage.warn('已完成的议题不能进行会议资料维护')
+        iMessage.warn(this.$t('已完成的议题不能进行会议资料维护'))
         return
       }
       if (this.selectedTableData[0] ? this.selectedTableData[0].isBreak : '') {
-        iMessage.warn('休息议题不可维护资料')
+        iMessage.warn(this.$t('休息议题不可维护资料'))
         return
       }
       this.openDialog('openProtectInfoDialog')
     },
     editTopic() {
       if (this.selectedTableData[0].state === '03') {
-        iMessage.warn('已结束的议题不能进行修改议题')
+        iMessage.warn(this.$t('已结束的议题不能进行修改议题'))
         return
       }
       this.editOrAdd = 'edit'
@@ -2003,7 +2031,7 @@ export default {
       }
       changeStateMeeting(param).then((res) => {
         if (res.code === 200) {
-          iMessage.success('开放会议成功！')
+          iMessage.success(this.$t('开放会议成功！'))
         }
         // this.refreshTable();
         this.flushTable()
@@ -2024,7 +2052,7 @@ export default {
       changeStateMeeting(param)
         .then((res) => {
           if (res.code == 200) {
-            iMessage.success('结束会议成功！')
+            iMessage.success(this.$t('结束会议成功！'))
             this.flushTable()
             this.getMeetingTypeObject()
           }
@@ -2073,9 +2101,9 @@ export default {
     },
     lock() {
       // 锁定
-      this.$confirm('请确认是否需要锁定会议？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('请确认是否需要锁定会议？'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         let param = {
@@ -2084,7 +2112,7 @@ export default {
         }
         changeStateMeeting(param)
           .then(() => {
-            iMessage.success('锁定会议成功！')
+            iMessage.success(this.$t('锁定会议成功！'))
             // this.refreshTable();
             this.getMeetingTypeObject()
             this.flushTable()
@@ -2101,7 +2129,7 @@ export default {
       }
       changeStateMeeting(param)
         .then(() => {
-          iMessage.success('解锁会议成功！')
+          iMessage.success(this.$t('解锁会议成功！'))
           this.getMeetingTypeObject()
           this.flushTable()
         })
@@ -2114,9 +2142,9 @@ export default {
       this.openDialog('openUpdate')
     },
     //刷新表格
-    flushTable() {
+    async flushTable() {
       this.page.currPage = 1
-      this.getTableData()
+      return await this.getTableData()
     },
     closeDetailDialog(bol) {
       this.openDetailDialog = bol
@@ -2305,24 +2333,32 @@ export default {
     // },
     // 表格选中值集
     handleSelectionChange(val) {
-      if (this.curState === '05') {
-        val = [val[val.length - 1]]
-        this.currentRow = val[0]
+      this.goState(
+        this.meetingInfo.state,
+        this.meetingInfo.isCSC,
+        this.meetingInfo.isPreCSC
+      )
+      val = [val[val.length - 1]]
+      // if (this.curState === '05') {
+      //   val = [val[val.length - 1]]
+      //   this.currentRow = val[0]
 
-        this.isSingle = true
-      } else {
-        this.isSingle = false
-      }
+      //   this.isSingle = true
+      // } else {
+      //   this.isSingle = false
+      // }
       if (!val[0]) {
         return
       }
+      this.currentRow = val[0]
       this.selectedTableData = val
-      const handleDisabledButtonName = this.handleDisabledButtonName
+      let handleDisabledButtonName = this.handleDisabledButtonName
       if (val.length === 1) {
         if (this.haveThemenIsStarting()) {
           this.handleButtonDisabled(['overTopic'], false)
         }
         if (val[0].state === '03') {
+          this.handleButtonDisabled(['overTopic'], true)
           if (!val[0].isBreak) {
             this.handleButtonDisabled(['protectResult'], false)
             // if (!val[0].conclusionCsc || val[0].conclusionCsc === '01') {
@@ -2369,8 +2405,21 @@ export default {
               // !this.meetingInfo.isCSC &&
               val[0].type === 'MANUAL'
             ) {
+              // this.handleButtonDisabled(
+              //   ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
+              //   false
+              // )
               this.handleButtonDisabled(
-                ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
+                [
+                  'bePending',
+                  'fixedPoint',
+                  'nextPreCSC',
+                  'senLol',
+                  'translateTer',
+                  'closeResult'
+                  // 'translateCSC'
+                  // "lookResult",
+                ],
                 false
               )
             }
@@ -2380,8 +2429,21 @@ export default {
               // !this.meetingInfo.isPreCSC &&
               val[0].type === 'MANUAL'
             ) {
+              // this.handleButtonDisabled(
+              //   ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
+              //   false
+              // )
               this.handleButtonDisabled(
-                ['bePending', 'nextPreCSC', 'closeResult', 'translateCSC'],
+                [
+                  'bePending',
+                  'fixedPoint',
+                  'nextPreCSC',
+                  'senLol',
+                  'translateTer',
+                  'closeResult',
+                  'translateCSC'
+                  // "lookResult",
+                ],
                 false
               )
             }
@@ -2421,6 +2483,8 @@ export default {
           this.handleButtonDisabled(['protectResult'], true)
           this.handleButtonDisabled(['overTopic'], false)
         } else {
+          this.handleButtonDisabled(['overTopic'], true)
+          // console.log("")
           if (val[0].isBreak) {
             this.handleButtonDisabled(['deleteTopAll'], false)
             if (

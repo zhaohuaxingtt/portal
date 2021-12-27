@@ -55,7 +55,7 @@ export default [
       // const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
       // const roleList = store.state.permission.userInfo.roleList;
       // const userId = store.state.permission.userInfo.id;
-      const roleList = userInfo.roleList
+      const roleList = userInfo.roleList || []
       const userId = userInfo.id
       localStorage.setItem('isAdmin', false)
       localStorage.setItem('isMA', false)
@@ -136,5 +136,26 @@ export default [
       title: '会议展示'
     },
     component: () => import('@/views/meeting/meetingShow/index.vue')
+  },
+  // gp-sprint17
+  {
+    //mbdl会议
+    path: '/meeting/managementHall/mbdlMeeting',
+    name: 'mbdlMeeting',
+    meta: {
+      title: '会议详情管理'
+    },
+    component: () =>
+      import('@/views//meeting/managementHall/mbdlMeeting/index.vue')
+  },
+  {
+    //gpcsc会议
+    path: '/meeting/managementHall/gpcscMeeting',
+    name: 'gpcscMeeting',
+    meta: {
+      title: '会议详情管理'
+    },
+    component: () =>
+      import('@/views//meeting/managementHall/gpcscMeeting/index.vue')
   }
 ]

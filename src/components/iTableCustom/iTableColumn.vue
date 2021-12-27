@@ -35,7 +35,7 @@ export default {
       props
     if (column.type && column.type === 'expanded') {
       const { uniqueId, expanded, childNum, isLeaf } = scope.row
-      const paddingLeft = (uniqueId.split('-').length - 1) * 20
+      const paddingLeft = uniqueId && (uniqueId.split('-').length - 1) * 20
       const iconClass = expanded
         ? 'arrow-icon el-icon-caret-top'
         : 'arrow-icon el-icon-caret-bottom'

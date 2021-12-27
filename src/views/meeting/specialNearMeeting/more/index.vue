@@ -1,4 +1,5 @@
 <template>
+<div class="container">
   <iCard class="my-topics-box">
     <div class="iSearch-content">
       <div class="serch" :style="`margin-right:${stypeWidth}px;`">
@@ -36,10 +37,10 @@
                 v-model="form.commodity"
               >
                 <el-option
-                  :value="item.label"
-                  :label="item.label"
+                  :value="item.fullCode"
+                  :label="item.fullCode"
                   v-for="item of commodityList"
-                  :key="item.label"
+                  :key="item.fullCode"
                 ></el-option>
               </iSelect>
             </el-form-item>
@@ -59,7 +60,7 @@
               @change-start="changeStart"
               @change-end="changeEnd"
               ref="iDateRangePicker"
-              :label="$t('会议日期')"
+              :label="$t('MT_HUIYIRIQI')"
             />
           </el-row>
         </el-form>
@@ -67,10 +68,10 @@
       <div class="operation" v-if="!hiddenRight">
         <slot name="button">
           <iButton @click="query('search')" :v-permission="searchKey">{{
-            $t('搜索')
+            $t('MT_SOUSUO')
           }}</iButton>
           <iButton @click="goBack" :v-permission="resetKey">{{
-            $t('返回')
+            $t('MT_FANHUI')
           }}</iButton>
         </slot>
       </div>
@@ -78,7 +79,7 @@
     <p class="line"></p>
     <div class="button-area">
       <iButton @click="handleReCallThemen" :disabled="disabledButton">{{
-        $t('撤回议题')
+        $t('MT_CHEHUIYITI')
       }}</iButton>
     </div>
     <iTableML
@@ -184,9 +185,9 @@
       <el-table-column
         show-overflow-tooltip
         align="center"
-        label="BEN(DE)"
+        label="BEN(CN)"
         min-width="58"
-        prop="benDe"
+        prop="benCn"
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -229,11 +230,15 @@
       <el-table-column
         show-overflow-tooltip
         align="center"
-        label="State"
+        label="Status"
         min-width="45"
       >
         <template slot-scope="scope">
-          {{ stateObj[scope.row.state] }}
+          <span
+            >{{ scope.row.cscCount ? scope.row.cscCount : 0 }}/{{
+              scope.row.preCount ? scope.row.preCount : 0
+            }}</span
+          >
         </template>
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -257,8 +262,8 @@
       :current-page="page.pageNum"
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
     <detailDialog
@@ -278,6 +283,7 @@
     >
     </addTopicNew>
   </iCard>
+</div>
 </template>
 
 <script>
@@ -294,6 +300,8 @@ import { follow, unfollow } from '@/api/meeting/myMeeting'
 import { stateObj, themenConclusion } from './data'
 import { recallThemen } from '@/api/meeting/details'
 import { getMettingType } from '@/api/meeting/type'
+import { queryDeptList } from '@/api/meeting/live'
+
 export default {
   components: {
     iCard,
@@ -310,7 +318,7 @@ export default {
     return {
       meetingTypeList: [],
       processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       disabledButton: true,
       stateObj,
       themenConclusion,
@@ -323,7 +331,7 @@ export default {
       openDetail: false,
       id: '',
       form: {
-        presentItem: '02',
+        presentItem: '01',
         meetingTypeId: '',
         commodity: '',
         result: '',
@@ -345,26 +353,7 @@ export default {
           label: 'CSC'
         }
       ],
-      commodityList: [
-        {
-          label: 'CSE'
-        },
-        {
-          label: 'CSM'
-        },
-        {
-          label: 'CSE'
-        },
-        {
-          label: 'CSI'
-        },
-        {
-          label: 'CSX'
-        },
-        {
-          label: 'CSP'
-        }
-      ],
+      commodityList: [],
       resultList: [
         {
           conclusionCsc: '01',
@@ -419,8 +408,14 @@ export default {
     this.currentUserId = Number(sessionStorage.getItem('userId'))
     this.query()
     this.getAllSelectList()
+    this.getCommidityList()
   },
   methods: {
+    getCommidityList() {
+      queryDeptList().then((res) => {
+        this.commodityList = res
+      })
+    },
     getAllSelectList() {
       let param = {
         pageSize: 1000,
@@ -461,15 +456,15 @@ export default {
     handleRevokeTopic() {
       const bol = this.findLockStatus(this.selectedData)
       const warn = bol
-        ? '请确认是否发送议题撤回申请至会议管理员?'
-        : '是否确认撤回该议题?'
+        ? this.$t('请确认是否发送议题撤回申请至会议管理员?')
+        : this.$t('是否确认撤回该议题?')
       if (
         this.selectedData[0].meetingStatus === '02' ||
         this.selectedData[0].meetingStatus === '03'
       ) {
-        this.$confirm(warn, '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
+        this.$confirm(warn, this.$t('提示'), {
+          confirmButtonText: this.$t('是'),
+          cancelButtonText: this.$t('否'),
           type: 'warning'
         }).then(() => {
           let promiseArr = []
@@ -493,7 +488,7 @@ export default {
             .then((res) => {
               const message = res[0].code === 200 ? res[0].message : ''
               if (bol) {
-                iMessage.success('已发送会议撤回申请给管理员。')
+                iMessage.success(this.$t('已发送会议撤回申请给管理员。'))
               } else {
                 iMessage.success(message)
               }
@@ -528,7 +523,7 @@ export default {
           //   });
         })
       } else {
-        iMessage.warn('只有开放和锁定状态才可以撤回!')
+        iMessage.warn(this.$t('只有开放和锁定状态才可以撤回!'))
       }
       // this.$confirm("请确认是否要撤回该议题?", "提示", {
       //   confirmButtonText: "是",
@@ -562,7 +557,7 @@ export default {
     // 取消关注
     handleUnfollow(e) {
       if (e.state === '03') {
-        iMessage.warn('已经结束的议题不可以取消关注!')
+        iMessage.warn(this.$t('已经结束的议题不可以取消关注!'))
         return
       }
       if (!this.following) {
@@ -579,7 +574,7 @@ export default {
         unfollow(param)
           .then((res) => {
             if (res.code === 200) {
-              iMessage.success('取消关注成功!')
+              iMessage.success(this.$t('取消关注成功!'))
             }
             this.query().then(() => {
               this.following = false
@@ -595,7 +590,7 @@ export default {
     // 添加关注
     handleFollow(e, bol) {
       if (e.state === '03') {
-        iMessage.warn('已经结束的议题不可以添加关注!')
+        iMessage.warn(this.$t('已经结束的议题不可以添加关注!'))
         return
       }
       this.following = true
@@ -612,7 +607,7 @@ export default {
         follow(param)
           .then((res) => {
             if (res.code === 200) {
-              iMessage.success('关注成功')
+              iMessage.success(this.$t('关注成功'))
             }
             this.query().then(() => {
               this.following = false
@@ -741,6 +736,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.container {
+  padding:30px 40px;
+}
 ::v-deep .el-row {
   margin-bottom: 0;
 }

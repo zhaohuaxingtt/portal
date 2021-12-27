@@ -153,7 +153,7 @@ export default {
     search() {
       const searchData = { ...this.form }
       if (this.date) {
-        if (this.date[0] === this.date[1]) {
+        if (this.date[1]) {
           this.date[1] = this.date[1].split(' ')[0] + ' 23:59:59'
         }
         searchData.startTime = this.date[0]

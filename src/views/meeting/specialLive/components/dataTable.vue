@@ -28,8 +28,8 @@
       </el-table-column>
       <el-table-column
         prop="name"
-        align="center"
-        :label="$t('MT_XAIZAIMINGCHENG')"
+        align="left"
+        :label="$t('MT_ZILIAOMINGCHENG')"
         width="756"
       >
         <template slot-scope="scope">
@@ -42,7 +42,7 @@
         show-overflow-tooltip
         prop="createUserName"
         align="center"
-        :label="$t('MT_SHANGCHUANFUJIANREN')"
+        :label="$t('MT_ZILIAOSHANGCHUANREN')"
         width="402"
       >
       </el-table-column>
@@ -131,7 +131,7 @@ export default {
         for (let item of docs) {
           let a = new Promise((resolve) => {
             getFileByIds([item.attachmentId]).then((data) => {
-              resolve(data[0])
+              resolve(data.data[0])
             })
           })
           d.push(a)
@@ -144,7 +144,8 @@ export default {
             .map((it) => {
               return {
                 ...it,
-                updateDate: dayjs(it.createDate).format('YYYY-MM-DD HH:mm')
+                updateDate: dayjs(it.createDate).format('YYYY-MM-DD HH:mm'),
+                createDate: dayjs(it.createDate).format('YYYY-MM-DD')
               }
             })
           this.tableData = dArr.slice(0, 1 * this.page.pageSize)
@@ -173,7 +174,7 @@ export default {
             callback: (e) => {
               if (!e) {
                 reject(e)
-                iMessage.error('下载失败')
+                iMessage.error(this.$t('下载失败'))
               }
               resolve(e)
             },
@@ -209,7 +210,7 @@ export default {
         filename: item.name,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('下载失败'))
           }
         },
         type: MIME_TYPE[suffix]

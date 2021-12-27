@@ -148,7 +148,11 @@ export default {
       closeMeetingRules: {
         uploadFile: [
           // { required: this.row.isTriggerApproval == 'true' ? true : false, message: "请选择上传附件", trigger: "blur" },
-          { required: false, message: '请选择上传附件', trigger: 'blur' }
+          {
+            required: false,
+            message: this.$t('请选择上传附件'),
+            trigger: 'blur'
+          }
         ]
       },
       approvalProcessList: []
@@ -170,13 +174,14 @@ export default {
     handleClose() {
       this.$emit('handleClose')
     },
-    handleSubmit(id) {
+    handleSubmit(id, str, row) {
+      const strId = id ? (typeof id === 'object' ? this.id : id) : this.id
       // this.$refs['ruleFormCloseMeeting'].validate((valid) => {
       // if (valid) {
       let hashArr = window.location.hash.split('/')
       hashArr.pop()
       let param = {
-        id: this.id,
+        id: strId,
         approvalProcessId: this.rowState.approvalProcessId,
         isTriggerApproval:
           this.rowState.isTriggerApproval == 'true' ? true : false,
@@ -185,7 +190,7 @@ export default {
           window.location.pathname +
           hashArr.join('/') +
           '/details?id=' +
-          id
+          strId
       }
       if (this.attachment.id) {
         param.attachment = {
@@ -199,7 +204,12 @@ export default {
         .then((res) => {
           if (res) {
             // iMessage.success('关闭成功')
-            this.$emit('handleOK', 'close')
+            this.$emit(
+              'handleOK',
+              'close',
+              str === 'isSpecial' ? res.data : '',
+              row
+            )
             this.handleClose()
           } else {
             // iMessage.success('关闭失败')
@@ -242,14 +252,14 @@ export default {
           this.$refs.ruleFormCloseMeeting.clearValidate('uploadFile')
         })
         .catch(() => {
-          iMessage.error('上传失败')
+          iMessage.error(this.$t('上传失败'))
         })
       this.uploadLoading = false
     },
     beforeAvatarUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error('上传头像图片大小不能超过10MB!')
+        this.$message.error(this.$t('上传头像图片大小不能超过10MB!'))
       }
       return isLt10M
     },

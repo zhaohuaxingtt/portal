@@ -287,10 +287,10 @@ export default {
   data() {
     const validateTopic = (rule, value, callback) => {
       if (!value.trim()) {
-        callback(new Error('必填'))
+        callback(new Error(this.$t('必填')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error('最大不能超过255字符'))
+          callback(new Error(this.$t('最大不能超过255字符')))
         }
         callback()
       }
@@ -327,13 +327,13 @@ export default {
             validator: validateTopic
           }
         ],
-        supporter: [{ required: true, message: '必选', trigger: 'blur' }],
-        presenter: [{ required: true, message: '必选', trigger: 'blur' }],
+        supporter: [{ required: true, message: this.$t('必选'), trigger: 'blur' }],
+        presenter: [{ required: true, message: this.$t('必选'), trigger: 'blur' }],
         duration: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message: this.$t('必填'), trigger: 'blur' },
           {
             type: 'number',
-            message: '最大长度3位，单位（分钟），必须正整数',
+            message: this.$t('最大长度3位，单位（分钟），必须正整数'),
             trigger: 'blur',
             transform(value) {
               if (value !== null && value !== '') {
@@ -358,22 +358,22 @@ export default {
           }
         ],
         benCn: [
-          { required: true, message: '必填', trigger: 'blur' },
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { required: true, message: this.$t('必填'), trigger: 'blur' },
+          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
         ],
         sourcingNo: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          { max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }
         ],
-        tnr: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
-        benDe: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
-        carline: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
-        ep: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }]
+        tnr: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }],
+        benDe: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }],
+        carline: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }],
+        ep: [{ max: 255, message: this.$t('最大长度 255 字符'), trigger: 'blur' }]
       },
       subButtonFlag: false
     }
   },
   mounted() {
-    let duration = 0
+    // let duration = 0
     if (this.editOrAdd === 'edit') {
       this.ruleForm = { ...this.selectedTableData[0] }
       // duration = this.selectedTableData[0].duration;
@@ -511,7 +511,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('下载失败'))
           }
         }
       })
@@ -604,7 +604,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt30M = file.size / 1024 / 1024 < 30
       if (!isLt30M) {
-        this.$message.error('文件大小最大限制30M!')
+        this.$message.error(this.$t('文件大小最大限制30M!'))
       }
       return isLt30M
     },
@@ -638,18 +638,18 @@ export default {
       this.$emit('flushTable')
     },
     clearDiolog() {
-      this.$confirm('是否取消编辑?', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('是否取消编辑?'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         this.close()
       })
     },
     handleSubmit() {
-      this.$confirm('是否保存议题？', '提示', {
-        confirmButtonText: '是',
-        cancelButtonText: '否',
+      this.$confirm(this.$t('是否保存议题？'), this.$t('提示'), {
+        confirmButtonText: this.$t('是'),
+        cancelButtonText: this.$t('否'),
         type: 'warning'
       }).then(() => {
         this.submitForm('ruleForm')
@@ -677,7 +677,7 @@ export default {
             updateThemen(formData)
               .then((data) => {
                 if (data) {
-                  iMessage.success('修改成功')
+                  iMessage.success(this.$t('修改成功'))
                 } else {
                   iMessage.error('error')
                 }
@@ -706,7 +706,7 @@ export default {
             saveThemen(formData)
               .then((data) => {
                 if (data) {
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('保存成功'))
                 } else {
                   iMessage.error('error')
                 }

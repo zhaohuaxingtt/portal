@@ -38,13 +38,13 @@
     </el-row> -->
     <el-row class="row-el">
       <iButton class="add-topic" @click="handleAddTopic">{{
-        $t('添加议题')
+        $t('MT_TIANJIAYITI')
       }}</iButton>
       <iButton
         class="revort-topic"
         :disabled="disabledButton"
         @click="handleRevokeTopic"
-        >{{ $t('撤回议题') }}</iButton
+        >{{ $t('MT_CHEHUIYITI') }}</iButton
       >
       <iButton @click="handleMore">{{ 'MORE' }}</iButton>
     </el-row>
@@ -98,7 +98,7 @@
       >
         <template slot-scope="scope">
           <span>{{ scope.row.count }}</span>
-          <span v-if="scope.row.isBreak">/</span>
+          <span v-if="scope.row.isBreak">-</span>
         </template>
       </el-table-column>
       <el-table-column width="18" align="center" label=""></el-table-column>
@@ -214,7 +214,7 @@
           <span v-else
             >{{ scope.row.presenter }}{{ scope.row.presenterNosys }}</span
           >
-          <span v-if="scope.row.isBreak">/</span>
+          <span v-if="scope.row.isBreak">-</span>
         </template>
       </el-table-column>
       <el-table-column width="17" align="center" label=""></el-table-column>
@@ -239,7 +239,7 @@
             >{{ scope.row.presenterDept
             }}{{ scope.row.presenterDeptNosys }}</span
           >
-          <span v-if="scope.row.isBreak">/</span>
+          <span v-if="scope.row.isBreak">-</span>
         </template>
       </el-table-column>
       <el-table-column width="18" align="center" label=""></el-table-column>
@@ -261,7 +261,7 @@
           <span v-else
             >{{ scope.row.supporter }}{{ scope.row.supporterNosys }}</span
           >
-          <span v-if="scope.row.isBreak">/</span>
+          <span v-if="scope.row.isBreak">-</span>
         </template>
       </el-table-column>
       <el-table-column width="17" align="center" label=""></el-table-column>
@@ -286,7 +286,7 @@
             >{{ scope.row.supporterDept
             }}{{ scope.row.supporterDeptNosys }}</span
           >
-          <span v-if="scope.row.isBreak">/</span>
+          <span v-if="scope.row.isBreak">-</span>
         </template>
       </el-table-column>
       <el-table-column width="18" align="center" label=""></el-table-column>
@@ -300,7 +300,7 @@
       >
         <template slot-scope="scope">
           <span>{{ scope.row.remark }}</span>
-          <span v-if="scope.row.isBreak">/</span>
+          <span v-if="scope.row.isBreak">-</span>
         </template>
       </el-table-column>
       <el-table-column width="18" align="center" label=""></el-table-column>
@@ -314,7 +314,7 @@
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
       :prev-text="$t('MT_SHANGYIYE')"
-      :next-text="$t(' MT_XIAYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
     <!-- <detailDialog
@@ -390,12 +390,12 @@ export default {
         }
       ],
       statusObj: {
-        '01': '草稿',
-        '02': '开放',
-        '03': '锁定',
-        '04': '开始',
-        '05': '结束',
-        '06': '关闭'
+        '01': 'MT_CAOGAO',
+        '02': 'MT_KAIFANG',
+        '03': 'MT_SUODING',
+        '04': 'MT_KAISHI',
+        '05': 'MT_JIESHU',
+        '06': 'MT_GUANBI'
       }
     }
   },
@@ -497,15 +497,15 @@ export default {
     handleRevokeTopic() {
       const bol = this.findLockStatus(this.selectedData)
       const warn = bol
-        ? '请确认是否发送议题撤回申请至会议管理员?'
-        : '是否确认撤回该议题?'
+        ? this.$t('请确认是否发送议题撤回申请至会议管理员?')
+        : this.$t('是否确认撤回该议题?')
       if (
         this.selectedData[0].meetingStatus === '02' ||
         this.selectedData[0].meetingStatus === '03'
       ) {
-        this.$confirm(warn, '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
+        this.$confirm(warn, this.$t('提示'), {
+          confirmButtonText: this.$t('是'),
+          cancelButtonText: this.$t('否'),
           type: 'warning'
         }).then(() => {
           let promiseArr = []
@@ -529,7 +529,7 @@ export default {
             .then((res) => {
               const message = res[0].code === 200 ? res[0].message : ''
               if (bol) {
-                iMessage.success('已发送会议撤回申请给管理员。')
+                iMessage.success(this.$t('已发送会议撤回申请给管理员。'))
               } else {
                 iMessage.success(message)
               }
@@ -564,7 +564,7 @@ export default {
           //   });
         })
       } else {
-        iMessage.warn('只有开放和锁定状态才可以撤回!')
+        iMessage.warn(this.$t('只有开放和锁定状态才可以撤回!'))
       }
       // this.$confirm("请确认是否要撤回该议题?", "提示", {
       //   confirmButtonText: "是",

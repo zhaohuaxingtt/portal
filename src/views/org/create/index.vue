@@ -592,26 +592,29 @@ export default {
       data.append('file', this.fileLoge)
       data.append('currentUserId', this.$store.state.permission.userInfo.id)
       data.append('currentUser', this.$store.state.permission.userInfo.userName)
-      return uploadFileWithNOTokenTwo(data)
-        .then((val) => {
-          if (val) {
-            let commitData = { ...this.formCommitData }
-            commitData.logoName = val.name
-            commitData.filePath = val.path
-            commitData.fileId = val.id
-            this.$store.commit('SET_ORG_INFO', commitData)
-            console.log('commitData ==', commitData)
-            console.log('FormcommitData ==', this.formCommitData)
-            return true
-          } else {
-            // console.log('上传文件失败')
-            return false
-          }
-        })
-        .catch((error) => {
-          iMessage.error('上传文件失败', error)
-          return false
-        })
+      return new Promise((reslove, reject) => {
+        uploadFileWithNOTokenTwo(data)
+          .then((val) => {
+            if (val) {
+              const data = val.data
+              let commitData = { ...this.formCommitData }
+              commitData.logoName = data.name
+              commitData.filePath = data.path
+              commitData.fileId = data.id
+              this.$store.commit('SET_ORG_INFO', commitData)
+              console.log('commitData ==', commitData)
+              console.log('FormcommitData ==', this.formCommitData)
+              reslove(data)
+            } else {
+              // console.log('上传文件失败')
+              reject(false)
+            }
+          })
+          .catch((error) => {
+            iMessage.error('上传文件失败', error)
+            reject(false)
+          })
+      })
     },
     enterOrgTagPage() {
       // console.log("TagList === ", this.formCommitData.tagList);
@@ -628,7 +631,8 @@ export default {
         leftSelect: null,
         rightSelect: null,
         optionsSelect: null,
-        rightSelectValues: []
+        rightSelectValues: [],
+        originValueList: []
       }
       this.table.tableListData.push(row)
     },
@@ -670,9 +674,9 @@ export default {
       let result = false
       if (this.fileLoge) {
         result = await this.uploadFileLogo()
-        param['logoName'] = this.formCommitData.logoName
-        param['filePath'] = this.formCommitData.path
-        param['fileId'] = this.formCommitData.fileId
+        param['logoName'] = result.name
+        param['filePath'] = result.path
+        param['fileId'] = result.id
       }
       if (this.fileLoge && !result) {
         return
@@ -741,9 +745,12 @@ export default {
       // console.log("===8888",this.formCommitData.logoName);
       if (this.fileLoge) {
         result = await this.uploadFileLogo()
-        param['logoName'] = this.formCommitData.logoName
+        /* param['logoName'] = this.formCommitData.logoName
         param['filePath'] = this.formCommitData.path
-        param['fileId'] = this.formCommitData.fileId
+        param['fileId'] = this.formCommitData.fileId */
+        param['logoName'] = result.name
+        param['filePath'] = result.path
+        param['fileId'] = result.id
       }
       if (this.fileLoge && !result) {
         return
@@ -884,7 +891,8 @@ export default {
                   leftSelect: item.id,
                   rightSelect: idList,
                   url: null,
-                  optionsSelect: null
+                  optionsSelect: null,
+                  originValueList: item.valueList
                 }
                 newDimension.push(obj)
               }

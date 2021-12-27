@@ -45,6 +45,10 @@ import MaintenanceSupplier from '../views/supplierManagement/yuqingjiance/mainte
 
 import RouterOfflineDownload from './RouterOfflineDownload'
 
+// 嵌入表单的组件路由
+import RouterView from './RouterView'
+import RouterElectronicSignature from '@/router/RouterElectronicSignature'
+
 export default {
   routes: [
     {
@@ -196,9 +200,10 @@ export default {
         ...RouterColorParts,
         ...RouterApplications,
         ...RouterOfflineDownload,
+        ...RouterElectronicSignature
       ]
     },
-
+    ...RouterView,
     { path: '*', name: 'notFound', component: NotFound }
   ],
 
