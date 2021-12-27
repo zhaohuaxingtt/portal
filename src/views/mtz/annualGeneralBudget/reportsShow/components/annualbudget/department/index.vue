@@ -14,7 +14,7 @@
         <span>单位:百万人名币</span>
         <totalAmountComponent/>
       </el-col>
-      <el-col :span="12" class="total1"> <dataComparisonLastYear/> </el-col>
+      <el-col :span="12" class="totalTwo"> <dataComparisonLastYear/> </el-col>
     </el-row>
 
 </template>
@@ -48,7 +48,7 @@ export default {
   height: 100%;
 }
 
-.total1 {
+.totalTwo {
   position: relative;
   background-color: white;
   height: 100%;

@@ -107,7 +107,7 @@ export default {
       rescheduleThemen(data)
         .then((res) => {
           if (Number(res.code) === 200) {
-            iMessage.success(this.$t('改期成功'))
+            iMessage.success(this.$t('MT_GAIQICHENGGONG'))
           }
           this.loading = false
           this.$emit('flushTable')

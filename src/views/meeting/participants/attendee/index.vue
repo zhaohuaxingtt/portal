@@ -53,7 +53,7 @@ export default {
         {
           type: 'index',
           label: '序号',
-          i18n: '序号',
+          i18n: 'MT_XUHAO2',
           width: 68,
           tooltip: false
         },
@@ -63,7 +63,7 @@ export default {
         {
           // prop: "meetingTypeName",
           label: '会议类型',
-          i18n: '会议类型',
+          i18n: 'MT_HUIYILEIXING',
           align: 'left',
           width: 240,
           tooltip: true,
@@ -84,7 +84,7 @@ export default {
         {
           // prop: "groupName",
           label: '组名',
-          i18n: '组名',
+          i18n: 'MT_ZUMING',
           align: 'left',
           width: 240,
           tooltip: true,
@@ -108,7 +108,7 @@ export default {
         {
           // prop: "attendeeName",
           label: '与会人',
-          i18n: '与会人',
+          i18n: 'MT_YUHUIREN',
           align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
@@ -132,6 +132,7 @@ export default {
         {
           width: 100,
           label: '操作',
+          i18n:"MT_CAOZUO2",
           customRender: (h, scope) => {
             return h('span', [
               h(
@@ -149,7 +150,7 @@ export default {
                     }
                   }
                 },
-                '修改'
+                this.$t('MT_XIUGAI')
               ),
               h(
                 'a',
@@ -177,7 +178,7 @@ export default {
                     }
                   }
                 },
-                '删除'
+                this.$t('MT_SHANCHU')
               )
             ])
           }
@@ -194,18 +195,18 @@ export default {
   },
   methods: {
     deleteGroup(e) {
-      this.$confirm(this.$t('请确认是否要删除该群组？'), this.$t('提示'), {
-        confirmButtonText: this.$t('是'),
-        cancelButtonText: this.$t('否'),
+      this.$confirm(this.$t('MT_QINGQUERENSHIFOUYAOSHANCHUGAIQUNZU'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_SHI'),
+        cancelButtonText: this.$t('MT_FOU'),
         type: 'warning'
       }).then(() => {
         deleteGroup({ id: e.id })
           .then(() => {
-            this.$message.success(this.$t('删除成功!'))
+            this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))
             this.query()
           })
           .catch(() => {
-            this.$message.error(this.$t('删除失败!'))
+            this.$message.error(this.$t('MT_SHANCHUSHIBAI'))
           })
       })
     },

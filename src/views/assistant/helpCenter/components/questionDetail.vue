@@ -5,7 +5,9 @@
 	</div>
 	<div class="line"></div>
 	<div class="title-des flex items-center mt20">{{ title }}</div>
-	<div class="mt20 label" v-if="getCurrModuleName(questionModuleId)">{{ getCurrModuleName(questionModuleId) }}</div>
+	<div>
+		<div class="mt20 label" v-if="getCurrModuleName(questionModuleId)">{{ getCurrModuleName(questionModuleId) }}</div>
+	</div>
 	<div class="ques-box flex flex-column">
 		<div v-for="(ques, idx) in chatList" :key="idx" class="item-ques flex flex-column">
 			<div v-if="ques.replyType === 'transfer'" class="transfer-content flex flex-row items-center justify-center">
@@ -90,7 +92,7 @@ export default {
 		},
 		bad() {
 			console.log('未解决 打开追问 并带信息')
-			this.$emit('handleZwQues', this.title, this.currQuesInfo)
+			this.$emit('handleZwQues', this.title, this.currQuesInfo, this.currQuestionId)
 		},
 		handleQuestion() {
 			console.log('打开智能弹窗')
@@ -188,14 +190,14 @@ export default {
 			height: 40px;
 		}
 		.label {
-			// display: inline-block;
+			display: inline-block;
 			// background: #EDEDED;
 			// opacity: 1;
 			// border-radius: 8px;
 			// padding: 10px;
 			// color: #4B5C7D;
 			// font-size: 14px;
-			max-width: 100px;
+			// max-width: 100px;
 			background: #ededed;
 			border-radius: 10px;
 			color: #4b5c7d;

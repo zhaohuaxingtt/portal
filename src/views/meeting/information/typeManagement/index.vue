@@ -83,7 +83,7 @@ export default {
         {
           type: 'index',
           label: '序号',
-          i18n: 'MT_XUHAO',
+          i18n: 'MT_XUHAO2',
           width: 69,
           tooltip: false
         },
@@ -121,7 +121,7 @@ export default {
         },
         {
           label: '操作',
-          i18n: 'MT_CAOZUO',
+          i18n: 'MT_CAOZUO2',
           width: 154,
           tooltip: false,
           customRender: (h, scope) => {

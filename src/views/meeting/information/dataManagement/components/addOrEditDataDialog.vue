@@ -249,7 +249,7 @@ export default {
         })
         .then((fileData) => {
           this.ruleForm.attachmentId = fileData.id
-          iMessage.success(this.$t('上传成功'))
+          iMessage.success(this.$t('MT_SHANGCHUANCHENGGONG'))
           this.attachment = {
             attachmentId: fileData.id,
             attachmentName: fileData.name,
@@ -267,7 +267,7 @@ export default {
         filename: item.name,
         callback: (e) => {
           if (!e) {
-            iMessage.error(this.$t('下载失败'))
+            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
           }
         }
       })
@@ -299,7 +299,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.close()
-                  this.$message.success(this.$t('保存成功！'))
+                  this.$message.success(this.$t('MT_BAOCUNCHENGGONG'))
                   this.$emit('flushTable')
                 }
               })
@@ -318,7 +318,7 @@ export default {
               .then((data) => {
                 if (data) {
                   this.close()
-                  this.$message.success(this.$t('创建成功！'))
+                  this.$message.success(this.$t('MT_CHUANGJIANCHENGGONG'))
                   this.$emit('flushTable')
                 }
               })
@@ -332,12 +332,12 @@ export default {
     beforeFileUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error(this.$t('文件大小最大限制10MB！'))
+        this.$message.error(`${this.$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}10MB`)
       }
       return isLt10M
     },
     handleExceed() {
-      this.$message.error(this.$t('仅可添加一个文件！'))
+      this.$message.error(this.$t('MT_JINGETIANJIAYIGEWENJIAN'))
     }
   }
 }
