@@ -143,33 +143,53 @@ export const themenConclusion = {
   "07": "关闭",
 };
 export const themenConclusionArrObj = [
+  // {
+  //   conclusionCsc: "01",
+  //   conclusionName: "待定",
+  // },
+  // {
+  //   conclusionCsc: "02",
+  //   conclusionName: "定点",
+  // },
+  // {
+  //   conclusionCsc: "03",
+  //   conclusionName: "发LOI",
+  // },
+  // {
+  //   conclusionCsc: "04",
+  //   conclusionName: "转TER/TOP-TER",
+  // },
+  // {
+  //   conclusionCsc: "05",
+  //   conclusionName: "下次Pre CSC",
+  // },
+  // {
+  //   conclusionCsc: "06",
+  //   conclusionName: "转CSC",
+  // },
+  // {
+  //   conclusionCsc: "07",
+  //   conclusionName: "关闭",
+  // },
   {
     conclusionCsc: "01",
     conclusionName: "待定",
   },
   {
     conclusionCsc: "02",
-    conclusionName: "定点",
+    conclusionName: "通过",
   },
   {
     conclusionCsc: "03",
-    conclusionName: "发LOI",
+    conclusionName: "不通过",
   },
   {
     conclusionCsc: "04",
-    conclusionName: "转TER/TOP-TER",
+    conclusionName: "Last Call",
   },
   {
     conclusionCsc: "05",
-    conclusionName: "下次Pre CSC",
-  },
-  {
-    conclusionCsc: "06",
-    conclusionName: "转CSC",
-  },
-  {
-    conclusionCsc: "07",
-    conclusionName: "关闭",
+    conclusionName: "分段定点",
   },
 ];
 export const numToLetter = {
@@ -213,9 +233,10 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增议题gp", methodName: "newAddTopic" },
-        { title: "新增手工议题", methodName: "addTopic" },
+        { title: "新增议题", methodName: "newAddTopic" },
+        // { title: "新增手工议题", methodName: "addTopic" },
         { title: "议题调整", methodName: "updateTopic" },
+        { title: "批量调整", methodName: "batchAdjustment" },
         // { title: "导入议题", methodName: "importTopic" },
       ],
       [
@@ -223,7 +244,9 @@ export const buttonList = [
         { title: "维护资料", methodName: "protectInfo", disabled: true },
         { title: "删除", methodName: "deleteTopAll", disabled: true },
         { title: "改期", methodName: "updateDate", disabled: true },
-        { title: "拆分", methodName: "split", disabled: true },
+        // { title: "拆分", methodName: "split", disabled: true },
+        { title: "结束议题", methodName: "overTopic", disabled: true, },
+        { title: "发送大会议程", methodName: "sendAgenda", disabled: true },
       ],
     ],
   },
@@ -238,9 +261,10 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增议题gp", methodName: "newAddTopic" },
-        { title: "新增手工议题", methodName: "addTopic" },
+        { title: "新增议题", methodName: "newAddTopic" },
+        // { title: "新增手工议题", methodName: "addTopic" },
         { title: "议题调整", methodName: "updateTopic" },
+        { title: "批量调整", methodName: "batchAdjustment" },
         // { title: "导入议题", methodName: "importTopic" },
       ],
       [
@@ -249,7 +273,9 @@ export const buttonList = [
         { title: "维护资料", methodName: "protectInfo", disabled: true },
         { title: "删除", methodName: "deleteTopAll", disabled: true },
         { title: "改期", methodName: "updateDate", disabled: true },
-        { title: "拆分", methodName: "split", disabled: true },
+        // { title: "拆分", methodName: "split", disabled: true },
+        { title: "结束议题", methodName: "overTopic", disabled: true, },
+        { title: "发送大会议程", methodName: "sendAgenda", disabled: true },
       ],
     ],
   },
@@ -265,9 +291,10 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增议题gp", methodName: "newAddTopic" },
-        { title: "新增手工议题", methodName: "addTopic" },
+        { title: "新增议题", methodName: "newAddTopic" },
+        // { title: "新增手工议题", methodName: "addTopic" },
         { title: "议题调整", methodName: "updateTopic" },
+        { title: "批量调整", methodName: "batchAdjustment" },
         // { title: "导入议题", methodName: "importTopic" },
       ],
       [
@@ -280,21 +307,10 @@ export const buttonList = [
         { title: "修改议题", methodName: "editTopic", disabled: true },
         { title: "维护资料", methodName: "protectInfo", disabled: true },
         { title: "删除", methodName: "deleteTopAll", disabled: true },
-        {
-          title: "结束议题",
-          methodName: "overTopic",
-          disabled: true,
-        },
-        {
-          title: "维护结论",
-          methodName: "protectResult",
-          disabled: true,
-        },
-        {
-          title: "查看结论",
-          methodName: "lookResult",
-          disabled: true,
-        },
+        { title: "结束议题", methodName: "overTopic", disabled: true, },
+        { title: "维护结论", methodName: "protectResult", disabled: true, },
+        { title: "查看结论", methodName: "lookResult", disabled: true, },
+        { title: "发送大会议程", methodName: "sendAgenda", disabled: true },
       ],
     ],
   },

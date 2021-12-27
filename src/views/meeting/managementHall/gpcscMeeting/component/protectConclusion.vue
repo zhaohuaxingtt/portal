@@ -1,3 +1,4 @@
+<!-- 结束结论 -->
 <template>
   <iDialog
     title="维护结论"
@@ -6,6 +7,9 @@
     :close-on-click-modal="false"
     @close="close"
   >
+  <!-- 分段定点  待定 只有下拉框和任务 -->
+  <!-- Last Call  有下拉框和任务rfq发送对象 -->
+  <!-- 不通过  提交  任务 文本框 -->
     <iEditForm>
       <el-form
         :model="ruleForm"
@@ -36,40 +40,9 @@
             </iSelect>
           </div>
         </iFormItem>
-        <iFormItem prop="conclusionCsc" v-show="isShowTable">
-          <div class="next-meeting">
-            <div class="operate-title">
-              <span class="conclusion">下次会议</span>
-              <span class="required-icon">*</span>
-            </div>
-            <iTableML
-              tooltip-effect="light"
-              :data="tableListData"
-              :border="true"
-              @selectionChange="handleSelectionChange"
-              :currentRow="currentRow"
-              :isSingle="true"
-            >
-              <el-table-column
-                align="center"
-                label=""
-                width="57"
-                type="selection"
-              >
-              </el-table-column>
-              <el-table-column
-                show-overflow-tooltip
-                align="left"
-                label="会议名称"
-                prop="name"
-              >
-              </el-table-column>
-            </iTableML>
-          </div>
-        </iFormItem>
         <iFormItem
           prop="isFrozenRs"
-          v-show="ruleForm.conclusion.conclusionCsc === '02'"
+          v-show="ruleForm.conclusion.conclusionCsc === '05'"
         >
           <div class="switch-content">
             <div class="freeze">冻结RS单</div>
@@ -259,29 +232,25 @@ export default {
     if (this.meetingInfo.isCSC) {
       this.themenConclusionArrObj = [
         {
-          conclusionCsc: '01',
-          conclusionName: '待定'
+          conclusionCsc: "01",
+          conclusionName: "待定",
         },
         {
-          conclusionCsc: '02',
-          conclusionName: '定点'
+          conclusionCsc: "02",
+          conclusionName: "通过",
         },
         {
-          conclusionCsc: '03',
-          conclusionName: '发LOI'
+          conclusionCsc: "03",
+          conclusionName: "不通过",
         },
         {
-          conclusionCsc: '04',
-          conclusionName: '转TER/TOP-TER'
+          conclusionCsc: "04",
+          conclusionName: "Last Call",
         },
         {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
+          conclusionCsc: "05",
+          conclusionName: "分段定点",
         },
-        {
-          conclusionCsc: '07',
-          conclusionName: '关闭'
-        }
       ]
     }
     if (
