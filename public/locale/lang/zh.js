@@ -2728,7 +2728,11 @@
     rfq: {
       RFQINQUIRE: '搜索',
       RFQRESET: '重置'
+    },
+    MTZ:{
+      LK_MTZCAILIAOZU:'MTZ材料组'
     }
+    
   }
   i18n.setLocaleMessage('zh', oldLanguage)
   var xmlHttp = ''

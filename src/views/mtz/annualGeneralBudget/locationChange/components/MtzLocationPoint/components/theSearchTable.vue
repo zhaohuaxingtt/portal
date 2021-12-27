@@ -170,11 +170,15 @@
                  :index="true"
                  @handleSelectionChange="handleSelectionChange">
         <template slot="id"
-                  slot-scope="scope">
+                  slot-scope="scope"
+                  >
           <p class="openPage"
-             @click="handleClickFsupplierName(scope.row)">
+             @click="handleClickFsupplierName(scope.row)"
+             v-if="scope.row.viewDetailsFlag"
+             >
             {{scope.row.id}}
           </p>
+          <p v-else style="width:90%;">{{scope.row.id}}</p>
         </template>
         <template slot="ttNominateAppId"
                   slot-scope="scope">
