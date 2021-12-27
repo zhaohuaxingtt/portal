@@ -79,7 +79,7 @@ export default {
   },
   data() {
     return {
-      activeIndex: '',
+      activeIndex: 'RISE_HOME',
       menuMap: {},
       menus_admin: [],
       menu2IconMap: {
