@@ -79,7 +79,7 @@ export default {
   },
   data() {
     return {
-      activeIndex: 'RISE_HOME',
+      activeIndex: '',
       menuMap: {},
       menus_admin: [],
       menu2IconMap: {
@@ -151,6 +151,10 @@ export default {
           }
         })
         this.activeMenu = parentMeta
+      }
+
+      if (!this.activeIndex && this.activeMenu && this.activeMenu.length) {
+        this.activeIndex = this.activeMenu[0]
       }
     },
     handleShow(va) {
