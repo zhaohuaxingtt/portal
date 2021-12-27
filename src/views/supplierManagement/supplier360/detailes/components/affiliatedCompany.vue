@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-21 10:18:28
- * @LastEditors: zbin
+ * @LastEditors: caopeng
  * @Descripttion: your project
 -->
 <template>
@@ -15,22 +15,22 @@
     <el-col :span="8" v-permission="Card_Related_Group">
       <iCard :title="$t('SUPPLIER_JTGX')" class="groupRelations">
         <iText class="margin-bottom20">
-          <span class="text">{{$t('JITUANGONGSIQUANCHEN')}}</span>:{{groupTableListData.name}}
+          <span class="text">{{$t('JITUANGONGSIQUANCHEN')}}</span>:{{groupTableListData.name||''}}
         </iText>
         <iText class="margin-bottom20">
-          <span class="text">{{$t('SUPPLIER_SJKZRXM')}}</span>:{{groupTableListData.realityControlName}}
+          <span class="text">{{$t('SUPPLIER_SJKZRXM')}}</span>:{{groupTableListData.realityControlName||''}}
         </iText>
         <iText class="margin-bottom20">
-          <span class="text">{{$t('ZHUYAOCHANPIN')}}</span>:{{groupTableListData.productName}}
+          <span class="text">{{$t('ZHUYAOCHANPIN')}}</span>:{{groupTableListData.productName||''}}
         </iText>
         <iText class="margin-bottom20">
-          <span class="text">{{$t('SUPPLIER_ZYPTKH')}}</span>:{{groupTableListData.oemCustomer}}
+          <span class="text">{{$t('SUPPLIER_ZYPTKH')}}</span>:{{groupTableListData.oemCustomer||''}}
         </iText>
         <iText class="margin-bottom20">
-          <span class="text">{{$t('SUPPLIER_ZYPTZJC')}}</span>:{{groupTableListData.oemName}}
+          <span class="text">{{$t('SUPPLIER_ZYPTZJC')}}</span>:{{groupTableListData.oemName||''}}
         </iText>
         <iText class="margin-bottom20">
-          <span class="text">{{$t('KAISHIGONGHUSHIJIAN')}}</span>:{{groupTableListData.deliveryStartDate}}
+          <span class="text">{{$t('KAISHIGONGHUSHIJIAN')}}</span>:{{groupTableListData.deliveryStartDate||''}}
         </iText>
       </iCard>
     </el-col>
