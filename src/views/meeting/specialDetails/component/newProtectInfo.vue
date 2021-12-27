@@ -179,7 +179,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10;
       if (!isLt10M) {
-        this.$message.error("文件大小最大限制10M!");
+        this.$message.error(this.$t("文件大小最大限制10M!"));
       }
       return isLt10M;
     },
@@ -224,7 +224,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error(this.$t("下载失败"));
           }
         },
       });
@@ -274,7 +274,7 @@ export default {
           addThemenAttachment(data).then((res) => {
             this.tableData = [...res.attachments];
             this.generateTableNum();
-            iMessage.success("上传成功");
+            iMessage.success(this.$t("上传成功"));
           });
         })
         .catch((err) => {

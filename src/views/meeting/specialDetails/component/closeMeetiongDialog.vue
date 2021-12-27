@@ -174,9 +174,9 @@ export default {
     'rowState.isTriggerApproval': {
       handler(v) {
         if (v) {
-          this.isOrNot = '是'
+          this.isOrNot = this.$t('是')
         } else {
-          this.isOrNot = '否'
+          this.isOrNot = this.$t('否')
         }
       },
       immediate: true
@@ -223,7 +223,7 @@ export default {
         .then((res) => {
           if (res.code === 200) {
             // iMessage.success('关闭成功')
-            this.$emit('handleOK', 'close')
+            this.$emit('handleOK', 'close',res.data)
             this.handleClose()
           } else {
             this.loading = false

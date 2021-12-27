@@ -9,13 +9,17 @@
     <pageHeader class="margin-bottom20 ntier-detail-header">
       N-Tier供应商信息
       <div slot="actions">
-        <iButton v-show="!editable && supplierData.id" @click="editable = true">
+        <iButton v-show="!editable && supplierData.id"
+                 @click="editable = true">
           {{ language('编辑') }}
         </iButton>
-        <iButton v-show="editable" :loading="isloading" @click="saveInfos()">
+        <iButton v-show="editable"
+                 :loading="isloading"
+                 @click="saveInfos()">
           {{ language('BAOCUN', '保存') }}
         </iButton>
-        <iButton v-show="editable" @click="editable = false">
+        <iButton v-show="editable"
+                 @click="editable = false">
           {{ language('取消') }}
         </iButton>
       </div>
@@ -25,36 +29,29 @@
         {{ language('BAOCUN', '保存') }}
       </iButton>
     </div> -->
-    <div class="page-main" v-loading="isloading">
-      <baseInfo
-        :supplierData="supplierData"
-        ref="Baseinfo"
-        :loading="isloading"
-        :editable="editable"
-        class="margin-bottom20"
-      />
-      <companyProfile
-        ref="companyProfile"
-        :country="country"
-        :supplierData="supplierData"
-        :fromGroup="fromGroup"
-        :editable="editable"
-        class="margin-bottom20"
-      />
-      <factory
-        :countryList="country"
-        :tableListData="supplierDirectoryTable"
-        :editable="editable"
-        ref="factory"
-        class="margin-bottom20"
-        @add="handleAddFactory"
-      />
-      <supplierDirectoryTable
-        :tableListData="contactUser"
-        :editable="editable"
-        ref="userTable"
-        class="margin-bottom20"
-      />
+    <div class="page-main"
+         v-loading="isloading">
+      <baseInfo :supplierData="supplierData"
+                ref="Baseinfo"
+                :loading="isloading"
+                :editable="editable"
+                class="margin-bottom20" />
+      <companyProfile ref="companyProfile"
+                      :country="country"
+                      :supplierData="supplierData"
+                      :fromGroup="fromGroup"
+                      :editable="editable"
+                      class="margin-bottom20" />
+      <factory :countryList="country"
+               :tableListData="supplierDirectoryTable"
+               :editable="editable"
+               ref="factory"
+               class="margin-bottom20"
+               @add="handleAddFactory" />
+      <supplierDirectoryTable :tableListData="contactUser"
+                              :editable="editable"
+                              ref="userTable"
+                              class="margin-bottom20" />
     </div>
   </iPage>
 </template>
@@ -80,7 +77,7 @@ export default {
     iButton,
     pageHeader
   },
-  data() {
+  data () {
     return {
       isloading: false,
       supplierData: {
@@ -102,7 +99,7 @@ export default {
       editable: false
     }
   },
-  created() {
+  created () {
     this.$nextTick(() => {
       this.getAllSelect()
     })
@@ -110,7 +107,7 @@ export default {
   },
   methods: {
     // 获取下拉框数据
-    getAllSelect() {
+    getAllSelect () {
       let data = [
         'FINANCIAL',
         'TREND',
@@ -136,7 +133,7 @@ export default {
         }
       })
     },
-    supplierDetail(val) {
+    supplierDetail (val) {
       // 1464129746521894912
       this.isloading = true
       getNtierSupplier(val)
@@ -158,17 +155,17 @@ export default {
             this.contactUser = res.data.contactUser
               ? [res.data.contactUser]
               : [
-                  {
-                    dept: '',
-                    email: '',
-                    id: 0,
-                    name: '',
-                    position: '',
-                    telephoneAreaCode: '',
-                    telephoneM: '',
-                    userName: ''
-                  }
-                ]
+                {
+                  dept: '',
+                  email: '',
+                  id: 0,
+                  name: '',
+                  position: '',
+                  telephoneAreaCode: '',
+                  telephoneM: '',
+                  userName: ''
+                }
+              ]
           } else {
             iMessage.error(res.desZh)
           }
@@ -176,7 +173,7 @@ export default {
         .finally(() => (this.isloading = false))
     },
     //获取国家
-    getCityInfo() {
+    getCityInfo () {
       let data = {
         parentCityId: -1,
         cityName: ''
@@ -188,7 +185,7 @@ export default {
       })
     },
     // 保存基本信息
-    saveInfos() {
+    saveInfos () {
       if (this.supplierDirectoryTable.length === 0) {
         iMessage.warn(this.language('请填写生产工厂信息'))
         return false
@@ -218,7 +215,7 @@ export default {
           }
         })
     },
-    updateSupplier() {
+    updateSupplier () {
       const dunsCode = this.$refs.Baseinfo.getDunsCode()
       if (dunsCode === 1) {
         return false
@@ -226,6 +223,15 @@ export default {
       this.isloading = true
       this.supplierData.duns = dunsCode
       const reqTableList = cloneDeep(this.supplierDirectoryTable)
+      for (const iten of reqTableList) {
+        if (iten.country === '中国') {
+          if (!iten.province || !iten.city) {
+            iMessage.error(this.language('SHENGFENCHENGSHIBUNENGWEIKONG', '省份、城市不能为空！'))
+            this.tableLoading = false
+            return
+          }
+        }
+      }
       const plantList = reqTableList.map((e) => {
         const item = {
           address: e.address,
@@ -288,7 +294,7 @@ export default {
       })
     },
     // 基础信息校验
-    isBaseInfoRules() {
+    isBaseInfoRules () {
       return new Promise((resolve, reject) => {
         this.$refs.Baseinfo.$refs.baseRules.validate((valid, message) => {
           if (valid) {
@@ -300,7 +306,7 @@ export default {
       })
     },
     // 联系人
-    isUserfoRules() {
+    isUserfoRules () {
       return new Promise((resolve, reject) => {
         this.$refs.userTable.$refs.commonTable.$refs.commonTableForm.validate(
           (valid, message) => {
@@ -315,7 +321,7 @@ export default {
       })
     },
     // 工厂信息
-    isFactoryRules() {
+    isFactoryRules () {
       return new Promise((resolve, reject) => {
         this.$refs.factory.$refs.ruleForm.validate((valid, message) => {
           console.log('isFactoryRules message', message)
@@ -328,7 +334,7 @@ export default {
       })
     },
     // 企业信息
-    isCompanyRules() {
+    isCompanyRules () {
       return new Promise((resolve, reject) => {
         this.$refs.companyProfile.$refs.companyProfileRules.validate(
           (valid, message) => {
@@ -341,7 +347,7 @@ export default {
         )
       })
     },
-    handleAddFactory() {
+    handleAddFactory () {
       console.log('add factory')
       /* Vue.set(this.supplierData, 'platList', [
         ...this.supplierData.plantList,

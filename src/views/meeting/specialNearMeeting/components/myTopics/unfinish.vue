@@ -422,8 +422,8 @@ export default {
   }
 }
 
-.my-topics-box {
-  /* ::v-deep .circle:before {
+/*.my-topics-box {
+   ::v-deep .circle:before {
     content: "";
     display: inline-block;
     border-radius: 50%;
@@ -455,8 +455,8 @@ export default {
   ::v-deep .el-pagination {
     margin-top: 30px !important;
     margin-bottom: 1px;
-  } */
-}
+  } 
+}*/
 
 ::v-deep .card .cardBody {
   padding: 0;

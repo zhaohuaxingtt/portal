@@ -24,7 +24,7 @@
                   <el-input type="textarea" v-model="detail.content" disabled></el-input>
               </div>
               <div class="publishTime"><i class="el-icon-time"><span class="publishTime-content">{{detail.publishTime}}</span></i></div>
-              <iButton @click="closeDialog" class="btn">{{language('确认')}}</iButton>
+              <iButton @click="sureMessage" class="btn">{{language('确认')}}</iButton>
           </div>
       </div>
   </iDialog>
@@ -32,6 +32,7 @@
 
 <script>
 import {iDialog,iButton} from 'rise'
+import {changeCheckedSta} from '../../api'
 export default {
     name:'detailDialog',
     components:{iDialog,iButton},
@@ -46,7 +47,8 @@ export default {
                     linkUrl:'',
                     publishTime:'',
                     popupStyle:'',
-                    wordAlign:'0'
+                    wordAlign:'0',
+                    popupId:''
                 }
             }
         },
@@ -76,7 +78,26 @@ export default {
         },
         closeDialog(){
             this.$emit('update:show',false)
+            this.$emit('is-sure',false)
+        },
+        sureMessage(){
+            const data = {
+                userId:JSON.parse(sessionStorage.getItem('userInfo')).accountId,
+                popupId:this.detail.popupId
+            }
+            changeCheckedSta(data).then(res=>{
+                if(res.code == 200){
+                    this.$emit('update:show',false)
+                    this.$emit('is-sure',true)
+                }else{
+                    this.$message.error(res.desZh)
+                     this.$emit('update:show',false)
+                    this.$emit('is-sure',false)
+                }
+            })
+            
         }
+
     }
 }
 </script>
@@ -208,7 +229,7 @@ export default {
             overflow: auto;
         }
         .publishTime{
-            width: 250px;
+            // width: 250px;
             padding: 5px;
             color: #1660F1;
             // border: solid rgb(229, 229, 229) 1px;

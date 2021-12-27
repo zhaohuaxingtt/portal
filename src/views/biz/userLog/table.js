@@ -1,9 +1,8 @@
 export default [
     {
-      i18n: '序号',
-      type: 'index',
-      width: '50px',
-      label: '序号'
+      i18n: '日志编号',
+      prop: 'id',
+      width: "150px"
     },
     {
       prop: 'typeName',
@@ -44,10 +43,10 @@ export default [
         return row.success ? "是" : "否"
       }
     },
-    {
-      i18n: '报文详情',
-      customRender:(h,{row},col,extraData)=>{
-        return <iButton type="text" on-click={ () => extraData.msgDetail(row)}>查看详情</iButton> 
-      }
-    }
+    // {
+    //   i18n: '报文详情',
+    //   customRender:(h,{row},col,extraData)=>{
+    //     return <iButton type="text" on-click={ () => extraData.msgDetail(row)}>查看详情</iButton> 
+    //   }
+    // }
 ]

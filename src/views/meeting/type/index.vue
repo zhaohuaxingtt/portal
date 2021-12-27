@@ -240,16 +240,16 @@ export default {
       const ids = []
       this.selectedTableData.forEach((e) => ids.push(e.id))
       if (ids.length == 0) {
-        this.$message.error('请选择需要删除的会议类型!')
+        this.$message.error(this.$t('请选择需要删除的会议类型!'))
       } else {
-        this.$confirm('是否删除该会议类型？', '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
+        this.$confirm(this.$t('是否删除该会议类型？'), this.$t('提示'), {
+          confirmButtonText: this.$t('是'),
+          cancelButtonText: this.$t('否'),
           type: 'warning'
         }).then(() => {
           batchDeleteMeeting({ ids: ids })
             .then(() => {
-              this.$message.success('删除成功!')
+              this.$message.success(this.$t('删除成功!'))
               this.query()
             })
             .catch(() => {
@@ -271,16 +271,16 @@ export default {
       downloadAllExport({
         // url: '/rise-meeting/meetingTypeService/exportMeetingType',
         url: '/meetingApi/meetingTypeService/exportMeetingType',
-        filename: '会议类型列表',
+        filename: this.$t('会议类型列表'),
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         // type: "application/x-xls",
         // type: 'application/vnd.ms-excel',
         data,
         callback: (e) => {
           if (e) {
-            iMessage.success('导出成功')
+            iMessage.success(this.$t('导出成功'))
           } else {
-            iMessage.error('导出失败')
+            iMessage.error(this.$t('导出失败'))
           }
         }
       })

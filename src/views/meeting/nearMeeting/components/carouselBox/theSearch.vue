@@ -37,7 +37,7 @@
               <el-option value="" :label="$t('all')"></el-option>
               <el-option
                 :value="item.value"
-                :label="item.label"
+                :label="$t(item.label)"
                 v-for="item of statusList"
                 :key="item.value"
               ></el-option>
@@ -70,30 +70,31 @@
 </template>
 
 <script>
-import { iInput, iSelect } from "rise";
-import { getMettingType } from "@/api/meeting/type";
-import { getUsers } from "@/api/meeting/type";
-import iDateRangePicker from "@/components/iDateRangePicker/index.vue";
-import iSearch from "@/components/iSearch/index.vue";
+import { iInput, iSelect } from 'rise'
+import { getMettingType } from '@/api/meeting/type'
+// import { getUsers } from "@/api/meeting/type";
+import { getPageListByParam } from '@/api/usercenter/receiver.js'
+import iDateRangePicker from '@/components/iDateRangePicker/index.vue'
+import iSearch from '@/components/iSearch/index.vue'
 
 export default {
   components: {
     iSearch,
     iInput,
     iSelect,
-    iDateRangePicker,
+    iDateRangePicker
   },
   props: {
     form: {
       type: Object,
       default: () => {
-        return {};
-      },
-    },
+        return {}
+      }
+    }
   },
   data() {
     return {
-      meetingTypeId: "",
+      meetingTypeId: '',
       restaurants: [],
       timeout: null,
       meetingTypeList: [],
@@ -103,120 +104,138 @@ export default {
         //   value: "01",
         // },
         {
-          label: "开放",
-          value: "02",
+          label: 'MT_KAIFANG',
+          value: '02'
         },
         {
-          label: "锁定",
-          value: "03",
+          label: 'MT_SUODING',
+          value: '03'
         },
         {
-          label: "开始",
-          value: "04",
+          label: 'MT_KAISHI',
+          value: '04'
         },
         {
-          label: "结束",
-          value: "05",
+          label: 'MT_JIESHU',
+          value: '05'
         },
         {
-          label: "关闭",
-          value: "06",
-        },
+          label: 'MT_GUANBI',
+          value: '06'
+        }
       ],
       datePickerOptionsStart: {
         // 日期选择
         disabledDate: (date) => {
-          let newDate = new Date().valueOf();
+          let newDate = new Date().valueOf()
           return (
             date.valueOf() < newDate - 24 * 60 * 60 * 1000 * 14 ||
             date.valueOf() > newDate + 24 * 60 * 60 * 1000 * 6
-          );
-        },
+          )
+        }
       },
       datePickerOptionsEnd: {
         // 日期选择
         disabledDate: (date) => {
-          let newDate = new Date().valueOf();
+          let newDate = new Date().valueOf()
           return (
             date.valueOf() < newDate - 24 * 60 * 60 * 1000 * 14 ||
             date > newDate + 24 * 60 * 60 * 1000 * 6
-          );
-        },
+          )
+        }
       },
-      pickerOptionsEndFun: new Date().valueOf() + 24 * 60 * 60 * 1000 * 6,
-    };
+      pickerOptionsEndFun: new Date().valueOf() + 24 * 60 * 60 * 1000 * 6
+    }
   },
   mounted() {
-    this.meetingTypeId = this.$route.query.id;
-    this.getAllSelectList();
-    this.getUsersAll();
+    this.meetingTypeId = this.$route.query.id
+    this.getAllSelectList()
+    this.getUsersAll()
   },
   methods: {
-    querySearchAsync(queryString, cb) {
-      // console.log("queryString", queryString);
-      let restaurants = this.restaurants.map((item) => {
-        return {
-          value: item.name,
-          id: item.id,
-        };
-      });
-      let results = queryString
-        ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants;
+    // querySearchAsync(queryString, cb) {
+    //   // console.log("queryString", queryString);
+    //   let restaurants = this.restaurants.map((item) => {
+    //     return {
+    //       value: item.name,
+    //       id: item.id
+    //     }
+    //   })
+    //   let results = queryString
+    //     ? restaurants.filter(this.createStateFilter(queryString))
+    //     : restaurants
 
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(results);
-      }, 500 * Math.random());
+    //   clearTimeout(this.timeout)
+    //   this.timeout = setTimeout(() => {
+    //     cb(results)
+    //   }, 500 * Math.random())
+    // },
+    async querySearchAsync(queryString, cb) {
+      let res = await this.getUsersAll(queryString)
+      res = res || { data: [] }
+      let userArr = res.data || []
+      userArr = userArr.map((item) => {
+        return {
+          value: item.nameZh,
+          ...item
+        }
+      })
+      cb(userArr)
     },
     createStateFilter(queryString) {
       return (state) => {
-        return state.value.toLowerCase().match(queryString.toLowerCase());
-      };
+        return state.value.toLowerCase().match(queryString.toLowerCase())
+      }
     },
     handleSelect(item) {
-      this.form.receiverId = item.id;
+      this.form.receiverId = item.id
       // console.log("this.form.receiver.id", this.form.receiverId);
     },
-
-    getUsersAll() {
+    async getUsersAll(str) {
       const data = {
-        pageNum: 1,
-        pageSize: 1000,
-      };
-      getUsers(data).then((res) => {
-        // console.log("res", res);
-        this.restaurants = res.data;
-      });
+        nameZh: str
+      }
+      let res = await getPageListByParam(data)
+      return res
     },
+    // getUsersAll() {
+    //   const data = {
+    //     pageNum: 1,
+    //     pageSize: 1000,
+    //   };
+    //   getUsers(data).then((res) => {
+    //     // console.log("res", res);
+    //     this.restaurants = res.data;
+    //   });
+    // },
     handleSearchReset() {
-      this.form = {};
+      this.form = {}
       setTimeout(() => {
-        this.$refs.iDateRangePicker.initDate();
-      }, 4);
-      this.$emit("handleSearchReset");
+        this.$refs.iDateRangePicker.initDate()
+      }, 4)
+      this.$emit('handleSearchReset')
     },
     searchTableList() {
-      this.$emit("searchTableList");
+      this.$emit('searchTableList')
     },
     getAllSelectList() {
       let param = {
         pageSize: 1000,
-        pageNum: 1,
-      };
+        pageNum: 1
+      }
       getMettingType(param).then((res) => {
-        this.meetingTypeList = res.data;
-        this.$emit("setTypeObj", res.data);
-      });
+        this.meetingTypeList = res.data
+        this.$emit('setTypeObj', res.data)
+      })
     },
     changeStart(e) {
-      this.form.startDateBegin = e;
+      this.form.startDateBegin = e
     },
     changeEnd(e) {
-      this.form.startDateEnd = e;
-    },
-  },
-};
+      this.form.startDateEnd = e
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

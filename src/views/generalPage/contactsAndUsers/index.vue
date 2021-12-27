@@ -9,10 +9,14 @@
 <template>
   <div>
     <base-info-card v-if="this.supplierType > 3" />
-    <supplier-directory-table class="margin-top20"
-                              ref="supplierDirectoryTable" />
-    <supplier-user-name-table class="margin-top20"
-                              ref="supplierUserNameTable" />
+    <supplier-directory-table
+      class="margin-top20"
+      ref="supplierDirectoryTable"
+    />
+    <supplier-user-name-table
+      class="margin-top20"
+      ref="supplierUserNameTable"
+    />
   </div>
 </template>
 
@@ -22,7 +26,6 @@ import supplierDirectoryTable from './components/supplierDirectoryTable'
 import supplierUserNameTable from './components/supplierUserNameTable'
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 
-
 export default {
   mixins: [generalPageMixins],
   components: {
@@ -31,13 +34,13 @@ export default {
     supplierUserNameTable
   },
   methods: {
-    async saveInfos (step) {
+    async saveInfos(step) {
       await Promise.all([
         this.$refs.supplierDirectoryTable.saveInfos(step),
         this.$refs.supplierUserNameTable.saveInfos(step)
       ])
     },
-    async handleNextStep () {
+    async handleNextStep() {
       let flag = false
       const res = await Promise.all([
         this.$refs.supplierDirectoryTable.handleNextStep(),
@@ -50,5 +53,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

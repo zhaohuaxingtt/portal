@@ -51,12 +51,12 @@ export default {
       const data = { ...this.selectedTableData[0] };
       deleteThemen(data)
         .then(() => {
-          iMessage.success("删除成功");
+          iMessage.success(this.$t("删除成功"));
           this.$emit("flushTable");
           this.close();
         })
         .catch(() => {
-          iMessage.error("删除失败");
+          iMessage.error(this.$t("删除失败"));
           this.$emit("flushTable");
           this.close();
         });

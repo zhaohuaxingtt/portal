@@ -90,6 +90,11 @@ export default {
         return [];
       },
     },
+    fun:{
+      default:function(){
+        
+      }
+    }
   },
   data() {
     return {
@@ -102,7 +107,7 @@ export default {
         {
           prop: "fileId",
           label: "序号",
-          i18n: "序号",
+          i18n: "MT_XUHAO",
           // width: 68,
           tooltip: false,
         },

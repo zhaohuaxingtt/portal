@@ -223,6 +223,7 @@ export default {
     },
     addReceiverData() {
       this.openReceiverDialog = true
+      this.openEditDialog = false
     },
     deleteReceiver(e) {
       this.$confirm(this.$t('请确认是否要删除该群组?'), this.$t('提示'), {
@@ -279,6 +280,7 @@ export default {
     },
     closeChooseDialog(bol) {
       this.openReceiverDialog = bol
+      this.openEditDialog = true
     },
     closeEditDialog(bol) {
       this.openEditDialog = bol

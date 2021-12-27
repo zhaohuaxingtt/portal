@@ -38,12 +38,12 @@
       </el-row>
       <el-row>
         <!--状态-->
-        <el-form-item :label="$t('MT_ZHUANGTAI')" class="LastSearchOption">
+        <el-form-item :label="$t('MT_ZHUANGTAI2')" class="LastSearchOption">
           <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form.states">
             <el-option value="" :label="$t('all')"></el-option>
             <el-option
               :value="item.value"
-              :label="item.label"
+              :label="$t(item.label)"
               v-for="item of statusList"
               :key="item.value"
             ></el-option>

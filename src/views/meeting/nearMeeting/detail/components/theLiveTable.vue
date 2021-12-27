@@ -206,7 +206,7 @@
         label="Status"
       >
         <template slot-scope="scope">
-          {{ statusObj[scope.row.state] }}
+          {{ $t(statusObj[scope.row.state]) }}
         </template>
       </el-table-column>
       <el-table-column
@@ -276,9 +276,9 @@ export default {
     return {
       following: false,
       statusObj: {
-        '01': '未进行',
-        '02': '进行中',
-        '03': '已结束'
+        '01': 'MT_WEIJINXING',
+        '02': 'MT_JINXINGZHONG',
+        '03': 'MT_YIJIESHU'
       }
     }
   },
