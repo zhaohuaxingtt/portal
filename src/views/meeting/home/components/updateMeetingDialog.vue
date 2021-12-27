@@ -211,7 +211,7 @@ export default {
           updateMeeting(formData)
             .then((res) => {
               if (res.code === 200) {
-                iMessage.success(this.$t('保存成功'))
+                iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
               }
               this.clearDiolog('submit')
               this.$emit('refreshTable')
