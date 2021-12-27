@@ -187,14 +187,9 @@ export default {
 #powerBiReport {
   width: 100%;
   height: 100%;
-  iframe {
+  ::v-deep iframe {
     border: 0px !important;
     overflow: auto;
   }
-}
-</style>
-<style>
-iframe {
-  border: 0px !important;
 }
 </style>
