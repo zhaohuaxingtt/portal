@@ -92,7 +92,7 @@ export default {
 		},
 		bad() {
 			console.log('未解决 打开追问 并带信息')
-			this.$emit('handleZwQues', this.title, this.currQuesInfo)
+			this.$emit('handleZwQues', this.title, this.currQuesInfo, this.currQuestionId)
 		},
 		handleQuestion() {
 			console.log('打开智能弹窗')
