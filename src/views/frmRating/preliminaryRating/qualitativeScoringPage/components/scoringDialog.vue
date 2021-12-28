@@ -149,10 +149,10 @@ export default {
       cloneList: [],
       selectData: [],
       itemCodeArr: [],
-      infoData:[]
+      infoData: []
     }
   },
- 
+
   created () {
     this.selectProps = ['isAudit', 'isMergeReport']
   },
@@ -172,12 +172,13 @@ export default {
         const initialIds = this.infoData.map((item) => {
           return item.id
         })
-           console.log(this.outerSelectTableData)
+        console.log(this.outerSelectTableData)
         console.log(this.infoData)
         req = {
           initialIds
         }
-        const res = await getQualitativeScoreDialogList(req)
+        // const res = await getQualitativeScoreDialogList(req)
+        const res = await getScoreViewList(req)
         console.log(res)
         if (res.result) {
           this.tableListData = res.data
@@ -345,16 +346,16 @@ export default {
         const initialIds = this.infoData.map((item) => {
           return item.id
         })
-          console.log(this.outerSelectTableData)
-            console.log(this.infoData)
+        console.log(this.outerSelectTableData)
+        console.log(this.infoData)
         const req = {
           initialIds
         }
         const titleData = await getQualitativeMappingList()
         this.tableTitleData = titleData.data
 
-        const res = await getQualitativeScoreDialogList(req)
-        //const res = await getScoreViewList(req)
+        // const res = await getQualitativeScoreDialogList(req)
+        const res = await getScoreViewList(req)
         if (res.result) {
           this.tableListData = res.data
           this.tableListData.forEach((res) => {
@@ -395,7 +396,7 @@ export default {
       }
     },
     getTableList () {
-        console.log(this.action)
+      console.log(this.action)
       if (this.action === 'view') {
         this.getViewTableList()
       } else {
@@ -406,10 +407,10 @@ export default {
   watch: {
     value (val) {
       if (val) {
-           this.infoData=this.outerSelectTableData
+        this.infoData = this.outerSelectTableData
         this.getScoreSelectList()
         this.getViewTableList()
-           console.log(this.infoData)
+        console.log(this.infoData)
       }
     }
   }
