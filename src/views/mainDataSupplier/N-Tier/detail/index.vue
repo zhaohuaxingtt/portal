@@ -132,14 +132,14 @@ export default {
       selectDictByKeys(url).then((res) => {
         if (res.data) {
           this.fromGroup = res.data
-          this.supplierDetail(this.$route.query.id)
+          this.supplierDetail()
         }
       })
     },
-    supplierDetail(val) {
+    supplierDetail() {
       // 1464129746521894912
       this.isloading = true
-      const params = { supplierId: val }
+      const params = { supplierId: this.$route.query.id }
       getNtierSupplier(params)
         .then((res) => {
           if (res && res.code == 200) {
