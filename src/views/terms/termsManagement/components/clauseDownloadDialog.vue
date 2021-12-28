@@ -41,7 +41,7 @@
       <el-table-column align="center" label="上传日期"
         ><template slot-scope="scope">
           <span>{{
-            scope.row["uploadDate"] && scope.row["uploadDate"].substring(10)
+            scope.row["uploadDate"] && scope.row["uploadDate"].substring(0,10)
           }}</span>
         </template></el-table-column
       >
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { iDialog, iInput, iButton, iPagination, iSelect, iMessage } from "rise";
+import { iDialog, iMessage } from "rise";
 // import iTableCustom from "@/components/iTableCustom";
 import iTableML from "@/components/iTableML";
 import { getUnStandard } from "@/api/terms/terms";

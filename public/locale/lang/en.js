@@ -2069,9 +2069,9 @@
     MT_QINGSHURU: 'Please input',
     MT_QINGXUANZE: 'Please select',
     MT_TO: 'To',
-    MT_BITIAN: 'required',
-    MT_XUHAO: 'No.',
-
+    MT_BITIAN:"required",
+    MT_XUHAO:"No.",
+    
     POSITION: {
       POSITION_NAME: 'Position name',
       POSITION_CODE: 'Post code',

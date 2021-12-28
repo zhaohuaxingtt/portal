@@ -2,9 +2,7 @@
   <iPage>
     <div class="title">
       <div>
-        <span class="title__clause"
-          >{{ this.ruleForm.name }}：{{ this.ruleForm.termsVersion }}</span
-        >
+        <span class="title__clause">{{ this.ruleForm.name }}</span>
         <span>
           <span class="title__version">条款版本：</span>
           <span>
@@ -337,17 +335,11 @@
                   <a
                     class="el-upload-list__item-name"
                     @click="
-                      handleDownloadFile(
-                        this.ruleForm.termsTextUrl,
-                        this.ruleForm.termsTextId
-                      )
+                      handleDownloadFile(ruleForm.termsTextId, termsTextName)
                     "
                   >
-                    <i
-                      class="el-icon-paperclip"
-                      :title="this.ruleForm.termsTextUrl"
-                    >
-                      {{ this.ruleForm.termsTextUrl }}
+                    <i class="el-icon-paperclip" :title="this.termsTextName">
+                      {{ this.termsTextName }}
                     </i>
                   </a>
                   <label class="el-upload-list__item-status-label">
@@ -355,7 +347,7 @@
                   </label>
                   <i @click="handleDeleteAccessory()" class="el-icon-close"></i>
                 </li>
-                <iButton @click="handlePre()">{{ "预览" }}</iButton>
+                <iButton @click="handlePre()" :disabled="this.ruleForm.termsTextId == ''">{{ "预览" }}</iButton>
               </iFormItem>
             </el-col>
           </div>
@@ -475,7 +467,7 @@ import {
   editModeList,
 } from "./data";
 import uploadIcon from "@/assets/images/upload-icon.svg";
-import { uploadFile, downloadFile } from "@/api/mock/mock";
+import { uploadFile } from "@/api/terms/uploadFile.js";
 import iTableML from "@/components/iTableML";
 import { findById, deleteAttachment, saveAttachment } from "@/api/terms/terms";
 import { getDictByCode } from "@/api/dictionary/index";
@@ -483,6 +475,7 @@ import { download, downloadZip } from "@/utils/downloadUtil";
 import supplierListDialog from "./supplierListDialog.vue";
 import supplierChooseDialog from "./supplierChooseDialog.vue";
 import { invalidateTerms, releaseTerms } from "@/api/terms/terms";
+import { getFileByIds } from "@/api/terms/uploadFile";
 import dayjs from "dayjs";
 export default {
   components: {
@@ -517,6 +510,7 @@ export default {
       editModeList,
       signNodeList: [], // 签署节点
       statusList,
+      termsTextName: "",
       ruleForm: {
         termsVersion: "", // 条款版本
         termsCode: "", // 条款编码
@@ -548,17 +542,6 @@ export default {
           return time.getTime() < curDate;
         },
       },
-      // supplierStr: "",
-      // displayVersion: "",
-      // clauseText: "",
-      // contrastVersion: "",
-      // clauseTextContrast: "",
-      // clauseTextContrastShow: false,
-      // clauseTextDefault: true,
-      // clauseTextDisabled: true,
-      // clauseTextHeight: "28rem",
-      // clauseTextContrastDefault: false,
-      // clauseTextContrastDisabled: false,
       isApprovalOption: [
         {
           label: "是",
@@ -588,6 +571,8 @@ export default {
           if (this.ruleForm.supplierIdentity.indexOf("2") == -1) {
             this.ruleForm.supplierIdentity.push("2");
           }
+        } else if (val.includes("CM")) {
+          this.ruleForm.supplierIdentity = [];
         } else {
           const indexSupplier = this.ruleForm.supplierIdentity.indexOf("2");
           if (indexSupplier != -1) {
@@ -712,9 +697,12 @@ export default {
         releaseTerms(this.ruleForm)
           .then(() => {
             this.$message.success("更新成功！");
-            this.query({ id: this.$route.query.id });
+            this.$router.push({
+              path: "/terms/management",
+            });
+            // this.query({ id: this.$route.query.id });
           })
-          .catch((err) => {
+          .catch(() => {
             // this.$message.error("删除失败!");
           });
       });
@@ -728,9 +716,12 @@ export default {
         invalidateTerms({ ids: this.ruleForm.id })
           .then(() => {
             this.$message.success("更新成功！");
-            this.query({ id: this.$route.query.id });
+            this.$router.push({
+              path: "/terms/management",
+            });
+            // this.query({ id: this.$route.query.id });
           })
-          .catch((err) => {
+          .catch(() => {
             // this.$message.error("删除失败!");
           });
       });
@@ -773,16 +764,16 @@ export default {
           });
           iMessage.success("上传成功");
         })
-        .catch((err) => {
+        .catch(() => {
           iMessage.error("上传失败");
         });
       this.uploadLoading = false;
       this.submitLoading = false;
     },
-    handleDownloadFile(id, url) {
+    handleDownloadFile(id, name) {
       download({
         fileIds: id,
-        filename: url,
+        filename: name,
         callback: (e) => {
           if (!e) {
             iMessage.error("下载失败");
@@ -815,6 +806,15 @@ export default {
           }
         },
       });
+    },
+    handlePre() {
+      let routeUrl = this.$router.resolve({
+        path: "/terms/management/termsPreview",
+        query: {
+          id: this.ruleForm.termsTextId,
+        },
+      });
+      window.open(routeUrl.href, "_blank");
     },
     handleSelectionChange(val) {
       this.selectedFileData = val;
@@ -866,7 +866,7 @@ export default {
             this.$message.success("删除成功！");
             this.query({ id: this.$route.query.id });
           })
-          .catch((err) => {
+          .catch(() => {
             // this.$message.error("删除失败!");
           });
       });
@@ -894,23 +894,12 @@ export default {
         res.supplierIdentity = res.supplierIdentity?.split(",");
         this.ruleForm = res;
         this.editor.txt.html(this.ruleForm.termsText);
-        // if (this.ruleForm.isNewest !== true) {
         this.editor.disable();
-        // }
-        // this.supplierStr = res.supplierList
-        //   ?.map((e) => {
-        //     return e.name;
-        //   })
-        //   .join(",");
-        // this.clauseText = res.termsText;
-        // if (
-        //   res.termsHistoryList !== null &&
-        //   res.termsHistoryList !== undefined &&
-        //   res.termsHistoryList.length > 0
-        // ) {
-        //   this.displayVersion =
-        //     res.termsHistoryList?.[res.termsHistoryList.length - 1].id;
-        // }
+        if (this.ruleForm.editMode == "02") {
+          getFileByIds([this.ruleForm.termsTextId]).then((res) => {
+            this.termsTextName = res.name;
+          });
+        }
       });
     },
   },
