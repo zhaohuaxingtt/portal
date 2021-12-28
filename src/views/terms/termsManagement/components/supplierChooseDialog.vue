@@ -95,7 +95,7 @@
       <el-table-column
         label="序号"
         type="index"
-        width="50"
+        width="80"
         align="center"
       ></el-table-column>
       <el-table-column align="center" label="供应商中文名"
@@ -251,7 +251,7 @@
 </template>
 
 <script>
-import { iDialog, iInput, iButton, iPagination, iSelect, iMessage } from "rise";
+import { iDialog, iInput, iButton, iPagination, iSelect } from "rise";
 import iTableML from "@/components/iTableML";
 import { pageMixins } from "@/utils/pageMixins";
 import { findSupplierPage } from "@/api/terms/terms";
@@ -342,12 +342,22 @@ export default {
       this.optionalTableData = val;
     },
     addTableData() {
-      const supplierIdList = this.tableListDataSelected.map((item) => {
-        return item.supplierId;
-      });
-      for (let i = 0; i < this.optionalTableData.length; i++) {
-        if (!supplierIdList.includes(this.optionalTableData[i].supplierId)) {
-          this.tableListDataSelected.push(this.optionalTableData[i]);
+      if (this.tableListDataSelected!=null) {
+        let supplierIdList = this.tableListDataSelected.map((item) => {
+          return item.supplierId;
+        });
+        for (let i = 0; i < this.optionalTableData.length; i++) {
+          if (!supplierIdList.includes(this.optionalTableData[i].supplierId)) {
+            this.tableListDataSelected?.push(this.optionalTableData[i]);
+          }
+        }
+      } else {
+        this.tableListDataSelected = [];
+        let supplierIdList = [];
+        for (let i = 0; i < this.optionalTableData.length; i++) {
+          if (!supplierIdList.includes(this.optionalTableData[i].supplierId)) {
+            this.tableListDataSelected?.push(this.optionalTableData[i]);
+          }
         }
       }
     },

@@ -144,6 +144,16 @@ export default {
         )
     },
     {
+      path: "/terms/management/termsPreview",
+      name: "termsPreview",
+      component: () => import(`@/views/terms/termsManagement/components/preview.vue`),
+    },
+    {
+      path: "/terms/management/clauseDetail/preText",
+      name: "preText",
+      component: () => import(`@/views/terms/termsManagement/components/preText.vue`),
+    },
+    {
       path: '/',
       name: 'home',
       redirect: '/index',
