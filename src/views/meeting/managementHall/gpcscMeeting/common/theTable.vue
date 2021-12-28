@@ -2,22 +2,7 @@
   <iCard class="margin-top20">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <iButton @click="handleRecall" :disabled="!isCanRecall">{{
-          $t('MT_CHEHUI')
-        }}</iButton>
-        <iButton @click="handleOpen" :disabled="!isCanOpen">{{
-          $t('MT_KAIFANG')
-        }}</iButton>
-        <!--批量创建-->
-        <iButton @click="handleAddMultiple">{{
-          $t('MT_PILIANGCHUANGJIAN')
-        }}</iButton>
-        <!--创建-->
-        <iButton @click="handleAddSingle">{{ $t('MT_CHUANGJIAN') }}</iButton>
-        <!--删除-->
-        <iButton @click="handleDelete" :disabled="selectedRow.length === 0">{{
-          $t('MT_SHANCHU')
-        }}</iButton>
+        <iButton>{{ $t('提交') }}</iButton>
       </div>
     </div>
     <iTableML
@@ -39,7 +24,7 @@
         width="40"
         min-width="40"
         align="center"
-        :label="$t('MT_XUHAO2')"
+        :label="$t('#')"
       ></el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
       <el-table-column
@@ -52,9 +37,9 @@
         <template slot-scope="scope">
           <span
             :class="scope.row.state === '01' ? '' : 'open-link-text'"
-            @click="goDetail(scope.row, scope.row.state)"
             >{{ scope.row.name }}</span
           >
+            <!-- @click="goDetail(scope.row, scope.row.state)" -->
         </template>
       </el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
@@ -166,7 +151,7 @@
         align="center"
         width="260"
         min-width="260"
-        :label="$t('MT_CAOZUO2')"
+        :label="$t('MT_CAOZUO')"
       >
         <template slot-scope="scope">
           <!-- <div
@@ -576,119 +561,6 @@
       :current-page="page.currPage"
       :total="page.total"
     />
-    <addMeetingSingleDialog
-      v-if="openAddSingle"
-      :openAddSingle="openAddSingle"
-      :attendeeList="attendeeList"
-      :receiverList="receiverList"
-      :meetingTypeList="meetingTypeList"
-      @handleSubmit="handleAddSingleSubmit"
-      @closeDialog="handleCloseAddSingle"
-      @refreshTable="refreshTable"
-    />
-    <addMeetingMultipleDialo
-      v-if="openAddMultiple"
-      :openAddMultiple="openAddMultiple"
-      :attendeeList="attendeeList"
-      :receiverList="receiverList"
-      :meetingTypeList="meetingTypeList"
-      @closeDialog="handleCloseAddMultiple"
-      @refreshTable="refreshTable"
-    />
-    <updateMeetingDialog
-      v-if="openUpdate"
-      :openUpdate="openUpdate"
-      :id="id"
-      :typeObject="typeObject"
-      @handleSubmit="handleUpdateSubmit"
-      @closeDialog="handleCloseOpenUpdate"
-      @refreshTable="refreshTable"
-    />
-    <!-- 关闭触发审批流 -->
-    <closeMeetingDialog
-      v-if="openCloseMeeting"
-      :openCloseMeeting="openCloseMeeting"
-      :row="editRow"
-      :id="id"
-      @handleOK="handleCloseOK"
-      @handleClose="handleCloseCloseMeeting"
-    />
-    <closeMeetingDialogSpecial
-      v-show="false"
-      :openCloseMeeting="openCloseMeeting"
-      :row="editRow"
-      :id="id"
-      @handleOK="handleCloseOK"
-      @handleClose="handleCloseCloseMeeting"
-      ref="closeDialog"
-    />
-
-    <!-- 上传Agenda -->
-    <updateFile
-      :title="$t('MT_SHANGCHUAN') + 'Agenda'"
-      :warnText="$t('MT_QINGSHANGCHUANFUJIAN')"
-      :maxSize="10"
-      :fileNum="1"
-      :open="openAgenda"
-      v-if="openAgenda"
-      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/pdf"
-      @handleCancel="handleCancelAgenda"
-      @handleOK="handleOKAgenda"
-    />
-    <!-- 导入议题 -->
-    <updateFile
-      :title="$t('MT_DAORUYITI')"
-      :maxSize="10"
-      :fileNum="1"
-      :open="openTopics"
-      v-if="openTopics"
-      :id="id"
-      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-      @handleCancel="handleCancelTopics"
-      @handleOK="handleOKTopics"
-      @getUplodFiles="getUplodFiles"
-    >
-      <div class="title-down-demo" @click="downDemo">
-        <img :src="enclosure" alt="" srcset="" />
-        <span>{{ $t('MT_XIAZAIMUBAN') }}</span>
-      </div>
-    </updateFile>
-    <!-- 上传会议纪要 -->
-    <updateFile
-      :title="$t('MT_SHANGCHUANHUIYIJIYAO')"
-      :warnText="$t('MT_QINGSHANGCHUANFUJIAN') + '!'"
-      :descText="$t('MT_WENJIANDAXIAOXIANZHIORZHIZHICHIPDFWENJIAN')"
-      :maxSize="10"
-      :fileNum="1"
-      :open="openSummary"
-      v-if="openSummary"
-      @handleCancel="handleCancelSummary"
-      @handleOK="handleOKSummary"
-    />
-    <importErrorDialog
-      v-if="openError"
-      :openError="openError"
-      :errorList="errorList"
-      @handleCloseError="handleCloseError"
-    />
-    <!-- 生成会议纪要 -->
-    <newSummaryDialog
-      v-if="openNewSummary"
-      :open="openNewSummary"
-      :id="id"
-      @handleOK="handleNewSummaryOK"
-      @handleCancel="handleNewSummaryCancel"
-      @refreshTable="refreshTable"
-    />
-    <newSummaryDialogNew
-      v-if="openNewSummaryNew"
-      :open="openNewSummaryNew"
-      :id="id"
-      :receiverId="receiverId"
-      @handleCancel="handleNewSummaryNewCancel"
-      @handleOK="handleNewSummaryNewOK"
-      @refreshTable="flushTable"
-    ></newSummaryDialogNew>
   </iCard>
 </template>
 
@@ -709,7 +581,6 @@ import {
 } from '@/api/meeting/home'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
 import { download } from '@/utils/downloadUtil'
-import { downloadStaticFile } from '@/utils/downloadStaticFileUtil'
 import enclosure from '@/assets/images/enclosure.svg'
 import beginVedio from '@/assets/images/meeting-home/beginVedio.svg'
 import closeVedio from '@/assets/images/meeting-home/close-vedio.svg'
@@ -724,17 +595,17 @@ import lock from '@/assets/images/meeting-home/lock.svg'
 import screen from '@/assets/images/meeting-home/screen.svg'
 import uploadFile from '@/assets/images/meeting-home/uploadFile.svg'
 import upload from '@/assets/images/meeting-home/upload.svg'
-import addMeetingSingleDialog from './addMeetingSingleDialog.vue'
-import addMeetingMultipleDialo from './addMeetingMultipleDialo.vue'
-import closeMeetingDialogSpecial from './closeMeetingDialogSpecial.vue'
-import closeMeetingDialog from './closeMeetingDialog.vue'
-import updateMeetingDialog from './updateMeetingDialog.vue'
-import importErrorDialog from './importErrorDialog.vue'
+// import addMeetingSingleDialog from './addMeetingSingleDialog.vue'
+// import addMeetingMultipleDialo from './addMeetingMultipleDialo.vue'
+// import closeMeetingDialogSpecial from './closeMeetingDialogSpecial.vue'
+// import closeMeetingDialog from './closeMeetingDialog.vue'
+// import updateMeetingDialog from './updateMeetingDialog.vue'
+// import importErrorDialog from './importErrorDialog.vue'
 // import newSummaryDialog from "./newSummaryDialog.vue";
-import newSummaryDialog from './newSummaryDialog.vue'
+// import newSummaryDialog from './newSummaryDialog.vue'
 // import { MOCK_FILE_URL } from '@/constants'
 // import { debounce } from '@/utils/utils.js'
-import newSummaryDialogNew from './newSummaryDialogNew.vue'
+// import newSummaryDialogNew from './newSummaryDialogNew.vue'
 import dayjs from 'dayjs'
 export default {
   components: {
@@ -744,14 +615,14 @@ export default {
     iPagination,
     updateFile,
     // importThemens,
-    addMeetingSingleDialog,
-    addMeetingMultipleDialo,
-    closeMeetingDialog,
-    updateMeetingDialog,
-    newSummaryDialog,
-    newSummaryDialogNew,
-    closeMeetingDialogSpecial,
-    importErrorDialog
+    // addMeetingSingleDialog,
+    // addMeetingMultipleDialo,
+    // closeMeetingDialog,
+    // updateMeetingDialog,
+    // newSummaryDialog,
+    // newSummaryDialogNew,
+    // closeMeetingDialogSpecial,
+    // importErrorDialog
   },
   mixins: [resultMessageMixin],
   props: {
@@ -794,7 +665,6 @@ export default {
   },
   data() {
     return {
-      riseIcon: process.env.VUE_EMAIL_ICON,
       isGenerating: false,
       isCanRecall: false,
       isCanOpen: false,
@@ -896,33 +766,10 @@ export default {
     handleUpdateSubmit() {
       this.openUpdate = true
     },
-    createAnchorLink(href) {
-      // console.log('href', href)
-      const a = document.createElement('a')
-      a.href = href
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-    },
-    handleSendEmail(list, row) {
-      const subject = row.name
-      const send = list ? list.join(';') : ''
-      // let minuteSrc = 'aaa'
-      const attachments = row.attachments.find((item) => {
-        return item.source === '02'
-      })
-      const minuteSrc = attachments ? attachments.attachmentUrl : ''
-      let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'>`
-      let href = `mailto:${send}?subject=${subject}&body=${body}`
-      this.createAnchorLink(href)
-    },
     // 确认提交审批流
-    handleCloseOK(info, list, row) {
+    handleCloseOK(info) {
       if (info === 'close') {
-        iMessage.success('MT_GUANBICHENGGONG')
-        if (list) {
-          this.handleSendEmail(list, row)
-        }
+        iMessage.success('关闭成功')
       }
       this.openCloseMeeting = false
       this.refreshTable()
@@ -950,7 +797,7 @@ export default {
       }
       uploadAttachment(param).then((res) => {
         if (res.id) {
-          iMessage.success('MT_BAOCUNCHENGGONG')
+          iMessage.success('保存成功')
           this.openAgenda = false
           this.refreshTable()
         }
@@ -959,7 +806,7 @@ export default {
     // 导入议题保存
     handleOKTopics(a, b) {
       if (this.nameList.length <= 0) {
-        iMessage.warn(this.$t('MT_QINGDAORUYITIHOUBAOCUN'))
+        iMessage.warn('请导入议题后再保存')
         return
       }
       let param = {
@@ -974,7 +821,7 @@ export default {
       importThemen(param)
         .then((res) => {
           if (res.length == 0) {
-            iMessage.success(this.$t('MT_DAORUYITICHENGGONG'))
+            iMessage.success('导入议题成功')
             this.openTopics = false
             this.refreshTable()
             this.nameList = []
@@ -1002,7 +849,7 @@ export default {
       }
       uploadAttachment(param).then((res) => {
         if (res.id) {
-          iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
+          iMessage.success('保存成功')
           this.openSummary = false
           this.refreshTable()
         }
@@ -1032,7 +879,6 @@ export default {
     // 上传议题错误提示框关闭
     handleCloseError() {
       this.openError = false
-      this.handleCancelTopics()
     },
     // 生成会议纪要取消
     handleNewSummaryCancel() {
@@ -1055,40 +901,40 @@ export default {
         }
       })
       if (draft) {
-        return this.$message.error(
-          this.$t('MT_ZHINENGSHANCHUCAOGAOZHUANGTAIDEHUIYI')
-        )
+        return this.$message.error('只能删除草稿状态的会议!')
       }
-      this.$confirm(this.$t('MT_SHIFOUSHANCHUGAIHUIYI'), this.$t('MT_TISHI'), {
-        confirmButtonText: this.$t('MT_SHI'),
-        cancelButtonText: this.$t('MT_FOU'),
+      this.$confirm('是否删除该会议 ？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
         type: 'warning'
       }).then(() => {
         deleteMeeting({ ids: listUnuse })
           .then((res) => {
             if (res.code == 200) {
-              this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))
+              this.$message.success(' 删除成功!')
               this.$emit('getTableList')
             }
           })
           .catch(() => {
-            this.$message.error(this.$t('MT_SHANCHUSHIBAI'))
+            this.$message.error('删除失败!')
           })
       })
     },
     // 批量撤回
     handleRecall() {
+      console.log('this.selectedRow', this.selectedRow)
+      console.log('this.selectedRow', typeof batchRecallMeeting)
       let idArr = this.selectedRow.map((item) => {
         return item.id
       })
-      this.$confirm(this.$t('MT_SHIFOUCHEHUIGAIHUIYI'), this.$t('MT_TISHI'), {
-        confirmButtonText: this.$t('MT_SHI'),
-        cancelButtonText: this.$t('MT_FOU'),
+      this.$confirm('是否撤回该会议 ？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
         type: 'warning'
       }).then(() => {
         batchRecallMeeting({ ids: idArr }).then((res) => {
           if (res.code == 200) {
-            this.$message.success(this.$t('MT_CHEHUICHENGGONG'))
+            this.$message.success(' 撤回成功!')
             this.$emit('getTableList')
           }
         })
@@ -1096,9 +942,9 @@ export default {
     },
     // 批量开放
     handleOpen() {
-      this.$confirm(this.$t('MT_SHIFOUKAIFANGGAIHUIYI'), this.$t('MT_TISHI'), {
-        confirmButtonText: this.$t('MT_SHI'),
-        cancelButtonText: this.$t('MT_FOU'),
+      this.$confirm('是否开放该会议 ？', '提示', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
         type: 'warning'
       }).then(() => {
         let changeState = this.selectedRow.map((item) => {
@@ -1106,7 +952,7 @@ export default {
         })
         batchChangeState(changeState).then((res) => {
           if (res.code == 200) {
-            this.$message.success(this.$t('MT_HUIYIYICHENGGONGKAIFANG'))
+            this.$message.success('会议已成功开放!')
             this.$emit('getTableList')
           }
         })
@@ -1140,24 +986,24 @@ export default {
         filename: e.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
+            iMessage.error('下载失败')
           }
         }
       })
     },
     // 下载模版
     downDemo() {
-      downloadStaticFile({
+      download({
         noFileUd: true,
         url: '/meetingApi/meetingService/downloadThemenImportTemplate',
-        filename: this.$t('MT_YITIMUBAN'),
+        filename: '议题模版',
         // type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel',
         // type: 'application/vnd.ms-excel',
         callback: (e) => {
           if (e) {
-            iMessage.success(this.$t('MT_XIAZAIMUBANCHENGGONG'))
+            iMessage.success('下载模版成功')
           } else {
-            iMessage.error(this.$t('MT_XIAZAIMUBANSHIBAI'))
+            iMessage.error('下载模版失败')
           }
         }
       })
@@ -1180,7 +1026,7 @@ export default {
           }
           changeStateMeeting(param).then((res) => {
             if (res.code == 200) {
-              iMessage.success(this.$t('MT_KAISHIHUIYICHENGGONG'))
+              iMessage.success('开始会议成功！')
             }
             this.refreshTable()
           })
@@ -1199,7 +1045,7 @@ export default {
           }
           changeStateMeeting(param).then((res) => {
             if (res.code === 200) {
-              iMessage.success(this.$t('MT_SUODINGHUIYICHENGGONG'))
+              iMessage.success('锁定会议成功！')
             }
             this.refreshTable()
           })
@@ -1221,7 +1067,7 @@ export default {
           }
           changeStateMeeting(param).then((res) => {
             if (res.code === 200) {
-              iMessage.success(this.$t('MT_JIESUOHUIYICHENGGONG'))
+              iMessage.success('解锁会议成功！')
             }
 
             this.refreshTable()
@@ -1249,7 +1095,7 @@ export default {
           }
           changeStateMeeting(param).then((res) => {
             if (res.code === 200) {
-              iMessage.success(this.$t('MT_KAIFANGHUIYICHENGGONG'))
+              iMessage.success('开放会议成功！')
             }
             this.refreshTable()
           })
@@ -1276,7 +1122,7 @@ export default {
           generateAgenda({ id: e })
             .then((res) => {
               if (res.code === 200) {
-                iMessage.success(this.$t('MT_SHENGCHENGAGENDACHENGGONG'))
+                iMessage.success('生成Agenda成功')
               }
               this.isGenerating = false
               this.refreshTable()
@@ -1312,7 +1158,7 @@ export default {
           changeStateMeeting(param)
             .then((res) => {
               if (res.code == 200) {
-                iMessage.success(this.$t('MT_JIESHUHUIYICHENGGONG'))
+                iMessage.success('结束会议成功！')
               }
               this.refreshTable()
             })
@@ -1392,17 +1238,11 @@ export default {
           //   iMessage.error("尚未生成会议纪要，现在不能关闭会议。");
           // }
           if (attachments && attachments.length <= 0) {
-            this.$confirm(
-              this.$t(
-                'MT_SHANGWEISHENGCHENGHUIYIJIYAO_QIANWANGSHENGCHENGHUIYIJIYAO'
-              ),
-              this.$t('MT_TISHI'),
-              {
-                confirmButtonText: this.$t('MT_QIANWANG'),
-                cancelButtonText: this.$t('MT_QUXIAO'),
-                type: 'warning'
-              }
-            ).then(() => {
+            this.$confirm('尚未生成会议纪要，前往生成会议纪要？', '提示', {
+              confirmButtonText: '前往',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
               // this.openCloseMeeting = true
               // this.id = e.id
               // this.editRow.approvalProcessId = e.approvalProcessId
@@ -1410,17 +1250,14 @@ export default {
               this.actionObj('newFile')(e)
             })
           } else {
-            this.$confirm(
-              this.$t('MT_QINGQUERENSHIFOUXUYAOGUANBIHUIYI'),
-              this.$t('MT_TISHI'),
-              {
-                confirmButtonText: this.$t('MT_SHI'),
-                cancelButtonText: this.$t('MT_FOU'),
-                type: 'warning'
-              }
-            ).then(() => {
+            this.$confirm('请确认是否需要关闭会议？', '提示', {
+              confirmButtonText: '是',
+              cancelButtonText: '否',
+              type: 'warning'
+            }).then(() => {
+              console.log('e', e)
               if (e.isPreCSC || e.isCSC) {
-                this.$refs['closeDialog'].handleSubmit(e.id, 'isSpecial', e)
+                this.$refs['closeDialog'].handleSubmit(e.id)
               } else {
                 this.openCloseMeeting = true
               }
@@ -1459,8 +1296,8 @@ export default {
       //   e.meetingTypeName === 'Pre CSC' ||
       //   e.meetingTypeName === 'PRECSC'
       // ) {
-      // --------------------------------------------//
-      // 原meeting代码先注释
+// --------------------------------------------//        
+        // 原meeting代码先注释
       // if (e.isCSC || e.isPreCSC) {
       //   this.$router.push({
       //     path: '/meeting/specialDetails',
@@ -1477,7 +1314,7 @@ export default {
       //     }
       //   })
       // }
-      // --------------------------------------------//
+// --------------------------------------------//  
       // gpMBDL会议  /meeting/managementHall/mbdlMeeting
       //gpCSC会议   /meeting/managementHall/gpcscMeeting
       // 因为目前没有正确数据  假数据跳转 meetingNameSuffix  sprint17开发中  测试中会调整该代码
@@ -1489,21 +1326,21 @@ export default {
             // type: e.meetingTypeName
           }
         })
-      } else if (e.isGpCSC) {
+      } else if (e.meetingNameSuffix == "gpCSC") {
         this.$router.push({
           path: '/meeting/managementHall/gpcscMeeting',
           query: {
             id: e.id
           }
         })
-      } else if (e.isMBDL) {
+      } else if (e.meetingNameSuffix == "MBDL") {
         this.$router.push({
           path: '/meeting/managementHall/mbdlMeeting',
           query: {
             id: e.id
           }
         })
-      } else {
+      }else {
         this.$router.push({
           path: '/meeting/details',
           query: {

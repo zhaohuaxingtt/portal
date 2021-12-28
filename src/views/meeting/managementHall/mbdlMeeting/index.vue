@@ -338,7 +338,7 @@
             v-if="showUpdateTopicButtonList"
           /> -->
           <!-- 列表 -->
-          <iTableML
+          <!-- <iTableML
             tooltip-effect="light"
             @selectionChange="handleSelectionChange"
             :loading="tableLoading"
@@ -374,22 +374,6 @@
               width="100"
             >
               <template slot-scope="scope">
-                <!-- <div
-                  class="open-link-text open-clink-back-text"
-                  @click="recallTheThemen(scope.row)"
-                  v-if="
-                    isAdmin &&
-                      meetingInfo.state === '03' &&
-                      scope.row.state === '04'
-                  "
-                ></div> -->
-                <!-- <div
-                  class="open-link-text open-clink-back-text"
-                  @click="recallTheThemen(scope.row)"
-                  v-if="meetingInfo.state === '03' && scope.row.state === '04'"
-                >
-                  <div class="open-text-text-choice"></div>
-                </div> -->
                 <span class="open-link-text">{{ scope.row.duration }}</span>
               </template>
             </el-table-column>
@@ -457,7 +441,7 @@
                 }}</span>
               </template>
             </el-table-column>
-          </iTableML>
+          </iTableML> -->
         </div>
         <div id="table-drag">
           <!-- 我的 -->

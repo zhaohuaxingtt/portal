@@ -44,23 +44,6 @@
         </el-upload>
       </div>
     </div>
-    <!-- <div v-if="attachmentId != ''">
-      <li tabindex="0" class="el-upload-list__item is-success">
-        <a
-          class="el-upload-list__item-name"
-          @click="handleDownloadFile(attachmentId, attachmentName)"
-        >
-          <i class="el-icon-paperclip">
-            {{ attachmentName }}
-          </i>
-        </a>
-        <label class="el-upload-list__item-status-label">
-          <i class="el-icon-upload-success el-icon-circle-check"></i>
-        </label>
-        <i @click="handleDelete()" class="el-icon-close"></i>
-        <i class="el-icon-close-tip"></i>
-      </li>
-    </div> -->
     <div v-show="form.isExclude == true">
       <ul
         v-for="item in form.attachments"
@@ -148,27 +131,34 @@ export default {
         iMessage.error("请上传附件");
       } else {
         if (this.form.isExclude == false) {
-          this.$confirm("请确认是否取消例外?", "提示", {
-            confirmButtonText: "确认",
-            cancelButtonText: "返回",
-            type: "warning",
-          }).then(() => {
-            const submitFile = {
-              ...this.form,
-              termsId: this.id,
-              supplierId: this.supplierId,
-              userId: this.userId,
-            };
-            markExclude(submitFile)
-              .then((res) => {
-                if (res.code == 200) {
-                  iMessage.success(this.$t("操作成功！"));
-                  this.$emit("closeDialog", false);
-                  this.$emit("getTableList", { termsId: this.id });
-                }
-              })
-              .catch((err) => {});
-          });
+          const submitFile = {
+            ...this.form,
+            termsId: this.id,
+            supplierId: this.supplierId,
+            userId: this.userId,
+          };
+          this.$emit("closeDialog", submitFile);
+          // this.$confirm("请确认是否取消例外?", "提示", {
+          //   confirmButtonText: "确认",
+          //   cancelButtonText: "返回",
+          //   type: "warning",
+          // }).then(() => {
+          //   const submitFile = {
+          //     ...this.form,
+          //     termsId: this.id,
+          //     supplierId: this.supplierId,
+          //     userId: this.userId,
+          //   };
+          //   markExclude(submitFile)
+          //     .then((res) => {
+          //       if (res.code == 200) {
+          //         iMessage.success(this.$t("操作成功！"));
+          //         this.$emit("closeDialog", false);
+          //         this.$emit("getTableList", { termsId: this.id });
+          //       }
+          //     })
+          //     .catch((err) => {});
+          // });
         } else {
           const submitFile = {
             ...this.form,
@@ -184,11 +174,11 @@ export default {
                 this.$emit("getTableList", { termsId: this.id });
               }
             })
-            .catch((err) => {});
+            .catch(() => {});
         }
       }
     },
-    handleChange(e) {
+    handleChange() {
       // if (e == false) {
       //   this.$confirm("请确认是否取消例外?", "提示", {
       //     confirmButtonText: "确认",
@@ -218,7 +208,7 @@ export default {
           });
           iMessage.success("上传成功");
         })
-        .catch((err) => {
+        .catch(() => {
           iMessage.error("上传失败");
         });
       this.uploadLoading = false;
@@ -297,7 +287,8 @@ export default {
   /*打开时文字位置设置*/
   .el-switch__label--right {
     z-index: 1;
-    left: 0.3125rem;
+    // right: 5px;
+    // left: 0.3125rem;
   }
   /*关闭时文字位置设置*/
   .el-switch__label--left {

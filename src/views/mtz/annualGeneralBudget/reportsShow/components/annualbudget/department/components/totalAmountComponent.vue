@@ -12,22 +12,26 @@ export default {
       this.$nextTick(() => {
         const chart = echarts().init(document.getElementById('left-echart'))
         let option = {
+          tooltip: {
+            trigger: 'item'
+          },
           legend: {
             bottom: '10%',
-            itemGap: 30
+            itemGap: 30,
+            icon: 'circle',
           },
           color: [
-            '#3E6CB7',
-            '#5982C4',
-            '#698FCB',
-            '#85A5D6',
-            '#A1B9DE',
-            '#B9CBE8'
+            'rgb(22, 96, 241)',
+            'rgb(62, 123, 244)',
+            'rgb(102, 149, 246)',
+            'rgb(138, 176, 248)',
+            'rgb(178, 202, 251)',
+            'rgb(216, 229, 253)'
           ],
           title: {
-            text: '总金额：340.40',
+            text: '总金额:340.40',
             x: 'center',
-            y: '10%'
+            y: '3%'
           },
           series: [
             {
@@ -35,13 +39,14 @@ export default {
               type: 'pie',
               radius: ['35%', '50%'],
               avoidLabelOverlap: false,
+              center: ['50%', '45%'],
               label: {
                 show: false,
                 position: 'left'
               },
               emphasis: {
                 label: {
-                  show: true,
+                  show: false,
                   fontSize: '40',
                   fontWeight: 'bold'
                 }
@@ -73,8 +78,8 @@ export default {
 //     background-color: violet;
 // }
 
-.left-echart{
-    width: 750px;
-    height: 630px;
+.left-echart {
+  width: 750px;
+  height: 590px;
 }
 </style>

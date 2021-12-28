@@ -136,7 +136,7 @@
         <p class="tableTitle">{{language('XISHUMAOHAO', '系数：')}} {{ratio(money(params.initPrice), money(params.totalPrice))}} </p>
         <p class="tableTitle">{{language('ZZYSZJEBWMH', '最终预算总金额（百万元）：')}} {{money(params.totalPrice)}} </p>
         <span class="buttonBox">
-          <iButton @click="handleClickLinie">{{language('TONGZHILINIE', '通知Linie')}}</iButton>
+          <iButton @click="handleClickLinie">{{language('TZLINIE', '通知Linie')}}</iButton>
           <iButton @click="handleClickExport">{{language('DAOCHUDANGYE', '导出当页')}}</iButton>
         </span>
       </div>
