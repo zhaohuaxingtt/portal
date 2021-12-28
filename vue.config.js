@@ -2,9 +2,9 @@ const path = require('path')
 const resolve = (dir) => path.join(__dirname, dir)
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
-const ChangeNginxConfig = require(resolve(
+/* const ChangeNginxConfig = require(resolve(
   './loadersPlugins/pluginTranslateNginxConfig'
-))
+)) */
 const px2rem = require('postcss-px2rem')
 const postcss = px2rem({
   remUnit: 16
@@ -92,9 +92,9 @@ module.exports = {
           },
           sourceMap: false,
           parallel: true
-        }),
+        })
         //环境代码
-        process.env.NODE_ENV === 'dev' ? '' : new ChangeNginxConfig()
+        /* process.env.NODE_ENV === 'dev' ? '' : new ChangeNginxConfig() */
       )
       config.plugins.push(
         new CompressionPlugin({
