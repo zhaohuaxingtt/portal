@@ -85,9 +85,9 @@ export default {
     return{
       onlySelf:false,
       dataMonth:[
-        2,
-        5,
-        7,
+        2.1,
+        5.2,
+        7.4,
         8,
         5,
         3,
@@ -108,45 +108,6 @@ export default {
     iniChart(){
       const date = new Date
       const month = date.getMonth()
-      // const monthColor = this.dataMonth.map((item,index) => {
-      //   if(index < month){
-      //     return {
-      //       value:item,
-      //       itemStyle:{
-      //         normal:{
-      //           color:'RGB(2,96,241)',
-      //         label:{
-      //           show: true,
-      //           position: 'top',
-      //           textStyle:{
-      //             color:'RGB(2,96,241)'
-      //           }
-      //         },
-      //         borderRadius:[4,4,0,0],
-      //         },
-      //       }
-      //     }
-      //   }else{
-      //     return {
-      //       value:item,
-      //       itemStyle:{
-      //         normal:{
-      //           color:"rgb(119,203,255)",
-      //           label:{
-      //             show: true,
-      //             position: 'top',
-      //             textStyle:{
-      //               color:'rgb(119,203,255)'
-      //             }
-      //           },
-      //           borderRadius:[4,4,0,0],
-      //         }
-                  
-      //       }
-      //     }
-      //   }
-      // })
-      // console.log(monthColor,'=====-----');
       const el = document.getElementById('report-charts')
       const chart = echarts().init(el)
       chart.setOption({
@@ -168,6 +129,15 @@ export default {
         xAxis: {
           type: 'category',
           axisTick: { show: false },
+          axisLine:{
+            lineStyle:{
+              color:'#6D6E7E'
+            }
+          },
+          axisLabel:{
+            fontWeight:'bold',
+            margin:20
+          },
           data:[
             '2021-01',
             '2021-02',
@@ -187,7 +157,7 @@ export default {
           {
             //设置间距，需要计算
             max: 10,
-            splitNumber: '10'
+            splitNumber: '10',
           }
         ],
         legend: {
@@ -195,32 +165,28 @@ export default {
           icon: 'circle',
           selectedMode:false,
           data:['实际应付','月度预测','年度预测','机会','风险'],
-          itemGap:20
+          itemGap:20,
+          itemHeight:'12'
         },
         tooltip: {
-          show: true
+          show: true,
+          formatter:(params)=>{
+            // console.log(params,'====');
+            let price = 0
+            // params.seriesName == '实际应付' ? price = params.value * 1000000 : price =  params.value * 1000000
+            price =  params.value * 1000000
+            price = String(price)
+            const tempt = price.split('').reverse().join('').match(/(\d{1,3})/g)
+            let currency = tempt.join(',').split('').reverse().join('')
+            
+            return currency
+          }
         },
-        // dataset:{
-        //   source:[
-        //     ['product','实际应付','月度预测','年度预测'],
-        //     ['2021-01', '3' ,'3'],
-        //     ['2021-02', '5' ,'4'],
-        //     ['2021-03', '7' ,'6'],
-        //     ['2021-04', '6' ,'9'],
-        //     ['2021-05', '9' ,'6'],
-        //     ['2021-06'  ,'3','2'],
-        //     ['2021-07'  ,'3','7'],
-        //     ['2021-08','2','5'],
-        //     ['2021-09'  ,'1','8'],
-        //     ['2021-10'  ,'7','4'],
-        //     ['2021-11' , '3','2'],
-        //     ['2021-12', '5','6']
-        //   ]
-        // },
         series:[
           {
             name:'实际应付',
             type: 'bar',
+            barWidth:'30',
             data:this.dataMonth,
             itemStyle: {
               normal: {

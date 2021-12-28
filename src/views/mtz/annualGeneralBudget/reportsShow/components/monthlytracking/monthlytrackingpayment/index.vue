@@ -112,6 +112,15 @@ export default {
         xAxis: {
           type: 'category',
           axisTick: { show: false },
+          axisLine:{
+            lineStyle:{
+              color:'#6D6E7E',
+            }
+          },
+          axisLabel:{
+            fontWeight:'bold',
+            margin:20
+          }
         },
         yAxis: [
           {
@@ -124,18 +133,31 @@ export default {
           {
             x: 'left',
             icon: 'circle',
-            selectedMode:false
+            itemHeight:'12',
+            selectedMode:false,
+            itemGap:20
           }
         ],
         tooltip: {
-          show: true
+          show: true,
+          // showContent:false
+          formatter:(params)=>{
+            // return `${Number(params.value[2]) * 1000000}`
+            let price = 0
+            params.seriesName == '已支付' ? price = params.value[2] * 1000000 : price =  params.value[1] * 1000000
+            price = String(price)
+            const tempt = price.split('').reverse().join('').match(/(\d{1,3})/g)
+            let currency = tempt.join(',').split('').reverse().join('')
+            
+            return currency
+          }
         },
         //数据集
         dataset: {
           source: [
             ['product', '应付（补差凭证⾦额）', '已支付', '差值'],
-            ['2021-01', '20', '10'],
-            ['2021-02', '26', '21'],
+            ['2021-01', '21.5', '10'],
+            ['2021-02', '20.6', '21'],
             ['2021-03', '20', '5'],
             ['2021-04', '23', '11'],
             ['2021-05', '20', '12'],
@@ -151,6 +173,7 @@ export default {
         series: [
           {
             type: 'bar',
+            barWidth:'30',
             itemStyle: {
               normal: {
                 color: 'RGB(2,96,241)',
@@ -167,6 +190,7 @@ export default {
           },
           {
             type: 'bar',
+            barWidth:'30',
             itemStyle: {
               normal: {
                 color: 'rgb(119,203,255)',
@@ -225,7 +249,7 @@ export default {
 .difference-box{
   width: 92%;
   position: absolute;
-  bottom: 50px;
+  bottom: 30px;
   .display-difference{
     // margin-top: -30px;
      width: 100%;
