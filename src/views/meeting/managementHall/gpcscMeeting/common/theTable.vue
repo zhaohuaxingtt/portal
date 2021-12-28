@@ -2,22 +2,7 @@
   <iCard class="margin-top20">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <iButton @click="handleRecall" :disabled="!isCanRecall">{{
-          $t('MT_CHEHUI')
-        }}</iButton>
-        <iButton @click="handleOpen" :disabled="!isCanOpen">{{
-          $t('MT_KAIFANG')
-        }}</iButton>
-        <!--批量创建-->
-        <iButton @click="handleAddMultiple">{{
-          $t('MT_PILIANGCHUANGJIAN')
-        }}</iButton>
-        <!--创建-->
-        <iButton @click="handleAddSingle">{{ $t('MT_CHUANGJIAN') }}</iButton>
-        <!--删除-->
-        <iButton @click="handleDelete" :disabled="selectedRow.length === 0">{{
-          $t('MT_SHANCHU')
-        }}</iButton>
+        <iButton>{{ $t('提交') }}</iButton>
       </div>
     </div>
     <iTableML
@@ -39,7 +24,7 @@
         width="40"
         min-width="40"
         align="center"
-        :label="$t('MT_XUHAO')"
+        :label="$t('#')"
       ></el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
       <el-table-column
@@ -52,9 +37,9 @@
         <template slot-scope="scope">
           <span
             :class="scope.row.state === '01' ? '' : 'open-link-text'"
-            @click="goDetail(scope.row, scope.row.state)"
             >{{ scope.row.name }}</span
           >
+            <!-- @click="goDetail(scope.row, scope.row.state)" -->
         </template>
       </el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
@@ -576,119 +561,6 @@
       :current-page="page.currPage"
       :total="page.total"
     />
-    <addMeetingSingleDialog
-      v-if="openAddSingle"
-      :openAddSingle="openAddSingle"
-      :attendeeList="attendeeList"
-      :receiverList="receiverList"
-      :meetingTypeList="meetingTypeList"
-      @handleSubmit="handleAddSingleSubmit"
-      @closeDialog="handleCloseAddSingle"
-      @refreshTable="refreshTable"
-    />
-    <addMeetingMultipleDialo
-      v-if="openAddMultiple"
-      :openAddMultiple="openAddMultiple"
-      :attendeeList="attendeeList"
-      :receiverList="receiverList"
-      :meetingTypeList="meetingTypeList"
-      @closeDialog="handleCloseAddMultiple"
-      @refreshTable="refreshTable"
-    />
-    <updateMeetingDialog
-      v-if="openUpdate"
-      :openUpdate="openUpdate"
-      :id="id"
-      :typeObject="typeObject"
-      @handleSubmit="handleUpdateSubmit"
-      @closeDialog="handleCloseOpenUpdate"
-      @refreshTable="refreshTable"
-    />
-    <!-- 关闭触发审批流 -->
-    <closeMeetingDialog
-      v-if="openCloseMeeting"
-      :openCloseMeeting="openCloseMeeting"
-      :row="editRow"
-      :id="id"
-      @handleOK="handleCloseOK"
-      @handleClose="handleCloseCloseMeeting"
-    />
-    <closeMeetingDialogSpecial
-      v-show="false"
-      :openCloseMeeting="openCloseMeeting"
-      :row="editRow"
-      :id="id"
-      @handleOK="handleCloseOK"
-      @handleClose="handleCloseCloseMeeting"
-      ref="closeDialog"
-    />
-
-    <!-- 上传Agenda -->
-    <updateFile
-      :title="$t('MT_SHANGCHUAN') + 'Agenda'"
-      :warnText="$t('MT_QINGSHANGCHUANFUJIAN')"
-      :maxSize="10"
-      :fileNum="1"
-      :open="openAgenda"
-      v-if="openAgenda"
-      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/pdf"
-      @handleCancel="handleCancelAgenda"
-      @handleOK="handleOKAgenda"
-    />
-    <!-- 导入议题 -->
-    <updateFile
-      :title="$t('MT_DAORUYITI')"
-      :maxSize="10"
-      :fileNum="1"
-      :open="openTopics"
-      v-if="openTopics"
-      :id="id"
-      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-      @handleCancel="handleCancelTopics"
-      @handleOK="handleOKTopics"
-      @getUplodFiles="getUplodFiles"
-    >
-      <div class="title-down-demo" @click="downDemo">
-        <img :src="enclosure" alt="" srcset="" />
-        <span>{{ $t('MT_XIAZAIMUBAN') }}</span>
-      </div>
-    </updateFile>
-    <!-- 上传会议纪要 -->
-    <updateFile
-      :title="$t('MT_SHANGCHUANHUIYIJIYAO')"
-      :warnText="$t('MT_QINGSHANGCHUANFUJIAN') + '!'"
-      :descText="$t('MT_WENJIANDAXIAOXIANZHIORZHIZHICHIPDFWENJIAN')"
-      :maxSize="10"
-      :fileNum="1"
-      :open="openSummary"
-      v-if="openSummary"
-      @handleCancel="handleCancelSummary"
-      @handleOK="handleOKSummary"
-    />
-    <importErrorDialog
-      v-if="openError"
-      :openError="openError"
-      :errorList="errorList"
-      @handleCloseError="handleCloseError"
-    />
-    <!-- 生成会议纪要 -->
-    <newSummaryDialog
-      v-if="openNewSummary"
-      :open="openNewSummary"
-      :id="id"
-      @handleOK="handleNewSummaryOK"
-      @handleCancel="handleNewSummaryCancel"
-      @refreshTable="refreshTable"
-    />
-    <newSummaryDialogNew
-      v-if="openNewSummaryNew"
-      :open="openNewSummaryNew"
-      :id="id"
-      :receiverId="receiverId"
-      @handleCancel="handleNewSummaryNewCancel"
-      @handleOK="handleNewSummaryNewOK"
-      @refreshTable="flushTable"
-    ></newSummaryDialogNew>
   </iCard>
 </template>
 
@@ -723,17 +595,17 @@ import lock from '@/assets/images/meeting-home/lock.svg'
 import screen from '@/assets/images/meeting-home/screen.svg'
 import uploadFile from '@/assets/images/meeting-home/uploadFile.svg'
 import upload from '@/assets/images/meeting-home/upload.svg'
-import addMeetingSingleDialog from './addMeetingSingleDialog.vue'
-import addMeetingMultipleDialo from './addMeetingMultipleDialo.vue'
-import closeMeetingDialogSpecial from './closeMeetingDialogSpecial.vue'
-import closeMeetingDialog from './closeMeetingDialog.vue'
-import updateMeetingDialog from './updateMeetingDialog.vue'
-import importErrorDialog from './importErrorDialog.vue'
+// import addMeetingSingleDialog from './addMeetingSingleDialog.vue'
+// import addMeetingMultipleDialo from './addMeetingMultipleDialo.vue'
+// import closeMeetingDialogSpecial from './closeMeetingDialogSpecial.vue'
+// import closeMeetingDialog from './closeMeetingDialog.vue'
+// import updateMeetingDialog from './updateMeetingDialog.vue'
+// import importErrorDialog from './importErrorDialog.vue'
 // import newSummaryDialog from "./newSummaryDialog.vue";
-import newSummaryDialog from './newSummaryDialog.vue'
+// import newSummaryDialog from './newSummaryDialog.vue'
 // import { MOCK_FILE_URL } from '@/constants'
 // import { debounce } from '@/utils/utils.js'
-import newSummaryDialogNew from './newSummaryDialogNew.vue'
+// import newSummaryDialogNew from './newSummaryDialogNew.vue'
 import dayjs from 'dayjs'
 export default {
   components: {
@@ -743,14 +615,14 @@ export default {
     iPagination,
     updateFile,
     // importThemens,
-    addMeetingSingleDialog,
-    addMeetingMultipleDialo,
-    closeMeetingDialog,
-    updateMeetingDialog,
-    newSummaryDialog,
-    newSummaryDialogNew,
-    closeMeetingDialogSpecial,
-    importErrorDialog
+    // addMeetingSingleDialog,
+    // addMeetingMultipleDialo,
+    // closeMeetingDialog,
+    // updateMeetingDialog,
+    // newSummaryDialog,
+    // newSummaryDialogNew,
+    // closeMeetingDialogSpecial,
+    // importErrorDialog
   },
   mixins: [resultMessageMixin],
   props: {
@@ -1454,14 +1326,14 @@ export default {
             // type: e.meetingTypeName
           }
         })
-      } else if (e.isGpCSC) {
+      } else if (e.meetingNameSuffix == "gpCSC") {
         this.$router.push({
           path: '/meeting/managementHall/gpcscMeeting',
           query: {
             id: e.id
           }
         })
-      } else if (e.isMBDL) {
+      } else if (e.meetingNameSuffix == "MBDL") {
         this.$router.push({
           path: '/meeting/managementHall/mbdlMeeting',
           query: {
