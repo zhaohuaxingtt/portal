@@ -139,7 +139,8 @@ export default {
     supplierDetail(val) {
       // 1464129746521894912
       this.isloading = true
-      getNtierSupplier({ supplierId: val })
+      const params = { supplierId: val }
+      getNtierSupplier(params)
         .then((res) => {
           if (res && res.code == 200) {
             this.supplierData = {
