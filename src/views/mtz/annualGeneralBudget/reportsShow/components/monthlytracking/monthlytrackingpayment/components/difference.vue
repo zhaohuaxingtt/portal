@@ -1,7 +1,12 @@
 <template>
-  <div :class='[price < 0 ? "minus" : "difference","basic"]' >
-    {{price}}
-  </div>
+<div>
+    <!-- <el-tooltip placement="bottom" :content="price" effect="light" popper-class="atooltip" > -->
+        <div :class='[price < 0 ? "minus" : "difference","basic"]' >
+            {{price}}
+        </div>
+    <!-- </el-tooltip> -->
+</div>
+  
 </template>
 
 <script>
@@ -32,5 +37,18 @@ export default {
 .minus{
     background:rgb(229,248,243) ;
     color: rgb(5, 187, 181);
+}
+// ::v-deep .el-tooltip__popper{
+//     background:red !important;
+
+//   } 
+.atooltip.el-tooltip__popper[x-placement^="top"] .popper__arrow {
+  border-top-color: pink;
+}
+.atooltip.el-tooltip__popper[x-placement^="top"] .popper__arrow:after {
+  border-top-color: pink;
+}
+.atooltip {
+  background: pink !important;
 }
 </style>
