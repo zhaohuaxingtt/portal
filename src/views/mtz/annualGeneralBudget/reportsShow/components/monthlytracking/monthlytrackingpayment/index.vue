@@ -82,7 +82,7 @@ export default {
       onlySelf: false,
       showDifference:true,
       calculate:[
-        1,3,4,-6,2,8,-4,-2,-4,2,9,-3
+        1,3,4,-6,2,8,-4,-2,-4,2,9,-3.2
       ]
     }
   },
@@ -180,6 +180,10 @@ export default {
                 label: {
                   show: true,
                   position: 'top',
+                  formatter:(params)=>{
+                    // console.log(params,'=======');
+                    return Number(params.value[1]).toFixed(2)
+                  },
                   textStyle: {
                     color: 'RGB(2,96,241)'
                   }
@@ -197,6 +201,10 @@ export default {
                 label: {
                   show: true,
                   position: 'top',
+                  formatter:(params)=>{
+                    // console.log(params,'=======');
+                    return Number(params.value[2]).toFixed(2)
+                  },
                   textStyle: {
                     color: 'rgb(119,203,255)'
                   }
