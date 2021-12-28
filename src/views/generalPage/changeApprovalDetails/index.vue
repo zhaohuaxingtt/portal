@@ -6,44 +6,57 @@
         {{ $i18n.locale === 'zh' ? detail.nameZh : detail.nameEn }}
         {{ $t('SUPPLIER_GONGSITIJIAODEJIBENXINXIXIUGAISHENQING') }}
       </span>
-      <div v-if="$route.query.showButton==='true'" class="floatright">
-        <i-button :loading="approveLoading" @click="handleTaskInfo(true)">{{ $t('SUPPLIER_PIZHUN') }}</i-button>
-        <i-button :loading="rejectLoading" @click="handleTaskInfo(false)">{{ $t('LK_JUJUE') }}</i-button>
+      <div v-if="$route.query.showButton==='true'"
+           class="floatright">
+        <i-button :loading="approveLoading"
+                  @click="handleTaskInfo(true)">{{ $t('SUPPLIER_PIZHUN') }}</i-button>
+        <i-button :loading="rejectLoading"
+                  @click="handleTaskInfo(false)">{{ $t('LK_JUJUE') }}</i-button>
       </div>
     </div>
     <!--供应商信息-->
-    <iCard tabCard collapse :title="$t('SUPPLIER_GONGYINGSHANGXINXI')" v-loading="loading">
+    <iCard tabCard
+           collapse
+           :title="$t('SUPPLIER_GONGYINGSHANGXINXI')"
+           v-loading="loading">
       <template slot="header-control">
         <!--        <iButton @click="onJump360">{{ $t('SUPPLIER_CHAKANGAIGONGYINGSHANGXINXI') }}</iButton>-->
       </template>
-      <iFormGroup row="3" ref="baseRulesForm">
+      <iFormGroup row="3"
+                  ref="baseRulesForm">
         <iFormItem prop="nameZh">
           <!--供应商中文名-->
-          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGZHONGWENMING')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGZHONGWENMING')"
+                  slot="label"></iLabel>
           <iText>{{ detail.nameZh }}</iText>
         </iFormItem>
         <iFormItem prop="shortNameZh">
           <!--供应商简称（中）-->
-          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGJIANCHENZH')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGJIANCHENZH')"
+                  slot="label"></iLabel>
           <iText>{{ detail.shortNameZh }}</iText>
         </iFormItem>
         <iFormItem prop="socialcreditNo">
           <!--统一社会信用代码-->
-          <iLabel :label="$t('SUPPLIER_TONGYISHEHUIXINGYONGDAIMA')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_TONGYISHEHUIXINGYONGDAIMA')"
+                  slot="label"></iLabel>
           <iText>{{ detail.socialcreditNo }}</iText>
         </iFormItem>
         <iFormItem prop="nameEn">
           <!--供应商英文名-->
-          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGYINGWENMING')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGYINGWENMING')"
+                  slot="label"></iLabel>
           <iText>{{ detail.nameEn }}</iText>
         </iFormItem>
         <iFormItem prop="shortNameEn">
           <!--供应商简称（英）-->
-          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGJIANCHENGEN')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_GONGYINGSHANGJIANCHENGEN')"
+                  slot="label"></iLabel>
           <iText>{{ detail.shortNameEn }}</iText>
         </iFormItem>
         <iFormItem prop="dunsCode">
-          <iLabel label="DUNS" slot="label"></iLabel>
+          <iLabel label="DUNS"
+                  slot="label"></iLabel>
           <div class="duns flex-align-center">
             <iText>{{ detail.dunsCode }}</iText>
             <!--            <span></span>
@@ -54,34 +67,49 @@
         </iFormItem>
         <iFormItem prop="sapCode">
           <!--SAP号-->
-          <iLabel :label="$t('SUPPLIER_SAPHAO')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_SAPHAO')"
+                  slot="label"></iLabel>
           <iText>{{ detail.sapCode }}</iText>
         </iFormItem>
         <iFormItem prop="svwTempCode">
           <!--临时号-->
-          <iLabel :label="$t('SUPPLIER_LINGSHIHAO')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_LINGSHIHAO')"
+                  slot="label"></iLabel>
           <iText>{{ detail.svwTempCode }}</iText>
         </iFormItem>
         <iFormItem prop="svwCode">
           <!--SVW号-->
-          <iLabel :label="$t('SUPPLIER_SVWHAO')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_SVWHAO')"
+                  slot="label"></iLabel>
           <iText>{{ detail.svwCode }}</iText>
         </iFormItem>
         <iFormItem prop="">
           <!--VW号-->
-          <iLabel :label="$t('SUPPLIER_VWHAO')" slot="label"></iLabel>
+          <iLabel :label="$t('SUPPLIER_VWHAO')"
+                  slot="label"></iLabel>
           <iText></iText>
         </iFormItem>
       </iFormGroup>
     </iCard>
     <!--修改详情-->
     <iCard class="margin-top20">
-      <table-list :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" :index="true" :selection="false" />
+      <table-list :tableData="tableListData"
+                  :tableTitle="tableTitle"
+                  :tableLoading="tableLoading"
+                  :index="true"
+                  :selection="false" />
     </iCard>
     <!--修改详情-->
     <iCard class="margin-top20">
 
-      <table-list :tableData="fileTableListData" :openPageGetRowData="true" :openPageProps="'templateName'" @openPage="openPage" :tableTitle="filTableTitle" :tableLoading="tableLoading" :index="true" :selection="false" />
+      <table-list :tableData="fileTableListData"
+                  :openPageGetRowData="true"
+                  :openPageProps="'templateName'"
+                  @openPage="openPage"
+                  :tableTitle="filTableTitle"
+                  :tableLoading="tableLoading"
+                  :index="true"
+                  :selection="false" />
     </iCard>
   </iPage>
 </template>
@@ -107,10 +135,10 @@ export default {
     iText,
     tableList
   },
-  created() {
+  created () {
     this.getTaskDetailsChangeInfo()
   },
-  data() {
+  data () {
     return {
       detail: {},
       loading: false,
@@ -125,14 +153,14 @@ export default {
     }
   },
   methods: {
-    async openPage(row) {
+    async openPage (row) {
       const req = {
         applicationName: 'rise',
         fileList: [row.fileName],
       }
       await downloadFile(req)
     },
-    async getTaskDetailsChangeInfo() {
+    async getTaskDetailsChangeInfo () {
       this.loading = true
       this.tableLoading = true
       try {
@@ -153,9 +181,9 @@ export default {
         this.tableLoading = false
       }
     },
-    async handleTaskInfo(type) {
+    async handleTaskInfo (type) {
       try {
-        this.handleButtonLoading(type, true)
+        await this.handleButtonLoading(type, true)
         const req = {
           id: this.$route.query.id,
           type
@@ -167,7 +195,7 @@ export default {
         this.handleButtonLoading(type, false)
       }
     },
-    onJump360() {
+    onJump360 () {
       this.$router.push({
         path: '/supplier/view-suppliers',
         query: {
@@ -177,7 +205,7 @@ export default {
         }
       })
     },
-    handleButtonLoading(type, status) {
+    handleButtonLoading (type, status) {
       if (type) {
         this.approveLoading = status
       } else {
