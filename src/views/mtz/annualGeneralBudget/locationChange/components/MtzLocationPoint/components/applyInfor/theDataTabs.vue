@@ -736,7 +736,7 @@ export default {
   },
   methods: {
     init () {
-      if (this.$route.query.supplierId == undefined) {
+      if (this.$route.query.item == undefined) {
         this.getTableList()
       } else {
         this.getTableDown();
@@ -1060,7 +1060,7 @@ export default {
         if (res.data.length < 1) {
           listPartNumSupplierIdData({
             partNumStr: this.$route.query.item,
-            supplierIdStr: this.$route.query.supplierId,
+            // supplierIdStr: this.$route.query.supplierId,
           }).then(res => {
             this.loading = false;
             var dataListCopy = res.data;

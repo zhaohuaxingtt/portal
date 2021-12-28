@@ -150,6 +150,10 @@ export default {
               if (res.result) {
                 iMessage.success(res.desZh || '保存成功')
                 this.editable = false
+                this.originalForm = _.cloneDeep({
+                  ...this.originalForm,
+                  ...data
+                })
               } else {
                 iMessage.error(res.desZh || '保存失败')
               }
