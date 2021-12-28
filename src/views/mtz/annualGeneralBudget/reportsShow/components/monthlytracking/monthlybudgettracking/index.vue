@@ -205,6 +205,9 @@ export default {
               normal:{
                 show: true,
                 position: 'top',
+                formatter:(params)=>{
+                  return Number(params.value).toFixed(2)
+                },
                 textStyle: {
                   color: 'inherit',
                 }
@@ -237,6 +240,15 @@ export default {
                   }
                 }
               }
+            },
+            label:{
+              normal:{
+                show:true,
+                formatter:(params)=>{
+                  return Number(params.value).toFixed(2)
+                }
+              }
+              
             }
           },
           {

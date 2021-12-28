@@ -54,14 +54,14 @@ export const baseRules = {
       trigger: ["blur", "change"],
     },
   ],
-  // 供应商身份
-  supplierIdentity: [
-    {
-      required: true,
-      message: "必选",
-      trigger: ["blur", "change"],
-    },
-  ],
+  // // 供应商身份
+  // supplierIdentity: [
+  //   {
+  //     required: true,
+  //     message: "必选",
+  //     trigger: ["blur", "change"],
+  //   },
+  // ],
   // 供应商用户范围
   supplierContacts: [
     {
@@ -109,32 +109,33 @@ export const baseRules = {
 };
 
 export const tableTitle = [
-  {props: 'termsCode', name: '条款编码'},
-  {props: 'name', name: '条款名称'},
-  {props: 'termsVersion', name: '版本号'},
-  {props: 'state', name: '条款状态'},
-  {props: 'inDate', name: '条款生效时间'},
-  {props: 'publishDate', name: '发布日期'},
-  {props: 'signNode', name: '签署节点'},
-  {props: 'signResult', name: '签署情况'},
-  {props: 'isPersonalTerms', name: '是否个人条款'},
-  {props: 'supplierRange', name: '供应商范围'},
-  {props: 'supplierContacts', name: '供应商用户'},
-  {props: 'chargeName', name: '条款负责人'},
-]
+  { props: "termsCode", name: "条款编码" },
+  { props: "name", name: "条款名称" },
+  { props: "termsVersion", name: "版本号" },
+  { props: "state", name: "条款状态" },
+  { props: "inDate", name: "条款生效时间" },
+  { props: "publishDate", name: "发布日期" },
+  { props: "signNode", name: "签署节点" },
+  { props: "signResult", name: "签署情况" },
+  { props: "isPersonalTerms", name: "是否个人条款" },
+  { props: "supplierRange", name: "供应商范围" },
+  { props: "supplierIdentity", name: "供应商身份" },
+  { props: "supplierContacts", name: "供应商用户" },
+  { props: "chargeName", name: "条款负责人" },
+];
 
 export const signTableTitle = [
-  {props: 'shortNameZh', name: '供应商名称'},
-  {props: 'serviceCode', name: '业务编码'},
-  {props: 'svwTempCode', name: '临时号'},
-  {props: 'svwCode', name: 'SVW号'},
-  {props: 'sapCode', name: 'SAP号'},
-  {props: 'formalStatus', name: '供应商身份'},
-  {props: 'supplierType', name: '供应商类型'},
-  {props: 'signUser', name: '签署人'},
-  {props: 'signStatus', name: '签署状态'},
-  {props: 'signDate', name: '签署日期'},
-]
+  { props: "shortNameZh", name: "供应商名称" },
+  { props: "serviceCode", name: "业务编码" },
+  { props: "svwTempCode", name: "临时号" },
+  { props: "svwCode", name: "SVW号" },
+  { props: "sapCode", name: "SAP号" },
+  { props: "formalStatus", name: "供应商身份" },
+  { props: "supplierType", name: "供应商类型" },
+  { props: "signName", name: "签署人" },
+  { props: "signStatus", name: "签署状态" },
+  { props: "signDate", name: "签署日期" },
+];
 
 // 条款状态
 export const statusList = [
@@ -172,26 +173,6 @@ export const supplierRangeList = [
   },
 ];
 
-// 供应商范围2
-// export const supplierRangeListAdd = [
-//   {
-//     label: "生产供应商",
-//     value: "01",
-//   },
-//   {
-//     label: "一般供应商",
-//     value: "02",
-//   },
-//   {
-//     label: "Ntier",
-//     value: "03",
-//   },
-//   {
-//     label: "自定义",
-//     value: "04",
-//   },
-// ];
-
 // 供应商身份
 export const supplierIdentityList = [
   {
@@ -207,21 +188,6 @@ export const supplierIdentityList = [
     value: "2",
   },
 ];
-
-// export const supplierIdentityListAdd = [
-//   {
-//     label: "正式",
-//     value: "01",
-//   },
-//   {
-//     label: "临时",
-//     value: "02",
-//   },
-//   {
-//     label: "储蓄池",
-//     value: "03",
-//   },
-// ];
 
 // 是否个人条款
 export const isPersonalTermsList = [
@@ -290,3 +256,46 @@ export const editModeList = [
     value: "02",
   },
 ];
+
+export const isPersonalTermsObj = {
+  true: "是",
+  false: "否",
+};
+
+export const stateObj = {
+  "01": "草稿",
+  "02": "待生效",
+  "03": "有效",
+  "04": "失效",
+};
+
+export const supplierRangeObj = {
+  PP: "生产供应商",
+  GP: "一般供应商",
+  NT: "Ntier",
+};
+
+export const supplierContactsObj = {
+  "01": "所有用户",
+  "02": "主联系人",
+};
+
+export const supplierIdentityObj = {
+  "0": "临时",
+  "1": "正式",
+  "2": "储蓄池",
+};
+
+export const supplierTypeObj = {
+  PP: "生产供应商",
+  GP: "一般供应商",
+  NT: "Ntier",
+  CM: "自定义",
+};
+
+export const signStatusObj = {
+  "01": "未签署",
+  "02": "已签署标准",
+  "03": "已签署非标",
+  "04": "例外",
+};

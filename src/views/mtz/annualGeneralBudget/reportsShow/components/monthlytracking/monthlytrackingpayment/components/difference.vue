@@ -1,10 +1,10 @@
 <template>
 <div>
-    <!-- <el-tooltip placement="bottom" :content="price" effect="light" popper-class="atooltip" > -->
+    <el-tooltip placement="bottom" :content="showPrice" effect="light" :popper-class="[price < 0 ? 'del' : 'add' ]" >
         <div :class='[price < 0 ? "minus" : "difference","basic"]' >
-            {{price}}
+            {{Number(price).toFixed(2)}}
         </div>
-    <!-- </el-tooltip> -->
+    </el-tooltip>
 </div>
   
 </template>
@@ -16,6 +16,19 @@ export default {
         price:{
             type:String,
             default:''
+        }
+    },
+    computed:{
+        showPrice(){
+            // console.log(newVal,'---====');
+            let newVal = String(this.price *1000000) 
+            const tempt = newVal.split('').reverse().join('').match(/(\d{1,3})/g)
+            return (this.price < 0 ? '-' :'') + tempt.join(',').split('').reverse().join('')
+        }
+    },
+    data(){
+        return{
+            // showPrice:''
         }
     }
 }
@@ -38,17 +51,23 @@ export default {
     background:rgb(229,248,243) ;
     color: rgb(5, 187, 181);
 }
-// ::v-deep .el-tooltip__popper{
-//     background:red !important;
+</style>
+<style lang="scss">
+.add{
+    background: rgb(255, 246, 236);
+    color: rgb(255,176,77);
+    border-color:rgb(255,176,77) !important;
+    .popper__arrow{
+        display: none;
+    }
+}
+.del{
+    background:rgb(229,248,243) ;
+    color: rgb(5, 187, 181);
+    border-color:rgb(5, 187, 181) !important;
+    .popper__arrow{
+        display: none;
+    }
+}
 
-//   } 
-.atooltip.el-tooltip__popper[x-placement^="top"] .popper__arrow {
-  border-top-color: pink;
-}
-.atooltip.el-tooltip__popper[x-placement^="top"] .popper__arrow:after {
-  border-top-color: pink;
-}
-.atooltip {
-  background: pink !important;
-}
 </style>

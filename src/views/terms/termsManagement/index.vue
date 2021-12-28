@@ -1,6 +1,6 @@
 <template>
   <iPage>
-    <div class="header">{{ $t("TERMS_TIAOKUANGUANLI") }}</div>
+    <div class="header">{{ $t("条款管理") }}</div>
     <theSearch @getTableList="getTableList" />
     <theTable
       ref="theTable"
@@ -22,8 +22,9 @@ import { iPage, iMessage } from "rise";
 import theSearch from "./components/theSearch.vue";
 import theTable from "./components/theTable.vue";
 import { pageMixins } from "@/utils/pageMixins";
-import { findByPage, exportTerms } from "@/api/terms/terms";
+import { findByPage } from "@/api/terms/terms";
 import { exportFile } from "@/utils/exportFileUtil";
+import store from '@/store'
 
 export default {
   mixins: [pageMixins],
@@ -82,19 +83,34 @@ export default {
     },
     query(e) {
       this.tableLoading = true;
+      if (e.isPersonalTerms == "") {
+        delete e.isPersonalTerms;
+      }
+      if (e.supplierRange == "") {
+        delete e.supplierRange;
+      }
+      if (e.supplierIdentity == "") {
+        delete e.supplierIdentity;
+      }
+      if (e.state == "") {
+        delete e.state;
+      }
+      if (e.signNode == "") {
+        delete e.signNode;
+      }
       findByPage(e)
         .then((res) => {
           this.tableListData = res.data;
           this.page.total = res.total;
           this.tableLoading = false;
         })
-        .catch((err) => {
+        .catch(() => {
           this.tableLoading = false;
         });
     },
     handleExportAll() {
       exportFile({
-        url: "/rise-terms/termsQueryService/exportTerms",
+        url: process.env.VUE_APP_NEWS + `/termsQueryService/exportTerms?userId=`+store.state.permission.userInfo.id,
         data: {
           ...this.formData,
           pageNum: this.page.currPage,

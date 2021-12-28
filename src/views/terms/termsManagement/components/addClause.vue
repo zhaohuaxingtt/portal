@@ -3,9 +3,7 @@
     <div class="title">
       <div>
         <span v-if="this.$route.query.id">
-          <span class="title__clause"
-            >{{ this.ruleForm.name }}：{{ this.ruleForm.termsVersion }}</span
-          >
+          <span class="title__clause">{{ this.ruleForm.name }}</span>
           <span class="title__version">条款版本：</span>
           <span>
             <iSelect
@@ -142,10 +140,6 @@
             <el-col :span="6" class="form-item">
               <iFormItem label="条款负责人" prop="chargeName">
                 <iLabel :label="'条款负责人'" slot="label" required></iLabel>
-                <!-- <iInput
-                  :disabled="ruleForm.isNewest == false"
-                  v-model="ruleForm.chargeName"
-                ></iInput> -->
                 <el-autocomplete
                   :disabled="ruleForm.isNewest == false"
                   v-model="ruleForm.chargeName"
@@ -238,7 +232,10 @@
                 <el-checkbox-group
                   v-model="ruleForm.supplierIdentity"
                   @input="handleGroupCheckList"
-                  :disabled="ruleForm.isNewest == false"
+                  :disabled="
+                    ruleForm.isNewest == false ||
+                    ruleForm.supplierRange.includes('CM')
+                  "
                 >
                   <el-checkbox label="0">临时</el-checkbox>
                   <el-checkbox label="1">正式</el-checkbox>
@@ -247,12 +244,6 @@
                     label="2"
                     >储蓄池</el-checkbox
                   >
-                  <!-- <el-checkbox
-                    v-for="item in supplierIdentityListAdd"
-                    :key="item.value"
-                    :label="item.label"
-                    >{{ item.label }}</el-checkbox
-                  > -->
                 </el-checkbox-group>
               </iFormItem>
             </el-col>
@@ -363,17 +354,11 @@
                   <a
                     class="el-upload-list__item-name"
                     @click="
-                      handleDownloadFile(
-                        ruleForm.termsTextId,
-                        ruleForm.termsTextUrl
-                      )
+                      handleDownloadFile(ruleForm.termsTextId, termsTextName)
                     "
                   >
-                    <i
-                      class="el-icon-paperclip"
-                      :title="this.ruleForm.termsTextUrl"
-                    >
-                      {{ this.ruleForm.termsTextUrl }}
+                    <i class="el-icon-paperclip" :title="this.termsTextName">
+                      {{ this.termsTextName }}
                     </i>
                   </a>
                   <label class="el-upload-list__item-status-label">
@@ -381,7 +366,11 @@
                   </label>
                   <i @click="handleDeleteAccessory()" class="el-icon-close"></i>
                 </li>
-                <iButton @click="handlePre()">{{ "预览" }}</iButton>
+                <iButton
+                  @click="handlePre()"
+                  :disabled="this.ruleForm.termsTextId == ''"
+                  >{{ "预览" }}</iButton
+                >
               </iFormItem>
             </el-col>
           </div>
@@ -419,23 +408,6 @@
                 :disabled="this.selectedFileData.length === 0"
                 >{{ "删除" }}</iButton
               >
-              <!-- <div class="form-upload">
-                  <iFormItem label="上传附件">
-                    <iLabel
-                      :label="'上传附件'"
-                      slot="label"
-                    ></iLabel>
-                    <el-upload
-                      action="1"
-                      :on-success="handleAvatarSuccess"
-                      :before-upload="beforeAvatarUpload"
-                      :show-file-list="false"
-                      :http-request="httpUpload"
-                    >
-                      <span class="upload-text">点击上传</span>
-                    </el-upload>
-                  </iFormItem>
-                </div> -->
             </div>
           </el-col>
           <el-col :span="24">
@@ -534,6 +506,7 @@ import {
   deleteTerms,
   getPageListByParam,
 } from "@/api/terms/terms";
+import { getFileByIds } from "@/api/terms/uploadFile";
 export default {
   components: {
     iPage,
@@ -548,23 +521,15 @@ export default {
     supplierListDialog,
     supplierChooseDialog,
   },
-  // props: {
-  //   editOrAdd: {
-  //     type: String,
-  //     default: "add",
-  //   },
-  //   id: { type: Number, default: -1 },
-  // },
   data() {
     return {
       uploadIcon,
       rules: baseRules,
-      // supplierRangeListAdd,
-      // supplierIdentityListAdd,
       supplierContactsList,
       editModeList,
       signNodeList: [], // 签署节点
       statusList,
+      termsTextName: "",
       ruleForm: {
         termsVersion: "", // 条款版本
         termsCode: "", // 条款编码
@@ -573,7 +538,7 @@ export default {
         inDate: dayjs().format("YYYY-MM-DD"), // 生效时间
         isPersonalTerms: false, // 是否个人条款
         signNode: "", // 签署节点
-        chargeId: "", // 条款负责人
+        chargeId: "1", // 条款负责人
         chargeName: "", // 条款负责人名
         signResult: "", // 签署情况
         isRound: false, // 是否按轮次
@@ -588,12 +553,6 @@ export default {
         termsTextUrl: "", // 条款正文url
         attachments: [], // 附件列表
         termsHistoryList: [],
-        // attachmentId: "", // 附件id
-        // supplierList: [], //供应商列表
-        // isPublish: false,
-        // isOnlineConfirm: "", // 是否在线确认
-        // isSupportYjt: "", // 是否支持非标
-        // termsGroup: "02", // 条款组
       },
       selectedFileData: [],
       pickerOptions: {
@@ -602,8 +561,6 @@ export default {
           return time.getTime() < curDate;
         },
       },
-      // supplierRange1: "",
-      // supplierRange2: "",
       isApprovalOption: [
         {
           label: "是",
@@ -632,6 +589,8 @@ export default {
           if (this.ruleForm.supplierIdentity.indexOf("2") == -1) {
             this.ruleForm.supplierIdentity.push("2");
           }
+        } else if (val.includes("CM")) {
+          this.ruleForm.supplierIdentity = [];
         } else {
           const indexSupplier = this.ruleForm.supplierIdentity.indexOf("2");
           if (indexSupplier != -1) {
@@ -758,11 +717,18 @@ export default {
         res.supplierRange = res.supplierRange?.split(",");
         res.supplierIdentity = res.supplierIdentity?.split(",");
         this.ruleForm = res;
-        this.editor.txt.html(this.ruleForm.termsText);
-        if (this.ruleForm.isNewest != true) {
-          this.editor.disable();
-        } else {
-          this.editor.enable();
+        if (this.ruleForm.termsText != "") {
+          this.editor.txt.html(this.ruleForm.termsText);
+          if (this.ruleForm.isNewest != true) {
+            this.editor.disable();
+          } else {
+            this.editor.enable();
+          }
+        }
+        if (this.ruleForm.editMode == "02") {
+          getFileByIds([this.ruleForm.termsTextId]).then((res) => {
+            this.termsTextName = res.name;
+          });
         }
       });
     },
@@ -787,8 +753,12 @@ export default {
           this.ruleForm.termsTextId = res.id;
           this.ruleForm.termsTextUrl = res.path;
           iMessage.success("上传成功");
+          console.log("res");
+          getFileByIds([res.id]).then((res) => {
+            this.termsTextName = res.name;
+          });
         })
-        .catch((err) => {
+        .catch(() => {
           // iMessage.error("上传失败");
         });
       this.uploadLoading = false;
@@ -815,16 +785,16 @@ export default {
           });
           iMessage.success("上传成功");
         })
-        .catch((err) => {
+        .catch(() => {
           // iMessage.error("上传失败");
         });
       this.uploadLoading = false;
       this.submitLoading = false;
     },
-    handleDownloadFile(id, url) {
+    handleDownloadFile(id, name) {
       download({
         fileIds: id,
-        filename: url,
+        filename: name,
         callback: (e) => {
           if (!e) {
             iMessage.error("下载失败");
@@ -858,6 +828,15 @@ export default {
         },
       });
     },
+    handlePre() {
+      let routeUrl = this.$router.resolve({
+        path: "/terms/management/termsPreview",
+        query: {
+          id: this.ruleForm.termsTextId,
+        },
+      });
+      window.open(routeUrl.href, "_blank");
+    },
     handleSelectionChange(val) {
       this.selectedFileData = val;
     },
@@ -887,32 +866,18 @@ export default {
       this.openSupplierChooseDialog = bol;
     },
     selectedTableData(val) {
-      // const supplierIdList = this.ruleForm.supplierList.map((item) => {
-      //   return item.supplierId;
-      // });
-      // for (let i = 0; i < val.length; i++) {
-      //   if (!supplierIdList.includes(val[i].supplierId)) {
-      //     this.ruleForm.supplierList.push(val[i]);
-      //   }
-      // }
       this.ruleForm.supplierList = val;
     },
     clearDiolog() {
-      // if (sub === "submit") {
-      //   this.$emit("closeDialog", false);
-      // } else {
       this.$confirm("是否取消编辑？", "提示", {
         confirmButtonText: "是",
         cancelButtonText: "否",
         type: "warning",
       }).then(() => {
-        // this.$emit("closeDialog", false);
-        // this.$router.go(-1);
         this.$router.push({
           path: "/terms/management",
         });
       });
-      //}
     },
     handleSubmit(e) {
       this.$confirm(e === 0 ? "是否发布该条款？" : "是否保存该条款？", "提示", {
@@ -934,6 +899,11 @@ export default {
                 this.ruleForm.termsTextId == "")
             ) {
               this.$message.error("条款正文不能为空！");
+            } else if (
+              this.ruleForm.supplierRange[0] != "CM" &&
+              this.ruleForm.supplierIdentity.length == 0
+            ) {
+              this.$message.error("供应商身份不能为空！");
             } else {
               if (valid) {
                 this.submitLoading = true;
@@ -950,33 +920,29 @@ export default {
                 const formData = this.ruleForm;
                 formData.isPublish = e === 0 ? true : false;
                 if (this.$route.query.id) {
-                  // let flag = true;
-                  // if (e === 0) {
-                  //   // 编辑发布按钮
-                  //   let param = {
-                  //     termsId: this.id,
-                  //     termsText: formData.termsText,
-                  //   };
-                  //   saveTermsHistory(param).then((data) => {
-                  //     flag = false;
-                  //   });
-                  //   formData.isPublish = true;
-                  // }
-                  // if (flag)
                   if (e === 0) {
-                    releaseTerms(formData)
-                      .then((data) => {
-                        if (data) {
-                          iMessage.success(this.$t("发布成功！"));
-                          this.$router.push({
-                            path: "/terms/management",
-                          });
-                        }
-                        this.submitLoading = false;
-                      })
-                      .catch((err) => {
-                        this.submitLoading = false;
-                      });
+                    if (formData.inDate >= dayjs().format("YYYY-MM-DD")) {
+                      releaseTerms(formData)
+                        .then((data) => {
+                          if (data) {
+                            iMessage.success(this.$t("发布成功！"));
+                            this.$router.push({
+                              path: "/terms/management",
+                            });
+                          }
+                          this.submitLoading = false;
+                        })
+                        .catch(() => {
+                          this.submitLoading = false;
+                        });
+                    } else {
+                      iMessage.error(this.$t("生效日期不能小于当天"));
+                      formData.supplierRange =
+                        formData.supplierRange?.split(",");
+                      formData.supplierIdentity =
+                        formData.supplierIdentity?.split(",");
+                      this.submitLoading = false;
+                    }
                   } else {
                     updateTerms(formData)
                       .then((data) => {
@@ -985,22 +951,14 @@ export default {
                           this.$router.push({
                             path: "/terms/management",
                           });
-                          // this.clearDiolog("submit");
-                          // iMessage.success(this.$t("TERMS_GENGXINCHENGGONG"));
-                          // this.ruleForm = { ...data };
-                          // this.$emit("flushTable");
                         }
                         this.submitLoading = false;
                       })
-                      .catch((err) => {
+                      .catch(() => {
                         this.submitLoading = false;
                       });
                   }
                 } else {
-                  // if (e === 0) {
-                  //   // 新增发布按钮
-                  //   formData.isPublish = true;
-                  // }
                   saveTerms(formData)
                     .then((data) => {
                       if (data) {
@@ -1008,16 +966,11 @@ export default {
                         this.$router.push({
                           path: "/terms/management",
                         });
-                        // this.clearDiolog("submit");
-                        // iMessage.success(this.$t("TERMS_BAOZUNCHENGGONG"));
-                        // this.ruleForm = { ...data };
-                        // this.$emit("flushTable");
-                        // this.$emit("openDetail", data.id);
                       }
-                      //this.submitLoading = false;
+                      this.submitLoading = false;
                     })
-                    .catch((err) => {
-                      // this.submitLoading = false;
+                    .catch(() => {
+                      this.submitLoading = false;
                     });
                 }
               } else {
@@ -1055,7 +1008,7 @@ export default {
                 });
               }
             })
-            .catch((err) => {
+            .catch(() => {
               // this.$message.error("删除失败!");
             });
         } else {

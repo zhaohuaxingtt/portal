@@ -18,6 +18,13 @@ export function excelExport(data,title,name){
     // eslint-disable-next-line no-undef
     if (!data&&!title) return console.warn(Vue.$t('LK_MEIYOUKEYIXIAZHAIDEXINXI'))
     let worksheet = window.XLSX.utils.aoa_to_sheet(translateData(data,title))
+    worksheet['!cols'] = [];
+    for (let i = 0; i < title.length; i++) {
+      worksheet['!cols'][i] =  //设置表格的宽度
+        {
+          wpx: 120,
+        }
+    }
     // 创建工作簿
     let newWorkbook = window.XLSX.utils.book_new()
     // 将工作表附加到工作簿
@@ -62,7 +69,7 @@ function translateData(data,title){
     baseKey.forEach(err=>{
       newArray.push(element[err])
     })
-     baseName.push(newArray)
+    baseName.push(newArray)
   });
 
   return baseName
