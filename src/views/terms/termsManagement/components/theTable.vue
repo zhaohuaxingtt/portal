@@ -38,7 +38,7 @@
         <el-table-column
           label="序号"
           type="index"
-          min-width="80"
+          width="80"
           align="center"
         ></el-table-column>
         <el-table-column align="center" label="条款编码"
@@ -114,9 +114,14 @@
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" min-width="100" label="供应商范围">
+        <el-table-column
+          align="center"
+          min-width="140"
+          label="供应商范围"
+          show-overflow-tooltip
+        >
           <template slot-scope="scope">
-            <span>{{
+            <!-- <span>{{
               scope.row.supplierRange == "PP"
                 ? "生产供应商"
                 : scope.row.supplierRange == "GP"
@@ -126,12 +131,18 @@
                 : scope.row.supplierRange == "CM"
                 ? "自定义"
                 : ""
-            }}</span>
+            }}</span> -->
+            <span>{{ scope.row.supplierRange | supplierRangeFilter }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" min-width="100" label="供应商身份">
+        <el-table-column
+          align="center"
+          min-width="140"
+          label="供应商身份"
+          show-overflow-tooltip
+        >
           <template slot-scope="scope">
-            <span>{{
+            <!-- <span>{{
               scope.row.supplierIdentity == "0"
                 ? "临时"
                 : scope.row.supplierIdentity == "1"
@@ -139,6 +150,9 @@
                 : scope.row.supplierIdentity == "2"
                 ? "储蓄池"
                 : ""
+            }}</span> -->
+            <span>{{
+              scope.row.supplierIdentity | supplierIdentityFilter
             }}</span>
           </template>
         </el-table-column>
@@ -186,14 +200,21 @@
 </template>
 
 <script>
-import { iCard, iButton, iPagination, iMessage } from "rise";
+import { iCard, iButton, iPagination } from "rise";
 // import iTableCustom from "@/components/iTableCustom";
 import iTableML from "@/components/iTableML";
 import { excelExport } from "@/utils/filedowLoad";
 // import { tableListColumns } from "./data";
 import { getDictByCode } from "@/api/dictionary/index";
 import signDetailDialog from "./signDetailDialog.vue";
-import { tableTitle } from "./data";
+import {
+  tableTitle,
+  isPersonalTermsObj,
+  stateObj,
+  supplierRangeObj,
+  supplierContactsObj,
+  supplierIdentityObj,
+} from "./data";
 // import { invalidateTerms } from "@/api/terms/terms";
 
 export default {
@@ -232,20 +253,20 @@ export default {
   data() {
     return {
       tableTitle,
+      isPersonalTermsObj,
+      stateObj,
+      supplierRangeObj,
+      supplierContactsObj,
+      supplierIdentityObj,
       selectedTableData: [],
       selectState: [],
       signNodeList: [],
       signNodeListObj: {},
-      // tableListColumns,
-      // openDetailDialog: false,
       openSignDetailDialog: false,
-      // openAddClauseDialog: false,
-      // openSupplierListDialog: false,
       id: -1,
       state: "",
       approvalProcess: [],
       signTitle: {},
-      // editOrAdd: "add",
     };
   },
   watch: {
@@ -273,13 +294,92 @@ export default {
     //   "03": "定点",
     // };
   },
+  filters: {
+    supplierRangeFilter: function (value) {
+      let supplierRangeList = [];
+      value.split(",").map((i) => {
+        i == "PP"
+          ? (supplierRangeList += "生产供应商，")
+          : i == "GP"
+          ? (supplierRangeList += "一般供应商，")
+          : i == "NT"
+          ? (supplierRangeList += "Ntier，")
+          : i == "CM"
+          ? (supplierRangeList += "自定义，")
+          : (supplierRangeList += "");
+      });
+      supplierRangeList = supplierRangeList.slice(
+        0,
+        supplierRangeList.length - 1
+      );
+      return supplierRangeList;
+    },
+    supplierIdentityFilter: function (value) {
+      let supplierIdentityList = [];
+      value.split(",").map((i) => {
+        i == "0"
+          ? (supplierIdentityList += "临时，")
+          : i == "1"
+          ? (supplierIdentityList += "正式，")
+          : i == "2"
+          ? (supplierIdentityList += "储蓄池，")
+          : (supplierIdentityList += "");
+      });
+      supplierIdentityList = supplierIdentityList.slice(
+        0,
+        supplierIdentityList.length - 1
+      );
+      return supplierIdentityList;
+    },
+  },
   methods: {
     // 导出当前
     handleExport() {
+      const tableArr = window._.cloneDeep(this.tableListData);
+      tableArr.map((item) => {
+        item.signNode = this.signNodeListObj[item.signNode];
+        item.isPersonalTerms = this.isPersonalTermsObj[item.isPersonalTerms];
+        item.state = this.stateObj[item.state];
+        item.supplierContacts = this.supplierContactsObj[item.supplierContacts];
+        // item.supplierRange = this.supplierRangeObj[item.supplierRange];
+        // item.supplierIdentity = this.supplierIdentityObj[item.supplierIdentity];
+        let supplierRangeList = [];
+        item.supplierRange.split(",").map((i) => {
+          i == "PP"
+            ? (supplierRangeList += "生产供应商，")
+            : i == "GP"
+            ? (supplierRangeList += "一般供应商，")
+            : i == "NT"
+            ? (supplierRangeList += "Ntier，")
+            : i == "CM"
+            ? (supplierRangeList += "自定义，")
+            : (supplierRangeList += "");
+        });
+        supplierRangeList = supplierRangeList.slice(
+          0,
+          supplierRangeList.length - 1
+        );
+        item.supplierRange = supplierRangeList;
+        let supplierIdentityList = [];
+        item.supplierIdentity.split(",").map((i) => {
+          i == "0"
+            ? (supplierIdentityList += "临时，")
+            : i == "1"
+            ? (supplierIdentityList += "正式，")
+            : i == "2"
+            ? (supplierIdentityList += "储蓄池，")
+            : (supplierIdentityList += "");
+        });
+        supplierIdentityList = supplierIdentityList.slice(
+          0,
+          supplierIdentityList.length - 1
+        );
+        item.supplierIdentity = supplierIdentityList;
+      });
       // const titleArr = window._.cloneDeep(this.tableTitle)
       // const index = titleArr.findIndex(item => item.props == 'option')
       // titleArr.splice(index, index + 1)
-      excelExport(this.tableListData, this.tableTitle, "条款管理");
+      excelExport(tableArr, this.tableTitle, "条款管理");
     },
     // 导出全部
     handleExportAll() {

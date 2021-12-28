@@ -87,7 +87,7 @@
         <el-table-column
           label="序号"
           type="index"
-          width="50"
+          width="80"
           align="center"
         ></el-table-column>
         <el-table-column align="center" label="供应商中文名"
@@ -162,9 +162,9 @@
 </template>
 
 <script>
-import { iDialog, iInput, iButton, iPagination, iSelect, iMessage } from "rise";
+import { iDialog, iInput, iButton, iSelect } from "rise";
 import iTableML from "@/components/iTableML";
-import { getSignatureResult } from "@/api/terms/terms";
+// import { getSignatureResult } from "@/api/terms/terms";
 import { pageMixins } from "@/utils/pageMixins";
 import { supplierIdentityList, supplierRangeList } from "./data";
 export default {
