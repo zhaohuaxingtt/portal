@@ -17,7 +17,8 @@
         :hideRequiredAsterisk="true"
         class="form-box"
       >
-        <iFormItem prop="conclusionCsc">
+        <!-- 结论 -->
+        <iFormItem prop="conclusionCsc" >
           <div class="operate">
             <div class="operate-title">
               <span class="conclusion">结论</span>
@@ -40,10 +41,11 @@
             </iSelect>
           </div>
         </iFormItem>
-        <iFormItem prop="isFrozenRs" 
+        <!-- LOI -->
+        <iFormItem prop="isFrozenRs" v-if="showIFormItemRS" 
         >
           <div class="switch-content">
-            <div class="freeze">冻结RS单</div>
+            <div class="freeze">提交LOI审批</div>
             <div class="swicth">
               <div class="text" v-if="ruleForm.isFrozenRs" ref="sliderText">
                 是
@@ -53,7 +55,8 @@
             </div>
           </div>
         </iFormItem>
-        <iFormItem
+        <!-- 任务 -->
+        <iFormItem 
           label="任务"
           prop="taskCsc"
           :hideRequiredAsterisk="true"
@@ -70,7 +73,7 @@
       </el-form>
     </iEditForm>
     <!-- 列表 -->
-    <div>
+    <div v-if="showIFormItemList">
       <div class="commonTablediv">RFQ发送对象</div>
           <commonTable
           class="commonTablediv"
@@ -84,7 +87,7 @@
             />
     </div>
     <!-- 输入框 -->
-    <div>
+    <div  v-if="showIFormItemelform">
       <el-form
         :model="formData"
         ref="ruleForm"
@@ -237,6 +240,9 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        showIFormItemRS: false,
+        showIFormItemList: false,
+        showIFormItemelform: false,
         formData:{},
         tableColumns: [...TABLE_COLUMNS_DEFAULT],
         loading: false,
@@ -277,6 +283,9 @@ export default {
       }
     } else {
       return {
+        showIFormItemRS: false,
+        showIFormItemList: false,
+        showIFormItemelform: false,
         formData:{},
         tableColumns: [...TABLE_COLUMNS_DEFAULT],
         loading: false,
@@ -496,24 +505,40 @@ export default {
     },
     changeConclusion(e) {
       console.log(e);
-      this.isShowTable = false
-      this.isShowSwitch = false
-      if (e.conclusionCsc === '02') {
-        debugger
-        this.isShowSwitch = true
-        this.ruleForm.isFrozenRs = true
-      }
-      if (e.conclusionCsc === '05' || e.conclusionCsc === '06') {
-        this.isShowTable = true
-        if (e.conclusionCsc === '05') {
-          this.getUpdateDateTableList('Pre CSC').then(() => {
-            this.currentRow = {}
-          })
-        } else {
-          this.getUpdateDateTableList('CSC').then(() => {
-            this.currentRow = {}
-          })
-        }
+      // this.isShowTable = false
+      // this.isShowSwitch = false
+      // if (e.conclusionCsc === '02') {
+      //   debugger
+      //   this.isShowSwitch = true
+      //   this.ruleForm.isFrozenRs = true
+      // }
+      // if (e.conclusionCsc === '05' || e.conclusionCsc === '06') {
+      //   this.isShowTable = true
+      //   if (e.conclusionCsc === '05') {
+      //     this.getUpdateDateTableList('Pre CSC').then(() => {
+      //       this.currentRow = {}
+      //     })
+      //   } else {
+      //     this.getUpdateDateTableList('CSC').then(() => {
+      //       this.currentRow = {}
+      //     })
+      //   }
+      // }
+      if (e.conclusionCsc == '01' || e.conclusionCsc == '05') {
+        // 只有结论和任务
+        this.showIFormItemRS= false
+        this.showIFormItemList= false
+        this.showIFormItemelform= false
+      }else if(e.conclusionCsc == '04' ){
+        // 结论 任务 列表
+        this.showIFormItemRS= false
+        this.showIFormItemList= true
+        this.showIFormItemelform= false
+      }else if(e.conclusionCsc == '03' ){
+        // 结论 任务 LOi
+        this.showIFormItemRS= true
+        this.showIFormItemList= false
+        this.showIFormItemelform= true
       }
     },
     //获取日期改期的更新的表格数据
@@ -600,6 +625,7 @@ export default {
     white-space: nowrap;
   }
   .swicth {
+    margin-left: 30px;
     position: relative;
     width: 42px;
     height: 22px;
@@ -634,6 +660,7 @@ export default {
   .operate-select {
     height: 35px;
     width: 240px;
+    margin-left: 30px;
   }
   .conclusion {
     width: 32px;

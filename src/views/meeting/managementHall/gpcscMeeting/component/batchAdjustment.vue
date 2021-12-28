@@ -4,6 +4,7 @@
 -->
 <template>
   <div class="box">
+    
       <draggable v-model="syllable">
         <div v-for="(item , idx) in syllable" :key="idx" class="divheight">
           <icon symbol class="icon" name="iconshunxubiaoqian" /> {{item.name}}
@@ -45,11 +46,11 @@ export default {
       cursor: move;
       .divheight{
         width: 100%;
-        height: 40px;
-        line-height: 40px;
+        height: 30px;
+        line-height: 30px;
         text-align: left;
-        background-color: #eee;
-        margin-bottom: 10px;
+        background-color: #f9fafe;
+        margin-bottom: 20px;
         border-radius: 4px;
         padding: 0 8px;
         .icon{
@@ -59,6 +60,6 @@ export default {
     }
     .btn{
       text-align: right;
-      margin-top: 10px;
+      margin-top: 30px;
     }
 </style>

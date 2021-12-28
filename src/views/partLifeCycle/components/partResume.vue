@@ -540,7 +540,7 @@
         this.bookmarkNodes = [...this.bookmarkNodes]
       },
       toUrl(item,typeName) {
-        let {type,desinateId, designateType, projectId, rfqId,id,letterId,aekoId,loiId,title,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,accessoriesRsNum,rsNum,businessType,aekoCode} = item||data
+        let {type,desinateId, designateType, projectId, rfqId,letterId,aekoId,loiId,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,rsNum,businessType,aekoCode} = item||data
         let path = ''
         console.log(type,'type',item)
         if(type==1) path = ''                        // 会议
@@ -548,10 +548,10 @@
         if(type==3) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/loidetail?id=${loiId}` // LOI
         if(type==4) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=${businessType}` // 定点
         if(type==5) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoId}` // Aeko
-        if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/accessorypartdetail?spNum=${title}` // 配件定点
+        if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/accessorypartdetail?spNum=${letterId}` // 配件定点
         if(type==7) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${desinateId}` // mtz定点
         if(typeName == 'aekoCode' && aekoCode) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoId}` // 定点信编号ok
-        if(typeName == 'rsNlNum' && rsNlNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/letterdetail?id=${rsNlNum}` // 定点信编号
+        if(typeName == 'rsNlNum' && rsNlNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/letterdetail?id=${letterId}` // 定点信编号
         if(typeName == 'mtzRsNum' && mtzRsNum) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${desinateId}` // mtz rs编号
         if(typeName == 'isIngredientAnalyze' && isIngredientAnalyze && rfqType ==2 && businessTitle) path = `/sourcing/#/targetpriceandscore/costanalysismanage/costanalysis?rfqId=${rfqId}` // 成本分析
         if(typeName == 'RFQ' && businessTitle) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editordetail?id=${businessTitle}` // rfq编号
