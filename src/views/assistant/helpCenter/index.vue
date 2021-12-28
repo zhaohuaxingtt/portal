@@ -233,9 +233,9 @@ export default {
 				}
 				
 			}
-			if (this.helpMoudle === 'problem') {
-				this.$refs.problemDetail.getLabelList('init')
-			}
+			// if (this.helpMoudle === 'problem') {
+			// 	this.$refs.problemDetail.getLabelList('init')
+			// }
 			if (this.helpMoudle === 'manual') {
 				this.getManauContent()
 			}
