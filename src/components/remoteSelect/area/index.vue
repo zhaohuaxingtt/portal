@@ -49,10 +49,14 @@ export default {
       this.setAreaCodes()
     },
     provinceCode() {
-      this.setAreaCodes()
+      if (this.countryCode === 'CN') {
+        this.setAreaCodes()
+      }
     },
     cityCode() {
-      this.setAreaCodes()
+      if (this.countryCode === 'CN') {
+        this.setAreaCodes()
+      }
     }
   },
   created() {
@@ -75,12 +79,15 @@ export default {
           }
 
           getCityInfo(params)
-            .then(res => {
+            .then((res) => {
               const data = res?.data || []
-              const valueData = data.map(e => {
+              const valueData = data.map((e) => {
                 return {
                   ...e,
-                  leaf: node.level === 2,
+                  leaf:
+                    e.parentCityId === '-1' && e.sapLocationCode !== 'CN'
+                      ? true
+                      : node.level === 2,
                   val: node.level === 2 ? e.cityId : e.sapLocationCode
                 }
               })
@@ -97,10 +104,29 @@ export default {
   },
   methods: {
     setAreaCodes() {
-      this.areaCodes = [this.countryCode, this.provinceCode, this.cityCode]
+      if (this.countryCode === 'CN') {
+        this.areaCodes = [this.countryCode, this.provinceCode, this.cityCode]
+      } else {
+        this.areaCodes = [this.countryCode]
+      }
     },
     handleChange(val) {
-      if (val && val.length === 3) {
+      console.log('handleChange', val)
+      // 国外的
+      if (val && val.length === 1 && val[0] !== 'CN') {
+        this.$emit('update:countryCode', val[0])
+        this.$emit('update:provinceCode', '')
+        this.$emit('update:cityCode', '')
+        setTimeout(() => {
+          if (this.$refs.areaCascader) {
+            const text = this.$refs.areaCascader.inputValue
+            if (text) {
+              this.$emit('change', val, text.split('-'))
+            }
+          }
+        }, 500)
+      } else if (val && val.length === 3) {
+        // 中国
         this.$emit('update:countryCode', val[0])
         this.$emit('update:provinceCode', val[1])
         this.$emit('update:cityCode', val[2])
