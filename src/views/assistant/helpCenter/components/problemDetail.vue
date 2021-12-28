@@ -131,11 +131,19 @@ export default {
 			default: () => []
 		}
 	},
-	async mounted() {
+	watch: {
+		currentMoudleId(val) {
+			if (!val) {
+				this.init()
+			} else {
+				this.getLabelList()
+			}
+		}
+	},
+	async created() {
 		await this.getLabelList('init')
 		// 从首页进入 没有对应的模块id 查询热门问题 取前两个 查全部模块及标签
 		if (!this.currentMoudleId) {
-			console.log('8900890')
 			this.init()
 		}
 	},
