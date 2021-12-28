@@ -66,7 +66,8 @@
         :label="$t('MT_HUIYILEIXING')"
       >
         <template slot-scope="scope">
-          <span>{{ typeObject[scope.row.meetingTypeId] }}</span>
+          <!-- <span>{{ typeObject[scope.row.meetingTypeId] }}</span> -->
+          <span>{{ scope.row.meetingTypeName }}</span>
         </template>
       </el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
