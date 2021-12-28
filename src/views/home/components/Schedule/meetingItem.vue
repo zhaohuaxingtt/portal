@@ -82,10 +82,9 @@ export default {
       return endDate + ' ' + endTime
     },
     progressBarVisible() {
-      /* const { state } = this.item
+      const { state } = this.item
       const now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-      return state === '04' && now >= this.start && now <= this.end */
-      return true
+      return state === '04' && now >= this.start && now <= this.end
     },
     totalSeconds() {
       return moment(this.end).valueOf() - moment(this.start).valueOf()
@@ -162,7 +161,6 @@ export default {
   display: flex;
   cursor: pointer;
   width: 100%;
-  overflow: hidden;
   .fs-color {
     color: #afb0b3;
   }
