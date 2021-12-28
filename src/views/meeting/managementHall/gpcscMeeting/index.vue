@@ -1193,9 +1193,15 @@
       v-if="batchAdjustmentDialog"
       :title="language('批量排序', '批量排序')"
       :visible.sync="batchAdjustmentDialog"
-      width="40%"
+      width="30%"
       :append-to-body="true"
     >
+    <template #title>
+      <div>
+        <span class="iDialogdiv">批量排序</span>
+        <span class="iDialogdivspan"> 上下拖拽即可调整顺序 </span>
+      </div>
+    </template>
       <batchAdjustment
         v-if="batchAdjustmentDialog"
         @close="batchAdjustmentDialog = false"
@@ -2876,6 +2882,15 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.iDialogdiv{
+  font-size: 18px;
+  font-weight: 700;
+}
+.iDialogdivspan{
+  font-weight: 400;
+  margin-left: 20px;
+  color: #b5b5b6;
+}
 .display-column {
   transform: translateY(90px);
 }

@@ -7,7 +7,9 @@
            v-loading="dialogLoging">
     <div slot="title" class="title">
       <div>
-        {{ resData.mainAekoNum + '：' + resData.nodeDate }}
+        <!-- {{ resData.mainAekoNum + '：' + resData.nodeDate }} -->
+        <span v-if="resData.mainAekoNum">{{resData.mainAekoNum + '：'}}</span>
+        <span>{{resData.nodeDate}}</span>
       </div>
     </div>
     <div class="changePrice">

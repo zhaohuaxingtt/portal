@@ -1,3 +1,4 @@
+import dayjs from '@/utils/dayjs.js';
 export const baseRules = {
   topic: [
     { required: true, message: "必填", trigger: "blur" },
@@ -395,3 +396,98 @@ export const TABLE_COLUMNS_DEFAULT = [
     key: ''
   },
 ]
+// 表头 发送大会议程
+export const TABLE_COLUMNS_DEFAULTALl = [
+  {
+    type: 'selection',
+    width: 50
+  },
+  {
+    type: 'index',
+    label: '#',
+    i18n: '',
+    width: 50
+  }, 
+  {
+    value: 1,
+    prop: '',
+    label: '会议名称',
+    i18n: '',
+    customRender: (h, scope) => {
+      return <span class='open-link-text' > {scope.row.code} </span>
+    },
+  },
+  {
+    value: 2,
+    prop: '',
+    label: '会议类型',
+    i18n: '',
+  },
+  {
+    value: 3,
+    prop: '',
+    label: '会议状态',
+    i18n: '',
+  },
+  {
+    value: 4,
+    prop: '',
+    label: '会议地点',
+    i18n: ''
+  },
+  {
+    value: 5,
+    prop: '',
+    label: '会议时间',
+    i18n: ''
+  },
+  {
+    value: 6,
+    prop: '',
+    label: '周次',
+    i18n: '',
+  },
+  
+]
+export const statusList = [
+  {
+    label: '草稿',
+    value: '01',
+  },
+  {
+    label: '开放',
+    value: '02',
+  },
+  {
+    label: '锁定',
+    value: '03',
+  },
+  {
+    label: '开始',
+    value: '04',
+  },
+  {
+    label: '结束',
+    value: '05',
+  },
+  {
+    label: '关闭',
+    value: '06',
+  },
+];
+let weekNum = dayjs(dayjs().year()).isoWeeksInYear();
+let weekListInit = [];
+for (let index = 0; index < weekNum; index++) {
+  if (index < 9) {
+    weekListInit.push({
+      label: 'CW0' + (index + 1) + '/' + weekNum,
+      value: index,
+    });
+  } else {
+    weekListInit.push({
+      label: 'CW' + (index + 1) + '/' + weekNum,
+      value: index,
+    });
+  }
+}
+export {weekListInit};

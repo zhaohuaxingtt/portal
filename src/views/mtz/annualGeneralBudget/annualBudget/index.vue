@@ -71,7 +71,7 @@
                 <iButton @click="handleDel">{{language('SHANCHU', '删除')}}</iButton>
                 <iButton @click="handleAdd">{{language('XINZENG', '新增')}}</iButton>
                 <iButton @click="handleChangeLog">{{language('CHANGELOG', 'Change Log')}}</iButton>
-                <iButton @click="handleLinie">{{language('TONGZHILINIE', '通知Linie')}}</iButton>
+                <iButton @click="handleLinie">{{language('TZLINIE', '通知Linie')}}</iButton>
                 <iButton @click="handleExportAudit">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>
                 <iButton @click="handleChangeLevel">{{language('GENGGAIYONGLIANGBANBEN', '更改用量版本')}}</iButton>
                 <iButton @click="handleIssue">{{language('FABU', '发布')}}</iButton>
