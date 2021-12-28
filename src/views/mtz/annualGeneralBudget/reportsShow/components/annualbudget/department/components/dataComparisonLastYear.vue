@@ -26,10 +26,11 @@ export default {
 
           legend: {
             top: '6%',
-            itemGap: 30
+            itemGap: 30,
+            icon: 'circle',
           },
           grid: {
-            left: '3%',
+            left: '5%',
             right: '4%',
             bottom: '3%',
             containLabel: true
@@ -53,9 +54,11 @@ export default {
             {
               name: '2011',
               type: 'bar',
-              data: [18203, 23489, 29034, 104970, 131744, 530230],
+              data: [18203, 23489, 29034, 104970, 131744, 30230],
               barWidth: 15,
               barCategoryGap: 1,
+              center: ['50%', '45%'],
+              color:'rgb(119, 203, 255)',
               label: {
                 show: true,
                 position: 'right',
@@ -67,8 +70,10 @@ export default {
             {
               name: '2012',
               type: 'bar',
-              data: [19325, 23438, 31000, 121594, 134141, 581807],
+              data: [19325, 23438, 31000, 121594, 134141, 81807],
               barWidth: 15,
+              color:'rgb(22, 96, 241)',
+              center: ['50%', '45%'],
               label: {
                 show: true,
                 position: 'right',
@@ -95,6 +100,6 @@ export default {
 
 .right-echart {
   width: 750px;
-  height: 630px;
+  height: 590px;
 }
 </style>
