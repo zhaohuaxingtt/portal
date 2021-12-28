@@ -540,7 +540,7 @@
         this.bookmarkNodes = [...this.bookmarkNodes]
       },
       toUrl(item,typeName) {
-        let {type,desinateId, designateType, projectId, rfqId,letterId,aekoId,loiId,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,rsNum,businessType,aekoCode} = item||data
+        let {type,desinateId, designateType, projectId, rfqId,letterId,aekoId,loiId,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,rsNum,businessType,aekoCode} = item
         let path = ''
         console.log(type,'type',item)
         if(type==1) path = ''                        // 会议
