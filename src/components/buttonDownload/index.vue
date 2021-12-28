@@ -1,7 +1,7 @@
 <template>
   <iButton :loading="loading" @click="exportExcel" class="download">
     <slot name="default">
-      {{ $t('导出') }}
+      {{ language('导出') }}
     </slot>
   </iButton>
 </template>

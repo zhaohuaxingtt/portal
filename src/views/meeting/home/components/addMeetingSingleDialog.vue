@@ -328,10 +328,10 @@ export default {
             .then((res) => {
               if (res) {
                 this.clearDiolog('submit')
-                iMessage.success(this.$t('保存成功'))
+                iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
                 this.$emit('refreshTable')
               } else {
-                iMessage.success(this.$t('保存失败'))
+                iMessage.success(this.$t('MT_BAOCUNSHIBAI'))
                 this.clearDiolog('submit')
               }
             })

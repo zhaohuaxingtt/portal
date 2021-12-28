@@ -132,3 +132,18 @@ export function getUserList(parmars) {
     method: 'GET'
   })
 }
+export function getPreDeptList(parmars) {
+  return requst({
+    url: `/bdl/stuffMaterials/getPreDeptList`,
+    method: 'POST',
+    data: parmars
+  })
+}
+//
+export function getPreUserList(parmars) {
+  return requst({
+    url: `/bdl/stuffMaterials/getPreUserList`,
+    method: 'POST',
+    data: parmars
+  })
+}

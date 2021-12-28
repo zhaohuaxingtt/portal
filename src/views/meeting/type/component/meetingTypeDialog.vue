@@ -621,7 +621,7 @@ export default {
 
       if (approvalProcessId === '' && this.ruleForm.isTriggerApproval) {
         // console.log(11111);
-        callback(new Error(this.$t('必选')))
+        callback(new Error(this.$t('MT_BIXUAN')))
       }
       callback()
       // if (!this.ruleForm.isTriggerApproval) {
@@ -630,19 +630,19 @@ export default {
     }
     const validateApprovalCoverImage = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error(this.$t('必填')))
+        callback(new Error(this.$t('MT_BITIAN')))
       }
       callback()
     }
     const validateLimitiMoney = (rule, value, callback) => {
       if (value !== null && value !== '') {
         if (String(value).trim() === '' || Number(value) <= 0) {
-          callback(new Error(this.$t('必须正整数')))
+          callback(new Error(this.$t('MT_BIXUZHENGZHENGSHU')))
         } else if (
           String(value).indexOf('.') !== -1 ||
           String(value).indexOf('-') !== -1
         ) {
-          callback(new Error(this.$t('必须正整数')))
+          callback(new Error(this.$t('MT_BIXUZHENGZHENGSHU')))
         } else {
           callback()
         }
@@ -653,17 +653,17 @@ export default {
     const validateLimitiMoneyRequired = (rule, value, callback) => {
       if (value !== null && value !== '') {
         if (String(value).trim() === '' || Number(value) <= 0) {
-          callback(new Error(this.$t('必须正整数')))
+          callback(new Error(this.$t('MT_BIXUZHENGZHENGSHU')))
         } else if (
           String(value).indexOf('.') !== -1 ||
           String(value).indexOf('-') !== -1
         ) {
-          callback(new Error(this.$t('必须正整数')))
+          callback(new Error(this.$t('MT_BIXUZHENGZHENGSHU')))
         } else {
           callback()
         }
       } else {
-        callback('必填')
+        callback('MT_BITIAN')
       }
     }
     const validateIncidenceRelation = (rule, value, callback) => {

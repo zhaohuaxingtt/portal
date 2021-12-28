@@ -161,10 +161,10 @@ export default {
     const validatePhone = (rule, value, callback) => {
       var reg = /(^[0-9-]{1,})/
       if (value.trim() === '') {
-        callback(new Error(this.$t('必填')))
+        callback(new Error(this.$t('MT_BITIAN')))
       } else {
         if (!reg.test(value)) {
-          callback(new Error(this.$t('电话格式不正确')))
+          callback(new Error(this.$t('MT_DIANHUAGESHIBUZHENGQUE')))
         } else {
           callback()
         }
@@ -174,10 +174,10 @@ export default {
       const reg =
         /^[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([-_.][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/
       if (value.trim() === '') {
-        callback(new Error(this.$t('必填')))
+        callback(new Error(this.$t('MT_BITIAN')))
       } else {
         if (!reg.test(value)) {
-          callback(new Error(this.$t('邮箱格式不正确')))
+          callback(new Error(this.$t('MT_YOUXIANGGESHIBUZHENGQUE')))
         } else {
           callback()
         }
@@ -185,7 +185,7 @@ export default {
     }
     const validateBase = (rule, value, callback) => {
       if (value.trim() === '') {
-        callback(new Error(this.$t('必填')))
+        callback(new Error(this.$t('MT_BITIAN')))
       } else {
         callback()
       }
@@ -202,7 +202,7 @@ export default {
       baseRule: [{ validator: validateBase, trigger: 'blur' }],
       rulePhone: [{ validator: validatePhone, trigger: 'blur' }],
       ruleEmail: [{ validator: validateEmail, trigger: 'blur' }],
-      baseSelect: [{ required: true, message: '必选', trigger: 'change' }]
+      baseSelect: [{ required: true, message: this.$t('MT_BIXUAN'), trigger: 'change' }]
     }
   },
   mounted() {
@@ -264,9 +264,9 @@ export default {
       })
     },
     handleDelete() {
-      this.$confirm(this.$t('你确定要删除吗?'), this.$t('提示'), {
-        confirmButtonText: this.$t('确定'),
-        cancelButtonText: this.$t('取消'),
+      this.$confirm(this.$t('MT_NIQUEDINGYAOSHANCHUMA'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_QUEDING'),
+        cancelButtonText: this.$t('MT_QUXIAO'),
         type: 'warning'
       }).then(() => {
         this.ruleForm.meetingInfo = this.ruleForm.meetingInfo.filter((item) => {
@@ -325,7 +325,7 @@ export default {
           .catch((err) => {
             console.log(err)
             reject(err)
-            this.$message.error(this.$t('获取失败！'))
+            this.$message.error(this.$t('MT_HUOQUSHIBAI'))
           })
       })
     },
@@ -383,7 +383,7 @@ export default {
             uniqueId: 'a' + Math.random() + Math.random()
           }
         })
-        this.$message.success(this.$t('保存成功！'))
+        this.$message.success(this.$t('MT_BAOCUNCHENGGONG'))
       })
     },
     handleSubmit(formName) {

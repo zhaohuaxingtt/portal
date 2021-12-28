@@ -524,7 +524,7 @@ export default {
           return val.id
         })
         .join(',')
-      const werk = this.formData.werk ? this.formData.join(',') : []
+      const werk = this.formData.werk ? this.formData.werk.join(',') : ''
       let param = {
         ...this.formData,
         projectPurchaser: projectPurchaserId,

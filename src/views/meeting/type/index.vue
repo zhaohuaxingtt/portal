@@ -25,7 +25,7 @@
           type="index"
           width="68"
           align="center"
-          :label="$t('MT_XUHAO')"
+          :label="$t('MT_XUHAO2')"
         ></el-table-column>
         <el-table-column
           show-overflow-tooltip
