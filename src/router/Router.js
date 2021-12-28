@@ -49,6 +49,8 @@ import RouterOfflineDownload from './RouterOfflineDownload'
 import RouterView from './RouterView'
 import RouterElectronicSignature from '@/router/RouterElectronicSignature'
 
+import RouterTerms from './RouterTerms'
+
 export default {
   routes: [
     {
@@ -200,7 +202,8 @@ export default {
         ...RouterColorParts,
         ...RouterApplications,
         ...RouterOfflineDownload,
-        ...RouterElectronicSignature
+        ...RouterElectronicSignature,
+        ...RouterTerms
       ]
     },
     ...RouterView,
