@@ -597,9 +597,9 @@ export default {
       }).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
         if (Number(res.code) === 200) {
-          if(this.partsNum) {
-            let partsNum = this.partsNum
-            this.toPartLifeCycle(partsNum)
+          let data = res.data
+          if(this.partsNum && data.length==1) {
+            this.toPartLifeCycle(data[0].partsNum)
           }
           this.defaultPartsList = res.data.map(item => {
             item.isClaim = false
