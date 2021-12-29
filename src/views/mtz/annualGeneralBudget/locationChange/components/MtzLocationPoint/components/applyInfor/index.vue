@@ -230,7 +230,7 @@ export default {
           this.applyNumber = res.data.ttNominateAppId;
           // this.getLjLocation();
         }
-        console.log(this.applyNumber);
+        // console.log(this.applyNumber);
         if (val !== "取消") {
           store.commit("submitBtnInfor", { ...res.data });
         }
