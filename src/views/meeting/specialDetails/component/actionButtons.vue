@@ -69,8 +69,16 @@ export default {
   data() {
     return {
       UpdateTopicButtonList: [
-        { title: '调整完成', methodName: 'overUpdateTopic' },
-        { title: '取消调整', methodName: 'cancelUpdateTopic' }
+        {
+          title: '调整完成',
+          methodName: 'overUpdateTopic',
+          i18n: 'MT_TIAOZHENGWANCHENG'
+        },
+        {
+          title: '取消调整',
+          methodName: 'cancelUpdateTopic',
+          i18n: 'MT_QUXIAOTIAOZHENG'
+        }
       ]
     }
   },

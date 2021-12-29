@@ -2584,8 +2584,12 @@
     MT_ZHUANGTAI2: '状态',
 
     MT_XUHAO2: '序号',
+    
+    MT_XUHAO3: '序号',
 
     MT_CAOZUO2: '操作',
+
+    MT_PILIANGPAIXU:"批量排序",
 
     APPROVAL: {
       ADD: '新增',

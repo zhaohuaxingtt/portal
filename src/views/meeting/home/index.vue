@@ -106,7 +106,7 @@ export default {
         param = {
           meetingTypeId: '',
           pageNum: this.page.currPage,
-          pageSize: 10,
+          pageSize: this.page.pageSize,
           states: []
         }
       } else {
@@ -114,7 +114,7 @@ export default {
           ...this.form,
           meetingTypeId: this.form.meetingType ? this.form.meetingType.id : '',
           pageNum: this.page.currPage,
-          pageSize: 10,
+          pageSize: this.page.pageSize,
           states: this.form.states ? [this.form.states] : []
         }
       }
