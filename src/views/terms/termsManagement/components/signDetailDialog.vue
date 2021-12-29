@@ -409,7 +409,7 @@ export default {
     },
     handleExportAll() {
       exportFile({
-        url: process.env.VUE_APP_NEWS +`/rise-terms/termsQueryService/exportSignatureResult?userId=`+store.state.permission.userInfo.id,
+        url: process.env.VUE_APP_NEWS +`/termsQueryService/exportSignatureResult?userId=`+store.state.permission.userInfo.id,
         data: {
           ...this.form,
           pageNum: this.page.currPage,
@@ -419,7 +419,7 @@ export default {
           if (e) {
             iMessage.success("导出成功");
           } else {
-            iMessage.error("导出失败");
+            // iMessage.error("导出失败");
           }
         },
       });

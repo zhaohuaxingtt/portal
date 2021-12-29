@@ -49,7 +49,7 @@
       <div class="basic">基本信息</div>
       <el-form
         :model="ruleForm"
-        label-width="9rem"
+        label-width="10rem"
         :rules="rules"
         ref="ruleForm"
         :hideRequiredAsterisk="true"
@@ -93,6 +93,7 @@
               <iFormItem label="生效时间" prop="inDate">
                 <iLabel :label="'生效时间'" slot="label" required></iLabel>
                 <iDatePicker
+                  style="width: 100%"
                   value-format="yyyy-MM-dd"
                   type="date"
                   v-model="ruleForm.inDate"
@@ -257,7 +258,7 @@
                 </el-radio-group>
               </iFormItem>
             </el-col>
-            <el-col :span="24">
+            <el-col :span="24" class="form-item">
               <iFormItem label="备注" prop="remark">
                 <iLabel :label="'备注'" slot="label"></iLabel>
                 <iInput
@@ -278,7 +279,7 @@
       <div class="editBox">编辑框</div>
       <el-form
         :model="ruleForm"
-        label-width="9rem"
+        label-width="10rem"
         :rules="rules"
         ref="ruleFormEdit"
         :hideRequiredAsterisk="true"
@@ -302,7 +303,7 @@
                 </el-radio-group>
               </iFormItem>
             </el-col>
-            <el-col :span="24" v-show="ruleForm.editMode == '01'">
+            <el-col :span="24" v-show="ruleForm.editMode == '01'" class="form-item">
               <div style="float: right; margin-top: -3rem">
                 <iButton @click="handlePreEdit()">{{ "预览" }}</iButton>
               </div>
@@ -311,7 +312,7 @@
                 <div ref="editer" class="editer" id="editer"></div>
               </iFormItem>
             </el-col>
-            <el-col :span="24" v-show="ruleForm.editMode == '02'">
+            <el-col :span="24" v-show="ruleForm.editMode == '02'" class="form-item">
               <iFormItem label="条款正文" prop="termsTextId">
                 <iLabel :label="'条款正文'" slot="label" required></iLabel>
                 <el-upload
@@ -359,7 +360,7 @@
       <div class="enclosure">附件</div>
       <div class="form">
         <div class="input-box">
-          <el-col :span="24">
+          <el-col :span="24" class="form-item">
             <div class="upload-box">
               <!-- <el-upload
                 :on-success="handleAvatarSuccess"
@@ -387,7 +388,7 @@
               > -->
             </div>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="24" class="form-item">
             <iTableML
               tooltip-effect="light"
               :data="this.ruleForm.attachments"
@@ -950,18 +951,19 @@ export default {
   width: 100%;
   .input-box {
     width: 100%;
-    .form-item + .form-item {
+    margin-left: -2rem;
+    .form-item {
       padding-left: 2rem;
     }
   }
-  .input-box {
-    :nth-child(4n + 5) {
-      padding-left: 0px !important;
-    }
-    :nth-child(11) {
-      padding-left: 0px !important;
-    }
-  }
+  // .input-box {
+  //   :nth-child(4n + 5) {
+  //     padding-left: 0px !important;
+  //   }
+  //   :nth-child(11) {
+  //     padding-left: 0px !important;
+  //   }
+  // }
 }
 
 .upload-box {

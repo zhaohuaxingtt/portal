@@ -201,6 +201,7 @@ export default {
     processVertical
   },
   created () {
+    // console.log("created")
     this.init()
   },
   computed: {
@@ -210,6 +211,7 @@ export default {
   },
   watch: {
     mtzObject (newVlue, oldValue) {
+      // console.log("watch")
       this.init()
     }
   },

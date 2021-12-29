@@ -9,27 +9,42 @@
               <el-col :span="6">
                 <i-form-item :label='language("科室")'>
                   <i-select>
-                    <el-option></el-option>
+                    <el-option
+                      v-for="item in deptOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
+                    ></el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
                 <i-form-item :label='language("MTZ材料组")'>
                   <i-select>
-                    <el-option></el-option>
+                    <el-option
+                      v-for="item in mtzOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
+                    ></el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
                 <i-form-item :label='language("材料中类")'>
                   <i-select>
-                    <el-option></el-option>
+                    <el-option
+                      v-for="item in materialMiddleOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
+                    ></el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
                 <i-form-item :label='language("版本月份")'>
-                  <i-datePicker>
+                  <i-datePicker v-model="time" :placeholder='language("请选择")' format='yyyy-MM' type='month'>
                   </i-datePicker>
                 </i-form-item>
               </el-col>
@@ -37,9 +52,11 @@
           </el-form>
         </div>
         <div class="btn-list">
-          <span style="margin-right:20px" >{{language('只看自己 ')}}<el-switch v-model="onlySelf" ></el-switch></span>
-          <i-button>{{language('确认')}}</i-button>
-          <i-button>{{language('重置')}}</i-button>
+          <span class="only-myself" >{{language('只看自己 ')}}
+            <el-switch v-model="onlySelf" ></el-switch>
+          </span>
+          <i-button @click="sure">{{language('确认')}}</i-button>
+          <i-button @click="reset">{{language('重置')}}</i-button>
         </div>
       </div>
     </i-card>
@@ -84,6 +101,14 @@ export default {
   data(){
     return{
       onlySelf:false,
+      time:'',
+      //科室选择
+      deptOption:[],
+      //MTZ材料组选择
+      mtzOption:[],
+      //材料中类选择
+      materialMiddleOption:[],
+      //月度数据
       dataMonth:[
         2.1,
         5.2,
@@ -98,7 +123,9 @@ export default {
         5,
         9
       ],
-      contrastData:[1,-2,3,-4,5,-3,6,7,-2,8,0,2]
+      //差异数据
+      contrastData:[1,-2,3,-4,5,-3,6,7,-2,8,0,2],
+      searchForm:{}
     }
   },
   mounted(){
@@ -118,7 +145,6 @@ export default {
           textStyle:{
             color:'#9092A5',
             fontSize:'12',
-            width:'400',
             fontWeight:'normal'
           }
         },
@@ -171,9 +197,7 @@ export default {
         tooltip: {
           show: true,
           formatter:(params)=>{
-            // console.log(params,'====');
             let price = 0
-            // params.seriesName == '实际应付' ? price = params.value * 1000000 : price =  params.value * 1000000
             price =  params.value * 1000000
             price = String(price)
             const tempt = price.split('').reverse().join('').match(/(\d{1,3})/g)
@@ -267,6 +291,12 @@ export default {
           }
         ]
       })
+    },
+    sure(){
+      const data = {}
+    },
+    reset(){
+      this.searchForm = {}
     }
   }
 }
@@ -300,6 +330,19 @@ export default {
       display: flex;
       justify-content: space-around;
       align-items: center;
+    }
+  }
+  .btn-list{
+    display: flex;
+    align-items: center;
+    .only-myself{
+      font-size: 20px;
+      margin-right: 20px;
+      display: flex;
+      align-items: center;
+      ::v-deep .el-switch{
+        margin-left: 10px;
+      }
     }
   }
   

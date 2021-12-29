@@ -710,9 +710,9 @@ import addGZ from "./addGZ";
 import { deepClone, isNumber } from "./util";
 import { formRulesGZ } from "./data";
 import store from "@/store";
-import {
-  getMtzSupplierList,//获取原材料牌号
-} from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
+// import {
+//   getMtzSupplierList,//获取原材料牌号
+// } from '@/api/mtz/annualGeneralBudget/mtzReplenishmentOverview';
 import {
   pageAppRule,//维护MTZ原材料规则-分页查询
   addBatchAppRule,//维护MTZ原材料规则-批量新增
@@ -725,7 +725,7 @@ import {
   cartypePaged,//车型
   currencyDict,
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/firstDetails';
-import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
+// import { getRawMaterialNos } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import {
   fetchRemoteMtzMaterial,//查询MTZ材料组
 } from '@/api/mtz/annualGeneralBudget/annualBudgetEdit';
@@ -753,7 +753,7 @@ export default {
       tcCurrence: [],
       formRules: formRulesGZ,
       // dataObject: [],
-      supplierList: [],
+      // supplierList: [],
       newDataList: [],//传过来的列表数据
       editType: false,
       tableData: [],
@@ -795,7 +795,7 @@ export default {
       ],
       getMtzMarketSourceList:[],//市场价来源
       materialGroup: [],
-      materialCode: [],
+      // materialCode: [],
       mtzAddShow: false,
       addDialog: false,
 
@@ -817,12 +817,12 @@ export default {
   },
   created () {
     this.init()
-    getMtzSupplierList({}).then(res => {
-      this.supplierList = res.data;
-    })
-    getRawMaterialNos({}).then(res => {
-      this.materialCode = res.data;
-    })
+    // getMtzSupplierList({}).then(res => {
+    //   this.supplierList = res.data;
+    // })
+    // getRawMaterialNos({}).then(res => {
+    //   this.materialCode = res.data;
+    // })
     cartypePaged({
       current: 1,
       size: 99999,
@@ -1165,42 +1165,42 @@ export default {
     handleSelectionChange (val) {
       this.selectList = val;
     },
-    supplierBH (arr, value) {
-      var str = arr.row;
-      if (value == "") {
-        str.supplierName = "";
-        str.supplierId = "";
-      }
-      try {
-        this.supplierList.forEach(e => {
-          if (e.code == value) {
-            str.supplierName = e.message;
-            str.supplierId = value;
-            throw new Error("EndIterative");
-          }
-        });
-      } catch (e) {
-        if (e.message != "EndIterative") throw e;
-      }
-    },
-    supplierNC (arr, value) {
-      var str = arr.row;
-      if (value == "") {
-        str.supplierName = "";
-        str.supplierId = "";
-      }
-      try {
-        this.supplierList.forEach(e => {
-          if (e.message == value) {
-            str.supplierName = value;
-            str.supplierId = e.code;
-            throw new Error("EndIterative");
-          }
-        });
-      } catch (e) {
-        if (e.message != "EndIterative") throw e;
-      }
-    },
+    // supplierBH (arr, value) {
+    //   var str = arr.row;
+    //   if (value == "") {
+    //     str.supplierName = "";
+    //     str.supplierId = "";
+    //   }
+    //   try {
+    //     this.supplierList.forEach(e => {
+    //       if (e.code == value) {
+    //         str.supplierName = e.message;
+    //         str.supplierId = value;
+    //         throw new Error("EndIterative");
+    //       }
+    //     });
+    //   } catch (e) {
+    //     if (e.message != "EndIterative") throw e;
+    //   }
+    // },
+    // supplierNC (arr, value) {
+    //   var str = arr.row;
+    //   if (value == "") {
+    //     str.supplierName = "";
+    //     str.supplierId = "";
+    //   }
+    //   try {
+    //     this.supplierList.forEach(e => {
+    //       if (e.message == value) {
+    //         str.supplierName = value;
+    //         str.supplierId = e.code;
+    //         throw new Error("EndIterative");
+    //       }
+    //     });
+    //   } catch (e) {
+    //     if (e.message != "EndIterative") throw e;
+    //   }
+    // },
     // MaterialGrade(arr,value){
     //     var str = arr.row;
     //     checkPreciousMetal({code:value}).then(res=>{
