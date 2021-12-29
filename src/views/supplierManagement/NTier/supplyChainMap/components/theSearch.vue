@@ -10,8 +10,9 @@
     <div v-if="$route.path!=='/supplier/NTier/NTierMap'"
          class="flex-between-center-center">
       <div class="text margin-bottom20">{{ language('GYLGL','N级供应链管理')}}</div>
-      <div v-if="$route.path!=='/NTierMap'">
+      <div>
         <iButton :loading="saveButtonLoading"
+                 v-if="$route.path!=='/NTierMap'"
                  @click="$emit('handleSave')">{{language('BAOCUN','保存')}}</iButton>
         <iButton @click="handleBack">{{language('FANHUI','返回')}}</iButton>
       </div>
