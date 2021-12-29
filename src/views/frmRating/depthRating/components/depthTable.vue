@@ -469,7 +469,8 @@ export default {
         path: '/supplier/view-suppliers',
         query: {
           supplierToken: row.supplierToken,
-          current: 18
+          current: 18,
+          supplierType: 4
         }
       })
     },
