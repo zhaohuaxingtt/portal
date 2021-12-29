@@ -14,7 +14,7 @@ const postcss = px2rem({
 
 const BASE_IP = '10.122.17.38'
 // const BASE_IP = '10.122.18.166'
-console.error(new Date().toLocaleString())
+
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
   outputDir: 'dist',
@@ -47,23 +47,17 @@ module.exports = {
       }),
         config.optimization.runtimeChunk('single')
     }
-
-    // 标记打包版本号
-    config.plugin('define').tap((pluginConfig) => {
-      const [options] = pluginConfig
-      const env = options['process.env']
-      const IS_DEV = process.env.NODE_ENV !== 'production'
-      process.env.VUE_APP_VERSION = IS_DEV
-        ? `DEV_${new Date().toLocaleString()}`
-        : `PROD_${new Date().toLocaleString()}`
-      env.VUE_APP_VERSION = JSON.stringify(process.env.VUE_APP_VERSION)
-      return pluginConfig
-    })
   },
   configureWebpack: (config) => {
     config.plugins.forEach((val) => {
       if (val['__pluginConstructorName'] === 'HtmlWebpackPlugin') {
         val.options.CDN_HOST = process.env.CDN_HOST
+        // 标记打包版本号
+        const version =
+          process.env.NODE_ENV !== 'production'
+            ? `DEV_${new Date().toLocaleString()}`
+            : `PROD_${new Date().toLocaleString()}`
+        val.options.VUE_APP_VERSION = version
       }
     })
     config.plugins.push(
@@ -106,7 +100,7 @@ module.exports = {
       'vue-router': 'VueRouter',
       axios: 'axios',
       moment: 'moment',
-      'element-ui': 'ELEMENT',
+      'element-ui': 'element-ui',
       'vue-i18n': 'VueI18n',
       i18n: 'i18n',
       Ellipsis: 'Ellipsis',

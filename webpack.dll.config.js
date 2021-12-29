@@ -16,7 +16,6 @@ module.exports = {
       'wangeditor',
       'jspdf',
       'powerbi-client',
-      'element-ui',
       'html2canvas'
     ]
   },
