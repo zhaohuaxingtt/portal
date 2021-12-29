@@ -1403,6 +1403,7 @@ export default {
     //批量调整
     batchAdjustment(){
       this.batchAdjustmentDialog=true
+      // const meetingId = this.$route.query.id
     },
     //发送大会议程
     sendAgenda(){
@@ -2068,8 +2069,7 @@ export default {
         meetingId: this.meetingInfo.id,
         resortThemens: this.shouldhanldeUpdateData
       }
-      resortThemen(formData)
-        .then((data) => {
+      resortThemen(formData).then((data) => {
           if (data) {
             iMessage.success('保存成功')
           } else {
