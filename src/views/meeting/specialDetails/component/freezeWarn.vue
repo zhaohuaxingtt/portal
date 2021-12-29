@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-    :title="$t('提示')"
+    :title="$t('MT_TISHI')"
     :visible.sync="openFreezeDialog"
     width="45rem"
     @close="clearDiolog"
@@ -10,7 +10,7 @@
     <span>
       <img src="@/assets/images/icon/warning.svg" class="img-icon"
     /></span>
-    <span>有定点议题未冻结RS单，请确认是否关闭会议?</span>
+    <span>{{$t("MT_YOUDINGDIANYITIWEIDONGJIERSDAN_QINGQUERENSHIFOUGUANBIHUIYI")}}</span>
     <iTableML :data="warnTableData" class="table-content">
       <el-table-column
         show-overflow-tooltip
@@ -54,8 +54,8 @@
       </el-table-column>
     </iTableML>
     <div class="button-area">
-      <iButton @click="clearDiolog">否</iButton>
-      <iButton @click="handleYes">是</iButton>
+      <iButton @click="clearDiolog">{{$t('MT_FOU')}}</iButton>
+      <iButton @click="handleYes">{{$t('MT_SHI')}}</iButton>
     </div>
   </iDialog>
 </template>
@@ -79,9 +79,6 @@ export default {
     iDialog,
     iTableML,
     iButton
-  },
-  mounted() {
-    console.log('warnTableData', this.warnTableData)
   },
   methods: {
     handleYes() {

@@ -30,7 +30,7 @@
             v-for="(item, index) in triggerApproval"
             :key="index"
             :value="item.value"
-            :label="item.label"
+            :label="$t(item.i18n)"
           >
           </el-option>
         </iSelect>

@@ -143,7 +143,7 @@
           min-width="100"
         >
           <template slot-scope="scope">
-            {{ scope.row.state ? stateObj[scope.row.state] : '-' }}
+            {{ scope.row.state ? $t(stateObj[scope.row.state]) : '-' }}
           </template>
         </el-table-column>
         <el-table-column width="24" align="center" label=""></el-table-column>

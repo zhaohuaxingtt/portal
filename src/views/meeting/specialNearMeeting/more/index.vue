@@ -254,7 +254,7 @@
           min-width="45"
         >
           <template slot-scope="scope">
-            <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
+            <span>{{ $t(themenConclusion[scope.row.conclusionCsc]) }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" width="30"></el-table-column>

@@ -153,7 +153,7 @@ import {
   iSelect,
   iMessage
 } from 'rise'
-import { numToLetter } from './data'
+// import { numToLetter } from './data'
 import iEditForm from '@/components/iEditForm'
 import { getMeetingSummary, saveMeetingMinutes } from '@/api/meeting/home'
 import upArrow from '@/assets/images/up-arrow.svg'
@@ -185,7 +185,7 @@ export default {
   },
   data() {
     return {
-      numToLetter,
+      // numToLetter,
       upArrow,
       choosedIndex: -1,
       form: {},

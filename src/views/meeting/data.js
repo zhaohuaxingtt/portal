@@ -9,9 +9,10 @@
 export const tabRouterList = [
   {
     value: 1,
-    name: '管理大厅',
+    name: '管理大厅11',
     url:'/meeting/home',
-    key: '管理大厅',
+    key: '管理大厅22',
+    i18n:"啊啊啊",
   },
   // {
   //   value: 2,

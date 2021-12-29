@@ -65,7 +65,7 @@
         </dt>
         <dd class="info" v-for="(item, index) of themen.themens" :key="index">
           <span class="doc-name">{{ index + 1 }}.{{ item.topic }}</span>
-          <div class="doc-info">{{ themenConclusion[item.conclusionCsc] }}</div>
+          <div class="doc-info">{{ $t(themenConclusion[item.conclusionCsc]) }}</div>
         </dd>
       </dl>
     </div>
