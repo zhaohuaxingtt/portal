@@ -56,15 +56,14 @@ const preview = ({ id, callback }) => {
     responseType: "blob", // 响应类型必须设置
   }).then((response) => {
     let formData = new FormData();
-    formData.append("file", response.data);
+    formData.append("file", response);
     // 测试查看word文档正确
     // let blob1 = new Blob([response.data], { type });
     // const blobUrl1 = window.URL.createObjectURL(blob1);
     // createAnchorLink(blobUrl1, 'word文件下载.docx');
     // window.URL.revokeObjectURL(blobUrl1);
     word2Pdf(formData).then((res) => {
-      // console.log("res", res);
-      let blob = new Blob([res.data], {
+      let blob = new Blob([res], {
         type: "application/pdf",
       });
       let blobUrl = window.URL.createObjectURL(blob);
