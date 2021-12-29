@@ -17,17 +17,30 @@ export default {
             x: 'center',
             y: '1%'
           },
+
           tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'shadow'
+            show: true,
+            formatter: (params) => {
+              let price = 0
+              params.seriesName == '2011'
+                ? (price = params.data * 1000000)
+                : (price = params.data * 1000000)
+              price = String(price)
+              const tempt = price
+                .split('')
+                .reverse()
+                .join('')
+                .match(/(\d{1,3})/g)
+              let currency = tempt.join(',').split('').reverse().join('')
+
+              return currency
             }
           },
 
           legend: {
             top: '6%',
             itemGap: 30,
-            icon: 'circle',
+            icon: 'circle'
           },
           grid: {
             left: '5%',
@@ -58,7 +71,7 @@ export default {
               barWidth: 15,
               barCategoryGap: 1,
               center: ['50%', '45%'],
-              color:'rgb(119, 203, 255)',
+              color: 'rgb(119, 203, 255)',
               label: {
                 show: true,
                 position: 'right',
@@ -72,7 +85,7 @@ export default {
               type: 'bar',
               data: [19325, 23438, 31000, 121594, 134141, 81807],
               barWidth: 15,
-              color:'rgb(22, 96, 241)',
+              color: 'rgb(22, 96, 241)',
               center: ['50%', '45%'],
               label: {
                 show: true,
