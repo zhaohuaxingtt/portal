@@ -174,14 +174,29 @@ export default {
       } else {
         this.locationId = this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId;
       }
+      // console.log("watch")
       this.getType();
     }
   },
   created () {
-    console.log(this.meetingNumber)
+    
+
     if (JSON.parse(sessionStorage.getItem('MtzLIst')) == null) {
       sessionStorage.setItem('MtzLIst', JSON.stringify({ mtzAppId: undefined }))
     }
+
+    // console.log(JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId)
+    // console.log(this.$route.query.mtzAppId)
+    if(JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId !== this.$route.query.mtzAppId){
+      var data = deepClone(this.$route.query);
+      store.commit("routerMtzData", {
+        mtzAppId:data.mtzAppId
+      });
+      sessionStorage.setItem("MtzLIst", JSON.stringify({
+        mtzAppId:data.mtzAppId
+      }))
+    }
+
     if (this.$route.query.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined) {
       this.beforReturn = true;
     } else {
@@ -190,7 +205,7 @@ export default {
       this.mtzAppName = this.$route.query.mtzAppName;
       this.user = this.$route.query.user;
       this.dept = this.$route.query.dept;
-
+      // console.log("created")
       this.getType();
     }
     getMtzAppCheckVO({ mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId }).then(res => {
@@ -259,6 +274,7 @@ export default {
           data.refresh = true;
           store.commit("routerMtzData", data);
           sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+          console.log("saveEdit")
           this.getType();
         })
       }).catch(res => {
@@ -354,6 +370,7 @@ export default {
             data.refresh = true;
             store.commit("routerMtzData", data);
             sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+            console.log("submitRequest")
             this.getType();
           }else{
             iMessage.error(res.desZh)
@@ -422,13 +439,14 @@ export default {
     closeDiolog () {
       this.mtzAddShow = false;
     },
-    closeBingo (valdata) {
+    closeBingo (val) {
       this.closeDiolog();
-      if (valdata = "refresh") {
+      if (val == "refresh") {
         var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
         data.refresh = true;
         store.commit("routerMtzData", data);
         sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+        console.log("closeBingo")
         this.getType();
       }
     },
@@ -437,8 +455,8 @@ export default {
     },
   },
   destroyed () {
-    sessionStorage.setItem("MtzLIst", JSON.stringify({}))
-    store.commit("routerMtzData", {});
+    // sessionStorage.setItem("MtzLIst", JSON.stringify({}))
+    // store.commit("routerMtzData", {});
     NewMessageBoxClose();
   }
 }
