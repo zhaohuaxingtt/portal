@@ -223,6 +223,11 @@ export const buttonList = [
           title: '议题调整',
           i18n: 'MT_YITITIAOZHENG',
           methodName: 'updateTopic'
+        },
+        {
+          title: '批量排序',
+          i18n: 'MT_PILIANGPAIXU',
+          methodName: 'sortBatch'
         }
         // { title: "导入议题", methodName: "importTopic" },
       ],
@@ -281,6 +286,11 @@ export const buttonList = [
           title: '议题调整',
           i18n: 'MT_YITITIAOZHENG',
           methodName: 'updateTopic'
+        },
+        {
+          title: '批量排序',
+          i18n: 'MT_PILIANGPAIXU',
+          methodName: 'sortBatch'
         }
         // { title: "导入议题", methodName: "importTopic" },
       ],
@@ -341,6 +351,11 @@ export const buttonList = [
           title: '议题调整',
           i18n: 'MT_YITITIAOZHENG',
           methodName: 'updateTopic'
+        },
+        {
+          title: '批量排序',
+          i18n: 'MT_PILIANGPAIXU',
+          methodName: 'sortBatch'
         }
         // { title: "导入议题", methodName: "importTopic" },
       ],

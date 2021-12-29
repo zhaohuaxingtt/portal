@@ -111,6 +111,7 @@
           @translateTer="translateTer"
           @freezeRsBill="freezeRsBill"
           @closeResult="closeResult"
+          @sortBatch="sortBatch"
         />
         <div class="table-container">
           <iTableML
@@ -175,7 +176,16 @@
                 <span
                   class="open-link-text look-themen-click inline"
                   @click="lookThemen(scope.row)"
-                  >{{ scope.row.topic }}</span
+                  ><span
+                    title="定点RS单未冻结"
+                    v-if="!scope.row.isFixedFrozenRs"
+                  >
+                    <img
+                      src="@/assets/images/icon/warning.svg"
+                      class="img-icon"
+                    />
+                  </span>
+                  {{ scope.row.topic }}</span
                 >
               </template>
             </el-table-column>
@@ -252,6 +262,19 @@
             <el-table-column
               show-overflow-tooltip
               align="center"
+              label="Sourcing Team"
+              min-width="115"
+              prop="supporter"
+            >
+              <template slot-scope="scope">
+                <span>{{
+                  scope.row.isBreak ? '-' : scope.row.sourcingSectionCode
+                }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
               label="Linie"
               min-width="82"
               prop="presenter"
@@ -259,6 +282,19 @@
             >
               <template slot-scope="scope">
                 <span>{{ scope.row.isBreak ? '-' : scope.row.presenter }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              show-overflow-tooltip
+              align="center"
+              label="Linie Team"
+              min-width="82"
+              prop="presenter"
+            >
+              <template slot-scope="scope">
+                <span>{{
+                  scope.row.isBreak ? '-' : scope.row.linieSectionCode
+                }}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="14"></el-table-column> -->
@@ -456,7 +492,17 @@
                   <span
                     class="open-link-text look-themen-click inline"
                     @click="lookThemen(scope.row)"
-                    >{{ scope.row.topic }}</span
+                  >
+                    <span
+                      title="定点RS单未冻结"
+                      v-if="!scope.row.isFixedFrozenRs"
+                    >
+                      <img
+                        src="@/assets/images/icon/warning.svg"
+                        class="img-icon"
+                      />
+                    </span>
+                    {{ scope.row.topic }}</span
                   >
                 </template>
               </el-table-column>
@@ -533,6 +579,19 @@
               <el-table-column
                 show-overflow-tooltip
                 align="center"
+                label="Sourcing Team"
+                min-width="115"
+                prop="supporter"
+              >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.isBreak ? '-' : scope.row.sourcingSectionCode
+                  }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
                 label="Linie"
                 min-width="82"
                 prop="presenter"
@@ -540,6 +599,19 @@
                 <template slot-scope="scope">
                   <span>{{
                     scope.row.isBreak ? '-' : scope.row.presenter
+                  }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
+                label="Linie Team"
+                min-width="82"
+                prop="presenter"
+              >
+                <template slot-scope="scope">
+                  <span>{{
+                    scope.row.isBreak ? '-' : scope.row.linieSectionCode
                   }}</span>
                 </template>
               </el-table-column>
@@ -825,8 +897,14 @@
       v-if="openSortDialog"
       @closeDialog="handleCloseSortDialog"
       :openSortDialog="openSortDialog"
+      :meetingInfo="meetingInfo"
     ></sortDialog>
-    <!-- <iButton @click="handleSortDialog">点击</iButton> -->
+    <freezeWarn
+      :warnTableData="warnTableData"
+      @closeDialog="closeFreeWarnDialog"
+      :openFreezeDialog="openFreezeDialog"
+      @stillYesCloseDialog="stillYesCloseDialog"
+    ></freezeWarn>
   </iPage>
 </template>
 <script>
@@ -872,6 +950,8 @@ import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
 import { downloadStaticFile } from '@/utils/downloadStaticFileUtil'
 import enclosure from '@/assets/images/enclosure.svg'
 import newSummaryDialogNew from '@/views/meeting/home/components/newSummaryDialogNew.vue'
+import freezeWarn from './component/freezeWarn.vue'
+
 export default {
   mixins: [pageMixins],
   components: {
@@ -895,12 +975,15 @@ export default {
     newSummaryDialogNew,
     addTopicNew,
     importErrorDialog,
-    sortDialog
+    sortDialog,
+    freezeWarn
   },
   data() {
     return {
+      openFreezeDialog: false,
+      warnTableData: [],
       openSortDialog: false,
-      riseIcon: process.env.VUE_EMAIL_ICON,
+      riseIcon: process.env.VUE_APP_EMAIL_ICON,
       openError: false,
       errorList: [],
       autoOpenProtectConclusionObj: '',
@@ -981,7 +1064,6 @@ export default {
     }
   },
   mounted() {
-    console.log("",this.currentButtonList)
     // this.type = this.$route.query.type
     // this.isAdmin = localStorage.getItem("isMA") === "false" ? false : true;
     this.getMeetingTypeObject()
@@ -1008,8 +1090,30 @@ export default {
   //   }
   // },
   methods: {
-    handleCloseSortDialog() {
+    stillYesCloseDialog() {
+      this.close('still')
+    },
+    closeFreeWarnDialog() {
+      this.openFreezeDialog = false
+    },
+    handleAlert(data) {
+      this.warnTableData = [...data]
+      this.openFreezeDialog = true
+    },
+    sortBatch() {
+      this.handleSortDialog()
+    },
+    handleCloseSortDialog(str) {
       this.openSortDialog = false
+      if (str === 'reset') {
+        this.$nextTick(() => {
+          this.handleSortDialog()
+        })
+      }
+      if (str === 'save') {
+        this.getMeetingTypeObject()
+        this.getTableData()
+      }
     },
     handleSortDialog() {
       this.openSortDialog = true
@@ -1527,11 +1631,16 @@ export default {
           if (isCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
-                { title: '撤回', methodName: 'recall', disabled: true,i18n:"MT_CHEHUI" },
-                { title: '锁定', methodName: 'lock',i18n:"MT_SUODING" },
-                { title: '开始', methodName: 'start' ,i18n:"MT_KAISHI"},
-                { title: '修改', methodName: 'edit' ,i18n:"MT_XIUGAI"},
-                { title: '返回', methodName: 'back' ,i18n:"MT_FANHUI"}
+                {
+                  title: '撤回',
+                  methodName: 'recall',
+                  disabled: true,
+                  i18n: 'MT_CHEHUI'
+                },
+                { title: '锁定', methodName: 'lock', i18n: 'MT_SUODING' },
+                { title: '开始', methodName: 'start', i18n: 'MT_KAISHI' },
+                { title: '修改', methodName: 'edit', i18n: 'MT_XIUGAI' },
+                { title: '返回', methodName: 'back', i18n: 'MT_FANHUI' }
               ],
               '锁定'
             )
@@ -1539,11 +1648,16 @@ export default {
           if (isPreCSC) {
             this.currentButtonList.rightButtonList = this.fillterStr(
               [
-                { title: '撤回', methodName: 'recall', disabled: true ,i18n:"MT_CHEHUI"},
-                { title: '锁定', methodName: 'lock' ,i18n:"MT_SUODING"},
-                { title: '开始', methodName: 'start' ,i18n:"MT_KAISHI"},
-                { title: '修改', methodName: 'edit' ,i18n:"MT_XIUGAI"},
-                { title: '返回', methodName: 'back',i18n:"MT_FANHUI" }
+                {
+                  title: '撤回',
+                  methodName: 'recall',
+                  disabled: true,
+                  i18n: 'MT_CHEHUI'
+                },
+                { title: '锁定', methodName: 'lock', i18n: 'MT_SUODING' },
+                { title: '开始', methodName: 'start', i18n: 'MT_KAISHI' },
+                { title: '修改', methodName: 'edit', i18n: 'MT_XIUGAI' },
+                { title: '返回', methodName: 'back', i18n: 'MT_FANHUI' }
               ],
               '开始'
             )
@@ -1707,7 +1821,16 @@ export default {
           console.log('err', err)
         })
     },
-    close() {
+    close(str) {
+      const warnData = this.resThemeData.filter((item) => {
+        return !item.isFixedFrozenRs
+      })
+      if (warnData.length > 0) {
+        if (str !== 'still') {
+          this.handleAlert(warnData)
+          return
+        }
+      }
       if (this.meetingInfo.attachments.length <= 0) {
         this.$confirm(
           this.$t('尚未生成会议纪要，前往生成会议纪要？'),
@@ -2619,6 +2742,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.img-icon {
+  width: 12px;
+  height: 12px;
+  img {
+    transform: translateY(0.5px);
+  }
+}
 .display-column {
   transform: translateY(90px);
 }

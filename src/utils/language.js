@@ -35,10 +35,7 @@ Vue.prototype.language = function (languageKey, name, params) {
 
 // eslint-disable-next-line no-undef
 router.afterEach(() => {
-  if (
-    ['dev', 'vmsit'].includes(process.env.NODE_ENV) &&
-    languageList.length !== 0
-  ) {
+  if (['dev'].includes(process.env.NODE_ENV) && languageList.length !== 0) {
     let languageLists = Array.from(new Set(languageList))
     sendKey(languageLists)
       .then((res) => {

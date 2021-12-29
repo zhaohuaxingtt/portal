@@ -3,10 +3,11 @@
   <iDialog
     :title="$t('批量排序')"
     :visible.sync="openSortDialog"
-    width="55rem"
+    width="28.75rem"
     @close="clearDiolog"
     :close-on-click-modal="false"
   >
+    <div class="warn-content">上下拖拽即可调整顺序</div>
     <draggable
       class="dragArea list-group"
       v-bind="dragOptions"
@@ -18,22 +19,26 @@
     >
       <transition-group>
         <ul class="content" v-for="(item, index) of list" :key="index">
-          <li class="info-row">
-            <div class="left">{{ item }}</div>
+          <li :class="index > 0 ? 'info-row info-row-top' : 'info-row'">
+            <div class="icon">
+              <div class="icon-line"></div>
+            </div>
+            <span class="text">{{ item.sectionCode }}</span>
           </li>
         </ul>
       </transition-group>
     </draggable>
     <ul class="button-list">
+      <iButton @click="handleSave" class="btn-c">保存</iButton>
       <iButton @click="handleReset" class="btn-c">重置</iButton>
-      <iButton @click="handleCancel" class="btn-c">取消</iButton>
-      <iButton @click="handleConfirm" class="btn-c">确定</iButton>
+      <iButton @click="handleCancel" class="btn-c">退出</iButton>
     </ul>
   </iDialog>
 </template>
 <script>
-import { iDialog, iButton } from 'rise'
+import { iDialog, iButton, iMessage } from 'rise'
 import draggable from 'vuedraggable'
+import { resortThemenBySection, findSectionById } from '@/api/meeting/details'
 export default {
   components: {
     iDialog,
@@ -42,7 +47,8 @@ export default {
   },
   data() {
     return {
-      list: ['a', 'b', 'c']
+      list: [],
+      duplicateeeList: []
     }
   },
   props: {
@@ -50,6 +56,12 @@ export default {
       type: Boolean,
       default: () => {
         return false
+      }
+    },
+    meetingInfo: {
+      type: Object,
+      default: () => {
+        return {}
       }
     }
   },
@@ -63,41 +75,133 @@ export default {
       }
     }
   },
+  mounted() {
+    this.query()
+  },
   methods: {
-    handleConfirm() {
-      console.log('确定')
+    handleSave() {
+      const linieTeams = this.duplicateeeList.map((item, index) => {
+        return {
+          ...item,
+          sectionNo: index + 1
+        }
+      })
+      const data = {
+        linieTeams,
+        meetingId: this.meetingInfo.id
+      }
+      resortThemenBySection(data).then((res) => {
+        if (res.code === 200) {
+          this.$emit('closeDialog',"save")
+          iMessage.success('排序完成')
+        }
+      })
+    },
+    moveInArray(arr, from, to) {
+      // 确保是有效数组
+      if (Object.prototype.toString.call(arr) !== '[object Array]') {
+        throw new Error('Please provide a valid array')
+      }
+      // 删除当前的位置
+      var item = arr.splice(from, 1)
+      // 确保还剩有元素移动
+      if (!item.length) {
+        throw new Error('There is no item in the array at index ' + from)
+      }
+      // 移动元素到指定位置
+      arr.splice(to, 0, item[0])
+      return arr
+    },
+    query() {
+      findSectionById({ id: this.meetingInfo.id }).then((res) => {
+        this.duplicateeeList = [...res.linieTeams]
+        this.list = [...res.linieTeams]
+      })
     },
     handleCancel() {
       this.clearDiolog()
     },
     handleReset() {
-      console.log('重置')
+      this.$emit('closeDialog', 'reset')
     },
     clearDiolog() {
       this.$emit('closeDialog')
     },
     handleContentDrag(data) {
-      console.log('handleContentDrag', data)
-    },
-    dragEnd(data) {
-      console.log('dragEnd', data)
-    },
-    handleStart(data) {
-      console.log('handleStart', data)
+      this.duplicateeeList = this.moveInArray(
+        this.duplicateeeList,
+        data.moved.oldIndex,
+        data.moved.newIndex
+      )
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+::v-deep .el-dialog__body,
+::v-deep .el-dialog {
+  padding-right: 4.5px !important;
+}
+::-webkit-scrollbar {
+  width: 12px;
+  height: 88px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #e2eafc;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.warn-content {
+  position: absolute;
+  width: 140px;
+  height: 20px;
+  font-size: 14px !important;
+  font-weight: 400;
+  line-height: 15px;
+  color: #999999;
+  opacity: 1;
+  transform: translate(5.875rem, -3rem);
+  white-space: nowrap;
+}
+.list-group {
+  max-height: 480px;
+  overflow-y: auto;
+}
 .content {
   display: flex;
   flex-direction: column;
   .info-row {
+    display: flex;
+    align-items: center;
+    width: 380px;
+    height: 30px;
+    background-color: #f9fafe;
+    cursor: grab;
+    .icon {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+      margin-right: 20px;
+      width: 20px;
+      height: 6px;
+      border-top: 1px solid #8f8f90;
+      border-bottom: 1px solid #8f8f90;
+      .icon-line {
+        width: 100%;
+        height: 2px;
+        background-color: #ccc;
+      }
+    }
+    .text {
+      display: block;
+      height: 20px;
+      line-height: 20px;
+      transform: translateY(-2px);
+    }
+  }
+  .info-row-top {
     margin-top: 20px;
-    height: 35px;
-    background-color: #ccc;
-    line-height: 35px;
-    text-align: center;
   }
 }
 .button-list {

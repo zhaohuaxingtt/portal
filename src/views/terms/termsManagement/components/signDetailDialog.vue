@@ -76,10 +76,6 @@
           <!-- 地区 -->
           <el-col :span="4">
             <el-form-item :label="$t('地区')">
-              <!-- <iInput
-                :placeholder="$t('LK_QINGSHURU')"
-                v-model="form.region"
-              ></iInput> -->
               <el-cascader
                 v-model="form.area"
                 :options="formGoup.areaList"
@@ -294,18 +290,22 @@
 import { iDialog, iInput, iButton, iPagination, iSelect, iMessage } from "rise";
 // import iTableCustom from "@/components/iTableCustom";
 import iTableML from "@/components/iTableML";
-import { getSignatureResult, getCity } from "@/api/terms/terms";
+import { getSignatureResult, getCity, markExclude } from "@/api/terms/terms";
 import { pageMixins } from "@/utils/pageMixins";
 import {
   supplierIdentityList,
   signStatusList,
   supplierRangeList,
+  supplierIdentityObj,
+  supplierTypeObj,
+  signStatusObj,
 } from "./data";
 import uploadFileDialog from "./uploadFileDialog.vue";
 import clauseDownloadDialog from "./clauseDownloadDialog.vue";
 import { excelExport } from "@/utils/filedowLoad";
 import { exportFile } from "@/utils/exportFileUtil";
 import { signTableTitle } from "./data";
+import store from '@/store'
 // import { createAnchorLink } from "@/utils/downloadUtil";
 
 export default {
@@ -332,6 +332,9 @@ export default {
       supplierIdentityList,
       signStatusList,
       supplierRangeList,
+      supplierIdentityObj,
+      supplierTypeObj,
+      signStatusObj,
       tableListData: [],
       // tableListDataSub: [],
       typeObject: {},
@@ -365,11 +368,48 @@ export default {
       this.formGoup.areaList = res;
     },
     handleExport() {
-      excelExport(this.tableListData, this.signTableTitle, "签署情况");
+      const tableArr = window._.cloneDeep(this.tableListData);
+      tableArr.map((item) => {
+        item.signStatus = this.signStatusObj[item.signStatus];
+        let supplierRangeList = [];
+        item.supplierType.split(",").map((i) => {
+          i == "PP"
+            ? (supplierRangeList += "生产供应商，")
+            : i == "GP"
+            ? (supplierRangeList += "一般供应商，")
+            : i == "NT"
+            ? (supplierRangeList += "Ntier，")
+            : i == "CM"
+            ? (supplierRangeList += "自定义，")
+            : (supplierRangeList += "");
+        });
+        supplierRangeList = supplierRangeList.slice(
+          0,
+          supplierRangeList.length - 1
+        );
+        item.supplierType = supplierRangeList;
+        let supplierIdentityList = [];
+        item.formalStatus.split(",").map((i) => {
+          i == "0"
+            ? (supplierIdentityList += "临时，")
+            : i == "1"
+            ? (supplierIdentityList += "正式，")
+            : i == "2"
+            ? (supplierIdentityList += "储蓄池，")
+            : (supplierIdentityList += "");
+        });
+        item.signDate = item.signDate.substring(0, 10);
+        supplierIdentityList = supplierIdentityList.slice(
+          0,
+          supplierIdentityList.length - 1
+        );
+        item.formalStatus = supplierIdentityList;
+      });
+      excelExport(tableArr, this.signTableTitle, "签署情况");
     },
     handleExportAll() {
       exportFile({
-        url: "/rise-terms/termsQueryService/exportSignatureResult",
+        url: process.env.VUE_APP_NEWS +`/rise-terms/termsQueryService/exportSignatureResult?userId=`+store.state.permission.userInfo.id,
         data: {
           ...this.form,
           pageNum: this.page.currPage,
@@ -390,16 +430,29 @@ export default {
       this.supplierId = row.supplierId;
       this.openUploadFileDialog = true;
     },
-    // handleDownload(row) {
-    //   // this.attachmentId = row.attachmentId;
-    //   // this.attachmentName = row.attachmentName;
-    //   // this.supplierId = row.supplierId;
-    //   // this.openUploadFileDialog = true;
-    // },
     closeUploadFileDialog(bol) {
-      this.openUploadFileDialog = bol;
-      // this.clearDiolog();
-      // this.$emit("flushTable");
+      if (bol.isExclude == false) {
+        this.openUploadFileDialog = false;
+        this.$confirm("请确认是否取消例外?", "提示", {
+          confirmButtonText: "确认",
+          cancelButtonText: "返回",
+          type: "warning",
+        })
+          .then(() => {
+            const submitFile = bol;
+            markExclude(submitFile)
+              .then((res) => {
+                if (res.code == 200) {
+                  iMessage.success(this.$t("操作成功！"));
+                  this.getTableList({ termsId: submitFile.termsId });
+                }
+              })
+              .catch(() => {});
+          })
+          .catch(() => {
+            this.openUploadFileDialog = true;
+          });
+      } else this.openUploadFileDialog = false;
     },
     getTableList(e) {
       this.form = e;
@@ -468,7 +521,7 @@ export default {
           this.page.total = res.total;
           this.tableLoading = false;
         })
-        .catch((err) => {
+        .catch(() => {
           this.tableLoading = false;
         });
     },
