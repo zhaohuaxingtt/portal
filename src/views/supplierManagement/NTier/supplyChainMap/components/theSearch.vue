@@ -10,7 +10,7 @@
     <div v-if="$route.path!=='/supplier/NTier/NTierMap'"
          class="flex-between-center-center">
       <div class="text margin-bottom20">{{ language('GYLGL','N级供应链管理')}}</div>
-      <div>
+      <div v-if="$route.path!=='/NTierMap'">
         <iButton :loading="saveButtonLoading"
                  @click="$emit('handleSave')">{{language('BAOCUN','保存')}}</iButton>
         <iButton @click="handleBack">{{language('FANHUI','返回')}}</iButton>
@@ -73,7 +73,8 @@
                      :props="{multiple:true}"
                      :clearable="true"
                      popper-class="area-select"
-                     collapse-tags filterable></el-cascader>
+                     collapse-tags
+                     filterable></el-cascader>
       </el-col>
       <el-col :span="5">
         <iButton @click="getMapList">{{language('QUEDING','确定')}}</iButton>
@@ -334,6 +335,7 @@ export default {
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
+
     this.getSelectList()
     this.getMapList()
     this.getCityInfo()
@@ -348,15 +350,13 @@ export default {
 }
 </script>
 <style lang='scss'  >
-
- 
-.area-select{
+.area-select {
   .el-cascader-menu__wrap {
     height: 360px;
   }
-    .el-cascader-panel {
+  .el-cascader-panel {
     height: 360px !important;
-}
+  }
 }
 // @import url(); 引入公共css类
 .title {
