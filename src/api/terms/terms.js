@@ -1,6 +1,7 @@
 import axios from '@/utils/axios'
 import store from '@/store'
 const requst = axios(process.env.VUE_APP_NEWS)
+const requstInvalidate = axios(process.env.VUE_APP_NEWS)
 const requstDIC = axios(process.env.VUE_APP_BASE_INFO)
 const requstUser = axios(process.env.VUE_APP_USER_CENTER)
 
@@ -61,10 +62,10 @@ export function saveAttachment(data) {
 
 // 根据 Id 使条款失效
 export function invalidateTerms(data) {
-  return requst({
+  return requstInvalidate({
     url: `/termsService/invalidateTerms`,
     method: "POST",
-    params: data,
+    params: {...data,userId: store.state.permission.userInfo.id},
   });
 }
 
