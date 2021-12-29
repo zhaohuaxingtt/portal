@@ -150,7 +150,7 @@
               </div>
               <div v-if="questionDetail.replyQuestionList && questionDetail.replyQuestionList.length > 0">
                 <template v-for="item of questionDetail.replyQuestionList">
-                  <div class=" r-c-box flex flex-column" :key="item.id">
+                  <div class=" r-c-box flex flex-column ml20" :key="item.id">
                     <div v-if="item.replyType === 'transfer'" class="transfer- r-c-box flex flex-row items-center justify-center">
                       <img src="@/assets/images/icon/horn.png" alt="" class="horn-png">
                       <div>{{`管理员${item.replyUserName}将任务转派给了管理员${item.handlerToUserName}`}}</div>
