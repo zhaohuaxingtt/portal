@@ -37,11 +37,13 @@ export const baseRules = {
 export const approvalBoolean = [
   {
     value: 'true',
-    label: '是'
+    label: '是',
+    i18n: 'MT_SHI'
   },
   {
     value: 'false',
-    label: '否'
+    label: '否',
+    i18n: 'MT_FOU'
   }
 ]
 export const tableListColumns = [
@@ -120,12 +122,12 @@ export const updateDatetableColumns = [
   }
 ]
 export const statusObj = {
-  '01': '草稿',
-  '02': '开放',
-  '03': '锁定',
-  '04': '开始',
-  '05': '结束',
-  '06': '关闭'
+  '01': 'MT_CAOGAO',
+  '02': 'MT_KAIFANG',
+  '03': 'MT_SUODING',
+  '04': 'MT_KAISHI',
+  '05': 'MT_JIESHU',
+  '06': 'MT_GUANBI'
 }
 export const numToLetter = {
   1: 'A',
@@ -158,7 +160,7 @@ export const numToLetter = {
 export const buttonList = [
   {
     title: '开放',
-    i18n:"MT_KAIFANG",
+    i18n: 'MT_KAIFANG',
     methodName: 'open',
     rightButtonList: [
       {

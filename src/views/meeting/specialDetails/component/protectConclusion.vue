@@ -29,7 +29,7 @@
             >
               <el-option
                 :value="item"
-                :label="item.conclusionName"
+                :label="$t(item.i18n)"
                 v-for="(item, index) of themenConclusionArrObj"
                 :key="index"
               ></el-option>
@@ -270,27 +270,33 @@ export default {
       this.themenConclusionArrObj = [
         {
           conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
+          conclusionName: '下次Pre CSC',
+          i18n: 'MT_XIACIPRE'
         },
         {
           conclusionCsc: '02',
-          conclusionName: '定点'
+          conclusionName: '定点',
+          i18n: 'MT_DINGDIAN'
         },
         {
           conclusionCsc: '03',
-          conclusionName: '发LOI'
+          conclusionName: '发LOI',
+          i18n: 'MT_FALOI'
         },
         {
           conclusionCsc: '04',
-          conclusionName: '转TER/TOP-TER'
+          conclusionName: '转TER/TOP-TER',
+          i18n: 'MT_ZHUANTER'
         },
         {
           conclusionCsc: '01',
-          conclusionName: '待定'
+          conclusionName: '待定',
+          i18n: 'MT_DAIDING'
         },
         {
           conclusionCsc: '07',
-          conclusionName: '关闭'
+          conclusionName: '关闭',
+          i18n: 'MT_GUANBI'
         }
       ]
     }
@@ -342,27 +348,33 @@ export default {
         // }
         {
           conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
+          conclusionName: '下次Pre CSC',
+          i18n: 'MT_XIACIPRE'
         },
         {
           conclusionCsc: '02',
-          conclusionName: '定点'
+          conclusionName: '定点',
+          i18n: 'MT_DINGDIAN'
         },
         {
           conclusionCsc: '03',
-          conclusionName: '发LOI'
+          conclusionName: '发LOI',
+          i18n: 'MT_FALOI'
         },
         {
           conclusionCsc: '04',
-          conclusionName: '转TER/TOP-TER'
+          conclusionName: '转TER/TOP-TER',
+          i18n: 'MT_ZHUANTER'
         },
         {
           conclusionCsc: '01',
-          conclusionName: '待定'
+          conclusionName: '待定',
+          i18n: 'MT_DAIDING'
         },
         {
           conclusionCsc: '07',
-          conclusionName: '关闭'
+          conclusionName: '关闭',
+          i18n: 'MT_GUANBI'
         }
       ]
     }
@@ -429,11 +441,11 @@ export default {
         this.ruleForm.conclusion.conclusionCsc === '06'
       ) {
         if (this.curChooseArr.length === 0) {
-          iMessage.error(this.$t('请选择一个下次会议'))
+          iMessage.error(this.$t('MT_QINGXUANZEYIGEXIACIHUIYI'))
           return
         }
         if (this.curChooseArr.length > 1) {
-          iMessage.error(this.$t('下次会议只能选择一个!'))
+          iMessage.error(this.$t('MT_XIACIHUIYIZHINENGXUANZEYIGE'))
           return
         }
         param.toDoMeeting = this.curChooseArr[0].id
@@ -457,7 +469,7 @@ export default {
       this.loading = true
       updateThemen(param).then((res) => {
         if (res.code === 200) {
-          iMessage.success(this.$t('维护成功!'))
+          iMessage.success(this.$t('MT_WEIHUCHENGGONG'))
         }
         this.loading = false
         this.close()

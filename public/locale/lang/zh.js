@@ -2086,9 +2086,13 @@
 
     MT_QINGXUANZEJIESHURIQI: '请选择结束日期',
 
+    MT_QINGXUANZEKAISHIRIQI: '请选择开始日期',
+
     MT_HUIYIZHOUQI: '会议周期',
 
     MT_QINGXUANZEHUIYIZHOUQI: '请选择会议周期',
+
+    MT_QINGSHURUHUIYIDIZHI: '请输入会议地址',
 
     MT_KAISHISHIJIAN: '开始时间',
 
@@ -2109,6 +2113,8 @@
     MT_YUHUIREN: '与会人',
 
     MT_QINGXUANZEYUHUIREN: '请选择与会人',
+
+    MT_QINGSHURUYUHUIREN: '请输入与会人',
 
     MT_HUIYICHUANGJIAN: '会议创建',
 
@@ -2404,7 +2410,13 @@
 
     MT_ZUIDABUNENGCHAOGUO255ZIFU: '最大不能超过255字符',
 
-    MT_ZUIDACHANGDU255ZIFU: '最大长度 255 字符',
+    MT_ZUIDACHANGDU255ZIFU: '最大长度255字符',
+
+    MT_ZUIDACHANGDU64ZIFU: '最大长度64字符',
+
+    MT_ZUIDACHANGDU1024ZIFU: '最大长度1024字符',
+
+    MT_ZUIDACHANGDU2048ZIFU: '最大长度2048字符',
 
     MT_ZUIDASANWEIDANWEIFENZHONGBIXUZHENGZHENGSHU:
       '最大长度3位，单位（分钟），必须正整数',
@@ -2448,6 +2460,12 @@
     MT_JUJUE: '拒绝',
 
     MT_SHENPITONGGUO: '审批通过',
+
+    MT_TONGGUO: '通过',
+
+    MT_BUTONGGUO: '不通过',
+
+    MT_YUBEIHUITONGGUO: '预备会通过',
 
     MT_JUJUECHENGGONG: '拒绝成功!',
 
@@ -2584,12 +2602,115 @@
     MT_ZHUANGTAI2: '状态',
 
     MT_XUHAO2: '序号',
-    
+
     MT_XUHAO3: '序号',
 
     MT_CAOZUO2: '操作',
 
-    MT_PILIANGPAIXU:"批量排序",
+    MT_PILIANGPAIXU: '批量排序',
+
+    MT_TONGYONGHUIYI: '通用会议',
+
+    MT_SHENGCHANCAIGOUSCC: '生产采购CSC',
+
+    MT_YIBANCAIGOUCSG: '一般采购CSG',
+
+    MT_FENDUANDINGDIAN: '分段定点',
+
+    MT_XIAXIANJINEBUNENGDAYUSHANGXIANJINE: '下限金额不能大于上限金额！',
+
+    MT_QINGSHANGCHUANTUPIANWENJIAN: '请上传图片文件',
+
+    MT_SHIFOUSHANCHUGAIHUIYILEIXING: '是否删除该会议类型？',
+
+    MT_QINGXUANZEXUYAOSHANCHUDEHUIYILEIXING: '请选择需要删除的会议类型!',
+
+    MT_DAOCHUCHENGGONG: '导出成功',
+
+    MT_DAOCHUSHIBAI: '导出失败',
+
+    MT_HUIYILEIXINGLIEBIAO: '会议类型列表',
+
+    MT_SHENQINGCHEHUI: '申请撤回',
+
+    MT_DINGDIANRSDANWEIDONGJIE: '定点RS单未冻结',
+
+    MT_YITIMUBAN: '议题模版',
+
+    MT_XIAZAIMUBANCHENGGONG: '下载模版成功',
+
+    MT_XIAZAIMUBANSHIBAI: '下载模版失败',
+
+    MT_QUERENCHAIFENGAIYITIME: '确认拆分该议题么?',
+
+    MT_PAIXUWANCHENG: '排序完成',
+
+    MT_SHANGXIATUOZHUAIKETIAOZHENGSHUNXU: '上下拖拽即可调整顺序',
+
+    MT_TUICHU: '退出',
+
+    MT_QINGXUANZEYIGEXIACIHUIYI: '请选择一个下次会议',
+
+    MT_XIACIHUIYIZHINENGXUANZEYIGE: '下次会议只能选择一个！',
+
+    MT_WEIHUCHENGGONG: '维护成功!',
+
+    MT_YOUDINGDIANYITIWEIDONGJIERSDAN_QINGQUERENSHIFOUGUANBIHUIYI:
+      '有定点议题未冻结RS单，请确认是否关闭会议?',
+
+    ME_YI: '一（周会）',
+
+    MT_ER: '二（双周会）',
+
+    MT_SAN: '三',
+
+    MT_SI: '四（月会）',
+
+    MT_WU: '五',
+
+    MT_LIU: '六',
+
+    MT_QI: '七',
+
+    MT_BA: '八',
+
+    MT_JIU: '九',
+
+    MT_SHI: '十',
+
+    MT_SHIYI: '十一',
+
+    MT_SHIER: '十二（季度会）',
+
+    MT_QINGSHURUHUIYIMINGCHENG: '请输入会议名称！',
+
+    MT_ZUIDACHANGDU100ZIFU: '最大长度100字符',
+
+    MT_QINGXUANZEZILIAOLEIXING: '请选择资料类型！',
+
+    MT_QINGSHURUZILIAOBIAOTI: '请输入资料标题！',
+
+    MT_QINGQUERENSHIFOUXUYAOSHANCHUGAIZILIAO: '请确认是否要删除该资料?',
+
+    MT_JINZHICHITUPIANGESHI: '仅支持图片格式!',
+
+    MT_SHANGCHUANTUPIANDAXIAOBUNENGCHAOGUO15MB: '上传图片大小不能超过15MB!',
+
+    MT_QINGSHURUZILIAOLEIXINGMINGCHENG: '请输入资料类型名称！',
+
+    MT_QINGXUANZESUOSHUHUIYI: '请选择所属会议！',
+    
+    MT_HUIYIZHIBO: '会议直播',
+
+    MT_JINQIHUIYI: '近期会议',
+
+    MT_GUANLIDATING: '管理大厅',
+
+    MT_HUIYILIEBIAO: '会议列表',
+
+    MT_YUHUIRENLIEBIAO: '与会人列表',
+
+    MT_HUIYIXINXI: '会议信息',
 
     APPROVAL: {
       ADD: '新增',

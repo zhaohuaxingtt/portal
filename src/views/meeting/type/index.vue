@@ -72,7 +72,7 @@
           :label="$t('MT_SUOSHUFENLEI')"
         >
           <template slot-scope="scope">
-            <span>{{ categoryObj[scope.row.category] }}</span>
+            <span>{{ $t(categoryObj[scope.row.category]) }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -88,7 +88,9 @@
           width="163"
           :label="$t('MT_SHIFOUCHUFASHENPILIU')"
           ><template slot-scope="scope">
-            <span>{{ scope.row.isTriggerApproval ? $t('是') : $t('否') }}</span>
+            <span>{{
+              scope.row.isTriggerApproval ? $t('MT_SHI') : $t('MT_FOU')
+            }}</span>
           </template></el-table-column
         >
       </iTableML>
@@ -173,9 +175,12 @@ export default {
       editOrAdd: 'add',
       approvalProcess: [],
       categoryObj: {
-        '01': '通用会议',
-        '02': '生产采购CSC',
-        '03': '一般采购CSG'
+        // "01": "通用会议",
+        // "02": "生产采购CSC",
+        // "03": "一般采购CSG",
+        '01': 'MT_TONGYONGHUIYI',
+        '02': 'MT_SHENGCHANCAIGOUSCC',
+        '03': 'MT_YIBANCAIGOUCSG'
       }
     }
   },
@@ -240,16 +245,16 @@ export default {
       const ids = []
       this.selectedTableData.forEach((e) => ids.push(e.id))
       if (ids.length == 0) {
-        this.$message.error(this.$t('请选择需要删除的会议类型!'))
+        this.$message.error(this.$t('MT_QINGXUANZEXUYAOSHANCHUDEHUIYILEIXING'))
       } else {
-        this.$confirm(this.$t('是否删除该会议类型？'), this.$t('提示'), {
-          confirmButtonText: this.$t('是'),
-          cancelButtonText: this.$t('否'),
+        this.$confirm(this.$t('MT_SHIFOUSHANCHUGAIHUIYILEIXING'), this.$t('MT_TISHI'), {
+          confirmButtonText: this.$t('MT_SHI'),
+          cancelButtonText: this.$t('MT_FOU'),
           type: 'warning'
         }).then(() => {
           batchDeleteMeeting({ ids: ids })
             .then(() => {
-              this.$message.success(this.$t('删除成功!'))
+              this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))
               this.query()
             })
             .catch(() => {
@@ -271,16 +276,16 @@ export default {
       downloadAllExport({
         // url: '/rise-meeting/meetingTypeService/exportMeetingType',
         url: '/meetingApi/meetingTypeService/exportMeetingType',
-        filename: this.$t('会议类型列表'),
+        filename: this.$t('MT_HUIYILEIXINGLIEBIAO'),
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         // type: "application/x-xls",
         // type: 'application/vnd.ms-excel',
         data,
         callback: (e) => {
           if (e) {
-            iMessage.success(this.$t('导出成功'))
+            iMessage.success(this.$t('MT_DAOCHUCHENGGONG'))
           } else {
-            iMessage.error(this.$t('导出失败'))
+            iMessage.error(this.$t('MT_DAOCHUSHIBAI'))
           }
         }
       })

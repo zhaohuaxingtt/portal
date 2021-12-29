@@ -683,7 +683,6 @@ export default {
       }
     }
   },
-  computed: {},
   mounted() {
     // this.isAdmin = localStorage.getItem("isMA") === "false" ? false : true;
     this.getMeetingTypeObject()
@@ -810,7 +809,7 @@ export default {
     // 导入议题保存
     handleOKImportTopic(a, b) {
       if (this.nameList.length <= 0) {
-        iMessage.warn(this.$t('请导入议题后再保存'))
+        iMessage.warn(this.$t('MT_QINGDAORUYITIHOUBAOCUN'))
         return
       }
       this.disabledImportThemenButton = true
@@ -1418,11 +1417,11 @@ export default {
         this.selectedTableData.length >= 1 &&
         this.haveThemenNotStart().itemNo !== this.selectedTableData[0].itemNo
       ) {
-        iMessage.warn(this.$t('请按议题顺序开始议题！'))
+        iMessage.warn(this.$t('MT_QINGANYITISHUNXUKAISHIYITI'))
         return
       }
       if (this.isThemenOverAll()) {
-        iMessage.warn(this.$t('该议题列表已全部结束！'))
+        iMessage.warn(this.$t('MT_GAIYITILIEBIAOYIQUANBUJIESHU'))
         return
       }
       // this.$confirm("请确认是否需要开始该议题？", "提示", {

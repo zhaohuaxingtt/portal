@@ -35,7 +35,7 @@
                 <el-option
                   v-for="(item, index) in approvalBoolean"
                   :key="index"
-                  :label="item.label"
+                  :label="$t(item.i18n)"
                   :value="item.value"
                 >
                 </el-option>
