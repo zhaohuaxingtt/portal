@@ -1454,7 +1454,7 @@ export default {
             // type: e.meetingTypeName
           }
         })
-      } else if (e.meetingNameSuffix == 'gpCSC') {
+      } else if (e.isGpCSC) {
         this.$router.push({
           path: '/meeting/managementHall/gpcscMeeting',
           query: {
