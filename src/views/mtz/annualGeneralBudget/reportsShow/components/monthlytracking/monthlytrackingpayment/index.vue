@@ -9,39 +9,55 @@
               <el-col :span="6">
                 <i-form-item :label="language('科室')">
                   <i-select>
-                    <el-option></el-option>
+                    <el-option 
+                      v-for="item in deptOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
+                      >
+                      </el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
                 <i-form-item :label="language('MTZ材料组')">
                   <i-select>
-                    <el-option></el-option>
+                    <el-option
+                      v-for="item in mtzOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
+                    >
+                    </el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
                 <i-form-item :label="language('材料中类')">
                   <i-select>
-                    <el-option></el-option>
+                    <el-option
+                      v-for="item in materialMiddleOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
+                    ></el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
                 <i-form-item :label="language('年份月份')">
-                  <i-datePicker> </i-datePicker>
+                  <i-datePicker v-model="time" :placeholder='language("请选择")' format='yyyy-MM' type='month'></i-datePicker>
                 </i-form-item>
               </el-col>
             </el-row>
           </el-form>
         </div>
         <div class="btn-list">
-          <span style="margin-right: 20px"
-            >{{ language('只看自己 ')
-            }}<el-switch v-model="onlySelf"></el-switch
-          ></span>
-          <i-button>{{ language('确认') }}</i-button>
-          <i-button>{{ language('重置') }}</i-button>
+          <span  class="only-myself">{{ language('只看自己 ')}}
+            <el-switch v-model="onlySelf"></el-switch>
+          </span>
+          <i-button @click="sure">{{ language('确认') }}</i-button>
+          <i-button @click="reset">{{ language('重置') }}</i-button>
         </div>
       </div>
     </i-card>
@@ -80,11 +96,24 @@ export default {
   data() {
     return {
       onlySelf: false,
+      time:'',
       showDifference:true,
+      //科室选择
+      deptOption:[],
+      //MTZ材料组选择
+      mtzOption:[],
+      //材料中类选择
+      materialMiddleOption:[],
       calculate:[
         1,3,4,-6,2,8,-4,-2,-4,2,9,-3.2
-      ]
+      ],
+      searchForm:{
+
+      }
     }
+  },
+  created(){
+    this.sure()
   },
   mounted() {
     this.iniReport()
@@ -101,7 +130,6 @@ export default {
           textStyle:{
             color:'#9092A5',
             fontSize:'12',
-            width:'400',
             fontWeight:'normal'
           }
         },
@@ -181,7 +209,6 @@ export default {
                   show: true,
                   position: 'top',
                   formatter:(params)=>{
-                    // console.log(params,'=======');
                     return Number(params.value[1]).toFixed(2)
                   },
                   textStyle: {
@@ -202,7 +229,6 @@ export default {
                   show: true,
                   position: 'top',
                   formatter:(params)=>{
-                    // console.log(params,'=======');
                     return Number(params.value[2]).toFixed(2)
                   },
                   textStyle: {
@@ -222,15 +248,19 @@ export default {
             }
           }
         ],
-
-      }),
-      // window.addEventListener('resize',function(){chart.resize()})
-      chart.on('legendselectchanged',(params)=>{
-        const {name,selected} = params
-        if(name == '差值'){
-          selected['差值'] ? this.showDifference = true : this.showDifference = false
-        }
       })
+      // chart.on('legendselectchanged',(params)=>{
+      //   const {name,selected} = params
+      //   if(name == '差值'){
+      //     selected['差值'] ? this.showDifference = true : this.showDifference = false
+      //   }
+      // })
+    },
+    sure(){
+      const data = {}
+    },
+    reset(){
+
     }
   }
 }
@@ -269,6 +299,18 @@ export default {
   }
 }
 
-
+.btn-list{
+  display: flex;
+  align-items: center;
+  .only-myself{
+    margin-right: 20px;
+    font-size:20px;
+    display: flex;
+    align-items: center;
+    ::v-deep .el-switch{
+      margin-left: 10px;
+    }
+  }
+}
 
 </style>
