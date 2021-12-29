@@ -49,7 +49,7 @@
         <el-form-item :label="language('SHENPINGJIEGUO','深评结果')">
           <iSelect :placeholder="$t('LK_QINGXUANZE')"
                    v-model="form.deepCommentResult">
-            <el-option :value="item.name"
+            <el-option :value="item.code"
                        :label="item.name"
                        v-for="item in fromGroup.GRADE_RESULT"
                        :key="item.code"></el-option>

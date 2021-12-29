@@ -325,6 +325,7 @@ export default {
       // })
     },
     handleUpload (content) {
+      console.log(content)
       let formdata = new FormData()
       formdata.append('file', content.file)
       uploadPartExcel(formdata).then(res => {

@@ -21,13 +21,13 @@
         {{ SUPPLIER_STATUS[scope.row.isActive] }}
       </template>
       <template #deepCommentResult="scope">
-        <icon v-if="scope.row.deepCommentResult == 'green'"
+        <icon v-if="scope.row.deepCommentResult == 'GREEN'"
               symbol
               name="iconlvdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == 'yellow'"
+        <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
               symbol
               name="iconhuangdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == 'red'"
+        <icon v-else-if="scope.row.deepCommentResult == 'RED'"
               symbol
               name="iconhongdeng"></icon>
       </template>
