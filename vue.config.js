@@ -1,7 +1,9 @@
 const path = require('path')
+const webpack = require('webpack')
 const resolve = (dir) => path.join(__dirname, dir)
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
+
 /* const ChangeNginxConfig = require(resolve(
   './loadersPlugins/pluginTranslateNginxConfig'
 )) */
@@ -12,7 +14,7 @@ const postcss = px2rem({
 
 const BASE_IP = '10.122.17.38'
 // const BASE_IP = '10.122.18.166'
-
+console.error(new Date().toLocaleString())
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLICPATH,
   outputDir: 'dist',
@@ -40,21 +42,6 @@ module.exports = {
             minChunks: 3,
             priority: 5,
             reuseExistingChunk: true
-          },
-          quillEditor: {
-            name: 'chunk-quill-editor',
-            priority: 20,
-            test: /[\\/]node_modules[\\/]_?quill(.*)/
-          },
-          organizationChart: {
-            name: 'chunk-organization-chart',
-            priority: 20,
-            test: /[\\/]node_modules[\\/]_?vue-organization-chart(.*)/
-          },
-          sortablejs: {
-            name: 'chunk-sortablejs',
-            priority: 20,
-            test: /[\\/]node_modules[\\/]_?sortablejs(.*)/
           }
         }
       }),
@@ -79,6 +66,12 @@ module.exports = {
         val.options.CDN_HOST = process.env.CDN_HOST
       }
     })
+    config.plugins.push(
+      new webpack.DllReferencePlugin({
+        context: __dirname,
+        manifest: require('./vendor-manifest.json')
+      })
+    )
     //为生产环境移除console debugger 代码压缩
     if (process.env.NODE_ENV !== 'dev') {
       config.plugins.push(
@@ -116,7 +109,8 @@ module.exports = {
       'element-ui': 'ELEMENT',
       'vue-i18n': 'VueI18n',
       i18n: 'i18n',
-      Ellipsis: 'Ellipsis'
+      Ellipsis: 'Ellipsis',
+      lodash: '_'
     }
     //开启gizp压缩
     config.devtool = 'source-map'
