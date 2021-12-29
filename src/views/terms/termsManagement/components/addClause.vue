@@ -938,6 +938,11 @@ export default {
                             this.$router.push({
                               path: '/terms/management'
                             })
+                          } else {
+                            formData.supplierRange =
+                              formData.supplierRange?.split(',')
+                            formData.supplierIdentity =
+                              formData.supplierIdentity?.split(',')
                           }
                           this.submitLoading = false
                         })
@@ -960,6 +965,11 @@ export default {
                           this.$router.push({
                             path: '/terms/management'
                           })
+                        } else {
+                          formData.supplierRange =
+                            formData.supplierRange?.split(',')
+                          formData.supplierIdentity =
+                            formData.supplierIdentity?.split(',')
                         }
                         this.submitLoading = false
                       })
@@ -975,6 +985,11 @@ export default {
                         this.$router.push({
                           path: '/terms/management'
                         })
+                      } else {
+                        formData.supplierRange =
+                          formData.supplierRange?.split(',')
+                        formData.supplierIdentity =
+                          formData.supplierIdentity?.split(',')
                       }
                       this.submitLoading = false
                     })
