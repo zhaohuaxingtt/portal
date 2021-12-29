@@ -12,54 +12,56 @@
         <iButton @click="openInDepthRatingDialog">{{ $t('SUPPLIER_SHENRUPINGJI') }}</iButton>
       </div>
     </div>
-    <tableList
-        :tableData="tableListData"
-        :tableTitle="tableTitle"
-        :tableLoading="tableLoading"
-        :index="true"
-        @handleSelectionChange="handleSelectionChange"
-    >
+    <tableList :tableData="tableListData"
+               :tableTitle="tableTitle"
+               :tableLoading="tableLoading"
+               :index="true"
+               @handleSelectionChange="handleSelectionChange">
       <template #isActive='scope'>
         {{ SUPPLIER_STATUS[scope.row.isActive] }}
       </template>
+      <template #deepCommentResult="scope">
+        <icon v-if="scope.row.deepCommentResult == 'green'"
+              symbol
+              name="iconlvdeng"></icon>
+        <icon v-else-if="scope.row.deepCommentResult == 'yellow'"
+              symbol
+              name="iconhuangdeng"></icon>
+        <icon v-else-if="scope.row.deepCommentResult == 'red'"
+              symbol
+              name="iconhongdeng"></icon>
+      </template>
     </tableList>
-    <iPagination
-        v-update
-        @size-change="handleSizeChange($event, getTableList)"
-        @current-change="handleCurrentChange($event, getTableList)"
-        background
-        :page-sizes="page.pageSizes"
-        :page-size="page.pageSize"
-        :layout="page.layout"
-        :current-page='page.currPage'
-        :total="page.totalCount"/>
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page='page.currPage'
+                 :total="page.totalCount" />
 
     <!--深入评级-->
-    <inDepthRatingDialog
-        v-model="inDepthRatingDialog"
-        :loading="inDepthRatingDialogLoading"
-        @handleSubmit="handleInDepthRatingSubmit"
-    />
+    <inDepthRatingDialog v-model="inDepthRatingDialog"
+                         :loading="inDepthRatingDialogLoading"
+                         @handleSubmit="handleInDepthRatingSubmit" />
     <!--VWAG评级-->
-    <vwagRatingDialog
-        v-model="vwagRatingDialog"
-        @handleSubmit="handleVwagSubmit"
-    />
+    <vwagRatingDialog v-model="vwagRatingDialog"
+                      @handleSubmit="handleVwagSubmit" />
     <!--导出财报-->
-    <exportFinancialReportDialog
-        v-model="exportFinancialReportDialog"
-        @handleSubmit="handleFinancialReport"
-        :loading="exportFinancialReportDialogLoading"
-    />
+    <exportFinancialReportDialog v-model="exportFinancialReportDialog"
+                                 @handleSubmit="handleFinancialReport"
+                                 :loading="exportFinancialReportDialogLoading" />
   </iCard>
 </template>
 
 <script>
-import {iCard, iButton, iPagination, iMessage} from 'rise';
+import { iCard, iButton, iPagination, iMessage, icon } from 'rise';
 import tableList from '@/components/commonTable';
-import {pageMixins} from '@/utils/pageMixins';
+import { pageMixins } from '@/utils/pageMixins';
 import resultMessageMixin from '@/mixins/resultMessageMixin';
-import {tableTitle} from './data';
+import { tableTitle } from './data';
 import inDepthRatingDialog from '../components/inDepthRatingDialog';
 import vwagRatingDialog from '../components/vwagRatingDialog';
 import exportFinancialReportDialog from '../components/exportFinancialReportDialog';
@@ -69,7 +71,7 @@ import {
   exportFinanceReport,
   saveVwag,
 } from '../../../../api/frmRating/frmIntegratedManagement';
-import {SUPPLIER_STATUS} from '../../../../constants/frmRating/preliminaryRating';
+import { SUPPLIER_STATUS } from '../../../../constants/frmRating/preliminaryRating';
 
 export default {
   mixins: [pageMixins, resultMessageMixin],
@@ -81,8 +83,9 @@ export default {
     inDepthRatingDialog,
     vwagRatingDialog,
     exportFinancialReportDialog,
+    icon
   },
-  data() {
+  data () {
     return {
       tableListData: [],
       tableTitle,
@@ -96,18 +99,18 @@ export default {
       SUPPLIER_STATUS
     };
   },
-  created() {
+  created () {
     this.getTableList();
   },
   methods: {
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.selectTableData = val;
     },
-    handleSearch() {
+    handleSearch () {
       this.page.currPage = 1
       this.getTableList()
     },
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true;
       const searchItem = this.$parent.$children.filter(item => {
         return item.$attrs.name === 'theSearch';
@@ -135,7 +138,7 @@ export default {
         this.tableLoading = false;
       }
     },
-    openInDepthRatingDialog() {
+    openInDepthRatingDialog () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
       }
@@ -144,7 +147,7 @@ export default {
       }
       this.inDepthRatingDialog = true;
     },
-    openVwagRatingDialog() {
+    openVwagRatingDialog () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
       }
@@ -153,7 +156,7 @@ export default {
       }
       this.vwagRatingDialog = true;
     },
-    async handleInDepthRatingSubmit(reqQuery) {
+    async handleInDepthRatingSubmit (reqQuery) {
       try {
         const idArray = this.selectTableData.map(item => {
           return item.supplierId;
@@ -174,7 +177,7 @@ export default {
         this.inDepthRatingDialogLoading = false;
       }
     },
-    openExportFinancialReportDialog() {
+    openExportFinancialReportDialog () {
       if (this.selectTableData.length === 0) {
         return iMessage.warn(this.$t('LK_NINDANGQIANHAIWEIXUANZE'));
       }
@@ -183,7 +186,7 @@ export default {
       }
       this.exportFinancialReportDialog = true;
     },
-    async handleFinancialReport(params) {
+    async handleFinancialReport (params) {
       try {
         this.exportFinancialReportDialogLoading = true;
         const supplierId = this.selectTableData.map(item => {
@@ -200,7 +203,7 @@ export default {
         this.exportFinancialReportDialogLoading = false;
       }
     },
-    async handleVwagSubmit(params) {
+    async handleVwagSubmit (params) {
       const supplierId = this.selectTableData.map(item => {
         return item.supplierId;
       });
