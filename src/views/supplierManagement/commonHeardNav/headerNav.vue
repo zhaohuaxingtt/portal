@@ -2,13 +2,13 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-23 14:32:45
- * @LastEditors: zbin
+ * @LastEditors: caopeng
  * @Descripttion: your project
 -->
 <template>
   <div>
     <div class="navBox">
-      <iNavMvp :list="tabRouterList" class="margin-bottom20" routerPage :lev="1" />
+      <iNavMvp :lang='true' :list="tabRouterList" class="margin-bottom20" routerPage :lev="1" />
       <logButton class="logButton" />
     </div>
   </div>
