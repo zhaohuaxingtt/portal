@@ -94,7 +94,7 @@ export default {
         delete e.supplierRange
       } else {
         let temp = []
-        e.supplierRange.includes('PP') ? temp.push('pp') : ''
+        e.supplierRange.includes('PP') ? temp.push('PP') : ''
         e.supplierRange.includes('GP') ? temp.push('GP') : ''
         e.supplierRange.includes('NT') ? temp.push('NT') : ''
         e.supplierRange = temp
