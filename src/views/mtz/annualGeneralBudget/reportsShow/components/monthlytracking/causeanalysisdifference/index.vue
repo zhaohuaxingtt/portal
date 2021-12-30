@@ -78,7 +78,7 @@
           class="monthlyPosition"
           v-model="form['fixedAssetsCode']"
           type="monthrange"
-          range-separator="至"
+          range-separator="-"
           start-placeholder="开始月份"
           end-placeholder="结束月份"
         >
@@ -181,4 +181,5 @@ export default {
     font-size: 20px;
   }
 }
+
 </style>

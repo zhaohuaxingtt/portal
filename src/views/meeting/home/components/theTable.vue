@@ -39,7 +39,7 @@
         width="40"
         min-width="40"
         align="center"
-        :label="$t('MT_XUHAO2')"
+        :label="$t('MT_XUHAO3')"
       ></el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
       <el-table-column
@@ -66,7 +66,8 @@
         :label="$t('MT_HUIYILEIXING')"
       >
         <template slot-scope="scope">
-          <span>{{ typeObject[scope.row.meetingTypeId] }}</span>
+          <!-- <span>{{ typeObject[scope.row.meetingTypeId] }}</span> -->
+          <span>{{ scope.row.meetingTypeName }}</span>
         </template>
       </el-table-column>
       <el-table-column width="54" align="center" label=""></el-table-column>
@@ -90,7 +91,7 @@
               },
               'circle'
             ]"
-            >{{ statusObj[scope.row.state] }}</span
+            >{{ $t(statusObj[scope.row.state]) }}</span
           >
         </template>
       </el-table-column>
@@ -689,6 +690,13 @@
       @handleOK="handleNewSummaryNewOK"
       @refreshTable="flushTable"
     ></newSummaryDialogNew>
+    <freezeWarn
+      :warnTableData="warnTableData"
+      @closeDialog="closeFreeWarnDialog"
+      :openFreezeDialog="openFreezeDialog"
+      @stillYesCloseDialog="stillYesCloseDialog"
+    ></freezeWarn>
+    <!-- <iButton @click="handleTestSendEmail">发送测试邮件</iButton> -->
   </iCard>
 </template>
 
@@ -735,7 +743,10 @@ import newSummaryDialog from './newSummaryDialog.vue'
 // import { MOCK_FILE_URL } from '@/constants'
 // import { debounce } from '@/utils/utils.js'
 import newSummaryDialogNew from './newSummaryDialogNew.vue'
+import freezeWarn from '@/views/meeting/specialDetails/component/freezeWarn.vue'
 import dayjs from 'dayjs'
+import { findThemenById } from '@/api/meeting/details'
+
 export default {
   components: {
     iCard,
@@ -751,7 +762,8 @@ export default {
     newSummaryDialog,
     newSummaryDialogNew,
     closeMeetingDialogSpecial,
-    importErrorDialog
+    importErrorDialog,
+    freezeWarn
   },
   mixins: [resultMessageMixin],
   props: {
@@ -794,7 +806,10 @@ export default {
   },
   data() {
     return {
-      riseIcon: process.env.VUE_EMAIL_ICON,
+      currentCloseRow: {},
+      openFreezeDialog: false,
+      warnTableData: [],
+      riseIcon: process.env.VUE_APP_EMAIL_ICON,
       isGenerating: false,
       isCanRecall: false,
       isCanOpen: false,
@@ -844,7 +859,6 @@ export default {
       errorList: []
     }
   },
-  mounted() {},
   watch: {
     selectedRow: {
       handler(rows) {
@@ -866,6 +880,40 @@ export default {
     }
   },
   methods: {
+    async queryThemensByMeetingId(id) {
+      const data = {
+        id
+      }
+      const res = await findThemenById(data)
+      const themens = res.themens
+      return themens
+    },
+    // handleTestSendEmail(row, list) {
+    //   const subject = row ? row.name : '哈哈哈'
+    //   const send = list ? list.join(';') : ''
+    //   // let minuteSrc = 'aaa'
+    //   const attachments = row.attachments
+    //     ? row.attachments.find((item) => {
+    //         return item.source === '02'
+    //       })
+    //     : []
+    //   const minuteSrc = attachments ? attachments.attachmentUrl : ''
+    //   const src = process.env.VUE_APP_EMAIL_ICON
+    //   console.log('src', src, process.env)
+    //   let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${src}'/>`
+    //   let href = `mailto:${send}?subject=${subject}&body=${body}`
+    //   this.createAnchorLink(href)
+    // },
+    stillYesCloseDialog() {
+      this.closeVedio(this.currentCloseRow, 'still')
+    },
+    closeFreeWarnDialog() {
+      this.openFreezeDialog = false
+    },
+    handleAlert(data) {
+      this.warnTableData = [...data]
+      this.openFreezeDialog = true
+    },
     handleEndTime(row) {
       // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
       let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
@@ -912,7 +960,7 @@ export default {
         return item.source === '02'
       })
       const minuteSrc = attachments ? attachments.attachmentUrl : ''
-      let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'>`
+      let body = `<br/> Dear all, <br/> <br/> <br/> Please click to find minutes of  ${subject} in  RiSE. <br/> <a href='${minuteSrc}'>Go to check the meeting minutes.</a> <br/> <br/> Best Regards! / Mit Best Regards! / Mit freundlichen Grüßen! <br/> <br/> <br/> CSCMeeting <br/> <br/> <a href="mailto: CSCMeeting@csvw.com">mailto: CSCMeeting@csvw.com</a> <br/> <img src='${this.riseIcon}'/>`
       let href = `mailto:${send}?subject=${subject}&body=${body}`
       this.createAnchorLink(href)
     },
@@ -1362,7 +1410,20 @@ export default {
           })
           window.open(routeUrl.href, '_blank')
         },
-        closeVedio: (e) => {
+        closeVedio: async (e, str) => {
+          this.currentCloseRow = { ...e }
+          if ((e.isPreCSC || e.isCSC) && str !== 'still') {
+            const themens = await this.queryThemensByMeetingId(
+              this.currentCloseRow.id
+            )
+            const warnData = themens.filter((item) => {
+              return !item.isFixedFrozenRs
+            })
+            if (warnData.length > 0) {
+              this.handleAlert(warnData)
+              return
+            }
+          }
           // 关闭
           let attachments = e.attachments.filter((item) => {
             return item.source == '02'
@@ -1489,14 +1550,14 @@ export default {
             // type: e.meetingTypeName
           }
         })
-      } else if (e.meetingNameSuffix == 'gpCSC') {
+      } else if (e.isGpCSC) {
         this.$router.push({
           path: '/meeting/managementHall/gpcscMeeting',
           query: {
             id: e.id
           }
         })
-      } else if (e.meetingNameSuffix == 'MBDL') {
+      } else if (e.isMBDL) {
         this.$router.push({
           path: '/meeting/managementHall/mbdlMeeting',
           query: {

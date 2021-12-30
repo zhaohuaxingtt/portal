@@ -223,7 +223,7 @@
                   return res.code == scope.row.ratingSource
                 }).name
               }}</span>
-            <span v-if="scope.row.ratingSource == '100'">深入评级-
+            <span v-if="scope.row.ratingSource == '100'">{{language('深入评级', 'SHENRUPINGJI')}}-
               <icon class="early"
                     symbol
                     name="iconcaiwuyujing-hongdeng"></icon>
@@ -254,7 +254,7 @@
                   return res.code == scope.row.ratingSource
                 }).name
               }}</span>
-            <span v-if="scope.row.ratingSource == '100'">深入评级-
+            <span v-if="scope.row.ratingSource == '100'">{{language('深入评级', 'SHENRUPINGJI')}}-
               <icon class="early"
                     symbol
                     name="iconcaiwuyujing-hongdeng"></icon>

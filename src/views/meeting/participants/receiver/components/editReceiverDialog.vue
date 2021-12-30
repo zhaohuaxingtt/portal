@@ -50,9 +50,11 @@
             class="search"
           >
           </iInput>
-          <iButton @click="$emit('addReceiverData','edit')" class="add-receiver">{{
-            $t('MT_TIANJIASHOUJIANREN')
-          }}</iButton>
+          <iButton
+            @click="$emit('addReceiverData', 'edit')"
+            class="add-receiver"
+            >{{ $t('MT_TIANJIASHOUJIANREN') }}</iButton
+          >
         </div>
         <i-table-custom
           @removeReceiverDataList="removeReceiverDataList"
@@ -93,7 +95,7 @@ import {
   getReceiverById,
   getMettingType
 } from '@/api/meeting/type'
-import { baseRules } from './data'
+// import { baseRules } from './data'
 import iTableCustom from '@/components/iTableCustom'
 export default {
   components: {
@@ -224,7 +226,7 @@ export default {
         },
         {
           label: '操作',
-          i18n:"MT_CAOZUO2",
+          i18n: 'MT_CAOZUO2',
           width: 80,
           customRender: (h, scope) => {
             return h('span', [
@@ -248,7 +250,20 @@ export default {
           }
         }
       ],
-      rules: baseRules,
+      rules: {
+        groupName: [
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
+          {
+            min: 1,
+            max: 64,
+            message: this.$t('MT_ZUIDACHANGDU64ZIFU'),
+            trigger: 'blur'
+          }
+        ],
+        meetingType: [
+          { required: true, message: this.$t('MT_BIXUAN'), trigger: 'change' }
+        ]
+      },
       ruleForm: {
         groupName: '',
         meetingType: ''
@@ -433,7 +448,7 @@ export default {
       this.change(this.search)
     },
     close() {
-      this.$emit('closeEditDialog', false,'edit')
+      this.$emit('closeEditDialog', false, 'edit')
     },
     handleSubmit(formName) {
       this.$refs[formName].validate((valid) => {

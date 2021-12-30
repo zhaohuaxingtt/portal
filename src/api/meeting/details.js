@@ -197,3 +197,21 @@ export function rejectThemenRecall(data) {
     data
   })
 }
+
+//获取批量排序内容
+export function findSectionById(data) {
+  return requst({
+    url: `/meetingService/findSectionById`,
+    method: 'POST',
+    data
+  })
+}
+//保存排序内容
+export function resortThemenBySection(data) {
+  return requst({
+    url: `/meetingService/resortThemenBySection`,
+    method: 'POST',
+    data
+  })
+}
+

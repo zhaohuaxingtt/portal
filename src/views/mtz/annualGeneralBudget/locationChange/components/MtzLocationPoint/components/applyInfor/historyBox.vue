@@ -233,6 +233,7 @@ export default {
                 this.buyerIds = res.data;
             })
             getSupplierByUser({}).then(res=>{
+                console.log(1111111111)
                 this.supplierSapList = res.data;
             })
             getMtzRuleCode({}).then(res=>{

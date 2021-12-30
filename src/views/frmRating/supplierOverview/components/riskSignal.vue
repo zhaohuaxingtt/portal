@@ -2,8 +2,8 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-27 14:47:25
- * @LastEditors: zbin
- * @LastEditTime: 2021-05-27 20:37:54
+ * @LastEditors: caopeng
+ * @LastEditTime: 2021-12-30 10:11:19
  * @Descripttion: 风险信号
 -->
 <template>
@@ -14,7 +14,10 @@
         <icon class="early"
               symbol
               name="iconcaiwuyujing-hongdeng"></icon>
-        <p>有风险供应商</p>
+        <p>{{  language(
+              'YOUFENGXIANGONGYINGSHANG',
+              '有风险供应商'
+            )}}</p>
       </div>
       <div>
         <icon class="early"

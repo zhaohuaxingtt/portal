@@ -153,7 +153,7 @@
         min-width="45"
       >
         <template slot-scope="scope">
-          {{ stateObj[scope.row.state] }}
+          {{ $t(stateObj[scope.row.state]) }}
         </template>
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -164,7 +164,7 @@
         min-width="45"
       >
         <template slot-scope="scope">
-          <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
+          <span>{{ $t(themenConclusion[scope.row.conclusionCsc]) }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -369,43 +369,45 @@ export default {
       let to = pageNum * this.page.pageSize
       this.tableData = data.slice(from, to)
     },
-       //表格列字符限制
-    setColumnWidth(data){
-      console.log(data,'data');
-      let index=0
-      let maxStr=''
-      for(let i=0; i<data.length;i++){
-        if(data[i].topic===null){
+    //表格列字符限制
+    setColumnWidth(data) {
+      if (!data || data.length === 0) {
+        return
+      }
+      let index = 0
+      let maxStr = ''
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].topic === null) {
           return
         }
-        const nowline=data[i].topic+''
-        const maxline=data[index].topic+''
-        if(nowline.length>maxline.length){
-          index=i
+        const nowline = data[i].topic + ''
+        const maxline = data[index].topic + ''
+        if (nowline.length > maxline.length) {
+          index = i
         }
       }
-      maxStr=data[index].topic
-      let columnWidth=0;
-       for (let char of maxStr) {
-          if ((char >= 'A' && char <= 'Z') ) {
-            columnWidth += 8
-          }else if( char >= 'a' && char <= 'z'){
-            columnWidth += 6
-          } else if (char >= '\u4e00' && char <= '\u9fa5') {
-            columnWidth += 13
-          } else {
-            columnWidth += 7
-          }
+      maxStr = data[index].topic
+      let columnWidth = 0
+      for (let char of maxStr) {
+        if (char >= 'A' && char <= 'Z') {
+          columnWidth += 8
+        } else if (char >= 'a' && char <= 'z') {
+          columnWidth += 6
+        } else if (char >= '\u4e00' && char <= '\u9fa5') {
+          columnWidth += 13
+        } else {
+          columnWidth += 7
         }
-        if (columnWidth < 223) {
-          // 设置最小宽度
-          columnWidth = 223
-        }
-        if(columnWidth > 306){
-          columnWidth = 306
-        }
-        return columnWidth + 'px'
-      },
+      }
+      if (columnWidth < 223) {
+        // 设置最小宽度
+        columnWidth = 223
+      }
+      if (columnWidth > 306) {
+        columnWidth = 306
+      }
+      return columnWidth + 'px'
+    }
   }
 }
 </script>

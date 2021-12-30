@@ -143,7 +143,7 @@
           min-width="100"
         >
           <template slot-scope="scope">
-            {{ scope.row.state ? stateObj[scope.row.state] : '-' }}
+            {{ scope.row.state ? $t(stateObj[scope.row.state]) : '-' }}
           </template>
         </el-table-column>
         <el-table-column width="24" align="center" label=""></el-table-column>
@@ -443,43 +443,45 @@ export default {
       }
       return 'narmal-row'
     },
-       //表格列字符限制
-    setColumnWidth(data){
-      console.log(data,'data');
-      let index=0
-      let maxStr=''
-      for(let i=0; i<data.length;i++){
-        if(data[i].topic===null){
+    //表格列字符限制
+    setColumnWidth(data) {
+      if (!data || data.length === 0) {
+        return
+      }
+      let index = 0
+      let maxStr = ''
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].topic === null) {
           return
         }
-        const nowline=data[i].topic+''
-        const maxline=data[index].topic+''
-        if(nowline.length>maxline.length){
-          index=i
+        const nowline = data[i].topic + ''
+        const maxline = data[index].topic + ''
+        if (nowline.length > maxline.length) {
+          index = i
         }
       }
-      maxStr=data[index].topic
-      let columnWidth=0;
-       for (let char of maxStr) {
-          if ((char >= 'A' && char <= 'Z') ) {
-            columnWidth += 8
-          }else if( char >= 'a' && char <= 'z'){
-            columnWidth += 6
-          } else if (char >= '\u4e00' && char <= '\u9fa5') {
-            columnWidth += 13
-          } else {
-            columnWidth += 7
-          }
+      maxStr = data[index].topic
+      let columnWidth = 0
+      for (let char of maxStr) {
+        if (char >= 'A' && char <= 'Z') {
+          columnWidth += 8
+        } else if (char >= 'a' && char <= 'z') {
+          columnWidth += 6
+        } else if (char >= '\u4e00' && char <= '\u9fa5') {
+          columnWidth += 13
+        } else {
+          columnWidth += 7
         }
-        if (columnWidth < 120) {
-          // 设置最小宽度
-          columnWidth = 120
-        }
-        if(columnWidth > 306){
-          columnWidth = 306
-        }
-        return columnWidth + 'px'
-      },
+      }
+      if (columnWidth < 120) {
+        // 设置最小宽度
+        columnWidth = 120
+      }
+      if (columnWidth > 306) {
+        columnWidth = 306
+      }
+      return columnWidth + 'px'
+    }
   }
 }
 </script>
