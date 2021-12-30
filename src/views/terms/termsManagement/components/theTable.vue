@@ -344,7 +344,7 @@ export default {
         // item.supplierRange = this.supplierRangeObj[item.supplierRange];
         // item.supplierIdentity = this.supplierIdentityObj[item.supplierIdentity];
         let supplierRangeList = [];
-        item.supplierRange.split(",").map((i) => {
+        item.supplierRange?.split(",").map((i) => {
           i == "PP"
             ? (supplierRangeList += "生产供应商，")
             : i == "GP"
@@ -361,7 +361,7 @@ export default {
         );
         item.supplierRange = supplierRangeList;
         let supplierIdentityList = [];
-        item.supplierIdentity.split(",").map((i) => {
+        item.supplierIdentity?.split(",").map((i) => {
           i == "0"
             ? (supplierIdentityList += "临时，")
             : i == "1"
