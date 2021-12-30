@@ -67,9 +67,7 @@ export default {
             iMessage.success('保存成功')
             this.$emit('flushTable')
             this.$emit('close')
-          } else {
-            iMessage.error('保存失败')
-          }
+          } 
       })
     },
     //重置

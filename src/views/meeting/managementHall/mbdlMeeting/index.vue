@@ -346,11 +346,11 @@
               <span class="open-link-text">{{ statusObj[scope.row.state] }}</span>
             </template>
           </el-table-column>
-          <!-- 会议结论/纪要 -->
+          <!-- 会议结论/纪要  result-->
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
-             <!-- <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row }}</span>
-             </template> -->
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ resultObj[scope.row.result] }}</span>
+             </template>
           </el-table-column>
          
         </iTableML>
@@ -427,10 +427,11 @@
               <span class="open-link-text">{{ scope.row.state }}</span>
             </template>
           </el-table-column>
+          <!-- 会议结论/纪要   result-->
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
-            <!-- <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row }}</span>
-             </template> -->
+            <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.result }}</span>
+             </template>
           </el-table-column>
          
         </iTableML>
@@ -623,6 +624,7 @@
         @close="protectConclusionDialog = false"
         style="padding-bottom: 20px"
         @flushTable='flushTable'
+        :selectThemenId='selectThemenId'
       ></protectConclusion>
     </iDialog>
     
@@ -703,11 +705,20 @@ export default {
   },
   data() {
     return {
+      selectThemenId:'',//当前议题行id
       protectConclusionDialog:false,//结束议题
       statusObj: {
         '01': '未进行',
         '02': '进行中',
         '03': '已结束'
+      },
+      resultObj:{
+        '01': '待定',
+        '02': '通过',
+        '03': '预备会议通过',
+        '04': '不通过',
+        '05': 'Last Call',
+        '06': '分段待定'
       },
       curEndTime: '',
       openError: false,
@@ -1536,8 +1547,12 @@ export default {
         new Date(`2021-7-1 ${dayjs(new Date()).format('HH:mm:ss')}`).getTime()
       )
     },
+    // 结束议题
     overTopic() {
+      console.log(this.selectedTableData[0].id);
       this.protectConclusionDialog=true
+      this.selectThemenId=this.selectedTableData[0].id
+      // this.selectedTableData
       console.log('结束议题');
       return
       // alert("overTopic");
@@ -1954,7 +1969,7 @@ export default {
       }
     },
 
-    // 表格选中值集
+    // 表格选中值集  当前行数据
     handleSelectionChange(val) {
       if (this.curState === '05') {
         val = [val[val.length - 1]]
@@ -1967,6 +1982,7 @@ export default {
       if (!val[0]) {
         return
       }
+      //当前行
       this.selectedTableData = val
       const handleDisabledButtonName = this.handleDisabledButtonName
       if (val.length === 1) {
