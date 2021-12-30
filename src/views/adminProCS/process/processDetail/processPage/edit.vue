@@ -28,7 +28,7 @@
                         :placeholder="language('请选择')"
                         />
                 </iFormItem>
-                <iFormItem :label="language('排序')" required prop='orderBy'>
+                <iFormItem :label="language('排序')" prop='orderBy'>
                     <iInput v-model="form.orderBy" type="number" class="w-250" placeholder="请输入"></iInput>
                 </iFormItem>
                 <iFormItem :label="language('页面内容')"  prop='pageRichContent'>
@@ -38,8 +38,25 @@
         </div>
         <div class="flex felx-row mt20 pb20 justify-end ">
             <iButton @click="close">{{ language('取消') }}</iButton>
+            <iButton @click="openPreview">{{ language('预览') }}</iButton>
             <iButton @click.native="save">{{ language('保存') }}</iButton>
         </div>
+
+
+        <iDialog
+            title="编辑子页面"
+            :visible.sync="preview" 
+            width="800px" 
+            @close='preview = false' 
+            append-to-body
+            class="process-dialog"
+            top="50px"
+        >
+            <div class="content preview-c">
+                <h3 class="title" v-text="form.name"></h3>
+                <div class="inner" v-html="form.pageRichContent"></div>
+            </div>    
+        </iDialog>
     </iDialog>
 </template>
 
@@ -76,7 +93,8 @@ export default {
                 ],
                 updateDt: { required: true, message: '请选择更新日期!',trigger:'change' },
                 orderBy:{ required: true, message: '请输入排序!',trigger:'blur' }
-            }
+            },
+            preview:false
         }
     },
     methods: {
@@ -89,6 +107,10 @@ export default {
         },
         close(){
             this.$emit("update:show",false)
+        },
+        openPreview(){
+            if(!this.form.name || !this.form.pageRichContent) return this.$message.warning("请输入页面标题及页面内容")
+            this.preview = true
         }
     },
 }
@@ -96,4 +118,26 @@ export default {
 
 <style lang="scss" scoped>
 @import "./../../../comon";
+.preview-c{
+    margin-bottom: 30px;
+    padding: 10px;
+    background-color: #f7f8fa;
+    .title{
+        margin: 10px 0;
+        padding: 10px 0;
+        color: #0077c8;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        font-size: 18px;
+    }
+    .inner{
+        padding: 10px 5px;
+        background-color: #fff;
+    }
+    
+}
+
+.cild{
+    position: relative;
+}
 </style>
