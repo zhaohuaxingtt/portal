@@ -11,13 +11,13 @@
           :label="item.name"
         />
       </iSelect>
-      <span>单位:百万人民币</span>
+      <span>{{language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人名币')}}</span>
       <totalAmountComponent />
     </el-col>
     <el-col :span="12" class="totalTwo"
       ><div class="dataList">
-        <span class="lastYearData">上一年数据对比</span
-        ><span class="unit">单位:百万人民币</span>
+        <span class="lastYearData">{{language('LK_SHANGYINIANSHUJUDUIBI', '上一年数据对比')}}</span
+        ><span class="unit">{{language('LK_DANWEIBAIWANRENMINGBI', '单位:百万人名币')}}</span>
       </div>
       <dataComparisonLastYear />
     </el-col>

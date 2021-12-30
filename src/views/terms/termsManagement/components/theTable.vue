@@ -50,7 +50,7 @@
           show-overflow-tooltip
           align="center"
           label="条款名称"
-          min-width="160"
+          min-width="400"
           ><template slot-scope="scope">
             <span class="open-link-text" @click="handleGoDetail(scope.row)">{{
               scope.row["name"]
@@ -308,7 +308,7 @@ export default {
           ? (supplierRangeList += "自定义，")
           : (supplierRangeList += "");
       });
-      supplierRangeList = supplierRangeList.slice(
+      supplierRangeList.length == 0 ? supplierRangeList = '' : supplierRangeList = supplierRangeList.slice(
         0,
         supplierRangeList.length - 1
       );
@@ -325,7 +325,7 @@ export default {
           ? (supplierIdentityList += "储蓄池，")
           : (supplierIdentityList += "");
       });
-      supplierIdentityList = supplierIdentityList.slice(
+      supplierIdentityList.length == 0 ? supplierIdentityList = '' : supplierIdentityList = supplierIdentityList.slice(
         0,
         supplierIdentityList.length - 1
       );
@@ -344,7 +344,7 @@ export default {
         // item.supplierRange = this.supplierRangeObj[item.supplierRange];
         // item.supplierIdentity = this.supplierIdentityObj[item.supplierIdentity];
         let supplierRangeList = [];
-        item.supplierRange.split(",").map((i) => {
+        item.supplierRange?.split(",").map((i) => {
           i == "PP"
             ? (supplierRangeList += "生产供应商，")
             : i == "GP"
@@ -361,7 +361,7 @@ export default {
         );
         item.supplierRange = supplierRangeList;
         let supplierIdentityList = [];
-        item.supplierIdentity.split(",").map((i) => {
+        item.supplierIdentity?.split(",").map((i) => {
           i == "0"
             ? (supplierIdentityList += "临时，")
             : i == "1"
