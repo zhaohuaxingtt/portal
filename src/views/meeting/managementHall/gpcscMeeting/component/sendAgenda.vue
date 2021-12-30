@@ -1,7 +1,7 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2021-12-28 15:37:30
+ * @LastEditTime: 2021-12-29 21:38:31
  * @LastEditors: Please set LastEditors
  * @Description: 首页
  * @FilePath: \front-portal\src\views\meeting\managementHall\gpcscMeeting\component\sendAgenda.vue
@@ -40,6 +40,7 @@
 import theSearch from '@/views/meeting/managementHall/gpcscMeeting/common/theSearch.vue'
 import theTable from '@/views/meeting/managementHall/gpcscMeeting/common/theTable.vue'
 import { getMettingList } from '@/api/meeting/home'
+import { findByRelationMeeting } from '@/api/meeting/gpMeeting'
 import { getAttendee, getReceiver } from '@/api/meeting/type'
 import { pageMixins } from '@/utils/pageMixins'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
@@ -114,11 +115,22 @@ export default {
     },
     query(e) {
       this.loading = true
-      getMettingList(e)
-        .then((res) => {
+      console.log(e)
+      //getMettingList 这里替换为  预备会关联会议分页列表接口 findByRelationMeeting
+      // getMettingList(e).then((res) => {
+      //   console.log(res,'1111');
+      //     this.tableListData = res.data
+      //     this.page.total = res.total
+      // })
+      //   .finally(() => (this.loading = false))
+      let query={
+        id:'12124'
+      }
+        findByRelationMeeting(query).then((res) => {
+        console.log(res,'1111');
           this.tableListData = res.data
           this.page.total = res.total
-        })
+      })
         .finally(() => (this.loading = false))
     },
     handleSearchReset() {
