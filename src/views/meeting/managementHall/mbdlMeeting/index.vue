@@ -1549,9 +1549,27 @@ export default {
     },
     // 结束议题
     overTopic() {
-      console.log(this.selectedTableData[0].id);
-      this.protectConclusionDialog=true
-      this.selectThemenId=this.selectedTableData[0].id
+      // isBreak  true就是休息
+      if(this.selectedTableData[0].isBreak){
+        console.log("休息");
+        const params = {
+          meetingId:this.$route.query.id,//会议id
+          themenId:this.selectedTableData[0].id//议题id
+        }
+        console.log(params);
+        endThemen(params).then((res) => {
+          if (res.code) {
+            iMessage.success('结束议题成功！')
+            this.flushTable()
+          }else{
+            iMessage.success('结束会议失败！')
+          }
+        })
+      }else{
+        console.log(this.selectedTableData[0].isBreak);
+        this.protectConclusionDialog=true
+        this.selectThemenId=this.selectedTableData[0].id
+      }
       // this.selectedTableData
       console.log('结束议题');
       return
