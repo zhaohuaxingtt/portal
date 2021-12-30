@@ -308,7 +308,7 @@ export default {
           ? (supplierRangeList += "自定义，")
           : (supplierRangeList += "");
       });
-      supplierRangeList = supplierRangeList.slice(
+      supplierRangeList.length == 0 ? supplierRangeList = '' : supplierRangeList = supplierRangeList.slice(
         0,
         supplierRangeList.length - 1
       );

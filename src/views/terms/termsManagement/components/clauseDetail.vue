@@ -803,8 +803,8 @@ export default {
       const filename =
         this.selectedFileData.length == 1
           ? ''
-          : this.ruleForm.name +
-            this.ruleForm.termsVersion +
+          : this.ruleForm.name + '_' +
+            this.ruleForm.termsVersion + '_' +
             new Date().getTime()
       downloadZip({
         fileIds: fileNameids,

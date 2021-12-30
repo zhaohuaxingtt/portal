@@ -832,8 +832,8 @@ export default {
         this.selectedFileData.length == 1
           ? ''
           : this.$route.query.id
-          ? this.ruleForm.name +
-            this.ruleForm.termsVersion +
+          ? this.ruleForm.name + '_' +
+            this.ruleForm.termsVersion + '_' +
             new Date().getTime()
           : '条款附件' + new Date().getTime()
       downloadZip({
