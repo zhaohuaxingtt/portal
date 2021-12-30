@@ -139,7 +139,7 @@ export default [
       // const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
       // const roleList = store.state.permission.userInfo.roleList;
       // const userId = store.state.permission.userInfo.id;
-      const roleList = userInfo.roleList
+      const roleList = userInfo.roleList || []
       const userId = userInfo.id
       localStorage.setItem('isAdmin', false)
       localStorage.setItem('isMA', false)

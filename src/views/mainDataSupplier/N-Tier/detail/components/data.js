@@ -280,7 +280,7 @@ export const CONTACTS_VIEW_SETTINGS = [
     width: 140
   },
   {
-    prop: 'expireDate',
+    prop: 'lastLoginDate',
     i18n: '登录RiSE系统时间',
     width: 160
   }

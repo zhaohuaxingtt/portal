@@ -1,3 +1,4 @@
+<!-- 结束结论 -->
 <template>
   <iDialog
     title="维护结论"
@@ -6,6 +7,9 @@
     :close-on-click-modal="false"
     @close="close"
   >
+  <!-- 分段定点  待定 只有下拉框和任务 -->
+  <!-- Last Call  有下拉框和任务rfq发送对象 -->
+  <!-- 不通过  提交  任务 文本框 -->
     <iEditForm>
       <el-form
         :model="ruleForm"
@@ -13,7 +17,8 @@
         :hideRequiredAsterisk="true"
         class="form-box"
       >
-        <iFormItem prop="conclusionCsc">
+        <!-- 结论 -->
+        <iFormItem prop="conclusionCsc" >
           <div class="operate">
             <div class="operate-title">
               <span class="conclusion">结论</span>
@@ -36,43 +41,11 @@
             </iSelect>
           </div>
         </iFormItem>
-        <iFormItem prop="conclusionCsc" v-show="isShowTable">
-          <div class="next-meeting">
-            <div class="operate-title">
-              <span class="conclusion">下次会议</span>
-              <span class="required-icon">*</span>
-            </div>
-            <iTableML
-              tooltip-effect="light"
-              :data="tableListData"
-              :border="true"
-              @selectionChange="handleSelectionChange"
-              :currentRow="currentRow"
-              :isSingle="true"
-            >
-              <el-table-column
-                align="center"
-                label=""
-                width="57"
-                type="selection"
-              >
-              </el-table-column>
-              <el-table-column
-                show-overflow-tooltip
-                align="left"
-                label="会议名称"
-                prop="name"
-              >
-              </el-table-column>
-            </iTableML>
-          </div>
-        </iFormItem>
-        <iFormItem
-          prop="isFrozenRs"
-          v-show="ruleForm.conclusion.conclusionCsc === '02'"
+        <!-- LOI -->
+        <iFormItem prop="isFrozenRs" v-if="showIFormItemRS" 
         >
           <div class="switch-content">
-            <div class="freeze">冻结RS单</div>
+            <div class="freeze">提交LOI审批</div>
             <div class="swicth">
               <div class="text" v-if="ruleForm.isFrozenRs" ref="sliderText">
                 是
@@ -82,7 +55,8 @@
             </div>
           </div>
         </iFormItem>
-        <iFormItem
+        <!-- 任务 -->
+        <iFormItem 
           label="任务"
           prop="taskCsc"
           :hideRequiredAsterisk="true"
@@ -98,6 +72,95 @@
         </iFormItem>
       </el-form>
     </iEditForm>
+    <!-- 列表 -->
+    <div v-if="showIFormItemList">
+      <div class="commonTablediv">RFQ发送对象</div>
+          <commonTable
+          class="commonTablediv"
+            v-update
+            :selection="true"
+            @handle-selection-change="handleSelectionChange"
+            :customClass="true"
+            :tableLoading="loading"
+            :tableData="tableData"
+            :tableTitle="tableColumns"
+            />
+    </div>
+    <!-- 输入框 -->
+    <div  v-if="showIFormItemelform">
+      <el-form
+        :model="formData"
+        ref="ruleForm"
+        :hideRequiredAsterisk="true"
+      >
+      <el-row :gutter="24">
+          <el-col :span="12" >
+            <el-form-item :label="language('股别', '股别')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+         <el-col :span="12" >
+            <el-form-item :label="language('项目', '项目')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+      </el-row>
+      <el-row :gutter="24">
+          <el-col :span="12" >
+            <el-form-item :label="language('上会次数', '上会次数')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+         <el-col :span="12" >
+            <el-form-item :label="language('CSC编号', 'CSC编号')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+      </el-row>
+      <el-row :gutter="24">
+          <el-col :span="12" >
+            <el-form-item :label="language('申请部门', '申请部门')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+         <el-col :span="12" >
+            <el-form-item :label="language('申请人', '申请人')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+      </el-row>
+      <el-row :gutter="24">
+          <el-col :span="12" >
+            <el-form-item :label="language('采购员', '采购员')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+         <el-col :span="12" >
+            <el-form-item :label="language('定点金额(不含可抵扣税)', '定点金额(不含可抵扣税)')" prop="cbdName">
+                <i-input
+                  disabled
+                ></i-input>
+              </el-form-item>
+         </el-col>
+      </el-row>
+          
+      </el-form>
+    </div>
+   
     <div class="button-list">
       <iButton class="sure" @click="handleSure" :loading="loading"
         >确定</iButton
@@ -107,6 +170,7 @@
   </iDialog>
 </template>
 <script>
+import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
 import {
@@ -116,9 +180,9 @@ import {
   iLabel,
   iInput,
   iButton,
-  iMessage
+  iMessage,
 } from 'rise'
-import { themenConclusionArrObj, themenConclusion } from './data'
+import { themenConclusionArrObj, themenConclusion , TABLE_COLUMNS_DEFAULT} from './data'
 import { getMettingList } from '@/api/meeting/home'
 import { updateThemen } from '@/api/meeting/details'
 import dayjs from 'dayjs'
@@ -132,7 +196,8 @@ export default {
     iLabel,
     iInput,
     iButton,
-    iTableML
+    iTableML,
+    commonTable
   },
   props: {
     autoOpenProtectConclusionObj: {
@@ -175,6 +240,11 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        showIFormItemRS: false,
+        showIFormItemList: false,
+        showIFormItemelform: false,
+        formData:{},
+        tableColumns: [...TABLE_COLUMNS_DEFAULT],
         loading: false,
         themenConclusion,
         curChooseArr: [],
@@ -213,6 +283,11 @@ export default {
       }
     } else {
       return {
+        showIFormItemRS: false,
+        showIFormItemList: false,
+        showIFormItemelform: false,
+        formData:{},
+        tableColumns: [...TABLE_COLUMNS_DEFAULT],
         loading: false,
         themenConclusion,
         curChooseArr: [],
@@ -259,29 +334,25 @@ export default {
     if (this.meetingInfo.isCSC) {
       this.themenConclusionArrObj = [
         {
-          conclusionCsc: '01',
-          conclusionName: '待定'
+          conclusionCsc: "01",
+          conclusionName: "待定",
         },
         {
-          conclusionCsc: '02',
-          conclusionName: '定点'
+          conclusionCsc: "02",
+          conclusionName: "通过",
         },
         {
-          conclusionCsc: '03',
-          conclusionName: '发LOI'
+          conclusionCsc: "03",
+          conclusionName: "不通过",
         },
         {
-          conclusionCsc: '04',
-          conclusionName: '转TER/TOP-TER'
+          conclusionCsc: "04",
+          conclusionName: "Last Call",
         },
         {
-          conclusionCsc: '05',
-          conclusionName: '下次Pre CSC'
+          conclusionCsc: "05",
+          conclusionName: "分段定点",
         },
-        {
-          conclusionCsc: '07',
-          conclusionName: '关闭'
-        }
       ]
     }
     if (
@@ -433,23 +504,41 @@ export default {
       this.close()
     },
     changeConclusion(e) {
-      this.isShowTable = false
-      this.isShowSwitch = false
-      if (e.conclusionCsc === '02') {
-        this.isShowSwitch = true
-        this.ruleForm.isFrozenRs = true
-      }
-      if (e.conclusionCsc === '05' || e.conclusionCsc === '06') {
-        this.isShowTable = true
-        if (e.conclusionCsc === '05') {
-          this.getUpdateDateTableList('Pre CSC').then(() => {
-            this.currentRow = {}
-          })
-        } else {
-          this.getUpdateDateTableList('CSC').then(() => {
-            this.currentRow = {}
-          })
-        }
+      console.log(e);
+      // this.isShowTable = false
+      // this.isShowSwitch = false
+      // if (e.conclusionCsc === '02') {
+      //   debugger
+      //   this.isShowSwitch = true
+      //   this.ruleForm.isFrozenRs = true
+      // }
+      // if (e.conclusionCsc === '05' || e.conclusionCsc === '06') {
+      //   this.isShowTable = true
+      //   if (e.conclusionCsc === '05') {
+      //     this.getUpdateDateTableList('Pre CSC').then(() => {
+      //       this.currentRow = {}
+      //     })
+      //   } else {
+      //     this.getUpdateDateTableList('CSC').then(() => {
+      //       this.currentRow = {}
+      //     })
+      //   }
+      // }
+      if (e.conclusionCsc == '01' || e.conclusionCsc == '05') {
+        // 只有结论和任务
+        this.showIFormItemRS= false
+        this.showIFormItemList= false
+        this.showIFormItemelform= false
+      }else if(e.conclusionCsc == '04' ){
+        // 结论 任务 列表
+        this.showIFormItemRS= false
+        this.showIFormItemList= true
+        this.showIFormItemelform= false
+      }else if(e.conclusionCsc == '03' ){
+        // 结论 任务 LOi
+        this.showIFormItemRS= true
+        this.showIFormItemList= false
+        this.showIFormItemelform= true
       }
     },
     //获取日期改期的更新的表格数据
@@ -494,8 +583,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.commonTablediv{
+  margin-bottom: 20px;
+}
 ::v-deep .el-table__header {
-  background-color: #fff;
+  // background-color: #fff;
   .el-table-column--selection {
     .el-checkbox__inner {
       display: none;
@@ -533,6 +625,7 @@ export default {
     white-space: nowrap;
   }
   .swicth {
+    margin-left: 30px;
     position: relative;
     width: 42px;
     height: 22px;
@@ -567,6 +660,7 @@ export default {
   .operate-select {
     height: 35px;
     width: 240px;
+    margin-left: 30px;
   }
   .conclusion {
     width: 32px;

@@ -1,270 +1,373 @@
 export const baseRules = {
   topic: [
-    { required: true, message: "必填", trigger: "blur" },
-    { min: 1, max: 255, message: "最大长度 255 字符", trigger: "blur" },
+    { required: true, message: '必填', trigger: 'blur' },
+    { min: 1, max: 255, message: '最大长度 255 字符', trigger: 'blur' }
   ],
   duration: [
-    { required: true, message: "必填", trigger: "blur" },
+    { required: true, message: '必填', trigger: 'blur' },
     {
-      type: "number",
-      message: "最大长度3位，单位（分钟），必须正整数",
-      trigger: "blur",
+      type: 'number',
+      message: '最大长度3位，单位（分钟），必须正整数',
+      trigger: 'blur',
       transform(value) {
-        if (value !== null && value !== "") {
+        if (value !== null && value !== '') {
           if (
-            String(value).trim() === "" ||
+            String(value).trim() === '' ||
             Number(value) <= 0 ||
             Number(value) >= 1000
           ) {
-            return false;
+            return false
           } else if (
-            String(value).indexOf(".") !== -1 ||
-            String(value).indexOf("-") !== -1
+            String(value).indexOf('.') !== -1 ||
+            String(value).indexOf('-') !== -1
           ) {
-            return false;
+            return false
           } else {
-            return Number(value);
+            return Number(value)
           }
         } else {
-          return null;
+          return null
         }
-      },
-    },
-  ],
-};
+      }
+    }
+  ]
+}
 
 // export const tableColumns =
 export const approvalBoolean = [
   {
-    value: "true",
-    label: "是",
+    value: 'true',
+    label: '是',
+    i18n: 'MT_SHI'
   },
   {
-    value: "false",
-    label: "否",
-  },
-];
+    value: 'false',
+    label: '否',
+    i18n: 'MT_FOU'
+  }
+]
 export const tableListColumns = [
   {
-    type: "selection",
+    type: 'selection'
   },
 
   {
-    prop: "positionCode",
-    // i18n: "APPROVAL.POSITION_CODE",
-    label: "会议名称",
+    prop: 'positionCode',
+    i18n: 'MT_HUIYIMINGCHENG',
+    label: '会议名称'
   },
   {
-    prop: "positionName",
-    // i18n: "APPROVAL.POSITION_NAME",
-    label: "会议类型",
+    prop: 'positionName',
+    i18n: 'MT_HUIYILEIXING',
+    label: '会议类型'
   },
   {
-    prop: "positionUser",
-    // i18n: "APPROVAL.POSITION_USER",
-    label: "会议状态",
+    prop: 'positionUser',
+    i18n: 'MT_HUIYIZHUANGTAI',
+    label: '会议状态'
   },
   {
-    prop: "positionUser",
-    label: "会议地点",
+    prop: 'positionUser',
+    i18n: 'MT_HUIYIDIDIAN',
+    label: '会议地点'
   },
   {
-    prop: "positionUser",
-    label: "会议日期",
-  },
-];
+    prop: 'positionUser',
+    i18n: 'MT_HUIYIRIQI',
+    label: '会议日期'
+  }
+]
 export const updateDatetableColumns = [
   {
-    type: "selection",
-    width: 40,
+    type: 'selection',
+    width: 40
   },
   {
-    prop: "会议名称",
-    label: "会议名称",
-    i18n: "会议名称",
+    prop: '会议名称',
+    label: '会议名称',
+    i18n: 'MT_HUIYIMINGCHENG',
     // width: 350,
     tooltip: false,
-    align: "left",
+    align: 'left'
   },
   {
-    prop: "会议类型",
-    label: "会议类型",
-    i18n: "会议类型",
+    prop: '会议类型',
+    label: '会议类型',
+    i18n: 'MT_HUIYILEIXING',
     // width: 90,
     tooltip: false,
-    align: "left",
+    align: 'left'
   },
   {
-    prop: "会议状态",
-    label: "会议状态",
-    i18n: "会议状态",
+    prop: '会议状态',
+    label: '会议状态',
+    i18n: 'MT_HUIYIZHUANGTAI',
     // width: 70,
     tooltip: false,
-    align: "left",
+    align: 'left'
   },
   {
-    prop: "会议地点",
-    label: "会议地点",
-    i18n: "会议地点",
+    prop: '会议地点',
+    label: '会议地点',
+    i18n: 'MT_HUIYIDIDIAN',
     // width: 150,
     tooltip: false,
-    align: "left",
+    align: 'left'
   },
   {
-    prop: "会议时间",
-    label: "会议时间",
-    i18n: "会议时间",
+    prop: '会议时间',
+    label: '会议时间',
+    i18n: 'MT_HUIYISHIJIAN',
     // width: 200,
     tooltip: false,
-    align: "center",
-  },
-];
+    align: 'center'
+  }
+]
 export const statusObj = {
-  "01": "草稿",
-  "02": "开放",
-  "03": "锁定",
-  "04": "开始",
-  "05": "结束",
-  "06": "关闭",
-};
+  '01': 'MT_CAOGAO',
+  '02': 'MT_KAIFANG',
+  '03': 'MT_SUODING',
+  '04': 'MT_KAISHI',
+  '05': 'MT_JIESHU',
+  '06': 'MT_GUANBI'
+}
 export const stateObj = {
-  "01": "未进行",
-  "02": "进行中",
-  "03": "已结束",
-  "04": "申请撤回",
-};
+  '01': 'MT_WEIJINXING',
+  '02': 'MT_JINXINGZHONG',
+  '03': 'MT_YIJIESHU',
+  '04': 'MT_SHENQINGCHEHUI'
+}
 export const themenConclusion = {
-  "01": "待定",
-  "02": "定点",
-  "03": "发LOI",
-  "04": "转TER/TOP-TER",
-  "05": "下次Pre CSC",
-  "06": "转CSC",
-  "07": "关闭",
-};
+  '01': 'MT_DAIDING',
+  '02': 'MT_DINGDIAN',
+  '03': 'MT_FALOI',
+  '04': 'MT_ZHUANTER',
+  '05': 'MT_XIACIPRE',
+  '06': 'MT_ZHUANCSC',
+  '07': 'MT_GUANBI'
+}
 export const themenConclusionArrObj = [
   {
-    conclusionCsc: "05",
-    conclusionName: "下次Pre CSC",
+    conclusionCsc: '05',
+    conclusionName: '下次Pre CSC',
+    i18n: 'MT_XIACIPRE'
   },
   {
-    conclusionCsc: "06",
-    conclusionName: "转CSC",
+    conclusionCsc: '06',
+    conclusionName: '转CSC',
+    i18n: 'MT_ZHUANCSC'
   },
   {
-    conclusionCsc: "02",
-    conclusionName: "定点",
+    conclusionCsc: '02',
+    conclusionName: '定点',
+    i18n: 'MT_DINGDIAN'
   },
   {
-    conclusionCsc: "03",
-    conclusionName: "发LOI",
+    conclusionCsc: '03',
+    conclusionName: '发LOI',
+    i18n: 'MT_FALOI'
   },
   {
-    conclusionCsc: "04",
-    conclusionName: "转TER/TOP-TER",
+    conclusionCsc: '04',
+    conclusionName: '转TER/TOP-TER',
+    i18n: 'MT_ZHUANTER'
   },
   {
-    conclusionCsc: "01",
-    conclusionName: "待定",
+    conclusionCsc: '01',
+    conclusionName: '待定',
+    i18n: 'MT_DAIDING'
   },
   {
-    conclusionCsc: "07",
-    conclusionName: "关闭",
-  },
-];
+    conclusionCsc: '07',
+    conclusionName: '关闭',
+    i18n: 'MT_GUANBI'
+  }
+]
 export const numToLetter = {
-  "1": "A",
-  "2": "B",
-  "3": "C",
-  "4": "D",
-  "5": "E",
-  "6": "F",
-  "7": "G",
-  "8": "H",
-  "9": "I",
-  "10": "J",
-  "11": "K",
-  "12": "L",
-  "13": "M",
-  "14": "N",
-  "15": "O",
-  "16": "P",
-  "17": "Q",
-  "18": "R",
-  "19": "S",
-  "20": "T",
-  "21": "U",
-  "22": "V",
-  "23": "W",
-  "24": "X",
-  "25": "Y",
-  "26": "Z",
-};
+  1: 'A',
+  2: 'B',
+  3: 'C',
+  4: 'D',
+  5: 'E',
+  6: 'F',
+  7: 'G',
+  8: 'H',
+  9: 'I',
+  10: 'J',
+  11: 'K',
+  12: 'L',
+  13: 'M',
+  14: 'N',
+  15: 'O',
+  16: 'P',
+  17: 'Q',
+  18: 'R',
+  19: 'S',
+  20: 'T',
+  21: 'U',
+  22: 'V',
+  23: 'W',
+  24: 'X',
+  25: 'Y',
+  26: 'Z'
+}
 export const buttonList = [
   {
-    title: "开放",
-    methodName: "open",
+    title: '开放',
+    i18n: 'MT_KAIFANG',
+    methodName: 'open',
     rightButtonList: [
-      { title: "锁定", methodName: "lock" },
-      { title: "开始", methodName: "start" },
-      { title: "修改", methodName: "edit" },
-      { title: "返回", methodName: "back" },
+      { title: '锁定', i18n: 'MT_SUODING', methodName: 'lock' },
+      { title: '开始', i18n: 'MT_KAISHI', methodName: 'start' },
+      { title: '修改', i18n: 'MT_XIUGAI', methodName: 'edit' },
+      { title: '返回', i18n: 'MT_FANHUI', methodName: 'back' }
     ],
     tableButtonList: [
       [
-        { title: "新增休息", methodName: "addRest" },
-        { title: "新增手工议题", methodName: "addTopic" },
-        { title: "议题调整", methodName: "updateTopic" },
+        { title: '新增休息', i18n: 'MT_XINZENGXIUXI', methodName: 'addRest' },
+        {
+          title: '新增手工议题',
+          i18n: 'MT_XINZENGSHOUGONGYITI',
+          methodName: 'addTopic'
+        },
+        {
+          title: '议题调整',
+          i18n: 'MT_YITITIAOZHENG',
+          methodName: 'updateTopic'
+        },
+        {
+          title: '批量排序',
+          i18n: 'MT_PILIANGPAIXU',
+          methodName: 'sortBatch'
+        }
         // { title: "导入议题", methodName: "importTopic" },
       ],
       [
-        { title: "修改议题", methodName: "editTopic", disabled: true },
-        { title: "维护资料", methodName: "protectInfo", disabled: true },
-        { title: "删除", methodName: "deleteTopAll", disabled: true },
-        { title: "改期", methodName: "updateDate", disabled: true },
-        { title: "拆分", methodName: "split", disabled: true },
-      ],
-    ],
+        {
+          title: '修改议题',
+          i18n: 'MT_XIUGAIYITI',
+          methodName: 'editTopic',
+          disabled: true
+        },
+        {
+          title: '维护资料',
+          i18n: 'MT_WEIHUZILIAO',
+          methodName: 'protectInfo',
+          disabled: true
+        },
+        {
+          title: '删除',
+          i18n: 'MT_SHANCHU',
+          methodName: 'deleteTopAll',
+          disabled: true
+        },
+        {
+          title: '改期',
+          i18n: 'MT_GAIQI',
+          methodName: 'updateDate',
+          disabled: true
+        },
+        {
+          title: '拆分',
+          i18n: 'MT_CHAIFEN',
+          methodName: 'split',
+          disabled: true
+        }
+      ]
+    ]
   },
   {
-    title: "锁定",
-    methodName: "lock",
+    title: '锁定',
+    i18n: 'MT_SUODING',
+    methodName: 'lock',
     rightButtonList: [
-      { title: "开始", methodName: "start" },
-      { title: "解锁", methodName: "deblock" },
-      { title: "返回", methodName: "back" },
+      { title: '开始', i18n: 'MT_KAISHI', methodName: 'start' },
+      { title: '解锁', i18n: 'MT_JIESUO', methodName: 'deblock' },
+      { title: '返回', i18n: 'MT_FANHUI', methodName: 'back' }
     ],
     tableButtonList: [
       [
-        { title: "新增休息", methodName: "addRest" },
-        { title: "新增手工议题", methodName: "addTopic" },
-        { title: "议题调整", methodName: "updateTopic" },
+        { title: '新增休息', i18n: 'MT_XINZENGXIUXI', methodName: 'addRest' },
+        {
+          title: '新增手工议题',
+          i18n: 'MT_XINZENGSHOUGONGYITI',
+          methodName: 'addTopic'
+        },
+        {
+          title: '议题调整',
+          i18n: 'MT_YITITIAOZHENG',
+          methodName: 'updateTopic'
+        },
+        {
+          title: '批量排序',
+          i18n: 'MT_PILIANGPAIXU',
+          methodName: 'sortBatch'
+        }
         // { title: "导入议题", methodName: "importTopic" },
       ],
       [
         // { title: "开始", methodName: "start" },
-        { title: "修改议题", methodName: "editTopic", disabled: true },
-        { title: "维护资料", methodName: "protectInfo", disabled: true },
-        { title: "删除", methodName: "deleteTopAll", disabled: true },
-        { title: "改期", methodName: "updateDate", disabled: true },
-        { title: "拆分", methodName: "split", disabled: true },
-      ],
-    ],
+        {
+          title: '修改议题',
+          i18n: 'MT_XIUGAIYITI',
+          methodName: 'editTopic',
+          disabled: true
+        },
+        {
+          title: '维护资料',
+          i18n: 'MT_WEIHUZILIAO',
+          methodName: 'protectInfo',
+          disabled: true
+        },
+        {
+          title: '删除',
+          i18n: 'MT_SHANCHU',
+          methodName: 'deleteTopAll',
+          disabled: true
+        },
+        {
+          title: '改期',
+          i18n: 'MT_GAIQI',
+          methodName: 'updateDate',
+          disabled: true
+        },
+        {
+          title: '拆分',
+          i18n: 'MT_CHAIFEN',
+          methodName: 'split',
+          disabled: true
+        }
+      ]
+    ]
   },
   {
-    title: "开始",
-    methodName: "start",
+    title: '开始',
+    i18n: 'MT_KAISHI',
+    methodName: 'start',
     rightButtonList: [
-      { title: "结束", methodName: "endMeeting" },
-      { title: "同屏", methodName: "sameScreen" },
-      { title: "展示", methodName: "displayShow" },
-      { title: "返回", methodName: "back" },
+      { title: '结束', i18n: 'MT_JIESHU', methodName: 'endMeeting' },
+      { title: '同屏', i18n: 'MT_TONGPING', methodName: 'sameScreen' },
+      { title: '展示', i18n: 'MT_ZHANSHI', methodName: 'displayShow' },
+      { title: '返回', i18n: 'MT_FANHUI', methodName: 'back' }
     ],
     tableButtonList: [
       [
-        { title: "新增休息", methodName: "addRest" },
-        { title: "新增手工议题", methodName: "addTopic" },
-        { title: "议题调整", methodName: "updateTopic" },
+        { title: '新增休息', i18n: 'MT_XINZENGXIUXI', methodName: 'addRest' },
+        {
+          title: '新增手工议题',
+          i18n: 'MT_XINZENGSHOUGONGYITI',
+          methodName: 'addTopic'
+        },
+        {
+          title: '议题调整',
+          i18n: 'MT_YITITIAOZHENG',
+          methodName: 'updateTopic'
+        },
+        {
+          title: '批量排序',
+          i18n: 'MT_PILIANGPAIXU',
+          methodName: 'sortBatch'
+        }
         // { title: "导入议题", methodName: "importTopic" },
       ],
       [
@@ -274,77 +377,188 @@ export const buttonList = [
         //   // disabled: true,
         //   triggerDisabled: true,
         // },
-        { title: "修改议题", methodName: "editTopic", disabled: true },
-        { title: "维护资料", methodName: "protectInfo", disabled: true },
-        { title: "删除", methodName: "deleteTopAll", disabled: true },
         {
-          title: "结束议题",
-          methodName: "overTopic",
-          disabled: true,
+          title: '修改议题',
+          i18n: 'MT_XIUGAIYITI',
+          methodName: 'editTopic',
+          disabled: true
         },
         {
-          title: "维护结论",
-          methodName: "protectResult",
-          disabled: true,
+          title: '维护资料',
+          i18n: 'MT_WEIHUZILIAO',
+          methodName: 'protectInfo',
+          disabled: true
         },
         {
-          title: "查看结论",
-          methodName: "lookResult",
-          disabled: true,
+          title: '删除',
+          i18n: 'MT_SHANCHU',
+          methodName: 'deleteTopAll',
+          disabled: true
         },
-      ],
-    ],
+        {
+          title: '结束议题',
+          i18n: 'MT_JIESHUYITI',
+          methodName: 'overTopic',
+          disabled: true
+        },
+        {
+          title: '维护结论',
+          i18n: 'MT_WEIHUJIELUN',
+          methodName: 'protectResult',
+          disabled: true
+        },
+        {
+          title: '查看结论',
+          i18n: 'MT_CHAKANJIELUN',
+          methodName: 'lookResult',
+          disabled: true
+        }
+      ]
+    ]
   },
   {
-    title: "结束",
-    methodName: "end",
+    title: '结束',
+    i18n: 'MT_JIESHU',
+    methodName: 'end',
     rightButtonList: [
-      { title: "关闭", methodName: "close" },
-      { title: "生成会议纪要", methodName: "generateMeetingMinutes" },
-      { title: "返回", methodName: "back" },
+      { title: '关闭', i18n: 'MT_GUANBI', methodName: 'close' },
+      {
+        title: '生成会议纪要',
+        i18n: 'MT_SHENGCHENGHUIYIJIYAO',
+        methodName: 'generateMeetingMinutes'
+      },
+      { title: '返回', i18n: 'MT_FANHUI', methodName: 'back' }
     ],
     tableButtonList: [
       [
-        { title: "新增休息", methodName: "addRest", disabled: true },
-        { title: "新增议题", methodName: "addTopic", disabled: true },
-        { title: "议题调整", methodName: "updateTopic", disabled: true },
+        {
+          title: '新增休息',
+          i18n: 'MT_XINZENGXIUXI',
+          methodName: 'addRest',
+          disabled: true
+        },
+        {
+          title: '新增议题',
+          i18n: 'MT_XINZENGYITI',
+          methodName: 'addTopic',
+          disabled: true
+        },
+        {
+          title: '议题调整',
+          i18n: 'MT_YITITIAOZHENG',
+          methodName: 'updateTopic',
+          disabled: true
+        }
       ],
       [
-        { title: "待定", methodName: "bePending", disabled: true },
-        { title: "定点", methodName: "fixedPoint", disabled: true },
-        { title: "转CSC", methodName: "translateCSC", disabled: true },
-        { title: "下次Pre CSC", methodName: "nextPreCSC", disabled: true },
-        { title: "发LOI", methodName: "senLol", disabled: true },
-        { title: "转TER/TOP-TER", methodName: "translateTer", disabled: true },
-        { title: "冻结RS单", methodName: "freezeRsBill", disabled: true },
-        { title: "关闭", methodName: "closeResult", disabled: true },
-        { title: "查看结论", methodName: "lookResult", disabled: true },
-      ],
-    ],
+        {
+          title: '待定',
+          i18n: 'MT_DAIDING',
+          methodName: 'bePending',
+          disabled: true
+        },
+        {
+          title: '定点',
+          i18n: 'MT_DINGDIAN',
+          methodName: 'fixedPoint',
+          disabled: true
+        },
+        {
+          title: '转CSC',
+          i18n: 'MT_ZHUANCSC',
+          methodName: 'translateCSC',
+          disabled: true
+        },
+        {
+          title: '下次Pre CSC',
+          i18n: 'MT_XIACIPRE',
+          methodName: 'nextPreCSC',
+          disabled: true
+        },
+        {
+          title: '发LOI',
+          i18n: 'MT_FALOI',
+          methodName: 'senLol',
+          disabled: true
+        },
+        {
+          title: '转TER/TOP-TER',
+          i18n: 'MT_ZHUANTER',
+          methodName: 'translateTer',
+          disabled: true
+        },
+        {
+          title: '冻结RS单',
+          i18n: 'MT_DONGJIERSDAN',
+          methodName: 'freezeRsBill',
+          disabled: true
+        },
+        {
+          title: '关闭',
+          i18n: 'MT_GUANBI',
+          methodName: 'closeResult',
+          disabled: true
+        },
+        {
+          title: '查看结论',
+          i18n: 'MT_CHAKANJIELUN',
+          methodName: 'lookResult',
+          disabled: true
+        }
+      ]
+    ]
   },
   {
-    title: "关闭",
-    methodName: "close",
+    title: '关闭',
+    i18n: 'MT_GUANBI',
+    methodName: 'close',
     rightButtonList: [
-      { title: "生成会议纪要", methodName: "generateMeetingMinutes" },
-      { title: "返回", methodName: "back" },
+      {
+        title: '生成会议纪要',
+        i18n: 'MT_SHENGCHENGHUIYIJIYAO',
+        methodName: 'generateMeetingMinutes'
+      },
+      { title: '返回', i18n: 'MT_FANHUI', methodName: 'back' }
     ],
     tableButtonList: [
       [
-        { title: "新增休息", methodName: "addRest", disabled: true },
-        { title: "新增手工议题", methodName: "addTopic", disabled: true },
-        { title: "议题调整", methodName: "updateTopic", disabled: true },
+        {
+          title: '新增休息',
+          i18n: 'MT_XINZENGXIUXI',
+          methodName: 'addRest',
+          disabled: true
+        },
+        {
+          title: '新增手工议题',
+          i18n: 'MT_XINZENGSHOUGONGYITI',
+          methodName: 'addTopic',
+          disabled: true
+        },
+        {
+          title: '议题调整',
+          i18n: 'MT_YITITIAOZHENG',
+          methodName: 'updateTopic',
+          disabled: true
+        }
       ],
-      [{ title: "查看结论", methodName: "lookResult", disabled: true }],
-    ],
+      [
+        {
+          title: '查看结论',
+          i18n: 'MT_CHAKANJIELUN',
+          methodName: 'lookResult',
+          disabled: true
+        }
+      ]
+    ]
   },
   {
-    title: "草稿",
-    methodName: "draw",
+    title: '草稿',
+    i18n: 'MT_CAOGAO',
+    methodName: 'draw',
     rightButtonList: [],
-    tableButtonList: [[], []],
-  },
-];
+    tableButtonList: [[], []]
+  }
+]
 
 // tableColumns: [
 //   {

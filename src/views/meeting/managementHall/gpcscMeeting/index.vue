@@ -118,6 +118,8 @@
           @freezeRsBill="freezeRsBill"
           @closeResult="closeResult"
           @newAddTopic="newAddTopic"
+          @sendAgenda="sendAgenda" 
+          @batchAdjustment="batchAdjustment" 
         />
         <div class="table-container">
           <!-- 原来meeting -->
@@ -1172,11 +1174,47 @@
       :errorList="errorList"
       @handleCloseError="handleCloseError"
     />
+    <!-- 发送大会议程 -->
+    <iDialog
+      v-if="sendAgendaDialog"
+      :title="language('发送大会议程', '发送大会议程')"
+      :visible.sync="sendAgendaDialog"
+      width="80%"
+      :append-to-body="true"
+    >
+      <sendAgenda
+        v-if="sendAgendaDialog"
+        @close="sendAgendaDialog = false"
+        style="padding-bottom: 20px"
+      ></sendAgenda>
+    </iDialog>
+    <!-- 批量调整 -->
+    <iDialog
+      v-if="batchAdjustmentDialog"
+      :title="language('批量排序', '批量排序')"
+      :visible.sync="batchAdjustmentDialog"
+      width="30%"
+      :append-to-body="true"
+    >
+    <template #title>
+      <div>
+        <span class="iDialogdiv">批量排序</span>
+        <span class="iDialogdivspan"> 上下拖拽即可调整顺序 </span>
+      </div>
+    </template>
+      <batchAdjustment
+        v-if="batchAdjustmentDialog"
+        @close="batchAdjustmentDialog = false"
+        style="padding-bottom: 20px"
+      ></batchAdjustment>
+    </iDialog>
   </iPage>
 </template>
-<script>
+<script>batchAdjustment
+import batchAdjustment from './component/batchAdjustment'
+import sendAgenda from './component/sendAgenda'
 import newAddTopic from './component/newAddTopic.vue'
-import { iPage, iCard, iButton, iMessage } from 'rise'
+import { iPage, iCard, iButton, iMessage , iDialog} from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { buttonList, stateObj, themenConclusion } from './component/data'
 import actionButtons from './component/actionButtons.vue'
@@ -1221,6 +1259,8 @@ import newSummaryDialogNew from '@/views/meeting/home/components/newSummaryDialo
 export default {
   mixins: [pageMixins],
   components: {
+    batchAdjustment,//批量调整
+    sendAgenda,//发送大会议程
     newAddTopic,//新增议题gp
     iPage,
     iCard,
@@ -1241,7 +1281,8 @@ export default {
     iTableML,
     newSummaryDialogNew,
     addTopicNew,
-    importErrorDialog
+    importErrorDialog,
+    iDialog
   },
   data() {
     return {
@@ -1315,7 +1356,9 @@ export default {
       changedArr: '',
       topicInfo: {},
       openAddTopic: false,
-      beforeResult: ''
+      beforeResult: '',
+      sendAgendaDialog:false,//发送大会议程
+      batchAdjustmentDialog:false,//批量调整
     }
   },
   watch: {
@@ -1357,6 +1400,15 @@ export default {
   //   }
   // },
   methods: {
+    //批量调整
+    batchAdjustment(){
+      this.batchAdjustmentDialog=true
+      // const meetingId = this.$route.query.id
+    },
+    //发送大会议程
+    sendAgenda(){
+      this.sendAgendaDialog=true
+    },
     handleClickColumn() {
       this.$refs['hiddenColumnTable'].handleOpenColumn()
     },
@@ -2017,8 +2069,7 @@ export default {
         meetingId: this.meetingInfo.id,
         resortThemens: this.shouldhanldeUpdateData
       }
-      resortThemen(formData)
-        .then((data) => {
+      resortThemen(formData).then((data) => {
           if (data) {
             iMessage.success('保存成功')
           } else {
@@ -2116,7 +2167,10 @@ export default {
         new Date(`2021-7-1 ${dayjs(new Date()).format('HH:mm:ss')}`).getTime()
       )
     },
+    //结束议题按钮
     overTopic() {
+      this.openDialog('openProtectConclusion')
+      return
       // alert("overTopic");
       let choiceThemen = this.selectedTableData && this.selectedTableData[0]
       choiceThemen = choiceThemen ? choiceThemen : this.haveThemenIsStarting()
@@ -2220,42 +2274,6 @@ export default {
       }
       this.openDialog('openUpdateDateDialog')
     },
-    // deleteTop() {
-    //   if (
-    //     this.selectedTableData[0] &&
-    //     this.selectedTableData[0].state !== "01" &&
-    //     this.selectedTableData[0].state !== "04"
-    //   ) {
-    //     iMessage.warn("只能删除未进行的议题");
-    //     return;
-    //   }
-    //   if (
-    //     this.selectedTableData[0] &&
-    //     this.selectedTableData[0].state === "04"
-    //   ) {
-    //     iMessage.warn("不能删除撤回中的议题");
-    //     return;
-    //   }
-    //   const data = {
-    //     meetingId: this.meetingInfo.id,
-    //     id: this.selectedTableData[0].id,
-    //   };
-    //   this.$confirm("确认删除该议题吗?", "提示", {
-    //     confirmButtonText: "确认",
-    //     cancelButtonText: "取消",
-    //     type: "warning",
-    //   }).then(() => {
-    //     deleteThemen(data)
-    //       .then(() => {
-    //         iMessage.success("删除成功");
-    //         this.flushTable();
-    //       })
-    //       .catch((err) => {
-    //         iMessage.error("删除失败");
-    //         this.flushTable();
-    //       });
-    //   });
-    // },
     //批量删除
     deleteTopAll() {
       this.$confirm('确认删除该议题么?', '提示', {
@@ -2314,7 +2332,6 @@ export default {
       this.openDialog('openProtectInfoDialog')
     },
     editTopic() {
-      debugger
       if (this.selectedTableData[0].state === '03') {
         iMessage.warn('已结束的议题不能进行修改议题')
         return
@@ -2668,6 +2685,7 @@ export default {
     // },
     // 表格选中值集
     handleSelectionChange(val) {
+      console.log(val)
       if (this.curState === '05') {
         val = [val[val.length - 1]]
         this.currentRow = val[0]
@@ -2779,11 +2797,14 @@ export default {
             }
           }
         } else if (val[0].state === '02') {
+          this.handleButtonDisabled(['sendAgenda'], false)//发送大会议程
           this.handleButtonDisabled(handleDisabledButtonName, true)
+          
           this.handleStartTopicButtonDisabled(['startTopic'], true)
           this.handleButtonDisabled(['protectResult'], true)
           this.handleButtonDisabled(['overTopic'], false)
         } else {
+          this.handleButtonDisabled(['sendAgenda'], true)
           if (val[0].isBreak) {
             this.handleButtonDisabled(['deleteTopAll'], false)
             if (
@@ -2813,7 +2834,7 @@ export default {
           }
         }
       } else {
-        this.handleButtonDisabled(
+          this.handleButtonDisabled(
           [
             'bePending',
             'fixedPoint',
@@ -2829,6 +2850,7 @@ export default {
           true
         )
         this.handleButtonDisabled(handleDisabledButtonName, true)
+        this.handleButtonDisabled(['sendAgenda'], false)//发送大会议程
         this.handleStartTopicButtonDisabled(['startTopic'], true)
         this.handleButtonDisabled(['overTopic'], true)
         if (val.length > 1) {
@@ -2860,6 +2882,15 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.iDialogdiv{
+  font-size: 18px;
+  font-weight: 700;
+}
+.iDialogdivspan{
+  font-weight: 400;
+  margin-left: 20px;
+  color: #b5b5b6;
+}
 .display-column {
   transform: translateY(90px);
 }

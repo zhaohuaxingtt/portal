@@ -179,6 +179,10 @@ export default {
         return
       }
       const data = this.selection[0]
+      if (!data.filePath) {
+        iMessage.error(this.language('WENJIANXIXINBUCUNZAI', '文件信息不存在'))
+        return
+      }
       // 创建a标签
       const link = document.createElement('a')
       // download属性

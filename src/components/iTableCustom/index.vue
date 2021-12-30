@@ -18,7 +18,7 @@
       :data="virtualList ? virtualTableData : realTableData"
       :row-key="rowKey || 'uniqueId'"
       :highlight-current-row="highlightCurrentRow"
-      :empty-text="language('ZANWUSHUJU','暂无数据')"
+      :empty-text="language('ZANWUSHUJU', '暂无数据')"
       :row-class-name="getRowClassNameDefault"
       :row-style="getRowStyle"
       :cell-class-name="getCellClassName"
@@ -135,7 +135,11 @@
                 :header-align="subItem.headerAlign"
                 :show-overflow-tooltip="subItem.tooltip"
                 :prop="subItem.prop"
-                :label="subItem.i18n ? language(subItem.i18n,subItem.label) : subItem.label"
+                :label="
+                  subItem.i18n
+                    ? language(subItem.i18n, subItem.label)
+                    : subItem.label
+                "
                 :width="subItem.width ? subItem.width.toString() : ''"
                 :min-width="subItem.minWidth ? subItem.minWidth.toString() : ''"
                 :sortable="subItem.sortable"
@@ -275,7 +279,7 @@ export default {
     // 是不是级联选择
     cascade: {
       type: Boolean,
-      default: false
+      default: true
     },
     // 使用自定义选择框
     customSelection: {
@@ -286,6 +290,15 @@ export default {
     emitHalfSelection: {
       type: Boolean,
       default: true
+    },
+    // 使用自定义选择框选项
+    customSelectionOption: {
+      type: Object,
+      default: function () {
+        return {
+          checkStrictly: false // 在显示复选框的情况下，是否严格的遵循父子不互相关联的做法，默认为 false, false: 关联，true: 不关联
+        }
+      }
     },
     // 子元素数量是否显示
     childNumVisible: {
@@ -469,7 +482,7 @@ export default {
         } */
         /******************* end *********************/
       } else {
-        this.tableData = this.data
+        this.tableData = this.data ? this.data : []
         this.tableData.forEach((e, index) => {
           e.uniqueId = index + ''
           e.visible = true

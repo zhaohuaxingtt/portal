@@ -1,4 +1,3 @@
-
 <template>
   <!--转派-->
   <iDialog
@@ -27,15 +26,19 @@
           <div class="form-item-row1-col2"></div>
           <div class="form-item-row1-col3">
             <iFormItem>
-              <p class="type-title">{{$t('MT_HUIYILEIXING')}}</p>
-              <p class="type-name">{{typeObject[ruleForm.meetingTypeId]}}</p>
+              <p class="type-title">{{ $t('MT_HUIYILEIXING') }}</p>
+              <p class="type-name">{{ typeObject[ruleForm.meetingTypeId] }}</p>
             </iFormItem>
           </div>
         </el-row>
         <el-row class="form-row">
           <div class="form-item-row2-col1">
             <iFormItem label="会议日期" prop="startDate">
-              <iLabel :label="$t('MT_HUIYIRIQI')" slot="label" required></iLabel>
+              <iLabel
+                :label="$t('MT_HUIYIRIQI')"
+                slot="label"
+                required
+              ></iLabel>
               <iDatePicker
                 value-format="yyyy-MM-dd"
                 type="date"
@@ -48,7 +51,11 @@
           <div class="form-item-row2-col2"></div>
           <div class="form-item-row2-col3">
             <iFormItem label="开始时间" prop="startTime">
-              <iLabel :label="$t('MT_KAISHISHIJIAN')" slot="label" required></iLabel>
+              <iLabel
+                :label="$t('MT_KAISHISHIJIAN')"
+                slot="label"
+                required
+              ></iLabel>
               <el-time-picker
                 value-format="hh:mm:ss"
                 :placeholder="$t('MT_QINGXUANZEHUIYIKAISHIJIAN')"
@@ -60,7 +67,11 @@
         <el-row class="form-row">
           <div class="form-item-row3-col1">
             <iFormItem label="会议地址" prop="meetingPlace">
-              <iLabel :label="$t('MT_HUIYIDIZHI')" slot="label" required></iLabel>
+              <iLabel
+                :label="$t('MT_HUIYIDIZHI')"
+                slot="label"
+                required
+              ></iLabel>
               <iInput v-model="ruleForm.meetingPlace" />
             </iFormItem>
           </div>
@@ -68,10 +79,10 @@
         <div class="button-list">
           <el-form-item>
             <iButton @click="clearDiolog" plain class="cancel">{{
-              $t("MT_XIUGAI")
+              $t('MT_XIUGAI')
             }}</iButton>
             <iButton type="primary" @click="handleSubmit" plain>{{
-               $t("LK_QUXIAO")
+              $t('LK_QUXIAO')
             }}</iButton>
           </el-form-item>
         </div>
@@ -88,11 +99,11 @@ import {
   iLabel,
   iButton,
   iDatePicker,
-  iMessage,
-} from "rise";
-import iEditForm from "@/components/iEditForm";
-import { updateMeeting, getMeetingById } from "@/api/meeting/home";
-import { baseRulesUpdate } from "./data.js";
+  iMessage
+} from 'rise'
+import iEditForm from '@/components/iEditForm'
+import { updateMeeting, getMeetingById } from '@/api/meeting/home'
+// import { baseRulesUpdate } from './data.js'
 
 export default {
   components: {
@@ -102,50 +113,66 @@ export default {
     iInput,
     iLabel,
     iButton,
-    iEditForm,
+    iEditForm
   },
   props: {
     openUpdate: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     typeObject: {
       type: Object,
       default: () => {
-        return {};
-      },
+        return {}
+      }
     },
     id: {
       type: String,
       default: () => {
-        return '';
-      },
-    },
+        return ''
+      }
+    }
   },
   data() {
     return {
       ruleForm: {
-        name: "",
-        startDate: "",
-        startTime: "",
-        meetingPlace: "",
+        name: '',
+        startDate: '',
+        startTime: '',
+        meetingPlace: ''
       },
-      rules: baseRulesUpdate,
-      datePickerOptions: { // 日期选择
+      rules: {
+        name: [
+          { required: true, message: this.$t('MT_QINGSHURUHUIYIMINGCHENG'), trigger: 'blur' },
+          { min: 1, max: 64, message: this.$t('MT_ZUIDACHANGDU100ZIFU'), trigger: 'blur' }
+        ],
+        startDate: [
+          { required: true, message: this.$t('MT_QINGXUANZEHUIYIKAISHIRIQI'), trigger: 'change' }
+        ],
+        startTime: [
+          { required: true, message: this.$t('MT_QINGXUANZEHUIYIKAISHIJIAN'), trigger: 'change' }
+        ],
+        meetingPlace: [
+          { required: true, message: this.$t('MT_QINGSHURUHUIYIDIZHI'), trigger: 'blur' },
+          { min: 1, max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+        ]
+      },
+      datePickerOptions: {
+        // 日期选择
         disabledDate: (date) => {
-          return date < new Date() - 24*60*60*1000;
+          return date < new Date() - 24 * 60 * 60 * 1000
         }
       }
-    };
+    }
   },
   mounted() {
     let param = {
-      id: this.id,
+      id: this.id
     }
     getMeetingById(param).then((res) => {
-      this.ruleForm = res;
+      this.ruleForm = res
       this.ruleForm.name = res.name
       this.ruleForm.startDate = res.startDate
       this.ruleForm.endDate = res.endDate
@@ -157,18 +184,18 @@ export default {
   },
   methods: {
     close() {
-      this.$emit("closeDialog", false);
+      this.$emit('closeDialog', false)
     },
     clearDiolog(sub) {
-      if (sub === "submit") {
-        this.$emit("closeDialog", false);
+      if (sub === 'submit') {
+        this.$emit('closeDialog', false)
       } else {
         // this.$confirm("是否取消编辑?", "提示", {
         //   confirmButtonText: "是",
         //   cancelButtonText: "否",
         //   type: "warning",
         // }).then(() => {
-          this.$emit("closeDialog", false);
+        this.$emit('closeDialog', false)
         // });
       }
     },
@@ -178,45 +205,44 @@ export default {
       //   cancelButtonText: "否",
       //   type: "warning",
       // }).then(() => {
-        this.submitForm("ruleForm");
+      this.submitForm('ruleForm')
       // });
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let formData = this.ruleForm;
+          let formData = this.ruleForm
           updateMeeting(formData)
             .then((res) => {
               if (res) {
-                this.clearDiolog("submit");
-                iMessage.success(this.$t('保存成功'));
-                this.$emit("refreshTable");
+                this.clearDiolog('submit')
+                iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
+                this.$emit('refreshTable')
               } else {
-                iMessage.success(this.$t("保存失败"));
-                this.clearDiolog("submit");
+                iMessage.success(this.$t('MT_BAOCUNSHIBAI'))
+                this.clearDiolog('submit')
               }
             })
             .catch((err) => {
-              console.log("err", err);
-            });
+              console.log('err', err)
+            })
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
-    changeAttendee(e,) {
-      this.attendeeList.forEach(item => {
+    changeAttendee(e) {
+      this.attendeeList.forEach((item) => {
         if (item.id == e) {
-          this.ruleForm.attendee = item.attendeeName;
+          this.ruleForm.attendee = item.attendeeName
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">
-
 .form-box {
   padding-bottom: 30px;
 

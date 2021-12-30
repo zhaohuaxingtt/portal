@@ -36,7 +36,8 @@
                 <i-input class="input" type="text" disabled v-model="form.createByName" placeholder="请输入" />
             </div>
         </div>
-        <iEditor class="flex-1 qs-editor" :class="[type == 'detail' ? 'overflow-auto' : 'overflow-hidden']" :disabled="type == 'detail'" v-if="form.answerContent" v-model="form.answerContent" :html="form.answerContent"></iEditor>
+        <div v-if="type == 'detail'" class="flex-1 qs-editor overflow-auto" v-html="form.answerContent"></div>
+        <iEditor v-else class="flex-1 qs-editor overflow-hidden" v-model="form.answerContent" :html="form.answerContent"></iEditor>
         <div class="flex" style="margin-top:20px;align-items: flex-start;">
             <div class="label">附件：</div>
             <iUpload ref="upload" :disabled="type == 'detail'" v-model="form.annexList" @onSuccess="uploadSucc" >

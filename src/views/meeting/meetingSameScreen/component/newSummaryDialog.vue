@@ -239,11 +239,11 @@ export default {
       },
       rules: {
         attendees: [
-          { required: true, message: this.$t('请输入议题结论！'), trigger: 'blur' },
-          { min: 0, max: 2048, message: this.$t('最大长度2048字符'), trigger: 'blur' }
+          { required: true, message: this.$t('MT_QINGSHURUYITIJIELUN'), trigger: 'blur' },
+          { min: 0, max: 2048, message: this.$t('MT_ZUIDACHANGDU2048ZIFU'), trigger: 'blur' }
         ],
         conclusion: [
-          { min: 0, max: 2048, message: this.$t('最大长度2048字符'), trigger: 'blur' }
+          { min: 0, max: 2048, message: this.$t('MT_ZUIDACHANGDU2048ZIFU'), trigger: 'blur' }
         ]
       },
       employeeDTOS: [],
@@ -322,7 +322,7 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           saveMeetingMinutes(this.resultData).then(() => {
-            iMessage.success(this.$t('保存成功'))
+            iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
             this.$emit('handleOK')
           })
         }

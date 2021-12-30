@@ -77,8 +77,9 @@
         prop="topic"
         align="center"
         label="Present Items"
-        min-width="223"
+        :width="setColumnWidth(tabData)"
       >
+        <!-- min-width="223" -->
         <template slot-scope="scope">
           <span class="open-link-text" @click="lookOrEdit(scope.row)">{{
             scope.row.topic
@@ -104,14 +105,14 @@
       >
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
-     <el-table-column
+      <!-- <el-table-column
         show-overflow-tooltip
         align="center"
         label="BEN(CN)"
         min-width="58"
         prop="benCn"
       >
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column align="center" width="30"></el-table-column>
       <el-table-column
         show-overflow-tooltip
@@ -156,7 +157,7 @@
         min-width="45"
       >
         <template slot-scope="scope">
-          {{ stateObj[scope.row.state] }}
+          {{ $t(stateObj[scope.row.state]) }}
         </template>
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -167,7 +168,7 @@
         min-width="45"
       >
         <template slot-scope="scope">
-          <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
+          <span>{{ $t(themenConclusion[scope.row.conclusionCsc]) }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" width="30"></el-table-column>
@@ -225,8 +226,8 @@ export default {
   },
   data() {
     return {
-            processUrl: process.env.VUE_APP_POINT,
-      processUrlPortal:process.env.VUE_APP_POINT_PORTA,
+      processUrl: process.env.VUE_APP_POINT,
+      processUrlPortal: process.env.VUE_APP_POINT_PORTA,
       disabledButton: true,
       selectedData: [],
       stateObj,
@@ -342,7 +343,7 @@ export default {
     // 查看更多
     handleMore() {
       this.$router.push({
-        path: '/meeting/near-meeting/special-more-themens',
+        path: '/meeting/near-meeting/special-more-themens'
         // query: {
         //   meetingTypeId: this.meetingTypeId
         // }
@@ -397,6 +398,45 @@ export default {
       let from = (pageNum - 1) * this.page.pageSize
       let to = pageNum * this.page.pageSize
       this.tableData = data.slice(from, to)
+    },
+    //表格列字符限制
+    setColumnWidth(data) {
+      if (!data || data.length === 0) {
+        return
+      }
+      let index = 0
+      let maxStr = ''
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].topic === null) {
+          return
+        }
+        const nowline = data[i].topic + ''
+        const maxline = data[index].topic + ''
+        if (nowline.length > maxline.length) {
+          index = i
+        }
+      }
+      maxStr = data[index].topic
+      let columnWidth = 0
+      for (let char of maxStr) {
+        if (char >= 'A' && char <= 'Z') {
+          columnWidth += 8
+        } else if (char >= 'a' && char <= 'z') {
+          columnWidth += 6
+        } else if (char >= '\u4e00' && char <= '\u9fa5') {
+          columnWidth += 13
+        } else {
+          columnWidth += 7
+        }
+      }
+      if (columnWidth < 223) {
+        // 设置最小宽度
+        columnWidth = 223
+      }
+      if (columnWidth > 306) {
+        columnWidth = 306
+      }
+      return columnWidth + 'px'
     }
   }
 }

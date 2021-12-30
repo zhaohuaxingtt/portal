@@ -14,14 +14,14 @@ export const chooseReceiverTableColumns = [
   {
     type: "index",
     label: "序号",
-    i18n: "序号",
+    i18n: "MT_XUHAO3",
     width: 68,
     tooltip: false,
   },
   {
     // prop: "nameZh",
     label: "姓名",
-    i18n: "姓名",
+    i18n: "MT_XINGMING",
     align: "left",
     // width: 200,
     tooltip: true,
@@ -43,7 +43,7 @@ export const chooseReceiverTableColumns = [
     // prop: "email",
     // width: 200,
     label: "电子邮箱",
-    i18n: "电子邮箱",
+    i18n: "MT_DIANZIYOUXIANG",
     align: "left",
     tooltip: true,
     customRender: (h, scope) => {
@@ -63,7 +63,7 @@ export const chooseReceiverTableColumns = [
   {
     // prop: "userNum",
     label: "工号",
-    i18n: "工号",
+    i18n: "MT_GONGHAO",
     width: 90,
     align: "left",
     tooltip: true,
@@ -84,7 +84,7 @@ export const chooseReceiverTableColumns = [
   {
     // prop: "deptNumList",
     label: "所属部门",
-    i18n: "所属部门",
+    i18n: "MT_SUOSHUBUMEN",
     align: "left",
     tooltip: true,
     customRender: (h, scope) => {
