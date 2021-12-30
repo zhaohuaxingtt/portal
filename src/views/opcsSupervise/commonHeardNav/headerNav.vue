@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-07 16:44:06
+ * @LastEditTime: 2021-12-30 09:33:57
  * @FilePath: \front-portal-new\src\views\opcsSupervise\commonHeardNav\headerNav.vue
 -->
 
@@ -12,6 +12,7 @@
         {{ language('YINGYONGMINGCHENG', '应⽤名称') }}-{{$route.query.nameZh}}
       </p>
       <iNavMvp
+      :lang='true' 
         v-if="isShow"
         :list="tabRouterList"
         class="margin-bottom20"

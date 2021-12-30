@@ -656,13 +656,13 @@ export default {
       this.editor = new E('#editer')
       // 配置菜单栏，设置不需要的菜单
       this.editor.config.excludeMenus = [
-        'list',
-        'todo',
-        'emoticon',
+        // 'list',
+        // 'todo',
+        // 'emoticon',
         'image',
-        'video',
-        'table',
-        'code'
+        // 'video',
+        // 'table',
+        // 'code'
       ]
       // 配置字体
       this.editor.config.fontNames = [
@@ -828,8 +828,17 @@ export default {
           return i.attachmentId
         })
         .join(',')
+      const filename =
+        this.selectedFileData.length == 1
+          ? ''
+          : this.$route.query.id
+          ? this.ruleForm.name + '_' +
+            this.ruleForm.termsVersion + '_' +
+            new Date().getTime()
+          : '条款附件' + new Date().getTime()
       downloadZip({
         fileIds: fileNameids,
+        filename: filename,
         callback: (e) => {
           if (!e) {
             iMessage.error('下载失败')

@@ -8,7 +8,7 @@
           <i class="el-icon-more"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>查看</el-dropdown-item>
+          <el-dropdown-item>{{language('CHAKAN', '查看')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -20,9 +20,9 @@
         <table cellpadding='10'>
           <tr class=" cardtableTitle">
             <th>Group</th>
-            <th>RFQ数</th>
-            <th>定点数</th>
-            <th>Ongoing询价数</th>
+                   <th>{{language('RFQSHU', 'RFQ数')}}</th>
+            <th>{{language('DINGDIANSHU', '定点数')}}</th>
+            <th>{{language('ONGOINGXUNJIASHU', 'Ongoing询价数')}}</th>
           </tr>
           <tr class="bgtr">
             <td>100</td>
