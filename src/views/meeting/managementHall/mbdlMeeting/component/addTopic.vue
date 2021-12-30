@@ -1,5 +1,5 @@
+  <!--新增议题-->
 <template>
-  <!--转派-->
   <iDialog
     :title="
       editOrAdd === 'add'
@@ -13,6 +13,7 @@
     :close-on-click-modal="false"
     @close="close"
   >
+  123123
     <iEditForm class="form-edit">
       <el-form
         :model="ruleForm"
