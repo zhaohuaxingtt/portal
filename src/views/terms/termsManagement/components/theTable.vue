@@ -325,7 +325,7 @@ export default {
           ? (supplierIdentityList += "储蓄池，")
           : (supplierIdentityList += "");
       });
-      supplierIdentityList = supplierIdentityList.slice(
+      supplierIdentityList.length == 0 ? supplierIdentityList = '' : supplierIdentityList = supplierIdentityList.slice(
         0,
         supplierIdentityList.length - 1
       );
