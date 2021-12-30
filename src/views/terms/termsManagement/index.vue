@@ -106,7 +106,7 @@ export default {
       ) {
         delete e.supplierIdentity
       } else {
-        e.supplierIdentity = e.supplierIdentity
+        e.supplierIdentity = e.supplierIdentity.sort()
           .map((i) => {
             return i
           })
