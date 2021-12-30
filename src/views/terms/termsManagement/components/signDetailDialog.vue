@@ -29,6 +29,7 @@
                 :placeholder="$t('LK_QINGXUANZE')"
                 v-model="form.signStatus"
                 clearable
+                multiple
               >
                 <el-option
                   :value="item.value"
@@ -46,6 +47,7 @@
                 :placeholder="$t('LK_QINGXUANZE')"
                 v-model="form.supplierIdentity"
                 clearable
+                multiple
               >
                 <el-option
                   :value="item.value"
@@ -512,6 +514,28 @@ export default {
     //   );
     // },
     query(e) {
+      if (
+        e.supplierIdentity == '' ||
+        e.supplierIdentity == null ||
+        e.supplierIdentity == undefined
+      ) {
+        delete e.supplierIdentity
+      } else {
+        e.supplierIdentity = e.supplierIdentity.sort()
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
+      if (e.signStatus == '' || e.signStatus == null || e.signStatus == undefined) {
+        delete e.signNode
+      } else {
+        e.signStatus = e.signStatus
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
       getSignatureResult(e)
         .then((res) => {
           // this.tableListData = res?.termsSupplierList;
