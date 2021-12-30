@@ -227,7 +227,7 @@ const actions = {
             j()
           }
         })
-        .catch((err) => {
+        .catch(() => {
           commit('SET_MENU_LIST', [])
           commit('SET_WIHTEBTN_LIST', [])
           j()

@@ -30,7 +30,7 @@
 import { iNavMvp, iPage } from 'rise'
 import newTheTable from './components/newTheTable.vue'
 import adminHall from './components/adminHall.vue'
-import { tabRouterList } from './components/data'
+// import { tabRouterList } from './components/data'
 import { findFirstStartCSCMeeting } from '@/api/meeting/live'
 
 export default {
@@ -47,7 +47,33 @@ export default {
   data() {
     return {
       value: 1,
-      tabRouterList,
+      tabRouterList: [
+        {
+          value: 1,
+          name: '通用会议',
+          url: '/meeting/hall',
+          activePath: '/meeting/type',
+          key: this.$t('MT_TONGYONGHUIYI')
+        },
+        {
+          value: 2,
+          name: '生产采购CSC',
+          url: '/meeting/hall',
+          key: this.$t('MT_SHENGCHANCAIGOUSCC')
+        },
+        {
+          value: 3,
+          name: '一般采购CSG',
+          url: '/meeting/hall',
+          key: this.$t('MT_YIBANCAIGOUCSG')
+        },
+        {
+          value: 4,
+          name: '管理大厅',
+          url: '/meeting/hall',
+          key: this.$t('MT_GUANLIDATING')
+        }
+      ],
       menuType: ''
     }
   },
