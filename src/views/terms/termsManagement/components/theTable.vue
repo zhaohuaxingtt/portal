@@ -50,7 +50,7 @@
           show-overflow-tooltip
           align="center"
           label="条款名称"
-          min-width="160"
+          min-width="400"
           ><template slot-scope="scope">
             <span class="open-link-text" @click="handleGoDetail(scope.row)">{{
               scope.row["name"]
