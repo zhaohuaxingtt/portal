@@ -82,12 +82,12 @@
       </div>
       <!-- 列表 -->
       <iCard>
-        <iButton
+        <!-- <iButton
           @click="handleClickColumn"
           class="display-column"
           :disabled="showUpdateTopicButtonList"
           >列隐藏/显示</iButton
-        >
+        > -->
         <actionButtons
           :currentButtonList="tableButtonList"
           :showUpdateTopicButtonList="showUpdateTopicButtonList"
@@ -1070,7 +1070,8 @@
       :meetingInfo="meetingInfo"
       :editOrAdd="editOrAdd"
       :selectedTableData="selectedTableData"
-      :lookThemenObj="lookThemenObj"></newAddTopic>
+      :lookThemenObj="lookThemenObj">
+      </newAddTopic>
     <!-- <addTopicNew
       @closeDialog="closeDialog"
       :dialogStatusManageObj="dialogStatusManageObj"
@@ -1210,7 +1211,7 @@
     </iDialog>
   </iPage>
 </template>
-<script>batchAdjustment
+<script>
 import batchAdjustment from './component/batchAdjustment'
 import sendAgenda from './component/sendAgenda'
 import newAddTopic from './component/newAddTopic.vue'
@@ -1240,6 +1241,7 @@ import {
   resortThemen,
   spiltThemen
 } from '@/api/meeting/details'
+// import { findByRelationMeeting } from '@/api/meeting/gpMeeting'
 import Sortable from 'sortablejs'
 import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
@@ -1951,8 +1953,9 @@ export default {
         id
       }
       const _this = this
-      findThemenById(data)
-        .then((res) => {
+      findThemenById(data).then((res) => {
+          console.log(res);
+          // return
           this.meetingType = res.state
           _this.meetingInfo = res
           // console.log(res);

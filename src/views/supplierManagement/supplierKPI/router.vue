@@ -2,12 +2,12 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-08-23 15:39:07
- * @LastEditors: zbin
+ * @LastEditors: caopeng
  * @Descripttion: your project
 -->
 <template>
   <div>
-    <iNavMvp :list="categoryManagementAssistantList" :lev='2' right routerPage class="nav" />
+    <iNavMvp :lang="true" :list="categoryManagementAssistantList" :lev='2' right routerPage class="nav" />
     <router-view />
   </div>
 </template>

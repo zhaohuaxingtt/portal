@@ -398,7 +398,7 @@ export default {
             ? (supplierIdentityList += "储蓄池，")
             : (supplierIdentityList += "");
         });
-        item.signDate = item.signDate.substring(0, 10);
+        item.signDate = item.signDate?.substring(0, 10);
         supplierIdentityList = supplierIdentityList.slice(
           0,
           supplierIdentityList.length - 1

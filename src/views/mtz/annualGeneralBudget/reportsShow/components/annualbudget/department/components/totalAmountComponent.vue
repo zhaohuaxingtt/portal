@@ -30,7 +30,7 @@ export default {
           legend: {
             bottom: '10%',
             itemGap: 30,
-            icon: 'circle'
+            icon: 'circle',
           },
           color: [
             'rgb(22, 96, 241)',

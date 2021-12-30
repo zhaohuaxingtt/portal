@@ -2,8 +2,8 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-05-27 14:47:25
- * @LastEditors: zbin
- * @LastEditTime: 2021-05-27 20:37:54
+ * @LastEditors: caopeng
+ * @LastEditTime: 2021-12-30 10:10:40
  * @Descripttion: 深入评级
 -->
 <template>
@@ -13,17 +13,17 @@
       <div>
         <icon class="early"
               symbol
-              name="iconbaojiapingfengenzong-jiedian-hong"></icon> <span>供应商数量（个）：{{info.red}}</span>
+              name="iconbaojiapingfengenzong-jiedian-hong"></icon> <span>{{language('GONGYINGSHANGSHULIANGGE', '供应商数量（个）')}}：{{info.red}}</span>
       </div>
       <div>
         <icon class="early"
               symbol
-              name="iconbaojiapingfengenzong-jiedian-huang"></icon> <span>供应商数量（个）：{{info.yellow}}</span>
+              name="iconbaojiapingfengenzong-jiedian-huang"></icon> <span>{{language('GONGYINGSHANGSHULIANGGE', '供应商数量（个）')}}：{{info.yellow}}</span>
       </div>
       <div>
         <icon class="early"
               symbol
-              name="iconbaojiapingfengenzong-jiedian-lv"></icon> <span>供应商数量（个）：{{info.green}}</span>
+              name="iconbaojiapingfengenzong-jiedian-lv"></icon> <span>{{language('GONGYINGSHANGSHULIANGGE', '供应商数量（个）')}}：{{info.green}}</span>
       </div>
     </div>
   </iCard>
