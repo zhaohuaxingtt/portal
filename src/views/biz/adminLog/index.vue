@@ -224,16 +224,9 @@ export default {
         },
 		// 查看详情
         msgDetail(row){
-			if(row.category == 1){
-				// 操作日志 	流水号查
-				this.parmas = {
-					id_in:row.interfaceSerial ? row.interfaceSerial.split(",") : []
-				}
-			} else {
-				// 接口日志		id查
-				this.parmas = {
-					id:row.id
-				}
+			if(!row.trace_id) return this.$message.warning("trace_id为空")
+			this.parmas = {
+				trace_id:row.trace_id
 			}
 			this.show = true
 			this.$nextTick(() => {
