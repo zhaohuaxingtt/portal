@@ -93,7 +93,11 @@ export default {
       ) {
         delete e.supplierRange
       } else {
-        e.supplierRange = e.supplierRange
+        let temp = []
+        e.supplierRange.includes('PP') ? temp.push('pp') : ''
+        e.supplierRange.includes('GP') ? temp.push('GP') : ''
+        e.supplierRange.includes('NT') ? temp.push('NT') : ''
+        e.supplierRange = temp
           .map((i) => {
             return i
           })
@@ -106,7 +110,8 @@ export default {
       ) {
         delete e.supplierIdentity
       } else {
-        e.supplierIdentity = e.supplierIdentity.sort()
+        e.supplierIdentity = e.supplierIdentity
+          .sort()
           .map((i) => {
             return i
           })
