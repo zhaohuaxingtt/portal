@@ -50,6 +50,16 @@ export function listInterfaceSystem() {
     method: 'post'
   })
 }
+// 接口名称下拉列表
+export function listInterface(code) {
+  return request({
+    url: '/operationLog/listInterface',
+    method: 'post',
+    data:{code}
+  })
+}
+
+
 // 触发类型下拉列表
 export function listTriggerType() {
   return request({
