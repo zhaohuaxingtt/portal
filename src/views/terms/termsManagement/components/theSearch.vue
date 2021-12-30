@@ -37,6 +37,8 @@
             :placeholder="$t('LK_QINGXUANZE')"
             v-model="form.supplierRange"
             clearable
+            multiple
+            collapse-tags
           >
             <el-option
               :value="item.value"
@@ -52,6 +54,8 @@
             :placeholder="$t('LK_QINGXUANZE')"
             v-model="form.supplierIdentity"
             clearable
+            multiple
+            collapse-tags
           >
             <el-option
               :value="item.value"
@@ -67,6 +71,8 @@
             :placeholder="$t('LK_QINGXUANZE')"
             v-model="form.state"
             clearable
+            multiple
+            collapse-tags
           >
             <el-option
               :value="item.value"
@@ -86,6 +92,8 @@
             :placeholder="$t('LK_QINGXUANZE')"
             v-model="form.signNode"
             clearable
+            multiple
+            collapse-tags
           >
             <el-option
               :value="item.id"
