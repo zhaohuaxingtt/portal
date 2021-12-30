@@ -528,7 +528,7 @@ export default {
           .join(',')
       }
       if (e.signStatus == '' || e.signStatus == null || e.signStatus == undefined) {
-        delete e.signNode
+        delete e.signStatus
       } else {
         e.signStatus = e.signStatus
           .map((i) => {
