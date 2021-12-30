@@ -297,7 +297,7 @@ export default {
   filters: {
     supplierRangeFilter: function (value) {
       let supplierRangeList = [];
-      value.split(",").map((i) => {
+      value?.split(",").map((i) => {
         i == "PP"
           ? (supplierRangeList += "生产供应商，")
           : i == "GP"
@@ -316,7 +316,7 @@ export default {
     },
     supplierIdentityFilter: function (value) {
       let supplierIdentityList = [];
-      value.split(",").map((i) => {
+      value?.split(",").map((i) => {
         i == "0"
           ? (supplierIdentityList += "临时，")
           : i == "1"
