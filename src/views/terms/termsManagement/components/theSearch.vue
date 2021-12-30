@@ -38,6 +38,7 @@
             v-model="form.supplierRange"
             clearable
             multiple
+            collapse-tags
           >
             <el-option
               :value="item.value"
@@ -54,6 +55,7 @@
             v-model="form.supplierIdentity"
             clearable
             multiple
+            collapse-tags
           >
             <el-option
               :value="item.value"
@@ -70,6 +72,7 @@
             v-model="form.state"
             clearable
             multiple
+            collapse-tags
           >
             <el-option
               :value="item.value"
@@ -90,6 +93,7 @@
             v-model="form.signNode"
             clearable
             multiple
+            collapse-tags
           >
             <el-option
               :value="item.id"

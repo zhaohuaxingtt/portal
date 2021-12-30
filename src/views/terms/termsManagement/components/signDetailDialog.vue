@@ -30,6 +30,7 @@
                 v-model="form.signStatus"
                 clearable
                 multiple
+                collapse-tags
               >
                 <el-option
                   :value="item.value"
@@ -48,6 +49,7 @@
                 v-model="form.supplierIdentity"
                 clearable
                 multiple
+                collapse-tags
               >
                 <el-option
                   :value="item.value"
