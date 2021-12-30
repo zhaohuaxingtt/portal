@@ -2207,9 +2207,32 @@
     TERMS_QIANSHUZHUANGTAI: 'Signing status', //签署状态
     TERMS_TIAOKUANYOUXIAOQI: 'Term of validity', //条款有效期
     TERMS_CHAKANDINGZHITIAOKUAN: 'View customized terms', //查看定制条款
-    TERMS_BIAOZHUANTIAOKUANLIEBIAO: 'Standard terms list' //标准条款列表
+    TERMS_BIAOZHUANTIAOKUANLIEBIAO: 'Standard terms list' ,//标准条款列表
 
     // -------------------------------条款 end---------------------------------------------
+    LK_DANWEIBAIWANRENMINGBI:'单位:百万人名币',//单位:百万人名币
+    LK_SHANGYINIANSHUJUDUIBI:'上一年数据对比',//上一年数据对比
+    LK_ZONGJINE:'总金额:',//总金额
+    LK_MTZCAILIAOZU: 'MTZ材料组',//MTZ材料组
+    LK_CAILIAOZHONGLEI:'材料中类',//材料中类
+    LK_BIJIAOBANBEN:'比较版本',//比较版本
+    LK_YUEFENBIJIAO:'月份比较',//月份比较
+    LK_XIANGQINGLIEBIAO:'详情列表',//详情列表
+    LK_YUEFEN:'月份',//月份
+    LK_SHICHANGJIA:'市场价',//市场价
+    LK_ZONGJI:'总计',//总计
+    LK_CHAYI:'差异',//差异
+    LK_SHICHANGJIACHAYI:'市场价差异',//市场价差异
+    LK_YONGLIANGCHAYI:'用量差异',//用量差异
+    LK_ZONGJIACHAYI:'总价差异',//总价差异
+    LK_CHEXINGLIUWEIHAO:'车型六位号',//车型六位号
+    LK_NIANDUYUSUAN:'年度预算',//年度预算
+    LK_YUEDUYUCE:'月度预测',//月度预测
+    LK_SHIJIZHIFU:'实际支付',//实际支付
+    LK_NIANDUYUSUANCHAYI:'年度预算差异',//年度预算差异
+    LK_YUEDUYUSUANCHAYI:'月度预算差异',//月度预算差异
+    LK_SHIJIZHIFUCHAYI:'实际支付差异',//实际支付差异
+    
   }
   i18n.setLocaleMessage('en', oldLanguage)
   // var xmlHttp = ''
