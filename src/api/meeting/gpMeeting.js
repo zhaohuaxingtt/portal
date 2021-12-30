@@ -25,3 +25,12 @@ export function findByRelationMeeting(data) {
       data
     })
 } 
+// Mbdl议题结束接口
+// /gpMeetingService/endThemen
+export function endThemen(data) {
+  return requst({
+    url: `/gpMeetingService/endThemen`,
+    method: 'POST',
+    data
+  })
+}

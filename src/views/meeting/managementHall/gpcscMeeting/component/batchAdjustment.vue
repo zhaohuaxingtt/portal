@@ -64,9 +64,7 @@ export default {
       resortThemen(data).then((res) => {
          if (res) {
             iMessage.success('保存成功')
-          } else {
-            iMessage.error('保存失败')
-          }
+          } 
       })
     },
     //重置

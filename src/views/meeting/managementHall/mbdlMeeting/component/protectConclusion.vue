@@ -60,6 +60,7 @@
     </div>
 </template>
 <script>
+import { endThemen } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -87,7 +88,10 @@ export default {
   },
   data() {
     return {
-      ruleForm:{},
+      ruleForm:{
+        conclusion:'',
+        taskCsc:''
+      },
       themenConclusionArrObj:[
           {
             conclusionCsc: "",
@@ -99,10 +103,10 @@ export default {
           },
           {
             conclusionCsc: "02",
-            conclusionName: "通过/冻结",
+            conclusionName: "通过",
           },
           {
-            conclusionCsc: "03",
+            conclusionCsc: "04",
             conclusionName: "不通过",
           },
       ],
@@ -110,12 +114,31 @@ export default {
 
     }
   },
+  props:{
+    selectThemenId:String,
+  },
   mounted(){
 
   },
   methods: {
     // 提交
     handleSure(){
+      const params = {
+       conclusion:this.ruleForm.taskCsc,//任务
+       meetingId:this.$route.query.id,//会议id
+       result:this.ruleForm.conclusion.conclusionCsc,//结论
+       themenId:this.selectThemenId//议题id
+      }
+      console.log(params);
+      endThemen(params).then((res) => {
+        if (res.code) {
+          iMessage.success('结束议题成功！')
+          this.$emit('flushTable')
+          this.$emit('close')
+        }else{
+          iMessage.success('结束会议失败！')
+        }
+      })
       
     },
     // 关闭
