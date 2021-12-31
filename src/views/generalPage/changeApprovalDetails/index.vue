@@ -120,7 +120,7 @@ import { getTaskDetailsChangeInfo, handleTaskInfo } from '../../../api/supplier3
 import { generalPageMixins } from '@/views/generalPage/commonFunMixins'
 import tableList from '@/components/commonTable'
 import { tableTitle, filTableTitle } from "./data";
-import { downloadFile } from '@/api/file'
+import { downloadUdFile } from '@/api/file'
 
 
 export default {
@@ -154,11 +154,12 @@ export default {
   },
   methods: {
     async openPage (row) {
-      const req = {
-        applicationName: 'rise',
-        fileList: [row.fileName],
-      }
-      await downloadFile(req)
+      console.log(row)
+      // const req = {
+      //   applicationName: 'rise',
+      //   fileList: [row.fileName],
+      // }
+      await downloadUdFile(row.fileId)
     },
     async getTaskDetailsChangeInfo () {
       this.loading = true

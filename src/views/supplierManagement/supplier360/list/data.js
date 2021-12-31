@@ -12,7 +12,7 @@ export const tableTitle = [
     props: 'nameZh',
     name: '供应商中文名',
     width: 170,
-    key: 'LK_GONGYINGSHANGMINGCHENG',
+    key: 'GONGYINGSHANGZHONGWENMING',
     tooltip: true
   },
   {
