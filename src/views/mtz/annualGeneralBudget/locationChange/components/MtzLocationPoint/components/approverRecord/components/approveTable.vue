@@ -148,7 +148,7 @@
                :visible.sync="dialogVisible"
                width="30%"
                :before-close="handleClose">
-      <process-vertical :instanceId="riseId" />
+      <process-vertical :instanceId="riseId" :tableData="tableData" />
       <span slot="footer"
             class="dialog-footer">
       </span>
