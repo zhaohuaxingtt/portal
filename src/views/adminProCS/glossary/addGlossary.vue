@@ -44,6 +44,7 @@
 <script>
 import { iDialog, iFormItem, iInput, iButton } from 'rise'
 import iUpload from '../components/iUpload.vue'
+import { createGlossary } from '@/api/adminProCS'
 export default {
 	name: 'addGlossary',
 	components: {
@@ -102,10 +103,14 @@ export default {
 			// this.newGlossaryForm.publishDate = ''
 			// this.newGlossaryForm.termsContent = ''
 		},
-		sure() {
+		async sure() {
 			console.log('sure')
-			this.clearFormVal()
+			await createGlossary(this.newGlossaryForm).then((res) => {
+				console.log(res, '1222')
+			})
+			// this.clearFormVal()
 			this.closeDialogBtn()
+
 		},
 		initModifyContent(va) {
 			let content = va?.[0]
