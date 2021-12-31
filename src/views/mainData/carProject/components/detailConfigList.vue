@@ -1,11 +1,11 @@
 <template>
   <div class="detail-plan-list">
     <div class="flex-end-center margin-bottom20" v-show="data.length > 0">
-      <iButton v-if="!editable" @click="edit">编辑</iButton>
+      <iButton v-if="!editable" @click="edit">{{language('编辑')}}</iButton>
       <iButton v-if="editable" :loading="saveLoading" @click="save">
-        保存
+        {{language('保存')}}
       </iButton>
-      <iButton v-if="editable" @click="cancel">取消</iButton>
+      <iButton v-if="editable" @click="cancel">{{language('取消')}}</iButton>
     </div>
 
     <i-table-custom
