@@ -452,51 +452,8 @@ export default {
       this.curChooseArr = [...val]
       this.currentRow = val[val.length - 1]
     },
-    handleSure() {
-      const curObj = this.autoOpenProtectConclusionObj
-        ? this.autoOpenProtectConclusionObj
-        : this.selectedTableData[0]
-      let param = {
-        ...curObj
-      }
-      if (
-        this.ruleForm.conclusion.conclusionCsc === '05' ||
-        this.ruleForm.conclusion.conclusionCsc === '06'
-      ) {
-        if (this.curChooseArr.length === 0) {
-          iMessage.error('请选择一个下次会议')
-          return
-        }
-        if (this.curChooseArr.length > 1) {
-          iMessage.error('下次会议只能选择一个!')
-          return
-        }
-        param.toDoMeeting = this.curChooseArr[0].id
-        param.conclusion = this.ruleForm.taskCsc
-        param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc
-        param.isFrozenRs = false
-        param.toDoMeetingName = this.curChooseArr[0].name
-      } else if (this.ruleForm.conclusion.conclusionCsc === '02') {
-        param.toDoMeetingName = ''
-        param.toDoMeeting = ''
-        param.conclusion = this.ruleForm.taskCsc
-        param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc
-        param.isFrozenRs = this.ruleForm.isFrozenRs
-      } else {
-        param.toDoMeetingName = ''
-        param.toDoMeeting = ''
-        param.conclusion = this.ruleForm.taskCsc
-        param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc
-        param.isFrozenRs = false
-      }
-      this.loading = true
-      updateThemen(param).then((res) => {
-        if (res.code === 200) {
-          iMessage.success('维护成功!')
-        }
-        this.loading = false
-        this.close()
-      })
+    handleSure(){
+
     },
     handleCancel() {
       this.close()
