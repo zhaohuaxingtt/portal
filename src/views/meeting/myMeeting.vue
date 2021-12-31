@@ -20,7 +20,7 @@
           />
         </div>
         <!-- 右边 -->
-        <!-- <div v-show="isShowRight">
+        <!-- <div v-show="isShowRight"> 
             <iNavMvp
               :list="meetingRightList"
               class="margin-bottom20"

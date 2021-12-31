@@ -1,6 +1,6 @@
 <!--
  * @Author: HS   批量调整
- * @FilePath: \front-portal\src\views\meeting\managementHall\gpcscMeeting\component\batchAdjustment.vue
+ * @FilePath: \front-portal\src\views\meeting\managementHall\mbdlMeeting\component\batchAdjustment.vue
 -->
 <template>
   <div class="box">
@@ -19,14 +19,15 @@
 </template>
 
 <script>
-import {icon, iButton} from 'rise'
+import {icon, iButton, iMessage} from 'rise'
 import draggable from "vuedraggable";
 import { findThemenById ,resortThemen} from '@/api/meeting/details'
 export default {
   components: {
     iButton,
     draggable,
-    icon
+    icon,
+    iMessage
   },
   data(){
     return {
@@ -64,6 +65,8 @@ export default {
       resortThemen(data).then((res) => {
          if (res) {
             iMessage.success('保存成功')
+            this.$emit('flushTable')
+            this.$emit('close')
           } 
       })
     },

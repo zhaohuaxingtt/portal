@@ -35,7 +35,7 @@ export function findThemenById(data) {
     method: 'POST',
     data
   })
-}
+} 
 
 //findThemenById
 

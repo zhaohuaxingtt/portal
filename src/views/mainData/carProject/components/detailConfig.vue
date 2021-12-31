@@ -1,6 +1,6 @@
 <template>
   <iCard
-    title="车型项目配置"
+    :title="language('车型项目配置')"
     header-control
     collapse
     class="detail-config-list"
