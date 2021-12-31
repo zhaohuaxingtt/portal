@@ -148,7 +148,7 @@
                :visible.sync="dialogVisible"
                width="30%"
                :before-close="handleClose">
-      <process-vertical :instanceId="riseId" :tableData="tableData" />
+      <process-vertical :instanceId="riseId" :tableData="tableData" :formInfor="formInfor" />
       <span slot="footer"
             class="dialog-footer">
       </span>
@@ -165,6 +165,7 @@ import { pageApprove, deleteApprove, modifyApprove, getAppFormInfo, selectDept, 
 export default {
   data () {
     return {
+      formInfor:{},
       mtzAppId: this.$route.query.mtzAppId,
       tableData: [],
       tableLoading: false,
@@ -313,6 +314,7 @@ export default {
             // this.ttNominateAppId = res.data.ttNominateAppId
             // this.disabled = true
           }
+          this.formInfor = res.data;
           this.handleSync('1')
         }
       })
