@@ -67,25 +67,20 @@
             ></iInput>
           </iFormItem>
          <iFormItem
-            label="Sourcing Buyer"
-            prop="supporter"
+            label="Supporter"
             :hideRequiredAsterisk="true"
             class="item"
           >
-            <iLabel
-              :label="$t('采购员')"
-              slot="label"
-              required
-            ></iLabel>
-            <iSelect
-              ref="supporterSelect"
+            <iLabel :label="$t('采购员')" slot="label"></iLabel>
+            <el-select
               class="autoSearch"
               v-model="ruleForm.supporter"
+              multiple
               filterable
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
-              :disabled="ruleForm.state === '02' || editOrAdd === 'look'"
+              :disabled="ruleForm.state === '02'"
             >
               <el-option
                 v-for="item in selectUserArr.length > 0
@@ -97,10 +92,10 @@
                 }${item.department ? item.department + ' ' : ''}${
                   item.namePinyin ? item.namePinyin : ''
                 }`"
-                :value="item.id"
+                :value="item"
               >
               </el-option>
-            </iSelect>
+            </el-select>
           </iFormItem>
           <iFormItem
             label="BEN(CN)"
@@ -129,95 +124,16 @@
           </iFormItem>
 
           <iFormItem
-            label="Carline"
+            label="Supporter Department"
+            prop="supporterDept"
             :hideRequiredAsterisk="true"
-            prop="carline"
             class="item"
           >
             <iLabel :label="$t('申请部门')" slot="label"></iLabel>
-            <iInput
-              v-model="ruleForm.carline"
-              :disabled="editOrAdd === 'look'"
-            ></iInput>
+            <iInput v-model="ruleForm.supporterDept" disabled></iInput>
           </iFormItem>
 
-          <!-- <iFormItem
-            label="Sourcing Buyer"
-            prop="supporter"
-            :hideRequiredAsterisk="true"
-            class="item"
-          >
-            <iLabel
-              :label="$t('采购员')"
-              slot="label"
-              required
-            ></iLabel>
-            <iSelect
-              ref="supporterSelect"
-              class="autoSearch"
-              v-model="ruleForm.supporter"
-              filterable
-              :filter-method="remoteMethod"
-              @focus="handleFocus"
-              value-key="id"
-              :disabled="ruleForm.state === '02' || editOrAdd === 'look'"
-            >
-              <el-option
-                v-for="item in selectUserArr.length > 0
-                  ? selectUserArr
-                  : currentSearchUserData"
-                :key="item.id"
-                :label="`${item.name ? item.name + ' ' : ''}${
-                  item.jobNumber ? item.jobNumber + ' ' : ''
-                }${item.department ? item.department + ' ' : ''}${
-                  item.namePinyin ? item.namePinyin : ''
-                }`"
-                :value="item.id"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
-
-          <iFormItem
-            label="Linie Buyer"
-            prop="presenter"
-            :hideRequiredAsterisk="true"
-            class="item"
-          >
-            <iLabel :label="$t('Linie Buyer')" slot="label"></iLabel>
-            <iSelect
-              class="autoSearch"
-              v-model="ruleForm.presenter"
-              filterable
-              :filter-method="remoteMethod"
-              @focus="handleFocus"
-              value-key="id"
-              :disabled="ruleForm.state === '02' || editOrAdd === 'look'"
-            >
-              <el-option
-                v-for="item in selectUserArr.length > 0
-                  ? selectUserArr
-                  : currentSearchUserData"
-                :key="item.id"
-                :label="`${item.name ? item.name + ' ' : ''}${
-                  item.jobNumber ? item.jobNumber + ' ' : ''
-                }${item.department ? item.department + ' ' : ''}${
-                  item.namePinyin ? item.namePinyin : ''
-                }`"
-                :value="item.id"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem> -->
-          <!-- <iFormItem
-            label="EP"
-            :hideRequiredAsterisk="true"
-            prop="ep"
-            class="item"
-          >
-            <iLabel :label="$t('EP')" slot="label"></iLabel>
-            <iInput v-model="ruleForm.ep"></iInput>
-          </iFormItem> -->
+         
           
           <div>
             <iFormItem label="附件" :hideRequiredAsterisk="true" class="item">
@@ -547,33 +463,33 @@ export default {
     //   },
     //   immediate: true,
     // },
-    // "ruleForm.supporter": {
-    //   handler: function (newV) {
-    //     let arr = newV.map((item) => {
-    //       return item.id;
-    //     });
-    //     let arrStr = arr.join(",");
-    //     if (typeof arrStr === "string") {
-    //       this.supporterStr = arrStr;
-    //     }
-    //     if (this.editOrAdd !== "look") {
-    //       this.ruleForm.supporterDept = Array.from(
-    //         new Set(
-    //           this.currentSearchUserData
-    //             .filter((item) => {
-    //               return arr.some((it) => {
-    //                 return it === item.id;
-    //               });
-    //             })
-    //             .map((item) => {
-    //               return item.department;
-    //             })
-    //         )
-    //       ).join(",");
-    //     }
-    //   },
-    //   immediate: true,
-    // },
+    "ruleForm.supporter": {
+      handler: function (newV) {
+        let arr = newV.map((item) => {
+          return item.id;
+        });
+        let arrStr = arr.join(",");
+        if (typeof arrStr === "string") {
+          this.supporterStr = arrStr;
+        }
+        if (this.editOrAdd !== "look") {
+          this.ruleForm.supporterDept = Array.from(
+            new Set(
+              this.currentSearchUserData
+                .filter((item) => {
+                  return arr.some((it) => {
+                    return it === item.id;
+                  });
+                })
+                .map((item) => {
+                  return item.department;
+                })
+            )
+          ).join(",");
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
     handleDeleteFile(file) {
