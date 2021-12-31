@@ -204,7 +204,7 @@ export const intervalList = [
   {
     label: '十',
     value: 10,
-    i18n: 'MT_SHI'
+    i18n: 'MT_SHIS'
   },
   {
     label: '十一',

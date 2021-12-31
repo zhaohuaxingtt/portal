@@ -98,7 +98,7 @@ export  const sinatureColumns=[
       let sealtypes=extraData.sealtypes
       if(sealtypes!=null&&sealtypes.length>0){
         let item=sealtypes.find(item=>item.docTypeNo==scope.row.docTypeNo)
-        return <span>{item.signName} {item.docTypeNo}</span>
+        return <span>{item?.signName} {item?.docTypeNo}</span>
       }
       return  <span>{scope.row?.docTypeNo}</span>
     }

@@ -33,3 +33,12 @@ export  function  cancelContract(data){
   })
 }
 
+//查看合同
+export function  detailLook(data){
+  return request({
+    url:'/web/contract/detailLook',
+    method:'POST',
+    data:data
+  })
+}
+

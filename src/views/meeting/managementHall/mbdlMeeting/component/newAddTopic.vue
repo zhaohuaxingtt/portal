@@ -1,5 +1,5 @@
 <!--
- * @Author: HS  新增议题gp
+ * @Author: HS  新增议题gp  MBDL会议  修改
  * @FilePath: \front-portal\src\views\meeting\managementHall\mbdlMeeting\component\newAddTopic.vue
 -->
 <template>
@@ -33,7 +33,7 @@
           </iFormItem>
           <!-- 项目 topic-->
           <iFormItem label="项目"  prop="topic" :hideRequiredAsterisk="true" class="item" >
-            <iLabel :label="$t('项目')" slot="label" required></iLabel>
+            <iLabel :label="$t('项目')" slot="label" ></iLabel>
             <iInput
               v-model="ruleForm.topic"
               :disabled="editOrAdd === 'look'"
@@ -65,8 +65,8 @@
               :disabled="editOrAdd === 'look'"
             ></iInput>
           </iFormItem>
-          <!-- 采购员  presenterNosys -->
-         <iFormItem
+          <!-- 采购员  supporter -->
+         <!-- <iFormItem
             label="Sourcing Buyer"
             prop="supporter"
             :hideRequiredAsterisk="true"
@@ -101,21 +101,52 @@
               >
               </el-option>
             </iSelect>
-          </iFormItem>
-          <!-- 股别 presenterDept -->
+          </iFormItem> -->
           <iFormItem
-            label="BEN(CN)"
-            prop="benCn"
+            label="Supporter"
             :hideRequiredAsterisk="true"
             class="item"
           >
-            <iLabel :label="$t('股别')" slot="label" required></iLabel>
+            <iLabel :label="$t('采购员')" slot="label"></iLabel>
+            <el-select
+              class="autoSearch"
+              v-model="ruleForm.supporter"
+              multiple
+              filterable
+              :filter-method="remoteMethod"
+              @focus="handleFocus"
+              value-key="id"
+              :disabled="ruleForm.state === '02'"
+            >
+              <el-option
+                v-for="item in selectUserArr.length > 0
+                  ? selectUserArr
+                  : currentSearchUserData"
+                :key="item.id"
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
+                  item.namePinyin ? item.namePinyin : ''
+                }`"
+                :value="item"
+              >
+              </el-option>
+            </el-select>
+          </iFormItem>
+          <!-- 股别 supporterDeptNosys -->
+          <iFormItem
+            label="BEN(CN)"
+            :hideRequiredAsterisk="true"
+            class="item"
+          >
+          <!-- required 校验-->
+            <iLabel :label="$t('股别')" slot="label" ></iLabel>
             <iInput
-              v-model="ruleForm.presenterDept"
+              v-model="ruleForm.supporterDeptNosys"
               :disabled="editOrAdd === 'look'"
             ></iInput>
           </iFormItem>
-          <!-- 申请人  supporter -->
+          <!-- 申请人  presenter -->
           <iFormItem
             label="BEN(DE)"
             :hideRequiredAsterisk="true"
@@ -124,101 +155,21 @@
           >
             <iLabel :label="$t('申请人')" slot="label"></iLabel>
             <iInput
-              v-model="ruleForm.supporter"
+              v-model="ruleForm.presenter"
               :disabled="editOrAdd === 'look'"
             ></iInput>
           </iFormItem>
-          <!-- 申请部门  supporterDeptNosys -->
+          <!-- 申请部门  presenterDept -->
           <iFormItem
-            label="Carline"
+            label="Supporter Department"
+            prop="supporterDept"
             :hideRequiredAsterisk="true"
-            prop="carline"
             class="item"
           >
             <iLabel :label="$t('申请部门')" slot="label"></iLabel>
-            <iInput
-              v-model="ruleForm.supporterDeptNosys"
-              :disabled="editOrAdd === 'look'"
-            ></iInput>
+            <iInput v-model="ruleForm.supporterDept" disabled></iInput>
           </iFormItem>
 
-          <!-- <iFormItem
-            label="Sourcing Buyer"
-            prop="supporter"
-            :hideRequiredAsterisk="true"
-            class="item"
-          >
-            <iLabel
-              :label="$t('采购员')"
-              slot="label"
-              required
-            ></iLabel>
-            <iSelect
-              ref="supporterSelect"
-              class="autoSearch"
-              v-model="ruleForm.supporter"
-              filterable
-              :filter-method="remoteMethod"
-              @focus="handleFocus"
-              value-key="id"
-              :disabled="ruleForm.state === '02' || editOrAdd === 'look'"
-            >
-              <el-option
-                v-for="item in selectUserArr.length > 0
-                  ? selectUserArr
-                  : currentSearchUserData"
-                :key="item.id"
-                :label="`${item.name ? item.name + ' ' : ''}${
-                  item.jobNumber ? item.jobNumber + ' ' : ''
-                }${item.department ? item.department + ' ' : ''}${
-                  item.namePinyin ? item.namePinyin : ''
-                }`"
-                :value="item.id"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem>
-
-          <iFormItem
-            label="Linie Buyer"
-            prop="presenter"
-            :hideRequiredAsterisk="true"
-            class="item"
-          >
-            <iLabel :label="$t('Linie Buyer')" slot="label"></iLabel>
-            <iSelect
-              class="autoSearch"
-              v-model="ruleForm.presenter"
-              filterable
-              :filter-method="remoteMethod"
-              @focus="handleFocus"
-              value-key="id"
-              :disabled="ruleForm.state === '02' || editOrAdd === 'look'"
-            >
-              <el-option
-                v-for="item in selectUserArr.length > 0
-                  ? selectUserArr
-                  : currentSearchUserData"
-                :key="item.id"
-                :label="`${item.name ? item.name + ' ' : ''}${
-                  item.jobNumber ? item.jobNumber + ' ' : ''
-                }${item.department ? item.department + ' ' : ''}${
-                  item.namePinyin ? item.namePinyin : ''
-                }`"
-                :value="item.id"
-              >
-              </el-option>
-            </iSelect>
-          </iFormItem> -->
-          <!-- <iFormItem
-            label="EP"
-            :hideRequiredAsterisk="true"
-            prop="ep"
-            class="item"
-          >
-            <iLabel :label="$t('EP')" slot="label"></iLabel>
-            <iInput v-model="ruleForm.ep"></iInput>
-          </iFormItem> -->
           
           <div>
             <iFormItem label="附件" :hideRequiredAsterisk="true" class="item">
@@ -479,102 +430,104 @@ export default {
     }
   },
   computed: {
-    // supporterIdArrAndCurrentSearchUserData() {
-    //   return {
-    //     currentSearchUserData: this.currentSearchUserData,
-    //     supporterIdArr: this.supporterIdArr,
-    //     presenterIdArr: this.presenterIdArr,
-    //   };
-    // },
+    supporterIdArrAndCurrentSearchUserData() {
+      return {
+        currentSearchUserData: this.currentSearchUserData,
+        supporterIdArr: this.supporterIdArr,
+        presenterIdArr: this.presenterIdArr,
+      };
+    },
   },
   watch: {
-    // supporterIdArrAndCurrentSearchUserData: {
-    //   handler(newV) {
-    //     this.ruleForm.supporter = newV.currentSearchUserData.filter((item) => {
-    //       return newV.supporterIdArr.some((it) => {
-    //         return Number(item.id) === Number(it);
-    //       });
-    //     });
-    //     this.ruleForm.presenter = newV.currentSearchUserData.filter((item) => {
-    //       return newV.presenterIdArr.some((it) => {
-    //         return Number(item.id) === Number(it);
-    //       });
-    //     });
-    //   },
-    //   deep: true,
-    // },
-    // presenterIdArr: {
-    //   handler(newV) {},
-    // },
-    // lookThemenObj: {
-    //   handler(newV) {
-    //     // console.log(newV);
-    //   },
-    //   immediate: true,
-    //   deep: true,
-    // },
-    // "ruleForm.count": {
-    //   handler(newV) {
-    //     this.ruleForm = {
-    //       ...this.ruleForm,
-    //       count: newV ? newV : null,
-    //     };
-    //   },
-    // },
-    // "ruleForm.presenter": {
-    //   handler: function (newV) {
-    //     let arr = newV.map((item) => {
-    //       return item.id;
-    //     });
-    //     let arrStr = arr.join(",");
-    //     if (typeof arrStr === "string") {
-    //       this.presenterStr = arrStr;
-    //     }
-    //     if (this.editOrAdd !== "look") {
-    //       this.ruleForm.presenterDept = Array.from(
-    //         new Set(
-    //           this.currentSearchUserData
-    //             .filter((item) => {
-    //               return arr.some((it) => {
-    //                 return it === item.id;
-    //               });
-    //             })
-    //             .map((item) => {
-    //               return item.department;
-    //             })
-    //         )
-    //       ).join(",");
-    //     }
-    //   },
-    //   immediate: true,
-    // },
-    // "ruleForm.supporter": {
-    //   handler: function (newV) {
-    //     let arr = newV.map((item) => {
-    //       return item.id;
-    //     });
-    //     let arrStr = arr.join(",");
-    //     if (typeof arrStr === "string") {
-    //       this.supporterStr = arrStr;
-    //     }
-    //     if (this.editOrAdd !== "look") {
-    //       this.ruleForm.supporterDept = Array.from(
-    //         new Set(
-    //           this.currentSearchUserData
-    //             .filter((item) => {
-    //               return arr.some((it) => {
-    //                 return it === item.id;
-    //               });
-    //             })
-    //             .map((item) => {
-    //               return item.department;
-    //             })
-    //         )
-    //       ).join(",");
-    //     }
-    //   },
-    //   immediate: true,
-    // },
+    supporterIdArrAndCurrentSearchUserData: {
+      handler(newV) {
+        this.ruleForm.supporter = newV.currentSearchUserData.filter((item) => {
+          return newV.supporterIdArr.some((it) => {
+            return Number(item.id) === Number(it);
+          });
+        });
+        this.ruleForm.presenter = newV.currentSearchUserData.filter((item) => {
+          return newV.presenterIdArr.some((it) => {
+            return Number(item.id) === Number(it);
+          });
+        });
+      },
+      deep: true,
+    },
+    presenterIdArr: {
+      handler(newV) {},
+    },
+    lookThemenObj: {
+      handler(newV) {
+        // console.log(newV);
+      },
+      immediate: true,
+      deep: true,
+    },
+    "ruleForm.count": {
+      handler(newV) {
+        this.ruleForm = {
+          ...this.ruleForm,
+          count: newV ? newV : null,
+        };
+      },
+    },
+    "ruleForm.presenter": {
+      handler: function (newV) {
+        let arr = newV.map((item) => {
+          return item.id;
+        });
+        let arrStr = arr.join(",");
+        if (typeof arrStr === "string") {
+          this.presenterStr = arrStr;
+        }
+        if (this.editOrAdd !== "look") {
+          this.ruleForm.presenterDept = Array.from(
+            new Set(
+              this.currentSearchUserData
+                .filter((item) => {
+                  return arr.some((it) => {
+                    return it === item.id;
+                  });
+                })
+                .map((item) => {
+                  return item.department;
+                })
+            )
+          ).join(",");
+        }
+      },
+      immediate: true,
+    },
+    
+    "ruleForm.supporter": {
+      //监听采购员变化带出  申请部门
+      handler: function (newV) {
+        let arr = newV.map((item) => {
+          return item.id;
+        });
+        let arrStr = arr.join(",");
+        if (typeof arrStr === "string") {
+          this.supporterStr = arrStr;
+        }
+        if (this.editOrAdd !== "look") {
+          this.ruleForm.supporterDept = Array.from(
+            new Set(
+              this.currentSearchUserData
+                .filter((item) => {
+                  return arr.some((it) => {
+                    return it === item.id;
+                  });
+                })
+                .map((item) => {
+                  return item.department;
+                })
+            )
+          ).join(",");
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
     handleDeleteFile(file) {
@@ -604,6 +557,7 @@ export default {
         }
       })
     },
+    //采购员change事件
     handleFocus() {
       this.remoteMethod()
     },

@@ -2676,7 +2676,7 @@
 
     MT_JIU: '九',
 
-    MT_SHI: '十',
+    MT_SHIS: '十',
 
     MT_SHIYI: '十一',
 
@@ -2699,7 +2699,7 @@
     MT_QINGSHURUZILIAOLEIXINGMINGCHENG: '请输入资料类型名称！',
 
     MT_QINGXUANZESUOSHUHUIYI: '请选择所属会议！',
-    
+
     MT_HUIYIZHIBO: '会议直播',
 
     MT_JINQIHUIYI: '近期会议',
@@ -2711,6 +2711,8 @@
     MT_YUHUIRENLIEBIAO: '与会人列表',
 
     MT_HUIYIXINXI: '会议信息',
+
+    MT_WUCHAKANQUANXIAN: '无查看权限',
 
     APPROVAL: {
       ADD: '新增',

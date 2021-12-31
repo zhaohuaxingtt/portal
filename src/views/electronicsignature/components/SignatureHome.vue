@@ -108,7 +108,7 @@ import {
   queryContractList,
   queryEnumeration,
   querySealtype,
-  cancelContract,
+  cancelContract, detailLook
 } from '@/api/electronicsignature'
 
 export default {
@@ -134,7 +134,7 @@ export default {
         signStatus: '',//签署状态，0：未签署；1：乙方认证；2：乙方签署；3：甲方签署 4:签署完成 5:撤销中 6：已撤销
         type: '',//合同类型，0:模具合同；1：采购条款；2：预警信
         docTypeNo: '',//文件类型编码//印章类型
-        supplierName:'',
+        supplierName: '',
         current: 1,
         size: 10
 
@@ -143,10 +143,10 @@ export default {
       sinaturedatas: [],
       sealtypes: [],//印章类型
       extraData: {},
-      signStatusSelectDatas:[],
-      contractTypeSelectDatas:[],
-      selSinaturedatas:[],
-      tabloading:false,
+      signStatusSelectDatas: [],
+      contractTypeSelectDatas: [],
+      selSinaturedatas: [],
+      tabloading: false
 
     }
   },
@@ -177,18 +177,18 @@ export default {
           this.signStatusSelectDatas = mySignStatusSelectData.map(item => {
             return { code: Number(Object.keys(item)[0]), name: Object.values(item)[0] }
           })
-          this.extraData.signStatusSelectDatas=this.signStatusSelectDatas
+          this.extraData.signStatusSelectDatas = this.signStatusSelectDatas
           let myContractTypeSelectData = res.data.contractTypeSelectData
           this.contractTypeSelectDatas = myContractTypeSelectData.map(item => {
             return { code: Number(Object.keys(item)[0]), name: Object.values(item)[0] }
           })
-          this.extraData.contractTypeSelectDatas=this.contractTypeSelectDatas
+          this.extraData.contractTypeSelectDatas = this.contractTypeSelectDatas
 
         }
       })
     },
-    handleSelectionChange(row){
-     this.selSinaturedatas=row
+    handleSelectionChange(row) {
+      this.selSinaturedatas = row
     },
     myQueryContractList() {
       this.page.currPage = 1
@@ -199,10 +199,10 @@ export default {
       this.queryForm.current = this.page.currPage
       this.queryForm.size = this.page.pageSize
       let reqData = { businessScenarios: this.type, data: this.queryForm }
-      this.tabloading=true
+      this.tabloading = true
       queryContractList(reqData).then(res => {
         let { code, data } = res
-        this.tabloading=false
+        this.tabloading = false
         if (code == 200) {
           this.sinaturedatas = data.records
         } else {
@@ -218,39 +218,45 @@ export default {
     },
     //查看
     openPage(row) {
-      console.log(row)
+      let reqData = { companyNumber: row.companyNumber, docNo: row.docNo, docTypeNo: row.docTypeNo }
+      detailLook(reqData).then(res => {
+        console.log(res)
+        if (res.code == 200) {
+        } else {
+          this.$message.error(res.desZh)
+        }
+      })
     },
     //撤销
-    revokeContract(){
+    revokeContract() {
 
-     if(this.selSinaturedatas.length<=0){
-       return this.$message.warning(this.language('LK_BAOQIANNINDANQIANHAIWEIXUANZEXUYAOCHEXIAODEHETONG','抱歉，您当前还未选择需要撤销的合同'))
-     }
-     if(this.selSinaturedatas.length > 1){
-       return this.$message.warning(this.language('LK_BAOQIANNINDANGQIANZHINENGXUANZEYITIAOYO','抱歉，您当前您只能选择一条哟'))
-     }
-     if(this.selSinaturedatas[0].signStatus!=3){
-       return this.$message.warning(this.language('LK_BAOQIANNINZHINENGCHEXIAOHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEHETONGYO','抱歉，您只能撤销合同状态为待甲方签署的合同哟'))
-     }
-     let item=this.selSinaturedatas[0]
-     let reqData={companyNumber:item.companyNumber,docNo:item.docNo,docTypeNo:item.docTypeNo}
+      if (this.selSinaturedatas.length <= 0) {
+        return this.$message.warning(this.language('LK_BAOQIANNINDANQIANHAIWEIXUANZEXUYAOCHEXIAODEHETONG', '抱歉，您当前还未选择需要撤销的合同'))
+      }
+      if (this.selSinaturedatas.length > 1) {
+        return this.$message.warning(this.language('LK_BAOQIANNINDANGQIANZHINENGXUANZEYITIAOYO', '抱歉，您当前您只能选择一条哟'))
+      }
+      if (this.selSinaturedatas[0].signStatus != 3) {
+        return this.$message.warning(this.language('LK_BAOQIANNINZHINENGCHEXIAOHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEHETONGYO', '抱歉，您只能撤销合同状态为待甲方签署的合同哟'))
+      }
+      let item = this.selSinaturedatas[0]
+      let reqData = { companyNumber: item.companyNumber, docNo: item.docNo, docTypeNo: item.docTypeNo }
       this.$confirm('是否确认撤销?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        cancelContract(reqData).then(res=>{
-          if(res.code==200){
+        cancelContract(reqData).then(res => {
+          if (res.code == 200) {
             this.$message.success(res.desZh)
             this.loadContractList()
-          }else{
+          } else {
             this.$message.error(res.desZh)
           }
         })
       }).catch(() => {
 
-      });
-
+      })
 
 
     }

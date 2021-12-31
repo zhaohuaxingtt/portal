@@ -162,9 +162,12 @@
                     </el-table-column>
                   </el-table>
                   <div v-if="item.conclusionCsc === '03'">
-                    <p v-if="item.remark">{{ item.remark }}</p>
-                    <p v-if="!item.remark">对于车型，发 LOI 给</p>
-                    <p v-if="!item.remark">For carline send LOI to</p>
+                    <p
+                      v-if="item.loiResult"
+                      v-html="item.loiResult.replace(/\n/g, '<br/>')"
+                    ></p>
+                    <p v-if="!item.loiResult">对于车型，发 LOI 给</p>
+                    <p v-if="!item.loiResult">For carline send LOI to</p>
                   </div>
                   <div v-if="item.conclusionCsc === '04'">
                     <p>转 TER/TOP TER</p>

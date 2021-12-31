@@ -51,27 +51,28 @@
             {{ item.nodeTye === 'Non_MultiInst' ? '并行' : '会签' }}
           </div>
           <ul class="list">
-            <li v-for="(approvalUser, i) of approvalUsers(item)"
-                :key="i"
-                :class="{ active: isUserActive(approvalUser) }">
-              <div class="item-name">
-                <span v-if="approvalUser">
-                  {{
-                  approvalUser.approvedUser
-                    ? getUserName(approvalUser.approvedUser)
-                    : getUserName(approvalUser)
-                }}
-                </span>
-              </div>
-              <div class="post">
-                {{ approvalUser.positionZhNameList }}
-              </div>
-              <div class="date"
-                   v-if="getApprovalDate(approvalUser)">
-                {{ getApprovalDate(approvalUser) }}
-              </div>
-              <div class="commit">{{ getApprovalStatus(approvalUser) }}</div>
-            </li>
+            <template v-for="(approvalUser, i) of approvalUsers(item)">
+              <li :key="i" :class="{ active: isUserActive(approvalUser) }" v-if="shenpiMtz(approvalUser)">
+                <!-- v-if="" -->
+                <div class="item-name">
+                  <span v-if="approvalUser">
+                    {{
+                    approvalUser.approvedUser
+                      ? getUserName(approvalUser.approvedUser)
+                      : getUserName(approvalUser)
+                  }}
+                  </span>
+                </div>
+                <div class="post">
+                  {{ approvalUser.positionZhNameList }}
+                </div>
+                <div class="date"
+                    v-if="getApprovalDate(approvalUser)">
+                  {{ getApprovalDate(approvalUser) }}
+                </div>
+                <div class="commit">{{ getApprovalStatus(approvalUser) }}</div>
+              </li>
+            </template>
           </ul>
         </div>
       </div>
@@ -126,6 +127,10 @@ export default {
     },
     epmsId: {
       type: String
+    },
+    tableData:{
+      type:Array,
+      default:() => [],
     }
   },
   data () {
@@ -156,9 +161,30 @@ export default {
 
   },
   created () {
+    console.log(this.tableData)
     this.getDetail()
   },
   methods: {
+    shenpiMtz(val){
+      const id = val.id;
+      var number = 0;
+      try{
+        this.tableData.forEach(e=>{
+          if(Number(e.approvalBy) == id){
+            number++;
+            throw new Error("EndIterative");
+          }
+        })
+      }catch(e){
+        if(e.message != "EndIterative") throw e;
+      }
+
+      if(number == 0){
+        return false;
+      }else{
+        return true;
+      }
+    },
     getDetail () {
       this.loading = true
       if (this.instanceId) {
@@ -269,6 +295,7 @@ export default {
           }
         }
       }
+      console.log(users)
       return users
       // return item.approvalUserList || item.taskNodeList
     },
