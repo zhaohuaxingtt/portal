@@ -401,11 +401,13 @@
                 <span style="span-index">{{ scope.$index + 1 }}</span>
               </template>
             </el-table-column>
+            <!-- 标记 -->
             <el-table-column align="center" label="标记" min-width="50">
               <!-- <template slot-scope="scope">
                 <span style="span-index">{{ scope.$index + 1 }}</span>
               </template> -->
             </el-table-column>
+            <!-- 股别 fullCode-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -416,6 +418,7 @@
             >
               <!-- <span>{{scope.row}}</span> -->
             </el-table-column>
+            <!-- 项目  gpName-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -427,6 +430,7 @@
               </template> -->
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
+            <!-- 上会次数 preCount-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -439,6 +443,7 @@
               </template> -->
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
+            <!-- 采购申请号 procurementNumber-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -449,6 +454,7 @@
                 {{ stateObj[scope.row.state] }}
               </template> -->
             </el-table-column>
+            <!-- 申请部门  applyDept-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -459,6 +465,7 @@
                 <span>{{scope.row}}</span>
               </template> -->
             </el-table-column>
+            <!-- 申请人  requestorName-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -471,6 +478,7 @@
               </template> -->
             </el-table-column>
             <!-- <el-table-column align="center" width="16"></el-table-column> -->
+            <!-- 采购员  purchaserName-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -482,6 +490,7 @@
                 <span>{{scope.row}}</span>
               </template> -->
             </el-table-column>
+            <!-- 时间 -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -493,6 +502,7 @@
               </template> -->
             </el-table-column>
             <!-- <el-table-column align="center" width="14"></el-table-column> -->
+            <!-- 状态  state-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -505,6 +515,7 @@
                 </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="20"></el-table-column> -->
+            <!-- 会议结论/纪要  result-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -515,6 +526,7 @@
                 <span>{{scope.row}}</span>
               </template> -->
             </el-table-column>
+            <!-- 是否推送大会 -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -527,6 +539,7 @@
                 <span>{{scope.row}}</span>
               </template> -->
             </el-table-column>
+            <!-- CSC汇报材料  cscStatus-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -538,6 +551,7 @@
                 <span>{{scope.row}}</span>
               </template> -->
             </el-table-column>
+            <!-- 是否冻结  isCscFrozen-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -550,6 +564,7 @@
               </template> -->
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
+            <!-- 属性  attribute-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -563,6 +578,7 @@
               </template> -->
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
+            <!-- CSC编号 -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -1231,7 +1247,7 @@ import lookConclusion from './component/lookConclusion.vue'
 import importErrorDialog from './component/importErrorDialog.vue'
 
 import {
-  findThemenById,
+  // findThemenById,
   endThemen,
   startThemen,
   // recallThemen,
@@ -1241,7 +1257,7 @@ import {
   resortThemen,
   spiltThemen
 } from '@/api/meeting/details'
-// import { findByRelationMeeting } from '@/api/meeting/gpMeeting'
+import { findThemenById } from '@/api/meeting/gpMeeting'
 import Sortable from 'sortablejs'
 import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
@@ -1948,6 +1964,7 @@ export default {
           break
       }
     },
+    //数据请求
     queryMeetingInfoById(id) {
       const data = {
         id
