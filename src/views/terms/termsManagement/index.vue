@@ -184,12 +184,26 @@ export default {
           pageNum: this.page.currPage,
           pageSize: this.page.pageSize
         },
-        callback: (e) => {
-          if (e) {
-            iMessage.success('导出成功')
-          } else {
-            // iMessage.error("导出失败");
+        callback: () => {
+          if (this.formData?.signNode) {
+            this.formData.signNode = this.formData?.signNode?.split(',')
           }
+          if (this.formData?.supplierRange) {
+            this.formData.supplierRange =
+              this.formData?.supplierRange?.split(',')
+          }
+          if (this.formData?.supplierIdentity) {
+            this.formData.supplierIdentity =
+              this.formData?.supplierIdentity?.split(',')
+          }
+          if (this.formData?.state) {
+            this.formData.state = this.formData?.state?.split(',')
+          }
+          // if (e) {
+          //   iMessage.success('导出成功')
+          // } else {
+          //   iMessage.error("导出失败");
+          // }
         }
       })
     }
