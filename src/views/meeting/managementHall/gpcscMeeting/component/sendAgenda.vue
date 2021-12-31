@@ -1,7 +1,7 @@
 <!--
  * @Author: yuszhou
  * @Date: 2021-02-19 15:12:20
- * @LastEditTime: 2021-12-28 15:37:30
+ * @LastEditTime: 2021-12-31 13:01:35
  * @LastEditors: Please set LastEditors
  * @Description: 首页
  * @FilePath: \front-portal\src\views\meeting\managementHall\gpcscMeeting\component\sendAgenda.vue
@@ -18,6 +18,7 @@
     <theTable
       v-loading="loading"
       ref="theTable"
+      :rowId="rowId"
       :page="page"
       :total="page.total"
       :tableListData="tableListData"
@@ -40,6 +41,7 @@
 import theSearch from '@/views/meeting/managementHall/gpcscMeeting/common/theSearch.vue'
 import theTable from '@/views/meeting/managementHall/gpcscMeeting/common/theTable.vue'
 import { getMettingList } from '@/api/meeting/home'
+import { findByRelationMeeting } from '@/api/meeting/gpMeeting'
 import { getAttendee, getReceiver } from '@/api/meeting/type'
 import { pageMixins } from '@/utils/pageMixins'
 import resultMessageMixin from '@/mixins/resultMessageMixin'
@@ -57,6 +59,9 @@ export default {
     menuType: {
       type: String,
       default: 'admin' //原来的路由大厅是admin，tab页上的cf
+    },
+    rowId:{
+      type: String,
     }
   },
   data() {
@@ -86,6 +91,7 @@ export default {
   mounted() {
     this.getTableList()
     this.getSelectListAll()
+    this.rowId=this.rowId
   },
   // watch: {
   //   form: {
@@ -112,13 +118,24 @@ export default {
       this.page.currPage = 1
       this.getTableList()
     },
+    // 数据列表请求
     query(e) {
+      console.log(this.rowId);
+      console.log(this.$route.query.id);
       this.loading = true
-      getMettingList(e)
-        .then((res) => {
+      console.log(e)
+      //getMettingList 这里替换为  预备会关联会议分页列表接口 findByRelationMeeting
+      const query={
+        meetingId:this.$route.query.id,
+        pageNum: this.page.currPage,
+        pageSize: 10,
+        relationMeetingId:this.rowId
+      } 
+      findByRelationMeeting(query).then((res) => {
+          console.log(res,'1111');
           this.tableListData = res.data
           this.page.total = res.total
-        })
+      })
         .finally(() => (this.loading = false))
     },
     handleSearchReset() {

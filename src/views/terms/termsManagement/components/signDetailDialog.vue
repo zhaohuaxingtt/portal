@@ -29,6 +29,8 @@
                 :placeholder="$t('LK_QINGXUANZE')"
                 v-model="form.signStatus"
                 clearable
+                multiple
+                collapse-tags
               >
                 <el-option
                   :value="item.value"
@@ -46,6 +48,8 @@
                 :placeholder="$t('LK_QINGXUANZE')"
                 v-model="form.supplierIdentity"
                 clearable
+                multiple
+                collapse-tags
               >
                 <el-option
                   :value="item.value"
@@ -398,7 +402,7 @@ export default {
             ? (supplierIdentityList += "储蓄池，")
             : (supplierIdentityList += "");
         });
-        item.signDate = item.signDate.substring(0, 10);
+        item.signDate = item.signDate?.substring(0, 10);
         supplierIdentityList = supplierIdentityList.slice(
           0,
           supplierIdentityList.length - 1
@@ -409,7 +413,7 @@ export default {
     },
     handleExportAll() {
       exportFile({
-        url: process.env.VUE_APP_NEWS +`/rise-terms/termsQueryService/exportSignatureResult?userId=`+store.state.permission.userInfo.id,
+        url: process.env.VUE_APP_NEWS +`/termsQueryService/exportSignatureResult?userId=`+store.state.permission.userInfo.id,
         data: {
           ...this.form,
           pageNum: this.page.currPage,
@@ -419,7 +423,7 @@ export default {
           if (e) {
             iMessage.success("导出成功");
           } else {
-            iMessage.error("导出失败");
+            // iMessage.error("导出失败");
           }
         },
       });
@@ -512,6 +516,28 @@ export default {
     //   );
     // },
     query(e) {
+      if (
+        e.supplierIdentity == '' ||
+        e.supplierIdentity == null ||
+        e.supplierIdentity == undefined
+      ) {
+        delete e.supplierIdentity
+      } else {
+        e.supplierIdentity = e.supplierIdentity.sort()
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
+      if (e.signStatus == '' || e.signStatus == null || e.signStatus == undefined) {
+        delete e.signStatus
+      } else {
+        e.signStatus = e.signStatus
+          .map((i) => {
+            return i
+          })
+          .join(',')
+      }
       getSignatureResult(e)
         .then((res) => {
           // this.tableListData = res?.termsSupplierList;

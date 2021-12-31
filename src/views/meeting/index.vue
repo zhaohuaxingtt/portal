@@ -28,7 +28,7 @@
 
 <script>
 import { iNavMvp, iPage } from 'rise'
-import { tabRouterList, meetingButtonList } from './data'
+// import { tabRouterList, meetingButtonList } from './data'
 
 export default {
   components: {
@@ -37,8 +37,37 @@ export default {
   },
   data() {
     return {
-      tabRouterList,
-      meetingButtonList
+      tabRouterList: [
+        {
+          value: 1,
+          name: '管理大厅',
+          url: '/meeting/home',
+          key: this.$t('MT_GUANLIDATING')
+        }
+      ],
+      meetingButtonList: [
+        {
+          value: 1,
+          name: '会议列表',
+          url: '/meeting/home',
+          activePath: '/meeting/home',
+          key: this.$t('MT_HUIYILIEBIAO')
+        },
+        {
+          value: 2,
+          name: '与会人列表',
+          url: '/meeting/participants',
+          activePath: '/meeting/participants',
+          key: this.$t('MT_YUHUIRENLIEBIAO')
+        },
+        {
+          value: 3,
+          name: '会议信息',
+          url: '/meeting/information',
+          activePath: '/meeting/information',
+          key: this.$t('MT_HUIYIXINXI')
+        }
+      ]
     }
   },
   methods: {}

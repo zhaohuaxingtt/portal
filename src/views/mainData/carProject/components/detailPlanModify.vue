@@ -2,7 +2,7 @@
   <div>
     <pageHeader>
       <el-form inline>
-        <iFormItem label="版本号" v-if="version !== ''">
+        <iFormItem :label="language('版本号')" v-if="version !== ''">
           <iSelect v-model="version" @change="versionChange">
             <el-option
               v-for="item in versions"
@@ -12,15 +12,15 @@
             />
           </iSelect>
         </iFormItem>
-        <iFormItem label="车型总产量">
+        <iFormItem :label="language('车型总产量')">
           <iInput :value="total" readonly disabled />
         </iFormItem>
       </el-form>
       <div slot="actions">
-        <iButton v-show="!extraData.editable" @click="edit">编辑</iButton>
-        <iButton v-show="extraData.editable" @click="addItem">新增年份</iButton>
-        <iButton v-show="extraData.editable" @click="save">保存</iButton>
-        <iButton v-show="extraData.editable" @click="cancel">取消</iButton>
+        <iButton v-show="!extraData.editable" @click="edit">{{language('编辑')}}</iButton>
+        <iButton v-show="extraData.editable" @click="addItem">{{language('新增年份')}}</iButton>
+        <iButton v-show="extraData.editable" @click="save">{{language('保存')}}</iButton>
+        <iButton v-show="extraData.editable" @click="cancel">{{language('取消')}}</iButton>
       </div>
     </pageHeader>
 

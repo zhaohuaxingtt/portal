@@ -182,7 +182,7 @@ import {
 } from 'rise'
 import iEditForm from '@/components/iEditForm'
 import { addMeeting } from '@/api/meeting/home'
-import { baseRules } from './data.js'
+// import { baseRules } from './data.js'
 import dayjs from '@/utils/dayjs.js'
 import { datestring } from '@/utils/utils.js'
 
@@ -239,7 +239,76 @@ export default {
         isBatch: false,
         timeDisabled: true
       },
-      rules: baseRules,
+      rules: {
+        meetingTypeId: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZEHUIYILEIXNG'),
+            trigger: 'blur'
+          }
+        ],
+        startDate: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZEKAISHIRIQI'),
+            trigger: 'change'
+          }
+        ],
+        endDate: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZEJIESHURIQI'),
+            trigger: 'change'
+          }
+        ],
+        startTime: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZEKAISHISHIJIAN'),
+            trigger: 'change'
+          }
+        ],
+        meetingPlace: [
+          {
+            required: true,
+            message: this.$t('MT_QINGSHURUHUIYIDIZHI'),
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
+        ],
+        receiverId: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZESHOUJIANREN'),
+            trigger: 'change'
+          }
+        ],
+        attendeeId: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZEYUHUIREN'),
+            trigger: 'change'
+          }
+        ],
+        attendee: [
+          {
+            required: true,
+            message: this.$t('MT_QINGSHURUYUHUIREN'),
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 1024,
+            message: this.$t('MT_ZUIDACHANGDU1024ZIFU'),
+            trigger: 'change'
+          }
+        ]
+      },
       datePickerOptions: {
         // 日期选择
         disabledDate: (date) => {

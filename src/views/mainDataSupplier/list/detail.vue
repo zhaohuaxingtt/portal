@@ -9,6 +9,7 @@
       :supplier-type="supplierType"
       :supplierId="supplierId"
       :dicts="dicts"
+      @the-detail-base-query='query'
     />
     <theDetailSupplierState
       class="margin-bottom20"
@@ -17,6 +18,7 @@
       :supplier-type="supplierType"
       :supplierId="supplierId"
       :dicts="dicts"
+      @detail-supplier-state='query'
     />
     <theDetailFactory
       class="margin-bottom20"

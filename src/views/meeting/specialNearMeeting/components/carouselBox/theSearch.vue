@@ -37,7 +37,7 @@
               <el-option value="" :label="$t('all')"></el-option>
               <el-option
                 :value="item.value"
-                :label="item.label"
+                :label="$t(item.i18n)"
                 v-for="item of statusList"
                 :key="item.value"
               ></el-option>
@@ -121,23 +121,28 @@ export default {
         // },
         {
           label: '开放',
-          value: '02'
+          value: '02',
+          i18n: 'MT_KAIFANG'
         },
         {
           label: '锁定',
-          value: '03'
+          value: '03',
+          i18n: 'MT_SUODING'
         },
         {
           label: '开始',
-          value: '04'
+          value: '04',
+          i18n: 'MT_KAISHI'
         },
         {
           label: '结束',
-          value: '05'
+          value: '05',
+          i18n: 'MT_JIESHU'
         },
         {
           label: '关闭',
-          value: '06'
+          value: '06',
+          i18n: 'MT_GUANBI'
         }
       ],
       datePickerOptionsStart: {

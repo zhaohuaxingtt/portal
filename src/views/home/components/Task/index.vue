@@ -80,9 +80,11 @@ export default {
     handleToOverdue(item) {
       // 接口的坑，url不同步
       if (this.urls[item.taskType] && this.urls[item.taskType].todayLink) {
-        window.open(this.urls[item.taskType].todayLink)
+        // window.open(this.urls[item.taskType].todayLink)
+        window.open(this.urls[item.taskType].overdueLink)
       } else {
-        window.open(item.todayLink, '_blank')
+        // window.open(item.todayLink, '_blank')
+        window.open(item.overdueLink, '_blank')
       }
     },
     handleToProgress(item) {
@@ -93,9 +95,11 @@ export default {
           this.urls[item.taskType].todayLink)
       ) {
         const { todayLink, overdueLink } = this.urls[item.taskType]
-        window.open(overdueLink || todayLink, '_blank')
+        // window.open(overdueLink || todayLink, '_blank')
+        window.open( todayLink || overdueLink, '_blank')
       } else {
-        window.open(item.overdueLink || item.todayLink, '_blank')
+        // window.open(item.overdueLink || item.todayLink, '_blank')
+        window.open(item.todayLink|| item.overdueLink , '_blank')
       }
     },
     async queryAllData() {

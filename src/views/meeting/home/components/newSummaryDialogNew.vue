@@ -162,8 +162,12 @@
                     </el-table-column>
                   </el-table>
                   <div v-if="item.conclusionCsc === '03'">
-                    <p>对于车型，发 LOI 给</p>
-                    <p>For carline send LOI to</p>
+                    <p
+                      v-if="item.loiResult"
+                      v-html="item.loiResult.replace(/\n/g, '<br/>')"
+                    ></p>
+                    <p v-if="!item.loiResult">对于车型，发 LOI 给</p>
+                    <p v-if="!item.loiResult">For carline send LOI to</p>
                   </div>
                   <div v-if="item.conclusionCsc === '04'">
                     <p>转 TER/TOP TER</p>
@@ -217,7 +221,7 @@ import {
   iSelect,
   iMessage
 } from 'rise'
-import { numToLetter } from '../../details/component/data'
+// import { numToLetter } from '../../details/component/data'
 import iEditForm from '@/components/iEditForm'
 import { getMeetingSummary, saveMeetingMinutes } from '@/api/meeting/home'
 import upArrow from '@/assets/images/up-arrow.svg'
@@ -266,7 +270,7 @@ export default {
       userNameArr: [],
       userIdsArr: [],
       loadingCreate: false,
-      numToLetter,
+      // numToLetter,
       upArrow,
       choosedIndex: -1,
       form: {},
@@ -375,7 +379,7 @@ export default {
       if (item[field]) {
         return item[field]
       }
-      return this.$t("MT_ZANWU");
+      return this.$t('MT_ZANWU')
     },
     // taskUserResult(item, index) {
     //   this.queryUserInfo([item.supporter, item.presenter]).then((res) => {

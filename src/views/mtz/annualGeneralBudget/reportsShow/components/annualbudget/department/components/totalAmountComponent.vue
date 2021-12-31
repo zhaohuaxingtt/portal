@@ -13,7 +13,19 @@ export default {
         const chart = echarts().init(document.getElementById('left-echart'))
         let option = {
           tooltip: {
-            trigger: 'item'
+            formatter: (params) => {
+              let price = 0
+              price = params.value * 1000000
+              price = String(price)
+              const tempt = price
+                .split('')
+                .reverse()
+                .join('')
+                .match(/(\d{1,3})/g)
+              let currency = tempt.join(',').split('').reverse().join('')
+
+              return currency
+            }
           },
           legend: {
             bottom: '10%',
