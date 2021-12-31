@@ -401,11 +401,13 @@
                 <span style="span-index">{{ scope.$index + 1 }}</span>
               </template>
             </el-table-column>
+            <!-- 标记 -->
             <el-table-column align="center" label="标记" min-width="50">
               <!-- <template slot-scope="scope">
                 <span style="span-index">{{ scope.$index + 1 }}</span>
               </template> -->
             </el-table-column>
+            <!-- 股别 fullCode-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -414,19 +416,23 @@
               prop="股别"
               sortable
             >
-              <!-- <span>{{scope.row}}</span> -->
+            <template slot-scope="scope">
+                <span>{{scope.row.fullCode}}</span>
+              </template>
             </el-table-column>
+            <!-- 项目  gpName-->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="项目"
               min-width="198"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.gpName}}</span>
+              </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
+            <!-- 上会次数 preCount-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -434,31 +440,34 @@
               min-width="75"
               prop="上会次数"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.preCount}}</span>
+              </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
+            <!-- 采购申请号 procurementNumber-->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="采购申请号"
               min-width="75"
             >
-              <!-- <template slot-scope="scope">
-                {{ stateObj[scope.row.state] }}
-              </template> -->
+              <template slot-scope="scope">
+                {{ scope.row.procurementNumber }}
+              </template>
             </el-table-column>
+            <!-- 申请部门  applyDept-->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="申请部门"
               min-width="59"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.applyDept}}</span>
+              </template>
             </el-table-column>
+            <!-- 申请人  requestorName-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -466,11 +475,12 @@
               min-width="65"
               prop="ep"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.requestorName}}</span>
+              </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="16"></el-table-column> -->
+            <!-- 采购员  purchaserName-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -478,21 +488,23 @@
               min-width="115"
               prop="采购员"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.purchaserName}}</span>
+              </template>
             </el-table-column>
+            <!-- 时间  time-->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="时间"
               min-width="82"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.time}}</span>
+              </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="14"></el-table-column> -->
+            <!-- 状态  state-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -505,28 +517,30 @@
                 </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="20"></el-table-column> -->
+            <!-- 会议结论/纪要  result-->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="会议结论/纪要"
               min-width="86"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.result}}</span>
+              </template>
             </el-table-column>
+            <!-- 是否推送大会 -->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="是否推送大会"
               min-width="119"
-              prop="sourcingNo"
               label-class-name="can-hideen"
             >
               <!-- <template slot-scope="scope">
                 <span>{{scope.row}}</span>
               </template> -->
             </el-table-column>
+            <!-- CSC汇报材料  cscStatus-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -534,10 +548,11 @@
               min-width="119"
               label-class-name="can-hideen"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.cscStatus}}</span>
+              </template>
             </el-table-column>
+            <!-- 是否冻结  isCscFrozen-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -545,11 +560,12 @@
               width="89"
               label-class-name="can-hideen"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.isCscFrozen}}</span>
+              </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
+            <!-- 属性  attribute-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -558,11 +574,12 @@
               prop="benDe"
               label-class-name="can-hideen"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.attribute}}</span>
+              </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
+            <!-- CSC编号 -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -1187,6 +1204,7 @@
         v-if="sendAgendaDialog"
         @close="sendAgendaDialog = false"
         style="padding-bottom: 20px"
+        :rowId="rowId"
       ></sendAgenda>
     </iDialog>
     <!-- 批量调整 -->
@@ -1231,7 +1249,7 @@ import lookConclusion from './component/lookConclusion.vue'
 import importErrorDialog from './component/importErrorDialog.vue'
 
 import {
-  findThemenById,
+  // findThemenById,
   endThemen,
   startThemen,
   // recallThemen,
@@ -1241,7 +1259,7 @@ import {
   resortThemen,
   spiltThemen
 } from '@/api/meeting/details'
-// import { findByRelationMeeting } from '@/api/meeting/gpMeeting'
+import { findThemenById , findByRelationMeeting} from '@/api/meeting/gpMeeting'
 import Sortable from 'sortablejs'
 import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
@@ -1409,7 +1427,16 @@ export default {
     },
     //发送大会议程
     sendAgenda(){
-      this.sendAgendaDialog=true
+      // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
+      if (this.selectedTableData[0].isGpPreCSC == true) {
+        this.sendAgendaDialog=true
+      this.rowId=this.selectedTableData[0].id
+      }else{
+        iMessage.error('不是预备会，不能发送大会议程！')
+      }
+
+      
+
     },
     handleClickColumn() {
       this.$refs['hiddenColumnTable'].handleOpenColumn()
@@ -1948,6 +1975,7 @@ export default {
           break
       }
     },
+    //数据请求
     queryMeetingInfoById(id) {
       const data = {
         id
@@ -1963,6 +1991,19 @@ export default {
           _this.resThemeData = [...res.themens]
           _this.handlePage(res.themens)
           _this.generateTime()
+          // 发送大会议程按钮p判断  isGpPreCSC
+          // console.log(res.isGpPreCSC);
+          // if (res.isGpPreCSC == true) {
+          //   // 显示
+          //   debugger
+          //   this.handleButtonDisabled(['sendAgenda'], true)//发送大会议程
+          // }else{
+          //   debugger
+          //   //隐藏
+          //   this.handleButtonDisabled(['sendAgenda'], true)//发送大会议程
+
+          // }
+
         })
         .catch((err) => {
           // console.log("this.meetingInfo", this.meetingInfo);

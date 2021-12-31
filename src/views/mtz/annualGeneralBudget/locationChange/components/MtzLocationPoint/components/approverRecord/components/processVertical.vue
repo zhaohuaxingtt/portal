@@ -11,98 +11,103 @@
     <div class="loading"
          v-loading="loading"></div>
     <div v-if="instanceId">
-      <div v-for="(item, index) of panorama"
-           :key="index"
-           class="node"
-           :class="{mulitiple: isMultiApprovalUser(item),active: isDividerActive(item)}">
-        <div class="node-icon">
-          <icon symbol
-                size="30"
-                :name="getIcon(item)" />
-        </div>
-        <div class="title">{{ item.status || item.nodeName }}</div>
-        <div class="item-name"
-             v-if="!isMultiApprovalUser(item)">
-          <div>
-            <span v-for="(approvalUser, i) of approvalUsers(item)"
-                  :key="i">
-              {{approvalUser.approvedUser? getUserName(approvalUser.approvedUser): getUserName(approvalUser)}}
-            </span>
+      <template v-for="(item, index) in panorama">
+            <!-- v-if="numberList.indexOf(index) !== -1" -->
+        <div :key="index"
+            class="node"
+            v-if="numberFunc(item)"
+            :class="{mulitiple: isMultiApprovalUser(item),active: isDividerActive(item)}">
+          <div class="node-icon">
+            <icon symbol
+                  size="30"
+                  :name="getIcon(item)" />
           </div>
-        </div>
-        <div class="post text-ellipsis"
-             v-if="!isMultiApprovalUser(item)">
-          <div>
-            <span v-for="(approvalUser, i) of approvalUsers(item)"
-                  :key="i">
-              {{ approvalUser.positionZhNameList }}
-            </span>
+          <div class="title">{{ item.status || item.nodeName }}</div>
+          <div class="item-name"
+              v-if="!isMultiApprovalUser(item)">
+            <div>
+              <span v-for="(approvalUser, i) of approvalUsers(item)"
+                    :key="i">
+                {{approvalUser.approvedUser? getUserName(approvalUser.approvedUser): getUserName(approvalUser)}}
+              </span>
+            </div>
           </div>
-        </div>
-        <div class="date"
-             v-if="!isMultiApprovalUser(item)">
-          {{ getSingleApprovalDate(item) }}
-        </div>
-        <div v-if="isMultiApprovalUser(item)"
-             class="content "
-             :class="{active: isActiveItem(item)}">
+          <div class="post text-ellipsis"
+              v-if="!isMultiApprovalUser(item)">
+            <div>
+              <span v-for="(approvalUser, i) of approvalUsers(item)"
+                    :key="i">
+                {{ approvalUser.positionZhNameList }}
+              </span>
+            </div>
+          </div>
+          <div class="date"
+              v-if="!isMultiApprovalUser(item)">
+            {{ getSingleApprovalDate(item) }}
+          </div>
+          <div v-if="isMultiApprovalUser(item)"
+              class="content "
+              :class="{active: isActiveItem(item)}">
 
-          <div class="type">
-            {{ item.nodeTye === 'Non_MultiInst' ? '并行' : '会签' }}
+            <div class="type">
+              {{ item.nodeTye === 'Non_MultiInst' ? '并行' : '会签' }}
+            </div>
+            <ul class="list">
+              <template v-for="(approvalUser, i) of approvalUsers(item)">
+                <li :key="i" :class="{ active: isUserActive(approvalUser) }" v-if="shenpiMtz(approvalUser)">
+                  <div class="item-name">
+                    <span v-if="approvalUser">
+                      {{
+                      approvalUser.approvedUser
+                        ? getUserName(approvalUser.approvedUser)
+                        : getUserName(approvalUser)
+                    }}
+                    </span>
+                  </div>
+                  <div class="post">
+                    {{ approvalUser.positionZhNameList }}
+                  </div>
+                  <div class="date"
+                      v-if="getApprovalDate(approvalUser)">
+                    {{ getApprovalDate(approvalUser) }}
+                  </div>
+                  <div class="commit">{{ getApprovalStatus(approvalUser) }}</div>
+                </li>
+              </template>
+            </ul>
           </div>
-          <ul class="list">
-            <template v-for="(approvalUser, i) of approvalUsers(item)">
-              <li :key="i" :class="{ active: isUserActive(approvalUser) }" v-if="shenpiMtz(approvalUser)">
-                <!-- v-if="" -->
-                <div class="item-name">
-                  <span v-if="approvalUser">
-                    {{
-                    approvalUser.approvedUser
-                      ? getUserName(approvalUser.approvedUser)
-                      : getUserName(approvalUser)
-                  }}
-                  </span>
-                </div>
-                <div class="post">
-                  {{ approvalUser.positionZhNameList }}
-                </div>
-                <div class="date"
-                    v-if="getApprovalDate(approvalUser)">
-                  {{ getApprovalDate(approvalUser) }}
-                </div>
-                <div class="commit">{{ getApprovalStatus(approvalUser) }}</div>
-              </li>
-            </template>
-          </ul>
         </div>
-      </div>
+      </template>
     </div>
     <div v-if="epmsId">
-      <div v-for="(item, index) of panorama"
-           :key="index"
-           class="node"
-           :class="{
-        mulitiple: isMultiApprovalUser(item),
-        active: isDividerActive(item)
-      }">
-        <div class="node-icon">
-          <icon symbol
-                size="30"
-                :name="getIcon(item)" />
+      <template v-for="(item, index) of panorama">
+        <div 
+          :key="index"
+          class="node"
+          v-if="numberFunc(item)"
+          :class="{
+          mulitiple: isMultiApprovalUser(item),
+          active: isDividerActive(item)
+          }">
+          <div class="node-icon">
+            <icon symbol
+                  size="30"
+                  :name="getIcon(item)" />
+          </div>
+          <div class="title">{{ item.approverStatus }}</div>
+          <div class="item-name">
+            <span>{{item.approver}}</span>
+          </div>
+          <div class="post text-ellipsis">
+            <span>
+              {{ item.approverPosition }}
+            </span>
+          </div>
+          <div class="date">
+            {{ item.approverTime }}
+          </div>
         </div>
-        <div class="title">{{ item.approverStatus }}</div>
-        <div class="item-name">
-          <span>{{item.approver}}</span>
-        </div>
-        <div class="post text-ellipsis">
-          <span>
-            {{ item.approverPosition }}
-          </span>
-        </div>
-        <div class="date">
-          {{ item.approverTime }}
-        </div>
-      </div>
+      </template>
     </div>
     <div class="noData flex"
          v-if="noData">
@@ -131,6 +136,10 @@ export default {
     tableData:{
       type:Array,
       default:() => [],
+    },
+    formInfor:{
+      type:Object,
+      default:() => {},
     }
   },
   data () {
@@ -138,7 +147,9 @@ export default {
       panorama: [],
       detail: {},
       loading: false,
-      noData: false
+      noData: false,
+      shenpiType:false,
+      numberList:[],
     }
   },
   computed: {
@@ -161,16 +172,64 @@ export default {
 
   },
   created () {
-    console.log(this.tableData)
+    // console.log(this.tableData)
     this.getDetail()
   },
   methods: {
+    numberFunc(item){
+      // if(this.formInfor.flowType !== "SIGN"){
+      //   return true;
+      // }
+      let users = []
+      // console.log(item);
+      if (item.approvalUserList) {
+        for (let i = 0; i < item.approvalUserList.length; i++) {
+          const element = item.approvalUserList[i]
+          const status = item.status
+          users.push({ ...element, approvalStatus: status })
+        }
+      }
+      if (item.taskNodeList) {
+        for (let i = 0; i < item.taskNodeList.length; i++) {
+          const element = item.taskNodeList[i]
+          if (element.approvedUser) {
+            const status = item.status
+            users.push({
+              ...element.approvedUser,
+              approvalStatus: status,
+              endTime: element.endTime,
+              taskId: element.taskId,
+              taskStatus: element.taskStatus
+            })
+          }
+        }
+      }
+
+      var number = 0;
+      if(item.status=="已审批"||item.status=="未审批"){
+        for(let i=0;i<users.length;i++){
+          if(this.shenpiMtz(users[i])){
+            number++;
+          }
+        }
+        if(number == 0){
+          return false;
+        }else{
+          return true;
+        }
+      }else{
+        return true;
+      }
+    },
     shenpiMtz(val){
+      // if(this.formInfor.flowType !== "SIGN"){
+      //   return true;
+      // }
       const id = val.id;
       var number = 0;
       try{
         this.tableData.forEach(e=>{
-          if(Number(e.approvalBy) == id){
+          if(Number(e.approvalBy) == Number(id)){
             number++;
             throw new Error("EndIterative");
           }
@@ -178,7 +237,6 @@ export default {
       }catch(e){
         if(e.message != "EndIterative") throw e;
       }
-
       if(number == 0){
         return false;
       }else{
@@ -269,11 +327,11 @@ export default {
     },
     approvalUsers (item) {
       let users = []
+      // console.log(item);
       if (item.approvalUserList) {
         for (let i = 0; i < item.approvalUserList.length; i++) {
           const element = item.approvalUserList[i]
-          const status =
-            item.nodeTye === 'MultiInst' ? false : item.status === '已审批'
+          const status = item.nodeTye === 'MultiInst' ? false : item.status === '已审批'
           users.push({ ...element, approvalStatus: status })
         }
       }
@@ -281,10 +339,7 @@ export default {
         for (let i = 0; i < item.taskNodeList.length; i++) {
           const element = item.taskNodeList[i]
           if (element.approvedUser) {
-            const status =
-              item.nodeTye === 'MultiInst'
-                ? element.endTime !== null
-                : item.status === '已审批'
+            const status = item.nodeTye === 'MultiInst' ? element.endTime !== null : item.status === '已审批'
             users.push({
               ...element.approvedUser,
               approvalStatus: status,
@@ -295,7 +350,7 @@ export default {
           }
         }
       }
-      console.log(users)
+      // console.log(users)
       return users
       // return item.approvalUserList || item.taskNodeList
     },
