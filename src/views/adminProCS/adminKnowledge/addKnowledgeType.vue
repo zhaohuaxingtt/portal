@@ -13,7 +13,7 @@
 			:model="newTypeForm" 
 			:rules="newTypeRules" 
 			label-width="100px" 
-			class="typeForm"
+			class="typeForm validate-required-form"
 		>
 			<iFormItem :label="language('知识类型')" prop='name'>
 				<iInput v-model="newTypeForm.name" placeholder="请输入类型名称"></iInput>

@@ -12,7 +12,7 @@
 			:model="newContentForm" 
 			:rules="newContentRules" 
 			label-width="100px" 
-			class="contentForm"
+			class="contentForm validate-required-form"
 		>
 			<iFormItem :label="language('知识分享类型')" prop='knowledgeSection'>
 				<iSelect
@@ -186,10 +186,12 @@ export default {
 	},
 	methods: {
 		closeDialogBtn () {
+			Object.keys(this.newContentForm).map(key => this.newContentForm[key] = '')
       this.$emit('update:contentShow', false)
     },
 		close () {
       this.closeDialogBtn();
+			Object.keys(this.newContentForm).map(key => this.newContentForm[key] = '')
 			this.imageUrl = ''
     },
 		handleImageError(){
@@ -233,8 +235,9 @@ export default {
 			console.log(this.newContentForm, "233456")
 		},
 		initModify(currVa) {
-			console.log(currVa, "2355")
-			this.newContentForm = currVa
+			// console.log(currVa, "2355")
+			// this.newContentForm = currVa
+			Object.assign(this.newContentForm, currVa)
 			this.newContentForm.beginDate = currVa.openingDate
 		}
 	}

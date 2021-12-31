@@ -1,6 +1,6 @@
 <template>
 	<iDialog :title="dialogTitle" style="margin-top:10vh" :visible.sync="show" v-if="show" width="60%" @close='closeDialogBtn' append-to-body class="glossaryForm">
-		<el-form label-position="left" :model="newGlossaryForm" :rules="newGlossaryRules" label-width="100px" class="glossaryForm">
+		<el-form label-position="left" :model="newGlossaryForm" :rules="newGlossaryRules" label-width="100px" class="glossaryForm validate-required-form">
 			<iFormItem :label="language('标题')" prop='title'>
         <iInput v-model="newGlossaryForm.title" placeholder="请输入"></iInput>
       </iFormItem>
@@ -33,6 +33,10 @@
 					<span style="marginLeft:20px" @click.stop=";">可添加多张图片，支持图片格式'jpg'，'png'，'gif'，单张图片不能超过10M</span>
 				</div>
 			</iUpload>
+		</div>
+		<div class="flex justify-end btn">
+			<iButton @click="close">{{ language('取消') }}</iButton>
+			<iButton @click="sure">{{ language('确定') }}</iButton>
 		</div>
 	</iDialog>
 </template>
@@ -87,11 +91,27 @@ export default {
 			this.fileList = []
     },
 		close () {
+			this.clearFormVal()
       this.closeDialogBtn();
     },
+		clearFormVal() {
+			Object.keys(this.newGlossaryForm).map(key => this.newGlossaryForm[key] = '')
+			// this.newGlossaryForm.title = ''
+			// this.newGlossaryForm.firstLetter = ''
+			// this.newGlossaryForm.version = ''
+			// this.newGlossaryForm.publishDate = ''
+			// this.newGlossaryForm.termsContent = ''
+		},
+		sure() {
+			console.log('sure')
+			this.clearFormVal()
+			this.closeDialogBtn()
+		},
 		initModifyContent(va) {
 			let content = va?.[0]
-			this.newGlossaryForm = content
+			// this.newGlossaryForm = content
+			Object.assign(this.newGlossaryForm, content)
+			// this.newGlossaryForm = JSON.parse(JSON.stringify(content))
 		}
 	},
 	computed: {
@@ -106,6 +126,9 @@ export default {
 @import '../comon.scss';
 	.glossaryForm {
 		padding-bottom: 10px;
+	}
+	.btn {
+		padding-bottom: 20px;
 	}
 	.upload-box {
 		width: 100%;

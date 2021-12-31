@@ -106,3 +106,22 @@ export const typeColumn = () => {
 		}
 	]
 }
+
+export const column = [
+	{
+		type:'index',
+		label:'序号',
+		width: 100
+	},
+	{
+		prop:'name',
+		label:'分类名称',
+		align: 'center'
+	},
+	{
+        label:'操作',
+        customRender:(h,{row},col,{del}) => {
+            return <iButton type="text" on-click={() => del(row)}>删除</iButton>
+        }
+    },
+]
