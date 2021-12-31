@@ -74,7 +74,8 @@ export default {
               }else{
                 mtzConfirm({
                   appName: this.form.name,
-                  partProjectId:this.$route.query.partProjectId
+                  partProjectId:this.$route.query.partProjectId,
+                  flowType:this.$route.query.flowType,
                 }).then(res => {
                   if(res.result && res.code == "200"){
                     var data = deepClone(this.$route.query);
