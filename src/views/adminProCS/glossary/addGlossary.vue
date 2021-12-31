@@ -18,7 +18,7 @@
         <iInput v-model="newGlossaryForm.version" placeholder="请输入"></iInput>
       </iFormItem>
 			<iFormItem :label="language('词条内容')" prop='termsContent'>
-        <iInput v-model="newGlossaryForm.termsContent" placeholder="请输入"></iInput>
+        <iInput resize="none" :rows="2" type="textarea" v-model="newGlossaryForm.termsContent" placeholder="请输入" maxLength=100></iInput>
       </iFormItem>
 		</el-form>
 		<div class="flex flex-row upload-box" v-if="type==='edit'">

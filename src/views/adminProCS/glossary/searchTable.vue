@@ -1,5 +1,5 @@
 <template>
-	<el-card class="mt20 style" id="elCard" @mousedown.native="test" @mouseup.native="test1" @mousemove.native="test2">
+	<el-card class="mt20 style" id="elCard" @mousedown.native="test" @mouseup.native="test1">
 		<div class="aaa" id="testDiv"></div>
 		<div class="flex flex-row justify-end mt20 mb20">
 			<iButton @click="addGlossary">{{ language('新增') }}</iButton>
@@ -86,24 +86,6 @@ export default {
 				testDiv.style.width = `${x}px`
 				testDiv.style.height = `${y}px`
 				testDiv.style.borderRadius = '50%'
-			}
-		},
-		test2(e) {
-			if (this.clickFlag) {
-				console.log(e, '22')
-				this.endX = e.layerX
-				this.endY = e.layerY
-				if (this.startX && this.startY && this.endX && this.endY) {
-					let x = this.endX - this.startX
-					let y = this.endY - this.startY
-					let testDiv = document.getElementById('testDiv')
-					testDiv.style.display = 'block'
-					testDiv.style.top = `${this.startY}px`
-					testDiv.style.left = `${this.startX}px`
-					testDiv.style.width = `${x}px`
-					testDiv.style.height = `${y}px`
-					testDiv.style.borderRadius = '50%'
-				}
 			}
 		},
 		async getTableList(va) {
