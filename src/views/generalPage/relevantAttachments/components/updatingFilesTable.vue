@@ -1,8 +1,8 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-14 17:30:36
- * @LastEditTime: 2021-04-14 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-12-31 10:24:17
+ * @LastEditors: caopeng
  * @Description: 相关附件
 -->
 <template>
@@ -78,7 +78,8 @@ export default {
       attachmentDialog: false,
       attachmentDetail: '',
       attachmentLoading: false,
-      currentTemplateId: ''
+      currentTemplateId: '',
+      attachmentInfo:{}
     }
   },
   created() {
@@ -101,6 +102,7 @@ export default {
       }
     },
     async handleViewAttachment(row) {
+     this.attachmentInfo={}
       this.attachmentDetail = ''
       this.attachmentDialog = true
       this.attachmentLoading = true
@@ -111,12 +113,15 @@ export default {
       const res = await getAttachmentCommitment(req)
       this.attachmentDetail = res.data.detail
       this.attachmentLoading = false
+      this.attachmentInfo=res.data
     },
     async handleSignature() {
       this.attachmentLoading = true
       const req = {
         step: 'submit',
-        id: this.currentTemplateId
+        id: this.currentTemplateId,
+        termsId:this.attachmentInfo.termsId||'',
+        termsVersion:this.attachmentInfo.termsVersion||'',
       }
       const res = await signatureAttachment(req)
       this.attachmentLoading = false
