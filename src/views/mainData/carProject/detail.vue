@@ -1,7 +1,7 @@
 <template>
   <iPage>
     <pageHeader class="margin-bottom20">
-      {{ $route.query.id ? '编辑' : '新增' }}车型项目主数据
+      {{ language($route.query.id ? '编辑' : '新增') }}{{language('车型项目主数据')}}
     </pageHeader>
     <baseInfo @save-success="saveSuccess" @PEPData="PEPData" />
     <detailPlan v-if="carProjectID" />
