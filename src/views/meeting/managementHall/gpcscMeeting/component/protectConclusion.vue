@@ -162,9 +162,7 @@
     </div>
    
     <div class="button-list">
-      <iButton class="sure" @click="handleSure" :loading="loading"
-        >确定</iButton
-      >
+      <iButton class="sure" @click="handleSure" :loading="loading" >提交</iButton >
       <iButton class="cancel" @click="handleCancel">取消</iButton>
     </div>
   </iDialog>

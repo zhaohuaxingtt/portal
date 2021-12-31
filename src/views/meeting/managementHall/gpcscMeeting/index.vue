@@ -416,7 +416,9 @@
               prop="股别"
               sortable
             >
-              <!-- <span>{{scope.row}}</span> -->
+            <template slot-scope="scope">
+                <span>{{scope.row.fullCode}}</span>
+              </template>
             </el-table-column>
             <!-- 项目  gpName-->
             <el-table-column
@@ -425,9 +427,9 @@
               label="项目"
               min-width="198"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.gpName}}</span>
+              </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
             <!-- 上会次数 preCount-->
@@ -438,9 +440,9 @@
               min-width="75"
               prop="上会次数"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.preCount}}</span>
+              </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
             <!-- 采购申请号 procurementNumber-->
@@ -450,9 +452,9 @@
               label="采购申请号"
               min-width="75"
             >
-              <!-- <template slot-scope="scope">
-                {{ stateObj[scope.row.state] }}
-              </template> -->
+              <template slot-scope="scope">
+                {{ scope.row.procurementNumber }}
+              </template>
             </el-table-column>
             <!-- 申请部门  applyDept-->
             <el-table-column
@@ -461,9 +463,9 @@
               label="申请部门"
               min-width="59"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.applyDept}}</span>
+              </template>
             </el-table-column>
             <!-- 申请人  requestorName-->
             <el-table-column
@@ -473,9 +475,9 @@
               min-width="65"
               prop="ep"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.requestorName}}</span>
+              </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="16"></el-table-column> -->
             <!-- 采购员  purchaserName-->
@@ -486,20 +488,20 @@
               min-width="115"
               prop="采购员"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.purchaserName}}</span>
+              </template>
             </el-table-column>
-            <!-- 时间 -->
+            <!-- 时间  time-->
             <el-table-column
               show-overflow-tooltip
               align="center"
               label="时间"
               min-width="82"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.time}}</span>
+              </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="14"></el-table-column> -->
             <!-- 状态  state-->
@@ -522,9 +524,9 @@
               label="会议结论/纪要"
               min-width="86"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.result}}</span>
+              </template>
             </el-table-column>
             <!-- 是否推送大会 -->
             <el-table-column
@@ -532,7 +534,6 @@
               align="center"
               label="是否推送大会"
               min-width="119"
-              prop="sourcingNo"
               label-class-name="can-hideen"
             >
               <!-- <template slot-scope="scope">
@@ -547,9 +548,9 @@
               min-width="119"
               label-class-name="can-hideen"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.cscStatus}}</span>
+              </template>
             </el-table-column>
             <!-- 是否冻结  isCscFrozen-->
             <el-table-column
@@ -559,9 +560,9 @@
               width="89"
               label-class-name="can-hideen"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.isCscFrozen}}</span>
+              </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <!-- 属性  attribute-->
@@ -573,9 +574,9 @@
               prop="benDe"
               label-class-name="can-hideen"
             >
-              <!-- <template slot-scope="scope">
-                <span>{{scope.row}}</span>
-              </template> -->
+              <template slot-scope="scope">
+                <span>{{scope.row.attribute}}</span>
+              </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="30"></el-table-column> -->
             <!-- CSC编号 -->
@@ -1426,11 +1427,10 @@ export default {
     },
     //发送大会议程
     sendAgenda(){
-      this.sendAgendaDialog=true
-      this.rowId=this.selectedTableData[0].id
-      return
       // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
       if (this.selectedTableData[0].isGpPreCSC == true) {
+        this.sendAgendaDialog=true
+      this.rowId=this.selectedTableData[0].id
       }else{
         iMessage.error('不是预备会，不能发送大会议程！')
       }
@@ -1991,6 +1991,19 @@ export default {
           _this.resThemeData = [...res.themens]
           _this.handlePage(res.themens)
           _this.generateTime()
+          // 发送大会议程按钮p判断  isGpPreCSC
+          // console.log(res.isGpPreCSC);
+          // if (res.isGpPreCSC == true) {
+          //   // 显示
+          //   debugger
+          //   this.handleButtonDisabled(['sendAgenda'], true)//发送大会议程
+          // }else{
+          //   debugger
+          //   //隐藏
+          //   this.handleButtonDisabled(['sendAgenda'], true)//发送大会议程
+
+          // }
+
         })
         .catch((err) => {
           // console.log("this.meetingInfo", this.meetingInfo);
