@@ -1857,7 +1857,7 @@ export default {
         })
       } else {
         this.$confirm(
-          this.$t('MT_QINGQUERENSHIFOUXUYAOGUANBIHUIYI?'),
+          this.$t('MT_QINGQUERENSHIFOUXUYAOGUANBIHUIYI'),
           this.$t('MT_TISHI'),
           {
             confirmButtonText: this.$t('MT_SHI'),

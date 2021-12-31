@@ -3,7 +3,7 @@
   <div class="OuterFrame">
     <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
       <el-form>
-        <el-form-item label="MTZ材料组">
+        <el-form-item :label="language('LK_MTZCAILIAOZU','MTZ材料组')">
           <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form['fixedAssetsCode']">
             <el-option
               value=""
@@ -17,7 +17,7 @@
             />
           </iSelect>
         </el-form-item>
-        <el-form-item label="材料中类" >
+        <el-form-item :label="language('LK_CAILIAOZHONGLEI','材料中类')" >
           <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form['fixedAssetsCode']">
             <el-option
               value=""
@@ -31,7 +31,7 @@
             />
           </iSelect>
         </el-form-item>
-        <el-form-item label="比较版本">
+        <el-form-item :label="language('LK_BIJIAOBANBEN','比较版本')">
           <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form['fixedAssetsCode']">
             <el-option
               value=""
@@ -73,7 +73,7 @@
           </el-switch>
         </div>
 
-        <span class="monthlyCompare">{{ $t('月份比较') }}</span>
+        <span class="monthlyCompare">{{ language('LK_YUEFENBIJIAO','月份比较') }}</span>
         <el-date-picker
           class="monthlyPosition"
           v-model="form['fixedAssetsCode']"
@@ -87,8 +87,8 @@
     </iSearch>
     <iCard>
       <div class="listDetails">
-        <span>详情列表</span>
-        <iButton @click="exportData" class="exportPosition">{{ $t('导出') }}</iButton>
+        <span>{{language('LK_XIANGQINGLIEBIAO','详情列表')}}</span>
+        <iButton @click="exportData" class="exportPosition">{{ $t('LK_DAOCHU') }}</iButton>
       </div>
       <detailsList/>
     </iCard>

@@ -185,17 +185,20 @@
       @closeDialog="closeDialog"
       :topicInfo="lookThemenObj"
       :isGetInfoById="true"
+      :isSelf="isSelf"
     >
     </addTopicNew>
   </div>
 </template>
 
 <script>
-import { iPagination, iButton } from 'rise'
+import { iPagination, iButton, iMessage } from 'rise'
 import iTableML from '@/components/iTableML'
 // import addTopic from './addTopic.vue'
 import { stateObj, themenConclusion } from './data'
 import addTopicNew from '@/views/meeting/show/components/topicLookDialog.vue'
+import { getUserIdListTree } from '@/api/usercenter'
+
 export default {
   components: {
     // iInput,
@@ -211,6 +214,7 @@ export default {
   },
   data() {
     return {
+      isSelf: false,
       processUrl: process.env.VUE_APP_POINT,
       processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
       stateObj,
@@ -294,12 +298,29 @@ export default {
     closeDialog() {
       this.openAddTopic = false
     },
-    lookOrEdit(row) {
+    async queryRelateUserList(currentUserId) {
+      const requestData = {
+        userId: currentUserId,
+        isAgent: true
+      }
+      return await getUserIdListTree(requestData)
+    },
+    async lookOrEdit(row) {
+      const getUserId = JSON.parse(sessionStorage.getItem('userInfo')).id
+      const currentUserId = getUserId ? getUserId.toString() : ''
+      const presenterId = row.presenterId ? row.presenterId.toString() : ''
+      const supporterId = row.supporterId ? row.supporterId.toString() : ''
+      this.isSelf =
+        currentUserId === presenterId || currentUserId === supporterId
       if (row.source === '04') {
-        // window.open(
-        //     `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
-        //     "_blank"
-        // );
+        if (!this.isSelf) {
+          const res = await this.queryRelateUserList(getUserId)
+          const list = res.data.map((item) => item.toString())
+          if (!(list.includes(presenterId) || list.includes(supporterId))) {
+            iMessage.warn(this.$t('MT_WUCHAKANQUANXIAN'))
+            return
+          }
+        }
         if (row.type === 'FS+MTZ') {
           window.open(
             `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,

@@ -95,9 +95,9 @@ export default {
     // 获取财报iframeurl
     powerBiUrl() {
       let params = {
-        workspaceId: 'c272ae69-a6b4-4407-bd0e-f67953de36ce',
-        reportId: '3ce8a5ad-1c94-41dc-b844-f5baf9441ecc',
-        datasets: ['93fa7924-a4c1-4c91-a763-55b68b996c47'],
+        workspaceId: '876776a9-f959-442e-a011-b4bade0dd862',
+        reportId: '90f82db8-cc99-42a6-914a-3180e82585cc',
+        datasets: ['c2e4ff2e-50ba-4686-a042-0416ab276d06'],
         username: this.userInfo.id,
         roles: ['role'] // 固定参数，报表端自己判断角色权限
       }
