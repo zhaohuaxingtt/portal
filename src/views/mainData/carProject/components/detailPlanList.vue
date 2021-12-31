@@ -1,10 +1,10 @@
 <template>
   <div class="detail-plan-list">
     <div class="flex-end-center margin-bottom20">
-      <iButton v-if="!editable" @click="$emit('add-version')">新增版本</iButton>
-      <iButton v-if="!editable" @click="edit">编辑</iButton>
-      <iButton v-if="editable" @click="batchSave">保存</iButton>
-      <iButton v-if="editable" @click="cancel">取消</iButton>
+      <iButton v-if="!editable" @click="$emit('add-version')">{{language('新增版本')}}</iButton>
+      <iButton v-if="!editable" @click="edit">{{language('编辑')}}</iButton>
+      <iButton v-if="editable" @click="batchSave">{{language('保存')}}</iButton>
+      <iButton v-if="editable" @click="cancel">{{language('取消')}}</iButton>
     </div>
     <i-table-custom
       :loading="loading"
