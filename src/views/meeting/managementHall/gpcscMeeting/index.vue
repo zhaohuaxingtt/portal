@@ -1203,6 +1203,7 @@
         v-if="sendAgendaDialog"
         @close="sendAgendaDialog = false"
         style="padding-bottom: 20px"
+        :rowId="rowId"
       ></sendAgenda>
     </iDialog>
     <!-- 批量调整 -->
@@ -1257,7 +1258,7 @@ import {
   resortThemen,
   spiltThemen
 } from '@/api/meeting/details'
-import { findThemenById } from '@/api/meeting/gpMeeting'
+import { findThemenById , findByRelationMeeting} from '@/api/meeting/gpMeeting'
 import Sortable from 'sortablejs'
 import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
@@ -1426,6 +1427,16 @@ export default {
     //发送大会议程
     sendAgenda(){
       this.sendAgendaDialog=true
+      this.rowId=this.selectedTableData[0].id
+      return
+      // 是预备会才会有弹窗   加字段判断isGpPreCSC  发送大会议程 按钮应该隐藏
+      if (this.selectedTableData[0].isGpPreCSC == true) {
+      }else{
+        iMessage.error('不是预备会，不能发送大会议程！')
+      }
+
+      
+
     },
     handleClickColumn() {
       this.$refs['hiddenColumnTable'].handleOpenColumn()

@@ -34,3 +34,12 @@ export function endThemen(data) {
     data
   })
 }
+// 发送大会议程接口
+// /gpMeetingService/sendBigMeetingThemen
+export function sendBigMeetingThemen(data) {
+  return requst({
+    url: `/gpMeetingService/sendBigMeetingThemen`,
+    method: 'POST',
+    data
+  })
+}
