@@ -177,9 +177,9 @@ export default {
   },
   methods: {
     numberFunc(item){
-      if(this.formInfor.flowType !== "SIGN"){
-        return true;
-      }
+      // if(this.formInfor.flowType !== "SIGN"){
+      //   return true;
+      // }
       let users = []
       // console.log(item);
       if (item.approvalUserList) {
@@ -222,9 +222,9 @@ export default {
       }
     },
     shenpiMtz(val){
-      if(this.formInfor.flowType !== "SIGN"){
-        return true;
-      }
+      // if(this.formInfor.flowType !== "SIGN"){
+      //   return true;
+      // }
       const id = val.id;
       var number = 0;
       try{

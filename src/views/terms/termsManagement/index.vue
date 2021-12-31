@@ -146,6 +146,34 @@ export default {
         })
     },
     handleExportAll() {
+      if (this.formData?.signNode) {
+        this.formData.signNode = this.formData?.signNode
+          ?.map((i) => {
+            return i
+          })
+          .join(',')
+      }
+      if (this.formData?.supplierRange) {
+        this.formData.supplierRange = this.formData?.supplierRange
+          ?.map((i) => {
+            return i
+          })
+          .join(',')
+      }
+      if (this.formData?.supplierIdentity) {
+        this.formData.supplierIdentity = this.formData?.supplierIdentity
+          ?.map((i) => {
+            return i
+          })
+          .join(',')
+      }
+      if (this.formData?.state) {
+        this.formData.state = this.formData?.state
+          ?.map((i) => {
+            return i
+          })
+          .join(',')
+      }
       exportFile({
         url:
           process.env.VUE_APP_NEWS +
