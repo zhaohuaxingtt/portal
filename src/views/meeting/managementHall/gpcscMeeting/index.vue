@@ -1161,9 +1161,11 @@
       @handleClose="handleCloseCancelTopics"
       ref="closeDialog"
     />
+    <!-- 结束议题  -->
     <protectConclusion
       v-if="dialogStatusManageObj.openProtectConclusion"
       :open="dialogStatusManageObj.openProtectConclusion"
+      @close="protectConclusionDialog = false"
       @flushTable="flushTable"
       @closeDialog="closeDialog"
       :selectedTableData="selectedTableData"
@@ -2214,6 +2216,28 @@ export default {
     //结束议题按钮
     overTopic() {
       this.openDialog('openProtectConclusion')
+      return
+      // isBreak  true就是休息
+      console.log(this.selectedTableData[0].isBreak);
+      if (this.selectedTableData[0].isBreak){
+        const params = {
+        conclusion:this.ruleForm.taskCsc,//任务
+        meetingId:this.$route.query.id,//会议id
+        result:this.ruleForm.conclusion.conclusionCsc,//结论
+        themenId:this.selectedTableData[0].id//议题id
+        }
+        endCscThemen(params).then((res) => {
+          if (res.code) {
+            iMessage.success('结束议题成功！')
+            this.flushTable()
+          }else{
+            iMessage.success('结束会议失败！')
+          }
+        })
+
+      }else{
+        this.openDialog('openProtectConclusion')
+      }
       return
       // alert("overTopic");
       let choiceThemen = this.selectedTableData && this.selectedTableData[0]
