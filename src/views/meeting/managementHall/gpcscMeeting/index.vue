@@ -396,7 +396,7 @@
               min-width="40"
             ></el-table-column>
             <!-- <el-table-column align="center" width="10"></el-table-column> -->
-            <el-table-column align="center" label="#" width="23">
+            <el-table-column align="center" label="#" width="23" >
               <template slot-scope="scope">
                 <span style="span-index">{{ scope.$index + 1 }}</span>
               </template>
@@ -525,7 +525,7 @@
               min-width="86"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.result}}</span>
+                <span>{{ resultObj[scope.row.result] }}</span>
               </template>
             </el-table-column>
             <!-- 是否推送大会 -->
@@ -1165,7 +1165,7 @@
     <protectConclusion
       v-if="dialogStatusManageObj.openProtectConclusion"
       :open="dialogStatusManageObj.openProtectConclusion"
-      @close="protectConclusionDialog = false"
+      @close="dialogStatusManageObj.openProtectConclusion = false"
       @flushTable="flushTable"
       @closeDialog="closeDialog"
       :selectedTableData="selectedTableData"
@@ -1308,6 +1308,14 @@ export default {
   },
   data() {
     return {
+      resultObj:{
+        '01': '待定',
+        '02': '通过',
+        '03': '预备会议通过',
+        '04': '不通过',
+        '05': 'Last Call',
+        '06': '分段待定'
+      },
       openError: false,
       errorList: [],
       autoOpenProtectConclusionObj: '',
@@ -2215,11 +2223,10 @@ export default {
     },
     //结束议题按钮
     overTopic() {
-      this.openDialog('openProtectConclusion')
-      return
       // isBreak  true就是休息
       console.log(this.selectedTableData[0].isBreak);
       if (this.selectedTableData[0].isBreak){
+        return
         const params = {
         conclusion:this.ruleForm.taskCsc,//任务
         meetingId:this.$route.query.id,//会议id

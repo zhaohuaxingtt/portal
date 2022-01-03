@@ -75,6 +75,7 @@
     <!-- 列表 -->
     <div v-if="showIFormItemList">
       <div class="commonTablediv">RFQ发送对象</div>
+          
           <commonTable
           class="commonTablediv"
             v-update
@@ -83,8 +84,26 @@
             :customClass="true"
             :tableLoading="loading"
             :tableData="tableDataList"
-            :tableTitle="tableColumns"
-            />
+            :tableTitle="tableColumns">
+            <!-- 货币 -->
+            <template slot="currency" slot-scope="scope">
+                <iInput
+                  v-model="scope.row.currency"
+                />
+            </template>
+            <!-- 目标价 -->
+            <template slot="targetPrice" slot-scope="scope">
+                <iInput
+                  v-model="scope.row.targetPrice"
+                />
+            </template>
+            <!-- 最终成交价 -->
+            <template slot="finalPrice" slot-scope="scope">
+                <iInput
+                  v-model="scope.row.finalPrice"
+                />
+            </template>
+          </commonTable>
     </div>
     <!-- 输入框 -->
     <div  v-if="showIFormItemelform">
@@ -94,64 +113,79 @@
         :hideRequiredAsterisk="true"
       >
       <el-row :gutter="24">
+        <!-- 股别   fullCode-->
           <el-col :span="12" >
             <el-form-item :label="language('股别', '股别')" prop="cbdName">
                 <i-input
+                v-model="fromData.fullCode"
                   disabled
                 ></i-input>
               </el-form-item>
          </el-col>
+         <!-- 项目   gpName-->
          <el-col :span="12" >
             <el-form-item :label="language('项目', '项目')" prop="cbdName">
-                <i-input
+                <i-input  v-model="fromData.gpName"
                   disabled
                 ></i-input>
               </el-form-item>
          </el-col>
       </el-row>
       <el-row :gutter="24">
+        <!-- 上会次数   cscCount-->
           <el-col :span="12" >
             <el-form-item :label="language('上会次数', '上会次数')" prop="cbdName">
                 <i-input
+                v-model="fromData.cscCount"
                   disabled
                 ></i-input>
               </el-form-item>
          </el-col>
+         <!-- CSC编号   cscCode-->
          <el-col :span="12" >
             <el-form-item :label="language('CSC编号', 'CSC编号')" prop="cbdName">
                 <i-input
+                v-model="fromData.cscCode"
                   disabled
                 ></i-input>
               </el-form-item>
          </el-col>
       </el-row>
       <el-row :gutter="24">
+        <!-- 申请部门   applyDept-->
           <el-col :span="12" >
             <el-form-item :label="language('申请部门', '申请部门')" prop="cbdName">
                 <i-input
+                v-model="fromData.applyDept"
                   disabled
                 ></i-input>
               </el-form-item>
          </el-col>
+         <!-- 申请人   requestorName -->
          <el-col :span="12" >
             <el-form-item :label="language('申请人', '申请人')" prop="cbdName">
                 <i-input
+                v-model="fromData.requestorName"
                   disabled
                 ></i-input>
               </el-form-item>
          </el-col>
       </el-row>
       <el-row :gutter="24">
+        <!--  采购员 purchaserName -->
           <el-col :span="12" >
             <el-form-item :label="language('采购员', '采购员')" prop="cbdName">
                 <i-input
+                v-model="fromData.purchaserName"
                   disabled
                 ></i-input>
               </el-form-item>
          </el-col>
+         <!--定点金额   price -->
          <el-col :span="12" >
             <el-form-item :label="language('定点金额(不含可抵扣税)', '定点金额(不含可抵扣税)')" prop="cbdName">
                 <i-input
+                v-model="fromData.price"
                   disabled
                 ></i-input>
               </el-form-item>
@@ -168,7 +202,7 @@
   </iDialog>
 </template>
 <script>
-import { endCscThemen } from '@/api/meeting/gpMeeting'
+import { endCscThemen ,findGpBidderInfoByThemenId ,findGpInfoByThemenId} from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -239,6 +273,8 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        tableDataList:[],
+        fromData:[],
         showIFormItemRS: false,
         showIFormItemList: false,
         showIFormItemelform: false,
@@ -282,6 +318,8 @@ export default {
       }
     } else {
       return {
+        tableDataList:[],
+        fromData:[],
         showIFormItemRS: false,
         showIFormItemList: false,
         showIFormItemelform: false,
@@ -448,7 +486,37 @@ export default {
       deep: true
     }
   },
+  created() {  
+    // this.getList()
+    // this.getDate()
+    this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
+    {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
+  },
   methods: {
+    // 列表   findGpBidderInfoByThemenId
+    getList(){
+      const params = {
+      //  meetingId:this.$route.query.id,//会议id
+       themenId:this.selectedTableData[0].id//议题id
+      }
+      findGpBidderInfoByThemenId(params).then((res) => {
+        console.log(res);
+        this.tableDataList=res.data
+      })
+
+    },
+    // form表单   findGpInfoByThemenId
+    getDate(){
+      const params = {
+      //  meetingId:this.$route.query.id,//会议id
+       themenId:this.selectedTableData[0].id//议题id
+      }
+      findGpInfoByThemenId(params).then((res) => {
+        console.log(res);
+        this.fromData=res
+      })
+
+    },
     handleSelectionChange(val) {
       this.curChooseArr = [...val]
       this.currentRow = val[val.length - 1]
@@ -467,6 +535,7 @@ export default {
           iMessage.success('结束议题成功！')
           this.$emit('flushTable')
           this.$emit('close')
+          this.close()
         }else{
           iMessage.success('结束会议失败！')
         }

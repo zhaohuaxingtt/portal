@@ -370,29 +370,40 @@ export const buttonList = [
 
 //列表
 export const TABLE_COLUMNS_DEFAULT = [
-  // {
-  //   type: 'index',
-  //   label: '#',
-  //   i18n: '',
-  //   width: 50
-  // },
   {
-    props: '',
+    props: 'index',
+    name: '#',
+    width: 50
+  },
+  {
+    type: 'index',
+    label: '#',
+    i18n: '',
+    width: 50
+  },
+  {
+    props: 'currency',
     name: '货币类型',
-    key: ''
+    key: '',
+    required: true,
+    rule: { required: true, message: '货币类型', trigger: 'change' }
   },
   {
-    props: '',
+    props: 'targetPrice',
     name: '目标价',
-    key: ''
+    key: '',
+    required: true,
+    rule: { required: true, message: '货币类型', trigger: 'change' }
   },
   {
-    props: '',
+    props: 'finalPrice',
     name: '最终成交价',
-    key: ''
+    key: '',
+    required: true,
+    rule: { required: true, message: '货币类型', trigger: 'change' }
   },
   {
-    props: '',
+    props: 'supplierName',
     name: '供应商',
     key: ''
   },
