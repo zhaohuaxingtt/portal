@@ -82,7 +82,7 @@
             @handle-selection-change="handleSelectionChange"
             :customClass="true"
             :tableLoading="loading"
-            :tableData="tableData"
+            :tableData="tableDataList"
             :tableTitle="tableColumns"
             />
     </div>
@@ -168,6 +168,7 @@
   </iDialog>
 </template>
 <script>
+import { endCscThemen } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -452,8 +453,24 @@ export default {
       this.curChooseArr = [...val]
       this.currentRow = val[val.length - 1]
     },
+    // 提交 endCscThemen
     handleSure(){
-      
+      const params = {
+       conclusion:this.ruleForm.taskCsc,//任务
+       meetingId:this.$route.query.id,//会议id
+       result:this.ruleForm.conclusion.conclusionCsc,//结论
+       themenId:this.selectedTableData[0].id//议题id
+      }
+      console.log(params);
+      endCscThemen(params).then((res) => {
+        if (res.code) {
+          iMessage.success('结束议题成功！')
+          this.$emit('flushTable')
+          this.$emit('close')
+        }else{
+          iMessage.success('结束会议失败！')
+        }
+      })
 
     },
     handleCancel() {
@@ -490,7 +507,7 @@ export default {
         this.showIFormItemRS= false
         this.showIFormItemList= true
         this.showIFormItemelform= false
-      }else if(e.conclusionCsc == '03' ){
+      }else if(e.conclusionCsc == '03' || e.conclusionCsc == '02'){
         // 结论 任务 LOi
         this.showIFormItemRS= true
         this.showIFormItemList= false

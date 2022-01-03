@@ -1,5 +1,5 @@
 <!--
- * @Author: HS  新增议题gp
+ * @Author: HS  新增议题gp 
  * @FilePath: \front-portal\src\views\meeting\managementHall\gpcscMeeting\component\newAddTopic.vue
 -->
 <template>
@@ -394,75 +394,75 @@ export default {
     }
   },
   computed: {
-    // supporterIdArrAndCurrentSearchUserData() {
-    //   return {
-    //     currentSearchUserData: this.currentSearchUserData,
-    //     supporterIdArr: this.supporterIdArr,
-    //     presenterIdArr: this.presenterIdArr,
-    //   };
-    // },
+    supporterIdArrAndCurrentSearchUserData() {
+      return {
+        currentSearchUserData: this.currentSearchUserData,
+        supporterIdArr: this.supporterIdArr,
+        presenterIdArr: this.presenterIdArr,
+      };
+    },
   },
   watch: {
-    // supporterIdArrAndCurrentSearchUserData: {
-    //   handler(newV) {
-    //     this.ruleForm.supporter = newV.currentSearchUserData.filter((item) => {
-    //       return newV.supporterIdArr.some((it) => {
-    //         return Number(item.id) === Number(it);
-    //       });
-    //     });
-    //     this.ruleForm.presenter = newV.currentSearchUserData.filter((item) => {
-    //       return newV.presenterIdArr.some((it) => {
-    //         return Number(item.id) === Number(it);
-    //       });
-    //     });
-    //   },
-    //   deep: true,
-    // },
-    // presenterIdArr: {
-    //   handler(newV) {},
-    // },
-    // lookThemenObj: {
-    //   handler(newV) {
-    //     // console.log(newV);
-    //   },
-    //   immediate: true,
-    //   deep: true,
-    // },
-    // "ruleForm.count": {
-    //   handler(newV) {
-    //     this.ruleForm = {
-    //       ...this.ruleForm,
-    //       count: newV ? newV : null,
-    //     };
-    //   },
-    // },
-    // "ruleForm.presenter": {
-    //   handler: function (newV) {
-    //     let arr = newV.map((item) => {
-    //       return item.id;
-    //     });
-    //     let arrStr = arr.join(",");
-    //     if (typeof arrStr === "string") {
-    //       this.presenterStr = arrStr;
-    //     }
-    //     if (this.editOrAdd !== "look") {
-    //       this.ruleForm.presenterDept = Array.from(
-    //         new Set(
-    //           this.currentSearchUserData
-    //             .filter((item) => {
-    //               return arr.some((it) => {
-    //                 return it === item.id;
-    //               });
-    //             })
-    //             .map((item) => {
-    //               return item.department;
-    //             })
-    //         )
-    //       ).join(",");
-    //     }
-    //   },
-    //   immediate: true,
-    // },
+    supporterIdArrAndCurrentSearchUserData: {
+      handler(newV) {
+        this.ruleForm.supporter = newV.currentSearchUserData.filter((item) => {
+          return newV.supporterIdArr.some((it) => {
+            return Number(item.id) === Number(it);
+          });
+        });
+        this.ruleForm.presenter = newV.currentSearchUserData.filter((item) => {
+          return newV.presenterIdArr.some((it) => {
+            return Number(item.id) === Number(it);
+          });
+        });
+      },
+      deep: true,
+    },
+    presenterIdArr: {
+      handler(newV) {},
+    },
+    lookThemenObj: {
+      handler(newV) {
+        // console.log(newV);
+      },
+      immediate: true,
+      deep: true,
+    },
+    "ruleForm.count": {
+      handler(newV) {
+        this.ruleForm = {
+          ...this.ruleForm,
+          count: newV ? newV : null,
+        };
+      },
+    },
+    "ruleForm.presenter": {
+      handler: function (newV) {
+        let arr = newV.map((item) => {
+          return item.id;
+        });
+        let arrStr = arr.join(",");
+        if (typeof arrStr === "string") {
+          this.presenterStr = arrStr;
+        }
+        if (this.editOrAdd !== "look") {
+          this.ruleForm.presenterDept = Array.from(
+            new Set(
+              this.currentSearchUserData
+                .filter((item) => {
+                  return arr.some((it) => {
+                    return it === item.id;
+                  });
+                })
+                .map((item) => {
+                  return item.department;
+                })
+            )
+          ).join(",");
+        }
+      },
+      immediate: true,
+    },
     "ruleForm.supporter": {
       handler: function (newV) {
         let arr = newV.map((item) => {
