@@ -146,7 +146,7 @@
                  :total="page.totalCount" />
     <el-dialog title="审批流"
                :visible.sync="dialogVisible"
-               width="30%"
+               width="40%"
                :before-close="handleClose">
       <process-vertical :instanceId="riseId" :tableData="tableData" :formInfor="formInfor" />
       <span slot="footer"

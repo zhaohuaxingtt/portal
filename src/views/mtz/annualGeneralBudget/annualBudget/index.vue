@@ -68,8 +68,8 @@
               </el-tooltip>
               <p class="headInfo">{{language('DANWEIBAIWANRENMINBI', '（单位：百万人民币）')}}</p>
               <span class="buttonBox">
-                <iButton @click="handleDel">{{language('SHANCHU', '删除')}}</iButton>
                 <iButton @click="handleAdd">{{language('XINZENG', '新增')}}</iButton>
+                <iButton @click="handleDel">{{language('SHANCHU', '删除')}}</iButton>
                 <iButton @click="handleChangeLog">{{language('CHANGELOG', 'Change Log')}}</iButton>
                 <iButton @click="handleLinie">{{language('TZLINIE', '通知Linie')}}</iButton>
                 <iButton @click="handleExportAudit">{{language('DAOCHUYUSUANMINGXI', '导出预算明细')}}</iButton>

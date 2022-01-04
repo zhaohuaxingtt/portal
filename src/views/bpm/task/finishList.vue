@@ -36,7 +36,7 @@
 import { iCard, iPage, iPagination } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import filters from '@/utils/filters'
-import { MAP_APPROVAL_TYPE } from '@/constants'
+import { MAP_APPROVAL_TYPE, BPM_SINGL_CATEGORY_LIST } from '@/constants'
 import iTableCustom from '@/components/iTableCustom'
 import pageHeader from '@/components/pageHeader'
 import taskMixin from './taskMixin'
@@ -44,6 +44,7 @@ import taskMixin from './taskMixin'
 import { queryFinishedApprovals } from '@/api/approval/myApproval'
 import { actionHeader, searchForm } from './components'
 import { filterEmptyValue } from '@/utils'
+
 export default {
   mixins: [pageMixins, filters, taskMixin],
   components: {
@@ -162,7 +163,8 @@ export default {
       agreeType: 1,
       dialogApprovalVisible: false,
       todoTotal: 0,
-      approvalTypeMap: MAP_APPROVAL_TYPE
+      approvalTypeMap: MAP_APPROVAL_TYPE,
+      templates: []
     }
   },
   created() {
@@ -174,8 +176,9 @@ export default {
       this.goDetail(item, 1)
     },
     // 查询
-    search(val) {
+    search(val, templates) {
       this.form = { ...val }
+      this.templates = templates
       this.page.currPage = 1
       this.getTableList()
     },
@@ -192,10 +195,36 @@ export default {
         pageNum: this.page.currPage,
         pageSize: this.page.pageSize
       }
+
+      const searchData = filterEmptyValue(this.form)
+      console.log('searchData', searchData)
+
+      if (searchData.itemTypeList && searchData.itemTypeList.length === 0) {
+        delete searchData.itemTypeList
+      }
+      if (searchData.categoryList && searchData.categoryList.length === 0) {
+        delete searchData.categoryList
+      }
+      if (
+        searchData.categoryList &&
+        typeof searchData.categoryList === 'string'
+      ) {
+        searchData.categoryList = [searchData.categoryList]
+      }
+      if (
+        !searchData.categoryList ||
+        (searchData.categoryList.length === 1 &&
+          searchData.categoryList[0] === '')
+      ) {
+        searchData.categoryList = this.templates
+          .filter((e) => !BPM_SINGL_CATEGORY_LIST.includes(e.name))
+          .map((e) => e.name)
+      }
+
       const data = {
         taskType: this.taskType,
         userID: this.$store.state.permission.userInfo.id,
-        ...filterEmptyValue(this.form),
+        ...searchData,
         isAeko: false
       }
       const result = queryFinishedApprovals(params, data)

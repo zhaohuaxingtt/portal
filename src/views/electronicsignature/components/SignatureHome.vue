@@ -75,7 +75,7 @@
     </i-search>
     <i-card>
       <div class='floatright margin-bottom20'>
-        <i-button @click=''> {{ language('LK_QIANSHU', '签署') }}</i-button>
+        <i-button @click='sign'> {{ language('LK_QIANSHU', '签署') }}</i-button>
         <i-button @click='revokeContract'> {{ language('LK_CHEXIAO', '撤销') }}</i-button>
       </div>
       <i-table-custom :columns='sinatureColumns'
@@ -108,7 +108,8 @@ import {
   queryContractList,
   queryEnumeration,
   querySealtype,
-  cancelContract, detailLook
+  cancelContract, detailLook,
+  contractSigning
 } from '@/api/electronicsignature'
 
 export default {
@@ -222,14 +223,17 @@ export default {
       detailLook(reqData).then(res => {
         console.log(res)
         if (res.code == 200) {
+          if(res.data!=null||res.data!=undefined||res.data!=''){
+            window.open(res.data);
+          }
         } else {
           this.$message.error(res.desZh)
         }
       })
     },
+
     //撤销
     revokeContract() {
-
       if (this.selSinaturedatas.length <= 0) {
         return this.$message.warning(this.language('LK_BAOQIANNINDANQIANHAIWEIXUANZEXUYAOCHEXIAODEHETONG', '抱歉，您当前还未选择需要撤销的合同'))
       }
@@ -256,6 +260,34 @@ export default {
         })
       }).catch(() => {
 
+      })
+
+
+    },
+    //签署
+    sign() {
+      if (this.selSinaturedatas.length <= 0) {
+        return this.$message.warning(this.language('LK_BAOQIANNINDANQIANHAIWEIXUANZEXUYAOQIANSHUDEHETONG', '抱歉，您当前还未选择需要签署的合同'))
+      }
+      let filterRes = this.selSinaturedatas.filter(item => item.signStatus == 3)
+      if (filterRes == null || filterRes == undefined || filterRes.length <= 0) {
+        return this.$message.error(this.language('LK_QINGXUANZEHETONGZHUANGTAIWEIDAIJIAFANGQIANSHUDEJILU', '请选择合同状态为待甲方签署的记录'))
+      }
+      let reqData = filterRes.map(item => ({
+        companyNumber: item.companyNumber,
+        docNo: item.docNo,
+        docTypeNo: item.docTypeNo
+      }))
+      this.tabloading = true
+      contractSigning(reqData).then(res => {
+        this.tabloading = false
+        if (res.code == 200) {
+          this.loadContractList()
+          this.$message.success(res.desZh)
+        } else {
+          this.$message.error(res.desZh)
+
+        }
       })
 
 
