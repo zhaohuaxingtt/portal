@@ -37,7 +37,7 @@ import {iPagination, iTableCustom, iButton} from 'rise';
 import { pageMixins } from '@/utils/pageMixins'
 import { tableColumn } from './tableColumn'
 import AddGlossaryDialog from './addGlossary'
-import {glossaryListByPage, delGlossaryById} from '@/api/adminProCs';
+import {glossaryListByPage, delGlossaryById} from '@/api/adminProCS';
 export default {
 	components: {
 		iTableCustom,

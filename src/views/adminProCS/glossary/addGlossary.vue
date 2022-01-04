@@ -12,6 +12,7 @@
 					v-model="newGlossaryForm.publishDate"
 					type="date"
 					style="width:100%;"
+					value-format="yyyy-MM-dd"
 					placeholder="选择日期">
 				</el-date-picker>
 			</iFormItem>
@@ -45,7 +46,7 @@
 <script>
 import { iDialog, iFormItem, iInput, iButton } from 'rise'
 import iUpload from '../components/iUpload.vue'
-import { createGlossary } from '@/api/adminProCs'
+import { createGlossary } from '@/api/adminProCS'
 export default {
 	name: 'addGlossary',
 	components: {
@@ -99,7 +100,8 @@ export default {
 			fileList: [],
 			acceptPicType: "image/*",
 			maxSize: 10,
-			loading: false
+			loading: false,
+			modifyFlag: false
 		}
 	},
 	methods: {
@@ -113,22 +115,28 @@ export default {
 		},
 		clearFormVal() {
 			Object.keys(this.newGlossaryForm).map(key => this.newGlossaryForm[key] = '')
-			// this.newGlossaryForm.title = ''
-			// this.newGlossaryForm.firstLetter = ''
-			// this.newGlossaryForm.version = ''
-			// this.newGlossaryForm.publishDate = ''
-			// this.newGlossaryForm.termsContent = ''
 		},
 		sure() {
 			this.$refs.form.validate(async v => {
 				if(v){
 					try {
-						this.loading = true
-						await createGlossary(this.newGlossaryForm).then((res) => {
-							console.log(res, '1222')
+						this.newGlossaryForm.isSendMessage = false
+						let formData = new FormData()
+						Object.keys(this.newGlossaryForm).forEach(key => {
+							formData.append(key, this.newGlossaryForm[key])
 						})
-						// this.clearFormVal()
-						this.closeDialogBtn()
+						this.loading = true
+						if (this.modifyFlag) {
+							console.log('modify')
+						} else {
+							await createGlossary(formData).then((res) => {
+								// console.log(res, '1222')
+								if (res) {
+									this.$message({type: 'success', message: '新增词条成功.'})
+								}
+							})
+						}
+						this.close()
 					} finally {
 						this.loading = false
 					}
@@ -136,10 +144,9 @@ export default {
 			})
 		},
 		initModifyContent(va) {
+			this.modifyFlag = true
 			let content = va?.[0]
-			// this.newGlossaryForm = content
 			Object.assign(this.newGlossaryForm, content)
-			// this.newGlossaryForm = JSON.parse(JSON.stringify(content))
 		}
 	},
 	computed: {

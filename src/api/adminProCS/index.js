@@ -6,7 +6,8 @@ export function createGlossary(data) {
     return procsRequest({
        url: '/terms_mgr/create.json',
        method: 'POST',
-       data
+       data,
+       formData: true
     })
 }
 // 词条列表
@@ -14,7 +15,7 @@ export function glossaryListByPage(data) {
     return procsRequest({
        url: '/terms_mgr/list.json',
        method: 'get',
-       data:data
+       params: data
     })
 }
 // 删除词条
