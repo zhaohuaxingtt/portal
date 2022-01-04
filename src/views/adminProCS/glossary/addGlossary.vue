@@ -24,7 +24,7 @@
 			</iFormItem>
 			<div class="flex flex-row upload-box" v-if="type==='edit'">
 				<div class="upload-text">上传图片</div>
-				<iUpload 
+				<iUpload
 					v-model="fileList"
 					:accept="acceptPicType"
 					:maxSize="maxSize"
@@ -46,7 +46,8 @@
 <script>
 import { iDialog, iFormItem, iInput, iButton } from 'rise'
 import iUpload from '../components/iUpload.vue'
-import { createGlossary } from '@/api/adminProCS'
+import { createGlossary, modifyGlossaryById } from '@/api/adminProCS'
+import jsPDF from 'jspdf'
 export default {
 	name: 'addGlossary',
 	components: {
@@ -101,7 +102,8 @@ export default {
 			acceptPicType: "image/*",
 			maxSize: 10,
 			loading: false,
-			modifyFlag: false
+			modifyFlag: false,
+			modifyGlossaryId: null
 		}
 	},
 	methods: {
@@ -127,18 +129,24 @@ export default {
 						})
 						this.loading = true
 						if (this.modifyFlag) {
-							console.log('modify')
+							await modifyGlossaryById(this.modifyGlossaryId, formData).then((res) => {
+								if (res) {
+									this.$message({type: 'success', message: '修改词条成功.'})
+								}
+							})
 						} else {
 							await createGlossary(formData).then((res) => {
-								// console.log(res, '1222')
 								if (res) {
 									this.$message({type: 'success', message: '新增词条成功.'})
 								}
 							})
 						}
+						this.$emit('refresh')
+						this.modifyFlag = false
 						this.close()
 					} finally {
 						this.loading = false
+						this.modifyFlag = false
 					}
 				}
 			})
@@ -146,7 +154,9 @@ export default {
 		initModifyContent(va) {
 			this.modifyFlag = true
 			let content = va?.[0]
-			Object.assign(this.newGlossaryForm, content)
+			this.modifyGlossaryId = content.id
+			// Object.assign(this.newGlossaryForm, content)
+			this.newGlossaryForm = JSON.parse(JSON.stringify(content))
 		}
 	},
 	computed: {
@@ -169,7 +179,7 @@ export default {
 		width: 100%;
 		padding-bottom: 20px;
 		.upload-text {
-			width: 122px;
+			width: 192px;
 		}
 		.upload-pic {
 			width: 100%;

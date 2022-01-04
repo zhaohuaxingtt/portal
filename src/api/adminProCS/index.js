@@ -10,6 +10,7 @@ export function createGlossary(data) {
        formData: true
     })
 }
+
 // 词条列表
 export function glossaryListByPage(data) {
     return procsRequest({
@@ -18,10 +19,21 @@ export function glossaryListByPage(data) {
        params: data
     })
 }
+
 // 删除词条
 export function delGlossaryById(id) {
     return procsRequest({
        url: `/terms_mgr/${id}.json`,
        method: 'delete'
     })
+}
+
+// 修改词条
+export function modifyGlossaryById(id, data) {
+    return procsRequest({
+        url: `/terms_mgr/${id}/update.json`,
+        method: 'put',
+        data,
+        formData: true
+     })
 }

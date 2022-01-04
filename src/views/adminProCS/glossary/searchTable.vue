@@ -56,14 +56,7 @@ export default {
 		return {
 			tableLoading: false,
 			tableSetting: tableColumn,
-			tableListData: [
-				{
-					firstLetter: 'A', title: '测试一个', version: '1.2.3', publishDate: '2020-12-20', id: '0'
-				},
-				{
-					firstLetter: 'B', title: '测试二个', version: '1.2.4', publishDate: '2020-12-25', id: '1'
-				}
-			],
+			tableListData: [],
 			selectedItems: [],
 			showDialog: false,
 			type: 'add',
@@ -82,8 +75,12 @@ export default {
           pageSize: this.page.pageSize,
           ...this.params
         }
-        console.log(params, "2222")
         let res = await glossaryListByPage(params)
+				console.log(res, '1222')
+				if (res) {
+					this.tableListData = res.content || []
+					this.page.totalCount = res.totalElements
+				}
         // if(res.code == 200){
         //   this.tableListData = res.data.records || []
         //   this.page.totalCount = res.data.total
@@ -110,13 +107,7 @@ export default {
         cancelButtonText:"取消",
         type:'warning'
       }).then(async ()=>{
-        // let ids = this.selectedItems.map(e => e.id)
         await delGlossaryById(this.selectedItems[0].id)
-				// this.tableListData.map((item, idx) => {
-				// 	if (item.id === this.selectedItems[0]?.id) {
-				// 			this.tableListData.splice(idx, 1)
-				// 	}
-				// })
         this.getTableList()
       }).catch(()=>{
         this.$refs.testTable.clearSelection()
