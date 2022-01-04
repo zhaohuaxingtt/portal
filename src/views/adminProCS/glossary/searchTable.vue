@@ -1,5 +1,5 @@
 <template>
-	<el-card class="mt20 style" id="elCard" @mousedown.native="test" @mouseup.native="test1">
+	<el-card class="mt20 style">
 		<div class="aaa" id="testDiv"></div>
 		<div class="flex flex-row justify-end mt20 mb20">
 			<iButton @click="addGlossary">{{ language('新增') }}</iButton>
@@ -11,7 +11,7 @@
       :loading="tableLoading"
       :data="tableListData"
       :columns="tableSetting"
-			singleChoice=true
+			singleChoice
       @handle-selection-change="handleSelectionChange"
     />
 
@@ -37,6 +37,7 @@ import {iPagination, iTableCustom, iButton} from 'rise';
 import { pageMixins } from '@/utils/pageMixins'
 import { tableColumn } from './tableColumn'
 import AddGlossaryDialog from './addGlossary'
+import {glossaryListByPage, delGlossaryById} from '@/api/adminProCs';
 export default {
 	components: {
 		iTableCustom,
@@ -44,6 +45,12 @@ export default {
 		iButton,
 		AddGlossaryDialog
 	},
+  props:{
+    params:{
+      type: Object,
+      default: () => {}
+    }
+  },
 	mixins: [pageMixins],
 	data () {
 		return {
@@ -67,40 +74,23 @@ export default {
 		this.getTableList()
 	},
 	methods: {
-		test(e) {
-			this.startX = e.layerX
-			this.startY = e.layerY
-			this.clickFlag = true
-		},
-		test1(e) {
-			this.endX = e.layerX
-			this.endY = e.layerY
-			this.clickFlag = false
-			if (this.startX && this.startY && this.endX && this.endY) {
-				let x = this.endX - this.startX
-				let y = this.endY - this.startY
-				let testDiv = document.getElementById('testDiv')
-				testDiv.style.display = 'block'
-				testDiv.style.top = `${this.startY}px`
-				testDiv.style.left = `${this.startX}px`
-				testDiv.style.width = `${x}px`
-				testDiv.style.height = `${y}px`
-				testDiv.style.borderRadius = '50%'
-			}
-		},
-		async getTableList(va) {
-			this.tableLoading = true
-			let params = {
-				keyword: va ? va : '',
-				pageNum:this.page.currPage,
-				pageSize: this.page.pageSize,
-			}
-			console.log(params, "2222")
-			this.tableLoading = false
-			// if(res.code == 200){
-      //   this.tableListData = res.data.records || []
-      //   this.page.totalCount = res.data.total
-      // }
+		async getTableList() {
+      try {
+        this.tableLoading = true
+        let params = {
+          pageNum:this.page.currPage,
+          pageSize: this.page.pageSize,
+          ...this.params
+        }
+        console.log(params, "2222")
+        let res = await glossaryListByPage(params)
+        // if(res.code == 200){
+        //   this.tableListData = res.data.records || []
+        //   this.page.totalCount = res.data.total
+        // }
+      } finally {
+        this.tableLoading = false
+      }
 		},
 		handleSelectionChange(val) {
       this.selectedItems = val
@@ -121,13 +111,13 @@ export default {
         type:'warning'
       }).then(async ()=>{
         // let ids = this.selectedItems.map(e => e.id)
-        // await removeLabel(ids)
-        // this.getTableList()
-				this.tableListData.map((item, idx) => {
-					if (item.id === this.selectedItems[0]?.id) {
-							this.tableListData.splice(idx, 1)
-					}
-				})
+        await delGlossaryById(this.selectedItems[0].id)
+				// this.tableListData.map((item, idx) => {
+				// 	if (item.id === this.selectedItems[0]?.id) {
+				// 			this.tableListData.splice(idx, 1)
+				// 	}
+				// })
+        this.getTableList()
       }).catch(()=>{
         this.$refs.testTable.clearSelection()
       })

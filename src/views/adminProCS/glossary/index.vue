@@ -2,10 +2,11 @@
 	<iPage>
 		<search 
 			@handleConfirm="handleConfirm"
-			@handleReset="handleReset"
+			@handleReset="handleConfirm"
 		/>
 		<searchTable 
 			ref='searchTable'
+			:params="params"
 		/>
 	</iPage>
 </template>
@@ -21,12 +22,17 @@ export default {
 		Search,
 		SearchTable
 	},
+	data() {
+		return {
+			params:{}
+		}
+	},
 	methods: {
 		handleConfirm(va) {
-			this.$refs.searchTable.getTableList(va)
-		},
-		handleReset(va) {
-			this.$refs.searchTable.getTableList(va)
+			this.params = va
+			this.$nextTick(() => {
+				this.$refs.searchTable.getTableList()
+			})
 		}
 	}
 }

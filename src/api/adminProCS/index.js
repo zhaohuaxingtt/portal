@@ -9,3 +9,18 @@ export function createGlossary(data) {
        data
     })
 }
+// 词条列表
+export function glossaryListByPage(data) {
+    return procsRequest({
+       url: '/terms_mgr/list.json',
+       method: 'get',
+       data:data
+    })
+}
+// 删除词条
+export function delGlossaryById(id) {
+    return procsRequest({
+       url: `/terms_mgr/${id}.json`,
+       method: 'delete'
+    })
+}

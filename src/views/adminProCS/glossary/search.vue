@@ -36,11 +36,11 @@ export default {
 	},
 	methods: {
 		handleConfirm() {
-			this.$emit('handleConfirm', this.keyword)
+			this.$emit('handleConfirm', {keyword:this.keyword})
 		},
 		handleReset() {
 			this.keyword = ''
-			this.$emit('handleReset', this.keyword)
+			this.$emit('handleReset', {keyword:this.keyword})
 		},
 		addGlossary() {
 			this.$emit('addGlossary')
