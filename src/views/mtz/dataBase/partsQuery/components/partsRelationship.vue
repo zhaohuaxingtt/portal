@@ -96,6 +96,7 @@ import { pageMixins } from '@/utils/pageMixins'
 import { tableSetting, exportTitle, partsRelationship, partsRelationshipTableSetting } from './data'
 import Detail from './partsRelationshipDetail'
 import { infoPage, infoExport } from '@/api/mtz/database/partsQuery'
+import { downloadUdFile } from '@/api/file'
 import tableList from '@/components/commonTable';
 export default {
   components: {
@@ -183,14 +184,17 @@ export default {
         iMessage.error(this.language('WENJIANXIXINBUCUNZAI', '文件信息不存在'))
         return
       }
-      // 创建a标签
-      const link = document.createElement('a')
-      // download属性
-      link.setAttribute('download', data.filePath)
-      // href链接
-      link.setAttribute('href', data.filePath)
-      // 自执行点击事件
-      link.click()
+      downloadUdFile(data.filePath).then(res => {
+
+      })
+      // // 创建a标签
+      // const link = document.createElement('a')
+      // // download属性
+      // link.setAttribute('download', data.filePath)
+      // // href链接
+      // link.setAttribute('href', data.filePath)
+      // // 自执行点击事件
+      // link.click()
     },
   }
 }

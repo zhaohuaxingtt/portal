@@ -2,7 +2,7 @@
   <iCard class="margin-top20">
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
-        <iButton>{{ $t('提交') }}</iButton>
+        <iButton @click="handleSaveOk">{{ $t('提交') }}</iButton>
       </div>
     </div>
     <iTableML
@@ -565,6 +565,7 @@
 </template>
 
 <script>
+import { sendBigMeetingThemen } from '@/api/meeting/gpMeeting'
 import { iCard, iButton, iPagination, iMessage } from 'rise'
 import iTableML from '@/components/iTableML'
 import updateFile from '@/components/updateFile'
@@ -626,6 +627,12 @@ export default {
   },
   mixins: [resultMessageMixin],
   props: {
+    rowId:{
+      type:String,
+      default: () => {
+        return []
+      }
+    },
     tableListData: {
       type: Array,
       default: () => {
@@ -736,6 +743,23 @@ export default {
     }
   },
   methods: {
+    // 提交接口   单选 sendBigMeetingThemen
+    handleSaveOk(){
+      if (this.selectedRow.length < 1) {
+        iMessage.success('请选择一条数据');
+      }else if(this.selectedRow.length > 1){
+        iMessage.success('请选择一条数据');
+      }else{
+        const param = {
+          meetingId:this.$route.query.id,
+          relationMeetingId:this.rowId,//当前议题的id
+        }
+        sendBigMeetingThemen(param).then((res) => {
+          iMessage.success('发送大会议程成功!');
+        })
+      }
+
+    },
     handleEndTime(row) {
       // let startTime =  new Date(`${row.startDate} ${row.startTime}`).getTime()
       let startTimeDate = new Date(`${row.startDate} ${row.startTime}`)
@@ -958,6 +982,7 @@ export default {
         })
       })
     },
+    //当前行数据
     handleChoose(e) {
       this.selectedRow = e
     },
