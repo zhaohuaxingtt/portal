@@ -403,12 +403,12 @@
             </el-table-column>
             <!-- 标记 -->
             <el-table-column align="center" label="标记" min-width="50">
-              <!-- <template slot-scope="scope">
+              <template slot-scope="scope">
                 <icon symbol :name="
-                    scope.row. "字段" ? 'icon-baofeichuzhi' : 'icon-baofeichuzhi'" ></icon>
-              </template> -->
+                    scope.row.sign=='s' ? 'icon-baofeichuzhi' : scope.row.sign=='f' ?'icon-fenduandingdian':''" ></icon>
+              </template>
             </el-table-column>
-            <!-- 股别 supporterDeptNosys-->
+            <!-- 股别 supporterDeptNosys  -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -418,10 +418,10 @@
               sortable
             >
             <template slot-scope="scope">
-                <span>{{scope.row.supporterDeptNosys}}</span>
+                <span>{{scope.row.supporterDeptNosys }}</span>
               </template>
             </el-table-column>
-            <!-- 项目  gpName-->
+            <!-- 项目  gpName 改 topic-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -429,7 +429,7 @@
               min-width="198"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.gpName}}</span>
+                <span>{{scope.row.topic}}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
@@ -446,7 +446,7 @@
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="15"></el-table-column> -->
-            <!-- 采购申请号 procurementNumber-->
+            <!-- 采购申请号 procurementNumber 改 sourcingNo  -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -454,10 +454,10 @@
               min-width="75"
             >
               <template slot-scope="scope">
-                {{ scope.row.procurementNumber }}
+                {{ scope.row.sourcingNo }}
               </template>
             </el-table-column>
-            <!-- 申请部门  applyDept-->
+            <!-- 申请部门  applyDept 改 supporterDept  -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -465,10 +465,10 @@
               min-width="59"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.applyDept}}</span>
+                <span>{{scope.row.supporterDept }}</span>
               </template>
             </el-table-column>
-            <!-- 申请人  requestorName-->
+            <!-- 申请人  requestorName  改 supporter  -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -477,11 +477,11 @@
               prop="ep"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.requestorName}}</span>
+                <span>{{scope.row.supporter}}</span>
               </template>
             </el-table-column>
             <!-- <el-table-column align="center" width="16"></el-table-column> -->
-            <!-- 采购员  purchaserName-->
+            <!-- 采购员  purchaserName  改 presenter  -->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -490,7 +490,7 @@
               prop="采购员"
             >
               <template slot-scope="scope">
-                <span>{{scope.row.purchaserName}}</span>
+                <span>{{scope.row.presenter}}</span>
               </template>
             </el-table-column>
             <!-- 时间  time-->
@@ -1262,7 +1262,7 @@ import {
   resortThemen,
   spiltThemen
 } from '@/api/meeting/details'
-import { findThemenById , findByRelationMeeting} from '@/api/meeting/gpMeeting'
+import { findThemenById , endCscThemen} from '@/api/meeting/gpMeeting'
 import Sortable from 'sortablejs'
 import dayjs from '@/utils/dayjs.js'
 import { getMettingType } from '@/api/meeting/type' //resortThemen
@@ -2228,11 +2228,10 @@ export default {
       // isBreak  true就是休息
       console.log(this.selectedTableData[0].isBreak);
       if (this.selectedTableData[0].isBreak){
-        return
         const params = {
-        conclusion:this.ruleForm.taskCsc,//任务
+        // conclusion:this.ruleForm.taskCsc,//任务
         meetingId:this.$route.query.id,//会议id
-        result:this.ruleForm.conclusion.conclusionCsc,//结论
+        // result:this.ruleForm.conclusion.conclusionCsc,//结论
         themenId:this.selectedTableData[0].id//议题id
         }
         endCscThemen(params).then((res) => {

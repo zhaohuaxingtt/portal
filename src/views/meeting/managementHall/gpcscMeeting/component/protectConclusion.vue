@@ -117,7 +117,7 @@
           <el-col :span="12" >
             <el-form-item :label="language('股别', '股别')" prop="cbdName">
                 <i-input
-                v-model="fromData.fullCode"
+                v-model="fromData.presenterDept"
                   disabled
                 ></i-input>
               </el-form-item>
@@ -125,7 +125,7 @@
          <!-- 项目   gpName-->
          <el-col :span="12" >
             <el-form-item :label="language('项目', '项目')" prop="cbdName">
-                <i-input  v-model="fromData.gpName"
+                <i-input  v-model="fromData.topic"
                   disabled
                 ></i-input>
               </el-form-item>
@@ -152,31 +152,31 @@
          </el-col>
       </el-row>
       <el-row :gutter="24">
-        <!-- 申请部门   applyDept-->
+        <!-- 申请部门   supporterDept-->
           <el-col :span="12" >
             <el-form-item :label="language('申请部门', '申请部门')" prop="cbdName">
                 <i-input
-                v-model="fromData.applyDept"
+                v-model="fromData.supporterDept"
                   disabled
                 ></i-input>
               </el-form-item>
          </el-col>
-         <!-- 申请人   requestorName -->
+         <!-- 申请人   supporter   -->
          <el-col :span="12" >
             <el-form-item :label="language('申请人', '申请人')" prop="cbdName">
                 <i-input
-                v-model="fromData.requestorName"
+                v-model="fromData.supporter"
                   disabled
                 ></i-input>
               </el-form-item>
          </el-col>
       </el-row>
       <el-row :gutter="24">
-        <!--  采购员 purchaserName -->
+        <!--  采购员 presenter   -->
           <el-col :span="12" >
             <el-form-item :label="language('采购员', '采购员')" prop="cbdName">
                 <i-input
-                v-model="fromData.purchaserName"
+                v-model="fromData.presenter"
                   disabled
                 ></i-input>
               </el-form-item>
@@ -273,6 +273,7 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        selectedRow:[],
         tableDataList:[],
         fromData:[],
         showIFormItemRS: false,
@@ -318,6 +319,7 @@ export default {
       }
     } else {
       return {
+        selectedRow:[],
         tableDataList:[],
         fromData:[],
         showIFormItemRS: false,
@@ -380,10 +382,14 @@ export default {
         },
         {
           conclusionCsc: "03",
-          conclusionName: "不通过",
+          conclusionName: "预备会通过",
         },
         {
           conclusionCsc: "04",
+          conclusionName: "不通过",
+        },
+        {
+          conclusionCsc: "05",
           conclusionName: "Last Call",
         },
         {
@@ -487,8 +493,8 @@ export default {
     }
   },
   created() {  
-    // this.getList()
-    // this.getDate()
+    this.getList()
+    this.getDate()
     this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
     {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
   },
@@ -518,6 +524,7 @@ export default {
 
     },
     handleSelectionChange(val) {
+      this.selectedRow=val
       this.curChooseArr = [...val]
       this.currentRow = val[val.length - 1]
     },
@@ -527,7 +534,9 @@ export default {
        conclusion:this.ruleForm.taskCsc,//任务
        meetingId:this.$route.query.id,//会议id
        result:this.ruleForm.conclusion.conclusionCsc,//结论
-       themenId:this.selectedTableData[0].id//议题id
+       themenId:this.selectedTableData[0].id,//议题id
+       isLoi: this.ruleForm.isFrozenRs ,   //是否发送loi审批
+       bidderInfoDTOList: this.selectedRow,  //列表数据当前行
       }
       console.log(params);
       endCscThemen(params).then((res) => {
@@ -566,17 +575,24 @@ export default {
       //     })
       //   }
       // }
-      if (e.conclusionCsc == '01' || e.conclusionCsc == '05') {
+      // -----------
+      // '01': '待定',
+      //   '02': '通过',
+      //   '03': '预备会议通过',
+      //   '04': '不通过',
+      //   '05': 'Last Call',
+      //   '06': '分段待定'
+      if (e.conclusionCsc == '01' || e.conclusionCsc == '06') {
         // 只有结论和任务
         this.showIFormItemRS= false
         this.showIFormItemList= false
         this.showIFormItemelform= false
-      }else if(e.conclusionCsc == '04' ){
+      }else if(e.conclusionCsc == '05' ){
         // 结论 任务 列表
         this.showIFormItemRS= false
         this.showIFormItemList= true
         this.showIFormItemelform= false
-      }else if(e.conclusionCsc == '03' || e.conclusionCsc == '02'){
+      }else if(e.conclusionCsc == '04' || e.conclusionCsc == '02'){
         // 结论 任务 LOi
         this.showIFormItemRS= true
         this.showIFormItemList= false

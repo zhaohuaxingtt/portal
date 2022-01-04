@@ -70,16 +70,16 @@
               :disabled="editOrAdd === 'edit'"
             ></iInput>
           </iFormItem>
-          <!-- 采购员 选择采购员带出申请部门-->
+          <!-- 采购员 选择采购员带出申请部门  presenter  -->
          <iFormItem
-            label="Supporter"
+            label="presenter"
             :hideRequiredAsterisk="true"
             class="item"
           >
             <iLabel :label="$t('采购员')" slot="label"></iLabel>
             <el-select
               class="autoSearch"
-              v-model="ruleForm.supporter"
+              v-model="ruleForm.presenter"
               multiple
               filterable
               :filter-method="remoteMethod"
@@ -111,12 +111,12 @@
           >
             <iLabel :label="$t('股别')" slot="label" ></iLabel>
             <iInput
-              v-model="ruleForm.supporterDeptNosys"
+              v-model="ruleForm.presenterDept"
               :disabled="editOrAdd === 'edit'"
             ></iInput>
           </iFormItem>
-          <!-- 申请人 -->
-          <iFormItem
+          <!-- 申请人 supporter  -->
+          <!-- <iFormItem
             label="BEN(DE)"
             :hideRequiredAsterisk="true"
             prop="benDe"
@@ -124,9 +124,41 @@
           >
             <iLabel :label="$t('申请人')" slot="label"></iLabel>
             <iInput
-              v-model="ruleForm.presenter"
+              v-model="ruleForm.supporter  "
               :disabled="editOrAdd === 'edit'"
             ></iInput>
+          </iFormItem> -->
+          <iFormItem
+            label="Supporter"
+            prop="supporter"
+            :hideRequiredAsterisk="true"
+            class="item"
+          >
+            <iLabel :label="$t('申请人')" slot="label"></iLabel>
+            <el-select
+              class="autoSearch"
+              v-model="ruleForm.supporter"
+              multiple
+              filterable
+              :filter-method="remoteMethod"
+              @focus="handleFocus"
+              value-key="id"
+              :disabled="ruleForm.state === '02'"
+            >
+              <el-option
+                v-for="item in selectUserArr.length > 0
+                  ? selectUserArr
+                  : currentSearchUserData"
+                :key="item.id"
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
+                  item.namePinyin ? item.namePinyin : ''
+                }`"
+                :value="item"
+              >
+              </el-option>
+            </el-select>
           </iFormItem>
           <!-- 申请部门 -->
           <iFormItem
@@ -136,7 +168,7 @@
             class="item"
           >
             <iLabel :label="$t('申请部门')" slot="label"></iLabel>
-            <iInput v-model="ruleForm.supporterDept" :disabled="editOrAdd === 'edit'"></iInput>
+            <iInput v-model="ruleForm.supporterDept" disabled ></iInput>
           </iFormItem>
 
          
@@ -387,7 +419,6 @@ export default {
   },
   mounted() {
     if (this.editOrAdd === 'edit') {
-      
       this.ruleForm = { ...this.selectedTableData[0] }
       this.queryThemen()
       this.getUsersByResponse()
@@ -407,7 +438,7 @@ export default {
         currentSearchUserData: this.currentSearchUserData,
         supporterIdArr: this.supporterIdArr,
         presenterIdArr: this.presenterIdArr,
-      };
+      }
     },
   },
   watch: {
@@ -444,60 +475,60 @@ export default {
         };
       },
     },
-    "ruleForm.presenter": {
-      handler: function () {
-        let arr = newV.map((item) => {
-          return item.id;
-        });
-        let arrStr = arr.join(",");
-        if (typeof arrStr === "string") {
-          this.presenterStr = arrStr;
-        }
-        if (this.editOrAdd !== "look") {
-          this.ruleForm.presenterDept = Array.from(
-            new Set(
-              this.currentSearchUserData
-                .filter((item) => {
-                  return arr.some((it) => {
-                    return it === item.id;
-                  });
-                })
-                .map((item) => {
-                  return item.department;
-                })
-            )
-          ).join(",");
-        }
-      },
-      immediate: true,
-    },
-    "ruleForm.supporter": {
-      handler: function (newV) {
-        let arr = newV.map((item) => {
-          return item.id;
-        });
-        let arrStr = arr.join(",");
-        if (typeof arrStr === "string") {
-          this.supporterStr = arrStr;
-        }
-        if (this.editOrAdd !== "look") {
-          this.ruleForm.supporterDept = Array.from(
-            new Set(
-              this.currentSearchUserData
-                .filter((item) => {
-                  return arr.some((it) => {
-                    return it === item.id;
-                  });
-                })
-                .map((item) => {
-                  return item.department;
-                })
-            )
-          ).join(",");
-        }
-      },
-      immediate: true,
-    },
+    // "ruleForm.presenter": {
+    //   handler: function () {
+    //     let arr = newV.map((item) => {
+    //       return item.id;
+    //     });
+    //     let arrStr = arr.join(",");
+    //     if (typeof arrStr === "string") {
+    //       this.presenterStr = arrStr;
+    //     }
+    //     if (this.editOrAdd !== "look") {
+    //       this.ruleForm.presenterDept = Array.from(
+    //         new Set(
+    //           this.currentSearchUserData
+    //             .filter((item) => {
+    //               return arr.some((it) => {
+    //                 return it === item.id;
+    //               });
+    //             })
+    //             .map((item) => {
+    //               return item.department;
+    //             })
+    //         )
+    //       ).join(",");
+    //     }
+    //   },
+    //   immediate: true,
+    // },
+    // "ruleForm.supporter": {
+    //   handler: function (newV) {
+    //     let arr = newV.map((item) => {
+    //       return item.id;
+    //     });
+    //     let arrStr = arr.join(",");
+    //     if (typeof arrStr === "string") {
+    //       this.supporterStr = arrStr;
+    //     }
+    //     if (this.editOrAdd !== "look") {
+    //       this.ruleForm.supporterDept = Array.from(
+    //         new Set(
+    //           this.currentSearchUserData
+    //             .filter((item) => {
+    //               return arr.some((it) => {
+    //                 return it === item.id;
+    //               });
+    //             })
+    //             .map((item) => {
+    //               return item.department;
+    //             })
+    //         )
+    //       ).join(",");
+    //     }
+    //   },
+    //   immediate: true,
+    // },
   },
   methods: {
     handleDeleteFile(file) {
@@ -513,8 +544,9 @@ export default {
       }
       findTheThemenById(data).then((res) => {
         console.log(res,'重要');
-        // this.ruleForm.supporter = res.supporter
-        this.ruleForm.presenter = res.presenter
+        this.ruleForm.supporter = res.supporter  //申请人
+        console.log(res.supporter,res.presenter);
+        // this.ruleForm.presenter = res.presenter  //采购员
         this.ruleForm.supporterDept = res.supporterDept
       })
     },
@@ -540,7 +572,7 @@ export default {
       this.selectUserArr = currentSearchUserData
       console.log(this.selectUserArr,'重要');
       if (this.editOrAdd === 'edit') {
-        this.ruleForm.supporter =  this.selectUserArr
+        this.ruleForm.presenter =  this.selectUserArr
       }
     },
 
@@ -748,14 +780,16 @@ export default {
                 // supporterDept: this.userData.filter(
                 //   (e) => e.id === this.ruleForm.supporter
                 // )[0].department
-                supporter:this.ruleForm.supporter[0].id
+                presenter:this.ruleForm.presenter[0].id,
+                supporter:this.ruleForm.supporter[0].id,
               }
             }
             // 采购员 id
-            console.log(this.ruleForm.supporter[0].id);
+            console.log(this.ruleForm.presenter[0].id);
             console.log(this.userData);
             console.log(this.ruleForm);
             console.log(formData);
+            // return
             saveThemen(formData)
               .then((data) => {
                 if (data) {
