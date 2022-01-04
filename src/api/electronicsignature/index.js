@@ -42,3 +42,12 @@ export function  detailLook(data){
   })
 }
 
+//签署合同
+export function  contractSigning(data){
+  return request({
+    url:'/web/contract/mergeSignContracts',
+    method:'POST',
+    data:data
+  })
+}
+

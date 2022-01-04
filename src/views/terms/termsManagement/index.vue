@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { iPage, iMessage } from 'rise'
+import { iPage } from 'rise'
 import theSearch from './components/theSearch.vue'
 import theTable from './components/theTable.vue'
 import { pageMixins } from '@/utils/pageMixins'

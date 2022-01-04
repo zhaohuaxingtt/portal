@@ -60,7 +60,6 @@ export default {
       applications: {},
       titles: [],
       activeIndex: -1,
-
       applicationCache: {}
     }
   },
@@ -91,8 +90,12 @@ export default {
       }
     },
     initData(data) {
-      this.originapplications = _.cloneDeep(data)
-      this.titles = Object.keys(this.originapplications)
+      //  this.originapplications = _.cloneDeep(data)
+      console.log(
+        'this.originapplications',
+        Object.keys(this.originapplications)
+      )
+      this.titles = Object.keys(data)
         .sort((a, b) => {
           return a > b ? 1 : -1
         })
@@ -101,6 +104,11 @@ export default {
             typeValue: item
           }
         })
+      const sortApplications = {}
+      this.titles.forEach((e) => {
+        sortApplications[e.typeValue] = data[e.typeValue]
+      })
+      this.originapplications = sortApplications
       this.filterData('')
     },
     toggleActive(index) {
@@ -110,20 +118,9 @@ export default {
     },
     filterData(key) {
       this.applications =
-        key.length == 0
+        key.length === 0
           ? { ...this.originapplications }
           : { [key]: this.originapplications[key] }
-    },
-    toggleActiveEn(index) {
-      this.activeIndexEn = index
-      let key = index > -1 ? this.titlesEn[index]['typeValue'] : ''
-      this.filterDataEn(key)
-    },
-    filterDataEn(key) {
-      this.applicationsEn =
-        key.length == 0
-          ? { ...this.originapplicationsEn }
-          : { [key]: this.originapplicationsEn[key] }
     }
   }
 }

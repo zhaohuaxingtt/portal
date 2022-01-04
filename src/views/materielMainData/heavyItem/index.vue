@@ -156,6 +156,7 @@ import iTableCustom from '@/components/iTableCustom'
 import {HEAVY_ITEM_COLUMNS} from './data.js'
 import buttonDownload from '@/components/buttonDownload'
 import { openUrl } from '@/utils'
+import language from '@/utils/language.js'
 export default {
     name:'Heavy-Item',
     components:{iButton,iSearch,iFormItem,iPagination,iSelect,iInput,iTableCustom,iCard,buttonDownload},
@@ -183,12 +184,12 @@ export default {
                 commidityDeptCode:''
             },
             searchLabel:{
-                materialGroup:'材料组',
-                isHeavyItem:'是否Heavy Item',
-                analyseType:'分析类型',
-                partsCostAnalyst:'零件成本分析员',
-                moldCostAnalyst:'模具成本分析员',
-                commoditySta:'Commodity'
+                materialGroup:language('材料组'),
+                isHeavyItem:language('是否Heavy Item'),
+                analyseType:language('分析类型'),
+                partsCostAnalyst:language('零件成本分析员'),
+                moldCostAnalyst:language('模具成本分析员'),
+                commoditySta:language('Commodity')
             },
             materialGroupOption:[],
             heavyItemStaOption:[

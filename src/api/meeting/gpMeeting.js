@@ -43,3 +43,13 @@ export function sendBigMeetingThemen(data) {
     data
   })
 }
+
+// Csc议题结束接口
+// /gpMeetingService/endCscThemen
+export function endCscThemen(data) {
+  return requst({
+    url: `/gpMeetingService/endCscThemen`,
+    method: 'POST',
+    data
+  })
+}
