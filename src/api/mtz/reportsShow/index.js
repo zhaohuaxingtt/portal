@@ -10,3 +10,21 @@ export function  yearBrand(data){
     data: data
   })
 }
+
+//MTZ材料组
+export function queryMtzMaterial(data) {
+    return request({
+      url: '/web/mtz/forecastOther/queryMtzMaterial',
+      method: 'GET'
+      // params: data
+    })
+  }
+
+//材料中类
+export function queryMaterialMedium(data) {
+    return request({
+      url: '/web/mtz/forecastOther/queryMaterialMedium',
+      method: 'GET'
+      // params: data
+    })
+  }

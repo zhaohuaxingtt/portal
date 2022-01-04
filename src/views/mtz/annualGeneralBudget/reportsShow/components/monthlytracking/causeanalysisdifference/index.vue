@@ -3,36 +3,45 @@
   <div class="OuterFrame">
     <iSearch class="OuterIsearch" @sure="sure" @reset="reset">
       <el-form>
-        <el-form-item :label="language('LK_MTZCAILIAOZU','MTZ材料组')">
-          <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form['fixedAssetsCode']">
+        <el-form-item :label="language('LK_MTZCAILIAOZU', 'MTZ材料组')">
+          <iSelect
+            :placeholder="$t('LK_QINGXUANZE')"
+            v-model="form['MtzMaterial']"
+          >
             <el-option
               value=""
               :label="$t('all') | capitalizeFilter"
             ></el-option>
             <el-option
-              v-for="(item, index) in getAssetStatusList"
+              v-for="(item, index) in MtzMaterialList"
               :key="index"
-              :value="item.code"
-              :label="item.name"
+              :value="item.materialGroupCode"
+              :label="item.materialGroupNameZh"
             />
           </iSelect>
         </el-form-item>
-        <el-form-item :label="language('LK_CAILIAOZHONGLEI','材料中类')">
-          <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form['fixedAssetsCode']">
+        <el-form-item :label="language('LK_CAILIAOZHONGLEI', '材料中类')">
+          <iSelect
+            :placeholder="$t('LK_QINGXUANZE')"
+            v-model="form['MaterialMedium']"
+          >
             <el-option
               value=""
               :label="$t('all') | capitalizeFilter"
             ></el-option>
             <el-option
-              v-for="(item, index) in getAssetStatusList"
+              v-for="(item, index) in MaterialMediumList"
               :key="index"
-              :value="item.code"
-              :label="item.name"
+              :value="item.materialCategoryCode"
+              :label="item.materialNameZh"
             />
           </iSelect>
         </el-form-item>
-        <el-form-item :label="language('LK_BIJIAOBANBEN','比较版本')">
-          <iSelect :placeholder="$t('LK_QINGXUANZE')" v-model="form['fixedAssetsCode']">
+        <el-form-item :label="language('LK_BIJIAOBANBEN', '比较版本')">
+          <iSelect
+            :placeholder="$t('LK_QINGXUANZE')"
+            v-model="form['fixedAssetsCode']"
+          >
             <el-option
               value=""
               :label="$t('all') | capitalizeFilter"
@@ -47,7 +56,11 @@
         </el-form-item>
         <div class="backgroundBox"></div>
         <el-form-item label="  ">
-          <iSelect :placeholder="$t('LK_QINGXUANZE')" class="compareTwo" v-model="form['fixedAssetsCode']">
+          <iSelect
+            :placeholder="$t('LK_QINGXUANZE')"
+            class="compareTwo"
+            v-model="form['fixedAssetsCode']"
+          >
             <el-option
               value=""
               :label="$t('all') | capitalizeFilter"
@@ -73,7 +86,9 @@
           </el-switch>
         </div>
 
-        <span class="monthlyCompare">{{ language('LK_YUEFENBIJIAO','月份比较') }}</span>
+        <span class="monthlyCompare">{{
+          language('LK_YUEFENBIJIAO', '月份比较')
+        }}</span>
         <el-date-picker
           class="monthlyPosition"
           v-model="form['fixedAssetsCode']"
@@ -87,18 +102,21 @@
     </iSearch>
     <iCard>
       <div class="listDetails">
-        <span>{{language('LK_XIANGQINGLIEBIAO','详情列表')}}</span>
-        <iButton @click="exportData" class="exportPosition">{{ $t('LK_DAOCHU') }}</iButton>
+        <span>{{ language('LK_XIANGQINGLIEBIAO', '详情列表') }}</span>
+        <iButton @click="exportData" class="exportPosition">{{
+          $t('LK_DAOCHU')
+        }}</iButton>
       </div>
-      <detailsList/>
+      <detailsList />
     </iCard>
   </div>
 </template>
 
 <script>
-import { iSearch, iSelect, iCard,iButton } from 'rise'
+import { iSearch, iSelect, iCard, iButton } from 'rise'
 import detailsList from './components/detailsList'
 import { form } from './components/data'
+import { queryMtzMaterial, queryMaterialMedium } from '@/api/mtz/reportsShow'
 export default {
   name: 'index',
   components: {
@@ -106,12 +124,49 @@ export default {
     iSelect,
     iCard,
     iButton,
-    detailsList,
+    detailsList
   },
-  data(){
-    return{
+  data() {
+    return {
       form: form,
+      MtzMaterialList: [], //MTZ材料组数据
+      MaterialMediumList: [] //材料中类数据
     }
+  },
+  created() {
+    this.MtzMaterial()
+    this.MaterialMedium()
+  },
+  methods: {
+    //MTZ材料组
+    MtzMaterial() {
+      queryMtzMaterial()
+        .then((res) => {
+          this.MtzMaterialList = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    //材料中类
+    MaterialMedium() {
+      queryMaterialMedium()
+        .then((res) => {
+          this.MaterialMediumList = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    //重置查询条件
+    reset() {
+      for (let i in this.form) {
+        if (i !== 'isOnly') {
+          this.form[i] = ''
+        }
+      }
+    },
+
   }
 }
 </script>
@@ -169,17 +224,16 @@ export default {
   left: 800px;
 }
 
-.exportPosition{
+.exportPosition {
   position: absolute;
   right: 40px;
   top: 250px;
 }
 
-.listDetails{
+.listDetails {
   margin-bottom: 25px;
-  span{
+  span {
     font-size: 20px;
   }
 }
-
 </style>
