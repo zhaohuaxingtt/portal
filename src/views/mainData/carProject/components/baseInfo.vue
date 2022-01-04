@@ -1,9 +1,9 @@
 <template>
-  <iCard class="margin-bottom20" title="基本信息" header-control collapse>
+  <iCard class="margin-bottom20" :title="language('基本信息')" header-control collapse>
     <div class="top-buttons margin-bottom20">
-      <iButton v-if="isEditPage && !editable" @click="edit"> 编辑 </iButton>
-      <iButton v-show="editable" @click="save">保存</iButton>
-      <iButton v-show="editable" @click="cancel"> 取消 </iButton>
+      <iButton v-if="isEditPage && !editable" @click="edit">{{language('编辑')}}</iButton>
+      <iButton v-show="editable" @click="save">{{language('保存')}}</iButton>
+      <iButton v-show="editable" @click="cancel">{{language('取消')}}</iButton>
     </div>
     <div class="filter-form" v-loading="saveLoading">
       <el-form
@@ -138,6 +138,7 @@
                 v-model="formData.werk"
                 :disabled="!editable"
                 filterable
+                multiple
               >
                 <el-option
                   v-for="item in procureFactorySelectList"
@@ -382,10 +383,9 @@ export default {
       return getUserListByIDs(params)
     },
     getCarTypeSelectOptions() {
-      let param = {}
-      carTypeSelectOptions(param).then((val) => {
+      carTypeSelectOptions().then((val) => {
         if (val.code == 200) {
-          this.carTypeSelectList = val.data.TYPE_VEHICLE_PROJECT
+          this.carTypeSelectList = val.data
         }
       })
     },
@@ -480,12 +480,13 @@ export default {
           return val.id
         })
         .join(',')
-
+      const werk = this.formData.werk ? this.formData.werk.join(',') : []
       let param = {
         ...this.formData,
         projectPurchaser: projectPurchaserId,
         areaController: areaControllerId,
-        projectManager: projectManagerId
+        projectManager: projectManagerId,
+        werk
       }
       this.saveLoading = true
       let val = await carProjectCreateBaseInfo(param).finally(() => {
@@ -523,13 +524,14 @@ export default {
           return val.id
         })
         .join(',')
-
+      const werk = this.formData.werk ? this.formData.werk.join(',') : ''
       let param = {
         ...this.formData,
         projectPurchaser: projectPurchaserId,
         areaController: areaControllerId,
         projectManager: projectManagerId,
-        id: carProjectID
+        id: carProjectID,
+        werk
       }
 
       this.saveLoading = true
@@ -558,7 +560,11 @@ export default {
         let projectManagerIDs = val.data.projectManager
 
         //通过绑定员工ID获取员工数组信息
-        let newFormData = { ...val.data }
+        let werk = []
+        if (typeof val.data.werk === 'string' && val.data.werk) {
+          werk = val.data.werk.split(',')
+        }
+        let newFormData = { ...val.data, werk }
         if (purchaseIDs) {
           let purchaseIDList = purchaseIDs.split(',')
           let purchaseIDNumList = purchaseIDList.map((item) => {

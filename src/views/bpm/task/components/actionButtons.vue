@@ -1,12 +1,12 @@
 <template>
   <div class="operation-btn">
-    <!-- <iButton
+    <iButton
       v-show="categoryList === 'officialPricing'"
-      :disabled="selectedRow.length === 0"
+      :disabled="selectedRow.length !== 1"
       @click="mock"
     >
-      {{ language('模拟') }}
-    </iButton> -->
+      {{ language('EKL模拟') }}
+    </iButton>
     <iButton
       v-show="taskType === 0"
       :disabled="selectedRow.length === 0"
@@ -91,7 +91,9 @@ export default {
   },
   methods: {
     mock() {
-      console.log('moni')
+      const { businessId } = this.selectedRow[0]
+      const url = `/order/#/pricingManagement/ekl/view?type=approval&businessId=${businessId}`
+      window.open(url)
     }
   }
 }

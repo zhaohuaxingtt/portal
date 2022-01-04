@@ -13,33 +13,33 @@
           <div>
             <img :src="data.coverImage" alt="" class="cover-image" />
             <div class="left-descript-box">
-              <p class="desc-title">{{$t('会议信息描述')}}</p>
+              <p class="desc-title">{{ $t('MT_HUIYIXINXIMIAOSHU') }}</p>
               <p class="desc">{{ data.meetingInfoDesc }}</p>
             </div>
           </div>
           <div class="meeting-name">
-            <p>{{$t('类型名称')}}</p>
+            <p>{{ $t('MT_LEIXINGMINGCHENG') }}</p>
             <p>{{ data.name }}</p>
-            <p>{{$t('会议名称后缀')}}</p>
+            <p>{{ $t('MT_HUIYIMINGCHENGHOUZHUI') }}</p>
             <p>{{ data.meetingNameSuffix }}</p>
-            <p>{{$t('所属分类')}}</p>
-            <p>{{ categoryObj[data.category] }}</p>
-            <p>{{$t('会议管理员')}}</p>
+            <p>{{ $t('MT_SUOSHUFENLEI') }}</p>
+            <p>{{ $t(categoryObj[data.category]) }}</p>
+            <p>{{ $t('MT_HUIYIGUANLIYUAN') }}</p>
             <p>{{ data.userNames }}</p>
           </div>
         </div>
       </div>
       <div class="right-msg">
-        <p>{{$t('议题时长')}}</p>
+        <p>{{ $t('MT_YITISHICHANG') }}</p>
         <p>
           <span>{{ data.duration }}</span
-          >{{$t('分钟')}}
+          >{{ $t('MT_FENZHONG') }}
         </p>
         <div class="msg-box">
-          <span>{{$t('是否触发审批')}}</span>
-          <p>{{ data.isTriggerApproval ? "是" : "否" }}</p>
+          <span>{{ $t('MT_SHIFOUCHUFASHENPI') }}</span>
+          <p>{{ data.isTriggerApproval ? $t('MT_SHI') : $t('MT_FOU') }}</p>
         </div>
-        <p>{{$t('审批流程')}}</p>
+        <p>{{ $t('MT_SHENPILIUCHENG') }}</p>
         <p>{{ approvalProcessName }}</p>
       </div>
     </div>
@@ -47,49 +47,52 @@
 </template>
 
 <script>
-import { iDialog } from "rise";
-import { getMettingDetailType } from "@/api/meeting/type.js";
+import { iDialog } from 'rise'
+import { getMettingDetailType } from '@/api/meeting/type.js'
 export default {
   components: {
-    iDialog,
+    iDialog
   },
   props: {
     openDialog: { type: Boolean, default: false },
     id: { type: Number, default: -1 },
-    approvalProcess: { type: Array },
+    approvalProcess: { type: Array }
   },
   data() {
     return {
       data: {},
-      approvalProcessName: "",
+      approvalProcessName: '',
       categoryObj: {
-        "01": "通用会议",
-        "02": "生产采购CSC",
-        "03": "一般采购CSG",
-      },
-    };
+        // "01": "通用会议",
+        // "02": "生产采购CSC",
+        // "03": "一般采购CSG",
+        '01': 'MT_TONGYONGHUIYI',
+        '02': 'MT_SHENGCHANCAIGOUSCC',
+        '03': 'MT_YIBANCAIGOUCSG'
+      }
+    }
   },
   mounted() {
-    let param = { id: this.id };
+    let param = { id: this.id }
     getMettingDetailType(param)
       .then((res) => {
-        this.data = res;
+        this.data = res
         this.approvalProcess.forEach((item) => {
           if (item.id == res.approvalProcessId) {
-            this.approvalProcessName = item.name;
+            this.approvalProcessName = item.name
           }
-        });
+        })
       })
       .catch((err) => {
-        console.log("err", err);
-      });
+        console.log('err', err)
+      })
   },
   methods: {
     clearDiolog() {
-      this.$emit("closeDialog", false);
-    },
-  },
-};
+      this.$emit('closeDialog', false)
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

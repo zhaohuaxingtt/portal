@@ -46,6 +46,7 @@ export default {
       const bar = document.querySelector('.i-table-custom  #vheight')
 
       if (bar) {
+        console.log('bar', bar)
         bar.style.height = '0px'
       }
       this.virtualListConfig = {

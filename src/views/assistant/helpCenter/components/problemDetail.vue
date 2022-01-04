@@ -131,11 +131,19 @@ export default {
 			default: () => []
 		}
 	},
-	async mounted() {
+	watch: {
+		currentMoudleId(val) {
+			if (!val) {
+				this.init()
+			} else {
+				this.getLabelList()
+			}
+		}
+	},
+	async created() {
 		await this.getLabelList('init')
 		// 从首页进入 没有对应的模块id 查询热门问题 取前两个 查全部模块及标签
 		if (!this.currentMoudleId) {
-			console.log('8900890')
 			this.init()
 		}
 	},
@@ -225,7 +233,6 @@ export default {
 		},
 		// 点击问题查询问题详情
 		async handleProblem(item, idx) {
-			console.log(item, "item")
 			this.onlyShowQuestion = false
 			if (!this.currentMoudleId) {
 				//  只输入标题查询时 还没定位到当前问题的模块标题 点击问题时 才能确定
@@ -256,7 +263,7 @@ export default {
 					this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
 					this.showAttachFlag = data?.annexList.length > 0
 					this.attach = data.annexList || []
-					this.getJudgeFavour(item.questionId || item.id)
+					this.getJudgeFavour(item.id || '')
 				}
 			})
 		},
@@ -289,7 +296,7 @@ export default {
 		// 点击热门问题 跳转该热门问题的详情且查询当前热门问题的标签 模块name及id
 		async handleHotQues(item, index) {
 			console.log(item, "item")
-			this.favourQuestionId = item.questionId || item.id
+			this.favourQuestionId = item.id || ''
 			this.hotIdx = index
 			this.labelIdx = item.questionLableId
 			this.labelList.map(label => {
@@ -317,7 +324,7 @@ export default {
 						const { data } = res
 						this.desDetail = data?.answerContent || '供应商一共分成三类：一般，生产，共用 一般：'
 						this.problemLoading = false
-						this.getJudgeFavour(item.questionId)
+						this.getJudgeFavour(this.favourQuestionId)
 					}
 				})
 			})
@@ -332,7 +339,7 @@ export default {
 				}
 			})
 			this.currentFlag = 'detailPage'
-			this.favourQuestionId = issue.questionId || issue.id
+			this.favourQuestionId = issue.id || ''
 			this.problemText = issue.questionTitle
 			this.desDetail = issue.answerContent
 			this.showAttachFlag = (issue?.annexList || []).length > 0

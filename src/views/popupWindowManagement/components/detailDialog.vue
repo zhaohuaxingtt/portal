@@ -13,16 +13,18 @@
               <img v-else src="../../../assets/images/popupPic.png" alt="" class="left-image" />
           </div>
           <div class="right">
-              <div class="right-title" :class="{'link-text':detail.linkUrl}" @click="toNewPage">
+              <div class="right-content">
+                <div class="right-title" :class="{'link-text':detail.linkUrl}" @click="toNewPage">
                   <!-- <h2 > -->
                       {{detail.title}}
                 <!-- </h2> -->
+                </div>
+                <div class="content" :class="{'text-left':detail.wordAlign == 0,'text-center':detail.wordAlign==1,'text-right':detail.wordAlign == 2}">
+                    <el-input type="textarea" v-model="detail.content" disabled></el-input>
+                </div>
+                <div class="publishTime"><i class="el-icon-time"><span class="publishTime-content">{{detail.publishTime}}</span></i></div>
+                <iButton @click="closeDialog" class="btn">{{language('确认')}}</iButton>
               </div>
-              <div class="content" :class="{'text-left':detail.wordAlign == 0,'text-center':detail.wordAlign==1,'text-right':detail.wordAlign == 2}">
-                  <el-input type="textarea" v-model="detail.content" disabled></el-input>
-              </div>
-              <div class="publishTime"><i class="el-icon-time"><span class="publishTime-content">{{detail.publishTime}}</span></i></div>
-              <iButton @click="closeDialog" class="btn">{{language('确认')}}</iButton>
           </div>
       </div>
   </iDialog>
@@ -114,37 +116,45 @@ export default {
         height: 100%;
         margin-left: 52%;
         top: -40px;
-        .right-title{
+        .right-content{
+            display: flex;
+            flex-direction: column;
+            .right-title{
             font-size: 20px;
             font-weight: bold;
             width: 106%;
-        }
-        .content{
-            position: absolute;
-            top: 70px;
-            width: 106%;
-            line-height: 24px;
-            max-height: 280px;
-            overflow: auto;
-            ::v-deep .el-textarea__inner{
-                padding: 0;
+            }
+            .content{
+                // position: absolute;
+                // top: 70px;
+                margin-top: 20px;
+                width: 106%;
+                line-height: 24px;
+                height: 280px;
+                overflow: auto;
+                ::v-deep .el-textarea__inner{
+                    padding: 0;
+                }
+            }
+            .publishTime{
+                // position: absolute;
+                display: inline-block;
+                // bottom: 60px;
+                color: #1660F1;
+                margin:20px 0;
+                .publishTime-content{
+                    color: #666666;
+                    margin-left: 20px;
+                    font-size: 16px;
+                }
+            }
+            .btn{
+                width: 100px;
+                // position: absolute;
+                // bottom: 0px;
             }
         }
-        .publishTime{
-            position: absolute;
-            display: inline-block;
-            bottom: 60px;
-            color: #1660F1;
-            .publishTime-content{
-                color: #666666;
-                margin-left: 20px;
-                font-size: 16px;
-            }
-        }
-        .btn{
-            position: absolute;
-            bottom: 0px;
-        }
+        
     }
 }
 .center-style{
@@ -165,40 +175,49 @@ export default {
         }
     }
     .right{
-        margin-top:20% ;
+        margin-top:140px ;
         text-align: center;
-        height: 60%;
+        height: 62%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        .right-title{
-            font-size: 20px;
-            font-weight: bold;
-            width: 110%;
-            margin-bottom: 20px;
-        }
-        .content,
-        .publishTime,
-        .btn
-        {
-            margin-bottom: 20px;
-        }
-        .content{
-            line-height: 24px;
-            height: 150px;
-            width: 800px;
-            overflow: auto;
-        }
-        .publishTime{
-            width: 250px;
-            padding: 5px;
-            color: #1660F1;
-            // border: solid rgb(229, 229, 229) 1px;
-            .publishTime-content{
-                margin-left: 20px;
-                color: #1B1D21;
+        width: 104%;
+        .right-content{
+            width: 100%;
+            .right-title{
+                font-size: 20px;
+                font-weight: bold;
+                text-align: center;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .content,
+            .publishTime,
+            .btn
+            {
+                margin-bottom: 20px;
+            }
+            .content{
+                line-height: 24px;
+                height: 140px;
+                width: 100%;
+                overflow: auto;
+                ::v-deep .el-textarea__inner{
+                    padding: 0;
+                } 
+            }
+            .publishTime{
+                // width: 250px;
+                padding: 5px;
+                color: #1660F1;
+                // border: solid rgb(229, 229, 229) 1px;
+                .publishTime-content{
+                    margin-left: 20px;
+                    color: #1B1D21;
+                }
             }
         }
+        
     }
 }
 .right-style{
@@ -227,44 +246,49 @@ export default {
         top: -40px;
         height: 100%;
         margin-left: 52%;
-        .right-title{
-            font-size: 20px;
-            font-weight: bold;
-            width: 106%;
-        }
-        .content,
-        .btn{
-            position: absolute;
-            bottom: 0px;
-        }
-        .publishTime{
-            position: absolute;
-            display: inline-block;
-            bottom: 60px;
-            color: #1660F1;
-            .publishTime-content{
-                color: #FFFFFF;
-                margin-left: 20px;
-                font-size: 16px;
+        .right-content{
+            display: flex;
+            flex-direction: column;
+            .right-title{
+                font-size: 20px;
+                font-weight: bold;
+                width: 106%;
+            }
+            // .content,
+            // .btn{
+            //     // position: absolute;
+            //     // bottom: 0px;
+            // }
+            .publishTime{
+                margin:20px 0;
+                // position: absolute;
+                display: inline-block;
+                // bottom: 60px;
+                color: #1660F1;
+                .publishTime-content{
+                    color: #FFFFFF;
+                    margin-left: 20px;
+                    font-size: 16px;
+                }
+            }
+            .content{
+                // position: absolute;
+                margin-top: 20px;
+                // top: 70px;
+                width: 106%;
+                color: #888888;
+                line-height: 24px;
+                height: 280px;
+                overflow: auto;
+                ::v-deep .el-textarea__inner{
+                    padding: 0;
+                }
+            }
+            .btn{
+                width:100px;
             }
         }
-        .right-title{
-            font-size: 20px;
-            font-weight: bold;
-            width: 106%;
-        }
-        .content{
-            position: absolute;
-            top: 70px;
-            width: 106%;
-            color: #888888;
-            line-height: 24px;
-            max-height: 280px;
-            overflow: auto;
-            ::v-deep .el-textarea__inner{
-                padding: 0;
-            }
-        }
+        
     }
 }
 

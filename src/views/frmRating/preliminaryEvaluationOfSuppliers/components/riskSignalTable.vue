@@ -2,7 +2,7 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-07-16 13:58:11
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
@@ -13,12 +13,25 @@
         {{ $t('SPR_FRM_XGYSPJ_FXXH') }}
       </span>
       <div class="floatright">
-        <iButton @click="exportAll" :loading="exportAllButtonLoading">{{ $t('SUPPLIER_DAOCHUQUANBU') }}</iButton>
+        <iButton @click="exportAll"
+                 :loading="exportAllButtonLoading">{{ $t('SUPPLIER_DAOCHUQUANBU') }}</iButton>
       </div>
     </div>
-    <tableList :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" :index="true" :selection="false">
+    <tableList :tableData="tableListData"
+               :tableTitle="tableTitle"
+               :tableLoading="tableLoading"
+               :index="true"
+               :selection="false">
     </tableList>
-    <iPagination v-update @size-change="handleSizeChange($event, getTableList)" @current-change="handleCurrentChange($event, getTableList)" background :page-sizes="page.pageSizes" :page-size="page.pageSize" :layout="page.layout" :current-page='page.currPage' :total="page.totalCount" />
+    <iPagination v-update
+                 @size-change="handleSizeChange($event, getTableList)"
+                 @current-change="handleCurrentChange($event, getTableList)"
+                 background
+                 :page-sizes="page.pageSizes"
+                 :page-size="page.pageSize"
+                 :layout="page.layout"
+                 :current-page='page.currPage'
+                 :total="page.totalCount" />
   </iCard>
 </template>
 
@@ -38,7 +51,7 @@ export default {
     iDialog, iPagination, tableList, iCard, iButton
   },
   mixins: [pageMixins, resultMessageMixin],
-  data() {
+  data () {
     // 这里存放数据
     return {
       tableLoading: false,
@@ -47,7 +60,7 @@ export default {
       exportAllButtonLoading: false,
       tableTitle: riskSignalTableTitle,
       tableListData: [],
-      tableLoading: false,
+      // tableLoading: false,
     }
   },
   // 监听属性 类似于data概念
@@ -56,7 +69,7 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true;
       try {
         const req = {
@@ -76,7 +89,7 @@ export default {
         this.tableLoading = false;
       }
     },
-    async exportAll() {
+    async exportAll () {
       try {
         this.exportAllButtonLoading = true;
         const req = {
@@ -87,21 +100,21 @@ export default {
         };
         const res = await getPageListRiskSignalComment(req);
         this.allTableData = res.data;
-        excelExport(this.allTableData, this.tableTitle);
+        excelExport(this.allTableData, this.tableTitle, '风险信号');
         this.exportAllButtonLoading = false;
       } catch {
         this.allTableData = [];
-        excelExport(this.allTableData, this.tableTitle);
+        excelExport(this.allTableData, this.tableTitle, '风险信号');
         this.exportAllButtonLoading = false;
       }
     },
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created() {
+  created () {
     this.getTableList()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
+  mounted () {
 
   },
 }

@@ -32,9 +32,9 @@
       <template #isActive='scope'>
         {{ SUPPLIER_STATUS[scope.row.isActive] }}
       </template>
-      <template #preliminaryStatus='scope'>
+      <!-- <template #preliminaryStatus='scope'>
         {{ INITIAL_STATUS[scope.row.preliminaryStatus] }}
-      </template>
+      </template> -->
       <template #isAddition='scope'>
         {{ handleIsAdditionWord(scope.row.isAddition) }}
       </template>
@@ -77,7 +77,10 @@ import {
   initCommentRating,
 } from '../../../../../api/frmRating/preliminaryRating/preliminaryRatingPage';
 import {excelExport} from '@/utils/filedowLoad';
-import {INITIAL_STATUS, SUPPLIER_STATUS} from '../../../../../constants/frmRating/preliminaryRating';
+import {
+  // INITIAL_STATUS,
+  SUPPLIER_STATUS,
+} from '../../../../../constants/frmRating/preliminaryRating';
 
 export default {
   mixins: [pageMixins, resultMessageMixin],
@@ -106,7 +109,7 @@ export default {
       financialReportComparisonDialog: false,
       validButtonLoading: false,
       invalidButtonLoading: false,
-      INITIAL_STATUS,
+      // INITIAL_STATUS,
       SUPPLIER_STATUS,
     };
   },
@@ -177,7 +180,7 @@ export default {
     checkNotRatedButtonStatus() {
       let flag = true;
       this.selectTableData.some(item => {
-        if (['3', '4'].includes(item.preliminaryStatus)) {
+        if (['已完成', '无法评级'].includes(item.preliminaryStatus)) {
           flag = false;
           return true;
         }
@@ -193,7 +196,7 @@ export default {
         });
         const req = {
           ids,
-          preliminaryStatus: '4',
+          preliminaryStatus: '无法评级',
           ...params,
         };
         const res = await updatePreliminaryStatus(req);

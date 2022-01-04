@@ -37,10 +37,13 @@ export default {
       }
 
       // 头部全选反选
-      const checkedData = this.tableData.filter((e) => e.checked)
-      this.indeterminateAll =
-        checkedData.length > 0 && checkedData.length !== this.tableData.length
-      this.checkedAll = checkedData.length === this.tableData.length
+      if (!checkStrictly) {
+        const checkedData = this.tableData.filter((e) => e.checked)
+        this.indeterminateAll =
+          checkedData.length > 0 && checkedData.length !== this.tableData.length
+        this.checkedAll = checkedData.length === this.tableData.length
+      }
+
       const returnProptities = {
         checked: val,
         isCheckedAll: false,

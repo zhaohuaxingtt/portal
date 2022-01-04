@@ -5,18 +5,24 @@
  -->
 <template>
   <div>
-    <baseInfo ref="basic" v-if="supplierType>3" class="margin-bottom20"></baseInfo>
+    <baseInfo ref="basic"
+              v-if="supplierType>3"
+              class="margin-bottom20"></baseInfo>
     <i-card>
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
-          <i-button @click="saveInfos('')" v-if="supplierType>3">{{ $t('LK_BAOCUN') }}</i-button>
+          <i-button @click="saveInfos('')"
+                    v-if="supplierType>3">{{ $t('LK_BAOCUN') }}</i-button>
           <i-button v-permission="SUPPLIER_FACTORY_TABLE_ADD"
                     @click="()=>addTableItem({countryList: this.countryList })">{{ $t('LK_XINZENG') }}
           </i-button>
-          <i-button v-permission="SUPPLIER_FACTORY_TABLE_DELETE" @click="deleteItem('ids', deleteFactory)">
+          <i-button v-permission="SUPPLIER_FACTORY_TABLE_DELETE"
+                    @click="deleteItem('ids', deleteFactory)">
             {{ $t('delete') }}
           </i-button>
-          <i-button v-permission="SUPPLIER_FACTORY_TABLE_EXPORT" @click="exportsTable" v-if="showExportsButton">
+          <i-button v-permission="SUPPLIER_FACTORY_TABLE_EXPORT"
+                    @click="exportsTable"
+                    v-if="showExportsButton">
             {{ $t('LK_DAOCHU') }}
           </i-button>
         </div>
@@ -28,39 +34,53 @@
                   @handleSelectionChange="handleSelectionChange"
                   :input-props="inputProps"
                   :index="true"
-                  ref="commonTable"
-      >
+                  ref="commonTable">
         <template #country="scope">
-          <iSelect v-model="scope.row.country" @change="handleLocationChange($event,scope.row, 'country')"
+          <iSelect v-model="scope.row.country"
+                   @change="handleLocationChange($event,scope.row, 'country')"
                    value-key="cityId">
-            <el-option v-for="item of getSelectList('country',scope.row)" :key="item.cityId" :label="item.cityNameCn"
-                       :value="item"/>
+            <el-option v-for="item of getSelectList('country',scope.row)"
+                       :key="item.cityId"
+                       :label="item.cityNameCn"
+                       :value="item" />
           </iSelect>
         </template>
         <template #province="scope">
-          <iSelect v-model="scope.row.province" @change="handleLocationChange($event,scope.row, 'province')"
+          <iSelect v-model="scope.row.province"
+                   @change="handleLocationChange($event,scope.row, 'province')"
                    value-key="cityId">
-            <el-option v-for="item of getSelectList('province',scope.row)" :key="item.cityId" :label="item.cityNameCn"
-                       :value="item"/>
+            <el-option v-for="item of getSelectList('province',scope.row)"
+                       :key="item.cityId"
+                       :label="item.cityNameCn"
+                       :value="item" />
           </iSelect>
         </template>
         <template #city="scope">
-          <iSelect v-model="scope.row.city" value-key="cityId">
-            <el-option v-for="item of getSelectList('city',scope.row)" :key="item.cityId" :label="item.cityNameCn"
-                       :value="item"/>
+          <iSelect v-model="scope.row.city"
+                   value-key="cityId">
+            <el-option v-for="item of getSelectList('city',scope.row)"
+                       :key="item.cityId"
+                       :label="item.cityNameCn"
+                       :value="item" />
           </iSelect>
         </template>
         <template #isNominate="scope">
-          <iSelect v-model="scope.row.isNominate" v-if="isSupplierViewDetail">
-            <el-option label="是" :value="true"/>
-            <el-option label="否" :value="false"/>
+          <iSelect v-model="scope.row.isNominate"
+                   v-if="isSupplierViewDetail">
+            <el-option label="是"
+                       :value="true" />
+            <el-option label="否"
+                       :value="false" />
           </iSelect>
           <span v-else>{{ handleIsNominateText(scope.row.isNominate) }}</span>
         </template>
         <template #effectFlag="scope">
-          <iSelect v-model="scope.row.effectFlag" v-if="isSupplierViewDetail">
-            <el-option label="无效" :value="0"/>
-            <el-option label="有效" :value="1"/>
+          <iSelect v-model="scope.row.effectFlag"
+                   v-if="isSupplierViewDetail">
+            <el-option label="无效"
+                       :value="0" />
+            <el-option label="有效"
+                       :value="1" />
           </iSelect>
           <span v-else>{{ handleEffectFlagText(scope.row.effectFlag) }}</span>
         </template>
@@ -70,19 +90,19 @@
 </template>
 
 <script>
-import {iCard, iButton, iSelect} from "rise";
-import {generalPageMixins} from '@/views/generalPage/commonFunMixins';
+import { iCard, iButton, iSelect, iMessage } from "rise";
+import { generalPageMixins } from '@/views/generalPage/commonFunMixins';
 import tableList from '@/components/commonTable';
-import {tableTitle} from './data';
-import {getFactory, saveFactory, deleteFactory} from '@/api/register/factory';
-import {getCityInfo} from '@/api/dictionary';
-import {cloneDeep} from 'lodash';
+import { tableTitle } from './data';
+import { getFactory, saveFactory, deleteFactory } from '@/api/register/factory';
+import { getCityInfo } from '@/api/dictionary';
+import { cloneDeep } from 'lodash';
 import baseInfo from "../components/baseInfoCard";
 
 export default {
   mixins: [generalPageMixins],
-  components: {iCard, iButton, iSelect, tableList, baseInfo},
-  data() {
+  components: { iCard, iButton, iSelect, tableList, baseInfo },
+  data () {
     return {
       tableListData: [],
       tableTitle: tableTitle,
@@ -94,13 +114,13 @@ export default {
       selectOthers: ['isNominate', 'effectFlag', 'factoryCode']
     }
   },
-  created() {
+  created () {
     this.setInputProps()
     this.getTableList()
   },
   methods: {
     deleteFactory,
-    setInputProps() {
+    setInputProps () {
       this.inputProps = []
       this.tableTitle.map(item => {
         if (!this.selectProps.includes(item.props) && !this.selectOthers.includes(item.props)) {
@@ -108,7 +128,7 @@ export default {
         }
       })
     },
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true
       await this.getCountryInfo()
       let req = {
@@ -130,7 +150,7 @@ export default {
         this.tableLoading = false
       })
     },
-    async saveInfos(step = '') {
+    async saveInfos (step = '') {
       return new Promise((resolve, reject) => {
         this.$refs.commonTable.$refs.commonTableForm.validate(async (valid) => {
           if (valid) {
@@ -144,7 +164,15 @@ export default {
               item['city'] = item.city.cityNameCn ? item.city.cityNameCn : item.city
               return item
             })
-              console.log(reqTableList)
+            for (const iten of reqTableList) {
+              if (iten.country === '中国') {
+                if (!iten.province || !iten.city) {
+                  iMessage.error(this.language('SHENGFENCHENGSHIBUNENGWEIKONG', '省份、城市不能为空！'))
+                  this.tableLoading = false
+                  return
+                }
+              }
+            }
             const req = {
               saveSupplierPlantDTOList: reqTableList,
               step: 'register',
@@ -173,11 +201,11 @@ export default {
         })
       })
     },
-    async handleNextStep() {
+    async handleNextStep () {
       await this.saveInfos()
       return this.nextStep
     },
-    async getCountryInfo() {
+    async getCountryInfo () {
       const req = {
         parentCityId: -1,
         cityName: ''
@@ -185,7 +213,7 @@ export default {
       const res = await getCityInfo(req)
       this.countryList = res.data
     },
-    handleLocationChange(data, row, location) {
+    handleLocationChange (data, row, location) {
       switch (location) {
         case 'country':
           this.getLocationInfo(data.cityId, row.id, row.time, 'provinceList')
@@ -199,7 +227,7 @@ export default {
           break;
       }
     },
-    async getLocationInfo(cityId, id, time, locationList) {
+    async getLocationInfo (cityId, id, time, locationList) {
       const req = {
         parentCityId: cityId,
         cityName: ''
@@ -223,7 +251,7 @@ export default {
         return item
       })
     },
-    getSelectList(params, row) {
+    getSelectList (params, row) {
       let list = []
       if (this.tableListData.length !== 0) {
         switch (params) {
@@ -279,7 +307,7 @@ export default {
       }
       return list
     },
-    setLocationEmpty(id, time, location) {
+    setLocationEmpty (id, time, location) {
       if (id) {
         this.tableListData.map(item => {
           if (item.id === id) {
@@ -295,7 +323,7 @@ export default {
         })
       }
     },
-    handleEffectFlagText(val) {
+    handleEffectFlagText (val) {
       if (val === 0) {
         return '无效'
       } else if (val === 1) {
@@ -304,7 +332,7 @@ export default {
         return ''
       }
     },
-    handleIsNominateText(val) {
+    handleIsNominateText (val) {
       if (val === true) {
         return '是'
       } else if (val === false) {
@@ -317,5 +345,4 @@ export default {
 }
 </script>
 <style scoped>
-
 </style>

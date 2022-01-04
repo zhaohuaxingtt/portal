@@ -18,9 +18,9 @@
 	</pageHeader>
 	<!-- </div> -->
 	<el-tabs class="nav" v-model="activeUser" @tab-click="typeChange">
-        <el-tab-pane label="供应商用户" name="supplier">
-        </el-tab-pane>
         <el-tab-pane label="内部用户" name="inner">
+        </el-tab-pane>
+        <el-tab-pane label="供应商用户" name="supplier">
         </el-tab-pane>
     </el-tabs>
 	<!-- 用户手册 -->
@@ -99,7 +99,7 @@ export default {
 	},
 	data() {
 		return {
-			activeUser:"supplier",
+			activeUser:"inner",
 			tabs: [
 				{name:'用户手册',type:'manual'},
 				{name:'常见问题',type:'question'}
@@ -216,7 +216,7 @@ export default {
 		tabChange(val) {
 			this.$router.replace({path:this.$route.path,query:{module:val}})
 			this.activeMoudle = val
-			this.activeUser = "supplier"
+			this.activeUser = "inner"
 			this.changeReq()
 		},
 		changeReq(){

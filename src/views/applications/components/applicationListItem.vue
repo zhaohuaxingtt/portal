@@ -10,7 +10,7 @@
         <div class="left-content">
           <div class="dot"></div>
           <div>
-            <span>{{ item.appNameCn }}</span>
+            <span>{{ appName }}</span>
           </div>
         </div>
         <div class="icon">
@@ -22,7 +22,7 @@
       <div class="left-content">
         <div class="dot"></div>
         <div>
-          <span>{{ item.appNameCn }}</span>
+          <span>{{ appName }}</span>
         </div>
       </div>
       <div class="icon">
@@ -43,6 +43,13 @@ export default {
       default: function () {
         return {}
       }
+    }
+  },
+  computed: {
+    appName() {
+      return this.$i18n.locale === 'en'
+        ? this.item.appNameEn
+        : this.item.appNameCn
     }
   },
   methods: {

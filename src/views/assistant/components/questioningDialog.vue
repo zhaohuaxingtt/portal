@@ -90,6 +90,10 @@ export default {
 		currLabelId: {
 			type: String,
 			default: ''
+		},
+		currQuestionId: {
+			type: String,
+			default: ''
 		}
 	},
 	data() {
@@ -117,7 +121,7 @@ export default {
 		},
 		clearDialog() {
 			this.init()
-			this.$emit('closeQuesDialog', false)
+			this.$emit('closeQuesDialog', false, this.currQuestionId)
 		},
 		sendMessage() {
 			if(!this.askContent) return this.$message.warning("请输入内容")

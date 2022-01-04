@@ -98,15 +98,15 @@
       </iSearch>
     </div>
     <div class="heavyItemTabel">
-        <iCard title="Heavy Item材料组">
+        <iCard :title="language('Heavy Item材料组')">
             <div class="btnList" slot="header-control">
                 <div v-if="viewSta">
                     <iButton @click="edit">{{language('编辑')}}</iButton>
                     <buttonDownload :download-method="exportExcel">{{language('导出')}}</buttonDownload>
                 </div>
                 <div v-else>
-                    <iButton @click="save">保存</iButton>
-                    <iButton @click="cancel">取消</iButton>
+                    <iButton @click="save">{{language('保存')}}</iButton>
+                    <iButton @click="cancel">{{language('取消')}}</iButton>
                 </div>
             </div>
             <div class="tabelList">
@@ -229,10 +229,16 @@ export default {
         if(judgeBOrP){
           return this.$message.error('选择BUC或者PRA后请选择零件成本分析员')
         }
-
         this.viewSta = true
         this.heavyExtraData.edit = true
         const data = this.tabelData.map((val) => {
+            console.log(val,'=======');
+            if(!val.heavyItemList.includes('BUC') && !val.heavyItemList.includes('PRA')){
+              val.partsUserIds = []
+            }
+            if(!val.heavyItemList.includes('TIA')){
+              val.moldUserIds = []
+            }
             return {
                 categoryId:val.categoryId,
                 employName:val.employName,

@@ -3,24 +3,27 @@
     <div class="margin-bottom20 clearFloat">
       <div class="floatright">
         <!--分派-->
-        <iButton @click="handleOpenAssign">{{ $t('SPR_FRM_CBPJ_FP') }}</iButton>
+        <iButton @click="handleOpenAssign" v-permission="PROTAL_SUPPLIER_WORKBENCHFINANCE_CHUBUPINGJI_FENPAI">{{ $t('SPR_FRM_CBPJ_FP') }}</iButton>
         <!--重新打分-->
         <iButton @click="handleReScoring"
+                  v-permission="PROTAL_SUPPLIER_WORKBENCHFINANCE_CHUBUPINGJI_CHONGXINDAFEN"
                  :loading="reScoreButtonLoading">{{
           $t('SPR_FRM_CBPJ_CXDF')
         }}</iButton>
         <!--定性打分-->
-        <iButton @click="handleQualitativeScoring">{{
+        <iButton @click="handleQualitativeScoring"
+           v-permission="PROTAL_SUPPLIER_WORKBENCHFINANCE_CHUBUPINGJI_DINGXINGDAFEN"
+        >{{
           $t('SPR_FRM_FRMGL_DXDAF')
         }}</iButton>
         <!--退回-->
-        <iButton @click="handleReturn">{{ $t('LK_TUIHUI') }}</iButton>
+        <iButton @click="handleReturn"  v-permission="PROTAL_SUPPLIER_WORKBENCHFINANCE_CHUBUPINGJI_TUIHUI">{{ $t('LK_TUIHUI') }}</iButton>
         <!--取消-->
-        <iButton @click="handleCancel">{{ language('取消') }}</iButton>
+        <iButton @click="handleCancel"  v-permission="PROTAL_SUPPLIER_WORKBENCHFINANCE_CHUBUPINGJI_QUXIAO">{{ language('取消') }}</iButton>
         <!--转派-->
-        <iButton @click="handleTransfer">{{ $t('LK_ZHUANPAI') }}</iButton>
+        <iButton @click="handleTransfer"  v-permission="PROTAL_SUPPLIER_WORKBENCHFINANCE_CHUBUPINGJI_ZHUANPAI">{{ $t('LK_ZHUANPAI') }}</iButton>
         <!--查看-->
-        <iButton @click="handleView">{{ $t('LK_CHAKAN') }}</iButton>
+        <iButton @click="handleView"  v-permission="PROTAL_SUPPLIER_WORKBENCHFINANCE_CHUBUPINGJI_CHAKAN">{{ $t('LK_CHAKAN') }}</iButton>
       </div>
     </div>
     <tableList :tableData="tableListData"
@@ -187,7 +190,7 @@ export default {
         this.tableLoading = false
       }
     },
-    handleOpenAssign () {
+    handleOpenAssign () {//分派
       if (!this.gzOperationCheck()) {
         return false
       }
@@ -197,6 +200,10 @@ export default {
       if (this.selectTableData.length > 1) {
         return iMessage.warn(this.$t('SPR_FRM_ZNXZYTSJ'))
       }
+      if(this.selectTableData[0].qualitativeScoreStatus == "草稿" || this.selectTableData[0].qualitativeScoreStatus == "退回"){}else{
+        return iMessage.error(this.language("ZYTHHCGZTCNFP","只有退回和草稿状态才能分派"))
+      }
+
       this.selectTableData.map((item) => {
         this.assignDialogSelectId = item.id
       })
@@ -216,7 +223,7 @@ export default {
       const status = this.checkButtonStatus('退回')
       status && (this.returnDialog = true)
     },
-    handleTransfer () {
+    handleTransfer () {//转派
       if (!this.gzOperationCheck()) {
         return false
       }
@@ -228,6 +235,9 @@ export default {
       }
       if (this.selectTableData.length > 1) {
         return iMessage.warn(this.$t('SPR_FRM_ZNXZYTSJ'))
+      }
+      if(this.selectTableData[0].qualitativeScoreStatus == "草稿" || this.selectTableData[0].qualitativeScoreStatus == "退回"){}else{
+        return iMessage.error(this.language("ZYTHHCGZTCNZP","只有退回和草稿状态才能转派"))
       }
       const status = this.checkButtonStatus('转派')
       status && (this.transferDialog = true)

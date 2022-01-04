@@ -9,7 +9,7 @@
 <template>
   <div>
     <div class="navBox">
-      <iNavMvp :list="tabRouterList" class="margin-bottom20" routerPage :lev="1" v-if="$route.meta.showFooter"/>
+      <iNavMvp :list="tabRouterList" class="margin-bottom20 lines" routerPage :lev="1" v-if="$route.meta.showFooter"/>
       <router-view />
       <logButton class="logButton" v-if="$route.meta.showFooter"/>
     </div>
@@ -38,6 +38,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.lines{
+  border-bottom: 1px #E1E2ED solid;
+  padding-bottom: 10px;
+}
 .navBox {
   position: relative;
   .logButton {

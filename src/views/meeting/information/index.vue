@@ -1,13 +1,13 @@
 <template>
   <iCard>
     <iTabs @tab-click="handleLoad">
-      <el-tab-pane class="margin-bottom3" :label="$t('会议联系人')"
+      <el-tab-pane class="margin-bottom3" :label="$t('MT_HUIYILIANXIREN')"
         ><contact></contact
       ></el-tab-pane>
-      <el-tab-pane class="margin-bottom3" :label="$t('会议类型管理')" name="tab3"
+      <el-tab-pane class="margin-bottom3" :label="$t('MT_HUIYILEIXINGGUANLI')" name="tab3"
         ><typeManagement :key="timer2"></typeManagement
       ></el-tab-pane>
-      <el-tab-pane class="margin-bottom3" :label="$t('会议资料管理')" name="tab2"
+      <el-tab-pane class="margin-bottom3" :label="$t('MT_HUIYIZILIAOGUANLI')" name="tab2"
         ><dataManagement :key="timer"></dataManagement
       ></el-tab-pane>
     </iTabs>

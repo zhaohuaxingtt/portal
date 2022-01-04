@@ -1,12 +1,11 @@
 <template>
   <iDialog
     :visible.sync="dialogFormVisible"
-    width="90%"
-    miniHeight="80%"
+    width="60%"
     @close="onClose"
     lock-scroll="false"
     destroy-on-close="true"
-    :title="!isRead && !isEdit ? formTitles.createTitle : formTitles.editTitle"
+    :title="isRead ? formTitles.createTitle : formTitles.editTitle"
   >
     <div class="main" v-loading="loading">
       <div class="content">
@@ -25,6 +24,7 @@
                   :placeholder="formTitles.input"
                   :disabled="isRead"
                   v-model="formData.appNameCn"
+                  maxlength="20"
                 ></iInput>
               </iFormItem>
             </el-col>
@@ -34,6 +34,7 @@
                   :placeholder="formTitles.input"
                   :disabled="isRead"
                   v-model="formData.appNameEn"
+                  maxlength="20"
                 ></iInput>
               </iFormItem>
             </el-col>
@@ -43,11 +44,12 @@
               </iFormItem>
             </el-col>
             <el-col :span="24">
-              <iFormItem :label="formTitles.description">
+              <iFormItem :label="formTitles.description" prop="description">
                 <iInput
                   :placeholder="formTitles.input"
                   :disabled="isRead"
                   v-model="formData.description"
+                  maxlength="100"
                 ></iInput>
               </iFormItem>
             </el-col>
@@ -118,8 +120,8 @@ export default {
         sysType: '系统类型',
         sysTag: '系统标签',
         description: '系统功能说明',
-        createTitle: '新建/编辑页面',
-        editTitle: 'Infomess应用',
+        createTitle: '新建/浏览页面',
+        editTitle: '新建/编辑页面',
         input: '请输入',
         iselect: '请选择',
         appCode: 'App Code'
@@ -131,12 +133,17 @@ export default {
       },
       rules: {
         appNameCn: [
-          { required: true, message: '请输入中文名称', trigger: 'blur' }
+          { required: true, message: '请输入中文名称', trigger: 'blur' },
+          { max: 20, message: '长度在 20 个字符内', trigger: 'blur' }
         ],
         appNameEn: [
-          { required: true, message: '请输入英文名称', trigger: 'blur' }
+          { required: true, message: '请输入英文名称', trigger: 'blur' },
+          { max: 20, message: '长度在 20 个字符内', trigger: 'blur' }
         ],
-        url: [{ required: true, message: '请输入系统URL', trigger: 'blur' }]
+        url: [{ required: true, message: '请输入系统URL', trigger: 'blur' }],
+        description: [
+          { max: 100, message: '长度在 100 个字符内', trigger: 'blur' }
+        ]
       }
     }
   },
@@ -216,10 +223,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main {
-  height: 60vh;
-}
-
 .titleHeader {
   font-size: 20px;
   margin-bottom: 20px;

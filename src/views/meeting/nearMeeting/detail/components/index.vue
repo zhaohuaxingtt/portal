@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <p class="go-back">
-      <iButton @click="goBack">{{ $t('返回') }}</iButton>
+      <iButton @click="goBack">{{ $t('MT_FANHUI') }}</iButton>
     </p>
     <div class="title-info">
       <div class="header-content">
@@ -172,7 +172,7 @@ export default {
     handleDownLoadMinutes() {
       const themen = this.result
       if (!themen.attachments) {
-        iMessage.error('没有要下载的附件!')
+        iMessage.error(this.$t('MT_MEIYOUYAOXIAZAIDEFUJIAN'))
         return
       }
       const file = themen.attachments.find((item) => {
@@ -184,13 +184,12 @@ export default {
           filename: file.attachmentName,
           callback: (e) => {
             if (!e) {
-              iMessage.error('下载失败')
+              iMessage.error(this.$t('MT_XIAZAISHIBAI'))
             }
           }
         })
     },
     handleTurnMode() {
-      console.log('1111111111')
       this.value = !this.value
     },
     // 获取会议类型列表

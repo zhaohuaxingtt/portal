@@ -18,7 +18,7 @@
                     @click="addTableItem">{{
             $t('LK_XINZENG')
           }}</i-button>
-          <i-button v-if="$route.path==='/supplier/view-suppliers'"
+          <i-button v-if="$route.path === '/supplier/view-suppliers'"
                     v-permission="SUPPLIER_FINANCIALDATA_TABLE_ADD"
                     @click="addTableItem">
             {{ $t('LK_XINZENG') }}
@@ -26,7 +26,7 @@
           <i-button v-if="isSupplierDetail"
                     @click="deleteItem('ids', deleteFinance)">{{ $t('LK_SHANCHU') }}</i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DELETE"
-                    v-else-if="$route.path==='/supplier/view-suppliers'"
+                    v-else-if="$route.path === '/supplier/view-suppliers'"
                     @click="deleteItem('ids', deleteFinance)">
             {{ $t('LK_SHANCHU') }}
           </i-button>
@@ -34,23 +34,29 @@
                     @click="openDataComparison"
                     v-if="isSupplierDetail">{{ $t('SUPPLIER_SHUJUDUIBI') }}</i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DATACOMPARISON"
-                    v-else-if="$route.path==='/supplier/view-suppliers'"
+                    v-else-if="$route.path === '/supplier/view-suppliers'"
                     @click="openDataComparison">{{ $t('SUPPLIER_SHUJUDUIBI') }}</i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_SAVE"
                     @click="exportsTable"
                     v-if="showExportsButton && isSupplierDetail">{{ $t('LK_DAOCHU') }}</i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_EXPORT"
                     @click="exportsTable"
-                    v-else-if="showExportsButton&&$route.path==='/supplier/view-suppliers'">{{ $t('LK_DAOCHU') }}
+                    v-else-if="
+              showExportsButton && $route.path === '/supplier/view-suppliers'
+            ">{{ $t('LK_DAOCHU') }}
           </i-button>
           <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_SAVE"
-                    v-if="$route.path==='/supplier/view-suppliers'"
+                    v-if="$route.path === '/supplier/view-suppliers'"
                     @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}
           </i-button>
-          <i-button v-if="$route.path==='/supplier/frmrating/newsupplierrating/rating1'"
+          <i-button v-if="
+              $route.path === '/supplier/frmrating/newsupplierrating/rating1'
+            "
                     @click="handleExportEarnings">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
           </i-button>
-          <i-button v-if="$route.path==='/supplier/frmrating/newsupplierrating/rating1'"
+          <i-button v-if="
+              $route.path === '/supplier/frmrating/newsupplierrating/rating1'
+            "
                     @click="handleRatings">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}
           </i-button>
         </div>
@@ -85,9 +91,9 @@
                 {
                   props: 'fileName',
                   name: '文件名称',
-                  key: 'LK_WENJIANMINGCHENG',
+                  key: 'LK_WENJIANMINGCHENG'
                 },
-                { props: 'operation', name: '操作', key: 'SUPPLIER_CAOZUO' },
+                { props: 'operation', name: '操作', key: 'SUPPLIER_CAOZUO' }
               ]">
               <template #operation="scope">
                 <template slot="header">
@@ -116,14 +122,14 @@
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
         </template>
         <template #startAccountCycle="scope">
-          <iDatePicker style="width:100%"
+          <iDatePicker style="width: 100%"
                        v-model="scope.row.startAccountCycle"
                        value-format="yyyy-MM-dd"
                        type="date"
                        :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
         </template>
         <template #endAccountCycle="scope">
-          <iDatePicker style="width:100%"
+          <iDatePicker style="width: 100%"
                        v-model="scope.row.endAccountCycle"
                        value-format="yyyy-MM-dd"
                        type="date"
@@ -149,13 +155,17 @@ import { tableTitle } from './components/data'
 import financialRemark from './components/financialRemark'
 import dataComparison from './components/dataComparison'
 import uploadButton from '@/components/uploadButton'
+import { supplierDetail } from "@/api/register/baseInfo";
+import {
+  supplierComplete
+} from "@/views/generalPage/baseInfo/components/data";
 import {
   deleteFinance,
   saveFinance,
   selectFinance,
   getRatingList
 } from '../../../api/register/financialData'
-import { downloadFile } from '@/api/file'
+import { downloadUdFile } from '@/api/file'
 import fetchExternalRatingsDialog from './components/fetchExternalRatingsDialog.vue'
 import { exportFinanceReport } from '@/api/frmRating/frmIntegratedManagement.js'
 
@@ -205,21 +215,54 @@ export default {
       ratingsDialog: false,
       comparisonTableData: [],
       inputProps: [],
-      selectProps: []
+      selectProps: [],
+      supplierComplete
     }
   },
   created () {
     if (this.$route.path !== '/supplier/frmrating/newsupplierrating/rating1') {
-      this.inputProps = [
-        'auditUnit',
-        'currency',
-        'currencyUnit'
-      ]
+      this.inputProps = ['auditUnit', 'currency', 'currencyUnit']
       this.selectProps = ['isAudit', 'isMergeReport']
     }
+    this.supplierDetail()
     this.getTableList()
   },
   methods: {
+    supplierDetail () {
+      supplierDetail(this.supplierType).then(res => {
+        if (res.data) {
+          //初始数据很多为null 需要重置为“” 不然会触发表单验证
+          let baseInfo = this.reView(res.data)
+          baseInfo.supplierInfoVo.isListing = baseInfo.supplierInfoVo.isListing.toString()
+          if (baseInfo.gpSupplierInfoVO) this.supplierComplete.gpSupplierDTO = baseInfo
+            .gpSupplierInfoVO
+          if (baseInfo.ppSupplierInfoVo) {
+            baseInfo.ppSupplierInfoVo.isSign = baseInfo.ppSupplierInfoVo.isSign ? '1' : '0'
+            this.supplierComplete.ppSupplierDTO = baseInfo.ppSupplierInfoVo
+          }
+          if (baseInfo.settlementBankVo) this.supplierComplete.settlementBankDTO = baseInfo
+            .settlementBankVo
+          if (baseInfo.supplierInfoVo) this.supplierComplete.supplierDTO = baseInfo.supplierInfoVo
+          this.$store.dispatch('setBaseInfo', this.supplierComplete)
+        }
+      })
+    },
+    // 调整详情数据
+    reView (data) {
+      for (let i in data) {
+        if (data[i]) {
+          for (let k in data[i]) {
+            if (data[i][k] == null || k == 'createDate' || k == 'updateDate') {
+              data[i][k] = ""
+            }
+            if (k == 'registeredCapital') {
+              data[i][k] = data[i][k] + ""
+            }
+          }
+        }
+      }
+      return data
+    },
     async handleExportEarnings () {
       const pms = {
         supplierId: this.$route.query.supplierId,
@@ -246,12 +289,13 @@ export default {
       this.dataComparisonDialog = true
     },
     async handleExampleDownload (row) {
-      const req = {
-        applicationName: 'rise',
-        fileList: [row.fileName]
-      }
-      await downloadFile(req)
+      // const req = {
+      //   applicationName: 'rise',
+      //   fileList: [row.id]
+      // }
+      await downloadUdFile(row.filePath)
     },
+    // 上传接口
     async handleUploadedCallback (evnet, row) {
       delete evnet.uploadTime
       const req = {
@@ -263,22 +307,52 @@ export default {
             if (!item.attachList) {
               item.attachList = []
             }
-            return item.attachList.push({
-              ...evnet,
-              financeId: row.id,
-              step: req.step
+            return Object.assign(item, {
+              dataTime: evnet.createDate,
+              attachList: [
+                ...item.attachList,
+                {
+                  ...evnet,
+                  financeId: row.id,
+                  filePath: evnet.id,
+                  fileName: evnet.name,
+                  fileSize: evnet.size,
+                  step: req.step
+                }
+              ]
             })
+            // return item.attachList.push({
+            //   ...evnet,
+            //   financeId: row.id,
+            //   step: req.step
+            // })
           }
         })
       }
       if (row.id || row.id === null) {
-        this.tableListData.map((item, index) => {
+        this.tableListData.map((item) => {
+          console.log(item.id, '==111=', row.id)
           if (item.id === row.id) {
-            return item.attachList.push({
-              ...evnet,
-              financeId: row.id,
-              step: req.step
+            return Object.assign(item, {
+              dataTime: evnet.createDate,
+              attachList: [
+                ...item.attachList,
+                {
+                  ...evnet,
+                  financeId: row.id,
+                  filePath: evnet.id,
+                  fileName: evnet.name,
+                  fileSize: evnet.size,
+                  step: req.step
+                }
+              ]
             })
+            // return item.attachList.push({
+            //   ...evnet,
+            //   financeId: row.id,f
+            //   filePath: evnet.id,
+            //   step: req.step
+            // })
           }
         })
       }
@@ -294,14 +368,16 @@ export default {
           ...form
         }
         var res = []
-        if (this.$route.path === '/supplier/frmrating/newsupplierrating/rating1') {
+        if (
+          this.$route.path === '/supplier/frmrating/newsupplierrating/rating1'
+        ) {
           pms['ratingSupplierId'] = this.$route.query.supplierId
           res = await getRatingList(pms, this.supplierType)
         } else {
           res = await selectFinance(pms, this.supplierType)
         }
         if (res.result) {
-          this.tableListData = res.data && res.data.list || []
+          this.tableListData = (res.data && res.data.list) || []
         }
         this.tableLoading = false
       } catch {
@@ -320,7 +396,17 @@ export default {
     async saveInfos (step = '') {
       this.$refs.commonTable.$refs.commonTableForm.validate(async (vaild) => {
         if (vaild) {
+          let flag = false
+          console.log(this.tableListData, '?!111')
           this.tableListData.forEach((item) => {
+            const startAccountCycle = item.startAccountCycle.replace(/-/g, '')
+            const endAccountCycle = item.endAccountCycle.replace(/-/g, '')
+            if (startAccountCycle > endAccountCycle) {
+              this.$message.error('开始时间不能大于结束时间')
+              flag = true
+              return false
+            }
+            // 校验开始时间要小于结束时间
             item.attachList &&
               item.attachList.forEach((val) => {
                 delete val.uploadTime
@@ -335,20 +421,20 @@ export default {
           if (step !== '') {
             pms.step = step
           }
-
-          const res = await saveFinance(pms, this.supplierType)
-          this.resultMessage(
-            res,
-            () => {
-              this.getTableList()
-              this.nextStep = true
-            },
-            () => {
-              this.tableLoading = false
-              this.nextStep = false
-            }
-          )
-
+          if (!flag) {
+            const res = await saveFinance(pms, this.supplierType)
+            this.resultMessage(
+              res,
+              () => {
+                this.getTableList()
+                this.nextStep = true
+              },
+              () => {
+                this.tableLoading = false
+                this.nextStep = false
+              }
+            )
+          }
         }
       })
     },

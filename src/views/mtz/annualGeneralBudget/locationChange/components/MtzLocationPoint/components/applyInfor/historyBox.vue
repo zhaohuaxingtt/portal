@@ -91,14 +91,16 @@
 
                     <el-form-item style="marginRight:68px;width:180px" :label="language('YOUXIAOQIQI','有效期起')" class="formItem">
                         <iDatePicker v-model="searchForm.startDate"
-                                type="datetime"
+                                type="date"
+                                value-format="yyyy-MM-dd"
                                 >
                         </iDatePicker>
                     </el-form-item>
 
                     <el-form-item style="marginRight:68px;width:180px" :label="language('YOUXIAOQIZHI', '有效期止')" class="formItem">
                         <iDatePicker v-model="searchForm.endDate"
-                                type="datetime"
+                                type="date"
+                                value-format="yyyy-MM-dd"
                                 >
                         </iDatePicker>
                     </el-form-item>
@@ -231,6 +233,7 @@ export default {
                 this.buyerIds = res.data;
             })
             getSupplierByUser({}).then(res=>{
+                console.log(1111111111)
                 this.supplierSapList = res.data;
             })
             getMtzRuleCode({}).then(res=>{
@@ -331,5 +334,8 @@ export default {
 }
 ::v-deep .card{
   box-shadow: 0 0 0px rgb(27 29 33 / 0%)
+}
+::v-deep .el-input{
+    width:100%!important;
 }
 </style>

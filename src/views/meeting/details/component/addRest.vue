@@ -3,10 +3,10 @@
   <iDialog
     :title="
       editOrAdd === 'add'
-        ? $t('新增休息')
+        ? $t('MT_XINZENGXIUXI')
         : editOrAdd === 'look'
-        ? $t('查看休息')
-        : $t('编辑休息')
+        ? $t('MT_CHAKANXIUXI')
+        : $t('MT_BIANJIXIUXI')
     "
     :visible.sync="dialogStatusManageObj.openAddRestDialog"
     width="20.625rem"
@@ -21,28 +21,32 @@
         :hideRequiredAsterisk="true"
       >
         <div class="meeting">
-          <div class="meeting-type">{{$t('议题类型')}}</div>
+          <div class="meeting-type">{{ $t('MT_YITILEIXING') }}</div>
           <div class="meeting-rest">
             <!-- {{ typeObject[meetingInfo.meetingTypeId] }} -->
-            {{$t('会议休息')}}
+            {{ $t('MT_HUIYIXIUXI') }}
           </div>
         </div>
         <iFormItem label="议题名称" prop="topic" :hideRequiredAsterisk="true">
-          <iLabel :label="$t('议题名称')" slot="label" required></iLabel>
+          <iLabel
+            :label="$t('MT_YITIMINGCHENG')"
+            slot="label"
+            required
+          ></iLabel>
           <iInput
             v-model="ruleForm.topic"
             :disabled="Boolean(editOrAdd === 'look') || ruleForm.state === '02'"
           ></iInput>
         </iFormItem>
         <iFormItem label="用时" prop="duration" class="time">
-          <iLabel :label="$t('用时')" slot="label" required></iLabel>
+          <iLabel :label="$t('MT_YONGSHI')" slot="label" required></iLabel>
           <div class="time-box">
             <iInput
               v-model="ruleForm.duration"
               type="number"
               :disabled="Boolean(editOrAdd === 'look')"
             ></iInput>
-            <span> {{$t('分钟')}}</span>
+            <span> {{ $t('MT_FENZHONG') }}</span>
           </div>
         </iFormItem>
         <div class="button-list" v-if="editOrAdd !== 'look'">
@@ -62,7 +66,7 @@
 <script>
 import { iDialog, iInput, iFormItem, iLabel, iButton, iMessage } from 'rise'
 import iEditForm from '@/components/iEditForm'
-import { baseRules } from './data'
+// import { baseRules } from './data'
 import { addRestThemen, updateRestThemen } from '@/api/meeting/details'
 
 export default {
@@ -119,7 +123,40 @@ export default {
         topic: '休息 Break',
         duration: 10
       },
-      rules: baseRules
+      rules: {
+        topic: [
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
+          { min: 1, max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+        ],
+        duration: [
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
+          {
+            type: 'number',
+            message: this.$t('MT_ZUIDASANWEIDANWEIFENZHONGBIXUZHENGZHENGSHU'),
+            trigger: 'blur',
+            transform(value) {
+              if (value !== null && value !== '') {
+                if (
+                  String(value).trim() === '' ||
+                  Number(value) <= 0 ||
+                  Number(value) >= 1000
+                ) {
+                  return false
+                } else if (
+                  String(value).indexOf('.') !== -1 ||
+                  String(value).indexOf('-') !== -1
+                ) {
+                  return false
+                } else {
+                  return Number(value)
+                }
+              } else {
+                return null
+              }
+            }
+          }
+        ]
+      }
     }
   },
   created() {
@@ -182,7 +219,7 @@ export default {
                 this.loading = false
                 if (data) {
                   this.clearDiolog('submit')
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
                   this.$emit('flushTable')
                 } else {
                   this.clearDiolog('submit')
@@ -201,7 +238,7 @@ export default {
               id: '',
               // itemNo: this.meetingInfo.themens.length + 1,
               meetingId: this.meetingInfo.id,
-              isBreak: true,
+              isBreak: true
               // themenId: this.selectedTableData[0]
               //   ? this.selectedTableData[0].id
               //   : null
@@ -213,7 +250,7 @@ export default {
                 this.loading = false
                 if (data) {
                   this.clearDiolog('submit')
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
                   this.$emit('flushTable')
                 } else {
                   this.clearDiolog('submit')

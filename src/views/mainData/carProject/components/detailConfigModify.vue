@@ -2,7 +2,7 @@
   <div class="detail-config-modify">
     <pageHeader>
       <el-form inline>
-        <el-form-item label="版本号" v-if="configVersions.length > 0">
+        <el-form-item :label="language('版本号')" v-if="configVersions.length > 0">
           <iSelect
             v-model="searchData.riseVersionCode"
             @change="configVersionChange"
@@ -20,16 +20,16 @@
       <div slot="actions" ref="detailPanel" id="detailPanel">
         <div class="flex-end-center margin-bottom20">
           <iButton v-show="editable" :disabled="loading" @click="add">
-            新增配置
+            {{language('新增配置')}}
           </iButton>
           <iButton v-show="!editable" :disabled="loading" @click="edit">
-            编辑
+            {{language('编辑')}}
           </iButton>
           <iButton v-show="editable" :disabled="loading" @click="save">
-            保存
+            {{language('保存')}}
           </iButton>
           <iButton v-show="editable" :disabled="loading" @click="cancel">
-            取消
+            {{language('取消')}}
           </iButton>
         </div>
       </div>
@@ -69,10 +69,10 @@ import {
 } from '@/api/mainData/car'
 import {
   saveOrupdCarTypeProConfig,
-  fetchCartypeProConfigList
+  fetchCartypeProConfigList,
+  fetchCarTypeLevelSelect
 } from '@/api/mainData/carProject'
 import { arrayToMap } from '@/utils'
-import { fetchSelectDicts } from '@/api/baseInfo'
 import { getYearOptions } from '@/views/mainData/util'
 import mixin from '@/views/mainData/mixin'
 export default {
@@ -305,16 +305,17 @@ export default {
     },
     // 数据字典下拉，车型等级
     async querySelectDicts() {
-      const req = ['cartype_config_level']
+      /* const req = ['cartype_config_level']
       const { data } = await fetchSelectDicts(req)
-      const { cartype_config_level } = data
+      const { cartype_config_level } = data */
+      const { data } = await fetchCarTypeLevelSelect()
       Object.assign(
         this.extraData,
         {
-          cartypeConfigLevelOptions: cartype_config_level
+          cartypeConfigLevelOptions: data
         },
         {
-          cartypeConfigLevelMap: arrayToMap(cartype_config_level, 'id', 'name')
+          cartypeConfigLevelMap: arrayToMap(data, 'id', 'name')
         }
       )
     },

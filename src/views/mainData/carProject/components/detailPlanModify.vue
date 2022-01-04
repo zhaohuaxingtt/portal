@@ -2,7 +2,7 @@
   <div>
     <pageHeader>
       <el-form inline>
-        <iFormItem label="版本号" v-if="version !== ''">
+        <iFormItem :label="language('版本号')" v-if="version !== ''">
           <iSelect v-model="version" @change="versionChange">
             <el-option
               v-for="item in versions"
@@ -12,15 +12,15 @@
             />
           </iSelect>
         </iFormItem>
-        <iFormItem label="车型总产量">
+        <iFormItem :label="language('车型总产量')">
           <iInput :value="total" readonly disabled />
         </iFormItem>
       </el-form>
       <div slot="actions">
-        <iButton v-show="!extraData.editable" @click="edit">编辑</iButton>
-        <iButton v-show="extraData.editable" @click="addItem">新增年份</iButton>
-        <iButton v-show="extraData.editable" @click="save">保存</iButton>
-        <iButton v-show="extraData.editable" @click="cancel">取消</iButton>
+        <iButton v-show="!extraData.editable" @click="edit">{{language('编辑')}}</iButton>
+        <iButton v-show="extraData.editable" @click="addItem">{{language('新增年份')}}</iButton>
+        <iButton v-show="extraData.editable" @click="save">{{language('保存')}}</iButton>
+        <iButton v-show="extraData.editable" @click="cancel">{{language('取消')}}</iButton>
       </div>
     </pageHeader>
 
@@ -63,7 +63,7 @@ export default {
   props: {
     versions: {
       type: Array,
-      default: function() {
+      default: function () {
         return []
       }
     },
@@ -193,7 +193,7 @@ export default {
         return
       }
 
-      if (this.data.filter(e => !e.years).length > 0) {
+      if (this.data.filter((e) => !e.years).length > 0) {
         iMessage.error('年份不能为空')
         return
       }
@@ -214,7 +214,7 @@ export default {
       }
 
       // 年份不足，补充齐
-      const years = this.data.map(e => parseInt('' + e.years))
+      const years = this.data.map((e) => parseInt('' + e.years))
       years.sort((a, b) => (a > b ? 1 : -1))
       const start = years[0]
       const end = years[years.length - 1]
@@ -263,7 +263,7 @@ export default {
 
       const reqData = {
         cartypeProId: this.$route.query.id,
-        outPutPlanList: sortData.map(e => {
+        outPutPlanList: sortData.map((e) => {
           e.createBy = currentUserId
           e.cartypeProId = this.$route.query.id
           return e
@@ -272,7 +272,7 @@ export default {
       }
       this.loading = true
       saveCarProjectPlanDetail(reqData)
-        .then(res => {
+        .then((res) => {
           if (res.result) {
             iMessage.success('保存成功')
             this.toggleEdit(false)
@@ -281,7 +281,7 @@ export default {
             iMessage.error(res.desZh || '保存失败')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           iMessage.error(err.desZh || '保存失败')
         })
         .finally(() => (this.loading = false))
@@ -348,9 +348,8 @@ export default {
     handleYearChange(scope) {
       const { row, $index } = scope
       console.log('row', row)
-      const entYears = this.extraData.yearOptions[
-        this.extraData.yearOptions.length - 1
-      ]
+      const entYears =
+        this.extraData.yearOptions[this.extraData.yearOptions.length - 1]
       let years = row.years
       for (let i = $index + 1; i < this.data.length; i++) {
         const element = this.data[i]

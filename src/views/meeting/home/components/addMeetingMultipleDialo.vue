@@ -66,7 +66,7 @@
                   <el-option
                     v-for="(item, index) in intervalList"
                     :key="index"
-                    :label="item.label"
+                    :label="$t(item.i18n)"
                     :value="item.value.toString()"
                   >
                   </el-option>
@@ -129,7 +129,7 @@
                 <el-option
                   v-for="(item, index) in cycleList"
                   :key="index"
-                  :label="item.label"
+                  :label="$t(item.i18n)"
                   :value="item.value.toString()"
                 >
                 </el-option>
@@ -253,7 +253,7 @@ import {
 } from 'rise'
 import iEditForm from '@/components/iEditForm'
 import { addMeeting } from '@/api/meeting/home'
-import { baseRulesMultiple, cycleList, intervalList } from './data.js'
+import { cycleList, intervalList } from './data.js'
 
 export default {
   components: {
@@ -312,7 +312,86 @@ export default {
         meetingInterval: '',
         isBatch: true
       },
-      rules: baseRulesMultiple,
+      rules: {
+        meetingTypeId: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZEHUIYILEIXNG'),
+            trigger: 'blur'
+          }
+        ],
+        meetingInterval: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZEHUIYIJIANGE'),
+            trigger: 'change'
+          }
+        ],
+        startDate: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZEKAISHIRIQI'),
+            trigger: 'change'
+          }
+        ],
+        endDate: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZEJIESHURIQI'),
+            trigger: 'change'
+          }
+        ],
+        startTime: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZEKAISHISHIJIAN'),
+            trigger: 'change'
+          }
+        ],
+        meetingPlace: [
+          {
+            required: true,
+            message: this.$t('MT_QINGSHURUHUIYIDIZHI'),
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
+        ],
+        receiverId: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZESHOUJIANREN'),
+            trigger: 'change'
+          }
+        ],
+        attendeeId: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZEYUHUIREN'),
+            trigger: 'change'
+          }
+        ],
+        attendee: [
+          { required: true, message: this.$t('MT_QINGSHURUYUHUIREN'), trigger: 'blur' },
+          {
+            min: 1,
+            max: 1024,
+            message: this.$t('MT_ZUIDACHANGDU1024ZIFU'),
+            trigger: 'change'
+          }
+        ],
+        meetingCycle: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZEHUIYIZHOUQI'),
+            trigger: 'change'
+          }
+        ]
+      },
       dateStartPickerOptions: {
         // 日期选择
         disabledDate: (date) => {
@@ -402,7 +481,7 @@ export default {
           addMeeting(formData)
             .then((res) => {
               if (res.code === 200) {
-                iMessage.success('保存成功')
+                iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
               }
               this.$emit('refreshTable')
               this.clearDiolog('submit')

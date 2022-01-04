@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-08 14:25:34
- * @LastEditTime: 2021-12-09 15:10:43
+ * @LastEditTime: 2021-12-21 10:55:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\annualGeneralBudget\replenishmentManagement\components\mtzReplenishmentOverview\components\search.vue
@@ -209,10 +209,11 @@ export default {
         appStatus: [],
         buyerNameList: [],
         buyerDeptId: [],
-        resolutionPassTime: "",
+
         materialCode: [],
         assemblyPartnum: []
       }
+      this.resolutionPassTime = []
       this.$parent.$refs.theTable.getTableList()
     },
     handleSubmitSearch () {

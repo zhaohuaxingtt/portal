@@ -1,6 +1,6 @@
 <template>
   <iDialog
-   :title="$t('修改收件人')"
+    :title="$t('MT_XIUGAISHOUJIANREN')"
     :visible.sync="openEditDialog"
     width="54.875rem"
     :close-on-click-modal="false"
@@ -15,16 +15,20 @@
       >
         <div class="row">
           <iFormItem label="组名" class="name" prop="groupName">
-            <iLabel :label="$t('组名')" slot="label" required></iLabel>
+            <iLabel :label="$t('MT_ZUMING')" slot="label" required></iLabel>
             <div class="form-row">
               <iInput v-model="ruleForm.groupName"></iInput>
             </div>
           </iFormItem>
           <iFormItem label="会议类型" class="name" prop="meetingType">
-            <iLabel :label="$t('会议类型')" slot="label" required></iLabel>
+            <iLabel
+              :label="$t('MT_HUIYILEIXING')"
+              slot="label"
+              required
+            ></iLabel>
             <iSelect
               v-model="ruleForm.meetingType"
-              :placeholder="$t('请选择')"
+              :placeholder="$t('MT_QINGXUANZE')"
               value-key="id"
             >
               <el-option
@@ -38,7 +42,7 @@
           </iFormItem>
         </div>
         <div class="receiverLine">
-          <div class="receiver">{{$t('收件人')}}</div>
+          <div class="receiver">{{ $t('MT_SHOUJIANREN') }}</div>
           <iInput
             suffix-icon="el-icon-search"
             v-model="search"
@@ -46,8 +50,10 @@
             class="search"
           >
           </iInput>
-          <iButton @click="$emit('addReceiverData')" class="add-receiver"
-            >{{$t('添加收件人')}}</iButton
+          <iButton
+            @click="$emit('addReceiverData', 'edit')"
+            class="add-receiver"
+            >{{ $t('MT_TIANJIASHOUJIANREN') }}</iButton
           >
         </div>
         <i-table-custom
@@ -59,20 +65,21 @@
           @current-change="handleCurrentChange"
           :current-page="currentPage"
           :page-size="pageSize"
+          :page-sizes="10"
           layout="prev, pager, next, jumper"
           :total="total"
-         :prev-text="$t('上一页')"
-         :next-text="$t('下一页')"
+          :prev-text="$t('MT_SHANGYIYE')"
+          :next-text="$t('MT_XIAYIYE')"
         >
         </el-pagination>
 
         <div class="button-list">
           <el-form-item>
             <iButton @click="close" plain class="cancel">{{
-              $t("关闭")
+              $t('MT_GUANBI')
             }}</iButton>
             <iButton @click="handleSubmit('ruleForm')" plain>{{
-              $t("保存")
+              $t('MT_BAOCUN')
             }}</iButton>
           </el-form-item>
         </div>
@@ -81,15 +88,15 @@
   </iDialog>
 </template>
 <script>
-import { iDialog, iInput, iFormItem, iLabel, iButton, iSelect } from "rise";
-import iEditForm from "@/components/iEditForm";
+import { iDialog, iInput, iFormItem, iLabel, iButton, iSelect } from 'rise'
+import iEditForm from '@/components/iEditForm'
 import {
   updateReceiver,
   getReceiverById,
-  getMettingType,
-} from "@/api/meeting/type";
-import { baseRules } from "./data";
-import iTableCustom from "@/components/iTableCustom";
+  getMettingType
+} from '@/api/meeting/type'
+// import { baseRules } from './data'
+import iTableCustom from '@/components/iTableCustom'
 export default {
   components: {
     iDialog,
@@ -99,163 +106,179 @@ export default {
     iButton,
     iEditForm,
     iTableCustom,
-    iSelect,
+    iSelect
   },
   props: {
     openEditDialog: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     clickScope: {
       type: Array,
       default: () => {
-        return [];
-      },
+        return []
+      }
     },
     selectedTableData: {
       type: Array,
       default: () => {
-        return [];
-      },
-    },
+        return []
+      }
+    }
   },
   data() {
     return {
+      employeeDTOS: [],
+      allReceiverData: [],
       meetingTypeList: [],
       getReceiverTableColumns: [
         {
-          type: "index",
-          label: "序号",
-          i18n: "序号",
+          type: 'index',
+          label: '序号',
+          i18n: 'MT_XUHAO2',
           width: 68,
-          tooltip: false,
+          tooltip: false
         },
         {
           // prop: "nameZh",
-          label: "姓名",
-          i18n: "姓名",
-          width: 70,
-          align: "left",
+          label: '姓名',
+          i18n: 'MT_XINGMING',
+          width: 150,
+          align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.nameZh ? scope.row.nameZh : ""
-            );
-          },
+              scope.row.nameZh ? scope.row.nameZh : ''
+            )
+          }
         },
         {
           // prop: "email",
-          label: "电子邮箱",
-          i18n: "电子邮箱",
+          label: '电子邮箱',
+          i18n: 'MT_DIANZIYOUXIANG',
           width: 200,
-          align: "left",
+          align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.email ? scope.row.email : ""
-            );
-          },
+              scope.row.email ? scope.row.email : ''
+            )
+          }
         },
         {
           // prop: "userNum",
-          label: "工号",
-          i18n: "工号",
-          width: 90,
-          align: "left",
+          label: '工号',
+          i18n: 'MT_GONGHAO',
+          width: 120,
+          align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.userNum ? scope.row.userNum : ""
-            );
-          },
+              scope.row.userNum ? scope.row.userNum : ''
+            )
+          }
         },
         {
           // prop: "deptList",
-          label: "所属部门",
-          i18n: "所属部门",
-          align: "left",
+          label: '所属部门',
+          i18n: 'MT_SUOSHUBUMEN',
+          align: 'left',
           tooltip: true,
           customRender: (h, scope) => {
             return h(
-              "div",
+              'div',
               {
                 style: {
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                },
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap'
+                }
               },
-              scope.row.deptList ? scope.row.deptList : ""
-            );
-          },
+              scope.row.deptList ? scope.row.deptList : ''
+            )
+          }
         },
         {
-          label: "操作",
+          label: '操作',
+          i18n: 'MT_CAOZUO2',
           width: 80,
           customRender: (h, scope) => {
-            return h("span", [
+            return h('span', [
               h(
-                "a",
+                'a',
                 {
                   style: {
-                    cursor: "pointer",
-                          color: "#1660f1",
+                    cursor: 'pointer',
+                    color: '#1660f1'
                   },
-                  class: "open-link-text",
+                  class: 'open-link-text',
                   on: {
                     click: () => {
-                      this.removeReceiverDataList(scope.row);
-                    },
-                  },
+                      this.removeReceiverDataList(scope.row)
+                    }
+                  }
                 },
-                "移除"
-              ),
-            ]);
-          },
-        },
+                this.$t('MT_YICHU')
+              )
+            ])
+          }
+        }
       ],
-      rules: baseRules,
+      rules: {
+        groupName: [
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
+          {
+            min: 1,
+            max: 64,
+            message: this.$t('MT_ZUIDACHANGDU64ZIFU'),
+            trigger: 'blur'
+          }
+        ],
+        meetingType: [
+          { required: true, message: this.$t('MT_BIXUAN'), trigger: 'change' }
+        ]
+      },
       ruleForm: {
-        groupName: "",
-        meetingType: "",
+        groupName: '',
+        meetingType: ''
       },
       // getReceiver: "",
-      editReceiverData: "",
-      search: "",
+      editReceiverData: '',
+      search: '',
       currentPage: 1,
       pageSize: 10,
       total: 0,
       tableData: [],
       // tableDataAll: [],
       selectList: [],
-      nowReceiverData: [],
-    };
+      nowReceiverData: []
+    }
   },
   mounted() {
     this.getAllSelectList().then(() => {
@@ -263,147 +286,191 @@ export default {
         ...this.clickScope,
         meetingType: this.meetingTypeList.find(
           (item) => Number(item.id) === Number(this.clickScope.meetingTypeId)
-        ),
-      };
-    });
-
-    console.log(this.ruleForm);
-    this.query();
+        )
+      }
+    })
+    this.query()
   },
   watch: {
-    selectedTableData(val) {
-      // console.log("val", val);
-      for (let i = 0; i < val.length; i++) {
-        if (!this.selectList.includes(val[i].id)) {
-          this.editReceiverData.push(val[i]);
-          this.selectList.push(val[i].id);
-          this.nowReceiverData = this.editReceiverData;
-        }
+    selectedTableData: {
+      handler(val) {
+        // console.log("val", val);
+        // for (let i = 0; i < val.length; i++) {
+        //   if (!this.selectList.includes(val[i].id)) {
+        //     this.allReceiverData.push(val[i])
+        //     this.selectList.push(val[i].id)
+        //   }
+        // }
+        let selectArr = val.map(({ id, nameZh, email, userNum, deptList }) => {
+          return {
+            deptList,
+            email,
+            id: id,
+            nameZh,
+            userNum
+          }
+        })
+        let employeeDTOSReal = this.employeeDTOS.map(
+          ({ id, name, email, jobNumber, department }) => ({
+            deptList: department,
+            email,
+            id: id,
+            nameZh: name,
+            userNum: jobNumber
+          })
+        )
+        this.allReceiverData = this.deleMuptil([
+          ...employeeDTOSReal,
+          ...selectArr
+        ])
+        this.total = this.allReceiverData.length
+        this.nowReceiverData = this.allReceiverData
+        this.editReceiverData = this.nowReceiverData.slice(0, 10)
+        this.currentPage = 1
+        this.change(this.search)
+        return this.editReceiverData
       }
-      return this.editReceiverData;
-    },
+    }
   },
   methods: {
-    handleCurrentChange: function(currentPage) {
+    handleCurrentChange: function (currentPage) {
       // 页码切换
-      this.currentPage = currentPage;
-      this.currentChangePage(this.editReceiverData, this.currentPage);
+      this.currentPage = currentPage
+      this.currentChangePage(this.editReceiverData, this.currentPage)
     },
     async getAllSelectList() {
       let param = {
         pageSize: 1000,
         pageNum: 1,
-        isCurrentUser: true,
-      };
-      const res = await getMettingType(param);
-      this.meetingTypeList = res.data;
+        isCurrentUser: true
+      }
+      const res = await getMettingType(param)
+      this.meetingTypeList = res.data
     },
     // 分页方法
     currentChangePage(editReceiverData, currentPage) {
-      let from = (currentPage - 1) * this.pageSize;
-      let to = currentPage * this.pageSize;
-      this.editReceiverData = editReceiverData.slice(from, to);
+      let from = (currentPage - 1) * this.pageSize
+      let to = currentPage * this.pageSize
+      this.editReceiverData = this.allReceiverData.slice(from, to)
     },
     change(val) {
-      // let tableDataAll = JSON.parse(JSON.stringify(this.editReceiverData));
       //过滤方法
       if (val) {
         //不区分大小写处理
-        let reg = new RegExp(val, "ig");
+        let reg = new RegExp(val, 'ig')
         //es6 filter过滤匹配，有则返回当前，无则返回所有
-        return (this.editReceiverData = this.nowReceiverData.filter((item) => {
+        this.nowReceiverData = this.allReceiverData.filter((item) => {
           // item.employeeNo = item.employeeNo + "";
           return (
             item.nameZh?.match(reg) ||
             item.email?.match(reg) ||
             item.userNum?.match(reg)
-          );
-        }));
+          )
+        })
+        this.total = this.nowReceiverData.length
+        this.editReceiverData = this.nowReceiverData.slice(0, 10)
+        return
       }
-      // console.log(111);
-      return (this.editReceiverData = this.nowReceiverData);
+      this.total = this.allReceiverData.length
+      this.nowReceiverData = this.allReceiverData
+      this.editReceiverData = this.nowReceiverData.slice(0, 10)
+    },
+    deleMuptil(arr) {
+      let obj = {}
+      arr = arr.reduce((cur, next) => {
+        if (!obj[next.id]) {
+          obj[next.id] = true
+          cur.push(next)
+        }
+        return cur
+      }, [])
+      return arr
     },
     query() {
       const data = {
-        id: this.clickScope.id,
-      };
+        id: this.clickScope.id
+      }
       getReceiverById(data)
         .then((res) => {
-          const { employeeDTOS } = res;
-          console.log(employeeDTOS);
-          this.editReceiverData = employeeDTOS.map(
+          const { employeeDTOS } = res
+          let selectArr = this.selectedTableData.map(
+            ({ id, nameZh, email, userNum, deptList }) => {
+              return {
+                deptList,
+                email,
+                id: id,
+                nameZh,
+                userNum
+              }
+            }
+          )
+          let employeeDTOSReal = [...employeeDTOS].map(
             ({ id, name, email, jobNumber, department }) => ({
               deptList: department,
               email,
               id: id,
               nameZh: name,
-              userNum: jobNumber,
+              userNum: jobNumber
             })
-          );
-          this.nowReceiverData = this.editReceiverData;
-          if (this.editReceiverData.length === 0) {
-            return;
+          )
+          this.allReceiverData = this.deleMuptil([
+            ...employeeDTOSReal,
+            ...selectArr
+          ])
+          this.total = this.allReceiverData.length
+          this.nowReceiverData = this.allReceiverData
+          if (this.allReceiverData.length === 0) {
+            return
           }
           // 筛选已选择列表中的id
-          // let selectList = [];
-          // console.log("this.editReceiverData", this.editReceiverData);
-          this.editReceiverData.forEach((item) => {
-            this.selectList.push(item.id);
-            // console.log("select------", this.selectList);
-          });
-          return this.editReceiverData;
+          this.selectList = this.allReceiverData.map((item) => {
+            return item.id
+          })
+          this.editReceiverData = this.allReceiverData.slice(0, 10)
+          this.currentPage = 1
+          this.change(this.search)
+          return this.editReceiverData
         })
         .catch(() => {
-          this.tableLoading = false;
-        });
+          this.tableLoading = false
+        })
     },
     removeReceiverDataList(scope) {
-      for (var i = 0; i < this.editReceiverData.length; i++) {
-        if (this.editReceiverData[i].id == scope.id)
-          this.editReceiverData.splice(i, 1);
-      }
-      for (var item = 0; item < this.selectList.length; item++) {
-        // console.log("this.selectList", this.selectList);
-        if (this.selectList[item] == scope.id) {
-          this.selectList.splice(item, 1);
-          // console.log(this.scope.id);
-        }
-      }
+      this.selectList = this.selectList.filter((item) => {
+        return item !== scope.id
+      })
+      this.allReceiverData = this.allReceiverData.filter((item) => {
+        return item.id !== scope.id
+      })
+      this.total = this.allReceiverData.length
+      this.editReceiverData = this.allReceiverData.slice(0, 10)
+      this.currentPage = 1
+      this.change(this.search)
     },
     close() {
-      this.$emit("closeEditDialog", false);
+      this.$emit('closeEditDialog', false, 'edit')
     },
     handleSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let formData = this.ruleForm;
-          this.editReceiverData = [...this.editReceiverData];
-          let res = this.editReceiverData.map(
-            ({ employeeNo, name, dept, email, id }) => ({
-              email,
-              id: id,
-              deptList: dept,
-              nameZh: name,
-              userNum: employeeNo,
-            })
-          );
-          formData.employeeDTOS = res;
+          let formData = this.ruleForm
+          formData.employeeDTOS = this.allReceiverData
           updateReceiver(formData)
             .then((data) => {
               if (data) {
-                this.close();
-                this.$message.success("修改成功！");
-                this.$emit("flushTable");
+                this.close()
+                this.$message.success(this.$t('MT_XIUGAICHENGGONG'))
+                this.$emit('flushTable')
               }
             })
             .catch((err) => {
-              console.log(err);
-            });
+              console.log(err)
+            })
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -8,10 +8,10 @@
         <div class="left">{{ headerTitle }}</div>
       <div class="right">
         <!--tag-->
-        <span class="input" v-for="item,index in tagList" :key= item.id v-text="item.folderName"></span>
+        <span class="input" v-for="item,index in tagList" :key= index v-text="item"></span>
         <icon symbol @click.native="setCollection"
               :name="currentData&&currentData.isDefaultFolder == 1 ? 'iconyishoucanglingjian' : 'iconweishoucanglingjian'"></icon>
-        <icon class="icon" symbol @click.native="joinItemShow = true" name="iconlingjianyibiaoji"></icon>
+        <icon class="icon" symbol @click.native="joinItemShow = true" :name="tagList.length?'iconlingjianyibiaoji':'iconlingjianweibiaoji'"></icon>
       </div>
     </div>
     <!--演变进度-->
@@ -40,7 +40,7 @@ import baseInfo from './components/baseInfo'
 import supplyInfo from './components/supplyInfo'
 import partResume from './components/partResume'
 import joinItem from './components/joinItem'
-import { getFolderCombo,  cancelOrCollect, removeCollect, getDefaultInfo, defaultParts } from '@/api/partLifeCycle/partLifeCycleStar'
+import { getFolderCombo, getTagName,  cancelOrCollect, removeCollect, getDefaultInfo, defaultParts } from '@/api/partLifeCycle/partLifeCycleStar'
 
 export default {
   name: 'index',
@@ -90,16 +90,20 @@ export default {
     },
     clearDiolog() {
       this.joinItemShow = false
-      this.getFolderCombo(this.$route.query.partsNum)
+      this.getTagName(this.$route.query.partsNum)
     },
-    getFolderCombo(partNum) {
-      getFolderCombo({partNum}).then(res => {
+    // 获取tagName
+    getTagName(partNum) {
+      getTagName({partNum}).then(res => {
         const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
-        if (Number(res.code) === 200) {
-          this.tagList = res.data
-          this.tagList = this.tagList.filter(item => item.folderName!='我的收藏')
-        } else {
-          iMessage.error(result)
+        try {
+          if (Number(res.code) === 200) {
+            this.tagList = res.data?.tags||[]
+          } else {
+            iMessage.error(result)
+          }
+        } catch(e) {
+          console.log(e,'错误')
         }
       }).catch(() => {
       })
@@ -136,13 +140,11 @@ export default {
       }).catch(() => {
       })
     },
-
-
   },
   mounted() {
     let partsNum = this.$route.query.partsNum
     this.defaultParts(partsNum)
-    this.getFolderCombo(partsNum)
+    this.getTagName(partsNum)
   }
 
 }

@@ -55,7 +55,7 @@ import {
   compdocMetalDetailSum
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/supplementary/details';
 import { getNowFormatDate } from "./util.js";
-import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
+import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 
 export default {
   name: "tabs3",
@@ -193,6 +193,9 @@ export default {
       this.page.currPage = val;
       this.getData();
     },
+  },
+  destroyed () {
+    NewMessageBoxClose();
   }
 }
 </script>

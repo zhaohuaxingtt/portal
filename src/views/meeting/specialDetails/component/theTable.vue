@@ -30,35 +30,35 @@
           <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column show-overflow-tooltip align="center" :label="$t('会议名称')">
+      <el-table-column show-overflow-tooltip align="center" :label="$t('MT_HUIYIMINGCHENG')">
         <template slot-scope="scope">
           <span class="open-link-text">{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column show-overflow-tooltip align="center" :label="$t('会议类型')">
+      <el-table-column show-overflow-tooltip align="center" :label="$t('MT_HUIYILEIXING')">
         <template slot-scope="scope">
           <span class="open-link-text">{{
             typeObject[scope.row.meetingTypeId]
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column show-overflow-tooltip align="center" :label="$t('会议状态')">
+      <el-table-column show-overflow-tooltip align="center" :label="$t('MT_HUIYIZHUANGTAI')">
         <template slot-scope="scope">
           <span class="circle circle1" v-if="scope.row.state === '02'">{{
-            statusObj[scope.row.state]
+            $t(statusObj[scope.row.state])
           }}</span>
           <span class="circle circle2" v-if="scope.row.state === '03'">{{
-            statusObj[scope.row.state]
+           $t( statusObj[scope.row.state])
           }}</span>
         </template>
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
         align="center"
-        label="会议地点"
+        label="MT_HUIYIDIDIAN"
         prop="meetingPlace"
       ></el-table-column>
-      <el-table-column show-overflow-tooltip align="center" :label="$t('会议时间')">
+      <el-table-column show-overflow-tooltip align="center" :label="$t('MT_HUIYISHIJIAN')">
         <template slot-scope="scope">
           <span>{{
             `${scope.row.startDate}
@@ -79,8 +79,8 @@
       background
       :page-sizes="page.pages"
       :page-size="page.pageSize"
-      :prev-text="$t('上一页')"
-      :next-text="$t('下一页')"
+      :prev-text="$t('MT_SHANGYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       layout="prev, pager, next, jumper"
       :current-page="page.currPage"
       :total="page.total"

@@ -7,10 +7,10 @@
   >
     <div class="top-buttons margin-bottom20">
       <iButton v-if="isEditPage && !editable" @click="edit">
-        编辑
+        {{language('编辑')}}
       </iButton>
-      <iButton v-show="editable" @click="save">保存</iButton>
-      <iButton v-show="editable" @click="cancel">取消</iButton>
+      <iButton v-show="editable" @click="save">{{language('保存')}}</iButton>
+      <iButton v-show="editable" @click="cancel">{{language('取消')}}</iButton>
     </div>
     <carTypeLifeCycle
       class="margin-bottom20"
@@ -468,9 +468,13 @@ export default {
     },
     saveToServer() {
       const data = {
+        // cartypeProId: this.carTypeProId,
+        // carProjectId:this.carTypeProId,
+        // createBy: this.$store.state.permission.userInfo.id,
+        ...this.formData,
         cartypeProId: this.carTypeProId,
+        carProjectId:this.carTypeProId,
         createBy: this.$store.state.permission.userInfo.id,
-        ...this.formData
       }
       savePepDateNode(data)
         .then(res => {

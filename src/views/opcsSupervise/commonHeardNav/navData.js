@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-25 09:47:22
  * @LastEditors: caopeng
- * @LastEditTime: 2021-12-15 17:31:17
+ * @LastEditTime: 2021-12-28 10:45:04
  * @FilePath: \front-portal-new\src\views\opcsSupervise\commonHeardNav\navData.js
  */
 export const tabRouterList = [
@@ -10,7 +10,7 @@ export const tabRouterList = [
       name: 'OPCS SOL账号授权管理',
       url: '/opcs/list',
       activePath: '/opcs/list',
-      key: 'OPCS SOL账号授权管理'
+      key: 'OPCSSOLZHANGHAOSHOUQUANGUANLI'
     },
    
   ]
@@ -20,7 +20,7 @@ export const tabRouterList = [
       name: '应用管理',
       url: '/provider/opcs/list/application/manage',
       activePath: '/provider/opcs/list/application/manage',
-      key: '应用管理',
+      key: 'YINGYONGGUANLI',
       icon:'el-icon-s-grid'
     },
     {
@@ -28,7 +28,7 @@ export const tabRouterList = [
         name: '联系人与用户管理',
         url: '/provider/opcs/list/application/userManage',
         activePath: '/provider/opcs/list/application/userManage',
-        key: '联系人与用户管理',
+        key: 'LIANXIRENYUYONGHUGUANLI',
         icon:'el-icon-s-check'
       },
    
