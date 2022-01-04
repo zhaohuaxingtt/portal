@@ -292,7 +292,7 @@
           <!-- MBDL名称    gpName-->
           <el-table-column show-overflow-tooltip align="center" label="MBDL名称" width="120" >
             <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.gpName }}</span>
+              <span class="open-link-text look-themen-click" >{{ scope.row.gpName }}</span>
             </template>
           </el-table-column>
           <!-- 英文名称  mbdlNameEn -->
@@ -349,7 +349,7 @@
           <!-- 会议结论/纪要  result-->
            <el-table-column show-overflow-tooltip align="center" label="会议结论/纪要" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ resultObj[scope.row.result] }}</span>
+              <span class="open-link-text" @click="handleResult(scope.row)">{{ resultObj[scope.row.result] }}</span>
              </template>
           </el-table-column>
          
@@ -627,10 +627,27 @@
         :selectThemenId='selectThemenId'
       ></protectConclusion>
     </iDialog>
+    <!-- 列表维护结论 -->
+    <iDialog
+      v-if="editprotectConclusionDialog"
+      :title="language('结束议题', '结束议题')"
+      :visible.sync="editprotectConclusionDialog"
+      width="30%"
+      :append-to-body="true"
+    >
+      <editprotectConclusion
+        v-if="editprotectConclusionDialog"
+        @close="editprotectConclusionDialog = false"
+        style="padding-bottom: 20px"
+        @flushTable='flushTable'
+        :editprotectConclusionDialogRow='editprotectConclusionDialogRow'
+      ></editprotectConclusion>
+    </iDialog>
     
   </iPage>
 </template>
 <script>
+import editprotectConclusion from './component/editprotectConclusion.vue'
 import newAddTopic from './component/newAddTopic.vue'
 import protectConclusion from './component/protectConclusion.vue'
 import batchAdjustment from './component/batchAdjustment'
@@ -678,6 +695,7 @@ import enclosure from '@/assets/images/enclosure.svg'
 export default {
   mixins: [pageMixins],
   components: {
+    editprotectConclusion,//维护结论
     newAddTopic,//新增议题gp
     protectConclusion,//结束议题
     batchAdjustment,//批量调整
@@ -705,6 +723,7 @@ export default {
   },
   data() {
     return {
+      editprotectConclusionDialog:false,//维护议题结论
       selectThemenId:'',//当前议题行id
       protectConclusionDialog:false,//结束议题
       statusObj: {
@@ -1549,9 +1568,27 @@ export default {
     },
     // 结束议题
     overTopic() {
-      console.log(this.selectedTableData[0].id);
-      this.protectConclusionDialog=true
-      this.selectThemenId=this.selectedTableData[0].id
+      // isBreak  true就是休息
+      if(this.selectedTableData[0].isBreak){
+        console.log("休息");
+        const params = {
+          meetingId:this.$route.query.id,//会议id
+          themenId:this.selectedTableData[0].id//议题id
+        }
+        console.log(params);
+        endThemen(params).then((res) => {
+          if (res.code) {
+            iMessage.success('结束议题成功！')
+            this.flushTable()
+          }else{
+            iMessage.success('结束会议失败！')
+          }
+        })
+      }else{
+        console.log(this.selectedTableData[0].isBreak);
+        this.protectConclusionDialog=true
+        this.selectThemenId=this.selectedTableData[0].id
+      }
       // this.selectedTableData
       console.log('结束议题');
       return
@@ -2020,6 +2057,13 @@ export default {
         return 'active-row dragable-row'
       }
       return 'narmal-row'
+    },
+    //点击纪要  维护结论
+    handleResult(row){
+      console.log(row.result);
+      this.editprotectConclusionDialog=true
+      this.editprotectConclusionDialogRow=row
+      console.log(this.editprotectConclusionDialogRow);
     }
   }
 }
