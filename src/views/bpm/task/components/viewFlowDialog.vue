@@ -7,11 +7,14 @@
     :title="language('审批流')"
   >
     <div class="content" v-loading="loading">
-      <div v-if="panoramas.length > 1" class="multiple margin-bottom20">
+      <div
+        v-if="panoramas.length > 1"
+        class="multiple margin-bottom20 content-item"
+      >
         <iCard
           v-for="(item, index) in panoramas"
           :key="index"
-          :title="item.processInstanceId"
+          :title="item.stateMsg"
           header-control
           collapse
           class="margin-bottom20"
@@ -19,13 +22,15 @@
           :defalutCollVal="!item.isEnd"
           @handleCollapse="(val) => handleCollapse(val, item)"
         >
-          <processNodeHorizontal
-            v-if="!item.isEnd || item.ok"
-            :detail="detail"
-            :panorama="item.panorama"
-            :isEnd="item.isEnd"
-            :instanceId="item.processInstanceId + index"
-          />
+          <div slot="header-control">{{ item.endTime }}</div>
+          <div v-if="!item.isEnd || item.ok">
+            <processNodeHorizontal
+              :detail="detail"
+              :panorama="item.panorama"
+              :isEnd="item.isEnd"
+              :instanceId="item.processInstanceId + index"
+            />
+          </div>
         </iCard>
       </div>
       <div v-if="panoramas.length === 1" style="overflow: auto">
@@ -135,5 +140,12 @@ export default {
   justify-content: center;
   color: #666;
   min-height: 250px;
+}
+.content-item {
+  ::v-deep .card .cardHeader .title {
+    background: url(~@/assets/images/icon/checked.png) no-repeat;
+    background-size: contain;
+    padding-left: 40px;
+  }
 }
 </style>

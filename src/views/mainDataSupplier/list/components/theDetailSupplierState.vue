@@ -1,11 +1,11 @@
 <template>
   <iCard :title="language('供应商状态')" collapse>
     <div class="actions" slot="header-control">
-      <iButton v-show="!editable" @click="editable = true">编辑</iButton>
+      <iButton v-show="!editable" @click="editable = true">{{language('编辑')}}</iButton>
       <iButton v-show="editable" :loading="saveLoading" @click="handleSave">
-        保存
+        {{language('保存')}}
       </iButton>
-      <iButton v-show="editable" @click="cancel">取消</iButton>
+      <iButton v-show="editable" @click="cancel">{{language('取消')}}</iButton>
     </div>
     <el-form
       label-position="left"
@@ -169,7 +169,8 @@ export default {
         .finally(() => (this.saveLoading = false))
     },
     cancel() {
-      this.form = _.cloneDeep(this.originalForm)
+      // this.form = _.cloneDeep(this.originalForm)
+      this.$emit('detail-supplier-state')
       this.editable = false
     }
   }

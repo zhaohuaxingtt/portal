@@ -1,5 +1,5 @@
+  <!--新增议题-->
 <template>
-  <!--转派-->
   <iDialog
     :title="
       editOrAdd === 'add'
@@ -13,6 +13,7 @@
     :close-on-click-modal="false"
     @close="close"
   >
+  123123
     <iEditForm class="form-edit">
       <el-form
         :model="ruleForm"
@@ -166,13 +167,14 @@
               :disabled="ruleForm.state === '02'"
             ></iInput>
           </iFormItem>
+<!-- 采购员 -->
           <iFormItem
             label="Supporter"
             prop="supporter"
             :hideRequiredAsterisk="true"
             class="item"
           >
-            <iLabel :label="$t('Supporter')" slot="label"></iLabel>
+            <iLabel :label="$t('采购员')" slot="label"></iLabel>
             <el-select
               class="autoSearch"
               v-model="ruleForm.supporter"
@@ -198,13 +200,14 @@
               </el-option>
             </el-select>
           </iFormItem>
+
           <iFormItem
             label="Supporter Department"
             prop="supporterDept"
             :hideRequiredAsterisk="true"
             class="item"
           >
-            <iLabel :label="$t('Supporter Department')" slot="label"></iLabel>
+            <iLabel :label="$t('申请部门')" slot="label"></iLabel>
             <iInput v-model="ruleForm.supporterDept" disabled></iInput>
           </iFormItem>
 
@@ -303,6 +306,7 @@
             <iLabel :label="$t('Supporter Department')" slot="label"></iLabel>
             <iInput v-model="ruleForm.supporterDept" disabled></iInput>
           </iFormItem>
+          
           <iFormItem
             label="Supporter (Not System User)"
             prop="supporterNosys"

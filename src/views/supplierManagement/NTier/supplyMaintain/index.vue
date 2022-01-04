@@ -2,12 +2,13 @@
  * @version: 1.0
  * @Author: zbin
  * @Date: 2021-10-06 11:13:02
- * @LastEditors: caopeng
+ * @LastEditors: Please set LastEditors
  * @Descripttion: your project
 -->
 <template>
   <div>
-    <theSearch @form="getForm" />
+    <theSearch @form="getForm"
+               ref="theSearch" />
     <router-view ref="view"></router-view>
     <!-- <theNodeChain class="margin-top20"/> -->
   </div>

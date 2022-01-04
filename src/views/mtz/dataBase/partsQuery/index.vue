@@ -219,18 +219,18 @@ import Detail from './components/detail'
 // import Source from './components/source'
 import RelationalValidity from './components/relationalValidity'
 import {
-  getDeptData,
+  // getDeptData,
   mtzBasePricePage,
   partTemplateUrl,
   exportBaseData,
   getMtzMarketSourceList,
   mtzBasePriceEdit,
-  historyPage,
+  // historyPage,
   uploadPartExcel,
   queryDeptSection
 } from '@/api/mtz/database/partsQuery'
 // import {selectDictByKeys} from '@/api/dictionary'
-import { downloadFileByUrl } from '@/utils';
+import { downloadUdFile } from '@/api/file';
 import uploadButton from '@/components/uploadButton';
 export default {
   components: {
@@ -325,6 +325,7 @@ export default {
       // })
     },
     handleUpload (content) {
+      console.log(content)
       let formdata = new FormData()
       formdata.append('file', content.file)
       uploadPartExcel(formdata).then(res => {
@@ -396,8 +397,8 @@ export default {
     },
     handleExportCurrent () {
       partTemplateUrl().then(res => {
-        if (res.result) {
-          downloadFileByUrl(res.data)
+        if (res.data) {
+          downloadUdFile(res.data)
         }
       })
     },

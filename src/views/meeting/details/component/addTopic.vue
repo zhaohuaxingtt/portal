@@ -503,10 +503,14 @@ export default {
         (value === '' || value.length === 0) &&
         this.ruleForm.supporterNosys === ''
       ) {
-        callback(new Error(this.$t('系统用户和非系统用户不能同时为空')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
-          callback(new Error(this.$t('最大不能超过255字符')))
+          callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
         }
         callback()
       }
@@ -517,10 +521,14 @@ export default {
         !(typeof value === 'string' ? value.trim() : false) &&
         (this.ruleForm.supporter === '' || this.ruleForm.supporter.length === 0)
       ) {
-        callback(new Error(this.$t('系统用户和非系统用户不能同时为空')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
-          callback(new Error(this.$t('最大不能超过255字符')))
+          callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
         }
         callback()
       }
@@ -530,10 +538,14 @@ export default {
         (value === '' || value.length === 0) &&
         this.ruleForm.presenterNosys === ''
       ) {
-        callback(new Error(this.$t('系统用户和非系统用户不能同时为空')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
-          callback(new Error(this.$t('最大不能超过255字符')))
+          callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
         }
         callback()
       }
@@ -544,21 +556,24 @@ export default {
         !(typeof value === 'string' ? value.trim() : false) &&
         (this.ruleForm.presenter === '' || this.ruleForm.presenter.length === 0)
       ) {
-        callback(new Error(this.$t('系统用户和非系统用户不能同时为空')))
+        callback(
+          new Error(
+            this.$t('MT_XITONGYONGHUHEFEIXITONGYONGHUBUNENGTONGSHIWEIKONG')
+          )
+        )
       } else {
         if (value && value.length > 255) {
-          callback(new Error(this.$t('最大不能超过255字符')))
+          callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
         }
         callback()
       }
     }
     const validateTopic = (rule, value, callback) => {
       if (!value && !(typeof value === 'string' ? value.trim() : false)) {
-        callback(new Error(this.$t('必填')))
+        callback(new Error(this.$t('MT_BITIAN')))
       } else {
         if (value && value.length > 255) {
-          callback(new Error(this.$t('最大不能超过255字符')
-))
+          callback(new Error(this.$t('MT_ZUIDABUNENGCHAOGUO255ZIFU')))
         }
         callback()
       }
@@ -600,14 +615,24 @@ export default {
             validator: validateTopic
           }
         ],
-        remark: [{ max: 255, message: '最大长度 255 字符', trigger: 'blur' }],
+        remark: [
+          { max: 255, message: this.$t('MT_ZUIDACHANGDU255ZIFU'), trigger: 'blur' }
+        ],
         supporter: [{ validator: validateSupporter, trigger: 'blur' }],
         presenter: [{ validator: validatePresenter, trigger: 'blur' }],
         supporterDept: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         supporterDeptNosys: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         supporterNosys: [
           {
@@ -619,10 +644,18 @@ export default {
         ],
         // presenter: [{ max: 255, message: "最大长度 255 字符", trigger: "blur" }],
         presenterDept: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         presenterDeptNosys: [
-          { max: 255, message: '最大长度 255 字符', trigger: 'blur' }
+          {
+            max: 255,
+            message: this.$t('MT_ZUIDACHANGDU255ZIFU'),
+            trigger: 'blur'
+          }
         ],
         presenterNosys: [
           {
@@ -633,10 +666,10 @@ export default {
           }
         ],
         duration: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message: this.$t('MT_BITIAN'), trigger: 'blur' },
           {
             type: 'number',
-            message: '最大长度3位，单位（分钟），必须正整数',
+            message: this.$t('MT_ZUIDASANWEIDANWEIFENZHONGBIXUZHENGZHENGSHU'),
             trigger: 'blur',
             transform(value) {
               if (value !== null && value !== '') {
@@ -663,7 +696,7 @@ export default {
         count: [
           {
             type: 'number',
-            message: '最大长度3位',
+            message: this.$t('MT_ZUIDACHANGDU3WEI'),
             trigger: 'blur',
             transform(value) {
               if (value !== null && value !== '') {
@@ -899,7 +932,7 @@ export default {
         filename: row.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
           }
         }
       })
@@ -1057,7 +1090,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt30M = file.size / 1024 / 1024 < 30
       if (!isLt30M) {
-        this.$message.error('文件大小最大限制30M!')
+        this.$message.error(`${this.$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}30M!`)
       }
       return isLt30M
     },
@@ -1077,7 +1110,7 @@ export default {
       this.attachment.attachmentUrl = res.data[0].path
       this.attachment.attachmentName = res.data[0].name
       this.attachments.push({ ...this.attachment })
-      iMessage.success(this.$t('上传成功'))
+      iMessage.success(this.$t('MT_SHANGCHUANCHENGGONG'))
       this.uploadLoading = false
     },
     close() {
@@ -1136,7 +1169,7 @@ export default {
               .then((data) => {
                 this.loading = false
                 if (data) {
-                  iMessage.success('修改成功')
+                  iMessage.success(this.$t('MT_XIUGAICHENGGONG'))
                 } else {
                   iMessage.error('error')
                 }
@@ -1176,7 +1209,7 @@ export default {
               .then((data) => {
                 this.loading = false
                 if (data) {
-                  iMessage.success('保存成功')
+                  iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
                 } else {
                   iMessage.error('error')
                 }

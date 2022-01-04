@@ -65,7 +65,7 @@
         </dt>
         <dd class="info" v-for="(item, index) of themen.themens" :key="index">
           <span class="doc-name">{{ index + 1 }}.{{ item.topic }}</span>
-          <div class="doc-info">{{ themenConclusion[item.conclusionCsc] }}</div>
+          <div class="doc-info">{{ $t(themenConclusion[item.conclusionCsc]) }}</div>
         </dd>
       </dl>
     </div>
@@ -173,7 +173,7 @@ export default {
   methods: {
     handleDownLoadMinutes(themen) {
       if (!themen.attachments) {
-        iMessage.error('没有要下载的附件!')
+        iMessage.error(this.$t('没有要下载的附件!'))
         return
       }
       const file = themen.attachments.find((item) => {
@@ -186,7 +186,7 @@ export default {
           filename: file.attachmentName,
           callback: (e) => {
             if (!e) {
-              iMessage.error('下载失败')
+              iMessage.error(this.$t('下载失败'))
             }
           }
         })
@@ -249,7 +249,7 @@ export default {
     },
     handleDownLoad(themen) {
       if (!themen.attachments) {
-        iMessage.error('没有要下载的附件!')
+        iMessage.error(this.$t('没有要下载的附件!'))
         return
       }
       const file = themen.attachments.find((item) => {
@@ -263,7 +263,7 @@ export default {
           filename: file.attachmentName,
           callback: (e) => {
             if (!e) {
-              iMessage.error('下载失败')
+              iMessage.error(this.$t('下载失败'))
             }
           }
         })

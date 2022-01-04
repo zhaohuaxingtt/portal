@@ -314,7 +314,7 @@
       :page-size="page.pageSize"
       layout="prev, pager, next, jumper"
       :prev-text="$t('MT_SHANGYIYE')"
-      :next-text="$t(' MT_XIAYIYE')"
+      :next-text="$t('MT_XIAYIYE')"
       :total="total"
     />
     <!-- <detailDialog
@@ -390,12 +390,12 @@ export default {
         }
       ],
       statusObj: {
-        '01': '草稿',
-        '02': '开放',
-        '03': '锁定',
-        '04': '开始',
-        '05': '结束',
-        '06': '关闭'
+        '01': 'MT_CAOGAO',
+        '02': 'MT_KAIFANG',
+        '03': 'MT_SUODING',
+        '04': 'MT_KAISHI',
+        '05': 'MT_JIESHU',
+        '06': 'MT_GUANBI'
       }
     }
   },
@@ -497,15 +497,15 @@ export default {
     handleRevokeTopic() {
       const bol = this.findLockStatus(this.selectedData)
       const warn = bol
-        ? '请确认是否发送议题撤回申请至会议管理员?'
-        : '是否确认撤回该议题?'
+        ? this.$t('MT_QINGQUERENSHIFOUFASONGYITICHEHUISHENQINGZHIHUIYIGUANLIYUAN')
+        : this.$t('MT_SHIFOUCHEHUIGAIYITI')
       if (
         this.selectedData[0].meetingStatus === '02' ||
         this.selectedData[0].meetingStatus === '03'
       ) {
-        this.$confirm(warn, this.$t('提示'), {
-          confirmButtonText: this.$t('是'),
-          cancelButtonText: this.$t('否'),
+        this.$confirm(warn, this.$t('MT_TISHI'), {
+          confirmButtonText: this.$t('MT_SHI'),
+          cancelButtonText: this.$t('MT_FOU'),
           type: 'warning'
         }).then(() => {
           let promiseArr = []
@@ -529,7 +529,7 @@ export default {
             .then((res) => {
               const message = res[0].code === 200 ? res[0].message : ''
               if (bol) {
-                iMessage.success(this.$t('已发送会议撤回申请给管理员。'))
+                iMessage.success(this.$t('MT_YIFASONGCHEHUISHENQINGGEIGUANLIYUAN'))
               } else {
                 iMessage.success(message)
               }
@@ -564,7 +564,7 @@ export default {
           //   });
         })
       } else {
-        iMessage.warn(this.$t('只有开放和锁定状态才可以撤回!'))
+        iMessage.warn(this.$t('MT_ZHIYOUKAIFANGHESUODINGZHUANGTAICAIKEYICHEHUI'))
       }
       // this.$confirm("请确认是否要撤回该议题?", "提示", {
       //   confirmButtonText: "是",

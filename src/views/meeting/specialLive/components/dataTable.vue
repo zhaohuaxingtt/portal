@@ -174,7 +174,7 @@ export default {
             callback: (e) => {
               if (!e) {
                 reject(e)
-                iMessage.error('下载失败')
+                iMessage.error(this.$t('MT_XIAZAISHIBAI'))
               }
               resolve(e)
             },
@@ -210,7 +210,7 @@ export default {
         filename: item.name,
         callback: (e) => {
           if (!e) {
-            iMessage.error('下载失败')
+            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
           }
         },
         type: MIME_TYPE[suffix]

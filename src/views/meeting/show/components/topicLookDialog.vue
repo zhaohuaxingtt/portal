@@ -1,7 +1,7 @@
 <template>
   <!--转派-->
   <iDialog
-   :title="$t('MT_YITIXINXI')"
+    :title="$t('MT_YITIXINXI')"
     :visible.sync="openAddTopic"
     width="55rem"
     @close="clearDiolog"
@@ -12,7 +12,9 @@
         <div class="left">{{ topicInfo.topic }}</div>
         <div class="right">
           {{ start }}~{{ end
-          }}<span style="margin-left: 5px">{{ status[topicInfo.state] }}</span>
+          }}<span style="margin-left: 5px">{{
+            $t(status[topicInfo.state])
+          }}</span>
         </div>
       </li>
       <!-- 议题寻源号 -->
@@ -51,7 +53,7 @@
       <li class="info-row">
         <div class="left">Sourcing Buyer</div>
         <div class="right">
-          {{ isMeetingShow?topicInfo.supporterEn:topicInfo.supporter }}
+          {{ isMeetingShow ? topicInfo.supporterEn : topicInfo.supporter }}
         </div>
       </li>
 
@@ -59,7 +61,7 @@
       <li class="info-row">
         <div class="left">Linie Buyer</div>
         <div class="right">
-          {{ isMeetingShow?topicInfo.presenterEn:topicInfo.presenter }}
+          {{ isMeetingShow ? topicInfo.presenterEn : topicInfo.presenter }}
         </div>
       </li>
 
@@ -91,7 +93,7 @@
     </ul>
     <div class="form-item-att">Attachment</div>
     <div class="foot">
-      <div class="bottom">
+      <div class="bottom" v-if="showAttachments">
         <div
           class="down"
           @click="handleDownLoad(item)"
@@ -101,6 +103,8 @@
           <span class="down-load">{{ item.attachmentName }}</span>
         </div>
       </div>
+      <!-- <div v-else class="bottom">{{ showAttachmentsText }}</div> -->
+      <div v-else class="bottom"></div>
     </div>
   </iDialog>
 </template>
@@ -112,6 +116,9 @@ import enclosure from '@/assets/images/enclosure.svg'
 import { download } from '@/utils/downloadUtil'
 import { findTheThemenById } from '@/api/meeting/details'
 import { getUsers } from '@/api/usercenter/receiver.js'
+// import { getSapApplicationList } from '@/api/meeting/details.js'
+import { getUserIdListTree } from '@/api/usercenter'
+
 export default {
   components: {
     iDialog
@@ -128,21 +135,28 @@ export default {
       type: Boolean,
       default: false
     },
-    isMeetingShow:{
-       type: Boolean,
+    isMeetingShow: {
+      type: Boolean,
+      default: false
+    },
+    isSelf: {
+      type: Boolean,
       default: false
     }
   },
   data() {
     return {
+      showAttachments: false,
+      showAttachmentsText: '',
       topicInfoCopy: {},
       enclosure: enclosure,
       status: {
-        '01': '未进行',
-        '02': '进行中',
-        '03': '已结束'
+        '01': 'MT_WEIJINXING',
+        '02': 'MT_JINXINGZHONG',
+        '03': 'MT_YIJIESHU'
       },
-      themenData: ''
+      themenData: '',
+      currentUserId: JSON.parse(sessionStorage.getItem('userInfo')).id
     }
   },
   computed: {
@@ -221,32 +235,68 @@ export default {
   //     deep: true
   //   }
   // },
-  mounted() {
-    console.log("")
+  created() {
     if (this.isGetInfoById) {
-      const presenterName = this.topicInfo.presenter
-      const supporterName = this.topicInfo.supporter
-      findTheThemenById({
-        themenId: this.topicInfo.id,
-        meetingId: this.topicInfo.meetingId
-      }).then((res) => {
-        res.presenter = presenterName
-        res.supporter = supporterName
-        this.topicInfo = res
-        this.themenData = res
-        // this.getUerNameById([res.presenter, res.supporter]).then((res) => {
-        //   if (res.length === 1) {
-        //     this.presenterName = res[0].nameZh
-        //     this.supporterName = res[0].nameZh
-        //     return
-        //   }
-        //   this.presenterName = res[0].nameZh
-        //   this.supporterName = res[1].nameZh
-        // })
+      const p1 = new Promise((resolve, reject) => {
+        const presenterName = this.topicInfo.presenter
+        const supporterName = this.topicInfo.supporter
+        findTheThemenById({
+          themenId: this.topicInfo.id,
+          meetingId: this.topicInfo.meetingId
+        })
+          .then((res) => {
+            res.presenterId = res.presenter
+            res.supporterId = res.supporter
+            res.presenter = presenterName
+            res.supporter = supporterName
+            this.topicInfo = res
+            this.themenData = res
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
       })
+      const p2 = new Promise(async (resolve, reject) => {
+        resolve(
+          await this.queryRelateUserList().catch((err) => {
+            reject(err)
+          })
+        )
+      })
+      if (this.isSelf) {
+        Promise.all([p1]).then(() => {
+          this.showAttachments = true
+        })
+      } else {
+        Promise.all([p1, p2]).then((resArr) => {
+          const presnterId = resArr[0].presenterId
+            ? resArr[0].presenterId.toString()
+            : ''
+          const supporterId = resArr[0].supporterId
+            ? resArr[0].supporterId.toString()
+            : ''
+          const relateUserList = resArr[1].data.map((item) => {
+            return item.toString()
+          })
+          this.showAttachments =
+            relateUserList.includes(presnterId) ||
+            relateUserList.includes(supporterId)
+          this.showAttachmentsText = this.showAttachments
+            ? ''
+            : this.$t('MT_WUCHAKANQUANXIAN')
+        })
+      }
     }
   },
   methods: {
+    async queryRelateUserList() {
+      const requestData = {
+        userId: this.currentUserId,
+        isAgent: true
+      }
+      return await getUserIdListTree(requestData)
+    },
     async getUerNameById(ids) {
       const res = await getUsers({ userIdList: [...ids] })
       return res
@@ -278,7 +328,7 @@ export default {
         filename: e.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error(this.$t('下载失败'))
+            iMessage.error(this.$t('MT_XIAZAISHIBAI'))
           }
         }
       })

@@ -4,17 +4,17 @@
           <el-row :gutter="24">
               <el-col span="6">
                   <iFormItem :label="language('源货币编码')">
-                      <iInput v-model="formContent.originCurrencyCode"></iInput>
+                      <iInput v-model="formContent.originCurrencyCode" :placeholder="language('请输入')"></iInput>
                   </iFormItem>
               </el-col>
               <el-col span="6">
                   <iFormItem :label="language('目标货币编码')">
-                      <iInput v-model="formContent.currencyCode"></iInput>
+                      <iInput v-model="formContent.currencyCode" :placeholder="language('请输入')"></iInput>
                   </iFormItem>
               </el-col>
               <el-col span="6">
                   <iFormItem :label="language('汇率类型')">
-                      <iSelect v-model="formContent.type">
+                      <iSelect v-model="formContent.type" :placeholder="language('请选择')">
                           <el-option
                           v-for="item in paritiesType"
                           :key="item.value"

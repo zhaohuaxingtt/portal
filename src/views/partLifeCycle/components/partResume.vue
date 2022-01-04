@@ -61,7 +61,7 @@
                 <div class="title" v-if="currentItem&&currentItem.typeName">
                     <i></i>
                     <span style="text-decoration: none">{{ currentItem.typeName }}</span>
-                    <span style="text-decoration: none" v-if="currentItem.title" @click="toUrl(currentItem)"> - {{ currentItem.title }}</span>
+                    <span style="text-decoration: none" v-if="infoData" @click="toUrl(infoData)"> - {{ infoData.businessTitle }}</span>
                 </div>
                 <div class="partResume_right_content">
                     <!--          //Sourcing-->
@@ -467,6 +467,7 @@
           const result = this.$i18n.locale === 'zh' ? res.desZh : res.desEn
           if (Number(res.code) === 200) {
             this.infoData = res.data
+            this.$set(this.infoData,'type',item.type)
           } else {
             iMessage.error(result)
           }
@@ -539,23 +540,23 @@
         this.bookmarkNodes = [...this.bookmarkNodes]
       },
       toUrl(item,typeName) {
-        let {type,id,title,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,accessoriesRsNum,rsNum,businessType,aekoCode} = item
+        let {type,desinateId, designateType, projectId, rfqId,letterId,aekoId,loiId,rsNlNum,mtzRsNum,isIngredientAnalyze,rfqType ,businessTitle,fsNum,rsNum,businessType,aekoCode} = item
         let path = ''
+        console.log(type,'type',item)
         if(type==1) path = ''                        // 会议
-        if(type==2) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editorInfo?id=${title}` // 寻源 ok
-        if(type==3) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/loidetail?id=${title}` // LOI
-        if(type==4) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${id}&businessKey=${type}` // 定点
-        if(type==5) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${title}` // Aeko
-        if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/accessorypartdetail?spNum=${title}` // 配件定点
-        if(type==7) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${id}` // mtz定点
-        if(typeName == 'aekoCode' && aekoCode) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoCode}` // 定点信编号
-        if(typeName == 'rsNlNum' && rsNlNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/letterdetail?id=${rsNlNum}` // 定点信编号
-        if(typeName == 'mtzRsNum' && mtzRsNum) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${id}` // mtz rs编号
-        if(typeName == 'isIngredientAnalyze' && isIngredientAnalyze && rfqType ==2 && businessTitle) path = `/sourcing/#/targetpriceandscore/costanalysismanage/costanalysis?rfqId=${businessTitle}` // 成本分析
+        if(type==2) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editorInfo?id=${businessTitle}` // 寻源 ok
+        if(type==3) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/loidetail?id=${loiId}` // LOI
+        if(type==4) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=${businessType}` // 定点
+        if(type==5) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoId}` // Aeko
+        if(type==6) path = `/sourcing/#/sourceinquirypoint/sourcing/accessorypartdetail?spNum=${letterId}` // 配件定点
+        if(type==7) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${desinateId}` // mtz定点
+        if(typeName == 'aekoCode' && aekoCode) path = `/sourcing/#/aeko/aekodetail?from=check&requirementAekoId=${aekoId}` // 定点信编号ok
+        if(typeName == 'rsNlNum' && rsNlNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsletter/letterdetail?id=${letterId}` // 定点信编号
+        if(typeName == 'mtzRsNum' && mtzRsNum) path = `/sourcing/#/designate/decisiondata/mtz?desinateId=${desinateId}` // mtz rs编号
+        if(typeName == 'isIngredientAnalyze' && isIngredientAnalyze && rfqType ==2 && businessTitle) path = `/sourcing/#/targetpriceandscore/costanalysismanage/costanalysis?rfqId=${rfqId}` // 成本分析
         if(typeName == 'RFQ' && businessTitle) path = `/sourcing/#/sourceinquirypoint/sourcing/partsrfq/editordetail?id=${businessTitle}` // rfq编号
-        if(typeName == 'fsNum' && fsNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${id}&businessKey=${businessType}` // fs编号
-//        if(typeName == 'accessoriesRsNum' && accessoriesRsNum) path = `/sourcing/#/sourcing/designate/rsSingleMaintenance?${id}&designateType=${businessType}` // RS单号
-        if(typeName == 'rsNum' && rsNum) path = `/sourcing/#/sourcing/designate/rsSingleMaintenance?desinateId=${id}&designateType=${businessType}` // RS单号
+        if(typeName == 'fsNum' && fsNum) path = `/sourcing/#/sourceinquirypoint/sourcing/partsprocure/editordetail?projectId=${projectId}&businessKey=${businessType}` // fs编号
+        if(typeName == 'rsNum' && rsNum) path = `/sourcing/#/sourcing/designate/rsSingleMaintenance?desinateId=${desinateId}&designateType=${designateType}` // RS单号
         if(path){
           window.open(this.baseUrl + path, '_blank');
         }

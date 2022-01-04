@@ -104,7 +104,7 @@ import {
   pageAppRule
 } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/details';
 import { pageApprove } from '@/api/mtz/annualGeneralBudget/replenishmentManagement/mtzLocation/approve'
-import NewMessageBox from '@/components/newMessageBox/dialogReset.js'
+import { NewMessageBox,NewMessageBoxClose } from '@/components/newMessageBox/dialogReset.js'
 import { deepClone } from "./applyInfor/util"
 export default {
   components: {
@@ -174,14 +174,29 @@ export default {
       } else {
         this.locationId = this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId;
       }
+      // console.log("watch")
       this.getType();
     }
   },
   created () {
-    console.log(this.meetingNumber)
+    
+
     if (JSON.parse(sessionStorage.getItem('MtzLIst')) == null) {
       sessionStorage.setItem('MtzLIst', JSON.stringify({ mtzAppId: undefined }))
     }
+
+    // console.log(JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId)
+    // console.log(this.$route.query.mtzAppId)
+    if(JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId !== this.$route.query.mtzAppId){
+      var data = deepClone(this.$route.query);
+      store.commit("routerMtzData", {
+        mtzAppId:data.mtzAppId
+      });
+      sessionStorage.setItem("MtzLIst", JSON.stringify({
+        mtzAppId:data.mtzAppId
+      }))
+    }
+
     if (this.$route.query.mtzAppId == undefined && JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId == undefined) {
       this.beforReturn = true;
     } else {
@@ -190,7 +205,7 @@ export default {
       this.mtzAppName = this.$route.query.mtzAppName;
       this.user = this.$route.query.user;
       this.dept = this.$route.query.dept;
-
+      // console.log("created")
       this.getType();
     }
     getMtzAppCheckVO({ mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId }).then(res => {
@@ -259,6 +274,7 @@ export default {
           data.refresh = true;
           store.commit("routerMtzData", data);
           sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+          console.log("saveEdit")
           this.getType();
         })
       }).catch(res => {
@@ -293,40 +309,44 @@ export default {
         iMessage.warn(this.language("MTZGZBNWK", "MTZ规则不能为空"))
         return false;
       }
-
+      
+      if (this.mtzObject.flowType == undefined && this.flowType == "" && this.submitType == "") {
+      } else {
+        this.flowType = this.mtzObject.flowType || this.flowType || this.submitType
+        if (this.flowType !== "FILING") {//上会/流转
+          this.setSubmit();
+        }else{//备案
+          fetchAppNomiDecisionDataPage({
+            pageNo: 1,
+            pageSize: 10,
+            mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
+          }).then(res => {
+            if(res && res.code == 200) {
+              if(res.data.length<1){
+                return iMessage.error(this.language('SQDLXWBASTJSJCZLZDJCFJBNWK', '申请单类型为备案时，提交时决策资料中的附件不能为空！'))
+              }else{
+                this.submitRequest();
+              }
+            } else iMessage.error(res.desZh)
+          })
+        }
+      }
+    },
+    setSubmit(){
       pageApprove({
-        isDeptLead: true,
         mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId,
         pageNo: 1,
         pageSize: 10
       }).then(res => {
         if (res.code === "200" && res.result) {
-          if(res.data.length > 0){
-            if (this.mtzObject.flowType == undefined && this.flowType == "" && this.submitType == "") {
-            } else {
-              this.flowType = this.mtzObject.flowType || this.flowType || this.submitType
-              if (this.flowType === "MEETING") {//上会
-                this.mtzAddShow = true;
-              } else if(this.flowType === "SIGN"){//流转
-                this.submitRequest();
-              }else if(this.flowType === "FILING"){//备案
-                fetchAppNomiDecisionDataPage({
-                  pageNo: 1,
-                  pageSize: 10,
-                  mtzAppId: this.$route.query.mtzAppId || JSON.parse(sessionStorage.getItem('MtzLIst')).mtzAppId
-                }).then(res => {
-                  if(res && res.code == 200) {
-                    if(res.data.length<1){
-                      return iMessage.error(this.language('SQDLXWBASTJSJCZLZDJCFJBNWK', '申请单类型为备案时，提交时决策资料中的附件不能为空！'))
-                    }else{
-                      this.submitRequest();
-                    }
-                  } else iMessage.error(res.desZh)
-                })
-              }
-            }
-          }else{
+          if(res.data.length < 1){
             iMessage.error(this.language("ZANWUSHENPIRENXINXI","暂无审批人信息！"))
+          }else{
+            if (this.flowType === "MEETING") {//上会
+              this.mtzAddShow = true;
+            } else if(this.flowType === "SIGN"){//流转
+              this.submitRequest();
+            }
           }
         }else{
           iMessage.error(res.desZh)
@@ -350,6 +370,7 @@ export default {
             data.refresh = true;
             store.commit("routerMtzData", data);
             sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+            console.log("submitRequest")
             this.getType();
           }else{
             iMessage.error(res.desZh)
@@ -418,13 +439,14 @@ export default {
     closeDiolog () {
       this.mtzAddShow = false;
     },
-    closeBingo (valdata) {
+    closeBingo (val) {
       this.closeDiolog();
-      if (valdata = "refresh") {
+      if (val == "refresh") {
         var data = deepClone(JSON.parse(sessionStorage.getItem('MtzLIst')));
         data.refresh = true;
         store.commit("routerMtzData", data);
         sessionStorage.setItem("MtzLIst", JSON.stringify(data))
+        console.log("closeBingo")
         this.getType();
       }
     },
@@ -433,8 +455,9 @@ export default {
     },
   },
   destroyed () {
-    sessionStorage.setItem("MtzLIst", JSON.stringify({}))
-    store.commit("routerMtzData", {});
+    // sessionStorage.setItem("MtzLIst", JSON.stringify({}))
+    // store.commit("routerMtzData", {});
+    NewMessageBoxClose();
   }
 }
 </script>

@@ -188,7 +188,7 @@ export default {
       },
       rules: {
         attendees: [
-          { required: true, message: "请输入议题结论！", trigger: "blur" },
+          { required: true, message: this.$t("MT_QINGSHURUYITIJIELUN"), trigger: "blur" },
         ],
         // conclusion0: [
         //   { required: true, message: "请输入议题结论！", trigger: "blur" },

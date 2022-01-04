@@ -6,7 +6,7 @@
     @close="close"
   >
     <iEditForm class="content">
-      <div class="delete-info">{{ $t('确认删除该议题吗?') }}</div>
+      <div class="delete-info">{{ $t('MT_QUERENSHANCHUGAIYITIMA') }}</div>
       <div class="button-list">
         <iButton @click="clearDiolog" class="cancel"
           >{{ $t('LK_QUXIAO') }}
@@ -60,7 +60,7 @@ export default {
         .then((res) => {
           this.loading = false
           if (res.code === 200) {
-            iMessage.success(this.$t('删除成功'))
+            iMessage.success(this.$t('MT_SHANCHUCHENGGONG'))
           }
 
           this.$emit('flushTable')

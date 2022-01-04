@@ -87,14 +87,14 @@
                   />
                 </iFormItem>
                 <p class="task">
-                  Result：{{
+                  Result：{{$t(
                     item.conclusionCsc === '01'
                       ? conclusionCscList[item.conclusionCsc]
                       : item.conclusionCsc === '02'
                       ? conclusionCscList[item.conclusionCsc]
                       : item.conclusionCsc === '07'
                       ? conclusionCscList[item.conclusionCsc]
-                      : ''
+                      : '')
                   }}
                 </p>
                 <iFormItem class="meet-desc">
@@ -239,22 +239,22 @@ export default {
       },
       rules: {
         attendees: [
-          { required: true, message: '请输入议题结论！', trigger: 'blur' },
-          { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
+          { required: true, message: this.$t('MT_QINGSHURUYITIJIELUN'), trigger: 'blur' },
+          { min: 0, max: 2048, message: this.$t('MT_ZUIDACHANGDU2048ZIFU'), trigger: 'blur' }
         ],
         conclusion: [
-          { min: 0, max: 2048, message: '最大长度2048字符', trigger: 'blur' }
+          { min: 0, max: 2048, message: this.$t('MT_ZUIDACHANGDU2048ZIFU'), trigger: 'blur' }
         ]
       },
       employeeDTOS: [],
       conclusionCscList: {
-        '01': '待定',
-        '02': '定点',
-        '03': '发LOI',
-        '04': '转TER/TOP-TER',
-        '05': '下次Pre CSC',
-        '06': '转CSC',
-        '07': '关闭'
+        '01': 'MT_DAIDING',
+        '02': 'MT_DINGDIAN',
+        '03': 'MT_FALOI',
+        '04': 'MT_ZHUANTER',
+        '05': 'MT_XIACIPRE',
+        '06': 'MT_ZHUANCSC',
+        '07': 'MT_GUANBI'
       },
       employeeStr: ''
     }
@@ -322,7 +322,7 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           saveMeetingMinutes(this.resultData).then(() => {
-            iMessage.success(this.$t('保存成功'))
+            iMessage.success(this.$t('MT_BAOCUNCHENGGONG'))
             this.$emit('handleOK')
           })
         }

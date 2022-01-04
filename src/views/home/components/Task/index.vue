@@ -48,18 +48,19 @@ export default {
   computed: {
     // eslint-disable-next-line no-undef
     ...Vuex.mapState({
-      userInfo: state => state.permission.userInfo
+      userInfo: (state) => state.permission.userInfo
     })
   },
   filters: {
-    overNum: function(value) {
+    overNum: function (value) {
       return value > 99 ? 99 : value || 0
     }
   },
   data() {
     return {
       valueNumbers: {},
-      moduleData: []
+      moduleData: [],
+      urls: {}
     }
   },
   watch: {
@@ -77,19 +78,42 @@ export default {
       window.open(process.env.VUE_APP_HOST + '/portal/#/task/center', '_blank')
     },
     handleToOverdue(item) {
-      window.open(item.todayLink, '_black')
+      // 接口的坑，url不同步
+      if (this.urls[item.taskType] && this.urls[item.taskType].todayLink) {
+        // window.open(this.urls[item.taskType].todayLink)
+        window.open(this.urls[item.taskType].overdueLink)
+      } else {
+        // window.open(item.todayLink, '_blank')
+        window.open(item.overdueLink, '_blank')
+      }
     },
     handleToProgress(item) {
-      window.open(item.overdueLink || item.todayLink, '_black')
+      // 接口的坑，url不同步
+      if (
+        this.urls[item.taskType] &&
+        (this.urls[item.taskType].overdueLink ||
+          this.urls[item.taskType].todayLink)
+      ) {
+        const { todayLink, overdueLink } = this.urls[item.taskType]
+        // window.open(overdueLink || todayLink, '_blank')
+        window.open( todayLink || overdueLink, '_blank')
+      } else {
+        // window.open(item.overdueLink || item.todayLink, '_blank')
+        window.open(item.todayLink|| item.overdueLink , '_blank')
+      }
     },
     async queryAllData() {
       const params = `userId=${this.userInfo.id}&userTye=2`
       const result = await getDutyStatistics(params)
 
       if (result) {
-        result.forEach(task => {
-          task.taskCenterDtoList.forEach(e => {
+        result.forEach((task) => {
+          task.taskCenterDtoList.forEach((e) => {
             this.valueNumbers[e.taskType] = e
+            this.urls[e.taskType] = {
+              todayLink: e.todayLink,
+              overdueLink: e.overdueLink
+            }
           })
         })
         this.initModuleData()

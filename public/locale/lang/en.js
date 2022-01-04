@@ -2069,6 +2069,9 @@
     MT_QINGSHURU: 'Please input',
     MT_QINGXUANZE: 'Please select',
     MT_TO: 'To',
+    MT_BITIAN:"required",
+    MT_XUHAO:"No.",
+    
     POSITION: {
       POSITION_NAME: 'Position name',
       POSITION_CODE: 'Post code',
@@ -2077,7 +2080,159 @@
       ORG_LEVEL: 'Organization Level',
       QUERY: 'Query',
       RESET: 'Reset'
-    }
+    },
+
+    // -------------------------------条款 start---------------------------------------------
+    TERMS_TIAOKUANGUANLI: 'Clause management', //条款管理
+    TERMS_BIAOZHUNTIAOKUAN: 'Standard Clause', //标准条款
+    TERMS_DINGZHITIAOKUAN: 'Custom Clause', //定制条款
+    TERMS_TIAOKUANCHAXUN: 'The terms of the query', //条款查询
+    TERMS_TIAOKUANMINGCHENG: 'The terms of the name', //条款名称
+    TERMS_TIAOKUANFUZEREN: 'Person in charge of clause', //条款负责人
+    TERMS_TIAOKUANZHUANGTAI: 'Terms of the state', //条款状态
+    TERMS_QIANSHUJIEDIAN: 'Sign the node', //签署节点
+    TERMS_GONGYINGSHANGFANWEI: 'Sign the node supplier scope', //供应商范围
+    TERMS_BIAOZHUNTIAOKUANLIEBIAO: 'Standard Terms List', //标准条款列表
+    TERMS_XUHAO: 'Serial Number', //序号
+    TERMS_TIAOKUANBIANMA: 'Terms of coding', //条款编码
+    TERMS_FABUSHIJIAN: 'Release time', //发布时间
+    TERMS_TIAKUANYOUXIAOQI: 'Term of validity', //条款有效期
+    TERMS_QIANSHUQINGKAUNG: 'Sign the situation', //签署情况
+    TERMS_SHIFOUCHONGFU: 'Whether to repeat', //是否重复
+    TERMS_SHIFOUXUYAOQIANZHANG: 'Whether the signature is required', //是否需要签章
+    TERMS_SHIFOUGERENTIAOKUAN: 'Whether or not personal terms', //是否个人条款
+    TERMS_XINJIAN: 'New', //新建
+    TERMS_SHIXIAO: 'invalidated', //失效
+    TERMS_SOUSUO: 'search', //搜索
+    TERMS_CHONGZHI: 'reset', //重置
+    TERMS_TUICHU: 'exit', //退出
+    TERMS_FABU: 'publish', //发布
+    TERMS_QUEDING: 'OK', //确定
+    TERMS_CAOZUO: 'action', //操作
+    TERMS_SHANCHU: 'delete', //删除
+    TERMS_XIAZAI: 'Download', //下载
+    TERMS_BIANJI: 'edit', //编辑
+    TERMS_WEIFABU: 'unpublished', //未发布
+    TERMS_YIFABU: 'Published', //已发布
+    TERMS_YIGUOQU: 'expired', //已过期
+    TERMS_YISHIXIAO: 'Invalid', //已失效
+    TERMS_XINJIANTIAOKUAN: 'new term', //新建条款
+    TERMS_BIANJITIAOKUAN: 'edit terms', //编辑条款
+    TERMS_GONGYINGSHANGLIWAI: 'supplier (exception)', //供应商(例外)
+    TERMS_TIAOKUANZHENGWEN: 'body of the clause', //条款正文
+    TERMS_SHANGCHUANFUJIAN: 'upload attachment', //上传附件
+    TERMS_WENJIANMINGCHENG: 'file name', //文件名称
+    TERMS_QINGXUANZEWENJIAN: 'Please select file', //请选择文件
+    TERMS_WENJIANDAXIAOZUIDAXIANZHI: 'maximum file size limit 50 MB', //文件大小最大限制50MB
+    TERMS_SHANGCHUANCHENGGONG: 'Upload successfully', //上传成功
+    TERMS_SHANGCHUANSHIBAI: 'Upload failed', //上传失败
+    TERMS_BAOZUNCHENGGONG: 'saved successfully', //保存成功
+    TERMS_BAOCUNSHIBAI: 'save failed', //保存失败
+    TERMS_GENGXINCHENGGONG: 'Updated successfully', //更新成功
+    TERMS_GENGXINSHIBAI: 'update failed', //更新失败
+    TERMS_YIXUANZEGONGYINGSHANGLIWAI: 'have chosen supplier (exception)', //已选择供应商(例外)
+    TERMS_YIXUANZEGONGYINGSHANGFANWEI: 'scope of selected suppliers', //已选择供应商范围
+    TERMS_SFQXBJ: 'Do you want to unedit？', //是否取消编辑？
+    TERMS_SFBCTKMBSJ: 'Do you want to save this clause template data？', //是否保存该条款模板数据？
+    TERMS_SHI: 'yes', //是
+    TERMS_FOU: 'No', //否
+    TERMS_TISHI: 'prompt', //提示
+    TERMS_CHAKANTIAOKUAN: 'view terms', //查看条款
+    TERMS_ZHANSHIBANBEN: 'show version', //展示版本
+    TERMS_DUIBIBANBEN: 'Compare version', //对比版本
+    TERMS_QIANSHUQINGKUANG: 'signed status', //签署情况
+    TERMS_GONGYINGSHANGZHONGWENMING: 'supplier name, Chinese name', //供应商中文名
+    TERMS_DIQU: 'region', //地区
+    TERMS_CAILIAOZU: 'material group', //材料组
+    TERMS_GONGHUOJIBIE: 'supply level', //供货级别
+    TERMS_SHIFOUQIANSHU: 'signed or not', //是否签署
+    TERMS_LIANXIRENXINGMING: 'contact name', //联系人姓名
+    TERMS_YONGHUDENGRUMING: 'User login name', //用户登入名
+    TERMS_YOUXIANG: 'mailbox', //邮箱
+    TERMS_SHOUJI: 'mobile phone', //手机
+    TERMS_DIANHUA: 'telephone', //电话
+    TERMS_QIANSHUZHAUNGTAI: 'Signed status', //签署状态
+    TERMS_QIANSHUSHIJIAN: 'signature time', //签署时间
+    TERMS_WEIQINSHU: 'Not signed', //未签署
+    TERMS_YIQIANSHU: 'Signed', //已签署
+    TERMS_LIWAI: 'exception', //例外
+    TERMS_BIAOJILIWAI: 'mark the exception', //标记例外
+    TERMS_SPA: 'SPA number', //SPA号
+    TERMS_QXZDZTKSJ: 'Please select custom term data', //请选择定制条款数据
+    TERMS_SFJDZTKSWSX: 'Do you want to invalidate the custom clause？', //是否将定制条款设为失效？
+    TERMS_TIAKUANSHENGXIAOSHIJIAN: 'Term Effective Time', //条款生效时间
+    TERMS_GONGYINGSHANGMINGCHENG: 'supplier name', //供应商名称
+    TERMS_GONGYINGSHANGXIUGAITIAOKUANSHENHE: 'supplier modify the clause audit', //供应商修改条款审核
+    TERMS_ZHENGSHIDINGZHITIAOKUAN: 'Official Customization Terms', //正式定制条款
+    TERMS_DIJIAORIQI: 'submission date', //递交日期
+    TERMS_LISHIXIUDING: 'historical revision', //历史修订
+    TERMS_TISHIBIAOQIAN: 'Hint label', //提示标签
+    TERMS_TISHIJIEDIAN: 'prompt node', //提示节点
+    TERMS_GONGYINGSHANGXIUGAITIAOKUAN: 'supplier modify the terms', //供应商修改条款
+    TERMS_SHANGQIXIUGAITIAOKUAN: 'SAIC Modified Terms', //上汽修改条款
+    TERMS_HONGSE: 'red', //红色
+    TERMS_WEIGONGYINGSHANGXIUGAITIAOKUAN: 'for the supplier to modify terms', //为供应商修改条款
+    TERMS_LVSE: 'green', //绿色
+    TERMS_WEISVWXIUGAITIAOKUAN: 'Modify terms for SVW', //为SVW修改条款
+    TERMS_BITIAN: 'required', //必填
+    TERMS_ZUIDACHANGDU: 'maximum length', //最大长度
+    TERMS_ZIFU: 'character', //字符
+    TERMS_BIXUAN: 'mandatory', //必选
+
+    TERMS_ZHUCE: 'registered', //注册
+    TERMS_BIAOJI: 'edit', //编辑
+    TERMS_DENGLU: 'log in', //登录
+    TERMS_QIANYUE: 'Sign up', //签约
+    TERMS_BANBEN1: 'version 1', //版本1
+    TERMS_XIAYIYE: 'Next page', //下一页
+    TERMS_SHANGYIYE: 'Previous page', //上一页
+    TERMS_QINGSHURU: 'please enter', //请输入
+    TERMS_WEIQIANSHU: 'Unsigned', //未签署
+    TERMS_QINGXUANZE: 'please choose', //请选择
+    TERMS_FANKUIRIQI: 'Feedback date', //反馈日期
+    TERMS_BUSHURIQI: 'Deployment date', //部署日期
+    TERMS_QIANSHURIQI: 'Signing date', //签署日期
+    TERMS_BUSHUJIEDIAN: 'Deployment node', //部署节点
+    TERMS_WSVMXGTK: 'Modify terms for SVW', //为SVW修改条款
+    TERMS_WGYSXGTK: 'Modify terms for suppliers', //为供应商修改条款
+    TERMS_SFBCGTKMBSJ: 'Whether to save the clause template data', //是否保存该条款模板数据
+    TERMS_SFQXBJTKMBSJ: 'Whether to cancel editing clause template data', //是否取消编辑条款模板数据
+    TERMS_BUSHUZHUANGTAI: 'Deployment status', //部署状态
+    TERMS_SHENQINGXIUGAI: 'Apply for modification', //申请修改
+    TERMS_XIUGAITIAOKUAN: 'Modify the terms', //修改条款
+    TERMS_TIAOKUANCHAXUAN: 'Terms query', //条款查询
+    TERMS_TISHIBIAOQIAN1: 'Prompt label 1', //提示标签1
+    TERMS_TIAOKUANGBIANMA: 'Clause code', //条款编码
+    TERMS_BAOCUNCHENGGONG: 'Saved successfully', //保存成功
+    TERMS_QIANSHUZHUANGTAI: 'Signing status', //签署状态
+    TERMS_TIAOKUANYOUXIAOQI: 'Term of validity', //条款有效期
+    TERMS_CHAKANDINGZHITIAOKUAN: 'View customized terms', //查看定制条款
+    TERMS_BIAOZHUANTIAOKUANLIEBIAO: 'Standard terms list' ,//标准条款列表
+
+    // -------------------------------条款 end---------------------------------------------
+    LK_DANWEIBAIWANRENMINGBI:'单位:百万人名币',//单位:百万人名币
+    LK_SHANGYINIANSHUJUDUIBI:'上一年数据对比',//上一年数据对比
+    LK_ZONGJINE:'总金额:',//总金额
+    LK_MTZCAILIAOZU: 'MTZ材料组',//MTZ材料组
+    LK_CAILIAOZHONGLEI:'材料中类',//材料中类
+    LK_BIJIAOBANBEN:'比较版本',//比较版本
+    LK_YUEFENBIJIAO:'月份比较',//月份比较
+    LK_XIANGQINGLIEBIAO:'详情列表',//详情列表
+    LK_YUEFEN:'月份',//月份
+    LK_SHICHANGJIA:'市场价',//市场价
+    LK_ZONGJI:'总计',//总计
+    LK_CHAYI:'差异',//差异
+    LK_SHICHANGJIACHAYI:'市场价差异',//市场价差异
+    LK_YONGLIANGCHAYI:'用量差异',//用量差异
+    LK_ZONGJIACHAYI:'总价差异',//总价差异
+    LK_CHEXINGLIUWEIHAO:'车型六位号',//车型六位号
+    LK_NIANDUYUSUAN:'年度预算',//年度预算
+    LK_YUEDUYUCE:'月度预测',//月度预测
+    LK_SHIJIZHIFU:'实际支付',//实际支付
+    LK_NIANDUYUSUANCHAYI:'年度预算差异',//年度预算差异
+    LK_YUEDUYUSUANCHAYI:'月度预算差异',//月度预算差异
+    LK_SHIJIZHIFUCHAYI:'实际支付差异',//实际支付差异
+    
   }
   i18n.setLocaleMessage('en', oldLanguage)
   // var xmlHttp = ''

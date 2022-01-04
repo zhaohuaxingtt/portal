@@ -7,180 +7,140 @@
 <template>
   <div>
     <base-info-card v-if="this.supplierType > 3" />
-    <financialSearch
-      class="margin-top20"
-      v-if="this.supplierType === 4"
-      @getTableList="getTableList"
-    ></financialSearch>
-    <i-card :title="$t('SUPPLIER_CAIWUSHUJU')" class="margin-top20">
+    <financialSearch class="margin-top20"
+                     v-if="this.supplierType === 4"
+                     @getTableList="getTableList"></financialSearch>
+    <i-card :title="$t('SUPPLIER_CAIWUSHUJU')"
+            class="margin-top20">
       <div class="margin-bottom20 clearFloat">
         <div class="floatright">
-          <i-button v-if="isSupplierDetail" @click="addTableItem">{{
+          <i-button v-if="isSupplierDetail"
+                    @click="addTableItem">{{
             $t('LK_XINZENG')
           }}</i-button>
-          <i-button
-            v-if="$route.path === '/supplier/view-suppliers'"
-            v-permission="SUPPLIER_FINANCIALDATA_TABLE_ADD"
-            @click="addTableItem"
-          >
+          <i-button v-if="$route.path === '/supplier/view-suppliers'"
+                    v-permission="SUPPLIER_FINANCIALDATA_TABLE_ADD"
+                    @click="addTableItem">
             {{ $t('LK_XINZENG') }}
           </i-button>
-          <i-button
-            v-if="isSupplierDetail"
-            @click="deleteItem('ids', deleteFinance)"
-            >{{ $t('LK_SHANCHU') }}</i-button
-          >
-          <i-button
-            v-permission="SUPPLIER_FINANCIALDATA_TABLE_DELETE"
-            v-else-if="$route.path === '/supplier/view-suppliers'"
-            @click="deleteItem('ids', deleteFinance)"
-          >
+          <i-button v-if="isSupplierDetail"
+                    @click="deleteItem('ids', deleteFinance)">{{ $t('LK_SHANCHU') }}</i-button>
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DELETE"
+                    v-else-if="$route.path === '/supplier/view-suppliers'"
+                    @click="deleteItem('ids', deleteFinance)">
             {{ $t('LK_SHANCHU') }}
           </i-button>
-          <i-button
-            v-permission="SUPPLIER_FINANCIALDATA_TABLE_DATACOMPARISON"
-            @click="openDataComparison"
-            v-if="isSupplierDetail"
-            >{{ $t('SUPPLIER_SHUJUDUIBI') }}</i-button
-          >
-          <i-button
-            v-permission="SUPPLIER_FINANCIALDATA_TABLE_DATACOMPARISON"
-            v-else-if="$route.path === '/supplier/view-suppliers'"
-            @click="openDataComparison"
-            >{{ $t('SUPPLIER_SHUJUDUIBI') }}</i-button
-          >
-          <i-button
-            v-permission="SUPPLIER_FINANCIALDATA_TABLE_SAVE"
-            @click="exportsTable"
-            v-if="showExportsButton && isSupplierDetail"
-            >{{ $t('LK_DAOCHU') }}</i-button
-          >
-          <i-button
-            v-permission="SUPPLIER_FINANCIALDATA_TABLE_EXPORT"
-            @click="exportsTable"
-            v-else-if="
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DATACOMPARISON"
+                    @click="openDataComparison"
+                    v-if="isSupplierDetail">{{ $t('SUPPLIER_SHUJUDUIBI') }}</i-button>
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_DATACOMPARISON"
+                    v-else-if="$route.path === '/supplier/view-suppliers'"
+                    @click="openDataComparison">{{ $t('SUPPLIER_SHUJUDUIBI') }}</i-button>
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_SAVE"
+                    @click="exportsTable"
+                    v-if="showExportsButton && isSupplierDetail">{{ $t('LK_DAOCHU') }}</i-button>
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_EXPORT"
+                    @click="exportsTable"
+                    v-else-if="
               showExportsButton && $route.path === '/supplier/view-suppliers'
-            "
-            >{{ $t('LK_DAOCHU') }}
+            ">{{ $t('LK_DAOCHU') }}
           </i-button>
-          <i-button
-            v-permission="SUPPLIER_FINANCIALDATA_TABLE_SAVE"
-            v-if="$route.path === '/supplier/view-suppliers'"
-            @click="saveInfos('submit')"
-            >{{ $t('LK_BAOCUN') }}
+          <i-button v-permission="SUPPLIER_FINANCIALDATA_TABLE_SAVE"
+                    v-if="$route.path === '/supplier/view-suppliers'"
+                    @click="saveInfos('submit')">{{ $t('LK_BAOCUN') }}
           </i-button>
-          <i-button
-            v-if="
+          <i-button v-if="
               $route.path === '/supplier/frmrating/newsupplierrating/rating1'
             "
-            @click="handleExportEarnings"
-            >{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
+                    @click="handleExportEarnings">{{ $t('SPR_FRM_XGYSPJ_DCCB') }}
           </i-button>
-          <i-button
-            v-if="
+          <i-button v-if="
               $route.path === '/supplier/frmrating/newsupplierrating/rating1'
             "
-            @click="handleRatings"
-            >{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}
+                    @click="handleRatings">{{ $t('SPR_FRM_XGYSPJ_DQWBPJ') }}
           </i-button>
         </div>
       </div>
-      <tableList
-        v-permission="SUPPLIER_FINANCIALDATA_TABLE"
-        ref="commonTable"
-        :tableData="tableListData"
-        :tableTitle="tableTitle"
-        :tableLoading="tableLoading"
-        @handleSelectionChange="handleSelectionChange"
-        :input-props="inputProps"
-        :index="true"
-        :select-props="selectProps"
-        :select-props-options-object="selectPropsOptionsObject"
-      >
+      <tableList v-permission="SUPPLIER_FINANCIALDATA_TABLE"
+                 ref="commonTable"
+                 :tableData="tableListData"
+                 :tableTitle="tableTitle"
+                 :tableLoading="tableLoading"
+                 @handleSelectionChange="handleSelectionChange"
+                 :input-props="inputProps"
+                 :index="true"
+                 :select-props="selectProps"
+                 :select-props-options-object="selectPropsOptionsObject">
         <template #dataChannelName="scope">
-          <span class="openLinkText cursor" @click="handleEdit(scope.row)">
+          <span class="openLinkText cursor"
+                @click="handleEdit(scope.row)">
             {{ scope.row.dataChannelName }}
           </span>
         </template>
         <template #operation="scope">
-          <uploadButton
-            :showText="true"
-            @uploadedCallback="handleUploadedCallback($event, scope.row)"
-            button-text="LK_SHANGCHUAN"
-          />
-          <el-popover placement="bottom" width="400" trigger="click">
-            <table-list
-              :selection="false"
-              :index="true"
-              :tableData="scope.row.attachList"
-              :tableTitle="[
+          <uploadButton :showText="true"
+                        @uploadedCallback="handleUploadedCallback($event, scope.row)"
+                        button-text="LK_SHANGCHUAN" />
+          <el-popover placement="bottom"
+                      width="400"
+                      trigger="click">
+            <table-list :selection="false"
+                        :index="true"
+                        :tableData="scope.row.attachList"
+                        :tableTitle="[
                 {
                   props: 'fileName',
                   name: '文件名称',
                   key: 'LK_WENJIANMINGCHENG'
                 },
                 { props: 'operation', name: '操作', key: 'SUPPLIER_CAOZUO' }
-              ]"
-            >
+              ]">
               <template #operation="scope">
                 <template slot="header">
-                  <el-tooltip
-                    effect="light"
-                    :content="$t('SUPPLIER_EXAMPLEDSEC')"
-                    placement="top-start"
-                  >
-                    <icon
-                      symbol
-                      name="iconxinxitishi"
-                      class="exampleFileIconStle"
-                    />
+                  <el-tooltip effect="light"
+                              :content="$t('SUPPLIER_EXAMPLEDSEC')"
+                              placement="top-start">
+                    <icon symbol
+                          name="iconxinxitishi"
+                          class="exampleFileIconStle" />
                   </el-tooltip>
                 </template>
-                <span
-                  class="openLinkText cursor"
-                  @click="handleExampleDownload(scope.row)"
-                  >{{ $t('LK_XIAZAI') }}</span
-                >
+                <span class="openLinkText cursor"
+                      @click="handleExampleDownload(scope.row)">{{ $t('LK_XIAZAI') }}</span>
               </template>
             </table-list>
-            <span class="openLinkText cursor" slot="reference">
+            <span class="openLinkText cursor"
+                  slot="reference">
               {{ $t('LK_XIAZAI') }}
             </span>
           </el-popover>
         </template>
         <template #year="scope">
-          <iDatePicker
-            v-model="scope.row.year"
-            value-format="yyyy"
-            type="year"
-            :placeholder="$t('LK_QINGXUANZE')"
-          ></iDatePicker>
+          <iDatePicker v-model="scope.row.year"
+                       value-format="yyyy"
+                       type="year"
+                       :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
         </template>
         <template #startAccountCycle="scope">
-          <iDatePicker
-            style="width: 100%"
-            v-model="scope.row.startAccountCycle"
-            value-format="yyyy-MM-dd"
-            type="date"
-            :placeholder="$t('LK_QINGXUANZE')"
-          ></iDatePicker>
+          <iDatePicker style="width: 100%"
+                       v-model="scope.row.startAccountCycle"
+                       value-format="yyyy-MM-dd"
+                       type="date"
+                       :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
         </template>
         <template #endAccountCycle="scope">
-          <iDatePicker
-            style="width: 100%"
-            v-model="scope.row.endAccountCycle"
-            value-format="yyyy-MM-dd"
-            type="date"
-            :placeholder="$t('LK_QINGXUANZE')"
-          ></iDatePicker>
+          <iDatePicker style="width: 100%"
+                       v-model="scope.row.endAccountCycle"
+                       value-format="yyyy-MM-dd"
+                       type="date"
+                       :placeholder="$t('LK_QINGXUANZE')"></iDatePicker>
         </template>
       </tableList>
     </i-card>
-    <financialRemark v-if="this.supplierType === 4" class="margin-top20" />
-    <dataComparison
-      :comparisonTableData="comparisonTableData"
-      v-model="dataComparisonDialog"
-    />
+    <financialRemark v-if="this.supplierType === 4"
+                     class="margin-top20" />
+    <dataComparison :comparisonTableData="comparisonTableData"
+                    v-model="dataComparisonDialog" />
     <fetchExternalRatingsDialog v-model="ratingsDialog" />
   </div>
 </template>
@@ -195,6 +155,10 @@ import { tableTitle } from './components/data'
 import financialRemark from './components/financialRemark'
 import dataComparison from './components/dataComparison'
 import uploadButton from '@/components/uploadButton'
+import { supplierDetail } from "@/api/register/baseInfo";
+import {
+  supplierComplete
+} from "@/views/generalPage/baseInfo/components/data";
 import {
   deleteFinance,
   saveFinance,
@@ -219,7 +183,7 @@ export default {
     iDatePicker,
     fetchExternalRatingsDialog
   },
-  data() {
+  data () {
     return {
       selectPropsOptionsObject: {
         isAudit: [
@@ -251,18 +215,55 @@ export default {
       ratingsDialog: false,
       comparisonTableData: [],
       inputProps: [],
-      selectProps: []
+      selectProps: [],
+      supplierComplete
     }
   },
-  created() {
+  created () {
     if (this.$route.path !== '/supplier/frmrating/newsupplierrating/rating1') {
       this.inputProps = ['auditUnit', 'currency', 'currencyUnit']
       this.selectProps = ['isAudit', 'isMergeReport']
     }
+    this.supplierDetail()
     this.getTableList()
   },
   methods: {
-    async handleExportEarnings() {
+    supplierDetail () {
+      supplierDetail(this.supplierType).then(res => {
+        if (res.data) {
+          //初始数据很多为null 需要重置为“” 不然会触发表单验证
+          let baseInfo = this.reView(res.data)
+          baseInfo.supplierInfoVo.isListing = baseInfo.supplierInfoVo.isListing.toString()
+          if (baseInfo.gpSupplierInfoVO) this.supplierComplete.gpSupplierDTO = baseInfo
+            .gpSupplierInfoVO
+          if (baseInfo.ppSupplierInfoVo) {
+            baseInfo.ppSupplierInfoVo.isSign = baseInfo.ppSupplierInfoVo.isSign ? '1' : '0'
+            this.supplierComplete.ppSupplierDTO = baseInfo.ppSupplierInfoVo
+          }
+          if (baseInfo.settlementBankVo) this.supplierComplete.settlementBankDTO = baseInfo
+            .settlementBankVo
+          if (baseInfo.supplierInfoVo) this.supplierComplete.supplierDTO = baseInfo.supplierInfoVo
+          this.$store.dispatch('setBaseInfo', this.supplierComplete)
+        }
+      })
+    },
+    // 调整详情数据
+    reView (data) {
+      for (let i in data) {
+        if (data[i]) {
+          for (let k in data[i]) {
+            if (data[i][k] == null || k == 'createDate' || k == 'updateDate') {
+              data[i][k] = ""
+            }
+            if (k == 'registeredCapital') {
+              data[i][k] = data[i][k] + ""
+            }
+          }
+        }
+      }
+      return data
+    },
+    async handleExportEarnings () {
       const pms = {
         supplierId: this.$route.query.supplierId,
         yearList: []
@@ -272,14 +273,14 @@ export default {
       })
       await exportFinanceReport(pms)
     },
-    handleRatings() {
+    handleRatings () {
       this.ratingsDialog = true
     },
-    handleEdit(data) {
+    handleEdit (data) {
       this.comparisonTableData = [data]
       this.dataComparisonDialog = true
     },
-    openDataComparison() {
+    openDataComparison () {
       if (this.selectTableData.length < 1) {
         iMessage.warn('至少选择2条数据')
         return
@@ -287,7 +288,7 @@ export default {
       this.comparisonTableData = this.selectTableData
       this.dataComparisonDialog = true
     },
-    async handleExampleDownload(row) {
+    async handleExampleDownload (row) {
       // const req = {
       //   applicationName: 'rise',
       //   fileList: [row.id]
@@ -295,7 +296,7 @@ export default {
       await downloadUdFile(row.filePath)
     },
     // 上传接口
-    async handleUploadedCallback(evnet, row) {
+    async handleUploadedCallback (evnet, row) {
       delete evnet.uploadTime
       const req = {
         step: 'tempStore'
@@ -357,7 +358,7 @@ export default {
       }
       this.saveInfos(req.step)
     },
-    async getTableList(form) {
+    async getTableList (form) {
       this.tableLoading = true
       try {
         const pms = {
@@ -389,15 +390,23 @@ export default {
       //   }
       // })
     },
-    handleSelectionChange(e) {
+    handleSelectionChange (e) {
       this.selectTableData = e
     },
-    async saveInfos(step = '') {
+    async saveInfos (step = '') {
       this.$refs.commonTable.$refs.commonTableForm.validate(async (vaild) => {
         if (vaild) {
+          let flag = false
           console.log(this.tableListData, '?!111')
           this.tableListData.forEach((item) => {
-            console.log(item.attachList, '保存')
+            const startAccountCycle = item.startAccountCycle.replace(/-/g, '')
+            const endAccountCycle = item.endAccountCycle.replace(/-/g, '')
+            if (startAccountCycle > endAccountCycle) {
+              this.$message.error('开始时间不能大于结束时间')
+              flag = true
+              return false
+            }
+            // 校验开始时间要小于结束时间
             item.attachList &&
               item.attachList.forEach((val) => {
                 delete val.uploadTime
@@ -412,23 +421,24 @@ export default {
           if (step !== '') {
             pms.step = step
           }
-
-          const res = await saveFinance(pms, this.supplierType)
-          this.resultMessage(
-            res,
-            () => {
-              this.getTableList()
-              this.nextStep = true
-            },
-            () => {
-              this.tableLoading = false
-              this.nextStep = false
-            }
-          )
+          if (!flag) {
+            const res = await saveFinance(pms, this.supplierType)
+            this.resultMessage(
+              res,
+              () => {
+                this.getTableList()
+                this.nextStep = true
+              },
+              () => {
+                this.tableLoading = false
+                this.nextStep = false
+              }
+            )
+          }
         }
       })
     },
-    async handleNextStep() {
+    async handleNextStep () {
       await this.saveInfos()
       return this.nextStep
     },

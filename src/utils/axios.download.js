@@ -51,7 +51,11 @@ export default function httpRequest(baseUrl='',timeOut=15000) {
       reader.onload = (event) => {
         const lang = localStorage.getItem("lang")
         const errorMsg = JSON.parse(event.target.result);
-        iMessage.error(lang == "zh" ? errorMsg.desZh : errorMsg.desEn)
+        if (errorMsg.desZh) {
+          iMessage.error(lang == "zh" ? errorMsg.desZh : errorMsg.desEn)
+        } else {
+          iMessage.success(errorMsg.message)
+        }
       }
       reader.readAsText(response.data)
       return

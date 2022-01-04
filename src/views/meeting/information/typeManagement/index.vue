@@ -83,14 +83,14 @@ export default {
         {
           type: 'index',
           label: '序号',
-          i18n: '序号',
+          i18n: 'MT_XUHAO2',
           width: 69,
           tooltip: false
         },
         {
           prop: 'name',
           label: '资料类型',
-          i18n: '资料类型',
+          i18n: 'MT_ZILIAOLEIXING',
           align: 'left',
           width: 399,
           tooltip: true
@@ -98,7 +98,7 @@ export default {
         {
           prop: 'meetingTypes',
           label: '所属会议',
-          i18n: '所属会议',
+          i18n: 'MT_SUOSHUHUIYI',
           align: 'left',
           customRender: (h, scope) => {
             let fh = '，'
@@ -121,7 +121,7 @@ export default {
         },
         {
           label: '操作',
-          i18n: '操作',
+          i18n: 'MT_CAOZUO2',
           width: 154,
           tooltip: false,
           customRender: (h, scope) => {
@@ -141,7 +141,7 @@ export default {
                     }
                   }
                 },
-                '修改'
+                this.$t('MT_XIUGAI')
               ),
               h(
                 'a',
@@ -169,7 +169,7 @@ export default {
                     }
                   }
                 },
-                '删除'
+                this.$t('MT_SHANCHU')
               )
             ])
           }
@@ -274,15 +274,15 @@ export default {
     },
     deleteDocumentType(e) {
       // console.log(e);
-      this.$confirm(this.$t('请确认是否要删除该资料?'), this.$t('提示'), {
-        confirmButtonText: this.$t('是'),
-        cancelButtonText: this.$t('否'),
+      this.$confirm(this.$t('MT_QINGQUERENSHIFOUXUYAOSHANCHUGAIZILIAO?'), this.$t('MT_TISHI'), {
+        confirmButtonText: this.$t('MT_SHI'),
+        cancelButtonText: this.$t('MT_FOU'),
         type: 'warning'
       }).then(() => {
         deleteDocumentType({ id: e.id })
           .then((res) => {
             if (res.code === 200) {
-              this.$message.success(this.$t('删除成功!'))
+              this.$message.success(this.$t('MT_SHANCHUCHENGGONG'))
             }
             this.query()
           })

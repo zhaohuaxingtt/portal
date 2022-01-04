@@ -18,7 +18,7 @@
       :data="virtualList ? virtualTableData : realTableData"
       :row-key="rowKey || 'uniqueId'"
       :highlight-current-row="highlightCurrentRow"
-      :empty-text="language('暂无数据')"
+      :empty-text="language('ZANWUSHUJU', '暂无数据')"
       :row-class-name="getRowClassNameDefault"
       :row-style="getRowStyle"
       :cell-class-name="getCellClassName"
@@ -40,7 +40,7 @@
           v-if="['selection', 'index'].includes(item.type)"
           :reserve-selection="item.reserveSelection || false"
           :type="item.type"
-          :label="item.i18n ? language(item.i18n) : item.label"
+          :label="item.i18n ? language(item.i18n, item.label) : item.label"
           :width="item.width || '50'"
           :min-width="item.minWidth"
           :align="item.align || 'center'"
@@ -66,7 +66,7 @@
           v-else-if="['customSelection'].includes(item.type)"
           reserve-selection
           :type="item.type"
-          :label="item.i18n ? language(item.i18n) : item.label"
+          :label="item.i18n ? language(item.i18n, item.label) : item.label"
           :width="item.width || '50'"
           :min-width="item.minWidth || '50'"
           :align="item.align || 'center'"
@@ -96,7 +96,7 @@
           :key="index"
           v-else-if="['fullIndex'].includes(item.type)"
           :type="item.type"
-          :label="item.i18n ? language(item.i18n) : item.label"
+          :label="item.i18n ? language(item.i18n, item.label) : item.label"
           :width="item.width || '50'"
           :align="item.align || 'center'"
           :selectable="handleSelectable"
@@ -113,8 +113,9 @@
           :type="item.type"
           :align="item.align || 'center'"
           :header-align="item.headerAlign"
+          :show-overflow-tooltip="item.tooltip"
           :prop="item.prop"
-          :label="item.i18n ? language(item.i18n) : item.label"
+          :label="item.i18n ? language(item.i18n, item.label) : item.label"
           :sortable="item.sortable"
           :sort-method="item.sortMethod"
           :sort-by="item.sortBy"
@@ -132,8 +133,13 @@
                 :type="subItem.type"
                 :align="subItem.align || 'center'"
                 :header-align="subItem.headerAlign"
+                :show-overflow-tooltip="subItem.tooltip"
                 :prop="subItem.prop"
-                :label="subItem.i18n ? language(subItem.i18n) : subItem.label"
+                :label="
+                  subItem.i18n
+                    ? language(subItem.i18n, subItem.label)
+                    : subItem.label
+                "
                 :width="subItem.width ? subItem.width.toString() : ''"
                 :min-width="subItem.minWidth ? subItem.minWidth.toString() : ''"
                 :sortable="subItem.sortable"
@@ -190,11 +196,11 @@
       @reset="handleResetSetting"
     />
     <el-tooltip
+      open-delay="3000"
       effect="light"
       placement="top"
       ref="customTableTooltip"
       popper-class="custom-table-popper"
-      v-if="tooltipContent"
     >
       <div
         slot="content"
@@ -273,12 +279,17 @@ export default {
     // 是不是级联选择
     cascade: {
       type: Boolean,
-      default: false
+      default: true
     },
     // 使用自定义选择框
     customSelection: {
       type: Boolean,
       default: false
+    },
+    // 使用自定义选择框, 是否要回传半选状态记录
+    emitHalfSelection: {
+      type: Boolean,
+      default: true
     },
     // 使用自定义选择框选项
     customSelectionOption: {
@@ -288,11 +299,6 @@ export default {
           checkStrictly: false // 在显示复选框的情况下，是否严格的遵循父子不互相关联的做法，默认为 false, false: 关联，true: 不关联
         }
       }
-    },
-    // 使用自定义选择框, 是否要回传半选状态记录
-    emitHalfSelection: {
-      type: Boolean,
-      default: true
     },
     // 子元素数量是否显示
     childNumVisible: {
@@ -308,7 +314,6 @@ export default {
       type: Boolean,
       defalut: false
     },
-    // 默认选择的行数据
     defaultSelectedRows: {
       type: Array
     },
@@ -317,7 +322,6 @@ export default {
       type: Boolean,
       defalut: false
     },
-    // 列合并方法
     spanMethod: {
       type: Function
     },
@@ -325,27 +329,23 @@ export default {
       type: Boolean,
       default: false
     },
-    // 是否是导航
     isNavMenu: {
       type: Boolean,
       default: false
     },
-    // 提示框宽度
     tooltipWidth: {
       type: String,
       default: '100%'
     },
-    // 运行环境，如dev,sit,vmsit,uat等，一般传process.env.NODE_ENV
     env: {
+      // 运行环境，如dev,sit,vmsit,uat等，一般传process.env.NODE_ENV
       type: String,
       default: ''
     },
-    // 是否支持虚拟列表，大数据量使用
     virtualList: {
       type: Boolean,
       default: false
     },
-    // 显示边框
     border: {
       type: Boolean,
       default: true
@@ -482,7 +482,7 @@ export default {
         } */
         /******************* end *********************/
       } else {
-        this.tableData = this.data
+        this.tableData = this.data ? this.data : []
         this.tableData.forEach((e, index) => {
           e.uniqueId = index + ''
           e.visible = true
@@ -942,8 +942,5 @@ export default {
   ::v-deep .el-table--border td {
     border-right: 0 !important;
   }
-}
-::v-deep .cell{
-  white-space: pre !important;
 }
 </style>

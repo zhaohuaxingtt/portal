@@ -83,8 +83,9 @@
         prop="topic"
         align="center"
         label="Present Items"
-        min-width="120"
+        :width="setColumnWidth(tableData)"
       >
+        <!-- min-width="120" -->
         <template slot-scope="scope">
           <span>{{ scope.row.topic }}</span>
           <!-- <span v-if="scope.row.isBreak">{{ scope.row.topic }}</span>
@@ -201,7 +202,7 @@
         min-width="100"
       >
         <template slot-scope="scope">
-          {{ stateObj[scope.row.state] }}
+          {{ $t(stateObj[scope.row.state]) }}
         </template>
       </el-table-column>
       <el-table-column width="4" align="center" label=""></el-table-column>
@@ -374,7 +375,7 @@ export default {
     // 取消关注
     handleUnfollow(e, bol) {
       if (e.state === '03') {
-        iMessage.warn('已经结束的议题不可以添加关注!')
+        iMessage.warn(this.$t('MT_YIJIESHUDEYITIBUKEYITIANJIAGUANZHU'))
         return
       }
       this.following = true
@@ -390,7 +391,7 @@ export default {
         // }).then(() => {
         unfollow(param).then((res) => {
           if (res.code === 200) {
-            iMessage.success('取消关注成功!')
+            iMessage.success(this.$t('MT_QUXIAOGUANZHUCHENGGONG'))
           }
           this.$emit('query', this)
         })
@@ -403,7 +404,7 @@ export default {
     // 添加关注
     handleFollow(e, bol) {
       if (e.state === '03') {
-        iMessage.warn('已经结束的议题不可以取消关注!')
+        iMessage.warn(this.$t('MT_YIJIESHUDEYITIBUKEYIQUXIAOGUANZHU'))
         return
       }
       this.following = true
@@ -419,7 +420,7 @@ export default {
         // }).then(() => {
         follow(param).then((res) => {
           if (res.code === 200) {
-            iMessage.success('关注成功')
+            iMessage.success(this.$t('MT_GUANZHUCHENGGONG'))
           }
           this.$emit('query', this)
         })
@@ -428,6 +429,44 @@ export default {
         // })
         // });
       }
+    },
+    setColumnWidth(data) {
+      if (!data || data.length === 0) {
+        return
+      }
+      let index = 0
+      let maxStr = ''
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].topic === null) {
+          return
+        }
+        const nowline = data[i].topic + ''
+        const maxline = data[index].topic + ''
+        if (nowline.length > maxline.length) {
+          index = i
+        }
+      }
+      maxStr = data[index].topic
+      let columnWidth = 0
+      for (let char of maxStr) {
+        if (char >= 'A' && char <= 'Z') {
+          columnWidth += 8
+        } else if (char >= 'a' && char <= 'z') {
+          columnWidth += 6
+        } else if (char >= '\u4e00' && char <= '\u9fa5') {
+          columnWidth += 13
+        } else {
+          columnWidth += 7
+        }
+      }
+      if (columnWidth < 120) {
+        // 设置最小宽度
+        columnWidth = 120
+      }
+      if (columnWidth > 306) {
+        columnWidth = 306
+      }
+      return columnWidth + 'px'
     }
   }
 }

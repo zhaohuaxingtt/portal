@@ -1,7 +1,7 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: zbin
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
 -->
@@ -14,15 +14,27 @@
         </i-button>
       </div>
     </div>
-    <tableList v-if="showTable" :selection="false" :tableData="tableListData" :tableTitle="tableTitle" :tableLoading="tableLoading" @handleSelectionChange="handleSelectionChange" :index="true">
+    <tableList v-if="showTable"
+               :selection="false"
+               :tableData="tableListData"
+               :tableTitle="tableTitle"
+               :tableLoading="tableLoading"
+               @handleSelectionChange="handleSelectionChange"
+               :index="true">
       <template #value0="scope">
-        <iDatePicker style="width:100%" value-format="yyyy-MM-dd" type="date" v-model="scope.row.value0" v-if="scope.row.isEdit && scope.row.fieldName === 'beginData'">
+        <iDatePicker style="width:100%"
+                     value-format="yyyy-MM-dd"
+                     type="date"
+                     v-model="scope.row.value0"
+                     v-if="scope.row.isEdit && scope.row.fieldName === 'beginData'">
         </iDatePicker>
-        <iInput v-else-if="scope.row.isEdit" v-model="scope.row.value0" />
+        <iInput v-else-if="scope.row.isEdit"
+                v-model="scope.row.value0" />
         <span v-else>{{ scope.row.value0 }}</span>
       </template>
       <template #displayName="scope">
-        <p :class="'field-'+scope.row.intent" :style="{textIndent:scope.row.intent+'em'}">{{scope.row.displayName}}</p>
+        <p :class="'field-'+scope.row.intent"
+           :style="{textIndent:scope.row.intent+'em'}">{{scope.row.displayName}}</p>
       </template>
     </tableList>
   </div>
@@ -64,7 +76,8 @@ export default {
     }
   },
   watch: {
-    tabValue(n) {
+    tabValue (n) {
+      console.log(n)
       this.tabValue = n;
       this.$nextTick(() => {
         this.getTableList(n);
@@ -72,7 +85,7 @@ export default {
     },
     deep: true
   },
-  data() {
+  data () {
     return {
       showTable: true, //重新渲染
       tableTitle: [],
@@ -83,7 +96,7 @@ export default {
     };
   },
   methods: {
-    handleTitle() {
+    handleTitle () {
       this.showTable = false;
       this.$nextTick(() => {
         const info = this.tableListData[0].info;
@@ -95,7 +108,7 @@ export default {
         this.showTable = true;
       });
     },
-    async saveInfos() {
+    async saveInfos () {
       const pms = {
         displayType: this.tabValue,
         financeId: this.comparisonTableData[0].id,
@@ -128,7 +141,7 @@ export default {
         }
       );
     },
-    async getTableList() {
+    async getTableList () {
       this.tableLoading = true;
       try {
         const pms = {
@@ -143,6 +156,7 @@ export default {
           pms.financeIds.push(item.id);
         });
         const res = await financeFieldDisplayList(pms);
+        console.log("111")
         res.data && res.data.list.map(item => {
           if (item.fieldName === 'isAudit') {
             item.info.forEach((i, index) => {
@@ -153,12 +167,14 @@ export default {
               return item.info[index].value = i.value ? this.$t('SUPPLIER_SHI') : this.$t('SUPPLIER_SHI')
             })
           }
-          item.info.forEach((i, index) => {
+          console.log(item.info, "info")
+          item.info && item.info.length && item.info.forEach((i, index) => {
             if (i.value !== null && !isNaN(i.value)) {
               return item.info[index].value = String(parseFloat(i.value).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
             }
           })
         })
+        console.log("121")
         res.data &&
           res.data.list.map((item) => {
             item.info &&
@@ -167,6 +183,7 @@ export default {
                 return (item["financeId" + x] = i.financeId);
               });
           });
+        console.log("131")
         res.data &&
           res.data.list.map((item) => {
             // 判断是否是数据对比
@@ -178,6 +195,7 @@ export default {
               return (item.isEdit = false);
             }
           });
+        console.log("141")
         this.$nextTick(async () => {
           this.id = res.data && res.data.id;
           this.tableListData = res.data && res.data.list;

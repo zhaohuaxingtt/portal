@@ -31,9 +31,11 @@
       :next-text="$t('MT_XIAYIYE')"
     />
     <div class="button-list">
-      <iButton @click="close" plain class="cancel">{{ $t('MT_QUXIAO') }}</iButton>
+      <iButton @click="close" plain class="cancel">{{
+        $t('MT_QUXIAO')
+      }}</iButton>
       <iButton
-        @click="$emit('handleChooseReceiver', selectedTableData)"
+        @click="$emit('handleChooseReceiver', selectedTableData, status)"
         plain
         :disabled="selectedTableData.length == 0"
         >{{ $t('MT_QUEREN') }}</iButton
@@ -65,6 +67,12 @@ export default {
       default: () => {
         return false
       }
+    },
+    status: {
+      type: String,
+      default: () => {
+        return 'add'
+      }
     }
   },
   data() {
@@ -73,11 +81,12 @@ export default {
       search: '',
       selectedTableData: [],
       // data: this.tableData,
-      tableData: '',
-      tableDataAll: ''
+      tableData: [],
+      tableDataAll: []
     }
   },
   mounted() {
+    console.log('this.status', this.status)
     this.query()
   },
   methods: {
@@ -95,7 +104,8 @@ export default {
     },
 
     close() {
-      this.$emit('closeChooseDialog', false)
+      console.log('this.status', this.status)
+      this.$emit('closeChooseDialog', false, this.status)
     },
     // 表格选中值集
     handleSelectionChange(val) {

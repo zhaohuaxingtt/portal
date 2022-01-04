@@ -1,6 +1,10 @@
 <template>
   <iDialog
-    :title="editOrAdd === 'add' ? $t('MT_TIANJIAZILIAOLEIXING') : $t('MT_XIUGAIZILIAOLEIXING')"
+    :title="
+      editOrAdd === 'add'
+        ? $t('MT_TIANJIAZILIAOLEIXING')
+        : $t('MT_XIUGAIZILIAOLEIXING')
+    "
     :visible.sync="openDialog"
     width="24rem"
     :close-on-click-modal="false"
@@ -14,7 +18,11 @@
         :hideRequiredAsterisk="true"
       >
         <iFormItem label="资料类型名称" prop="name">
-          <iLabel :label="$t('MT_ZILIAOLEIXINGMINGCHENG')" slot="label" required></iLabel>
+          <iLabel
+            :label="$t('MT_ZILIAOLEIXINGMINGCHENG')"
+            slot="label"
+            required
+          ></iLabel>
           <div class="form-row">
             <iInput v-model="ruleForm.name"></iInput>
           </div>
@@ -59,7 +67,7 @@ import { iDialog, iInput, iFormItem, iLabel, iButton, iSelect } from 'rise'
 import iEditForm from '@/components/iEditForm'
 import uploadIcon from '@/assets/images/upload-icon.svg'
 import { saveDocumentType, updateDocumentType } from '@/api/meeting/information'
-import { baseRules } from './data'
+// import { baseRules } from './data'
 export default {
   components: {
     iDialog,
@@ -106,7 +114,28 @@ export default {
   data() {
     return {
       uploadIcon,
-      rules: baseRules,
+      rules: {
+        name: [
+          {
+            required: true,
+            message: this.$t('MT_QINGSHURUZILIAOLEIXINGMINGCHENG'),
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 64,
+            message: this.$t('MT_ZUIDACHANGDU64ZIFU'),
+            trigger: 'blur'
+          }
+        ],
+        meetingTypes: [
+          {
+            required: true,
+            message: this.$t('MT_QINGXUANZESUOSHUHUIYI'),
+            trigger: 'blur'
+          }
+        ]
+      },
       ruleForm: {
         name: '',
         meetingTypes: ''

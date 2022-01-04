@@ -29,9 +29,8 @@
                 class="upload-button"
                 :uploadLoading="uploadLoading"
               >
-                ${{$t('MT_QINGXUANZEWENJIAN')}}<span class="upload-text"
-                  ><img :src="uploadIcon"
-                /></span>
+                ${{ $t('MT_QINGXUANZEWENJIAN')
+                }}<span class="upload-text"><img :src="uploadIcon" /></span>
               </iButton>
               <div class="el-upload__tip">
                 {{ descText }}
@@ -46,65 +45,65 @@
 </template>
 
 <script>
-import { iDialog, iButton, iMessage } from "rise";
-import uploadIcon from "@/assets/images/upload-icon.svg";
-import uploadGreyIcon from "@/assets/images/upload-grey-icon.svg";
-import clearDesc from "@/assets/images/clear-desc.svg";
-import { importThemen } from "@/api/meeting/details";
+import { iDialog, iButton, iMessage } from 'rise'
+import uploadIcon from '@/assets/images/upload-icon.svg'
+import uploadGreyIcon from '@/assets/images/upload-grey-icon.svg'
+import clearDesc from '@/assets/images/clear-desc.svg'
+import { importThemen } from '@/api/meeting/details'
 export default {
   components: {
     iDialog,
-    iButton,
+    iButton
   },
   props: {
     open: {
       type: Boolean,
       default: () => {
-        return false;
-      },
+        return false
+      }
     },
     accept: {
       type: String,
       default: () => {
-        return "application/pdf";
-      },
+        return 'application/pdf'
+      }
     },
     maxSize: {
       type: Number,
       default: () => {
-        return 10;
-      },
+        return 10
+      }
     },
     id: {
       type: Number || String,
       default: () => {
-        return '';
-      },
+        return ''
+      }
     },
     fileNum: {
       type: Number,
       default: () => {
-        return 1;
-      },
+        return 1
+      }
     },
     title: {
       type: String,
       default: () => {
-        return "";
-      },
+        return ''
+      }
     },
     warnText: {
       type: String,
       default: () => {
-        return "";
-      },
+        return ''
+      }
     },
     descText: {
       type: String,
-      default: function(){
-        return this.$t("文件大小最大限制10MB");
-      },
-    },
+      default: function () {
+        return `${this.$t('MT_WENJIANDAXIAOZUIDAXIANZHI')}10MB`
+      }
+    }
   },
   data() {
     return {
@@ -114,15 +113,15 @@ export default {
       uploadLoading: false,
       urlList: [],
       nameList: [],
-      list: [],
-    };
+      list: []
+    }
   },
   methods: {
     // 上传过程
     httpUpload(content) {
-      this.uploadLoading = true;
-      let formData = new FormData();
-      formData.append("file", content.file);
+      this.uploadLoading = true
+      let formData = new FormData()
+      formData.append('file', content.file)
       let param = {
         file: formData,
         meetingId: this.id
@@ -130,36 +129,38 @@ export default {
       importThemen(param)
         .then((data) => {
           if (data) {
-            iMessage.success(this.$t("导入成功"));
-            this.$emit("handleOK");
+            iMessage.success(this.$t('MT_DAORUCHENGGONG'))
+            this.$emit('handleOK')
           } else {
-            iMessage.error(this.$t("导入失败"));
-            this.$emit("handleCancel");
+            iMessage.error(this.$t('MT_DAORUSHIBAI'))
+            this.$emit('handleCancel')
           }
         })
         .catch((err) => {
-          console.log("err", err);
-        });
-      this.uploadLoading = false;
+          console.log('err', err)
+        })
+      this.uploadLoading = false
     },
     // 上传前校验
     beforeAvatarUpload(file) {
-      const isLt10M = file.size / 1024 / 1024 < this.maxSize;
+      const isLt10M = file.size / 1024 / 1024 < this.maxSize
       if (!isLt10M) {
-        this.$message.error(`上传文件大小不能超过 ${this.maxSize}MB!`);
+        this.$message.error(
+          `${this.$t('MT_SHANGCHUANWENJIANDAXIAOBUNENGCHAOGUO')} ${this.maxSize}MB!`
+        )
       }
-      return isLt10M;
+      return isLt10M
     },
     deleteItem(e) {
-      this.urlList.splice(e, 1);
-      this.nameList.splice(e, 1);
-      this.list.splice(e, 1);
+      this.urlList.splice(e, 1)
+      this.nameList.splice(e, 1)
+      this.list.splice(e, 1)
     },
     handleCancel() {
       this.$emit('handleCancel')
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped lang="scss">

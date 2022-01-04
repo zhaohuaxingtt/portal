@@ -188,7 +188,7 @@ export default {
       },
       rules: {
         attendees: [
-          { required: true, message: "请输入议题结论！", trigger: "blur" },
+          { required: true, message: this.$t("MT_QINGSHURUYITIJIELUN"), trigger: "blur" },
         ],
         // conclusion0: [
         //   { required: true, message: "请输入议题结论！", trigger: "blur" },
@@ -221,7 +221,7 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           saveMeetingMinutes(this.resultData).then(() => {
-            iMessage.success('保存成功');
+            iMessage.success(this.$t('MT_BAOCUNCHENGGONG'));
             this.$emit('handleOK');
           })
         }

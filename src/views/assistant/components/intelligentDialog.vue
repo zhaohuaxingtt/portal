@@ -97,11 +97,11 @@ export default {
 		this.initChatList()
 	},
 	computed: {
-    nameZh() {
-			let permission = this.$store?.state?.permission
-			return permission?.userInfo?.nameZh
-    }
-  },
+		nameZh() {
+				let permission = this.$store?.state?.permission
+				return permission?.userInfo?.nameZh
+		}
+	},
 	data() {
 		return {
 			intelligentTitle: '智能问答',
@@ -128,7 +128,12 @@ export default {
 				answerContent: [],
 				type: 'user'
 			})
-			await getSmartContent({question: this.keywords}).then((res) => {
+			const params = {
+				question: this.keywords,
+				pageSize: 5,
+				pageNo: 0
+			}
+			await getSmartContent(params).then((res) => {
 				if (res?.code === '200') {
 					this.chatList.push({
 						question: '',

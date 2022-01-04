@@ -240,7 +240,7 @@ export default {
           //   message: "已提交"
           // },
           {
-            code:"NOTPASS",
+            code:"FLOWED_FAIL",
             message: "未通过"
           },
         ],

@@ -1,14 +1,15 @@
 export const triggerApproval = [
   {
     value: 1,
-    label: '是'
+    label: '是',
+    i18n: 'MT_SHI'
   },
   {
     value: 0,
-    label: '否'
+    label: '否',
+    i18n: 'MT_FOU'
   }
 ]
-
 
 // export const baseRules = {
 //   name: [
@@ -74,14 +75,14 @@ export const tableColumns = [
   },
   {
     type: 'index',
-    i18n: '序号',
+    i18n: 'MT_XUHAO3',
     width: 69,
     tooltip: false
   },
   {
     prop: 'name',
     label: '类型名称',
-    i18n: '类型名称',
+    i18n: 'MT_LEIXINGMINGCHENG',
     align: 'left',
     emit: 'go-detail',
     customRender: (h, scope) => {
@@ -99,28 +100,28 @@ export const tableColumns = [
   {
     prop: 'meetingInfoDesc',
     label: '会议信息描述',
-    i18n: '会议信息描述',
+    i18n: 'MT_HUIYIXINXIMIAOSHU',
     align: 'left',
     tooltip: true
   },
   {
     prop: 'meetingNameSuffix',
     label: '生成会议名称后缀',
-    i18n: '生成会议名称后缀',
+    i18n: 'MT_SHENGCHENGHUIYIMINGCHENGHOUZHUI',
     align: 'left',
     tooltip: true
   },
   {
     prop: 'duration',
     label: '默认议题时长',
-    i18n: '默认议题时长',
+    i18n: 'MT_MORENYITISHICHANG',
     width: 163,
     tooltip: false
   },
   {
     prop: 'isTriggerApproval',
     label: '是否触发审批流',
-    i18n: '是否触发审批流',
+    i18n: 'MT_SHIFOUCHUFASHENPILIU',
     width: 163,
     tooltip: false,
     customRender: (h, scope) => {

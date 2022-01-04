@@ -12,7 +12,7 @@
         <div class="left">{{topicInfo.topic}}</div>
         <div class="right">
           {{ start }}~{{ end
-          }}<span style="margin-left:5px">{{ status[topicInfo.state] }}</span>
+          }}<span style="margin-left:5px">{{ $t(status[topicInfo.state]) }}</span>
         </div>
         
       </li>
@@ -128,9 +128,9 @@ export default {
     return {
       enclosure: enclosure,
       status: {
-        "01": "未进行",
-        "02": "进行中",
-        "03": "已结束",
+        "01": "MT_WEIJINXING",
+        "02": "MT_JINXINGZHONG",
+        "03": "MT_YIJIESHU",
       },
     };
   },
@@ -202,7 +202,7 @@ export default {
         filename: e.attachmentName,
         callback: (e) => {
           if (!e) {
-            iMessage.error("下载失败");
+            iMessage.error(this.$t("MT_XIAZAISHIBAI"));
           }
         },
       });

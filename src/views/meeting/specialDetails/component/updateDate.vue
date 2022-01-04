@@ -118,7 +118,7 @@ export default {
       rescheduleThemen(data)
         .then(() => {
           this.loading = false
-          iMessage.success('改期成功')
+          iMessage.success(this.$t('MT_GAIQICHENGGONG'))
           this.$emit('flushTable')
           this.close()
         })

@@ -17,6 +17,14 @@ export function purchaseUsers(parmars) {
     params: parmars
   })
 }
+//根据用户id查询相关用户列表
+export function getUserIdListTree(data) {
+  return requst({
+    url: `/api/sapUser/getUserIdListTree`,
+    method: 'post',
+    data
+  })
+}
 
 export function getGraderIdByDept(deptNUm) {
   return requst({

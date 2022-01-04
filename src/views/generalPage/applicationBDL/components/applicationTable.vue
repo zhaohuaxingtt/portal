@@ -14,7 +14,7 @@
                 justify='space-between'
                 align='middle'>
           <el-col :span="5">
-            <el-form-item :label="language('LINIEKESHICSS3','LINIE科室')">
+            <el-form-item :label="mbdl?language('QIANQICAIGOUKESHI','前期采购科室'):language('LINIEKESHICSS3','LINIE科室')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_DEPT"
                        @change="handleUser"
                        :placeholder="$t('LK_QINGXUANZE')"
@@ -30,7 +30,7 @@
           <el-col :span="5">
             <el-form-item prop="linieId"
                           :rules="isAcc ? [] : [{required: true, message: '请选择',}]"
-                          :label="$t('SUPPLIER_VW_LINIE_CAIGOUYUAN')">
+                          :label="mbdl?language('QIANQICAIGOUYUAN','前期采购员'):language('LINICAIGOUYUAN','LINIE采购员')">
               <iSelect v-permission="SUPPLIER_APPLYBDL_VW_LINIE_SOURCER"
                        :placeholder="$t('LK_QINGSHURU')"
                        v-model="form.linieId"
@@ -83,7 +83,7 @@ import tableList from '@/components/commonTable'
 import { pageMixins } from "@/utils/pageMixins";
 import { applicationBDLTableTitle } from './data'
 import addBdlDialog from './addBdlDialog'
-import { getStuffMaterials, submitBdl, getUserList, getDeptList } from "../../../../api/supplier360/material";
+import { getStuffMaterials, submitBdl, getUserList, getDeptList, getPreDeptList, getPreUserList } from "../../../../api/supplier360/material";
 
 
 export default {
@@ -111,22 +111,28 @@ export default {
         deptList: []
       },
       index: null,
-      isAcc: false
+      isAcc: false,
+      mbdl: false
     }
   },
   created () {
-
+    this.mbdl = this.$route.query.mbdl
     this.getDeptList()
     // this.getTableList()
   },
   methods: {
     async handleUser (val) {
-
       let obj = this.formGroup.deptList.find(item => item.id === val)
       this.formGroup.userList = []
       this.form.linieId = ''
-      const res = await getUserList({ id: val, deptNum: obj.deptNum })
-      this.formGroup.userList = res.data
+      if (this.mbdl) {
+        const res = await getPreUserList({ supplierToken: this.$route.query.supplierToken, deptNum: obj.deptNum })
+        this.formGroup.userList = res.data
+      } else {
+        const res = await getUserList({ id: val, deptNum: obj.deptNum })
+        this.formGroup.userList = res.data
+      }
+
     },
     getReset () {
       this.form = {
@@ -177,8 +183,13 @@ export default {
       })
     },
     async getDeptList () {
-      const dept = await getDeptList()
-      this.formGroup.deptList = dept.data
+      if (this.$route.query.mbdl) {
+        const dept = await getPreDeptList({ supplierToken: this.$route.query.supplierToken })
+        this.formGroup.deptList = dept.data
+      } else {
+        const dept = await getDeptList()
+        this.formGroup.deptList = dept.data
+      }
     },
     // async getTableList() {
     //   this.tableLoading = true

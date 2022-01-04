@@ -19,7 +19,7 @@
       :prev-text="$t('MT_SHANGYIYE')"
       :next-text="$t('MT_XIAYIYE')"
     />
-    <addOrEditReceiverDialog
+    <addReceiverDialog
       :openDialog="openDialog"
       @closeDialog="closeDialog"
       :editOrAdd="editOrAdd"
@@ -34,6 +34,7 @@
       v-if="openReceiverDialog"
       @closeChooseDialog="closeChooseDialog"
       @handleChooseReceiver="handleChooseReceiver"
+      :status="status"
     />
     <editReceiverDialog
       :openEditDialog="openEditDialog"
@@ -51,7 +52,7 @@
 import { iPagination } from 'rise'
 import {
   actionButtons,
-  addOrEditReceiverDialog,
+  addReceiverDialog,
   chooseReceiverDialog,
   editReceiverDialog
 } from './components'
@@ -65,7 +66,7 @@ export default {
     iPagination,
     actionButtons,
     iTableCustom,
-    addOrEditReceiverDialog,
+    addReceiverDialog,
     chooseReceiverDialog,
     editReceiverDialog
   },
@@ -76,14 +77,14 @@ export default {
         {
           type: 'index',
           label: '序号',
-          i18n: '序号',
+          i18n: 'MT_XUHAO2',
           width: 68,
           tooltip: false
         },
         {
           // prop: "meetingTypeName",
           label: '会议类型',
-          i18n: '会议类型',
+          i18n: 'MT_HUIYILEIXING',
           width: 240,
           align: 'left',
           tooltip: true,
@@ -104,7 +105,7 @@ export default {
         {
           // prop: "groupName",
           label: '组名',
-          i18n: '组名',
+          i18n: 'MT_ZUMING',
           width: 240,
           align: 'left',
           tooltip: true,
@@ -126,7 +127,7 @@ export default {
         {
           // prop: "employeeDTOS",
           label: '参与人员姓名',
-          i18n: '参与人员姓名',
+          i18n: 'MT_CANYURENYUANXINGMING',
           // width: 240,
 
           align: 'left',
@@ -149,6 +150,7 @@ export default {
         },
         {
           label: '操作',
+          i18n: 'MT_CAOZUO2',
           width: 100,
           customRender: (h, scope) => {
             return h('span', [
@@ -167,7 +169,7 @@ export default {
                     }
                   }
                 },
-                '修改'
+                this.$t('MT_XIUGAI')
               ),
               h(
                 'a',
@@ -194,7 +196,7 @@ export default {
                     }
                   }
                 },
-                '删除'
+                this.$t('MT_SHANCHU')
               )
             ])
           }
@@ -210,19 +212,23 @@ export default {
       editOrAdd: 'add',
       clickScope: [],
       // getUsersList: [],
-      selectedTableData: []
+      selectedTableData: [],
+      status: 'add'
     }
   },
   created() {
     this.query()
   },
   methods: {
-    handleChooseReceiver(selectedTableData) {
+    handleChooseReceiver(selectedTableData, status) {
+      this.status = status
       this.selectedTableData = selectedTableData
-      this.closeChooseDialog()
+      this.closeChooseDialog(false, status)
     },
-    addReceiverData() {
+    addReceiverData(status) {
+      this.status = status
       this.openReceiverDialog = true
+      this.openEditDialog = false
     },
     deleteReceiver(e) {
       this.$confirm(this.$t('请确认是否要删除该群组?'), this.$t('提示'), {
@@ -242,6 +248,7 @@ export default {
       })
     },
     editReceiver(scope) {
+      this.status = 'edit'
       this.clickScope = scope
       this.openEditDialog = true
     },
@@ -271,14 +278,22 @@ export default {
     },
     addReceiver() {
       this.openDialog = true
-      this.editOrAdd = 'add'
+      // this.editOrAdd = 'add'
+      this.status = 'add'
     },
     closeDialog(bol) {
       this.selectedTableData = []
       this.openDialog = bol
     },
-    closeChooseDialog(bol) {
-      this.openReceiverDialog = bol
+    closeChooseDialog(bol, status) {
+      console.log(status)
+      this.status = status
+      this.openReceiverDialog = false
+      if (status === 'edit') {
+        this.openEditDialog = true
+        return
+      }
+      this.openDialog = true
     },
     closeEditDialog(bol) {
       this.openEditDialog = bol
