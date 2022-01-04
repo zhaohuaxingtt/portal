@@ -324,10 +324,10 @@
               <span class="open-link-text">{{ scope.row.applyDept }}</span>
              </template>
           </el-table-column>
-          <!-- 股别  fullCode -->
+          <!-- 股别  supporterDeptNosys -->
            <el-table-column show-overflow-tooltip align="center" label="股别" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.fullCode }}</span>
+              <span class="open-link-text">{{ scope.row.supporterDeptNosys }}</span>
              </template>
           </el-table-column>
           <!-- 提交人   -->
@@ -409,7 +409,7 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="股别" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.fullCode }}</span>
+              <span class="open-link-text">{{ scope.row.supporterDeptNosys }}</span>
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >

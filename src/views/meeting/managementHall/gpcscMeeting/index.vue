@@ -408,7 +408,7 @@
                     scope.row. "字段" ? 'icon-baofeichuzhi' : 'icon-baofeichuzhi'" ></icon>
               </template> -->
             </el-table-column>
-            <!-- 股别 fullCode-->
+            <!-- 股别 supporterDeptNosys-->
             <el-table-column
               show-overflow-tooltip
               align="center"
@@ -418,7 +418,7 @@
               sortable
             >
             <template slot-scope="scope">
-                <span>{{scope.row.fullCode}}</span>
+                <span>{{scope.row.supporterDeptNosys}}</span>
               </template>
             </el-table-column>
             <!-- 项目  gpName-->
@@ -878,7 +878,7 @@
               prop="股别"
               sortable
             >
-              <!-- <span>{{scope.row}}</span> -->
+              <!-- <span>{{scope.row.supporterDeptNosys}}</span> -->
             </el-table-column>
             <el-table-column
               show-overflow-tooltip
