@@ -4,4 +4,5 @@ export const form = {
     'fixedAssetsCode': '', //比较版本
     'fixedAssetsCode': '', //比较版本2
     'fixedAssetsCode': '', //比较月份
+    'isOnly': true, // 仅看自己
 }
