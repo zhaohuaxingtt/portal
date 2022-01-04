@@ -16,21 +16,33 @@ const createAnchorLink = (href, filename = '') => {
 
 const download = ({
   fileIds,
-  filename,
+  filename
   // url,
   // callback,
   // type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   // noFileUd = false
 }) => {
-  createAnchorLink(process.env.VUE_APP_FILEAPI + '/fileud/getFileByFileId?isDown=true&fileId=' + fileIds, filename)
+  createAnchorLink(
+    process.env.VUE_APP_FILEAPI +
+      '/getFileByFileId?isDown=true&fileId=' +
+      fileIds,
+    filename
+  )
 }
 
 const downloadZip = ({ fileIds, filename }) => {
   if (filename == '') {
-    createAnchorLink(process.env.VUE_APP_FILEAPI + `/fileud/udDown?fileIds=${fileIds}`,filename)
+    createAnchorLink(
+      process.env.VUE_APP_FILEAPI + `/udDown?fileIds=${fileIds}`,
+      filename
+    )
   } else {
     const xhr = new XMLHttpRequest()
-    xhr.open('POST', process.env.VUE_APP_FILEAPI + `/fileud/udDown?fileIds=${fileIds}`, true)
+    xhr.open(
+      'POST',
+      process.env.VUE_APP_FILEAPI + `/udDown?fileIds=${fileIds}`,
+      true
+    )
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
     xhr.responseType = 'blob'
     xhr.onreadystatechange = () => {
