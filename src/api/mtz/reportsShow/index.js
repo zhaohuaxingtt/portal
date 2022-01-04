@@ -28,3 +28,12 @@ export function queryMaterialMedium(data) {
       // params: data
     })
   }
+
+//年度预算-科室
+export function yearBudgetDept(params) {
+  return request({
+    url: '/web/mtz/forecastReport/yearDept',
+    method: 'POST',
+    data: params
+  })
+}

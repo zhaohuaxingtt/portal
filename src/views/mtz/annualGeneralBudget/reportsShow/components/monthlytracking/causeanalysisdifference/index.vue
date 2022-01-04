@@ -79,6 +79,7 @@
         >
           <span>{{ $t('LK_JINKANZIJI') }}</span>
           <el-switch
+          v-model="form['isOnly']"
             @change="showOnlyMyselfData($event)"
             active-color="#1660F1"
             inactive-color="#cccccc"
@@ -166,7 +167,11 @@ export default {
         }
       }
     },
-
+    //仅看自己
+    showOnlyMyselfData(val) {
+      console.log(val)
+      this.form.isOnly = val
+    },
   }
 }
 </script>
