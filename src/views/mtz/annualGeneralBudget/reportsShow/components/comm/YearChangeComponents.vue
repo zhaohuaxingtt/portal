@@ -1,7 +1,11 @@
 <template>
  <div class='year-change'>
    <span>{{  language('LK_QIEHUANNIANFEN', '切换年份') }}</span>
-   <iDatePicker v-model="year" placeholder="请选择"  :picker-options="pickerOptions"  type="year"></iDatePicker>
+   <iDatePicker v-model='year'  placeholder="请选择"
+                 :picker-options="pickerOptions"
+                 value-format="yyyy"
+                 @change='changeYear'
+                 type="year"></iDatePicker>
  </div>
 
 </template>
@@ -17,13 +21,19 @@ export default {
   },
   data(){
     return {
-      year:2021,
+      year:  new Date(),
       pickerOptions:{
         disabledDate: (time) => {
             let nowYear = new Date().getFullYear();
-            return time.getFullYear()<=nowYear;
+            return time.getFullYear()>nowYear;
         }
     },
+    }
+  },
+  methods:{
+    changeYear(year){
+      this.year=year
+      this.$emit('changeYear', year)
     }
   }
 }

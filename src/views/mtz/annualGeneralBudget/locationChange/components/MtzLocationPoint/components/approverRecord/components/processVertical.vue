@@ -45,6 +45,10 @@
               v-if="!isMultiApprovalUser(item)">
             {{ getSingleApprovalDate(item) }}
           </div>
+          <div class="commit"
+              v-if="!isMultiApprovalUser(item)">
+            {{ getStatus(item) }}
+          </div>
           <div v-if="isMultiApprovalUser(item)"
               class="content "
               :class="{active: isActiveItem(item)}">
@@ -377,10 +381,16 @@ export default {
       return user.taskStatus
     },
     getSingleApprovalDate (item) {
-      // if (item.taskNodeList && item.taskNodeList.length > 0) {
-      //   return item.approverTime
-      // }
-      return item.approverTime
+      if (item.taskNodeList && item.taskNodeList.length > 0) {
+        return item.taskNodeList[0].endTime
+      }
+      return ""
+    },
+    getStatus(item){
+      if (item.taskNodeList && item.taskNodeList.length > 0) {
+        return item.taskNodeList[0].taskStatus
+      }
+      return ""
     }
   }
 }
@@ -438,6 +448,7 @@ $borderColor: #cbcbcb;
     }
     .date {
       font-size: 14px;
+      width:160px;
     }
     &::before {
       content: '';
@@ -514,9 +525,9 @@ $borderColor: #cbcbcb;
             background: $primaryColor;
           }
         }
-        .commit {
-          margin-left: 20px;
-        }
+        // .commit {
+        //   margin-left: 20px;
+        // }
       }
     }
   }
