@@ -769,9 +769,10 @@ export default {
                         (e) => e.id === this.ruleForm.presenter
                       )[0].department
                     : '' || '',
-                supporterDept: this.userData.filter(
-                  (e) => e.id === this.ruleForm.supporter
-                )[0].department
+                // supporterDept: this.userData.filter(
+                //   (e) => e.id === this.ruleForm.supporter
+                // )[0].department
+                supporter:this.ruleForm.supporter[0].id
               }
             }
             saveThemen(formData)

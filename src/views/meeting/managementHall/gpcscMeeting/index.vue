@@ -404,7 +404,8 @@
             <!-- 标记 -->
             <el-table-column align="center" label="标记" min-width="50">
               <!-- <template slot-scope="scope">
-                <span style="span-index">{{ scope.$index + 1 }}</span>
+                <icon symbol :name="
+                    scope.row. "字段" ? 'icon-baofeichuzhi' : 'icon-baofeichuzhi'" ></icon>
               </template> -->
             </el-table-column>
             <!-- 股别 fullCode-->
@@ -1080,7 +1081,7 @@
     /> -->
     <!-- 新增议题gp -->
     <newAddTopic
-    @closeDialog="closeDialog"
+      @closeDialog="closeDialog"
       :dialogStatusManageObj="dialogStatusManageObj"
       v-if="dialogStatusManageObj.openAddTopicNewDialog"
       @flushTable="flushTable"
@@ -1235,7 +1236,7 @@
 import batchAdjustment from './component/batchAdjustment'
 import sendAgenda from './component/sendAgenda'
 import newAddTopic from './component/newAddTopic.vue'
-import { iPage, iCard, iButton, iMessage , iDialog} from 'rise'
+import { iPage, iCard, iButton, iMessage , iDialog , icon} from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { buttonList, stateObj, themenConclusion } from './component/data'
 import actionButtons from './component/actionButtons.vue'
@@ -1304,7 +1305,8 @@ export default {
     newSummaryDialogNew,
     addTopicNew,
     importErrorDialog,
-    iDialog
+    iDialog,
+    icon
   },
   data() {
     return {
@@ -2438,6 +2440,7 @@ export default {
     },
     //新增gp议题
     newAddTopic(){
+      debugger
       this.editOrAdd = 'add'
       this.openDialog('openAddTopicNewDialog')//议题
     },

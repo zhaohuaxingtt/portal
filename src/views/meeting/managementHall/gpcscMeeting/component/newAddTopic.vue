@@ -26,10 +26,12 @@
         class="form"
       >
         <div class="row-box">
+          <!-- 议题类型 -->
           <iFormItem label="议题类型" :hideRequiredAsterisk="false" class="item">
             <iLabel :label="$t('议题类型')" slot="label"></iLabel>
             <iInput class="disabledAll" value="CSC会议" disabled>123</iInput>
           </iFormItem>
+          <!-- 项目 -->
           <iFormItem
             label="项目"
             prop="topic"
@@ -42,6 +44,7 @@
               :disabled="editOrAdd === 'look'"
             ></iInput>
           </iFormItem>
+          <!-- 上会时间 -->
           <iFormItem
             label="Duration"
             prop="duration"
@@ -54,6 +57,7 @@
               :disabled="editOrAdd === 'look'"
             ></iInput>
           </iFormItem>
+          <!-- 采购申请单号 -->
           <iFormItem
             label="Sourcing No."
             :hideRequiredAsterisk="true"
@@ -63,9 +67,10 @@
             <iLabel :label="$t('采购申请单号')" slot="label"></iLabel>
             <iInput
               v-model="ruleForm.sourcingNo"
-              :disabled="editOrAdd === 'look'"
+              :disabled="editOrAdd === 'edit'"
             ></iInput>
           </iFormItem>
+          <!-- 采购员 选择采购员带出申请部门-->
          <iFormItem
             label="Supporter"
             :hideRequiredAsterisk="true"
@@ -80,8 +85,9 @@
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
-              :disabled="ruleForm.state === '02'"
+              :disabled="editOrAdd === 'edit'"
             >
+              <!-- :disabled="ruleForm.state === '02'" -->
               <el-option
                 v-for="item in selectUserArr.length > 0
                   ? selectUserArr
@@ -97,19 +103,19 @@
               </el-option>
             </el-select>
           </iFormItem>
+          <!-- 股别 -->
           <iFormItem
             label="BEN(CN)"
-            prop="benCn"
             :hideRequiredAsterisk="true"
             class="item"
           >
-            <iLabel :label="$t('股别')" slot="label" required></iLabel>
+            <iLabel :label="$t('股别')" slot="label" ></iLabel>
             <iInput
-              v-model="ruleForm.benCn"
-              :disabled="editOrAdd === 'look'"
+              v-model="ruleForm.supporterDeptNosys"
+              :disabled="editOrAdd === 'edit'"
             ></iInput>
           </iFormItem>
-
+          <!-- 申请人 -->
           <iFormItem
             label="BEN(DE)"
             :hideRequiredAsterisk="true"
@@ -118,11 +124,11 @@
           >
             <iLabel :label="$t('申请人')" slot="label"></iLabel>
             <iInput
-              v-model="ruleForm.benDe"
-              :disabled="editOrAdd === 'look'"
+              v-model="ruleForm.presenter"
+              :disabled="editOrAdd === 'edit'"
             ></iInput>
           </iFormItem>
-
+          <!-- 申请部门 -->
           <iFormItem
             label="Supporter Department"
             prop="supporterDept"
@@ -130,11 +136,11 @@
             class="item"
           >
             <iLabel :label="$t('申请部门')" slot="label"></iLabel>
-            <iInput v-model="ruleForm.supporterDept" disabled></iInput>
+            <iInput v-model="ruleForm.supporterDept" :disabled="editOrAdd === 'edit'"></iInput>
           </iFormItem>
 
          
-          
+          <!-- 附件  备注 -->
           <div>
             <iFormItem label="附件" :hideRequiredAsterisk="true" class="item">
                 <iLabel :label="$t('附件')" slot="label"></iLabel>
@@ -322,7 +328,8 @@ export default {
         ep: '',
         attachments: [],
         presenterDept: '',
-        supporterDept: ''
+        supporterDept: '',
+        department:''
       },
       presenterStr: '',
       supporterStr: '',
@@ -380,6 +387,7 @@ export default {
   },
   mounted() {
     if (this.editOrAdd === 'edit') {
+      
       this.ruleForm = { ...this.selectedTableData[0] }
       this.queryThemen()
       this.getUsersByResponse()
@@ -437,7 +445,7 @@ export default {
       },
     },
     "ruleForm.presenter": {
-      handler: function (newV) {
+      handler: function () {
         let arr = newV.map((item) => {
           return item.id;
         });
@@ -504,8 +512,10 @@ export default {
         meetingId: this.meetingInfo.id
       }
       findTheThemenById(data).then((res) => {
-        this.ruleForm.supporter = res.supporter
+        console.log(res,'重要');
+        // this.ruleForm.supporter = res.supporter
         this.ruleForm.presenter = res.presenter
+        this.ruleForm.supporterDept = res.supporterDept
       })
     },
     handleDownload(row) {
@@ -528,6 +538,10 @@ export default {
         ? this.userData.filter(this.createStateFilter(queryString))
         : this.userData
       this.selectUserArr = currentSearchUserData
+      console.log(this.selectUserArr,'重要');
+      if (this.editOrAdd === 'edit') {
+        this.ruleForm.supporter =  this.selectUserArr
+      }
     },
 
     //编辑和添加时的文件上传
@@ -718,7 +732,8 @@ export default {
               })
           } else {
             const formData = {
-              themen: {
+              themen: { 
+                // supporter是  string
                 ...this.ruleForm,
                 id: '',
                 meetingId: this.meetingInfo.id,
@@ -730,11 +745,17 @@ export default {
                         (e) => e.id === this.ruleForm.presenter
                       )[0].department
                     : '' || '',
-                supporterDept: this.userData.filter(
-                  (e) => e.id === this.ruleForm.supporter
-                )[0].department
+                // supporterDept: this.userData.filter(
+                //   (e) => e.id === this.ruleForm.supporter
+                // )[0].department
+                supporter:this.ruleForm.supporter[0].id
               }
             }
+            // 采购员 id
+            console.log(this.ruleForm.supporter[0].id);
+            console.log(this.userData);
+            console.log(this.ruleForm);
+            console.log(formData);
             saveThemen(formData)
               .then((data) => {
                 if (data) {
@@ -745,8 +766,7 @@ export default {
                 this.loading = false
                 this.subButtonFlag = false
                 this.close()
-              })
-              .catch((err) => {
+              }).catch((err) => {
                 this.loading = false
                 console.log('err', err)
                 this.subButtonFlag = false

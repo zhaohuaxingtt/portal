@@ -1779,6 +1779,7 @@ export default {
       }
       // this.openDialog('openAddTopicDialog')
       console.log('临时议题');
+      debugger
       this.openDialog('openAddTopicNewDialog')//议题
     },
     importTopic() {
