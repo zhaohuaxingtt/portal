@@ -53,3 +53,22 @@ export function endCscThemen(data) {
     data
   })
 }
+// 通过一般议题id查询供应商信息  结束列表
+// /gpMeetingService/findGpBidderInfoByThemenId
+export function findGpBidderInfoByThemenId(data) {
+  return requst({
+    url: `/gpMeetingService/findGpBidderInfoByThemenId`,
+    method: 'POST',
+    data
+  })
+}
+
+// 通过一般议题id查询采购信息  结束表单
+// /gpMeetingService/findGpInfoByThemenId
+export function findGpInfoByThemenId(data) {
+  return requst({
+    url: `/gpMeetingService/findGpInfoByThemenId`,
+    method: 'POST',
+    data
+  })
+}

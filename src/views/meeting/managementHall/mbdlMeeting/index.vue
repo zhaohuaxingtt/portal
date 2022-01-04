@@ -289,10 +289,10 @@
               <span class="open-link-text">{{ scope.row.itemNo }}</span>
             </template>
           </el-table-column>
-          <!-- MBDL名称    gpName-->
+          <!-- MBDL名称    gpName  改 topic-->
           <el-table-column show-overflow-tooltip align="center" label="MBDL名称" width="120" >
             <template slot-scope="scope">
-              <span class="open-link-text look-themen-click" >{{ scope.row.gpName }}</span>
+              <span class="open-link-text look-themen-click" >{{ scope.row.topic }}</span>
             </template>
           </el-table-column>
           <!-- 英文名称  mbdlNameEn -->
@@ -318,23 +318,23 @@
               <span class="open-link-text">{{ scope.row.updateDate }}</span>
             </template>
           </el-table-column>
-          <!-- 主要申请部门  applyDept -->
+          <!-- 主要申请部门  applyDept 改 supporterDept-->
            <el-table-column show-overflow-tooltip align="center" label="主要申请部门" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.applyDept }}</span>
+              <span class="open-link-text">{{ scope.row.supporterDept }}</span>
              </template>
           </el-table-column>
-          <!-- 股别  fullCode -->
+          <!-- 股别  supporterDeptNosys -->
            <el-table-column show-overflow-tooltip align="center" label="股别" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.fullCode }}</span>
+              <span class="open-link-text">{{ scope.row.supporterDeptNosys }}</span>
              </template>
           </el-table-column>
-          <!-- 提交人   -->
+          <!-- 提交人   supporter-->
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
-             <!-- <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.source }}</span>
-             </template> -->
+             <template slot-scope="scope">
+              <span class="open-link-text">{{ scope.row.supporter }}</span>
+             </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="时间" width="120" >
              <template slot-scope="scope">
@@ -404,12 +404,12 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="主要申请部门" width="120" >
               <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.applyDept }}</span>
+              <span class="open-link-text">{{ scope.row.supporterDept }}</span>
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="股别" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.fullCode }}</span>
+              <span class="open-link-text">{{ scope.row.supporterDeptNosys }}</span>
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >
@@ -1779,6 +1779,7 @@ export default {
       }
       // this.openDialog('openAddTopicDialog')
       console.log('临时议题');
+      debugger
       this.openDialog('openAddTopicNewDialog')//议题
     },
     importTopic() {
