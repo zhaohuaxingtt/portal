@@ -1,9 +1,9 @@
 <template>
   <iCard :title="language('银行信息')" collapse>
     <div class="actions" slot="header-control">
-      <iButton v-show="!editable" @click="editable = true">编辑</iButton>
-      <iButton v-show="editable" @click="save">保存</iButton>
-      <iButton v-show="editable" @click="cancel">取消</iButton>
+      <iButton v-show="!editable" @click="editable = true">{{language('编辑')}}</iButton>
+      <iButton v-show="editable" @click="save">{{language('保存')}}</iButton>
+      <iButton v-show="editable" @click="cancel">{{language('取消')}}</iButton>
     </div>
     <el-form
       label-position="left"
@@ -150,6 +150,10 @@ export default {
               if (res.result) {
                 iMessage.success(res.desZh || '保存成功')
                 this.editable = false
+                this.originalForm = _.cloneDeep({
+                  ...this.originalForm,
+                  ...data
+                })
               } else {
                 iMessage.error(res.desZh || '保存失败')
               }

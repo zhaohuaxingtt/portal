@@ -250,7 +250,7 @@ export default {
         //   message: "定点"
         // },
         {
-          code:"NOTPASS",
+          code:"FLOWED_FAIL",
           message: "未通过"
         },
       ],

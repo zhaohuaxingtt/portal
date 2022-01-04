@@ -1,7 +1,7 @@
 /*
  * @Author: Zhangbin
  * @Date: 2021-04-19 17:50:00
- * @LastEditTime: 2021-10-15 16:12:21
+ * @LastEditTime: 2021-12-31 16:25:53
  * @Description: 联系人与用户
  */
 import axios from '@/utils/axios'
@@ -106,6 +106,35 @@ export function getCommitmentLetter(parmars, type) {
     method: '',
     data: {
       ...parmars
+    },
+    baseURL:
+      type < 4
+        ? `${process.env.VUE_APP_SUPPLIER}/web/register`
+        : `${process.env.VUE_APP_SUPPLIER}/web`
+  })
+}
+
+export function freeze(parmars, type) {
+  return requst({
+    url: '/user/freeze',
+    method: 'PUT',
+    data: {
+      ...parmars,
+      supplierToken: store.state.home.valiCode
+    },
+    baseURL:
+      type < 4
+        ? `${process.env.VUE_APP_SUPPLIER}/web/register`
+        : `${process.env.VUE_APP_SUPPLIER}/web`
+  })
+}
+export function unFreeze(parmars, type) {
+  return requst({
+    url: '/user/unfreeze',
+    method: 'PUT',
+    data: {
+      ...parmars,
+      supplierToken: store.state.home.valiCode
     },
     baseURL:
       type < 4

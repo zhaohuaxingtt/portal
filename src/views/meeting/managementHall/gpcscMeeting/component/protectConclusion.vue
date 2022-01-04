@@ -17,7 +17,8 @@
         :hideRequiredAsterisk="true"
         class="form-box"
       >
-        <iFormItem prop="conclusionCsc">
+        <!-- 结论 -->
+        <iFormItem prop="conclusionCsc" >
           <div class="operate">
             <div class="operate-title">
               <span class="conclusion">结论</span>
@@ -40,10 +41,11 @@
             </iSelect>
           </div>
         </iFormItem>
-        <iFormItem prop="isFrozenRs" 
+        <!-- LOI -->
+        <iFormItem prop="isFrozenRs" v-if="showIFormItemRS" 
         >
           <div class="switch-content">
-            <div class="freeze">冻结RS单</div>
+            <div class="freeze">提交LOI审批</div>
             <div class="swicth">
               <div class="text" v-if="ruleForm.isFrozenRs" ref="sliderText">
                 是
@@ -53,7 +55,8 @@
             </div>
           </div>
         </iFormItem>
-        <iFormItem
+        <!-- 任务 -->
+        <iFormItem 
           label="任务"
           prop="taskCsc"
           :hideRequiredAsterisk="true"
@@ -70,7 +73,7 @@
       </el-form>
     </iEditForm>
     <!-- 列表 -->
-    <div>
+    <div v-if="showIFormItemList">
       <div class="commonTablediv">RFQ发送对象</div>
           <commonTable
           class="commonTablediv"
@@ -79,12 +82,12 @@
             @handle-selection-change="handleSelectionChange"
             :customClass="true"
             :tableLoading="loading"
-            :tableData="tableData"
+            :tableData="tableDataList"
             :tableTitle="tableColumns"
             />
     </div>
     <!-- 输入框 -->
-    <div>
+    <div  v-if="showIFormItemelform">
       <el-form
         :model="formData"
         ref="ruleForm"
@@ -159,14 +162,13 @@
     </div>
    
     <div class="button-list">
-      <iButton class="sure" @click="handleSure" :loading="loading"
-        >确定</iButton
-      >
+      <iButton class="sure" @click="handleSure" :loading="loading" >提交</iButton >
       <iButton class="cancel" @click="handleCancel">取消</iButton>
     </div>
   </iDialog>
 </template>
 <script>
+import { endCscThemen } from '@/api/meeting/gpMeeting'
 import commonTable from '@/components/commonTable'
 import iEditForm from '@/components/iEditForm'
 import iTableML from '@/components/iTableML'
@@ -237,6 +239,9 @@ export default {
   data() {
     if (this.autoOpenProtectConclusionObj) {
       return {
+        showIFormItemRS: false,
+        showIFormItemList: false,
+        showIFormItemelform: false,
         formData:{},
         tableColumns: [...TABLE_COLUMNS_DEFAULT],
         loading: false,
@@ -277,6 +282,9 @@ export default {
       }
     } else {
       return {
+        showIFormItemRS: false,
+        showIFormItemList: false,
+        showIFormItemelform: false,
         formData:{},
         tableColumns: [...TABLE_COLUMNS_DEFAULT],
         loading: false,
@@ -445,75 +453,65 @@ export default {
       this.curChooseArr = [...val]
       this.currentRow = val[val.length - 1]
     },
-    handleSure() {
-      const curObj = this.autoOpenProtectConclusionObj
-        ? this.autoOpenProtectConclusionObj
-        : this.selectedTableData[0]
-      let param = {
-        ...curObj
+    // 提交 endCscThemen
+    handleSure(){
+      const params = {
+       conclusion:this.ruleForm.taskCsc,//任务
+       meetingId:this.$route.query.id,//会议id
+       result:this.ruleForm.conclusion.conclusionCsc,//结论
+       themenId:this.selectedTableData[0].id//议题id
       }
-      if (
-        this.ruleForm.conclusion.conclusionCsc === '05' ||
-        this.ruleForm.conclusion.conclusionCsc === '06'
-      ) {
-        if (this.curChooseArr.length === 0) {
-          iMessage.error('请选择一个下次会议')
-          return
+      console.log(params);
+      endCscThemen(params).then((res) => {
+        if (res.code) {
+          iMessage.success('结束议题成功！')
+          this.$emit('flushTable')
+          this.$emit('close')
+        }else{
+          iMessage.success('结束会议失败！')
         }
-        if (this.curChooseArr.length > 1) {
-          iMessage.error('下次会议只能选择一个!')
-          return
-        }
-        param.toDoMeeting = this.curChooseArr[0].id
-        param.conclusion = this.ruleForm.taskCsc
-        param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc
-        param.isFrozenRs = false
-        param.toDoMeetingName = this.curChooseArr[0].name
-      } else if (this.ruleForm.conclusion.conclusionCsc === '02') {
-        param.toDoMeetingName = ''
-        param.toDoMeeting = ''
-        param.conclusion = this.ruleForm.taskCsc
-        param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc
-        param.isFrozenRs = this.ruleForm.isFrozenRs
-      } else {
-        param.toDoMeetingName = ''
-        param.toDoMeeting = ''
-        param.conclusion = this.ruleForm.taskCsc
-        param.conclusionCsc = this.ruleForm.conclusion.conclusionCsc
-        param.isFrozenRs = false
-      }
-      this.loading = true
-      updateThemen(param).then((res) => {
-        if (res.code === 200) {
-          iMessage.success('维护成功!')
-        }
-        this.loading = false
-        this.close()
       })
+
     },
     handleCancel() {
       this.close()
     },
     changeConclusion(e) {
       console.log(e);
-      this.isShowTable = false
-      this.isShowSwitch = false
-      if (e.conclusionCsc === '02') {
-        debugger
-        this.isShowSwitch = true
-        this.ruleForm.isFrozenRs = true
-      }
-      if (e.conclusionCsc === '05' || e.conclusionCsc === '06') {
-        this.isShowTable = true
-        if (e.conclusionCsc === '05') {
-          this.getUpdateDateTableList('Pre CSC').then(() => {
-            this.currentRow = {}
-          })
-        } else {
-          this.getUpdateDateTableList('CSC').then(() => {
-            this.currentRow = {}
-          })
-        }
+      // this.isShowTable = false
+      // this.isShowSwitch = false
+      // if (e.conclusionCsc === '02') {
+      //   debugger
+      //   this.isShowSwitch = true
+      //   this.ruleForm.isFrozenRs = true
+      // }
+      // if (e.conclusionCsc === '05' || e.conclusionCsc === '06') {
+      //   this.isShowTable = true
+      //   if (e.conclusionCsc === '05') {
+      //     this.getUpdateDateTableList('Pre CSC').then(() => {
+      //       this.currentRow = {}
+      //     })
+      //   } else {
+      //     this.getUpdateDateTableList('CSC').then(() => {
+      //       this.currentRow = {}
+      //     })
+      //   }
+      // }
+      if (e.conclusionCsc == '01' || e.conclusionCsc == '05') {
+        // 只有结论和任务
+        this.showIFormItemRS= false
+        this.showIFormItemList= false
+        this.showIFormItemelform= false
+      }else if(e.conclusionCsc == '04' ){
+        // 结论 任务 列表
+        this.showIFormItemRS= false
+        this.showIFormItemList= true
+        this.showIFormItemelform= false
+      }else if(e.conclusionCsc == '03' || e.conclusionCsc == '02'){
+        // 结论 任务 LOi
+        this.showIFormItemRS= true
+        this.showIFormItemList= false
+        this.showIFormItemelform= true
       }
     },
     //获取日期改期的更新的表格数据
@@ -600,6 +598,7 @@ export default {
     white-space: nowrap;
   }
   .swicth {
+    margin-left: 30px;
     position: relative;
     width: 42px;
     height: 22px;
@@ -634,6 +633,7 @@ export default {
   .operate-select {
     height: 35px;
     width: 240px;
+    margin-left: 30px;
   }
   .conclusion {
     width: 32px;

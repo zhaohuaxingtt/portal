@@ -1,6 +1,6 @@
 <template>
   <iCard
-    title="车型项目产量计划"
+    :title="language('车型项目产量计划')"
     class="margin-bottom20"
     header-control
     collapse

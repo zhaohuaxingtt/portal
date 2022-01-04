@@ -6,7 +6,7 @@
         :class="{ active: activeName === 'product' }"
         @click="activeName = 'product'"
       >
-        主要产品
+        {{language('主要产品')}}
       </div>
       <span class="divider">|</span>
       <div
@@ -14,7 +14,7 @@
         :class="{ active: activeName === 'company' }"
         @click="activeName = 'company'"
       >
-        关联公司
+        {{language('关联公司')}}
       </div>
       <span class="divider">|</span>
       <div
@@ -22,7 +22,7 @@
         :class="{ active: activeName === 'corp' }"
         @click="activeName = 'corp'"
       >
-        关联集团
+        {{language('关联集团')}}
       </div>
     </div>
     <i-table-custom

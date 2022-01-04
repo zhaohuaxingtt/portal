@@ -9,27 +9,42 @@
               <el-col :span="6">
                 <i-form-item :label='language("科室")'>
                   <i-select>
-                    <el-option></el-option>
+                    <el-option
+                      v-for="item in deptOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
+                    ></el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
                 <i-form-item :label='language("MTZ材料组")'>
                   <i-select>
-                    <el-option></el-option>
+                    <el-option
+                      v-for="item in mtzOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
+                    ></el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
                 <i-form-item :label='language("材料中类")'>
                   <i-select>
-                    <el-option></el-option>
+                    <el-option
+                      v-for="item in materialMiddleOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
+                    ></el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
                 <i-form-item :label='language("版本月份")'>
-                  <i-datePicker>
+                  <i-datePicker v-model="time" :placeholder='language("请选择")' format='yyyy-MM' type='month'>
                   </i-datePicker>
                 </i-form-item>
               </el-col>
@@ -37,9 +52,11 @@
           </el-form>
         </div>
         <div class="btn-list">
-          <span style="margin-right:20px" >{{language('只看自己 ')}}<el-switch v-model="onlySelf" ></el-switch></span>
-          <i-button>{{language('确认')}}</i-button>
-          <i-button>{{language('重置')}}</i-button>
+          <span class="only-myself" >{{language('只看自己 ')}}
+            <el-switch v-model="onlySelf" ></el-switch>
+          </span>
+          <i-button @click="sure">{{language('确认')}}</i-button>
+          <i-button @click="reset">{{language('重置')}}</i-button>
         </div>
       </div>
     </i-card>
@@ -84,10 +101,18 @@ export default {
   data(){
     return{
       onlySelf:false,
+      time:'',
+      //科室选择
+      deptOption:[],
+      //MTZ材料组选择
+      mtzOption:[],
+      //材料中类选择
+      materialMiddleOption:[],
+      //月度数据
       dataMonth:[
-        2,
-        5,
-        7,
+        2.1,
+        5.2,
+        7.4,
         8,
         5,
         3,
@@ -98,7 +123,9 @@ export default {
         5,
         9
       ],
-      contrastData:[1,-2,3,-4,5,-3,6,7,-2,8,0,2]
+      //差异数据
+      contrastData:[1,-2,3,-4,5,-3,6,7,-2,8,0,2],
+      searchForm:{}
     }
   },
   mounted(){
@@ -108,45 +135,6 @@ export default {
     iniChart(){
       const date = new Date
       const month = date.getMonth()
-      // const monthColor = this.dataMonth.map((item,index) => {
-      //   if(index < month){
-      //     return {
-      //       value:item,
-      //       itemStyle:{
-      //         normal:{
-      //           color:'RGB(2,96,241)',
-      //         label:{
-      //           show: true,
-      //           position: 'top',
-      //           textStyle:{
-      //             color:'RGB(2,96,241)'
-      //           }
-      //         },
-      //         borderRadius:[4,4,0,0],
-      //         },
-      //       }
-      //     }
-      //   }else{
-      //     return {
-      //       value:item,
-      //       itemStyle:{
-      //         normal:{
-      //           color:"rgb(119,203,255)",
-      //           label:{
-      //             show: true,
-      //             position: 'top',
-      //             textStyle:{
-      //               color:'rgb(119,203,255)'
-      //             }
-      //           },
-      //           borderRadius:[4,4,0,0],
-      //         }
-                  
-      //       }
-      //     }
-      //   }
-      // })
-      // console.log(monthColor,'=====-----');
       const el = document.getElementById('report-charts')
       const chart = echarts().init(el)
       chart.setOption({
@@ -157,7 +145,6 @@ export default {
           textStyle:{
             color:'#9092A5',
             fontSize:'12',
-            width:'400',
             fontWeight:'normal'
           }
         },
@@ -168,6 +155,15 @@ export default {
         xAxis: {
           type: 'category',
           axisTick: { show: false },
+          axisLine:{
+            lineStyle:{
+              color:'#6D6E7E'
+            }
+          },
+          axisLabel:{
+            fontWeight:'bold',
+            margin:20
+          },
           data:[
             '2021-01',
             '2021-02',
@@ -187,7 +183,7 @@ export default {
           {
             //设置间距，需要计算
             max: 10,
-            splitNumber: '10'
+            splitNumber: '10',
           }
         ],
         legend: {
@@ -195,32 +191,26 @@ export default {
           icon: 'circle',
           selectedMode:false,
           data:['实际应付','月度预测','年度预测','机会','风险'],
-          itemGap:20
+          itemGap:20,
+          itemHeight:'12'
         },
         tooltip: {
-          show: true
+          show: true,
+          formatter:(params)=>{
+            let price = 0
+            price =  params.value * 1000000
+            price = String(price)
+            const tempt = price.split('').reverse().join('').match(/(\d{1,3})/g)
+            let currency = tempt.join(',').split('').reverse().join('')
+            
+            return currency
+          }
         },
-        // dataset:{
-        //   source:[
-        //     ['product','实际应付','月度预测','年度预测'],
-        //     ['2021-01', '3' ,'3'],
-        //     ['2021-02', '5' ,'4'],
-        //     ['2021-03', '7' ,'6'],
-        //     ['2021-04', '6' ,'9'],
-        //     ['2021-05', '9' ,'6'],
-        //     ['2021-06'  ,'3','2'],
-        //     ['2021-07'  ,'3','7'],
-        //     ['2021-08','2','5'],
-        //     ['2021-09'  ,'1','8'],
-        //     ['2021-10'  ,'7','4'],
-        //     ['2021-11' , '3','2'],
-        //     ['2021-12', '5','6']
-        //   ]
-        // },
         series:[
           {
             name:'实际应付',
             type: 'bar',
+            barWidth:'30',
             data:this.dataMonth,
             itemStyle: {
               normal: {
@@ -239,6 +229,9 @@ export default {
               normal:{
                 show: true,
                 position: 'top',
+                formatter:(params)=>{
+                  return Number(params.value).toFixed(2)
+                },
                 textStyle: {
                   color: 'inherit',
                 }
@@ -271,6 +264,15 @@ export default {
                   }
                 }
               }
+            },
+            label:{
+              normal:{
+                show:true,
+                formatter:(params)=>{
+                  return Number(params.value).toFixed(2)
+                }
+              }
+              
             }
           },
           {
@@ -289,6 +291,12 @@ export default {
           }
         ]
       })
+    },
+    sure(){
+      const data = {}
+    },
+    reset(){
+      this.searchForm = {}
     }
   }
 }
@@ -322,6 +330,19 @@ export default {
       display: flex;
       justify-content: space-around;
       align-items: center;
+    }
+  }
+  .btn-list{
+    display: flex;
+    align-items: center;
+    .only-myself{
+      font-size: 20px;
+      margin-right: 20px;
+      display: flex;
+      align-items: center;
+      ::v-deep .el-switch{
+        margin-left: 10px;
+      }
     }
   }
   

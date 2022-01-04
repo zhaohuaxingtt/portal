@@ -80,13 +80,13 @@
       </template>
       <!-- 深评结果 -->
       <template #deepCommentResult="scope">
-        <icon v-if="scope.row.deepCommentResult == '绿'"
+        <icon v-if="scope.row.deepCommentResult == 'GREEN'"
               symbol
               name="iconlvdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == '黄'"
+        <icon v-else-if="scope.row.deepCommentResult == 'YELLOW'"
               symbol
               name="iconhuangdeng"></icon>
-        <icon v-else-if="scope.row.deepCommentResult == '红'"
+        <icon v-else-if="scope.row.deepCommentResult == 'RED'"
               symbol
               name="iconhongdeng"></icon>
       </template>
@@ -469,7 +469,8 @@ export default {
         path: '/supplier/view-suppliers',
         query: {
           supplierToken: row.supplierToken,
-          current: 18
+          current: 18,
+          supplierType: 4
         }
       })
     },

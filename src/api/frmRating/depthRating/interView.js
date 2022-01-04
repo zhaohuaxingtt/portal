@@ -6,7 +6,7 @@
 import axios from '@/utils/axios'
 import download from '@/utils/axios.download'
 const requst = axios(process.env.VUE_APP_SUPPLIER + '/web')
-const requstDownload = download(process.env.VUE_APP_SUPPLIER)
+const requstDownload = download(process.env.VUE_APP_SUPPLIER + '/web')
 // 获取访谈清单
 export function interviewMessage(parmars) {
   return requst({

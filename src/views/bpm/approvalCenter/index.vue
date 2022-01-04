@@ -6,15 +6,14 @@
       :approval-num="approvalNum"
       @toggle="toggleTabActive"
     />
-
     <div class="panel-body" v-loading="loading">
       <panelApplication
         v-show="active === 'application'"
-        @set-num="val => (applyNum = val)"
+        @set-num="(val) => (applyNum = val)"
       />
       <panelApproval
         v-show="active === 'approval'"
-        @set-num="val => (approvalNum = val)"
+        @set-num="(val) => (approvalNum = val)"
       />
     </div>
   </iPage>

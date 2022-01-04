@@ -313,6 +313,7 @@ export default {
     width: 100%;
     box-sizing: border-box;
     background-color: #fff;
+    padding-top: 5px;
   }
 }
 </style>

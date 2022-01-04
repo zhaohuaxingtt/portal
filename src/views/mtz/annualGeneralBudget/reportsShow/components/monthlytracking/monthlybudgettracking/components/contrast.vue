@@ -2,7 +2,7 @@
 <div>
     <div class="contrast-content" v-if="price!= 0">
       <div :class='["contrast-img",price > 0 ? "green" : "red"]'></div>
-      <div style="margin-left:10px">{{price}}</div>
+      <div style="margin-left:4px">{{Number(price).toFixed(2)}}</div>
     </div>
     <div v-else class="contrast-content">
         

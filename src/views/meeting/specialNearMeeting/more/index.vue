@@ -254,7 +254,7 @@
           min-width="45"
         >
           <template slot-scope="scope">
-            <span>{{ themenConclusion[scope.row.conclusionCsc] }}</span>
+            <span>{{ $t(themenConclusion[scope.row.conclusionCsc]) }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" width="30"></el-table-column>
@@ -285,6 +285,7 @@
         @closeDialog="closeDialog"
         :topicInfo="lookThemenObj"
         :isGetInfoById="true"
+        :isSelf="isSelf"
       >
       </addTopicNew>
     </iCard>
@@ -306,6 +307,7 @@ import { stateObj, themenConclusion } from './data'
 import { recallThemen } from '@/api/meeting/details'
 import { getMettingType } from '@/api/meeting/type'
 import { queryDeptList } from '@/api/meeting/live'
+import { getUserIdListTree } from '@/api/usercenter'
 
 export default {
   components: {
@@ -321,6 +323,7 @@ export default {
   },
   data() {
     return {
+      isSelf: false,
       meetingTypeList: [],
       processUrl: process.env.VUE_APP_POINT,
       processUrlPortal: process.env.VUE_APP_POINT_PORTAL,
@@ -652,12 +655,29 @@ export default {
     closeDialog() {
       this.openAddTopic = false
     },
-    lookOrEdit(row) {
+    async queryRelateUserList(currentUserId) {
+      const requestData = {
+        userId: currentUserId,
+        isAgent: true
+      }
+      return await getUserIdListTree(requestData)
+    },
+    async lookOrEdit(row) {
+      const getUserId = JSON.parse(sessionStorage.getItem('userInfo')).id
+      const currentUserId = getUserId ? getUserId.toString() : ''
+      const presenterId = row.presenterId ? row.presenterId.toString() : ''
+      const supporterId = row.supporterId ? row.supporterId.toString() : ''
+      this.isSelf =
+        currentUserId === presenterId || currentUserId === supporterId
       if (row.source === '04') {
-        // window.open(
-        //     `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
-        //     "_blank"
-        // );
+        if (!this.isSelf) {
+          const res = await this.queryRelateUserList(getUserId)
+          const list = res.data.map((item) => item.toString())
+          if (!(list.includes(presenterId) || list.includes(supporterId))) {
+            iMessage.warn(this.$t('MT_WUCHAKANQUANXIAN'))
+            return
+          }
+        }
         if (row.type === 'FS+MTZ') {
           window.open(
             `${this.processUrl}/designate/decisiondata/mtz?desinateId=${row.fixedPointApplyId}&isPreview=1`,
@@ -745,41 +765,43 @@ export default {
       let to = pageNum * this.page.pageSize
       this.tableData = data.slice(from, to)
     },
-     setColumnWidth(data){
-      console.log(data,'data');
-      let index=0
-      let maxStr=''
-      for(let i=0; i<data.length;i++){
-        if(data[i].topic===null){
+    setColumnWidth(data) {
+      if (!data || data.length === 0) {
+        return
+      }
+      let index = 0
+      let maxStr = ''
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].topic === null) {
           return
         }
-        const nowline=data[i].topic+''
-        const maxline=data[index].topic+''
-        if(nowline.length>maxline.length){
-          index=i
+        const nowline = data[i].topic + ''
+        const maxline = data[index].topic + ''
+        if (nowline.length > maxline.length) {
+          index = i
         }
       }
-      maxStr=data[index].topic
-      let columnWidth=0;
-       for (let char of maxStr) {
-          if ((char >= 'A' && char <= 'Z') ) {
-            columnWidth += 8
-          }else if( char >= 'a' && char <= 'z'){
-            columnWidth += 6
-          } else if (char >= '\u4e00' && char <= '\u9fa5') {
-            columnWidth += 13
-          } else {
-            columnWidth += 7
-          }
+      maxStr = data[index].topic
+      let columnWidth = 0
+      for (let char of maxStr) {
+        if (char >= 'A' && char <= 'Z') {
+          columnWidth += 8
+        } else if (char >= 'a' && char <= 'z') {
+          columnWidth += 6
+        } else if (char >= '\u4e00' && char <= '\u9fa5') {
+          columnWidth += 13
+        } else {
+          columnWidth += 7
         }
-        if (columnWidth < 223) {
-          columnWidth = 223
-        }
-        if(columnWidth > 306){
-          columnWidth = 306
-        }
-        return columnWidth + 'px'
-      },
+      }
+      if (columnWidth < 223) {
+        columnWidth = 223
+      }
+      if (columnWidth > 306) {
+        columnWidth = 306
+      }
+      return columnWidth + 'px'
+    }
   }
 }
 </script>

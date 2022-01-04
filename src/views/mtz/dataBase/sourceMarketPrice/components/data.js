@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-07 15:05:40
- * @LastEditTime: 2021-11-16 11:48:31
+ * @LastEditTime: 2021-12-28 14:30:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \front-portal\src\views\mtz\dataBase\sourceMarketPrice\components\data.js
@@ -71,7 +71,7 @@ export const tableSetting = [
     width: 180
   },
   {
-    props: 'prPriceSourceTypeValue',
+    props: 'priceRuleValue',
     name: '取价规则',
     key: 'QUJIAGUIZE',
     width: 500

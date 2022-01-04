@@ -9,39 +9,55 @@
               <el-col :span="6">
                 <i-form-item :label="language('科室')">
                   <i-select>
-                    <el-option></el-option>
+                    <el-option 
+                      v-for="item in deptOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
+                      >
+                      </el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
                 <i-form-item :label="language('MTZ材料组')">
                   <i-select>
-                    <el-option></el-option>
+                    <el-option
+                      v-for="item in mtzOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
+                    >
+                    </el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
                 <i-form-item :label="language('材料中类')">
                   <i-select>
-                    <el-option></el-option>
+                    <el-option
+                      v-for="item in materialMiddleOption"
+                      :key="item.value"
+                      :label="item.label"
+                      :value='item.value'
+                    ></el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
                 <i-form-item :label="language('年份月份')">
-                  <i-datePicker> </i-datePicker>
+                  <i-datePicker v-model="time" :placeholder='language("请选择")' format='yyyy-MM' type='month'></i-datePicker>
                 </i-form-item>
               </el-col>
             </el-row>
           </el-form>
         </div>
         <div class="btn-list">
-          <span style="margin-right: 20px"
-            >{{ language('只看自己 ')
-            }}<el-switch v-model="onlySelf"></el-switch
-          ></span>
-          <i-button>{{ language('确认') }}</i-button>
-          <i-button>{{ language('重置') }}</i-button>
+          <span  class="only-myself">{{ language('只看自己 ')}}
+            <el-switch v-model="onlySelf"></el-switch>
+          </span>
+          <i-button @click="sure">{{ language('确认') }}</i-button>
+          <i-button @click="reset">{{ language('重置') }}</i-button>
         </div>
       </div>
     </i-card>
@@ -80,11 +96,24 @@ export default {
   data() {
     return {
       onlySelf: false,
+      time:'',
       showDifference:true,
+      //科室选择
+      deptOption:[],
+      //MTZ材料组选择
+      mtzOption:[],
+      //材料中类选择
+      materialMiddleOption:[],
       calculate:[
-        1,3,4,-6,2,8,-4,-2,-4,2,9,-3
-      ]
+        1,3,4,-6,2,8,-4,-2,-4,2,9,-3.2
+      ],
+      searchForm:{
+
+      }
     }
+  },
+  created(){
+    this.sure()
   },
   mounted() {
     this.iniReport()
@@ -101,7 +130,6 @@ export default {
           textStyle:{
             color:'#9092A5',
             fontSize:'12',
-            width:'400',
             fontWeight:'normal'
           }
         },
@@ -112,6 +140,15 @@ export default {
         xAxis: {
           type: 'category',
           axisTick: { show: false },
+          axisLine:{
+            lineStyle:{
+              color:'#6D6E7E',
+            }
+          },
+          axisLabel:{
+            fontWeight:'bold',
+            margin:20
+          }
         },
         yAxis: [
           {
@@ -124,18 +161,31 @@ export default {
           {
             x: 'left',
             icon: 'circle',
-            selectedMode:false
+            itemHeight:'12',
+            selectedMode:false,
+            itemGap:20
           }
         ],
         tooltip: {
-          show: true
+          show: true,
+          // showContent:false
+          formatter:(params)=>{
+            // return `${Number(params.value[2]) * 1000000}`
+            let price = 0
+            params.seriesName == '已支付' ? price = params.value[2] * 1000000 : price =  params.value[1] * 1000000
+            price = String(price)
+            const tempt = price.split('').reverse().join('').match(/(\d{1,3})/g)
+            let currency = tempt.join(',').split('').reverse().join('')
+            
+            return currency
+          }
         },
         //数据集
         dataset: {
           source: [
             ['product', '应付（补差凭证⾦额）', '已支付', '差值'],
-            ['2021-01', '20', '10'],
-            ['2021-02', '26', '21'],
+            ['2021-01', '21.5', '10'],
+            ['2021-02', '20.6', '21'],
             ['2021-03', '20', '5'],
             ['2021-04', '23', '11'],
             ['2021-05', '20', '12'],
@@ -151,12 +201,16 @@ export default {
         series: [
           {
             type: 'bar',
+            barWidth:'30',
             itemStyle: {
               normal: {
                 color: 'RGB(2,96,241)',
                 label: {
                   show: true,
                   position: 'top',
+                  formatter:(params)=>{
+                    return Number(params.value[1]).toFixed(2)
+                  },
                   textStyle: {
                     color: 'RGB(2,96,241)'
                   }
@@ -167,12 +221,16 @@ export default {
           },
           {
             type: 'bar',
+            barWidth:'30',
             itemStyle: {
               normal: {
                 color: 'rgb(119,203,255)',
                 label: {
                   show: true,
                   position: 'top',
+                  formatter:(params)=>{
+                    return Number(params.value[2]).toFixed(2)
+                  },
                   textStyle: {
                     color: 'rgb(119,203,255)'
                   }
@@ -190,15 +248,19 @@ export default {
             }
           }
         ],
-
-      }),
-      // window.addEventListener('resize',function(){chart.resize()})
-      chart.on('legendselectchanged',(params)=>{
-        const {name,selected} = params
-        if(name == '差值'){
-          selected['差值'] ? this.showDifference = true : this.showDifference = false
-        }
       })
+      // chart.on('legendselectchanged',(params)=>{
+      //   const {name,selected} = params
+      //   if(name == '差值'){
+      //     selected['差值'] ? this.showDifference = true : this.showDifference = false
+      //   }
+      // })
+    },
+    sure(){
+      const data = {}
+    },
+    reset(){
+
     }
   }
 }
@@ -225,7 +287,7 @@ export default {
 .difference-box{
   width: 92%;
   position: absolute;
-  bottom: 50px;
+  bottom: 30px;
   .display-difference{
     // margin-top: -30px;
      width: 100%;
@@ -237,6 +299,18 @@ export default {
   }
 }
 
-
+.btn-list{
+  display: flex;
+  align-items: center;
+  .only-myself{
+    margin-right: 20px;
+    font-size:20px;
+    display: flex;
+    align-items: center;
+    ::v-deep .el-switch{
+      margin-left: 10px;
+    }
+  }
+}
 
 </style>
