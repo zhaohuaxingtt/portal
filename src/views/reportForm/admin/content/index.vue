@@ -30,7 +30,7 @@
 
         <iCard class="margin-top20">
             <div class="btn">
-                <iButton class="fr">新增</iButton>
+                <iButton @click="dialog = true">新增</iButton>
             </div>
             <el-table :data="tableListData" class="margin-top20 single-choise" borderstyle="width: 100%" @selection-change="handleSelectionChange">
                 <!-- <el-table-column type="selection" width="50" align="center" :selectable="handleSelectable"></el-table-column> -->
@@ -64,13 +64,15 @@
                 :total="page.totalCount"
                 />
         </iCard>
+
+        <editContent :show.sync="dialog"></editContent>
     </div>
 </template>
 
 <script>
     import { iSearch,iFormItem,iInput,iCard,iButton,iPagination,iSelect } from 'rise'
     import { pageMixins } from '@/utils/pageMixins'
-
+    import editContent from './editContent.vue';
     export default {
         components:{
             iSearch,
@@ -79,7 +81,8 @@
             iCard,
             iButton,
             iPagination,
-            iSelect
+            iSelect,
+            editContent
         },
         mixins:[pageMixins],
         data() {
@@ -89,7 +92,8 @@
                 status:[
                     {labelName:1,id:1}
                 ],
-                searchForm:{}
+                searchForm:{},
+                dialog:false
             }
         },
         methods: {
