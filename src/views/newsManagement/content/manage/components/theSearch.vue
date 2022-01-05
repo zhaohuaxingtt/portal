@@ -143,6 +143,15 @@ export default {
       this.enterKeyupDestroyed();
   },
   methods: {
+     handleWeeks() {
+      const currentFistYearDay = `${dayjs().year()}-01-01`
+      const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
+      const totalDay = isLeap ? 366 : 365
+      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+      const weekNum = Math.ceil((totalDay - shouldDel) / 7)
+      return weekNum
+    },
     handleSearchReset() {
       this.form = {};
       setTimeout(() => {
@@ -158,7 +167,8 @@ export default {
       if (e) {
         this.endWeek = dayjs(e).week();
       } else {
-        this.endWeek = dayjs(dayjs().year()).isoWeeksInYear();
+        // this.endWeek = dayjs(dayjs().year()).isoWeeksInYear();
+        this.endWeek = this.handleWeeks();
       }
     },
     enterKey(event) {
