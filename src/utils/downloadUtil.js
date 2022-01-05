@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-11-09 15:26:22
+ * @LastEditTime: 2022-01-05 11:45:10
+ * @LastEditors: your name
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \front-portal\src\utils\downloadUtil.js
+ */
 import axios from '@/utils/axios'
 // import { callbackify } from "util";
 import { word2Pdf } from '@/api/terms/terms'
@@ -24,7 +32,7 @@ const download = ({
 }) => {
   createAnchorLink(
     process.env.VUE_APP_FILEAPI +
-      '/getFileByFileId?isDown=true&fileId=' +
+      '/fileud/getFileByFileId?isDown=true&fileId=' +
       fileIds,
     filename
   )
@@ -33,14 +41,14 @@ const download = ({
 const downloadZip = ({ fileIds, filename }) => {
   if (filename == '') {
     createAnchorLink(
-      process.env.VUE_APP_FILEAPI + `/udDown?fileIds=${fileIds}`,
+      process.env.VUE_APP_FILEAPI + `/fileud/udDown?fileIds=${fileIds}`,
       filename
     )
   } else {
     const xhr = new XMLHttpRequest()
     xhr.open(
       'POST',
-      process.env.VUE_APP_FILEAPI + `/udDown?fileIds=${fileIds}`,
+      process.env.VUE_APP_FILEAPI + `/fileud/udDown?fileIds=${fileIds}`,
       true
     )
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')

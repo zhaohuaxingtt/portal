@@ -27,17 +27,18 @@
         <!-- 返回 -->
         <iButton @click="clearDiolog">{{ '返回' }}</iButton>
         <!-- 发布 -->
-        <iButton @click="handleSubmit(0)" :disabled="submitLoading">{{
+        <iButton @click="handleSubmit(0)" :disabled="submitLoading" v-if="ruleForm.isNewest != false">{{
           '发布'
         }}</iButton>
         <!-- 删除 -->
         <iButton
           @click="handleDelete"
           :disabled="submitLoading || this.ruleForm.id == null"
+          v-if="ruleForm.isNewest != false"
           >{{ '删除' }}</iButton
         >
         <!-- 保存 -->
-        <iButton @click="handleSubmit(1)" :disabled="submitLoading">{{
+        <iButton @click="handleSubmit(1)" :disabled="submitLoading" v-if="ruleForm.isNewest != false">{{
           '保存'
         }}</iButton>
       </div>
@@ -130,9 +131,9 @@
                 >
                   <el-option
                     v-for="item in signNodeList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
+                    :key="item.name"
+                    :label="item.describe"
+                    :value="item.name"
                   >
                   </el-option>
                 </iSelect>

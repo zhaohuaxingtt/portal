@@ -41,7 +41,7 @@
           width="80"
           align="center"
         ></el-table-column>
-        <el-table-column align="center" label="条款编码"
+        <el-table-column align="center" label="条款编码" min-width="100"
           ><template slot-scope="scope">
             <span>{{ scope.row["termsCode"] }}</span>
           </template></el-table-column
@@ -62,7 +62,7 @@
             <span>{{ scope.row["termsVersion"] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="条款状态"
+        <el-table-column align="center" label="条款状态" min-width="100"
           ><template slot-scope="scope">
             {{
               scope.row.state === "01"
@@ -77,17 +77,17 @@
             }}
           </template></el-table-column
         >
-        <el-table-column align="center" min-width="100" label="条款生效时间"
+        <el-table-column align="center" min-width="140" label="条款生效时间"
           ><template slot-scope="scope">
             <span>{{ scope.row["inDate"] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" min-width="100" label="发布日期"
+        <el-table-column align="center" min-width="120" label="发布日期"
           ><template slot-scope="scope">
             <span>{{ scope.row["publishDate"] }}</span>
           </template></el-table-column
         >
-        <el-table-column align="center" min-width="80" label="签署节点">
+        <el-table-column align="center" min-width="120" label="签署节点">
           <template slot-scope="scope">
             <span>{{ signNodeListObj[scope.row["signNode"]] }}</span>
           </template>
@@ -103,7 +103,7 @@
             <span v-else>{{ scope.row["signResult"] }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="是否个人条款" min-width="100">
+        <el-table-column align="center" label="是否个人条款" min-width="120">
           <template slot-scope="scope">
             <span>{{
               scope.row.isPersonalTerms == true
@@ -284,7 +284,7 @@ export default {
       if (res && res.data !== null && res.data.length > 0) {
         this.signNodeList = res.data[0].subDictResultVo;
         this.signNodeList.map((item) => {
-          this.signNodeListObj[item.id] = item.name;
+          this.signNodeListObj[item.name] = item.describe;
         });
       }
     });

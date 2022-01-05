@@ -72,7 +72,7 @@
           </iFormItem>
           <!-- 采购员 选择采购员带出申请部门  presenter  -->
          <iFormItem
-            label="presenter"
+            label="Supporter"
             :hideRequiredAsterisk="true"
             class="item"
           >
@@ -109,10 +109,11 @@
             :hideRequiredAsterisk="true"
             class="item"
           >
+          <!-- required 校验-->
             <iLabel :label="$t('股别')" slot="label" ></iLabel>
             <iInput
               v-model="ruleForm.presenterDept"
-              :disabled="editOrAdd === 'edit'"
+              disabled
             ></iInput>
           </iFormItem>
           <!-- 申请人 supporter  -->
@@ -130,7 +131,6 @@
           </iFormItem> -->
           <iFormItem
             label="Supporter"
-            prop="supporter"
             :hideRequiredAsterisk="true"
             class="item"
           >
@@ -143,7 +143,7 @@
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
-              :disabled="ruleForm.state === '02'"
+              :disabled="editOrAdd === 'edit'"
             >
               <el-option
                 v-for="item in selectUserArr.length > 0
@@ -168,7 +168,11 @@
             class="item"
           >
             <iLabel :label="$t('申请部门')" slot="label"></iLabel>
-            <iInput v-model="ruleForm.supporterDept" disabled ></iInput>
+            <!-- <iInput v-model="ruleForm.supporterDept"  ></iInput> -->
+            <el-select class="autoSearch" v-model="ruleForm.supporterDept"
+            :disabled="editOrAdd === 'edit'">
+              <el-option></el-option>
+            </el-select>
           </iFormItem>
 
          
@@ -475,60 +479,60 @@ export default {
         };
       },
     },
-    // "ruleForm.presenter": {
-    //   handler: function () {
-    //     let arr = newV.map((item) => {
-    //       return item.id;
-    //     });
-    //     let arrStr = arr.join(",");
-    //     if (typeof arrStr === "string") {
-    //       this.presenterStr = arrStr;
-    //     }
-    //     if (this.editOrAdd !== "look") {
-    //       this.ruleForm.presenterDept = Array.from(
-    //         new Set(
-    //           this.currentSearchUserData
-    //             .filter((item) => {
-    //               return arr.some((it) => {
-    //                 return it === item.id;
-    //               });
-    //             })
-    //             .map((item) => {
-    //               return item.department;
-    //             })
-    //         )
-    //       ).join(",");
-    //     }
-    //   },
-    //   immediate: true,
-    // },
-    // "ruleForm.supporter": {
-    //   handler: function (newV) {
-    //     let arr = newV.map((item) => {
-    //       return item.id;
-    //     });
-    //     let arrStr = arr.join(",");
-    //     if (typeof arrStr === "string") {
-    //       this.supporterStr = arrStr;
-    //     }
-    //     if (this.editOrAdd !== "look") {
-    //       this.ruleForm.supporterDept = Array.from(
-    //         new Set(
-    //           this.currentSearchUserData
-    //             .filter((item) => {
-    //               return arr.some((it) => {
-    //                 return it === item.id;
-    //               });
-    //             })
-    //             .map((item) => {
-    //               return item.department;
-    //             })
-    //         )
-    //       ).join(",");
-    //     }
-    //   },
-    //   immediate: true,
-    // },
+    "ruleForm.presenter": {
+      handler: function () {
+        let arr = newV.map((item) => {
+          return item.id;
+        });
+        let arrStr = arr.join(",");
+        if (typeof arrStr === "string") {
+          this.presenterStr = arrStr;
+        }
+        if (this.editOrAdd !== "look") {
+          this.ruleForm.presenterDept = Array.from(
+            new Set(
+              this.currentSearchUserData
+                .filter((item) => {
+                  return arr.some((it) => {
+                    return it === item.id;
+                  });
+                })
+                .map((item) => {
+                  return item.department;
+                })
+            )
+          ).join(",");
+        }
+      },
+      immediate: true,
+    },
+    "ruleForm.supporter": {
+      handler: function (newV) {
+        let arr = newV.map((item) => {
+          return item.id;
+        });
+        let arrStr = arr.join(",");
+        if (typeof arrStr === "string") {
+          this.supporterStr = arrStr;
+        }
+        if (this.editOrAdd !== "look") {
+          this.ruleForm.supporterDept = Array.from(
+            new Set(
+              this.currentSearchUserData
+                .filter((item) => {
+                  return arr.some((it) => {
+                    return it === item.id;
+                  });
+                })
+                .map((item) => {
+                  return item.department;
+                })
+            )
+          ).join(",");
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
     handleDeleteFile(file) {
@@ -573,6 +577,8 @@ export default {
       console.log(this.selectUserArr,'重要');
       if (this.editOrAdd === 'edit') {
         this.ruleForm.presenter =  this.selectUserArr
+        this.ruleForm.supporter =  this.selectUserArr
+        console.log(this.ruleForm.supporter,'11111');
       }
     },
 
@@ -742,9 +748,11 @@ export default {
                       (e) => e.id === this.ruleForm.presenter
                     )[0].department
                   : '' || '',
-              supporterDept:
-                this.userData.filter((e) => e.id === this.ruleForm.supporter)[0]
-                  .department || ''
+              // supporterDept:
+              //   this.userData.filter((e) => e.id === this.ruleForm.supporter)[0]
+              //     .department || '',
+                presenter:this.ruleForm.presenter[0].id,
+                supporter:this.ruleForm.supporter[0].id,
             }
             updateThemen(formData)
               .then((data) => {
