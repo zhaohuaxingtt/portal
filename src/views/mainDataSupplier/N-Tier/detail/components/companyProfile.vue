@@ -71,7 +71,9 @@
           :required="supplierData.address.countryCode === 'CN'"
           slot="label"
         ></iLabel>
+        <i-input v-if="supplierData.address.countryCode != 'CN'" v-model="supplierData.address.province" disabled></i-input>
         <iSelect
+          v-else
           filterable
           v-model="supplierData.address.provinceCode"
           :disabled="!editable"
@@ -91,7 +93,9 @@
           :required="supplierData.address.countryCode === 'CN'"
           slot="label"
         ></iLabel>
+        <i-input v-if="supplierData.address.countryCode != 'CN'" v-model="supplierData.address.city" disabled></i-input>
         <iSelect
+          v-else
           filterable
           v-model="supplierData.address.cityCode"
           :disabled="!editable"
@@ -171,8 +175,13 @@ export default {
   watch: {
     supplierData(n) {
       //n为新值,o为旧值;
+      
+      if(n.address.countryCode){
+        this.getProvince()
+        this.getCity()
+      }
       this.supplierData = n
-    }
+    },
   },
   data() {
     const checkProvince = (rule, value, callback) => {
@@ -287,6 +296,11 @@ export default {
       city: []
     }
   },
+  mounted(){
+    console.log(this.supplierData,'========');
+    console.log(this.country,'========');
+
+  },
   computed: {},
   methods: {
     //获取城市
@@ -327,7 +341,16 @@ export default {
       this.supplierData.address.country = this.country.find(
         (res) => this.supplierData.address.countryCode == res.sapLocationCode
       ).cityNameCn
-      this.getProvince()
+      // console.log(this.supplierData.address.country,'======');
+      if(this.supplierData.address.countryCode != 'CN'){
+          this.supplierData.isAbroad = 1
+          this.supplierData.address.province = this.supplierData.address.country
+          this.supplierData.address.city = this.supplierData.address.country
+      }else{
+        this.supplierData.isAbroad = 0
+        this.getProvince()
+      }
+      
     },
     changeCity() {
       this.supplierData.address.city = this.city.find(
@@ -336,6 +359,7 @@ export default {
     },
     // 获取省份
     getProvince() {
+      
       let data = {
         sapLocationCode: this.supplierData.address.countryCode
       }

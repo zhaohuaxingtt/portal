@@ -7,7 +7,7 @@
 <template>
   <iPage class="ntier-header">
     <pageHeader class="margin-bottom20 ntier-detail-header">
-      N-Tier供应商信息
+      {{language('N-Tier供应商信息')}}
       <div slot="actions">
         <iButton v-show="!editable && supplierData.id" @click="editable = true">
           {{ language('编辑') }}
@@ -15,7 +15,7 @@
         <iButton v-show="editable" :loading="isloading" @click="saveInfos()">
           {{ language('BAOCUN', '保存') }}
         </iButton>
-        <iButton v-show="editable" @click="editable = false">
+        <iButton v-show="editable" @click="cancel">
           {{ language('取消') }}
         </iButton>
       </div>
@@ -109,6 +109,11 @@ export default {
     this.getCityInfo()
   },
   methods: {
+    //取消
+    cancel(){
+      this.editable = false
+      this.supplierDetail()
+    },
     // 获取下拉框数据
     getAllSelect() {
       let data = [
