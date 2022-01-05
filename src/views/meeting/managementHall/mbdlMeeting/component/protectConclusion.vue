@@ -124,9 +124,9 @@ export default {
     // 提交
     handleSure(){
       const params = {
-       conclusion:this.ruleForm.taskCsc,//任务
+       conclusion: this.ruleForm.conclusion.conclusionCsc,//结论
        meetingId:this.$route.query.id,//会议id
-       result:this.ruleForm.conclusion.conclusionCsc,//结论
+       result:this.ruleForm.taskCsc,//任务
        themenId:this.selectThemenId//议题id
       }
       console.log(params);
