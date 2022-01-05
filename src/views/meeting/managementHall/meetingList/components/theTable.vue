@@ -1461,7 +1461,6 @@ export default {
       //   })
       // } else {
       //   //不是通用会议  也不知道是什么会议
-      //   debugger
       //   this.$router.push({
       //     path: '/meeting/details',
       //     query: {

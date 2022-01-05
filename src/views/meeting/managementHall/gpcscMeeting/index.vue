@@ -2007,10 +2007,8 @@ export default {
           // console.log(res.isGpPreCSC);
           // if (res.isGpPreCSC == true) {
           //   // 显示
-          //   debugger
           //   this.handleButtonDisabled(['sendAgenda'], true)//发送大会议程
           // }else{
-          //   debugger
           //   //隐藏
           //   this.handleButtonDisabled(['sendAgenda'], true)//发送大会议程
 
@@ -2439,7 +2437,6 @@ export default {
     },
     //新增gp议题
     newAddTopic(){
-      debugger
       this.editOrAdd = 'add'
       this.openDialog('openAddTopicNewDialog')//议题
     },
