@@ -30,28 +30,20 @@
 
         <iCard class="margin-top20">
             <div class="btn">
-                <iButton @click="dialog = true">新增</iButton>
+                <iButton @click="add">新增</iButton>
             </div>
-            <el-table :data="tableListData" class="margin-top20 single-choise" borderstyle="width: 100%" @selection-change="handleSelectionChange">
-                <!-- <el-table-column type="selection" width="50" align="center" :selectable="handleSelectable"></el-table-column> -->
-                <el-table-column type="index" label="类型" width="55" align="center"></el-table-column>
-                <el-table-column prop="name" label="报告标题" align="center"></el-table-column>
-                <el-table-column prop="updateDt" label="发布日期" align="center"></el-table-column>
-                <el-table-column prop="state" label="状态" align="center">
-                    <template slot-scope="{$index}">
-                        <el-switch v-model="tableListData[$index].state" active-text="上架" inactive-text="下架" @change="updateState($event,$index)"></el-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="send" label="通知" align="center">
-                    <template slot-scope="{$index}">
-                        <el-switch v-model="tableListData[$index].send" active-text="是" inactive-text="否" @change="updateMsg($event,$index)"></el-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column align="center" label="操作">
-                    <iButton type="text">修改</iButton>
-                    <iButton type="text">删除</iButton>
-                </el-table-column>
-            </el-table>
+            <iTableCustom
+                class="margin-top20"
+                :data="tableListData"
+                :columns="tableSetting"
+                :extraData="{
+                    stateChange:stateChange,
+                    msgChange,
+                    edit,
+                    del
+                    }"
+                >
+                </iTableCustom>
             <iPagination
                 v-update
                 @size-change="handleSizeChange($event, query)"
@@ -65,14 +57,15 @@
                 />
         </iCard>
 
-        <editContent :show.sync="dialog"></editContent>
+        <editContent :show.sync="dialog.show" :params="dialog.form"></editContent>
     </div>
 </template>
 
 <script>
-    import { iSearch,iFormItem,iInput,iCard,iButton,iPagination,iSelect } from 'rise'
+    import { iSearch,iFormItem, iTableCustom, iInput,iCard,iButton,iPagination,iSelect } from 'rise'
     import { pageMixins } from '@/utils/pageMixins'
     import editContent from './editContent.vue';
+    import tableSetting from './table';
     export default {
         components:{
             iSearch,
@@ -82,53 +75,65 @@
             iButton,
             iPagination,
             iSelect,
-            editContent
+            editContent,
+            iTableCustom
         },
         mixins:[pageMixins],
         data() {
             return {
-                tableListData:[{}],
+                tableSetting,
+                tableListData:[{id:1,state:false,notice:true,type:1,name:'test'}],
                 selectList:[],
                 status:[
                     {labelName:1,id:1}
                 ],
                 searchForm:{},
-                dialog:false
+                dialog:{
+                    show:false,
+                    form:{}
+                },
             }
         },
         methods: {
             query(){},
             search(){
-
+                
             },
             reset(){},
-            handleSelectionChange(v){
-                console.log(v);
-                this.selectList = v
+            stateChange(e,index){
+                this.tableListData[index].state = e
             },
-            handleSelectable(row){
-                if(this.selectList.length > 0){
-                    if (this.selectList[0].id == row.id) {
-                        return true
-                    } else{
-                        console.log(row);
-                        return false
-                    }
-                }
-                return true
+            msgChange(e,index){
+                this.tableListData[index].notice = e
+            },
+            add(){
+                this.dialog.form = {}
+                this.dialog.show = true
+            },
+            edit(row){
+                if(row.state) return this.$message.warning("请先下架，再进行修改操作")
+                this.dialog.form = row
+                this.dialog.show = true
+            },
+            del(row){
+                if(row.state) return this.$message.warning("请先下架，再进行删除操作")
+                this.$confirm('确定要删除此项？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                })  
             }
-
         },
     }
 </script>
 
 <style lang="scss" scoped>
 
-.single-choise {
-    ::v-deep thead .el-table-column--selection .cell {
-      display: none;
-    }
-}
 .btn{
     text-align: right;
 }
