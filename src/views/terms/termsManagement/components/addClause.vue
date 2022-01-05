@@ -378,7 +378,7 @@
                 </li>
                 <iButton
                   @click="handlePre()"
-                  :disabled="this.ruleForm.termsTextId == ''"
+                  :disabled="this.ruleForm.termsTextId == '' || this.ruleForm.termsTextId == null"
                   >{{ '预览' }}</iButton
                 >
               </iFormItem>
