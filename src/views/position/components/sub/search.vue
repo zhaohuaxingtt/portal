@@ -34,11 +34,17 @@ export default {
   methods: {
     sure() {
       this.$store.commit('SET_SUB_QUERY', this.query)
-      this.$store.dispatch('GetSubPosition', { positionId: this.positionId })
+      this.$store.dispatch('GetSubPosition', {
+        positionId: this.positionId,
+        deptId: this.deptId
+      })
     },
     reset() {
       this.$store.commit('RESET_SUB_QUERY', this.query)
-      this.$store.dispatch('GetSubPosition', { positionId: this.positionId })
+      this.$store.dispatch('GetSubPosition', {
+        positionId: this.positionId,
+        deptId: this.deptId
+      })
     }
   }
 }
