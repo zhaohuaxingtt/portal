@@ -72,12 +72,23 @@ export default {
         this.handleTree();
       }
     },
-    groupRelationsVO(data) {
-      this.groupTableListData = data
+   groupRelationsVO(data) {
+      if (data) {
+        this.groupTableListData = data
+      } else {
+        this.groupTableListData = {
+          name: '',
+          realityControlName: '',
+          productName: '',
+          oemCustomer: '',
+          oemName: '',
+          deliveryStartDate: ''
+        }
+      }
     }
   },
   mounted() {
-    this.handleTree()
+    // this.handleTree()
   },
   methods: {
     handleTree() {
