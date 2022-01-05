@@ -61,7 +61,7 @@ const typeColumn = [
         emit: 'topChang',
 		customRender: (h, scope) => {
 			return (		
-				<el-switch value={scope.row.top} active-text="上架" inactive-text="下架"></el-switch>
+				<el-switch value={scope.row.top} active-text="是" inactive-text="否"></el-switch>
 			)
 			//const top = scope.row.top
 			// return (		

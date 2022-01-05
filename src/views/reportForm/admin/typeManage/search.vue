@@ -51,8 +51,12 @@
 				</iFormItem>
 			</el-form>
 		</iSearch>
-		<iCard style="margin-top: 20px">
+		<iCard class="margin-top20">
+			<div class="btn">
+                <iButton @click="addTypeFun">新增</iButton>
+            </div>
 			<iTableCustom
+				class="margin-top20"
 				:ref="'testTable'"
 				:loading="tableLoading"
 				:data="tableData"
@@ -76,18 +80,22 @@
 			/>
 		</iCard>
 		<AddTypeDialog
-			ref="AddType"
 			v-show="showTypeDialog"
 			:typeShow.sync="showTypeDialog"
-
+		/>
+		<AddDialog
+			v-show="dialogShow"
+			:show.sync="dialogShow"
+			:operateType="operateType"
 		/>
 	</div>
 </template>
 
 <script>
-import { iInput, iFormItem, iSelect, iSearch, iTableCustom, iPagination, iCard } from 'rise'
+import { iInput, iFormItem, iSelect, iSearch, iTableCustom, iPagination, iCard, iButton } from 'rise'
 import { pageMixins } from '@/utils/pageMixins'
 import { typeColumn } from './columnData'
+import AddDialog from './addDialog'
 import AddTypeDialog from './addTypeDialog'
 export default {
 	components: {
@@ -98,7 +106,9 @@ export default {
 		iTableCustom,
 		iPagination,
 		iCard,
-		AddTypeDialog
+		AddTypeDialog,
+		iButton,
+		AddDialog
 	},
 	mixins: [pageMixins],
 	data () {
@@ -129,6 +139,9 @@ export default {
 				operate: this.operate
 			},
 			showTypeDialog: false,
+			commonText: '上架的类型不允许',
+			dialogShow: false,
+			operateType: 'add'
 		}
 	},
 	methods: {
@@ -180,7 +193,7 @@ export default {
 		},
 		del(row){
 			console.log(row, '111')
-			if (row.status) return this.$message({type: 'warning', message: '上架的类型不允许删除!!!'})
+			if (row.status) return this.$message({type: 'warning', message: `${this.commonText}删除!!!`})
             this.$confirm('确定删除此流程指导书吗?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -194,12 +207,19 @@ export default {
         },
 		modify(row) {
 			console.log('modify', row)
-			if (row.status) return this.$message({type: 'warning', message: '上架的类型不允许修改!!!'})
+			if (row.status) return this.$message({type: 'warning', message: `${this.commonText}修改!!!`})
+			this.dialogShow = true
+			this.operateType = 'edit'
 		},
 		addReportType(row) {
-			if (row.status) return this.$message({type: 'warning', message: '上架的类型不允许添加分类!!!'})
+			if (row.status) return this.$message({type: 'warning', message: `${this.commonText}添加分类!!!`})
 			console.log('addReportType', row)
 			this.showTypeDialog = true
+		},
+		addTypeFun() {
+			console.log('添加类型')
+			this.dialogShow = true
+			this.operateType = 'add'
 		}
 	}
 }
@@ -210,6 +230,9 @@ export default {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+.btn{
+    text-align: right;
 }
 </style>
 
