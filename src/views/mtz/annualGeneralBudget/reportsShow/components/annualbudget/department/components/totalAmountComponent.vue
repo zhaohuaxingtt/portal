@@ -31,6 +31,13 @@ export default {
             bottom: '10%',
             itemGap: 30,
             icon: 'circle',
+            tooltip: {
+              show: true,
+              formatter: (data) => {
+                console.log('11111111111111111111',data)
+                return '11www'
+              }
+            }
           },
           color: [
             'rgb(22, 96, 241)',

@@ -645,11 +645,11 @@ export default {
         // "list",
         // "todo",
         // "emoticon",
-        "image",
+        'image'
         // "video",
         // "table",
         // "code",
-      ];
+      ]
       // 配置字体
       this.editor.config.fontNames = [
         // 字符串形式
@@ -803,8 +803,10 @@ export default {
       const filename =
         this.selectedFileData.length == 1
           ? ''
-          : this.ruleForm.name + '_' +
-            this.ruleForm.termsVersion + '_' +
+          : this.ruleForm.name +
+            '_' +
+            this.ruleForm.termsVersion +
+            '_' +
             new Date().getTime()
       downloadZip({
         fileIds: fileNameids,
@@ -840,6 +842,7 @@ export default {
       this.selectedFileData = val
     },
     changeDisplayVersion(value) {
+      // console.log("value",value)
       this.query({ id: value })
     },
     handleOpenSupplierListDialog() {
@@ -910,15 +913,24 @@ export default {
     query(e) {
       // 根据ID查询条款信息
       findById(e).then((res) => {
-        res.supplierRange = res.supplierRange?.split(',')
-        res.supplierIdentity = res.supplierIdentity?.split(',')
-        this.ruleForm = res
-        this.editor.txt.html(this.ruleForm.termsText)
-        this.editor.disable()
-        if (this.ruleForm.editMode == '02') {
-          getFileByIds([this.ruleForm.termsTextId]).then((res) => {
-            this.termsTextName = res.name
+        if ((res.state == '01' || res.state == '02') && res.isNewest == true) {
+          this.$router.push({
+            path: '/terms/management/addClause',
+            query: {
+              id: res.id
+            }
           })
+        } else {
+          res.supplierRange = res.supplierRange?.split(',')
+          res.supplierIdentity = res.supplierIdentity?.split(',')
+          this.ruleForm = res
+          this.editor.txt.html(this.ruleForm.termsText)
+          this.editor.disable()
+          if (this.ruleForm.editMode == '02') {
+            getFileByIds([this.ruleForm.termsTextId]).then((res) => {
+              this.termsTextName = res.name
+            })
+          }
         }
       })
     }
