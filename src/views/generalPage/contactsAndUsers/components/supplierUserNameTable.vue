@@ -1,9 +1,9 @@
 <!--
  * @Author: moxuan
  * @Date: 2021-04-13 17:30:36
- * @LastEditors: Please set LastEditors
+ * @LastEditors: caopeng
  * @Description: In User Settings Edit
- * @FilePath: \rise\src\views\ws3\generalPage\mainSubSuppliersAndProductNames\index.vue
+ * @FilePath: \front-portal-new\src\views\generalPage\contactsAndUsers\components\supplierUserNameTable.vue
 -->
 <template>
   <i-card>
@@ -105,7 +105,7 @@ import {
   saveUser,
   selectUser,
   deleteUser,
-  freeze, unFreeze
+  freeze, unFreeze,appOperateAuth
 } from '../../../../api/register/contactsAndUsers'
 import supplierUserNameDialog from './supplierUserNameDialog'
 import tipDialog from './tipDialog'
@@ -197,9 +197,14 @@ export default {
       this.tipDialogFlag = 0
     },
     handleDialog (row) {
-      this.rowList = row
-
-      this.userNameDialog = true
+         appOperateAuth({},this.supplierType).then(res=>{
+            if(res.data){
+                this.rowList = row
+                this.userNameDialog = true
+            }else{
+                iMessage.error(res.desZh)
+            }
+        })
     },
     tableTitles () {
       if (this.$route.query.supplierType <= 3) {
