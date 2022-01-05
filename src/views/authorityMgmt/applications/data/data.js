@@ -10,7 +10,7 @@ export const tableColumnSetting = [
   },
   {
     prop: 'appNameCn',
-    label: '中文名称',
+    i18n: '中文名称',
     align: 'center',
     emit: 'open-detail',
     customRender: (h, scope) => {
@@ -19,17 +19,17 @@ export const tableColumnSetting = [
   },
   {
     prop: 'appNameEn',
-    label: '英文名称',
+    i18n: '英文名称',
     align: 'center'
   },
   {
     prop: 'url',
-    label: '链接',
+    i18n: '链接',
     align: 'center'
   },
   {
     prop: 'description',
-    label: '系统功能说明',
+    i18n: '系统功能说明',
     align: 'center'
   }
 ]
