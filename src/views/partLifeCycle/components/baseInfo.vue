@@ -224,7 +224,7 @@
           else if (type == 42) {
             path = `ws2/modeler/details/ModelOrderDetailsPage/1/${id}`;
           }//  模具订单
-          else if (type == 'db') {
+          else if (type == 'db' || type == 52) {
             path = `ws2/dbframework/create?isSelf=1&frameItemTye=${type}&type=1&scheduleAgreementId=${id}`;
           } //  db框架
           else if (type == 'spare') {
