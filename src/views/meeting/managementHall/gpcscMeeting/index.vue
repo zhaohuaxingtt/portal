@@ -1277,7 +1277,8 @@ import {
 import closeMeetiongDialog from './component/closeMeetiongDialog.vue'
 import { download } from '@/utils/downloadUtil'
 import enclosure from '@/assets/images/enclosure.svg'
-import newSummaryDialogNew from '@/views/meeting/home/components/newSummaryDialogNew.vue'
+// import newSummaryDialogNew from '@/views/meeting/home/components/newSummaryDialogNew.vue'
+import newSummaryDialogNew from './component/newSummaryDialogNew.vue'
 
 export default {
   mixins: [pageMixins],
@@ -1684,11 +1685,13 @@ export default {
         })
     },
     generateMeetingMinutes() {
+      debugger
       this.editNewSummary = true
       this.receiverId = this.meetingInfo?.receiverId
       this.openDialog('openNewSummaryDialogNew')
     },
     lookMeetingMinutes() {
+      debugger
       this.editNewSummary = false
       this.openDialog('openNewSummaryDialog')
     },
