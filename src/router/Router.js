@@ -51,6 +51,8 @@ import RouterElectronicSignature from '@/router/RouterElectronicSignature'
 
 import RouterTerms from './RouterTerms'
 
+import RouterReportForm from './RouterReportForm'
+
 export default {
   routes: [
     {
@@ -213,7 +215,8 @@ export default {
         ...RouterApplications,
         ...RouterOfflineDownload,
         ...RouterElectronicSignature,
-        ...RouterTerms
+        ...RouterTerms,
+        ...RouterReportForm
       ]
     },
     ...RouterView,
