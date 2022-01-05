@@ -559,7 +559,7 @@
         prop="weekOfYear"
       >
         <template slot-scope="scope">
-          <span>CW{{ scope.row.weekOfYear }}/53</span>
+          <span>CW{{ scope.row.weekOfYear }}/{{ handleWeeks() }}</span>
         </template>
       </el-table-column>
       <el-table-column width="20" align="center" label=""></el-table-column>
@@ -880,6 +880,15 @@ export default {
     }
   },
   methods: {
+    handleWeeks() {
+      const currentFistYearDay = `${dayjs().year()}-01-01`
+      const isLeap = dayjs(currentFistYearDay).isLeapYear() // true
+      const totalDay = isLeap ? 366 : 365
+      const weekNum2 = new Date(currentFistYearDay).getDay()
+      const shouldDel = weekNum2 === 1 ? 0 : 7 - weekNum2 + 1
+      const weekNum = Math.ceil((totalDay - shouldDel) / 7)
+      return weekNum
+    },
     async queryThemensByMeetingId(id) {
       const data = {
         id
