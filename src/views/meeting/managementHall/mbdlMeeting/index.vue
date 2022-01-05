@@ -324,10 +324,10 @@
               <span class="open-link-text">{{ scope.row.supporterDept }}</span>
              </template>
           </el-table-column>
-          <!-- 股别  supporterDeptNosys -->
+          <!-- 股别  presenterDept -->
            <el-table-column show-overflow-tooltip align="center" label="股别" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.supporterDeptNosys }}</span>
+              <span class="open-link-text">{{ scope.row.presenterDept }}</span>
              </template>
           </el-table-column>
           <!-- 提交人   supporter-->
@@ -409,7 +409,7 @@
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="股别" width="120" >
              <template slot-scope="scope">
-              <span class="open-link-text">{{ scope.row.supporterDeptNosys }}</span>
+              <span class="open-link-text">{{ scope.row.presenterDept }}</span>
              </template>
           </el-table-column>
            <el-table-column show-overflow-tooltip align="center" label="提交人" width="120" >

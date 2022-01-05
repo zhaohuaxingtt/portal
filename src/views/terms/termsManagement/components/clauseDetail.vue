@@ -132,9 +132,9 @@
                 >
                   <el-option
                     v-for="item in signNodeList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
+                    :key="item.name"
+                    :label="item.describe"
+                    :value="item.name"
                   >
                   </el-option>
                 </iSelect>
@@ -866,7 +866,7 @@ export default {
       this.$router.push({
         path: '/terms/management/addClause',
         query: {
-          id: this.$route.query.id
+          id: this.ruleForm.id
         }
       })
     },
