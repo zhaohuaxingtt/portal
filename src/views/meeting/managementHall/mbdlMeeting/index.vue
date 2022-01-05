@@ -910,7 +910,7 @@ export default {
           }
         })
     },
-    generateMeetingMinutes() {
+    generateMeetingMinutes() { 
       this.editNewSummary = true
       this.openDialog('openNewSummaryDialog')
     },
