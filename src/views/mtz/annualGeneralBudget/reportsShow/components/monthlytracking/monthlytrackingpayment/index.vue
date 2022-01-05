@@ -8,7 +8,7 @@
             <el-row gutter="24">
               <el-col :span="6">
                 <i-form-item :label="language('科室')">
-                  <i-select>
+                  <i-select v-model="searchForm.department">
                     <el-option 
                       v-for="item in deptOption"
                       :key="item.value"
@@ -21,12 +21,12 @@
               </el-col>
               <el-col :span="6">
                 <i-form-item :label="language('MTZ材料组')">
-                  <i-select>
+                  <i-select v-model="searchForm.mtzMaterialNumber">
                     <el-option
                       v-for="item in mtzOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value='item.value'
+                      :key="item.materialGroupCode"
+                      :label="item.materialGroupNameZh"
+                      :value='item.materialGroupCode'
                     >
                     </el-option>
                   </i-select>
@@ -34,19 +34,19 @@
               </el-col>
               <el-col :span="6">
                 <i-form-item :label="language('材料中类')">
-                  <i-select>
+                  <i-select v-model="searchForm.materialMediumNum">
                     <el-option
                       v-for="item in materialMiddleOption"
-                      :key="item.value"
-                      :label="item.label"
-                      :value='item.value'
+                      :key="item.materialCategoryCode"
+                      :label="item.materialNameZh"
+                      :value='item.materialCategoryCode'
                     ></el-option>
                   </i-select>
                 </i-form-item>
               </el-col>
               <el-col :span="6">
-                <i-form-item :label="language('年份月份')">
-                  <i-datePicker v-model="time" :placeholder='language("请选择")' format='yyyy-MM' type='month'></i-datePicker>
+                <i-form-item :label="language('版本月份')">
+                  <i-datePicker v-model="searchForm.yearMonth" :placeholder='language("请选择")' format='yyyy-MM' value-format='yyyyMM' type='month'></i-datePicker>
                 </i-form-item>
               </el-col>
             </el-row>
@@ -54,7 +54,7 @@
         </div>
         <div class="btn-list">
           <span  class="only-myself">{{ language('只看自己 ')}}
-            <el-switch v-model="onlySelf"></el-switch>
+            <el-switch v-model="searchForm.onlySeeMySelf"></el-switch>
           </span>
           <i-button @click="sure">{{ language('确认') }}</i-button>
           <i-button @click="reset">{{ language('重置') }}</i-button>
@@ -63,7 +63,7 @@
     </i-card>
     <i-card class="report">
       <div>
-        <div id="report-charts"></div>
+        <div id="report-charts" ></div>
         <div class="difference-box">
           <div v-if="showDifference" class="display-difference" >
           <!-- {{showDifference}} -->
@@ -83,6 +83,8 @@
 import { iCard, iSelect, iDatePicker, iFormItem, iButton } from 'rise'
 import difference from './components/difference'
 import echarts from '@/utils/echarts'
+import {searchReport,getDept} from '@/api/mtz/reportsShow/monthlytrackingpayment'
+import {queryMtzMaterial,queryMaterialMedium} from '@/api/mtz/reportsShow'
 export default {
   name: 'paymentTracking',
   components: {
@@ -104,24 +106,43 @@ export default {
       mtzOption:[],
       //材料中类选择
       materialMiddleOption:[],
-      calculate:[
-        1,3,4,-6,2,8,-4,-2,-4,2,9,-3.2
-      ],
+      //差额
+      calculate:[],
+      //数据集 sourceData
+      sourceData:[],
       searchForm:{
-
-      }
+        department:'',//科室简称
+        materialMediumNum:'',//mtz材料组中类编号
+        mtzMaterialNumber:'',//MTZ材料组编号
+        onlySeeMySelf:true,//是否只查看自己
+        yearMonth:''//年月
+      },
+      currentYearMonth:''//当前年月
     }
   },
   created(){
+    const currentTime = new Date()
+    this.currentYearMonth = currentTime.getFullYear() + (currentTime.getMonth()+1).toString().padStart(2,0)
+    this.searchForm.yearMonth = this.currentYearMonth
+    this.getDepartment()
+    this.getMtzMaterial()
+    this.getMaterialMedium()
     this.sure()
   },
   mounted() {
-    this.iniReport()
+    // this.iniReport()
   },
   methods: {
     iniReport() {
       const el = document.getElementById('report-charts')
       let chart = echarts().init(el)
+      // chart.showLoading({
+      //   text:'loading',
+      //   color: '#c23531',
+      //   textColor: '#fff',
+      //   maskColor: 'rgba(255, 255, 255, 0.2)',
+      //   zlevel: 0,
+      // })
       chart.setOption({
         title: {
           text: '单位：⼈⺠币/百万',
@@ -168,35 +189,20 @@ export default {
         ],
         tooltip: {
           show: true,
-          // showContent:false
+          // triggerOn:'click',
           formatter:(params)=>{
-            // return `${Number(params.value[2]) * 1000000}`
             let price = 0
             params.seriesName == '已支付' ? price = params.value[2] * 1000000 : price =  params.value[1] * 1000000
             price = String(price)
             const tempt = price.split('').reverse().join('').match(/(\d{1,3})/g)
             let currency = tempt.join(',').split('').reverse().join('')
-            
             return currency
           }
         },
         //数据集
         dataset: {
-          source: [
-            ['product', '应付（补差凭证⾦额）', '已支付', '差值'],
-            ['2021-01', '21.5', '10'],
-            ['2021-02', '20.6', '21'],
-            ['2021-03', '20', '5'],
-            ['2021-04', '23', '11'],
-            ['2021-05', '20', '12'],
-            ['2021-06', '3', '10'],
-            ['2021-07', '20', '32'],
-            ['2021-08', '23', '10'],
-            ['2021-09', '20', '10'],
-            ['2021-10', '22', '32'],
-            ['2021-11', '4', '10'],
-            ['2021-12', '20', '6']
-          ]
+          source:
+          this.sourceData
         },
         series: [
           {
@@ -249,18 +255,76 @@ export default {
           }
         ],
       })
-      // chart.on('legendselectchanged',(params)=>{
-      //   const {name,selected} = params
-      //   if(name == '差值'){
-      //     selected['差值'] ? this.showDifference = true : this.showDifference = false
-      //   }
-      // })
+      // chart.hideLoading()
     },
     sure(){
-      const data = {}
+      const data = {
+        ...this.searchForm
+      }
+      searchReport(data).then(res => {
+        if(res?.code == 200){
+          const data = res.data
+          if(data.length == 0){
+            const el = document.getElementById('report-charts')
+            el.innerHTML = '<div style="text-align: center">暂无数据</div>'
+            el.removeAttribute('_echarts_instance_')
+          }else{
+            const sourceData = []
+            //yearMonth年月 //actualPrice 应付 //payPrice 已支付
+            data.yearMonth.forEach((item,index)=>{
+              sourceData.push([item,data.actualPrice[index],data.payPrice[index]])
+            })
+            this.sourceData = [['product', '应付（补差凭证⾦额）', '已支付', '差值'],...sourceData]
+            this.calculate = data.diffPrice //差额
+            this.iniReport()
+          }
+        }else{
+          this.$message.error(res?.desZh || '获取失败')
+        }
+      })
     },
     reset(){
+      this.searchForm = {
+        department:'',//科室简称
+        materialMediumNum:'',//mtz材料组中类编号
+        mtzMaterialNumber:'',//MTZ材料组编号
+        onlySeeMySelf:true,//是否只查看自己
+        yearMonth:this.currentYearMonth//年月
+      }
+    },
+    //获取当前科室
+    getDepartment(){
+      const data = {
 
+      }
+      getDept().then(res => {
+        if(res?.code == 200){
+          console.log(res.data);
+        }else{
+          this.$message.error(res.desZh || '获取科室失败')
+        }
+      })
+    },
+    //mtz下拉
+    getMtzMaterial(){
+      queryMtzMaterial().then(res =>{
+        if(res.code == 200){
+          const data = res.data
+          this.mtzOption = data
+        }else{
+          this.$message.error(res.desZh || '获取mtz材料组失败')
+        }
+      })
+    },
+    //材料组下拉
+    getMaterialMedium(){
+      queryMaterialMedium().then(res => {
+        if(res.code == 200){
+          this.materialMiddleOption = res.data
+        }else{
+          this.$message.error(res.desZh || '获取材料组中类失败')
+        }
+      })
     }
   }
 }

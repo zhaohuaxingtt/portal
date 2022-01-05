@@ -67,6 +67,15 @@ export function selectSection(parmars) {
     data: parmars
   })
 }
+export function getSourceApproval(parmars) {
+  //获取审批人信息
+  return requst({
+    url: '/mtzNomiList/getSourceApproval',
+    method: 'POST',
+    data: parmars
+  })
+}
+
 export function syncAuther(parmars) {
   //获取审批流id
   return requst({

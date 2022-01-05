@@ -147,7 +147,6 @@ export default {
 		handleIssue(issue) {
 			// 点击问题 跳转常见问题详情页面  修改为不跳转 显示该问题答案
 			// this.$emit('gotoProblemDeatil', issue, this.fromPage)
-			console.log(issue, "issue")
 			this.chatList.push({
 				question: '',
 				answerContent: issue.answerContent.replace(/<[^>]+>/g, '') || '',

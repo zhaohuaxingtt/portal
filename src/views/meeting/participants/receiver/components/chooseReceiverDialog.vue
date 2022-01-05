@@ -86,7 +86,6 @@ export default {
     }
   },
   mounted() {
-    console.log('this.status', this.status)
     this.query()
   },
   methods: {
@@ -104,7 +103,6 @@ export default {
     },
 
     close() {
-      console.log('this.status', this.status)
       this.$emit('closeChooseDialog', false, this.status)
     },
     // 表格选中值集
@@ -117,7 +115,7 @@ export default {
         data = {
           current: this.page.currPage,
           size: this.page.pageSize,
-          nameZh: val
+          userInfo: val
         }
       } else {
         data = {

@@ -29,7 +29,8 @@
 import { iPage, iSelect } from 'rise'
 import totalAmountComponent from './components/totalAmountComponent'
 import dataComparisonLastYear from './components/dataComparisonLastYear'
-
+import { yearBudgetDept } from '@/api/mtz/reportsShow'
+import { form } from './components/data'
 export default {
   name: 'index',
   components: {
@@ -40,7 +41,26 @@ export default {
   },
   data() {
     return {
-      getcontractsendsapstatusList2: [1, 23, 2]
+      getcontractsendsapstatusList2: [1, 23, 2],
+      form: form,
+    }
+  },
+  created() {
+    this.queryYearBudgetDept()
+  },
+  methods: {
+    //数据查询
+    queryYearBudgetDept(){
+      this.form.isDeptLead=true;
+      this.form.onlySeeMySelf=true;
+      this.form.year=2019;
+      yearBudgetDept(this.form)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 }
