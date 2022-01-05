@@ -43,8 +43,8 @@
                 </i-form-item>
               </el-col>
               <el-col :span="6">
-                <i-form-item :label='language("版本月份")'>
-                  <i-datePicker v-model="searchForm.yearMonth" :placeholder='language("请选择")' format='yyyyMM' value-format='yyyyMM' type='month'>
+                <i-form-item :label='language("年份月份")'>
+                  <i-datePicker v-model="searchForm.yearMonth" :placeholder='language("请选择")' format='yyyy-MM' value-format='yyyyMM' type='month'>
                   </i-datePicker>
                 </i-form-item>
               </el-col>
@@ -205,6 +205,7 @@ export default {
         },
         tooltip: {
           show: true,
+          // triggerOn:'click',
           formatter:(params)=>{
             let price = 0
             price =  params.value * 1000000
@@ -308,7 +309,7 @@ export default {
       searchTrackingReport(data).then(res => {
         if(res.code ==200){
           // console.log(res.data,'====')
-          const data = res.data
+          const data = res.data 
           this.contrastData = data.diffPrice//差额
           this.dataMonth = [...data.actualPrice,...data.monthForecastPrice]//data.monthForecastPrice月度预测金额 data.actualPrice实际应付金额
           this.yearData = data.yearForecastPrice//年度预测金额

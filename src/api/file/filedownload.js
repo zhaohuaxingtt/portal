@@ -1,5 +1,13 @@
+/*
+ * @Author: your name
+ * @Date: 2021-11-09 15:26:18
+ * @LastEditTime: 2022-01-05 11:42:37
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \front-portal\src\api\file\filedownload.js
+ */
 import axios from '@/utils/axios'
-const requstFile = axios(process.env.VUE_APP_FILEAPI+'/fileud')
+const requstFile = axios(process.env.VUE_APP_FILEAPI + '/fileud')
 const requstType = axios(process.env.VUE_APP_MEETING)
 // 通过文件id获取文件
 // export function getFileByIds(data) {

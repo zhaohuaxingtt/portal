@@ -33,7 +33,7 @@
           </iFormItem>
           <!-- 项目 topic-->
           <iFormItem label="项目"  prop="topic" :hideRequiredAsterisk="true" class="item" >
-            <iLabel :label="$t('项目')" slot="label" ></iLabel>
+            <iLabel :label="$t('项目')" slot="label" required></iLabel>
             <iInput
               v-model="ruleForm.topic"
               :disabled="editOrAdd === 'look'"
@@ -52,7 +52,7 @@
               :disabled="editOrAdd === 'look'"
             ></iInput>
           </iFormItem>
-          <!-- 采购申请单号 -->
+          <!-- 采购申请单号 sourcingNo-->
           <iFormItem
             label="Sourcing No."
             :hideRequiredAsterisk="true"
@@ -62,10 +62,10 @@
             <iLabel :label="$t('采购申请单号')" slot="label"></iLabel>
             <iInput
               v-model="ruleForm.sourcingNo"
-              :disabled="editOrAdd === 'look'"
+              :disabled="editOrAdd === 'edit'"
             ></iInput>
           </iFormItem>
-          <!-- 采购员  supporter -->
+          <!-- 采购员  supporter 改 presenter  -->
          <!-- <iFormItem
             label="Sourcing Buyer"
             prop="supporter"
@@ -110,13 +110,58 @@
             <iLabel :label="$t('采购员')" slot="label"></iLabel>
             <el-select
               class="autoSearch"
+              v-model="ruleForm.presenter"
+              multiple
+              filterable
+              :filter-method="remoteMethod"
+              @focus="handleFocus"
+              value-key="id"
+              :disabled="editOrAdd === 'edit'"
+            >
+              <!-- :disabled="ruleForm.state === '02'" -->
+              <el-option
+                v-for="item in selectUserArr.length > 0
+                  ? selectUserArr
+                  : currentSearchUserData"
+                :key="item.id"
+                :label="`${item.name ? item.name + ' ' : ''}${
+                  item.jobNumber ? item.jobNumber + ' ' : ''
+                }${item.department ? item.department + ' ' : ''}${
+                  item.namePinyin ? item.namePinyin : ''
+                }`"
+                :value="item"
+              >
+              </el-option>
+            </el-select>
+          </iFormItem>
+          <!-- 股别 supporterDeptNosys 改 presenterDept -->
+          <iFormItem
+            label="BEN(CN)"
+            :hideRequiredAsterisk="true"
+            class="item"
+          >
+          <!-- required 校验-->
+            <iLabel :label="$t('股别')" slot="label" ></iLabel>
+            <iInput
+              v-model="ruleForm.presenterDept" disabled
+            ></iInput>
+          </iFormItem>
+          <!-- 申请人  presenter 改 supporter-->
+           <iFormItem
+            label="Supporter"
+            :hideRequiredAsterisk="true"
+            class="item"
+          >
+            <iLabel :label="$t('申请人')" slot="label"></iLabel>
+            <el-select
+              class="autoSearch"
               v-model="ruleForm.supporter"
               multiple
               filterable
               :filter-method="remoteMethod"
               @focus="handleFocus"
               value-key="id"
-              :disabled="ruleForm.state === '02'"
+              :disabled="editOrAdd === 'edit'"
             >
               <el-option
                 v-for="item in selectUserArr.length > 0
@@ -133,32 +178,6 @@
               </el-option>
             </el-select>
           </iFormItem>
-          <!-- 股别 supporterDeptNosys -->
-          <iFormItem
-            label="BEN(CN)"
-            :hideRequiredAsterisk="true"
-            class="item"
-          >
-          <!-- required 校验-->
-            <iLabel :label="$t('股别')" slot="label" ></iLabel>
-            <iInput
-              v-model="ruleForm.supporterDeptNosys"
-              :disabled="editOrAdd === 'look'"
-            ></iInput>
-          </iFormItem>
-          <!-- 申请人  presenter -->
-          <iFormItem
-            label="BEN(DE)"
-            :hideRequiredAsterisk="true"
-            prop="benDe"
-            class="item"
-          >
-            <iLabel :label="$t('申请人')" slot="label"></iLabel>
-            <iInput
-              v-model="ruleForm.presenter"
-              :disabled="editOrAdd === 'look'"
-            ></iInput>
-          </iFormItem>
           <!-- 申请部门  presenterDept -->
           <iFormItem
             label="Supporter Department"
@@ -167,7 +186,11 @@
             class="item"
           >
             <iLabel :label="$t('申请部门')" slot="label"></iLabel>
-            <iInput v-model="ruleForm.supporterDept" disabled></iInput>
+            <!-- <iInput v-model="ruleForm.supporterDept"  ></iInput> -->
+            <el-select class="autoSearch" v-model="ruleForm.supporterDept"
+            :disabled="editOrAdd === 'edit'">
+              <el-option></el-option>
+            </el-select>
           </iFormItem>
 
           
@@ -473,6 +496,7 @@ export default {
       },
     },
     "ruleForm.presenter": {
+      //监听采购员变化带出  申请部门
       handler: function (newV) {
         let arr = newV.map((item) => {
           return item.id;
@@ -567,6 +591,10 @@ export default {
         ? this.userData.filter(this.createStateFilter(queryString))
         : this.userData
       this.selectUserArr = currentSearchUserData
+      if (this.editOrAdd === 'edit') {
+        this.ruleForm.presenter =  this.selectUserArr
+        this.ruleForm.supporter =  this.selectUserArr
+      }
     },
 
     //编辑和添加时的文件上传
@@ -631,7 +659,9 @@ export default {
       getReceiverById(data).then((res) => {
         this.userData = res.employeeDTOS.filter((e) => e.id !== null)
         this.currentSearchUserData = [...res.employeeDTOS]
+        console.log(this.currentSearchUserData);
         this.remoteMethod()
+        
       })
     },
     createStateFilter(queryString) {
@@ -735,9 +765,11 @@ export default {
                       (e) => e.id === this.ruleForm.presenter
                     )[0].department
                   : '' || '',
-              supporterDept:
-                this.userData.filter((e) => e.id === this.ruleForm.supporter)[0]
-                  .department || ''
+              // supporterDept:
+              //   this.userData.filter((e) => e.id === this.ruleForm.supporter)[0]
+              //     .department || ''
+              presenter:this.ruleForm.presenter[0].id,
+                supporter:this.ruleForm.supporter[0].id,
             }
             updateThemen(formData)
               .then((data) => {
@@ -769,9 +801,11 @@ export default {
                         (e) => e.id === this.ruleForm.presenter
                       )[0].department
                     : '' || '',
-                supporterDept: this.userData.filter(
-                  (e) => e.id === this.ruleForm.supporter
-                )[0].department
+                // supporterDept: this.userData.filter(
+                //   (e) => e.id === this.ruleForm.supporter
+                // )[0].department
+                presenter:this.ruleForm.presenter[0].id,
+                supporter:this.ruleForm.supporter[0].id,
               }
             }
             saveThemen(formData)

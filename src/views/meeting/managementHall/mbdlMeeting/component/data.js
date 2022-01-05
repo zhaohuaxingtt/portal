@@ -227,8 +227,8 @@ export const buttonList = [
     tableButtonList: [
       [
         { title: "新增休息", methodName: "addRest" },
-        { title: "新增议题", methodName: "addTopic" },
-        { title: "新增议题gp", methodName: "newAddTopic" },
+        // { title: "新增议题", methodName: "addTopic" },
+        { title: "新增议题", methodName: "newAddTopic" },
         { title: "议题调整", methodName: "updateTopic" },
         { title: "批量调整", methodName: "batchAdjustment" },
       ],

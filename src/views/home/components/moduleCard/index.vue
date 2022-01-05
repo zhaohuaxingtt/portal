@@ -139,16 +139,17 @@ export default {
       return this.$i18n.locale
     },
     newTitle() {
-      if (this.$i18n.locale === 'zh') {
+      // if (this.$i18n.locale === 'zh') {
+      //   return this.$t('HOME_CARD.' + this.card.permissionKey)
+      // } else if (
+      //   this.$i18n.locale === 'en' &&
+      //   this.card.permissionKey === 'HOME_MODULE_PROVIDER_RATE'
+      // ) {
+      //   return this.card.permissionKey
+      // } else {
+      //   return this.$t('HOME_CARD.' + this.card.permissionKey)
+      // }
         return this.$t('HOME_CARD.' + this.card.permissionKey)
-      } else if (
-        this.$i18n.locale === 'en' &&
-        this.card.permissionKey === 'HOME_MODULE_PROVIDER_RATE'
-      ) {
-        return this.card.permissionKey
-      } else {
-        return this.$t('HOME_CARD.' + this.card.permissionKey)
-      }
     }
   },
   mounted() {
@@ -297,6 +298,7 @@ export default {
     z-index: 999;
   }
   .el-card__header {
+    height: 50px;
     border-bottom: none;
   }
   .el-card__body {

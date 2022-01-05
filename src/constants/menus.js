@@ -127,8 +127,7 @@ const menuApplication = [
   },
   {
     title: '模具投资',
-    url:
-      'http://10.122.17.38/sourcing/#/tooling/budgetManagement/carTypeOverview',
+    url: 'http://10.122.17.38/sourcing/#/tooling/budgetManagement/carTypeOverview',
     target: '_blank'
   },
   {
@@ -140,7 +139,7 @@ const menuApplication = [
     url: ''
   },
   {
-    title: '谈判',
+    title: '谈判助手',
     url: 'http://10.122.17.38/sourcing/partsrfq/externalNegotiationAssistant'
   },
   {
@@ -192,7 +191,7 @@ const menuApplication = [
   {
     title: '零件对外销售',
     url: ''
-  },
+  }
 ]
 
 export default [
