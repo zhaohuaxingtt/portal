@@ -495,8 +495,8 @@ export default {
   created() {  
     this.getList()
     this.getDate()
-    this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
-    {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
+    // this.tableDataList=[{supplierName:'供应商名称',currency:'货币',finalPrice:'最终成交价',targetPrice:'目标价'},
+    // {supplierName:'大众',currency:'RMB',finalPrice:'5999',targetPrice:'3999'}]
   },
   methods: {
     // 列表   findGpBidderInfoByThemenId
@@ -531,9 +531,9 @@ export default {
     // 提交 endCscThemen
     handleSure(){
       const params = {
-       conclusion:this.ruleForm.taskCsc,//任务
+       conclusion: this.ruleForm.conclusion.conclusionCsc,//结论
        meetingId:this.$route.query.id,//会议id
-       result:this.ruleForm.conclusion.conclusionCsc,//结论
+       result:this.ruleForm.taskCsc,//任务
        themenId:this.selectedTableData[0].id,//议题id
        isLoi: this.ruleForm.isFrozenRs ,   //是否发送loi审批
        bidderInfoDTOList: this.selectedRow,  //列表数据当前行
