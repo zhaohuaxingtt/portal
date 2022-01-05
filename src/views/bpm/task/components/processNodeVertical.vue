@@ -5,6 +5,7 @@
       :nodeData="nodeData"
       :isEnd="isEnd"
       :instanceId="instanceId"
+      :key="instanceId"
     />
   </div>
 </template>
