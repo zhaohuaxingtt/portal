@@ -3,15 +3,15 @@
     <div
       slot="header"
       class="clearfix flex-between-center-center card-header"
-      style="width:100%"
+      style="width: 100%"
     >
       <div class="flex-align-center">
-        <div class="margin-right5">
+        <div class="margin-right5 position-name">
           岗位：{{ itemSelected.code }} {{ itemSelected.fullNameZh }}
         </div>
         <div>
           <i
-            class="el-icon-check"
+            class="checked-icon"
             v-if="itemSelected.userDTOList && itemSelected.userDTOList.length"
           ></i>
         </div>
@@ -28,41 +28,24 @@
     </div>
     <div class="card-content">
       <iFormGroup row="2" ref="positionForm" :model="itemSelected">
-        <iFormItem
-          prop="userDTOListIds"
-          :rules="[
-            { required: true, message: '请选择人员', trigger: 'change' }
-          ]"
-        >
-          <iLabel label="人员" required="true" slot="label"></iLabel>
-          <i-select
-            multiple
-            :placeholder="`请选择人员`"
-            v-model="itemSelected.userDTOListIds"
-            :disabled="!itemSelected.isEdit"
-            @change="handleUserChange"
-          >
+        <iFormItem>
+          <iLabel label="主负责人" slot="label"></iLabel>
+          <i-select v-model="itemSelected.chiefUserId" disabled>
             <el-option
               :value="option.id"
               :label="option.nameZh"
-              v-for="option in userOptions"
-              :disabled="option.disabled"
+              v-for="option in itemSelected.leaderOptions"
               :key="option.id"
             ></el-option>
           </i-select>
         </iFormItem>
-        <iFormItem
-          prop="roleDTOListIds"
-          :rules="[
-            { required: true, message: '请选择基础角色', trigger: 'change' }
-          ]"
-        >
-          <iLabel label="基础角色" required="true" slot="label"></iLabel>
+        <iFormItem>
+          <iLabel label="基础角色" slot="label"></iLabel>
           <i-select
             multiple
             :placeholder="`请选择基础角色`"
             v-model="itemSelected.roleDTOListIds"
-            :disabled="!itemSelected.isEdit"
+            disabled
           >
             <el-option
               :value="option.id"
@@ -72,26 +55,23 @@
             ></el-option>
           </i-select>
         </iFormItem>
-        <iFormItem
-          prop="chiefUserId"
-          :rules="[
-            { required: true, message: '请选择主负责人', trigger: 'change' }
-          ]"
-        >
-          <iLabel label="主负责人" required="true" slot="label"></iLabel>
+        <iFormItem>
+          <iLabel label="其他负责人" slot="label"></iLabel>
           <i-select
-            :placeholder="`请选择主负责人`"
-            v-model="itemSelected.chiefUserId"
+            multiple
+            :placeholder="`请选择其他负责人`"
+            v-model="itemSelected.userDTOListIds"
             :disabled="
               !itemSelected.isEdit ||
-                (itemSelected.userDTOListIds &&
-                  !itemSelected.userDTOListIds.length)
+              (itemSelected.userDTOListIds &&
+                !itemSelected.userDTOListIds.length)
             "
           >
             <el-option
               :value="option.id"
               :label="option.nameZh"
-              v-for="option in itemSelected.leaderOptions"
+              v-for="option in userOptions"
+              :disabled="option.disabled"
               :key="option.id"
             ></el-option>
           </i-select>
@@ -159,7 +139,7 @@ export default {
           tooltip: false,
           align: 'center',
           customRender: (h, scope) => {
-            const valList = scope.row.carTypeList?.map(item => {
+            const valList = scope.row.carTypeList?.map((item) => {
               return item.value
             })
             return valList?.join(',')
@@ -176,7 +156,7 @@ export default {
             // })
             // return valList?.join(',')
             const brandArr = []
-            scope.row.carType?.forEach(c => {
+            scope.row.carType?.forEach((c) => {
               brandArr.push(carType2Brand[c.valueId] || 'VW')
             })
             return _.uniq(brandArr).join(',')
@@ -194,7 +174,7 @@ export default {
                 'i-select',
                 {
                   on: {
-                    change: value => {
+                    change: (value) => {
                       scope.row.material = value
                       // scope.row.carTypeOptions =
                       //   _self.dOptions.find(d => {
@@ -212,10 +192,10 @@ export default {
                       // })
 
                       scope.row.carTypeOptions = _self.carTypeOptions
-                      const arr = _self.itemSelected.materialList.map(ml => {
+                      const arr = _self.itemSelected.materialList.map((ml) => {
                         return ml.material
                       })
-                      _self.categoryOptions.filter(d => {
+                      _self.categoryOptions.filter((d) => {
                         if (arr.includes(d.valueId)) {
                           d.disabled = true
                         } else {
@@ -232,7 +212,7 @@ export default {
                 },
                 [
                   // _self.dOptions.map(item => {
-                  _self.categoryOptions.map(item => {
+                  _self.categoryOptions.map((item) => {
                     return h('el-option', {
                       props: {
                         value: item.valueId,
@@ -257,7 +237,7 @@ export default {
                 'i-select',
                 {
                   on: {
-                    input: value => {
+                    input: (value) => {
                       scope.row.carType = value
                     }
                   },
@@ -269,7 +249,7 @@ export default {
                 },
                 [
                   // scope.row.carTypeOptions?.map(item => {
-                  _self.carTypeOptions?.map(item => {
+                  _self.carTypeOptions?.map((item) => {
                     return h('el-option', {
                       props: {
                         value: item.valueId,
@@ -289,7 +269,7 @@ export default {
           tooltip: false,
           customRender: (h, scope) => {
             const brandArr = []
-            scope.row.carType?.forEach(c => {
+            scope.row.carType?.forEach((c) => {
               brandArr.push(carType2Brand[c.valueId] || 'VW')
             })
             return _.uniq(brandArr).join(',')
@@ -316,7 +296,7 @@ export default {
                 class: 'el-icon-circle-plus-outline',
                 style: 'color:#1660F1;',
                 on: {
-                  click: value => {
+                  click: (value) => {
                     const mItem = {
                       material: '',
                       carType: []
@@ -334,13 +314,13 @@ export default {
                 class: 'el-icon-delete',
                 style: 'color:#5F6879;',
                 on: {
-                  click: value => {
+                  click: (value) => {
                     _self.itemSelected.materialList.splice(scope.$index, 1)
-                    const arr = _self.itemSelected.materialList.map(ml => {
+                    const arr = _self.itemSelected.materialList.map((ml) => {
                       return ml.material
                     })
                     // _self.dOptions.filter(d => {
-                    _self.categoryOptions.filter(d => {
+                    _self.categoryOptions.filter((d) => {
                       if (arr.includes(d.valueId)) {
                         d.disabled = true
                       } else {
@@ -390,7 +370,7 @@ export default {
   methods: {
     handleEdit(item) {
       const hasEditItem =
-        this.positionList.find(li => {
+        this.positionList.find((li) => {
           return li.isEdit
         }) || false
       if (!hasEditItem) {
@@ -403,7 +383,7 @@ export default {
     },
 
     checkItemEmpty(item) {
-      const emptyItem = item.materialList.find(ml => {
+      const emptyItem = item.materialList.find((ml) => {
         if (!ml.material || !ml.carType.length) {
           return ml
         }
@@ -412,7 +392,7 @@ export default {
     },
 
     async handleSave(item) {
-      this.$refs['positionForm'].validate(async valid => {
+      this.$refs['positionForm'].validate(async (valid) => {
         if (valid) {
           if (!item.materialList.length) {
             iMessage.warn('请为该岗位增加材料组车型组合')
@@ -434,7 +414,7 @@ export default {
 
     handleUserChange(val) {
       this.itemSelected.chiefUserId = ''
-      const leaderOptions = this.userOptions.filter(user => {
+      const leaderOptions = this.userOptions.filter((user) => {
         if (val.includes(user.id)) {
           return user
         }
@@ -451,3 +431,42 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.position-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+.checked-icon {
+  display: block;
+  width: 20px;
+  height: 22px;
+  background: #1660f1;
+  opacity: 1;
+  position: relative;
+  z-index: 0;
+  &::after {
+    position: absolute;
+    display: block;
+    content: '';
+    border: solid 10px #1660f1;
+    border-bottom: solid 5px #fff;
+    bottom: -2px;
+    left: 0;
+    z-index: 1;
+  }
+  &::before {
+    position: absolute;
+    display: block;
+    content: '';
+    z-index: 2;
+    width: 10px;
+    height: 5px;
+    border-left: solid 2px #fff;
+    border-bottom: solid 2px #fff;
+    transform: rotate(-45deg);
+    left: 5px;
+    top: 4px;
+  }
+}
+</style>

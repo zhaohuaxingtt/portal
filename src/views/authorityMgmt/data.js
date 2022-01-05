@@ -85,10 +85,11 @@ export const tableSetting = [
     i18n: 'staffManagement.NATIONALITY'
   },
   {
-    prop: 'updateDate',
+    prop: 'lastLoginDate',
     label: '最近登录',
     align: 'center',
-    i18n: 'staffManagement.RECENTLYTHELOGIN'
+    i18n: 'staffManagement.RECENTLYTHELOGIN',
+    width: '140'
   },
   {
     prop: 'property',
